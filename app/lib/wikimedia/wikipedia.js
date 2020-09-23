@@ -1,11 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-useless-escape,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 const { escapeExpression } = Handlebars
 
 export default {

@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import PaginatedWorks from '../../collections/paginated_works'
 
 export default function () {

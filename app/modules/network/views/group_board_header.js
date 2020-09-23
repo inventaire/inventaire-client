@@ -1,8 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import GroupViewsCommons from './group_views_commons'
 
 const {

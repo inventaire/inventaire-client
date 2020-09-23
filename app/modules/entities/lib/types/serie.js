@@ -1,12 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import PaginatedWorks from '../../collections/paginated_works'
 import commonsSerieWork from './commons_serie_work'
 import getPartsSuggestions from 'modules/entities/views/cleanup/lib/get_parts_suggestions'

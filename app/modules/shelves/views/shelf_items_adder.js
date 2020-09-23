@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import ShelfItemsCandidates from './shelf_items_candidate'
 import Items from 'modules/inventory/collections/items'
 

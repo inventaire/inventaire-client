@@ -1,12 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import SerieCleanupWorks from './serie_cleanup_works'
 import SerieCleanupEditions from './serie_cleanup_editions'
 import PartsSuggestions from './serie_cleanup_part_suggestion'

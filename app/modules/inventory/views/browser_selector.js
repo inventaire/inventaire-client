@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import getActionKey from 'lib/get_action_key'
 import BrowserSelectorOptions from './browser_selector_options'
 import screen_ from 'lib/screen'

@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-useless-escape,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 const { SafeString, escapeExpression } = Handlebars
 
 // regex inspired by https://gist.github.com/efeminella/2034192

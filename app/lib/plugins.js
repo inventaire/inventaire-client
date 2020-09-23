@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-unused-vars,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Expects to be passed a view as context, an events object and the associated handlers
 // ex: basicPlugin.call @, events, handlers
 let plugins_

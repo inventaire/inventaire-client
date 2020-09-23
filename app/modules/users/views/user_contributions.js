@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // A layout to display a list of the user data contributions
 
 import Patches from 'modules/entities/collections/patches'

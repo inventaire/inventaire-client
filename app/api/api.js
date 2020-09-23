@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import endpoint from './endpoint'
 
 export default _ => ({

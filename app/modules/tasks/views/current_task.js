@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import AuthorLayout from 'modules/entities/views/author_layout'
 
 export default Marionette.LayoutView.extend({

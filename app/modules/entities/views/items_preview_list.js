@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { data as transactionsData } from 'modules/inventory/lib/transactions_data'
 
 export default Marionette.CompositeView.extend({

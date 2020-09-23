@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import InventoryLayout from '../inventory/views/inventory_layout'
 import ShelfModel from './models/shelf'
 import Shelves from './lib/shelves'

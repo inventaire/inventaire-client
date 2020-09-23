@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-unreachable,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 const getIsbnData = isbn => _.preq.get(app.API.data.isbn(isbn))
 
 // Removing any non-alpha numeric characters, especially '-' and spaces

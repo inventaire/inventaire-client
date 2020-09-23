@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-unused-vars,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import forms_ from 'modules/general/lib/forms'
 import relationsActions from 'modules/users/plugins/relations_actions'
 import { buildPath } from 'lib/location'

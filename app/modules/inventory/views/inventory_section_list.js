@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 const ListEl = Marionette.ItemView.extend({
   tagName: 'li',
   template: require('./templates/inventory_section_list_li'),

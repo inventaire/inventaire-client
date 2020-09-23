@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import fetchEntitiesSequentially from './fetch_entities_sequentially'
 import extractIsbns from './extract_isbns'
 import getCandidatesFromEntitiesDocs from './get_candidates_from_entities_docs'

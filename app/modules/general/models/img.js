@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import images_ from 'lib/images'
 const { maxSize } = CONFIG.images
 const container = 'users'

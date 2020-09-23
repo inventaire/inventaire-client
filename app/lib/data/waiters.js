@@ -1,12 +1,3 @@
-/* eslint-disable
-    implicit-arrow-linebreak,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Some data (as little as possible) is fetched at every page load,
 // this module handles returning promises on request corresponding
 // to those global data elements being ready

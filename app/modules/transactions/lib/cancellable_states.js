@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 // after which action should the transaction be displayed as cancellable
 const commonOneWay = [ 'accepted' ]
 const commonLending = [ 'accepted', 'confirmed' ]

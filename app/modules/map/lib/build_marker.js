@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import userMarker from '../views/templates/user_marker'
 import groupMarker from '../views/templates/group_marker'
 import itemMarker from '../views/templates/item_marker'

@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 const oneSecond = 1000
 const oneMinute = 60 * oneSecond
 const oneHour = 60 * oneMinute

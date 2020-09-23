@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const template = name => require(`../views/templates/${name}`)
 const model = name => require(`../models/${name}`)
 const groupNotificationTemplate = template('group_notification')

@@ -1,8 +1,3 @@
-/* eslint-disable
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // On view show, focus on the first focusable element.
 // Should probably only be applied to main layouts or modals
 export default Marionette.Behavior.extend({

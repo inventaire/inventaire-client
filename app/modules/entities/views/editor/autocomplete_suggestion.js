@@ -1,8 +1,3 @@
-/* eslint-disable
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.childview.coffee
 
 export default Marionette.ItemView.extend({

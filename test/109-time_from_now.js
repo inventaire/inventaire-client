@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import 'should'
 import _ from './utils_builder'
 import __ from '../root'

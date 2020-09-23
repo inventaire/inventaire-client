@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 let error_
 const formatError = function (message, statusCode, context) {
   // Accept a statusCode number as second argument as done on the server

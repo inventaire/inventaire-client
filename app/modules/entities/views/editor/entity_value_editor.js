@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import ClaimsEditorCommons from './claims_editor_commons'
 import createEntities from 'modules/entities/lib/create_entities'
 import autocomplete from 'modules/entities/views/editor/lib/autocomplete'

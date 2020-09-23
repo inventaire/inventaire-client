@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // elements required in the view: .checkWrapper > .check
 
 export default Marionette.Behavior.extend({

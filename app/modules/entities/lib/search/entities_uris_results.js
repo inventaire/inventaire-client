@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import SearchResult from 'modules/entities/models/search_result'
 const wdIdPattern = /Q\d+/
 const invIdPattern = /[0-9a-f]{32}/

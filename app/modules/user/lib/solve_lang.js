@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { langs as activeLangs } from 'lib/active_languages'
 import cookie_ from 'js-cookie'
 

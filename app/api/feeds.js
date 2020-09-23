@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { buildPath } from 'lib/location'
 const { root } = window.location
 const endpointBase = require('./endpoint')('feeds', true)

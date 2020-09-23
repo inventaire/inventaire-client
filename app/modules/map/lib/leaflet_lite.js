@@ -1,8 +1,3 @@
-/* eslint-disable
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Set of functions borrowed from Leaflet to work on geographic positions
 // when Leaflet itself has not be requested
 // Source: https://github.com/Leaflet/Leaflet/blob/a1c1ea214f3077469ace7e9cef2d79225d757c97/src/geo/crs/CRS.Earth.js

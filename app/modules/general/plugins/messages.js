@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import forms_ from 'modules/general/lib/forms'
 
 // @ui.message MUST be defined

@@ -1,12 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import regex_ from 'lib/regex'
 import PicturePicker from 'modules/general/views/behaviors/picture_picker'
 import error_ from 'lib/error'

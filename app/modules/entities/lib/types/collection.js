@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 export default function () {
   _.extend(this, specificMethods)
   this.childrenClaimProperty = 'wdt:P195'

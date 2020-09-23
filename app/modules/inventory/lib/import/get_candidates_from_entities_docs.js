@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import isbn_ from 'lib/isbn'
 import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 import getOriginalLang from 'modules/entities/lib/get_original_lang'

@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import UserCommons from 'modules/users/models/user_commons'
 import solveLang from '../lib/solve_lang'
 import notificationsList from 'modules/settings/lib/notifications_settings_list'

@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-useless-escape,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import searchType from '../lib/search/search_type'
 import EntitiesUrisResults from '../lib/search/entities_uris_results'
 

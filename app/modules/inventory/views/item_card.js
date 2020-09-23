@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import itemViewsCommons from '../lib/items_views_commons'
 const detailsLimit = 150
 const ItemItemView = Marionette.ItemView.extend(itemViewsCommons)

@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 let element = null
 
 // Adapted from https://stackoverflow.com/a/9609450/3324977

@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    no-undef,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 let intervalId = null
 let active = false
 

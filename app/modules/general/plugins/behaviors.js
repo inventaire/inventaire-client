@@ -1,8 +1,3 @@
-/* eslint-disable
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // behaviors: Loading MUST be added to the view
 // elements required in the view: .loading
 // startLoading / stopLoading MUST NOT be called at view initialization

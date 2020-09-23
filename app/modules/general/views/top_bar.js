@@ -1,13 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { translate } from 'lib/urls'
 import showViews from '../lib/show_views'
 import getActionKey from 'lib/get_action_key'

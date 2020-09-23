@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import username_ from 'modules/user/lib/username_tests'
 import password_ from 'modules/user/lib/password_tests'
 import forms_ from 'modules/general/lib/forms'

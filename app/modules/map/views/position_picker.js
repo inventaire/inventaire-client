@@ -1,12 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import map_ from '../lib/map'
 import getPositionFromNavigator from 'modules/map/lib/navigator_position'
 import forms_ from 'modules/general/lib/forms'

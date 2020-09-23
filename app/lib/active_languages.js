@@ -1,8 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import wdLang from 'wikidata-lang'
 import languages from './languages_data'
 

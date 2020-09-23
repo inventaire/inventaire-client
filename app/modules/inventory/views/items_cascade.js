@@ -1,8 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import InfiniteScrollItemsList from './infinite_scroll_items_list'
 import masonryPlugin from 'modules/general/plugins/masonry'
 

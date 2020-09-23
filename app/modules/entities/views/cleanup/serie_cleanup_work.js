@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import getActionKey from 'lib/get_action_key'
 import getLangsData from 'modules/entities/lib/editor/get_langs_data'
 import SerieCleanupAuthors from './serie_cleanup_authors'

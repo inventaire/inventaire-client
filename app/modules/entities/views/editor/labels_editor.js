@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import EditorCommons from './editor_commons'
 import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 import forms_ from 'modules/general/lib/forms'

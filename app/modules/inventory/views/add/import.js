@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import files_ from 'lib/files'
 import importers from '../../lib/importers'
 import dataValidator from '../../lib/data_validator'

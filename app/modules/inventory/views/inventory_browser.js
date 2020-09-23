@@ -1,13 +1,3 @@
-/* eslint-disable
-    implicit-arrow-linebreak,
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import BrowserSelector from './browser_selector'
 import ItemsCascade from './items_cascade'
 import ItemsTable from './items_table'

@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import relationsActions from '../plugins/relations_actions'
 
 export default Marionette.ItemView.extend({

@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import allowPersistantQuery from './allow_persistant_query'
 import { parseQuery, buildPath, setQuerystring, routeSection } from 'lib/location'
 

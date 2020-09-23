@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Reload the page every 24 hours to make sure we have the latest version
 // unless the current page is being edited
 

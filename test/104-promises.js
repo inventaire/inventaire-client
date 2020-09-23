@@ -1,11 +1,3 @@
-/* eslint-disable
-    handle-callback-err,
-    no-undef,
-    no-unused-vars,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 global.window = global
 const _ = require('./utils_builder')
 require('should')

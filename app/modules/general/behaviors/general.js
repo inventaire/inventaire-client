@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // General events to be shared between the app_layout and modal
 // given app_layout can't catch modal events
 import moveCaretToEnd from 'modules/general/lib/move_caret_to_end'

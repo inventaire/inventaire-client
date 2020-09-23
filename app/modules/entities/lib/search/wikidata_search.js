@@ -1,12 +1,3 @@
-/* eslint-disable
-    implicit-arrow-linebreak,
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import wdk from 'lib/wikidata-sdk'
 
 export default (format = true) => (search, limit = 10, offset) => // Uses wbsearchentities despite its lack of inter-languages support

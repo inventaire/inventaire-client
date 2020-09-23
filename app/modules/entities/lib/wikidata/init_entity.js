@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-unused-vars,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import sitelinks_ from 'lib/wikimedia/sitelinks'
 import wikipedia_ from 'lib/wikimedia/wikipedia'
 import getBestLangValue from 'modules/entities/lib/get_best_lang_value'

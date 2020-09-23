@@ -1,13 +1,3 @@
-/* eslint-disable
-    handle-callback-err,
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import fetchData from 'lib/data/fetch'
 import MainUser from '../models/main_user'
 import cookie_ from 'js-cookie'

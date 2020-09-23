@@ -1,12 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import requestLogout from './request_logout'
 import { parseQuery, buildPath } from 'lib/location'
 

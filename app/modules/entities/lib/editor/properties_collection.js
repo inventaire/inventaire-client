@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import PropertyValues from 'modules/entities/collections/property_values'
 import properties from '../properties'
 import propertiesPerType from './properties_per_type'

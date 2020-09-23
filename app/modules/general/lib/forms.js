@@ -1,13 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-proto,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import error_ from 'lib/error'
 let forms_
 export default forms_ = {}

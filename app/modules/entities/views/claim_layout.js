@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import wd_ from 'lib/wikimedia/wikidata'
 import PaginatedEntities from '../collections/paginated_entities'
 import EntitiesList from './entities_list'

@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import Patches from '../../collections/patches'
 import properties from '../properties'
 import error_ from 'lib/error'

@@ -1,11 +1,3 @@
-/* eslint-disable
-    no-extend-native,
-    no-return-assign,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 if (!window.Promise) { window.Promise = require('promise-polyfill') }
 require('./promise_rejection_events_polyfill')()
 const { reportError } = requireProxy('lib/reports')

@@ -1,10 +1,4 @@
 #!/usr/bin/env nodeimport generateSitemaps from './generate_sitemaps';
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import generateIndex from './generate_index'
 import FilesCommands from './files_commands'
 

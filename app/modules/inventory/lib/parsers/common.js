@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import leven from 'leven'
 // Arbitrary acceptable Levenshtein distance between 2 strings
 // to consider it a match. Typically useful to match names despite

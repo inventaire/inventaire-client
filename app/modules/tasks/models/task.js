@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
 import error_ from 'lib/error'
 

@@ -1,12 +1,3 @@
-/* eslint-disable
-    implicit-arrow-linebreak,
-    no-undef,
-    no-useless-escape,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 const parseQuery = function (queryString) {
   if (queryString == null) { return {} }
   return queryString

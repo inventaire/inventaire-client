@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const suggestionsPerProperties = {
   'wdt:P50': require('./suggestions/wdt_P50'),
   'wdt:P123': require('./suggestions/wdt_P123'),

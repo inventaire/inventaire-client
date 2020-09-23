@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import AuthorsPreviewList from 'modules/entities/views/authors_preview_list'
 
 export default function (authorsPerProperty) {

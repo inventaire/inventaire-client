@@ -1,13 +1,3 @@
-/* eslint-disable
-    implicit-arrow-linebreak,
-    no-return-assign,
-    no-undef,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 const oneDay = 24 * 60 * 60 * 1000
 const error_ = requireProxy('lib/error')
 const iconAliases = {

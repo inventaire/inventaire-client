@@ -1,13 +1,3 @@
-/* eslint-disable
-    implicit-arrow-linebreak,
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import error_ from 'lib/error'
 
 const getAllEntityUris = model => // Make sure items are fetched for all sub entities as editions that aren't

@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-irregular-whitespace,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import Entities from './entities'
 
 export default Entities.extend({

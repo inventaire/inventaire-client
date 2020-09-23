@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import Item from 'modules/inventory/models/item'
 import Items from 'modules/inventory/collections/items'
 import getEntitiesItemsCount from './get_entities_items_count'

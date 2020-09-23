@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { buildPath } from 'lib/location'
 import EntitiesListElementCandidate from './entities_list_element_candidate'
 import typeSearch from 'modules/entities/lib/search/type_search'

@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
 
 export default InventoryCommonNav.extend({

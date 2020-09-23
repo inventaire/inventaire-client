@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import notificationsList from '../lib/notifications_settings_list'
 import getPeriodicityDays from '../lib/periodicity_days'
 const defaultPeriodicity = 20

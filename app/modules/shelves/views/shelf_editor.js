@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { listingsData } from 'modules/inventory/lib/item_creation'
 import forms_ from 'modules/general/lib/forms'
 import getActionKey from 'lib/get_action_key'

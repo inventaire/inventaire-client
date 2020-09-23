@@ -1,12 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    no-undef,
-    no-useless-escape,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Display a tip when a work label or an edition title contains the label of their serie
 // to invite to remove the serie label part
 export default {

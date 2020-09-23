@@ -1,14 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-self-assign,
-    no-undef,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import Welcome from 'modules/welcome/views/welcome'
 import ErrorView from 'modules/general/views/error'
 import CallToConnection from 'modules/general/views/call_to_connection'

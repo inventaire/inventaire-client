@@ -1,12 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
 
 const DeduplicateWorksList = Marionette.CollectionView.extend({

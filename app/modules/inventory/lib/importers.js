@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // How to add an importer:
 // - add an entry to the importers object hereafter
 // - add a parser to the ./parsers folder

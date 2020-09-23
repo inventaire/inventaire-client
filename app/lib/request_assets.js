@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Adding assets by creating new assets node in the DOM,
 // rather than by doing something like $('head').append("<style>#{cssText}</style")
 // as recommanded by http://deano.me/2012/09/jquery-load-css-with-ajax-all-browsers

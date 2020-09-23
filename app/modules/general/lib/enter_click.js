@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 export default {
   input (e) {
     // TODO: fix case where Firefox sends 'Process' (keyCode 229) keys instead of 'Enter'

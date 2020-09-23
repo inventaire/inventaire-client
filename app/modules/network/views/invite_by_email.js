@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import UsersList from 'modules/users/views/users_list'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import forms_ from 'modules/general/lib/forms'

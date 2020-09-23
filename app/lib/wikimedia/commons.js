@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 export default {
   // For more complete data (author, license, ...)
   // see in the server repo: server/data/commons/thumb.coffee

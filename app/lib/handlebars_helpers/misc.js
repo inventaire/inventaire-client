@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 const { SafeString, escapeExpression } = Handlebars
 const { parseQuery } = requireProxy('lib/location')
 const timeFromNow = requireProxy('lib/time_from_now')

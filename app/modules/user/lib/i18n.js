@@ -1,12 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // General rule: one session -> one language. Which means that every language
 // change triggers a page reload with the new language.
 // This is less efficient than re-rendering everything once the new language

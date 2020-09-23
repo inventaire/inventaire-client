@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 export default function (app) {
   // made it a factory has its main use is to be cloned
   app.user.listings = () => ({

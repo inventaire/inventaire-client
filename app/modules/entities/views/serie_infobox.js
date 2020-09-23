@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_preview_lists'
 import clampedExtract from '../lib/clamped_extract'
 

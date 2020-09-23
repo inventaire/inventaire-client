@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { prepareSearchResult } from 'modules/entities/lib/search/entities_uris_results'
 import getSuggestionsPerProperties from 'modules/entities/views/editor/lib/get_suggestions_per_properties'
 const batchLength = 10

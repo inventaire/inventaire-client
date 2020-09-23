@@ -1,10 +1,3 @@
-/* eslint-disable
-    implicit-arrow-linebreak,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 window.location.root = window.location.protocol + '//' + window.location.host
 
 export default function () {

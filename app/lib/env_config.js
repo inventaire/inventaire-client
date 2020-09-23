@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // roughtly addressing the general case
 if (location.hostname.match(/^(localhost|192\.168)/)) {
   window.env = 'dev'

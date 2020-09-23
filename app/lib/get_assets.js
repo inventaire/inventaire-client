@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // An API to get scripts that weren't bundled into vendor.js
 // Names are expected to match app/api/scripts.coffee keys
 

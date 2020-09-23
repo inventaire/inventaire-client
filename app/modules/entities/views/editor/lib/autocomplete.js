@@ -1,13 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-unreachable,
-    no-unused-vars,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // A set of functions to display a list of suggestions and the the view be informed of
 // the selected suggestion via onAutoCompleteSelect and onAutoCompleteUnselect hooks
 

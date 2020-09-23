@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-new,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // dependencies: behaviorsPlugin, paginationPlugin
 
 import Masonry from 'masonry-layout'

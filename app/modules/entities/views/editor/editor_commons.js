@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import isLoggedIn from './lib/is_logged_in'
 import getActionKey from 'lib/get_action_key'
 import error_ from 'lib/error'

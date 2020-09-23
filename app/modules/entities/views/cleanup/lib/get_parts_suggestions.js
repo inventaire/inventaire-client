@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import addPertinanceScore from './add_pertinance_score'
 const searchWorks = require('modules/entities/lib/search/search_type')('works')
 const descendingPertinanceScore = work => -work.get('pertinanceScore')

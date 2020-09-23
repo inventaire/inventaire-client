@@ -1,0 +1,34 @@
+#!/usr/bin/env coffee
+
+# Calculate the size of each modules bundled by Brunch in app.js and vendor.js
+
+# HOW TO
+# pass the non-optimized bundle:
+# ./scripts/calculate_modules_size ./public/js/app.js | sort -rn
+# ./scripts/calculate_modules_size ./public/js/vendor.js | sort -rn
+
+[ path ] = process.argv.slice(2)
+fs = require 'fs'
+file = fs.readFileSync(path).toString()
+{ padStart, padEnd } = require 'lodash'
+
+totalCharacters = 0
+totalLines = 0
+
+file
+.split 'require.register("'
+.forEach (part, index)->
+  name = if index is 0 then 'brunch' else part.split('", function')[0]
+  part = part
+    # Remove first line
+    .split('\n').slice(1).join '\n'
+    # And the closing characters of the module wrapper function
+    .replace /\}\);\s+$/, ''
+    .trim()
+  charactersCount = part.replace(/\s+/g, ' ').length
+  linesCount = part.split('\n').length
+  totalCharacters += charactersCount
+  totalLines += linesCount
+  console.log padStart(charactersCount, 8, ' '), padStart(linesCount, 6, ' '), name
+
+console.log padStart(totalCharacters, 8, ' '), padStart(totalLines, 6, ' '), 'total'

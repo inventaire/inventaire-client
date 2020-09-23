@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import TypedEntityLayout from './typed_entity_layout'
 import EditionsList from './editions_list'
 import EntityActions from './entity_actions'

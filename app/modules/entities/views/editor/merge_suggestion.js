@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import mergeEntities from './lib/merge_entities'

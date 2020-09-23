@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-unused-vars,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 export default function () {
   // _ starts as a global object with just the underscore lib
   // It needs to be explicitly definied hereafter to avoid

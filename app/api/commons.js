@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { buildPath } from 'lib/location'
 import { truncateDecimals } from 'modules/map/lib/geo.coffee'
 

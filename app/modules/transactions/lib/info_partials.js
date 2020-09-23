@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 // building the path to use a partial from
 // app/modules/transactions/views/templates/info
 // with our custom {{partial}} handlebars helper

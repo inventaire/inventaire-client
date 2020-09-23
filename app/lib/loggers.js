@@ -1,12 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    no-undef,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 const { reportError } = requireProxy('lib/reports')
 
 // allow to pass a csle object so that we can pass whatever we want in tests

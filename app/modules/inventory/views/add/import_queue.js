@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation'
 import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import error_ from 'lib/error'

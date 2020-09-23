@@ -1,12 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import EntityDataOverview from 'modules/entities/views/entity_data_overview'
 import ItemShelves from '../item_shelves'
 import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation'

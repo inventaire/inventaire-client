@@ -1,11 +1,4 @@
 #!/usr/bin/env nodeimport CONFIG from 'config';
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Avoid to use server-side modules, as it makes executing this script
 // depend on the server side repository having run 'npm install'
 // which might not be the case. Ex: client-only development environment

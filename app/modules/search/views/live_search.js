@@ -1,12 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    no-undef,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // TODO:
 // - hint to input ISBNs directly, maybe in the alternatives sections
 // - add 'help': indexed wiki.inventaire.io entries to give results

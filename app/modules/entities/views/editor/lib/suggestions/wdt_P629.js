@@ -1,11 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 export default function (entity, index, propertyValuesCount) {
   // We can't infer a suggestion if the work being modified is the only wdt:P629 value
   if ((index === 0) && (propertyValuesCount === 1)) { return }

@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // requires the view to have a ui.password defined
 
 export default Marionette.Behavior.extend({

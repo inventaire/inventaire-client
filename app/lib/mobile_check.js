@@ -1,9 +1,3 @@
-/* eslint-disable
-    no-multi-str,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // source: http://stackoverflow.com/questions/11381673/javascript-solution-to-detect-mobile-browser
 
 // test for mobile OR tablet

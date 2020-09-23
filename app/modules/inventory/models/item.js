@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import Filterable from 'modules/general/models/filterable'
 import error_ from 'lib/error'
 import saveOmitAttributes from 'lib/save_omit_attributes'

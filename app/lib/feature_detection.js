@@ -1,14 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-extend-native,
-    no-multi-str,
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import testVideoInput from 'lib/has_video_input'
 import testLocalStorage from 'lib/local_storage'
 import { wiki, roadmap, git } from 'lib/urls'

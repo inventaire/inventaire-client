@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Takes an Inventaire entity URI and a Wikidata entity URI,
 // fetches the entities models, and return an object with the labels and claims
 // set on the Inventaire entity but not on the Wikidata one to allow importing those

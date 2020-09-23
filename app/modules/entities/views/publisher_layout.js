@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import TypedEntityLayout from './typed_entity_layout'
 import EditionsList from './editions_list'
 import EntitiesList from './entities_list'

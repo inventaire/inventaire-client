@@ -1,11 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 export default redirect => _.preq.post(app.API.auth.logout)
 .then(logoutSuccess(redirect))
 .catch(_.Error('logout error'))

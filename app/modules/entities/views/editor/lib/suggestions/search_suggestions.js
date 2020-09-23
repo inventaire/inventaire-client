@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import typeSearch from 'modules/entities/lib/search/type_search'
 import forms_ from 'modules/general/lib/forms'
 const batchLength = 10

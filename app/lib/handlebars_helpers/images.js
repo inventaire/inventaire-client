@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // This is tailored for handlebars, for other uses, use app.API.img directly.
 // Keep in sync with server/lib/emails/handlebars_helpers
 export default {

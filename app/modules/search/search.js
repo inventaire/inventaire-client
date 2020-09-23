@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import SearchResultsHistory from './collections/search_results_history'
 import findUri from './lib/find_uri'
 import { parseQuery } from 'lib/location'

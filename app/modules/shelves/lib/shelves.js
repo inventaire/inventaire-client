@@ -1,11 +1,3 @@
-/* eslint-disable
-    no-undef,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 let shelves_
 
 export default shelves_ = {

@@ -1,8 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import PositiveIntegerValueEditor from './positive_integer_value_editor'
 
 // This editor is useful for properties that are expected to have string values

@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import InfiniteScrollItemsList from './infinite_scroll_items_list'
 import ItemsTableSelectionEditor from './items_table_selection_editor'
 

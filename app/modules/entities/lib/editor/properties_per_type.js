@@ -1,8 +1,3 @@
-/* eslint-disable
-    no-undef,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Keep in sync with app/modules/entities/lib/properties
 // and server/controllers/entities/lib/properties/properties
 // and server/controllers/entities/lib/properties/properties_per_type

@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-return-assign,
-    no-undef,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { listingsData as listingsDataFn } from 'modules/inventory/lib/item_creation'
 import getActionKey from 'lib/get_action_key'
 import ShelfEditor from './shelf_editor'

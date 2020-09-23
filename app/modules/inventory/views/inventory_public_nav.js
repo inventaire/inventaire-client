@@ -1,12 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import { showOnMap, showUserOnMap, getBbox } from 'modules/map/lib/map'
 import { initMap, grabMap, refreshListFilter } from 'modules/network/lib/nearby_layouts'
 import { currentRoute } from 'lib/location'

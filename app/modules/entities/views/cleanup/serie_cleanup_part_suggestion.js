@@ -1,10 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import WorkPicker from './work_picker'
 import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
 

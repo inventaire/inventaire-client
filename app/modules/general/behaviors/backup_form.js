@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-return-assign,
-    no-undef,
-    no-var,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // A behavior to preserve input text from being lost on a view re-render
 // by saving it at every change and recovering it on re-render
 // This behavior should probably be added to any view with input or textarea

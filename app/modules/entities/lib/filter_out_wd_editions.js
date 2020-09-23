@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 // Filter-out Wikidata editions
 // as their support is currently lacking:
 // - works and editions are still quite mixed in Wikidaa

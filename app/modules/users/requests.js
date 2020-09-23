@@ -1,10 +1,3 @@
-/* eslint-disable
-    no-unused-vars,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 export default function (app, _) {
   const action = function (user, action, newStatus, label) {
     let userId;

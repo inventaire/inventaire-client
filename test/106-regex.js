@@ -1,9 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-unused-vars,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import should from 'should'
 import __ from '../root'
 const { EntityUri, SimpleDay, ImageHash, Email } = __.require('lib', 'regex')

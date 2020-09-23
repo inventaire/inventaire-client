@@ -1,11 +1,3 @@
-/* eslint-disable
-    no-proto,
-    no-return-assign,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // Based on https://github.com/ruodoo/odoo/blob/27d25b5315808dca946c609b5ebf4ca123772b64/addons/web/static/lib/unhandled-rejection-polyfill/unhandled-rejection-polyfill.js
 
 const OriginalPromise = window.Promise

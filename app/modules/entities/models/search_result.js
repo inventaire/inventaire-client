@@ -1,11 +1,3 @@
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 import Filterable from 'modules/general/models/filterable'
 import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 import wdk from 'lib/wikidata-sdk'
