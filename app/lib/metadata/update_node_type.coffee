@@ -23,7 +23,10 @@ module.exports = (key, value, noCompletion)->
   for el in metaNodes[key]
     updateNodeContent value, el
 
+  return
+
 updateNodeContent = (value, el)->
   { selector, attribute } = el
   attribute or= 'content'
-  head.querySelector(selector)?[attribute] = value
+  if head.querySelector(selector)?
+    head.querySelector(selector)[attribute] = value

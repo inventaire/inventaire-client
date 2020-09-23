@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    [
+      "babel-plugin-root-import",
+      {
+        "rootPathSuffix": "./app",
+        "rootPathPrefix": "@/"
+      }
+    ]
+  ]
+}
