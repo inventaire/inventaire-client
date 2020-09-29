@@ -7,7 +7,7 @@ export default function () {
   const _ = require('lib/builders/utils')()
 
   // gets all the routes used in the app
-  app.API = require('api/api')(_)
+  app.API = require('api/api')
 
   const configPromise = require('./get_config')()
 
