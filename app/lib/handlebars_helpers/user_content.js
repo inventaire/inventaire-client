@@ -12,6 +12,6 @@ export default {
         .replace(/\n/g, '<br>')
         .replace(link, protocolText)
       return new SafeString(text)
-    } else { }
+    }
   }
 }

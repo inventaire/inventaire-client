@@ -1,26 +1,18 @@
-export default function () {
-  const API = _.extend.apply(null, [
-    {},
-    require('./blocks'),
-    require('./misc'),
-    require('./utils'),
-    require('./partials'),
-    require('./claims'),
-    require('./user_content'),
-    require('./icons'),
-    require('./images'),
-    require('./input')
-  ])
+import blocks from './blocks'
+import misc from './misc'
+import utils from './utils'
+import partials from './partials'
+import claims from './claims'
+import userContent from './user_content'
+import icons from './icons'
+import images from './images'
+import input from './input'
+
+const API = _.extend(blocks, misc, utils, partials, claims, userContent, icons, images, input)
+
+for (const name in API) {
+  const fn = API[name]
   // Registering partials using the code here
   // https://github.com/brunch/handlebars-brunch/issues/10#issuecomment-38155730
-  const register = (name, fn) => Handlebars.registerHelper(name, fn)
-
-  return (() => {
-    const result = []
-    for (const name in API) {
-      const fn = API[name]
-      result.push(register(name, fn.bind(API)))
-    }
-    return result
-  })()
-};
+  Handlebars.registerHelper(name, fn.bind(API))
+}
