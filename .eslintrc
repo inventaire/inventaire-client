@@ -43,6 +43,25 @@
     "prefer-const": [ "error" ]
   },
   "globals": {
+    "app": "writable",
+    "localStorage": "writable",
+    "prerenderReady": "writable",
+    "CONFIG": "writable",
+    // Libs
+    "_": "writable",
+    "resize": "writable",
+    "$": "writable",
+    "Backbone": "writable",
+    "Marionette": "writable",
+    "L": "writable",
+    "Quagga": "writable",
+    "FilteredCollection": "writable",
+    "Handlebars": "writable",
+    // Browser globals
+    "FileReader": "readonly",
+    "XMLHttpRequest": "readonly",
+    "btoa": "readonly",
+    "location": "readonly",
     // Mocha globals
     "it": "readonly",
     "xit": "readonly",
