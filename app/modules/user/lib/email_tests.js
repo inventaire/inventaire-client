@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 
 export default {
@@ -11,7 +12,7 @@ export default {
 
   // verifies that the email isnt already in use
   verifyAvailability (email, selector) {
-    return _.preq.get(app.API.auth.emailAvailability(email))
+    return preq.get(app.API.auth.emailAvailability(email))
     .catch(err => {
       err.selector = selector
       throw err

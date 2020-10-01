@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import ClaimsEditorCommons from './claims_editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
@@ -68,7 +69,7 @@ export default ClaimsEditorCommons.extend({
 
     startLoading.call(this, '.save')
 
-    return _.preq.post(app.API.images.convertUrl, { url })
+    return preq.post(app.API.images.convertUrl, { url })
     .then(res => {
       if (res.converted) {
         return this._bareSave(res.url)

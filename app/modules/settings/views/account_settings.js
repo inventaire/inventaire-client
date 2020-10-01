@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import email_ from 'modules/user/lib/email_tests'
 import password_ from 'modules/user/lib/password_tests'
 import forms_ from 'modules/general/lib/forms'
@@ -75,7 +76,7 @@ export default Marionette.ItemView.extend({
   },
 
   sendEmailRequest (email) {
-    return _.preq.get(app.API.auth.emailAvailability(email))
+    return preq.get(app.API.auth.emailAvailability(email))
     .get('email')
     .then(this.sendEmailChangeRequest)
   },
@@ -181,7 +182,7 @@ export default Marionette.ItemView.extend({
   }
 })
 
-const sendDeletionFeedback = message => _.preq.post(app.API.feedback, {
+const sendDeletionFeedback = message => preq.post(app.API.feedback, {
   subject: '[account deletion]',
   message
 }

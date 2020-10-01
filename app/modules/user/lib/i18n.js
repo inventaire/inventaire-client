@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 // General rule: one session -> one language. Which means that every language
 // change triggers a page reload with the new language.
 // This is less efficient than re-rendering everything once the new language
@@ -47,7 +48,7 @@ const setLanguage = function (lang, missingKeyWarn) {
   return requestI18nFile(app.polyglot, lang)
 }
 
-const requestI18nFile = (polyglot, lang) => _.preq.get(app.API.i18nStrings(lang))
+const requestI18nFile = (polyglot, lang) => preq.get(app.API.i18nStrings(lang))
 .then(updatePolyglot.bind(null, polyglot, lang))
 .catch(_.ErrorRethrow(`i18n: failed to get the i18n file for ${lang}`))
 

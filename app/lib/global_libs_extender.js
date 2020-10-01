@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import error_ from 'lib/error'
 
 export default function (_) {
@@ -72,7 +73,7 @@ export default function (_) {
       // Backbone classes have some inconsistent APIs
       // like Model::delete that can return 'false' instead of a jQuery promise
       if (result.then != null) {
-        return _.preq.wrap(result, arguments)
+        return preq.wrap(result, arguments)
       } else {
         return Promise.resolve(result)
       }

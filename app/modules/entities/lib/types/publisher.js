@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import filterOutWdEditions from '../filter_out_wd_editions'
 
 export default function () {
@@ -20,7 +21,7 @@ const specificMethods = {
   fetchPublisherPublications (refresh) {
     if (!refresh && (this.waitForPublicationsData != null)) { return this.waitForPublicationsData }
     const uri = this.get('uri')
-    return this.waitForPublicationsData = _.preq.get(app.API.entities.publisherPublications(uri, refresh))
+    return this.waitForPublicationsData = preq.get(app.API.entities.publisherPublications(uri, refresh))
   },
 
   initPublicationsCollections (publicationsData) {

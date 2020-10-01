@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 export default Marionette.CompositeView.extend({
   className: 'activityPeriod',
   template: require('./templates/activity_period'),
@@ -12,7 +13,7 @@ export default Marionette.CompositeView.extend({
   serializeData () { return { title: this.title } },
 
   getActivityData () {
-    return _.preq.get(app.API.entities.activity(this.period))
+    return preq.get(app.API.entities.activity(this.period))
     .then(addUsersData)
     .then(this.addToCollection.bind(this))
   },
@@ -26,7 +27,7 @@ const addUsersData = function (res) {
 
   const usersIds = activityRows.map(_.property('user'))
 
-  return _.preq.get(app.API.users.byIds(usersIds))
+  return preq.get(app.API.users.byIds(usersIds))
   .get('users')
   .then(users => {
     activityRows.forEach(row => row.user = users[row.user])

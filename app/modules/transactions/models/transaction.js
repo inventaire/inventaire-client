@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 // TRANSACTION STATES (actor)
 // - requested (requester)
 // - accepted / declined (owner)
@@ -85,7 +86,7 @@ export default Backbone.NestedModel.extend({
   markAsRead () {
     if (!this.mainUserRead) {
       this.set(`read.${this.role}`, true)
-      return _.preq.put(app.API.transactions, {
+      return preq.put(app.API.transactions, {
         id: this.id,
         action: 'mark-as-read'
       }).catch(_.Error('markAsRead'))
@@ -110,7 +111,7 @@ export default Backbone.NestedModel.extend({
       transaction: this.id
     })
 
-    return _.preq.get(url)
+    return preq.get(url)
     .get('messages')
     .then(this.addMessagesToTimeline.bind(this))
   },
@@ -204,7 +205,7 @@ export default Backbone.NestedModel.extend({
     const actionModel = this.addActionToTimeline(action)
     const userStatus = this.otherUser().get('status')
 
-    return _.preq.put(app.API.transactions, {
+    return preq.put(app.API.transactions, {
       transaction: this.id,
       state,
       action: 'update-state'

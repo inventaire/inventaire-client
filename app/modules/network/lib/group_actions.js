@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import error_ from 'lib/error'
 
 export default {
@@ -84,7 +85,7 @@ export default {
   },
 
   action (action, userId) {
-    return _.preq.put(app.API.groups.base, {
+    return preq.put(app.API.groups.base, {
       action,
       group: this.id,
       // requiered only for actions implying an other user

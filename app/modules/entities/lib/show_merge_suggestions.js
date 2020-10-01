@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import Entities from '../collections/entities'
 import MergeSuggestions from '../views/editor/merge_suggestions'
 import Task from 'modules/tasks/models/task'
@@ -34,7 +35,7 @@ const getTasksByUri = function (model) {
 
   const uri = model.get('uri')
   const [ action, relation ] = Array.from(getMergeSuggestionsParams(uri))
-  return _.preq.get(app.API.tasks[action](uri))
+  return preq.get(app.API.tasks[action](uri))
   .then(res => {
     const tasks = res.tasks[uri]
     const suggestionsUris = _.pluck(tasks, relation)
@@ -67,7 +68,7 @@ const addTasksToEntities = (uri, tasks, relation) => function (entities) {
 const getHomonyms = function (model, tasksEntitiesUris) {
   const [ uri, label ] = Array.from(model.gets('uri', 'label'))
   const { pluralizedType } = model
-  return _.preq.get(app.API.search(pluralizedType, label, 100))
+  return preq.get(app.API.search(pluralizedType, label, 100))
   .get('results')
   .then(parseSearchResults(uri, tasksEntitiesUris))
 }

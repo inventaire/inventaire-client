@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import Task from '../models/task'
 
 const backlogs = {
@@ -26,7 +27,7 @@ const getNextTaskBySuggestionUri = function (params) {
   const { lastTaskModel, previousTasks } = params
   const suggestionUri = lastTaskModel.get('suggestionUri')
 
-  return _.preq.get(app.API.tasks.bySuggestionUris(suggestionUri))
+  return preq.get(app.API.tasks.bySuggestionUris(suggestionUri))
   .get('tasks')
   .get(suggestionUri)
   .filter(removePreviousTasks(previousTasks))
@@ -47,7 +48,7 @@ const getNextTaskByScore = function (params) {
   // while having a low risk of conflicting
   if (offset == null) { offset = Math.trunc(Math.random() * 500) }
 
-  return _.preq.get(app.API.tasks.byScore(limit, offset))
+  return preq.get(app.API.tasks.byScore(limit, offset))
   .get('tasks')
   .filter(removePreviousTasks(previousTasks))
   .then(tasks => {

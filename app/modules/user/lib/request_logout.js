@@ -1,4 +1,5 @@
-export default redirect => _.preq.post(app.API.auth.logout)
+import preq from 'lib/preq'
+export default redirect => preq.post(app.API.auth.logout)
 .then(logoutSuccess(redirect))
 .catch(_.Error('logout error'))
 

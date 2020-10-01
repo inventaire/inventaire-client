@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 let username_
 
@@ -11,7 +12,7 @@ export default username_ = {
   },
 
   verifyAvailability (username, selector) {
-    return _.preq.get(app.API.auth.usernameAvailability(username))
+    return preq.get(app.API.auth.usernameAvailability(username))
     .catch(err => {
       err.selector = selector
       throw err

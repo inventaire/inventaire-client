@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 export default function (userId, uris) {
   if (uris.length === 0) { return Promise.resolve({}) }
 
@@ -20,7 +21,7 @@ export default function (userId, uris) {
   return getBatchesSequentially()
 };
 
-const getEntityItemsCountBatch = (userId, uris) => _.preq.get(app.API.items.byUserAndEntities(userId, uris))
+const getEntityItemsCountBatch = (userId, uris) => preq.get(app.API.items.byUserAndEntities(userId, uris))
 
 const countEntitiesItems = function (counts, res) {
   for (const item of res.items) {

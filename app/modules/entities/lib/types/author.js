@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import PaginatedWorks from '../../collections/paginated_works'
 
 export default function () {
@@ -21,7 +22,7 @@ const specificMethods = {
   fetchWorksData (refresh) {
     if (!refresh && (this.waitForWorksData != null)) { return this.waitForWorksData }
     const uri = this.get('uri')
-    return this.waitForWorksData = _.preq.get(app.API.entities.authorWorks(uri, refresh))
+    return this.waitForWorksData = preq.get(app.API.entities.authorWorks(uri, refresh))
   },
 
   initAuthorWorks (refresh) {

@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 let intervalId = null
 let active = false
 
@@ -19,7 +20,7 @@ export default function () {
     }
   }
 
-  var checkState = () => _.preq.get(app.API.tests)
+  var checkState = () => preq.get(app.API.tests)
   .then(hideNetworkError)
 
   return app.commands.setHandlers({ 'flash:message:show:network:error': showNetworkError })

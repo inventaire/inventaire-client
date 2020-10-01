@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 // TODO:
 // - hint to input ISBNs directly, maybe in the alternatives sections
 // - add 'help': indexed wiki.inventaire.io entries to give results
@@ -143,7 +144,7 @@ export default Marionette.CompositeView.extend({
       // the results that weren't returned in the previous query, whatever there place
       // in the newly returned results
       const searchLimit = searchBatchLength + this._searchOffset
-      return _.preq.get(app.API.search(types, search, searchLimit))
+      return preq.get(app.API.search(types, search, searchLimit))
       .get('results')
     }
   },

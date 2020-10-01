@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import addPertinanceScore from './add_pertinance_score'
 const searchWorks = require('modules/entities/lib/search/search_type')('works')
 const descendingPertinanceScore = work => -work.get('pertinanceScore')
@@ -24,7 +25,7 @@ const getAuthorsWorks = authorsUris => Promise.all(authorsUris.map(fetchAuthorWo
 .map(results => _.pluck(results.works.filter(hasNoSerie), 'uri'))
 .then(_.flatten)
 
-const fetchAuthorWorks = authorUri => _.preq.get(app.API.entities.authorWorks(authorUri))
+const fetchAuthorWorks = authorUri => preq.get(app.API.entities.authorWorks(authorUri))
 
 const hasNoSerie = work => work.serie == null
 

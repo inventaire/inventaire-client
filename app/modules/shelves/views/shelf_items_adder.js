@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import ShelfItemsCandidates from './shelf_items_candidate'
 import Items from 'modules/inventory/collections/items'
 
@@ -61,7 +62,7 @@ export default Marionette.CompositeView.extend({
     this._lastInput = input
     this.$el.addClass('fetching')
 
-    return _.preq.get(app.API.items.search(app.user.id, input))
+    return preq.get(app.API.items.search(app.user.id, input))
     .then(({ items }) => {
       this.offset += this.limit
       if (this._lastInput === input) {

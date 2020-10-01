@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 export default {
   ui: {
     groupNameField: '.groupNameField',
@@ -18,7 +19,7 @@ export default {
 const updateUrl = function (groupId) {
   const name = this.ui.groupNameField.val()
   if (_.isNonEmptyString(name)) {
-    return _.preq.get(app.API.groups.slug(name, groupId))
+    return preq.get(app.API.groups.slug(name, groupId))
     .then(res => {
       this.ui.groupUrl.text(`${window.location.root}/groups/${res.slug}`)
       return this.ui.groupUrlWrapper.show()

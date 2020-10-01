@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import searchType from '../lib/search/search_type'
 import EntitiesUrisResults from '../lib/search/entities_uris_results'
 
@@ -35,7 +36,7 @@ export default Marionette.CompositeView.extend({
   fetchNames () {
     startLoading.call(this, '.authors-loading')
 
-    return _.preq.get(app.API.entities.duplicates)
+    return preq.get(app.API.entities.duplicates)
     .get('names')
     .then(_.Log('names'))
     .tap(stopLoading.bind(this))

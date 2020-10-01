@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import Filterable from 'modules/general/models/filterable'
 import error_ from 'lib/error'
 import saveOmitAttributes from 'lib/save_omit_attributes'
@@ -164,7 +165,7 @@ export default Filterable.extend({
   destroy () {
     // reproduce the behavior from the default Bacbkone::destroy
     this.trigger('destroy', this, this.collection)
-    return _.preq.post(app.API.items.deleteByIds, { ids: [ this.id ] })
+    return preq.post(app.API.items.deleteByIds, { ids: [ this.id ] })
     .tap(() => { return this.isDestroyed = true })
   },
 

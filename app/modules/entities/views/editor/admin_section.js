@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
@@ -91,7 +92,7 @@ export default Marionette.LayoutView.extend({
 
   _deleteEntity () {
     const uri = this.model.get('invUri')
-    return _.preq.post(app.API.entities.delete, { uris: [ uri ] })
+    return preq.post(app.API.entities.delete, { uris: [ uri ] })
     .then(() => app.execute('show:entity:edit', uri))
     .catch(displayDeteEntityErrorContext.bind(this))
   }

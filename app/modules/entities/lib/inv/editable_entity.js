@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import Patches from '../../collections/patches'
 import properties from '../properties'
 import error_ from 'lib/error'
@@ -56,7 +57,7 @@ export default {
   savePropertyValue (property, oldValue, newValue) {
     // Substitute an inv URI to the isbn URI to spare having to resolve it server-side
     const uri = this.get('altUri') || this.get('uri')
-    return _.preq.put(app.API.entities.claims.update, {
+    return preq.put(app.API.entities.claims.update, {
       uri,
       property,
       'new-value': newValue,
@@ -76,13 +77,13 @@ export default {
     const reverseAction = this.set.bind(this, labelPath, oldValue)
     const rollback = _.Rollback(reverseAction, 'saveLabel')
 
-    return _.preq.put(app.API.entities.labels.update, { uri: this.get('uri'), lang, value })
+    return preq.put(app.API.entities.labels.update, { uri: this.get('uri'), lang, value })
     .catch(rollback)
   },
 
   fetchHistory (uri) {
     const id = this.id || uri.split(':')[1]
-    return _.preq.get(app.API.entities.history(id))
+    return preq.get(app.API.entities.history(id))
     // reversing to get the last patches first
     .then(res => { return this.history = new Patches(res.patches.reverse()) })
   },

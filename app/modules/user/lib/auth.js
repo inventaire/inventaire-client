@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import requestLogout from './request_logout'
 import { parseQuery, buildPath } from 'lib/location'
 
@@ -16,7 +17,7 @@ export default function () {
 
 const requestClassicSignup = function (options) {
   const { username, password } = options
-  return _.preq.post(app.API.auth.signup, options)
+  return preq.post(app.API.auth.signup, options)
   // not submitting email as there is no need for it
   // to be remembered by browsers
   .then(formSubmit.bind(null, username, password))
@@ -31,11 +32,11 @@ const passwordConfirmation = function (currentPassword) {
 const requestClassicLogin = (username, password) => classicLogin(username, password)
 .then(formSubmit.bind(null, username, password))
 
-const classicLogin = (username, password) => _.preq.post(app.API.auth.login, { username, password })
+const classicLogin = (username, password) => preq.post(app.API.auth.login, { username, password })
 
 const passwordUpdate = function (currentPassword, newPassword, selector) {
   const username = app.user.get('username')
-  return _.preq.post(app.API.auth.updatePassword, {
+  return preq.post(app.API.auth.updatePassword, {
     'current-password': currentPassword,
     'new-password': newPassword
   }).then(() => { if (selector != null) { return $(selector).trigger('check') } })
@@ -53,9 +54,9 @@ const formSubmit = function (username, password) {
   return $('#browserLogin').trigger('submit')
 }
 
-const passwordResetRequest = email => _.preq.post(app.API.auth.resetPassword, { email })
+const passwordResetRequest = email => preq.post(app.API.auth.resetPassword, { email })
 
 const emailConfirmationRequest = function () {
   _.log('sending emailConfirmationRequest')
-  return _.preq.post(app.API.auth.emailConfirmation)
+  return preq.post(app.API.auth.emailConfirmation)
 }

@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 // A layout to display a list of the user data contributions
 
 import Patches from 'modules/entities/collections/patches'
@@ -29,7 +30,7 @@ export default Marionette.CompositeView.extend({
   },
 
   fetchMore () {
-    return _.preq.get(app.API.entities.contributions(this.userId, this.limit, this.offset))
+    return preq.get(app.API.entities.contributions(this.userId, this.limit, this.offset))
     .then(this.parseResponse.bind(this))
   },
 

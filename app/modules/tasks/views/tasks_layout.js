@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import getNextTask from '../lib/get_next_task'
 import CurrentTask from './current_task'
 import RelativeTasks from './relative_tasks'
@@ -200,7 +201,7 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-const getTaskById = id => _.preq.get(app.API.tasks.byIds(id))
+const getTaskById = id => preq.get(app.API.tasks.byIds(id))
 .get('tasks')
 .then(tasks => {
   const task = tasks[0]

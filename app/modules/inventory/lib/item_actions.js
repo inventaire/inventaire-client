@@ -1,10 +1,11 @@
+import preq from 'lib/preq'
 import Item from 'modules/inventory/models/item'
 
 export default {
   create (itemData) {
     _.log(itemData, 'item data before creation')
 
-    return _.preq.post(app.API.items.base, itemData)
+    return preq.post(app.API.items.base, itemData)
     .then(_.Log('item data after creation'))
     .then(data => {
       const model = new Item(data)
@@ -30,7 +31,7 @@ export default {
 
     const ids = items.map(getIdFromModelOrId)
 
-    return _.preq.put(app.API.items.update, { ids, attribute, value })
+    return preq.put(app.API.items.update, { ids, attribute, value })
     .tap(propagateItemsChanges(items, attribute))
     .catch(rollbackUpdate(items))
   },
@@ -42,7 +43,7 @@ export default {
 
     const ids = items.map(getIdFromModelOrId)
 
-    const action = () => _.preq.post(app.API.items.deleteByIds, { ids })
+    const action = () => preq.post(app.API.items.deleteByIds, { ids })
     .tap(() => items.forEach(item => {
       if (_.isString(item)) { return }
       app.user.trigger('items:change', item.get('listing'), null)

@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import Notifications from './collections/notifications'
 import NotificationsLayout from './views/notifications_layout'
 const notifications = new Notifications()
@@ -44,7 +45,7 @@ const API = {
 const getNotificationsData = function () {
   if (!app.user.loggedIn) { return Promise.resolve() }
 
-  return _.preq.get(app.API.notifications)
+  return preq.get(app.API.notifications)
   .get('notifications')
   .then(notifications.addPerType.bind(notifications))
   .catch(_.ErrorRethrow('notifications init err'))

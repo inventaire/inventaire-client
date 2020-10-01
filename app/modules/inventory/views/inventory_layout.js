@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import InventoryNav from './inventory_nav'
 import InventoryBrowser from './inventory_browser'
 import UserProfile from './user_profile'
@@ -222,7 +223,7 @@ export default Marionette.LayoutView.extend({
 const getItemsData = function (type, model) {
   const modelId = model.get('_id')
   const params = { [type]: modelId }
-  return _.preq.get(app.API.items.inventoryView(params))
+  return preq.get(app.API.items.inventoryView(params))
 }
 
 const sectionRequest = {

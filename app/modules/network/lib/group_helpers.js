@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import { Updater } from 'lib/model_update'
 
 export default function () {
@@ -20,11 +21,11 @@ export default function () {
         id
       } = groupModel)
     }
-    return _.preq.get(app.API.groups.byId(id))
+    return preq.get(app.API.groups.byId(id))
     .then(res => addGroupData(res, groupModel))
   }
 
-  const getGroupModelFromSlug = slug => _.preq.get(app.API.groups.bySlug(slug))
+  const getGroupModelFromSlug = slug => preq.get(app.API.groups.bySlug(slug))
   .then(addGroupData)
 
   var addGroupData = function (res, groupModel) {

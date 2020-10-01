@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 let missingKeys = []
 let disabled = false
 
@@ -14,7 +15,7 @@ const sendMissingKeys = function () {
     const keysToSend = missingKeys
     // Keys added after this point will join the next batch
     missingKeys = []
-    return _.preq.post(app.API.i18n, { missingKeys: keysToSend })
+    return preq.post(app.API.i18n, { missingKeys: keysToSend })
     .then(res => _.log(keysToSend, 'i18n:missing added'))
     .catch(err => {
       if (err.statusCode !== 404) { throw err }

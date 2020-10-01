@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import error_ from 'lib/error'
 import Entity from './models/entity'
 import SerieCleanup from './views/cleanup/serie_cleanup'
@@ -314,7 +315,7 @@ const handleMissingEntity = uri => function (err) {
   }
 }
 
-const showEntityCreateFromIsbn = isbn => _.preq.get(app.API.data.isbn(isbn))
+const showEntityCreateFromIsbn = isbn => preq.get(app.API.data.isbn(isbn))
 .then(isbnData => {
   const { isbn13h, groupLangUri } = isbnData
   const claims = { 'wdt:P212': [ isbn13h ] }
@@ -338,7 +339,7 @@ const showEntityCreateFromIsbn = isbn => _.preq.get(app.API.data.isbn(isbn))
 }).catch(err => app.execute('show:error:other', err, 'showEntityCreateFromIsbn'))
 
 // Create from the seed data we have, if the entity isn't known yet
-const existsOrCreateFromSeed = entry => _.preq.post(app.API.entities.resolve, { entries: [ entry ], update: true, create: true, enrich: true })
+const existsOrCreateFromSeed = entry => preq.post(app.API.entities.resolve, { entries: [ entry ], update: true, create: true, enrich: true })
 // Add the possibly newly created edition entity to the local index
 // and get it's model
 .get('entries')

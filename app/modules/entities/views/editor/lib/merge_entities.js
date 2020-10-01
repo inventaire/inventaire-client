@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import WikidataDataImporter from 'modules/entities/views/wikidata_data_importer'
 import getEntityWikidataImportData from './get_entity_wikidata_import_data'
 
@@ -17,7 +18,7 @@ export default function (fromUri, toUri) {
   }
 };
 
-const merge = (fromUri, toUri) => _.preq.put(app.API.entities.merge, { from: fromUri, to: toUri })
+const merge = (fromUri, toUri) => preq.put(app.API.entities.merge, { from: fromUri, to: toUri })
 .then(() => // Get the refreshed, redirected entity
 // thus also updating entitiesModelsIndexedByUri
   app.request('get:entity:model', fromUri, true))

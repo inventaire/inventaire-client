@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import showPaginatedItems from '../lib/show_paginated_items'
 import urls from 'lib/urls'
 import Mentions from './mentions'
@@ -82,5 +83,5 @@ const mentionsData = null
 const getMentionsData = function () {
   if (mentionsData != null) {
     return Promise.resolve(mentionsData)
-  } else { return _.preq.get(app.API.json('mentions')) }
+  } else { return preq.get(app.API.json('mentions')) }
 }

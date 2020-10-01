@@ -1,9 +1,10 @@
+import preq from 'lib/preq'
 import wdk from 'lib/wikidata-sdk'
 
 export default (format = true) => (search, limit = 10, offset) => // Uses wbsearchentities despite its lack of inter-languages support
 // because it returns hits labels, descriptions and aliases
 // while action=query&list=search&srsearch returns only hits ids
-  _.preq.get(wdk.searchEntities({ search, limit, offset }))
+  preq.get(wdk.searchEntities({ search, limit, offset }))
 .get('search')
 .filter(filterOutSpecialPages)
 .then(results => {

@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 export default {
   get (ids, format = 'index', refresh) {
     let promise
@@ -18,24 +19,24 @@ export default {
     // catches case with ''
     if (_.isEmpty(text)) { return Promise.resolve([]) }
 
-    return _.preq.get(app.API.users.search(text))
+    return preq.get(app.API.users.search(text))
     .get('users')
     .catch(_.ErrorRethrow('users_data search err'))
   },
 
   byUsername (username) {
-    return _.preq.get(app.API.users.byUsername(username))
+    return preq.get(app.API.users.byUsername(username))
     .then(res => res.users[username])
   },
 
   searchByPosition (latLng) {
-    return _.preq.get(app.API.users.searchByPosition(latLng))
+    return preq.get(app.API.users.searchByPosition(latLng))
     .get('users')
     .catch(_.Error('searchByPosition err'))
   }
 }
 
-const getUsersByIds = ids => _.preq.get(app.API.users.byIds(ids))
+const getUsersByIds = ids => preq.get(app.API.users.byIds(ids))
 .get('users')
 
 const formatData = function (format, data) {

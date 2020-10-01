@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
 import error_ from 'lib/error'
 
@@ -49,7 +50,7 @@ export default Backbone.Model.extend({
   },
 
   dismiss () {
-    return _.preq.put(app.API.tasks.update, {
+    return preq.put(app.API.tasks.update, {
       id: this.id,
       attribute: 'state',
       value: 'dismissed'

@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import UserContributions from './views/user_contributions'
 
 export default {
@@ -57,7 +58,7 @@ const API = {
 
 const initRelations = function () {
   if (app.user.loggedIn) {
-    return _.preq.get(app.API.relations)
+    return preq.get(app.API.relations)
     .then(relations => {
       app.relations = relations
       return app.execute('waiter:resolve', 'relations')

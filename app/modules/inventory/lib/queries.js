@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import Item from 'modules/inventory/models/item'
 import Items from 'modules/inventory/collections/items'
 import getEntitiesItemsCount from './get_entities_items_count'
@@ -5,7 +6,7 @@ import error_ from 'lib/error'
 
 const getById = function (id) {
   const ids = [ id ]
-  return _.preq.get(app.API.items.byIds({ ids, includeUsers: true }))
+  return preq.get(app.API.items.byIds({ ids, includeUsers: true }))
   .then(res => {
     const { items, users } = res
     const item = items[0]
@@ -18,7 +19,7 @@ const getById = function (id) {
   }).catch(_.ErrorRethrow('findItemById err'))
 }
 
-const getByIds = ids => _.preq.get(app.API.items.byIds({ ids }))
+const getByIds = ids => preq.get(app.API.items.byIds({ ids }))
 .then(res => {
   const { items } = res
   return items.map(item => new Item(item))
@@ -40,32 +41,32 @@ const getGroupItems = params => makeRequest(params, 'byUsers', params.model.allM
 const makeRequest = function (params, endpoint, ids, filter) {
   if (ids.length === 0) { return { items: [], total: 0 } }
   const { collection, limit, offset } = params
-  return _.preq.get(app.API.items[endpoint]({ ids, limit, offset, filter }))
+  return preq.get(app.API.items[endpoint]({ ids, limit, offset, filter }))
   // Use tap to return the server response instead of the collection
   .tap(addItemsAndUsers(collection))
 }
 
 const getNearbyItems = function (params) {
   const { collection, limit, offset } = params
-  return _.preq.get(app.API.items.nearby(limit, offset))
+  return preq.get(app.API.items.nearby(limit, offset))
   .tap(addItemsAndUsers(collection))
 }
 
 const getLastPublic = function (params) {
   const { collection, limit, offset, assertImage } = params
-  return _.preq.get(app.API.items.lastPublic(limit, offset, assertImage))
+  return preq.get(app.API.items.lastPublic(limit, offset, assertImage))
   .tap(addItemsAndUsers(collection))
 }
 
 const getRecentPublic = function (params) {
   const { collection, limit, lang, assertImage } = params
-  return _.preq.get(app.API.items.recentPublic(limit, lang, assertImage))
+  return preq.get(app.API.items.recentPublic(limit, lang, assertImage))
   .tap(addItemsAndUsers(collection))
 }
 
 const getItemByQueryUrl = function (queryUrl) {
   const collection = new Items()
-  return _.preq.get(queryUrl)
+  return preq.get(queryUrl)
   .then(addItemsAndUsers(collection))
 }
 

@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 export default function (app, _) {
   const action = function (user, action, newStatus, label) {
     let userId;
@@ -5,7 +6,7 @@ export default function (app, _) {
     const currentStatus = user.get('status')
     user.set('status', newStatus)
 
-    return _.preq.post(app.API.relations, { action, user: userId })
+    return preq.post(app.API.relations, { action, user: userId })
     .catch(rewind(user, currentStatus, 'action err'))
   }
 

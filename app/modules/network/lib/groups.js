@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 
@@ -6,7 +7,7 @@ export default {
     const { name, description, searchable, position } = data
     const { groups } = app
 
-    return _.preq.post(app.API.groups.base, {
+    return preq.post(app.API.groups.base, {
       action: 'create',
       name,
       description,

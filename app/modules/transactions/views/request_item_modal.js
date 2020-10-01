@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 
 export default Marionette.ItemView.extend({
@@ -53,7 +54,7 @@ export default Marionette.ItemView.extend({
   },
 
   postRequest () {
-    return _.preq.post(app.API.transactions, {
+    return preq.post(app.API.transactions, {
       action: 'request',
       item: this.model.id,
       message: this.ui.message.val()

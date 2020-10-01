@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import PaginatedWorks from '../../collections/paginated_works'
 import commonsSerieWork from './commons_serie_work'
 import getPartsSuggestions from 'modules/entities/views/cleanup/lib/get_parts_suggestions'
@@ -16,7 +17,7 @@ const specificMethods = _.extend({}, commonsSerieWork, {
     if (!refresh && (this.waitForPartsData != null)) { return this.waitForPartsData }
 
     const uri = this.get('uri')
-    return this.waitForPartsData = _.preq.get(app.API.entities.serieParts(uri, refresh))
+    return this.waitForPartsData = preq.get(app.API.entities.serieParts(uri, refresh))
       .then(res => { return this.partsData = res.parts })
   },
 

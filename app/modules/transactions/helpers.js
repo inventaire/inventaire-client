@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import Message from './models/message'
 import poster_ from 'lib/poster'
 
@@ -25,7 +26,7 @@ const API = {
 
     const mesModel = addMessageToTimeline(messageData, timeline)
 
-    return _.preq.post(app.API.transactions, messageData)
+    return preq.post(app.API.transactions, messageData)
     .then(poster_.UpdateModelIdRev(mesModel))
     .catch(poster_.Rewind(mesModel, timeline))
     .catch(_.Error('postMessage'))

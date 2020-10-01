@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import error_ from 'lib/error'
 import { models } from '../lib/notifications_types'
 
@@ -21,7 +22,7 @@ export default Backbone.Collection.extend({
     _.log(this.toUpdate, 'notifs:update')
     const ids = this.toUpdate
     this.toUpdate = []
-    return _.preq.post(app.API.notifications, { times: ids })
+    return preq.post(app.API.notifications, { times: ids })
     .catch(_.Error('notification update err'))
   },
 

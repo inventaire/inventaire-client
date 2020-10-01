@@ -1,6 +1,5 @@
 import requestAssets from './request_assets'
 
-let wrap
 const Ajax = (verb, hasBody) => (url, body) => {
   const options = {
     type: verb,
@@ -25,7 +24,7 @@ const preq = {
   delete: Ajax('DELETE', false)
 }
 
-preq.wrap = (jqPromise, context) => new Promise((resolve, reject) => {
+const wrap = preq.wrap = (jqPromise, context) => new Promise((resolve, reject) => {
   jqPromise
   .then(resolve)
   .fail(err => reject(rewriteJqueryError(err, context)))

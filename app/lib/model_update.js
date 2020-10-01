@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 // wrapping model updates to recover the previous value on fails
 
 import error_ from 'lib/error'
@@ -41,7 +42,7 @@ const Updater = function (fixedOptions) {
       if (action != null) { body.action = action }
       if (modelIdLabel != null) { body[modelIdLabel] = model.id }
 
-      promise = _.preq.put(endpoint, body)
+      promise = preq.put(endpoint, body)
       .then(applyHookUpdates(model))
       .tap(ConfirmUpdate(model, attribute, value))
       .catch(rollbackUpdate.bind(null, options))

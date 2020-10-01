@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 // Module adapted from snippet at
 // https://piwik.instance/index.php?module=CoreAdminHome&action=trackingCodeGenerator&idSite=11&period=day&date=today
 
@@ -26,7 +27,7 @@ export default function () {
 
   // Unfortunately, piwik.js can't be bundled within vendor.js
   // as it has to be run after _paq is initialized (here above)
-  const piwikInitPromise = _.preq.getScript(app.API.assets.scripts.piwik())
+  const piwikInitPromise = preq.getScript(app.API.assets.scripts.piwik())
     .then(() => { tracker = window.Piwik.getAsyncTracker() })
     .catch(err => {
       // Known case: ublock origin

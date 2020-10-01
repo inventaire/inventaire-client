@@ -1,8 +1,9 @@
+import preq from 'lib/preq'
 const { escapeExpression } = Handlebars
 
 export default {
   extract (lang, title) {
-    return _.preq.get(app.API.data.wikipediaExtract(lang, title))
+    return preq.get(app.API.data.wikipediaExtract(lang, title))
     .then(data => {
       let { extract, url } = data
       lang = url?.match(/^https:\/\/([\w-]+).wik/)?.[1]

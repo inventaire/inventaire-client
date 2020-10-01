@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import { showOnMap, showUserOnMap, getBbox } from 'modules/map/lib/map'
 import { initMap, grabMap, refreshListFilter } from 'modules/network/lib/nearby_layouts'
 import { currentRoute } from 'lib/location'
@@ -111,7 +112,7 @@ export default InventoryCommonNav.extend({
   }
 })
 
-const getByPosition = (collection, name, bbox) => _.preq.get(app.API[name].searchByPosition(bbox))
+const getByPosition = (collection, name, bbox) => preq.get(app.API[name].searchByPosition(bbox))
 .get(name)
 .then(docs => {
   const filter = filters[name]

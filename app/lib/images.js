@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import error_ from 'lib/error'
 import dataURLtoBlob from 'blueimp-canvas-to-blob'
 
@@ -10,12 +11,12 @@ const images_ = {
   },
 
   getUrlDataUrl (url) {
-    return _.preq.get(app.API.images.dataUrl(url))
+    return preq.get(app.API.images.dataUrl(url))
     .get('data-url')
   },
 
   getUserGravatarUrl () {
-    return _.preq.get(app.API.images.gravatar)
+    return preq.get(app.API.images.gravatar)
     .get('url')
   },
 

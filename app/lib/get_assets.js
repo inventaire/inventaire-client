@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 // An API to get scripts that weren't bundled into vendor.js
 // Names are expected to match app/api/scripts.coffee keys
 
@@ -16,7 +17,7 @@ export default function (name, onScriptReady) {
       alreadyPrepared = true
 
       // Get the javascript file associated to this name
-      const scriptPromise = _.preq.getScript(app.API.assets.scripts[name]())
+      const scriptPromise = preq.getScript(app.API.assets.scripts[name]())
         .then(onScriptReady)
         .catch(_.ErrorRethrow(`get script ${name}`))
 
@@ -25,7 +26,7 @@ export default function (name, onScriptReady) {
       // Get the stylesheet associated if any
       const stylesheetUrlGetter = app.API.assets.stylesheets[name]
       if (stylesheetUrlGetter != null) {
-        _promises.push(_.preq.getCss(stylesheetUrlGetter()))
+        _promises.push(preq.getCss(stylesheetUrlGetter()))
       }
 
       promise = Promise.all(_promises)

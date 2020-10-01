@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 // Fetching sequentially to lower stress on the different APIs
 export default function (isbnsData) {
   const isbnsIndex = {}
@@ -38,7 +39,7 @@ export default function (isbnsData) {
     const nextUri = uris.pop()
     if (nextUri == null) { return }
 
-    return _.preq.get(app.API.entities.getByUris(nextUri, false, relatives))
+    return preq.get(app.API.entities.getByUris(nextUri, false, relatives))
     .then(res => {
       _.extend(commonRes.entities, res.entities)
       _.extend(commonRes.redirects, res.redirects)

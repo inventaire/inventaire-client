@@ -1,3 +1,4 @@
+import preq from 'lib/preq'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 
 export default Marionette.CompositeView.extend({
@@ -55,5 +56,5 @@ export default Marionette.CompositeView.extend({
   }
 })
 
-const fetchChanges = () => _.preq.get(app.API.entities.changes)
+const fetchChanges = () => preq.get(app.API.entities.changes)
 .get('uris')
