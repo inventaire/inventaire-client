@@ -16,14 +16,14 @@ function _icon (name, classes = '') {
 
 export { _icon as icon }
 
-var images = {
+const images = {
   'wikidata-colored': '/public/images/wikidata.svg',
   wikisource: '/public/images/wikisource-64.png',
   'barcode-scanner': '/public/images/barcode-scanner-64.png',
   gutenberg: '/public/images/gutenberg.png'
 }
 
-var imagesList = Object.keys(images)
+const imagesList = Object.keys(images)
 
 export function iconLink (name, url, classes) {
   let title

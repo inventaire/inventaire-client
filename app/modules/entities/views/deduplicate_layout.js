@@ -193,11 +193,11 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var getElementUri = el => el?.attributes['data-uri'].value
-var getTargetUri = e => getElementUri(e.currentTarget)
-var getElementType = function (el) { if ($(el).hasClass('authorLayout')) { return 'author' } else { return 'work' } }
+const getElementUri = el => el?.attributes['data-uri'].value
+const getTargetUri = e => getElementUri(e.currentTarget)
+const getElementType = function (el) { if ($(el).hasClass('authorLayout')) { return 'author' } else { return 'work' } }
 
-var hideMergedEntities = function () {
+const hideMergedEntities = function () {
   const $from = $('.selected-from')
   if ($from.hasClass('workLi')) {
     const $author = $from.parents('.authorLayout')
@@ -211,7 +211,7 @@ var hideMergedEntities = function () {
   }
 }
 
-var getFilter = function (text, mergedUris) {
+const getFilter = function (text, mergedUris) {
   if (_.isNonEmptyString(text)) {
     const re = new RegExp(text, 'i')
     return function (model) {
@@ -226,7 +226,7 @@ var getFilter = function (text, mergedUris) {
   }
 }
 
-var anyLabelMatch = function (model, re) {
+const anyLabelMatch = function (model, re) {
   const labels = _.values(model.get('labels'))
   return _.any(labels, label => label.match(re))
 }

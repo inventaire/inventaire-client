@@ -50,13 +50,13 @@ export default function () {
   .then(spreadItems(uris))).tap(itemsByCategory => { return this.itemsByCategory = itemsByCategory })
 };
 
-var byDistance = (itemA, itemB) => getItemDistance(itemA) - getItemDistance(itemB)
+const byDistance = (itemA, itemB) => getItemDistance(itemA) - getItemDistance(itemB)
 
-var isNearby = nearbyKmPerimeter => item => nearbyKmPerimeter > getItemDistance(item)
+const isNearby = nearbyKmPerimeter => item => nearbyKmPerimeter > getItemDistance(item)
 
-var getItemDistance = item => item.user?.kmDistanceFormMainUser || Infinity
+const getItemDistance = item => item.user?.kmDistanceFormMainUser || Infinity
 
-var getPerimeter = function (nearestPublicItemDistance) {
+const getPerimeter = function (nearestPublicItemDistance) {
   if (nearestPublicItemDistance < 50) {
     return Math.max((nearestPublicItemDistance * 2), 10)
   } else { return 100 }

@@ -74,8 +74,7 @@ export default Marionette.LayoutView.extend({
       username: this.ui.classicUsername.val(),
       password: this.ui.password.val(),
       email: this.ui.email.val()
-    }
-    )
+    })
   },
 
   // COMMON

@@ -36,7 +36,7 @@ const changeOwnerIfOneWay = function (transaction, item) {
 const setItemToBusy = _.partial(setItemBusyness, true)
 const setItemToNotBusy = _.partial(setItemBusyness, false)
 
-var sideEffects = {
+const sideEffects = {
   accepted: setItemToBusy,
   declined: _.noop,
   confirmed: changeOwnerIfOneWay,

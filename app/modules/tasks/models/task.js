@@ -16,8 +16,7 @@ export default Backbone.Model.extend({
       suggestion: this.suggestion?.toJSON(),
       sources: this.getSources(),
       sourcesCount: this.get('externalSourcesOccurrences').length
-    }
-    )
+    })
   },
 
   grabAuthor (name) {

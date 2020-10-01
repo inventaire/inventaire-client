@@ -19,4 +19,4 @@ export default function (app) {
 // - when the server secret is changed
 // - when the current session user was deleted but the cookies weren't removed
 //   (possibly because the deletion was done from another browser or even another device)
-var resetSession = err => app.execute('logout', '/login')
+const resetSession = err => app.execute('logout', '/login')

@@ -39,7 +39,7 @@ export default {
   }
 }
 
-var entityAction = function (e, action) {
+const entityAction = function (e, action) {
   const {
     href
   } = e.currentTarget

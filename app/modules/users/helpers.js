@@ -117,4 +117,4 @@ export default function (app) {
   app.commands.setHandlers({ 'users:add': addUsers })
 };
 
-var isntMainUser = user => user._id !== app.user.id
+const isntMainUser = user => user._id !== app.user.id

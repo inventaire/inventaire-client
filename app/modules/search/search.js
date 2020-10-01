@@ -30,7 +30,7 @@ export default {
   }
 }
 
-var API = {}
+const API = {}
 API.search = function (search, section, showFallbackLayout) {
   // Prevent indexation of search pages, by making them appear as duplicates of the home
   setPrerenderStatusCode(302, '')
@@ -58,7 +58,7 @@ API.searchFromQueryString = function (querystring) {
   return API.search(q, section, showFallbackLayout)
 }
 
-var showEntityPageIfUri = function (query, refresh) {
+const showEntityPageIfUri = function (query, refresh) {
   // If the query text is a URI, show the associated entity page
   // as it doesn't make sense to search for an entity we have already found
   const uri = findUri(query)
@@ -72,7 +72,7 @@ var showEntityPageIfUri = function (query, refresh) {
 
 const sectionSearchPattern = /^!([a-z])\s+/
 
-var findSearchSection = function (q) {
+const findSearchSection = function (q) {
   const sectionMatch = q.match(sectionSearchPattern)?.[1]
   if (sectionMatch == null) { return [ q, 'all' ] }
 
@@ -84,7 +84,7 @@ var findSearchSection = function (q) {
   return [ q, section ]
 }
 
-var sections = {
+const sections = {
   a: 'author',
   b: 'book',
   c: 'collection',

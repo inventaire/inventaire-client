@@ -108,8 +108,7 @@ export default Backbone.NestedModel.extend({
     const url = buildPath(app.API.transactions, {
       action: 'get-messages',
       transaction: this.id
-    }
-    )
+    })
 
     return _.preq.get(url)
     .get('messages')
@@ -258,4 +257,4 @@ export default Backbone.NestedModel.extend({
   }
 })
 
-var actorCanBeBoth = [ 'cancelled' ]
+const actorCanBeBoth = [ 'cancelled' ]

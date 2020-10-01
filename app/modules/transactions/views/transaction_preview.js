@@ -15,8 +15,7 @@ export default Marionette.ItemView.extend({
     return _.extend(this.model.serializeData(), {
       onItem: this.options.onItem,
       requestContext: this.requestContext()
-    }
-    )
+    })
   },
 
   modelEvents: {

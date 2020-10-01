@@ -12,16 +12,16 @@ const obj = {
 describe('BindedPartialBuilder', () => {
   it('should be a function', done => {
     BindedPartialBuilder.should.be.a.Function()
-    return done()
+    done()
   })
 
   it('should return a function', done => {
     const partialBuilder = BindedPartialBuilder(obj, 'a')
     partialBuilder.should.be.a.Function()
-    return done()
+    done()
   })
 
-  return it('should return a function that return a function binded to a context and possibly arguments', done => {
+  it('should return a function that return a function binded to a context and possibly arguments', done => {
     const partialBuilder = BindedPartialBuilder(obj, 'a')
     partialBuilder.should.be.a.Function()
     const partial1 = partialBuilder(1)
@@ -31,6 +31,6 @@ describe('BindedPartialBuilder', () => {
     partial2_3.should.be.a.Function()
     partial2_3().should.equal(10)
     partial2_3(123, 12512521).should.equal(10)
-    return done()
+    done()
   })
 })

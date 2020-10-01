@@ -219,15 +219,15 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var getItemsData = function (type, model) {
+const getItemsData = function (type, model) {
   const modelId = model.get('_id')
   const params = { [type]: modelId }
   return _.preq.get(app.API.items.inventoryView(params))
 }
 
-var sectionRequest = {
+const sectionRequest = {
   network: 'items:getNetworkItems',
   public: 'items:getNearbyItems'
 }
 
-var scrollToSection = region => screen_.scrollTop({ $el: region.$el, marginTop: 10, delay: 100 })
+const scrollToSection = region => screen_.scrollTop({ $el: region.$el, marginTop: 10, delay: 100 })

@@ -171,8 +171,7 @@ export default Marionette.LayoutView.extend({
       subject: `[${uri}][${subject}] `,
       uris: [ uri ],
       event: e
-    }
-    )
+    })
   },
 
   // Hiding navigation buttons when a label is required but no label is set yet
@@ -265,9 +264,9 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var isWikidataUri = uri => uri.split(':')[0] === 'wd'
+const isWikidataUri = uri => uri.split(':')[0] === 'wd'
 
-var possessives = {
+const possessives = {
   work: "work's",
   edition: "edition's",
   serie: "series'",
@@ -276,4 +275,4 @@ var possessives = {
   collection: "collection's"
 }
 
-var inventoryTypes = [ 'work', 'edition' ]
+const inventoryTypes = [ 'work', 'edition' ]

@@ -117,6 +117,6 @@ export default Backbone.NestedModel.extend({
   }
 })
 
-var isOpType = type => opType => opType === type
+const isOpType = type => opType => opType === type
 
-var getPropertyLabel = property => _.i18n(unprefixify(property))
+const getPropertyLabel = property => _.i18n(unprefixify(property))

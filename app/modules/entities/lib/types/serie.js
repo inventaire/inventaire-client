@@ -9,7 +9,7 @@ export default function () {
   return _.extend(this, specificMethods)
 };
 
-var specificMethods = _.extend({}, commonsSerieWork, {
+const specificMethods = _.extend({}, commonsSerieWork, {
   fetchPartsData (options = {}) {
     let { refresh } = options
     refresh = this.getRefresh(refresh)
@@ -50,10 +50,9 @@ var specificMethods = _.extend({}, commonsSerieWork, {
     return getPartsSuggestions(this)
     .then(suggestionsCollection => suggestionsCollection.map(getModelUri))
   }
-}
-)
+})
 
-var initPartsCollections = function (refresh, fetchAll, partsData) {
+const initPartsCollections = function (refresh, fetchAll, partsData) {
   const allsPartsUris = _.pluck(partsData, 'uri')
   const partsWithoutSuperparts = partsData.filter(hasNoKnownSuperpart(allsPartsUris))
   const partsWithoutSuperpartsUris = _.pluck(partsWithoutSuperparts, 'uri')
@@ -79,18 +78,18 @@ var initPartsCollections = function (refresh, fetchAll, partsData) {
   if (fetchAll) { return this.parts.fetchAll() }
 }
 
-var hasNoKnownSuperpart = allsPartsUris => function (part) {
+const hasNoKnownSuperpart = allsPartsUris => function (part) {
   if (part.superpart == null) { return true }
   return !allsPartsUris.includes(part.superpart)
 }
 
-var importDataFromParts = function () {
+const importDataFromParts = function () {
   const firstPartWithPublicationDate = this.parts.find(getPublicationDate)
   if (firstPartWithPublicationDate != null) {
     return this.set('publicationStart', getPublicationDate(firstPartWithPublicationDate))
   }
 }
 
-var getModelUri = model => model.get('uri')
-var getPublicationDate = model => model.get('claims.wdt:P577.0')
-var getAuthors = model => model.getExtendedAuthorsUris()
+const getModelUri = model => model.get('uri')
+const getPublicationDate = model => model.get('claims.wdt:P577.0')
+const getAuthors = model => model.getExtendedAuthorsUris()

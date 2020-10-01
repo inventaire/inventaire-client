@@ -140,8 +140,7 @@ export default ItemLayout.extend({
         attribute: nameBase,
         value: edited,
         selector: `#${nameBase}Editor`
-      }
-      )
+      })
     }
   },
 

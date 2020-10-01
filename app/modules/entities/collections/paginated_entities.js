@@ -63,8 +63,7 @@ export default Entities.extend({
           allUris: JSON.stringify(this.allUris),
           parentContext: (this.parentContext != null) ? JSON.stringify(this.parentContext) : undefined
         }
-      }
-      )
+      })
       return false
     }
   }

@@ -59,7 +59,7 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var formatErr = function (err) {
+const formatErr = function (err) {
   _.error(err, 'formatErr')
   err.selector = '#finalAlertbox'
   throw err

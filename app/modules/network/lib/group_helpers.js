@@ -69,13 +69,13 @@ export default function () {
   return initGroupFilteredCollection(groups, 'mainUserInvited')
 };
 
-var initGroupFilteredCollection = function (groups, name) {
+const initGroupFilteredCollection = function (groups, name) {
   const filtered = (groups[name] = new FilteredCollection(groups))
   filtered.filterBy(name, filters[name])
   return filtered.listenTo(app.vent, 'group:main:user:move', filtered.refilter.bind(filtered))
 }
 
-var filters = {
+const filters = {
   mainUserMember (group) { return group.mainUserIsMember() },
   mainUserInvited (group) { return group.mainUserIsInvited() }
 }

@@ -17,8 +17,7 @@ export default Marionette.LayoutView.extend({
     return this.listenTo(app.vent, {
       'transaction:select': this.showTransactionFull.bind(this),
       'transactions:welcome': this.showTransactionWelcome.bind(this)
-    }
-    )
+    })
   },
 
   serializeData () { return { folders } },

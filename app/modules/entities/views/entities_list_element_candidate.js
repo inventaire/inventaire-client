@@ -26,8 +26,7 @@ export default Marionette.ItemView.extend({
     return _.extend(attrs, {
       alreadyAdded: this.alreadyAdded,
       invClaimValueOnWdEntity: this.invClaimValueOnWdEntity
-    }
-    )
+    })
   },
 
   events: {

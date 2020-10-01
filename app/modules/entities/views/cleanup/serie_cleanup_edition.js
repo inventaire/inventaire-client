@@ -23,8 +23,7 @@ export default WorkPicker.extend({
         buttonLabel: "change edition's work",
         validateLabel: 'validate'
       }
-    }
-    )
+    })
   },
 
   events: _.extend({}, WorkPicker.prototype.events,

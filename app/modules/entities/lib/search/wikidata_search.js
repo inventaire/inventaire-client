@@ -14,13 +14,13 @@ export default (format = true) => (search, limit = 10, offset) => // Uses wbsear
 
 // This is a hacky way to filter out special pages without having to request claims
 const specialPagesDescriptionPattern = /(Wikim(e|é)dia|Wikip(e|é)dia)/
-var filterOutSpecialPages = function (result) {
+const filterOutSpecialPages = function (result) {
   if (!result.description) { result.description = '' }
   return !result.description.match(specialPagesDescriptionPattern)
 }
 
 // make the result match the needs of app/modules/entities/models/search_result
-var formatAsSearchResult = function (result) {
+const formatAsSearchResult = function (result) {
   const { lang } = app.user
   const { label, description, aliases } = result
   result.labels = {}

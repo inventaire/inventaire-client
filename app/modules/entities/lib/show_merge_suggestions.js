@@ -18,7 +18,7 @@ export default function (params) {
   })
 };
 
-var getMergeSuggestions = model => getTasksByUri(model)
+const getMergeSuggestions = model => getTasksByUri(model)
 .then(tasksEntitiesData => {
   const tasksEntitiesUris = _.pluck(tasksEntitiesData, 'uri')
   return getHomonyms(model, tasksEntitiesUris)
@@ -26,7 +26,7 @@ var getMergeSuggestions = model => getTasksByUri(model)
   .then(homonymEntities => tasksEntitiesData.concat(homonymEntities))
 })
 
-var getTasksByUri = function (model) {
+const getTasksByUri = function (model) {
   let needle
   if ((needle = model.get('type'), !entitiesTypesWithTasks.includes(needle))) {
     return Promise.resolve([])
@@ -43,14 +43,14 @@ var getTasksByUri = function (model) {
   })
 }
 
-var getMergeSuggestionsParams = function (uri) {
+const getMergeSuggestionsParams = function (uri) {
   const [ prefix, id ] = Array.from(uri.split(':'))
   if (prefix === 'wd') {
     return [ 'bySuggestionUris', 'suspectUri' ]
   } else { return [ 'bySuspectUris', 'suggestionUri' ] }
 }
 
-var addTasksToEntities = (uri, tasks, relation) => function (entities) {
+const addTasksToEntities = (uri, tasks, relation) => function (entities) {
   const tasksIndex = _.indexBy(tasks, relation)
 
   entities.forEach(entity => {
@@ -64,7 +64,7 @@ var addTasksToEntities = (uri, tasks, relation) => function (entities) {
   return entities
 }
 
-var getHomonyms = function (model, tasksEntitiesUris) {
+const getHomonyms = function (model, tasksEntitiesUris) {
   const [ uri, label ] = Array.from(model.gets('uri', 'label'))
   const { pluralizedType } = model
   return _.preq.get(app.API.search(pluralizedType, label, 100))
@@ -72,7 +72,7 @@ var getHomonyms = function (model, tasksEntitiesUris) {
   .then(parseSearchResults(uri, tasksEntitiesUris))
 }
 
-var parseSearchResults = (uri, tasksEntitiesUris) => function (searchResults) {
+const parseSearchResults = (uri, tasksEntitiesUris) => function (searchResults) {
   let uris = _.pluck(searchResults, 'uri')
   const prefix = uri.split(':')[0]
   if (prefix === 'wd') { uris = uris.filter(isntWdUri) }
@@ -88,4 +88,4 @@ var parseSearchResults = (uri, tasksEntitiesUris) => function (searchResults) {
   }))
 }
 
-var isntWdUri = uri => uri.split(':')[0] !== 'wd'
+const isntWdUri = uri => uri.split(':')[0] !== 'wd'

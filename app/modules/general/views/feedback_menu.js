@@ -59,8 +59,7 @@ export default Marionette.ItemView.extend({
       uris: this.options.uris,
       message: this.ui.message.val(),
       unknownUser: this.ui.unknownUser.val()
-    }
-    )
+    })
   },
 
   confirm () {

@@ -90,7 +90,7 @@ export default Marionette.Behavior.extend({
   }
 })
 
-var updateProgression = function (body, $target, data) {
+const updateProgression = function (body, $target, data) {
   if (this.hidden) { return }
   const counter = `${data.done}/${data.total}`
   return $target.html(`<span class='progression'>${counter}</span> ${body}`)

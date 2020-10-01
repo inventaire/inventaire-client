@@ -51,8 +51,7 @@ const ItemShelfLi = Marionette.ItemView.extend({
       isSelected: this._isSelected,
       mainUserIsOwner: this.mainUserIsOwner,
       bulkMode: this.bulkMode
-    }
-    )
+    })
   },
 
   toggleShelfSelector () {

@@ -15,7 +15,7 @@ export default {
   }
 }
 
-var updateUrl = function (groupId) {
+const updateUrl = function (groupId) {
   const name = this.ui.groupNameField.val()
   if (_.isNonEmptyString(name)) {
     return _.preq.get(app.API.groups.slug(name, groupId))

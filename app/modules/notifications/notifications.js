@@ -23,7 +23,7 @@ export default {
   }
 }
 
-var API = {
+const API = {
   showNotifications () {
     if (app.request('require:loggedIn', 'notifications')) {
       app.execute('show:loader')
@@ -41,7 +41,7 @@ var API = {
   }
 }
 
-var getNotificationsData = function () {
+const getNotificationsData = function () {
   if (!app.user.loggedIn) { return Promise.resolve() }
 
   return _.preq.get(app.API.notifications)

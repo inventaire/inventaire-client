@@ -20,8 +20,7 @@ export default {
       continue: offset,
       format: 'json',
       origin: '*'
-    }
-    )
+    })
   },
 
   isWikidataItemId (id) { return /^Q[0-9]+$/.test(id) },

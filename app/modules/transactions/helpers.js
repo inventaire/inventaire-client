@@ -11,7 +11,7 @@ export default function () {
   return app.request('wait:for', 'user').then(initLateHelpers)
 };
 
-var API = {
+const API = {
   addTransaction (transaction) { return app.transactions.add(transaction) },
 
   getTransaction (id) { return app.transactions.byId(id) },
@@ -32,18 +32,17 @@ var API = {
   }
 }
 
-var addMessageToTimeline = function (messageData, timeline) {
+const addMessageToTimeline = function (messageData, timeline) {
   const fullMessageData = _.extend({}, messageData, {
     user: app.user.id,
     created: Date.now()
-  }
-  )
+  })
   const mesModel = new Message(fullMessageData)
   timeline.add(mesModel)
   return mesModel
 }
 
-var initLateHelpers = function () {
+const initLateHelpers = function () {
   if (app.transactions != null) {
     const filtered = new FilteredCollection(app.transactions)
 

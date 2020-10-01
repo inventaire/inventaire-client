@@ -3,7 +3,7 @@ export default function (e) {
   return actionKeysMap[key]
 };
 
-var actionKeysMap = {
+const actionKeysMap = {
   9: 'tab',
   13: 'enter',
   16: 'shift',

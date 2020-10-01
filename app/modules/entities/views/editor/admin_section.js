@@ -86,8 +86,7 @@ export default Marionette.LayoutView.extend({
     return app.execute('ask:confirmation', {
       confirmationText: _.I18n('delete_entity_confirmation', { label: this.model.get('label') }),
       action: this._deleteEntity.bind(this)
-    }
-    )
+    })
   },
 
   _deleteEntity () {
@@ -98,7 +97,7 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var mergeWithData = () => ({
+const mergeWithData = () => ({
   nameBase: 'mergeWith',
 
   field: {
@@ -112,7 +111,7 @@ var mergeWithData = () => ({
   }
 })
 
-var displayDeteEntityErrorContext = function (err) {
+const displayDeteEntityErrorContext = function (err) {
   const { context } = err.responseJSON
   if (context) {
     console.log('context', context)
@@ -131,4 +130,4 @@ var displayDeteEntityErrorContext = function (err) {
   throw err
 }
 
-var buildClaimLink = claim => `<li><a href='/entity/${claim.entity}/edit' class='showEntityEdit'>${claim.property} - ${claim.entity}</a></li>`
+const buildClaimLink = claim => `<li><a href='/entity/${claim.entity}/edit' class='showEntityEdit'>${claim.property} - ${claim.entity}</a></li>`

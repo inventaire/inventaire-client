@@ -15,7 +15,7 @@ export default function () {
   this.initWorksRelations()
 };
 
-var specificMethods = {
+const specificMethods = {
   setLang () {
     const langUri = this.get('claims.wdt:P407.0')
     const lang = langUri ? wdLang.byWdId[unprefixify(langUri)]?.code : undefined
@@ -77,7 +77,7 @@ var specificMethods = {
 
 // Editions inherit some claims from their work but not all, as it could get confusing.
 // Ex: publication date should not be inherited
-var inheritData = function (works) {
+const inheritData = function (works) {
   // Do not set inherited claims when creating, as they would be sent as part of the claims
   // of the new entity, and rejected
   if (this.creating) { return }
@@ -89,7 +89,7 @@ var inheritData = function (works) {
   setWorksClaims.call(this, works, 'wdt:P179')
 }
 
-var setWorksClaims = function (works, property) {
+const setWorksClaims = function (works, property) {
   const values = _.chain(works)
     .map(work => work.get(`claims.${property}`))
     .flatten()
@@ -99,7 +99,7 @@ var setWorksClaims = function (works, property) {
   if (values.length > 0) { return this.set(`claims.${property}`, values) }
 }
 
-var startListeningForClaimsChanges = function () {
+const startListeningForClaimsChanges = function () {
   this.on('change:claims', this.onClaimsChange.bind(this))
   // Do no return the event listener return value as it was making Bluebird crash
   // (at least when passed to a .then)

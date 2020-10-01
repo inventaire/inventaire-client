@@ -111,7 +111,7 @@ export default InventoryCommonNav.extend({
   }
 })
 
-var getByPosition = (collection, name, bbox) => _.preq.get(app.API[name].searchByPosition(bbox))
+const getByPosition = (collection, name, bbox) => _.preq.get(app.API[name].searchByPosition(bbox))
 .get(name)
 .then(docs => {
   const filter = filters[name]
@@ -119,6 +119,6 @@ var getByPosition = (collection, name, bbox) => _.preq.get(app.API[name].searchB
   return collection.add(docs)
 })
 
-var filters =
+const filters =
   // Filter-out main user
   { users (doc) { return doc._id !== app.user.id } }

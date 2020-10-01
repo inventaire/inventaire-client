@@ -6,8 +6,7 @@ export default {
     return buildPath(base, {
       action: 'search',
       search: encodeURIComponent(text)
-    }
-    )
+    })
   },
 
   searchByPosition (base, bbox) {

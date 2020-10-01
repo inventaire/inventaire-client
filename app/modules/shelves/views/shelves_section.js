@@ -79,7 +79,7 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var getUserId = function (username) {
+const getUserId = function (username) {
   if (!username) { return Promise.resolve(app.user.id) }
   return app.request('get:userId:from:username', username)
 }

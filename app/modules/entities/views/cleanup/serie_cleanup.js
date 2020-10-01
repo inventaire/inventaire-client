@@ -248,10 +248,10 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var getIsolatedEditions = serieUri => getReverseClaims('wdt:P629', serieUri, true)
+const getIsolatedEditions = serieUri => getReverseClaims('wdt:P629', serieUri, true)
 .then(uris => app.request('get:entities:models', { uris }))
 
-var isPlaceholder = model => model.get('isPlaceholder') === true
+const isPlaceholder = model => model.get('isPlaceholder') === true
 
 function __range__ (left, right, inclusive) {
   const range = []

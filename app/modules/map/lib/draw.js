@@ -36,7 +36,7 @@ export default function (params) {
   return map
 }
 
-var initWithCluster = function (map) {
+const initWithCluster = function (map) {
   // See options https://github.com/Leaflet/Leaflet.markercluster#options
   const cluster = L.markerClusterGroup()
   cluster._knownObjectIds = {}
@@ -44,17 +44,17 @@ var initWithCluster = function (map) {
   map.addMarker = addMarkerToCluster(cluster)
 }
 
-var initWithoutCluster = function (map) {
+const initWithoutCluster = function (map) {
   map.addMarker = addMarkerToMap(map)
 }
 
-var addMarkerToMap = map => function (params) {
+const addMarkerToMap = map => function (params) {
   const marker = buildMarker(params)
   marker.addTo(map)
   return marker
 }
 
-var addMarkerToCluster = cluster => function (params) {
+const addMarkerToCluster = cluster => function (params) {
   const { objectId } = params
 
   if (cluster._knownObjectIds[objectId]) {

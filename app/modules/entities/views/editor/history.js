@@ -19,7 +19,6 @@ export default Marionette.CompositeView.extend({
     return _.extend(attrs, {
       standalone: this.options.standalone,
       label: (this.redirectUri != null) ? this.redirectUri : attrs.label
-    }
-    )
+    })
   }
 })

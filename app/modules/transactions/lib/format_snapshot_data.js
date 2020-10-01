@@ -8,12 +8,12 @@ export default function () {
   })
 };
 
-var formatSnapshotItem = function (itemId, data) {
+const formatSnapshotItem = function (itemId, data) {
   data.pathname = '/items/' + itemId
   return data
 }
 
-var formatSnapshotUser = function (userId, data, role) {
+const formatSnapshotUser = function (userId, data, role) {
   data.pathname = '/inventory/' + userId
   return data
 }

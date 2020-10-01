@@ -22,7 +22,7 @@ export default function (lang, polyglot) {
 const isShortkey = key => /_/.test(key)
 const vowels = 'aeiouy'
 
-var modifiers = {
+const modifiers = {
   // make _.i18n('user_comment', { username: 'adamsberg' })
   // return "Commentaire d'adamsberg" instead of "Commentaire de adamsberg"
   fr (polyglot, key, val, data) {

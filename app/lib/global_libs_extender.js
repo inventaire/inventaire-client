@@ -162,7 +162,7 @@ export default function (_) {
   }
 };
 
-var triggerChange = function (model, attr, value) {
+const triggerChange = function (model, attr, value) {
   model.trigger('change', model, attr, value)
   return model.trigger(`change:${attr}`, model, value)
 }
@@ -172,9 +172,9 @@ const specialRegexCharacters = '()[]$^\\'
   .map(char => '\\' + char)
   .join('')
 
-var specialRegexCharactersRegex = new RegExp(`([${specialRegexCharacters}])`, 'g')
+const specialRegexCharactersRegex = new RegExp(`([${specialRegexCharacters}])`, 'g')
 
-var LazyRender = function (view, timespan = 200) {
+const LazyRender = function (view, timespan = 200) {
   const cautiousRender = function (focusSelector) {
     if (view.isRendered && !(view.isDestroyed || view._preventRerender)) {
       view.render()

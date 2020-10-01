@@ -17,8 +17,7 @@ export default Marionette.ItemView.extend({
       checked: this.getCheckedStatus(),
       isMainUser: this.isMainUser,
       groupContext: this.groupContext
-    }
-    )
+    })
   },
 
   events: {

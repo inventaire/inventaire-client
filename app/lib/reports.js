@@ -29,7 +29,7 @@ export default {
   }
 }
 
-var getEnvContext = function () {
+const getEnvContext = function () {
   let userData
   let envContext = []
   if (app?.user?.loggedIn) {
@@ -70,7 +70,7 @@ setInterval(sendOnlineReport, 30 * 1000)
 // (1): Using jQuery promise instead of preq to be able to report errors
 // happening before preq is initialized
 
-var stringifyData = function (data) {
+const stringifyData = function (data) {
   try {
     return JSON.stringify(data)
   } catch (err) {

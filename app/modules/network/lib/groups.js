@@ -34,13 +34,13 @@ export default {
   }
 }
 
-var groupNameTests = {
+const groupNameTests = {
   "group name can't be longer than 60 characters" (name) {
     return name.length > 60
   }
 }
 
-var groupDescriptionTests = {
+const groupDescriptionTests = {
   "group description can't be longer than 5000 characters" (description) {
     return description.length > 5000
   }

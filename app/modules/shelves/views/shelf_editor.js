@@ -73,14 +73,13 @@ export default Marionette.LayoutView.extend({
       confirmationText: _.i18n('delete_shelf_confirmation', { name: this.model.get('name') }),
       warningText: _.i18n('cant_undo_warning'),
       action: deleteShelfAction(this.model)
-    }
-    )
+    })
   }
 })
 
-var closeModal = e => app.execute('modal:close')
+const closeModal = e => app.execute('modal:close')
 
-var afterUpdate = (selected, model) => function (updatedShelf) {
+const afterUpdate = (selected, model) => function (updatedShelf) {
   app.user.trigger('shelves:change', 'createShelf')
   const listingData = listingsData()[selected]
   model.set(updatedShelf)
@@ -88,7 +87,7 @@ var afterUpdate = (selected, model) => function (updatedShelf) {
   return model.set('label', listingData.label)
 }
 
-var deleteShelfAction = (model, withItems) => function () {
+const deleteShelfAction = (model, withItems) => function () {
   const id = model.get('_id')
   let params = { ids: id }
   if (withItems) { params = _.extend({ 'with-items': true }, params) }
@@ -98,7 +97,7 @@ var deleteShelfAction = (model, withItems) => function () {
   .catch(_.ErrorRethrow('shelf delete error'))
 }
 
-var afterShelfDelete = function (res) {
+const afterShelfDelete = function (res) {
   app.execute('show:inventory:main:user')
   app.user.trigger('shelves:change', 'removeShelf')
   const { items } = res

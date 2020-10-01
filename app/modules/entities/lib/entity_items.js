@@ -8,7 +8,7 @@ export default {
   }
 }
 
-var showItemsPreviewLists = function () {
+const showItemsPreviewLists = function () {
   return this.waitForItems
   .then(itemsByCategory => {
     // Happens when app/modules/entities/views/editions_list.coffee
@@ -31,7 +31,7 @@ var showItemsPreviewLists = function () {
   })
 }
 
-var showItemsPreviews = function (itemsByCategory, category) {
+const showItemsPreviews = function (itemsByCategory, category) {
   const itemsModels = itemsByCategory[category]
   const compact = !this.options.standalone
   return this[`${category}ItemsRegion`].show(new ItemsPreviewLists({

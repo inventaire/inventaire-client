@@ -7,8 +7,7 @@ export default Marionette.ItemView.extend({
       href: this.getHref(),
       hasDate: this.hasDate(),
       hideRefreshButton: true
-    }
-    )
+    })
   },
 
   getHref () {

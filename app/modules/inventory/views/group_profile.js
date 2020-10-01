@@ -25,8 +25,7 @@ export default GroupLayoutView.extend({
       highlighted: this.options.highlighted,
       rss: this.model.getRss(),
       requestsCount: this.model.get('requested').length
-    }
-    )
+    })
   },
 
   onRender () {

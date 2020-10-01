@@ -40,29 +40,29 @@ export default function (app, lang) {
   return initLocalLang(lang)
 };
 
-var setLanguage = function (lang, missingKeyWarn) {
+const setLanguage = function (lang, missingKeyWarn) {
   app.polyglot = new Polyglot({ warn: missingKeyWarn })
   _.i18n = require('./translate')(lang, app.polyglot)
   app.vent.trigger('uriLabel:update')
   return requestI18nFile(app.polyglot, lang)
 }
 
-var requestI18nFile = (polyglot, lang) => _.preq.get(app.API.i18nStrings(lang))
+const requestI18nFile = (polyglot, lang) => _.preq.get(app.API.i18nStrings(lang))
 .then(updatePolyglot.bind(null, polyglot, lang))
 .catch(_.ErrorRethrow(`i18n: failed to get the i18n file for ${lang}`))
 
-var updatePolyglot = function (polyglot, lang, res) {
+const updatePolyglot = function (polyglot, lang, res) {
   polyglot.replace(res)
   polyglot.locale(lang)
   return app.execute('waiter:resolve', 'i18n')
 }
 
-var updateUrilabel = function () {
+const updateUrilabel = function () {
   const { lang } = app.user
   return uriLabel.update(lang)
 }
 
-var initLocalLang = function (lang) {
+const initLocalLang = function (lang) {
   let lastLocalLang = lang
   app.vent.on('lang:local:change', value => lastLocalLang = value)
   return app.reqres.setHandlers({ 'lang:local:get' () { return lastLocalLang } })

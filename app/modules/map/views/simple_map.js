@@ -51,4 +51,4 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var getPosition = model => model.get('position') || model.position
+const getPosition = model => model.get('position') || model.position

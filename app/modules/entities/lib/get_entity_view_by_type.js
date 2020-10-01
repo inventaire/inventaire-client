@@ -30,7 +30,7 @@ const getEntityViewByType = function (model, refresh) {
 const getEditionView = (model, refresh) => model.waitForWorks
 .then(() => new EditionLayout({ model, refresh, standalone }))
 
-var entityViewSpecialGetterByType =
+const entityViewSpecialGetterByType =
   { edition: getEditionView }
 
 export default (...args) => Promise.try(getEntityViewByType.bind(null, ...Array.from(args)))

@@ -88,12 +88,12 @@ export default Marionette.LayoutView.extend({
   isSelected () { return this.$el.find('input[type="checkbox"]').prop('checked') }
 })
 
-var haveLabelMatch = (suggestion, toEntity) => _.haveAMatch(getNormalizedLabels(suggestion), getNormalizedLabels(toEntity))
+const haveLabelMatch = (suggestion, toEntity) => _.haveAMatch(getNormalizedLabels(suggestion), getNormalizedLabels(toEntity))
 
-var getNormalizedLabels = entity => Object.values(entity.get('labels')).map(normalizeLabel)
-var normalizeLabel = label => label.toLowerCase().replace(/\W+/g, '')
+const getNormalizedLabels = entity => Object.values(entity.get('labels')).map(normalizeLabel)
+const normalizeLabel = label => label.toLowerCase().replace(/\W+/g, '')
 
-var claimsPartials = {
+const claimsPartials = {
   author: 'entities:author_claims',
   edition: 'entities:edition_claims',
   work: 'entities:work_claims',
@@ -115,7 +115,7 @@ const Subentity = Marionette.ItemView.extend({
   }
 })
 
-var SubentitiesList = Marionette.CollectionView.extend({
+const SubentitiesList = Marionette.CollectionView.extend({
   className: 'subentities-list',
   childView: Subentity,
   childViewOptions () {

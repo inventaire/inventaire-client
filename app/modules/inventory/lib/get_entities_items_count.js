@@ -20,9 +20,9 @@ export default function (userId, uris) {
   return getBatchesSequentially()
 };
 
-var getEntityItemsCountBatch = (userId, uris) => _.preq.get(app.API.items.byUserAndEntities(userId, uris))
+const getEntityItemsCountBatch = (userId, uris) => _.preq.get(app.API.items.byUserAndEntities(userId, uris))
 
-var countEntitiesItems = function (counts, res) {
+const countEntitiesItems = function (counts, res) {
   for (const item of res.items) {
     const uri = item.entity
     if (counts[uri] == null) { counts[uri] = 0 }

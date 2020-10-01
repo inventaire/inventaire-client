@@ -36,7 +36,7 @@ export default {
   }
 }
 
-var API = {
+const API = {
   showUserContributions (idOrUsername) {
     if (app.request('require:loggedIn', `users/${idOrUsername}/contributions`)) {
       return app.request('resolve:to:userModel', idOrUsername)
@@ -55,7 +55,7 @@ var API = {
   showSearchUsers () { return app.execute('show:users:search') }
 }
 
-var initRelations = function () {
+const initRelations = function () {
   if (app.user.loggedIn) {
     return _.preq.get(app.API.relations)
     .then(relations => {

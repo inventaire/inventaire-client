@@ -186,14 +186,14 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var guessTransaction = function (transaction) {
+const guessTransaction = function (transaction) {
   transaction = transaction || app.request('last:transaction:get')
   if (transaction === 'null') { transaction = null }
   app.execute('last:transaction:set', transaction)
   return transaction
 }
 
-var guessLang = function (entity) {
+const guessLang = function (entity) {
   const { lang: userLang } = app.user
   const [ labels, originalLang ] = Array.from(entity.gets('labels', 'originalLang'))
   if (labels[userLang] != null) { return userLang }

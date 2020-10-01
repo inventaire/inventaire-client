@@ -77,7 +77,7 @@ export default Marionette.LayoutView.extend({
   askConfirmation (options) { return this.modal.show(new ConfirmationModal(options)) }
 })
 
-var initWindowResizeEvents = function () {
+const initWindowResizeEvents = function () {
   let previousScreenMode = screen_.isSmall()
   const resizeEnd = function () {
     const newScreenMode = screen_.isSmall()
@@ -92,7 +92,7 @@ var initWindowResizeEvents = function () {
 }
 
 // params = { subject, message, uris, context, unknownUser }
-var postFeedback = function (params) {
+const postFeedback = function (params) {
   if (params.context == null) { params.context = {} }
   params.context.location = document.location.pathname + document.location.search
   _.log(params, 'posting feedback')

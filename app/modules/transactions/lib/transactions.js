@@ -37,8 +37,7 @@ const nextActionsWithReturn = _.extend({}, basicNextActions, {
     owner: null,
     requester: null
   }
-}
-)
+})
 
 const getNextActionsList = function (transactionName) {
   if (transactionName === 'lending') {

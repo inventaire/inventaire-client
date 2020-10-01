@@ -23,7 +23,7 @@ export default function (params) {
   ))
 };
 
-var FetchMore = function (params) {
+const FetchMore = function (params) {
   const { request, collection, moreData, fallback } = params
   // Avoiding fetching more items several times at a time
   // as it will just return the same items, given that it will pass

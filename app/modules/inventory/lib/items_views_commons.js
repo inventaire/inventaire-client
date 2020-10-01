@@ -57,7 +57,6 @@ export default {
       items: [ this.model ],
       next: afterDestroy,
       back: itemDestroyBack
-    }
-    )
+    })
   }
 }

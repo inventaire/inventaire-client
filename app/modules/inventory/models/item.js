@@ -95,8 +95,7 @@ export default Filterable.extend({
       mainUserIsOwner: this.mainUserIsOwner,
       user: this.userData(),
       isPrivate: attrs.listing === 'private'
-    }
-    )
+    })
 
     // @entity will be defined only if @grabEntity was called
     if (this.entity != null) {

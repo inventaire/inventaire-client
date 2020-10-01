@@ -20,17 +20,17 @@ export default function (serie) {
   .then(works => new Suggestions(works))
 };
 
-var getAuthorsWorks = authorsUris => Promise.all(authorsUris.map(fetchAuthorWorks))
+const getAuthorsWorks = authorsUris => Promise.all(authorsUris.map(fetchAuthorWorks))
 .map(results => _.pluck(results.works.filter(hasNoSerie), 'uri'))
 .then(_.flatten)
 
-var fetchAuthorWorks = authorUri => _.preq.get(app.API.entities.authorWorks(authorUri))
+const fetchAuthorWorks = authorUri => _.preq.get(app.API.entities.authorWorks(authorUri))
 
-var hasNoSerie = work => work.serie == null
+const hasNoSerie = work => work.serie == null
 
-var isWorkWithoutSerie = work => (work.get('type') === 'work') && (work.get('claims.wdt:P179') == null)
+const isWorkWithoutSerie = work => (work.get('type') === 'work') && (work.get('claims.wdt:P179') == null)
 
-var searchMatchWorks = function (serie) {
+const searchMatchWorks = function (serie) {
   const serieLabel = serie.get('label')
   const { allUris: partsUris } = serie.parts
   return searchWorks(serieLabel, 20)

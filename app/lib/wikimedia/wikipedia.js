@@ -18,7 +18,7 @@ export default {
 }
 
 // Add a link to the full wikipedia article at the end of the extract
-var sourcedExtract = function (extract, url) {
+const sourcedExtract = function (extract, url) {
   if ((extract != null) && (url != null)) {
     const text = _.i18n('read_more_on_wikipedia')
     extract += `<br><a href=\"${url}\" class='source link' target='_blank'>${text}</a>`

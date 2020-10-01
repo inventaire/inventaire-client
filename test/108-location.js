@@ -20,7 +20,7 @@ describe('location utils', () => {
       parseQuery(queries.uncompleteButGood).should.be.an.Object()
       parseQuery().should.be.an.Object()
       parseQuery(null).should.be.an.Object()
-      return done()
+      done()
     })
 
     it("should forgive and forget the '?' before queries", done => {
@@ -31,53 +31,53 @@ describe('location utils', () => {
         k[0].should.not.equal('?')
       }
       _.isEqual(parseQuery(queries.goodToo), parseQuery(queries.good)).should.be.true
-      return done()
+      done()
     })
 
     it('should decode encoded strings', done => {
       const queryObj = parseQuery(queries.goodEncoded)
       queryObj.should.deepEqual({ label: 'enchânté' })
-      return done()
+      done()
     })
 
     it('should parse JSON strings', done => {
       const queryObj = parseQuery(queries.goodWithObject)
       queryObj.should.deepEqual({ action: 'man', data: { a: [ 'abc', 2 ] } })
-      return done()
+      done()
     })
 
-    return it('should parse and decode encoded JSON strings', done => {
+    it('should parse and decode encoded JSON strings', done => {
       const queryObj = parseQuery(queries.goodWithEncodedObject)
       queryObj.should.deepEqual({ action: 'man', data: { 'wdt:P50': [ 'wd:Q535' ] } })
-      return done()
+      done()
     })
   })
 
-  return describe('buildPath', () => {
+  describe('buildPath', () => {
     it('should return a string with parameters', done => {
       const path = buildPath('/api', { action: 'man' })
       path.should.be.a.String()
       path.should.equal('/api?action=man')
-      return done()
+      done()
     })
 
     it('should not add empty parameters', done => {
       const path = buildPath('/api', { action: 'man', boudu: null })
       path.should.equal('/api?action=man')
-      return done()
+      done()
     })
 
     it('should stringify object value', done => {
       const path = buildPath('/api', { action: 'man', data: { a: [ 'abc', 2 ] } })
       path.should.equal('/api?action=man&data={"a":["abc",2]}')
-      return done()
+      done()
     })
 
-    return it('should URI encode object values problematic query string characters', done => {
+    it('should URI encode object values problematic query string characters', done => {
       const data = { a: 'some string with ?!MM%** problematic characters' }
       const path = buildPath('/api', { data })
       path.should.equal('/api?data={"a":"some string with %3F!MM%** problematic characters"}')
-      return done()
+      done()
     })
   })
 })

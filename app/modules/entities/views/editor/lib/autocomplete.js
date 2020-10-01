@@ -68,7 +68,7 @@ export default {
   }
 }
 
-var initializeAutocomplete = function () {
+const initializeAutocomplete = function () {
   const property = this.options.model.get('property');
   ({ searchType: this.searchType } = properties[property])
   this.suggestions = new Suggestions([], { property })
@@ -81,28 +81,28 @@ var initializeAutocomplete = function () {
 }
 
 // Complete the query using the selected suggestion.
-var completeQuery = function (suggestion) {
+const completeQuery = function (suggestion) {
   fillQuery.call(this, suggestion)
   return this.hideDropdown()
 }
 
 // Complete the query using the highlighted or the clicked suggestion.
-var fillQuery = function (suggestion) {
+const fillQuery = function (suggestion) {
   this.ui.input.val(suggestion.get('label'))
   return this.onAutoCompleteSelect(suggestion)
 }
 
-var loadMore = function () {
+const loadMore = function () {
   if (this._showingDefaultSuggestions) {
     return addNextDefaultSuggestionsBatch.call(this, false)
   } else { return loadMoreFromSearch.call(this) }
 }
 
-var showAlertBox = function (err) {
+const showAlertBox = function (err) {
   return this.$el.trigger('alert', { message: err.message })
 }
 
-var updateOnKey = function (value, actionKey) {
+const updateOnKey = function (value, actionKey) {
   if (actionKey != null) {
     const actionMade = keyAction.call(this, actionKey)
     if (actionMade !== false) { return }
@@ -118,7 +118,7 @@ var updateOnKey = function (value, actionKey) {
   }
 }
 
-var keyAction = function (actionKey) {
+const keyAction = function (actionKey) {
   // actions happening in any case
   switch (actionKey) {
   case 'esc':

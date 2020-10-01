@@ -14,7 +14,7 @@ export default function (source, data) {
   }
 };
 
-var isValid = {
+const isValid = {
   csv (source, data) {
     // Comparing the first 20 first characters
     // as those should be the header line and thus be constant

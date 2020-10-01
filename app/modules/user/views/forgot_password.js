@@ -74,7 +74,7 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var verifyKnownEmail = email => // re-using verifyAvailability but with the opposite expectaction:
+const verifyKnownEmail = email => // re-using verifyAvailability but with the opposite expectaction:
 // if it throws an error, the email is known and that's the desired result here
 // thus the error is catched
   email_.verifyAvailability(email, '#emailField')
@@ -85,9 +85,9 @@ var verifyKnownEmail = email => // re-using verifyAvailability but with the oppo
   } else { throw err }
 })
 
-var unknownEmail = () => formatErr(new Error('this email is unknown'))
+const unknownEmail = () => formatErr(new Error('this email is unknown'))
 
-var formatErr = function (err) {
+const formatErr = function (err) {
   err.selector = '#emailField'
   throw err
 }

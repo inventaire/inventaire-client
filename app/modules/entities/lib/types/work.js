@@ -20,7 +20,7 @@ export default function () {
   return setEbooksData.call(this)
 };
 
-var setPublicationYear = function () {
+const setPublicationYear = function () {
   const publicationDate = this.get('claims.wdt:P577.0')
   if (publicationDate != null) {
     this.publicationYear = parseInt(publicationDate.split('-')[0])
@@ -49,7 +49,7 @@ const setImage = function () {
   return this.set('images', images.slice(0, 3))
 }
 
-var getEditionImageData = function (model) {
+const getEditionImageData = function (model) {
   const image = model.get('image')
   if (image?.url == null) { return }
   return {
@@ -60,7 +60,7 @@ var getEditionImageData = function (model) {
   }
 }
 
-var bestImage = function (a, b) {
+const bestImage = function (a, b) {
   const { lang: userLang } = app.user
   if (a.isCompositeEdition !== b.isCompositeEdition) {
     if (a.isCompositeEdition) {
@@ -75,9 +75,9 @@ var bestImage = function (a, b) {
   } else { return latestPublication(a, b) }
 }
 
-var latestPublication = (a, b) => b.publicationTime - a.publicationTime
+const latestPublication = (a, b) => b.publicationTime - a.publicationTime
 
-var setEbooksData = function () {
+const setEbooksData = function () {
   const hasInternetArchivePage = (this.get('claims.wdt:P724.0') != null)
   const hasGutenbergPage = (this.get('claims.wdt:P2034.0') != null)
   const hasWikisourcePage = (this.get('wikisource.url') != null)
@@ -85,11 +85,10 @@ var setEbooksData = function () {
   return this.set('gutenbergProperty', 'wdt:P2034')
 }
 
-var specificMethods = _.extend({}, commonsSerieWork, {
+const specificMethods = _.extend({}, commonsSerieWork, {
   // wait for setImage to have run
   getImageAsync () { return this.fetchSubEntities().then(() => this.get('image')) },
   getItemsByCategories: getEntityItemsByCategories,
   beforeSubEntitiesAdd: filterOutWdEditions,
   afterSubEntitiesAdd: setImage
-}
-)
+})

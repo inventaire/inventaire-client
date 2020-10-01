@@ -71,8 +71,7 @@ export default Marionette.LayoutView.extend({
     this.$el.trigger('entity:select', {
       uri: from.get('uri'),
       direction: 'from'
-    }
-    )
+    })
 
     return this.$el.trigger('entity:select', {
       uri: to.get('uri'),
@@ -132,15 +131,15 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var spreadByDomain = models => models.reduce(spreadWorks, { wd: [], inv: [] })
+const spreadByDomain = models => models.reduce(spreadWorks, { wd: [], inv: [] })
 
-var spreadWorks = function (data, work) {
+const spreadWorks = function (data, work) {
   const prefix = work.get('prefix')
   data[prefix].push(work)
   return data
 }
 
-var sortAlphabetically = function (a, b) {
+const sortAlphabetically = function (a, b) {
   if (a.get('label').toLowerCase() > b.get('label').toLowerCase()) {
     return 1
   } else { return -1 }

@@ -11,15 +11,15 @@ const getNextActionsData = function (transaction) {
 }
 
 // TODO: remove the adapter now that the lib isn't shared with the server anymore
-var proxyFindNextActions = transaction => findNextActions(sharedLibAdapter(transaction))
+const proxyFindNextActions = transaction => findNextActions(sharedLibAdapter(transaction))
 
-var sharedLibAdapter = transaction => ({
+const sharedLibAdapter = transaction => ({
   name: transaction.get('transaction'),
   state: transaction.get('state'),
   mainUserIsOwner: transaction.mainUserIsOwner
 })
 
-var addTransactionInfo = function (data, transaction) {
+const addTransactionInfo = function (data, transaction) {
   const transactionMode = transaction.get('transaction')
   return data.map(action => {
     action[transactionMode] = true
@@ -30,7 +30,7 @@ var addTransactionInfo = function (data, transaction) {
   })
 }
 
-var grabOtherUsername = function (transaction, actions) {
+const grabOtherUsername = function (transaction, actions) {
   const username = transaction.otherUser()?.get('username')
   return actions.map(action => _.extend({}, action, { username }))
 }

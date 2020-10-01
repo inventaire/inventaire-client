@@ -35,13 +35,13 @@ export default _.extend(preq, requestAssets,
 .fail(err => reject(rewriteJqueryError(err, context))))))
 )
 
-var parseJson = function (res) {
+const parseJson = function (res) {
   if (_.isString(res) && (res[0] === '{')) {
     return JSON.parse(res)
   } else { return res }
 }
 
-var rewriteJqueryError = function (err, context) {
+const rewriteJqueryError = function (err, context) {
   let message
   const { status: statusCode, statusText, responseText, responseJSON } = err
   const { url, type: verb } = context

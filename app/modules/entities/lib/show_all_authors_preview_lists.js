@@ -11,14 +11,14 @@ export default function (authorsPerProperty) {
   })()
 };
 
-var showAuthorsPreviewList = function (property, models) {
+const showAuthorsPreviewList = function (property, models) {
   if (models.length === 0) { return }
   const collection = new Backbone.Collection(models)
   const name = extendedAuthorsKeys[property]
   return this[name].show(new AuthorsPreviewList({ collection, name }))
 }
 
-var extendedAuthorsKeys = {
+const extendedAuthorsKeys = {
   'wdt:P50': 'authors',
   'wdt:P58': 'scenarists',
   'wdt:P110': 'illustrators',

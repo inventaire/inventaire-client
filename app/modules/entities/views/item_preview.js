@@ -22,8 +22,7 @@ export default Marionette.ItemView.extend({
       distanceFromMainUser: this.model.user.distanceFromMainUser,
       compact: this.options.compact,
       displayCover: this.options.displayItemsCovers && (attrs.picture != null)
-    }
-    )
+    })
   },
 
   events: {
@@ -36,7 +35,7 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var buildTitle = function (user, transaction) {
+const buildTitle = function (user, transaction) {
   if (user == null) { return }
   const username = user.get('username')
   let title = _.i18n(`${transaction}_personalized`, { username })

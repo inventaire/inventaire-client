@@ -11,7 +11,7 @@ export default function (app, _) {
   return app.commands.setHandlers({ 'querystring:set': set })
 };
 
-var get = function (key) {
+const get = function (key) {
   const value = getQuery()?.[key]
   switch (value) {
   // Parsing boolean string
@@ -21,7 +21,7 @@ var get = function (key) {
   }
 }
 
-var set = function (key, value) {
+const set = function (key, value) {
   // Setting the value to 'null' and not just null allows to have the null value
   // passed to the keep function (called by app.navigate), thus unsetting
   // the desired key
@@ -34,7 +34,7 @@ var set = function (key, value) {
 }
 
 // report persistant querystrings from the current route to the next one
-var keep = function (newRoute) {
+const keep = function (newRoute) {
   // get info on new route
   let newQuery;
   [ newRoute, newQuery ] = Array.from(newRoute.split('?'))
@@ -59,4 +59,4 @@ var keep = function (newRoute) {
   return buildPath(newRoute, newQuery)
 }
 
-var getQuery = () => parseQuery(window.location.search)
+const getQuery = () => parseQuery(window.location.search)

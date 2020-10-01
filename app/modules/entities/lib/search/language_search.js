@@ -22,7 +22,7 @@ export default function (query) {
   return Promise.resolve(results)
 };
 
-var formatAsSearchResult = function (result) {
+const formatAsSearchResult = function (result) {
   if (result._formatted) { return result }
   result._formatted = true
   result.id = result.wd

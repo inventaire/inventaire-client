@@ -17,7 +17,7 @@ export default {
   }
 }
 
-var startScanning = function (params) {
+const startScanning = function (params) {
   const { beforeScannerStart, onDetectedActions, setStopScannerCallback } = params
   // Using a promise to get a friendly way to pass errors
   // but this promise will never resolve, and will be terminated,
@@ -54,13 +54,13 @@ var startScanning = function (params) {
 }
 
 // see doc: https://github.com/serratus/quaggaJS#configuration
-var getOptions = function (constraints) {
+const getOptions = function (constraints) {
   baseOptions.inputStream.target = document.querySelector('.embedded .container')
   baseOptions.inputStream.constraints = constraints
   return baseOptions
 }
 
-var getConstraints = function () {
+const getConstraints = function () {
   const minDimension = _.min([ screen_.width(), screen_.height() ])
   if (minDimension > 720) {
     return { width: 1280, height: 720 }
@@ -70,7 +70,7 @@ var getConstraints = function () {
 const verticalMargin = '30%'
 const horizontalMargin = '15%'
 
-var baseOptions = {
+const baseOptions = {
   inputStream: {
     name: 'Live',
     type: 'LiveStream',

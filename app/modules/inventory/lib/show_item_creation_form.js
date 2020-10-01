@@ -26,7 +26,7 @@ export default function (params) {
   return app.navigate(pathname)
 };
 
-var showEditionPicker = work => work.fetchSubEntities()
+const showEditionPicker = work => work.fetchSubEntities()
 .then(() => {
   app.layout.modal.show(new EditionsList({
     collection: work.editions,

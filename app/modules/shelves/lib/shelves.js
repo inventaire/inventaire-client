@@ -67,10 +67,10 @@ export default shelves_ = {
   }
 }
 
-var shelfActionReq = (id, itemsIds, action) => _.preq.post(app.API.shelves[action], { id, items: itemsIds })
+const shelfActionReq = (id, itemsIds, action) => _.preq.post(app.API.shelves[action], { id, items: itemsIds })
 .then(getShelf)
 
-var getShelf = function (res) {
+const getShelf = function (res) {
   const shelvesObj = res.shelves
   return Object.values(shelvesObj)[0]
 }

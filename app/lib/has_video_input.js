@@ -10,5 +10,5 @@ export default () => window.waitForDeviceDetection = enumerateDevices()
     return window.doesntSupportEnumerateDevices = true
   })
 
-var hasVideoInput = devices => _.any(devices, isVideoInput)
-var isVideoInput = device => device.kind === 'videoinput'
+const hasVideoInput = devices => _.any(devices, isVideoInput)
+const isVideoInput = device => device.kind === 'videoinput'

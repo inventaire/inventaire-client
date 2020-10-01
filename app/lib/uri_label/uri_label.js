@@ -63,7 +63,7 @@ const getEntities = function (uris) {
   .catch(_.Error('uri_label getEntities err'))
 }
 
-var addEntitiesLabels = function (entitiesModels) {
+const addEntitiesLabels = function (entitiesModels) {
   for (const uri in entitiesModels) {
     const entityModel = entitiesModels[uri]
     setLabel(uri, entityModel.get('label'))
@@ -110,8 +110,8 @@ const refreshData = function () {
   return setTimeout(endRefreshMode, 5000)
 }
 
-var endRefreshMode = () => refresh = false
+const endRefreshMode = () => refresh = false
 
-var debouncedUpdate = _.debounce(update, 200)
+const debouncedUpdate = _.debounce(update, 200)
 
 export { debouncedUpdate as update, refreshData }

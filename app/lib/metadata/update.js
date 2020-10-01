@@ -39,7 +39,7 @@ const updateRouteMetadata = function (route, metadataPromise = {}) {
   .finally(metadataUpdateDone)
 }
 
-var applyMetadataUpdate = route => function (metadata = {}) {
+const applyMetadataUpdate = route => function (metadata = {}) {
   let redirection
   if (!prerenderReady && (initialRoute !== route)) { redirection = true }
 
@@ -60,7 +60,7 @@ var applyMetadataUpdate = route => function (metadata = {}) {
   return updateMetadata(metadata)
 }
 
-var defaultMetadata = () => ({
+const defaultMetadata = () => ({
   title: 'Inventaire - ' + _.i18n('your friends and communities are your best library'),
   description: _.I18n('make the inventory of your books and mutualize with your friends and communities into an infinite library!'),
   image: 'https://inventaire.io/public/images/inventaire-books.jpg',
@@ -69,14 +69,14 @@ var defaultMetadata = () => ({
   'twitter:card': 'summary_large_image'
 })
 
-var updateMetadata = function (metadata) {
+const updateMetadata = function (metadata) {
   for (const key in metadata) {
     const value = metadata[key]
     updateNodeType(key, value)
   }
 }
 
-var setPrerenderMeta = function (statusCode = 500, route) {
+const setPrerenderMeta = function (statusCode = 500, route) {
   if (!isPrerenderSession || prerenderReady) { return }
 
   let prerenderMeta = `<meta name='prerender-status-code' content='${statusCode}'>`

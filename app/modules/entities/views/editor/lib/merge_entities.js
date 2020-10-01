@@ -17,12 +17,12 @@ export default function (fromUri, toUri) {
   }
 };
 
-var merge = (fromUri, toUri) => _.preq.put(app.API.entities.merge, { from: fromUri, to: toUri })
+const merge = (fromUri, toUri) => _.preq.put(app.API.entities.merge, { from: fromUri, to: toUri })
 .then(() => // Get the refreshed, redirected entity
 // thus also updating entitiesModelsIndexedByUri
   app.request('get:entity:model', fromUri, true))
 
-var importEntityDataToWikidata = (fromUri, toUri) => getEntityWikidataImportData(fromUri, toUri)
+const importEntityDataToWikidata = (fromUri, toUri) => getEntityWikidataImportData(fromUri, toUri)
 .then(_.Log('importData'))
 .then(importData => {
   if (importData.total === 0) {
@@ -33,4 +33,4 @@ var importEntityDataToWikidata = (fromUri, toUri) => getEntityWikidataImportData
   }
 })
 
-var showWikidataDataImporter = (fromUri, toUri, importData) => new Promise((resolve, reject) => app.layout.modal.show(new WikidataDataImporter({ resolve, reject, importData })))
+const showWikidataDataImporter = (fromUri, toUri, importData) => new Promise((resolve, reject) => app.layout.modal.show(new WikidataDataImporter({ resolve, reject, importData })))

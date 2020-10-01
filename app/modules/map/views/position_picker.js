@@ -35,8 +35,7 @@ export default Marionette.ItemView.extend({
     return _.extend({}, typeStrings[this.options.type], {
       hasPosition: this.hasPosition,
       position: this.position
-    }
-    )
+    })
   },
 
   onShow () {
@@ -104,7 +103,7 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var typeStrings = {
+const typeStrings = {
   user: {
     title: 'edit your position',
     context: 'position_privacy_context',
@@ -117,4 +116,4 @@ var typeStrings = {
 }
 // tip: 'position_privacy_tip'
 
-var updateMarker = (marker, e) => map_.updateMarker(marker, e.target.getCenter())
+const updateMarker = (marker, e) => map_.updateMarker(marker, e.target.getCenter())

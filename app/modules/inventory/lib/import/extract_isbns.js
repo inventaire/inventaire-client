@@ -11,7 +11,7 @@ export default function (text) {
   .filter(firstOccurence({}))
 };
 
-var getIsbnData = function (rawIsbn) {
+const getIsbnData = function (rawIsbn) {
   const normalizedIsbn = isbn_.normalizeIsbn(rawIsbn)
   // the window.ISBN lib is made available by the isbn2 asset that
   // should have be fetched by app/modules/inventory/views/add/import
@@ -21,7 +21,7 @@ var getIsbnData = function (rawIsbn) {
   return { rawIsbn, normalizedIsbn, isInvalid, isbn13 }
 }
 
-var firstOccurence = normalizedIsbns13 => function (isbnData) {
+const firstOccurence = normalizedIsbns13 => function (isbnData) {
   const { isbn13, isInvalid } = isbnData
   if (isInvalid) { return true }
 

@@ -94,11 +94,11 @@ export default Marionette.CompositeView.extend({
   }
 })
 
-var asNameMatch = name => human => _.any(_.values(human.labels), labelMatch(name))
+const asNameMatch = name => human => _.any(_.values(human.labels), labelMatch(name))
 
-var labelMatch = name => label => normalize(label) === normalize(name)
+const labelMatch = name => label => normalize(label) === normalize(name)
 
-var normalize = name => name
+const normalize = name => name
 .trim()
 // Remove single letter for second names 'L.'
 .replace(/\s\w{1}\.\s?/g, ' ')

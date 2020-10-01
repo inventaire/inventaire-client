@@ -22,7 +22,7 @@ export default {
   }
 }
 
-var API = {
+const API = {
   showSearch () { return showAddLayout('search') },
   showScan () { return showAddLayout('scan') },
   showImport () { return showAddLayout('import') },
@@ -41,14 +41,14 @@ var API = {
   }
 }
 
-var showAddLayout = function (tab = 'search', options = {}) {
+const showAddLayout = function (tab = 'search', options = {}) {
   if (app.request('require:loggedIn', `add/${tab}`)) {
     options.tab = tab
     return app.layout.main.show(new AddLayout(options))
   }
 }
 
-var initializeHandlers = () => app.commands.setHandlers({
+const initializeHandlers = () => app.commands.setHandlers({
   'show:add:layout': showAddLayout,
   // equivalent to the previous one as long as search is the default tab
   // but more explicit

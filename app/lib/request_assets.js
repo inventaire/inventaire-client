@@ -28,7 +28,7 @@ export default {
   getScript: requestAsset.bind(null, 'js')
 }
 
-var normalizeError = (reject, url) => function (errEvent) {
+const normalizeError = (reject, url) => function (errEvent) {
   const err = new Error('request asset failed')
   err.context = { url }
   return reject(err)

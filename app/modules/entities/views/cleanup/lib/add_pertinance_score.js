@@ -10,21 +10,21 @@ export default serie => function (work) {
   return work
 }
 
-var getAuthorsIntersectionLength = function (serie, work) {
+const getAuthorsIntersectionLength = function (serie, work) {
   const workAuthorsUris = work.getExtendedAuthorsUris()
   const serieAuthorsUris = serie.getExtendedAuthorsUris()
   const intersection = _.intersection(workAuthorsUris, serieAuthorsUris)
   return intersection.length
 }
 
-var getSmallestLabelDistance = function (serie, work) {
+const getSmallestLabelDistance = function (serie, work) {
   const serieLabels = _.values(serie.get('labels'))
   const workLabels = _.values(work.get('labels'))
   const labelsScores = serieLabels.map(serieLabel => workLabels.map(distance(serieLabel)))
   return _.min(_.flatten(labelsScores))
 }
 
-var distance = serieLabel => function (workLabel) {
+const distance = serieLabel => function (workLabel) {
   if (workLabel.match(new RegExp(serieLabel, 'i'))) { return 0 }
   const rawDistance = leven(serieLabel, workLabel)
   const truncatedDistance = leven(serieLabel, workLabel.slice(0, serieLabel.length))

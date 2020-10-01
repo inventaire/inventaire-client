@@ -38,8 +38,7 @@ export default GroupLayoutView.extend({
     description: '#description',
     searchabilityToggler: '#searchabilityToggler',
     searchabilityWarning: '.searchability .warning'
-  }
-  ),
+  }),
 
   initialize () {
     return this._lazyUpdateUrl = LazyUpdateUrl(this)

@@ -13,7 +13,7 @@ export default function (lang, originalLang, data) {
   return {}
 };
 
-var getLangPriorityOrder = function (lang, originalLang, data) {
+const getLangPriorityOrder = function (lang, originalLang, data) {
   const order = [ lang ]
   if (originalLang != null) { order.push(originalLang) }
   order.push('en')

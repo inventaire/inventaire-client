@@ -23,8 +23,7 @@ export default Marionette.ItemView.extend({
     return _.extend(this.model.toJSON(), {
       classes: this.getClasses(),
       ready: this.ready
-    }
-    )
+    })
   },
 
   modelEvents: {

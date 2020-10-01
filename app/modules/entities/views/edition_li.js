@@ -32,8 +32,7 @@ export default Marionette.LayoutView.extend({
       onWorkLayout: this.onWorkLayout,
       compactMode: this.compactMode,
       itemsListsDisabled: this.itemToUpdate || this.compactMode
-    }
-    )
+    })
   },
 
   showEntityActions () {

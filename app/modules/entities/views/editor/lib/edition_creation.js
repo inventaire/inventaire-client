@@ -32,12 +32,12 @@ export default {
   }
 }
 
-var addWithoutIsbnPath = function (workModel) {
+const addWithoutIsbnPath = function (workModel) {
   if (!workModel) { return {} }
   return buildPath('/entity/new', workEditionCreationData(workModel))
 }
 
-var workEditionCreationData = function (workModel, itemToUpdate) {
+const workEditionCreationData = function (workModel, itemToUpdate) {
   const data = {
     type: 'edition',
     claims: {

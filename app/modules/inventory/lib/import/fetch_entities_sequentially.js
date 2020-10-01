@@ -70,9 +70,9 @@ export default function (isbnsData) {
 
 // Fetch the works associated to the editions, and those works authors
 // to get access to the authors labels
-var relatives = [ 'wdt:P629', 'wdt:P50' ]
+const relatives = [ 'wdt:P629', 'wdt:P50' ]
 
-var pushNotFound = (isbnsIndex, commonRes) => function (uri) {
+const pushNotFound = (isbnsIndex, commonRes) => function (uri) {
   const isbn13 = uri.split(':')[1]
   const isbnData = isbnsIndex[isbn13]
   return commonRes.notFound.push(isbnData)

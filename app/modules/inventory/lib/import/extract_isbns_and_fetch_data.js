@@ -14,7 +14,7 @@ export default text => isbn2.get()
   .then(parseResults)
 })
 
-var parseResults = function (data) {
+const parseResults = function (data) {
   const { results, isbnsIndex } = data
   const newCandidates = getCandidatesFromEntitiesDocs(results.entities, isbnsIndex)
 
@@ -25,4 +25,4 @@ var parseResults = function (data) {
     .sort(byIndex(isbnsIndex))
 }
 
-var byIndex = isbnsIndex => (a, b) => isbnsIndex[a.normalizedIsbn].index - isbnsIndex[b.normalizedIsbn].index
+const byIndex = isbnsIndex => (a, b) => isbnsIndex[a.normalizedIsbn].index - isbnsIndex[b.normalizedIsbn].index

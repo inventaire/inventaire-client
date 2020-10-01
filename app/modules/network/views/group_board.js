@@ -180,7 +180,7 @@ export default GroupLayoutView.extend({
   }
 })
 
-var sectionsData = {
+const sectionsData = {
   settings: {
     label: 'group settings',
     icon: 'cog'

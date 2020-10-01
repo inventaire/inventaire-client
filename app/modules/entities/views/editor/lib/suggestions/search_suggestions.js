@@ -31,7 +31,7 @@ const search = function (input) {
   })
 }
 
-var _search = function (input) {
+const _search = function (input) {
   return typeSearch(this.searchType, input, batchLength, this._searchOffset)
   .then(results => {
     // Ignore the results if the input changed
@@ -40,7 +40,7 @@ var _search = function (input) {
   })
 }
 
-var removeCurrentViewValue = function () { return this.onAutoCompleteUnselect() }
+const removeCurrentViewValue = function () { return this.onAutoCompleteUnselect() }
 
 const loadMoreFromSearch = function () {
   // Do not try to fetch more results if the last batch was incomplete

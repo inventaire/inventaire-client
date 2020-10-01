@@ -24,8 +24,7 @@ export default Marionette.ItemView.extend({
       showWarning: !notifications.global,
       showPeriodicity: !notifications.inventories_activity_summary,
       days: getPeriodicityDays(summaryPeriodicity)
-    }
-    )
+    })
   },
 
   getNotificationsData (notifications) {

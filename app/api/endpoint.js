@@ -9,7 +9,7 @@ export default function (name, getBaseOnly) {
   return { base, action, actionPartial }
 };
 
-var Action = base => function (actionName, attribute, value) {
+const Action = base => function (actionName, attribute, value) {
   // Polymorphism: accept one attribute and one value OR a query object
   // NB: object values aren't passed to encodeURIComponent
   let query
@@ -28,4 +28,4 @@ var Action = base => function (actionName, attribute, value) {
 }
 
 // Pass an action name and an attribute, get a partial function
-var ActionPartial = actionFn => (actionName, attribute) => value => actionFn(actionName, attribute, value)
+const ActionPartial = actionFn => (actionName, attribute) => value => actionFn(actionName, attribute, value)

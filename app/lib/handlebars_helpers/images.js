@@ -15,17 +15,17 @@ export default {
   }
 }
 
-var onePictureOnly = function (arg) {
+const onePictureOnly = function (arg) {
   if (_.isArray(arg)) { return arg[0] } else { return arg }
 }
 
-var getImgDimension = function (dimension, defaultValue) {
+const getImgDimension = function (dimension, defaultValue) {
   if (_.isNumber(dimension)) {
     return dimension
   } else { return defaultValue }
 }
 
-var bestImageWidth = function (width) {
+const bestImageWidth = function (width) {
   // under 500, it's useful to keep the freedom to get exactly 64 or 128px etc
   // while still grouping on the initially requested width
   if (width < 500) { return width }

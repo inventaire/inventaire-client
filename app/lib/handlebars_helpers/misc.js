@@ -98,7 +98,7 @@ export default {
   }
 }
 
-var escapeValues = function (obj) {
+const escapeValues = function (obj) {
   for (const key in obj) {
     const value = obj[key]
     obj[key] = escapeExpression(value)

@@ -6,7 +6,7 @@ export default function () {
   return _.extend(this, specificMethods)
 };
 
-var specificMethods = {
+const specificMethods = {
   beforeSubEntitiesAdd: filterOutWdEditions,
 
   initPublisherPublications (refresh) {
@@ -31,7 +31,7 @@ var specificMethods = {
   }
 }
 
-var isntInAKnownCollection = collectionsUris => function (edition) {
+const isntInAKnownCollection = collectionsUris => function (edition) {
   if (edition.collection == null) { return true }
   return !collectionsUris.includes(edition.collection)
 }

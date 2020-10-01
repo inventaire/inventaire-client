@@ -7,7 +7,7 @@ const addDefaultSuggestionsUris = function () {
   .then(setDefaultSuggestions.bind(this))
 }
 
-var setDefaultSuggestions = function (uris) {
+const setDefaultSuggestions = function (uris) {
   if (uris == null) { return }
 
   this._showingDefaultSuggestions = true
@@ -20,7 +20,7 @@ var setDefaultSuggestions = function (uris) {
   })
 }
 
-var showDefaultSuggestions = function () {
+const showDefaultSuggestions = function () {
   if ((this._defaultSuggestions != null) && (this._defaultSuggestions.length > 0)) {
     this.suggestions.reset(this._defaultSuggestions)
     return this.showDropdown()
@@ -29,7 +29,7 @@ var showDefaultSuggestions = function () {
   }
 }
 
-var addNextDefaultSuggestionsBatch = function () {
+const addNextDefaultSuggestionsBatch = function () {
   const uris = this._remainingDefaultSuggestionsUris
   if (uris.length === 0) { return Promise.resolve() }
 

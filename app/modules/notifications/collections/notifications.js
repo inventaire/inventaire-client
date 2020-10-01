@@ -35,7 +35,7 @@ export default Backbone.Collection.extend({
   beforeShow () { return Promise.all(_.invoke(this.models, 'beforeShow')) }
 })
 
-var createTypedModel = function (doc) {
+const createTypedModel = function (doc) {
   const { type } = doc
   const Model = models[type]
   if (Model == null) {
@@ -45,4 +45,4 @@ var createTypedModel = function (doc) {
   return new Model(doc)
 }
 
-var deprecatedTypes = [ 'newCommentOnFollowedItem' ]
+const deprecatedTypes = [ 'newCommentOnFollowedItem' ]

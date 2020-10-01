@@ -60,7 +60,7 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var afterCreate = function (newShelf) {
+const afterCreate = function (newShelf) {
   const newShelfModel = new ShelfModel(newShelf)
   app.user.trigger('shelves:change', 'createShelf')
   app.execute('show:shelf', newShelfModel)

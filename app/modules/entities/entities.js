@@ -45,7 +45,7 @@ export default {
   }
 }
 
-var API = {
+const API = {
   showEntity (uri, params) {
     const refresh = params?.refresh || app.request('querystring:get', 'refresh')
     if (isClaim(uri)) { return showClaimEntities(uri, refresh) }
@@ -161,7 +161,7 @@ var API = {
   }
 }
 
-var showEntityCreate = function (params) {
+const showEntityCreate = function (params) {
   // Drop possible type pluralization
   params.type = params.type?.replace(/s$/, '')
 
@@ -178,7 +178,7 @@ var showEntityCreate = function (params) {
   }
 }
 
-var setHandlers = function () {
+const setHandlers = function () {
   app.commands.setHandlers({
     'show:entity': API.showEntity.bind(API),
     'show:claim:entities' (property, value) {
@@ -233,7 +233,7 @@ var setHandlers = function () {
   })
 }
 
-var getEntitiesModels = function (params) {
+const getEntitiesModels = function (params) {
   let { uris, refresh, defaultType, index } = params
   _.type(uris, 'array')
   _.types(uris, 'strings...')
@@ -254,9 +254,9 @@ var getEntitiesModels = function (params) {
 }
 
 // Known case of model being undefined: when the model initialization failed
-var isntMissing = model => (model != null) && (model?.type !== 'missing')
+const isntMissing = model => (model != null) && (model?.type !== 'missing')
 
-var getEntityModel = (uri, refresh) => getEntitiesModels({ uris: [ uri ], refresh })
+const getEntityModel = (uri, refresh) => getEntitiesModels({ uris: [ uri ], refresh })
 .then(models => {
   const model = models[0]
   if (model != null) {
@@ -268,9 +268,9 @@ var getEntityModel = (uri, refresh) => getEntitiesModels({ uris: [ uri ], refres
   }
 })
 
-var getEntityLocalHref = uri => `/entity/${uri}`
+const getEntityLocalHref = uri => `/entity/${uri}`
 
-var showEntityEdit = function (params) {
+const showEntityEdit = function (params) {
   let { model, region } = params
   if (model.type == null) { throw error_.new('invalid entity type', model) }
   const View = (params.next != null) || (params.previous != null) ? MultiEntityEdit : EntityEdit
@@ -279,7 +279,7 @@ var showEntityEdit = function (params) {
   return app.navigateFromModel(model, 'edit')
 }
 
-var showEntityEditFromModel = function (model) {
+const showEntityEditFromModel = function (model) {
   if (!app.request('require:loggedIn', model.get('edit'))) { return }
 
   rejectRemovedPlaceholder(model)
@@ -292,15 +292,15 @@ var showEntityEditFromModel = function (model) {
   }
 }
 
-var showWikidataEditIntroModal = model => app.layout.modal.show(new WikidataEditIntro({ model }))
+const showWikidataEditIntroModal = model => app.layout.modal.show(new WikidataEditIntro({ model }))
 
-var rejectRemovedPlaceholder = function (entity) {
+const rejectRemovedPlaceholder = function (entity) {
   if (entity.get('_meta_type') === 'removed:placeholder') {
     throw error_.new('removed placeholder', 400, { entity })
   }
 }
 
-var handleMissingEntity = uri => function (err) {
+const handleMissingEntity = uri => function (err) {
   switch (err.message) {
   case 'invalid entity type':
     return app.execute('show:error:other', err)
@@ -314,7 +314,7 @@ var handleMissingEntity = uri => function (err) {
   }
 }
 
-var showEntityCreateFromIsbn = isbn => _.preq.get(app.API.data.isbn(isbn))
+const showEntityCreateFromIsbn = isbn => _.preq.get(app.API.data.isbn(isbn))
 .then(isbnData => {
   const { isbn13h, groupLangUri } = isbnData
   const claims = { 'wdt:P212': [ isbn13h ] }
@@ -338,7 +338,7 @@ var showEntityCreateFromIsbn = isbn => _.preq.get(app.API.data.isbn(isbn))
 }).catch(err => app.execute('show:error:other', err, 'showEntityCreateFromIsbn'))
 
 // Create from the seed data we have, if the entity isn't known yet
-var existsOrCreateFromSeed = entry => _.preq.post(app.API.entities.resolve, { entries: [ entry ], update: true, create: true, enrich: true })
+const existsOrCreateFromSeed = entry => _.preq.post(app.API.entities.resolve, { entries: [ entry ], update: true, create: true, enrich: true })
 // Add the possibly newly created edition entity to the local index
 // and get it's model
 .get('entries')
@@ -347,7 +347,7 @@ var existsOrCreateFromSeed = entry => _.preq.post(app.API.entities.resolve, { en
   return getEntityModel(uri, true)
 })
 
-var showViewByAccessLevel = function (params) {
+const showViewByAccessLevel = function (params) {
   let { path, title, View, viewOptions, navigate, accessLevel } = params
   if (navigate == null) { navigate = true }
   if (app.request('require:loggedIn', path)) {
@@ -368,10 +368,10 @@ const parseSearchResults = uri => function (searchResults) {
   return app.request('get:entities:models', { uris })
 }
 
-var isntWdUri = uri => uri.split(':')[0] !== 'wd'
+const isntWdUri = uri => uri.split(':')[0] !== 'wd'
 
-var isClaim = claim => /^(wdt:|invp:)/.test(claim)
-var showClaimEntities = function (claim, refresh) {
+const isClaim = claim => /^(wdt:|invp:)/.test(claim)
+const showClaimEntities = function (claim, refresh) {
   const [ property, value ] = Array.from(claim.split('-'))
 
   if (!_.isPropertyUri(property)) {
@@ -387,7 +387,7 @@ var showClaimEntities = function (claim, refresh) {
   return app.layout.main.show(new ClaimLayout({ property, value, refresh }))
 }
 
-var reportTypeIssue = function (params) {
+const reportTypeIssue = function (params) {
   const { expectedType, model, context } = params
   const [ uri, realType ] = Array.from(model.gets('uri', 'type'))
   if (reportedTypeIssueUris.includes(uri)) { return }
@@ -397,9 +397,9 @@ var reportTypeIssue = function (params) {
   return app.request('post:feedback', { subject, uris: [ uri ], context })
 }
 
-var reportedTypeIssueUris = []
+const reportedTypeIssueUris = []
 
-var showEntityCleanupFromModel = function (entity) {
+const showEntityCleanupFromModel = function (entity) {
   if (entity.type !== 'serie') {
     const err = error_.new(`cleanup isn't available for entity type ${type}`, 400)
     app.execute('show:error', err)

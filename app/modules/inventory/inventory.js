@@ -37,7 +37,7 @@ export default {
   }
 }
 
-var API = {
+const API = {
   showGeneralInventory () {
     if (app.request('require:loggedIn', 'inventory')) {
       API.showUserInventory(app.user)
@@ -114,7 +114,7 @@ var API = {
   }
 }
 
-var showItemsFromModels = function (items) {
+const showItemsFromModels = function (items) {
   // Accept either an items collection or an array of items models
   if (_.isArray(items)) { items = new Backbone.Collection(items) }
 
@@ -133,11 +133,11 @@ var showItemsFromModels = function (items) {
   }
 }
 
-var showInventory = options => app.layout.main.show(new InventoryLayout(options))
+const showInventory = options => app.layout.main.show(new InventoryLayout(options))
 
-var showItemsList = collection => app.layout.main.show(new ItemsCascade({ collection }))
+const showItemsList = collection => app.layout.main.show(new ItemsCascade({ collection }))
 
-var showItemModal = function (model, fallback) {
+const showItemModal = function (model, fallback) {
   _.type(model, 'object')
 
   const previousRoute = currentRoute()
@@ -165,7 +165,7 @@ var showItemModal = function (model, fallback) {
   .catch(app.Execute('show:error'))
 }
 
-var initializeInventoriesHandlers = function (app) {
+const initializeInventoriesHandlers = function (app) {
   app.commands.setHandlers({
     'show:inventory': showInventory,
     'show:inventory:section' (section) {

@@ -35,10 +35,10 @@ export default {
   }
 }
 
-var getUsersByIds = ids => _.preq.get(app.API.users.byIds(ids))
+const getUsersByIds = ids => _.preq.get(app.API.users.byIds(ids))
 .get('users')
 
-var formatData = function (format, data) {
+const formatData = function (format, data) {
   if (format === 'collection') {
     return _.values(data)
   } else { return data }

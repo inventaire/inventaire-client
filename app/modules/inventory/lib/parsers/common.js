@@ -23,15 +23,15 @@ export default function (data) {
   return data
 };
 
-var deduplicateAuthors = authors => authors
+const deduplicateAuthors = authors => authors
 // Prevent names containing comma to pass as they will later be interpretted
 // as several names
 .filter(containsNoComma)
 .filter(isFirstOccurence(authors))
 
-var containsNoComma = str => (str != null) && !/,/.test(str)
+const containsNoComma = str => (str != null) && !/,/.test(str)
 
-var isFirstOccurence = array => function (str, index) {
+const isFirstOccurence = array => function (str, index) {
   const noramlizedStr = normalize(str)
   for (const previousStr of array.slice(0, index)) {
     if (leven(noramlizedStr, normalize(previousStr)) < maxLevenshteinDistance) { return false }
@@ -39,7 +39,7 @@ var isFirstOccurence = array => function (str, index) {
   return true
 }
 
-var normalize = str => str
+const normalize = str => str
 .trim()
 .normalize()
 .toLowerCase()

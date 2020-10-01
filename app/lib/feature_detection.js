@@ -12,7 +12,7 @@ export default function () {
   setDebugSetting()
 };
 
-var sayHi = () => console.log(`\
+const sayHi = () => console.log(`\
 ,___,
 [-.-]   I've been expecting you, Mr Bond
 /)__)
@@ -25,7 +25,7 @@ Code: ${git}/inventaire
 `
 )
 
-var testFlexSupport = function () {
+const testFlexSupport = function () {
   // detect CSS display:flex support in JavaScript
   // taken from http://stackoverflow.com/questions/14386133/are-there-any-javascript-code-polyfill-available-that-enable-flexbox-2012-cs/14389903#14389903
   const detector = document.createElement('detect')
@@ -36,7 +36,7 @@ var testFlexSupport = function () {
 }
 
 // from https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date/toISOString
-var ISODatePolyFill = function () {
+const ISODatePolyFill = function () {
   if (Date.prototype.toISOString == null) {
     const pad = function (number) {
       if (number < 10) { return '0' + number }
@@ -57,7 +57,7 @@ var ISODatePolyFill = function () {
 }
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith#Polyfill
-var startsWithPolyFill = function () {
+const startsWithPolyFill = function () {
   if (String.prototype.startsWith == null) {
     return String.prototype.startsWith = function (search, pos) {
       const start = !pos || (pos < 0) ? 0 : +pos
@@ -66,7 +66,7 @@ var startsWithPolyFill = function () {
   }
 }
 
-var setDebugSetting = function () {
+const setDebugSetting = function () {
   const persistantDebug = localStorageBool.get('debug')
   const queryStringDebug = window.location.search.split('debug=true').length > 1
   const hostnameDebug = window.location.hostname === 'localhost'

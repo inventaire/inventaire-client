@@ -25,13 +25,13 @@ export default Notification.extend({
   }
 })
 
-var getText = function (type, attribute) {
+const getText = function (type, attribute) {
   if (attribute != null) {
     return texts[type][attribute]
   } else { return texts[type] }
 }
 
-var texts = {
+const texts = {
   userMadeAdmin: 'user_made_admin',
   groupUpdate: {
     name: 'group_update_name',
@@ -39,7 +39,7 @@ var texts = {
   }
 }
 
-var getUpdateValue = function (attrs) {
+const getUpdateValue = function (attrs) {
   const { previousValue, newValue } = attrs.data
   if (previousValue != null) {
     attrs.previousValue = escapeExpression(previousValue)

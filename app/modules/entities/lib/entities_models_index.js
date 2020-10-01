@@ -36,7 +36,7 @@ export function get (params) {
   return pickEntitiesModelsPromises(uris)
 }
 
-var getMissingUris = function (uris) {
+const getMissingUris = function (uris) {
   const foundUris = Object.keys(entitiesModelsIndexedByUri)
   return _.difference(uris, foundUris)
 }
@@ -44,9 +44,9 @@ var getMissingUris = function (uris) {
 // This is where the magic happens: we are picking values from an object made of
 // entity models and promises of entity models, but Promise.props transforms it into
 // a unique promise of an index of entity models
-var pickEntitiesModelsPromises = uris => Promise.props(_.pick(entitiesModelsIndexedByUri, uris))
+const pickEntitiesModelsPromises = uris => Promise.props(_.pick(entitiesModelsIndexedByUri, uris))
 
-var populateIndexWithMissingEntitiesModelsPromises = function (uris, refresh, defaultType) {
+const populateIndexWithMissingEntitiesModelsPromises = function (uris, refresh, defaultType) {
   const getEntitiesPromise = getRemoteEntitiesModels(uris, refresh, defaultType)
   for (const uri of uris) {
     // Populate the index with individual promises
@@ -55,7 +55,7 @@ var populateIndexWithMissingEntitiesModelsPromises = function (uris, refresh, de
   // But return nothing: let pickEntitiesModelsPromises take what it needs from those
 }
 
-var getRemoteEntitiesModels = function (uris, refresh, defaultType) {
+const getRemoteEntitiesModels = function (uris, refresh, defaultType) {
   let promise
   if (uris.length < 50) {
     // Prefer to use get when not fetching that many entities
@@ -94,10 +94,10 @@ var getRemoteEntitiesModels = function (uris, refresh, defaultType) {
   }).catch(_.ErrorRethrow('get entities data err'))
 }
 
-var inidivualPromise = (collectivePromise, uri) => collectivePromise.then(_.property(uri))
+const inidivualPromise = (collectivePromise, uri) => collectivePromise.then(_.property(uri))
 
 // Add links to the redirected entities objects
-var aliasRedirects = function (entities, redirects) {
+const aliasRedirects = function (entities, redirects) {
   for (const from in redirects) {
     const to = redirects[from]
     entities[from] = entities[to]

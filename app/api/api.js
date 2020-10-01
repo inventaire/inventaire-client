@@ -37,4 +37,4 @@ export default _ => ({
 // while, in production, 'git-digest-brunch' will take care of
 // replacing DIGEST with the last git commit hash
 // (the DIGEST keyword needs to be in a URL to be replaced)
-var getBuster = function () { if (window.env === 'dev') { return Date.now() } else { return '' } }
+const getBuster = function () { if (window.env === 'dev') { return Date.now() } else { return '' } }

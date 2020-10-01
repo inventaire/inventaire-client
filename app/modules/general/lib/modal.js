@@ -123,7 +123,7 @@ export default function () {
   })
 };
 
-var prepareRefocus = function (focusSelector) {
+const prepareRefocus = function (focusSelector) {
   _.log(focusSelector, 'preparing re-focus')
   return app.vent.once('modal:closed', () => {
     const $el = $(focusSelector)

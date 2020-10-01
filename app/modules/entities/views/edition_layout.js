@@ -43,8 +43,7 @@ export default Marionette.LayoutView.extend({
       standalone: this.standalone,
       onWorkLayout: this.options.onWorkLayout,
       works: this.model.works?.map(work => work.toJSON())
-    }
-    )
+    })
   },
 
   showEntityActions () {
@@ -58,7 +57,7 @@ const EditionWork = Marionette.ItemView.extend({
   template: require('./templates/edition_work')
 })
 
-var EditionWorks = Marionette.CollectionView.extend({
+const EditionWorks = Marionette.CollectionView.extend({
   className: 'edition-works',
   childView: EditionWork
 })

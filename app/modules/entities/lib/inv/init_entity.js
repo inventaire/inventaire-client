@@ -14,7 +14,7 @@ export default function (attrs) {
   return _.extend(this, specificMethods)
 };
 
-var specificMethods = {
+const specificMethods = {
   fetchMergeSuggestions () {
     if (this.mergeSuggestionsPromise != null) { return this.mergeSuggestionsPromise }
 

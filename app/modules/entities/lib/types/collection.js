@@ -6,7 +6,7 @@ export default function () {
   return this.on('change:claims', this.onClaimsChange.bind(this))
 };
 
-var specificMethods = {
+const specificMethods = {
   setLabelFromTitle () {
     // Take the label from the monolingual title property
     const title = this.get('claims.wdt:P1476.0')

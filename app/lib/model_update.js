@@ -52,8 +52,7 @@ const Updater = function (fixedOptions) {
       app.request('waitForCheck', {
         promise,
         selector
-      }
-      )
+      })
     }
 
     return promise
@@ -63,13 +62,13 @@ const Updater = function (fixedOptions) {
 // Updating an attributes may trigger other attributes to be updated
 // which are then passed in the server response as an 'udpate' object
 // Ex: group 'name' update triggers an update of the 'slug'
-var applyHookUpdates = model => function (updateRes) {
+const applyHookUpdates = model => function (updateRes) {
   const { update } = updateRes
   if (_.isNonEmptyPlainObject(update)) { return model.set(update) }
 }
 
 // trigger events when the server confirmed the change
-var ConfirmUpdate = function (model, attribute, value) {
+const ConfirmUpdate = function (model, attribute, value) {
   let confirm
   return confirm = function () {
     model.trigger('confirmed', attribute, value)
@@ -77,7 +76,7 @@ var ConfirmUpdate = function (model, attribute, value) {
   }
 }
 
-var rollbackUpdate = function (options, err) {
+const rollbackUpdate = function (options, err) {
   const { model, attribute, previousValue, selector } = options
   if (previousValue != null) {
     _.warn(previousValue, `reversing ${attribute} update`)

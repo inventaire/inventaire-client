@@ -37,7 +37,7 @@ const getUserItems = function (params) {
 
 const getGroupItems = params => makeRequest(params, 'byUsers', params.model.allMembersIds(), 'group')
 
-var makeRequest = function (params, endpoint, ids, filter) {
+const makeRequest = function (params, endpoint, ids, filter) {
   if (ids.length === 0) { return { items: [], total: 0 } }
   const { collection, limit, offset } = params
   return _.preq.get(app.API.items[endpoint]({ ids, limit, offset, filter }))
@@ -73,7 +73,7 @@ const getByEntities = uris => getItemByQueryUrl(app.API.items.byEntities({ ids: 
 
 const getByUserIdAndEntities = (userId, uris) => getItemByQueryUrl(app.API.items.byUserAndEntities(userId, uris))
 
-var addItemsAndUsers = collection => function (res) {
+const addItemsAndUsers = collection => function (res) {
   let { items, users } = res
   // Also accepts items indexed by listings: user, network, public
   if (!_.isArray(items)) { items = _.flatten(_.values(items)) }

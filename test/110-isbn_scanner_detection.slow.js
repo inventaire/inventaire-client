@@ -20,7 +20,7 @@ describe('isbn scanner detection', () => {
     const onDetected = OnDetected({ addIsbn })
     onDetected(fakeResult(validIsbn))
     addedIsbns.should.deepEqual([])
-    return done()
+    done()
   })
 
   it('should add an isbn after 2 successive scans', done => {
@@ -33,7 +33,7 @@ describe('isbn scanner detection', () => {
     .then(() => {
       onDetected(fakeResult(validIsbn))
       addedIsbns.should.deepEqual([ validIsbn ])
-      return done()
+      done()
     }).catch(done)
   })
 
@@ -47,11 +47,11 @@ describe('isbn scanner detection', () => {
     .then(() => {
       onDetected(fakeResult(validIsbn2))
       addedIsbns.should.deepEqual([])
-      return done()
+      done()
     }).catch(done)
   })
 
-  return it('should add an isbn after 2 successive scans, even if another valid isbn was scanned before', done => {
+  it('should add an isbn after 2 successive scans, even if another valid isbn was scanned before', done => {
     const addedIsbns = []
     const addIsbn = result => addedIsbns.push(result)
     const onDetected = OnDetected({ addIsbn })
@@ -68,7 +68,7 @@ describe('isbn scanner detection', () => {
     .then(() => {
       onDetected(fakeResult(validIsbn))
       addedIsbns.should.deepEqual([ validIsbn ])
-      return done()
+      done()
     }).catch(done)
   })
 })

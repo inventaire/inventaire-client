@@ -26,7 +26,7 @@ export default {
   }
 }
 
-var API = {
+const API = {
   showShelfFromId (shelfId) {
     if (shelfId == null) { return app.execute('show:inventory:main:user') }
 
@@ -43,13 +43,13 @@ var API = {
   }
 }
 
-var showShelf = function (shelf) {
+const showShelf = function (shelf) {
   if (_.isShelfId(shelf)) {
     return API.showShelfFromId(shelf)
   } else { return showShelfFromModel(shelf) }
 }
 
-var showShelfFromModel = function (shelf) {
+const showShelfFromModel = function (shelf) {
   const owner = shelf.get('owner')
   // Passing shelf to display items and passing owner for user profile info
   app.layout.main.show(new InventoryLayout({

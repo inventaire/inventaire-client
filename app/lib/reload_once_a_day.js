@@ -3,12 +3,12 @@
 
 export default () => setInterval(tryReload, 24 * 60 * 60 * 1000)
 
-var tryReload = function () {
+const tryReload = function () {
   if (textareaContentLength() > 0) { return }
   return window.location.reload()
 }
 
-var textareaContentLength = () => _.toArray($('textarea'))
+const textareaContentLength = () => _.toArray($('textarea'))
 .map(_.property('value'))
 .join('')
 .length

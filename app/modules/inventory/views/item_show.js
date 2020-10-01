@@ -68,11 +68,11 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var getAuthorsModels = works => Promise.all(works)
+const getAuthorsModels = works => Promise.all(works)
 .map(work => work.getExtendedAuthorsModels())
 .reduce(aggregateAuthorsPerProperty, {})
 
-var getSeriePathname = function (works) {
+const getSeriePathname = function (works) {
   if (works?.length !== 1) { return }
   const work = works[0]
   const seriesUris = work.get('claims.wdt:P179')
@@ -83,7 +83,7 @@ var getSeriePathname = function (works) {
   }
 }
 
-var aggregateAuthorsPerProperty = function (authorsPerProperty, workAuthors) {
+const aggregateAuthorsPerProperty = function (authorsPerProperty, workAuthors) {
   for (const property in workAuthors) {
     const authors = workAuthors[property]
     if (authorsPerProperty[property] == null) { authorsPerProperty[property] = [] }

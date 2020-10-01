@@ -31,7 +31,7 @@ export default function (params) {
   .finally(stopLoading.bind(view))
 };
 
-var renameIsbnDuplicateErr = (workUri, isbn) => function (err) {
+const renameIsbnDuplicateErr = (workUri, isbn) => function (err) {
   if (err.responseJSON?.status_verbose !== 'this property value is already used') { throw err }
 
   const existingEditionUri = err.responseJSON.context.entity
@@ -48,14 +48,14 @@ var renameIsbnDuplicateErr = (workUri, isbn) => function (err) {
   })
 }
 
-var reportIsbnIssue = (workUri, isbn) => app.request('post:feedback', {
+const reportIsbnIssue = (workUri, isbn) => app.request('post:feedback', {
   subject: `[Possible work duplicate] ${workUri} / ${isbn}'s work`,
   uris: [ workUri, `isbn:${isbn}` ]
 })
 
-var formatEditionAlreadyExistOnCurrentWork = err => err.responseJSON.status_verbose = 'this edition is already in the list'
+const formatEditionAlreadyExistOnCurrentWork = err => err.responseJSON.status_verbose = 'this edition is already in the list'
 
-var formatDuplicateWorkErr = function (err, isbn) {
+const formatDuplicateWorkErr = function (err, isbn) {
   const normalizedIsbn = isbn_.normalizeIsbn(isbn)
   const alreadyExist = _.i18n('this ISBN already exist:')
   const link = `<a href='/entity/isbn:${normalizedIsbn}' class='showEntity'>${normalizedIsbn}</a>`

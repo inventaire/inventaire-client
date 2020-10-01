@@ -13,9 +13,9 @@ export default function ($app, lang) {
   return $('head').append(elements.join(''))
 };
 
-var setAppLang = ($app, lang) => $app.attr('lang', lang)
+const setAppLang = ($app, lang) => $app.attr('lang', lang)
 
-var addAlternateLangs = function (elements) {
+const addAlternateLangs = function (elements) {
   const href = `${origin}/${currentRoute()}`
   // Non-default langs needing a lang querystring
   for (const lang of langs) {
@@ -27,7 +27,7 @@ var addAlternateLangs = function (elements) {
   return addHreflang(elements, href, false, 'en')
 }
 
-var addHreflang = function (elements, href, withLangQueryString, lang) {
+const addHreflang = function (elements, href, withLangQueryString, lang) {
   // Can't use location.href directly as it seems
   // to be updated after route:navigate
   // Discarding querystring to only keep lang
@@ -35,7 +35,7 @@ var addHreflang = function (elements, href, withLangQueryString, lang) {
   return elements.push(`<link rel='alternate' href='${href}' hreflang='${lang}' />`)
 }
 
-var addOgLocalAlternates = function (elements, lang) {
+const addOgLocalAlternates = function (elements, lang) {
   // set the current lang as 'og:locale'
   const local = regionify[lang]
   elements.push(`<meta property='og:locale' content='${local}' />`)

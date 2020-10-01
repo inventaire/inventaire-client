@@ -207,7 +207,7 @@ export default Marionette.ItemView.extend({
   onDestroy () { return this.stopScanner?.() }
 })
 
-var iconPerType = {
+const iconPerType = {
   success: 'check',
   support: 'support',
   tip: 'info-circle',

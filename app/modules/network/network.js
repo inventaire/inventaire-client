@@ -53,14 +53,14 @@ export default {
   }
 }
 
-var initRequestsCollectionsEvent = function () {
+const initRequestsCollectionsEvent = function () {
   if (app.user.loggedIn) {
     return app.request('waitForNetwork')
     .then(() => app.vent.trigger('network:requests:update'))
   }
 }
 
-var API = {
+const API = {
   redirectToInventoryNetwork () { return app.execute('show:inventory:network') },
   redirectToInventoryPublic () { return app.execute('show:inventory:public') },
 
@@ -81,7 +81,7 @@ var API = {
   showCreateGroupLayout () { return app.layout.modal.show(new CreateGroupLayout()) }
 }
 
-var showGroupBoardFromModel = function (model, options = {}) {
+const showGroupBoardFromModel = function (model, options = {}) {
   if (model.mainUserIsMember()) {
     return model.beforeShow()
     .then(() => {
@@ -95,7 +95,7 @@ var showGroupBoardFromModel = function (model, options = {}) {
   }
 }
 
-var getNetworkNotificationsCount = function () {
+const getNetworkNotificationsCount = function () {
   // TODO: introduce a 'read' flag on the relation document to stop counting
   // requests that were already seen.
   const friendsRequestsCount = app.relations?.otherRequested.length || 0

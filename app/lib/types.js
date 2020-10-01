@@ -100,7 +100,7 @@ export default {
   }
 }
 
-var duplicatesArray = (str, num) => __range__(0, num, false).map(() => str)
+const duplicatesArray = (str, num) => __range__(0, num, false).map(() => str)
 
 function __range__ (left, right, inclusive) {
   const range = []

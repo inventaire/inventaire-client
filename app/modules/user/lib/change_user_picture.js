@@ -14,7 +14,7 @@ export default () => app.layout.modal.show(new PicturePicker({
 
 const selector = '.changePicture .loading'
 
-var savePicture = function (pictures) {
+const savePicture = function (pictures) {
   const picture = pictures[0]
   _.log(picture, 'picture')
   if (!_.isUserImg(picture)) {
@@ -26,11 +26,10 @@ var savePicture = function (pictures) {
     attribute: 'picture',
     value: picture,
     selector
-  }
-  )
+  })
 }
 
-var deletePicture = () => app.request('user:update', {
+const deletePicture = () => app.request('user:update', {
   attribute: 'picture',
   value: null,
   selector

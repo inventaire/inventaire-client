@@ -8,7 +8,7 @@ export default (invEntityUri, wdEntityUri) => app.request('get:entities:models',
   index: true
 }).then(getImportData(invEntityUri, wdEntityUri))
 
-var getImportData = (invEntityUri, wdEntityUri) => function (models) {
+const getImportData = (invEntityUri, wdEntityUri) => function (models) {
   let claims
   const invEntity = models[invEntityUri]
   const wdEntity = models[wdEntityUri]

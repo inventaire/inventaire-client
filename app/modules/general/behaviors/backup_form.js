@@ -52,7 +52,7 @@ export default Marionette.Behavior.extend({
   onRender () { return this.recover() }
 })
 
-var customRecover = ($el, store, selectorBuilder) => (() => {
+const customRecover = ($el, store, selectorBuilder) => (() => {
   const result = []
   for (const key in store) {
     const value = store[key]
@@ -63,5 +63,5 @@ var customRecover = ($el, store, selectorBuilder) => (() => {
   return result
 })()
 
-var buildIdSelector = id => `#${id}`
-var buildNameSelector = name => `[name='${name}']`
+const buildIdSelector = id => `#${id}`
+const buildNameSelector = name => `[name='${name}']`

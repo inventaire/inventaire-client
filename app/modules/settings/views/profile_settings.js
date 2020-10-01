@@ -39,8 +39,7 @@ export default Marionette.ItemView.extend({
       },
       hasPosition: this.model.hasPosition(),
       position: this.model.getCoords()
-    }
-    )
+    })
   },
 
   onRender () { return this.lazyBioUpdate() },
@@ -138,13 +137,13 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var validateBio = function (bio) {
+const validateBio = function (bio) {
   if (bio.length > 1000) {
     throw error_.new("the bio can't be longer than 1000 characters", { length: bio.length })
   }
 }
 
-var updateUserBio = bio => app.request('user:update', {
+const updateUserBio = bio => app.request('user:update', {
   attribute: 'bio',
   value: bio,
   selector: '#bio'

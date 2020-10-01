@@ -200,7 +200,7 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var getTaskById = id => _.preq.get(app.API.tasks.byIds(id))
+const getTaskById = id => _.preq.get(app.API.tasks.byIds(id))
 .get('tasks')
 .then(tasks => {
   const task = tasks[0]
@@ -209,7 +209,7 @@ var getTaskById = id => _.preq.get(app.API.tasks.byIds(id))
   } else { throw error_.new('not found', 404, { id }) }
 })
 
-var openDeduplicationLayoutIfDone = function (previousTask, currentTaskModel) {
+const openDeduplicationLayoutIfDone = function (previousTask, currentTaskModel) {
   if (previousTask == null) { return }
 
   const previousSuggestionUri = previousTask.get('suggestionUri')

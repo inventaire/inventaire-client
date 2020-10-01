@@ -11,4 +11,4 @@ export default {
   }
 }
 
-var alreadyEncoded = file => file.match(/%[0-9A-F]/) != null
+const alreadyEncoded = file => file.match(/%[0-9A-F]/) != null

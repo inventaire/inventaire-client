@@ -114,7 +114,7 @@ export default map_ = {
   }
 }
 
-var showGroupOnMap = function (map, group) {
+const showGroupOnMap = function (map, group) {
   if (group.hasPosition()) {
     return map.addMarker({
       objectId: group.cid,
@@ -124,7 +124,7 @@ var showGroupOnMap = function (map, group) {
   }
 }
 
-var showItemOnMap = function (map, item) {
+const showItemOnMap = function (map, item) {
   if (item.position != null) {
     return map.addMarker({
       objectId: item.cid,

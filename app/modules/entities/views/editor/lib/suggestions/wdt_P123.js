@@ -17,7 +17,7 @@ export default function (entity, index, propertyValuesCount) {
   .then(_.uniq)
 };
 
-var getCollectionsPublishers = collectionsUris => app.request('get:entities:models', { uris: collectionsUris })
+const getCollectionsPublishers = collectionsUris => app.request('get:entities:models', { uris: collectionsUris })
 .then(entities => _.flatten(entities.map(parseCollectionPublishers)))
 
-var parseCollectionPublishers = entity => entity.get('claims.wdt:P123')
+const parseCollectionPublishers = entity => entity.get('claims.wdt:P123')

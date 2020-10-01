@@ -79,7 +79,7 @@ export default UserCommons.extend({
   }
 })
 
-var getStatus = function (id, relations) {
+const getStatus = function (id, relations) {
   if (relations.friends.includes(id)) {
     return 'friends'
   } else if (relations.userRequested.includes(id)) {

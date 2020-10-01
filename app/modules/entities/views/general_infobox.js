@@ -25,7 +25,6 @@ export default Marionette.ItemView.extend({
     return _.extend(attrs, {
       standalone: this.options.standalone,
       small: this.small
-    }
-    )
+    })
   }
 })

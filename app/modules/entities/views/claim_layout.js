@@ -61,5 +61,5 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var addButtonLabelPerProperty =
+const addButtonLabelPerProperty =
   { 'wdt:P921': 'add a work with this subject' }

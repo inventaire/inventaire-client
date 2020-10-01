@@ -11,4 +11,4 @@ export default obj => ({
   goodReadsEditionId: obj['Book Id']
 })
 
-var cleanIsbn = isbn => isbn?.replace(/("|=)/g, '')
+const cleanIsbn = isbn => isbn?.replace(/("|=)/g, '')

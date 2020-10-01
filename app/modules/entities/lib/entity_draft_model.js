@@ -72,8 +72,7 @@ export default {
       // Methods required by app.navigateFromModel
       updateMetadata () { return { title: label || _.I18n('new entity') } },
       getRefresh: _.identity
-    }
-    )
+    })
 
     // Attributes required by app.navigateFromModel
     model.set('edit', buildPath('/entity/new', options))
@@ -86,7 +85,7 @@ export default {
   allowlistedTypes: Object.keys(typeDefaultP31)
 }
 
-var getPropertiesShortlist = function (type, claims) {
+const getPropertiesShortlist = function (type, claims) {
   const typeShortlist = propertiesShortlists[type]
   if (typeShortlist == null) { return null }
 
@@ -98,7 +97,7 @@ var getPropertiesShortlist = function (type, claims) {
   return propertiesShortlist
 }
 
-var nonFixedEditor = function (prop) {
+const nonFixedEditor = function (prop) {
   // Testing properties[prop] existance as some properties don't
   // have an editor. Ex: wdt:P31
   const editorType = properties[prop]?.editorType

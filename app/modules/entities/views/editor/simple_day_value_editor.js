@@ -118,7 +118,7 @@ export default ClaimsEditorCommons.extend({
   }
 })
 
-var getPossibleValues = function (values, defaultValue, selected) {
+const getPossibleValues = function (values, defaultValue, selected) {
   if (!selected) { selected = defaultValue }
   return values.map(value => {
     const valueObj = { num: value }
@@ -127,7 +127,7 @@ var getPossibleValues = function (values, defaultValue, selected) {
   })
 }
 
-var simpleDayParts = function (simpleDay) {
+const simpleDayParts = function (simpleDay) {
   if (_.isNonEmptyString(simpleDay)) {
     return simpleDay.split('-').map(parseDateInt)
   } else {
@@ -135,22 +135,22 @@ var simpleDayParts = function (simpleDay) {
   }
 }
 
-var parseDateInt = function (date) {
+const parseDateInt = function (date) {
   if (_.isNonEmptyString(date)) {
     return parseInt(date.replace(/^0/, ''))
   } else { return null }
 }
 
-var paddedValue = function (value) {
+const paddedValue = function (value) {
   if (value?.toString().length === 1) { return `0${value}` } else { return value }
 }
 
-var parseIntIfVal = function (value) { if (value != null) { return parseInt(value) } }
+const parseIntIfVal = function (value) { if (value != null) { return parseInt(value) } }
 
-var currentYear = parseInt(_.simpleDay().split('-')[0])
+const currentYear = parseInt(_.simpleDay().split('-')[0])
 const nextYear = currentYear + 1
 
-var selectorValues = {
+const selectorValues = {
   day: __range__(1, 31, true),
   month: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],
   // Start with the latest years first, as those are likely

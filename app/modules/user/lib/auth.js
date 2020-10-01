@@ -14,7 +14,7 @@ export default function () {
   return app.commands.setHandlers({ logout: requestLogout })
 };
 
-var requestClassicSignup = function (options) {
+const requestClassicSignup = function (options) {
   const { username, password } = options
   return _.preq.post(app.API.auth.signup, options)
   // not submitting email as there is no need for it
@@ -22,18 +22,18 @@ var requestClassicSignup = function (options) {
   .then(formSubmit.bind(null, username, password))
 }
 
-var passwordConfirmation = function (currentPassword) {
+const passwordConfirmation = function (currentPassword) {
   // using the login route to verify the password validity
   const username = app.user.get('username')
   return classicLogin(username, currentPassword)
 }
 
-var requestClassicLogin = (username, password) => classicLogin(username, password)
+const requestClassicLogin = (username, password) => classicLogin(username, password)
 .then(formSubmit.bind(null, username, password))
 
-var classicLogin = (username, password) => _.preq.post(app.API.auth.login, { username, password })
+const classicLogin = (username, password) => _.preq.post(app.API.auth.login, { username, password })
 
-var passwordUpdate = function (currentPassword, newPassword, selector) {
+const passwordUpdate = function (currentPassword, newPassword, selector) {
   const username = app.user.get('username')
   return _.preq.post(app.API.auth.updatePassword, {
     'current-password': currentPassword,
@@ -42,7 +42,7 @@ var passwordUpdate = function (currentPassword, newPassword, selector) {
   .then(formSubmit.bind(null, username, newPassword))
 }
 
-var formSubmit = function (username, password) {
+const formSubmit = function (username, password) {
   // Make the request as a good old html form not JS-generated
   // so that password managers can catch it and store its values.
   // Relies on form#browserLogin being in index.html from the start.
@@ -53,9 +53,9 @@ var formSubmit = function (username, password) {
   return $('#browserLogin').trigger('submit')
 }
 
-var passwordResetRequest = email => _.preq.post(app.API.auth.resetPassword, { email })
+const passwordResetRequest = email => _.preq.post(app.API.auth.resetPassword, { email })
 
-var emailConfirmationRequest = function () {
+const emailConfirmationRequest = function () {
   _.log('sending emailConfirmationRequest')
   return _.preq.post(app.API.auth.emailConfirmation)
 }

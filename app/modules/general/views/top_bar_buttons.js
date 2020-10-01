@@ -10,8 +10,7 @@ export default Marionette.ItemView.extend({
       'screen:mode:change': this.lazyRender.bind(this),
       'transactions:unread:change': this.lazyRender.bind(this),
       'network:requests:update': this.lazyRender.bind(this)
-    }
-    )
+    })
 
     // Re-render once relations and groups are populated to display network counters
     return Promise.all([

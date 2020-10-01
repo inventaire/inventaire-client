@@ -35,8 +35,7 @@ export default function (path, width = 1600, height = 1600) {
       redirect: true,
       width,
       height
-    }
-    )
+    })
   }
 
   if (_.isImageHash(path)) {

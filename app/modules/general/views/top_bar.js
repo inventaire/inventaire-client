@@ -32,8 +32,7 @@ export default Marionette.LayoutView.extend({
       'route:change': this.onRouteChange.bind(this),
       'live:search:show:result': this.hideLiveSearch.bind(this),
       'live:search:query': this.setQuery.bind(this)
-    }
-    )
+    })
 
     return this.listenTo(app.user, 'change:picture', this.lazyRender.bind(this))
   },
@@ -207,4 +206,4 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var neutralizedKeys = [ 'up', 'down', 'pageup', 'pagedown' ]
+const neutralizedKeys = [ 'up', 'down', 'pageup', 'pagedown' ]

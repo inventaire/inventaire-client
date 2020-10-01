@@ -42,7 +42,7 @@ const createWorkEdition = function (workEntity, isbn) {
   })
 }
 
-var getTitleFromWork = function (workEntity, editionLang) {
+const getTitleFromWork = function (workEntity, editionLang) {
   const inEditionLang = workEntity.get(`labels.${editionLang}`)
   if (inEditionLang != null) { return inEditionLang }
 
@@ -82,7 +82,7 @@ const byProperty = function (options) {
   return createAndGetEntity({ labels, claims, createOnWikidata })
 }
 
-var subjectEntityP31ByProperty = {
+const subjectEntityP31ByProperty = {
   // human
   'wdt:P50': 'wd:Q5',
   // publisher
@@ -96,7 +96,7 @@ var subjectEntityP31ByProperty = {
   'wdt:P2680': 'wd:Q5'
 }
 
-var createAndGetEntity = function (params) {
+const createAndGetEntity = function (params) {
   const { claims } = params
   return createEntity(params)
   .tap(triggerEntityGraphChangesEvents(claims))
@@ -105,7 +105,7 @@ var createAndGetEntity = function (params) {
   .tap(addEntityModel)
 }
 
-var triggerEntityGraphChangesEvents = claims => function () {
+const triggerEntityGraphChangesEvents = claims => function () {
   for (const prop in claims) {
     const values = claims[prop]
     if (graphRelationsProperties.includes(prop)) {

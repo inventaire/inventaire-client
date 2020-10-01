@@ -185,7 +185,7 @@ export default ClaimsEditorCommons.extend({
 })
 
 // Types that have a allowEntityCreation flag
-var createdEntityType = {
+const createdEntityType = {
   works: 'work',
   humans: 'author',
   series: 'serie',

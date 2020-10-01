@@ -2,7 +2,7 @@ const alwaysKeep = () => true
 
 const redirectTest = section => allowRedirectPersistantQuery.includes(section)
 
-var allowRedirectPersistantQuery = [
+const allowRedirectPersistantQuery = [
   'signup',
   'login'
 ]

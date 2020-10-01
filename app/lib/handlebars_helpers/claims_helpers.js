@@ -31,7 +31,7 @@ const entity = function (uri, entityLink, alt, property, title) {
   return entityValue({ uri, pathname, entityLink, alt, label: alt, title })
 }
 
-var propertyWithSpecialLayout = [
+const propertyWithSpecialLayout = [
   'wdt:P50', // author
   'wdt:P179', // serie
   'wdt:P629', // work

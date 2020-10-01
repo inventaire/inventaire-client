@@ -122,4 +122,4 @@ export default Marionette.CompositeView.extend({
   }
 })
 
-var LangFilter = lang => child => child.get('lang') === lang
+const LangFilter = lang => child => child.get('lang') === lang

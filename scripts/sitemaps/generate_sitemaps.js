@@ -20,7 +20,7 @@ export default function () {
   return generateFilesSequentially()
 };
 
-var generateFilesFromQuery = function (name) {
+const generateFilesFromQuery = function (name) {
   console.log(green(`${name} query`), queries[name])
   return breq.get({
     url: queries[name],
@@ -39,7 +39,7 @@ var generateFilesFromQuery = function (name) {
   .map(generateFile)
 }
 
-var getParts = name => function (items) {
+const getParts = name => function (items) {
   const parts = []
   let index = 0
 
@@ -57,14 +57,14 @@ var getParts = name => function (items) {
   return parts
 }
 
-var generateFile = function (part) {
+const generateFile = function (part) {
   const { name, items, index } = part
   const path = getFilePath(name, index)
   return writeSitemap(path, wrapUrls(items.map(buildUrlNode)))
 }
 
-var wrapUrls = require('./wrap_urls')
+const wrapUrls = require('./wrap_urls')
 
-var buildUrlNode = id => `<url><loc>https://inventaire.io/entity/wd:${id}</loc></url>`
+const buildUrlNode = id => `<url><loc>https://inventaire.io/entity/wd:${id}</loc></url>`
 
-var getFilePath = (name, index) => `${folder}/${name}-${index}.xml`
+const getFilePath = (name, index) => `${folder}/${name}-${index}.xml`

@@ -21,12 +21,12 @@ describe('Importers', () => {
 
     describe('file', () => it('should return an string', done => {
       exportData.should.be.a.String()
-      return done()
+      done()
     }))
 
-    return describe('parse', () => {
+    describe('parse', () => {
       const parsed = parse(exportData)
-      return it('should return an array of book objects', done => {
+      it('should return an array of book objects', done => {
         parsed.should.be.a.Array()
         for (const doc of parsed) {
           doc.should.be.a.Object()
@@ -35,7 +35,7 @@ describe('Importers', () => {
           doc.authors.should.be.a.Array()
           if (doc.details) { doc.details.should.be.a.String() }
         }
-        return done()
+        done()
       })
     })
   })
@@ -47,12 +47,12 @@ describe('Importers', () => {
 
     describe('file', () => it('should return an string', done => {
       exportData.should.be.a.String()
-      return done()
+      done()
     }))
 
-    return describe('parse', () => {
+    describe('parse', () => {
       const parsed = parse(exportData)
-      return it('should return an array of book objects', done => {
+      it('should return an array of book objects', done => {
         parsed.should.be.a.Array()
         for (const doc of parsed) {
           doc.should.be.a.Object()
@@ -61,12 +61,12 @@ describe('Importers', () => {
           doc.authors.should.be.a.Array()
           if (doc.notes) { doc.notes.should.be.a.String() }
         }
-        return done()
+        done()
       })
     })
   })
 
-  return describe('Babelio', () => {
+  describe('Babelio', () => {
     const { parse, encoding } = importers.babelio
     const path = __.path('fixtures', `exports/${fixtures.babelio}`)
     const exportDataBuffer = fs.readFileSync(path)
@@ -74,12 +74,12 @@ describe('Importers', () => {
 
     describe('file', () => it('should return an string', done => {
       exportData.should.be.a.String()
-      return done()
+      done()
     }))
 
-    return describe('parse', () => {
+    describe('parse', () => {
       const parsed = parse(exportData)
-      return it('should return an array of book objects', done => {
+      it('should return an array of book objects', done => {
         parsed.should.be.a.Array()
         for (const doc of parsed) {
           doc.should.be.a.Object()
@@ -88,7 +88,7 @@ describe('Importers', () => {
           doc.isbn.should.be.a.String()
           doc.authors.should.be.a.Array()
         }
-        return done()
+        done()
       })
     })
   })

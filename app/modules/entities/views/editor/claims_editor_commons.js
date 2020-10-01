@@ -39,8 +39,7 @@ export default EditorCommons.extend({
     return app.execute('ask:confirmation', {
       confirmationText: _.i18n('Are you sure you want to delete this statement?'),
       action: () => this._save(null)
-    }
-    )
+    })
   },
 
   // To be define on the children and call @_save
@@ -84,7 +83,7 @@ export default EditorCommons.extend({
   }
 })
 
-var enrichError = uri => function (err) {
+const enrichError = uri => function (err) {
   if (err.responseJSON?.status_verbose === 'this property value is already used') {
     const { entity: duplicateUri } = err.responseJSON.context
     reportPossibleDuplicate(uri, duplicateUri)
@@ -94,12 +93,12 @@ var enrichError = uri => function (err) {
   throw err
 }
 
-var reportPossibleDuplicate = (uri, duplicateUri) => app.request('post:feedback', {
+const reportPossibleDuplicate = (uri, duplicateUri) => app.request('post:feedback', {
   subject: `[Possible duplicate] ${uri} / ${duplicateUri}`,
   uris: [ uri, duplicateUri ]
 })
 
-var formatDuplicateErr = function (err, uri, duplicateUri) {
+const formatDuplicateErr = function (err, uri, duplicateUri) {
   const alreadyExist = _.i18n('this value is already used')
   const link = `<a href='/entity/${duplicateUri}' class='showEntity'>${duplicateUri}</a>`
   const reported = _.i18n('the issue was reported')

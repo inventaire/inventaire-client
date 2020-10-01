@@ -44,7 +44,7 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var setImagesSubGroups = function (attrs) {
+const setImagesSubGroups = function (attrs) {
   const { images } = attrs
   if (images == null) { return }
   attrs.mainImage = images[0]

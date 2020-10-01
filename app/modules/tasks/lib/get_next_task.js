@@ -22,7 +22,7 @@ export default function (params = {}) {
   return getNextTaskByScore(params)
 };
 
-var getNextTaskBySuggestionUri = function (params) {
+const getNextTaskBySuggestionUri = function (params) {
   const { lastTaskModel, previousTasks } = params
   const suggestionUri = lastTaskModel.get('suggestionUri')
 
@@ -37,7 +37,7 @@ var getNextTaskBySuggestionUri = function (params) {
   })
 }
 
-var getNextTaskByScore = function (params) {
+const getNextTaskByScore = function (params) {
   let previousTasks
   if (backlogs.byScore.length !== 0) { return Promise.resolve(nextTaskModel('byScore')) }
   ({ offset, previousTasks } = params)
@@ -56,14 +56,14 @@ var getNextTaskByScore = function (params) {
   })
 }
 
-var removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id)
+const removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id)
 
-var updateBacklogAndGetNextTask = function (tasks, backlogName) {
+const updateBacklogAndGetNextTask = function (tasks, backlogName) {
   backlogs[backlogName].push(...Array.from(tasks || []))
   return nextTaskModel(backlogName)
 }
 
-var nextTaskModel = function (backlogName) {
+const nextTaskModel = function (backlogName) {
   const backlog = backlogs[backlogName]
   const model = new Task(backlog.shift())
   return model

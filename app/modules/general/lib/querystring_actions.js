@@ -10,7 +10,7 @@ export default function () {
   }
 };
 
-var showValidEmailConfirmation = function (validEmail) {
+const showValidEmailConfirmation = function (validEmail) {
   // user.attribute.validEmail has priority over the validEmail querystring
   // (even if hopefully, there is no reason for those to be different)
   if (app.user.loggedIn) { validEmail = app.user.get('validEmail') }

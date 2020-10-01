@@ -208,14 +208,14 @@ export default (Backbone, _, $, app, window) => // Will be overriden in modules/
     }
   })
 
-var encodeCharacter = c => '%' + c.charCodeAt(0).toString(16)
+const encodeCharacter = c => '%' + c.charCodeAt(0).toString(16)
 
-var add = (a, b) => a + b
+const add = (a, b) => a + b
 
-var objectWalker = (subObject, property) => subObject?.[property]
+const objectWalker = (subObject, property) => subObject?.[property]
 
 // Polyfill if needed
 if (Date.now == null) { Date.now = () => new Date().getTime() }
 
 // source: http://stackoverflow.com/questions/10527983/best-way-to-detect-mac-os-x-or-windows-computers-with-javascript-or-jquery
-var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0

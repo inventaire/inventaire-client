@@ -13,7 +13,7 @@ export default function () {
   return this.worksWithOrdinal.add(newPlaceholders)
 };
 
-var getPlaceholder = function (index) {
+const getPlaceholder = function (index) {
   const serieUri = this.model.get('uri')
   const label = getPlaceholderTitle.call(this, index)
   const claims = {
@@ -26,7 +26,7 @@ var getPlaceholder = function (index) {
   return model
 }
 
-var getPlaceholderTitle = function (index) {
+const getPlaceholderTitle = function (index) {
   const serieLabel = this.model.get('label')
   return this.titlePattern
   .replace(this.titleKey, serieLabel)

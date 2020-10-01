@@ -18,8 +18,7 @@ const buildTabData = (tabName, tabData) => _.extend(tabData, {
   href: `/add/${tabName}`,
   label: tabName,
   title: `title_add_layout_${tabName}`
-}
-)
+})
 
 for (const k in tabs) {
   const v = tabs[k]

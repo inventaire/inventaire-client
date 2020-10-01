@@ -34,22 +34,21 @@ const updatePosition = (model, updateReqres, type, focusSelector) => showPositio
       selector,
       // required by reqres updaters such as group:update:settings
       model
-    }
-    )
+    })
   }
 })
 
-var showMainUserPositionPicker = () => getLeaflet()
+const showMainUserPositionPicker = () => getLeaflet()
 .then(() => updatePosition(app.user, 'user:update', 'user'))
 
-var showGroupPositionPicker = (group, focusSelector) => getLeaflet()
+const showGroupPositionPicker = (group, focusSelector) => getLeaflet()
 .then(() => updatePosition(group, 'group:update:settings', 'group', focusSelector))
 
 // returns a promise that should resolve with the selected coordinates
-var promptGroupPositionPicker = () => getLeaflet()
+const promptGroupPositionPicker = () => getLeaflet()
 .then(() => new Promise((resolve, reject) => {
   try { return showPositionPicker({ resolve, type: 'group' }) } catch (err) { return reject(err) }
 }))
 
-var showModelsOnMap = models => getLeaflet()
+const showModelsOnMap = models => getLeaflet()
 .then(() => app.layout.modal.show(new SimpleMap({ models })))

@@ -21,7 +21,7 @@ export default function (entity, index, propertyValuesCount) {
   })
 };
 
-var aggregate = function (data, work) {
+const aggregate = function (data, work) {
   const uri = work.get('uri')
   const authors = work.getExtendedAuthorsUris()
   const series = work.get('claims.wdt:P179')
@@ -30,7 +30,7 @@ var aggregate = function (data, work) {
   return data
 }
 
-var getSuggestionsFromSerie = function (serieUri, works, worksUris) {
+const getSuggestionsFromSerie = function (serieUri, works, worksUris) {
   const worksSeriesData = getSeriesData(works)
   const lastOrdinal = getOrdinals(worksSeriesData, serieUri).slice(-1)[0]
 
@@ -38,38 +38,38 @@ var getSuggestionsFromSerie = function (serieUri, works, worksUris) {
   .then(getOtherSerieWorks(worksUris, lastOrdinal))
 }
 
-var getSuggestionsFromAuthor = (authorUri, works, worksUris) => app.request('get:entity:model', authorUri)
+const getSuggestionsFromAuthor = (authorUri, works, worksUris) => app.request('get:entity:model', authorUri)
 .then(author => author.fetchWorksData())
 .get('works')
 .then(authorWorksData => _.pluck(authorWorksData, 'uri')
 .filter(uri => !worksUris.includes(uri)))
 
-var getSeriesData = works => works
+const getSeriesData = works => works
 .map(getSerieData)
 // Filter-out empty results as it would make the intersection hereafter empty
 .filter(data => data.serie != null)
 
-var getOrdinals = (worksSeriesData, serieUri) => worksSeriesData
+const getOrdinals = (worksSeriesData, serieUri) => worksSeriesData
 .filter(data => (data.serie === serieUri) && _.isPositiveIntegerString(data.ordinal))
 .map(data => parseOrdinal(data.ordinal))
 
-var parseOrdinal = function (ordinal) {
+const parseOrdinal = function (ordinal) {
   if (_.isPositiveIntegerString(ordinal)) { return parseInt(ordinal) }
 }
 
-var getSerieData = function (work) {
+const getSerieData = function (work) {
   const serie = work.get('claims.wdt:P179.0')
   const ordinal = work.get('claims.wdt:P1545.0')
   return { serie, ordinal }
 }
 
-var getOtherSerieWorks = (worksUris, lastOrdinal) => serie => serie.fetchPartsData()
+const getOtherSerieWorks = (worksUris, lastOrdinal) => serie => serie.fetchPartsData()
 .then(partsData => {
   const partsDataWithoutCurrentWorks = getReorderedParts(partsData, worksUris, lastOrdinal)
   return _.pluck(partsDataWithoutCurrentWorks, 'uri')
 })
 
-var getReorderedParts = function (partsData, worksUris, lastOrdinal) {
+const getReorderedParts = function (partsData, worksUris, lastOrdinal) {
   if (lastOrdinal == null) {
     return partsData.filter(part => !worksUris.includes(part.uri))
   }

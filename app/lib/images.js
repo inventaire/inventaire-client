@@ -1,7 +1,7 @@
 import error_ from 'lib/error'
 import dataURLtoBlob from 'blueimp-canvas-to-blob'
 
-var images_ = {
+const images_ = {
   addDataUrlToArray (file, array, event) {
     return resize.photo(file, 600, 'dataURL', data => {
       array.unshift(data)
@@ -111,7 +111,7 @@ var images_ = {
   }
 }
 
-var getResizedDimensions = function (width, height, maxSize) {
+const getResizedDimensions = function (width, height, maxSize) {
   if (width > height) {
     if (width > maxSize) {
       height *= maxSize / width
@@ -126,7 +126,7 @@ var getResizedDimensions = function (width, height, maxSize) {
   return [ width, height ]
 }
 
-var saveDimensions = function (data, attribute, width, height) {
+const saveDimensions = function (data, attribute, width, height) {
   data[attribute].width = width
   return data[attribute].height = height
 }
@@ -148,7 +148,7 @@ const colorFilters = [
   'cddc39'
 ]
 
-var getFilterColor = function (modelId) {
+const getFilterColor = function (modelId) {
   if (modelId == null) { return colorFilters[0] }
   const someStableModelNumber = parseInt(modelId.slice(-2), 16)
   // Pick one of the colors based on the group slug length

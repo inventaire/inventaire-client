@@ -99,7 +99,6 @@ export default Marionette.CompositeView.extend({
       confirmationText: _.i18n('transaction_cancel_confirmation'),
       action: this.model.cancelled.bind(this),
       selector: '.cancel'
-    }
-    )
+    })
   }
 })

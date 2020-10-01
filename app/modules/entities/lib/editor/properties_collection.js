@@ -28,22 +28,21 @@ export default function (entityModel) {
   return propertiesCollection
 };
 
-var getPropertyModel = function (entityModel, propData) {
+const getPropertyModel = function (entityModel, propData) {
   const propertyModel = new Backbone.Model(propData)
   propertyModel.entity = entityModel
   propertyModel.values = getPropertyValuesCollection(entityModel, propData)
   return propertyModel
 }
 
-var getPropertyValuesCollection = function (entityModel, propData) {
+const getPropertyValuesCollection = function (entityModel, propData) {
   const { property, allowEntityCreation } = propData
   const claims = entityModel.get(`claims.${property}`) || []
   const collection = new PropertyValues([], {
     entity: entityModel,
     property,
     allowEntityCreation
-  }
-  )
+  })
 
   collection.addClaimsValues(claims)
 

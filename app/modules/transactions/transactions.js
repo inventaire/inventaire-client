@@ -44,7 +44,7 @@ export default {
   }
 }
 
-var API = {
+const API = {
   showFirstTransaction () {
     if (app.request('require:loggedIn', 'transactions')) {
       return app.request('wait:for', 'transactions')
@@ -86,21 +86,21 @@ var API = {
   }
 }
 
-var showTransactionsLayout = () => app.layout.main.show(new TransactionsLayout())
+const showTransactionsLayout = () => app.layout.main.show(new TransactionsLayout())
 
-var triggerTransactionSelect = function (id) {
+const triggerTransactionSelect = function (id) {
   const transaction = app.request('get:transaction:byId', id)
   if (transaction != null) {
     return app.vent.trigger('transaction:select', transaction)
   } else { return app.execute('show:error:missing') }
 }
 
-var updateTransactionRoute = function (transaction) {
+const updateTransactionRoute = function (transaction) {
   transaction.beforeShow()
   return app.navigateFromModel(transaction)
 }
 
-var findFirstTransaction = function () {
+const findFirstTransaction = function () {
   let firstTransac = null
   const transacs = _.clone(app.transactions.models)
   while ((transacs.length > 0) && (firstTransac == null)) {
@@ -111,7 +111,7 @@ var findFirstTransaction = function () {
   return firstTransac
 }
 
-var unreadCount = function () {
+const unreadCount = function () {
   const transac = app.transactions?.models
   if (transac?.length <= 0) { return 0 }
 

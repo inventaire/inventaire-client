@@ -175,7 +175,7 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var getPossibleOrdinals = function (nonPlaceholdersOrdinals) {
+const getPossibleOrdinals = function (nonPlaceholdersOrdinals) {
   const maxOrdinal = nonPlaceholdersOrdinals.slice(-1)[0] || -1
   return _.range(0, (maxOrdinal + 10))
     .filter(num => !nonPlaceholdersOrdinals.includes(num))

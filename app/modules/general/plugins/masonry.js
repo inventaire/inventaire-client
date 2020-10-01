@@ -33,8 +33,7 @@ export default function (containerSelector, itemSelector, minWidth = 500) {
         isResizable: true,
         isAnimated: true,
         gutter: 5
-      }
-      )
+      })
 
       screen_.scrollHeight(positionBefore, 0)
       return $(containerSelector).css('opacity', 1)

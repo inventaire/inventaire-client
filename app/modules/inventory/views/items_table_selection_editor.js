@@ -53,8 +53,7 @@ export default Marionette.LayoutView.extend({
     return app.request('items:delete', {
       items: selectedModelsAndIds,
       next: this.options.afterItemsDelete
-    }
-    )
+    })
   },
 
   afterItemsDelete () {

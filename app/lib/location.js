@@ -19,7 +19,7 @@ const setQuerystring = function (url, key, value) {
 const routeSection = route => // split on the first non-alphabetical character
   route.split(/[^\w]/)[0]
 
-var buildPath = function (pathname, queryObj, escape) {
+const buildPath = function (pathname, queryObj, escape) {
   queryObj = removeUndefined(queryObj)
   if ((queryObj == null) || _.isEmpty(queryObj)) { return pathname }
 
@@ -43,7 +43,7 @@ const currentRoute = () => location.pathname.slice(1)
 
 const currentSection = () => routeSection(currentRoute())
 
-var parseKeysValues = function (queryObj, nextParam) {
+const parseKeysValues = function (queryObj, nextParam) {
   const pairs = nextParam.split('=')
   let [ key, value ] = Array.from(pairs)
   if ((key?.length > 0) && (value != null)) {
@@ -59,19 +59,19 @@ var parseKeysValues = function (queryObj, nextParam) {
   return queryObj
 }
 
-var permissiveJsonParse = function (input) {
+const permissiveJsonParse = function (input) {
   try { return JSON.parse(input) } catch (err) { return input }
 }
 
 // Only escape values that are problematic in a query string:
 // for the moment, only '?'
-var escapeQueryStringValue = str => str.replace(/\?/g, '%3F')
+const escapeQueryStringValue = str => str.replace(/\?/g, '%3F')
 
-var dropSpecialCharacters = str => str
+const dropSpecialCharacters = str => str
 .replace(/\s+/g, ' ')
 .replace(/(\?|\:)/g, '')
 
-var removeUndefined = function (obj) {
+const removeUndefined = function (obj) {
   const newObj = {}
   for (const key in obj) {
     const value = obj[key]

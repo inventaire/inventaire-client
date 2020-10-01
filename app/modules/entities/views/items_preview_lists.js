@@ -70,7 +70,7 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var spreadByTransactions = function (itemsModels) {
+const spreadByTransactions = function (itemsModels) {
   const collections = {}
   for (const itemModel of itemsModels) {
     const transaction = itemModel.get('transaction')
@@ -81,7 +81,7 @@ var spreadByTransactions = function (itemsModels) {
   return collections
 }
 
-var headers = {
+const headers = {
   personal: {
     label: 'in your inventory',
     icon: 'user'

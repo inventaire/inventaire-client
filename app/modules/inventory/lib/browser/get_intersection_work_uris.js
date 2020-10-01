@@ -19,7 +19,7 @@ export default function (worksTree, filters) {
   return intersectionWorkUris
 };
 
-var getFilterWorksUris = function (worksTree, selectorName, selectedOptionKey) {
+const getFilterWorksUris = function (worksTree, selectorName, selectedOptionKey) {
   if (selectorName === 'owner') {
     currentOwnerItemsByWork = worksTree.owner[selectedOptionKey] || {}
     return Object.keys(currentOwnerItemsByWork)
@@ -28,6 +28,6 @@ var getFilterWorksUris = function (worksTree, selectorName, selectedOptionKey) {
   }
 }
 
-var resetFilterData = function (selectorName) {
+const resetFilterData = function (selectorName) {
   if (selectorName === 'owner') { return currentOwnerItemsByWork = null }
 }

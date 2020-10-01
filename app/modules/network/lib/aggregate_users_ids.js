@@ -33,7 +33,7 @@ export default function () {
   })()
 };
 
-var aggregates = {
+const aggregates = {
   admins: 'admins',
   membersStrict: 'members',
   members: [ 'admins', 'members' ],

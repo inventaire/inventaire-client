@@ -11,7 +11,7 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var tailorForLang = function (listsByLang, lang) {
+const tailorForLang = function (listsByLang, lang) {
   // first the user lang
   let orderedData = listsByLang[lang] || []
   // then English
@@ -30,7 +30,7 @@ var tailorForLang = function (listsByLang, lang) {
   return orderedData.slice(0, 6)
 }
 
-var format = function (entry) {
+const format = function (entry) {
   if (entry.picture != null) { entry.picture = `/img/assets/${entry.picture}` }
   return entry
 }

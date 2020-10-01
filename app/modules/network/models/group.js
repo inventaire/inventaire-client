@@ -118,8 +118,7 @@ export default Positionable.extend({
       mainUserIsMember,
       hasPosition: this.hasPosition(),
       membersCount: this.membersCount()
-    }
-    )
+    })
   },
 
   userStatus (user) {

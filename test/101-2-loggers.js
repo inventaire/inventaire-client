@@ -6,13 +6,13 @@ describe('Logger', () => {
     it('should return a string for string input', done => {
       _.log('salut').should.be.a.String()
       _.log('ca va?', 'oui oui').should.be.a.String()
-      return done()
+      done()
     })
 
-    return it('should return an object for object i nput', done => {
+    it('should return an object for object i nput', done => {
       _.log({ ach: 'so' }).should.be.a.Object()
       _.log({ ya: 'klar' }, 'doh').should.be.a.Object()
-      return done()
+      done()
     })
   })
 
@@ -21,25 +21,25 @@ describe('Logger', () => {
     waitingLog.should.be.a.Function()
     waitingLog({ hey: 'azegzagazere' })
     waitingLog({ hey: 'there' }).should.be.an.Object()
-    return done()
+    done()
   }))
 
   describe('warn', () => it('should always return undefined', done => {
     should(_.warn('yo')).not.be.ok()
     should(_.warn('yo', { hello: 'wat' })).not.be.ok()
     should(_.warn({ hello: 'wat' }, 'yo')).not.be.ok()
-    return done()
+    done()
   }))
 
   describe('error', () => {
     it('should accept only error objects', done => {
       should(() => _.error('yo')).throw()
-      return done()
+      done()
     })
 
-    return it('should always return undefined', done => {
+    it('should always return undefined', done => {
       should(_.error(new Error('yo'))).not.be.ok()
-      return done()
+      done()
     })
   })
 
@@ -51,7 +51,7 @@ describe('Logger', () => {
     .then(() => done())
   }))
 
-  return describe('ErrorRethrow', () => it('should return an error logger that rethrows errors', done => {
+  describe('ErrorRethrow', () => it('should return an error logger that rethrows errors', done => {
     Promise.reject(new Error('damned 2'))
     .catch(_.ErrorRethrow('rethrowing!'))
     .catch(() => done())

@@ -9,7 +9,7 @@ export default function () {
   return _.extend(this, specificMethods)
 };
 
-var setEbooksData = function () {
+const setEbooksData = function () {
   const hasInternetArchivePage = (this.get('claims.wdt:P724.0') != null)
   const hasGutenbergPage = (this.get('claims.wdt:P1938.0') != null)
   const hasWikisourcePage = (this.get('wikisource.url') != null)
@@ -17,7 +17,7 @@ var setEbooksData = function () {
   return this.set('gutenbergProperty', 'wdt:P1938')
 }
 
-var specificMethods = {
+const specificMethods = {
   fetchWorksData (refresh) {
     if (!refresh && (this.waitForWorksData != null)) { return this.waitForWorksData }
     const uri = this.get('uri')
@@ -49,8 +49,8 @@ var specificMethods = {
   buildTitle () { return _.i18n('books_by_author', { author: this.get('label') }) }
 }
 
-var getUri = _.property('uri')
+const getUri = _.property('uri')
 
-var getWorksUris = (works, seriesUris) => works
+const getWorksUris = (works, seriesUris) => works
 .filter(workData => !seriesUris.includes(workData.serie))
 .map(getUri)

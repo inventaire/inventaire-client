@@ -52,18 +52,18 @@ export default function () {
 
 // setTimeout check, 5000
 
-var resolve = function (name, ...args) {
+const resolve = function (name, ...args) {
   const waiter = getWaiter(name)
   waiter.resolve.apply(waiter, args)
 }
 
-var reject = function (name, err) {
+const reject = function (name, err) {
   const waiter = getWaiter(name)
   waiter.reject(err)
   _.error(err, `${name} data waiter was rejected`)
 }
 
-var getWaiter = function (name) {
+const getWaiter = function (name) {
   const waiter = pendingWaiters[name]
   if (waiter == null) { throw new Error(`unknown waiter: ${name}`) }
   return waiter

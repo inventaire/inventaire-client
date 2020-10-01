@@ -22,16 +22,16 @@ export default Marionette.Behavior.extend({
   }
 })
 
-var hide = function ($dropdown) {
+const hide = function ($dropdown) {
   $dropdown.hide()
   return $dropdown.removeClass('hover')
 }
 
-var show = function ($dropdown) {
+const show = function ($dropdown) {
   $dropdown.show()
   return $dropdown.addClass('hover')
 }
 
-var closeOnClick = function ($dropdown) {
+const closeOnClick = function ($dropdown) {
   return this.listenToOnce(app.vent, 'body:click', hide.bind(null, $dropdown))
 }

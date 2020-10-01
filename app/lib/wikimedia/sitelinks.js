@@ -32,7 +32,7 @@ export default {
   }
 }
 
-var getBestWikiProjectInfo = function (params) {
+const getBestWikiProjectInfo = function (params) {
   const { sitelinks, projectBaseName, projectRoot, lang, originalLang } = params
   if (sitelinks == null) { return }
 
@@ -59,9 +59,9 @@ var getBestWikiProjectInfo = function (params) {
   }
 }
 
-var getWikiProjectTitle = (sitelinks, projectBaseName, lang) => sitelinks[`${lang}${projectBaseName}`]
+const getWikiProjectTitle = (sitelinks, projectBaseName, lang) => sitelinks[`${lang}${projectBaseName}`]
 
-var pickOneWikiProjectTitle = function (sitelinks, projectBaseName) {
+const pickOneWikiProjectTitle = function (sitelinks, projectBaseName) {
   for (const projectName in sitelinks) {
     const value = sitelinks[projectName]
     const match = projectName.split(projectBaseName)
@@ -78,12 +78,11 @@ var pickOneWikiProjectTitle = function (sitelinks, projectBaseName) {
   return []
 }
 
-var getEpubLink = function (wikisourceData) {
+const getEpubLink = function (wikisourceData) {
   const { title, lang } = wikisourceData
   return buildPath('http://wsexport.wmflabs.org/tool/book.php', {
     lang,
     format: 'epub',
     page: title
-  }
-  )
+  })
 }

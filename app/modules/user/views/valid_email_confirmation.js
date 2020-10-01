@@ -36,4 +36,4 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var emailFail = function () { return this.$el.trigger('somethingWentWrong') }
+const emailFail = function () { return this.$el.trigger('somethingWentWrong') }

@@ -25,7 +25,7 @@ export default {
   }
 }
 
-var clickTarget = function ($target) {
+const clickTarget = function ($target) {
   if ($target.length > 0) {
     return $target.trigger('click')
     // _.log $target, 'enter click target'

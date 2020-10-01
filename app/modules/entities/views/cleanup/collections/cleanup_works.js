@@ -19,4 +19,4 @@ export default Backbone.Collection.extend({
 })
 
 const isPlaceholder = model => model.get('isPlaceholder') === true
-var isntPlaceholder = _.negate(isPlaceholder)
+const isntPlaceholder = _.negate(isPlaceholder)

@@ -50,7 +50,7 @@ export default {
   }
 }
 
-var API = {
+const API = {
   showHome () {
     if (app.user.loggedIn) {
       return app.execute('show:inventory:main:user')
@@ -72,7 +72,7 @@ var API = {
   showMainUser () { return app.execute('show:inventory:main:user') }
 }
 
-var requireLoggedIn = function (route) {
+const requireLoggedIn = function (route) {
   setPrerenderStatusCode(401)
   _.type(route, 'string')
   if (app.user.loggedIn) {
@@ -84,7 +84,7 @@ var requireLoggedIn = function (route) {
   }
 }
 
-var requireAdminAccess = function () {
+const requireAdminAccess = function () {
   setPrerenderStatusCode(401)
   if (app.user.hasAdminAccess) {
     return true
@@ -94,7 +94,7 @@ var requireAdminAccess = function () {
   }
 }
 
-var requireDataadminAccess = function () {
+const requireDataadminAccess = function () {
   setPrerenderStatusCode(401)
   if (app.user.hasDataadminAccess) {
     return true
@@ -109,26 +109,26 @@ const showAuthRedirect = function (action, route) {
   return app.execute(`show:${action}`, { redirect })
 }
 
-var getRedirectedRoute = function (route) {
+const getRedirectedRoute = function (route) {
   if (!route) { route = currentRoute() }
   if (noRedirectionRequired.includes(route)) { return }
   return route
 }
 
-var noRedirectionRequired = [
+const noRedirectionRequired = [
   'welcome'
 ]
 
-var showSignupRedirect = showAuthRedirect.bind(null, 'signup')
-var showLoginRedirect = showAuthRedirect.bind(null, 'login')
+const showSignupRedirect = showAuthRedirect.bind(null, 'signup')
+const showLoginRedirect = showAuthRedirect.bind(null, 'login')
 
-var showErrorByStatus = function (err, label) {
+const showErrorByStatus = function (err, label) {
   if (err.statusCode === 404) {
     return showErrorMissing()
   } else { return showOtherError(err, label) }
 }
 
-var showErrorMissing = () => showError({
+const showErrorMissing = () => showError({
   name: 'missing',
   icon: 'warning',
   header: _.I18n('oops'),
@@ -137,7 +137,7 @@ var showErrorMissing = () => showError({
   statusCode: 404
 })
 
-var showErrorNotAdmin = () => showError({
+const showErrorNotAdmin = () => showError({
   name: 'not_admin',
   icon: 'warning',
   header: _.I18n('oops'),
@@ -146,7 +146,7 @@ var showErrorNotAdmin = () => showError({
   statusCode: 403
 })
 
-var showOtherError = function (err, label) {
+const showOtherError = function (err, label) {
   _.type(err, 'object')
   _.error(err, label)
   return showError({
@@ -159,13 +159,13 @@ var showOtherError = function (err, label) {
   })
 }
 
-var showOfflineError = () => showError({
+const showOfflineError = () => showError({
   name: 'offline',
   icon: 'plug',
   header: _.i18n("can't reach the server")
 })
 
-var showErrorCookieRequired = command => showError({
+const showErrorCookieRequired = command => showError({
   name: 'cookie-required',
   icon: 'cog',
   header: _.I18n('cookies are disabled'),
@@ -181,7 +181,7 @@ var showErrorCookieRequired = command => showError({
   }
 })
 
-var showError = function (options) {
+const showError = function (options) {
   app.layout.main.show(new ErrorView(options))
   setPrerenderStatusCode(options.statusCode)
   // When the logic leading to the error didn't trigger a new 'navigate' action,
@@ -190,10 +190,10 @@ var showError = function (options) {
   if (options.navigate) { return app.navigate(`error/${options.name}`) }
 }
 
-var showCallToConnection = message => app.layout.modal.show(new CallToConnection({ connectionMessage: message })
+const showCallToConnection = message => app.layout.modal.show(new CallToConnection({ connectionMessage: message })
 )
 
-var showMenuStandalone = function (Menu, titleKey) {
+const showMenuStandalone = function (Menu, titleKey) {
   app.layout.main.show(new Menu({ standalone: true }))
   return app.navigate(titleKey, { metadata: { title: _.i18n(titleKey) } })
 }

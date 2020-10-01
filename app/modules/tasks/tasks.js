@@ -16,7 +16,7 @@ export default {
   }
 }
 
-var API = {
+const API = {
   showTask (task) {
     if (app.request('require:loggedIn', 'tasks')) {
       return app.layout.main.show(new TasksLayout({ task }))

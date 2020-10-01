@@ -55,7 +55,7 @@ forms_.catchAlert = function (view, err) {
   return setTimeout(removePreventRerenderFlag(view, alertId), 2000)
 }
 
-var removePreventRerenderFlag = (view, alertId) => function () {
+const removePreventRerenderFlag = (view, alertId) => function () {
   if (view._lastAlertId !== alertId) { return }
   return view._preventRerender = false
 }
@@ -104,7 +104,7 @@ forms_.throwError = function (message, selector, ...context) {
   throw err
 }
 
-var assertViewHasBehavior = function (view, name) {
+const assertViewHasBehavior = function (view, name) {
   for (const behavior of view._behaviors) {
     if (behavior.__proto__.name === name) { return }
   }

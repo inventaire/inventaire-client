@@ -43,7 +43,7 @@ const showAuth = (name, label, View) => function (options) {
 
 // beware that app.layout is undefined when User.define is fired
 // app.layout should thus appear only in callbacks
-var API = {
+const API = {
   showSignup: showAuth('signup', 'sign up', SignupClassic),
 
   showLogin: showAuth('login', 'login', Login),

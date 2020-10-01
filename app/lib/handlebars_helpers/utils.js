@@ -19,7 +19,7 @@ export default {
   default (text, def) { return text || def }
 }
 
-var linkifyAuthorString = function (text) {
+const linkifyAuthorString = function (text) {
   const str = escapeExpression(text)
   const q = _.fixedEncodeURIComponent(text)
   return `<a href='/search?q=${q}' class='link searchAuthor'>${str}</a>`

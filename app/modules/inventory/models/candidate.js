@@ -52,8 +52,7 @@ export default Backbone.Model.extend({
       transaction,
       listing,
       shelves
-    }
-    ))
+    }))
   },
 
   getEntityModel () {

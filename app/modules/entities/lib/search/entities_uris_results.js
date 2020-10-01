@@ -28,7 +28,7 @@ export default {
 // http://localhost:3006/entity/inv:1d622035ca5515d12800e23e7f00c3eb
 // match
 // 1d622035ca5515d12800e23e7f00c3eb
-var customFieldMatch = (filterRegex, rawInput) => function (field) {
+const customFieldMatch = (filterRegex, rawInput) => function (field) {
   if (field == null) { return false }
   const entityId = getEntityId(rawInput)
   const fieldContainsInput = (field.match(filterRegex) != null)

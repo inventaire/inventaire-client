@@ -36,8 +36,7 @@ export default Marionette.ItemView.extend({
       loggedIn: app.user.loggedIn,
       positionUrl: this.getPositionUrl(),
       distance: this.model.distanceFromMainUser
-    }
-    )
+    })
   },
 
   getPositionUrl () {

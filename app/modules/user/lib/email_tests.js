@@ -19,7 +19,7 @@ export default {
   }
 }
 
-var emailTests = {
+const emailTests = {
   "it doesn't look like an email" (email) {
     return !_.isEmail(email)
   }

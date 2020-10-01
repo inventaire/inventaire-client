@@ -28,7 +28,7 @@ export default function (key, value, noCompletion) {
   }
 };
 
-var updateNodeContent = function (value, el) {
+const updateNodeContent = function (value, el) {
   let { selector, attribute } = el
   if (!attribute) { attribute = 'content' }
   if (head.querySelector(selector) != null) {

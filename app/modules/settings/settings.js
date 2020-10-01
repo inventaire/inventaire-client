@@ -21,20 +21,20 @@ export default {
   initialize () { return setHandlers() }
 }
 
-var API = {
+const API = {
   showProfileSettings () { return showSettings('profile') },
   showAccountSettings () { return showSettings('account') },
   showNotificationsSettings () { return showSettings('notifications') },
   showDataSettings () { return showSettings('data') }
 }
 
-var showSettings = function (tab) {
+const showSettings = function (tab) {
   if (app.request('require:loggedIn', `settings/${tab}`)) {
     return app.layout.main.show(new SettingsLayout({ model: app.user, tab }))
   }
 }
 
-var setHandlers = () => app.commands.setHandlers({
+const setHandlers = () => app.commands.setHandlers({
   'show:settings': API.showProfileSettings,
   'show:settings:profile': API.showProfileSettings,
   'show:settings:account': API.showAccountSettings,

@@ -18,6 +18,6 @@ const convertMarkdownLinks = function (text) {
 }
 
 // used by String::replace to pass text -> $1 and url -> $2 values
-var dynamicLink = linkify('$1', '$2')
+const dynamicLink = linkify('$1', '$2')
 
 export default text => convertMarkdownLinks(convertMarkdownBold(text))

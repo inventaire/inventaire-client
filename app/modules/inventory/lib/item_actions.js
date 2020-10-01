@@ -62,9 +62,9 @@ export default {
   }
 }
 
-var getIdFromModelOrId = function (item) { if (_.isString(item)) { return item } else { return item.id } }
+const getIdFromModelOrId = function (item) { if (_.isString(item)) { return item } else { return item.id } }
 
-var propagateItemsChanges = (items, attribute) => () => items.forEach(item => {
+const propagateItemsChanges = (items, attribute) => () => items.forEach(item => {
   // TODO: update counters for non-model items too
   if (_.isString(item)) { return }
   if (attribute === 'listing') {
@@ -76,7 +76,7 @@ var propagateItemsChanges = (items, attribute) => () => items.forEach(item => {
   return delete item._backup
 })
 
-var rollbackUpdate = items => function (err) {
+const rollbackUpdate = items => function (err) {
   items.forEach(item => {
     if (_.isString(item)) { return }
     item.set(item._backup)

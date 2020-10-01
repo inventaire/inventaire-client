@@ -9,17 +9,17 @@ export default function () {
   return writeSitemap(path, generate())
 };
 
-var generate = () => wrapIndex(getList().map(buildSitemapNode))
+const generate = () => wrapIndex(getList().map(buildSitemapNode))
 
-var getList = () => fs.readdirSync(folder)
+const getList = () => fs.readdirSync(folder)
 .filter(file => !exclude.includes(file))
 
-var buildSitemapNode = function (filename) {
+const buildSitemapNode = function (filename) {
   const url = `https://inventaire.io/${publicPath}/${filename}`
   return `<sitemap><loc>${url}</loc></sitemap>`
 }
 
-var wrapIndex = function (sitemapNodes) {
+const wrapIndex = function (sitemapNodes) {
   const text = sitemapNodes.join('')
   return `\
 <?xml version="1.0" encoding="UTF-8"?>

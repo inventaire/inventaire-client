@@ -61,9 +61,9 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var addTransaction = transaction => app.request('transactions:add', transaction)
+const addTransaction = transaction => app.request('transactions:add', transaction)
 
-var showRequest = function (transaction) {
+const showRequest = function (transaction) {
   app.execute('modal:close')
   return app.execute('show:transaction', transaction.id)
 }

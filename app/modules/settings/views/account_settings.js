@@ -34,8 +34,7 @@ export default Marionette.ItemView.extend({
     return _.extend(attrs, {
       emailPicker: this.emailPickerData(),
       languages: _.log(this.languagesData(), 'languagesData')
-    }
-    )
+    })
   },
 
   emailPickerData () { return pickerData(this.model, 'email') },
@@ -182,7 +181,7 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var sendDeletionFeedback = message => _.preq.post(app.API.feedback, {
+const sendDeletionFeedback = message => _.preq.post(app.API.feedback, {
   subject: '[account deletion]',
   message
 }

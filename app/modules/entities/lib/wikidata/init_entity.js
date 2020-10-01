@@ -14,7 +14,7 @@ export default function (attrs) {
   return _.extend(this, specificMethods)
 };
 
-var setWikiLinks = function (lang) {
+const setWikiLinks = function (lang) {
   const updates = {
     wikidata: {
       url: `${wdHost}/entity/${this.wikidataId}`,
@@ -32,7 +32,7 @@ var setWikiLinks = function (lang) {
   return this.set(updates)
 }
 
-var setAttributes = function (lang) {
+const setAttributes = function (lang) {
   let label = this.get('label')
   const wikipediaTitle = this.get('wikipedia.title')
   if ((wikipediaTitle != null) && (label == null)) {
@@ -49,7 +49,7 @@ var setAttributes = function (lang) {
   if (description != null) { return this.set('description', description) }
 }
 
-var specificMethods = {
+const specificMethods = {
   getWikipediaExtract () {
     // If an extract was already fetched, we are done
     if (this.get('extract') != null) { return Promise.resolve() }
@@ -64,7 +64,7 @@ var specificMethods = {
   }
 }
 
-var _setWikipediaExtractAndDescription = function (extractData) {
+const _setWikipediaExtractAndDescription = function (extractData) {
   const { extract, lang } = extractData
   if (_.isNonEmptyString(extract)) {
     const extractDirection = rtlLang.includes(lang) ? 'rtl' : 'ltr'
@@ -73,4 +73,4 @@ var _setWikipediaExtractAndDescription = function (extractData) {
   }
 }
 
-var rtlLang = [ 'ar', 'he' ]
+const rtlLang = [ 'ar', 'he' ]

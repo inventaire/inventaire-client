@@ -24,4 +24,4 @@ const sendMissingKeys = function () {
   }
 }
 
-var lazyMissingKey = _.debounce(sendMissingKeys, 500)
+const lazyMissingKey = _.debounce(sendMissingKeys, 500)

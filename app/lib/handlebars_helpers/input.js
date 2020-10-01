@@ -86,7 +86,7 @@ export default {
   }
 }
 
-var applyOptions = function (html, options) {
+const applyOptions = function (html, options) {
   html = options === 'check' ? check(html) : html
   return new SafeString(html)
 }

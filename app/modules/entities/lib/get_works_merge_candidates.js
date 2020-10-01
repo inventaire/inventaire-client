@@ -34,9 +34,9 @@ export default function (invModels, wdModels) {
   })
 };
 
-var addLabelsParts = model => model._labelsParts || (model._labelsParts = getLabelsParts(getFormattedLabels(model)))
+const addLabelsParts = model => model._labelsParts || (model._labelsParts = getLabelsParts(getFormattedLabels(model)))
 
-var getFormattedLabels = model => _.values(model.get('labels'))
+const getFormattedLabels = model => _.values(model.get('labels'))
 .map(label => label.toLowerCase()
 // Remove anything after a '(' or a '['
 // as some titles might still have comments between parenthesis
@@ -46,7 +46,7 @@ var getFormattedLabels = model => _.values(model.get('labels'))
 .replace(/^(the|a|le|la|l'|der|die|das)\s/ig, '')
 .trim())
 
-var getLabelsParts = function (labels) {
+const getLabelsParts = function (labels) {
   const parts = labels.map(label => label
   .split(titleSeparator)
   // Filter-out parts that are just the serie name and the volume number
@@ -54,11 +54,11 @@ var getLabelsParts = function (labels) {
   return _.uniq(_.flatten(parts))
 }
 
-var titleSeparator = /\s*[-,:]\s+/
+const titleSeparator = /\s*[-,:]\s+/
 const volumePattern = /(vol|volume|t|tome)\s\d+$/
-var isntVolumeNumber = part => !volumePattern.test(part)
+const isntVolumeNumber = part => !volumePattern.test(part)
 
-var addCloseEntitiesToMergeCandidates = function (invModel, candidates, otherModel) {
+const addCloseEntitiesToMergeCandidates = function (invModel, candidates, otherModel) {
   const invUri = invModel.get('uri')
   const otherModelUri = otherModel.get('uri')
   const partsA = invModel._labelsParts
@@ -72,7 +72,7 @@ var addCloseEntitiesToMergeCandidates = function (invModel, candidates, otherMod
   }
 }
 
-var getBestMatchScore = function (aLabelsParts, bLabelsParts) {
+const getBestMatchScore = function (aLabelsParts, bLabelsParts) {
   let data = { bestMatchScore: 0 }
 
   for (const aPart of aLabelsParts) {
@@ -94,12 +94,12 @@ var getBestMatchScore = function (aLabelsParts, bLabelsParts) {
   return data
 }
 
-var getShortestAndLongest = function (a, b) { if (a > b) { return [ b, a ] } else { return [ a, b ] } }
+const getShortestAndLongest = function (a, b) { if (a > b) { return [ b, a ] } else { return [ a, b ] } }
 
-var hasPossibleDuplicates = function (candidate) {
+const hasPossibleDuplicates = function (candidate) {
   const possibleCandidatesCount = candidate.possibleDuplicateOf.length
   // Also ignore when there are too many candidates
   return (possibleCandidatesCount > 0) && (possibleCandidatesCount < 10)
 }
 
-var byMatchLength = invUri => (a, b) => b.bestMatchScore[invUri] - a.bestMatchScore[invUri]
+const byMatchLength = invUri => (a, b) => b.bestMatchScore[invUri] - a.bestMatchScore[invUri]

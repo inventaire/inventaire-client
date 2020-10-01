@@ -22,7 +22,7 @@ const initMap = function (params) {
   .then(initEventListners.bind(null, params))
 }
 
-var solvePosition = function (coords = {}) {
+const solvePosition = function (coords = {}) {
   // priority is given to passed parameters
   const { lat, lng, zoom } = coords
   if ((lat != null) && (lng != null)) { return Promise.resolve(coords) }
@@ -35,7 +35,7 @@ var solvePosition = function (coords = {}) {
   return getPositionFromNavigator(containerId)
 }
 
-var drawMap = function (params, coords) {
+const drawMap = function (params, coords) {
   const { lat, lng, zoom } = coords
   const { showObjects, path } = params
 
@@ -54,7 +54,7 @@ var drawMap = function (params, coords) {
   return map
 }
 
-var initEventListners = function (params, map) {
+const initEventListners = function (params, map) {
   _.type(map, 'object')
   const { path, onMoveend } = params
 

@@ -76,7 +76,7 @@ export default Positionable.extend({
   }
 })
 
-var aggregateScoreData = function (data, snapshotSection) {
+const aggregateScoreData = function (data, snapshotSection) {
   const { 'items:count': count, 'items:last-add': lastAdd } = snapshotSection
   data.itemsCount += count
   if (lastAdd > data.lastAdd) { data.lastAdd = lastAdd }

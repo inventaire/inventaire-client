@@ -43,8 +43,7 @@ export default Marionette.ItemView.extend({
       userCanLeave: this.model.userCanLeave(),
       userIsLastUser: this.model.userIsLastUser(),
       searchability: groupFormData.searchability(attrs.searchable)
-    }
-    )
+    })
   },
 
   editNameData (groupName) {

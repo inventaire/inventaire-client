@@ -74,7 +74,7 @@ const App = Marionette.Application.extend({
   }
 })
 
-var onceStart = function () {
+const onceStart = function () {
   const routeFound = Backbone.history.start({ pushState: true })
 
   // Backbone.history 'route' event seem to be only triggerd
@@ -83,7 +83,7 @@ var onceStart = function () {
   return Backbone.history.on('route', onPreviousRoute)
 }
 
-var onPreviousRoute = function () {
+const onPreviousRoute = function () {
   // Close the modal if it was open
   // If a modal is actually displayed in the previous route, it should
   // be reopen by the view being reshown
@@ -95,4 +95,4 @@ var onPreviousRoute = function () {
 
 export default new App()
 
-var scrollToPageTop = () => window.scrollTo(0, 0)
+const scrollToPageTop = () => window.scrollTo(0, 0)

@@ -16,7 +16,7 @@ const entityFormatter = (type, typeAlias) => function (data) {
   return data
 }
 
-var typeFormatters = {
+const typeFormatters = {
   works: entityFormatter('work', 'book'),
   humans: entityFormatter('author'),
   series: entityFormatter('serie'),

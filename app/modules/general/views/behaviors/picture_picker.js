@@ -92,8 +92,7 @@ export default Marionette.CompositeView.extend({
       // so here is a very permissive 10 minutes, for the case a user
       // uploads a big picture with a slow connexion
       timeout: 600
-    }
-    )
+    })
 
     return this.getFinalUrls()
     .catch(error_.Complete('.alertBox'))
@@ -180,15 +179,15 @@ export default Marionette.CompositeView.extend({
   }
 })
 
-var isSelectedModel = model => model.get('selected')
+const isSelectedModel = model => model.get('selected')
 
-var validateUrlInput = function (url) {
+const validateUrlInput = function (url) {
   if (!_.isUrl(url)) {
     return forms_.throwError('invalid url', '#urlField', arguments)
   }
 }
 
-var getImgData = (crop, url) => ({
+const getImgData = (crop, url) => ({
   url,
   crop
 })

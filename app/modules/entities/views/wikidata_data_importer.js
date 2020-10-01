@@ -49,9 +49,9 @@ export default Marionette.ItemView.extend({
   }
 })
 
-var isChecked = el => el.attributes.checked.value === 'true'
+const isChecked = el => el.attributes.checked.value === 'true'
 
-var formatData = function (el) {
+const formatData = function (el) {
   const { attributes: attrs } = el
   const type = attrs['data-type'].value
 
@@ -68,7 +68,7 @@ var formatData = function (el) {
   }
 }
 
-var makeImportRequest = function (wdEntity, data) {
+const makeImportRequest = function (wdEntity, data) {
   const { type, lang, label, property, value } = data
   if (type === 'label') {
     return wdEntity.setLabel(lang, label)

@@ -9,7 +9,7 @@ const readFile = function (mode, file, encoding, verifyEncoding) {
   })
 }
 
-var ParseReaderResult = function (mode, file, verifyEncoding, resolve) {
+const ParseReaderResult = function (mode, file, verifyEncoding, resolve) {
   let parser
   return parser = function (readerEvent) {
     const { result } = readerEvent.target

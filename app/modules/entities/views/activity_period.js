@@ -20,7 +20,7 @@ export default Marionette.CompositeView.extend({
   addToCollection (activityRows) { return this.collection.add(activityRows) }
 })
 
-var addUsersData = function (res) {
+const addUsersData = function (res) {
   const { activity: activityRows } = res
   if (activityRows.length === 0) { return }
 

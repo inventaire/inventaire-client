@@ -49,7 +49,7 @@ export default Marionette.ItemView.extend({
   highlight () { return this.$el.addClass('highlight') }
 })
 
-var urlifyImageHash = function (type, hash) {
+const urlifyImageHash = function (type, hash) {
   const nonEntityContainer = nonEntityContainersPerType[type]
   const container = nonEntityContainer || 'entities'
   if (_.isImageHash(hash)) {
@@ -57,7 +57,7 @@ var urlifyImageHash = function (type, hash) {
   } else { return hash }
 }
 
-var nonEntityContainersPerType = {
+const nonEntityContainersPerType = {
   users: 'users',
   groups: 'users'
 }

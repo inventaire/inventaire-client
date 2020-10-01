@@ -25,7 +25,7 @@ export default {
   }
 }
 
-var displayTipIfMatch = function (value) {
+const displayTipIfMatch = function (value) {
   if ((this._serieLabels == null) || !this.editMode) { return }
 
   const matchingSerieLabel = findMatchingSerieLabel(value, this._serieLabels)
@@ -41,7 +41,7 @@ const volumePattern = /\s*(v|vol|volume|t|tome)?\.?\s*(\d+)?$/
 
 // Display the tip if the serie label is used in addition to another title.
 // If it's just the serie label, plus possibly a volume number, the tip isn't helpful
-var findMatchingSerieLabel = function (value, serieLabels) {
+const findMatchingSerieLabel = function (value, serieLabels) {
   value = value
     .toLowerCase()
     // Ignore volume information to determine if there is a match with the serie label
@@ -56,7 +56,7 @@ var findMatchingSerieLabel = function (value, serieLabels) {
   }
 }
 
-var showSerieLabelTip = function (matchingSerieLabel) {
+const showSerieLabelTip = function (matchingSerieLabel) {
   if (!this.editMode) { return }
   let tip = _.i18n('title_matches_serie_label_tip', { pathname: this._serieEditorPathname })
   const serieHref = `href=\"${this._serieEditorPathname}\"`
@@ -65,12 +65,12 @@ var showSerieLabelTip = function (matchingSerieLabel) {
   return this.ui.tip.fadeIn()
 }
 
-var hideSerieLabelTip = function () {
+const hideSerieLabelTip = function () {
   if (!this.editMode) { return }
   return this.ui.tip.fadeOut()
 }
 
-var setWorkAndSerieData = function (work, editionLang) {
+const setWorkAndSerieData = function (work, editionLang) {
   const seriesUris = work.get('claims.wdt:P179')
   // Only support cases where there is only 1 known serie to keep things simple for now
   if (seriesUris?.length !== 1) { return }

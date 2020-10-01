@@ -15,7 +15,7 @@ export default obj => ({
   libraryThingWorkId: obj.workcode
 })
 
-var getAuthorsString = function (obj) {
+const getAuthorsString = function (obj) {
   const { authors } = obj
   if (!_.isArray(authors) || (authors.length <= 0)) { return }
 
@@ -25,7 +25,7 @@ var getAuthorsString = function (obj) {
   .map(decodeHtmlEntities)
 }
 
-var getIsbn = function (obj) {
+const getIsbn = function (obj) {
   const { isbn, ean, originalisbn } = obj
   const isbn13 = isbn?.['2']
   return isbn13 || originalisbn || ean?.[0]

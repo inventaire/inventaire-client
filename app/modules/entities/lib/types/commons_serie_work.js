@@ -27,7 +27,7 @@ export default {
   }
 }
 
-var authorProperties = [
+const authorProperties = [
   'wdt:P50',
   'wdt:P58',
   'wdt:P110',

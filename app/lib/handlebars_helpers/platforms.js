@@ -53,7 +53,7 @@ export default {
   }
 }
 
-var gutenbergBase = function () {
+const gutenbergBase = function () {
   const base = screen_.isSmall() ? 'http://m.' : 'https://www.'
   return `${base}gutenberg.org/`
 }

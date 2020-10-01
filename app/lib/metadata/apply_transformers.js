@@ -7,7 +7,7 @@ export default function (key, value, noCompletion) {
   } else { return value }
 };
 
-var transformers = {
+const transformers = {
   title (value, noCompletion) {
     if (noCompletion) { return value } else { return `${value} - Inventaire` }
   },
@@ -19,4 +19,4 @@ var transformers = {
   }
 }
 
-var withTransformers = Object.keys(transformers)
+const withTransformers = Object.keys(transformers)

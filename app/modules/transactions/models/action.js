@@ -9,8 +9,7 @@ export default Backbone.Model.extend({
       icon: this.icon(),
       context: this.context(true),
       userReady: this.userReady
-    }
-    )
+    })
   },
 
   icon () {
@@ -65,9 +64,9 @@ export default Backbone.Model.extend({
   }
 })
 
-var actorCanBeBoth = [ 'cancelled' ]
+const actorCanBeBoth = [ 'cancelled' ]
 
-var ownerActions = [
+const ownerActions = [
   'accepted',
   'declined',
   'returned'

@@ -12,7 +12,7 @@ const dispatchUnhandledRejectionEvent = function (promise, reason) {
   return window.dispatchEvent(event)
 }
 
-var patchedPromise = function (resolver) {
+const patchedPromise = function (resolver) {
   if (!(this instanceof patchedPromise)) {
     throw new TypeError('Cannot call a class as a function')
   }

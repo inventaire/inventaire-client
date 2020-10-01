@@ -18,8 +18,7 @@ export default Marionette.LayoutView.extend({
   regions: _.extend(selectorsRegions, {
     filterPreview: '#filterPreview',
     itemsView: '#itemsView'
-  }
-  ),
+  }),
 
   behaviors: {
     PreventDefault: {},
@@ -207,12 +206,12 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-var getSelectedOptionKey = function (selectedOption, selectorName) {
+const getSelectedOptionKey = function (selectedOption, selectorName) {
   if (selectedOption == null) { return null }
   return selectedOption.get('uri')
 }
 
-var addCount = (urisData, name) => function (model) {
+const addCount = (urisData, name) => function (model) {
   const uri = model.get('uri')
   const uris = urisData[uri]
   if (uris != null) {
@@ -225,6 +224,6 @@ var addCount = (urisData, name) => function (model) {
   return model
 }
 
-var getSelectorsCollection = models => // Using a filtered collection allows browser_selector to filter
+const getSelectorsCollection = models => // Using a filtered collection allows browser_selector to filter
 // options without re-rendering the whole view
   new FilteredCollection(new SelectorsCollection(models))

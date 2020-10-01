@@ -53,14 +53,14 @@ export default Filterable.extend({
   }
 })
 
-var getValues = function (obj) { if (obj != null) { return _.values(obj) } else { return [] } }
+const getValues = function (obj) { if (obj != null) { return _.values(obj) } else { return [] } }
 
 // Search results arrive as either Wikidata or inventaire documents
 // with ids unprefixed. The solutions to fix it:
 // * formatting search documents to include prefixes
 // * guessing which source the document belongs too from what we get
 // For the moment, let's keep it easy and use the 2nd solution
-var getPrefix = function (id) {
+const getPrefix = function (id) {
   if (wdk.isWikidataItemId(id)) {
     return [ 'wd', id ]
   } else if (_.isInvEntityId(id)) {

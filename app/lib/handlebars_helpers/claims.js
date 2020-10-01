@@ -128,6 +128,6 @@ export default API = {
   }
 }
 
-var dropProtocol = url => url.replace(/^(https?:)?\/\//, '')
-var removeTailingSlash = url => url.replace(/\/$/, '')
-var isntNaN = value => !_.isNaN(value)
+const dropProtocol = url => url.replace(/^(https?:)?\/\//, '')
+const removeTailingSlash = url => url.replace(/\/$/, '')
+const isntNaN = value => !_.isNaN(value)

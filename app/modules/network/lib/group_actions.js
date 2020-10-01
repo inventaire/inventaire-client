@@ -12,8 +12,7 @@ export default {
       user: user.id,
       invitor: app.user.id,
       timestamp: Date.now()
-    }
-    )
+    })
     this.triggeredListChange()
     return triggerUserChange(user)
   },
@@ -129,7 +128,7 @@ export default {
   }
 }
 
-var triggerUserChange = function (user) {
+const triggerUserChange = function (user) {
   const trigger = () => user.trigger('group:user:change')
   // delay the event to let the time to the debounced recalculateAllLists to run
   return setTimeout(trigger, 100)

@@ -31,8 +31,7 @@ export default EntityEdit.extend({
   events: _.extend({}, EntityEdit.prototype.events, {
     'click #next': 'showNextMultiEditPage',
     'click #previous': 'showPreviousMultiEditPage'
-  }
-  ),
+  }),
 
   showNextMultiEditPage () {
     const { next } = this.options
@@ -87,7 +86,7 @@ export default EntityEdit.extend({
 
 // Matching entityDraftModel.create interface to allow to re-create the draft model
 // from the URL
-var serializeDraftModel = function (model, relation) {
+const serializeDraftModel = function (model, relation) {
   let { labels, claims } = model.pick('labels', 'claims')
   const label = _.values(labels)[0]
   const { type } = model

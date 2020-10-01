@@ -15,29 +15,29 @@ describe('promises', () => {
       const value = promise[key]
       throw new Error(`undesired enumerable key: ${key}`)
     }
-    return done()
+    done()
   })
 
   describe('try', () => {
     it('should be a function', done => {
       Promise.try.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should return a resolved promise when passed a function not throwing', done => {
       Promise.try(() => 'hello')
       .then(res => {
         res.should.equal('hello')
-        return done()
+        done()
       }).catch(done)
     })
 
-    return it('should return a rejected promise when passed a function throwing', done => {
+    it('should return a rejected promise when passed a function throwing', done => {
       Promise.try(() => { throw new Error('oh no') })
       .then(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('oh no')
-        return done()
+        done()
       }).catch(done)
     })
   })
@@ -45,7 +45,7 @@ describe('promises', () => {
   describe('delay', () => {
     it('should be a function', done => {
       Promise.prototype.delay.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should return delay the promise', done => {
@@ -56,17 +56,17 @@ describe('promises', () => {
         const end = Date.now()
         should(end >= (start + 100)).be.true()
         should(end < (start + 110)).be.true()
-        return done()
+        done()
       }).catch(done)
     })
 
-    return it('should not prevent the promise from rejecting', done => {
+    it('should not prevent the promise from rejecting', done => {
       Promise.try(() => { throw new Error('oh no') })
       .delay(100)
       .then(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('oh no')
-        return done()
+        done()
       }).catch(done)
     })
   })
@@ -74,7 +74,7 @@ describe('promises', () => {
   describe('props', () => {
     it('should be a function', done => {
       Promise.props.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should return the resolved promise in an object', done => {
@@ -84,7 +84,7 @@ describe('promises', () => {
       }).then(res => {
         res.a.should.equal(123)
         res.b.should.equal(456)
-        return done()
+        done()
       }).catch(done)
     })
 
@@ -95,18 +95,18 @@ describe('promises', () => {
       }).then(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('foo')
-        return done()
+        done()
       }).catch(done)
     })
 
-    return it('should return direct values in an object', done => {
+    it('should return direct values in an object', done => {
       Promise.props({
         a: 1,
         b: 2
       }).then(res => {
         res.a.should.equal(1)
         res.b.should.equal(2)
-        return done()
+        done()
       }).catch(done)
     })
   })
@@ -114,7 +114,7 @@ describe('promises', () => {
   describe('timeout', () => {
     it('should be a function', done => {
       Promise.prototype.timeout.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should reject a promise after the timeout expired', done => {
@@ -125,17 +125,17 @@ describe('promises', () => {
       .catch(err => {
         err.name.should.equal('TimeoutError')
         err.message.should.equal('operation timed out')
-        return done()
+        done()
       })
     })
 
-    return it('should reject the original error', done => {
+    it('should reject the original error', done => {
       Promise.reject(new Error('hello'))
       .timeout(10)
       .then(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('hello')
-        return done()
+        done()
       })
     })
   })
@@ -143,7 +143,7 @@ describe('promises', () => {
   describe('spread', () => {
     it('should be a function', done => {
       Promise.prototype.spread.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should spread results', done => {
@@ -151,11 +151,11 @@ describe('promises', () => {
       .spread((a, b) => {
         a.should.equal(1)
         b.should.equal(2)
-        return done()
+        done()
       }).catch(done)
     })
 
-    return it('should pass errors', done => {
+    it('should pass errors', done => {
       Promise.all([
         Promise.resolve(123),
         Promise.reject(new Error('hello'))
@@ -163,7 +163,7 @@ describe('promises', () => {
       .spread(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('hello')
-        return done()
+        done()
       }).catch(done)
     })
   })
@@ -171,7 +171,7 @@ describe('promises', () => {
   describe('get', () => {
     it('should be a function', done => {
       Promise.prototype.get.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should get the result attribute', done => {
@@ -179,17 +179,17 @@ describe('promises', () => {
       .get('b')
       .then(res => {
         res.should.equal(2)
-        return done()
+        done()
       }).catch(done)
     })
 
-    return it('should pass errors', done => {
+    it('should pass errors', done => {
       Promise.reject(new Error('hello'))
       .get('foo')
       .then(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('hello')
-        return done()
+        done()
       }).catch(done)
     })
   })
@@ -197,7 +197,7 @@ describe('promises', () => {
   describe('tap', () => {
     it('should be a function', done => {
       Promise.prototype.tap.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should not alter the passed result', done => {
@@ -208,7 +208,7 @@ describe('promises', () => {
       }).then(res => {
         res.a.should.equal(1)
         res.b.should.equal(2)
-        return done()
+        done()
       }).catch(done)
     })
 
@@ -217,17 +217,17 @@ describe('promises', () => {
       .tap(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('hello')
-        return done()
+        done()
       }).catch(done)
     })
 
-    return it('should not fail silently', done => {
+    it('should not fail silently', done => {
       Promise.resolve({ a: 1, b: 2 })
       .tap(res => { throw new Error('oh no') })
       .then(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('oh no')
-        return done()
+        done()
       }).catch(done)
     })
   })
@@ -235,14 +235,14 @@ describe('promises', () => {
   describe('finally', () => {
     it('should be a function', done => {
       Promise.prototype.finally.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should not be provided any argument after a resolved promise', done => {
       Promise.resolve()
       .finally((...args) => {
         args.should.deepEqual([])
-        return done()
+        done()
       }).catch(done)
     })
 
@@ -255,7 +255,7 @@ describe('promises', () => {
       })
       .catch(err => {
         called.should.be.true()
-        return done()
+        done()
       }).catch(done)
     })
 
@@ -264,7 +264,7 @@ describe('promises', () => {
       .finally(() => 456)
       .then(res => {
         res.should.equal(123)
-        return done()
+        done()
       }).catch(done)
     })
 
@@ -273,11 +273,11 @@ describe('promises', () => {
       .finally(() => 456)
       .catch(err => {
         err.message.should.equal('foo')
-        return done()
+        done()
       }).catch(done)
     })
 
-    return it('should be called only once', done => {
+    it('should be called only once', done => {
       let counter = 0
       Promise.resolve()
       .finally(() => {
@@ -286,7 +286,7 @@ describe('promises', () => {
       }).catch(err => {
         err.message.should.equal('foo')
         counter.should.equal(1)
-        return done()
+        done()
       }).catch(done)
     })
   })
@@ -294,7 +294,7 @@ describe('promises', () => {
   describe('filter', () => {
     it('should be a function', done => {
       Promise.prototype.filter.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should filter results', done => {
@@ -306,7 +306,7 @@ describe('promises', () => {
       .filter(num => num > 1)
       .then(res => {
         res.should.deepEqual([ 2, 3 ])
-        return done()
+        done()
       }).catch(done)
     })
 
@@ -319,11 +319,11 @@ describe('promises', () => {
       .filter(num => num > 1)
       .then(res => {
         res.should.deepEqual([ 2, 3 ])
-        return done()
+        done()
       }).catch(done)
     })
 
-    return it('should pass errors', done => {
+    it('should pass errors', done => {
       Promise.all([
         Promise.resolve(123),
         Promise.reject(new Error('hello'))
@@ -331,7 +331,7 @@ describe('promises', () => {
       .filter(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('hello')
-        return done()
+        done()
       }).catch(done)
     })
   })
@@ -339,7 +339,7 @@ describe('promises', () => {
   describe('map', () => {
     it('should be a function', done => {
       Promise.prototype.map.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should map results', done => {
@@ -351,7 +351,7 @@ describe('promises', () => {
       .map(num => num * 2)
       .then(res => {
         res.should.deepEqual([ 2, 4, 6 ])
-        return done()
+        done()
       }).catch(done)
     })
 
@@ -364,7 +364,7 @@ describe('promises', () => {
       .map(num => num * 2)
       .then(res => {
         res.should.deepEqual([ 2, 4, 6 ])
-        return done()
+        done()
       }).catch(done)
     })
 
@@ -373,11 +373,11 @@ describe('promises', () => {
       .map(num => Promise.resolve(num * 2))
       .then(res => {
         res.should.deepEqual([ 2, 4, 6 ])
-        return done()
+        done()
       }).catch(done)
     })
 
-    return it('should pass errors', done => {
+    it('should pass errors', done => {
       Promise.resolve([
         Promise.resolve(123),
         Promise.reject(new Error('hello'))
@@ -385,15 +385,15 @@ describe('promises', () => {
       .map(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('hello')
-        return done()
+        done()
       }).catch(done)
     })
   })
 
-  return describe('reduce', () => {
+  describe('reduce', () => {
     it('should be a function', done => {
       Promise.prototype.reduce.should.be.a.Function()
-      return done()
+      done()
     })
 
     it('should reduce results', done => {
@@ -406,7 +406,7 @@ describe('promises', () => {
       .reduce(sum, 5)
       .then(res => {
         res.should.equal(11)
-        return done()
+        done()
       }).catch(done)
     })
 
@@ -420,11 +420,11 @@ describe('promises', () => {
       .reduce(sum, 5)
       .then(res => {
         res.should.equal(11)
-        return done()
+        done()
       }).catch(done)
     })
 
-    return it('should pass errors', done => {
+    it('should pass errors', done => {
       Promise.all([
         Promise.resolve(123),
         Promise.reject(new Error('hello'))
@@ -432,7 +432,7 @@ describe('promises', () => {
       .reduce(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('hello')
-        return done()
+        done()
       }).catch(done)
     })
   })

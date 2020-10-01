@@ -33,7 +33,7 @@ export default function (entities, isbnsIndex) {
   return newCandidates
 };
 
-var getEditionAuthors = function (edition, entities) {
+const getEditionAuthors = function (edition, entities) {
   const editionLang = getOriginalLang(edition.claims)
 
   const worksUris = edition.claims['wdt:P629']
@@ -46,4 +46,4 @@ var getEditionAuthors = function (edition, entities) {
   .map(author => getBestLangValue(editionLang, null, author.labels).value)
 }
 
-var getWorkAuthors = work => work.claims['wdt:P50']
+const getWorkAuthors = work => work.claims['wdt:P50']

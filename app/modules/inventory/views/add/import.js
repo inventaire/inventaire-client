@@ -102,8 +102,7 @@ export default Marionette.LayoutView.extend({
       selector,
       timeout: 'none',
       progressionEventName: name === 'ISBNs' ? 'progression:ISBNs' : undefined
-    }
-    )
+    })
 
     return Promise.all([
       files_.parseFileEventAsText(e, true, encoding),

@@ -256,7 +256,7 @@ export default Filterable.extend({
   getWikipediaExtract () { return Promise.resolve() }
 })
 
-var placeholderAttributes = {
+const placeholderAttributes = {
   labels: {},
   aliases: {},
   descriptions: {},
@@ -264,13 +264,13 @@ var placeholderAttributes = {
   sitelinks: {}
 }
 
-var defaultClaimPropertyByType = {
+const defaultClaimPropertyByType = {
   movement: 'wdt:P135',
   genre: 'wdt:P136',
   subject: 'wdt:P921'
 }
 
-var typesString = {
+const typesString = {
   'wd:Q5': 'author',
   // works
   'wd:Q571': 'book',

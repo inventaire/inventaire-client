@@ -293,7 +293,7 @@ export default Marionette.CompositeView.extend({
   }
 })
 
-var sectionToTypes = {
+const sectionToTypes = {
   all: [ 'works', 'humans', 'series', 'publishers', 'collections', 'users', 'groups' ],
   book: 'works',
   author: 'humans',
@@ -305,13 +305,13 @@ var sectionToTypes = {
   group: 'groups'
 }
 
-var sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie', 'collection', 'publisher' ]
+const sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie', 'collection', 'publisher' ]
 
-var getTypeFromId = id => id.replace('section-', '')
+const getTypeFromId = id => id.replace('section-', '')
 
 // Pre-formatting is required to set the type
 // Taking the opportunity to omit all non-required data
-var formatSubject = result => ({
+const formatSubject = result => ({
   id: result.id,
   label: result.label,
   description: result.description,
@@ -319,7 +319,7 @@ var formatSubject = result => ({
   type: 'subjects'
 })
 
-var formatEntity = function (entity) {
+const formatEntity = function (entity) {
   if (entity?.toJSON == null) {
     error_.report('cant format invalid entity', { entity })
     return
@@ -332,7 +332,7 @@ var formatEntity = function (entity) {
   return new Backbone.Model(data)
 }
 
-var sectionsData = () => ({
+const sectionsData = () => ({
   all: { label: 'all' },
   book: { label: 'book' },
   author: { label: 'author' },
