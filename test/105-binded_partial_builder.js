@@ -1,5 +1,5 @@
     camelcase,
-import should from 'should'
+import 'should'
 import __ from '../root'
 
 const BindedPartialBuilder = __.require('lib', 'binded_partial_builder')

@@ -1,4 +1,4 @@
-import should from 'should'
+import 'should'
 import _ from './utils_builder'
 
 describe('Types utils', () => {

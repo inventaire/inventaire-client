@@ -1,4 +1,4 @@
-import should from 'should'
+import 'should'
 import __ from '../root'
 import _ from './utils_builder'
 import fs from 'fs'

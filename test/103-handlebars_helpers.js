@@ -1,5 +1,5 @@
 import __ from '../root'
-import should from 'should'
+import 'should'
 
 global.location =
     { hostname: 'localhost' }
