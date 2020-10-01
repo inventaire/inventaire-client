@@ -32,7 +32,7 @@ export default Marionette.CompositeView.extend({
     cropper.prepare()
     const collectionData = pictures.map(getImgData.bind(null, this.options.crop))
     this.collection = new Imgs(collectionData)
-    return this.listenTo(this.collection, 'invalid:image', this.onInvalidImage.bind(this))
+    this.listenTo(this.collection, 'invalid:image', this.onInvalidImage.bind(this))
   },
 
   serializeData () {
@@ -59,7 +59,7 @@ export default Marionette.CompositeView.extend({
   onShow () {
     app.execute('modal:open', 'large', this.options.focus)
     this.selectFirst()
-    return this.ui.urlInput.focus()
+    this.ui.urlInput.focus()
   },
 
   ui: {
@@ -132,7 +132,8 @@ export default Marionette.CompositeView.extend({
     .then(url => {
       this.ui.urlInput.val(url)
       return this.fetchUrlPicture()
-    }).catch(error_.Complete('#urlField'))
+    })
+    .catch(error_.Complete('#urlField'))
     .catch(forms_.catchAlert.bind(null, this))
   },
 
@@ -167,7 +168,7 @@ export default Marionette.CompositeView.extend({
     return forms_.alert(this, err)
   },
 
-  close () { return app.execute('modal:close') },
+  close () { app.execute('modal:close') },
 
   preventUnwantedModalClose (e) {
     const key = getActionKey(e)

@@ -1,24 +1,41 @@
+import General from './general'
+import AlertBox from './alertbox'
+import AutoFocus from './autofocus'
+import Dropdown from './dropdown'
+import Loading from './loading'
+import SuccessCheck from './success_check'
+import TogglePassword from './toggle_password'
+import PreventDefault from './prevent_default'
+import ElasticTextarea from './elastic_textarea'
+import BackupForm from './backup_form'
+import Toggler from './toggler'
+import DeepLinks from './deep_links'
+import Tooltip from './tooltip'
+import ClampedExtract from './clamped_extract'
+import EntitiesCommons from './entities_commons'
+import ImgZoomIn from './img_zoom_in'
+
 const behaviors = {
-  General: require('./general'),
-  AlertBox: require('./alertbox'),
-  AutoFocus: require('./autofocus'),
-  Dropdown: require('./dropdown'),
-  Loading: require('./loading'),
-  SuccessCheck: require('./success_check'),
-  TogglePassword: require('./toggle_password'),
-  PreventDefault: require('./prevent_default'),
-  ElasticTextarea: require('./elastic_textarea'),
-  BackupForm: require('./backup_form'),
-  Toggler: require('./toggler'),
-  DeepLinks: require('./deep_links'),
-  Tooltip: require('./tooltip'),
-  ClampedExtract: require('./clamped_extract'),
-  EntitiesCommons: require('./entities_commons'),
-  ImgZoomIn: require('./img_zoom_in')
+  General,
+  AlertBox,
+  AutoFocus,
+  Dropdown,
+  Loading,
+  SuccessCheck,
+  TogglePassword,
+  PreventDefault,
+  ElasticTextarea,
+  BackupForm,
+  Toggler,
+  DeepLinks,
+  Tooltip,
+  ClampedExtract,
+  EntitiesCommons,
+  ImgZoomIn,
 }
 
 export default {
   initialize () {
-    return Marionette.Behaviors.behaviorsLookup = () => behaviors
+    Marionette.Behaviors.behaviorsLookup = () => behaviors
   }
 }

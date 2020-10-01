@@ -36,7 +36,7 @@ export default Marionette.ItemView.extend({
   onShow () {
     app.execute('modal:open', null, this.options.focus)
     // trigger once the modal is done sliding down
-    return this.setTimeout(this.ui.no.focus.bind(this.ui.no), 600)
+    this.setTimeout(this.ui.no.focus.bind(this.ui.no), 600)
   },
 
   yes () {
@@ -57,38 +57,38 @@ export default Marionette.ItemView.extend({
     _.error(err, 'confirmation action err')
     this.$el.trigger('fail')
     error_.complete(err, '.check', false)
-    return forms_.catchAlert(this, err)
+    forms_.catchAlert(this, err)
   },
 
   close () {
     if (this.options.back != null) {
-      return this.options.back()
-    } else { return app.execute('modal:close') }
+      this.options.back()
+    } else {
+      app.execute('modal:close')
+    }
   },
 
   stopLoading (selector) {
     if (selector != null) {
-      return $(selector).trigger('stopLoading')
-    } else { return _.warn('confirmation modal: no selector was provided') }
+      $(selector).trigger('stopLoading')
+    } else {
+      _.warn('confirmation modal: no selector was provided')
+    }
   },
 
   executeFormAction () {
     const { formAction } = this.options
     if (formAction != null) {
       const formContent = this.$el.find('#confirmationForm').val()
-      if (_.isNonEmptyString(formContent)) {
-        return formAction(formContent)
-      }
+      if (_.isNonEmptyString(formContent)) formAction(formContent)
     }
   },
 
   changeButton (e) {
     const key = getActionKey(e)
-    switch (key) {
-    case 'left': return this.ui.no.focus()
-    case 'right': return this.ui.yes.focus()
-    }
+    if (key === 'left') this.ui.no.focus()
+    else if (key === 'right') this.ui.yes.focus()
   },
 
-  back () { return this.options.back() }
+  back () { this.options.back() }
 })

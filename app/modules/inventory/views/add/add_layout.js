@@ -17,7 +17,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    return this.loggedIn = app.user.loggedIn
+    this.loggedIn = app.user.loggedIn
   },
 
   serializeData () {
@@ -37,16 +37,16 @@ export default Marionette.LayoutView.extend({
 
   onShow () {
     if (this.loggedIn) {
-      return this.showTabView(this.options.tab)
+      this.showTabView(this.options.tab)
     } else {
       const msg = 'you need to be connected to add a book to your inventory'
-      return app.execute('show:call:to:connection', msg)
+      app.execute('show:call:to:connection', msg)
     }
   },
 
   onDestroy () {
     if (!this.loggedIn) {
-      return app.execute('modal:close')
+      app.execute('modal:close')
     }
   },
 

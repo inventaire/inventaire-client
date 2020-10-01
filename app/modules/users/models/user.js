@@ -51,7 +51,7 @@ export default UserCommons.extend({
   // caching the calculated distance to avoid recalculating it
   // at every item serializeData
   calculateDistance () {
-    if (!app.user.has('position') || !this.has('position')) { return }
+    if (!app.user.has('position') || !this.has('position')) return
 
     const a = app.user.getCoords()
     const b = this.getCoords()

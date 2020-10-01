@@ -13,7 +13,8 @@ export default {
       description,
       searchable,
       position
-    }).then(groups.add.bind(groups))
+    })
+    .then(groups.add.bind(groups))
     .then(_.Log('group'))
     .catch(error_.Complete('#createGroup'))
   },

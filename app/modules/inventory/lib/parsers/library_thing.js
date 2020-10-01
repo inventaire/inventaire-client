@@ -17,7 +17,7 @@ export default obj => ({
 
 const getAuthorsString = function (obj) {
   const { authors } = obj
-  if (!_.isArray(authors) || (authors.length <= 0)) { return }
+  if (!_.isArray(authors) || (authors.length <= 0)) return
 
   return authors
   .map(_.property('fl'))

@@ -10,7 +10,7 @@ export default Marionette.LayoutView.extend({
     'click .transaction-option': 'setTransaction',
     'click .listing-option': 'setListing',
     'click .delete': 'deleteItems',
-    'click .done' () { return app.execute('modal:close') }
+    'click .done' () { app.execute('modal:close') }
   },
 
   regions: {
@@ -31,7 +31,7 @@ export default Marionette.LayoutView.extend({
 
   onShow () {
     app.execute('modal:open')
-    return this.showShelves()
+    this.showShelves()
   },
 
   setTransaction (e) { return this.updateItems(e, 'transaction') },
@@ -42,13 +42,13 @@ export default Marionette.LayoutView.extend({
     const value = e.currentTarget.id
     const { selectedModelsAndIds } = this.getSelectedModelsAndIds()
     app.request('items:update', { items: selectedModelsAndIds, attribute, value })
-    return app.execute('modal:close')
+    app.execute('modal:close')
   },
 
   deleteItems () {
-    if (this.selectedIds.length === 0) { return }
+    if (this.selectedIds.length === 0) return
 
-    const { selectedModelsAndIds, selectedModels, selectedIds } = this.getSelectedModelsAndIds()
+    const { selectedModelsAndIds } = this.getSelectedModelsAndIds()
 
     return app.request('items:delete', {
       items: selectedModelsAndIds,
@@ -71,7 +71,6 @@ export default Marionette.LayoutView.extend({
     return this.shelvesSelector.show(new ItemShelves({
       collection: shelvesCollection,
       itemsIds: this.selectedIds
-    })
-    )
+    }))
   }
 })

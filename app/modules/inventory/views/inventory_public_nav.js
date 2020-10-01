@@ -1,7 +1,6 @@
 import preq from 'lib/preq'
 import { showOnMap, showUserOnMap, getBbox } from 'modules/map/lib/map'
 import { initMap, grabMap, refreshListFilter } from 'modules/network/lib/nearby_layouts'
-import { currentRoute } from 'lib/location'
 import Users from 'modules/users/collections/users'
 import Groups from 'modules/network/collections/groups'
 import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
@@ -26,7 +25,7 @@ export default InventoryCommonNav.extend({
     // Listen for the server confirmation instead of simply the change
     // so that 'nearby' request aren't done while the server
     // is still editing the user's position and might thus return a 400
-    return this.listenTo(app.user, 'confirmed:position', this.lazyRender.bind(this))
+    this.listenTo(app.user, 'confirmed:position', this.lazyRender.bind(this))
   },
 
   behaviors: {
@@ -34,7 +33,7 @@ export default InventoryCommonNav.extend({
   },
 
   events: {
-    'click #showPositionPicker' () { return app.execute('show:position:picker:main:user') },
+    'click #showPositionPicker' () { app.execute('show:position:picker:main:user') },
     'click .userMarker a': 'showUser',
     'click .groupMarker a': 'showGroup'
   },
@@ -51,7 +50,7 @@ export default InventoryCommonNav.extend({
     if (app.user.get('position') != null) {
       this.initMap()
       if (!this.hideUsers) { this.showList(this.usersList, this.users) }
-      if (!this.hideGroups) { return this.showList(this.groupsList, this.groups) }
+      if (!this.hideGroups) { this.showList(this.groupsList, this.groups) }
     }
   },
 
@@ -63,13 +62,14 @@ export default InventoryCommonNav.extend({
       showObjects: this.fetchAndShowUsersAndGroupsOnMap.bind(this),
       onMoveend: this.onMovend.bind(this),
       updateRoute: false
-    }).then(grabMap.bind(this))
+    })
+    .then(grabMap.bind(this))
     .catch(_.Error('initMap'))
   },
 
   fetchAndShowUsersAndGroupsOnMap (map) {
     const displayedElementsCount = this.users.length + this.groups.length
-    if ((map._zoom < 10) && (displayedElementsCount > 20)) { return }
+    if ((map._zoom < 10) && (displayedElementsCount > 20)) return
     const bbox = getBbox(map)
 
     if (!this.hideUsers) {
@@ -78,7 +78,7 @@ export default InventoryCommonNav.extend({
     }
 
     if (!this.hideGroups) {
-      return this.showByPosition('groups', bbox)
+      this.showByPosition('groups', bbox)
     }
   },
 
@@ -98,14 +98,14 @@ export default InventoryCommonNav.extend({
   },
 
   showUser (e) {
-    if (_.isOpenedOutside(e)) { return }
+    if (_.isOpenedOutside(e)) return
     const userId = e.currentTarget.attributes['data-user-id'].value
     return app.request('resolve:to:userModel', userId)
     .then(user => app.vent.trigger('inventory:select', 'user', user))
   },
 
   showGroup (e) {
-    if (_.isOpenedOutside(e)) { return }
+    if (_.isOpenedOutside(e)) return
     const groupId = e.currentTarget.attributes['data-group-id'].value
     return app.request('resolve:to:groupModel', groupId)
     .then(group => app.vent.trigger('inventory:select', 'group', group))

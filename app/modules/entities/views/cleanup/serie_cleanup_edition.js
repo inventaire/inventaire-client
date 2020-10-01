@@ -31,7 +31,7 @@ export default WorkPicker.extend({
 
   onWorkSelected (newWork) {
     const uri = newWork.get('uri')
-    if (uri === this.workUri) { return }
+    if (uri === this.workUri) return
 
     const edition = this.model
     const currentWorkEditions = edition.collection
@@ -49,26 +49,27 @@ export default WorkPicker.extend({
       // with the right workLabel
       currentWorkEditions.remove(edition)
       return newWork.editions.add(edition)
-    }).catch(rollback)
+    })
+    .catch(rollback)
   },
 
   getWorksLabel () {
-    if (this.editionLang == null) { return }
+    if (this.editionLang == null) return
 
     return this.model.waitForWorks
     .then(works => {
-      if (works.length !== 1) { return }
+      if (works.length !== 1) return
       const work = works[0]
       const workLabel = work.get(`labels.${this.editionLang}`)
       if ((workLabel != null) && (workLabel !== this.model.get('label'))) {
         this.workLabel = workLabel
-        return this.lazyRender()
+        this.lazyRender()
       }
     })
   },
 
   copyWorkLabel () {
-    if (this.workLabel == null) { return }
+    if (this.workLabel == null) return
     const currentTitle = this.model.get('claims.wdt:P1476.0')
 
     this.model.setPropertyValue('wdt:P1476', currentTitle, this.workLabel)
@@ -77,6 +78,6 @@ export default WorkPicker.extend({
 
     this.model.setLabelFromTitle()
     this.workLabel = null
-    return this.lazyRender()
+    this.lazyRender()
   }
 })

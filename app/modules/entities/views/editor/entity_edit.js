@@ -59,10 +59,10 @@ export default Marionette.LayoutView.extend({
       this.waitForPropCollection = Promise.resolve()
     }
 
-    return this.navigationButtonsDisabled = false
+    this.navigationButtonsDisabled = false
   },
 
-  initPropertiesCollections () { return this.properties = propertiesCollection(this.model) },
+  initPropertiesCollections () { this.properties = propertiesCollection(this.model) },
 
   onShow () {
     if (this.requiresLabel) {
@@ -125,7 +125,7 @@ export default Marionette.LayoutView.extend({
 
   cancel () {
     const fallback = () => app.execute('show:entity:from:model', this.model)
-    return app.execute('history:back', { fallback })
+    app.execute('history:back', { fallback })
   },
 
   createAndShowEntity () {
@@ -167,7 +167,7 @@ export default Marionette.LayoutView.extend({
   signalDataError (e) {
     const uri = this.model.get('uri')
     const subject = _.I18n('data error')
-    return app.execute('show:feedback:menu', {
+    app.execute('show:feedback:menu', {
       subject: `[${uri}][${subject}] `,
       uris: [ uri ],
       event: e
@@ -183,12 +183,12 @@ export default Marionette.LayoutView.extend({
         this.ui.missingDataMessage.show()
         this.navigationButtonsDisabled = true
       }
-      return this.$el.find('span.missingProperties').text(this.missingRequiredProperties.join(', '))
+      this.$el.find('span.missingProperties').text(this.missingRequiredProperties.join(', '))
     } else {
       if (this.navigationButtonsDisabled) {
         this.ui.navigationButtons.fadeIn()
         this.ui.missingDataMessage.hide()
-        return this.navigationButtonsDisabled = false
+        this.navigationButtonsDisabled = false
       }
     }
   },
@@ -222,7 +222,7 @@ export default Marionette.LayoutView.extend({
     const uri = this.model.get('uri')
 
     // An entity being created on Inventaire won't have a URI at this point
-    if ((uri == null) || isWikidataUri(uri)) { return }
+    if ((uri == null) || isWikidataUri(uri)) return
 
     const type = this.model.get('type')
     if (type === 'edition') {
@@ -250,7 +250,7 @@ export default Marionette.LayoutView.extend({
 
   moveToWikidata () {
     if (!app.user.hasWikidataOauthTokens()) {
-      return app.execute('show:wikidata:edit:intro:modal', this.model)
+      app.execute('show:wikidata:edit:intro:modal', this.model)
     }
 
     startLoading.call(this, '#moveToWikidata')

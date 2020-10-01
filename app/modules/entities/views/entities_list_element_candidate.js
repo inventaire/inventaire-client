@@ -9,9 +9,8 @@ export default Marionette.ItemView.extend({
     let parentModel;
     ({ parentModel, listCollection: this.listCollection, childrenClaimProperty: this.childrenClaimProperty } = this.options)
     this.parentUri = parentModel.get('uri')
-    const currentPropertyClaims = this.model.get(`claims.${this.childrenClaimProperty}`)
     this.alreadyAdded = this.isAlreadyAdded()
-    return this.invClaimValueOnWdEntity = parentModel.get('isInvEntity') && this.model.get('isWikidataEntity')
+    this.invClaimValueOnWdEntity = parentModel.get('isInvEntity') && this.model.get('isWikidataEntity')
   },
 
   behaviors: {
@@ -38,19 +37,20 @@ export default Marionette.ItemView.extend({
     return this.model.setPropertyValue(this.childrenClaimProperty, null, this.parentUri)
     .then(() => {
       this.updateStatus()
-      return app.execute('invalidate:entities:graph', this.parentUri)
-    }).catch(forms_.catchAlert.bind(null, this))
+      app.execute('invalidate:entities:graph', this.parentUri)
+    })
+    .catch(forms_.catchAlert.bind(null, this))
   },
 
   updateStatus () {
     if (this.isAlreadyAdded()) {
       // Use classes instead of a re-render to prevent blinking {{claim}} labels
       this.$el.find('.add').addClass('hidden')
-      return this.$el.find('.added').removeClass('hidden')
+      this.$el.find('.added').removeClass('hidden')
     } else {
       // Use classes instead of a re-render to prevent blinking {{claim}} labels
       this.$el.find('.add').removeClass('hidden')
-      return this.$el.find('.added').addClass('hidden')
+      this.$el.find('.added').addClass('hidden')
     }
   },
 

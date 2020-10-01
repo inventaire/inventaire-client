@@ -30,7 +30,7 @@ export default Marionette.LayoutView.extend({
 
   initialize () {
     this.mergedUris = []
-    return this._lastMergeTimestamp = 0
+    this._lastMergeTimestamp = 0
   },
 
   onShow () {
@@ -44,8 +44,10 @@ export default Marionette.LayoutView.extend({
     }
 
     if (_.isNonEmptyArray(uris)) {
-      return this.loadFromUris(uris)
-    } else { return this.showDeduplicateAuthors(app.request('querystring:get', 'name')) }
+      this.loadFromUris(uris)
+    } else {
+      this.showDeduplicateAuthors(app.request('querystring:get', 'name'))
+    }
   },
 
   loadFromUris (uris) {
@@ -54,15 +56,14 @@ export default Marionette.LayoutView.extend({
     .then(entities => {
       // Guess type from first entity
       const { type } = entities[0]
-      switch (type) {
-      case 'human':
-        if (entities.length === 1) { return this.showDeduplicateAuthorWorks(entities[0]) }
-        break
-      case 'work': return this.showDeduplicateWorks(entities); break
+      if (type === 'human') {
+        if (entities.length === 1) return this.showDeduplicateAuthorWorks(entities[0])
+      } else if (type === 'work') {
+        return this.showDeduplicateWorks(entities)
       }
 
       // If we haven't returned at this point, it is a non handled case
-      return alert('case not handled yet')
+      throw new Error(`case not handled yet: ${type}`)
     })
   },
 
@@ -78,11 +79,11 @@ export default Marionette.LayoutView.extend({
 
   showDeduplicateWorks (works) {
     works = works.filter(entity => entity.type === 'work')
-    return this.content.show(new DeduplicateWorks({ works, mergedUris: this.mergedUris }))
+    this.content.show(new DeduplicateWorks({ works, mergedUris: this.mergedUris }))
   },
 
   showDeduplicateAuthors (name) {
-    return this.content.show(new DeduplicateAuthors({ name, mergedUris: this.mergedUris }))
+    this.content.show(new DeduplicateAuthors({ name, mergedUris: this.mergedUris }))
   },
 
   serializeData () { return { uris: this.uris } },
@@ -93,22 +94,21 @@ export default Marionette.LayoutView.extend({
     'click .next': 'next',
     'keydown input[name="filter"]': 'lazyFilterByText',
     keydown: 'triggerActionByKey',
-    'next:button:hide' () { return this.ui.nextButton.hide() },
-    'next:button:show' () { return this.ui.nextButton.show() },
+    'next:button:hide' () { this.ui.nextButton.hide() },
+    'next:button:show' () { this.ui.nextButton.show() },
     'entity:select': 'selectFromUri'
   },
 
   select (e) {
     // Prevent selecting when the intent was clicking on a link
-    if (e.target.tagName === 'A') { return }
+    if (e.target.tagName === 'A') return
 
     const $target = $(e.currentTarget)
-    const uri = getTargetUri(e)
     const $currentlySelected = $('.selected-from, .selected-to')
 
-    switch ($currentlySelected.length) {
-    case 0: $target.addClass('selected-from'); break
-    case 1:
+    if ($currentlySelected.length === 0) {
+      $target.addClass('selected-from')
+    } else if ($currentlySelected.length === 1) {
       if ($target[0] !== $currentlySelected[0]) {
         if (getElementType($target[0]) === getElementType($currentlySelected[0])) {
           $target.addClass('selected-to')
@@ -117,27 +117,26 @@ export default Marionette.LayoutView.extend({
           $target.addClass('selected-from')
         }
       }
-      break
-    default:
+    } else {
       $currentlySelected.removeClass('selected-from selected-to')
       $target.addClass('selected-from')
     }
 
     // Prevent a click on a work to also trigger an event on the author
-    return e.stopPropagation()
+    e.stopPropagation()
   },
 
   selectFromUri (e, data, bla) {
     const { uri, direction } = data
     const selectorClassName = `selected-${direction}`
     $(`.${selectorClassName}`).removeClass(selectorClassName)
-    return $(`[data-uri='${uri}']`).addClass(selectorClassName)
+    $(`[data-uri='${uri}']`).addClass(selectorClassName)
   },
 
   mergeSelected () {
     // Prevent merging several times within half a second: it is probably a mistake
     // like the merge key being inadvertedly pressed several times
-    if ((Date.now() - this._lastMergeTimestamp) < 500) { return }
+    if ((Date.now() - this._lastMergeTimestamp) < 500) return
     this._lastMergeTimestamp = Date.now()
 
     const fromUri = getElementUri($('.selected-from')[0])
@@ -162,19 +161,19 @@ export default Marionette.LayoutView.extend({
     this.content.currentView.onMerge?.()
     // If @_previousText was set, re-filter using it and the updated mergeUris list
     // otherwise just filter with the updated mergeUris list
-    return this.setSubviewFilter(this._previousText)
+    this.setSubviewFilter(this._previousText)
   },
 
   lazyFilterByText (e) {
     if (!this._lazyFilterByText) { this._lazyFilterByText = _.debounce(this.filterByText.bind(this), 200) }
     this._lazyFilterByText(e)
     // Prevent the event to be propagated to the general 'keydown' event
-    return e.stopPropagation()
+    e.stopPropagation()
   },
 
   filterByText (e) {
     const text = e.target.value
-    if (text === this._previousText) { return }
+    if (text === this._previousText) return
     this._previousText = text
     return this.setSubviewFilter(text)
   },
@@ -194,7 +193,6 @@ export default Marionette.LayoutView.extend({
 })
 
 const getElementUri = el => el?.attributes['data-uri'].value
-const getTargetUri = e => getElementUri(e.currentTarget)
 const getElementType = function (el) { if ($(el).hasClass('authorLayout')) { return 'author' } else { return 'work' } }
 
 const hideMergedEntities = function () {
@@ -215,13 +213,11 @@ const getFilter = function (text, mergedUris) {
   if (_.isNonEmptyString(text)) {
     const re = new RegExp(text, 'i')
     return function (model) {
-      let needle
-      return anyLabelMatch(model, re) && (needle = model.get('uri'), !mergedUris.includes(needle))
+      return anyLabelMatch(model, re) && !mergedUris.includes(model.get('uri'))
     }
   } else {
     return function (model) {
-      let needle
-      return (needle = model.get('uri'), !mergedUris.includes(needle))
+      return !mergedUris.includes(model.get('uri'))
     }
   }
 }

@@ -6,7 +6,7 @@ export default Marionette.ItemView.extend({
   },
 
   initialize () {
-    return this.uri = this.model.get('uri')
+    this.uri = this.model.get('uri')
   },
 
   serializeData () {
@@ -19,6 +19,6 @@ export default Marionette.ItemView.extend({
     'click .updateItem': 'updateItem'
   },
 
-  add () { return app.execute('show:item:creation:form', { entity: this.model }) },
+  add () { app.execute('show:item:creation:form', { entity: this.model }) },
   updateItem () { return app.request('item:update:entity', this.options.itemToUpdate, this.model) }
 })

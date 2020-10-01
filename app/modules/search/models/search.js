@@ -6,7 +6,7 @@ export default Backbone.Model.extend({
   savePictures (pictures) {
     const currentPictures = this.get('pictures') || []
     // no need to save more than what we need/can display
-    if (currentPictures > 5) { return }
+    if (currentPictures > 5) return
     pictures = _.compact(pictures)
     const updatedPictures = _.uniq(currentPictures.concat(pictures)).slice(0, 6)
     return this.set('pictures', updatedPictures)
@@ -26,7 +26,7 @@ export default Backbone.Model.extend({
   show () {
     const [ uri, query ] = Array.from(this.gets('uri', 'query'))
     if (uri != null) {
-      return app.execute('show:entity', uri)
-    } else { return app.execute('search:global', query) }
+      app.execute('show:entity', uri)
+    } else { app.execute('search:global', query) }
   }
 })

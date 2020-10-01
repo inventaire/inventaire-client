@@ -6,7 +6,7 @@ export default Marionette.ItemView.extend({
   template: require('./templates/notifications_settings'),
   className: 'notificationsSettings',
   initialize () {
-    return this.listenTo(app.user, 'rollback', this.lazyRender.bind(this))
+    this.listenTo(app.user, 'rollback', this.lazyRender.bind(this))
   },
 
   behaviors: {
@@ -70,11 +70,11 @@ export default Marionette.ItemView.extend({
 
   toggleWarning () {
     this.ui.warning.slideToggle(200)
-    return this.ui.globalFog.fadeToggle(200)
+    this.ui.globalFog.fadeToggle(200)
   },
 
   togglePeriodicity () {
-    return this.ui.periodicityFog.fadeToggle(200)
+    this.ui.periodicityFog.fadeToggle(200)
   },
 
   updatePeriodicity (e) {

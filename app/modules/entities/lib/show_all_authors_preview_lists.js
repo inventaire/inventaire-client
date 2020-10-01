@@ -1,18 +1,14 @@
 import AuthorsPreviewList from 'modules/entities/views/authors_preview_list'
 
 export default function (authorsPerProperty) {
-  return (() => {
-    const result = []
-    for (const property in authorsPerProperty) {
-      const models = authorsPerProperty[property]
-      result.push(showAuthorsPreviewList.call(this, property, models))
-    }
-    return result
-  })()
-};
+  for (const property in authorsPerProperty) {
+    const models = authorsPerProperty[property]
+    showAuthorsPreviewList.call(this, property, models)
+  }
+}
 
 const showAuthorsPreviewList = function (property, models) {
-  if (models.length === 0) { return }
+  if (models.length === 0) return
   const collection = new Backbone.Collection(models)
   const name = extendedAuthorsKeys[property]
   return this[name].show(new AuthorsPreviewList({ collection, name }))

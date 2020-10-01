@@ -5,7 +5,7 @@ import actionsData from './actions_data'
 const getNextActionsData = function (transaction) {
   const nextActions = proxyFindNextActions(transaction)
   let data = actionsData()[nextActions]
-  if (data == null) { return }
+  if (data == null) return
   data = addTransactionInfo(data, transaction)
   return grabOtherUsername(transaction, data)
 }

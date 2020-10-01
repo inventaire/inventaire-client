@@ -14,7 +14,7 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () {
@@ -37,7 +37,8 @@ export default {
       name: 'transactions',
       Collection: Transactions,
       condition: app.user.loggedIn
-    }).then(app.vent.Trigger('transactions:unread:changes'))
+    })
+    .then(app.vent.Trigger('transactions:unread:changes'))
     .catch(_.Error('transaction init err'))
 
     return initHelpers()
@@ -61,7 +62,8 @@ const API = {
         } else {
           return app.vent.trigger('transactions:welcome')
         }
-      }).catch(_.Error('showFirstTransaction'))
+      })
+      .catch(_.Error('showFirstTransaction'))
     }
   },
 
@@ -82,7 +84,7 @@ const API = {
   },
 
   updateLastTransactionId (transac) {
-    return lastTransactionId = transac.id
+    lastTransactionId = transac.id
   }
 }
 
@@ -92,7 +94,7 @@ const triggerTransactionSelect = function (id) {
   const transaction = app.request('get:transaction:byId', id)
   if (transaction != null) {
     return app.vent.trigger('transaction:select', transaction)
-  } else { return app.execute('show:error:missing') }
+  } else { app.execute('show:error:missing') }
 }
 
 const updateTransactionRoute = function (transaction) {

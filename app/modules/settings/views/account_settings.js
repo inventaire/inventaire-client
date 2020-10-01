@@ -54,7 +54,7 @@ export default Marionette.ItemView.extend({
     'click a#emailConfirmationRequest': 'emailConfirmationRequest',
     'change select#languagePicker': 'changeLanguage',
     'click a#updatePassword': 'updatePassword',
-    'click #forgotPassword' () { return app.execute('show:forgot:password') },
+    'click #forgotPassword' () { app.execute('show:forgot:password') },
     'click #deleteAccount': 'askDeleteAccountConfirmation'
   },
 
@@ -93,7 +93,7 @@ export default Marionette.ItemView.extend({
   hardStopLoading () {
     // triggering stopLoading wasnt working
     // temporary solution
-    return this.$el.find('.loading').empty()
+    this.$el.find('.loading').empty()
   },
 
   // EMAIL CONFIRMATION
@@ -146,7 +146,7 @@ export default Marionette.ItemView.extend({
 
   passwordSuccessCheck () {
     this.ui.passwords.val('')
-    return this.ui.passwordUpdater.trigger('check')
+    this.ui.passwordUpdater.trigger('check')
   },
 
   passwordFail (err) {
@@ -167,7 +167,7 @@ export default Marionette.ItemView.extend({
   // DELETE ACCOUNT
   askDeleteAccountConfirmation () {
     const args = { username: this.model.get('username') }
-    return app.execute('ask:confirmation', {
+    app.execute('ask:confirmation', {
       confirmationText: _.i18n('delete_account_confirmation', args),
       warningText: _.i18n('cant_undo_warning'),
       action: this.model.deleteAccount.bind(this.model),

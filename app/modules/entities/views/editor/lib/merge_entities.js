@@ -18,10 +18,12 @@ export default function (fromUri, toUri) {
   }
 };
 
-const merge = (fromUri, toUri) => preq.put(app.API.entities.merge, { from: fromUri, to: toUri })
-.then(() => // Get the refreshed, redirected entity
-// thus also updating entitiesModelsIndexedByUri
-  app.request('get:entity:model', fromUri, true))
+const merge = (fromUri, toUri) => {
+  preq.put(app.API.entities.merge, { from: fromUri, to: toUri })
+  // Get the refreshed, redirected entity
+  // thus also updating entitiesModelsIndexedByUri
+  .then(() => app.request('get:entity:model', fromUri, true))
+}
 
 const importEntityDataToWikidata = (fromUri, toUri) => getEntityWikidataImportData(fromUri, toUri)
 .then(_.Log('importData'))
@@ -34,4 +36,6 @@ const importEntityDataToWikidata = (fromUri, toUri) => getEntityWikidataImportDa
   }
 })
 
-const showWikidataDataImporter = (fromUri, toUri, importData) => new Promise((resolve, reject) => app.layout.modal.show(new WikidataDataImporter({ resolve, reject, importData })))
+const showWikidataDataImporter = (fromUri, toUri, importData) => new Promise((resolve, reject) => {
+  app.layout.modal.show(new WikidataDataImporter({ resolve, reject, importData }))
+})

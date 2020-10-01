@@ -6,5 +6,5 @@ export default function (app) {
     uniqueModel: app.user
   })
 
-  return app.reqres.setHandlers({ 'user:update': userUpdater })
+  app.reqres.setHandlers({ 'user:update': userUpdater })
 };

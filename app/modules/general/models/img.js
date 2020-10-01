@@ -10,21 +10,21 @@ export default Backbone.NestedModel.extend({
     const input = url || dataUrl
     if (input == null) { throw new Error('at least one input attribute is required') }
 
-    if (url != null) { this.initFromUrl(url) }
-    if (dataUrl != null) { this.initDataUrl(dataUrl) }
+    if (url != null) this.initFromUrl(url)
+    else if (dataUrl != null) this.initDataUrl(dataUrl)
 
-    return this.crop = this.get('crop')
+    this.crop = this.get('crop')
   },
 
   initFromUrl (url) {
-    return this.waitForReady = this.setDataUrlFromUrl(url)
+    this.waitForReady = this.setDataUrlFromUrl(url)
       .then(this.resize.bind(this))
       .catch(_.Error('initFromUrl err'))
   },
 
   initDataUrl (dataUrl) {
     this.set('originalDataUrl', dataUrl)
-    return this.waitForReady = this.resize()
+    this.waitForReady = this.resize()
   },
 
   setDataUrlFromUrl (url) {
@@ -39,11 +39,13 @@ export default Backbone.NestedModel.extend({
     .catch(err => {
       if (err.message === 'invalid image') {
         return this.collection.invalidImage(this, err)
-      } else { throw err }
+      } else {
+        throw err
+      }
     })
   },
 
-  select () { return this.set('selected', true) },
+  select () { this.set('selected', true) },
 
   setCroppedDataUrl () {
     if (this.view != null) {
@@ -85,7 +87,8 @@ export default Backbone.NestedModel.extend({
     return images_.upload(container, {
       blob: images_.dataUrlToBlob(this.getFinalDataUrl()),
       id: this.cid
-    }).get(this.cid)
+    })
+    .get(this.cid)
     .then(_.Log('url?'))
   }
 })

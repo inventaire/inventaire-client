@@ -18,7 +18,7 @@ export default Marionette.ItemView.extend({
 
   initialize () {
     _.extend(this, behaviorsPlugin)
-    return this.lazySendEmail = _.debounce(this.sendEmail.bind(this), 1500, true)
+    this.lazySendEmail = _.debounce(this.sendEmail.bind(this), 1500, true)
   },
 
   serializeData () {
@@ -70,20 +70,24 @@ export default Marionette.ItemView.extend({
   },
 
   showSuccessMessage () {
-    return this.ui.confirmationEmailSent.fadeIn()
+    this.ui.confirmationEmailSent.fadeIn()
   }
 })
 
-const verifyKnownEmail = email => // re-using verifyAvailability but with the opposite expectaction:
+// re-using verifyAvailability but with the opposite expectaction:
 // if it throws an error, the email is known and that's the desired result here
 // thus the error is catched
-  email_.verifyAvailability(email, '#emailField')
-.then(unknownEmail)
-.catch(err => {
-  if (err.statusCode === 400) {
-    return 'known email'
-  } else { throw err }
-})
+const verifyKnownEmail = email => {
+  return email_.verifyAvailability(email, '#emailField')
+  .then(unknownEmail)
+  .catch(err => {
+    if (err.statusCode === 400) {
+      return 'known email'
+    } else {
+      throw err
+    }
+  })
+}
 
 const unknownEmail = () => formatErr(new Error('this email is unknown'))
 

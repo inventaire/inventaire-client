@@ -113,12 +113,12 @@ export default Marionette.LayoutView.extend({
 
     this.updatePlaceholderCreationButton()
 
-    return this.showPartsSuggestions()
+    this.showPartsSuggestions()
   },
 
   showWorkList (options) {
     const { name, label, alwaysShow, showPossibleOrdinals } = options
-    if (!alwaysShow && (this[name].length === 0)) { return }
+    if (!alwaysShow && (this[name].length === 0)) return
     return this[`${name}Region`].show(new SerieCleanupWorks({
       name,
       label,
@@ -132,7 +132,7 @@ export default Marionette.LayoutView.extend({
 
   initEventListeners () {
     this.listenTo(this.worksWithoutOrdinal, 'change:claims.wdt:P1545', moveModelOnOrdinalChange.bind(this))
-    return this.listenTo(this.worksWithOrdinal, 'update', this.updatePlaceholderCreationButton.bind(this))
+    this.listenTo(this.worksWithOrdinal, 'update', this.updatePlaceholderCreationButton.bind(this))
   },
 
   events: {
@@ -148,7 +148,7 @@ export default Marionette.LayoutView.extend({
   updatePartsNumber (e) {
     const { value } = e.currentTarget
     this.partsNumber = parseInt(value)
-    if (this.partsNumber === this.maxOrdinal) { return }
+    if (this.partsNumber === this.maxOrdinal) return
     if (this.partsNumber > this.maxOrdinal) {
       fillGaps.call(this)
     } else { this.removePlaceholdersAbove(this.partsNumber) }
@@ -167,7 +167,7 @@ export default Marionette.LayoutView.extend({
 
   toggleEditions (e) {
     this.toggle('editions', e)
-    return this.ui.editionsToggler.removeClass('glowing')
+    this.ui.editionsToggler.removeClass('glowing')
   },
 
   toggleDescriptions (e) {
@@ -183,15 +183,17 @@ export default Marionette.LayoutView.extend({
     this._states[name] = checked
     this.setStateClass(name)
     app.execute('querystring:set', name, checked)
-    return this[`${name}TogglerChanged`] = true
+    this[`${name}TogglerChanged`] = true
   },
 
   setStateClass (name) {
     const checked = this._states[name]
     const className = 'show' + _.capitalise(name)
     if (checked) {
-      return this.$el.addClass(className)
-    } else { return this.$el.removeClass(className) }
+      this.$el.addClass(className)
+    } else {
+      this.$el.removeClass(className)
+    }
   },
 
   lazyUpdateTitlePattern: _.lazyMethod('updateTitlePattern', 1000),
@@ -207,9 +209,9 @@ export default Marionette.LayoutView.extend({
     this.placeholderCounter = placeholders.length
     if (this.placeholderCounter > 0) {
       this.ui.createPlaceholdersButton.find('.counter').text(`(${this.placeholderCounter})`)
-      return this.ui.createPlaceholdersButton.removeClass('hidden')
+      this.ui.createPlaceholdersButton.removeClass('hidden')
     } else {
-      return this.ui.createPlaceholdersButton.addClass('hidden')
+      this.ui.createPlaceholdersButton.addClass('hidden')
     }
   },
 
@@ -231,7 +233,7 @@ export default Marionette.LayoutView.extend({
   showIsolatedEditions () {
     return getIsolatedEditions(this.model.get('uri'))
     .then(editions => {
-      if (editions.length === 0) { return }
+      if (editions.length === 0) return
       this.ui.isolatedEditionsWrapper.removeClass('hidden')
       const collection = new Backbone.Collection(editions)
       this.isolatedEditionsRegion.show(new SerieCleanupEditions({
@@ -239,12 +241,12 @@ export default Marionette.LayoutView.extend({
         worksWithOrdinal: this.worksWithOrdinal,
         worksWithoutOrdinal: this.worksWithoutOrdinal
       }))
-      return this.listenTo(collection, 'remove', this.hideIsolatedEditionsWhenEmpty.bind(this))
+      this.listenTo(collection, 'remove', this.hideIsolatedEditionsWhenEmpty.bind(this))
     })
   },
 
   hideIsolatedEditionsWhenEmpty (removedEdition, collection) {
-    if (collection.length === 0) { return this.ui.isolatedEditionsWrapper.addClass('hidden') }
+    if (collection.length === 0) { this.ui.isolatedEditionsWrapper.addClass('hidden') }
   }
 })
 

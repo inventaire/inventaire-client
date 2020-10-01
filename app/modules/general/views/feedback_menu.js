@@ -43,7 +43,7 @@ export default Marionette.ItemView.extend({
     'click a#sendFeedback': 'sendFeedback'
   },
 
-  onShow () { if (!this.standalone) { return app.execute('modal:open') } },
+  onShow () { if (!this.standalone) { app.execute('modal:open') } },
 
   sendFeedback () {
     this.startLoading('#sendFeedback')
@@ -71,9 +71,9 @@ export default Marionette.ItemView.extend({
     if (this.standalone) {
       // simply hide the confirmation so that the user can still send a new feedback
       // and get a new confirmation for it
-      return this.setTimeout(this.hideConfirmation.bind(this), 5000)
+      this.setTimeout(this.hideConfirmation.bind(this), 5000)
     } else {
-      return this.setTimeout(app.Execute('modal:close'), 2000)
+      this.setTimeout(app.Execute('modal:close'), 2000)
     }
   },
 
@@ -82,5 +82,5 @@ export default Marionette.ItemView.extend({
     return this.fail('feedback err')
   },
 
-  hideConfirmation () { if (!this.isDestroyed) { return this.ui.confirmation.slideUp() } }
+  hideConfirmation () { if (!this.isDestroyed) { this.ui.confirmation.slideUp() } }
 })

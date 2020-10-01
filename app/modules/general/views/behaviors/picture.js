@@ -1,4 +1,3 @@
-import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import cropper from 'modules/general/lib/cropper'
 
 export default Marionette.ItemView.extend({
@@ -11,12 +10,12 @@ export default Marionette.ItemView.extend({
   initialize () {
     cropper.get()
     .then(() => this.model.waitForReady)
-    .then(() => { return this.ready = true })
+    .then(() => { this.ready = true })
     .then(this.lazyRender.bind(this))
 
     // the model depends on the view to get the croppedDataUrl
     // so it must have a reference to it
-    return this.model.view = this
+    this.model.view = this
   },
 
   serializeData () {
@@ -36,13 +35,17 @@ export default Marionette.ItemView.extend({
   },
 
   getClasses () {
-    if (this.model.get('selected')) { return 'selected' } else { return '' }
+    if (this.model.get('selected')) {
+      return 'selected'
+    } else {
+      return ''
+    }
   },
 
   onRender () {
     if (this.model.get('crop')) {
       if (this.ready && this.model.get('selected')) {
-        return this.setTimeout(this.initCropper.bind(this), 200)
+        this.setTimeout(this.initCropper.bind(this), 200)
       }
     }
   },
@@ -51,7 +54,7 @@ export default Marionette.ItemView.extend({
     // don't use a ui object to get the img
     // as the .selected class is added and removed
     // while the ui object is not being updated
-    return this.ui.img.cropper({
+    this.ui.img.cropper({
       aspectRatio: 1 / 1,
       autoCropArea: 1,
       minCropBoxWidth: 300,

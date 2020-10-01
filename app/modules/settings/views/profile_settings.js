@@ -4,6 +4,7 @@ import error_ from 'lib/error'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import { testAttribute, pickerData } from '../lib/helpers'
 import { updateLimit } from 'lib/textarea_limit'
+import { languages as activeLanguages } from 'lib/active_languages'
 
 export default Marionette.ItemView.extend({
   template: require('./templates/profile_settings'),
@@ -26,7 +27,7 @@ export default Marionette.ItemView.extend({
     _.extend(this, behaviorsPlugin)
     this.listenTo(this.model, 'change:picture', this.render)
     this.listenTo(this.model, 'change:position', this.render)
-    return this.lazyBioUpdate = _.debounce(updateLimit.bind(this, 'bioTextarea', 'bioLimit', 1000), 200)
+    this.lazyBioUpdate = _.debounce(updateLimit.bind(this, 'bioTextarea', 'bioLimit', 1000), 200)
   },
 
   serializeData () {
@@ -42,7 +43,7 @@ export default Marionette.ItemView.extend({
     })
   },
 
-  onRender () { return this.lazyBioUpdate() },
+  onRender () { this.lazyBioUpdate() },
 
   usernamePickerData () { return pickerData(this.model, 'username') },
 
@@ -59,8 +60,8 @@ export default Marionette.ItemView.extend({
     'click a#changePicture': 'changePicture',
     'click a#usernameButton': 'updateUsername',
     'click #saveBio': 'saveBio',
-    'keydown textarea#bio' () { return this.lazyBioUpdate() },
-    'click #showPositionPicker' () { return app.execute('show:position:picker:main:user') },
+    'keydown textarea#bio' () { this.lazyBioUpdate() },
+    'click #showPositionPicker' () { app.execute('show:position:picker:main:user') },
     'click .done': 'showMainUserInventory'
   },
 
@@ -74,7 +75,8 @@ export default Marionette.ItemView.extend({
       // which it will be given usernames concurrency is case insensitive
       if (this.usernameCaseChange(username)) {
       } else { return username_.verifyUsername(username, '#usernameField') }
-    }).then(() => this.confirmUsernameChange(username))
+    })
+    .then(() => this.confirmUsernameChange(username))
     .catch(forms_.catchAlert.bind(null, this))
   },
 
@@ -99,7 +101,7 @@ export default Marionette.ItemView.extend({
 
   askConfirmation (action, args) {
     const { usernameCaseChange } = args
-    return app.execute('ask:confirmation', {
+    app.execute('ask:confirmation', {
       confirmationText: _.i18n('username_change_confirmation', args),
       // no need to show the warning if it's just a case change
       warningText: !usernameCaseChange ? _.i18n('username_change_warning') : undefined,
@@ -133,7 +135,7 @@ export default Marionette.ItemView.extend({
 
   // DONE
   showMainUserInventory (e) {
-    if (!_.isOpenedOutside(e)) { return app.execute('show:inventory:main:user') }
+    if (!_.isOpenedOutside(e)) { app.execute('show:inventory:main:user') }
   }
 })
 

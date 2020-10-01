@@ -3,7 +3,7 @@ import importers from './importers'
 
 export default function (source, data) {
   const { format, label, disableValidation } = importers[source]
-  if (disableValidation) { return }
+  if (disableValidation) return
 
   if (!isValid[format](source, data)) {
     const message = _.i18n('data_mismatch', { source: label })

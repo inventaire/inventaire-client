@@ -1,5 +1,4 @@
 import drawCanvas from './draw_canvas'
-import isbn_ from 'lib/isbn'
 import screen_ from 'lib/screen'
 import onDetected from './on_detected'
 
@@ -36,7 +35,7 @@ const startScanning = function (params) {
     setStopScannerCallback(stopScanner)
 
     return Quagga.init(getOptions(constraints), err => {
-      if (cancelled) { return }
+      if (cancelled) return
       if (err) {
         err.reason = 'permission_denied'
         return reject(err)

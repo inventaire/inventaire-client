@@ -7,7 +7,7 @@ import preventFormSubmit from 'modules/general/lib/prevent_form_submit'
 import showViews from '../lib/show_views'
 
 const execute = commandName => function (e) {
-  if (_.isOpenedOutside(e)) { return }
+  if (_.isOpenedOutside(e)) return
   app.execute(commandName)
   return e.stopPropagation()
 }

@@ -8,7 +8,7 @@ export default Marionette.ItemView.extend({
 
   initialize () {
     ({ shelf: this.shelf } = this.options)
-    return this.shelfId = this.shelf.id
+    this.shelfId = this.shelf.id
   },
 
   behaviors: {
@@ -16,8 +16,9 @@ export default Marionette.ItemView.extend({
   },
 
   serializeData () {
-    return _.extend(this.model.serializeData(),
-      { alreadyAdded: this.isAlreadyAdded() })
+    return _.extend(this.model.serializeData(), {
+      alreadyAdded: this.isAlreadyAdded()
+    })
   },
 
   events: {
@@ -32,9 +33,8 @@ export default Marionette.ItemView.extend({
   },
 
   showItem (e) {
-    if (_.isOpenedOutside(e)) {
-
-    } else { return app.execute('show:item', this.model) }
+    if (_.isOpenedOutside(e)) return
+    app.execute('show:item', this.model)
   },
 
   addToShelf () {

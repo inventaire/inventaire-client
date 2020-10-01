@@ -21,7 +21,7 @@ export default function (app) {
       .then(models => {
         users[category] = new Users(models)
         if (initFilteredCollection) {
-          return users[category].filtered = new FilteredCollection(users[category])
+          users[category].filtered = new FilteredCollection(users[category])
         }
       })
 

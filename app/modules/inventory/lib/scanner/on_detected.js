@@ -5,7 +5,6 @@ export default function (onDetectedActions) {
   let lastIsbnAdded = null
 
   let lastInvalidIsbn = null
-  const identicalValidIsbnCount = 0
   let identicalInvalidIsbnCount = 0
 
   return function (result) {
@@ -38,7 +37,7 @@ export default function (onDetectedActions) {
     const timeSinceLastIsbnScan = now - lastIsbnScanTime
     lastIsbnScanTime = now
 
-    if (candidate === lastIsbnAdded) { return }
+    if (candidate === lastIsbnAdded) return
 
     // Too close in time since last valid result to be true:
     // (scanning 2 different barcodes in less than 2 seconds is a performance)
@@ -52,9 +51,9 @@ export default function (onDetectedActions) {
     // Addressing https://github.com/inventaire/inventaire-client/issues/183#issuecomment-536176154
     if (candidate === lastIsbnScanned) {
       lastIsbnAdded = candidate
-      return addIsbn(candidate)
+      addIsbn(candidate)
     } else {
-      return lastIsbnScanned = candidate
+      lastIsbnScanned = candidate
     }
   }
-};
+}

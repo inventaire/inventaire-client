@@ -5,7 +5,6 @@ import initQuerystringActions from 'modules/general/lib/querystring_actions'
 import DonateMenu from 'modules/general/views/donate_menu'
 import FeedbackMenu from 'modules/general/views/feedback_menu'
 import { currentRoute } from 'lib/location'
-import updateMetadataNodeType from 'lib/metadata/update_node_type'
 import { setPrerenderStatusCode } from 'lib/metadata/update'
 
 export default {
@@ -22,7 +21,7 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () {
@@ -53,13 +52,13 @@ export default {
 const API = {
   showHome () {
     if (app.user.loggedIn) {
-      return app.execute('show:inventory:main:user')
-    } else { return app.execute('show:welcome') }
+      app.execute('show:inventory:main:user')
+    } else { app.execute('show:welcome') }
   },
 
   notFound (route) {
     _.log(route, 'route:notFound')
-    return app.execute('show:error:missing')
+    app.execute('show:error:missing')
   },
 
   showWelcome () {
@@ -69,7 +68,7 @@ const API = {
 
   showDonate () { return showMenuStandalone(DonateMenu, 'donate') },
   showFeedback () { return showMenuStandalone(FeedbackMenu, 'feedback') },
-  showMainUser () { return app.execute('show:inventory:main:user') }
+  showMainUser () { app.execute('show:inventory:main:user') }
 }
 
 const requireLoggedIn = function (route) {
@@ -106,12 +105,12 @@ const requireDataadminAccess = function () {
 
 const showAuthRedirect = function (action, route) {
   const redirect = getRedirectedRoute(route)
-  return app.execute(`show:${action}`, { redirect })
+  app.execute(`show:${action}`, { redirect })
 }
 
 const getRedirectedRoute = function (route) {
   if (!route) { route = currentRoute() }
-  if (noRedirectionRequired.includes(route)) { return }
+  if (noRedirectionRequired.includes(route)) return
   return route
 }
 
@@ -174,9 +173,7 @@ const showErrorCookieRequired = command => showError({
     text: _.I18n('retry'),
     classes: 'dark-grey',
     buttonAction () {
-      if (command != null) {
-        return app.execute(command)
-      } else { return location.href = location.href }
+      if (command != null) app.execute(command)
     }
   }
 })

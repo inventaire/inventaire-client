@@ -10,7 +10,7 @@ const langProperties = [
 
 export default function (claims) {
   const langClaims = _.pick(claims, langProperties)
-  if (_.objLength(langClaims) === 0) { return }
+  if (_.objLength(langClaims) === 0) return
 
   const originalLangUri = _.pickOne(langClaims)?.[0]
   if (originalLangUri != null) {

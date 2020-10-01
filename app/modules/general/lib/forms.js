@@ -5,18 +5,10 @@ export default forms_ = {}
 forms_.pass = function (options) {
   const { value, tests, selector } = options
   _.types([ value, tests, selector ], [ 'string', 'object', 'string' ])
-  return (() => {
-    const result = []
-    for (const err in tests) {
-      const test = tests[err]
-      if (test(value)) {
-        result.push(forms_.throwError(err, selector, value))
-      } else {
-        result.push(undefined)
-      }
-    }
-    return result
-  })()
+  for (const err in tests) {
+    const test = tests[err]
+    if (test(value)) forms_.throwError(err, selector, value)
+  }
 }
 
 // verifies field value before the form is submitted
@@ -56,8 +48,8 @@ forms_.catchAlert = function (view, err) {
 }
 
 const removePreventRerenderFlag = (view, alertId) => function () {
-  if (view._lastAlertId !== alertId) { return }
-  return view._preventRerender = false
+  if (view._lastAlertId !== alertId) return
+  view._preventRerender = false
 }
 
 forms_.alert = function (view, err) {
@@ -106,7 +98,7 @@ forms_.throwError = function (message, selector, ...context) {
 
 const assertViewHasBehavior = function (view, name) {
   for (const behavior of view._behaviors) {
-    if (behavior.__proto__.name === name) { return }
+    if (Object.getPrototypeOf(behavior).name === name) return
   }
   throw error_.new(`view misses behavior: ${name}`, 500)
 }

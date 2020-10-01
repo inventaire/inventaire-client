@@ -6,7 +6,7 @@ const suggestionsPerProperties = {
 
 export default (property, model) => Promise.try(() => {
   const getSuggestions = suggestionsPerProperties[property]
-  if (getSuggestions == null) { return }
+  if (getSuggestions == null) return
 
   const { entity } = model.collection
   const index = model.collection.indexOf(model)

@@ -15,7 +15,7 @@ export default ItemItemView.extend({
   },
 
   initialize () {
-    return this.alertBoxTarget = '.details'
+    this.alertBoxTarget = '.details'
   },
 
   modelEvents: {
@@ -24,7 +24,7 @@ export default ItemItemView.extend({
   },
 
   onRender () {
-    return app.execute('uriLabel:update')
+    app.execute('uriLabel:update')
   },
 
   events: {
@@ -34,7 +34,7 @@ export default ItemItemView.extend({
     'click a.itemShow': 'itemShow',
     'click a.user': 'showUser',
     'click a.showUser': 'showUser',
-    'click a.requestItem' () { return app.execute('show:item:request', this.model) }
+    'click a.requestItem' () { app.execute('show:item:request', this.model) }
   },
 
   serializeData () {
@@ -46,7 +46,7 @@ export default ItemItemView.extend({
     return attrs
   },
 
-  itemEdit () { return app.execute('show:item:form:edition', this.model) },
+  itemEdit () { app.execute('show:item:form:edition', this.model) },
 
   detailsMoreData (details) {
     if (details?.length > detailsLimit) {

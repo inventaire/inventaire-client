@@ -4,7 +4,7 @@ import ItemsPreviewLists from '../views/items_preview_lists'
 export default {
   initialize () {
     this.waitForItems = this.model.getItemsByCategories()
-    return this.lazyShowItems = _.debounce(showItemsPreviewLists.bind(this), 100)
+    this.lazyShowItems = _.debounce(showItemsPreviewLists.bind(this), 100)
   }
 }
 
@@ -13,7 +13,7 @@ const showItemsPreviewLists = function () {
   .then(itemsByCategory => {
     // Happens when app/modules/entities/views/editions_list.coffee
     // are displayed within work_layout and thus re-redered on filter
-    if (this.isDestroyed) { return }
+    if (this.isDestroyed) return
     if (app.user.loggedIn) {
       showItemsPreviews.call(this, itemsByCategory, 'personal')
       // TODO: replace network by only friends and groups,
@@ -27,7 +27,7 @@ const showItemsPreviewLists = function () {
       showItemsPreviews.call(this, itemsByCategory, 'public')
     }
 
-    return this.$el.find('.items-lists-loader').hide()
+    this.$el.find('.items-lists-loader').hide()
   })
 }
 

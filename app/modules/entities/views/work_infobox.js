@@ -46,7 +46,7 @@ export default Marionette.LayoutView.extend({
 
 const setImagesSubGroups = function (attrs) {
   const { images } = attrs
-  if (images == null) { return }
+  if (images == null) return
   attrs.mainImage = images[0]
-  return attrs.secondaryImages = images.slice(1)
+  attrs.secondaryImages = images.slice(1)
 }

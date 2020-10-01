@@ -24,5 +24,5 @@ export default function (app) {
   })
 
   // keep a frozen version of the object at hand for read only
-  return app.user.listings.data = Object.freeze(app.user.listings())
-};
+  app.user.listings.data = Object.freeze(app.user.listings())
+}

@@ -7,7 +7,6 @@ export default function (entities, isbnsIndex) {
   for (const uri in entities) {
     const entity = entities[uri]
     if (entity.type === 'edition') {
-      var isbnData
       const { claims } = entity
       // Match the attributes expected by
       // modules/inventory/views/add/templates/candidate_row.hbs
@@ -17,11 +16,14 @@ export default function (entities, isbnsIndex) {
       const rawIsbn10 = claims['wdt:P957']?.[0]
       const normalizedIsbn13 = (rawIsbn13 != null) ? isbn_.normalizeIsbn(rawIsbn13) : undefined
       const normalizedIsbn10 = (rawIsbn10 != null) ? isbn_.normalizeIsbn(rawIsbn10) : undefined
+      let isbnData
       if (normalizedIsbn13 != null) {
         isbnData = isbnsIndex[normalizedIsbn13]
       } else if (normalizedIsbn10 != null) {
         isbnData = isbnsIndex[normalizedIsbn10]
-      } else { isbnData = {} }
+      } else {
+        isbnData = {}
+      }
       // Use the input ISBN to allow the user to find it back in their list
       entity.rawIsbn = isbnData.rawIsbn
       // 'isbn' will be needed by the existsOrCreateFromSeed endpoint

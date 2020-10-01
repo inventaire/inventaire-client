@@ -1,7 +1,6 @@
 import { countShelves } from 'modules/shelves/lib/shelves'
 import Positionable from 'modules/general/models/positionable'
 import error_ from 'lib/error'
-import { getColorSquareDataUriFromModelId } from 'lib/images'
 const { defaultAvatar } = require('lib/urls').images
 
 export default Positionable.extend({

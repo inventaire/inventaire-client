@@ -15,22 +15,23 @@ const setEbooksData = function () {
   const hasGutenbergPage = (this.get('claims.wdt:P1938.0') != null)
   const hasWikisourcePage = (this.get('wikisource.url') != null)
   this.set('hasEbooks', (hasInternetArchivePage || hasGutenbergPage || hasWikisourcePage))
-  return this.set('gutenbergProperty', 'wdt:P1938')
+  this.set('gutenbergProperty', 'wdt:P1938')
 }
 
 const specificMethods = {
   fetchWorksData (refresh) {
     if (!refresh && (this.waitForWorksData != null)) { return this.waitForWorksData }
     const uri = this.get('uri')
-    return this.waitForWorksData = preq.get(app.API.entities.authorWorks(uri, refresh))
+    this.waitForWorksData = preq.get(app.API.entities.authorWorks(uri, refresh))
+    return this.waitForWorksData
   },
 
   initAuthorWorks (refresh) {
     refresh = this.getRefresh(refresh)
     if (!refresh && (this.waitForWorks != null)) { return this.waitForWorks }
 
-    return this.waitForWorks = this.fetchWorksData(refresh)
-      .then(this.initWorksCollections.bind(this))
+    this.waitForWorks = this.fetchWorksData(refresh).then(this.initWorksCollections.bind(this))
+    return this.waitForWorks
   },
 
   initWorksCollections (worksData) {
@@ -40,11 +41,13 @@ const specificMethods = {
     const worksUris = getWorksUris(worksData.works, seriesUris)
     const articlesUris = getWorksUris(worksData.articles, seriesUris)
 
-    return this.works = {
+    this.works = {
       series: new PaginatedWorks(null, { uris: seriesUris, defaultType: 'serie' }),
       works: new PaginatedWorks(null, { uris: worksUris, defaultType: 'work' }),
       articles: new PaginatedWorks(null, { uris: articlesUris, defaultType: 'article' })
     }
+
+    return this.works
   },
 
   buildTitle () { return _.i18n('books_by_author', { author: this.get('label') }) }
@@ -52,6 +55,8 @@ const specificMethods = {
 
 const getUri = _.property('uri')
 
-const getWorksUris = (works, seriesUris) => works
-.filter(workData => !seriesUris.includes(workData.serie))
-.map(getUri)
+const getWorksUris = (works, seriesUris) => {
+  return works
+  .filter(workData => !seriesUris.includes(workData.serie))
+  .map(getUri)
+}

@@ -4,7 +4,6 @@ export default Marionette.ItemView.extend({
   tagName: 'li',
   template: require('./templates/user_li'),
   className () {
-    const classes = 'userLi'
     const status = this.model.get('status') || 'noStatus'
     const stretch = this.options.stretch ? 'stretch' : ''
     const groupContext = this.options.groupContext ? 'group-context' : ''
@@ -27,7 +26,7 @@ export default Marionette.ItemView.extend({
     this.groupContext = this.options.groupContext
 
     this.initPlugins()
-    return this.listenTo(app.vent, `inventory:${this.model.id}:change`, this.lazyRender.bind(this))
+    this.listenTo(app.vent, `inventory:${this.model.id}:change`, this.lazyRender.bind(this))
   },
 
   modelEvents: {
@@ -65,12 +64,11 @@ export default Marionette.ItemView.extend({
     // only for group admins
     attrs.admin = this.group.userIsAdmin(userId)
 
-    return attrs.mainUserIsAdmin = this.group.mainUserIsAdmin()
+    attrs.mainUserIsAdmin = this.group.mainUserIsAdmin()
   },
 
   selectUser (e) {
-    if (!_.isOpenedOutside(e)) {
-      return app.execute('show:inventory:user', this.model)
-    }
+    if (_.isOpenedOutside(e)) return
+    app.execute('show:inventory:user', this.model)
   }
 })

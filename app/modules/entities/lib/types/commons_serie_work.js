@@ -1,5 +1,3 @@
-import wd_ from 'lib/wikimedia/wikidata'
-
 export default {
   getExtendedAuthorsModels () {
     return Promise.props({

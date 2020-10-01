@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
     this._lastValue = ''
 
     this.listenTo(app.vent, 'body:click', this.hideOptions.bind(this))
-    return this.listenTo(app.vent, 'browser:selector:click', this.hideOptions.bind(this))
+    this.listenTo(app.vent, 'browser:selector:click', this.hideOptions.bind(this))
   },
 
   ui: {
@@ -63,7 +63,7 @@ export default Marionette.LayoutView.extend({
   lazyUpdateFilter: _.lazyMethod('updateFilter', 150),
   updateFilter (e) {
     const { value } = e.target
-    if (value === this._lastValue) { return }
+    if (value === this._lastValue) return
     this._lastValue = value
     return this.collectionsAction('filterByText', value)
   },
@@ -77,7 +77,7 @@ export default Marionette.LayoutView.extend({
   // Pass a view cid if that specific view shouldn't hide its options
   // Used to close all selectors but one
   hideOptions (cid) {
-    if (cid !== this.cid) { return this.$el.removeClass('showOptions') }
+    if (cid !== this.cid) { this.$el.removeClass('showOptions') }
   },
 
   toggleOptions (e) {
@@ -87,7 +87,7 @@ export default Marionette.LayoutView.extend({
     if ((classList != null) && classList.includes('fa-times')) { return this.resetOptions() }
 
     // When an option is already selected, the only option is to unselect it
-    if (this._selectedOption != null) { return }
+    if (this._selectedOption != null) return
 
     if (this.$el.hasClass('showOptions')) {
       this.hideOptions()
@@ -141,7 +141,7 @@ export default Marionette.LayoutView.extend({
     return e.preventDefault()
   },
 
-  clickCurrentlySelected () { return this.$el.find('.selected').trigger('click') },
+  clickCurrentlySelected () { this.$el.find('.selected').trigger('click') },
 
   selectOption (view, model) {
     this._selectedOption = model
@@ -149,7 +149,7 @@ export default Marionette.LayoutView.extend({
     const labelSpan = `<span class='label'>${model.get('label')}</span>`
     this.ui.selectedMode.html(labelSpan + _.icon('times'))
     this.hideOptions()
-    return this.ui.selectorButton.addClass('active')
+    this.ui.selectorButton.addClass('active')
   },
 
   resetOptions () {
@@ -207,6 +207,6 @@ export default Marionette.LayoutView.extend({
   updateCounter () {
     const remainingCount = this.count()
     this.ui.count.text(`(${remainingCount})`)
-    return this.$el.attr('data-options', remainingCount)
+    this.$el.attr('data-options', remainingCount)
   }
 })

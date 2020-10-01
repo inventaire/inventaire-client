@@ -3,7 +3,7 @@ let missingKeys = []
 let disabled = false
 
 export default function (key) {
-  if (disabled) { return }
+  if (disabled) return
   if ((key != null) && !missingKeys.includes(key)) {
     missingKeys.push(key)
     return lazyMissingKey()
@@ -20,8 +20,9 @@ const sendMissingKeys = function () {
     .catch(err => {
       if (err.statusCode !== 404) { throw err }
       _.warn('i18n missing key service is disabled')
-      return disabled = true
-    }).catch(_.Error('i18n:missing keys failed to be added'))
+      disabled = true
+    })
+    .catch(_.Error('i18n:missing keys failed to be added'))
   }
 }
 

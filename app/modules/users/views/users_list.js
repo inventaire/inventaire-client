@@ -24,12 +24,12 @@ export default Marionette.CollectionView.extend({
     if (filter != null) { this.filter = filter }
 
     if (textFilter) {
-      return this.on('filter:text', this.setTextFilter.bind(this))
+      this.on('filter:text', this.setTextFilter.bind(this))
     }
   },
 
   setTextFilter (text) {
     this.filter = model => model.matches(text)
-    return this.render()
+    this.render()
   }
 })

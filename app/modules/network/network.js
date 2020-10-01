@@ -28,7 +28,7 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () {
@@ -61,8 +61,8 @@ const initRequestsCollectionsEvent = function () {
 }
 
 const API = {
-  redirectToInventoryNetwork () { return app.execute('show:inventory:network') },
-  redirectToInventoryPublic () { return app.execute('show:inventory:public') },
+  redirectToInventoryNetwork () { app.execute('show:inventory:network') },
+  redirectToInventoryPublic () { app.execute('show:inventory:public') },
 
   // Named showGroupBoard and not showGroupSettings
   // as GroupSettings are a child view of GroupBoard
@@ -72,7 +72,7 @@ const API = {
       .then(showGroupBoardFromModel)
       .catch(err => {
         _.error(err, 'get:group:model err')
-        return app.execute('show:error:missing')
+        app.execute('show:error:missing')
       })
     }
   },
@@ -87,11 +87,11 @@ const showGroupBoardFromModel = function (model, options = {}) {
     .then(() => {
       const { openedSection } = options
       app.layout.main.show(new GroupBoard({ model, standalone: true, openedSection }))
-      return app.navigateFromModel(model, 'boardPathname')
+      app.navigateFromModel(model, 'boardPathname')
     })
   } else {
     // If the user isnt a member, redirect to the standalone group inventory
-    return app.execute('show:inventory:group', model, true)
+    app.execute('show:inventory:group', model, true)
   }
 }
 

@@ -56,19 +56,19 @@ const specificMethods = {
       if (this.creating) {
         this.works = []
         startListeningForClaimsChanges.call(this)
-        return this.waitForWorks = Promise.resolve()
+        this.waitForWorks = Promise.resolve()
       } else {
         const uri = this.get('uri')
         throw error_.new('edition entity misses associated works (wdt:P629)', { uri })
       }
     }
 
-    return this.waitForWorks = this.reqGrab('get:entities:models', { uris: worksUris }, 'works')
-    // Use tap to ignore the return values
-    .tap(inheritData.bind(this))
-    // Got to be initialized after inheritData is run to avoid running
-    // several times at initialization
-    .tap(startListeningForClaimsChanges.bind(this))
+    this.waitForWorks = this.reqGrab('get:entities:models', { uris: worksUris }, 'works')
+      // Use tap to ignore the return values
+      .tap(inheritData.bind(this))
+      // Got to be initialized after inheritData is run to avoid running
+      // several times at initialization
+      .tap(startListeningForClaimsChanges.bind(this))
   },
 
   // Editions don't have subentities
@@ -80,7 +80,7 @@ const specificMethods = {
 const inheritData = function (works) {
   // Do not set inherited claims when creating, as they would be sent as part of the claims
   // of the new entity, and rejected
-  if (this.creating) { return }
+  if (this.creating) return
   // Use cases: used on the edition layout to display authors and series
   setWorksClaims.call(this, works, 'wdt:P50')
   setWorksClaims.call(this, works, 'wdt:P58')

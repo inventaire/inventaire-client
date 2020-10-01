@@ -1,6 +1,6 @@
 export default Backbone.Collection.extend({
   comparator: 'ordinal',
-  initialize () { return this.triggerUpdateEvents() },
+  initialize () { this.triggerUpdateEvents() },
 
   serializeNonPlaceholderWorks () {
     return this.filter(isntPlaceholder)

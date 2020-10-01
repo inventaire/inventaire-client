@@ -40,18 +40,18 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    if (this.model.get('type') !== 'human') { return }
+    if (this.model.get('type') !== 'human') return
     return this.model.initAuthorWorks()
     .then(this.ifViewIsIntact('showWorks'))
   },
 
   showWorks () {
     this.showSubentities('series', this.model.works.series)
-    return this.showSubentities('works', this.model.works.works)
+    this.showSubentities('works', this.model.works.works)
   },
 
   showSubentities (name, collection) {
-    if (collection.totalLength === 0) { return }
+    if (collection.totalLength === 0) return
     return collection.fetchAll()
     .then(this.ifViewIsIntact('_showSubentities', name, collection))
   },
@@ -63,7 +63,7 @@ export default Marionette.LayoutView.extend({
 
   showTask (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:task', this.taskModel.id)
+      app.execute('show:task', this.taskModel.id)
     }
   },
 
@@ -85,7 +85,7 @@ export default Marionette.LayoutView.extend({
     .catch(forms_.catchAlert.bind(null, this))
   },
 
-  isSelected () { return this.$el.find('input[type="checkbox"]').prop('checked') }
+  isSelected () { this.$el.find('input[type="checkbox"]').prop('checked') }
 })
 
 const haveLabelMatch = (suggestion, toEntity) => _.haveAMatch(getNormalizedLabels(suggestion), getNormalizedLabels(toEntity))

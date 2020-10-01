@@ -10,27 +10,28 @@ export default function (app, _) {
     .catch(rewind(user, currentStatus, 'action err'))
   }
 
-  var rewind = (user, currentStatus, label) => function (err) {
+  const rewind = (user, currentStatus, label) => err => {
     user.set('status', currentStatus)
     _.error(err, 'action')
     throw err
   }
 
-  const refreshNotificationsCounter = () => app.request('refresh:relations')
-  .then(() => app.vent.trigger('network:requests:update'))
+  const refreshNotificationsCounter = () => {
+    return app.request('refresh:relations')
+    .then(() => app.vent.trigger('network:requests:update'))
+  }
 
   const API = {
     sendRequest (user) { return action(user, 'request', 'userRequested') },
     cancelRequest (user) { return action(user, 'cancel', 'public') },
     acceptRequest (user, showUserInventory = true) {
-      let userId
       action(user, 'accept', 'friends')
-      .then(refreshNotificationsCounter);
+      .then(refreshNotificationsCounter)
 
-      [ user, userId ] = Array.from(normalizeUser(user))
+      const [ , userId ] = normalizeUser(user)
       // Refresh to get the updated data
       return app.request('get:user:model', userId, true)
-      .then(() => { if (showUserInventory) { return app.execute('show:inventory:user', user) } })
+      .then(() => { if (showUserInventory) { app.execute('show:inventory:user', user) } })
     },
     discardRequest (user) {
       return action(user, 'discard', 'public')
@@ -38,20 +39,21 @@ export default function (app, _) {
     },
 
     unfriend (user) {
-      let userId;
-      [ user, userId ] = Array.from(normalizeUser(user))
+      [ user ] = normalizeUser(user)
       return action(user, 'unfriend', 'public')
     }
   }
 
-  var normalizeUser = function (user) {
+  const normalizeUser = user => {
     if (!_.isModel(user)) {
       throw new Error('exepected a user Model, got', user)
     }
 
     if (user.id != null) {
       return [ user, user.id ]
-    } else { throw new Error('user missing id', user) }
+    } else {
+      throw new Error('user missing id', user)
+    }
   }
 
   app.reqres.setHandlers({

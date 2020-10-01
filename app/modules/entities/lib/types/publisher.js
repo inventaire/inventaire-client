@@ -14,21 +14,24 @@ const specificMethods = {
     refresh = this.getRefresh(refresh)
     if (!refresh && (this.waitForPublications != null)) { return this.waitForPublications }
 
-    return this.waitForPublications = this.fetchPublisherPublications(refresh)
+    this.waitForPublications = this.fetchPublisherPublications(refresh)
       .then(this.initPublicationsCollections.bind(this))
+
+    return this.waitForPublications
   },
 
   fetchPublisherPublications (refresh) {
     if (!refresh && (this.waitForPublicationsData != null)) { return this.waitForPublicationsData }
     const uri = this.get('uri')
-    return this.waitForPublicationsData = preq.get(app.API.entities.publisherPublications(uri, refresh))
+    this.waitForPublicationsData = preq.get(app.API.entities.publisherPublications(uri, refresh))
+    return this.waitForPublicationsData
   },
 
   initPublicationsCollections (publicationsData) {
     const { collections, editions } = publicationsData
     this.publisherCollectionsUris = _.pluck(collections, 'uri')
     const isolatedEditions = editions.filter(isntInAKnownCollection(this.publisherCollectionsUris))
-    return this.isolatedEditionsUris = _.pluck(isolatedEditions, 'uri')
+    this.isolatedEditionsUris = _.pluck(isolatedEditions, 'uri')
   }
 }
 

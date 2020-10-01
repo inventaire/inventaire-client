@@ -20,9 +20,9 @@ export default Marionette.ItemView.extend({
 
   toggleOperations (e) {
     // Prevent toggling when the intent was clicking on a link
-    if (e.target.tagName === 'A') { return }
+    if (e.target.tagName === 'A') return
 
     this.ui.operations.toggleClass('hidden')
-    return this.ui.togglers.toggleClass('hidden')
+    this.ui.togglers.toggleClass('hidden')
   }
 })

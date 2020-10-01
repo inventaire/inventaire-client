@@ -27,7 +27,7 @@ export default Marionette.CompositeView.extend({
   onShow () {
     app.execute('modal:open')
     // Doesn't work if set in events for some reason
-    return this.ui.candidates.on('scroll', this.onScroll.bind(this))
+    this.ui.candidates.on('scroll', this.onScroll.bind(this))
   },
 
   events: {
@@ -103,9 +103,9 @@ export default Marionette.CompositeView.extend({
   addNewItems (e) {
     const shelfId = this.model.id
     app.execute('last:shelves:set', [ shelfId ])
-    if (_.isOpenedOutside(e)) { return }
+    if (_.isOpenedOutside(e)) return
     app.execute('modal:close')
-    return app.execute('show:add:layout')
+    app.execute('show:add:layout')
   },
 
   // Known limitation: this function will only be called when the user clicks
@@ -115,6 +115,6 @@ export default Marionette.CompositeView.extend({
   onDone () {
     // Refresh the shelf data
     app.vent.trigger('inventory:select', 'shelf', this.model)
-    return app.execute('modal:close')
+    app.execute('modal:close')
   }
 })

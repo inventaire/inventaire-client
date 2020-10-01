@@ -20,7 +20,7 @@ const confirmAction = function (actionLabel, action, warningText) {
   const confirmationText = _.I18n(`${actionLabel}_confirmation`,
     { username: this.model.get('username') })
 
-  return app.execute('ask:confirmation', { confirmationText, warningText, action })
+  app.execute('ask:confirmation', { confirmationText, warningText, action })
 }
 
 const confirmUnfriend = function () {

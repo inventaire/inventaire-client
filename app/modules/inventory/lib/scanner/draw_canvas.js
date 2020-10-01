@@ -4,7 +4,7 @@ const style = { color: 'green', lineWidth: 2 }
 export default function () {
   let alreadyDrawn = false
   return function (result) {
-    if (alreadyDrawn) { return }
+    if (alreadyDrawn) return
 
     if (result?.boxes != null) {
       const drawingCtx = Quagga.canvas.ctx.overlay
@@ -13,7 +13,7 @@ export default function () {
       const box = result.boxes[0]
       Quagga.ImageDebug.drawPath(box, def, drawingCtx, style)
 
-      return alreadyDrawn = true
+      alreadyDrawn = true
     }
   }
-};
+}

@@ -36,13 +36,13 @@ export default Marionette.ItemView.extend({
 
   showUserProfile (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:user', this.model.user)
+      app.execute('show:user', this.model.user)
     }
   },
 
   showGroupSettings (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:group:board', this.model.group)
+      app.execute('show:group:board', this.model.group)
     }
   }
 })

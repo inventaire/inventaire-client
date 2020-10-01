@@ -17,12 +17,12 @@ export default Marionette.ItemView.extend({
   },
 
   onShow () {
-    return this.listenTo(this.model, 'change', this.lazyRender)
+    this.listenTo(this.model, 'change', this.lazyRender)
   },
 
   onRender () {
     this.updateClassName()
-    return this.trigger('selection:changed')
+    this.trigger('selection:changed')
   },
 
   ui: {
@@ -48,7 +48,7 @@ export default Marionette.ItemView.extend({
     const { tagName } = e.target
     // Do not interpret click on anchors such as .existing-entity-items links as a select
     // Do not interpret click on spans as a select as that prevents selecting text
-    if ((tagName === 'A') || (tagName === 'SPAN')) { return }
+    if ((tagName === 'A') || (tagName === 'SPAN')) return
 
     if (this.model.canBeSelected()) {
       const currentSelectedMode = this.model.get('selected')

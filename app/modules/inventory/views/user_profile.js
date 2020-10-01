@@ -1,4 +1,3 @@
-import forms_ from 'modules/general/lib/forms'
 import relationsActions from 'modules/users/plugins/relations_actions'
 import { buildPath } from 'lib/location'
 import NewShelfEditor from 'modules/shelves/views/new_shelf_editor'
@@ -40,15 +39,15 @@ export default Marionette.ItemView.extend({
   },
 
   getPositionUrl () {
-    if (this.model.distanceFromMainUser == null) { return }
+    if (this.model.distanceFromMainUser == null) return
     const [ lat, lng ] = Array.from(this.model.get('position'))
     return buildPath('/network/users/nearby', { lat, lng })
   },
 
   showUserOnMap (e) {
-    if (_.isOpenedOutside(e)) { return }
-    if (this.model.distanceFromMainUser == null) { return }
-    return app.execute('show:models:on:map', [ this.model, app.user ])
+    if (_.isOpenedOutside(e)) return
+    if (this.model.distanceFromMainUser == null) return
+    app.execute('show:models:on:map', [ this.model, app.user ])
   },
 
   showNewShelfEditor (e) {

@@ -3,7 +3,7 @@ export default function () {
   this.childrenClaimProperty = 'wdt:P195'
   this.subentitiesName = 'editions'
   this.setClaimsBasedAttributes()
-  return this.on('change:claims', this.onClaimsChange.bind(this))
+  this.on('change:claims', this.onClaimsChange.bind(this))
 };
 
 const specificMethods = {

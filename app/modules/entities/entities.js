@@ -1,8 +1,6 @@
 import preq from 'lib/preq'
 import error_ from 'lib/error'
-import Entity from './models/entity'
 import SerieCleanup from './views/cleanup/serie_cleanup'
-import WorkLayout from './views/work_layout'
 import EntityEdit from './views/editor/entity_edit'
 import EntityCreate from './views/editor/entity_create'
 import MultiEntityEdit from './views/editor/multi_entity_edit'
@@ -38,7 +36,7 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () {
@@ -52,7 +50,7 @@ const API = {
     if (isClaim(uri)) { return showClaimEntities(uri, refresh) }
 
     uri = normalizeUri(uri)
-    if (!_.isExtendedEntityUri(uri)) { return app.execute('show:error:missing') }
+    if (!_.isExtendedEntityUri(uri)) { app.execute('show:error:missing') }
 
     app.execute('show:loader')
 
@@ -67,7 +65,8 @@ const API = {
         app.layout.main.show(view)
         return app.navigateFromModel(entity)
       })
-    }).catch(handleMissingEntity(uri))
+    })
+    .catch(handleMissingEntity(uri))
   },
 
   showAddEntity (uri) {
@@ -137,16 +136,16 @@ const API = {
   },
 
   showEntityDeduplicate (uri) {
-    if (!app.request('require:loggedIn', `entity/${uri}/deduplicate`)) { return }
-    if (!app.request('require:admin:access')) { return }
+    if (!app.request('require:loggedIn', `entity/${uri}/deduplicate`)) return
+    if (!app.request('require:admin:access')) return
 
     return getEntityModel(uri, true)
     .then(model => app.execute('show:merge:suggestions', { model, region: app.layout.main, standalone: true }))
   },
 
   showEntityHistory (uri) {
-    if (!app.request('require:loggedIn', `entity/${uri}/history`)) { return }
-    if (!app.request('require:admin:access')) { return }
+    if (!app.request('require:loggedIn', `entity/${uri}/history`)) return
+    if (!app.request('require:admin:access')) return
 
     uri = normalizeUri(uri)
 
@@ -191,12 +190,12 @@ const setHandlers = function () {
     'show:entity:from:model' (model, params) {
       const uri = model.get('uri')
       if (uri != null) {
-        return app.execute('show:entity', uri, params)
+        app.execute('show:entity', uri, params)
       } else { throw new Error("couldn't show:entity:from:model") }
     },
 
     'show:entity:refresh' (model) {
-      return app.execute('show:entity:from:model', model, { refresh: true })
+      app.execute('show:entity:from:model', model, { refresh: true })
     },
 
     'show:deduplicate:sub:entities' (model, options = {}) {
@@ -226,7 +225,7 @@ const setHandlers = function () {
     'show:wikidata:edit:intro:modal': showWikidataEditIntroModal
   })
 
-  return app.reqres.setHandlers({
+  app.reqres.setHandlers({
     'get:entity:model': getEntityModel,
     'get:entities:models': getEntitiesModels,
     'get:entity:local:href': getEntityLocalHref,
@@ -281,7 +280,7 @@ const showEntityEdit = function (params) {
 }
 
 const showEntityEditFromModel = function (model) {
-  if (!app.request('require:loggedIn', model.get('edit'))) { return }
+  if (!app.request('require:loggedIn', model.get('edit'))) return
 
   rejectRemovedPlaceholder(model)
 
@@ -302,51 +301,54 @@ const rejectRemovedPlaceholder = function (entity) {
 }
 
 const handleMissingEntity = uri => function (err) {
-  switch (err.message) {
-  case 'invalid entity type':
-    return app.execute('show:error:other', err)
-  case 'entity_not_found':
-    var [ prefix, id ] = Array.from(uri.split(':'))
-    if (prefix === 'isbn') {
-      return showEntityCreateFromIsbn(id)
-    } else { return app.execute('show:error:missing') }
-  default:
-    return app.execute('show:error:other', err, 'handleMissingEntity')
+  if (err.message === 'invalid entity type') {
+    app.execute('show:error:other', err)
+  } else if (err.message === 'entity_not_found') {
+    const [ prefix, id ] = uri.split(':')
+    if (prefix === 'isbn') showEntityCreateFromIsbn(id)
+    else app.execute('show:error:missing')
+  } else {
+    app.execute('show:error:other', err, 'handleMissingEntity')
   }
 }
 
-const showEntityCreateFromIsbn = isbn => preq.get(app.API.data.isbn(isbn))
-.then(isbnData => {
-  const { isbn13h, groupLangUri } = isbnData
-  const claims = { 'wdt:P212': [ isbn13h ] }
-  // TODO: try to deduce publisher from ISBN publisher section
-  if (_.isEntityUri(groupLangUri)) { claims['wdt:P407'] = [ groupLangUri ] }
+const showEntityCreateFromIsbn = isbn => {
+  return preq.get(app.API.data.isbn(isbn))
+  .then(isbnData => {
+    const { isbn13h, groupLangUri } = isbnData
+    const claims = { 'wdt:P212': [ isbn13h ] }
+    // TODO: try to deduce publisher from ISBN publisher section
+    if (_.isEntityUri(groupLangUri)) { claims['wdt:P407'] = [ groupLangUri ] }
 
-  // Start by requesting the creation of a work entity
-  return showEntityCreate({
-    fromIsbn: isbn,
-    type: 'work',
-    // on which will be based an edition entity
-    next: {
-      // The work entity should be used as 'edition of' value
-      relation: 'wdt:P629',
-      // The work label should be used as edition title suggestion
-      labelTransfer: 'wdt:P1476',
-      type: 'edition',
-      claims
-    }
+    // Start by requesting the creation of a work entity
+    return showEntityCreate({
+      fromIsbn: isbn,
+      type: 'work',
+      // on which will be based an edition entity
+      next: {
+        // The work entity should be used as 'edition of' value
+        relation: 'wdt:P629',
+        // The work label should be used as edition title suggestion
+        labelTransfer: 'wdt:P1476',
+        type: 'edition',
+        claims
+      }
+    })
   })
-}).catch(err => app.execute('show:error:other', err, 'showEntityCreateFromIsbn'))
+  .catch(err => app.execute('show:error:other', err, 'showEntityCreateFromIsbn'))
+}
 
 // Create from the seed data we have, if the entity isn't known yet
-const existsOrCreateFromSeed = entry => preq.post(app.API.entities.resolve, { entries: [ entry ], update: true, create: true, enrich: true })
-// Add the possibly newly created edition entity to the local index
-// and get it's model
-.get('entries')
-.then(entries => {
-  const { uri } = entries[0].edition
-  return getEntityModel(uri, true)
-})
+const existsOrCreateFromSeed = entry => {
+  return preq.post(app.API.entities.resolve, { entries: [ entry ], update: true, create: true, enrich: true })
+  // Add the possibly newly created edition entity to the local index
+  // and get it's model
+  .get('entries')
+  .then(entries => {
+    const { uri } = entries[0].edition
+    return getEntityModel(uri, true)
+  })
+}
 
 const showViewByAccessLevel = function (params) {
   let { path, title, View, viewOptions, navigate, accessLevel } = params
@@ -359,50 +361,38 @@ const showViewByAccessLevel = function (params) {
   }
 }
 
-const parseSearchResults = uri => function (searchResults) {
-  let uris = _.pluck(searchResults, 'uri')
-  const prefix = uri.split(':')[0]
-  if (prefix === 'wd') { uris = uris.filter(isntWdUri) }
-  // Omit the current entity URI
-  uris = _.without(uris, uri)
-  // Search results entities miss their claims, so we need to fetch the full entities
-  return app.request('get:entities:models', { uris })
-}
-
-const isntWdUri = uri => uri.split(':')[0] !== 'wd'
-
 const isClaim = claim => /^(wdt:|invp:)/.test(claim)
 const showClaimEntities = function (claim, refresh) {
   const [ property, value ] = Array.from(claim.split('-'))
 
   if (!_.isPropertyUri(property)) {
     error_.report('invalid property')
-    return app.execute('show:error:missing')
+    app.execute('show:error:missing')
   }
 
   if (!_.isExtendedEntityUri(value)) {
     error_.report('invalid value')
-    return app.execute('show:error:missing')
+    app.execute('show:error:missing')
   }
 
-  return app.layout.main.show(new ClaimLayout({ property, value, refresh }))
+  app.layout.main.show(new ClaimLayout({ property, value, refresh }))
 }
 
 const reportTypeIssue = function (params) {
   const { expectedType, model, context } = params
   const [ uri, realType ] = Array.from(model.gets('uri', 'type'))
-  if (reportedTypeIssueUris.includes(uri)) { return }
+  if (reportedTypeIssueUris.includes(uri)) return
   reportedTypeIssueUris.push(uri)
 
   const subject = `[Entity type] ${uri}: expected ${expectedType}, got ${realType}`
-  return app.request('post:feedback', { subject, uris: [ uri ], context })
+  app.request('post:feedback', { subject, uris: [ uri ], context })
 }
 
 const reportedTypeIssueUris = []
 
 const showEntityCleanupFromModel = function (entity) {
   if (entity.type !== 'serie') {
-    const err = error_.new(`cleanup isn't available for entity type ${type}`, 400)
+    const err = error_.new(`cleanup isn't available for entity type ${entity.type}`, 400)
     app.execute('show:error', err)
     return
   }

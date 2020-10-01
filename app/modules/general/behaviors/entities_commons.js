@@ -4,6 +4,6 @@ export default Marionette.Behavior.extend({
     'click .deduplicateSubEntities': 'deduplicateSubEntities'
   },
 
-  refreshEntityData () { return app.execute('show:entity:refresh', this.view.model) },
-  deduplicateSubEntities () { return app.execute('show:deduplicate:sub:entities', this.view.model) }
+  refreshEntityData () { app.execute('show:entity:refresh', this.view.model) },
+  deduplicateSubEntities () { app.execute('show:deduplicate:sub:entities', this.view.model) }
 })

@@ -10,8 +10,8 @@ export default Marionette.ItemView.extend({
   events: {
     'blur #username': 'earlyVerifyUsername',
     'click #classicLogin': 'classicLoginAttempt',
-    'click #createAccount' () { return app.execute('show:signup') },
-    'click #forgotPassword' () { return app.execute('show:forgot:password') }
+    'click #createAccount' () { app.execute('show:signup') },
+    'click #forgotPassword' () { app.execute('show:forgot:password') }
   },
 
   behaviors: {
@@ -28,11 +28,11 @@ export default Marionette.ItemView.extend({
 
   initialize () {
     _.extend(this, behaviorsPlugin)
-    return this.formAction = prepareRedirect.call(this)
+    this.formAction = prepareRedirect.call(this)
   },
 
   onShow () {
-    return this.ui.username.focus()
+    this.ui.username.focus()
   },
 
   serializeData () {

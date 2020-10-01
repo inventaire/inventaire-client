@@ -9,7 +9,7 @@ export default Backbone.Model.extend({
   initialize (attr) {
     this.updateValueEntity()
     // keep the grabbed entity up-to-date
-    return this.on('change:value', this.updateValueEntity.bind(this))
+    this.on('change:value', this.updateValueEntity.bind(this))
   },
 
   updateValueEntity () {
@@ -23,7 +23,8 @@ export default Backbone.Model.extend({
         // Allow to pass an entity draft as an object of the form:
         // { labels: {}, claims: {} }
         // so that its creation is still pending, waiting for confirmation
-        return this.valueEntity = entityDraftModel.create(value)
+        this.valueEntity = entityDraftModel.create(value)
+        return this.valueEntity
       } else {
         throw error_.new('invalid entity uri', this.toJSON())
       }
@@ -47,7 +48,7 @@ export default Backbone.Model.extend({
 
     const reverseAction = () => {
       this.set('value', oldValue)
-      return this.valueEntity = oldValueEntity
+      this.valueEntity = oldValueEntity
     }
 
     const rollback = _.Rollback(reverseAction, 'value_editor save')

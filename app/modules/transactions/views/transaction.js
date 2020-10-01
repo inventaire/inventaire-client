@@ -78,24 +78,24 @@ export default Marionette.CompositeView.extend({
   },
 
   showItem (e) {
-    if (_.isOpenedOutside(e)) { return }
+    if (_.isOpenedOutside(e)) return
 
     // Case when the item was successfully grabbed by the transaction model
     if (this.model.item != null) {
-      return app.execute('show:item', this.model.item)
+      app.execute('show:item', this.model.item)
     } else {
-      return app.execute('show:item:byId', this.model.get('item'))
+      app.execute('show:item:byId', this.model.get('item'))
     }
   },
 
   showOwner (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:inventory:user', this.model.owner)
+      app.execute('show:inventory:user', this.model.owner)
     }
   },
 
   cancel () {
-    return app.execute('ask:confirmation', {
+    app.execute('ask:confirmation', {
       confirmationText: _.i18n('transaction_cancel_confirmation'),
       action: this.model.cancelled.bind(this),
       selector: '.cancel'

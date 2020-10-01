@@ -5,12 +5,12 @@
 const loading_ = {
   startLoading (params) {
     if (_.isString(params)) { params = { selector: params } }
-    return this.$el.trigger('loading', params)
+    this.$el.trigger('loading', params)
   },
 
   stopLoading (params) {
     if (_.isString(params)) { params = { selector: params } }
-    return this.$el.trigger('stopLoading', params)
+    this.$el.trigger('stopLoading', params)
   }
 }
 

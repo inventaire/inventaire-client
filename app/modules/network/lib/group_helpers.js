@@ -1,4 +1,5 @@
 import preq from 'lib/preq'
+import error_ from 'lib/error'
 import { Updater } from 'lib/model_update'
 
 export default function () {
@@ -15,20 +16,18 @@ export default function () {
     } else { return getGroupPublicData(null, group) }
   }
 
-  var getGroupPublicData = function (id, groupModel) {
-    if (groupModel != null) {
-      ({
-        id
-      } = groupModel)
-    }
+  const getGroupPublicData = function (id, groupModel) {
+    if (groupModel != null) ({ id } = groupModel)
     return preq.get(app.API.groups.byId(id))
     .then(res => addGroupData(res, groupModel))
   }
 
-  const getGroupModelFromSlug = slug => preq.get(app.API.groups.bySlug(slug))
-  .then(addGroupData)
+  const getGroupModelFromSlug = slug => {
+    return preq.get(app.API.groups.bySlug(slug))
+    .then(addGroupData)
+  }
 
-  var addGroupData = function (res, groupModel) {
+  const addGroupData = function (res, groupModel) {
     const { group, users } = res
     app.execute('users:add', users)
     if (groupModel == null) { groupModel = groups.add(group) }
@@ -56,7 +55,9 @@ export default function () {
     .then(groupModel => {
       if (groupModel != null) {
         return groupModel
-      } else { throw error_.new('group model not found', 404, { group }) }
+      } else {
+        throw error_.new('group model not found', 404, { group })
+      }
     })
   }
 

@@ -1,6 +1,5 @@
 import preq from 'lib/preq'
 import requestLogout from './request_logout'
-import { parseQuery, buildPath } from 'lib/location'
 
 export default function () {
   app.reqres.setHandlers({
@@ -12,7 +11,7 @@ export default function () {
     'email:confirmation:request': emailConfirmationRequest
   })
 
-  return app.commands.setHandlers({ logout: requestLogout })
+  app.commands.setHandlers({ logout: requestLogout })
 };
 
 const requestClassicSignup = function (options) {
@@ -39,7 +38,8 @@ const passwordUpdate = function (currentPassword, newPassword, selector) {
   return preq.post(app.API.auth.updatePassword, {
     'current-password': currentPassword,
     'new-password': newPassword
-  }).then(() => { if (selector != null) { return $(selector).trigger('check') } })
+  })
+  .then(() => { if (selector != null) { return $(selector).trigger('check') } })
   .then(formSubmit.bind(null, username, newPassword))
 }
 

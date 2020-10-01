@@ -12,7 +12,7 @@ export default EditorCommons.extend({
 
   initEditModeState () {
     // If the value is null, start in edit mode
-    return this.editMode = (this.model.get('value') == null)
+    this.editMode = (this.model.get('value') == null)
   },
 
   serializeData () {
@@ -36,7 +36,7 @@ export default EditorCommons.extend({
     // Do not ask for confirmation when there was no previously existing statement
     if (this.model.get('value') === null) { return this._save(null) }
 
-    return app.execute('ask:confirmation', {
+    app.execute('ask:confirmation', {
       confirmationText: _.i18n('Are you sure you want to delete this statement?'),
       action: () => this._save(null)
     })
@@ -79,7 +79,7 @@ export default EditorCommons.extend({
     const alert = () => forms_.catchAlert(this, err)
     // Let the time to the changes and rollbacks to trigger lazy re-render
     // before trying to show the alert message
-    return this.setTimeout(alert, 500)
+    this.setTimeout(alert, 500)
   }
 })
 
@@ -103,5 +103,5 @@ const formatDuplicateErr = function (err, uri, duplicateUri) {
   const link = `<a href='/entity/${duplicateUri}' class='showEntity'>${duplicateUri}</a>`
   const reported = _.i18n('the issue was reported')
   err.responseJSON.status_verbose = `${alreadyExist}: ${link} (${reported})`
-  return err.i18n = false
+  err.i18n = false
 }

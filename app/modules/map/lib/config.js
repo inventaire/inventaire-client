@@ -1,12 +1,11 @@
 export default {
   // Init once Leaflet was fetched
   init () {
-    return L.Icon.Default.imagePath = '/public/images/map'
+    L.Icon.Default.imagePath = '/public/images/map'
   },
   tileUrl: 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
   settings: {
-    attribution: `\
-Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors,
+    attribution: `Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors,
 <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,
 Imagery © <a href="http://mapbox.com">Mapbox</a>`,
     minZoom: 2,

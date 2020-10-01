@@ -31,7 +31,7 @@ export default ItemLayout.extend({
   initialize () {
     // The alertbox is appended to the target's parent, which might have
     // historical reasons but seems a bit dumb now
-    return this.alertBoxTarget = '.leftBox .panel'
+    this.alertBoxTarget = '.leftBox .panel'
   },
 
   modelEvents: {
@@ -42,7 +42,7 @@ export default ItemLayout.extend({
   },
 
   onRender () {
-    if (app.user.loggedIn) { return this.showTransactions() }
+    if (app.user.loggedIn) { this.showTransactions() }
   },
 
   events: {
@@ -69,7 +69,7 @@ export default ItemLayout.extend({
     'click a#cancelNotesEdition': 'hideNotesEditor',
     'keydown #notesEditor': 'notesEditorKeyAction',
     'click a#validateNotes': 'validateNotes',
-    'click a.requestItem' () { return app.execute('show:item:request', this.model) },
+    'click a.requestItem' () { app.execute('show:item:request', this.model) },
     'click .selectShelf': 'selectShelf',
     'click .toggleShelvesExpand': 'toggleShelvesExpand'
   },
@@ -77,28 +77,28 @@ export default ItemLayout.extend({
   serializeData () { return this.model.serializeData() },
 
   onShow () {
-    return this.showShelves()
+    this.showShelves()
   },
 
   itemDestroyBack () {
     if (this.model.isDestroyed) {
-      return app.execute('modal:close')
-    } else { return app.execute('show:item', this.model) }
+      app.execute('modal:close')
+    } else { app.execute('show:item', this.model) }
   },
 
-  showNotesEditorFromKey (e) { return this.showEditorFromKey('notes', e) },
-  showDetailsEditorFromKey (e) { return this.showEditorFromKey('details', e) },
+  showNotesEditorFromKey (e) { this.showEditorFromKey('notes', e) },
+  showDetailsEditorFromKey (e) { this.showEditorFromKey('details', e) },
   showEditorFromKey (editor, e) {
     const key = getActionKey(e)
     const capitalizedEditor = _.capitalise(editor)
     if (key === 'enter') { return this[`show${capitalizedEditor}Editor`]() }
   },
 
-  showDetailsEditor (e) { return this.showEditor('details', e) },
+  showDetailsEditor (e) { this.showEditor('details', e) },
   hideDetailsEditor (e) { return this.hideEditor('details', e) },
   detailsEditorKeyAction (e) { return this.editorKeyAction('details', e) },
 
-  showNotesEditor (e) { return this.showEditor('notes', e) },
+  showNotesEditor (e) { this.showEditor('notes', e) },
   hideNotesEditor (e) { return this.hideEditor('notes', e) },
   notesEditorKeyAction (e) { return this.editorKeyAction('notes', e) },
 
@@ -106,7 +106,7 @@ export default ItemLayout.extend({
   validateNotes () { return this.validateEdit('notes') },
 
   showEditor (nameBase, e) {
-    if (!this.model.mainUserIsOwner) { return }
+    if (!this.model.mainUserIsOwner) return
     $(`#${nameBase}`).hide()
     $(`#${nameBase}Editor`).show().find('textarea').focus()
     return e?.stopPropagation()
@@ -157,7 +157,7 @@ export default ItemLayout.extend({
   showShelves () {
     return this.getShelves()
     .then(shelves => {
-      return this.shelves = new Shelves(shelves, { selected: this.model.get('shelves') })
+      this.shelves = new Shelves(shelves, { selected: this.model.get('shelves') })
     })
     .then(this.ifViewIsIntact('_showShelves'))
     .catch(_.Error('showShelves err'))
@@ -190,22 +190,22 @@ export default ItemLayout.extend({
 
   selectShelf (e) {
     const shelfId = e.currentTarget.href.split('/').slice(-1)[0]
-    return app.execute('show:shelf', shelfId)
+    app.execute('show:shelf', shelfId)
   },
 
   updateShelves () {
     if (this.model.mainUserIsOwner) {
       if (this.shelves.length > this.model.get('shelves').length) {
-        return this.ui.toggleShelvesExpand.show()
+        this.ui.toggleShelvesExpand.show()
       } else {
-        return this.ui.toggleShelvesExpand.hide()
+        this.ui.toggleShelvesExpand.hide()
       }
     }
   },
 
   afterDestroy () {
-    return app.execute('show:inventory:main:user')
+    app.execute('show:inventory:main:user')
   },
 
-  toggleShelvesExpand () { return this.$el.find('.shelvesPanel').toggleClass('expanded') }
+  toggleShelvesExpand () { this.$el.find('.shelvesPanel').toggleClass('expanded') }
 })

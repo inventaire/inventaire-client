@@ -39,7 +39,7 @@ export default Marionette.ItemView.extend({
     'click .showSettings': _.clickCommand('show:settings'),
     'click .showInfo': _.clickCommand('show:welcome'),
     'click .showFeedbackMenu': _.clickCommand('show:feedback:menu'),
-    'click .logout' () { return app.execute('logout') }
+    'click .logout' () { app.execute('logout') }
   },
 
   getNotificationsCount () {

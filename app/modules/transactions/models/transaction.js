@@ -37,7 +37,7 @@ export default Backbone.NestedModel.extend({
   beforeShow () {
     // All the actions to run once before showing any view displaying
     // deep transactions data, but that can be spared otherwise
-    if (this._beforeShowCalledOnce) { return }
+    if (this._beforeShowCalledOnce) return
     this._beforeShowCalledOnce = true
 
     this.waitForData = this.grabLinkedModels()
@@ -89,12 +89,13 @@ export default Backbone.NestedModel.extend({
       return preq.put(app.API.transactions, {
         id: this.id,
         action: 'mark-as-read'
-      }).catch(_.Error('markAsRead'))
+      })
+      .catch(_.Error('markAsRead'))
     }
   },
 
   buildTimeline () {
-    if (this.timeline != null) { return }
+    if (this.timeline != null) return
     this.timeline = new Timeline()
     return this.get('actions').map(action => this.addActionToTimeline(action))
   },
@@ -203,13 +204,13 @@ export default Backbone.NestedModel.extend({
     if (actorCanBeBoth.includes(state)) { action.actor = this.role }
     this.push('actions', action)
     const actionModel = this.addActionToTimeline(action)
-    const userStatus = this.otherUser().get('status')
 
     return preq.put(app.API.transactions, {
       transaction: this.id,
       state,
       action: 'update-state'
-    }).then(() => applySideEffects(this, state))
+    })
+    .then(() => applySideEffects(this, state))
     .catch(this._updateFail.bind(this, actionModel))
   },
 
@@ -222,14 +223,14 @@ export default Backbone.NestedModel.extend({
 
   // quick and dirty backup/restore mechanism
   // fails to delete new attributes
-  backup () { return this._backup = this.toJSON() },
-  restore () { return this.set(this._backup) },
+  backup () { this._backup = this.toJSON() },
+  restore () { this.set(this._backup) },
 
   setArchivedStatus () {
     const previousStatus = this.archived
     this.archived = this.isArchived()
     if (this.archived !== previousStatus) {
-      return app.vent.trigger('transactions:folder:change')
+      app.vent.trigger('transactions:folder:change')
     }
   },
 

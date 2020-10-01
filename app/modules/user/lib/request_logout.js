@@ -1,13 +1,16 @@
 import preq from 'lib/preq'
-export default redirect => preq.post(app.API.auth.logout)
-.then(logoutSuccess(redirect))
-.catch(_.Error('logout error'))
+
+export default redirect => {
+  preq.post(app.API.auth.logout)
+  .then(logoutSuccess(redirect))
+  .catch(_.Error('logout error'))
+}
 
 const logoutSuccess = redirect => function (data) {
   deleteLocalDatabases()
   _.log('You have been successfully logged out')
   // Default to redirecting home
-  return window.location.href = redirect || '/'
+  window.location.href = redirect || '/'
 }
 
 const deleteLocalDatabases = function () {
@@ -15,5 +18,5 @@ const deleteLocalDatabases = function () {
   // Clearing localstorage
   localStorageProxy.clear()
   // but keeping debug config
-  return localStorageProxy.setItem('debug', debug)
+  localStorageProxy.setItem('debug', debug)
 }

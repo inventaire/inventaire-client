@@ -1,4 +1,3 @@
-import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import forms_ from 'modules/general/lib/forms'
 import groups_ from '../lib/groups'
 import error_ from 'lib/error'
@@ -27,10 +26,10 @@ export default Marionette.ItemView.extend({
 
   initialize () {
     this._lazyUpdateUrl = LazyUpdateUrl(this)
-    return this.lazyDescriptionUpdate = _.debounce(updateLimit.bind(this, 'description', 'descriptionLimit', 5000), 200)
+    this.lazyDescriptionUpdate = _.debounce(updateLimit.bind(this, 'description', 'descriptionLimit', 5000), 200)
   },
 
-  onRender () { return this.lazyDescriptionUpdate() },
+  onRender () { this.lazyDescriptionUpdate() },
 
   // Allows to define @_lazyUpdateUrl after events binding
   lazyUpdateUrl () { return this._lazyUpdateUrl() },
@@ -80,7 +79,7 @@ export default Marionette.ItemView.extend({
     'click a.leave': 'leaveGroup',
     'click a.destroy': 'destroyGroup',
     'click #showPositionPicker': 'showPositionPicker',
-    'keydown textarea#description' () { return this.lazyDescriptionUpdate() }
+    'keydown textarea#description' () { this.lazyDescriptionUpdate() }
   }
   ),
 
@@ -97,10 +96,10 @@ export default Marionette.ItemView.extend({
     this.listenTo(this.model, 'change:picture', this.LazyRenderFocus('#changePicture'))
     // re-render after a position was selected to display
     // the new geolocation status
-    return this.listenTo(this.model, 'change:position', this.LazyRenderFocus('#showPositionPicker'))
+    this.listenTo(this.model, 'change:position', this.LazyRenderFocus('#showPositionPicker'))
   },
 
-  LazyRenderFocus (focusSelector) { return this.lazyRender.bind(this, focusSelector) },
+  LazyRenderFocus (focusSelector) { this.lazyRender.bind(this, focusSelector) },
 
   editName () {
     const name = this.ui.editNameField.val()
@@ -158,13 +157,13 @@ export default Marionette.ItemView.extend({
     const specialKey = getActionKey(e)
     if (!specialKey && !this._saveCancelShown) {
       this.ui.saveCancel.slideDown()
-      return this._saveCancelShown = true
+      this._saveCancelShown = true
     }
   },
 
   cancelDescription () {
     this._saveCancelShown = false
-    return this.render()
+    this.render()
   },
 
   saveDescription () {
@@ -180,7 +179,7 @@ export default Marionette.ItemView.extend({
 
   leaveGroup () {
     const action = this.model.leave.bind(this.model)
-    return this._leaveGroup('leave_group_confirmation', 'leave_group_warning', action)
+    this._leaveGroup('leave_group_confirmation', 'leave_group_warning', action)
   },
 
   destroyGroup () {
@@ -191,17 +190,18 @@ export default Marionette.ItemView.extend({
       app.groups.remove(group)
       // And change page as staying on the same page would just display
       // the group as empty but accepting a join request
-      return app.execute('show:inventory:network')
-    }).catch(_.ErrorRethrow('destroyGroup action err'))
+      app.execute('show:inventory:network')
+    })
+    .catch(_.ErrorRethrow('destroyGroup action err'))
 
-    return this._leaveGroup('destroy_group_confirmation', 'cant_undo_warning', action)
+    this._leaveGroup('destroy_group_confirmation', 'cant_undo_warning', action)
   },
 
   _leaveGroup (confirmationText, warningText, action) {
     const group = this.model
     const args = { groupName: group.get('name') }
 
-    return app.execute('ask:confirmation', {
+    app.execute('ask:confirmation', {
       confirmationText: _.i18n(confirmationText, args),
       warningText: _.i18n(warningText),
       action,
@@ -212,6 +212,6 @@ export default Marionette.ItemView.extend({
   },
 
   showPositionPicker () {
-    return app.execute('show:position:picker:group', this.model, '#showPositionPicker')
+    app.execute('show:position:picker:group', this.model, '#showPositionPicker')
   }
 })

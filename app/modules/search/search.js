@@ -11,7 +11,7 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () {
@@ -23,7 +23,7 @@ export default {
       'show:groups:search' () { return API.search('', 'group') }
     })
 
-    return app.reqres.setHandlers({
+    app.reqres.setHandlers({
       'search:entities': API.searchEntities,
       'search:history:add' (data) { return app.searchResultsHistory.addNonExisting(data) }
     })
@@ -45,7 +45,7 @@ API.searchFromQueryString = function (querystring) {
   // Replacing "+" added that the browser search might have added
   q = q.replace(/\+/g, ' ')
 
-  if (showEntityPageIfUri(q, refresh)) { return }
+  if (showEntityPageIfUri(q, refresh)) return
 
   if (type != null) {
     section = type

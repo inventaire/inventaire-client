@@ -4,24 +4,25 @@ let active = false
 
 export default function () {
   const showNetworkError = () => {
-    if (active) { return }
+    if (active) return
     active = true
     this.ui.flashMessage.addClass('active')
-    if (intervalId == null) { return intervalId = setInterval(checkState, 1000) }
+    if (intervalId == null) intervalId = setInterval(checkState, 1000)
   }
 
   const hideNetworkError = () => {
-    if (!active) { return }
+    if (!active) return
     active = false
     this.ui.flashMessage.removeClass('active')
     if (intervalId != null) {
       clearInterval(intervalId)
-      return intervalId = null
+      intervalId = null
     }
   }
 
-  var checkState = () => preq.get(app.API.tests)
-  .then(hideNetworkError)
+  const checkState = () => preq.get(app.API.tests).then(hideNetworkError)
 
-  return app.commands.setHandlers({ 'flash:message:show:network:error': showNetworkError })
-};
+  app.commands.setHandlers({
+    'flash:message:show:network:error': showNetworkError
+  })
+}

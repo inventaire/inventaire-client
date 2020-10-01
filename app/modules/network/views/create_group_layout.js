@@ -41,10 +41,10 @@ export default GroupLayoutView.extend({
   }),
 
   initialize () {
-    return this._lazyUpdateUrl = LazyUpdateUrl(this)
+    this._lazyUpdateUrl = LazyUpdateUrl(this)
   },
 
-  onShow () { return app.execute('modal:open', 'medium') },
+  onShow () { app.execute('modal:open', 'medium') },
 
   // Allows to define @_lazyUpdateUrl after events binding
   lazyUpdateUrl () { return this._lazyUpdateUrl() },
@@ -70,7 +70,7 @@ export default GroupLayoutView.extend({
   },
 
   toggleSearchabilityWarning () {
-    return this.ui.searchabilityWarning.slideToggle()
+    this.ui.searchabilityWarning.slideToggle()
   },
 
   createGroup (e) {
@@ -91,7 +91,8 @@ export default GroupLayoutView.extend({
     .then(groups_.createGroup.bind(null, data))
     .then(model => {
       app.execute('show:group:board', model)
-      return app.execute('modal:close')
-    }).catch(forms_.catchAlert.bind(null, this))
+      app.execute('modal:close')
+    })
+    .catch(forms_.catchAlert.bind(null, this))
   }
 })

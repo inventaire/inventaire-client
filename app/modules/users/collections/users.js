@@ -5,7 +5,7 @@ export default Backbone.Collection.extend({
   initialize () {
     this.lazyResort = _.debounce(this.sort.bind(this), 500)
     // model events are also triggerend on parent collection
-    return this.on('change:highlightScore', this.lazyResort)
+    this.on('change:highlightScore', this.lazyResort)
   },
 
   comparator: 'highlightScore',

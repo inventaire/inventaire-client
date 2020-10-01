@@ -30,13 +30,13 @@ export default Marionette.ItemView.extend({
   },
 
   showItem (e) {
-    if (_.isOpenedOutside(e)) { return }
-    return app.execute('show:item', this.model)
+    if (_.isOpenedOutside(e)) return
+    app.execute('show:item', this.model)
   }
 })
 
 const buildTitle = function (user, transaction) {
-  if (user == null) { return }
+  if (user == null) return
   const username = user.get('username')
   let title = _.i18n(`${transaction}_personalized`, { username })
   if (user.distanceFromMainUser != null) {

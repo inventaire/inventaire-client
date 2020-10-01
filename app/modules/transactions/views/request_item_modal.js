@@ -23,7 +23,7 @@ export default Marionette.ItemView.extend({
   },
 
   onShow () {
-    return app.execute('modal:open')
+    app.execute('modal:open')
   },
 
   serializeData () {
@@ -66,5 +66,5 @@ const addTransaction = transaction => app.request('transactions:add', transactio
 
 const showRequest = function (transaction) {
   app.execute('modal:close')
-  return app.execute('show:transaction', transaction.id)
+  app.execute('show:transaction', transaction.id)
 }

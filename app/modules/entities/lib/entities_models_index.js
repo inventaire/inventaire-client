@@ -92,7 +92,8 @@ const getRemoteEntitiesModels = function (uris, refresh, defaultType) {
     _.extend(entitiesModelsIndexedByUri, newEntities)
 
     return newEntities
-  }).catch(_.ErrorRethrow('get entities data err'))
+  })
+  .catch(_.ErrorRethrow('get entities data err'))
 }
 
 const inidivualPromise = (collectivePromise, uri) => collectivePromise.then(_.property(uri))
@@ -108,7 +109,8 @@ const aliasRedirects = function (entities, redirects) {
 // Used when an entity is created locally and needs to be added to the index
 const _addModel = addModel = function (entityModel) {
   const uri = entityModel.get('uri')
-  return entitiesModelsIndexedByUri[uri] = entityModel
+  entitiesModelsIndexedByUri[uri] = entityModel
+  return entityModel
 }
 
 export { _addModel as addModel }
@@ -130,11 +132,13 @@ const invalidateCache = function (uri) {
 // by Entity::fetchSubEntities on next call
 const invalidateGraph = function (uri) {
   if (entitiesModelsIndexedByUri[uri] != null) {
-    return entitiesModelsIndexedByUri[uri].graphChanged = true
-  } else { return _.warn(uri, "entity not found in cache: can't invalidate cache") }
+    entitiesModelsIndexedByUri[uri].graphChanged = true
+  } else {
+    _.warn(uri, "entity not found in cache: can't invalidate cache")
+  }
 }
 
 app.commands.setHandlers({
-  'invalidate:entities:graph' (uris) { return sanitizeUris(uris).forEach(invalidateGraph) },
-  'invalidate:entities:cache' (uris) { return sanitizeUris(uris).forEach(invalidateCache) }
+  'invalidate:entities:graph' (uris) { sanitizeUris(uris).forEach(invalidateGraph) },
+  'invalidate:entities:cache' (uris) { sanitizeUris(uris).forEach(invalidateCache) }
 })

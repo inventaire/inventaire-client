@@ -15,7 +15,7 @@ export default function () {
     'show:models:on:map': showModelsOnMap
   })
 
-  return app.reqres.setHandlers({
+  app.reqres.setHandlers({
     'prompt:group:position:picker': promptGroupPositionPicker,
     'map:before': getLeaflet
   })

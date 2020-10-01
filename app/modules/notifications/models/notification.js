@@ -1,6 +1,6 @@
 export default Backbone.NestedModel.extend({
   initialize () {
-    return this.on('change:status', this.update)
+    this.on('change:status', this.update)
   },
 
   beforeShow () {

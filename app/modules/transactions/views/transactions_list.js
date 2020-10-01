@@ -9,7 +9,7 @@ export default Marionette.CompositeView.extend({
   initialize () {
     this.folder = this.options.folder
     this.filter = folders[this.folder].filter
-    return this.listenTo(app.vent, 'transactions:folder:change', this.render.bind(this))
+    this.listenTo(app.vent, 'transactions:folder:change', this.render.bind(this))
   },
 
   serializeData () {

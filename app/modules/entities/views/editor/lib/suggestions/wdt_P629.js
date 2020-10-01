@@ -1,9 +1,9 @@
 export default function (entity, index, propertyValuesCount) {
   // We can't infer a suggestion if the work being modified is the only wdt:P629 value
-  if ((index === 0) && (propertyValuesCount === 1)) { return }
+  if ((index === 0) && (propertyValuesCount === 1)) return
 
   const worksUris = entity.get('claims.wdt:P629')
-  if (worksUris == null) { return }
+  if (worksUris == null) return
 
   return app.request('get:entities:models', { uris: worksUris })
   .then(works => {
@@ -22,7 +22,6 @@ export default function (entity, index, propertyValuesCount) {
 };
 
 const aggregate = function (data, work) {
-  const uri = work.get('uri')
   const authors = work.getExtendedAuthorsUris()
   const series = work.get('claims.wdt:P179')
   data.authors.push(authors)

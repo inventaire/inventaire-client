@@ -18,5 +18,5 @@ export default Marionette.ItemView.extend({
     'click #embeddedScanner': 'startEmbeddedScanner'
   },
 
-  startEmbeddedScanner () { return app.execute('show:scanner:embedded') }
+  startEmbeddedScanner () { app.execute('show:scanner:embedded') }
 })

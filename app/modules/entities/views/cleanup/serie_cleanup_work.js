@@ -120,20 +120,20 @@ export default Marionette.LayoutView.extend({
   },
 
   showPlaceholderEditor () {
-    if (!this.model.get('isPlaceholder')) { return }
-    if (!this.ui.placeholderEditor.hasClass('hidden')) { return }
+    if (!this.model.get('isPlaceholder')) return
+    if (!this.ui.placeholderEditor.hasClass('hidden')) return
     this.ui.head.addClass('force-hidden')
     this.ui.placeholderEditor.removeClass('hidden')
     this.$el.attr('tabindex', null)
     // Wait to avoid the enter event to be propagated as an enterClick to 'create'
-    return this.setTimeout(_.focusInput.bind(null, this.ui.placeholderLabelEditor), 100)
+    this.setTimeout(_.focusInput.bind(null, this.ui.placeholderLabelEditor), 100)
   },
 
   hidePlaceholderEditor () {
     this.ui.head.removeClass('force-hidden')
     this.ui.placeholderEditor.addClass('hidden')
     this.$el.attr('tabindex', 0)
-    return this.$el.focus()
+    this.$el.focus()
   },
 
   create () {
@@ -153,10 +153,8 @@ export default Marionette.LayoutView.extend({
 
   onKeyDown (e) {
     const key = getActionKey(e)
-    switch (key) {
-    case 'enter': return this.showPlaceholderEditor()
-    case 'esc': return this.hidePlaceholderEditor()
-    }
+    if (key === 'enter') return this.showPlaceholderEditor()
+    if (key === 'esc') return this.hidePlaceholderEditor()
   },
 
   propagateLangChange (e) {
@@ -165,7 +163,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onOtherLangSelectorChange (value) {
-    if (this.ui.placeholderEditor.hasClass('hidden')) { return this.ui.langSelector.val(value) }
+    if (this.ui.placeholderEditor.hasClass('hidden')) { this.ui.langSelector.val(value) }
   },
 
   spreadAuthors () {

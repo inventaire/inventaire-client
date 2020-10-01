@@ -10,13 +10,17 @@ export default function (app) {
     name: 'user',
     Collection: MainUser,
     condition: loggedIn
-  }).catch(resetSession)
+  })
+  .catch(resetSession)
 
-  return app.user.loggedIn = loggedIn
-};
+  app.user.loggedIn = loggedIn
+}
 
 // Known cases of session errors:
 // - when the server secret is changed
 // - when the current session user was deleted but the cookies weren't removed
 //   (possibly because the deletion was done from another browser or even another device)
-const resetSession = err => app.execute('logout', '/login')
+const resetSession = err => {
+  console.error('resetSession', err)
+  app.execute('logout', '/login')
+}

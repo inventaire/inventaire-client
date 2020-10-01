@@ -17,7 +17,7 @@ window.Marionette = require('backbone.marionette')
 window.FilteredCollection = require('backbone-filtered-collection')
 require('backbone-nested')
 
-const envConfig = require('lib/env_config')()
+require('lib/env_config')()
 
 require('lib/feature_detection')()
 // Init handler error before the app so that it can catch any error happenig there

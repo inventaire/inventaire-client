@@ -70,7 +70,7 @@ export default Marionette.LayoutView.extend({
 
     if (this.isbnsBatch != null) {
       this.ui.isbnsImporterTextarea.val(this.isbnsBatch.join('\n'))
-      return this.$el.find('#findIsbns').trigger('click')
+      this.$el.find('#findIsbns').trigger('click')
     }
   },
 
@@ -88,7 +88,7 @@ export default Marionette.LayoutView.extend({
       }
 
       // Run once @ui.importersWrapper is done sliding up
-      return this.setTimeout(screen_.scrollTop.bind(null, this.queue.$el), 500)
+      this.setTimeout(screen_.scrollTop.bind(null, this.queue.$el), 500)
     }
   },
 
@@ -113,7 +113,8 @@ export default Marionette.LayoutView.extend({
     .spread(data => {
       dataValidator(source, data)
       return parse(data).map(commonParser)
-    }).catch(_.ErrorRethrow('parsing error'))
+    })
+    .catch(_.ErrorRethrow('parsing error'))
     // add the selector to the rejected error
     // so that it can be catched by catchAlert
     .catch(error_.Complete('#importersWrapper .warning'))
@@ -125,15 +126,15 @@ export default Marionette.LayoutView.extend({
   },
 
   // passing the event to the AlertBox behavior
-  hideAlertBox () { return this.$el.trigger('hideAlertBox') },
+  hideAlertBox () { this.$el.trigger('hideAlertBox') },
 
   onImportDone () {
-    return this.$el.trigger('check')
+    this.$el.trigger('check')
   },
 
   findIsbns () {
     const text = this.ui.isbnsImporterTextarea.val()
-    if (!_.isNonEmptyString(text)) { return }
+    if (!_.isNonEmptyString(text)) return
 
     const selector = '#isbnsImporterWrapper .loading'
 
@@ -141,23 +142,23 @@ export default Marionette.LayoutView.extend({
       selector,
       timeout: 'none',
       progressionEventName: 'progression:ISBNs'
-    }
-    )
+    })
 
     return extractIsbnsAndFetchData(text)
     .then(candidates.addNewCandidates.bind(candidates))
     .then(addedCandidates => {
       stopLoading.call(this, selector)
       if (addedCandidates.length > 0) {
-        return this.showImportQueueUnlessEmpty()
+        this.showImportQueueUnlessEmpty()
       } else { throw error_.new('no ISBN found', 400) }
-    }).catch(error_.Complete('#isbnsImporterWrapper .warning'))
+    })
+    .catch(error_.Complete('#isbnsImporterWrapper .warning'))
     .catch(forms_.catchAlert.bind(null, this))
   },
 
   emptyIsbns () {
     this.ui.isbnsImporterTextarea.val('')
     this.$el.trigger('elastic:textarea:update')
-    return this.hideAlertBox()
+    this.hideAlertBox()
   }
 })

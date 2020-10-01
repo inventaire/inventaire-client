@@ -33,5 +33,5 @@ const show = function ($dropdown) {
 }
 
 const closeOnClick = function ($dropdown) {
-  return this.listenToOnce(app.vent, 'body:click', hide.bind(null, $dropdown))
+  this.listenToOnce(app.vent, 'body:click', hide.bind(null, $dropdown))
 }

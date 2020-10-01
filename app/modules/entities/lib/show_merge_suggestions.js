@@ -8,7 +8,7 @@ const entitiesTypesWithTasks = [
 ]
 
 export default function (params) {
-  if (!app.user.hasDataadminAccess) { return }
+  if (!app.user.hasDataadminAccess) return
   const { region, model, standalone } = params
   $(region.el).html(loader())
 
@@ -28,8 +28,8 @@ const getMergeSuggestions = model => getTasksByUri(model)
 })
 
 const getTasksByUri = function (model) {
-  let needle
-  if ((needle = model.get('type'), !entitiesTypesWithTasks.includes(needle))) {
+  const type = model.get('type')
+  if (!entitiesTypesWithTasks.includes(type)) {
     return Promise.resolve([])
   }
 
@@ -45,10 +45,12 @@ const getTasksByUri = function (model) {
 }
 
 const getMergeSuggestionsParams = function (uri) {
-  const [ prefix, id ] = Array.from(uri.split(':'))
+  const [ prefix ] = Array.from(uri.split(':'))
   if (prefix === 'wd') {
     return [ 'bySuggestionUris', 'suspectUri' ]
-  } else { return [ 'bySuspectUris', 'suggestionUri' ] }
+  } else {
+    return [ 'bySuspectUris', 'suggestionUri' ]
+  }
 }
 
 const addTasksToEntities = (uri, tasks, relation) => function (entities) {
@@ -57,7 +59,7 @@ const addTasksToEntities = (uri, tasks, relation) => function (entities) {
   entities.forEach(entity => {
     if (!entity.tasks) { entity.tasks = {} }
     const task = tasksIndex[entity.get('uri')]
-    return entity.tasks[uri] = new Task(task)
+    entity.tasks[uri] = new Task(task)
   })
 
   entities.sort((a, b) => b.tasks[uri].get('globalScore') - a.tasks[uri].get('globalScore'))
@@ -84,8 +86,7 @@ const parseSearchResults = (uri, tasksEntitiesUris) => function (searchResults) 
   return app.request('get:entities:models', { uris })
   // Re-filter out uris to omit as a redirection might have brought it back
   .then(entities => entities.filter(entity => {
-    let needle
-    return (needle = entity.get('uri'), !urisToOmit.includes(needle))
+    return !urisToOmit.includes(entity.get('uri'))
   }))
 }
 

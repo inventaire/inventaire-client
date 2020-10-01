@@ -24,7 +24,7 @@ const initMap = function (params) {
 
 const solvePosition = function (coords = {}) {
   // priority is given to passed parameters
-  const { lat, lng, zoom } = coords
+  const { lat, lng } = coords
   if ((lat != null) && (lng != null)) { return Promise.resolve(coords) }
 
   // then to the user saved position
@@ -78,7 +78,8 @@ export default {
   grabMap (map) {
     _.type(map, 'object')
     _.type(map.getBounds, 'function')
-    return this.map = map
+    this.map = map
+    return map
   },
 
   refreshListFilter (collection) {

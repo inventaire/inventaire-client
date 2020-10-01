@@ -1,5 +1,5 @@
-let properties
-export default properties = {}
+const properties = {}
+export default properties
 
 // editorTypes can stay permissive in the input
 // and let the server do the strict validation
@@ -10,7 +10,9 @@ const addProp = (
   searchType,
   multivalue = true,
   allowEntityCreation = false
-) => properties[property] = { editorType, searchType, property, multivalue, allowEntityCreation }
+) => {
+  properties[property] = { editorType, searchType, property, multivalue, allowEntityCreation }
+}
 
 // Keep in sync with app/modules/entities/lib/editor/properties_per_type.coffee
 // and server/controllers/entities/lib/properties.coffee@inventaire/inventaire

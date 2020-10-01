@@ -35,7 +35,7 @@ export default EntityEdit.extend({
 
   showNextMultiEditPage () {
     const { next } = this.options
-    const { relation, labelTransfer } = next
+    const { labelTransfer } = next
     const draftModel = serializeDraftModel(this.model)
     next.previous = draftModel
     if (labelTransfer != null) { next.claims[labelTransfer] = [ draftModel.label ] }
@@ -50,7 +50,7 @@ export default EntityEdit.extend({
 
   navigateMultiEdit (data) {
     data.fromIsbn = this.options.fromIsbn
-    return app.execute('show:entity:create', data)
+    app.execute('show:entity:create', data)
   },
 
   // Never display a cancel button when creating in mutliEdit mode as it means

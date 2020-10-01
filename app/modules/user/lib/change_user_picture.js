@@ -1,16 +1,16 @@
-import regex_ from 'lib/regex'
 import PicturePicker from 'modules/general/views/behaviors/picture_picker'
 import error_ from 'lib/error'
 
-export default () => app.layout.modal.show(new PicturePicker({
-  context: 'user',
-  pictures: app.user.get('picture'),
-  save: savePicture,
-  delete: deletePicture,
-  crop: true,
-  limit: 1
-})
-)
+export default () => {
+  app.layout.modal.show(new PicturePicker({
+    context: 'user',
+    pictures: app.user.get('picture'),
+    save: savePicture,
+    delete: deletePicture,
+    crop: true,
+    limit: 1
+  }))
+}
 
 const selector = '.changePicture .loading'
 
@@ -29,9 +29,10 @@ const savePicture = function (pictures) {
   })
 }
 
-const deletePicture = () => app.request('user:update', {
-  attribute: 'picture',
-  value: null,
-  selector
+const deletePicture = () => {
+  app.request('user:update', {
+    attribute: 'picture',
+    value: null,
+    selector
+  })
 }
-)

@@ -1,9 +1,5 @@
 import Config from './config'
-
-import getCurrentPosition from './navigator_position'
 import Geo from './geo'
-
-import smartPreventDefault from 'modules/general/lib/smart_prevent_default'
 import { buildPath } from 'lib/location'
 import error_ from 'lib/error'
 let map_
@@ -50,17 +46,12 @@ export default map_ = {
 
   // Same as the above function, but guesses model type
   showModelsOnMap (map, models) {
-    return (() => {
-      const result = []
-      for (const model of _.forceArray(models)) {
-        switch (model.get('type')) {
-        case 'user': result.push(map_.showUserOnMap(map, model)); break
-        case 'group': result.push(showGroupOnMap(map, model)); break
-        default: result.push(showItemOnMap(map, model))
-        }
-      }
-      return result
-    })()
+    for (const model of _.forceArray(models)) {
+      const type = model.get('type')
+      if (type === 'user') map_.showUserOnMap(map, model)
+      else if (type === 'group') showGroupOnMap(map, model)
+      else showItemOnMap(map, model)
+    }
   },
 
   showUsersOnMap (map, users) {
@@ -72,10 +63,9 @@ export default map_ = {
   },
 
   BoundFilter (map) {
-    let filter
     const bounds = map.getBounds()
-    return filter = function (model) {
-      if (!model.hasPosition()) { return false }
+    return function (model) {
+      if (!model.hasPosition()) return false
       const point = model.getLatLng()
       return bounds.contains(point)
     }
@@ -108,7 +98,7 @@ export default map_ = {
       if (marker != null) {
         // Expose the main user marker to make it easier to update
         // on user position change
-        if (user === app.user) { return map.mainUserMarker = marker }
+        if (user === app.user) map.mainUserMarker = marker
       }
     }
   }

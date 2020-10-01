@@ -16,8 +16,8 @@ export default Marionette.LayoutView.extend({
   initialize () {
     ({ property: this.property, value: this.value, refresh: this.refresh } = this.options)
 
-    return this.waitForModel = app.request('get:entity:model', this.value, this.refresh)
-      .then(model => { return this.model = model })
+    this.waitForModel = app.request('get:entity:model', this.value, this.refresh)
+      .then(model => { this.model = model })
   },
 
   onShow () {

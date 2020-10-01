@@ -38,7 +38,7 @@ export default Marionette.CollectionView.extend({
   className: 'inner-relative-tasks',
   childView: RelativeTask,
   initialize () {
-    return this.currentTaskModelId = this.options.currentTaskModel.id
+    this.currentTaskModelId = this.options.currentTaskModel.id
   },
 
   filter (child) { return child.id !== this.currentTaskModelId }

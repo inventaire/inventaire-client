@@ -9,9 +9,8 @@ export default Marionette.CompositeView.extend({
 
     if (this.hasPropertiesShortlist) {
       // set propertiesShortlist to display only a subset of properties by default
-      return this.filter = function (child, index, collection) {
-        let needle
-        return (needle = child.get('property'), propertiesShortlist.includes(needle))
+      this.filter = function (child, index, collection) {
+        return propertiesShortlist.includes(child.get('property'))
       }
     }
   },
@@ -25,12 +24,12 @@ export default Marionette.CompositeView.extend({
   },
 
   onShow () {
-    if (this.hasPropertiesShortlist) { return this.ui.showAllProperties.show() }
+    if (this.hasPropertiesShortlist) this.ui.showAllProperties.show()
   },
 
   showAllProperties () {
     this.filter = null
     this.render()
-    return this.ui.showAllProperties.hide()
+    this.ui.showAllProperties.hide()
   }
 })

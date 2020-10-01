@@ -1,17 +1,19 @@
 import preq from 'lib/preq'
 import wdk from 'lib/wikidata-sdk'
 
-export default (format = true) => (search, limit = 10, offset) => // Uses wbsearchentities despite its lack of inter-languages support
+// Uses wbsearchentities despite its lack of inter-languages support
 // because it returns hits labels, descriptions and aliases
 // while action=query&list=search&srsearch returns only hits ids
-  preq.get(wdk.searchEntities({ search, limit, offset }))
-.get('search')
-.filter(filterOutSpecialPages)
-.then(results => {
-  if (format) {
-    return results.map(formatAsSearchResult)
-  } else { return results }
-})
+export default (format = true) => (search, limit = 10, offset) => {
+  return preq.get(wdk.searchEntities({ search, limit, offset }))
+  .get('search')
+  .filter(filterOutSpecialPages)
+  .then(results => {
+    if (format) {
+      return results.map(formatAsSearchResult)
+    } else { return results }
+  })
+}
 
 // This is a hacky way to filter out special pages without having to request claims
 const specialPagesDescriptionPattern = /(Wikim(e|é)dia|Wikip(e|é)dia)/

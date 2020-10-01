@@ -34,13 +34,13 @@ export default Marionette.CompositeView.extend({
     case 'human': return require('./author_layout')
     case 'publisher': return require('./publisher_layout')
     case 'collection': return require('./collection_layout')
-    default:
-      var err = error_.new(`unknown entity type: ${type}`, model)
-      // Weird: errors thrown here don't appear anyware
-      // where are those silently catched?!?
-      console.error('entities_list getChildView err', err, model)
-      throw err
     }
+
+    const err = error_.new(`unknown entity type: ${type}`, model)
+    // Weird: errors thrown here don't appear anyware
+    // where are those silently catched?!?
+    console.error('entities_list getChildView err', err, model)
+    throw err
   },
 
   childViewOptions (model, index) {
@@ -60,7 +60,6 @@ export default Marionette.CompositeView.extend({
   },
 
   initialize () {
-    let childrenType;
     ({ parentModel: this.parentModel, addButtonLabel: this.addButtonLabel } = this.options)
     this.childrenClaimProperty = this.options.childrenClaimProperty || this.parentModel.childrenClaimProperty
     const initialLength = this.options.initialLength || 5
@@ -70,9 +69,6 @@ export default Marionette.CompositeView.extend({
     this.more = this.collection.more.bind(this.collection)
 
     this.collection.firstFetch(initialLength)
-
-    const parentType = this.parentModel.type
-    return childrenType = this.options.type
   },
 
   serializeData () {
@@ -97,20 +93,20 @@ export default Marionette.CompositeView.extend({
     return this.collection.fetchMore(this.batchLength)
     .then(() => {
       if (this.more()) {
-        return this.ui.moreCounter.text(this.more())
+        this.ui.moreCounter.text(this.more())
       } else {
         this.ui.more.hide()
-        return this.ui.addOne.removeClass('hidden')
+        this.ui.addOne.removeClass('hidden')
       }
     })
   },
 
   startMoreLoading () {
-    return this.ui.moreCounter.html(loader())
+    this.ui.moreCounter.html(loader())
   },
 
   addOne (e) {
-    if (!app.request('require:loggedIn', currentRoute())) { return }
+    if (!app.request('require:loggedIn', currentRoute())) return
     const { type, parentModel } = this.options
     app.layout.modal.show(new EntitiesListAdder({
       header: this.addOneLabel,

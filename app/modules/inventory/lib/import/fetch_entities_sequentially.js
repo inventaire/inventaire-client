@@ -35,16 +35,17 @@ export default function (isbnsData) {
     return app.vent.trigger('progression:ISBNs', { done, total })
   }
 
-  var fetchOneByOne = function () {
+  const fetchOneByOne = function () {
     const nextUri = uris.pop()
-    if (nextUri == null) { return }
+    if (nextUri == null) return
 
     return preq.get(app.API.entities.getByUris(nextUri, false, relatives))
     .then(res => {
       _.extend(commonRes.entities, res.entities)
       _.extend(commonRes.redirects, res.redirects)
-      return res.notFound?.forEach(pushNotFound(isbnsIndex, commonRes))
-    }).tap(updateProgression)
+      res.notFound?.forEach(pushNotFound(isbnsIndex, commonRes))
+    })
+    .tap(updateProgression)
     // Log errors without throwing to prevent crashing the whole chain
     .catch(_.Error('fetchOneByOne err'))
     .then(fetchOneByOne)

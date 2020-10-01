@@ -24,10 +24,10 @@ export default Marionette.ItemView.extend({
     const { model } = this.options
     if (model != null) {
       this.hasPosition = model.hasPosition()
-      return this.position = model.getCoords()
+      this.position = model.getCoords()
     } else {
       this.hasPosition = false
-      return this.position = null
+      this.position = null
     }
   },
 
@@ -42,7 +42,7 @@ export default Marionette.ItemView.extend({
     app.execute('modal:open', 'large', this.options.focus)
     // let the time to the modal to be fully open
     // so that the map can be drawned correctly
-    return this.setTimeout(this.initMap.bind(this), 500)
+    this.setTimeout(this.initMap.bind(this), 500)
   },
 
   initMap () {
@@ -53,7 +53,7 @@ export default Marionette.ItemView.extend({
       .then(this._initMap.bind(this))
     }
 
-    return this.$el.find('#validatePosition').focus()
+    this.$el.find('#validatePosition').focus()
   },
 
   _initMap (coords) {
@@ -71,7 +71,7 @@ export default Marionette.ItemView.extend({
       latLng: [ lat, lng ]
     })
 
-    return map.on('move', updateMarker.bind(null, this.marker))
+    map.on('move', updateMarker.bind(null, this.marker))
   },
 
   getCoords () {
@@ -93,13 +93,11 @@ export default Marionette.ItemView.extend({
     .catch(forms_.catchAlert.bind(null, this))
   },
 
-  close () { return app.execute('modal:close') },
+  close () { app.execute('modal:close') },
 
   getMarkerMetersRadius () {
-    switch (this.options.type) {
-    case 'group': return 20
-    case 'user': return 200
-    }
+    if (this.options.type === 'group') return 20
+    if (this.options.type === 'user') return 200
   }
 })
 
@@ -114,6 +112,5 @@ const typeStrings = {
     context: 'group_position_context'
   }
 }
-// tip: 'position_privacy_tip'
 
 const updateMarker = (marker, e) => map_.updateMarker(marker, e.target.getCenter())

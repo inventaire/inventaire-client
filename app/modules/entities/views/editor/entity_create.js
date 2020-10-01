@@ -31,12 +31,12 @@ export default Marionette.LayoutView.extend({
     const params = { type, label, claims }
     params.model = entityDraftModel.create(params)
     params.region = this.typedEntityEdit
-    return app.execute('show:entity:edit:from:params', params)
+    app.execute('show:entity:edit:from:params', params)
   },
 
   updateTypePicker (type) {
     this.ui.typePicker.find('.selected').removeClass('selected')
-    return this.ui.typePicker.find(`#${type}Picker`).addClass('selected')
+    this.ui.typePicker.find(`#${type}Picker`).addClass('selected')
   },
 
   updateTypePickerFromClick (e) {

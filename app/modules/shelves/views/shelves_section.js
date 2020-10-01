@@ -20,7 +20,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    return this._shelvesShown = true
+    this._shelvesShown = true
   },
 
   serializeData () {
@@ -46,7 +46,7 @@ export default Marionette.LayoutView.extend({
       .then(this.ifViewIsIntact('showFromModel'))
       .catch(app.Execute('show:error'))
 
-    return this.ui.showShelves.hide()
+    this.ui.showShelves.hide()
   },
 
   hideShelves (e) {
@@ -54,7 +54,7 @@ export default Marionette.LayoutView.extend({
     this.ui.showShelves.show()
     this.ui.hideShelves.hide()
     e.stopPropagation()
-    return this._shelvesShown = false
+    this._shelvesShown = false
   },
 
   showShelves (e) {
@@ -62,20 +62,19 @@ export default Marionette.LayoutView.extend({
     this.ui.hideShelves.show()
     this.ui.showShelves.hide()
     e.stopPropagation()
-    return this._shelvesShown = true
+    this._shelvesShown = true
   },
 
   toggleShelves (e) {
-    if (this._shelvesShown) {
-      return this.hideShelves(e)
-    } else { return this.showShelves(e) }
+    if (this._shelvesShown) this.hideShelves(e)
+    else this.showShelves(e)
   },
 
   showFromModel (docs) {
-    if (docs && (docs.length < 1)) { return }
+    if (docs && (docs.length < 1)) return
     this.collection = new Shelves(docs)
     this.shelvesList.show(new ShelvesList({ collection: this.collection }))
-    if (this.collection.length > 5) { return this.ui.toggleButtons.removeClass('hidden') }
+    if (this.collection.length > 5) { this.ui.toggleButtons.removeClass('hidden') }
   }
 })
 

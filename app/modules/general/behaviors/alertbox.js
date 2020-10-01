@@ -57,12 +57,12 @@ export default Marionette.Behavior.extend({
     // as it prevent from opening a possible link in the alert box in a special way
     // If the key is not a special key, key should be undefined
     // and the alertbox will be closde
-    if ((key != null) && (key !== 'esc')) { return }
+    if ((key != null) && (key !== 'esc')) return
 
     // Don't hide alert box if it has been visible for less than 1s
-    if ((this._showAlertTimestamp != null) && !_.expired(this._showAlertTimestamp, 1000)) { return }
+    if ((this._showAlertTimestamp != null) && !_.expired(this._showAlertTimestamp, 1000)) return
 
-    return this.$el.find('.alert-box').hide()
+    this.$el.find('.alert-box').hide()
   }
 })
 

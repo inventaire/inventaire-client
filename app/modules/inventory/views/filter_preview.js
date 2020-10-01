@@ -18,7 +18,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    return this._activeRegions = {}
+    this._activeRegions = {}
   },
 
   events: {
@@ -30,7 +30,7 @@ export default Marionette.LayoutView.extend({
 
     const region = this[name]
 
-    if (region == null) { return }
+    if (region == null) return
 
     this._activeRegions[name] = true
 
@@ -44,7 +44,7 @@ export default Marionette.LayoutView.extend({
     this.$el.find('.preview-wrapper.active').removeClass('active')
     // target .preview-wrapper
     this[name].$el.parent().addClass('active')
-    return this.$el.addClass('shown')
+    this.$el.addClass('shown')
   },
 
   removePreview (name) {
@@ -57,7 +57,7 @@ export default Marionette.LayoutView.extend({
       return this.highlightPreview(fallbackRegion)
     } else {
       // target .preview-wrapper
-      return this.$el.removeClass('shown')
+      this.$el.removeClass('shown')
     }
   },
 

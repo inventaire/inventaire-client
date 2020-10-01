@@ -13,11 +13,11 @@ export default Marionette.CompositeView.extend({
   initInfiniteScroll () {
     ({ hasMore: this.hasMore, fetchMore: this.fetchMore } = this.options)
     if (!this.hasMore) { this.hasMore = alwaysFalse }
-    return this._fetching = false
+    this._fetching = false
   },
 
   infiniteScroll () {
-    if (this._fetching || !this.hasMore()) { return }
+    if (this._fetching || !this.hasMore()) return
     this._fetching = true
     this.startLoading()
 
@@ -25,7 +25,7 @@ export default Marionette.CompositeView.extend({
     .then(this.stopLoading.bind(this))
     // Give the time for the DOM to update
     .delay(200)
-    .finally(() => { return this._fetching = false })
+    .finally(() => { this._fetching = false })
   },
 
   startLoading () { return behaviorsPlugin.startLoading.call(this, '.fetchMore') },

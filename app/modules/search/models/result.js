@@ -1,5 +1,3 @@
-import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
-
 export default Backbone.Model.extend({
   initialize (data) {
     // Track TypeErrors where typeFormatters[data.type] isn't a function

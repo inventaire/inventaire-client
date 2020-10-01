@@ -14,7 +14,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    return this.listenTo(app.vent, {
+    this.listenTo(app.vent, {
       'transaction:select': this.showTransactionFull.bind(this),
       'transactions:welcome': this.showTransactionWelcome.bind(this)
     })
@@ -22,7 +22,7 @@ export default Marionette.LayoutView.extend({
 
   serializeData () { return { folders } },
 
-  onShow () { return this.showTransactionsFolders() },
+  onShow () { this.showTransactionsFolders() },
 
   showTransactionsFolders () {
     // every folder share the app.transactions collection

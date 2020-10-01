@@ -18,10 +18,12 @@ export default function (app) {
     })
   }
 
-  var addUsersUnlessHere = users => // Need to waitForNetwork as isntAlreadyHere can't
-  // do it's job if user relations data haven't return yet
-    app.request('waitForNetwork')
-  .then(() => app.execute('users:add', users))
+  const addUsersUnlessHere = users => {
+    // Need to waitForNetwork as isntAlreadyHere can't
+    // do it's job if user relations data haven't return yet
+    return app.request('waitForNetwork')
+    .then(() => app.execute('users:add', users))
+  }
 
   return { searchByText }
-};
+}

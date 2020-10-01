@@ -1,7 +1,6 @@
 import preq from 'lib/preq'
-let shelves_
 
-export default shelves_ = {
+export default {
   getById (id) {
     return preq.get(app.API.shelves.byIds(id))
     .then(getShelf)

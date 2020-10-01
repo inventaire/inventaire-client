@@ -35,7 +35,7 @@ export default Marionette.LayoutView.extend({
 
   onRender () {
     this.lazyShowItems()
-    return this.showEntityActions()
+    this.showEntityActions()
   },
 
   serializeData () {

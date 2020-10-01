@@ -29,12 +29,11 @@ export default Marionette.CompositeView.extend({
   },
 
   initialize () {
-    let needle;
     ({ work: this.work, sortByLang: this.sortByLang } = this.options)
     if (this.sortByLang == null) { this.sortByLang = true }
 
     // Start with user lang as default if there are editions in that language
-    if (this.sortByLang && (needle = app.user.lang, this.getAvailableLangs().includes(needle))) {
+    if (this.sortByLang && (this.getAvailableLangs().includes(app.user.lang))) {
       this.filter = LangFilter(app.user.lang)
     }
     this.selectedLang = app.user.lang
@@ -42,11 +41,11 @@ export default Marionette.CompositeView.extend({
     if (this.collection.length > 0) {
       // If the collection was populated before showing the view,
       // the collection is ready
-      return this.onceCollectionReady()
+      this.onceCollectionReady()
     } else {
       // Else, wait for the collection models to arrive
       const lateOnceCollectionReady = _.debounce(this.lateOnceCollectionReady.bind(this), 200)
-      return this.listenTo(this.collection, 'add', lateOnceCollectionReady)
+      this.listenTo(this.collection, 'add', lateOnceCollectionReady)
     }
   },
 
@@ -64,7 +63,7 @@ export default Marionette.CompositeView.extend({
     this.onceCollectionReady()
     // re-rendering required so that the language selector
     // gets all the now available options
-    return this.lazyRender()
+    this.lazyRender()
   },
 
   getAvailableLangs () {
@@ -107,12 +106,12 @@ export default Marionette.CompositeView.extend({
       this.selectedLang = lang
     }
 
-    return this.lazyRender()
+    this.lazyRender()
   },
 
   onRender () {
     const lang = this.selectedLang || 'all'
-    return this.ui.languageSelect.val(lang)
+    this.ui.languageSelect.val(lang)
   },
 
   dispatchCreationEditionClickEvents (e) {

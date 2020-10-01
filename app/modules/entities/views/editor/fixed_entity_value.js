@@ -3,7 +3,7 @@ export default Marionette.ItemView.extend({
   className: 'fixed-entity-value fixed-value value-editor-commons',
 
   initialize () {
-    return this.draftValueEntity = this.model.valueEntity?.creating
+    this.draftValueEntity = this.model.valueEntity?.creating
   },
 
   serializeData () {
@@ -26,7 +26,7 @@ export default Marionette.ItemView.extend({
   },
 
   onShow () {
-    return this.listenTo(this.model, 'grab', this.onGrab.bind(this))
+    this.listenTo(this.model, 'grab', this.onGrab.bind(this))
   },
 
   onGrab () {
@@ -34,7 +34,7 @@ export default Marionette.ItemView.extend({
       this.listenToOnce(this.model.valueEntity, 'change:image', this.lazyRender.bind(this))
     }
 
-    return this.lazyRender()
+    this.lazyRender()
   },
 
   draftModelData () {

@@ -24,7 +24,7 @@ export default {
     if (selector != null) { _.type(selector, 'string') }
 
     items.forEach(item => {
-      if (_.isString(item)) { return }
+      if (_.isString(item)) return
       item._backup = item.toJSON()
       return item.set(attribute, value)
     })
@@ -44,11 +44,14 @@ export default {
     const ids = items.map(getIdFromModelOrId)
 
     const action = () => preq.post(app.API.items.deleteByIds, { ids })
-    .tap(() => items.forEach(item => {
-      if (_.isString(item)) { return }
-      app.user.trigger('items:change', item.get('listing'), null)
-      return item.isDestroyed = true
-    })).then(next)
+    .tap(() => {
+      items.forEach(item => {
+        if (_.isString(item)) return
+        app.user.trigger('items:change', item.get('listing'), null)
+        item.isDestroyed = true
+      })
+    })
+    .then(next)
 
     if ((items.length === 1) && items[0] instanceof Backbone.Model) {
       const title = items[0].get('snapshot.entity:title')
@@ -59,29 +62,32 @@ export default {
 
     const warningText = _.i18n('cant_undo_warning')
 
-    return app.execute('ask:confirmation', { confirmationText, warningText, action, back })
+    app.execute('ask:confirmation', { confirmationText, warningText, action, back })
   }
 }
 
-const getIdFromModelOrId = function (item) { if (_.isString(item)) { return item } else { return item.id } }
+const getIdFromModelOrId = item => {
+  if (_.isString(item)) return item
+  else return item.id
+}
 
 const propagateItemsChanges = (items, attribute) => () => items.forEach(item => {
   // TODO: update counters for non-model items too
-  if (_.isString(item)) { return }
+  if (_.isString(item)) return
   if (attribute === 'listing') {
     const { listing: previousListing } = item._backup
     const newListing = item.get('listing')
-    if (newListing === previousListing) { return }
+    if (newListing === previousListing) return
     app.user.trigger('items:change', previousListing, newListing)
   }
-  return delete item._backup
+  delete item._backup
 })
 
-const rollbackUpdate = items => function (err) {
+const rollbackUpdate = items => err => {
   items.forEach(item => {
-    if (_.isString(item)) { return }
+    if (_.isString(item)) return
     item.set(item._backup)
-    return delete item._backup
+    delete item._backup
   })
   throw err
 }

@@ -36,17 +36,19 @@ export default Marionette.LayoutView.extend({
   onShow () {
     const { task } = this.options
     if (_.isModel(task)) {
-      return this.showTask(Promise.resolve(task))
+      this.showTask(Promise.resolve(task))
     } else if (task != null) {
-      return this.showFromId(task)
-    } else { return this.showNextTask() }
+      this.showFromId(task)
+    } else {
+      this.showNextTask()
+    }
   },
 
   showNextTask (params = {}) {
     const { spinner } = params
     if (spinner != null) { startLoading.call(this, spinner) }
     const offset = app.request('querystring:get', 'offset')
-    return this.showTask(getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel }))
+    this.showTask(getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel }))
     .tap(() => { if (spinner != null) { return stopLoading.call(this, spinner) } })
   },
 
@@ -64,7 +66,7 @@ export default Marionette.LayoutView.extend({
     const state = model.get('state')
     if (state != null) {
       const err = error_.new('this task has already been treated', 400, { model, state })
-      return app.execute('show:error:other', err, 'tasks_layout showFromModel')
+      app.execute('show:error:other', err, 'tasks_layout showFromModel')
     }
 
     previousTasks.push(model.get('_id'))
@@ -103,11 +105,11 @@ export default Marionette.LayoutView.extend({
     })
   },
 
-  showFromId (id) { return this.showTask(getTaskById(id)) },
+  showFromId (id) { this.showTask(getTaskById(id)) },
 
   focusOnControls () {
     // Take focus so that we can listen for keydown events
-    return this.$el.focus()
+    this.$el.focus()
   },
 
   events: {
@@ -138,7 +140,7 @@ export default Marionette.LayoutView.extend({
   handleActionError (actionTaskModel, err) {
     error_.complete(err, '.alertWrapper', false)
     forms_.catchAlert(this, err)
-    return this.showFromModel(actionTaskModel)
+    this.showFromModel(actionTaskModel)
   },
 
   showNextTaskFromButton (e) {
@@ -149,30 +151,27 @@ export default Marionette.LayoutView.extend({
   triggerActionByKey (e) {
     // Prevent interpretting browser shortkeys such as Alt+D or Ctrl+R
     // as action keys
-    if (e.altKey || e.ctrlKey || e.metaKey) { return }
+    if (e.altKey || e.ctrlKey || e.metaKey) return
 
-    switch (e.key) {
-    case 'd': return this.dismiss()
-    case 'm': return this.merge()
-    case 'w': return this.mergeAndDeduplicate()
-    case 'n': return this.showNextTaskFromButton()
-    case 'r': return this.toggleRelatives()
-    default:
-      if (/^\d+$/.test(e.key)) {
-        return this.showRelativeFromIndex(parseInt(e.key) - 1)
-      }
+    if (e.key === 'd') this.dismiss()
+    else if (e.key === 'm') this.merge()
+    else if (e.key === 'w') this.mergeAndDeduplicate()
+    else if (e.key === 'n') this.showNextTaskFromButton()
+    else if (e.key === 'r') this.toggleRelatives()
+    else if (/^\d+$/.test(e.key)) {
+      this.showRelativeFromIndex(parseInt(e.key) - 1)
     }
   },
 
   toggleRelatives () {
     this.$el.toggleClass('wrapped-controls')
-    return this.ui.relativesToggler.toggleClass('toggled')
+    this.ui.relativesToggler.toggleClass('toggled')
   },
 
   showRelativeFromIndex (index) {
     const el = this.relativeTasks.$el.find('.relative-task')[index]
     const taskId = el?.attributes['data-task-id'].value
-    if (taskId != null) { return this.showFromId(taskId) }
+    if (taskId != null) this.showFromId(taskId)
   },
 
   updateRelativesCount (task) {
@@ -197,7 +196,7 @@ export default Marionette.LayoutView.extend({
     }
 
     this.ui.homonymsCount.text(text)
-    return this.ui.homonymsCount.attr('data-risk', risk)
+    this.ui.homonymsCount.attr('data-risk', risk)
   }
 })
 
@@ -207,15 +206,17 @@ const getTaskById = id => preq.get(app.API.tasks.byIds(id))
   const task = tasks[0]
   if (task != null) {
     return new Task(task)
-  } else { throw error_.new('not found', 404, { id }) }
+  } else {
+    throw error_.new('not found', 404, { id })
+  }
 })
 
 const openDeduplicationLayoutIfDone = function (previousTask, currentTaskModel) {
-  if (previousTask == null) { return }
+  if (previousTask == null) return
 
   const previousSuggestionUri = previousTask.get('suggestionUri')
   const currentSuggestionUri = currentTaskModel.get('suggestionUri')
-  if (previousSuggestionUri === currentSuggestionUri) { return }
+  if (previousSuggestionUri === currentSuggestionUri) return
 
   const { suggestion } = previousTask
   const showDeduplication = () => app.execute('show:deduplicate:sub:entities', suggestion, { openInNewTab: true })
@@ -225,6 +226,6 @@ const openDeduplicationLayoutIfDone = function (previousTask, currentTaskModel) 
     .delay(100)
     .then(showDeduplication)
   } else {
-    return setTimeout(showDeduplication, 100)
+    setTimeout(showDeduplication, 100)
   }
 }

@@ -4,10 +4,10 @@ export default Marionette.ItemView.extend({
 
   initialize () {
     // Terminate the promise
-    return this.listenTo(app.vent, 'modal:closed', this.onClose.bind(this))
+    this.listenTo(app.vent, 'modal:closed', this.onClose.bind(this))
   },
 
-  onShow () { return app.execute('modal:open') },
+  onShow () { app.execute('modal:open') },
 
   ui: {
     title: 'input[name="title"]',
@@ -24,10 +24,10 @@ export default Marionette.ItemView.extend({
   updateButton (e) {
     if (e.currentTarget.value === '') {
       this.ui.validateInfo.addClass('hidden')
-      return this.ui.disabledValidateInfo.removeClass('hidden')
+      this.ui.disabledValidateInfo.removeClass('hidden')
     } else {
       this.ui.disabledValidateInfo.addClass('hidden')
-      return this.ui.validateInfo.removeClass('hidden')
+      this.ui.validateInfo.removeClass('hidden')
     }
   },
 
@@ -36,7 +36,7 @@ export default Marionette.ItemView.extend({
     const authors = this.ui.authors.val()
     this.options.resolve({ title, authors })
     this._resolved = true
-    return app.execute('modal:close')
+    app.execute('modal:close')
   },
 
   onClose () {

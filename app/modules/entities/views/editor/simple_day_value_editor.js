@@ -79,9 +79,9 @@ export default ClaimsEditorCommons.extend({
       }
 
       this.currentlySelected.day = null
-      return this.lazyRender()
+      this.lazyRender()
     } else {
-      return this.currentlySelected[name] = parseInt(value)
+      this.currentlySelected[name] = parseInt(value)
     }
   },
 
@@ -90,7 +90,7 @@ export default ClaimsEditorCommons.extend({
     // getPossibleValues needs to find the selected value
     this.currentlySelected.year = parseIntIfVal(year)
     this.currentlySelected.month = parseIntIfVal(month)
-    return this.currentlySelected.day = parseIntIfVal(day)
+    this.currentlySelected.day = parseIntIfVal(day)
   },
 
   addUnit (e) {
@@ -100,7 +100,7 @@ export default ClaimsEditorCommons.extend({
       this.currentlySelected.month = this.initialValues.month || 1
     }
     this.focusTarget = `${name}Picker`
-    return this.lazyRender()
+    this.lazyRender()
   },
 
   save () {
@@ -138,7 +138,9 @@ const simpleDayParts = function (simpleDay) {
 const parseDateInt = function (date) {
   if (_.isNonEmptyString(date)) {
     return parseInt(date.replace(/^0/, ''))
-  } else { return null }
+  } else {
+    return null
+  }
 }
 
 const paddedValue = function (value) {

@@ -13,7 +13,7 @@ export default ClaimsEditorCommons.extend({
 
   initialize () {
     this.initEditModeState()
-    return this.focusTarget = 'input'
+    this.focusTarget = 'input'
   },
 
   onRender () {

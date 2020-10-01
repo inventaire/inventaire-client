@@ -1,4 +1,3 @@
-const errIcon = _.icon('bolt')
 const { truncateDecimals } = require('./geo')
 
 // doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
@@ -25,17 +24,18 @@ const normalizeCoords = function (position) {
 }
 
 const returnPlaceholderCoords = function (err) {
-  let coords
   _.warn(err, "couldn't obtain user's position: returning placeholder coordinates")
-  return coords = {
+  return {
     lat: 46.2324,
     lng: 6.0450,
     zoom: 3
   }
 }
 
-export default containerId => currentPosition()
-.timeout(10 * 1000)
-.then(normalizeCoords)
-.then(_.Log('current position'))
-.catch(returnPlaceholderCoords)
+export default containerId => {
+  return currentPosition()
+  .timeout(10 * 1000)
+  .then(normalizeCoords)
+  .then(_.Log('current position'))
+  .catch(returnPlaceholderCoords)
+}

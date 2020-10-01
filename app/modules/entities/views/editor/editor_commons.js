@@ -8,7 +8,7 @@ export default Marionette.LayoutView.extend({
   selectIfInEditMode () {
     if (this.editMode) {
       // somehow seems to need a delay
-      return this.setTimeout(this.select.bind(this), 100)
+      this.setTimeout(this.select.bind(this), 100)
     }
   },
 
@@ -23,13 +23,13 @@ export default Marionette.LayoutView.extend({
   },
 
   showEditMode (e) {
-    if (!isLoggedIn()) { return }
+    if (!isLoggedIn()) return
 
     // Clicking on the identifier should only open wikidata in another window
-    if (e?.target.className === 'identifier') { return }
+    if (e?.target.className === 'identifier') return
 
     this.toggleEditMode(true)
-    return this.triggerEditEvent()
+    this.triggerEditEvent()
   },
 
   triggerEditEvent () {},
@@ -44,13 +44,13 @@ export default Marionette.LayoutView.extend({
   toggleEditMode (bool) {
     this.editMode = bool
     this.onToggleEditMode?.()
-    return this.lazyRender()
+    this.lazyRender()
   },
 
   // Focus an element on render
   // Requires to set a focusTarget and the corresponding UI element's name
   focusOnRender () {
-    if (!this.editMode) { return }
+    if (!this.editMode) return
 
     const focus = () => {
       const $el = this.ui[this.focusTarget]
@@ -65,6 +65,6 @@ export default Marionette.LayoutView.extend({
     }
 
     // Somehow required to let the time to thing to get in place
-    return this.setTimeout(focus, 200)
+    this.setTimeout(focus, 200)
   }
 })

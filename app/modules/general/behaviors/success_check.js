@@ -6,8 +6,8 @@ export default Marionette.Behavior.extend({
     fail: 'showFail'
   },
 
-  showSuccessCheck (e, cb) { return this.showSignal(e, cb, 'check-circle') },
-  showFail (e, cb) { return this.showSignal(e, cb, 'times-circle') },
+  showSuccessCheck (e, cb) { this.showSignal(e, cb, 'check-circle') },
+  showFail (e, cb) { this.showSignal(e, cb, 'times-circle') },
 
   showSignal (e, cb, signal) {
     // cant use the View ui object as there might be several nodes with

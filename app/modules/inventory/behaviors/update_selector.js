@@ -9,6 +9,6 @@ export default Marionette.Behavior.extend({
     $el.addClass('selected')
     const section = $el.parent()[0].id
     const value = $el[0].id
-    return app.execute(`last:${section}:set`, value)
+    app.execute(`last:${section}:set`, value)
   }
 })

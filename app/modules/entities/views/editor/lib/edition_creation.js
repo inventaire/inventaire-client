@@ -27,7 +27,7 @@ export default {
       const { work: workModel, itemToUpdate } = params
       app.execute('show:entity:create', workEditionCreationData(workModel, itemToUpdate))
       // In case the edition list was opened in a modal
-      return app.execute('modal:close')
+      app.execute('modal:close')
     }
   }
 }

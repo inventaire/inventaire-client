@@ -40,7 +40,7 @@ export default Marionette.ItemView.extend({
       setStopScannerCallback: this.setStopScannerCallback.bind(this)
     }
 
-    return this.scanner = embedded_.scan(scanOptions).catch(this.permissionDenied.bind(this))
+    this.scanner = embedded_.scan(scanOptions).catch(this.permissionDenied.bind(this))
   },
 
   beforeScannerStart () {
@@ -53,7 +53,7 @@ export default Marionette.ItemView.extend({
       displayTime: 29 * 1000
     })
 
-    return this.showStatusMessage({
+    this.showStatusMessage({
       message: _.I18n('failing_scan_tip'),
       type: 'support',
       displayDelay: 30 * 1000,
@@ -66,7 +66,7 @@ export default Marionette.ItemView.extend({
   addIsbn (isbn) {
     this._lastIsbn = isbn
 
-    if (this.batch.includes(isbn)) { return this.showDuplicateIsbnWarning(isbn) }
+    if (this.batch.includes(isbn)) { this.showDuplicateIsbnWarning(isbn) }
 
     this.batch.push(isbn)
     this.precachingEntityData(isbn)
@@ -97,14 +97,15 @@ export default Marionette.ItemView.extend({
       if (err.message.match('entity_not_found')) {
         return this.updateNotFoundCounter(isbn)
       } else { throw err }
-    }).catch(_.Error('isbn batch pre-cache err'))
+    })
+    .catch(_.Error('isbn batch pre-cache err'))
   },
 
   updateNotFoundCounter (isbn) {
     this.notFound.push(isbn)
     const notFoundCount = this.notFound.length
     if (notFoundCount === 1) { this.ui.notFoundCounter.parent().removeClass('hidden') }
-    return this.ui.notFoundCounter.text(notFoundCount)
+    this.ui.notFoundCounter.text(notFoundCount)
   },
 
   showDuplicateIsbnWarning (isbn) {
@@ -119,7 +120,7 @@ export default Marionette.ItemView.extend({
 
     if (differentIsbn || debounced) {
       this._lastDuplicate = Date.now()
-      return this.showStatusMessage({
+      this.showStatusMessage({
         message: _.I18n('this ISBN was already scanned'),
         type: 'warning',
         displayTime: 2000
@@ -128,7 +129,7 @@ export default Marionette.ItemView.extend({
   },
 
   initMultiBarcodeTip () {
-    return this.showStatusMessage({
+    this.showStatusMessage({
       message: _.I18n('multi_barcode_scan_tip'),
       type: 'tip',
       // Show the tip once the success message is over
@@ -143,8 +144,8 @@ export default Marionette.ItemView.extend({
     const { message, type, displayDelay, displayCondition, displayTime } = params
 
     const showMessage = () => {
-      if (this.isDestroyed) { return }
-      if ((displayCondition != null) && !displayCondition()) { return }
+      if (this.isDestroyed) return
+      if ((displayCondition != null) && !displayCondition()) return
 
       this.ui.statusMessage.html(_.icon(iconPerType[type]) + message)
       .addClass('shown')
@@ -154,20 +155,20 @@ export default Marionette.ItemView.extend({
       this._lastMessage = message
 
       const hideMessage = () => {
-        if (this.isDestroyed || (this._lastMessage !== message)) { return }
-        return this.ui.statusMessage.removeClass('shown')
+        if (this.isDestroyed || (this._lastMessage !== message)) return
+        this.ui.statusMessage.removeClass('shown')
       }
 
-      return this.setTimeout(hideMessage, displayTime)
+      this.setTimeout(hideMessage, displayTime)
     }
 
     if (displayDelay != null) {
-      return this.setTimeout(showMessage, displayDelay)
+      this.setTimeout(showMessage, displayDelay)
     } else { return showMessage() }
   },
 
   showInvalidIsbnWarning (invalidIsbn) {
-    return this.showStatusMessage({
+    this.showStatusMessage({
       message: _.i18n('invalid ISBN') + ': ' + invalidIsbn,
       type: 'warning',
       displayTime: 5000
@@ -176,10 +177,10 @@ export default Marionette.ItemView.extend({
 
   updateCounter (count) {
     // Prevent crashing with a 'TypeError: this.ui.totalCounter.text is not a function' error
-    if (this.isDestroyed) { return }
+    if (this.isDestroyed) return
     this.ui.totalCounter.text(`(${this.batch.length})`)
     this.ui.validate.addClass('flash')
-    return this.setTimeout(this.ui.validate.removeClass.bind(this.ui.validate, 'flash'), 1000)
+    this.setTimeout(this.ui.validate.removeClass.bind(this.ui.validate, 'flash'), 1000)
   },
 
   permissionDenied (err) {
@@ -193,7 +194,7 @@ export default Marionette.ItemView.extend({
     return this.close()
   },
 
-  validate () { return app.execute('show:add:layout:import:isbns', this.batch) },
+  validate () { app.execute('show:add:layout:import:isbns', this.batch) },
 
   close () {
     // come back to the previous view
@@ -202,9 +203,9 @@ export default Marionette.ItemView.extend({
     return window.history.back()
   },
 
-  setStopScannerCallback (fn) { return this.stopScanner = fn },
+  setStopScannerCallback (fn) { this.stopScanner = fn },
 
-  onDestroy () { return this.stopScanner?.() }
+  onDestroy () { this.stopScanner?.() }
 })
 
 const iconPerType = {

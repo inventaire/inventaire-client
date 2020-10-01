@@ -25,7 +25,8 @@ const search = function (input) {
     }
     this.suggestions.reset(results)
     return this.stopLoadingSpinner()
-  }).catch(err => {
+  })
+  .catch(err => {
     this.hideDropdown()
     return forms_.catchAlert(this, err)
   })
@@ -35,12 +36,12 @@ const _search = function (input) {
   return typeSearch(this.searchType, input, batchLength, this._searchOffset)
   .then(results => {
     // Ignore the results if the input changed
-    if (input !== this.lastInput) { return }
+    if (input !== this.lastInput) return
     return results
   })
 }
 
-const removeCurrentViewValue = function () { return this.onAutoCompleteUnselect() }
+const removeCurrentViewValue = function () { this.onAutoCompleteUnselect() }
 
 const loadMoreFromSearch = function () {
   // Do not try to fetch more results if the last batch was incomplete
@@ -55,7 +56,8 @@ const loadMoreFromSearch = function () {
     this._lastResultsLength = newResults.length
     if (newResults.length > 0) { this.suggestions.add(newResults) }
     return this.stopLoadingSpinner(false)
-  }).catch(forms_.catchAlert.bind(null, this))
+  })
+  .catch(forms_.catchAlert.bind(null, this))
 }
 
 export { search, loadMoreFromSearch }

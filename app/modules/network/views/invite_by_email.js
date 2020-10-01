@@ -2,7 +2,6 @@ import UsersList from 'modules/users/views/users_list'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
-import screen_ from 'lib/screen'
 
 export default Marionette.LayoutView.extend({
   template: require('./templates/invite_by_email'),
@@ -36,15 +35,15 @@ export default Marionette.LayoutView.extend({
     // If a group is passed, invitations are group invitations
     // else they are friend requests
     ({ group: this.group } = this.options)
-    return this.groupId = this.group?.id
+    this.groupId = this.group?.id
   },
 
   onShow () {
-    if (this.group == null) { return app.execute('modal:open', 'medium') }
+    if (this.group == null) { app.execute('modal:open', 'medium') }
   },
 
   onRender () {
-    return this.usersAlreadyThereRegion.show(new UsersList({
+    this.usersAlreadyThereRegion.show(new UsersList({
       collection: this.usersAlreadyThere,
       stretch: false,
       showEmail: true,
@@ -115,14 +114,14 @@ export default Marionette.LayoutView.extend({
   },
 
   addEmailsInvited (emails) {
-    return this.emailsInvited = _.uniq(this.emailsInvited.concat(emails))
+    this.emailsInvited = _.uniq(this.emailsInvited.concat(emails))
   },
 
   _showResults () {
     // rendering to display @emailsInvited in the each loop
     this.render()
     if (this.usersAlreadyThere.length > 0) {
-      return this.ui.usersAlreadyThere.slideDown()
+      this.ui.usersAlreadyThere.slideDown()
     }
   }
 })

@@ -1,5 +1,4 @@
 import WorkPicker from './work_picker'
-import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
 
 const PartSuggestion = WorkPicker.extend({
   tagName: 'li',
@@ -14,7 +13,7 @@ const PartSuggestion = WorkPicker.extend({
   initialize () {
     this.isWikidataEntity = (this.workPickerDisabled = this.model.get('isWikidataEntity'))
     WorkPicker.prototype.initialize.call(this)
-    return this.listenTo(this.model, 'change:image', this.render.bind(this))
+    this.listenTo(this.model, 'change:image', this.render.bind(this))
   },
 
   onRender () {

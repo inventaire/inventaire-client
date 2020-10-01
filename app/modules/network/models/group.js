@@ -1,11 +1,9 @@
 // defining all and _recalculateAll methods
 import aggregateUsersIds from '../lib/aggregate_users_ids'
-
 import groupActions from '../lib/group_actions'
 import Positionable from 'modules/general/models/positionable'
 import { getColorSquareDataUriFromModelId } from 'lib/images'
 const defaultCover = require('lib/urls').images.brittanystevens
-const { escapeExpression } = Handlebars
 
 export default Positionable.extend({
   url: app.API.groups.base,
@@ -26,7 +24,7 @@ export default Positionable.extend({
     this.on('list:change:after', this.initRequestersCollection.bind(this))
 
     // The user can't change the slug if she isn't an admin
-    if (this.mainUserIsAdmin()) { return this.on('change:slug', this.setInferredAttributes.bind(this)) }
+    if (this.mainUserIsAdmin()) { this.on('change:slug', this.setInferredAttributes.bind(this)) }
   },
 
   setInferredAttributes () {
@@ -57,10 +55,12 @@ export default Positionable.extend({
     this.initMembersCollection()
     this.initRequestersCollection()
 
-    return this.waitForData = Promise.all([
+    this.waitForData = Promise.all([
       this.waitForMembers,
       this.waitForRequested
     ])
+
+    return this.waitForData
   },
 
   initMembersCollection () { return this.initUsersCollection('members') },
@@ -73,7 +73,7 @@ export default Positionable.extend({
     this[name].remove(this[name].models)
     const Name = _.capitalise(name)
     const ids = this[`all${Name}Ids`]()
-    return this[`waitFor${Name}`] = this.fetchUsers(this[name], ids)
+    this[`waitFor${Name}`] = this.fetchUsers(this[name], ids)
   },
 
   fetchUsers (collection, userIds) {
@@ -122,34 +122,26 @@ export default Positionable.extend({
   },
 
   userStatus (user) {
-    let needle, needle1, needle2
     const { id } = user
-    if ((needle = id, this.allMembersIds().includes(needle))) {
-      return 'member'
-    } else if ((needle1 = id, this.allInvitedIds().includes(needle1))) {
-      return 'invited'
-    } else if ((needle2 = id, this.allRequestedIds().includes(needle2))) {
-      return 'requested'
-    } else { return 'none' }
+    if (this.allMembersIds().includes(id)) return 'member'
+    if (this.allInvitedIds().includes(id)) return 'invited'
+    if (this.allRequestedIds().includes(id)) return 'requested'
+    return 'none'
   },
 
   userIsAdmin (userId) {
-    let needle
-    return (needle = userId, this.allAdminsIds().includes(needle))
+    return this.allAdminsIds().includes(userId)
   },
 
   mainUserStatus () { return this.userStatus(app.user) },
   mainUserIsAdmin () {
-    let needle
-    return (needle = app.user.id, this.allAdminsIds().includes(needle))
+    return this.allAdminsIds().includes(app.user.id)
   },
   mainUserIsMember () {
-    let needle
-    return (needle = app.user.id, this.allMembersIds().includes(needle))
+    return this.allMembersIds().includes(app.user.id)
   },
   mainUserIsInvited () {
-    let needle
-    return (needle = app.user.id, this.allInvitedIds().includes(needle))
+    return this.allInvitedIds().includes(app.user.id)
   },
 
   findMembership (category, user) {
@@ -175,7 +167,9 @@ export default Positionable.extend({
     const thereAreOtherMembers = this.allMembersStrictIds().length > 0
     if (mainUserIsTheOnlyAdmin && thereAreOtherMembers) {
       return false
-    } else { return true }
+    } else {
+      return true
+    }
   },
 
   userIsLastUser () { return this.allMembersIds().length === 1 },
@@ -194,7 +188,9 @@ export default Positionable.extend({
     const desc = this.get('description')
     if (_.isNonEmptyString(desc)) {
       return desc
-    } else { return _.i18n('group_default_description', { groupName: this.get('name') }) }
+    } else {
+      return _.i18n('group_default_description', { groupName: this.get('name') })
+    }
   },
 
   getCover () { return this.get('picture') || defaultCover },

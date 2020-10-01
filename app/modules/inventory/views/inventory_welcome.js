@@ -1,5 +1,3 @@
-import NoItem from './no_item'
-
 export default Marionette.ItemView.extend({
   className: 'inventoryWelcome',
   template: require('./templates/inventory_welcome'),

@@ -37,7 +37,7 @@ export default Marionette.Behavior.extend({
     }
 
     if (progressionEventName != null) {
-      if (this._alreadyListingForProgressionEvent) { return }
+      if (this._alreadyListingForProgressionEvent) return
       this._alreadyListingForProgressionEvent = true
 
       const fn = updateProgression.bind(this, body, $target)
@@ -85,13 +85,13 @@ export default Marionette.Behavior.extend({
       const $targetAlt = $target.find('.loading')
       if ($targetAlt.length === 1) { return $targetAlt } else { return $target }
     } else {
-      return this.$el.find('.loading')
+      this.$el.find('.loading')
     }
   }
 })
 
 const updateProgression = function (body, $target, data) {
-  if (this.hidden) { return }
+  if (this.hidden) return
   const counter = `${data.done}/${data.total}`
   return $target.html(`<span class='progression'>${counter}</span> ${body}`)
 }

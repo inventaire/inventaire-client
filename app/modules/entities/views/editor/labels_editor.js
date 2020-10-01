@@ -58,7 +58,7 @@ export default EditorCommons.extend({
     return tipOnRender.call(this)
   },
 
-  select () { return this.ui.input.select() },
+  select () { this.ui.input.select() },
 
   events: {
     'click .edit, .label-value': 'showEditMode',
@@ -77,7 +77,7 @@ export default EditorCommons.extend({
       this.editMode = true
     }
 
-    return this.lazyRender()
+    this.lazyRender()
   },
 
   save () {
@@ -91,7 +91,7 @@ export default EditorCommons.extend({
     this.editMode = false
 
     if (value === this.getValue()) {
-      return this.lazyRender()
+      this.lazyRender()
     } else {
       // re-render will be triggered by change:labels event listener
       return this.model.setLabel(lang, value)
@@ -101,7 +101,7 @@ export default EditorCommons.extend({
         this.editMode = true
         this.lazyRender()
         // Wait for the view to have re-rendered to show the alert
-        return this.setTimeout(forms_.catchAlert.bind(null, this, err), 400)
+        this.setTimeout(forms_.catchAlert.bind(null, this, err), 400)
       })
     }
   },

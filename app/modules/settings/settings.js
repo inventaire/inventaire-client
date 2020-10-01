@@ -1,5 +1,4 @@
 import SettingsLayout from './views/settings'
-import screen_ from 'lib/screen'
 
 export default {
   define (module, app, Backbone, Marionette, $, _) {
@@ -15,7 +14,7 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () { return setHandlers() }

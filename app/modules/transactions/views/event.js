@@ -19,8 +19,8 @@ export default Marionette.ItemView.extend({
 
   setClassNames () {
     if (this.isMessage) {
-      return this.$el.addClass('message')
-    } else { return this.$el.addClass('action') }
+      this.$el.addClass('message')
+    } else { this.$el.addClass('action') }
   },
 
   serializeData () {
@@ -41,11 +41,11 @@ export default Marionette.ItemView.extend({
 
   // hide avatar on successsive messages from the same user
   sameUser () {
-    if (!this.isMessage) { return }
+    if (!this.isMessage) return
     const index = this.model.collection.indexOf(this.model)
-    if (index <= 0) { return }
+    if (index <= 0) return
     const prev = this.model.collection.models[index - 1]
-    if (prev?.get('message') == null) { return }
+    if (prev?.get('message') == null) return
 
     if (prev.get('user') === this.model.get('user')) {
       return true
@@ -54,13 +54,13 @@ export default Marionette.ItemView.extend({
 
   showUser (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:inventory:user', this.model.user)
+      app.execute('show:inventory:user', this.model.user)
     }
   },
 
   showOtherUser (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:inventory:user', this.model.transaction?.otherUser())
+      app.execute('show:inventory:user', this.model.transaction?.otherUser())
     }
   }
 })

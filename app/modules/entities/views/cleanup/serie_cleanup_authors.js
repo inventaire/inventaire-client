@@ -34,7 +34,7 @@ export default Marionette.LayoutView.extend({
 
   onShow () {
     this.showList('currentAuthors')
-    return this.showList('authorsSuggestions')
+    this.showList('authorsSuggestions')
   },
 
   showList (name) {

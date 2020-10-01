@@ -63,13 +63,14 @@ export default Marionette.LayoutView.extend({
       if (err.message === 'nothing to update') {
 
       } else { throw err }
-    }).then(afterUpdate(selected, this.model))
+    })
+    .then(afterUpdate(selected, this.model))
     .then(closeModal)
     .catch(forms_.catchAlert.bind(null, this))
   },
 
   askDeleteShelf () {
-    return app.execute('ask:confirmation', {
+    app.execute('ask:confirmation', {
       confirmationText: _.i18n('delete_shelf_confirmation', { name: this.model.get('name') }),
       warningText: _.i18n('cant_undo_warning'),
       action: deleteShelfAction(this.model)
@@ -91,7 +92,7 @@ const deleteShelfAction = (model, withItems) => function () {
   const id = model.get('_id')
   let params = { ids: id }
   if (withItems) { params = _.extend({ 'with-items': true }, params) }
-  return deleteShelf(params)
+  deleteShelf(params)
   .then(_.Log('shelf destroyed'))
   .then(afterShelfDelete)
   .catch(_.ErrorRethrow('shelf delete error'))

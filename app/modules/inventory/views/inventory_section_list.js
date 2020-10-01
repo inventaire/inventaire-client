@@ -21,12 +21,11 @@ const ListEl = Marionette.ItemView.extend({
   },
 
   isGroupAdmin () {
-    let needle
-    return (this.context === 'group') && (needle = this.model.id, this.group.allAdminsIds().includes(needle))
+    return (this.context === 'group') && (this.group.allAdminsIds().includes(this.model.id))
   },
 
   selectInventory (e) {
-    if (_.isOpenedOutside(e)) { return }
+    if (_.isOpenedOutside(e)) return
     let type = this.model.get('type') || 'user'
     if ((type === 'user') && (this.context === 'group')) { type = 'member' }
     app.vent.trigger('inventory:select', type, this.model)

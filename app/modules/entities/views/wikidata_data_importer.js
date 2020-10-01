@@ -1,5 +1,3 @@
-import wdk from 'lib/wikidata-sdk'
-
 export default Marionette.ItemView.extend({
   className: 'wikidata-data-importer',
   template: require('./templates/wikidata_data_importer'),
@@ -7,7 +5,7 @@ export default Marionette.ItemView.extend({
     return ({ labels: this.labels, claims: this.claims, wdEntity: this.wdEntity } = this.options.importData)
   },
 
-  onShow () { return app.execute('modal:open', 'medium') },
+  onShow () { app.execute('modal:open', 'medium') },
 
   serializeData () {
     return {
@@ -45,7 +43,7 @@ export default Marionette.ItemView.extend({
 
   done () {
     this.options.resolve()
-    return app.execute('modal:close')
+    app.execute('modal:close')
   }
 })
 

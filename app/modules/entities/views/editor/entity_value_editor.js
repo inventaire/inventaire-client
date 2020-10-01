@@ -27,7 +27,7 @@ export default ClaimsEditorCommons.extend({
     return this.initEditModeState()
   },
 
-  lazyRenderIfDisplayMode () { if (!this.editMode) { return this.lazyRender() } },
+  lazyRenderIfDisplayMode () { if (!this.editMode) { this.lazyRender() } },
 
   serializeData () {
     const attrs = this.model.toJSON()
@@ -62,7 +62,7 @@ export default ClaimsEditorCommons.extend({
 
     if (this.editMode) {
       this.triggerEditEvent()
-      return this.ui.input.focus()
+      this.ui.input.focus()
     }
   },
 
@@ -76,7 +76,7 @@ export default ClaimsEditorCommons.extend({
       if (!this.suggestion) { this.suggestion = valueEntity }
     }
 
-    return this.lazyRender()
+    this.lazyRender()
   },
 
   onRender () {
@@ -112,7 +112,7 @@ export default ClaimsEditorCommons.extend({
   stopLoadingSpinner: autocomplete.stopLoadingSpinner,
 
   // this is a jQuery select, not an autocomplete one
-  select () { return this.ui.input.select() },
+  select () { this.ui.input.select() },
 
   onAutoCompleteSelect (suggestion) {
     this.suggestion = suggestion
@@ -146,7 +146,7 @@ export default ClaimsEditorCommons.extend({
 
     if (this.suggestion != null) { return this._save(uri) }
 
-    if (!this.allowEntityCreation) { return }
+    if (!this.allowEntityCreation) return
 
     const name = this.ui.input.val()
     const relationEntity = this.options.model.entity
@@ -159,7 +159,7 @@ export default ClaimsEditorCommons.extend({
   },
 
   updateInputState () {
-    if (!this.editMode) { return }
+    if (!this.editMode) return
     const value = this.ui.input.val()
 
     if (value === '') {
@@ -172,14 +172,14 @@ export default ClaimsEditorCommons.extend({
 
     if (value === '') {
       this.ui.selectedSuggestionStatus.text('')
-      return this.ui.input.removeClass('large')
+      this.ui.input.removeClass('large')
     } else if (this.suggestion != null) {
       this.ui.selectedSuggestionStatus.text(this.suggestion.get('uri'))
-      return this.ui.input.addClass('large')
+      this.ui.input.addClass('large')
     } else if (this.allowEntityCreation) {
       const type = createdEntityType[this.searchType]
       this.ui.selectedSuggestionStatus.text(_.i18n(`saving would create a new ${type}`))
-      return this.ui.input.addClass('large')
+      this.ui.input.addClass('large')
     }
   }
 })

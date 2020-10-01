@@ -8,7 +8,7 @@ const addDefaultSuggestionsUris = function () {
 }
 
 const setDefaultSuggestions = function (uris) {
-  if (uris == null) { return }
+  if (uris == null) return
 
   this._showingDefaultSuggestions = true
   this._remainingDefaultSuggestionsUris = uris
@@ -23,7 +23,7 @@ const setDefaultSuggestions = function (uris) {
 const showDefaultSuggestions = function () {
   if ((this._defaultSuggestions != null) && (this._defaultSuggestions.length > 0)) {
     this.suggestions.reset(this._defaultSuggestions)
-    return this.showDropdown()
+    this.showDropdown()
   } else {
     return this.hideDropdown()
   }

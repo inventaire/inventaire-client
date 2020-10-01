@@ -31,16 +31,16 @@ export default Marionette.LayoutView.extend({
     const { works } = this.options;
     ({ wd: this.wdModels, inv: this.invModels } = spreadByDomain(works))
     this.candidates = getWorksMergeCandidates(this.invModels, this.wdModels)
-    return this.showNextProbableDuplicates()
+    this.showNextProbableDuplicates()
   },
 
   showNextProbableDuplicates () {
-    let needle, needle1
     this.$el.addClass('probableDuplicatesMode')
     const nextCandidate = this.candidates.shift()
     if (nextCandidate == null) { return this.next() }
     let { invModel, possibleDuplicateOf } = nextCandidate
-    if ((needle = invModel.get('uri'), this.mergedUris.includes(needle))) { return this.next() }
+    const invModelUri = invModel.get('uri')
+    if (this.mergedUris.includes(invModelUri)) { return this.next() }
 
     // Filter-out entities that where already merged
     // @_currentFilter will be undefined on the first candidate round
@@ -52,19 +52,20 @@ export default Marionette.LayoutView.extend({
     const mostProbableDuplicate = possibleDuplicateOf[0]
     if (mostProbableDuplicate == null) { return this.next() }
     // If the candidate duplicate was filtered-out, go to the next step
-    if ((needle1 = mostProbableDuplicate.get('uri'), this.mergedUris.includes(needle1))) { return this.next() }
+    const mostProbableDuplicateUri = mostProbableDuplicate.get('uri')
+    if (this.mergedUris.includes(mostProbableDuplicateUri)) return this.next()
 
     const { wd: wdModels, inv: invModels } = spreadByDomain(possibleDuplicateOf)
     this.showList('wd', wdModels)
     this.showList('inv', [ invModel ].concat(invModels))
     // Give the views some time to initalize before expecting them
     // to be accessible in the DOM from their selectors
-    return this.setTimeout(this._showNextProbableDuplicatesUpdateUi.bind(this, invModel, mostProbableDuplicate), 200)
+    this.setTimeout(this._showNextProbableDuplicatesUpdateUi.bind(this, invModel, mostProbableDuplicate), 200)
   },
 
   _showNextProbableDuplicatesUpdateUi (invModel, mostProbableDuplicate) {
     this.selectCandidates(invModel, mostProbableDuplicate)
-    return this.$el.trigger('next:button:show')
+    this.$el.trigger('next:button:show')
   },
 
   selectCandidates (from, to) {
@@ -73,7 +74,7 @@ export default Marionette.LayoutView.extend({
       direction: 'from'
     })
 
-    return this.$el.trigger('entity:select', {
+    this.$el.trigger('entity:select', {
       uri: to.get('uri'),
       direction: 'to'
     }
@@ -85,11 +86,13 @@ export default Marionette.LayoutView.extend({
   next () {
     // Once we got to the full lists, do not re-generate lists views
     // as you might loose the filter state
-    if (this._listsShown) { return }
+    if (this._listsShown) return
 
     if (this.candidates.length > 0) {
-      return this.showNextProbableDuplicates()
-    } else { return this.showLists() }
+      this.showNextProbableDuplicates()
+    } else {
+      this.showLists()
+    }
   },
 
   showLists () {
@@ -97,14 +100,14 @@ export default Marionette.LayoutView.extend({
     this.showList('wd', this.wdModels)
     this.showList('inv', this.invModels)
     this.$el.trigger('next:button:hide')
-    return this._listsShown = true
+    this._listsShown = true
   },
 
   showList (regionName, models, sort = true) {
     if (models.length === 0) { return this[regionName].empty() }
     if (sort) { models.sort(sortAlphabetically) }
     const collection = new Backbone.Collection(models)
-    return this[regionName].show(new DeduplicateWorksList({ collection }))
+    this[regionName].show(new DeduplicateWorksList({ collection }))
   },
 
   setFilter (filter) {
@@ -118,16 +121,16 @@ export default Marionette.LayoutView.extend({
     if ((wdChildren?.length === 1) && (invChildren?.length === 1)) {
       const wdModel = _.values(wdChildren._views)[0].model
       const invModel = _.values(invChildren._views)[0].model
-      return this.selectCandidates(invModel, wdModel)
+      this.selectCandidates(invModel, wdModel)
     }
   },
 
   filterSubView (regionName, filter) {
     const view = this[regionName].currentView
     // Known case: when we are still at the 'probable duplicates' phase
-    if (view == null) { return }
+    if (view == null) return
     view.filter = filter
-    return view.render()
+    view.render()
   }
 })
 
@@ -142,5 +145,7 @@ const spreadWorks = function (data, work) {
 const sortAlphabetically = function (a, b) {
   if (a.get('label').toLowerCase() > b.get('label').toLowerCase()) {
     return 1
-  } else { return -1 }
+  } else {
+    return -1
+  }
 }

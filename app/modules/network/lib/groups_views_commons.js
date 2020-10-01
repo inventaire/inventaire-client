@@ -1,26 +1,24 @@
+import behaviorsPlugin from 'modules/general/plugins/behaviors'
+
 export default {
   showGroup (e) {
-    if (_.isOpenedOutside(e)) {
-
-    } else { return app.execute('show:inventory:group', this.model) }
+    if (_.isOpenedOutside(e)) return
+    app.execute('show:inventory:group', this.model)
   },
 
   showGroupBoard (e) {
-    if (_.isOpenedOutside(e)) {
-
-    } else { return app.execute('show:group:board', this.model) }
+    if (_.isOpenedOutside(e)) return
+    app.execute('show:group:board', this.model)
   },
 
   showGroupSettings (e) {
-    if (_.isOpenedOutside(e)) {
-
-    } else { return app.execute('show:group:board', this.model, { openedSection: 'groupSettings' }) }
+    if (_.isOpenedOutside(e)) return
+    app.execute('show:group:board', this.model, { openedSection: 'groupSettings' })
   },
 
   showMembersMenu (e) {
-    if (_.isOpenedOutside(e)) {
-
-    } else { return app.execute('show:group:board', this.model, { openedSection: 'groupInvite' }) }
+    if (_.isOpenedOutside(e)) return
+    app.execute('show:group:board', this.model, { openedSection: 'groupInvite' })
   },
 
   acceptInvitation () { return this.model.acceptInvitation() },

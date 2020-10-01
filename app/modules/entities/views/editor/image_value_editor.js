@@ -26,11 +26,11 @@ export default ClaimsEditorCommons.extend({
 
   initialize () {
     this.initEditModeState()
-    return this.focusTarget = 'urlInput'
+    this.focusTarget = 'urlInput'
   },
 
   onRender () {
-    return this.focusOnRender()
+    this.focusOnRender()
   },
 
   events: {
@@ -53,7 +53,7 @@ export default ClaimsEditorCommons.extend({
 
   showUploadConfirmation (dataUrl) {
     this.ui.imagePreview.html(`<img src="${dataUrl}">`)
-    return this.ui.uploadConfirmation.show()
+    this.ui.uploadConfirmation.show()
   },
 
   saveFromUrl () {

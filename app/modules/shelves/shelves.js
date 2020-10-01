@@ -18,17 +18,17 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () {
-    return app.commands.setHandlers({ 'show:shelf': showShelf })
+    app.commands.setHandlers({ 'show:shelf': showShelf })
   }
 }
 
 const API = {
   showShelfFromId (shelfId) {
-    if (shelfId == null) { return app.execute('show:inventory:main:user') }
+    if (shelfId == null) { app.execute('show:inventory:main:user') }
 
     return getById(shelfId)
     .then(shelf => {

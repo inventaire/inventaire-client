@@ -8,7 +8,7 @@ export default Marionette.CompositeView.extend({
   childViewContainer: '.inner-merge-suggestions',
   childView: require('./merge_suggestion'),
   initialize () {
-    return this.hasManySuggestions = this.collection.length > 1
+    this.hasManySuggestions = this.collection.length > 1
   },
 
   childViewOptions () {
@@ -36,15 +36,15 @@ export default Marionette.CompositeView.extend({
   unselectAll () { return this.setAllSelected(false) },
   setAllSelected (bool) {
     return _.toArray(this.$el.find('input[type="checkbox"]'))
-    .forEach(el => el.checked = bool)
+    .forEach(el => { el.checked = bool })
   },
 
   mergeSelectedSuggestions () {
     const selectedViews = Object.values(this.children._views).filter(child => child.isSelected())
 
-    var mergeSequentially = function () {
+    const mergeSequentially = function () {
       const nextSelectedView = selectedViews.shift()
-      if (nextSelectedView == null) { return }
+      if (nextSelectedView == null) return
       return nextSelectedView.merge()
       .then(mergeSequentially)
     }

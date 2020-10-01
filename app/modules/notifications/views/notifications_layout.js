@@ -33,9 +33,9 @@ export default Marionette.LayoutView.extend({
     ({ notifications: this.notifications } = this.options)
 
     this.waitForFriendsRequests = app.request('fetch:otherRequested')
-      .then(() => { return this.otherRequested = app.users.otherRequested })
+      .then(() => { this.otherRequested = app.users.otherRequested })
 
-    return this.waitForGroupsInvitations = app.request('wait:for', 'groups')
+    this.waitForGroupsInvitations = app.request('wait:for', 'groups')
   },
 
   behaviors: {
@@ -49,7 +49,7 @@ export default Marionette.LayoutView.extend({
     this.waitForGroupsInvitations
     .then(this.ifViewIsIntact('showGroupsInvitations'))
 
-    return this.showNotificationsList()
+    this.showNotificationsList()
   },
 
   events: {

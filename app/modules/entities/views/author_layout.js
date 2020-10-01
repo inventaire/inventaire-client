@@ -36,7 +36,7 @@ export default TypedEntityLayout.extend({
   initialize () {
     TypedEntityLayout.prototype.initialize.call(this)
     // Trigger fetchWorks only once the author is in view
-    return this.$el.once('inview', this.fetchWorks.bind(this))
+    this.$el.once('inview', this.fetchWorks.bind(this))
   },
 
   events: {
@@ -55,7 +55,7 @@ export default TypedEntityLayout.extend({
 
   onRender () {
     TypedEntityLayout.prototype.onRender.call(this)
-    if (this.worksShouldBeShown) { return this.showWorks() }
+    if (this.worksShouldBeShown) { this.showWorks() }
   },
 
   showWorks () {
@@ -84,11 +84,11 @@ export default TypedEntityLayout.extend({
     }
 
     if (this.model.works.articles.totalLength > 0) {
-      return this.showWorkCollection('articles')
+      this.showWorkCollection('articles')
     }
   },
 
-  unwrap () { return this.$el.removeClass('wrapped') },
+  unwrap () { this.$el.removeClass('wrapped') },
 
   showWorkCollection (type, initialLength) {
     return this[`${type}Region`].show(new EntitiesList({

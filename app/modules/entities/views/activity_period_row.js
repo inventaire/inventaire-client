@@ -9,7 +9,7 @@ export default Marionette.ItemView.extend({
 
   showUserContributions (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:user:contributions', this.model.get('user')._id)
+      app.execute('show:user:contributions', this.model.get('user')._id)
     }
   }
 })

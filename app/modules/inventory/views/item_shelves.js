@@ -2,7 +2,6 @@ import { addItems, removeItems } from 'modules/shelves/lib/shelves'
 import NoShelfView from './no_shelf'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import forms_ from 'modules/general/lib/forms'
-import error_ from 'lib/error'
 
 const ItemShelfLi = Marionette.ItemView.extend({
   tagName: 'li',
@@ -55,8 +54,7 @@ const ItemShelfLi = Marionette.ItemView.extend({
   },
 
   toggleShelfSelector () {
-    if (this.bulkMode) { return }
-    const { id } = this.model
+    if (this.bulkMode) return
     if (this.mainUserIsOwner) {
       this._isSelected = !this._isSelected
       if (!this.itemCreationMode) {
@@ -66,16 +64,16 @@ const ItemShelfLi = Marionette.ItemView.extend({
           removeItems(this.model, [ this.item ])
         }
       }
-      return this.render()
+      this.render()
     } else {
-      return app.execute('show:shelf', this.model)
+      app.execute('show:shelf', this.model)
     }
   },
 
   onRender () {
     if (this.isSelected()) {
-      return this.$el.addClass('selected')
-    } else { return this.$el.removeClass('selected') }
+      this.$el.addClass('selected')
+    } else { this.$el.removeClass('selected') }
   },
 
   addShelf () {

@@ -10,7 +10,7 @@ export default Backbone.Collection.extend({
 
   initialize () {
     this.toUpdate = []
-    return this.batchUpdate = _.debounce(this.update.bind(this), 200)
+    this.batchUpdate = _.debounce(this.update.bind(this), 200)
   },
 
   updateStatus (time) {

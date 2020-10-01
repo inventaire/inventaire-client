@@ -16,7 +16,7 @@ export default Marionette.ItemView.extend({
     app.execute('modal:open', 'large', this.options.focus)
     // let the time to the modal to be fully open
     // so that the map can be drawned correctly
-    return this.setTimeout(this.initMap.bind(this), 500)
+    this.setTimeout(this.initMap.bind(this), 500)
   },
 
   initMap () {
@@ -37,17 +37,17 @@ export default Marionette.ItemView.extend({
   },
 
   showUser (e) {
-    if (_.isOpenedOutside(e)) { return }
+    if (_.isOpenedOutside(e)) return
     e.stopPropagation()
     const userId = e.currentTarget.attributes['data-user-id'].value
-    return app.execute('show:inventory:user', userId)
+    app.execute('show:inventory:user', userId)
   },
 
   showItem (e) {
-    if (_.isOpenedOutside(e)) { return }
+    if (_.isOpenedOutside(e)) return
     e.stopPropagation()
     const itemId = e.currentTarget.attributes['data-item-id'].value
-    return app.execute('show:item:byId', itemId)
+    app.execute('show:item:byId', itemId)
   }
 })
 

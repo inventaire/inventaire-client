@@ -82,7 +82,7 @@ const addItemsAndUsers = collection => function (res) {
   if (users?.length > 0) { app.execute('users:add', users) }
 
   // If no collection is passed, let the consumer deal with the results
-  if (collection == null) { return }
+  if (collection == null) return
 
   if (items?.length > 0) { collection.add(items) }
 

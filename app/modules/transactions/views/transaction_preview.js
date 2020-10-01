@@ -33,7 +33,7 @@ export default Marionette.ItemView.extend({
 
   onRender () {
     if (app.request('last:transaction:id') === this.model.id) {
-      return this.$el.addClass('selected')
+      this.$el.addClass('selected')
     }
   },
 
@@ -42,7 +42,7 @@ export default Marionette.ItemView.extend({
       if (this.options.onItem) {
         app.execute('show:transaction', this.model.id)
         // Required to close the ItemShow modal if one was open
-        return app.execute('modal:close')
+        app.execute('modal:close')
       } else {
         return app.vent.trigger('transaction:select', this.model)
       }
@@ -51,8 +51,8 @@ export default Marionette.ItemView.extend({
 
   autoSelect (transac) {
     if (transac === this.model) {
-      return this.$el.addClass('selected')
-    } else { return this.$el.removeClass('selected') }
+      this.$el.addClass('selected')
+    } else { this.$el.removeClass('selected') }
   },
 
   requestContext () {

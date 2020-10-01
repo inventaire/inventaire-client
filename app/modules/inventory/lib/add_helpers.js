@@ -18,7 +18,7 @@ export default function () {
     'last:shelves:set' (shelves) { return set('lastShelves', JSON.stringify(shelves)) }
   })
 
-  return app.reqres.setHandlers({
+  app.reqres.setHandlers({
     'last:add:mode:get': parsedGet.bind(null, 'lastAddMode'),
     'last:transaction:get': parsedGet.bind(null, 'lastTransaction'),
     'last:listing:get' () {

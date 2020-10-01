@@ -22,9 +22,9 @@ const updateUrl = function (groupId) {
     return preq.get(app.API.groups.slug(name, groupId))
     .then(res => {
       this.ui.groupUrl.text(`${window.location.root}/groups/${res.slug}`)
-      return this.ui.groupUrlWrapper.show()
+      this.ui.groupUrlWrapper.show()
     })
   } else {
-    return this.ui.groupUrlWrapper.hide()
+    this.ui.groupUrlWrapper.hide()
   }
 }

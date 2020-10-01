@@ -17,14 +17,14 @@ export default function () {
   _.extend(this, specificMethods)
 
   setPublicationYear.call(this)
-  return setEbooksData.call(this)
+  setEbooksData.call(this)
 };
 
 const setPublicationYear = function () {
   const publicationDate = this.get('claims.wdt:P577.0')
   if (publicationDate != null) {
     this.publicationYear = parseInt(publicationDate.split('-')[0])
-    return this.inPublicDomain = this.publicationYear < publicDomainThresholdYear
+    this.inPublicDomain = this.publicationYear < publicDomainThresholdYear
   }
 }
 
@@ -51,7 +51,7 @@ const setImage = function () {
 
 const getEditionImageData = function (model) {
   const image = model.get('image')
-  if (image?.url == null) { return }
+  if (image?.url == null) return
   return {
     image,
     lang: model.get('lang'),

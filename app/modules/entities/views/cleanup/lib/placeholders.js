@@ -1,15 +1,15 @@
 import { startLoading } from 'modules/general/plugins/behaviors'
 
 const createPlaceholders = function () {
-  if (this._placeholderCreationOngoing) { return }
+  if (this._placeholderCreationOngoing) return
   this._placeholderCreationOngoing = true
 
   const views = _.values(this.worksWithOrdinalRegion.currentView.children._views)
   startLoading.call(this, { selector: '#createPlaceholders', timeout: 300 })
 
-  var createSequentially = function () {
+  const createSequentially = function () {
     const nextView = views.shift()
-    if (nextView == null) { return }
+    if (nextView == null) return
     return nextView.create()
     .then(createSequentially)
   }

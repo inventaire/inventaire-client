@@ -17,11 +17,11 @@ export default Backbone.Model.extend({
       this.set('uri', `isbn:${this.get('normalizedIsbn')}`)
     }
 
-    if (attrs.isInvalid) { return }
+    if (attrs.isInvalid) return
 
     this.setStatusData()
 
-    return this.on('change:title', this.updateInfoState.bind(this))
+    this.on('change:title', this.updateInfoState.bind(this))
   },
 
   canBeSelected () { return !this.get('isInvalid') && !this.get('needInfo') },

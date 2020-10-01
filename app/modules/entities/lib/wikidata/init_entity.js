@@ -1,7 +1,6 @@
 import sitelinks_ from 'lib/wikimedia/sitelinks'
 import wikipedia_ from 'lib/wikimedia/wikipedia'
 import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
-const { escapeExpression } = Handlebars
 const wdHost = 'https://www.wikidata.org'
 
 export default function (attrs) {

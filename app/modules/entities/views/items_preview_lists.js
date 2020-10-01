@@ -1,5 +1,4 @@
 import ItemsPreviewList from './items_preview_list'
-import screen_ from 'lib/screen'
 
 export default Marionette.LayoutView.extend({
   className () {
@@ -22,9 +21,9 @@ export default Marionette.LayoutView.extend({
     ({ category: this.category, itemsModels: this.itemsModels, compact: this.compact, displayItemsCovers: this.displayItemsCovers } = this.options)
     this.itemsWithPositionCount = this.itemsModels?.filter(item => item.hasPosition()).length || 0
     if (this.itemsModels?.length > 0) {
-      return this.collections = spreadByTransactions(this.itemsModels)
+      this.collections = spreadByTransactions(this.itemsModels)
     } else {
-      return this.emptyList = true
+      this.emptyList = true
     }
   },
 
@@ -41,32 +40,28 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    if (!this.emptyList) { return this.showItemsPreviewLists() }
+    if (!this.emptyList) { this.showItemsPreviewLists() }
   },
 
   showItemsPreviewLists () {
-    return (() => {
-      const result = []
-      for (const transaction in this.collections) {
-        const collection = this.collections[transaction]
-        result.push(this[`${transaction}Region`].show(new ItemsPreviewList({
-          transaction,
-          collection,
-          displayItemsCovers: this.displayItemsCovers,
-          compact: this.compact
-        })))
-      }
-      return result
-    })()
+    for (const transaction in this.collections) {
+      const collection = this.collections[transaction]
+      this[`${transaction}Region`].show(new ItemsPreviewList({
+        transaction,
+        collection,
+        displayItemsCovers: this.displayItemsCovers,
+        compact: this.compact
+      }))
+    }
   },
 
   showOnMap () {
     if (!this._itemsPositionsSet) {
-      this.itemsModels.forEach(model => model.position = model.user?.get('position'))
+      this.itemsModels.forEach(model => { model.position = model.user?.get('position') })
       this._itemsPositionsSet = true
     }
     // Add the main user to the list to make sure the map shows their position
-    return app.execute('show:models:on:map', this.itemsModels.concat([ app.user ]))
+    app.execute('show:models:on:map', this.itemsModels.concat([ app.user ]))
   }
 })
 

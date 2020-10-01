@@ -34,7 +34,7 @@ export default function () {
     }
   }
 
-  var focusFirstTabElement = function () {
+  const focusFirstTabElement = function () {
     const $firstTabElement = $modal.find('input, textarea, [tabindex="0"]').first().focus()
     // Do not focus if the element is not visible as that makes the scroll jump
     if (($firstTabElement.length > 0) && $firstTabElement.visible()) {
@@ -43,9 +43,9 @@ export default function () {
   }
 
   let lastOpen = 0
-  var openModal = function () {
+  const openModal = function () {
     lastOpen = _.now()
-    if (isOpened()) { return }
+    if (isOpened()) return
 
     // Prevent width diff jumps
     const bodyWidthBefore = $body.width()
@@ -62,9 +62,9 @@ export default function () {
     // Ignore closing call happening less than 200ms after the last open call:
     // it's probably a view destroying itself and calling modal:close
     // while an other view requiring the modal to be opened just requested it
-    if (lastOpen > (_.now() - 200)) { return }
+    if (lastOpen > (_.now() - 200)) return
 
-    if (!isOpened()) { return }
+    if (!isOpened()) return
 
     $body.removeClass('openedModal')
     $modalWrapper.addClass('hidden')
@@ -90,16 +90,16 @@ export default function () {
     return closeModal()
   }
 
-  var setWidthJumpPreventingRules = function (maxWidth, rightOffset) {
+  const setWidthJumpPreventingRules = function (maxWidth, rightOffset) {
     $body.css('max-width', maxWidth)
     return $topbar.css('right', rightOffset)
   }
 
-  var isOpened = () => $modalWrapper.hasClass('hidden') === false
+  const isOpened = () => $modalWrapper.hasClass('hidden') === false
 
-  var largeModal = () => $modal.addClass('modal-large').removeClass('modal-medium')
-  var mediumModal = () => $modal.removeClass('modal-large').addClass('modal-medium')
-  var normalModal = () => $modal.removeClass('modal-large').removeClass('modal-medium')
+  const largeModal = () => $modal.addClass('modal-large').removeClass('modal-medium')
+  const mediumModal = () => $modal.removeClass('modal-large').addClass('modal-medium')
+  const normalModal = () => $modal.removeClass('modal-large').removeClass('modal-medium')
 
   // Close the modal:
   // - when clicking the 'close' button
@@ -107,17 +107,19 @@ export default function () {
   // - when clicking out of the modal
   $modalWrapper.on('click', e => {
     const { id } = e.target
-    if ((id === 'modalWrapper') || (id === 'modal')) { return exitModal() }
+    if ((id === 'modalWrapper') || (id === 'modal')) exitModal()
   })
   // - when pressing ESC
-  $body.on('keydown', e => { if (getActionKey(e) === 'esc') { return exitModal() } })
+  $body.on('keydown', e => {
+    if (getActionKey(e) === 'esc') exitModal()
+  })
 
   const modalHtml = function (html) {
     $modalContent.html(html)
-    return modalOpen()
+    modalOpen()
   }
 
-  return app.commands.setHandlers({
+  app.commands.setHandlers({
     'modal:open': modalOpen,
     'modal:close': closeModal,
     'modal:html': modalHtml
@@ -126,10 +128,10 @@ export default function () {
 
 const prepareRefocus = function (focusSelector) {
   _.log(focusSelector, 'preparing re-focus')
-  return app.vent.once('modal:closed', () => {
+  app.vent.once('modal:closed', () => {
     const $el = $(focusSelector)
     // Do not focus if the element is not visible as that makes the scroll jump
     if ($el.visible()) { $(focusSelector).focus() }
-    return _.log(focusSelector, 're-focusing')
+    _.log(focusSelector, 're-focusing')
   })
 }

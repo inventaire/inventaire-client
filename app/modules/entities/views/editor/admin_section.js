@@ -27,7 +27,7 @@ export default Marionette.LayoutView.extend({
 
   initialize () {
     this._historyShown = false
-    return this.showHistorySection = app.user.hasAdminAccess
+    this.showHistorySection = app.user.hasAdminAccess
   },
 
   serializeData () {
@@ -57,7 +57,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showMergeSuggestions () {
-    return app.execute('show:merge:suggestions', { region: this.mergeSuggestion, model: this.model })
+    app.execute('show:merge:suggestions', { region: this.mergeSuggestion, model: this.model })
   },
 
   merge (e) {
@@ -80,11 +80,11 @@ export default Marionette.LayoutView.extend({
   toggleHistory () {
     if (!this.history.hasView()) { this.showHistory() }
     this.history.$el.toggleClass('hidden')
-    return this.ui.historyTogglers.toggle()
+    this.ui.historyTogglers.toggle()
   },
 
   deleteEntity () {
-    return app.execute('ask:confirmation', {
+    app.execute('ask:confirmation', {
       confirmationText: _.I18n('delete_entity_confirmation', { label: this.model.get('label') }),
       action: this._deleteEntity.bind(this)
     })

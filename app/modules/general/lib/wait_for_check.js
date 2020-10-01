@@ -11,6 +11,7 @@ export default function (options) {
   // success and/or error handlers MAY be provided
   promise
   .then(res => $selector.trigger('check', success))
+  // eslint-disable-next-line handle-callback-err
   .catch(err => $selector.trigger('fail', error))
 
   return promise

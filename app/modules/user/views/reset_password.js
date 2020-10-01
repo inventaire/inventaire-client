@@ -19,12 +19,12 @@ export default Marionette.ItemView.extend({
 
   initialize () {
     _.extend(this, behaviorsPlugin)
-    return this.formAction = prepareRedirect.call(this, 'home')
+    this.formAction = prepareRedirect.call(this, 'home')
   },
 
   events: {
     'click #updatePassword': 'updatePassword',
-    'click #forgotPassword' () { return app.execute('show:forgot:password') }
+    'click #forgotPassword' () { app.execute('show:forgot:password') }
   },
 
   serializeData () {
@@ -55,7 +55,7 @@ export default Marionette.ItemView.extend({
 
   passwordSuccessCheck () {
     this.ui.password.val('')
-    return this.ui.password.trigger('check')
+    this.ui.password.trigger('check')
   }
 })
 

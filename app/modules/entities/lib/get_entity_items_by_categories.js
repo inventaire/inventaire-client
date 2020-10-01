@@ -1,11 +1,12 @@
 import error_ from 'lib/error'
 
-const getAllEntityUris = model => // Make sure items are fetched for all sub entities as editions that aren't
+// Make sure items are fetched for all sub entities as editions that aren't
 // shown (e.g. on work_layout, editions from other language than
 // the user are filtered-out by default) won't request their items
 // Then 'items:getByEntities' will take care of making every request only once.
-  model.fetchSubEntities()
-.then(() => model.get('allUris'))
+const getAllEntityUris = model => {
+  return model.fetchSubEntities().then(() => model.get('allUris'))
+}
 
 const spreadItems = uris => function (items) {
   let category
@@ -47,7 +48,8 @@ export default function () {
 
   return getAllEntityUris(this)
   .then(uris => app.request('items:getByEntities', uris)
-  .then(spreadItems(uris))).tap(itemsByCategory => { return this.itemsByCategory = itemsByCategory })
+  .then(spreadItems(uris)))
+  .tap(itemsByCategory => { this.itemsByCategory = itemsByCategory })
 };
 
 const byDistance = (itemA, itemB) => getItemDistance(itemA) - getItemDistance(itemB)
@@ -59,5 +61,7 @@ const getItemDistance = item => item.user?.kmDistanceFormMainUser || Infinity
 const getPerimeter = function (nearestPublicItemDistance) {
   if (nearestPublicItemDistance < 50) {
     return Math.max((nearestPublicItemDistance * 2), 10)
-  } else { return 100 }
+  } else {
+    return 100
+  }
 }

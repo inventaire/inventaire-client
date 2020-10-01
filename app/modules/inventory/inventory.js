@@ -27,7 +27,7 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () {
@@ -90,7 +90,7 @@ const API = {
   },
 
   showItemFromId (id) {
-    if (!_.isItemId(id)) { return app.execute('show:error:missing') }
+    if (!_.isItemId(id)) { app.execute('show:error:missing') }
 
     return app.request('get:item:model', id)
     .then(app.Execute('show:item'))
@@ -99,7 +99,7 @@ const API = {
 
   showUserItemsByEntity (username, uri, label) {
     if (!_.isUsername(username) || !_.isEntityUri(uri)) {
-      return app.execute('show:error:missing')
+      app.execute('show:error:missing')
     }
 
     const title = label ? `${label} - ${username}` : `${uri} - ${username}`
@@ -122,14 +122,14 @@ const showItemsFromModels = function (items) {
     throw new Error('shouldnt be at least an empty array here?')
   }
 
-  switch (items.length) {
-  case 0: return app.execute('show:error:missing')
-    // redirect to the item
-  case 1:
-    var item = items.models[0]
-    var fallback = () => API.showUserInventory(item.get('owner'), true)
-    return showItemModal(item, fallback)
-  default: return showItemsList(items)
+  if (items.length === 0) {
+    app.execute('show:error:missing')
+  } else if (items.length === 1) {
+    const item = items.models[0]
+    const fallback = () => API.showUserInventory(item.get('owner'), true)
+    showItemModal(item, fallback)
+  } else {
+    showItemsList(items)
   }
 }
 
@@ -147,9 +147,9 @@ const showItemModal = function (model, fallback) {
   const newRoute = currentRoute()
 
   const navigateAfterModal = function () {
-    if (currentRoute() !== newRoute) { return }
+    if (currentRoute() !== newRoute) return
     if (previousRoute === newRoute) {
-      return app.execute('show:inventory:user', model.get('owner'))
+      app.execute('show:inventory:user', model.get('owner'))
     }
     return app.navigate(previousRoute, { preventScrollTop: true })
   }
@@ -210,7 +210,7 @@ const initializeInventoriesHandlers = function (app) {
     'show:inventory:last': API.showInventoryLast
   })
 
-  return app.reqres.setHandlers({
+  app.reqres.setHandlers({
     'items:update': itemActions.update,
     'items:delete': itemActions.delete,
     'item:create': itemActions.create,

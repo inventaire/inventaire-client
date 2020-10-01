@@ -1,5 +1,4 @@
 import { translate } from 'lib/urls'
-import showViews from '../lib/show_views'
 import getActionKey from 'lib/get_action_key'
 import LiveSearch from 'modules/search/views/live_search'
 import TopBarButtons from './top_bar_buttons'
@@ -34,7 +33,7 @@ export default Marionette.LayoutView.extend({
       'live:search:query': this.setQuery.bind(this)
     })
 
-    return this.listenTo(app.user, 'change:picture', this.lazyRender.bind(this))
+    this.listenTo(app.user, 'change:picture', this.lazyRender.bind(this))
   },
 
   serializeData () {
@@ -51,7 +50,7 @@ export default Marionette.LayoutView.extend({
     if (app.user.loggedIn) { this.showTopBarButtons() }
     // Needed as 'route:change' might have been triggered before
     // this view was initialized
-    return this.onRouteChange(currentSection(), currentRoute())
+    this.onRouteChange(currentSection(), currentRoute())
   },
 
   showTopBarButtons () {
@@ -83,7 +82,7 @@ export default Marionette.LayoutView.extend({
   },
 
   updateConnectionButtons (section) {
-    if (app.user.loggedIn) { return }
+    if (app.user.loggedIn) return
 
     if (screen_.isSmall() && ((section === 'signup') || (section === 'login'))) {
       return $('.connectionButton').hide()
@@ -120,14 +119,14 @@ export default Marionette.LayoutView.extend({
     this.liveSearch.currentView.resetHighlightIndex()
     this.ui.overlay.removeClass('hidden')
     this.ui.closeSearch.removeClass('hidden')
-    return this._liveSearchIsShown = true
+    this._liveSearchIsShown = true
   },
 
   hideLiveSearch (triggerFallbackLayout) {
     // Discard non-boolean flags
     triggerFallbackLayout = (triggerFallbackLayout === true) && (currentRoute() === 'search')
 
-    if (this.liveSearch.$el == null) { return }
+    if (this.liveSearch.$el == null) return
 
     this.liveSearch.$el.hide()
     this.liveSearch.$el.removeClass('shown')
@@ -138,7 +137,7 @@ export default Marionette.LayoutView.extend({
     // is set to be displayed
     if (triggerFallbackLayout && (this.showFallbackLayout != null)) {
       this.showFallbackLayout()
-      return this.showFallbackLayout = null
+      this.showFallbackLayout = null
     }
   },
 
@@ -184,12 +183,12 @@ export default Marionette.LayoutView.extend({
     this.ui.searchField.focus()
     // Set value after focusing so that the cursor appears at the end
     // cf https://stackoverflow.com/a/8631903/3324977inv
-    return this.ui.searchField.val(search)
+    this.ui.searchField.val(search)
   },
 
   // When clicking on a live_search searchField button, the search loose the focus
   // thus the need to recover it
-  recoverSearchFocus () { return this.ui.searchField.focus() },
+  recoverSearchFocus () { this.ui.searchField.focus() },
 
   closeSearch () {
     this.ui.searchField.val('')

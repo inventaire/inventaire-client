@@ -18,12 +18,12 @@ export default Marionette.LayoutView.extend({
   buttonAction (e) {
     if (!_.isOpenedOutside(e)) {
       const { buttonAction } = this.options.redirection
-      if (_.isFunction(buttonAction)) { return buttonAction() }
+      if (_.isFunction(buttonAction)) buttonAction()
     }
   },
 
   onShow () {
     app.execute('background:cover')
-    return this.ui.errorBox.fadeIn()
+    this.ui.errorBox.fadeIn()
   }
 })

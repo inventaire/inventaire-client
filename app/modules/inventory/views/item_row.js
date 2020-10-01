@@ -27,13 +27,14 @@ export default Marionette.ItemView.extend({
   showItem (e) {
     if (_.isOpenedOutside(e)) {
 
-    } else { return app.execute('show:item', this.model) }
+    } else { app.execute('show:item', this.model) }
   },
 
   getCheckedStatus () {
     if (this.getSelectedIds != null) {
-      let needle
-      return (needle = this.model.id, this.getSelectedIds().includes(needle))
-    } else { return false }
+      return this.getSelectedIds().includes(this.model.id)
+    } else {
+      return false
+    }
   }
 })

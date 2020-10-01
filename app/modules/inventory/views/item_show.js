@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
 
   initialize () {
     this.waitForEntity = this.model.grabEntity()
-    return this.waitForAuthors = this.model.waitForWorks.then(getAuthorsModels)
+    this.waitForAuthors = this.model.waitForWorks.then(getAuthorsModels)
   },
 
   modelEvents: {
@@ -36,7 +36,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    return app.execute('modal:open', 'large')
+    app.execute('modal:open', 'large')
   },
 
   onRender () {
@@ -63,7 +63,7 @@ export default Marionette.LayoutView.extend({
         itemToUpdate: this.model
       })
       )
-      return app.execute('modal:open', 'large')
+      app.execute('modal:open', 'large')
     })
   }
 })
@@ -73,7 +73,7 @@ const getAuthorsModels = works => Promise.all(works)
 .reduce(aggregateAuthorsPerProperty, {})
 
 const getSeriePathname = function (works) {
-  if (works?.length !== 1) { return }
+  if (works?.length !== 1) return
   const work = works[0]
   const seriesUris = work.get('claims.wdt:P179')
   if (seriesUris?.length === 1) {

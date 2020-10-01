@@ -16,11 +16,10 @@ import {
 } from './suggestions/default_suggestions'
 
 import { search, loadMoreFromSearch } from './suggestions/search_suggestions'
-const batchLength = 10
 
 export default {
   onRender () {
-    if (this.suggestions == null) { initializeAutocomplete.call(this) }
+    if (this.suggestions == null) initializeAutocomplete.call(this)
     this.suggestionsRegion.show(new AutocompleteSuggestions({ collection: this.suggestions }))
     return addDefaultSuggestionsUris.call(this)
   },
@@ -45,26 +44,26 @@ export default {
     const actionKey = getActionKey(e)
 
     updateOnKey.call(this, value, actionKey)
-    return this._lastValue = value
+    this._lastValue = value
   },
 
   showDropdown () {
-    return this.suggestionsRegion.$el.show()
+    this.suggestionsRegion.$el.show()
   },
 
   hideDropdown () {
     this.suggestionsRegion.$el.hide()
-    return this.ui.input.focus()
+    this.ui.input.focus()
   },
 
   showLoadingSpinner (toggleResults = true) {
     this.suggestionsRegion.currentView.showLoadingSpinner()
-    if (toggleResults) { return this.$el.find('.results').hide() }
+    if (toggleResults) this.$el.find('.results').hide()
   },
 
   stopLoadingSpinner (toggleResults = true) {
     this.suggestionsRegion.currentView.stopLoadingSpinner()
-    if (toggleResults) { return this.$el.find('.results').show() }
+    if (toggleResults) this.$el.find('.results').show()
   }
 }
 
@@ -77,7 +76,7 @@ const initializeAutocomplete = function () {
   this.listenTo(this.suggestions, 'selected:value', completeQuery.bind(this))
   this.listenTo(this.suggestions, 'highlight', fillQuery.bind(this))
   this.listenTo(this.suggestions, 'error', showAlertBox.bind(this))
-  return this.listenTo(this.suggestions, 'load:more', loadMore.bind(this))
+  this.listenTo(this.suggestions, 'load:more', loadMore.bind(this))
 }
 
 // Complete the query using the selected suggestion.
@@ -89,7 +88,7 @@ const completeQuery = function (suggestion) {
 // Complete the query using the highlighted or the clicked suggestion.
 const fillQuery = function (suggestion) {
   this.ui.input.val(suggestion.get('label'))
-  return this.onAutoCompleteSelect(suggestion)
+  this.onAutoCompleteSelect(suggestion)
 }
 
 const loadMore = function () {
@@ -99,55 +98,47 @@ const loadMore = function () {
 }
 
 const showAlertBox = function (err) {
-  return this.$el.trigger('alert', { message: err.message })
+  this.$el.trigger('alert', { message: err.message })
 }
 
 const updateOnKey = function (value, actionKey) {
   if (actionKey != null) {
     const actionMade = keyAction.call(this, actionKey)
-    if (actionMade !== false) { return }
+    if (actionMade !== false) return
   }
 
   if (value.length === 0) {
     showDefaultSuggestions.call(this)
-    return this._showingDefaultSuggestions = true
+    this._showingDefaultSuggestions = true
   } else if (value !== this._lastValue) {
     this.showDropdown()
     this.lazySearch(value)
-    return this._showingDefaultSuggestions = false
+    this._showingDefaultSuggestions = false
   }
 }
 
 const keyAction = function (actionKey) {
-  // actions happening in any case
-  switch (actionKey) {
-  case 'esc':
+  // Actions happening in any case
+  if (actionKey === 'esc') {
     this.hideDropdown()
     return true
-    break
   }
 
-  // actions conditional to suggestions state
+  // Actions conditional to suggestions state
   if (!this.suggestions.isEmpty()) {
-    switch (actionKey) {
-    case 'enter':
+    if (actionKey === 'enter') {
       this.suggestions.trigger('select:from:key')
       return true
-      break
-    case 'down':
+    } else if (actionKey === 'down') {
       this.showDropdown()
       this.suggestions.trigger('highlight:next')
       return true
-      break
-    case 'up':
+    } else if (actionKey === 'up') {
       this.showDropdown()
       this.suggestions.trigger('highlight:previous')
       return true
-      break
     }
   }
-  // when 'home' then @suggestions.trigger 'highlight:first'
-  // when 'end' then @suggestions.trigger 'highlight:last'
 
   return false
 }

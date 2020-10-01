@@ -14,7 +14,7 @@ export default Marionette.Behavior.extend({
 
   init () {
     // Known case: the view does not always display a textarea
-    if (this.ui.textarea.length === 0) { return }
+    if (this.ui.textarea.length === 0) return
 
     return autosize(this.ui.textarea)
   },

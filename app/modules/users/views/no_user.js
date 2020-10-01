@@ -3,7 +3,7 @@ export default Marionette.ItemView.extend({
   className: 'text-center hidden',
   template: require('./templates/no_user'),
 
-  onShow () { return this.$el.fadeIn() },
+  onShow () { this.$el.fadeIn() },
 
   serializeData () {
     return { message: this.options.message || "can't find anyone with that name" }

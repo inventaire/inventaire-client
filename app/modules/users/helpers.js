@@ -1,6 +1,5 @@
 import error_ from 'lib/error'
 import usersData from './users_data'
-import Users from 'modules/users/collections/users'
 
 export default function (app) {
   const sync = {
@@ -77,7 +76,7 @@ export default function (app) {
     }
   }
 
-  var getUserModelFromUsername = function (username) {
+  const getUserModelFromUsername = function (username) {
     username = username.toLowerCase()
     if (app.user.loggedIn && (username === app.user.get('username').toLowerCase())) {
       return Promise.resolve(app.user)
@@ -91,7 +90,7 @@ export default function (app) {
     .then(addUser)
   }
 
-  var addUsers = function (users) {
+  const addUsers = function (users) {
     users = _.forceArray(users).filter(isntMainUser)
     // Do not set { merge: true } as that could overwrite some attributes
     // set at initialization
@@ -100,7 +99,7 @@ export default function (app) {
     return app.users.add(users)
   }
 
-  var addUser = users => addUsers(users)[0]
+  const addUser = users => addUsers(users)[0]
 
   const { searchByText } = require('./lib/search')(app)
 

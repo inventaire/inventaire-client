@@ -23,7 +23,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    return this.formAction = prepareRedirect.call(this)
+    this.formAction = prepareRedirect.call(this)
   },
 
   events: {
@@ -37,7 +37,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    return this.ui.classicUsername.focus()
+    this.ui.classicUsername.focus()
   },
 
   serializeData () {

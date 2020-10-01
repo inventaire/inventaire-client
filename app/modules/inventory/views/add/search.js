@@ -22,8 +22,8 @@ export default Marionette.CompositeView.extend({
 
   onShow () {
     if (this.collection.length > 0) {
-      return this.ui.history.show()
-    } else { return this.listenToHistory() }
+      this.ui.history.show()
+    } else { this.listenToHistory() }
   },
 
   events: {
@@ -33,16 +33,16 @@ export default Marionette.CompositeView.extend({
 
   showTypeSearch (e) {
     const type = e.currentTarget.href.split('type=')[1]
-    return app.execute('search:global', '', type)
+    app.execute('search:global', '', type)
   },
 
   clearHistory () {
     this.collection.reset()
     this.ui.history.hide()
-    return this.listenToHistory()
+    this.listenToHistory()
   },
 
   listenToHistory () {
-    return this.listenToOnce(this.collection, 'add', this.ui.history.show.bind(this.ui.history))
+    this.listenToOnce(this.collection, 'add', this.ui.history.show.bind(this.ui.history))
   }
 })

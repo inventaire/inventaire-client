@@ -11,17 +11,17 @@ export default Marionette.ItemView.extend({
   }
 })
 
-const tailorForLang = function (listsByLang, lang) {
+const tailorForLang = (listsByLang, userLang) => {
   // first the user lang
-  let orderedData = listsByLang[lang] || []
+  let orderedData = listsByLang[userLang] || []
   // then English
-  if (lang !== 'en') {
-    if (listsByLang.en != null) { orderedData = orderedData.concat(listsByLang.en) }
+  if (userLang !== 'en') {
+    if (listsByLang.en != null) orderedData = orderedData.concat(listsByLang.en)
   }
   // then other langs
-  for (lang in listsByLang) {
+  for (const lang in listsByLang) {
     const list = listsByLang[lang]
-    if ((lang !== lang) && (lang !== 'en')) {
+    if (lang !== userLang && lang !== 'en') {
       orderedData = orderedData.concat(list)
     }
   }

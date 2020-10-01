@@ -59,7 +59,7 @@ const initLateHelpers = function () {
 
     const hasOngoingTransactionsByItemId = itemId => getOngoingTransactionsModelsByItemId(itemId).length > 0
 
-    return app.reqres.setHandlers({
+    app.reqres.setHandlers({
       'get:transactions:ongoing:byItemId': getOngoingTransactionsByItemId,
       'get:transaction:ongoing:byItemId': getOneOngoingTransactionByItemId,
       'has:transactions:ongoing:byItemId': hasOngoingTransactionsByItemId

@@ -19,7 +19,7 @@ export default InfiniteScrollItemsList.extend({
     this.initInfiniteScroll();
     ({ itemsIds: this.itemsIds, isMainUser: this.isMainUser, groupContext: this.groupContext } = this.options)
     this.selectedIds = []
-    return this.getSelectedIds = () => this.selectedIds
+    this.getSelectedIds = () => this.selectedIds
   },
 
   childViewOptions () { return { getSelectedIds: this.getSelectedIds, isMainUser: this.isMainUser, groupContext: this.groupContext } },
@@ -76,9 +76,9 @@ export default InfiniteScrollItemsList.extend({
     }
 
     if (list.length === this.itemsIds.length) {
-      return this.ui.selectAll.addClass('hidden')
+      this.ui.selectAll.addClass('hidden')
     } else {
-      return this.ui.selectAll.removeClass('hidden')
+      this.ui.selectAll.removeClass('hidden')
     }
   },
 

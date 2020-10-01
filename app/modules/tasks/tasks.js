@@ -8,11 +8,11 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () {
-    return app.commands.setHandlers({ 'show:task': API.showTask })
+    app.commands.setHandlers({ 'show:task': API.showTask })
   }
 }
 

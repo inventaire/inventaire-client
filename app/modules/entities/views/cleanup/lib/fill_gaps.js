@@ -5,7 +5,7 @@ export default function () {
   if (this.partsNumber == null) { this.partsNumber = 0 }
   const lastOrdinal = _.last(existingOrdinals)
   const end = _.max([ this.partsNumber, lastOrdinal ])
-  if (end < 1) { return }
+  if (end < 1) return
   const newPlaceholders = []
   for (let i = 1, end1 = end, asc = end1 >= 1; asc ? i <= end1 : i >= end1; asc ? i++ : i--) {
     if (!existingOrdinals.includes(i)) { newPlaceholders.push(getPlaceholder.call(this, i)) }

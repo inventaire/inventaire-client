@@ -17,7 +17,7 @@ export default {
     return Promise.try(() => {
       _.log({ property, oldValue, newValue }, 'setPropertyValue args')
       _.type(property, 'string')
-      if (oldValue === newValue) { return }
+      if (oldValue === newValue) return
 
       const propArrayPath = `claims.${property}`
       let propArray = this.get(propArrayPath)
@@ -62,7 +62,8 @@ export default {
       property,
       'new-value': newValue,
       'old-value': oldValue
-    }).catch(_.ErrorRethrow('savePropertyValue err'))
+    })
+    .catch(_.ErrorRethrow('savePropertyValue err'))
   },
 
   setLabel (lang, value) {
@@ -85,7 +86,7 @@ export default {
     const id = this.id || uri.split(':')[1]
     return preq.get(app.API.entities.history(id))
     // reversing to get the last patches first
-    .then(res => { return this.history = new Patches(res.patches.reverse()) })
+    .then(res => { this.history = new Patches(res.patches.reverse()) })
   },
 
   // Invalidating the entity's and its relatives cache
@@ -108,6 +109,6 @@ export default {
 
     uris = _.compact(_.flatten(uris))
 
-    return app.execute('invalidate:entities:cache', uris)
+    app.execute('invalidate:entities:cache', uris)
   }
 }

@@ -12,7 +12,7 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () {
@@ -20,7 +20,7 @@ export default {
 
     app.reqres.setHandlers({ 'notifications:unread:count' () { return notifications.unreadCount() } })
 
-    return waitForNotifications = getNotificationsData()
+    waitForNotifications = getNotificationsData()
   }
 }
 

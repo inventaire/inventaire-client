@@ -8,17 +8,17 @@ export default Marionette.Behavior.extend({
     this.scrollDuration = this.options.marginTop || 0
 
     const delay = this.options.debounce || 500
-    return this._lazyScroll = _.debounce(this.scrollToTarget.bind(this), delay)
+    this._lazyScroll = _.debounce(this.scrollToTarget.bind(this), delay)
   },
 
   onShow () {
-    return this.alreadyScrolled = false
+    this.alreadyScrolled = false
   },
 
-  onRender () { return this._lazyScroll() },
+  onRender () { this._lazyScroll() },
 
   // defining it on the Class to allow event binding
-  lazyScroll () { return this._lazyScroll() },
+  lazyScroll () { this._lazyScroll() },
   events: {
     // retry once new child view are ready, in case the target wasn't found
     // on render
@@ -26,14 +26,14 @@ export default Marionette.Behavior.extend({
   },
 
   scrollToTarget () {
-    if (this.alreadyScrolled) { return }
+    if (this.alreadyScrolled) return
 
     const { hash } = location
     if (hash !== '') {
       const $target = this.$el.find(hash)
       if ($target.length > 0) {
         screen_.scrollTop($target, this.scrollDuration, this.marginTop)
-        return this.alreadyScrolled = true
+        this.alreadyScrolled = true
       }
     }
   }

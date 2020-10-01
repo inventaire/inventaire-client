@@ -16,7 +16,7 @@ export default Marionette.ItemView.extend({
   },
 
   selectTab (e) {
-    if (_.isOpenedOutside(e)) { return }
+    if (_.isOpenedOutside(e)) return
     const section = e.currentTarget.id.replace('Tab', '')
     app.execute('show:inventory:section', section)
     return e.preventDefault()

@@ -40,7 +40,7 @@ export default Marionette.LayoutView.extend({
     this.initItemData()
     this._lastAddMode = app.request('last:add:mode:get')
 
-    return this.waitForExistingInstances = app.request('item:main:user:entity:items', this.entity.get('uri'))
+    this.waitForExistingInstances = app.request('item:main:user:entity:items', this.entity.get('uri'))
   },
 
   initItemData () {
@@ -75,7 +75,7 @@ export default Marionette.LayoutView.extend({
   onShow () {
     this.showEntityData()
     this.showExistingInstances()
-    return this.showShelves()
+    this.showShelves()
   },
 
   events: {
@@ -93,7 +93,7 @@ export default Marionette.LayoutView.extend({
   showExistingInstances () {
     return this.waitForExistingInstances
     .then(existingEntityItems => {
-      if (existingEntityItems.length === 0) { return }
+      if (existingEntityItems.length === 0) return
       const collection = new Backbone.Collection(existingEntityItems)
       this.$el.find('#existingEntityItemsWarning').show()
       return this.existingEntityItemsRegion.show(new ItemsList({ collection }))
@@ -116,29 +116,29 @@ export default Marionette.LayoutView.extend({
         selectedShelves,
         mainUserIsOwner: true
       }))
-      return this.ui.shelvesWrapper.removeClass('hidden')
+      this.ui.shelvesWrapper.removeClass('hidden')
     }
   },
 
   // TODO: update the UI for update errors
   updateTransaction () {
     const transaction = getSelectorData(this, 'transaction')
-    return this.itemData.transaction = transaction
+    this.itemData.transaction = transaction
   },
 
   updateListing () {
     const listing = getSelectorData(this, 'listing')
-    return this.itemData.listing = listing
+    this.itemData.listing = listing
   },
 
   validateSimple () {
-    return this.createItem()
+    this.createItem()
     .then(() => {
       const lastShelves = app.request('last:shelves:get')
       if ((lastShelves != null) && (lastShelves.length === 1)) {
-        return app.execute('show:shelf', lastShelves[0])
+        app.execute('show:shelf', lastShelves[0])
       } else {
-        return app.execute('show:inventory:main:user')
+        app.execute('show:inventory:main:user')
       }
     })
   },
@@ -169,20 +169,22 @@ export default Marionette.LayoutView.extend({
   },
 
   addNext () {
-    switch (this._lastAddMode) {
-    case 'search': return app.execute('show:add:layout:search')
-    case 'scan:embedded': return app.execute('show:scanner:embedded')
-    default:
+    const { _lastAddMode } = this
+    if (_lastAddMode === 'search') app.execute('show:add:layout:search')
+    else if (_lastAddMode === 'scan:embedded') app.execute('show:scanner:embedded')
+    else {
       // Known case: 'scan:zxing'
       _.warn(this._lastAddMode, 'unknown or obsolete add mode')
-      return app.execute('show:add:layout')
+      app.execute('show:add:layout')
     }
   },
 
   cancel () {
     if (Backbone.history.last.length > 0) {
       return window.history.back()
-    } else { return app.execute('show:home') }
+    } else {
+      app.execute('show:home')
+    }
   }
 })
 

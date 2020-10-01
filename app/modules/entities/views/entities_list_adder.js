@@ -46,12 +46,12 @@ export default Marionette.CompositeView.extend({
   onShow () {
     app.execute('modal:open', 'medium')
     // Doesn't work if set in events for some reason
-    return this.ui.candidates.on('scroll', this.onScroll.bind(this))
+    this.ui.candidates.on('scroll', this.onScroll.bind(this))
   },
 
   events: {
     'click .create': 'create',
-    'click .done' () { return app.execute('modal:close') },
+    'click .done' () { app.execute('modal:close') },
     'keydown #searchCandidates': 'lazySearch'
   },
 
@@ -72,7 +72,7 @@ export default Marionette.CompositeView.extend({
     const href = buildPath('/entity/new', { type: this.type, claims })
 
     this.createPath = href
-    return this._entityCreationData = { type: this.type, claims }
+    this._entityCreationData = { type: this.type, claims }
   },
 
   lazySearch (e) {
@@ -101,7 +101,7 @@ export default Marionette.CompositeView.extend({
     return typeSearch(this.type, input, 50)
     .then(results => {
       // Ignore the results if the input changed
-      if ((input !== this._lastInput) && !initialCandidatesSearch) { return }
+      if ((input !== this._lastInput) && !initialCandidatesSearch) return
       const uris = _.pluck(results, 'uri')
       return this.resetFromUris(uris)
     })
@@ -135,8 +135,8 @@ export default Marionette.CompositeView.extend({
   },
 
   create (e) {
-    if (_.isOpenedOutside(e)) { return }
+    if (_.isOpenedOutside(e)) return
     app.execute('show:entity:create', this._entityCreationData)
-    return app.execute('modal:close')
+    app.execute('modal:close')
   }
 })

@@ -10,7 +10,7 @@ export default Entities.extend({
     this.remainingUris = this.allUris
     this.totalLength = uris.length
     this.fetchedUris = [];
-    ({ refresh: this.refresh, defaultType: this.defaultType, parentContext: this.parentContext } = options)
+    ({ refresh: this.refresh, defaultType: this.defaultType, parentContext: this.parentContext } = options)
     return this.typesAllowlist != null ? this.typesAllowlist : (this.typesAllowlist = options.typesAllowlist)
   },
 

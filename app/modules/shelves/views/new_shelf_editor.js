@@ -20,7 +20,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    return app.execute('last:listing:set', 'private')
+    app.execute('last:listing:set', 'private')
   },
 
   events: {
@@ -35,7 +35,7 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  onShow () { return app.execute('modal:open') },
+  onShow () { app.execute('modal:open') },
 
   shelfEditorKeyAction (e) {
     const key = getActionKey(e)
@@ -46,7 +46,7 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  closeModal () { return app.execute('modal:close') },
+  closeModal () { app.execute('modal:close') },
 
   createShelf () {
     const name = $('#shelfNameEditor').val()
@@ -64,5 +64,5 @@ const afterCreate = function (newShelf) {
   const newShelfModel = new ShelfModel(newShelf)
   app.user.trigger('shelves:change', 'createShelf')
   app.execute('show:shelf', newShelfModel)
-  return app.execute('modal:close')
+  app.execute('modal:close')
 }

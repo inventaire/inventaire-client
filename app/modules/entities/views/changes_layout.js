@@ -28,20 +28,22 @@ export default Marionette.CompositeView.extend({
 
   parseResponse (uris) {
     this.rest = uris
-    return this.showMore()
+    this.showMore()
   },
 
   showMore (batchLength = 10) {
     this.fetchingMore = true
     // Don't fetch more and keep fetchingMore to true to prevent further requests
-    if (this.rest.length === 0) { return }
+    if (this.rest.length === 0) return
     behaviorsPlugin.startLoading.call(this, '.more')
     const batch = this.rest.slice(0, batchLength)
     this.rest = this.rest.slice(batchLength)
     return this.addFromUris(batch)
   },
 
-  showMoreUnlessAlreadyFetching () { if (!this.fetchingMore) { return this.showMore() } },
+  showMoreUnlessAlreadyFetching () {
+    if (!this.fetchingMore) this.showMore()
+  },
 
   addFromUris (uris) {
     return app.request('get:entities:models', { uris })
@@ -52,7 +54,7 @@ export default Marionette.CompositeView.extend({
   doneFetching () {
     this.fetchingMore = false
     behaviorsPlugin.stopLoading.call(this)
-    return this.ui.counter.html(this.collection.length)
+    this.ui.counter.html(this.collection.length)
   }
 })
 

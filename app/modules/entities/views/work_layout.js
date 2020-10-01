@@ -25,12 +25,12 @@ export default TypedEntityLayout.extend({
     this.displayItemsCovers = true
     TypedEntityLayout.prototype.initialize.call(this)
     entityItems.initialize.call(this)
-    return this.displayMergeSuggestions = app.user.hasAdminAccess
+    this.displayMergeSuggestions = app.user.hasAdminAccess
   },
 
   onRender () {
     TypedEntityLayout.prototype.onRender.call(this)
-    return this.lazyShowItems()
+    this.lazyShowItems()
   },
 
   serializeData () {
@@ -62,9 +62,9 @@ export default TypedEntityLayout.extend({
     )
   },
 
-  toggleWikipediaPreview () { return this.$el.trigger('toggleWikiIframe', this) },
+  toggleWikipediaPreview () { this.$el.trigger('toggleWikiIframe', this) },
 
   showMergeSuggestions () {
-    return app.execute('show:merge:suggestions', { model: this.model, region: this.mergeSuggestionsRegion })
+    app.execute('show:merge:suggestions', { model: this.model, region: this.mergeSuggestionsRegion })
   }
 })

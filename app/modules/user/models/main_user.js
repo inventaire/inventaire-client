@@ -10,7 +10,7 @@ export default UserCommons.extend({
   url () { return app.API.user },
 
   parse (data) {
-    if (data.type === 'deletedUser') { return app.execute('logout') }
+    if (data.type === 'deletedUser') return app.execute('logout')
     data.settings = this.setDefaultSettings(data.settings)
     return data
   },
@@ -42,19 +42,19 @@ export default UserCommons.extend({
     initI18n(app, this.lang)
     this.setDefaultPicture()
     const accessLevels = this.get('accessLevels')
-    if (accessLevels == null) { return }
+    if (accessLevels == null) return
     this.hasAdminAccess = accessLevels.includes('admin')
-    return this.hasDataadminAccess = accessLevels.includes('dataadmin')
+    this.hasDataadminAccess = accessLevels.includes('dataadmin')
   },
 
   // Two valid language change cases:
   // - The user isn't logged in and change the language from the top bar selector
   // - The user is logged in and change the language from their profile settings
   changeLanguage () {
-    if (app.polyglot == null) { return }
+    if (app.polyglot == null) return
 
     const lang = this.get('language')
-    if (lang === app.polyglot.currentLocale) { return }
+    if (lang === app.polyglot.currentLocale) return
 
     let reloadHref = window.location.href
     if (app.request('querystring:get', 'lang') != null) {
@@ -66,17 +66,17 @@ export default UserCommons.extend({
         .replace(/\?$/, '')
     }
 
-    const reload = () => location.href = reloadHref
+    const reload = () => { location.href = reloadHref }
 
     if (this.loggedIn) {
       // Wait for the server confirmation as we keep the language setting
       // in the user's document
       // This event is triggered by app/lib/model_update.coffee
-      return this.once('confirmed:language', reload)
+      this.once('confirmed:language', reload)
     } else {
       // the language setting is persisted as a cookie instead
       cookie_.set('lang', lang)
-      return reload()
+      reload()
     }
   },
 
@@ -103,7 +103,9 @@ export default UserCommons.extend({
   inventoryLength (nonPrivate) {
     if (nonPrivate) {
       return this.get('itemsCount') - this.get('privateItemsCount')
-    } else { return this.get('itemsCount') }
+    } else {
+      return this.get('itemsCount')
+    }
   },
 
   updateItemsCounters (previousListing, newListing) {
@@ -111,7 +113,7 @@ export default UserCommons.extend({
     if (previousListing != null) { snapshot[previousListing]['items:count'] -= 1 }
     if (newListing != null) { snapshot[newListing]['items:count'] += 1 }
     this.set('snapshot', snapshot)
-    return this.setAllInventoryStats()
+    this.setAllInventoryStats()
   },
 
   updateShelvesCounter (action) {
@@ -119,12 +121,12 @@ export default UserCommons.extend({
     if (action === 'createShelf') { shelvesCount += 1 }
     if (action === 'removeShelf') { shelvesCount -= 1 }
     this.set('shelvesCount', shelvesCount)
-    return this.setAllInventoryStats()
+    this.setAllInventoryStats()
   },
 
   setAllInventoryStats () {
     this.setInventoryStats()
-    return this.set('privateItemsCount', this.get('snapshot').private['items:count'])
+    this.set('privateItemsCount', this.get('snapshot').private['items:count'])
   },
 
   deleteAccount () {

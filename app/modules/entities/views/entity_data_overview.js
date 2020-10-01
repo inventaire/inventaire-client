@@ -6,7 +6,7 @@ export default Marionette.ItemView.extend({
   initialize (options) {
     this.hidePicture = options.hidePicture
     if (!this.hidePicture) {
-      return this.listenTo(this.model, 'add:pictures', this.lazyRender.bind(this))
+      this.listenTo(this.model, 'add:pictures', this.lazyRender.bind(this))
     }
   },
 
@@ -28,6 +28,6 @@ export default Marionette.ItemView.extend({
   },
 
   onRender () {
-    return app.execute('uriLabel:update')
+    app.execute('uriLabel:update')
   }
 })

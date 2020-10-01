@@ -1,5 +1,4 @@
 import TypedEntityLayout from './typed_entity_layout'
-import EditionsList from './editions_list'
 import EntitiesList from './entities_list'
 import PaginatedEntities from 'modules/entities/collections/paginated_entities'
 
@@ -26,7 +25,7 @@ export default TypedEntityLayout.extend({
 
   showPublications () {
     this.showCollections()
-    return this.showIsolatedEditions()
+    this.showIsolatedEditions()
   },
 
   showCollections () {

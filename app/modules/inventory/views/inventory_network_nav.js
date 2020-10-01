@@ -38,11 +38,11 @@ export default InventoryCommonNav.extend({
 
   showUsersMenu () {
     this.ui.showUsersMenu.hide()
-    return this.ui.userMenu.removeClass('force-hidden')
+    this.ui.userMenu.removeClass('force-hidden')
   },
 
   showGroupsMenu (e) {
     this.ui.showGroupsMenu.hide()
-    return this.ui.groupMenu.removeClass('force-hidden')
+    this.ui.groupMenu.removeClass('force-hidden')
   }
 })

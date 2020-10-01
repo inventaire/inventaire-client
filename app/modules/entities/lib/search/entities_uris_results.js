@@ -15,7 +15,7 @@ const getEntityId = input => getEntityUri(input)?.split(':')[1]
 export default {
   getEntityUri,
   prepareSearchResult (model) {
-    const [ prefix, id ] = Array.from(model.get('uri').split(':'))
+    const [ , id ] = Array.from(model.get('uri').split(':'))
     const data = model.pick([ 'uri', 'label', 'labels', 'aliases', 'descriptions' ])
     data.id = id
     const searchResult = new SearchResult(data)

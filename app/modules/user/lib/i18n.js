@@ -28,7 +28,7 @@ export default function (app, lang) {
       .replace(/"$/, '')
 
     missingKey(key)
-    if (key == null) { return console.trace() }
+    if (key == null) { console.trace() }
   }
 
   setLanguage(lang, missingKeyWarn)
@@ -55,16 +55,16 @@ const requestI18nFile = (polyglot, lang) => preq.get(app.API.i18nStrings(lang))
 const updatePolyglot = function (polyglot, lang, res) {
   polyglot.replace(res)
   polyglot.locale(lang)
-  return app.execute('waiter:resolve', 'i18n')
+  app.execute('waiter:resolve', 'i18n')
 }
 
 const updateUrilabel = function () {
   const { lang } = app.user
-  return uriLabel.update(lang)
+  uriLabel.update(lang)
 }
 
 const initLocalLang = function (lang) {
   let lastLocalLang = lang
-  app.vent.on('lang:local:change', value => lastLocalLang = value)
-  return app.reqres.setHandlers({ 'lang:local:get' () { return lastLocalLang } })
+  app.vent.on('lang:local:change', value => { lastLocalLang = value })
+  app.reqres.setHandlers({ 'lang:local:get' () { return lastLocalLang } })
 }

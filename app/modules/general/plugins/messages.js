@@ -6,7 +6,7 @@ import forms_ from 'modules/general/lib/forms'
 export default {
   postMessage (posterReqRes, collection, maxLength) {
     const message = this.ui.message.val()
-    if (!this.validMessageLength(message, maxLength)) { return }
+    if (!this.validMessageLength(message, maxLength)) return
 
     const { id } = this.model
 
@@ -14,7 +14,7 @@ export default {
     .catch(this.postMessageFail.bind(this, message))
 
     // empty textarea
-    return this.lazyRender()
+    this.lazyRender()
   },
 
   validMessageLength (message, maxLength = 5000) {
@@ -33,5 +33,5 @@ export default {
     return forms_.alert(this, err)
   },
 
-  recoverMessage (message) { return this.ui.message.val(message) }
+  recoverMessage (message) { this.ui.message.val(message) }
 }

@@ -87,8 +87,10 @@ export default Filterable.extend({
     this.typeSpecificInit()
 
     if (this._dataPromises.length === 0) {
-      return this.waitForData = Promise.resolve()
-    } else { return this.waitForData = Promise.all(this._dataPromises) }
+      this.waitForData = Promise.resolve()
+    } else {
+      this.waitForData = Promise.all(this._dataPromises)
+    }
   },
 
   typeSpecificInit () {
@@ -141,45 +143,53 @@ export default Filterable.extend({
 
   fetchSubEntities (refresh) {
     refresh = this.getRefresh(refresh)
-    if (!refresh && (this.waitForSubentities != null)) { return this.waitForSubentities }
+    if (!refresh && this.waitForSubentities != null) return this.waitForSubentities
 
     if (this.subentitiesName == null) {
       this.waitForSubentities = Promise.resolve()
       return this.waitForSubentities
     }
 
-    const collection = (this[this.subentitiesName] = new Backbone.Collection())
+    const collection = this[this.subentitiesName] = new Backbone.Collection()
 
     const uri = this.get('uri')
-    const prop = this.childrenClaimProperty
 
     // Known case: when called on an instance of entity_draft_model
     if (uri == null) {
-      return this.waitForSubentities = Promise.resolve()
+      this.waitForSubentities = Promise.resolve()
+      return this.waitForSubentities
     }
 
-    return this.waitForSubentities = this.fetchSubEntitiesUris()
+    this.waitForSubentities = this.fetchSubEntitiesUris()
       .then(uris => app.request('get:entities:models', { uris, refresh }))
       .then(this.beforeSubEntitiesAdd.bind(this))
       .then(collection.add.bind(collection))
-      .tap(this.afterSubEntitiesAdd.bind(this))
+
+    const subentities = await this.waitForSubentities
+    this.afterSubEntitiesAdd()
+    return subentities
   },
 
-  fetchSubEntitiesUris (refresh) {
+  async fetchSubEntitiesUris (refresh) {
     refresh = this.getRefresh(refresh)
-    if (!refresh && (this.waitForSubentitiesUris != null)) { return this.waitForSubentitiesUris }
+    if (!refresh && this.waitForSubentitiesUris != null) return this.waitForSubentitiesUris
 
     // A draft entity can't already have subentities
-    if (this.creating) { return this.waitForSubentities = Promise.resolve() }
+    if (this.creating) {
+      this.waitForSubentities = Promise.resolve()
+      return
+    }
 
     const uri = this.get('uri')
     const prop = this.childrenClaimProperty
 
-    return this.waitForSubentitiesUris = entities_.getReverseClaims(prop, uri, refresh)
+    this.waitForSubentitiesUris = entities_.getReverseClaims(prop, uri, refresh)
       .then(uris => {
         this.setSubEntitiesUris(uris)
         return uris
       })
+
+    return this.waitForSubentitiesUris
   },
 
   // Override in sub-types

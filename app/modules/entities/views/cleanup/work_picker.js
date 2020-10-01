@@ -12,7 +12,7 @@ export default Marionette.ItemView.extend({
   },
 
   initialize () {
-    if (this.workPickerDisabled) { return }
+    if (this.workPickerDisabled) return
     ({ worksWithOrdinal: this.worksWithOrdinal, worksWithoutOrdinal: this.worksWithoutOrdinal, _showWorkPicker: this._showWorkPicker } = this.options)
     if (this.workUri == null) { this.workUri = this.options.workUri }
     if (this.afterMerge == null) { this.afterMerge = this.options.afterMerge }
@@ -20,7 +20,7 @@ export default Marionette.ItemView.extend({
   },
 
   onRender () {
-    if (this.workPickerDisabled) { return }
+    if (this.workPickerDisabled) return
     if (this._showWorkPicker) {
       this.setTimeout(this.ui.workPickerSelect.focus.bind(this.ui.workPickerSelect), 100)
       return this.startListingForChanges()
@@ -28,10 +28,10 @@ export default Marionette.ItemView.extend({
   },
 
   startListingForChanges () {
-    if (this._listingForChanges) { return }
+    if (this._listingForChanges) return
     this._listingForChanges = true
     this.listenTo(this.worksWithOrdinal, 'update', this.lazyRender.bind(this))
-    return this.listenTo(this.worksWithoutOrdinal, 'update', this.lazyRender.bind(this))
+    this.listenTo(this.worksWithoutOrdinal, 'update', this.lazyRender.bind(this))
   },
 
   behaviors: {
@@ -55,27 +55,27 @@ export default Marionette.ItemView.extend({
 
   selectWork () {
     const uri = this.ui.workPickerSelect.val()
-    if (!_.isEntityUri(uri)) { return }
+    if (!_.isEntityUri(uri)) return
     const work = this.findWorkByUri(uri)
-    if (work == null) { return }
-    return this.onWorkSelected(work)
+    if (work == null) return
+    this.onWorkSelected(work)
   },
 
   showWorkPicker () {
     this._showWorkPicker = true
-    return this.lazyRender()
+    this.lazyRender()
   },
 
   hideWorkPicker () {
     this._showWorkPicker = false
-    return this.lazyRender()
+    this.lazyRender()
   },
 
   onSelectChange () {
     const uri = this.ui.workPickerSelect.val()
     if (_.isEntityUri(uri)) {
-      return this.ui.workPickerValidate.removeClass('hidden')
-    } else { return this.ui.workPickerValidate.addClass('hidden') }
+      this.ui.workPickerValidate.removeClass('hidden')
+    } else { this.ui.workPickerValidate.addClass('hidden') }
   },
 
   getWorksList () {

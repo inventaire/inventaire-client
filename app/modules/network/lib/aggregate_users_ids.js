@@ -10,10 +10,11 @@ export default function () {
   // locking the context for use here-after
   const getUsersIds = this.getUsersIds.bind(this)
 
-  var recalculateAll = function (name, categories) {
+  const recalculateAll = function (name, categories) {
     categories = _.forceArray(categories)
     const ids = _.chain(categories).map(getUsersIds).flatten().value()
-    return cache[name] = ids
+    cache[name] = ids
+    return cache[name]
   }
 
   for (name in aggregates) {
@@ -23,15 +24,13 @@ export default function () {
     this[`all${Name}Ids`] = all.bind(this, name, categories)
   }
 
-  return this.recalculateAllLists = () => (() => {
-    const result = []
+  this.recalculateAllLists = () => {
     for (name in aggregates) {
       categories = aggregates[name]
-      result.push(recalculateAll(name, categories))
+      recalculateAll(name, categories)
     }
-    return result
-  })()
-};
+  }
+}
 
 const aggregates = {
   admins: 'admins',

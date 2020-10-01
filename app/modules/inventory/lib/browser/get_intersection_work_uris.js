@@ -12,7 +12,7 @@ export default function (worksTree, filters) {
     }
   }
 
-  if (subsets.length === 0) { return null }
+  if (subsets.length === 0) return null
 
   const intersectionWorkUris = _.intersection(...Array.from(subsets || []))
 
@@ -29,5 +29,5 @@ const getFilterWorksUris = function (worksTree, selectorName, selectedOptionKey)
 }
 
 const resetFilterData = function (selectorName) {
-  if (selectorName === 'owner') { return currentOwnerItemsByWork = null }
+  if (selectorName === 'owner') currentOwnerItemsByWork = null
 }

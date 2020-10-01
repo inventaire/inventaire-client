@@ -12,7 +12,7 @@ export default {
       }
     })
 
-    return app.addInitializer(() => new Router({ controller: API }))
+    app.addInitializer(() => new Router({ controller: API }))
   },
 
   initialize () {
@@ -29,7 +29,7 @@ export default {
       'show:user:contributions': API.showUserContributions
     })
 
-    return app.reqres.setHandlers({
+    app.reqres.setHandlers({
       // Refreshing relations can be useful
       // to refresh notifications counters that depend on app.relations
       'refresh:relations': initRelations
@@ -52,8 +52,8 @@ const API = {
     }
   },
 
-  showUser (id) { return app.execute('show:inventory:user', id) },
-  showSearchUsers () { return app.execute('show:users:search') }
+  showUser (id) { app.execute('show:inventory:user', id) },
+  showSearchUsers () { app.execute('show:users:search') }
 }
 
 const initRelations = function () {
@@ -61,8 +61,9 @@ const initRelations = function () {
     return preq.get(app.API.relations)
     .then(relations => {
       app.relations = relations
-      return app.execute('waiter:resolve', 'relations')
-    }).catch(_.Error('relations init err'))
+      app.execute('waiter:resolve', 'relations')
+    })
+    .catch(_.Error('relations init err'))
   } else {
     app.relations = {
       friends: [],
@@ -70,6 +71,6 @@ const initRelations = function () {
       otherRequested: [],
       network: []
     }
-    return app.execute('waiter:resolve', 'relations')
+    app.execute('waiter:resolve', 'relations')
   }
 }

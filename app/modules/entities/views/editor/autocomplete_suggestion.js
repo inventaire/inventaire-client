@@ -16,10 +16,10 @@ export default Marionette.ItemView.extend({
 
   highlight () {
     this.trigger('highlight')
-    return this.$el.addClass('active')
+    this.$el.addClass('active')
   },
 
-  removeHighlight () { return this.$el.removeClass('active') },
+  removeHighlight () { this.$el.removeClass('active') },
 
-  select () { return this.triggerMethod('select:from:click', this.model) }
+  select () { this.triggerMethod('select:from:click', this.model) }
 })

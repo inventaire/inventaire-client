@@ -11,7 +11,7 @@ const CandidatesQueue = Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: require('./candidate_row'),
   childEvents: {
-    'selection:changed' () { return this.triggerMethod('selection:changed') }
+    'selection:changed' () { this.triggerMethod('selection:changed') }
   }
 })
 
@@ -64,7 +64,7 @@ export default Marionette.LayoutView.extend({
   initialize () {
     ({ candidates: this.candidates } = this.options)
     this.items = new Backbone.Collection()
-    return this.lazyUpdateSteps = _.debounce(this.updateSteps.bind(this), 50)
+    this.lazyUpdateSteps = _.debounce(this.updateSteps.bind(this), 50)
   },
 
   serializeData () {
@@ -78,7 +78,7 @@ export default Marionette.LayoutView.extend({
     this.candidatesQueue.show(new CandidatesQueue({ collection: this.candidates }))
     this.itemsList.show(new ImportedItemsList({ collection: this.items }))
     this.lazyUpdateSteps()
-    return this.showShelves()
+    this.showShelves()
   },
 
   selectAll () {
@@ -117,9 +117,9 @@ export default Marionette.LayoutView.extend({
     }
 
     if (this.candidates.length === 0) {
-      return this.ui.step2.addClass('force-hidden')
+      this.ui.step2.addClass('force-hidden')
     } else {
-      return this.ui.step2.removeClass('force-hidden')
+      this.ui.step2.removeClass('force-hidden')
     }
   },
 
@@ -139,7 +139,7 @@ export default Marionette.LayoutView.extend({
         selectedShelves,
         mainUserIsOwner: true
       }))
-      return this.ui.shelvesWrapper.removeClass('hidden')
+      this.ui.shelvesWrapper.removeClass('hidden')
     }
   },
 
@@ -176,7 +176,8 @@ export default Marionette.LayoutView.extend({
       if (!this.failed) { this.failed = [] }
       this.failed.push(candidate)
       _.error(err, 'chainedImport err')
-    }).then(item => {
+    })
+    .then(item => {
       this.candidates.remove(candidate)
       if (item != null) {
         this.items.add(item)
@@ -203,23 +204,23 @@ export default Marionette.LayoutView.extend({
       this.failed = []
     }
     // triggering events on the parent via childEvents
-    return this.triggerMethod('import:done')
+    this.triggerMethod('import:done')
   },
 
   showAddedBooks () {
     this.ui.addedBooks.fadeIn()
-    return this.setTimeout(screen_.scrollTop.bind(null, this.ui.addedBooks), 600)
+    this.setTimeout(screen_.scrollTop.bind(null, this.ui.addedBooks), 600)
   },
 
   toggleValidationElements () {
-    return this.ui.validationElements.toggleClass('force-hidden')
+    this.ui.validationElements.toggleClass('force-hidden')
   },
 
   planProgressUpdate () {
     // Using a recursive timeout instead of an interval
     // to avoid trying to update after a failed attempt
     // Typically occurring when the view as been destroyed
-    return this.timeoutId = setTimeout(this.updateProgress.bind(this), 1000)
+    this.timeoutId = setTimeout(this.updateProgress.bind(this), 1000)
   },
 
   stopProgressUpdate () {

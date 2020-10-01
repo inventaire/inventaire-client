@@ -18,7 +18,7 @@ export default function (containerSelector, itemSelector, minWidth = 500) {
     // It often happen that after triggering a masonry view
     // the user triggered an other view so that when images are ready
     // there is no more masonry to do, thus this check
-    if ($itemsCascade.length === 0) { return }
+    if ($itemsCascade.length === 0) return
 
     const itemsPerLine = $itemsCascade.width() / itemWidth
     const tooFewItems = this.collection.length < itemsPerLine
@@ -27,6 +27,7 @@ export default function (containerSelector, itemSelector, minWidth = 500) {
       const positionBefore = window.scrollY
       const container = document.querySelector(containerSelector)
       $(containerSelector).css('opacity', 0)
+      // eslint-disable-next-line no-new
       new Masonry(container, {
         itemSelector,
         isFitWidth: true,

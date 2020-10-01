@@ -54,8 +54,8 @@ export default Marionette.LayoutView.extend({
     return this.ui[tab].addClass('active')
   },
 
-  showProfileSettings () { return this.showTab('profile') },
-  showAccountSettings () { return this.showTab('account') },
-  showNotificationsSettings () { return this.showTab('notifications') },
-  showDataSettings () { return this.showTab('data') }
+  showProfileSettings () { this.showTab('profile') },
+  showAccountSettings () { this.showTab('account') },
+  showNotificationsSettings () { this.showTab('notifications') },
+  showDataSettings () { this.showTab('data') }
 })

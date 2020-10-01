@@ -19,7 +19,7 @@ export default Marionette.ItemView.extend({
     'click a': 'showResultFromEvent'
   },
 
-  showResultFromEvent (e) { if (!_.isOpenedOutside(e)) { return this.showResult() } },
+  showResultFromEvent (e) { if (!_.isOpenedOutside(e)) { this.showResult() } },
   showResult () {
     const { id, uri, label, type, image } = this.model.toJSON()
     switch (type) {
@@ -45,8 +45,8 @@ export default Marionette.ItemView.extend({
     return app.vent.trigger('live:search:show:result')
   },
 
-  unhighlight () { return this.$el.removeClass('highlight') },
-  highlight () { return this.$el.addClass('highlight') }
+  unhighlight () { this.$el.removeClass('highlight') },
+  highlight () { this.$el.addClass('highlight') }
 })
 
 const urlifyImageHash = function (type, hash) {

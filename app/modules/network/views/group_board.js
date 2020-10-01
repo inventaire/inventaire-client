@@ -1,5 +1,4 @@
 import GroupViewsCommons from './group_views_commons'
-
 import GroupBoardHeader from './group_board_header'
 import GroupSettings from './group_settings'
 import UsersSearchLayout from '../views/users_search_layout'
@@ -28,7 +27,7 @@ export default GroupLayoutView.extend({
 
     this._alreadyShownSection = {}
     this.listenTo(this.model, 'action:accept', this.render.bind(this))
-    return this.listenTo(this.model, 'action:leave', this.onLeave.bind(this))
+    this.listenTo(this.model, 'action:leave', this.onLeave.bind(this))
   },
 
   behaviors: {
@@ -63,7 +62,7 @@ export default GroupLayoutView.extend({
     { 'click .section-toggler': 'toggleSection' }),
 
   onShow () {
-    if (this.openedSection != null) { return this.toggleUi(this.openedSection) }
+    if (this.openedSection != null) this.toggleUi(this.openedSection)
   },
 
   showHeader () {
@@ -72,7 +71,7 @@ export default GroupLayoutView.extend({
 
   toggleSection (e) {
     const section = e.currentTarget.parentElement.attributes.id.value
-    return this.toggleUi(section)
+    this.toggleUi(section)
   },
 
   // acting on ui objects and not a region.$el as a region
@@ -84,15 +83,15 @@ export default GroupLayoutView.extend({
       this._alreadyShownSection = true
     }
 
-    return this._toggleUi(uiLabel)
+    this._toggleUi(uiLabel, scroll)
   },
 
-  _toggleUi (uiLabel) {
+  _toggleUi (uiLabel, scroll) {
     const $el = this.ui[uiLabel]
     const $parent = $el.parent()
     $el.slideToggle()
     $parent.find('.fa-caret-right').toggleClass('toggled')
-    if (scroll && $el.visible()) { return screen_.scrollTop($parent, null, 20) }
+    if (scroll && $el.visible()) screen_.scrollTop($parent, null, 20)
   },
 
   onFirstToggle: {
@@ -111,12 +110,12 @@ export default GroupLayoutView.extend({
   _showBoard () {
     this.showHeader()
     this.prepareJoinRequests()
-    if (this.model.mainUserIsMember()) { return this.initSettings() }
+    if (this.model.mainUserIsMember()) this.initSettings()
   },
 
   initSettings () {
     if (this.standalone && this.model.mainUserIsAdmin()) {
-      return this.listenTo(this.model, 'change:slug', this.updateRoute.bind(this))
+      this.listenTo(this.model, 'change:slug', this.updateRoute.bind(this))
     }
   },
 
@@ -129,7 +128,7 @@ export default GroupLayoutView.extend({
       this.ui.groupRequestsSection.show()
       return this.toggleUi('groupRequests', false)
     } else {
-      return this.ui.groupRequestsSection.hide()
+      this.ui.groupRequestsSection.hide()
     }
   },
 
@@ -169,7 +168,7 @@ export default GroupLayoutView.extend({
     )
   },
 
-  onLeave () { return app.execute('show:inventory:group', this.model, true) },
+  onLeave () { app.execute('show:inventory:group', this.model, true) },
 
   showMembersEmailInvitor () {
     return this.groupEmailInvite.show(new InviteByEmail({ group: this.model }))

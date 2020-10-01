@@ -28,14 +28,14 @@ export default Backbone.NestedModel.extend({
       if (operation.op === 'remove') {
         const prevOperation = operations[index - 1]
         if ((prevOperation.op === 'test') && (prevOperation.path === operation.path)) {
-          return operation.value = prevOperation.value
+          operation.value = prevOperation.value
         }
       }
     })
 
     // Filter-out test operations, as it's not a useful information
     operations = operations.filter(operation => operation.op !== 'test')
-    return this.set('operations', operations)
+    this.set('operations', operations)
   },
 
   setOperationsData () {
@@ -83,28 +83,26 @@ export default Backbone.NestedModel.extend({
   },
 
   setOperationsSummaryData () {
-    let added
     const patchType = this.get('patchType')
     const operations = this.get('operations')
 
-    switch (patchType) {
-    case 'add':
-      var operation = operations[0]
-      var { property, value, propertyLabel } = operation
+    if (patchType === 'add') {
+      const operation = operations[0]
+      let { property, value, propertyLabel } = operation
       if (!propertyLabel) { propertyLabel = getPropertyLabel(property) }
-      return this.set('summary', { property, propertyLabel, added: value })
-    case 'remove':
-      operation = operations[0];
-      ({ property, value, propertyLabel } = operation)
+      this.set('summary', { property, propertyLabel, added: value })
+    } else if (patchType === 'remove') {
+      const operation = operations[0]
+      let { property, value, propertyLabel } = operation
       if (!propertyLabel) { propertyLabel = getPropertyLabel(property) }
-      return this.set('summary', { property, propertyLabel, removed: value })
-    case 'update':
-      var addOperation = operations[0];
-      ({ property, value: added, propertyLabel } = addOperation)
-      var removeOperation = operations[1]
-      var { value: removed } = removeOperation
+      this.set('summary', { property, propertyLabel, removed: value })
+    } else if (patchType === 'update') {
+      const addOperation = operations[0]
+      let { property, value: added, propertyLabel } = addOperation
+      const removeOperation = operations[1]
+      const { value: removed } = removeOperation
       if (!propertyLabel) { propertyLabel = getPropertyLabel(property) }
-      return this.set('summary', { property, propertyLabel, added, removed })
+      this.set('summary', { property, propertyLabel, added, removed })
     }
   },
 

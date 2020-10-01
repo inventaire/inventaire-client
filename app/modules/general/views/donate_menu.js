@@ -15,7 +15,7 @@ export default Marionette.ItemView.extend({
     General: {}
   },
 
-  onShow () { if (!this.standalone) { return app.execute('modal:open') } },
+  onShow () { if (!this.standalone) { app.execute('modal:open') } },
 
   serializeData () { return _.extend(donate, { standalone: this.standalone }) }
 })

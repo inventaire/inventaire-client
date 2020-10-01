@@ -25,7 +25,7 @@ export default Marionette.CompositeView.extend({
     const childBottom = childTop + child.$el.height()
     const listPosition = this.ui.resultsWrapper.scrollTop()
     if ((childTop < 0) || (childBottom > listHeight)) {
-      return this.ui.resultsWrapper.animate({ scrollTop: (listPosition + childTop) - 20 })
+      this.ui.resultsWrapper.animate({ scrollTop: (listPosition + childTop) - 20 })
     }
   },
 
@@ -34,7 +34,7 @@ export default Marionette.CompositeView.extend({
 
   onShow () {
     // Doesn't work if set in events for some reason
-    return this.ui.resultsWrapper.on('scroll', this.onResultsScroll.bind(this))
+    this.ui.resultsWrapper.on('scroll', this.onResultsScroll.bind(this))
   },
 
   onResultsScroll (e) {
@@ -50,8 +50,8 @@ export default Marionette.CompositeView.extend({
 
   showLoadingSpinner () {
     this.ui.loader.html('<div class="small-loader"></div>')
-    return this.$el.removeClass('no-results')
+    this.$el.removeClass('no-results')
   },
 
-  stopLoadingSpinner () { return this.ui.loader.html('') }
+  stopLoadingSpinner () { this.ui.loader.html('') }
 })

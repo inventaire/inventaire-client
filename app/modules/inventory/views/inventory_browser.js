@@ -10,7 +10,7 @@ import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
 const selectorsNames = [ 'author', 'genre', 'subject' ]
 const selectorsRegions = {}
-selectorsNames.forEach(name => selectorsRegions[`${name}Region`] = `#${name}`)
+selectorsNames.forEach(name => { selectorsRegions[`${name}Region`] = `#${name}` })
 
 export default Marionette.LayoutView.extend({
   id: 'inventory-browser',
@@ -30,7 +30,7 @@ export default Marionette.LayoutView.extend({
 
     this.display = localStorageProxy.getItem('inventory:display') || 'cascade'
     this.isMainUser = this.options.isMainUser
-    return this.groupContext = (this.options.group != null)
+    this.groupContext = (this.options.group != null)
   },
 
   ui: {
@@ -103,7 +103,7 @@ export default Marionette.LayoutView.extend({
     entities.unknown = getUnknownModel()
     this.showEntitySelector(entities, authors, 'author')
     this.showEntitySelector(entities, genres, 'genre')
-    return this.showEntitySelector(entities, subjects, 'subject')
+    this.showEntitySelector(entities, subjects, 'subject')
   },
 
   showItemsListByIds (itemsIds) {
@@ -150,7 +150,7 @@ export default Marionette.LayoutView.extend({
   showEntitySelector (entities, propertyUris, name) {
     const treeSection = this.worksTree[name]
     const models = _.values(_.pick(entities, propertyUris)).map(addCount(treeSection, name))
-    return this.showSelector(name, models, treeSection)
+    this.showSelector(name, models, treeSection)
   },
 
   showSelector (name, models, treeSection) {
@@ -171,29 +171,25 @@ export default Marionette.LayoutView.extend({
   },
 
   filterSelectors (intersectionWorkUris) {
-    return (() => {
-      const result = []
-      for (const selectorName of selectorsNames) {
-        const { currentView } = this[`${selectorName}Region`]
-        result.push(currentView.filterOptions(intersectionWorkUris))
-      }
-      return result
-    })()
+    for (const selectorName of selectorsNames) {
+      const { currentView } = this[`${selectorName}Region`]
+      currentView.filterOptions(intersectionWorkUris)
+    }
   },
 
   displayFilteredItems (intersectionWorkUris) {
-    if (intersectionWorkUris == null) { return this.showItemsListByIds() }
+    if (intersectionWorkUris == null) { this.showItemsListByIds() }
 
-    if (intersectionWorkUris.length === 0) { return this.showItemsListByIds([]) }
+    if (intersectionWorkUris.length === 0) { this.showItemsListByIds([]) }
 
     const worksItems = _.pick(this.workUriItemsMap, intersectionWorkUris)
     const itemsIds = _.flatten(_.values(worksItems))
-    return this.showItemsListByIds(itemsIds)
+    this.showItemsListByIds(itemsIds)
   },
 
   selectDisplay (e) {
     const display = e.currentTarget.id
-    if (display === this.display) { return }
+    if (display === this.display) return
     this.display = display
     localStorageProxy.setItem('inventory:display', display)
     this.ui.currentDisplayOption.toggleClass('shown')
@@ -201,7 +197,7 @@ export default Marionette.LayoutView.extend({
     // If @_lastShownDisplay isn't defined, the inventory data probably didn't arrive yet
     // and the items were not shown yet
     if ((this._lastShownDisplay != null) && (this._lastShownDisplay !== display)) {
-      return this.showItemsByDisplayMode()
+      this.showItemsByDisplayMode()
     }
   }
 })
@@ -224,6 +220,8 @@ const addCount = (urisData, name) => function (model) {
   return model
 }
 
-const getSelectorsCollection = models => // Using a filtered collection allows browser_selector to filter
+// Using a filtered collection allows browser_selector to filter
 // options without re-rendering the whole view
-  new FilteredCollection(new SelectorsCollection(models))
+const getSelectorsCollection = models => {
+  return new FilteredCollection(new SelectorsCollection(models))
+}

@@ -7,7 +7,6 @@ const routeAllowlist = [
 
 export default function (e) {
   // Allow submit on singup and login to let password managers react to the submit event
-  let needle
-  if ((needle = currentRoute(), routeAllowlist.includes(needle))) { return }
+  if (routeAllowlist.includes(currentRoute())) return
   return e.preventDefault()
-};
+}

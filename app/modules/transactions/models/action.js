@@ -1,7 +1,16 @@
+const actionsIcons = {
+  requested: 'envelope',
+  accepted: 'check',
+  confirmed: 'sign-in',
+  declined: 'times',
+  cancelled: 'times',
+  returned: 'check',
+}
+
 export default Backbone.Model.extend({
   initialize () {
     this.action = this.get('action')
-    return this.userReady = false
+    this.userReady = false
   },
 
   serializeData () {
@@ -13,24 +22,20 @@ export default Backbone.Model.extend({
   },
 
   icon () {
-    switch (this.action) {
-    case 'requested': return 'envelope'
-    case 'accepted': return 'check'
-    case 'confirmed': return 'sign-in'
-    case 'declined': case 'cancelled': return 'times'
-    case 'returned': return 'check'
-    default: return _.warn(this, 'unknown action', true)
-    }
+    return actionsIcons[this.action]
   },
 
   context (withLink) { return this.userAction(this.findUser(), withLink) },
+
   findUser () {
     if (actorCanBeBoth.includes(this.action)) { return this.findCancelActor() }
     if (this.transaction?.owner != null) {
       if (this.transaction.mainUserIsOwner) {
-        if (ownerActions.includes(this.action)) { return 'main' } else { return 'other' }
+        if (ownerActions.includes(this.action)) return 'main'
+        else return 'other'
       } else {
-        if (ownerActions.includes(this.action)) { return 'other' } else { return 'main' }
+        if (ownerActions.includes(this.action)) return 'other'
+        else return 'main'
       }
     }
   },
@@ -39,9 +44,11 @@ export default Backbone.Model.extend({
     const actorIsOwner = this.get('actor') === 'owner'
     const { mainUserIsOwner } = this.transaction
     if (mainUserIsOwner) {
-      if (actorIsOwner) { return 'main' } else { return 'other' }
+      if (actorIsOwner) return 'main'
+      else return 'other'
     } else {
-      if (actorIsOwner) { return 'other' } else { return 'main' }
+      if (actorIsOwner) return 'other'
+      else return 'main'
     }
   },
 
@@ -59,7 +66,9 @@ export default Backbone.Model.extend({
       const [ username, pathname ] = Array.from(otherUser.gets('username', 'pathname'))
       if (withLink) {
         return `<a href='${pathname}' class='username'>${username}</a>`
-      } else { return username }
+      } else {
+        return username
+      }
     }
   }
 })

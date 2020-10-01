@@ -23,7 +23,7 @@ export default Marionette.LayoutView.extend({
 
   onRender () {
     if ((this.itemToUpdate == null) && !this.compactMode) { this.lazyShowItems() }
-    return this.showEntityActions()
+    this.showEntityActions()
   },
 
   serializeData () {
@@ -36,7 +36,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showEntityActions () {
-    if (this.compactMode) { return }
+    if (this.compactMode) return
     return this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate: this.itemToUpdate }))
   }
 })

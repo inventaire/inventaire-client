@@ -43,7 +43,8 @@ export default function () {
     app.request('wait:for', 'i18n'),
     configPromise
   ])
-  .then(() => // Initialize the application on DOM ready event.
+  .then(() => {
+    // Initialize the application on DOM ready event.
     $(() => {
     // initialize layout after user to get i18n data
       app.layout = new AppLayout()
@@ -52,8 +53,9 @@ export default function () {
 
       app.execute('waiter:resolve', 'layout')
 
-      return require('lib/reload_once_a_day')()
-    }))
+      require('lib/reload_once_a_day')()
+    })
+  })
 
-  return configPromise.then(() => require('lib/piwik')())
-};
+  configPromise.then(() => require('lib/piwik')())
+}

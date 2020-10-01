@@ -11,7 +11,7 @@ export default Marionette.CompositeView.extend({
     let uri;
     ({ model: this.model, uri } = this.options)
     if (this.model) { this.collection = this.model.history }
-    return this.redirectUri = uri !== this.model.get('uri') ? uri : undefined
+    this.redirectUri = uri !== this.model.get('uri') ? uri : undefined
   },
 
   serializeData () {

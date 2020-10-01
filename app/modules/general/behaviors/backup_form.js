@@ -9,7 +9,7 @@ export default Marionette.Behavior.extend({
   },
 
   initialize () {
-    return this._backup = {
+    this._backup = {
       byId: {},
       byName: {}
     }
@@ -19,17 +19,19 @@ export default Marionette.Behavior.extend({
     // _.log @_backup, 'backup form data'
     const { id, value, type, name } = e.currentTarget
 
-    if (!_.isNonEmptyString(value)) { return }
-    if ((type !== 'text') && (type !== 'textarea')) { return }
+    if (!_.isNonEmptyString(value)) return
+    if ((type !== 'text') && (type !== 'textarea')) return
 
     if (_.isNonEmptyString(id)) {
-      return this._backup.byId[id] = value
-    } else if (_.isNonEmptyString(name)) { return this._backup.byName[name] = value }
+      this._backup.byId[id] = value
+    } else if (_.isNonEmptyString(name)) {
+      this._backup.byName[name] = value
+    }
   },
 
   recover () {
     customRecover(this.$el, this._backup.byId, buildIdSelector)
-    return customRecover(this.$el, this._backup.byName, buildNameSelector)
+    customRecover(this.$el, this._backup.byName, buildNameSelector)
   },
 
   // Listen on clicks on anchor with a 'data-forget' attribute
@@ -41,27 +43,25 @@ export default Marionette.Behavior.extend({
       _.log(forgetAttr, 'form:forget')
       if (forgetAttr[0] === '#') {
         const id = forgetAttr.slice(1)
-        return delete this._backup.byId[id]
+        delete this._backup.byId[id]
       } else {
         const name = forgetAttr
-        return delete this._backup.byName[name]
+        delete this._backup.byName[name]
       }
     }
   },
 
-  onRender () { return this.recover() }
+  onRender () { this.recover() }
 })
 
-const customRecover = ($el, store, selectorBuilder) => (() => {
-  const result = []
+const customRecover = ($el, store, selectorBuilder) => {
   for (const key in store) {
     const value = store[key]
     _.log(value, key)
     const selector = selectorBuilder(key)
-    result.push($el.find(selector).val(value))
+    $el.find(selector).val(value)
   }
-  return result
-})()
+}
 
 const buildIdSelector = id => `#${id}`
 const buildNameSelector = name => `[name='${name}']`

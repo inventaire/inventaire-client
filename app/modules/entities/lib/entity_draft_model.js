@@ -24,7 +24,7 @@ const propertiesShortlists = {
 
 export default {
   create (options) {
-    let { type, label, claims, next, relation } = options
+    let { type, label, claims, relation } = options
 
     // TODO: allow to select specific type at creation
     const defaultP31 = typeDefaultP31[type]

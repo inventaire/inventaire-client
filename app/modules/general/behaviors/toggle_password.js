@@ -6,7 +6,7 @@ export default Marionette.Behavior.extend({
   },
 
   initialize () {
-    return this.passwordShown = false
+    this.passwordShown = false
   },
 
   events: {
@@ -23,6 +23,6 @@ export default Marionette.Behavior.extend({
     const el = this.view.ui.passwords || this.view.ui.password
     el.attr('type', type)
     this.ui.showPassword.toggleClass('toggled')
-    return this.passwordShown = !this.passwordShown
+    this.passwordShown = !this.passwordShown
   }
 })

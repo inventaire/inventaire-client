@@ -2,7 +2,7 @@ export default Marionette.ItemView.extend({
   className: 'wikidata-edit-intro',
   template: require('./templates/wikidata_edit_intro'),
 
-  onShow () { return app.execute('modal:open', 'medium') },
+  onShow () { app.execute('modal:open', 'medium') },
 
   serializeData () {
     const attrs = this.model.toJSON()
@@ -19,8 +19,8 @@ export default Marionette.ItemView.extend({
   showLogin () {
     // No need to call show:login:redirect as it is called by the General behavior
     // on app_layout(?)
-    return app.execute('modal:close')
+    app.execute('modal:close')
   },
 
-  onModalExit () { return app.execute('show:entity', this.model.get('uri')) }
+  onModalExit () { app.execute('show:entity', this.model.get('uri')) }
 })

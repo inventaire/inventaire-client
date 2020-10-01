@@ -2,12 +2,14 @@ import BindedPartialBuilder from 'lib/binded_partial_builder'
 import { updateRouteMetadata } from 'lib/metadata/update'
 import error_ from 'lib/error'
 import { routeSection, currentRoute } from 'lib/location'
+import behaviors from 'modules/general/behaviors/base'
+
 let initialUrlNavigateAlreadyCalled = false
 
 const App = Marionette.Application.extend({
   initialize () {
     Backbone.history.last = []
-    require('modules/general/behaviors/base').initialize()
+    behaviors.initialize()
     this.Execute = BindedPartialBuilder(this, 'execute')
     this.Request = BindedPartialBuilder(this, 'request')
     this.vent.Trigger = BindedPartialBuilder(this.vent, 'trigger')
@@ -31,7 +33,7 @@ const App = Marionette.Application.extend({
 
     // Make it a binded function so that it can be reused elsewhere without
     // having to bind it again
-    return this.navigateFromModel = navigateFromModel.bind(this)
+    this.navigateFromModel = navigateFromModel.bind(this)
   },
 
   navigate (route, options = {}) {
@@ -75,7 +77,7 @@ const App = Marionette.Application.extend({
 })
 
 const onceStart = function () {
-  const routeFound = Backbone.history.start({ pushState: true })
+  Backbone.history.start({ pushState: true })
 
   // Backbone.history 'route' event seem to be only triggerd
   // when 'previous' is hit. it isn't very clear why,

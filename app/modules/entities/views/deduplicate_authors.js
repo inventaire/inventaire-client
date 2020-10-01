@@ -29,8 +29,10 @@ export default Marionette.CompositeView.extend({
     this.collection = new Backbone.Collection()
     const { name } = this.options
     if (name != null) {
-      return this.showName(name)
-    } else { return this.fetchNames() }
+      this.showName(name)
+    } else {
+      this.fetchNames()
+    }
   },
 
   fetchNames () {
@@ -42,7 +44,7 @@ export default Marionette.CompositeView.extend({
     .tap(stopLoading.bind(this))
     .then(names => {
       this.names = names
-      return this.render()
+      this.render()
     })
   },
 
@@ -55,7 +57,7 @@ export default Marionette.CompositeView.extend({
   showNameFromEvent (e) {
     const name = e.currentTarget.attributes['data-key'].value
     $(e.currentTarget).addClass('visited')
-    return this.showName(name)
+    this.showName(name)
   },
 
   showName (name) {
@@ -91,7 +93,7 @@ export default Marionette.CompositeView.extend({
 
   setFilter (filter) {
     this.filter = filter
-    return this.render()
+    this.render()
   }
 })
 
@@ -99,12 +101,14 @@ const asNameMatch = name => human => _.any(_.values(human.labels), labelMatch(na
 
 const labelMatch = name => label => normalize(label) === normalize(name)
 
-const normalize = name => name
-.trim()
-// Remove single letter for second names 'L.'
-.replace(/\s\w{1}\.\s?/g, ' ')
-// remove double spaces
-.replace(/\s\s/g, ' ')
-// remove special characters
-.replace(/[.\/\\,]/g, '')
-.toLowerCase()
+const normalize = name => {
+  return name
+  .trim()
+  // Remove single letter for second names 'L.'
+  .replace(/\s\w{1}\.\s?/g, ' ')
+  // remove double spaces
+  .replace(/\s\s/g, ' ')
+  // remove special characters
+  .replace(/[./\\,]/g, '')
+  .toLowerCase()
+}

@@ -3,7 +3,6 @@ import Filterable from 'modules/general/models/filterable'
 import error_ from 'lib/error'
 import saveOmitAttributes from 'lib/save_omit_attributes'
 import { factory as transactionsDataFactory } from '../lib/transactions_data'
-import { buildPath } from 'lib/location'
 
 export default Filterable.extend({
   initialize (attrs, options) {
@@ -37,8 +36,9 @@ export default Filterable.extend({
       return this.setUserData()
     } else {
       this.userReady = false
-      return this.waitForUser = this.reqGrab('get:user:model', owner, 'user')
+      this.waitForUser = this.reqGrab('get:user:model', owner, 'user')
         .then(this.setUserData.bind(this))
+      return this.waitForUser
     }
   },
 
@@ -47,11 +47,11 @@ export default Filterable.extend({
     const hasPrivateAttributes = (this.get('listing') != null)
     if (this.get('owner') === app.user.id) {
       if (!hasPrivateAttributes) {
-        return error_.report('item missing private attributes', this)
+        error_.report('item missing private attributes', this)
       }
     } else {
       if (hasPrivateAttributes) {
-        return error_.report('item has private attributes', this)
+        error_.report('item has private attributes', this)
       }
     }
   },
@@ -64,12 +64,14 @@ export default Filterable.extend({
   grabWorks () {
     if (this.waitForWorks != null) { return this.waitForWorks }
 
-    return this.waitForWorks = this.grabEntity()
+    this.waitForWorks = this.grabEntity()
       .then(entity => {
-        if (entity.type === 'work') {
-          return [ entity ]
-        } else { return entity.waitForWorks }
-      }).then(works => this.grab('works', works))
+        if (entity.type === 'work') return [ entity ]
+        else return entity.waitForWorks
+      })
+      .then(works => this.grab('works', works))
+
+    return this.waitForWorks
   },
 
   setUserData () {
@@ -78,7 +80,7 @@ export default Filterable.extend({
     this.authorized = (user.id != null) && (user.id === app.user.id)
     this.restricted = !this.authorized
     this.userReady = true
-    return this.trigger('user:ready')
+    this.trigger('user:ready')
   },
 
   setPathname () { return this.set('pathname', '/items/' + this.id) },
@@ -138,9 +140,8 @@ export default Filterable.extend({
 
   userData () {
     if (this.userReady) {
-      let userData
       const { user } = this
-      return userData = {
+      return {
         username: this.username,
         picture: user.get('picture'),
         pathname: user.get('pathname'),
@@ -166,7 +167,7 @@ export default Filterable.extend({
     // reproduce the behavior from the default Bacbkone::destroy
     this.trigger('destroy', this, this.collection)
     return preq.post(app.API.items.deleteByIds, { ids: [ this.id ] })
-    .tap(() => { return this.isDestroyed = true })
+    .tap(() => { this.isDestroyed = true })
   },
 
   // to be called by a view onShow:
@@ -237,14 +238,14 @@ export default Filterable.extend({
 
   createShelf (shelfId) {
     const shelvesIds = this.get('shelves') || []
-    if (shelvesIds.includes(shelfId)) { return }
+    if (shelvesIds.includes(shelfId)) return
     shelvesIds.push(shelfId)
     return this.set('shelves', shelvesIds)
   },
 
   removeShelf (shelfId) {
     let shelvesIds = this.get('shelves') || []
-    if (!shelvesIds.includes(shelfId)) { return }
+    if (!shelvesIds.includes(shelfId)) return
     shelvesIds = _.without(shelvesIds, shelfId)
     return this.set('shelves', shelvesIds)
   },

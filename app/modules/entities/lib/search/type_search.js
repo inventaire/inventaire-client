@@ -1,4 +1,3 @@
-import SearchResult from 'modules/entities/models/search_result'
 import searchType from './search_type'
 import languageSearch from './language_search'
 import EntitiesUrisResults from './entities_uris_results'
@@ -21,30 +20,34 @@ export default function (type, input, limit, offset) {
 
   if (uri != null) {
     return searchByEntityUri(uri, type)
-  } else { return getSearchTypeFn(type)(input, limit, offset) }
+  } else {
+    return getSearchTypeFn(type)(input, limit, offset)
+  }
 }
 
-const searchByEntityUri = (uri, type) => // As entering the entity URI triggers an entity request,
+// As entering the entity URI triggers an entity request,
 // it might - in case of cache miss - make the server ask the search engine to
 // index that entity, so that it can be found by typing free text
 // instead of a URI next time
 // Refresh=true
-  app.request('get:entity:model', uri, true)
-.catch(_.Error('get entity err'))
-.then(model => {
-  // Ignore errors that were catched and thus didn't return anything
-  if (model == null) { return }
+const searchByEntityUri = (uri, type) => {
+  return app.request('get:entity:model', uri, true)
+  .catch(_.Error('get entity err'))
+  .then(model => {
+    // Ignore errors that were catched and thus didn't return anything
+    if (model == null) return
 
-  const pluarlizedType = (model.type != null) ? model.type + 's' : undefined
-  // The type subjects accepts any type, as any entity can be a topic
-  // Known issue: languages entities aren't attributed a type by the server
-  // thus thtowing an error here even if legit, prefer 2 letters language codes
-  if ((pluarlizedType === type) || (type === 'subjects')) {
-    return [ prepareSearchResult(model) ]
-  } else {
-    throw error_.new('invalid entity type', 400, model)
-  }
-})
+    const pluarlizedType = (model.type != null) ? model.type + 's' : undefined
+    // The type subjects accepts any type, as any entity can be a topic
+    // Known issue: languages entities aren't attributed a type by the server
+    // thus thtowing an error here even if legit, prefer 2 letters language codes
+    if ((pluarlizedType === type) || (type === 'subjects')) {
+      return [ prepareSearchResult(model) ]
+    } else {
+      throw error_.new('invalid entity type', 400, model)
+    }
+  })
+}
 
 const getSearchTypeFn = function (type) {
   // if type.slice(-1)[0] isnt 's' then type += 's'

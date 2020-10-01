@@ -20,7 +20,7 @@ export default TypedEntityLayout.extend({
   initialize () {
     TypedEntityLayout.prototype.initialize.call(this)
     // Trigger fetchParts only once the author is in view
-    return this.$el.once('inview', this.fetchParts.bind(this))
+    this.$el.once('inview', this.fetchParts.bind(this))
   },
 
   fetchParts () {

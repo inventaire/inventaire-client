@@ -19,7 +19,6 @@ export default Notification.extend({
       attrs.picture = this.group.get('picture')
       attrs.groupName = this.group.get('name')
       attrs.text = getText(attrs.type, attrs.data.attribute)
-      attrs.previousValue
     }
     return attrs
   }
@@ -28,7 +27,9 @@ export default Notification.extend({
 const getText = function (type, attribute) {
   if (attribute != null) {
     return texts[type][attribute]
-  } else { return texts[type] }
+  } else {
+    return texts[type]
+  }
 }
 
 const texts = {

@@ -10,6 +10,6 @@ export default Marionette.Behavior.extend({
 
   toggleExtractLength () {
     this.ui.extract.toggleClass('clamped')
-    return this.ui.togglers.toggleClass('hidden')
+    this.ui.togglers.toggleClass('hidden')
   }
 })

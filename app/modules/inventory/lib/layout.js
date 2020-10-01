@@ -13,5 +13,5 @@ export default function (app) {
 
   app.reqres.setHandlers({ 'inventory:layout' () { return layout } })
 
-  return app.vent.on('inventory:layout:change', setLayout)
+  app.vent.on('inventory:layout:change', setLayout)
 };

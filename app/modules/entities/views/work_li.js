@@ -22,7 +22,7 @@ export default Marionette.ItemView.extend({
 
     // Allow to disable re-render for views that are used as part of layouts that store state
     // in the DOM - such as ./deduplicate_layout - so that this state isn't lost
-    if (preventRerender) { return }
+    if (preventRerender) return
 
     if (this.model.usesImagesFromSubEntities) {
       this.model.fetchSubEntities()
@@ -57,7 +57,7 @@ export default Marionette.ItemView.extend({
 
   showItemCreationForm (e) {
     if (!_.isOpenedOutside(e)) {
-      return app.execute('show:item:creation:form', { entity: this.model })
+      app.execute('show:item:creation:form', { entity: this.model })
     }
   },
 
@@ -90,11 +90,11 @@ export default Marionette.ItemView.extend({
     if (this.$el.hasClass('wrapped')) {
       this.wrap = false
       this.$el.removeClass('wrapped')
-      return this.$el.addClass('unwrapped')
+      this.$el.addClass('unwrapped')
     } else if (this.$el.hasClass('unwrapped')) {
       this.wrap = true
       this.$el.removeClass('unwrapped')
-      return this.$el.addClass('wrapped')
+      this.$el.addClass('wrapped')
     }
   }
 })

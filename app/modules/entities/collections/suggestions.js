@@ -2,7 +2,6 @@
 
 export default Backbone.Collection.extend({
   initialize (data, options) {
-    const { property } = options
     this.lastInput = null
 
     this.index = -1
@@ -12,7 +11,7 @@ export default Backbone.Collection.extend({
     this.on('highlight:first', this.highlightFirst)
     this.on('highlight:last', this.highlightLast)
     this.on('select:from:key', this.selectFromKey)
-    return this.on('select:from:click', this.selectFromClick)
+    this.on('select:from:click', this.selectFromClick)
   },
 
   model: require('modules/entities/models/search_result'),
@@ -21,12 +20,12 @@ export default Backbone.Collection.extend({
   // has been navigated then select at the current index.
   selectFromKey () {
     const index = this.isStarted() ? this.index : 0
-    return this.trigger('selected:value', this.at(index))
+    this.trigger('selected:value', this.at(index))
   },
 
   selectFromClick (model) {
     this.index = this.models.indexOf(model)
-    return this.trigger('selected:value', model)
+    this.trigger('selected:value', model)
   },
 
   highlightPrevious () { if (!this.isFirst()) { return this.highlightAt(this.index - 1) } },
@@ -34,7 +33,7 @@ export default Backbone.Collection.extend({
   highlightFirst () { return this.highlightAt(0) },
   highlightLast () { return this.highlightAt(this.length - 1) },
   highlightAt (index) {
-    if (this.index === index) { return }
+    if (this.index === index) return
 
     if (this.isStarted()) { this.removeHighlight(this.index) }
     this.index = index
@@ -53,9 +52,9 @@ export default Backbone.Collection.extend({
   highlightEvent (eventName, index) {
     const model = this.at(index)
     // Known case: the collection just got reset
-    if (model == null) { return }
+    if (model == null) return
     model.trigger(eventName, model)
     // events required by modules/entities/views/editor/lib/autocomplete.coffee
-    return this.trigger(eventName, model)
+    this.trigger(eventName, model)
   }
 })

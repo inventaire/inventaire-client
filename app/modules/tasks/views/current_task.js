@@ -15,7 +15,7 @@ export default Marionette.LayoutView.extend({
 
   onShow () {
     this.showAuthor('suspect')
-    return this.showAuthor('suggestion')
+    this.showAuthor('suggestion')
   },
 
   showAuthor (name) {

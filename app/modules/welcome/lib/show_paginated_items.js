@@ -42,15 +42,16 @@ const FetchMore = function (params) {
       moreData.continue = res.continue
       // Display the inventory welcome screen when appropriate
       if ((res.total === 0) && (fallback != null)) { return fallback() }
-    }).catch(catch404(fallback))
-    .finally(() => busy = false)
+    })
+    .catch(catch404(fallback))
+    .finally(() => { busy = false })
   }
 
-  var catch404 = fallback => function (err) {
+  const catch404 = fallback => err => {
     if (err.statusCode === 404) {
       moreData.status = false
       _.warn('no more items to show')
-      if (fallback != null) { return fallback() }
+      if (fallback != null) return fallback()
     } else {
       throw err
     }

@@ -1,6 +1,5 @@
 import ItemCreationForm from '../views/form/item_creation'
 import EditionsList from 'modules/entities/views/editions_list'
-import error_ from 'lib/error'
 
 export default function (params) {
   const { entity } = params
@@ -10,7 +9,7 @@ export default function (params) {
   if (type == null) { throw new Error('missing entity type') }
 
   const pathname = entity.get('pathname') + '/add'
-  if (!app.request('require:loggedIn', pathname)) { return }
+  if (!app.request('require:loggedIn', pathname)) return
 
   // It is not possible anymore to create items from works
   if (type === 'work') { return showEditionPicker(entity) }
@@ -19,8 +18,6 @@ export default function (params) {
   app.execute('modal:close')
 
   if (type !== 'edition') { throw new Error(`invalid entity type: ${type}`) }
-
-  const uri = entity.get('uri')
 
   app.layout.main.show(new ItemCreationForm(params))
   return app.navigate(pathname)
@@ -34,5 +31,5 @@ const showEditionPicker = work => work.fetchSubEntities()
     header: 'select an edition'
   })
   )
-  return app.execute('modal:open', 'large')
+  app.execute('modal:open', 'large')
 })

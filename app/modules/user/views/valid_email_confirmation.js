@@ -10,12 +10,12 @@ export default Marionette.ItemView.extend({
   },
 
   events: {
-    'click .showHome, .showLoginRedirectSettings' () { return app.execute('modal:close') },
+    'click .showHome, .showLoginRedirectSettings' () { app.execute('modal:close') },
     'click .showLoginRedirectSettings': 'showLoginRedirectSettings',
     'click #emailConfirmationRequest': 'emailConfirmationRequest'
   },
 
-  onShow () { return app.execute('modal:open') },
+  onShow () { app.execute('modal:open') },
 
   serializeData () {
     return {
@@ -36,4 +36,4 @@ export default Marionette.ItemView.extend({
   }
 })
 
-const emailFail = function () { return this.$el.trigger('somethingWentWrong') }
+const emailFail = function () { this.$el.trigger('somethingWentWrong') }

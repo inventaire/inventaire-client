@@ -43,11 +43,11 @@ export default Marionette.CompositeView.extend({
     }
 
     this.property = this.model.get('property')
-    return this.customAdd = creationParials[this.property]
+    this.customAdd = creationParials[this.property]
   },
 
   serializeData () {
-    if (this.shouldBeHidden) { return }
+    if (this.shouldBeHidden) return
     const attrs = this.model.toJSON()
     if (this.customAdd) {
       attrs.customAdd = true
@@ -60,7 +60,7 @@ export default Marionette.CompositeView.extend({
   },
 
   onShow () {
-    if (this.shouldBeHidden) { return this.$el.hide() }
+    if (this.shouldBeHidden) { this.$el.hide() }
   },
 
   canAddValues () { return this.model.get('multivalue') || (this.collection.length === 0) },
@@ -83,8 +83,8 @@ export default Marionette.CompositeView.extend({
 
   updateAddValueButton () {
     if (this.collection.length === 0) {
-      return this.ui.addValueButton.show()
-    } else { return this.ui.addValueButton.hide() }
+      this.ui.addValueButton.show()
+    } else { this.ui.addValueButton.hide() }
   },
 
   dispatchCreationPartialClickEvents (e) {

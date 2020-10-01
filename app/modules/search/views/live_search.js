@@ -12,7 +12,7 @@ const Results = Backbone.Collection.extend({ model: require('../models/result') 
 const wikidataSearch = require('modules/entities/lib/search/wikidata_search')(false)
 const findUri = require('../lib/find_uri')
 const error_ = require('lib/error')
-const { looksLikeAnIsbn, normalizeIsbn } = require('lib/isbn')
+const { looksLikeAnIsbn } = require('lib/isbn')
 const screen_ = require('lib/screen')
 const searchBatchLength = 10
 let searchCount = 0
@@ -28,7 +28,7 @@ export default Marionette.CompositeView.extend({
     this.collection = new Results()
     this._lazySearch = _.debounce(this.search.bind(this), 500);
     ({ section: this.selectedSectionName } = this.options)
-    return this._searchOffset = 0
+    this._searchOffset = 0
   },
 
   ui: {
@@ -58,38 +58,35 @@ export default Marionette.CompositeView.extend({
 
   onShow () {
     // Doesn't work if set in events for some reason
-    return this.ui.resultsWrapper.on('scroll', this.onResultsScroll.bind(this))
+    this.ui.resultsWrapper.on('scroll', this.onResultsScroll.bind(this))
   },
 
   onSpecialKey (key) {
-    switch (key) {
-    case 'up': return this.highlightPrevious()
-    case 'down': return this.highlightNext()
-    case 'enter': return this.showCurrentlyHighlightedResult()
-    case 'pageup': return this.selectPrevSection()
-    case 'pagedown': return this.selectNextSection()
-    default:
-    }
+    if (key === 'up') this.highlightPrevious()
+    else if (key === 'down') this.highlightNext()
+    else if (key === 'enter') this.showCurrentlyHighlightedResult()
+    else if (key === 'pageup') this.selectPrevSection()
+    else if (key === 'pagedown') this.selectNextSection()
   },
 
-  updateSections (e) { return this.selectTypeFromTarget($(e.currentTarget)) },
+  updateSections (e) { this.selectTypeFromTarget($(e.currentTarget)) },
 
-  selectPrevSection () { return this.selectByPosition('prev', 'last') },
-  selectNextSection () { return this.selectByPosition('next', 'first') },
+  selectPrevSection () { this.selectByPosition('prev', 'last') },
+  selectNextSection () { this.selectByPosition('next', 'first') },
   selectByPosition (relation, fallback) {
     let $target = this.$el.find('.selected')[relation]()
     if ($target.length === 0) { $target = this.$el.find('.sections a')[fallback]() }
-    return this.selectTypeFromTarget($target)
+    this.selectTypeFromTarget($target)
   },
 
   selectTypeFromTarget ($target) {
     const { id } = $target[0]
     const type = getTypeFromId(id)
-    return this.selectType(type)
+    this.selectType(type)
   },
 
   selectType (type) {
-    if (type === this._lastType) { return }
+    if (type === this._lastType) return
 
     this.ui.sections.removeClass('selected')
     this.ui.sections.filter(`#section-${type}`).addClass('selected')
@@ -102,13 +99,15 @@ export default Marionette.CompositeView.extend({
     // Refresh the search with the new sections
     if ((this._lastSearch != null) && (this._lastSearch !== '')) { this.lazySearch(this._lastSearch) }
 
-    return this.updateAlternatives(type)
+    this.updateAlternatives(type)
   },
 
   updateAlternatives (search) {
     if (sectionsWithAlternatives.includes(this._lastType)) {
-      return this.showAlternatives(search)
-    } else { return this.hideAlternatives() }
+      this.showAlternatives(search)
+    } else {
+      this.hideAlternatives()
+    }
   },
 
   search (search) {
@@ -117,7 +116,7 @@ export default Marionette.CompositeView.extend({
     this._lastSearchId = ++searchCount
     this._searchOffset = 0
 
-    if (!_.isNonEmptyString(search)) { return this.hideAlternatives() }
+    if (!_.isNonEmptyString(search)) return this.hideAlternatives()
 
     const uri = findUri(search)
     if (uri != null) { return this.getResultFromUri(uri, this._lastSearchId, this._lastSearch) }
@@ -126,7 +125,7 @@ export default Marionette.CompositeView.extend({
     .then(this.resetResults.bind(this, this._lastSearchId))
 
     this._waitingForAlternatives = true
-    return this.setTimeout(this.updateAlternatives.bind(this, search), 2000)
+    this.setTimeout(this.updateAlternatives.bind(this, search), 2000)
   },
 
   _search (search) {
@@ -159,20 +158,20 @@ export default Marionette.CompositeView.extend({
   },
 
   showAlternatives (search) {
-    if (!_.isNonEmptyString(search)) { return }
-    if (search !== this._lastSearch) { return }
-    if (!this._waitingForAlternatives) { return }
+    if (!_.isNonEmptyString(search)) return
+    if (search !== this._lastSearch) return
+    if (!this._waitingForAlternatives) return
 
     this.ui.alternatives.addClass('shown')
-    return this._waitingForAlternatives = false
+    this._waitingForAlternatives = false
   },
 
   hideAlternatives () {
     this._waitingForAlternatives = false
-    return this.ui.alternatives.removeClass('shown')
+    this.ui.alternatives.removeClass('shown')
   },
 
-  showShortcuts () { return this.ui.shortcuts.addClass('shown') },
+  showShortcuts () { this.ui.shortcuts.addClass('shown') },
 
   getResultFromUri (uri, searchId, rawSearch) {
     _.log(uri, 'uri found')
@@ -183,19 +182,20 @@ export default Marionette.CompositeView.extend({
     .catch(err => {
       if (err.message === 'entity_not_found') {
         this._waitingForAlternatives = true
-        return this.showAlternatives(rawSearch)
+        this.showAlternatives(rawSearch)
       } else {
         throw err
       }
-    }).finally(this.stopLoadingSpinner.bind(this))
+    })
+    .finally(this.stopLoadingSpinner.bind(this))
   },
 
   showLoadingSpinner () {
     this.ui.loader.html('<div class="small-loader"></div>')
-    return this.$el.removeClass('no-results')
+    this.$el.removeClass('no-results')
   },
 
-  stopLoadingSpinner () { return this.ui.loader.html('') },
+  stopLoadingSpinner () { this.ui.loader.html('') },
 
   getTypes () {
     const name = getTypeFromId(this.$el.find('.selected')[0].id)
@@ -204,7 +204,7 @@ export default Marionette.CompositeView.extend({
 
   resetResults (searchId, results) {
     // Ignore results from any search that isn't the latest search
-    if ((searchId != null) && (searchId !== this._lastSearchId)) { return }
+    if ((searchId != null) && (searchId !== this._lastSearchId)) return
 
     this.resetHighlightIndex()
 
@@ -223,10 +223,10 @@ export default Marionette.CompositeView.extend({
     }
 
     if ((results != null) && (results.length === 0)) {
-      return this.$el.addClass('no-results')
+      this.$el.addClass('no-results')
     } else {
       this.$el.removeClass('no-results')
-      return this.setTimeout(this.showShortcuts.bind(this), 1000)
+      this.setTimeout(this.showShortcuts.bind(this), 1000)
     }
   },
 
@@ -253,7 +253,7 @@ export default Marionette.CompositeView.extend({
 
   resetHighlightIndex () {
     this.$el.find('.highlight').removeClass('highlight')
-    return this._currentHighlightIndex = -1
+    this._currentHighlightIndex = -1
   },
 
   showEntityCreate () {
@@ -261,11 +261,11 @@ export default Marionette.CompositeView.extend({
     if (looksLikeAnIsbn(this._lastSearch)) {
       // If the edition entity for this ISBN really doesn't exist
       // it will redirect to the ISBN edition creation form
-      return app.execute('show:entity', this._lastSearch)
+      app.execute('show:entity', this._lastSearch)
     } else {
       const section = this._lastType || this.selectedSectionName
       const type = sectionToTypes[section]
-      return app.execute('show:entity:create', { label: this._lastSearch, type, allowToChangeType: true })
+      app.execute('show:entity:create', { label: this._lastSearch, type, allowToChangeType: true })
     }
   },
 

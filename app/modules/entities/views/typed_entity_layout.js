@@ -24,7 +24,7 @@ export default Marionette.LayoutView.extend({
 
   onRender () {
     this.showInfobox()
-    return this.showMergeSuggestions()
+    this.showMergeSuggestions()
   },
 
   showInfobox () {
@@ -33,7 +33,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showMergeSuggestions () {
-    if (!this.displayMergeSuggestions) { return }
-    return app.execute('show:merge:suggestions', { model: this.model, region: this.mergeSuggestionsRegion })
+    if (!this.displayMergeSuggestions) return
+    app.execute('show:merge:suggestions', { model: this.model, region: this.mergeSuggestionsRegion })
   }
 })

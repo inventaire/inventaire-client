@@ -90,7 +90,8 @@ export default {
       group: this.id,
       // requiered only for actions implying an other user
       user: userId
-    }).tap(this._postActionHooks.bind(this, action))
+    })
+    .tap(this._postActionHooks.bind(this, action))
   },
 
   _postActionHooks (action) {
@@ -125,7 +126,7 @@ export default {
     // avoid using an event name starting by "change:"
     // as Backbone FilteredCollection react on those
     this.trigger('list:change')
-    return this.trigger('list:change:after')
+    this.trigger('list:change:after')
   }
 }
 

@@ -21,5 +21,5 @@ export default Marionette.ItemView.extend({
     click: 'selectOption'
   },
 
-  selectOption () { return this.triggerMethod('selectOption', this.model) }
+  selectOption () { this.triggerMethod('selectOption', this.model) }
 })

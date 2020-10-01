@@ -6,7 +6,7 @@ import isLoggedIn from './is_logged_in'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
 export default function (params) {
-  if (!isLoggedIn()) { return }
+  if (!isLoggedIn()) return
   const { view, work: workModel, e } = params
 
   const $isbnField = $(e.currentTarget).parent('#isbnGroup').find('#isbnField')
@@ -26,7 +26,8 @@ export default function (params) {
     // In other cases, the model being added to the work edition collection
     // by createEntities.workEdition is enough
     return $isbnField.val(null)
-  }).catch(error_.Complete('#isbnField'))
+  })
+  .catch(error_.Complete('#isbnField'))
   .catch(forms_.catchAlert.bind(null, view))
   .finally(stopLoading.bind(view))
 };
@@ -53,7 +54,9 @@ const reportIsbnIssue = (workUri, isbn) => app.request('post:feedback', {
   uris: [ workUri, `isbn:${isbn}` ]
 })
 
-const formatEditionAlreadyExistOnCurrentWork = err => err.responseJSON.status_verbose = 'this edition is already in the list'
+const formatEditionAlreadyExistOnCurrentWork = err => {
+  err.responseJSON.status_verbose = 'this edition is already in the list'
+}
 
 const formatDuplicateWorkErr = function (err, isbn) {
   const normalizedIsbn = isbn_.normalizeIsbn(isbn)
@@ -61,5 +64,5 @@ const formatDuplicateWorkErr = function (err, isbn) {
   const link = `<a href='/entity/isbn:${normalizedIsbn}' class='showEntity'>${normalizedIsbn}</a>`
   const reported = _.i18n('the issue was reported')
   err.responseJSON.status_verbose = `${alreadyExist} ${link} (${reported})`
-  return err.i18n = false
+  err.i18n = false
 }

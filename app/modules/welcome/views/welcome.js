@@ -12,7 +12,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    return this.waitForMention = getMentionsData()
+    this.waitForMention = getMentionsData()
   },
 
   events: {
@@ -56,10 +56,11 @@ export default Marionette.LayoutView.extend({
       limit: 15,
       lang: app.user.lang,
       assertImage: true
-    }).catch(this.hidePublicItems.bind(this))
+    })
+    .catch(this.hidePublicItems.bind(this))
     .catch(_.Error('hidePublicItems err'))
 
-    return this.triggerMethod('child:view:ready')
+    this.triggerMethod('child:view:ready')
   },
 
   hidePublicItems (err) {
@@ -69,7 +70,7 @@ export default Marionette.LayoutView.extend({
 
   toggleMission () {
     this.ui.missions.slideToggle()
-    return this.ui.missionsTogglers.toggle()
+    this.ui.missionsTogglers.toggle()
   },
 
   showMentions (data) {

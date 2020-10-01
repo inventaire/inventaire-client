@@ -48,9 +48,9 @@ const getUri = function (candidate) {
 const addCounts = candidates => function (counts) {
   candidates.forEach(candidate => {
     const { uri } = candidate
-    if (uri == null) { return }
+    if (uri == null) return
     const count = counts[uri]
-    if (count != null) { return candidate.existingEntityItemsCount = count }
+    if (count != null) candidate.existingEntityItemsCount = count
   })
 
   return candidates

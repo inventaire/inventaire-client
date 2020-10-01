@@ -14,21 +14,27 @@ const specificMethods = _.extend({}, commonsSerieWork, {
   fetchPartsData (options = {}) {
     let { refresh } = options
     refresh = this.getRefresh(refresh)
-    if (!refresh && (this.waitForPartsData != null)) { return this.waitForPartsData }
+    if (!refresh && (this.waitForPartsData != null)) return this.waitForPartsData
 
     const uri = this.get('uri')
-    return this.waitForPartsData = preq.get(app.API.entities.serieParts(uri, refresh))
-      .then(res => { return this.partsData = res.parts })
+    this.waitForPartsData = preq.get(app.API.entities.serieParts(uri, refresh))
+      .then(res => {
+        this.partsData = res.parts
+        return this.partsData
+      })
+    return this.waitForPartsData
   },
 
   initSerieParts (options) {
     let { refresh, fetchAll } = options
     refresh = this.getRefresh(refresh)
-    if (!refresh && (this.waitForParts != null)) { return this.waitForParts }
+    if (!refresh && this.waitForParts != null) return this.waitForParts
 
-    return this.fetchPartsData({ refresh })
-    .then(initPartsCollections.bind(this, refresh, fetchAll))
-    .then(importDataFromParts.bind(this))
+    this.waitForParts = this.fetchPartsData({ refresh })
+      .then(initPartsCollections.bind(this, refresh, fetchAll))
+      .then(importDataFromParts.bind(this))
+
+    return this.waitForParts
   },
 
   // Placeholder for cases when a series was formerly identified as a work

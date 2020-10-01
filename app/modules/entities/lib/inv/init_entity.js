@@ -21,12 +21,14 @@ const specificMethods = {
 
     const uri = this.get('uri')
 
-    return this.mergeSuggestionsPromise = preq.get(app.API.tasks.bySuspectUris(uri))
+    this.mergeSuggestionsPromise = preq.get(app.API.tasks.bySuspectUris(uri))
       .then(res => {
         const tasks = res.tasks[uri]
         this.mergeSuggestions = new Tasks(tasks)
         this.mergeSuggestions.sort()
         return this.mergeSuggestions
       })
+
+    return this.mergeSuggestionsPromise
   }
 }
