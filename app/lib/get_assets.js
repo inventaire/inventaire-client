@@ -34,7 +34,7 @@ export default function (name, onScriptReady) {
     return promise
   }
 
-  return cache[name] = {
+  cache[name] = {
     // Pre-fetch the script when the script is probably about to be used
     // to be ready to start using it faster
     prepare () {
@@ -46,4 +46,6 @@ export default function (name, onScriptReady) {
     },
     get
   }
-};
+
+  return cache[name]
+}

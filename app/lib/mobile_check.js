@@ -1,6 +1,8 @@
-// source: http://stackoverflow.com/questions/11381673/javascript-solution-to-detect-mobile-browser
+/* eslint-disable no-multi-str */
 
-// test for mobile OR tablet
+// Source: http://stackoverflow.com/questions/11381673/javascript-solution-to-detect-mobile-browser
+
+// Test for mobile OR tablet
 const test = agent => new RegExp('\
 (android|bb\\d+|meego).+mobile|avantgo|bada\\/|blackberry|blazer|compal|\
 elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge|maemo|midp|mmp|mobile.+firefox|netfront|operam(ob|in)i|palm(os)?|\
@@ -38,7 +40,9 @@ const mobileChecker = function () {
   const agent = navigator.userAgent || navigator.vendor || window.opera
   if (test(agent)) {
     return true
-  } else { return false }
+  } else {
+    return false
+  }
 }
 
 export default mobileChecker()

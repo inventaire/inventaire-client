@@ -35,7 +35,7 @@ export function iconLink (name, url, classes) {
   }
 
   const icon = this.icon.call(null, name, classes)
-  return this.link.call(this, icon, url, linkClasses, title)
+  return this.link(icon, url, linkClasses, title)
 }
 
 export function iconLinkText (name, url, text, classes) {
@@ -54,5 +54,5 @@ export function iconLinkText (name, url, text, classes) {
   }
 
   const icon = this.icon.call(null, name, classes)
-  return this.link.call(this, `${icon}<span>${text}</span>`, url, linkClasses, title)
+  return this.link(`${icon}<span>${text}</span>`, url, linkClasses, title)
 }

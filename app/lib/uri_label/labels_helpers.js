@@ -4,15 +4,15 @@ const previouslyMissing = {}
 export default {
   getLabel (uri) { return labels[uri] },
 
-  setLabel (uri, label) { return labels[uri] = label },
+  setLabel (uri, label) { labels[uri] = label },
 
   getKnownUris () { return Object.keys(labels) },
 
-  resetLabels () { return labels = {} },
+  resetLabels () { labels = {} },
 
   invalidateLabel (uri) {
     delete labels[uri]
-    return delete previouslyMissing[uri]
+    delete previouslyMissing[uri]
   },
 
   addPreviouslyMissingUris (uris) {

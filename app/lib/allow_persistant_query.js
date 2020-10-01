@@ -7,4 +7,12 @@ const allowRedirectPersistantQuery = [
   'login'
 ]
 
-export { alwaysKeep as debug, alwaysKeep as lang, redirectTest as redirect, alwaysKeep as authors, alwaysKeep as editions, alwaysKeep as descriptions, alwaysKeep as large }
+export default {
+  authors: alwaysKeep,
+  debug: alwaysKeep,
+  descriptions: alwaysKeep,
+  editions: alwaysKeep,
+  lang: alwaysKeep,
+  large: alwaysKeep,
+  redirect: redirectTest,
+}

@@ -34,7 +34,7 @@ export default {
 
 const getBestWikiProjectInfo = function (params) {
   const { sitelinks, projectBaseName, projectRoot, lang, originalLang } = params
-  if (sitelinks == null) { return }
+  if (sitelinks == null) return
 
   const getTitleForLang = Lang => getWikiProjectTitle(sitelinks, projectBaseName, Lang)
 

@@ -1,22 +1,21 @@
+import requestAssets from './request_assets'
+
 let wrap
-const Ajax = function (verb, hasBody) {
-  let ajax
-  return ajax = function (url, body) {
-    const options = {
-      type: verb,
-      url
-    }
-
-    if (hasBody) {
-      options.data = JSON.stringify(body)
-      // Do not set content type on cross origin requests as it triggers preflight checks
-      // cf https://stackoverflow.com/a/12320736/3324977
-      if (url[0] === '/') { options.headers = { 'content-type': 'application/json' } }
-    }
-
-    return wrap($.ajax(options), options)
-    .then(parseJson)
+const Ajax = (verb, hasBody) => (url, body) => {
+  const options = {
+    type: verb,
+    url
   }
+
+  if (hasBody) {
+    options.data = JSON.stringify(body)
+    // Do not set content type on cross origin requests as it triggers preflight checks
+    // cf https://stackoverflow.com/a/12320736/3324977
+    if (url[0] === '/') options.headers = { 'content-type': 'application/json' }
+  }
+
+  return wrap($.ajax(options), options)
+  .then(parseJson)
 }
 
 const preq = {
@@ -26,19 +25,20 @@ const preq = {
   delete: Ajax('DELETE', false)
 }
 
-const requestAssets = require('./request_assets')
+preq.wrap = (jqPromise, context) => new Promise((resolve, reject) => {
+  jqPromise
+  .then(resolve)
+  .fail(err => reject(rewriteJqueryError(err, context)))
+})
 
-export default _.extend(preq, requestAssets,
+export default _.extend(preq, requestAssets)
 
-  (preq.wrap = (wrap = (jqPromise, context) => new Promise((resolve, reject) => jqPromise
-.then(resolve)
-.fail(err => reject(rewriteJqueryError(err, context))))))
-)
-
-const parseJson = function (res) {
+const parseJson = res => {
   if (_.isString(res) && (res[0] === '{')) {
     return JSON.parse(res)
-  } else { return res }
+  } else {
+    return res
+  }
 }
 
 const rewriteJqueryError = function (err, context) {
@@ -55,10 +55,8 @@ const rewriteJqueryError = function (err, context) {
   } else {
     // cf http://stackoverflow.com/a/6186905
     // Known case: request blocked by CORS headers
-    message = `\
-parsing error: ${verb} ${url}
-got statusCode ${statusCode} but invalid JSON: ${responseText} / ${responseJSON}\
-`
+    message = `parsing error: ${verb} ${url}
+got statusCode ${statusCode} but invalid JSON: ${responseText} / ${responseJSON}`
   }
 
   const error = new Error(message)

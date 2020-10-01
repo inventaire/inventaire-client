@@ -14,10 +14,10 @@ const setQuerystring = function (url, key, value) {
   return buildPath(href, qsObj)
 }
 
-// calling a section the first part of the route matching to a module
+// Calling a section the first part of the route matching to a module
 // ex: for '/inventory/bla/bla', the section is 'inventory'
-const routeSection = route => // split on the first non-alphabetical character
-  route.split(/[^\w]/)[0]
+// Split on the first non-alphabetical character
+const routeSection = route => route.split(/[^\w]/)[0]
 
 const buildPath = function (pathname, queryObj, escape) {
   queryObj = removeUndefined(queryObj)
@@ -59,17 +59,23 @@ const parseKeysValues = function (queryObj, nextParam) {
   return queryObj
 }
 
-const permissiveJsonParse = function (input) {
-  try { return JSON.parse(input) } catch (err) { return input }
+const permissiveJsonParse = input => {
+  try {
+    return JSON.parse(input)
+  } catch (err) {
+    return input
+  }
 }
 
 // Only escape values that are problematic in a query string:
 // for the moment, only '?'
 const escapeQueryStringValue = str => str.replace(/\?/g, '%3F')
 
-const dropSpecialCharacters = str => str
-.replace(/\s+/g, ' ')
-.replace(/(\?|\:)/g, '')
+const dropSpecialCharacters = str => {
+  return str
+  .replace(/\s+/g, ' ')
+  .replace(/(\?|:)/g, '')
+}
 
 const removeUndefined = function (obj) {
   const newObj = {}

@@ -8,17 +8,15 @@ export default function (app, _) {
     'querystring:keep': keep
   })
 
-  return app.commands.setHandlers({ 'querystring:set': set })
+  app.commands.setHandlers({ 'querystring:set': set })
 };
 
 const get = function (key) {
   const value = getQuery()?.[key]
-  switch (value) {
-  // Parsing boolean string
-  case 'true': return true
-  case 'false': return false
-  default: return value
-  }
+  // Parsing boolean strings
+  if (value === 'true') return true
+  if (value === 'false') return false
+  return value
 }
 
 const set = function (key, value) {

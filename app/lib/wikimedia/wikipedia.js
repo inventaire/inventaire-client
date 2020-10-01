@@ -21,7 +21,7 @@ export default {
 const sourcedExtract = function (extract, url) {
   if ((extract != null) && (url != null)) {
     const text = _.i18n('read_more_on_wikipedia')
-    extract += `<br><a href=\"${url}\" class='source link' target='_blank'>${text}</a>`
+    extract += `<br><a href="${url}" class='source link' target='_blank'>${text}</a>`
   }
 
   return extract

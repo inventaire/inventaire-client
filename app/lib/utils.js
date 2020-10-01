@@ -1,5 +1,6 @@
+import error_ from 'lib/error'
+
 const oneDay = 24 * 60 * 60 * 1000
-const error_ = requireProxy('lib/error')
 const iconAliases = {
   giving: 'heart',
   lending: 'refresh',
@@ -50,7 +51,7 @@ export default {
   clickCommand: command => {
     return e => {
       if (_.isOpenedOutside(e)) {
-      } else { return app.execute(command) }
+      } else { app.execute(command) }
     }
   },
 

@@ -6,7 +6,7 @@ const previousValue = {}
 
 export default function (key, value, noCompletion) {
   // Early return if the input is the same as previously
-  if (previousValue[key] === value) { return }
+  if (previousValue[key] === value) return
   previousValue[key] = value
 
   if (!possibleFields.includes(key)) {
@@ -32,6 +32,6 @@ const updateNodeContent = function (value, el) {
   let { selector, attribute } = el
   if (!attribute) { attribute = 'content' }
   if (head.querySelector(selector) != null) {
-    return head.querySelector(selector)[attribute] = value
+    head.querySelector(selector)[attribute] = value
   }
 }

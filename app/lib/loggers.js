@@ -1,6 +1,6 @@
 import noopConsole from 'lib/noop_console'
 
-const { reportError } = requireProxy('lib/reports')
+import { reportError } from 'lib/reports'
 const csle = CONFIG.debug ? window.console : noopConsole
 
 // allow to pass a csle object so that we can pass whatever we want in tests
@@ -79,12 +79,9 @@ const partialLoggers = {
   Error: PartialLogger(error),
   Warn: PartialLogger(warn),
   Spy: PartialLogger(spy),
-  ErrorRethrow: label => {
-    let fn
-    return fn = err => {
-      error(err, label)
-      throw err
-    }
+  ErrorRethrow: label => err => {
+    error(err, label)
+    throw err
   }
 }
 
@@ -93,20 +90,6 @@ const loggers = {
   error,
   warn,
   spy,
-
-  logAllEvents: (obj, prefix = 'logAllEvents') => {
-    return obj.on('all', event => {
-      csle.log(`[${prefix}:${event}]`)
-      csle.log(arguments)
-      return csle.log('---')
-    })
-  },
-
-  logArgs: args => {
-    csle.log('[arguments]')
-    csle.log(args)
-    return csle.log('---')
-  },
 
   logServer: (obj, label) => {
     // Using jQuery promise instead of preq to be able to report errors
@@ -127,4 +110,4 @@ const proxied = {
   timeEnd: csle.timeEnd.bind(csle)
 }
 
-export default  _.extend(loggers, partialLoggers, proxied)
+export default _.extend(loggers, partialLoggers, proxied)

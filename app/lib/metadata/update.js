@@ -13,25 +13,24 @@
 // but further updates might be needed for in browser metadata access,
 // such as RSS feed detections
 
-import applyTransformers from './apply_transformers'
-
 import updateNodeType from './update_node_type'
 import { currentRoute } from 'lib/location'
 const initialRoute = currentRoute()
 // Make prerender wait before assuming everything is ready
 // see https://prerender.io/documentation/best-practices
 window.prerenderReady = false
-const metadataUpdateDone = () => window.prerenderReady = true
+const metadataUpdateDone = () => { window.prerenderReady = true }
 // Stop waiting if it takes more than 20 secondes: addresses cases
 // where metadataUpdateDone would not have been called
 setTimeout(metadataUpdateDone, 20 * 1000)
 const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
-const lastRoute = null
-const updateRouteMetadata = function (route, metadataPromise = {}) {
+let lastRoute = null
+const updateRouteMetadata = (route, metadataPromise = {}) => {
   route = route.replace(/^\//, '')
   // There should be no need to re-update metadata when the route stays the same
-  if (lastRoute === route) { return }
+  if (lastRoute === route) return
+  lastRoute = route
 
   // metadataPromise can be a promise or a simple object
   return Promise.resolve(metadataPromise)
@@ -77,7 +76,7 @@ const updateMetadata = function (metadata) {
 }
 
 const setPrerenderMeta = function (statusCode = 500, route) {
-  if (!isPrerenderSession || prerenderReady) { return }
+  if (!isPrerenderSession || prerenderReady) return
 
   let prerenderMeta = `<meta name='prerender-status-code' content='${statusCode}'>`
   if ((statusCode === 302) && (route != null)) {

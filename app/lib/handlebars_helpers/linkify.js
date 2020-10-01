@@ -11,10 +11,10 @@ export default function (text, url, classes = 'link', title) {
   // Not using _.isNonEmptyString to prevent having to depend on _
   if ((typeof title === 'string') && (title.length > 0)) {
     title = title.replace(/"/g, '&quot;')
-    title = `title=\"${title}\"`
+    title = `title="${title}"`
   } else {
     title = ''
   }
 
-  return `<a href=\"${url}\" class='${classes}' ${title} ${openOutsideAttributes}>${text}</a>`
+  return `<a href="${url}" class='${classes}' ${title} ${openOutsideAttributes}>${text}</a>`
 };

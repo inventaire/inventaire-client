@@ -43,7 +43,8 @@ const ISODatePolyFill = function () {
       return number
     }
 
-    return Date.prototype.toISOString = function () {
+    // eslint-disable-next-line no-extend-native
+    Date.prototype.toISOString = () => {
       return this.getUTCFullYear() +
         '-' + pad(this.getUTCMonth() + 1) +
         '-' + pad(this.getUTCDate()) +
@@ -59,7 +60,8 @@ const ISODatePolyFill = function () {
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith#Polyfill
 const startsWithPolyFill = function () {
   if (String.prototype.startsWith == null) {
-    return String.prototype.startsWith = function (search, pos) {
+    // eslint-disable-next-line no-extend-native
+    String.prototype.startsWith = function (search, pos) {
       const start = !pos || (pos < 0) ? 0 : +pos
       return this.substr(start, search.length) === search
     }
@@ -67,17 +69,16 @@ const startsWithPolyFill = function () {
 }
 
 const setDebugSetting = function () {
-  const persistantDebug = localStorageBool.get('debug')
+  const persistantDebug = window.localStorageBool.get('debug')
   const queryStringDebug = window.location.search.split('debug=true').length > 1
   const hostnameDebug = window.location.hostname === 'localhost'
   if (persistantDebug || queryStringDebug || hostnameDebug) {
     console.log('debug enabled')
-    return CONFIG.debug = true
+    CONFIG.debug = true
   } else {
-    return console.warn('logs are disabled.\n \
-Activate logs by entering this command and reloading the page:\n \
-localStorage.setItem(\'debug\', true)\n \
-Or activate logs once by adding debug=true as a query parameter'
-    )
+    console.warn(`'logs are disabled.
+Activate logs by entering this command and reloading the page:
+localStorage.setItem('debug', true)
+Or activate logs once by adding debug=true as a query parameter`)
   }
 }

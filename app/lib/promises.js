@@ -1,12 +1,10 @@
-if (!window.Promise) { window.Promise = require('promise-polyfill') }
-require('./promise_rejection_events_polyfill')()
-const { reportError } = requireProxy('lib/reports')
+import { reportError } from 'lib/reports'
+if (!window.Promise) window.Promise = require('promise-polyfill')
 
 const methods = {}
 
 // Mimicking Bluebird utils
-Promise.try = fn => Promise.resolve()
-.then(fn)
+Promise.try = fn => Promise.resolve().then(fn)
 
 Promise.props = function (obj) {
   let key
@@ -23,7 +21,7 @@ Promise.props = function (obj) {
     const resultObj = {}
     res.forEach((valRes, index) => {
       key = keys[index]
-      return resultObj[key] = valRes
+      resultObj[key] = valRes
     })
     return resultObj
   })
@@ -61,8 +59,10 @@ methods.finally = function (fn) {
   .then(res => Promise.try(() => {
     alreadyCalled = true
     return fn()
-  }).then(() => res)).catch(err => {
-    if (alreadyCalled) { throw err }
+  })
+  .then(() => res))
+  .catch(err => {
+    if (alreadyCalled) throw err
     return Promise.try(() => fn())
     .then(() => { throw err })
   })
@@ -82,7 +82,7 @@ methods.timeout = function (ms) {
     let expired = false
 
     const check = function () {
-      if (fulfilled) { return }
+      if (fulfilled) return
       expired = true
       // Mimicking Bluebird errors
       const err = new Error('operation timed out')
@@ -94,11 +94,12 @@ methods.timeout = function (ms) {
 
     return promise
     .then(res => {
-      if (expired) { return }
+      if (expired) return
       fulfilled = true
       return resolve(res)
-    }).catch(err => {
-      if (expired) { return }
+    })
+    .catch(err => {
+      if (expired) return
       fulfilled = true
       return reject(err)
     })
@@ -111,6 +112,7 @@ for (const name in methods) {
   const fn = methods[name]
   if (Promise.prototype[name] == null) {
     // Make the new methods non-enumerable
+    // eslint-disable-next-line no-extend-native
     Object.defineProperty(Promise.prototype, name, { value: fn, enumerable: false })
   }
 }
@@ -125,6 +127,6 @@ if (window.addEventListener != null) {
   window.addEventListener('unhandledrejection', event => {
     const err = event.reason
     console.error('PossiblyUnhandledRejection', err, err.context)
-    return reportError(err)
+    reportError(err)
   })
 }

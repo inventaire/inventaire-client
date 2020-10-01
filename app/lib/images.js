@@ -30,7 +30,7 @@ const images_ = {
     return new Promise((resolve, reject) => {
       const data = { original: {}, resized: {} }
       const image = new Image()
-      image.onload = function (imageEvent) {
+      image.onload = () => {
         const canvas = document.createElement('canvas')
         let { width, height } = image
         saveDimensions(data, 'original', width, height);
@@ -47,14 +47,13 @@ const images_ = {
       // This exact message is expected by the Img model
       image.onerror = e => reject(new Error('invalid image'))
 
-      return image.src = dataURL
+      image.src = dataURL
     })
   },
 
-  dataUrlToBlob (data) {
-    if (_.isDataUrl(data)) {
-      return dataURLtoBlob(data)
-    } else { throw new Error('expected a dataURL') }
+  dataUrlToBlob: data => {
+    if (_.isDataUrl(data)) return dataURLtoBlob(data)
+    else throw new Error('expected a dataURL')
   },
 
   upload (container, blobsData, hash = false) {
@@ -128,7 +127,7 @@ const getResizedDimensions = function (width, height, maxSize) {
 
 const saveDimensions = function (data, attribute, width, height) {
   data[attribute].width = width
-  return data[attribute].height = height
+  data[attribute].height = height
 }
 
 // Inspired by https://www.materialpalette.com/colors

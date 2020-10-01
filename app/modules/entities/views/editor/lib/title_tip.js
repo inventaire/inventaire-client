@@ -59,8 +59,8 @@ const findMatchingSerieLabel = function (value, serieLabels) {
 const showSerieLabelTip = function (matchingSerieLabel) {
   if (!this.editMode) { return }
   let tip = _.i18n('title_matches_serie_label_tip', { pathname: this._serieEditorPathname })
-  const serieHref = `href=\"${this._serieEditorPathname}\"`
-  tip = tip.replace(serieHref, `${serieHref} title=\"${matchingSerieLabel}\"`)
+  const serieHref = `href="${this._serieEditorPathname}"`
+  tip = tip.replace(serieHref, `${serieHref} title="${matchingSerieLabel}"`)
   this.ui.tip.html(tip)
   return this.ui.tip.fadeIn()
 }

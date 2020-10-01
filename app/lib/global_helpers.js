@@ -1,1 +1,3 @@
-export default (app, _) => require('./querystring_helpers')(app, _)
+import querystringHelpers from './querystring_helpers'
+
+export default (app, _) => querystringHelpers(app, _)

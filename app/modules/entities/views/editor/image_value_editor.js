@@ -51,7 +51,7 @@ export default ClaimsEditorCommons.extend({
   },
 
   showUploadConfirmation (dataUrl) {
-    this.ui.imagePreview.html(`<img src=\"${dataUrl}\">`)
+    this.ui.imagePreview.html(`<img src="${dataUrl}">`)
     return this.ui.uploadConfirmation.show()
   },
 

@@ -25,7 +25,11 @@ const patchedPromise = function (resolver) {
       return reject(reason)
     }
 
-    try { return resolver(resolve, customReject) } catch (err) { return customReject(err) }
+    try {
+      return resolver(resolve, customReject)
+    } catch (err) {
+      return customReject(err)
+    }
   })
 
   promise.__proto__ = patchedPromise.prototype

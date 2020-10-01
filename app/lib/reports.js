@@ -1,11 +1,11 @@
 export default {
   reportError (err) {
-    if (err.hasBeenReported) { return }
+    if (err.hasBeenReported) return
     err.hasBeenReported = true
     // errors that are assigned a 4xx error code are user errors
     // that don't need to be reported to the server
     // Ex: invalid form input
-    if ((err.statusCode != null) && (err.statusCode < 500)) { return }
+    if ((err.statusCode != null) && (err.statusCode < 500)) return
 
     err.envContext = getEnvContext()
 

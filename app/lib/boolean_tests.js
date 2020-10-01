@@ -1,14 +1,13 @@
 // Keep in sync with server/lib/boolean_tests
 
-let tests
-const regex_ = requireProxy('lib/regex')
+import regex_ from 'lib/regex'
 
 const isCouchUuid = regex_.CouchUuid.test.bind(regex_.CouchUuid)
 const bindedTest = regexName => regex_[regexName].test.bind(regex_[regexName])
 
 const isNonEmptyString = str => _.isString(str) && (str.length > 0)
 
-export default tests = {
+export default {
   isUrl: bindedTest('Url'),
   isImageHash: bindedTest('ImageHash'),
   isLocalImg: bindedTest('LocalImg'),

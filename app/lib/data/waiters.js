@@ -13,15 +13,17 @@ const waitersNames = [
 const pendingWaiters = {}
 const waitersPromises = {}
 
-const initWaiter = function (name) {
-  const promise = new Promise((resolve, reject) => // Store the resolve and reject functions to call
-  // them from waiter:resolve and waiter:reject commands
-    pendingWaiters[name] = { resolve, reject })
+const initWaiter = name => {
+  const promise = new Promise((resolve, reject) => {
+    // Store the resolve and reject functions to call
+    // them from waiter:resolve and waiter:reject commands
+    pendingWaiters[name] = { resolve, reject }
+  })
 
-  return waitersPromises[name] = promise
+  waitersPromises[name] = promise
 }
 
-export default function () {
+export default () => {
   // using forEach to limit the scope of the name variable
   waitersNames.forEach(initWaiter)
 
@@ -33,14 +35,14 @@ export default function () {
 
   app.reqres.setHandlers({
     waitForNetwork: _.once(_waitForNetwork),
-    'wait:for' (name) { return waitersPromises[name] }
+    'wait:for': name => waitersPromises[name]
   })
 
-  return app.commands.setHandlers({
+  app.commands.setHandlers({
     'waiter:resolve': resolve,
     'waiter:reject': reject
   })
-};
+}
 
 // TODO: re-implement the check without promise.isPending
 // as it was part of Bluebird, which was replaced by a lighter implementation
@@ -52,19 +54,19 @@ export default function () {
 
 // setTimeout check, 5000
 
-const resolve = function (name, ...args) {
+const resolve = (name, ...args) => {
   const waiter = getWaiter(name)
   waiter.resolve.apply(waiter, args)
 }
 
-const reject = function (name, err) {
+const reject = (name, err) => {
   const waiter = getWaiter(name)
   waiter.reject(err)
   _.error(err, `${name} data waiter was rejected`)
 }
 
-const getWaiter = function (name) {
+const getWaiter = name => {
   const waiter = pendingWaiters[name]
-  if (waiter == null) { throw new Error(`unknown waiter: ${name}`) }
+  if (waiter == null) throw new Error(`unknown waiter: ${name}`)
   return waiter
 }

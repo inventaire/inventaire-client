@@ -9,8 +9,8 @@ let API
 const { SafeString, escapeExpression } = Handlebars
 
 const {
-  prop,
-  entity,
+  prop: propHelper,
+  entity: entityHelper,
   neutralizeDataObject,
   getValuesTemplates,
   labelString,
@@ -18,13 +18,12 @@ const {
 } = ClaimsHelpers
 
 export default API = {
-  prop,
-  entity,
+  prop: propHelper,
+  entity: entityHelper,
   claim (...args) {
     // entityLink: set to true to link to the entity layout (work, author, etc),
     // the alternative being to link to a claim_layout
-    let claims, entityLink, inline, omitLabel;
-    [ claims, prop, entityLink, omitLabel, inline ] = Array.from(neutralizeDataObject(args))
+    const [ claims, prop, entityLink, omitLabel, inline ] = neutralizeDataObject(args)
     if (claims?.[prop]?.[0] != null) {
       const label = labelString(prop, omitLabel)
       const values = getValuesTemplates(claims[prop], entityLink, prop)
@@ -33,8 +32,7 @@ export default API = {
   },
 
   timeClaim (...args) {
-    let claims, format, inline, omitLabel;
-    [ claims, prop, format, omitLabel, inline ] = Array.from(neutralizeDataObject(args))
+    let [ claims, prop, format, omitLabel, inline ] = neutralizeDataObject(args)
     // default to 'year' and override handlebars data object when args.length is 3
     if (!format) { format = 'year' }
     if (claims?.[prop]?.[0] != null) {
@@ -62,8 +60,7 @@ export default API = {
   },
 
   stringClaim (...args) {
-    let claims, inline, omitLabel;
-    [ claims, prop, omitLabel, inline ] = Array.from(neutralizeDataObject(args))
+    const [ claims, prop, omitLabel, inline ] = neutralizeDataObject(args)
     if (claims?.[prop]?.[0] != null) {
       const label = labelString(prop, omitLabel)
       const values = escapeExpression(claims[prop]?.join(', '))
@@ -72,8 +69,7 @@ export default API = {
   },
 
   urlClaim (...args) {
-    let claims;
-    [ claims, prop ] = Array.from(neutralizeDataObject(args))
+    const [ claims, prop ] = neutralizeDataObject(args)
     const firstUrl = claims?.[prop]?.[0]
     if (firstUrl != null) {
       const label = icons_.icon('link')
@@ -84,8 +80,7 @@ export default API = {
   },
 
   platformClaim (...args) {
-    let claims;
-    [ claims, prop ] = Array.from(neutralizeDataObject(args))
+    const [ claims, prop ] = neutralizeDataObject(args)
     const firstPlatformId = claims?.[prop]?.[0]
     if (firstPlatformId != null) {
       const platform = platforms_[prop]
@@ -99,7 +94,7 @@ export default API = {
   },
 
   entityRemoteHref (uri) {
-    const [ prefix, id ] = Array.from(uri.split(':'))
+    const [ prefix, id ] = uri.split(':')
     switch (prefix) {
     case 'wd': return `https://www.wikidata.org/entity/${id}`
     default: return API.entityLocalHref(uri)
@@ -113,8 +108,10 @@ export default API = {
     switch (_.typeOf(value)) {
     case 'string':
       if (_.isEntityUri(value)) {
-        return entity(value, true)
-      } else { return escapeExpression(value) }
+        return entityHelper(value, true)
+      } else {
+        return escapeExpression(value)
+      }
     case 'array': return value.map(API.multiTypeValue).join('')
     case 'object': return escapeExpression(JSON.stringify(value))
     }
@@ -123,7 +120,7 @@ export default API = {
   entityFromLang (lang) {
     const langEntityId = wdLang.byCode[lang]?.wd
     if (langEntityId != null) {
-      return new SafeString(entity(`wd:${langEntityId}`, false))
+      return new SafeString(entityHelper(`wd:${langEntityId}`, false))
     } else { return lang }
   }
 }

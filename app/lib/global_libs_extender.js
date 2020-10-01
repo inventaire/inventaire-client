@@ -5,8 +5,7 @@ export default function (_) {
   Backbone.Model.prototype.idAttribute = '_id'
 
   const ArrayHandler = function (handler) {
-    let fn
-    return fn = function (attr, value) {
+    return function (attr, value) {
       let array = this.get(attr) || []
       _.typeArray(array)
       array = handler(array, value)
@@ -60,7 +59,7 @@ export default function (_) {
 
   Backbone.Model.prototype.triggerGrab = function (name, model) {
     this.trigger('grab', name, model)
-    return this.trigger(`grab:${name}`, model)
+    this.trigger(`grab:${name}`, model)
   }
 
   // Wrapping Backbone internal functions to get custom error handling
@@ -74,10 +73,12 @@ export default function (_) {
       // like Model::delete that can return 'false' instead of a jQuery promise
       if (result.then != null) {
         return _.preq.wrap(result, arguments)
-      } else { return Promise.resolve(result) }
+      } else {
+        return Promise.resolve(result)
+      }
     }
 
-    return ClassObj.prototype[fnName] = wrappedFn
+    ClassObj.prototype[fnName] = wrappedFn
   }
 
   WrapModelRequests(Backbone.Model, 'save')
@@ -93,7 +94,7 @@ export default function (_) {
   Backbone.Collection.prototype.attributes = function () { return this.toJSON() }
 
   FilteredCollection.prototype.filterByText = function (text, reset = true) {
-    if (reset) { this.resetFilters() }
+    if (reset) this.resetFilters()
 
     // Not completly raw, we are not barbarians
     const rawText = text.trim()
@@ -115,10 +116,10 @@ export default function (_) {
   // See https://backbonejs.org/#Changelog
   Backbone.Collection.prototype.triggerUpdateEvents = function () {
     const lazyTriggerUpdate = _.debounce(triggerUpdate.bind(this), 200)
-    return this.on('change', lazyTriggerUpdate)
+    this.on('change', lazyTriggerUpdate)
   }
 
-  var triggerUpdate = function (...args) { return this.trigger('update', ...Array.from(args)) }
+  const triggerUpdate = function (...args) { this.trigger('update', ...Array.from(args)) }
 
   // Use in promise chains when the view might be about to be re-rendered
   // and calling would thus trigger error as the method depends on regions
@@ -126,7 +127,7 @@ export default function (_) {
   Marionette.View.prototype.ifViewIsIntact = function (fn, ...args) {
     return result => {
     // Pass if the view was destroyed or let the onRender hook re-call the function
-      if (!this.isRendered) { return }
+      if (!this.isRendered) return
 
       args.push(result)
       // Accept a method name in place of a function
@@ -136,13 +137,15 @@ export default function (_) {
   }
 
   Marionette.View.prototype.setTimeout = function (fn, timeout) {
-    const runUnlessViewIsDestroyed = () => { if (!this.isDestroyed) { return fn() } }
+    const runUnlessViewIsDestroyed = () => {
+      if (!this.isDestroyed) return fn()
+    }
     return setTimeout(runUnlessViewIsDestroyed, timeout)
   }
 
   Marionette.View.prototype.updateClassName = function () {
     // Use in 'onRender' hooks to update the view el classes on re-render
-    return this.$el[0].className = this.className()
+    this.$el[0].className = this.className()
   }
 
   // JQUERY
@@ -151,7 +154,7 @@ export default function (_) {
 
   Marionette.View.prototype.displayError = err => app.execute('show:error:other', err)
 
-  return Marionette.View.prototype.lazyRender = function (focusSelector) {
+  Marionette.View.prototype.lazyRender = function (focusSelector) {
     if (this.render == null) { throw new Error('lazyRender called without view as context') }
 
     if (this._lazyRender == null) {
@@ -160,7 +163,7 @@ export default function (_) {
     }
     return this._lazyRender(focusSelector)
   }
-};
+}
 
 const triggerChange = function (model, attr, value) {
   model.trigger('change', model, attr, value)

@@ -1,5 +1,6 @@
 import getActionKey from 'lib/get_action_key'
 import screen_ from 'lib/screen'
+import isMobile from 'lib/mobile_check'
 
 export default function () {
   const $body = $('body')
@@ -24,7 +25,7 @@ export default function () {
 
     // Focusing is useful for devices with a keyboard, so that you can Tab your way through forms
     // but not for touch only devices
-    if (_.isMobile || screen_.isSmall(800)) {
+    if (isMobile || screen_.isSmall(800)) {
 
     } else {
       setTimeout(focusFirstTabElement, 200)

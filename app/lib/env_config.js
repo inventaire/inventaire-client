@@ -1,10 +1,12 @@
 // roughtly addressing the general case
 if (location.hostname.match(/^(localhost|192\.168)/)) {
   window.env = 'dev'
-} else { window.env = 'prod' }
+} else {
+  window.env = 'prod'
+}
 
 export default function () {
-  if (env === 'dev') {
+  if (window.env === 'dev') {
     const trueAlert = window.alert
     window.alert = function (obj) {
       if (_.isObject(obj)) { obj = JSON.stringify(obj, null, 2) }
@@ -12,7 +14,7 @@ export default function () {
     }
   }
 
-  return window.CONFIG = {
+  window.CONFIG = {
     images: {
       maxSize: 1600
     },
@@ -20,4 +22,6 @@ export default function () {
     // as it depends on localStorageProxy
     debug: false
   }
-};
+
+  return window.CONFIG
+}

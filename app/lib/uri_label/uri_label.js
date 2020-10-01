@@ -6,14 +6,11 @@
 // - Trigger uriLabel.update to make it look for those elements
 //   and replace their text by the best label it can find for the Qid
 
-// keep in sync with app/modules/general/views/behaviors/templates/entity_value.hbs
-import wd_ from 'lib/wikimedia/wikidata'
-import getOriginalLang from 'modules/entities/lib/get_original_lang'
-
 import LabelsHelpers from './labels_helpers'
 
 import { get as getEntitiesModels } from 'modules/entities/lib/entities_models_index'
 
+// keep in sync with app/modules/general/views/behaviors/templates/entity_value.hbs
 const className = 'uriLabel'
 const selector = `.${className}`
 const attribute = 'data-label-uri'
@@ -27,7 +24,6 @@ const {
   wasntPrevisoulyMissing
 } = LabelsHelpers
 
-const elements = null
 let refresh = false
 
 const getUris = el => el.getAttribute(attribute)
@@ -53,7 +49,7 @@ const display = function () {
 }
 
 const getEntities = function (uris) {
-  if (uris.length === 0) { return }
+  if (uris.length === 0) return
 
   return getEntitiesModels({ uris, refresh })
   .then(addEntitiesLabels)
@@ -86,7 +82,7 @@ const update = function () {
   const uris = gatherRequiredUris()
 
   // Do not trigger display when no uri was found at this stage
-  if (uris.length === 0) { return }
+  if (uris.length === 0) return
 
   getMissingEntities(uris)
   // Trigger display even if missingUris.length is 0
@@ -110,7 +106,7 @@ const refreshData = function () {
   return setTimeout(endRefreshMode, 5000)
 }
 
-const endRefreshMode = () => refresh = false
+const endRefreshMode = () => { refresh = false }
 
 const debouncedUpdate = _.debounce(update, 200)
 

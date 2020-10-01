@@ -2,14 +2,14 @@
 // https://piwik.instance/index.php?module=CoreAdminHome&action=trackingCodeGenerator&idSite=11&period=day&date=today
 
 // expected to be a global variable by piwik.js
-if (!window._paq) { window._paq = [] }
+if (!window._paq) window._paq = []
 const { _paq, env } = window
 const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
 export default function () {
-  if (isPrerenderSession) { return }
+  if (isPrerenderSession) return
   const { piwik } = app.config
-  if (piwik == null) { return }
+  if (piwik == null) return
   // - radically prevents recording development actions
   // - reduces the load on the real tracker server
   // - easier debug
@@ -27,39 +27,41 @@ export default function () {
   // Unfortunately, piwik.js can't be bundled within vendor.js
   // as it has to be run after _paq is initialized (here above)
   const piwikInitPromise = _.preq.getScript(app.API.assets.scripts.piwik())
-    .then(() => tracker = Piwik.getAsyncTracker())
+    .then(() => { tracker = window.Piwik.getAsyncTracker() })
     .catch(err => {
       // Known case: ublock origin
       _.warn('Fetching Piwik failed (Could be because of a tracker blocker)', err.message)
-      return piwikDisabled = true
+      piwikDisabled = true
     })
 
   // Tracker API doc: http://developer.piwik.org/api-reference/tracking-javascript
   const setUserId = function (id) {
-    if (!_.isUserId(id)) { return }
+    if (!_.isUserId(id)) return
 
     return piwikInitPromise
-    .then(() => { if (!piwikDisabled) { return tracker.setUserId(id) } })
+    .then(() => {
+      if (!piwikDisabled) return tracker.setUserId(id)
+    })
   }
 
   const trackPageView = function (title) {
-    if (piwikDisabled) { return }
+    if (piwikDisabled) return
 
     return piwikInitPromise
     .then(() => {
       // piwikDisabled might have been toggled after a failed initialization
-      if (piwikDisabled) { return }
+      if (piwikDisabled) return
       tracker.setCustomUrl(location.href)
       return tracker.trackPageView(title)
-    }).catch(err => {
+    })
+    .catch(err => {
       // Known error with unidentified cause
-      if (err.message === 'dataElement is null') {
-
-      } else { throw err }
+      if (err.message === 'dataElement is null') return
+      throw err
     })
   }
 
-  return app.commands.setHandlers({
+  app.commands.setHandlers({
     'track:user:id': setUserId,
     // debouncing to get only one page view reported
     // when successive document:title:change occure

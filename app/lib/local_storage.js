@@ -14,7 +14,7 @@ export default function () {
       setItem (key, value) {
         storage[key] = value
       },
-      clear () { return storage = {} }
+      clear () { storage = {} }
     }
   }
 
@@ -34,8 +34,8 @@ export default function () {
   // => true / false
   // someSetting.set(true) / someSetting.set(false)
   // => undefined
-  return window.localStorageBoolApi = key => ({
+  window.localStorageBoolApi = key => ({
     get () { return localStorageBool.get(key) },
     set (bool) { return localStorageBool.set(key, bool) }
   })
-};
+}

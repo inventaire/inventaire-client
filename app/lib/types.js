@@ -1,8 +1,7 @@
 export default {
   type (obj, type) {
-    let needle
     const trueType = _.typeOf(obj)
-    if ((needle = trueType, type.split('|').includes(needle))) {
+    if (type.split('|').includes(trueType)) {
       return obj
     } else {
       const err = new Error(`TypeError: expected ${type}, got ${JSON.stringify(obj)} (${trueType})`)
@@ -49,14 +48,10 @@ export default {
 
     let i = 0
     try {
-      return (() => {
-        const result = []
-        while (i < args.length) {
-          _.type(args[i], types[i])
-          result.push(i += 1)
-        }
-        return result
-      })()
+      while (i < args.length) {
+        _.type(args[i], types[i])
+        i += 1
+      }
     } catch (error) {
       err = error
       err.context = arguments
@@ -100,14 +95,4 @@ export default {
   }
 }
 
-const duplicatesArray = (str, num) => __range__(0, num, false).map(() => str)
-
-function __range__ (left, right, inclusive) {
-  const range = []
-  const ascending = left < right
-  const end = !inclusive ? right : ascending ? right + 1 : right - 1
-  for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
-    range.push(i)
-  }
-  return range
-}
+const duplicatesArray = (str, length) => new Array(length).fill(str)

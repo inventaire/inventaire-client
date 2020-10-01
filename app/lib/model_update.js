@@ -9,9 +9,8 @@ import error_ from 'lib/error'
 // (ex: to update one of the groups the main user is admin of)
 
 const Updater = function (fixedOptions) {
-  let updater
   const { endpoint, action, uniqueModel, modelIdLabel } = fixedOptions
-  return updater = function (options) {
+  return options => {
     let promise
     let { model, attribute, value, defaultPreviousValue, selector } = options
     if (!model) { model = uniqueModel }
@@ -68,12 +67,9 @@ const applyHookUpdates = model => function (updateRes) {
 }
 
 // trigger events when the server confirmed the change
-const ConfirmUpdate = function (model, attribute, value) {
-  let confirm
-  return confirm = function () {
-    model.trigger('confirmed', attribute, value)
-    return model.trigger(`confirmed:${attribute}`, value)
-  }
+const ConfirmUpdate = (model, attribute, value) => () => {
+  model.trigger('confirmed', attribute, value)
+  model.trigger(`confirmed:${attribute}`, value)
 }
 
 const rollbackUpdate = function (options, err) {

@@ -1,5 +1,5 @@
+import isMobile from 'lib/mobile_check'
 import Config from './config'
-
 import buildMarker from './build_marker'
 
 const {
@@ -27,7 +27,7 @@ export default function (params) {
 
   L.tileLayer(tileUrl, settings).addTo(map)
 
-  if (_.isMobile) { map.scrollWheelZoom.disable() }
+  if (isMobile) { map.scrollWheelZoom.disable() }
 
   if (cluster) {
     initWithCluster(map)

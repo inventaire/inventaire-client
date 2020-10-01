@@ -1,6 +1,6 @@
+import { parseQuery } from 'lib/location'
+import timeFromNow from 'lib/time_from_now'
 const { SafeString, escapeExpression } = Handlebars
-const { parseQuery } = requireProxy('lib/location')
-const timeFromNow = requireProxy('lib/time_from_now')
 
 export default {
   i18n (key, context) {
@@ -86,7 +86,7 @@ export default {
   localTimeString (time) { if (time != null) { return new Date(time).toLocaleString(app.user.lang) } },
 
   timeFromNow (time) {
-    if (time == null) { return }
+    if (time == null) return
     const { key, amount } = timeFromNow(time)
     return _.i18n(key, { smart_count: amount })
   },

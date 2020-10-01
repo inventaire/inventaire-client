@@ -5,29 +5,26 @@ const readFile = function (mode, file, encoding, verifyEncoding) {
   return new Promise((resolve, reject) => {
     reader.onerror = reject
     reader.onload = ParseReaderResult(mode, file, verifyEncoding, resolve)
-    return reader[mode](file, encoding)
+    reader[mode](file, encoding)
   })
 }
 
-const ParseReaderResult = function (mode, file, verifyEncoding, resolve) {
-  let parser
-  return parser = function (readerEvent) {
-    const { result } = readerEvent.target
+const ParseReaderResult = (mode, file, verifyEncoding, resolve) => readerEvent => {
+  const { result } = readerEvent.target
 
-    if (!verifyEncoding) {
-      resolve(result)
-      return
-    }
+  if (!verifyEncoding) {
+    resolve(result)
+    return
+  }
 
-    const differentEncoding = testEncodingErrors(result)
-    if (differentEncoding) {
-      _.warn(differentEncoding, 'retrying file with different encoding')
-      // retrying with different encoding but prevent
-      // to enter a retry loop by passing verifyEncoding=false
-      return resolve(readFile(mode, file, differentEncoding, false))
-    } else {
-      return resolve(result)
-    }
+  const differentEncoding = testEncodingErrors(result)
+  if (differentEncoding) {
+    _.warn(differentEncoding, 'retrying file with different encoding')
+    // retrying with different encoding but prevent
+    // to enter a retry loop by passing verifyEncoding=false
+    return resolve(readFile(mode, file, differentEncoding, false))
+  } else {
+    return resolve(result)
   }
 }
 

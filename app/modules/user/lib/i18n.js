@@ -21,7 +21,7 @@ export default function (app, lang) {
   const missingKeyWarn = function (warning) {
     console.warn(warning)
 
-    // Warning pattern: "Missing translation for key: \"#{key}\""
+    // Warning pattern: "Missing translation for key: "#{key}""
     const key = warning
       .replace('Missing translation for key: "', '')
       .replace(/"$/, '')
