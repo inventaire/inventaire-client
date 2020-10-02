@@ -1,3 +1,2 @@
-#!/usr/bin/env bash
-set -eu
-mocha --compilers coffee:coffee-script/register --exit --no-deprecation test/*coffee
+#!/usr/bin/env sh
+mocha --exit test/*.js
