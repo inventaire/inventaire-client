@@ -1,7 +1,9 @@
-const [ target ] = Array.from(process.argv.slice(2))
+const [ target ] = process.argv.slice(2)
 
 export default function () {
   if (target === 'prod') {
     return 'https://inventaire.io'
-  } else { return 'http://localhost:3006' }
-};
+  } else {
+    return 'http://localhost:3006'
+  }
+}

@@ -1,4 +1,5 @@
-#!/usr/bin/env nodeimport generateSitemaps from './generate_sitemaps';
+#!/usr/bin/env node
+import generateSitemaps from './generate_sitemaps'
 import generateIndex from './generate_index'
 import FilesCommands from './files_commands'
 

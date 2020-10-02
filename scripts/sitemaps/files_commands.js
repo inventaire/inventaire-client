@@ -3,8 +3,7 @@ import { exec } from 'child_process'
 import { grey, green } from 'chalk'
 import fs from 'fs'
 const ls = dir => console.log(fs.readdirSync(dir))
-const cp = (orignal, copy) => fs.createReadStream(orignal)
-.pipe(fs.createWriteStream(copy))
+const cp = (orignal, copy) => fs.createReadStream(orignal).pipe(fs.createWriteStream(copy))
 
 const { stderr } = process
 

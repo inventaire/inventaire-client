@@ -2,7 +2,7 @@ import breq from 'bluereq'
 import _ from 'lodash'
 import writeSitemap from './write_sitemap'
 import { folder } from './config'
-import { green, blue } from 'chalk'
+import { green } from 'chalk'
 import wdk from 'wikidata-sdk'
 import queries from './queries'
 
@@ -10,7 +10,7 @@ export default function () {
   const queriesNames = Object.keys(queries)
 
   // Generating sequentially to prevent overpassing Wikidata Query Service parallel request quota
-  var generateFilesSequentially = function () {
+  const generateFilesSequentially = function () {
     const nextQueryName = queriesNames.shift()
     if (nextQueryName == null) { return console.log(green('done')) }
     return generateFilesFromQuery(nextQueryName)
@@ -18,7 +18,7 @@ export default function () {
   }
 
   return generateFilesSequentially()
-};
+}
 
 const generateFilesFromQuery = function (name) {
   console.log(green(`${name} query`), queries[name])
@@ -27,7 +27,8 @@ const generateFilesFromQuery = function (name) {
     headers: {
       'user-agent': 'inventaire-client (https://github.com/inventaire/inventaire-client)'
     }
-  }).get('body')
+  })
+  .get('body')
   .then(results => {
     try {
       return wdk.simplifySparqlResults(results)
@@ -35,7 +36,8 @@ const generateFilesFromQuery = function (name) {
       console.error('failed to parse SPARQL results', results)
       throw err
     }
-  }).then(getParts(name))
+  })
+  .then(getParts(name))
   .map(generateFile)
 }
 

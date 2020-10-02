@@ -1,12 +1,5 @@
-#!/usr/bin/env nodeimport { get } from 'bluereq';
-/* eslint-disable
-    import/no-duplicates,
-    no-undef,
-    no-var,
-    prefer-arrow/prefer-arrow-functions,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
+#!/usr/bin/env node
+import { get } from 'bluereq'
 import _ from 'lodash'
 import { green, grey, red } from 'chalk'
 
@@ -31,18 +24,16 @@ const buildUrl = function (path) {
   return url
 }
 
-const passSectionTests = (sectionTests, html) => (() => {
-  const result = []
+const passSectionTests = (sectionTests, html) => {
   for (const label in sectionTests) {
     const test = sectionTests[label]
     test(html)
-    result.push(console.log(green('ok'), k, label))
+    console.log(green('ok'), k, label)
   }
-  return result
-})()
+}
 
 const rejectEmptyHtml = function (html) {
-  if (html == null) { throw new Error(`couldn't reach ${root}`) }
+  if (html == null) throw new Error(`couldn't reach ${root}`)
   return html
 }
 
@@ -56,8 +47,8 @@ const passSectionsTests = (k, v) => get(buildUrl(v.path))
   throw err
 })
 
-for (var k in tests) {
-  var v = tests[k]
+for (const k in tests) {
+  const v = tests[k]
   promises.push(passSectionsTests(k, v))
 }
 

@@ -1,4 +1,5 @@
-#!/usr/bin/env nodeimport CONFIG from 'config';
+#!/usr/bin/env node
+import CONFIG from 'config'
 // Avoid to use server-side modules, as it makes executing this script
 // depend on the server side repository having run 'npm install'
 // which might not be the case. Ex: client-only development environment

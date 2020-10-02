@@ -8,6 +8,8 @@ export default function (path, content) {
   return writeFile(path, content, (err, res) => {
     if (err != null) {
       return console.log(red('err'), err)
-    } else { return console.log(green('done!')) }
+    } else {
+      return console.log(green('done!'))
+    }
   })
-};
+}

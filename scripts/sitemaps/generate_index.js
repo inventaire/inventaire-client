@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import writeSitemap from './write_sitemap'
 import fs from 'fs'
 import { publicPath, folder, index } from './config'
@@ -21,10 +20,8 @@ const buildSitemapNode = function (filename) {
 
 const wrapIndex = function (sitemapNodes) {
   const text = sitemapNodes.join('')
-  return `\
-<?xml version="1.0" encoding="UTF-8"?>
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${text}
-</sitemapindex>\
-`
+</sitemapindex>`
 }
