@@ -4,8 +4,15 @@
 </div>
 
 <div class="sections">
-  {{#each sections}}
-    <a id="section-{{@key}}" class="searchSection {{#if selected}}selected{{/if}}">
+  {{#each entitiesSections}}
+    <a id="section-{{@key}}" class="searchSection entitiesSection {{#if selected}}selected{{/if}}">
+      {{I18n label}}
+    </a>
+  {{/each}}
+</div>
+<div class="sections">
+  {{#each socialSections}}
+    <a id="section-{{@key}}" class="searchSection socialSection {{#if selected}}selected{{/if}}">
       {{I18n label}}
     </a>
   {{/each}}
