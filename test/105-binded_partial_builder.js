@@ -1,4 +1,3 @@
-    camelcase,
 import 'should'
 import __ from '../root'
 
@@ -27,10 +26,10 @@ describe('BindedPartialBuilder', () => {
     const partial1 = partialBuilder(1)
     partial1.should.be.a.Function()
     partial1(2).should.equal(8)
-    const partial2_3 = partialBuilder(2, 3)
-    partial2_3.should.be.a.Function()
-    partial2_3().should.equal(10)
-    partial2_3(123, 12512521).should.equal(10)
+    const partial2And3 = partialBuilder(2, 3)
+    partial2And3.should.be.a.Function()
+    partial2And3().should.equal(10)
+    partial2And3(123, 12512521).should.equal(10)
     done()
   })
 })

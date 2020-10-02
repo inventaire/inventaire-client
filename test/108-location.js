@@ -27,10 +27,9 @@ describe('location utils', () => {
       queries.goodToo[0].should.equal('?')
       const queryObj = parseQuery(queries.goodToo)
       for (const k in queryObj) {
-        const v = queryObj[k]
         k[0].should.not.equal('?')
       }
-      _.isEqual(parseQuery(queries.goodToo), parseQuery(queries.good)).should.be.true
+      _.isEqual(parseQuery(queries.goodToo), parseQuery(queries.good)).should.be.true()
       done()
     })
 

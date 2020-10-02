@@ -1,18 +1,14 @@
+import should from 'should'
 global.window = global
-const _ = require('./utils_builder')
-require('should')
-const __ = require('../root')
-const promisesUtils = __.require('lib', 'promises')
-const undesiredRes = done => function (res) {
+const undesiredRes = done => res => {
   done(new Error('.then was not expected to be called'))
-  return console.warn('undesired res', res)
+  console.warn('undesired res', res)
 }
 
 describe('promises', () => {
   it('should not have additional enumerable keys', done => {
     const promise = Promise.resolve()
     for (const key in promise) {
-      const value = promise[key]
       throw new Error(`undesired enumerable key: ${key}`)
     }
     done()
@@ -29,7 +25,8 @@ describe('promises', () => {
       .then(res => {
         res.should.equal('hello')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should return a rejected promise when passed a function throwing', done => {
@@ -38,7 +35,8 @@ describe('promises', () => {
       .catch(err => {
         err.message.should.equal('oh no')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
   })
 
@@ -57,7 +55,8 @@ describe('promises', () => {
         should(end >= (start + 100)).be.true()
         should(end < (start + 110)).be.true()
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should not prevent the promise from rejecting', done => {
@@ -67,7 +66,8 @@ describe('promises', () => {
       .catch(err => {
         err.message.should.equal('oh no')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
   })
 
@@ -81,33 +81,39 @@ describe('promises', () => {
       Promise.props({
         a: Promise.resolve(123),
         b: Promise.resolve(456)
-      }).then(res => {
+      })
+      .then(res => {
         res.a.should.equal(123)
         res.b.should.equal(456)
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should return a rejected promise if one of the promises fail', done => {
       Promise.props({
         a: 123,
         b: Promise.reject(new Error('foo'))
-      }).then(undesiredRes(done))
+      })
+      .then(undesiredRes(done))
       .catch(err => {
         err.message.should.equal('foo')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should return direct values in an object', done => {
       Promise.props({
         a: 1,
         b: 2
-      }).then(res => {
+      })
+      .then(res => {
         res.a.should.equal(1)
         res.b.should.equal(2)
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
   })
 
@@ -152,7 +158,8 @@ describe('promises', () => {
         a.should.equal(1)
         b.should.equal(2)
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should pass errors', done => {
@@ -164,7 +171,8 @@ describe('promises', () => {
       .catch(err => {
         err.message.should.equal('hello')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
   })
 
@@ -180,7 +188,8 @@ describe('promises', () => {
       .then(res => {
         res.should.equal(2)
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should pass errors', done => {
@@ -190,7 +199,8 @@ describe('promises', () => {
       .catch(err => {
         err.message.should.equal('hello')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
   })
 
@@ -205,11 +215,13 @@ describe('promises', () => {
       .tap(res => {
         res.a.should.equal(1)
         res.b.should.equal(2)
-      }).then(res => {
+      })
+      .then(res => {
         res.a.should.equal(1)
         res.b.should.equal(2)
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should pass errors', done => {
@@ -218,7 +230,8 @@ describe('promises', () => {
       .catch(err => {
         err.message.should.equal('hello')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should not fail silently', done => {
@@ -228,7 +241,8 @@ describe('promises', () => {
       .catch(err => {
         err.message.should.equal('oh no')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
   })
 
@@ -243,7 +257,8 @@ describe('promises', () => {
       .finally((...args) => {
         args.should.deepEqual([])
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should not be provided any argument after a rejected promise', done => {
@@ -253,10 +268,12 @@ describe('promises', () => {
         called = true
         return args.should.deepEqual([])
       })
+      // eslint-disable-next-line handle-callback-err
       .catch(err => {
         called.should.be.true()
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should pass the resolved value', done => {
@@ -265,7 +282,8 @@ describe('promises', () => {
       .then(res => {
         res.should.equal(123)
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should pass the rejected error', done => {
@@ -274,7 +292,8 @@ describe('promises', () => {
       .catch(err => {
         err.message.should.equal('foo')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should be called only once', done => {
@@ -283,11 +302,13 @@ describe('promises', () => {
       .finally(() => {
         counter++
         throw new Error('foo')
-      }).catch(err => {
+      })
+      .catch(err => {
         err.message.should.equal('foo')
         counter.should.equal(1)
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
   })
 
@@ -307,7 +328,8 @@ describe('promises', () => {
       .then(res => {
         res.should.deepEqual([ 2, 3 ])
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should filter results from an array containing promises', done => {
@@ -320,7 +342,8 @@ describe('promises', () => {
       .then(res => {
         res.should.deepEqual([ 2, 3 ])
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should pass errors', done => {
@@ -332,7 +355,8 @@ describe('promises', () => {
       .catch(err => {
         err.message.should.equal('hello')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
   })
 
@@ -352,7 +376,8 @@ describe('promises', () => {
       .then(res => {
         res.should.deepEqual([ 2, 4, 6 ])
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should map results from an array containing promises', done => {
@@ -365,7 +390,8 @@ describe('promises', () => {
       .then(res => {
         res.should.deepEqual([ 2, 4, 6 ])
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should map return resolved values', done => {
@@ -374,7 +400,8 @@ describe('promises', () => {
       .then(res => {
         res.should.deepEqual([ 2, 4, 6 ])
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should pass errors', done => {
@@ -386,7 +413,8 @@ describe('promises', () => {
       .catch(err => {
         err.message.should.equal('hello')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
   })
 
@@ -407,7 +435,8 @@ describe('promises', () => {
       .then(res => {
         res.should.equal(11)
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should reduce results from an array containing promises', done => {
@@ -421,7 +450,8 @@ describe('promises', () => {
       .then(res => {
         res.should.equal(11)
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
 
     it('should pass errors', done => {
@@ -433,7 +463,8 @@ describe('promises', () => {
       .catch(err => {
         err.message.should.equal('hello')
         done()
-      }).catch(done)
+      })
+      .catch(done)
     })
   })
 })

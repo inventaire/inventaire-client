@@ -1,5 +1,4 @@
 import 'should'
-import _ from './utils_builder'
 import __ from '../root'
 
 // As window is defined in utils_builder, this defines window.ISBN
@@ -34,7 +33,8 @@ describe('isbn scanner detection', () => {
       onDetected(fakeResult(validIsbn))
       addedIsbns.should.deepEqual([ validIsbn ])
       done()
-    }).catch(done)
+    })
+    .catch(done)
   })
 
   it('should not add an isbn if preceded by a different valid isbn', done => {
@@ -48,7 +48,8 @@ describe('isbn scanner detection', () => {
       onDetected(fakeResult(validIsbn2))
       addedIsbns.should.deepEqual([])
       done()
-    }).catch(done)
+    })
+    .catch(done)
   })
 
   it('should add an isbn after 2 successive scans, even if another valid isbn was scanned before', done => {
@@ -69,6 +70,7 @@ describe('isbn scanner detection', () => {
       onDetected(fakeResult(validIsbn))
       addedIsbns.should.deepEqual([ validIsbn ])
       done()
-    }).catch(done)
+    })
+    .catch(done)
   })
 })
