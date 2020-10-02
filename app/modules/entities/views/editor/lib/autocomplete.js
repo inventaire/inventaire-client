@@ -1,7 +1,7 @@
 // A set of functions to display a list of suggestions and the the view be informed of
 // the selected suggestion via onAutoCompleteSelect and onAutoCompleteUnselect hooks
 
-// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.behavior.coffee
+// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.behavior.js
 
 import getActionKey from 'lib/get_action_key'
 

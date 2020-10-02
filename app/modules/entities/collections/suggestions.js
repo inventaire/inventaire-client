@@ -1,4 +1,4 @@
-// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.coffee
+// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.js
 
 export default Backbone.Collection.extend({
   initialize (data, options) {
@@ -54,7 +54,7 @@ export default Backbone.Collection.extend({
     // Known case: the collection just got reset
     if (model == null) return
     model.trigger(eventName, model)
-    // events required by modules/entities/views/editor/lib/autocomplete.coffee
+    // events required by modules/entities/views/editor/lib/autocomplete.js
     this.trigger(eventName, model)
   }
 })

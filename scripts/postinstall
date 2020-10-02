@@ -8,7 +8,7 @@ set -eu
 
 mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./public/css
 ./scripts/install_external_modules
-./scripts/update_mentions.coffee
+./scripts/update_mentions.js
 
 ./scripts/build_i18n
 

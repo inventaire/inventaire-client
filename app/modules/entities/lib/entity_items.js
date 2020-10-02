@@ -11,7 +11,7 @@ export default {
 const showItemsPreviewLists = function () {
   return this.waitForItems
   .then(itemsByCategory => {
-    // Happens when app/modules/entities/views/editions_list.coffee
+    // Happens when app/modules/entities/views/editions_list.js
     // are displayed within work_layout and thus re-redered on filter
     if (this.isDestroyed) return
     if (app.user.loggedIn) {

@@ -1,4 +1,4 @@
-// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collectionview.coffee
+// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collectionview.js
 
 // keep in sync with app/modules/general/scss/_autocomplete.scss
 const listHeight = 170

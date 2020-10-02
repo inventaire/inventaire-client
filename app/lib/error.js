@@ -1,7 +1,7 @@
 let error_
 const formatError = function (message, statusCode, context) {
   // Accept a statusCode number as second argument as done on the server
-  // cf server/lib/error/format_error.coffee
+  // cf server/lib/error/format_error.js
   // Allows for instance to not report non-operational/user errors to the server
   // in case statusCode is a 4xx error
 

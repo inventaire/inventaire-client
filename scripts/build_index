@@ -2,7 +2,7 @@
 PUBLIC=$(pwd)/public
 
 # partials used to keep pieces of code not useful for development out of the index
-./scripts/add_index_partials.coffee
+./scripts/add_index_partials.js
 echo 'partials added'
 
 # Remove comments (assumes that there are no multilines comments)
@@ -13,5 +13,5 @@ sed -i -E 's/^\s*//' $PUBLIC/index.html
 sed -i -E '/^$/d' $PUBLIC/index.html
 echo 'index.html minified'
 
-./scripts/add_jsonld_actions.coffee
+./scripts/add_jsonld_actions.js
 echo 'jsonld actions added'

@@ -1,7 +1,7 @@
 #!/usr/bin/env node// replace markers in index.html by partials
 // /!\ should only be used for piece of html that is of no use in development
 
-import addText from './lib/add_text.coffee'
+import addText from './lib/add_text.js'
 
 addText({
   filename: 'piwik.html',

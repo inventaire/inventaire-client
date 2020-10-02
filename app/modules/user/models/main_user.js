@@ -71,7 +71,7 @@ export default UserCommons.extend({
     if (this.loggedIn) {
       // Wait for the server confirmation as we keep the language setting
       // in the user's document
-      // This event is triggered by app/lib/model_update.coffee
+      // This event is triggered by app/lib/model_update.js
       this.once('confirmed:language', reload)
     } else {
       // the language setting is persisted as a cookie instead

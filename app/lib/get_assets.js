@@ -1,6 +1,6 @@
 import preq from 'lib/preq'
 // An API to get scripts that weren't bundled into vendor.js
-// Names are expected to match app/api/scripts.coffee keys
+// Names are expected to match app/api/scripts.js keys
 
 const cache = {}
 

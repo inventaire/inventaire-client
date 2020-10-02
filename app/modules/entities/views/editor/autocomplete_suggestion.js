@@ -1,4 +1,4 @@
-// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.childview.coffee
+// Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.childview.js
 
 export default Marionette.ItemView.extend({
   tagName: 'li',

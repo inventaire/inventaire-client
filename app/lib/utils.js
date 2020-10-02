@@ -9,7 +9,7 @@ const iconAliases = {
 }
 
 export default {
-  // Will be overriden in modules/user/lib/i18n.coffee as soon as possible
+  // Will be overriden in modules/user/lib/i18n.js as soon as possible
   i18n: _.identity,
   I18n: (...args) => _.capitalise(_.i18n.apply(_, args)),
 

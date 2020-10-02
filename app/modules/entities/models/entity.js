@@ -261,7 +261,7 @@ export default Filterable.extend({
     return [ this.get('label') ].concat(userLangAliases)
   },
 
-  // Overriden by modules/entities/lib/wikidata/init_entity.coffee
+  // Overriden by modules/entities/lib/wikidata/init_entity.js
   // for Wikidata entities
   getWikipediaExtract () { return Promise.resolve() }
 })

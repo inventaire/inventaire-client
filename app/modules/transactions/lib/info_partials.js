@@ -1,7 +1,7 @@
 // building the path to use a partial from
 // app/modules/transactions/views/templates/info
 // with our custom {{partial}} handlebars helper
-// (see app/lib/handlebars_helpers/partials.coffee)
+// (see app/lib/handlebars_helpers/partials.js)
 const partialPath = filename => ({
   partialPath: `transactions:info/${filename}`
 })

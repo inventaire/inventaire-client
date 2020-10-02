@@ -14,8 +14,8 @@ const addProp = (
   properties[property] = { editorType, searchType, property, multivalue, allowEntityCreation }
 }
 
-// Keep in sync with app/modules/entities/lib/editor/properties_per_type.coffee
-// and server/controllers/entities/lib/properties.coffee@inventaire/inventaire
+// Keep in sync with app/modules/entities/lib/editor/properties_per_type.js
+// and server/controllers/entities/lib/properties.js@inventaire/inventaire
 
 // # work
 // author

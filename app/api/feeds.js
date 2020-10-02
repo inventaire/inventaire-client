@@ -4,7 +4,7 @@ const { root } = window.location
 const feedEndpointBase = endpoint('feeds', true)
 // Always using the absolute path so that links are treated as external links,
 // thus getting target='_blank' attributes, and the associated click behaviors
-// cf app/modules/general/lib/smart_prevent_default.coffee
+// cf app/modules/general/lib/smart_prevent_default.js
 const feedEndpoint = `${root}${feedEndpointBase}`
 
 export default function (key, id) {

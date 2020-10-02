@@ -36,7 +36,7 @@ const typeFormatters = {
   subjects (data) {
     data.typeAlias = 'subject'
     data.pathname = `/entity/wdt:P921-${data.uri}`
-    // Let app/lib/shared/api/img.coffee request to be redirected
+    // Let app/lib/shared/api/img.js request to be redirected
     // to the associated entity image
     data.image = data.uri
     return data

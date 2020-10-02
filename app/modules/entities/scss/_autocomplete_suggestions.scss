@@ -23,7 +23,7 @@
   @include shy-border(0.9);
   @include radius-bottom;
   .resultsWrapper{
-    // keep in sync with modules/entities/views/editor/autocomplete_suggestions.coffee
+    // keep in sync with modules/entities/views/editor/autocomplete_suggestions.js
     max-height: 170px;
     overflow: auto;
   }
