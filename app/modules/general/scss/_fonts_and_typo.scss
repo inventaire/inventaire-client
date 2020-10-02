@@ -1,32 +1,32 @@
 @font-face {
  font-family: 'Alegreya';
  font-weight: normal;
- src: url(/public/fonts/Alegreya-Regular.woff);
+ src: url(/assets/fonts/Alegreya-Regular.woff);
 }
 
 @font-face {
  font-family: 'Alegreya';
  font-weight: bold;
- src: url(/public/fonts/Alegreya-Bold.woff);
+ src: url(/assets/fonts/Alegreya-Bold.woff);
 }
 
 /* for cyrillic text */
 @font-face {
  font-family: 'Gregor';
  font-weight: normal;
- src: url(/public/fonts/Gregor-Regular.otf);
+ src: url(/assets/fonts/Gregor-Regular.otf);
 }
 
 @font-face {
  font-family: 'Alegreya Sans';
  font-weight: normal;
- src: url(/public/fonts/AlegreyaSans-Regular.woff);
+ src: url(/assets/fonts/AlegreyaSans-Regular.woff);
 }
 
 @font-face {
  font-family: 'Alegreya Sans';
  font-weight: bold;
- src: url(/public/fonts/AlegreyaSans-Bold.woff);
+ src: url(/assets/fonts/AlegreyaSans-Bold.woff);
 }
 
 $serif: 'Alegreya';

@@ -19,7 +19,7 @@ $entity-editor-small-thresold: 800px;
     /*Not too small screens*/
     @media screen and (min-width: $smaller-screen) {
       .wikidata-edit, #moveToWikidata, .wikidata-move-disabled{
-        @include position(absolute, 0, 0)
+        @include position(absolute, 0, 0);
       }
     }
     /*Very small screens*/

@@ -13,7 +13,7 @@
   padding: 1rem 2rem;
   margin: 0;
   @include serif;
-  @include bg-hover($light-blue)
+  @include bg-hover($light-blue);
   color: white;
   &:focus, &:hover{
     color: white;
@@ -22,23 +22,23 @@
     @include bg-hover($grey);
   }
   &.soft-grey{
-    @include bg-hover($soft-grey)
+    @include bg-hover($soft-grey);
   }
   &.dark-grey{
-    @include bg-hover($dark-grey)
+    @include bg-hover($dark-grey);
   }
   &.sans-serif{
     @include sans-serif;
   }
   &.success{
     color: white;
-    @include bg-hover($success-color)
+    @include bg-hover($success-color);
   }
   &.secondary{
-    @include bg-hover($secondary-color)
+    @include bg-hover($secondary-color);
   }
   &.alert{
-    @include bg-hover($warning-color)
+    @include bg-hover($warning-color);
   }
   &.disabled{
     cursor: not-allowed;

@@ -19,7 +19,7 @@
     height: 3em;
     margin: 0.1em 0;
     border-top: 1px solid $off-white;
-    @include bg-hover($light-grey)
+    @include bg-hover($light-grey);
     .shelf-left{
       @include display-flex(row, center);
       overflow: hidden;

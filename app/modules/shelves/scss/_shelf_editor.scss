@@ -14,7 +14,7 @@
     text-align: center;
   }
   .select-button-group{
-    @include display-flex(column)
+    @include display-flex(column);
   }
   .buttons{
     margin-top: 1em;
