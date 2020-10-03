@@ -3,7 +3,7 @@ import EntitiesList from './entities_list'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
 export default TypedEntityLayout.extend({
-  template: require('./templates/serie_layout'),
+  template: require('./templates/serie_layout.hbs'),
   Infobox: require('./serie_infobox'),
   baseClassName: 'serieLayout',
 

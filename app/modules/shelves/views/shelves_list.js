@@ -1,6 +1,6 @@
 const ListEl = Marionette.ItemView.extend({
   tagName: 'li',
-  template: require('./templates/shelves_list_li'),
+  template: require('./templates/shelves_list_li.hbs'),
 
   behaviors: {
     PreventDefault: {}

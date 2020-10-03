@@ -1,5 +1,5 @@
 // inspired by some things there http://assemble.io/helpers/
-const { SafeString, escapeExpression } = Handlebars
+import { SafeString, escapeExpression } from 'handlebars'
 
 export default {
   join (array, separator) {

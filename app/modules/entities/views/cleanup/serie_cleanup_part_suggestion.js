@@ -9,7 +9,7 @@ const PartSuggestion = WorkPicker.extend({
     return className
   },
 
-  template: require('./templates/serie_cleanup_part_suggestion'),
+  template: require('./templates/serie_cleanup_part_suggestion.hbs'),
   initialize () {
     this.isWikidataEntity = (this.workPickerDisabled = this.model.get('isWikidataEntity'))
     WorkPicker.prototype.initialize.call(this)

@@ -8,7 +8,7 @@ const cantTypeSearch = [
 
 export default Marionette.CompositeView.extend({
   id: 'entitiesListAdder',
-  template: require('./templates/entities_list_adder'),
+  template: require('./templates/entities_list_adder.hbs'),
   childViewContainer: '.entitiesListElementCandidates',
   childView: EntitiesListElementCandidate,
   childViewOptions () {

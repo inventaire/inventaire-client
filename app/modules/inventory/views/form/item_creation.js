@@ -10,7 +10,7 @@ import error_ from 'lib/error'
 const ItemsList = Marionette.CollectionView.extend({ childView: require('modules/inventory/views/item_row') })
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/item_creation'),
+  template: require('./templates/item_creation.hbs'),
   className: 'addEntity',
 
   regions: {

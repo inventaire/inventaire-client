@@ -3,7 +3,7 @@ let noValueI18n = null
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'simple-day-value-editor',
-  template: require('./templates/simple_day_value_editor'),
+  template: require('./templates/simple_day_value_editor.hbs'),
 
   initialize () {
     this.initEditModeState()

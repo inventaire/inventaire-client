@@ -4,7 +4,7 @@ export default Marionette.CompositeView.extend({
     if (this.options.standalone) { classes += ' standalone' }
     return classes
   },
-  template: require('./templates/history'),
+  template: require('./templates/history.hbs'),
   childViewContainer: '.inner-history',
   childView: require('./version'),
   initialize () {

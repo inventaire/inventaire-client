@@ -2,7 +2,7 @@ import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_pr
 import clampedExtract from '../lib/clamped_extract'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/serie_infobox'),
+  template: require('./templates/serie_infobox.hbs'),
   behaviors: {
     EntitiesCommons: {},
     ClampedExtract: {}

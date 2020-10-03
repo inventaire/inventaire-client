@@ -16,7 +16,7 @@ const navs = {
 
 export default Marionette.LayoutView.extend({
   id: 'inventoryLayout',
-  template: require('./templates/inventory_layout'),
+  template: require('./templates/inventory_layout.hbs'),
   regions: {
     inventoryNav: '#inventoryNav',
     sectionNav: '#sectionNav',

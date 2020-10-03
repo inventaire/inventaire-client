@@ -3,7 +3,7 @@ import masonryPlugin from 'modules/general/plugins/masonry'
 
 export default InfiniteScrollItemsList.extend({
   className: 'items-cascade-wrapper',
-  template: require('./templates/items_cascade'),
+  template: require('./templates/items_cascade.hbs'),
   childViewContainer: '.itemsCascade',
   childView: require('./item_card'),
   emptyView: require('./no_item'),

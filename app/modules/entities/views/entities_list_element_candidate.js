@@ -3,7 +3,7 @@ import forms_ from 'modules/general/lib/forms'
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'entities-list-element-candidate',
-  template: require('./templates/entities_list_element_candidate'),
+  template: require('./templates/entities_list_element_candidate.hbs'),
 
   initialize () {
     let parentModel;

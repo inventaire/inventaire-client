@@ -22,7 +22,7 @@ const ImportedItemsList = Marionette.CollectionView.extend({
 
 export default Marionette.LayoutView.extend({
   className: 'import-queue',
-  template: require('./templates/import_queue'),
+  template: require('./templates/import_queue.hbs'),
 
   regions: {
     candidatesQueue: '#candidatesQueue',

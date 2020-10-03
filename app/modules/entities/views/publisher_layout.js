@@ -5,7 +5,7 @@ import PaginatedEntities from 'modules/entities/collections/paginated_entities'
 export default TypedEntityLayout.extend({
   id: 'publisherLayout',
   className: 'standalone',
-  template: require('./templates/publisher_layout'),
+  template: require('./templates/publisher_layout.hbs'),
   Infobox: require('./publisher_infobox'),
   regions: {
     infoboxRegion: '.publisherInfobox',

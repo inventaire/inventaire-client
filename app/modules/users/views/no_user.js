@@ -1,7 +1,7 @@
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'text-center hidden',
-  template: require('./templates/no_user'),
+  template: require('./templates/no_user.hbs'),
 
   onShow () { this.$el.fadeIn() },
 

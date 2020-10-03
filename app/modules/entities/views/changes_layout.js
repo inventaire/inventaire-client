@@ -3,7 +3,7 @@ import behaviorsPlugin from 'modules/general/plugins/behaviors'
 
 export default Marionette.CompositeView.extend({
   id: 'changeLayout',
-  template: require('./templates/changes_layout'),
+  template: require('./templates/changes_layout.hbs'),
   childViewContainer: '#feed',
   childView: require('./feed_li'),
   initialize () {

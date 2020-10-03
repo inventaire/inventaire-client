@@ -11,7 +11,7 @@ const {
 } = TitleTip
 
 export default EditorCommons.extend({
-  template: require('./templates/labels_editor'),
+  template: require('./templates/labels_editor.hbs'),
   mainClassName: 'labels-editor',
   initialize () {
     ({ creating: this.creating } = this.model);

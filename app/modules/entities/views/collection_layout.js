@@ -7,7 +7,7 @@ const Infobox = GeneralInfobox.extend({ template: require('./templates/collectio
 
 export default TypedEntityLayout.extend({
   baseClassName: 'collectionLayout',
-  template: require('./templates/collection_layout'),
+  template: require('./templates/collection_layout.hbs'),
   Infobox,
   regions: {
     infoboxRegion: '.collectionInfobox',

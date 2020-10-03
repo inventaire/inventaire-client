@@ -4,7 +4,7 @@ import Items from 'modules/inventory/collections/items'
 
 export default Marionette.CompositeView.extend({
   id: 'shelfItemsAdder',
-  template: require('./templates/shelf_items_adder'),
+  template: require('./templates/shelf_items_adder.hbs'),
   childViewContainer: '.shelfItemsCandidates',
   childView: ShelfItemsCandidates,
   childViewOptions () {

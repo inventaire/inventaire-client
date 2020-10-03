@@ -5,7 +5,7 @@ import Mentions from './mentions'
 
 export default Marionette.LayoutView.extend({
   id: 'welcome',
-  template: require('./templates/welcome'),
+  template: require('./templates/welcome.hbs'),
   regions: {
     previewColumns: '#previewColumns',
     mentions: '#mentions'

@@ -2,7 +2,7 @@ import entityItems from '../lib/entity_items'
 import EntityActions from './entity_actions'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/edition_layout'),
+  template: require('./templates/edition_layout.hbs'),
   className: 'edition-commons editionLayout standalone',
   regions: {
     // Prefix regions selectors with 'edition' to avoid collisions with
@@ -54,7 +54,7 @@ export default Marionette.LayoutView.extend({
 
 const EditionWork = Marionette.ItemView.extend({
   className: 'edition-work',
-  template: require('./templates/edition_work')
+  template: require('./templates/edition_work.hbs')
 })
 
 const EditionWorks = Marionette.CollectionView.extend({

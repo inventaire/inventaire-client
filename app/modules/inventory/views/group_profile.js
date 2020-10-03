@@ -2,7 +2,7 @@ import SectionList from './inventory_section_list'
 import { GroupLayoutView } from 'modules/network/views/group_views_commons'
 
 export default GroupLayoutView.extend({
-  template: require('./templates/group_profile'),
+  template: require('./templates/group_profile.hbs'),
   className: 'groupProfile',
 
   regions: {

@@ -1,5 +1,5 @@
 export default Marionette.ItemView.extend({
-  template: require('./templates/inventory_nav'),
+  template: require('./templates/inventory_nav.hbs'),
   initialize () {
     return ({ section: this.section } = this.options)
   },

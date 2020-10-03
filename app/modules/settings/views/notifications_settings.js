@@ -3,7 +3,7 @@ import getPeriodicityDays from '../lib/periodicity_days'
 const defaultPeriodicity = 20
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/notifications_settings'),
+  template: require('./templates/notifications_settings.hbs'),
   className: 'notificationsSettings',
   initialize () {
     this.listenTo(app.user, 'rollback', this.lazyRender.bind(this))

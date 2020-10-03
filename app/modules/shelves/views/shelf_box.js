@@ -3,7 +3,7 @@ import ShelfItemsAdder from './shelf_items_adder'
 
 export default Marionette.ItemView.extend({
   className: 'shelfBox',
-  template: require('./templates/shelf_box'),
+  template: require('./templates/shelf_box.hbs'),
 
   initialize () {
     this.isEditable = this.model.get('owner') === app.user.id

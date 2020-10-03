@@ -1,6 +1,6 @@
 export default Marionette.ItemView.extend({
   className: 'activityPeriodRow',
-  template: require('./templates/activity_period_row'),
+  template: require('./templates/activity_period_row.hbs'),
   tagName: 'tr',
 
   events: {

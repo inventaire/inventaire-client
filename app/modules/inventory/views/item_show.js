@@ -5,7 +5,7 @@ import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_pr
 export default Marionette.LayoutView.extend({
   id: 'itemShowLayout',
   className: 'standalone',
-  template: require('./templates/item_show'),
+  template: require('./templates/item_show.hbs'),
   regions: {
     itemData: '#itemData',
     authors: '.authors',

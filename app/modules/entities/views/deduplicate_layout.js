@@ -15,7 +15,7 @@ export default Marionette.LayoutView.extend({
     // for keydown events
     tabindex: '0'
   },
-  template: require('./templates/deduplicate_layout'),
+  template: require('./templates/deduplicate_layout.hbs'),
   regions: {
     content: '.content'
   },

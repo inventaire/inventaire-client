@@ -6,7 +6,7 @@ const foldersNames = Object.keys(folders)
 
 export default Marionette.LayoutView.extend({
   className: 'transactionsLayout',
-  template: require('./templates/transactions_layout'),
+  template: require('./templates/transactions_layout.hbs'),
   regions: {
     ongoingRegion: '#ongoing',
     archivedRegion: '#archived',

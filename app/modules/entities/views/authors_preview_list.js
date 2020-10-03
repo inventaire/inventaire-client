@@ -1,5 +1,5 @@
 export default Marionette.CompositeView.extend({
-  template: require('./templates/authors_preview_list'),
+  template: require('./templates/authors_preview_list.hbs'),
   childViewContainer: 'ul',
   childView: require('./author_preview'),
   className: 'author-preview-list',

@@ -9,7 +9,7 @@ const {
 
 export default Marionette.CompositeView.extend({
   className: 'editions-list',
-  template: require('./templates/editions_list'),
+  template: require('./templates/editions_list.hbs'),
   childViewContainer: 'ul',
   childView: require('./edition_li'),
   emptyView: require('./no_edition'),

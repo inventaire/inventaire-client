@@ -4,7 +4,7 @@ import forms_ from 'modules/general/lib/forms'
 
 export default Marionette.ItemView.extend({
   className: 'confirmationModal',
-  template: require('./templates/confirmation_modal'),
+  template: require('./templates/confirmation_modal.hbs'),
   behaviors: {
     SuccessCheck: {},
     AlertBox: {},

@@ -1,5 +1,5 @@
 export default Marionette.ItemView.extend({
-  template: require('./templates/item_preview'),
+  template: require('./templates/item_preview.hbs'),
   className () {
     let className = 'item-preview'
     if (this.options.compact) { className += ' compact' }

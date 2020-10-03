@@ -5,7 +5,7 @@ import error_ from 'lib/error'
 import screen_ from 'lib/screen'
 
 export default Marionette.CompositeView.extend({
-  template: require('./templates/transaction'),
+  template: require('./templates/transaction.hbs'),
   id: 'transactionView',
   behaviors: {
     AlertBox: {},

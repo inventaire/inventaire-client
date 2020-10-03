@@ -1,6 +1,6 @@
 import { parseQuery } from 'lib/location'
 import timeFromNow from 'lib/time_from_now'
-const { SafeString, escapeExpression } = Handlebars
+import { SafeString, escapeExpression } from 'handlebars'
 
 export default {
   i18n (key, context) {
@@ -19,8 +19,6 @@ export default {
     .map(_.capitalise)
     .join(' ')
   },
-
-  linkify: require('./linkify'),
 
   i18nLink (text, url, context) {
     text = _.i18n(text, context)

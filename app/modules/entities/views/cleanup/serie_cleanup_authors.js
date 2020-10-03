@@ -1,5 +1,5 @@
 const SerieCleanupAuthor = Marionette.ItemView.extend({
-  template: require('./templates/serie_cleanup_author'),
+  template: require('./templates/serie_cleanup_author.hbs'),
   className () {
     let base = 'serie-cleanup-author'
     if (this.options.isSuggestion) { base += ' suggestion' }
@@ -26,7 +26,7 @@ const AuthorsList = Marionette.CollectionView.extend({
 })
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/serie_cleanup_authors'),
+  template: require('./templates/serie_cleanup_authors.hbs'),
   regions: {
     currentAuthorsRegion: '.currentAuthors',
     authorsSuggestionsRegion: '.authorsSuggestions'

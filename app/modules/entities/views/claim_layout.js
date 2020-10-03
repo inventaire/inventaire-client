@@ -7,7 +7,7 @@ import { entity as entityValueTemplate } from 'lib/handlebars_helpers/claims_hel
 
 export default Marionette.LayoutView.extend({
   id: 'claimLayout',
-  template: require('./templates/claim_layout'),
+  template: require('./templates/claim_layout.hbs'),
   regions: {
     infobox: '.infobox',
     list: '.list'

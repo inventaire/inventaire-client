@@ -1,7 +1,7 @@
 import AuthorLayout from 'modules/entities/views/author_layout'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/current_task'),
+  template: require('./templates/current_task.hbs'),
   serializeData () {
     return _.extend(this.model.serializeData(),
       { showSourcesLinks: true })

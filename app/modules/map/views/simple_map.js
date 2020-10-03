@@ -2,7 +2,7 @@ import map_ from '../lib/map'
 const containerId = 'simpleMap'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/simple_map'),
+  template: require('./templates/simple_map.hbs'),
 
   initialize () {
     return ({ models: this.models } = this.options)

@@ -2,7 +2,7 @@ import entityDraftModel from '../../lib/entity_draft_model'
 
 export default Marionette.LayoutView.extend({
   id: 'entityCreate',
-  template: require('./templates/entity_create'),
+  template: require('./templates/entity_create.hbs'),
 
   regions: {
     typedEntityEdit: '#typedEntityEdit'

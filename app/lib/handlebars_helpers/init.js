@@ -1,3 +1,4 @@
+import Handlebars from 'handlebars'
 import blocks from './blocks'
 import misc from './misc'
 import utils from './utils'
@@ -7,8 +8,9 @@ import userContent from './user_content'
 import icons from './icons'
 import images from './images'
 import input from './input'
+import linkify from './linkify'
 
-const API = _.extend(blocks, misc, utils, partials, claims, userContent, icons, images, input)
+const API = _.extend({ linkify }, blocks, misc, utils, partials, claims, userContent, icons, images, input)
 
 for (const name in API) {
   const fn = API[name]

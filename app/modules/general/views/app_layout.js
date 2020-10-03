@@ -9,7 +9,7 @@ import ConfirmationModal from './confirmation_modal'
 import screen_ from 'lib/screen'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/app_layout'),
+  template: require('./templates/app_layout.hbs'),
 
   el: '#app',
 

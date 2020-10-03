@@ -1,8 +1,7 @@
-const behavior = name => require(`modules/general/views/behaviors/templates/${name}`)
-const check = behavior('success_check')
-const input = behavior('input')
-const textarea = behavior('textarea')
-const { SafeString } = Handlebars
+import { SafeString } from 'handlebars'
+import check from 'modules/general/views/behaviors/templates/success_check.hbs'
+import input from 'modules/general/views/behaviors/templates/input.hbs'
+import textarea from 'modules/general/views/behaviors/templates/textarea.hbs'
 
 // data =
 //   nameBase: {String}

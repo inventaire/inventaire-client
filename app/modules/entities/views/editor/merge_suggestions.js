@@ -1,5 +1,5 @@
 export default Marionette.CompositeView.extend({
-  template: require('./templates/merge_suggestions'),
+  template: require('./templates/merge_suggestions.hbs'),
   className () {
     let className = 'outer-merge-suggestions'
     if (this.options.standalone) { className += ' standalone' }

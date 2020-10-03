@@ -1,5 +1,5 @@
 import { parseQuery } from 'lib/location'
-const { SafeString } = Handlebars
+import { SafeString } from 'handlebars'
 
 function _icon (name, classes = '') {
   // overriding the second argument that could be {hash:,data:}

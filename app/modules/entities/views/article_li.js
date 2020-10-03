@@ -1,5 +1,5 @@
 export default Marionette.ItemView.extend({
-  template: require('./templates/article_li'),
+  template: require('./templates/article_li.hbs'),
   className: 'articleLi',
   serializeData () {
     const attrs = this.model.toJSON()

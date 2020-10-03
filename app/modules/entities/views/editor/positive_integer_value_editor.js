@@ -5,7 +5,7 @@ const inputSelector = '.positive-integer-picker'
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'positive-integer-value-editor',
-  template: require('./templates/positive_integer_value_editor'),
+  template: require('./templates/positive_integer_value_editor.hbs'),
 
   ui: {
     input: inputSelector

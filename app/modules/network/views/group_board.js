@@ -11,7 +11,7 @@ const {
 } = GroupViewsCommons
 
 export default GroupLayoutView.extend({
-  template: require('./templates/group_board'),
+  template: require('./templates/group_board.hbs'),
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''
     return `groupBoard ${standalone}`

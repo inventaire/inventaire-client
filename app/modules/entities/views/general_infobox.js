@@ -1,6 +1,6 @@
 export default Marionette.ItemView.extend({
   className: 'generalInfobox',
-  template: require('./templates/general_infobox'),
+  template: require('./templates/general_infobox.hbs'),
   behaviors: {
     EntitiesCommons: {},
     ClampedExtract: {}

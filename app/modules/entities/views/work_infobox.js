@@ -2,7 +2,7 @@ import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_pr
 import clampedExtract from '../lib/clamped_extract'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/work_infobox'),
+  template: require('./templates/work_infobox.hbs'),
   className: 'workInfobox flex-column-center-center',
   regions: {
     authors: '.authors',

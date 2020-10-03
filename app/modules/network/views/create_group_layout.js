@@ -21,7 +21,7 @@ const {
 
 export default GroupLayoutView.extend({
   id: 'createGroupLayout',
-  template: require('./templates/create_group_layout'),
+  template: require('./templates/create_group_layout.hbs'),
   tagName: 'form',
   behaviors: {
     AlertBox: {},

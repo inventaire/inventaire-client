@@ -22,7 +22,7 @@ const requiredPropertyPerType = {
 
 export default Marionette.LayoutView.extend({
   id: 'entityEdit',
-  template: require('./templates/entity_edit'),
+  template: require('./templates/entity_edit.hbs'),
   behaviors: {
     AlertBox: {},
     Loading: {},

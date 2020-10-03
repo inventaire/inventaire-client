@@ -8,7 +8,7 @@ export default ItemItemView.extend({
     const busy = this.model.get('busy') ? 'busy' : ''
     return `itemCard ${busy}`
   },
-  template: require('./templates/item_card'),
+  template: require('./templates/item_card.hbs'),
   behaviors: {
     PreventDefault: {},
     AlertBox: {}

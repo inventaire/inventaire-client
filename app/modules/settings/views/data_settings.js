@@ -3,7 +3,7 @@ import { apiDoc } from 'lib/urls'
 const { host, protocol } = window.location
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/data_settings'),
+  template: require('./templates/data_settings.hbs'),
   className: 'dataSettings',
   behaviors: {
     AlertBox: {},

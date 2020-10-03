@@ -1,6 +1,6 @@
 export default Marionette.ItemView.extend({
   className: 'inventoryWelcome',
-  template: require('./templates/inventory_welcome'),
+  template: require('./templates/inventory_welcome.hbs'),
 
   events: {
     'click a[href="/add"]': _.clickCommand('show:add:layout:search')

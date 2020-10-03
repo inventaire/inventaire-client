@@ -7,7 +7,7 @@ const views = {
 
 export default Marionette.LayoutView.extend({
   id: 'settings',
-  template: require('./templates/settings'),
+  template: require('./templates/settings.hbs'),
   regions: {
     tabsContent: '.custom-tabs-content'
   },

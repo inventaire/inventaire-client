@@ -4,7 +4,7 @@ import EntitiesList from './entities_list'
 import screen_ from 'lib/screen'
 
 export default TypedEntityLayout.extend({
-  template: require('./templates/author_layout'),
+  template: require('./templates/author_layout.hbs'),
   Infobox: require('./author_infobox'),
   className () {
     // Default to wrapped mode in non standalone mode

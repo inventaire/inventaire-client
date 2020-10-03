@@ -18,7 +18,7 @@ export default Marionette.CompositeView.extend({
     return `property-editor ${specificClass}`
   },
 
-  template: require('./templates/property_editor'),
+  template: require('./templates/property_editor.hbs'),
   getChildView () { return editors[this.model.get('editorType')] },
   childViewContainer: '.values',
 

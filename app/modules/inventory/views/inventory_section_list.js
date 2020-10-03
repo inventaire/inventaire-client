@@ -1,6 +1,6 @@
 const ListEl = Marionette.ItemView.extend({
   tagName: 'li',
-  template: require('./templates/inventory_section_list_li'),
+  template: require('./templates/inventory_section_list_li.hbs'),
 
   initialize () {
     ({ context: this.context, group: this.group } = this.options)

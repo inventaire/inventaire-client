@@ -5,7 +5,7 @@ import Shelves from 'modules/shelves/collections/shelves'
 
 export default Marionette.LayoutView.extend({
   className: 'items-table-selection-editor',
-  template: require('./templates/items_table_selection_editor'),
+  template: require('./templates/items_table_selection_editor.hbs'),
   events: {
     'click .transaction-option': 'setTransaction',
     'click .listing-option': 'setListing',

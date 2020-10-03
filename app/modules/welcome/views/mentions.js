@@ -1,5 +1,5 @@
 export default Marionette.ItemView.extend({
-  template: require('./templates/mentions'),
+  template: require('./templates/mentions.hbs'),
   serializeData () {
     const { lang } = app.user
     const data = {}

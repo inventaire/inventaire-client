@@ -1,6 +1,6 @@
 export default Marionette.CompositeView.extend({
   id: 'addSearch',
-  template: require('./templates/search'),
+  template: require('./templates/search.hbs'),
   behaviors: {
     PreventDefault: {},
     AutoFocus: {}

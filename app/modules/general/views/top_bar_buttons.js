@@ -1,7 +1,8 @@
 import screen_ from 'lib/screen'
+import { clickCommand } from 'lib/utils'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/top_bar_buttons'),
+  template: require('./templates/top_bar_buttons.hbs'),
 
   className: 'innerTopBarButtons',
 
@@ -32,13 +33,13 @@ export default Marionette.ItemView.extend({
   },
 
   events: {
-    'click #exchangesIconButton': _.clickCommand('show:transactions'),
-    'click #notificationsIconButton': _.clickCommand('show:notifications'),
+    'click #exchangesIconButton': clickCommand('show:transactions'),
+    'click #notificationsIconButton': clickCommand('show:notifications'),
 
-    'click .showMainUser': _.clickCommand('show:inventory:main:user'),
-    'click .showSettings': _.clickCommand('show:settings'),
-    'click .showInfo': _.clickCommand('show:welcome'),
-    'click .showFeedbackMenu': _.clickCommand('show:feedback:menu'),
+    'click .showMainUser': clickCommand('show:inventory:main:user'),
+    'click .showSettings': clickCommand('show:settings'),
+    'click .showInfo': clickCommand('show:welcome'),
+    'click .showFeedbackMenu': clickCommand('show:feedback:menu'),
     'click .logout' () { app.execute('logout') }
   },
 

@@ -16,7 +16,7 @@ let candidates = null
 
 export default Marionette.LayoutView.extend({
   id: 'importLayout',
-  template: require('./templates/import'),
+  template: require('./templates/import.hbs'),
   behaviors: {
     AlertBox: {},
     Loading: {},

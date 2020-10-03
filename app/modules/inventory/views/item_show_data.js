@@ -12,7 +12,7 @@ const ItemLayout = Marionette.LayoutView.extend(itemViewsCommons)
 
 export default ItemLayout.extend({
   id: 'itemShowData',
-  template: require('./templates/item_show_data'),
+  template: require('./templates/item_show_data.hbs'),
   regions: {
     transactionsRegion: '#transactions',
     shelvesSelector: '#shelvesSelector'

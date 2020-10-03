@@ -5,7 +5,7 @@ const {
 } = GroupViewsCommons
 
 export default GroupItemView.extend({
-  template: require('./templates/group_li'),
+  template: require('./templates/group_li.hbs'),
   className: 'groupLi',
   tagName: 'li',
 

@@ -14,7 +14,7 @@ selectorsNames.forEach(name => { selectorsRegions[`${name}Region`] = `#${name}` 
 
 export default Marionette.LayoutView.extend({
   id: 'inventory-browser',
-  template: require('./templates/inventory_browser'),
+  template: require('./templates/inventory_browser.hbs'),
   regions: _.extend(selectorsRegions, {
     filterPreview: '#filterPreview',
     itemsView: '#itemsView'

@@ -7,7 +7,7 @@ echo -e '\e[0;30mupdating i18n\e[0m'
 ./scripts/build_i18n
 
 echo -e '\e[0;30mbrunch build --production\e[0m'
-brunch build --production
+parcel build src/index.html
 ./scripts/build_index
 
 echo -e '\e[0;30mgzip js, css, and font files\e[0m'

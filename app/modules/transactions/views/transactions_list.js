@@ -1,7 +1,7 @@
 import * as folders from '../lib/folders'
 
 export default Marionette.CompositeView.extend({
-  template: require('./templates/transactions_list'),
+  template: require('./templates/transactions_list.hbs'),
   className: 'transactionList',
   childViewContainer: '.transactions',
   childView: require('./transaction_preview'),

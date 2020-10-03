@@ -3,7 +3,7 @@ import ItemsTableSelectionEditor from './items_table_selection_editor'
 
 export default InfiniteScrollItemsList.extend({
   className: 'items-table',
-  template: require('./templates/items_table'),
+  template: require('./templates/items_table.hbs'),
   childView: require('./item_row'),
   emptyView: require('./no_item'),
   childViewContainer: '#itemsRows',

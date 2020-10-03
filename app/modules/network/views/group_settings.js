@@ -14,7 +14,7 @@ const {
 } = GroupUrl
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/group_settings'),
+  template: require('./templates/group_settings.hbs'),
   behaviors: {
     AlertBox: {},
     ElasticTextarea: {},

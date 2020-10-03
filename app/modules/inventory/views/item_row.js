@@ -1,7 +1,7 @@
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'item-row',
-  template: require('./templates/item_row'),
+  template: require('./templates/item_row.hbs'),
 
   initialize () {
     ({ getSelectedIds: this.getSelectedIds, isMainUser: this.isMainUser, groupContext: this.groupContext } = this.options)

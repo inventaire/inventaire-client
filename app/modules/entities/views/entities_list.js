@@ -1,4 +1,4 @@
-import loader from 'modules/general/views/templates/loader'
+import loader from 'modules/general/views/templates/loader.hbs'
 import error_ from 'lib/error'
 import EntitiesListAdder from './entities_list_adder'
 import { currentRoute } from 'lib/location'
@@ -8,7 +8,7 @@ import { currentRoute } from 'lib/location'
 // - hide series parts when displayed as sub-series
 
 export default Marionette.CompositeView.extend({
-  template: require('./templates/entities_list'),
+  template: require('./templates/entities_list.hbs'),
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''
     return `entitiesList ${standalone}`

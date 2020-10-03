@@ -1,4 +1,3 @@
-import preq from 'lib/preq'
 // TODO:
 // - hint to input ISBNs directly, maybe in the alternatives sections
 // - add 'help': indexed wiki.inventaire.io entries to give results
@@ -8,8 +7,10 @@ import preq from 'lib/preq'
 //   narrative location (wdt:P840), or authors born (wdt:P19)
 //   or dead (wdt:P20) nearby
 
+import preq from 'lib/preq'
+
 const Results = Backbone.Collection.extend({ model: require('../models/result') })
-const wikidataSearch = require('modules/entities/lib/search/wikidata_search')(false)
+const wikidataSearch = require('modules/entities/lib/search/wikidata_search').default(false)
 const findUri = require('../lib/find_uri')
 const error_ = require('lib/error')
 const { looksLikeAnIsbn } = require('lib/isbn')
@@ -19,7 +20,7 @@ let searchCount = 0
 
 export default Marionette.CompositeView.extend({
   id: 'live-search',
-  template: require('./templates/live_search'),
+  template: require('./templates/live_search.hbs'),
   childViewContainer: 'ul.results',
   childView: require('./result'),
   emptyView: require('./no_result'),

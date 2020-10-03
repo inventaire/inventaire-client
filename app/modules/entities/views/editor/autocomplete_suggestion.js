@@ -3,7 +3,7 @@
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'autocomplete-suggestion',
-  template: require('./templates/autocomplete_suggestion'),
+  template: require('./templates/autocomplete_suggestion.hbs'),
 
   events: {
     'click .select': 'select'

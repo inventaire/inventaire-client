@@ -2,7 +2,7 @@ import { Check } from 'modules/general/plugins/behaviors'
 
 export default Marionette.ItemView.extend({
   className: 'validEmailConfirmation',
-  template: require('./templates/valid_email_confirmation'),
+  template: require('./templates/valid_email_confirmation.hbs'),
   behaviors: {
     Loading: {},
     General: {},

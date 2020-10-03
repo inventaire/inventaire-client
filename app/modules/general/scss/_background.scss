@@ -8,15 +8,15 @@
   @include bg-cover;
   /*Small screens*/
   @media screen and (max-width: 500px) {
-    background-image: url('/img/assets/500x500/' + $filename);
+    background-image: url('~/assets/images/small/' + $filename);
   }
   /*Large screens*/
   @media screen and (min-width: 500px) {
-    background-image: url('/img/assets/1000x1000/' + $filename);
+    background-image: url('~/assets/images/medium/' + $filename);
   }
   @if $hd {
     @media screen and (min-width: 1300px) {
-      background-image: url('/img/assets/' + $filename);
+      background-image: url('~/assets/images/large/' + $filename);
     }
   }
 }

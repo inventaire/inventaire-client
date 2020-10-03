@@ -1,6 +1,6 @@
 export default Marionette.ItemView.extend({
   className: 'wikidata-edit-intro',
-  template: require('./templates/wikidata_edit_intro'),
+  template: require('./templates/wikidata_edit_intro.hbs'),
 
   onShow () { app.execute('modal:open', 'medium') },
 

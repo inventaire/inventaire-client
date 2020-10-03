@@ -2,7 +2,7 @@ import relationsActions from '../plugins/relations_actions'
 
 export default Marionette.ItemView.extend({
   tagName: 'li',
-  template: require('./templates/user_li'),
+  template: require('./templates/user_li.hbs'),
   className () {
     const status = this.model.get('status') || 'noStatus'
     const stretch = this.options.stretch ? 'stretch' : ''

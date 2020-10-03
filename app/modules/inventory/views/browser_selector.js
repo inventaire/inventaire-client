@@ -9,7 +9,7 @@ export default Marionette.LayoutView.extend({
     return { 'data-options': this.count() }
   },
 
-  template: require('./templates/browser_selector'),
+  template: require('./templates/browser_selector.hbs'),
   regions: {
     list: '.list'
   },

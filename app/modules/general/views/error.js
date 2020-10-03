@@ -1,6 +1,6 @@
 export default Marionette.LayoutView.extend({
   id: 'error',
-  template: require('./templates/error'),
+  template: require('./templates/error.hbs'),
   behaviors: {
     PreventDefault: {}
   },

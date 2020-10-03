@@ -12,14 +12,11 @@
   <meta http-equiv="expires" content="0">
   <meta http-equiv="pragma" content="no-cache">
 
-  <link rel="stylesheet" href="/public/css/vendor.css">
-  <link rel="stylesheet" href="/public/css/app.css">
-  <script src="/public/js/vendor.js"></script>
-  <script src="/public/js/app.js"></script>
-  <script>require('initialize');</script>
+  <link rel="stylesheet" href="modules/general/scss/base.scss">
+  <script src="initialize.js"></script>
 
   <link rel="canonical" href="https://inventaire.io/" />
-  <link rel="sitemap" href="/public/sitemaps/sitemapindex.xml" />
+  <!-- <link rel="sitemap" href="../public/sitemaps/sitemapindex.xml" /> -->
   <link rel="alternate" type="application/rss+xml" href="https://wiki.inventaire.io/blog.rss">
 
   <!-- TWITTER -->
@@ -42,10 +39,10 @@
 
   <!-- ICONS -->
 
-  <meta name="msapplication-config" content="/public/browserconfig.xml" />
-  <link rel="search" type="application/opensearchdescription+xml" href="/public/opensearch.xml" title="Inventaire Search" />
+  <meta name="msapplication-config" content="./assets/browserconfig.xml" />
+  <link rel="search" type="application/opensearchdescription+xml" href="./assets/opensearch.xml" title="Inventaire Search" />
   <!-- will be replaced by scripts/add_jsonld_actions.js -->
-  <script type="application/ld+json">ACTIONS</script>
+  <!-- <script type="application/ld+json" src="app/assets/actions.jsonld"></script> -->
 
   <!-- alternate langs will be appended by general/lib/document_lang at first page load -->
 

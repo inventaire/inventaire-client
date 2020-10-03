@@ -1,7 +1,7 @@
 import clampedExtract from '../lib/clamped_extract'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/entity_data_overview'),
+  template: require('./templates/entity_data_overview.hbs'),
   className: 'entityDataOverview',
   initialize (options) {
     this.hidePicture = options.hidePicture

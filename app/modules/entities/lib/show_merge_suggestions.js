@@ -2,7 +2,7 @@ import preq from 'lib/preq'
 import Entities from '../collections/entities'
 import MergeSuggestions from '../views/editor/merge_suggestions'
 import Task from 'modules/tasks/models/task'
-import loader from 'modules/general/views/templates/loader'
+import loader from 'modules/general/views/templates/loader.hbs'
 const entitiesTypesWithTasks = [
   'human'
 ]

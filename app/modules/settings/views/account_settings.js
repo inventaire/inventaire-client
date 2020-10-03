@@ -8,7 +8,7 @@ import { languages as activeLanguages } from 'lib/active_languages'
 import { testAttribute, pickerData } from '../lib/helpers'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/account_settings'),
+  template: require('./templates/account_settings.hbs'),
   className: 'accountSettings',
   behaviors: {
     AlertBox: {},

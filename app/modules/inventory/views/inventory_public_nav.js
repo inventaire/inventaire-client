@@ -8,7 +8,7 @@ import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
 export default InventoryCommonNav.extend({
   id: 'inventoryPublicNav',
-  template: require('./templates/inventory_public_nav'),
+  template: require('./templates/inventory_public_nav.hbs'),
 
   initialize () {
     ({ filter: this.filter } = this.options)

@@ -1,5 +1,5 @@
 export default Marionette.ItemView.extend({
-  template: require('./templates/fixed_entity_value'),
+  template: require('./templates/fixed_entity_value.hbs'),
   className: 'fixed-entity-value fixed-value value-editor-commons',
 
   initialize () {

@@ -17,7 +17,7 @@ export default Marionette.LayoutView.extend({
     tabindex: '0'
   },
 
-  template: require('./templates/tasks_layout'),
+  template: require('./templates/tasks_layout.hbs'),
   regions: {
     currentTask: '#currentTask',
     relativeTasks: '#relativeTasks'

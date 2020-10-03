@@ -1,5 +1,5 @@
 export default Marionette.ItemView.extend({
-  template: require('./templates/transaction_preview'),
+  template: require('./templates/transaction_preview.hbs'),
   className: 'transactionPreview',
   behaviors: {
     PreventDefault: {}

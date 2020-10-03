@@ -1,7 +1,7 @@
 export default Marionette.ItemView.extend({
   className: 'result',
   tagName: 'li',
-  template: require('./templates/result'),
+  template: require('./templates/result.hbs'),
   behaviors: {
     PreventDefault: {}
   },

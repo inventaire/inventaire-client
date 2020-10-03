@@ -1,8 +1,8 @@
-import entityValue from 'modules/general/views/behaviors/templates/entity_value'
-import propertyValue from 'modules/general/views/behaviors/templates/property_value'
+import entityValue from 'modules/general/views/behaviors/templates/entity_value.hbs'
+import propertyValue from 'modules/general/views/behaviors/templates/property_value.hbs'
 import wdk from 'lib/wikidata-sdk'
 import error_ from 'lib/error'
-const { SafeString, escapeExpression } = Handlebars
+import { SafeString, escapeExpression } from 'handlebars'
 
 const prop = function (uri) {
   // Be more restrictive on the input to be able to use it in SafeStrings

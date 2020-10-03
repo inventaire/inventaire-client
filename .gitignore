@@ -25,6 +25,7 @@ tmp/
 .commit
 *.sublime*
 *.gz
+.*cache
 public/*
 app/assets/fonts
 config/local.js

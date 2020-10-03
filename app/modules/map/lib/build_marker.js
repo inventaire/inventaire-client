@@ -1,6 +1,6 @@
-import userMarker from '../views/templates/user_marker'
-import groupMarker from '../views/templates/group_marker'
-import itemMarker from '../views/templates/item_marker'
+import userMarker from '../views/templates/user_marker.hbs'
+import groupMarker from '../views/templates/group_marker.hbs'
+import itemMarker from '../views/templates/item_marker.hbs'
 import customIcon from './custom_icon'
 
 const objectMarker = markerBuilder => function (params) {

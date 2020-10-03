@@ -12,7 +12,7 @@ const ItemShelfLi = Marionette.ItemView.extend({
     Loading: {}
   },
 
-  template: require('./templates/item_shelf_li'),
+  template: require('./templates/item_shelf_li.hbs'),
 
   initialize () {
     ({ item: this.item, itemsIds: this.itemsIds, selectedShelves: this.selectedShelves, mainUserIsOwner: this.mainUserIsOwner } = this.options)

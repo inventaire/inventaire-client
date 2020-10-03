@@ -14,7 +14,7 @@ const RelativeTask = Marionette.ItemView.extend({
     }
   },
 
-  template: require('./templates/relative_task'),
+  template: require('./templates/relative_task.hbs'),
   initialize () {
     return this.model.grabSuggestion()
     .then(this.lazyRender.bind(this))

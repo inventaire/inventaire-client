@@ -1,5 +1,5 @@
 import preq from 'lib/preq'
-const { escapeExpression } = Handlebars
+import { escapeExpression } from 'handlebars'
 
 export default {
   extract (lang, title) {

@@ -11,7 +11,7 @@ const { startLoading, stopLoading } = require('modules/general/plugins/behaviors
 
 export default Marionette.CompositeView.extend({
   id: 'deduplicateAuthors',
-  template: require('./templates/deduplicate_authors'),
+  template: require('./templates/deduplicate_authors.hbs'),
   childViewContainer: '.authors',
   childView: require('./author_layout'),
   // Lazy empty view: not really fitting the context

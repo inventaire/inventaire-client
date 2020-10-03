@@ -2,7 +2,7 @@ import embedded_ from 'modules/inventory/lib/scanner/embedded'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/embedded_scanner'),
+  template: require('./templates/embedded_scanner.hbs'),
   className: 'embedded',
   behaviors: {
     Loading: {}

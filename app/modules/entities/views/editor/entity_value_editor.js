@@ -4,7 +4,7 @@ import autocomplete from 'modules/entities/views/editor/lib/autocomplete'
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'entity-value-editor',
-  template: require('./templates/entity_value_editor'),
+  template: require('./templates/entity_value_editor.hbs'),
   behaviors: {
     AlertBox: {},
     Tooltip: {},

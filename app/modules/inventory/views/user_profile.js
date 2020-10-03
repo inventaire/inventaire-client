@@ -5,7 +5,7 @@ import NewShelfEditor from 'modules/shelves/views/new_shelf_editor'
 // TODO: add a 'close' button to allow to unfocus a user in group context
 export default Marionette.ItemView.extend({
   className: 'userProfile',
-  template: require('./templates/user_profile'),
+  template: require('./templates/user_profile.hbs'),
   events: {
     'click .editProfile': _.clickCommand('show:settings:profile'),
     'click .addItems': _.clickCommand('show:add:layout'),

@@ -1,5 +1,5 @@
 export default Marionette.ItemView.extend({
-  template: require('./templates/entity_actions'),
+  template: require('./templates/entity_actions.hbs'),
   className: 'entityActions',
   behaviors: {
     PreventDefault: {}

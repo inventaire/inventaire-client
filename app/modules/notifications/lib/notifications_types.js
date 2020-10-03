@@ -1,4 +1,4 @@
-const template = name => require(`../views/templates/${name}`)
+const template = name => require(`../views/templates/${name}.hbs`)
 const model = name => require(`../models/${name}`)
 const groupNotificationTemplate = template('group_notification')
 const groupNotificationModel = model('group_notification')

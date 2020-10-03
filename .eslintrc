@@ -12,9 +12,6 @@
     "sourceType": "module",
     "ecmaVersion": 2020
   },
-  "settings": {
-    "import/resolver": "babel-plugin-root-import"
-  },
   "extends": [
       // See https://github.com/standard/eslint-config-standard/blob/master/eslintrc.json
       "standard"

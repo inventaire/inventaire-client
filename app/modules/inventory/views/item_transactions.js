@@ -1,6 +1,6 @@
 export default Marionette.CompositeView.extend({
   className: 'itemTransactions',
-  template: require('./templates/item_transactions'),
+  template: require('./templates/item_transactions.hbs'),
   childViewContainer: '.transactions',
   childView: require('modules/transactions/views/transaction_preview'),
   childViewOptions: {

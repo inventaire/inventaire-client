@@ -1,5 +1,5 @@
 export default Marionette.ItemView.extend({
-  template: require('./templates/work_li'),
+  template: require('./templates/work_li.hbs'),
   className () {
     const prefix = this.model.get('prefix')
     if (this.wrap == null) { this.wrap = this.options.wrap }

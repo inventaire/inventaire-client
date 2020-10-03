@@ -3,10 +3,10 @@ import wdLang from 'wikidata-lang'
 import commons_ from 'lib/wikimedia/commons'
 import linkify_ from './linkify'
 import platforms_ from './platforms'
-
 import ClaimsHelpers from './claims_helpers'
+import { SafeString, escapeExpression } from 'handlebars'
+
 let API
-const { SafeString, escapeExpression } = Handlebars
 
 const {
   prop: propHelper,

@@ -7,7 +7,7 @@ import mergeEntities from './lib/merge_entities'
 import { normalizeUri } from 'modules/entities/lib/entities'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/admin_section'),
+  template: require('./templates/admin_section.hbs'),
 
   behaviors: {
     PreventDefault: {},

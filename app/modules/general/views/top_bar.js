@@ -12,7 +12,7 @@ export default Marionette.LayoutView.extend({
   id: 'top-bar',
   tagName: 'nav',
   className () { if (app.user.loggedIn) { return 'logged-in' } else { return '' } },
-  template: require('./templates/top_bar'),
+  template: require('./templates/top_bar.hbs'),
 
   regions: {
     liveSearch: '#liveSearch',

@@ -3,7 +3,7 @@ import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
 import ShelvesList from './shelves_list'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/shelves_section'),
+  template: require('./templates/shelves_section.hbs'),
 
   regions: {
     shelvesList: '#shelvesList'

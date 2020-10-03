@@ -1,5 +1,5 @@
 export default Marionette.ItemView.extend({
-  template: require('./templates/previous_search'),
+  template: require('./templates/previous_search.hbs'),
   tagName: 'li',
   className: 'previous-search',
   behaviors: {

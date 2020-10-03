@@ -6,7 +6,7 @@ import { deleteShelf, updateShelf } from 'modules/shelves/lib/shelves'
 import { startLoading } from 'modules/general/plugins/behaviors'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/shelf_editor'),
+  template: require('./templates/shelf_editor.hbs'),
 
   behaviors: {
     AlertBox: {},

@@ -7,7 +7,7 @@ import { updateLimit } from 'lib/textarea_limit'
 import { languages as activeLanguages } from 'lib/active_languages'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/profile_settings'),
+  template: require('./templates/profile_settings.hbs'),
   className: 'profileSettings',
   behaviors: {
     AlertBox: {},

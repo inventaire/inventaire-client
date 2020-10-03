@@ -1,7 +1,8 @@
 import { donate } from 'lib/urls'
+// import Marionette from 'backbone.marionette'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/donate_menu'),
+  template: require('./templates/donate_menu.hbs'),
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''
     return `donate-menu ${standalone}`

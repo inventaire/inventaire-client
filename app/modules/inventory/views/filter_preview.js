@@ -2,7 +2,7 @@ import GeneralInfobox from 'modules/entities/views/general_infobox'
 
 export default Marionette.LayoutView.extend({
   id: 'inner-filter-preview',
-  template: require('./templates/filter_preview'),
+  template: require('./templates/filter_preview.hbs'),
   regions: {
     author: '#authorPreview',
     genre: '#genrePreview',

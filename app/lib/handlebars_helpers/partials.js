@@ -1,6 +1,5 @@
-const behavior = name => require(`modules/general/views/behaviors/templates/${name}`)
-const check = behavior('success_check')
-const { SafeString } = Handlebars
+import { SafeString } from 'handlebars'
+import check from 'modules/general/views/behaviors/templates/success_check.hbs'
 
 export default {
   partial (name, context, option) {
@@ -18,14 +17,14 @@ export default {
     }
 
     if (subfolder != null) {
-      path = `modules/${module}/views/${subfolder}/templates/${file}`
-    } else { path = `modules/${module}/views/templates/${file}` }
+      path = `modules/${module}/views/${subfolder}/templates/${file}.hbs`
+    } else {
+      path = `modules/${module}/views/templates/${file}.hbs`
+    }
 
     const template = require(path)
     let partial = new SafeString(template(context))
-    switch (option) {
-    case 'check': partial = new SafeString(check(partial)); break
-    }
+    if (option === 'check') partial = new SafeString(check(partial))
     return partial
   }
 }

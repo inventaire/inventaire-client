@@ -4,7 +4,7 @@ import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/work_picker'),
+  template: require('./templates/work_picker.hbs'),
 
   ui: {
     workPickerSelect: '.workPickerSelect',

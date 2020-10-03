@@ -5,7 +5,7 @@ import Patches from 'modules/entities/collections/patches'
 
 export default Marionette.CompositeView.extend({
   className: 'userContributions',
-  template: require('./templates/user_contributions'),
+  template: require('./templates/user_contributions.hbs'),
   childViewContainer: '.contributions',
   childView: require('./user_contribution'),
   initialize () {

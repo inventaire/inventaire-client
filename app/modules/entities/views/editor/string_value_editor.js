@@ -12,7 +12,7 @@ const {
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'string-value-editor',
-  template: require('./templates/string_value_editor'),
+  template: require('./templates/string_value_editor.hbs'),
 
   ui: {
     input: 'input',

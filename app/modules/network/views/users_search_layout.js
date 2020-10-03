@@ -3,7 +3,7 @@ import { startLoading } from 'modules/general/plugins/behaviors'
 
 export default Marionette.LayoutView.extend({
   id: 'usersSearchLayout',
-  template: require('./templates/users_search_layout'),
+  template: require('./templates/users_search_layout.hbs'),
   regions: {
     usersList: '#usersList'
   },

@@ -5,7 +5,7 @@ const {
 } = GroupViewsCommons
 
 export default GroupItemView.extend({
-  template: require('./templates/group_board_header'),
+  template: require('./templates/group_board_header.hbs'),
   className: 'group-board-header',
 
   modelEvents: {

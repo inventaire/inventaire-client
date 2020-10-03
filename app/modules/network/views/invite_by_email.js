@@ -4,7 +4,7 @@ import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/invite_by_email'),
+  template: require('./templates/invite_by_email.hbs'),
   id: 'inviteByEmail',
 
   regions: {

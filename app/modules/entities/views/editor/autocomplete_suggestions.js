@@ -4,7 +4,7 @@
 const listHeight = 170
 
 export default Marionette.CompositeView.extend({
-  template: require('./templates/autocomplete_suggestions'),
+  template: require('./templates/autocomplete_suggestions.hbs'),
   className: 'autocomplete-suggestions',
   childViewContainer: '.results',
   childView: require('./autocomplete_suggestion'),

@@ -4,7 +4,7 @@ import mergeEntities from './lib/merge_entities'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/merge_suggestion'),
+  template: require('./templates/merge_suggestion.hbs'),
   className: 'merge-suggestion',
   behaviors: {
     AlertBox: {},
@@ -102,7 +102,7 @@ const claimsPartials = {
 
 const Subentity = Marionette.ItemView.extend({
   className: 'subentity',
-  template: require('./templates/merge_suggestion_subentity'),
+  template: require('./templates/merge_suggestion_subentity.hbs'),
   attributes () {
     return { title: this.model.get('uri') }
   },

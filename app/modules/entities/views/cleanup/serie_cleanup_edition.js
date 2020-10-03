@@ -5,7 +5,7 @@ import error_ from 'lib/error'
 export default WorkPicker.extend({
   tagName: 'li',
   className: 'serie-cleanup-edition',
-  template: require('./templates/serie_cleanup_edition'),
+  template: require('./templates/serie_cleanup_edition.hbs'),
 
   initialize () {
     WorkPicker.prototype.initialize.call(this)

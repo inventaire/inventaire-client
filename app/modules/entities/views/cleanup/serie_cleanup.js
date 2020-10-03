@@ -11,7 +11,7 @@ import { createPlaceholders, removePlaceholder, removePlaceholdersAbove } from '
 
 export default Marionette.LayoutView.extend({
   id: 'serieCleanup',
-  template: require('./templates/serie_cleanup'),
+  template: require('./templates/serie_cleanup.hbs'),
 
   regions: {
     worksInConflictsRegion: '#worksInConflicts',

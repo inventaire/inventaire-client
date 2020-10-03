@@ -1,6 +1,6 @@
 export default Marionette.CompositeView.extend({
   className: 'properties-editor',
-  template: require('./templates/properties_editor'),
+  template: require('./templates/properties_editor.hbs'),
   childView: require('./property_editor'),
   childViewContainer: '.properties',
   initialize () {

@@ -2,7 +2,7 @@ import tabsData from 'modules/inventory/lib/add_layout_tabs'
 import screen_ from 'lib/screen'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/add_layout'),
+  template: require('./templates/add_layout.hbs'),
   id: 'addLayout',
 
   regions: {

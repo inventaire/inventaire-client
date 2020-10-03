@@ -1,5 +1,5 @@
 export default Marionette.ItemView.extend({
-  template: require('./templates/candidate_info'),
+  template: require('./templates/candidate_info.hbs'),
   className: 'candidate-info',
 
   initialize () {

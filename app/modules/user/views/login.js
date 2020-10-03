@@ -6,7 +6,7 @@ import prepareRedirect from '../lib/prepare_redirect'
 
 export default Marionette.ItemView.extend({
   className: 'authMenu login',
-  template: require('./templates/login'),
+  template: require('./templates/login.hbs'),
   events: {
     'blur #username': 'earlyVerifyUsername',
     'click #classicLogin': 'classicLoginAttempt',

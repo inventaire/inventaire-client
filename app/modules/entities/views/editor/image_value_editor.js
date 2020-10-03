@@ -11,7 +11,7 @@ const imagePreviewSelector = '.image-preview'
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'image-value-editor',
-  template: require('./templates/image_value_editor'),
+  template: require('./templates/image_value_editor.hbs'),
 
   behaviors: {
     AlertBox: {},

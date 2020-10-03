@@ -1,7 +1,7 @@
 import preq from 'lib/preq'
 export default Marionette.CompositeView.extend({
   className: 'activityPeriod',
-  template: require('./templates/activity_period'),
+  template: require('./templates/activity_period.hbs'),
   childViewContainer: 'tbody',
   childView: require('./activity_period_row'),
   initialize () {

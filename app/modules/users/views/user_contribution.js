@@ -1,6 +1,6 @@
 export default Marionette.ItemView.extend({
   className: 'userContribution',
-  template: require('./templates/user_contribution'),
+  template: require('./templates/user_contribution.hbs'),
   tagName: 'li',
 
   ui: {

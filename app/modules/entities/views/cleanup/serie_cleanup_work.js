@@ -8,7 +8,7 @@ import error_ from 'lib/error'
 
 export default Marionette.LayoutView.extend({
   tagName: 'li',
-  template: require('./templates/serie_cleanup_work'),
+  template: require('./templates/serie_cleanup_work.hbs'),
   className () {
     let classes = 'serie-cleanup-work'
     if (this.model.get('isPlaceholder')) { classes += ' placeholder' }

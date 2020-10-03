@@ -2,7 +2,7 @@ import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
 
 export default InventoryCommonNav.extend({
   id: 'inventoryNetworkNav',
-  template: require('./templates/inventory_network_nav'),
+  template: require('./templates/inventory_network_nav.hbs'),
 
   behaviors: {
     PreventDefault: {}

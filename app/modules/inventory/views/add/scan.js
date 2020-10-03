@@ -2,7 +2,7 @@ import embedded_ from 'modules/inventory/lib/scanner/embedded'
 
 export default Marionette.ItemView.extend({
   className: 'scan',
-  template: require('./templates/scan'),
+  template: require('./templates/scan.hbs'),
   initialize () {
     if (window.hasVideoInput) { return embedded_.prepare() }
   },

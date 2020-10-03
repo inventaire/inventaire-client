@@ -7,7 +7,7 @@ import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
 export default Marionette.LayoutView.extend({
   className: 'authMenu signup',
-  template: require('./templates/signup_classic'),
+  template: require('./templates/signup_classic.hbs'),
   behaviors: {
     AlertBox: {},
     TogglePassword: {},

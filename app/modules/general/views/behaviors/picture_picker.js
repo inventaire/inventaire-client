@@ -13,7 +13,7 @@ export default Marionette.CompositeView.extend({
     return `picture-picker limit-${limit}`
   },
 
-  template: require('./templates/picture_picker'),
+  template: require('./templates/picture_picker.hbs'),
   childViewContainer: '#availablePictures',
   childView: require('./picture'),
 

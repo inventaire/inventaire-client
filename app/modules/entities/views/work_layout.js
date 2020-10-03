@@ -6,7 +6,7 @@ import entityItems from '../lib/entity_items'
 export default TypedEntityLayout.extend({
   id: 'workLayout',
   Infobox: require('./work_infobox'),
-  template: require('./templates/work_layout'),
+  template: require('./templates/work_layout.hbs'),
   regions: {
     infoboxRegion: '#workInfobox',
     editionsList: '#editionsList',

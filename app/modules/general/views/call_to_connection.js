@@ -1,11 +1,11 @@
-const { banner } = require('lib/urls').images
+import url from 'lib/urls'
+const { banner } = url.images
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/call_to_connection'),
+  template: require('./templates/call_to_connection.hbs'),
   onShow () { app.execute('modal:open') },
   serializeData () {
-    return _.extend(this.options,
-      { banner })
+    return _.extend(this.options, { banner })
   },
 
   events: {

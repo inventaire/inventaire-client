@@ -5,7 +5,7 @@ import prepareRedirect from '../lib/prepare_redirect'
 
 export default Marionette.ItemView.extend({
   className: 'authMenu login',
-  template: require('./templates/reset_password'),
+  template: require('./templates/reset_password.hbs'),
   behaviors: {
     AlertBox: {},
     SuccessCheck: {},

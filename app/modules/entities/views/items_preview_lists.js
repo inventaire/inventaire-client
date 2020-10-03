@@ -8,7 +8,7 @@ export default Marionette.LayoutView.extend({
     return className
   },
 
-  template: require('./templates/items_preview_lists'),
+  template: require('./templates/items_preview_lists.hbs'),
 
   regions: {
     givingRegion: '.giving',

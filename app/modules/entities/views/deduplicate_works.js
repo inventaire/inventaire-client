@@ -17,7 +17,7 @@ const DeduplicateWorksList = Marionette.CollectionView.extend({
 
 export default Marionette.LayoutView.extend({
   className: 'deduplicateWorks',
-  template: require('./templates/deduplicate_works'),
+  template: require('./templates/deduplicate_works.hbs'),
   regions: {
     wd: '.wdWorks',
     inv: '.invWorks'

@@ -6,7 +6,7 @@ import { startLoading, stopLoading, Check } from 'modules/general/plugins/behavi
 const containerId = 'positionPickerMap'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/position_picker'),
+  template: require('./templates/position_picker.hbs'),
   className: 'positionPicker',
   behaviors: {
     AlertBox: {},
