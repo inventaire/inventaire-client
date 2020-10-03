@@ -82,12 +82,8 @@ module.exports = Marionette.CompositeView.extend
   selectType: (type)->
     if type is @_lastType then return
 
-    if isSocialType type
-      @ui.socialSections.filter("#section-#{type}").addClass 'selected'
-      # @socialSection = (child)-> child.get('typeAlias') is type
-    else if isEntitiesType type
-      @ui.entitiesSections.filter("#section-#{type}").addClass 'selected'
-      # @entitiesSection = (child)-> child.get('typeAlias') is type
+    if isSocialType type then @updateSocialSections type
+    if isEntitiesType type then @updateEntitiesSections type
 
     @_searchOffset = 0
     @_lastType = type
@@ -95,6 +91,19 @@ module.exports = Marionette.CompositeView.extend
     if @_lastSearch? and @_lastSearch isnt '' then @lazySearch @_lastSearch
 
     @updateAlternatives type
+
+  updateEntitiesSections: (type) ->
+    if isSocialType @_lastType
+      @ui.socialSections.filter(".socialSection").removeClass 'selected'
+    @ui.entitiesSections.filter("#section-#{type}").addClass 'selected'
+    # @entitiesSection = (child)-> child.get('typeAlias') is type
+
+  updateSocialSections: (type) ->
+    # needs to unselect the default 'book' section
+    if !@_lastType or isEntitiesType @_lastType
+      @ui.entitiesSections.filter(".entitiesSection").removeClass 'selected'
+    @ui.socialSections.filter("#section-#{type}").addClass 'selected'
+    # @socialSection = (child)-> child.get('typeAlias') is type
 
   updateAlternatives: (search)->
     if @_lastType in sectionsWithAlternatives then @showAlternatives(search)
