@@ -76,47 +76,47 @@ module.exports = Marionette.CompositeView.extend
 
   selectTypeFromTarget: ($target)->
     { id } = $target[0]
-    type = getTypeFromId id
-    @selectType type
+    name = getTypeFromId id
+    @selectSectionAndSearch name
 
-  selectType: (type)->
-    if @isSectionSelected(type)
-      @unselectSection(type)
+  selectSectionAndSearch: (name)->
+    if @isSectionSelected name
+      @unselectSection name
     else
-      if isSocialType type then @updateSocialSections type
-      if isEntitiesType type then @updateEntitiesSections type
+      if isSocialSection name then @updateSocialSections name
+      if isEntitiesSection name then @updateEntitiesSections name
 
     @_searchOffset = 0
-    @_lastType = type
+    @_lastType = name
     # Refresh the search with the new sections
     if @_lastSearch? and @_lastSearch isnt '' then @lazySearch @_lastSearch
 
-    @updateAlternatives type
+    @updateAlternatives name
 
-  unselectSection: (type) ->
-    if isSocialType type
-      @ui.socialSections.find("#section-#{type}").removeClass 'selected'
-    if isEntitiesType type
-      @ui.entitiesSections.find("#section-#{type}").removeClass('selected')
+  unselectSection: (name) ->
+    if isSocialSection name
+      @ui.socialSections.find("#section-#{name}").removeClass 'selected'
+    if isEntitiesSection name
+      @ui.entitiesSections.find("#section-#{name}").removeClass('selected')
 
-  updateEntitiesSections: (type) ->
-    if isSocialType @_lastType
+  updateEntitiesSections: (name) ->
+    if isSocialSection @_lastType
 
       @ui.socialSections.find(".socialSection").removeClass 'selected'
     # unselect all selected section to have a search dedicated to subjects only
-    if type is 'subject'
+    if name is 'subject'
       @ui.entitiesSections.find(".entitiesSection").removeClass 'selected'
     else
       @ui.entitiesSections.find("#section-subject").removeClass 'selected'
-    @ui.entitiesSections.find("#section-#{type}").addClass 'selected'
-    # @entitiesSection = (child)-> child.get('typeAlias') is type
+    @ui.entitiesSections.find("#section-#{name}").addClass 'selected'
+    # @entitiesSection = (child)-> child.get('typeAlias') is name
 
-  updateSocialSections: (type) ->
+  updateSocialSections: (name) ->
     # needs to unselect the default 'book' section
-    if !@_lastType or isEntitiesType @_lastType
+    if !@_lastType or isEntitiesSection @_lastType
       @ui.entitiesSections.find(".entitiesSection").removeClass 'selected'
-    @ui.socialSections.find("#section-#{type}").addClass 'selected'
-    # @socialSection = (child)-> child.get('typeAlias') is type
+    @ui.socialSections.find("#section-#{name}").addClass 'selected'
+    # @socialSection = (child)-> child.get('typeAlias') is name
 
   updateAlternatives: (search)->
     if @_lastType in sectionsWithAlternatives then @showAlternatives(search)
@@ -302,9 +302,9 @@ sectionToTypes =
 
 sectionsWithAlternatives = [ 'book', 'author', 'serie', 'collection', 'publisher' ]
 
-isEntitiesType = (type)-> sectionsData().entitiesSections[type]?
+isEntitiesSection = (name)-> sectionsData().entitiesSections[name]?
 
-isSocialType = (type)-> sectionsData().socialSections[type]?
+isSocialSection = (name)-> sectionsData().socialSections[name]?
 
 getTypesFromIds = (ids)-> _.map(ids, getTypeFromId)
 
