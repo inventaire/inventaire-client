@@ -131,7 +131,9 @@ module.exports = Marionette.CompositeView.extend
     # Subjects aren't indexed in the server ElasticSearch
     # as it's not a subset of Wikidata anymore: pretty much anything
     # on Wikidata can be considered a subject
-    if types is 'subjects'
+    if types.includes 'subjects'
+      @ui.entitiesSections.filter(".entitiesSection").removeClass 'selected'
+      @ui.socialSections.filter(".socialSection").removeClass 'selected'
       wikidataSearch search, searchBatchLength, @_searchOffset
       .map formatSubject
     else
