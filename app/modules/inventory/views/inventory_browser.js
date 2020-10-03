@@ -1,3 +1,4 @@
+import assert_ from 'lib/assert_types'
 import BrowserSelector from './browser_selector'
 import ItemsCascade from './items_cascade'
 import ItemsTable from './items_table'
@@ -160,7 +161,7 @@ export default Marionette.LayoutView.extend({
 
   onFilterSelect (selectorView, selectedOption) {
     const { selectorName } = selectorView
-    _.type(selectorName, 'string')
+    assert_.string(selectorName)
     const selectedOptionKey = getSelectedOptionKey(selectedOption, selectorName)
     this.filters[selectorName] = selectedOptionKey
 

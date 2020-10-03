@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 export default Marionette.LayoutView.extend({
   id: 'error',
   template: require('./templates/error.hbs'),
@@ -16,7 +17,7 @@ export default Marionette.LayoutView.extend({
   },
 
   buttonAction (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       const { buttonAction } = this.options.redirection
       if (_.isFunction(buttonAction)) buttonAction()
     }

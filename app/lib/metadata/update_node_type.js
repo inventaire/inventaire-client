@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import applyTransformers from './apply_transformers'
 import { metaNodes, possibleFields } from './nodes'
 const head = document.querySelector('head')
@@ -10,11 +11,11 @@ export default function (key, value, noCompletion) {
   previousValue[key] = value
 
   if (!possibleFields.includes(key)) {
-    return _.warn([ key, value ], 'invalid metadata data')
+    return log_.warn([ key, value ], 'invalid metadata data')
   }
 
   if (value == null) {
-    _.warn(`missing metadata value: ${key}`)
+    log_.warn(`missing metadata value: ${key}`)
     return
   }
 

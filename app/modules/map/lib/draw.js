@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import isMobile from 'lib/mobile_check'
 import Config from './config'
 import buildMarker from './build_marker'
@@ -58,7 +59,7 @@ const addMarkerToCluster = cluster => function (params) {
   const { objectId } = params
 
   if (cluster._knownObjectIds[objectId]) {
-    _.log(objectId, 'not re-adding known object')
+    log_.info(objectId, 'not re-adding known object')
     return
   }
 
@@ -66,7 +67,7 @@ const addMarkerToCluster = cluster => function (params) {
   cluster.addLayer(marker)
 
   cluster._knownObjectIds[objectId] = true
-  _.log(objectId, 'added unknown object')
+  log_.info(objectId, 'added unknown object')
 
   return marker
 }

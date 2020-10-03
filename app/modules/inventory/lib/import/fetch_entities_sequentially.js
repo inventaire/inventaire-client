@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 // Fetching sequentially to lower stress on the different APIs
 export default function (isbnsData) {
@@ -47,7 +48,7 @@ export default function (isbnsData) {
     })
     .tap(updateProgression)
     // Log errors without throwing to prevent crashing the whole chain
-    .catch(_.Error('fetchOneByOne err'))
+    .catch(log_.Error('fetchOneByOne err'))
     .then(fetchOneByOne)
   }
 

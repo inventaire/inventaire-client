@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import Groups from './collections/groups'
 import GroupBoard from './views/group_board'
 import initGroupHelpers from './lib/group_helpers'
@@ -71,7 +72,7 @@ const API = {
       return app.request('get:group:model', slug)
       .then(showGroupBoardFromModel)
       .catch(err => {
-        _.error(err, 'get:group:model err')
+        log_.error(err, 'get:group:model err')
         app.execute('show:error:missing')
       })
     }

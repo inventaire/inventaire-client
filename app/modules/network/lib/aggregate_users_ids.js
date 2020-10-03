@@ -1,3 +1,4 @@
+import { forceArray } from 'lib/utils'
 export default function () {
   let categories, name
   const cache = {}
@@ -11,7 +12,7 @@ export default function () {
   const getUsersIds = this.getUsersIds.bind(this)
 
   const recalculateAll = function (name, categories) {
-    categories = _.forceArray(categories)
+    categories = forceArray(categories)
     const ids = _.chain(categories).map(getUsersIds).flatten().value()
     cache[name] = ids
     return cache[name]

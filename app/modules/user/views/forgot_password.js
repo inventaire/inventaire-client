@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import email_ from 'modules/user/lib/email_tests'
 import forms_ from 'modules/general/lib/forms'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
@@ -40,10 +41,10 @@ export default Marionette.ItemView.extend({
       special: true,
       field: {
         value: app.user.get('email'),
-        placeholder: _.i18n('email address')
+        placeholder: i18n('email address')
       },
       button: {
-        text: _.i18n('send email'),
+        text: i18n('send email'),
         classes: 'grey postfix'
       }
     }

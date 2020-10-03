@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 import map_ from '../lib/map'
 const containerId = 'simpleMap'
 
@@ -37,14 +38,14 @@ export default Marionette.ItemView.extend({
   },
 
   showUser (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     e.stopPropagation()
     const userId = e.currentTarget.attributes['data-user-id'].value
     app.execute('show:inventory:user', userId)
   },
 
   showItem (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     e.stopPropagation()
     const itemId = e.currentTarget.attributes['data-item-id'].value
     app.execute('show:item:byId', itemId)

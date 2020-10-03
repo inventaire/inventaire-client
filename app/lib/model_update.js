@@ -1,3 +1,5 @@
+import { isNonEmptyPlainObject } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 // wrapping model updates to recover the previous value on fails
 
@@ -25,7 +27,7 @@ const Updater = function (fixedOptions) {
     const bothInexistant = ((value == null)) && ((previousValue == null))
 
     if (bothInexistant || _.isEqual(value, previousValue)) {
-      _.log(options, 'the model is already up-to-date')
+      log_.info(options, 'the model is already up-to-date')
       promise = Promise.resolve()
     } else {
       model.set(attribute, value)
@@ -64,7 +66,7 @@ const Updater = function (fixedOptions) {
 // Ex: group 'name' update triggers an update of the 'slug'
 const applyHookUpdates = model => function (updateRes) {
   const { update } = updateRes
-  if (_.isNonEmptyPlainObject(update)) { return model.set(update) }
+  if (isNonEmptyPlainObject(update)) { return model.set(update) }
 }
 
 // trigger events when the server confirmed the change
@@ -76,11 +78,11 @@ const ConfirmUpdate = (model, attribute, value) => () => {
 const rollbackUpdate = function (options, err) {
   const { model, attribute, previousValue, selector } = options
   if (previousValue != null) {
-    _.warn(previousValue, `reversing ${attribute} update`)
+    log_.warn(previousValue, `reversing ${attribute} update`)
     model.set(attribute, previousValue)
     model.trigger('rollback')
   } else {
-    _.warn(previousValue, "couldn't reverse update: previousValue not found")
+    log_.warn(previousValue, "couldn't reverse update: previousValue not found")
   }
 
   err = (selector != null) ? error_.complete(err, selector) : err

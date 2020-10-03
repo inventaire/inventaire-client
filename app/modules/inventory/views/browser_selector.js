@@ -1,3 +1,4 @@
+import { lazyMethod, icon } from 'lib/utils'
 import getActionKey from 'lib/get_action_key'
 import BrowserSelectorOptions from './browser_selector_options'
 import screen_ from 'lib/screen'
@@ -60,7 +61,7 @@ export default Marionette.LayoutView.extend({
     selectOption: 'selectOption'
   },
 
-  lazyUpdateFilter: _.lazyMethod('updateFilter', 150),
+  lazyUpdateFilter: lazyMethod('updateFilter', 150),
   updateFilter (e) {
     const { value } = e.target
     if (value === this._lastValue) return
@@ -147,7 +148,7 @@ export default Marionette.LayoutView.extend({
     this._selectedOption = model
     this.triggerMethod('filter:select', model)
     const labelSpan = `<span class='label'>${model.get('label')}</span>`
-    this.ui.selectedMode.html(labelSpan + _.icon('times'))
+    this.ui.selectedMode.html(labelSpan + icon('times'))
     this.hideOptions()
     this.ui.selectorButton.addClass('active')
   },

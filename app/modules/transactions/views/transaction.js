@@ -1,3 +1,5 @@
+import { isOpenedOutside } from 'lib/utils'
+import { i18n } from 'modules/user/lib/i18n'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import messagesPlugin from 'modules/general/plugins/messages'
 import forms_ from 'modules/general/lib/forms'
@@ -78,7 +80,7 @@ export default Marionette.CompositeView.extend({
   },
 
   showItem (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
 
     // Case when the item was successfully grabbed by the transaction model
     if (this.model.item != null) {
@@ -89,14 +91,14 @@ export default Marionette.CompositeView.extend({
   },
 
   showOwner (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:inventory:user', this.model.owner)
     }
   },
 
   cancel () {
     app.execute('ask:confirmation', {
-      confirmationText: _.i18n('transaction_cancel_confirmation'),
+      confirmationText: i18n('transaction_cancel_confirmation'),
       action: this.model.cancelled.bind(this),
       selector: '.cancel'
     })

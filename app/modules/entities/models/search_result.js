@@ -1,3 +1,4 @@
+import { isInvEntityId } from 'lib/boolean_tests'
 import Filterable from 'modules/general/models/filterable'
 import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 import wdk from 'lib/wikidata-sdk'
@@ -63,7 +64,7 @@ const getValues = function (obj) { if (obj != null) { return _.values(obj) } els
 const getPrefix = function (id) {
   if (wdk.isWikidataItemId(id)) {
     return [ 'wd', id ]
-  } else if (_.isInvEntityId(id)) {
+  } else if (isInvEntityId(id)) {
     return [ 'inv', id ]
   } else { throw error_.new('unknown id domain', { id }) }
 }

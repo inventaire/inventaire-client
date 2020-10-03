@@ -1,3 +1,4 @@
+import { I18n } from 'modules/user/lib/i18n'
 import SignupClassic from './views/signup_classic'
 import Login from './views/login'
 import ForgotPassword from './views/forgot_password'
@@ -38,7 +39,7 @@ const showAuth = (name, label, View) => function (options) {
   if (app.user.loggedIn) return app.execute('show:home')
 
   app.layout.main.show(new View(options))
-  app.navigate(name, { metadata: { title: _.I18n(label) } })
+  app.navigate(name, { metadata: { title: I18n(label) } })
 }
 
 // beware that app.layout is undefined when User.define is fired
@@ -52,7 +53,7 @@ const API = {
     app.layout.main.show(new ForgotPassword(options))
     app.navigate('login/forgot-password', {
       metadata: {
-        title: _.I18n('forgot password')
+        title: I18n('forgot password')
       }
     })
   },
@@ -62,7 +63,7 @@ const API = {
       app.layout.main.show(new ResetPassword())
       app.navigate('login/reset-password', {
         metadata: {
-          title: _.I18n('reset password')
+          title: I18n('reset password')
         }
       })
     } else {

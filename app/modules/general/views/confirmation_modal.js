@@ -1,3 +1,5 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
 import getActionKey from 'lib/get_action_key'
 import error_ from 'lib/error'
 import forms_ from 'modules/general/lib/forms'
@@ -54,7 +56,7 @@ export default Marionette.ItemView.extend({
   },
 
   error (err) {
-    _.error(err, 'confirmation action err')
+    log_.error(err, 'confirmation action err')
     this.$el.trigger('fail')
     error_.complete(err, '.check', false)
     forms_.catchAlert(this, err)
@@ -72,7 +74,7 @@ export default Marionette.ItemView.extend({
     if (selector != null) {
       $(selector).trigger('stopLoading')
     } else {
-      _.warn('confirmation modal: no selector was provided')
+      log_.warn('confirmation modal: no selector was provided')
     }
   },
 
@@ -80,7 +82,7 @@ export default Marionette.ItemView.extend({
     const { formAction } = this.options
     if (formAction != null) {
       const formContent = this.$el.find('#confirmationForm').val()
-      if (_.isNonEmptyString(formContent)) formAction(formContent)
+      if (isNonEmptyString(formContent)) formAction(formContent)
     }
   },
 

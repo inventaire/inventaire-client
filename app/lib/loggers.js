@@ -1,5 +1,4 @@
 import noopConsole from 'lib/noop_console'
-
 import { reportError } from 'lib/reports'
 const csle = CONFIG.debug ? window.console : noopConsole
 
@@ -7,7 +6,7 @@ const csle = CONFIG.debug ? window.console : noopConsole
 const log = (obj, label) => {
   // customizing console.log
   // unfortunatly, it makes the console loose the trace
-  // of the real line and file the _.log function was called from
+  // of the real line and file the log_.info function was called from
   // the trade-off might not be worthing it...
   if (_.isString(obj)) {
     if (label != null) {
@@ -75,10 +74,9 @@ const spy = (res, label) => {
 const PartialLogger = logger => label => obj => logger(obj, label)
 
 const partialLoggers = {
-  Log: PartialLogger(log),
+  Info: PartialLogger(log),
   Error: PartialLogger(error),
   Warn: PartialLogger(warn),
-  Spy: PartialLogger(spy),
   ErrorRethrow: label => err => {
     error(err, label)
     throw err
@@ -86,7 +84,7 @@ const partialLoggers = {
 }
 
 const loggers = {
-  log,
+  info: log,
   error,
   warn,
   spy,
@@ -104,10 +102,4 @@ const loggers = {
   }
 }
 
-const proxied = {
-  trace: csle.trace.bind(csle),
-  time: csle.time.bind(csle),
-  timeEnd: csle.timeEnd.bind(csle)
-}
-
-export default _.extend(loggers, partialLoggers, proxied)
+export default _.extend(loggers, partialLoggers)

@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import Transactions from 'modules/transactions/collections/transactions'
 import TransactionsLayout from './views/transactions_layout'
 import RequestItemModal from './views/request_item_modal'
@@ -39,7 +40,7 @@ export default {
       condition: app.user.loggedIn
     })
     .then(app.vent.Trigger('transactions:unread:changes'))
-    .catch(_.Error('transaction init err'))
+    .catch(log_.Error('transaction init err'))
 
     return initHelpers()
   }
@@ -63,7 +64,7 @@ const API = {
           return app.vent.trigger('transactions:welcome')
         }
       })
-      .catch(_.Error('showFirstTransaction'))
+      .catch(log_.Error('showFirstTransaction'))
     }
   },
 

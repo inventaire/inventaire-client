@@ -1,3 +1,6 @@
+import { lazyMethod } from 'lib/utils'
+import { I18n, i18n } from 'modules/user/lib/i18n'
+
 import SerieCleanupWorks from './serie_cleanup_works'
 import SerieCleanupEditions from './serie_cleanup_editions'
 import PartsSuggestions from './serie_cleanup_part_suggestion'
@@ -42,9 +45,9 @@ export default Marionette.LayoutView.extend({
     this.worksInConflicts = new CleanupWorks()
     this.maxOrdinal = 0
     this.placeholderCounter = 0
-    this.titleKey = `{${_.i18n('title')}}`
-    this.numberKey = `{${_.i18n('number')}}`
-    this.titlePattern = `${this.titleKey} - ${_.I18n('volume')} ${this.numberKey}`
+    this.titleKey = `{${i18n('title')}}`
+    this.numberKey = `{${i18n('number')}}`
+    this.titlePattern = `${this.titleKey} - ${I18n('volume')} ${this.numberKey}`
     this.allAuthorsUris = this.model.getAllAuthorsUris()
     this.model.parts.forEach(spreadPart.bind(this))
     fillGaps.call(this)
@@ -196,7 +199,7 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  lazyUpdateTitlePattern: _.lazyMethod('updateTitlePattern', 1000),
+  lazyUpdateTitlePattern: lazyMethod('updateTitlePattern', 1000),
   updateTitlePattern (e) {
     this.titlePattern = e.currentTarget.value
     const placeholders = this.worksWithOrdinal.filter(isPlaceholder)

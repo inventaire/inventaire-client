@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import createEntities from 'modules/entities/lib/create_entities'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
@@ -60,9 +61,9 @@ const formatEditionAlreadyExistOnCurrentWork = err => {
 
 const formatDuplicateWorkErr = function (err, isbn) {
   const normalizedIsbn = isbn_.normalizeIsbn(isbn)
-  const alreadyExist = _.i18n('this ISBN already exist:')
+  const alreadyExist = i18n('this ISBN already exist:')
   const link = `<a href='/entity/isbn:${normalizedIsbn}' class='showEntity'>${normalizedIsbn}</a>`
-  const reported = _.i18n('the issue was reported')
+  const reported = i18n('the issue was reported')
   err.responseJSON.status_verbose = `${alreadyExist} ${link} (${reported})`
   err.i18n = false
 }

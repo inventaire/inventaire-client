@@ -1,3 +1,4 @@
+import { I18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
@@ -85,7 +86,7 @@ export default Marionette.LayoutView.extend({
 
   deleteEntity () {
     app.execute('ask:confirmation', {
-      confirmationText: _.I18n('delete_entity_confirmation', { label: this.model.get('label') }),
+      confirmationText: I18n('delete_entity_confirmation', { label: this.model.get('label') }),
       action: this._deleteEntity.bind(this)
     })
   },
@@ -107,7 +108,7 @@ const mergeWithData = () => ({
   },
 
   button: {
-    text: _.I18n('merge'),
+    text: I18n('merge'),
     classes: 'light-blue bold postfix'
   }
 })

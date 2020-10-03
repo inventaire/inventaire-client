@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import error_ from 'lib/error'
 
 const testAttribute = function (attribute, value, validator_) {
@@ -22,7 +23,7 @@ const pickerData = (model, attribute) => ({
   },
 
   button: {
-    text: _.i18n(`change ${attribute}`),
+    text: i18n(`change ${attribute}`),
     classes: 'light-blue-button postfix'
   }
 })

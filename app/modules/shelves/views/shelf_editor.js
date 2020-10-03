@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 import { listingsData } from 'modules/inventory/lib/item_creation'
 import forms_ from 'modules/general/lib/forms'
 import getActionKey from 'lib/get_action_key'
@@ -71,8 +73,8 @@ export default Marionette.LayoutView.extend({
 
   askDeleteShelf () {
     app.execute('ask:confirmation', {
-      confirmationText: _.i18n('delete_shelf_confirmation', { name: this.model.get('name') }),
-      warningText: _.i18n('cant_undo_warning'),
+      confirmationText: i18n('delete_shelf_confirmation', { name: this.model.get('name') }),
+      warningText: i18n('cant_undo_warning'),
       action: deleteShelfAction(this.model)
     })
   }
@@ -93,9 +95,9 @@ const deleteShelfAction = (model, withItems) => function () {
   let params = { ids: id }
   if (withItems) { params = _.extend({ 'with-items': true }, params) }
   deleteShelf(params)
-  .then(_.Log('shelf destroyed'))
+  .then(log_.Info('shelf destroyed'))
   .then(afterShelfDelete)
-  .catch(_.ErrorRethrow('shelf delete error'))
+  .catch(log_.ErrorRethrow('shelf delete error'))
 }
 
 const afterShelfDelete = function (res) {

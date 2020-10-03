@@ -1,3 +1,5 @@
+import assert_ from 'lib/assert_types'
+import log_ from 'lib/loggers'
 import Entity from '../models/entity'
 import error_ from 'lib/error'
 import isbn_ from 'lib/isbn'
@@ -7,14 +9,14 @@ import graphRelationsProperties from './graph_relations_properties'
 import getOriginalLang from 'modules/entities/lib/get_original_lang'
 
 const createWorkEdition = function (workEntity, isbn) {
-  _.types(arguments, [ 'object', 'string' ])
+  assert_.types(arguments, [ 'object', 'string' ])
 
   return isbn_.getIsbnData(isbn)
   .then(isbnData => {
     let { title, groupLang: editionLang } = isbnData
-    _.log(title, 'title from isbn data')
+    log_.info(title, 'title from isbn data')
     if (!title) { title = getTitleFromWork(workEntity, editionLang) }
-    _.log(title, 'title after work suggestion')
+    log_.info(title, 'title after work suggestion')
 
     if (title == null) { throw error_.new('no title could be found', isbn) }
 

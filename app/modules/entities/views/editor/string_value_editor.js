@@ -1,3 +1,4 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
 import ClaimsEditorCommons from './claims_editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
@@ -50,7 +51,7 @@ export default ClaimsEditorCommons.extend({
   save () {
     const val = this.ui.input.val().trim()
 
-    if (!_.isNonEmptyString(val)) {
+    if (!isNonEmptyString(val)) {
       const err = error_.new("can't be empty", val)
       err.selector = inputSelector
       return forms_.alert(this, err)

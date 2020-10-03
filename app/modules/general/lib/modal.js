@@ -1,3 +1,5 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
 import getActionKey from 'lib/get_action_key'
 import screen_ from 'lib/screen'
 import isMobile from 'lib/mobile_check'
@@ -30,7 +32,7 @@ export default function () {
     } else {
       setTimeout(focusFirstTabElement, 200)
       // Allow to pass a selector to which to re-focus once the modal closes
-      if (_.isNonEmptyString(focusSelector)) { return prepareRefocus(focusSelector) }
+      if (isNonEmptyString(focusSelector)) { return prepareRefocus(focusSelector) }
     }
   }
 
@@ -127,11 +129,11 @@ export default function () {
 };
 
 const prepareRefocus = function (focusSelector) {
-  _.log(focusSelector, 'preparing re-focus')
+  log_.info(focusSelector, 'preparing re-focus')
   app.vent.once('modal:closed', () => {
     const $el = $(focusSelector)
     // Do not focus if the element is not visible as that makes the scroll jump
     if ($el.visible()) { $(focusSelector).focus() }
-    _.log(focusSelector, 're-focusing')
+    log_.info(focusSelector, 're-focusing')
   })
 }

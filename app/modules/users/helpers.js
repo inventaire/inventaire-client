@@ -1,3 +1,6 @@
+import { isModel, isUserId } from 'lib/boolean_tests'
+
+import { forceArray } from 'lib/utils'
 import error_ from 'lib/error'
 import usersData from './users_data'
 
@@ -48,13 +51,13 @@ export default function (app) {
     resolveToUserModel (user) {
       // 'user' is either the user model, a user id, or a username
       let promise
-      if (_.isModel(user)) {
+      if (isModel(user)) {
         if (user.get('username') != null) {
           return Promise.resolve(user)
         } else { throw error_.new('not a user model', 500, { user }) }
       }
 
-      if (_.isUserId(user)) {
+      if (isUserId(user)) {
         const userId = user
         promise = app.request('get:user:model', userId)
       } else {
@@ -91,7 +94,7 @@ export default function (app) {
   }
 
   const addUsers = function (users) {
-    users = _.forceArray(users).filter(isntMainUser)
+    users = forceArray(users).filter(isntMainUser)
     // Do not set { merge: true } as that could overwrite some attributes
     // set at initialization
     // Ex: if picture=null, setting merge=true would reset the default avatar to null

@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import EntityEdit from './entity_edit'
 import entityDraftModel from '../../lib/entity_draft_model'
 
@@ -14,7 +15,7 @@ export default EntityEdit.extend({
   multiEditData () {
     const data = {}
     if (this.fromIsbn != null) {
-      data.header = _.i18n('can you tell us more about this work and this particular edition?')
+      data.header = i18n('can you tell us more about this work and this particular edition?')
       data.headerContext = 'ISBN: ' + this.fromIsbn
     }
     if (this.next != null) {

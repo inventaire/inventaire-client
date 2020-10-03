@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 import EntityDataOverview from 'modules/entities/views/entity_data_overview'
 import ItemShelves from '../item_shelves'
 import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation'
@@ -66,7 +68,7 @@ export default Marionette.LayoutView.extend({
       title,
       listings: listingsData(this.itemData.listing),
       transactions: transactionsData(this.itemData.transaction),
-      header: _.i18n('add_item_text', { title })
+      header: i18n('add_item_text', { title })
     }
 
     return attrs
@@ -103,7 +105,7 @@ export default Marionette.LayoutView.extend({
   showShelves () {
     return getShelvesByOwner(app.user.id)
     .then(this.ifViewIsIntact('_showShelves'))
-    .catch(_.Error('showShelves err'))
+    .catch(log_.Error('showShelves err'))
   },
 
   _showShelves (shelves) {
@@ -174,7 +176,7 @@ export default Marionette.LayoutView.extend({
     else if (_lastAddMode === 'scan:embedded') app.execute('show:scanner:embedded')
     else {
       // Known case: 'scan:zxing'
-      _.warn(this._lastAddMode, 'unknown or obsolete add mode')
+      log_.warn(this._lastAddMode, 'unknown or obsolete add mode')
       app.execute('show:add:layout')
     }
   },

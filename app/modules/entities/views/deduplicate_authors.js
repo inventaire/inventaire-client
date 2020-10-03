@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import searchType from '../lib/search/search_type'
 import EntitiesUrisResults from '../lib/search/entities_uris_results'
@@ -40,7 +41,7 @@ export default Marionette.CompositeView.extend({
 
     return preq.get(app.API.entities.duplicates)
     .get('names')
-    .then(_.Log('names'))
+    .then(log_.Info('names'))
     .tap(stopLoading.bind(this))
     .then(names => {
       this.names = names
@@ -86,7 +87,7 @@ export default Marionette.CompositeView.extend({
       const uris = humans.map(human => getEntityUri(human.id || human._id))
 
       return app.request('get:entities:models', { uris })
-      .then(_.Log('humans models'))
+      .then(log_.Info('humans models'))
       .then(this.collection.add.bind(this.collection))
     })
   },

@@ -1,3 +1,6 @@
+import assert_ from 'lib/assert_types'
+import log_ from 'lib/loggers'
+import { Rollback } from 'lib/utils'
 import preq from 'lib/preq'
 import Patches from '../../collections/patches'
 import properties from '../properties'
@@ -15,8 +18,8 @@ const propertiesUsedByRelations = [
 export default {
   setPropertyValue (property, oldValue, newValue) {
     return Promise.try(() => {
-      _.log({ property, oldValue, newValue }, 'setPropertyValue args')
-      _.type(property, 'string')
+      log_.info({ property, oldValue, newValue }, 'setPropertyValue args')
+      assert_.string(property)
       if (oldValue === newValue) return
 
       const propArrayPath = `claims.${property}`
@@ -38,7 +41,7 @@ export default {
       this.set(propArrayPath, _.compact(propArray))
 
       const reverseAction = this.set.bind(this, `${propArrayPath}.${index}`, oldValue)
-      const rollback = _.Rollback(reverseAction, 'editable_entity setPropertyValue')
+      const rollback = Rollback(reverseAction, 'editable_entity setPropertyValue')
 
       if (properties[property].editorType === 'entity') {
         app.execute('invalidate:entities:graph', [ oldValue, newValue ])
@@ -63,7 +66,7 @@ export default {
       'new-value': newValue,
       'old-value': oldValue
     })
-    .catch(_.ErrorRethrow('savePropertyValue err'))
+    .catch(log_.ErrorRethrow('savePropertyValue err'))
   },
 
   setLabel (lang, value) {
@@ -76,7 +79,7 @@ export default {
 
   saveLabel (labelPath, lang, oldValue, value) {
     const reverseAction = this.set.bind(this, labelPath, oldValue)
-    const rollback = _.Rollback(reverseAction, 'saveLabel')
+    const rollback = Rollback(reverseAction, 'saveLabel')
 
     return preq.put(app.API.entities.labels.update, { uri: this.get('uri'), lang, value })
     .catch(rollback)

@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
@@ -15,7 +16,7 @@ export default {
       position
     })
     .then(groups.add.bind(groups))
-    .then(_.Log('group'))
+    .then(log_.Info('group'))
     .catch(error_.Complete('#createGroup'))
   },
 

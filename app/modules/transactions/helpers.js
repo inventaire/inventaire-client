@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import Message from './models/message'
 import poster_ from 'lib/poster'
@@ -29,7 +30,7 @@ const API = {
     return preq.post(app.API.transactions, messageData)
     .then(poster_.UpdateModelIdRev(mesModel))
     .catch(poster_.Rewind(mesModel, timeline))
-    .catch(_.Error('postMessage'))
+    .catch(log_.Error('postMessage'))
   }
 }
 

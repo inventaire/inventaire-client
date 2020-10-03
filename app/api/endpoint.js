@@ -1,3 +1,4 @@
+import { fixedEncodeURIComponent } from 'lib/utils'
 import { buildPath } from 'lib/location'
 
 // build the endpoints routes
@@ -17,7 +18,7 @@ const Action = base => function (actionName, attribute, value) {
     query = attribute
   } else {
     query = {}
-    if (attribute != null) { query[attribute] = _.fixedEncodeURIComponent(value) }
+    if (attribute != null) { query[attribute] = fixedEncodeURIComponent(value) }
   }
 
   if (!query) { query = {} }

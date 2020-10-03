@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 // TRANSACTION STATES (actor)
 // - requested (requester)
@@ -90,7 +92,7 @@ export default Backbone.NestedModel.extend({
         id: this.id,
         action: 'mark-as-read'
       })
-      .catch(_.Error('markAsRead'))
+      .catch(log_.Error('markAsRead'))
     }
   },
 
@@ -179,11 +181,11 @@ export default Backbone.NestedModel.extend({
     if (this.owner != null) {
       const transaction = this.get('transaction')
       if (this.mainUserIsOwner) {
-        return _.i18n(`main_user_${transaction}`)
+        return i18n(`main_user_${transaction}`)
       } else {
         const [ username, pathname ] = Array.from(this.owner.gets('username', 'pathname'))
         const link = `<a href='${pathname}'>${username}</a>`
-        return _.i18n(`other_user_${transaction}`, { username: link })
+        return i18n(`other_user_${transaction}`, { username: link })
       }
     }
   },
@@ -253,7 +255,7 @@ export default Backbone.NestedModel.extend({
 
   getTitle () {
     const username = this.otherUser().get('username')
-    const base = _.i18n('transaction_with', { username })
+    const base = i18n('transaction_with', { username })
     const { title } = this.itemData()
     return `[${base}] ${title}`
   }

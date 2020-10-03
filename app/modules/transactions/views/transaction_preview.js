@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 export default Marionette.ItemView.extend({
   template: require('./templates/transaction_preview.hbs'),
   className: 'transactionPreview',
@@ -38,7 +39,7 @@ export default Marionette.ItemView.extend({
   },
 
   showTransaction (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       if (this.options.onItem) {
         app.execute('show:transaction', this.model.id)
         // Required to close the ItemShow modal if one was open

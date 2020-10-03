@@ -1,3 +1,4 @@
+import { isView } from 'lib/boolean_tests'
 // dependencies: behaviorsPlugin, paginationPlugin
 
 import Masonry from 'masonry-layout'
@@ -8,7 +9,7 @@ const itemWidth = 230
 
 export default function (containerSelector, itemSelector, minWidth = 500) {
   // MUST be called with the View it extends as context
-  if (!_.isView(this)) {
+  if (!isView(this)) {
     throw new Error('should be called with a view as context')
   }
 

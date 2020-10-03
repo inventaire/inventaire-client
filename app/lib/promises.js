@@ -1,3 +1,4 @@
+import assert_ from 'lib/assert_types'
 import { reportError } from 'lib/reports'
 if (!window.Promise) window.Promise = require('promise-polyfill')
 
@@ -31,7 +32,7 @@ methods.spread = function (fn) { return this.then(res => fn.apply(this, res)) }
 
 const arrayMethod = (methodName, canReturnPromises) => function (...args) {
   return this.then(res => {
-    _.type(res, 'array')
+    assert_.array(res)
     return Promise.all(res)
     .then(resolvedRes => {
       const finalRes = resolvedRes[methodName].apply(resolvedRes, args)

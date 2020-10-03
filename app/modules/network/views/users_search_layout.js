@@ -1,3 +1,4 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
 import UsersList from 'modules/users/views/users_list'
 import { startLoading } from 'modules/general/plugins/behaviors'
 
@@ -52,7 +53,7 @@ export default Marionette.LayoutView.extend({
 
   initSearch () {
     const q = this.options.query?.q
-    if (_.isNonEmptyString(q)) { return this.searchUser(q) }
+    if (isNonEmptyString(q)) { return this.searchUser(q) }
   },
 
   searchUserFromEvent (e) {

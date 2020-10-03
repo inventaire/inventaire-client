@@ -1,6 +1,8 @@
+import { forceArray } from 'lib/utils'
 import preq from 'lib/preq'
 import error_ from 'lib/error'
 import dataURLtoBlob from 'blueimp-canvas-to-blob'
+import { isDataUrl } from 'lib/boolean_tests'
 
 const images_ = {
   addDataUrlToArray (file, array, event) {
@@ -53,12 +55,12 @@ const images_ = {
   },
 
   dataUrlToBlob: data => {
-    if (_.isDataUrl(data)) return dataURLtoBlob(data)
+    if (isDataUrl(data)) return dataURLtoBlob(data)
     else throw new Error('expected a dataURL')
   },
 
   upload (container, blobsData, hash = false) {
-    blobsData = _.forceArray(blobsData)
+    blobsData = forceArray(blobsData)
     const formData = new FormData()
 
     let i = 0
@@ -91,7 +93,7 @@ const images_ = {
   },
 
   getImageHashFromDataUrl (container, dataUrl) {
-    if (!_.isDataUrl(dataUrl)) { throw error_.new('invalid image', dataUrl) }
+    if (!isDataUrl(dataUrl)) { throw error_.new('invalid image', dataUrl) }
     return images_.upload(container, { blob: images_.dataUrlToBlob(dataUrl) }, true)
     .then(res => _.values(res)[0].split('/').slice(-1)[0])
   },

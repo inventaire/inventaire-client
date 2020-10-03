@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 // Some data (as little as possible) is fetched at every page load,
 // this module handles returning promises on request corresponding
 // to those global data elements being ready
@@ -50,7 +51,7 @@ export default () => {
 // check = ->
 //   for key, promise of waitersPromises
 // if promise.isPending()
-//   _.warn "#{key} data waiter is still pending"
+//   log_.warn "#{key} data waiter is still pending"
 
 // setTimeout check, 5000
 
@@ -62,7 +63,7 @@ const resolve = (name, ...args) => {
 const reject = (name, err) => {
   const waiter = getWaiter(name)
   waiter.reject(err)
-  _.error(err, `${name} data waiter was rejected`)
+  log_.error(err, `${name} data waiter was rejected`)
 }
 
 const getWaiter = name => {

@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import drawCanvas from './draw_canvas'
 import screen_ from 'lib/screen'
 import onDetected from './on_detected'
@@ -12,7 +13,7 @@ export default {
   scan (params) {
     return Promise.all([ getQuagga(), getIsbn2() ])
     .then(startScanning.bind(null, params))
-    .catch(_.ErrorRethrow('embedded scanner err'))
+    .catch(log_.ErrorRethrow('embedded scanner err'))
   }
 }
 
@@ -23,11 +24,11 @@ const startScanning = function (params) {
   // if everything goes well, by a cancel event
   return new Promise((resolve, reject) => {
     const constraints = getConstraints()
-    _.log('starting quagga initialization')
+    log_.info('starting quagga initialization')
 
     let cancelled = false
     const stopScanner = function () {
-      _.log('stopping quagga')
+      log_.info('stopping quagga')
       cancelled = true
       return Quagga.stop()
     }
@@ -42,7 +43,7 @@ const startScanning = function (params) {
       }
 
       beforeScannerStart?.()
-      _.log('quagga initialization finished. Starting')
+      log_.info('quagga initialization finished. Starting')
       Quagga.start()
 
       Quagga.onProcessed(drawCanvas())

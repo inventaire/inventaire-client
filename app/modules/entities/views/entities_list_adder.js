@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 import { buildPath } from 'lib/location'
 import EntitiesListElementCandidate from './entities_list_element_candidate'
 import typeSearch from 'modules/entities/lib/search/type_search'
@@ -135,7 +136,7 @@ export default Marionette.CompositeView.extend({
   },
 
   create (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     app.execute('show:entity:create', this._entityCreationData)
     app.execute('modal:close')
   }

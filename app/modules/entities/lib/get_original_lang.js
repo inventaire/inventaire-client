@@ -1,3 +1,5 @@
+import { pickOne, objLength } from 'lib/utils'
+
 import wdLang from 'wikidata-lang'
 import { unprefixify } from 'lib/wikimedia/wikidata'
 
@@ -10,9 +12,9 @@ const langProperties = [
 
 export default function (claims) {
   const langClaims = _.pick(claims, langProperties)
-  if (_.objLength(langClaims) === 0) return
+  if (objLength(langClaims) === 0) return
 
-  const originalLangUri = _.pickOne(langClaims)?.[0]
+  const originalLangUri = pickOne(langClaims)?.[0]
   if (originalLangUri != null) {
     const wdId = unprefixify(originalLangUri)
     return wdLang.byWdId[wdId]?.code

@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 // How to add an importer:
 // - add an entry to the importers object hereafter
 // - add a parser to the ./parsers folder
@@ -5,7 +6,7 @@
 const csvParser = source => function (data) {
   data = data.trim()
   const results = window.Papa.parse(data, { header: true })
-  if (results.errors.length > 0) { _.error(results.errors, 'csv parser errors') }
+  if (results.errors.length > 0) { log_.error(results.errors, 'csv parser errors') }
 
   return results.data
   // requiring just in time to avoid preloading unnecessary parsers

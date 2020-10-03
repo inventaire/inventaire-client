@@ -1,3 +1,4 @@
+import { isInvEntityId } from 'lib/boolean_tests'
 import preq from 'lib/preq'
 import wdk from 'lib/wikidata-sdk'
 import isbn_ from 'lib/isbn'
@@ -13,7 +14,7 @@ export default {
     if ((id == null)) {
       if (wdk.isWikidataItemId(prefix)) {
         [ prefix, id ] = Array.from([ 'wd', prefix ])
-      } else if (_.isInvEntityId(prefix)) {
+      } else if (isInvEntityId(prefix)) {
         [ prefix, id ] = Array.from([ 'inv', prefix ])
       } else if (isbn_.looksLikeAnIsbn(prefix)) {
         [ prefix, id ] = Array.from([ 'isbn', isbn_.normalizeIsbn(prefix) ])

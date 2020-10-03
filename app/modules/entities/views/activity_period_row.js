@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 export default Marionette.ItemView.extend({
   className: 'activityPeriodRow',
   template: require('./templates/activity_period_row.hbs'),
@@ -8,7 +9,7 @@ export default Marionette.ItemView.extend({
   },
 
   showUserContributions (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:user:contributions', this.model.get('user')._id)
     }
   }

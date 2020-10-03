@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import WikidataDataImporter from 'modules/entities/views/wikidata_data_importer'
 import getEntityWikidataImportData from './get_entity_wikidata_import_data'
@@ -26,10 +27,10 @@ const merge = (fromUri, toUri) => {
 }
 
 const importEntityDataToWikidata = (fromUri, toUri) => getEntityWikidataImportData(fromUri, toUri)
-.then(_.Log('importData'))
+.then(log_.Info('importData'))
 .then(importData => {
   if (importData.total === 0) {
-    _.log({ fromUri, toUri }, 'no data to import')
+    log_.info({ fromUri, toUri }, 'no data to import')
   } else {
     // Wikidata entities need per-attribute human validation to import merged data
     return showWikidataDataImporter(fromUri, toUri, importData)

@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 const RelativeTask = Marionette.ItemView.extend({
   tagName: 'a',
   className () {
@@ -27,7 +28,7 @@ const RelativeTask = Marionette.ItemView.extend({
   },
 
   select (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:task', this.model)
       return e.preventDefault()
     }

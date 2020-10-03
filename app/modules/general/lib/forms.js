@@ -1,10 +1,13 @@
+import assert_ from 'lib/assert_types'
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 import error_ from 'lib/error'
 let forms_
 export default forms_ = {}
 
 forms_.pass = function (options) {
   const { value, tests, selector } = options
-  _.types([ value, tests, selector ], [ 'string', 'object', 'string' ])
+  assert_.types([ value, tests, selector ], [ 'string', 'object', 'string' ])
   for (const err in tests) {
     const test = tests[err]
     if (test(value)) forms_.throwError(err, selector, value)
@@ -33,12 +36,12 @@ forms_.earlyVerify = function (view, e, verificator) {
 // The selector can be any element, the alert-box will be appended to its parent
 forms_.catchAlert = function (view, err) {
   // Avoid to display an alert on a simple duplicated request
-  if (err.statusCode === 429) { return _.warn(err, 'duplicated request') }
+  if (err.statusCode === 429) { return log_.warn(err, 'duplicated request') }
   assertViewHasBehavior(view, 'AlertBox')
   const { selector } = err
   view.$el.trigger('stopLoading', { selector })
   forms_.alert(view, err)
-  _.error(err, 'err passed to catchAlert')
+  log_.error(err, 'err passed to catchAlert')
 
   // Prevent the view to be re-rendered as that would hide the alert
   const alertId = _.uniqueId()
@@ -54,26 +57,28 @@ const removePreventRerenderFlag = (view, alertId) => function () {
 
 forms_.alert = function (view, err) {
   let message
-  const { selector, i18n } = err
+  const { selector, i18n: translateErrMessage } = err
   let errMessage = err.richMessage || err.responseJSON?.status_verbose || err.message
-  _.types([ view, err, selector, errMessage ], [ 'object', 'object', 'string|undefined', 'string' ])
+  assert_.types([ view, err, selector, errMessage ], [ 'object', 'object', 'string|undefined', 'string' ])
 
   // Avoid showing raw http error messages
   if ((err.richMessage == null) && /^\d/.test(errMessage)) { errMessage = 'something went wrong :(' }
 
   let logLabel = 'alert message'
   if (selector != null) { logLabel += ` on ${selector}` }
-  _.log({ errMessage, view }, logLabel)
+  log_.info({ errMessage, view }, logLabel)
 
-  // Allow to pass a false flag to prevent the use of _.i18n
+  // Allow to pass a false flag to prevent the use of i18n
   // thus preventing to get it added to the list of strings to translate
   // The normal behavior should be to let operational errors be added
   // to the list to translate and remove them manually, rather than trying
   // to make i18n=false the default and cherry pick which should be translated
   // (which, for having tryied, is a pain)
-  if (i18n === false) {
+  if (translateErrMessage === false) {
     message = errMessage
-  } else { message = _.i18n(errMessage) }
+  } else {
+    message = i18n(errMessage)
+  }
 
   return view.$el.trigger('alert', { message, selector })
 }

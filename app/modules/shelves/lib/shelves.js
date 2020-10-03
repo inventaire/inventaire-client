@@ -1,3 +1,4 @@
+import { forceArray } from 'lib/utils'
 import preq from 'lib/preq'
 
 export default {
@@ -28,7 +29,7 @@ export default {
 
   removeItems (model, items) {
     const { id } = model
-    items = _.forceArray(items)
+    items = forceArray(items)
     const itemsIds = items.map(item => {
       if (_.isString(item)) {
         return item
@@ -42,7 +43,7 @@ export default {
 
   addItems (model, items) {
     const { id } = model
-    items = _.forceArray(items)
+    items = forceArray(items)
     const itemsIds = items.map(item => {
       if (_.isString(item)) {
         return item

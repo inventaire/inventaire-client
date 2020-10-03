@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 export default Marionette.ItemView.extend({
   template: require('./templates/inventory_nav.hbs'),
   initialize () {
@@ -16,7 +17,7 @@ export default Marionette.ItemView.extend({
   },
 
   selectTab (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     const section = e.currentTarget.id.replace('Tab', '')
     app.execute('show:inventory:section', section)
     return e.preventDefault()

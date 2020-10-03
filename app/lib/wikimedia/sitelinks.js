@@ -1,3 +1,4 @@
+import { fixedEncodeURIComponent } from 'lib/utils'
 import { buildPath } from 'lib/location'
 
 export default {
@@ -53,7 +54,7 @@ const getBestWikiProjectInfo = function (params) {
   }
 
   if ((title != null) && langCode) {
-    title = _.fixedEncodeURIComponent(title)
+    title = fixedEncodeURIComponent(title)
     const url = `https://${langCode}.${projectRoot}.org/wiki/${title}`
     return { title, lang: langCode, url }
   }

@@ -1,3 +1,6 @@
+import log_ from 'lib/loggers'
+import { I18n, i18n } from 'modules/user/lib/i18n'
+
 import embedded_ from 'modules/inventory/lib/scanner/embedded'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 
@@ -48,13 +51,13 @@ export default Marionette.ItemView.extend({
 
     this.showStatusMessage({
       type: 'tip',
-      message: _.I18n("make the book's barcode fit in the box"),
+      message: I18n("make the book's barcode fit in the box"),
       // displayDelay: 1000
       displayTime: 29 * 1000
     })
 
     this.showStatusMessage({
-      message: _.I18n('failing_scan_tip'),
+      message: I18n('failing_scan_tip'),
       type: 'support',
       displayDelay: 30 * 1000,
       // Display only if no ISBN, valid or not, was detected
@@ -73,7 +76,7 @@ export default Marionette.ItemView.extend({
 
     this._lastSuccessTime = Date.now()
     this.showStatusMessage({
-      message: _.i18n('added:') + ' ' + isbn,
+      message: i18n('added:') + ' ' + isbn,
       type: 'success',
       displayTime: 4000
     })
@@ -98,7 +101,7 @@ export default Marionette.ItemView.extend({
         return this.updateNotFoundCounter(isbn)
       } else { throw err }
     })
-    .catch(_.Error('isbn batch pre-cache err'))
+    .catch(log_.Error('isbn batch pre-cache err'))
   },
 
   updateNotFoundCounter (isbn) {
@@ -121,7 +124,7 @@ export default Marionette.ItemView.extend({
     if (differentIsbn || debounced) {
       this._lastDuplicate = Date.now()
       this.showStatusMessage({
-        message: _.I18n('this ISBN was already scanned'),
+        message: I18n('this ISBN was already scanned'),
         type: 'warning',
         displayTime: 2000
       })
@@ -130,7 +133,7 @@ export default Marionette.ItemView.extend({
 
   initMultiBarcodeTip () {
     this.showStatusMessage({
-      message: _.I18n('multi_barcode_scan_tip'),
+      message: I18n('multi_barcode_scan_tip'),
       type: 'tip',
       // Show the tip once the success message is over
       displayDelay: 2000,
@@ -169,7 +172,7 @@ export default Marionette.ItemView.extend({
 
   showInvalidIsbnWarning (invalidIsbn) {
     this.showStatusMessage({
-      message: _.i18n('invalid ISBN') + ': ' + invalidIsbn,
+      message: i18n('invalid ISBN') + ': ' + invalidIsbn,
       type: 'warning',
       displayTime: 5000
     })
@@ -185,9 +188,9 @@ export default Marionette.ItemView.extend({
 
   permissionDenied (err) {
     if (err.reason === 'permission_denied') {
-      _.log('permission denied: closing scanner')
+      log_.info('permission denied: closing scanner')
     } else {
-      _.error(err, 'scan error')
+      log_.error(err, 'scan error')
     }
 
     // In any case, close

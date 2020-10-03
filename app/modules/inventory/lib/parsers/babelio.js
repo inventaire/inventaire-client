@@ -1,6 +1,7 @@
+import { trim } from 'lib/utils'
 export default obj => ({
   title: obj.Titre,
-  authors: obj.Auteur.split(',').map(_.trim),
+  authors: obj.Auteur.split(',').map(trim),
   isbn: obj.ISBN,
 
   // Convert 29/02/2012 to 2012-02-29

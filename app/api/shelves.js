@@ -1,3 +1,4 @@
+import { forceArray } from 'lib/utils'
 import endpoint from './endpoint'
 const { base, action } = endpoint('shelves')
 
@@ -5,7 +6,7 @@ export default {
   base,
   byId (id) { return action('by-ids', { ids: id, 'with-items': true }) },
   byIds (ids) {
-    ids = _.forceArray(ids).join('|')
+    ids = forceArray(ids).join('|')
     return action('by-ids', { ids, 'with-items': true })
   },
   byOwners (id) { return action('by-owners', { owners: id }) },

@@ -1,3 +1,6 @@
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
+import { icon } from 'lib/utils'
 import { SafeString } from 'handlebars'
 import check from 'modules/general/views/behaviors/templates/success_check.hbs'
 import input from 'modules/general/views/behaviors/templates/input.hbs'
@@ -26,7 +29,7 @@ import textarea from 'modules/general/views/behaviors/templates/textarea.hbs'
 export default {
   input (data, options) {
     if (data == null) {
-      _.log(arguments, 'input arguments @err')
+      log_.info(arguments, 'input arguments @err')
       throw new Error('no data')
     }
 
@@ -47,11 +50,11 @@ export default {
     }
 
     if (data.button?.icon != null) {
-      const icon = _.icon(data.button.icon)
+      const iconHtml = icon(data.button.icon)
       if (data.button.text != null) {
-        data.button.text = `${icon}<span>${data.button.text}</span>`
+        data.button.text = `${iconHtml}<span>${data.button.text}</span>`
       } else {
-        data.button.text = icon
+        data.button.text = iconHtml
       }
     }
 
@@ -65,7 +68,7 @@ export default {
     // default value defined after all the rest
     // to avoid requesting unnecessary strings to i18n
     // (which would result in a report for a missing i18n key)
-    if (data.field.placeholder == null) { data.field.placeholder = _.i18n(name) }
+    if (data.field.placeholder == null) { data.field.placeholder = i18n(name) }
 
     if (rawData.special) {
       data.special = 'autocomplete="off" autocorrect="off" autocapitalize="off"'
@@ -78,7 +81,7 @@ export default {
 
   textarea (data, options) {
     if (data == null) {
-      _.log(arguments, 'textarea arguments err')
+      log_.info(arguments, 'textarea arguments err')
       throw new Error('no data')
     }
     return applyOptions(textarea(data), options)

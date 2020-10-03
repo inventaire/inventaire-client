@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 // An API to get scripts that weren't bundled into vendor.js
 // Names are expected to match app/api/scripts.js keys
@@ -13,13 +14,13 @@ export default function (name, onScriptReady) {
 
   const get = function () {
     if (promise == null) {
-      _.log(name, 'fetching script')
+      log_.info(name, 'fetching script')
       alreadyPrepared = true
 
       // Get the javascript file associated to this name
       const scriptPromise = preq.getScript(app.API.assets.scripts[name]())
         .then(onScriptReady)
-        .catch(_.ErrorRethrow(`get script ${name}`))
+        .catch(log_.ErrorRethrow(`get script ${name}`))
 
       const _promises = [ scriptPromise ]
 

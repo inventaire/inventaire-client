@@ -1,3 +1,4 @@
+import { isPositiveIntegerString } from 'lib/boolean_tests'
 import ClaimsEditorCommons from './claims_editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
@@ -36,7 +37,7 @@ export default ClaimsEditorCommons.extend({
     let err
     const stringVal = this.ui.input.val()
 
-    if (!_.isPositiveIntegerString(stringVal)) {
+    if (!isPositiveIntegerString(stringVal)) {
       err = error_.new('invalid number', stringVal)
       err.selector = inputSelector
       return forms_.alert(this, err)

@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 import relationsActions from '../plugins/relations_actions'
 
 export default Marionette.ItemView.extend({
@@ -68,7 +69,7 @@ export default Marionette.ItemView.extend({
   },
 
   selectUser (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     app.execute('show:inventory:user', this.model)
   }
 })

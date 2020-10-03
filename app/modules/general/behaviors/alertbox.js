@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { expired } from 'lib/utils'
 import getActionKey from 'lib/get_action_key'
 import error_ from 'lib/error'
 
@@ -18,7 +20,7 @@ export default Marionette.Behavior.extend({
   showAlertBox (e, params) {
     let { message, selector } = params
     if (message == null) {
-      _.error(params, 'couldnt display the alertbox with those params')
+      log_.error(params, 'couldnt display the alertbox with those params')
       return
     }
 
@@ -28,7 +30,7 @@ export default Marionette.Behavior.extend({
     const $target = this.$el.find(selector)
 
     if ($target.length !== 1) {
-      return _.warn($target, 'alertbox: failed to find single target')
+      return log_.warn($target, 'alertbox: failed to find single target')
     }
 
     const box = `<div class='alert hidden alert-box'> \
@@ -60,7 +62,7 @@ export default Marionette.Behavior.extend({
     if ((key != null) && (key !== 'esc')) return
 
     // Don't hide alert box if it has been visible for less than 1s
-    if ((this._showAlertTimestamp != null) && !_.expired(this._showAlertTimestamp, 1000)) return
+    if ((this._showAlertTimestamp != null) && !expired(this._showAlertTimestamp, 1000)) return
 
     this.$el.find('.alert-box').hide()
   }

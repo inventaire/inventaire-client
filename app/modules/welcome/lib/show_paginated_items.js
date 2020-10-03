@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import Items from 'modules/inventory/collections/items'
 import ItemsCascade from 'modules/inventory/views/items_cascade'
 
@@ -50,7 +51,7 @@ const FetchMore = function (params) {
   const catch404 = fallback => err => {
     if (err.statusCode === 404) {
       moreData.status = false
-      _.warn('no more items to show')
+      log_.warn('no more items to show')
       if (fallback != null) return fallback()
     } else {
       throw err

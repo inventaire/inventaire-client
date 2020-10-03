@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import EditorCommons from './editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import properties from 'modules/entities/lib/properties'
@@ -37,7 +38,7 @@ export default EditorCommons.extend({
     if (this.model.get('value') === null) { return this._save(null) }
 
     app.execute('ask:confirmation', {
-      confirmationText: _.i18n('Are you sure you want to delete this statement?'),
+      confirmationText: i18n('Are you sure you want to delete this statement?'),
       action: () => this._save(null)
     })
   },
@@ -99,9 +100,9 @@ const reportPossibleDuplicate = (uri, duplicateUri) => app.request('post:feedbac
 })
 
 const formatDuplicateErr = function (err, uri, duplicateUri) {
-  const alreadyExist = _.i18n('this value is already used')
+  const alreadyExist = i18n('this value is already used')
   const link = `<a href='/entity/${duplicateUri}' class='showEntity'>${duplicateUri}</a>`
-  const reported = _.i18n('the issue was reported')
+  const reported = i18n('the issue was reported')
   err.responseJSON.status_verbose = `${alreadyExist}: ${link} (${reported})`
   err.i18n = false
 }

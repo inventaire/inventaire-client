@@ -1,3 +1,4 @@
+import { chunk } from 'lib/utils'
 import preq from 'lib/preq'
 
 export default function (userId, uris) {
@@ -7,7 +8,7 @@ export default function (userId, uris) {
   // to put in a URL querystring without risking to reach URL character limit
   // Known case: when /add/import gets to import very large collections
   // The alternative would be to convert the endpoint to a POST verb to pass those uris in a body
-  const urisBatches = _.chunk(_.uniq(uris).sort(), 50)
+  const urisBatches = chunk(_.uniq(uris).sort(), 50)
 
   const counts = {}
   const getBatchesSequentially = function () {

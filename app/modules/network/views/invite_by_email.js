@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import UsersList from 'modules/users/views/users_list'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import forms_ from 'modules/general/lib/forms'
@@ -76,7 +77,7 @@ export default Marionette.LayoutView.extend({
 
     return app.request('invitations:by:emails', this.rawEmails, this.message, this.groupId)
     .catch(error_.Complete('#invitations'))
-    .then(_.Log('invitation data'))
+    .then(log_.Info('invitation data'))
     .then(this._spreadUsers.bind(this))
     .then(this._showResults.bind(this))
     .catch(forms_.catchAlert.bind(null, this))

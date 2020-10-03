@@ -1,3 +1,4 @@
+import { isEntityUri } from 'lib/boolean_tests'
 // Takes an Inventaire entity URI and a Wikidata entity URI,
 // fetches the entities models, and return an object with the labels and claims
 // set on the Inventaire entity but not on the Wikidata one to allow importing those
@@ -29,7 +30,7 @@ const getImportData = (invEntityUri, wdEntityUri) => function (models) {
     if (wdEntity.get(`claims.${property}`) == null) {
       // Import claims values one by one
       for (const value of claims) {
-        if (_.isEntityUri(value)) {
+        if (isEntityUri(value)) {
           const prefix = value.split(':')[0]
           // Links to Inventaire entities can't be imported to Wikidata
           if (prefix === 'wd') { importData.claims.push({ property, value }) }

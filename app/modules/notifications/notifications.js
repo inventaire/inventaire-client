@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import Notifications from './collections/notifications'
 import NotificationsLayout from './views/notifications_layout'
@@ -36,7 +38,7 @@ const API = {
       .then(() => {
         app.layout.main.show(new NotificationsLayout({ notifications }))
         return app.navigate('notifications',
-          { metadata: { title: _.i18n('notifications') } })
+          { metadata: { title: i18n('notifications') } })
       })
     }
   }
@@ -48,5 +50,5 @@ const getNotificationsData = function () {
   return preq.get(app.API.notifications)
   .get('notifications')
   .then(notifications.addPerType.bind(notifications))
-  .catch(_.ErrorRethrow('notifications init err'))
+  .catch(log_.ErrorRethrow('notifications init err'))
 }

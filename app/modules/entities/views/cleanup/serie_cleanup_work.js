@@ -1,3 +1,4 @@
+import { focusInput } from 'lib/utils'
 import getActionKey from 'lib/get_action_key'
 import getLangsData from 'modules/entities/lib/editor/get_langs_data'
 import SerieCleanupAuthors from './serie_cleanup_authors'
@@ -126,7 +127,7 @@ export default Marionette.LayoutView.extend({
     this.ui.placeholderEditor.removeClass('hidden')
     this.$el.attr('tabindex', null)
     // Wait to avoid the enter event to be propagated as an enterClick to 'create'
-    this.setTimeout(_.focusInput.bind(null, this.ui.placeholderLabelEditor), 100)
+    this.setTimeout(focusInput.bind(null, this.ui.placeholderLabelEditor), 100)
   },
 
   hidePlaceholderEditor () {

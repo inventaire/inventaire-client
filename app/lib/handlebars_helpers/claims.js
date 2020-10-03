@@ -1,3 +1,6 @@
+import { isEntityUri } from 'lib/boolean_tests'
+import { typeOf } from 'lib/utils'
+import { i18n } from 'modules/user/lib/i18n'
 import * as icons_ from './icons'
 import wdLang from 'wikidata-lang'
 import commons_ from 'lib/wikimedia/commons'
@@ -45,7 +48,7 @@ export default API = {
           }
         }).filter(isntNaN)
       const label = labelString(prop, omitLabel)
-      values = _.uniq(values).join(` ${_.i18n('or')} `)
+      values = _.uniq(values).join(` ${i18n('or')} `)
       return claimString(label, values, inline)
     }
   },
@@ -105,9 +108,9 @@ export default API = {
   claimLocalHref (propertyUri, entityUri) { return `/entity/${propertyUri}-${entityUri}` },
 
   multiTypeValue (value) {
-    switch (_.typeOf(value)) {
+    switch (typeOf(value)) {
     case 'string':
-      if (_.isEntityUri(value)) {
+      if (isEntityUri(value)) {
         return entityHelper(value, true)
       } else {
         return escapeExpression(value)

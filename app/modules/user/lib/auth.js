@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import requestLogout from './request_logout'
 
@@ -57,6 +58,6 @@ const formSubmit = function (username, password) {
 const passwordResetRequest = email => preq.post(app.API.auth.resetPassword, { email })
 
 const emailConfirmationRequest = function () {
-  _.log('sending emailConfirmationRequest')
+  log_.info('sending emailConfirmationRequest')
   return preq.post(app.API.auth.emailConfirmation)
 }

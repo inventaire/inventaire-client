@@ -1,3 +1,4 @@
+import { isShelfId } from 'lib/boolean_tests'
 import InventoryLayout from '../inventory/views/inventory_layout'
 import ShelfModel from './models/shelf'
 import Shelves from './lib/shelves'
@@ -44,7 +45,7 @@ const API = {
 }
 
 const showShelf = function (shelf) {
-  if (_.isShelfId(shelf)) {
+  if (isShelfId(shelf)) {
     return API.showShelfFromId(shelf)
   } else { return showShelfFromModel(shelf) }
 }

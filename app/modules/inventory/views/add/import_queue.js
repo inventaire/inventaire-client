@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation'
 import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import error_ from 'lib/error'
@@ -126,7 +127,7 @@ export default Marionette.LayoutView.extend({
   showShelves () {
     return getShelvesByOwner(app.user.id)
     .then(this.ifViewIsIntact('_showShelves'))
-    .catch(_.Error('showShelves err'))
+    .catch(log_.Error('showShelves err'))
   },
 
   _showShelves (shelves) {
@@ -175,7 +176,7 @@ export default Marionette.LayoutView.extend({
       candidate.set('errorMessage', err.message)
       if (!this.failed) { this.failed = [] }
       this.failed.push(candidate)
-      _.error(err, 'chainedImport err')
+      log_.error(err, 'chainedImport err')
     })
     .then(item => {
       this.candidates.remove(candidate)
@@ -194,12 +195,12 @@ export default Marionette.LayoutView.extend({
   },
 
   doneImporting () {
-    _.log('done importing!')
+    log_.info('done importing!')
     this.stopProgressUpdate()
     this.toggleValidationElements()
     this.updateSteps()
     if (this.failed?.length > 0) {
-      _.log(this.failed, 'failed candidates imports')
+      log_.info(this.failed, 'failed candidates imports')
       this.candidates.add(this.failed)
       this.failed = []
     }

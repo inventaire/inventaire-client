@@ -1,3 +1,6 @@
+import { shortLang, isOpenedOutside, deepClone } from 'lib/utils'
+
+import { i18n } from 'modules/user/lib/i18n'
 import username_ from 'modules/user/lib/username_tests'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
@@ -48,8 +51,8 @@ export default Marionette.ItemView.extend({
   usernamePickerData () { return pickerData(this.model, 'username') },
 
   languagesData () {
-    const languages = _.deepClone(activeLanguages)
-    const currentLanguage = _.shortLang(this.model.get('language'))
+    const languages = deepClone(activeLanguages)
+    const currentLanguage = shortLang(this.model.get('language'))
     if (languages[currentLanguage] != null) {
       languages[currentLanguage].selected = true
     }
@@ -102,9 +105,9 @@ export default Marionette.ItemView.extend({
   askConfirmation (action, args) {
     const { usernameCaseChange } = args
     app.execute('ask:confirmation', {
-      confirmationText: _.i18n('username_change_confirmation', args),
+      confirmationText: i18n('username_change_confirmation', args),
       // no need to show the warning if it's just a case change
-      warningText: !usernameCaseChange ? _.i18n('username_change_warning') : undefined,
+      warningText: !usernameCaseChange ? i18n('username_change_warning') : undefined,
       action,
       selector: '#usernameGroup'
     }
@@ -135,7 +138,7 @@ export default Marionette.ItemView.extend({
 
   // DONE
   showMainUserInventory (e) {
-    if (!_.isOpenedOutside(e)) { app.execute('show:inventory:main:user') }
+    if (!isOpenedOutside(e)) { app.execute('show:inventory:main:user') }
   }
 })
 

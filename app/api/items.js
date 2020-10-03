@@ -1,10 +1,11 @@
+import { forceArray } from 'lib/utils'
 import endpoint from './endpoint'
 const { base, action } = endpoint('items')
 
 const queryEndpoint = (actionName, idsLabel) => params => {
   const { ids, limit, offset, filter, includeUsers } = params
   const data = {}
-  if (idsLabel != null) { data[idsLabel] = _.forceArray(ids).join('|') }
+  if (idsLabel != null) { data[idsLabel] = forceArray(ids).join('|') }
   if (limit != null) { data.limit = limit }
   if (offset != null) { data.offset = offset }
   if (filter != null) { data.filter = filter }
@@ -21,7 +22,7 @@ export default {
   byEntities: queryEndpoint('by-entities', 'uris'),
 
   byUserAndEntities (user, uris) {
-    uris = _.forceArray(uris).join('|')
+    uris = forceArray(uris).join('|')
     return action('by-user-and-entities', { user, uris })
   },
 

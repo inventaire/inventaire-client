@@ -1,3 +1,6 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import assert_ from 'lib/assert_types'
+import log_ from 'lib/loggers'
 import error_ from 'lib/error'
 
 const oneDay = 24 * 60 * 60 * 1000
@@ -8,37 +11,13 @@ const iconAliases = {
   inventorying: 'cube'
 }
 
-// Will be overriden in modules/user/lib/i18n.js as soon as possible
-export const i18n = _.identity
-export const I18n = (...args) => _.capitalise(_.i18n.apply(_, args))
-
 export const icon = (name, classes = '') => {
   name = iconAliases[name] || name
   return `<i class='fa fa-${name} ${classes}'></i>`
 }
 
-export const inspect = (obj, label) => {
-  if (_.isArguments(obj)) { obj = _.toArray(obj) }
-  // remove after using as it keeps reference of the inspected object
-  // making the garbage collection impossible
-  if (label != null) {
-    _.log(obj, `${label} added to window['${label}'] for inspection`)
-    window[label] = obj
-  } else {
-    if (window.current != null) {
-      if (!window.previous) { window.previous = [] }
-      window.previous.unshift(window.current)
-    }
-    window.current = obj
-  }
-
-  return obj
-}
-
-export const deepExtend = $.extend.bind($, true)
-
 export const deepClone = obj => {
-  _.type(obj, 'object')
+  assert_.object(obj)
   return JSON.parse(JSON.stringify(obj))
 }
 
@@ -47,11 +26,8 @@ export const capitalise = str => {
   return str[0].toUpperCase() + str.slice(1)
 }
 
-export const clickCommand = command => {
-  return e => {
-    if (_.isOpenedOutside(e)) {
-    } else { app.execute(command) }
-  }
+export const clickCommand = command => e => {
+  if (!isOpenedOutside(e)) app.execute(command)
 }
 
 export const isOpenedOutside = (e, ignoreMissingHref = false) => {
@@ -67,7 +43,7 @@ export const isOpenedOutside = (e, ignoreMissingHref = false) => {
     return false
   }
 
-  if (!_.isNonEmptyString(href) && !ignoreMissingHref) {
+  if (!isNonEmptyString(href) && !ignoreMissingHref) {
     error_.report("can't open anchor outside: href is missing", { id, href, className })
     return false
   }
@@ -81,15 +57,20 @@ export const isOpenedOutside = (e, ignoreMissingHref = false) => {
   return openInNewTabByKey || openInNewWindow || openOutsideByTarget
 }
 
+// source: http://stackoverflow.com/questions/10527983/best-way-to-detect-mac-os-x-or-windows-computers-with-javascript-or-jquery
+const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+
 export const cutBeforeWord = (text, limit) => {
   const shortenedText = text.slice(0, +limit + 1 || undefined)
   return shortenedText.replace(/\s\w+$/, '')
 }
 
 export const lazyMethod = (methodName, delay = 200) => {
-  return (...args) => {
+  return function (...args) {
     const lazyMethodName = `_lazy_${methodName}`
-    if (this[lazyMethodName] == null) { this[lazyMethodName] = _.debounce(this[methodName].bind(this), delay) }
+    if (this[lazyMethodName] == null) {
+      this[lazyMethodName] = _.debounce(this[methodName].bind(this), delay)
+    }
     return this[lazyMethodName].apply(this, args)
   }
 }
@@ -103,26 +84,17 @@ export const invertAttr = ($target, a, b) => {
 
 export const daysAgo = epochTime => Math.floor((Date.now() - epochTime) / oneDay)
 
-export const timeSinceMidnight = () => {
-  const today = _.simpleDay()
-  const midnight = new Date(today).getTime()
-  return Date.now() - midnight
-}
-
 // Returns a .catch function that execute the reverse action
 // then passes the error to the next .catch
 export const Rollback = (reverseAction, label) => err => {
-  if (label != null) _.log(`rollback: ${label}`)
+  if (label != null) log_.info(`rollback: ${label}`)
   reverseAction()
   throw err
 }
 
-// Get the value from an object using a string
-// (equivalent to lodash deep 'get' function).
-// mimicking Lodash#get
-export const get = (obj, prop) => prop.split('.').reduce(objectWalker, obj)
-
+const add = (a, b) => a + b
 export const sum = array => array.reduce(add, 0)
+
 export const trim = str => str.trim()
 
 export const focusInput = $el => {
@@ -146,7 +118,7 @@ export const hashCode = string => {
   return Math.abs(hash)
 }
 
-export const haveAMatch = (arrayA, arrayB) => {
+export const someMatch = (arrayA, arrayB) => {
   if (!_.isArray(arrayA) || !_.isArray(arrayB)) return false
   for (const valueA of arrayA) {
     for (const valueB of arrayB) {
@@ -167,12 +139,12 @@ export const fixedEncodeURIComponent = str => {
   return encodeURIComponent(str).replace(/[!'()*]/g, encodeCharacter)
 }
 
+const encodeCharacter = c => '%' + c.charCodeAt(0).toString(16)
+
 export const pickOne = obj => {
   const key = Object.keys(obj)[0]
   if (key != null) return obj[key]
 }
-
-export const isDataUrl = str => /^data:image/.test(str)
 
 export const parseBooleanString = (booleanString, defaultVal = false) => {
   if (defaultVal === false) {
@@ -185,12 +157,9 @@ export const parseBooleanString = (booleanString, defaultVal = false) => {
 export const simpleDay = date => {
   if (date != null) {
     return new (Date(date).toISOString().split('T')[0])()
-  } else { return new (Date().toISOString().split('T')[0])() }
-}
-
-export const isDateString = dateString => {
-  if ((dateString == null) || (typeof dateString !== 'string')) return false
-  return /^-?\d{4}(-\d{2})?(-\d{2})?$/.test(dateString)
+  } else {
+    return new (Date().toISOString().split('T')[0])()
+  }
 }
 
 // Missing in Underscore v1.8.3
@@ -204,14 +173,22 @@ export const chunk = (array, size) => {
   return chunks
 }
 
-const encodeCharacter = c => '%' + c.charCodeAt(0).toString(16)
+export function forceArray (keys) {
+  if ((keys == null) || (keys === '')) { return [] }
+  if (!_.isArray(keys)) {
+    return [ keys ]
+  } else { return keys }
+}
 
-const add = (a, b) => a + b
-
-const objectWalker = (subObject, property) => subObject?.[property]
-
-// Polyfill if needed
-if (Date.now == null) { Date.now = () => new Date().getTime() }
-
-// source: http://stackoverflow.com/questions/10527983/best-way-to-detect-mac-os-x-or-windows-computers-with-javascript-or-jquery
-const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+export function typeOf (obj) {
+  // just handling what differes from typeof
+  const type = typeof obj
+  if (type === 'object') {
+    if (_.isNull(obj)) { return 'null' }
+    if (_.isArray(obj)) { return 'array' }
+  }
+  if (type === 'number') {
+    if (_.isNaN(obj)) { return 'NaN' }
+  }
+  return type
+}

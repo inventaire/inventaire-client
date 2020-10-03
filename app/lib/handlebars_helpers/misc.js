@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 import { parseQuery } from 'lib/location'
 import timeFromNow from 'lib/time_from_now'
 import { SafeString, escapeExpression } from 'handlebars'
@@ -8,7 +10,7 @@ export default {
     // ex: {{{i18n 'email_invitation_sent' email=this}}}
     // Use this mode for unsafe context values to get it escaped
     if (_.isObject(context?.hash)) { context = escapeValues(context.hash) }
-    return _.i18n(key, context)
+    return i18n(key, context)
   },
 
   I18n (...args) { return _.capitalise(this.i18n.apply(this, args)) },
@@ -21,12 +23,12 @@ export default {
   },
 
   i18nLink (text, url, context) {
-    text = _.i18n(text, context)
+    text = i18n(text, context)
     return this.link(text, url)
   },
 
   I18nLink (text, url, context) {
-    text = _.capitalise(_.i18n(text, context))
+    text = _.capitalise(i18n(text, context))
     return this.link(text, url)
   },
 
@@ -36,13 +38,13 @@ export default {
     // ex: {{link i18n='see_on_website' i18nArgs='website=wikidata.org' url=wikidata.url classes='link'}}
     let simpleOpenedAnchor
     if (_.isObject(text.hash)) {
-      let i18n, i18nArgs, titleAttrKey, titleAttrValue;
-      ({ text, i18n, i18nArgs, url, classes, title, titleAttrKey, titleAttrValue, simpleOpenedAnchor } = text.hash)
+      let i18nStr, i18nArgs, titleAttrKey, titleAttrValue;
+      ({ text, i18n: i18nStr, i18nArgs, url, classes, title, titleAttrKey, titleAttrValue, simpleOpenedAnchor } = text.hash)
 
       if (titleAttrKey != null) {
         const titleArgs = {}
         titleArgs[titleAttrKey] = titleAttrValue
-        title = _.i18n(title, titleArgs)
+        title = i18n(title, titleArgs)
       }
 
       if (text == null) {
@@ -52,7 +54,7 @@ export default {
         } else {
           // Expect i18nArgs to be a string formatted as a querystring
           i18nArgs = parseQuery(i18nArgs)
-          text = _.i18n(i18n, i18nArgs)
+          text = i18n(i18nStr, i18nArgs)
         }
       }
     }
@@ -77,7 +79,7 @@ export default {
   },
 
   debug () {
-    _.log(arguments, 'hb debug arguments')
+    log_.info(arguments, 'hb debug arguments')
     return JSON.stringify(arguments[0])
   },
 
@@ -86,7 +88,7 @@ export default {
   timeFromNow (time) {
     if (time == null) return
     const { key, amount } = timeFromNow(time)
-    return _.i18n(key, { smart_count: amount })
+    return i18n(key, { smart_count: amount })
   },
 
   stringify (obj) {

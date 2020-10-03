@@ -1,3 +1,5 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
 import files_ from 'lib/files'
 import importers from '../../lib/importers'
 import dataValidator from '../../lib/data_validator'
@@ -114,11 +116,11 @@ export default Marionette.LayoutView.extend({
       dataValidator(source, data)
       return parse(data).map(commonParser)
     })
-    .catch(_.ErrorRethrow('parsing error'))
+    .catch(log_.ErrorRethrow('parsing error'))
     // add the selector to the rejected error
     // so that it can be catched by catchAlert
     .catch(error_.Complete('#importersWrapper .warning'))
-    .then(_.Log('parsed'))
+    .then(log_.Info('parsed'))
     .then(candidates.addNewCandidates.bind(candidates))
     .tap(() => stopLoading.call(this, selector))
     .then(this.showImportQueueUnlessEmpty.bind(this))
@@ -134,7 +136,7 @@ export default Marionette.LayoutView.extend({
 
   findIsbns () {
     const text = this.ui.isbnsImporterTextarea.val()
-    if (!_.isNonEmptyString(text)) return
+    if (!isNonEmptyString(text)) return
 
     const selector = '#isbnsImporterWrapper .loading'
 

@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 // Prevent default click event behavior selectively
 
 export default function (e) {
@@ -11,10 +12,10 @@ export default function (e) {
   // Don't intercept if ctrlKey is pressed
   // it should open the targeted anchor href in a new tab/window
   // Prevent the normal handler to also fire:
-  // `unless _.isOpenedOutside(e) then handler()
+  // `unless isOpenedOutside(e) then handler()
   // Ignore missing href though, as this behavior is applied to some anchors
   // purposedly without href. Ex: visibility dropdown menus
-  if (_.isOpenedOutside(e, true)) return
+  if (isOpenedOutside(e, true)) return
 
   // If there is no href on current target, then the default
   // behaviour is to do nothing.

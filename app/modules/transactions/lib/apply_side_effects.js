@@ -1,5 +1,6 @@
+import log_ from 'lib/loggers'
 export default function (transaction, state) {
-  _.log(arguments, 'applySideEffects')
+  log_.info(arguments, 'applySideEffects')
   const { item } = transaction
   sideEffects[state](transaction, item)
 };

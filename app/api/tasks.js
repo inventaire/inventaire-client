@@ -1,7 +1,8 @@
+import { forceArray } from 'lib/utils'
 import endpoint from './endpoint'
 const { action } = endpoint('tasks')
 const byEntitiesUris = name => uris => {
-  uris = _.forceArray(uris).join('|')
+  uris = forceArray(uris).join('|')
   return action(`by-${name}-uris`, { uris })
 }
 

@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 export default function (onDetectedActions) {
   const { showInvalidIsbnWarning, addIsbn } = onDetectedActions
   let lastIsbnScanTime = 0
@@ -30,7 +31,7 @@ export default function (onDetectedActions) {
         identicalInvalidIsbnCount = 0
       }
 
-      return _.log(candidate, 'discarded result: invalid ISBN')
+      return log_.info(candidate, 'discarded result: invalid ISBN')
     }
 
     const now = Date.now()
@@ -44,7 +45,7 @@ export default function (onDetectedActions) {
     // it's probably a scan error, which happens from time to time,
     // especially with bad light
     if (timeSinceLastIsbnScan < 200) {
-      return _.log(candidate, 'discarded result: too close in time')
+      return log_.info(candidate, 'discarded result: too close in time')
     }
 
     // Wait for scanning the same ISBN 2 times in a row to consider it the valid one

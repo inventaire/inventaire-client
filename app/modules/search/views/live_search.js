@@ -1,3 +1,5 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
 // TODO:
 // - hint to input ISBNs directly, maybe in the alternatives sections
 // - add 'help': indexed wiki.inventaire.io entries to give results
@@ -45,7 +47,7 @@ export default Marionette.CompositeView.extend({
   serializeData () {
     const sections = sectionsData()
     if (sections[this.selectedSectionName] == null) {
-      _.warn({ sections, selectedSectionName: this.selectedSectionName }, 'unknown search section')
+      log_.warn({ sections, selectedSectionName: this.selectedSectionName }, 'unknown search section')
       this.selectedSectionName = 'all'
     }
     sections[this.selectedSectionName].selected = true
@@ -117,7 +119,7 @@ export default Marionette.CompositeView.extend({
     this._lastSearchId = ++searchCount
     this._searchOffset = 0
 
-    if (!_.isNonEmptyString(search)) return this.hideAlternatives()
+    if (!isNonEmptyString(search)) return this.hideAlternatives()
 
     const uri = findUri(search)
     if (uri != null) { return this.getResultFromUri(uri, this._lastSearchId, this._lastSearch) }
@@ -159,7 +161,7 @@ export default Marionette.CompositeView.extend({
   },
 
   showAlternatives (search) {
-    if (!_.isNonEmptyString(search)) return
+    if (!isNonEmptyString(search)) return
     if (search !== this._lastSearch) return
     if (!this._waitingForAlternatives) return
 
@@ -175,7 +177,7 @@ export default Marionette.CompositeView.extend({
   showShortcuts () { this.ui.shortcuts.addClass('shown') },
 
   getResultFromUri (uri, searchId, rawSearch) {
-    _.log(uri, 'uri found')
+    log_.info(uri, 'uri found')
     this.showLoadingSpinner()
 
     return app.request('get:entity:model', uri)

@@ -1,3 +1,4 @@
+import { forceArray } from 'lib/utils'
 import endpoint from './endpoint'
 const { action } = endpoint('entities')
 
@@ -6,8 +7,8 @@ const CustomQuery = actionName => (uri, refresh) => action(actionName, { uri, re
 export default {
   // GET
   getByUris (uris, refresh, relatives) {
-    uris = _.forceArray(uris).join('|')
-    if (relatives != null) { relatives = _.forceArray(relatives).join('|') }
+    uris = forceArray(uris).join('|')
+    if (relatives != null) { relatives = forceArray(relatives).join('|') }
     return action('by-uris', { uris, refresh, relatives })
   },
 

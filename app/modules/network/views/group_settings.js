@@ -1,3 +1,7 @@
+import { isUserImg } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
+import { I18n, i18n } from 'modules/user/lib/i18n'
+
 import forms_ from 'modules/general/lib/forms'
 import groups_ from '../lib/groups'
 import error_ from 'lib/error'
@@ -54,7 +58,7 @@ export default Marionette.ItemView.extend({
         classes: 'groupNameField'
       },
       button: {
-        text: _.I18n('save')
+        text: I18n('save')
       },
       check: true
     }
@@ -126,8 +130,8 @@ export default Marionette.ItemView.extend({
 
   _savePicture (pictures) {
     const picture = pictures[0]
-    _.log(picture, 'picture')
-    if (!_.isUserImg(picture)) {
+    log_.info(picture, 'picture')
+    if (!isUserImg(picture)) {
       const message = 'couldnt save picture: requires a local user image url'
       throw error_.new(message, pictures)
     }
@@ -192,7 +196,7 @@ export default Marionette.ItemView.extend({
       // the group as empty but accepting a join request
       app.execute('show:inventory:network')
     })
-    .catch(_.ErrorRethrow('destroyGroup action err'))
+    .catch(log_.ErrorRethrow('destroyGroup action err'))
 
     this._leaveGroup('destroy_group_confirmation', 'cant_undo_warning', action)
   },
@@ -202,8 +206,8 @@ export default Marionette.ItemView.extend({
     const args = { groupName: group.get('name') }
 
     app.execute('ask:confirmation', {
-      confirmationText: _.i18n(confirmationText, args),
-      warningText: _.i18n(warningText),
+      confirmationText: i18n(confirmationText, args),
+      warningText: i18n(warningText),
       action,
       // re-focus on the only existing anchor
       focus: '#groupControls a'

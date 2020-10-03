@@ -1,3 +1,4 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
 import usersData from '../users_data'
 
 export default function (app) {
@@ -6,7 +7,7 @@ export default function (app) {
   // TODO: replace the local strict match filter and simply display
   // the last search result send by the server to integrate fuzzy match results
   const searchByText = function (text) {
-    if (!_.isNonEmptyString(text)) {
+    if (!isNonEmptyString(text)) {
       return app.users.filtered.friends()
     }
 

@@ -1,3 +1,4 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
 import EditorCommons from './editor_commons'
 import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 import forms_ from 'modules/general/lib/forms'
@@ -84,7 +85,7 @@ export default EditorCommons.extend({
     const lang = this.ui.langSelector.val()
     const value = this.ui.input.val()
 
-    if (!_.isNonEmptyString(value)) {
+    if (!isNonEmptyString(value)) {
       return forms_.bundleAlert(this, "this value can't be empty")
     }
 

@@ -1,10 +1,11 @@
+import { parseBooleanString } from 'lib/utils'
 import fetchData from 'lib/data/fetch'
 import MainUser from '../models/main_user'
 import cookie_ from 'js-cookie'
 
 export default function (app) {
   // the cookie is deleted on logout
-  const loggedIn = _.parseBooleanString(cookie_.get('loggedIn'))
+  const loggedIn = parseBooleanString(cookie_.get('loggedIn'))
 
   fetchData({
     name: 'user',

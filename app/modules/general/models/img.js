@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import images_ from 'lib/images'
 const { maxSize } = CONFIG.images
 const container = 'users'
@@ -19,7 +20,7 @@ export default Backbone.NestedModel.extend({
   initFromUrl (url) {
     this.waitForReady = this.setDataUrlFromUrl(url)
       .then(this.resize.bind(this))
-      .catch(_.Error('initFromUrl err'))
+      .catch(log_.Error('initFromUrl err'))
   },
 
   initDataUrl (dataUrl) {
@@ -70,7 +71,7 @@ export default Backbone.NestedModel.extend({
 
     const widthChange = this._areDifferent(finalAttribute, 'original', 'width')
     const heightChange = this._areDifferent(finalAttribute, 'original', 'height')
-    return _.log(widthChange || heightChange, 'image changed?')
+    return log_.info(widthChange || heightChange, 'image changed?')
   },
 
   _areDifferent (a, b, value) {
@@ -89,6 +90,6 @@ export default Backbone.NestedModel.extend({
       id: this.cid
     })
     .get(this.cid)
-    .then(_.Log('url?'))
+    .then(log_.Info('url?'))
   }
 })

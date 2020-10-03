@@ -1,7 +1,8 @@
+import { isPositiveIntegerString } from 'lib/boolean_tests'
 export default function (part) {
   const ordinal = part.get('claims.wdt:P1545.0')
 
-  if (!_.isPositiveIntegerString(ordinal)) {
+  if (!isPositiveIntegerString(ordinal)) {
     this.worksWithoutOrdinal.add(part)
     return
   }

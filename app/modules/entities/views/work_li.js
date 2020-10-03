@@ -1,3 +1,5 @@
+import { invertAttr, isOpenedOutside } from 'lib/utils'
+
 export default Marionette.ItemView.extend({
   template: require('./templates/work_li.hbs'),
   className () {
@@ -56,7 +58,7 @@ export default Marionette.ItemView.extend({
   },
 
   showItemCreationForm (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:item:creation:form', { entity: this.model })
     }
   },
@@ -79,7 +81,7 @@ export default Marionette.ItemView.extend({
   },
 
   toggleZoom (e) {
-    _.invertAttr(this.ui.cover, 'src', 'data-zoom-toggle')
+    invertAttr(this.ui.cover, 'src', 'data-zoom-toggle')
     this.ui.zoomButtons.toggle()
     this.$el.toggleClass('zoom', { duration: 500 })
     e.stopPropagation()

@@ -1,3 +1,5 @@
+import { isModel, isGroupId } from 'lib/boolean_tests'
+
 import preq from 'lib/preq'
 import error_ from 'lib/error'
 import { Updater } from 'lib/model_update'
@@ -42,14 +44,14 @@ export default function () {
   })
 
   const getGroupModel = function (id) {
-    if (_.isGroupId(id)) {
+    if (isGroupId(id)) {
       return getGroupModelById(id)
     } else { return getGroupModelFromSlug(id) }
   }
 
   const resolveToGroupModel = function (group) {
     // 'group' is either the group model, a group id, or a group slug
-    if (_.isModel(group)) { return Promise.resolve(group) }
+    if (isModel(group)) { return Promise.resolve(group) }
 
     return getGroupModel(group)
     .then(groupModel => {

@@ -1,8 +1,10 @@
+import { forceArray } from 'lib/utils'
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 export default {
   get (ids, format = 'index', refresh) {
     let promise
-    ids = _.forceArray(ids)
+    ids = forceArray(ids)
 
     if (ids.length === 0) {
       promise = Promise.resolve({})
@@ -12,7 +14,7 @@ export default {
 
     return promise
     .then(formatData.bind(null, format))
-    .catch(_.ErrorRethrow('users_data get err'))
+    .catch(log_.ErrorRethrow('users_data get err'))
   },
 
   search (text) {
@@ -21,7 +23,7 @@ export default {
 
     return preq.get(app.API.users.search(text))
     .get('users')
-    .catch(_.ErrorRethrow('users_data search err'))
+    .catch(log_.ErrorRethrow('users_data search err'))
   },
 
   byUsername (username) {
@@ -32,7 +34,7 @@ export default {
   searchByPosition (latLng) {
     return preq.get(app.API.users.searchByPosition(latLng))
     .get('users')
-    .catch(_.Error('searchByPosition err'))
+    .catch(log_.Error('searchByPosition err'))
   }
 }
 

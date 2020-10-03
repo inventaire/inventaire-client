@@ -1,3 +1,7 @@
+import { isEntityUri, isUsername, isItemId } from 'lib/boolean_tests'
+
+import assert_ from 'lib/assert_types'
+import log_ from 'lib/loggers'
 import ItemShow from './views/item_show'
 import initQueries from './lib/queries'
 import InventoryLayout from './views/inventory_layout'
@@ -90,7 +94,7 @@ const API = {
   },
 
   showItemFromId (id) {
-    if (!_.isItemId(id)) { app.execute('show:error:missing') }
+    if (!isItemId(id)) { app.execute('show:error:missing') }
 
     return app.request('get:item:model', id)
     .then(app.Execute('show:item'))
@@ -98,7 +102,7 @@ const API = {
   },
 
   showUserItemsByEntity (username, uri, label) {
-    if (!_.isUsername(username) || !_.isEntityUri(uri)) {
+    if (!isUsername(username) || !isEntityUri(uri)) {
       app.execute('show:error:missing')
     }
 
@@ -110,7 +114,7 @@ const API = {
     return app.request('get:userId:from:username', username)
     .then(userId => app.request('items:getByUserIdAndEntities', userId, uri))
     .then(showItemsFromModels)
-    .catch(_.Error('showItemShowFromUserAndEntity'))
+    .catch(log_.Error('showItemShowFromUserAndEntity'))
   }
 }
 
@@ -138,7 +142,7 @@ const showInventory = options => app.layout.main.show(new InventoryLayout(option
 const showItemsList = collection => app.layout.main.show(new ItemsCascade({ collection }))
 
 const showItemModal = function (model, fallback) {
-  _.type(model, 'object')
+  assert_.object(model)
 
   const previousRoute = currentRoute()
   // Do not scroll top as the modal might be displayed down at the level

@@ -1,3 +1,5 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
 // A behavior to preserve input text from being lost on a view re-render
 // by saving it at every change and recovering it on re-render
 // This behavior should probably be added to any view with input or textarea
@@ -16,15 +18,15 @@ export default Marionette.Behavior.extend({
   },
 
   backup (e) {
-    // _.log @_backup, 'backup form data'
+    // log_.info @_backup, 'backup form data'
     const { id, value, type, name } = e.currentTarget
 
-    if (!_.isNonEmptyString(value)) return
+    if (!isNonEmptyString(value)) return
     if ((type !== 'text') && (type !== 'textarea')) return
 
-    if (_.isNonEmptyString(id)) {
+    if (isNonEmptyString(id)) {
       this._backup.byId[id] = value
-    } else if (_.isNonEmptyString(name)) {
+    } else if (isNonEmptyString(name)) {
       this._backup.byName[name] = value
     }
   },
@@ -40,7 +42,7 @@ export default Marionette.Behavior.extend({
   forget (e) {
     const forgetAttr = e.currentTarget.attributes['data-forget']?.value
     if (forgetAttr != null) {
-      _.log(forgetAttr, 'form:forget')
+      log_.info(forgetAttr, 'form:forget')
       if (forgetAttr[0] === '#') {
         const id = forgetAttr.slice(1)
         delete this._backup.byId[id]
@@ -57,7 +59,7 @@ export default Marionette.Behavior.extend({
 const customRecover = ($el, store, selectorBuilder) => {
   for (const key in store) {
     const value = store[key]
-    _.log(value, key)
+    log_.info(value, key)
     const selector = selectorBuilder(key)
     $el.find(selector).val(value)
   }

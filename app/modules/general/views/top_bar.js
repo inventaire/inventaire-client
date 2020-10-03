@@ -1,3 +1,4 @@
+import { clickCommand } from 'lib/utils'
 import { translate } from 'lib/urls'
 import getActionKey from 'lib/get_action_key'
 import LiveSearch from 'modules/search/views/live_search'
@@ -64,7 +65,7 @@ export default Marionette.LayoutView.extend({
   },
 
   events: {
-    'click #home': _.clickCommand('show:home'),
+    'click #home': clickCommand('show:home'),
 
     'focus #searchField': 'showLiveSearch',
     'keyup #searchField': 'onKeyUp',

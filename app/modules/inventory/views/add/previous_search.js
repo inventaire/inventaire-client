@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 export default Marionette.ItemView.extend({
   template: require('./templates/previous_search.hbs'),
   tagName: 'li',
@@ -13,6 +14,6 @@ export default Marionette.ItemView.extend({
   },
 
   showSearch (e) {
-    if (!_.isOpenedOutside(e)) { return this.model.show() }
+    if (!isOpenedOutside(e)) { return this.model.show() }
   }
 })

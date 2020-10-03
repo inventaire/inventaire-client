@@ -1,3 +1,5 @@
+import { I18n, i18n } from 'modules/user/lib/i18n'
+
 // Metadata update is coupled to the needs of:
 // - Browsers:
 //   - document title update (which is important for the browser history)
@@ -60,8 +62,8 @@ const applyMetadataUpdate = route => function (metadata = {}) {
 }
 
 const defaultMetadata = () => ({
-  title: 'Inventaire - ' + _.i18n('your friends and communities are your best library'),
-  description: _.I18n('make the inventory of your books and mutualize with your friends and communities into an infinite library!'),
+  title: 'Inventaire - ' + i18n('your friends and communities are your best library'),
+  description: I18n('make the inventory of your books and mutualize with your friends and communities into an infinite library!'),
   image: 'https://inventaire.io/public/images/inventaire-books.jpg',
   rss: 'https://wiki.inventaire.io/blog.rss',
   'og:type': 'website',

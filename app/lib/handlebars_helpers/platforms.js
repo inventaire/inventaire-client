@@ -1,11 +1,12 @@
+import { i18n } from 'modules/user/lib/i18n'
 import screen_ from 'lib/screen'
 
-const gutenbergText = id => _.i18n('on_website', { name: 'Gutenberg.org' })
+const gutenbergText = id => i18n('on_website', { name: 'Gutenberg.org' })
 
 export default {
   'wdt:P724': {
     icon: 'archive-org',
-    text () { return _.i18n('on_website', { name: 'Internet Archive' }) },
+    text () { return i18n('on_website', { name: 'Internet Archive' }) },
     url (id) { return `https://archive.org/details/${id}` }
   },
   'wdt:P1938': {
@@ -48,7 +49,7 @@ export default {
   },
   'wdt:P4258': {
     icon: 'gallica',
-    text () { return _.i18n('on_website', { name: 'Gallica' }) },
+    text () { return i18n('on_website', { name: 'Gallica' }) },
     url (id) { return `https://gallica.bnf.fr/ark:/12148/${id}` }
   }
 }

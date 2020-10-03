@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 const { truncateDecimals } = require('./geo')
 
 // doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
@@ -24,7 +25,7 @@ const normalizeCoords = function (position) {
 }
 
 const returnPlaceholderCoords = function (err) {
-  _.warn(err, "couldn't obtain user's position: returning placeholder coordinates")
+  log_.warn(err, "couldn't obtain user's position: returning placeholder coordinates")
   return {
     lat: 46.2324,
     lng: 6.0450,
@@ -36,6 +37,6 @@ export default containerId => {
   return currentPosition()
   .timeout(10 * 1000)
   .then(normalizeCoords)
-  .then(_.Log('current position'))
+  .then(log_.Info('current position'))
   .catch(returnPlaceholderCoords)
 }

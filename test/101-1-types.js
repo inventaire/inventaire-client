@@ -165,20 +165,6 @@ describe('Types utils', () => {
     })
   })
 
-  describe('ALL', () => describe('areStrings', () => {
-    it('should be true when all are strings', done => {
-      _.areStrings([ 'a', 'b', 'c' ]).should.equal(true)
-      done()
-    })
-
-    it('should be false when not all are strings', done => {
-      _.areStrings([ 'a', 'b', 4 ]).should.equal(false)
-      _.areStrings([ 'a', { a: 12 }, 4 ]).should.equal(false)
-      _.areStrings([ [], 'e', 'f' ]).should.equal(false)
-      done()
-    })
-  }))
-
   describe('forceArray', done => {
     it('should return an array for an array', done => {
       const a = _.forceArray([ 1, 2, 3, { zo: 'hello' }, null ])

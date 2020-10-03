@@ -1,3 +1,4 @@
+import { parseBooleanString } from 'lib/utils'
 import SearchResultsHistory from './collections/search_results_history'
 import findUri from './lib/find_uri'
 import { parseQuery } from 'lib/location'
@@ -40,7 +41,7 @@ API.search = function (search, section, showFallbackLayout) {
 API.searchFromQueryString = function (querystring) {
   let section
   let { q, type, refresh } = parseQuery(querystring)
-  refresh = _.parseBooleanString(refresh)
+  refresh = parseBooleanString(refresh)
   if (q == null) { q = '' }
   // Replacing "+" added that the browser search might have added
   q = q.replace(/\+/g, ' ')

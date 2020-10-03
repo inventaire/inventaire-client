@@ -1,3 +1,5 @@
+import { isModel } from 'lib/boolean_tests'
+import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import getNextTask from '../lib/get_next_task'
 import CurrentTask from './current_task'
@@ -35,7 +37,7 @@ export default Marionette.LayoutView.extend({
 
   onShow () {
     const { task } = this.options
-    if (_.isModel(task)) {
+    if (isModel(task)) {
       this.showTask(Promise.resolve(task))
     } else if (task != null) {
       this.showFromId(task)
@@ -182,11 +184,11 @@ export default Marionette.LayoutView.extend({
     // Remove the current task from the count
     const count = suggestions.length - 1
     if (count === 0) {
-      text = _.i18n('has no homonym')
+      text = i18n('has no homonym')
       risk = 'none'
       this.ui.relativesToggler.css('visibility', 'hidden')
     } else {
-      text = _.i18n('homonyms_count', { smart_count: count })
+      text = i18n('homonyms_count', { smart_count: count })
       this.ui.relativesToggler.css('visibility', null)
       if ((currentSuggestionScore - highestSuggestionsScore) < 10) {
         risk = 'high'

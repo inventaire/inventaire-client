@@ -1,3 +1,6 @@
+import { isNonEmptyString, isEntityUri } from 'lib/boolean_tests'
+
+import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import Filterable from 'modules/general/models/filterable'
 import error_ from 'lib/error'
@@ -12,7 +15,7 @@ export default Filterable.extend({
 
     this.mainUserIsOwner = owner === app.user.id
 
-    if (!_.isEntityUri(entity)) {
+    if (!isEntityUri(entity)) {
       throw error_.new(`invalid entity URI: ${entity}`, attrs)
     }
 
@@ -200,13 +203,13 @@ export default Filterable.extend({
   findBestTitle () {
     const title = this.get('snapshot.entity:title')
     const transaction = this.get('transaction')
-    const context = _.i18n(`${transaction}_personalized`, { username: this.username })
+    const context = i18n(`${transaction}_personalized`, { username: this.username })
     return `${title} - ${context}`
   },
 
   findBestDescription () {
     const details = this.get('details')
-    if (_.isNonEmptyString(details)) {
+    if (isNonEmptyString(details)) {
       return details
     } else { return this.entity.findBestDescription() }
   },

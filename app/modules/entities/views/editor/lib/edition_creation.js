@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import wdLang from 'wikidata-lang'
 import { buildPath } from 'lib/location'
 
@@ -8,12 +9,12 @@ export default {
       isbnInputData: {
         nameBase: 'isbn',
         field: {
-          placeholder: _.i18n('ex:') + ' 2070368228',
+          placeholder: i18n('ex:') + ' 2070368228',
           dotdotdot: ''
         },
         button: {
           icon: 'plus',
-          text: _.i18n('add'),
+          text: i18n('add'),
           classes: 'grey postfix sans-serif'
         }
       },

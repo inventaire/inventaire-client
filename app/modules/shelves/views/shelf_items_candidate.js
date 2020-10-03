@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 import forms_ from 'modules/general/lib/forms'
 import shelves_ from '../lib/shelves'
 
@@ -33,7 +34,7 @@ export default Marionette.ItemView.extend({
   },
 
   showItem (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     app.execute('show:item', this.model)
   },
 

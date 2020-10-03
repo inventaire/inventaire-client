@@ -1,3 +1,4 @@
+import { I18n } from 'modules/user/lib/i18n'
 const views = {
   profile: require('./profile_settings'),
   account: require('./account_settings'),
@@ -41,8 +42,8 @@ export default Marionette.LayoutView.extend({
   tabUpdate (tab) {
     this.setActiveTab(tab)
 
-    const tabLabel = _.I18n(tab)
-    const settings = _.I18n('settings')
+    const tabLabel = I18n(tab)
+    const settings = I18n('settings')
 
     return app.navigate(`settings/${tab}`,
       { metadata: { title: `${tabLabel} - ${settings}` } })

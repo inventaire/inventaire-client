@@ -1,3 +1,5 @@
+import { isOpenedOutside } from 'lib/utils'
+import { i18n } from 'modules/user/lib/i18n'
 export default Marionette.ItemView.extend({
   template: require('./templates/item_preview.hbs'),
   className () {
@@ -30,7 +32,7 @@ export default Marionette.ItemView.extend({
   },
 
   showItem (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     app.execute('show:item', this.model)
   }
 })
@@ -38,9 +40,9 @@ export default Marionette.ItemView.extend({
 const buildTitle = function (user, transaction) {
   if (user == null) return
   const username = user.get('username')
-  let title = _.i18n(`${transaction}_personalized`, { username })
+  let title = i18n(`${transaction}_personalized`, { username })
   if (user.distanceFromMainUser != null) {
-    title += ` (${_.i18n('km_away', { distance: user.distanceFromMainUser })})`
+    title += ` (${i18n('km_away', { distance: user.distanceFromMainUser })})`
   }
   return title
 }

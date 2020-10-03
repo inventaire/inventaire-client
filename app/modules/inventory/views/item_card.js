@@ -1,3 +1,4 @@
+import { cutBeforeWord } from 'lib/utils'
 import itemViewsCommons from '../lib/items_views_commons'
 const detailsLimit = 150
 const ItemItemView = Marionette.ItemView.extend(itemViewsCommons)
@@ -60,7 +61,7 @@ export default ItemItemView.extend({
       // and thus the rendered link would be clickable but incomplete
       // Let a space before the ... so that it wont be taken as the end
       // of a link
-      return _.cutBeforeWord(details, detailsLimit) + ' ...'
+      return cutBeforeWord(details, detailsLimit) + ' ...'
     } else {
       return details
     }

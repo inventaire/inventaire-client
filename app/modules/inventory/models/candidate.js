@@ -1,3 +1,5 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import { forceArray } from 'lib/utils'
 import isbn_ from 'lib/isbn'
 
 export default Backbone.Model.extend({
@@ -27,7 +29,7 @@ export default Backbone.Model.extend({
   canBeSelected () { return !this.get('isInvalid') && !this.get('needInfo') },
 
   updateInfoState () {
-    const needInfo = !_.isNonEmptyString(this.get('title'))
+    const needInfo = !isNonEmptyString(this.get('title'))
     return this.set('needInfo', needInfo)
   },
 
@@ -86,7 +88,7 @@ export default Backbone.Model.extend({
 
     if (data.libraryThingWorkId != null) { work.claims['wdt:P1085'] = data.libraryThingWorkId }
 
-    const authors = _.forceArray(authorsNames).map(name => {
+    const authors = forceArray(authorsNames).map(name => {
       const labels = { [labelLang]: name }
       return { labels }
     })

@@ -6,9 +6,12 @@ set -eu
 # only if staged (0 space before/2 space after the letter)
 staged=$(git status --porcelain | grep -E "^(A|M)" | grep -E '.js$' | sed -E 's/^\w+\s+//')
 
-if [ -z "$staged" ]
-  then
-    echo 'no file to lint'
+if [ -z "$staged" ]; then
+  echo 'no file to lint'
+else
+  if [ "$1" = "fix" ]; then
+    npm run lint-fix $staged
   else
     npm run lint $staged
+  fi
 fi

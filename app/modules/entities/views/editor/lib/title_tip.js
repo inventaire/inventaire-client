@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 // Display a tip when a work label or an edition title contains the label of their serie
 // to invite to remove the serie label part
 export default {
@@ -58,7 +59,7 @@ const findMatchingSerieLabel = function (value, serieLabels) {
 
 const showSerieLabelTip = function (matchingSerieLabel) {
   if (!this.editMode) return
-  let tip = _.i18n('title_matches_serie_label_tip', { pathname: this._serieEditorPathname })
+  let tip = i18n('title_matches_serie_label_tip', { pathname: this._serieEditorPathname })
   const serieHref = `href="${this._serieEditorPathname}"`
   tip = tip.replace(serieHref, `${serieHref} title="${matchingSerieLabel}"`)
   this.ui.tip.html(tip)

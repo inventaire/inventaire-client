@@ -1,3 +1,7 @@
+import log_ from 'lib/loggers'
+import { shortLang, deepClone } from 'lib/utils'
+
+import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import email_ from 'modules/user/lib/email_tests'
 import password_ from 'modules/user/lib/password_tests'
@@ -34,15 +38,15 @@ export default Marionette.ItemView.extend({
     const attrs = this.model.toJSON()
     return _.extend(attrs, {
       emailPicker: this.emailPickerData(),
-      languages: _.log(this.languagesData(), 'languagesData')
+      languages: log_.info(this.languagesData(), 'languagesData')
     })
   },
 
   emailPickerData () { return pickerData(this.model, 'email') },
 
   languagesData () {
-    const languages = _.deepClone(activeLanguages)
-    const currentLanguage = _.shortLang(this.model.get('language'))
+    const languages = deepClone(activeLanguages)
+    const currentLanguage = shortLang(this.model.get('language'))
     if (languages[currentLanguage] != null) {
       languages[currentLanguage].selected = true
     }
@@ -168,8 +172,8 @@ export default Marionette.ItemView.extend({
   askDeleteAccountConfirmation () {
     const args = { username: this.model.get('username') }
     app.execute('ask:confirmation', {
-      confirmationText: _.i18n('delete_account_confirmation', args),
-      warningText: _.i18n('cant_undo_warning'),
+      confirmationText: i18n('delete_account_confirmation', args),
+      warningText: i18n('cant_undo_warning'),
       action: this.model.deleteAccount.bind(this.model),
       selector: '#usernameGroup',
       formAction: sendDeletionFeedback,

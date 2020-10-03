@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import testEncodingErrors from './encoding_errors'
 
 const readFile = function (mode, file, encoding, verifyEncoding) {
@@ -19,7 +20,7 @@ const ParseReaderResult = (mode, file, verifyEncoding, resolve) => readerEvent =
 
   const differentEncoding = testEncodingErrors(result)
   if (differentEncoding) {
-    _.warn(differentEncoding, 'retrying file with different encoding')
+    log_.warn(differentEncoding, 'retrying file with different encoding')
     // retrying with different encoding but prevent
     // to enter a retry loop by passing verifyEncoding=false
     return resolve(readFile(mode, file, differentEncoding, false))

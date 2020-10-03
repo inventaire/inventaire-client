@@ -1,3 +1,7 @@
+import assert_ from 'lib/assert_types'
+import log_ from 'lib/loggers'
+import { I18n, i18n } from 'modules/user/lib/i18n'
+
 import Welcome from 'modules/welcome/views/welcome'
 import ErrorView from 'modules/general/views/error'
 import CallToConnection from 'modules/general/views/call_to_connection'
@@ -57,7 +61,7 @@ const API = {
   },
 
   notFound (route) {
-    _.log(route, 'route:notFound')
+    log_.info(route, 'route:notFound')
     app.execute('show:error:missing')
   },
 
@@ -73,7 +77,7 @@ const API = {
 
 const requireLoggedIn = function (route) {
   setPrerenderStatusCode(401)
-  _.type(route, 'string')
+  assert_.string(route)
   if (app.user.loggedIn) {
     return true
   } else {
@@ -130,8 +134,8 @@ const showErrorByStatus = function (err, label) {
 const showErrorMissing = () => showError({
   name: 'missing',
   icon: 'warning',
-  header: _.I18n('oops'),
-  message: _.i18n("this resource doesn't exist or you don't have the right to access it"),
+  header: I18n('oops'),
+  message: i18n("this resource doesn't exist or you don't have the right to access it"),
   context: location.pathname,
   statusCode: 404
 })
@@ -139,19 +143,19 @@ const showErrorMissing = () => showError({
 const showErrorNotAdmin = () => showError({
   name: 'not_admin',
   icon: 'warning',
-  header: _.I18n('oops'),
-  message: _.i18n('this resource requires to have admin rights to access it'),
+  header: I18n('oops'),
+  message: i18n('this resource requires to have admin rights to access it'),
   context: location.pathname,
   statusCode: 403
 })
 
 const showOtherError = function (err, label) {
-  _.type(err, 'object')
-  _.error(err, label)
+  assert_.object(err)
+  log_.error(err, label)
   return showError({
     name: 'other',
     icon: 'bolt',
-    header: _.I18n('error'),
+    header: I18n('error'),
     message: err.message,
     context: err.context,
     statusCode: err.statusCode
@@ -161,16 +165,16 @@ const showOtherError = function (err, label) {
 const showOfflineError = () => showError({
   name: 'offline',
   icon: 'plug',
-  header: _.i18n("can't reach the server")
+  header: i18n("can't reach the server")
 })
 
 const showErrorCookieRequired = command => showError({
   name: 'cookie-required',
   icon: 'cog',
-  header: _.I18n('cookies are disabled'),
-  message: _.i18n('cookies_are_required'),
+  header: I18n('cookies are disabled'),
+  message: i18n('cookies_are_required'),
   redirection: {
-    text: _.I18n('retry'),
+    text: I18n('retry'),
     classes: 'dark-grey',
     buttonAction () {
       if (command != null) app.execute(command)
@@ -192,5 +196,5 @@ const showCallToConnection = message => app.layout.modal.show(new CallToConnecti
 
 const showMenuStandalone = function (Menu, titleKey) {
   app.layout.main.show(new Menu({ standalone: true }))
-  return app.navigate(titleKey, { metadata: { title: _.i18n(titleKey) } })
+  return app.navigate(titleKey, { metadata: { title: i18n(titleKey) } })
 }

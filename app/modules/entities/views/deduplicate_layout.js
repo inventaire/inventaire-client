@@ -1,3 +1,6 @@
+import { isNonEmptyString, isNonEmptyArray } from 'lib/boolean_tests'
+
+import log_ from 'lib/loggers'
 // A layout that shows entities in sub views according to the input it receives
 // and let the user select those entities for merge
 
@@ -39,11 +42,11 @@ export default Marionette.LayoutView.extend({
     this.$el.find('.controls').focus()
 
     let { uris } = this.options
-    if (!_.isNonEmptyArray(uris)) {
+    if (!isNonEmptyArray(uris)) {
       uris = app.request('querystring:get', 'uris')?.split('|')
     }
 
-    if (_.isNonEmptyArray(uris)) {
+    if (isNonEmptyArray(uris)) {
       this.loadFromUris(uris)
     } else {
       this.showDeduplicateAuthors(app.request('querystring:get', 'name'))
@@ -52,7 +55,7 @@ export default Marionette.LayoutView.extend({
 
   loadFromUris (uris) {
     return app.request('get:entities:models', { uris })
-    .then(_.Log('entities'))
+    .then(log_.Info('entities'))
     .then(entities => {
       // Guess type from first entity
       const { type } = entities[0]
@@ -210,7 +213,7 @@ const hideMergedEntities = function () {
 }
 
 const getFilter = function (text, mergedUris) {
-  if (_.isNonEmptyString(text)) {
+  if (isNonEmptyString(text)) {
     const re = new RegExp(text, 'i')
     return function (model) {
       return anyLabelMatch(model, re) && !mergedUris.includes(model.get('uri'))

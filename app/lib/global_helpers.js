@@ -1,1 +1,1 @@
-import querystringHelpers from './querystring_helpers'
+import './querystring_helpers'

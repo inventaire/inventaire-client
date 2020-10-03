@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 // elements required in the view: .checkWrapper > .check
 
 export default Marionette.Behavior.extend({
@@ -26,7 +27,7 @@ export default Marionette.Behavior.extend({
     }
 
     if ($check.length !== 1) {
-      return _.warn('.check target not found')
+      return log_.warn('.check target not found')
     }
 
     $check.hide().html(_.icon(signal, 'text-center'))

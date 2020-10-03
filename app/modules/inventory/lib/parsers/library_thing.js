@@ -1,3 +1,5 @@
+import { isPositiveIntegerString, isNonNull, isDateString } from 'lib/boolean_tests'
+
 import decodeHtmlEntities from './decode_html_entities'
 
 export default obj => ({
@@ -10,8 +12,8 @@ export default obj => ({
   title: decodeHtmlEntities(obj.title),
 
   authors: getAuthorsString(obj),
-  publicationDate: _.isDateString(obj.date) ? obj.date : undefined,
-  numberOfPages: _.isPositiveIntegerString(obj.pages) ? parseInt(obj.pages) : undefined,
+  publicationDate: isDateString(obj.date) ? obj.date : undefined,
+  numberOfPages: isPositiveIntegerString(obj.pages) ? parseInt(obj.pages) : undefined,
   libraryThingWorkId: obj.workcode
 })
 
@@ -21,7 +23,7 @@ const getAuthorsString = function (obj) {
 
   return authors
   .map(_.property('fl'))
-  .filter(_.isNonNull)
+  .filter(isNonNull)
   .map(decodeHtmlEntities)
 }
 

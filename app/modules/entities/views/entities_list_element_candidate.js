@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import forms_ from 'modules/general/lib/forms'
 
 export default Marionette.ItemView.extend({
@@ -21,7 +22,7 @@ export default Marionette.ItemView.extend({
     const attrs = this.model.toJSON()
     const { type } = attrs
     if (type != null) { attrs[type] = true }
-    if (attrs.description == null) { attrs.description = _.i18n(type) }
+    if (attrs.description == null) { attrs.description = i18n(type) }
     return _.extend(attrs, {
       alreadyAdded: this.alreadyAdded,
       invClaimValueOnWdEntity: this.invClaimValueOnWdEntity

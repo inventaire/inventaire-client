@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 import ClaimsEditorCommons from './claims_editor_commons'
 import createEntities from 'modules/entities/lib/create_entities'
 import autocomplete from 'modules/entities/views/editor/lib/autocomplete'
@@ -154,7 +156,7 @@ export default ClaimsEditorCommons.extend({
     const createOnWikidata = this.model.entity.get('isWikidataEntity')
 
     return createEntities.byProperty({ property: this.property, name, relationEntity, createOnWikidata })
-    .then(_.Log('created entity'))
+    .then(log_.Info('created entity'))
     .then(entity => this._save(entity.get('uri')))
   },
 
@@ -178,7 +180,7 @@ export default ClaimsEditorCommons.extend({
       this.ui.input.addClass('large')
     } else if (this.allowEntityCreation) {
       const type = createdEntityType[this.searchType]
-      this.ui.selectedSuggestionStatus.text(_.i18n(`saving would create a new ${type}`))
+      this.ui.selectedSuggestionStatus.text(i18n(`saving would create a new ${type}`))
       this.ui.input.addClass('large')
     }
   }

@@ -1,3 +1,4 @@
+import { isUrl } from 'lib/boolean_tests'
 import preq from 'lib/preq'
 import ClaimsEditorCommons from './claims_editor_commons'
 import forms_ from 'modules/general/lib/forms'
@@ -61,7 +62,7 @@ export default ClaimsEditorCommons.extend({
 
     if (url === this.model.get('value')) { return this.hideEditMode() }
 
-    if (!_.isUrl(url)) {
+    if (!isUrl(url)) {
       const err = error_.new('invalid URL', url)
       err.selector = urlInputSelector
       return forms_.alert(this, err)

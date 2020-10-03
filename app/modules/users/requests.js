@@ -1,3 +1,5 @@
+import { isModel } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 export default function (app, _) {
   const action = function (user, action, newStatus, label) {
@@ -12,7 +14,7 @@ export default function (app, _) {
 
   const rewind = (user, currentStatus, label) => err => {
     user.set('status', currentStatus)
-    _.error(err, 'action')
+    log_.error(err, 'action')
     throw err
   }
 
@@ -45,7 +47,7 @@ export default function (app, _) {
   }
 
   const normalizeUser = user => {
-    if (!_.isModel(user)) {
+    if (!isModel(user)) {
       throw new Error('exepected a user Model, got', user)
     }
 

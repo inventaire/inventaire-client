@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 import DonateMenu from '../views/donate_menu'
 import FeedbackMenu from '../views/feedback_menu'
 
@@ -9,7 +10,7 @@ export default {
 
   showEntity (e) {
     entityAction(e, 'show:entity')
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       // Required to close the ItemShow modal if one was open
       app.execute('modal:close')
     }
@@ -30,7 +31,7 @@ export default {
     const event = options?.event || options
     // Known case of missing href: #signalDataError anchors won't have an href
     const ignoreMissingHref = true
-    if (!_.isOpenedOutside(event, ignoreMissingHref)) {
+    if (!isOpenedOutside(event, ignoreMissingHref)) {
       if (!options) { options = {} }
       // Do not navigate as that's a  mess to go back then
       // and handle the feedback modals with or without dedicated pathnames
@@ -47,7 +48,7 @@ const entityAction = function (e, action) {
 
   // If the link was Ctrl+clicked or if it was an external link with target='_blank',
   // typically, a link to a Wikidata entity page
-  if (!_.isOpenedOutside(e)) {
+  if (!isOpenedOutside(e)) {
     // Any href arriving here should be of the form /entity/:uri(/:label)(/edit)
     const [ uri ] = Array.from(href.split('/entity/')[1].split('/'))
     app.execute(action, uri)

@@ -1,12 +1,15 @@
+import assert_ from 'lib/assert_types'
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import Item from 'modules/inventory/models/item'
 
 export default {
   create (itemData) {
-    _.log(itemData, 'item data before creation')
+    log_.info(itemData, 'item data before creation')
 
     return preq.post(app.API.items.base, itemData)
-    .then(_.Log('item data after creation'))
+    .then(log_.Info('item data after creation'))
     .then(data => {
       const model = new Item(data)
       app.user.trigger('items:change', null, model.get('listing'))
@@ -19,9 +22,9 @@ export default {
     // optional: selector
     let { item, items, attribute, value, selector } = options
     if ((items == null) && (item != null)) { items = [ item ] }
-    _.type(items, 'array')
-    _.type(attribute, 'string')
-    if (selector != null) { _.type(selector, 'string') }
+    assert_.array(items)
+    assert_.string(attribute)
+    if (selector != null) assert_.string(selector)
 
     items.forEach(item => {
       if (_.isString(item)) return
@@ -39,7 +42,7 @@ export default {
   delete (options) {
     let confirmationText
     const { items, next, back } = options
-    _.types([ items, next ], [ 'array', 'function' ])
+    assert_.types([ items, next ], [ 'array', 'function' ])
 
     const ids = items.map(getIdFromModelOrId)
 
@@ -55,12 +58,12 @@ export default {
 
     if ((items.length === 1) && items[0] instanceof Backbone.Model) {
       const title = items[0].get('snapshot.entity:title')
-      confirmationText = _.i18n('delete_item_confirmation', { title })
+      confirmationText = i18n('delete_item_confirmation', { title })
     } else {
-      confirmationText = _.i18n('delete_items_confirmation', { amount: ids.length })
+      confirmationText = i18n('delete_items_confirmation', { amount: ids.length })
     }
 
-    const warningText = _.i18n('cant_undo_warning')
+    const warningText = i18n('cant_undo_warning')
 
     app.execute('ask:confirmation', { confirmationText, warningText, action, back })
   }

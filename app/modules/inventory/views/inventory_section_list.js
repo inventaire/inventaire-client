@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 const ListEl = Marionette.ItemView.extend({
   tagName: 'li',
   template: require('./templates/inventory_section_list_li.hbs'),
@@ -25,7 +26,7 @@ const ListEl = Marionette.ItemView.extend({
   },
 
   selectInventory (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     let type = this.model.get('type') || 'user'
     if ((type === 'user') && (this.context === 'group')) { type = 'member' }
     app.vent.trigger('inventory:select', type, this.model)

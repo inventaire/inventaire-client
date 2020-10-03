@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import leven from 'leven'
 
 export default function (invModels, wdModels) {
@@ -65,7 +66,7 @@ const addCloseEntitiesToMergeCandidates = function (invModel, candidates, otherM
   const partsB = otherModel._labelsParts
   const data = getBestMatchScore(partsA, partsB)
   if (data.bestMatchScore > 0) {
-    _.log(data, `${invUri} - ${otherModelUri}`)
+    log_.info(data, `${invUri} - ${otherModelUri}`)
     if (!otherModel.bestMatchScore) { otherModel.bestMatchScore = {} }
     otherModel.bestMatchScore[invUri] = data.bestMatchScore
     candidates[invUri].possibleDuplicateOf.push(otherModel)

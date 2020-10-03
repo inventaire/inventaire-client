@@ -1,3 +1,5 @@
+import { isUserId } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 // Module adapted from snippet at
 // https://piwik.instance/index.php?module=CoreAdminHome&action=trackingCodeGenerator&idSite=11&period=day&date=today
@@ -31,13 +33,13 @@ export default function () {
     .then(() => { tracker = window.Piwik.getAsyncTracker() })
     .catch(err => {
       // Known case: ublock origin
-      _.warn('Fetching Piwik failed (Could be because of a tracker blocker)', err.message)
+      log_.warn('Fetching Piwik failed (Could be because of a tracker blocker)', err.message)
       piwikDisabled = true
     })
 
   // Tracker API doc: http://developer.piwik.org/api-reference/tracking-javascript
   const setUserId = function (id) {
-    if (!_.isUserId(id)) return
+    if (!isUserId(id)) return
 
     return piwikInitPromise
     .then(() => {

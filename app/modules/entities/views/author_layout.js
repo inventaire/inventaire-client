@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import TypedEntityLayout from './typed_entity_layout'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import EntitiesList from './entities_list'
@@ -50,7 +51,7 @@ export default TypedEntityLayout.extend({
 
     return this.model.initAuthorWorks(refresh)
     .then(this.ifViewIsIntact('showWorks'))
-    .catch(_.Error('author_layout fetchWorks err'))
+    .catch(log_.Error('author_layout fetchWorks err'))
   },
 
   onRender () {

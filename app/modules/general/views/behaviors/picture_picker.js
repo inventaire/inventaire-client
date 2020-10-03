@@ -1,3 +1,7 @@
+import { isUrl } from 'lib/boolean_tests'
+import { forceArray } from 'lib/utils'
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 import Imgs from 'modules/general/collections/imgs'
 import images_ from 'lib/images'
 import files_ from 'lib/files'
@@ -28,7 +32,7 @@ export default Marionette.CompositeView.extend({
   initialize () {
     ({ context: this.context } = this.options)
     this.limit = this.options.limit || 1
-    const pictures = _.forceArray(this.options.pictures)
+    const pictures = forceArray(this.options.pictures)
     cropper.prepare()
     const collectionData = pictures.map(getImgData.bind(null, this.options.crop))
     this.collection = new Imgs(collectionData)
@@ -47,10 +51,10 @@ export default Marionette.CompositeView.extend({
       nameBase: 'url',
       field: {
         type: 'url',
-        placeholder: _.i18n('enter an image url')
+        placeholder: i18n('enter an image url')
       },
       button: {
-        text: _.i18n('go get it!')
+        text: i18n('go get it!')
       },
       allowMultiple: this.limit > 1
     }
@@ -96,7 +100,7 @@ export default Marionette.CompositeView.extend({
 
     return this.getFinalUrls()
     .catch(error_.Complete('.alertBox'))
-    .then(_.Log('final urls'))
+    .then(log_.Info('final urls'))
     .then(this._saveAndClose.bind(this))
     .catch(forms_.catchAlert.bind(null, this))
   },
@@ -142,7 +146,7 @@ export default Marionette.CompositeView.extend({
     this.$el.trigger('hideAlertBox')
 
     return files_.parseFileEventAsDataURL(e)
-    .then(_.Log('filesDataUrl'))
+    .then(log_.Info('filesDataUrl'))
     .map(this._addToPictures.bind(this))
   },
 
@@ -174,7 +178,7 @@ export default Marionette.CompositeView.extend({
     const key = getActionKey(e)
     if (key === 'esc') {
       // prevent that closing the file picker with ESC to trigger modal:close
-      _.log('stopped ESC propagation')
+      log_.info('stopped ESC propagation')
       return e.stopPropagation()
     }
   }
@@ -183,7 +187,7 @@ export default Marionette.CompositeView.extend({
 const isSelectedModel = model => model.get('selected')
 
 const validateUrlInput = function (url) {
-  if (!_.isUrl(url)) {
+  if (!isUrl(url)) {
     return forms_.throwError('invalid url', '#urlField', arguments)
   }
 }

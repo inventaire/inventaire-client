@@ -1,3 +1,4 @@
+import assert_ from 'lib/assert_types'
 import map_ from 'modules/map/lib/map'
 import getPositionFromNavigator from 'modules/map/lib/navigator_position'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
@@ -50,16 +51,16 @@ const drawMap = function (params, coords) {
 
   if (params.updateRoute) { updateRoute(path, lat, lng, zoom) }
 
-  _.type(map, 'object')
+  assert_.object(map)
   return map
 }
 
 const initEventListners = function (params, map) {
-  _.type(map, 'object')
+  assert_.object(map)
   const { path, onMoveend } = params
 
   if (params.updateRoute) {
-    _.type(path, 'string')
+    assert_.string(path)
     map.on('moveend', updateRouteFromEvent.bind(null, path))
   }
 
@@ -76,8 +77,8 @@ export default {
   },
 
   grabMap (map) {
-    _.type(map, 'object')
-    _.type(map.getBounds, 'function')
+    assert_.object(map)
+    assert_.function(map.getBounds)
     this.map = map
     return map
   },

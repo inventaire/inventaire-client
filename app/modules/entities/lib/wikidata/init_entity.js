@@ -1,3 +1,5 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
 import sitelinks_ from 'lib/wikimedia/sitelinks'
 import wikipedia_ from 'lib/wikimedia/wikipedia'
 import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
@@ -59,13 +61,13 @@ const specificMethods = {
 
     return wikipedia_.extract(lang, title)
     .then(_setWikipediaExtractAndDescription.bind(this))
-    .catch(_.Error('setWikipediaExtract err'))
+    .catch(log_.Error('setWikipediaExtract err'))
   }
 }
 
 const _setWikipediaExtractAndDescription = function (extractData) {
   const { extract, lang } = extractData
-  if (_.isNonEmptyString(extract)) {
+  if (isNonEmptyString(extract)) {
     const extractDirection = rtlLang.includes(lang) ? 'rtl' : 'ltr'
     this.set('extractDirection', extractDirection)
     return this.set('extract', extract)

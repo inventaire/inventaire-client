@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { I18n } from 'modules/user/lib/i18n'
 // One unique Entity model to rule them all
 // but with specific initializers:
 // - By source:
@@ -209,7 +211,7 @@ export default Filterable.extend({
   updateMetadata () {
     return this.waitForData
     .then(this.executeMetadataUpdate.bind(this))
-    .catch(_.Error('updateMetadata err'))
+    .catch(log_.Error('updateMetadata err'))
   },
 
   executeMetadataUpdate () {
@@ -237,7 +239,7 @@ export default Filterable.extend({
     const label = this.get('label')
     const type = this.get('type')
     const P31 = this.get('claims.wdt:P31.0')
-    const typeLabel = _.I18n(typesString[P31] || type)
+    const typeLabel = I18n(typesString[P31] || type)
     return `${label} - ${typeLabel}`
   },
 

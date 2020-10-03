@@ -1,9 +1,11 @@
+import { isNonEmptyString, isEntityUri, isAssetImg, isLocalImg, isImageHash } from 'lib/boolean_tests'
+import { fixedEncodeURIComponent, hashCode } from 'lib/utils'
 import { buildPath } from 'lib/location'
 import commons_ from 'lib/wikimedia/commons'
 
 // Keep in sync with server/lib/emails/app_api
 export default function (path, width = 1600, height = 1600) {
-  if (!_.isNonEmptyString(path)) return
+  if (!isNonEmptyString(path)) return
 
   if (path.startsWith('/ipfs/')) {
     console.warn('outdated img path', path)
@@ -11,7 +13,7 @@ export default function (path, width = 1600, height = 1600) {
   }
 
   // Converting image hashes to a full URL
-  if (_.isLocalImg(path) || _.isAssetImg(path)) {
+  if (isLocalImg(path) || isAssetImg(path)) {
     const [ container, filename ] = Array.from(path.split('/').slice(2))
     return `/img/${container}/${width}x${height}/${filename}`
   }
@@ -23,12 +25,12 @@ export default function (path, width = 1600, height = 1600) {
   }
 
   if (path.startsWith('http')) {
-    const key = _.hashCode(path)
-    const href = _.fixedEncodeURIComponent(path)
+    const key = hashCode(path)
+    const href = fixedEncodeURIComponent(path)
     return `/img/remote/${width}x${height}/${key}?href=${href}`
   }
 
-  if (_.isEntityUri(path)) {
+  if (isEntityUri(path)) {
     return buildPath('/api/entities', {
       action: 'images',
       uris: path,
@@ -38,7 +40,7 @@ export default function (path, width = 1600, height = 1600) {
     })
   }
 
-  if (_.isImageHash(path)) {
+  if (isImageHash(path)) {
     console.warn('image hash without container', path)
     console.trace()
     return

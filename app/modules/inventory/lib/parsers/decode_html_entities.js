@@ -1,3 +1,4 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
 let element = null
 
 // Adapted from https://stackoverflow.com/a/9609450/3324977
@@ -5,7 +6,7 @@ export default function (str) {
   // Ignore this lib in test environments
   if (document.createElement == null) { return str }
 
-  if (!_.isNonEmptyString(str)) { return str }
+  if (!isNonEmptyString(str)) { return str }
 
   if (!element) { element = document.createElement('div') }
   str = str

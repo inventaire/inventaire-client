@@ -1,3 +1,5 @@
+import { isOpenedOutside, clickCommand } from 'lib/utils'
+
 import relationsActions from 'modules/users/plugins/relations_actions'
 import { buildPath } from 'lib/location'
 import NewShelfEditor from 'modules/shelves/views/new_shelf_editor'
@@ -7,8 +9,8 @@ export default Marionette.ItemView.extend({
   className: 'userProfile',
   template: require('./templates/user_profile.hbs'),
   events: {
-    'click .editProfile': _.clickCommand('show:settings:profile'),
-    'click .addItems': _.clickCommand('show:add:layout'),
+    'click .editProfile': clickCommand('show:settings:profile'),
+    'click .addItems': clickCommand('show:add:layout'),
     'click .showUserOnMap': 'showUserOnMap',
     'click #createShelf': 'showNewShelfEditor'
   },
@@ -45,7 +47,7 @@ export default Marionette.ItemView.extend({
   },
 
   showUserOnMap (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     if (this.model.distanceFromMainUser == null) return
     app.execute('show:models:on:map', [ this.model, app.user ])
   },

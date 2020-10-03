@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'item-row',
@@ -25,7 +26,7 @@ export default Marionette.ItemView.extend({
   },
 
   showItem (e) {
-    if (_.isOpenedOutside(e)) {
+    if (isOpenedOutside(e)) {
 
     } else { app.execute('show:item', this.model) }
   },

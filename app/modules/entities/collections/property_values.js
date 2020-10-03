@@ -1,3 +1,4 @@
+import { forceArray } from 'lib/utils'
 import PropertyValueModel from '../models/property_value'
 
 export default Backbone.Collection.extend({
@@ -8,7 +9,7 @@ export default Backbone.Collection.extend({
 
   addClaimsValues (claims) {
     // accept both an array of claims values or a single claim value
-    claims = _.forceArray(claims)
+    claims = forceArray(claims)
     for (const value of claims) {
       this.addByValue(value)
     }

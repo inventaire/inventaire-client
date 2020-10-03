@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 // internalized version of https://github.com/googleknowledge/qlabel
 
 // How to:
@@ -56,7 +57,7 @@ const getEntities = function (uris) {
   // /!\ Not waiting for the update to run
   // but simply calling the debounced function
   .then(debouncedUpdate)
-  .catch(_.Error('uri_label getEntities err'))
+  .catch(log_.Error('uri_label getEntities err'))
 }
 
 const addEntitiesLabels = function (entitiesModels) {
@@ -89,7 +90,7 @@ const update = function () {
   // has there might be new elements with a known uri
   // but that have not be displayed yet
   .then(display)
-  .catch(_.Error('uriLabel err'))
+  .catch(log_.Error('uriLabel err'))
 
   // no need to return the promise
   return null

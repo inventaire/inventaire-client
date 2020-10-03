@@ -1,3 +1,4 @@
+import { isEntityUri } from 'lib/boolean_tests'
 import getActionKey from 'lib/get_action_key'
 import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
 import forms_ from 'modules/general/lib/forms'
@@ -55,7 +56,7 @@ export default Marionette.ItemView.extend({
 
   selectWork () {
     const uri = this.ui.workPickerSelect.val()
-    if (!_.isEntityUri(uri)) return
+    if (!isEntityUri(uri)) return
     const work = this.findWorkByUri(uri)
     if (work == null) return
     this.onWorkSelected(work)
@@ -73,7 +74,7 @@ export default Marionette.ItemView.extend({
 
   onSelectChange () {
     const uri = this.ui.workPickerSelect.val()
-    if (_.isEntityUri(uri)) {
+    if (isEntityUri(uri)) {
       this.ui.workPickerValidate.removeClass('hidden')
     } else { this.ui.workPickerValidate.addClass('hidden') }
   },

@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import wd_ from 'lib/wikimedia/wikidata'
 import PaginatedEntities from '../collections/paginated_entities'
 import EntitiesList from './entities_list'
@@ -43,7 +44,7 @@ export default Marionette.LayoutView.extend({
 
     // allowlisted properties labels are in i18n keys already, thus should not need
     // to be fetched like what 'entityValueTemplate' is doing for the entity value
-    const propertyValue = _.i18n(wd_.unprefixify(this.property))
+    const propertyValue = i18n(wd_.unprefixify(this.property))
     const entityValue = entityValueTemplate(this.value)
 
     return this.list.show(new EntitiesList({

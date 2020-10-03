@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import password_ from 'modules/user/lib/password_tests'
 import forms_ from 'modules/general/lib/forms'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
@@ -60,7 +61,7 @@ export default Marionette.ItemView.extend({
 })
 
 const formatErr = function (err) {
-  _.error(err, 'formatErr')
+  log_.error(err, 'formatErr')
   err.selector = '#finalAlertbox'
   throw err
 }

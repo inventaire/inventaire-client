@@ -1,3 +1,4 @@
+import { clickCommand } from 'lib/utils'
 import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
 
 export default InventoryCommonNav.extend({
@@ -27,13 +28,13 @@ export default InventoryCommonNav.extend({
     'click .showUsersMenu': 'showUsersMenu',
     'click .showGroupsMenu': 'showGroupsMenu',
 
-    'click .inviteByEmail': _.clickCommand('show:invite:friend:by:email'),
-    'click .searchUsers': _.clickCommand('show:users:search'),
-    'click .showUsersNearby': _.clickCommand('show:users:nearby'),
+    'click .inviteByEmail': clickCommand('show:invite:friend:by:email'),
+    'click .searchUsers': clickCommand('show:users:search'),
+    'click .showUsersNearby': clickCommand('show:users:nearby'),
 
-    'click .searchGroups': _.clickCommand('show:groups:search'),
-    'click .createGroup': _.clickCommand('create:group'),
-    'click .showGroupsNearby': _.clickCommand('show:groups:nearby')
+    'click .searchGroups': clickCommand('show:groups:search'),
+    'click .createGroup': clickCommand('create:group'),
+    'click .showGroupsNearby': clickCommand('show:groups:nearby')
   },
 
   showUsersMenu () {

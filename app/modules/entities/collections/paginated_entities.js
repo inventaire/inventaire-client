@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import Entities from './entities'
 
 export default Entities.extend({
@@ -28,7 +29,7 @@ export default Entities.extend({
     const rollback = err => {
       this.remainingUris = urisToFetch.concat(this.remainingUris)
       this.fetchedUris = fetchedUrisBefore
-      return _.error(err, 'failed to fetch more works: rollback')
+      return log_.error(err, 'failed to fetch more works: rollback')
     }
 
     return app.request('get:entities:models', {

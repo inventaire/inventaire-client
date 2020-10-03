@@ -1,3 +1,8 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
+import { I18n } from 'modules/user/lib/i18n'
+import { icon } from 'lib/utils'
+
 export default Marionette.Behavior.extend({
   events: {
     loading: 'showSpinningLoader',
@@ -11,7 +16,7 @@ export default Marionette.Behavior.extend({
     if (this._targets == null) { this._targets = {} }
     this._targets[selector] = ($target = this.getTarget(selector))
 
-    if ($target.length !== 1) { return _.warn($target, 'loading: failed to find single target') }
+    if ($target.length !== 1) { return log_.warn($target, 'loading: failed to find single target') }
 
     let body = '<div class="small-loader"></div>'
     if (message != null) {
@@ -66,8 +71,8 @@ export default Marionette.Behavior.extend({
       if (!this._targets[selector]) { this._targets[selector] = this.getTarget(selector) }
       const $target = this._targets[selector]
 
-      const oups = _.I18n('something went wrong :(')
-      const body = _.icon('bolt') + `<p> ${oups}</p>`
+      const oups = I18n('something went wrong :(')
+      const body = icon('bolt') + `<p> ${oups}</p>`
 
       $target.html(body)
     }
@@ -80,7 +85,7 @@ export default Marionette.Behavior.extend({
   // - #{selector}
   // - .loading
   getTarget (selector) {
-    if (_.isNonEmptyString(selector)) {
+    if (isNonEmptyString(selector)) {
       const $target = this.$el.find(selector)
       const $targetAlt = $target.find('.loading')
       if ($targetAlt.length === 1) { return $targetAlt } else { return $target }

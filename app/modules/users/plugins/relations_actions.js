@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { I18n } from 'modules/user/lib/i18n'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import { BasicPlugin } from 'lib/plugins'
 
@@ -17,7 +19,7 @@ const events = {
 }
 
 const confirmAction = function (actionLabel, action, warningText) {
-  const confirmationText = _.I18n(`${actionLabel}_confirmation`,
+  const confirmationText = I18n(`${actionLabel}_confirmation`,
     { username: this.model.get('username') })
 
   app.execute('ask:confirmation', { confirmationText, warningText, action })
@@ -38,35 +40,35 @@ const handlers = {
   },
   unfriend: confirmUnfriend,
   invite () {
-    if (this.group == null) { return _.error('inviteUser err: group is missing') }
+    if (this.group == null) { return log_.error('inviteUser err: group is missing') }
 
     return this.group.inviteUser(this.model)
     .catch(behaviorsPlugin.Fail.call(this, 'invite user'))
   },
 
   acceptRequest () {
-    if (this.group == null) { return _.error('acceptRequest err: group is missing') }
+    if (this.group == null) { return log_.error('acceptRequest err: group is missing') }
 
     return this.group.acceptRequest(this.model)
     .catch(behaviorsPlugin.Fail.call(this, 'accept user request'))
   },
 
   refuseRequest () {
-    if (this.group == null) { return _.error('refuseRequest err: group is missing') }
+    if (this.group == null) { return log_.error('refuseRequest err: group is missing') }
 
     return this.group.refuseRequest(this.model)
     .catch(behaviorsPlugin.Fail.call(this, 'refuse user request'))
   },
 
   makeAdmin () {
-    if (this.group == null) { return _.error('makeAdmin err: group is missing') }
+    if (this.group == null) { return log_.error('makeAdmin err: group is missing') }
     const actionFn = this.group.makeAdmin.bind(this.group, this.model)
-    const warningText = _.I18n('group_make_admin_warning')
+    const warningText = I18n('group_make_admin_warning')
     return confirmAction.call(this, 'group_make_admin', actionFn, warningText)
   },
 
   kick () {
-    if (this.group == null) { return _.error('kick err: group is missing') }
+    if (this.group == null) { return log_.error('kick err: group is missing') }
     const actionFn = this.group.kick.bind(this.group, this.model)
     return confirmAction.call(this, 'group_kick', actionFn)
   }

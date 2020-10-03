@@ -1,3 +1,5 @@
+import { I18n, i18n } from 'modules/user/lib/i18n'
+
 import LabelsEditor from './labels_editor'
 import PropertiesEditor from './properties_editor'
 import propertiesCollection from '../../lib/editor/properties_collection'
@@ -166,7 +168,7 @@ export default Marionette.LayoutView.extend({
 
   signalDataError (e) {
     const uri = this.model.get('uri')
-    const subject = _.I18n('data error')
+    const subject = I18n('data error')
     app.execute('show:feedback:menu', {
       subject: `[${uri}][${subject}] `,
       uris: [ uri ],
@@ -205,14 +207,14 @@ export default Marionette.LayoutView.extend({
 
     if (this.requiresLabel) {
       if (_.values(this.model.get('labels')).length <= 0) {
-        this.missingRequiredProperties.push(_.i18n('title'))
+        this.missingRequiredProperties.push(i18n('title'))
       }
     }
 
     for (const property of this.requiredProperties) {
       if (this.model.get(`claims.${property}`)?.length <= 0) {
         const labelKey = propertiesPerType[this.model.type][property].customLabel || property
-        this.missingRequiredProperties.push(_.i18n(labelKey))
+        this.missingRequiredProperties.push(i18n(labelKey))
       }
     }
   },
@@ -226,7 +228,7 @@ export default Marionette.LayoutView.extend({
 
     const type = this.model.get('type')
     if (type === 'edition') {
-      reason = _.i18n("editions can't be moved to Wikidata for the moment")
+      reason = i18n("editions can't be moved to Wikidata for the moment")
       return { ok: false, reason }
     }
 
@@ -237,8 +239,8 @@ export default Marionette.LayoutView.extend({
       if (properties[property]?.editorType === 'entity') {
         for (const value of values) {
           if (!isWikidataUri(value)) {
-            const message = _.i18n("some values aren't Wikidata entities:")
-            reason = `${message} ${_.i18n(unprefixify(property))}`
+            const message = i18n("some values aren't Wikidata entities:")
+            reason = `${message} ${i18n(unprefixify(property))}`
             return { ok: false, reason }
           }
         }

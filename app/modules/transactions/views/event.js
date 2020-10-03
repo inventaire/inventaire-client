@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 // the Event view can have both Message or Action models
 // the interest mixing those is to allow those views to be displayed
 // on chronological order within the transaction timeline
@@ -53,13 +54,13 @@ export default Marionette.ItemView.extend({
   },
 
   showUser (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:inventory:user', this.model.user)
     }
   },
 
   showOtherUser (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:inventory:user', this.model.transaction?.otherUser())
     }
   }

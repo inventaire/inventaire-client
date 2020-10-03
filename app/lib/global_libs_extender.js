@@ -1,3 +1,5 @@
+import assert_ from 'lib/assert_types'
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import error_ from 'lib/error'
 
@@ -7,7 +9,7 @@ Backbone.Model.prototype.idAttribute = '_id'
 const ArrayHandler = function (handler) {
   return function (attr, value) {
     let array = this.get(attr) || []
-    _.typeArray(array)
+    assert_.array(array)
     array = handler(array, value)
     this.set(attr, array)
     return triggerChange(this, attr, value)
@@ -46,7 +48,7 @@ Backbone.Model.prototype.reqGrab = function (request, id, name, refresh) {
 
   return app.request(request, id)
   .then(this.grab.bind(this, name))
-  .catch(_.ErrorRethrow(`reqGrab ${request} ${id} ${name}`))
+  .catch(log_.ErrorRethrow(`reqGrab ${request} ${id} ${name}`))
 }
 
 Backbone.Model.prototype.grab = function (name, model) {

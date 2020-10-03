@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { deepClone } from 'lib/utils'
 let error_
 const formatError = function (message, statusCode, context) {
   // Accept a statusCode number as second argument as done on the server
@@ -47,10 +49,10 @@ export default error_ = {
 
   // Log and report formatted errors to the server, without throwing
   report (message, context = {}) {
-    context = _.deepClone(context)
+    context = deepClone(context)
     context.location = location.href
     // Non-standard convention: 599 = client implementation error
     const err = formatError(message, 599, context)
-    _.error(err, `[reported error (not thrown)] ${message}`)
+    log_.error(err, `[reported error (not thrown)] ${message}`)
   }
 }

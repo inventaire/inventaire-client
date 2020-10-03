@@ -1,3 +1,4 @@
+import { isEmail } from 'lib/boolean_tests'
 import username_ from 'modules/user/lib/username_tests'
 import password_ from 'modules/user/lib/password_tests'
 import forms_ from 'modules/general/lib/forms'
@@ -51,7 +52,7 @@ export default Marionette.ItemView.extend({
 
   verifyUsername (username) {
     username = this.ui.username.val()
-    if (_.isEmail(username)) {
+    if (isEmail(username)) {
 
     } else { return username_.pass(username, '#username') }
   },
@@ -81,7 +82,7 @@ export default Marionette.ItemView.extend({
 
   getErrMessage () {
     const username = this.ui.username.val()
-    if (_.isEmail(username)) {
+    if (isEmail(username)) {
       return 'email or password is incorrect'
     } else { return 'username or password is incorrect' }
   }

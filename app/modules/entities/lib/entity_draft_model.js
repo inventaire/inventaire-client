@@ -1,3 +1,4 @@
+import { I18n } from 'modules/user/lib/i18n'
 import editableEntity from './inv/editable_entity'
 import * as createEntities from './create_entities'
 import properties from './properties'
@@ -70,7 +71,7 @@ export default {
       fetchSubEntitiesUris: Entity.prototype.fetchSubEntitiesUris,
 
       // Methods required by app.navigateFromModel
-      updateMetadata () { return { title: label || _.I18n('new entity') } },
+      updateMetadata () { return { title: label || I18n('new entity') } },
       getRefresh: _.identity
     })
 

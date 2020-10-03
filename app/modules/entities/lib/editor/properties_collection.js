@@ -19,7 +19,7 @@ export default function (entityModel) {
   for (const prop in typeProps) {
     const typeCustomPropData = typeProps[prop]
     const propData = properties[prop]
-    // Unless a custom label is set, pass the property id to the _.i18n function
+    // Unless a custom label is set, pass the property id to the i18n function
     propData.propertyLabel = typeCustomPropData.customLabel || prop
     const propertyModel = getPropertyModel(entityModel, propData)
     propertiesCollection.add(propertyModel)

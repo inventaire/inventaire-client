@@ -1,3 +1,7 @@
+import { isPropertyUri, isExtendedEntityUri, isEntityUri } from 'lib/boolean_tests'
+import assert_ from 'lib/assert_types'
+import { forceArray } from 'lib/utils'
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import error_ from 'lib/error'
 import SerieCleanup from './views/cleanup/serie_cleanup'
@@ -50,7 +54,7 @@ const API = {
     if (isClaim(uri)) { return showClaimEntities(uri, refresh) }
 
     uri = normalizeUri(uri)
-    if (!_.isExtendedEntityUri(uri)) { app.execute('show:error:missing') }
+    if (!isExtendedEntityUri(uri)) { app.execute('show:error:missing') }
 
     app.execute('show:loader')
 
@@ -111,7 +115,7 @@ const API = {
   showDeduplicate (params = {}) {
     // Using an object interface, as the router might pass querystrings
     let { uris } = params
-    uris = _.forceArray(uris)
+    uris = forceArray(uris)
     return showViewByAccessLevel({
       path: 'entity/deduplicate',
       title: 'deduplicate',
@@ -235,8 +239,8 @@ const setHandlers = function () {
 
 const getEntitiesModels = function (params) {
   let { uris, refresh, defaultType, index } = params
-  _.type(uris, 'array')
-  _.types(uris, 'strings...')
+  assert_.array(uris)
+  assert_.strings(uris)
   // Make sure its a 'true' flag and not an object incidently passed
   refresh = refresh === true
 
@@ -249,7 +253,9 @@ const getEntitiesModels = function (params) {
   .then(models => {
     if (index) {
       return models
-    } else { return _.values(models).filter(isntMissing) }
+    } else {
+      return _.values(models).filter(isntMissing)
+    }
   })
 }
 
@@ -263,7 +269,7 @@ const getEntityModel = (uri, refresh) => getEntitiesModels({ uris: [ uri ], refr
     return model
   } else {
     // see getEntitiesModels "Possible reasons for missing entities"
-    _.log(`getEntityModel entity_not_found: ${uri}`)
+    log_.info(`getEntityModel entity_not_found: ${uri}`)
     throw error_.new('entity_not_found', [ uri, models ])
   }
 })
@@ -318,7 +324,7 @@ const showEntityCreateFromIsbn = isbn => {
     const { isbn13h, groupLangUri } = isbnData
     const claims = { 'wdt:P212': [ isbn13h ] }
     // TODO: try to deduce publisher from ISBN publisher section
-    if (_.isEntityUri(groupLangUri)) { claims['wdt:P407'] = [ groupLangUri ] }
+    if (isEntityUri(groupLangUri)) { claims['wdt:P407'] = [ groupLangUri ] }
 
     // Start by requesting the creation of a work entity
     return showEntityCreate({
@@ -365,12 +371,12 @@ const isClaim = claim => /^(wdt:|invp:)/.test(claim)
 const showClaimEntities = function (claim, refresh) {
   const [ property, value ] = Array.from(claim.split('-'))
 
-  if (!_.isPropertyUri(property)) {
+  if (!isPropertyUri(property)) {
     error_.report('invalid property')
     app.execute('show:error:missing')
   }
 
-  if (!_.isExtendedEntityUri(value)) {
+  if (!isExtendedEntityUri(value)) {
     error_.report('invalid value')
     app.execute('show:error:missing')
   }

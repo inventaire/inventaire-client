@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 import preq from 'lib/preq'
 import ShelfItemsCandidates from './shelf_items_candidate'
 import Items from 'modules/inventory/collections/items'
@@ -103,7 +104,7 @@ export default Marionette.CompositeView.extend({
   addNewItems (e) {
     const shelfId = this.model.id
     app.execute('last:shelves:set', [ shelfId ])
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     app.execute('modal:close')
     app.execute('show:add:layout')
   },

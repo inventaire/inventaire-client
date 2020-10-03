@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 const ListEl = Marionette.ItemView.extend({
   tagName: 'li',
   template: require('./templates/shelves_list_li.hbs'),
@@ -15,7 +16,7 @@ const ListEl = Marionette.ItemView.extend({
   },
 
   selectShelf (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     const type = this.model.get('type')
     app.vent.trigger('inventory:select', type, this.model)
     return e.preventDefault()

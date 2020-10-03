@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+
 export default {
   input (e) {
     // TODO: fix case where Firefox sends 'Process' (keyCode 229) keys instead of 'Enter'
@@ -28,8 +30,8 @@ export default {
 const clickTarget = function ($target) {
   if ($target.length > 0) {
     return $target.trigger('click')
-    // _.log $target, 'enter click target'
+    // log_.info $target, 'enter click target'
   } else {
-    return _.error('target not found')
+    return log_.error('target not found')
   }
 }

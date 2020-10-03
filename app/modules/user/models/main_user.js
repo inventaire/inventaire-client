@@ -1,7 +1,7 @@
 import UserCommons from 'modules/users/models/user_commons'
 import solveLang from '../lib/solve_lang'
 import notificationsList from 'modules/settings/lib/notifications_settings_list'
-import initI18n from '../lib/i18n'
+import { initI18n } from '../lib/i18n'
 import cookie_ from 'js-cookie'
 const { location } = window
 

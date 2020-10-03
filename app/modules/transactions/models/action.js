@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 const actionsIcons = {
   requested: 'envelope',
   accepted: 'check',
@@ -55,7 +56,7 @@ export default Backbone.Model.extend({
   userAction (user, withLink) {
     if (user != null) {
       this.userReady = true
-      return _.i18n(`${user}_user_${this.action}`, { username: this.otherUsername(withLink) })
+      return i18n(`${user}_user_${this.action}`, { username: this.otherUsername(withLink) })
     }
   },
 

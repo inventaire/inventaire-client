@@ -1,3 +1,4 @@
+import { I18n } from 'modules/user/lib/i18n'
 import tabsData from 'modules/inventory/lib/add_layout_tabs'
 import screen_ from 'lib/screen'
 
@@ -61,7 +62,7 @@ export default Marionette.LayoutView.extend({
       this.ui.tabs.removeClass('active')
       this.ui[tabKey].addClass('active')
       return app.navigate(`add/${tab}`,
-        { metadata: { title: _.I18n(`title_add_layout_${tab}`) } })
+        { metadata: { title: I18n(`title_add_layout_${tab}`) } })
     })
   },
 

@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import searchType from './search_type'
 import languageSearch from './language_search'
 import EntitiesUrisResults from './entities_uris_results'
@@ -32,7 +33,7 @@ export default function (type, input, limit, offset) {
 // Refresh=true
 const searchByEntityUri = (uri, type) => {
   return app.request('get:entity:model', uri, true)
-  .catch(_.Error('get entity err'))
+  .catch(log_.Error('get entity err'))
   .then(model => {
     // Ignore errors that were catched and thus didn't return anything
     if (model == null) return

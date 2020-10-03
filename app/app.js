@@ -1,3 +1,4 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
 import BindedPartialBuilder from 'lib/binded_partial_builder'
 import { updateRouteMetadata } from 'lib/metadata/update'
 import error_ from 'lib/error'
@@ -24,7 +25,7 @@ const App = Marionette.Application.extend({
 
       options.metadata = model.updateMetadata()
       const route = model.get(pathAttribute)
-      if (_.isNonEmptyString(route)) {
+      if (isNonEmptyString(route)) {
         return this.navigate(route, options)
       } else {
         return error_.report(`navigation model has no ${pathAttribute} attribute`, model)

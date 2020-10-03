@@ -1,3 +1,4 @@
+import { clickCommand } from 'lib/utils'
 import UsersList from 'modules/users/views/users_list'
 import GroupsList from 'modules/network/views/groups_list'
 
@@ -53,7 +54,7 @@ export default Marionette.LayoutView.extend({
   },
 
   events: {
-    'click .showNotificationsSettings': _.clickCommand('show:settings:notifications')
+    'click .showNotificationsSettings': clickCommand('show:settings:notifications')
   },
 
   showFriendsRequests () {

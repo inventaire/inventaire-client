@@ -1,3 +1,4 @@
+import { isEntityUri } from 'lib/boolean_tests'
 import entityValue from 'modules/general/views/behaviors/templates/entity_value.hbs'
 import propertyValue from 'modules/general/views/behaviors/templates/property_value.hbs'
 import wdk from 'lib/wikidata-sdk'
@@ -14,7 +15,7 @@ const prop = function (uri) {
 const entity = function (uri, entityLink, alt, property, title) {
   // Be restricting on the input to be able to use it in SafeStrings
   let pathname
-  if (!wdk.isWikidataItemId(uri) && !_.isEntityUri(uri)) {
+  if (!wdk.isWikidataItemId(uri) && !isEntityUri(uri)) {
     throw error_.new('invalid entity uri', 500, { uri })
   }
 

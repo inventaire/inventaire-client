@@ -1,3 +1,7 @@
+import { isModel, isEntityUri } from 'lib/boolean_tests'
+
+import { forceArray } from 'lib/utils'
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import error_ from 'lib/error'
 import Entity from '../models/entity'
@@ -78,7 +82,7 @@ const getRemoteEntitiesModels = function (uris, refresh, defaultType) {
       // In the case an entity was requested from two different uris (e.g. the canonical
       // and an alias), checking the current index value allows to prevent initializing
       // twice a same model
-      if (_.isModel(currentIndexValue)) {
+      if (isModel(currentIndexValue)) {
         newEntities[uri] = currentIndexValue
       } else {
         newEntities[uri] = new Entity(entityData, { defaultType, refresh })
@@ -93,7 +97,7 @@ const getRemoteEntitiesModels = function (uris, refresh, defaultType) {
 
     return newEntities
   })
-  .catch(_.ErrorRethrow('get entities data err'))
+  .catch(log_.ErrorRethrow('get entities data err'))
 }
 
 const inidivualPromise = (collectivePromise, uri) => collectivePromise.then(_.property(uri))
@@ -117,11 +121,11 @@ export { _addModel as addModel }
 
 export function add (entityData) {
   const { uri } = entityData
-  if (!_.isEntityUri(uri)) { throw error_.new(`invalid uri: ${uri}`, entityData) }
+  if (!isEntityUri(uri)) { throw error_.new(`invalid uri: ${uri}`, entityData) }
   return addModel(new Entity(entityData))
 }
 
-const sanitizeUris = uris => _.uniq(_.compact(_.forceArray(uris)))
+const sanitizeUris = uris => _.uniq(_.compact(forceArray(uris)))
 
 const invalidateCache = function (uri) {
   delete entitiesModelsIndexedByUri[uri]
@@ -134,7 +138,7 @@ const invalidateGraph = function (uri) {
   if (entitiesModelsIndexedByUri[uri] != null) {
     entitiesModelsIndexedByUri[uri].graphChanged = true
   } else {
-    _.warn(uri, "entity not found in cache: can't invalidate cache")
+    log_.warn(uri, "entity not found in cache: can't invalidate cache")
   }
 }
 

@@ -1,3 +1,4 @@
+import { isOpenedOutside } from 'lib/utils'
 // General events to be shared between the app_layout and modal
 // given app_layout can't catch modal events
 import moveCaretToEnd from 'modules/general/lib/move_caret_to_end'
@@ -7,7 +8,7 @@ import preventFormSubmit from 'modules/general/lib/prevent_form_submit'
 import showViews from '../lib/show_views'
 
 const execute = commandName => function (e) {
-  if (_.isOpenedOutside(e)) return
+  if (isOpenedOutside(e)) return
   app.execute(commandName)
   return e.stopPropagation()
 }

@@ -1,15 +1,16 @@
+import { isOpenedOutside } from 'lib/utils'
 import error_ from 'lib/error'
 import forms_ from 'modules/general/lib/forms'
 
 export default {
   itemShow (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:item', this.model)
     }
   },
 
   showUser (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:user', this.model.user)
       // Required to close the ItemShow modal if one was open
       app.execute('modal:close')
@@ -17,7 +18,7 @@ export default {
   },
 
   showTransaction (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       const transac = app.request('get:transaction:ongoing:byItemId', this.model.id)
       app.execute('show:transaction', transac.id)
       // Required to close the ItemShow modal if one was open

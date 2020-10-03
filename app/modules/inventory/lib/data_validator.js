@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import error_ from 'lib/error'
 import importers from './importers'
 
@@ -6,7 +7,7 @@ export default function (source, data) {
   if (disableValidation) return
 
   if (!isValid[format](source, data)) {
-    const message = _.i18n('data_mismatch', { source: label })
+    const message = i18n('data_mismatch', { source: label })
     // avoid attaching the whole file as context as it might be pretty heavy
     const err = error_.new(message, data.slice(0, 101))
     err.i18n = false

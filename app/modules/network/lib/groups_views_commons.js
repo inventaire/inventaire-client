@@ -1,23 +1,24 @@
+import { isOpenedOutside } from 'lib/utils'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 
 export default {
   showGroup (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     app.execute('show:inventory:group', this.model)
   },
 
   showGroupBoard (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     app.execute('show:group:board', this.model)
   },
 
   showGroupSettings (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     app.execute('show:group:board', this.model, { openedSection: 'groupSettings' })
   },
 
   showMembersMenu (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     app.execute('show:group:board', this.model, { openedSection: 'groupInvite' })
   },
 

@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 // Motivation for having a view separated from ItemShow:
 // - no need to reload the image on re-render (like when details are saved)
 
@@ -160,7 +161,7 @@ export default ItemLayout.extend({
       this.shelves = new Shelves(shelves, { selected: this.model.get('shelves') })
     })
     .then(this.ifViewIsIntact('_showShelves'))
-    .catch(_.Error('showShelves err'))
+    .catch(log_.Error('showShelves err'))
   },
 
   getShelves () {

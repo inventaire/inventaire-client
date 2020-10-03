@@ -1,28 +1,31 @@
 import testVideoInput from 'lib/has_video_input'
 import testLocalStorage from 'lib/local_storage'
-import { wiki, roadmap, git } from 'lib/urls'
+import { chat, wiki, roadmap, git } from 'lib/urls'
 
 export default function () {
-  if (window.env === 'prod') { sayHi() }
+  if (window.env === 'prod') sayHi()
+
   ISODatePolyFill()
   startsWithPolyFill()
   testFlexSupport()
   testLocalStorage()
   testVideoInput()
   setDebugSetting()
-};
 
-const sayHi = () => console.log(`\
+  if (Date.now == null) Date.now = () => new Date().getTime()
+}
+
+const sayHi = () => console.log(`
 ,___,
 [-.-]   I've been expecting you, Mr Bond
 /)__)
 -"--"-
 Want to make Inventaire better? Jump in!
+Project chat: ${chat}
 Wiki: ${wiki}
 Design: ${roadmap}
 Code: ${git}/inventaire
-------\
-`
+------`
 )
 
 const testFlexSupport = function () {

@@ -1,3 +1,4 @@
+import assert_ from 'lib/assert_types'
 const wdPropPrefix = 'wdt:'
 
 export default function (lang, polyglot) {
@@ -7,7 +8,7 @@ export default function (lang, polyglot) {
     // This function might be called before the tempates data arrived
     // returning '' early prevents to display undefined and make polyglot worry
     if (key == null) { return '' }
-    _.type(key, 'string')
+    assert_.string(key)
     // easying the transition to a property system with prefixes
     // TODO: format i18n wikidata source files to include prefixes
     // and get rid of this hack
@@ -15,15 +16,17 @@ export default function (lang, polyglot) {
     const val = polyglot.t(key, ctx)
     if (modifier != null) {
       return modifier(polyglot, key, val, ctx)
-    } else { return val }
+    } else {
+      return val
+    }
   }
-};
+}
 
 const isShortkey = key => /_/.test(key)
 const vowels = 'aeiouy'
 
 const modifiers = {
-  // make _.i18n('user_comment', { username: 'adamsberg' })
+  // make i18n('user_comment', { username: 'adamsberg' })
   // return "Commentaire d'adamsberg" instead of "Commentaire de adamsberg"
   fr (polyglot, key, val, data) {
     if ((data != null) && isShortkey(key)) {

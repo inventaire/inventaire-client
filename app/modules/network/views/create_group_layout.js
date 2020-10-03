@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 // add name => creates group
 // invite friends
 // invite by email
@@ -60,7 +61,7 @@ export default GroupLayoutView.extend({
   // showPositionPicker: ->
   //   app.request 'prompt:group:position:picker'
   //   .then (position)=> @position = position
-  //   .catch _.Error('showPositionPicker')
+  //   .catch log_.Error('showPositionPicker')
 
   serializeData () {
     return {
@@ -84,7 +85,7 @@ export default GroupLayoutView.extend({
     }
     // position: @position
 
-    _.log(data, 'group data')
+    log_.info(data, 'group data')
 
     return Promise.try(groups_.validateName.bind(this, name, '#nameField'))
     .then(groups_.validateDescription.bind(this, description, '#description'))

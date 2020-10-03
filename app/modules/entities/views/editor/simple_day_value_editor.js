@@ -1,3 +1,6 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import { simpleDay } from 'lib/utils'
+import { i18n } from 'modules/user/lib/i18n'
 import ClaimsEditorCommons from './claims_editor_commons'
 let noValueI18n = null
 
@@ -13,10 +16,10 @@ export default ClaimsEditorCommons.extend({
     this.currentlySelected = {}
     this.setCurrentValues(year, month, day)
 
-    // Add the translated version of 'no value' once the _.i18n
+    // Add the translated version of 'no value' once the i18n
     // function is accessible
     if (noValueI18n == null) {
-      if (!noValueI18n) { noValueI18n = _.i18n('no value') }
+      if (!noValueI18n) { noValueI18n = i18n('no value') }
       selectorValues.month.unshift(noValueI18n)
       return selectorValues.day.unshift(noValueI18n)
     }
@@ -128,7 +131,7 @@ const getPossibleValues = function (values, defaultValue, selected) {
 }
 
 const simpleDayParts = function (simpleDay) {
-  if (_.isNonEmptyString(simpleDay)) {
+  if (isNonEmptyString(simpleDay)) {
     return simpleDay.split('-').map(parseDateInt)
   } else {
     return []
@@ -136,7 +139,7 @@ const simpleDayParts = function (simpleDay) {
 }
 
 const parseDateInt = function (date) {
-  if (_.isNonEmptyString(date)) {
+  if (isNonEmptyString(date)) {
     return parseInt(date.replace(/^0/, ''))
   } else {
     return null
@@ -149,7 +152,7 @@ const paddedValue = function (value) {
 
 const parseIntIfVal = function (value) { if (value != null) { return parseInt(value) } }
 
-const currentYear = parseInt(_.simpleDay().split('-')[0])
+const currentYear = parseInt(simpleDay().split('-')[0])
 const nextYear = currentYear + 1
 
 const selectorValues = {

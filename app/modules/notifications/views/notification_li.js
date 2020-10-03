@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { isOpenedOutside } from 'lib/utils'
 import { templates } from '../lib/notifications_types'
 
 export default Marionette.ItemView.extend({
@@ -13,7 +15,7 @@ export default Marionette.ItemView.extend({
   getTemplate () {
     const notifType = this.model.get('type')
     const template = templates[notifType]
-    if (template == null) { return _.error('notification type unknown') }
+    if (template == null) { return log_.error('notification type unknown') }
     return template
   },
 
@@ -35,13 +37,13 @@ export default Marionette.ItemView.extend({
   },
 
   showUserProfile (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:user', this.model.user)
     }
   },
 
   showGroupSettings (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:group:board', this.model.group)
     }
   }

@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import Item from 'modules/inventory/models/item'
 import Items from 'modules/inventory/collections/items'
@@ -16,7 +17,8 @@ const getById = function (id) {
     } else {
       throw error_.new('not found', 404, id)
     }
-  }).catch(_.ErrorRethrow('findItemById err'))
+  })
+  .catch(log_.ErrorRethrow('findItemById err'))
 }
 
 const getByIds = ids => preq.get(app.API.items.byIds({ ids }))

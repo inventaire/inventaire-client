@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { isOpenedOutside } from 'lib/utils'
 import preq from 'lib/preq'
 import { showOnMap, showUserOnMap, getBbox } from 'modules/map/lib/map'
 import { initMap, grabMap, refreshListFilter } from 'modules/network/lib/nearby_layouts'
@@ -64,7 +66,7 @@ export default InventoryCommonNav.extend({
       updateRoute: false
     })
     .then(grabMap.bind(this))
-    .catch(_.Error('initMap'))
+    .catch(log_.Error('initMap'))
   },
 
   fetchAndShowUsersAndGroupsOnMap (map) {
@@ -98,14 +100,14 @@ export default InventoryCommonNav.extend({
   },
 
   showUser (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     const userId = e.currentTarget.attributes['data-user-id'].value
     return app.request('resolve:to:userModel', userId)
     .then(user => app.vent.trigger('inventory:select', 'user', user))
   },
 
   showGroup (e) {
-    if (_.isOpenedOutside(e)) return
+    if (isOpenedOutside(e)) return
     const groupId = e.currentTarget.attributes['data-group-id'].value
     return app.request('resolve:to:groupModel', groupId)
     .then(group => app.vent.trigger('inventory:select', 'group', group))

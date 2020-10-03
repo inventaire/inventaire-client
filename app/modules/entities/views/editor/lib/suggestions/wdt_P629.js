@@ -1,3 +1,4 @@
+import { isPositiveIntegerString } from 'lib/boolean_tests'
 export default function (entity, index, propertyValuesCount) {
   // We can't infer a suggestion if the work being modified is the only wdt:P629 value
   if ((index === 0) && (propertyValuesCount === 1)) return
@@ -49,11 +50,11 @@ const getSeriesData = works => works
 .filter(data => data.serie != null)
 
 const getOrdinals = (worksSeriesData, serieUri) => worksSeriesData
-.filter(data => (data.serie === serieUri) && _.isPositiveIntegerString(data.ordinal))
+.filter(data => (data.serie === serieUri) && isPositiveIntegerString(data.ordinal))
 .map(data => parseOrdinal(data.ordinal))
 
 const parseOrdinal = function (ordinal) {
-  if (_.isPositiveIntegerString(ordinal)) { return parseInt(ordinal) }
+  if (isPositiveIntegerString(ordinal)) { return parseInt(ordinal) }
 }
 
 const getSerieData = function (work) {

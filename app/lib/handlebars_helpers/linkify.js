@@ -8,7 +8,7 @@ export default function (text, url, classes = 'link', title) {
   // on rel='noopener' see: https://mathiasbynens.github.io/rel-noopener
   const openOutsideAttributes = isExternalLink ? "target='_blank' rel='noopener'" : ''
 
-  // Not using _.isNonEmptyString to prevent having to depend on _
+  // Not using isNonEmptyString to prevent having to depend on _
   if ((typeof title === 'string') && (title.length > 0)) {
     title = title.replace(/"/g, '&quot;')
     title = `title="${title}"`

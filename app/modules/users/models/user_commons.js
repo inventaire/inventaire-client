@@ -1,3 +1,5 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import { i18n } from 'modules/user/lib/i18n'
 import { countShelves } from 'modules/shelves/lib/shelves'
 import Positionable from 'modules/general/models/positionable'
 import error_ from 'lib/error'
@@ -36,9 +38,9 @@ export default Positionable.extend({
 
   getDescription () {
     const bio = this.get('bio')
-    if (_.isNonEmptyString(bio)) {
+    if (isNonEmptyString(bio)) {
       return bio
-    } else { return _.i18n('user_default_description', { username: this.get('username') }) }
+    } else { return i18n('user_default_description', { username: this.get('username') }) }
   },
 
   setInventoryStats () {

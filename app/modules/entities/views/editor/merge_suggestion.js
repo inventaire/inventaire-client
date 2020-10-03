@@ -1,3 +1,5 @@
+import { someMatch, isOpenedOutside } from 'lib/utils'
+
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import mergeEntities from './lib/merge_entities'
@@ -62,7 +64,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showTask (e) {
-    if (!_.isOpenedOutside(e)) {
+    if (!isOpenedOutside(e)) {
       app.execute('show:task', this.taskModel.id)
     }
   },
@@ -88,7 +90,7 @@ export default Marionette.LayoutView.extend({
   isSelected () { this.$el.find('input[type="checkbox"]').prop('checked') }
 })
 
-const haveLabelMatch = (suggestion, toEntity) => _.haveAMatch(getNormalizedLabels(suggestion), getNormalizedLabels(toEntity))
+const haveLabelMatch = (suggestion, toEntity) => someMatch(getNormalizedLabels(suggestion), getNormalizedLabels(toEntity))
 
 const getNormalizedLabels = entity => Object.values(entity.get('labels')).map(normalizeLabel)
 const normalizeLabel = label => label.toLowerCase().replace(/\W+/g, '')

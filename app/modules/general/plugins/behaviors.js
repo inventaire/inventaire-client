@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 // behaviors: Loading MUST be added to the view
 // elements required in the view: .loading
 // startLoading / stopLoading MUST NOT be called at view initialization
@@ -19,12 +21,12 @@ const loading_ = {
 const successCheck_ = {
   check (label, cb, res) {
     this.$el.trigger('check', cb)
-    if ((label != null) && (res != null)) { return _.log(res, label) }
+    if ((label != null) && (res != null)) { return log_.info(res, label) }
   },
 
   fail (label, cb, err) {
     this.$el.trigger('fail', cb)
-    if ((label != null) && (err != null)) { return _.error(err, label) }
+    if ((label != null) && (err != null)) { return log_.error(err, label) }
   }
 }
 
@@ -35,7 +37,7 @@ successCheck_.Fail = function (label, cb) { return successCheck_.fail.bind(this,
 const alert_ = {
   alert (message) {
     console.warn(message)
-    this.$el.trigger('alert', { message: _.i18n(message) })
+    this.$el.trigger('alert', { message: i18n(message) })
   }
 }
 

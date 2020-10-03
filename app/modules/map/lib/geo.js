@@ -1,3 +1,4 @@
+import assert_ from 'lib/assert_types'
 import leafletLite from './leaflet_lite'
 
 export default {
@@ -8,7 +9,7 @@ export default {
 
   // a, b MUST be { lat, lng } coords objects
   distanceBetween (a, b) {
-    _.types(arguments, 'objects...')
+    assert_.objects(arguments)
     // return the distance in kilometers
     return leafletLite.distance(a, b) / 1000
   }

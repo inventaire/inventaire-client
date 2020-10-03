@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import error_ from 'lib/error'
 
 // Make sure items are fetched for all sub entities as editions that aren't
@@ -17,7 +18,7 @@ const spreadItems = uris => function (items) {
   }
 
   if (items == null) {
-    _.error(error_.new('missing items collection', 500, { uris }), 'spreadItems')
+    log_.error(error_.new('missing items collection', 500, { uris }), 'spreadItems')
     return itemsByCategories
   }
 

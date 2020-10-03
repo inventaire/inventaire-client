@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import PaginatedWorks from '../../collections/paginated_works'
 
@@ -50,7 +51,7 @@ const specificMethods = {
     return this.works
   },
 
-  buildTitle () { return _.i18n('books_by_author', { author: this.get('label') }) }
+  buildTitle () { return i18n('books_by_author', { author: this.get('label') }) }
 }
 
 const getUri = _.property('uri')

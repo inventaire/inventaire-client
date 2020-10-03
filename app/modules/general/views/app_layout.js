@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import waitForCheck from '../lib/wait_for_check'
 import documentLang from '../lib/document_lang'
@@ -96,6 +97,6 @@ const initWindowResizeEvents = function () {
 const postFeedback = function (params) {
   if (params.context == null) { params.context = {} }
   params.context.location = document.location.pathname + document.location.search
-  _.log(params, 'posting feedback')
+  log_.info(params, 'posting feedback')
   return preq.post(app.API.feedback, params)
 }

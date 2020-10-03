@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { Rollback } from 'lib/utils'
 import properties from 'modules/entities/lib/properties'
 import regex_ from 'lib/regex'
 import error_ from 'lib/error'
@@ -34,8 +36,8 @@ export default Backbone.Model.extend({
   saveValue (newValue) {
     const oldValue = this.get('value')
     const oldValueEntity = this.valueEntity
-    _.log(oldValue, 'oldValue')
-    _.log(newValue, 'newValue')
+    log_.info(oldValue, 'oldValue')
+    log_.info(newValue, 'newValue')
 
     if (newValue === oldValue) { return Promise.resolve() }
 
@@ -51,7 +53,7 @@ export default Backbone.Model.extend({
       this.valueEntity = oldValueEntity
     }
 
-    const rollback = _.Rollback(reverseAction, 'value_editor save')
+    const rollback = Rollback(reverseAction, 'value_editor save')
 
     return this.entity.setPropertyValue(property, oldValue, newValue)
     .then(this._destroyIfEmpty.bind(this, newValue))

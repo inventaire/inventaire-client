@@ -1,3 +1,7 @@
+import { isNonEmptyString } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
+import { daysAgo } from 'lib/utils'
+import { i18n } from 'modules/user/lib/i18n'
 // defining all and _recalculateAll methods
 import aggregateUsersIds from '../lib/aggregate_users_ids'
 import groupActions from '../lib/group_actions'
@@ -79,7 +83,7 @@ export default Positionable.extend({
   fetchUsers (collection, userIds) {
     return app.request('get:users:models', userIds)
     .then(collection.add.bind(collection))
-    .catch(_.Error('fetchMembers'))
+    .catch(log_.Error('fetchMembers'))
   },
 
   getUsersIds (category) {
@@ -186,10 +190,10 @@ export default Positionable.extend({
 
   getDescription () {
     const desc = this.get('description')
-    if (_.isNonEmptyString(desc)) {
+    if (isNonEmptyString(desc)) {
       return desc
     } else {
-      return _.i18n('group_default_description', { groupName: this.get('name') })
+      return i18n('group_default_description', { groupName: this.get('name') })
     }
   },
 
@@ -220,7 +224,7 @@ export default Positionable.extend({
       }
       const membersFactor = this.membersCount()
       const randomFactor = Math.random() * 20
-      const ageInDays = _.daysAgo(this.get('created'))
+      const ageInDays = daysAgo(this.get('created'))
       // Highlight the group in its early days
       const ageFactor = 50 / (1 + ageInDays)
       total = adminFactor + membersFactor + randomFactor + ageFactor

@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import UserContributions from './views/user_contributions'
 
@@ -63,7 +64,7 @@ const initRelations = function () {
       app.relations = relations
       app.execute('waiter:resolve', 'relations')
     })
-    .catch(_.Error('relations init err'))
+    .catch(log_.Error('relations init err'))
   } else {
     app.relations = {
       friends: [],

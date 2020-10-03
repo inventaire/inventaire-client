@@ -1,3 +1,5 @@
+import log_ from 'lib/loggers'
+import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import { escapeExpression } from 'handlebars'
 
@@ -14,14 +16,14 @@ export default {
       extract = sourcedExtract(extract, url)
       return { extract, lang }
     })
-    .catch(_.ErrorRethrow('wikipediaExtract err'))
+    .catch(log_.ErrorRethrow('wikipediaExtract err'))
   }
 }
 
 // Add a link to the full wikipedia article at the end of the extract
 const sourcedExtract = function (extract, url) {
   if ((extract != null) && (url != null)) {
-    const text = _.i18n('read_more_on_wikipedia')
+    const text = i18n('read_more_on_wikipedia')
     extract += `<br><a href="${url}" class='source link' target='_blank'>${text}</a>`
   }
 

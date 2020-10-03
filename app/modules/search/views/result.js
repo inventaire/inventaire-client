@@ -1,3 +1,6 @@
+import { isImageHash } from 'lib/boolean_tests'
+import { forceArray, isOpenedOutside } from 'lib/utils'
+
 export default Marionette.ItemView.extend({
   className: 'result',
   tagName: 'li',
@@ -19,7 +22,7 @@ export default Marionette.ItemView.extend({
     'click a': 'showResultFromEvent'
   },
 
-  showResultFromEvent (e) { if (!_.isOpenedOutside(e)) { this.showResult() } },
+  showResultFromEvent (e) { if (!isOpenedOutside(e)) { this.showResult() } },
   showResult () {
     const { id, uri, label, type, image } = this.model.toJSON()
     switch (type) {
@@ -38,7 +41,7 @@ export default Marionette.ItemView.extend({
     }
 
     if (uri != null) {
-      const pictures = _.forceArray(image).map(urlifyImageHash.bind(null, type))
+      const pictures = forceArray(image).map(urlifyImageHash.bind(null, type))
       app.request('search:history:add', { uri, label, type, pictures })
     }
 
@@ -52,7 +55,7 @@ export default Marionette.ItemView.extend({
 const urlifyImageHash = function (type, hash) {
   const nonEntityContainer = nonEntityContainersPerType[type]
   const container = nonEntityContainer || 'entities'
-  if (_.isImageHash(hash)) {
+  if (isImageHash(hash)) {
     return `/img/${container}/${hash}`
   } else { return hash }
 }

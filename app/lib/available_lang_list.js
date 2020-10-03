@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import wdLang from 'wikidata-lang'
 
 export default (availableLangs, selectedLang) => {
@@ -5,7 +6,7 @@ export default (availableLangs, selectedLang) => {
   .map(lang => {
     let langObj = wdLang.byCode[lang]
     if (langObj == null) {
-      _.warn(`lang not found in wikidata-lang: ${lang}`)
+      log_.warn(`lang not found in wikidata-lang: ${lang}`)
       langObj = { code: lang, label: lang, native: lang }
     }
 

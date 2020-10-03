@@ -1,3 +1,4 @@
+import { i18n } from 'modules/user/lib/i18n'
 import { unprefixify } from 'lib/wikimedia/wikidata'
 
 export default Backbone.NestedModel.extend({
@@ -117,4 +118,4 @@ export default Backbone.NestedModel.extend({
 
 const isOpType = type => opType => opType === type
 
-const getPropertyLabel = property => _.i18n(unprefixify(property))
+const getPropertyLabel = property => i18n(unprefixify(property))

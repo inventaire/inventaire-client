@@ -1,3 +1,4 @@
+import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import showPaginatedItems from '../lib/show_paginated_items'
 import urls from 'lib/urls'
@@ -58,7 +59,7 @@ export default Marionette.LayoutView.extend({
       assertImage: true
     })
     .catch(this.hidePublicItems.bind(this))
-    .catch(_.Error('hidePublicItems err'))
+    .catch(log_.Error('hidePublicItems err'))
 
     this.triggerMethod('child:view:ready')
   },

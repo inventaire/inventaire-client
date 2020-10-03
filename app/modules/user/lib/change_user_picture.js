@@ -1,3 +1,5 @@
+import { isUserImg } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
 import PicturePicker from 'modules/general/views/behaviors/picture_picker'
 import error_ from 'lib/error'
 
@@ -16,8 +18,8 @@ const selector = '.changePicture .loading'
 
 const savePicture = function (pictures) {
   const picture = pictures[0]
-  _.log(picture, 'picture')
-  if (!_.isUserImg(picture)) {
+  log_.info(picture, 'picture')
+  if (!isUserImg(picture)) {
     const message = 'couldnt save picture: requires a local user image url'
     throw error_.new(message, pictures)
   }

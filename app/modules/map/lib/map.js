@@ -1,3 +1,4 @@
+import { forceArray } from 'lib/utils'
 import Config from './config'
 import Geo from './geo'
 import { buildPath } from 'lib/location'
@@ -46,7 +47,7 @@ export default map_ = {
 
   // Same as the above function, but guesses model type
   showModelsOnMap (map, models) {
-    for (const model of _.forceArray(models)) {
+    for (const model of forceArray(models)) {
       const type = model.get('type')
       if (type === 'user') map_.showUserOnMap(map, model)
       else if (type === 'group') showGroupOnMap(map, model)
@@ -55,11 +56,11 @@ export default map_ = {
   },
 
   showUsersOnMap (map, users) {
-    return _.forceArray(users).map(user => map_.showUserOnMap(map, user))
+    return forceArray(users).map(user => map_.showUserOnMap(map, user))
   },
 
   showGroupsOnMap (map, groups) {
-    return _.forceArray(groups).map(group => showGroupOnMap(map, group))
+    return forceArray(groups).map(group => showGroupOnMap(map, group))
   },
 
   BoundFilter (map) {
