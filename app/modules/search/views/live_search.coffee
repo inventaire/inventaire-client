@@ -31,8 +31,8 @@ module.exports = Marionette.CompositeView.extend
 
   ui:
     all: '#section-all'
-    entitiesSections: '.entitiesSection'
-    socialSections: '.socialSection'
+    entitiesSections: '.entitiesSections'
+    socialSections: '.socialSections'
     resultsWrapper: '.resultsWrapper'
     results: 'ul.results'
     alternatives: '.alternatives'
@@ -80,10 +80,11 @@ module.exports = Marionette.CompositeView.extend
     @selectType type
 
   selectType: (type)->
-    if type is @_lastType then return
-
-    if isSocialType type then @updateSocialSections type
-    if isEntitiesType type then @updateEntitiesSections type
+    if @isSectionSelected(type)
+      @unselectSection(type)
+    else
+      if isSocialType type then @updateSocialSections type
+      if isEntitiesType type then @updateEntitiesSections type
 
     @_searchOffset = 0
     @_lastType = type
@@ -92,17 +93,23 @@ module.exports = Marionette.CompositeView.extend
 
     @updateAlternatives type
 
+  unselectSection: (type) ->
+    if isSocialType type
+      @ui.socialSections.find("#section-#{type}").removeClass 'selected'
+    if isEntitiesType type
+      @ui.entitiesSections.find("#section-#{type}").removeClass('selected')
+
   updateEntitiesSections: (type) ->
     if isSocialType @_lastType
-      @ui.socialSections.filter(".socialSection").removeClass 'selected'
-    @ui.entitiesSections.filter("#section-#{type}").addClass 'selected'
+      @ui.socialSections.find(".socialSection").removeClass 'selected'
+    @ui.entitiesSections.find("#section-#{type}").addClass 'selected'
     # @entitiesSection = (child)-> child.get('typeAlias') is type
 
   updateSocialSections: (type) ->
     # needs to unselect the default 'book' section
     if !@_lastType or isEntitiesType @_lastType
-      @ui.entitiesSections.filter(".entitiesSection").removeClass 'selected'
-    @ui.socialSections.filter("#section-#{type}").addClass 'selected'
+      @ui.entitiesSections.find(".entitiesSection").removeClass 'selected'
+    @ui.socialSections.find("#section-#{type}").addClass 'selected'
     # @socialSection = (child)-> child.get('typeAlias') is type
 
   updateAlternatives: (search)->
@@ -188,7 +195,7 @@ module.exports = Marionette.CompositeView.extend
   stopLoadingSpinner: -> @ui.loader.html ''
 
   getTypes: ->
-    names = getTypesFromIds _.map(this.$el.find('.selected'), _.identity('id'))
+    names = @getSelectedSections()
     return _.map(names, getSectionType)
 
   resetResults: (searchId, results)->
@@ -270,6 +277,14 @@ module.exports = Marionette.CompositeView.extend
     newResults = results.filter (result)-> result.uri not in currentResultsUri
     @_lastResultsLength = newResults.length
     @collection.add newResults
+
+  isSectionSelected: (name)->
+    names = @getSelectedSections()
+    names.includes name
+
+  getSelectedSections: ()->
+    selectedElements = $.find('.selected')
+    getTypesFromIds _.map(selectedElements, _.identity('id'))
 
 sectionToTypes =
   book: 'works'
