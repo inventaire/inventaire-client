@@ -101,7 +101,13 @@ module.exports = Marionette.CompositeView.extend
 
   updateEntitiesSections: (type) ->
     if isSocialType @_lastType
+
       @ui.socialSections.find(".socialSection").removeClass 'selected'
+    # unselect all selected section to have a search dedicated to subjects only
+    if type is 'subject'
+      @ui.entitiesSections.find(".entitiesSection").removeClass 'selected'
+    else
+      @ui.entitiesSections.find("#section-subject").removeClass 'selected'
     @ui.entitiesSections.find("#section-#{type}").addClass 'selected'
     # @entitiesSection = (child)-> child.get('typeAlias') is type
 
@@ -139,8 +145,6 @@ module.exports = Marionette.CompositeView.extend
     # as it's not a subset of Wikidata anymore: pretty much anything
     # on Wikidata can be considered a subject
     if types.includes 'subjects'
-      @ui.entitiesSections.filter(".entitiesSection").removeClass 'selected'
-      @ui.socialSections.filter(".socialSection").removeClass 'selected'
       wikidataSearch search, searchBatchLength, @_searchOffset
       .map formatSubject
     else
@@ -195,7 +199,7 @@ module.exports = Marionette.CompositeView.extend
   stopLoadingSpinner: -> @ui.loader.html ''
 
   getTypes: ->
-    names = @getSelectedSections()
+    names = @getSelectedSectionsNames()
     return _.map(names, getSectionType)
 
   resetResults: (searchId, results)->
@@ -279,10 +283,10 @@ module.exports = Marionette.CompositeView.extend
     @collection.add newResults
 
   isSectionSelected: (name)->
-    names = @getSelectedSections()
+    names = @getSelectedSectionsNames()
     names.includes name
 
-  getSelectedSections: ()->
+  getSelectedSectionsNames: ()->
     selectedElements = $.find('.selected')
     getTypesFromIds _.map(selectedElements, _.identity('id'))
 
