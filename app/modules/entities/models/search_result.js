@@ -11,7 +11,7 @@ export default Filterable.extend({
   initialize () {
     const { lang } = app.user
 
-    const [ label, labels, descriptions ] = Array.from(this.gets('label', 'labels', 'descriptions'))
+    const [ label, labels, descriptions ] = this.gets('label', 'labels', 'descriptions')
 
     if ((label == null) && (labels != null)) {
       this.set('label', getBestLangValue(lang, null, labels).value)
@@ -21,7 +21,7 @@ export default Filterable.extend({
       this.set('description', getBestLangValue(lang, null, descriptions).value)
     }
 
-    const [ prefix ] = Array.from(getPrefix(this.id))
+    const [ prefix ] = getPrefix(this.id)
 
     switch (prefix) {
     case 'wd': return this._wikidataInit()

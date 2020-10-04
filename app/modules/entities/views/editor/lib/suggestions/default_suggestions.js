@@ -38,8 +38,8 @@ const addNextDefaultSuggestionsBatch = function () {
 
   return app.request('get:entities:models', { uris: nextBatch })
   .map(prepareSearchResult)
-  .then(results => {
-    this._defaultSuggestions.push(...Array.from(results || []))
+  .then((results = []) => {
+    this._defaultSuggestions.push(...results)
     return this.suggestions.add(results)
   })
 }

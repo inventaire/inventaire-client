@@ -203,7 +203,9 @@ export default Marionette.LayoutView.extend({
   },
 
   // To be overriden in subclasses that need to handle several collections
-  collectionsAction (fnName, ...args) { return this.collection[fnName](...Array.from(args || [])) },
+  collectionsAction (fnName, ...args) {
+    return this.collection[fnName](...args)
+  },
 
   updateCounter () {
     const remainingCount = this.count()

@@ -121,7 +121,9 @@ Backbone.Collection.prototype.triggerUpdateEvents = function () {
   this.on('change', lazyTriggerUpdate)
 }
 
-const triggerUpdate = function (...args) { this.trigger('update', ...Array.from(args)) }
+const triggerUpdate = function (...args) {
+  this.trigger('update', ...args)
+}
 
 // Use in promise chains when the view might be about to be re-rendered
 // and calling would thus trigger error as the method depends on regions
@@ -133,7 +135,7 @@ Marionette.View.prototype.ifViewIsIntact = function (fn, ...args) {
 
     args.push(result)
     // Accept a method name in place of a function
-    if (_.isString(fn)) { fn = this[fn] }
+    if (_.isString(fn)) fn = this[fn]
     return fn.apply(this, args)
   }
 }

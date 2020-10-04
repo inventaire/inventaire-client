@@ -39,18 +39,18 @@ const getBestWikiProjectInfo = function (params) {
 
   const getTitleForLang = Lang => getWikiProjectTitle(sitelinks, projectBaseName, Lang)
 
-  let [ title, langCode ] = Array.from([ getTitleForLang(lang), lang ])
+  let [ title, langCode ] = [ getTitleForLang(lang), lang ]
 
   if ((originalLang != null) && (title == null)) {
-    [ title, langCode ] = Array.from([ getTitleForLang(originalLang), originalLang ])
+    [ title, langCode ] = [ getTitleForLang(originalLang), originalLang ]
   }
 
   if (title == null) {
-    [ title, langCode ] = Array.from([ getTitleForLang('en'), 'en' ])
+    [ title, langCode ] = [ getTitleForLang('en'), 'en' ]
   }
 
   if (title == null) {
-    [ title, langCode ] = Array.from(pickOneWikiProjectTitle(sitelinks, projectBaseName))
+    [ title, langCode ] = pickOneWikiProjectTitle(sitelinks, projectBaseName)
   }
 
   if ((title != null) && langCode) {

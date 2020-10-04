@@ -77,7 +77,7 @@ const getSeriePathname = function (works) {
   const work = works[0]
   const seriesUris = work.get('claims.wdt:P179')
   if (seriesUris?.length === 1) {
-    const [ uri, pathname ] = Array.from(work.gets('uri', 'pathname'))
+    const [ uri, pathname ] = work.gets('uri', 'pathname')
     // Hacky way to get the serie entity pathname without having to request its model
     return pathname.replace(uri, seriesUris[0])
   }
@@ -85,9 +85,9 @@ const getSeriePathname = function (works) {
 
 const aggregateAuthorsPerProperty = function (authorsPerProperty, workAuthors) {
   for (const property in workAuthors) {
-    const authors = workAuthors[property]
+    const authors = workAuthors[property] || []
     if (authorsPerProperty[property] == null) { authorsPerProperty[property] = [] }
-    authorsPerProperty[property].push(...Array.from(authors || []))
+    authorsPerProperty[property].push(...authors)
   }
   return authorsPerProperty
 }

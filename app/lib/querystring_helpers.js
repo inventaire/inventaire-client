@@ -35,7 +35,7 @@ const set = function (key, value) {
 const keep = function (newRoute) {
   // get info on new route
   let newQuery;
-  [ newRoute, newQuery ] = Array.from(newRoute.split('?'))
+  [ newRoute, newQuery ] = newRoute.split('?')
   newQuery = parseQuery(newQuery)
 
   const currentQuery = getQuery()

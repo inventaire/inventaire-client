@@ -37,7 +37,7 @@ const images_ = {
         const canvas = document.createElement('canvas')
         let { width, height } = image
         saveDimensions(data, 'original', width, height);
-        [ width, height ] = Array.from(getResizedDimensions(width, height, maxSize))
+        [ width, height ] = getResizedDimensions(width, height, maxSize)
         saveDimensions(data, 'resized', width, height)
 
         canvas.width = width

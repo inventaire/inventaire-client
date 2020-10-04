@@ -36,7 +36,7 @@ const spreadItems = uris => function (items) {
     const nearestPublicItem = itemsByCategories.public[0]
     const nearestPublicItemDistance = getItemDistance(nearestPublicItem)
     const nearbyKmPerimeter = getPerimeter(nearestPublicItemDistance)
-    const [ nearbyPublic, otherPublic ] = Array.from(_.partition(itemsByCategories.public, isNearby(nearbyKmPerimeter)))
+    const [ nearbyPublic, otherPublic ] = _.partition(itemsByCategories.public, isNearby(nearbyKmPerimeter))
     itemsByCategories.nearbyPublic = nearbyPublic
     itemsByCategories.otherPublic = otherPublic
   }

@@ -7,7 +7,7 @@ const parseQuery = function (queryString) {
 }
 
 const setQuerystring = function (url, key, value) {
-  const [ href, qs ] = Array.from(url.split('?'))
+  const [ href, qs ] = url.split('?')
   const qsObj = parseQuery(qs)
   // override the previous key/value
   qsObj[key] = value
@@ -45,7 +45,7 @@ const currentSection = () => routeSection(currentRoute())
 
 const parseKeysValues = function (queryObj, nextParam) {
   const pairs = nextParam.split('=')
-  let [ key, value ] = Array.from(pairs)
+  let [ key, value ] = pairs
   if ((key?.length > 0) && (value != null)) {
     // Try to parse the value, allowing JSON strings values
     // like data={%22wdt:P50%22:[%22wd:Q535%22]}

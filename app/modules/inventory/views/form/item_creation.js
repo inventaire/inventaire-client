@@ -167,7 +167,7 @@ export default Marionette.LayoutView.extend({
     const selectedShelves = this.$el.find('.shelfSelector input')
       .filter((i, el) => el.checked)
       .map((i, el) => el.name.split('-')[1])
-    return Array.from(selectedShelves)
+    return selectedShelves
   },
 
   addNext () {
@@ -199,7 +199,7 @@ const guessTransaction = function (transaction) {
 
 const guessLang = function (entity) {
   const { lang: userLang } = app.user
-  const [ labels, originalLang ] = Array.from(entity.gets('labels', 'originalLang'))
+  const [ labels, originalLang ] = entity.gets('labels', 'originalLang')
   if (labels[userLang] != null) { return userLang }
   if (labels[originalLang] != null) { return originalLang }
   if (labels.en != null) { return 'en' }

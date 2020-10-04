@@ -42,7 +42,7 @@ export default Marionette.ItemView.extend({
 
   getPositionUrl () {
     if (this.model.distanceFromMainUser == null) return
-    const [ lat, lng ] = Array.from(this.model.get('position'))
+    const [ lat, lng ] = this.model.get('position')
     return buildPath('/network/users/nearby', { lat, lng })
   },
 

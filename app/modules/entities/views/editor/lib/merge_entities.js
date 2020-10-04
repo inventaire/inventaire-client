@@ -6,7 +6,7 @@ import getEntityWikidataImportData from './get_entity_wikidata_import_data'
 export default function (fromUri, toUri) {
   // Invert URIs if the toEntity is a Wikidata entity
   // as we can't request Wikidata entities to merge into inv entities
-  if (fromUri.split(':')[0] === 'wd') { [ fromUri, toUri ] = Array.from([ toUri, fromUri ]) }
+  if (fromUri.split(':')[0] === 'wd') { [ fromUri, toUri ] = [ toUri, fromUri ] }
 
   // Show the Wikidata data importer only if the user has already set their Wikidata tokens
   // Otherwise, just merge the entity without importing the data

@@ -59,8 +59,8 @@ const getNextTaskByScore = function (params) {
 
 const removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id)
 
-const updateBacklogAndGetNextTask = function (tasks, backlogName) {
-  backlogs[backlogName].push(...Array.from(tasks || []))
+const updateBacklogAndGetNextTask = function (tasks = [], backlogName) {
+  backlogs[backlogName].push(...tasks)
   return nextTaskModel(backlogName)
 }
 

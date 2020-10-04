@@ -5,7 +5,7 @@ export default Marionette.ItemView.extend({
   template: require('./templates/imported_item_row.hbs'),
   serializeData () {
     const attrs = this.model.serializeData()
-    const [ prefix, id ] = Array.from(attrs.entity.split(':'))
+    const [ prefix, id ] = attrs.entity.split(':')
     if (prefix === 'isbn') { attrs.isbn = id }
     return attrs
   },

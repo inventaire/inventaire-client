@@ -65,7 +65,7 @@ export default UserCommons.extend({
   },
 
   calculateHighlightScore () {
-    const [ itemsCount, itemsLastAdded ] = Array.from(this.gets('itemsCount', 'itemsLastAdded'))
+    const [ itemsCount, itemsLastAdded ] = this.gets('itemsCount', 'itemsLastAdded')
     // Highlight users with the most known items
     // updated lately (add 1 to avoid dividing by 0)
     const freshnessFactor = 100 / (daysAgo(itemsLastAdded) + 1)

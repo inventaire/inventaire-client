@@ -10,14 +10,14 @@ export default {
   },
 
   normalizeUri (uri) {
-    let [ prefix, id ] = Array.from(uri.split(':'))
+    let [ prefix, id ] = uri.split(':')
     if ((id == null)) {
       if (wdk.isWikidataItemId(prefix)) {
-        [ prefix, id ] = Array.from([ 'wd', prefix ])
+        [ prefix, id ] = [ 'wd', prefix ]
       } else if (isInvEntityId(prefix)) {
-        [ prefix, id ] = Array.from([ 'inv', prefix ])
+        [ prefix, id ] = [ 'inv', prefix ]
       } else if (isbn_.looksLikeAnIsbn(prefix)) {
-        [ prefix, id ] = Array.from([ 'isbn', isbn_.normalizeIsbn(prefix) ])
+        [ prefix, id ] = [ 'isbn', isbn_.normalizeIsbn(prefix) ]
       }
     } else {
       if (prefix === 'isbn') { id = isbn_.normalizeIsbn(id) }

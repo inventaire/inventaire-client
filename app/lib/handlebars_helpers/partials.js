@@ -8,12 +8,12 @@ export default {
     const parts = name.split(':')
     switch (parts.length) {
     // ex: partial 'general:menu:feedback_news'
-    case 3: [ module, subfolder, file ] = Array.from(parts); break
+    case 3: [ module, subfolder, file ] = parts; break
       // ex: partial 'user:password_input'
-    case 2: [ module, file ] = Array.from(parts); break
+    case 2: [ module, file ] = parts; break
       // defaulting to general:partialName
       // ex: partial 'separator'
-    case 1: [ module, file ] = Array.from([ 'general', name ]); break
+    case 1: [ module, file ] = [ 'general', name ]; break
     }
 
     if (subfolder != null) {

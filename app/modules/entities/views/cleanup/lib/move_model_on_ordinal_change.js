@@ -2,7 +2,7 @@ import { isPositiveIntegerString, isNonEmptyArray } from 'lib/boolean_tests'
 
 export default function (model, value) {
   if (!isNonEmptyArray(value)) return
-  const [ ordinal ] = Array.from(value)
+  const [ ordinal ] = value
   if (!isPositiveIntegerString(ordinal)) return
 
   const ordinalInt = parseInt(ordinal)

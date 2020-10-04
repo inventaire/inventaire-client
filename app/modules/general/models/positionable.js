@@ -7,7 +7,7 @@ export default Filterable.extend({
   getCoords () {
     const latLng = this.get('position')
     if (latLng != null) {
-      const [ lat, lng ] = Array.from(latLng)
+      const [ lat, lng ] = latLng
       return { lat, lng }
     } else {
       return {}
@@ -24,7 +24,7 @@ export default Filterable.extend({
 
   _setLatLng () {
     if (this.hasPosition()) {
-      const [ lat, lng ] = Array.from(this.get('position'))
+      const [ lat, lng ] = this.get('position')
       this._latLng = new L.LatLng(lat, lng)
     } else {
       this._latLng = null

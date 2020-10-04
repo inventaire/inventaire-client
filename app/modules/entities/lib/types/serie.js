@@ -49,7 +49,7 @@ const specificMethods = _.extend({}, commonsSerieWork, {
   },
 
   getAllAuthorsUris () {
-    const allAuthorsUris = getAuthors(this).concat(...Array.from(this.parts.map(getAuthors) || []))
+    const allAuthorsUris = getAuthors(this).concat(...this.parts.map(getAuthors) || [])
     return _.uniq(_.compact(allAuthorsUris))
   },
 

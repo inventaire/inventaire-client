@@ -64,7 +64,7 @@ export default Backbone.Model.extend({
     const otherUser = this.transaction?.otherUser()
     // injecting an html anchor instead of just a username string
     if (otherUser != null) {
-      const [ username, pathname ] = Array.from(otherUser.gets('username', 'pathname'))
+      const [ username, pathname ] = otherUser.gets('username', 'pathname')
       if (withLink) {
         return `<a href='${pathname}' class='username'>${username}</a>`
       } else {

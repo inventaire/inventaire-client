@@ -43,7 +43,7 @@ export default {
     icon: 'mastodon',
     text: _.identity,
     url (address) {
-      const [ username, domain ] = Array.from(address.split('@'))
+      const [ username, domain ] = address.split('@')
       return `https://${domain}/@${username}`
     }
   },

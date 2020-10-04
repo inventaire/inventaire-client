@@ -8,7 +8,7 @@ const formatError = function (message, statusCode, context) {
   // in case statusCode is a 4xx error
 
   // Default to client implementation errors: 599
-  if (!_.isNumber(statusCode)) { [ statusCode, context ] = Array.from([ 599, statusCode ]) }
+  if (!_.isNumber(statusCode)) { [ statusCode, context ] = [ 599, statusCode ] }
 
   const err = new Error(message)
   // Set statusCode to a 4xx error for user errors to prevent it

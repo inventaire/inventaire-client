@@ -34,7 +34,7 @@ const getTasksByUri = function (model) {
   }
 
   const uri = model.get('uri')
-  const [ action, relation ] = Array.from(getMergeSuggestionsParams(uri))
+  const [ action, relation ] = getMergeSuggestionsParams(uri)
   return preq.get(app.API.tasks[action](uri))
   .then(res => {
     const tasks = res.tasks[uri]
@@ -45,7 +45,7 @@ const getTasksByUri = function (model) {
 }
 
 const getMergeSuggestionsParams = function (uri) {
-  const [ prefix ] = Array.from(uri.split(':'))
+  const [ prefix ] = uri.split(':')
   if (prefix === 'wd') {
     return [ 'bySuggestionUris', 'suspectUri' ]
   } else {
@@ -68,7 +68,7 @@ const addTasksToEntities = (uri, tasks, relation) => function (entities) {
 }
 
 const getHomonyms = function (model, tasksEntitiesUris) {
-  const [ uri, label ] = Array.from(model.gets('uri', 'label'))
+  const [ uri, label ] = model.gets('uri', 'label')
   const { pluralizedType } = model
   return preq.get(app.API.search(pluralizedType, label, 100))
   .get('results')
@@ -81,7 +81,7 @@ const parseSearchResults = (uri, tasksEntitiesUris) => function (searchResults) 
   if (prefix === 'wd') { uris = uris.filter(isntWdUri) }
   // Omit the current entity URI and the entities for which a task was found
   const urisToOmit = [ uri ].concat(tasksEntitiesUris)
-  uris = _.without(uris, ...Array.from(urisToOmit))
+  uris = _.without(uris, ...urisToOmit)
   // Search results entities miss their claims, so we need to fetch the full entities
   return app.request('get:entities:models', { uris })
   // Re-filter out uris to omit as a redirection might have brought it back

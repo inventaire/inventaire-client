@@ -11,7 +11,7 @@ export default ClaimsEditorCommons.extend({
   initialize () {
     this.initEditModeState()
     this.focusTarget = 'yearPicker'
-    const [ year, month, day ] = Array.from(simpleDayParts(this.model.get('value')))
+    const [ year, month, day ] = simpleDayParts(this.model.get('value'))
     this.initialValues = { year, month, day }
     this.currentlySelected = {}
     this.setCurrentValues(year, month, day)
@@ -57,7 +57,7 @@ export default ClaimsEditorCommons.extend({
   onToggleEditMode () {
     // Reset values so that escaping the edit mode and coming back in edit mode
     // results in the value being restored to its saved state
-    return this.setCurrentValues(...Array.from(simpleDayParts(this.model.get('value')) || []))
+    return this.setCurrentValues(...simpleDayParts(this.model.get('value')) || [])
   },
 
   getUnitData (name, defaultValue) {

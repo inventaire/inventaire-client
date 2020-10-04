@@ -14,7 +14,7 @@ export default function (path, width = 1600, height = 1600) {
 
   // Converting image hashes to a full URL
   if (isLocalImg(path) || isAssetImg(path)) {
-    const [ container, filename ] = Array.from(path.split('/').slice(2))
+    const [ container, filename ] = path.split('/').slice(2)
     return `/img/${container}/${width}x${height}/${filename}`
   }
 

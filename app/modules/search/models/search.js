@@ -25,7 +25,7 @@ export default Backbone.Model.extend({
   updateTimestamp () { return this.set('timestamp', Date.now()) },
 
   show () {
-    const [ uri, query ] = Array.from(this.gets('uri', 'query'))
+    const [ uri, query ] = this.gets('uri', 'query')
     if (uri != null) {
       app.execute('show:entity', uri)
     } else { app.execute('search:global', query) }

@@ -24,7 +24,7 @@ export const isEntityUri = bindedTest('EntityUri')
 export const isPropertyUri = bindedTest('PropertyUri')
 
 export function isExtendedEntityUri (uri) {
-  const [ prefix, id ] = Array.from(uri.split(':'))
+  const [ prefix, id ] = uri.split(':')
   // Accept alias URIs.
   // Ex: twitter:Bouletcorp -> wd:Q1524522
   return isNonEmptyString(prefix) && isNonEmptyString(id)

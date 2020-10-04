@@ -9,8 +9,8 @@ export default function (entity, index, propertyValuesCount) {
   return app.request('get:entities:models', { uris: worksUris })
   .then(works => {
     const data = works.reduce(aggregate, { authors: [], series: [] })
-    const commonAuthors = _.intersection(...Array.from(data.authors || []))
-    const commonSeries = _.intersection(...Array.from(data.series || []))
+    const commonAuthors = _.intersection(...data.authors)
+    const commonSeries = _.intersection(...data.series)
 
     if (commonSeries.length === 1) {
       return getSuggestionsFromSerie(commonSeries[0], works, worksUris)

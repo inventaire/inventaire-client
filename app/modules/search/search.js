@@ -50,7 +50,9 @@ API.searchFromQueryString = function (querystring) {
 
   if (type != null) {
     section = type
-  } else { [ q, section ] = Array.from(findSearchSection(q)) }
+  } else {
+    [ q, section ] = findSearchSection(q)
+  }
 
   // Show the add layout at its search tab in the background, so that clicking
   // out of the live search doesn't result in a blank page

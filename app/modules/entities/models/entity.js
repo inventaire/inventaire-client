@@ -108,7 +108,7 @@ export default Filterable.extend({
     }
 
     let { uri, type } = attrs
-    const [ prefix, id ] = Array.from(uri.split(':'))
+    const [ prefix, id ] = uri.split(':')
 
     if (prefix === 'wd') { this.wikidataId = id }
 
@@ -226,7 +226,7 @@ export default Filterable.extend({
 
   findBestDescription () {
     // So far, only Wikidata entities get extracts
-    const [ extract, description ] = Array.from(this.gets('extract', 'description'))
+    const [ extract, description ] = this.gets('extract', 'description')
     // Dont use an extract too short as it will be
     // more of it's wikipedia source url than a description
     if (extract?.length > 300) {

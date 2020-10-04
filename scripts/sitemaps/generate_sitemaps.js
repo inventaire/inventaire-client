@@ -50,7 +50,7 @@ const getParts = name => function (items) {
   while (items.length > 0) {
     // override items
     let part;
-    [ part, items ] = Array.from([ items.slice(0, 50000), items.slice(50000) ])
+    [ part, items ] = [ items.slice(0, 50000), items.slice(50000) ]
     index += 1
     parts.push({ name, items: part, index })
   }

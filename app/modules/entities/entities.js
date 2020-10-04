@@ -369,7 +369,7 @@ const showViewByAccessLevel = function (params) {
 
 const isClaim = claim => /^(wdt:|invp:)/.test(claim)
 const showClaimEntities = function (claim, refresh) {
-  const [ property, value ] = Array.from(claim.split('-'))
+  const [ property, value ] = claim.split('-')
 
   if (!isPropertyUri(property)) {
     error_.report('invalid property')
@@ -386,7 +386,7 @@ const showClaimEntities = function (claim, refresh) {
 
 const reportTypeIssue = function (params) {
   const { expectedType, model, context } = params
-  const [ uri, realType ] = Array.from(model.gets('uri', 'type'))
+  const [ uri, realType ] = model.gets('uri', 'type')
   if (reportedTypeIssueUris.includes(uri)) return
   reportedTypeIssueUris.push(uri)
 

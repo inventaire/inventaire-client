@@ -150,27 +150,38 @@ export default Backbone.NestedModel.extend({
     }
     );
 
-    [ attrs.user, attrs.other ] = Array.from(this.aliasUsers(attrs))
+    [ attrs.user, attrs.other ] = this.aliasUsers(attrs)
 
     // Legacy: the title and image were previously snapshot on snapshot.item
-    if (!attrs.entity) { attrs.entity = {} }
-    if (!attrs.entity.title) { attrs.entity.title = attrs.item.title }
-    if (!attrs.entity.image) { attrs.entity.image = attrs.item.pictures?.[0] }
+    if (!attrs.entity) attrs.entity = {}
+    if (!attrs.entity.title) attrs.entity.title = attrs.item.title
+    if (!attrs.entity.image) attrs.entity.image = attrs.item.pictures?.[0]
 
     return attrs
   },
 
-  itemData () { return this.item?.serializeData() || this.get('snapshot.item') },
-  ownerData () { return this.owner?.serializeData() || this.get('snapshot.owner') },
-  requesterData () { return this.requester?.serializeData() || this.get('snapshot.requester') },
+  itemData () {
+    return this.item?.serializeData() || this.get('snapshot.item')
+  },
+  ownerData () {
+    return this.owner?.serializeData() || this.get('snapshot.owner')
+  },
+  requesterData () {
+    return this.requester?.serializeData() || this.get('snapshot.requester')
+  },
 
   aliasUsers (attrs) {
     if (this.mainUserIsOwner) {
       return [ attrs.owner, attrs.requester ]
-    } else { return [ attrs.requester, attrs.owner ] }
+    } else {
+      return [ attrs.requester, attrs.owner ]
+    }
   },
 
-  otherUser () { if (this.mainUserIsOwner) { return this.requester } else { return this.owner } },
+  otherUser () {
+    if (this.mainUserIsOwner) return this.requester
+    else return this.owner
+  },
 
   getIcon () {
     const transaction = this.get('transaction')
@@ -183,7 +194,7 @@ export default Backbone.NestedModel.extend({
       if (this.mainUserIsOwner) {
         return i18n(`main_user_${transaction}`)
       } else {
-        const [ username, pathname ] = Array.from(this.owner.gets('username', 'pathname'))
+        const [ username, pathname ] = this.owner.gets('username', 'pathname')
         const link = `<a href='${pathname}'>${username}</a>`
         return i18n(`other_user_${transaction}`, { username: link })
       }
@@ -238,7 +249,7 @@ export default Backbone.NestedModel.extend({
 
   isArchived () { return isArchived(this) },
   isCancellable () {
-    const [ state, transaction ] = Array.from(this.gets('state', 'transaction'))
+    const [ state, transaction ] = this.gets('state', 'transaction')
     return cancellableStates[transaction][this.role].includes(state)
   },
 

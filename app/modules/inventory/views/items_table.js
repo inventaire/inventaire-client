@@ -83,12 +83,12 @@ export default InfiniteScrollItemsList.extend({
   },
 
   addSelectedIds (...ids) {
-    this.selectedIds.push(...Array.from(ids || []))
+    this.selectedIds.push(...ids)
     return this.updateSelectedIds(this.selectedIds)
   },
 
   removeSelectedIds (...ids) {
-    this.selectedIds = _.without(this.selectedIds, ...Array.from(ids))
+    this.selectedIds = _.without(this.selectedIds, ...ids)
     return this.updateSelectedIds(this.selectedIds)
   },
 

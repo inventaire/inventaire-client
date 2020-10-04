@@ -78,7 +78,7 @@ const getBestMatchScore = function (aLabelsParts, bLabelsParts) {
 
   for (const aPart of aLabelsParts) {
     for (const bPart of bLabelsParts) {
-      const [ shortest, longest ] = Array.from(getShortestAndLongest(aPart.length, bPart.length))
+      const [ shortest, longest ] = getShortestAndLongest(aPart.length, bPart.length)
       // Do not compare parts that are very different in length
       if ((longest - shortest) < 5) {
         const distance = leven(aPart, bPart)

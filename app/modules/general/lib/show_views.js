@@ -50,7 +50,7 @@ const entityAction = function (e, action) {
   // typically, a link to a Wikidata entity page
   if (!isOpenedOutside(e)) {
     // Any href arriving here should be of the form /entity/:uri(/:label)(/edit)
-    const [ uri ] = Array.from(href.split('/entity/')[1].split('/'))
+    const [ uri ] = href.split('/entity/')[1].split('/')
     app.execute(action, uri)
     return e.stopPropagation()
   }

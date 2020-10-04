@@ -4,7 +4,7 @@ import preq from 'lib/preq'
 export default function (app, _) {
   const action = function (user, action, newStatus, label) {
     let userId;
-    [ user, userId ] = Array.from(normalizeUser(user))
+    [ user, userId ] = normalizeUser(user)
     const currentStatus = user.get('status')
     user.set('status', newStatus)
 

@@ -106,7 +106,7 @@ export const focusInput = $el => {
 
 // adapted from http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 export const hashCode = string => {
-  let [ hash, i, len ] = Array.from([ 0, 0, string.length ])
+  let [ hash, i, len ] = [ 0, 0, string.length ]
   if (len === 0) return hash
 
   while (i < len) {
