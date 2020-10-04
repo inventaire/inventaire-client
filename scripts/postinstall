@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
-set -eu
+echo "need to update postinstall"
+# set -eu
 
 # If public/js/app.js already exist, assume that it's a re-install
 # and that all the following isn't needed
-[ -e public/js/app.js ] && exit 0
+# [ -e public/js/app.js ] && exit 0
 
-mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./public/css
-./scripts/install_external_modules
-./scripts/update_mentions.js
+# mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./public/css
+# ./scripts/install_external_modules
+# ./scripts/update_mentions.js
 
-./scripts/build_i18n
+# ./scripts/build_i18n
 
 # need to build once to make the public folder available
-./node_modules/brunch/bin/brunch build
+# ./node_modules/brunch/bin/brunch build
