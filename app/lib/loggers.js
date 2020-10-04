@@ -10,7 +10,7 @@ const log = (obj, label) => {
     else console.log(obj)
   } else {
     // logging arguments as arrays for readability
-    if (_.isArguments(obj)) obj = _.toArray(obj)
+    if (_.isArguments(obj)) obj = Array.from(obj)
     if (label != null) console.log(`===== ${label} =====`)
     console.log(obj)
     if (label != null) console.log('-----')

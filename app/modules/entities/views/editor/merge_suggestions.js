@@ -35,7 +35,7 @@ export default Marionette.CompositeView.extend({
   selectAll () { return this.setAllSelected(true) },
   unselectAll () { return this.setAllSelected(false) },
   setAllSelected (bool) {
-    return _.toArray(this.$el.find('input[type="checkbox"]'))
+    return Array.from(this.$el.find('input[type="checkbox"]'))
     .forEach(el => { el.checked = bool })
   },
 

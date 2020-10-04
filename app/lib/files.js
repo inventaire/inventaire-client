@@ -33,7 +33,7 @@ const ParseReaderResult = (mode, file, verifyEncoding, resolve) => readerEvent =
 // mode: readAsDataURL or readAsText
 // encoding: the expected encoding of the file. FileReader defaults to UTF-8.
 const parseFileEvent = function (mode, e, expectOneFile = false, encoding) {
-  const filesObjets = _.toArray(e.target.files)
+  const filesObjets = Array.from(e.target.files)
   // return a promise resolving to a file object
   if (expectOneFile) {
     return readFile(mode, filesObjets[0], encoding, true)

@@ -9,7 +9,7 @@ const tryReload = function () {
 }
 
 const textareaContentLength = () => {
-  return _.toArray($('textarea'))
+  return Array.from($('textarea'))
   .map(_.property('value'))
   .join('')
   .length

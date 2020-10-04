@@ -17,7 +17,7 @@ const formatError = function (message, statusCode, context) {
   err.statusCode = statusCode
 
   // converting arguments object to array for readability in logs
-  if (_.isArguments(context)) { context = _.toArray(context) }
+  if (_.isArguments(context)) { context = Array.from(context) }
   err.context = context
   err.timestamp = new Date().toISOString()
 

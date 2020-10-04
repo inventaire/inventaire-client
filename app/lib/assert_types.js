@@ -14,7 +14,7 @@ const assertType = function (obj, type) {
 const assertTypes = function (args, types, minArgsLength) {
   // in case it's an 'arguments' object
   let err, test
-  args = _.toArray(args)
+  args = Array.from(args)
 
   // accepts a common type for all the args as a string
   // ex: types = 'numbers...'

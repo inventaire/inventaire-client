@@ -26,7 +26,7 @@ export default Marionette.ItemView.extend({
   },
 
   getDataToImport () {
-    return _.toArray(this.$el.find('input[type="checkbox"]'))
+    return Array.from(this.$el.find('input[type="checkbox"]'))
     .filter(isChecked)
     .map(formatData)
   },
