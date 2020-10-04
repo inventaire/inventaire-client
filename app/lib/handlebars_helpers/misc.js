@@ -83,7 +83,11 @@ export default {
     return JSON.stringify(arguments[0])
   },
 
-  localTimeString (time) { if (time != null) { return new Date(time).toLocaleString(app.user.lang) } },
+  localTimeString (time) {
+    if (time != null) {
+      return new Date(time).toLocaleString(app.user.lang)
+    }
+  },
 
   timeFromNow (time) {
     if (time == null) return
@@ -92,9 +96,8 @@ export default {
   },
 
   stringify (obj) {
-    if (_.isString(obj)) {
-      return obj
-    } else { return JSON.stringify(obj, null, 2) }
+    if (_.isString(obj)) return obj
+    else return JSON.stringify(obj, null, 2)
   }
 }
 

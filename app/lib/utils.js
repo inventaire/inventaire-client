@@ -175,9 +175,8 @@ export const chunk = (array, size) => {
 
 export function forceArray (keys) {
   if ((keys == null) || (keys === '')) { return [] }
-  if (!_.isArray(keys)) {
-    return [ keys ]
-  } else { return keys }
+  if (!_.isArray(keys)) return [ keys ]
+  else return keys
 }
 
 export function typeOf (obj) {

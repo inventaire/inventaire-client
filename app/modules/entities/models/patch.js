@@ -80,7 +80,9 @@ export default Backbone.NestedModel.extend({
       return 'add'
     } else if (_.all(operationsTypes, isOpType('remove'))) {
       return 'remove'
-    } else { return 'update' }
+    } else {
+      return 'update'
+    }
   },
 
   setOperationsSummaryData () {

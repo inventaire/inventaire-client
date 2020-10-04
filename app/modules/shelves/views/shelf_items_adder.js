@@ -89,7 +89,9 @@ export default Marionette.CompositeView.extend({
         this.$el.removeClass('fetching')
         if (this.offset === 0) {
           return this.collection.reset(items)
-        } else { return this.collection.add(items) }
+        } else {
+          return this.collection.add(items)
+        }
       }
     })
   },

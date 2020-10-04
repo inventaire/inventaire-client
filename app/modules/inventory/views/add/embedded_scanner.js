@@ -167,7 +167,9 @@ export default Marionette.ItemView.extend({
 
     if (displayDelay != null) {
       this.setTimeout(showMessage, displayDelay)
-    } else { return showMessage() }
+    } else {
+      return showMessage()
+    }
   },
 
   showInvalidIsbnWarning (invalidIsbn) {

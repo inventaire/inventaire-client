@@ -53,7 +53,9 @@ export default {
     const last = _.last(args)
     if ((last?.hash != null) && (last.data != null)) {
       return args.slice(0, -1)
-    } else { return args }
+    } else {
+      return args
+    }
   },
 
   getValuesTemplates (valueArray, entityLink, property) {
@@ -63,9 +65,7 @@ export default {
     .join(', ')
   },
 
-  labelString (pid, omitLabel) {
-    if (omitLabel) { return '' } else { return prop(pid) }
-  },
+  labelString (pid, omitLabel) { return omitLabel ? '' : prop(pid) },
 
   claimString (label, values, inline) {
     let text = `${label} ${values}`

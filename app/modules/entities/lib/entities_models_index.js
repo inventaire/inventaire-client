@@ -1,12 +1,10 @@
 import { isModel, isEntityUri } from 'lib/boolean_tests'
-
 import { forceArray } from 'lib/utils'
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import error_ from 'lib/error'
 import Entity from '../models/entity'
 import { invalidateLabel } from 'lib/uri_label/labels_helpers'
-let addModel
 const { getByUris, getManyByUris } = app.API.entities
 
 // In-memory cache for all entities used during a session.
@@ -28,7 +26,9 @@ export function get (params) {
 
   if (refresh) {
     missingUris = uris
-  } else { missingUris = getMissingUris(uris) }
+  } else {
+    missingUris = getMissingUris(uris)
+  }
 
   if (missingUris.length > 0) {
     // Populate entitiesModelsIndexedByUri with promises of entity models
@@ -111,13 +111,11 @@ const aliasRedirects = function (entities, redirects) {
 }
 
 // Used when an entity is created locally and needs to be added to the index
-const _addModel = addModel = function (entityModel) {
+export const addModel = function (entityModel) {
   const uri = entityModel.get('uri')
   entitiesModelsIndexedByUri[uri] = entityModel
   return entityModel
 }
-
-export { _addModel as addModel }
 
 export function add (entityData) {
   const { uri } = entityData

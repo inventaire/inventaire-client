@@ -41,7 +41,9 @@ export default function () {
     // Do not focus if the element is not visible as that makes the scroll jump
     if (($firstTabElement.length > 0) && $firstTabElement.visible()) {
       return $firstTabElement.focus()
-    } else { return $modalWrapper.focus() }
+    } else {
+      return $modalWrapper.focus()
+    }
   }
 
   let lastOpen = 0

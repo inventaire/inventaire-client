@@ -32,7 +32,9 @@ export default Marionette.ItemView.extend({
   headerData () {
     if (this.options.createPasswordMode) {
       return 'create a password'
-    } else { return 'forgot password?' }
+    } else {
+      return 'forgot password?'
+    }
   },
 
   emailPickerData () {

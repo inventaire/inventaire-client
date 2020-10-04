@@ -64,7 +64,9 @@ const getConstraints = function () {
   const minDimension = _.min([ screen_.width(), screen_.height() ])
   if (minDimension > 720) {
     return { width: 1280, height: 720 }
-  } else { return { width: 640, height: 480 } }
+  } else {
+    return { width: 640, height: 480 }
+  }
 }
 
 const verticalMargin = '30%'

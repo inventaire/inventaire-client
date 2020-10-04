@@ -164,7 +164,9 @@ export default Marionette.LayoutView.extend({
     if (key != null) {
       if (key === 'esc') {
         return this.hideLiveSearch(true)
-      } else { return this.liveSearch.currentView.onSpecialKey(key) }
+      } else {
+        return this.liveSearch.currentView.onSpecialKey(key)
+      }
     } else {
       const { value } = e.currentTarget
       return this.searchLive(value)

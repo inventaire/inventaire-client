@@ -50,7 +50,9 @@ export default Marionette.LayoutView.extend({
         // Go back only if going back means staying in the app
         if (Backbone.history.last.length > 0) {
           return window.history.back()
-        } else { return options?.fallback?.() }
+        } else {
+          return options?.fallback?.()
+        }
       }
     })
 

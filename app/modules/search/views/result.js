@@ -57,7 +57,9 @@ const urlifyImageHash = function (type, hash) {
   const container = nonEntityContainer || 'entities'
   if (isImageHash(hash)) {
     return `/img/${container}/${hash}`
-  } else { return hash }
+  } else {
+    return hash
+  }
 }
 
 const nonEntityContainersPerType = {

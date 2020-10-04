@@ -9,7 +9,9 @@ export default function (userLanguage) {
   lang = shortLang(lang)
   if ((lang != null) && activeLangs.includes(lang)) {
     return lang
-  } else { return 'en' }
+  } else {
+    return 'en'
+  }
 };
 
 // Adapted from: https://github.com/maxogden/browser-locale/blob/master/index.js

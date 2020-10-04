@@ -154,7 +154,9 @@ export default Marionette.LayoutView.extend({
     if (this.partsNumber === this.maxOrdinal) return
     if (this.partsNumber > this.maxOrdinal) {
       fillGaps.call(this)
-    } else { this.removePlaceholdersAbove(this.partsNumber) }
+    } else {
+      this.removePlaceholdersAbove(this.partsNumber)
+    }
     this.maxOrdinal = this.partsNumber
     app.vent.trigger('serie:cleanup:parts:change')
     return this.updatePlaceholderCreationButton()

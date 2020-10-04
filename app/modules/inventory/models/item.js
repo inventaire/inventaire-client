@@ -211,7 +211,9 @@ export default Filterable.extend({
     const details = this.get('details')
     if (isNonEmptyString(details)) {
       return details
-    } else { return this.entity.findBestDescription() }
+    } else {
+      return this.entity.findBestDescription()
+    }
   },
 
   hasActiveTransaction () {

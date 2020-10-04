@@ -70,5 +70,7 @@ const makeImportRequest = function (wdEntity, data) {
   const { type, lang, label, property, value } = data
   if (type === 'label') {
     return wdEntity.setLabel(lang, label)
-  } else { return wdEntity.setPropertyValue(property, null, value) }
+  } else {
+    return wdEntity.setPropertyValue(property, null, value)
+  }
 }

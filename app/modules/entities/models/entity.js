@@ -55,7 +55,9 @@ export default Filterable.extend({
 
     if (this.wikidataId) {
       initializeWikidataEntity.call(this, attrs)
-    } else { initializeInvEntity.call(this, attrs) }
+    } else {
+      initializeInvEntity.call(this, attrs)
+    }
 
     if (editableTypes.includes(this.type)) {
       const pathname = this.get('pathname')
@@ -79,7 +81,7 @@ export default Filterable.extend({
       return
     }
 
-    if (this.get('edit') != null) { _.extend(this, editableEntity) }
+    if (this.get('edit') != null) _.extend(this, editableEntity)
 
     // An object to store only the ids of such a relationship
     // ex: this entity is a P50 of entities Q...
@@ -97,7 +99,7 @@ export default Filterable.extend({
 
   typeSpecificInit () {
     const specialInitializer = specialInitializersByType[this.type]
-    if (specialInitializer != null) { return specialInitializer.call(this) }
+    if (specialInitializer != null) return specialInitializer.call(this)
   },
 
   setCommonAttributes (attrs) {
@@ -231,7 +233,9 @@ export default Filterable.extend({
     // more of it's wikipedia source url than a description
     if (extract?.length > 300) {
       return extract
-    } else { return description || extract }
+    } else {
+      return description || extract
+    }
   },
 
   // Override in with type-specific methods

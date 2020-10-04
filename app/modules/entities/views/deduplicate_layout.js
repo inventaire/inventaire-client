@@ -206,7 +206,9 @@ const hideMergedEntities = function () {
     // into a redirection
     if ($author.find('.workLi').length === 1) {
       return $author.hide()
-    } else { return $from.hide() }
+    } else {
+      return $from.hide()
+    }
   } else if ($from.hasClass('authorLayout')) {
     return $from.hide()
   }

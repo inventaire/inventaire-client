@@ -25,6 +25,8 @@ export default {
 
     if ((prefix != null) && (id != null)) {
       return `${prefix}:${id}`
-    } else { return uri }
+    } else {
+      return uri
+    }
   }
 }

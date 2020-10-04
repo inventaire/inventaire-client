@@ -3,6 +3,8 @@ export default Backbone.Collection.extend({
     // Push the 'unknown' entity at the bottom of the list
     if (model.get('uri') === 'unknown') {
       return Infinity
-    } else { return -model.get('count') }
+    } else {
+      return -model.get('count')
+    }
   }
 })

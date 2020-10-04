@@ -1,4 +1,5 @@
 import { host } from 'lib/urls'
+
 const absolutePath = url => {
   if (url?.[0] === '/') {
     return host + url
@@ -10,8 +11,10 @@ const absolutePath = url => {
 export default function (key, value, noCompletion) {
   if (withTransformers.includes(key)) {
     return transformers[key](value, noCompletion)
-  } else { return value }
-};
+  } else {
+    return value
+  }
+}
 
 const transformers = {
   title: (value, noCompletion) => noCompletion ? value : `${value} - Inventaire`,

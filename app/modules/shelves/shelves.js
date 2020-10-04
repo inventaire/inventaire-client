@@ -47,7 +47,9 @@ const API = {
 const showShelf = function (shelf) {
   if (isShelfId(shelf)) {
     return API.showShelfFromId(shelf)
-  } else { return showShelfFromModel(shelf) }
+  } else {
+    return showShelfFromModel(shelf)
+  }
 }
 
 const showShelfFromModel = function (shelf) {

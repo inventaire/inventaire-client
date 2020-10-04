@@ -8,11 +8,13 @@ export default {
     })
   },
 
-  getModelsFromClaims (property) {
+  async getModelsFromClaims (property) {
     const uris = this.get(`claims.${property}`)
     if (uris?.length > 0) {
       return app.request('get:entities:models', { uris })
-    } else { return Promise.resolve([]) }
+    } else {
+      return []
+    }
   },
 
   getExtendedAuthorsUris () {

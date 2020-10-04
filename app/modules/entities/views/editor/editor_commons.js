@@ -61,7 +61,9 @@ export default Marionette.LayoutView.extend({
       }
       if ($el[0].tagName === 'INPUT') {
         return $el.select()
-      } else { return $el.focus() }
+      } else {
+        return $el.focus()
+      }
     }
 
     // Somehow required to let the time to thing to get in place

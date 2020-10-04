@@ -15,5 +15,7 @@ export default function (part) {
   const currentOrdinalValue = this.worksWithOrdinal[ordinalInt]
   if (currentOrdinalValue != null) {
     return this.worksInConflicts.add(part)
-  } else { return this.worksWithOrdinal.add(part) }
-};
+  } else {
+    return this.worksWithOrdinal.add(part)
+  }
+}

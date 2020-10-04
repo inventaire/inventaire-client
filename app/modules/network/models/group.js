@@ -96,7 +96,9 @@ export default Positionable.extend({
     // which only concern group admins
     if (this.mainUserIsAdmin()) {
       return this.get('requested').length
-    } else { return 0 }
+    } else {
+      return 0
+    }
   },
 
   serializeData () {

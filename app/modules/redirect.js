@@ -1,7 +1,6 @@
 import assert_ from 'lib/assert_types'
 import log_ from 'lib/loggers'
 import { I18n, i18n } from 'modules/user/lib/i18n'
-
 import Welcome from 'modules/welcome/views/welcome'
 import ErrorView from 'modules/general/views/error'
 import CallToConnection from 'modules/general/views/call_to_connection'
@@ -57,7 +56,9 @@ const API = {
   showHome () {
     if (app.user.loggedIn) {
       app.execute('show:inventory:main:user')
-    } else { app.execute('show:welcome') }
+    } else {
+      app.execute('show:welcome')
+    }
   },
 
   notFound (route) {
@@ -113,7 +114,7 @@ const showAuthRedirect = function (action, route) {
 }
 
 const getRedirectedRoute = function (route) {
-  if (!route) { route = currentRoute() }
+  if (!route) route = currentRoute()
   if (noRedirectionRequired.includes(route)) return
   return route
 }
@@ -128,7 +129,9 @@ const showLoginRedirect = showAuthRedirect.bind(null, 'login')
 const showErrorByStatus = function (err, label) {
   if (err.statusCode === 404) {
     return showErrorMissing()
-  } else { return showOtherError(err, label) }
+  } else {
+    return showOtherError(err, label)
+  }
 }
 
 const showErrorMissing = () => showError({

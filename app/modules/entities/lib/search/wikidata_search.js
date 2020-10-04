@@ -9,16 +9,15 @@ export default (format = true) => (search, limit = 10, offset) => {
   .get('search')
   .filter(filterOutSpecialPages)
   .then(results => {
-    if (format) {
-      return results.map(formatAsSearchResult)
-    } else { return results }
+    if (format) return results.map(formatAsSearchResult)
+    else return results
   })
 }
 
 // This is a hacky way to filter out special pages without having to request claims
 const specialPagesDescriptionPattern = /(Wikim(e|é)dia|Wikip(e|é)dia)/
 const filterOutSpecialPages = function (result) {
-  if (!result.description) { result.description = '' }
+  if (!result.description) result.description = ''
   return !result.description.match(specialPagesDescriptionPattern)
 }
 

@@ -15,7 +15,9 @@ export default function () {
     // thus without fetching its users
     if (group.usersFetched) {
       return Promise.resolve(group)
-    } else { return getGroupPublicData(null, group) }
+    } else {
+      return getGroupPublicData(null, group)
+    }
   }
 
   const getGroupPublicData = function (id, groupModel) {
@@ -46,7 +48,9 @@ export default function () {
   const getGroupModel = function (id) {
     if (isGroupId(id)) {
       return getGroupModelById(id)
-    } else { return getGroupModelFromSlug(id) }
+    } else {
+      return getGroupModelFromSlug(id)
+    }
   }
 
   const resolveToGroupModel = function (group) {

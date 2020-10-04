@@ -66,5 +66,7 @@ const getPrefix = function (id) {
     return [ 'wd', id ]
   } else if (isInvEntityId(id)) {
     return [ 'inv', id ]
-  } else { throw error_.new('unknown id domain', { id }) }
+  } else {
+    throw error_.new('unknown id domain', { id })
+  }
 }

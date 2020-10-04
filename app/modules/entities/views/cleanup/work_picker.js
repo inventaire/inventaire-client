@@ -76,7 +76,9 @@ export default Marionette.ItemView.extend({
     const uri = this.ui.workPickerSelect.val()
     if (isEntityUri(uri)) {
       this.ui.workPickerValidate.removeClass('hidden')
-    } else { this.ui.workPickerValidate.addClass('hidden') }
+    } else {
+      this.ui.workPickerValidate.addClass('hidden')
+    }
   },
 
   getWorksList () {

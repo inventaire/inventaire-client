@@ -38,7 +38,9 @@ const arrayMethod = (methodName, canReturnPromises) => function (...args) {
       const finalRes = resolvedRes[methodName].apply(resolvedRes, args)
       if (canReturnPromises) {
         return Promise.all(finalRes)
-      } else { return finalRes }
+      } else {
+        return finalRes
+      }
     })
   })
 }

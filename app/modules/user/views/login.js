@@ -54,7 +54,9 @@ export default Marionette.ItemView.extend({
     username = this.ui.username.val()
     if (isEmail(username)) {
 
-    } else { return username_.pass(username, '#username') }
+    } else {
+      return username_.pass(username, '#username')
+    }
   },
 
   earlyVerifyUsername (e) {
@@ -84,6 +86,8 @@ export default Marionette.ItemView.extend({
     const username = this.ui.username.val()
     if (isEmail(username)) {
       return 'email or password is incorrect'
-    } else { return 'username or password is incorrect' }
+    } else {
+      return 'username or password is incorrect'
+    }
   }
 })

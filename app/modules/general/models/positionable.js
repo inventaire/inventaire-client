@@ -19,7 +19,9 @@ export default Filterable.extend({
     // Update it when position update (only required for the main user)
     if (this._latLng != null) {
       return this._latLng
-    } else { return this._setLatLng() }
+    } else {
+      return this._setLatLng()
+    }
   },
 
   _setLatLng () {

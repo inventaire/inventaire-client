@@ -42,7 +42,9 @@ const nextActionsWithReturn = _.extend({}, basicNextActions, {
 const getNextActionsList = function (transactionName) {
   if (transactionName === 'lending') {
     return nextActionsWithReturn
-  } else { return basicNextActions }
+  } else {
+    return basicNextActions
+  }
 }
 
 const findNextActions = function (transacData) {

@@ -15,7 +15,9 @@ export default Marionette.ItemView.extend({
   getTemplate () {
     if (this.isMessage) {
       return require('./templates/message.hbs')
-    } else { return require('./templates/action.hbs') }
+    } else {
+      return require('./templates/action.hbs')
+    }
   },
 
   setClassNames () {

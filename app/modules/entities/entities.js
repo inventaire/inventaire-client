@@ -160,8 +160,11 @@ const API = {
       if (uri === model.get('uri')) {
         return app.navigateFromModel(model, 'history')
       // Case where we got a redirected uri
-      } else { return app.navigate(`entity/${uri}/history`) }
-    })).catch(app.Execute('show:error'))
+      } else {
+        return app.navigate(`entity/${uri}/history`)
+      }
+    }))
+    .catch(app.Execute('show:error'))
   }
 }
 
@@ -195,7 +198,9 @@ const setHandlers = function () {
       const uri = model.get('uri')
       if (uri != null) {
         app.execute('show:entity', uri, params)
-      } else { throw new Error("couldn't show:entity:from:model") }
+      } else {
+        throw new Error("couldn't show:entity:from:model")
+      }
     },
 
     'show:entity:refresh' (model) {

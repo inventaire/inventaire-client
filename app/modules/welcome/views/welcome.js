@@ -85,5 +85,7 @@ const mentionsData = null
 const getMentionsData = function () {
   if (mentionsData != null) {
     return Promise.resolve(mentionsData)
-  } else { return preq.get(app.API.json('mentions')) }
+  } else {
+    return preq.get(app.API.json('mentions'))
+  }
 }

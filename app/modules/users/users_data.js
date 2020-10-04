@@ -44,5 +44,7 @@ const getUsersByIds = ids => preq.get(app.API.users.byIds(ids))
 const formatData = function (format, data) {
   if (format === 'collection') {
     return _.values(data)
-  } else { return data }
+  } else {
+    return data
+  }
 }

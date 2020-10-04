@@ -5,22 +5,20 @@ import { isDataUrl } from 'lib/boolean_tests'
 
 export default {
   imgSrc (path, width, height) {
-    if (isDataUrl(path)) { return path }
+    if (isDataUrl(path)) return path
 
     width = getImgDimension(width, 1600)
     width = bestImageWidth(width)
     height = getImgDimension(height, width)
     path = onePictureOnly(path)
 
-    if (path == null) { return '' }
+    if (path == null) return ''
 
     return app.API.img(path, width, height)
   }
 }
 
-const onePictureOnly = function (arg) {
-  if (_.isArray(arg)) { return arg[0] } else { return arg }
-}
+const onePictureOnly = arg => _.isArray(arg) ? arg[0] : arg
 
 const getImgDimension = function (dimension, defaultValue) {
   if (_.isNumber(dimension)) {

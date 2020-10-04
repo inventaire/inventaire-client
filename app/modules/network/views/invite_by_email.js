@@ -67,7 +67,9 @@ export default Marionette.LayoutView.extend({
   _getAlreadyThereAction () {
     if (this.group != null) {
       return 'invitation sent'
-    } else { return 'friend request sent' }
+    } else {
+      return 'friend request sent'
+    }
   },
 
   sendInvitations () {

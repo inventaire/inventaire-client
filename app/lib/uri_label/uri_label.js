@@ -67,7 +67,7 @@ const addEntitiesLabels = function (entitiesModels) {
   }
 }
 
-const getMissingEntities = function (uris) {
+const getMissingEntities = async function (uris) {
   const missingUris = _.difference(uris, getKnownUris())
   // Avoid refetching URIs: either the data is about to arrive
   // or the data is missing (in case of failing connection to Wikidata for instance)
@@ -76,7 +76,7 @@ const getMissingEntities = function (uris) {
   addPreviouslyMissingUris(missingUris)
   if (urisToFetch.length > 0) {
     return getEntities(urisToFetch)
-  } else { return Promise.resolve() }
+  }
 }
 
 const update = function () {

@@ -124,7 +124,9 @@ export default API = {
     const langEntityId = wdLang.byCode[lang]?.wd
     if (langEntityId != null) {
       return new SafeString(entityHelper(`wd:${langEntityId}`, false))
-    } else { return lang }
+    } else {
+      return lang
+    }
   }
 }
 

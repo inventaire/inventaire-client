@@ -16,7 +16,9 @@ export default Marionette.Behavior.extend({
   togglePassword () {
     if (this.passwordShown) {
       return this.passwordType('password')
-    } else { return this.passwordType('text') }
+    } else {
+      return this.passwordType('text')
+    }
   },
 
   passwordType (type) {

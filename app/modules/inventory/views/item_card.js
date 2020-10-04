@@ -52,7 +52,9 @@ export default ItemItemView.extend({
   detailsMoreData (details) {
     if (details?.length > detailsLimit) {
       return true
-    } else { return false }
+    } else {
+      return false
+    }
   },
 
   detailsData (details) {

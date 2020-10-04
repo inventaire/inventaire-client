@@ -89,5 +89,7 @@ const getStatus = function (id, relations) {
     return 'otherRequested'
   } else if (relations.network.includes(id)) {
     return 'nonRelationGroupUser'
-  } else { return 'public' }
+  } else {
+    return 'public'
+  }
 }

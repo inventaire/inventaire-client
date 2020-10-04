@@ -30,7 +30,9 @@ export default function () {
       const shelves = parsedGet('lastShelves')
       if (shelves != null) {
         return JSON.parse(shelves)
-      } else { return [] }
+      } else {
+        return []
+      }
     }
   })
 };

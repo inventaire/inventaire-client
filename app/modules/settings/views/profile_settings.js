@@ -77,7 +77,9 @@ export default Marionette.ItemView.extend({
       // it should be rejected because the username is already taken
       // which it will be given usernames concurrency is case insensitive
       if (this.usernameCaseChange(username)) {
-      } else { return username_.verifyUsername(username, '#usernameField') }
+      } else {
+        return username_.verifyUsername(username, '#usernameField')
+      }
     })
     .then(() => this.confirmUsernameChange(username))
     .catch(forms_.catchAlert.bind(null, this))

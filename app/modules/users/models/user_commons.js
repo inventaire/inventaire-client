@@ -40,7 +40,9 @@ export default Positionable.extend({
     const bio = this.get('bio')
     if (isNonEmptyString(bio)) {
       return bio
-    } else { return i18n('user_default_description', { username: this.get('username') }) }
+    } else {
+      return i18n('user_default_description', { username: this.get('username') })
+    }
   },
 
   setInventoryStats () {

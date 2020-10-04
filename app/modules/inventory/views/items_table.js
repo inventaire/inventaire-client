@@ -55,11 +55,15 @@ export default InfiniteScrollItemsList.extend({
     if (checked) {
       if (this.selectedIds.includes(id)) {
 
-      } else { return this.addSelectedIds(id) }
+      } else {
+        return this.addSelectedIds(id)
+      }
     } else {
       if (!this.selectedIds.includes(id)) {
 
-      } else { return this.removeSelectedIds(id) }
+      } else {
+        return this.removeSelectedIds(id)
+      }
     }
   },
 

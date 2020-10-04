@@ -94,7 +94,9 @@ const fillQuery = function (suggestion) {
 const loadMore = function () {
   if (this._showingDefaultSuggestions) {
     return addNextDefaultSuggestionsBatch.call(this, false)
-  } else { return loadMoreFromSearch.call(this) }
+  } else {
+    return loadMoreFromSearch.call(this)
+  }
 }
 
 const showAlertBox = function (err) {
