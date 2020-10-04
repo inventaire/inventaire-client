@@ -8,7 +8,7 @@ export default () => {
     // (or is that standard?)
       errObj = {
         message: errorMsg,
-        context: _.toArray(arguments),
+        context: Array.from(arguments),
         stack: ''
       }
     }
