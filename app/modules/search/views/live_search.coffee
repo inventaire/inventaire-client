@@ -76,7 +76,7 @@ module.exports = Marionette.CompositeView.extend
 
   selectTypeFromTarget: ($target)->
     { id } = $target[0]
-    name = getTypeFromId id
+    name = getSectionName id
     @selectSectionAndSearch name
 
   selectSectionAndSearch: (name)->
@@ -287,8 +287,8 @@ module.exports = Marionette.CompositeView.extend
     names.includes name
 
   getSelectedSectionsNames: ()->
-    selectedElements = $.find('.selected')
-    getTypesFromIds _.map(selectedElements, _.identity('id'))
+    selectedElements = @$el.find('.selected')
+    getNamesFromIds _.map(selectedElements, _.identity('id'))
 
 sectionToTypes =
   book: 'works'
@@ -306,9 +306,9 @@ isEntitiesSection = (name)-> sectionsData().entitiesSections[name]?
 
 isSocialSection = (name)-> sectionsData().socialSections[name]?
 
-getTypesFromIds = (ids)-> _.map(ids, getTypeFromId)
+getNamesFromIds = (ids)-> _.map(ids, getSectionName)
 
-getTypeFromId = (id)-> id.replace 'section-', ''
+getSectionName = (id)-> id.replace 'section-', ''
 
 getSectionType = (name)-> sectionToTypes[name]
 
