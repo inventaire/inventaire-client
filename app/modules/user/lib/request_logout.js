@@ -8,16 +8,9 @@ export default redirect => {
 }
 
 const logoutSuccess = redirect => function (data) {
-  deleteLocalDatabases()
+  // Clearing localstorage
+  localStorageProxy.clear()
   log_.info('You have been successfully logged out')
   // Default to redirecting home
   window.location.href = redirect || '/'
-}
-
-const deleteLocalDatabases = function () {
-  const debug = localStorageProxy.getItem('debug')
-  // Clearing localstorage
-  localStorageProxy.clear()
-  // but keeping debug config
-  localStorageProxy.setItem('debug', debug)
 }

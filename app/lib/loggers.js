@@ -1,23 +1,19 @@
-import noopConsole from 'lib/noop_console'
 import { reportError } from 'lib/reports'
-const csle = CONFIG.debug ? window.console : noopConsole
 
-// allow to pass a csle object so that we can pass whatever we want in tests
 const log = (obj, label) => {
   // customizing console.log
   // unfortunatly, it makes the console loose the trace
   // of the real line and file the log_.info function was called from
   // the trade-off might not be worthing it...
   if (_.isString(obj)) {
-    if (label != null) {
-      csle.log(`[${label}] ${obj}`)
-    } else { csle.log(obj) }
+    if (label != null) console.log(`[${label}] ${obj}`)
+    else console.log(obj)
   } else {
     // logging arguments as arrays for readability
-    if (_.isArguments(obj)) { obj = _.toArray(obj) }
-    if (label != null) { csle.log(`===== ${label} =====`) }
-    csle.log(obj)
-    if (label != null) { csle.log('-----') }
+    if (_.isArguments(obj)) obj = _.toArray(obj)
+    if (label != null) console.log(`===== ${label} =====`)
+    console.log(obj)
+    if (label != null) console.log('-----')
   }
 
   return obj
@@ -40,28 +36,28 @@ const error = (err, label) => {
   let userError = false
   let serverError = false
   if (err.statusCode != null) {
-    if (/^4\d+$/.test(err.statusCode)) { userError = true }
-    if (/^5\d+$/.test(err.statusCode)) { serverError = true }
+    if (/^4\d+$/.test(err.statusCode)) userError = true
+    if (/^5\d+$/.test(err.statusCode)) serverError = true
   }
 
   // No need to report user errors to the server
   // This statusCode can be set from the client for this purpose
   // of not reporting the error to the server
   if (userError) {
-    return csle.error(`[${err.statusCode}][${label}] ${err.message}]`)
+    return console.error(`[${err.statusCode}][${label}] ${err.message}]`)
   }
 
   // No need to report server error back to the server
-  if (!serverError) { reportError(err) }
+  if (!serverError) reportError(err)
 
-  csle.error(`[${label}]\n`, err, err.context)
+  console.error(`[${label}]\n`, err, err.context)
   return reportError(err)
 }
 
 // providing a custom warn as it might be used
 // by methods shared with the server
 const warn = (...args) => {
-  csle.warn('/!\\')
+  console.warn('/!\\')
   loggers.log.apply(null, args)
 }
 

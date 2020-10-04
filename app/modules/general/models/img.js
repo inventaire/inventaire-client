@@ -1,6 +1,6 @@
 import log_ from 'lib/loggers'
 import images_ from 'lib/images'
-const { maxSize } = CONFIG.images
+const maxSize = 1600
 const container = 'users'
 
 // named Img and not Image to avoid overwritting window.Image

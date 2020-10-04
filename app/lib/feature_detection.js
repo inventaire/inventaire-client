@@ -10,7 +10,6 @@ export default function () {
   testFlexSupport()
   testLocalStorage()
   testVideoInput()
-  setDebugSetting()
 
   if (Date.now == null) Date.now = () => new Date().getTime()
 }
@@ -68,20 +67,5 @@ const startsWithPolyFill = function () {
       const start = !pos || (pos < 0) ? 0 : +pos
       return this.substr(start, search.length) === search
     }
-  }
-}
-
-const setDebugSetting = function () {
-  const persistantDebug = window.localStorageBool.get('debug')
-  const queryStringDebug = window.location.search.split('debug=true').length > 1
-  const hostnameDebug = window.location.hostname === 'localhost'
-  if (persistantDebug || queryStringDebug || hostnameDebug) {
-    console.log('debug enabled')
-    CONFIG.debug = true
-  } else {
-    console.warn(`'logs are disabled.
-Activate logs by entering this command and reloading the page:
-localStorage.setItem('debug', true)
-Or activate logs once by adding debug=true as a query parameter`)
   }
 }
