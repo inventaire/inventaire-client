@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 
 echo "need to update postinstall"
+
+# set browser.fs=false to work around parcel-bundler "Cannot statically evaluate fs argument" issue
+# see https://github.com/parcel-bundler/parcel/pull/523#issue-161973498
+disable_browser_fs(){
+  cat $1 | jq '.browser.fs = false' > $1.fixed
+  mv $1.fixed $1
+}
+
+disable_browser_fs node_modules/handlebars/package.json
+
 # set -eu
 
 # If public/js/app.js already exist, assume that it's a re-install
