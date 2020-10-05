@@ -1,4 +1,5 @@
 import log_ from 'lib/loggers'
+import { capitalise } from 'lib/utils'
 import { i18n } from 'modules/user/lib/i18n'
 import { parseQuery } from 'lib/location'
 import timeFromNow from 'lib/time_from_now'
@@ -13,12 +14,12 @@ export default {
     return i18n(key, context)
   },
 
-  I18n (...args) { return _.capitalise(this.i18n.apply(this, args)) },
+  I18n (...args) { return capitalise(this.i18n.apply(this, args)) },
 
   I18nStartCase (...args) {
     return this.i18n.apply(this, args)
     .split(' ')
-    .map(_.capitalise)
+    .map(capitalise)
     .join(' ')
   },
 
@@ -28,7 +29,7 @@ export default {
   },
 
   I18nLink (text, url, context) {
-    text = _.capitalise(i18n(text, context))
+    text = capitalise(i18n(text, context))
     return this.link(text, url)
   },
 
@@ -69,7 +70,7 @@ export default {
     }
   },
 
-  capitalize (str) { return _.capitalise(str) },
+  capitalize (str) { return capitalise(str) },
 
   limit (text, limit) {
     if (text == null) { return '' }
