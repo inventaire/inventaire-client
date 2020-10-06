@@ -1,3 +1,5 @@
+import PreviousSearch from './previous_search'
+
 export default Marionette.CompositeView.extend({
   id: 'addSearch',
   template: require('./templates/search.hbs'),
@@ -7,7 +9,7 @@ export default Marionette.CompositeView.extend({
   },
 
   childViewContainer: '#history',
-  childView: require('./previous_search'),
+  childView: PreviousSearch,
 
   ui: {
     history: '#historyWrapper'

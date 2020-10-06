@@ -1,7 +1,8 @@
+import Candidate from '../models/candidate'
 import { looksLikeAnIsbn, normalizeIsbn } from 'lib/isbn'
 
 export default Backbone.Collection.extend({
-  model: require('../models/candidate'),
+  model: Candidate,
 
   setAllSelectedTo (bool) { return this.each(setSelected(bool)) },
 

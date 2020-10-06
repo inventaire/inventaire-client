@@ -1,7 +1,9 @@
+import PropertyEditor from './property_editor'
+
 export default Marionette.CompositeView.extend({
   className: 'properties-editor',
   template: require('./templates/properties_editor.hbs'),
-  childView: require('./property_editor'),
+  childView: PropertyEditor,
   childViewContainer: '.properties',
   initialize () {
     const { propertiesShortlist } = this.options

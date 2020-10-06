@@ -1,3 +1,6 @@
+import MergeSuggestion from './merge_suggestion'
+import NoResult from 'modules/search/views/no_result'
+
 export default Marionette.CompositeView.extend({
   template: require('./templates/merge_suggestions.hbs'),
   className () {
@@ -6,7 +9,7 @@ export default Marionette.CompositeView.extend({
     return className
   },
   childViewContainer: '.inner-merge-suggestions',
-  childView: require('./merge_suggestion'),
+  childView: MergeSuggestion,
   initialize () {
     this.hasManySuggestions = this.collection.length > 1
   },
@@ -18,7 +21,7 @@ export default Marionette.CompositeView.extend({
     }
   },
 
-  emptyView: require('modules/search/views/no_result'),
+  emptyView: NoResult,
   serializeData () {
     const attrs = this.model.toJSON()
     attrs.standalone = this.options.standalone

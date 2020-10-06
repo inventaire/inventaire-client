@@ -155,11 +155,8 @@ export const parseBooleanString = (booleanString, defaultVal = false) => {
 }
 
 export const simpleDay = date => {
-  if (date != null) {
-    return new (Date(date).toISOString().split('T')[0])()
-  } else {
-    return new (Date().toISOString().split('T')[0])()
-  }
+  const dateObj = date != null ? new Date(date) : new Date()
+  return dateObj.toISOString().split('T')[0]
 }
 
 // Missing in Underscore v1.8.3
@@ -183,11 +180,13 @@ export function typeOf (obj) {
   // just handling what differes from typeof
   const type = typeof obj
   if (type === 'object') {
-    if (_.isNull(obj)) { return 'null' }
-    if (_.isArray(obj)) { return 'array' }
+    if (_.isNull(obj)) return 'null'
+    if (_.isArray(obj)) return 'array'
   }
   if (type === 'number') {
-    if (_.isNaN(obj)) { return 'NaN' }
+    if (_.isNaN(obj)) return 'NaN'
   }
   return type
 }
+
+export function noop () {}

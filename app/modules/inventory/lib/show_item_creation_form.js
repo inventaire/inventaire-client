@@ -20,7 +20,7 @@ export default function (params) {
   if (type !== 'edition') { throw new Error(`invalid entity type: ${type}`) }
 
   app.layout.main.show(new ItemCreationForm(params))
-  return app.navigate(pathname)
+  app.navigate(pathname)
 };
 
 const showEditionPicker = work => work.fetchSubEntities()

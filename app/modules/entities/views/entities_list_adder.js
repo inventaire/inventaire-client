@@ -3,6 +3,7 @@ import { buildPath } from 'lib/location'
 import EntitiesListElementCandidate from './entities_list_element_candidate'
 import typeSearch from 'modules/entities/lib/search/type_search'
 import PaginatedEntities from 'modules/entities/collections/paginated_entities'
+import AutocompleteNoSuggestion from 'modules/entities/views/editor/autocomplete_no_suggestion'
 const cantTypeSearch = [
   'edition'
 ]
@@ -20,7 +21,7 @@ export default Marionette.CompositeView.extend({
     }
   },
 
-  emptyView: require('modules/entities/views/editor/autocomplete_no_suggestion'),
+  emptyView: AutocompleteNoSuggestion,
 
   ui: {
     candidates: '.entitiesListElementCandidates'

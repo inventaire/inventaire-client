@@ -3,10 +3,11 @@ import TypedEntityLayout from './typed_entity_layout'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import EntitiesList from './entities_list'
 import screen_ from 'lib/screen'
+import AuthorInfobox from './author_infobox'
 
 export default TypedEntityLayout.extend({
   template: require('./templates/author_layout.hbs'),
-  Infobox: require('./author_infobox'),
+  Infobox: AuthorInfobox,
   className () {
     // Default to wrapped mode in non standalone mode
     let secondClass = ''

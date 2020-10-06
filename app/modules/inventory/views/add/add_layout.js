@@ -61,14 +61,17 @@ export default Marionette.LayoutView.extend({
       this.content.show(new View(this.options))
       this.ui.tabs.removeClass('active')
       this.ui[tabKey].addClass('active')
-      return app.navigate(`add/${tab}`,
-        { metadata: { title: I18n(`title_add_layout_${tab}`) } })
+      app.navigate(`add/${tab}`, {
+        metadata: {
+          title: I18n(`title_add_layout_${tab}`)
+        }
+      })
     })
   },
 
   changeTab (e) {
     const tab = e.currentTarget.id.split('Tab')[0]
     this.showTabView(tab)
-    if (screen_.isSmall()) { return screen_.scrollTop(this.content.$el) }
+    if (screen_.isSmall()) screen_.scrollTop(this.content.$el)
   }
 })

@@ -1,4 +1,5 @@
 import { shortLang, isOpenedOutside, deepClone } from 'lib/utils'
+import ChangeUserPicture from 'modules/user/lib/change_user_picture'
 
 import { i18n } from 'modules/user/lib/i18n'
 import username_ from 'modules/user/lib/username_tests'
@@ -136,7 +137,7 @@ export default Marionette.ItemView.extend({
   },
 
   // PICTURE
-  changePicture: require('modules/user/lib/change_user_picture'),
+  changePicture: ChangeUserPicture,
 
   // DONE
   showMainUserInventory (e) {

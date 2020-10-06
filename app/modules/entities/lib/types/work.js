@@ -1,7 +1,8 @@
+import commonsSerieWork from './commons_serie_work'
+import filterOutWdEditions from '../filter_out_wd_editions'
+import getEntityItemsByCategories from '../get_entity_items_by_categories'
+
 const publicDomainThresholdYear = new Date().getFullYear() - 70
-const commonsSerieWork = require('./commons_serie_work')
-const filterOutWdEditions = require('../filter_out_wd_editions')
-const getEntityItemsByCategories = require('../get_entity_items_by_categories')
 
 export default function () {
   // Main property by which sub-entities are linked to this one: edition of

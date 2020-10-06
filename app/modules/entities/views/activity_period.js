@@ -1,9 +1,11 @@
 import preq from 'lib/preq'
+import ActivityPeriodRow from './activity_period_row'
+
 export default Marionette.CompositeView.extend({
   className: 'activityPeriod',
   template: require('./templates/activity_period.hbs'),
   childViewContainer: 'tbody',
-  childView: require('./activity_period_row'),
+  childView: ActivityPeriodRow,
   initialize () {
     this.collection = new Backbone.Collection();
     ({ title: this.title, period: this.period } = this.options)

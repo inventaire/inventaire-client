@@ -1,6 +1,10 @@
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import UserContributions from './views/user_contributions'
+import initUsersCollections from './users_collections'
+import initHelpers from './helpers'
+import initRequests from './requests'
+import initInvitations from './invitations'
 
 export default {
   define (module, app, Backbone, Marionette, $, _) {
@@ -17,12 +21,10 @@ export default {
   },
 
   initialize () {
-    app.users = require('./users_collections')(app)
-
-    require('./helpers')(app)
-    require('./requests')(app, _)
-    require('./invitations')(app, _)
-
+    app.users = initUsersCollections(app)
+    initHelpers(app)
+    initRequests(app)
+    initInvitations(app)
     initRelations()
 
     app.commands.setHandlers({

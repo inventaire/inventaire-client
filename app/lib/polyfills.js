@@ -1,7 +1,11 @@
-export default function () {
+export default async function () {
   ISODatePolyFill()
   DateNowPolyFill()
   startsWithPolyFill()
+
+  if (!window.Promise) {
+    window.Promise = await import('promise-polyfill')
+  }
 }
 
 // from https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date/toISOString

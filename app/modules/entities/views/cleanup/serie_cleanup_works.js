@@ -1,8 +1,9 @@
+import SerieCleanupWork from './serie_cleanup_work'
 export default Marionette.CompositeView.extend({
   className: 'serie-cleanup-works',
   template: require('./templates/serie_cleanup_works.hbs'),
   childViewContainer: '.worksContainer',
-  childView: require('./serie_cleanup_work'),
+  childView: SerieCleanupWork,
   serializeData () {
     return { sectionLabel: this.options.label }
   },

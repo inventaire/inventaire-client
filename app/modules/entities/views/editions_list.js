@@ -1,6 +1,7 @@
 import EditionCreation from './editor/lib/edition_creation'
-
 import availableLangList from 'lib/available_lang_list'
+import EditionLi from './edition_li'
+import NoEdition from './no_edition'
 
 const {
   partialData,
@@ -11,8 +12,8 @@ export default Marionette.CompositeView.extend({
   className: 'editions-list',
   template: require('./templates/editions_list.hbs'),
   childViewContainer: 'ul',
-  childView: require('./edition_li'),
-  emptyView: require('./no_edition'),
+  childView: EditionLi,
+  emptyView: NoEdition,
   childViewOptions () {
     return {
       itemToUpdate: this.options.itemToUpdate,

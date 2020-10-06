@@ -5,6 +5,7 @@ import messagesPlugin from 'modules/general/plugins/messages'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import screen_ from 'lib/screen'
+import Event from './event'
 
 export default Marionette.CompositeView.extend({
   template: require('./templates/transaction.hbs'),
@@ -41,7 +42,7 @@ export default Marionette.CompositeView.extend({
   },
 
   childViewContainer: '.timeline',
-  childView: require('./event'),
+  childView: Event,
 
   ui: {
     message: 'textarea.message',

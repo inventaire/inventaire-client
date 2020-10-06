@@ -1,4 +1,6 @@
+import Item from '../models/item'
+
 export default Backbone.Collection.extend({
-  model: require('../models/item'),
+  model: Item,
   comparator (item) { return -item.get('created') }
 })

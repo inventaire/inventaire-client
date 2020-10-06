@@ -23,13 +23,15 @@ export default {
   },
 
   initialize () {
-    app.commands.setHandlers({ 'show:shelf': showShelf })
+    app.commands.setHandlers({
+      'show:shelf': showShelf
+    })
   }
 }
 
 const API = {
   showShelfFromId (shelfId) {
-    if (shelfId == null) { app.execute('show:inventory:main:user') }
+    if (shelfId == null) app.execute('show:inventory:main:user')
 
     return getById(shelfId)
     .then(shelf => {
@@ -60,5 +62,5 @@ const showShelfFromModel = function (shelf) {
     user: owner,
     standalone: true
   }))
-  return app.navigateFromModel(shelf)
+  app.navigateFromModel(shelf)
 }

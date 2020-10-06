@@ -1,5 +1,7 @@
+import Shelf from '../models/shelf'
+
 export default Backbone.Collection.extend({
-  model: require('../models/shelf'),
+  model: Shelf,
 
   initialize (models, options = {}) {
     this.selected = options.selected || []

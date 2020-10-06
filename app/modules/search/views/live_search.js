@@ -1,5 +1,3 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import log_ from 'lib/loggers'
 // TODO:
 // - hint to input ISBNs directly, maybe in the alternatives sections
 // - add 'help': indexed wiki.inventaire.io entries to give results
@@ -9,14 +7,22 @@ import log_ from 'lib/loggers'
 //   narrative location (wdt:P840), or authors born (wdt:P19)
 //   or dead (wdt:P20) nearby
 
+import findUri from '../lib/find_uri'
+import error_ from 'lib/error'
+import isbn_ from 'lib/isbn'
+import screen_ from 'lib/screen'
 import preq from 'lib/preq'
+import ResultModel from '../models/result'
+import { isNonEmptyString } from 'lib/boolean_tests'
+import log_ from 'lib/loggers'
+import WikidataSearch from 'modules/entities/lib/search/wikidata_search'
+import Result from './result'
+import NoResult from './no_result'
+const { looksLikeAnIsbn } = isbn_
+const wikidataSearch = WikidataSearch(false)
 
-const Results = Backbone.Collection.extend({ model: require('../models/result') })
-const wikidataSearch = require('modules/entities/lib/search/wikidata_search').default(false)
-const findUri = require('../lib/find_uri')
-const error_ = require('lib/error')
-const { looksLikeAnIsbn } = require('lib/isbn')
-const screen_ = require('lib/screen')
+const Results = Backbone.Collection.extend({ model: ResultModel })
+
 const searchBatchLength = 10
 let searchCount = 0
 
@@ -24,8 +30,8 @@ export default Marionette.CompositeView.extend({
   id: 'live-search',
   template: require('./templates/live_search.hbs'),
   childViewContainer: 'ul.results',
-  childView: require('./result'),
-  emptyView: require('./no_result'),
+  childView: Result,
+  emptyView: NoResult,
 
   initialize () {
     this.collection = new Results()

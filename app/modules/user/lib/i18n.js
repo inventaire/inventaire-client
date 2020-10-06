@@ -7,8 +7,10 @@
 import Polyglot from 'node-polyglot'
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
-import uriLabel from 'lib/uri_label/uri_label'
+import { capitalise, noop } from 'lib/utils'
+import * as uriLabel from 'lib/uri_label/uri_label'
 import translate from './translate'
+import i18nMissingKey from './i18n_missing_key'
 
 let currentLangI18n = _.identity
 
@@ -17,12 +19,8 @@ export const i18n = (...args) => currentLangI18n(...args)
 // Convention: 'lang' always stands for ISO 639-1 two letters language codes
 // (like 'en', 'fr', etc.)
 export const initI18n = (app, lang) => {
-  let missingKey
-  if (window.env === 'dev') {
-    missingKey = require('./i18n_missing_key')
-  } else {
-    missingKey = _.noop
-  }
+  const missingKey = window.env === 'dev' ? i18nMissingKey : noop
+
   const missingKeyWarn = function (warning) {
     console.warn(warning)
 
@@ -32,7 +30,7 @@ export const initI18n = (app, lang) => {
       .replace(/"$/, '')
 
     missingKey(key)
-    if (key == null) { console.trace() }
+    if (key == null) console.trace()
   }
 
   setLanguage(lang, missingKeyWarn)
@@ -45,7 +43,7 @@ export const initI18n = (app, lang) => {
   return initLocalLang(lang)
 }
 
-export const I18n = (...args) => _.capitalise(currentLangI18n(...args))
+export const I18n = (...args) => capitalise(currentLangI18n(...args))
 
 const setLanguage = function (lang, missingKeyWarn) {
   app.polyglot = new Polyglot({ warn: missingKeyWarn })

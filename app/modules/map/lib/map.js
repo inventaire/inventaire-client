@@ -1,20 +1,17 @@
 import { forceArray } from 'lib/utils'
 import Config from './config'
-import Geo from './geo'
+import geo from './geo'
 import { buildPath } from 'lib/location'
 import error_ from 'lib/error'
+import draw from './draw'
+
 let map_
 
-const {
-  defaultZoom
-} = Config
-
-const {
-  truncateDecimals
-} = Geo
+const { defaultZoom } = Config
+const { truncateDecimals } = geo
 
 export default map_ = {
-  draw: require('./draw'),
+  draw,
 
   updateRoute (root, lat, lng, zoom = defaultZoom) {
     lat = truncateDecimals(lat)
@@ -22,7 +19,7 @@ export default map_ = {
     // Keep only defined parameters in the route
     // Allow to pass a custom root to let it be used in multiple modules
     const route = buildPath(root, { lat, lng, zoom })
-    return app.navigate(route, { preventScrollTop: true })
+    app.navigate(route, { preventScrollTop: true })
   },
 
   updateRouteFromEvent (root, e) {

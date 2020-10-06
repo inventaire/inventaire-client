@@ -55,6 +55,6 @@ export default Marionette.LayoutView.extend({
 
   showTransactionWelcome () {
     this.fullviewRegion.show(new TransactionsWelcome())
-    return app.navigate('transactions')
+    app.navigate('transactions')
   }
 })

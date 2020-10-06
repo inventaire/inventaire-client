@@ -1,12 +1,13 @@
 import TypedEntityLayout from './typed_entity_layout'
 import EntitiesList from './entities_list'
 import PaginatedEntities from 'modules/entities/collections/paginated_entities'
+import PublisherInfobox from './publisher_infobox'
 
 export default TypedEntityLayout.extend({
   id: 'publisherLayout',
   className: 'standalone',
   template: require('./templates/publisher_layout.hbs'),
-  Infobox: require('./publisher_infobox'),
+  Infobox: PublisherInfobox,
   regions: {
     infoboxRegion: '.publisherInfobox',
     collectionsList: '#collectionsList',

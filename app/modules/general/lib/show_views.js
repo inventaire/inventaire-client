@@ -20,7 +20,7 @@ export default {
   showEntityCleanup (e) { return entityAction(e, 'show:entity:cleanup') },
   showDonateMenu () {
     app.layout.modal.show(new DonateMenu({ navigateOnClose: true }))
-    return app.navigate('donate')
+    app.navigate('donate')
   },
 
   showFeedbackMenu (options) {

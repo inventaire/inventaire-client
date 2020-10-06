@@ -1,16 +1,19 @@
 import log_ from 'lib/loggers'
+import libraryThingParser from './parsers/library_thing'
+import goodReadsParser from './parsers/good_reads'
+import babelioParser from './parsers/babelio'
+import extractIsbnsAndFetchData from './import/extract_isbns_and_fetch_data'
+
 // How to add an importer:
 // - add an entry to the importers object hereafter
 // - add a parser to the ./parsers folder
 
-const csvParser = source => function (data) {
+const csvParser = parser => function (data) {
   data = data.trim()
   const results = window.Papa.parse(data, { header: true })
   if (results.errors.length > 0) { log_.error(results.errors, 'csv parser errors') }
 
-  return results.data
-  // requiring just in time to avoid preloading unnecessary parsers
-  .map(require(`./parsers/${source}`))
+  return results.data.map(parser)
 }
 
 const importers = {
@@ -18,7 +21,7 @@ const importers = {
     format: 'csv',
     first20Characters: 'Book Id,Title,Author',
     link: 'https://www.goodreads.com/review/import',
-    parse: csvParser('good_reads')
+    parse: csvParser(goodReadsParser)
   },
 
   libraryThing: {
@@ -27,7 +30,7 @@ const importers = {
     link: 'https://www.librarything.com/export.php?export_type=json',
     parse (data) {
       return _.values(JSON.parse(data))
-      .map(require('./parsers/library_thing'))
+      .map(libraryThingParser)
     }
   },
 
@@ -40,7 +43,7 @@ const importers = {
     // making it hard to arbitrate
     disableValidation: true,
     link: 'http://www.babelio.com/export.php',
-    parse: csvParser('babelio')
+    parse: csvParser(babelioParser)
   },
 
   ISBNs: {
@@ -48,7 +51,7 @@ const importers = {
     help: 'any_isbn_text_file',
     // Require only on demande to avoid requiring it during other importers tests
     // and thus having to adapt its dependencies to the test environment
-    parse (data) { return require('./import/extract_isbns_and_fetch_data')(data) }
+    parse (data) { return extractIsbnsAndFetchData(data) }
   }
 }
 
@@ -62,7 +65,7 @@ const prepareImporter = function (name, obj) {
   obj.name = name
   obj.label = _.capitalise(name)
   obj.accept = accept[obj.format]
-  if (obj.format === 'all') { obj.hideFormat = true }
+  if (obj.format === 'all') obj.hideFormat = true
   return obj
 }
 

@@ -1,13 +1,12 @@
 import assert_ from 'lib/assert_types'
 import { reportError } from 'lib/reports'
-if (!window.Promise) window.Promise = require('promise-polyfill')
 
 const methods = {}
 
 // Mimicking Bluebird utils
-Promise.try = fn => Promise.resolve().then(fn)
+methods.try = fn => Promise.resolve().then(fn)
 
-Promise.props = function (obj) {
+methods.props = function (obj) {
   let key
   const keys = []
   const values = []
@@ -109,27 +108,26 @@ methods.timeout = function (ms) {
   })
 }
 
-for (const name in methods) {
-  // Some of those functions might already be implemented
-  // - finally
-  const fn = methods[name]
-  if (Promise.prototype[name] == null) {
-    // Make the new methods non-enumerable
-    // eslint-disable-next-line no-extend-native
-    Object.defineProperty(Promise.prototype, name, { value: fn, enumerable: false })
+
+export default function () {
+  for (const name in methods) {
+    // Some of those functions might already be implemented
+    // - finally
+    const fn = methods[name]
+    if (Promise.prototype[name] == null) {
+      // Make the new methods non-enumerable
+      // eslint-disable-next-line no-extend-native
+      Object.defineProperty(Promise.prototype, name, { value: fn, enumerable: false })
+    }
   }
 }
 
-Promise.getResolved = () => Promise.resolve()
-
-export default Promise
-
-// Isn't defined in test environment
-if (window.addEventListener != null) {
-  // see http://2ality.com/2016/04/unhandled-rejections.html
-  window.addEventListener('unhandledrejection', event => {
-    const err = event.reason
-    console.error('PossiblyUnhandledRejection', err, err.context)
-    reportError(err)
-  })
-}
+// // Isn't defined in test environment
+// if (window.addEventListener != null) {
+//   // see http://2ality.com/2016/04/unhandled-rejections.html
+//   window.addEventListener('unhandledrejection', event => {
+//     const err = event.reason
+//     console.error(`PossiblyUnhandledRejection: ${err.message}\n\n${err.stack}`, err.context)
+//     reportError(err)
+//   })
+// }

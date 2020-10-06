@@ -1,7 +1,10 @@
+import UserLi from './user_li'
+import NoUser from './no_user'
+
 export default Marionette.CollectionView.extend({
   tagName: 'ul',
   className: 'usersList',
-  childView: require('./user_li'),
+  childView: UserLi,
   childViewOptions () {
     return {
       groupContext: this.options.groupContext,
@@ -10,7 +13,7 @@ export default Marionette.CollectionView.extend({
       stretch: this.options.stretch
     }
   },
-  emptyView: require('./no_user'),
+  emptyView: NoUser,
   emptyViewOptions () {
     return {
       message: this.options.emptyViewMessage,

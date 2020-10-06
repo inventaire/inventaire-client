@@ -2,22 +2,23 @@ import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import searchType from '../lib/search/search_type'
 import EntitiesUrisResults from '../lib/search/entities_uris_results'
+import AuthorLayout from './author_layout'
+import NoItem from 'modules/inventory/views/no_item'
+import behaviorsPlugin from 'modules/general/plugins/behaviors'
 
-const {
-  getEntityUri
-} = EntitiesUrisResults
+const { getEntityUri } = EntitiesUrisResults
+const { startLoading, stopLoading } = behaviorsPlugin
 
 const searchHumans = searchType('humans')
-const { startLoading, stopLoading } = require('modules/general/plugins/behaviors')
 
 export default Marionette.CompositeView.extend({
   id: 'deduplicateAuthors',
   template: require('./templates/deduplicate_authors.hbs'),
   childViewContainer: '.authors',
-  childView: require('./author_layout'),
+  childView: AuthorLayout,
   // Lazy empty view: not really fitting the context
   // but just showing that nothing was found
-  emptyView: require('modules/inventory/views/no_item'),
+  emptyView: NoItem,
   behaviors: {
     Loading: {}
   },

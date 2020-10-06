@@ -1,5 +1,6 @@
 import log_ from 'lib/loggers'
-const { truncateDecimals } = require('./geo')
+import geo from './geo'
+const { truncateDecimals } = geo
 
 // doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
 const currentPosition = () => new Promise((resolve, reject) => {

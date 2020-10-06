@@ -2,10 +2,11 @@ import TypedEntityLayout from './typed_entity_layout'
 import EditionsList from './editions_list'
 import EntityActions from './entity_actions'
 import entityItems from '../lib/entity_items'
+import WorkInfobox from './work_infobox'
 
 export default TypedEntityLayout.extend({
   id: 'workLayout',
-  Infobox: require('./work_infobox'),
+  Infobox: WorkInfobox,
   template: require('./templates/work_layout.hbs'),
   regions: {
     infoboxRegion: '#workInfobox',

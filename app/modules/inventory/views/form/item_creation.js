@@ -8,8 +8,9 @@ import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import Shelves from 'modules/shelves/collections/shelves'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
+import ItemRow from 'modules/inventory/views/item_row'
 
-const ItemsList = Marionette.CollectionView.extend({ childView: require('modules/inventory/views/item_row') })
+const ItemsList = Marionette.CollectionView.extend({ childView: ItemRow })
 
 export default Marionette.LayoutView.extend({
   template: require('./templates/item_creation.hbs'),

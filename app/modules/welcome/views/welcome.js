@@ -1,7 +1,7 @@
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import showPaginatedItems from '../lib/show_paginated_items'
-import urls from 'lib/urls'
+import * as urls from 'lib/urls'
 import Mentions from './mentions'
 
 export default Marionette.LayoutView.extend({

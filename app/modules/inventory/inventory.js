@@ -54,7 +54,7 @@ const API = {
   showNetworkInventory () {
     if (app.request('require:loggedIn', 'inventory/network')) {
       showInventory({ section: 'network' })
-      return app.navigate('inventory/network')
+      app.navigate('inventory/network')
     }
   },
 
@@ -65,7 +65,7 @@ const API = {
 
     if (app.request('require:loggedIn', url)) {
       showInventory({ section: 'public', filter })
-      return app.navigate(url)
+      app.navigate(url)
     }
   },
 
@@ -155,7 +155,7 @@ const showItemModal = function (model, fallback) {
     if (previousRoute === newRoute) {
       app.execute('show:inventory:user', model.get('owner'))
     }
-    return app.navigate(previousRoute, { preventScrollTop: true })
+    app.navigate(previousRoute, { preventScrollTop: true })
   }
 
   if (!fallback) { fallback = navigateAfterModal }

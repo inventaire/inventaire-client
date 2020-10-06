@@ -10,6 +10,7 @@ import error_ from 'lib/error'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import cropper from 'modules/general/lib/cropper'
 import getActionKey from 'lib/get_action_key'
+import Picture from './picture'
 
 export default Marionette.CompositeView.extend({
   className () {
@@ -19,7 +20,7 @@ export default Marionette.CompositeView.extend({
 
   template: require('./templates/picture_picker.hbs'),
   childViewContainer: '#availablePictures',
-  childView: require('./picture'),
+  childView: Picture,
 
   behaviors: {
     General: {},

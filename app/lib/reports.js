@@ -1,32 +1,30 @@
-export default {
-  reportError (err) {
-    if (err.hasBeenReported) return
-    err.hasBeenReported = true
-    // errors that are assigned a 4xx error code are user errors
-    // that don't need to be reported to the server
-    // Ex: invalid form input
-    if ((err.statusCode != null) && (err.statusCode < 500)) return
+export function reportError (err) {
+  if (err.hasBeenReported) return
+  err.hasBeenReported = true
+  // errors that are assigned a 4xx error code are user errors
+  // that don't need to be reported to the server
+  // Ex: invalid form input
+  if ((err.statusCode != null) && (err.statusCode < 500)) return
 
-    err.envContext = getEnvContext()
+  err.envContext = getEnvContext()
 
-    const data = {
-      error: {
-        // not simply passing the err object as its properties wouldn't be sent
-        message: err.message,
-        stack: err.stack,
-        context: err.context,
-        statusCode: err.statusCode
-      }
+  const data = {
+    error: {
+      // not simply passing the err object as its properties wouldn't be sent
+      message: err.message,
+      stack: err.stack,
+      context: err.context,
+      statusCode: err.statusCode
     }
-
-    // (1)
-    return $.post({
-      url: '/api/reports?action=error-report',
-      // jquery defaults to x-www-form-urlencoded
-      headers: { 'content-type': 'application/json' },
-      data: stringifyData(data)
-    })
   }
+
+  // (1)
+  return $.post({
+    url: '/api/reports?action=error-report',
+    // jquery defaults to x-www-form-urlencoded
+    headers: { 'content-type': 'application/json' },
+    data: stringifyData(data)
+  })
 }
 
 const getEnvContext = function () {

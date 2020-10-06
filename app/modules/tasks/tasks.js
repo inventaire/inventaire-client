@@ -12,7 +12,9 @@ export default {
   },
 
   initialize () {
-    app.commands.setHandlers({ 'show:task': API.showTask })
+    app.commands.setHandlers({
+      'show:task': API.showTask
+    })
   }
 }
 

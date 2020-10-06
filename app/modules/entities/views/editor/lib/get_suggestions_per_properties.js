@@ -1,7 +1,11 @@
+import wdtP50 from './suggestions/wdt_P50'
+import wdtP123 from './suggestions/wdt_P123'
+import wdtP629 from './suggestions/wdt_P629'
+
 const suggestionsPerProperties = {
-  'wdt:P50': require('./suggestions/wdt_P50'),
-  'wdt:P123': require('./suggestions/wdt_P123'),
-  'wdt:P629': require('./suggestions/wdt_P629')
+  'wdt:P50': wdtP50,
+  'wdt:P123': wdtP123,
+  'wdt:P629': wdtP629
 }
 
 export default (property, model) => Promise.try(() => {

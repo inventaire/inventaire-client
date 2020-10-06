@@ -3,7 +3,9 @@ import { i18n } from 'modules/user/lib/i18n'
 import { countShelves } from 'modules/shelves/lib/shelves'
 import Positionable from 'modules/general/models/positionable'
 import error_ from 'lib/error'
-const { defaultAvatar } = require('lib/urls').images
+import { images } from 'lib/urls'
+
+const { defaultAvatar } = images
 
 export default Positionable.extend({
   setPathname () {

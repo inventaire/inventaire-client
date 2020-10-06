@@ -1,5 +1,3 @@
-import { I18n, i18n } from 'modules/user/lib/i18n'
-
 // Metadata update is coupled to the needs of:
 // - Browsers:
 //   - document title update (which is important for the browser history)
@@ -17,6 +15,7 @@ import { I18n, i18n } from 'modules/user/lib/i18n'
 
 import updateNodeType from './update_node_type'
 import { currentRoute } from 'lib/location'
+import { I18n, i18n } from 'modules/user/lib/i18n'
 const initialRoute = currentRoute()
 // Make prerender wait before assuming everything is ready
 // see https://prerender.io/documentation/best-practices
@@ -40,11 +39,11 @@ const updateRouteMetadata = (route, metadataPromise = {}) => {
   .finally(metadataUpdateDone)
 }
 
-const applyMetadataUpdate = route => function (metadata = {}) {
+const applyMetadataUpdate = route => (metadata = {}) => {
   let redirection
-  if (!prerenderReady && (initialRoute !== route)) { redirection = true }
+  if (!prerenderReady && (initialRoute !== route)) redirection = true
 
-  if (redirection) { setPrerenderMeta(302, route) }
+  if (redirection) setPrerenderMeta(302, route)
 
   if (metadata.smallCardType) {
     metadata['twitter:card'] = 'summary'
@@ -53,11 +52,11 @@ const applyMetadataUpdate = route => function (metadata = {}) {
     delete metadata.smallCardType
   }
 
-  if (metadata.title == null) { metadata = defaultMetadata() }
+  if (metadata.title == null) metadata = defaultMetadata()
   if (!metadata.url) { metadata.url = `/${route}` }
   // image and rss can keep the default value, but description should be empty if no specific description can be found
   // to avoid just spamming with the default description
-  if (metadata.description == null) { metadata.description = '' }
+  if (metadata.description == null) metadata.description = ''
   return updateMetadata(metadata)
 }
 

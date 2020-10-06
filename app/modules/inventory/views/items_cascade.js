@@ -1,12 +1,14 @@
 import InfiniteScrollItemsList from './infinite_scroll_items_list'
 import masonryPlugin from 'modules/general/plugins/masonry'
+import NoItem from 'modules/inventory/views/no_item'
+import ItemCard from './item_card'
 
 export default InfiniteScrollItemsList.extend({
   className: 'items-cascade-wrapper',
   template: require('./templates/items_cascade.hbs'),
   childViewContainer: '.itemsCascade',
-  childView: require('./item_card'),
-  emptyView: require('./no_item'),
+  childView: ItemCard,
+  emptyView: NoItem,
 
   ui: {
     itemsCascade: '.itemsCascade'

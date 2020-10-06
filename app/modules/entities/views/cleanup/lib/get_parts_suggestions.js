@@ -1,6 +1,8 @@
 import preq from 'lib/preq'
 import addPertinanceScore from './add_pertinance_score'
-const searchWorks = require('modules/entities/lib/search/search_type').default('works')
+import searchType from 'modules/entities/lib/search/search_type'
+
+const searchWorks = searchType('works')
 const descendingPertinanceScore = work => -work.get('pertinanceScore')
 const Suggestions = Backbone.Collection.extend({ comparator: descendingPertinanceScore })
 

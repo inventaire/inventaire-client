@@ -1,15 +1,23 @@
 import isLoggedIn from './lib/is_logged_in'
 import creationParials from './lib/creation_partials'
+import EntityValueEditor from './entity_value_editor'
+import FixedEntityValue from './fixed_entity_value'
+import StringValueEditor from './string_value_editor'
+import FixedStringValue from './fixed_string_value'
+import SimpleDayValueEditor from './simple_day_value_editor'
+import PositiveIntegerValueEditor from './positive_integer_value_editor'
+import PositiveIntegerStringValueEditor from './positive_integer_string_value_editor'
+import ImageValueEditor from './image_value_editor'
 
 const editors = {
-  entity: require('./entity_value_editor'),
-  'fixed-entity': require('./fixed_entity_value'),
-  string: require('./string_value_editor'),
-  'fixed-string': require('./fixed_string_value'),
-  'simple-day': require('./simple_day_value_editor'),
-  'positive-integer': require('./positive_integer_value_editor'),
-  'positive-integer-string': require('./positive_integer_string_value_editor'),
-  image: require('./image_value_editor')
+  entity: EntityValueEditor,
+  'fixed-entity': FixedEntityValue,
+  string: StringValueEditor,
+  'fixed-string': FixedStringValue,
+  'simple-day': SimpleDayValueEditor,
+  'positive-integer': PositiveIntegerValueEditor,
+  'positive-integer-string': PositiveIntegerStringValueEditor,
+  image: ImageValueEditor,
 }
 
 export default Marionette.CompositeView.extend({

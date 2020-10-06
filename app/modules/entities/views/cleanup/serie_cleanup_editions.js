@@ -1,6 +1,8 @@
+import SerieCleanupEdition from './serie_cleanup_edition'
+
 export default Marionette.CollectionView.extend({
   tagName: 'ul',
-  childView: require('./serie_cleanup_edition'),
+  childView: SerieCleanupEdition,
   childViewOptions () {
     return {
       worksWithOrdinal: this.options.worksWithOrdinal,

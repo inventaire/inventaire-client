@@ -2,10 +2,30 @@ import loader from 'modules/general/views/templates/loader.hbs'
 import error_ from 'lib/error'
 import EntitiesListAdder from './entities_list_adder'
 import { currentRoute } from 'lib/location'
+import SerieLayout from './serie_layout'
+import WorkLi from './work_li'
+import ArticleLi from './article_li'
+import EditionLi from './edition_li'
+import AuthorLayout from './author_layout'
+import PublisherLayout from './publisher_layout'
+import CollectionLayout from './collection_layout'
 
 // TODO:
 // - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
 // - hide series parts when displayed as sub-series
+
+const viewByType = {
+  serie: SerieLayout,
+  work: WorkLi,
+  article: ArticleLi,
+  // Types included despite not being works
+  // to make this view reusable by ./claim_layout with those types.
+  // This view should thus possibily be renamed entities_list
+  edition: EditionLi,
+  human: AuthorLayout,
+  publisher: PublisherLayout,
+  collection: CollectionLayout,
+}
 
 export default Marionette.CompositeView.extend({
   template: require('./templates/entities_list.hbs'),
@@ -23,19 +43,8 @@ export default Marionette.CompositeView.extend({
 
   getChildView (model) {
     const { type } = model
-    switch (type) {
-    case 'serie': return require('./serie_layout')
-    case 'work': return require('./work_li')
-    case 'article': return require('./article_li')
-      // Types included despite not being works
-      // to make this view reusable by ./claim_layout with those types.
-      // This view should thus possibily be renamed entities_list
-    case 'edition': return require('./edition_li')
-    case 'human': return require('./author_layout')
-    case 'publisher': return require('./publisher_layout')
-    case 'collection': return require('./collection_layout')
-    }
-
+    const View = viewByType[type]
+    if (View != null) return View
     const err = error_.new(`unknown entity type: ${type}`, model)
     // Weird: errors thrown here don't appear anyware
     // where are those silently catched?!?

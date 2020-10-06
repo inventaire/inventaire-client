@@ -2,6 +2,7 @@ import { isOpenedOutside } from 'lib/utils'
 import preq from 'lib/preq'
 import ShelfItemsCandidates from './shelf_items_candidate'
 import Items from 'modules/inventory/collections/items'
+import AutocompleteNoSuggestion from 'modules/entities/views/editor/autocomplete_no_suggestion'
 
 export default Marionette.CompositeView.extend({
   id: 'shelfItemsAdder',
@@ -12,7 +13,7 @@ export default Marionette.CompositeView.extend({
     return { shelf: this.options.model }
   },
 
-  emptyView: require('modules/entities/views/editor/autocomplete_no_suggestion'),
+  emptyView: AutocompleteNoSuggestion,
 
   ui: {
     candidates: '.shelfItemsCandidates'

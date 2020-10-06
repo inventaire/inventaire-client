@@ -1,13 +1,12 @@
-import log_ from 'lib/loggers'
-import { I18n } from 'modules/user/lib/i18n'
 // One unique Entity model to rule them all
 // but with specific initializers:
 // - By source:
 //   - Wikidata entities have specific initializers related to Wikimedia sitelinks
 // - By type: see specialInitializersByType
 
+import log_ from 'lib/loggers'
+import { I18n } from 'modules/user/lib/i18n'
 import isbn_ from 'lib/isbn'
-
 import entities_ from '../lib/entities'
 import initializeWikidataEntity from '../lib/wikidata/init_entity'
 import initializeInvEntity from '../lib/inv/init_entity'
@@ -16,14 +15,20 @@ import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 import getOriginalLang from 'modules/entities/lib/get_original_lang'
 import error_ from 'lib/error'
 import Filterable from 'modules/general/models/filterable'
+import initAuthor from '../lib/types/author'
+import initSerie from '../lib/types/serie'
+import initWork from '../lib/types/work'
+import initEdition from '../lib/types/edition'
+import initPublisher from '../lib/types/publisher'
+import initCollection from '../lib/types/collection'
 
 const specialInitializersByType = {
-  human: require('../lib/types/author'),
-  serie: require('../lib/types/serie'),
-  work: require('../lib/types/work'),
-  edition: require('../lib/types/edition'),
-  publisher: require('../lib/types/publisher'),
-  collection: require('../lib/types/collection')
+  human: initAuthor,
+  serie: initSerie,
+  work: initWork,
+  edition: initEdition,
+  publisher: initPublisher,
+  collection: initCollection,
 }
 
 const editableTypes = Object.keys(specialInitializersByType)

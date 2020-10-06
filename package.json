@@ -12,6 +12,7 @@
     "node": ">= 14"
   },
   "alias": {
+    "app": "./app",
     "api": "./app/api",
     "assets": "./app/assets",
     "lib": "./app/lib",
@@ -34,7 +35,7 @@
     "update-i18n": "./scripts/update_i18n",
     "update-mentions": "./scripts/update_mentions",
     "update-toc": "doctoc README.md",
-    "watch": "parcel watch app/index.html --out-dir ./public/dist --public-url /public/dist --log-level 4 --no-autoinstall"
+    "watch": "parcel watch app/index.html --out-dir ./public/dist --public-url /public/dist --no-autoinstall"
   },
   "dependencies": {
     "autosize": "^4.0.2",

@@ -1,11 +1,12 @@
 import preq from 'lib/preq'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import FeedLi from './feed_li'
 
 export default Marionette.CompositeView.extend({
   id: 'changeLayout',
   template: require('./templates/changes_layout.hbs'),
   childViewContainer: '#feed',
-  childView: require('./feed_li'),
+  childView: FeedLi,
   initialize () {
     this.collection = new Backbone.Collection()
     this.fetchingMore = true

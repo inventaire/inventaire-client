@@ -52,7 +52,7 @@ export default {
       relation,
       propertiesShortlist: getPropertiesShortlist(type, claims),
       setPropertyValue: editableEntity.setPropertyValue.bind(model),
-      savePropertyValue: Promise.getResolved,
+      savePropertyValue: Promise.resolve(),
       setLabel: editableEntity.setLabel.bind(model),
       resetLabels (lang, value) {
         this.set('labels', {})
@@ -60,7 +60,7 @@ export default {
       },
       // Required by editableEntity.setPropertyValue
       invalidateRelationsCache: _.noop,
-      saveLabel: Promise.getResolved,
+      saveLabel: Promise.resolve(),
       create () {
         return createEntities.create({
           labels: this.get('labels'),

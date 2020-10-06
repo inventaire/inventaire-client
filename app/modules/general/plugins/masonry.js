@@ -1,10 +1,10 @@
-import { isView } from 'lib/boolean_tests'
 // dependencies: behaviorsPlugin, paginationPlugin
 
+import { isView } from 'lib/boolean_tests'
 import Masonry from 'masonry-layout'
-
 import screen_ from 'lib/screen'
-// to keep in sync with _items_list.scss $itemCardBaseWidth variable
+
+// To keep in sync with _items_list.scss $itemCardBaseWidth variable
 const itemWidth = 230
 
 export default function (containerSelector, itemSelector, minWidth = 500) {
@@ -42,8 +42,8 @@ export default function (containerSelector, itemSelector, minWidth = 500) {
     }
   }
 
-  const refresh = function () {
-    require('imagesloaded')
+  const refresh = async function () {
+    await import('imagesloaded')
     // wait for images to be loaded
     return $(containerSelector).imagesLoaded(initMasonry.bind(this))
   }

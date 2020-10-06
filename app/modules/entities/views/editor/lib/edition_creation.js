@@ -1,6 +1,7 @@
 import { i18n } from 'modules/user/lib/i18n'
 import wdLang from 'wikidata-lang'
 import { buildPath } from 'lib/location'
+import CreateEditionEntityFromWork from './create_edition_entity_from_work'
 
 export default {
   partial: 'edition_creation',
@@ -23,7 +24,7 @@ export default {
   },
 
   clickEvents: {
-    isbnButton: require('./create_edition_entity_from_work'),
+    isbnButton: CreateEditionEntityFromWork,
     withoutIsbn (params) {
       const { work: workModel, itemToUpdate } = params
       app.execute('show:entity:create', workEditionCreationData(workModel, itemToUpdate))

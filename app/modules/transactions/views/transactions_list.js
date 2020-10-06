@@ -1,11 +1,13 @@
 import * as folders from '../lib/folders'
+import TransactionPreview from './transaction_preview'
+import NoTransaction from './no_transaction'
 
 export default Marionette.CompositeView.extend({
   template: require('./templates/transactions_list.hbs'),
   className: 'transactionList',
   childViewContainer: '.transactions',
-  childView: require('./transaction_preview'),
-  emptyView: require('./no_transaction'),
+  childView: TransactionPreview,
+  emptyView: NoTransaction,
   initialize () {
     this.folder = this.options.folder
     this.filter = folders[this.folder].filter

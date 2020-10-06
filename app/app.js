@@ -96,6 +96,8 @@ const onPreviousRoute = function () {
   return app.vent.trigger('route:change', routeSection(route), route)
 }
 
-export default new App()
+const app = window.app = new App()
+
+export default app
 
 const scrollToPageTop = () => window.scrollTo(0, 0)

@@ -45,8 +45,9 @@ export default Marionette.LayoutView.extend({
     const tabLabel = I18n(tab)
     const settings = I18n('settings')
 
-    return app.navigate(`settings/${tab}`,
-      { metadata: { title: `${tabLabel} - ${settings}` } })
+    app.navigate(`settings/${tab}`, {
+      metadata: { title: `${tabLabel} - ${settings}` }
+    })
   },
 
   setActiveTab (name) {

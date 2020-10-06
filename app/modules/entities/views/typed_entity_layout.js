@@ -1,3 +1,4 @@
+import GeneralInfobox from './general_infobox'
 export default Marionette.LayoutView.extend({
   // regions:
   // infoboxRegion
@@ -9,7 +10,7 @@ export default Marionette.LayoutView.extend({
     return className.trim()
   },
 
-  Infobox: require('./general_infobox'),
+  Infobox: GeneralInfobox,
 
   initialize () {
     return ({ refresh: this.refresh, standalone: this.standalone, displayMergeSuggestions: this.displayMergeSuggestions } = this.options)

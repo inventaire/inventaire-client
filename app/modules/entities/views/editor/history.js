@@ -1,3 +1,4 @@
+import Version from './version'
 export default Marionette.CompositeView.extend({
   className () {
     let classes = 'entity-history'
@@ -6,7 +7,7 @@ export default Marionette.CompositeView.extend({
   },
   template: require('./templates/history.hbs'),
   childViewContainer: '.inner-history',
-  childView: require('./version'),
+  childView: Version,
   initialize () {
     let uri;
     ({ model: this.model, uri } = this.options)

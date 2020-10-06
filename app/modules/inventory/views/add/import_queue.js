@@ -7,10 +7,12 @@ import screen_ from 'lib/screen'
 import ItemShelves from '../item_shelves'
 import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
 import Shelves from 'modules/shelves/collections/shelves'
+import CandidateRow from './candidate_row'
+import ImportedItemRow from './imported_item_row'
 
 const CandidatesQueue = Marionette.CollectionView.extend({
   tagName: 'ul',
-  childView: require('./candidate_row'),
+  childView: CandidateRow,
   childEvents: {
     'selection:changed' () { this.triggerMethod('selection:changed') }
   }
@@ -18,7 +20,7 @@ const CandidatesQueue = Marionette.CollectionView.extend({
 
 const ImportedItemsList = Marionette.CollectionView.extend({
   tagName: 'ul',
-  childView: require('./imported_item_row')
+  childView: ImportedItemRow
 })
 
 export default Marionette.LayoutView.extend({

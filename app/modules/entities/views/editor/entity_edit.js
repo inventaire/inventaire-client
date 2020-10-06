@@ -1,5 +1,4 @@
 import { I18n, i18n } from 'modules/user/lib/i18n'
-
 import LabelsEditor from './labels_editor'
 import PropertiesEditor from './properties_editor'
 import propertiesCollection from '../../lib/editor/properties_collection'
@@ -11,7 +10,7 @@ import { unprefixify } from 'lib/wikimedia/wikidata'
 import moveToWikidata from './lib/move_to_wikidata'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import propertiesPerType from 'modules/entities/lib/editor/properties_per_type'
-error_ = require('lib/error')
+
 const typesWithoutLabel = [
   'edition',
   'collection'

@@ -18,6 +18,7 @@ import WikidataEditIntro from './views/wikidata_edit_intro'
 import History from './views/editor/history'
 import getEntityViewByType from './lib/get_entity_view_by_type'
 import Entities from './lib/entities'
+import showMergeSuggestions from './lib/show_merge_suggestions'
 
 const {
   normalizeUri
@@ -67,7 +68,7 @@ const API = {
       return getEntityViewByType(entity, refresh)
       .then(view => {
         app.layout.main.show(view)
-        return app.navigateFromModel(entity)
+        app.navigateFromModel(entity)
       })
     })
     .catch(handleMissingEntity(uri))
@@ -100,7 +101,7 @@ const API = {
 
   showChanges () {
     app.layout.main.show(new ChangesLayout())
-    return app.navigate('entity/changes', { metadata: { title: 'changes' } })
+    app.navigate('entity/changes', { metadata: { title: 'changes' } })
   },
 
   showActivity () {
@@ -158,10 +159,10 @@ const API = {
     .then(() => {
       app.layout.main.show(new History({ model, standalone: true, uri }))
       if (uri === model.get('uri')) {
-        return app.navigateFromModel(model, 'history')
+        app.navigateFromModel(model, 'history')
       // Case where we got a redirected uri
       } else {
-        return app.navigate(`entity/${uri}/history`)
+        app.navigate(`entity/${uri}/history`)
       }
     }))
     .catch(app.Execute('show:error'))
@@ -191,7 +192,7 @@ const setHandlers = function () {
     'show:claim:entities' (property, value) {
       const claim = `${property}-${value}`
       API.showEntity(claim)
-      return app.navigate(`entity/${claim}`)
+      app.navigate(`entity/${claim}`)
     },
 
     'show:entity:from:model' (model, params) {
@@ -215,7 +216,7 @@ const setHandlers = function () {
         return window.open(pathname, '_blank')
       } else {
         API.showDeduplicate({ uris: [ uri ] })
-        return app.navigate(pathname)
+        app.navigate(pathname)
       }
     },
 
@@ -229,7 +230,7 @@ const setHandlers = function () {
     'show:entity:edit:from:params': showEntityEdit,
     'show:entity:create': showEntityCreate,
     'show:entity:cleanup': API.showEntityCleanup,
-    'show:merge:suggestions': require('./lib/show_merge_suggestions'),
+    'show:merge:suggestions': showMergeSuggestions,
     'report:entity:type:issue': reportTypeIssue,
     'show:wikidata:edit:intro:modal': showWikidataEditIntroModal
   })
@@ -287,7 +288,7 @@ const showEntityEdit = function (params) {
   const View = (params.next != null) || (params.previous != null) ? MultiEntityEdit : EntityEdit
   if (!region) { region = app.layout.main }
   region.show(new View(params))
-  return app.navigateFromModel(model, 'edit')
+  app.navigateFromModel(model, 'edit')
 }
 
 const showEntityEditFromModel = function (model) {
@@ -411,6 +412,6 @@ const showEntityCleanupFromModel = function (entity) {
   return entity.initSerieParts({ refresh: true, fetchAll: true })
   .then(() => {
     app.layout.main.show(new SerieCleanup({ model: entity }))
-    return app.navigateFromModel(entity, 'cleanup')
+    app.navigateFromModel(entity, 'cleanup')
   })
 }

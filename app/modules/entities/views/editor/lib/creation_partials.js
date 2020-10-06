@@ -1,1 +1,5 @@
-export default { 'wdt:P747': require('./edition_creation') }
+import EditionCreation from './edition_creation'
+
+export default {
+  'wdt:P747': EditionCreation
+}

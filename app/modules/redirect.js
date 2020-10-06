@@ -68,7 +68,7 @@ const API = {
 
   showWelcome () {
     app.layout.main.show(new Welcome())
-    return app.navigate('welcome')
+    app.navigate('welcome')
   },
 
   showDonate () { return showMenuStandalone(DonateMenu, 'donate') },
@@ -191,7 +191,7 @@ const showError = function (options) {
   // When the logic leading to the error didn't trigger a new 'navigate' action,
   // hitting 'Back' would bring back two pages before, so we can pass a navigate
   // option to prevent it
-  if (options.navigate) { return app.navigate(`error/${options.name}`) }
+  if (options.navigate) { app.navigate(`error/${options.name}`) }
 }
 
 const showCallToConnection = message => app.layout.modal.show(new CallToConnection({ connectionMessage: message })
@@ -199,5 +199,5 @@ const showCallToConnection = message => app.layout.modal.show(new CallToConnecti
 
 const showMenuStandalone = function (Menu, titleKey) {
   app.layout.main.show(new Menu({ standalone: true }))
-  return app.navigate(titleKey, { metadata: { title: i18n(titleKey) } })
+  app.navigate(titleKey, { metadata: { title: i18n(titleKey) } })
 }

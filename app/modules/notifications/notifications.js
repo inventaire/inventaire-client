@@ -18,9 +18,13 @@ export default {
   },
 
   initialize () {
-    app.commands.setHandlers({ 'show:notifications': API.showNotifications })
+    app.commands.setHandlers({
+      'show:notifications': API.showNotifications
+    })
 
-    app.reqres.setHandlers({ 'notifications:unread:count' () { return notifications.unreadCount() } })
+    app.reqres.setHandlers({
+      'notifications:unread:count' () { return notifications.unreadCount() }
+    })
 
     waitForNotifications = getNotificationsData()
   }
@@ -37,8 +41,11 @@ const API = {
       .then(() => notifications.beforeShow())
       .then(() => {
         app.layout.main.show(new NotificationsLayout({ notifications }))
-        return app.navigate('notifications',
-          { metadata: { title: i18n('notifications') } })
+        app.navigate('notifications', {
+          metadata: {
+            title: i18n('notifications')
+          }
+        })
       })
     }
   }

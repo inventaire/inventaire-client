@@ -1,12 +1,14 @@
 import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
+import WorkLi from './work_li'
+import NoItem from 'modules/inventory/views/no_item'
 
 const DeduplicateWorksList = Marionette.CollectionView.extend({
   className: 'deduplicateWorksList',
-  childView: require('./work_li'),
+  childView: WorkLi,
   tagName: 'ul',
   // Lazy empty view: not really fitting the context
   // but just showing that nothing was found
-  emptyView: require('modules/inventory/views/no_item'),
+  emptyView: NoItem,
   childViewOptions: {
     showAllLabels: true,
     showActions: false,

@@ -175,7 +175,7 @@ export default GroupLayoutView.extend({
   },
 
   updateRoute () {
-    return app.navigateFromModel(this.model, 'boardPathname', { preventScrollTop: true })
+    app.navigateFromModel(this.model, 'boardPathname', { preventScrollTop: true })
   }
 })
 

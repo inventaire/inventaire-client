@@ -1,5 +1,7 @@
+import User from '../models/user'
+
 export default Backbone.Collection.extend({
-  model: require('../models/user'),
+  model: User,
   url () { return app.API.users.friends },
 
   initialize () {

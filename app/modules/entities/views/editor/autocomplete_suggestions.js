@@ -1,5 +1,8 @@
 // Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collectionview.js
 
+import AutocompleteSuggestion from './autocomplete_suggestion'
+import AutocompleteNoSuggestion from './autocomplete_no_suggestion'
+
 // keep in sync with app/modules/general/scss/_autocomplete.scss
 const listHeight = 170
 
@@ -7,8 +10,8 @@ export default Marionette.CompositeView.extend({
   template: require('./templates/autocomplete_suggestions.hbs'),
   className: 'autocomplete-suggestions',
   childViewContainer: '.results',
-  childView: require('./autocomplete_suggestion'),
-  emptyView: require('./autocomplete_no_suggestion'),
+  childView: AutocompleteSuggestion,
+  emptyView: AutocompleteNoSuggestion,
   ui: {
     resultsWrapper: '.resultsWrapper',
     results: '.results',

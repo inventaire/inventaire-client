@@ -5,7 +5,6 @@ import preq from 'lib/preq'
 import error_ from 'lib/error'
 import Entity from '../models/entity'
 import { invalidateLabel } from 'lib/uri_label/labels_helpers'
-const { getByUris, getManyByUris } = app.API.entities
 
 // In-memory cache for all entities used during a session.
 // It's ok to attach it to window for inspection purpose
@@ -65,10 +64,10 @@ const getRemoteEntitiesModels = function (uris, refresh, defaultType) {
   if (uris.length < 50) {
     // Prefer to use get when not fetching that many entities
     // - to make server log the requested URIs
-    promise = preq.get(getByUris(uris, refresh))
+    promise = preq.get(app.API.entities.getByUris(uris, refresh))
   } else {
     // Use the POST endpoint when using a GET might hit some URI length limits
-    promise = preq.post(getManyByUris, { uris, refresh })
+    promise = preq.post(app.API.entities.getManyByUris, { uris, refresh })
   }
 
   return promise
@@ -140,7 +139,10 @@ const invalidateGraph = function (uri) {
   }
 }
 
-app.commands.setHandlers({
-  'invalidate:entities:graph' (uris) { sanitizeUris(uris).forEach(invalidateGraph) },
-  'invalidate:entities:cache' (uris) { sanitizeUris(uris).forEach(invalidateCache) }
-})
+// Work around circular dependency
+setTimeout(() => {
+  app.commands.setHandlers({
+    'invalidate:entities:graph': uris => sanitizeUris(uris).forEach(invalidateGraph),
+    'invalidate:entities:cache': uris => sanitizeUris(uris).forEach(invalidateCache)
+  })
+}, 0)

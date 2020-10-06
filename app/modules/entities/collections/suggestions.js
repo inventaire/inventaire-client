@@ -1,5 +1,7 @@
 // Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.js
 
+import SearchResult from 'modules/entities/models/search_result'
+
 export default Backbone.Collection.extend({
   initialize (data, options) {
     this.lastInput = null
@@ -14,7 +16,7 @@ export default Backbone.Collection.extend({
     this.on('select:from:click', this.selectFromClick)
   },
 
-  model: require('modules/entities/models/search_result'),
+  model: SearchResult,
 
   // Select first suggestion unless the suggestion list
   // has been navigated then select at the current index.

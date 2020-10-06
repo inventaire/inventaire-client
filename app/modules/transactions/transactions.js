@@ -100,7 +100,7 @@ const triggerTransactionSelect = function (id) {
 
 const updateTransactionRoute = function (transaction) {
   transaction.beforeShow()
-  return app.navigateFromModel(transaction)
+  app.navigateFromModel(transaction)
 }
 
 const findFirstTransaction = function () {

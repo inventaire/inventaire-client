@@ -1,5 +1,5 @@
-import url from 'lib/urls'
-const { banner } = url.images
+import { images } from 'lib/urls'
+const { banner } = images
 
 export default Marionette.ItemView.extend({
   template: require('./templates/call_to_connection.hbs'),

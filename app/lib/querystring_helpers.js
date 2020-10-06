@@ -8,7 +8,9 @@ export default function (app, _) {
     'querystring:keep': keep
   })
 
-  app.commands.setHandlers({ 'querystring:set': set })
+  app.commands.setHandlers({
+    'querystring:set': set
+  })
 };
 
 const get = function (key) {
@@ -28,7 +30,7 @@ const set = function (key, value) {
   // omit the first character: '/'
   const currentPath = window.location.pathname.slice(1) + window.location.search
   const updatedPath = setQuerystring(currentPath, key, value)
-  return app.navigateReplace(updatedPath)
+  app.navigateReplace(updatedPath)
 }
 
 // report persistant querystrings from the current route to the next one

@@ -1,24 +1,20 @@
 import { isModel, isUserId } from 'lib/boolean_tests'
-
 import { forceArray } from 'lib/utils'
 import error_ from 'lib/error'
 import usersData from './users_data'
+import initSearch from './lib/search'
 
 export default function (app) {
   const sync = {
     getUserModelFromUserId (id) {
-      if (id === app.user.id) { return app.user }
-
-      const userModel = app.users.byId(id)
-      if (userModel != null) {
-        return userModel
-      } else { }
+      if (id === app.user.id) return app.user
+      else return app.users.byId(id)
     }
   }
 
   const async = {
     getUserModel (id, refresh) {
-      if (id === app.user.id) { return Promise.resolve(app.user) }
+      if (id === app.user.id) return Promise.resolve(app.user)
 
       const model = app.users.byId(id)
       if ((model != null) && !refresh) {
@@ -104,7 +100,7 @@ export default function (app) {
 
   const addUser = users => addUsers(users)[0]
 
-  const { searchByText } = require('./lib/search')(app)
+  const { searchByText } = initSearch(app)
 
   app.reqres.setHandlers({
     'get:user:model': async.getUserModel,
@@ -116,7 +112,9 @@ export default function (app) {
     'user:add': addUser
   })
 
-  app.commands.setHandlers({ 'users:add': addUsers })
-};
+  app.commands.setHandlers({
+    'users:add': addUsers
+  })
+}
 
 const isntMainUser = user => user._id !== app.user.id

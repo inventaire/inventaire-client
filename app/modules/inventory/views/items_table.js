@@ -1,11 +1,13 @@
 import InfiniteScrollItemsList from './infinite_scroll_items_list'
 import ItemsTableSelectionEditor from './items_table_selection_editor'
+import NoItem from 'modules/inventory/views/no_item'
+import ItemRow from './item_row'
 
 export default InfiniteScrollItemsList.extend({
   className: 'items-table',
   template: require('./templates/items_table.hbs'),
-  childView: require('./item_row'),
-  emptyView: require('./no_item'),
+  childView: ItemRow,
+  emptyView: NoItem,
   childViewContainer: '#itemsRows',
 
   ui: {

@@ -1,11 +1,13 @@
 import { clickCommand } from 'lib/utils'
 import UsersList from 'modules/users/views/users_list'
 import GroupsList from 'modules/network/views/groups_list'
+import NotificationLi from './notification_li'
+import NoNotification from './no_notification'
 
 const NotificationsList = Marionette.CollectionView.extend({
   tagName: 'ul',
-  childView: require('./notification_li'),
-  emptyView: require('./no_notification'),
+  childView: NotificationLi,
+  emptyView: NoNotification,
 
   onShow () {
     // Wait for the notifications to arrive to mark them as read

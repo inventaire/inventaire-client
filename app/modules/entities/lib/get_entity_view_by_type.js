@@ -1,13 +1,19 @@
 import EditionLayout from '../views/edition_layout'
 import ClaimLayout from '../views/claim_layout'
+import authorLayout from '../views/author_layout'
+import serieLayout from '../views/serie_layout'
+import workLayout from '../views/work_layout'
+import publisherLayout from '../views/publisher_layout'
+import articleLi from '../views/article_li'
+import collectionLayout from '../views/collection_layout'
 
 const entityViewByType = {
-  human: require('../views/author_layout'),
-  serie: require('../views/serie_layout'),
-  work: require('../views/work_layout'),
-  publisher: require('../views/publisher_layout'),
-  article: require('../views/article_li'),
-  collection: require('../views/collection_layout')
+  human: authorLayout,
+  serie: serieLayout,
+  work: workLayout,
+  publisher: publisherLayout,
+  article: articleLi,
+  collection: collectionLayout,
 }
 const standalone = true
 
@@ -29,7 +35,9 @@ export default async function getEntityViewByType (model, refresh) {
   return new ClaimLayout({ property, value, refresh })
 }
 
-const getEditionView = (model, refresh) => model.waitForWorks
-.then(() => new EditionLayout({ model, refresh, standalone }))
+const getEditionView = async (model, refresh) => {
+  await model.waitForWorks
+  return new EditionLayout({ model, refresh, standalone })
+}
 
 const entityViewSpecialGetterByType = { edition: getEditionView }

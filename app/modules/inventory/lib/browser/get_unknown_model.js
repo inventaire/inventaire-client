@@ -1,4 +1,4 @@
-import { i18n } from 'lib/i18n'
+import { i18n } from 'modules/user/lib/i18n'
 import Filterable from 'modules/general/models/filterable'
 let unknownModel = null
 

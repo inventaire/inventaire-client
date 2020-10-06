@@ -1,4 +1,6 @@
+import Entity from '../models/entity'
+
 export default Backbone.Collection.extend({
-  model: require('../models/entity'),
+  model: Entity,
   byUri (uri) { return this.findWhere({ uri }) }
 })

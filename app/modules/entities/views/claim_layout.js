@@ -36,7 +36,7 @@ export default Marionette.LayoutView.extend({
     this.infobox.show(new GeneralInfobox({ model: this.model }))
     // Use the URI from the returned entity as it might have been redirected
     const finalClaim = this.property + '-' + this.model.get('uri')
-    return app.navigate(`entity/${finalClaim}`)
+    app.navigate(`entity/${finalClaim}`)
   },
 
   showEntities (uris) {

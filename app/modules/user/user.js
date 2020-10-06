@@ -3,6 +3,10 @@ import SignupClassic from './views/signup_classic'
 import Login from './views/login'
 import ForgotPassword from './views/forgot_password'
 import ResetPassword from './views/reset_password'
+import initMainUser from './lib/init_main_user'
+import auth from './lib/auth'
+import userListings from './lib/user_listings'
+import userUpdate from './lib/user_update'
 
 export default {
   define (module, app, Backbone, Marionette, $, _) {
@@ -18,10 +22,10 @@ export default {
 
     app.addInitializer(() => new Router({ controller: API }))
 
-    require('./lib/init_main_user')(app)
-    require('./lib/auth')(app)
-    require('./lib/user_listings')(app)
-    require('./lib/user_update')(app)
+    initMainUser(app)
+    auth(app)
+    userListings(app)
+    userUpdate(app)
 
     app.commands.setHandlers({
       'show:signup': API.showSignup,

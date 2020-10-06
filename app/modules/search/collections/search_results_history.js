@@ -1,5 +1,7 @@
+import Search from '../models/search'
+
 export default Backbone.Collection.extend({
-  model: require('../models/search'),
+  model: Search,
   // deduplicating searches
   addNonExisting (data) {
     const { query, uri } = data

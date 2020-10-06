@@ -5,13 +5,15 @@ import UserProfile from './user_profile'
 import GroupProfile from './group_profile'
 import ShelfBox from '../../shelves/views/shelf_box'
 import ShelvesSection from '../../shelves/views/shelves_section'
-
+import InventoryNetworkNav from './inventory_network_nav'
+import InventoryPublicNav from './inventory_public_nav'
 import showPaginatedItems from 'modules/welcome/lib/show_paginated_items'
 import screen_ from 'lib/screen'
+import InventoryWelcome from './inventory_welcome'
 
 const navs = {
-  network: require('./inventory_network_nav'),
-  public: require('./inventory_public_nav')
+  network: InventoryNetworkNav,
+  public: InventoryPublicNav
 }
 
 export default Marionette.LayoutView.extend({
@@ -117,7 +119,6 @@ export default Marionette.LayoutView.extend({
   },
 
   showInventoryWelcome () {
-    const InventoryWelcome = require('./inventory_welcome')
     return this.itemsList.show(new InventoryWelcome())
   },
 
@@ -179,7 +180,7 @@ export default Marionette.LayoutView.extend({
     this.showInventoryBrowser(this._lastShownType, this._lastShownUser)
     scrollToSection(this.userProfile)
     this.shelfInfo.empty()
-    return app.navigateFromModel(this._lastShownUser, { preventScrollTop: true })
+    app.navigateFromModel(this._lastShownUser, { preventScrollTop: true })
   },
 
   showSelectedInventory (type, model) {
@@ -214,7 +215,7 @@ export default Marionette.LayoutView.extend({
       this.showShelf(model)
     }
 
-    return app.navigateFromModel(model, { preventScrollTop: true })
+    app.navigateFromModel(model, { preventScrollTop: true })
   }
 })
 
