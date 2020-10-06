@@ -12,10 +12,12 @@
 // ./scripts/calculate_modules_size ./public/js/app.js | sort -rn
 // ./scripts/calculate_modules_size ./public/js/vendor.js | sort -rn
 
+import fs from 'fs'
+import lodash from 'lodash'
+
 const [ path ] = process.argv.slice(2)
-const fs = require('fs')
 const file = fs.readFileSync(path).toString()
-const { padStart, padEnd } = require('lodash')
+const { padStart } = lodash
 
 let totalCharacters = 0
 let totalLines = 0

@@ -1,7 +1,9 @@
 import fs from 'fs'
 import { promisify } from 'util'
+import chalk from 'chalk'
+
 const writeFile = promisify(fs.writeFile)
-const { grey, red, green } = require('chalk')
+const { grey, red, green } = chalk
 
 export default function (path, content) {
   console.log(grey('writting sitemap'), path)
