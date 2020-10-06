@@ -24,7 +24,7 @@ export default {
       path = `modules/${module}/views/templates/${file}.hbs`
     }
 
-    const template = require(path)
+    const template = require(path).default
     let partial = new SafeString(template(context))
     if (option === 'check') partial = new SafeString(check(partial))
     return partial

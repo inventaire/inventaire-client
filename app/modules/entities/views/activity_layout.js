@@ -1,8 +1,9 @@
 import ActivityPeriod from './activity_period'
+import activityLayoutTemplate from './templates/activity_layout.hbs'
 
 export default Marionette.LayoutView.extend({
   id: 'activityLayout',
-  template: require('./templates/activity_layout.hbs'),
+  template: activityLayoutTemplate,
   regions: {
     lastDay: '#lastDay',
     lastWeek: '#lastWeek',

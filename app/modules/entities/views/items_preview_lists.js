@@ -1,4 +1,5 @@
 import ItemsPreviewList from './items_preview_list'
+import itemsPreviewListsTemplate from './templates/items_preview_lists.hbs'
 
 export default Marionette.LayoutView.extend({
   className () {
@@ -8,7 +9,7 @@ export default Marionette.LayoutView.extend({
     return className
   },
 
-  template: require('./templates/items_preview_lists.hbs'),
+  template: itemsPreviewListsTemplate,
 
   regions: {
     givingRegion: '.giving',

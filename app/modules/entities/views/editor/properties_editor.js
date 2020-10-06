@@ -1,8 +1,9 @@
 import PropertyEditor from './property_editor'
+import propertiesEditorTemplate from './templates/properties_editor.hbs'
 
 export default Marionette.CompositeView.extend({
   className: 'properties-editor',
-  template: require('./templates/properties_editor.hbs'),
+  template: propertiesEditorTemplate,
   childView: PropertyEditor,
   childViewContainer: '.properties',
   initialize () {

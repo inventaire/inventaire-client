@@ -2,6 +2,7 @@ import { lazyMethod, icon } from 'lib/utils'
 import getActionKey from 'lib/get_action_key'
 import BrowserSelectorOptions from './browser_selector_options'
 import screen_ from 'lib/screen'
+import browserSelectorTemplate from './templates/browser_selector.hbs'
 
 export default Marionette.LayoutView.extend({
   className: 'browser-selector',
@@ -10,7 +11,7 @@ export default Marionette.LayoutView.extend({
     return { 'data-options': this.count() }
   },
 
-  template: require('./templates/browser_selector.hbs'),
+  template: browserSelectorTemplate,
   regions: {
     list: '.list'
   },

@@ -1,11 +1,12 @@
 import { isOpenedOutside } from 'lib/utils'
 import forms_ from 'modules/general/lib/forms'
 import shelves_ from '../lib/shelves'
+import shelfItemsCandidateTemplate from './templates/shelf_items_candidate.hbs'
 
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'shelf-items-candidate',
-  template: require('./templates/shelf_items_candidate.hbs'),
+  template: shelfItemsCandidateTemplate,
 
   initialize () {
     ({ shelf: this.shelf } = this.options)

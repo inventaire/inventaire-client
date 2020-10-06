@@ -3,9 +3,10 @@ import getActionKey from 'lib/get_action_key'
 import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
+import workPickerTemplate from './templates/work_picker.hbs'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/work_picker.hbs'),
+  template: workPickerTemplate,
 
   ui: {
     workPickerSelect: '.workPickerSelect',

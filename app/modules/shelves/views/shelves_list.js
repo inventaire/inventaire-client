@@ -1,7 +1,9 @@
 import { isOpenedOutside } from 'lib/utils'
+import shelvesListLiTemplate from './templates/shelves_list_li.hbs'
+
 const ListEl = Marionette.ItemView.extend({
   tagName: 'li',
-  template: require('./templates/shelves_list_li.hbs'),
+  template: shelvesListLiTemplate,
 
   behaviors: {
     PreventDefault: {}

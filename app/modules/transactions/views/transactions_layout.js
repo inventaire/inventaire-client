@@ -2,11 +2,13 @@ import Transaction from 'modules/transactions/views/transaction'
 import TransactionsList from 'modules/transactions/views/transactions_list'
 import TransactionsWelcome from './transactions_welcome'
 import * as folders from '../lib/folders'
+import transactionsLayoutTemplate from './templates/transactions_layout.hbs'
+
 const foldersNames = Object.keys(folders)
 
 export default Marionette.LayoutView.extend({
   className: 'transactionsLayout',
-  template: require('./templates/transactions_layout.hbs'),
+  template: transactionsLayoutTemplate,
   regions: {
     ongoingRegion: '#ongoing',
     archivedRegion: '#archived',

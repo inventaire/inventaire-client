@@ -1,9 +1,10 @@
 import * as folders from '../lib/folders'
 import TransactionPreview from './transaction_preview'
 import NoTransaction from './no_transaction'
+import transactionsListTemplate from './templates/transactions_list.hbs'
 
 export default Marionette.CompositeView.extend({
-  template: require('./templates/transactions_list.hbs'),
+  template: transactionsListTemplate,
   className: 'transactionList',
   childViewContainer: '.transactions',
   childView: TransactionPreview,

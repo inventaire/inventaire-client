@@ -5,6 +5,7 @@ import EntitiesUrisResults from '../lib/search/entities_uris_results'
 import AuthorLayout from './author_layout'
 import NoItem from 'modules/inventory/views/no_item'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import deduplicateAuthorsTemplate from './templates/deduplicate_authors.hbs'
 
 const { getEntityUri } = EntitiesUrisResults
 const { startLoading, stopLoading } = behaviorsPlugin
@@ -13,7 +14,7 @@ const searchHumans = searchType('humans')
 
 export default Marionette.CompositeView.extend({
   id: 'deduplicateAuthors',
-  template: require('./templates/deduplicate_authors.hbs'),
+  template: deduplicateAuthorsTemplate,
   childViewContainer: '.authors',
   childView: AuthorLayout,
   // Lazy empty view: not really fitting the context

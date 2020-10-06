@@ -1,7 +1,9 @@
+import browserSelectorLiTemplate from './templates/browser_selector_li.hbs'
+
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'browser-selector-li',
-  template: require('./templates/browser_selector_li.hbs'),
+  template: browserSelectorLiTemplate,
 
   serializeData () {
     const attrs = this.model.toJSON()

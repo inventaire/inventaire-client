@@ -2,11 +2,13 @@ import { isNonEmptyString } from 'lib/boolean_tests'
 import { simpleDay } from 'lib/utils'
 import { i18n } from 'modules/user/lib/i18n'
 import ClaimsEditorCommons from './claims_editor_commons'
+import simpleDayValueEditorTemplate from './templates/simple_day_value_editor.hbs'
+
 let noValueI18n = null
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'simple-day-value-editor',
-  template: require('./templates/simple_day_value_editor.hbs'),
+  template: simpleDayValueEditorTemplate,
 
   initialize () {
     this.initEditModeState()

@@ -1,6 +1,8 @@
+import wikidataEditIntroTemplate from './templates/wikidata_edit_intro.hbs'
+
 export default Marionette.ItemView.extend({
   className: 'wikidata-edit-intro',
-  template: require('./templates/wikidata_edit_intro.hbs'),
+  template: wikidataEditIntroTemplate,
 
   onShow () { app.execute('modal:open', 'medium') },
 

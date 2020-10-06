@@ -1,9 +1,10 @@
 import { clickCommand } from 'lib/utils'
 import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
+import inventoryNetworkNavTemplate from './templates/inventory_network_nav.hbs'
 
 export default InventoryCommonNav.extend({
   id: 'inventoryNetworkNav',
-  template: require('./templates/inventory_network_nav.hbs'),
+  template: inventoryNetworkNavTemplate,
 
   behaviors: {
     PreventDefault: {}

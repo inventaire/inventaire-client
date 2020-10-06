@@ -5,9 +5,10 @@ import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import { listingsData } from 'modules/inventory/lib/item_creation'
 import { createShelf as createShelfModel } from 'modules/shelves/lib/shelves'
 import { startLoading } from 'modules/general/plugins/behaviors'
+import shelfEditorTemplate from './templates/shelf_editor.hbs'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/shelf_editor.hbs'),
+  template: shelfEditorTemplate,
 
   behaviors: {
     AlertBox: {},

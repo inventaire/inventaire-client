@@ -1,7 +1,9 @@
 import { isOpenedOutside } from 'lib/utils'
+import errorTemplate from './templates/error.hbs'
+
 export default Marionette.LayoutView.extend({
   id: 'error',
-  template: require('./templates/error.hbs'),
+  template: errorTemplate,
   behaviors: {
     PreventDefault: {}
   },

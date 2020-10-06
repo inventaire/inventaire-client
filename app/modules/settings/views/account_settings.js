@@ -1,5 +1,6 @@
 import log_ from 'lib/loggers'
 import { shortLang, deepClone } from 'lib/utils'
+import accountSettingsTemplate from './templates/account_settings.hbs'
 
 import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
@@ -12,7 +13,7 @@ import { languages as activeLanguages } from 'lib/active_languages'
 import { testAttribute, pickerData } from '../lib/helpers'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/account_settings.hbs'),
+  template: accountSettingsTemplate,
   className: 'accountSettings',
   behaviors: {
     AlertBox: {},

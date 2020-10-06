@@ -4,6 +4,7 @@ import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 import forms_ from 'modules/general/lib/forms'
 import getLangsData from 'modules/entities/lib/editor/get_langs_data'
 import TitleTip from './lib/title_tip'
+import labelsEditorTemplate from './templates/labels_editor.hbs'
 
 const {
   initWorkLabelsTip,
@@ -12,7 +13,7 @@ const {
 } = TitleTip
 
 export default EditorCommons.extend({
-  template: require('./templates/labels_editor.hbs'),
+  template: labelsEditorTemplate,
   mainClassName: 'labels-editor',
   initialize () {
     ({ creating: this.creating } = this.model);

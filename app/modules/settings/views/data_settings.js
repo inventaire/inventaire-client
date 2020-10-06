@@ -1,9 +1,11 @@
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import { apiDoc } from 'lib/urls'
+import dataSettingsTemplate from './templates/data_settings.hbs'
+
 const { host, protocol } = window.location
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/data_settings.hbs'),
+  template: dataSettingsTemplate,
   className: 'dataSettings',
   behaviors: {
     AlertBox: {},

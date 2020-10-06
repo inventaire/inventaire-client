@@ -1,6 +1,7 @@
 import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
 import WorkLi from './work_li'
 import NoItem from 'modules/inventory/views/no_item'
+import deduplicateWorksTemplate from './templates/deduplicate_works.hbs'
 
 const DeduplicateWorksList = Marionette.CollectionView.extend({
   className: 'deduplicateWorksList',
@@ -19,7 +20,7 @@ const DeduplicateWorksList = Marionette.CollectionView.extend({
 
 export default Marionette.LayoutView.extend({
   className: 'deduplicateWorks',
-  template: require('./templates/deduplicate_works.hbs'),
+  template: deduplicateWorksTemplate,
   regions: {
     wd: '.wdWorks',
     inv: '.invWorks'

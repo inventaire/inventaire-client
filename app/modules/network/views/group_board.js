@@ -5,13 +5,14 @@ import UsersSearchLayout from '../views/users_search_layout'
 import UsersList from 'modules/users/views/users_list'
 import InviteByEmail from './invite_by_email'
 import screen_ from 'lib/screen'
+import groupBoardTemplate from './templates/group_board.hbs'
 
 const {
   GroupLayoutView
 } = GroupViewsCommons
 
 export default GroupLayoutView.extend({
-  template: require('./templates/group_board.hbs'),
+  template: groupBoardTemplate,
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''
     return `groupBoard ${standalone}`

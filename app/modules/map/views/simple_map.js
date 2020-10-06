@@ -1,9 +1,11 @@
 import { isOpenedOutside } from 'lib/utils'
 import map_ from '../lib/map'
+import simpleMapTemplate from './templates/simple_map.hbs'
+
 const containerId = 'simpleMap'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/simple_map.hbs'),
+  template: simpleMapTemplate,
 
   initialize () {
     return ({ models: this.models } = this.options)

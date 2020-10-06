@@ -1,6 +1,8 @@
 import { isOpenedOutside } from 'lib/utils'
+import inventoryNavTemplate from './templates/inventory_nav.hbs'
+
 export default Marionette.ItemView.extend({
-  template: require('./templates/inventory_nav.hbs'),
+  template: inventoryNavTemplate,
   initialize () {
     return ({ section: this.section } = this.options)
   },

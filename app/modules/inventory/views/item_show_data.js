@@ -1,4 +1,6 @@
 import log_ from 'lib/loggers'
+import itemShowDataTemplate from './templates/item_show_data.hbs'
+
 // Motivation for having a view separated from ItemShow:
 // - no need to reload the image on re-render (like when details are saved)
 
@@ -13,7 +15,7 @@ const ItemLayout = Marionette.LayoutView.extend(itemViewsCommons)
 
 export default ItemLayout.extend({
   id: 'itemShowData',
-  template: require('./templates/item_show_data.hbs'),
+  template: itemShowDataTemplate,
   regions: {
     transactionsRegion: '#transactions',
     shelvesSelector: '#shelvesSelector'

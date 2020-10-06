@@ -1,4 +1,5 @@
 import { isNonEmptyString, isNonEmptyArray } from 'lib/boolean_tests'
+import deduplicateLayoutTemplate from './templates/deduplicate_layout.hbs'
 
 import log_ from 'lib/loggers'
 // A layout that shows entities in sub views according to the input it receives
@@ -18,7 +19,7 @@ export default Marionette.LayoutView.extend({
     // for keydown events
     tabindex: '0'
   },
-  template: require('./templates/deduplicate_layout.hbs'),
+  template: deduplicateLayoutTemplate,
   regions: {
     content: '.content'
   },

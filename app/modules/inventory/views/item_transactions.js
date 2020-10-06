@@ -1,8 +1,9 @@
 import TransactionPreview from 'modules/transactions/views/transaction_preview'
+import itemTransactionsTemplate from './templates/item_transactions.hbs'
 
 export default Marionette.CompositeView.extend({
   className: 'itemTransactions',
-  template: require('./templates/item_transactions.hbs'),
+  template: itemTransactionsTemplate,
   childViewContainer: '.transactions',
   childView: TransactionPreview,
   childViewOptions: {

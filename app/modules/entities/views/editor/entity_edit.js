@@ -10,6 +10,7 @@ import { unprefixify } from 'lib/wikimedia/wikidata'
 import moveToWikidata from './lib/move_to_wikidata'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import propertiesPerType from 'modules/entities/lib/editor/properties_per_type'
+import entityEditTemplate from './templates/entity_edit.hbs'
 
 const typesWithoutLabel = [
   'edition',
@@ -23,7 +24,7 @@ const requiredPropertyPerType = {
 
 export default Marionette.LayoutView.extend({
   id: 'entityEdit',
-  template: require('./templates/entity_edit.hbs'),
+  template: entityEditTemplate,
   behaviors: {
     AlertBox: {},
     Loading: {},

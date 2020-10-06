@@ -3,6 +3,7 @@ import UsersList from 'modules/users/views/users_list'
 import GroupsList from 'modules/network/views/groups_list'
 import NotificationLi from './notification_li'
 import NoNotification from './no_notification'
+import notificationsLayoutTemplate from './templates/notifications_layout.hbs'
 
 const NotificationsList = Marionette.CollectionView.extend({
   tagName: 'ul',
@@ -18,7 +19,7 @@ const NotificationsList = Marionette.CollectionView.extend({
 
 export default Marionette.LayoutView.extend({
   id: 'notificationsLayout',
-  template: require('./templates/notifications_layout.hbs'),
+  template: notificationsLayoutTemplate,
   childViewContainer: 'ul',
 
   regions: {

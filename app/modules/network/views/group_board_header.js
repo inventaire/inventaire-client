@@ -1,11 +1,12 @@
 import GroupViewsCommons from './group_views_commons'
+import groupBoardHeaderTemplate from './templates/group_board_header.hbs'
 
 const {
   GroupItemView
 } = GroupViewsCommons
 
 export default GroupItemView.extend({
-  template: require('./templates/group_board_header.hbs'),
+  template: groupBoardHeaderTemplate,
   className: 'group-board-header',
 
   modelEvents: {

@@ -1,6 +1,7 @@
 import { isUserImg } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
 import { I18n, i18n } from 'modules/user/lib/i18n'
+import groupSettingsTemplate from './templates/group_settings.hbs'
 
 import forms_ from 'modules/general/lib/forms'
 import groups_ from '../lib/groups'
@@ -18,7 +19,7 @@ const {
 } = GroupUrl
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/group_settings.hbs'),
+  template: groupSettingsTemplate,
   behaviors: {
     AlertBox: {},
     ElasticTextarea: {},

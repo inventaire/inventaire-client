@@ -6,6 +6,8 @@ import TopBarButtons from './top_bar_buttons'
 import screen_ from 'lib/screen'
 import { currentRoute, currentSection } from 'lib/location'
 import { languages } from 'lib/active_languages'
+import topBarTemplate from './templates/top_bar.hbs'
+
 const mostCompleteFirst = (a, b) => b.completion - a.completion
 const languagesList = _.values(languages).sort(mostCompleteFirst)
 
@@ -13,7 +15,7 @@ export default Marionette.LayoutView.extend({
   id: 'top-bar',
   tagName: 'nav',
   className () { if (app.user.loggedIn) { return 'logged-in' } else { return '' } },
-  template: require('./templates/top_bar.hbs'),
+  template: topBarTemplate,
 
   regions: {
     liveSearch: '#liveSearch',

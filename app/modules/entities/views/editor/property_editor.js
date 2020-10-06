@@ -8,6 +8,7 @@ import SimpleDayValueEditor from './simple_day_value_editor'
 import PositiveIntegerValueEditor from './positive_integer_value_editor'
 import PositiveIntegerStringValueEditor from './positive_integer_string_value_editor'
 import ImageValueEditor from './image_value_editor'
+import propertyEditorTemplate from './templates/property_editor.hbs'
 
 const editors = {
   entity: EntityValueEditor,
@@ -26,7 +27,7 @@ export default Marionette.CompositeView.extend({
     return `property-editor ${specificClass}`
   },
 
-  template: require('./templates/property_editor.hbs'),
+  template: propertyEditorTemplate,
   getChildView () { return editors[this.model.get('editorType')] },
   childViewContainer: '.values',
 

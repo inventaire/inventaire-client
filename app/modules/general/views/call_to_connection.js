@@ -1,8 +1,10 @@
 import { images } from 'lib/urls'
+import callToConnectionTemplate from './templates/call_to_connection.hbs'
+
 const { banner } = images
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/call_to_connection.hbs'),
+  template: callToConnectionTemplate,
   onShow () { app.execute('modal:open') },
   serializeData () {
     return _.extend(this.options, { banner })

@@ -6,13 +6,14 @@ import error_ from 'lib/error'
 import files_ from 'lib/files'
 import images_ from 'lib/images'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
+import imageValueEditorTemplate from './templates/image_value_editor.hbs'
 
 const urlInputSelector = '.imageUrl'
 const imagePreviewSelector = '.image-preview'
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'image-value-editor',
-  template: require('./templates/image_value_editor.hbs'),
+  template: imageValueEditorTemplate,
 
   behaviors: {
     AlertBox: {},

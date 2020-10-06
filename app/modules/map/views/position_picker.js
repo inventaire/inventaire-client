@@ -3,10 +3,12 @@ import getPositionFromNavigator from 'modules/map/lib/navigator_position'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import { startLoading, stopLoading, Check } from 'modules/general/plugins/behaviors'
+import positionPickerTemplate from './templates/position_picker.hbs'
+
 const containerId = 'positionPickerMap'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/position_picker.hbs'),
+  template: positionPickerTemplate,
   className: 'positionPicker',
   behaviors: {
     AlertBox: {},

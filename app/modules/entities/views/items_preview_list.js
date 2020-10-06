@@ -1,8 +1,9 @@
 import { data as transactionsData } from 'modules/inventory/lib/transactions_data'
 import ItemPreview from './item_preview'
+import itemsPreviewListTemplate from './templates/items_preview_list.hbs'
 
 export default Marionette.CompositeView.extend({
-  template: require('./templates/items_preview_list.hbs'),
+  template: itemsPreviewListTemplate,
   className () {
     let className = 'itemsPreviewList'
     if (this.options.compact) { className += ' compact' }

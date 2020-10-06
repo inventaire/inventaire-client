@@ -1,9 +1,10 @@
 import { isOpenedOutside } from 'lib/utils'
 import relationsActions from '../plugins/relations_actions'
+import userLiTemplate from './templates/user_li.hbs'
 
 export default Marionette.ItemView.extend({
   tagName: 'li',
-  template: require('./templates/user_li.hbs'),
+  template: userLiTemplate,
   className () {
     const status = this.model.get('status') || 'noStatus'
     const stretch = this.options.stretch ? 'stretch' : ''

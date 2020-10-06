@@ -11,6 +11,8 @@ import error_ from 'lib/error'
 import screen_ from 'lib/screen'
 import commonParser from '../../lib/parsers/common'
 import extractIsbnsAndFetchData from '../../lib/import/extract_isbns_and_fetch_data'
+import importTemplate from './templates/import.hbs'
+
 const papaparse = require('lib/get_assets')('papaparse')
 const isbn2 = require('lib/get_assets')('isbn2')
 
@@ -18,7 +20,7 @@ let candidates = null
 
 export default Marionette.LayoutView.extend({
   id: 'importLayout',
-  template: require('./templates/import.hbs'),
+  template: importTemplate,
   behaviors: {
     AlertBox: {},
     Loading: {},

@@ -1,7 +1,9 @@
 import { isOpenedOutside } from 'lib/utils'
+import inventorySectionListLiTemplate from './templates/inventory_section_list_li.hbs'
+
 const ListEl = Marionette.ItemView.extend({
   tagName: 'li',
-  template: require('./templates/inventory_section_list_li.hbs'),
+  template: inventorySectionListLiTemplate,
 
   initialize () {
     ({ context: this.context, group: this.group } = this.options)

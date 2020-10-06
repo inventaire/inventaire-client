@@ -1,9 +1,10 @@
 import { I18n } from 'modules/user/lib/i18n'
 import tabsData from 'modules/inventory/lib/add_layout_tabs'
 import screen_ from 'lib/screen'
+import addLayoutTemplate from './templates/add_layout.hbs'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/add_layout.hbs'),
+  template: addLayoutTemplate,
   id: 'addLayout',
 
   regions: {

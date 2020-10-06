@@ -18,6 +18,7 @@ import log_ from 'lib/loggers'
 import WikidataSearch from 'modules/entities/lib/search/wikidata_search'
 import Result from './result'
 import NoResult from './no_result'
+import liveSearchTemplate from './templates/live_search.hbs'
 const { looksLikeAnIsbn } = isbn_
 const wikidataSearch = WikidataSearch(false)
 
@@ -28,7 +29,7 @@ let searchCount = 0
 
 export default Marionette.CompositeView.extend({
   id: 'live-search',
-  template: require('./templates/live_search.hbs'),
+  template: liveSearchTemplate,
   childViewContainer: 'ul.results',
   childView: Result,
   emptyView: NoResult,

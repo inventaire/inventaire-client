@@ -1,8 +1,9 @@
 import screen_ from 'lib/screen'
 import { clickCommand } from 'lib/utils'
+import topBarButtonsTemplate from './templates/top_bar_buttons.hbs'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/top_bar_buttons.hbs'),
+  template: topBarButtonsTemplate,
 
   className: 'innerTopBarButtons',
 

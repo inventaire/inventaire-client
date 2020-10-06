@@ -1,6 +1,8 @@
+import wikidataDataImporterTemplate from './templates/wikidata_data_importer.hbs'
+
 export default Marionette.ItemView.extend({
   className: 'wikidata-data-importer',
-  template: require('./templates/wikidata_data_importer.hbs'),
+  template: wikidataDataImporterTemplate,
   initialize () {
     return ({ labels: this.labels, claims: this.claims, wdEntity: this.wdEntity } = this.options.importData)
   },

@@ -1,7 +1,8 @@
 import { invertAttr, isOpenedOutside } from 'lib/utils'
+import workLiTemplate from './templates/work_li.hbs'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/work_li.hbs'),
+  template: workLiTemplate,
   className () {
     const prefix = this.model.get('prefix')
     if (this.wrap == null) { this.wrap = this.options.wrap }

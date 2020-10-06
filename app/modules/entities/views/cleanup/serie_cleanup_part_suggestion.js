@@ -1,4 +1,5 @@
 import WorkPicker from './work_picker'
+import serieCleanupPartSuggestionTemplate from './templates/serie_cleanup_part_suggestion.hbs'
 
 const PartSuggestion = WorkPicker.extend({
   tagName: 'li',
@@ -9,7 +10,7 @@ const PartSuggestion = WorkPicker.extend({
     return className
   },
 
-  template: require('./templates/serie_cleanup_part_suggestion.hbs'),
+  template: serieCleanupPartSuggestionTemplate,
   initialize () {
     this.isWikidataEntity = (this.workPickerDisabled = this.model.get('isWikidataEntity'))
     WorkPicker.prototype.initialize.call(this)

@@ -6,9 +6,10 @@ import getActionKey from 'lib/get_action_key'
 import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import { deleteShelf, updateShelf } from 'modules/shelves/lib/shelves'
 import { startLoading } from 'modules/general/plugins/behaviors'
+import shelfEditorTemplate from './templates/shelf_editor.hbs'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/shelf_editor.hbs'),
+  template: shelfEditorTemplate,
 
   behaviors: {
     AlertBox: {},

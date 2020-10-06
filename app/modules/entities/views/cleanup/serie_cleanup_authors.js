@@ -1,5 +1,8 @@
+import serieCleanupAuthorTemplate from './templates/serie_cleanup_author.hbs'
+import serieCleanupAuthorsTemplate from './templates/serie_cleanup_authors.hbs'
+
 const SerieCleanupAuthor = Marionette.ItemView.extend({
-  template: require('./templates/serie_cleanup_author.hbs'),
+  template: serieCleanupAuthorTemplate,
   className () {
     let base = 'serie-cleanup-author'
     if (this.options.isSuggestion) { base += ' suggestion' }
@@ -26,7 +29,7 @@ const AuthorsList = Marionette.CollectionView.extend({
 })
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/serie_cleanup_authors.hbs'),
+  template: serieCleanupAuthorsTemplate,
   regions: {
     currentAuthorsRegion: '.currentAuthors',
     authorsSuggestionsRegion: '.authorsSuggestions'

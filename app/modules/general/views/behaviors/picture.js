@@ -1,8 +1,9 @@
 import cropper from 'modules/general/lib/cropper'
+import pictureTemplate from './templates/picture.hbs'
 
 export default Marionette.ItemView.extend({
   tagName: 'div',
-  template: require('./templates/picture.hbs'),
+  template: pictureTemplate,
   behaviors: {
     Loading: {}
   },

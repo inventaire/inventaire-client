@@ -8,6 +8,8 @@ import Task from '../models/task'
 import error_ from 'lib/error'
 import forms_ from 'modules/general/lib/forms'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
+import tasksLayoutTemplate from './templates/tasks_layout.hbs'
+
 const previousTasks = []
 let waitingForMerge = null
 
@@ -19,7 +21,7 @@ export default Marionette.LayoutView.extend({
     tabindex: '0'
   },
 
-  template: require('./templates/tasks_layout.hbs'),
+  template: tasksLayoutTemplate,
   regions: {
     currentTask: '#currentTask',
     relativeTasks: '#relativeTasks'

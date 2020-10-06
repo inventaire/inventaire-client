@@ -1,5 +1,6 @@
 import { lazyMethod } from 'lib/utils'
 import { I18n, i18n } from 'modules/user/lib/i18n'
+import serieCleanupTemplate from './templates/serie_cleanup.hbs'
 
 import SerieCleanupWorks from './serie_cleanup_works'
 import SerieCleanupEditions from './serie_cleanup_editions'
@@ -14,7 +15,7 @@ import { createPlaceholders, removePlaceholder, removePlaceholdersAbove } from '
 
 export default Marionette.LayoutView.extend({
   id: 'serieCleanup',
-  template: require('./templates/serie_cleanup.hbs'),
+  template: serieCleanupTemplate,
 
   regions: {
     worksInConflictsRegion: '#worksInConflicts',

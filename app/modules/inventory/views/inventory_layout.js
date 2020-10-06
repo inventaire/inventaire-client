@@ -10,6 +10,7 @@ import InventoryPublicNav from './inventory_public_nav'
 import showPaginatedItems from 'modules/welcome/lib/show_paginated_items'
 import screen_ from 'lib/screen'
 import InventoryWelcome from './inventory_welcome'
+import inventoryLayoutTemplate from './templates/inventory_layout.hbs'
 
 const navs = {
   network: InventoryNetworkNav,
@@ -18,7 +19,7 @@ const navs = {
 
 export default Marionette.LayoutView.extend({
   id: 'inventoryLayout',
-  template: require('./templates/inventory_layout.hbs'),
+  template: inventoryLayoutTemplate,
   regions: {
     inventoryNav: '#inventoryNav',
     sectionNav: '#sectionNav',

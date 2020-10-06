@@ -1,4 +1,6 @@
 import { isOpenedOutside } from 'lib/utils'
+import relativeTaskTemplate from './templates/relative_task.hbs'
+
 const RelativeTask = Marionette.ItemView.extend({
   tagName: 'a',
   className () {
@@ -15,7 +17,7 @@ const RelativeTask = Marionette.ItemView.extend({
     }
   },
 
-  template: require('./templates/relative_task.hbs'),
+  template: relativeTaskTemplate,
   initialize () {
     return this.model.grabSuggestion()
     .then(this.lazyRender.bind(this))

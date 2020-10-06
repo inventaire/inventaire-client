@@ -2,6 +2,7 @@ import { addItems, removeItems } from 'modules/shelves/lib/shelves'
 import NoShelfView from './no_shelf'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import forms_ from 'modules/general/lib/forms'
+import itemShelfLiTemplate from './templates/item_shelf_li.hbs'
 
 const ItemShelfLi = Marionette.ItemView.extend({
   tagName: 'li',
@@ -12,7 +13,7 @@ const ItemShelfLi = Marionette.ItemView.extend({
     Loading: {}
   },
 
-  template: require('./templates/item_shelf_li.hbs'),
+  template: itemShelfLiTemplate,
 
   initialize () {
     ({ item: this.item, itemsIds: this.itemsIds, selectedShelves: this.selectedShelves, mainUserIsOwner: this.mainUserIsOwner } = this.options)

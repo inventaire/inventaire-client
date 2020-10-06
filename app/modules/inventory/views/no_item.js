@@ -1,7 +1,9 @@
+import noItemTemplate from './templates/no_item.hbs'
+
 export default Marionette.ItemView.extend({
   tagName: 'div',
   className: 'text-center hidden',
-  template: require('./templates/no_item.hbs'),
+  template: noItemTemplate,
   onShow () { this.$el.fadeIn() },
   serializeData () {
     return {

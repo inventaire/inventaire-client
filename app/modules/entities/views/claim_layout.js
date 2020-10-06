@@ -5,10 +5,11 @@ import EntitiesList from './entities_list'
 import GeneralInfobox from './general_infobox'
 import entities_ from '../lib/entities'
 import { entity as entityValueTemplate } from 'lib/handlebars_helpers/claims_helpers'
+import claimLayoutTemplate from './templates/claim_layout.hbs'
 
 export default Marionette.LayoutView.extend({
   id: 'claimLayout',
-  template: require('./templates/claim_layout.hbs'),
+  template: claimLayoutTemplate,
   regions: {
     infobox: '.infobox',
     list: '.list'

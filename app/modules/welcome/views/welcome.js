@@ -3,10 +3,11 @@ import preq from 'lib/preq'
 import showPaginatedItems from '../lib/show_paginated_items'
 import * as urls from 'lib/urls'
 import Mentions from './mentions'
+import welcomeTemplate from './templates/welcome.hbs'
 
 export default Marionette.LayoutView.extend({
   id: 'welcome',
-  template: require('./templates/welcome.hbs'),
+  template: welcomeTemplate,
   regions: {
     previewColumns: '#previewColumns',
     mentions: '#mentions'

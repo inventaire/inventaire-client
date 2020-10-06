@@ -1,5 +1,7 @@
 import { cutBeforeWord } from 'lib/utils'
 import itemViewsCommons from '../lib/items_views_commons'
+import itemCardTemplate from './templates/item_card.hbs'
+
 const detailsLimit = 150
 const ItemItemView = Marionette.ItemView.extend(itemViewsCommons)
 
@@ -9,7 +11,7 @@ export default ItemItemView.extend({
     const busy = this.model.get('busy') ? 'busy' : ''
     return `itemCard ${busy}`
   },
-  template: require('./templates/item_card.hbs'),
+  template: itemCardTemplate,
   behaviors: {
     PreventDefault: {},
     AlertBox: {}

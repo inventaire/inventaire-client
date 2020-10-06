@@ -9,6 +9,7 @@ import EditionLi from './edition_li'
 import AuthorLayout from './author_layout'
 import PublisherLayout from './publisher_layout'
 import CollectionLayout from './collection_layout'
+import entitiesListTemplate from './templates/entities_list.hbs'
 
 // TODO:
 // - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
@@ -28,7 +29,7 @@ const viewByType = {
 }
 
 export default Marionette.CompositeView.extend({
-  template: require('./templates/entities_list.hbs'),
+  template: entitiesListTemplate,
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''
     return `entitiesList ${standalone}`

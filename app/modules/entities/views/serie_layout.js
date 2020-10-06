@@ -2,9 +2,10 @@ import TypedEntityLayout from './typed_entity_layout'
 import EntitiesList from './entities_list'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import SerieInfobox from './serie_infobox'
+import serieLayoutTemplate from './templates/serie_layout.hbs'
 
 export default TypedEntityLayout.extend({
-  template: require('./templates/serie_layout.hbs'),
+  template: serieLayoutTemplate,
   Infobox: SerieInfobox,
   baseClassName: 'serieLayout',
 

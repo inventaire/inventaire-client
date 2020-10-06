@@ -1,8 +1,9 @@
 import preq from 'lib/preq'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import requestItemModalTemplate from './templates/request_item_modal.hbs'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/request_item_modal.hbs'),
+  template: requestItemModalTemplate,
   className: 'requestItemModal',
   behaviors: {
     PreventDefault: {},

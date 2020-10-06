@@ -1,10 +1,11 @@
 import { isNonEmptyString } from 'lib/boolean_tests'
 import UsersList from 'modules/users/views/users_list'
 import { startLoading } from 'modules/general/plugins/behaviors'
+import usersSearchLayoutTemplate from './templates/users_search_layout.hbs'
 
 export default Marionette.LayoutView.extend({
   id: 'usersSearchLayout',
-  template: require('./templates/users_search_layout.hbs'),
+  template: usersSearchLayoutTemplate,
   regions: {
     usersList: '#usersList'
   },

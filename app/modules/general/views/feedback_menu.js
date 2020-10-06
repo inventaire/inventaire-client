@@ -1,8 +1,9 @@
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import { contact } from 'lib/urls'
+import feedbackMenuTemplate from './templates/feedback_menu.hbs'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/feedback_menu.hbs'),
+  template: feedbackMenuTemplate,
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''
     return `feedback-menu ${standalone}`

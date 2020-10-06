@@ -1,8 +1,9 @@
 import MergeSuggestion from './merge_suggestion'
 import NoResult from 'modules/search/views/no_result'
+import mergeSuggestionsTemplate from './templates/merge_suggestions.hbs'
 
 export default Marionette.CompositeView.extend({
-  template: require('./templates/merge_suggestions.hbs'),
+  template: mergeSuggestionsTemplate,
   className () {
     let className = 'outer-merge-suggestions'
     if (this.options.standalone) { className += ' standalone' }

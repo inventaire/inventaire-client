@@ -1,9 +1,11 @@
+import autocompleteSuggestionTemplate from './templates/autocomplete_suggestion.hbs'
+
 // Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.childview.js
 
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'autocomplete-suggestion',
-  template: require('./templates/autocomplete_suggestion.hbs'),
+  template: autocompleteSuggestionTemplate,
 
   events: {
     'click .select': 'select'

@@ -11,6 +11,7 @@ import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import cropper from 'modules/general/lib/cropper'
 import getActionKey from 'lib/get_action_key'
 import Picture from './picture'
+import picturePickerTemplate from './templates/picture_picker.hbs'
 
 export default Marionette.CompositeView.extend({
   className () {
@@ -18,7 +19,7 @@ export default Marionette.CompositeView.extend({
     return `picture-picker limit-${limit}`
   },
 
-  template: require('./templates/picture_picker.hbs'),
+  template: picturePickerTemplate,
   childViewContainer: '#availablePictures',
   childView: Picture,
 

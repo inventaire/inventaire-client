@@ -1,8 +1,9 @@
 import CandidateInfo from './candidate_info'
+import candidateRowTemplate from './templates/candidate_row.hbs'
 
 export default Marionette.ItemView.extend({
   tagName: 'li',
-  template: require('./templates/candidate_row.hbs'),
+  template: candidateRowTemplate,
   className () {
     let base = 'candidate-row'
     if (this.model.get('isInvalid')) {

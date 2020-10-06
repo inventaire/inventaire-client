@@ -1,6 +1,8 @@
 import { isOpenedOutside } from 'lib/utils'
+import previousSearchTemplate from './templates/previous_search.hbs'
+
 export default Marionette.ItemView.extend({
-  template: require('./templates/previous_search.hbs'),
+  template: previousSearchTemplate,
   tagName: 'li',
   className: 'previous-search',
   behaviors: {

@@ -1,7 +1,9 @@
 import SerieCleanupWork from './serie_cleanup_work'
+import serieCleanupWorksTemplate from './templates/serie_cleanup_works.hbs'
+
 export default Marionette.CompositeView.extend({
   className: 'serie-cleanup-works',
-  template: require('./templates/serie_cleanup_works.hbs'),
+  template: serieCleanupWorksTemplate,
   childViewContainer: '.worksContainer',
   childView: SerieCleanupWork,
   serializeData () {

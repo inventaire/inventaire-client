@@ -6,10 +6,11 @@ import SerieCleanupEditions from './serie_cleanup_editions'
 import WorkPicker from './work_picker'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
+import serieCleanupWorkTemplate from './templates/serie_cleanup_work.hbs'
 
 export default Marionette.LayoutView.extend({
   tagName: 'li',
-  template: require('./templates/serie_cleanup_work.hbs'),
+  template: serieCleanupWorkTemplate,
   className () {
     let classes = 'serie-cleanup-work'
     if (this.model.get('isPlaceholder')) { classes += ' placeholder' }

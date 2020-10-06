@@ -9,6 +9,7 @@ import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
 import Shelves from 'modules/shelves/collections/shelves'
 import CandidateRow from './candidate_row'
 import ImportedItemRow from './imported_item_row'
+import importQueueTemplate from './templates/import_queue.hbs'
 
 const CandidatesQueue = Marionette.CollectionView.extend({
   tagName: 'ul',
@@ -25,7 +26,7 @@ const ImportedItemsList = Marionette.CollectionView.extend({
 
 export default Marionette.LayoutView.extend({
   className: 'import-queue',
-  template: require('./templates/import_queue.hbs'),
+  template: importQueueTemplate,
 
   regions: {
     candidatesQueue: '#candidatesQueue',

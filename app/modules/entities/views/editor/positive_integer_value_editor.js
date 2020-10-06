@@ -2,11 +2,13 @@ import { isPositiveIntegerString } from 'lib/boolean_tests'
 import ClaimsEditorCommons from './claims_editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
+import positiveIntegerValueEditorTemplate from './templates/positive_integer_value_editor.hbs'
+
 const inputSelector = '.positive-integer-picker'
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'positive-integer-value-editor',
-  template: require('./templates/positive_integer_value_editor.hbs'),
+  template: positiveIntegerValueEditorTemplate,
 
   ui: {
     input: inputSelector

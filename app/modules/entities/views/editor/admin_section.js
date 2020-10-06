@@ -6,9 +6,10 @@ import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import History from './history'
 import mergeEntities from './lib/merge_entities'
 import { normalizeUri } from 'modules/entities/lib/entities'
+import adminSectionTemplate from './templates/admin_section.hbs'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/admin_section.hbs'),
+  template: adminSectionTemplate,
 
   behaviors: {
     PreventDefault: {},

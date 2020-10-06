@@ -1,12 +1,14 @@
 import preq from 'lib/preq'
 import UserContribution from './user_contribution'
+import userContributionsTemplate from './templates/user_contributions.hbs'
+
 // A layout to display a list of the user data contributions
 
 import Patches from 'modules/entities/collections/patches'
 
 export default Marionette.CompositeView.extend({
   className: 'userContributions',
-  template: require('./templates/user_contributions.hbs'),
+  template: userContributionsTemplate,
   childViewContainer: '.contributions',
   childView: UserContribution,
   initialize () {

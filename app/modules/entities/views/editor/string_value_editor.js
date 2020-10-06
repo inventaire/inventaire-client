@@ -3,6 +3,8 @@ import ClaimsEditorCommons from './claims_editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import TitleTip from './lib/title_tip'
+import stringValueEditorTemplate from './templates/string_value_editor.hbs'
+
 const inputSelector = '.string-value-input'
 
 const {
@@ -13,7 +15,7 @@ const {
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'string-value-editor',
-  template: require('./templates/string_value_editor.hbs'),
+  template: stringValueEditorTemplate,
 
   ui: {
     input: 'input',

@@ -4,13 +4,15 @@ import EntitiesListElementCandidate from './entities_list_element_candidate'
 import typeSearch from 'modules/entities/lib/search/type_search'
 import PaginatedEntities from 'modules/entities/collections/paginated_entities'
 import AutocompleteNoSuggestion from 'modules/entities/views/editor/autocomplete_no_suggestion'
+import entitiesListAdderTemplate from './templates/entities_list_adder.hbs'
+
 const cantTypeSearch = [
   'edition'
 ]
 
 export default Marionette.CompositeView.extend({
   id: 'entitiesListAdder',
-  template: require('./templates/entities_list_adder.hbs'),
+  template: entitiesListAdderTemplate,
   childViewContainer: '.entitiesListElementCandidates',
   childView: EntitiesListElementCandidate,
   childViewOptions () {

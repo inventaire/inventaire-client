@@ -1,4 +1,6 @@
 import log_ from 'lib/loggers'
+import createGroupLayoutTemplate from './templates/create_group_layout.hbs'
+
 // add name => creates group
 // invite friends
 // invite by email
@@ -22,7 +24,7 @@ const {
 
 export default GroupLayoutView.extend({
   id: 'createGroupLayout',
-  template: require('./templates/create_group_layout.hbs'),
+  template: createGroupLayoutTemplate,
   tagName: 'form',
   behaviors: {
     AlertBox: {},

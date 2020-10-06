@@ -4,10 +4,11 @@ import password_ from 'modules/user/lib/password_tests'
 import forms_ from 'modules/general/lib/forms'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import prepareRedirect from '../lib/prepare_redirect'
+import loginTemplate from './templates/login.hbs'
 
 export default Marionette.ItemView.extend({
   className: 'authMenu login',
-  template: require('./templates/login.hbs'),
+  template: loginTemplate,
   events: {
     'blur #username': 'earlyVerifyUsername',
     'click #classicLogin': 'classicLoginAttempt',

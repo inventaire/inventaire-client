@@ -6,9 +6,10 @@ import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import screen_ from 'lib/screen'
 import Event from './event'
+import transactionTemplate from './templates/transaction.hbs'
 
 export default Marionette.CompositeView.extend({
-  template: require('./templates/transaction.hbs'),
+  template: transactionTemplate,
   id: 'transactionView',
   behaviors: {
     AlertBox: {},

@@ -3,10 +3,11 @@ import { i18n } from 'modules/user/lib/i18n'
 import ClaimsEditorCommons from './claims_editor_commons'
 import createEntities from 'modules/entities/lib/create_entities'
 import autocomplete from 'modules/entities/views/editor/lib/autocomplete'
+import entityValueEditorTemplate from './templates/entity_value_editor.hbs'
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'entity-value-editor',
-  template: require('./templates/entity_value_editor.hbs'),
+  template: entityValueEditorTemplate,
   behaviors: {
     AlertBox: {},
     Tooltip: {},

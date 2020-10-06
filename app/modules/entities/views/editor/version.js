@@ -1,6 +1,8 @@
+import versionTemplate from './templates/version.hbs'
+
 export default Marionette.ItemView.extend({
   className: 'version',
-  template: require('./templates/version.hbs'),
+  template: versionTemplate,
   initialize () {},
 
   serializeData () { return this.model.serializeData() },

@@ -2,10 +2,11 @@ import { data as transactionsData } from '../lib/transactions_data'
 import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
 import ItemShelves from './item_shelves'
 import Shelves from 'modules/shelves/collections/shelves'
+import itemsTableSelectionEditorTemplate from './templates/items_table_selection_editor.hbs'
 
 export default Marionette.LayoutView.extend({
   className: 'items-table-selection-editor',
-  template: require('./templates/items_table_selection_editor.hbs'),
+  template: itemsTableSelectionEditorTemplate,
   events: {
     'click .transaction-option': 'setTransaction',
     'click .listing-option': 'setListing',

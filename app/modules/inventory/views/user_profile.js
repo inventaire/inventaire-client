@@ -1,4 +1,5 @@
 import { isOpenedOutside, clickCommand } from 'lib/utils'
+import userProfileTemplate from './templates/user_profile.hbs'
 
 import relationsActions from 'modules/users/plugins/relations_actions'
 import { buildPath } from 'lib/location'
@@ -7,7 +8,7 @@ import NewShelfEditor from 'modules/shelves/views/new_shelf_editor'
 // TODO: add a 'close' button to allow to unfocus a user in group context
 export default Marionette.ItemView.extend({
   className: 'userProfile',
-  template: require('./templates/user_profile.hbs'),
+  template: userProfileTemplate,
   events: {
     'click .editProfile': clickCommand('show:settings:profile'),
     'click .addItems': clickCommand('show:add:layout'),

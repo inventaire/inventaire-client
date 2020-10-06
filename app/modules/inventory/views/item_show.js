@@ -1,11 +1,12 @@
 import ItemShowData from './item_show_data'
 import EditionsList from 'modules/entities/views/editions_list'
 import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_preview_lists'
+import itemShowTemplate from './templates/item_show.hbs'
 
 export default Marionette.LayoutView.extend({
   id: 'itemShowLayout',
   className: 'standalone',
-  template: require('./templates/item_show.hbs'),
+  template: itemShowTemplate,
   regions: {
     itemData: '#itemData',
     authors: '.authors',

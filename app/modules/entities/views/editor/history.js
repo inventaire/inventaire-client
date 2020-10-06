@@ -1,11 +1,13 @@
 import Version from './version'
+import historyTemplate from './templates/history.hbs'
+
 export default Marionette.CompositeView.extend({
   className () {
     let classes = 'entity-history'
     if (this.options.standalone) { classes += ' standalone' }
     return classes
   },
-  template: require('./templates/history.hbs'),
+  template: historyTemplate,
   childViewContainer: '.inner-history',
   childView: Version,
   initialize () {

@@ -1,7 +1,9 @@
 import { isOpenedOutside } from 'lib/utils'
 import { i18n } from 'modules/user/lib/i18n'
+import itemPreviewTemplate from './templates/item_preview.hbs'
+
 export default Marionette.ItemView.extend({
-  template: require('./templates/item_preview.hbs'),
+  template: itemPreviewTemplate,
   className () {
     let className = 'item-preview'
     if (this.options.compact) { className += ' compact' }

@@ -1,4 +1,6 @@
+import transactionsWelcomeTemplate from './templates/transactions_welcome.hbs'
+
 export default Marionette.ItemView.extend({
   className: 'transactionsWelcome',
-  template: require('./templates/transactions_welcome.hbs')
+  template: transactionsWelcomeTemplate
 })

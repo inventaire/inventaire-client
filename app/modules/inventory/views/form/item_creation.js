@@ -9,11 +9,12 @@ import Shelves from 'modules/shelves/collections/shelves'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import ItemRow from 'modules/inventory/views/item_row'
+import itemCreationTemplate from './templates/item_creation.hbs'
 
 const ItemsList = Marionette.CollectionView.extend({ childView: ItemRow })
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/item_creation.hbs'),
+  template: itemCreationTemplate,
   className: 'addEntity',
 
   regions: {

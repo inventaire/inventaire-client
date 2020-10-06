@@ -3,10 +3,11 @@ import log_ from 'lib/loggers'
 import getActionKey from 'lib/get_action_key'
 import error_ from 'lib/error'
 import forms_ from 'modules/general/lib/forms'
+import confirmationModalTemplate from './templates/confirmation_modal.hbs'
 
 export default Marionette.ItemView.extend({
   className: 'confirmationModal',
-  template: require('./templates/confirmation_modal.hbs'),
+  template: confirmationModalTemplate,
   behaviors: {
     SuccessCheck: {},
     AlertBox: {},

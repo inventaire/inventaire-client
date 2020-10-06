@@ -3,10 +3,11 @@ import password_ from 'modules/user/lib/password_tests'
 import forms_ from 'modules/general/lib/forms'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import prepareRedirect from '../lib/prepare_redirect'
+import resetPasswordTemplate from './templates/reset_password.hbs'
 
 export default Marionette.ItemView.extend({
   className: 'authMenu login',
-  template: require('./templates/reset_password.hbs'),
+  template: resetPasswordTemplate,
   behaviors: {
     AlertBox: {},
     SuccessCheck: {},

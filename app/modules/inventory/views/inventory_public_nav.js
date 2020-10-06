@@ -7,10 +7,11 @@ import Users from 'modules/users/collections/users'
 import Groups from 'modules/network/collections/groups'
 import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
+import inventoryPublicNavTemplate from './templates/inventory_public_nav.hbs'
 
 export default InventoryCommonNav.extend({
   id: 'inventoryPublicNav',
-  template: require('./templates/inventory_public_nav.hbs'),
+  template: inventoryPublicNavTemplate,
 
   initialize () {
     ({ filter: this.filter } = this.options)

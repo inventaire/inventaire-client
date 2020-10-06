@@ -2,10 +2,11 @@ import { i18n } from 'modules/user/lib/i18n'
 import email_ from 'modules/user/lib/email_tests'
 import forms_ from 'modules/general/lib/forms'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import forgotPasswordTemplate from './templates/forgot_password.hbs'
 
 export default Marionette.ItemView.extend({
   className: 'authMenu login',
-  template: require('./templates/forgot_password.hbs'),
+  template: forgotPasswordTemplate,
   behaviors: {
     AlertBox: {},
     SuccessCheck: {},

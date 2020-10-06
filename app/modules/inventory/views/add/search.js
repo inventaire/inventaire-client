@@ -1,8 +1,9 @@
 import PreviousSearch from './previous_search'
+import searchTemplate from './templates/search.hbs'
 
 export default Marionette.CompositeView.extend({
   id: 'addSearch',
-  template: require('./templates/search.hbs'),
+  template: searchTemplate,
   behaviors: {
     PreventDefault: {},
     AutoFocus: {}

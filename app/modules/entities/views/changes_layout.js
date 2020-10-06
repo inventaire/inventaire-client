@@ -1,10 +1,11 @@
 import preq from 'lib/preq'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import FeedLi from './feed_li'
+import changesLayoutTemplate from './templates/changes_layout.hbs'
 
 export default Marionette.CompositeView.extend({
   id: 'changeLayout',
-  template: require('./templates/changes_layout.hbs'),
+  template: changesLayoutTemplate,
   childViewContainer: '#feed',
   childView: FeedLi,
   initialize () {

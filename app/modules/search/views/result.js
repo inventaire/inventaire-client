@@ -1,10 +1,11 @@
 import { isImageHash } from 'lib/boolean_tests'
 import { forceArray, isOpenedOutside } from 'lib/utils'
+import resultTemplate from './templates/result.hbs'
 
 export default Marionette.ItemView.extend({
   className: 'result',
   tagName: 'li',
-  template: require('./templates/result.hbs'),
+  template: resultTemplate,
   behaviors: {
     PreventDefault: {}
   },

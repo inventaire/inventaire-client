@@ -1,7 +1,9 @@
 import { isOpenedOutside } from 'lib/utils'
+import activityPeriodRowTemplate from './templates/activity_period_row.hbs'
+
 export default Marionette.ItemView.extend({
   className: 'activityPeriodRow',
-  template: require('./templates/activity_period_row.hbs'),
+  template: activityPeriodRowTemplate,
   tagName: 'tr',
 
   events: {

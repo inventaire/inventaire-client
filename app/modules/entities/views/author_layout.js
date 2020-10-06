@@ -4,9 +4,10 @@ import { startLoading } from 'modules/general/plugins/behaviors'
 import EntitiesList from './entities_list'
 import screen_ from 'lib/screen'
 import AuthorInfobox from './author_infobox'
+import authorLayoutTemplate from './templates/author_layout.hbs'
 
 export default TypedEntityLayout.extend({
-  template: require('./templates/author_layout.hbs'),
+  template: authorLayoutTemplate,
   Infobox: AuthorInfobox,
   className () {
     // Default to wrapped mode in non standalone mode

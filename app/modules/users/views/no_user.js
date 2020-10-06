@@ -1,7 +1,9 @@
+import noUserTemplate from './templates/no_user.hbs'
+
 export default Marionette.ItemView.extend({
   tagName: 'li',
   className: 'text-center hidden',
-  template: require('./templates/no_user.hbs'),
+  template: noUserTemplate,
 
   onShow () { this.$el.fadeIn() },
 

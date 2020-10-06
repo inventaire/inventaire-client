@@ -1,5 +1,6 @@
 import { shortLang, isOpenedOutside, deepClone } from 'lib/utils'
 import ChangeUserPicture from 'modules/user/lib/change_user_picture'
+import profileSettingsTemplate from './templates/profile_settings.hbs'
 
 import { i18n } from 'modules/user/lib/i18n'
 import username_ from 'modules/user/lib/username_tests'
@@ -11,7 +12,7 @@ import { updateLimit } from 'lib/textarea_limit'
 import { languages as activeLanguages } from 'lib/active_languages'
 
 export default Marionette.ItemView.extend({
-  template: require('./templates/profile_settings.hbs'),
+  template: profileSettingsTemplate,
   className: 'profileSettings',
   behaviors: {
     AlertBox: {},

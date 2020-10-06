@@ -8,6 +8,7 @@ import getIntersectionWorkUris from '../lib/browser/get_intersection_work_uris'
 import getUnknownModel from '../lib/browser/get_unknown_model'
 import error_ from 'lib/error'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
+import inventoryBrowserTemplate from './templates/inventory_browser.hbs'
 
 const selectorsNames = [ 'author', 'genre', 'subject' ]
 const selectorsRegions = {}
@@ -15,7 +16,7 @@ selectorsNames.forEach(name => { selectorsRegions[`${name}Region`] = `#${name}` 
 
 export default Marionette.LayoutView.extend({
   id: 'inventory-browser',
-  template: require('./templates/inventory_browser.hbs'),
+  template: inventoryBrowserTemplate,
   regions: _.extend(selectorsRegions, {
     filterPreview: '#filterPreview',
     itemsView: '#itemsView'

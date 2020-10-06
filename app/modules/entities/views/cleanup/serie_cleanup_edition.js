@@ -1,11 +1,12 @@
 import WorkPicker from './work_picker'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
+import serieCleanupEditionTemplate from './templates/serie_cleanup_edition.hbs'
 
 export default WorkPicker.extend({
   tagName: 'li',
   className: 'serie-cleanup-edition',
-  template: require('./templates/serie_cleanup_edition.hbs'),
+  template: serieCleanupEditionTemplate,
 
   initialize () {
     WorkPicker.prototype.initialize.call(this)

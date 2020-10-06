@@ -1,8 +1,9 @@
 import entityItems from '../lib/entity_items'
 import EntityActions from './entity_actions'
+import editionLiTemplate from './templates/edition_li.hbs'
 
 export default Marionette.LayoutView.extend({
-  template: require('./templates/edition_li.hbs'),
+  template: editionLiTemplate,
   tagName: 'li',
   className: 'edition-commons editionLi',
   regions: {
