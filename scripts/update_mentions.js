@@ -1,24 +1,19 @@
 #!/usr/bin/env node
-import CONFIG from 'config'
-// Avoid to use server-side modules, as it makes executing this script
-// depend on the server side repository having run 'npm install'
-// which might not be the case. Ex: client-only development environment
-import { omit } from 'lodash'
-
-import { green, red } from 'chalk'
+import lodash from 'lodash'
+import chalk from 'chalk'
 import fs from 'fs'
+import papaparse from 'papaparse'
 import { promisify } from 'util'
+import convertMarkdown from './lib/convert_markdown.js'
+const { green, red } = chalk
+const { omit } = lodash
 
-const __ = CONFIG.universalPath
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
 
-const convertMarkdown = require('./lib/convert_markdown')
 
-const { parse: papaparse } = require('papaparse')
-
-const csvFile = __.path('client', 'scripts/assets/mentions.csv')
-const jsonFile = __.path('client', 'public/json/mentions.json')
+const csvFile = './scripts/assets/mentions.csv'
+const jsonFile = './public/json/mentions.json'
 
 const cleanAttributes = function (obj) {
   for (const k in obj) {
@@ -33,7 +28,7 @@ const mentions = {}
 
 readFile(csvFile, { encoding: 'utf-8' })
 .then(file => {
-  const { data } = papaparse(file, { header: true })
+  const { data } = papaparse.parse(file, { header: true })
   data
   .map(cleanAttributes)
   .filter(el => el.type != null)

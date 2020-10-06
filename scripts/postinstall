@@ -19,7 +19,7 @@ disable_browser_fs node_modules/handlebars/package.json
 
 # mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./public/css
 # ./scripts/install_external_modules
-# ./scripts/update_mentions.js
+./scripts/update_mentions.js
 
 # ./scripts/build_i18n
 
