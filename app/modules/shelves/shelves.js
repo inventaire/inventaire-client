@@ -1,13 +1,8 @@
+import error_ from 'lib/error'
 import { isShelfId } from 'lib/boolean_tests'
 import InventoryLayout from '../inventory/views/inventory_layout'
 import ShelfModel from './models/shelf'
-import Shelves from './lib/shelves'
-
-import error_ from 'lib/error'
-
-const {
-  getById
-} = Shelves
+import { getById } from './lib/shelves'
 
 export default {
   define (module, app, Backbone, Marionette, $, _) {

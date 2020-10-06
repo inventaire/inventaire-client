@@ -1,16 +1,16 @@
-const template = name => require(`../views/templates/${name}.hbs`)
-const model = name => require(`../models/${name}`)
-const groupNotificationTemplate = template('group_notification')
-const groupNotificationModel = model('group_notification')
+import friendAcceptedRequestTemplate from '../views/templates/friend_accepted_request.hbs'
+import groupNotificationTemplate from '../views/templates/group_notification.hbs'
+import friendAcceptedRequestModel from '../models/friend_accepted_request'
+import groupNotificationModel from '../models/group_notification'
 
 export const templates = {
-  friendAcceptedRequest: template('friend_accepted_request'),
+  friendAcceptedRequest: friendAcceptedRequestTemplate,
   userMadeAdmin: groupNotificationTemplate,
   groupUpdate: groupNotificationTemplate
 }
 
 export const models = {
-  friendAcceptedRequest: model('friend_accepted_request'),
+  friendAcceptedRequest: friendAcceptedRequestModel,
   userMadeAdmin: groupNotificationModel,
   groupUpdate: groupNotificationModel
 }

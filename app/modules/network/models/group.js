@@ -10,7 +10,7 @@ import { getColorSquareDataUriFromModelId } from 'lib/images'
 const defaultCover = require('lib/urls').images.brittanystevens
 
 export default Positionable.extend({
-  url: app.API.groups.base,
+  url: () => app.API.groups.base,
   initialize () {
     aggregateUsersIds.call(this)
     _.extend(this, groupActions)
