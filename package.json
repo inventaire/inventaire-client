@@ -52,7 +52,6 @@
     "node-polyglot": "^2.4.0",
     "normalize.css": "^8.0.1",
     "papaparse": "^4.6.3",
-    "parcel-plugin-handlebars-precompile": "git+https://github.com/inventaire/parcel-plugin-handlebars-precompile.git#master",
     "promise-polyfill": "^8.1.3",
     "quagga": "^0.12.1",
     "wikidata-lang": "^2.0.11"
@@ -77,6 +76,7 @@
     "lodash": "^4.17.20",
     "mocha": "^8.1.3",
     "parcel": "^1.12.4",
+    "parcel-plugin-handlebars-precompile": "git+https://github.com/inventaire/parcel-plugin-handlebars-precompile.git#6d39669",
     "sass": "^1.26.11",
     "should": "^13.2.3",
     "sinon": "^1.17.3",
