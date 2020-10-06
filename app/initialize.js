@@ -8,13 +8,11 @@ import initApp from './init_app'
 import 'lib/env_config'
 import initPolyfills from 'lib/polyfills'
 import testVideoInput from 'lib/has_video_input'
-import setupLocalStorageProxy from 'lib/local_storage'
 import initUnhandledErrorLogger from 'lib/unhandled_error_logger'
 import extendPromises from 'lib/promises'
 
 // Init handler error before the app so that it can catch any error happenig there
 initUnhandledErrorLogger()
-setupLocalStorageProxy()
 testVideoInput()
 
 initPolyfills()

@@ -1,3 +1,4 @@
+import { localStorageProxy } from 'lib/local_storage'
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 

@@ -1,3 +1,4 @@
+import { localStorageProxy } from 'lib/local_storage'
 import Search from '../models/search'
 
 export default Backbone.Collection.extend({

@@ -1,4 +1,4 @@
-// just wrapping localStorage persisting of last add mode
+import { localStorageProxy } from 'lib/local_storage'
 
 const set = localStorageProxy.setItem.bind(localStorageProxy)
 const parsedGet = function (key) {
@@ -28,11 +28,8 @@ export default function () {
     },
     'last:shelves:get' () {
       const shelves = parsedGet('lastShelves')
-      if (shelves != null) {
-        return JSON.parse(shelves)
-      } else {
-        return []
-      }
+      if (shelves != null) return JSON.parse(shelves)
+      else return []
     }
   })
-};
+}

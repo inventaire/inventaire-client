@@ -1,3 +1,4 @@
+import { localStorageProxy } from 'lib/local_storage'
 import assert_ from 'lib/assert_types'
 import BrowserSelector from './browser_selector'
 import ItemsCascade from './items_cascade'
