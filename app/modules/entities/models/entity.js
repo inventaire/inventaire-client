@@ -6,7 +6,7 @@
 
 import log_ from 'lib/loggers'
 import { I18n } from 'modules/user/lib/i18n'
-import isbn_ from 'lib/isbn'
+import { normalizeIsbn } from 'lib/isbn'
 import entities_ from '../lib/entities'
 import initializeWikidataEntity from '../lib/wikidata/init_entity'
 import initializeInvEntity from '../lib/inv/init_entity'
@@ -121,7 +121,7 @@ export default Filterable.extend({
 
     const isbn13h = attrs.claims['wdt:P212']?.[0]
     // Using de-hyphenated ISBNs for URIs
-    if (isbn13h != null) { this.isbn = isbn_.normalizeIsbn(isbn13h) }
+    if (isbn13h != null) { this.isbn = normalizeIsbn(isbn13h) }
 
     if (prefix !== 'inv') { this.setInvAltUri() }
 

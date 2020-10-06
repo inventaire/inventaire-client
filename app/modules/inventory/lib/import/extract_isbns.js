@@ -1,4 +1,4 @@
-import isbn_ from 'lib/isbn'
+import { isNormalizedIsbn, normalizedIsbn } from 'lib/isbn'
 const isbnPattern = /(97(8|9))?[\d-]{9,13}([\dX])/g
 
 export default function (text) {
@@ -7,12 +7,12 @@ export default function (text) {
 
   return isbns
   .map(getIsbnData)
-  .filter(obj => isbn_.isNormalizedIsbn(obj.normalizedIsbn))
+  .filter(obj => isNormalizedIsbn(obj.normalizedIsbn))
   .filter(firstOccurence({}))
 };
 
 const getIsbnData = function (rawIsbn) {
-  const normalizedIsbn = isbn_.normalizeIsbn(rawIsbn)
+  const normalizedIsbn = normalizeIsbn(rawIsbn)
   // the window.ISBN lib is made available by the isbn2 asset that
   // should have be fetched by app/modules/inventory/views/add/import
   const data = window.ISBN.parse(normalizedIsbn)

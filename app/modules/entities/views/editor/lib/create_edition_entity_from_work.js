@@ -2,7 +2,7 @@ import { i18n } from 'modules/user/lib/i18n'
 import createEntities from 'modules/entities/lib/create_entities'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
-import isbn_ from 'lib/isbn'
+import { normalizeIsbn } from 'lib/isbn'
 import isLoggedIn from './is_logged_in'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
@@ -11,7 +11,7 @@ export default function (params) {
   const { view, work: workModel, e } = params
 
   const $isbnField = $(e.currentTarget).parent('#isbnGroup').find('#isbnField')
-  const isbn = isbn_.normalizeIsbn($isbnField.val())
+  const isbn = normalizeIsbn($isbnField.val())
 
   const workUri = workModel.get('uri')
 
@@ -60,7 +60,7 @@ const formatEditionAlreadyExistOnCurrentWork = err => {
 }
 
 const formatDuplicateWorkErr = function (err, isbn) {
-  const normalizedIsbn = isbn_.normalizeIsbn(isbn)
+  const normalizedIsbn = normalizeIsbn(isbn)
   const alreadyExist = i18n('this ISBN already exist:')
   const link = `<a href='/entity/isbn:${normalizedIsbn}' class='showEntity'>${normalizedIsbn}</a>`
   const reported = i18n('the issue was reported')

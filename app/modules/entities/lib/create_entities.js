@@ -2,7 +2,7 @@ import assert_ from 'lib/assert_types'
 import log_ from 'lib/loggers'
 import Entity from '../models/entity'
 import error_ from 'lib/error'
-import isbn_ from 'lib/isbn'
+import { getIsbnData } from 'lib/isbn'
 import createEntity from './create_entity'
 import { addModel as addEntityModel } from 'modules/entities/lib/entities_models_index'
 import graphRelationsProperties from './graph_relations_properties'
@@ -11,7 +11,7 @@ import getOriginalLang from 'modules/entities/lib/get_original_lang'
 const createWorkEdition = function (workEntity, isbn) {
   assert_.types(arguments, [ 'object', 'string' ])
 
-  return isbn_.getIsbnData(isbn)
+  return getIsbnData(isbn)
   .then(isbnData => {
     let { title, groupLang: editionLang } = isbnData
     log_.info(title, 'title from isbn data')

@@ -1,7 +1,7 @@
 import { isInvEntityId } from 'lib/boolean_tests'
 import preq from 'lib/preq'
 import wdk from 'lib/wikidata-sdk'
-import isbn_ from 'lib/isbn'
+import { looksLikeAnIsbn, normalizeIsbn } from 'lib/isbn'
 
 export default {
   getReverseClaims (property, value, refresh, sort) {
@@ -16,14 +16,14 @@ export default {
         [ prefix, id ] = [ 'wd', prefix ]
       } else if (isInvEntityId(prefix)) {
         [ prefix, id ] = [ 'inv', prefix ]
-      } else if (isbn_.looksLikeAnIsbn(prefix)) {
-        [ prefix, id ] = [ 'isbn', isbn_.normalizeIsbn(prefix) ]
+      } else if (looksLikeAnIsbn(prefix)) {
+        [ prefix, id ] = [ 'isbn', normalizeIsbn(prefix) ]
       }
     } else {
-      if (prefix === 'isbn') { id = isbn_.normalizeIsbn(id) }
+      if (prefix === 'isbn') id = normalizeIsbn(id)
     }
 
-    if ((prefix != null) && (id != null)) {
+    if (prefix != null && id != null) {
       return `${prefix}:${id}`
     } else {
       return uri

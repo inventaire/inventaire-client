@@ -9,7 +9,7 @@
 
 import findUri from '../lib/find_uri'
 import error_ from 'lib/error'
-import isbn_ from 'lib/isbn'
+import { looksLikeAnIsbn } from 'lib/isbn'
 import screen_ from 'lib/screen'
 import preq from 'lib/preq'
 import ResultModel from '../models/result'
@@ -19,7 +19,6 @@ import WikidataSearch from 'modules/entities/lib/search/wikidata_search'
 import Result from './result'
 import NoResult from './no_result'
 import liveSearchTemplate from './templates/live_search.hbs'
-const { looksLikeAnIsbn } = isbn_
 const wikidataSearch = WikidataSearch(false)
 
 const Results = Backbone.Collection.extend({ model: ResultModel })

@@ -1,4 +1,4 @@
-import isbn_ from 'lib/isbn'
+import { normalizeIsbn } from 'lib/isbn'
 import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 import getOriginalLang from 'modules/entities/lib/get_original_lang'
 
@@ -14,8 +14,8 @@ export default function (entities, isbnsIndex) {
       entity.authors = getEditionAuthors(entity, entities)
       const rawIsbn13 = claims['wdt:P212']?.[0]
       const rawIsbn10 = claims['wdt:P957']?.[0]
-      const normalizedIsbn13 = (rawIsbn13 != null) ? isbn_.normalizeIsbn(rawIsbn13) : undefined
-      const normalizedIsbn10 = (rawIsbn10 != null) ? isbn_.normalizeIsbn(rawIsbn10) : undefined
+      const normalizedIsbn13 = (rawIsbn13 != null) ? normalizeIsbn(rawIsbn13) : undefined
+      const normalizedIsbn10 = (rawIsbn10 != null) ? normalizeIsbn(rawIsbn10) : undefined
       let isbnData
       if (normalizedIsbn13 != null) {
         isbnData = isbnsIndex[normalizedIsbn13]
