@@ -1,4 +1,3 @@
-import cropper from 'modules/general/lib/cropper'
 import pictureTemplate from './templates/picture.hbs'
 
 export default Marionette.ItemView.extend({
@@ -9,14 +8,20 @@ export default Marionette.ItemView.extend({
   },
 
   initialize () {
-    cropper.get()
-    .then(() => this.model.waitForReady)
-    .then(() => { this.ready = true })
-    .then(this.lazyRender.bind(this))
-
-    // the model depends on the view to get the croppedDataUrl
+    this.setCropper()
+    // The model depends on the view to get the croppedDataUrl
     // so it must have a reference to it
     this.model.view = this
+  },
+
+  async setCropper () {
+    await Promise.all([
+      import('cropper'),
+      import('cropper/dist/cropper.css'),
+      this.model.waitForReady,
+    ])
+    this.ready = true
+    this.lazyRender()
   },
 
   serializeData () {

@@ -2,11 +2,19 @@ import Config from './lib/config'
 import PositionPicker from './views/position_picker'
 import SimpleMap from './views/simple_map'
 
-const {
-  init: onScriptReady
-} = Config
+const { init: onLeafletReady } = Config
 
-const { get: getLeaflet } = require('lib/get_assets')('leaflet', onScriptReady)
+const getLeaflet = async () => {
+  await Promise.all([
+    import('leaflet'),
+    import('leaflet/dist/leaflet.css'),
+    import('leaflet.markercluster/dist/MarkerCluster.css'),
+    import('leaflet.markercluster/dist/MarkerCluster.Default.css'),
+  ])
+  await import('leaflet.markercluster'),
+  console.log('L', window.L)
+  onLeafletReady()
+}
 
 export default function () {
   app.commands.setHandlers({
@@ -38,17 +46,29 @@ const updatePosition = (model, updateReqres, type, focusSelector) => showPositio
   }
 })
 
-const showMainUserPositionPicker = () => getLeaflet()
-.then(() => updatePosition(app.user, 'user:update', 'user'))
+const showMainUserPositionPicker = async () => {
+  await getLeaflet()
+  updatePosition(app.user, 'user:update', 'user')
+}
 
-const showGroupPositionPicker = (group, focusSelector) => getLeaflet()
-.then(() => updatePosition(group, 'group:update:settings', 'group', focusSelector))
+const showGroupPositionPicker = async (group, focusSelector) => {
+  await getLeaflet()
+  updatePosition(group, 'group:update:settings', 'group', focusSelector)
+}
 
-// returns a promise that should resolve with the selected coordinates
-const promptGroupPositionPicker = () => getLeaflet()
-.then(() => new Promise((resolve, reject) => {
-  try { return showPositionPicker({ resolve, type: 'group' }) } catch (err) { return reject(err) }
-}))
+// Returns a promise that should resolve with the selected coordinates
+const promptGroupPositionPicker = async () => {
+  await getLeaflet()
+  return new Promise((resolve, reject) => {
+    try {
+      showPositionPicker({ resolve, type: 'group' })
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
 
-const showModelsOnMap = models => getLeaflet()
-.then(() => app.layout.modal.show(new SimpleMap({ models })))
+const showModelsOnMap = async models => {
+  await getLeaflet()
+  app.layout.modal.show(new SimpleMap({ models }))
+}

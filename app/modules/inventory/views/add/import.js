@@ -13,9 +13,6 @@ import commonParser from '../../lib/parsers/common'
 import extractIsbnsAndFetchData from '../../lib/import/extract_isbns_and_fetch_data'
 import importTemplate from './templates/import.hbs'
 
-const papaparse = require('lib/get_assets')('papaparse')
-const isbn2 = require('lib/get_assets')('isbn2')
-
 let candidates = null
 
 export default Marionette.LayoutView.extend({
@@ -54,12 +51,9 @@ export default Marionette.LayoutView.extend({
   initialize () {
     ({ isbnsBatch: this.isbnsBatch } = this.options)
 
-    isbn2.prepare()
-    // No need to fetch papaparse if we know we will go straight
-    // to the ISBN importer
     if (this.isbnsBatch != null) {
       this.hideImporters = true
-    } else { papaparse.prepare() }
+    }
 
     return candidates || (candidates = new Candidates())
   },
@@ -108,13 +102,17 @@ export default Marionette.LayoutView.extend({
       progressionEventName: name === 'ISBNs' ? 'progression:ISBNs' : undefined
     })
 
+    // TODO: refactor by turning parsers into async functions
+    // which import their dependencies themselves
     return Promise.all([
       files_.parseFileEventAsText(e, true, encoding),
-      papaparse.get(),
-      isbn2.get()
+      import('papaparse'),
+      import('isbn2'),
     ])
     // We only need the result from the file
-    .spread(data => {
+    .then(([ data, Papa, { ISBN } ]) => {
+      window.ISBN = ISBN
+      window.Papa = Papa
       dataValidator(source, data)
       return parse(data).map(commonParser)
     })

@@ -11,7 +11,6 @@ import tasks from './tasks'
 import shelves from './shelves'
 import images from './images'
 import img from './img'
-import assets from './assets'
 import feeds from './feeds'
 
 export default {
@@ -41,7 +40,6 @@ export default {
   // thus not behing the /api root
   img,
 
-  assets,
   feeds,
   i18nStrings: lang => `/public/i18n/${lang}.json?DIGEST${getBuster()}`,
   json: filename => `/public/json/${filename}.json?DIGEST${getBuster()}`

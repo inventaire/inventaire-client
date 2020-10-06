@@ -8,7 +8,6 @@ import files_ from 'lib/files'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
-import cropper from 'modules/general/lib/cropper'
 import getActionKey from 'lib/get_action_key'
 import Picture from './picture'
 import picturePickerTemplate from './templates/picture_picker.hbs'
@@ -35,7 +34,6 @@ export default Marionette.CompositeView.extend({
     ({ context: this.context } = this.options)
     this.limit = this.options.limit || 1
     const pictures = forceArray(this.options.pictures)
-    cropper.prepare()
     const collectionData = pictures.map(getImgData.bind(null, this.options.crop))
     this.collection = new Imgs(collectionData)
     this.listenTo(this.collection, 'invalid:image', this.onInvalidImage.bind(this))

@@ -3,16 +3,24 @@ import drawCanvas from './draw_canvas'
 import screen_ from 'lib/screen'
 import onDetected from './on_detected'
 
-const { prepare: prepareQuagga, get: getQuagga } = require('lib/get_assets')('quagga')
-const { prepare: prepareIsbn2, get: getIsbn2 } = require('lib/get_assets')('isbn2')
-
 export default {
   // pre-fetch assets when the scanner is probably about to be used
   // to be ready to start scanning faster
-  prepare () { return Promise.all([ prepareQuagga(), prepareIsbn2() ]) },
-  scan (params) {
-    return Promise.all([ getQuagga(), getIsbn2() ])
-    .then(startScanning.bind(null, params))
+  prepare () {
+    import('quagga')
+    import('isbn2')
+  },
+
+  async scan (params) {
+    const [ Quagga, { ISBN } ] = await Promise.all([
+      import('quagga'),
+      import('isbn2'),
+    ])
+
+    window.Quagga = Quagga
+    window.ISBN = ISBN
+
+    startScanning(params)
     .catch(log_.ErrorRethrow('embedded scanner err'))
   }
 }
