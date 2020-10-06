@@ -48,7 +48,5 @@ const groupViewsCommons = {
   }
 }
 
-export default {
-  GroupLayoutView: Marionette.LayoutView.extend(groupViewsCommons),
-  GroupItemView: Marionette.ItemView.extend(groupViewsCommons)
-}
+export const GroupLayoutView = Marionette.LayoutView.extend(groupViewsCommons)
+export const GroupItemView = Marionette.ItemView.extend(groupViewsCommons)

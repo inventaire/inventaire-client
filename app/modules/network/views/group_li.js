@@ -1,9 +1,5 @@
-import GroupViewsCommons from './group_views_commons'
+import { GroupItemView } from './group_views_commons'
 import groupLiTemplate from './templates/group_li.hbs'
-
-const {
-  GroupItemView
-} = GroupViewsCommons
 
 export default GroupItemView.extend({
   template: groupLiTemplate,

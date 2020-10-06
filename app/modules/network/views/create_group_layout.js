@@ -1,20 +1,14 @@
-import log_ from 'lib/loggers'
-import createGroupLayoutTemplate from './templates/create_group_layout.hbs'
-
 // add name => creates group
 // invite friends
 // invite by email
 
-import GroupViewsCommons from './group_views_commons'
-
+import log_ from 'lib/loggers'
+import createGroupLayoutTemplate from './templates/create_group_layout.hbs'
+import { GroupLayoutView } from './group_views_commons'
 import forms_ from 'modules/general/lib/forms'
 import groups_ from '../lib/groups'
 import groupFormData from '../lib/group_form_data'
 import GroupUrl from '../lib/group_url'
-
-const {
-  GroupLayoutView
-} = GroupViewsCommons
 
 const {
   ui: groupUrlUi,

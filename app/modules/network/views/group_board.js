@@ -1,4 +1,4 @@
-import GroupViewsCommons from './group_views_commons'
+import { GroupLayoutView } from './group_views_commons'
 import GroupBoardHeader from './group_board_header'
 import GroupSettings from './group_settings'
 import UsersSearchLayout from '../views/users_search_layout'
@@ -6,10 +6,6 @@ import UsersList from 'modules/users/views/users_list'
 import InviteByEmail from './invite_by_email'
 import screen_ from 'lib/screen'
 import groupBoardTemplate from './templates/group_board.hbs'
-
-const {
-  GroupLayoutView
-} = GroupViewsCommons
 
 export default GroupLayoutView.extend({
   template: groupBoardTemplate,

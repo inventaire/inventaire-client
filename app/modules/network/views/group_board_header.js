@@ -1,9 +1,5 @@
-import GroupViewsCommons from './group_views_commons'
+import { GroupItemView } from './group_views_commons'
 import groupBoardHeaderTemplate from './templates/group_board_header.hbs'
-
-const {
-  GroupItemView
-} = GroupViewsCommons
 
 export default GroupItemView.extend({
   template: groupBoardHeaderTemplate,
