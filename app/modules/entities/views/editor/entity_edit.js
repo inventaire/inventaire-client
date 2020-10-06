@@ -86,8 +86,7 @@ export default Marionette.LayoutView.extend({
     return this.claims.show(new PropertiesEditor({
       collection: this.properties,
       propertiesShortlist: this.model.propertiesShortlist
-    })
-    )
+    }))
   },
 
   serializeData () {

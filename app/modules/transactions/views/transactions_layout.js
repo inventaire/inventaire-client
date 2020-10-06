@@ -37,8 +37,7 @@ export default Marionette.LayoutView.extend({
     return this[`${folder}Region`].show(new TransactionsList({
       folder,
       collection: app.transactions
-    })
-    )
+    }))
   },
 
   showTransactionFull (transaction, nonExplicitSelection) {

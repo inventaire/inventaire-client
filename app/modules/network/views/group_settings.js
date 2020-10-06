@@ -125,8 +125,7 @@ export default Marionette.ItemView.extend({
       save: this._savePicture.bind(this),
       limit: 1,
       focus: '#changePicture'
-    })
-    )
+    }))
   },
 
   _savePicture (pictures) {

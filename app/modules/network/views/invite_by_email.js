@@ -51,8 +51,7 @@ export default Marionette.LayoutView.extend({
       showEmail: true,
       groupContext: (this.group != null),
       group: this.group
-    })
-    )
+    }))
   },
 
   serializeData () {

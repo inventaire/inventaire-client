@@ -120,7 +120,6 @@ export default InfiniteScrollItemsList.extend({
       selectedIds: this.selectedIds,
       getSelectedModelsAndIds: this.getSelectedModelsAndIds.bind(this),
       afterItemsDelete: this.options.afterItemsDelete
-    })
-    )
+    }))
   }
 })

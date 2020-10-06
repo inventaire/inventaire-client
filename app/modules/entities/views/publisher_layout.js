@@ -41,8 +41,7 @@ export default TypedEntityLayout.extend({
       showActions: true,
       compactMode: true,
       addButtonLabel: 'add a collection from this publisher'
-    })
-    )
+    }))
   },
 
   showIsolatedEditions () {
@@ -56,7 +55,6 @@ export default TypedEntityLayout.extend({
       showActions: true,
       compactMode: true,
       addButtonLabel: 'add an edition from this publisher'
-    })
-    )
+    }))
   }
 })

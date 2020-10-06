@@ -36,7 +36,6 @@ export default TypedEntityLayout.extend({
       type: 'edition',
       title: 'editions',
       addButtonLabel: 'add an edition to this collection'
-    })
-    )
+    }))
   }
 })

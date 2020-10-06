@@ -60,8 +60,7 @@ export default TypedEntityLayout.extend({
       collection: this.model.editions,
       work: this.model,
       onWorkLayout: true
-    })
-    )
+    }))
   },
 
   toggleWikipediaPreview () { this.$el.trigger('toggleWikiIframe', this) },

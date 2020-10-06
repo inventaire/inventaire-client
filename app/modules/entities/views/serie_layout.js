@@ -43,7 +43,6 @@ export default TypedEntityLayout.extend({
       hideHeader: true,
       refresh: this.refresh,
       addButtonLabel: 'add a work to this serie'
-    })
-    )
+    }))
   }
 })

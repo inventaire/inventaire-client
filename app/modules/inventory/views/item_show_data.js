@@ -187,8 +187,7 @@ export default ItemLayout.extend({
       collection: this.shelves,
       item: this.model,
       mainUserIsOwner: this.model.mainUserIsOwner
-    })
-    )
+    }))
   },
 
   selectShelf (e) {

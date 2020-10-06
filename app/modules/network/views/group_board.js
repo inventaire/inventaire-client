@@ -139,8 +139,7 @@ export default GroupLayoutView.extend({
       groupContext: true,
       group: this.model,
       emptyViewMessage: 'no more pending requests'
-    })
-    )
+    }))
   },
 
   showMembers () {
@@ -148,8 +147,7 @@ export default GroupLayoutView.extend({
       collection: this.model.members,
       groupContext: true,
       group: this.model
-    })
-    )
+    }))
   },
 
   showMembersInvitor () {
@@ -165,8 +163,7 @@ export default GroupLayoutView.extend({
       filter (user, index, collection) {
         return group.userStatus(user) !== 'member'
       }
-    })
-    )
+    }))
   },
 
   onLeave () { app.execute('show:inventory:group', this.model, true) },

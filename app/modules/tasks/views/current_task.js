@@ -25,7 +25,6 @@ export default Marionette.LayoutView.extend({
       initialWorksListLength: 20,
       wrapWorks: true,
       noAuthorWrap: true
-    })
-    )
+    }))
   }
 })
