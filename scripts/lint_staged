@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -e
 
 # keep A (added) and M (modified) files
 # only if staged (0 space before/2 space after the letter)

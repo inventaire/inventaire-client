@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# set -eu
+set -eu
 
-# echo -e "\e[0;30mstarting to lint...\e[0m"
-# npm run lint-staged
+echo -e "\e[0;30mstarting to lint...\e[0m"
+npm run lint-staged
 # echo -e "\e[0;30mstarting to test...\e[0m"
 # export CONSOLE=silent; export NODE_ENV=tests; npm run test-fast > /dev/null

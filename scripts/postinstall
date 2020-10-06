@@ -25,3 +25,7 @@ disable_browser_fs node_modules/handlebars/package.json
 
 # need to build once to make the public folder available
 # ./node_modules/brunch/bin/brunch build
+
+# Make git hooks trackable (see https://stackoverflow.com/a/4457124/3324977)
+rm -rf .git/hooks
+ln -s .githooks .git/hooks
