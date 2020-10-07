@@ -10,7 +10,7 @@ disable_browser_fs(){
 disable_browser_fs node_modules/handlebars/package.json
 
 ./scripts/update_mentions.js
-# ./scripts/build_i18n
+./scripts/build_i18n
 
 # Make git hooks trackable (see https://stackoverflow.com/a/4457124/3324977)
 rm -rf .git/hooks
