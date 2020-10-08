@@ -38,7 +38,8 @@ const addExistingEntityItemsCounts = function (candidates) {
 
 const getUri = function (candidate) {
   let { isbn, normalizedIsbn } = candidate
-  if (normalizedIsbn == null) { normalizedIsbn = normalizeIsbn(isbn) }
+  if (isbn == null && normalizedIsbn == null) return
+  if (normalizedIsbn == null) normalizedIsbn = normalizeIsbn(isbn)
   candidate.normalizedIsbn = normalizedIsbn
   if (looksLikeAnIsbn(normalizedIsbn)) {
     candidate.uri = `isbn:${normalizedIsbn}`
