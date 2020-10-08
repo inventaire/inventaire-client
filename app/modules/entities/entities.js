@@ -243,34 +243,28 @@ const setHandlers = function () {
   })
 }
 
-const getEntitiesModels = function (params) {
+const getEntitiesModels = async function (params) {
   let { uris, refresh, defaultType, index } = params
   assert_.array(uris)
   assert_.strings(uris)
   // Make sure its a 'true' flag and not an object incidently passed
   refresh = refresh === true
 
-  if (uris.length === 0) { return Promise.resolve([]) }
+  if (uris.length === 0) return []
 
-  return entitiesModelsIndex.get({ uris, refresh, defaultType })
+  const models = await entitiesModelsIndex.get({ uris, refresh, defaultType })
+  if (index) return models
   // Do not return entities with type 'missing'.
   // This type is used to avoid re-fetching an entity already known to be missing
   // but has no interest past entitiesModelsIndex
-  .then(models => {
-    if (index) {
-      return models
-    } else {
-      return _.values(models).filter(isntMissing)
-    }
-  })
+  else return _.values(models).filter(isntMissing)
 }
 
 // Known case of model being undefined: when the model initialization failed
 const isntMissing = model => (model != null) && (model?.type !== 'missing')
 
-const getEntityModel = (uri, refresh) => getEntitiesModels({ uris: [ uri ], refresh })
-.then(models => {
-  const model = models[0]
+const getEntityModel = async (uri, refresh) => {
+  const [ model ] = await getEntitiesModels({ uris: [ uri ], refresh })
   if (model != null) {
     return model
   } else {
@@ -278,7 +272,7 @@ const getEntityModel = (uri, refresh) => getEntitiesModels({ uris: [ uri ], refr
     log_.info(`getEntityModel entity_not_found: ${uri}`)
     throw error_.new('entity_not_found', [ uri, models ])
   }
-})
+}
 
 const getEntityLocalHref = uri => `/entity/${uri}`
 

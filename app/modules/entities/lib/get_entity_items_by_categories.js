@@ -9,7 +9,7 @@ const getAllEntityUris = model => {
   return model.fetchSubEntities().then(() => model.get('allUris'))
 }
 
-const spreadItems = uris => function (items) {
+const spreadItems = uris => items => {
   let category
   const itemsByCategories = {
     personal: [],
@@ -44,14 +44,14 @@ const spreadItems = uris => function (items) {
   return itemsByCategories
 }
 
-export default function () {
-  if (this.itemsByCategory != null) { return Promise.resolve(this.itemsByCategory) }
+export default async function () {
+  if (this.itemsByCategory != null) return this.itemsByCategory
 
-  return getAllEntityUris(this)
-  .then(uris => app.request('items:getByEntities', uris)
-  .then(spreadItems(uris)))
-  .tap(itemsByCategory => { this.itemsByCategory = itemsByCategory })
-};
+  const uris = await getAllEntityUris(this)
+  const itemsByCategory = await app.request('items:getByEntities', uris).then(spreadItems(uris))
+  this.itemsByCategory = itemsByCategory
+  return itemsByCategory
+}
 
 const byDistance = (itemA, itemB) => getItemDistance(itemA) - getItemDistance(itemB)
 

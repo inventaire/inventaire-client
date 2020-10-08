@@ -43,8 +43,8 @@ Backbone.Model.prototype.gets = function (...attributes) {
   return attributes.map(this.get.bind(this))
 }
 
-Backbone.Model.prototype.reqGrab = function (request, id, name, refresh) {
-  if (!refresh && (this[name] != null)) { return Promise.resolve(this[name]) }
+Backbone.Model.prototype.reqGrab = async function (request, id, name, refresh) {
+  if (!refresh && this[name] != null) return this[name]
 
   return app.request(request, id)
   .then(this.grab.bind(this, name))
@@ -52,7 +52,7 @@ Backbone.Model.prototype.reqGrab = function (request, id, name, refresh) {
 }
 
 Backbone.Model.prototype.grab = function (name, model) {
-  if (model == null) { throw error_.new('grab failed: missing model', arguments) }
+  if (model == null) throw error_.new('grab failed: missing model', arguments)
 
   this[name] = model
   this.triggerGrab(name, model)
