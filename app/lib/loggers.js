@@ -34,10 +34,8 @@ const error = (err, label) => {
   err.hasBeenLogged = true
 
   let userError = false
-  let serverError = false
   if (err.statusCode != null) {
     if (/^4\d+$/.test(err.statusCode)) userError = true
-    if (/^5\d+$/.test(err.statusCode)) serverError = true
   }
 
   // No need to report user errors to the server
@@ -48,10 +46,8 @@ const error = (err, label) => {
   }
 
   // No need to report server error back to the server
-  if (!serverError) reportError(err)
-
-  console.error(`[${label}]\n`, err, err.context)
-  return reportError(err)
+  if (!err.serverError) reportError(err)
+  console.error(`[${label}]\n`, err.message, err.stack, err, err.context)
 }
 
 // providing a custom warn as it might be used
