@@ -6,20 +6,19 @@ export function getById (id) {
   .then(getShelf)
 }
 
-export function getByIds (ids) {
-  console.log('ids', ids)
-  return preq.get(app.API.shelves.byIds(ids))
-  .get('shelves')
+export async function getByIds (ids) {
+  const { shelves } = await preq.get(app.API.shelves.byIds(ids))
+  return shelves
 }
 
-export function createShelf (params) {
-  return preq.post(app.API.shelves.create, params)
-  .get('shelf')
+export async function createShelf (params) {
+  const { shelf } = await preq.post(app.API.shelves.create, params)
+  return shelf
 }
 
-export function updateShelf (params) {
-  return preq.post(app.API.shelves.update, params)
-  .get('shelf')
+export async function updateShelf (params) {
+  const { shelf } = await preq.post(app.API.shelves.update, params)
+  return shelf
 }
 
 export function deleteShelf (params) {
@@ -54,16 +53,14 @@ export function addItems (model, items) {
   return shelfActionReq(id, itemsIds, 'addItems')
 }
 
-export function getShelvesByOwner (userId) {
-  return preq.get(app.API.shelves.byOwners(userId))
-  .get('shelves')
-  .then(_.values)
+export async function getShelvesByOwner (userId) {
+  const { shelves } = await preq.get(app.API.shelves.byOwners(userId))
+  return _.values(shelves)
 }
 
-export function countShelves (userId) {
-  return preq.get(app.API.shelves.byOwners(userId))
-  .get('shelves')
-  .then(shelves => Object.keys(shelves).length)
+export async function countShelves (userId) {
+  const { shelves } = await preq.get(app.API.shelves.byOwners(userId))
+  return Object.keys(shelves).length
 }
 
 const shelfActionReq = (id, itemsIds, action) => {
@@ -71,7 +68,4 @@ const shelfActionReq = (id, itemsIds, action) => {
   .then(getShelf)
 }
 
-const getShelf = function (res) {
-  const shelvesObj = res.shelves
-  return Object.values(shelvesObj)[0]
-}
+const getShelf = ({ shelves }) => Object.values(shelves)[0]

@@ -84,14 +84,15 @@ export default {
     .catch(this.revertMove.bind(this, app.user, initialCategory, 'tmp'))
   },
 
-  action (action, userId) {
-    return preq.put(app.API.groups.base, {
+  async action (action, userId) {
+    const res = await preq.put(app.API.groups.base, {
       action,
       group: this.id,
       // requiered only for actions implying an other user
       user: userId
     })
-    .tap(this._postActionHooks.bind(this, action))
+    await this._postActionHooks.bind(this, action)
+    return res
   },
 
   _postActionHooks (action) {

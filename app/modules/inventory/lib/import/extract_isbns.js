@@ -1,4 +1,4 @@
-import { isNormalizedIsbn, normalizedIsbn } from 'lib/isbn'
+import { isNormalizedIsbn, normalizeIsbn } from 'lib/isbn'
 const isbnPattern = /(97(8|9))?[\d-]{9,13}([\dX])/g
 
 export default function (text) {

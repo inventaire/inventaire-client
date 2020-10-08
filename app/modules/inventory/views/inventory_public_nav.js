@@ -85,19 +85,17 @@ export default InventoryCommonNav.extend({
     }
   },
 
-  showByPosition (name, bbox) {
+  async showByPosition (name, bbox) {
     startLoading.call(this, `.${name}Loading`)
-    return getByPosition(this[name]._superset, name, bbox)
-    .then(() => {
-      showOnMap(name, this.map, this[name].models)
-      return stopLoading.call(this, `.${name}Loading`)
-    })
+    await getByPosition(this[name]._superset, name, bbox)
+    showOnMap(name, this.map, this[name].models)
+    stopLoading.call(this, `.${name}Loading`)
   },
 
   onMovend () {
-    if (!this.hideUsers) { refreshListFilter.call(this, this.users, this.map) }
-    if (!this.hideGroups) { refreshListFilter.call(this, this.groups, this.map) }
-    return this.fetchAndShowUsersAndGroupsOnMap(this.map)
+    if (!this.hideUsers) refreshListFilter.call(this, this.users, this.map)
+    if (!this.hideGroups) refreshListFilter.call(this, this.groups, this.map)
+    this.fetchAndShowUsersAndGroupsOnMap(this.map)
   },
 
   showUser (e) {
@@ -115,14 +113,15 @@ export default InventoryCommonNav.extend({
   }
 })
 
-const getByPosition = (collection, name, bbox) => preq.get(app.API[name].searchByPosition(bbox))
-.get(name)
-.then(docs => {
+const getByPosition = async (collection, name, bbox) => {
+  const res = await preq.get(app.API[name].searchByPosition(bbox))
+  let docs = res[name]
   const filter = filters[name]
-  if (filter != null) { docs = docs.filter(filter) }
+  if (filter != null) docs = docs.filter(filter)
   return collection.add(docs)
-})
+}
 
-const filters =
+const filters = {
   // Filter-out main user
-  { users (doc) { return doc._id !== app.user.id } }
+  users: doc => doc._id !== app.user.id
+}

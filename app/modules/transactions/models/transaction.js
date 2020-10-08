@@ -108,15 +108,14 @@ export default Backbone.NestedModel.extend({
     return this.timeline.add(action)
   },
 
-  fetchMessages () {
+  async fetchMessages () {
     const url = buildPath(app.API.transactions, {
       action: 'get-messages',
       transaction: this.id
     })
 
-    return preq.get(url)
-    .get('messages')
-    .then(this.addMessagesToTimeline.bind(this))
+    const { messages } = await preq.get(url)
+    return this.addMessagesToTimeline(messages)
   },
 
   addMessagesToTimeline (messages) {
@@ -126,7 +125,7 @@ export default Backbone.NestedModel.extend({
   setNextActions () {
     // /!\ if the other user stops being accessible (ex: deleted user)
     // next actions will never be ready
-    if ((this.owner != null) && (this.requester != null)) {
+    if (this.owner != null && this.requester != null) {
       return this.set({
         nextActions: getNextActionsData(this),
         actionsReady: true

@@ -6,6 +6,7 @@ import CurrentTask from './current_task'
 import RelativeTasks from './relative_tasks'
 import Task from '../models/task'
 import error_ from 'lib/error'
+import { wait } from 'lib/promises'
 import forms_ from 'modules/general/lib/forms'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import tasksLayoutTemplate from './templates/tasks_layout.hbs'
@@ -48,12 +49,13 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  showNextTask (params = {}) {
+  async showNextTask (params = {}) {
     const { spinner } = params
-    if (spinner != null) { startLoading.call(this, spinner) }
+    if (spinner != null) startLoading.call(this, spinner)
     const offset = app.request('querystring:get', 'offset')
-    this.showTask(getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel }))
-    .tap(() => { if (spinner != null) { return stopLoading.call(this, spinner) } })
+    const nextTask = await getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel })
+    if (spinner != null) stopLoading.call(this, spinner)
+    this.showTask(nextTask)
   },
 
   showTask (taskModelPromise) {
@@ -204,18 +206,14 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-const getTaskById = id => preq.get(app.API.tasks.byIds(id))
-.get('tasks')
-.then(tasks => {
+const getTaskById = async id => {
+  const { tasks } = await preq.get(app.API.tasks.byIds(id))
   const task = tasks[0]
-  if (task != null) {
-    return new Task(task)
-  } else {
-    throw error_.new('not found', 404, { id })
-  }
-})
+  if (task != null) return new Task(task)
+  else throw error_.new('not found', 404, { id })
+}
 
-const openDeduplicationLayoutIfDone = function (previousTask, currentTaskModel) {
+const openDeduplicationLayoutIfDone = async (previousTask, currentTaskModel) => {
   if (previousTask == null) return
 
   const previousSuggestionUri = previousTask.get('suggestionUri')
@@ -226,9 +224,9 @@ const openDeduplicationLayoutIfDone = function (previousTask, currentTaskModel) 
   const showDeduplication = () => app.execute('show:deduplicate:sub:entities', suggestion, { openInNewTab: true })
 
   if (waitingForMerge != null) {
-    return waitingForMerge
-    .delay(100)
-    .then(showDeduplication)
+    await waitingForMerge
+    await wait(100)
+    showDeduplication()
   } else {
     setTimeout(showDeduplication, 100)
   }

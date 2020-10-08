@@ -21,12 +21,12 @@ export default Marionette.LayoutView.extend({
   initialize () {
     this.standalone = true
     this.displayItemsCovers = false
-    return entityItems.initialize.call(this)
+    entityItems.initialize.call(this)
   },
 
   onShow () {
     return this.model.waitForWorks
-    .map(work => work.fetchSubEntities())
+    .then(works => works.map(work => work.fetchSubEntities()))
     .then(this.ifViewIsIntact('showWorks'))
   },
 

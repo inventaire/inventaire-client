@@ -1,6 +1,7 @@
+import { props as promiseProps } from 'lib/promises'
 export default {
   getExtendedAuthorsModels () {
-    return Promise.props({
+    return promiseProps({
       'wdt:P50': this.getModelsFromClaims('wdt:P50'),
       'wdt:P58': this.getModelsFromClaims('wdt:P58'),
       'wdt:P110': this.getModelsFromClaims('wdt:P110'),

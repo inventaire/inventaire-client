@@ -37,16 +37,14 @@ export default API = {
   timeClaim (...args) {
     let [ claims, prop, format, omitLabel, inline ] = neutralizeDataObject(args)
     // default to 'year' and override handlebars data object when args.length is 3
-    if (!format) { format = 'year' }
+    format = format || 'year'
     if (claims?.[prop]?.[0] != null) {
       let values = claims[prop]
         .map(unixTime => {
           const time = new Date(unixTime)
-          switch (format) {
-          case 'year': return time.getUTCFullYear()
-          default:
-          }
-        }).filter(isntNaN)
+          if (format === 'year') return time.getUTCFullYear()
+        })
+        .filter(isntNaN)
       const label = labelString(prop, omitLabel)
       values = _.uniq(values).join(` ${i18n('or')} `)
       return claimString(label, values, inline)

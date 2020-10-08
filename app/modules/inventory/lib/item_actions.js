@@ -17,7 +17,7 @@ export default {
     })
   },
 
-  update (options) {
+  async update (options) {
     // expects: items (models or ids), attribute, value
     // optional: selector
     let { item, items, attribute, value, selector } = options
@@ -34,9 +34,13 @@ export default {
 
     const ids = items.map(getIdFromModelOrId)
 
-    return preq.put(app.API.items.update, { ids, attribute, value })
-    .tap(propagateItemsChanges(items, attribute))
-    .catch(rollbackUpdate(items))
+    try {
+      await preq.put(app.API.items.update, { ids, attribute, value })
+      propagateItemsChanges(items, attribute)
+    } catch (err) {
+      rollbackUpdate(items)
+      throw err
+    }
   },
 
   delete (options) {
@@ -46,15 +50,15 @@ export default {
 
     const ids = items.map(getIdFromModelOrId)
 
-    const action = () => preq.post(app.API.items.deleteByIds, { ids })
-    .tap(() => {
+    const action = async () => {
+      const res = await preq.post(app.API.items.deleteByIds, { ids })
       items.forEach(item => {
         if (_.isString(item)) return
         app.user.trigger('items:change', item.get('listing'), null)
         item.isDestroyed = true
       })
-    })
-    .then(next)
+      return next(res)
+    }
 
     if ((items.length === 1) && items[0] instanceof Backbone.Model) {
       const title = items[0].get('snapshot.entity:title')
@@ -74,23 +78,24 @@ const getIdFromModelOrId = item => {
   else return item.id
 }
 
-const propagateItemsChanges = (items, attribute) => () => items.forEach(item => {
-  // TODO: update counters for non-model items too
-  if (_.isString(item)) return
-  if (attribute === 'listing') {
-    const { listing: previousListing } = item._backup
-    const newListing = item.get('listing')
-    if (newListing === previousListing) return
-    app.user.trigger('items:change', previousListing, newListing)
-  }
-  delete item._backup
-})
+const propagateItemsChanges = (items, attribute) => {
+  items.forEach(item => {
+    // TODO: update counters for non-model items too
+    if (_.isString(item)) return
+    if (attribute === 'listing') {
+      const { listing: previousListing } = item._backup
+      const newListing = item.get('listing')
+      if (newListing === previousListing) return
+      app.user.trigger('items:change', previousListing, newListing)
+    }
+    delete item._backup
+  })
+}
 
-const rollbackUpdate = items => err => {
+const rollbackUpdate = items => {
   items.forEach(item => {
     if (_.isString(item)) return
     item.set(item._backup)
     delete item._backup
   })
-  throw err
 }

@@ -37,15 +37,17 @@ export default function (invModels, wdModels) {
 
 const addLabelsParts = model => model._labelsParts || (model._labelsParts = getLabelsParts(getFormattedLabels(model)))
 
-const getFormattedLabels = model => _.values(model.get('labels'))
-.map(label => label.toLowerCase()
-// Remove anything after a '(' or a '['
-// as some titles might still have comments between parenthesis
-// ex: 'some book title (French edition)'
-.replace(/(\(|\[).*$/, '')
-// Ignore leading articles as they are a big source of false negative match
-.replace(/^(the|a|le|la|l'|der|die|das)\s/ig, '')
-.trim())
+const getFormattedLabels = model => {
+  return _.values(model.get('labels'))
+  .map(label => label.toLowerCase()
+  // Remove anything after a '(' or a '['
+  // as some titles might still have comments between parenthesis
+  // ex: 'some book title (French edition)'
+  .replace(/(\(|\[).*$/, '')
+  // Ignore leading articles as they are a big source of false negative match
+  .replace(/^(the|a|le|la|l'|der|die|das)\s/ig, '')
+  .trim())
+}
 
 const getLabelsParts = function (labels) {
   const parts = labels.map(label => label

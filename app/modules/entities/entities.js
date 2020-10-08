@@ -270,7 +270,7 @@ const getEntityModel = async (uri, refresh) => {
   } else {
     // see getEntitiesModels "Possible reasons for missing entities"
     log_.info(`getEntityModel entity_not_found: ${uri}`)
-    throw error_.new('entity_not_found', [ uri, models ])
+    throw error_.new('entity_not_found', [ uri, model ])
   }
 }
 
@@ -345,15 +345,17 @@ const showEntityCreateFromIsbn = isbn => {
 }
 
 // Create from the seed data we have, if the entity isn't known yet
-const existsOrCreateFromSeed = entry => {
-  return preq.post(app.API.entities.resolve, { entries: [ entry ], update: true, create: true, enrich: true })
+const existsOrCreateFromSeed = async entry => {
+  const { entries } = await preq.post(app.API.entities.resolve, {
+    entries: [ entry ],
+    update: true,
+    create: true,
+    enrich: true
+  })
   // Add the possibly newly created edition entity to the local index
   // and get it's model
-  .get('entries')
-  .then(entries => {
-    const { uri } = entries[0].edition
-    return getEntityModel(uri, true)
-  })
+  const { uri } = entries[0].edition
+  return getEntityModel(uri, true)
 }
 
 const showViewByAccessLevel = function (params) {

@@ -1,5 +1,5 @@
+import { props as promiseProps, tap } from 'lib/promises'
 import { isNonEmptyString, isEntityUri } from 'lib/boolean_tests'
-
 import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import Filterable from 'modules/general/models/filterable'
@@ -170,7 +170,7 @@ export default Filterable.extend({
     // reproduce the behavior from the default Bacbkone::destroy
     this.trigger('destroy', this, this.collection)
     return preq.post(app.API.items.deleteByIds, { ids: [ this.id ] })
-    .tap(() => { this.isDestroyed = true })
+    .then(tap(() => { this.isDestroyed = true }))
   },
 
   // to be called by a view onShow:
@@ -190,7 +190,7 @@ export default Filterable.extend({
   },
 
   executeMetadataUpdate () {
-    return Promise.props({
+    return promiseProps({
       title: this.findBestTitle(),
       description: this.findBestDescription()?.slice(0, 501),
       image: this.getPicture(),

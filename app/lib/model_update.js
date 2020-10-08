@@ -1,10 +1,10 @@
 import { isNonEmptyPlainObject } from 'lib/boolean_tests'
+import error_ from 'lib/error'
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
-// wrapping model updates to recover the previous value on fails
+import { tap } from 'lib/promises'
 
-import error_ from 'lib/error'
-
+// Wrapping model updates to recover the previous value on fails
 // - model:
 // pass a unique model at the updater definition
 // (ex: to update the mainUser: app.user)
@@ -46,7 +46,7 @@ const Updater = function (fixedOptions) {
 
       promise = preq.put(endpoint, body)
       .then(applyHookUpdates(model))
-      .tap(ConfirmUpdate(model, attribute, value))
+      .then(tap(ConfirmUpdate(model, attribute, value)))
       .catch(rollbackUpdate.bind(null, options))
     }
 

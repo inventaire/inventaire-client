@@ -57,14 +57,11 @@ export default Backbone.Model.extend({
     }))
   },
 
-  getEntityModel () {
-    // Always return a promise
-    return Promise.try(() => {
-      // Duck typing an entity model
-      if (this.get('claims') != null) { return this }
-      const entry = this.serializeResolverEntry()
-      return app.request('entity:exists:or:create:from:seed', entry)
-    })
+  async getEntityModel () {
+    // Duck typing an entity model
+    if (this.get('claims') != null) return this
+    const entry = this.serializeResolverEntry()
+    return app.request('entity:exists:or:create:from:seed', entry)
   },
 
   serializeResolverEntry () {

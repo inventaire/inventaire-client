@@ -11,7 +11,7 @@ const specificMethods = {
     // Take the label from the monolingual title property
     const title = this.get('claims.wdt:P1476.0')
     // inv collections will always have a title, but not the wikidata ones
-    if (title != null) { return this.set('label', title) }
+    if (title != null) return this.set('label', title)
   },
 
   setClaimsBasedAttributes () {
@@ -22,12 +22,12 @@ const specificMethods = {
     return this.setClaimsBasedAttributes()
   },
 
-  getChildrenCandidatesUris () {
+  async getChildrenCandidatesUris () {
     const publishersUris = this.get('claims.wdt:P123')
-    if (publishersUris == null) { return Promise.resolve([]) }
+    if (publishersUris == null) return []
 
-    return app.request('get:entities:models', { uris: publishersUris })
-    .then(models => Promise.all(_.invoke(models, 'initPublisherPublications'))
-    .then(() => _.flatten(_.pluck(models, 'isolatedEditionsUris'))))
+    const models = await app.request('get:entities:models', { uris: publishersUris })
+    await Promise.all(_.invoke(models, 'initPublisherPublications'))
+    return _.flatten(_.pluck(models, 'isolatedEditionsUris'))
   }
 }

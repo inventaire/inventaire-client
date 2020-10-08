@@ -1,3 +1,4 @@
+import { props as promiseProps } from 'lib/promises'
 import { isModel, isEntityUri } from 'lib/boolean_tests'
 import { forceArray } from 'lib/utils'
 import log_ from 'lib/loggers'
@@ -46,9 +47,9 @@ const getMissingUris = function (uris) {
 }
 
 // This is where the magic happens: we are picking values from an object made of
-// entity models and promises of entity models, but Promise.props transforms it into
+// entity models and promises of entity models, but promiseProps transforms it into
 // a unique promise of an index of entity models
-const pickEntitiesModelsPromises = uris => Promise.props(_.pick(entitiesModelsIndexedByUri, uris))
+const pickEntitiesModelsPromises = uris => promiseProps(_.pick(entitiesModelsIndexedByUri, uris))
 
 const populateIndexWithMissingEntitiesModelsPromises = function (uris, refresh, defaultType) {
   const getEntitiesPromise = getRemoteEntitiesModels(uris, refresh, defaultType)

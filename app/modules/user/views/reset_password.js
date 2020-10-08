@@ -1,3 +1,4 @@
+import { tryAsync } from 'lib/promises'
 import log_ from 'lib/loggers'
 import password_ from 'modules/user/lib/password_tests'
 import forms_ from 'modules/general/lib/forms'
@@ -40,7 +41,7 @@ export default Marionette.ItemView.extend({
   updatePassword () {
     const password = this.ui.password.val()
 
-    return Promise.try(() => password_.pass(password, '#finalAlertbox'))
+    return tryAsync(() => password_.pass(password, '#finalAlertbox'))
     .then(this.startLoading.bind(this, '#updatePassword'))
     .then(this.ifViewIsIntact('updateUserPassword', password))
     .then(this.ifViewIsIntact('passwordSuccessCheck'))

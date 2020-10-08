@@ -1,3 +1,4 @@
+import { tryAsync } from 'lib/promises'
 // add name => creates group
 // invite friends
 // invite by email
@@ -83,7 +84,7 @@ export default GroupLayoutView.extend({
 
     log_.info(data, 'group data')
 
-    return Promise.try(groups_.validateName.bind(this, name, '#nameField'))
+    return tryAsync(groups_.validateName.bind(this, name, '#nameField'))
     .then(groups_.validateDescription.bind(this, description, '#description'))
     .then(groups_.createGroup.bind(null, data))
     .then(model => {

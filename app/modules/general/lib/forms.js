@@ -15,11 +15,14 @@ forms_.pass = function (options) {
 }
 
 // verifies field value before the form is submitted
-forms_.earlyVerify = function (view, e, verificator) {
+forms_.earlyVerify = async (view, e, verificator) => {
   // dont show early alert for empty fields as it feels a bit agressive
   if ($(e.target)?.val() !== '') {
-    return Promise.try(verificator)
-    .catch(forms_.catchAlert.bind(null, view))
+    try {
+      await verificator()
+    } catch (err) {
+      forms_.catchAlert(view, err)
+    }
   }
 }
 
@@ -31,7 +34,7 @@ forms_.earlyVerify = function (view, e, verificator) {
 // otherwise it's an operational error
 // ex:
 // (in a View context)
-// Promise.try doThingsThatThrowsErrorsWithSelector
+// doThingsThatThrowsErrorsWithSelector
 // .catch forms_.catchAlert.bind(null, @)
 // The selector can be any element, the alert-box will be appended to its parent
 forms_.catchAlert = function (view, err) {

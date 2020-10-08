@@ -12,7 +12,7 @@ const specificMethods = {
 
   initPublisherPublications (refresh) {
     refresh = this.getRefresh(refresh)
-    if (!refresh && (this.waitForPublications != null)) { return this.waitForPublications }
+    if (!refresh && this.waitForPublications != null) return this.waitForPublications
 
     this.waitForPublications = this.fetchPublisherPublications(refresh)
       .then(this.initPublicationsCollections.bind(this))
@@ -21,7 +21,7 @@ const specificMethods = {
   },
 
   fetchPublisherPublications (refresh) {
-    if (!refresh && (this.waitForPublicationsData != null)) { return this.waitForPublicationsData }
+    if (!refresh && this.waitForPublicationsData != null) return this.waitForPublicationsData
     const uri = this.get('uri')
     this.waitForPublicationsData = preq.get(app.API.entities.publisherPublications(uri, refresh))
     return this.waitForPublicationsData
@@ -36,6 +36,6 @@ const specificMethods = {
 }
 
 const isntInAKnownCollection = collectionsUris => function (edition) {
-  if (edition.collection == null) { return true }
+  if (edition.collection == null) return true
   return !collectionsUris.includes(edition.collection)
 }

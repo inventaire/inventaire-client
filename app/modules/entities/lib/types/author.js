@@ -21,7 +21,7 @@ const setEbooksData = function () {
 
 const specificMethods = {
   fetchWorksData (refresh) {
-    if (!refresh && (this.waitForWorksData != null)) { return this.waitForWorksData }
+    if (!refresh && this.waitForWorksData != null) return this.waitForWorksData
     const uri = this.get('uri')
     this.waitForWorksData = preq.get(app.API.entities.authorWorks(uri, refresh))
     return this.waitForWorksData
@@ -29,7 +29,7 @@ const specificMethods = {
 
   initAuthorWorks (refresh) {
     refresh = this.getRefresh(refresh)
-    if (!refresh && (this.waitForWorks != null)) { return this.waitForWorks }
+    if (!refresh && this.waitForWorks != null) return this.waitForWorks
 
     this.waitForWorks = this.fetchWorksData(refresh).then(this.initWorksCollections.bind(this))
     return this.waitForWorks

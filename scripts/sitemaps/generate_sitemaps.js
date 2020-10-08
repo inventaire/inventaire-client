@@ -20,25 +20,22 @@ export default function () {
   return generateFilesSequentially()
 }
 
-const generateFilesFromQuery = function (name) {
+const generateFilesFromQuery = async name => {
   console.log(green(`${name} query`), queries[name])
-  return breq.get({
+  const { body: results } = await breq.get({
     url: queries[name],
     headers: {
       'user-agent': 'inventaire-client (https://github.com/inventaire/inventaire-client)'
     }
   })
-  .get('body')
-  .then(results => {
-    try {
-      return wdk.simplifySparqlResults(results)
-    } catch (err) {
-      console.error('failed to parse SPARQL results', results)
-      throw err
-    }
-  })
-  .then(getParts(name))
-  .map(generateFile)
+  try {
+    const simplifiedResults = await wdk.simplifySparqlResults(results)
+    return getParts(name, simplifiedResults)
+    .map(generateFile)
+  } catch (err) {
+    console.error('failed to parse SPARQL results', results)
+    throw err
+  }
 }
 
 const getParts = name => function (items) {

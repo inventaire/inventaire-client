@@ -54,12 +54,13 @@ export default Marionette.ItemView.extend({
     .catch(this.Fail('item request err'))
   },
 
-  postRequest () {
-    return preq.post(app.API.transactions, {
+  async postRequest () {
+    const { transaction } = await preq.post(app.API.transactions, {
       action: 'request',
       item: this.model.id,
       message: this.ui.message.val()
-    }).get('transaction')
+    })
+    return transaction
   }
 })
 

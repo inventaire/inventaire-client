@@ -38,17 +38,14 @@ export default Marionette.CompositeView.extend({
     }
   },
 
-  fetchNames () {
+  async fetchNames () {
     startLoading.call(this, '.authors-loading')
 
-    return preq.get(app.API.entities.duplicates)
-    .get('names')
-    .then(log_.Info('names'))
-    .tap(stopLoading.bind(this))
-    .then(names => {
-      this.names = names
-      this.render()
-    })
+    const { names } = await preq.get(app.API.entities.duplicates)
+    log_.info(names, 'names')
+    stopLoading(this)
+    this.names = names
+    this.render()
   },
 
   serializeData () { return { names: this.names } },

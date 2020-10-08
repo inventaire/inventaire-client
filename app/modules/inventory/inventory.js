@@ -1,5 +1,4 @@
 import { isEntityUri, isUsername, isItemId } from 'lib/boolean_tests'
-
 import assert_ from 'lib/assert_types'
 import log_ from 'lib/loggers'
 import ItemShow from './views/item_show'
@@ -218,19 +217,18 @@ const initializeInventoriesHandlers = function (app) {
     'items:update': itemActions.update,
     'items:delete': itemActions.delete,
     'item:create': itemActions.create,
-    'item:main:user:entity:items' (entityUri) {
-      return app.request('items:getByUserIdAndEntities', app.user.id, entityUri)
-      .get('models')
+    'item:main:user:entity:items': async entityUri => {
+      const { models } = await app.request('items:getByUserIdAndEntities', app.user.id, entityUri)
+      return models
     },
-    'item:update:entity' (item, entity) {
-      return itemActions.update({
+    'item:update:entity': async (item, entity) => {
+      await itemActions.update({
         item,
         attribute: 'entity',
         value: entity.get('uri')
-      }).delay(500)
-      // before requesting an updated item
-      .then(() => app.request('get:item:model', item.get('_id')))
-      .then(updatedItem => app.execute('show:item', updatedItem))
+      })
+      const updatedItem = await app.request('get:item:model', item.get('_id'))
+      return app.execute('show:item', updatedItem)
     }
   })
 }

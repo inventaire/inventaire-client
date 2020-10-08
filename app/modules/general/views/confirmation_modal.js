@@ -1,3 +1,4 @@
+import { tryAsync } from 'lib/promises'
 import { isNonEmptyString } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
 import getActionKey from 'lib/get_action_key'
@@ -44,7 +45,7 @@ export default Marionette.ItemView.extend({
 
   yes () {
     const { action, selector } = this.options
-    return Promise.try(this.executeFormAction.bind(this))
+    return tryAsync(this.executeFormAction.bind(this))
     .then(action)
     .then(this.success.bind(this))
     .catch(this.error.bind(this))

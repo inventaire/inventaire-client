@@ -8,7 +8,7 @@ const suggestionsPerProperties = {
   'wdt:P629': wdtP629
 }
 
-export default (property, model) => Promise.try(() => {
+export default async (property, model) => {
   const getSuggestions = suggestionsPerProperties[property]
   if (getSuggestions == null) return
 
@@ -16,4 +16,4 @@ export default (property, model) => Promise.try(() => {
   const index = model.collection.indexOf(model)
   const propertyValuesCount = model.collection.length
   return getSuggestions(entity, index, propertyValuesCount)
-})
+}

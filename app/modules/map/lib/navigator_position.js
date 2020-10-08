@@ -1,5 +1,6 @@
 import log_ from 'lib/loggers'
 import geo from './geo'
+import pTimeout from 'p-timeout'
 const { truncateDecimals } = geo
 
 // doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
@@ -35,8 +36,7 @@ const returnPlaceholderCoords = function (err) {
 }
 
 export default containerId => {
-  return currentPosition()
-  .timeout(10 * 1000)
+  pTimeout(currentPosition(), 10 * 1000)
   .then(normalizeCoords)
   .then(log_.Info('current position'))
   .catch(returnPlaceholderCoords)

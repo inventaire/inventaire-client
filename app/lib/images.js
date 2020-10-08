@@ -8,18 +8,20 @@ const images_ = {
   addDataUrlToArray (file, array, event) {
     return resize.photo(file, 600, 'dataURL', data => {
       array.unshift(data)
-      if ((array.trigger != null) && (event != null)) { return array.trigger(event) }
+      if (array.trigger != null && event != null) {
+        return array.trigger(event)
+      }
     })
   },
 
-  getUrlDataUrl (url) {
-    return preq.get(app.API.images.dataUrl(url))
-    .get('data-url')
+  async getUrlDataUrl (url) {
+    const { 'data-url': dataUrl } = await preq.get(app.API.images.dataUrl(url))
+    return dataUrl
   },
 
-  getUserGravatarUrl () {
-    return preq.get(app.API.images.gravatar)
-    .get('url')
+  async getUserGravatarUrl () {
+    const { url } = await preq.get(app.API.images.gravatar)
+    return url
   },
 
   getElementDataUrl ($el) {

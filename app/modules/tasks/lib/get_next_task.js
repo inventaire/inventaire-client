@@ -23,38 +23,32 @@ export default function (params = {}) {
   return getNextTaskByScore(params)
 };
 
-const getNextTaskBySuggestionUri = function (params) {
+const getNextTaskBySuggestionUri = async params => {
   const { lastTaskModel, previousTasks } = params
   const suggestionUri = lastTaskModel.get('suggestionUri')
 
-  return preq.get(app.API.tasks.bySuggestionUris(suggestionUri))
-  .get('tasks')
-  .get(suggestionUri)
-  .filter(removePreviousTasks(previousTasks))
-  .then(tasks => {
-    suggestionUrisFetched.push(suggestionUri)
-    if (tasks.length === 0) { return getNextTaskByScore(params) }
-    return updateBacklogAndGetNextTask(tasks, 'byAuthor')
-  })
+  const { tasks } = await preq.get(app.API.tasks.bySuggestionUris(suggestionUri))
+  let suggestionUriTasks = tasks[suggestionUri]
+  suggestionUriTasks = suggestionUriTasks.filter(removePreviousTasks(previousTasks))
+  suggestionUrisFetched.push(suggestionUri)
+  if (suggestionUriTasks.length === 0) return getNextTaskByScore(params)
+  else return updateBacklogAndGetNextTask(tasks, 'byAuthor')
 }
 
-const getNextTaskByScore = function (params) {
-  let previousTasks
-  if (backlogs.byScore.length !== 0) { return Promise.resolve(nextTaskModel('byScore')) }
-  ({ offset, previousTasks } = params)
+const getNextTaskByScore = async params => {
+  if (backlogs.byScore.length !== 0) return nextTaskModel('byScore')
+  const { previousTasks } = params
+  offset = params.offset
 
   // If an offset isn't specified, use a random offset between 0 and 500
   // to allow several contributors to work with the bests tasks at the same time
   // while having a low risk of conflicting
-  if (offset == null) { offset = Math.trunc(Math.random() * 500) }
+  if (offset == null) offset = Math.trunc(Math.random() * 500)
 
-  return preq.get(app.API.tasks.byScore(limit, offset))
-  .get('tasks')
-  .filter(removePreviousTasks(previousTasks))
-  .then(tasks => {
-    offset += tasks.length
-    return updateBacklogAndGetNextTask(tasks, 'byScore')
-  })
+  let { tasks } = await preq.get(app.API.tasks.byScore(limit, offset))
+  tasks = tasks.filter(removePreviousTasks(previousTasks))
+  offset += tasks.length
+  return updateBacklogAndGetNextTask(tasks, 'byScore')
 }
 
 const removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id)

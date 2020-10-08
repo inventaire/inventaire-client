@@ -36,7 +36,8 @@ export default Entities.extend({
       uris: urisToFetch,
       refresh: this.refresh,
       defaultType: this.defaultType
-    }).filter(this.filterOutUndesiredTypes.bind(this))
+    })
+    .then(models => models.filter(this.filterOutUndesiredTypes.bind(this)))
     .then(this.add.bind(this))
     .catch(rollback)
   },

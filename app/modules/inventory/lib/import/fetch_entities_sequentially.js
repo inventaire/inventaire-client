@@ -36,7 +36,7 @@ export default function (isbnsData) {
     return app.vent.trigger('progression:ISBNs', { done, total })
   }
 
-  const fetchOneByOne = function () {
+  const fetchOneByOne = async () => {
     const nextUri = uris.pop()
     if (nextUri == null) return
 
@@ -46,7 +46,7 @@ export default function (isbnsData) {
       _.extend(commonRes.redirects, res.redirects)
       res.notFound?.forEach(pushNotFound(isbnsIndex, commonRes))
     })
-    .tap(updateProgression)
+    .then(updateProgression)
     // Log errors without throwing to prevent crashing the whole chain
     .catch(log_.Error('fetchOneByOne err'))
     .then(fetchOneByOne)

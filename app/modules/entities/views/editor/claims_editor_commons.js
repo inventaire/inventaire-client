@@ -2,6 +2,7 @@ import { i18n } from 'modules/user/lib/i18n'
 import EditorCommons from './editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import properties from 'modules/entities/lib/properties'
+import { wait } from 'lib/promises'
 
 // Methods that can't be on editor_commons because ./labels_editor is structured differently:
 // while property values are having an ad-hoc model created, labels just use their entity's
@@ -51,7 +52,7 @@ export default EditorCommons.extend({
     .catch(this._catchAlert.bind(this))
   },
 
-  _bareSave (newValue) {
+  async _bareSave (newValue) {
     const uri = this.model.entity.get('uri')
 
     const promise = this.model.saveValue(newValue)
@@ -61,15 +62,15 @@ export default EditorCommons.extend({
     // doesn't appear null for @hideEditMode
     this.hideEditMode()
 
-    return promise
-    .catch(err => {
+    try {
+      return await promise
+    } catch (err) {
       // Re-display the edit mode to show the alert
       this.showEditMode()
-      return Promise.resolve()
       // Throw the error after the view lazy re-rendered
-      .delay(250)
-      .then(() => { throw err })
-    })
+      await wait(250)
+      throw err
+    }
   },
 
   _catchAlert (err) {

@@ -10,8 +10,7 @@ export default function () {
 
 const generate = () => wrapIndex(getList().map(buildSitemapNode))
 
-const getList = () => fs.readdirSync(folder)
-.filter(file => !exclude.includes(file))
+const getList = () => fs.readdirSync(folder).filter(file => !exclude.includes(file))
 
 const buildSitemapNode = function (filename) {
   const url = `https://inventaire.io/${publicPath}/${filename}`

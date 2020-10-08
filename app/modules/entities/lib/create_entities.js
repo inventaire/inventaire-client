@@ -7,6 +7,7 @@ import createEntity from './create_entity'
 import { addModel as addEntityModel } from 'modules/entities/lib/entities_models_index'
 import graphRelationsProperties from './graph_relations_properties'
 import getOriginalLang from 'modules/entities/lib/get_original_lang'
+import { tap } from 'lib/promises'
 
 const createWorkEdition = function (workEntity, isbn) {
   assert_.types(arguments, [ 'object', 'string' ])
@@ -101,10 +102,10 @@ const subjectEntityP31ByProperty = {
 const createAndGetEntity = function (params) {
   const { claims } = params
   return createEntity(params)
-  .tap(triggerEntityGraphChangesEvents(claims))
+  .then(tap(triggerEntityGraphChangesEvents(claims)))
   .then(entityData => new Entity(entityData))
   // Update the local cache
-  .tap(addEntityModel)
+  .then(tap(addEntityModel))
 }
 
 const triggerEntityGraphChangesEvents = claims => function () {

@@ -5,14 +5,14 @@ const PartSuggestion = WorkPicker.extend({
   tagName: 'li',
   className () {
     let className = 'serie-cleanup-part-suggestion'
-    if (this.model.get('labelMatch')) { className += ' label-match' }
-    if (this.model.get('authorMatch')) { className += ' author-match' }
+    if (this.model.get('labelMatch')) className += ' label-match'
+    if (this.model.get('authorMatch')) className += ' author-match'
     return className
   },
 
   template: serieCleanupPartSuggestionTemplate,
   initialize () {
-    this.isWikidataEntity = (this.workPickerDisabled = this.model.get('isWikidataEntity'))
+    this.isWikidataEntity = this.workPickerDisabled = this.model.get('isWikidataEntity')
     WorkPicker.prototype.initialize.call(this)
     this.listenTo(this.model, 'change:image', this.render.bind(this))
   },
@@ -43,8 +43,9 @@ const PartSuggestion = WorkPicker.extend({
     return work.editions.add(this.model.editions.models)
   },
 
-  events: _.extend({}, WorkPicker.prototype.events,
-    { 'click a.add': 'add' }),
+  events: _.extend({}, WorkPicker.prototype.events, {
+    'click a.add': 'add'
+  }),
 
   add () {
     this.model.setPropertyValue('wdt:P179', null, this.options.serie.get('uri'))

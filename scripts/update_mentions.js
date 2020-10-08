@@ -11,7 +11,6 @@ const { omit } = lodash
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
 
-
 const csvFile = './scripts/assets/mentions.csv'
 const jsonFile = './public/json/mentions.json'
 

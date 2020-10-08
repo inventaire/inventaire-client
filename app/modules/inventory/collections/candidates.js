@@ -10,10 +10,10 @@ export default Backbone.Collection.extend({
 
   selectionIsntEmpty () { return this.any(isSelected) },
 
-  addNewCandidates (newCandidates) {
+  async addNewCandidates (newCandidates) {
     const alreadyAddedIsbns = this.pluck('normalizedIsbn')
     const remainingCandidates = newCandidates.filter(isNewCandidate(alreadyAddedIsbns))
-    if (remainingCandidates.length === 0) { return Promise.resolve([]) }
+    if (remainingCandidates.length === 0) return []
     return addExistingEntityItemsCounts(remainingCandidates)
     .then(this.add.bind(this))
   }
@@ -26,7 +26,7 @@ const setSelected = bool => function (model) {
 }
 
 const isNewCandidate = alreadyAddedIsbns => function (candidateData) {
-  if ((candidateData.title == null) && (candidateData.normalizedIsbn == null)) { return false }
+  if ((candidateData.title == null) && (candidateData.normalizedIsbn == null)) return false
   return !alreadyAddedIsbns.includes(candidateData.normalizedIsbn)
 }
 

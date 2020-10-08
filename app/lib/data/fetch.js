@@ -1,3 +1,5 @@
+import pTimeout from 'p-timeout'
+
 // Fetching data in a standardized way:
 // - use the passed collection or create one using the Collection class
 //   attaching it to window.app
@@ -21,10 +23,9 @@ export default function (options) {
     fetchPromise = Promise.resolve()
   }
 
-  fetchPromise
-  .timeout(10000)
+  pTimeout(fetchPromise, 10000)
   .then(app.Execute('waiter:resolve', name))
   .catch(app.Execute('waiter:reject', name))
 
   return fetchPromise
-};
+}

@@ -1,3 +1,4 @@
+import { props as promiseProps } from 'lib/promises'
 // One unique Entity model to rule them all
 // but with specific initializers:
 // - By source:
@@ -150,7 +151,7 @@ export default Filterable.extend({
     if (invId != null) { return this.set('altUri', `inv:${invId}`) }
   },
 
-  fetchSubEntities (refresh) {
+  async fetchSubEntities (refresh) {
     refresh = this.getRefresh(refresh)
     if (!refresh && this.waitForSubentities != null) return this.waitForSubentities
 
@@ -222,7 +223,7 @@ export default Filterable.extend({
   },
 
   executeMetadataUpdate () {
-    return Promise.props({
+    return promiseProps({
       title: this.buildTitle(),
       description: this.findBestDescription()?.slice(0, 501),
       image: this.getImageSrcAsync(),

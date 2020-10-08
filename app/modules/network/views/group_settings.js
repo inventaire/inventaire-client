@@ -1,3 +1,4 @@
+import { tryAsync } from 'lib/promises'
 import { isUserImg } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
 import { I18n, i18n } from 'modules/user/lib/i18n'
@@ -109,7 +110,7 @@ export default Marionette.ItemView.extend({
   editName () {
     const name = this.ui.editNameField.val()
     if (name != null) {
-      return Promise.try(groups_.validateName.bind(this, name, '#editNameField'))
+      return tryAsync(groups_.validateName.bind(this, name, '#editNameField'))
       .then(() => this._updateGroup('name', name, '#editNameField'))
       .catch(forms_.catchAlert.bind(null, this))
     }
@@ -175,7 +176,7 @@ export default Marionette.ItemView.extend({
     this._saveCancelShown = false
     const description = this.ui.description.val()
     if (description != null) {
-      return Promise.try(groups_.validateDescription.bind(this, description, '#description'))
+      return tryAsync(groups_.validateDescription.bind(this, description, '#description'))
       .then(() => this._updateGroup('description', description, '#description'))
       .catch(forms_.catchAlert.bind(null, this))
     }

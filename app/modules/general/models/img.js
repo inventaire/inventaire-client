@@ -78,18 +78,19 @@ export default Backbone.NestedModel.extend({
     return this.get(a)[value] !== this.get(b)[value]
   },
 
-  getFinalUrl () {
-    if (this.crop) { this.setCroppedDataUrl() }
+  async getFinalUrl () {
+    if (this.crop) this.setCroppedDataUrl()
     // testing the original url existance as it imageHasChanged alone
     // wouldn't detect that a new image from file
     const originalUrl = this.get('url')
-    if ((originalUrl != null) && !this.imageHasChanged()) { return Promise.resolve(originalUrl) }
+    if ((originalUrl != null) && !this.imageHasChanged()) return originalUrl
 
-    return images_.upload(container, {
+    const urls = await images_.upload(container, {
       blob: images_.dataUrlToBlob(this.getFinalDataUrl()),
       id: this.cid
     })
-    .get(this.cid)
-    .then(log_.Info('url?'))
+    const url = urls[this.cid]
+    log_.info(url, 'url')
+    return url
   }
 })

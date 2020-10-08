@@ -29,19 +29,17 @@ const showDefaultSuggestions = function () {
   }
 }
 
-const addNextDefaultSuggestionsBatch = function () {
+const addNextDefaultSuggestionsBatch = async function () {
   const uris = this._remainingDefaultSuggestionsUris
   if (uris.length === 0) { return Promise.resolve() }
 
   const nextBatch = uris.slice(0, batchLength)
   this._remainingDefaultSuggestionsUris = uris.slice(batchLength)
 
-  return app.request('get:entities:models', { uris: nextBatch })
-  .map(prepareSearchResult)
-  .then((results = []) => {
-    this._defaultSuggestions.push(...results)
-    return this.suggestions.add(results)
-  })
+  let results = await app.request('get:entities:models', { uris: nextBatch })
+  results = (results || []).map(prepareSearchResult)
+  this._defaultSuggestions.push(...results)
+  return this.suggestions.add(results)
 }
 
 export { addDefaultSuggestionsUris, addNextDefaultSuggestionsBatch, showDefaultSuggestions }

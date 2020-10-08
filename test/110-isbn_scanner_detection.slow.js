@@ -1,8 +1,7 @@
 import 'should'
 import __ from '../root'
-
-// As window is defined in utils_builder, this defines window.ISBN
 import 'isbn2'
+import { wait } from 'lib/promises'
 
 const OnDetected = __.require('modules', 'inventory/lib/scanner/on_detected')
 const fakeResult = isbn => ({
@@ -13,64 +12,46 @@ const validIsbn2 = '9781857028959'
 const interScanDelay = 200 + 10
 
 describe('isbn scanner detection', () => {
-  it('should not add an isbn on the first scan', done => {
+  it('should not add an isbn on the first scan', async () => {
     const addedIsbns = []
     const addIsbn = result => addedIsbns.push(result)
     const onDetected = OnDetected({ addIsbn })
     onDetected(fakeResult(validIsbn))
     addedIsbns.should.deepEqual([])
-    done()
   })
 
-  it('should add an isbn after 2 successive scans', done => {
+  it('should add an isbn after 2 successive scans', async () => {
     const addedIsbns = []
     const addIsbn = result => addedIsbns.push(result)
     const onDetected = OnDetected({ addIsbn })
     onDetected(fakeResult(validIsbn))
-    Promise.resolve()
-    .delay(interScanDelay)
-    .then(() => {
-      onDetected(fakeResult(validIsbn))
-      addedIsbns.should.deepEqual([ validIsbn ])
-      done()
-    })
-    .catch(done)
+    await wait(interScanDelay)
+    onDetected(fakeResult(validIsbn))
+    addedIsbns.should.deepEqual([ validIsbn ])
   })
 
-  it('should not add an isbn if preceded by a different valid isbn', done => {
+  it('should not add an isbn if preceded by a different valid isbn', async () => {
     const addedIsbns = []
     const addIsbn = result => addedIsbns.push(result)
     const onDetected = OnDetected({ addIsbn })
     onDetected(fakeResult(validIsbn))
-    Promise.resolve()
-    .delay(interScanDelay)
-    .then(() => {
-      onDetected(fakeResult(validIsbn2))
-      addedIsbns.should.deepEqual([])
-      done()
-    })
-    .catch(done)
+    await wait(interScanDelay)
+    onDetected(fakeResult(validIsbn2))
+    addedIsbns.should.deepEqual([])
   })
 
-  it('should add an isbn after 2 successive scans, even if another valid isbn was scanned before', done => {
+  it('should add an isbn after 2 successive scans, even if another valid isbn was scanned before', async () => {
     const addedIsbns = []
     const addIsbn = result => addedIsbns.push(result)
     const onDetected = OnDetected({ addIsbn })
     onDetected(fakeResult(validIsbn))
-    Promise.resolve()
-    .delay(interScanDelay)
-    .then(() => onDetected(fakeResult(validIsbn2)))
-    .delay(interScanDelay)
-    .then(() => {
-      onDetected(fakeResult(validIsbn))
-      return addedIsbns.should.deepEqual([])
-    })
-    .delay(interScanDelay)
-    .then(() => {
-      onDetected(fakeResult(validIsbn))
-      addedIsbns.should.deepEqual([ validIsbn ])
-      done()
-    })
-    .catch(done)
+    await wait(interScanDelay)
+    onDetected(fakeResult(validIsbn2))
+    await wait(interScanDelay)
+    onDetected(fakeResult(validIsbn))
+    await addedIsbns.should.deepEqual([])
+    await wait(interScanDelay)
+    onDetected(fakeResult(validIsbn))
+    addedIsbns.should.deepEqual([ validIsbn ])
   })
 })

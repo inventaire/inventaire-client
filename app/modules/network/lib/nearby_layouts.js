@@ -6,7 +6,7 @@ const { updateRoute, updateRouteFromEvent, BoundFilter } = map_
 const containerId = 'mapContainer'
 const containerSelector = '#' + containerId
 
-const initMap = function (params) {
+const initMap = async params => {
   const { view, query } = params
 
   // Do not redefine the updateRoute variable: access from params object
@@ -14,13 +14,14 @@ const initMap = function (params) {
 
   startLoading.call(view, containerSelector)
 
-  return Promise.all([
+  const [ coords ] = await Promise.all([
     solvePosition(query),
     app.request('map:before')
   ])
-  .tap(stopLoading.bind(view, containerSelector))
-  .spread(drawMap.bind(null, params))
-  .then(initEventListners.bind(null, params))
+  stopLoading.call(view, containerSelector)
+  const map = drawMap(params, coords)
+  initEventListners(params, map)
+  return map
 }
 
 const solvePosition = function (coords = {}) {
@@ -49,13 +50,13 @@ const drawMap = function (params, coords) {
 
   showObjects(map)
 
-  if (params.updateRoute) { updateRoute(path, lat, lng, zoom) }
+  if (params.updateRoute) updateRoute(path, lat, lng, zoom)
 
   assert_.object(map)
   return map
 }
 
-const initEventListners = function (params, map) {
+const initEventListners = (params, map) => {
   assert_.object(map)
   const { path, onMoveend } = params
 
@@ -65,8 +66,6 @@ const initEventListners = function (params, map) {
   }
 
   map.on('moveend', onMoveend)
-
-  return map
 }
 
 export default {

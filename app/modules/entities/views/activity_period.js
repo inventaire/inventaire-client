@@ -24,16 +24,13 @@ export default Marionette.CompositeView.extend({
   addToCollection (activityRows) { return this.collection.add(activityRows) }
 })
 
-const addUsersData = function (res) {
+const addUsersData = async res => {
   const { activity: activityRows } = res
   if (activityRows.length === 0) return
 
   const usersIds = activityRows.map(_.property('user'))
 
-  return preq.get(app.API.users.byIds(usersIds))
-  .get('users')
-  .then(users => {
-    activityRows.forEach(row => { row.user = users[row.user] })
-    return activityRows
-  })
+  const { users } = await preq.get(app.API.users.byIds(usersIds))
+  activityRows.forEach(row => { row.user = users[row.user] })
+  return activityRows
 }

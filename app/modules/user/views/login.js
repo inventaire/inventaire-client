@@ -1,3 +1,4 @@
+import { tryAsync } from 'lib/promises'
 import { isEmail } from 'lib/boolean_tests'
 import username_ from 'modules/user/lib/username_tests'
 import password_ from 'modules/user/lib/password_tests'
@@ -45,7 +46,7 @@ export default Marionette.ItemView.extend({
   },
 
   classicLoginAttempt () {
-    return Promise.try(this.verifyUsername.bind(this))
+    return tryAsync(this.verifyUsername.bind(this))
     .then(this.verifyPassword.bind(this))
     .then(this.classicLogin.bind(this))
     .catch(forms_.catchAlert.bind(null, this))

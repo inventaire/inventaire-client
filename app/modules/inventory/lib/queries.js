@@ -1,5 +1,6 @@
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
+import { tap } from 'lib/promises'
 import Item from 'modules/inventory/models/item'
 import Items from 'modules/inventory/collections/items'
 import getEntitiesItemsCount from './get_entities_items_count'
@@ -45,25 +46,25 @@ const makeRequest = function (params, endpoint, ids, filter) {
   const { collection, limit, offset } = params
   return preq.get(app.API.items[endpoint]({ ids, limit, offset, filter }))
   // Use tap to return the server response instead of the collection
-  .tap(addItemsAndUsers(collection))
+  .then(tap(addItemsAndUsers(collection)))
 }
 
 const getNearbyItems = function (params) {
   const { collection, limit, offset } = params
   return preq.get(app.API.items.nearby(limit, offset))
-  .tap(addItemsAndUsers(collection))
+  .then(tap(addItemsAndUsers(collection)))
 }
 
 const getLastPublic = function (params) {
   const { collection, limit, offset, assertImage } = params
   return preq.get(app.API.items.lastPublic(limit, offset, assertImage))
-  .tap(addItemsAndUsers(collection))
+  .then(tap(addItemsAndUsers(collection)))
 }
 
 const getRecentPublic = function (params) {
   const { collection, limit, lang, assertImage } = params
   return preq.get(app.API.items.recentPublic(limit, lang, assertImage))
-  .tap(addItemsAndUsers(collection))
+  .then(tap(addItemsAndUsers(collection)))
 }
 
 const getItemByQueryUrl = function (queryUrl) {

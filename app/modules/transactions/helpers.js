@@ -54,7 +54,9 @@ const initLateHelpers = function () {
       return filtered
     }
 
-    const getOngoingTransactionsModelsByItemId = itemId => app.transactions.filter(transac => (transac.get('item') === itemId) && !transac.archived)
+    const getOngoingTransactionsModelsByItemId = itemId => {
+      return app.transactions.filter(transac => (transac.get('item') === itemId) && !transac.archived)
+    }
 
     const getOneOngoingTransactionByItemId = itemId => getOngoingTransactionsModelsByItemId(itemId)[0]
 

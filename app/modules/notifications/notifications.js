@@ -51,11 +51,10 @@ const API = {
   }
 }
 
-const getNotificationsData = function () {
-  if (!app.user.loggedIn) { return Promise.resolve() }
+const getNotificationsData = async () => {
+  if (!app.user.loggedIn) return
 
-  return preq.get(app.API.notifications)
-  .get('notifications')
-  .then(notifications.addPerType.bind(notifications))
+  const { notifications: userNotifications } = await preq.get(app.API.notifications)
+  return notifications.addPerType(userNotifications)
   .catch(log_.ErrorRethrow('notifications init err'))
 }

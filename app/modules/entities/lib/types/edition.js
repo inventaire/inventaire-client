@@ -2,6 +2,7 @@ import { unprefixify } from 'lib/wikimedia/wikidata'
 import wdLang from 'wikidata-lang'
 import getEntityItemsByCategories from '../get_entity_items_by_categories'
 import error_ from 'lib/error'
+import { tap } from 'lib/promises'
 const farInTheFuture = '2100'
 
 export default function () {
@@ -47,7 +48,7 @@ const specificMethods = {
 
   getItemsByCategories: getEntityItemsByCategories,
 
-  initWorksRelations () {
+  async initWorksRelations () {
     // Works is pluralized to account for composite editions
     // cf https://github.com/inventaire/inventaire/issues/93
     const worksUris = this.get('claims.wdt:P629')
@@ -65,10 +66,10 @@ const specificMethods = {
 
     this.waitForWorks = this.reqGrab('get:entities:models', { uris: worksUris }, 'works')
       // Use tap to ignore the return values
-      .tap(inheritData.bind(this))
+      .then(tap(inheritData.bind(this)))
       // Got to be initialized after inheritData is run to avoid running
       // several times at initialization
-      .tap(startListeningForClaimsChanges.bind(this))
+      .then(tap(startListeningForClaimsChanges.bind(this)))
   },
 
   // Editions don't have subentities

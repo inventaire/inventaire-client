@@ -1,3 +1,4 @@
+import { tryAsync } from 'lib/promises'
 import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 let username_
@@ -20,7 +21,7 @@ export default username_ = {
   }
 }
 
-username_.verifyUsername = (username, selector) => Promise.try(username_.pass.bind(null, username, selector))
+username_.verifyUsername = (username, selector) => tryAsync(username_.pass.bind(null, username, selector))
 .then(username_.verifyAvailability.bind(null, username, selector))
 
 const usernameTests = {

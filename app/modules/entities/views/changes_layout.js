@@ -60,5 +60,7 @@ export default Marionette.CompositeView.extend({
   }
 })
 
-const fetchChanges = () => preq.get(app.API.entities.changes)
-.get('uris')
+const fetchChanges = async () => {
+  const { uris } = await preq.get(app.API.entities.changes)
+  return uris
+}

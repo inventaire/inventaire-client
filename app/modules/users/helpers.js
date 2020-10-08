@@ -13,8 +13,8 @@ export default function (app) {
   }
 
   const async = {
-    getUserModel (id, refresh) {
-      if (id === app.user.id) return Promise.resolve(app.user)
+    async getUserModel (id, refresh) {
+      if (id === app.user.id) return app.user
 
       const model = app.users.byId(id)
       if ((model != null) && !refresh) {
@@ -25,7 +25,7 @@ export default function (app) {
       }
     },
 
-    getUsersModels (ids) {
+    async getUsersModels (ids) {
       const foundUsersModels = []
       const missingUsersIds = []
       for (const id of ids) {
@@ -36,7 +36,7 @@ export default function (app) {
       }
 
       if (missingUsersIds.length === 0) {
-        return Promise.resolve(foundUsersModels)
+        return foundUsersModels
       } else {
         return usersData.get(missingUsersIds, 'collection')
         .then(addUsers)
@@ -44,13 +44,15 @@ export default function (app) {
       }
     },
 
-    resolveToUserModel (user) {
+    async resolveToUserModel (user) {
       // 'user' is either the user model, a user id, or a username
       let promise
       if (isModel(user)) {
         if (user.get('username') != null) {
-          return Promise.resolve(user)
-        } else { throw error_.new('not a user model', 500, { user }) }
+          return user
+        } else {
+          throw error_.new('not a user model', 500, { user })
+        }
       }
 
       if (isUserId(user)) {
@@ -75,15 +77,15 @@ export default function (app) {
     }
   }
 
-  const getUserModelFromUsername = function (username) {
+  const getUserModelFromUsername = async username => {
     username = username.toLowerCase()
     if (app.user.loggedIn && (username === app.user.get('username').toLowerCase())) {
-      return Promise.resolve(app.user)
+      return app.user
     }
 
-    const userModel = app.users.find(model => model.get('username').toLowerCase() === username.toLowerCase())
+    const userModel = app.users.find(model => model.get('username').toLowerCase() === username)
 
-    if (userModel != null) { return Promise.resolve(userModel) }
+    if (userModel != null) return userModel
 
     return usersData.byUsername(username)
     .then(addUser)

@@ -17,34 +17,30 @@ export default {
     .catch(log_.ErrorRethrow('users_data get err'))
   },
 
-  search (text) {
+  async search (text) {
     // catches case with ''
-    if (_.isEmpty(text)) { return Promise.resolve([]) }
+    if (_.isEmpty(text)) return []
 
     return preq.get(app.API.users.search(text))
-    .get('users')
+    .then(({ users }) => users)
     .catch(log_.ErrorRethrow('users_data search err'))
   },
 
-  byUsername (username) {
+  async byUsername (username) {
     return preq.get(app.API.users.byUsername(username))
-    .then(res => res.users[username])
+    .then(({ users }) => users[username])
   },
 
-  searchByPosition (latLng) {
+  async searchByPosition (latLng) {
     return preq.get(app.API.users.searchByPosition(latLng))
-    .get('users')
+    .then(({ users }) => users)
     .catch(log_.Error('searchByPosition err'))
   }
 }
 
-const getUsersByIds = ids => preq.get(app.API.users.byIds(ids))
-.get('users')
+const getUsersByIds = ids => preq.get(app.API.users.byIds(ids)).then(({ users }) => users)
 
-const formatData = function (format, data) {
-  if (format === 'collection') {
-    return _.values(data)
-  } else {
-    return data
-  }
+const formatData = (format, data) => {
+  if (format === 'collection') return _.values(data)
+  else return data
 }

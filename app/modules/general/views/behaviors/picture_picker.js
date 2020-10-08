@@ -1,3 +1,4 @@
+import { tryAsync } from 'lib/promises'
 import { isUrl } from 'lib/boolean_tests'
 import { forceArray } from 'lib/utils'
 import log_ from 'lib/loggers'
@@ -124,7 +125,7 @@ export default Marionette.CompositeView.extend({
     // - allow to host the image only once has the image hash will be the same
     url = images_.getNonResizedUrl(url)
 
-    return Promise.try(validateUrlInput.bind(null, url))
+    return tryAsync(validateUrlInput.bind(null, url))
     .then(images_.getUrlDataUrl.bind(null, url))
     .then(this._addToPictures.bind(this))
     .catch(error_.Complete('#urlField'))
@@ -141,17 +142,17 @@ export default Marionette.CompositeView.extend({
     .catch(forms_.catchAlert.bind(null, this))
   },
 
-  getFilesPictures (e) {
+  async getFilesPictures (e) {
     // Hide any remaing alert box
     this.$el.trigger('hideAlertBox')
 
-    return files_.parseFileEventAsDataURL(e)
-    .then(log_.Info('filesDataUrl'))
-    .map(this._addToPictures.bind(this))
+    const dataUrls = await files_.parseFileEventAsDataURL(e)
+    log_.info(dataUrls, 'filesDataUrl')
+    return dataUrls.map(this._addToPictures.bind(this))
   },
 
   _addToPictures (dataUrl) {
-    if (this.limit === 1) { this._unselectAll() }
+    if (this.limit === 1) this._unselectAll()
     return this._addDataUrlToCollection(dataUrl)
   },
 

@@ -1,4 +1,5 @@
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import { wait } from '../../../lib/promises'
 const alwaysFalse = () => false
 
 export default Marionette.CompositeView.extend({
@@ -16,7 +17,7 @@ export default Marionette.CompositeView.extend({
     this._fetching = false
   },
 
-  infiniteScroll () {
+  async infiniteScroll () {
     if (this._fetching || !this.hasMore()) return
     this._fetching = true
     this.startLoading()
@@ -24,7 +25,7 @@ export default Marionette.CompositeView.extend({
     return this.fetchMore()
     .then(this.stopLoading.bind(this))
     // Give the time for the DOM to update
-    .delay(200)
+    .then(() => wait(200))
     .finally(() => { this._fetching = false })
   },
 

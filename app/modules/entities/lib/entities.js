@@ -4,9 +4,9 @@ import wdk from 'lib/wikidata-sdk'
 import { looksLikeAnIsbn, normalizeIsbn } from 'lib/isbn'
 
 export default {
-  getReverseClaims (property, value, refresh, sort) {
-    return preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
-    .get('uris')
+  async getReverseClaims (property, value, refresh, sort) {
+    const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
+    return uris
   },
 
   normalizeUri (uri) {

@@ -1,133 +1,41 @@
-import assert_ from 'lib/assert_types'
 import { reportError } from 'lib/reports'
 
-const methods = {}
-
-// Mimicking Bluebird utils
-methods.try = fn => Promise.resolve().then(fn)
-
-methods.props = function (obj) {
-  let key
+export const props = async obj => {
   const keys = []
   const values = []
-  for (key in obj) {
+  for (const key in obj) {
     const value = obj[key]
     keys.push(key)
     values.push(value)
   }
 
-  return Promise.all(values)
-  .then(res => {
-    const resultObj = {}
-    res.forEach((valRes, index) => {
-      key = keys[index]
-      resultObj[key] = valRes
-    })
-    return resultObj
+  const res = await Promise.all(values)
+  const resultObj = {}
+  res.forEach((valRes, index) => {
+    const key = keys[index]
+    resultObj[key] = valRes
+  })
+  return resultObj
+}
+
+export const tryAsync = async fn => fn()
+
+export const tap = fn => async res => {
+  const tapRes = fn(res)
+  if (tapRes instanceof Promise) await tapRes
+  return res
+}
+
+export const map = fn => array => Promise.all(array.map(fn))
+
+export const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+// Isn't defined in test environment
+if (window.addEventListener != null) {
+  // see http://2ality.com/2016/04/unhandled-rejections.html
+  window.addEventListener('unhandledrejection', event => {
+    const err = event.reason
+    console.error(`PossiblyUnhandledRejection: ${err.message}\n\n${err.stack}`, err, err.context)
+    reportError(err)
   })
 }
-
-methods.spread = function (fn) { return this.then(res => fn.apply(this, res)) }
-
-const arrayMethod = (methodName, canReturnPromises) => function (...args) {
-  return this.then(res => {
-    assert_.array(res)
-    return Promise.all(res)
-    .then(resolvedRes => {
-      const finalRes = resolvedRes[methodName].apply(resolvedRes, args)
-      if (canReturnPromises) {
-        return Promise.all(finalRes)
-      } else {
-        return finalRes
-      }
-    })
-  })
-}
-
-methods.filter = arrayMethod('filter')
-methods.map = arrayMethod('map', true)
-methods.reduce = arrayMethod('reduce')
-
-methods.get = function (attribute) { return this.then(res => res[attribute]) }
-
-methods.tap = function (fn) {
-  return this.then(res => Promise.try(() => fn(res))
-  .then(() => res))
-}
-
-methods.finally = function (fn) {
-  let alreadyCalled = false
-  return this
-  .then(res => Promise.try(() => {
-    alreadyCalled = true
-    return fn()
-  })
-  .then(() => res))
-  .catch(err => {
-    if (alreadyCalled) throw err
-    return Promise.try(() => fn())
-    .then(() => { throw err })
-  })
-}
-
-methods.delay = function (ms) {
-  const promise = this
-  return new Promise((resolve, reject) => promise
-  .then(res => setTimeout(resolve.bind(null, res), ms))
-  .catch(reject))
-}
-
-methods.timeout = function (ms) {
-  const promise = this
-  return new Promise((resolve, reject) => {
-    let fulfilled = false
-    let expired = false
-
-    const check = function () {
-      if (fulfilled) return
-      expired = true
-      // Mimicking Bluebird errors
-      const err = new Error('operation timed out')
-      err.name = 'TimeoutError'
-      return reject(err)
-    }
-
-    setTimeout(check, ms)
-
-    return promise
-    .then(res => {
-      if (expired) return
-      fulfilled = true
-      return resolve(res)
-    })
-    .catch(err => {
-      if (expired) return
-      fulfilled = true
-      return reject(err)
-    })
-  })
-}
-
-
-export default function () {
-  for (const name in methods) {
-    // Some of those functions might already be implemented
-    // - finally
-    const fn = methods[name]
-    if (Promise.prototype[name] == null) {
-      // Make the new methods non-enumerable
-      // eslint-disable-next-line no-extend-native
-      Object.defineProperty(Promise.prototype, name, { value: fn, enumerable: false })
-    }
-  }
-}
-
-// // Isn't defined in test environment
-// if (window.addEventListener != null) {
-//   // see http://2ality.com/2016/04/unhandled-rejections.html
-//   window.addEventListener('unhandledrejection', event => {
-//     const err = event.reason
-//     console.error(`PossiblyUnhandledRejection: ${err.message}\n\n${err.stack}`, err.context)
-//     reportError(err)
-//   })
-// }

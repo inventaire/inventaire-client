@@ -1,7 +1,7 @@
+import { tryAsync } from 'lib/promises'
 import log_ from 'lib/loggers'
 import { shortLang, deepClone } from 'lib/utils'
 import accountSettingsTemplate from './templates/account_settings.hbs'
-
 import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import email_ from 'modules/user/lib/email_tests'
@@ -67,7 +67,7 @@ export default Marionette.ItemView.extend({
 
   updateEmail () {
     const email = this.ui.email.val()
-    return Promise.try(this.testEmail.bind(this, email))
+    return tryAsync(this.testEmail.bind(this, email))
     .then(this.startLoading.bind(this, '#emailButton'))
     .then(email_.verifyAvailability.bind(null, email, '#emailField'))
     .then(this.sendEmailRequest.bind(this, email))
@@ -80,10 +80,9 @@ export default Marionette.ItemView.extend({
     return testAttribute('email', email, email_)
   },
 
-  sendEmailRequest (email) {
-    return preq.get(app.API.auth.emailAvailability(email))
-    .get('email')
-    .then(this.sendEmailChangeRequest)
+  async sendEmailRequest (newEmail) {
+    const { email } = await preq.get(app.API.auth.emailAvailability(newEmail))
+    return this.sendEmailChangeRequest(email)
   },
 
   sendEmailChangeRequest (email) {
@@ -91,8 +90,7 @@ export default Marionette.ItemView.extend({
       attribute: 'email',
       value: email,
       selector: '#emailField'
-    }
-    )
+    })
   },
 
   hardStopLoading () {
@@ -123,7 +121,7 @@ export default Marionette.ItemView.extend({
     const currentPassword = this.ui.currentPassword.val()
     const newPassword = this.ui.newPassword.val()
 
-    return Promise.try(() => password_.pass(currentPassword, '#currentPasswordAlert'))
+    return tryAsync(() => password_.pass(currentPassword, '#currentPasswordAlert'))
     .then(() => password_.pass(newPassword, '#newPasswordAlert'))
     .then(this.startLoading.bind(this, '#updatePassword'))
     .then(this.confirmCurrentPassword.bind(this, currentPassword))
@@ -140,8 +138,8 @@ export default Marionette.ItemView.extend({
       if (err.statusCode === 401) {
         err = error_.new('wrong password', 400)
         err.selector = '#currentPasswordAlert'
-        throw err
-      } else { throw err }
+      }
+      throw err
     })
   },
 

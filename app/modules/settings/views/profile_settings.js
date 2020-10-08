@@ -1,3 +1,4 @@
+import { tryAsync } from 'lib/promises'
 import { shortLang, isOpenedOutside, deepClone } from 'lib/utils'
 import ChangeUserPicture from 'modules/user/lib/change_user_picture'
 import profileSettingsTemplate from './templates/profile_settings.hbs'
@@ -73,7 +74,7 @@ export default Marionette.ItemView.extend({
   // USERNAME
   updateUsername () {
     const username = this.ui.username.val()
-    return Promise.try(this.testUsername.bind(this, username))
+    return tryAsync(this.testUsername.bind(this, username))
     .then(() => {
       // if the username update is just a change in case
       // it should be rejected because the username is already taken
@@ -131,7 +132,7 @@ export default Marionette.ItemView.extend({
   saveBio () {
     const bio = this.ui.bioTextarea.val()
 
-    return Promise.try(validateBio.bind(null, bio))
+    return tryAsync(validateBio.bind(null, bio))
     .then(updateUserBio.bind(null, bio))
     .catch(error_.Complete('#bio'))
     .catch(forms_.catchAlert.bind(null, this))

@@ -1,5 +1,6 @@
 import { isNonEmptyString } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
+import { tap } from 'lib/promises'
 import files_ from 'lib/files'
 import importers from '../../lib/importers'
 import dataValidator from '../../lib/data_validator'
@@ -122,7 +123,7 @@ export default Marionette.LayoutView.extend({
     .catch(error_.Complete('#importersWrapper .warning'))
     .then(log_.Info('parsed'))
     .then(candidates.addNewCandidates.bind(candidates))
-    .tap(() => stopLoading.call(this, selector))
+    .then(tap(() => stopLoading.call(this, selector)))
     .then(this.showImportQueueUnlessEmpty.bind(this))
     .catch(forms_.catchAlert.bind(null, this))
   },

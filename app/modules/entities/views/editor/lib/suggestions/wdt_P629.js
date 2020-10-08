@@ -38,20 +38,25 @@ const getSuggestionsFromSerie = function (serieUri, works, worksUris) {
   .then(getOtherSerieWorks(worksUris, lastOrdinal))
 }
 
-const getSuggestionsFromAuthor = (authorUri, works, worksUris) => app.request('get:entity:model', authorUri)
-.then(author => author.fetchWorksData())
-.get('works')
-.then(authorWorksData => _.pluck(authorWorksData, 'uri')
-.filter(uri => !worksUris.includes(uri)))
+const getSuggestionsFromAuthor = async (authorUri, works, worksUris) => {
+  const author = await app.request('get:entity:model', authorUri)
+  const { works: authorWorksData } = await author.fetchWorksData()
+  return _.pluck(authorWorksData, 'uri')
+  .filter(uri => !worksUris.includes(uri))
+}
 
-const getSeriesData = works => works
-.map(getSerieData)
-// Filter-out empty results as it would make the intersection hereafter empty
-.filter(data => data.serie != null)
+const getSeriesData = works => {
+  return works
+  .map(getSerieData)
+  // Filter-out empty results as it would make the intersection hereafter empty
+  .filter(data => data.serie != null)
+}
 
-const getOrdinals = (worksSeriesData, serieUri) => worksSeriesData
-.filter(data => (data.serie === serieUri) && isPositiveIntegerString(data.ordinal))
-.map(data => parseOrdinal(data.ordinal))
+const getOrdinals = (worksSeriesData, serieUri) => {
+  return worksSeriesData
+  .filter(data => (data.serie === serieUri) && isPositiveIntegerString(data.ordinal))
+  .map(data => parseOrdinal(data.ordinal))
+}
 
 const parseOrdinal = function (ordinal) {
   if (isPositiveIntegerString(ordinal)) { return parseInt(ordinal) }
@@ -63,11 +68,11 @@ const getSerieData = function (work) {
   return { serie, ordinal }
 }
 
-const getOtherSerieWorks = (worksUris, lastOrdinal) => serie => serie.fetchPartsData()
-.then(partsData => {
+const getOtherSerieWorks = (worksUris, lastOrdinal) => async serie => {
+  const partsData = await serie.fetchPartsData()
   const partsDataWithoutCurrentWorks = getReorderedParts(partsData, worksUris, lastOrdinal)
   return _.pluck(partsDataWithoutCurrentWorks, 'uri')
-})
+}
 
 const getReorderedParts = function (partsData, worksUris, lastOrdinal) {
   if (lastOrdinal == null) {
@@ -82,9 +87,8 @@ const getReorderedParts = function (partsData, worksUris, lastOrdinal) {
     if (!worksUris.includes(part.uri)) {
       const parsedOrdinal = parseOrdinal(part.ordinal)
       if (parsedOrdinal) {
-        if (parsedOrdinal > lastOrdinal) {
-          partsAfter.push(part)
-        } else { partsBefore.push(part) }
+        if (parsedOrdinal > lastOrdinal) partsAfter.push(part)
+        else partsBefore.push(part)
       } else {
         partsWithoutOrdinal.push(part)
       }

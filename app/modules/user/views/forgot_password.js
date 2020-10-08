@@ -1,3 +1,4 @@
+import { tryAsync } from 'lib/promises'
 import { i18n } from 'modules/user/lib/i18n'
 import email_ from 'modules/user/lib/email_tests'
 import forms_ from 'modules/general/lib/forms'
@@ -59,7 +60,7 @@ export default Marionette.ItemView.extend({
 
   sendEmail () {
     const email = this.ui.email.val()
-    return Promise.try(() => email_.pass(email, '#emailField'))
+    return tryAsync(() => email_.pass(email, '#emailField'))
     .then(this.startLoading.bind(this, '#emailButton'))
     .then(verifyKnownEmail.bind(null, email))
     .then(this.sendResetPasswordLink.bind(this, email))

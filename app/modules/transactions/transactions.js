@@ -120,5 +120,5 @@ const unreadCount = function () {
 
   return transac
   .map(_.property('unreadUpdate'))
-  .reduce((a, b) => { if (_.isNumber(b)) { return a + b } else { return a } })
+  .reduce((a, b) => _.isNumber(b) ? a + b : a)
 }

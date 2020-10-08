@@ -22,15 +22,18 @@ export default Marionette.LayoutView.extend({
       .then(model => { this.model = model })
   },
 
-  onShow () {
+  async onShow () {
     this.waitForModel
     .then(this.ifViewIsIntact('showInfobox'))
     .catch(this.displayError)
 
-    return entities_.getReverseClaims(this.property, this.value, this.refresh, true)
-    .tap(() => this.waitForModel)
-    .then(this.ifViewIsIntact('showEntities'))
-    .catch(this.displayError)
+    try {
+      const uris = await entities_.getReverseClaims(this.property, this.value, this.refresh, true)
+      await this.waitForModel
+      this.ifViewIsIntact('showEntities', uris)
+    } catch (err) {
+      this.displayError(err)
+    }
   },
 
   showInfobox () {

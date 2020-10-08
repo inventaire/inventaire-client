@@ -89,7 +89,10 @@ const setEbooksData = function () {
 
 const specificMethods = _.extend({}, commonsSerieWork, {
   // wait for setImage to have run
-  getImageAsync () { return this.fetchSubEntities().then(() => this.get('image')) },
+  async getImageAsync () {
+    await this.fetchSubEntities()
+    return this.get('image')
+  },
   getItemsByCategories: getEntityItemsByCategories,
   beforeSubEntitiesAdd: filterOutWdEditions,
   afterSubEntitiesAdd: setImage

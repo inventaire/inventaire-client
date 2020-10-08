@@ -4,25 +4,22 @@ import wdk from 'lib/wikidata-sdk'
 // Uses wbsearchentities despite its lack of inter-languages support
 // because it returns hits labels, descriptions and aliases
 // while action=query&list=search&srsearch returns only hits ids
-export default (format = true) => (search, limit = 10, offset) => {
-  return preq.get(wdk.searchEntities({ search, limit, offset }))
-  .get('search')
-  .filter(filterOutSpecialPages)
-  .then(results => {
-    if (format) return results.map(formatAsSearchResult)
-    else return results
-  })
+export default (format = true) => async (search, limit = 10, offset) => {
+  let { search: results } = await preq.get(wdk.searchEntities({ search, limit, offset }))
+  results = search.filter(filterOutSpecialPages)
+  if (format) return results.map(formatAsSearchResult)
+  else return results
 }
 
 // This is a hacky way to filter out special pages without having to request claims
 const specialPagesDescriptionPattern = /(Wikim(e|é)dia|Wikip(e|é)dia)/
-const filterOutSpecialPages = function (result) {
-  if (!result.description) result.description = ''
+const filterOutSpecialPages = result => {
+  result.description = result.description || ''
   return !result.description.match(specialPagesDescriptionPattern)
 }
 
 // make the result match the needs of app/modules/entities/models/search_result
-const formatAsSearchResult = function (result) {
+const formatAsSearchResult = result => {
   const { lang } = app.user
   const { label, description, aliases } = result
   result.labels = {}

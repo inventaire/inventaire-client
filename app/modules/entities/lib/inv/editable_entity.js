@@ -16,45 +16,43 @@ const propertiesUsedByRelations = [
 ]
 
 export default {
-  setPropertyValue (property, oldValue, newValue) {
-    return Promise.try(() => {
-      log_.info({ property, oldValue, newValue }, 'setPropertyValue args')
-      assert_.string(property)
-      if (oldValue === newValue) return
+  async setPropertyValue (property, oldValue, newValue) {
+    log_.info({ property, oldValue, newValue }, 'setPropertyValue args')
+    assert_.string(property)
+    if (oldValue === newValue) return
 
-      const propArrayPath = `claims.${property}`
-      let propArray = this.get(propArrayPath)
-      if (propArray == null) {
-        propArray = []
-        this.set(propArrayPath, [])
-      }
+    const propArrayPath = `claims.${property}`
+    let propArray = this.get(propArrayPath)
+    if (propArray == null) {
+      propArray = []
+      this.set(propArrayPath, [])
+    }
 
-      // let pass null oldValue, it will create a claim
-      if ((oldValue != null) && !propArray.includes(oldValue)) {
-        throw error_.new('unknown property value', { property, oldValue, newValue })
-      }
+    // let pass null oldValue, it will create a claim
+    if ((oldValue != null) && !propArray.includes(oldValue)) {
+      throw error_.new('unknown property value', { property, oldValue, newValue })
+    }
 
-      // in cases of a new value, index is last index + 1 = propArray.length
-      const index = (oldValue != null) ? propArray.indexOf(oldValue) : propArray.length
-      propArray[index] = newValue
-      // Compact propArray to remove deleted values
-      this.set(propArrayPath, _.compact(propArray))
+    // in cases of a new value, index is last index + 1 = propArray.length
+    const index = (oldValue != null) ? propArray.indexOf(oldValue) : propArray.length
+    propArray[index] = newValue
+    // Compact propArray to remove deleted values
+    this.set(propArrayPath, _.compact(propArray))
 
-      const reverseAction = this.set.bind(this, `${propArrayPath}.${index}`, oldValue)
-      const rollback = Rollback(reverseAction, 'editable_entity setPropertyValue')
+    const reverseAction = this.set.bind(this, `${propArrayPath}.${index}`, oldValue)
+    const rollback = Rollback(reverseAction, 'editable_entity setPropertyValue')
 
-      if (properties[property].editorType === 'entity') {
-        app.execute('invalidate:entities:graph', [ oldValue, newValue ])
-      }
+    if (properties[property].editorType === 'entity') {
+      app.execute('invalidate:entities:graph', [ oldValue, newValue ])
+    }
 
-      if (propertiesUsedByRelations.includes(property)) { this.invalidateRelationsCache() }
+    if (propertiesUsedByRelations.includes(property)) { this.invalidateRelationsCache() }
 
-      return this.savePropertyValue(property, oldValue, newValue)
-      // Triggering the event is required as Backbone.NestedModel would trigger
-      // 'add' and 'remove' events
-      .then(() => this.trigger('change:claims', property, oldValue, newValue))
-      .catch(rollback)
-    })
+    return this.savePropertyValue(property, oldValue, newValue)
+    // Triggering the event is required as Backbone.NestedModel would trigger
+    // 'add' and 'remove' events
+    .then(() => this.trigger('change:claims', property, oldValue, newValue))
+    .catch(rollback)
   },
 
   savePropertyValue (property, oldValue, newValue) {

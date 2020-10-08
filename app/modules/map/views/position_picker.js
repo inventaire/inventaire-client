@@ -1,3 +1,4 @@
+import { tryAsync } from 'lib/promises'
 import map_ from '../lib/map'
 import getPositionFromNavigator from 'modules/map/lib/navigator_position'
 import forms_ from 'modules/general/lib/forms'
@@ -88,7 +89,7 @@ export default Marionette.ItemView.extend({
 
     this.position = newCoords
 
-    return Promise.try(this.options.resolve.bind(null, newCoords, selector))
+    return tryAsync(this.options.resolve.bind(null, newCoords, selector))
     .then(stopLoading.bind(this))
     .then(Check.call(this, '_updatePosition', this.close.bind(this)))
     .catch(error_.Complete('.alertBox'))

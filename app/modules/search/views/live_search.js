@@ -137,14 +137,14 @@ export default Marionette.CompositeView.extend({
     this.setTimeout(this.updateAlternatives.bind(this, search), 2000)
   },
 
-  _search (search) {
+  async _search (search) {
     const types = this.getTypes()
     // Subjects aren't indexed in the server ElasticSearch
     // as it's not a subset of Wikidata anymore: pretty much anything
     // on Wikidata can be considered a subject
     if (types === 'subjects') {
-      return wikidataSearch(search, searchBatchLength, this._searchOffset)
-      .map(formatSubject)
+      const results = await wikidataSearch(search, searchBatchLength, this._searchOffset)
+      return results.map(formatSubject)
     } else {
       // Increasing search limit instead of offset, as search pages aren't stable:
       // results popularity might have change the results order between two requests,
@@ -152,8 +152,8 @@ export default Marionette.CompositeView.extend({
       // the results that weren't returned in the previous query, whatever there place
       // in the newly returned results
       const searchLimit = searchBatchLength + this._searchOffset
-      return preq.get(app.API.search(types, search, searchLimit))
-      .get('results')
+      const { results } = await preq.get(app.API.search(types, search, searchLimit))
+      return results
     }
   },
 
