@@ -6,8 +6,6 @@ export function reportError (err) {
   // Ex: invalid form input
   if ((err.statusCode != null) && (err.statusCode < 500)) return
 
-  err.envContext = getEnvContext()
-
   const data = {
     error: {
       // not simply passing the err object as its properties wouldn't be sent
@@ -25,31 +23,6 @@ export function reportError (err) {
     headers: { 'content-type': 'application/json' },
     data: stringifyData(data)
   })
-}
-
-const getEnvContext = function () {
-  let userData
-  let envContext = []
-  if (app?.user?.loggedIn) {
-    const {
-      id
-    } = app.user
-    const username = app.user.get('username')
-    if ((id != null) && (username != null)) {
-      userData = `user: ${id} (${username})`
-    } else {
-      userData = 'user logged in but error happened before data arrived'
-    }
-  } else {
-    userData = 'user: not logged user'
-  }
-
-  envContext = [
-    userData,
-    navigator.userAgent
-  ]
-
-  return envContext
 }
 
 const sendOnlineReport = function () {
