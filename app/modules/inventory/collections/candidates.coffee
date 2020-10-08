@@ -32,6 +32,7 @@ addExistingEntityItemsCounts = (candidates)->
 
 getUri = (candidate)->
   { isbn, normalizedIsbn } = candidate
+  unless isbn? or normalizedIsbn? then return
   normalizedIsbn ?= normalizeIsbn isbn
   candidate.normalizedIsbn = normalizedIsbn
   if looksLikeAnIsbn normalizedIsbn
