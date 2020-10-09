@@ -1,3 +1,4 @@
+import { capitalise } from 'lib/utils'
 import log_ from 'lib/loggers'
 import libraryThingParser from './parsers/library_thing'
 import goodReadsParser from './parsers/good_reads'
@@ -63,7 +64,7 @@ const accept = {
 
 const prepareImporter = function (name, obj) {
   obj.name = name
-  obj.label = _.capitalise(name)
+  obj.label = capitalise(name)
   obj.accept = accept[obj.format]
   if (obj.format === 'all') obj.hideFormat = true
   return obj

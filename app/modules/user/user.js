@@ -1,8 +1,4 @@
 import { I18n } from 'modules/user/lib/i18n'
-import SignupClassic from './views/signup_classic'
-import Login from './views/login'
-import ForgotPassword from './views/forgot_password'
-import ResetPassword from './views/reset_password'
 import initMainUser from './lib/init_main_user'
 import auth from './lib/auth'
 import userListings from './lib/user_listings'
@@ -35,7 +31,7 @@ export default {
   }
 }
 
-const showAuth = (name, label, View) => function (options) {
+const showAuth = (name, label, View, options) => {
   if (!navigator.cookieEnabled) {
     return app.execute('show:error:cookieRequired', `show:${name}`)
   }
@@ -49,11 +45,18 @@ const showAuth = (name, label, View) => function (options) {
 // beware that app.layout is undefined when User.define is fired
 // app.layout should thus appear only in callbacks
 const API = {
-  showSignup: showAuth('signup', 'sign up', SignupClassic),
+  async showSignup (options) {
+    const { default: SignupClassic } = await import('./views/signup_classic')
+    showAuth('signup', 'sign up', SignupClassic, options)
+  },
 
-  showLogin: showAuth('login', 'login', Login),
+  async showLogin (options) {
+    const { default: Login } = await import('./views/login')
+    showAuth('login', 'login', Login, options)
+  },
 
-  showForgotPassword (options) {
+  async showForgotPassword (options) {
+    const { default: ForgotPassword } = await import('./views/forgot_password')
     app.layout.main.show(new ForgotPassword(options))
     app.navigate('login/forgot-password', {
       metadata: {
@@ -62,7 +65,8 @@ const API = {
     })
   },
 
-  showResetPassword () {
+  async showResetPassword () {
+    const { default: ResetPassword } = await import('./views/reset_password')
     if (app.user.loggedIn) {
       app.layout.main.show(new ResetPassword())
       app.navigate('login/reset-password', {

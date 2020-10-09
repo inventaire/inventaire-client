@@ -67,7 +67,7 @@ export default Marionette.LayoutView.extend({
 
   hidePublicItems (err) {
     $('#lastPublicBooks').hide()
-    if (err != null) { throw err }
+    if (err != null) throw err
   },
 
   toggleMission () {

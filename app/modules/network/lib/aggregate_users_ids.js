@@ -1,4 +1,5 @@
-import { forceArray } from 'lib/utils'
+import { forceArray, capitalise } from 'lib/utils'
+
 export default function () {
   let categories, name
   const cache = {}
@@ -20,7 +21,7 @@ export default function () {
 
   for (name in aggregates) {
     categories = aggregates[name]
-    const Name = _.capitalise(name)
+    const Name = capitalise(name)
     // ex: @allMembersIds
     this[`all${Name}Ids`] = all.bind(this, name, categories)
   }

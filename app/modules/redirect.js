@@ -1,12 +1,7 @@
 import assert_ from 'lib/assert_types'
 import log_ from 'lib/loggers'
 import { I18n, i18n } from 'modules/user/lib/i18n'
-import Welcome from 'modules/welcome/views/welcome'
-import ErrorView from 'modules/general/views/error'
-import CallToConnection from 'modules/general/views/call_to_connection'
 import initQuerystringActions from 'modules/general/lib/querystring_actions'
-import DonateMenu from 'modules/general/views/donate_menu'
-import FeedbackMenu from 'modules/general/views/feedback_menu'
 import { currentRoute } from 'lib/location'
 import { setPrerenderStatusCode } from 'lib/metadata/update'
 
@@ -66,13 +61,21 @@ const API = {
     app.execute('show:error:missing')
   },
 
-  showWelcome () {
+  async showWelcome () {
+    const { default: Welcome } = await import('modules/welcome/views/welcome')
     app.layout.main.show(new Welcome())
     app.navigate('welcome')
   },
 
-  showDonate () { return showMenuStandalone(DonateMenu, 'donate') },
-  showFeedback () { return showMenuStandalone(FeedbackMenu, 'feedback') },
+  async showDonate () {
+    const { default: DonateMenu } = await import('modules/general/views/donate_menu')
+    showMenuStandalone(DonateMenu, 'donate')
+  },
+
+  async showFeedback () {
+    const { default: FeedbackMenu } = await import('modules/general/views/feedback_menu')
+    showMenuStandalone(FeedbackMenu, 'feedback')
+  },
   showMainUser () { app.execute('show:inventory:main:user') }
 }
 
@@ -185,17 +188,20 @@ const showErrorCookieRequired = command => showError({
   }
 })
 
-const showError = function (options) {
+const showError = async options => {
+  const { default: ErrorView } = await import('modules/general/views/error')
   app.layout.main.show(new ErrorView(options))
   setPrerenderStatusCode(options.statusCode)
   // When the logic leading to the error didn't trigger a new 'navigate' action,
   // hitting 'Back' would bring back two pages before, so we can pass a navigate
   // option to prevent it
-  if (options.navigate) { app.navigate(`error/${options.name}`) }
+  if (options.navigate) app.navigate(`error/${options.name}`)
 }
 
-const showCallToConnection = message => app.layout.modal.show(new CallToConnection({ connectionMessage: message })
-)
+const showCallToConnection = async message => {
+  const { default: CallToConnection } = await import('modules/general/views/call_to_connection')
+  app.layout.modal.show(new CallToConnection({ connectionMessage: message }))
+}
 
 const showMenuStandalone = function (Menu, titleKey) {
   app.layout.main.show(new Menu({ standalone: true }))

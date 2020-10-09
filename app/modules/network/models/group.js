@@ -1,6 +1,7 @@
+import { capitalise, daysAgo } from 'lib/utils'
 import { isNonEmptyString } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
-import { daysAgo } from 'lib/utils'
+
 import { i18n } from 'modules/user/lib/i18n'
 // defining all and _recalculateAll methods
 import aggregateUsersIds from '../lib/aggregate_users_ids'
@@ -75,7 +76,7 @@ export default Positionable.extend({
     // while keeping the same object to avoid breaking references
     if (!this[name]) { this[name] = new Backbone.Collection() }
     this[name].remove(this[name].models)
-    const Name = _.capitalise(name)
+    const Name = capitalise(name)
     const ids = this[`all${Name}Ids`]()
     this[`waitFor${Name}`] = this.fetchUsers(this[name], ids)
   },

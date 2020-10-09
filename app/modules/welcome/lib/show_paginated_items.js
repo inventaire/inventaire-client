@@ -2,27 +2,26 @@ import log_ from 'lib/loggers'
 import Items from 'modules/inventory/collections/items'
 import ItemsCascade from 'modules/inventory/views/items_cascade'
 
-export default function (params) {
+export default async params => {
   let collection, moreData
   const { region, allowMore, showDistance } = params
-  params.collection = (collection = new Items())
+  params.collection = collection = new Items()
 
   // Use an object to store the flag so that it can be modified
   // by functions the object is passed to
-  params.moreData = (moreData = { status: true })
+  params.moreData = moreData = { status: true }
   const hasMore = () => moreData.status
   const fetchMore = FetchMore(params)
 
-  return fetchMore()
-  .then(() => region.show(new ItemsCascade({
+  await fetchMore()
+  region.show(new ItemsCascade({
     collection,
     // if not allowMore, let ItemsList set the default values
     fetchMore: allowMore ? fetchMore : undefined,
     hasMore: allowMore ? hasMore : undefined,
     showDistance
-  })
-  ))
-};
+  }))
+}
 
 const FetchMore = function (params) {
   const { request, collection, moreData, fallback } = params
@@ -31,9 +30,9 @@ const FetchMore = function (params) {
   // the same arguments.
   // Known case: when the view is locked on the infiniteScroll trigger
   let busy = false
-  const fetchMore = function () {
+  const fetchMore = async () => {
     const done = (moreData.total != null) && (collection.length >= moreData.total)
-    if (busy || done) { return Promise.resolve() }
+    if (busy || done) return
 
     busy = true
     params.offset = collection.length
@@ -42,7 +41,7 @@ const FetchMore = function (params) {
       moreData.total = res.total
       moreData.continue = res.continue
       // Display the inventory welcome screen when appropriate
-      if ((res.total === 0) && (fallback != null)) { return fallback() }
+      if (res.total === 0 && fallback != null) return fallback()
     })
     .catch(catch404(fallback))
     .finally(() => { busy = false })
