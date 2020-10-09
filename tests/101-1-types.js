@@ -115,7 +115,7 @@ describe('assert types', () => {
     })
 
     it("only accepts the 's...' interface", () => {
-      ((() => assertTypes([ 1, 2, 3, 41235115 ], 'numbers'))).should.throw()
+      ((() => assertTypes([ 1, 2,   3, 41235115 ], 'numbers'))).should.throw()
     })
 
     it("should accept piped 's...' types", () => {
@@ -129,6 +129,16 @@ describe('assert types', () => {
 
     it('common types should accept receiving 1 argument', () => {
       ((() => assertTypes([ 123 ], 'numbers...'))).should.not.throw()
+    })
+  })
+
+  describe('strings', () => {
+    it.only("should throw if one of the passed values isn't a string", () => {
+      assert_.strings.bind(null, [ 'abc', 123 ]).should.throw()
+    })
+
+    it.only("should throw if one of the passed values isn't a string", () => {
+      assert_.strings([ 'abc', 'def' ])
     })
   })
 })
