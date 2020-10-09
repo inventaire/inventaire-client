@@ -3,6 +3,7 @@
 import { isView } from 'lib/boolean_tests'
 import Masonry from 'masonry-layout'
 import screen_ from 'lib/screen'
+import 'imagesloaded'
 
 // To keep in sync with _items_list.scss $itemCardBaseWidth variable
 const itemWidth = 230
@@ -42,11 +43,17 @@ export default function (containerSelector, itemSelector, minWidth = 500) {
     }
   }
 
-  const refresh = async function () {
-    await import('imagesloaded')
-    // wait for images to be loaded
-    return $(containerSelector).imagesLoaded(initMasonry.bind(this))
+  const refresh = async () => {
+    // Wait for images to be loaded
+    $(containerSelector).imagesLoaded()
+      // Use always to trigger the callback even if some images failed to load
+      .always(initMasonry.bind(this))
+      .fail(err => {
+        // Ignore jQuery imagesLoaded errors for broken images
+        if (err.hasAnyBroken) return
+        console.error('imagesloaded error', err)
+      })
   }
 
-  this.lazyMasonryRefresh = _.debounce(refresh.bind(this), 200)
-};
+  this._lazyMasonryRefresh = _.debounce(refresh.bind(this), 200)
+}

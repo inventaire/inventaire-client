@@ -21,12 +21,15 @@ export default InfiniteScrollItemsList.extend({
 
   initialize () {
     this.initInfiniteScroll()
-
-    return masonryPlugin.call(this, '.itemsCascade', '.itemCard')
+    masonryPlugin.call(this, '.itemsCascade', '.itemCard')
   },
 
   serializeData () {
     return { header: this.options.header }
+  },
+
+  lazyMasonryRefresh () {
+    if (this._lazyMasonryRefresh != null) this._lazyMasonryRefresh()
   },
 
   collectionEvents: {
