@@ -90,7 +90,7 @@ export default Marionette.Behavior.extend({
       const $targetAlt = $target.find('.loading')
       if ($targetAlt.length === 1) { return $targetAlt } else { return $target }
     } else {
-      this.$el.find('.loading')
+      return this.$el.find('.loading')
     }
   }
 })
