@@ -1,2 +1,9 @@
 #!/usr/bin/env sh
-mocha --exit test/*.js
+
+# TODO: fix tests: until there is a [`@parcel/register`](https://github.com/parcel-bundler/parcel/issues/2396),
+# we need to find a way to make the tests run by mocha be able to import a client module and its dependencies,
+# which are written using parcel-specific 'alias' field in package.json
+# Alternatives such as module-alias and babel-plugin-module-resolver didn't work for that use-case
+# See also https://github.com/standard-things/esm/issues/154
+
+mocha --exit --recursive tests
