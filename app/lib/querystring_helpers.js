@@ -1,7 +1,7 @@
 import allowPersistantQuery from './allow_persistant_query'
 import { parseQuery, buildPath, setQuerystring, routeSection } from 'lib/location'
 
-export default function (app, _) {
+export default function () {
   app.reqres.setHandlers({
     'querystring:get': get,
     'querystring:get:all': getQuery,

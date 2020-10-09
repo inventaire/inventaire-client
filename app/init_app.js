@@ -19,6 +19,7 @@ import Shelves from 'modules/shelves/shelves'
 import initMap from 'modules/map/map'
 import AppLayout from 'modules/general/views/app_layout'
 import reloadOnceADay from 'lib/reload_once_a_day'
+import initQuerystringHelpers from 'lib/querystring_helpers'
 
 window.app = app
 window.location.root = window.location.protocol + '//' + window.location.host
@@ -63,6 +64,7 @@ export default async function () {
     app.start()
     app.execute('waiter:resolve', 'layout')
     reloadOnceADay()
+    initQuerystringHelpers()
   })
 
   configPromise.then(initPiwik)

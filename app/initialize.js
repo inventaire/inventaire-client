@@ -3,7 +3,6 @@
 import 'backbone.marionette'
 import 'lib/handlebars_helpers/init'
 import 'lib/global_libs_extender'
-import 'modules/general/lib/querystring_actions'
 import 'lib/env_config'
 import initPolyfills from 'lib/polyfills'
 import testVideoInput from 'lib/has_video_input'
