@@ -12,8 +12,7 @@ const assertType = function (obj, type) {
 }
 
 const assertTypes = function (args, types, minArgsLength) {
-  // in case it's an 'arguments' object
-  let err, test
+  // In case it's an 'arguments' object
   args = Array.from(args)
 
   // accepts a common type for all the args as a string
@@ -30,6 +29,7 @@ const assertTypes = function (args, types, minArgsLength) {
   assertType(types, 'array')
   if (minArgsLength != null) assertType(minArgsLength, 'number')
 
+  let test
   if (minArgsLength != null) {
     test = types.length >= args.length && args.length >= minArgsLength
   } else {
@@ -37,13 +37,13 @@ const assertTypes = function (args, types, minArgsLength) {
   }
 
   if (!test) {
+    let err
     if (minArgsLength != null) {
       err = `expected between ${minArgsLength} and ${types.length} arguments ,` +
         `got ${args.length}: ${args}`
     } else {
       err = `expected ${types.length} arguments, got ${args.length}: ${args}`
     }
-    console.log(args)
     err = new Error(err)
     err.context = arguments
     throw err
@@ -55,8 +55,7 @@ const assertTypes = function (args, types, minArgsLength) {
       assertType(args[i], types[i])
       i += 1
     }
-  } catch (error) {
-    err = error
+  } catch (err) {
     err.context = arguments
     throw err
   }

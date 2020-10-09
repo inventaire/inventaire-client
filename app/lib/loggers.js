@@ -50,11 +50,9 @@ const error = (err, label) => {
   console.error(`[${label}]\n`, err.message, err.stack, err, err.context)
 }
 
-// providing a custom warn as it might be used
-// by methods shared with the server
 const warn = (...args) => {
   console.warn('/!\\')
-  loggers.log.apply(null, args)
+  log.apply(null, args)
 }
 
 // inspection utils to log a label once a function is called
@@ -65,17 +63,7 @@ const spy = (res, label) => {
 
 const PartialLogger = logger => label => obj => logger(obj, label)
 
-const partialLoggers = {
-  Info: PartialLogger(log),
-  Error: PartialLogger(error),
-  Warn: PartialLogger(warn),
-  ErrorRethrow: label => err => {
-    error(err, label)
-    throw err
-  }
-}
-
-const loggers = {
+export default {
   info: log,
   error,
   warn,
@@ -91,7 +79,13 @@ const loggers = {
       data: JSON.stringify({ obj, label })
     })
     return obj
+  },
+
+  Info: PartialLogger(log),
+  Error: PartialLogger(error),
+  Warn: PartialLogger(warn),
+  ErrorRethrow: label => err => {
+    error(err, label)
+    throw err
   }
 }
-
-export default _.extend(loggers, partialLoggers)

@@ -58,7 +58,8 @@ export const isOpenedOutside = (e, ignoreMissingHref = false) => {
 }
 
 // source: http://stackoverflow.com/questions/10527983/best-way-to-detect-mac-os-x-or-windows-computers-with-javascript-or-jquery
-const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+// Test existance to ignore in other contexts than the browser
+const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
 export const cutBeforeWord = (text, limit) => {
   const shortenedText = text.slice(0, +limit + 1 || undefined)
