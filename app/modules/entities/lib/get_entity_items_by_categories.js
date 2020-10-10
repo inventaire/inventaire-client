@@ -9,7 +9,7 @@ const getAllEntityUris = model => {
   return model.fetchSubEntities().then(() => model.get('allUris'))
 }
 
-const spreadItems = uris => items => {
+const spreadItems = uris => async items => {
   let category
   const itemsByCategories = {
     personal: [],
@@ -21,8 +21,8 @@ const spreadItems = uris => items => {
     log_.error(error_.new('missing items collection', 500, { uris }), 'spreadItems')
     return itemsByCategories
   }
-
   for (const item of items.models) {
+    if (!item.user) await item.waitForUser
     category = item.user.get('itemsCategory')
     itemsByCategories[category].push(item)
   }

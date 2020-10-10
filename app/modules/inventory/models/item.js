@@ -26,9 +26,9 @@ export default Filterable.extend({
 
     this.entityPathname = app.request('get:entity:local:href', this.entityUri)
 
-    if (attrs.shelves == null) { this.set('shelves', []) }
+    if (attrs.shelves == null) this.set('shelves', [])
 
-    return this.initUser(owner)
+    this.initUser(owner)
   },
 
   initUser (owner) {
