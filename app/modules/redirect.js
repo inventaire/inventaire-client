@@ -76,6 +76,7 @@ const API = {
     const { default: FeedbackMenu } = await import('modules/general/views/feedback_menu')
     showMenuStandalone(FeedbackMenu, 'feedback')
   },
+
   showMainUser () { app.execute('show:inventory:main:user') }
 }
 

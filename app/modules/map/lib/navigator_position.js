@@ -1,7 +1,6 @@
 import log_ from 'lib/loggers'
-import geo from './geo'
+import { truncateDecimals } from './geo'
 import pTimeout from 'p-timeout'
-const { truncateDecimals } = geo
 
 // doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
 const currentPosition = () => new Promise((resolve, reject) => {

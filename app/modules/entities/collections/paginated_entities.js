@@ -12,7 +12,7 @@ export default Entities.extend({
     this.totalLength = uris.length
     this.fetchedUris = [];
     ({ refresh: this.refresh, defaultType: this.defaultType, parentContext: this.parentContext } = options)
-    return this.typesAllowlist != null ? this.typesAllowlist : (this.typesAllowlist = options.typesAllowlist)
+    this.typesAllowlist = this.typesAllowlist || options.typesAllowlist
   },
 
   resetFromUris (uris) {
@@ -37,8 +37,10 @@ export default Entities.extend({
       refresh: this.refresh,
       defaultType: this.defaultType
     })
-    .then(models => models.filter(this.filterOutUndesiredTypes.bind(this)))
-    .then(this.add.bind(this))
+    .then(models => {
+      models = models.filter(this.filterOutUndesiredTypes.bind(this))
+      if (models.length > 0) this.add(models)
+    })
     .catch(rollback)
   },
 

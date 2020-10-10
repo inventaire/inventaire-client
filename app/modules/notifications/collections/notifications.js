@@ -1,7 +1,7 @@
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import error_ from 'lib/error'
-import { models } from '../lib/notifications_types'
+import { models as modelsTypes } from '../lib/notifications_types'
 
 export default Backbone.Collection.extend({
   comparator (notif) { return -notif.get('time') },
@@ -28,7 +28,7 @@ export default Backbone.Collection.extend({
   },
 
   addPerType (docs) {
-    models = docs
+    const models = docs
       .filter(doc => !deprecatedTypes.includes(doc.type))
       .map(createTypedModel)
     return this.add(models)
@@ -39,7 +39,7 @@ export default Backbone.Collection.extend({
 
 const createTypedModel = function (doc) {
   const { type } = doc
-  const Model = models[type]
+  const Model = modelsTypes[type]
   if (Model == null) {
     throw error_.new('unknown notification type', doc)
   }

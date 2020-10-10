@@ -170,7 +170,7 @@ export default Marionette.LayoutView.extend({
     const intersectionWorkUris = getIntersectionWorkUris(this.worksTree, this.filters)
     this.filterSelectors(intersectionWorkUris)
     this.displayFilteredItems(intersectionWorkUris)
-    return this.filterPreview.currentView.updatePreview(selectorName, selectedOption)
+    this.filterPreview.currentView.updatePreview(selectorName, selectedOption)
   },
 
   filterSelectors (intersectionWorkUris) {
@@ -181,9 +181,9 @@ export default Marionette.LayoutView.extend({
   },
 
   displayFilteredItems (intersectionWorkUris) {
-    if (intersectionWorkUris == null) { this.showItemsListByIds() }
+    if (intersectionWorkUris == null) return this.showItemsListByIds()
 
-    if (intersectionWorkUris.length === 0) { this.showItemsListByIds([]) }
+    if (intersectionWorkUris.length === 0) return this.showItemsListByIds([])
 
     const worksItems = _.pick(this.workUriItemsMap, intersectionWorkUris)
     const itemsIds = _.flatten(_.values(worksItems))
@@ -206,7 +206,7 @@ export default Marionette.LayoutView.extend({
 })
 
 const getSelectedOptionKey = function (selectedOption, selectorName) {
-  if (selectedOption == null) { return null }
+  if (selectedOption == null) return null
   return selectedOption.get('uri')
 }
 

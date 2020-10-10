@@ -4,7 +4,7 @@ import preq from 'lib/preq'
 import Notifications from './collections/notifications'
 import NotificationsLayout from './views/notifications_layout'
 const notifications = new Notifications()
-let waitForNotifications = null
+let waitForNotifications
 
 export default {
   define (module, app, Backbone, Marionette, $, _) {
@@ -31,21 +31,19 @@ export default {
 }
 
 const API = {
-  showNotifications () {
+  async showNotifications () {
     if (app.request('require:loggedIn', 'notifications')) {
       app.execute('show:loader')
       // Make sure that the notifications arrived before calling 'beforeShow'
       // as it will only trigger 'beforeShow' on the notifications models
       // presently in the collection
-      return waitForNotifications
-      .then(() => notifications.beforeShow())
-      .then(() => {
-        app.layout.main.show(new NotificationsLayout({ notifications }))
-        app.navigate('notifications', {
-          metadata: {
-            title: i18n('notifications')
-          }
-        })
+      await waitForNotifications
+      await notifications.beforeShow()
+      app.layout.main.show(new NotificationsLayout({ notifications }))
+      app.navigate('notifications', {
+        metadata: {
+          title: i18n('notifications')
+        }
       })
     }
   }
@@ -56,5 +54,4 @@ const getNotificationsData = async () => {
 
   const { notifications: userNotifications } = await preq.get(app.API.notifications)
   return notifications.addPerType(userNotifications)
-  .catch(log_.ErrorRethrow('notifications init err'))
 }

@@ -86,7 +86,9 @@ export default Marionette.LayoutView.extend({
     const { classList } = e.target
 
     // Handle clicks on the 'x' close button
-    if ((classList != null) && classList.includes('fa-times')) { return this.resetOptions() }
+    if ((classList != null) && Array.from(classList).includes('fa-times')) {
+      return this.resetOptions()
+    }
 
     // When an option is already selected, the only option is to unselect it
     if (this._selectedOption != null) return

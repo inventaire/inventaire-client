@@ -1,5 +1,5 @@
 import log_ from 'lib/loggers'
-import images_ from 'lib/images'
+import { getUrlDataUrl, resizeDataUrl, upload, dataUrlToBlob } from 'lib/images'
 const maxSize = 1600
 const container = 'users'
 
@@ -29,13 +29,13 @@ export default Backbone.NestedModel.extend({
   },
 
   setDataUrlFromUrl (url) {
-    return images_.getUrlDataUrl(url)
+    return getUrlDataUrl(url)
     .then(this.set.bind(this, 'originalDataUrl'))
   },
 
   resize () {
     const dataUrl = this.get('originalDataUrl')
-    return images_.resizeDataUrl(dataUrl, maxSize)
+    return resizeDataUrl(dataUrl, maxSize)
     .then(this.set.bind(this))
     .catch(err => {
       if (err.message === 'invalid image') {
@@ -85,8 +85,8 @@ export default Backbone.NestedModel.extend({
     const originalUrl = this.get('url')
     if ((originalUrl != null) && !this.imageHasChanged()) return originalUrl
 
-    const urls = await images_.upload(container, {
-      blob: images_.dataUrlToBlob(this.getFinalDataUrl()),
+    const urls = await upload(container, {
+      blob: dataUrlToBlob(this.getFinalDataUrl()),
       id: this.cid
     })
     const url = urls[this.cid]

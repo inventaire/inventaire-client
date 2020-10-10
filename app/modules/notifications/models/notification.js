@@ -4,7 +4,7 @@ export default Backbone.NestedModel.extend({
   },
 
   beforeShow () {
-    if (!this._waitForInit) { this._waitForInit = this.initSpecific() }
+    this._waitForInit = this._waitForInit || this.initSpecific()
     return this._waitForInit
   },
 

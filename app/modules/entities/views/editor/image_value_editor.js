@@ -4,7 +4,7 @@ import ClaimsEditorCommons from './claims_editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import files_ from 'lib/files'
-import images_ from 'lib/images'
+import { getUrlDataUrl, getImageHashFromDataUrl } from 'lib/images'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import imageValueEditorTemplate from './templates/image_value_editor.hbs'
 
@@ -77,7 +77,7 @@ export default ClaimsEditorCommons.extend({
         return this._bareSave(res.url)
       } else {
         // If dataseed is disabled, fallback to downloading the file at the URL
-        return images_.getUrlDataUrl(url)
+        return getUrlDataUrl(url)
         .then(this.uploadDataUrl.bind(this))
       }
     }).catch(error_.Complete(urlInputSelector, false))
@@ -95,7 +95,7 @@ export default ClaimsEditorCommons.extend({
   },
 
   uploadDataUrl (dataUrl) {
-    return images_.getImageHashFromDataUrl('entities', dataUrl)
+    return getImageHashFromDataUrl('entities', dataUrl)
     .then(this._bareSave.bind(this))
   },
 

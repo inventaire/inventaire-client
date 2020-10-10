@@ -1,6 +1,6 @@
 import { forceArray } from 'lib/utils'
 import Config from './config'
-import geo from './geo'
+import { truncateDecimals } from './geo'
 import { buildPath } from 'lib/location'
 import error_ from 'lib/error'
 import draw from './draw'
@@ -8,7 +8,6 @@ import draw from './draw'
 let map_
 
 const { defaultZoom } = Config
-const { truncateDecimals } = geo
 
 export default map_ = {
   draw,

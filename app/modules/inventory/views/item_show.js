@@ -70,7 +70,7 @@ export default Marionette.LayoutView.extend({
 })
 
 const getAuthorsModels = async works => {
-  works = Promise.all(works.map(work => work.getExtendedAuthorsModels()))
+  works = await Promise.all(works.map(work => work.getExtendedAuthorsModels()))
   return works.reduce(aggregateAuthorsPerProperty, {})
 }
 

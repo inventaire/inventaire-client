@@ -4,7 +4,7 @@ import { forceArray } from 'lib/utils'
 import log_ from 'lib/loggers'
 import { i18n } from 'modules/user/lib/i18n'
 import Imgs from 'modules/general/collections/imgs'
-import images_ from 'lib/images'
+import { getNonResizedUrl, getUrlDataUrl, getUserGravatarUrl } from 'lib/images'
 import files_ from 'lib/files'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
@@ -123,17 +123,17 @@ export default Marionette.CompositeView.extend({
     // use the full definition image:
     // - allow better resolution if the url size was small
     // - allow to host the image only once has the image hash will be the same
-    url = images_.getNonResizedUrl(url)
+    url = getNonResizedUrl(url)
 
     return tryAsync(validateUrlInput.bind(null, url))
-    .then(images_.getUrlDataUrl.bind(null, url))
+    .then(getUrlDataUrl.bind(null, url))
     .then(this._addToPictures.bind(this))
     .catch(error_.Complete('#urlField'))
     .catch(forms_.catchAlert.bind(null, this))
   },
 
   fetchGravatar () {
-    return images_.getUserGravatarUrl()
+    return getUserGravatarUrl()
     .then(url => {
       this.ui.urlInput.val(url)
       return this.fetchUrlPicture()
@@ -189,11 +189,8 @@ const isSelectedModel = model => model.get('selected')
 
 const validateUrlInput = function (url) {
   if (!isUrl(url)) {
-    return forms_.throwError('invalid url', '#urlField', arguments)
+    forms_.throwError('invalid url', '#urlField', arguments)
   }
 }
 
-const getImgData = (crop, url) => ({
-  url,
-  crop
-})
+const getImgData = (crop, url) => ({ url, crop })
