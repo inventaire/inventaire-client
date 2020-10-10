@@ -13,10 +13,12 @@ export default Marionette.Behavior.extend({
   showSpinningLoader (e, params = {}) {
     let $target
     let { selector, message, timeout, progressionEventName } = params
-    if (this._targets == null) { this._targets = {} }
-    this._targets[selector] = ($target = this.getTarget(selector))
+    if (this._targets == null) this._targets = {}
+    this._targets[selector] = $target = this.getTarget(selector)
 
-    if ($target.length !== 1) { return log_.warn($target, 'loading: failed to find single target') }
+    if ($target.length !== 1) {
+      return log_.warn($target, 'loading: failed to find single target')
+    }
 
     let body = '<div class="small-loader"></div>'
     if (message != null) {
@@ -35,7 +37,7 @@ export default Marionette.Behavior.extend({
     // Elements to hide when loading should share the same parent as the .loading element
     $parent.find('.hide-on-loading').hide()
 
-    if (!timeout) { timeout = 60 }
+    timeout = timeout || 60
     if (timeout !== 'none') {
       const cb = this.somethingWentWrong.bind(this, null, params)
       this.view.setTimeout(cb, timeout * 1000)
@@ -55,9 +57,11 @@ export default Marionette.Behavior.extend({
 
   hideSpinningLoader (e, params = {}) {
     const { selector } = params
-    if (this._targets == null) { console.warn('hideSpinningLoader called before showSpinningLoader') }
-    if (this._targets == null) { this._targets = {} }
-    if (!this._targets[selector]) { this._targets[selector] = this.getTarget(selector) }
+    if (this._targets == null) {
+      console.warn('hideSpinningLoader called before showSpinningLoader')
+    }
+    this._targets = this._targets || {}
+    this._targets[selector] = this._targets[selector] || this.getTarget(selector)
     const $target = this._targets[selector]
     $target.empty()
     $target.parent().find('.hide-on-loading').show()
@@ -68,7 +72,7 @@ export default Marionette.Behavior.extend({
   somethingWentWrong (e, params = {}) {
     if (!this.hidden) {
       const { selector } = params
-      if (!this._targets[selector]) { this._targets[selector] = this.getTarget(selector) }
+      this._targets[selector] = this._targets[selector] || this.getTarget(selector)
       const $target = this._targets[selector]
 
       const oups = I18n('something went wrong :(')
@@ -88,7 +92,7 @@ export default Marionette.Behavior.extend({
     if (isNonEmptyString(selector)) {
       const $target = this.$el.find(selector)
       const $targetAlt = $target.find('.loading')
-      if ($targetAlt.length === 1) { return $targetAlt } else { return $target }
+      return $targetAlt.length === 1 ? $targetAlt : $target
     } else {
       return this.$el.find('.loading')
     }

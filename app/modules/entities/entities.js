@@ -113,7 +113,10 @@ const API = {
     })
   },
 
-  showDeduplicate (params = {}) {
+  // Do not use default parameter `(params = {})`
+  // as the router might pass `null` as first argument
+  showDeduplicate (params) {
+    params = params || {}
     // Using an object interface, as the router might pass querystrings
     let { uris } = params
     uris = forceArray(uris)

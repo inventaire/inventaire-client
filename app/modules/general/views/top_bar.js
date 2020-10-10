@@ -112,7 +112,10 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  showLiveSearch (params = {}) {
+  // Do not use default parameter `(params = {})`
+  // as the router might pass `null` as first argument
+  showLiveSearch (params) {
+    params = params || {}
     // If a section is specified, reinitialize the search view
     // to take that section request into account
     if ((this.liveSearch.currentView != null) && (params.section == null)) {

@@ -57,8 +57,11 @@ const API = {
     }
   },
 
-  showPublicInventory (options = {}) {
-    if (_.isString(options)) { options = parseQuery(options) }
+  // Do not use default parameter `(options = {})`
+  // as the router might pass `null` as first argument
+  showPublicInventory (options) {
+    if (_.isString(options)) options = parseQuery(options)
+    else options = options || {}
     const { filter } = options
     const url = buildPath('inventory/public', { filter })
 

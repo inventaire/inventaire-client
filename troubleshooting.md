@@ -39,9 +39,30 @@ After the decaffeination, this is likely due to a function that was returning a 
 ## Uncaught SyntaxError: missing } after property list[...]
 Hot module reload messed up(?), just reload the page
 
-
 ## TypeError: foo.includes is not a function
 `foo` was expected to be an array (could also be a string, but unlikely), but was actually something else, possibly a browser pseudo-array, which don't have the method `includes`: if you are indeed dealing with a pseudo-array, the solution is to transform it into a proper array: `Array.from(foo).includes`
+
+## TypeError: _options is null
+decaffeinte `--loose` option meant that
+```coffee
+someFn = (options = {})-> options * 2
+```
+was transformed into
+```js
+const someFn = (options = {}) => options * 2
+```
+which can be problematic as [default function parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters) are only triggered by `undefined` in JS, while both `undefined` and `null` were triggering it in CS.
+Fix: replace by
+```js
+const someFn = options => {
+  // When falsy values (undefined, null, 0, '') might be valid arguments
+  if (options == null) options = {}
+  // or, when falsy values will never be used, the following is also possible
+  options = options || {}
+  return b * 2
+}
+```
+Known case where `null` is passed and we were using default parameters in CS: route callbacks
 
 ## nothing works, but it should
 - try to restart `npm run watch`
