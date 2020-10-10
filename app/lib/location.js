@@ -1,5 +1,5 @@
 const parseQuery = function (queryString) {
-  if (queryString == null) { return {} }
+  if (queryString == null) return {}
   return queryString
   .replace(/^\?/, '')
   .split('&')
@@ -52,7 +52,7 @@ const parseKeysValues = function (queryObj, nextParam) {
     value = permissiveJsonParse(decodeURIComponent(value))
     // If a number string was parsed into a number, make it a string again
     // so that the output stays predictible
-    if (_.isNumber(value)) { value = value.toString() }
+    if (_.isNumber(value)) value = value.toString()
     queryObj[key] = value
   }
 

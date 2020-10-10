@@ -31,7 +31,6 @@ const { foo } = someModule
 // => error: foo is undefined
 ```
 
-
 ## TypeError: foo(...).then / foo(...).catch is not a function
 Calling the function `foo` should have returned a promise, and it doesn't, promise methods (`.then`, `.catch`) can't be called on it.
 After the decaffeination, this is likely due to a function that was returning a promise, but someone thought this returned value was the result of an unnecessary implicit return and removed the `return`. Re-returning the promise should fix the problem.

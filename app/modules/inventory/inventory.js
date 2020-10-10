@@ -160,7 +160,7 @@ const showItemModal = function (model, fallback) {
     app.navigate(previousRoute, { preventScrollTop: true })
   }
 
-  if (!fallback) { fallback = navigateAfterModal }
+  if (!fallback) fallback = navigateAfterModal
 
   // Let the time to other callbacks to call a navigation before testing if the route
   // should be recovered
