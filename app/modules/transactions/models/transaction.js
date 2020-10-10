@@ -146,8 +146,7 @@ export default Backbone.NestedModel.extend({
       context: this.context(),
       mainUserRead: this.mainUserRead,
       cancellable: this.isCancellable()
-    }
-    );
+    });
 
     [ attrs.user, attrs.other ] = this.aliasUsers(attrs)
 

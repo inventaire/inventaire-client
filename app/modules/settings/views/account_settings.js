@@ -1,5 +1,4 @@
 import { tryAsync } from 'lib/promises'
-import log_ from 'lib/loggers'
 import { shortLang, deepClone } from 'lib/utils'
 import accountSettingsTemplate from './templates/account_settings.hbs'
 import { i18n } from 'modules/user/lib/i18n'
@@ -39,7 +38,7 @@ export default Marionette.ItemView.extend({
     const attrs = this.model.toJSON()
     return _.extend(attrs, {
       emailPicker: this.emailPickerData(),
-      languages: log_.info(this.languagesData(), 'languagesData')
+      languages: this.languagesData()
     })
   },
 

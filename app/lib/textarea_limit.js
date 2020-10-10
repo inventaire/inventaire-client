@@ -1,5 +1,6 @@
 import { i18n } from 'modules/user/lib/i18n'
-export const updateLimit = (textareaEl, limitEl, limit) => {
+
+export function updateLimit (textareaEl, limitEl, limit) {
   const currentLength = this.ui[textareaEl].val().length
   if ((currentLength / limit) > 0.9) {
     const remaingCharacters = limit - currentLength

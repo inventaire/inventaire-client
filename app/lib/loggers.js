@@ -50,7 +50,7 @@ const error = (err, label) => {
 
   // No need to report server error back to the server
   if (!err.serverError) reportError(err)
-  console.error(`[${label}]\n`, err.message, err.stack, err, err.context)
+  console.error(`[${label}]\n`, err, err.context)
 }
 
 const warn = (...args) => {

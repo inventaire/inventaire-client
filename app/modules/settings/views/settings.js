@@ -1,11 +1,15 @@
 import { I18n } from 'modules/user/lib/i18n'
 import settingsTemplate from './templates/settings.hbs'
+import profile from './profile_settings'
+import account from './account_settings'
+import notifications from './notifications_settings'
+import data from './data_settings'
 
 const views = {
-  profile: require('./profile_settings'),
-  account: require('./account_settings'),
-  notifications: require('./notifications_settings'),
-  data: require('./data_settings')
+  profile,
+  account,
+  notifications,
+  data,
 }
 
 export default Marionette.LayoutView.extend({

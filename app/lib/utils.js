@@ -191,3 +191,5 @@ export function typeOf (obj) {
 }
 
 export function noop () {}
+
+export async function asyncNoop () {}

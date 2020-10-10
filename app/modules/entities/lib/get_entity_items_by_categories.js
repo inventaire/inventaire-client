@@ -32,13 +32,18 @@ const spreadItems = uris => async items => {
     categoryItems.sort(byDistance)
   }
 
-  if (app.user.has('position') && (itemsByCategories.public.length > 0)) {
-    const nearestPublicItem = itemsByCategories.public[0]
-    const nearestPublicItemDistance = getItemDistance(nearestPublicItem)
-    const nearbyKmPerimeter = getPerimeter(nearestPublicItemDistance)
-    const [ nearbyPublic, otherPublic ] = _.partition(itemsByCategories.public, isNearby(nearbyKmPerimeter))
-    itemsByCategories.nearbyPublic = nearbyPublic
-    itemsByCategories.otherPublic = otherPublic
+  if (app.user.has('position')) {
+    if (itemsByCategories.public.length > 0) {
+      const nearestPublicItem = itemsByCategories.public[0]
+      const nearestPublicItemDistance = getItemDistance(nearestPublicItem)
+      const nearbyKmPerimeter = getPerimeter(nearestPublicItemDistance)
+      const [ nearbyPublic, otherPublic ] = _.partition(itemsByCategories.public, isNearby(nearbyKmPerimeter))
+      itemsByCategories.nearbyPublic = nearbyPublic
+      itemsByCategories.otherPublic = otherPublic
+    } else {
+      itemsByCategories.nearbyPublic = []
+      itemsByCategories.otherPublic = []
+    }
   }
 
   return itemsByCategories
@@ -48,9 +53,8 @@ export default async function () {
   if (this.itemsByCategory != null) return this.itemsByCategory
 
   const uris = await getAllEntityUris(this)
-  const itemsByCategory = await app.request('items:getByEntities', uris).then(spreadItems(uris))
-  this.itemsByCategory = itemsByCategory
-  return itemsByCategory
+  this.itemsByCategory = await app.request('items:getByEntities', uris).then(spreadItems(uris))
+  return this.itemsByCategory
 }
 
 const byDistance = (itemA, itemB) => getItemDistance(itemA) - getItemDistance(itemB)

@@ -15,4 +15,8 @@ const lending = {
   owner: commonLending
 }
 
-export { oneWay as giving, lending, oneWay as selling }
+export default {
+  giving: oneWay,
+  lending,
+  selling: oneWay,
+}

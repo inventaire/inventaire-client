@@ -1,13 +1,15 @@
 import log_ from 'lib/loggers'
 import { isOpenedOutside } from 'lib/utils'
 import preq from 'lib/preq'
-import { showOnMap, showUserOnMap, getBbox } from 'modules/map/lib/map'
+import map_ from 'modules/map/lib/map'
 import { initMap, grabMap, refreshListFilter } from 'modules/network/lib/nearby_layouts'
 import Users from 'modules/users/collections/users'
 import Groups from 'modules/network/collections/groups'
 import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import inventoryPublicNavTemplate from './templates/inventory_public_nav.hbs'
+
+const { showOnMap, showUserOnMap, getBbox } = map_
 
 export default InventoryCommonNav.extend({
   id: 'inventoryPublicNav',

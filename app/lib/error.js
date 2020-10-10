@@ -8,7 +8,9 @@ const formatError = function (message, statusCode, context) {
   // in case statusCode is a 4xx error
 
   // Default to client implementation errors: 599
-  if (!_.isNumber(statusCode)) { [ statusCode, context ] = [ 599, statusCode ] }
+  if (!_.isNumber(statusCode)) {
+    [ statusCode, context ] = [ 599, statusCode ]
+  }
 
   const err = new Error(message)
   // Set statusCode to a 4xx error for user errors to prevent it
@@ -17,7 +19,7 @@ const formatError = function (message, statusCode, context) {
   err.statusCode = statusCode
 
   // converting arguments object to array for readability in logs
-  if (_.isArguments(context)) { context = Array.from(context) }
+  if (_.isArguments(context)) context = Array.from(context)
   err.context = context
   err.timestamp = new Date().toISOString()
 

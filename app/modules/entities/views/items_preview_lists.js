@@ -4,8 +4,8 @@ import itemsPreviewListsTemplate from './templates/items_preview_lists.hbs'
 export default Marionette.LayoutView.extend({
   className () {
     let className = 'itemsPreviewLists'
-    if (this.options.compact) { className += ' compact' }
-    if (this.options.itemsModels?.length <= 0) { className += ' emptyLists' }
+    if (this.options.compact) className += ' compact'
+    if (this.options.itemsModels?.length <= 0) className += ' emptyLists'
     return className
   },
 

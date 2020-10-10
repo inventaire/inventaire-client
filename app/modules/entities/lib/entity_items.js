@@ -8,27 +8,28 @@ export default {
   }
 }
 
-const showItemsPreviewLists = function () {
-  return this.waitForItems
-  .then(itemsByCategory => {
-    // Happens when app/modules/entities/views/editions_list.js
-    // are displayed within work_layout and thus re-redered on filter
-    if (this.isDestroyed) return
-    if (app.user.loggedIn) {
-      showItemsPreviews.call(this, itemsByCategory, 'personal')
-      // TODO: replace network by only friends and groups,
-      // moving non-confirmed friends to public items
-      showItemsPreviews.call(this, itemsByCategory, 'network')
-    }
-    if (app.user.has('position')) {
-      showItemsPreviews.call(this, itemsByCategory, 'nearbyPublic')
-      showItemsPreviews.call(this, itemsByCategory, 'otherPublic')
-    } else {
-      showItemsPreviews.call(this, itemsByCategory, 'public')
-    }
+const showItemsPreviewLists = async function () {
+  const itemsByCategory = await this.waitForItems
 
-    this.$el.find('.items-lists-loader').hide()
-  })
+  // Happens when app/modules/entities/views/editions_list.js
+  // are displayed within work_layout and thus re-redered on filter
+  if (this.isDestroyed) return
+
+  if (app.user.loggedIn) {
+    showItemsPreviews.call(this, itemsByCategory, 'personal')
+    // TODO: replace network by only friends and groups,
+    // moving non-confirmed friends to public items
+    showItemsPreviews.call(this, itemsByCategory, 'network')
+  }
+
+  if (app.user.has('position')) {
+    showItemsPreviews.call(this, itemsByCategory, 'nearbyPublic')
+    showItemsPreviews.call(this, itemsByCategory, 'otherPublic')
+  } else {
+    showItemsPreviews.call(this, itemsByCategory, 'public')
+  }
+
+  this.$el.find('.items-lists-loader').hide()
 }
 
 const showItemsPreviews = function (itemsByCategory, category) {

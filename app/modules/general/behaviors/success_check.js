@@ -1,4 +1,6 @@
 import log_ from 'lib/loggers'
+import { icon } from 'lib/utils'
+
 // elements required in the view: .checkWrapper > .check
 
 export default Marionette.Behavior.extend({
@@ -27,17 +29,19 @@ export default Marionette.Behavior.extend({
     }
 
     if ($check.length !== 1) {
-      return log_.warn('.check target not found')
+      return log_.warn($check, '.check target not found')
     }
 
-    $check.hide().html(_.icon(signal, 'text-center'))
+    $check
+    .hide()
+    .html(icon(signal, 'text-center'))
     .slideDown(300)
 
     const afterTimeout = function () {
       $check.slideUp()
-      if (cb != null) { return cb() }
+      if (cb != null) cb()
     }
 
-    return this.view.setTimeout(afterTimeout, 600)
+    this.view.setTimeout(afterTimeout, 600)
   }
 })

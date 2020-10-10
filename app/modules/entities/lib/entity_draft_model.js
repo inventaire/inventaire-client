@@ -4,6 +4,7 @@ import * as createEntities from './create_entities'
 import properties from './properties'
 import Entity from '../models/entity'
 import { buildPath } from 'lib/location'
+import { asyncNoop } from 'lib/utils'
 
 const typeDefaultP31 = {
   human: 'wd:Q5',
@@ -52,7 +53,7 @@ export default {
       relation,
       propertiesShortlist: getPropertiesShortlist(type, claims),
       setPropertyValue: editableEntity.setPropertyValue.bind(model),
-      savePropertyValue: Promise.resolve(),
+      savePropertyValue: asyncNoop,
       setLabel: editableEntity.setLabel.bind(model),
       resetLabels (lang, value) {
         this.set('labels', {})
@@ -60,7 +61,7 @@ export default {
       },
       // Required by editableEntity.setPropertyValue
       invalidateRelationsCache: _.noop,
-      saveLabel: Promise.resolve(),
+      saveLabel: asyncNoop,
       create () {
         return createEntities.create({
           labels: this.get('labels'),

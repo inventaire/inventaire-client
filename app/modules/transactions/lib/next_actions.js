@@ -1,5 +1,5 @@
 import { findNextActions, isArchived } from './transactions'
-import infoPartials from './info_partials'
+import * as infoPartials from './info_partials'
 import actionsData from './actions_data'
 
 const getNextActionsData = function (transaction) {

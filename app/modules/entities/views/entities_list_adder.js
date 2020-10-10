@@ -31,7 +31,7 @@ export default Marionette.CompositeView.extend({
 
   initialize () {
     ({ type: this.type, parentModel: this.parentModel, childrenClaimProperty: this.childrenClaimProperty } = this.options)
-    if (!this.childrenClaimProperty) { this.childrenClaimProperty = this.parentModel.childrenClaimProperty }
+    this.childrenClaimProperty = this.childrenClaimProperty || this.parentModel.childrenClaimProperty
     this.cantTypeSearch = cantTypeSearch.includes(this.type)
     this.setEntityCreationData()
     this.collection = new PaginatedEntities(null, { uris: [] })
@@ -116,7 +116,7 @@ export default Marionette.CompositeView.extend({
       this.$el.addClass('fetching')
       if (this._waitForParentModelChildrenCandidatesUris == null) { this._waitForParentModelChildrenCandidatesUris = this.parentModel.getChildrenCandidatesUris() }
       return this._waitForParentModelChildrenCandidatesUris.then(this.resetFromUris.bind(this))
-    } else {
+    } else if (!this.cantTypeSearch) {
       const label = this.parentModel.get('label')
       this.$el.addClass('fetching')
       this._findCandidatesFromLabelSearch = true

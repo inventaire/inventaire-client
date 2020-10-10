@@ -28,6 +28,9 @@
       }
     }
   }
+  .addOne{
+    font-size: 1rem;
+  }
   .counter{
     @include counter-commons;
     background-color: white;

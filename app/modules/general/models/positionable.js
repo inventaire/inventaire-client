@@ -17,11 +17,8 @@ export default Filterable.extend({
   getLatLng () {
     // Create a L.LatLng only once
     // Update it when position update (only required for the main user)
-    if (this._latLng != null) {
-      return this._latLng
-    } else {
-      return this._setLatLng()
-    }
+    this._latLng = this._latLng || this._setLatLng()
+    return this._latLng
   },
 
   _setLatLng () {
@@ -31,5 +28,6 @@ export default Filterable.extend({
     } else {
       this._latLng = null
     }
+    return this._latLng
   }
 })

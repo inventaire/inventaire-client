@@ -63,10 +63,10 @@ export default async function () {
   // Initialize the application on DOM ready event.
   $(() => {
     app.layout = new AppLayout()
+    initQuerystringHelpers()
     app.start()
     app.execute('waiter:resolve', 'layout')
     reloadOnceADay()
-    initQuerystringHelpers()
   })
 
   configPromise.then(initPiwik)

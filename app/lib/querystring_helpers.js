@@ -11,7 +11,7 @@ export default function () {
   app.commands.setHandlers({
     'querystring:set': set
   })
-};
+}
 
 const get = function (key) {
   const value = getQuery()?.[key]

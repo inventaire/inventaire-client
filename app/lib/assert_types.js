@@ -66,10 +66,16 @@ const duplicatesArray = (str, length) => new Array(length).fill(str)
 export default {
   type: assertType,
   types: assertTypes,
-  string: str => assertType(str, 'string'),
-  number: num => assertType(num, 'number'),
+
   array: array => assertType(array, 'array'),
+  function: fn => assertType(fn, 'function'),
+  number: num => assertType(num, 'number'),
   object: obj => assertType(obj, 'object'),
-  strings: args => assertTypes(args, 'strings...'),
+  string: str => assertType(str, 'string'),
+
+  arrays: args => assertTypes(args, 'arrays...'),
+  functions: args => assertTypes(args, 'functions...'),
+  numbers: args => assertTypes(args, 'numbers...'),
   objects: args => assertTypes(args, 'objects...'),
+  strings: args => assertTypes(args, 'strings...'),
 }

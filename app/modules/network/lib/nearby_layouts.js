@@ -6,7 +6,7 @@ const { updateRoute, updateRouteFromEvent, BoundFilter } = map_
 const containerId = 'mapContainer'
 const containerSelector = '#' + containerId
 
-const initMap = async params => {
+export const initMap = async params => {
   const { view, query } = params
 
   // Do not redefine the updateRoute variable: access from params object
@@ -67,27 +67,14 @@ const initEventListners = (params, map) => {
 
   map.on('moveend', onMoveend)
 }
+export function grabMap (map) {
+  assert_.object(map)
+  assert_.function(map.getBounds)
+  this.map = map
+  return map
+}
 
-export default {
-  initMap,
-
-  regions: {
-    list: '#list'
-  },
-
-  grabMap (map) {
-    assert_.object(map)
-    assert_.function(map.getBounds)
-    this.map = map
-    return map
-  },
-
-  refreshListFilter (collection) {
-    collection = collection || this.collection
-    return collection.filterBy('geobox', BoundFilter(this.map))
-  },
-
-  solvePosition,
-
-  drawMap
+export function refreshListFilter (collection) {
+  collection = collection || this.collection
+  return collection.filterBy('geobox', BoundFilter(this.map))
 }
