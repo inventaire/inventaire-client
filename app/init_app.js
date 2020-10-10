@@ -2,6 +2,7 @@ import app from './app'
 import getConfig from './get_config'
 import initPiwik from 'lib/piwik'
 import API from 'api/api'
+import log_ from 'lib/loggers'
 import initDataWaiters from 'lib/data/waiters'
 import Redirect from 'modules/redirect'
 import User from 'modules/user/user'
@@ -23,6 +24,7 @@ import initQuerystringHelpers from 'lib/querystring_helpers'
 
 window.app = app
 window.location.root = window.location.protocol + '//' + window.location.host
+if (window.env === 'dev') window.log_ = log_
 
 export default async function () {
   // gets all the routes used in the app
