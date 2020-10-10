@@ -46,6 +46,7 @@
 }
 
 .selector-button{
+  word-break: normal;
   position: relative;
   @include bg-hover(white, 8%);
   @include radius;
@@ -114,6 +115,7 @@
     border-bottom: 1px solid #ddd;
   }
   a{
+    word-break: normal;
     height: 2.5em;
     @include display-flex(row, center);
     @include bg-hover(white);
