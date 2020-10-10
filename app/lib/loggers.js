@@ -20,7 +20,10 @@ const log = (obj, label) => {
 }
 
 const error = (err, label) => {
-  if (!(err instanceof Error)) {
+  // The previous 'err instanceof Error' now fails
+  // as it seems that instances of TypeError aren't considered
+  // instances of Error anymore
+  if (!(err.constructor?.name?.endsWith('Error'))) {
     const errData = err
     err = new Error('invalid error object')
     err.context = errData
