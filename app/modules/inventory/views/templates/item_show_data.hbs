@@ -1,23 +1,23 @@
 {{#if userReady}}
   <span class="section-label">{{I18n 'owner'}}</span>
   {{#if restricted}}
-    {{partial 'inventory:item_mixed_box' this}}
-    {{partial 'inventory:item_request_box' this}}
+    {{> 'inventory:item_mixed_box' this}}
+    {{> 'inventory:item_request_box' this}}
     {{#if details}}
-      {{partial 'inventory:item_details' this}}
+      {{> 'inventory:item_details' this}}
     {{/if}}
-    {{partial 'inventory:item_shelves' this}}
+    {{> 'inventory:item_shelves' this}}
   {{else}}
-    {{partial 'inventory:item_user_box' this}}
+    {{> 'inventory:item_user_box' this}}
     <div class="item-settings itemBox">
       {{#unless isPrivate}}
-        {{partial 'inventory:item_transaction_box' this}}
+        {{> 'inventory:item_transaction_box' this}}
       {{/unless}}
-      {{partial 'inventory:item_visibility_box' this}}
+      {{> 'inventory:item_visibility_box' this}}
     </div>
-    {{partial 'inventory:item_details' this}}
-    {{partial 'inventory:item_note' this}}
-    {{partial 'inventory:item_shelves' this}}
+    {{> 'inventory:item_details' this}}
+    {{> 'inventory:item_note' this}}
+    {{> 'inventory:item_shelves' this}}
     <a class="remove remove-button shy-label dark-grey">
       <span>{{I18n 'delete'}}</span>
       {{icon 'trash-o'}}

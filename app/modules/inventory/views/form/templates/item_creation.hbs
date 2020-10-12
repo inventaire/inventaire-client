@@ -9,17 +9,17 @@
   <div class="panel">
     <label for="transaction">{{i18n "I have it and it's available for:"}}</label>
     <div id="transaction" class="select-button-group">
-      {{partial 'inventory:form:button_group' transactions}}
+      {{> 'inventory:form:button_group' transactions}}
     </div>
     <label for="listing">{{i18n 'Who can see it?'}}</label>
     <div id="listing" class="select-button-group">
-      {{partial 'inventory:form:button_group' listings}}
+      {{> 'inventory:form:button_group' listings}}
     </div>
 
     <div id="shelvesWrapper" class="hidden">
       <label for="shelvesSelector">{{I18n 'shelves'}}</label>
       <div id="shelvesSelector">
-        {{partial 'inventory:item_shelves' this}}
+        {{> 'inventory:item_shelves' this}}
       </div>
     </div>
 
@@ -30,7 +30,7 @@
       <label for="notes">
         {{i18n 'private notes'}}
       </label>
-      {{partial 'inventory:item_notes_lock'}}
+      {{> 'inventory:item_notes_lock'}}
 
       <textarea id='notes' class='error radius' placeholder='{{i18n 'notes_placeholder'}}'></textarea>
     </div>

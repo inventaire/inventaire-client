@@ -4,9 +4,9 @@
       <input type="text" name="title" class="string-value-input has-alertbox" value="{{value}}">
       <p class="tip"></p>
     </div>
-    {{partial 'entities:editor:edit_mode_buttons' this}}
+    {{> 'entities:editor:edit_mode_buttons' this}}
   </div>
 {{else}}
   <div class="displayModeData">{{value}}</div>
-  {{partial 'entities:editor:edit_button'}}
+  {{> 'entities:editor:edit_button'}}
 {{/if}}

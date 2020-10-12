@@ -5,7 +5,7 @@
     {{else}}
       <div class="image-wrapper">
         <img src="{{imgSrc image.url 300}}" alt="{{label}} cover">
-        {{partial 'entities:photo_credits' image.credits}}
+        {{> 'entities:photo_credits' image.credits}}
       </div>
     {{/if}}
   </a>
@@ -16,5 +16,5 @@
   {{#if extract}}
     <p class="extract" dir="{{extractDirection}}">{{{extract}}}</p>
   {{/if}}
-  {{partial 'entities:edit_data' this}}
+  {{> 'entities:edit_data' this}}
 </div>

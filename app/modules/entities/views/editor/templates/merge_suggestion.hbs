@@ -14,7 +14,7 @@
 {{#if task}}
   <div class="task-data">
     <a class="showTask" href="{{task.pathname}}" title="{{i18n 'show task'}}">
-      {{partial 'tasks:task_scores' task}}
+      {{> 'tasks:task_scores' task}}
     </a>
   </div>
 {{/if}}
@@ -22,7 +22,7 @@
 <div class="suggestion-claims">
   {{!-- claims that aren't in claims partials, but that could be useful for most entities types --}}
   {{claim claims 'wdt:P50' true}} {{!-- author --}}
-  {{#if claimsPartial}}{{partial claimsPartial this}}{{/if}}
+  {{#if claimsPartial}}{{> claimsPartial this}}{{/if}}
 </div>
 
 <div class="all-subentities">

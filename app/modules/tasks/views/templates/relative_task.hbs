@@ -7,10 +7,10 @@
   <div class="relative-suggestion">
     {{#with suggestion}}
       <strong>{{label}}</strong>
-      {{partial 'entities:birth_death_dates' claims}}
+      {{> 'entities:birth_death_dates' claims}}
       <p class="description">{{description}}</p>
       <p class="uri">{{uri}}</p>
     {{/with}}
   </div>
-  {{partial 'tasks:task_scores' this}}
+  {{> 'tasks:task_scores' this}}
 </div>

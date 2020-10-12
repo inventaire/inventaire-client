@@ -10,20 +10,20 @@
     {{/if}}
     <div class="claims entity-data-box">
       <h2 class="edition-title">{{stringClaim claims 'wdt:P1476' true }}</h2>
-      {{partial 'entities:edition_claims' this}}
-      {{partial 'entities:edit_data' this}}
+      {{> 'entities:edition_claims' this}}
+      {{> 'entities:edit_data' this}}
     </div>
   </div>
 
   <div class="editionEntityActions"></div>
 
-  {{partial 'entities:items_lists' prefix='edition'}}
+  {{> 'entities:items_lists' prefix='edition'}}
 
 </div>
 
 <div class="works"></div>
 
-{{partial 'entities:merge_suggestions_layout_section' this}}
+{{> 'entities:merge_suggestions_layout_section' this}}
 
-{{partial 'entities:editor:edit_meta' this}}
-{{partial 'welcome:embedded_welcome'}}
+{{> 'entities:editor:edit_meta' this}}
+{{> 'welcome:embedded_welcome'}}

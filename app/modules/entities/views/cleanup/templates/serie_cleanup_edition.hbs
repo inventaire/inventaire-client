@@ -12,7 +12,7 @@
   </div>
   <span class="uri">{{uri}}</span>
   <div class="actions">
-    {{partial 'entities:cleanup:work_picker' this}}
+    {{> 'entities:cleanup:work_picker' this}}
 
     {{#if workLabel}}
       <a class="copyWorkLabel" title="{{i18n 'the edition new title would be:'}} {{workLabel}}">

@@ -1,13 +1,13 @@
 {{#if editMode}}
   <div class="edit-mode">
     <div class="unit-pickers has-alertbox">
-      {{partial 'entities:editor:time_unit_picker' yearData}}
-      {{partial 'entities:editor:time_unit_picker' monthData}}
-      {{partial 'entities:editor:time_unit_picker' dayData}}
+      {{> 'entities:editor:time_unit_picker' yearData}}
+      {{> 'entities:editor:time_unit_picker' monthData}}
+      {{> 'entities:editor:time_unit_picker' dayData}}
     </div>
-    {{partial 'entities:editor:edit_mode_buttons' this}}
+    {{> 'entities:editor:edit_mode_buttons' this}}
   </div>
 {{else}}
   <div class="displayModeData">{{value}}</div>
-  {{partial 'entities:editor:edit_button'}}
+  {{> 'entities:editor:edit_button'}}
 {{/if}}

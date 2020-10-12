@@ -1,13 +1,13 @@
 <div class="items-lists">
-  <div class="{{hash.prefix}}PersonalItems personal"></div>
-  <div class="{{hash.prefix}}NetworkItems network"></div>
-  <div class="{{hash.prefix}}PublicItems public"></div>
-  <div class="{{hash.prefix}}NearbyPublicItems nearby"></div>
-  <div class="{{hash.prefix}}OtherPublicItems other"></div>
+  <div class="{{prefix}}PersonalItems personal"></div>
+  <div class="{{prefix}}NetworkItems network"></div>
+  <div class="{{prefix}}PublicItems public"></div>
+  <div class="{{prefix}}NearbyPublicItems nearby"></div>
+  <div class="{{prefix}}OtherPublicItems other"></div>
 </div>
-{{#unless hash.disabled}}
+{{#unless disabled}}
   <div class="items-lists-loader">
-    {{partial 'loader' inline=true}}
+    {{> 'loader' inline=true}}
     <span class="label">{{i18n 'fetching available books...'}}</span>
   </div>
 {{/unless}}

@@ -21,16 +21,16 @@
   <section class="settings">
     <label for="transaction">{{i18n 'transaction'}}</label>
     <div id="transaction" class="select-button-group">
-      {{partial 'inventory:form:button_group' transactions}}
+      {{> 'inventory:form:button_group' transactions}}
     </div>
     <label>{{i18n 'visibility'}}</label>
     <div id="listing" class="select-button-group">
-      {{partial 'inventory:form:button_group' listings}}
+      {{> 'inventory:form:button_group' listings}}
     </div>
     <div id="shelvesWrapper" class="hidden">
       <label for="shelvesSelector">{{I18n 'shelves'}}</label>
       <div id="shelvesSelector">
-        {{partial 'inventory:item_shelves' this}}
+        {{> 'inventory:item_shelves' this}}
       </div>
     </div>
   </section>
@@ -46,7 +46,7 @@
       <span class="meter" style="width:0%">
         <p class="fraction"></p>
       </span>
-      {{partial 'loader'}}
+      {{> 'loader'}}
     </div>
   </div>
 </div>

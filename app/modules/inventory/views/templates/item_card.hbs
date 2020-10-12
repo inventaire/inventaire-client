@@ -24,14 +24,14 @@
 </a>
 {{#if userReady}}
   {{#if restricted}}
-    {{partial 'inventory:item_mixed_box' this}}
+    {{> 'inventory:item_mixed_box' this}}
   {{else}}
-    {{partial 'inventory:item_user_box' this}}
+    {{> 'inventory:item_user_box' this}}
     <div class="item-settings itemBox">
       {{#unless isPrivate}}
-        {{partial 'inventory:item_transaction_box' this}}
+        {{> 'inventory:item_transaction_box' this}}
       {{/unless}}
-      {{partial 'inventory:item_visibility_box' this}}
+      {{> 'inventory:item_visibility_box' this}}
     </div>
   {{/if}}
   {{#if details}}
@@ -44,5 +44,5 @@
       </span>
     </div>
   {{/if}}
-  {{partial 'inventory:item_request_box' this}}
+  {{> 'inventory:item_request_box' this}}
 {{/if}}

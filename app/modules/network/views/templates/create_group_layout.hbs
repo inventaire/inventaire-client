@@ -5,15 +5,15 @@
   <input id="nameField" class="groupNameField" type="text" placeholder="{{i18n 'ex: the secret club of Proustian experts'}}">
 </div>
 
-{{partial 'network:group_url'}}
+{{> 'network:group_url'}}
 
 <label for="description">{{i18n 'description'}}</label>
 {{textarea description}}
 
-{{partial 'network:searchability' searchability}}
+{{> 'network:searchability' searchability}}
 
 {{!-- Can't be showned in a modal as the create_group_layout is in a modal itself >< --}}
-{{!-- {{partial 'network:group_position_setting'}} --}}
+{{!-- {{> 'network:group_position_setting'}} --}}
 
 <a id="createGroup" class="button light-blue" tabindex="0">
   {{icon 'plus'}} {{I18n 'create group'}}

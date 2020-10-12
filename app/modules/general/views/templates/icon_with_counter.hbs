@@ -1,10 +1,8 @@
-{{#with hash}}
-  <a href="{{href}}" id="{{name}}IconButton" class="iconButton {{name}}
-  {{#if counter}}icon-with-counter count-{{counter}}
-  {{else}}icon-without-counter{{/if}}"
-     title="{{i18n title}}">
-     {{icon icon}}
-     <span class="label">{{I18n label}}</span>
-     <span class="counter">{{counter}}</span>
-  </a>
-{{/with}}
+<a href="{{href}}" id="{{name}}IconButton" class="iconButton {{name}}
+{{#if counter}}icon-with-counter count-{{counter}}
+{{else}}icon-without-counter{{/if}}"
+    title="{{i18n title}}">
+    {{icon icon}}
+    <span class="label">{{I18n label}}</span>
+    <span class="counter">{{counter}}</span>
+</a>

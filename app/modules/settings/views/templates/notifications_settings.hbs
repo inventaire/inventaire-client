@@ -2,7 +2,7 @@
 
 <section class="global">
   <h3 class="first">{{i18n 'global'}}</h3>
-  {{partial 'toggler' global}}
+  {{> 'toggler' global}}
   <p class="warning {{#if showWarning}}shown{{/if}}">
     {{icon 'warning'}} {{i18n warning}}
   </p>
@@ -12,7 +12,7 @@
   <div class="rest-fog local-fog {{#if showWarning}}shown{{/if}}"></div>
   <section class="news">
     <h3>{{i18n 'news'}}</h3>
-    {{partial 'toggler' inventories_activity_summary}}
+    {{> 'toggler' inventories_activity_summary}}
     <div class="summary-periodicity checkWrapper">
       <div class="periodicity-fog local-fog {{#if showPeriodicity}}shown{{/if}}"></div>
       <div class="flex-row-center-center">
@@ -28,28 +28,28 @@
   </section>
   <section class="friends">
     <h3>{{i18n 'friends'}}</h3>
-    {{partial 'settings:email_me_when'}}
-    {{partial 'toggler' friendship_request}}
+    {{> 'settings:email_me_when'}}
+    {{> 'toggler' friendship_request}}
     <hr>
-    {{partial 'toggler' friend_accepted_request}}
+    {{> 'toggler' friend_accepted_request}}
   </section>
 
   <section class="groups">
     <h3>{{i18n 'groups'}}</h3>
-    {{partial 'settings:email_me_when'}}
-    {{partial 'toggler' group_invite}}
+    {{> 'settings:email_me_when'}}
+    {{> 'toggler' group_invite}}
     <hr>
-    {{partial 'toggler' group_acceptRequest}}
+    {{> 'toggler' group_acceptRequest}}
   </section>
 
   <section class="exchanges">
     <h3>{{i18n 'exchanges'}}</h3>
-    {{partial 'settings:email_me_when'}}
-    {{partial 'toggler' your_item_was_requested}}
+    {{> 'settings:email_me_when'}}
+    {{> 'toggler' your_item_was_requested}}
     <hr>
-    {{partial 'toggler' update_on_your_item}}
+    {{> 'toggler' update_on_your_item}}
     <hr>
-    {{partial 'toggler' update_on_item_you_requested}}
+    {{> 'toggler' update_on_item_you_requested}}
   </section>
 
 </div>

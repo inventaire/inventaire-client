@@ -3,9 +3,9 @@
     <div class="inputBox">
       <input type="number" name="pages" class="positive-integer-picker has-alertbox" min="1" max="100000" placeholder="{{i18n 'ex:'}} 254" value="{{value}}">
     </div>
-    {{partial 'entities:editor:edit_mode_buttons' this}}
+    {{> 'entities:editor:edit_mode_buttons' this}}
   </div>
 {{else}}
   <div class="displayModeData">{{value}}</div>
-  {{partial 'entities:editor:edit_button'}}
+  {{> 'entities:editor:edit_button'}}
 {{/if}}

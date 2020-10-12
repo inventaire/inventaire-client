@@ -1,5 +1,5 @@
 {{#unless smallScreen}}
-  {{partial 'icon_with_counter'
+  {{> 'icon_with_counter'
     name='exchanges'
     label='exchanges'
     icon='exchange'
@@ -8,7 +8,7 @@
     counter=exchangesUpdates
   }}
 
-  {{partial 'icon_with_counter'
+  {{> 'icon_with_counter'
     name='notifications'
     label='notifications'
     icon='bell'
@@ -33,7 +33,7 @@
     </a>
     {{#if smallScreen}}
 
-      {{partial 'icon_with_counter'
+      {{> 'icon_with_counter'
         name='exchanges'
         label='exchanges'
         icon='exchange'
@@ -42,7 +42,7 @@
         counter=exchangesUpdates
       }}
 
-      {{partial 'icon_with_counter'
+      {{> 'icon_with_counter'
         name='notifications'
         label='notifications'
         icon='bell'

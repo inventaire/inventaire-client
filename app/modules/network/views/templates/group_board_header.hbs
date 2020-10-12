@@ -18,7 +18,7 @@
   {{#if invitor.username}}
     <span class="invitor">{{i18n 'group_invitor' invitor}}</span>
   {{/if}}
-  {{partial 'network:group_actions' this}}
+  {{> 'network:group_actions' this}}
 </div>
 
 <a href="{{pathname}}" class="showGroup

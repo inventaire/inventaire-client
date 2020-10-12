@@ -1,7 +1,7 @@
 <div class="userMenu">
   {{#if groupContext}}
-    {{partial 'inventory:user_menu_group' this}}
+    {{> 'inventory:user_menu_group' this}}
   {{else}}
-    {{partial 'inventory:user_menu_general' this}}
+    {{> 'inventory:user_menu_general' this}}
   {{/if}}
 </div>
