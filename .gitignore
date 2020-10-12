@@ -40,6 +40,7 @@ scripts/assets/weight_history
 scripts/assets/bundle_reports
 casper
 scripts/local
+app/assets/piwik.js
 app/lib/languages_data.js
 inventaire-i18n
 issues

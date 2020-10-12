@@ -18,3 +18,5 @@ ln -s .githooks .git/hooks
 
 mkdir -p ./public
 ln -s ./public/dist/index.html ./public/index.html
+
+curl -sk https://piwik.allmende.io/piwik.js > ./app/assets/piwik.js

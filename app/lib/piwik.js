@@ -9,7 +9,7 @@ if (!window._paq) window._paq = []
 const { _paq, env } = window
 const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
-export default function () {
+export default async function () {
   if (isPrerenderSession) return
   const { piwik } = app.config
   if (piwik == null) return
@@ -26,16 +26,17 @@ export default function () {
   // tracker will be defined once piwik.js is executed
   let tracker = null
   let piwikDisabled = false
+  let piwikInitPromise
 
-  // Unfortunately, piwik.js can't be bundled within vendor.js
-  // as it has to be run after _paq is initialized (here above)
-  const piwikInitPromise = preq.getScript(app.API.assets.scripts.piwik())
-    .then(() => { tracker = window.Piwik.getAsyncTracker() })
-    .catch(err => {
-      // Known case: ublock origin
-      log_.warn('Fetching Piwik failed (Could be because of a tracker blocker)', err.message)
-      piwikDisabled = true
-    })
+  try {
+    piwikInitPromise = import('assets/piwik')
+    await piwikInitPromise
+    tracker = window.Piwik.getAsyncTracker()
+  } catch (err) {
+    // Known case: ublock origin
+    log_.warn('Fetching Piwik failed (Could be because of a tracker blocker)', err.message)
+    piwikDisabled = true
+  }
 
   // Tracker API doc: http://developer.piwik.org/api-reference/tracking-javascript
   const setUserId = function (id) {
