@@ -118,15 +118,15 @@ export default Filterable.extend({
     let { uri, type } = attrs
     const [ prefix, id ] = uri.split(':')
 
-    if (prefix === 'wd') { this.wikidataId = id }
+    if (prefix === 'wd') this.wikidataId = id
 
     const isbn13h = attrs.claims['wdt:P212']?.[0]
     // Using de-hyphenated ISBNs for URIs
-    if (isbn13h != null) { this.isbn = normalizeIsbn(isbn13h) }
+    if (isbn13h != null) this.isbn = normalizeIsbn(isbn13h)
 
-    if (prefix !== 'inv') { this.setInvAltUri() }
+    if (prefix !== 'inv') this.setInvAltUri()
 
-    if (type == null) { type = 'subject' }
+    if (type == null) type = 'subject'
     this.defaultClaimProperty = defaultClaimPropertyByType[type]
 
     if (this.defaultClaimProperty != null) {
@@ -148,7 +148,9 @@ export default Filterable.extend({
 
   setInvAltUri () {
     const invId = this.get('_id')
-    if (invId != null) { return this.set('altUri', `inv:${invId}`) }
+    if (invId != null) {
+      return this.set('altUri', `inv:${invId}`)
+    }
   },
 
   async fetchSubEntities (refresh) {
@@ -208,7 +210,9 @@ export default Filterable.extend({
 
   setSubEntitiesUris (uris) {
     this.set('subEntitiesUris', uris)
-    if (this.subEntitiesInverseProperty) { this.set(`claims.${this.subEntitiesInverseProperty}`, uris) }
+    if (this.subEntitiesInverseProperty) {
+      this.set(`claims.${this.subEntitiesInverseProperty}`, uris)
+    }
     // The list of all uris that describe an entity that is this work or a subentity,
     // that is, an edition of this work
     return this.set('allUris', [ this.get('uri') ].concat(uris))
@@ -253,11 +257,11 @@ export default Filterable.extend({
     return `${label} - ${typeLabel}`
   },
 
-  getImageAsync () { return Promise.resolve(this.get('image')) },
-  getImageSrcAsync () {
-    return this.getImageAsync()
+  async getImageAsync () { return this.get('image') },
+  async getImageSrcAsync () {
+    const imageObj = await this.getImageAsync()
     // Let app/lib/metadata/apply_transformers format the URL with app.API.img
-    .then(imageObj => imageObj?.url)
+    return imageObj?.url
   },
 
   getRefresh (refresh) {
@@ -275,7 +279,7 @@ export default Filterable.extend({
 
   // Overriden by modules/entities/lib/wikidata/init_entity.js
   // for Wikidata entities
-  getWikipediaExtract () { return Promise.resolve() }
+  async getWikipediaExtract () {}
 })
 
 const placeholderAttributes = {

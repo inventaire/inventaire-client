@@ -294,7 +294,7 @@ const showEntityEdit = async params => {
   app.navigateFromModel(model, 'edit')
 }
 
-const showEntityEditFromModel = function (model) {
+const showEntityEditFromModel = async model => {
   if (!app.request('require:loggedIn', model.get('edit'))) return
 
   rejectRemovedPlaceholder(model)
