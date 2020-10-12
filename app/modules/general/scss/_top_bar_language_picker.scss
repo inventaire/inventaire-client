@@ -1,9 +1,12 @@
 .language-picker{
   padding-left: 0.5em;
+  .dropdown{
+    min-width: 18em;
+  }
   .options{
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 50vh;
+    max-height: 60vh;
   }
   li.option{
     display: flex;
