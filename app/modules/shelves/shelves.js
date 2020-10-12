@@ -1,6 +1,5 @@
 import error_ from 'lib/error'
 import { isShelfId } from 'lib/boolean_tests'
-import InventoryLayout from '../inventory/views/inventory_layout'
 import ShelfModel from './models/shelf'
 import { getById } from './lib/shelves'
 
@@ -49,7 +48,8 @@ const showShelf = function (shelf) {
   }
 }
 
-const showShelfFromModel = function (shelf) {
+const showShelfFromModel = async shelf => {
+  const { default: InventoryLayout } = await import('../inventory/views/inventory_layout')
   const owner = shelf.get('owner')
   // Passing shelf to display items and passing owner for user profile info
   app.layout.main.show(new InventoryLayout({

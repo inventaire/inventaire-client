@@ -1,47 +1,44 @@
 import preq from 'lib/preq'
 import Entities from '../collections/entities'
-import MergeSuggestions from '../views/editor/merge_suggestions'
 import Task from 'modules/tasks/models/task'
 import loader from 'modules/general/views/templates/loader.hbs'
+
 const entitiesTypesWithTasks = [
   'human'
 ]
 
-export default function (params) {
+export default async params => {
   if (!app.user.hasDataadminAccess) return
   const { region, model, standalone } = params
   $(region.el).html(loader())
 
-  return getMergeSuggestions(model)
-  .then(entities => {
-    const collection = new Entities(entities)
-    return region.show(new MergeSuggestions({ collection, model, standalone }))
-  })
-};
+  const [ entities, { default: MergeSuggestions } ] = await Promise.all([
+    getMergeSuggestions(model),
+    import('../views/editor/merge_suggestions')
+  ])
+  const collection = new Entities(entities)
+  region.show(new MergeSuggestions({ collection, model, standalone }))
+}
 
-const getMergeSuggestions = model => getTasksByUri(model)
-.then(tasksEntitiesData => {
+const getMergeSuggestions = async model => {
+  const tasksEntitiesData = await getTasksByUri(model)
   const tasksEntitiesUris = _.pluck(tasksEntitiesData, 'uri')
-  return getHomonyms(model, tasksEntitiesUris)
+  const homonymEntities = await getHomonyms(model, tasksEntitiesUris)
   // returning a mix of raw objects and models
-  .then(homonymEntities => tasksEntitiesData.concat(homonymEntities))
-})
+  tasksEntitiesData.concat(homonymEntities)
+}
 
-const getTasksByUri = function (model) {
+const getTasksByUri = async model => {
   const type = model.get('type')
-  if (!entitiesTypesWithTasks.includes(type)) {
-    return Promise.resolve([])
-  }
+  if (!entitiesTypesWithTasks.includes(type)) return []
 
   const uri = model.get('uri')
   const [ action, relation ] = getMergeSuggestionsParams(uri)
-  return preq.get(app.API.tasks[action](uri))
-  .then(res => {
-    const tasks = res.tasks[uri]
-    const suggestionsUris = _.pluck(tasks, relation)
-    return app.request('get:entities:models', { uris: suggestionsUris })
-    .then(addTasksToEntities(uri, tasks, relation))
-  })
+  const res = await preq.get(app.API.tasks[action](uri))
+  const tasks = res.tasks[uri]
+  const suggestionsUris = _.pluck(tasks, relation)
+  return app.request('get:entities:models', { uris: suggestionsUris })
+  .then(addTasksToEntities(uri, tasks, relation))
 }
 
 const getMergeSuggestionsParams = function (uri) {

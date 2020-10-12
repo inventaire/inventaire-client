@@ -1,8 +1,6 @@
-import log_ from 'lib/loggers'
 import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import Notifications from './collections/notifications'
-import NotificationsLayout from './views/notifications_layout'
 const notifications = new Notifications()
 let waitForNotifications
 
@@ -34,11 +32,13 @@ const API = {
   async showNotifications () {
     if (app.request('require:loggedIn', 'notifications')) {
       app.execute('show:loader')
-      // Make sure that the notifications arrived before calling 'beforeShow'
-      // as it will only trigger 'beforeShow' on the notifications models
-      // presently in the collection
-      await waitForNotifications
-      await notifications.beforeShow()
+      const [ { default: NotificationsLayout } ] = await Promise.all([
+        import('./views/notifications_layout'),
+        // Make sure that the notifications arrived before calling 'beforeShow'
+        // as it will only trigger 'beforeShow' on the notifications models
+        // presently in the collection
+        waitForNotifications.then(notifications.beforeShow)
+      ])
       app.layout.main.show(new NotificationsLayout({ notifications }))
       app.navigate('notifications', {
         metadata: {

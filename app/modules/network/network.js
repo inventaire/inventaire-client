@@ -1,10 +1,7 @@
 import log_ from 'lib/loggers'
 import Groups from './collections/groups'
-import GroupBoard from './views/group_board'
 import initGroupHelpers from './lib/group_helpers'
 import fetchData from 'lib/data/fetch'
-import InviteByEmail from './views/invite_by_email'
-import CreateGroupLayout from './views/create_group_layout'
 
 export default {
   define (Redirect, app, Backbone, Marionette, $, _) {
@@ -78,18 +75,26 @@ const API = {
     }
   },
 
-  showInviteFriendByEmail () { return app.layout.modal.show(new InviteByEmail()) },
-  showCreateGroupLayout () { return app.layout.modal.show(new CreateGroupLayout()) }
+  async showInviteFriendByEmail () {
+    const { default: InviteByEmail } = await import('./views/invite_by_email')
+    app.layout.modal.show(new InviteByEmail())
+  },
+
+  async showCreateGroupLayout () {
+    const { default: CreateGroupLayout } = await import('./views/create_group_layout')
+    app.layout.modal.show(new CreateGroupLayout())
+  }
 }
 
-const showGroupBoardFromModel = function (model, options = {}) {
+const showGroupBoardFromModel = async (model, options = {}) => {
   if (model.mainUserIsMember()) {
-    return model.beforeShow()
-    .then(() => {
-      const { openedSection } = options
-      app.layout.main.show(new GroupBoard({ model, standalone: true, openedSection }))
-      app.navigateFromModel(model, 'boardPathname')
-    })
+    const [ { default: GroupBoard } ] = await Promise.all([
+      import('./views/group_board'),
+      model.beforeShow()
+    ])
+    const { openedSection } = options
+    app.layout.main.show(new GroupBoard({ model, standalone: true, openedSection }))
+    app.navigateFromModel(model, 'boardPathname')
   } else {
     // If the user isnt a member, redirect to the standalone group inventory
     app.execute('show:inventory:group', model, true)

@@ -1,5 +1,3 @@
-import SettingsLayout from './views/settings'
-
 export default {
   define (module, app, Backbone, Marionette, $, _) {
     const Router = Marionette.AppRouter.extend({
@@ -17,18 +15,19 @@ export default {
     app.addInitializer(() => new Router({ controller: API }))
   },
 
-  initialize () { return setHandlers() }
+  initialize () { setHandlers() }
 }
 
 const API = {
-  showProfileSettings () { return showSettings('profile') },
-  showAccountSettings () { return showSettings('account') },
-  showNotificationsSettings () { return showSettings('notifications') },
-  showDataSettings () { return showSettings('data') }
+  showProfileSettings () { showSettings('profile') },
+  showAccountSettings () { showSettings('account') },
+  showNotificationsSettings () { showSettings('notifications') },
+  showDataSettings () { showSettings('data') }
 }
 
-const showSettings = function (tab) {
+const showSettings = async tab => {
   if (app.request('require:loggedIn', `settings/${tab}`)) {
+    const { default: SettingsLayout } = await import('./views/settings')
     return app.layout.main.show(new SettingsLayout({ model: app.user, tab }))
   }
 }

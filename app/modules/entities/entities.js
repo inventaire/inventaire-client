@@ -4,18 +4,8 @@ import { forceArray } from 'lib/utils'
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import error_ from 'lib/error'
-import SerieCleanup from './views/cleanup/serie_cleanup'
-import EntityEdit from './views/editor/entity_edit'
-import EntityCreate from './views/editor/entity_create'
-import MultiEntityEdit from './views/editor/multi_entity_edit'
 import entityDraftModel from './lib/entity_draft_model'
 import * as entitiesModelsIndex from './lib/entities_models_index'
-import ChangesLayout from './views/changes_layout'
-import ActivityLayout from './views/activity_layout'
-import ClaimLayout from './views/claim_layout'
-import DeduplicateLayout from './views/deduplicate_layout'
-import WikidataEditIntro from './views/wikidata_edit_intro'
-import History from './views/editor/history'
 import getEntityViewByType from './lib/get_entity_view_by_type'
 import Entities from './lib/entities'
 import showMergeSuggestions from './lib/show_merge_suggestions'
@@ -50,7 +40,7 @@ export default {
 }
 
 const API = {
-  showEntity (uri, params) {
+  async showEntity (uri, params) {
     const refresh = params?.refresh || app.request('querystring:get', 'refresh')
     if (isClaim(uri)) { return showClaimEntities(uri, refresh) }
 
@@ -61,51 +51,55 @@ const API = {
 
     if (refresh) { app.execute('uriLabel:refresh') }
 
-    return getEntityModel(uri, refresh)
-    .then(entity => {
+    try {
+      const entity = await getEntityModel(uri, refresh)
       rejectRemovedPlaceholder(entity)
 
-      return getEntityViewByType(entity, refresh)
-      .then(view => {
-        app.layout.main.show(view)
-        app.navigateFromModel(entity)
-      })
-    })
-    .catch(handleMissingEntity(uri))
+      const view = await getEntityViewByType(entity, refresh)
+      app.layout.main.show(view)
+      app.navigateFromModel(entity)
+    } catch (err) {
+      handleMissingEntity(uri, err)
+    }
   },
 
-  showAddEntity (uri) {
+  async showAddEntity (uri) {
     uri = normalizeUri(uri)
-    return getEntityModel(uri)
-    .then(entity => app.execute('show:item:creation:form', { entity }))
-    .catch(handleMissingEntity(uri))
+    try {
+      const entity = await getEntityModel(uri)
+      app.execute('show:item:creation:form', { entity })
+    } catch (err) {
+      handleMissingEntity(err, uri)
+    }
   },
 
-  showEditEntityFromUri (uri) {
+  async showEditEntityFromUri (uri) {
     app.execute('show:loader')
     uri = normalizeUri(uri)
 
     // Make sure we have the freshest data before trying to edit
     return getEntityModel(uri, true)
     .then(showEntityEditFromModel)
-    .catch(handleMissingEntity(uri))
+    .catch(handleMissingEntity.bind(null, uri))
   },
 
   showEntityCreateFromRoute () {
     if (app.request('require:loggedIn', 'entity/new')) {
       const params = app.request('querystring:get:all')
-      if (params.allowToChangeType == null) { params.allowToChangeType = true }
+      if (params.allowToChangeType == null) params.allowToChangeType = true
       return showEntityCreate(params)
     }
   },
 
-  showChanges () {
+  async showChanges () {
+    const { default: ChangesLayout } = await import('./views/changes_layout')
     app.layout.main.show(new ChangesLayout())
     app.navigate('entity/changes', { metadata: { title: 'changes' } })
   },
 
-  showActivity () {
-    return showViewByAccessLevel({
+  async showActivity () {
+    const { default: ActivityLayout } = await import('./views/activity_layout')
+    showViewByAccessLevel({
       path: 'entity/activity',
       title: 'activity',
       View: ActivityLayout,
@@ -115,12 +109,13 @@ const API = {
 
   // Do not use default parameter `(params = {})`
   // as the router might pass `null` as first argument
-  showDeduplicate (params) {
+  async showDeduplicate (params) {
     params = params || {}
     // Using an object interface, as the router might pass querystrings
     let { uris } = params
     uris = forceArray(uris)
-    return showViewByAccessLevel({
+    const { default: DeduplicateLayout } = await import('./views/deduplicate_layout')
+    showViewByAccessLevel({
       path: 'entity/deduplicate',
       title: 'deduplicate',
       View: DeduplicateLayout,
@@ -139,7 +134,7 @@ const API = {
 
       return getEntityModel(uri, true)
       .then(showEntityCleanupFromModel)
-      .catch(handleMissingEntity(uri))
+      .catch(handleMissingEntity.bind(null, uri))
     }
   },
 
@@ -151,15 +146,19 @@ const API = {
     .then(model => app.execute('show:merge:suggestions', { model, region: app.layout.main, standalone: true }))
   },
 
-  showEntityHistory (uri) {
+  async showEntityHistory (uri) {
     if (!app.request('require:loggedIn', `entity/${uri}/history`)) return
     if (!app.request('require:admin:access')) return
 
     uri = normalizeUri(uri)
 
-    return getEntityModel(uri)
-    .then(model => model.fetchHistory(uri)
-    .then(() => {
+    const model = await getEntityModel(uri)
+
+    try {
+      const [ { default: History } ] = Promise.all([
+        import('./views/editor/history'),
+        model.fetchHistory(uri)
+      ])
       app.layout.main.show(new History({ model, standalone: true, uri }))
       if (uri === model.get('uri')) {
         app.navigateFromModel(model, 'history')
@@ -167,12 +166,13 @@ const API = {
       } else {
         app.navigate(`entity/${uri}/history`)
       }
-    }))
-    .catch(app.Execute('show:error'))
+    } catch (err) {
+      app.execute('show:error', err)
+    }
   }
 }
 
-const showEntityCreate = function (params) {
+const showEntityCreate = async params => {
   // Drop possible type pluralization
   params.type = params.type?.replace(/s$/, '')
 
@@ -185,6 +185,7 @@ const showEntityCreate = function (params) {
     params.model = entityDraftModel.create(params)
     return showEntityEdit(params)
   } else {
+    const { default: EntityCreate } = await import('./views/editor/entity_create')
     return app.layout.main.show(new EntityCreate(params))
   }
 }
@@ -279,11 +280,16 @@ const getEntityModel = async (uri, refresh) => {
 
 const getEntityLocalHref = uri => `/entity/${uri}`
 
-const showEntityEdit = function (params) {
+const showEntityEdit = async params => {
   let { model, region } = params
-  if (model.type == null) { throw error_.new('invalid entity type', model) }
-  const View = (params.next != null) || (params.previous != null) ? MultiEntityEdit : EntityEdit
-  if (!region) { region = app.layout.main }
+  if (model.type == null) throw error_.new('invalid entity type', model)
+  let View
+  if (params.next != null || params.previous != null) {
+    ({ default: View } = await import('./views/editor/multi_entity_edit'))
+  } else {
+    ({ default: View } = await import('./views/editor/entity_edit'))
+  }
+  if (!region) region = app.layout.main
   region.show(new View(params))
   app.navigateFromModel(model, 'edit')
 }
@@ -301,7 +307,10 @@ const showEntityEditFromModel = function (model) {
   }
 }
 
-const showWikidataEditIntroModal = model => app.layout.modal.show(new WikidataEditIntro({ model }))
+const showWikidataEditIntroModal = async model => {
+  const { default: WikidataEditIntro } = await import('./views/wikidata_edit_intro')
+  app.layout.modal.show(new WikidataEditIntro({ model }))
+}
 
 const rejectRemovedPlaceholder = function (entity) {
   if (entity.get('_meta_type') === 'removed:placeholder') {
@@ -309,7 +318,7 @@ const rejectRemovedPlaceholder = function (entity) {
   }
 }
 
-const handleMissingEntity = uri => function (err) {
+const handleMissingEntity = (uri, err) => {
   if (err.message === 'invalid entity type') {
     app.execute('show:error:other', err)
   } else if (err.message === 'entity_not_found') {
@@ -373,7 +382,8 @@ const showViewByAccessLevel = function (params) {
 }
 
 const isClaim = claim => /^(wdt:|invp:)/.test(claim)
-const showClaimEntities = function (claim, refresh) {
+
+const showClaimEntities = async (claim, refresh) => {
   const [ property, value ] = claim.split('-')
 
   if (!isPropertyUri(property)) {
@@ -385,6 +395,8 @@ const showClaimEntities = function (claim, refresh) {
     error_.report('invalid value')
     app.execute('show:error:missing')
   }
+
+  const { default: ClaimLayout } = await import('./views/claim_layout')
 
   app.layout.main.show(new ClaimLayout({ property, value, refresh }))
 }
@@ -401,16 +413,18 @@ const reportTypeIssue = function (params) {
 
 const reportedTypeIssueUris = []
 
-const showEntityCleanupFromModel = function (entity) {
+const showEntityCleanupFromModel = async entity => {
   if (entity.type !== 'serie') {
     const err = error_.new(`cleanup isn't available for entity type ${entity.type}`, 400)
     app.execute('show:error', err)
     return
   }
 
-  return entity.initSerieParts({ refresh: true, fetchAll: true })
-  .then(() => {
-    app.layout.main.show(new SerieCleanup({ model: entity }))
-    app.navigateFromModel(entity, 'cleanup')
-  })
+  const [ { default: SerieCleanup } ] = await Promise.all([
+    import('./views/cleanup/serie_cleanup'),
+    entity.initSerieParts({ refresh: true, fetchAll: true })
+  ])
+
+  app.layout.main.show(new SerieCleanup({ model: entity }))
+  app.navigateFromModel(entity, 'cleanup')
 }

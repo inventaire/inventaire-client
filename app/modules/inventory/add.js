@@ -1,6 +1,5 @@
 import AddLayout from './views/add/add_layout'
 import initAddHelpers from './lib/add_helpers'
-import EmbeddedScanner from './views/add/embedded_scanner'
 
 export default {
   define (module, app, Backbone, Marionette, $, _) {
@@ -26,12 +25,13 @@ const API = {
   showSearch () { return showAddLayout('search') },
   showScan () { return showAddLayout('scan') },
   showImport () { return showAddLayout('import') },
-  showEmbeddedScanner () {
+  async showEmbeddedScanner () {
     if (app.request('require:loggedIn', 'add/scan/embedded')) {
       if (window.hasVideoInput) {
         // navigate before triggering the view itself has
         // special behaviors on route change
         app.navigate('add/scan/embedded')
+        const { default: EmbeddedScanner } = await import('./views/add/embedded_scanner')
         // showing in main so that requesting another layout destroy this view
         return app.layout.main.show(new EmbeddedScanner())
       } else {

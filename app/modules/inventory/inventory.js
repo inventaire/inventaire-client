@@ -1,11 +1,8 @@
 import { isEntityUri, isUsername, isItemId } from 'lib/boolean_tests'
 import assert_ from 'lib/assert_types'
 import log_ from 'lib/loggers'
-import ItemShow from './views/item_show'
 import initQueries from './lib/queries'
-import InventoryLayout from './views/inventory_layout'
 import initLayout from './lib/layout'
-import ItemsCascade from './views/items_cascade'
 import showItemCreationForm from './lib/show_item_creation_form'
 import itemActions from './lib/item_actions'
 import { parseQuery, currentRoute, buildPath } from 'lib/location'
@@ -139,11 +136,17 @@ const showItemsFromModels = function (items) {
   }
 }
 
-const showInventory = options => app.layout.main.show(new InventoryLayout(options))
+const showInventory = async options => {
+  const { default: InventoryLayout } = await import('./views/inventory_layout')
+  app.layout.main.show(new InventoryLayout(options))
+}
 
-const showItemsList = collection => app.layout.main.show(new ItemsCascade({ collection }))
+const showItemsList = async collection => {
+  const { default: ItemsCascade } = await import('./views/items_cascade')
+  app.layout.main.show(new ItemsCascade({ collection }))
+}
 
-const showItemModal = function (model, fallback) {
+const showItemModal = async (model, fallback) => {
   assert_.object(model)
 
   const previousRoute = currentRoute()
@@ -166,9 +169,15 @@ const showItemModal = function (model, fallback) {
   // should be recovered
   app.vent.once('modal:closed', () => setTimeout(fallback, 10))
 
-  return model.grabWorks()
-  .then(() => app.layout.modal.show(new ItemShow({ model })))
-  .catch(app.Execute('show:error'))
+  try {
+    const [ { default: ItemShow } ] = await Promise.all([
+      await import('./views/item_show'),
+      model.grabWorks()
+    ])
+    app.layout.modal.show(new ItemShow({ model }))
+  } catch (err) {
+    app.execute('show:error', err)
+  }
 }
 
 const initializeInventoriesHandlers = function (app) {

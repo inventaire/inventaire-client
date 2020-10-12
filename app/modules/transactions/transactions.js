@@ -1,7 +1,5 @@
 import log_ from 'lib/loggers'
 import Transactions from 'modules/transactions/collections/transactions'
-import TransactionsLayout from './views/transactions_layout'
-import RequestItemModal from './views/request_item_modal'
 import initHelpers from './helpers'
 import fetchData from 'lib/data/fetch'
 let lastTransactionId = null
@@ -78,9 +76,10 @@ const API = {
     }
   },
 
-  showItemRequestModal (model) {
+  async showItemRequestModal (model) {
     if (app.request('require:loggedIn', model.get('pathname'))) {
-      return app.layout.modal.show(new RequestItemModal({ model }))
+      const { default: RequestItemModal } = await import('./views/request_item_modal')
+      app.layout.modal.show(new RequestItemModal({ model }))
     }
   },
 
@@ -89,13 +88,18 @@ const API = {
   }
 }
 
-const showTransactionsLayout = () => app.layout.main.show(new TransactionsLayout())
+const showTransactionsLayout = async () => {
+  const { default: TransactionsLayout } = await import('./views/transactions_layout')
+  app.layout.main.show(new TransactionsLayout())
+}
 
 const triggerTransactionSelect = function (id) {
   const transaction = app.request('get:transaction:byId', id)
   if (transaction != null) {
     return app.vent.trigger('transaction:select', transaction)
-  } else { app.execute('show:error:missing') }
+  } else {
+    app.execute('show:error:missing')
+  }
 }
 
 const updateTransactionRoute = function (transaction) {

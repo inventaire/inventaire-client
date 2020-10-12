@@ -1,5 +1,3 @@
-import TasksLayout from './views/tasks_layout'
-
 export default {
   define (module, app, Backbone, Marionette, $, _) {
     const Router = Marionette.AppRouter.extend({
@@ -19,8 +17,9 @@ export default {
 }
 
 const API = {
-  showTask (task) {
+  async showTask (task) {
     if (app.request('require:loggedIn', 'tasks')) {
+      const { default: TasksLayout } = await import('./views/tasks_layout')
       return app.layout.main.show(new TasksLayout({ task }))
     }
   }
