@@ -3,7 +3,7 @@ import { capitalise } from 'lib/utils'
 import { i18n } from 'modules/user/lib/i18n'
 import { parseQuery } from 'lib/location'
 import timeFromNow from 'lib/time_from_now'
-import { SafeString, escapeExpression } from 'handlebars'
+import { SafeString, escapeExpression } from 'handlebars/dist/handlebars.runtime'
 
 export default {
   i18n (key, context) {

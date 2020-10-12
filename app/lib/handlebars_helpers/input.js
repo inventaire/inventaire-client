@@ -1,7 +1,7 @@
 import log_ from 'lib/loggers'
 import { i18n } from 'modules/user/lib/i18n'
 import { icon } from 'lib/utils'
-import { SafeString } from 'handlebars'
+import { SafeString } from 'handlebars/dist/handlebars.runtime'
 import check from 'modules/general/views/behaviors/templates/success_check.hbs'
 import input from 'modules/general/views/behaviors/templates/input.hbs'
 import textarea from 'modules/general/views/behaviors/templates/textarea.hbs'

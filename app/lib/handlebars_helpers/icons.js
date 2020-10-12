@@ -1,6 +1,6 @@
 import { I18n, i18n } from 'modules/user/lib/i18n'
 import { parseQuery } from 'lib/location'
-import { SafeString } from 'handlebars'
+import { SafeString } from 'handlebars/dist/handlebars.runtime'
 import { icon as _icon } from 'lib/utils'
 
 export function icon (name, classes = '') {

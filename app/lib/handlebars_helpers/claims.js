@@ -7,7 +7,7 @@ import commons_ from 'lib/wikimedia/commons'
 import linkify_ from './linkify'
 import platforms_ from './platforms'
 import ClaimsHelpers from './claims_helpers'
-import { SafeString, escapeExpression } from 'handlebars'
+import { SafeString, escapeExpression } from 'handlebars/dist/handlebars.runtime'
 
 let API
 

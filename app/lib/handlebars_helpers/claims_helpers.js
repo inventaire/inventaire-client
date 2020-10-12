@@ -3,7 +3,7 @@ import entityValue from 'modules/general/views/behaviors/templates/entity_value.
 import propertyValue from 'modules/general/views/behaviors/templates/property_value.hbs'
 import wdk from 'lib/wikidata-sdk'
 import error_ from 'lib/error'
-import { SafeString, escapeExpression } from 'handlebars'
+import { SafeString, escapeExpression } from 'handlebars/dist/handlebars.runtime'
 
 const prop = function (uri) {
   // Be more restrictive on the input to be able to use it in SafeStrings

@@ -2,7 +2,7 @@ import { isNonEmptyArray } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
 import { fixedEncodeURIComponent } from 'lib/utils'
 // inspired by some things there http://assemble.io/helpers/
-import { SafeString, escapeExpression } from 'handlebars'
+import { SafeString, escapeExpression } from 'handlebars/dist/handlebars.runtime'
 
 export default {
   join (array, separator) {

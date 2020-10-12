@@ -1,4 +1,4 @@
-import { SafeString, escapeExpression } from 'handlebars'
+import { SafeString, escapeExpression } from 'handlebars/dist/handlebars.runtime'
 
 // regex inspired by https://gist.github.com/efeminella/2034192
 const link = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]+)/gim

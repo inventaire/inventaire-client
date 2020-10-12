@@ -1,7 +1,7 @@
 import log_ from 'lib/loggers'
 import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
-import { escapeExpression } from 'handlebars'
+import { escapeExpression } from 'handlebars/dist/handlebars.runtime'
 
 export default {
   extract (lang, title) {
