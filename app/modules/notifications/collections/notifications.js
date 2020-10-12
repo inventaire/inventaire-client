@@ -34,7 +34,10 @@ export default Backbone.Collection.extend({
     return this.add(models)
   },
 
-  beforeShow () { return Promise.all(_.invoke(this.models, 'beforeShow')) }
+  beforeShow () {
+    const promises = this.models.map(model => model.beforeShow())
+    return Promise.all(promises)
+  }
 })
 
 const createTypedModel = function (doc) {

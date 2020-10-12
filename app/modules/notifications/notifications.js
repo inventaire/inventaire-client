@@ -37,7 +37,7 @@ const API = {
         // Make sure that the notifications arrived before calling 'beforeShow'
         // as it will only trigger 'beforeShow' on the notifications models
         // presently in the collection
-        waitForNotifications.then(notifications.beforeShow)
+        waitForNotifications.then(notifications.beforeShow.bind(notifications))
       ])
       app.layout.main.show(new NotificationsLayout({ notifications }))
       app.navigate('notifications', {
