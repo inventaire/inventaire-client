@@ -1,10 +1,12 @@
-import breq from 'bluereq'
-import _ from 'lodash'
+import fetch from 'node-fetch'
 import writeSitemap from './write_sitemap'
 import { folder } from './config'
-import { green } from 'chalk'
+import chalk from 'tiny-chalk'
 import wdk from 'wikidata-sdk'
 import queries from './queries'
+import wrapUrls from './wrap_urls'
+
+const { green } = chalk
 
 export default function () {
   const queriesNames = Object.keys(queries)
@@ -22,27 +24,30 @@ export default function () {
 
 const generateFilesFromQuery = async name => {
   console.log(green(`${name} query`), queries[name])
-  const { body: results } = await breq.get({
-    url: queries[name],
+  const url = queries[name]
+  const results = await fetch(url, {
     headers: {
       'user-agent': 'inventaire-client (https://github.com/inventaire/inventaire-client)'
     }
   })
+  .then(res => res.json())
+
   try {
-    const simplifiedResults = await wdk.simplifySparqlResults(results)
-    return getParts(name, simplifiedResults)
-    .map(generateFile)
+    const items = await wdk.simplifySparqlResults(results)
+    return getParts(name, items).map(generateFile)
   } catch (err) {
     console.error('failed to parse SPARQL results', results)
     throw err
   }
 }
 
-const getParts = name => function (items) {
+const uniq = array => Array.from(new Set(array))
+
+const getParts = (name, items) => {
   const parts = []
   let index = 0
 
-  items = _.uniq(items)
+  items = uniq(items)
 
   while (items.length > 0) {
     // override items
@@ -56,13 +61,11 @@ const getParts = name => function (items) {
   return parts
 }
 
-const generateFile = function (part) {
+const generateFile = part => {
   const { name, items, index } = part
   const path = getFilePath(name, index)
   return writeSitemap(path, wrapUrls(items.map(buildUrlNode)))
 }
-
-const wrapUrls = require('./wrap_urls')
 
 const buildUrlNode = id => `<url><loc>https://inventaire.io/entity/wd:${id}</loc></url>`
 

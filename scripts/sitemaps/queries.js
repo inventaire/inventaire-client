@@ -1,4 +1,5 @@
-import { sparqlQuery } from 'wikidata-sdk'
+import wdk from 'wikidata-sdk'
+const { sparqlQuery } = wdk
 
 const worksQueryBody = `VALUES (?work_type) { (wd:Q571) (wd:Q47461344) (wd:Q2831984) (wd:Q1004) (wd:Q1760610) (wd:Q8261) (wd:Q25379) (wd:Q386724) (wd:Q49084) (wd:Q8274) (wd:Q17518461) } .
 ?work wdt:P31 ?work_type .
@@ -13,17 +14,22 @@ const seriesQuery = `SELECT ?series WHERE {
 ?series wdt:P31/wdt:P279* wd:Q277759 .
 }`
 
-const queryFromProperty = function (P, Q) {
+const workPropertyQuery = function (P, Q) {
   const base = `${worksQueryBody}
-?work wdt:${P} ?item .`
+  ?work wdt:${P} ?item .`
   return sparqlQuery(`SELECT ?item WHERE { ${base} }`)
+}
+
+const editionPropertyQuery = P => {
+  return sparqlQuery(`SELECT ?item WHERE { ?edition wdt:${P} ?item }`)
 }
 
 export default {
   works: sparqlQuery(worksQuery),
   series: sparqlQuery(seriesQuery),
-  authors: queryFromProperty('P50'),
-  genres: queryFromProperty('P136'),
-  movements: queryFromProperty('P135'),
-  subjects: queryFromProperty('P921')
+  authors: workPropertyQuery('P50'),
+  genres: workPropertyQuery('P136'),
+  movements: workPropertyQuery('P135'),
+  publishers: editionPropertyQuery('P123'),
+  subjects: workPropertyQuery('P921'),
 }

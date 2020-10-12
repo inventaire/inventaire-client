@@ -1,12 +1,10 @@
 #!/usr/bin/env node
-import lodash from 'lodash'
-import chalk from 'chalk'
+import chalk from 'tiny-chalk'
 import fs from 'fs'
 import papaparse from 'papaparse'
 import { promisify } from 'util'
-import convertMarkdown from './lib/convert_markdown.js'
+import convertMarkdown from './lib/convert_markdown'
 const { green, red } = chalk
-const { omit } = lodash
 
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
@@ -15,18 +13,16 @@ const csvFile = './scripts/assets/mentions.csv'
 const jsonFile = './public/json/mentions.json'
 
 const cleanAttributes = function (obj) {
-  for (const k in obj) {
-    const v = obj[k]
-    if (v === '') { delete obj[k] }
-  }
-
+  Object.keys(obj).forEach(key => {
+    if (obj[key] === '') delete obj[key]
+  })
   return obj
 }
 
 const mentions = {}
 
 readFile(csvFile, { encoding: 'utf-8' })
-.then(file => {
+.then(async file => {
   const { data } = papaparse.parse(file, { header: true })
   data
   .map(cleanAttributes)
@@ -36,16 +32,15 @@ readFile(csvFile, { encoding: 'utf-8' })
     // convert type to plural form
     type += 's'
     el.text = convertMarkdown(el.text)
-    if (!mentions[type]) { mentions[type] = {} }
-    if (!mentions[type][lang]) { mentions[type][lang] = [] }
-    return mentions[type][lang].push(omit(el, [ 'type' ]))
+    mentions[type] = mentions[type] || {}
+    mentions[type][lang] = mentions[type][lang] || []
+    delete el.type
+    return mentions[type][lang].push(el)
   })
-
-  console.log('mentions', mentions)
 
   const updatedFile = JSON.stringify(mentions)
 
-  return writeFile(jsonFile, updatedFile)
-  .then(() => console.log(green('done!')))
-  .catch(console.error.bind(console, red('build mentions')))
+  await writeFile(jsonFile, updatedFile)
+  console.log(green('done updating mentions'))
 })
+.catch(console.error.bind(console, red('build mentions')))

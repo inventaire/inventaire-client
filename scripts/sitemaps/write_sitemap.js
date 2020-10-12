@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { promisify } from 'util'
-import chalk from 'chalk'
+import chalk from 'tiny-chalk'
 
 const writeFile = promisify(fs.writeFile)
 const { grey, red, green } = chalk
