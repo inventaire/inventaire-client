@@ -6,31 +6,37 @@ set -e
 echo -e '\e[0;30mupdating i18n\e[0m'
 ./scripts/build_i18n
 
-echo -e '\e[0;30mbrunch build --production\e[0m'
-parcel build src/index.html
-./scripts/build_index
-
-echo -e '\e[0;30mgzip js, css, and font files\e[0m'
-./scripts/set_content_hash_cache_bust
-
 echo -e '\e[0;30mupdate mentions\e[0m'
-./scripts/update_mentions.js
+npm run update-mentions
 
-rm -f public/json/*.gz
-gzip -9kf public/json/*.json
+echo -e '\e[0;30mparcel build\e[0m'
+mkdir -p ./scripts/assets/bundle_reports
+last_commit_hash=$(git rev-parse --short HEAD)
+last_commit_date=$(git show -s --format="%ci" $COMMIT|sed 's/ .*$//')
+bundle_name="${last_commit_date}_${last_commit_hash}"
 
-rm -f public/fonts/*.gz
-gzip -9kf public/fonts/*
+export INV_PUBLIC_HOST=${INV_PUBLIC_HOST:-"https://inventaire.io"}
+parcel build app/index.html --out-dir ./public/dist --public-url "$INV_PUBLIC_HOST/public/dist" --no-autoinstall | tee "./scripts/assets/bundle_reports/${bundle_name}.logs"
+mv ./public/dist/report.html "./scripts/assets/bundle_reports/${bundle_name}.html"
+echo "moved bundle report to file://$PWD/scripts/assets/bundle_reports/${bundle_name}.html"
 
-echo -e '\e[0;30mgzip index.html\e[0m'
-gzip -9kf public/index.html
-echo -e '\e[0;30mgzip robots.txt\e[0m'
+# Add assets that are kept hidden from Parcel
+sed -i '/link rel="canonical"/a   <link rel="sitemap" href="/public/sitemaps/sitemapindex.xml" />' ./public/dist/index.html
+# Drop blank lines
+sed -i -E '/^\s*$/d' ./public/dist/index.html
+
+echo -e '\e[0;30mgzip dist files\e[0m'
+rm -f ./public/dist/*.gz
+gzip -9kf ./public/dist/*
+
+echo -e '\e[0;30mcopy and gzip other assets\e[0m'
+cp ./app/assets/robots.txt ./public/robots.txt
 gzip -9kf public/robots.txt
 
 # Run once every now and then
-[ "${RANDOM:0:1}" = 9 ] && {
+[ "${RANDOM:1:1}" = 9 ] && {
   echo -e '\e[0;30mgenerate sitemaps\e[0m'
   npm run generate-sitemaps
 }
 
-./scripts/weight_watcher
+echo "build: done"

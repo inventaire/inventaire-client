@@ -37,6 +37,7 @@ docs
 app/modules/welcome/lib/mentions.js
 
 scripts/assets/weight_history
+scripts/assets/bundle_reports
 casper
 scripts/local
 app/lib/languages_data.js

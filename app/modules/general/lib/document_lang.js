@@ -8,10 +8,9 @@ export default function ($app, lang) {
   setAppLang($app, lang)
 
   const elements = []
-  addAlternateLangs(elements,
-    addOgLocalAlternates(elements, lang))
+  addAlternateLangs(elements, addOgLocalAlternates(elements, lang))
   return $('head').append(elements.join(''))
-};
+}
 
 const setAppLang = ($app, lang) => $app.attr('lang', lang)
 

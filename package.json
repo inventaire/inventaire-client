@@ -25,14 +25,15 @@
     "lint": "eslint -c .eslintrc app test scripts",
     "lint-fix": "./scripts/lint_fix",
     "lint-staged": "./scripts/lint_staged",
+    "node-exec": "node --no-warnings --loader ./custom-loader.js --es-module-specifier-resolution=node",
     "postinstall": "./scripts/postinstall",
     "start": "npm run watch",
     "test": "./scripts/run_unit_tests",
     "test-fast": "./scripts/run_fast_tests",
     "update-i18n": "./scripts/update_i18n",
-    "update-mentions": "./scripts/update_mentions",
+    "update-mentions": "npm run node-exec ./scripts/update_mentions",
     "update-toc": "doctoc README.md",
-    "watch": "parcel watch app/index.html --out-dir ./public/dist --public-url /public/dist --no-autoinstall"
+    "watch": "./scripts/watch"
   },
   "dependencies": {
     "autosize": "^4.0.2",
