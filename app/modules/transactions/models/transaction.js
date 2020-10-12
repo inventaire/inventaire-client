@@ -75,14 +75,26 @@ export default Backbone.NestedModel.extend({
     if (this.unreadUpdate !== prev) { return app.vent.trigger('transactions:unread:change') }
   },
 
-  grabLinkedModels () {
-    this.reqGrab('get:user:model', this.get('requester'), 'requester')
+  async grabLinkedModels () {
+    await Promise.all([
+      this.reqGrab('get:user:model', this.get('requester'), 'requester'),
+      this.grabOwnerAndItem()
+    ])
+  },
 
+  async grabOwnerAndItem () {
     // wait for the owner to be ready to fetch the item
     // to avoid errors at item initialization
     // during sync functions depending on the owner data
-    return this.reqGrab('get:user:model', this.get('owner'), 'owner')
-    .then(() => this.reqGrab('get:item:model', this.get('item'), 'item'))
+    try {
+      await this.reqGrab('get:user:model', this.get('owner'), 'owner')
+      await this.reqGrab('get:item:model', this.get('item'), 'item')
+    } catch (err) {
+      log_.error(err, 'failed to grab owner and item')
+      // Do not rethrow 404 errors, as it happens that the item was deleted
+      // and the layouts should know how to deal with it
+      if (err.statusCode !== 404) throw err
+    }
   },
 
   markAsRead () {

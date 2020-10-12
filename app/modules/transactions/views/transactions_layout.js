@@ -1,6 +1,5 @@
 import Transaction from 'modules/transactions/views/transaction'
 import TransactionsList from 'modules/transactions/views/transactions_list'
-import TransactionsWelcome from './transactions_welcome'
 import * as folders from '../lib/folders'
 import transactionsLayoutTemplate from './templates/transactions_layout.hbs'
 
@@ -30,18 +29,18 @@ export default Marionette.LayoutView.extend({
     // every folder share the app.transactions collection
     // but with the filter applied by TransactionsList
     // => there should be a region matching every filter's name
-    return foldersNames.map(folder => this.showTransactionList(folder))
+    foldersNames.map(folder => this.showTransactionList(folder))
   },
 
   showTransactionList (folder) {
-    return this[`${folder}Region`].show(new TransactionsList({
+    this[`${folder}Region`].show(new TransactionsList({
       folder,
       collection: app.transactions
     }))
   },
 
   showTransactionFull (transaction, nonExplicitSelection) {
-    return this.fullviewRegion.show(new Transaction({ model: transaction, nonExplicitSelection }))
+    this.fullviewRegion.show(new Transaction({ model: transaction, nonExplicitSelection }))
   },
 
   events: {
@@ -54,7 +53,8 @@ export default Marionette.LayoutView.extend({
     return $(`#${region}`).slideToggle(200)
   },
 
-  showTransactionWelcome () {
+  async showTransactionWelcome () {
+    const { default: TransactionsWelcome } = await import('./transactions_welcome')
     this.fullviewRegion.show(new TransactionsWelcome())
     app.navigate('transactions')
   }

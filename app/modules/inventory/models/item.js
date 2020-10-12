@@ -61,7 +61,7 @@ export default Filterable.extend({
   },
 
   grabEntity () {
-    if (!this.waitForEntity) { this.waitForEntity = this.reqGrab('get:entity:model', this.entityUri, 'entity') }
+    this.waitForEntity = this.waitForEntity || this.reqGrab('get:entity:model', this.entityUri, 'entity')
     return this.waitForEntity
   },
 

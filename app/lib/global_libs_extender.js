@@ -46,9 +46,13 @@ Backbone.Model.prototype.gets = function (...attributes) {
 Backbone.Model.prototype.reqGrab = async function (request, id, name, refresh) {
   if (!refresh && this[name] != null) return this[name]
 
-  return app.request(request, id)
-  .then(this.grab.bind(this, name))
-  .catch(log_.ErrorRethrow(`reqGrab ${request} ${id} ${name}`))
+  try {
+    const model = await app.request(request, id)
+    return this.grab(name, model)
+  } catch (err) {
+    log_.error(err, `reqGrab ${request} ${id} ${name}`)
+    throw err
+  }
 }
 
 Backbone.Model.prototype.grab = function (name, model) {

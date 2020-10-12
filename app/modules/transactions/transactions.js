@@ -45,34 +45,33 @@ export default {
 }
 
 const API = {
-  showFirstTransaction () {
+  async showFirstTransaction () {
     if (app.request('require:loggedIn', 'transactions')) {
-      return app.request('wait:for', 'transactions')
-      .then(showTransactionsLayout)
-      .then(findFirstTransaction)
-      .then(transac => {
-        if (transac != null) {
-          lastTransactionId = transac.id
-          // replacing the url to avoid being unable to hit 'previous'
-          // as previous would be '/transactions' which would redirect again
-          // to the first transaction
-          const nonExplicitSelection = true
-          return app.vent.trigger('transaction:select', transac, nonExplicitSelection)
-        } else {
-          return app.vent.trigger('transactions:welcome')
-        }
-      })
-      .catch(log_.Error('showFirstTransaction'))
+      await app.request('wait:for', 'transactions')
+      await showTransactionsLayout()
+      const firstTransaction = findFirstTransaction()
+      if (firstTransaction != null) {
+        lastTransactionId = firstTransaction.id
+        // replacing the url to avoid being unable to hit 'previous'
+        // as previous would be '/transactions' which would redirect again
+        // to the first transaction
+        const nonExplicitSelection = true
+        app.vent.trigger('transaction:select', firstTransaction, nonExplicitSelection)
+      } else {
+        app.vent.trigger('transactions:welcome')
+      }
     }
   },
 
-  showTransaction (id) {
+  async showTransaction (id) {
     if (app.request('require:loggedIn', `transactions/${id}`)) {
       lastTransactionId = id
-      showTransactionsLayout()
+      // Wait for the transaction layout to let it the time to initialize event listers,
+      // especially 'transaction:select'
+      await showTransactionsLayout()
 
-      return app.request('wait:for', 'transactions')
-      .then(triggerTransactionSelect.bind(null, id))
+      await app.request('wait:for', 'transactions')
+      triggerTransactionSelect(id)
     }
   },
 
@@ -83,9 +82,7 @@ const API = {
     }
   },
 
-  updateLastTransactionId (transac) {
-    lastTransactionId = transac.id
-  }
+  updateLastTransactionId (transaction) { lastTransactionId = transaction.id }
 }
 
 const showTransactionsLayout = async () => {
@@ -96,7 +93,7 @@ const showTransactionsLayout = async () => {
 const triggerTransactionSelect = function (id) {
   const transaction = app.request('get:transaction:byId', id)
   if (transaction != null) {
-    return app.vent.trigger('transaction:select', transaction)
+    app.vent.trigger('transaction:select', transaction)
   } else {
     app.execute('show:error:missing')
   }

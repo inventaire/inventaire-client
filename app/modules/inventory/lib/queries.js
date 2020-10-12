@@ -6,33 +6,32 @@ import Items from 'modules/inventory/collections/items'
 import getEntitiesItemsCount from './get_entities_items_count'
 import error_ from 'lib/error'
 
-const getById = function (id) {
+const getById = async id => {
   const ids = [ id ]
-  return preq.get(app.API.items.byIds({ ids, includeUsers: true }))
-  .then(res => {
-    const { items, users } = res
-    const item = items[0]
-    if (item != null) {
-      app.execute('users:add', users)
-      return new Item(item)
-    } else {
-      throw error_.new('not found', 404, id)
-    }
-  })
-  .catch(log_.ErrorRethrow('findItemById err'))
+
+  const { items, users } = await preq.get(app.API.items.byIds({ ids, includeUsers: true }))
+    .catch(log_.ErrorRethrow('findItemById err'))
+
+  const item = items[0]
+
+  if (item != null) {
+    app.execute('users:add', users)
+    return new Item(item)
+  } else {
+    throw error_.new('not found', 404, id)
+  }
 }
 
-const getByIds = ids => preq.get(app.API.items.byIds({ ids }))
-.then(res => {
-  const { items } = res
+const getByIds = async ids => {
+  const { items } = await preq.get(app.API.items.byIds({ ids }))
   return items.map(item => new Item(item))
-})
+}
 
-const getNetworkItems = params => app.request('wait:for', 'relations')
-.then(() => {
-  const networkIds = app.relations.network
+const getNetworkItems = async params => {
+  await app.request('wait:for', 'relations')
+  const { network: networkIds } = app.relations
   return makeRequest(params, 'byUsers', networkIds)
-})
+}
 
 const getUserItems = function (params) {
   const userId = params.model.id

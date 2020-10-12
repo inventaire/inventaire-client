@@ -21,7 +21,7 @@ export default Marionette.CompositeView.extend({
   initialize () {
     this.collection = this.model.timeline
     this.initPlugins()
-    return this.model.beforeShow()
+    this.model.beforeShow()
   },
 
   initPlugins () {
