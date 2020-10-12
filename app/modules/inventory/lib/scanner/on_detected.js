@@ -10,7 +10,7 @@ export default function (onDetectedActions) {
 
   return function (result) {
     const candidate = result.codeResult.code
-    // window.ISBN is the object created by the isbn2 module
+    // window.ISBN is the object created by the isbn3 module
     // If the candidate code can't be parsed, it's not a valid ISBN
     if (window.ISBN.parse(candidate) != null) {
       identicalInvalidIsbnCount = 0

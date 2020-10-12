@@ -13,11 +13,11 @@ export default function (text) {
 
 const getIsbnData = function (rawIsbn) {
   const normalizedIsbn = normalizeIsbn(rawIsbn)
-  // the window.ISBN lib is made available by the isbn2 asset that
-  // should have be fetched by app/modules/inventory/views/add/import
+  // the window.ISBN lib is made available by the isbn3 asset that
+  // should have be fetched by the consumer
   const data = window.ISBN.parse(normalizedIsbn)
   const isInvalid = (data == null)
-  const isbn13 = isInvalid ? null : data.codes.isbn13
+  const isbn13 = isInvalid ? null : data.isbn13
   return { rawIsbn, normalizedIsbn, isInvalid, isbn13 }
 }
 

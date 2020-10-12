@@ -1,7 +1,9 @@
 import 'should'
 import __ from '../root'
-import 'isbn2'
+import ISBN from 'isbn3'
 import { wait } from 'lib/promises'
+
+window.ISBN = ISBN
 
 const OnDetected = __.require('modules', 'inventory/lib/scanner/on_detected')
 const fakeResult = isbn => ({

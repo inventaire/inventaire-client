@@ -8,13 +8,13 @@ export default {
   // to be ready to start scanning faster
   prepare () {
     import('quagga')
-    import('isbn2')
+    import('isbn3')
   },
 
   async scan (params) {
-    const [ Quagga, { ISBN } ] = await Promise.all([
+    const [ Quagga, ISBN ] = await Promise.all([
       import('quagga'),
-      import('isbn2'),
+      import('isbn3'),
     ])
 
     window.Quagga = Quagga

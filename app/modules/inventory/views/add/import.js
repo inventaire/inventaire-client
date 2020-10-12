@@ -108,10 +108,10 @@ export default Marionette.LayoutView.extend({
     return Promise.all([
       files_.parseFileEventAsText(e, true, encoding),
       import('papaparse'),
-      import('isbn2'),
+      import('isbn3'),
     ])
     // We only need the result from the file
-    .then(([ data, Papa, { ISBN } ]) => {
+    .then(([ data, Papa, ISBN ]) => {
       window.ISBN = ISBN
       window.Papa = Papa
       dataValidator(source, data)

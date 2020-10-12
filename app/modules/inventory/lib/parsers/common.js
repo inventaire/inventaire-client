@@ -9,8 +9,8 @@ const maxLevenshteinDistance = 3
 
 export default function (data) {
   const { isbn, authors } = data
-  // the window.ISBN lib is made available by the isbn2 asset that
-  // should have be fetched by app/modules/inventory/views/add/import
+  // the window.ISBN lib is made available by the isbn3 asset that
+  // should have be fetched by the consumer
   if ((isbn != null) && (window.ISBN.parse(isbn) == null)) {
     // Prevent accepting non-ISBN identifiers in place of ISBNs
     delete data.isbn
