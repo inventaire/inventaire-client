@@ -33,9 +33,6 @@ const error = (err, label) => {
     throw err
   }
 
-  if (err.hasBeenLogged) return
-  err.hasBeenLogged = true
-
   let userError = false
   if (err.statusCode != null) {
     if (/^4\d+$/.test(err.statusCode)) userError = true

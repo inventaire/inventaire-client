@@ -13,9 +13,6 @@ export default () => {
       }
     }
 
-    if (errObj.hasBeenLogged) return
-    errObj.hasBeenLogged = true
-
     console.error(errObj, errObj.context)
 
     // Avoid using utils that might not have been defined yet
