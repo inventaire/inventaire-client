@@ -169,7 +169,7 @@ export default Marionette.LayoutView.extend({
     const selectedShelves = this.$el.find('.shelfSelector input')
       .filter((i, el) => el.checked)
       .map((i, el) => el.name.split('-')[1])
-    return selectedShelves
+    return Array.from(selectedShelves)
   },
 
   addNext () {

@@ -1,4 +1,5 @@
 import { localStorageProxy } from 'lib/local_storage'
+import assert_ from 'lib/assert_types'
 
 const set = localStorageProxy.setItem.bind(localStorageProxy)
 const parsedGet = function (key) {
@@ -15,7 +16,10 @@ export default function () {
     'last:transaction:set': set.bind(null, 'lastTransaction'),
     // 'private', 'network', 'groups'
     'last:listing:set': set.bind(null, 'lastListing'),
-    'last:shelves:set' (shelves) { return set('lastShelves', JSON.stringify(shelves)) }
+    'last:shelves:set' (shelves = []) {
+      assert_.strings(shelves)
+      return set('lastShelves', JSON.stringify(shelves))
+    }
   })
 
   app.reqres.setHandlers({
