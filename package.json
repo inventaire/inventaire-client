@@ -74,9 +74,11 @@
     "parcel": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "git+https://github.com/gregtillbrook/parcel-plugin-bundle-visualiser.git#ca5440fc6",
     "parcel-plugin-handlebars-precompile": "git+https://github.com/inventaire/parcel-plugin-handlebars-precompile.git#0979112",
+    "parcel-plugin-svelte": "^4.0.6",
     "sass": "^1.26.11",
     "should": "^13.2.3",
     "sinon": "^1.17.3",
+    "svelte": "^3.29.0",
     "tiny-chalk": "^2.0.0",
     "wikidata-cli": "^3.0.6",
     "wikidata-sdk": "^5.16.2"
