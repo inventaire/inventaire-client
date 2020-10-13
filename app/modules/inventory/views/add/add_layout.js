@@ -1,5 +1,5 @@
 import { I18n } from 'modules/user/lib/i18n'
-import tabsData from 'modules/inventory/lib/add_layout_tabs'
+import tabsData from './lib/add_layout_tabs'
 import screen_ from 'lib/screen'
 import addLayoutTemplate from './templates/add_layout.hbs'
 
@@ -52,21 +52,18 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  showTabView (tab) {
-    const View = require(`./${tab}`)
+  async showTabView (tab) {
+    const { wait, View } = tabsData[tab]
     const tabKey = `${tab}Tab`
-    const wait = tabsData[tab].wait || Promise.resolve()
+    if (wait) await wait
 
-    return wait
-    .then(() => {
-      this.content.show(new View(this.options))
-      this.ui.tabs.removeClass('active')
-      this.ui[tabKey].addClass('active')
-      app.navigate(`add/${tab}`, {
-        metadata: {
-          title: I18n(`title_add_layout_${tab}`)
-        }
-      })
+    this.content.show(new View(this.options))
+    this.ui.tabs.removeClass('active')
+    this.ui[tabKey].addClass('active')
+    app.navigate(`add/${tab}`, {
+      metadata: {
+        title: I18n(`title_add_layout_${tab}`)
+      }
     })
   },
 

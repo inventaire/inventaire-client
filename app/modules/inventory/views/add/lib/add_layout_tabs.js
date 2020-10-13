@@ -1,15 +1,22 @@
+import SearchView from '../search'
+import ScanView from '../scan'
+import ImportView from '../import'
+
 let tabs
 
 export default tabs = {
   search: {
-    icon: 'search'
+    icon: 'search',
+    View: SearchView,
   },
   scan: {
     icon: 'barcode',
-    wait: window.waitForDeviceDetection
+    View: ScanView,
+    wait: window.waitForDeviceDetection,
   },
   import: {
-    icon: 'database'
+    icon: 'database',
+    View: ImportView,
   }
 }
 
