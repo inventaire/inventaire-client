@@ -153,7 +153,9 @@ export default Marionette.LayoutView.extend({
       stopLoading.call(this, selector)
       if (addedCandidates.length > 0) {
         this.showImportQueueUnlessEmpty()
-      } else { throw error_.new('no ISBN found', 400) }
+      } else {
+        throw error_.new('no new ISBN found', 400)
+      }
     })
     .catch(error_.Complete('#isbnsImporterWrapper .warning'))
     .catch(forms_.catchAlert.bind(null, this))
