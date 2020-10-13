@@ -16,7 +16,7 @@ import Action from '../models/action'
 import Message from '../models/message'
 import Timeline from '../collections/timeline'
 import formatSnapshotData from '../lib/format_snapshot_data'
-import { data as transactionsData } from 'modules/inventory/lib/transactions_data'
+import { transactionsData } from 'modules/inventory/lib/transactions_data'
 
 const {
   getNextActionsData,

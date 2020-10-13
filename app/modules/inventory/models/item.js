@@ -6,7 +6,7 @@ import preq from 'lib/preq'
 import Filterable from 'modules/general/models/filterable'
 import error_ from 'lib/error'
 import saveOmitAttributes from 'lib/save_omit_attributes'
-import { factory as transactionsDataFactory } from '../lib/transactions_data'
+import { transactionsDataFactory } from '../lib/transactions_data'
 
 export default Filterable.extend({
   initialize (attrs, options) {

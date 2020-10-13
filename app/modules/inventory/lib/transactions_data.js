@@ -1,5 +1,5 @@
 // made it a factory has its main use is to be cloned
-const factory = () => ({
+export const transactionsDataFactory = () => ({
   giving: {
     id: 'giving',
     icon: 'heart',
@@ -38,6 +38,4 @@ const factory = () => ({
 })
 
 // keep a frozen version of the object at hand for read only
-const data = Object.freeze(factory())
-
-export { factory, data }
+export const transactionsData = Object.freeze(transactionsDataFactory())
