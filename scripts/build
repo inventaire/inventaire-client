@@ -16,9 +16,10 @@ last_commit_date=$(git show -s --format="%ci" $COMMIT|sed 's/ .*$//')
 bundle_name="${last_commit_date}_${last_commit_hash}"
 
 export INV_PUBLIC_HOST=${INV_PUBLIC_HOST:-"https://inventaire.io"}
-parcel build app/index.html --out-dir ./public/dist --public-url "$INV_PUBLIC_HOST/public/dist" --no-autoinstall | tee "./scripts/assets/bundle_reports/${bundle_name}.logs"
-mv ./public/dist/report.html "./scripts/assets/bundle_reports/${bundle_name}.html"
-echo "moved bundle report to file://$PWD/scripts/assets/bundle_reports/${bundle_name}.html"
+webpack --config webpack.config.prod.cjs | tee "./scripts/assets/bundle_reports/${bundle_name}.logs"
+# tee "./scripts/assets/bundle_reports/${bundle_name}.logs"
+# mv ./public/dist/report.html "./scripts/assets/bundle_reports/${bundle_name}.html"
+# echo "moved bundle report to file://$PWD/scripts/assets/bundle_reports/${bundle_name}.html"
 
 # Add assets that are kept hidden from Parcel
 sed -i '/link rel="canonical"/a   <link rel="sitemap" href="/public/sitemaps/sitemapindex.xml" />' ./public/dist/index.html

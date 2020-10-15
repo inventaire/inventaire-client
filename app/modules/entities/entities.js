@@ -7,12 +7,8 @@ import error_ from 'lib/error'
 import entityDraftModel from './lib/entity_draft_model'
 import * as entitiesModelsIndex from './lib/entities_models_index'
 import getEntityViewByType from './lib/get_entity_view_by_type'
-import Entities from './lib/entities'
+import { normalizeUri } from './lib/entities'
 import showMergeSuggestions from './lib/show_merge_suggestions'
-
-const {
-  normalizeUri
-} = Entities
 
 export default {
   define (module, app, Backbone, Marionette, $, _) {

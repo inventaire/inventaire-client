@@ -1,6 +1,5 @@
 import { isUserId } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
-import preq from 'lib/preq'
 // Module adapted from snippet at
 // https://piwik.instance/index.php?module=CoreAdminHome&action=trackingCodeGenerator&idSite=11&period=day&date=today
 

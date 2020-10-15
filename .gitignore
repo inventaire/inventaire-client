@@ -27,6 +27,7 @@ tmp/
 *.gz
 .*cache
 public/*
+dist
 old-*
 app/assets/fonts
 config/local.js

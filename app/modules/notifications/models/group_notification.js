@@ -1,7 +1,8 @@
 // used for: userMadeAdmin, groupUpdate (name, description)
 
 import Notification from './notification'
-import { escapeExpression } from 'handlebars/dist/handlebars.runtime'
+import Handlebars from 'handlebars/runtime'
+const { escapeExpression } = Handlebars
 
 export default Notification.extend({
   initSpecific () {

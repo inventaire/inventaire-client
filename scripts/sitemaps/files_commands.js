@@ -20,7 +20,7 @@ export default {
     return console.log(green('gzipping files'))
   },
   generateMainSitemap () {
-    cp(`scripts/sitemaps/main.xml`, `${folder}/main.xml`)
+    cp('scripts/sitemaps/main.xml', `${folder}/main.xml`)
     return console.log(green('copied main.xml'))
   },
 

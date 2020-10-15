@@ -34,7 +34,6 @@ export const Fail = function (label, cb) {
   return fail.bind(this, label, cb)
 }
 
-
 // behaviors: AlertBox MUST be added to the view
 export function alert (message) {
   console.warn(message)

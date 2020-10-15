@@ -1,3 +1,4 @@
+import 'backbone-nested'
 import assert_ from 'lib/assert_types'
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'

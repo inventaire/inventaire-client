@@ -49,7 +49,7 @@ export default {
     if (propertiesUsedByRelations.includes(property)) { this.invalidateRelationsCache() }
 
     return this.savePropertyValue(property, oldValue, newValue)
-    // Triggering the event is required as Backbone.NestedModel would trigger
+    // Triggering the event is required as NestedModel would trigger
     // 'add' and 'remove' events
     .then(() => this.trigger('change:claims', property, oldValue, newValue))
     .catch(rollback)

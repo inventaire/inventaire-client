@@ -1,7 +1,7 @@
 import log_ from 'lib/loggers'
 import { i18n } from 'modules/user/lib/i18n'
 import ClaimsEditorCommons from './claims_editor_commons'
-import createEntities from 'modules/entities/lib/create_entities'
+import { byProperty as createByProperty } from 'modules/entities/lib/create_entities'
 import autocomplete from 'modules/entities/views/editor/lib/autocomplete'
 import entityValueEditorTemplate from './templates/entity_value_editor.hbs'
 
@@ -156,7 +156,7 @@ export default ClaimsEditorCommons.extend({
     // Assumes that the user has Wikidata Oauth setup as they are on the editor for a Wikidata entity
     const createOnWikidata = this.model.entity.get('isWikidataEntity')
 
-    return createEntities.byProperty({ property: this.property, name, relationEntity, createOnWikidata })
+    return createByProperty({ property: this.property, name, relationEntity, createOnWikidata })
     .then(log_.Info('created entity'))
     .then(entity => this._save(entity.get('uri')))
   },

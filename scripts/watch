@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-# Use a relative --public-url in development to be able to serve those files
-# on both localhost and the local ip, to test from other devices
-parcel watch app/index.html --out-dir ./public/dist --public-url '/public/dist' --no-autoinstall

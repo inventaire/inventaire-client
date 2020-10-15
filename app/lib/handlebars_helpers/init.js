@@ -1,4 +1,4 @@
-import Handlebars from 'handlebars/dist/handlebars.runtime'
+import Handlebars from 'handlebars/runtime'
 import blocks from './blocks'
 import misc from './misc'
 import utils from './utils'

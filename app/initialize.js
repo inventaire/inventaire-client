@@ -1,3 +1,4 @@
+import 'modules/general/scss/base.scss'
 // Customized backbone.marionette
 // Sets globals: $, jQuery, Backbone, Marionette, FilteredCollection
 import 'backbone.marionette'

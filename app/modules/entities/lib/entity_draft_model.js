@@ -1,10 +1,12 @@
 import { I18n } from 'modules/user/lib/i18n'
 import editableEntity from './inv/editable_entity'
-import * as createEntities from './create_entities'
+import { create as createEntity } from './create_entities'
 import properties from './properties'
 import Entity from '../models/entity'
 import { buildPath } from 'lib/location'
 import { asyncNoop } from 'lib/utils'
+import BackboneNested from 'backbone-nested'
+const { NestedModel } = BackboneNested
 
 const typeDefaultP31 = {
   human: 'wd:Q5',
@@ -43,7 +45,7 @@ export default {
       labels[app.user.lang] = label
     }
 
-    const model = new Backbone.NestedModel({ type, labels, claims })
+    const model = new NestedModel({ type, labels, claims })
     Entity.prototype.setFavoriteLabel.call(model, model.toJSON())
 
     _.extend(model, {
@@ -63,7 +65,7 @@ export default {
       invalidateRelationsCache: _.noop,
       saveLabel: asyncNoop,
       create () {
-        return createEntities.create({
+        return createEntity({
           labels: this.get('labels'),
           claims: this.get('claims')
         })

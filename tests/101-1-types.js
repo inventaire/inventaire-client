@@ -115,7 +115,7 @@ describe('assert types', () => {
     })
 
     it("only accepts the 's...' interface", () => {
-      ((() => assertTypes([ 1, 2,   3, 41235115 ], 'numbers'))).should.throw()
+      ((() => assertTypes([ 1, 2, 3, 41235115 ], 'numbers'))).should.throw()
     })
 
     it("should accept piped 's...' types", () => {

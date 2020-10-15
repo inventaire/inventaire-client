@@ -1,4 +1,4 @@
-import { capitalise, lazyMethod } from 'lib/utils'
+import { capitalize, lazyMethod } from 'lib/utils'
 import { I18n, i18n } from 'modules/user/lib/i18n'
 import serieCleanupTemplate from './templates/serie_cleanup.hbs'
 import SerieCleanupWorks from './serie_cleanup_works'
@@ -193,7 +193,7 @@ export default Marionette.LayoutView.extend({
 
   setStateClass (name) {
     const checked = this._states[name]
-    const className = 'show' + capitalise(name)
+    const className = 'show' + capitalize(name)
     if (checked) {
       this.$el.addClass(className)
     } else {

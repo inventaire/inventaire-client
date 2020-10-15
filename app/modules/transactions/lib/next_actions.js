@@ -1,8 +1,8 @@
-import { findNextActions, isArchived } from './transactions'
+import { findNextActions, isArchived as _isArchived } from './transactions'
 import * as infoPartials from './info_partials'
 import actionsData from './actions_data'
 
-const getNextActionsData = function (transaction) {
+export const getNextActionsData = function (transaction) {
   const nextActions = proxyFindNextActions(transaction)
   let data = actionsData()[nextActions]
   if (data == null) return
@@ -25,7 +25,7 @@ const addTransactionInfo = function (data, transaction) {
     action[transactionMode] = true
     action.itemId = transaction.get('item')
     const infoData = infoPartials[transactionMode][action.text]
-    if (infoData != null) { _.extend(action, infoData) }
+    if (infoData != null) _.extend(action, infoData)
     return action
   })
 }
@@ -35,7 +35,6 @@ const grabOtherUsername = function (transaction, actions) {
   return actions.map(action => _.extend({}, action, { username }))
 }
 
-export default {
-  getNextActionsData,
-  isArchived (transaction) { return isArchived(sharedLibAdapter(transaction)) }
+export function isArchived (transaction) {
+  return _isArchived(sharedLibAdapter(transaction))
 }

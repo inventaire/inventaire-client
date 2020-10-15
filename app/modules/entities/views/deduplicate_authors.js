@@ -1,13 +1,12 @@
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import searchType from '../lib/search/search_type'
-import EntitiesUrisResults from '../lib/search/entities_uris_results'
+import { getEntityUri } from '../lib/search/entities_uris_results'
 import AuthorLayout from './author_layout'
 import NoItem from 'modules/inventory/views/no_item'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import deduplicateAuthorsTemplate from './templates/deduplicate_authors.hbs'
 
-const { getEntityUri } = EntitiesUrisResults
 const { startLoading, stopLoading } = behaviorsPlugin
 
 const searchHumans = searchType('humans')

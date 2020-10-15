@@ -1,4 +1,7 @@
-export default Backbone.NestedModel.extend({
+import BackboneNested from 'backbone-nested'
+const { NestedModel } = BackboneNested
+
+export default NestedModel.extend({
   matches (filterRegex, rawInput) {
     if (filterRegex == null) { return true }
     return _.some(this.matchable(), this.fieldMatch(filterRegex, rawInput))

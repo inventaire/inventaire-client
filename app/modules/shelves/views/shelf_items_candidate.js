@@ -45,7 +45,7 @@ export default Marionette.ItemView.extend({
   },
 
   // Do no rename function to 'remove' as that would overwrite
-  // Backbone.Marionette.View.prototype.remove
+  // Marionette.View.prototype.remove
   removeFromShelf () {
     return shelves_.removeItems(this.shelf, this.model)
     .catch(forms_.catchAlert.bind(null, this))

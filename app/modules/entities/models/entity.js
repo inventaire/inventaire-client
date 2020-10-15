@@ -8,7 +8,7 @@ import { props as promiseProps } from 'lib/promises'
 import log_ from 'lib/loggers'
 import { I18n } from 'modules/user/lib/i18n'
 import { normalizeIsbn } from 'lib/isbn'
-import entities_ from '../lib/entities'
+import { getReverseClaims } from '../lib/entities'
 import initializeWikidataEntity from '../lib/wikidata/init_entity'
 import initializeInvEntity from '../lib/inv/init_entity'
 import editableEntity from '../lib/inv/editable_entity'
@@ -195,7 +195,7 @@ export default Filterable.extend({
     const uri = this.get('uri')
     const prop = this.childrenClaimProperty
 
-    this.waitForSubentitiesUris = entities_.getReverseClaims(prop, uri, refresh)
+    this.waitForSubentitiesUris = getReverseClaims(prop, uri, refresh)
       .then(uris => {
         this.setSubEntitiesUris(uris)
         return uris

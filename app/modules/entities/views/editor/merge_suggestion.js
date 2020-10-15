@@ -1,7 +1,6 @@
-import { someMatch, isOpenedOutside } from 'lib/utils'
+import { someMatch, isOpenedOutside, capitalize } from 'lib/utils'
 import mergeSuggestionTemplate from './templates/merge_suggestion.hbs'
 import mergeSuggestionSubentityTemplate from './templates/merge_suggestion_subentity.hbs'
-
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import mergeEntities from './lib/merge_entities'
@@ -24,15 +23,16 @@ export default Marionette.LayoutView.extend({
   initialize () {
     const toEntityUri = this.options.toEntity.get('uri')
     this.taskModel = this.model.tasks?.[toEntityUri]
+    this.isTypeAttribute = `is${capitalize(this.model.type)}`
 
-    this.isExactMatch = haveLabelMatch(this.model, this.options.toEntity)
-    return ({ showCheckbox: this.showCheckbox } = this.options)
+    this.isExactMatch = haveLabelMatch(this.model, this.options.toEntity);
+    ({ showCheckbox: this.showCheckbox } = this.options)
   },
 
   serializeData () {
     const attrs = this.model.toJSON()
     attrs.task = this.taskModel?.serializeData()
-    attrs.claimsPartial = claimsPartials[this.model.type]
+    attrs[this.isTypeAttribute] = true
     attrs.isExactMatch = this.isExactMatch
     attrs.showCheckbox = this.showCheckbox
     return attrs
@@ -96,13 +96,6 @@ const haveLabelMatch = (suggestion, toEntity) => someMatch(getNormalizedLabels(s
 
 const getNormalizedLabels = entity => Object.values(entity.get('labels')).map(normalizeLabel)
 const normalizeLabel = label => label.toLowerCase().replace(/\W+/g, '')
-
-const claimsPartials = {
-  author: 'entities:author_claims',
-  edition: 'entities:edition_claims',
-  work: 'entities:work_claims',
-  serie: 'entities:work_claims'
-}
 
 const Subentity = Marionette.ItemView.extend({
   className: 'subentity',

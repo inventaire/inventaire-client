@@ -22,7 +22,10 @@
 <div class="suggestion-claims">
   {{!-- claims that aren't in claims partials, but that could be useful for most entities types --}}
   {{claim claims 'wdt:P50' true}} {{!-- author --}}
-  {{#if claimsPartial}}{{> claimsPartial this}}{{/if}}
+  {{#if isAuthor}}{{> 'entities:author_claims' this}}{{/if}}
+  {{#if isEdition}}{{> 'entities:edition_claims' this}}{{/if}}
+  {{#if isWork}}{{> 'entities:work_claims' this}}{{/if}}
+  {{#if isSerie}}{{> 'entities:work_claims' this}}{{/if}}
 </div>
 
 <div class="all-subentities">

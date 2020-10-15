@@ -1,4 +1,4 @@
-import { capitalise } from 'lib/utils'
+import { capitalize } from 'lib/utils'
 import log_ from 'lib/loggers'
 import libraryThingParser from './parsers/library_thing'
 import goodReadsParser from './parsers/good_reads'
@@ -64,13 +64,17 @@ const accept = {
 
 const prepareImporter = function (name, obj) {
   obj.name = name
-  obj.label = capitalise(name)
+  obj.label = capitalize(name)
   obj.accept = accept[obj.format]
   if (obj.format === 'all') obj.hideFormat = true
   return obj
 }
 
+const wrappedImporters = {}
+
 for (const name in importers) {
   const params = importers[name]
-  exports[name] = prepareImporter(name, params)
+  wrappedImporters[name] = prepareImporter(name, params)
 }
+
+export default wrappedImporters

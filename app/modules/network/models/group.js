@@ -1,14 +1,14 @@
-import { capitalise, daysAgo } from 'lib/utils'
+import { capitalize, daysAgo } from 'lib/utils'
 import { isNonEmptyString } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
-
 import { i18n } from 'modules/user/lib/i18n'
 // defining all and _recalculateAll methods
 import aggregateUsersIds from '../lib/aggregate_users_ids'
 import groupActions from '../lib/group_actions'
 import Positionable from 'modules/general/models/positionable'
 import { getColorSquareDataUriFromModelId } from 'lib/images'
-const defaultCover = require('lib/urls').images.brittanystevens
+import { images } from 'lib/urls'
+const { defaultCover } = images
 
 export default Positionable.extend({
   url: () => app.API.groups.base,
@@ -76,7 +76,7 @@ export default Positionable.extend({
     // while keeping the same object to avoid breaking references
     if (!this[name]) { this[name] = new Backbone.Collection() }
     this[name].remove(this[name].models)
-    const Name = capitalise(name)
+    const Name = capitalize(name)
     const ids = this[`all${Name}Ids`]()
     this[`waitFor${Name}`] = this.fetchUsers(this[name], ids)
   },

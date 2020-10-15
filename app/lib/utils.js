@@ -21,7 +21,7 @@ export const deepClone = obj => {
   return JSON.parse(JSON.stringify(obj))
 }
 
-export const capitalise = str => {
+export const capitalize = str => {
   if (str === '') return ''
   return str[0].toUpperCase() + str.slice(1)
 }

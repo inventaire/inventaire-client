@@ -7,8 +7,7 @@ import preq from 'lib/preq'
 // - performed (requester)
 // - returned (owner) (for lending only)
 // - cancelled (owner/requester)
-import NextActions from '../lib/next_actions'
-
+import { getNextActionsData, isArchived } from '../lib/next_actions'
 import cancellableStates from '../lib/cancellable_states'
 import applySideEffects from '../lib/apply_side_effects'
 import { buildPath } from 'lib/location'
@@ -17,13 +16,10 @@ import Message from '../models/message'
 import Timeline from '../collections/timeline'
 import formatSnapshotData from '../lib/format_snapshot_data'
 import { transactionsData } from 'modules/inventory/lib/transactions_data'
+import BackboneNested from 'backbone-nested'
+const { NestedModel } = BackboneNested
 
-const {
-  getNextActionsData,
-  isArchived
-} = NextActions
-
-export default Backbone.NestedModel.extend({
+export default NestedModel.extend({
   url () { return app.API.transactions },
   initialize () {
     this.set('pathname', `/transactions/${this.id}`)

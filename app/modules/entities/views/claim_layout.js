@@ -1,9 +1,9 @@
 import { i18n } from 'modules/user/lib/i18n'
-import wd_ from 'lib/wikimedia/wikidata'
+import { unprefixify } from 'lib/wikimedia/wikidata'
 import PaginatedEntities from '../collections/paginated_entities'
 import EntitiesList from './entities_list'
 import GeneralInfobox from './general_infobox'
-import entities_ from '../lib/entities'
+import { getReverseClaims } from '../lib/entities'
 import { entity as entityValueTemplate } from 'lib/handlebars_helpers/claims_helpers'
 import claimLayoutTemplate from './templates/claim_layout.hbs'
 
@@ -28,7 +28,7 @@ export default Marionette.LayoutView.extend({
     .catch(this.displayError)
 
     try {
-      const uris = await entities_.getReverseClaims(this.property, this.value, this.refresh, true)
+      const uris = await getReverseClaims(this.property, this.value, this.refresh, true)
       await this.waitForModel
       this.ifViewIsIntact('showEntities', uris)
     } catch (err) {
@@ -48,7 +48,7 @@ export default Marionette.LayoutView.extend({
 
     // allowlisted properties labels are in i18n keys already, thus should not need
     // to be fetched like what 'entityValueTemplate' is doing for the entity value
-    const propertyValue = i18n(wd_.unprefixify(this.property))
+    const propertyValue = i18n(unprefixify(this.property))
     const entityValue = entityValueTemplate(this.value)
 
     return this.list.show(new EntitiesList({

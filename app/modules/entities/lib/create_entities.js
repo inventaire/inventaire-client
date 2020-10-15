@@ -119,4 +119,4 @@ const triggerEntityGraphChangesEvents = claims => function () {
   }
 }
 
-export { createAndGetEntity as create, createWorkEdition as workEdition, byProperty }
+export { createAndGetEntity as create, createWorkEdition, byProperty }

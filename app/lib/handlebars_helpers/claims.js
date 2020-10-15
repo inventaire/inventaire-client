@@ -6,19 +6,18 @@ import wdLang from 'wikidata-lang'
 import commons_ from 'lib/wikimedia/commons'
 import linkify_ from './linkify'
 import platforms_ from './platforms'
-import ClaimsHelpers from './claims_helpers'
-import { SafeString, escapeExpression } from 'handlebars/dist/handlebars.runtime'
-
-let API
-
-const {
-  prop: propHelper,
-  entity: entityHelper,
+import {
+  prop as propHelper,
+  entity as entityHelper,
   neutralizeDataObject,
   getValuesTemplates,
   labelString,
   claimString
-} = ClaimsHelpers
+} from './claims_helpers'
+import Handlebars from 'handlebars/runtime'
+const { SafeString, escapeExpression } = Handlebars
+
+let API
 
 export default API = {
   prop: propHelper,

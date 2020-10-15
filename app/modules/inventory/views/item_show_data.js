@@ -1,5 +1,5 @@
 import log_ from 'lib/loggers'
-import { capitalise } from 'lib/utils'
+import { capitalize } from 'lib/utils'
 import itemShowDataTemplate from './templates/item_show_data.hbs'
 
 // Motivation for having a view separated from ItemShow:
@@ -94,7 +94,7 @@ export default ItemLayout.extend({
   showDetailsEditorFromKey (e) { this.showEditorFromKey('details', e) },
   showEditorFromKey (editor, e) {
     const key = getActionKey(e)
-    const capitalizedEditor = capitalise(editor)
+    const capitalizedEditor = capitalize(editor)
     if (key === 'enter') this[`show${capitalizedEditor}Editor`]()
   },
 
@@ -124,7 +124,7 @@ export default ItemLayout.extend({
 
   editorKeyAction (editor, e) {
     const key = getActionKey(e)
-    const capitalizedEditor = _.capitalise(editor)
+    const capitalizedEditor = _.capitalize(editor)
     if (key === 'esc') {
       const hideEditor = `hide${capitalizedEditor}Editor`
       this[hideEditor]()

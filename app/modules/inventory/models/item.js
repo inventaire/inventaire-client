@@ -1,4 +1,4 @@
-import { capitalise } from 'lib/utils'
+import { capitalize } from 'lib/utils'
 import { props as promiseProps, tap } from 'lib/promises'
 import { isNonEmptyString, isEntityUri } from 'lib/boolean_tests'
 import { i18n } from 'modules/user/lib/i18n'
@@ -109,7 +109,7 @@ export default Filterable.extend({
       attrs.entityData = this.entity.toJSON()
       const { type } = this.entity
       attrs.entityType = type
-      const Type = capitalise(type)
+      const Type = capitalize(type)
       attrs[`entityIs${Type}`] = true
     }
 

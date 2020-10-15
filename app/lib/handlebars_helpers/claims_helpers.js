@@ -3,16 +3,17 @@ import entityValue from 'modules/general/views/behaviors/templates/entity_value.
 import propertyValue from 'modules/general/views/behaviors/templates/property_value.hbs'
 import wdk from 'lib/wikidata-sdk'
 import error_ from 'lib/error'
-import { SafeString, escapeExpression } from 'handlebars/dist/handlebars.runtime'
+import Handlebars from 'handlebars/runtime'
+const { SafeString, escapeExpression } = Handlebars
 
-const prop = function (uri) {
+export const prop = function (uri) {
   // Be more restrictive on the input to be able to use it in SafeStrings
   if (/^wdt:P\d+$/.test(uri)) {
     return propertyValue({ uri })
   } else if (wdk.isWikidataPropertyId(uri)) { return propertyValue({ uri: `wdt:${uri}` }) }
 }
 
-const entity = function (uri, entityLink, alt, property, title) {
+export const entity = function (uri, entityLink, alt, property, title) {
   // Be restricting on the input to be able to use it in SafeStrings
   let pathname
   if (!wdk.isWikidataItemId(uri) && !isEntityUri(uri)) {
@@ -44,32 +45,30 @@ const propertyWithSpecialLayout = [
   'wdt:P1066' // student of (human)
 ]
 
-export default {
-  prop,
-  entity,
-  // handlebars pass a sometime confusing {data:, hash: object} as last argument
-  // this method is used to make helpers less error-prone by removing this object
-  neutralizeDataObject (args) {
-    const last = _.last(args)
-    if ((last?.hash != null) && (last.data != null)) {
-      return args.slice(0, -1)
-    } else {
-      return args
-    }
-  },
-
-  getValuesTemplates (valueArray, entityLink, property) {
-    // prevent any null value to sneak in
-    return _.compact(valueArray)
-    .map(uri => entity(uri, entityLink, null, property).trim())
-    .join(', ')
-  },
-
-  labelString (pid, omitLabel) { return omitLabel ? '' : prop(pid) },
-
-  claimString (label, values, inline) {
-    let text = `${label} ${values}`
-    if (!inline) { text += ' <br>' }
-    return new SafeString(text)
+// handlebars pass a sometime confusing {data:, hash: object} as last argument
+// this method is used to make helpers less error-prone by removing this object
+export function neutralizeDataObject (args) {
+  const last = _.last(args)
+  if ((last?.hash != null) && (last.data != null)) {
+    return args.slice(0, -1)
+  } else {
+    return args
   }
+}
+
+export function getValuesTemplates (valueArray, entityLink, property) {
+  // prevent any null value to sneak in
+  return _.compact(valueArray)
+  .map(uri => entity(uri, entityLink, null, property).trim())
+  .join(', ')
+}
+
+export function labelString (pid, omitLabel) {
+  return omitLabel ? '' : prop(pid)
+}
+
+export function claimString (label, values, inline) {
+  let text = `${label} ${values}`
+  if (!inline) text += ' <br>'
+  return new SafeString(text)
 }
