@@ -1,7 +1,9 @@
 import Notification from './notification'
 
 export default Notification.extend({
-  initSpecific () { return this.grabAttributeModel('user') },
+  initSpecific () {
+    return this.grabAttributeModel('user')
+  },
 
   serializeData () {
     const attrs = this.toJSON()

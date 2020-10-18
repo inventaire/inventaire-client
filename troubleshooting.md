@@ -67,14 +67,5 @@ const someFn = options => {
 ```
 Known case where `null` is passed and we were using default parameters in CS: route callbacks
 
-### nothing works, but it should
-- try to restart `npm run watch`
-- still not working: stop watcher, `rm -rf ./.cache`, restart watcher
-- still not working: take a break :D
-
-## In Parcel logs
-### 🚨  Cannot read property 'type' of undefined
-```
-    at Bundler.createBundleTree (/home/maxlath/code/inventaire/inventaire/client/node_modules/parcel/src/Bundler.js:654:54)
-```
-Parcel v1 crashed with this message sometimes: normally restarting the watcher makes the problem disappear
+### Uncaught ReferenceError: can't access lexical declaration '__WEBPACK_DEFAULT_EXPORT__' before initialization
+You might be dealing with a circular dependancy, see https://github.com/webpack/webpack/issues/9173#issuecomment-494903242

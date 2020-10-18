@@ -1,4 +1,4 @@
-import { typeOf } from 'lib/utils'
+import typeOf from 'lib/type_of'
 
 const assertType = function (obj, type) {
   const trueType = typeOf(obj)

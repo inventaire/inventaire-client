@@ -1,12 +1,11 @@
-import log_ from 'lib/loggers'
-// internalized version of https://github.com/googleknowledge/qlabel
-
+// Inspired by https://github.com/googleknowledge/qlabel
 // How to:
 // - Display html nodes with the hereafter defined class
 //   and passing the node Qid as attribute
 // - Trigger uriLabel.update to make it look for those elements
 //   and replace their text by the best label it can find for the Qid
 
+import log_ from 'lib/loggers'
 import {
   getLabel,
   setLabel,

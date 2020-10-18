@@ -1,5 +1,4 @@
 import preq from 'lib/preq'
-import PaginatedWorks from '../../collections/paginated_works'
 import commonsSerieWork from './commons_serie_work'
 import getPartsSuggestions from 'modules/entities/views/cleanup/lib/get_parts_suggestions'
 
@@ -59,17 +58,19 @@ const specificMethods = _.extend({}, commonsSerieWork, {
   }
 })
 
-const initPartsCollections = function (refresh, fetchAll, partsData) {
+const initPartsCollections = async (refresh, fetchAll, partsData) => {
   const allsPartsUris = _.pluck(partsData, 'uri')
   const partsWithoutSuperparts = partsData.filter(hasNoKnownSuperpart(allsPartsUris))
   const partsWithoutSuperpartsUris = _.pluck(partsWithoutSuperparts, 'uri')
+
+  // Prevent circular dependencies by using a late import
+  const { default: PaginatedWorks } = await import('../../collections/paginated_works')
 
   this.parts = new PaginatedWorks(null, {
     uris: allsPartsUris,
     defaultType: 'work',
     refresh
-  }
-  )
+  })
 
   this.partsWithoutSuperparts = new PaginatedWorks(null, {
     uris: partsWithoutSuperpartsUris,
@@ -79,10 +80,9 @@ const initPartsCollections = function (refresh, fetchAll, partsData) {
       entityType: 'serie',
       entityUri: this.get('uri')
     }
-  }
-  )
+  })
 
-  if (fetchAll) { return this.parts.fetchAll() }
+  if (fetchAll) return this.parts.fetchAll()
 }
 
 const hasNoKnownSuperpart = allsPartsUris => function (part) {

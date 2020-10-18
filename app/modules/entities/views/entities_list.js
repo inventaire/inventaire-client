@@ -2,31 +2,48 @@ import loader from 'modules/general/views/templates/loader.hbs'
 import error_ from 'lib/error'
 import EntitiesListAdder from './entities_list_adder'
 import { currentRoute } from 'lib/location'
-import SerieLayout from './serie_layout'
-import WorkLi from './work_li'
-import ArticleLi from './article_li'
-import EditionLi from './edition_li'
-import AuthorLayout from './author_layout'
-import PublisherLayout from './publisher_layout'
-import CollectionLayout from './collection_layout'
 import entitiesListTemplate from './templates/entities_list.hbs'
 
 // TODO:
 // - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
 // - hide series parts when displayed as sub-series
 
-const viewByType = {
-  serie: SerieLayout,
-  work: WorkLi,
-  article: ArticleLi,
-  // Types included despite not being works
-  // to make this view reusable by ./claim_layout with those types.
-  // This view should thus possibily be renamed entities_list
-  edition: EditionLi,
-  human: AuthorLayout,
-  publisher: PublisherLayout,
-  collection: CollectionLayout,
+// Prevent circular dependencies
+const viewByType = {}
+
+const lateImport = async () => {
+  const [
+    { default: SerieLayout },
+    { default: WorkLi },
+    { default: ArticleLi },
+    { default: EditionLi },
+    { default: AuthorLayout },
+    { default: PublisherLayout },
+    { default: CollectionLayout },
+  ] = await Promise.all([
+    import('./serie_layout'),
+    import('./work_li'),
+    import('./article_li'),
+    import('./edition_li'),
+    import('./author_layout'),
+    import('./publisher_layout'),
+    import('./collection_layout'),
+  ])
+  Object.assign(viewByType, {
+    serie: SerieLayout,
+    work: WorkLi,
+    article: ArticleLi,
+    // Types included despite not being works
+    // to make this view reusable by ./claim_layout with those types.
+    // This view should thus possibily be renamed entities_list
+    edition: EditionLi,
+    human: AuthorLayout,
+    publisher: PublisherLayout,
+    collection: CollectionLayout,
+  })
 }
+
+setTimeout(lateImport, 0)
 
 export default Marionette.CompositeView.extend({
   template: entitiesListTemplate,

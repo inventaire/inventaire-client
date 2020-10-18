@@ -1,6 +1,5 @@
 import log_ from 'lib/loggers'
-import { deepClone } from 'lib/utils'
-let error_
+
 const formatError = function (message, statusCode, context) {
   // Accept a statusCode number as second argument as done on the server
   // cf server/lib/error/format_error.js
@@ -26,7 +25,7 @@ const formatError = function (message, statusCode, context) {
   return err
 }
 
-export default error_ = {
+const error_ = {
   new: formatError,
   // newWithSelector: use forms_.throwError instead
 
@@ -58,3 +57,8 @@ export default error_ = {
     log_.error(err, `[reported error (not thrown)] ${message}`)
   }
 }
+
+// Do not use lib/utils deepClone to prevent circular dependency
+const deepClone = obj => JSON.parse(JSON.stringify(obj))
+
+export default error_

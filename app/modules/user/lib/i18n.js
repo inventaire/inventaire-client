@@ -8,7 +8,6 @@ import Polyglot from 'node-polyglot'
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import { capitalize, noop } from 'lib/utils'
-import * as uriLabel from 'lib/uri_label/uri_label'
 import translate from './translate'
 import i18nMissingKey from './i18n_missing_key'
 
@@ -18,7 +17,7 @@ export const i18n = (...args) => currentLangI18n(...args)
 
 // Convention: 'lang' always stands for ISO 639-1 two letters language codes
 // (like 'en', 'fr', etc.)
-export const initI18n = (app, lang) => {
+export const initI18n = async (app, lang) => {
   const missingKey = window.env === 'dev' ? i18nMissingKey : noop
 
   const missingKeyWarn = function (warning) {
@@ -35,9 +34,16 @@ export const initI18n = (app, lang) => {
 
   setLanguage(lang, missingKeyWarn)
 
-  app.commands.setHandlers({
-    'uriLabel:update': updateUrilabel,
-    'uriLabel:refresh': uriLabel.refreshData
+  // Prevent circular dependencies by using a late import
+  import('lib/uri_label/uri_label')
+  .then(uriLabel => {
+    app.commands.setHandlers({
+      'uriLabel:update': () => {
+        const { lang } = app.user
+        uriLabel.update(lang)
+      },
+      'uriLabel:refresh': uriLabel.refreshData
+    })
   })
 
   return initLocalLang(lang)
@@ -62,11 +68,6 @@ const updatePolyglot = function (polyglot, lang, res) {
   polyglot.replace(res)
   polyglot.locale(lang)
   app.execute('waiter:resolve', 'i18n')
-}
-
-const updateUrilabel = function () {
-  const { lang } = app.user
-  uriLabel.update(lang)
 }
 
 const initLocalLang = function (lang) {

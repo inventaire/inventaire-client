@@ -74,8 +74,8 @@ export default function () {
   })
 
   initGroupFilteredCollection(groups, 'mainUserMember')
-  return initGroupFilteredCollection(groups, 'mainUserInvited')
-};
+  initGroupFilteredCollection(groups, 'mainUserInvited')
+}
 
 const initGroupFilteredCollection = function (groups, name) {
   const filtered = (groups[name] = new FilteredCollection(groups))
@@ -84,6 +84,6 @@ const initGroupFilteredCollection = function (groups, name) {
 }
 
 const filters = {
-  mainUserMember (group) { return group.mainUserIsMember() },
-  mainUserInvited (group) { return group.mainUserIsInvited() }
+  mainUserMember: group => group.mainUserIsMember(),
+  mainUserInvited: group => group.mainUserIsInvited()
 }

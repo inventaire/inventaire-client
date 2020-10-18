@@ -1,4 +1,5 @@
 const config = require('./webpack.config.common.cjs')
+const CircularDependencyPlugin = require('circular-dependency-plugin')
 
 // Detect when the --config argument is badly parsed by webpack (ex: --config passed *before* 'serve')
 if (config.mode != null) throw new Error(`config.mode is already set: ${config.mode}`)
@@ -16,6 +17,7 @@ Object.assign(config, {
     port,
     hot: true,
     overlay: true,
+    historyApiFallback: true,
     // See https://webpack.js.org/configuration/dev-server/#devserverproxy
     proxy: {
       '/api': 'http://localhost:3006',
@@ -24,5 +26,12 @@ Object.assign(config, {
     },
   }
 })
+
+config.plugins.push(new CircularDependencyPlugin({
+  include: /\.js$/,
+  exclude: /node_modules/,
+  failOnError: true,
+  cwd: process.cwd(),
+}))
 
 module.exports = config

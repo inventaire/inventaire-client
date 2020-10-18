@@ -1,5 +1,5 @@
 import { isEntityUri } from 'lib/boolean_tests'
-import { typeOf } from 'lib/utils'
+import typeOf from 'lib/type_of'
 import { i18n } from 'modules/user/lib/i18n'
 import * as icons_ from './icons'
 import wdLang from 'wikidata-lang'

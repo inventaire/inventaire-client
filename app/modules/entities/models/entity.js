@@ -1,10 +1,9 @@
-import { props as promiseProps } from 'lib/promises'
 // One unique Entity model to rule them all
 // but with specific initializers:
 // - By source:
 //   - Wikidata entities have specific initializers related to Wikimedia sitelinks
 // - By type: see specialInitializersByType
-
+import { props as promiseProps } from 'lib/promises'
 import log_ from 'lib/loggers'
 import { I18n } from 'modules/user/lib/i18n'
 import { normalizeIsbn } from 'lib/isbn'

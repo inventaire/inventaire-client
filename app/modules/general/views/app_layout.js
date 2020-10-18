@@ -37,7 +37,7 @@ export default Marionette.LayoutView.extend({
     Dropdown: {}
   },
 
-  initialize (e) {
+  initialize () {
     _.extend(this, showViews)
 
     this.render()
@@ -76,10 +76,12 @@ export default Marionette.LayoutView.extend({
   // /!\ app_layout is never 'show'n so onShow never gets fired
   // but it gets rendered
   onRender () {
-    return this.topBar.show(new TopBar())
+    this.topBar.show(new TopBar())
   },
 
-  askConfirmation (options) { return this.modal.show(new ConfirmationModal(options)) }
+  askConfirmation (options) {
+    this.modal.show(new ConfirmationModal(options))
+  }
 })
 
 const initWindowResizeEvents = function () {
@@ -88,12 +90,12 @@ const initWindowResizeEvents = function () {
     const newScreenMode = screen_.isSmall()
     if (newScreenMode !== previousScreenMode) {
       previousScreenMode = newScreenMode
-      return app.vent.trigger('screen:mode:change')
+      app.vent.trigger('screen:mode:change')
     }
   }
 
   const resize = _.debounce(resizeEnd, 150)
-  return $(window).resize(resize)
+  $(window).resize(resize)
 }
 
 // params = { subject, message, uris, context, unknownUser }

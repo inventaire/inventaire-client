@@ -1,4 +1,4 @@
-import { typeOf } from 'lib/utils'
+import typeOf from 'lib/type_of'
 // Keep in sync with server/lib/boolean_tests
 
 import * as regex_ from 'lib/regex'
