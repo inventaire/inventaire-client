@@ -92,22 +92,6 @@ const htmlIndex = new HtmlWebpackPlugin({
   showErrors: true,
 })
 
-// See https://webpack.js.org/guides/shimming/#shimming-globals
-// See also https://gitlab.com/foodsharing-dev/foodsharing/-/blob/master/client/shims.js
-// https://webpack.js.org/loaders/imports-loader/
-const importGlobals = new ProvidePlugin({
-  $: 'jquery',
-  'window.$': 'jquery',
-  jQuery: 'jquery',
-  'window.jQuery': 'jquery',
-  Backbone: 'backbone',
-  'window.Backbone': 'backbone',
-  _: 'underscore',
-  Marionette: 'backbone.marionette',
-  FilteredCollection: 'backbone-filtered-collection',
-  // NestedModel: 'backbone-nested',
-})
-
 module.exports = {
   entry: './app/initialize.js',
   resolve: {
@@ -115,8 +99,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
-    htmlIndex,
-    importGlobals
+    htmlIndex
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),

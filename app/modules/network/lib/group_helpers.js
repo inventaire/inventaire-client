@@ -1,5 +1,4 @@
 import { isModel, isGroupId } from 'lib/boolean_tests'
-
 import preq from 'lib/preq'
 import error_ from 'lib/error'
 import { Updater } from 'lib/model_update'

@@ -135,7 +135,7 @@ const prepareRefocus = function (focusSelector) {
   app.vent.once('modal:closed', () => {
     const $el = $(focusSelector)
     // Do not focus if the element is not visible as that makes the scroll jump
-    if ($el.visible()) { $(focusSelector).focus() }
+    if ($el.visible()) $(focusSelector).focus()
     log_.info(focusSelector, 're-focusing')
   })
 }

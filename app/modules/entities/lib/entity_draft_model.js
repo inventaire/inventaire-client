@@ -5,8 +5,6 @@ import properties from './properties'
 import Entity from '../models/entity'
 import { buildPath } from 'lib/location'
 import { asyncNoop } from 'lib/utils'
-import BackboneNested from 'backbone-nested'
-const { NestedModel } = BackboneNested
 
 const typeDefaultP31 = {
   human: 'wd:Q5',
@@ -45,7 +43,7 @@ export default {
       labels[app.user.lang] = label
     }
 
-    const model = new NestedModel({ type, labels, claims })
+    const model = Backbone.NestedModel({ type, labels, claims })
     Entity.prototype.setFavoriteLabel.call(model, model.toJSON())
 
     _.extend(model, {

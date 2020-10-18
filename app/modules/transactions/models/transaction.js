@@ -16,10 +16,8 @@ import Message from '../models/message'
 import Timeline from '../collections/timeline'
 import formatSnapshotData from '../lib/format_snapshot_data'
 import { transactionsData } from 'modules/inventory/lib/transactions_data'
-import BackboneNested from 'backbone-nested'
-const { NestedModel } = BackboneNested
 
-export default NestedModel.extend({
+export default Backbone.NestedModel.extend({
   url () { return app.API.transactions },
   initialize () {
     this.set('pathname', `/transactions/${this.id}`)

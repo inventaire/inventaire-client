@@ -1,8 +1,5 @@
-import BackboneNested from 'backbone-nested'
-const { NestedModel } = BackboneNested
-
-export default NestedModel.extend({
-  initialize () {
+export default Backbone.NestedModel.extend({
+  initialize (attrs) {
     this.on('change:status', this.update)
   },
 

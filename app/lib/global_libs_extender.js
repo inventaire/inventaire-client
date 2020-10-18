@@ -1,4 +1,8 @@
-import 'backbone-nested'
+// Sets $(selector).visible function
+import 'jquery-visible'
+// Sets $.event.special.inview
+import 'jquery-inview'
+
 import assert_ from 'lib/assert_types'
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'

@@ -16,7 +16,8 @@
     "api": "./app/api",
     "assets": "./app/assets",
     "lib": "./app/lib",
-    "modules": "./app/modules"
+    "modules": "./app/modules",
+    "vendor": "./vendor"
   },
   "scripts": {
     "build": "./scripts/build",
@@ -38,7 +39,8 @@
   },
   "dependencies": {
     "autosize": "^4.0.2",
-    "backbone.marionette": "git+https://github.com/inventaire/backbone.marionette.git#parcel-module",
+    "backbone.babysitter": "^0.1.11",
+    "backbone.wreqr": "^1.4.0",
     "blueimp-canvas-to-blob": "^3.28.0",
     "cropper": "^2.3.0",
     "enumerate-devices": "^1.1.0",
@@ -46,6 +48,9 @@
     "handlebars": "^4.7.6",
     "imagesloaded": "^4.1.4",
     "isbn3": "^1.1.6",
+    "jquery": "^3.5.1",
+    "jquery-inview": "^1.1.2",
+    "jquery-visible": "^1.2.0",
     "js-cookie": "^2.2.1",
     "leaflet": "^1.7.1",
     "leaflet.markercluster": "^1.4.1",
@@ -88,7 +93,7 @@
     "style-loader": "^2.0.0",
     "svelte": "^3.29.0",
     "tiny-chalk": "^2.0.0",
-    "webpack": "^5.1.2",
+    "webpack": "^5.1.3",
     "webpack-cli": "^4.0.0",
     "webpack-dev-server": "^3.11.0",
     "wikidata-cli": "^3.0.6",

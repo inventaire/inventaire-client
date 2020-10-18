@@ -78,12 +78,19 @@ const App = Marionette.Application.extend({
 })
 
 const onceStart = function () {
-  Backbone.history.start({ pushState: true })
+  // For some reason, the handlers aren't set until app.start is called
+  if (Backbone.history.handlers.length > 0) {
+    console.log('handlers found', Backbone.history.handlers.length)
+    Backbone.history.start({ pushState: true })
 
-  // Backbone.history 'route' event seem to be only triggerd
-  // when 'previous' is hit. it isn't very clear why,
-  // but it allows to notify functionalities depending on the route
-  return Backbone.history.on('route', onPreviousRoute)
+    // Backbone.history 'route' event seem to be only triggerd
+    // when 'previous' is hit. it isn't very clear why,
+    // but it allows to notify functionalities depending on the route
+    Backbone.history.on('route', onPreviousRoute)
+  } else {
+    console.log('waiting for handlers to be set...')
+    setTimeout(onceStart, 100)
+  }
 }
 
 const onPreviousRoute = function () {

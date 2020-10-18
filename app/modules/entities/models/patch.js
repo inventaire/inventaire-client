@@ -1,9 +1,7 @@
 import { i18n } from 'modules/user/lib/i18n'
 import { unprefixify } from 'lib/wikimedia/wikidata'
-import BackboneNested from 'backbone-nested'
-const { NestedModel } = BackboneNested
 
-export default NestedModel.extend({
+export default Backbone.NestedModel.extend({
   initialize (attrs) {
     const entityId = attrs._id.split(':')[0]
     this.set('entityId', entityId)

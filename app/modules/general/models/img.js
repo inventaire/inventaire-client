@@ -1,12 +1,10 @@
 import log_ from 'lib/loggers'
 import { getUrlDataUrl, resizeDataUrl, upload, dataUrlToBlob } from 'lib/images'
-import BackboneNested from 'backbone-nested'
-const { NestedModel } = BackboneNested
 const maxSize = 1600
 const container = 'users'
 
 // named Img and not Image to avoid overwritting window.Image
-export default NestedModel.extend({
+export default Backbone.NestedModel.extend({
   initialize () {
     const { url, dataUrl } = this.toJSON()
 
