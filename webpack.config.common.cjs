@@ -103,7 +103,11 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    // Required to avoid getting assets with relative paths
+    // cf https://github.com/jantimon/html-webpack-plugin/issues/98
+    // https://webpack.js.org/guides/public-path/
+    publicPath: '/',
   },
   module: {
     rules: [
