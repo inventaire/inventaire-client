@@ -17,6 +17,6 @@ rm -rf .git/hooks
 ln -s .githooks .git/hooks
 
 mkdir -p ./public
-ln -s ./public/dist/index.html ./public/index.html
+cp -r app/assets/* ./public
 
 curl -sk https://piwik.allmende.io/piwik.js > ./app/assets/piwik.js
