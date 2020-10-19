@@ -13,7 +13,7 @@ export default Marionette.CompositeView.extend({
 
   initInfiniteScroll () {
     ({ hasMore: this.hasMore, fetchMore: this.fetchMore } = this.options)
-    if (!this.hasMore) { this.hasMore = alwaysFalse }
+    if (!this.hasMore) this.hasMore = alwaysFalse
     this._fetching = false
   },
 

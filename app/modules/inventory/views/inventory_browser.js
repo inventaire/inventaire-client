@@ -119,10 +119,9 @@ export default Marionette.LayoutView.extend({
 
     const remainingItems = _.clone(itemsIds)
     const hasMore = () => remainingItems.length > 0
-    const fetchMore = function () {
+    const fetchMore = async () => {
       const batch = remainingItems.splice(0, 20)
-      if (batch.length === 0) { return Promise.resolve() }
-
+      if (batch.length === 0) return
       return app.request('items:getByIds', batch)
       .then(collection.add.bind(collection))
     }
