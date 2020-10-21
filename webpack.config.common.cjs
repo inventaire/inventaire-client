@@ -1,7 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const { ProvidePlugin } = require('webpack')
 const { alias } = require('./package.json')
 
 Object.keys(alias).forEach(aliasKey => {
@@ -70,18 +69,31 @@ const scss = {
   ]
 }
 
+const svelte = {
+  test: /\.svelte$/,
+  type: 'javascript/auto',
+  use: [
+    {
+      loader: 'svelte-loader',
+      options: {
+        hotReload: true,
+        emitCss: true,
+      },
+    }
+  ],
+}
+
+// Recommended by https://github.com/sveltejs/svelte-loader#usage
+alias.svelte = path.resolve('node_modules', 'svelte')
+
 const images = {
   test: /\.(png|svg|jpg|gif)$/,
-  use: [
-    'file-loader',
-  ]
+  use: 'file-loader',
 }
 
 const fonts = {
   test: /\.(woff|woff2|eot|ttf|otf)$/,
-  use: [
-    'file-loader',
-  ]
+  use: 'file-loader',
 }
 
 const htmlIndex = new HtmlWebpackPlugin({
@@ -96,10 +108,12 @@ module.exports = {
   entry: './app/initialize.js',
   resolve: {
     alias,
+    // Recommended by https://github.com/sveltejs/svelte-loader#resolvemainfields
+    mainFields: [ 'svelte', 'browser', 'module', 'main' ],
   },
   plugins: [
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
-    htmlIndex
+    htmlIndex,
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -115,6 +129,7 @@ module.exports = {
       handlebars,
       css,
       scss,
+      svelte,
       images,
       fonts,
     ],

@@ -3,13 +3,13 @@
 </p>
 
 <style>
-  .the-time {
+  .the-time{
     font-weight: bold;
   }
 </style>
 
 <script>
-  import { onMount } from 'svelte'
+  import { onMount } from 'svelte/internal/index.mjs'
 
   // Uncomment to test error stack trace
   // this will blow up

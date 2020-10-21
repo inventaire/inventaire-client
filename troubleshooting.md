@@ -69,3 +69,29 @@ Known case where `null` is passed and we were using default parameters in CS: ro
 
 ### Uncaught ReferenceError: can't access lexical declaration '__WEBPACK_DEFAULT_EXPORT__' before initialization
 You might be dealing with a circular dependancy, see https://github.com/webpack/webpack/issues/9173#issuecomment-494903242
+
+## In Webpack logs
+### ERROR in ./node_modules/svelte/index.mjs 1:0-167
+```
+ERROR in ./node_modules/svelte/index.mjs 1:0-167
+Module not found: Error: Can't resolve './internal' in '/home/maxlath/code/inventaire/inventaire/client/node_modules/svelte'
+Did you mean 'index.mjs'?
+BREAKING CHANGE: The request './internal' failed to resolve only because it was resolved as fully specified
+(probably because the origin is a '*.mjs' file or a '*.js' file where the package.json contains '"type": "module"').
+The extension in the request is mandatory for it to be fully specified.
+Add the extension to the request.
+```
+This kind of error is due to the difficulties to work between ESM and CJS imports, and modules relying on the resolution of index.js files: it might be that it could be fixed from the webpack config, but in the meantime, a workaround is to make the import more specific:
+
+If the error was triggered by an import such as
+```js
+import { onMount } from 'svelte'
+```
+it can be solved by replacing it by the more specific
+```js
+import { onMount } from 'svelte/internal/index.mjs'
+```
+
+### Cannot read property 'data' of undefined
+See https://github.com/sveltejs/svelte-loader/issues/139
+Should have been fixed by `npm i svelte-loader@https://github.com/smittyvb/svelte-loader#284238e`

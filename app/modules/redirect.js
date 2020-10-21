@@ -58,16 +58,13 @@ const API = {
   },
 
   async showSvelteTest () {
-    // const { default: SvelteTest } = await import('./test.svelte')
-    // console.log('SvelteTest', SvelteTest)
-    // const testApp = new SvelteTest({
-    //   target: document.querySelector('main'),
-    //   data: {
-    //     name: 'world'
-    //   }
-    // })
-
-    // console.log('testApp', testApp)
+    const { default: SvelteTest } = await import('./test.svelte')
+    const testApp = new SvelteTest({
+      target: document.querySelector('main'),
+      data: {
+        name: 'world'
+      }
+    })
   },
 
   notFound (route) {
