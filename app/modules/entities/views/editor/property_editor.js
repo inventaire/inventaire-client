@@ -60,7 +60,7 @@ export default Marionette.CompositeView.extend({
     const attrs = this.model.toJSON()
     if (this.customAdd) {
       attrs.customAdd = true
-      attrs.creationPartial = 'entities:editor:' + this.customAdd.partial
+      attrs[`creation_partial_is_${this.customAdd.partial}`] = true
       attrs.creationPartialData = this.customAdd.partialData(this.model.entity)
     } else {
       attrs.canAddValues = this.canAddValues()
@@ -69,10 +69,12 @@ export default Marionette.CompositeView.extend({
   },
 
   onShow () {
-    if (this.shouldBeHidden) { this.$el.hide() }
+    if (this.shouldBeHidden) this.$el.hide()
   },
 
-  canAddValues () { return this.model.get('multivalue') || (this.collection.length === 0) },
+  canAddValues () {
+    return this.model.get('multivalue') || (this.collection.length === 0)
+  },
 
   events: {
     'click .addValue': 'addValue',
@@ -87,13 +89,15 @@ export default Marionette.CompositeView.extend({
     if (isLoggedIn()) { this.collection.addEmptyValue() }
     // Prevent parent views including the same 'click .addValue': 'addValue'
     // event listener to be triggered
-    return e.stopPropagation()
+    e.stopPropagation()
   },
 
   updateAddValueButton () {
     if (this.collection.length === 0) {
       this.ui.addValueButton.show()
-    } else { this.ui.addValueButton.hide() }
+    } else {
+      this.ui.addValueButton.hide()
+    }
   },
 
   dispatchCreationPartialClickEvents (e) {

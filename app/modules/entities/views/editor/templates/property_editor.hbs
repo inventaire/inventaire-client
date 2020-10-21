@@ -3,7 +3,10 @@
   <ul class="values"></ul>
   {{#if customAdd}}
     <div class="creationPartial">
-      {{> (creationPartial) creationPartialData}}
+      {{!-- That's the only customAdd partial for now --}}
+      {{#if creation_partial_is_edition_creation}}
+        {{> 'entities:editor:edition_creation' creationPartialData}}
+      {{/if}}
     </div>
   {{else}}
     <div class="add-value-wrapper">

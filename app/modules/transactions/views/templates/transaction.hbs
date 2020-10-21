@@ -49,7 +49,9 @@
     <div class="info">
       {{!-- there should be only one action with info at a time, thus the absence of separating markups --}}
       {{#each nextActions}}
-        {{#if partialPath}}{{> (partialPath) this}}{{/if}}
+        {{#if acceptRequestOneWay}}{{> 'transactions:info/accept_request_one_way' this}}{{/if}}
+        {{#if waitingConfirmationOneWay}}{{> 'transactions:info/waiting_confirmation_one_way' this}}{{/if}}
+        {{#if acceptRequestLending}}{{> 'transactions:info/accept_request_lending' this}}{{/if}}
         {{#if i18nKey}}<p>{{{i18n i18nKey this}}}</p>{{/if}}
       {{/each}}
     </div>
