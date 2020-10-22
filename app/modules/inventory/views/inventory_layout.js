@@ -49,7 +49,7 @@ export default Marionette.LayoutView.extend({
       const { section, filter } = this.options
       this.showInventoryNav(section)
       this.showSectionNav(section)
-      if (filter == null) { this.showSectionLastItems(section) }
+      if (filter == null) this.showSectionLastItems(section)
     }
   },
 
@@ -85,7 +85,7 @@ export default Marionette.LayoutView.extend({
       this.showSectionNav(section, 'group', groupModel)
       this.showGroupProfile(groupModel)
       app.navigateFromModel(groupModel)
-      return scrollToSection(this.groupProfile)
+      scrollToSection(this.groupProfile)
     })
     .catch(app.Execute('show:error'))
   },
@@ -95,7 +95,7 @@ export default Marionette.LayoutView.extend({
     const isMainUser = app.user.id === shelf.get('owner')
     this.shelfInfo.show(new ShelfBox({ model: shelf }))
     this.itemsList.show(new InventoryBrowser({ itemsDataPromise, isMainUser }))
-    return this.waitForShelvesList.then(() => scrollToSection(this.shelfInfo))
+    this.waitForShelvesList.then(() => scrollToSection(this.shelfInfo))
   },
 
   showUserShelves (userIdOrModel) {
@@ -120,15 +120,13 @@ export default Marionette.LayoutView.extend({
   },
 
   showInventoryWelcome () {
-    return this.itemsList.show(new InventoryWelcome())
+    this.itemsList.show(new InventoryWelcome())
   },
 
-  showGroupInventory (groupModel) {
-    return groupModel.beforeShow()
-    .then(() => {
-      this.showInventoryBrowser('group', groupModel)
-      return groupModel
-    })
+  async showGroupInventory (groupModel) {
+    await groupModel.beforeShow()
+    this.showInventoryBrowser('group', groupModel)
+    return groupModel
   },
 
   showMemberInventory (member) {
@@ -140,14 +138,18 @@ export default Marionette.LayoutView.extend({
     })
   },
 
-  showGroupProfile (groupModel) { return this.groupProfile.show(new GroupProfile({ model: groupModel })) },
+  showGroupProfile (groupModel) {
+    return this.groupProfile.show(new GroupProfile({ model: groupModel }))
+  },
 
-  showUserProfile (userModel) { return this.userProfile.show(new UserProfile({ model: userModel })) },
+  showUserProfile (userModel) {
+    return this.userProfile.show(new UserProfile({ model: userModel }))
+  },
 
   showInventoryNav (section) {
     if (!app.user.loggedIn) return
     section = !this.standalone || (section === 'user') ? section : undefined
-    return this.inventoryNav.show(new InventoryNav({ section }))
+    this.inventoryNav.show(new InventoryNav({ section }))
   },
 
   showSectionNav (section, type, model) {
@@ -156,25 +158,29 @@ export default Marionette.LayoutView.extend({
     if (SectionNav == null) return
     const options = (type != null) && (model != null) ? { [type]: model } : {}
     options.filter = this.options.filter
-    return this.sectionNav.show(new SectionNav(options))
+    this.sectionNav.show(new SectionNav(options))
   },
 
   showInventoryBrowser (type, model) {
     const itemsDataPromise = getItemsData(type, model)
     const isMainUser = model?.isMainUser
-    return this.itemsList.show(new InventoryBrowser({ itemsDataPromise, isMainUser }))
+    this.itemsList.show(new InventoryBrowser({ itemsDataPromise, isMainUser }))
   },
 
   showSectionLastItems (section) {
-    if ((section === 'public') && !app.user.get('position')) return
-
-    return showPaginatedItems({
-      request: sectionRequest[section],
-      region: this.itemsList,
-      limit: 20,
-      allowMore: true,
-      showDistance: section === 'public'
-    })
+    if (section === 'public' && app.user.get('position') == null) {
+      // Hide loading spinner
+      // (somehow not accessible from this.itemsList.$el)
+      $('#itemsList').hide()
+    } else {
+      showPaginatedItems({
+        request: sectionRequest[section],
+        region: this.itemsList,
+        limit: 20,
+        allowMore: true,
+        showDistance: section === 'public'
+      })
+    }
   },
 
   closeShelf (shelfView) {

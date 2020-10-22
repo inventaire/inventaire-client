@@ -1,13 +1,13 @@
 import log_ from 'lib/loggers'
 import isMobile from 'lib/mobile_check'
-import Config from './config'
+import mapConfig from './config'
 import buildMarker from './build_marker'
 
 const {
   tileUrl,
   settings,
   defaultZoom
-} = Config
+} = mapConfig
 
 export default function (params) {
   let { containerId, latLng, zoom, bounds, cluster } = params

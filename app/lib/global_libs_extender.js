@@ -193,7 +193,7 @@ const LazyRender = function (view, timespan = 200) {
   const cautiousRender = function (focusSelector) {
     if (view.isRendered && !(view.isDestroyed || view._preventRerender)) {
       view.render()
-      if (_.isString(focusSelector)) { return view.$el.find(focusSelector).focus() }
+      if (_.isString(focusSelector)) view.$el.find(focusSelector).focus()
     }
   }
 

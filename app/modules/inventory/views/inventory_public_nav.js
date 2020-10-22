@@ -19,9 +19,8 @@ export default InventoryCommonNav.extend({
     ({ filter: this.filter } = this.options)
 
     if (this.filter != null) {
-      if (this.filter === 'users') {
-        this.hideGroups = true
-      } else if (this.filter === 'groups') { this.hideUsers = true }
+      if (this.filter === 'users') this.hideGroups = true
+      else if (this.filter === 'groups') this.hideUsers = true
     }
 
     this.users = new FilteredCollection(new Users())

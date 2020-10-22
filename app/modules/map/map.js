@@ -1,18 +1,18 @@
-import Config from './lib/config'
+import mapConfig from './lib/config'
 import PositionPicker from './views/position_picker'
 import SimpleMap from './views/simple_map'
 
-const { init: onLeafletReady } = Config
+const { init: onLeafletReady } = mapConfig
 
 const getLeaflet = async () => {
   await Promise.all([
+    // Set window.L
     import('leaflet'),
     import('leaflet/dist/leaflet.css'),
     import('leaflet.markercluster/dist/MarkerCluster.css'),
     import('leaflet.markercluster/dist/MarkerCluster.Default.css'),
   ])
   await import('leaflet.markercluster')
-  console.log('L', window.L)
   onLeafletReady()
 }
 

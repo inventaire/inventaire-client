@@ -14,7 +14,9 @@ const languagesList = _.values(languages).sort(mostCompleteFirst)
 export default Marionette.LayoutView.extend({
   id: 'top-bar',
   tagName: 'nav',
-  className () { if (app.user.loggedIn) { return 'logged-in' } else { return '' } },
+  className () {
+    return app.user.loggedIn ? 'logged-in' : ''
+  },
   template: topBarTemplate,
 
   regions: {
@@ -50,7 +52,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onRender () {
-    if (app.user.loggedIn) { this.showTopBarButtons() }
+    if (app.user.loggedIn) this.showTopBarButtons()
     // Needed as 'route:change' might have been triggered before
     // this view was initialized
     this.onRouteChange(currentSection(), currentRoute())
@@ -59,11 +61,11 @@ export default Marionette.LayoutView.extend({
   showTopBarButtons () {
     // Use a child view for those buttons to be able to re-render them independenly
     // without disrupting the LiveSearch state
-    return this.topBarButtons.show(new TopBarButtons())
+    this.topBarButtons.show(new TopBarButtons())
   },
 
   onRouteChange (section, route) {
-    return this.updateConnectionButtons(section)
+    this.updateConnectionButtons(section)
   },
 
   events: {
