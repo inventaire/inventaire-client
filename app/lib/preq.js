@@ -1,5 +1,3 @@
-import requestAssets from './request_assets'
-
 const Ajax = (verb, hasBody) => (url, body) => {
   const options = {
     type: verb,
@@ -30,7 +28,7 @@ const wrap = preq.wrap = (jqPromise, context) => new Promise((resolve, reject) =
   .fail(err => reject(rewriteJqueryError(err, context)))
 })
 
-export default _.extend(preq, requestAssets)
+export default preq
 
 const parseJson = res => {
   if (_.isString(res) && (res[0] === '{')) {
