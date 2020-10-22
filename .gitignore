@@ -44,3 +44,4 @@ app/assets/piwik.js
 app/lib/languages_data.js
 inventaire-i18n
 issues
+vendor/piwik.js

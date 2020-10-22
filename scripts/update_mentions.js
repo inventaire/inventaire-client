@@ -1,16 +1,18 @@
 #!/usr/bin/env node
 import chalk from 'tiny-chalk'
 import fs from 'fs'
+import path from 'path'
 import papaparse from 'papaparse'
 import { promisify } from 'util'
 import convertMarkdown from './lib/convert_markdown'
+
 const { green, red } = chalk
 
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
 
-const csvFile = './scripts/assets/mentions.csv'
-const jsonFile = './public/json/mentions.json'
+const csvFile = path.resolve(process.cwd(), './scripts/assets/mentions.csv')
+const jsonFile = path.resolve(process.cwd(), './public/json/mentions.json')
 
 const cleanAttributes = function (obj) {
   Object.keys(obj).forEach(key => {

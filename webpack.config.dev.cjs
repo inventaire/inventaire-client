@@ -1,10 +1,9 @@
 const config = require('./webpack.config.common.cjs')
 const CircularDependencyPlugin = require('circular-dependency-plugin')
+const path = require('path')
 
 // Detect when the --config argument is badly parsed by webpack (ex: --config passed *before* 'serve')
 if (config.mode != null) throw new Error(`config.mode is already set: ${config.mode}`)
-
-const port = 3005
 
 Object.assign(config, {
   mode: 'development',
@@ -14,16 +13,21 @@ Object.assign(config, {
   devtool: 'eval-cheap-module-source-map',
   devServer: {
     host: '0.0.0.0',
-    contentBase: './dist',
-    port,
+    port: 3005,
+    contentBase: path.resolve(__dirname, 'public/dist'),
+    publicPath: '/public/dist/',
     hot: true,
     overlay: true,
-    historyApiFallback: true,
     // See https://webpack.js.org/configuration/dev-server/#devserverproxy
     proxy: {
       '/api': 'http://localhost:3006',
       '/public': 'http://localhost:3006',
       '/img': 'http://localhost:3006',
+    },
+    historyApiFallback: {
+      rewrites: [
+        { from: /./, to: '/public/dist/index.html' },
+      ]
     },
   }
 })

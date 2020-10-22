@@ -28,7 +28,7 @@ export default async function () {
   let piwikInitPromise
 
   try {
-    piwikInitPromise = import('assets/piwik')
+    piwikInitPromise = import('vendor/piwik')
     await piwikInitPromise
     tracker = window.Piwik.getAsyncTracker()
   } catch (err) {

@@ -116,12 +116,15 @@ module.exports = {
     htmlIndex,
   ],
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public/dist'),
     filename: '[name].js',
     // Required to avoid getting assets with relative paths
     // cf https://github.com/jantimon/html-webpack-plugin/issues/98
     // https://webpack.js.org/guides/public-path/
-    publicPath: '/',
+    publicPath: '/public/dist/',
+    // Might need to be turned off in production at some point
+    // cf https://webpack.js.org/guides/build-performance/#output-without-path-info
+    pathinfo: true,
   },
   module: {
     rules: [
@@ -134,19 +137,4 @@ module.exports = {
       fonts,
     ],
   },
-
-  // optimization: {
-  //   // See https://webpack.js.org/guides/build-performance/#minimal-entry-chunk
-  //   runtimeChunk: true,
-  //   // See https://webpack.js.org/guides/caching/
-  //   splitChunks: {
-  //     cacheGroups: {
-  //       commons: {
-  //         test: /[\\/]node_modules[\\/](backbone|underscore|jquery|handlebars|babel)/,
-  //         name: 'vendors',
-  //         chunks: 'all'
-  //       }
-  //     }
-  //   }
-  // }
 }

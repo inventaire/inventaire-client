@@ -30,9 +30,13 @@ echo -e '\e[0;30mgzip dist files\e[0m'
 rm -f ./public/dist/*.gz
 gzip -9kf ./public/dist/*
 
-echo -e '\e[0;30mcopy and gzip other assets\e[0m'
-cp ./app/assets/robots.txt ./public/robots.txt
-gzip -9kf public/robots.txt
+echo -e '\e[0;30mgzip assets\e[0m'
+gzip -9kf public/fonts/*
+gzip -9kf public/json/*
+gzip -9kf public/sitemaps/*
+gzip -9kf public/*.xml
+gzip -9kf public/*.jsonld
+gzip -9kf public/*.txt
 
 # Run once every now and then
 [ "${RANDOM:1:1}" = 9 ] && {

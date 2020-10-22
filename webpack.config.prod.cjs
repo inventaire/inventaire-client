@@ -1,4 +1,5 @@
 const config = require('./webpack.config.common.cjs')
+const WebpackNotifierPlugin = require('webpack-notifier')
 
 // Detect when the --config argument is badly parsed by webpack (ex: --config passed *before* 'serve')
 if (config.mode != null) throw new Error(`config.mode is already set: ${config.mode}`)
@@ -6,7 +7,7 @@ if (config.mode != null) throw new Error(`config.mode is already set: ${config.m
 Object.assign(config, {
   mode: 'production',
   devtool: 'source-map',
-  target: 'browserlist',
+  target: 'browserslist',
 })
 
 const js = {
@@ -29,5 +30,20 @@ const js = {
 config.module.rules.push(js)
 
 config.output.filename = '[name].[contenthash:8].js'
+
+config.optimization = {
+  // See https://webpack.js.org/guides/build-performance/#minimal-entry-chunk
+  runtimeChunk: true,
+  // See https://webpack.js.org/guides/caching/
+  splitChunks: {
+    cacheGroups: {
+      commons: {
+        test: /[\\/](node_modules|vendor)[\\/](backbone|underscore|jquery|handlebars|babel)/,
+        name: 'vendors',
+        chunks: 'all'
+      }
+    }
+  }
+}
 
 module.exports = config

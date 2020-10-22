@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 
-# set browser.fs=false to work around parcel-bundler "Cannot statically evaluate fs argument" issue
-# see https://github.com/parcel-bundler/parcel/pull/523#issue-161973498
-disable_browser_fs(){
-  cat $1 | jq '.browser.fs = false' > $1.fixed
-  mv $1.fixed $1
-}
-
-disable_browser_fs node_modules/handlebars/package.json
+mkdir -p ./public/json
+cp -r app/assets/* ./public
 
 npm run update-mentions
 ./scripts/build_i18n
@@ -16,7 +10,4 @@ npm run update-mentions
 rm -rf .git/hooks
 ln -s .githooks .git/hooks
 
-mkdir -p ./public
-cp -r app/assets/* ./public
-
-curl -sk https://piwik.allmende.io/piwik.js > ./app/assets/piwik.js
+curl -sk https://piwik.allmende.io/piwik.js > ./vendor/piwik.js
