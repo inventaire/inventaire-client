@@ -1,7 +1,7 @@
 import log_ from 'lib/loggers'
 import { I18n, i18n } from 'modules/user/lib/i18n'
+import { icon } from 'lib/utils'
 import embeddedScannerTemplate from './templates/embedded_scanner.hbs'
-
 import embedded_ from 'modules/inventory/lib/scanner/embedded'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 
@@ -151,7 +151,7 @@ export default Marionette.ItemView.extend({
       if (this.isDestroyed) return
       if ((displayCondition != null) && !displayCondition()) return
 
-      this.ui.statusMessage.html(_.icon(iconPerType[type]) + message)
+      this.ui.statusMessage.html(icon(iconPerType[type]) + message)
       .addClass('shown')
       // Used as a CSS selector
       .attr('data-type', type)

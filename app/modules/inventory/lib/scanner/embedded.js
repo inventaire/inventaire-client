@@ -12,7 +12,10 @@ export default {
   },
 
   async scan (params) {
-    const [ Quagga, ISBN ] = await Promise.all([
+    const [
+      { default: Quagga },
+      { default: ISBN },
+    ] = await Promise.all([
       import('quagga'),
       import('isbn3'),
     ])
@@ -43,7 +46,7 @@ const startScanning = function (params) {
 
     setStopScannerCallback(stopScanner)
 
-    return Quagga.init(getOptions(constraints), err => {
+    Quagga.init(getOptions(constraints), err => {
       if (cancelled) return
       if (err) {
         err.reason = 'permission_denied'
@@ -56,7 +59,7 @@ const startScanning = function (params) {
 
       Quagga.onProcessed(drawCanvas())
 
-      return Quagga.onDetected(onDetected(onDetectedActions))
+      Quagga.onDetected(onDetected(onDetectedActions))
     })
   })
 }
