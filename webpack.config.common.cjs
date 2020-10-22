@@ -1,6 +1,5 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { alias } = require('./package.json')
 
 Object.keys(alias).forEach(aliasKey => {
@@ -112,7 +111,6 @@ module.exports = {
     mainFields: [ 'svelte', 'browser', 'module', 'main' ],
   },
   plugins: [
-    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     htmlIndex,
   ],
   output: {
