@@ -3,7 +3,7 @@ import extractIsbns from './extract_isbns'
 import getCandidatesFromEntitiesDocs from './get_candidates_from_entities_docs'
 
 export default async text => {
-  window.ISBN = window.ISBN || (await import('isbn3'))
+  window.ISBN = window.ISBN || (await import('isbn3')).default
   // window.ISBN should now be initalized
   const isbnsData = extractIsbns(text)
 
