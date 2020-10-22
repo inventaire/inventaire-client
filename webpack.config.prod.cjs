@@ -46,4 +46,7 @@ config.optimization = {
   }
 }
 
+// Add a notification, as a build can take some time
+config.plugins.push(new WebpackNotifierPlugin())
+
 module.exports = config
