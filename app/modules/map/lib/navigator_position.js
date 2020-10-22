@@ -13,11 +13,10 @@ const currentPosition = () => new Promise((resolve, reject) => {
   // thus the need to create a new error from it
   const formattedReject = err => reject(new Error(err.message || 'getCurrentPosition error'))
 
-  const options =
-    // The timeout option doesn't seem to have any effect
-    { timeout: 10 * 1000 }
+  // The timeout option doesn't seem to have any effect
+  const options = { timeout: 10 * 1000 }
 
-  return navigator.geolocation.getCurrentPosition(resolve, formattedReject, options)
+  navigator.geolocation.getCurrentPosition(resolve, formattedReject, options)
 })
 
 const normalizeCoords = function (position) {
@@ -35,7 +34,7 @@ const returnPlaceholderCoords = function (err) {
 }
 
 export default containerId => {
-  pTimeout(currentPosition(), 10 * 1000)
+  return pTimeout(currentPosition(), 10 * 1000)
   .then(normalizeCoords)
   .then(log_.Info('current position'))
   .catch(returnPlaceholderCoords)
