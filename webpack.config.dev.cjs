@@ -13,6 +13,7 @@ Object.assign(config, {
   target: 'web',
   devtool: 'eval-cheap-module-source-map',
   devServer: {
+    host: '0.0.0.0',
     contentBase: './dist',
     port,
     hot: true,
