@@ -1,5 +1,6 @@
 const config = require('./webpack.config.common.cjs')
 const WebpackNotifierPlugin = require('webpack-notifier')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 // Detect when the --config argument is badly parsed by webpack (ex: --config passed *before* 'serve')
 if (config.mode != null) throw new Error(`config.mode is already set: ${config.mode}`)
@@ -48,5 +49,6 @@ config.optimization = {
 
 // Add a notification, as a build can take some time
 config.plugins.push(new WebpackNotifierPlugin())
+config.plugins.push(new BundleAnalyzerPlugin())
 
 module.exports = config
