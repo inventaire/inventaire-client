@@ -1,6 +1,7 @@
 const config = require('./webpack.config.common.cjs')
 const WebpackNotifierPlugin = require('webpack-notifier')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const TerserPlugin = require('terser-webpack-plugin')
 
 // Detect when the --config argument is badly parsed by webpack (ex: --config passed *before* 'serve')
 if (config.mode != null) throw new Error(`config.mode is already set: ${config.mode}`)
@@ -38,6 +39,17 @@ config.optimization = {
   chunkIds: 'named',
   // See https://webpack.js.org/guides/build-performance/#minimal-entry-chunk
   runtimeChunk: true,
+  // See https://webpack.js.org/configuration/optimization/#optimizationminimizer
+  minimizer: [
+    new TerserPlugin({
+      extractComments: false,
+      terserOptions: {
+        output: {
+          comments: false
+        }
+      },
+    })
+  ],
   // See https://webpack.js.org/guides/caching/
   splitChunks: {
     cacheGroups: {
