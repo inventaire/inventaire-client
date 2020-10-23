@@ -32,7 +32,10 @@ config.module.rules.push(js)
 
 config.output.filename = '[name].[contenthash:8].js'
 
+// See https://webpack.js.org/configuration/optimization/
 config.optimization = {
+  moduleIds: 'named',
+  chunkIds: 'named',
   // See https://webpack.js.org/guides/build-performance/#minimal-entry-chunk
   runtimeChunk: true,
   // See https://webpack.js.org/guides/caching/
