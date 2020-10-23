@@ -6,7 +6,6 @@ import FilesCommands from './files_commands'
 
 const {
   rmFiles,
-  gzipFiles,
   generateMainSitemap
 } = FilesCommands
 
@@ -16,5 +15,4 @@ generateMainSitemap()
 
 generateSitemaps()
 .then(generateIndex)
-.then(gzipFiles)
 .catch(err => console.log(chalk.red('global err'), err.stack))

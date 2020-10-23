@@ -9,26 +9,36 @@ echo -e '\e[0;30mupdating i18n\e[0m'
 echo -e '\e[0;30mupdate mentions\e[0m'
 npm run update-mentions
 
-echo -e '\e[0;30mparcel build\e[0m'
-mkdir -p ./scripts/assets/bundle_reports
+echo -e '\e[0;30mwebpack build\e[0m'
+rm ./public/dist/*
+webpack --config webpack.config.prod.cjs --progress
+
+utc_time=$(date -Ins | sed 's/,.*//')
 last_commit_hash=$(git rev-parse --short HEAD)
-last_commit_date=$(git show -s --format="%ci" $COMMIT|sed 's/ .*$//')
-bundle_name="${last_commit_date}_${last_commit_hash}"
+bundle_name="${utc_time}_commit_${last_commit_hash}"
+mkdir -p ./scripts/assets/archived_bundles ./scripts/assets/bundles_stats
+archive_path="./scripts/assets/archived_bundles/${bundle_name}"
 
-export INV_PUBLIC_HOST=${INV_PUBLIC_HOST:-"https://inventaire.io"}
-webpack --config webpack.config.prod.cjs | tee "./scripts/assets/bundle_reports/${bundle_name}.logs"
-# tee "./scripts/assets/bundle_reports/${bundle_name}.logs"
-# mv ./public/dist/report.html "./scripts/assets/bundle_reports/${bundle_name}.html"
-# echo "moved bundle report to file://$PWD/scripts/assets/bundle_reports/${bundle_name}.html"
-
-# Add assets that are kept hidden from Parcel
-sed -i '/link rel="canonical"/a   <link rel="sitemap" href="/public/sitemaps/sitemapindex.xml" />' ./public/dist/index.html
-# Drop blank lines
-sed -i -E '/^\s*$/d' ./public/dist/index.html
+# Keeping a copy of generated builds can be useful for debugging (i.e. resolving source maps)
+# but you might want to delete old archives after a while, which can be done by running something like
+#   find ./scripts/assets/archived_bundles -type d -mtime +90 -delete
+echo -e "\e[0;30mcreate bundle archive in $archive_path\e[0m"
+cp -r ./public/dist "$archive_path"
+# Copy stats in a separate directory, so that cleaning up the archived_bundles directory doesn't delete stats
+# Those files can then be passed to webpack-bundle-analyzer cli to generate the report
+cp ./public/dist/bundle_stats.json "./scripts/assets/bundles_stats/${bundle_name}.json"
+cp ./public/dist/bundle_report.html "./scripts/assets/bundles_stats/${bundle_name}.html"
 
 echo -e '\e[0;30mgzip dist files\e[0m'
 rm -f ./public/dist/*.gz
 gzip -9kf ./public/dist/*
+
+# Do not re-generate sitemaps if a directory already exists
+# To regenerate sitemaps, delete the existing directory
+if [ ! -d "./public/sitemaps" ] ; then
+  echo -e '\e[0;30mgenerate sitemaps\e[0m'
+  npm run generate-sitemaps
+fi
 
 echo -e '\e[0;30mgzip assets\e[0m'
 gzip -9kf public/fonts/*
@@ -38,10 +48,5 @@ gzip -9kf public/*.xml
 gzip -9kf public/*.jsonld
 gzip -9kf public/*.txt
 
-# Run once every now and then
-[ "${RANDOM:1:1}" = 9 ] && {
-  echo -e '\e[0;30mgenerate sitemaps\e[0m'
-  npm run generate-sitemaps
-}
-
-echo "build: done"
+echo -e '\e[0;32mbuild: done\e[0m'
+echo "inspect: file://$PWD/public/dist/bundle_report.html"

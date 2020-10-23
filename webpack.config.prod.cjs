@@ -1,5 +1,4 @@
 const config = require('./webpack.config.common.cjs')
-const WebpackNotifierPlugin = require('webpack-notifier')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const TerserPlugin = require('terser-webpack-plugin')
 
@@ -14,6 +13,8 @@ Object.assign(config, {
 
 const js = {
   test: /\.js$/,
+  // Required to avoid errors such as:
+  // "export 'default' (imported as '_') was not found in 'underscore' (possible exports: )"
   exclude: /node_modules/,
   use: [
     {
@@ -37,8 +38,6 @@ config.output.filename = '[name].[contenthash:8].js'
 config.optimization = {
   moduleIds: 'named',
   chunkIds: 'named',
-  // See https://webpack.js.org/guides/build-performance/#minimal-entry-chunk
-  runtimeChunk: true,
   // See https://webpack.js.org/configuration/optimization/#optimizationminimizer
   minimizer: [
     new TerserPlugin({
@@ -50,20 +49,28 @@ config.optimization = {
       },
     })
   ],
+  // See https://webpack.js.org/guides/build-performance/#minimal-entry-chunk
+  runtimeChunk: {
+    name: 'runtime'
+  },
   // See https://webpack.js.org/guides/caching/
   splitChunks: {
     cacheGroups: {
-      commons: {
-        test: /[\\/](node_modules|vendor)[\\/](backbone|underscore|jquery|handlebars|babel)/,
-        name: 'vendors',
+      base: {
+        test: /[\\/](node_modules|vendor)[\\/](backbone|underscore|jquery|handlebars|fork-awesome|node-polyglot|piwik)/,
+        name: 'base',
         chunks: 'all'
       }
     }
   }
 }
 
-// Add a notification, as a build can take some time
-config.plugins.push(new WebpackNotifierPlugin())
-config.plugins.push(new BundleAnalyzerPlugin())
+config.plugins.push(new BundleAnalyzerPlugin({
+  analyzerMode: 'static',
+  reportFilename: 'bundle_report.html',
+  generateStatsFile: true,
+  statsFilename: 'bundle_stats.json',
+  openAnalyzer: false,
+}))
 
 module.exports = config

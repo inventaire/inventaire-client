@@ -15,10 +15,6 @@ export default {
     exec(`rm -f ./${folder}/*`).stderr.pipe(stderr)
     return console.log(grey('removed old files'))
   },
-  gzipFiles () {
-    exec(`for f in ${folder}/*; do gzip --best < $f > $f.gz; done`).stderr.pipe(stderr)
-    return console.log(green('gzipping files'))
-  },
   generateMainSitemap () {
     cp('scripts/sitemaps/main.xml', `${folder}/main.xml`)
     return console.log(green('copied main.xml'))

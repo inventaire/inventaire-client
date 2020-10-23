@@ -45,3 +45,5 @@ app/lib/languages_data.js
 inventaire-i18n
 issues
 vendor/piwik.js
+scripts/assets/archived_bundles/
+scripts/assets/bundles_stats/
