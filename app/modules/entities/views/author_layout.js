@@ -5,6 +5,8 @@ import EntitiesList from './entities_list'
 import screen_ from 'lib/screen'
 import AuthorInfobox from './author_infobox'
 import authorLayoutTemplate from './templates/author_layout.hbs'
+import '../scss/entities_layouts.scss'
+import '../scss/author_layout.scss'
 
 export default TypedEntityLayout.extend({
   template: authorLayoutTemplate,

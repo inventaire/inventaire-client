@@ -5,6 +5,7 @@ import typeSearch from 'modules/entities/lib/search/type_search'
 import PaginatedEntities from 'modules/entities/collections/paginated_entities'
 import AutocompleteNoSuggestion from 'modules/entities/views/editor/autocomplete_no_suggestion'
 import entitiesListAdderTemplate from './templates/entities_list_adder.hbs'
+import '../scss/entities_list_adder.scss'
 
 const cantTypeSearch = [
   'edition'

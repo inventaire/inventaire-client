@@ -1,0 +1,118 @@
+@import 'modules/general/scss/utils.scss';
+.mergeSuggestions{
+  .small-loader{
+    color: white;
+  }
+}
+
+#merge-suggestion{
+  @include display-flex(row, center, center);
+}
+#showMergeSuggestions{
+  margin: 1em;
+}
+
+.outer-merge-suggestions.standalone{
+  padding: 1em;
+  h2{
+    text-align: center;
+  }
+}
+.inner-merge-suggestions{
+  @include display-flex(row, flex-start, center, wrap);
+}
+.merge-suggestion{
+  position: relative;
+  background-color: white;
+  @include radius;
+  margin: 1em;
+  width: 20em;
+  padding: 1em;
+  text-align: center;
+  .label{
+    margin: 0;
+  }
+  .description{
+    color: $grey;
+    @include text-align-start;
+  }
+  .suggestion-claims{
+    text-align: left;
+    margin-bottom: 1em;
+    .wiki-attributes, .claims{
+      padding: 0;
+      margin: 0;
+    }
+  }
+  .all-subentities{
+    max-height: 12em;
+    overflow: auto;
+  }
+  .subentities-label{
+    display: none;
+    color: grey;
+    margin: 0;
+    padding: 0;
+  }
+  .subentity .showEntity{
+    background-color: #ddd;
+    @include radius;
+    @include display-flex(row, center, flex-start);
+    overflow: hidden;
+    margin: 0.5em 0;
+    .claims{
+      text-align: left;
+      margin: 0 0.5em;
+      .entity-value{
+        color: $grey;
+      }
+    }
+    img{
+      max-width: 3em;
+    }
+    .label{
+      color: #444;
+      flex: 1 0 auto;
+      margin: 0.2em 0.5em;
+      text-align: left;
+    }
+    .uri{
+      margin-right: 0.5em;
+    }
+  }
+  .merge{
+    text-align: center;
+    padding: 0.5em;
+    display: block;
+    margin: 1em auto 0 auto;
+  }
+  .loading{
+    font-size: 0.9em !important;
+    margin: 0;
+    padding: 0;
+  }
+  .task-data{
+    td{
+      background-color: #eee;
+    }
+    margin-bottom: 1em;
+  }
+
+  input[type="checkbox"]{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.2em;
+    margin: 0.5em;
+    background-color: red;
+    height: 1em;
+    width: 1em;
+  }
+}
+
+.merge-suggestions-controls{
+  @include display-flex(row, center, center);
+  .tiny-button{
+    margin: 0.5em;
+  }
+}

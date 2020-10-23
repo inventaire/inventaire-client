@@ -1,5 +1,6 @@
 import entityDraftModel from '../../lib/entity_draft_model'
 import entityCreateTemplate from './templates/entity_create.hbs'
+import 'modules/entities/scss/entity_data_overview.scss'
 
 export default Marionette.LayoutView.extend({
   id: 'entityCreate',

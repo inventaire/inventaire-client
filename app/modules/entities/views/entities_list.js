@@ -3,6 +3,7 @@ import error_ from 'lib/error'
 import EntitiesListAdder from './entities_list_adder'
 import { currentRoute } from 'lib/location'
 import entitiesListTemplate from './templates/entities_list.hbs'
+import '../scss/entities_list.scss'
 
 // TODO:
 // - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062

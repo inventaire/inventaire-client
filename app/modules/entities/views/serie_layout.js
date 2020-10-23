@@ -3,6 +3,7 @@ import EntitiesList from './entities_list'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import SerieInfobox from './serie_infobox'
 import serieLayoutTemplate from './templates/serie_layout.hbs'
+import '../scss/serie_layout.scss'
 
 export default TypedEntityLayout.extend({
   template: serieLayoutTemplate,

@@ -1,6 +1,7 @@
 import GeneralInfobox from './general_infobox'
 import clampedExtract from '../lib/clamped_extract'
 import authorInfoboxTemplate from './templates/author_infobox.hbs'
+import '../scss/entities_infoboxes.scss'
 
 export default GeneralInfobox.extend({
   template: authorInfoboxTemplate,

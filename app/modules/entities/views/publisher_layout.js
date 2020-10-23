@@ -3,6 +3,8 @@ import EntitiesList from './entities_list'
 import PaginatedEntities from 'modules/entities/collections/paginated_entities'
 import PublisherInfobox from './publisher_infobox'
 import publisherLayoutTemplate from './templates/publisher_layout.hbs'
+import '../scss/entities_layouts.scss'
+import '../scss/publisher_layout.scss'
 
 export default TypedEntityLayout.extend({
   id: 'publisherLayout',

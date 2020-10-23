@@ -7,6 +7,7 @@ import History from './history'
 import mergeEntities from './lib/merge_entities'
 import { normalizeUri } from 'modules/entities/lib/entities'
 import adminSectionTemplate from './templates/admin_section.hbs'
+import 'modules/entities/scss/admin_section.scss'
 
 export default Marionette.LayoutView.extend({
   template: adminSectionTemplate,

@@ -11,6 +11,7 @@ import moveToWikidata from './lib/move_to_wikidata'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import propertiesPerType from 'modules/entities/lib/editor/properties_per_type'
 import entityEditTemplate from './templates/entity_edit.hbs'
+import 'modules/entities/scss/entity_edit.scss'
 
 const typesWithoutLabel = [
   'edition',
@@ -101,7 +102,7 @@ export default Marionette.LayoutView.extend({
     // Do not show the signal data error button in creation mode
     // as it wouldn't make sense
     attrs.signalDataErrorButton = !this.creationMode
-    // Used when item_show attempts to 'preciseEdition' with a new edition
+    // Used when ItemShowLayout attempts to 'preciseEdition' with a new edition
     attrs.itemToUpdate = this.itemToUpdate
     attrs.canBeAddedToInventory = this.canBeAddedToInventory
     attrs.missingRequiredProperties = this.missingRequiredProperties

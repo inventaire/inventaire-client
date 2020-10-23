@@ -1,4 +1,5 @@
 import wikidataDataImporterTemplate from './templates/wikidata_data_importer.hbs'
+import '../scss/wikidata_data_importer.scss'
 
 export default Marionette.ItemView.extend({
   className: 'wikidata-data-importer',

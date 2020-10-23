@@ -1,0 +1,31 @@
+// SCSS utils are all the variables and mixins
+// that don't define rules but on which other files depend to build their rules
+
+// Make sure the charset is set appropriately
+@charset 'UTF-8';
+
+// those can't be split into several non-partial files (despite the fact that
+// it would allow better error reports than just 'base.scss failed'), as global
+// variables need to be accessible to all
+@import 'grid_and_media_query_ranges';
+@import 'fonts_and_typo_utils';
+@import 'mixins';
+@import 'colors_utils';
+@import 'links_utils';
+@import 'radius_utils';
+@import 'buttons_utils';
+@import 'panel_utils';
+@import "shadow_box";
+
+$topbar-bg-color: $darker-grey;
+$topbar-height: 46px;
+$smallscreen-connection-buttons-height: 40px;
+
+
+// capitalize only the first letter, not every words first letter
+@mixin capitalized(){
+  &:first-letter{
+    text-transform: uppercase;
+  }
+}
+

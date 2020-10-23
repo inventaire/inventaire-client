@@ -1,12 +1,6 @@
-@import "mixins";
-@import "colors";
 @import "links";
 @import "case";
 @import "radius";
-
-$topbar-bg-color: $darker-grey;
-$topbar-height: 46px;
-$smallscreen-connection-buttons-height: 40px;
 
 html, body{
   font-size: 100%;
@@ -120,7 +114,6 @@ noscript{
 
 @import "loader";
 @import "buttons";
-@import "shadow_box";
 @import "panel";
 @import "background";
 @import "select_button_group";

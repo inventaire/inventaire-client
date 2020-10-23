@@ -3,6 +3,7 @@ import availableLangList from 'lib/available_lang_list'
 import EditionLi from './edition_li'
 import NoEdition from './no_edition'
 import editionsListTemplate from './templates/editions_list.hbs'
+import '../scss/editions_list.scss'
 
 const {
   partialData,

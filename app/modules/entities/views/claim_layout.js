@@ -6,6 +6,7 @@ import GeneralInfobox from './general_infobox'
 import { getReverseClaims } from '../lib/entities'
 import { entity as entityValueTemplate } from 'lib/handlebars_helpers/claims_helpers'
 import claimLayoutTemplate from './templates/claim_layout.hbs'
+import '../scss/claim_layout.scss'
 
 export default Marionette.LayoutView.extend({
   id: 'claimLayout',

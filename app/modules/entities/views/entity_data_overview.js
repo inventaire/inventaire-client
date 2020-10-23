@@ -1,5 +1,6 @@
 import clampedExtract from '../lib/clamped_extract'
 import entityDataOverviewTemplate from './templates/entity_data_overview.hbs'
+import '../scss/entity_data_overview.scss'
 
 export default Marionette.ItemView.extend({
   template: entityDataOverviewTemplate,

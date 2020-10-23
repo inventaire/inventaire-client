@@ -4,6 +4,9 @@ import GeneralInfobox from './general_infobox'
 import PaginatedEntities from 'modules/entities/collections/paginated_entities'
 import collectionLayoutTemplate from './templates/collection_layout.hbs'
 import collectionInfoboxTemplate from './templates/collection_infobox.hbs'
+import '../scss/entities_layouts.scss'
+import '../scss/entities_infoboxes.scss'
+import '../scss/collection_layout.scss'
 
 const Infobox = GeneralInfobox.extend({ template: collectionInfoboxTemplate })
 

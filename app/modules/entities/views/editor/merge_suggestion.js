@@ -5,6 +5,7 @@ import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import mergeEntities from './lib/merge_entities'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
+import 'modules/entities/scss/merge_suggestion.scss'
 
 export default Marionette.LayoutView.extend({
   template: mergeSuggestionTemplate,

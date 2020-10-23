@@ -1,16 +1,3 @@
-@mixin central-column($max-width: 50em){
-  @include display-flex(column, center, center);
-  > section, > div, > form{
-    width: 100%;
-    max-width: $max-width;
-  }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    margin: 0em 1em 1em 1em;
-    padding: 0em 1em 1em 1em;
-  }
-}
-
 .central-column{
   @include central-column;
 }

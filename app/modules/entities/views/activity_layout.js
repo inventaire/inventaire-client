@@ -1,5 +1,6 @@
 import ActivityPeriod from './activity_period'
 import activityLayoutTemplate from './templates/activity_layout.hbs'
+import '../scss/activity_layout.scss'
 
 export default Marionette.LayoutView.extend({
   id: 'activityLayout',
@@ -13,6 +14,6 @@ export default Marionette.LayoutView.extend({
   onShow () {
     this.lastDay.show(new ActivityPeriod({ title: 'last day', period: 1 }))
     this.lastWeek.show(new ActivityPeriod({ title: 'last 7 days', period: 7 }))
-    return this.global.show(new ActivityPeriod({ title: 'global' }))
+    this.global.show(new ActivityPeriod({ title: 'global' }))
   }
 })

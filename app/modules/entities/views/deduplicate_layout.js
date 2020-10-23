@@ -1,5 +1,6 @@
 import { isNonEmptyString, isNonEmptyArray } from 'lib/boolean_tests'
 import deduplicateLayoutTemplate from './templates/deduplicate_layout.hbs'
+import '../scss/deduplicate_layout.scss'
 
 import log_ from 'lib/loggers'
 // A layout that shows entities in sub views according to the input it receives

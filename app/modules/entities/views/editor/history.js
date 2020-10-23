@@ -1,5 +1,6 @@
 import Version from './version'
 import historyTemplate from './templates/history.hbs'
+import 'modules/entities/scss/history.scss'
 
 export default Marionette.CompositeView.extend({
   className () {

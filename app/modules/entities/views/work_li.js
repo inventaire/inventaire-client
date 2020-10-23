@@ -1,5 +1,6 @@
 import { invertAttr, isOpenedOutside } from 'lib/utils'
 import workLiTemplate from './templates/work_li.hbs'
+import '../scss/work_li.scss'
 
 export default Marionette.ItemView.extend({
   template: workLiTemplate,

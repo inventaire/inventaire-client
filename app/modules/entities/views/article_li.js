@@ -1,4 +1,5 @@
 import articleLiTemplate from './templates/article_li.hbs'
+import '../scss/article_li.scss'
 
 export default Marionette.ItemView.extend({
   template: articleLiTemplate,

@@ -2,6 +2,7 @@ import preq from 'lib/preq'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import FeedLi from './feed_li'
 import changesLayoutTemplate from './templates/changes_layout.hbs'
+import '../scss/changes_layout.scss'
 
 export default Marionette.CompositeView.extend({
   id: 'changeLayout',

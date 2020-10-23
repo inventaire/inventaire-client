@@ -1,0 +1,54 @@
+@import 'modules/general/scss/utils.scss';
+
+.edition-creation{
+  margin-top: 1em;
+  @include display-flex(row, flex-start, flex-start, wrap);
+  background-color: $darker-grey;
+  @include radius;
+  #isbnGroup{
+    input{
+      margin: 0;
+      @include radius-left;
+    }
+    .alert-box{
+      margin-top: 0;
+      margin-bottom: 0;
+      // Let room for the whole 'this ISBN already exist' message
+      max-height: 8em;
+    }
+  }
+  #isbnButton{
+    font-weight: normal;
+    white-space: nowrap;
+    @include display-flex(row, center, center);
+  }
+  #withoutIsbn{
+    font-size: 0.9em;
+    padding: 0.5em;
+    @include display-flex(row, center, center);
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    padding: 1em;
+    flex-direction: column;
+    align-items: stretch;
+    #withoutIsbn{
+      margin-top: 1em;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    padding: 0.5em 0.5em 0.5em 1em;
+    .from-isbn{
+      margin-right: 0.5em;
+    }
+    #isbnGroup{
+      max-width: 15em;
+    }
+    #withoutIsbn{
+      // Aligning with #isbnField
+      margin-top: 1.45em;
+    }
+  }
+}

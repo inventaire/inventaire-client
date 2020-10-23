@@ -11,6 +11,7 @@ import fillGaps from './lib/fill_gaps'
 import spreadPart from './lib/spread_part'
 import moveModelOnOrdinalChange from './lib/move_model_on_ordinal_change'
 import { createPlaceholders, removePlaceholder, removePlaceholdersAbove } from './lib/placeholders'
+import 'modules/entities/scss/serie_cleanup.scss'
 
 export default Marionette.LayoutView.extend({
   id: 'serieCleanup',
