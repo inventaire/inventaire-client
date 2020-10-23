@@ -111,7 +111,7 @@ export default Marionette.LayoutView.extend({
       import('isbn3'),
     ])
     // We only need the result from the file
-    .then(([ data, Papa, ISBN ]) => {
+    .then(([ data, { default: Papa }, { default: ISBN } ]) => {
       window.ISBN = ISBN
       window.Papa = Papa
       dataValidator(source, data)
@@ -123,7 +123,7 @@ export default Marionette.LayoutView.extend({
     .catch(error_.Complete('#importersWrapper .warning'))
     .then(log_.Info('parsed'))
     .then(candidates.addNewCandidates.bind(candidates))
-    .then(tap(() => stopLoading.call(this, selector)))
+    .finally(() => stopLoading.call(this, selector))
     .then(this.showImportQueueUnlessEmpty.bind(this))
     .catch(forms_.catchAlert.bind(null, this))
   },
