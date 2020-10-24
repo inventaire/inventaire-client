@@ -1,3 +1,5 @@
+@import 'modules/general/scss/utils.scss';
+
 #tasksLayout{
   padding: 1em;
   position: relative;
@@ -76,50 +78,50 @@
       }
     }
   }
+  .inner-relative-tasks{
+    @include display-flex(row);
+    overflow: auto;
+    background-color: $grey;
+    &:not(:empty){
+      padding: 0.5em;
+    }
+  }
+
+  .relative-task{
+    @include display-flex(row);
+    cursor: pointer;
+    background-color: $light-grey;
+    padding: 1em;
+    @include radius;
+    margin-right: 1em;
+    flex: 1 0 auto;
+    max-width: 20em;
+    .description, .birth-death-dates{
+      color: #555;
+      font-size: 0.9em;
+      max-height: 3em;
+      overflow: hidden;
+    }
+    &.good-candidate{
+      background-color: lighten($success-color, 10%);
+    }
+    &:not(.good-candidate){
+      @include shy(0.5);
+    }
+    .left{
+      margin-right: 0.5em;
+    }
+    .right{
+      @include display-flex(column);
+    }
+    td{
+      background-color: rgba(white, 0.4);
+    }
+    table{
+      margin-top: auto;
+    }
+  }
 }
 
-.inner-relative-tasks{
-  @include display-flex(row);
-  overflow: auto;
-  background-color: $grey;
-  &:not(:empty){
-    padding: 0.5em;
-  }
-}
-
-.relative-task{
-  @include display-flex(row);
-  cursor: pointer;
-  background-color: $light-grey;
-  padding: 1em;
-  @include radius;
-  margin-right: 1em;
-  flex: 1 0 auto;
-  max-width: 20em;
-  .description, .birth-death-dates{
-    color: #555;
-    font-size: 0.9em;
-    max-height: 3em;
-    overflow: hidden;
-  }
-  &.good-candidate{
-    background-color: lighten($success-color, 10%);
-  }
-  &:not(.good-candidate){
-    @include shy(0.5);
-  }
-  .left{
-    margin-right: 0.5em;
-  }
-  .right{
-    @include display-flex(column);
-  }
-  td{
-    background-color: rgba(white, 0.4);
-  }
-  table{
-    margin-top: auto;
-  }
-}
 
 @import 'current_task';

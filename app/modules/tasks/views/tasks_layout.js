@@ -10,6 +10,7 @@ import { wait } from 'lib/promises'
 import forms_ from 'modules/general/lib/forms'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import tasksLayoutTemplate from './templates/tasks_layout.hbs'
+import '../scss/tasks_layout.scss'
 
 const previousTasks = []
 let waitingForMerge = null
