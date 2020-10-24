@@ -11,6 +11,7 @@ import showPaginatedItems from 'modules/welcome/lib/show_paginated_items'
 import screen_ from 'lib/screen'
 import InventoryWelcome from './inventory_welcome'
 import inventoryLayoutTemplate from './templates/inventory_layout.hbs'
+import '../scss/inventory_layout.scss'
 
 const navs = {
   network: InventoryNetworkNav,

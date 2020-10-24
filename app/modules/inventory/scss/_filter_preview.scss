@@ -38,6 +38,7 @@ $inner-filter-preview-height: 15em;
     }
     height: $inner-filter-preview-height;
     width: 2em;
+    white-space: nowrap;
     background-color: #f7f7f7;
     color: $dark-grey;
     @include display-flex(row, center, center);

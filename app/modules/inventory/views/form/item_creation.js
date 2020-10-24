@@ -10,6 +10,8 @@ import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import ItemRow from 'modules/inventory/views/item_row'
 import itemCreationTemplate from './templates/item_creation.hbs'
+import 'modules/inventory/scss/item_creation_commons.scss'
+import 'modules/inventory/scss/item_creation.scss'
 
 const ItemsList = Marionette.CollectionView.extend({ childView: ItemRow })
 

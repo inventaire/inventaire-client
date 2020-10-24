@@ -1,3 +1,5 @@
+@import 'modules/general/scss/utils.scss';
+
 .items-table{
   position: relative;
   background-color: $inventory-nav-grey;
@@ -64,6 +66,3 @@
     }
   }
 }
-
-@import 'item_row';
-@import 'items_table_selection_editor';

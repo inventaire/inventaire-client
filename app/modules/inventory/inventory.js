@@ -170,11 +170,11 @@ const showItemModal = async (model, fallback) => {
   app.vent.once('modal:closed', () => setTimeout(fallback, 10))
 
   try {
-    const [ { default: ItemShow } ] = await Promise.all([
-      await import('./views/item_show'),
+    const [ { default: ItemShowLayout } ] = await Promise.all([
+      await import('./views/item_show_layout'),
       model.grabWorks()
     ])
-    app.layout.modal.show(new ItemShow({ model }))
+    app.layout.modal.show(new ItemShowLayout({ model }))
   } catch (err) {
     app.execute('show:error', err)
   }

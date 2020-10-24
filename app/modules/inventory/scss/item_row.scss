@@ -1,7 +1,4 @@
-@mixin box-color($color, $white-text:1){
-  background-color: $color;
-  @if $white-text { @include white-text; }
-}
+@import 'modules/general/scss/utils.scss';
 
 .item-row{
   position: relative;

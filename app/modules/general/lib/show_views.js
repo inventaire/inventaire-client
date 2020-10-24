@@ -11,7 +11,7 @@ export default {
   showEntity (e) {
     entityAction(e, 'show:entity')
     if (!isOpenedOutside(e)) {
-      // Required to close the ItemShow modal if one was open
+      // Required to close the ItemShowLayout modal if one was open
       app.execute('modal:close')
     }
   },

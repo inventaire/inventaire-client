@@ -1,3 +1,5 @@
+@import 'modules/general/scss/utils.scss';
+
 #inventory-browser{
   #browserControls, #browserFilters{
     @include display-flex(row, center, center, wrap);
@@ -86,4 +88,3 @@
   @import 'filter_preview';
   @import 'browser_selector';
 }
-

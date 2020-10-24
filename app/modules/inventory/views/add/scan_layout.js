@@ -1,11 +1,12 @@
 import embedded_ from 'modules/inventory/lib/scanner/embedded'
-import scanTemplate from './templates/scan.hbs'
+import scanTemplate from './templates/scan_layout.hbs'
+import 'modules/inventory/scss/scan_layout.scss'
 
 export default Marionette.ItemView.extend({
-  className: 'scan',
+  id: 'scanLayout',
   template: scanTemplate,
   initialize () {
-    if (window.hasVideoInput) { return embedded_.prepare() }
+    if (window.hasVideoInput) return embedded_.prepare()
   },
 
   serializeData () {
@@ -19,5 +20,7 @@ export default Marionette.ItemView.extend({
     'click #embeddedScanner': 'startEmbeddedScanner'
   },
 
-  startEmbeddedScanner () { app.execute('show:scanner:embedded') }
+  startEmbeddedScanner () {
+    app.execute('show:scanner:embedded')
+  }
 })

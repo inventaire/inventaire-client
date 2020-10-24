@@ -44,7 +44,7 @@ export default Marionette.ItemView.extend({
     if (!isOpenedOutside(e)) {
       if (this.options.onItem) {
         app.execute('show:transaction', this.model.id)
-        // Required to close the ItemShow modal if one was open
+        // Required to close the ItemShowLayout modal if one was open
         app.execute('modal:close')
       } else {
         return app.vent.trigger('transaction:select', this.model)

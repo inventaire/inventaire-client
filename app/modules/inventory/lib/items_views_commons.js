@@ -12,7 +12,7 @@ export default {
   showUser (e) {
     if (!isOpenedOutside(e)) {
       app.execute('show:user', this.model.user)
-      // Required to close the ItemShow modal if one was open
+      // Required to close the ItemShowLayout modal if one was open
       app.execute('modal:close')
     }
   },
@@ -21,7 +21,7 @@ export default {
     if (!isOpenedOutside(e)) {
       const transac = app.request('get:transaction:ongoing:byItemId', this.model.id)
       app.execute('show:transaction', transac.id)
-      // Required to close the ItemShow modal if one was open
+      // Required to close the ItemShowLayout modal if one was open
       app.execute('modal:close')
     }
   },

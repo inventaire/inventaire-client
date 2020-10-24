@@ -3,6 +3,7 @@ import masonryPlugin from 'modules/general/plugins/masonry'
 import NoItem from 'modules/inventory/views/no_item'
 import ItemCard from './item_card'
 import itemsCascadeTemplate from './templates/items_cascade.hbs'
+import '../scss/items_cascade.scss'
 
 export default InfiniteScrollItemsList.extend({
   className: 'items-cascade-wrapper',

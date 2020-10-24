@@ -1,8 +1,9 @@
 import PreviousSearch from './previous_search'
-import searchTemplate from './templates/search.hbs'
+import searchTemplate from './templates/search_layout.hbs'
+import 'modules/inventory/scss/search_layout.scss'
 
 export default Marionette.CompositeView.extend({
-  id: 'addSearch',
+  id: 'addSearchLayout',
   template: searchTemplate,
   behaviors: {
     PreventDefault: {},
@@ -20,13 +21,15 @@ export default Marionette.CompositeView.extend({
     this.collection = app.searchResultsHistory
     // re-sorting as some timestamps might have be updated
     // since the initial sorting
-    return this.collection.sort()
+    this.collection.sort()
   },
 
   onShow () {
     if (this.collection.length > 0) {
       this.ui.history.show()
-    } else { this.listenToHistory() }
+    } else {
+      this.listenToHistory()
+    }
   },
 
   events: {

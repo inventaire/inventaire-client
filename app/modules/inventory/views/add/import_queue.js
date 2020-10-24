@@ -10,6 +10,8 @@ import Shelves from 'modules/shelves/collections/shelves'
 import CandidateRow from './candidate_row'
 import ImportedItemRow from './imported_item_row'
 import importQueueTemplate from './templates/import_queue.hbs'
+import 'modules/inventory/scss/item_creation_commons.scss'
+import 'modules/inventory/scss/import_queue.scss'
 
 const CandidatesQueue = Marionette.CollectionView.extend({
   tagName: 'ul',

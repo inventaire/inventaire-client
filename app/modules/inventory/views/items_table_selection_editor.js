@@ -3,6 +3,7 @@ import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
 import ItemShelves from './item_shelves'
 import Shelves from 'modules/shelves/collections/shelves'
 import itemsTableSelectionEditorTemplate from './templates/items_table_selection_editor.hbs'
+import '../scss/items_table_selection_editor.scss'
 
 export default Marionette.LayoutView.extend({
   className: 'items-table-selection-editor',

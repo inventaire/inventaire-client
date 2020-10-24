@@ -6,7 +6,7 @@ $shadow-color: rgba(34, 25, 25, 0.4);
 
 @mixin glow-on-focus(){
   &.focus{
-    @extend .glowing;
+    @include glow;
   }
 }
 

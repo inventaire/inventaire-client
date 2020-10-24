@@ -3,6 +3,7 @@ import ItemsTableSelectionEditor from './items_table_selection_editor'
 import NoItem from 'modules/inventory/views/no_item'
 import ItemRow from './item_row'
 import itemsTableTemplate from './templates/items_table.hbs'
+import '../scss/items_table.scss'
 
 export default InfiniteScrollItemsList.extend({
   className: 'items-table',

@@ -46,6 +46,8 @@ $youtube-color: #e62117;
 
 $unread-color: #edf7fb;
 
+$inventory-nav-grey: #eee;
+
 @mixin hover-darken($color, $darken:15%) {
   background-color: $color;
   @include transition(background-color);

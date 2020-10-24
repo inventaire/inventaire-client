@@ -16,16 +16,10 @@
 @import 'buttons_utils';
 @import 'panel_utils';
 @import "shadow_box";
+@import "background";
 
 $topbar-bg-color: $darker-grey;
 $topbar-height: 46px;
 $smallscreen-connection-buttons-height: 40px;
-
-
-// capitalize only the first letter, not every words first letter
-@mixin capitalized(){
-  &:first-letter{
-    text-transform: uppercase;
-  }
-}
-
+$user-box-heigth: 3em;
+$coverTextBg: rgba($dark-grey, 0.9);

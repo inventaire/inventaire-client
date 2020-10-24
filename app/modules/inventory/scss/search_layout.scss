@@ -1,4 +1,6 @@
-#addSearch{
+@import 'modules/general/scss/utils.scss';
+
+#addSearchLayout{
   @import 'search_history';
   section{
     padding-top: 1em;
@@ -10,7 +12,7 @@
 }
 
 .search-button{
-  @extend .tiny-button;
-  @extend .light-blue;
+  @include tiny-button($grey);
+  @include tiny-button-color($light-blue, null, 5%);
   margin: 1em;
 }

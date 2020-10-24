@@ -1,3 +1,5 @@
+@import 'modules/general/scss/utils.scss';
+
 $addLayoutWidth: 70em;
 
 #addLayout{
@@ -61,7 +63,3 @@ $addLayoutWidth: 70em;
     }
   }
 }
-
-@import "search";
-@import "import";
-@import "scan";

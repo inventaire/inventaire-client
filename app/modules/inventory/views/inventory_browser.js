@@ -10,6 +10,7 @@ import getUnknownModel from '../lib/browser/get_unknown_model'
 import error_ from 'lib/error'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import inventoryBrowserTemplate from './templates/inventory_browser.hbs'
+import 'modules/inventory/scss/inventory_browser.scss'
 
 const selectorsNames = [ 'author', 'genre', 'subject' ]
 const selectorsRegions = {}

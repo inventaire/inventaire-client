@@ -74,3 +74,37 @@
     padding: 0em 1em 1em 1em;
   }
 }
+
+@mixin box-color($color, $white-text:1){
+  background-color: $color;
+  @if $white-text { @include white-text; }
+}
+
+@mixin white-text{
+  color: white;
+  a.current{
+    color: white;
+  }
+}
+
+// capitalize only the first letter, not every words first letter
+@mixin capitalized(){
+  &:first-letter{
+    text-transform: uppercase;
+  }
+}
+
+@mixin selected-button-color($color, $text-color:white){
+  color: $dark-grey;
+  background-color: #eee;
+  margin: 0.2em;
+  border: 2px solid $light-grey;
+  border-radius: 5px;
+  @include sans-serif;
+  font-weight: normal;
+  &.selected, &.active, &:hover{
+    background-color: white;
+    border-color: $color;
+    i{ color: $color; }
+  }
+}

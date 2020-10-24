@@ -1,6 +1,5 @@
 import { isNonEmptyString } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
-import { tap } from 'lib/promises'
 import files_ from 'lib/files'
 import importers from '../../lib/importers'
 import dataValidator from '../../lib/data_validator'
@@ -12,7 +11,8 @@ import error_ from 'lib/error'
 import screen_ from 'lib/screen'
 import commonParser from '../../lib/parsers/common'
 import extractIsbnsAndFetchData from '../../lib/import/extract_isbns_and_fetch_data'
-import importTemplate from './templates/import.hbs'
+import importTemplate from './templates/import_layout.hbs'
+import 'modules/inventory/scss/import_layout.scss'
 
 let candidates = null
 

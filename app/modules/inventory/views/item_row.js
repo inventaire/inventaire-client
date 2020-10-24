@@ -1,5 +1,6 @@
 import { isOpenedOutside } from 'lib/utils'
 import itemRowTemplate from './templates/item_row.hbs'
+import '../scss/item_row.scss'
 
 export default Marionette.ItemView.extend({
   tagName: 'li',

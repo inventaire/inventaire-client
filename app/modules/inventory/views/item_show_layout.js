@@ -1,7 +1,8 @@
 import ItemShowData from './item_show_data'
 import EditionsList from 'modules/entities/views/editions_list'
 import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_preview_lists'
-import itemShowTemplate from './templates/item_show.hbs'
+import itemShowTemplate from './templates/item_show_layout.hbs'
+import 'modules/inventory/scss/item_show_layout.scss'
 
 export default Marionette.LayoutView.extend({
   id: 'itemShowLayout',

@@ -1,12 +1,3 @@
-$user-box-heigth: 3em;
-
-@mixin white-text{
-  color: white;
-  a.current{
-    color: white;
-  }
-}
-
 #itemShowLayout{
   .userBox{
     .profilePic{

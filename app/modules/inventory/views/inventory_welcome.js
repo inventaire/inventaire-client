@@ -1,5 +1,6 @@
 import { clickCommand } from 'lib/utils'
 import inventoryWelcomeTemplate from './templates/inventory_welcome.hbs'
+import '../scss/inventory_welcome.scss'
 
 export default Marionette.ItemView.extend({
   className: 'inventoryWelcome',

@@ -2,7 +2,7 @@ import log_ from 'lib/loggers'
 import { capitalize } from 'lib/utils'
 import itemShowDataTemplate from './templates/item_show_data.hbs'
 
-// Motivation for having a view separated from ItemShow:
+// Motivation for having a view separated from ItemShowLayout:
 // - no need to reload the image on re-render (like when details are saved)
 
 import ItemTransactions from './item_transactions'

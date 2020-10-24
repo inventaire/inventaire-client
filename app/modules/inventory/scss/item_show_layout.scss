@@ -1,3 +1,5 @@
+@import 'modules/general/scss/utils.scss';
+
 #itemShowLayout{
   padding: 0 1em;
   position: relative;
@@ -97,3 +99,5 @@
 
   @import 'item_show_data';
 }
+
+@import "item_boxes";
