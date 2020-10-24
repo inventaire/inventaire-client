@@ -8,6 +8,7 @@ import Groups from 'modules/network/collections/groups'
 import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import inventoryPublicNavTemplate from './templates/inventory_public_nav.hbs'
+import 'modules/map/scss/position_required.scss'
 
 const { showOnMap, showUserOnMap, getBbox } = map_
 

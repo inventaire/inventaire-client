@@ -5,6 +5,7 @@ import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import { startLoading, stopLoading, Check } from 'modules/general/plugins/behaviors'
 import positionPickerTemplate from './templates/position_picker.hbs'
+import '../scss/position_picker.scss'
 
 const containerId = 'positionPickerMap'
 
