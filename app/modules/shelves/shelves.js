@@ -4,7 +4,7 @@ import ShelfModel from './models/shelf'
 import { getById } from './lib/shelves'
 
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'shelves(/)(:id)(/)': 'showShelfFromId',

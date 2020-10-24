@@ -6,7 +6,7 @@ import initRequests from './requests'
 import initInvitations from './invitations'
 
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'u(sers)/:id/contributions(/)': 'showUserContributions',

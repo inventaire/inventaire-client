@@ -5,7 +5,7 @@ import userListings from './lib/user_listings'
 import userUpdate from './lib/user_update'
 
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'signup(/)': 'showSignup',

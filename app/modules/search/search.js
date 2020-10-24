@@ -5,7 +5,7 @@ import { parseQuery } from 'lib/location'
 import { setPrerenderStatusCode } from 'lib/metadata/update'
 
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'search(/)': 'searchFromQueryString'

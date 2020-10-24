@@ -2,7 +2,7 @@ import AddLayout from './views/add/add_layout'
 import initAddHelpers from './lib/add_helpers'
 
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'add(/search)(/)': 'showSearch',

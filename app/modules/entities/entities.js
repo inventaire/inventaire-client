@@ -11,7 +11,7 @@ import { normalizeUri } from './lib/entities'
 import showMergeSuggestions from './lib/show_merge_suggestions'
 
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'entity/new(/)': 'showEntityCreateFromRoute',

@@ -5,7 +5,7 @@ import fetchData from 'lib/data/fetch'
 let lastTransactionId = null
 
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'transactions(/)': 'showFirstTransaction',

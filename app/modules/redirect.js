@@ -6,7 +6,7 @@ import { currentRoute } from 'lib/location'
 import { setPrerenderStatusCode } from 'lib/metadata/update'
 
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         '(home)': 'showHome',
@@ -59,7 +59,7 @@ const API = {
 
   async showSvelteTest () {
     const { default: SvelteTest } = await import('./test.svelte')
-    const testApp = new SvelteTest({
+    new SvelteTest({
       target: document.querySelector('main'),
       data: {
         name: 'world'

@@ -1,5 +1,5 @@
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'tasks(/)(:id)(/)': 'showTask'

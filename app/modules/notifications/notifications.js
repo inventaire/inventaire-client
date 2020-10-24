@@ -5,7 +5,7 @@ const notifications = new Notifications()
 let waitForNotifications
 
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'notifications(/)': 'showNotifications'

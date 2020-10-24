@@ -9,7 +9,7 @@ import { parseQuery, currentRoute, buildPath } from 'lib/location'
 import error_ from 'lib/error'
 
 export default {
-  define (module, app, Backbone, Marionette, $, _) {
+  define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'inventory(/)': 'showGeneralInventory',
@@ -33,7 +33,7 @@ export default {
   initialize () {
     initQueries(app)
     initializeInventoriesHandlers(app)
-    return initLayout(app)
+    initLayout(app)
   }
 }
 
