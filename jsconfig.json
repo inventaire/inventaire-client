@@ -1,4 +1,5 @@
 {
+  "module": "es6",
   "compilerOptions": {
     "baseUrl": "./app",
     "paths": {
@@ -8,5 +9,6 @@
       "lib/*": [ "lib/*" ],
       "modules/*": [ "modules/*" ],
     }
-  }
+  },
+  "exclude": [ "node_modules", "public", "vendor", "scripts/assets" ]
 }
