@@ -1,6 +1,4 @@
-$tooltip-font-size: 1em;
-
-$auth-menu-bg: $global-background-contrast-color;
+@import 'modules/general/scss/utils.scss';
 
 .authMenu{
   label{
@@ -34,7 +32,7 @@ $auth-menu-bg: $global-background-contrast-color;
     @include central-column(25em);
     min-height: 80vh;
     .custom-cell{
-      background-color: $auth-menu-bg;
+      background-color: $global-background-contrast-color;
       @include radius;
       padding: 1em 2em 2em 2em;
       text-align: center;

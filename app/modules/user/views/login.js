@@ -6,6 +6,7 @@ import forms_ from 'modules/general/lib/forms'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import prepareRedirect from '../lib/prepare_redirect'
 import loginTemplate from './templates/login.hbs'
+import '../scss/auth_menu.scss'
 
 export default Marionette.ItemView.extend({
   className: 'authMenu login',

@@ -1,3 +1,4 @@
+@import 'modules/general/scss/utils.scss';
 $user-height: 3em;
 $stretch-user-height: 5em;
 
@@ -164,62 +165,12 @@ $user-bg: #ddd;
   }
 }
 
-#sideNav{
-  .userLi{
-    .username{
-      max-width: 80%;
-      overflow: hidden;
-    }
-    .userMenu{
-      min-width: 1.6em;
-    }
-    &:not(.friend){
-      // avoid affecting 'a.action's in dropdown
-      .userMenu > .action{
-        // Centering the action icon
-        height: 1.7em;
-        padding-left: 0.3em;
-        padding-right: 0.2em;
-        &:not(:hover){
-          .label{
-            display: none;
-          }
-        }
-      }
-    }
-  }
-  .userLi.friends{
-    .userMenu{
-      font-size: 1em;
-      margin-right: 0.2em;
-    }
-    .label{
-      display: none;
-    }
-    /*Small screens*/
-    @media screen and (max-width: $small-screen) {
-      margin-right: 0.5em;
-    }
-  }
-}
-
 .userLi .right-box, .userProfile{
   .userMenu{
     @include display-flex(row, center, center);
     white-space: nowrap;
     .action{
       @include display-flex(row, center, center);
-    }
-  }
-}
-
-#sideNav{
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    .userLi{
-      .right-box{
-        max-width: 230px;
-      }
     }
   }
 }

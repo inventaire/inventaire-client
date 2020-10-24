@@ -1,5 +1,6 @@
 import { Check } from 'modules/general/plugins/behaviors'
 import validEmailConfirmationTemplate from './templates/valid_email_confirmation.hbs'
+import '../scss/valid_email_confirmation.scss'
 
 export default Marionette.ItemView.extend({
   className: 'validEmailConfirmation',
@@ -16,7 +17,9 @@ export default Marionette.ItemView.extend({
     'click #emailConfirmationRequest': 'emailConfirmationRequest'
   },
 
-  onShow () { app.execute('modal:open') },
+  onShow () {
+    app.execute('modal:open')
+  },
 
   serializeData () {
     return {
@@ -27,14 +30,16 @@ export default Marionette.ItemView.extend({
 
   emailConfirmationRequest () {
     this.$el.trigger('loading')
-    return app.request('email:confirmation:request')
+    app.request('email:confirmation:request')
     .then(Check.call(this, 'emailConfirmationRequest', app.Execute('modal:close')))
     .catch(emailFail.bind(this))
   },
 
   showLoginRedirectSettings () {
-    return app.request('show:login:redirect', 'settings/profile')
+    app.request('show:login:redirect', 'settings/profile')
   }
 })
 
-const emailFail = function () { this.$el.trigger('somethingWentWrong') }
+const emailFail = function () {
+  this.$el.trigger('somethingWentWrong')
+}

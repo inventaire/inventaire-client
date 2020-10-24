@@ -1,10 +1,10 @@
-import preq from 'lib/preq'
-import UserContribution from './user_contribution'
-import userContributionsTemplate from './templates/user_contributions.hbs'
-
 // A layout to display a list of the user data contributions
 
+import preq from 'lib/preq'
+import UserContribution from './user_contribution'
 import Patches from 'modules/entities/collections/patches'
+import userContributionsTemplate from './templates/user_contributions.hbs'
+import '../scss/user_contributions.scss'
 
 export default Marionette.CompositeView.extend({
   className: 'userContributions',

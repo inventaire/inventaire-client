@@ -4,6 +4,7 @@ import showPaginatedItems from '../lib/show_paginated_items'
 import * as urls from 'lib/urls'
 import Mentions from './mentions'
 import welcomeTemplate from './templates/welcome.hbs'
+import '../scss/welcome.scss'
 
 export default Marionette.LayoutView.extend({
   id: 'welcome',
