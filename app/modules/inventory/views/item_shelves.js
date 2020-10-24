@@ -3,6 +3,7 @@ import NoShelfView from './no_shelf'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import forms_ from 'modules/general/lib/forms'
 import itemShelfLiTemplate from './templates/item_shelf_li.hbs'
+import 'modules/shelves/scss/item_shelves.scss'
 
 const ItemShelfLi = Marionette.ItemView.extend({
   tagName: 'li',
@@ -95,6 +96,7 @@ const ItemShelfLi = Marionette.ItemView.extend({
 })
 
 export default Marionette.CollectionView.extend({
+  id: 'itemShelves',
   tagName: 'ul',
   childView: ItemShelfLi,
 

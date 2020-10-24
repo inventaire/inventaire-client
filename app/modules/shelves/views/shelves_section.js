@@ -2,8 +2,10 @@ import Shelves from '../collections/shelves'
 import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
 import ShelvesList from './shelves_list'
 import shelvesSectionTemplate from './templates/shelves_section.hbs'
+import '../scss/shelves_section.scss'
 
 export default Marionette.LayoutView.extend({
+  id: 'shelvesSection',
   template: shelvesSectionTemplate,
 
   regions: {

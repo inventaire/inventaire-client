@@ -1,6 +1,7 @@
 import ShelfEditor from './shelf_editor'
 import ShelfItemsAdder from './shelf_items_adder'
 import shelfBoxTemplate from './templates/shelf_box.hbs'
+import '../scss/shelf_box.scss'
 
 export default Marionette.ItemView.extend({
   className: 'shelfBox',

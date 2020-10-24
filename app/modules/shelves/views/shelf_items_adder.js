@@ -4,6 +4,7 @@ import ShelfItemsCandidates from './shelf_items_candidate'
 import Items from 'modules/inventory/collections/items'
 import AutocompleteNoSuggestion from 'modules/entities/views/editor/autocomplete_no_suggestion'
 import shelfItemsAdderTemplate from './templates/shelf_items_adder.hbs'
+import '../scss/shelf_items_adder.scss'
 
 export default Marionette.CompositeView.extend({
   id: 'shelfItemsAdder',

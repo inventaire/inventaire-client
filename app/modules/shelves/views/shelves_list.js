@@ -1,5 +1,6 @@
 import { isOpenedOutside } from 'lib/utils'
 import shelvesListLiTemplate from './templates/shelves_list_li.hbs'
+import '../scss/shelves_list.scss'
 
 const ListEl = Marionette.ItemView.extend({
   tagName: 'li',

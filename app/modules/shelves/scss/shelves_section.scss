@@ -1,0 +1,52 @@
+@import 'modules/general/scss/utils.scss';
+
+#shelvesSection{
+  .shelves-wrapper{
+    margin-top: 0.5em;
+    background-color: $light-grey;
+  }
+  #toggleButtons:not(.hidden){
+    background: $light-grey;
+    display: flex;
+    align-items: center;
+    #showShelves, #hideShelves{
+      font-size: 1.5rem;
+      flex: 1;
+      @include text-hover($grey, $dark-grey);
+      .fa{
+        padding-right: 0.1em;
+      }
+    }
+  }
+  #shelvesHeader{
+    cursor: pointer;
+    @include display-flex(row, top, space-between);
+    padding: 1em;
+    /*Smaller screens*/
+    @media screen and (max-width: $smaller-screen) {
+      // balance the cross fold icon on the right
+      padding: 1em 1em 1em 3.5em;
+    }
+    .subheader{
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .shelves-subheader{
+      flex: 1 0 0;
+      padding-right: 0.8em;
+      a{
+        padding-top: 0.4em;
+        padding-bottom: 0.4em;
+      }
+      @include display-flex(row, center, space-between);
+    }
+    /*Smaller screens*/
+    @media screen and (max-width: $smaller-screen) {
+      padding-right: 0.5em;
+      .shelves-subheader{
+        @include display-flex(column, center);
+        margin-bottom: 0.4em;
+      }
+    }
+  }
+}

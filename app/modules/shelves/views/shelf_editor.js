@@ -7,6 +7,7 @@ import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import { deleteShelf, updateShelf } from 'modules/shelves/lib/shelves'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import shelfEditorTemplate from './templates/shelf_editor.hbs'
+import '../scss/shelf_editor.scss'
 
 export default Marionette.LayoutView.extend({
   template: shelfEditorTemplate,
