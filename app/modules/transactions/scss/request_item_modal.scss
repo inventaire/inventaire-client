@@ -1,3 +1,5 @@
+@import 'modules/general/scss/utils.scss';
+
 .requestItemModal{
   @include display-flex(column, center, center);
   .header{

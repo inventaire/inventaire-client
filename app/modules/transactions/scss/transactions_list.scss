@@ -1,3 +1,5 @@
+@import 'modules/general/scss/utils.scss';
+
 .transactionList{
   @include shy-border;
   .noTransaction{

@@ -1,4 +1,6 @@
-#transactionView{
+@import 'modules/general/scss/utils.scss';
+
+#focusedTransactionLayout{
   max-width: 40em;
   margin: 1em auto;
   section{

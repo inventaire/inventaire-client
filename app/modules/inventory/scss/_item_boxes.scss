@@ -50,8 +50,8 @@
   @import 'item_listing_box';
 }
 
-.itemCard, .mixedBox, .transactionPreview{
-  .transactionBox, .listingMenu{
+.itemCard, .mixedBox{
+  .listingMenu{
     .current{
       width: 100%;
       height: 100%;

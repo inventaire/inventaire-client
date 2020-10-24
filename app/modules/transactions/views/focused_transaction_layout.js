@@ -6,11 +6,12 @@ import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import screen_ from 'lib/screen'
 import Event from './event'
-import transactionTemplate from './templates/transaction.hbs'
+import focusedTransactionLayout from './templates/focused_transaction_layout.hbs'
+import '../scss/focused_transaction_layout.scss'
 
 export default Marionette.CompositeView.extend({
-  template: transactionTemplate,
-  id: 'transactionView',
+  template: focusedTransactionLayout,
+  id: 'focusedTransactionLayout',
   behaviors: {
     AlertBox: {},
     ElasticTextarea: {},

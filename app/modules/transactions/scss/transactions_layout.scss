@@ -1,3 +1,4 @@
+@import 'modules/general/scss/utils.scss';
 $transaction-list-width: 20em;
 
 .transactionsLayout{
@@ -36,8 +37,3 @@ $transaction-list-width: 20em;
     }
   }
 }
-
-@import "transactions_list";
-@import "transaction";
-@import "request_item_modal";
-@import "transactions_welcome";

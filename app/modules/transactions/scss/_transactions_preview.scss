@@ -15,6 +15,25 @@
       // centering
       padding-left: 0.3em;
     }
+    .current{
+      width: 100%;
+      height: 100%;
+      @include display-flex(row, center, center);
+    }
+    // just 'height' wasnt working on chrome
+    min-height: $user-box-heigth;
+    max-height: $user-box-heigth;
+    li.capitalized{
+      color: $dark-grey;
+    }
+    @mixin transaction-box-color($color, $white-text:1){
+      background-color: lighten($color, 2%);
+      @if $white-text { @include white-text; }
+    }
+    &.giving{ @include transaction-box-color($giving-color); }
+    &.lending{ @include transaction-box-color($lending-color); }
+    &.selling{ @include transaction-box-color($selling-color); }
+    &.inventorying{ @include transaction-box-color($inventorying-color); }
   }
   &.selected{
     box-shadow: 0 1px 3px 2px rgba(0, 0, 0, 0.1) inset;
