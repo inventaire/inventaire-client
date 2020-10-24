@@ -1,4 +1,6 @@
-#settings{
+@import 'modules/general/scss/utils.scss';
+
+#settingsLayout{
   background-color: #e0e0e0;
   .button, .dark-grey-button{
     @include sans-serif;

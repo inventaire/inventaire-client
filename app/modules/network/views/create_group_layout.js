@@ -1,8 +1,7 @@
-import { tryAsync } from 'lib/promises'
 // add name => creates group
 // invite friends
 // invite by email
-
+import { tryAsync } from 'lib/promises'
 import log_ from 'lib/loggers'
 import createGroupLayoutTemplate from './templates/create_group_layout.hbs'
 import { GroupLayoutView } from './group_views_commons'
@@ -10,6 +9,7 @@ import forms_ from 'modules/general/lib/forms'
 import groups_ from '../lib/groups'
 import groupFormData from '../lib/group_form_data'
 import GroupUrl from '../lib/group_url'
+import '../scss/create_groupe_layout.scss'
 
 const {
   ui: groupUrlUi,

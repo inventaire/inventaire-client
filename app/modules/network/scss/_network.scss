@@ -1,7 +1,8 @@
-@import 'invite_by_email';
 @import 'group_commons';
-@import 'group_li';
 @import 'group_actions';
-@import 'group_board';
-@import 'group_board_header';
-@import 'create_group';
+
+.group-url{
+  opacity: 0.6;
+  text-align: left;
+  margin-bottom: 0.5em;
+}

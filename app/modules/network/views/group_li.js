@@ -1,5 +1,6 @@
 import { GroupItemView } from './group_views_commons'
 import groupLiTemplate from './templates/group_li.hbs'
+import '../scss/group_li.scss'
 
 export default GroupItemView.extend({
   template: groupLiTemplate,

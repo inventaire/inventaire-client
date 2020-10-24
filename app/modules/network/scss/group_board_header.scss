@@ -1,3 +1,5 @@
+@import 'modules/general/scss/utils.scss';
+
 .group-board-header{
   background-color: white;
   @include display-flex(column, center, center);

@@ -4,6 +4,7 @@ import GroupsList from 'modules/network/views/groups_list'
 import NotificationLi from './notification_li'
 import NoNotification from './no_notification'
 import notificationsLayoutTemplate from './templates/notifications_layout.hbs'
+import '../scss/notifications_layout.scss'
 
 const NotificationsList = Marionette.CollectionView.extend({
   tagName: 'ul',

@@ -6,6 +6,7 @@ import UsersList from 'modules/users/views/users_list'
 import InviteByEmail from './invite_by_email'
 import screen_ from 'lib/screen'
 import groupBoardTemplate from './templates/group_board.hbs'
+import '../scss/group_board.scss'
 
 export default GroupLayoutView.extend({
   template: groupBoardTemplate,

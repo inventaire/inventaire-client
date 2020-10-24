@@ -1,5 +1,6 @@
 import { GroupItemView } from './group_views_commons'
 import groupBoardHeaderTemplate from './templates/group_board_header.hbs'
+import '../scss/group_board_header.scss'
 
 export default GroupItemView.extend({
   template: groupBoardHeaderTemplate,

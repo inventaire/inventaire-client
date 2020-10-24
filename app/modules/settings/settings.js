@@ -27,7 +27,7 @@ const API = {
 
 const showSettings = async tab => {
   if (app.request('require:loggedIn', `settings/${tab}`)) {
-    const { default: SettingsLayout } = await import('./views/settings')
+    const { default: SettingsLayout } = await import('./views/settings_layout')
     return app.layout.main.show(new SettingsLayout({ model: app.user, tab }))
   }
 }

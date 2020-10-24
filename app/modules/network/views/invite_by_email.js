@@ -4,6 +4,7 @@ import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import inviteByEmailTemplate from './templates/invite_by_email.hbs'
+import '../scss/invite_by_email.scss'
 
 export default Marionette.LayoutView.extend({
   template: inviteByEmailTemplate,

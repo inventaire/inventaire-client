@@ -1,9 +1,10 @@
 import { I18n } from 'modules/user/lib/i18n'
-import settingsTemplate from './templates/settings.hbs'
+import settingsTemplate from './templates/settings_layout.hbs'
 import profile from './profile_settings'
 import account from './account_settings'
 import notifications from './notifications_settings'
 import data from './data_settings'
+import '../scss/settings_layout.scss'
 
 const views = {
   profile,
@@ -13,7 +14,7 @@ const views = {
 }
 
 export default Marionette.LayoutView.extend({
-  id: 'settings',
+  id: 'settingsLayout',
   template: settingsTemplate,
   regions: {
     tabsContent: '.custom-tabs-content'
