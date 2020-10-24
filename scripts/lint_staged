@@ -10,8 +10,8 @@ if [ -z "$staged" ]; then
   echo 'no file to lint'
 else
   if [ "$1" = "fix" ]; then
-    npm run lint-fix $staged
+    echo $staged | xargs npm run lint-fix
   else
-    npm run lint $staged
+    echo $staged | xargs npm run lint
   fi
 fi

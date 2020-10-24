@@ -24,7 +24,7 @@
     "build:dev": "webpack --config ./webpack.config.dev.cjs",
     "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.js",
     "generate-sitemaps": "npm run node-exec ./scripts/sitemaps/generate.js",
-    "lint": "eslint -c .eslintrc app test scripts",
+    "lint": "./scripts/lint",
     "lint-fix": "./scripts/lint_fix",
     "lint-staged": "./scripts/lint_staged",
     "node-exec": "node --no-warnings --loader ./custom-loader.js --es-module-specifier-resolution=node",
