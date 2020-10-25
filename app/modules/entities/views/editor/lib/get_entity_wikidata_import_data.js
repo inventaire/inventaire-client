@@ -3,14 +3,16 @@ import { isEntityUri } from 'lib/boolean_tests'
 // fetches the entities models, and return an object with the labels and claims
 // set on the Inventaire entity but not on the Wikidata one to allow importing those
 
-export default (invEntityUri, wdEntityUri) => app.request('get:entities:models', {
-  uris: [ invEntityUri, wdEntityUri ],
-  refresh: true,
-  index: true
-})
-.then(getImportData(invEntityUri, wdEntityUri))
+export default async (invEntityUri, wdEntityUri) => {
+  const models = await app.request('get:entities:models', {
+    uris: [ invEntityUri, wdEntityUri ],
+    refresh: true,
+    index: true
+  })
+  return getImportData(invEntityUri, wdEntityUri, models)
+}
 
-const getImportData = (invEntityUri, wdEntityUri) => function (models) {
+const getImportData = (invEntityUri, wdEntityUri, models) => {
   let claims
   const invEntity = models[invEntityUri]
   const wdEntity = models[wdEntityUri]
