@@ -1,6 +1,7 @@
 import { cutBeforeWord } from 'lib/utils'
 import itemViewsCommons from '../lib/items_views_commons'
 import itemCardTemplate from './templates/item_card.hbs'
+import '../scss/item_card.scss'
 
 const detailsLimit = 150
 const ItemItemView = Marionette.ItemView.extend(itemViewsCommons)

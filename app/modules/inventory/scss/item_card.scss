@@ -1,6 +1,9 @@
+@import 'modules/general/scss/utils';
+
 // itemCard internal settings
 // for itemCard positioning, see items_list
 .itemCard{
+  @import 'item_commons';
   @include shadow-box;
   @include radius;
   @include glow-on-focus;
@@ -77,55 +80,6 @@
   .alert-box{
     max-height: 4em;
   }
-}
-
-@import 'item_user_box';
-
-.itemBox > .remove{
-  margin-top: 1em;
-  @include dangerous-action;
-  flex: 1 1 auto;
-  width: 100%;
-  height: $user-box-heigth;
-  @include display-flex(row, center, center);
-}
-.itemBox:not(:empty), .busy-box, .mainUserRequested{
-  min-height: $user-box-heigth;
-  width: 100%;
-  @include display-flex(row, center, center);
-}
-.busy-box{
-  background-color: #444;
-  color: white;
-}
-.mainUserRequested{
-  @include inner-shadow(1px, 1px, 3px, 2px, rgba(grey, 0.2));
-  @include bg-hover(white, 5%);
-}
-.item-settings{
-  text-align: center;
-  div{
-    background-color: $off-white;
-    flex: 1 1 auto;
-    height: 100%;
-    @include display-flex(row, center, center);
-    color: $dark-grey;
-    ul{
-      padding: 0.2em;
-      text-align: left;
-    }
-    a{
-      color: $dark-grey;
-    }
-  }
-  .dropdown{
-    a{
-      display: inline-block !important;
-      width: 100%;
-    }
-  }
-}
-.itemCard{
   .transactionBox, .listingMenu{
     .label{
       display: none;
