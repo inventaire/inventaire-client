@@ -1,18 +1,15 @@
-import mapConfig from './lib/config'
-import PositionPicker from './views/position_picker'
-import SimpleMap from './views/simple_map'
-
-const { init: onLeafletReady } = mapConfig
-
 const getLeaflet = async () => {
-  await Promise.all([
+  const [ { default: mapConfig } ] = await Promise.all([
+    import('./lib/config'),
     // Set window.L
     import('leaflet'),
     import('leaflet/dist/leaflet.css'),
     import('leaflet.markercluster/dist/MarkerCluster.css'),
     import('leaflet.markercluster/dist/MarkerCluster.Default.css'),
   ])
+  // Needs to be initialized after window.L was set
   await import('leaflet.markercluster')
+  const { init: onLeafletReady } = mapConfig
   onLeafletReady()
 }
 
@@ -29,7 +26,10 @@ export default function () {
   })
 }
 
-const showPositionPicker = options => app.layout.modal.show(new PositionPicker(options))
+const showPositionPicker = async options => {
+  const { default: PositionPicker } = await import('./views/position_picker')
+  app.layout.modal.show(new PositionPicker(options))
+}
 
 const updatePosition = (model, updateReqres, type, focusSelector) => showPositionPicker({
   model,
@@ -69,6 +69,9 @@ const promptGroupPositionPicker = async () => {
 }
 
 const showModelsOnMap = async models => {
-  await getLeaflet()
+  const [ { default: SimpleMap } ] = await Promise.all([
+    import('./views/simple_map'),
+    getLeaflet()
+  ])
   app.layout.modal.show(new SimpleMap({ models }))
 }
