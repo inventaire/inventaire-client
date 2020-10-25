@@ -11,6 +11,19 @@ Object.assign(config, {
   target: 'browserslist',
 })
 
+// Disable source maps for css assets until we can find a way
+// to get those source map extracted in .map files
+// instead of included in .js files
+config.module.rules.forEach(rule => {
+  if (rule.test.toString().includes('css')) {
+    rule.use.forEach(useEl => {
+      if (useEl.options && useEl.options.sourceMap === true) {
+        useEl.options.sourceMap = false
+      }
+    })
+  }
+})
+
 const js = {
   test: /\.js$/,
   // Required to avoid errors such as:
