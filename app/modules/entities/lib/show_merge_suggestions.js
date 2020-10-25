@@ -1,6 +1,5 @@
 import preq from 'lib/preq'
 import Entities from '../collections/entities'
-import Task from 'modules/tasks/models/task'
 import loader from 'modules/general/views/templates/loader.hbs'
 
 const entitiesTypesWithTasks = [
@@ -37,11 +36,11 @@ const getTasksByUri = async model => {
   const res = await preq.get(app.API.tasks[action](uri))
   const tasks = res.tasks[uri]
   const suggestionsUris = _.pluck(tasks, relation)
-  return app.request('get:entities:models', { uris: suggestionsUris })
-  .then(addTasksToEntities(uri, tasks, relation))
+  const entities = await app.request('get:entities:models', { uris: suggestionsUris })
+  return addTasksToEntities(uri, tasks, relation, entities)
 }
 
-const getMergeSuggestionsParams = function (uri) {
+const getMergeSuggestionsParams = uri => {
   const [ prefix ] = uri.split(':')
   if (prefix === 'wd') {
     return [ 'bySuggestionUris', 'suspectUri' ]
@@ -50,7 +49,9 @@ const getMergeSuggestionsParams = function (uri) {
   }
 }
 
-const addTasksToEntities = (uri, tasks, relation) => function (entities) {
+const addTasksToEntities = async (uri, tasks, relation, entities) => {
+  const { default: Task } = await import('modules/tasks/models/task')
+
   const tasksIndex = _.indexBy(tasks, relation)
 
   entities.forEach(entity => {
@@ -80,9 +81,8 @@ const parseSearchResults = async (uri, tasksEntitiesUris, searchResults) => {
   uris = _.without(uris, ...urisToOmit)
   // Search results entities miss their claims, so we need to fetch the full entities
   const entities = await app.request('get:entities:models', { uris })
-  return entities
   // Re-filter out uris to omit as a redirection might have brought it back
-  .filter(entity => !urisToOmit.includes(entity.get('uri')))
+  return entities.filter(entity => !urisToOmit.includes(entity.get('uri')))
 }
 
 const isntWdUri = uri => uri.split(':')[0] !== 'wd'

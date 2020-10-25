@@ -2,7 +2,6 @@ import assert_ from 'lib/assert_types'
 import log_ from 'lib/loggers'
 import { Rollback } from 'lib/utils'
 import preq from 'lib/preq'
-import Patches from '../../collections/patches'
 import properties from '../properties'
 import error_ from 'lib/error'
 
@@ -83,11 +82,14 @@ export default {
     .catch(rollback)
   },
 
-  fetchHistory (uri) {
+  async fetchHistory (uri) {
     const id = this.id || uri.split(':')[1]
-    return preq.get(app.API.entities.history(id))
+    const [ { patches }, { default: Patches } ] = await Promise.all([
+      preq.get(app.API.entities.history(id)),
+      import('../../collections/patches')
+    ])
     // reversing to get the last patches first
-    .then(res => { this.history = new Patches(res.patches.reverse()) })
+    this.history = new Patches(patches.reverse())
   },
 
   // Invalidating the entity's and its relatives cache

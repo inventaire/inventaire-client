@@ -1,6 +1,5 @@
 import preq from 'lib/preq'
 import commonsSerieWork from './commons_serie_work'
-import getPartsSuggestions from 'modules/entities/views/cleanup/lib/get_parts_suggestions'
 
 export default function () {
   // Main property by which sub-entities are linked to this one
@@ -52,9 +51,10 @@ const specificMethods = _.extend({}, commonsSerieWork, {
     return _.uniq(_.compact(allAuthorsUris))
   },
 
-  getChildrenCandidatesUris () {
-    return getPartsSuggestions(this)
-    .then(suggestionsCollection => suggestionsCollection.map(getModelUri))
+  async getChildrenCandidatesUris () {
+    const { default: getPartsSuggestions } = await import('modules/entities/views/cleanup/lib/get_parts_suggestions')
+    const suggestionsCollection = await getPartsSuggestions(this)
+    return suggestionsCollection.map(getModelUri)
   }
 })
 

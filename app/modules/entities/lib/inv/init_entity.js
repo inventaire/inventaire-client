@@ -1,5 +1,4 @@
 import preq from 'lib/preq'
-import Tasks from 'modules/tasks/collections/tasks'
 
 export default function (attrs) {
   const { _id } = attrs
@@ -16,10 +15,12 @@ export default function (attrs) {
 };
 
 const specificMethods = {
-  fetchMergeSuggestions () {
-    if (this.mergeSuggestionsPromise != null) { return this.mergeSuggestionsPromise }
+  async fetchMergeSuggestions () {
+    if (this.mergeSuggestionsPromise != null) return this.mergeSuggestionsPromise
 
     const uri = this.get('uri')
+
+    const { default: Tasks } = await import('modules/tasks/collections/tasks')
 
     this.mergeSuggestionsPromise = preq.get(app.API.tasks.bySuspectUris(uri))
       .then(res => {
