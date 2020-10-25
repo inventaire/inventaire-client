@@ -1,4 +1,3 @@
-import AddLayout from './views/add/add_layout'
 import initAddHelpers from './lib/add_helpers'
 
 export default {
@@ -17,14 +16,20 @@ export default {
 
   initialize () {
     initAddHelpers()
-    return initializeHandlers()
+    initializeHandlers()
   }
 }
 
 const API = {
-  showSearch () { return showAddLayout('search') },
-  showScan () { return showAddLayout('scan') },
-  showImport () { return showAddLayout('import') },
+  showSearch () {
+    showAddLayout('search')
+  },
+  showScan () {
+    showAddLayout('scan')
+  },
+  showImport () {
+    showAddLayout('import')
+  },
   async showEmbeddedScanner () {
     if (app.request('require:loggedIn', 'add/scan/embedded')) {
       if (window.hasVideoInput) {
@@ -35,16 +40,17 @@ const API = {
         // showing in main so that requesting another layout destroy this view
         return app.layout.main.show(new EmbeddedScanner())
       } else {
-        return API.showScan()
+        API.showScan()
       }
     }
   }
 }
 
-const showAddLayout = function (tab = 'search', options = {}) {
+const showAddLayout = async (tab = 'search', options = {}) => {
   if (app.request('require:loggedIn', `add/${tab}`)) {
     options.tab = tab
-    return app.layout.main.show(new AddLayout(options))
+    const { default: AddLayout } = await import('./views/add/add_layout')
+    app.layout.main.show(new AddLayout(options))
   }
 }
 
@@ -55,7 +61,7 @@ const initializeHandlers = () => app.commands.setHandlers({
   'show:add:layout:search': API.showSearch,
 
   'show:add:layout:import:isbns' (isbnsBatch) {
-    return showAddLayout('import', { isbnsBatch })
+    showAddLayout('import', { isbnsBatch })
   },
 
   'show:scan': API.showScan,
