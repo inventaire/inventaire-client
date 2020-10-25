@@ -56,9 +56,9 @@ config.optimization = {
   // See https://webpack.js.org/guides/caching/
   splitChunks: {
     cacheGroups: {
-      base: {
-        test: /[\\/](node_modules|vendor)[\\/](backbone|underscore|jquery|handlebars|fork-awesome|node-polyglot|piwik)/,
-        name: 'base',
+      vendor: {
+        test: /[\\/](node_modules|vendor)[\\/](backbone|underscore|jquery|handlebars|fork-awesome|node-polyglot|regenerator-runtime|wikidata-lang|autosize|@babel|define-properties|style-loader|css-loader|js-cookie|p-|leven)/,
+        name: 'vendor',
         chunks: 'all'
       }
     }
