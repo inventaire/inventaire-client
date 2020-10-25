@@ -1,5 +1,6 @@
 import { images } from 'lib/urls'
 import callToConnectionTemplate from './templates/call_to_connection.hbs'
+import '../scss/call_to_connect.scss'
 
 const { banner } = images
 

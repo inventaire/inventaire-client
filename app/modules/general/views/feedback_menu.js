@@ -1,7 +1,7 @@
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import { contact } from 'lib/urls'
 import feedbackMenuTemplate from './templates/feedback_menu.hbs'
-
+import '../scss/feedback.scss'
 export default Marionette.ItemView.extend({
   template: feedbackMenuTemplate,
   className () {

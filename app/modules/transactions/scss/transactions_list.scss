@@ -1,4 +1,4 @@
-@import 'modules/general/scss/utils.scss';
+@import 'modules/general/scss/utils';
 
 .transactionList{
   @include shy-border;
@@ -9,4 +9,4 @@
   }
 }
 
-@import "transactions_preview";
+@import 'transactions_preview';

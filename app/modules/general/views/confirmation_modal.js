@@ -5,6 +5,7 @@ import getActionKey from 'lib/get_action_key'
 import error_ from 'lib/error'
 import forms_ from 'modules/general/lib/forms'
 import confirmationModalTemplate from './templates/confirmation_modal.hbs'
+import '../scss/confirmation_modal.scss'
 
 export default Marionette.ItemView.extend({
   className: 'confirmationModal',

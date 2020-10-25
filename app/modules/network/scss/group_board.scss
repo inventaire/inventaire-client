@@ -1,4 +1,4 @@
-@import 'modules/general/scss/utils.scss';
+@import 'modules/general/scss/utils';
 
 .groupBoard{
   text-align: center;
@@ -40,6 +40,7 @@
       &#groupInvite{
         #usersSearchLayout{
           background-color: $light-grey;
+          @import 'modules/general/scss/filter';
         }
       }
       #groupRequests{
@@ -117,4 +118,4 @@
   }
 }
 
-@import "group_settings";
+@import 'group_settings';

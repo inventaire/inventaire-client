@@ -1,4 +1,6 @@
-#error{
+@import 'modules/general/scss/utils';
+
+#errorLayout{
   text-align: center;
   flex: 1 1 auto;
   min-height: 80vh;

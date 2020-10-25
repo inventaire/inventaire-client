@@ -1,4 +1,4 @@
-@import 'modules/general/scss/utils.scss';
+@import 'modules/general/scss/utils';
 
 $itemCardBaseWidth: 230px;
 $multicolumnsThreshold: $itemCardBaseWidth * 2 + 50px;
@@ -48,4 +48,4 @@ $multicolumnsThreshold: $itemCardBaseWidth * 2 + 50px;
   }
 }
 
-@import "item_card";
+@import 'item_card';

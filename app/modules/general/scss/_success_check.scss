@@ -7,12 +7,4 @@
     width: 3em;
     align-self: center;
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-  }
-
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    // flex-direction: row;
-  }
 }

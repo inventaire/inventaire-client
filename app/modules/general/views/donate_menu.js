@@ -1,7 +1,6 @@
 import { donate } from 'lib/urls'
 import donateMenuTemplate from './templates/donate_menu.hbs'
-
-// import Marionette from 'backbone.marionette'
+import '../scss/donate.scss'
 
 export default Marionette.ItemView.extend({
   template: donateMenuTemplate,

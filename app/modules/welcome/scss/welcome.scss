@@ -1,4 +1,4 @@
-@import 'modules/general/scss/utils.scss';
+@import 'modules/general/scss/utils';
 $welcome-bg-filter: rgba(#123456, 0.5);
 
 #welcome{
@@ -13,10 +13,10 @@ $welcome-bg-filter: rgba(#123456, 0.5);
   }
 }
 
-@import "landing_screen";
-@import "last_public_books";
-@import "mission";
-@import "quick_links";
-@import "mentions";
-@import "credits";
-@import "embedded_welcome";
+@import 'landing_screen';
+@import 'last_public_books';
+@import 'mission';
+@import 'quick_links';
+@import 'mentions';
+@import 'credits';
+@import 'embedded_welcome';

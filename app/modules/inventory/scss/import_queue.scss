@@ -1,4 +1,6 @@
-@import 'modules/general/scss/utils.scss';
+@import 'modules/general/scss/utils';
+@import 'modules/general/scss/select_button_group';
+@import 'modules/general/scss/progress_bar';
 
 .import-queue{
   margin-top: 3em;
@@ -84,7 +86,7 @@
   opacity: 1;
 }
 
-.progress{
+.progress-bar{
   position: relative;
   .fraction{
     font-size: 0.9em;

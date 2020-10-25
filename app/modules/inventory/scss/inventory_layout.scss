@@ -1,4 +1,4 @@
-@import 'modules/general/scss/utils.scss';
+@import 'modules/general/scss/utils';
 
 #inventoryLayout{
   background-color: white;
@@ -15,9 +15,9 @@
     padding: 0.5em;
   }
 
-  @import "inventory_nav";
-  @import "user_profile";
+  @import 'inventory_nav';
+  @import 'user_profile';
   @import 'group_profile';
-  @import "inventory_section_navs";
-  @import "inventory_nav_lists";
+  @import 'inventory_section_navs';
+  @import 'inventory_nav_lists';
 }

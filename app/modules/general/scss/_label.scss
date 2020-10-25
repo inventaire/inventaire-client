@@ -1,4 +1,4 @@
-@mixin label-style(){
+label{
   font-size: 0.875rem;
   color: #4d4d4d;
   cursor: pointer;
@@ -6,8 +6,4 @@
   font-weight: normal;
   line-height: 1.5;
   margin-bottom: 0;
-}
-
-label{
-  @include label-style;
 }

@@ -1,4 +1,4 @@
-@import 'modules/general/scss/utils.scss';
+@import 'modules/general/scss/utils';
 
 #itemShowLayout{
   padding: 0 1em;
@@ -100,4 +100,4 @@
   @import 'item_show_data';
 }
 
-@import "item_boxes";
+@import 'item_boxes';
