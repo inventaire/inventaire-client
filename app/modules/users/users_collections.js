@@ -1,3 +1,4 @@
+import FilteredCollection from 'backbone-filtered-collection'
 import Users from './collections/users'
 
 export default function (app) {

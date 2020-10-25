@@ -1,3 +1,4 @@
+import FilteredCollection from 'backbone-filtered-collection'
 import { localStorageProxy } from 'lib/local_storage'
 import assert_ from 'lib/assert_types'
 import BrowserSelector from './browser_selector'

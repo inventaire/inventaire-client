@@ -1,3 +1,4 @@
+import FilteredCollection from 'backbone-filtered-collection'
 import { isModel, isGroupId } from 'lib/boolean_tests'
 import preq from 'lib/preq'
 import error_ from 'lib/error'

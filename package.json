@@ -39,6 +39,10 @@
   },
   "dependencies": {
     "autosize": "^4.0.2",
+    "backbone": "^1.1.2",
+    "backbone-filtered-collection": "^0.4.0",
+    "backbone-nested": "^2.0.4",
+    "backbone.marionette": "^2.4.1",
     "blueimp-canvas-to-blob": "^3.28.0",
     "cropper": "^2.3.0",
     "enumerate-devices": "^1.1.0",

@@ -1,3 +1,4 @@
+import FilteredCollection from 'backbone-filtered-collection'
 import log_ from 'lib/loggers'
 import { isOpenedOutside } from 'lib/utils'
 import preq from 'lib/preq'

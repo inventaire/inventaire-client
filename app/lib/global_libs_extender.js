@@ -1,3 +1,4 @@
+import FilteredCollection from 'backbone-filtered-collection'
 // Sets $(selector).visible function
 import 'jquery-visible'
 // Sets $.event.special.inview
