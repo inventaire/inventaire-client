@@ -22,7 +22,6 @@ This repository tracks [inventaire.io](https://inventaire.io) client-side develo
 
 
 - [Inventaire Stack Map](#inventaire-stack-map)
-- [Webapp Tools](#webapp-tools)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
