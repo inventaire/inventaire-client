@@ -39,8 +39,6 @@
   },
   "dependencies": {
     "autosize": "^4.0.2",
-    "backbone.babysitter": "^0.1.11",
-    "backbone.wreqr": "^1.4.0",
     "blueimp-canvas-to-blob": "^3.28.0",
     "cropper": "^2.3.0",
     "enumerate-devices": "^1.1.0",
@@ -59,6 +57,7 @@
     "node-polyglot": "^2.4.0",
     "papaparse": "^4.6.3",
     "quagga": "^0.12.1",
+    "underscore": "^1.6.0",
     "wikidata-lang": "^2.0.11"
   },
   "devDependencies": {

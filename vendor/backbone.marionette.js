@@ -5,8 +5,8 @@
 
 import _ from 'underscore'
 import Backbone from './backbone'
-import Wreqr from 'backbone.wreqr'
-import ChildViewContainer from 'backbone.babysitter'
+import Wreqr from './backbone.wreqr'
+import ChildViewContainer from './backbone.babysitter'
 
 const Marionette = Backbone.Marionette = {};
 
