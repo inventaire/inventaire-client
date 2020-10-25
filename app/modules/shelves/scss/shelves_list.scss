@@ -1,4 +1,5 @@
 @import 'modules/general/scss/utils';
+@import 'shelves_commons';
 
 #shelvesList{
   li{
@@ -40,26 +41,6 @@
         &.network{ @include box-color($network-color); }
         &.public{ @include box-color($public-color, null); }
       }
-    }
-  }
-  .shelf-text{
-    max-height: 3em;
-    line-height: 1.4em;
-    overflow: hidden;
-    padding: 0.2em 0.4em;
-    margin-right: 1em;
-  }
-
-  .shelf-text, .shelfSelector, .selectShelf, .shelvesSelector{
-    .picture{
-      min-width: 3em;
-      height: 3em;
-      @include radius;
-    }
-    .description{
-      color: $grey;
-      max-height: 1.4em;
-      overflow: hidden;
     }
   }
 }
