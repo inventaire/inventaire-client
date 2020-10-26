@@ -1,10 +1,12 @@
 import 'should'
-import __ from '../root'
-import fs from 'fs'
-const { looksLikeAnIsbn } = __.require('lib', 'isbn')
-const importers = __.require('modules', 'inventory/lib/importers')
-window.Papa = require('papaparse')
-const iconv = require('iconv-lite')
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
+import { looksLikeAnIsbn } from 'lib/isbn'
+import importers from 'modules/inventory/lib/importers'
+import Papa from 'papaparse'
+import iconv from 'iconv-lite'
+
+window.Papa = Papa
 
 const fixtures = {
   goodreads: 'goodreads/goodreads_library_export.csv',
@@ -12,16 +14,22 @@ const fixtures = {
   babelio: 'babelio/Biblio_export21507.csv'
 }
 
+const fixturePath = filename => {
+  return resolve(process.cwd(), `./tests/fixtures/exports/${filename}`)
+}
+
 describe('Importers', () => {
   describe('Goodreads', () => {
     const { parse } = importers.goodReads
-    const path = __.path('fixtures', `exports/${fixtures.goodreads}`)
-    const exportData = fs.readFileSync(path, { encoding: 'utf-8' })
+    const path = fixturePath(fixtures.goodreads)
+    const exportData = readFileSync(path, { encoding: 'utf-8' })
 
-    describe('file', () => it('should return an string', done => {
-      exportData.should.be.a.String()
-      done()
-    }))
+    describe('file', () => {
+      it('should return an string', done => {
+        exportData.should.be.a.String()
+        done()
+      })
+    })
 
     describe('parse', () => {
       const parsed = parse(exportData)
@@ -41,13 +49,15 @@ describe('Importers', () => {
 
   describe('LibraryThing', () => {
     const { parse } = importers.libraryThing
-    const path = __.path('fixtures', `exports/${fixtures.librarything}`)
-    const exportData = fs.readFileSync(path, { encoding: 'utf-8' })
+    const path = fixturePath(fixtures.librarything)
+    const exportData = readFileSync(path, { encoding: 'utf-8' })
 
-    describe('file', () => it('should return an string', done => {
-      exportData.should.be.a.String()
-      done()
-    }))
+    describe('file', () => {
+      it('should return an string', done => {
+        exportData.should.be.a.String()
+        done()
+      })
+    })
 
     describe('parse', () => {
       const parsed = parse(exportData)
@@ -67,14 +77,16 @@ describe('Importers', () => {
 
   describe('Babelio', () => {
     const { parse, encoding } = importers.babelio
-    const path = __.path('fixtures', `exports/${fixtures.babelio}`)
-    const exportDataBuffer = fs.readFileSync(path)
+    const path = fixturePath(fixtures.babelio)
+    const exportDataBuffer = readFileSync(path)
     const exportData = iconv.decode(exportDataBuffer, encoding)
 
-    describe('file', () => it('should return an string', done => {
-      exportData.should.be.a.String()
-      done()
-    }))
+    describe('file', () => {
+      it('should return an string', done => {
+        exportData.should.be.a.String()
+        done()
+      })
+    })
 
     describe('parse', () => {
       const parsed = parse(exportData)

@@ -133,11 +133,11 @@ describe('assert types', () => {
   })
 
   describe('strings', () => {
-    it.only("should throw if one of the passed values isn't a string", () => {
+    it("should throw if one of the passed values isn't a string", () => {
       assert_.strings.bind(null, [ 'abc', 123 ]).should.throw()
     })
 
-    it.only("should throw if one of the passed values isn't a string", () => {
+    it("should throw if one of the passed values isn't a string", () => {
       assert_.strings([ 'abc', 'def' ])
     })
   })

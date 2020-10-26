@@ -1,11 +1,10 @@
 import 'should'
-import __ from '../root'
 import ISBN from 'isbn3'
 import { wait } from 'lib/promises'
+import OnDetected from 'modules/inventory/lib/scanner/on_detected'
 
 window.ISBN = ISBN
 
-const OnDetected = __.require('modules', 'inventory/lib/scanner/on_detected')
 const fakeResult = isbn => ({
   codeResult: { code: isbn }
 })

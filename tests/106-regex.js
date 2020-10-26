@@ -1,6 +1,5 @@
 import 'should'
-import __ from '../root'
-const { EntityUri, SimpleDay, ImageHash, Email } = __.require('lib', 'regex')
+import { EntityUri, SimpleDay, ImageHash, Email } from 'lib/regex'
 
 describe('Regex', () => {
   describe('EntityUri', () => {

@@ -1,6 +1,5 @@
 import 'should'
-import __ from '../root'
-const timeFromNow = __.require('lib', 'time_from_now')
+import timeFromNow from 'lib/time_from_now'
 
 describe('time from now', () => {
   it('should be a function', done => {

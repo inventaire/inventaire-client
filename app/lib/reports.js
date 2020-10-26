@@ -1,4 +1,7 @@
 export function reportError (err) {
+  // Do not try to report errors in tests
+  if (window.env == null) return
+
   if (err.hasBeenReported) return
   err.hasBeenReported = true
   // errors that are assigned a 4xx error code are user errors

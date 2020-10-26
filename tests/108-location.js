@@ -1,7 +1,5 @@
 import 'should'
-import __ from '../root'
-
-const { parseQuery, buildPath } = __.require('lib', 'location')
+import { parseQuery, buildPath } from 'lib/location'
 
 describe('location utils', () => {
   const queries = {
