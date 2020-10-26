@@ -29,5 +29,26 @@ This repository tracks [inventaire.io](https://inventaire.io) client-side develo
 ## Inventaire Stack Map
 [![stack](https://raw.githubusercontent.com/inventaire/stack/master/snapshots/stack-from-client.png)](https://inventaire.github.io/stack/)
 
+## Install
+```sh
+git clone https://github.com/inventaire/inventaire-client
+cd inventaire-client
+npm install
+```
+
+## Development
+After having started the [inventaire server](https://github.com/inventaire/inventaire/) on port `3006`
+```sh
+# start webpack dev server on port 3005 to benefit from hot reloading
+npm start
+
+# open http://localhost:3005 in your web browser
+```
+
+## Prodution
+```sh
+npm run build
+```
+
 ## License
 [AGPL](LICENSE.md)
