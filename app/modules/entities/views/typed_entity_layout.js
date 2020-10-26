@@ -1,8 +1,8 @@
 import GeneralInfobox from './general_infobox'
 export default Marionette.LayoutView.extend({
   // regions:
-  // infoboxRegion
-  // mergeSuggestionsRegion: '.mergeSuggestions'
+  //   infoboxRegion
+  //   mergeSuggestionsRegion: '.mergeSuggestions'
 
   className () {
     let className = this.baseClassName || ''
