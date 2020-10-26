@@ -1,3 +1,9 @@
+// Documentation on Webpack:
+// - https://webpack.js.org/concepts/
+// - https://webpack.js.org/guides/
+// - https://webpack.js.org/configuration/
+// - https://survivejs.com/webpack/preface/
+
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { alias } = require('./package.json')
