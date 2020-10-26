@@ -73,8 +73,13 @@ config.optimization = {
         test: /[\\/](node_modules|vendor)[\\/](backbone|underscore|jquery|handlebars|fork-awesome|node-polyglot|regenerator-runtime|wikidata-lang|autosize|@babel|define-properties|style-loader|css-loader|js-cookie|p-|leven)/,
         name: 'vendor',
         chunks: 'all'
-      }
-    }
+      },
+      leaflet: {
+        test: /[\\/]node_modules[\\/]leaflet/,
+        name: 'leaflet',
+        chunks: 'all'
+      },
+    },
   }
 }
 
