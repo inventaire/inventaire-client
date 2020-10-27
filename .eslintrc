@@ -4,8 +4,8 @@
 {
   "root": true,
   "env": {
-    "browser": false,
-    "commonjs": true,
+    "browser": true,
+    "commonjs": false,
     "es6": true
   },
   "parserOptions": {
