@@ -8,7 +8,7 @@ export default Marionette.ItemView.extend({
   template: simpleMapTemplate,
 
   initialize () {
-    return ({ models: this.models } = this.options)
+    ({ models: this.models } = this.options)
   },
 
   behaviors: {

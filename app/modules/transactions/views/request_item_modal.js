@@ -14,7 +14,9 @@ export default Marionette.ItemView.extend({
     General: {}
   },
 
-  initialize () { return _.extend(this, behaviorsPlugin) },
+  initialize () {
+    _.extend(this, behaviorsPlugin)
+  },
 
   events: {
     'click a#sendItemRequest': 'sendRequest'
@@ -49,7 +51,7 @@ export default Marionette.ItemView.extend({
 
   sendRequest () {
     this.startLoading('#sendItemRequest')
-    return this.postRequest()
+    this.postRequest()
     .then(addTransaction)
     .then(showRequest)
     .catch(this.Fail('item request err'))

@@ -38,7 +38,7 @@ export default Marionette.ItemView.extend({
   onRender () { this.lazyDescriptionUpdate() },
 
   // Allows to define @_lazyUpdateUrl after events binding
-  lazyUpdateUrl () { return this._lazyUpdateUrl() },
+  lazyUpdateUrl () { this._lazyUpdateUrl() },
 
   serializeData () {
     const attrs = this.model.serializeData()

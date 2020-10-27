@@ -5,7 +5,7 @@ export default Marionette.ItemView.extend({
   className: 'wikidata-data-importer',
   template: wikidataDataImporterTemplate,
   initialize () {
-    return ({ labels: this.labels, claims: this.claims, wdEntity: this.wdEntity } = this.options.importData)
+    ({ labels: this.labels, claims: this.claims, wdEntity: this.wdEntity } = this.options.importData)
   },
 
   onShow () { app.execute('modal:open', 'medium') },

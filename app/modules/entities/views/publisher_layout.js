@@ -19,7 +19,7 @@ export default TypedEntityLayout.extend({
   },
 
   initialize () {
-    return this.model.initPublisherPublications()
+    this.model.initPublisherPublications()
   },
 
   onShow () {

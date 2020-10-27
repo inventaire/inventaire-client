@@ -13,7 +13,9 @@ export default Marionette.ItemView.extend({
     Loading: {}
   },
 
-  initialize () { return _.extend(this, behaviorsPlugin) },
+  initialize () {
+    _.extend(this, behaviorsPlugin)
+  },
 
   serializeData () {
     const username = app.user.get('username')

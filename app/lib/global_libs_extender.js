@@ -169,18 +169,18 @@ $.fn.once = $.fn.one
 Marionette.View.prototype.displayError = err => app.execute('show:error:other', err)
 
 Marionette.View.prototype.lazyRender = function (focusSelector) {
-  if (this.render == null) { throw new Error('lazyRender called without view as context') }
+  if (this.render == null) throw new Error('lazyRender called without view as context')
 
   if (this._lazyRender == null) {
     const delay = this.lazyRenderDelay || 100
     this._lazyRender = LazyRender(this, delay)
   }
-  return this._lazyRender(focusSelector)
+  this._lazyRender(focusSelector)
 }
 
 const triggerChange = function (model, attr, value) {
   model.trigger('change', model, attr, value)
-  return model.trigger(`change:${attr}`, model, value)
+  model.trigger(`change:${attr}`, model, value)
 }
 
 const specialRegexCharacters = '()[]$^\\'

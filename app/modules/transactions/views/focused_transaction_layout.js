@@ -26,7 +26,7 @@ export default Marionette.CompositeView.extend({
   },
 
   initPlugins () {
-    return _.extend(this, behaviorsPlugin, messagesPlugin)
+    _.extend(this, behaviorsPlugin, messagesPlugin)
   },
 
   serializeData () { return this.model.serializeData() },
@@ -67,17 +67,17 @@ export default Marionette.CompositeView.extend({
   },
 
   sendMessage () {
-    return this.postMessage('transaction:post:message', this.model.timeline)
+    this.postMessage('transaction:post:message', this.model.timeline)
   },
 
-  accept () { return this.updateState('accepted') },
-  decline () { return this.updateState('declined') },
-  confirm () { return this.updateState('confirmed') },
-  returned () { return this.updateState('returned') },
-  archive () { return this.updateState('archive') },
+  accept () { this.updateState('accepted') },
+  decline () { this.updateState('declined') },
+  confirm () { this.updateState('confirmed') },
+  returned () { this.updateState('returned') },
+  archive () { this.updateState('archive') },
 
   updateState (state) {
-    return this.model.updateState(state)
+    this.model.updateState(state)
     .catch(error_.Complete('.actions'))
     .catch(forms_.catchAlert.bind(null, this))
   },

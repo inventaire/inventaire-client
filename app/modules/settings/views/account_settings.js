@@ -31,7 +31,7 @@ export default Marionette.ItemView.extend({
   },
 
   initialize () {
-    return _.extend(this, behaviorsPlugin)
+    _.extend(this, behaviorsPlugin)
   },
 
   serializeData () {

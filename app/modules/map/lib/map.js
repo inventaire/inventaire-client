@@ -5,7 +5,6 @@ import { buildPath } from 'lib/location'
 import error_ from 'lib/error'
 import draw from './draw'
 
-
 const { defaultZoom } = mapConfig
 
 let map_

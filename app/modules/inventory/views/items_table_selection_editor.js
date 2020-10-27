@@ -20,7 +20,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    return ({ getSelectedModelsAndIds: this.getSelectedModelsAndIds, selectedIds: this.selectedIds } = this.options)
+    ({ getSelectedModelsAndIds: this.getSelectedModelsAndIds, selectedIds: this.selectedIds } = this.options)
   },
 
   serializeData () {

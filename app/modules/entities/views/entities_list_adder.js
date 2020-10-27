@@ -81,8 +81,10 @@ export default Marionette.CompositeView.extend({
   },
 
   lazySearch (e) {
-    if (this._lazySearch == null) { this._lazySearch = _.debounce(this.search.bind(this), 200) }
-    return this._lazySearch(e)
+    if (this._lazySearch == null) {
+      this._lazySearch = _.debounce(this.search.bind(this), 200)
+    }
+    this._lazySearch(e)
   },
 
   search (e) {

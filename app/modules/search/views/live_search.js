@@ -158,12 +158,11 @@ export default Marionette.CompositeView.extend({
   },
 
   lazySearch (search) {
-    if (search.length > 0) {
-      this.showLoadingSpinner()
-    } else { this.stopLoadingSpinner() }
+    if (search.length > 0) this.showLoadingSpinner()
+    else this.stopLoadingSpinner()
     // Hide previous results to limit confusion and scroll up
     this.resetResults()
-    return this._lazySearch(search)
+    this._lazySearch(search)
   },
 
   showAlternatives (search) {
@@ -222,7 +221,9 @@ export default Marionette.CompositeView.extend({
       this._lastResultsLength = results.length
 
       // Track TypeErrors where Result model 'initialize' crashes
-      try { this.collection.reset(results) } catch (err) {
+      try {
+        this.collection.reset(results)
+      } catch (err) {
         if (err.context == null) { err.context = {} }
         err.context.results = results
         throw err
@@ -239,8 +240,8 @@ export default Marionette.CompositeView.extend({
     }
   },
 
-  highlightNext () { return this.highlightIndexChange(1) },
-  highlightPrevious () { return this.highlightIndexChange(-1) },
+  highlightNext () { this.highlightIndexChange(1) },
+  highlightPrevious () { this.highlightIndexChange(-1) },
   highlightIndexChange (incrementor) {
     if (this._currentHighlightIndex == null) { this._currentHighlightIndex = -1 }
     const newIndex = this._currentHighlightIndex + incrementor
@@ -257,7 +258,7 @@ export default Marionette.CompositeView.extend({
 
   showCurrentlyHighlightedResult () {
     const hilightedView = this.children.findByIndex(this._currentHighlightIndex)
-    if (hilightedView) { return hilightedView.showResult() }
+    if (hilightedView) hilightedView.showResult()
   },
 
   resetHighlightIndex () {
@@ -282,17 +283,19 @@ export default Marionette.CompositeView.extend({
     const visibleHeight = this.ui.resultsWrapper.height()
     const { scrollHeight, scrollTop } = e.currentTarget
     const scrollBottom = scrollTop + visibleHeight
-    if (scrollBottom === scrollHeight) { return this.loadMore() }
+    if (scrollBottom === scrollHeight) this.loadMore()
   },
 
   loadMore () {
     // Do not try to fetch more results if the last batch was incomplete
-    if (this._lastResultsLength < searchBatchLength) { return this.stopLoadingSpinner() }
-
-    this.showLoadingSpinner()
-    this._searchOffset += searchBatchLength
-    return this._search(this._lastSearch)
-    .then(this.addNewResults.bind(this))
+    if (this._lastResultsLength < searchBatchLength) {
+      this.stopLoadingSpinner()
+    } else {
+      this.showLoadingSpinner()
+      this._searchOffset += searchBatchLength
+      return this._search(this._lastSearch)
+      .then(this.addNewResults.bind(this))
+    }
   },
 
   addNewResults (results) {

@@ -38,7 +38,7 @@ export default Marionette.ItemView.extend({
   },
 
   initPlugins () {
-    return relationsActions.call(this)
+    relationsActions.call(this)
   },
 
   serializeData () {

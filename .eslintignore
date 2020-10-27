@@ -1,3 +1,5 @@
 public/dist
 node_modules
 vendor
+scripts/assets
+app/assets/piwik.js

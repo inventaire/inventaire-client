@@ -13,7 +13,7 @@ export default Marionette.LayoutView.extend({
   Infobox: GeneralInfobox,
 
   initialize () {
-    return ({ refresh: this.refresh, standalone: this.standalone, displayMergeSuggestions: this.displayMergeSuggestions } = this.options)
+    ({ refresh: this.refresh, standalone: this.standalone, displayMergeSuggestions: this.displayMergeSuggestions } = this.options)
   },
 
   serializeData () {

@@ -31,7 +31,7 @@ export default {
   },
 
   initialize () {
-    return setHandlers()
+    setHandlers()
   }
 }
 

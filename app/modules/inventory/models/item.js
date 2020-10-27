@@ -231,11 +231,13 @@ export default Filterable.extend({
   // Gather save actions
   lazySave (key, value) {
     // Created a debounced save function if non was created before
-    if (!this._lazySave) { this._lazySave = _.debounce(this.save.bind(this), 200) }
+    if (!this._lazySave) {
+      this._lazySave = _.debounce(this.save.bind(this), 200)
+    }
     // Set any passed
     this.set(key, value)
     // Trigger it
-    return this._lazySave()
+    this._lazySave()
   },
 
   getCoords () { return this.user?.getCoords() },
