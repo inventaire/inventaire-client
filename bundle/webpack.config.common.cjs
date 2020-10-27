@@ -6,7 +6,7 @@
 
 const path = require('path')
 
-module.exports = {
+module.exports = mode => ({
   entry: './app/initialize.js',
   resolve: require('./resolve.cjs'),
   plugins: [
@@ -26,13 +26,13 @@ module.exports = {
   },
   module: {
     rules: [
-      require('./rules/js.cjs'),
+      require('./rules/js.cjs')(mode),
+      require('./rules/css.cjs')(mode),
+      require('./rules/scss.cjs')(mode),
       require('./rules/handlebars.cjs'),
-      require('./rules/css.cjs'),
-      require('./rules/scss.cjs'),
       require('./rules/svelte.cjs'),
       require('./rules/images.cjs'),
       require('./rules/fonts.cjs'),
     ],
   },
-}
+})
