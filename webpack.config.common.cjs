@@ -6,6 +6,7 @@
 
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { alias } = require('./package.json')
 
 Object.keys(alias).forEach(aliasKey => {
@@ -36,10 +37,7 @@ const handlebars = {
 const css = {
   test: /\.css$/,
   use: [
-    {
-      // Creates `style` nodes from JS strings
-      loader: 'style-loader',
-    },
+    MiniCssExtractPlugin.loader,
     {
       // Translates CSS into CommonJS
       loader: 'css-loader',
@@ -53,10 +51,7 @@ const css = {
 const scss = {
   test: /\.scss$/,
   use: [
-    {
-      // Creates `style` nodes from JS strings
-      loader: 'style-loader',
-    },
+    MiniCssExtractPlugin.loader,
     {
       // Translates CSS into CommonJS
       loader: 'css-loader',
@@ -117,6 +112,7 @@ module.exports = {
     mainFields: [ 'svelte', 'browser', 'module', 'main' ],
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     htmlIndex,
   ],
   output: {
