@@ -11,7 +11,7 @@ npm run update-mentions
 
 echo -e '\e[0;30mwebpack build\e[0m'
 rm -f ./public/dist/*
-webpack --config webpack.config.prod.cjs --progress
+webpack --config ./bundle/webpack.config.prod.cjs --progress
 
 utc_time=$(date -Ins | sed 's/,.*//')
 last_commit_hash=$(git rev-parse --short HEAD)

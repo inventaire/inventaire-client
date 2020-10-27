@@ -17,9 +17,9 @@ module.exports = (partial, callback) => {
 
   let path
   if (subfolder != null) {
-    path = `./app/modules/${module}/views/${subfolder}/templates/${file}.hbs`
+    path = `../../app/modules/${module}/views/${subfolder}/templates/${file}.hbs`
   } else {
-    path = `./app/modules/${module}/views/templates/${file}.hbs`
+    path = `../../app/modules/${module}/views/templates/${file}.hbs`
   }
 
   const resolved = resolve(__dirname, path)

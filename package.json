@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "./scripts/build",
-    "build:dev": "webpack --config ./webpack.config.dev.cjs",
+    "build:dev": "webpack --config ./bundle/webpack.config.dev.cjs",
     "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.js",
     "generate-sitemaps": "npm run node-exec ./scripts/sitemaps/generate.js",
     "lint": "./scripts/lint",
@@ -29,13 +29,13 @@
     "lint-staged": "./scripts/lint_staged",
     "node-exec": "node --no-warnings --loader ./custom-loader.js --es-module-specifier-resolution=node",
     "postinstall": "./scripts/postinstall",
-    "start": "webpack serve --config ./webpack.config.dev.cjs",
+    "start": "webpack serve --config ./bundle/webpack.config.dev.cjs",
     "test": "./scripts/run_unit_tests",
     "test-fast": "./scripts/run_fast_tests",
     "update-i18n": "./scripts/update_i18n",
     "update-mentions": "npm run node-exec ./scripts/update_mentions",
     "update-toc": "doctoc README.md",
-    "watch": "webpack --watch --config ./webpack.config.dev.cjs"
+    "watch": "webpack --watch --config ./bundle/webpack.config.dev.cjs"
   },
   "dependencies": {
     "autosize": "^4.0.2",
