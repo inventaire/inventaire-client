@@ -59,6 +59,7 @@
     "leven": "^2.1.0",
     "masonry-layout": "^4.2.2",
     "node-polyglot": "git+https://github.com/inventaire/polyglot.js.git#9804c41",
+    "normalize.css": "^8.0.1",
     "papaparse": "^4.6.3",
     "quagga": "^0.12.1",
     "underscore": "^1.6.0",
