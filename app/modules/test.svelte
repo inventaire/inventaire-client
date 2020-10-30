@@ -2,13 +2,8 @@
   Hello { name }, the time is <span class="the-time">{ hours }:{ minutes }:{ seconds }</span>
 </p>
 
-<style>
-  .the-time{
-    font-weight: bold;
-  }
-</style>
-
 <script>
+  import './test_svelte.scss'
   import { onMount } from 'svelte/internal/index.mjs'
 
   // Uncomment to test error stack trace
