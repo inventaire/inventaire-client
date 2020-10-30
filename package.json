@@ -75,6 +75,7 @@
     "circular-dependency-plugin": "^5.2.0",
     "config": "^1.31.0",
     "css-loader": "^5.0.0",
+    "cssnano": "^4.1.10",
     "doctoc": "^1.4.0",
     "eslint": "^7.10.0",
     "eslint-config-standard": "^14.1.1",

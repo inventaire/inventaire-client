@@ -6,11 +6,15 @@ module.exports = mode => {
     test: /\.scss$/,
     use: [
       MiniCssExtractPlugin.loader,
-      'css-loader',
     ]
   }
 
-  if (mode === 'production') rule.use.push(postCss)
+  if (mode === 'production') {
+    rule.use.push({ loader: 'css-loader', options: { importLoaders: 2 } })
+    rule.use.push(postCss)
+  } else {
+    rule.use.push({ loader: 'css-loader', options: { importLoaders: 1 } })
+  }
 
   rule.use.push('sass-loader')
 

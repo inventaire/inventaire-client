@@ -52,3 +52,4 @@ gzip -9kf public/*.txt
 
 echo -e '\e[0;32mbuild: done\e[0m'
 echo "inspect: file://$PWD/scripts/assets/bundles_stats/${bundle_name}.html"
+echo "archive: $archive_path"
