@@ -25,7 +25,9 @@ archive_path="./scripts/assets/bundles_archives/${bundle_name}"
 echo -e "\e[0;30mcreate bundle archive in $archive_path\e[0m"
 cp -r ./public/dist "$archive_path"
 # Copy stats in a separate directory, so that cleaning up the bundles_archives directory doesn't delete stats
-# Those files can then be passed to webpack-bundle-analyzer cli to generate the report
+# Those files can then be passed to webpack-bundle-analyzer cli to generate the html report, or to other bundle analyzers,
+# such as https://statoscope.tech
+# for more, see https://survivejs.com/webpack/optimizing/build-analysis/#dependency-analysis
 cp ./public/dist/bundle_stats.json "./scripts/assets/bundles_stats/${bundle_name}.json"
 cp ./public/dist/bundle_report.html "./scripts/assets/bundles_stats/${bundle_name}.html"
 
