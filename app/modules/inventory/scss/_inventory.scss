@@ -21,22 +21,5 @@
   }
 }
 
-.itemCard, .mixedBox{
-  .listingMenu{
-    .current{
-      width: 100%;
-      height: 100%;
-      @include display-flex(row, center, center);
-    }
-  }
-  // (1)
-  @mixin box-color($color, $white-text:1){
-    background-color: lighten($color, 2%);
-    @if $white-text { @include white-text; }
-  }
-  @import 'item_transaction_box';
-  @import 'item_listing_box';
-}
-
 @import 'item_request_box';
 @import 'item_details_box';

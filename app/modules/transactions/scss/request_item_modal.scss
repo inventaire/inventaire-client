@@ -1,6 +1,7 @@
 @import 'modules/general/scss/utils';
 
 .requestItemModal{
+  @import 'modules/inventory/scss/_item_commons';
   @include display-flex(column, center, center);
   .header{
     width: 100%;
