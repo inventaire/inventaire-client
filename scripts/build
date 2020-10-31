@@ -19,6 +19,10 @@ bundle_name="${utc_time}_commit_${last_commit_hash}"
 mkdir -p ./scripts/assets/bundles_archives ./scripts/assets/bundles_stats
 archive_path="./scripts/assets/bundles_archives/${bundle_name}"
 
+echo -e "\e[0;30mcreate index.html symlink\e[0m"
+# Allows to not have to change inventaire (local) and nginx (prod) servers expectactions
+ln -sf ./dist/index.html public
+
 # Keeping a copy of generated builds can be useful for debugging (i.e. resolving source maps)
 # but you might want to delete old archives after a while, which can be done by running something like
 #   find ./scripts/assets/bundles_archives -type d -mtime +90 -delete
