@@ -3,17 +3,20 @@ const postCss = require('./postcss.cjs')
 
 module.exports = mode => {
   const rule = {
-    test: /\.css$/,
-    use: [
-      MiniCssExtractPlugin.loader,
-    ]
+    test: /\.css$/
   }
 
   if (mode === 'production') {
-    rule.use.push({ loader: 'css-loader', options: { importLoaders: 1 } })
-    rule.use.push(postCss)
+    rule.use = [
+      MiniCssExtractPlugin.loader,
+      { loader: 'css-loader', options: { importLoaders: 1 } },
+      postCss,
+    ]
   } else {
-    rule.use.push({ loader: 'css-loader', options: { importLoaders: 0 } })
+    rule.use = [
+      { loader: 'style-loader' },
+      { loader: 'css-loader', options: { importLoaders: 0 } },
+    ]
   }
 
   return rule
