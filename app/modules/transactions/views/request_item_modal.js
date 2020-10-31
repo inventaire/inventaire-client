@@ -19,7 +19,9 @@ export default Marionette.ItemView.extend({
   },
 
   events: {
-    'click a#sendItemRequest': 'sendRequest'
+    'click a#sendItemRequest': 'sendRequest',
+    'click .item': 'showItem',
+    'click .owner': 'showOwner',
   },
 
   ui: {
@@ -55,6 +57,24 @@ export default Marionette.ItemView.extend({
     .then(addTransaction)
     .then(showRequest)
     .catch(this.Fail('item request err'))
+  },
+
+
+  showItem (e) {
+    if (isOpenedOutside(e)) return
+
+    // Case when the item was successfully grabbed by the transaction model
+    if (this.model.item != null) {
+      app.execute('show:item', this.model.item)
+    } else {
+      app.execute('show:item:byId', this.model.get('item'))
+    }
+  },
+
+  showOwner (e) {
+    if (!isOpenedOutside(e)) {
+      app.execute('show:inventory:user', this.model.owner)
+    }
   },
 
   async postRequest () {
