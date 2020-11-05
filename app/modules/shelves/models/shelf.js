@@ -4,13 +4,14 @@ import error_ from 'lib/error'
 
 export default Backbone.Model.extend({
   initialize (attrs) {
-    const { name } = attrs
+    const { name, entity, owner } = attrs
 
     if (name == null) throw error_.new('invalid shelf', 500, attrs)
 
     this.set({
       pathname: `/shelves/${attrs._id}`,
-      type: 'shelf'
+      type: 'shelf',
+      mainUserIsOwner: owner === app.user.id
     })
 
     if (this.get('picture') == null) {

@@ -27,9 +27,11 @@
           {{I18n 'edit shelf'}}
         </a>
       {{/if}}
-      <a class="addItems tiny-button light-blue" title="{{I18n 'add books to this shelf'}}">
-        {{icon 'plus'}} {{I18n 'add books'}}
-      </a>
+      {{#if mainUserIsOwner}}
+        <a class="addItems tiny-button light-blue" title="{{I18n 'add books to this shelf'}}">
+          {{icon 'plus'}} {{I18n 'add books'}}
+        </a>
+      {{/if}}
     </div>
   </div>
 </div>
