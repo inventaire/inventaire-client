@@ -124,7 +124,7 @@ export default ItemLayout.extend({
 
   editorKeyAction (editor, e) {
     const key = getActionKey(e)
-    const capitalizedEditor = _.capitalize(editor)
+    const capitalizedEditor = capitalize(editor)
     if (key === 'esc') {
       const hideEditor = `hide${capitalizedEditor}Editor`
       this[hideEditor]()

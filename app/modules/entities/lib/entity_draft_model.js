@@ -43,7 +43,7 @@ export default {
       labels[app.user.lang] = label
     }
 
-    const model = Backbone.NestedModel({ type, labels, claims })
+    const model = new Backbone.NestedModel({ type, labels, claims })
     Entity.prototype.setFavoriteLabel.call(model, model.toJSON())
 
     _.extend(model, {
