@@ -7,7 +7,7 @@
 import Polyglot from 'node-polyglot'
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
-import { capitalize, noop } from 'lib/utils'
+import { capitalize } from 'lib/utils'
 import translate from './translate'
 import i18nMissingKey from './i18n_missing_key'
 
@@ -18,7 +18,7 @@ export const i18n = (...args) => currentLangI18n(...args)
 // Convention: 'lang' always stands for ISO 639-1 two letters language codes
 // (like 'en', 'fr', etc.)
 export const initI18n = async (app, lang) => {
-  const missingKey = window.env === 'dev' ? i18nMissingKey : noop
+  const missingKey = window.env === 'dev' ? i18nMissingKey : _.noop
 
   const missingKeyWarn = function (warning) {
     console.warn(warning)

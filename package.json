@@ -62,7 +62,7 @@
     "normalize.css": "^8.0.1",
     "papaparse": "^4.6.3",
     "quagga": "^0.12.1",
-    "underscore": "^1.6.0",
+    "underscore": "^1.8.3",
     "wikidata-lang": "^2.0.11"
   },
   "devDependencies": {

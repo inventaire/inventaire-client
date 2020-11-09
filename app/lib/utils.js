@@ -177,6 +177,4 @@ export function forceArray (keys) {
   else return keys
 }
 
-export function noop () {}
-
 export async function asyncNoop () {}
