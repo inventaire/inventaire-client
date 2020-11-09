@@ -1,4 +1,4 @@
-import * as folders from '../lib/folders'
+import folders from '../lib/folders'
 import TransactionPreview from './transaction_preview'
 import NoTransaction from './no_transaction'
 import transactionsListTemplate from './templates/transactions_list.hbs'
