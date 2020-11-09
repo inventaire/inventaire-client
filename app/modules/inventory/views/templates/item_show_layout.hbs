@@ -49,5 +49,14 @@
     {{/if}}{{/if}}
   </div>
 
-  <div id="itemData" class="two"></div>
+  <div class="two">
+    <div id="itemData"></div>
+    {{> 'inventory:item_shelves' this}}
+    {{#unless restricted}}
+      <a class="remove remove-button shy-label dark-grey">
+        <span>{{I18n 'delete'}}</span>
+        {{icon 'trash-o'}}
+      </a>
+    {{/unless}}
+  </div>
 </div>
