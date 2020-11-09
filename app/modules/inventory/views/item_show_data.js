@@ -115,6 +115,7 @@ export default ItemLayout.extend({
     if (!this.model.mainUserIsOwner) return
     $(`#${nameBase}`).hide()
     $(`#${nameBase}Editor`).show().find('textarea').focus()
+    this.$el.trigger('elastic:textarea:update')
     e?.stopPropagation()
   },
 
