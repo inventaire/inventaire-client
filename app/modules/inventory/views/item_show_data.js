@@ -39,6 +39,8 @@ export default ItemLayout.extend({
   },
 
   modelEvents: {
+    'change:transaction': 'lazyRender',
+    'change:listing': 'lazyRender',
     'change:notes': 'lazyRender',
     'change:details': 'lazyRender',
     'change:shelves': 'updateShelves',
@@ -47,6 +49,7 @@ export default ItemLayout.extend({
 
   onRender () {
     if (app.user.loggedIn) { this.showTransactions() }
+    this.showShelves()
   },
 
   events: {
@@ -79,10 +82,6 @@ export default ItemLayout.extend({
   },
 
   serializeData () { return this.model.serializeData() },
-
-  onShow () {
-    this.showShelves()
-  },
 
   itemDestroyBack () {
     if (this.model.isDestroyed) {
