@@ -10,4 +10,9 @@ npm run update-mentions
 rm -rf .git/hooks
 ln -s .githooks .git/hooks
 
-curl -sk https://piwik.allmende.io/piwik.js > ./vendor/piwik.js
+# Initialize global variables to prevent triggering
+# an 'assignment to undeclared variable JSON_PIWIK' errors
+# as webpack imports this script as an ES module, thus activating strict mode
+# See https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Erreurs/Undeclared_var
+echo 'let JSON_PIWIK, AnalyticsTracker, piwik_log;' > ./vendor/piwik.js
+curl -sk https://piwik.allmende.io/piwik.js >> ./vendor/piwik.js
