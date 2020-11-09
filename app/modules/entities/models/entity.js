@@ -21,6 +21,7 @@ import initWork from '../lib/types/work'
 import initEdition from '../lib/types/edition'
 import initPublisher from '../lib/types/publisher'
 import initCollection from '../lib/types/collection'
+import { noop } from 'lib/utils'
 
 const specialInitializersByType = {
   human: initAuthor,
@@ -205,7 +206,7 @@ export default Filterable.extend({
 
   // Override in sub-types
   beforeSubEntitiesAdd: _.identity,
-  afterSubEntitiesAdd: _.noop,
+  afterSubEntitiesAdd: noop,
 
   setSubEntitiesUris (uris) {
     this.set('subEntitiesUris', uris)

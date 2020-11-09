@@ -4,7 +4,7 @@ import { create as createEntity } from './create_entities'
 import properties from './properties'
 import Entity from '../models/entity'
 import { buildPath } from 'lib/location'
-import { asyncNoop } from 'lib/utils'
+import { asyncNoop, noop } from 'lib/utils'
 
 const typeDefaultP31 = {
   human: 'wd:Q5',
@@ -60,7 +60,7 @@ export default {
         return this.setLabel(lang, value)
       },
       // Required by editableEntity.setPropertyValue
-      invalidateRelationsCache: _.noop,
+      invalidateRelationsCache: noop,
       saveLabel: asyncNoop,
       create () {
         return createEntity({
