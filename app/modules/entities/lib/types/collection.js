@@ -4,7 +4,7 @@ export default function () {
   this.subentitiesName = 'editions'
   this.setClaimsBasedAttributes()
   this.on('change:claims', this.onClaimsChange.bind(this))
-};
+}
 
 const specificMethods = {
   setLabelFromTitle () {

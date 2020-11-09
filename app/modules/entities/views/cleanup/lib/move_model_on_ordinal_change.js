@@ -20,4 +20,4 @@ export default function (model, value) {
   if (this.showEditions || this.editionsTogglerChanged) return
 
   this.ui.editionsToggler.addClass('glowing')
-};
+}

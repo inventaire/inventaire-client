@@ -7,4 +7,4 @@ export default function (app) {
   })
 
   app.reqres.setHandlers({ 'user:update': userUpdater })
-};
+}

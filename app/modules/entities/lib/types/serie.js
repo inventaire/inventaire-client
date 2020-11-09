@@ -6,7 +6,7 @@ export default function () {
   this.childrenClaimProperty = 'wdt:P179'
 
   return _.extend(this, specificMethods)
-};
+}
 
 const specificMethods = _.extend({}, commonsSerieWork, {
   fetchPartsData (options = {}) {

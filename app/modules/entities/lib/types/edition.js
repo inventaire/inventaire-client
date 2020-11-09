@@ -14,7 +14,7 @@ export default function () {
   this.set('allUris', [ this.get('uri') ])
 
   this.initWorksRelations()
-};
+}
 
 const specificMethods = {
   setLang () {

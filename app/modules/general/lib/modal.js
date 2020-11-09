@@ -128,7 +128,7 @@ export default function () {
     'modal:close': closeModal,
     'modal:html': modalHtml
   })
-};
+}
 
 const prepareRefocus = function (focusSelector) {
   log_.info(focusSelector, 'preparing re-focus')

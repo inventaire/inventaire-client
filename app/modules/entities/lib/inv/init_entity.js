@@ -12,7 +12,7 @@ export default function (attrs) {
   })
 
   return _.extend(this, specificMethods)
-};
+}
 
 const specificMethods = {
   async fetchMergeSuggestions () {

@@ -8,7 +8,7 @@ export default function () {
   setEbooksData.call(this)
 
   return _.extend(this, specificMethods)
-};
+}
 
 const setEbooksData = function () {
   const hasInternetArchivePage = (this.get('claims.wdt:P724.0') != null)

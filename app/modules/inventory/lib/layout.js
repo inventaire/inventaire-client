@@ -13,4 +13,4 @@ export default function (app) {
   }
 
   app.vent.on('inventory:layout:change', setLayout)
-};
+}

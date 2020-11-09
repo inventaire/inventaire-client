@@ -10,4 +10,4 @@ export default function (redirect) {
   if (redirect[0] === '/') { redirect = redirect.slice(1) }
 
   return buildPath(formAction, { redirect })
-};
+}

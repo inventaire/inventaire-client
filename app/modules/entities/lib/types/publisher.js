@@ -5,7 +5,7 @@ export default function () {
   this.childrenClaimProperty = 'wdt:P123'
   this.subentitiesName = 'editions'
   return _.extend(this, specificMethods)
-};
+}
 
 const specificMethods = {
   beforeSubEntitiesAdd: filterOutWdEditions,

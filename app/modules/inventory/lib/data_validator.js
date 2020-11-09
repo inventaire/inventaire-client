@@ -13,7 +13,7 @@ export default function (source, data) {
     err.i18n = false
     throw err
   }
-};
+}
 
 const isValid = {
   csv (source, data) {

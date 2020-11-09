@@ -11,7 +11,7 @@ export default function (lang, originalLang, data) {
   }
 
   return {}
-};
+}
 
 const getLangPriorityOrder = function (lang, originalLang, data) {
   const order = [ lang ]

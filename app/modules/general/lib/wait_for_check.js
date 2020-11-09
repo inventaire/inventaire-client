@@ -15,4 +15,4 @@ export default function (options) {
   .catch(err => $selector.trigger('fail', error))
 
   return promise
-};
+}

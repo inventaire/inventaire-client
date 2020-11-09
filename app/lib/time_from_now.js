@@ -24,4 +24,4 @@ export default function (date) {
   } else {
     return { key: 'x_years_ago', amount: Math.round(diff / oneYear) }
   }
-};
+}

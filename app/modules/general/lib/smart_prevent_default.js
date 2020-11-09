@@ -37,4 +37,4 @@ export default function (e) {
 
   // If we haven't been stopped yet, then we prevent the default action
   e.preventDefault()
-};
+}

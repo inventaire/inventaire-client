@@ -6,4 +6,4 @@ export default function () {
     app.execute('show:call:to:connection', msg)
     return false
   }
-};
+}

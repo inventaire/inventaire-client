@@ -6,7 +6,7 @@ export default function () {
     'snapshot.owner': formatSnapshotUser(ownerId, owner, 'owner'),
     'snapshot.requester': formatSnapshotUser(requesterId, requester, 'requester')
   })
-};
+}
 
 const formatSnapshotItem = function (itemId, data) {
   data.pathname = '/items/' + itemId

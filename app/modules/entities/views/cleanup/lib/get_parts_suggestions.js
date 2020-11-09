@@ -25,7 +25,7 @@ export default async function (serie) {
     .filter(work => work.get('authorMatch') || work.get('labelMatch'))
 
   return new Suggestions(works)
-};
+}
 
 const getAuthorsWorks = async authorsUris => {
   let allResults = await Promise.all(authorsUris.map(fetchAuthorWorks))

@@ -9,7 +9,7 @@ export default function (text) {
   .map(getIsbnData)
   .filter(obj => isNormalizedIsbn(obj.normalizedIsbn))
   .filter(firstOccurence({}))
-};
+}
 
 const getIsbnData = function (rawIsbn) {
   const normalizedIsbn = normalizeIsbn(rawIsbn)

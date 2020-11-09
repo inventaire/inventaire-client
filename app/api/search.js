@@ -8,4 +8,4 @@ export default function (types, search, limit = 10) {
   types = forceArray(types).join('|')
   search = encodeURIComponent(search)
   return buildPath(base, { types, search, lang, limit })
-};
+}

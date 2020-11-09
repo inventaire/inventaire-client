@@ -6,7 +6,7 @@ const exclude = [ index ]
 export default function () {
   const path = `${folder}/${index}`
   return writeSitemap(path, generate())
-};
+}
 
 const generate = () => wrapIndex(getList().map(buildSitemapNode))
 

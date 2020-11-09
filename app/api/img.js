@@ -51,4 +51,4 @@ export default function (path, width = 1600, height = 1600) {
 
   path = path.replace('/img/', '')
   return `/img/${width}x${height}/${path}`
-};
+}

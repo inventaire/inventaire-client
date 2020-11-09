@@ -12,7 +12,7 @@ export default function (userLanguage) {
   } else {
     return 'en'
   }
-};
+}
 
 // Adapted from: https://github.com/maxogden/browser-locale/blob/master/index.js
 const getBrowserLocalLang = function () {

@@ -65,4 +65,4 @@ export default function (app, _) {
     'request:discard': API.discardRequest,
     unfriend: API.unfriend
   })
-};
+}

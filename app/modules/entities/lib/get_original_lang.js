@@ -19,4 +19,4 @@ export default function (claims) {
     const wdId = unprefixify(originalLangUri)
     return wdLang.byWdId[wdId]?.code
   }
-};
+}

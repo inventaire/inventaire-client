@@ -9,7 +9,7 @@ export default function (key) {
     missingKeys.push(key)
     return lazyMissingKey()
   }
-};
+}
 
 const sendMissingKeys = function () {
   if (missingKeys.length > 0) {

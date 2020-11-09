@@ -20,7 +20,7 @@ export default function (entity, index, propertyValuesCount) {
       return getSuggestionsFromAuthor(commonAuthors[0], works, worksUris)
     }
   })
-};
+}
 
 const aggregate = function (data, work) {
   const authors = work.getExtendedAuthorsUris()

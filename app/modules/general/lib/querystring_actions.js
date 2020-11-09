@@ -8,7 +8,7 @@ export default function () {
     .then(() => app.request('wait:for', 'layout'))
     .then(showValidEmailConfirmation.bind(null, validEmail))
   }
-};
+}
 
 const showValidEmailConfirmation = function (validEmail) {
   // user.attribute.validEmail has priority over the validEmail querystring

@@ -33,7 +33,7 @@ export default function (entities, isbnsIndex) {
   }
 
   return newCandidates
-};
+}
 
 const getEditionAuthors = function (edition, entities) {
   const editionLang = getOriginalLang(edition.claims)
