@@ -100,4 +100,4 @@ Should have been fixed by `npm i svelte-loader@https://github.com/smittyvb/svelt
 ### undefined has no properties
 MDN doc: https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Erreurs/No_properties
 
-Known case: when a function tries to set attributes on `this`, but `this` is undefined because the function was defined as an [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) at the ES module top level
+Known case: when a function tries to set attributes on `this`, but `this` is undefined because the function was defined as an [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) at the ES module top level. The solution in that case was to convert the arrow function to an old-school `function` function.
