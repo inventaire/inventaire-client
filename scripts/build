@@ -35,8 +35,11 @@ cp -r ./public/dist "$archive_path"
 cp ./public/dist/bundle_stats.json "./scripts/assets/bundles_stats/${bundle_name}.json"
 cp ./public/dist/bundle_report.html "./scripts/assets/bundles_stats/${bundle_name}.html"
 
+# Cleanup before gzipping
+rm -f ./public/*.gz
+rm -f ./public/*/*.gz
+
 echo -e '\e[0;30mgzip dist files\e[0m'
-rm -f ./public/dist/*.gz
 gzip -9kf ./public/dist/*
 
 # Do not re-generate sitemaps if a directory already exists
