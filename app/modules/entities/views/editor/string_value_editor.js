@@ -2,16 +2,11 @@ import { isNonEmptyString } from 'lib/boolean_tests'
 import ClaimsEditorCommons from './claims_editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
-import TitleTip from './lib/title_tip'
+import { initEditionTitleTip, tipOnKeyup, tipOnRender } from './lib/title_tip'
 import stringValueEditorTemplate from './templates/string_value_editor.hbs'
 
 const inputSelector = '.string-value-input'
 
-const {
-  initEditionTitleTip,
-  tipOnKeyup,
-  tipOnRender
-} = TitleTip
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'string-value-editor',
@@ -25,7 +20,7 @@ export default ClaimsEditorCommons.extend({
   initialize () {
     this.focusTarget = 'input'
     this.initEditModeState()
-    return initEditionTitleTip.call(this, this.model.entity, this.model.get('property'))
+    initEditionTitleTip.call(this, this.model.entity, this.model.get('property'))
   },
 
   serializeData () {
