@@ -87,7 +87,9 @@ export default ItemLayout.extend({
   itemDestroyBack () {
     if (this.model.isDestroyed) {
       app.execute('modal:close')
-    } else { app.execute('show:item', this.model) }
+    } else {
+      app.execute('show:item', this.model)
+    }
   },
 
   showNotesEditorFromKey (e) { this.showEditorFromKey('notes', e) },

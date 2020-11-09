@@ -4,6 +4,8 @@ import itemCardTemplate from './templates/item_card.hbs'
 import '../scss/item_card.scss'
 
 const detailsLimit = 150
+
+// ItemItemView = (inv)Item(Marionette)ItemView
 const ItemItemView = Marionette.ItemView.extend(itemViewsCommons)
 
 export default ItemItemView.extend({
@@ -50,14 +52,12 @@ export default ItemItemView.extend({
     return attrs
   },
 
-  itemEdit () { app.execute('show:item:form:edition', this.model) },
+  itemEdit () {
+    app.execute('show:item:form:edition', this.model)
+  },
 
   detailsMoreData (details) {
-    if (details?.length > detailsLimit) {
-      return true
-    } else {
-      return false
-    }
+    return details?.length > detailsLimit
   },
 
   detailsData (details) {
