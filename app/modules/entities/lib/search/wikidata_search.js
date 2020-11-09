@@ -6,7 +6,7 @@ import wdk from 'lib/wikidata-sdk'
 // while action=query&list=search&srsearch returns only hits ids
 export default (format = true) => async (search, limit = 10, offset) => {
   let { search: results } = await preq.get(wdk.searchEntities({ search, limit, offset }))
-  results = search.filter(filterOutSpecialPages)
+  results = results.filter(filterOutSpecialPages)
   if (format) return results.map(formatAsSearchResult)
   else return results
 }
