@@ -32,7 +32,7 @@ const ListEl = Marionette.ItemView.extend({
     let type = this.model.get('type') || 'user'
     if ((type === 'user') && (this.context === 'group')) { type = 'member' }
     app.vent.trigger('inventory:select', type, this.model)
-    return e.preventDefault()
+    e.preventDefault()
   }
 })
 

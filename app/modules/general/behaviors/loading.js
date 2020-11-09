@@ -52,7 +52,7 @@ export default Marionette.Behavior.extend({
       this.listenTo(app.vent, progressionEventName, lazyUpdateProgression)
     }
 
-    return e.stopPropagation()
+    e.stopPropagation()
   },
 
   hideSpinningLoader (e, params = {}) {
@@ -66,7 +66,7 @@ export default Marionette.Behavior.extend({
     $target.empty()
     $target.parent().find('.hide-on-loading').show()
     this.hidden = true
-    return e.stopPropagation()
+    e.stopPropagation()
   },
 
   somethingWentWrong (e, params = {}) {
@@ -81,7 +81,7 @@ export default Marionette.Behavior.extend({
       $target.html(body)
     }
 
-    return e?.stopPropagation()
+    e?.stopPropagation()
   },
 
   // Priority:

@@ -130,13 +130,13 @@ export default Marionette.LayoutView.extend({
   dismiss (e) {
     this.action('dismiss')
     this.showNextTask({ spinner: '.dismiss' })
-    return e?.stopPropagation()
+    e?.stopPropagation()
   },
 
   merge (e) {
     waitingForMerge = this.action('merge')
     this.showNextTask({ spinner: '.merge' })
-    return e?.stopPropagation()
+    e?.stopPropagation()
   },
 
   action (actionName) {
@@ -152,7 +152,7 @@ export default Marionette.LayoutView.extend({
 
   showNextTaskFromButton (e) {
     this.showNextTask({ spinner: '.next' })
-    return e?.stopPropagation()
+    e?.stopPropagation()
   },
 
   triggerActionByKey (e) {

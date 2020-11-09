@@ -45,12 +45,12 @@ export default Marionette.Behavior.extend({
     $parent.find('.alert-box').slideDown(500)
     this._showAlertTimestamp = Date.now()
 
-    return e.stopPropagation()
+    e.stopPropagation()
   },
 
   hideAlertBoxOnly (e) {
     this.hideAlertBox(e)
-    return e.stopPropagation()
+    e.stopPropagation()
   },
 
   hideAlertBox (e) {

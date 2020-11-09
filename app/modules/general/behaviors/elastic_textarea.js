@@ -19,5 +19,7 @@ export default Marionette.Behavior.extend({
     return autosize(this.ui.textarea)
   },
 
-  update () { return autosize.update(this.ui.textarea) }
+  update () {
+    autosize.update(this.ui.textarea)
+  }
 })

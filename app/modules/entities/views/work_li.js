@@ -87,7 +87,7 @@ export default Marionette.ItemView.extend({
     this.ui.zoomButtons.toggle()
     this.$el.toggleClass('zoom', { duration: 500 })
     e.stopPropagation()
-    return e.preventDefault()
+    e.preventDefault()
   },
 
   toggleWrap (e) {

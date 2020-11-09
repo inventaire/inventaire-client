@@ -72,5 +72,7 @@ export default ItemItemView.extend({
     }
   },
 
-  afterDestroy () { return this.model.collection.remove(this.model) }
+  afterDestroy () {
+    this.model.collection.remove(this.model)
+  }
 })

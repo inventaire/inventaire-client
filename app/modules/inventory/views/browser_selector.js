@@ -55,7 +55,7 @@ export default Marionette.LayoutView.extend({
     'click .selector-button': 'toggleOptions',
     keydown: 'keyAction',
     // Prevent that a click to focus the input triggers a 'body:click' event
-    'click input' (e) { return e.stopPropagation() }
+    'click input' (e) { e.stopPropagation() }
   },
 
   childEvents: {
@@ -97,7 +97,7 @@ export default Marionette.LayoutView.extend({
       this.hideOptions()
     } else { this.showOptions() }
 
-    return e.stopPropagation()
+    e.stopPropagation()
   },
 
   keyAction (e) {
@@ -142,7 +142,7 @@ export default Marionette.LayoutView.extend({
     screen_.innerScrollTop(this.ui.optionsList, this.$el.find('.selected'))
 
     // Prevent arrow keys to make the screen move
-    return e.preventDefault()
+    e.preventDefault()
   },
 
   clickCurrentlySelected () { this.$el.find('.selected').trigger('click') },

@@ -181,7 +181,7 @@ export default Marionette.CompositeView.extend({
     if (key === 'esc') {
       // prevent that closing the file picker with ESC to trigger modal:close
       log_.info('stopped ESC propagation')
-      return e.stopPropagation()
+      e.stopPropagation()
     }
   }
 })

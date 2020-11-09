@@ -36,5 +36,5 @@ export default function (e) {
   if (/^\/api\//.test(href)) return
 
   // If we haven't been stopped yet, then we prevent the default action
-  return e.preventDefault()
+  e.preventDefault()
 };

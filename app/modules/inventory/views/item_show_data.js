@@ -99,27 +99,27 @@ export default ItemLayout.extend({
   },
 
   showDetailsEditor (e) { this.showEditor('details', e) },
-  hideDetailsEditor (e) { return this.hideEditor('details', e) },
-  detailsEditorKeyAction (e) { return this.editorKeyAction('details', e) },
+  hideDetailsEditor (e) { this.hideEditor('details', e) },
+  detailsEditorKeyAction (e) { this.editorKeyAction('details', e) },
 
   showNotesEditor (e) { this.showEditor('notes', e) },
-  hideNotesEditor (e) { return this.hideEditor('notes', e) },
-  notesEditorKeyAction (e) { return this.editorKeyAction('notes', e) },
+  hideNotesEditor (e) { this.hideEditor('notes', e) },
+  notesEditorKeyAction (e) { this.editorKeyAction('notes', e) },
 
-  validateDetails () { return this.validateEdit('details') },
-  validateNotes () { return this.validateEdit('notes') },
+  validateDetails () { this.validateEdit('details') },
+  validateNotes () { this.validateEdit('notes') },
 
   showEditor (nameBase, e) {
     if (!this.model.mainUserIsOwner) return
     $(`#${nameBase}`).hide()
     $(`#${nameBase}Editor`).show().find('textarea').focus()
-    return e?.stopPropagation()
+    e?.stopPropagation()
   },
 
   hideEditor (nameBase, e) {
     $(`#${nameBase}`).show()
     $(`#${nameBase}Editor`).hide()
-    return e?.stopPropagation()
+    e?.stopPropagation()
   },
 
   editorKeyAction (editor, e) {
@@ -128,10 +128,10 @@ export default ItemLayout.extend({
     if (key === 'esc') {
       const hideEditor = `hide${capitalizedEditor}Editor`
       this[hideEditor]()
-      return e.stopPropagation()
+      e.stopPropagation()
     } else if ((key === 'enter') && e.ctrlKey) {
       this.validateEdit(editor)
-      return e.stopPropagation()
+      e.stopPropagation()
     }
   },
 

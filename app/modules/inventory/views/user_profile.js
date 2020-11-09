@@ -55,6 +55,6 @@ export default Marionette.ItemView.extend({
 
   showNewShelfEditor (e) {
     app.layout.modal.show(new NewShelfEditor({}))
-    return e.stopPropagation()
+    e.stopPropagation()
   }
 })

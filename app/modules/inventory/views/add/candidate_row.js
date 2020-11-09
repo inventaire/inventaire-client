@@ -42,7 +42,7 @@ export default Marionette.ItemView.extend({
   updateSelected (e) {
     const { checked } = e.currentTarget
     this.model.set('selected', checked)
-    return e.stopPropagation()
+    e.stopPropagation()
   },
 
   select (e) {
@@ -70,13 +70,13 @@ export default Marionette.ItemView.extend({
       } else { throw err }
     })
 
-    return e?.stopPropagation()
+    e?.stopPropagation()
   },
 
   // Avoid overriding Backbone.View::remove
   remov (e) {
     this.model.collection.remove(this.model)
-    return e.stopPropagation()
+    e.stopPropagation()
   }
 })
 

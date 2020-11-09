@@ -144,6 +144,6 @@ export default Marionette.CompositeView.extend({
       listCollection: this.collection,
     }))
     // Prevent nested entities list to trigger that same event on the parent list
-    return e.stopPropagation()
+    e.stopPropagation()
   }
 })

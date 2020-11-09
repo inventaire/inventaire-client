@@ -161,7 +161,7 @@ export default Marionette.LayoutView.extend({
     // Prevent the cursor to move when using special keys
     // to navigate the live_search list
     const key = getActionKey(e)
-    if (neutralizedKeys.includes(key)) { return e.preventDefault() }
+    if (neutralizedKeys.includes(key)) { e.preventDefault() }
   },
 
   onKeyUp (e) {

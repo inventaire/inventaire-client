@@ -22,7 +22,7 @@ const ListEl = Marionette.ItemView.extend({
     if (isOpenedOutside(e)) return
     const type = this.model.get('type')
     app.vent.trigger('inventory:select', type, this.model)
-    return e.preventDefault()
+    e.preventDefault()
   }
 })
 

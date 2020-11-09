@@ -32,7 +32,7 @@ const RelativeTask = Marionette.ItemView.extend({
   select (e) {
     if (!isOpenedOutside(e)) {
       app.execute('show:task', this.model)
-      return e.preventDefault()
+      e.preventDefault()
     }
   }
 })
