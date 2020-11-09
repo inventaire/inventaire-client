@@ -65,7 +65,7 @@ const API = {
       const entity = await getEntityModel(uri)
       app.execute('show:item:creation:form', { entity })
     } catch (err) {
-      handleMissingEntity(err, uri)
+      handleMissingEntity(uri, err)
     }
   },
 

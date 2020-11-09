@@ -26,7 +26,6 @@
       color: white !important;
     }
   }
-  &.author-match{}
   &.author-match.label-match{
     background-color: #00bb00;
   }
@@ -37,7 +36,7 @@
     margin-bottom: auto;
   }
   .add{
-    @extend .tiny-button;
+    @include tiny-button($grey);
     display: block;
     margin-top: auto;
   }
