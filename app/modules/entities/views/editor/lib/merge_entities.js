@@ -16,7 +16,7 @@ export default async function (fromUri, toUri) {
     // Inventaire entities auto-merge their data
     return merge(fromUri, toUri)
   }
-};
+}
 
 const merge = async (fromUri, toUri) => {
   await preq.put(app.API.entities.merge, { from: fromUri, to: toUri })

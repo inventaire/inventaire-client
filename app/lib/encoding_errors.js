@@ -12,4 +12,4 @@ export default function (text) {
   for (const err of encodingsErrorsList) {
     if (text.match(err)) { return encodingsErrors[err] }
   }
-};
+}

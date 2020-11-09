@@ -20,7 +20,7 @@ export default function (query) {
     .value()
 
   return Promise.resolve(results)
-};
+}
 
 const formatAsSearchResult = function (result) {
   if (result._formatted) { return result }

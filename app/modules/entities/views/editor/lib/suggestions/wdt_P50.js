@@ -4,4 +4,4 @@ export default function (entity, index, propertyValuesCount) {
 
   return app.request('get:entity:model', serieUri)
   .then(serie => serie.getExtendedAuthorsUris())
-};
+}

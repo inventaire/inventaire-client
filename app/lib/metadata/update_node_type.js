@@ -27,7 +27,7 @@ export default function (key, value, noCompletion) {
   for (const el of metaNodes[key]) {
     updateNodeContent(value, el)
   }
-};
+}
 
 const updateNodeContent = function (value, el) {
   let { selector, attribute } = el

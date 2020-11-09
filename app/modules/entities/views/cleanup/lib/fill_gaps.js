@@ -11,7 +11,7 @@ export default function () {
     if (!existingOrdinals.includes(i)) { newPlaceholders.push(getPlaceholder.call(this, i)) }
   }
   return this.worksWithOrdinal.add(newPlaceholders)
-};
+}
 
 const getPlaceholder = function (index) {
   const serieUri = this.model.get('uri')

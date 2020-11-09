@@ -8,4 +8,4 @@ export default function (selectedLang, labels) {
   // No distinction is made between available langs and others
   // as we can't style the <option> element anyway
   return availableLangList(allLangs, selectedLang)
-};
+}

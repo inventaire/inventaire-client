@@ -19,7 +19,7 @@ export default function () {
 
   setPublicationYear.call(this)
   setEbooksData.call(this)
-};
+}
 
 const setPublicationYear = function () {
   const publicationDate = this.get('claims.wdt:P577.0')

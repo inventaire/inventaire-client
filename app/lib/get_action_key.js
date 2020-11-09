@@ -1,7 +1,7 @@
 export default function (e) {
   const key = e.which || e.keyCode
   return actionKeysMap[key]
-};
+}
 
 const actionKeysMap = {
   9: 'tab',

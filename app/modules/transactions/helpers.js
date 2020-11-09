@@ -12,7 +12,7 @@ export default function () {
   })
 
   return app.request('wait:for', 'user').then(initLateHelpers)
-};
+}
 
 const API = {
   addTransaction (transaction) { return app.transactions.add(transaction) },

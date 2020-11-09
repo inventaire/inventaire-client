@@ -8,7 +8,7 @@ export default function (name, getBaseOnly) {
   const action = Action(base)
   const actionPartial = ActionPartial(action)
   return { base, action, actionPartial }
-};
+}
 
 const Action = base => function (actionName, attribute, value) {
   // Polymorphism: accept one attribute and one value OR a query object

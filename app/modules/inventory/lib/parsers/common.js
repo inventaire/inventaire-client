@@ -21,7 +21,7 @@ export default function (data) {
   }
 
   return data
-};
+}
 
 const deduplicateAuthors = authors => authors
 // Prevent names containing comma to pass as they will later be interpretted

@@ -15,7 +15,7 @@ export default function (entity, index, propertyValuesCount) {
   return Promise.all(promises)
   .then(_.flatten)
   .then(_.uniq)
-};
+}
 
 const getCollectionsPublishers = collectionsUris => app.request('get:entities:models', { uris: collectionsUris })
 .then(entities => _.flatten(entities.map(parseCollectionPublishers)))

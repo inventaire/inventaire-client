@@ -17,4 +17,4 @@ export default function (text, url, classes = 'link', title) {
   }
 
   return `<a href="${url}" class='${classes}' ${title} ${openOutsideAttributes}>${text}</a>`
-};
+}

@@ -13,7 +13,7 @@ export default function () {
   })
 
   app.commands.setHandlers({ logout: requestLogout })
-};
+}
 
 const requestClassicSignup = function (options) {
   const { username, password } = options

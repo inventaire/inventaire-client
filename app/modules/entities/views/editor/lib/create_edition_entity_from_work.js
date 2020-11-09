@@ -31,7 +31,7 @@ export default function (params) {
   .catch(error_.Complete('#isbnField'))
   .catch(forms_.catchAlert.bind(null, view))
   .finally(stopLoading.bind(view))
-};
+}
 
 const renameIsbnDuplicateErr = (workUri, isbn) => function (err) {
   if (err.responseJSON?.status_verbose !== 'this property value is already used') { throw err }

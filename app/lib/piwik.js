@@ -72,4 +72,4 @@ export default async function () {
     // (app.navigate being often trigger after all the actions are done)
     'track:page:view': _.debounce(trackPageView, 300)
   })
-};
+}

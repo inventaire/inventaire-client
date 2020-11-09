@@ -33,7 +33,7 @@ export default function (invModels, wdModels) {
     candidate.possibleDuplicateOf.sort(byMatchLength(invUri))
     return candidate
   })
-};
+}
 
 const addLabelsParts = model => model._labelsParts || (model._labelsParts = getLabelsParts(getFormattedLabels(model)))
 

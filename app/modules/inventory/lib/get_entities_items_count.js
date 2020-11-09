@@ -20,7 +20,7 @@ export default function (userId, uris) {
   }
 
   return getBatchesSequentially()
-};
+}
 
 const getEntityItemsCountBatch = (userId, uris) => preq.get(app.API.items.byUserAndEntities(userId, uris))
 

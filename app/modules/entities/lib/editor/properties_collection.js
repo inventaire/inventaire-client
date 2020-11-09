@@ -26,7 +26,7 @@ export default function (entityModel) {
   }
 
   return propertiesCollection
-};
+}
 
 const getPropertyModel = function (entityModel, propData) {
   const propertyModel = new Backbone.Model(propData)

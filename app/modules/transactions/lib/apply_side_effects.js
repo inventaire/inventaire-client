@@ -3,7 +3,7 @@ export default function (transaction, state) {
   log_.info(arguments, 'applySideEffects')
   const { item } = transaction
   sideEffects[state](transaction, item)
-};
+}
 
 const setItemBusyness = (bool, transaction, item) => item.set('busy', bool)
 

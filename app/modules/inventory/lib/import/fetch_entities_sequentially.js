@@ -69,7 +69,7 @@ export default function (isbnsData) {
     results: commonRes,
     isbnsIndex
   }))
-};
+}
 
 // Fetch the works associated to the editions, and those works authors
 // to get access to the authors labels

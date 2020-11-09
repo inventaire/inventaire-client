@@ -13,7 +13,7 @@ export default function (attrs) {
   this.set('isWikidataEntity', true)
 
   return _.extend(this, specificMethods)
-};
+}
 
 const setWikiLinks = function (lang) {
   const updates = {

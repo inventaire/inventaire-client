@@ -21,7 +21,7 @@ export default function (params = {}) {
   }
 
   return getNextTaskByScore(params)
-};
+}
 
 const getNextTaskBySuggestionUri = async params => {
   const { lastTaskModel, previousTasks } = params
