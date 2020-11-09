@@ -1,6 +1,4 @@
 import log_ from 'lib/loggers'
-import { noop } from 'lib/utils'
-
 export default function (transaction, state) {
   log_.info(arguments, 'applySideEffects')
   const { item } = transaction
@@ -41,7 +39,7 @@ const setItemToNotBusy = _.partial(setItemBusyness, false)
 
 const sideEffects = {
   accepted: setItemToBusy,
-  declined: noop,
+  declined: _.noop,
   confirmed: changeOwnerIfOneWay,
   returned: setItemToNotBusy,
   cancelled: setItemToNotBusy
