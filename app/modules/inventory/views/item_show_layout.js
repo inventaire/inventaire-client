@@ -3,17 +3,30 @@ import EditionsList from 'modules/entities/views/editions_list'
 import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_preview_lists'
 import itemShowTemplate from './templates/item_show_layout.hbs'
 import 'modules/inventory/scss/item_show_layout.scss'
+import log_ from 'lib/loggers'
+import ItemShelves from './item_shelves'
+import Shelves from 'modules/shelves/collections/shelves'
+import { getShelvesByOwner, getByIds as getShelvesByIds } from 'modules/shelves/lib/shelves'
+import itemViewsCommons from '../lib/items_views_commons'
+const { itemDestroy } = itemViewsCommons
 
 export default Marionette.LayoutView.extend({
   id: 'itemShowLayout',
   className: 'standalone',
   template: itemShowTemplate,
+
   regions: {
     itemData: '#itemData',
+    shelvesSelector: '#shelvesSelector',
     authors: '.authors',
     scenarists: '.scenarists',
     illustrators: '.illustrators',
     colorists: '.colorists'
+  },
+
+  ui: {
+    shelvesPanel: '.shelvesPanel',
+    toggleShelvesExpand: '.toggleShelvesExpand'
   },
 
   behaviors: {
@@ -27,7 +40,16 @@ export default Marionette.LayoutView.extend({
   },
 
   modelEvents: {
-    grab: 'lazyRender'
+    grab: 'lazyRender',
+    'change:shelves': 'updateShelves',
+    'add:shelves': 'updateShelves',
+  },
+
+  events: {
+    'click .preciseEdition': 'preciseEdition',
+    'click .selectShelf': 'selectShelf',
+    'click .toggleShelvesExpand': 'toggleShelvesExpand',
+    'click a.remove': itemDestroy,
   },
 
   serializeData () {
@@ -43,13 +65,12 @@ export default Marionette.LayoutView.extend({
 
   onRender () {
     this.showItemData()
-    return this.waitForAuthors.then(showAllAuthorsPreviewLists.bind(this))
+    this.showShelves()
+    this.waitForAuthors.then(showAllAuthorsPreviewLists.bind(this))
   },
 
-  showItemData () { return this.itemData.show(new ItemShowData({ model: this.model })) },
-
-  events: {
-    'click .preciseEdition': 'preciseEdition'
+  showItemData () {
+    this.itemData.show(new ItemShowData({ model: this.model }))
   },
 
   preciseEdition () {
@@ -67,7 +88,72 @@ export default Marionette.LayoutView.extend({
       )
       app.execute('modal:open', 'large')
     })
-  }
+  },
+
+  showShelves () {
+    return this.getShelves()
+    .then(shelves => {
+      this.shelves = new Shelves(shelves, { selected: this.model.get('shelves') })
+    })
+    .then(this.ifViewIsIntact('_showShelves'))
+    .catch(log_.Error('showShelves err'))
+  },
+
+  getShelves () {
+    if (this.model.mainUserIsOwner) {
+      return getShelvesByOwner(app.user.id)
+    } else {
+      const itemShelves = this.model.get('shelves')
+      if (itemShelves?.length <= 0) { return Promise.resolve([]) }
+      return getShelvesByIds(itemShelves)
+      .then(_.values)
+    }
+  },
+
+  _showShelves () {
+    if (this.shelves.length === 0) {
+      this.ui.shelvesPanel.hide()
+      return
+    }
+
+    return this.shelvesSelector.show(new ItemShelves({
+      collection: this.shelves,
+      item: this.model,
+      mainUserIsOwner: this.model.mainUserIsOwner
+    }))
+  },
+
+  selectShelf (e) {
+    const shelfId = e.currentTarget.href.split('/').slice(-1)[0]
+    app.execute('show:shelf', shelfId)
+  },
+
+  updateShelves () {
+    if (this.model.mainUserIsOwner) {
+      if (this.shelves.length > this.model.get('shelves').length) {
+        this.ui.toggleShelvesExpand.show()
+      } else {
+        this.ui.toggleShelvesExpand.hide()
+      }
+    }
+  },
+
+  toggleShelvesExpand () {
+    this.$el.find('.shelvesPanel').toggleClass('expanded')
+  },
+
+  itemDestroyBack () {
+    if (this.model.isDestroyed) {
+      app.execute('modal:close')
+    } else {
+      app.execute('show:item', this.model)
+    }
+  },
+
+  afterDestroy () {
+    // Force a refresh of the inventory, so that the deleted item doesn't appear
+    app.execute('show:inventory:main:user')
+  },
 })
 
 const getAuthorsModels = async works => {

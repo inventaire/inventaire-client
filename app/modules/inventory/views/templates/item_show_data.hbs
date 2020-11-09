@@ -6,7 +6,6 @@
     {{#if details}}
       {{> 'inventory:item_details' this}}
     {{/if}}
-    {{> 'inventory:item_shelves' this}}
   {{else}}
     {{> 'inventory:item_user_box' this}}
     <div class="item-settings itemBox">
@@ -17,11 +16,6 @@
     </div>
     {{> 'inventory:item_details' this}}
     {{> 'inventory:item_note' this}}
-    {{> 'inventory:item_shelves' this}}
-    <a class="remove remove-button shy-label dark-grey">
-      <span>{{I18n 'delete'}}</span>
-      {{icon 'trash-o'}}
-    </a>
   {{/if}}
 {{/if}}
 <div id="transactions"></div>

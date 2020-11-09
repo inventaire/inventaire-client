@@ -1,16 +1,9 @@
-import log_ from 'lib/loggers'
-import { capitalize } from 'lib/utils'
-import itemShowDataTemplate from './templates/item_show_data.hbs'
-
 // Motivation for having a view separated from ItemShowLayout:
 // - no need to reload the image on re-render (like when details are saved)
-
+import { capitalize } from 'lib/utils'
+import itemShowDataTemplate from './templates/item_show_data.hbs'
 import ItemTransactions from './item_transactions'
-
 import getActionKey from 'lib/get_action_key'
-import ItemShelves from './item_shelves'
-import Shelves from 'modules/shelves/collections/shelves'
-import { getShelvesByOwner, getByIds as getShelvesByIds } from 'modules/shelves/lib/shelves'
 import itemViewsCommons from '../lib/items_views_commons'
 const ItemLayout = Marionette.LayoutView.extend(itemViewsCommons)
 
@@ -19,12 +12,6 @@ export default ItemLayout.extend({
   template: itemShowDataTemplate,
   regions: {
     transactionsRegion: '#transactions',
-    shelvesSelector: '#shelvesSelector'
-  },
-
-  ui: {
-    shelvesPanel: '.shelvesPanel',
-    toggleShelvesExpand: '.toggleShelvesExpand'
   },
 
   behaviors: {
@@ -43,19 +30,15 @@ export default ItemLayout.extend({
     'change:listing': 'lazyRender',
     'change:notes': 'lazyRender',
     'change:details': 'lazyRender',
-    'change:shelves': 'updateShelves',
-    'add:shelves': 'updateShelves'
   },
 
   onRender () {
     if (app.user.loggedIn) { this.showTransactions() }
-    this.showShelves()
   },
 
   events: {
     'click a.transaction': 'updateTransaction',
     'click a.listing': 'updateListing',
-    'click a.remove': 'itemDestroy',
     'click a.itemShow': 'itemShow',
     'click a.user': 'showUser',
     'click a.showUser': 'showUser',
@@ -77,19 +60,9 @@ export default ItemLayout.extend({
     'keydown #notesEditor': 'notesEditorKeyAction',
     'click a#validateNotes': 'validateNotes',
     'click a.requestItem' () { app.execute('show:item:request', this.model) },
-    'click .selectShelf': 'selectShelf',
-    'click .toggleShelvesExpand': 'toggleShelvesExpand'
   },
 
   serializeData () { return this.model.serializeData() },
-
-  itemDestroyBack () {
-    if (this.model.isDestroyed) {
-      app.execute('modal:close')
-    } else {
-      app.execute('show:item', this.model)
-    }
-  },
 
   showNotesEditorFromKey (e) { this.showEditorFromKey('notes', e) },
   showDetailsEditorFromKey (e) { this.showEditorFromKey('details', e) },
@@ -159,58 +132,4 @@ export default ItemLayout.extend({
   _showTransactions () {
     return this.transactionsRegion.show(new ItemTransactions({ collection: this.transactions }))
   },
-
-  showShelves () {
-    return this.getShelves()
-    .then(shelves => {
-      this.shelves = new Shelves(shelves, { selected: this.model.get('shelves') })
-    })
-    .then(this.ifViewIsIntact('_showShelves'))
-    .catch(log_.Error('showShelves err'))
-  },
-
-  getShelves () {
-    if (this.model.mainUserIsOwner) {
-      return getShelvesByOwner(app.user.id)
-    } else {
-      const itemShelves = this.model.get('shelves')
-      if (itemShelves?.length <= 0) { return Promise.resolve([]) }
-      return getShelvesByIds(itemShelves)
-      .then(_.values)
-    }
-  },
-
-  _showShelves () {
-    if (this.shelves.length === 0) {
-      this.ui.shelvesPanel.hide()
-      return
-    }
-
-    return this.shelvesSelector.show(new ItemShelves({
-      collection: this.shelves,
-      item: this.model,
-      mainUserIsOwner: this.model.mainUserIsOwner
-    }))
-  },
-
-  selectShelf (e) {
-    const shelfId = e.currentTarget.href.split('/').slice(-1)[0]
-    app.execute('show:shelf', shelfId)
-  },
-
-  updateShelves () {
-    if (this.model.mainUserIsOwner) {
-      if (this.shelves.length > this.model.get('shelves').length) {
-        this.ui.toggleShelvesExpand.show()
-      } else {
-        this.ui.toggleShelvesExpand.hide()
-      }
-    }
-  },
-
-  afterDestroy () {
-    app.execute('show:inventory:main:user')
-  },
-
-  toggleShelvesExpand () { this.$el.find('.shelvesPanel').toggleClass('expanded') }
 })
