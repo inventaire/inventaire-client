@@ -72,6 +72,12 @@ export default map_ = {
     return [ _southWest.lng, _southWest.lat, _northEast.lng, _northEast.lat ]
   },
 
+  isValidBbox ([ southWestLng, southWestLat, northEastLng, northEastLat ]) {
+    // Specifically:
+    // - reject case where southWestLng===northEastLng && southWestLat===northEastLat
+    return southWestLng < northEastLng && southWestLat < northEastLat
+  },
+
   showUserOnMap (map, user) {
     // Substitude the main user model to the one created from user document
     // so that updates on the main user model are correctly displayed,

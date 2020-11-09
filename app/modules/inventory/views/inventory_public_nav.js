@@ -11,7 +11,7 @@ import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import inventoryPublicNavTemplate from './templates/inventory_public_nav.hbs'
 import 'modules/map/scss/position_required.scss'
 
-const { showOnMap, showUserOnMap, getBbox } = map_
+const { showOnMap, showUserOnMap, getBbox, isValidBbox } = map_
 
 export default InventoryCommonNav.extend({
   id: 'inventoryPublicNav',
@@ -117,6 +117,7 @@ export default InventoryCommonNav.extend({
 })
 
 const getByPosition = async (collection, name, bbox) => {
+  if (!isValidBbox(bbox)) return
   const res = await preq.get(app.API[name].searchByPosition(bbox))
   let docs = res[name]
   const filter = filters[name]

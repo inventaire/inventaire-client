@@ -30,12 +30,6 @@ export default {
     return preq.get(app.API.users.byUsername(username))
     .then(({ users }) => users[username])
   },
-
-  async searchByPosition (latLng) {
-    return preq.get(app.API.users.searchByPosition(latLng))
-    .then(({ users }) => users)
-    .catch(log_.Error('searchByPosition err'))
-  }
 }
 
 const getUsersByIds = ids => preq.get(app.API.users.byIds(ids)).then(({ users }) => users)
