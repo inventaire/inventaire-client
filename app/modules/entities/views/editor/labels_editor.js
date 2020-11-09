@@ -3,14 +3,8 @@ import EditorCommons from './editor_commons'
 import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 import forms_ from 'modules/general/lib/forms'
 import getLangsData from 'modules/entities/lib/editor/get_langs_data'
-import TitleTip from './lib/title_tip'
+import { initWorkLabelsTip, tipOnKeyup, tipOnRender } from './lib/title_tip'
 import labelsEditorTemplate from './templates/labels_editor.hbs'
-
-const {
-  initWorkLabelsTip,
-  tipOnKeyup,
-  tipOnRender
-} = TitleTip
 
 export default EditorCommons.extend({
   template: labelsEditorTemplate,
@@ -19,7 +13,7 @@ export default EditorCommons.extend({
     ({ creating: this.creating } = this.model);
     ({ lang: this.lang } = app.user)
     this.editMode = !!this.creating
-    return initWorkLabelsTip.call(this, this.model)
+    initWorkLabelsTip.call(this, this.model)
   },
 
   behaviors: {
