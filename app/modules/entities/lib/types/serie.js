@@ -58,7 +58,7 @@ const specificMethods = _.extend({}, commonsSerieWork, {
   }
 })
 
-const initPartsCollections = async (refresh, fetchAll, partsData) => {
+const initPartsCollections = async function (refresh, fetchAll, partsData) {
   const allsPartsUris = _.pluck(partsData, 'uri')
   const partsWithoutSuperparts = partsData.filter(hasNoKnownSuperpart(allsPartsUris))
   const partsWithoutSuperpartsUris = _.pluck(partsWithoutSuperparts, 'uri')
