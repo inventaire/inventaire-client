@@ -39,7 +39,6 @@
       }
     }
   }
-  // (1)
   @mixin box-color($color, $white-text:1){
     .icon{
       background-color: lighten($color, 2%);
