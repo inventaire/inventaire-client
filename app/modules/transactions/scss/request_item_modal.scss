@@ -1,0 +1,41 @@
+@import 'modules/general/scss/utils';
+
+.requestItemModal{
+  @import 'modules/inventory/scss/_item_commons';
+  @include display-flex(column, center, center);
+  .header{
+    width: 100%;
+    @include display-flex(row, center, space-between);
+    margin-bottom: 1em;
+  }
+  .item{
+    flex: 1 1 auto;
+  }
+  .user{
+    width: 16em;
+    @include display-flex(column, center, flex-start);
+    .profilePic{
+      height: $user-box-heigth;
+      max-height: $user-box-heigth;
+    }
+  }
+  .transactionBox{
+    max-height: $user-box-heigth;
+    @include display-flex(row, center, center);
+    padding-left: 0.6em;
+    padding-right: 0.4em;
+    flex: 0 0 auto;
+  }
+  .label{
+    padding: 0.5em;
+  }
+  .item{
+    @include display-flex(column, center, center);
+    .entity{
+      opacity: 0.5;
+    }
+  }
+  textarea{
+    @include radius;
+  }
+}

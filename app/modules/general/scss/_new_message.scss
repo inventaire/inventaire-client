@@ -1,3 +1,5 @@
+@import 'modules/general/scss/shortcut_tip';
+
 .newMessage{
   padding: 1em;
   @include display-flex(column);
@@ -13,5 +15,8 @@
   }
   .sendMessage{
     align-self: flex-end;
+  }
+  .bottom{
+    @include display-flex(row, center, flex-end);
   }
 }

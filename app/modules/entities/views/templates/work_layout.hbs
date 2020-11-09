@@ -4,10 +4,10 @@
   <div id="workInfobox"></div>
   <div class="work-items">
     <div class="workEntityActions"></div>
-    {{partial 'entities:items_lists' prefix='work'}}
+    {{> 'entities:items_lists' prefix='work'}}
   </div>
 </div>
 <div id="editionsList"></div>
 
-{{partial 'entities:merge_suggestions_layout_section' this}}
-{{partial 'welcome:embedded_welcome'}}
+{{> 'entities:merge_suggestions_layout_section' this}}
+{{> 'welcome:embedded_welcome'}}

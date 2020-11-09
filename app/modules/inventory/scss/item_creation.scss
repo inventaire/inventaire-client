@@ -1,0 +1,68 @@
+@import 'modules/general/scss/utils';
+@import 'modules/general/scss/select_button_group';
+
+.itemCreation{
+  label{
+    margin-top: 0.5em;
+    margin-bottom: 0;
+    font-size: 1.5em;
+  }
+  #notesGroup{
+    background-color: $dark-grey;
+    @include radius;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 0.2em 1em 1em 1em;
+    label, span{
+      color: white;
+    }
+    label{
+      margin-top: 0;
+      display: inline-block;
+    }
+  }
+  .validationButtons{
+    text-align: center;
+    a{
+      margin-bottom: 0.5em;
+      @include radius;
+    }
+  }
+  .item-row{
+    padding: 0.5em;
+    input{
+      display: none;
+    }
+    .showItem{
+      overflow: hidden;
+      margin-right: 1em;
+    }
+  }
+  #existingEntityItemsWarning{
+    color: red;
+    padding: 1em 0;
+    > p{
+      font-weight: bold;
+      margin-bottom: 0.5em;
+    }
+  }
+  #existingEntityItems{
+    max-height: 8em;
+    overflow: auto;
+  }
+
+  #shelvesSelector{
+    .shelfSelector{
+      padding: 0.2em;
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .entityData{
+      h2, a {
+        margin-left: 1rem;
+      }
+    }
+  }
+}

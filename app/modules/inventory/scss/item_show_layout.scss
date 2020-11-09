@@ -1,0 +1,101 @@
+@import 'modules/general/scss/utils';
+
+#itemShowLayout{
+  padding: 0 1em;
+  position: relative;
+  .two{
+    margin: 0;
+    max-width: 36em;
+    min-height: 350px;
+  }
+  a.edition, a.work, .author-preview a, .series-preview a{
+    margin: 0.2em 0;
+    @include bg-hover(#f3f3f3);
+  }
+  a.edition, a.work{
+    @include display-flex(column, center, center);
+    margin-bottom: 2em;
+  }
+  .series-preview{
+    margin-top: 1em;
+    // see also app/modules/entities/scss/_author_preview.scss
+    .related-entity-label{
+      padding: 0.5em;
+    }
+  }
+  .section-label{
+    color: $grey;
+    display: block;
+  }
+  .identifier{
+    font-size: 0.7em;
+    color: $grey;
+  }
+  .entity-image{
+    margin-bottom: 0.5em;
+  }
+  .title{
+    font-size: 1.1em;
+  }
+  .title, .authors, .scenarists, .illustrators, .colorists, .related-entity-label{
+    font-weight: bold;
+  }
+  .remove-button{
+    float: right;
+    margin: 1em 0;
+    padding: 0.2em 1em;
+    @include shy(0.9);
+    .fa{
+      font-size: 1.1em;
+    }
+    &:hover{
+      @include tiny-button-padding;
+      border-radius: $global-radius;
+      background-color: $danger-color;
+      padding: 0.2em 1em;
+      color: white;
+      span{
+        padding-left: 0.4em;
+      }
+    }
+  }
+  .preciseEdition{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    margin: 1em 0;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .wrapper{
+      @include display-flex(column, stretch, center);
+    }
+    .one{
+      margin-bottom: 1em;
+    }
+    .title{
+      padding: 0.5em;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .wrapper{
+      @include display-flex(row, flex-start, center);
+    }
+    .one{
+      flex: 1 0 0;
+      max-width: 15em;
+      margin-right: 1em;
+    }
+    .two{
+      flex: 2 0 0;
+      margin: 0 auto;
+      padding-bottom: 1em;
+    }
+  }
+
+  @import 'item_show_data';
+}
+
+@import 'item_show_layout_boxes';

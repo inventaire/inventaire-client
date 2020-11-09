@@ -1,0 +1,37 @@
+@import 'modules/general/scss/utils';
+
+#notificationsLayout{
+  @include central-column(50em);
+  text-align: center;
+
+  section{
+    background-color: #eee;
+    margin: 1em 0;
+    padding: 1em;
+    @include radius;
+  }
+
+  .time{
+    color: $grey;
+  }
+}
+
+#notificationsList{
+  max-height: 20em;
+  overflow: auto;
+  li{
+    text-align: left;
+    margin: 0.1em;
+    padding: 0.5em;
+    @include shy-border;
+    @include radius;
+    .notification-link{
+      @include display-flex(row, flex-start, flex-start);
+      width: 100%;
+      .info{
+        flex: 1 1 auto;
+        padding: 0 0.5em;
+      }
+    }
+  }
+}

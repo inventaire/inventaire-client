@@ -1,0 +1,22 @@
+@import 'modules/general/scss/utils';
+$welcome-bg-filter: rgba(#123456, 0.5);
+
+#welcome{
+  h3{
+    margin-top: 0.5em;
+    color: $dark-grey;
+  }
+  #background-cover{
+    @include position(fixed, 0, 0, 0, 0, -10);
+    // Photo attribution in credits.hbs: Brittany Stevens
+    @include multidef-bg-cover('brittanystevens.jpg', 'hd');
+  }
+}
+
+@import 'landing_screen';
+@import 'last_public_books';
+@import 'mission';
+@import 'quick_links';
+@import 'mentions';
+@import 'credits';
+@import 'embedded_welcome';

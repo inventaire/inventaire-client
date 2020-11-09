@@ -1,0 +1,118 @@
+@import 'modules/general/scss/utils';
+
+#deduplicateLayout{
+  .names{
+    margin: 1em;
+    @include display-flex(row, center, center, wrap);
+    li{
+      padding: 0.3em;
+    }
+    .visited{
+      background-color: darken($light-blue, 30%);
+    }
+  }
+  .authors-loading{
+    text-align: center;
+  }
+  .authors, .deduplicateWorks{
+    // Compensating for the place taken by the controls
+    margin-bottom: 4em;
+  }
+  .authors{
+    padding: 1em;
+    @include display-flex(row, baseline, center, wrap);
+  }
+  .authorLayout{
+    max-width: 25em;
+    margin: 0.5em;
+    max-height: 85vh;
+    overflow: auto;
+    .refreshEntityData, .addOne{
+      display: none;
+    }
+    &.selected{
+      background-color: red;
+    }
+    margin-bottom: auto;
+  }
+  .authorData{
+    max-height: 30em;
+    overflow: hidden;
+    min-width: auto;
+  }
+  .selected-from, .selected-to{
+    .property-value, .grey, .uri, .link{
+      color: white !important;
+    }
+  }
+  .selected-from{
+    &, div{
+      background-color: $soft-red;
+    }
+  }
+  .selected-to{
+    &, div{
+      background-color: $green-tree;
+    }
+  }
+  .entity-prefix-wd{ border: 1px solid rgba(#123456, 0.5); }
+  .entity-prefix-inv{ border: 1px solid $light-blue; }
+  .controls{
+    @include position(fixed, null, 0, 0, 0, 1);
+    background-color: #bbb;
+    padding: 0.5em;
+    @include display-flex(column, center, center);
+    a{
+      margin: 0 1em;
+      white-space: nowrap;
+    }
+    input{
+      margin-bottom: 0;
+      margin-right: 1em;
+    }
+    .buttons-wrapper{
+      @include display-flex(row, center, center);
+    }
+    .alert-box{
+      max-width: 30em;
+    }
+  }
+  // Activate URIs display
+  .uri.hidden{
+    display: block;
+  }
+  .all-labels{
+    background-color: #ddd;
+    max-height: 4em;
+    overflow: auto;
+    align-self: stretch;
+  }
+  .probableDuplicatesMode{
+    .all-labels{
+      // we have more room here
+      max-height: 20em;
+    }
+  }
+}
+
+.deduplicateWorks{
+  @include display-flex(row, baseline, center);
+  .deduplicateWorksList{
+    flex: 1 0 auto;
+    @include display-flex(row, baseline, center, wrap);
+    margin: 0.5em;
+  }
+  .invWorks, .wdWorks{
+    &:not(:empty){
+      min-width: 15em;
+      align-self: stretch;
+    }
+  }
+  .wdWorks{ background-color: $grey; }
+  .workLi{
+    // Tight but letting enough width for inv URIs to fit
+    max-width: 15em;
+    flex-direction: column;
+    margin: 0.5em;
+  }
+}

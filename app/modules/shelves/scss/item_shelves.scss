@@ -1,0 +1,16 @@
+@import 'modules/general/scss/utils';
+@import 'shelves_commons';
+
+#itemShelves{
+  li{
+    padding: 0.1em 0;
+  }
+  .shelfSelector{
+    cursor: pointer;
+    @include bg-hover($off-white, 5%);
+    @include display-flex(row, center, flex-start);
+  }
+  .picture{
+    margin: 0 0.5em;
+  }
+}

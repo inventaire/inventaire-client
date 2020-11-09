@@ -1,3 +1,6 @@
+@import 'item_commons';
+@import 'item_transactions';
+
 // This module is already imported in #itemShowLayout{}
 // so no need to wrap everything in #itemShowData{}, it would be an overkill
 .item-settings{
@@ -132,5 +135,3 @@
     text-align: center;
   }
 }
-
-@import 'item_transactions';

@@ -1,0 +1,60 @@
+@import 'modules/general/scss/utils';
+
+$author-data-threshold: 25em;
+
+.authorInfobox, .publisherInfobox, .collectionInfobox{
+  margin: 0 auto;
+  max-width: 60em;
+  // center the image
+  @include display-flex(column, center, center);
+  .image-wrapper{
+    @include display-flex(column);
+    text-align: center;
+    img{
+      margin: 0 auto;
+      // Required by Edge that would maximize the image width otherwise
+      // Keep in sync with app/modules/entities/views/templates/author_infobox.hbs
+      max-width: 300px;
+      /*Small screens*/
+      @media screen and (max-width: 300px) {
+        max-width: 95vw;
+      }
+    }
+  }
+  .photo-credits{
+    margin: 0 auto;
+    font-size: 0.8em;
+    color: white;
+    max-width: 20em;
+    @include shy(0.4);
+    .link{
+      color: white;
+    }
+  }
+  .fa-pencil, .showOnWikidata{
+    @include text-hover(#bbb, white);
+  }
+  .claims{
+    .link{
+      @include text-hover(white, #bbb);
+    }
+  }
+}
+
+.authorData, .publisherData, .collectionData{
+  position: relative;
+  background-color: $darker-grey;
+  @include radius;
+  padding: 1em;
+  margin-bottom: 1em;
+  color: white;
+  /*Small screens*/
+  @media screen and (max-width: $author-data-threshold) {
+    // Give some room to a.edit .fa-pencil
+    min-width: 90vw
+  }
+  /*Medium and Large screens*/
+  @media screen and (min-width: $author-data-threshold) {
+    min-width: $author-data-threshold;
+  }
+}

@@ -1,4 +1,5 @@
 @import 'flex';
+@import 'counter';
 
 // the interest of a transition mixin is only to set default values
 // doc: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions
@@ -59,4 +60,51 @@
   border: 0.1em solid rgba(86, 180, 239, 0.6);
   box-shadow: 0 0.2em 0.5em $glow-color;
   transition: all 0.5s ease;
+}
+
+@mixin central-column($max-width: 50em){
+  @include display-flex(column, center, center);
+  > section, > div, > form{
+    width: 100%;
+    max-width: $max-width;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    margin: 0em 1em 1em 1em;
+    padding: 0em 1em 1em 1em;
+  }
+}
+
+@mixin box-color($color, $white-text:1){
+  background-color: $color;
+  @if $white-text { @include white-text; }
+}
+
+@mixin white-text{
+  color: white;
+  a.current{
+    color: white;
+  }
+}
+
+// capitalize only the first letter, not every words first letter
+@mixin capitalized(){
+  &:first-letter{
+    text-transform: uppercase;
+  }
+}
+
+@mixin selected-button-color($color, $text-color:white){
+  color: $dark-grey;
+  background-color: #eee;
+  margin: 0.2em;
+  border: 2px solid $light-grey;
+  border-radius: 5px;
+  @include sans-serif;
+  font-weight: normal;
+  &.selected, &.active, &:hover{
+    background-color: white;
+    border-color: $color;
+    i{ color: $color; }
+  }
 }

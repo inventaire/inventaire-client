@@ -2,13 +2,13 @@
   <div class="covers">
     <div class="main-cover">
       <img src="{{imgSrc mainImage.url 300}}" alt="{{label}} {{i18n 'cover'}}">
-      {{partial 'entities:photo_credits' image.credits}}
+      {{> 'entities:photo_credits' image.credits}}
     </div>
     <div class="secondary-covers">
       {{#each secondaryImages}}
         <div class="secondary-cover">
           <img src="{{imgSrc url 150}}" alt="{{label}} {{i18n 'cover'}}">
-          {{partial 'entities:photo_credits' image.credits}}
+          {{> 'entities:photo_credits' image.credits}}
         </div>
       {{/each}}
     </div>
@@ -22,10 +22,10 @@
     <h2><a href="{{pathname}}" class="showEntity link">{{label}}</a></h2>
   {{/if}}
   <p class="uri">{{uri}}</p>
-  {{partial 'entities:clamped_extract' this}}
+  {{> 'entities:clamped_extract' this}}
   <div class="attributes">
-    {{partial 'entities:authors_preview_lists'}}
-    {{partial 'entities:work_claims' this}}
+    {{> 'entities:authors_preview_lists'}}
+    {{> 'entities:work_claims' this}}
   </div>
-  {{#if standalone}}{{partial 'entities:edit_data' this}}{{/if}}
+  {{#if standalone}}{{> 'entities:edit_data' this}}{{/if}}
 </div>

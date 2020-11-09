@@ -6,7 +6,7 @@
         <div class="url-input-wrapper">
           <input class="imageUrl" type="url" placeholder="{{i18n 'enter an image url'}}">
         </div>
-        {{partial 'entities:editor:edit_mode_buttons' this}}
+        {{> 'entities:editor:edit_mode_buttons' this}}
       </div>
     </div>
     <div class="image-from-file">
@@ -27,5 +27,5 @@
   <div class="displayModeData">
     <img src="{{imgSrc imageUrl 300}}">
   </div>
-  {{partial 'entities:editor:edit_button'}}
+  {{> 'entities:editor:edit_button'}}
 {{/if}}

@@ -1,0 +1,66 @@
+@import 'modules/general/scss/utils';
+
+.articleLi{
+  margin: 0 auto;
+  max-width: 45em;
+  background-color: $contrast;
+  &:not(:first-child):not(.wrappable){
+    margin-top: 1em;
+  }
+  @include radius;
+  @include shy-border;
+  @include display-flex(row, center, space-between);
+  text-align: center;
+  .main{
+    padding: 0.2em;
+    flex: 1 1 auto;
+    // hacky way to avoid passing behind the .right-bar
+    padding-right: 1.8em;
+    // compensating the padding-right to keep the text centered
+    padding-left: 1.8em;
+  }
+  h4{
+    margin: 0;
+    padding: 0;
+    line-height: 1em;
+  }
+  .date{
+    font-size: 0.7em;
+    opacity: 0.8;
+    // Avoid to have a parenthesis alone on the next line
+    white-space: nowrap;
+  }
+  position: relative;
+  .right-bar{
+    @include display-flex(column, center, flex-start);
+  }
+  .fa-file-text-o{
+    padding: 0.5em;
+    margin: -0.1em -0.1em 0 0;
+    border-bottom-left-radius: $global-radius;
+    background-color: $dark-grey;
+    color: white;
+  }
+  .showEntityEdit{
+    margin: 0;
+    @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
+  }
+  .fa-file-text-o, .showEntityEdit, .wikisource, .wikipedia{
+    height: 2em;
+  }
+  .showEntityEdit{
+    @include display-flex(row, center, center);
+  }
+  .fa-pencil{
+    // Hacky centering
+    margin-left: 0.6em;
+    margin-bottom: 0.4em;
+    padding-left: 0.3em;
+    @include display-flex(row, center, center);
+    @include text-hover($grey, $dark-grey);
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    flex-direction: column;
+  }
+}

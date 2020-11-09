@@ -1,9 +1,9 @@
-{{partial 'welcome:landing_screen' this}}
-{{partial 'welcome:last_public_books'}}
-{{partial 'welcome:mission'}}
-{{partial 'welcome:quick_links' urls}}
+{{> 'welcome:landing_screen' this}}
+{{> 'welcome:last_public_books'}}
+{{> 'welcome:mission'}}
+{{> 'welcome:quick_links' urls}}
 <section id="mentions"></section>
-{{partial 'welcome:credits' urls}}
+{{> 'welcome:credits' urls}}
 {{!-- Duplicating quick links at the bottom as it might be where you expect to find those --}}
-{{partial 'welcome:quick_links' urls}}
+{{> 'welcome:quick_links' urls}}
 <div id="background-cover"></div>

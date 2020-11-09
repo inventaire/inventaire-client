@@ -6,7 +6,7 @@
       <p class="selectedSuggestionStatus"></p>
       <div class="suggestionsContainer hidden"></div>
     </div>
-    {{partial 'entities:editor:edit_mode_buttons' this}}
+    {{> 'entities:editor:edit_mode_buttons' this}}
   </div>
 {{else}}
   <div class="displayModeData enterClick" tabindex="0">
@@ -25,13 +25,13 @@
           <div>
             <span class="label">{{label}}</span><br>
             <span class="description">{{description}}</span>
-            {{partial 'entities:editor:identifier_with_tooltip' this}}
+            {{> 'entities:editor:identifier_with_tooltip' this}}
           </div>
         {{/with}}
       </div>
     {{else}}
-      {{partial 'loader' align='start'}}
+      {{> 'loader' align='start'}}
     {{/if}}
   </div>
-  {{partial 'entities:editor:edit_button'}}
+  {{> 'entities:editor:edit_button'}}
 {{/if}}

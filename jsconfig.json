@@ -1,0 +1,14 @@
+{
+  "module": "es6",
+  "compilerOptions": {
+    "baseUrl": "./app",
+    "paths": {
+      "app/*": [ "*" ],
+      "api/*": [ "api/*" ],
+      "assets/*": [ "assets/*" ],
+      "lib/*": [ "lib/*" ],
+      "modules/*": [ "modules/*" ],
+    }
+  },
+  "exclude": [ "node_modules", "public", "vendor", "scripts/assets" ]
+}

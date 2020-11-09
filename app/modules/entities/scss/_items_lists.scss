@@ -1,0 +1,30 @@
+.items-lists{
+  max-width: 50em;
+  margin: auto;
+  .personal{
+    .itemsPreviewLists{
+      background-color: #eeeeee;
+    }
+    .showOnMap{
+      display: none;
+    }
+  }
+  .network{
+    .itemsPreviewLists{
+      background-color: #f4f4f4;
+    }
+  }
+  .nearby{
+    .itemsPreviewLists{
+      background-color: #f8f8f8;
+    }
+  }
+  .other, .public{
+    .itemsPreviewLists{
+      background-color: #fcfcfc;
+    }
+  }
+  .showOnMap{
+    margin-left: 1em;
+  }
+}

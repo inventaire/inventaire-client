@@ -1,5 +1,5 @@
 .itemTransactions{
   .transactions:not(:empty){
-    @extend .panel;
+    margin-top: 1em;
   }
 }

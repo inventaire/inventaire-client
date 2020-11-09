@@ -3,8 +3,49 @@ img{
   height: auto;
   display: inline-block;
   vertical-align: middle;
+  // prevent images' alt text to overflow
+  overflow: hidden;
   &.icon{
     max-height: 1.5em;
     opacity: 0.8;
+  }
+}
+
+.profilePic{
+  height: 2.8em;
+  background-color: white;
+}
+
+.large-profilePic{
+  height: 5em;
+}
+
+figure{
+  margin:0;
+  display: inline-block;
+  figcaption{
+    min-height: 3em;
+    h5{
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0.8rem;
+    }
+  }
+}
+
+/*Small screens*/
+@media screen and (max-width: $small-screen) {
+  .max-large-profilePic{
+    max-width: 90%;
+    max-height: 10em;
+  }
+}
+
+/*Large screens*/
+@media screen and (min-width: $small-screen) {
+  .max-large-profilePic{
+    max-width: 25em;
+    max-height: 25em;
   }
 }

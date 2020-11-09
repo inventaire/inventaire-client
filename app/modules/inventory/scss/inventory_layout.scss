@@ -1,0 +1,23 @@
+@import 'modules/general/scss/utils';
+
+#inventoryLayout{
+  background-color: white;
+  // Set a minimun height so that when a filter is picked and only a few items
+  // are displayed as a result, the view doesn't jump up
+  min-height: 100vh;
+
+  #itemsList{
+    min-height: 100vh;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    padding: 0.5em;
+  }
+
+  @import 'inventory_nav';
+  @import 'user_profile';
+  @import 'group_profile';
+  @import 'inventory_section_navs';
+  @import 'inventory_nav_lists';
+}

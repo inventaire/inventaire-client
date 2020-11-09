@@ -13,7 +13,7 @@
           <h4 class="edition-title">{{label}}</h4>
         </a>
         <div class="inner-claims">
-          {{partial 'entities:edition_claims' this}}
+          {{> 'entities:edition_claims' this}}
         </div>
       </div>
     </div>
@@ -22,6 +22,6 @@
 {{#unless compactMode}}
   <div class="editionEntityActions"></div>
   <div class="items">
-    {{partial 'entities:items_lists' prefix='edition' disabled=itemsListsDisabled}}
+    {{> 'entities:items_lists' prefix='edition' disabled=itemsListsDisabled}}
   </div>
 {{/unless}}

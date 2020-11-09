@@ -19,7 +19,7 @@
 
 <section>
   <h3 class="first">{{i18n 'profile pic'}}</h3>
-  {{partial 'general:behaviors:change_picture' this}}
+  {{> 'general:behaviors:change_picture' this}}
 </section>
 
 <section class="geolocation">
@@ -32,7 +32,7 @@
       {{i18n "your position isn't set yet"}}
     {{/if}}
   </p>
-  {{partial 'map:position_picker_button'}}
+  {{> 'map:position_picker_button'}}
 </section>
 
 {{iconLinkText name='check' url=userPathname linkClasses="done success-button" I18n='done'}}

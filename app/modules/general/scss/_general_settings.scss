@@ -1,13 +1,3 @@
-@import "mixins";
-@import "colors";
-@import "links";
-@import "case";
-@import "radius";
-
-$topbar-bg-color: $darker-grey;
-$topbar-height: 46px;
-$smallscreen-connection-buttons-height: 40px;
-
 html, body{
   font-size: 100%;
 }
@@ -117,39 +107,3 @@ body{
 noscript{
   padding: 1em;
 }
-
-@import "loader";
-@import "buttons";
-@import "shadow_box";
-@import "panel";
-@import "background";
-@import "select_button_group";
-@import "pictures";
-@import "circle_pic";
-@import "input";
-@import "select";
-@import "img";
-@import "label";
-@import "success_check";
-@import "custom_tabs";
-@import "custom_column";
-@import "errors";
-@import "modal";
-@import "switching_button";
-@import "separator";
-@import "new_message";
-@import "line_clamp";
-@import "counter";
-@import "fog";
-@import "call_to_connect";
-@import "toggler";
-@import "picture_picker";
-@import "confirmation_modal";
-@import "filter";
-@import "shortcut_tip";
-@import "menus";
-@import "change_picture";
-@import "tooltip";
-@import "alert_box";
-@import "progress_bars";
-@import "dropdown";

@@ -14,7 +14,3 @@
     display: none;
   }
 }
-
-.newMessage .bottom{
-  @include display-flex(row, center, flex-end);
-}

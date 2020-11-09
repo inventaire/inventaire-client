@@ -1,0 +1,73 @@
+@import 'modules/general/scss/utils';
+$serie-bg: #252525;
+
+.serieLayout{
+  background-color: $serie-bg;
+  &:not(.standalone){
+    // Do not apply on standalone so that a possible welcome:embedded_welcome
+    // partial wouldn't be displayed with padding
+    padding: 1em;
+  }
+  .photo-credits{
+    font-size: 0.7em;
+    color: #aaa;
+    .link{
+      color: #888;
+    }
+  }
+  .serieInfobox .claims{
+    // Not applying a background as it would require to not be visible
+    // when the empty but would also required padding, which would always
+    // make it visible. Applying the padding to the spans doesn't work either
+    // Easy solution: go without background-color
+    color: white;
+    .link, .entity-value{
+      @include link-light;
+    }
+  }
+  text-align: center;
+  .serieInfobox, .description, .claims-wrapper{
+    margin: 0 auto;
+    max-width: 40em;
+  }
+  .serieInfobox, .claims-wrapper{
+    margin-bottom: 1em;
+  }
+  &.standalone{
+    .more{
+      margin-bottom: 2em;
+    }
+  }
+  &:not(.standalone){
+    @include radius;
+    background-color: lighten($serie-bg, 1%);
+    &:not(:last-child){
+      margin-bottom: 2em;
+    }
+  }
+  .serieInfobox{
+    position: relative;
+  }
+  .parts > div{
+    .small-loader{
+      color: white;
+    }
+    padding: 1em;
+    background-color: #ccc;
+    margin: 0 auto;
+    max-width: 50em;
+    .header .counter{
+      display: none;
+    }
+    .workLi{
+      text-align: center;
+      .description, .actions{
+        display: none;
+      }
+      .date{
+        color: $dark-grey;
+      }
+    }
+    margin-bottom: 1em;
+  }
+}

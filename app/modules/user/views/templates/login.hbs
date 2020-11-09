@@ -1,6 +1,6 @@
 <div class="custom-cell">
   <h2 class="subheader">{{i18n 'login'}}</h2>
-  <form {{partial 'user:browser_login_form_attributes' this}}>
+  <form {{> 'user:browser_login_form_attributes' this}}>
     <label for="username">
       <span class="main">{{i18n 'username'}}</span>
       <span class="complement">({{i18n 'or email address'}})</span>
@@ -9,7 +9,7 @@
       <input type="text" id="username" name="username" class="enterClick radius">
     </div>
 
-    {{partial 'user:password_input' this}}
+    {{> 'user:password_input' this}}
 
     <a id="classicLogin" class="button light-blue" tabindex="0">
       {{i18n 'login'}}

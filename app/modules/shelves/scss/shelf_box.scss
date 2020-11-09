@@ -1,0 +1,91 @@
+@import 'modules/general/scss/utils';
+
+.shelfBox{
+  margin: 0.5em 0 0 0;
+  @include display-flex(row);
+  .picture{
+    // TODO: shelf picture
+    width: 10em;
+    height: 10em;
+  }
+  #shelf-info-box{
+    flex: 1;
+    padding: 1em;
+    @include display-flex(row, top, space-between);
+    .name, .description{
+      // make button unbreakable
+      flex: 1 0 0;
+    }
+    #shelf-actions{
+      @include display-flex(column, flex-end);
+      .buttons{
+        margin-top: 0.5em;
+        @include display-flex(column, stretch, center);
+        > a{
+          @include display-flex(row, center, space-between);
+          margin-bottom: 0.5em;
+          min-width: 10em;
+        }
+      }
+    }
+    #showShelfEdit{
+      margin-left:auto
+    }
+  }
+  .data{
+    @include display-flex(row, flex-start);
+    color: #666;
+    margin-bottom: 0.5em;
+    li{
+      margin-right: 1em;
+    }
+  }
+  .count{
+    padding-left: 0.5em;
+  }
+  #close-shelf-small{
+    display: none;
+  }
+  .closeButton{
+    font-size: 1.5rem;
+    @include text-hover($grey, $dark-grey);
+  }
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    #shelf-header{
+      @include display-flex(row, top, center);
+      .picture{
+        // TODO: shelf picture
+        width: 3em;
+        height: 3em;
+        margin-top: 0.5em
+      }
+      #close-shelf-small{
+        padding-top: 0.5em;
+        position: absolute;
+        right: 0.3em;
+        display: block;
+      }
+    }
+    .name, .description{
+      text-align: center;
+    }
+    @include display-flex(column, center, center);
+    #shelf-info-box{
+      @include display-flex(column, center, center);
+      padding: 0;
+      margin-bottom: 0.7em;
+      #shelf-actions{
+        #closeShelf{
+          display: none;
+        }
+      }
+    }
+    .data{
+      @include display-flex(column, center, center);
+      li{
+        margin: 0.2em 0;
+      }
+    }
+  }
+}

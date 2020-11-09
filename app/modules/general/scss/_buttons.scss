@@ -13,7 +13,7 @@
   padding: 1rem 2rem;
   margin: 0;
   @include serif;
-  @include bg-hover($light-blue)
+  @include bg-hover($light-blue);
   color: white;
   &:focus, &:hover{
     color: white;
@@ -22,23 +22,23 @@
     @include bg-hover($grey);
   }
   &.soft-grey{
-    @include bg-hover($soft-grey)
+    @include bg-hover($soft-grey);
   }
   &.dark-grey{
-    @include bg-hover($dark-grey)
+    @include bg-hover($dark-grey);
   }
   &.sans-serif{
     @include sans-serif;
   }
   &.success{
     color: white;
-    @include bg-hover($success-color)
+    @include bg-hover($success-color);
   }
   &.secondary{
-    @include bg-hover($secondary-color)
+    @include bg-hover($secondary-color);
   }
   &.alert{
-    @include bg-hover($warning-color)
+    @include bg-hover($warning-color);
   }
   &.disabled{
     cursor: not-allowed;
@@ -55,43 +55,13 @@ button{
   margin: 0;
   @include sans-serif;
   font-weight: bold;
+  font-size: 1rem;
   appearance: none;
   display: inline-block;
   background-color: inherit;
   cursor: pointer;
   outline: 0;
   @include radius;
-}
-
-$default-button-margin: 0.1em;
-$default-button-padding: 1em;
-
-@mixin custom-button($bg-color, $color: white, $padding:$default-button-padding, $darken:15%){
-  @include text-hover($color);
-  padding: $padding;
-  // include last to keep the transition effect
-  @include bg-hover($bg-color, $darken);
-}
-
-@mixin tiny-button-padding(){
-  padding: 0.2em 0.6em;
-}
-
-// A mixin for selectors already affected by .tiny-button
-// but just requiring some color customization
-@mixin tiny-button-color($bg-color, $color:null, $darken:15%){
-  @include bg-hover($bg-color, $darken);
-  @if $color {
-    @include text-hover($color);
-  }
-  // Override text-hover transition:color, which was overriding bg-hover transition:background-color
-  transition-property: color, background-color;
-}
-
-@mixin tiny-button($bg-color, $color: white, $darken:15%, $radius: $global-radius){
-  @include tiny-button-padding;
-  border-radius: $radius;
-  @include tiny-button-color($bg-color, $color);
 }
 
 .tiny-button{
@@ -113,12 +83,6 @@ $default-button-padding: 1em;
     opacity: 0.7;
     cursor: not-allowed;
   }
-}
-
-@mixin dangerous-button(){
-  @include dangerous-action;
-  padding: $default-button-padding;
-  margin: $default-button-margin;
 }
 
 .dangerous-button{
@@ -192,21 +156,6 @@ div.icon-buttons-header{
   }
 }
 
-@mixin button-group{
-  :first-child{
-    @include radius-left;
-  }
-  :not(:first-child){
-    @include radius-left(0);
-  }
-  :not(:last-child){
-    @include radius-right(0);
-  }
-  :last-child{
-    @include radius-right;
-  }
-}
-
 .button-group{
   @include button-group;
   @include display-flex(row, center, center);
@@ -233,12 +182,6 @@ div.icon-buttons-header{
       padding: 0;
     }
   }
-}
-
-@mixin big-button($color){
-  @include custom-button($color);
-  @include radius;
-  font-weight: bold;
 }
 
 .soft-grey-button{

@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 
-set -eu
+mkdir -p ./public/json
+cp -r app/assets/* ./public
 
-# If public/js/app.js already exist, assume that it's a re-install
-# and that all the following isn't needed
-[ -e public/js/app.js ] && exit 0
-
-mkdir -p ./vendor/js ./vendor/css ./public/sitemaps ./public/json ./public/js ./public/css
-./scripts/install_external_modules
-./scripts/update_mentions.coffee
-
+npm run update-mentions
 ./scripts/build_i18n
 
-# need to build once to make the public folder available
-./node_modules/brunch/bin/brunch build
+# Make git hooks trackable (see https://stackoverflow.com/a/4457124/3324977)
+rm -rf .git/hooks
+ln -s .githooks .git/hooks
+
+curl -sk https://piwik.allmende.io/piwik.js > ./vendor/piwik.js

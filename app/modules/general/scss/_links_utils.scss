@@ -1,0 +1,32 @@
+@mixin underline($color:#222){
+  text-decoration: underline;
+  text-decoration-color: $color;
+}
+
+@mixin underline-on-hover($color:#222){
+  text-decoration: none;
+  &:hover, &:focus{
+    text-decoration: underline;
+    text-decoration-color: $color;
+  }
+}
+
+@mixin link-underline-on-hover($color, $hover){
+  @include text-hover($color, $hover);
+  @include underline-on-hover($hover);
+}
+
+@mixin link(){
+  @include link-underline-on-hover($link-blue, darken($link-blue, 5%));
+}
+
+// to be used on dark background
+@mixin link-light(){
+  @include link-underline-on-hover(white, #eee);
+}
+
+@mixin link-dark(){
+  @include link-underline-on-hover($dark-grey, $darker-grey);
+}
+
+$link-hover-grey: lighten($dark-grey, 5%);

@@ -1,7 +1,7 @@
 {{#if image.url}}
   <div class="image-wrapper">
     <img src="{{imgSrc image.url 300}}" alt="{{label}} cover">
-    {{partial 'entities:photo_credits' image.credits}}
+    {{> 'entities:photo_credits' image.credits}}
   </div>
 {{/if}}
 <div class="authorData text-center entity-data-box">
@@ -18,9 +18,9 @@
   {{!-- modules/tasks/scss/_current_task.scss --}}
   <span class="uri hidden">{{uri}}</span>
   {{#if standalone}}
-    {{partial 'entities:author_claims' this}}
-    {{partial 'entities:clamped_extract' this}}
-    {{partial 'entities:edit_data' this}}
+    {{> 'entities:author_claims' this}}
+    {{> 'entities:clamped_extract' this}}
+    {{> 'entities:edit_data' this}}
   {{/if}}
 </div>
 <a class="unwrap">{{icon 'chevron-down'}}</a>

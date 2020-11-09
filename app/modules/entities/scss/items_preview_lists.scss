@@ -1,0 +1,78 @@
+@import 'modules/general/scss/utils';
+.itemsPreviewLists{
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  @include radius;
+  .header{
+    @include display-flex(row, center, space-between);
+    h3{
+      margin-bottom: 0;
+      @include sans-serif;
+      font-size: 1rem;
+      .fa, .label{
+        color: $dark-grey;
+      }
+      .label{
+        margin-right: auto;
+      }
+    }
+  }
+
+  &:not(.emptyLists){
+    .header{
+      margin-bottom: 0.5em;
+    }
+  }
+
+  &.emptyLists{
+    opacity: 0.6;
+    @include display-flex(row, center, space-between);
+    .items-lists-per-transactions{
+      display: none;
+    }
+  }
+  .items-lists-loader{
+    text-align: center;
+    color: #bbb;
+    @include display-flex(row, center, center);
+    .small-loader{
+      padding: 0.3em;
+    }
+    label{
+      flex: 1 0 auto;
+      white-space: nowrap;
+    }
+  }
+
+  &.compact{
+    .items-lists-per-transactions{
+      @include display-flex(row);
+    }
+  }
+
+  .items-lists-per-transactions{
+    // add a hint of padding to prevent the "show/hide details" links
+    // (which have a position: absolute) to overlap
+    padding-bottom: 0.3em;
+    max-height: 15em;
+    overflow-y: auto;
+  }
+
+  .empty-list{
+    padding: 0 0.5em;
+    color: lighten($grey, 15%);
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: 25em) {
+    min-width: 20em;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: 25em) {
+    min-width: 70vw;
+  }
+}
+
+
+@import 'items_preview_list';

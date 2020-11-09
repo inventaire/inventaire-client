@@ -1,0 +1,20 @@
+@import 'modules/general/scss/utils';
+
+.positionPicker{
+  text-align: center;
+  p{
+  }
+  .context{
+    padding: 0.5em 0.5em 0.2em 0.5em;
+  }
+  .tip{
+    background-color: $lighter-grey;
+    padding: 0.2em 0.5em 0.5em 0.5em;
+  }
+  .bottom{
+    margin-top: 1em;
+  }
+}
+#positionPickerMap{
+  background-color: $lighter-grey;
+}

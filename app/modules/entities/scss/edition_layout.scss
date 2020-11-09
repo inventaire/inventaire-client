@@ -1,0 +1,98 @@
+@import 'modules/general/scss/utils';
+
+.editionLayout{
+  .layout-type-label{
+    margin: 0.5em;
+  }
+  .edition-data-wrapper{
+    margin: 0 auto;
+    background-color: white;
+    max-width: 60em;
+  }
+  .edition-data{
+    @include display-flex(row, null, flex-start);
+  }
+  .entity-data-box{
+    margin: 1em 0;
+    // Give room to .edit-data-buttons which are positioned absolutely
+    padding-right: 3em;
+  }
+  .cover{
+    margin: 1em;
+  }
+  .subtitle{
+    margin-bottom: 1em;
+    color: #444;
+  }
+  .inner-claims{
+    position: relative;
+    // nesting to re-inforce the selector's strength
+    .property-value{
+      color: $grey;
+    }
+  }
+  .showEntityEdit.pencil{
+    @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
+  }
+  .edition-works{
+    @include display-flex(row, baseline, center, wrap);
+  }
+  .edition-work{
+    text-align: center;
+    width: 25em;
+    @include display-flex(column, center, center);
+    @include radius;
+    @include bg-hover($dark-grey);
+    margin: 1em;
+    padding: 1em;
+    span{
+      color: white;
+    }
+    .editions-covers{
+      @include display-flex(row, center, center);
+      .cover{
+        margin: 0.5em;
+      }
+    }
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .edition-data{
+      flex-direction: column;
+      align-items: center;
+      h2{
+        text-align: center;
+      }
+    }
+    .entity-data-box{
+      position: relative;
+      .edit-data-buttons{
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+    .items-lists{
+      width: 100%;
+    }
+    .meta{
+      .uri{
+        display: none;
+      }
+    }
+    .edition-work{
+      width: auto;
+      padding: 0.5em;
+      margin: 0.2em 0;
+    }
+  }
+  /*Medium and Large screens*/
+  @media screen and (min-width: $very-small-screen) {
+    .edition-data-wrapper{
+      padding: 1em;
+    }
+    .claims, .itemsPreviewLists{
+      min-width: 20em;
+    }
+  }
+}

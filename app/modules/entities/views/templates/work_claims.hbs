@@ -21,6 +21,6 @@
     {{urlClaim claims 'wdt:P856'}} {{!-- official website --}}
     {{urlClaim claims 'wdt:P953'}} {{!-- full text available at --}}
     {{platformClaim claims 'wdt:P2002'}} {{!-- twitter: yes some books have a twitter!! actually, just one: Q20736124 --}}
-    {{#if hasEbooks}}{{partial 'entities:ebooks' this}}{{/if}}
+    {{#if hasEbooks}}{{> 'entities:ebooks' this}}{{/if}}
   </p>
 </div>

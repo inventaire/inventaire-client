@@ -18,8 +18,8 @@
       </div>
     </a>
     {{!-- Should be outside the above anchor to avoid having nested anchors --}}
-    {{partial 'entities:editor:identifier_with_tooltip' valueEntity}}
+    {{> 'entities:editor:identifier_with_tooltip' valueEntity}}
   {{else}}
-    {{partial 'loader' align='start'}}
+    {{> 'loader' align='start'}}
   {{/if}}
 {{/if}}

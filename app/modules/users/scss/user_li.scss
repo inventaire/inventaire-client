@@ -1,0 +1,176 @@
+@import 'modules/general/scss/utils';
+$user-height: 3em;
+$stretch-user-height: 5em;
+
+$user-bg: #ddd;
+.userLi{
+  background-color: white;
+  padding: 0.5em;
+  @include radius;
+  color: $light-grey;
+  img{
+    margin-left: 0;
+    height: $user-height;
+    width: $user-height;
+    overflow: hidden;
+  }
+  .right-box{
+    .select{
+      min-height: $user-height;
+      flex: 1 1 auto;
+      overflow: hidden;
+      text-align: left;
+      .bio{
+        max-height: 5em;
+        padding-left: 0.2em;
+        opacity: 0.8;
+      }
+    }
+    .username{
+      margin-left: 0.3em;
+    }
+    .email{
+      margin-left: 0.3em;
+      margin-right: auto;
+    }
+    .userMenu{
+      flex: 0 0 auto;
+      @include display-flex(row, center, flex-end);
+    }
+  }
+  .action{
+    @include radius;
+  }
+  .accept{
+    // spacing from .decline button
+    margin-right: 0.1em;
+  }
+  .invite{
+    @include tiny-button($light-blue);
+    white-space: nowrap;
+  }
+  &.stretch{
+    margin: 0.5em 0 0.5em 0;
+    img{
+      height: $stretch-user-height;
+      width: $stretch-user-height;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    width: 100%;
+    .right-box{
+      width: 100%;
+      @include display-flex(column);
+      .select{
+        width: 100%;
+        text-align: center;
+      }
+      .top{
+        width: 100%;
+      }
+    }
+    &:not(.stretch){
+      @include display-flex(row, center, flex-start);
+      .right-box{
+        position: relative;
+        @include display-flex(row, center, center);
+      }
+      .select{
+        @include display-flex(row, center, center);
+      }
+      .top{
+        position: relative;
+        @include display-flex(row, center, flex-start);
+      }
+      .user-menu{
+        @include position(absolute, 0, 0, 0, null, 1);
+      }
+    }
+    &.stretch{
+      .userMenu{
+        align-self: center;
+        margin-bottom: 1em;
+      }
+    }
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    &.group-context{
+      .request-actions{
+        .action{
+          .fa{
+            // Center
+            width: 1.5em;
+            text-align: center;
+            padding-left: 0.3em;
+          }
+          .label{
+            // Save space
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    @include display-flex(row);
+    .right-box{
+      // hacky way to make sure .userLi doesn't scroll horizontally
+      width: 82%;
+      flex: 1 1 auto;
+      @include display-flex(row);
+    }
+    .top{
+      @include display-flex(row, center, space-between);
+      // min-height: $user-height;
+    }
+    .userMenu{
+      margin-left: auto;
+    }
+    &:not(.stretch){
+      .top{
+        height: $user-height;
+      }
+    }
+    &.stretch{
+      .select{
+        min-height: $stretch-user-height;
+        @include display-flex(column);
+        // when there is no details, .top expand to take all the height
+        // and thus gets its children correctly vertically centered
+        .top{
+          flex: 1 0 auto;
+        }
+        .details{
+          flex: 4 1 auto;
+        }
+      }
+    }
+    .details{
+      // limiting .bio.user-content expansion
+      max-width: 27em;
+    }
+  }
+}
+
+.userLi.friends:not(.group-context){
+  .right-box{
+    a:first-child{
+      .username{
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.userLi .right-box, .userProfile{
+  .userMenu{
+    @include display-flex(row, center, center);
+    white-space: nowrap;
+    .action{
+      @include display-flex(row, center, center);
+    }
+  }
+}

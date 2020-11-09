@@ -1,7 +1,7 @@
 {{#if image.url}}
   <div class="image-wrapper">
     <img src="{{imgSrc image.url 300}}" alt="{{label}} cover">
-    {{partial 'entities:photo_credits' image.credits}}
+    {{> 'entities:photo_credits' image.credits}}
   </div>
 {{/if}}
 <div class="collectionData text-center entity-data-box">
@@ -20,6 +20,6 @@
     </p>
   </div>
 
-  {{partial 'entities:clamped_extract' this}}
-  {{partial 'entities:edit_data' this}}
+  {{> 'entities:clamped_extract' this}}
+  {{> 'entities:edit_data' this}}
 </div>

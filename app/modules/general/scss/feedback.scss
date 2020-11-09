@@ -1,0 +1,43 @@
+@import 'modules/general/scss/utils';
+@import 'menu_commons';
+
+.feedback-menu{
+  .username, .email{
+    font-weight: bold;
+    color: $dark-grey;
+    @include serif;
+  }
+  p{
+    max-width: 30em;
+    margin: auto;
+    text-align: center;
+  }
+  /*Not VerySmall screens*/
+  @media screen and (min-width: $small-screen) {
+    padding: 1em;
+    .from, .to{
+      label, input{
+        display: inline;
+      }
+      text-align: left;
+    }
+    .from{
+      input{
+        margin-top: 1em;
+      }
+    }
+    .to{
+      margin-bottom: 1em;
+    }
+  }
+  #confirmation{
+    color: white;
+    background-color: $success-color;
+    @include radius;
+    padding: 0.5em;
+    margin-top: 2em;
+  }
+  #getInvolved{
+    margin-top: 2em;
+  }
+}

@@ -1,4 +1,7 @@
 .patch-operations{
+  a{
+    color: inherit;
+  }
   .patch{
     @include radius;
     background-color: white;

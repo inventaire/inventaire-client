@@ -1,0 +1,14 @@
+@import 'modules/general/scss/utils';
+
+.collectionLayout{
+  padding: 1em;
+  .entitiesList{
+    margin: 1em auto;
+    .header{
+      h3{
+        color: white;
+      }
+      @include display-flex(row, center, center);
+    }
+  }
+}

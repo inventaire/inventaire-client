@@ -1,0 +1,110 @@
+@import 'modules/general/scss/utils';
+
+.item-row{
+  position: relative;
+  background-color: #fefefe;
+  @include radius(4px);
+  @include shy-border;
+  margin-bottom: 0.2em;
+  @include display-flex(row, center, center);
+  .body, .modes{
+    @include display-flex(row, center, center);
+    flex: 1 0 0;
+  }
+  .modes{
+    flex: 0 0 auto;
+    > div{
+      margin-left: 0.2em;
+    }
+  }
+  .authors{
+    color: $grey;
+  }
+  .info{
+    flex: 1 0 auto;
+  }
+  .details{
+    &:not(:empty){
+      background-color: #eee;
+      padding: 0 0.2em;
+      overflow: hidden;
+      @include radius;
+    }
+  }
+  .avatar{
+    margin: 0 0.2em;
+    @include radius;
+  }
+  .transaction, .listing{
+    @include radius;
+    height: 2em;
+    width: 2em;
+    @include display-flex(row, center, center);
+  }
+  .transaction{
+    margin-left: 1em;
+    &.giving{ @include box-color($giving-color); }
+    &.lending{ @include box-color($lending-color); }
+    &.selling{ @include box-color($selling-color); }
+    &.inventorying{ @include box-color($inventorying-color); }
+  }
+  .listing{
+    &.private{ @include box-color($private-color); }
+    &.network{ @include box-color($network-color); }
+    &.public{ @include box-color($public-color, null); }
+  }
+  input[type="checkbox"]{
+    margin: 1em;
+  }
+  .showItem{
+    @include display-flex(row, center, flex-start);
+    @include bg-hover(white, 5%);
+    flex: 1 0 0;
+    overflow: hidden;
+    margin-right: 0.5em;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    margin-bottom: 1em;
+    margin: 0.5em 0;
+    padding: 0.2em;
+    .showItem{
+      flex-direction: column;
+      align-self: stretch;
+    }
+    .info{
+      align-self: stretch;
+      text-align: center;
+    }
+    .details{
+      max-height: 5em;
+      margin: 0.5em;
+    }
+    .modes{
+      flex-direction: column;
+      > div{
+        margin: 0.1em 0;
+      }
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .info{
+      text-align: left;
+    }
+    .details{
+      max-height: 3em;
+      max-width: 50%;
+    }
+    .image-wrapper{
+      width: 3em;
+      margin-right: 0.5em;
+      min-height: 3em;
+    }
+    .transaction, .listing{
+      margin-right: 1em;
+    }
+  }
+}

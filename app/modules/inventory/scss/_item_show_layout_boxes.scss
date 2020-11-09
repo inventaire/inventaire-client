@@ -1,0 +1,50 @@
+#itemShowLayout{
+  .userBox{
+    .profilePic{
+      // required in Chromium
+      min-width: $user-box-heigth;
+    }
+    span.user{
+      width: 100%;
+    }
+    .username{
+      text-align: center;
+    }
+  }
+  .transactionBox, .listingMenu{
+    .current{
+      flex: 1 1 auto;
+      height: 100%;
+      // required in Chromium
+      min-height: $user-box-heigth;
+      @include display-flex(row, center, center);
+      border-top: 1px solid #fefefe;
+    }
+    .icon{
+      flex: 0 0 auto;
+      @include display-flex(row, center, center);
+      height: 100%;
+      width: $user-box-heigth;
+      // required in Chromium
+      min-height: $user-box-heigth;
+      .fa{
+        // centering
+        padding-left: 0.3em;
+      }
+    }
+    .rest{
+      flex: 1 1 auto;
+      .fa-caret-down{
+        padding-left: 0.5em;
+      }
+    }
+  }
+  @mixin box-color($color, $white-text:1){
+    .icon{
+      background-color: lighten($color, 2%);
+      @if $white-text { @include white-text; }
+    }
+  }
+  @import 'item_transaction_box';
+  @import 'item_listing_box';
+}

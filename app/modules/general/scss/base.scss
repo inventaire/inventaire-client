@@ -1,26 +1,36 @@
-// Make sure the charset is set appropriately
-@charset "UTF-8";
+// Node modules imports
+@import '~normalize.css';
 
-@import "type";
+// Mixins and variables
+@import 'utils';
 
-// those can't be split into several non-partial files (despite the fact that
-// it would allow better error reports than just 'base.scss failed'), as global
-// variables need to be accessible to all
-@import 'grid_and_media_query_ranges';
+@import 'type';
+@import 'colors';
 @import 'fonts_and_typo';
+@import 'links';
+@import 'case';
+@import 'radius';
 @import 'general_settings';
+@import 'loader';
+@import 'buttons';
+@import 'panel';
+@import 'input';
+@import 'select';
+@import 'img';
+@import 'label';
+@import 'success_check';
+@import 'custom_column';
+@import 'modal';
+@import 'line_clamp';
+@import 'alert_box';
+@import 'dropdown';
 @import 'behaviors';
+@import 'top_bar';
+@import 'flash_message';
 @import 'app_layout';
-@import '../../users/scss/users';
-@import '../../welcome/scss/welcome';
-@import '../../user/scss/user';
-@import '../../settings/scss/settings';
 @import '../../network/scss/network';
-@import '../../inventory/scss/inventory_layout';
-@import '../../search/scss/search';
+@import '../../inventory/scss/inventory';
+@import '../../search/scss/live_search';
 @import '../../entities/scss/entities';
 @import '../../notifications/scss/notifications';
-@import '../../tasks/scss/tasks';
-@import '../../transactions/scss/transactions';
-@import '../../shelves/scss/shelves';
 @import '../../map/scss/map';

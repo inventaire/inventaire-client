@@ -29,7 +29,7 @@
 </div>
 <div class="right-bar">
   <div class="fa fa-file-text-o" title="{{i18n 'article_limitation'}}"></div>
-  {{partial 'entities:edit_data' this}}
+  {{> 'entities:edit_data' this}}
   {{#if wikisource}}
     <a class="wikisource" href="{{wikisource.url}}" target="_blank" title="{{I18n 'read online'}}">
       {{icon 'wikisource'}}

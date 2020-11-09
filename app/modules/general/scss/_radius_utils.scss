@@ -1,0 +1,58 @@
+$global-radius: 2px;
+
+@mixin radius($radius:$global-radius){
+  border-radius: $radius;
+}
+@mixin radius-top($radius:$global-radius){
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
+}
+@mixin radius-bottom($radius:$global-radius){
+  border-bottom-left-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+@mixin radius-left($radius:$global-radius){
+  border-top-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+@mixin radius-right($radius:$global-radius){
+  border-top-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin radius-diagonal-a($radius:$global-radius){
+  border-top-left-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin radius-diagonal-b($radius:$global-radius){
+  border-bottom-left-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
+@mixin radius-horizontal-group($radius:$global-radius){
+  :first-child{
+    @include radius-left($radius);
+  }
+  :last-child{
+    @include radius-right($radius);
+  }
+}
+
+@mixin radius-vertical-group($radius:$global-radius){
+  :first-child{
+    @include radius-top($radius);
+  }
+  :last-child{
+    @include radius-bottom($radius);
+  }
+}
+
+@mixin radius-horizontal-group-bottom($radius:$global-radius){
+  :first-child{
+    border-bottom-left-radius: $radius;
+  }
+  :last-child{
+    border-bottom-right-radius: $radius;
+  }
+}
