@@ -42,7 +42,7 @@ export default Marionette.CompositeView.extend({
 
     const { names } = await preq.get(app.API.entities.duplicates)
     log_.info(names, 'names')
-    stopLoading(this)
+    stopLoading.call(this)
     this.names = names
     this.render()
   },
