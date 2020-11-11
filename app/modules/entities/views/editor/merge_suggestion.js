@@ -90,7 +90,7 @@ export default Marionette.LayoutView.extend({
     .catch(forms_.catchAlert.bind(null, this))
   },
 
-  isSelected () { this.$el.find('input[type="checkbox"]').prop('checked') }
+  isSelected () { return this.$el.find('input[type="checkbox"]').prop('checked') }
 })
 
 const haveLabelMatch = (suggestion, toEntity) => someMatch(getNormalizedLabels(suggestion), getNormalizedLabels(toEntity))

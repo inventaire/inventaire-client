@@ -24,7 +24,7 @@ const getMergeSuggestions = async model => {
   const tasksEntitiesUris = _.pluck(tasksEntitiesData, 'uri')
   const homonymEntities = await getHomonyms(model, tasksEntitiesUris)
   // returning a mix of raw objects and models
-  tasksEntitiesData.concat(homonymEntities)
+  return tasksEntitiesData.concat(homonymEntities)
 }
 
 const getTasksByUri = async model => {
