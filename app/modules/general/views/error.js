@@ -27,7 +27,6 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    app.execute('background:cover')
     this.ui.errorBox.fadeIn()
   }
 })
