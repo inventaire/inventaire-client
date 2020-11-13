@@ -7,13 +7,14 @@
   <span class="value">{{versionNumber}}</span>
 </p>
 <p>
-  <span class="label">{{i18n 'username'}}:</span>
-    {{#if user.special}}
-      <span class="value">{{user.username}}</span>
-      <span class="special-user">{{I18n 'special user'}}</span>
-    {{else}}
-      <a class="value showUser" href="{{user.pathname}}">{{user.username}}</a>
-    {{/if}}
+  <span class="label">{{i18n 'user'}}:</span>
+  {{#if user.special}}
+    <span class="value">{{user.username}}</span>
+    <span class="special-user">{{I18n 'special user'}}</span>
+  {{else}}
+    <a class="value showUser" href="{{user.pathname}}">{{user.username}}</a>
+  {{/if}}
+  <a class="showUserContributions" href="{{user.contributions}}">{{i18n 'contributions'}}</a>
 </p>
 <p>
   <span class="label">{{i18n 'date'}}:</span>
