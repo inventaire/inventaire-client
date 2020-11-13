@@ -105,8 +105,11 @@ forms_.throwError = function (message, selector, ...context) {
 }
 
 const assertViewHasBehavior = function (view, name) {
-  for (const behavior of view._behaviors) {
-    if (Object.getPrototypeOf(behavior).name === name) return
+  // When the view has no behavior, view._behaviors is an empty object
+  if (view._behaviors instanceof Array) {
+    for (const behavior of view._behaviors) {
+      if (Object.getPrototypeOf(behavior).name === name) return
+    }
   }
   throw error_.new(`view misses behavior: ${name}`, 500)
 }
