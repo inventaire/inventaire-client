@@ -112,6 +112,7 @@ export default API = {
       } else {
         return escapeExpression(value)
       }
+    case 'number': return value
     case 'array': return value.map(API.multiTypeValue).join('')
     case 'object': return escapeExpression(JSON.stringify(value))
     }
