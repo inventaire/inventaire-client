@@ -98,6 +98,18 @@ const onPreviousRoute = function () {
 
 const app = window.app = new App()
 
+const monkeyPatchWreqrHandler = (attribute, handlers) => {
+  const originalFn = app[attribute]
+  app[attribute] = function (handlerKey, ...args) {
+    // Prevent silent errors when a handler is called but hasn't been defined yet
+    if (handlers[handlerKey] == null) throw new Error(`wreqr ${attribute} "${handlerKey}" isn't defined`)
+    else return originalFn.call(this, handlerKey, ...args)
+  }
+}
+
+monkeyPatchWreqrHandler('request', app.reqres._wreqrHandlers)
+monkeyPatchWreqrHandler('execute', app.commands._wreqrHandlers)
+
 export default app
 
 const scrollToPageTop = () => window.scrollTo(0, 0)
