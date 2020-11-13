@@ -19,6 +19,7 @@ export default Marionette.ItemView.extend({
 
   events: {
     'click .revert': 'revert',
+    'click .showUser': 'showUser',
     'click .showUserContributions': 'showUserContributions',
   },
 
@@ -29,6 +30,10 @@ export default Marionette.ItemView.extend({
       app.execute('show:entity:history', this.model.entity.get('uri'))
     })
     .catch(forms_.catchAlert.bind(null, this))
+  },
+
+  showUser (e) {
+    if (!isOpenedOutside(e)) app.execute('show:user', this.model.user)
   },
 
   showUserContributions (e) {
