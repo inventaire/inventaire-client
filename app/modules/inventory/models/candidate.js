@@ -79,11 +79,10 @@ export default Backbone.Model.extend({
     const work = { labels: {}, claims: {} }
     work.labels[labelLang] = title
 
-    if (data.publicationDate != null) { edition.claims['wdt:P577'] = data.publicationDate }
-    if (data.numberOfPages != null) { edition.claims['wdt:P1104'] = data.numberOfPages }
-    if (data.goodReadsEditionId != null) { edition.claims['wdt:P2969'] = data.goodReadsEditionId }
-
-    if (data.libraryThingWorkId != null) { work.claims['wdt:P1085'] = data.libraryThingWorkId }
+    if (data.publicationDate != null) edition.claims['wdt:P577'] = data.publicationDate
+    if (data.numberOfPages != null) edition.claims['wdt:P1104'] = data.numberOfPages
+    if (data.goodReadsEditionId != null) edition.claims['wdt:P2969'] = data.goodReadsEditionId
+    if (data.libraryThingWorkId != null) work.claims['wdt:P1085'] = data.libraryThingWorkId
 
     const authors = forceArray(authorsNames).map(name => {
       const labels = { [labelLang]: name }
