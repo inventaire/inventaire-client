@@ -41,6 +41,9 @@ export default {
   },
 
   merge: action('merge'),
+
+  revertEdit: action('revert-edit'),
+
   delete: action('delete'),
   duplicates: action('duplicates'),
   contributions (userId, limit, offset) {

@@ -146,6 +146,8 @@ const API = {
     if (!app.request('require:loggedIn', `entity/${uri}/history`)) return
     if (!app.request('require:admin:access')) return
 
+    app.execute('show:loader')
+
     uri = normalizeUri(uri)
 
     const model = await getEntityModel(uri)
