@@ -13,6 +13,13 @@
       color: #777;
     }
   }
+  .stat-value{
+    display: inline-block;
+  }
+  .precise-time{
+    margin-left: 0.5em;
+    color: $grey;
+  }
   .fetchMore{
     display: inline-block;
     text-align: center;
@@ -100,3 +107,5 @@
     &.deletion{ background-color: $soft-red }
   }
 }
+
+@import 'modules/entities/scss/patch_operations';

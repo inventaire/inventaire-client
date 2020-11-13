@@ -6,10 +6,23 @@
   </li>
   {{#unless user.special}}
     <li>
+      <span class="stat-label">{{i18n 'profile'}}:</span>
+      <a class="link showUser" href="{{user.pathname}}">{{user.username}}</a>
+    </li>
+    <li>
       <span class="stat-label">{{i18n 'created:'}}</span>
-      <span class="stat-value">{{localTimeString user.created}}</span>
+      <p class="stat-value">
+        <span class="time-from-now">{{timeFromNow user.created}}</span>
+        <span class="precise-time">{{localTimeString user.created}}</span>
+      </p>
     </li>
   {{/unless}}
+  {{#if user.roles}}
+    <li>
+      <span class="stat-label">{{i18n 'roles'}}:</span>
+      <span class="stat-value">{{user.roles}}</span>
+    </li>
+  {{/if}}
   <li>
     <span class="stat-label">{{i18n 'total contributions:'}}</span>
     <span class="stat-value totalContributions"></span>
