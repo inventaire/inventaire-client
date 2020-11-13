@@ -3,7 +3,6 @@ import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
-import History from './history'
 import mergeEntities from './lib/merge_entities'
 import { normalizeUri } from 'modules/entities/lib/entities'
 import adminSectionTemplate from './templates/admin_section.hbs'
@@ -19,18 +18,11 @@ export default Marionette.LayoutView.extend({
   },
 
   regions: {
-    history: '#history',
     mergeSuggestion: '#merge-suggestion'
   },
 
   ui: {
     mergeWithInput: '#mergeWithField',
-    historyTogglers: '#historyToggler i.fa'
-  },
-
-  initialize () {
-    this._historyShown = false
-    this.showHistorySection = app.user.hasAdminAccess
   },
 
   serializeData () {
@@ -40,8 +32,6 @@ export default Marionette.LayoutView.extend({
       isAnEdition: this.model.type === 'edition',
       isWikidataEntity: this.model.get('isWikidataEntity'),
       isInvEntity: this.model.get('isInvEntity'),
-      wikidataEntityHistoryHref: this.model.get('wikidata.history'),
-      showHistorySection: this.showHistorySection
     }
   },
 
@@ -49,7 +39,6 @@ export default Marionette.LayoutView.extend({
     'click #mergeWithButton': 'merge',
     'click .deleteEntity': 'deleteEntity',
     'click #showMergeSuggestions': 'showMergeSuggestions',
-    'click #historyToggler': 'toggleHistory'
   },
 
   canBeMerged () {
@@ -73,17 +62,6 @@ export default Marionette.LayoutView.extend({
     .then(app.Execute('show:entity:from:model'))
     .catch(error_.Complete('#mergeWithField', false))
     .catch(forms_.catchAlert.bind(null, this))
-  },
-
-  showHistory () {
-    return this.model.fetchHistory()
-    .then(() => this.history.show(new History({ model: this.model })))
-  },
-
-  toggleHistory () {
-    if (!this.history.hasView()) { this.showHistory() }
-    this.history.$el.toggleClass('hidden')
-    this.ui.historyTogglers.toggle()
   },
 
   deleteEntity () {
@@ -134,4 +112,6 @@ const displayDeteEntityErrorContext = function (err) {
   throw err
 }
 
-const buildClaimLink = claim => `<li><a href='/entity/${claim.entity}/edit' class='showEntityEdit'>${claim.property} - ${claim.entity}</a></li>`
+const buildClaimLink = claim => {
+  return `<li><a href='/entity/${claim.entity}/edit' class='showEntityEdit'>${claim.property} - ${claim.entity}</a></li>`
+}

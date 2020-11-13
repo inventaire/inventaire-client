@@ -1,31 +1,14 @@
 @import 'modules/general/scss/utils';
 
 .entity-history{
-  &.standalone{
-    max-width: 50em;
-    margin: 0 auto;
-    /*Medium and Large screens*/
-    @media screen and (min-width: $very-small-screen) {
-      .version{
-        min-width: 40em;
-      }
-    }
-  }
-  &:not(.standalone), .version > p{
-    a{
-      color: white;
-      @include underline-on-hover(white);
-    }
-  }
   color: white;
-
-}
-
-#historyToggler{
-  // Take all the space horizontally
-  display: block;
-  &, .fa{
-    color: white
+  max-width: 50em;
+  margin: 0 auto;
+  /*Medium and Large screens*/
+  @media screen and (min-width: $very-small-screen) {
+    .version{
+      min-width: 40em;
+    }
   }
 }
 
