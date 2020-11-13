@@ -47,7 +47,12 @@ const error = (err, label) => {
 
   // No need to report server error back to the server
   if (!err.serverError) reportError(err)
-  console.error(`[${label}]\n`, err, err.context)
+
+  const loggerArgs = []
+  if (label) loggerArgs.push(`[${label}]\n`)
+  loggerArgs.push(err)
+  if (err.context) loggerArgs.push(err.context)
+  console.error(...loggerArgs)
 }
 
 const warn = (...args) => {
