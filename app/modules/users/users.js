@@ -1,5 +1,6 @@
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
+import { i18n } from 'modules/user/lib/i18n'
 import initUsersCollections from './users_collections'
 import initHelpers from './helpers'
 import initRequests from './requests'
@@ -40,12 +41,13 @@ export default {
 }
 
 const API = {
-  async showUserContributions (idOrUsername) {
-    if (app.request('require:loggedIn', `users/${idOrUsername}/contributions`)) {
-      const user = await app.request('resolve:to:userModel', idOrUsername)
+  async showUserContributions (idOrUsernameOrModel) {
+    const user = await app.request('resolve:to:userModel', idOrUsernameOrModel)
+    if (app.request('require:loggedIn', user.get('contributions'))) {
       const username = user.get('username')
       const path = `users/${username}/contributions`
-      app.navigate(path, { metadata: { title: 'contributions' } })
+      const title = i18n('contributions_by', { username })
+      app.navigate(path, { metadata: { title } })
       if (app.request('require:admin:access')) {
         const { default: UserContributions } = await import('./views/user_contributions')
         return app.layout.main.show(new UserContributions({ user }))
