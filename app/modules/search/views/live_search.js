@@ -1,12 +1,3 @@
-// TODO:
-// - hint to input ISBNs directly, maybe in the alternatives sections
-// - add 'help': indexed wiki.inventaire.io entries to give results
-//   to searches such as 'FAQ' or 'help creating group'
-// - add 'place': search Wikidata for entities with coordinates (wdt:P625)
-//   and display a layout with users & groups nearby, as well as books with
-//   narrative location (wdt:P840), or authors born (wdt:P19)
-//   or dead (wdt:P20) nearby
-
 import findUri from '../lib/find_uri'
 import error_ from 'lib/error'
 import { looksLikeAnIsbn } from 'lib/isbn'
@@ -42,7 +33,8 @@ export default Marionette.CompositeView.extend({
 
   ui: {
     all: '#section-all',
-    sections: '.searchSection',
+    entitiesSections: '.entitiesSections',
+    socialSections: '.socialSections',
     resultsWrapper: '.resultsWrapper',
     results: 'ul.results',
     alternatives: '.alternatives',
@@ -51,13 +43,18 @@ export default Marionette.CompositeView.extend({
   },
 
   serializeData () {
-    const sections = sectionsData()
-    if (sections[this.selectedSectionName] == null) {
-      log_.warn({ sections, selectedSectionName: this.selectedSectionName }, 'unknown search section')
-      this.selectedSectionName = 'all'
+    const {
+      entitiesSections
+    } = sectionsData()
+    const {
+      socialSections
+    } = sectionsData()
+    if ((entitiesSections[this.selectedSectionName] == null) && (socialSections[this.selectedSectionName] == null)) {
+      log_.warn({ selectedSectionName: this.selectedSectionName }, 'unknown search section')
+      this.selectedSectionName = 'book'
     }
-    sections[this.selectedSectionName].selected = true
-    return { sections }
+    entitiesSections[this.selectedSectionName].selected = true
+    return { socialSections, entitiesSections }
   },
 
   events: {
@@ -90,33 +87,62 @@ export default Marionette.CompositeView.extend({
 
   selectTypeFromTarget ($target) {
     const { id } = $target[0]
-    const type = getTypeFromId(id)
-    this.selectType(type)
+    const name = getSectionName(id)
+    this.selectSectionAndSearch(name)
   },
 
-  selectType (type) {
-    if (type === this._lastType) return
-
-    this.ui.sections.removeClass('selected')
-    this.ui.sections.filter(`#section-${type}`).addClass('selected')
-    if (type === 'all') {
-      this.section = null
-    } else { this.section = child => child.get('typeAlias') === type }
+  selectSectionAndSearch (name) {
+    if (this.isSectionSelected(name)) {
+      this.unselectSection(name)
+    } else {
+      if (isSocialSection(name)) { this.updateSocialSections(name) }
+      if (isEntitiesSection(name)) { this.updateEntitiesSections(name) }
+    }
 
     this._searchOffset = 0
-    this._lastType = type
+    this._lastType = name
     // Refresh the search with the new sections
     if ((this._lastSearch != null) && (this._lastSearch !== '')) { this.lazySearch(this._lastSearch) }
 
-    this.updateAlternatives(type)
+    return this.updateAlternatives(name)
   },
 
-  updateAlternatives (search) {
-    if (sectionsWithAlternatives.includes(this._lastType)) {
-      this.showAlternatives(search)
-    } else {
-      this.hideAlternatives()
+  unselectSection (name) {
+    if (isSocialSection(name)) {
+      this.ui.socialSections.find(`#section-${name}`).removeClass('selected')
     }
+    if (isEntitiesSection(name)) {
+      return this.ui.entitiesSections.find(`#section-${name}`).removeClass('selected')
+    }
+  },
+
+  updateEntitiesSections (name) {
+    if (isSocialSection(this._lastType)) {
+      this.ui.socialSections.find('.socialSection').removeClass('selected')
+    }
+    // unselect all selected section to have a search dedicated to subjects only
+    if (name === 'subject') {
+      this.ui.entitiesSections.find('.entitiesSection').removeClass('selected')
+    } else {
+      this.ui.entitiesSections.find('#section-subject').removeClass('selected')
+    }
+    return this.ui.entitiesSections.find(`#section-${name}`).addClass('selected')
+  },
+  // @entitiesSection = (child)-> child.get('typeAlias') is name
+
+  updateSocialSections (name) {
+    // needs to unselect the default 'book' section
+    if (!this._lastType || isEntitiesSection(this._lastType)) {
+      this.ui.entitiesSections.find('.entitiesSection').removeClass('selected')
+    }
+    return this.ui.socialSections.find(`#section-${name}`).addClass('selected')
+  },
+  // @socialSection = (child)-> child.get('typeAlias') is name
+
+  updateAlternatives (search) {
+    if (Array.from(sectionsWithAlternatives).includes(this._lastType)) {
+      return this.showAlternatives(search)
+    } else { return this.hideAlternatives() }
   },
 
   search (search) {
@@ -206,8 +232,8 @@ export default Marionette.CompositeView.extend({
   stopLoadingSpinner () { this.ui.loader.html('') },
 
   getTypes () {
-    const name = getTypeFromId(this.$el.find('.selected')[0].id)
-    return sectionToTypes[name]
+    const names = this.getSelectedSectionsNames()
+    return _.map(names, getSectionType)
   },
 
   resetResults (searchId, results) {
@@ -288,14 +314,12 @@ export default Marionette.CompositeView.extend({
 
   loadMore () {
     // Do not try to fetch more results if the last batch was incomplete
-    if (this._lastResultsLength < searchBatchLength) {
-      this.stopLoadingSpinner()
-    } else {
-      this.showLoadingSpinner()
-      this._searchOffset += searchBatchLength
-      return this._search(this._lastSearch)
-      .then(this.addNewResults.bind(this))
-    }
+    if (this._lastResultsLength < searchBatchLength) { return this.stopLoadingSpinner() }
+
+    this.showLoadingSpinner()
+    this._searchOffset += searchBatchLength
+    return this._search(this._lastSearch)
+    .then(this.addNewResults.bind(this))
   },
 
   addNewResults (results) {
@@ -303,6 +327,16 @@ export default Marionette.CompositeView.extend({
     const newResults = results.filter(result => !currentResultsUri.includes(result.uri))
     this._lastResultsLength = newResults.length
     return this.collection.add(newResults)
+  },
+
+  isSectionSelected (name) {
+    const names = this.getSelectedSectionsNames()
+    return names.includes(name)
+  },
+
+  getSelectedSectionsNames () {
+    const selectedElements = this.$el.find('.selected')
+    return getNamesFromIds(_.map(selectedElements, _.identity('id')))
   }
 })
 
@@ -318,9 +352,17 @@ const sectionToTypes = {
   group: 'groups'
 }
 
-const sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie', 'collection', 'publisher' ]
+var sectionsWithAlternatives = [ 'book', 'author', 'serie', 'collection', 'publisher' ]
 
-const getTypeFromId = id => id.replace('section-', '')
+var isEntitiesSection = name => sectionsData().entitiesSections[name] != null
+
+var isSocialSection = name => sectionsData().socialSections[name] != null
+
+var getNamesFromIds = ids => _.map(ids, getSectionName)
+
+var getSectionName = id => id.replace('section-', '')
+
+var getSectionType = name => sectionToTypes[name]
 
 // Pre-formatting is required to set the type
 // Taking the opportunity to omit all non-required data
@@ -345,14 +387,18 @@ const formatEntity = function (entity) {
   return new Backbone.Model(data)
 }
 
-const sectionsData = () => ({
-  all: { label: 'all' },
-  book: { label: 'book' },
-  author: { label: 'author' },
-  serie: { label: 'series_singular' },
-  user: { label: 'user' },
-  group: { label: 'group' },
-  publisher: { label: 'publisher' },
-  collection: { label: 'collection' },
-  subject: { label: 'subject' }
+var sectionsData = () => ({
+  entitiesSections: {
+    book: { label: 'book' },
+    author: { label: 'author' },
+    serie: { label: 'series_singular' },
+    publisher: { label: 'publisher' },
+    collection: { label: 'collection' },
+    subject: { label: 'subject' }
+  },
+
+  socialSections: {
+    user: { label: 'user' },
+    group: { label: 'group' }
+  }
 })
