@@ -230,6 +230,7 @@ const setHandlers = function () {
     'show:entity:edit:from:params': showEntityEdit,
     'show:entity:create': showEntityCreate,
     'show:entity:cleanup': API.showEntityCleanup,
+    'show:entity:history': API.showEntityHistory,
     'show:merge:suggestions': showMergeSuggestions,
     'report:entity:type:issue': reportTypeIssue,
     'show:wikidata:edit:intro:modal': showWikidataEditIntroModal

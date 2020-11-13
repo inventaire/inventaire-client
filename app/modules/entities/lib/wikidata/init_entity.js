@@ -24,13 +24,16 @@ const setWikiLinks = function (lang) {
     }
   }
 
+  // Alias on the root, as some views expect to find a history url there
+  updates.history = updates.wikidata.history
+
   const sitelinks = this.get('sitelinks')
   if (sitelinks != null) {
     updates.wikipedia = sitelinks_.wikipedia(sitelinks, lang, this.originalLang)
     updates.wikisource = sitelinks_.wikisource(sitelinks, lang, this.originalLang)
   }
 
-  return this.set(updates)
+  this.set(updates)
 }
 
 const setAttributes = function (lang) {
@@ -51,13 +54,13 @@ const setAttributes = function (lang) {
 }
 
 const specificMethods = {
-  getWikipediaExtract () {
+  async getWikipediaExtract () {
     // If an extract was already fetched, we are done
-    if (this.get('extract') != null) { return Promise.resolve() }
+    if (this.get('extract') != null) return
 
     const lang = this.get('wikipedia.lang')
     const title = this.get('wikipedia.title')
-    if ((lang == null) || (title == null)) { return Promise.resolve() }
+    if ((lang == null) || (title == null)) return
 
     return wikipedia_.extract(lang, title)
     .then(_setWikipediaExtractAndDescription.bind(this))
@@ -70,7 +73,7 @@ const _setWikipediaExtractAndDescription = function (extractData) {
   if (isNonEmptyString(extract)) {
     const extractDirection = rtlLang.includes(lang) ? 'rtl' : 'ltr'
     this.set('extractDirection', extractDirection)
-    return this.set('extract', extract)
+    this.set('extract', extract)
   }
 }
 

@@ -63,7 +63,7 @@
 
 .edit-data-buttons{
   @include display-flex(row, center, center);
-  .pencil, .refreshEntityData, .showOnWikidata, .deduplicateEntity, .deduplicateSubEntities, .showEntityCleanup{
+  .pencil, .refreshEntityData, .showOnWikidata, .deduplicateEntity, .deduplicateSubEntities, .showEntityCleanup, .showEntityHistory{
     font-size: 1.4rem;
     @include text-hover(rgba(white, 0.5), white);
     .fa{

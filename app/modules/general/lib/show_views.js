@@ -3,9 +3,9 @@ import DonateMenu from '../views/donate_menu'
 import FeedbackMenu from '../views/feedback_menu'
 
 export default {
-  showLoader (options = {}) {
+  showLoader () {
     const loader = '<div class="full-screen-loader"><div></div></div>'
-    return $(app.layout.main.el).html(loader)
+    $(app.layout.main.el).html(loader)
   },
 
   showEntity (e) {
@@ -16,8 +16,9 @@ export default {
     }
   },
 
-  showEntityEdit (e) { return entityAction(e, 'show:entity:edit') },
-  showEntityCleanup (e) { return entityAction(e, 'show:entity:cleanup') },
+  showEntityEdit (e) { entityAction(e, 'show:entity:edit') },
+  showEntityCleanup (e) { entityAction(e, 'show:entity:cleanup') },
+  showEntityHistory (e) { entityAction(e, 'show:entity:history') },
   showDonateMenu () {
     app.layout.modal.show(new DonateMenu({ navigateOnClose: true }))
     app.navigate('donate')
@@ -32,19 +33,17 @@ export default {
     // Known case of missing href: #signalDataError anchors won't have an href
     const ignoreMissingHref = true
     if (!isOpenedOutside(event, ignoreMissingHref)) {
-      if (!options) { options = {} }
+      if (!options) options = {}
       // Do not navigate as that's a  mess to go back then
       // and handle the feedback modals with or without dedicated pathnames
-      return app.layout.modal.show(new FeedbackMenu(options))
+      app.layout.modal.show(new FeedbackMenu(options))
     }
   }
 }
 
 const entityAction = function (e, action) {
-  const {
-    href
-  } = e.currentTarget
-  if (href == null) { throw new Error(`couldnt ${action}: href not found`) }
+  const { href } = e.currentTarget
+  if (href == null) throw new Error(`couldnt ${action}: href not found`)
 
   // If the link was Ctrl+clicked or if it was an external link with target='_blank',
   // typically, a link to a Wikidata entity page

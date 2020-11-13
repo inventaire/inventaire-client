@@ -28,7 +28,8 @@ export default Marionette.LayoutView.extend({
 
   events: {
     'click .showEntityEdit': 'showEntityEdit',
-    'click .showEntityCleanup': 'showEntityCleanup'
+    'click .showEntityCleanup': 'showEntityCleanup',
+    'click .showEntityHistory': 'showEntityHistory',
   },
 
   behaviors: {

@@ -31,7 +31,7 @@
       color: $grey;
     }
   }
-  .showEntityEdit.pencil{
+  .showEntityEdit.pencil, .showEntityHistory{
     @include text-hover(rgba($dark-grey, 0.5), $dark-grey);
   }
   .edition-works{

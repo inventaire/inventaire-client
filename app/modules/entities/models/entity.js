@@ -69,7 +69,6 @@ export default Filterable.extend({
       this.set({
         edit: `${pathname}/edit`,
         cleanup: `${pathname}/cleanup`,
-        history: `${pathname}/history`
       })
     }
 

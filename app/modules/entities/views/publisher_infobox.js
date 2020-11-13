@@ -8,6 +8,7 @@ export default GeneralInfobox.extend({
   serializeData () {
     const attrs = this.model.toJSON()
     clampedExtract.setAttributes(attrs)
+    attrs.showHistoryButton = app.user.hasDataadminAccess
     return attrs
   }
 })

@@ -7,7 +7,10 @@ export default GeneralInfobox.extend({
   template: authorInfoboxTemplate,
   serializeData () {
     const attrs = this.model.toJSON()
-    attrs.showDeduplicateEntityButton = app.user.hasDataadminAccess && this.options.standalone
+    if (this.options.standalone) {
+      attrs.showDeduplicateEntityButton = app.user.hasDataadminAccess
+      attrs.showHistoryButton = app.user.hasDataadminAccess
+    }
     clampedExtract.setAttributes(attrs)
     attrs.standalone = this.options.standalone
     return attrs

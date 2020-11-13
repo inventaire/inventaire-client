@@ -14,6 +14,9 @@
     <a class="deduplicateSubEntities" title="{{i18n 'deduplicate sub-entities'}}">{{icon 'compress'}}</a>
   {{/if}}
   {{#if showCleanupButton}}
-    {{iconLink 'arrows' cleanup classes='showEntityCleanup' i18n='cleanup entity'}}
+    {{iconLink 'arrows' cleanup i18n='cleanup entity' linkClasses='showEntityCleanup'}}
+  {{/if}}
+  {{#if showHistoryButton}}
+    {{iconLink 'history' history i18n='entity history' linkClasses='showEntityHistory'}}
   {{/if}}
 </div>
