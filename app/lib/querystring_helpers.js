@@ -13,7 +13,7 @@ export default function () {
   })
 }
 
-const get = function (key) {
+export const get = function (key) {
   const value = getQuery()?.[key]
   // Parsing boolean strings
   if (value === 'true') return true

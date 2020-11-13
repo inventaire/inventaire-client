@@ -54,6 +54,7 @@ export default async function () {
   app.module('Tasks', Tasks)
   app.module('Shelves', Shelves)
   initMap()
+  initQuerystringHelpers()
 
   await Promise.all([
     app.request('wait:for', 'i18n'),
@@ -63,7 +64,6 @@ export default async function () {
   // Initialize the application on DOM ready event.
   $(() => {
     app.layout = new AppLayout()
-    initQuerystringHelpers()
     app.start()
     app.execute('waiter:resolve', 'layout')
     reloadOnceADay()

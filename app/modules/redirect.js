@@ -43,8 +43,8 @@ export default {
       'show:login:redirect': showLoginRedirect
     })
 
-    // should be run before app start to access the unmodifed url
-    return initQuerystringActions()
+    // Should be run before app start to access the unmodifed url
+    initQuerystringActions()
   }
 }
 
