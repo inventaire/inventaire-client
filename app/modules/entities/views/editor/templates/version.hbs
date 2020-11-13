@@ -3,11 +3,11 @@
   <span class="value">{{_id}}</span>
 </p>
 <p>
-  <span class="label">version:</span>
+  <span class="label">{{i18n 'version'}}:</span>
   <span class="value">{{versionNumber}}</span>
 </p>
 <p>
-  <span class="label">username:</span>
+  <span class="label">{{i18n 'username'}}:</span>
     {{#if user.special}}
       <span class="value">{{user.username}}</span>
       <span class="special-user">{{I18n 'special user'}}</span>
@@ -16,7 +16,7 @@
     {{/if}}
 </p>
 <p>
-  <span class="label">date:</span>
+  <span class="label">{{i18n 'date'}}:</span>
   <span class="value">
     <span class="time-from-now">{{timeFromNow timestamp}}</span>
     <span class="precise-time">{{localTimeString timestamp}}</span>
@@ -31,7 +31,7 @@
   </p>
 {{/if}}
 <p>
-  <span class="label">patch:</span>
+  <span class="label">{{i18n 'patch'}}:</span>
   {{> 'entities:editor:patch_operations' operations}}
 </p>
 <ul class="actions">
