@@ -8,6 +8,12 @@ if (!window._paq) window._paq = []
 const { _paq, env } = window
 const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
+// Those handlers will be overriden once the config arrives, if tracking isn't disabled
+app.commands.setHandlers({
+  'track:user:id': _.noop,
+  'track:page:view': _.noop
+})
+
 export default async function () {
   if (isPrerenderSession) return
   const { piwik } = app.config
