@@ -1,0 +1,68 @@
+.userContribution{
+  background-color: #dedede;
+  padding: 0.5em;
+  margin: 0.5em 0;
+  flex: 1 0 auto;
+  @include display-flex(column);
+  max-width: 70em;
+  .header{
+    @include display-flex(row, center, center);
+    flex: 1 0 auto;
+  }
+  .entity{
+    span:not(:first-child){
+      margin-left: 0.3em;
+    }
+  }
+  .label{
+    font-weight: bold;
+  }
+  .type{
+    font-weight: bold;
+  }
+  .patch-id, .type{
+    color: $grey;
+    font-size: 0.9em;
+  }
+  .changes p{
+    line-height: 1em;
+  }
+  .summary{
+    margin-left: auto;
+    @include display-flex(row, center, center);
+    white-space: nowrap;
+    > span, > div{
+      margin: 0 1em;
+    }
+    .property-uri{
+      color: $grey;
+      font-size: 0.9;
+    }
+    .added{
+      color: green;
+      &:before{ content: '+ ' }
+    }
+    .removed{
+      color: red;
+      &:before{ content: '- ' }
+    }
+  }
+  .time{
+    color: $grey;
+  }
+  .togglers span{
+    cursor: pointer;
+  }
+  .operation-type{
+    padding: 0 0.2em;
+    color: white;
+    @include radius;
+    margin-right: 0.5em;
+    &.creation{ background-color: $green-tree }
+    &.add{ background-color: $success-color }
+    &.update{ background-color: $light-blue }
+    &.remove{ background-color: $light-blue }
+    &.redirect{ background-color: $yellow }
+    &.deletion{ background-color: $soft-red }
+  }
+}
