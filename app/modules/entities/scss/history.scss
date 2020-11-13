@@ -10,6 +10,12 @@
       }
     }
   }
+  &:not(.standalone){
+    a{
+      color: white;
+      @include underline-on-hover(white);
+    }
+  }
   color: white;
   .version{
     background-color: $darker-grey;
@@ -37,10 +43,6 @@
     color: $grey;
     font-weight: 0.8em;
     padding-left: 0.5em;
-  }
-  a{
-    color: white;
-    @include underline-on-hover(white);
   }
 }
 
