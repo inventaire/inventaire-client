@@ -86,7 +86,7 @@ export default function () {
       app.execute('history:back')
     }
 
-    return app.vent.trigger('modal:closed')
+    app.vent.trigger('modal:closed')
   }
 
   const exitModal = function () {

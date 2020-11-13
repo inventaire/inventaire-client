@@ -165,16 +165,12 @@ const showItemModal = async (model, fallback) => {
 
   if (!fallback) fallback = navigateAfterModal
 
-  // Let the time to other callbacks to call a navigation before testing if the route
-  // should be recovered
-  app.vent.once('modal:closed', () => setTimeout(fallback, 10))
-
   try {
     const [ { default: ItemShowLayout } ] = await Promise.all([
       await import('./views/item_show_layout'),
       model.grabWorks()
     ])
-    app.layout.modal.show(new ItemShowLayout({ model }))
+    app.layout.modal.show(new ItemShowLayout({ model, fallback }))
   } catch (err) {
     app.execute('show:error', err)
   }

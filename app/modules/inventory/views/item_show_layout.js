@@ -154,6 +154,10 @@ export default Marionette.LayoutView.extend({
     // Force a refresh of the inventory, so that the deleted item doesn't appear
     app.execute('show:inventory:main:user')
   },
+
+  onModalExit () {
+    this.options.fallback?.()
+  }
 })
 
 const getAuthorsModels = async works => {
