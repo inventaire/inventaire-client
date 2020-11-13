@@ -18,7 +18,7 @@
       </div>
     {{/with}}
   </div>
-  <span class="time">{{localTimeString timestamp}}</span>
+  <p class="time" title="{{localTimeString timestamp}}">{{timeFromNow timestamp}}</p>
 </div>
 <div class="operations hidden">
   {{> 'entities:editor:patch_operations' operations}}

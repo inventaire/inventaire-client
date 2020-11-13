@@ -91,6 +91,9 @@
       &:before{ content: '- ' }
     }
   }
+  .time{
+    color: $grey;
+  }
   .togglers span{
     cursor: pointer;
   }
