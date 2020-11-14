@@ -39,6 +39,9 @@
     @include tiny-button($grey);
     display: block;
     margin-top: auto;
+    &.disabled{
+      cursor: not-allowed;
+    }
   }
   .showWorkPicker, .workPicker{
     display: block;
