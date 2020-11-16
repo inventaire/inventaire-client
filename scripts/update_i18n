@@ -2,7 +2,9 @@
 
 # Assumes inventaire/inventaire-i18n is installed or symboly linked from the project root
 cd ./inventaire-i18n
-npm run build-client
+git fetch origin dist
+git checkout origin/dist
+git checkout -B dist
 
 cd ..
 mkdir -p ./public/i18n
