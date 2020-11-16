@@ -13,9 +13,6 @@
     display: inline-block;
     width: 6em;
   }
-  .value{
-    margin-left: 0.5em;
-  }
   .special-user{
     background-color: rgba($grey, 0.5);
     @include radius;

@@ -17,7 +17,7 @@ export default Marionette.ItemView.extend({
   serializeData () { return this.model.serializeData() },
 
   events: {
-    'click .header': 'toggleOperations'
+    'click .handle': 'toggleOperations'
   },
 
   toggleOperations (e) {

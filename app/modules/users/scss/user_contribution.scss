@@ -1,21 +1,28 @@
 .userContribution{
   background-color: #dedede;
-  padding: 0.5em;
+  padding: 0.2em 0.5em;
   margin: 0.5em 0;
   flex: 1 0 auto;
   @include display-flex(column);
-  max-width: 70em;
   .header{
     @include display-flex(row, center, center);
     flex: 1 0 auto;
   }
+  .handle{
+    @include display-flex(row, center, center);
+    cursor: pointer;
+  }
   .entity{
-    span:not(:first-child){
-      margin-left: 0.3em;
-    }
+    flex: 1 0 0;
+    max-width: 26em;
+    margin-right: auto;
+    @include display-flex(column);
   }
   .label{
     font-weight: bold;
+    overflow: hidden;
+    max-height: 1.4em;
+    margin-right: 0.5em;
   }
   .type{
     font-weight: bold;
@@ -24,15 +31,23 @@
     color: $grey;
     font-size: 0.9em;
   }
-  .changes p{
-    line-height: 1em;
+  .changes{
+    flex: 1;
+    p{
+      line-height: 1em;
+    }
   }
   .summary{
-    margin-left: auto;
-    @include display-flex(row, center, center);
+    flex: 1 0 0;
+    overflow: hidden;
+    max-width: 25em;
+    @include display-flex(row, center, flex-start);
     white-space: nowrap;
     > span, > div{
       margin: 0 1em;
+    }
+    .property p{
+      line-height: 1.2em;
     }
     .property-uri{
       color: $grey;
@@ -49,6 +64,9 @@
   }
   .time{
     color: $grey;
+    margin-left: 0.5em;
+    width: 7em;
+    text-align: right;
   }
   .togglers span{
     cursor: pointer;
@@ -56,13 +74,34 @@
   .operation-type{
     padding: 0 0.2em;
     color: white;
+    width: 5em;
     @include radius;
     margin-right: 0.5em;
     &.creation{ background-color: $green-tree }
     &.add{ background-color: $success-color }
     &.update{ background-color: $light-blue }
-    &.remove{ background-color: $light-blue }
+    &.remove{ background-color: $soft-red }
     &.redirect{ background-color: $yellow }
-    &.deletion{ background-color: $soft-red }
+    &.deletion{ background-color: $dark-grey }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    max-width: 98vw;
+    .handle{
+      margin: 0.5em 0;
+    }
+    .header{
+      flex-wrap: wrap;
+      align-self: stretch;
+    }
+  }
+
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .summary{
+      min-width: 60vw;
+      margin-right: auto;
+    }
   }
 }

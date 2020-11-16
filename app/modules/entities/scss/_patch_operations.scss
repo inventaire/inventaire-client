@@ -3,6 +3,7 @@
     color: inherit;
   }
   .patch{
+    @include display-flex(row, center, flex-start);
     @include radius;
     background-color: white;
     margin: 0.2em 0;
@@ -14,11 +15,17 @@
       display: inline-block;
     }
     .op{
-      width: 4em;
+      margin-right: 1em;
+      width: 3em;
     }
     .path{
-      width: 12em;
+      width: 10em;
       color: $grey;
+      margin-right: 1em;
+      white-space: nowrap;
+    }
+    .value{
+      overflow: hidden;
     }
   }
   .patch-add{
@@ -29,6 +36,12 @@
   .patch-remove{
     .op{
       color: red;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .patch{
+      flex-wrap: wrap;
     }
   }
 }
