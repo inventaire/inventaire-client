@@ -1,4 +1,4 @@
-import { isEntityUri } from 'lib/boolean_tests'
+import { isEntityUri, isImageHash } from 'lib/boolean_tests'
 import typeOf from 'lib/type_of'
 import { i18n } from 'modules/user/lib/i18n'
 import * as icons_ from './icons'
@@ -14,6 +14,7 @@ import {
   labelString,
   claimString
 } from './claims_helpers'
+import { imgSrc } from './images'
 import Handlebars from 'handlebars/runtime'
 const { SafeString, escapeExpression } = Handlebars
 
@@ -109,6 +110,8 @@ export default API = {
     case 'string':
       if (isEntityUri(value)) {
         return entityHelper(value, true)
+      } else if (isImageHash(value)) {
+        return imagePreview(value)
       } else {
         return escapeExpression(value)
       }
@@ -131,3 +134,14 @@ export default API = {
 const dropProtocol = url => url.replace(/^(https?:)?\/\//, '')
 const removeTailingSlash = url => url.replace(/\/$/, '')
 const isntNaN = value => !_.isNaN(value)
+
+const imagePreview = imageHash => {
+  const fullResolutionUrl = `/img/entities/${imageHash}`
+  const imagePath = imgSrc(fullResolutionUrl, 300)
+  return `
+    <a href="${fullResolutionUrl}" title="${imageHash}">
+      <img src="${imagePath}" alt="image preview">
+      <p class="image-hash">${imageHash}</p>
+    </a>
+  `
+}

@@ -3,20 +3,20 @@
 
 import { isDataUrl } from 'lib/boolean_tests'
 
-export default {
-  imgSrc (path, width, height) {
-    if (isDataUrl(path)) return path
+export const imgSrc = (path, width, height) => {
+  if (isDataUrl(path)) return path
 
-    width = getImgDimension(width, 1600)
-    width = bestImageWidth(width)
-    height = getImgDimension(height, width)
-    path = onePictureOnly(path)
+  width = getImgDimension(width, 1600)
+  width = bestImageWidth(width)
+  height = getImgDimension(height, width)
+  path = onePictureOnly(path)
 
-    if (path == null) return ''
+  if (path == null) return ''
 
-    return app.API.img(path, width, height)
-  }
+  return app.API.img(path, width, height)
 }
+
+export default { imgSrc }
 
 const onePictureOnly = arg => _.isArray(arg) ? arg[0] : arg
 
