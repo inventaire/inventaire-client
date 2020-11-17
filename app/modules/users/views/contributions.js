@@ -1,25 +1,35 @@
-// A layout to display a list of the user data contributions
+// A layout to display a list of the patches, aka contributions
 
 import preq from 'lib/preq'
-import UserContribution from './user_contribution'
+import Contribution from './contribution'
 import Patches from 'modules/entities/collections/patches'
-import userContributionsTemplate from './templates/user_contributions.hbs'
-import '../scss/user_contributions.scss'
+import contributionsTemplate from './templates/contributions.hbs'
+import '../scss/contributions.scss'
 
 export default Marionette.CompositeView.extend({
-  className: 'userContributions',
-  template: userContributionsTemplate,
+  id: 'contributions',
+  template: contributionsTemplate,
   childViewContainer: '.contributions',
-  childView: UserContribution,
+  childView: Contribution,
+  childViewOptions () {
+    return {
+      showUser: this.options.user == null
+    }
+  },
+
   initialize () {
-    ({ user: this.user } = this.options)
-    this.userId = this.user.get('_id')
+    this.user = this.options.user
+    if (this.user != null) {
+      this.userId = this.user.get('_id')
+    } else {
+      this.fetchUsers = true
+    }
 
     this.collection = new Patches()
-    this.limit = 50
+    this.limit = 5
     this.offset = 0
 
-    return this.fetchMore()
+    this.fetchMore()
   },
 
   ui: {
@@ -29,7 +39,7 @@ export default Marionette.CompositeView.extend({
   },
 
   serializeData () {
-    return { user: this.user.serializeData() }
+    return { user: this.user?.serializeData() }
   },
 
   fetchMore () {
@@ -37,9 +47,8 @@ export default Marionette.CompositeView.extend({
     .then(this.parseResponse.bind(this))
   },
 
-  parseResponse (res) {
-    let patches, total;
-    ({ patches, continue: this.offset, total } = res)
+  async parseResponse ({ patches, continue: offset, total }) {
+    this.offset = offset
 
     if (total !== this.total) {
       this.total = total
@@ -50,9 +59,11 @@ export default Marionette.CompositeView.extend({
 
     if (this.offset != null) {
       this.ui.remaining.text(total - this.offset)
-    } else { this.ui.fetchMore.hide() }
+    } else {
+      this.ui.fetchMore.hide()
+    }
 
-    return this.collection.add(patches)
+    this.collection.add(patches)
   },
 
   events: {

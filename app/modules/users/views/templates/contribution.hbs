@@ -6,13 +6,17 @@
     </div>
     <span class="operation-type {{patchType}}">{{patchType}}</span>
   </div>
-  <div class="entity">
-    <a class="label showEntity link" href="{{entity.pathname}}">{{entity.label}}</a>
-    <p class="meta">
-      <span class="type">{{entity.type}}</span>
-      <span class="patch-id">{{_id}}</span>
-    </p>
-  </div>
+  {{#if entity}}
+    <div class="entity">
+      <a class="label showEntity link" href="{{entity.pathname}}">{{entity.label}}</a>
+      <p class="meta">
+        <span class="type">{{entity.type}}</span>
+        <span class="patch-id">{{_id}}</span>
+        {{iconLink 'pencil' entity.edit linkClasses="link showEntityEdit" I18n="edit data"}}
+        {{iconLink 'history' entity.history linkClasses="link showEntityHistory" I18n="show entity history"}}
+      </p>
+    </div>
+  {{/if}}
   <div class="summary">
     {{#with summary}}
       <div class="property">
@@ -25,6 +29,12 @@
       </div>
     {{/with}}
   </div>
+  {{#if showUser}}
+    <a class="user showUserContributions" href="{{user.contributions}}">
+      <img src="{{imgSrc user.picture 32}}" alt="{{user.username}}">
+      <p class="username">{{user.username}}</p>
+    </a>
+  {{/if}}
   <p class="time" title="{{localTimeString timestamp}}">{{timeFromNow timestamp}}</p>
 </div>
 <div class="operations hidden">

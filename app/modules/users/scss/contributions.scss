@@ -1,6 +1,6 @@
 @import 'modules/general/scss/utils';
 
-.userContributions{
+#contributions{
   margin: 0 auto;
   max-width: 80em;
   @include display-flex(column, center, center);
@@ -42,5 +42,5 @@
   }
 }
 
-@import 'user_contribution';
+@import 'contribution';
 @import 'modules/entities/scss/patch_operations';

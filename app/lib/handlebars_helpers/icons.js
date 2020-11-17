@@ -34,9 +34,15 @@ export function iconLink (name, url, classes) {
   let title
   let linkClasses = ''
   if ((classes != null) && _.isObject(classes.hash)) {
-    let i18nStr, i18nCtx;
-    ({ title, i18n: i18nStr, i18nCtx, classes, linkClasses } = classes.hash)
-    if (title == null) { title = i18n(i18nStr, i18nCtx) }
+    let i18nStr, I18nStr, i18nArgs;
+    ({ title, i18n: i18nStr, I18n: I18nStr, i18nArgs, classes, linkClasses } = classes.hash)
+    if (title == null) {
+      if (I18nStr != null) {
+        title = I18n(I18nStr, i18nArgs)
+      } else if (i18n != null) {
+        title = i18n(i18nStr, i18nArgs)
+      }
+    }
   }
 
   const iconHtml = this.icon.call(null, name, classes)
