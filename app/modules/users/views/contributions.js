@@ -27,7 +27,7 @@ export default Marionette.CompositeView.extend({
     }
 
     this.collection = new Patches()
-    this.limit = 20
+    this.limit = 10
     this.offset = 0
 
     this.fetchMore()
@@ -54,6 +54,7 @@ export default Marionette.CompositeView.extend({
     if (this._fetching || this.hasMore === false) return
     this._fetching = true
     startLoading.call(this)
+    this.limit = Math.min(this.limit * 2, 500)
     await preq.get(app.API.entities.contributions(this.userId, this.limit, this.offset))
       .then(this.parseResponse.bind(this))
     stopLoading.call(this)
