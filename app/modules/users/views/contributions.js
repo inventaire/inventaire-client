@@ -5,6 +5,7 @@ import Contribution from './contribution'
 import Patches from 'modules/entities/collections/patches'
 import contributionsTemplate from './templates/contributions.hbs'
 import '../scss/contributions.scss'
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
 export default Marionette.CompositeView.extend({
   id: 'contributions',
@@ -26,7 +27,7 @@ export default Marionette.CompositeView.extend({
     }
 
     this.collection = new Patches()
-    this.limit = 5
+    this.limit = 20
     this.offset = 0
 
     this.fetchMore()
@@ -34,39 +35,40 @@ export default Marionette.CompositeView.extend({
 
   ui: {
     fetchMore: '.fetchMore',
-    totalContributions: '.totalContributions',
-    remaining: '.remaining'
+    total: '.total',
+  },
+
+  behaviors: {
+    Loading: {},
+  },
+
+  events: {
+    'inview .fetchMore': 'fetchMore',
   },
 
   serializeData () {
     return { user: this.user?.serializeData() }
   },
 
-  fetchMore () {
-    return preq.get(app.API.entities.contributions(this.userId, this.limit, this.offset))
-    .then(this.parseResponse.bind(this))
+  async fetchMore () {
+    if (this._fetching || this.hasMore === false) return
+    this._fetching = true
+    startLoading.call(this)
+    await preq.get(app.API.entities.contributions(this.userId, this.limit, this.offset))
+      .then(this.parseResponse.bind(this))
+    stopLoading.call(this)
+    this._fetching = false
   },
 
-  async parseResponse ({ patches, continue: offset, total }) {
-    this.offset = offset
-
+  async parseResponse ({ patches, continue: continu, total }) {
+    this.hasMore = continu != null
+    this.offset = continu
     if (total !== this.total) {
       this.total = total
       // Update manually instead of re-rendering as it would require to re-render
       // all the sub viewstotal
-      this.ui.totalContributions.text(total)
+      this.ui.total.text(total)
     }
-
-    if (this.offset != null) {
-      this.ui.remaining.text(total - this.offset)
-    } else {
-      this.ui.fetchMore.hide()
-    }
-
     this.collection.add(patches)
   },
-
-  events: {
-    'click .fetchMore': 'fetchMore'
-  }
 })

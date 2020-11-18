@@ -1,4 +1,4 @@
-import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import { wait } from '../../../lib/promises'
 const alwaysFalse = () => false
 
@@ -29,6 +29,6 @@ export default Marionette.CompositeView.extend({
     .finally(() => { this._fetching = false })
   },
 
-  startLoading () { return behaviorsPlugin.startLoading.call(this, '.fetchMore') },
-  stopLoading () { return behaviorsPlugin.stopLoading.call(this, '.fetchMore') }
+  startLoading () { startLoading.call(this, '.fetchMore') },
+  stopLoading () { stopLoading.call(this, '.fetchMore') }
 })

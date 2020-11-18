@@ -3,7 +3,11 @@
 #contributions{
   margin: 0 auto;
   max-width: 80em;
+  position: relative;
   @include display-flex(column, center, center);
+  h3{
+    text-align: center;
+  }
   .stats{
     background-color: $light-grey;
     padding: 1em;
@@ -21,24 +25,15 @@
     color: $grey;
   }
   .fetchMore{
-    display: inline-block;
-    text-align: center;
-    @include radius;
-    height: 2em;
-    @include display-flex(row, center, center);
-    font-weight: bold;
-    @include bg-hover(#ccc);
-    margin: 0.5em 0 2em 0;
-    .fa{
-      font-size: 1.2em;
-    }
-    .counter:not(:empty){
-      background-color: $grey;
-      color: white;
-      margin-left: 1em;
-      padding: 0 0.5em;
-      @include radius;
-    }
+    width: 1em;
+    height: 1em;
+    // Position to be inview a bit before reaching the bottom of the page
+    position: absolute;
+    bottom: 10em;
+  }
+  .loading{
+    margin-top: 1em;
+    margin-bottom: 3em;
   }
 }
 
