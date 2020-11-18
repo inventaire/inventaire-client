@@ -18,6 +18,9 @@
     @include display-flex(column);
     .meta{
       @include display-flex(row, center, flex-start);
+      .link{
+        @include shy;
+      }
       .fa{
         margin-left: 0.5em;
       }
@@ -35,6 +38,7 @@
   .patch-id, .type{
     color: $grey;
     font-size: 0.9em;
+    margin-right: 0.5em;
   }
   .changes{
     flex: 1;
@@ -108,6 +112,18 @@
     &.remove{ background-color: $soft-red }
     &.redirect{ background-color: $yellow }
     &.deletion{ background-color: $dark-grey }
+  }
+
+  .fullDetails{
+    .stats{
+      padding: 0.5em;
+      li{
+        @include display-flex(row, center, flex-start);
+      }
+      .label{
+        min-width: 5em;
+      }
+    }
   }
 
   /*Small screens*/

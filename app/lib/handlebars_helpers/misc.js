@@ -91,6 +91,12 @@ export default {
     }
   },
 
+  ISOTime (time) {
+    if (time != null) {
+      return new Date(time).toISOString()
+    }
+  },
+
   timeFromNow (time) {
     if (time == null) return
     const { key, amount } = timeFromNow(time)

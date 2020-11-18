@@ -37,6 +37,18 @@
   {{/if}}
   <p class="time" title="{{localTimeString timestamp}}">{{timeFromNow timestamp}}</p>
 </div>
-<div class="operations hidden">
-  {{> 'entities:editor:patch_operations' operations}}
+<div class="fullDetails hidden">
+  <ul class="stats">
+    <li>
+      <span class="stat-label">{{i18n 'user'}}</span>
+      <span class="stat-value">{{user._id}}</span>
+    </li>
+    <li>
+      <span class="stat-label">{{i18n 'time'}}</span>
+      <span class="stat-value">{{ISOTime timestamp}}</span>
+    </li>
+  </ul>
+  <div class="operations">
+    {{> 'entities:editor:patch_operations' operations}}
+  </div>
 </div>

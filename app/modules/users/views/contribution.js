@@ -7,7 +7,7 @@ export default Marionette.ItemView.extend({
   tagName: 'li',
 
   ui: {
-    operations: '.operations',
+    fullDetails: '.fullDetails',
     togglers: '.togglers span'
   },
 
@@ -26,15 +26,15 @@ export default Marionette.ItemView.extend({
   },
 
   events: {
-    'click .handle': 'toggleOperations',
+    'click .handle': 'toggleFullDetails',
     'click .showUserContributions': 'showUserContributions',
   },
 
-  toggleOperations (e) {
+  toggleFullDetails (e) {
     // Prevent toggling when the intent was clicking on a link
     if (e.target.tagName === 'A') return
 
-    this.ui.operations.toggleClass('hidden')
+    this.ui.fullDetails.toggleClass('hidden')
     this.ui.togglers.toggleClass('hidden')
   },
 

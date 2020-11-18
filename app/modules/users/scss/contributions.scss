@@ -10,12 +10,14 @@
   }
   .stats{
     background-color: $light-grey;
-    padding: 1em;
     .stat-label{
       display: inline-block;
       min-width: 10em;
       color: #777;
     }
+  }
+  > .stats{
+    padding: 1em;
   }
   .stat-value{
     display: inline-block;
