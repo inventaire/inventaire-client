@@ -4,9 +4,6 @@ import getActionKey from 'lib/get_action_key'
 import error_ from 'lib/error'
 
 export default Marionette.Behavior.extend({
-  // used by assertViewHasBehavior
-  name: 'AlertBox',
-
   events: {
     alert: 'showAlertBox',
     hideAlertBox: 'hideAlertBoxOnly',

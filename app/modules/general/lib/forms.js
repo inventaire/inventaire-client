@@ -1,7 +1,8 @@
 import assert_ from 'lib/assert_types'
 import log_ from 'lib/loggers'
 import { i18n } from 'modules/user/lib/i18n'
-import error_ from 'lib/error'
+import { assertViewHasBehavior } from 'modules/general/plugins/behaviors'
+
 let forms_
 export default forms_ = {}
 
@@ -102,14 +103,4 @@ forms_.throwError = function (message, selector, ...context) {
   // Non-standard convention: 499 = client user error
   err.statusCode = 499
   throw err
-}
-
-const assertViewHasBehavior = function (view, name) {
-  // When the view has no behavior, view._behaviors is an empty object
-  if (view._behaviors instanceof Array) {
-    for (const behavior of view._behaviors) {
-      if (Object.getPrototypeOf(behavior).name === name) return
-    }
-  }
-  throw error_.new(`view misses behavior: ${name}`, 500)
 }

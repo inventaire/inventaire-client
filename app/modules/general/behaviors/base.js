@@ -34,6 +34,10 @@ const behaviors = {
   ImgZoomIn,
 }
 
+for (const behaviorName in behaviors) {
+  behaviors[behaviorName].behaviorName = behaviorName
+}
+
 export default {
   initialize () {
     Marionette.Behaviors.behaviorsLookup = () => behaviors
