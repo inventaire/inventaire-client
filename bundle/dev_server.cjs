@@ -18,4 +18,9 @@ module.exports = {
       { from: /./, to: '/public/dist/index.html' },
     ]
   },
+
+  stats: {
+    colors: true,
+    builtAt: true,
+  },
 }
