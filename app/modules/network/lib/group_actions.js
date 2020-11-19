@@ -33,16 +33,27 @@ export default {
   },
 
   requestToJoin () {
-    // create membership doc in the requested list
-    this.push('requested', {
-      user: app.user.id,
-      timestamp: Date.now()
-    })
+    if (this.get('open')) {
+      // create membership doc in the member list
+      this.push('members', {
+        user: app.user.id,
+        timestamp: Date.now()
+      })
+      this.triggeredListChange()
 
-    this.triggeredListChange()
+      return this.action('request')
+      .catch(this.revertMove.bind(this, app.user, null, 'tmp'))
+    } else {
+      // create membership doc in the requested list
+      this.push('requested', {
+        user: app.user.id,
+        timestamp: Date.now()
+      })
 
-    return this.action('request')
-    .catch(this.revertMove.bind(this, app.user, null, 'requested'))
+      this.triggeredListChange()
+      return this.action('request')
+      .catch(this.revertMove.bind(this, app.user, null, 'requested'))
+    }
   },
 
   cancelRequest () {
