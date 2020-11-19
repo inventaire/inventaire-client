@@ -1,0 +1,6 @@
+<div class="openess">
+  {{> 'toggler' this}}
+  <p class="warning {{#if checked}}hidden{{/if}}">
+    {{icon 'lock'}}{{i18n 'admins must validate a membership request before accepting new members'}}
+  </p>
+</div>

@@ -47,7 +47,8 @@ export default Marionette.ItemView.extend({
       editDescription: groupFormData.description(attrs.description),
       userCanLeave: this.model.userCanLeave(),
       userIsLastUser: this.model.userIsLastUser(),
-      searchability: groupFormData.searchability(attrs.searchable)
+      searchability: groupFormData.searchability(attrs.searchable),
+      openess: groupFormData.openess(attrs.open)
     })
   },
 
@@ -71,7 +72,8 @@ export default Marionette.ItemView.extend({
     description: '#description',
     descriptionLimit: '.descriptionLimit',
     saveCancel: '.saveCancel',
-    searchabilityWarning: '.searchability .warning'
+    searchabilityWarning: '.searchability .warning',
+    openessWarning: '.openess .warning'
   }
   ),
 
@@ -79,6 +81,7 @@ export default Marionette.ItemView.extend({
     'click #editNameButton': 'editName',
     'click a#changePicture': 'changePicture',
     'change #searchabilityToggler': 'toggleSearchability',
+    'change #openessToggler': 'toggleOpeness',
     'keyup #description': 'showSaveCancel',
     'click .cancelButton': 'cancelDescription',
     'click .saveButton': 'saveDescription',
@@ -149,6 +152,15 @@ export default Marionette.ItemView.extend({
     this.ui.searchabilityWarning.slideToggle()
     return this.updateSettings({
       attribute: 'searchable',
+      value: checked
+    })
+  },
+
+  toggleOpeness (e) {
+    const { checked } = e.currentTarget
+    this.ui.openessWarning.slideToggle()
+    return this.updateSettings({
+      attribute: 'open',
       value: checked
     })
   },
