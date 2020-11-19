@@ -5,11 +5,20 @@
   <span class="name">{{name}}</span>
 </a>
 {{#if searchable}}
-  <span class="searchable" title="{{i18n 'this group appears in search results'}}">
+  <span class="topicons searchable" title="{{i18n 'this group appears in search results'}}">
     {{icon 'globe'}}
   </span>
 {{else}}
-  <span class="not-searchable" title="{{i18n 'only those who get the link or are invited can find this group'}}">
+  <span class="topicons not-searchable" title="{{i18n 'only those who get the link or are invited can find this group'}}">
+    {{icon 'lock'}}
+  </span>
+{{/if}}
+{{#if open}}
+  <span class="topicons open" title="{{i18n 'this group is opened to membership without admin validation'}}">
+    {{icon 'globe'}}
+  </span>
+{{else}}
+  <span class="topicons not-open" title="{{i18n 'this group require admins to validate new membership'}}">
     {{icon 'lock'}}
   </span>
 {{/if}}

@@ -3,7 +3,7 @@
 .group-board-header{
   background-color: white;
   @include display-flex(column, center, center);
-  // required to position {,not-}searchable
+  // required to position .topicons
   position: relative;
   .cover-link{
     @include display-flex(column, center, center);
@@ -38,21 +38,27 @@
   .restrictions{
     display: none;
   }
-  .searchable, .not-searchable{
+  .topicons{
     position: absolute;
     box-shadow: -1px 1px 5px 0 rgba(black, 0.3) inset;
-    @include position(absolute, 0, 0);
     @include radius-diagonal-b;
     .fa{
       padding: 0.5em;
-      width: auto;
+      min-width: 2em;
+      min-height: 2em;
       color: white;
     }
   }
-  .searchable{
+  .searchable, .not-searchable{
+    @include position(absolute, 0, 0);
+  }
+  .open, .not-open{
+    @include position(absolute, 2em, 0);
+  }
+  .searchable, .open{
     background-color: #ccc;
   }
-  .not-searchable{
+  .not-searchable, .not-open{
     background-color: $dark-grey;
   }
 }
