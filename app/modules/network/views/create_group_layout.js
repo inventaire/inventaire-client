@@ -35,7 +35,9 @@ export default GroupLayoutView.extend({
     nameField: '#nameField',
     description: '#description',
     searchabilityToggler: '#searchabilityToggler',
-    searchabilityWarning: '.searchability .warning'
+    searchabilityWarning: '.searchability .warning',
+    openessToggler: '#openessToggler',
+    openessWarning: '.openess .warning'
   }),
 
   initialize () {
@@ -49,7 +51,8 @@ export default GroupLayoutView.extend({
 
   events: _.extend({}, groupUrlEvents, {
     'click #createGroup': 'createGroup',
-    'change #searchabilityToggler': 'toggleSearchabilityWarning'
+    'change #searchabilityToggler': 'toggleSearchabilityWarning',
+    'change #openessToggler': 'toggleOpenessWarning'
   }
   ),
   // Can't be used as the create_group_layout is already in a modal itself
@@ -63,12 +66,17 @@ export default GroupLayoutView.extend({
   serializeData () {
     return {
       description: groupFormData.description(),
-      searchability: groupFormData.searchability()
+      searchability: groupFormData.searchability(),
+      openess: groupFormData.openess()
     }
   },
 
   toggleSearchabilityWarning () {
     this.ui.searchabilityWarning.slideToggle()
+  },
+
+  toggleOpenessWarning () {
+    this.ui.openessWarning.slideToggle()
   },
 
   createGroup (e) {
@@ -78,7 +86,8 @@ export default GroupLayoutView.extend({
     const data = {
       name,
       description,
-      searchable: this.ui.searchabilityToggler[0].checked
+      searchable: this.ui.searchabilityToggler[0].checked,
+      open: this.ui.openessToggler[0].checked
     }
     // position: @position
 

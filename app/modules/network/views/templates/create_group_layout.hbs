@@ -4,14 +4,18 @@
 <div class="inputContainer">
   <input id="nameField" class="groupNameField" type="text" placeholder="{{i18n 'ex: the secret club of Proustian experts'}}">
 </div>
+<hr>
 
 {{> 'network:group_url'}}
 
 <label for="description">{{i18n 'description'}}</label>
 {{textarea description}}
+<hr>
 
 {{> 'network:searchability' searchability}}
 
+<hr>
+{{> 'network:open' openess}}
 {{!-- Can't be showned in a modal as the create_group_layout is in a modal itself >< --}}
 {{!-- {{> 'network:group_position_setting'}} --}}
 
