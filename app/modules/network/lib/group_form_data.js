@@ -15,7 +15,7 @@ export default {
     }
   },
 
-  openess (active = true) {
+  openess (active = false) {
     return {
       id: 'openessToggler',
       checked: active,
