@@ -72,7 +72,7 @@
     "@babel/runtime": "^7.12.0",
     "babel-loader": "^8.1.0",
     "circular-dependency-plugin": "^5.2.0",
-    "config": "^1.31.0",
+    "config": "git+https://github.com/lorenwest/node-config.git#b4ba63c8",
     "css-loader": "^5.0.0",
     "cssnano": "^4.1.10",
     "doctoc": "^1.4.0",
