@@ -102,16 +102,16 @@
   }
   .operation-type{
     padding: 0 0.2em;
-    color: white;
     width: 5em;
     @include radius;
     margin-right: 0.5em;
-    &.creation{ background-color: $green-tree }
-    &.add{ background-color: $success-color }
-    &.update{ background-color: $light-blue }
-    &.remove{ background-color: $soft-red }
-    &.redirect{ background-color: $yellow }
-    &.deletion{ background-color: $dark-grey }
+    border: 2px solid black;
+    &.creation{ border-color: $green-tree }
+    &.add{ border-color: $success-color }
+    &.update{ border-color: $light-blue }
+    &.remove{ border-color: $soft-red }
+    &.redirect{ border-color: $yellow }
+    &.deletion{ border-color: $dark-grey }
   }
 
   .fullDetails{
