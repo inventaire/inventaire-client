@@ -1,4 +1,5 @@
 const path = require('path')
+const { inventaireServerHost } = require('config')
 
 module.exports = {
   host: '0.0.0.0',
@@ -9,9 +10,9 @@ module.exports = {
   overlay: true,
   // See https://webpack.js.org/configuration/dev-server/#devserverproxy
   proxy: {
-    '/api': 'http://localhost:3006',
-    '/public': 'http://localhost:3006',
-    '/img': 'http://localhost:3006',
+    '/api': inventaireServerHost,
+    '/public': inventaireServerHost,
+    '/img': inventaireServerHost,
   },
   historyApiFallback: {
     rewrites: [
