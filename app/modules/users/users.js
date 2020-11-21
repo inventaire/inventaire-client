@@ -49,8 +49,8 @@ const API = {
       const title = i18n('contributions_by', { username })
       app.navigate(path, { metadata: { title } })
       if (app.request('require:admin:access')) {
-        const { default: UserContributions } = await import('./views/user_contributions')
-        return app.layout.main.show(new UserContributions({ user }))
+        const { default: Contributions } = await import('./views/contributions')
+        return app.layout.main.show(new Contributions({ user }))
       }
     }
   },

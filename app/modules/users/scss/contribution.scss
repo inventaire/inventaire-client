@@ -1,11 +1,11 @@
-.userContribution{
+.contribution{
   background-color: #dedede;
   padding: 0.2em 0.5em;
   margin: 0.5em 0;
   flex: 1 0 auto;
   @include display-flex(column);
   .header{
-    @include display-flex(row, center, center);
+    @include display-flex(row, center, flex-start);
     flex: 1 0 auto;
   }
   .handle{
@@ -13,10 +13,18 @@
     cursor: pointer;
   }
   .entity{
-    flex: 1 0 0;
-    max-width: 26em;
+    flex: 2 0 0;
     margin-right: auto;
     @include display-flex(column);
+    .meta{
+      @include display-flex(row, center, flex-start);
+      .link{
+        @include shy;
+      }
+      .fa{
+        margin-left: 0.5em;
+      }
+    }
   }
   .label{
     font-weight: bold;
@@ -30,6 +38,7 @@
   .patch-id, .type{
     color: $grey;
     font-size: 0.9em;
+    margin-right: 0.5em;
   }
   .changes{
     flex: 1;
@@ -38,20 +47,25 @@
     }
   }
   .summary{
-    flex: 1 0 0;
+    flex: 2 0 0;
     overflow: hidden;
-    max-width: 25em;
+    max-width: 40em;
+    min-width: 15em;
     @include display-flex(row, center, flex-start);
     white-space: nowrap;
-    > span, > div{
-      margin: 0 1em;
-    }
-    .property p{
-      line-height: 1.2em;
+    .property{
+      flex: 0 0 6em;
+      p{
+        line-height: 1.2em;
+      }
     }
     .property-uri{
       color: $grey;
       font-size: 0.9;
+    }
+    .changes{
+      flex: 1;
+      margin-left: 0.5em;
     }
     .added{
       color: green;
@@ -62,10 +76,25 @@
       &:before{ content: '- ' }
     }
   }
+  .user{
+    @include display-flex(row, center, flex-start);
+    @include transition(background-color);
+    margin-left: 0.5em;
+    @include radius;
+    &:hover{
+      background-color: $off-white;
+    }
+    padding: 0.2em;
+    img{
+      @include radius;
+      margin-right: 0.5em;
+    }
+  }
   .time{
     color: $grey;
-    margin-left: 0.5em;
-    width: 7em;
+    margin-left: auto;
+    padding-left: 0.2em;
+    width: 6em;
     text-align: right;
   }
   .togglers span{
@@ -73,16 +102,28 @@
   }
   .operation-type{
     padding: 0 0.2em;
-    color: white;
     width: 5em;
     @include radius;
     margin-right: 0.5em;
-    &.creation{ background-color: $green-tree }
-    &.add{ background-color: $success-color }
-    &.update{ background-color: $light-blue }
-    &.remove{ background-color: $soft-red }
-    &.redirect{ background-color: $yellow }
-    &.deletion{ background-color: $dark-grey }
+    border: 2px solid black;
+    &.creation{ border-color: $green-tree }
+    &.add{ border-color: $success-color }
+    &.update{ border-color: $light-blue }
+    &.remove{ border-color: $soft-red }
+    &.redirect{ border-color: $yellow }
+    &.deletion{ border-color: $dark-grey }
+  }
+
+  .fullDetails{
+    .stats{
+      padding: 0.5em;
+      li{
+        @include display-flex(row, center, flex-start);
+      }
+      .label{
+        min-width: 5em;
+      }
+    }
   }
 
   /*Small screens*/
@@ -102,6 +143,14 @@
     .summary{
       min-width: 60vw;
       margin-right: auto;
+    }
+    .patch-id, .property-uri{
+      display: none;
+    }
+    .user{
+      // Force to wrap on the next line
+      flex: 1 0 50%;
+      margin: 1em 0;
     }
   }
 }

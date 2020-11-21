@@ -1,0 +1,43 @@
+@import 'modules/general/scss/utils';
+
+#contributions{
+  margin: 0 auto;
+  max-width: 80em;
+  position: relative;
+  @include display-flex(column, center, center);
+  h3{
+    text-align: center;
+  }
+  .stats{
+    background-color: $light-grey;
+    .stat-label{
+      display: inline-block;
+      min-width: 10em;
+      color: #777;
+    }
+  }
+  > .stats{
+    padding: 1em;
+  }
+  .stat-value{
+    display: inline-block;
+  }
+  .precise-time{
+    margin-left: 0.5em;
+    color: $grey;
+  }
+  .fetchMore{
+    width: 1em;
+    height: 1em;
+    // Position to be inview a bit before reaching the bottom of the page
+    position: absolute;
+    bottom: 10em;
+  }
+  .loading{
+    margin-top: 1em;
+    margin-bottom: 3em;
+  }
+}
+
+@import 'contribution';
+@import 'modules/entities/scss/patch_operations';
