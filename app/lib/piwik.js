@@ -25,6 +25,7 @@ export default async function () {
   const trackerUrl = env === 'dev' ? app.API.tests : `${piwik}/piwik.php`
 
   _paq.push([ 'enableLinkTracking' ])
+  _paq.push([ 'disableCookies' ]) // See https://matomo.org/faq/general/faq_156/
   _paq.push([ 'setTrackerUrl', trackerUrl ])
   _paq.push([ 'setSiteId', '11' ])
 
