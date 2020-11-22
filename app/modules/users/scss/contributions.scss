@@ -2,7 +2,8 @@
 
 #contributions{
   margin: 0 auto;
-  max-width: 80em;
+  max-width: 100em;
+  overflow: hidden;
   position: relative;
   @include display-flex(column, center, center);
   h3{
@@ -25,6 +26,11 @@
   .precise-time{
     margin-left: 0.5em;
     color: $grey;
+  }
+  .contributionsList{
+    margin-top: 1em;
+    align-self: stretch;
+    @include display-flex(column, stretch, center);
   }
   .fetchMore{
     width: 1em;

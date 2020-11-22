@@ -10,7 +10,7 @@ import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 export default Marionette.CompositeView.extend({
   id: 'contributions',
   template: contributionsTemplate,
-  childViewContainer: '.contributions',
+  childViewContainer: '.contributionsList',
   childView: Contribution,
   childViewOptions () {
     return {
