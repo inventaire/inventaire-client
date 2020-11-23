@@ -13,6 +13,7 @@ module.exports = {
     '/api': inventaireServerHost,
     '/public': inventaireServerHost,
     '/img': inventaireServerHost,
+    '/**/*.(json|xml)': inventaireServerHost,
   },
   historyApiFallback: {
     rewrites: [
