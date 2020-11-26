@@ -2,20 +2,20 @@ import typeSearch from 'modules/entities/lib/search/type_search'
 import forms_ from 'modules/general/lib/forms'
 const batchLength = 10
 
-const search = function (input) {
-  // remove the value passed to the view as the input changed
+const search = function (searchValue) {
+  // remove the value passed to the view as the searchValue changed
   removeCurrentViewValue.call(this)
 
-  input = input.trim().replace(/\s{2,}/g, ' ')
-  if (input === this.lastInput) return Promise.resolve()
+  searchValue = searchValue.trim().replace(/\s{2,}/g, ' ')
+  if (searchValue === this.lastSearchValue) return Promise.resolve()
 
   this.showLoadingSpinner()
 
   this.suggestions.index = -1
-  this.lastInput = input
+  this.lastSearchValue = searchValue
   this._searchOffset = 0
 
-  return _search.call(this, input)
+  return _search.call(this, searchValue)
   .then(results => {
     if ((results != null) && (results.length === 0)) {
       this._lastResultsLength = results.length
@@ -32,11 +32,11 @@ const search = function (input) {
   })
 }
 
-const _search = function (input) {
-  return typeSearch(this.searchType, input, batchLength, this._searchOffset)
+const _search = function (searchValue) {
+  return typeSearch(this.searchType, searchValue, batchLength, this._searchOffset)
   .then(results => {
-    // Ignore the results if the input changed
-    if (input !== this.lastInput) return
+    // Ignore the results if the searchValue changed
+    if (searchValue !== this.lastSearchValue) return
     return results
   })
 }
@@ -49,7 +49,7 @@ const loadMoreFromSearch = function () {
 
   this.showLoadingSpinner(false)
   this._searchOffset += batchLength
-  return _search.call(this, this.lastInput)
+  return _search.call(this, this.lastSearchValue)
   .then(results => {
     const currentResultsUri = this.suggestions.map(model => model.get('uri'))
     const newResults = results.filter(result => !currentResultsUri.includes(result.uri))

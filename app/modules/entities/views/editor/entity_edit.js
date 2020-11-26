@@ -44,10 +44,14 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
+    const type = this.model.type
     this.creationMode = this.model.creating
-    this.requiresLabel = !typesWithoutLabel.includes(this.model.type)
-    this.requiredProperties = requiredPropertyPerType[this.model.type] || []
-    this.canBeAddedToInventory = inventoryTypes.includes(this.model.type)
+    this.requiresLabel = !typesWithoutLabel.includes(type)
+    this.requiredProperties = requiredPropertyPerType[type] || []
+    this.canBeAddedToInventory = inventoryTypes.includes(type)
+    if (type != null) {
+      this.model.pluralizedType = type + 's'
+    }
     this.showAdminSection = app.user.hasDataadminAccess && !this.creationMode
 
     if (this.creationMode) {

@@ -8,13 +8,10 @@ import _wikidataSearch from './wikidata_search'
 
 const wikidataSearch = _wikidataSearch(true)
 
-const {
-  pluralize
-} = TypeKey
+const { pluralize } = TypeKey
 
 export default function (type, input, limit, offset) {
   const uri = getEntityUri(input)
-
   if (uri != null) {
     return searchByEntityUri(uri, type)
   } else {

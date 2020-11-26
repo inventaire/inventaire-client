@@ -18,6 +18,8 @@ const addProp = (
 // and server/controllers/entities/lib/properties.js@inventaire/inventaire
 
 // # work
+// instance of
+addProp('wdt:P31', 'entity', null, false, false)
 // author
 addProp('wdt:P50', 'entity', 'humans', true, true)
 // genre

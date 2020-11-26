@@ -1,11 +1,13 @@
 import wdtP50 from './suggestions/wdt_P50'
 import wdtP123 from './suggestions/wdt_P123'
 import wdtP629 from './suggestions/wdt_P629'
+import wdtP31 from './suggestions/wdt_P31'
 
 const suggestionsPerProperties = {
   'wdt:P50': wdtP50,
   'wdt:P123': wdtP123,
-  'wdt:P629': wdtP629
+  'wdt:P629': wdtP629,
+  'wdt:P31': wdtP31
 }
 
 export default async (property, model) => {

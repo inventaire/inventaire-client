@@ -40,10 +40,6 @@ export default Filterable.extend({
     this.refresh = options?.refresh
     this.type = attrs.type || options.defaultType
 
-    if (this.type != null) {
-      this.pluralizedType = this.type + 's'
-    }
-
     if (placeholdersTypes.includes(this.type)) {
       // Set placeholder attributes so that the logic hereafter doesn't crash
       _.extend(attrs, placeholderAttributes)

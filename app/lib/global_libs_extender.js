@@ -118,9 +118,9 @@ FilteredCollection.prototype.filterByText = function (text, reset = true) {
     // especially to prevent errors of type "Unterminated group"
     .replace(specialRegexCharactersRegex, '\\$1')
 
-  const filterRegex = new RegExp(regexText, 'i')
+  const inputBasedRegex = new RegExp(regexText, 'i')
 
-  return this.filterBy('text', model => model.matches(filterRegex, rawText))
+  return this.filterBy('text', model => model.matches(inputBasedRegex, rawText))
 }
 
 // The 'update' event will be added when updating to Backbone >= 1.2.0

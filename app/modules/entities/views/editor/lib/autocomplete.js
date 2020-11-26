@@ -8,7 +8,6 @@ import getActionKey from 'lib/get_action_key'
 import Suggestions from 'modules/entities/collections/suggestions'
 import AutocompleteSuggestions from '../autocomplete_suggestions'
 import properties from 'modules/entities/lib/properties'
-
 import {
   addDefaultSuggestionsUris,
   addNextDefaultSuggestionsBatch,
@@ -17,10 +16,14 @@ import {
 
 import { search, loadMoreFromSearch } from './suggestions/search_suggestions'
 
+const notSearchableProps = [ 'wdt:P31' ]
+
 export default {
   onRender () {
+    this.isNonSearchableProp = notSearchableProps.includes(this.property)
+
     if (this.suggestions == null) initializeAutocomplete.call(this)
-    this.suggestionsRegion.show(new AutocompleteSuggestions({ collection: this.suggestions }))
+    this.suggestionsRegion.show(new AutocompleteSuggestions({ collection: this.suggestions, isNonSearchableProp: this.isNonSearchableProp }))
     return addDefaultSuggestionsUris.call(this)
   },
 
@@ -113,10 +116,26 @@ const updateOnKey = function (value, actionKey) {
     showDefaultSuggestions.call(this)
     this._showingDefaultSuggestions = true
   } else if (value !== this._lastValue) {
-    this.showDropdown()
-    this.lazySearch(value)
+    refreshSuggestions.call(this, value)
     this._showingDefaultSuggestions = false
   }
+}
+
+const refreshSuggestions = function (value) {
+  let matchedSuggestions
+  this.showDropdown()
+  if (this.isNonSearchableProp) {
+    matchedSuggestions = filterSuggestions(this._defaultSuggestions, value)
+    if (matchedSuggestions && matchedSuggestions.length > 0) {
+      return this.suggestions.reset(matchedSuggestions)
+    }
+  } else {
+    return this.lazySearch(value)
+  }
+}
+
+const filterSuggestions = function (suggestions, value) {
+  return suggestions.filter(entity => entity.matches(value))
 }
 
 const keyAction = function (actionKey) {
