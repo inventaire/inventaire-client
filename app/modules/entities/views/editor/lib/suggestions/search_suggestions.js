@@ -44,7 +44,7 @@ const _search = function (searchValue) {
 const removeCurrentViewValue = function () { this.onAutoCompleteUnselect() }
 
 const loadMoreFromSearch = function () {
-  // Do not try to fetch more results if the last batch was incomplete
+  // Do not try to fetch more results if the last batch was incomplete or does not exist
   if (!this._lastResultsLength || this._lastResultsLength < batchLength) return this.stopLoadingSpinner()
 
   this.showLoadingSpinner(false)

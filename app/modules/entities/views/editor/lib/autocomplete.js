@@ -20,10 +20,8 @@ const notSearchableProps = [ 'wdt:P31' ]
 
 export default {
   onRender () {
-    this.isNonSearchableProp = notSearchableProps.includes(this.property)
-
     if (this.suggestions == null) initializeAutocomplete.call(this)
-    this.suggestionsRegion.show(new AutocompleteSuggestions({ collection: this.suggestions, isNonSearchableProp: this.isNonSearchableProp }))
+    this.suggestionsRegion.show(new AutocompleteSuggestions({ collection: this.suggestions }))
     return addDefaultSuggestionsUris.call(this)
   },
 
@@ -124,13 +122,17 @@ const updateOnKey = function (value, actionKey) {
 const refreshSuggestions = function (searchValue) {
   let matchedSuggestions
   this.showDropdown()
-  if (this.isNonSearchableProp) {
+  // devide the search between searchable and non-searchable property:
+  // - searchable properties must have a type search (author, genre, etc) and possibly numerous results,
+  // - and properties based on hardcoded lists (aliases) such as P31
+  const isSearchableProp = !notSearchableProps.includes(this.property)
+  if (isSearchableProp) {
+    return this.lazySearch(searchValue)
+  } else {
     matchedSuggestions = filterSuggestions(this._defaultSuggestions, searchValue)
     if (matchedSuggestions && matchedSuggestions.length > 0) {
       return this.suggestions.reset(matchedSuggestions)
     }
-  } else {
-    return this.lazySearch(searchValue)
   }
 }
 

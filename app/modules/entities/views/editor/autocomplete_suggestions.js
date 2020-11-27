@@ -19,9 +19,6 @@ export default Marionette.CompositeView.extend({
     results: '.results',
     loader: '.loaderWrapper'
   },
-  initialize () {
-    ({ isNonSearchableProp: this.isNonSearchableProp } = this.options)
-  },
   childEvents: {
     highlight: 'scrollToHighlightedChild',
     'select:from:click': 'selectFromClick'
