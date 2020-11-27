@@ -121,21 +121,22 @@ const updateOnKey = function (value, actionKey) {
   }
 }
 
-const refreshSuggestions = function (value) {
+const refreshSuggestions = function (searchValue) {
   let matchedSuggestions
   this.showDropdown()
   if (this.isNonSearchableProp) {
-    matchedSuggestions = filterSuggestions(this._defaultSuggestions, value)
+    matchedSuggestions = filterSuggestions(this._defaultSuggestions, searchValue)
     if (matchedSuggestions && matchedSuggestions.length > 0) {
       return this.suggestions.reset(matchedSuggestions)
     }
   } else {
-    return this.lazySearch(value)
+    return this.lazySearch(searchValue)
   }
 }
 
-const filterSuggestions = function (suggestions, value) {
-  return suggestions.filter(entity => entity.matches(value))
+const filterSuggestions = function (suggestions, searchValue) {
+  const inputBasedRegex = new RegExp(searchValue, 'i')
+  return suggestions.filter(model => model.matches(inputBasedRegex, searchValue))
 }
 
 const keyAction = function (actionKey) {
