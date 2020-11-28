@@ -44,6 +44,8 @@ const getNextTaskByScore = async params => {
   // to allow several contributors to work with the bests tasks at the same time
   // while having a low risk of conflicting
   if (offset == null) offset = Math.trunc(Math.random() * 500)
+  // Predictable behavior in development environment
+  if (window.env === 'dev') offset = 0
 
   let { tasks } = await preq.get(app.API.tasks.byScore(limit, offset))
   tasks = tasks.filter(removePreviousTasks(previousTasks))
