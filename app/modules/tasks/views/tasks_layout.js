@@ -222,7 +222,10 @@ const openDeduplicationLayoutIfDone = async (previousTask, currentTaskModel) => 
   if (previousSuggestionUri === currentSuggestionUri) return
 
   const { suggestion } = previousTask
-  const showDeduplication = () => app.execute('show:deduplicate:sub:entities', suggestion, { openInNewTab: true })
+  const showDeduplication = () => {
+    app.execute('show:deduplicate:sub:entities', suggestion, { openInNewTab: true })
+    window.open().close()
+  }
 
   if (waitingForMerge != null) {
     await waitingForMerge
