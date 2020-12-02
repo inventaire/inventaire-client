@@ -41,7 +41,9 @@ export default {
     const reverseAction = this.set.bind(this, `${propArrayPath}.${index}`, oldValue)
     const rollback = Rollback(reverseAction, 'editable_entity setPropertyValue')
 
-    if (properties[property].editorType === 'entity') {
+    // Some properties don't have an editor, but can still generates edits
+    // Ex: external ids set during inventory imports
+    if (properties[property] && properties[property].editorType === 'entity') {
       app.execute('invalidate:entities:graph', [ oldValue, newValue ])
     }
 
