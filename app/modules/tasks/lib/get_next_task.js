@@ -32,7 +32,7 @@ const getNextTaskBySuggestionUri = async params => {
   suggestionUriTasks = suggestionUriTasks.filter(removePreviousTasks(previousTasks))
   suggestionUrisFetched.push(suggestionUri)
   if (suggestionUriTasks.length === 0) return getNextTaskByScore(params)
-  else return updateBacklogAndGetNextTask(tasks, 'byAuthor')
+  else return updateBacklogAndGetNextTask(suggestionUriTasks, 'byAuthor')
 }
 
 const getNextTaskByScore = async params => {
