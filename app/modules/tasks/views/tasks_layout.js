@@ -50,11 +50,11 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  async showNextTask (params = {}) {
+  showNextTask (params = {}) {
     const { spinner } = params
     if (spinner != null) startLoading.call(this, spinner)
     const offset = app.request('querystring:get', 'offset')
-    const nextTask = await getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel })
+    const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel })
     if (spinner != null) stopLoading.call(this, spinner)
     this.showTask(nextTask)
   },
