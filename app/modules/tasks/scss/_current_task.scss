@@ -19,7 +19,6 @@
   }
 
   .task-scores{
-    padding: 0 1em;
     max-width: 25em;
   }
 
@@ -28,6 +27,10 @@
     display: block;
   }
 }
+
+  #suggestion, #suspect{
+    padding: 1em 0;
+  }
 
 /*Large screens*/
 @media screen and (min-width: $small-screen) {
@@ -41,6 +44,10 @@
   }
   .wrapped-controls #currentTask{
     padding-bottom: 5em;
+  }
+
+  #suggestion, #suspect{
+    padding: 0 1em;
   }
 }
 

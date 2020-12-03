@@ -1,6 +1,8 @@
 <div class="entities">
   <div id="suspect"></div>
-  {{> 'tasks:task_scores' this}}
+  {{#if this.isDeduplicate}}
+    {{> 'tasks:task_scores' this}}
+  {{/if}}
   <div id="suggestion"></div>
 </div>
 <div id="otherSuggestions"></div>
