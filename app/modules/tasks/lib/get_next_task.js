@@ -11,14 +11,10 @@ const suggestionUrisFetched = []
 const limit = 10
 let offset = 0
 
-export default async function (params = {}) {
-  const { lastTaskModel } = params
+export default function (params = {}) {
+  const { type } = params
 
-  if (lastTaskModel != null) {
-    if (backlogs.byAuthor.length !== 0) return getNextTaskModel('byAuthor')
-    const suggestionUri = lastTaskModel.get('suggestionUri')
-    if (!suggestionUrisFetched.includes(suggestionUri)) return getNextTaskBySuggestionUri(params)
-  }
+  if (type === 'feedback') return getNextTaskByType(params)
 
   return getNextTaskByScore(params)
 }
@@ -36,6 +32,12 @@ const getNextTaskBySuggestionUri = async params => {
 }
 
 const getNextTaskByScore = async params => {
+  const { lastTaskModel } = params
+  if (lastTaskModel != null) {
+    if (backlogs.byAuthor.length !== 0) return Promise.resolve(getNextTaskModel('byAuthor'))
+    const suggestionUri = lastTaskModel.get('suggestionUri')
+    if (!suggestionUrisFetched.includes(suggestionUri)) return getNextTaskBySuggestionUri(params)
+  }
   if (backlogs.byScore.length !== 0) return getNextTaskModel('byScore')
   const { previousTasks } = params
   offset = params.offset
@@ -49,6 +51,14 @@ const getNextTaskByScore = async params => {
   tasks = tasks.filter(removePreviousTasks(previousTasks))
   offset += tasks.length
   return updateBacklogAndGetNextTask(tasks, 'byScore')
+}
+
+const getNextTaskByType = async params => {
+  const { tasks } = await preq.get(app.API.tasks.byType({
+    type: 'feedback',
+    limit: 1
+  }))
+  return new Task(tasks.shift())
 }
 
 const removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id)

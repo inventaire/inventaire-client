@@ -38,20 +38,21 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    const { task } = this.options
+    const { task, type } = this.options
     if (isModel(task)) {
       this.showTask({ task })
     } else if (task != null) {
       this.showFromId(task)
     } else {
-      this.showNextTask()
+      this.showNextTask({ type })
     }
   },
 
-  async showNextTask (params = {}) {
-    const { spinner } = params
+  showNextTask (params = {}) {
+    const { spinner, type } = params
     if (spinner != null) startLoading.call(this, spinner)
-    const nextTask = await getNextTask({ previousTasks, lastTaskModel: this.currentTaskModel })
+    const offset = app.request('querystring:get', 'offset')
+    const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel, type })
     if (spinner != null) stopLoading.call(this, spinner)
     this.showTask({ task: nextTask })
   },
@@ -138,13 +139,13 @@ export default Marionette.LayoutView.extend({
 
   dismiss (e) {
     this.action('dismiss')
-    this.showNextTask({ spinner: '.dismiss' })
+    this.showNextTask({ spinner: '.dismiss', type: this.options.type })
     e?.stopPropagation()
   },
 
   merge (e) {
     this.action('merge')
-    this.showNextTask({ spinner: '.merge' })
+    this.showNextTask({ spinner: '.merge', type: this.options.type })
     e?.stopPropagation()
   },
 
@@ -160,7 +161,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showNextTaskFromButton (e) {
-    this.showNextTask({ spinner: '.next' })
+    this.showNextTask({ spinner: '.next', type: this.options.type })
     e?.stopPropagation()
   },
 

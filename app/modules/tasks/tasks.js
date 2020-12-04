@@ -2,7 +2,8 @@ export default {
   define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'tasks(/)(:id)(/)': 'showTask'
+        'feedback(/)(:id)(/)': 'showFeedbackTask',
+        'tasks(/)(:id)(/)': 'showTask',
       }
     })
 
@@ -17,10 +18,19 @@ export default {
 }
 
 const API = {
-  async showTask (task) {
+  showTask (task) {
     if (app.request('require:loggedIn', 'tasks')) {
-      const { default: TasksLayout } = await import('./views/tasks_layout')
-      return app.layout.main.show(new TasksLayout({ task }))
+      return showLayout({ task })
+    }
+  },
+  showFeedbackTask (task) {
+    if (app.request('require:loggedIn', 'tasks')) {
+      return showLayout({ task, type: 'feedback' })
     }
   }
+}
+
+const showLayout = async params => {
+  const { default: TasksLayout } = await import('./views/tasks_layout')
+  return app.layout.main.show(new TasksLayout(params))
 }

@@ -9,6 +9,7 @@ const byEntitiesUris = name => uris => {
 export default {
   byIds (ids) { return action('by-ids', { ids }) },
   byScore (limit, offset) { return action('by-score', { limit, offset }) },
+  byType (params) { return action('by-type', params) },
   bySuspectUris: byEntitiesUris('suspect'),
   bySuggestionUris: byEntitiesUris('suggestion'),
   update: action('update')
