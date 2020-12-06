@@ -10,8 +10,7 @@ import '../scss/entities_list.scss'
 // - hide series parts when displayed as sub-series
 
 // Prevent circular dependencies
-const viewByType = {}
-
+let viewByType
 const lateImport = async () => {
   const [
     { default: SerieLayout },
@@ -30,23 +29,27 @@ const lateImport = async () => {
     import('./publisher_layout'),
     import('./collection_layout'),
   ])
-  Object.assign(viewByType, {
+  viewByType = {
     serie: SerieLayout,
     work: WorkLi,
     article: ArticleLi,
-    // Types included despite not being works
-    // to make this view reusable by ./claim_layout with those types.
-    // This view should thus possibily be renamed entities_list
     edition: EditionLi,
     human: AuthorLayout,
     publisher: PublisherLayout,
     collection: CollectionLayout,
-  })
+  }
 }
 
-setTimeout(lateImport, 0)
+let waitForLateImport
+// Do not export the View itself, but this async function
+// to force to wait for late imports
+export default async function (params) {
+  waitForLateImport = waitForLateImport || lateImport()
+  await waitForLateImport
+  return new EntitiesList(params)
+}
 
-export default Marionette.CompositeView.extend({
+const EntitiesList = Marionette.CompositeView.extend({
   template: entitiesListTemplate,
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''

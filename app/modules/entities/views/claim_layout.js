@@ -1,7 +1,7 @@
 import { i18n } from 'modules/user/lib/i18n'
 import { unprefixify } from 'lib/wikimedia/wikidata'
 import PaginatedEntities from '../collections/paginated_entities'
-import EntitiesList from './entities_list'
+import getEntitiesListView from './entities_list'
 import GeneralInfobox from './general_infobox'
 import { getReverseClaims } from '../lib/entities'
 import { entity as entityValueTemplate } from 'lib/handlebars_helpers/claims_helpers'
@@ -44,7 +44,7 @@ export default Marionette.LayoutView.extend({
     app.navigate(`entity/${finalClaim}`)
   },
 
-  showEntities (uris) {
+  async showEntities (uris) {
     const collection = new PaginatedEntities(null, { uris, defaultType: 'work' })
 
     // allowlisted properties labels are in i18n keys already, thus should not need
@@ -52,7 +52,7 @@ export default Marionette.LayoutView.extend({
     const propertyValue = i18n(unprefixify(this.property))
     const entityValue = entityValueTemplate(this.value)
 
-    return this.list.show(new EntitiesList({
+    const view = await getEntitiesListView({
       title: `${propertyValue}: ${entityValue}`,
       customTitle: true,
       parentModel: this.model,
@@ -63,9 +63,12 @@ export default Marionette.LayoutView.extend({
       standalone: true,
       refresh: this.refresh,
       addButtonLabel: addButtonLabelPerProperty[this.property]
-    }))
+    })
+
+    this.list.show(view)
   }
 })
 
-const addButtonLabelPerProperty =
-  { 'wdt:P921': 'add a work with this subject' }
+const addButtonLabelPerProperty = {
+  'wdt:P921': 'add a work with this subject'
+}

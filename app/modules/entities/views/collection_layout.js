@@ -1,5 +1,5 @@
 import TypedEntityLayout from './typed_entity_layout'
-import EntitiesList from './entities_list'
+import getEntitiesListView from './entities_list'
 import GeneralInfobox from './general_infobox'
 import PaginatedEntities from 'modules/entities/collections/paginated_entities'
 import collectionLayoutTemplate from './templates/collection_layout.hbs'
@@ -29,9 +29,9 @@ export default TypedEntityLayout.extend({
     return { standalone: this.standalone }
   },
 
-  showPaginatedEditions (uris) {
+  async showPaginatedEditions (uris) {
     const collection = new PaginatedEntities(null, { uris, defaultType: 'edition' })
-    return this.editionsList.show(new EntitiesList({
+    const view = await getEntitiesListView({
       collection,
       hideHeader: !this.standalone,
       compactMode: true,
@@ -39,6 +39,7 @@ export default TypedEntityLayout.extend({
       type: 'edition',
       title: 'editions',
       addButtonLabel: 'add an edition to this collection'
-    }))
+    })
+    this.editionsList.show(view)
   }
 })

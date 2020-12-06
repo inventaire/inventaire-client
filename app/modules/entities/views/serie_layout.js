@@ -1,5 +1,5 @@
 import TypedEntityLayout from './typed_entity_layout'
-import EntitiesList from './entities_list'
+import getEntitiesListView from './entities_list'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import SerieInfobox from './serie_infobox'
 import serieLayoutTemplate from './templates/serie_layout.hbs'
@@ -33,10 +33,10 @@ export default TypedEntityLayout.extend({
     .then(this.ifViewIsIntact('showParts'))
   },
 
-  showParts () {
+  async showParts () {
     stopLoading.call(this)
 
-    return this.parts.show(new EntitiesList({
+    const view = await getEntitiesListView({
       parentModel: this.model,
       collection: this.model.partsWithoutSuperparts,
       title: 'works',
@@ -44,6 +44,8 @@ export default TypedEntityLayout.extend({
       hideHeader: true,
       refresh: this.refresh,
       addButtonLabel: 'add a work to this serie'
-    }))
+    })
+
+    this.parts.show(view)
   }
 })

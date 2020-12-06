@@ -1,7 +1,7 @@
 import log_ from 'lib/loggers'
 import TypedEntityLayout from './typed_entity_layout'
 import { startLoading } from 'modules/general/plugins/behaviors'
-import EntitiesList from './entities_list'
+import getEntitiesListView from './entities_list'
 import screen_ from 'lib/screen'
 import AuthorInfobox from './author_infobox'
 import authorLayoutTemplate from './templates/author_layout.hbs'
@@ -95,8 +95,8 @@ export default TypedEntityLayout.extend({
 
   unwrap () { this.$el.removeClass('wrapped') },
 
-  showWorkCollection (type, initialLength) {
-    return this[`${type}Region`].show(new EntitiesList({
+  async showWorkCollection (type, initialLength) {
+    const view = await getEntitiesListView({
       parentModel: this.model,
       collection: this.model.works[type],
       title: type,
@@ -105,7 +105,8 @@ export default TypedEntityLayout.extend({
       showActions: this.options.showActions,
       wrapWorks: this.options.wrapWorks,
       addButtonLabel: addButtonLabelPerType[type]
-    }))
+    })
+    this[`${type}Region`].show(view)
   }
 })
 

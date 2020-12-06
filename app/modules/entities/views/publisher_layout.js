@@ -1,5 +1,5 @@
 import TypedEntityLayout from './typed_entity_layout'
-import EntitiesList from './entities_list'
+import getEntitiesListView from './entities_list'
 import PaginatedEntities from 'modules/entities/collections/paginated_entities'
 import PublisherInfobox from './publisher_infobox'
 import publisherLayoutTemplate from './templates/publisher_layout.hbs'
@@ -32,10 +32,10 @@ export default TypedEntityLayout.extend({
     this.showIsolatedEditions()
   },
 
-  showCollections () {
+  async showCollections () {
     const uris = this.model.publisherCollectionsUris
     const collection = new PaginatedEntities(null, { uris, defaultType: 'collection' })
-    return this.collectionsList.show(new EntitiesList({
+    const view = await getEntitiesListView({
       parentModel: this.model,
       collection,
       title: 'collections',
@@ -43,13 +43,14 @@ export default TypedEntityLayout.extend({
       showActions: true,
       compactMode: true,
       addButtonLabel: 'add a collection from this publisher'
-    }))
+    })
+    this.collectionsList.show(view)
   },
 
-  showIsolatedEditions () {
+  async showIsolatedEditions () {
     const uris = this.model.isolatedEditionsUris
     const collection = new PaginatedEntities(null, { uris, defaultType: 'edition' })
-    return this.editionsList.show(new EntitiesList({
+    const view = await getEntitiesListView({
       parentModel: this.model,
       collection,
       title: 'editions',
@@ -57,6 +58,7 @@ export default TypedEntityLayout.extend({
       showActions: true,
       compactMode: true,
       addButtonLabel: 'add an edition from this publisher'
-    }))
+    })
+    this.editionsList.show(view)
   }
 })
