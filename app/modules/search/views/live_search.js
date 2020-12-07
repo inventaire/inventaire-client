@@ -43,12 +43,8 @@ export default Marionette.CompositeView.extend({
   },
 
   serializeData () {
-    const {
-      entitiesSections
-    } = sectionsData()
-    const {
-      socialSections
-    } = sectionsData()
+    const { entitiesSections } = sectionsData()
+    const { socialSections } = sectionsData()
     if ((entitiesSections[this.selectedSectionName] == null) && (socialSections[this.selectedSectionName] == null)) {
       log_.warn({ selectedSectionName: this.selectedSectionName }, 'unknown search section')
       this.selectedSectionName = 'book'
@@ -92,12 +88,11 @@ export default Marionette.CompositeView.extend({
   },
 
   selectSectionAndSearch (name) {
-    if (this.isSectionSelected(name)) {
-      this.unselectSection(name)
-    } else {
-      if (isSocialSection(name)) { this.updateSocialSections(name) }
-      if (isEntitiesSection(name)) { this.updateEntitiesSections(name) }
-    }
+    const selectedSections = this.getSelectedSectionsNames()
+    this.unselectSection(selectedSections)
+
+    this.ui.entitiesSections.find(`#section-${name}`).addClass('selected')
+    this.ui.socialSections.find(`#section-${name}`).addClass('selected')
 
     this._searchOffset = 0
     this._lastType = name
@@ -115,29 +110,6 @@ export default Marionette.CompositeView.extend({
       return this.ui.entitiesSections.find(`#section-${name}`).removeClass('selected')
     }
   },
-
-  updateEntitiesSections (name) {
-    if (isSocialSection(this._lastType)) {
-      this.ui.socialSections.find('.socialSection').removeClass('selected')
-    }
-    // unselect all selected section to have a search dedicated to subjects only
-    if (name === 'subject') {
-      this.ui.entitiesSections.find('.entitiesSection').removeClass('selected')
-    } else {
-      this.ui.entitiesSections.find('#section-subject').removeClass('selected')
-    }
-    return this.ui.entitiesSections.find(`#section-${name}`).addClass('selected')
-  },
-  // @entitiesSection = (child)-> child.get('typeAlias') is name
-
-  updateSocialSections (name) {
-    // needs to unselect the default 'book' section
-    if (!this._lastType || isEntitiesSection(this._lastType)) {
-      this.ui.entitiesSections.find('.entitiesSection').removeClass('selected')
-    }
-    return this.ui.socialSections.find(`#section-${name}`).addClass('selected')
-  },
-  // @socialSection = (child)-> child.get('typeAlias') is name
 
   updateAlternatives (search) {
     if (Array.from(sectionsWithAlternatives).includes(this._lastType)) {
