@@ -1,6 +1,9 @@
 <div class="openness">
   {{> 'toggler' this}}
+  <p class="warning {{#if checked}}hidden{{/if}}">
+    {{icon 'globe'}}{{i18n 'admins have to accept or refuse requests to join the group'}}
+  </p>
   <p class="warning {{#if checked}}{{else}}hidden{{/if}}">
-    {{icon 'globe'}}{{i18n 'group accepts logged user request automatically, no admin validation is required'}}
+    {{icon 'globe'}}{{i18n 'anyone can join the group, no admin validation is required.'}}
   </p>
 </div>
