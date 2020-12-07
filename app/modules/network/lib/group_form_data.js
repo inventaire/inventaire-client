@@ -15,9 +15,9 @@ export default {
     }
   },
 
-  openess (active = false) {
+  openness (active = false) {
     return {
-      id: 'openessToggler',
+      id: 'opennessToggler',
       checked: active,
       label: 'open membership'
     }
