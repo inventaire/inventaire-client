@@ -4,11 +4,20 @@
 </div>
 
 <div class="sections">
-  {{#each sections}}
-    <a id="section-{{@key}}" class="searchSection {{#if selected}}selected{{/if}}">
-      {{I18n label}}
-    </a>
-  {{/each}}
+  <div class="entitySections">
+    {{#each sections.entity}}
+      <a data-category="entity" data-name="{{@key}}" class="searchSection {{#if selected}}selected{{/if}} {{#if included}}included{{/if}}">
+        {{I18n label}}
+      </a>
+    {{/each}}
+  </div>
+  <div class="socialSections">
+    {{#each sections.social}}
+      <a data-category="social" data-name="{{@key}}" class="searchSection {{#if selected}}selected{{/if}} {{#if included}}included{{/if}}">
+        {{I18n label}}
+      </a>
+    {{/each}}
+  </div>
 </div>
 
 <div class="alternatives">

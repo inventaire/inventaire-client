@@ -3,17 +3,19 @@
   .resultsWrapper, .sections{
     background-color: #eee;
   }
-  .sections{
+  .entitySections, .socialSections{
     @include display-flex(row, flex-end, flex-start, wrap);
     text-align: center;
     overflow-x: auto;
   }
   .searchSection{
-    flex: 1 0 6em;
-    max-width: 8em;
+    width: $search-section-width;
     padding: 0.5em 0.2em;
     background-color: #f3f3f3;
     @include transition(background-color);
+    &.included{
+      background-color: #ddd;
+    }
     &:hover, &.selected{
       background-color: $light-blue;
       color: white;
