@@ -89,14 +89,14 @@ const findSearchSection = function (q) {
 
 const sections = {
   a: 'author',
-  b: 'book',
+  b: 'work', // 'b' for book
   c: 'collection',
   g: 'group',
   h: 'author', // 'h' for human
-  l: 'book', // 'l' for livre, libro, liber
+  l: 'work', // 'l' for livre, libro, liber
   p: 'publisher',
   s: 'serie',
   t: 'subject', // 't' for topic (as series already use the 's')
   u: 'user',
-  w: 'book' // 'w' for work
+  w: 'work',
 }
