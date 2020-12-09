@@ -1,7 +1,7 @@
 export const sectionToTypes = {
   entity: {
     all: [ 'works', 'humans', 'series', 'publishers', 'collections' ],
-    book: 'works',
+    work: 'works',
     author: 'humans',
     serie: 'series',
     collection: 'collections',
@@ -15,13 +15,13 @@ export const sectionToTypes = {
   }
 }
 
-export const entitySectionsWithAlternatives = [ 'all', 'book', 'author', 'serie', 'collection', 'publisher' ]
+export const entitySectionsWithAlternatives = [ 'all', 'work', 'author', 'serie', 'collection', 'publisher' ]
 
 export const sectionsData = selected => {
   const sections = {
     entity: {
       all: { label: 'all' },
-      book: { label: 'book' },
+      work: { label: 'work' },
       author: { label: 'author' },
       serie: { label: 'series_singular' },
       publisher: { label: 'publisher' },
