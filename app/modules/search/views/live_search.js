@@ -8,7 +8,6 @@
 //   or dead (wdt:P20) nearby
 
 import findUri from '../lib/find_uri'
-import error_ from 'lib/error'
 import { looksLikeAnIsbn } from 'lib/isbn'
 import screen_ from 'lib/screen'
 import preq from 'lib/preq'
@@ -19,6 +18,8 @@ import WikidataSearch from 'modules/entities/lib/search/wikidata_search'
 import Result from './result'
 import NoResult from './no_result'
 import liveSearchTemplate from './templates/live_search.hbs'
+import { formatEntity, formatSubject } from '../lib/formatters'
+import { sectionToTypes, entitySectionsWithAlternatives, sectionsData, neverIncluded } from '../lib/search_sections'
 const wikidataSearch = WikidataSearch(false)
 
 const Results = Backbone.Collection.extend({ model: ResultModel })
@@ -51,13 +52,9 @@ export default Marionette.CompositeView.extend({
   },
 
   serializeData () {
-    const sections = sectionsData()
-    if (sections[this.selectedSectionName] == null) {
-      log_.warn({ sections, selectedSectionName: this.selectedSectionName }, 'unknown search section')
-      this.selectedSectionName = 'all'
+    return {
+      sections: sectionsData(this.selectedSectionName)
     }
-    sections[this.selectedSectionName].selected = true
-    return { sections }
   },
 
   events: {
@@ -71,8 +68,8 @@ export default Marionette.CompositeView.extend({
   },
 
   onSpecialKey (key) {
-    if (key === 'up') this.highlightPrevious()
-    else if (key === 'down') this.highlightNext()
+    if (key === 'up') this.highlightPreviousResult()
+    else if (key === 'down') this.highlightNextResult()
     else if (key === 'enter') this.showCurrentlyHighlightedResult()
     else if (key === 'pageup') this.selectPrevSection()
     else if (key === 'pagedown') this.selectNextSection()
@@ -84,35 +81,49 @@ export default Marionette.CompositeView.extend({
   selectNextSection () { this.selectByPosition('next', 'first') },
   selectByPosition (relation, fallback) {
     let $target = this.$el.find('.selected')[relation]()
-    if ($target.length === 0) { $target = this.$el.find('.sections a')[fallback]() }
+    if ($target.length === 0) {
+      const currentCategory = this.$el.find('.selected')[0].dataset.category
+      const otherCategory = currentCategory === 'entity' ? 'social' : 'entity'
+      $target = this.$el.find(`.${otherCategory}Sections a`)[fallback]()
+    }
     this.selectTypeFromTarget($target)
   },
 
   selectTypeFromTarget ($target) {
-    const { id } = $target[0]
-    const type = getTypeFromId(id)
-    this.selectType(type)
+    const { category, name } = $target[0].dataset
+    const type = sectionToTypes[category][name]
+    this.selectType(category, name, type)
   },
 
-  selectType (type) {
-    if (type === this._lastType) return
+  selectType (category, name, type) {
+    if (this._lastSelected?.category === category && this._lastSelected?.name === name) return
 
-    this.ui.sections.removeClass('selected')
-    this.ui.sections.filter(`#section-${type}`).addClass('selected')
-    if (type === 'all') {
-      this.section = null
-    } else { this.section = child => child.get('typeAlias') === type }
+    this.ui.sections
+    .removeClass('selected')
+    .removeClass('included')
+    .filter((i, el) => el.dataset.category === category && el.dataset.name === name)
+    .addClass('selected')
+
+    if (name === 'all') {
+      this.ui.sections
+      .filter((i, el) => el.dataset.category === category && !neverIncluded.includes(el.dataset.name))
+      .addClass('included')
+    }
 
     this._searchOffset = 0
-    this._lastType = type
+    this._lastSelected = { category, name }
+
     // Refresh the search with the new sections
-    if ((this._lastSearch != null) && (this._lastSearch !== '')) { this.lazySearch(this._lastSearch) }
+    if (this._lastSearch != null && this._lastSearch !== '') {
+      this.lazySearch(this._lastSearch)
+    }
 
     this.updateAlternatives(type)
   },
 
   updateAlternatives (search) {
-    if (sectionsWithAlternatives.includes(this._lastType)) {
+    const { category, name } = (this._lastSelected || {})
+    if (category === 'entity' && entitySectionsWithAlternatives.includes(name)) {
       this.showAlternatives(search)
     } else {
       this.hideAlternatives()
@@ -165,6 +176,11 @@ export default Marionette.CompositeView.extend({
     this._lazySearch(search)
   },
 
+  getTypes () {
+    const { category, name } = this.$el.find('.selected')[0].dataset
+    return sectionToTypes[category][name]
+  },
+
   showAlternatives (search) {
     if (!isNonEmptyString(search)) return
     if (search !== this._lastSearch) return
@@ -205,11 +221,6 @@ export default Marionette.CompositeView.extend({
 
   stopLoadingSpinner () { this.ui.loader.html('') },
 
-  getTypes () {
-    const name = getTypeFromId(this.$el.find('.selected')[0].id)
-    return sectionToTypes[name]
-  },
-
   resetResults (searchId, results) {
     // Ignore results from any search that isn't the latest search
     if ((searchId != null) && (searchId !== this._lastSearchId)) return
@@ -240,10 +251,10 @@ export default Marionette.CompositeView.extend({
     }
   },
 
-  highlightNext () { this.highlightIndexChange(1) },
-  highlightPrevious () { this.highlightIndexChange(-1) },
+  highlightNextResult () { this.highlightIndexChange(1) },
+  highlightPreviousResult () { this.highlightIndexChange(-1) },
   highlightIndexChange (incrementor) {
-    if (this._currentHighlightIndex == null) { this._currentHighlightIndex = -1 }
+    if (this._currentHighlightIndex == null) this._currentHighlightIndex = -1
     const newIndex = this._currentHighlightIndex + incrementor
     const previousView = this.children.findByIndex(this._currentHighlightIndex)
     const view = this.children.findByIndex(newIndex)
@@ -273,8 +284,10 @@ export default Marionette.CompositeView.extend({
       // it will redirect to the ISBN edition creation form
       app.execute('show:entity', this._lastSearch)
     } else {
-      const section = this._lastType || this.selectedSectionName
-      const type = sectionToTypes[section]
+      let type
+      if (this._lastSelected?.category === 'entity' && this._lastSelected?.name !== 'all') {
+        type = sectionToTypes.entity[this._lastSelected.name]
+      }
       app.execute('show:entity:create', { label: this._lastSearch, type, allowToChangeType: true })
     }
   },
@@ -304,55 +317,4 @@ export default Marionette.CompositeView.extend({
     this._lastResultsLength = newResults.length
     return this.collection.add(newResults)
   }
-})
-
-const sectionToTypes = {
-  all: [ 'works', 'humans', 'series', 'publishers', 'collections', 'users', 'groups' ],
-  book: 'works',
-  author: 'humans',
-  serie: 'series',
-  collection: 'collections',
-  publisher: 'publishers',
-  subject: 'subjects',
-  user: 'users',
-  group: 'groups'
-}
-
-const sectionsWithAlternatives = [ 'all', 'book', 'author', 'serie', 'collection', 'publisher' ]
-
-const getTypeFromId = id => id.replace('section-', '')
-
-// Pre-formatting is required to set the type
-// Taking the opportunity to omit all non-required data
-const formatSubject = result => ({
-  id: result.id,
-  label: result.label,
-  description: result.description,
-  uri: `wd:${result.id}`,
-  type: 'subjects'
-})
-
-const formatEntity = function (entity) {
-  if (entity?.toJSON == null) {
-    error_.report('cant format invalid entity', { entity })
-    return
-  }
-
-  const data = entity.toJSON()
-  data.image = data.image?.url
-  // Return a model to prevent having it re-formatted
-  // as a Result model, which works from a result object, not an entity
-  return new Backbone.Model(data)
-}
-
-const sectionsData = () => ({
-  all: { label: 'all' },
-  book: { label: 'book' },
-  author: { label: 'author' },
-  serie: { label: 'series_singular' },
-  user: { label: 'user' },
-  group: { label: 'group' },
-  publisher: { label: 'publisher' },
-  collection: { label: 'collection' },
-  subject: { label: 'subject' }
 })
