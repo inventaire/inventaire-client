@@ -4,6 +4,7 @@ import email_ from 'modules/user/lib/email_tests'
 import forms_ from 'modules/general/lib/forms'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import forgotPasswordTemplate from './templates/forgot_password.hbs'
+import '../scss/auth_menu.scss'
 
 export default Marionette.ItemView.extend({
   className: 'authMenu login',
