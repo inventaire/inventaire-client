@@ -5,6 +5,7 @@ import error_ from 'lib/error'
 import { normalizeIsbn } from 'lib/isbn'
 import isLoggedIn from './is_logged_in'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
+import preq from 'lib/preq'
 
 export default function (params) {
   if (!isLoggedIn()) return
@@ -50,10 +51,10 @@ const renameIsbnDuplicateErr = (workUri, isbn) => function (err) {
   })
 }
 
-const reportIsbnIssue = (workUri, isbn) => app.request('post:feedback', {
-  subject: `[Possible work duplicate] ${workUri} / ${isbn}'s work`,
-  uris: [ workUri, `isbn:${isbn}` ]
-})
+const reportIsbnIssue = async (workUri, isbn) => {
+  const params = { uri: workUri, isbn }
+  return preq.post(app.API.tasks.deduplicateWork, params)
+}
 
 const formatEditionAlreadyExistOnCurrentWork = err => {
   err.responseJSON.status_verbose = 'this edition is already in the list'
