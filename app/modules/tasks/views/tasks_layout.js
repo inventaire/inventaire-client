@@ -100,14 +100,17 @@ export default Marionette.LayoutView.extend({
   },
 
   showRelativeTasks (model) {
+    // only authors have relative tasks
+    if (model.get('type') === 'feedback') { return }
     return this._grabSuspectPromise
     .then(model.getOtherSuggestions.bind(model))
     .then(() => {
-      this.relativeTasks.show(new RelativeTasks({
+      const newRelativeTask = new RelativeTasks({
         collection: model.suspect.mergeSuggestions,
         currentTaskModel: model
-      }))
-      this.updateRelativesCount(model)
+      })
+      this.relativeTasks.show(newRelativeTask)
+      return this.updateRelativesCount(model)
     })
   },
 
