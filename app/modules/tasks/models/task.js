@@ -38,7 +38,9 @@ export default Backbone.Model.extend({
         throw err
       }
 
-      return model.initAuthorWorks()
+      if (model.get('type') === 'human') {
+        return model.initAuthorWorks()
+      }
     })
   },
 
