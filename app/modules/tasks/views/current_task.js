@@ -1,4 +1,5 @@
 import AuthorLayout from 'modules/entities/views/author_layout'
+import WorkInfobox from 'modules/entities/views/work_infobox'
 import currentTaskTemplate from './templates/current_task.hbs'
 
 export default Marionette.LayoutView.extend({
@@ -15,8 +16,13 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    this.showAuthor('suspect')
-    this.showAuthor('suggestion')
+    if (this.model.get('type') === 'deduplicate') {
+      this.showAuthor('suspect')
+      this.showAuthor('suggestion')
+    } else {
+      this.showWork('suspect')
+      this.showWork('suggestion')
+    }
   },
 
   showAuthor (name) {
@@ -26,6 +32,12 @@ export default Marionette.LayoutView.extend({
       wrapWorks: true,
       noAuthorWrap: true,
       standalone: true
+    }))
+  },
+
+  showWork (name) {
+    return this[name].show(new WorkInfobox({
+      model: this.model[name]
     }))
   }
 })
