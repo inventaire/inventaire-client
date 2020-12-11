@@ -1,3 +1,5 @@
+import { I18n } from 'modules/user/lib/i18n'
+
 export const sectionToTypes = {
   entity: {
     all: [ 'works', 'humans', 'series', 'publishers', 'collections' ],
@@ -42,6 +44,9 @@ export const sectionsData = selected => {
   if (sections.entity.all.selected) setIncludeFlag(sections.entity)
   else if (sections.social.all.selected) setIncludeFlag(sections.social)
 
+  sections.entity.all.includes = getIncludedSectionsLabel(sections.entity)
+  sections.social.all.includes = getIncludedSectionsLabel(sections.social)
+
   return sections
 }
 
@@ -54,3 +59,7 @@ const setIncludeFlag = categorySections => {
 }
 
 export const neverIncluded = [ 'all', 'subject' ]
+
+const isIncluded = name => !neverIncluded.includes(name)
+
+const getIncludedSectionsLabel = section => Object.keys(section).filter(isIncluded)

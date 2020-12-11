@@ -9,8 +9,7 @@
     overflow-x: auto;
   }
   .searchSection{
-    width: $search-section-width;
-    padding: 0.5em 0.2em;
+    min-width: $search-section-width-on-large-screen;
     background-color: #f3f3f3;
     @include transition(background-color);
     &.included{
@@ -160,7 +159,7 @@
   }
   /*Smaller screens*/
   @media screen and (max-width: $smaller-screen) {
-    height: 100%;
+    max-height: 90vh;
     @include display-flex(column);
     .propositions{
       justify-content: center;
@@ -168,13 +167,41 @@
     .sections{
       flex: 0 0 auto;
       border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      @include display-flex(row, stretch, center);
+      > div{
+        width: 50%;
+        @include display-flex(row, stretch, center);
+      }
+    }
+    .searchSection{
+      flex: 1 0 0;
+      @include display-flex(column, stretch, center);
+      &:not([data-name="all"]){
+        display: none;
+      }
+      padding: 0 0.2em;
+      min-height: 2.5em;
+    }
+    .unwrapped{
+      display: none;
+    }
+    .wrapped{
+      @include display-flex(row, space-between, center, wrap);
+      span{
+        padding: 0 0.2em;
+      }
     }
   }
 
-  /*Medium to Large screens*/
+  /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
-    .resultsWrapper{
-      max-height: 60vh;
+    .searchSection{
+      width: $search-section-width-on-large-screen;
+      padding: 0.5em 0.2em;
+    }
+    .wrapped{
+      display: none;
     }
   }
 }

@@ -1,4 +1,4 @@
-$search-section-width: 6em;
+$search-section-width-on-large-screen: 6em;
 
 nav#top-bar{
   // Use position:fixed to make the top-bar stick to the screen top
@@ -44,7 +44,7 @@ nav#top-bar{
   #searchGroup{
     flex: 1 0 auto;
     // 7 = max number of search section on a row
-    max-width: 7 * $search-section-width;
+    max-width: 7 * $search-section-width-on-large-screen;
     margin: 0 auto;
     margin-bottom: 0;
   }
