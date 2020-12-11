@@ -90,15 +90,16 @@
     color: $grey;
   }
   .alternatives{
-    padding: 0.2em;
+    background-color: #dadada;
     opacity: 0;
     @include transition(opacity, 0.3s);
+    padding: 0.2em 0.5em;
     &.shown{
       @include display-flex(row, center, center, wrap);
       opacity: 1;
     }
     .label{
-      color: white;
+      color: $dark-grey;
     }
   }
   .propositions{
@@ -175,6 +176,9 @@
   @media screen and (min-width: $smaller-screen) {
     .resultsWrapper{
       max-height: 60vh;
+    }
+    .loaderWrapper:not(:empty){
+      height: 60vh;
     }
   }
 }
