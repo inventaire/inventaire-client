@@ -5,8 +5,7 @@ import currentTaskTemplate from './templates/current_task.hbs'
 export default Marionette.LayoutView.extend({
   template: currentTaskTemplate,
   serializeData () {
-    return _.extend(this.model.serializeData(),
-      { showSourcesLinks: true })
+    return _.extend(this.model.serializeData(), { showSourcesLinks: true })
   },
 
   regions: {

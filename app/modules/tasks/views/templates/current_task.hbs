@@ -2,6 +2,8 @@
   <div id="suspect"></div>
   {{#if this.isDeduplicate}}
     {{> 'tasks:task_scores' this}}
+  {{else}}
+    {{> 'tasks:task_feedback_info' this}}
   {{/if}}
   <div id="suggestion"></div>
 </div>
