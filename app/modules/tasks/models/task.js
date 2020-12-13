@@ -6,9 +6,10 @@ import error_ from 'lib/error'
 export default Backbone.Model.extend({
   initialize (attrs) {
     const type = this.get('type')
-    if (type == null) throw error_.new('invalid task', 500, attrs)
-    if (type === 'deduplicate') this.calculateGlobalScore()
-    this.set('pathname', `/tasks/${this.id}`)
+    if (type == null) { throw error_.new('invalid task', 500, attrs) }
+    const entitiesType = this.get('entitiesType')
+    if (entitiesType === 'humans') { this.calculateGlobalScore() }
+    return this.set('pathname', `/tasks/${this.id}`)
   },
 
   serializeData () {
@@ -16,9 +17,9 @@ export default Backbone.Model.extend({
       suspect: this.suspect?.toJSON(),
       suggestion: this.suggestion?.toJSON(),
     })
-    if (this.get('type') === 'deduplicate') {
+    if (this.get('entitiesType') === 'humans') {
       _.extend(data, {
-        isDeduplicate: true,
+        isHumansEntitiesType: true,
         sources: this.getSources(),
         sourcesCount: this.get('externalSourcesOccurrences').length
       })

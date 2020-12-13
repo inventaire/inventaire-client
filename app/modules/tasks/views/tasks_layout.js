@@ -39,21 +39,21 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    const { task, type } = this.options
+    const { task, entitiesType } = this.options
     if (isModel(task)) {
       this.showTask({ task })
     } else if (task != null) {
       this.showFromId(task)
     } else {
-      this.showNextTask({ type })
+      this.showNextTask({ entitiesType })
     }
   },
 
   showNextTask (params = {}) {
-    const { spinner, type } = params
+    const { spinner, entitiesType } = params
     if (spinner != null) startLoading.call(this, spinner)
     const offset = app.request('querystring:get', 'offset')
-    const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel, type })
+    const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel, entitiesType })
     if (spinner != null) stopLoading.call(this, spinner)
     this.showTask({ task: nextTask })
   },
@@ -108,7 +108,7 @@ export default Marionette.LayoutView.extend({
 
   showRelativeTasks (model) {
     // only authors have relative tasks
-    if (model.get('type') === 'feedback') { return }
+    if (!model.get('entitiesType') === 'authors') { return }
     return this._grabSuspectPromise
     .then(model.getOtherSuggestions.bind(model))
     .then(() => {
@@ -149,13 +149,13 @@ export default Marionette.LayoutView.extend({
 
   dismiss (e) {
     this.action('dismiss')
-    this.showNextTask({ spinner: '.dismiss', type: this.options.type })
+    this.showNextTask({ spinner: '.dismiss', entitiesType: this.options.entitiesType })
     e?.stopPropagation()
   },
 
   merge (e) {
     this.action('merge')
-    this.showNextTask({ spinner: '.merge', type: this.options.type })
+    this.showNextTask({ spinner: '.merge', entitiesType: this.options.entitiesType })
     e?.stopPropagation()
   },
 
@@ -171,7 +171,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showNextTaskFromButton (e) {
-    this.showNextTask({ spinner: '.next', type: this.options.type })
+    this.showNextTask({ spinner: '.next', entitiesType: this.options.entitiesType })
     e?.stopPropagation()
   },
 

@@ -12,9 +12,9 @@ const limit = 10
 let offset = 0
 
 export default function (params = {}) {
-  const { type } = params
+  const { entitiesType } = params
 
-  if (type === 'feedback') return getNextTaskByType(params)
+  if (entitiesType === 'works') return getNextTaskByEntitiesType(params)
 
   return getNextTaskByScore(params)
 }
@@ -53,10 +53,10 @@ const getNextTaskByScore = async params => {
   return updateBacklogAndGetNextTask(tasks, 'byScore')
 }
 
-const getNextTaskByType = async params => {
-  const { type } = params
-  const { tasks } = await preq.get(app.API.tasks.byType({
-    type,
+const getNextTaskByEntitiesType = async params => {
+  const { entitiesType } = params
+  const { tasks } = await preq.get(app.API.tasks.byEntitiesType({
+    type: entitiesType,
     limit: 1
   }))
   const task = tasks.shift()
