@@ -3,6 +3,7 @@ import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import getNextTask from '../lib/get_next_task'
 import CurrentTask from './current_task'
+import NoTask from './no_task'
 import RelativeTasks from './relative_tasks'
 import Task from '../models/task'
 import error_ from 'lib/error'
@@ -64,6 +65,7 @@ export default Marionette.LayoutView.extend({
   },
 
   async showFromModel (model, isShownFromId) {
+    if (!model) return this.showNoTask()
     this.previousTask = this.currentTaskModel
     this.currentTaskModel = model
 
@@ -97,6 +99,11 @@ export default Marionette.LayoutView.extend({
       app.navigateFromModel(model)
       this.focusOnControls()
     })
+  },
+
+  showNoTask () {
+    this.currentTask.show(new NoTask())
+    return this.focusOnControls()
   },
 
   showRelativeTasks (model) {

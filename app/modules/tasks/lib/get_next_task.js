@@ -54,11 +54,13 @@ const getNextTaskByScore = async params => {
 }
 
 const getNextTaskByType = async params => {
+  const { type } = params
   const { tasks } = await preq.get(app.API.tasks.byType({
-    type: 'feedback',
+    type,
     limit: 1
   }))
-  return new Task(tasks.shift())
+  const task = tasks.shift()
+  if (task) { return new Task(task) }
 }
 
 const removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id)
