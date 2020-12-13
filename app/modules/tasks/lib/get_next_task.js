@@ -3,7 +3,8 @@ import Task from '../models/task'
 
 const backlogs = {
   byScore: [],
-  byAuthor: []
+  byAuthor: [],
+  byWork: []
 }
 
 const suggestionUrisFetched = []
@@ -12,11 +13,39 @@ const limit = 10
 let offset = 0
 
 export default function (params = {}) {
+  return getNextTask(params)
+}
+
+const getNextTask = async params => {
   const { entitiesType } = params
+  let nextTaskGetter = ''
+  if (entitiesType === 'works') {
+    params.backlogType = 'byWork'
+    nextTaskGetter = 'byWork'
+  } else {
+    params.backlogType = 'byAuthor'
+    nextTaskGetter = 'byScore'
+  }
 
-  if (entitiesType === 'works') return getNextTaskByEntitiesType(params)
+  const { lastTaskModel } = params
+  if (lastTaskModel != null) {
+    if (backlogs.byWork.length !== 0) { return Promise.resolve(getNextTaskModel(params.backlogType)) }
+    const suggestionUri = lastTaskModel.get('suggestionUri')
+    if (!suggestionUrisFetched.includes(suggestionUri)) return getNextTaskBySuggestionUri(params)
+  }
+  if (backlogs.byWork.length !== 0) return getNextTaskModel(nextTaskGetter)
+  const { previousTasks } = params
+  offset = params.offset
 
-  return getNextTaskByScore(params)
+  // If an offset isn't specified, use a random offset between 0 and 500
+  // to allow several contributors to work with the bests tasks at the same time
+  // while having a low risk of conflicting
+  if (offset == null) offset = Math.trunc(Math.random() * 500)
+
+  let { tasks } = await requestNewTasks(entitiesType, limit, offset)
+  tasks = tasks.filter(removePreviousTasks(previousTasks))
+  offset += tasks.length
+  return updateBacklogAndGetNextTask(tasks, nextTaskGetter)
 }
 
 const getNextTaskBySuggestionUri = async params => {
@@ -27,42 +56,17 @@ const getNextTaskBySuggestionUri = async params => {
   let suggestionUriTasks = tasks[suggestionUri]
   suggestionUriTasks = suggestionUriTasks.filter(removePreviousTasks(previousTasks))
   suggestionUrisFetched.push(suggestionUri)
-  if (suggestionUriTasks.length === 0) return getNextTaskByScore(params)
-  else return updateBacklogAndGetNextTask(suggestionUriTasks, 'byAuthor')
+  if (suggestionUriTasks.length === 0) return getNextTask(params)
+  else return updateBacklogAndGetNextTask(suggestionUriTasks, params.backlogType)
 }
 
-const getNextTaskByScore = async params => {
-  const { lastTaskModel } = params
-  if (lastTaskModel != null) {
-    if (backlogs.byAuthor.length !== 0) return Promise.resolve(getNextTaskModel('byAuthor'))
-    const suggestionUri = lastTaskModel.get('suggestionUri')
-    if (!suggestionUrisFetched.includes(suggestionUri)) return getNextTaskBySuggestionUri(params)
+const requestNewTasks = (type, limit, offset) => {
+  if (type === 'works') {
+    return preq.get(app.API.tasks.byEntitiesType({ type, limit, offset }))
+  } else {
+    return preq.get(app.API.tasks.byScore(limit, offset))
   }
-  if (backlogs.byScore.length !== 0) return getNextTaskModel('byScore')
-  const { previousTasks } = params
-  offset = params.offset
-
-  // If an offset isn't specified, use a random offset between 0 and 500
-  // to allow several contributors to work with the bests tasks at the same time
-  // while having a low risk of conflicting
-  if (offset == null) offset = Math.trunc(Math.random() * 500)
-
-  let { tasks } = await preq.get(app.API.tasks.byScore(limit, offset))
-  tasks = tasks.filter(removePreviousTasks(previousTasks))
-  offset += tasks.length
-  return updateBacklogAndGetNextTask(tasks, 'byScore')
 }
-
-const getNextTaskByEntitiesType = async params => {
-  const { entitiesType } = params
-  const { tasks } = await preq.get(app.API.tasks.byEntitiesType({
-    type: entitiesType,
-    limit: 1
-  }))
-  const task = tasks.shift()
-  if (task) { return new Task(task) }
-}
-
 const removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id)
 
 const updateBacklogAndGetNextTask = function (tasks = [], backlogName) {
