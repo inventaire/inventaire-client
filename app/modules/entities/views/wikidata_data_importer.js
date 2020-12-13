@@ -50,7 +50,8 @@ export default Marionette.ItemView.extend({
   }
 })
 
-const isChecked = el => el.attributes.checked.value === 'true'
+// Using jQuery as el.attributes.checked.value doesn't reflect the actual state of the checkbox
+const isChecked = el => $(el).prop('checked') === true
 
 const formatData = function (el) {
   const { attributes: attrs } = el
