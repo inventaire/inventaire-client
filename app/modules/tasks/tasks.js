@@ -2,8 +2,9 @@ export default {
   define () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'feedback(/)(:id)(/)': 'showWorksTask',
-        'tasks(/)(:id)(/)': 'showHumansTask',
+        'tasks(/)(works)(/)': 'showWorksTask',
+        'tasks(/)(humans)(/)': 'showHumansTask',
+        'tasks(/)(:id)(/)': 'showTask',
       }
     })
 
@@ -18,14 +19,11 @@ export default {
 }
 
 const API = {
-  showHumansTask (task) {
+  showHumansTask (task) { API.showTask(task, 'humans') },
+  showWorksTask (task) { API.showTask(task, 'works') },
+  showTask (task, type) {
     if (app.request('require:loggedIn', 'tasks')) {
-      return showLayout({ task })
-    }
-  },
-  showWorksTask (task) {
-    if (app.request('require:loggedIn', 'tasks')) {
-      return showLayout({ task, entitiesType: 'works' })
+      return showLayout({ task, entitiesType: type })
     }
   }
 }
