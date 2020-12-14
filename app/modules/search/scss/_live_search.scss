@@ -3,7 +3,7 @@
   .resultsWrapper, .sections{
     background-color: #eee;
   }
-  .entitySections, .socialSections{
+  .entitySections, .sozialSections{
     @include display-flex(row, flex-end, flex-start, wrap);
     text-align: center;
     overflow-x: auto;

@@ -13,7 +13,8 @@
       </a>
     {{/each}}
   </div>
-  <div class="socialSections">
+  {{!-- Typo on purpose: .socialSections is blocked by this popular ad blocker list: https://secure.fanboy.co.nz/fanboy-annoyance.txt--}}
+  <div class="sozialSections">
     {{#each sections.social}}
       <a data-category="social" data-name="{{@key}}" class="searchSection {{#if selected}}selected{{/if}} {{#if included}}included{{/if}}">
         {{I18n label}}
