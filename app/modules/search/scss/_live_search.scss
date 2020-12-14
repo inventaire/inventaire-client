@@ -7,9 +7,10 @@
     @include display-flex(row, flex-end, flex-start, wrap);
     text-align: center;
     overflow-x: auto;
+    border-bottom: 1px solid #ccc;
   }
   .searchSection{
-    width: $search-section-width;
+    min-width: $search-section-width;
     padding: 0.5em 0.2em;
     background-color: #f3f3f3;
     @include transition(background-color);
@@ -147,6 +148,10 @@
       }
     }
   }
+  .searchSettingsTogglerWrapper{
+    @include display-flex(row, center, flex-end);
+    display: none;
+  }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .alternatives{
@@ -168,7 +173,13 @@
     }
     .sections{
       flex: 0 0 auto;
-      border-top: 1px solid #ccc;
+    }
+  }
+
+  /*Very Small screens*/
+  @media screen and (max-width: 5 * $search-section-width) {
+    .searchSection{
+      flex: 1 0 0;
     }
   }
 
@@ -181,7 +192,68 @@
       height: 60vh;
     }
   }
+
+  /*Very Small screens*/
+  @media screen and (max-height: 500px), (max-width: 500px){
+    .searchSettingsTogglerWrapper{
+      margin-top: auto;
+      @include display-flex(row, center, center);
+    }
+    .searchSettingsToggler{
+      flex: 1 0 auto;
+      height: 2.5em;
+      @include display-flex(row, center, center);
+      background-color: #f3f3f3;
+      padding: 0.4em 0.2em;
+      margin: 0.1em 1em 0 1em;
+      @include radius-top(5px);
+      @include radius-bottom(0);
+      .fa{
+        font-size: 1.5rem;
+      }
+      .fa-chevron-up{
+        @include transition(transform, 0.5s);
+        margin-top: -0.2em;
+      }
+      .label{
+        padding-left: 0.2em;
+        padding-right: 0.5em;
+      }
+    }
+    .sections, .alternatives{
+      // A max-height is required for the transition:
+      // it is set to be just a bit heigher than the height=auto would likely be,
+      // but not too much, otherwise the transition starts from too far, and there is a delay
+      max-height: 12em;
+      @include transition(all, 0.5s);
+    }
+    .alternatives:not(.shown){
+      display: none;
+    }
+    &.settingsShown{
+      .resultsWrapper{
+        display: none;
+      }
+      .searchSettingsToggler{
+        .fa-chevron-up{
+          margin-top: 0.2em;
+          transform: rotateX(180deg);
+        }
+      }
+    }
+    &:not(.settingsShown){
+      .resultsWrapper{
+        order: -1;
+      }
+      .sections, .alternatives{
+        max-height: 0;
+        padding: 0;
+      }
+    }
+  }
 }
 
 // The top-bar gives it a positive z-index, and it sould be displayed just below
-#overlay{ z-index: -1; }
+#overlay{
+  z-index: -1;
+}

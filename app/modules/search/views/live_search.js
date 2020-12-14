@@ -59,7 +59,8 @@ export default Marionette.CompositeView.extend({
 
   events: {
     'click .searchSection': 'updateSections',
-    'click .createEntity': 'showEntityCreate'
+    'click .createEntity': 'showEntityCreate',
+    'click .searchSettingsToggler': 'toggleSearchSettings',
   },
 
   onShow () {
@@ -145,7 +146,7 @@ export default Marionette.CompositeView.extend({
     .then(this.resetResults.bind(this, this._lastSearchId))
 
     this._waitingForAlternatives = true
-    this.setTimeout(this.updateAlternatives.bind(this, search), 2000)
+    this.updateAlternatives(search)
   },
 
   async _search (search) {
@@ -229,6 +230,7 @@ export default Marionette.CompositeView.extend({
 
     if (results != null) {
       this.stopLoadingSpinner()
+      this.hideSearchSettings()
       this._lastResultsLength = results.length
 
       // Track TypeErrors where Result model 'initialize' crashes
@@ -316,5 +318,11 @@ export default Marionette.CompositeView.extend({
     const newResults = results.filter(result => !currentResultsUri.includes(result.uri))
     this._lastResultsLength = newResults.length
     return this.collection.add(newResults)
-  }
+  },
+
+  toggleSearchSettings () { this.$el.toggleClass('settingsShown') },
+
+  // Methods used by ./top_bar.js
+  showSearchSettings () { this.$el.addClass('settingsShown') },
+  hideSearchSettings () { this.$el.removeClass('settingsShown') }
 })
