@@ -1,14 +1,31 @@
-<div class="resultsWrapper">
-  <ul class="results"></ul>
-  <div class="loaderWrapper"></div>
+<div class="searchSettingsTogglerWrapper">
+  <button class="searchSettingsToggler">
+    {{icon 'chevron-up'}}
+    <span class="label">{{I18n 'search settings'}}</span>
+  </button>
 </div>
 
 <div class="sections">
-  {{#each sections}}
-    <a id="section-{{@key}}" class="searchSection {{#if selected}}selected{{/if}}">
-      {{I18n label}}
-    </a>
-  {{/each}}
+  <div class="entitySections">
+    {{#each sections.entity}}
+      <a data-category="entity" data-name="{{@key}}" class="searchSection {{#if selected}}selected{{/if}} {{#if included}}included{{/if}}">
+        {{I18n label}}
+      </a>
+    {{/each}}
+  </div>
+  {{!-- Typo on purpose: .socialSections is blocked by this popular ad blocker list: https://secure.fanboy.co.nz/fanboy-annoyance.txt--}}
+  <div class="sozialSections">
+    {{#each sections.social}}
+      <a data-category="social" data-name="{{@key}}" class="searchSection {{#if selected}}selected{{/if}} {{#if included}}included{{/if}}">
+        {{I18n label}}
+      </a>
+    {{/each}}
+  </div>
+</div>
+
+<div class="resultsWrapper">
+  <ul class="results"></ul>
+  <div class="loaderWrapper"></div>
 </div>
 
 <div class="alternatives">

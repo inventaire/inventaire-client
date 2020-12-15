@@ -74,7 +74,7 @@ export default Marionette.LayoutView.extend({
     'focus #searchField': 'showLiveSearch',
     'keyup #searchField': 'onKeyUp',
     'keydown #searchField': 'onKeyDown',
-    'click .searchFilter': 'recoverSearchFocus',
+    'click .searchSection': 'recoverSearchFocus',
     click: 'updateLiveSearch',
     'click .closeSearch': 'closeSearch',
     'click #live-search': 'closeSearchOnOverlayClick',
@@ -125,6 +125,7 @@ export default Marionette.LayoutView.extend({
     } else { this.liveSearch.show(new LiveSearch(params)) }
     this.liveSearch.$el.addClass('shown')
     this.liveSearch.currentView.resetHighlightIndex()
+    this.liveSearch.currentView.showSearchSettings()
     this.ui.overlay.removeClass('hidden')
     this.ui.closeSearch.removeClass('hidden')
     this._liveSearchIsShown = true
@@ -198,7 +199,10 @@ export default Marionette.LayoutView.extend({
 
   // When clicking on a live_search searchField button, the search loose the focus
   // thus the need to recover it
-  recoverSearchFocus () { this.ui.searchField.focus() },
+  recoverSearchFocus () {
+    this.ui.searchField.focus()
+    this.liveSearch.currentView.hideSearchSettings()
+  },
 
   closeSearch () {
     this.ui.searchField.val('')

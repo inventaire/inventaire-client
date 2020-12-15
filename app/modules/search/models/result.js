@@ -15,7 +15,7 @@ const entityFormatter = (type, typeAlias) => function (data) {
 }
 
 const typeFormatters = {
-  works: entityFormatter('work', 'book'),
+  works: entityFormatter('work'),
   humans: entityFormatter('author'),
   series: entityFormatter('serie'),
   collections: entityFormatter('collection'),
