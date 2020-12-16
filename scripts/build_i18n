@@ -21,4 +21,4 @@ cp inventaire-i18n/dist/client/* ./public/i18n
 echo "copying languages_data.js to app/lib"
 cp inventaire-i18n/dist/languages_data.js ./app/lib
 sed -i 's/module.exports =/export default/' ./app/lib/languages_data.js
-eslint --fix ./app/lib/languages_data.js
+./node_modules/.bin/eslint --fix ./app/lib/languages_data.js

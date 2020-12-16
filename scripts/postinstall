@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mkdir -p ./public/json
+mkdir -p ./public/json ./vendor
 cp -r app/assets/* ./public
 
 npm run update-mentions
