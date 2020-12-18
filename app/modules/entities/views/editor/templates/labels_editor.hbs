@@ -1,5 +1,9 @@
 <div class="property-label">
-  <span class="title">{{I18n 'title'}}</span>
+  {{#if hasName}}
+    <span class="title">{{I18n 'name'}}</span>
+  {{else}}
+    <span class="title">{{I18n 'title'}}</span>
+  {{/if}}
   {{> 'entities:editor:language_selector' langs}}
 </div>
 <div class="label-editor">
