@@ -34,7 +34,8 @@
     "test-fast": "./scripts/run_fast_tests",
     "update-i18n": "./scripts/update_i18n",
     "update-mentions": "npm run node-exec ./scripts/update_mentions",
-    "update-toc": "doctoc README.md"
+    "update-toc": "doctoc README.md",
+    "watch": "npm start"
   },
   "dependencies": {
     "autosize": "^4.0.2",
