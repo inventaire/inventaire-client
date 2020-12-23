@@ -67,7 +67,7 @@ export default Marionette.LayoutView.extend({
       }
       this.showUserProfile(userModel)
       let section = userModel.get('itemsCategory')
-      if (section === 'personal') { section = 'user' }
+      if (section === 'personal') section = 'user'
       this.showInventoryNav(section)
       this.showSectionNav(section, 'user', userModel)
       // Do not scroll when showing the main user's inventory
@@ -83,9 +83,7 @@ export default Marionette.LayoutView.extend({
       if (!this.isIntact()) return
       await this.showGroupInventory(groupModel)
       if (!this.isIntact()) return
-      const section = groupModel.mainUserIsMember() ? 'network' : 'public'
-      this.showInventoryNav(section)
-      this.showSectionNav(section, 'group', groupModel)
+      this.showInventoryNav()
       this.showGroupProfile(groupModel)
       app.navigateFromModel(groupModel)
       scrollToSection(this.groupProfile)
