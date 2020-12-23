@@ -8,7 +8,7 @@ npm run update-mentions
 
 # Make git hooks trackable (see https://stackoverflow.com/a/4457124/3324977)
 rm -rf .git/hooks
-ln -s .githooks .git/hooks
+ln -s ../.githooks .git/hooks
 
 # Initialize global variables to prevent triggering
 # an 'assignment to undeclared variable JSON_PIWIK' errors
