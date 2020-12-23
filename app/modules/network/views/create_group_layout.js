@@ -1,7 +1,6 @@
 // add name => creates group
 // invite friends
 // invite by email
-import { tryAsync } from 'lib/promises'
 import log_ from 'lib/loggers'
 import createGroupLayoutTemplate from './templates/create_group_layout.hbs'
 import { GroupLayoutView } from './group_views_commons'
@@ -71,7 +70,7 @@ export default GroupLayoutView.extend({
     this.ui.opennessWarning.slideToggle()
   },
 
-  createGroup (e) {
+  async createGroup (e) {
     const name = this.ui.nameField.val()
     const description = this.ui.description.val()
 
@@ -84,13 +83,14 @@ export default GroupLayoutView.extend({
 
     log_.info(data, 'group data')
 
-    return tryAsync(groups_.validateName.bind(this, name, '#nameField'))
-    .then(groups_.validateDescription.bind(this, description, '#description'))
-    .then(groups_.createGroup.bind(null, data))
-    .then(model => {
+    try {
+      groups_.validateName(name, '#nameField')
+      groups_.validateDescription(description, '#description')
+      const model = await groups_.createGroup(data)
       app.execute('show:group:board', model)
       app.execute('modal:close')
-    })
-    .catch(forms_.catchAlert.bind(null, this))
+    } catch (err) {
+      forms_.catchAlert(this, err)
+    }
   }
 })
