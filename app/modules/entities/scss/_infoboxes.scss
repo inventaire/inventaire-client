@@ -21,7 +21,7 @@
     }
   }
   .source{
-    @include link-underline-on-hover(#888, #aaa);
+    @include link-underline-on-hover(darken($light-grey, 20%), #aaa);
   }
   // Typically a signature
   .image-claim{
