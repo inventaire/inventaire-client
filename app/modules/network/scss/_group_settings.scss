@@ -49,13 +49,17 @@
 
 .searchability, .openness{
   .warning{
-    background-color: grey;
+    background-color: $grey;
     color: white;
     @include radius;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
+    &.opened, &.searchable{
+      background-color: white;
+      color: $dark-grey;
+    }
   }
 }
 .position-status{

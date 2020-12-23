@@ -53,15 +53,7 @@ export default GroupLayoutView.extend({
     'click #createGroup': 'createGroup',
     'change #searchabilityToggler': 'toggleSearchabilityWarning',
     'change #opennessToggler': 'toggleOpennessWarning'
-  }
-  ),
-  // Can't be used as the create_group_layout is already in a modal itself
-  // 'click #showPositionPicker': 'showPositionPicker'
-
-  // showPositionPicker: ->
-  //   app.request 'prompt:group:position:picker'
-  //   .then (position)=> @position = position
-  //   .catch log_.Error('showPositionPicker')
+  }),
 
   serializeData () {
     return {
@@ -89,7 +81,6 @@ export default GroupLayoutView.extend({
       searchable: this.ui.searchabilityToggler[0].checked,
       open: this.ui.opennessToggler[0].checked
     }
-    // position: @position
 
     log_.info(data, 'group data')
 

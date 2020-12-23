@@ -1,5 +1,6 @@
 @import 'modules/general/scss/utils';
 @import 'modules/general/scss/toggler';
+@import 'group_settings';
 
 #createGroupLayout{
   @include display-flex(column, stretch, center);
@@ -20,5 +21,13 @@
     @include sans-serif;
     margin-top: 2em;
     margin-bottom: 1em;
+  }
+  .warning{
+    .fa{
+      margin: 0 0.5em;
+    }
+    &.opened, &.searchable{
+      background-color: #f0f0f0;
+    }
   }
 }
