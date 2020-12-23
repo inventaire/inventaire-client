@@ -78,9 +78,11 @@ export default Marionette.LayoutView.extend({
   },
 
   startFromGroup (group) {
-    return app.request('resolve:to:groupModel', group)
-    .then(groupModel => this.showGroupInventory(groupModel))
-    .then(groupModel => {
+    app.request('resolve:to:groupModel', group)
+    .then(async groupModel => {
+      if (!this.isIntact()) return
+      await this.showGroupInventory(groupModel)
+      if (!this.isIntact()) return
       const section = groupModel.mainUserIsMember() ? 'network' : 'public'
       this.showInventoryNav(section)
       this.showSectionNav(section, 'group', groupModel)
@@ -126,25 +128,23 @@ export default Marionette.LayoutView.extend({
 
   async showGroupInventory (groupModel) {
     await groupModel.beforeShow()
-    this.showInventoryBrowser('group', groupModel)
-    return groupModel
+    if (this.isIntact()) this.showInventoryBrowser('group', groupModel)
   },
 
-  showMemberInventory (member) {
-    return app.request('resolve:to:userModel', member)
-    .then(memberModel => {
-      this.showUserProfile(memberModel)
-      this.showInventoryBrowser('user', memberModel)
-      return scrollToSection(this.userProfile)
-    })
+  async showMemberInventory (member) {
+    const memberModel = await app.request('resolve:to:userModel', member)
+    if (this.isIntact()) return
+    this.showUserProfile(memberModel)
+    this.showInventoryBrowser('user', memberModel)
+    scrollToSection(this.userProfile)
   },
 
   showGroupProfile (groupModel) {
-    return this.groupProfile.show(new GroupProfile({ model: groupModel }))
+    this.groupProfile.show(new GroupProfile({ model: groupModel }))
   },
 
   showUserProfile (userModel) {
-    return this.userProfile.show(new UserProfile({ model: userModel }))
+    this.userProfile.show(new UserProfile({ model: userModel }))
   },
 
   showInventoryNav (section) {

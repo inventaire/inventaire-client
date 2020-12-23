@@ -16,21 +16,25 @@ const groupViewsCommons = {
   showGroup (e) {
     if (isOpenedOutside(e)) return
     app.execute('show:inventory:group', this.model)
+    e.stopPropagation()
   },
 
   showGroupBoard (e) {
     if (isOpenedOutside(e)) return
     app.execute('show:group:board', this.model)
+    e.stopPropagation()
   },
 
   showGroupSettings (e) {
     if (isOpenedOutside(e)) return
     app.execute('show:group:board', this.model, { openedSection: 'groupSettings' })
+    e.stopPropagation()
   },
 
   showMembersMenu (e) {
     if (isOpenedOutside(e)) return
     app.execute('show:group:board', this.model, { openedSection: 'groupInvite' })
+    e.stopPropagation()
   },
 
   acceptInvitation () { return this.model.acceptInvitation() },

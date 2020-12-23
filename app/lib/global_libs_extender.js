@@ -140,14 +140,17 @@ const triggerUpdate = function (...args) {
 // being populated (which happens at render), typically in an onRender call.
 Marionette.View.prototype.ifViewIsIntact = function (fn, ...args) {
   return result => {
-  // Pass if the view was destroyed or let the onRender hook re-call the function
-    if (!this.isRendered) return
+    // Pass if the view was destroyed or let the onRender hook re-call the function
+    if (!this.isIntact()) return
 
     args.push(result)
     // Accept a method name in place of a function
     if (_.isString(fn)) fn = this[fn]
     return fn.apply(this, args)
   }
+}
+Marionette.View.prototype.isIntact = function () {
+  return this.isRendered && !this.isDestroyed
 }
 
 Marionette.View.prototype.setTimeout = function (fn, timeout) {

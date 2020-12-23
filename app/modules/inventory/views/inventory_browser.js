@@ -142,13 +142,13 @@ export default Marionette.LayoutView.extend({
     // Fetch a first batch before displaying
     // so that it doesn't start by displaying 'no item here'
     return fetchMore()
-    .then(this.showItemsByDisplayMode.bind(this))
+    .then(this.ifViewIsIntact('showItemsByDisplayMode'))
   },
 
   showItemsByDisplayMode () {
     const ItemsList = this.display === 'table' ? ItemsTable : ItemsCascade
     this._lastShownDisplay = this.display
-    return this.itemsView.show(new ItemsList(this.itemsViewParams))
+    this.itemsView.show(new ItemsList(this.itemsViewParams))
   },
 
   showEntitySelector (entities, propertyUris, name) {
@@ -159,7 +159,7 @@ export default Marionette.LayoutView.extend({
 
   showSelector (name, models, treeSection) {
     const collection = getSelectorsCollection(models)
-    return this[`${name}Region`].show(new BrowserSelector({ name, collection, treeSection }))
+    this[`${name}Region`].show(new BrowserSelector({ name, collection, treeSection }))
   },
 
   onFilterSelect (selectorView, selectedOption) {
