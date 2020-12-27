@@ -25,7 +25,7 @@ export default GroupLayoutView.extend({
     return _.extend(this.model.serializeData(), {
       highlighted: this.options.highlighted,
       rss: this.model.getRss(),
-      requestsCount: this.model.get('requested').length
+      requestsCount: this.getRequestsCount()
     })
   },
 
@@ -36,6 +36,11 @@ export default GroupLayoutView.extend({
 
   showMembers () {
     return this.membersList.show(new SectionList({ collection: this.model.members, context: 'group', group: this.model }))
+  },
+
+  getRequestsCount () {
+    if (this.model.mainUserIsAdmin()) return this.model.get('requested').length
+    else return 0
   },
 
   childEvents: {
