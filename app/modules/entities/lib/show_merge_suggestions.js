@@ -36,7 +36,10 @@ const getTasksByUri = async model => {
   const res = await preq.get(app.API.tasks[action](uri))
   const tasks = res.tasks[uri]
   const suggestionsUris = _.pluck(tasks, relation)
-  const entities = await app.request('get:entities:models', { uris: suggestionsUris })
+  let entities = await app.request('get:entities:models', { uris: suggestionsUris })
+  // Filter-out redirected entities
+  // Known case: we got an obsolete task
+  entities = entities.filter(entity => suggestionsUris.includes(entity.get('uri')))
   return addTasksToEntities(uri, tasks, relation, entities)
 }
 
