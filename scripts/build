@@ -46,6 +46,7 @@ gzip -9kf ./public/dist/*
 # To regenerate sitemaps, delete the existing directory
 if [ ! -d "./public/sitemaps" ] ; then
   echo -e '\e[0;30mgenerate sitemaps\e[0m'
+  mkdir ./public/sitemaps
   npm run generate-sitemaps
 fi
 
