@@ -36,7 +36,7 @@ export default Marionette.ItemView.extend({
     'click .remove': 'remov',
     // General click event: use stopPropagation to avoid triggering it
     // from other click event handlers
-    click: 'select'
+    'click input': 'select'
   },
 
   updateSelected (e) {
