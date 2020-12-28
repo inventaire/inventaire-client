@@ -18,7 +18,11 @@
   <div>
     {{~#if authors~}}
       <span class="label">{{i18n 'authors'}}:</span>
-      <span class="value">{{join authors}}</span>
+      <span class="value">
+        {{#each authors}}
+          <a class="link" href="/entity/{{uri}}" target="_blank">{{name}}</a>
+        {{/each}}
+      </span>
     {{~/if~}}
   </div>
   <div class="isbn-data">
