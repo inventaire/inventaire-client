@@ -12,7 +12,9 @@
   <div>
     {{~#if title~}}
       <span class="label">{{i18n 'title'}}:</span>
-      <span class="value">{{title}}</span>
+      <span class="value">
+        <a class="link" href="/entity/{{uri}}" target="_blank">{{title}}</a>
+      </span>
     {{~/if~}}
   </div>
   <div>
@@ -27,7 +29,9 @@
   </div>
   <div class="isbn-data">
     <span class="label">ISBN:</span>
-    <span class="value">{{rawIsbn}}</span>
+    <span class="value">
+      <a class="link" href="/entity/{{uri}}" target="_blank">{{rawIsbn}}</a>
+    </span>
   </div>
   <div class="status">
     {{~#if isInvalid~}}
