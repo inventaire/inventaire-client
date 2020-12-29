@@ -12,7 +12,8 @@ export default Marionette.ItemView.extend({
     this.listenTo(this.model, 'change', this.lazyRender.bind(this))
 
     if (!this.model.userReady) {
-      return this.model.waitForUser.then(this.lazyRender.bind(this))
+      this.model.waitForUser
+      .then(this.lazyRender.bind(this))
     }
   },
 

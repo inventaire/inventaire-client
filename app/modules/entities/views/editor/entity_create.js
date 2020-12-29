@@ -20,12 +20,12 @@ export default Marionette.LayoutView.extend({
 
   onShow () {
     const type = this.options.type || 'work'
-    return this.selectType(type)
+    this.selectType(type)
   },
 
   selectType (type) {
     this.showTypedEntityEdit(type)
-    return this.updateTypePicker(type)
+    this.updateTypePicker(type)
   },
 
   showTypedEntityEdit (type) {
@@ -43,6 +43,6 @@ export default Marionette.LayoutView.extend({
 
   updateTypePickerFromClick (e) {
     const type = e.currentTarget.id.replace('Picker', '')
-    return this.selectType(type)
+    this.selectType(type)
   }
 })

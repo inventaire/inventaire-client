@@ -37,8 +37,9 @@ export default TypedEntityLayout.extend({
   },
 
   serializeData () {
-    return _.extend(this.model.toJSON(),
-      { displayMergeSuggestions: this.displayMergeSuggestions })
+    return _.extend(this.model.toJSON(), {
+      displayMergeSuggestions: this.displayMergeSuggestions
+    })
   },
 
   onShow () {
@@ -46,7 +47,7 @@ export default TypedEntityLayout.extend({
     this.waitForItems
     .then(this.ifViewIsIntact('showEntityActions'))
 
-    return this.model.fetchSubEntities()
+    this.model.fetchSubEntities()
     .then(this.ifViewIsIntact('showEditions'))
   },
 
@@ -54,10 +55,12 @@ export default TypedEntityLayout.extend({
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
   },
 
-  showEntityActions () { return this.entityActions.show(new EntityActions({ model: this.model })) },
+  showEntityActions () {
+    this.entityActions.show(new EntityActions({ model: this.model }))
+  },
 
   showEditions () {
-    return this.editionsList.show(new EditionsList({
+    this.editionsList.show(new EditionsList({
       collection: this.model.editions,
       work: this.model,
       onWorkLayout: true

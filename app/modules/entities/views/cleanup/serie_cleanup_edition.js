@@ -27,8 +27,9 @@ export default WorkPicker.extend({
     })
   },
 
-  events: _.extend({}, WorkPicker.prototype.events,
-    { 'click .copyWorkLabel': 'copyWorkLabel' }),
+  events: _.extend({}, WorkPicker.prototype.events, {
+    'click .copyWorkLabel': 'copyWorkLabel'
+  }),
 
   onWorkSelected (newWork) {
     const uri = newWork.get('uri')

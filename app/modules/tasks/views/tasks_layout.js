@@ -106,8 +106,7 @@ export default Marionette.LayoutView.extend({
       this.relativeTasks.show(new RelativeTasks({
         collection: model.suspect.mergeSuggestions,
         currentTaskModel: model
-      })
-      )
+      }))
       return this.updateRelativesCount(model)
     })
   },

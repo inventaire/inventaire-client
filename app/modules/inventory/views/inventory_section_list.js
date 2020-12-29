@@ -8,7 +8,8 @@ const ListEl = Marionette.ItemView.extend({
   initialize () {
     ({ context: this.context, group: this.group } = this.options)
     if (this.model.get('hasItemsCount')) {
-      return this.model.waitForItemsCount.then(this.lazyRender.bind(this))
+      this.model.waitForItemsCount
+      .then(this.lazyRender.bind(this))
     }
   },
 

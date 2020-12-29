@@ -84,8 +84,7 @@ export default Marionette.LayoutView.extend({
         work: entity,
         header: 'specify the edition',
         itemToUpdate: this.model
-      })
-      )
+      }))
       app.execute('modal:open', 'large')
     })
   },

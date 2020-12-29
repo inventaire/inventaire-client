@@ -28,6 +28,8 @@ export default Backbone.Model.extend({
     const [ uri, query ] = this.gets('uri', 'query')
     if (uri != null) {
       app.execute('show:entity', uri)
-    } else { app.execute('search:global', query) }
+    } else {
+      app.execute('search:global', query)
+    }
   }
 })

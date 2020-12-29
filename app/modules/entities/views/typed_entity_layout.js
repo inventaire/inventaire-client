@@ -30,11 +30,17 @@ export default Marionette.LayoutView.extend({
 
   showInfobox () {
     const { Infobox } = this
-    return this.infoboxRegion.show(new Infobox({ model: this.model, standalone: this.standalone }))
+    this.infoboxRegion.show(new Infobox({
+      model: this.model,
+      standalone: this.standalone
+    }))
   },
 
   showMergeSuggestions () {
     if (!this.displayMergeSuggestions) return
-    app.execute('show:merge:suggestions', { model: this.model, region: this.mergeSuggestionsRegion })
+    app.execute('show:merge:suggestions', {
+      model: this.model,
+      region: this.mergeSuggestionsRegion
+    })
   }
 })

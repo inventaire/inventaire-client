@@ -21,7 +21,7 @@ const ItemShelfLi = Marionette.ItemView.extend({
     this.itemCreationMode = (this.selectedShelves != null)
     this.bulkMode = (this.itemsIds != null)
     // Init @_isSelected
-    return this.isSelected()
+    this.isSelected()
   },
 
   events: {

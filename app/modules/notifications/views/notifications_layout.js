@@ -68,8 +68,7 @@ export default Marionette.LayoutView.extend({
         collection: this.otherRequested,
         emptyViewMessage: 'no pending requests',
         stretch: true
-      })
-      )
+      }))
     }
   },
 
