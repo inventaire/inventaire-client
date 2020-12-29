@@ -1,9 +1,9 @@
 const path = require('path')
-const { inventaireServerHost } = require('config')
+const { inventaireServerHost, webpackDevServer } = require('config')
 
 module.exports = {
-  host: '0.0.0.0',
-  port: 3005,
+  host: webpackDevServer.host,
+  port: webpackDevServer.port,
   contentBase: path.resolve(__dirname, '../public/dist'),
   publicPath: '/public/dist/',
   hot: true,
