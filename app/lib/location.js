@@ -21,7 +21,7 @@ const routeSection = route => route.split(/[^\w]/)[0]
 
 const buildPath = function (pathname, queryObj, escape) {
   queryObj = removeUndefined(queryObj)
-  if ((queryObj == null) || _.isEmpty(queryObj)) { return pathname }
+  if ((queryObj == null) || _.isEmpty(queryObj)) return pathname
 
   let queryString = ''
 
@@ -81,7 +81,7 @@ const removeUndefined = function (obj) {
   const newObj = {}
   for (const key in obj) {
     const value = obj[key]
-    if (value != null) { newObj[key] = value }
+    if (value != null) newObj[key] = value
   }
   return newObj
 }

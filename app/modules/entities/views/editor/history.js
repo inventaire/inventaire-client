@@ -5,7 +5,7 @@ import 'modules/entities/scss/history.scss'
 export default Marionette.CompositeView.extend({
   className () {
     let classes = 'entity-history'
-    if (this.options.standalone) { classes += ' standalone' }
+    if (this.options.standalone) classes += ' standalone'
     return classes
   },
   template: historyTemplate,
@@ -14,7 +14,7 @@ export default Marionette.CompositeView.extend({
   initialize () {
     let uri;
     ({ model: this.model, uri } = this.options)
-    if (this.model) { this.collection = this.model.history }
+    if (this.model) this.collection = this.model.history
     this.redirectUri = uri !== this.model.get('uri') ? uri : undefined
   },
 

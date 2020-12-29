@@ -42,7 +42,7 @@ API.searchFromQueryString = function (querystring) {
   let section
   let { q, type, refresh } = parseQuery(querystring)
   refresh = parseBooleanString(refresh)
-  if (q == null) { q = '' }
+  if (q == null) q = ''
   // Replacing "+" added that the browser search might have added
   q = q.replace(/\+/g, ' ')
 
@@ -77,7 +77,7 @@ const sectionSearchPattern = /^!([a-z])\s+/
 
 const findSearchSection = function (q) {
   const sectionMatch = q.match(sectionSearchPattern)?.[1]
-  if (sectionMatch == null) { return [ q, 'all' ] }
+  if (sectionMatch == null) return [ q, 'all' ]
 
   q = q.replace(sectionSearchPattern, '').trim()
 

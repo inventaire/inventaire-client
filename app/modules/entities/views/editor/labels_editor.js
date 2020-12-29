@@ -68,7 +68,7 @@ export default EditorCommons.extend({
     this.requestedLang = e.currentTarget.value
 
     if (this.model.get('labels')[this.requestedLang] != null) {
-      if (this.editMode) { this.editMode = false }
+      if (this.editMode) this.editMode = false
     } else {
       this.editMode = true
     }

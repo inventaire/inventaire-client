@@ -93,7 +93,7 @@ const API = {
   },
 
   showItemFromId (id) {
-    if (!isItemId(id)) { app.execute('show:error:missing') }
+    if (!isItemId(id)) app.execute('show:error:missing')
 
     return app.request('get:item:model', id)
     .then(app.Execute('show:item'))
@@ -119,7 +119,7 @@ const API = {
 
 const showItemsFromModels = function (items) {
   // Accept either an items collection or an array of items models
-  if (_.isArray(items)) { items = new Backbone.Collection(items) }
+  if (_.isArray(items)) items = new Backbone.Collection(items)
 
   if (items?.length == null) {
     throw new Error('shouldnt be at least an empty array here?')

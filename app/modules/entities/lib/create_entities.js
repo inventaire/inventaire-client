@@ -16,10 +16,10 @@ const createWorkEdition = function (workEntity, isbn) {
   .then(isbnData => {
     let { title, groupLang: editionLang } = isbnData
     log_.info(title, 'title from isbn data')
-    if (!title) { title = getTitleFromWork(workEntity, editionLang) }
+    if (!title) title = getTitleFromWork(workEntity, editionLang)
     log_.info(title, 'title after work suggestion')
 
-    if (title == null) { throw error_.new('no title could be found', isbn) }
+    if (title == null) throw error_.new('no title could be found', isbn)
 
     const claims = {
       // instance of (P31) -> edition (Q3331189)
@@ -47,17 +47,17 @@ const createWorkEdition = function (workEntity, isbn) {
 
 const getTitleFromWork = function (workEntity, editionLang) {
   const inEditionLang = workEntity.get(`labels.${editionLang}`)
-  if (inEditionLang != null) { return inEditionLang }
+  if (inEditionLang != null) return inEditionLang
 
   const inUserLang = workEntity.get(`labels.${app.user.lang}`)
-  if (inUserLang != null) { return inUserLang }
+  if (inUserLang != null) return inUserLang
 
   const originalLang = getOriginalLang(workEntity.get('claims'))
   const inWorkOriginalLang = workEntity.get(`labels.${originalLang}`)
-  if (inWorkOriginalLang != null) { return inWorkOriginalLang }
+  if (inWorkOriginalLang != null) return inWorkOriginalLang
 
   const inEnglish = workEntity.get('labels.en')
-  if (inEnglish != null) { return inEnglish }
+  if (inEnglish != null) return inEnglish
 
   return workEntity.get('labels')[0]
 }

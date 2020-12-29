@@ -101,7 +101,7 @@ const initWindowResizeEvents = function () {
 
 // params = { subject, message, uris, context, unknownUser }
 const postFeedback = function (params) {
-  if (params.context == null) { params.context = {} }
+  if (params.context == null) params.context = {}
   params.context.location = document.location.pathname + document.location.search
   log_.info(params, 'posting feedback')
   return preq.post(app.API.feedback, params)

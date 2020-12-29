@@ -9,7 +9,7 @@ export default Backbone.NestedModel.extend({
     const { url, dataUrl } = this.toJSON()
 
     const input = url || dataUrl
-    if (input == null) { throw new Error('at least one input attribute is required') }
+    if (input == null) throw new Error('at least one input attribute is required')
 
     if (url != null) this.initFromUrl(url)
     else if (dataUrl != null) this.initDataUrl(dataUrl)

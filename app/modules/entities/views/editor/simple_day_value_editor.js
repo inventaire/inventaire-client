@@ -21,7 +21,7 @@ export default ClaimsEditorCommons.extend({
     // Add the translated version of 'no value' once the i18n
     // function is accessible
     if (noValueI18n == null) {
-      if (!noValueI18n) { noValueI18n = i18n('no value') }
+      if (!noValueI18n) noValueI18n = i18n('no value')
       selectorValues.month.unshift(noValueI18n)
       return selectorValues.day.unshift(noValueI18n)
     }
@@ -116,7 +116,7 @@ export default ClaimsEditorCommons.extend({
     let date = year
     if (month != null) {
       date += `-${month}`
-      if (day != null) { date += `-${day}` }
+      if (day != null) date += `-${day}`
     }
 
     return this._save(date)
@@ -124,10 +124,10 @@ export default ClaimsEditorCommons.extend({
 })
 
 const getPossibleValues = function (values, defaultValue, selected) {
-  if (!selected) { selected = defaultValue }
+  if (!selected) selected = defaultValue
   return values.map(value => {
     const valueObj = { num: value }
-    if ((selected != null) && (value === selected)) { valueObj.selected = true }
+    if ((selected != null) && (value === selected)) valueObj.selected = true
     return valueObj
   })
 }
@@ -149,7 +149,8 @@ const parseDateInt = function (date) {
 }
 
 const paddedValue = function (value) {
-  if (value?.toString().length === 1) { return `0${value}` } else { return value }
+  if (value?.toString().length === 1) return `0${value}`
+  else return value
 }
 
 const parseIntIfVal = function (value) { if (value != null) { return parseInt(value) } }

@@ -110,16 +110,16 @@ export default UserCommons.extend({
 
   updateItemsCounters (previousListing, newListing) {
     const snapshot = this.get('snapshot')
-    if (previousListing != null) { snapshot[previousListing]['items:count'] -= 1 }
-    if (newListing != null) { snapshot[newListing]['items:count'] += 1 }
+    if (previousListing != null) snapshot[previousListing]['items:count'] -= 1
+    if (newListing != null) snapshot[newListing]['items:count'] += 1
     this.set('snapshot', snapshot)
     this.setAllInventoryStats()
   },
 
   updateShelvesCounter (action) {
     let shelvesCount = this.get('shelvesCount')
-    if (action === 'createShelf') { shelvesCount += 1 }
-    if (action === 'removeShelf') { shelvesCount -= 1 }
+    if (action === 'createShelf') shelvesCount += 1
+    if (action === 'removeShelf') shelvesCount -= 1
     this.set('shelvesCount', shelvesCount)
     this.setAllInventoryStats()
   },

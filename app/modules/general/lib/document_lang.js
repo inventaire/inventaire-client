@@ -18,7 +18,7 @@ const addAlternateLangs = function (elements) {
   const href = `${origin}/${currentRoute()}`
   // Non-default langs needing a lang querystring
   for (const lang of langs) {
-    if (lang !== 'en') { addHreflang(elements, href, true, lang) }
+    if (lang !== 'en') addHreflang(elements, href, true, lang)
   }
   // The default lang - en - doesnt need a lang querystring to be set.
   // It could have one, but search engines need to know that the default url
@@ -30,7 +30,7 @@ const addHreflang = function (elements, href, withLangQueryString, lang) {
   // Can't use location.href directly as it seems
   // to be updated after route:navigate
   // Discarding querystring to only keep lang
-  if (withLangQueryString) { href = setQuerystring(href, 'lang', lang) }
+  if (withLangQueryString) href = setQuerystring(href, 'lang', lang)
   return elements.push(`<link rel='alternate' href='${href}' hreflang='${lang}' />`)
 }
 

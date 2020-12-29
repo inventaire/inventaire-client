@@ -44,7 +44,7 @@ export default Filterable.extend({
   },
 
   matchable () {
-    if (this._values != null) { return this._values }
+    if (this._values != null) return this._values
     const labels = getValues(this.get('labels'))
     const descriptions = getValues(this.get('descriptions'))
     const aliases = _.flatten(getValues(this.get('aliases')))

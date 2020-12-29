@@ -10,6 +10,6 @@ const encodingsErrorsList = Object.keys(encodingsErrors)
 
 export default function (text) {
   for (const err of encodingsErrorsList) {
-    if (text.match(err)) { return encodingsErrors[err] }
+    if (text.match(err)) return encodingsErrors[err]
   }
 }

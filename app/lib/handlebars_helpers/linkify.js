@@ -2,7 +2,7 @@
 export default function (text, url, classes = 'link', title) {
   // prevent [object Object] classes
   // avoiding using _.isString as the module is used in scripts with differents environments
-  if (typeof classes !== 'string') { classes = '' }
+  if (typeof classes !== 'string') classes = ''
 
   const isExternalLink = url[0] !== '/'
   // on rel='noopener' see: https://mathiasbynens.github.io/rel-noopener

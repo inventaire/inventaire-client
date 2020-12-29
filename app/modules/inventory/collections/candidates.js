@@ -22,7 +22,7 @@ export default Backbone.Collection.extend({
 const isSelected = model => model.get('selected')
 
 const setSelected = bool => function (model) {
-  if (model.canBeSelected()) { return model.set('selected', bool) }
+  if (model.canBeSelected()) return model.set('selected', bool)
 }
 
 const isNewCandidate = alreadyAddedIsbns => function (candidateData) {

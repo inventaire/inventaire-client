@@ -5,7 +5,7 @@ export default function () {
   const cache = {}
 
   const all = function (name, categories) {
-    if (!categories) { categories = name }
+    if (!categories) categories = name
     return cache[name] || recalculateAll(name, categories)
   }
 

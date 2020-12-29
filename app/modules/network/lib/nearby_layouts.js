@@ -10,7 +10,7 @@ export const initMap = async params => {
   const { view, query } = params
 
   // Do not redefine the updateRoute variable: access from params object
-  if (params.updateRoute == null) { params.updateRoute = true }
+  if (params.updateRoute == null) params.updateRoute = true
 
   startLoading.call(view, containerSelector)
 
@@ -27,11 +27,11 @@ export const initMap = async params => {
 const solvePosition = function (coords = {}) {
   // priority is given to passed parameters
   const { lat, lng } = coords
-  if ((lat != null) && (lng != null)) { return Promise.resolve(coords) }
+  if ((lat != null) && (lng != null)) return Promise.resolve(coords)
 
   // then to the user saved position
   const { user } = app
-  if (user.hasPosition()) { return Promise.resolve(user.getCoords()) }
+  if (user.hasPosition()) return Promise.resolve(user.getCoords())
 
   // finally a request for the user position is issued
   return getPositionFromNavigator(containerId)

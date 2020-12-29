@@ -40,10 +40,10 @@ export default Marionette.LayoutView.extend({
   showNextProbableDuplicates () {
     this.$el.addClass('probableDuplicatesMode')
     const nextCandidate = this.candidates.shift()
-    if (nextCandidate == null) { return this.next() }
+    if (nextCandidate == null) return this.next()
     let { invModel, possibleDuplicateOf } = nextCandidate
     const invModelUri = invModel.get('uri')
-    if (this.mergedUris.includes(invModelUri)) { return this.next() }
+    if (this.mergedUris.includes(invModelUri)) return this.next()
 
     // Filter-out entities that where already merged
     // @_currentFilter will be undefined on the first candidate round
@@ -53,7 +53,7 @@ export default Marionette.LayoutView.extend({
     }
 
     const mostProbableDuplicate = possibleDuplicateOf[0]
-    if (mostProbableDuplicate == null) { return this.next() }
+    if (mostProbableDuplicate == null) return this.next()
     // If the candidate duplicate was filtered-out, go to the next step
     const mostProbableDuplicateUri = mostProbableDuplicate.get('uri')
     if (this.mergedUris.includes(mostProbableDuplicateUri)) return this.next()
@@ -80,8 +80,7 @@ export default Marionette.LayoutView.extend({
     this.$el.trigger('entity:select', {
       uri: to.get('uri'),
       direction: 'to'
-    }
-    )
+    })
   },
 
   onMerge () { return this.next() },
@@ -107,8 +106,8 @@ export default Marionette.LayoutView.extend({
   },
 
   showList (regionName, models, sort = true) {
-    if (models.length === 0) { return this[regionName].empty() }
-    if (sort) { models.sort(sortAlphabetically) }
+    if (models.length === 0) return this[regionName].empty()
+    if (sort) models.sort(sortAlphabetically)
     const collection = new Backbone.Collection(models)
     this[regionName].show(new DeduplicateWorksList({ collection }))
   },

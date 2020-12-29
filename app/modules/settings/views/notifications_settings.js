@@ -63,11 +63,10 @@ export default Marionette.ItemView.extend({
       attribute: `settings.notifications.${id}`,
       value,
       defaultPreviousValue: true
-    }
-    )
+    })
 
-    if (id === 'global') { this.toggleWarning() }
-    if (id === 'inventories_activity_summary') { return this.togglePeriodicity() }
+    if (id === 'global') this.toggleWarning()
+    if (id === 'inventories_activity_summary') return this.togglePeriodicity()
   },
 
   toggleWarning () {
@@ -85,7 +84,6 @@ export default Marionette.ItemView.extend({
       attribute: 'summaryPeriodicity',
       value,
       selector: '#periodicityPicker'
-    }
-    )
+    })
   }
 })

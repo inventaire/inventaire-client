@@ -27,7 +27,7 @@ export default function (isbnsData) {
     }
   })
 
-  if (uris.length === 0) { return Promise.resolve({ results: commonRes, isbnsIndex }) }
+  if (uris.length === 0) return Promise.resolve({ results: commonRes, isbnsIndex })
 
   const total = uris.length
 

@@ -24,9 +24,9 @@ export default Marionette.ItemView.extend({
 
   serializeData () {
     const data = this.options
-    if (!data.yes) { data.yes = 'yes' }
-    if (!data.no) { data.no = 'no' }
-    if (!data.yesButtonClass) { data.yesButtonClass = 'alert' }
+    if (!data.yes) data.yes = 'yes'
+    if (!data.no) data.no = 'no'
+    if (!data.yesButtonClass) data.yesButtonClass = 'alert'
     data.canGoBack = (this.options.back != null)
     return data
   },

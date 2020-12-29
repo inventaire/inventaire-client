@@ -13,7 +13,7 @@ export default function (userId, uris) {
   const counts = {}
   const getBatchesSequentially = function () {
     const nextBatch = urisBatches.pop()
-    if (nextBatch == null) { return counts }
+    if (nextBatch == null) return counts
     return getEntityItemsCountBatch(userId, nextBatch)
     .then(res => countEntitiesItems(counts, res))
     .then(getBatchesSequentially)
@@ -27,7 +27,7 @@ const getEntityItemsCountBatch = (userId, uris) => preq.get(app.API.items.byUser
 const countEntitiesItems = function (counts, res) {
   for (const item of res.items) {
     const uri = item.entity
-    if (counts[uri] == null) { counts[uri] = 0 }
+    if (counts[uri] == null) counts[uri] = 0
     counts[uri]++
   }
 }

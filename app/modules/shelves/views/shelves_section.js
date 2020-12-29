@@ -77,11 +77,11 @@ export default Marionette.LayoutView.extend({
     if (docs && (docs.length < 1)) return
     this.collection = new Shelves(docs)
     this.shelvesList.show(new ShelvesList({ collection: this.collection }))
-    if (this.collection.length > 5) { this.ui.toggleButtons.removeClass('hidden') }
+    if (this.collection.length > 5) this.ui.toggleButtons.removeClass('hidden')
   }
 })
 
 const getUserId = function (username) {
-  if (!username) { return Promise.resolve(app.user.id) }
+  if (!username) return Promise.resolve(app.user.id)
   return app.request('get:userId:from:username', username)
 }

@@ -147,8 +147,8 @@ export default Marionette.LayoutView.extend({
     const fromUri = getElementUri($('.selected-from')[0])
     const toUri = getElementUri($('.selected-to')[0])
 
-    if (fromUri == null) { return alert("no 'from' URI") }
-    if (toUri == null) { return alert("no 'to' URI") }
+    if (fromUri == null) return alert("no 'from' URI")
+    if (toUri == null) return alert("no 'to' URI")
 
     mergeEntities(fromUri, toUri)
     .catch(error_.Complete('.buttons-wrapper', false))
@@ -170,7 +170,7 @@ export default Marionette.LayoutView.extend({
   },
 
   lazyFilterByText (e) {
-    if (!this._lazyFilterByText) { this._lazyFilterByText = _.debounce(this.filterByText.bind(this), 200) }
+    if (!this._lazyFilterByText) this._lazyFilterByText = _.debounce(this.filterByText.bind(this), 200)
     this._lazyFilterByText(e)
     // Prevent the event to be propagated to the general 'keydown' event
     e.stopPropagation()

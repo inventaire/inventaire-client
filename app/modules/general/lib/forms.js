@@ -40,7 +40,7 @@ forms_.earlyVerify = async (view, e, verificator) => {
 // The selector can be any element, the alert-box will be appended to its parent
 forms_.catchAlert = function (view, err) {
   // Avoid to display an alert on a simple duplicated request
-  if (err.statusCode === 429) { return log_.warn(err, 'duplicated request') }
+  if (err.statusCode === 429) return log_.warn(err, 'duplicated request')
   assertViewHasBehavior(view, 'AlertBox')
   const { selector } = err
   view.$el.trigger('stopLoading', { selector })
@@ -66,10 +66,10 @@ forms_.alert = function (view, err) {
   assert_.types([ view, err, selector, errMessage ], [ 'object', 'object', 'string|undefined', 'string' ])
 
   // Avoid showing raw http error messages
-  if ((err.richMessage == null) && /^\d/.test(errMessage)) { errMessage = 'something went wrong :(' }
+  if ((err.richMessage == null) && /^\d/.test(errMessage)) errMessage = 'something went wrong :('
 
   let logLabel = 'alert message'
-  if (selector != null) { logLabel += ` on ${selector}` }
+  if (selector != null) logLabel += ` on ${selector}`
   log_.info({ errMessage, view }, logLabel)
 
   // Allow to pass a false flag to prevent the use of i18n

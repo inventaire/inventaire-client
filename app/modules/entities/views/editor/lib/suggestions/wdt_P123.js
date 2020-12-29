@@ -10,7 +10,7 @@ export default function (entity, index, propertyValuesCount) {
   }
 
   const collectionsUris = entity.get('claims.wdt:P195')
-  if (collectionsUris != null) { promises.push(getCollectionsPublishers(collectionsUris)) }
+  if (collectionsUris != null) promises.push(getCollectionsPublishers(collectionsUris))
 
   return Promise.all(promises)
   .then(_.flatten)

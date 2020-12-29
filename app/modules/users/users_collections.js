@@ -14,7 +14,7 @@ export default function (app) {
   const waiters = {}
   const fetched = {}
   const fetcher = (category, initFilteredCollection) => function () {
-    if (fetched[category]) { return waiters[category] }
+    if (fetched[category]) return waiters[category]
 
     fetched[category] = true
     waiters[category] = app.request('wait:for', 'relations')

@@ -15,11 +15,11 @@ export default screen_ = {
     }
 
     // Polymorphism: accept jquery objects or selector strings as $el
-    if (_.isString($el)) { $el = $($el) }
+    if (_.isString($el)) $el = $($el)
 
-    if (duration == null) { duration = 500 }
-    if (marginTop == null) { marginTop = 0 }
-    if (delay == null) { delay = 100 }
+    if (duration == null) duration = 500
+    if (marginTop == null) marginTop = 0
+    if (delay == null) delay = 100
 
     const scroll = function () {
       const top = $el.position().top - marginTop

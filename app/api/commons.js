@@ -15,7 +15,6 @@ export default {
       // don't let buildPath do the bbox stringification
       // as it would uses a simple bbox.toString() and lose the []
       bbox: JSON.stringify(bbox.map(truncateDecimals))
-    }
-    )
+    })
   }
 }

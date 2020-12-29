@@ -60,9 +60,9 @@ export default Marionette.LayoutView.extend({
     }
 
     // We need to specify a lang for work entities
-    if (entity.type === 'work') { this.itemData.lang = guessLang(entity) }
+    if (entity.type === 'work') this.itemData.lang = guessLang(entity)
 
-    if (this.itemData.entity == null) { throw error_.new('missing uri', this.itemData) }
+    if (this.itemData.entity == null) throw error_.new('missing uri', this.itemData)
   },
 
   serializeData () {
@@ -196,7 +196,7 @@ export default Marionette.LayoutView.extend({
 
 const guessTransaction = function (transaction) {
   transaction = transaction || app.request('last:transaction:get')
-  if (transaction === 'null') { transaction = null }
+  if (transaction === 'null') transaction = null
   app.execute('last:transaction:set', transaction)
   return transaction
 }
@@ -204,9 +204,9 @@ const guessTransaction = function (transaction) {
 const guessLang = function (entity) {
   const { lang: userLang } = app.user
   const [ labels, originalLang ] = entity.gets('labels', 'originalLang')
-  if (labels[userLang] != null) { return userLang }
-  if (labels[originalLang] != null) { return originalLang }
-  if (labels.en != null) { return 'en' }
+  if (labels[userLang] != null) return userLang
+  if (labels[originalLang] != null) return originalLang
+  if (labels.en != null) return 'en'
   // If none of the above worked, return the first lang we find
   return Object.keys(labels)[0]
 }

@@ -16,7 +16,7 @@ const isNormalizedIsbn = text => /^(97(8|9))?\d{9}(\d|X)$/.test(text)
 // to do client-side: so the trade-off is that invalid ISBN
 // might not be spotted client-side until refused by the server
 const looksLikeAnIsbn = function (text) {
-  if (typeof text !== 'string') { return false }
+  if (typeof text !== 'string') return false
   const cleanedText = normalizeIsbn(text)
   if (isNormalizedIsbn(cleanedText)) {
     if (cleanedText.length === 10) return 10

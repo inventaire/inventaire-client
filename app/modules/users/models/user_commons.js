@@ -78,13 +78,13 @@ export default Positionable.extend({
   },
 
   setDefaultPicture () {
-    if (this.get('picture') == null) { return this.set('picture', defaultAvatar) }
+    if (this.get('picture') == null) return this.set('picture', defaultAvatar)
   }
 })
 
 const aggregateScoreData = function (data, snapshotSection) {
   const { 'items:count': count, 'items:last-add': lastAdd } = snapshotSection
   data.itemsCount += count
-  if (lastAdd > data.lastAdd) { data.lastAdd = lastAdd }
+  if (lastAdd > data.lastAdd) data.lastAdd = lastAdd
   return data
 }

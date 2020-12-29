@@ -86,7 +86,7 @@ export default Marionette.CompositeView.extend({
   },
 
   addValue (e) {
-    if (isLoggedIn()) { this.collection.addEmptyValue() }
+    if (isLoggedIn()) this.collection.addEmptyValue()
     // Prevent parent views including the same 'click .addValue': 'addValue'
     // event listener to be triggered
     e.stopPropagation()

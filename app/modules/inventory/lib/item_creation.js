@@ -1,7 +1,7 @@
 import { transactionsDataFactory } from './transactions_data'
 
 export function listingsData (selectedListing) {
-  if (selectedListing == null) { selectedListing = app.request('last:listing:get') || 'private' }
+  if (selectedListing == null) selectedListing = app.request('last:listing:get') || 'private'
   const listings = app.user.listings()
   const selectedListingData = listings[selectedListing]
   selectedListingData.classes = 'selected'
@@ -9,7 +9,7 @@ export function listingsData (selectedListing) {
 }
 
 export function transactionsData (selectedTransaction) {
-  if (selectedTransaction == null) { selectedTransaction = app.request('last:transaction:get') || 'inventorying' }
+  if (selectedTransaction == null) selectedTransaction = app.request('last:transaction:get') || 'inventorying'
   const transactions = transactionsDataFactory()
   transactions.inventorying.label = 'just_inventorize_it'
   const selectedTransactionData = transactions[selectedTransaction]

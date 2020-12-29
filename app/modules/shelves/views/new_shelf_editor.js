@@ -52,7 +52,7 @@ export default Marionette.LayoutView.extend({
   createShelf () {
     const name = $('#shelfNameEditor').val()
     let description = $('#shelfDescEditor ').val()
-    if (description === '') { description = null }
+    if (description === '') description = null
     startLoading.call(this, '.validate .loading')
     const selectedListing = app.request('last:listing:get') || 'private'
     return createShelfModel({ name, description, listing: selectedListing })

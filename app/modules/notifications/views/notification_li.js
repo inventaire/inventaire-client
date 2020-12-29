@@ -15,7 +15,7 @@ export default Marionette.ItemView.extend({
   getTemplate () {
     const notifType = this.model.get('type')
     const template = templates[notifType]
-    if (template == null) { return log_.error('notification type unknown') }
+    if (template == null) return log_.error('notification type unknown')
     return template
   },
 

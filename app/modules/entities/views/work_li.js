@@ -6,7 +6,7 @@ export default Marionette.ItemView.extend({
   template: workLiTemplate,
   className () {
     const prefix = this.model.get('prefix')
-    if (this.wrap == null) { this.wrap = this.options.wrap }
+    if (this.wrap == null) this.wrap = this.options.wrap
     const wrap = this.wrap ? 'wrapped wrappable' : ''
     return `workLi entity-prefix-${prefix} ${wrap}`
   },
@@ -21,8 +21,8 @@ export default Marionette.ItemView.extend({
     app.execute('uriLabel:update');
 
     ({ showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap, preventRerender } = this.options)
-    if (this.showActions == null) { this.showActions = true }
-    if (preventRerender == null) { preventRerender = false }
+    if (this.showActions == null) this.showActions = true
+    if (preventRerender == null) preventRerender = false
 
     // Allow to disable re-render for views that are used as part of layouts that store state
     // in the DOM - such as ./deduplicate_layout - so that this state isn't lost
@@ -68,8 +68,8 @@ export default Marionette.ItemView.extend({
   serializeData () {
     const attrs = _.extend(this.model.toJSON(), { showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap })
     const count = this.getNetworkItemsCount()
-    if (count != null) { attrs.counter = { count, highlight: count > 0 } }
-    if (attrs.extract != null) { attrs.description = attrs.extract }
+    if (count != null) attrs.counter = { count, highlight: count > 0 }
+    if (attrs.extract != null) attrs.description = attrs.extract
     return attrs
   },
 

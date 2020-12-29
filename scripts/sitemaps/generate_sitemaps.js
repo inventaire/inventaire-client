@@ -14,7 +14,7 @@ export default function () {
   // Generating sequentially to prevent overpassing Wikidata Query Service parallel request quota
   const generateFilesSequentially = function () {
     const nextQueryName = queriesNames.shift()
-    if (nextQueryName == null) { return console.log(green('done')) }
+    if (nextQueryName == null) return console.log(green('done'))
     return generateFilesFromQuery(nextQueryName)
     .then(generateFilesSequentially)
   }

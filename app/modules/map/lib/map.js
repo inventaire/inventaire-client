@@ -27,7 +27,7 @@ export default map_ = {
   },
 
   updateMarker (marker, coords) {
-    if (coords?.lat == null) { return marker.remove() }
+    if (coords?.lat == null) return marker.remove()
     const { lat, lng } = coords
     return marker.setLatLng([ lat, lng ])
   },

@@ -21,9 +21,9 @@ export default Marionette.Behavior.extend({
       return
     }
 
-    if (!selector) { selector = '.has-alertbox' }
+    if (!selector) selector = '.has-alertbox'
 
-    if (!/\.|#/.test(selector)) { error_.report('invalid selector', { selector }) }
+    if (!/\.|#/.test(selector)) error_.report('invalid selector', { selector })
     const $target = this.$el.find(selector)
 
     if ($target.length !== 1) {

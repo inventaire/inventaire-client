@@ -33,6 +33,6 @@ const tailorForLang = (listsByLang, userLang) => {
 }
 
 const format = function (entry) {
-  if (entry.picture != null) { entry.picture = `/img/assets/${entry.picture}` }
+  if (entry.picture != null) entry.picture = `/img/assets/${entry.picture}`
   return entry
 }

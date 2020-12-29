@@ -39,14 +39,14 @@ export default {
 const API = {
   async showEntity (uri, params) {
     const refresh = params?.refresh || app.request('querystring:get', 'refresh')
-    if (isClaim(uri)) { return showClaimEntities(uri, refresh) }
+    if (isClaim(uri)) return showClaimEntities(uri, refresh)
 
     uri = normalizeUri(uri)
-    if (!isExtendedEntityUri(uri)) { app.execute('show:error:missing') }
+    if (!isExtendedEntityUri(uri)) app.execute('show:error:missing')
 
     app.execute('show:loader')
 
-    if (refresh) { app.execute('uriLabel:refresh') }
+    if (refresh) app.execute('uriLabel:refresh')
 
     try {
       const entity = await getEntityModel(uri, refresh)
@@ -338,7 +338,7 @@ const showEntityCreateFromIsbn = isbn => {
     const { isbn13h, groupLangUri } = isbnData
     const claims = { 'wdt:P212': [ isbn13h ] }
     // TODO: try to deduce publisher from ISBN publisher section
-    if (isEntityUri(groupLangUri)) { claims['wdt:P407'] = [ groupLangUri ] }
+    if (isEntityUri(groupLangUri)) claims['wdt:P407'] = [ groupLangUri ]
 
     // Start by requesting the creation of a work entity
     return showEntityCreate({
@@ -374,9 +374,9 @@ const existsOrCreateFromSeed = async entry => {
 
 const showViewByAccessLevel = function (params) {
   let { path, title, View, viewOptions, navigate, accessLevel } = params
-  if (navigate == null) { navigate = true }
+  if (navigate == null) navigate = true
   if (app.request('require:loggedIn', path)) {
-    if (navigate) { app.navigate(path, { metadata: { title } }) }
+    if (navigate) app.navigate(path, { metadata: { title } })
     if (app.request(`require:${accessLevel}:access`)) {
       return app.layout.main.show(new View(viewOptions))
     }

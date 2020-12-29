@@ -60,7 +60,6 @@ export default Marionette.ItemView.extend({
     .catch(this.Fail('item request err'))
   },
 
-
   showItem (e) {
     if (isOpenedOutside(e)) return
 

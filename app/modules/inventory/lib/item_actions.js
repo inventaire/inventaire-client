@@ -21,7 +21,7 @@ export default {
     // expects: items (models or ids), attribute, value
     // optional: selector
     let { item, items, attribute, value, selector } = options
-    if ((items == null) && (item != null)) { items = [ item ] }
+    if ((items == null) && (item != null)) items = [ item ]
     assert_.array(items)
     assert_.string(attribute)
     if (selector != null) assert_.string(selector)

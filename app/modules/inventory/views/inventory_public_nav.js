@@ -55,8 +55,8 @@ export default InventoryCommonNav.extend({
   onRender () {
     if (app.user.get('position') != null) {
       this.initMap()
-      if (!this.hideUsers) { this.showList(this.usersList, this.users) }
-      if (!this.hideGroups) { this.showList(this.groupsList, this.groups) }
+      if (!this.hideUsers) this.showList(this.usersList, this.users)
+      if (!this.hideGroups) this.showList(this.groupsList, this.groups)
     }
   },
 

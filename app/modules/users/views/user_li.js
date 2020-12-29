@@ -51,7 +51,7 @@ export default Marionette.ItemView.extend({
     // required by the invitations by email users list
     attrs.showEmail = this.options.showEmail && (attrs.email != null)
     attrs.stretch = this.options.stretch
-    if (this.groupContext) { this.customizeGroupsAttributes(attrs) }
+    if (this.groupContext) this.customizeGroupsAttributes(attrs)
     return attrs
   },
 

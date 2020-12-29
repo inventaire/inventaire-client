@@ -75,12 +75,12 @@ export default Marionette.CompositeView.extend({
       // If there are many candidates, keep only those that look the closest, if any
       if (humans.length > 50) {
         const subset = humans.filter(asNameMatch(name))
-        if (subset.length > 1) { humans = subset }
+        if (subset.length > 1) humans = subset
       }
 
       // If there are still many candidates, truncate the list to make it less
       // resource intensive
-      if (humans.length > 50) { humans = humans.slice(0, 51) }
+      if (humans.length > 50) humans = humans.slice(0, 51)
 
       const uris = humans.map(human => getEntityUri(human.id || human._id))
 

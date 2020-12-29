@@ -7,7 +7,7 @@ export default {
   searchEntities (params) {
     const { search, limit, offset } = params
 
-    if (search?.length <= 0) { throw new Error("search can't be empty") }
+    if (search?.length <= 0) throw new Error("search can't be empty")
 
     const { lang } = app.user
 

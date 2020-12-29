@@ -61,7 +61,7 @@ export default ClaimsEditorCommons.extend({
   saveFromUrl () {
     const url = this.ui.urlInput.val()
 
-    if (url === this.model.get('value')) { return this.hideEditMode() }
+    if (url === this.model.get('value')) return this.hideEditMode()
 
     if (!isUrl(url)) {
       const err = error_.new('invalid URL', url)

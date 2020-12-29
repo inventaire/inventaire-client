@@ -252,7 +252,7 @@ export default Marionette.LayoutView.extend({
   },
 
   hideIsolatedEditionsWhenEmpty (removedEdition, collection) {
-    if (collection.length === 0) { this.ui.isolatedEditionsWrapper.addClass('hidden') }
+    if (collection.length === 0) this.ui.isolatedEditionsWrapper.addClass('hidden')
   }
 })
 

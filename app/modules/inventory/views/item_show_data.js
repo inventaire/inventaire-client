@@ -33,7 +33,7 @@ export default ItemLayout.extend({
   },
 
   onRender () {
-    if (app.user.loggedIn) { this.showTransactions() }
+    if (app.user.loggedIn) this.showTransactions()
   },
 
   events: {
@@ -124,7 +124,7 @@ export default ItemLayout.extend({
   },
 
   showTransactions () {
-    if (this.transactions == null) { this.transactions = app.request('get:transactions:ongoing:byItemId', this.model.id) }
+    if (this.transactions == null) this.transactions = app.request('get:transactions:ongoing:byItemId', this.model.id)
     return Promise.all(_.invoke(this.transactions.models, 'beforeShow'))
     .then(this.ifViewIsIntact('_showTransactions'))
   },

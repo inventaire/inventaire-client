@@ -19,7 +19,7 @@ const markers = {
   item: objectMarker(itemMarker),
   circle (params) {
     let { latLng, metersRadius } = params
-    if (metersRadius == null) { metersRadius = 200 }
+    if (metersRadius == null) metersRadius = 200
     return L.circle(latLng, metersRadius)
   }
 }

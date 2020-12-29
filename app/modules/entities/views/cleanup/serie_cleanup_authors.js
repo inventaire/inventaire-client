@@ -5,7 +5,7 @@ const SerieCleanupAuthor = Marionette.ItemView.extend({
   template: serieCleanupAuthorTemplate,
   className () {
     let base = 'serie-cleanup-author'
-    if (this.options.isSuggestion) { base += ' suggestion' }
+    if (this.options.isSuggestion) base += ' suggestion'
     return base
   },
 

@@ -72,7 +72,7 @@ const pickOneWikiProjectTitle = function (sitelinks, projectBaseName) {
     if ((match.length === 2) && (match[1] === '')) {
       const langCode = match[0]
       // Giving priority to 2 letters code languages
-      if (langCode.length === 2) { return [ value, langCode ] }
+      if (langCode.length === 2) return [ value, langCode ]
     }
   }
 

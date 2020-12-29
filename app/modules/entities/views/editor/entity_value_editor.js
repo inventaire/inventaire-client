@@ -50,7 +50,7 @@ export default ClaimsEditorCommons.extend({
       // Do not display an image if it's not the entity's own image
       // (e.g. if it's a work that deduced an image from one of its editions)
       // as it might be confusing
-      if (data.claims['invp:P2'] == null) { delete data.image }
+      if (data.claims['invp:P2'] == null) delete data.image
       return data
     }
   },
@@ -72,11 +72,11 @@ export default ClaimsEditorCommons.extend({
   onGrab () {
     const { valueEntity } = this.model
     if (valueEntity != null) {
-      if (valueEntity.usesImagesFromSubEntities) { valueEntity.fetchSubEntities() }
+      if (valueEntity.usesImagesFromSubEntities) valueEntity.fetchSubEntities()
       this.listenToOnce(valueEntity, 'change:image', this.lazyRenderIfDisplayMode.bind(this))
       // init suggestion with the current value entity so that
       // saving without any change is equivalent to re-selecting the current value
-      if (!this.suggestion) { this.suggestion = valueEntity }
+      if (!this.suggestion) this.suggestion = valueEntity
     }
 
     this.lazyRender()
@@ -101,12 +101,12 @@ export default ClaimsEditorCommons.extend({
 
   onKeyUp (e) {
     ClaimsEditorCommons.prototype.onKeyUp.call(this, e)
-    if (this.editMode) { autocomplete.onKeyUp.call(this, e) }
+    if (this.editMode) autocomplete.onKeyUp.call(this, e)
     return this.updateInputState()
   },
 
   onKeyDown (e) {
-    if (this.editMode) { return autocomplete.onKeyDown.call(this, e) }
+    if (this.editMode) return autocomplete.onKeyDown.call(this, e)
   },
 
   showDropdown: autocomplete.showDropdown,
@@ -145,9 +145,9 @@ export default ClaimsEditorCommons.extend({
   save () {
     const uri = this.suggestion?.get('uri')
     // if the suggestion is the same as the current value, ignore
-    if (uri === this.model.get('value')) { return this.hideEditMode() }
+    if (uri === this.model.get('value')) return this.hideEditMode()
 
-    if (this.suggestion != null) { return this._save(uri) }
+    if (this.suggestion != null) return this._save(uri)
 
     if (!this.allowEntityCreation) return
 

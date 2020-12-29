@@ -54,7 +54,7 @@ export default Marionette.LayoutView.extend({
     const shelfId = this.model.get('_id')
     const name = $('#shelfNameEditor').val()
     let description = $('#shelfDescEditor').val()
-    if (description === '') { description = null }
+    if (description === '') description = null
     const selected = app.request('last:listing:get')
     startLoading.call(this, '.validate .loading')
     return updateShelf({
@@ -64,9 +64,7 @@ export default Marionette.LayoutView.extend({
       listing: selected
     })
     .catch(err => {
-      if (err.message === 'nothing to update') {
-
-      } else { throw err }
+      if (err.message !== 'nothing to update') throw err
     })
     .then(afterUpdate(selected, this.model))
     .then(closeModal)
@@ -95,7 +93,7 @@ const afterUpdate = (selected, model) => function (updatedShelf) {
 const deleteShelfAction = (model, withItems) => function () {
   const id = model.get('_id')
   let params = { ids: id }
-  if (withItems) { params = _.extend({ 'with-items': true }, params) }
+  if (withItems) params = _.extend({ 'with-items': true }, params)
   deleteShelf(params)
   .then(log_.Info('shelf destroyed'))
   .then(afterShelfDelete)

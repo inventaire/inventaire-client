@@ -27,7 +27,7 @@ export default Marionette.LayoutView.extend({
   },
 
   updatePreview (name, model) {
-    if ((model == null) || model.isUnknown) { return this.removePreview(name) }
+    if ((model == null) || model.isUnknown) return this.removePreview(name)
 
     const region = this[name]
 

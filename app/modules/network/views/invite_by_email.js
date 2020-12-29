@@ -42,7 +42,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    if (this.group == null) { app.execute('modal:open', 'medium') }
+    if (this.group == null) app.execute('modal:open', 'medium')
   },
 
   onRender () {

@@ -1,7 +1,7 @@
 import { forceArray } from 'lib/utils'
 export default Backbone.Model.extend({
   initialize (data) {
-    if (data.timestamp == null) { return this.updateTimestamp() }
+    if (data.timestamp == null) return this.updateTimestamp()
   },
 
   savePictures (pictures) {
@@ -18,7 +18,7 @@ export default Backbone.Model.extend({
     const { query, uri } = data
     data.pathname = uri ? `/entity/${uri}` : `/search?q=${query}`
     data.pictures = forceArray(data.pictures)
-    if (!data.label) { data.label = query }
+    if (!data.label) data.label = query
     return data
   },
 

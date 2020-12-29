@@ -58,7 +58,7 @@ const addTasksToEntities = async (uri, tasks, relation, entities) => {
   const tasksIndex = _.indexBy(tasks, relation)
 
   entities.forEach(entity => {
-    if (!entity.tasks) { entity.tasks = {} }
+    if (!entity.tasks) entity.tasks = {}
     const task = tasksIndex[entity.get('uri')]
     entity.tasks[uri] = new Task(task)
   })
@@ -78,7 +78,7 @@ const getHomonyms = async (model, tasksEntitiesUris) => {
 const parseSearchResults = async (uri, tasksEntitiesUris, searchResults) => {
   let uris = _.pluck(searchResults, 'uri')
   const prefix = uri.split(':')[0]
-  if (prefix === 'wd') { uris = uris.filter(isntWdUri) }
+  if (prefix === 'wd') uris = uris.filter(isntWdUri)
   // Omit the current entity URI and the entities for which a task was found
   const urisToOmit = [ uri ].concat(tasksEntitiesUris)
   uris = _.without(uris, ...urisToOmit)

@@ -7,7 +7,7 @@ export default Backbone.Collection.extend({
     .map(model => {
       const [ oridinal, label, uri ] = model.gets('ordinal', 'label', 'uri')
       let richLabel = (oridinal != null) ? `${oridinal}. - ${label}` : `${label} (${uri})`
-      if (richLabel.length > 50) { richLabel = richLabel.substring(0, 50) + '...' }
+      if (richLabel.length > 50) richLabel = richLabel.substring(0, 50) + '...'
       return { richLabel, uri }
     })
   },

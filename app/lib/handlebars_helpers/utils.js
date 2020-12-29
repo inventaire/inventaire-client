@@ -7,14 +7,14 @@ const { SafeString, escapeExpression } = Handlebars
 
 export default {
   join (array, separator) {
-    if (!isNonEmptyArray(array)) { return array }
-    if (!_.isString(separator)) { separator = ', ' }
+    if (!isNonEmptyArray(array)) return array
+    if (!_.isString(separator)) separator = ', '
     return array.join(separator)
   },
 
   joinAuthors (array) {
     array = _.compact(array)
-    if (array?.length <= 0) { return '' }
+    if (array?.length <= 0) return ''
     return new SafeString(this.join(array.map(linkifyAuthorString)) + '<br>')
   },
 

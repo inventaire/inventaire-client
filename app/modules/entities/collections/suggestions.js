@@ -37,7 +37,7 @@ export default Backbone.Collection.extend({
   highlightAt (index) {
     if (this.index === index) return
 
-    if (this.isStarted()) { this.removeHighlight(this.index) }
+    if (this.isStarted()) this.removeHighlight(this.index)
     this.index = index
     return this.highlight(index)
   },

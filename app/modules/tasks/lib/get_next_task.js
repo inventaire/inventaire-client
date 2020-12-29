@@ -15,9 +15,9 @@ export default function (params = {}) {
   const { lastTaskModel } = params
 
   if (lastTaskModel != null) {
-    if (backlogs.byAuthor.length !== 0) { return Promise.resolve(nextTaskModel('byAuthor')) }
+    if (backlogs.byAuthor.length !== 0) return Promise.resolve(nextTaskModel('byAuthor'))
     const suggestionUri = lastTaskModel.get('suggestionUri')
-    if (!suggestionUrisFetched.includes(suggestionUri)) { return getNextTaskBySuggestionUri(params) }
+    if (!suggestionUrisFetched.includes(suggestionUri)) return getNextTaskBySuggestionUri(params)
   }
 
   return getNextTaskByScore(params)

@@ -5,7 +5,7 @@ import error_ from 'lib/error'
 
 export default Backbone.Model.extend({
   initialize (attrs) {
-    if (this.get('type') == null) { throw error_.new('invalid task', 500, attrs) }
+    if (this.get('type') == null) throw error_.new('invalid task', 500, attrs)
 
     this.calculateGlobalScore()
 
@@ -55,8 +55,7 @@ export default Backbone.Model.extend({
       id: this.id,
       attribute: 'state',
       value: 'dismissed'
-    }
-    )
+    })
   },
 
   merge () {
@@ -77,8 +76,8 @@ export default Backbone.Model.extend({
     .map(source => {
       const { url, uri, matchedTitles } = source
       const sourceTitle = 'Matched titles: ' + matchedTitles.join(', ')
-      if (url) { return { url, sourceTitle } }
-      if (uri) { return { uri, sourceTitle } }
+      if (url) return { url, sourceTitle }
+      if (uri) return { uri, sourceTitle }
     })
   }
 })

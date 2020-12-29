@@ -15,7 +15,7 @@ export default function (options) {
     app[name] = new Model()
   }
 
-  if (condition == null) { condition = true }
+  if (condition == null) condition = true
 
   if (condition) {
     fetchPromise = app[name].fetch(fetchOptions)

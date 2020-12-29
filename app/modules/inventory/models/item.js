@@ -66,7 +66,7 @@ export default Filterable.extend({
   },
 
   grabWorks () {
-    if (this.waitForWorks != null) { return this.waitForWorks }
+    if (this.waitForWorks != null) return this.waitForWorks
 
     this.waitForWorks = this.grabEntity()
       .then(entity => {
@@ -220,7 +220,7 @@ export default Filterable.extend({
   hasActiveTransaction () {
     // the reqres 'has:transactions:ongoing:byItemId' wont be defined
     // if the user isn't logged in
-    if (!app.user.loggedIn) { return false }
+    if (!app.user.loggedIn) return false
     return app.request('has:transactions:ongoing:byItemId', this.id)
   },
 
@@ -260,7 +260,7 @@ export default Filterable.extend({
 
   isInShelf (shelfId) {
     const shelvesIds = this.get('shelves')
-    if (!shelvesIds) { return false }
+    if (!shelvesIds) return false
     return shelvesIds.includes(shelfId)
   }
 })

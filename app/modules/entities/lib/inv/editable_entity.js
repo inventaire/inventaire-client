@@ -47,7 +47,7 @@ export default {
       app.execute('invalidate:entities:graph', [ oldValue, newValue ])
     }
 
-    if (propertiesUsedByRelations.includes(property)) { this.invalidateRelationsCache() }
+    if (propertiesUsedByRelations.includes(property)) this.invalidateRelationsCache()
 
     return this.savePropertyValue(property, oldValue, newValue)
     // Triggering the event is required as NestedModel would trigger

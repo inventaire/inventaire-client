@@ -12,7 +12,7 @@ export default Marionette.ItemView.extend({
       base += ' need-info'
     } else {
       base += ' can-be-selected'
-      if (this.model.get('selected')) { base += ' selected' }
+      if (this.model.get('selected')) base += ' selected'
     }
     return base
   },
@@ -65,9 +65,7 @@ export default Marionette.ItemView.extend({
       return this.model.set({ title, authors, selected: true })
     })
     .catch(err => {
-      if (err.message === 'modal closed') {
-
-      } else { throw err }
+      if (err.message !== 'modal closed') throw err
     })
 
     e?.stopPropagation()

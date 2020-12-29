@@ -34,7 +34,7 @@ export default {
       throw new Error(`unknown type: ${type}`)
     }
 
-    if (!claims) { claims = {} }
+    if (!claims) claims = {}
     claims['wdt:P31'] = [ defaultP31 ]
 
     const labels = {}
@@ -89,12 +89,12 @@ export default {
 
 const getPropertiesShortlist = function (type, claims) {
   const typeShortlist = propertiesShortlists[type]
-  if (typeShortlist == null) { return null }
+  if (typeShortlist == null) return null
 
   const claimsProperties = Object.keys(claims).filter(nonFixedEditor)
   const propertiesShortlist = propertiesShortlists[type].concat(claimsProperties)
   // If a serie was passed in the claims, invite to add an ordinal
-  if (claimsProperties.includes('wdt:P179')) { propertiesShortlist.push('wdt:P1545') }
+  if (claimsProperties.includes('wdt:P179')) propertiesShortlist.push('wdt:P1545')
 
   return propertiesShortlist
 }
@@ -103,10 +103,10 @@ const nonFixedEditor = function (prop) {
   // Testing properties[prop] existance as some properties don't
   // have an editor. Ex: wdt:P31
   const editorType = properties[prop]?.editorType
-  if (!editorType) { return false }
+  if (!editorType) return false
 
   // Filter-out fixed editor: 'fixed-entity', 'fixed-string'
-  if (editorType.split('-')[0] === 'fixed') { return false }
+  if (editorType.split('-')[0] === 'fixed') return false
 
   return true
 }

@@ -34,7 +34,7 @@ const bestImageWidth = function (width) {
   if (width < 500) return width
 
   // if in a browser, use the screen width as a max value
-  if (screen?.width) { width = Math.min(width, screen.width) }
+  if (screen?.width) width = Math.min(width, screen.width)
   // group image width above 500 by levels of 100px to limit generated versions
   return Math.ceil(width / 100) * 100
 }

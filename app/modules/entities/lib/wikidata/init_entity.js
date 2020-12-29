@@ -50,7 +50,7 @@ const setAttributes = function (lang) {
   }
 
   const description = getBestLangValue(lang, this.originalLang, this.get('descriptions')).value
-  if (description != null) { return this.set('description', description) }
+  if (description != null) return this.set('description', description)
 }
 
 const specificMethods = {

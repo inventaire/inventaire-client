@@ -29,7 +29,7 @@ export default Positionable.extend({
     this.on('list:change:after', this.initRequestersCollection.bind(this))
 
     // The user can't change the slug if she isn't an admin
-    if (this.mainUserIsAdmin()) { this.on('change:slug', this.setInferredAttributes.bind(this)) }
+    if (this.mainUserIsAdmin()) this.on('change:slug', this.setInferredAttributes.bind(this))
   },
 
   setInferredAttributes () {
@@ -54,7 +54,7 @@ export default Positionable.extend({
     // All the actions to run once before showing any view displaying
     // deep groups data (with statistics, members list, etc), but that can
     // be spared otherwise
-    if (this._beforeShowCalledOnce) { return this.waitForData }
+    if (this._beforeShowCalledOnce) return this.waitForData
     this._beforeShowCalledOnce = true
 
     this.initMembersCollection()
@@ -74,7 +74,7 @@ export default Positionable.extend({
     // remove all users
     // to re-add all of them
     // while keeping the same object to avoid breaking references
-    if (!this[name]) { this[name] = new Backbone.Collection() }
+    if (!this[name]) this[name] = new Backbone.Collection()
     this[name].remove(this[name].models)
     const Name = capitalize(name)
     const ids = this[`all${Name}Ids`]()
@@ -169,7 +169,7 @@ export default Positionable.extend({
   findMainUserInvitor () { return this.findUserInvitor(app.user) },
 
   userCanLeave () {
-    if (!this.mainUserIsAdmin()) { return true }
+    if (!this.mainUserIsAdmin()) return true
     const mainUserIsTheOnlyAdmin = this.allAdminsIds().length === 1
     const thereAreOtherMembers = this.allMembersStrictIds().length > 0
     if (mainUserIsTheOnlyAdmin && thereAreOtherMembers) {

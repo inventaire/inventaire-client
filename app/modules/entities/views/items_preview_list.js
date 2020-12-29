@@ -6,7 +6,7 @@ export default Marionette.CompositeView.extend({
   template: itemsPreviewListTemplate,
   className () {
     let className = 'itemsPreviewList'
-    if (this.options.compact) { className += ' compact' }
+    if (this.options.compact) className += ' compact'
     return className
   },
 

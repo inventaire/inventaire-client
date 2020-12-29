@@ -5,11 +5,11 @@ const { base, action } = endpoint('items')
 const queryEndpoint = (actionName, idsLabel) => params => {
   const { ids, limit, offset, filter, includeUsers } = params
   const data = {}
-  if (idsLabel != null) { data[idsLabel] = forceArray(ids).join('|') }
-  if (limit != null) { data.limit = limit }
-  if (offset != null) { data.offset = offset }
-  if (filter != null) { data.filter = filter }
-  if (includeUsers != null) { data['include-users'] = includeUsers }
+  if (idsLabel != null) data[idsLabel] = forceArray(ids).join('|')
+  if (limit != null) data.limit = limit
+  if (offset != null) data.offset = offset
+  if (filter != null) data.filter = filter
+  if (includeUsers != null) data['include-users'] = includeUsers
   return action(actionName, data)
 }
 

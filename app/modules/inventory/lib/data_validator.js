@@ -24,7 +24,7 @@ const isValid = {
   },
 
   json (source, data) {
-    if (data[0] !== '{') { return false }
+    if (data[0] !== '{') return false
     // No headers line here, so we look for the presence of a specific key instead
     const re = new RegExp(importers[source].specificKey)
     // Testing only an extract to avoid passing a super long doc to the regexp.

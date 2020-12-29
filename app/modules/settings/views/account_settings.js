@@ -162,8 +162,7 @@ export default Marionette.ItemView.extend({
       attribute: 'language',
       value: e.target.value,
       selector: '#languagePicker'
-    }
-    )
+    })
   },
 
   // DELETE ACCOUNT
@@ -179,8 +178,7 @@ export default Marionette.ItemView.extend({
       formPlaceholder: "our love wasn't possible because",
       yes: 'delete your account',
       no: 'cancel'
-    }
-    )
+    })
   }
 })
 

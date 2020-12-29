@@ -57,17 +57,9 @@ export default InfiniteScrollItemsList.extend({
     const { checked } = e.currentTarget
     const id = e.currentTarget.attributes['data-id'].value
     if (checked) {
-      if (this.selectedIds.includes(id)) {
-
-      } else {
-        return this.addSelectedIds(id)
-      }
+      if (!this.selectedIds.includes(id)) return this.addSelectedIds(id)
     } else {
-      if (!this.selectedIds.includes(id)) {
-
-      } else {
-        return this.removeSelectedIds(id)
-      }
+      if (this.selectedIds.includes(id)) return this.removeSelectedIds(id)
     }
   },
 

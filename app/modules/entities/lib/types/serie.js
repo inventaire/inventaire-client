@@ -86,7 +86,7 @@ const initPartsCollections = async function (refresh, fetchAll, partsData) {
 }
 
 const hasNoKnownSuperpart = allsPartsUris => function (part) {
-  if (part.superpart == null) { return true }
+  if (part.superpart == null) return true
   return !allsPartsUris.includes(part.superpart)
 }
 

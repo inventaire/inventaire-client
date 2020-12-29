@@ -173,13 +173,13 @@ export default Marionette.LayoutView.extend({
   },
 
   chainedImport (transaction, listing, shelves) {
-    if (this.selected.length === 0) { return this.doneImporting() }
+    if (this.selected.length === 0) return this.doneImporting()
 
     const candidate = this.selected.pop()
     return candidate.createItem({ transaction, listing, shelves })
     .catch(err => {
       candidate.set('errorMessage', err.message)
-      if (!this.failed) { this.failed = [] }
+      if (!this.failed) this.failed = []
       this.failed.push(candidate)
       log_.error(err, 'chainedImport err')
     })

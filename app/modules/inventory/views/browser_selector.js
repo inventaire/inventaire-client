@@ -79,7 +79,7 @@ export default Marionette.LayoutView.extend({
   // Pass a view cid if that specific view shouldn't hide its options
   // Used to close all selectors but one
   hideOptions (cid) {
-    if (cid !== this.cid) { this.$el.removeClass('showOptions') }
+    if (cid !== this.cid) this.$el.removeClass('showOptions')
   },
 
   toggleOptions (e) {
@@ -183,14 +183,14 @@ export default Marionette.LayoutView.extend({
   },
 
   _intersectionFilter (treeSection, intersectionWorkUris, model) {
-    if (intersectionWorkUris.length === 0) { return false }
+    if (intersectionWorkUris.length === 0) return false
     const key = model.get(this.treeKeyAttribute)
     const worksUris = treeSection[key]
     // Known cases without worksUris: groups, nearby users
-    if (worksUris == null) { return false }
+    if (worksUris == null) return false
 
     const count = this.getIntersectionCount(key, worksUris, intersectionWorkUris)
-    if (count === 0) { return false }
+    if (count === 0) return false
 
     // /!\ Side effect
     // Set intersectionCount so that ./browser_selector_li can re-render

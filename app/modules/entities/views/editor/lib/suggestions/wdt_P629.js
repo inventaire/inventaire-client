@@ -59,7 +59,7 @@ const getOrdinals = (worksSeriesData, serieUri) => {
 }
 
 const parseOrdinal = function (ordinal) {
-  if (isPositiveIntegerString(ordinal)) { return parseInt(ordinal) }
+  if (isPositiveIntegerString(ordinal)) return parseInt(ordinal)
 }
 
 const getSerieData = function (work) {

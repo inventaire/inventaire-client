@@ -12,7 +12,7 @@ import extractIsbnsAndFetchData from './import/extract_isbns_and_fetch_data'
 const csvParser = parser => function (data) {
   data = data.trim()
   const results = window.Papa.parse(data, { header: true })
-  if (results.errors.length > 0) { log_.error(results.errors, 'csv parser errors') }
+  if (results.errors.length > 0) log_.error(results.errors, 'csv parser errors')
 
   return results.data.map(parser)
 }

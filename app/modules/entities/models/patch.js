@@ -64,13 +64,13 @@ export default Backbone.NestedModel.extend({
   },
 
   findPatchType () {
-    if (this.get('versionNumber') === 1) { return 'creation' }
+    if (this.get('versionNumber') === 1) return 'creation'
 
     const operations = this.get('operations')
     const firstOp = operations[0]
-    if (firstOp.path === '/redirect') { return 'redirect' }
+    if (firstOp.path === '/redirect') return 'redirect'
     if (firstOp.path === '/type') {
-      if (firstOp.value === 'removed:placeholder') { return 'deletion' }
+      if (firstOp.value === 'removed:placeholder') return 'deletion'
     }
 
     const operationsTypes = operations.map(_.property('op'))
@@ -92,19 +92,19 @@ export default Backbone.NestedModel.extend({
     if (patchType === 'add') {
       const operation = operations[0]
       let { property, value, propertyLabel } = operation
-      if (!propertyLabel) { propertyLabel = getPropertyLabel(property) }
+      if (!propertyLabel) propertyLabel = getPropertyLabel(property)
       this.set('summary', { property, propertyLabel, added: value })
     } else if (patchType === 'remove') {
       const operation = operations[0]
       let { property, value, propertyLabel } = operation
-      if (!propertyLabel) { propertyLabel = getPropertyLabel(property) }
+      if (!propertyLabel) propertyLabel = getPropertyLabel(property)
       this.set('summary', { property, propertyLabel, removed: value })
     } else if (patchType === 'update') {
       const addOperation = operations[0]
       let { property, value: added, propertyLabel } = addOperation
       const removeOperation = operations[1]
       const { value: removed } = removeOperation
-      if (!propertyLabel) { propertyLabel = getPropertyLabel(property) }
+      if (!propertyLabel) propertyLabel = getPropertyLabel(property)
       this.set('summary', { property, propertyLabel, added, removed })
     }
   },

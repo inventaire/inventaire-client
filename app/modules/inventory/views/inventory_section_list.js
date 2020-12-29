@@ -30,7 +30,7 @@ const ListEl = Marionette.ItemView.extend({
   selectInventory (e) {
     if (isOpenedOutside(e)) return
     let type = this.model.get('type') || 'user'
-    if ((type === 'user') && (this.context === 'group')) { type = 'member' }
+    if ((type === 'user') && (this.context === 'group')) type = 'member'
     app.vent.trigger('inventory:select', type, this.model)
     e.preventDefault()
   }

@@ -42,6 +42,6 @@ export default Marionette.ItemView.extend({
   },
 
   onClose () {
-    if (!this._resolved) { return this.options.reject(new Error('modal closed')) }
+    if (!this._resolved) return this.options.reject(new Error('modal closed'))
   }
 })

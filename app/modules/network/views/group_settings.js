@@ -212,8 +212,7 @@ export default Marionette.ItemView.extend({
       action,
       // re-focus on the only existing anchor
       focus: '#groupControls a'
-    }
-    )
+    })
   },
 
   showPositionPicker () {

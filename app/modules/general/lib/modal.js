@@ -27,12 +27,10 @@ export default function () {
 
     // Focusing is useful for devices with a keyboard, so that you can Tab your way through forms
     // but not for touch only devices
-    if (isMobile || screen_.isSmall(800)) {
-
-    } else {
+    if (!(isMobile || screen_.isSmall(800))) {
       setTimeout(focusFirstTabElement, 200)
       // Allow to pass a selector to which to re-focus once the modal closes
-      if (isNonEmptyString(focusSelector)) { return prepareRefocus(focusSelector) }
+      if (isNonEmptyString(focusSelector)) return prepareRefocus(focusSelector)
     }
   }
 

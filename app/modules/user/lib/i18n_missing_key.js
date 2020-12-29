@@ -19,7 +19,7 @@ const sendMissingKeys = function () {
     return preq.post(app.API.i18n, { missingKeys: keysToSend })
     .then(res => log_.info(keysToSend, 'i18n:missing added'))
     .catch(err => {
-      if (err.statusCode !== 404) { throw err }
+      if (err.statusCode !== 404) throw err
       log_.warn('i18n missing key service is disabled')
       disabled = true
     })

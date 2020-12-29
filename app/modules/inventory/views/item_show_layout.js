@@ -75,7 +75,7 @@ export default Marionette.LayoutView.extend({
 
   preciseEdition () {
     const { entity } = this.model
-    if (entity.type !== 'work') { throw new Error('wrong entity type') }
+    if (entity.type !== 'work') throw new Error('wrong entity type')
 
     return entity.fetchSubEntities()
     .then(() => {
@@ -104,7 +104,7 @@ export default Marionette.LayoutView.extend({
       return getShelvesByOwner(app.user.id)
     } else {
       const itemShelves = this.model.get('shelves')
-      if (itemShelves?.length <= 0) { return Promise.resolve([]) }
+      if (itemShelves?.length <= 0) return Promise.resolve([])
       return getShelvesByIds(itemShelves)
       .then(_.values)
     }
@@ -179,7 +179,7 @@ const getSeriePathname = function (works) {
 const aggregateAuthorsPerProperty = function (authorsPerProperty, workAuthors) {
   for (const property in workAuthors) {
     const authors = workAuthors[property] || []
-    if (authorsPerProperty[property] == null) { authorsPerProperty[property] = [] }
+    if (authorsPerProperty[property] == null) authorsPerProperty[property] = []
     authorsPerProperty[property].push(...authors)
   }
   return authorsPerProperty

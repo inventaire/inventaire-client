@@ -67,11 +67,11 @@ const App = Marionette.Application.extend({
     route = this.request('querystring:keep', route)
     Backbone.history.last.unshift(route)
     Backbone.history.navigate(route, options)
-    if (!options.preventScrollTop) { return scrollToPageTop() }
+    if (!options.preventScrollTop) return scrollToPageTop()
   },
 
   navigateReplace (route, options) {
-    if (!options) { options = {} }
+    if (!options) options = {}
     options.replace = true
     return this.navigate(route, options)
   }

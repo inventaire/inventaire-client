@@ -33,7 +33,7 @@ export default Marionette.CompositeView.extend({
 
   initialize () {
     ({ work: this.work, sortByLang: this.sortByLang } = this.options)
-    if (this.sortByLang == null) { this.sortByLang = true }
+    if (this.sortByLang == null) this.sortByLang = true
 
     // Start with user lang as default if there are editions in that language
     if (this.sortByLang && (this.getAvailableLangs().includes(app.user.lang))) {
@@ -59,7 +59,7 @@ export default Marionette.CompositeView.extend({
   onceCollectionReady () {
     const userLangEditions = this.collection.filter(LangFilter(app.user.lang))
     // If no editions can be found in the user language, display all
-    if (userLangEditions.length === 0) { return this.filterLanguage('all') }
+    if (userLangEditions.length === 0) return this.filterLanguage('all')
   },
 
   lateOnceCollectionReady () {

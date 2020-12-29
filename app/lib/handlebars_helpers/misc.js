@@ -11,7 +11,7 @@ export default {
     // Allow to pass context through Handlebars hash object
     // ex: {{{i18n 'email_invitation_sent' email=this}}}
     // Use this mode for unsafe context values to get it escaped
-    if (_.isObject(context?.hash)) { context = escapeValues(context.hash) }
+    if (_.isObject(context?.hash)) context = escapeValues(context.hash)
     return i18n(key, context)
   },
 
@@ -74,9 +74,9 @@ export default {
   capitalize (str) { return capitalize(str) },
 
   limit (text, limit) {
-    if (text == null) { return '' }
+    if (text == null) return ''
     let t = text.slice(0, +limit + 1 || undefined)
-    if (text.length > limit) { t += '[...]' }
+    if (text.length > limit) t += '[...]'
     return new SafeString(t)
   },
 

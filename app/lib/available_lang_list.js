@@ -11,7 +11,7 @@ export default (availableLangs, selectedLang) => {
     }
 
     langObj = _.clone(langObj)
-    if (langObj.code === selectedLang) { langObj.selected = true }
+    if (langObj.code === selectedLang) langObj.selected = true
     return langObj
   })
 }

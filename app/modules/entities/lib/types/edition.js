@@ -43,7 +43,7 @@ const specificMethods = {
 
   onClaimsChange (property, oldValue, newValue) {
     this.setClaimsBasedAttributes()
-    if (property === 'wdt:P629') { return this.initWorksRelations() }
+    if (property === 'wdt:P629') return this.initWorksRelations()
   },
 
   getItemsByCategories: getEntityItemsByCategories,
@@ -97,7 +97,7 @@ const setWorksClaims = function (works, property) {
     .compact()
     .uniq()
     .value()
-  if (values.length > 0) { return this.set(`claims.${property}`, values) }
+  if (values.length > 0) return this.set(`claims.${property}`, values)
 }
 
 const startListeningForClaimsChanges = function () {

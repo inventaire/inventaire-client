@@ -18,7 +18,7 @@ export default function (params) {
     zoom = 5
   }
 
-  if (!zoom) { zoom = defaultZoom }
+  if (!zoom) zoom = defaultZoom
 
   const map = L.map(containerId)
 
@@ -28,7 +28,7 @@ export default function (params) {
 
   L.tileLayer(tileUrl, settings).addTo(map)
 
-  if (isMobile) { map.scrollWheelZoom.disable() }
+  if (isMobile) map.scrollWheelZoom.disable()
 
   if (cluster) {
     initWithCluster(map)

@@ -8,7 +8,7 @@ export default Marionette.ItemView.extend({
   serializeData () {
     const attrs = this.model.serializeData()
     const [ prefix, id ] = attrs.entity.split(':')
-    if (prefix === 'isbn') { attrs.isbn = id }
+    if (prefix === 'isbn') attrs.isbn = id
     return attrs
   },
 
@@ -17,8 +17,6 @@ export default Marionette.ItemView.extend({
   },
 
   showItem (e) {
-    if (isOpenedOutside(e)) {
-
-    } else { app.execute('show:item', this.model) }
+    if (!isOpenedOutside(e)) app.execute('show:item', this.model)
   }
 })

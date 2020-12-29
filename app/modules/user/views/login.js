@@ -55,11 +55,7 @@ export default Marionette.ItemView.extend({
 
   verifyUsername (username) {
     username = this.ui.username.val()
-    if (isEmail(username)) {
-
-    } else {
-      return username_.pass(username, '#username')
-    }
+    if (!isEmail(username)) return username_.pass(username, '#username')
   },
 
   earlyVerifyUsername (e) {

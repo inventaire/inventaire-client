@@ -50,7 +50,7 @@ const findMatchingSerieLabel = function (value, serieLabels) {
     // Start with the serie label, followed by a separator
     // and some title of at least 5 characters
     const re = new RegExp(`^${label}\\s?(:|-|,).{5}`, 'i')
-    if (re.test(value)) { return label }
+    if (re.test(value)) return label
   }
 }
 

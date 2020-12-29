@@ -22,8 +22,8 @@ export default Marionette.ItemView.extend({
   serializeData () {
     const attrs = this.model.toJSON()
     const { type } = attrs
-    if (type != null) { attrs[type] = true }
-    if (attrs.description == null) { attrs.description = i18n(type) }
+    if (type != null) attrs[type] = true
+    if (attrs.description == null) attrs.description = i18n(type)
     return _.extend(attrs, {
       alreadyAdded: this.alreadyAdded,
       invClaimValueOnWdEntity: this.invClaimValueOnWdEntity

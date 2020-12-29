@@ -117,7 +117,7 @@ export default Marionette.CompositeView.extend({
   addCandidates () {
     if (this.parentModel.getChildrenCandidatesUris != null) {
       this.$el.addClass('fetching')
-      if (this._waitForParentModelChildrenCandidatesUris == null) { this._waitForParentModelChildrenCandidatesUris = this.parentModel.getChildrenCandidatesUris() }
+      if (this._waitForParentModelChildrenCandidatesUris == null) this._waitForParentModelChildrenCandidatesUris = this.parentModel.getChildrenCandidatesUris()
       return this._waitForParentModelChildrenCandidatesUris.then(this.resetFromUris.bind(this))
     } else if (!this.cantTypeSearch) {
       const label = this.parentModel.get('label')
@@ -138,7 +138,7 @@ export default Marionette.CompositeView.extend({
     const visibleHeight = this.ui.candidates.height()
     const { scrollHeight, scrollTop } = e.currentTarget
     const scrollBottom = scrollTop + visibleHeight
-    if (scrollBottom === scrollHeight) { return this.collection.fetchMore() }
+    if (scrollBottom === scrollHeight) return this.collection.fetchMore()
   },
 
   create (e) {

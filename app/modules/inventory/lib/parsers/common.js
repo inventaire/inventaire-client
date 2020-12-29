@@ -34,7 +34,7 @@ const containsNoComma = str => (str != null) && !/,/.test(str)
 const isFirstOccurence = array => function (str, index) {
   const noramlizedStr = normalize(str)
   for (const previousStr of array.slice(0, index)) {
-    if (leven(noramlizedStr, normalize(previousStr)) < maxLevenshteinDistance) { return false }
+    if (leven(noramlizedStr, normalize(previousStr)) < maxLevenshteinDistance) return false
   }
   return true
 }

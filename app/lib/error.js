@@ -30,7 +30,7 @@ const error_ = {
   // newWithSelector: use forms_.throwError instead
 
   complete (err, selector, i18n) {
-    if (err.i18n == null) { err.i18n = i18n !== false }
+    if (err.i18n == null) err.i18n = i18n !== false
     err.selector = selector
     return err
   },

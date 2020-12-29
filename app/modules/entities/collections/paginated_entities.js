@@ -4,7 +4,7 @@ import Entities from './entities'
 export default Entities.extend({
   initialize (models, options = {}) {
     const { uris } = options
-    if (uris == null) { throw new Error('expected uris') }
+    if (uris == null) throw new Error('expected uris')
     // Clone the array as it will be mutated
     this.allUris = uris.slice(0)
     // At the begining, all URIs are unfetched URIs

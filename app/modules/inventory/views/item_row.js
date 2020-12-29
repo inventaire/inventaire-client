@@ -29,9 +29,7 @@ export default Marionette.ItemView.extend({
   },
 
   showItem (e) {
-    if (isOpenedOutside(e)) {
-
-    } else { app.execute('show:item', this.model) }
+    if (!isOpenedOutside(e)) app.execute('show:item', this.model)
   },
 
   getCheckedStatus () {

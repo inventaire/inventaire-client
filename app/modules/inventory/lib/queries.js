@@ -41,7 +41,7 @@ const getUserItems = function (params) {
 const getGroupItems = params => makeRequest(params, 'byUsers', params.model.allMembersIds(), 'group')
 
 const makeRequest = function (params, endpoint, ids, filter) {
-  if (ids.length === 0) { return { items: [], total: 0 } }
+  if (ids.length === 0) return { items: [], total: 0 }
   const { collection, limit, offset } = params
   return preq.get(app.API.items[endpoint]({ ids, limit, offset, filter }))
   // Use tap to return the server response instead of the collection
@@ -79,14 +79,14 @@ const getByUserIdAndEntities = (userId, uris) => getItemByQueryUrl(app.API.items
 const addItemsAndUsers = collection => function (res) {
   let { items, users } = res
   // Also accepts items indexed by listings: user, network, public
-  if (!_.isArray(items)) { items = _.flatten(_.values(items)) }
+  if (!_.isArray(items)) items = _.flatten(_.values(items))
 
-  if (users?.length > 0) { app.execute('users:add', users) }
+  if (users?.length > 0) app.execute('users:add', users)
 
   // If no collection is passed, let the consumer deal with the results
   if (collection == null) return
 
-  if (items?.length > 0) { collection.add(items) }
+  if (items?.length > 0) collection.add(items)
 
   return collection
 }

@@ -31,7 +31,7 @@ export default function (key, value, noCompletion) {
 
 const updateNodeContent = function (value, el) {
   let { selector, attribute } = el
-  if (!attribute) { attribute = 'content' }
+  if (!attribute) attribute = 'content'
   if (head.querySelector(selector) != null) {
     head.querySelector(selector)[attribute] = value
   }

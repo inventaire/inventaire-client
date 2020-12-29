@@ -4,7 +4,7 @@ import assert_ from 'lib/assert_types'
 const set = localStorageProxy.setItem.bind(localStorageProxy)
 const parsedGet = function (key) {
   const value = localStorageProxy.getItem(key)
-  if (value === 'null') { return null }
+  if (value === 'null') return null
   return value
 }
 
@@ -28,7 +28,8 @@ export default function () {
     'last:listing:get' () {
       const lastListing = parsedGet('lastListing')
       // Legacy support for friends listing
-      if (lastListing === 'friends') { return 'network' } else { return lastListing }
+      if (lastListing === 'friends') return 'network'
+      else return lastListing
     },
     'last:shelves:get' () {
       const shelves = parsedGet('lastShelves')

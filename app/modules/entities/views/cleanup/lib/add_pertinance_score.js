@@ -25,7 +25,7 @@ const getSmallestLabelDistance = function (serie, work) {
 }
 
 const distance = serieLabel => function (workLabel) {
-  if (workLabel.match(new RegExp(serieLabel, 'i'))) { return 0 }
+  if (workLabel.match(new RegExp(serieLabel, 'i'))) return 0
   const rawDistance = leven(serieLabel, workLabel)
   const truncatedDistance = leven(serieLabel, workLabel.slice(0, serieLabel.length))
   return _.min([ rawDistance, truncatedDistance ])

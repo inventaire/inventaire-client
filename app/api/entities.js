@@ -8,7 +8,7 @@ export default {
   // GET
   getByUris (uris, refresh, relatives) {
     uris = forceArray(uris).join('|')
-    if (relatives != null) { relatives = forceArray(relatives).join('|') }
+    if (relatives != null) relatives = forceArray(relatives).join('|')
     return action('by-uris', { uris, refresh, relatives })
   },
 

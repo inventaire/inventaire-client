@@ -69,7 +69,7 @@ const addCloseEntitiesToMergeCandidates = function (invModel, candidates, otherM
   const data = getBestMatchScore(partsA, partsB)
   if (data.bestMatchScore > 0) {
     log_.info(data, `${invUri} - ${otherModelUri}`)
-    if (!otherModel.bestMatchScore) { otherModel.bestMatchScore = {} }
+    if (!otherModel.bestMatchScore) otherModel.bestMatchScore = {}
     otherModel.bestMatchScore[invUri] = data.bestMatchScore
     candidates[invUri].possibleDuplicateOf.push(otherModel)
   }

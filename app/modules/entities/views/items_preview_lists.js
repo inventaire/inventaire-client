@@ -42,7 +42,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    if (!this.emptyList) { this.showItemsPreviewLists() }
+    if (!this.emptyList) this.showItemsPreviewLists()
   },
 
   showItemsPreviewLists () {
@@ -71,7 +71,7 @@ const spreadByTransactions = function (itemsModels) {
   const collections = {}
   for (const itemModel of itemsModels) {
     const transaction = itemModel.get('transaction')
-    if (!collections[transaction]) { collections[transaction] = new Backbone.Collection() }
+    if (!collections[transaction]) collections[transaction] = new Backbone.Collection()
     collections[transaction].add(itemModel)
   }
 

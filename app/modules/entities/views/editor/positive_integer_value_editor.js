@@ -50,7 +50,7 @@ export default ClaimsEditorCommons.extend({
     const val = this.valueType === 'number' ? numberVal : stringVal
 
     // Ignore if we got the same value
-    if (val === this.model.get('value')) { return this.hideEditMode() }
+    if (val === this.model.get('value')) return this.hideEditMode()
 
     if (numberVal < 1 || numberVal > 100000) {
       err = error_.new("number can't be higher than 100000", numberVal)

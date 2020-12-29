@@ -14,7 +14,7 @@ export default Marionette.ItemView.extend({
     const attrs = this.model.toJSON()
     // Prefer the alias type name to show 'author' instead of 'human'
     attrs.type = attrs.typeAlias || attrs.type
-    if (_.isArray(attrs.image)) { attrs.image = attrs.image[0] }
+    if (_.isArray(attrs.image)) attrs.image = attrs.image[0]
     attrs.image = urlifyImageHash(attrs.type, attrs.image)
     return attrs
   },

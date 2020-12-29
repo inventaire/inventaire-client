@@ -16,12 +16,12 @@ const Updater = function (fixedOptions) {
   return options => {
     let promise
     let { model, attribute, value, defaultPreviousValue, selector } = options
-    if (!model) { model = uniqueModel }
+    if (!model) model = uniqueModel
     let previousValue = model.get(attribute)
     // previousValue can't be defined with a "or":
     // previousValue = model.get(attribute) or defaultPreviousValue
     // as the value might be false and thus use the default value despite being defined
-    if (previousValue == null) { previousValue = defaultPreviousValue }
+    if (previousValue == null) previousValue = defaultPreviousValue
 
     // smooths different ways to set a value to null or undefined
     const bothInexistant = ((value == null)) && ((previousValue == null))
@@ -41,8 +41,8 @@ const Updater = function (fixedOptions) {
         value
       }
 
-      if (action != null) { body.action = action }
-      if (modelIdLabel != null) { body[modelIdLabel] = model.id }
+      if (action != null) body.action = action
+      if (modelIdLabel != null) body[modelIdLabel] = model.id
 
       promise = preq.put(endpoint, body)
       .then(applyHookUpdates(model))
@@ -66,7 +66,7 @@ const Updater = function (fixedOptions) {
 // Ex: group 'name' update triggers an update of the 'slug'
 const applyHookUpdates = model => function (updateRes) {
   const { update } = updateRes
-  if (isNonEmptyPlainObject(update)) { return model.set(update) }
+  if (isNonEmptyPlainObject(update)) return model.set(update)
 }
 
 // trigger events when the server confirmed the change

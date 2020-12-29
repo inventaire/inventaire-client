@@ -67,8 +67,8 @@ export async function upload (container, blobsData, hash = false) {
   let i = 0
   for (const blobData of blobsData) {
     let { blob, id } = blobData
-    if (blob == null) { throw error_.new('missing blob', blobData) }
-    if (!id) { id = `file-${++i}` }
+    if (blob == null) throw error_.new('missing blob', blobData)
+    if (!id) id = `file-${++i}`
     formData.append(id, blob)
   }
 
@@ -94,7 +94,7 @@ export async function upload (container, blobsData, hash = false) {
 }
 
 export async function getImageHashFromDataUrl (container, dataUrl) {
-  if (!isDataUrl(dataUrl)) { throw error_.new('invalid image', dataUrl) }
+  if (!isDataUrl(dataUrl)) throw error_.new('invalid image', dataUrl)
   return upload(container, { blob: dataUrlToBlob(dataUrl) }, true)
   .then(res => _.values(res)[0].split('/').slice(-1)[0])
 }
@@ -153,7 +153,7 @@ const colorFilters = [
 ]
 
 const getFilterColor = function (modelId) {
-  if (modelId == null) { return colorFilters[0] }
+  if (modelId == null) return colorFilters[0]
   const someStableModelNumber = parseInt(modelId.slice(-2), 16)
   // Pick one of the colors based on the group slug length
   const index = someStableModelNumber % colorFilters.length

@@ -36,7 +36,7 @@ export default {
 }
 
 const addWithoutIsbnPath = function (workModel) {
-  if (!workModel) { return {} }
+  if (!workModel) return {}
   return buildPath('/entity/new', workEditionCreationData(workModel))
 }
 
@@ -54,11 +54,11 @@ const workEditionCreationData = function (workModel, itemToUpdate) {
   const langWdId = wdLang.byCode[lang]?.wd
   const langWdUri = (langWdId != null) ? `wd:${langWdId}` : undefined
   // Suggest the user's language as the edition language
-  if (langWdUri) { data.claims['wdt:P407'] = [ langWdUri ] }
+  if (langWdUri) data.claims['wdt:P407'] = [ langWdUri ]
 
   const langWorkLabel = workModel.get(`labels.${lang}`)
   // Suggest the work entity label in the user's language as the edition title
-  if (langWorkLabel) { data.claims['wdt:P1476'] = [ langWorkLabel ] }
+  if (langWorkLabel) data.claims['wdt:P1476'] = [ langWorkLabel ]
 
   return data
 }

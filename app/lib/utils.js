@@ -34,7 +34,7 @@ export const isOpenedOutside = (e, ignoreMissingHref = false) => {
   let className, href, id
   if (e == null) return false
 
-  if (e.currentTarget != null) { ({ id, href, className } = e.currentTarget) }
+  if (e.currentTarget != null) ({ id, href, className } = e.currentTarget)
 
   if (e?.ctrlKey == null) {
     error_.report('non-event object was passed to isOpenedOutside', { id, href, className })
@@ -172,7 +172,7 @@ export const chunk = (array, size) => {
 }
 
 export function forceArray (keys) {
-  if ((keys == null) || (keys === '')) { return [] }
+  if ((keys == null) || (keys === '')) return []
   if (!_.isArray(keys)) return [ keys ]
   else return keys
 }

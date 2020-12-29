@@ -20,7 +20,7 @@ export const entity = function (uri, entityLink, alt, property, title) {
     throw error_.new('invalid entity uri', 500, { uri })
   }
 
-  if (typeof alt !== 'string') { alt = '' }
+  if (typeof alt !== 'string') alt = ''
   app.execute('uriLabel:update')
   alt = escapeExpression(alt)
 

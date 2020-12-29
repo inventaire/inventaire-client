@@ -29,7 +29,7 @@ export default Backbone.Model.extend({
   context (withLink) { return this.userAction(this.findUser(), withLink) },
 
   findUser () {
-    if (actorCanBeBoth.includes(this.action)) { return this.findCancelActor() }
+    if (actorCanBeBoth.includes(this.action)) return this.findCancelActor()
     if (this.transaction?.owner != null) {
       if (this.transaction.mainUserIsOwner) {
         if (ownerActions.includes(this.action)) return 'main'

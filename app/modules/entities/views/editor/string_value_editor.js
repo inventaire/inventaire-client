@@ -7,7 +7,6 @@ import stringValueEditorTemplate from './templates/string_value_editor.hbs'
 
 const inputSelector = '.string-value-input'
 
-
 export default ClaimsEditorCommons.extend({
   mainClassName: 'string-value-editor',
   template: stringValueEditorTemplate,
@@ -55,7 +54,7 @@ export default ClaimsEditorCommons.extend({
     }
 
     // Ignore if we got the same value
-    if (val === this.model.get('value')) { return this.hideEditMode() }
+    if (val === this.model.get('value')) return this.hideEditMode()
 
     return this._save(val)
   },

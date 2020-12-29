@@ -24,7 +24,7 @@ export default Marionette.CollectionView.extend({
 
   initialize () {
     const { filter, textFilter } = this.options
-    if (filter != null) { this.filter = filter }
+    if (filter != null) this.filter = filter
 
     if (textFilter) {
       this.on('filter:text', this.setTextFilter.bind(this))

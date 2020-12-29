@@ -109,7 +109,7 @@ const findFirstTransaction = function () {
   const transacs = _.clone(app.transactions.models)
   while ((transacs.length > 0) && (firstTransac == null)) {
     const candidate = transacs.shift()
-    if (!candidate.archived) { firstTransac = candidate }
+    if (!candidate.archived) firstTransac = candidate
   }
 
   return firstTransac
@@ -117,7 +117,7 @@ const findFirstTransaction = function () {
 
 const unreadCount = function () {
   const transac = app.transactions?.models
-  if (transac?.length <= 0) { return 0 }
+  if (transac?.length <= 0) return 0
 
   return transac
   .map(_.property('unreadUpdate'))

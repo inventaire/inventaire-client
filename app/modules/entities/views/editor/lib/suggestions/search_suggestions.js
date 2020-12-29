@@ -7,7 +7,7 @@ const search = function (input) {
   removeCurrentViewValue.call(this)
 
   input = input.trim().replace(/\s{2,}/g, ' ')
-  if (input === this.lastInput) { return Promise.resolve() }
+  if (input === this.lastInput) return Promise.resolve()
 
   this.showLoadingSpinner()
 
@@ -45,7 +45,7 @@ const removeCurrentViewValue = function () { this.onAutoCompleteUnselect() }
 
 const loadMoreFromSearch = function () {
   // Do not try to fetch more results if the last batch was incomplete
-  if (this._lastResultsLength < batchLength) { return this.stopLoadingSpinner() }
+  if (this._lastResultsLength < batchLength) return this.stopLoadingSpinner()
 
   this.showLoadingSpinner(false)
   this._searchOffset += batchLength
@@ -54,7 +54,7 @@ const loadMoreFromSearch = function () {
     const currentResultsUri = this.suggestions.map(model => model.get('uri'))
     const newResults = results.filter(result => !currentResultsUri.includes(result.uri))
     this._lastResultsLength = newResults.length
-    if (newResults.length > 0) { this.suggestions.add(newResults) }
+    if (newResults.length > 0) this.suggestions.add(newResults)
     return this.stopLoadingSpinner(false)
   })
   .catch(forms_.catchAlert.bind(null, this))

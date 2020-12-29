@@ -15,7 +15,7 @@ export default Marionette.ItemView.extend({
 
   getHref () {
     const DOI = this.model.get('claims.wdt:P356.0')
-    if (DOI != null) { return `https://dx.doi.org/${DOI}` }
+    if (DOI != null) return `https://dx.doi.org/${DOI}`
   },
 
   hasDate () { return (this.model.get('claims.wdt:P577.0') != null) }

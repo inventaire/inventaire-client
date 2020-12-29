@@ -39,11 +39,11 @@ export default Backbone.Model.extend({
     log_.info(oldValue, 'oldValue')
     log_.info(newValue, 'newValue')
 
-    if (newValue === oldValue) { return Promise.resolve() }
+    if (newValue === oldValue) return Promise.resolve()
 
     const property = this.get('property')
 
-    if (newValue != null) { this.set('value', newValue) }
+    if (newValue != null) this.set('value', newValue)
     // else wait for server confirmation as it will trigger a model.destroy
 
     this.valueEntity = null
@@ -61,6 +61,6 @@ export default Backbone.Model.extend({
   },
 
   _destroyIfEmpty (newValue) {
-    if ((newValue == null)) { return this.destroy() }
+    if ((newValue == null)) return this.destroy()
   }
 })

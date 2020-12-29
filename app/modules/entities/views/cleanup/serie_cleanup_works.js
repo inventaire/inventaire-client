@@ -11,7 +11,7 @@ export default Marionette.CompositeView.extend({
   },
 
   filter (child) {
-    if (this.options.name !== 'withOrdinal') { return true }
+    if (this.options.name !== 'withOrdinal') return true
     const ordinal = child.get('ordinal')
     return (ordinal != null) && (ordinal !== 0)
   },

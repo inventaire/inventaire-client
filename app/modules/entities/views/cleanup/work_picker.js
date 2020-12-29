@@ -16,8 +16,8 @@ export default Marionette.ItemView.extend({
   initialize () {
     if (this.workPickerDisabled) return
     ({ worksWithOrdinal: this.worksWithOrdinal, worksWithoutOrdinal: this.worksWithoutOrdinal, _showWorkPicker: this._showWorkPicker } = this.options)
-    if (this.workUri == null) { this.workUri = this.options.workUri }
-    if (this.afterMerge == null) { this.afterMerge = this.options.afterMerge }
+    if (this.workUri == null) this.workUri = this.options.workUri
+    if (this.afterMerge == null) this.afterMerge = this.options.afterMerge
     return this._showWorkPicker != null ? this._showWorkPicker : (this._showWorkPicker = false)
   },
 
@@ -90,9 +90,9 @@ export default Marionette.ItemView.extend({
 
   findWorkByUri (uri) {
     let work = this.worksWithOrdinal.findWhere({ uri })
-    if (work != null) { return work }
+    if (work != null) return work
     work = this.worksWithoutOrdinal.findWhere({ uri })
-    if (work != null) { return work }
+    if (work != null) return work
   },
 
   // Defaults: assume it as a work model that needs to be merged

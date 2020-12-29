@@ -23,7 +23,7 @@ export default {
   },
 
   button (e) {
-    if (e.keyCode === 13) { return $(e.currentTarget).trigger('click') }
+    if (e.keyCode === 13) return $(e.currentTarget).trigger('click')
   }
 }
 

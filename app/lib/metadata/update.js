@@ -53,7 +53,7 @@ const applyMetadataUpdate = (route, metadata = {}) => {
   }
 
   if (metadata.title == null) metadata = defaultMetadata()
-  if (!metadata.url) { metadata.url = `/${route}` }
+  if (!metadata.url) metadata.url = `/${route}`
   // image and rss can keep the default value, but description should be empty if no specific description can be found
   // to avoid just spamming with the default description
   if (metadata.description == null) metadata.description = ''

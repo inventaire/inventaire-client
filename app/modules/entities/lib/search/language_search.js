@@ -6,14 +6,14 @@ export default function (query) {
 
   // If the query matches a lang code, only return the matching language
   const codeLang = wdLang.byCode[query]
-  if (codeLang != null) { return Promise.resolve([ formatAsSearchResult(codeLang) ]) }
+  if (codeLang != null) return Promise.resolve([ formatAsSearchResult(codeLang) ])
 
   const re = new RegExp(query, 'i')
   // one more reason to move to Lodash asap, this would really need lazy evaluation
   const results = _.chain(languages)
     .filter(language => {
-      if (language.label.match(re)) { return true }
-      if (language.native.match(re)) { return true }
+      if (language.label.match(re)) return true
+      if (language.native.match(re)) return true
       return false
     }).first(10)
     .map(formatAsSearchResult)
@@ -23,7 +23,7 @@ export default function (query) {
 }
 
 const formatAsSearchResult = function (result) {
-  if (result._formatted) { return result }
+  if (result._formatted) return result
   result._formatted = true
   result.id = result.wd
   result.aliases = {}

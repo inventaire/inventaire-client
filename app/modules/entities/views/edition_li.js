@@ -21,11 +21,11 @@ export default Marionette.LayoutView.extend({
 
   initialize () {
     ({ itemToUpdate: this.itemToUpdate, compactMode: this.compactMode, onWorkLayout: this.onWorkLayout } = this.options)
-    if ((this.itemToUpdate == null) && !this.compactMode) { return entityItems.initialize.call(this) }
+    if ((this.itemToUpdate == null) && !this.compactMode) return entityItems.initialize.call(this)
   },
 
   onRender () {
-    if ((this.itemToUpdate == null) && !this.compactMode) { this.lazyShowItems() }
+    if ((this.itemToUpdate == null) && !this.compactMode) this.lazyShowItems()
     this.showEntityActions()
   },
 

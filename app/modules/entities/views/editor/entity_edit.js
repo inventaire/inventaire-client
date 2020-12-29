@@ -120,7 +120,7 @@ export default Marionette.LayoutView.extend({
 
   canCancel () {
     // In the case of an entity being created, showing the entity page would fail
-    if (!this.model.creating) { return true }
+    if (!this.model.creating) return true
     // Don't display a cancel button if we don't know where to redirect
     return Backbone.history.last.length > 0
   },
@@ -197,7 +197,7 @@ export default Marionette.LayoutView.extend({
 
   missingData () {
     const labelsCount = _.values(this.model.get('labels')).length
-    if (this.requiresLabel && (labelsCount === 0)) { return true }
+    if (this.requiresLabel && (labelsCount === 0)) return true
     this.setMissingRequiredProperties()
     return this.missingRequiredProperties.length > 0
   },

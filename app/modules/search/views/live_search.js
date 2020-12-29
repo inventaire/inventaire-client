@@ -140,7 +140,7 @@ export default Marionette.CompositeView.extend({
     if (!isNonEmptyString(search)) return this.hideAlternatives()
 
     const uri = findUri(search)
-    if (uri != null) { return this.getResultFromUri(uri, this._lastSearchId, this._lastSearch) }
+    if (uri != null) return this.getResultFromUri(uri, this._lastSearchId, this._lastSearch)
 
     this._search(search)
     .then(this.resetResults.bind(this, this._lastSearchId))
@@ -237,7 +237,7 @@ export default Marionette.CompositeView.extend({
       try {
         this.collection.reset(results)
       } catch (err) {
-        if (err.context == null) { err.context = {} }
+        if (err.context == null) err.context = {}
         err.context.results = results
         throw err
       }

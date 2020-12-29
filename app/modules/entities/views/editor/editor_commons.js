@@ -17,7 +17,7 @@ export default Marionette.LayoutView.extend({
     switch (key) {
     case 'esc': return this.hideEditMode()
     case 'enter':
-      if (e.ctrlKey) { return this.save() }
+      if (e.ctrlKey) return this.save()
       break
     }
   },

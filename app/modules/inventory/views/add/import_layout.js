@@ -65,7 +65,7 @@ export default Marionette.LayoutView.extend({
 
     // Accept ISBNs from the URL to ease development
     const isbns = app.request('querystring:get', 'isbns')?.split('|')
-    if (!this.isbnsBatch) { this.isbnsBatch = isbns }
+    if (!this.isbnsBatch) this.isbnsBatch = isbns
 
     if (this.isbnsBatch != null) {
       this.ui.isbnsImporterTextarea.val(this.isbnsBatch.join('\n'))

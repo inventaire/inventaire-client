@@ -119,7 +119,7 @@ export const addModel = function (entityModel) {
 
 export function add (entityData) {
   const { uri } = entityData
-  if (!isEntityUri(uri)) { throw error_.new(`invalid uri: ${uri}`, entityData) }
+  if (!isEntityUri(uri)) throw error_.new(`invalid uri: ${uri}`, entityData)
   return addModel(new Entity(entityData))
 }
 

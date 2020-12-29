@@ -6,7 +6,7 @@ export default Marionette.CompositeView.extend({
   template: mergeSuggestionsTemplate,
   className () {
     let className = 'outer-merge-suggestions'
-    if (this.options.standalone) { className += ' standalone' }
+    if (this.options.standalone) className += ' standalone'
     return className
   },
   childViewContainer: '.inner-merge-suggestions',

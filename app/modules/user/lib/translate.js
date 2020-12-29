@@ -7,12 +7,12 @@ export default function (lang, polyglot) {
   return function (key, ctx) {
     // This function might be called before the tempates data arrived
     // returning '' early prevents to display undefined and make polyglot worry
-    if (key == null) { return '' }
+    if (key == null) return ''
     assert_.string(key)
     // easying the transition to a property system with prefixes
     // TODO: format i18n wikidata source files to include prefixes
     // and get rid of this hack
-    if (key.slice(0, 4) === wdPropPrefix) { key = key.replace(wdPropPrefix, '') }
+    if (key.slice(0, 4) === wdPropPrefix) key = key.replace(wdPropPrefix, '')
     const val = polyglot.t(key, ctx)
     if (modifier != null) {
       return modifier(polyglot, key, val, ctx)

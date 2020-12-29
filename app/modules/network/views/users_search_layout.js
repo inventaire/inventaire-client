@@ -54,7 +54,7 @@ export default Marionette.LayoutView.extend({
 
   initSearch () {
     const q = this.options.query?.q
-    if (isNonEmptyString(q)) { return this.searchUser(q) }
+    if (isNonEmptyString(q)) return this.searchUser(q)
   },
 
   searchUserFromEvent (e) {

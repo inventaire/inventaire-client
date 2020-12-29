@@ -26,9 +26,9 @@ const PartSuggestion = WorkPicker.extend({
     const attrs = this.model.toJSON()
     if (this.isWikidataEntity) {
       attrs.workPickerDisabled = true
-      if (!this.options.serie.get('isWikidataEntity')) { attrs.serieNeedsToBeMovedToWikidata = true }
+      if (!this.options.serie.get('isWikidataEntity')) attrs.serieNeedsToBeMovedToWikidata = true
     } else {
-      if (this._showWorkPicker) { attrs.worksList = this.getWorksList() }
+      if (this._showWorkPicker) attrs.worksList = this.getWorksList()
       attrs.workPicker = {
         buttonIcon: 'compress',
         buttonLabel: 'merge',

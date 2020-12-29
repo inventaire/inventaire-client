@@ -13,7 +13,7 @@ export default Marionette.LayoutView.extend({
   template: serieCleanupWorkTemplate,
   className () {
     let classes = 'serie-cleanup-work'
-    if (this.model.get('isPlaceholder')) { classes += ' placeholder' }
+    if (this.model.get('isPlaceholder')) classes += ' placeholder'
     return classes
   },
 
@@ -139,7 +139,7 @@ export default Marionette.LayoutView.extend({
   },
 
   create () {
-    if (!this.model.get('isPlaceholder')) { return Promise.resolve() }
+    if (!this.model.get('isPlaceholder')) return Promise.resolve()
     const lang = this.ui.langSelector.val()
     const label = this.ui.placeholderLabelEditor.val()
     this.model.resetLabels(lang, label)
@@ -165,7 +165,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onOtherLangSelectorChange (value) {
-    if (this.ui.placeholderEditor.hasClass('hidden')) { this.ui.langSelector.val(value) }
+    if (this.ui.placeholderEditor.hasClass('hidden')) this.ui.langSelector.val(value)
   },
 
   spreadAuthors () {

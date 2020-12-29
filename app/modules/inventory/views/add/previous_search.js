@@ -16,6 +16,6 @@ export default Marionette.ItemView.extend({
   },
 
   showSearch (e) {
-    if (!isOpenedOutside(e)) { return this.model.show() }
+    if (!isOpenedOutside(e)) return this.model.show()
   }
 })

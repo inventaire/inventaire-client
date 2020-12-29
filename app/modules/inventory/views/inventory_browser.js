@@ -113,7 +113,7 @@ export default Marionette.LayoutView.extend({
 
   showItemsListByIds (itemsIds) {
     // Default to showing the latest items
-    if (!itemsIds) { itemsIds = this.itemsByDate }
+    if (!itemsIds) itemsIds = this.itemsByDate
     // - Deduplicate as editions with several P629 values might have generated duplicates
     // - Clone to avoid modifying @itemsByDate
     itemsIds = _.uniq(itemsIds)

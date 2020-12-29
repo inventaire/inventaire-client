@@ -18,7 +18,7 @@ export default {
   },
 
   validMessageLength (message, maxLength = 5000) {
-    if (message.length === 0) { return false }
+    if (message.length === 0) return false
     if (message.length > maxLength) {
       const err = new Error(`can't be longer than ${maxLength} characters`)
       this.postMessageFail(message, err)

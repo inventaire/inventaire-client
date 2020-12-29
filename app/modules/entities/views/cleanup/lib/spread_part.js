@@ -8,7 +8,7 @@ export default function (part) {
   }
 
   const ordinalInt = parseInt(ordinal)
-  if (ordinalInt > this.maxOrdinal) { this.maxOrdinal = ordinalInt }
+  if (ordinalInt > this.maxOrdinal) this.maxOrdinal = ordinalInt
 
   part.set('ordinal', ordinalInt)
 

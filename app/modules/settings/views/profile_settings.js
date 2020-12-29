@@ -79,8 +79,7 @@ export default Marionette.ItemView.extend({
       // if the username update is just a change in case
       // it should be rejected because the username is already taken
       // which it will be given usernames concurrency is case insensitive
-      if (this.usernameCaseChange(username)) {
-      } else {
+      if (!this.usernameCaseChange(username)) {
         return username_.verifyUsername(username, '#usernameField')
       }
     })
@@ -103,8 +102,7 @@ export default Marionette.ItemView.extend({
       currentUsername: app.user.get('username'),
       usernameCaseChange: this.usernameCaseChange(username),
       model: this.model
-    }
-    )
+    })
   },
 
   askConfirmation (action, args) {
@@ -115,8 +113,7 @@ export default Marionette.ItemView.extend({
       warningText: !usernameCaseChange ? i18n('username_change_warning') : undefined,
       action,
       selector: '#usernameGroup'
-    }
-    )
+    })
   },
 
   updateUserUsername (username) {
@@ -124,8 +121,7 @@ export default Marionette.ItemView.extend({
       attribute: 'username',
       value: username,
       selector: '#usernameButton'
-    }
-    )
+    })
   },
 
   // BIO
@@ -143,7 +139,7 @@ export default Marionette.ItemView.extend({
 
   // DONE
   showMainUserInventory (e) {
-    if (!isOpenedOutside(e)) { app.execute('show:inventory:main:user') }
+    if (!isOpenedOutside(e)) app.execute('show:inventory:main:user')
   }
 })
 

@@ -42,9 +42,9 @@ export default Marionette.LayoutView.extend({
   },
 
   canBeMerged () {
-    if (this.model.type !== 'edition') { return true }
+    if (this.model.type !== 'edition') return true
     // Editions that have no ISBN can be merged
-    if ((this.model.get('claims.wdt:P212') == null)) { return true }
+    if ((this.model.get('claims.wdt:P212') == null)) return true
     return false
   },
 

@@ -21,6 +21,9 @@
   ],
   "rules": {
     "array-bracket-spacing": [ "error", "always" ],
+    // Some map functions may implicitly return undefined,
+    // for instance to have it later filtered-out from the array
+    "array-callback-return": "off",
     "arrow-parens": [ "error", "as-needed" ],
     "comma-dangle": [ "error", {
       "arrays": "only-multiline",

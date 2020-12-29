@@ -6,7 +6,7 @@ export default Marionette.ItemView.extend({
   template: itemPreviewTemplate,
   className () {
     let className = 'item-preview'
-    if (this.options.compact) { className += ' compact' }
+    if (this.options.compact) className += ' compact'
     return className
   },
 
@@ -15,7 +15,7 @@ export default Marionette.ItemView.extend({
   },
 
   onShow () {
-    if (this.model.user == null) { return this.model.waitForUser.then(this.lazyRender.bind(this)) }
+    if (this.model.user == null) return this.model.waitForUser.then(this.lazyRender.bind(this))
   },
 
   serializeData () {

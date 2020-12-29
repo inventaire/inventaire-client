@@ -36,7 +36,7 @@ export default Marionette.ItemView.extend({
 
   importNext () {
     const nextData = this.dataToImport.pop()
-    if (nextData == null) { return this.done() }
+    if (nextData == null) return this.done()
 
     return makeImportRequest(this.wdEntity, nextData)
     .then(this.importNext.bind(this))

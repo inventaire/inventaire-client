@@ -66,7 +66,7 @@ export default Backbone.NestedModel.extend({
 
     const prev = this.unreadUpdate
     this.unreadUpdate = this.mainUserRead ? 0 : 1
-    if (this.unreadUpdate !== prev) { return app.vent.trigger('transactions:unread:change') }
+    if (this.unreadUpdate !== prev) return app.vent.trigger('transactions:unread:change')
   },
 
   async grabLinkedModels () {
@@ -218,7 +218,7 @@ export default Backbone.NestedModel.extend({
     this.set({ state })
     const action = { action: state, timestamp: Date.now() }
     // keep track of the actor when it can be both
-    if (actorCanBeBoth.includes(state)) { action.actor = this.role }
+    if (actorCanBeBoth.includes(state)) action.actor = this.role
     this.push('actions', action)
     const actionModel = this.addActionToTimeline(action)
 

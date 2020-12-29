@@ -35,7 +35,7 @@ const getImportData = (invEntityUri, wdEntityUri, models) => {
         if (isEntityUri(value)) {
           const prefix = value.split(':')[0]
           // Links to Inventaire entities can't be imported to Wikidata
-          if (prefix === 'wd') { importData.claims.push({ property, value }) }
+          if (prefix === 'wd') importData.claims.push({ property, value })
         } else {
           importData.claims.push({ property, value })
         }

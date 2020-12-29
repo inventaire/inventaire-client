@@ -34,7 +34,7 @@ export default function (params) {
 }
 
 const renameIsbnDuplicateErr = (workUri, isbn) => function (err) {
-  if (err.responseJSON?.status_verbose !== 'this property value is already used') { throw err }
+  if (err.responseJSON?.status_verbose !== 'this property value is already used') throw err
 
   const existingEditionUri = err.responseJSON.context.entity
   return app.request('get:entity:model', existingEditionUri)

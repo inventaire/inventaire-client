@@ -46,7 +46,7 @@ export default Marionette.CompositeView.extend({
     const visibleHeight = this.ui.resultsWrapper.height()
     const { scrollHeight, scrollTop } = e.currentTarget
     const scrollBottom = scrollTop + visibleHeight
-    if (scrollBottom === scrollHeight) { return this.loadMore() }
+    if (scrollBottom === scrollHeight) return this.loadMore()
   },
 
   loadMore () {

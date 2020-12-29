@@ -27,7 +27,7 @@ export default Marionette.ItemView.extend({
   },
 
   initPlugin () {
-    if (!this.isMainUser) { return relationsActions.call(this) }
+    if (!this.isMainUser) return relationsActions.call(this)
   },
 
   serializeData () {

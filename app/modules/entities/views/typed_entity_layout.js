@@ -6,7 +6,7 @@ export default Marionette.LayoutView.extend({
 
   className () {
     let className = this.baseClassName || ''
-    if (this.options.standalone) { className += ' standalone' }
+    if (this.options.standalone) className += ' standalone'
     return className.trim()
   },
 

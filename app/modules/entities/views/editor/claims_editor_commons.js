@@ -31,12 +31,12 @@ export default EditorCommons.extend({
     // In case an empty value was created to allow creating a new claim
     // but the action was cancelled
     // Known cases; 'delete', 'cancel' with no previous value saved
-    if ((this.model.get('value') == null)) { return this.model.destroy() }
+    if ((this.model.get('value') == null)) return this.model.destroy()
   },
 
   delete () {
     // Do not ask for confirmation when there was no previously existing statement
-    if (this.model.get('value') === null) { return this._save(null) }
+    if (this.model.get('value') === null) return this._save(null)
 
     app.execute('ask:confirmation', {
       confirmationText: i18n('Are you sure you want to delete this statement?'),

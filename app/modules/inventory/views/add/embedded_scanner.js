@@ -70,7 +70,7 @@ export default Marionette.ItemView.extend({
   addIsbn (isbn) {
     this._lastIsbn = isbn
 
-    if (this.batch.includes(isbn)) { this.showDuplicateIsbnWarning(isbn) }
+    if (this.batch.includes(isbn)) this.showDuplicateIsbnWarning(isbn)
 
     this.batch.push(isbn)
     this.precachingEntityData(isbn)
@@ -108,14 +108,14 @@ export default Marionette.ItemView.extend({
   updateNotFoundCounter (isbn) {
     this.notFound.push(isbn)
     const notFoundCount = this.notFound.length
-    if (notFoundCount === 1) { this.ui.notFoundCounter.parent().removeClass('hidden') }
+    if (notFoundCount === 1) this.ui.notFoundCounter.parent().removeClass('hidden')
     this.ui.notFoundCounter.text(notFoundCount)
   },
 
   showDuplicateIsbnWarning (isbn) {
     const now = Date.now()
-    if (this._lastSuccessTime == null) { this._lastSuccessTime = 0 }
-    if (this._lastDuplicate == null) { this._lastDuplicate = 0 }
+    if (this._lastSuccessTime == null) this._lastSuccessTime = 0
+    if (this._lastDuplicate == null) this._lastDuplicate = 0
 
     const differentIsbn = isbn !== this._lastIsbn
     // Do not show to soon after the successful scan

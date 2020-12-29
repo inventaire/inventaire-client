@@ -40,7 +40,7 @@ describe('Importers', () => {
           doc.title.should.be.a.String()
           looksLikeAnIsbn(doc.isbn).should.be.ok()
           doc.authors.should.be.a.Array()
-          if (doc.details) { doc.details.should.be.a.String() }
+          if (doc.details) doc.details.should.be.a.String()
         }
         done()
       })
@@ -68,7 +68,7 @@ describe('Importers', () => {
           doc.title.should.be.a.String()
           looksLikeAnIsbn(doc.isbn).should.be.ok()
           doc.authors.should.be.a.Array()
-          if (doc.notes) { doc.notes.should.be.a.String() }
+          if (doc.notes) doc.notes.should.be.a.String()
         }
         done()
       })

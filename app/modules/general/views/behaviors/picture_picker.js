@@ -114,7 +114,7 @@ export default Marionette.CompositeView.extend({
   },
 
   _saveAndClose (urls) {
-    if (urls.length > 0) { this.options.save(urls) }
+    if (urls.length > 0) this.options.save(urls)
     return this.close()
   },
 

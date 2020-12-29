@@ -162,11 +162,11 @@ export default Marionette.LayoutView.extend({
     // Prevent the cursor to move when using special keys
     // to navigate the live_search list
     const key = getActionKey(e)
-    if (neutralizedKeys.includes(key)) { e.preventDefault() }
+    if (neutralizedKeys.includes(key)) e.preventDefault()
   },
 
   onKeyUp (e) {
-    if (!this._liveSearchIsShown) { this.showLiveSearch() }
+    if (!this._liveSearchIsShown) this.showLiveSearch()
 
     const key = getActionKey(e)
     if (key != null) {
@@ -215,7 +215,7 @@ export default Marionette.LayoutView.extend({
   // This can be the case on small screens as #live-search takes all the height
   // and thus clicks on #overlay won't be detected
   closeSearchOnOverlayClick (e) {
-    if (e.target.id === 'live-search') { return this.closeSearch() }
+    if (e.target.id === 'live-search') return this.closeSearch()
   }
 })
 

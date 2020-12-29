@@ -69,7 +69,7 @@ export default {
     // default value defined after all the rest
     // to avoid requesting unnecessary strings to i18n
     // (which would result in a report for a missing i18n key)
-    if (data.field.placeholder == null) { data.field.placeholder = i18n(name) }
+    if (data.field.placeholder == null) data.field.placeholder = i18n(name)
 
     if (rawData.special) {
       data.special = 'autocomplete="off" autocorrect="off" autocapitalize="off"'

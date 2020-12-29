@@ -9,7 +9,7 @@ export default function () {
 
   const getGroupModelById = function (id) {
     const group = groups.byId(id)
-    if (group == null) { return getGroupPublicData(id) }
+    if (group == null) return getGroupPublicData(id)
 
     // the group model might have arrived from a simple search
     // thus without fetching its users
@@ -34,7 +34,7 @@ export default function () {
   const addGroupData = function (res, groupModel) {
     const { group, users } = res
     app.execute('users:add', users)
-    if (groupModel == null) { groupModel = groups.add(group) }
+    if (groupModel == null) groupModel = groups.add(group)
     groupModel.usersFetched = true
     return groupModel
   }
@@ -55,7 +55,7 @@ export default function () {
 
   const resolveToGroupModel = function (group) {
     // 'group' is either the group model, a group id, or a group slug
-    if (isModel(group)) { return Promise.resolve(group) }
+    if (isModel(group)) return Promise.resolve(group)
 
     return getGroupModel(group)
     .then(groupModel => {

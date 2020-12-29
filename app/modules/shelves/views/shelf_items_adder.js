@@ -42,7 +42,7 @@ export default Marionette.CompositeView.extend({
   },
 
   lazySearch (e) {
-    if (this._lazySearch == null) { this._lazySearch = _.debounce(this.search.bind(this), 200) }
+    if (this._lazySearch == null) this._lazySearch = _.debounce(this.search.bind(this), 200)
     return this._lazySearch(e)
   },
 
@@ -80,7 +80,7 @@ export default Marionette.CompositeView.extend({
     const visibleHeight = this.ui.candidates.height()
     const { scrollHeight, scrollTop } = e.currentTarget
     const scrollBottom = scrollTop + visibleHeight
-    if (scrollBottom === scrollHeight) { return this.fetchMore() }
+    if (scrollBottom === scrollHeight) return this.fetchMore()
   },
 
   suggestLastItems () {

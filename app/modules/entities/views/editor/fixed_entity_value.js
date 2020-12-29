@@ -9,7 +9,7 @@ export default Marionette.ItemView.extend({
   },
 
   serializeData () {
-    if (this.draftValueEntity) { return this.draftModelData() }
+    if (this.draftValueEntity) return this.draftModelData()
 
     const attrs = this.model.toJSON()
     attrs.valueEntity = this.valueEntityData()
@@ -24,7 +24,7 @@ export default Marionette.ItemView.extend({
 
   valueEntityData () {
     const { valueEntity } = this.model
-    if (valueEntity != null) { return valueEntity.toJSON() }
+    if (valueEntity != null) return valueEntity.toJSON()
   },
 
   onShow () {

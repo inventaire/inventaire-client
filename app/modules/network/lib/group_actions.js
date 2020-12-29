@@ -37,8 +37,7 @@ export default {
     this.push('requested', {
       user: app.user.id,
       timestamp: Date.now()
-    }
-    )
+    })
 
     this.triggeredListChange()
 
@@ -109,18 +108,18 @@ export default {
   // moving membership object from previousCategory to newCategory
   moveMembership (user, previousCategory, newCategory) {
     const membership = this.findMembership(previousCategory, user)
-    if (membership == null) { throw error_.new('membership not found', arguments) }
+    if (membership == null) throw error_.new('membership not found', arguments)
 
     this.without(previousCategory, membership)
     // let the possibility to just destroy the doc
     // by letting newCategory undefined
-    if (newCategory != null) { this.push(newCategory, membership) }
+    if (newCategory != null) this.push(newCategory, membership)
 
     this.triggeredListChange()
 
     // Trigger after the lists where updated
     // so that groups filtered collections can correctly re-filter
-    if (user.isMainUser) { return app.vent.trigger('group:main:user:move') }
+    if (user.isMainUser) return app.vent.trigger('group:main:user:move')
   },
 
   triggeredListChange () {

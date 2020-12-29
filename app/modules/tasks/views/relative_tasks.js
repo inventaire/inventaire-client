@@ -6,7 +6,7 @@ const RelativeTask = Marionette.ItemView.extend({
   className () {
     let classes = 'relative-task'
     // if @model.get('hasEncyclopediaOccurence') then classes += ' good-candidate'
-    if (this.model.get('globalScore') > 10) { classes += ' good-candidate' }
+    if (this.model.get('globalScore') > 10) classes += ' good-candidate'
     return classes
   },
 

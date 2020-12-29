@@ -39,7 +39,7 @@ export default EntityEdit.extend({
     const { labelTransfer } = next
     const draftModel = serializeDraftModel(this.model)
     next.previous = draftModel
-    if (labelTransfer != null) { next.claims[labelTransfer] = [ draftModel.label ] }
+    if (labelTransfer != null) next.claims[labelTransfer] = [ draftModel.label ]
     return this.navigateMultiEdit(next)
   },
 
@@ -92,6 +92,6 @@ const serializeDraftModel = function (model, relation) {
   const label = _.values(labels)[0]
   const { type } = model
   // Omit the relation property to avoid conflict/cyclic references
-  if (relation != null) { claims = _.omit(claims, relation) }
+  if (relation != null) claims = _.omit(claims, relation)
   return { type, claims, label, relation }
 }

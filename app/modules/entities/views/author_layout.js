@@ -60,7 +60,7 @@ export default TypedEntityLayout.extend({
 
   onRender () {
     TypedEntityLayout.prototype.onRender.call(this)
-    if (this.worksShouldBeShown) { this.showWorks() }
+    if (this.worksShouldBeShown) this.showWorks()
   },
 
   showWorks () {
@@ -75,7 +75,7 @@ export default TypedEntityLayout.extend({
     const total = works.totalLength + series.totalLength + articles.totalLength
 
     // Always starting wrapped on small screens
-    if (!screen_.isSmall(600) && (total > 0)) { this.unwrap() }
+    if (!screen_.isSmall(600) && (total > 0)) this.unwrap()
 
     const initialWorksListLength = this.standalone ? 10 : 5
 
@@ -85,7 +85,7 @@ export default TypedEntityLayout.extend({
     if ((seriesCount > 0) || this.standalone) {
       this.showWorkCollection('series', initialWorksListLength)
       // If the author has no series, move the series block down
-      if (seriesCount === 0) { this.seriesRegion.$el.css('order', 2) }
+      if (seriesCount === 0) this.seriesRegion.$el.css('order', 2)
     }
 
     if (this.model.works.articles.totalLength > 0) {

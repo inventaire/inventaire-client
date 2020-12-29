@@ -4,7 +4,7 @@ import { buildPath } from 'lib/location'
 // build the endpoints routes
 export default function (name, getBaseOnly) {
   const base = `/api/${name}`
-  if (getBaseOnly) { return base }
+  if (getBaseOnly) return base
   const action = Action(base)
   const actionPartial = ActionPartial(action)
   return { base, action, actionPartial }
@@ -18,10 +18,10 @@ const Action = base => function (actionName, attribute, value) {
     query = attribute
   } else {
     query = {}
-    if (attribute != null) { query[attribute] = fixedEncodeURIComponent(value) }
+    if (attribute != null) query[attribute] = fixedEncodeURIComponent(value)
   }
 
-  if (!query) { query = {} }
+  if (!query) query = {}
   // Using extend instead of simply defining action on query
   // so that action appears on top of other attributes in the object
   // and thus, comes first in the generated URL
