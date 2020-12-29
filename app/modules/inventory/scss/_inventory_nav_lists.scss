@@ -1,6 +1,6 @@
 $nav-avatar-size: 5em;
 
-#usersList, #groupsList, #membersList{
+#usersList, #groupsList, #friendRequestsList, #groupsInvitationsList, #membersList{
   ul{
     @include display-flex(row, center, flex-start, wrap);
     margin: 0 auto;
@@ -48,7 +48,7 @@ $nav-avatar-size: 5em;
   }
 }
 
-#usersList, #groupsList{
+#usersList, #groupsList, #groupsInvitationsList{
   ul{
     @include radius;
     background-color: #f0f0f0;
@@ -97,5 +97,14 @@ $nav-avatar-size: 5em;
     background-color: $light-blue;
     background-color: $light-blue;
     color: $light-grey;
+  }
+}
+
+.friendRequestsWrapper, .groupsInvitationsWrapper{
+  padding: 0.5em;
+  margin-top: 0.5em;
+  @include radius;
+  &, ul{
+    background-color: darken(#eeeeee, 5%);
   }
 }
