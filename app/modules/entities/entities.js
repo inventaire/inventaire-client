@@ -42,7 +42,7 @@ const API = {
     if (isClaim(uri)) return showClaimEntities(uri, refresh)
 
     uri = normalizeUri(uri)
-    if (!isExtendedEntityUri(uri)) app.execute('show:error:missing')
+    if (!isExtendedEntityUri(uri)) return app.execute('show:error:missing')
 
     app.execute('show:loader')
 
@@ -391,11 +391,13 @@ const showClaimEntities = async (claim, refresh) => {
   if (!isPropertyUri(property)) {
     error_.report('invalid property')
     app.execute('show:error:missing')
+    return
   }
 
   if (!isExtendedEntityUri(value)) {
     error_.report('invalid value')
     app.execute('show:error:missing')
+    return
   }
 
   const { default: ClaimLayout } = await import('./views/claim_layout')

@@ -25,7 +25,7 @@ export default {
 
 const API = {
   showShelfFromId (shelfId) {
-    if (shelfId == null) app.execute('show:inventory:main:user')
+    if (shelfId == null) return app.execute('show:inventory:main:user')
 
     return getById(shelfId)
     .then(shelf => {

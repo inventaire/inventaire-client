@@ -252,7 +252,7 @@ export default Marionette.LayoutView.extend({
 
   moveToWikidata () {
     if (!app.user.hasWikidataOauthTokens()) {
-      app.execute('show:wikidata:edit:intro:modal', this.model)
+      return app.execute('show:wikidata:edit:intro:modal', this.model)
     }
 
     startLoading.call(this, '#moveToWikidata')

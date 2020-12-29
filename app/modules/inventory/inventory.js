@@ -93,7 +93,7 @@ const API = {
   },
 
   showItemFromId (id) {
-    if (!isItemId(id)) app.execute('show:error:missing')
+    if (!isItemId(id)) return app.execute('show:error:missing')
 
     return app.request('get:item:model', id)
     .then(app.Execute('show:item'))
@@ -102,7 +102,7 @@ const API = {
 
   showUserItemsByEntity (username, uri, label) {
     if (!isUsername(username) || !isEntityUri(uri)) {
-      app.execute('show:error:missing')
+      return app.execute('show:error:missing')
     }
 
     const title = label ? `${label} - ${username}` : `${uri} - ${username}`

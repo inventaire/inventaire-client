@@ -73,7 +73,7 @@ export default Marionette.LayoutView.extend({
     const state = model.get('state')
     if (state != null) {
       const err = error_.new('this task has already been treated', 400, { model, state })
-      app.execute('show:error:other', err, 'tasks_layout showFromModel')
+      return app.execute('show:error:other', err, 'tasks_layout showFromModel')
     }
 
     previousTasks.push(model.get('_id'))
