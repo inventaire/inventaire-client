@@ -21,13 +21,16 @@ This repository tracks [inventaire.io](https://inventaire.io) client-side develo
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Inventaire Stack Map](#inventaire-stack-map)
+- [Stack Map](#stack-map)
+- [Install](#install)
+- [Development](#development)
+- [Prodution](#prodution)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Inventaire Stack Map
-[![stack](https://raw.githubusercontent.com/inventaire/stack/master/snapshots/stack-from-client.png)](https://inventaire.github.io/stack/)
+## Stack Map
+This repo correspond to the the "Client" section in the [stack map](https://inventaire.github.io/stack/)
 
 ## Install
 ```sh
