@@ -13,7 +13,7 @@
     {{~#if title~}}
       <span class="label">{{i18n 'title'}}:</span>
       <span class="value">
-        <a class="link" href="/entity/{{uri}}" target="_blank">{{title}}</a>
+        <a class="link entity-value" href="/entity/{{uri}}">{{title}}</a>
       </span>
     {{~/if~}}
   </div>
@@ -22,7 +22,7 @@
       <span class="label">{{i18n 'authors'}}:</span>
       <span class="value">
         {{#each authors}}
-          <a class="link" href="/entity/{{uri}}" target="_blank">{{name}}</a>
+          <a class="link entity-value" href="/entity/{{uri}}">{{name}}</a>
         {{/each}}
       </span>
     {{~/if~}}
@@ -30,7 +30,7 @@
   <div class="isbn-data">
     <span class="label">ISBN:</span>
     <span class="value">
-      <a class="link" href="/entity/{{uri}}" target="_blank">{{rawIsbn}}</a>
+      <a class="link entity-value" href="/entity/{{uri}}">{{rawIsbn}}</a>
     </span>
   </div>
   <div class="status">
