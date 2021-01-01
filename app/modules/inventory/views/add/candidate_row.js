@@ -19,7 +19,7 @@ export default Marionette.ItemView.extend({
   },
 
   initialize () {
-    this.editionModel = new Entity(this.model.attributes)
+    if (this.isSelectable()) { this.editionModel = new Entity(this.model.attributes) }
   },
 
   onShow () {
@@ -29,8 +29,10 @@ export default Marionette.ItemView.extend({
   async onRender () {
     this.updateClassName()
     this.trigger('selection:changed')
-    const authors = await this.editionModel.waitForWorks.then(getAndFormatAuthors)
-    this.model.set('authors', authors)
+    if (this.editionModel) {
+      const authors = await this.editionModel.waitForWorks.then(getAndFormatAuthors)
+      this.model.set('authors', authors)
+    }
   },
 
   ui: {
@@ -82,6 +84,10 @@ export default Marionette.ItemView.extend({
   remov (e) {
     this.model.collection.remove(this.model)
     e.stopPropagation()
+  },
+
+  isSelectable () {
+    return !(this.model.get('isInvalid') || this.model.get('needInfo'))
   }
 })
 
