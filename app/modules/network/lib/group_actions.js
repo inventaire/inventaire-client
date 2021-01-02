@@ -32,28 +32,28 @@ export default {
     .catch(this.revertMove.bind(this, app.user, 'invited', 'declined'))
   },
 
+  joinGroup () {
+    // skipping membership process by directly creating membership doc in members list
+    this.push('members', {
+      user: app.user.id,
+      timestamp: Date.now()
+    })
+    this.triggeredListChange()
+
+    return this.action('request')
+    .catch(this.revertMove.bind(this, app.user, null, 'tmp'))
+  },
+
   requestToJoin () {
-    if (this.get('open')) {
-      // create membership doc in the member list
-      this.push('members', {
-        user: app.user.id,
-        timestamp: Date.now()
-      })
-      this.triggeredListChange()
+    // create membership doc in the requested list
+    this.push('requested', {
+      user: app.user.id,
+      timestamp: Date.now()
+    })
 
-      return this.action('request')
-      .catch(this.revertMove.bind(this, app.user, null, 'tmp'))
-    } else {
-      // create membership doc in the requested list
-      this.push('requested', {
-        user: app.user.id,
-        timestamp: Date.now()
-      })
-
-      this.triggeredListChange()
-      return this.action('request')
+    this.triggeredListChange()
+    return this.action('request')
       .catch(this.revertMove.bind(this, app.user, null, 'requested'))
-    }
   },
 
   cancelRequest () {

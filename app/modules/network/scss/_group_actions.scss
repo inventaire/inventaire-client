@@ -9,7 +9,7 @@
     .accept{
       @include tiny-button($success-color);
     }
-    .joinRequest{
+    .joinRequest, .joinGroup{
       @include tiny-button($light-blue);
     }
     .cancelRequest, .decline{

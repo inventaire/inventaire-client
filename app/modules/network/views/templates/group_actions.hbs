@@ -13,10 +13,11 @@
     </div>
   {{/if}}
   {{#if status_none}}
-    <a class="joinRequest">
-      {{#if open}}
+    {{#if open}}
+      <a class="joinGroup">
         {{I18n 'join group'}}
-      {{else}}
+    {{else}}
+      <a class="joinRequest">
         {{I18n 'request to join group'}}
       {{/if}}
     </a>

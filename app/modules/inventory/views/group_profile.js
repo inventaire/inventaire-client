@@ -18,7 +18,8 @@ export default GroupLayoutView.extend({
 
   behaviors: {
     PreventDefault: {},
-    SuccessCheck: {}
+    SuccessCheck: {},
+    AlertBox: {}
   },
 
   serializeData () {
