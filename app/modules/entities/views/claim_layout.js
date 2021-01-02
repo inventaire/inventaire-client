@@ -31,7 +31,7 @@ export default Marionette.LayoutView.extend({
     try {
       const uris = await getReverseClaims(this.property, this.value, this.refresh, true)
       await this.waitForModel
-      this.ifViewIsIntact('showEntities', uris)
+      if (this.isIntact()) this.showEntities(uris)
     } catch (err) {
       this.displayError(err)
     }
