@@ -1,17 +1,26 @@
 import { invertAttr, isOpenedOutside } from 'lib/utils'
 import workLiTemplate from './templates/work_li.hbs'
+import workLiTemplateTable from './templates/work_li_table.hbs'
 import '../scss/work_li.scss'
+import { localStorageProxy } from 'lib/local_storage'
 
 export default Marionette.ItemView.extend({
-  template: workLiTemplate,
   className () {
     const prefix = this.model.get('prefix')
     if (this.wrap == null) this.wrap = this.options.wrap
     const wrap = this.wrap ? 'wrapped wrappable' : ''
-    return `workLi entity-prefix-${prefix} ${wrap}`
+    const workLiDisplay = this.display === 'table' ? 'workLiTable' : 'workLi'
+    return `${workLiDisplay} entity-prefix-${prefix} ${wrap}`
   },
 
   initialize () {
+    this.display = localStorageProxy.getItem('entities:display') || 'cascade'
+    if (this.display === 'cascade') {
+      this.template = workLiTemplate
+    } else if (this.display === 'table') {
+      this.template = workLiTemplateTable
+    }
+
     app.execute('uriLabel:update');
 
     ({ showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap } = this.options)
