@@ -9,7 +9,7 @@ import graphRelationsProperties from './graph_relations_properties'
 import getOriginalLang from 'modules/entities/lib/get_original_lang'
 import { tap } from 'lib/promises'
 
-const createWorkEdition = function (workEntity, isbn) {
+const createWorkEdition = async function (workEntity, isbn) {
   assert_.types(arguments, [ 'object', 'string' ])
 
   return getIsbnData(isbn)
@@ -62,7 +62,7 @@ const getTitleFromWork = function (workEntity, editionLang) {
   return workEntity.get('labels')[0]
 }
 
-const byProperty = function (options) {
+const byProperty = async function (options) {
   let { property, name, relationEntity, createOnWikidata, lang } = options
   if (!lang) {
     ({

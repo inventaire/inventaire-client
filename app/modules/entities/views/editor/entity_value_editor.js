@@ -1,4 +1,5 @@
 import log_ from 'lib/loggers'
+import forms_ from 'modules/general/lib/forms'
 import { i18n } from 'modules/user/lib/i18n'
 import ClaimsEditorCommons from './claims_editor_commons'
 import { byProperty as createByProperty } from 'modules/entities/lib/create_entities'
@@ -159,6 +160,7 @@ export default ClaimsEditorCommons.extend({
     return createByProperty({ property: this.property, name, relationEntity, createOnWikidata })
     .then(log_.Info('created entity'))
     .then(entity => this._save(entity.get('uri')))
+    .catch(forms_.catchAlert.bind(null, this))
   },
 
   updateInputState () {
