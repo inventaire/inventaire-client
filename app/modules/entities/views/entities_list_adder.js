@@ -36,7 +36,7 @@ export default Marionette.CompositeView.extend({
     this.cantTypeSearch = cantTypeSearch.includes(this.type)
     this.setEntityCreationData()
     this.collection = new PaginatedEntities(null, { uris: [] })
-    return this.addCandidates()
+    this.addCandidates()
   },
 
   serializeData () {
@@ -95,13 +95,11 @@ export default Marionette.CompositeView.extend({
       if (this._lastInput != null) {
         this._lastInput = null
         this.addCandidates()
-      } else {
-        return
       }
+    } else {
+      this._lastInput = input
+      this.searchByType(input)
     }
-
-    this._lastInput = input
-    return this.searchByType(input)
   },
 
   searchByType (input, initialCandidatesSearch) {
@@ -119,13 +117,13 @@ export default Marionette.CompositeView.extend({
       this.$el.addClass('fetching')
       if (this._waitForParentModelChildrenCandidatesUris == null) this._waitForParentModelChildrenCandidatesUris = this.parentModel.getChildrenCandidatesUris()
       return this._waitForParentModelChildrenCandidatesUris.then(this.resetFromUris.bind(this))
-    } else if (!this.cantTypeSearch) {
+    } else if (this.options.canSearchListCandidatesFromLabel && !this.cantTypeSearch) {
       const label = this.parentModel.get('label')
       this.$el.addClass('fetching')
       this._findCandidatesFromLabelSearch = true
       // TODO: filter-out results that are likely bad suggestions
       // such as an author's books, when we are looking for books *about* (wdt:P921) that author
-      return this.searchByType(label, true)
+      this.searchByType(label, true)
     }
   },
 

@@ -143,6 +143,7 @@ const EntitiesList = Marionette.CompositeView.extend({
       header: this.addOneLabel,
       type,
       childrenClaimProperty: this.childrenClaimProperty,
+      canSearchListCandidatesFromLabel: this.options.canSearchListCandidatesFromLabel,
       parentModel,
       listCollection: this.collection,
     }))

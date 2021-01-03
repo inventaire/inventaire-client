@@ -60,6 +60,7 @@ export default Marionette.LayoutView.extend({
       type: 'work',
       collection,
       canAddOne: true,
+      canSearchListCandidatesFromLabel: canSearchListCandidatesFromLabel.includes(this.property),
       standalone: true,
       refresh: this.refresh,
       addButtonLabel: addButtonLabelPerProperty[this.property]
@@ -72,3 +73,7 @@ export default Marionette.LayoutView.extend({
 const addButtonLabelPerProperty = {
   'wdt:P921': 'add a work with this subject'
 }
+
+const canSearchListCandidatesFromLabel = [
+  'wdt:P921'
+]
