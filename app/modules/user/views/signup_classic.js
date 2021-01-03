@@ -5,6 +5,7 @@ import forms_ from 'modules/general/lib/forms'
 import prepareRedirect from '../lib/prepare_redirect'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import signupClassicTemplate from './templates/signup_classic.hbs'
+import '../scss/auth_menu.scss'
 
 export default Marionette.LayoutView.extend({
   className: 'authMenu signup',
