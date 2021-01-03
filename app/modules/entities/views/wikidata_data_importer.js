@@ -1,9 +1,15 @@
 import wikidataDataImporterTemplate from './templates/wikidata_data_importer.hbs'
 import '../scss/wikidata_data_importer.scss'
+import { startLoading } from 'modules/general/plugins/behaviors'
 
 export default Marionette.ItemView.extend({
   className: 'wikidata-data-importer',
   template: wikidataDataImporterTemplate,
+
+  behaviors: {
+    Loading: {}
+  },
+
   initialize () {
     ({ labels: this.labels, claims: this.claims, wdEntity: this.wdEntity } = this.options.importData)
   },
@@ -24,8 +30,11 @@ export default Marionette.ItemView.extend({
   },
 
   importSelectedData () {
+    if (this._startedImporting) return
+    this._startedImporting = true
+    startLoading.call(this, '#importData')
     this.dataToImport = this.getDataToImport()
-    return this.importNext()
+    this.importNext()
   },
 
   getDataToImport () {
@@ -42,7 +51,7 @@ export default Marionette.ItemView.extend({
     .then(this.importNext.bind(this))
   },
 
-  mergeWithoutImport () { return this.done() },
+  mergeWithoutImport () { this.done() },
 
   done () {
     this.options.resolve()
@@ -63,9 +72,7 @@ const formatData = function (el) {
     return { type, lang, label }
   } else if (type === 'claim') {
     const property = attrs['data-property'].value
-    const {
-      value
-    } = attrs['data-value']
+    const { value } = attrs['data-value']
     return { type, property, value }
   }
 }
