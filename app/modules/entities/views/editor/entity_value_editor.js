@@ -27,7 +27,7 @@ export default ClaimsEditorCommons.extend({
   initialize () {
     this.property = this.model.get('property')
     this.allowEntityCreation = this.model.get('allowEntityCreation')
-    return this.initEditModeState()
+    this.initEditModeState()
   },
 
   lazyRenderIfDisplayMode () { if (!this.editMode) { this.lazyRender() } },
@@ -86,7 +86,7 @@ export default ClaimsEditorCommons.extend({
     this.selectIfInEditMode()
     if (this.editMode) {
       this.updateInputState()
-      return autocomplete.onRender.call(this)
+      autocomplete.onRender.call(this)
     }
   },
 
@@ -102,11 +102,11 @@ export default ClaimsEditorCommons.extend({
   onKeyUp (e) {
     ClaimsEditorCommons.prototype.onKeyUp.call(this, e)
     if (this.editMode) autocomplete.onKeyUp.call(this, e)
-    return this.updateInputState()
+    this.updateInputState()
   },
 
   onKeyDown (e) {
-    if (this.editMode) return autocomplete.onKeyDown.call(this, e)
+    if (this.editMode) autocomplete.onKeyDown.call(this, e)
   },
 
   showDropdown: autocomplete.showDropdown,
@@ -119,24 +119,24 @@ export default ClaimsEditorCommons.extend({
 
   onAutoCompleteSelect (suggestion) {
     this.suggestion = suggestion
-    return this.updateInputState()
+    this.updateInputState()
   },
 
   onAutoCompleteUnselect () {
     this.suggestion = null
-    return this.updateInputState()
+    this.updateInputState()
   },
 
   // An event to tell every other value editor of the same property
   // that this view passes in edit mode and thus that other view in edit mode
   // should toggle to display mode
   triggerEditEvent () {
-    return app.vent.trigger('entity:value:editor:edit', this.property, this.cid)
+    app.vent.trigger('entity:value:editor:edit', this.property, this.cid)
   },
 
   preventMultiEdit (property, viewCid) {
     if (this.editMode && (property === this.property) && (this.cid !== viewCid)) {
-      return this.hideEditMode()
+      this.hideEditMode()
     }
   },
 
