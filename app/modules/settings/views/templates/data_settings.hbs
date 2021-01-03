@@ -1,9 +1,9 @@
 <h2 class="layout-title">{{I18n 'data'}}</h2>
 
 <section>
-  <h3>{{i18n 'data exports'}}</h3>
+  <h3>{{I18n 'data exports'}}</h3>
 
-  <h4>{{icon 'download'}} {{i18n 'download'}}</h4>
+  <h4>{{icon 'download'}} {{I18n 'download'}}</h4>
   <ul class="downloads">
     <li>
       <h5>CSV</h5>
@@ -24,16 +24,16 @@
     </li>
   </ul>
 
-  <h4>{{icon 'plug'}} {{i18n 'via the API'}}</h4>
+  <h4>{{icon 'plug'}} {{I18n 'via the API'}}</h4>
   {{i18nLink 'see the API documentation' apiDoc}}
   <h5>{{I18n 'examples'}}</h5>
   <ul class="api">
     <li>
-      <span class="header">{{i18n 'books'}}</span>
+      <span class="header">{{I18n 'books'}}</span>
       <p class="code">{{curlBase}}{{inventoryJsonEndpoint}}</p>
     </li>
     <li>
-      <span class="header">{{i18n 'user'}}</span>
+      <span class="header">{{I18n 'user'}}</span>
       <p class="code">{{curlBase}}{{userJsonEndpoint}}</p>
     </li>
   </ul>

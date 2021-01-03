@@ -1,8 +1,8 @@
-<h3>{{i18n 'admin section'}}</h3>
+<h3>{{I18n 'admin section'}}</h3>
 {{!-- entity type selector --}}
 
 {{#if canBeMerged}}
-  <h4>{{i18n 'merge with another entity'}}</h4>
+  <h4>{{I18n 'merge with another entity'}}</h4>
   <section class="merge-section">
     <div id="merge-suggestion">
       {{#unless isAnEdition}}
@@ -14,7 +14,7 @@
   </section>
 {{/if}}
 
-<h4>{{i18n 'delete entity'}}</h4>
+<h4>{{I18n 'delete entity'}}</h4>
 <section class="delete-entity">
   {{#if isInvEntity}}
     <a class="deleteEntity button alert">{{icon 'trash'}}{{I18n 'delete'}}</a>

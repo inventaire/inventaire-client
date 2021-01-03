@@ -1,7 +1,7 @@
 <h2 class="layout-title">{{I18n 'notifications'}}</h2>
 
 <section class="global">
-  <h3 class="first">{{i18n 'global'}}</h3>
+  <h3 class="first">{{I18n 'global'}}</h3>
   {{> 'toggler' global}}
   <p class="warning {{#if showWarning}}shown{{/if}}">
     {{icon 'warning'}} {{i18n warning}}
@@ -11,7 +11,7 @@
 <div class="rest">
   <div class="rest-fog local-fog {{#if showWarning}}shown{{/if}}"></div>
   <section class="news">
-    <h3>{{i18n 'news'}}</h3>
+    <h3>{{I18n 'news'}}</h3>
     {{> 'toggler' inventories_activity_summary}}
     <div class="summary-periodicity checkWrapper">
       <div class="periodicity-fog local-fog {{#if showPeriodicity}}shown{{/if}}"></div>
@@ -27,7 +27,7 @@
     </div>
   </section>
   <section class="friends">
-    <h3>{{i18n 'friends'}}</h3>
+    <h3>{{I18n 'friends'}}</h3>
     {{> 'settings:email_me_when'}}
     {{> 'toggler' friendship_request}}
     <hr>
@@ -35,7 +35,7 @@
   </section>
 
   <section class="groups">
-    <h3>{{i18n 'groups'}}</h3>
+    <h3>{{I18n 'groups'}}</h3>
     {{> 'settings:email_me_when'}}
     {{> 'toggler' group_invite}}
     <hr>
@@ -43,7 +43,7 @@
   </section>
 
   <section class="exchanges">
-    <h3>{{i18n 'exchanges'}}</h3>
+    <h3>{{I18n 'exchanges'}}</h3>
     {{> 'settings:email_me_when'}}
     {{> 'toggler' your_item_was_requested}}
     <hr>
