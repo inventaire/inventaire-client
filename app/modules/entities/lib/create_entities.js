@@ -64,22 +64,32 @@ const getTitleFromWork = function (workEntity, editionLang) {
 
 const byProperty = async function (options) {
   let { property, name, relationEntity, createOnWikidata, lang } = options
-  if (!lang) {
-    ({
-      lang
-    } = app.user)
-  }
+  if (!lang) lang = app.user.lang
 
   const wdtP31 = subjectEntityP31ByProperty[property]
   if (wdtP31 == null) {
     throw error_.new('no entity creation function associated to this property', options)
   }
 
-  const labels = { [lang]: name }
   const claims = { 'wdt:P31': [ wdtP31 ] }
+
+  let labels
+  if (property === 'wdt:P195') {
+    labels = {}
+    claims['wdt:P1476'] = [ name ]
+  } else {
+    labels = { [lang]: name }
+  }
 
   if (property === 'wdt:P179') {
     claims['wdt:P50'] = relationEntity.get('claims.wdt:P50')
+  }
+
+  if (property === 'wdt:P195') {
+    claims['wdt:P123'] = relationEntity.get('claims.wdt:P123')
+    if (claims['wdt:P123'] == null) {
+      throw error_.new('a publisher should be set before creating a collection', options)
+    }
   }
 
   return createAndGetEntity({ labels, claims, createOnWikidata })
@@ -96,7 +106,9 @@ const subjectEntityP31ByProperty = {
   'wdt:P629': 'wd:Q47461344',
   'wdt:P655': 'wd:Q5',
   'wdt:P2679': 'wd:Q5',
-  'wdt:P2680': 'wd:Q5'
+  'wdt:P2680': 'wd:Q5',
+  // collection
+  'wdt:P195': 'wd:Q20655472'
 }
 
 const createAndGetEntity = function (params) {
