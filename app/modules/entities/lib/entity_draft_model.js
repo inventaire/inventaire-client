@@ -24,6 +24,10 @@ const propertiesShortlists = {
   collection: [ 'wdt:P1476', 'wdt:P123', 'wdt:P856' ]
 }
 
+const hasMonolingualTitle = [
+  'collection'
+]
+
 export default {
   create (options) {
     let { type, label, claims, relation } = options
@@ -39,8 +43,12 @@ export default {
 
     const labels = {}
     if (label != null) {
-      // use the label we got as a label suggestion
-      labels[app.user.lang] = label
+      if (hasMonolingualTitle.includes(type)) {
+        claims['wdt:P1476'] = [ label ]
+      } else {
+        // use the label we got as a label suggestion
+        labels[app.user.lang] = label
+      }
     }
 
     const model = new Backbone.NestedModel({ type, labels, claims })
