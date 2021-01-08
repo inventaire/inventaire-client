@@ -8,8 +8,9 @@ export default {
   // GET
   getByUris (uris, refresh, relatives) {
     uris = forceArray(uris).join('|')
+    const autocreate = true
     if (relatives != null) relatives = forceArray(relatives).join('|')
-    return action('by-uris', { uris, refresh, relatives })
+    return action('by-uris', { uris, refresh, relatives, autocreate })
   },
 
   // Get many by POSTing URIs in the body
