@@ -21,21 +21,24 @@ export default Backbone.Model.extend({
     })
   },
 
-  grabAuthor (name) {
+  grabAuthor (name, isShownFromId) {
     const uri = this.get(`${name}Uri`)
     return this.reqGrab('get:entity:model', uri, name)
     .then(model => {
       const resolvedUri = model.get('uri')
       if (resolvedUri !== uri) {
-        const context = { task: this.id, oldUri: uri, newUri: resolvedUri }
-        throw error_.new(`${name} uri is obsolete`, 500, context)
+        if (isShownFromId) {
+          const context = { task: this.id, oldUri: uri, newUri: resolvedUri }
+          throw error_.new(`${name} uri is obsolete`, 500, context)
+        }
+        return this.showNextTask()
       }
 
       return model.initAuthorWorks()
     })
   },
 
-  grabSuspect () { return this.grabAuthor('suspect') },
+  grabSuspect (isShownFromId) { return this.grabAuthor('suspect', isShownFromId) },
 
   grabSuggestion () { return this.grabAuthor('suggestion') },
 

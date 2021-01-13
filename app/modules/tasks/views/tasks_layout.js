@@ -79,7 +79,7 @@ export default Marionette.LayoutView.extend({
 
     previousTasks.push(model.get('_id'))
 
-    this._grabSuspectPromise = model.grabSuspect()
+    this._grabSuspectPromise = model.grabSuspect(isShownFromId)
 
     return Promise.all([
       this.showCurrentTask(model),
