@@ -213,16 +213,11 @@ const setHandlers = function () {
       app.execute('show:entity:from:model', model, { refresh: true })
     },
 
-    'show:deduplicate:sub:entities' (model, options = {}) {
-      const { openInNewTab } = options
+    'show:deduplicate:sub:entities' (model) {
       const uri = model.get('uri')
       const pathname = '/entity/deduplicate?uris=' + uri
-      if (openInNewTab) {
-        return window.open(pathname, '_blank')
-      } else {
-        API.showDeduplicate({ uris: [ uri ] })
-        app.navigate(pathname)
-      }
+      API.showDeduplicate({ uris: [ uri ] })
+      app.navigate(pathname)
     },
 
     'show:entity:add': API.showAddEntity.bind(API),

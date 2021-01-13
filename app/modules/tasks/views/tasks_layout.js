@@ -6,14 +6,12 @@ import CurrentTask from './current_task'
 import RelativeTasks from './relative_tasks'
 import Task from '../models/task'
 import error_ from 'lib/error'
-import { wait } from 'lib/promises'
 import forms_ from 'modules/general/lib/forms'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import tasksLayoutTemplate from './templates/tasks_layout.hbs'
 import '../scss/tasks_layout.scss'
 
 const previousTasks = []
-let waitingForMerge = null
 
 export default Marionette.LayoutView.extend({
   id: 'tasksLayout',
@@ -68,7 +66,6 @@ export default Marionette.LayoutView.extend({
   showFromModel (model) {
     this.previousTask = this.currentTaskModel
     this.currentTaskModel = model
-    openDeduplicationLayoutIfDone(this.previousTask, this.currentTaskModel)
 
     const state = model.get('state')
     if (state != null) {
@@ -133,7 +130,7 @@ export default Marionette.LayoutView.extend({
   },
 
   merge (e) {
-    waitingForMerge = this.action('merge')
+    this.action('merge')
     this.showNextTask({ spinner: '.merge' })
     e?.stopPropagation()
   },
@@ -211,26 +208,4 @@ const getTaskById = async id => {
   const task = tasks[0]
   if (task != null) return new Task(task)
   else throw error_.new('not found', 404, { id })
-}
-
-const openDeduplicationLayoutIfDone = async (previousTask, currentTaskModel) => {
-  if (previousTask == null) return
-
-  const previousSuggestionUri = previousTask.get('suggestionUri')
-  const currentSuggestionUri = currentTaskModel.get('suggestionUri')
-  if (previousSuggestionUri === currentSuggestionUri) return
-
-  const { suggestion } = previousTask
-  const showDeduplication = () => {
-    app.execute('show:deduplicate:sub:entities', suggestion, { openInNewTab: true })
-    window.open().close()
-  }
-
-  if (waitingForMerge != null) {
-    await waitingForMerge
-    await wait(100)
-    showDeduplication()
-  } else {
-    setTimeout(showDeduplication, 100)
-  }
 }
