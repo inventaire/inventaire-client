@@ -40,7 +40,7 @@ export default Marionette.LayoutView.extend({
   onShow () {
     const { task } = this.options
     if (isModel(task)) {
-      this.showTask(Promise.resolve(task))
+      this.showTask({ taskModelPromise: Promise.resolve(task) })
     } else if (task != null) {
       this.showFromId(task)
     } else {
@@ -54,23 +54,27 @@ export default Marionette.LayoutView.extend({
     const offset = app.request('querystring:get', 'offset')
     const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel })
     if (spinner != null) stopLoading.call(this, spinner)
-    this.showTask(nextTask)
+    this.showTask({ taskModelPromise: nextTask })
   },
 
-  showTask (taskModelPromise) {
+  showTask (params) {
+    const { taskModelPromise, isShownFromId } = params
     return taskModelPromise
-    .then(this.showFromModel.bind(this))
+    .then(this.showFromModel.bind(this, isShownFromId))
     .catch(app.Execute('show:error'))
   },
 
-  showFromModel (model) {
+  showFromModel (isShownFromId, model) {
     this.previousTask = this.currentTaskModel
     this.currentTaskModel = model
 
     const state = model.get('state')
     if (state != null) {
-      const err = error_.new('this task has already been treated', 400, { model, state })
-      return app.execute('show:error:other', err, 'tasks_layout showFromModel')
+      if (isShownFromId) {
+        const err = error_.new('this task has already been treated', 400, { model, state })
+        return app.execute('show:error:other', err, 'tasks_layout showFromModel')
+      }
+      return this.showNextTask()
     }
 
     previousTasks.push(model.get('_id'))
@@ -108,7 +112,9 @@ export default Marionette.LayoutView.extend({
     })
   },
 
-  showFromId (id) { this.showTask(getTaskById(id)) },
+  showFromId (id) {
+    this.showTask({ taskModelPromise: getTaskById(id), isShownFromId: true })
+  },
 
   focusOnControls () {
     // Take focus so that we can listen for keydown events
