@@ -40,6 +40,8 @@ export default Marionette.ItemView.extend({
 
   onShow () {
     app.execute('modal:open', null, this.options.focus)
+    // leave the focus on textarea, if there is one
+    if (this.$el.find('#confirmationForm')) { return }
     // trigger once the modal is done sliding down
     this.setTimeout(this.ui.no.focus.bind(this.ui.no), 600)
   },
@@ -91,6 +93,8 @@ export default Marionette.ItemView.extend({
 
   changeButton (e) {
     const key = getActionKey(e)
+    // do not trigger keys if a textarea is shown
+    if (this.$el.find('#confirmationForm')) { return }
     if (key === 'left') this.ui.no.focus()
     else if (key === 'right') this.ui.yes.focus()
   },
