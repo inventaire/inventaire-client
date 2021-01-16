@@ -1,48 +1,48 @@
-import endpoint from './endpoint'
 import auth from './auth'
-import users from './users'
-import groups from './groups'
-import items from './items'
-import entities from './entities'
-import search from './search'
 import data from './data'
-import invitations from './invitations'
-import tasks from './tasks'
-import shelves from './shelves'
+import endpoint from './endpoint'
+import entities from './entities'
+import feeds from './feeds'
+import groups from './groups'
 import images from './images'
 import img from './img'
-import feeds from './feeds'
+import invitations from './invitations'
+import items from './items'
+import search from './search'
+import shelves from './shelves'
+import tasks from './tasks'
+import users from './users'
 
 export default {
+  // /api endpoints
   auth,
-  users,
-  groups,
-  items,
-  entities,
-  search,
-  data,
-  invitations,
-  tasks,
-  shelves,
-  transactions: endpoint('transactions', true),
-  relations: endpoint('relations', true),
-  user: endpoint('user', true),
-  notifications: endpoint('notifications', true),
-  feedback: endpoint('feedback', true),
-  tests: endpoint('tests', true),
-  i18n: endpoint('i18n', true),
   config: endpoint('config', true),
-
-  // /api/images: API controllers handling images uploading, resizing, etc
+  data,
+  entities,
+  feedback: endpoint('feedback', true),
+  feeds,
+  groups,
+  i18n: endpoint('i18n', true),
   images,
+  invitations,
+  items,
+  notifications: endpoint('notifications', true),
+  relations: endpoint('relations', true),
+  search,
+  shelves,
+  tasks,
+  tests: endpoint('tests', true),
+  transactions: endpoint('transactions', true),
+  user: endpoint('user', true),
+  users,
+
+  // /public endpoints
+  i18nStrings: lang => `/public/i18n/${lang}.json?DIGEST${getBuster()}`,
+  json: filename => `/public/json/${filename}.json?DIGEST${getBuster()}`,
 
   // /img: endpoint serving images, handled by Nginx in production
   // thus not behing the /api root
   img,
-
-  feeds,
-  i18nStrings: lang => `/public/i18n/${lang}.json?DIGEST${getBuster()}`,
-  json: filename => `/public/json/${filename}.json?DIGEST${getBuster()}`
 }
 
 // Hacky way to never accept cached version in development,
