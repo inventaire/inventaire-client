@@ -30,6 +30,7 @@ export default Marionette.LayoutView.extend({
     return this.model.waitForWorks
     .then(works => works.map(work => work.fetchSubEntities()))
     .then(this.ifViewIsIntact('showWorks'))
+    .catch(app.Execute('show:error'))
   },
 
   showWorks () {

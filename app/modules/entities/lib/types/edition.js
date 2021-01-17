@@ -60,7 +60,9 @@ const specificMethods = {
         this.waitForWorks = Promise.resolve()
       } else {
         const uri = this.get('uri')
-        throw error_.new('edition entity misses associated works (wdt:P629)', { uri })
+        const err = error_.new('edition entity misses associated works (wdt:P629)', { uri })
+        this.waitForWorks = Promise.reject(err)
+        throw err
       }
     }
 
