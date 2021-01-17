@@ -53,6 +53,10 @@ export default Marionette.CompositeView.extend({
 
     this.property = this.model.get('property')
     this.customAdd = creationParials[this.property]
+
+    if (this.property.startsWith('invp:') && this.model.entity.get('isWikidataEntity')) {
+      this.invPropertyOnWikidataEntity = true
+    }
   },
 
   serializeData () {
@@ -65,6 +69,7 @@ export default Marionette.CompositeView.extend({
     } else {
       attrs.canAddValues = this.canAddValues()
     }
+    attrs.invPropertyOnWikidataEntity = this.invPropertyOnWikidataEntity
     return attrs
   },
 

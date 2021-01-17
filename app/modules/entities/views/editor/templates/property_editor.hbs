@@ -1,18 +1,26 @@
-<div class="property-label">{{I18n propertyLabel}}</div>
+<div class="property-label {{#if invPropertyOnWikidataEntity}}inv-property-on-wikidata-entity{{/if}}">
+  {{I18n propertyLabel}}
+</div>
 <div class="values-wrapper">
-  <ul class="values"></ul>
-  {{#if customAdd}}
-    <div class="creationPartial">
-      {{!-- That's the only customAdd partial for now --}}
-      {{#if creation_partial_is_edition_creation}}
-        {{> 'entities:editor:edition_creation' creationPartialData}}
-      {{/if}}
-    </div>
+  {{#if invPropertyOnWikidataEntity}}
+    <span class="inv-property-on-wikidata-entity">
+      {{I18n "this property can't be set on a Wikidata entity"}}
+    </span>
   {{else}}
-    <div class="add-value-wrapper">
-      <a class="addValue tiny-button soft-grey {{#unless canAddValues}}hidden{{/unless}}" tabindex="0">
-        {{icon 'plus'}} {{i18n 'add'}}
-      </a>
-    </div>
+    <ul class="values"></ul>
+    {{#if customAdd}}
+      <div class="creationPartial">
+        {{!-- That's the only customAdd partial for now --}}
+        {{#if creation_partial_is_edition_creation}}
+          {{> 'entities:editor:edition_creation' creationPartialData}}
+        {{/if}}
+      </div>
+    {{else}}
+      <div class="add-value-wrapper">
+        <a class="addValue tiny-button soft-grey {{#unless canAddValues}}hidden{{/unless}}" tabindex="0">
+          {{icon 'plus'}} {{i18n 'add'}}
+        </a>
+      </div>
+    {{/if}}
   {{/if}}
 </div>

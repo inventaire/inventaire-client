@@ -11,6 +11,10 @@
   .add-value-wrapper{
     margin: 0.5em;
   }
+  .inv-property-on-wikidata-entity{
+    color: $grey;
+    cursor: not-allowed;
+  }
   label{
     color: white;
   }
