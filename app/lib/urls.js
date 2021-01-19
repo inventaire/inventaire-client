@@ -3,7 +3,8 @@ const faircoinHash = 'fRFhk3DKubHmQu5i1NwY4mVErPVzXTtmDE'
 const subdomain = sub => `http://${sub}.inventaire.io`
 const image = filename => `/img/assets/${filename}`
 
-export const host = 'https://inventaire.io'
+export const domain = 'inventaire.io'
+export const host = `https://${domain}`
 export const blog = subdomain('blog')
 export const git = subdomain('git')
 export const wiki = subdomain('wiki')

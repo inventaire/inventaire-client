@@ -24,14 +24,14 @@ export default {
     .join(' ')
   },
 
-  i18nLink (text, url, context) {
+  i18nLink (text, url, context, linkClasses) {
     text = i18n(text, context)
-    return this.link(text, url)
+    return this.link(text, url, linkClasses)
   },
 
-  I18nLink (text, url, context) {
+  I18nLink (text, url, context, linkClasses) {
     text = capitalize(i18n(text, context))
-    return this.link(text, url)
+    return this.link(text, url, linkClasses)
   },
 
   // See also: iconLinkText

@@ -8,6 +8,7 @@ import images from './images'
 import img from './img'
 import invitations from './invitations'
 import items from './items'
+import oauth from './oauth'
 import search from './search'
 import shelves from './shelves'
 import tasks from './tasks'
@@ -27,6 +28,7 @@ export default {
   invitations,
   items,
   notifications: endpoint('notifications', true),
+  oauth,
   relations: endpoint('relations', true),
   search,
   shelves,
