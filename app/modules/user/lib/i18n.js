@@ -20,19 +20,14 @@ export const i18n = (...args) => currentLangI18n(...args)
 export const initI18n = async (app, lang) => {
   const missingKey = window.env === 'dev' ? i18nMissingKey : _.noop
 
-  const missingKeyWarn = function (warning) {
-    console.warn(warning)
-
-    // Warning pattern: "Missing translation for key: "#{key}""
-    const key = warning
-      .replace('Missing translation for key: "', '')
-      .replace(/"$/, '')
-
+  const onMissingKey = function (key) {
+    console.warn(`Missing translation for key: ${key}`)
     missingKey(key)
     if (key == null) console.trace()
+    return key
   }
 
-  setLanguage(lang, missingKeyWarn)
+  setLanguage(lang, onMissingKey)
 
   // Prevent circular dependencies by using a late import
   import('lib/uri_label/uri_label')
@@ -51,8 +46,8 @@ export const initI18n = async (app, lang) => {
 
 export const I18n = (...args) => capitalize(currentLangI18n(...args))
 
-const setLanguage = function (lang, missingKeyWarn) {
-  app.polyglot = new Polyglot({ warn: missingKeyWarn })
+const setLanguage = function (lang, onMissingKey) {
+  app.polyglot = new Polyglot({ onMissingKey })
   currentLangI18n = translate(lang, app.polyglot)
   app.vent.trigger('uriLabel:update')
   return requestI18nFile(app.polyglot, lang)
