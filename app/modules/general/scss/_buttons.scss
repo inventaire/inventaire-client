@@ -116,7 +116,7 @@ button{
 
 // icon buttons
 .editButton{
-  @include shy;
+  @include shy(0.8);
   &:hover{
     span{
       @include transition(display);
@@ -135,7 +135,7 @@ button{
   }
 }
 .indicator{
-  opacity: 0.6;
+  opacity: 0.8;
   cursor: default;
 }
 
@@ -146,7 +146,7 @@ button{
 div.icon-buttons-header{
   width: 100%;
   height: 1.2em;
-  margin-bottom: 0.2em;
+  margin-bottom: 0.5em;
   label{
     height: 0;
     cursor: default;

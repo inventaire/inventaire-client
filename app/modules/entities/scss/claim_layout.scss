@@ -18,7 +18,7 @@
         }
       }
       .source, .photo-credits, .photo-credits a{
-        color: $grey;
+        color: darken($light-grey, 20%);
       }
       /*Large screens*/
       @media screen and (min-width: $small-screen) {

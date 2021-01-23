@@ -2,7 +2,7 @@
 {{#if sortByLang}}
   {{#if hasEditions}}
     <div class="filters">
-      <select class="languageFilter" name="language-filter">
+      <select class="languageFilter" name="language-filter" aria-label="language filter">
         <option value="all">{{i18n 'all languages'}}</option>
         {{#each availableLanguages}}
           <option value="{{code}}" {{#if selected}}selected{{/if}}>{{code}} - {{native}}</option>
