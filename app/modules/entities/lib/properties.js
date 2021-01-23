@@ -104,7 +104,7 @@ addProp('wdt:P571', 'simple-day', 'inception', false, null)
 // dissolution
 addProp('wdt:P576', 'simple-day', 'inception', false, null)
 // ISBN publisher
-addProp('wdt:P3035', 'string', null, false, null)
+addProp('wdt:P3035', 'string', null, true, null)
 
 // # all
 // official website
