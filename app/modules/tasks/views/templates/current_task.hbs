@@ -1,6 +1,6 @@
 <div class="entities">
   <div id="suspect"></div>
-  {{#if this.isHumansEntitiesType}}
+  {{#if isHumansEntitiesType}}
     {{> 'tasks:task_scores' this}}
   {{else}}
     {{> 'tasks:task_feedback_info' this}}

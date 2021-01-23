@@ -12,6 +12,6 @@ export default {
   byEntitiesType (params) { return action('by-entities-type', params) },
   bySuspectUris: byEntitiesUris('suspect'),
   bySuggestionUris: byEntitiesUris('suggestion'),
-  deduplicateWork: action('deduplicate-work'),
+  deduplicateWorks: action('deduplicate-works'),
   update: action('update')
 }

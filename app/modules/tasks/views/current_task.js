@@ -15,7 +15,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    if (this.model.get('type') === 'deduplicate') {
+    if (this.model.get('entitiesType') === 'humans') {
       this.showAuthor('suspect')
       this.showAuthor('suggestion')
     } else {
