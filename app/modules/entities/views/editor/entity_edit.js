@@ -49,9 +49,6 @@ export default Marionette.LayoutView.extend({
     this.requiresLabel = !typesWithoutLabel.includes(type)
     this.requiredProperties = requiredPropertyPerType[type] || []
     this.canBeAddedToInventory = inventoryTypes.includes(type)
-    if (type != null) {
-      this.model.pluralizedType = type + 's'
-    }
     this.showAdminSection = app.user.hasDataadminAccess && !this.creationMode
 
     if (this.creationMode) {

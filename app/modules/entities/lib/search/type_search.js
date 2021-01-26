@@ -3,12 +3,10 @@ import searchType from './search_type'
 import languageSearch from './language_search'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results'
 import error_ from 'lib/error'
-import TypeKey from '../types/type_key'
+import { pluralize } from '../types/type_key'
 import _wikidataSearch from './wikidata_search'
 
 const wikidataSearch = _wikidataSearch(true)
-
-const { pluralize } = TypeKey
 
 export default function (type, input, limit, offset) {
   const uri = getEntityUri(input)
