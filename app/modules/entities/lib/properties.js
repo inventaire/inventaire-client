@@ -51,6 +51,8 @@ addProp('wdt:P212', 'fixed-string', null, false, null)
 addProp('wdt:P957', 'fixed-string', null, false, null)
 // collection
 addProp('wdt:P195', 'entity', 'collections', false, true)
+// distribution format
+addProp('wdt:P437', 'entity', 'shortlist', false, false)
 // date of publication
 addProp('wdt:P577', 'simple-day', null, false, null)
 // translator

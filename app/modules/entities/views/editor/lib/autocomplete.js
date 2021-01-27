@@ -16,7 +16,7 @@ import {
 
 import { search, loadMoreFromSearch } from './suggestions/search_suggestions'
 
-const notSearchableProps = [ 'wdt:P31' ]
+const notSearchableProps = [ 'wdt:P31', 'wdt:P437' ]
 
 export default {
   onRender () {

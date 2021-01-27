@@ -46,7 +46,8 @@ export default {
     'wdt:P2679': {}, // author of foreword
     'wdt:P2680': {}, // author of afterword
     'wdt:P1104': {}, // number of pages
-    'wdt:P2635': { customLabel: 'number of volumes' }
+    'wdt:P2635': { customLabel: 'number of volumes' },
+    'wdt:P437': {}, // distribution format
   },
 
   human: {
