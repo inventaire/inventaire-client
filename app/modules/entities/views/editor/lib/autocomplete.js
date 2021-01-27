@@ -127,18 +127,21 @@ const refreshSuggestions = function (searchValue) {
   // - and properties based on hardcoded lists (aliases) such as P31
   const isSearchableProp = !notSearchableProps.includes(this.property)
   if (isSearchableProp) {
-    return this.lazySearch(searchValue)
+    this.lazySearch(searchValue)
   } else {
     matchedSuggestions = filterSuggestions(this._defaultSuggestions, searchValue)
     if (matchedSuggestions && matchedSuggestions.length > 0) {
-      return this.suggestions.reset(matchedSuggestions)
+      this.suggestions.reset(matchedSuggestions)
     }
   }
 }
 
 const filterSuggestions = function (suggestions, searchValue) {
   const inputBasedRegex = new RegExp(searchValue, 'i')
-  return suggestions.filter(model => model.matches(inputBasedRegex, searchValue))
+  return suggestions
+  .map(model => model.getClosestMatchingFieldDistance(inputBasedRegex, searchValue))
+  .sort((a, b) => a.distance - b.distance)
+  .map(_.property('model'))
 }
 
 const keyAction = function (actionKey) {
