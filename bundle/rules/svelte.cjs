@@ -10,7 +10,10 @@ module.exports = mode => ({
     {
       loader: 'svelte-loader',
       options: {
-        hotReload: true,
+        compilerOptions: {
+          dev: mode !== 'production',
+        },
+        hotReload: mode !== 'production',
         // Only emit in production to get the page to reload on style change in development
         emitCss: mode === 'production',
       },
