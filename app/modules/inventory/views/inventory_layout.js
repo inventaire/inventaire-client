@@ -182,7 +182,7 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  closeShelf (shelfView) {
+  closeShelf () {
     this.showInventoryBrowser(this._lastShownType, this._lastShownUser)
     scrollToSection(this.userProfile)
     this.shelfInfo.empty()
@@ -190,24 +190,22 @@ export default Marionette.LayoutView.extend({
   },
 
   showSelectedInventory (type, model) {
-    if ((type === 'user') || (type === 'group')) {
-      if (type === 'user') {
-        this._lastShownType = type
-        this._lastShownUser = model
-        this.showUserInventory(model)
-        this.showUserProfile(model)
-        this.groupProfile.empty()
-        this.shelvesList.empty()
-        this.showUserShelves(model)
-        scrollToSection(this.userProfile)
-      } else {
-        this.showGroupProfile(model)
-        this.userProfile.empty()
-        this.shelfInfo.empty()
-        this.shelvesList.empty()
-        this.showGroupInventory(model)
-        scrollToSection(this.groupProfile)
-      }
+    if (type === 'user') {
+      this._lastShownType = type
+      this._lastShownUser = model
+      this.showUserInventory(model)
+      this.showUserProfile(model)
+      this.groupProfile.empty()
+      this.shelvesList.empty()
+      this.showUserShelves(model)
+      scrollToSection(this.userProfile)
+    } else if (type === 'group') {
+      this.showGroupProfile(model)
+      this.userProfile.empty()
+      this.shelfInfo.empty()
+      this.shelvesList.empty()
+      this.showGroupInventory(model)
+      scrollToSection(this.groupProfile)
     } else if (type === 'member') {
       this._lastShownType = type
       this._lastShownUser = model
