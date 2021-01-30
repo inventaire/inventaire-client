@@ -131,7 +131,7 @@ export default Marionette.LayoutView.extend({
 
   async showMemberInventory (member) {
     const memberModel = await app.request('resolve:to:userModel', member)
-    if (this.isIntact()) return
+    if (!this.isIntact()) return
     this.showUserProfile(memberModel)
     this.showInventoryBrowser('user', memberModel)
     scrollToSection(this.userProfile)
@@ -211,10 +211,8 @@ export default Marionette.LayoutView.extend({
     } else if (type === 'member') {
       this._lastShownType = type
       this._lastShownUser = model
-      this.showUserProfile(model)
       this.showMemberInventory(model)
       this.showUserShelves(model)
-      scrollToSection(this.userProfile)
     } else if (type === 'shelf') {
       const userId = model.get('owner')
       this.showUserShelves(userId)
