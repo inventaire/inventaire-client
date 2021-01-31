@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 if [ "$1" != "" ] ; then
-  eslint -c .eslintrc "$@"
+  eslint -c .eslintrc.cjs "$@"
 else
-  eslint -c .eslintrc app tests scripts
+  eslint -c .eslintrc.cjs app tests scripts
 fi
