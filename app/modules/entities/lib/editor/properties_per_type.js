@@ -6,8 +6,8 @@
 
 // The order is meaningful:
 const work = {
-  'wdt:P31': {}, // instance of
   'wdt:P50': {}, // author
+  'wdt:P31': {}, // instance of
   'wdt:P136': {}, // genre
   'wdt:P921': {}, // main subject
   'wdt:P407': { customLabel: 'original language' }, // original language of work
@@ -35,7 +35,6 @@ export default {
     'wdt:P1680': { customLabel: 'edition subtitle' },
     'wdt:P407': { customLabel: 'edition language' },
     'invp:P2': { customLabel: 'cover' },
-    // 'wdt:P31': {} # P31: instance of (=> edition aliases?)
     // P212 is used as unique ISBN field, accepting ISBN-10 but correcting server-side
     'wdt:P212': {}, // ISBN-13
     'wdt:P957': {}, // ISBN-10
