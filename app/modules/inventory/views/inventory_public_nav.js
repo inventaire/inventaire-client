@@ -34,6 +34,11 @@ export default InventoryCommonNav.extend({
     this.listenTo(app.user, 'confirmed:position', this.lazyRender.bind(this))
   },
 
+  regions: {
+    usersList: '#usersList',
+    groupsList: '#groupsList',
+  },
+
   behaviors: {
     Loading: {}
   },

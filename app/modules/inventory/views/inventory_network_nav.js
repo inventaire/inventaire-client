@@ -10,19 +10,40 @@ export default InventoryCommonNav.extend({
     PreventDefault: {}
   },
 
+  regions: {
+    usersList: '#usersList',
+    groupsList: '#groupsList',
+    friendRequestsList: '#friendRequestsList',
+    groupsInvitationsList: '#groupsInvitationsList',
+  },
+
   ui: {
     showUsersMenu: '.showUsersMenu',
     showGroupsMenu: '.showGroupsMenu',
     userMenu: '.userMenu',
-    groupMenu: '.groupMenu'
+    groupMenu: '.groupMenu',
+    friendRequestsWrapper: '.friendRequestsWrapper',
+    groupsInvitationsWrapper: '.groupsInvitationsWrapper',
   },
 
-  onShow () {
-    app.request('fetch:friends')
-    .then(() => this.showList(this.usersList, app.users.filtered.friends()))
+  async onShow () {
+    await Promise.all([
+      app.request('fetch:friends'),
+      app.request('fetch:otherRequested'),
+      app.request('wait:for', 'groups'),
+    ])
 
-    return app.request('wait:for', 'groups')
-    .then(() => this.showList(this.groupsList, app.groups))
+    this.showList(this.usersList, app.users.friends)
+    if (app.users.otherRequested.length > 0) {
+      this.showList(this.friendRequestsList, app.users.otherRequested)
+      this.ui.friendRequestsWrapper.removeClass('hidden')
+    }
+
+    this.showList(this.groupsList, app.groups.mainUserMember)
+    if (app.groups.mainUserInvited.length > 0) {
+      this.showList(this.groupsInvitationsList, app.groups.mainUserInvited)
+      this.ui.groupsInvitationsWrapper.removeClass('hidden')
+    }
   },
 
   events: {
