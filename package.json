@@ -84,6 +84,7 @@
     "css-loader": "^5.0.1",
     "cssnano": "^4.1.10",
     "doctoc": "^1.4.0",
+    "eslint-plugin-svelte3": "^3.0.0",
     "file-loader": "^6.2.0",
     "handlebars-loader": "^1.7.1",
     "html-webpack-plugin": "^4.5.0",

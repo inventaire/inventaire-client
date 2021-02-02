@@ -17,7 +17,8 @@ module.exports = {
     'standard'
   ],
   plugins: [
-    'prefer-arrow'
+    'prefer-arrow',
+    'svelte3'
   ],
   rules: {
     'array-bracket-spacing': [ 'error', 'always' ],
@@ -38,6 +39,9 @@ module.exports = {
     eqeqeq: [ 'error', 'smart' ],
     'implicit-arrow-linebreak': [ 'error', 'beside' ],
     indent: [ 'error', 2, { MemberExpression: 'off' } ],
+    // Making the rule settings explicit to prevent to get warnings with svelte components
+    // See https://github.com/sveltejs/eslint-plugin-svelte3/issues/82
+    'no-multiple-empty-lines': [ 'error', { max: 1, maxBOF: 0, maxEOF: 1 } ],
     // svelte components initialization are a "new" with side-effect
     'no-new': 'off',
     'no-var': [ 'error' ],
@@ -83,5 +87,26 @@ module.exports = {
     describe: 'readonly',
     xdescribe: 'readonly',
     beforeEach: 'readonly'
+  },
+  overrides: [
+    {
+      files: [ '*.svelte' ],
+      processor: 'svelte3/svelte3',
+      rules: {
+        // In Svelte, assignment is used everywhere to update a componenent's state;
+        // Turning off this rule allows to write less curly-brackets-loaded inline functions
+        // Example:      on:click={() => zoom = !zoom }
+        // instead of:   on:click={() => { zoom = !zoom }}
+        'no-return-assign': 'off',
+        // Rules known to not work correctly with eslint-plugin-svelte3
+        // See https://github.com/sveltejs/eslint-plugin-svelte3/blob/master/OTHER_PLUGINS.md#eslint-plugin-import
+        'import/first': 'off',
+      }
+    }
+  ],
+  settings: {
+    // Required to not get errors on components with style lang=scss
+    // See https://github.com/sveltejs/eslint-plugin-svelte3#svelte3ignore-styles
+    'svelte3/ignore-styles': ({ lang }) => lang === 'scss'
   }
 }
