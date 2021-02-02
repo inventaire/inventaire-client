@@ -18,15 +18,16 @@ export default Notification.extend({
     if (this.group != null) {
       attrs.picture = this.group.get('picture')
       attrs.groupName = this.group.get('name')
-      attrs.text = getText(attrs.type, attrs.data.attribute)
+      attrs.text = getText(attrs.type, attrs.data.attribute, attrs.newValue)
     }
     return attrs
   }
 })
 
-const getText = function (type, attribute) {
+const getText = function (type, attribute, newValue) {
   if (attribute != null) {
-    return texts[type][attribute]
+    if (typeof texts[type][attribute] === 'string') return texts[type][attribute]
+    else return texts[type][attribute][newValue]
   } else {
     return texts[type]
   }
@@ -36,7 +37,15 @@ const texts = {
   userMadeAdmin: 'user_made_admin',
   groupUpdate: {
     name: 'group_update_name',
-    description: 'group_update_description'
+    description: 'group_update_description',
+    searchable: {
+      true: 'group_update_searchable_true',
+      false: 'group_update_searchable_false',
+    },
+    open: {
+      true: 'group_update_open_true',
+      false: 'group_update_open_false',
+    },
   }
 }
 
