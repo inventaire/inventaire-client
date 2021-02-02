@@ -3,20 +3,32 @@
 //   but then style hot reload was broken. See also https://daveceddia.com/svelte-with-sass-in-vscode/
 // - maybe we don't need SCSS: nested rules are much less needed in components
 
-module.exports = mode => ({
-  test: /\.svelte$/,
-  type: 'javascript/auto',
-  use: [
+module.exports = mode => {
+  return [
     {
-      loader: 'svelte-loader',
-      options: {
-        compilerOptions: {
-          dev: mode !== 'production',
-        },
-        hotReload: mode !== 'production',
-        // Only emit in production to get the page to reload on style change in development
-        emitCss: mode === 'production',
-      },
+      test: /\.svelte$/,
+      type: 'javascript/auto',
+      use: [
+        {
+          loader: 'svelte-loader',
+          options: {
+            compilerOptions: {
+              dev: mode !== 'production',
+            },
+            hotReload: mode !== 'production',
+            // Only emit in production to get the page to reload on style change in development
+            emitCss: mode === 'production',
+          },
+        }
+      ],
+    },
+    {
+      // Required to prevent errors from Svelte on Webpack 5+
+      // as recommended by https://github.com/sveltejs/svelte-loader#usage
+      test: /node_modules\/svelte\/.*\.mjs$/,
+      resolve: {
+        fullySpecified: false
+      }
     }
-  ],
-})
+  ]
+}

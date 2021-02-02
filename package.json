@@ -99,7 +99,7 @@
     "should": "^13.2.3",
     "sinon": "^1.17.3",
     "style-loader": "^2.0.0",
-    "svelte": "^3.32.0",
+    "svelte": "^3.32.1",
     "svelte-loader": "^3.0.0",
     "tiny-chalk": "^2.0.0",
     "unused-webpack-plugin": "^2.4.0",
