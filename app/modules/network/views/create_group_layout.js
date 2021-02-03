@@ -1,7 +1,6 @@
 // add name => creates group
 // invite friends
 // invite by email
-import { tryAsync } from 'lib/promises'
 import log_ from 'lib/loggers'
 import createGroupLayoutTemplate from './templates/create_group_layout.hbs'
 import { GroupLayoutView } from './group_views_commons'
@@ -35,7 +34,9 @@ export default GroupLayoutView.extend({
     nameField: '#nameField',
     description: '#description',
     searchabilityToggler: '#searchabilityToggler',
-    searchabilityWarning: '.searchability .warning'
+    searchabilityWarning: '.searchability .warning',
+    opennessToggler: '#opennessToggler',
+    opennessWarning: '.openness .warning'
   }),
 
   initialize () {
@@ -49,21 +50,15 @@ export default GroupLayoutView.extend({
 
   events: _.extend({}, groupUrlEvents, {
     'click #createGroup': 'createGroup',
-    'change #searchabilityToggler': 'toggleSearchabilityWarning'
-  }
-  ),
-  // Can't be used as the create_group_layout is already in a modal itself
-  // 'click #showPositionPicker': 'showPositionPicker'
-
-  // showPositionPicker: ->
-  //   app.request 'prompt:group:position:picker'
-  //   .then (position)=> @position = position
-  //   .catch log_.Error('showPositionPicker')
+    'change #searchabilityToggler': 'toggleSearchabilityWarning',
+    'change #opennessToggler': 'toggleOpennessWarning'
+  }),
 
   serializeData () {
     return {
       description: groupFormData.description(),
-      searchability: groupFormData.searchability()
+      searchability: groupFormData.searchability(),
+      openness: groupFormData.openness()
     }
   },
 
@@ -71,26 +66,31 @@ export default GroupLayoutView.extend({
     this.ui.searchabilityWarning.slideToggle()
   },
 
-  createGroup (e) {
+  toggleOpennessWarning () {
+    this.ui.opennessWarning.slideToggle()
+  },
+
+  async createGroup (e) {
     const name = this.ui.nameField.val()
     const description = this.ui.description.val()
 
     const data = {
       name,
       description,
-      searchable: this.ui.searchabilityToggler[0].checked
+      searchable: this.ui.searchabilityToggler[0].checked,
+      open: this.ui.opennessToggler[0].checked
     }
-    // position: @position
 
     log_.info(data, 'group data')
 
-    return tryAsync(groups_.validateName.bind(this, name, '#nameField'))
-    .then(groups_.validateDescription.bind(this, description, '#description'))
-    .then(groups_.createGroup.bind(null, data))
-    .then(model => {
+    try {
+      groups_.validateName(name, '#nameField')
+      groups_.validateDescription(description, '#description')
+      const model = await groups_.createGroup(data)
       app.execute('show:group:board', model)
       app.execute('modal:close')
-    })
-    .catch(forms_.catchAlert.bind(null, this))
+    } catch (err) {
+      forms_.catchAlert(this, err)
+    }
   }
 })

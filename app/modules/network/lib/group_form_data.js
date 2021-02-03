@@ -13,5 +13,13 @@ export default {
       checked: active,
       label: 'appear in search results'
     }
+  },
+
+  openness (active = false) {
+    return {
+      id: 'opennessToggler',
+      checked: active,
+      label: 'open membership'
+    }
   }
 }

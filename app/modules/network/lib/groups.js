@@ -5,7 +5,7 @@ import error_ from 'lib/error'
 
 export default {
   createGroup (data) {
-    const { name, description, searchable, position } = data
+    const { name, description, searchable, open, position } = data
     const { groups } = app
 
     return preq.post(app.API.groups.base, {
@@ -13,6 +13,7 @@ export default {
       name,
       description,
       searchable,
+      open,
       position
     })
     .then(groups.add.bind(groups))

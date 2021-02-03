@@ -9,9 +9,12 @@
 
 <label for="description">{{i18n 'description'}}</label>
 {{textarea description}}
+<hr>
 
 {{> 'network:searchability' searchability}}
 
+<hr>
+{{> 'network:open' openness}}
 {{!-- Can't be showned in a modal as the create_group_layout is in a modal itself >< --}}
 {{!-- {{> 'network:group_position_setting'}} --}}
 

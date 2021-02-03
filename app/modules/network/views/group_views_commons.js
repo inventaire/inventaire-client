@@ -1,5 +1,6 @@
 import { isOpenedOutside } from 'lib/utils'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import { i18n } from 'modules/user/lib/i18n'
 
 const groupViewsCommons = {
   events: {
@@ -10,6 +11,7 @@ const groupViewsCommons = {
     'click .accept': 'acceptInvitation',
     'click .decline': 'declineInvitation',
     'click .joinRequest': 'joinRequest',
+    'click .joinGroup': 'joinGroup',
     'click .cancelRequest': 'cancelRequest'
   },
 
@@ -39,11 +41,24 @@ const groupViewsCommons = {
 
   acceptInvitation () { return this.model.acceptInvitation() },
   declineInvitation () { return this.model.declineInvitation() },
+  joinGroup () {
+    if (app.request('require:loggedIn', this.model.get('pathname'))) {
+      return app.execute('ask:confirmation', {
+        confirmationText: i18n('join_open_group_confirmation', { name: this.model.get('name') }),
+        warningText: i18n('join_open_group_warning'),
+        action: this.joinGroupAction.bind(this)
+      })
+    }
+  },
   joinRequest () {
     if (app.request('require:loggedIn', this.model.get('pathname'))) {
       return this.model.requestToJoin()
-      .catch(behaviorsPlugin.Fail.call(this, 'joinRequest'))
+    .catch(behaviorsPlugin.Fail.call(this, 'joinRequest'))
     }
+  },
+  joinGroupAction () {
+    return this.model.joinGroup()
+    .catch(behaviorsPlugin.Fail.call(this, 'joinGroup'))
   },
 
   cancelRequest () {
