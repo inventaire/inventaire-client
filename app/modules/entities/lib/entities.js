@@ -2,6 +2,8 @@ import { isInvEntityId } from 'lib/boolean_tests'
 import preq from 'lib/preq'
 import wdk from 'lib/wikidata-sdk'
 import { looksLikeAnIsbn, normalizeIsbn } from 'lib/isbn'
+import getBestLangValue from './get_best_lang_value'
+import getOriginalLang from './get_original_lang'
 
 export async function getReverseClaims (property, value, refresh, sort) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
@@ -27,4 +29,26 @@ export function normalizeUri (uri) {
   } else {
     return uri
   }
+}
+
+export const getEntitiesByUris = async uris => {
+  if (uris.length === 0) return []
+  const { entities } = await preq.get(app.API.entities.getByUris(uris))
+  return Object.values(entities).map(serializeEntity)
+}
+
+export const serializeEntity = entity => {
+  entity.originalLang = getOriginalLang(entity.claims)
+  entity.label = getBestLangValue(app.user.lang, entity.originalLang, entity.labels).value
+  entity.description = getBestLangValue(app.user.lang, entity.originalLang, entity.descriptions).value
+  entity.pathname = `/entity/${entity.uri}`
+  const [ prefix, id ] = entity.uri.split(':')
+  entity.prefix = prefix
+  entity.id = id
+  return entity
+}
+
+export const attachEntities = async (entity, attribute, uris) => {
+  entity[attribute] = await getEntitiesByUris(uris)
+  return entity
 }

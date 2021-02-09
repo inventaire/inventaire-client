@@ -113,11 +113,11 @@ const API = {
     // Using an object interface, as the router might pass querystrings
     let { uris } = params
     uris = forceArray(uris)
-    const { default: DeduplicateLayout } = await import('./views/deduplicate_layout')
+    const { default: DeduplicateComponent } = await import('./components/deduplicate.svelte')
     showViewByAccessLevel({
       path: 'entity/deduplicate',
       title: 'deduplicate',
-      View: DeduplicateLayout,
+      Component: DeduplicateComponent,
       viewOptions: { uris },
       // Assume that if uris are passed, navigate was already done
       // to avoid double navigation
@@ -368,12 +368,18 @@ const existsOrCreateFromSeed = async entry => {
 }
 
 const showViewByAccessLevel = function (params) {
-  let { path, title, View, viewOptions, navigate, accessLevel } = params
+  let { path, title, View, Component, viewOptions, navigate, accessLevel } = params
   if (navigate == null) navigate = true
   if (app.request('require:loggedIn', path)) {
     if (navigate) app.navigate(path, { metadata: { title } })
     if (app.request(`require:${accessLevel}:access`)) {
-      return app.layout.main.show(new View(viewOptions))
+      if (View) {
+        app.layout.main.show(new View(viewOptions))
+      } else {
+        app.layout.main.showSvelteComponent(Component, {
+          data: viewOptions
+        })
+      }
     }
   }
 }

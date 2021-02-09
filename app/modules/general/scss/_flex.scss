@@ -14,28 +14,3 @@
   display: inline-flex;
   @include common-flex($direction, $align, $justify, $wrap);
 }
-
-// TODO: remove the flex prefix now that Foundation is out
-.flex-row{
-  @include display-flex(row);
-}
-.flex-row-center-center{
-  @include display-flex(row, center, center);
-}
-.flex-row-center-start{
-  @include display-flex(row, center, flex-start);
-}
-
-.flex-column{
-  @include display-flex(column);
-}
-.flex-column-center-center{
-  @include display-flex(column, center, center);
-}
-
-.flex-grow{
-  flex: 1 0 auto;
-}
-.flex-wrap{
-  flex-wrap: wrap;
-}

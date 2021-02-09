@@ -16,7 +16,9 @@ module.exports = mode => {
             // Only emit in production to get the page to reload on style change in development
             emitCss: mode === 'production',
             preprocess: {
-              style: sass()
+              style: sass({
+                includePaths: [ 'node_modules' ]
+              })
             }
           },
         }

@@ -70,6 +70,16 @@ Known case where `null` is passed and we were using default parameters in CS: ro
 ### Uncaught ReferenceError: can't access lexical declaration '__WEBPACK_DEFAULT_EXPORT__' before initialization
 You might be dealing with a circular dependancy, see https://github.com/webpack/webpack/issues/9173#issuecomment-494903242
 
+### ctx[3] is undefined
+Stacktrace example:
+```js
+ctx[3] is undefined
+create_fragment@webpack-internal:///./app/modules/entities/components/deduplicate_controls.svelte:208:33
+init@webpack-internal:///./node_modules/svelte/internal/index.mjs:1644:37
+```
+
+This error is produced when a variable used in a Svelte template is not defined, typically because it is defined later, for example after a promise is resolved
+
 ## In Webpack logs
 ### ERROR in ./node_modules/svelte/index.mjs 1:0-167
 ```

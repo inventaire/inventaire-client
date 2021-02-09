@@ -187,6 +187,14 @@ Marionette.View.prototype.lazyRender = function (focusSelector) {
   this._lazyRender(focusSelector)
 }
 
+Marionette.Region.prototype.showSvelteComponent = function (SvelteComponent, options) {
+  const el = (typeof this.el === 'string') ? document.querySelector(this.el) : this.el
+  options.target = el
+  // Svelte only appends to the target, thus the need to empty it before mounting
+  $(el).empty()
+  return new SvelteComponent(options)
+}
+
 const triggerChange = function (model, attr, value) {
   model.trigger('change', model, attr, value)
   model.trigger(`change:${attr}`, model, value)

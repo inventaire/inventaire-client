@@ -21,11 +21,6 @@ export default TypedEntityLayout.extend({
     return `authorLayout ${secondClass} entity-prefix-${prefix}`
   },
 
-  attributes () {
-    // Used by deduplicate_layout
-    return { 'data-uri': this.model.get('uri') }
-  },
-
   behaviors: {
     Loading: {}
   },
