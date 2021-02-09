@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 if [ "$1" != "" ] ; then
-  eslint -c .eslintrc.cjs --fix "$@"
+  eslint -c .eslintrc.cjs --ext js,svelte --fix "$@"
 else
-  eslint -c .eslintrc.cjs --fix app tests scripts
+  eslint -c .eslintrc.cjs --ext js,svelte --fix app tests scripts
 fi
