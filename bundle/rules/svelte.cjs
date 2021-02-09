@@ -1,7 +1,4 @@
-// About using SCSS in Svelte components:
-// - it can work by adding a preprocessor such as https://github.com/ls-age/svelte-preprocess-sass
-//   but then style hot reload was broken. See also https://daveceddia.com/svelte-with-sass-in-vscode/
-// - maybe we don't need SCSS: nested rules are much less needed in components
+const { sass } = require('svelte-preprocess-sass')
 
 module.exports = mode => {
   return [
@@ -18,6 +15,9 @@ module.exports = mode => {
             hotReload: mode !== 'production',
             // Only emit in production to get the page to reload on style change in development
             emitCss: mode === 'production',
+            preprocess: {
+              style: sass()
+            }
           },
         }
       ],
