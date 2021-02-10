@@ -12,6 +12,9 @@
   <meta http-equiv="expires" content="0">
   <meta http-equiv="pragma" content="no-cache">
 
+  <!-- Instruct Nginx to send the prerendered version. In case there is no Nginx to catch that request, the page will be reloaded in loop, thus the 1 second delay, to give a chance to close the page before saturating a small CPU -->
+  <noscript><meta http-equiv="refresh" content="1;?__nojs" /></noscript>
+
   <link rel="canonical" href="https://inventaire.io/" />
   <link rel="sitemap" href="/public/sitemaps/sitemapindex.xml" />
   <link rel="alternate" type="application/rss+xml" href="https://wiki.inventaire.io/blog.rss">
@@ -60,7 +63,9 @@
   <div class="full-screen-loader"><div></div></div>
 </div>
 
-<noscript>sorry, this website can't work without javascript activated</noscript>
+<noscript>
+  <p id="nojs-warning">This webapp heavily uses JavaScript. You can read its source code from <a href="https://github.com/inventaire/inventaire-client">our client code repository</a></p>
+</noscript>
 
 </body>
 </html>
