@@ -1,3 +1,4 @@
+import { range } from 'underscore'
 import { capitalize, lazyMethod } from 'lib/utils'
 import { I18n, i18n } from 'modules/user/lib/i18n'
 import serieCleanupTemplate from './templates/serie_cleanup.hbs'
@@ -66,7 +67,7 @@ export default Marionette.LayoutView.extend({
 
     return {
       serie: this.model.toJSON(),
-      partsNumberPickerRange: __range__(this.maxOrdinal, partsLength + 100, true),
+      partsNumberPickerRange: range(this.maxOrdinal, partsLength + 101),
       authorsToggler: {
         id: 'authorsToggler',
         checked: this._states.authors,
@@ -260,13 +261,3 @@ const getIsolatedEditions = serieUri => getReverseClaims('wdt:P629', serieUri, t
 .then(uris => app.request('get:entities:models', { uris }))
 
 const isPlaceholder = model => model.get('isPlaceholder') === true
-
-function __range__ (left, right, inclusive) {
-  const range = []
-  const ascending = left < right
-  const end = !inclusive ? right : ascending ? right + 1 : right - 1
-  for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
-    range.push(i)
-  }
-  return range
-}

@@ -3,6 +3,7 @@ import { simpleDay } from 'lib/utils'
 import { i18n } from 'modules/user/lib/i18n'
 import ClaimsEditorCommons from './claims_editor_commons'
 import simpleDayValueEditorTemplate from './templates/simple_day_value_editor.hbs'
+import { range } from 'underscore'
 
 let noValueI18n = null
 
@@ -23,7 +24,7 @@ export default ClaimsEditorCommons.extend({
     if (noValueI18n == null) {
       if (!noValueI18n) noValueI18n = i18n('no value')
       selectorValues.month.unshift(noValueI18n)
-      return selectorValues.day.unshift(noValueI18n)
+      selectorValues.day.unshift(noValueI18n)
     }
   },
 
@@ -159,19 +160,9 @@ const currentYear = parseInt(simpleDay().split('-')[0])
 const nextYear = currentYear + 1
 
 const selectorValues = {
-  day: __range__(1, 31, true),
+  day: range(1, 32),
   month: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],
-  // Start with the latest years first, as those are likely
+  // Reverse to start with the latest years first, as those are likely
   // to be the most used values
-  year: __range__(nextYear, 1800, true)
-}
-
-function __range__ (left, right, inclusive) {
-  const range = []
-  const ascending = left < right
-  const end = !inclusive ? right : ascending ? right + 1 : right - 1
-  for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
-    range.push(i)
-  }
-  return range
+  year: range(1800, nextYear).reverse()
 }
