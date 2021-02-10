@@ -161,8 +161,8 @@ const nextYear = currentYear + 1
 
 const selectorValues = {
   day: range(1, 32),
-  month: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],
+  month: range(1, 13),
   // Reverse to start with the latest years first, as those are likely
   // to be the most used values
-  year: range(1700, nextYear).reverse()
+  year: range(1700, nextYear + 1).reverse()
 }
