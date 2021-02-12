@@ -33,9 +33,10 @@ export default Backbone.Model.extend({
       title: this.get('name'),
       description: this.get('description'),
       image: this.get('picture'),
-      url: this.get('pathname')
+      url: this.get('pathname'),
+      rss: this.getRss(),
     }
-  }
+  },
+
+  getRss () { return app.API.feeds('shelf', this.id) },
 })
-// TODO: implement shelves RSS feeds server-side
-// rss: @getRss()
