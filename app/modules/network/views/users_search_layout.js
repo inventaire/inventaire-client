@@ -20,7 +20,7 @@ export default Marionette.LayoutView.extend({
 
   initialize () {
     this.collection = app.users.filtered.resetFilters()
-    return this.initSearch()
+    this.initSearch()
   },
 
   serializeData () {
@@ -45,25 +45,25 @@ export default Marionette.LayoutView.extend({
 
     // start with .noUser hidden
     // will eventually be re-shown by empty results later
-    return $('.noUser').hide()
+    $('.noUser').hide()
   },
 
   onRender () {
-    return startLoading.call(this, '#usersList')
+    startLoading.call(this, '#usersList')
   },
 
   initSearch () {
     const q = this.options.query?.q
-    if (isNonEmptyString(q)) return this.searchUser(q)
+    if (isNonEmptyString(q)) this.searchUser(q)
   },
 
   searchUserFromEvent (e) {
     const query = e.target.value
-    return this.searchUser(query)
+    this.searchUser(query)
   },
 
   searchUser (query) {
     this.lastQuery = query
-    return app.request('users:search', query)
+    app.request('users:search', query)
   }
 })

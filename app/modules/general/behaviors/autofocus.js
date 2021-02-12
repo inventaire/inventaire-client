@@ -8,6 +8,6 @@ export default Marionette.Behavior.extend({
     // which can take pretty much all the screen
     if (isMobile) return
     const selector = this.options.selector || 'input,[tabindex=0]'
-    return this.view.$el.find(selector).first().focus()
+    this.view.$el.find(selector).first().focus()
   }
 })

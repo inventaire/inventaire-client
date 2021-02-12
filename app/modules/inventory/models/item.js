@@ -87,7 +87,7 @@ export default Filterable.extend({
     this.trigger('user:ready')
   },
 
-  setPathname () { return this.set('pathname', '/items/' + this.id) },
+  setPathname () { this.set('pathname', '/items/' + this.id) },
 
   serializeData () {
     const attrs = this.toJSON()
@@ -248,14 +248,14 @@ export default Filterable.extend({
     const shelvesIds = this.get('shelves') || []
     if (shelvesIds.includes(shelfId)) return
     shelvesIds.push(shelfId)
-    return this.set('shelves', shelvesIds)
+    this.set('shelves', shelvesIds)
   },
 
   removeShelf (shelfId) {
     let shelvesIds = this.get('shelves') || []
     if (!shelvesIds.includes(shelfId)) return
     shelvesIds = _.without(shelvesIds, shelfId)
-    return this.set('shelves', shelvesIds)
+    this.set('shelves', shelvesIds)
   },
 
   isInShelf (shelfId) {

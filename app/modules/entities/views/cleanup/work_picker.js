@@ -18,14 +18,14 @@ export default Marionette.ItemView.extend({
     ({ worksWithOrdinal: this.worksWithOrdinal, worksWithoutOrdinal: this.worksWithoutOrdinal, _showWorkPicker: this._showWorkPicker } = this.options)
     if (this.workUri == null) this.workUri = this.options.workUri
     if (this.afterMerge == null) this.afterMerge = this.options.afterMerge
-    return this._showWorkPicker != null ? this._showWorkPicker : (this._showWorkPicker = false)
+    if (this._showWorkPicker == null) this._showWorkPicker = false
   },
 
   onRender () {
     if (this.workPickerDisabled) return
     if (this._showWorkPicker) {
       this.setTimeout(this.ui.workPickerSelect.focus.bind(this.ui.workPickerSelect), 100)
-      return this.startListingForChanges()
+      this.startListingForChanges()
     }
   },
 

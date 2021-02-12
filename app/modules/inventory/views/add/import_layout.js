@@ -56,7 +56,7 @@ export default Marionette.LayoutView.extend({
       this.hideImporters = true
     }
 
-    return candidates || (candidates = new Candidates())
+    candidates = candidates || new Candidates()
   },
 
   onShow () {

@@ -21,7 +21,7 @@ export default {
   onRender () {
     if (this.suggestions == null) initializeAutocomplete.call(this)
     this.suggestionsRegion.show(new AutocompleteSuggestions({ collection: this.suggestions }))
-    return addDefaultSuggestionsUris.call(this)
+    addDefaultSuggestionsUris.call(this)
   },
 
   onKeyDown (e) {

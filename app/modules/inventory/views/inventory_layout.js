@@ -45,7 +45,7 @@ export default Marionette.LayoutView.extend({
       this.startFromUser(this.user, this.shelf)
       this.showUserShelves(this.user)
     } else if (this.group != null) {
-      return this.startFromGroup(this.group)
+      this.startFromGroup(this.group)
     } else {
       const { section, filter } = this.options
       this.showInventoryNav(section)

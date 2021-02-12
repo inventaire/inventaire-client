@@ -15,7 +15,7 @@ export default Marionette.ItemView.extend({
   },
 
   onShow () {
-    if (this.model.user == null) return this.model.waitForUser.then(this.lazyRender.bind(this))
+    if (this.model.user == null) this.model.waitForUser.then(this.lazyRender.bind(this))
   },
 
   serializeData () {

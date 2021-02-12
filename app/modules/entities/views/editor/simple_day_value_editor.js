@@ -70,7 +70,7 @@ export default ClaimsEditorCommons.extend({
   },
 
   onRender () {
-    return this.focusOnRender()
+    this.focusOnRender()
   },
 
   updateSelectors (e) {

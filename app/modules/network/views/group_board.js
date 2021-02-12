@@ -100,9 +100,9 @@ export default GroupLayoutView.extend({
     groupEmailInvite: 'showMembersEmailInvitor'
   },
 
-  onRender () {
-    return this.model.beforeShow()
-    .then(this.ifViewIsIntact('_showBoard'))
+  async onRender () {
+    await this.model.beforeShow()
+    if (this.isIntact()) this._showBoard()
   },
 
   _showBoard () {

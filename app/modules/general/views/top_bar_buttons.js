@@ -15,7 +15,7 @@ export default Marionette.ItemView.extend({
     })
 
     // Re-render once relations and groups are populated to display network counters
-    return Promise.all([
+    Promise.all([
       app.request('wait:for', 'relations'),
       app.request('wait:for', 'groups')
     ])

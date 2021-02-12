@@ -10,7 +10,7 @@ const { defaultAvatar } = images
 export default Positionable.extend({
   setPathname () {
     const username = this.get('username')
-    return this.set({
+    this.set({
       pathname: `/inventory/${username}`,
       contributions: `/users/${username}/contributions`,
       // Set for compatibility with interfaces expecting a label
@@ -78,7 +78,7 @@ export default Positionable.extend({
   },
 
   setDefaultPicture () {
-    if (this.get('picture') == null) return this.set('picture', defaultAvatar)
+    if (this.get('picture') == null) this.set('picture', defaultAvatar)
   }
 })
 

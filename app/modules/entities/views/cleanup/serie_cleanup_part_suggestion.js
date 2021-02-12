@@ -19,7 +19,7 @@ const PartSuggestion = WorkPicker.extend({
 
   onRender () {
     this.updateClassName()
-    return WorkPicker.prototype.onRender.call(this)
+    WorkPicker.prototype.onRender.call(this)
   },
 
   serializeData () {
@@ -40,7 +40,7 @@ const PartSuggestion = WorkPicker.extend({
 
   afterMerge (work) {
     this.model.collection.remove(this.model)
-    return work.editions.add(this.model.editions.models)
+    work.editions.add(this.model.editions.models)
   },
 
   events: _.extend({}, WorkPicker.prototype.events, {
@@ -50,7 +50,7 @@ const PartSuggestion = WorkPicker.extend({
   add () {
     this.model.setPropertyValue('wdt:P179', null, this.options.serie.get('uri'))
     this.options.addToSerie(this.model)
-    return this.options.collection.remove(this.model)
+    this.options.collection.remove(this.model)
   }
 })
 

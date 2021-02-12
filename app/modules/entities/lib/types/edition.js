@@ -20,25 +20,25 @@ const specificMethods = {
   setLang () {
     const langUri = this.get('claims.wdt:P407.0')
     const lang = langUri ? wdLang.byWdId[unprefixify(langUri)]?.code : undefined
-    return this.set('lang', lang)
+    this.set('lang', lang)
   },
 
   setLabelFromTitle () {
     // Take the label from the monolingual title property
-    return this.set('label', this.get('claims.wdt:P1476.0'))
+    this.set('label', this.get('claims.wdt:P1476.0'))
   },
 
   setPublicationTime () {
     const publicationDate = this.get('claims.wdt:P577.0')
     const publicationTime = new Date(publicationDate || farInTheFuture).getTime()
-    return this.set('publicationTime', publicationTime)
+    this.set('publicationTime', publicationTime)
   },
 
   setClaimsBasedAttributes () {
     this.setLang()
     this.setLabelFromTitle()
     this.setPublicationTime()
-    return this.set('isCompositeEdition', (this.get('claims.wdt:P629')?.length > 1))
+    this.set('isCompositeEdition', (this.get('claims.wdt:P629')?.length > 1))
   },
 
   onClaimsChange (property, oldValue, newValue) {
@@ -99,7 +99,7 @@ const setWorksClaims = function (works, property) {
     .compact()
     .uniq()
     .value()
-  if (values.length > 0) return this.set(`claims.${property}`, values)
+  if (values.length > 0) this.set(`claims.${property}`, values)
 }
 
 const startListeningForClaimsChanges = function () {

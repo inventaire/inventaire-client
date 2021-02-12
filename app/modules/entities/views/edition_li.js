@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
 
   initialize () {
     ({ itemToUpdate: this.itemToUpdate, compactMode: this.compactMode, onWorkLayout: this.onWorkLayout } = this.options)
-    if ((this.itemToUpdate == null) && !this.compactMode) return entityItems.initialize.call(this)
+    if ((this.itemToUpdate == null) && !this.compactMode) entityItems.initialize.call(this)
   },
 
   onRender () {
@@ -39,7 +39,8 @@ export default Marionette.LayoutView.extend({
   },
 
   showEntityActions () {
-    if (this.compactMode) return
-    return this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate: this.itemToUpdate }))
+    if (!this.compactMode) {
+      this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate: this.itemToUpdate }))
+    }
   }
 })

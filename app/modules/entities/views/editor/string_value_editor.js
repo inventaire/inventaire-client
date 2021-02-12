@@ -31,7 +31,7 @@ export default ClaimsEditorCommons.extend({
 
   onRender () {
     this.focusOnRender()
-    return tipOnRender.call(this)
+    tipOnRender.call(this)
   },
 
   events: {

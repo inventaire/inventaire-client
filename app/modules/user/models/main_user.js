@@ -33,7 +33,7 @@ export default UserCommons.extend({
 
     // If the user is logged in, this will wait for their document to arrive
     // Else, it will fire at next tick.
-    return app.request('wait:for', 'user')
+    app.request('wait:for', 'user')
     .then(this.lateInitialize.bind(this))
   },
 

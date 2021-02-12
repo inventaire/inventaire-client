@@ -29,7 +29,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    return app.request('wait:for', 'user')
+    app.request('wait:for', 'user')
     .then(this.showTab.bind(this, this.options.tab))
   },
 

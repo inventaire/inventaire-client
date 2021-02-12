@@ -46,7 +46,7 @@ export default Positionable.extend({
     })
 
     if (this.get('picture') == null) {
-      return this.set('picture', getColorSquareDataUriFromModelId(this.get('_id')))
+      this.set('picture', getColorSquareDataUriFromModelId(this.get('_id')))
     }
   },
 
@@ -234,7 +234,7 @@ export default Positionable.extend({
     }
 
     // Inverting to get the highest scores first
-    return this.set('highlightScore', -total)
+    this.set('highlightScore', -total)
   },
 
   boostHighlightScore () {

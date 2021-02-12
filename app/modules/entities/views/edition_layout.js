@@ -26,8 +26,8 @@ export default Marionette.LayoutView.extend({
     entityItems.initialize.call(this)
   },
 
-  onShow () {
-    return this.model.waitForWorks
+  async onShow () {
+    this.model.waitForWorks
     .then(works => works.map(work => work.fetchSubEntities()))
     .then(this.ifViewIsIntact('showWorks'))
     .catch(app.Execute('show:error'))
@@ -35,7 +35,7 @@ export default Marionette.LayoutView.extend({
 
   showWorks () {
     const collection = new Backbone.Collection(this.model.works)
-    return this.works.show(new EditionWorks({ collection }))
+    this.works.show(new EditionWorks({ collection }))
   },
 
   onRender () {
@@ -54,7 +54,7 @@ export default Marionette.LayoutView.extend({
 
   showEntityActions () {
     const { itemToUpdate } = this.options
-    return this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate }))
+    this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate }))
   }
 })
 

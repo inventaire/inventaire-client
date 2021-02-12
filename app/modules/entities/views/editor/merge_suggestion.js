@@ -26,8 +26,8 @@ export default Marionette.LayoutView.extend({
     this.taskModel = this.model.tasks?.[toEntityUri]
     this.isTypeAttribute = `is${capitalize(this.model.type)}`
 
-    this.isExactMatch = haveLabelMatch(this.model, this.options.toEntity);
-    ({ showCheckbox: this.showCheckbox } = this.options)
+    this.isExactMatch = haveLabelMatch(this.model, this.options.toEntity)
+    this.showCheckbox = this.options.showCheckbox
   },
 
   serializeData () {
@@ -44,10 +44,10 @@ export default Marionette.LayoutView.extend({
     'click .merge': 'merge'
   },
 
-  onShow () {
+  async onShow () {
     if (this.model.get('type') !== 'human') return
-    return this.model.initAuthorWorks()
-    .then(this.ifViewIsIntact('showWorks'))
+    await this.model.initAuthorWorks()
+    if (this.isIntact()) this.showWorks()
   },
 
   showWorks () {
@@ -55,15 +55,15 @@ export default Marionette.LayoutView.extend({
     this.showSubentities('works', this.model.works.works)
   },
 
-  showSubentities (name, collection) {
+  async showSubentities (name, collection) {
     if (collection.totalLength === 0) return
-    return collection.fetchAll()
-    .then(this.ifViewIsIntact('_showSubentities', name, collection))
+    await collection.fetchAll()
+    if (this.isIntact()) this._showSubentities(name, collection)
   },
 
   _showSubentities (name, collection) {
     this.$el.find(`.${name}Label`).show()
-    return this[name].show(new SubentitiesList({ collection, entity: this.model }))
+    this[name].show(new SubentitiesList({ collection, entity: this.model }))
   },
 
   showTask (e) {

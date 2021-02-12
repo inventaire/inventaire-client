@@ -38,11 +38,11 @@ export default Marionette.LayoutView.extend({
     return attrs
   },
 
-  onRender () {
+  async onRender () {
     app.execute('uriLabel:update')
 
-    return this.waitForAuthors
-    .then(this.ifViewIsIntact(showAllAuthorsPreviewLists))
+    await this.waitForAuthors
+    if (this.isIntact()) showAllAuthorsPreviewLists.call(this)
   }
 })
 

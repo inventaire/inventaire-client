@@ -38,7 +38,7 @@ export default Marionette.LayoutView.extend({
     const listing = this.model.get('listing')
     const $el = this.$el.find(`#${listing}`)
     $el.siblings().removeClass('selected')
-    return $el.addClass('selected')
+    $el.addClass('selected')
   },
 
   shelfEditorKeyAction (e) {

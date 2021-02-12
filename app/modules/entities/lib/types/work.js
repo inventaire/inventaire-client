@@ -47,7 +47,7 @@ const setImage = function () {
     this.set('image', (images[0] || workImage))
   }
 
-  return this.set('images', images.slice(0, 3))
+  this.set('images', images.slice(0, 3))
 }
 
 const getEditionImageData = function (model) {
@@ -84,7 +84,7 @@ const setEbooksData = function () {
   const hasGutenbergPage = (this.get('claims.wdt:P2034.0') != null)
   const hasWikisourcePage = (this.get('wikisource.url') != null)
   this.set('hasEbooks', (hasInternetArchivePage || hasGutenbergPage || hasWikisourcePage))
-  return this.set('gutenbergProperty', 'wdt:P2034')
+  this.set('gutenbergProperty', 'wdt:P2034')
 }
 
 const specificMethods = _.extend({}, commonsSerieWork, {

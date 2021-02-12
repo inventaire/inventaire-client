@@ -51,7 +51,7 @@ export default EditorCommons.extend({
 
   onRender () {
     this.selectIfInEditMode()
-    return tipOnRender.call(this)
+    tipOnRender.call(this)
   },
 
   select () { this.ui.input.select() },

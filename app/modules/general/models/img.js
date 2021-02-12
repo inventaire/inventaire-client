@@ -52,7 +52,7 @@ export default Backbone.NestedModel.extend({
     if (this.view != null) {
       const croppedData = this.view.getCroppedDataUrl()
       const { dataUrl, width, height } = croppedData
-      return this.set({
+      this.set({
         croppedDataUrl: dataUrl,
         cropped: {
           width,

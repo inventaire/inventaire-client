@@ -40,8 +40,7 @@ export default Marionette.LayoutView.extend({
     this.listenTo(app.vent, 'lang:local:change', lazyLangSelectorUpdate)
     // This is required to update works ordinal selectors
     this.listenTo(app.vent, 'serie:cleanup:parts:change', this.lazyRender.bind(this))
-
-    return ({ allAuthorsUris: this.allAuthorsUris } = this.options)
+    this.allAuthorsUris = this.options.allAuthorsUris
   },
 
   serializeData () {
@@ -63,7 +62,7 @@ export default Marionette.LayoutView.extend({
 
     this.showWorkAuthors()
 
-    return this.model.fetchSubEntities()
+    this.model.fetchSubEntities()
     .then(this.ifViewIsIntact('showWorkEditions'))
   },
 

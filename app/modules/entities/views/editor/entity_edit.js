@@ -80,7 +80,7 @@ export default Marionette.LayoutView.extend({
     .then(this.showPropertiesEditor.bind(this))
 
     this.listenTo(this.model, 'change', this.updateNavigationButtons.bind(this))
-    return this.updateNavigationButtons()
+    this.updateNavigationButtons()
   },
 
   showPropertiesEditor () {

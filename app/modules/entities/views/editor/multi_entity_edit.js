@@ -4,8 +4,8 @@ import entityDraftModel from '../../lib/entity_draft_model'
 
 export default EntityEdit.extend({
   initialize () {
-    EntityEdit.prototype.initialize.call(this)
-    return ({ next: this.next, previous: this.previous, relation: this.relation, fromIsbn: this.fromIsbn } = this.options)
+    EntityEdit.prototype.initialize.call(this);
+    ({ next: this.next, previous: this.previous, relation: this.relation, fromIsbn: this.fromIsbn } = this.options)
   },
 
   serializeData () {

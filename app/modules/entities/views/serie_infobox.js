@@ -18,7 +18,7 @@ export default Marionette.LayoutView.extend({
 
   initialize () {
     this.waitForAuthors = this.model.getExtendedAuthorsModels()
-    return this.model.getWikipediaExtract()
+    this.model.getWikipediaExtract()
   },
 
   modelEvents: {
@@ -35,8 +35,8 @@ export default Marionette.LayoutView.extend({
     return attrs
   },
 
-  onRender () {
-    return this.waitForAuthors
-    .then(this.ifViewIsIntact(showAllAuthorsPreviewLists))
+  async onRender () {
+    await this.waitForAuthors
+    if (this.isIntact()) showAllAuthorsPreviewLists.call(this)
   }
 })

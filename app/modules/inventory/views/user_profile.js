@@ -23,11 +23,11 @@ export default Marionette.ItemView.extend({
   initialize () {
     ({ isMainUser: this.isMainUser } = this.model)
     this.listenTo(this.model, 'change', this.render.bind(this))
-    return this.initPlugin()
+    this.initPlugin()
   },
 
   initPlugin () {
-    if (!this.isMainUser) return relationsActions.call(this)
+    if (!this.isMainUser) relationsActions.call(this)
   },
 
   serializeData () {

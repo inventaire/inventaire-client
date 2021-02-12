@@ -47,7 +47,7 @@ export default Marionette.LayoutView.extend({
   count () { return this.collection.length },
 
   onShow () {
-    return this.list.show(new BrowserSelectorOptions({ collection: this.collection }))
+    this.list.show(new BrowserSelectorOptions({ collection: this.collection }))
   },
 
   events: {

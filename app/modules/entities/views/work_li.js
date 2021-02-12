@@ -35,7 +35,7 @@ export default Marionette.ItemView.extend({
 
     if (this.showActions) {
       // Required by @getNetworkItemsCount
-      return this.model.getItemsByCategories()
+      this.model.getItemsByCategories()
       .then(this.lazyRender.bind(this))
     }
   },
@@ -56,7 +56,7 @@ export default Marionette.ItemView.extend({
   },
 
   onRender () {
-    return this.updateClassName()
+    this.updateClassName()
   },
 
   showItemCreationForm (e) {

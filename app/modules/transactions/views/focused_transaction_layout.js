@@ -34,7 +34,7 @@ export default Marionette.CompositeView.extend({
   onShow () {
     this.model.markAsRead()
     if (screen_.isSmall() && !this.options.nonExplicitSelection) {
-      return screen_.scrollTop(this.$el)
+      screen_.scrollTop(this.$el)
     }
   },
 

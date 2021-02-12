@@ -21,7 +21,7 @@ export default Backbone.Model.extend({
     const shelfListing = this.get('listing')
     if (shelfListing != null) {
       const listingKeys = app.user.listings.data[shelfListing]
-      return this.set({
+      this.set({
         icon: listingKeys.icon,
         label: listingKeys.label
       })

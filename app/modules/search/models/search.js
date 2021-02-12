@@ -10,7 +10,7 @@ export default Backbone.Model.extend({
     if (currentPictures > 5) return
     pictures = _.compact(pictures)
     const updatedPictures = _.uniq(currentPictures.concat(pictures)).slice(0, 6)
-    return this.set('pictures', updatedPictures)
+    this.set('pictures', updatedPictures)
   },
 
   serializeData () {
@@ -22,7 +22,7 @@ export default Backbone.Model.extend({
     return data
   },
 
-  updateTimestamp () { return this.set('timestamp', Date.now()) },
+  updateTimestamp () { this.set('timestamp', Date.now()) },
 
   show () {
     const [ uri, query ] = this.gets('uri', 'query')

@@ -21,7 +21,7 @@ export default InventoryCommonNav.extend({
     app.request('fetch:friends')
     .then(() => this.showList(this.usersList, app.users.filtered.friends()))
 
-    return app.request('wait:for', 'groups')
+    app.request('wait:for', 'groups')
     .then(() => this.showList(this.groupsList, app.groups))
   },
 

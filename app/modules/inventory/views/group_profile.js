@@ -30,13 +30,13 @@ export default GroupLayoutView.extend({
     })
   },
 
-  onRender () {
-    return this.model.beforeShow()
-    .then(this.ifViewIsIntact('showMembers'))
+  async onRender () {
+    await this.model.beforeShow()
+    if (this.isIntact()) this.showMembers()
   },
 
   showMembers () {
-    return this.membersList.show(new SectionList({ collection: this.model.members, context: 'group', group: this.model }))
+    this.membersList.show(new SectionList({ collection: this.model.members, context: 'group', group: this.model }))
   },
 
   getRequestsCount () {

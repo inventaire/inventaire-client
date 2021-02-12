@@ -59,7 +59,9 @@ export default Marionette.LayoutView.extend({
     return data
   },
 
-  onShow () { return this.initBrowser() },
+  onShow () {
+    this.initBrowser()
+  },
 
   initBrowser () {
     startLoading.call(this, { selector: '#browserFilters', timeout: 180 })
@@ -75,12 +77,12 @@ export default Marionette.LayoutView.extend({
     // Show the controls all at once
     .then(this.ifViewIsIntact('browserControlsReady'))
 
-    return this.filterPreview.show(new FilterPreview())
+    this.filterPreview.show(new FilterPreview())
   },
 
   browserControlsReady () {
     this.ui.browserControls.addClass('ready')
-    return stopLoading.call(this, '#browserFilters')
+    stopLoading.call(this, '#browserFilters')
   },
 
   spreadData (data) {

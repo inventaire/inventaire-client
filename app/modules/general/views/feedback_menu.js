@@ -19,7 +19,7 @@ export default Marionette.ItemView.extend({
 
   initialize () {
     _.extend(this, behaviorsPlugin)
-    return ({ standalone: this.standalone } = this.options)
+    this.standalone = this.options.standalone
   },
 
   serializeData () {

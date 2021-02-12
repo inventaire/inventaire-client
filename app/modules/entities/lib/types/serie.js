@@ -93,7 +93,7 @@ const hasNoKnownSuperpart = allsPartsUris => function (part) {
 const importDataFromParts = function () {
   const firstPartWithPublicationDate = this.parts.find(getPublicationDate)
   if (firstPartWithPublicationDate != null) {
-    return this.set('publicationStart', getPublicationDate(firstPartWithPublicationDate))
+    this.set('publicationStart', getPublicationDate(firstPartWithPublicationDate))
   }
 }
 

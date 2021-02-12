@@ -20,7 +20,7 @@ export default UserCommons.extend({
     // that switch on type to pick a template for instance
     this.set('type', 'user')
 
-    return app.request('wait:for', 'relations')
+    app.request('wait:for', 'relations')
     .then(this.initRelation.bind(this))
   },
 
@@ -28,9 +28,9 @@ export default UserCommons.extend({
     this.set('status', getStatus(this.id, app.relations))
 
     if (app.relations.network.includes(this.id)) {
-      return this.set('itemsCategory', 'network')
+      this.set('itemsCategory', 'network')
     } else {
-      return this.set('itemsCategory', 'public')
+      this.set('itemsCategory', 'public')
     }
   },
 
@@ -76,7 +76,7 @@ export default UserCommons.extend({
     const randomFactor = Math.random() * 50
     const points = itemsCount + freshnessFactor + distanceFactor + randomFactor
     // negating to get the higher scores appear first in collections
-    return this.set('highlightScore', -points)
+    this.set('highlightScore', -points)
   }
 })
 

@@ -11,15 +11,15 @@ const specificMethods = {
     // Take the label from the monolingual title property
     const title = this.get('claims.wdt:P1476.0')
     // inv collections will always have a title, but not the wikidata ones
-    if (title != null) return this.set('label', title)
+    if (title != null) this.set('label', title)
   },
 
   setClaimsBasedAttributes () {
-    return this.setLabelFromTitle()
+    this.setLabelFromTitle()
   },
 
   onClaimsChange (property, oldValue, newValue) {
-    return this.setClaimsBasedAttributes()
+    this.setClaimsBasedAttributes()
   },
 
   async getChildrenCandidatesUris () {

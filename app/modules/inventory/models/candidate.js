@@ -30,7 +30,7 @@ export default Backbone.Model.extend({
 
   updateInfoState () {
     const needInfo = !isNonEmptyString(this.get('title'))
-    return this.set('needInfo', needInfo)
+    this.set('needInfo', needInfo)
   },
 
   setStatusData () {
@@ -38,11 +38,11 @@ export default Backbone.Model.extend({
     if ((existingEntityItemsCount != null) && (existingEntityItemsCount > 0)) {
       const uri = this.get('uri')
       const username = app.user.get('username')
-      return this.set('existingEntityItemsPathname', `/inventory/${username}/${uri}`)
+      this.set('existingEntityItemsPathname', `/inventory/${username}/${uri}`)
     } else if ((this.get('title') == null)) {
-      return this.set('needInfo', true)
+      this.set('needInfo', true)
     } else {
-      return this.set('selected', true)
+      this.set('selected', true)
     }
   },
 

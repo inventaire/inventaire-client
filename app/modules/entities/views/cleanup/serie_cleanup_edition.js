@@ -12,7 +12,7 @@ export default WorkPicker.extend({
     WorkPicker.prototype.initialize.call(this)
     this.editionLang = this.model.get('lang')
     this.workUri = this.model.get('claims.wdt:P629.0')
-    return this.getWorksLabel()
+    this.getWorksLabel()
   },
 
   serializeData () {

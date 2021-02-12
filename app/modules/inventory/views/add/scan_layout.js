@@ -6,7 +6,7 @@ export default Marionette.ItemView.extend({
   id: 'scanLayout',
   template: scanTemplate,
   initialize () {
-    if (window.hasVideoInput) return embedded_.prepare()
+    if (window.hasVideoInput) embedded_.prepare()
   },
 
   serializeData () {

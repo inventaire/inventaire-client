@@ -11,7 +11,7 @@ export default Marionette.ItemView.extend({
   initialize () {
     this.listenTo(app.vent, 'transaction:select', this.autoSelect.bind(this))
     // Required by @requestContext
-    return this.model.buildTimeline()
+    this.model.buildTimeline()
   },
 
   serializeData () {

@@ -27,7 +27,7 @@ export default Backbone.NestedModel.extend({
     // re-set mainUserIsOwner once app.user.id is accessible
     this.listenToOnce(app.user, 'change', this.setMainUserIsOwner.bind(this))
 
-    return this.set('icon', this.getIcon())
+    this.set('icon', this.getIcon())
   },
 
   beforeShow () {
@@ -132,7 +132,7 @@ export default Backbone.NestedModel.extend({
     // /!\ if the other user stops being accessible (ex: deleted user)
     // next actions will never be ready
     if (this.owner != null && this.requester != null) {
-      return this.set({
+      this.set({
         nextActions: getNextActionsData(this),
         actionsReady: true
       })

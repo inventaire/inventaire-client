@@ -9,7 +9,7 @@ export default Backbone.Model.extend({
 
     this.calculateGlobalScore()
 
-    return this.set('pathname', `/tasks/${this.id}`)
+    this.set('pathname', `/tasks/${this.id}`)
   },
 
   serializeData () {
@@ -68,7 +68,7 @@ export default Backbone.Model.extend({
     score += 80 * externalSourcesOccurrencesCount
     score += this.get('lexicalScore')
     score += this.get('relationScore') * 10
-    return this.set('globalScore', Math.trunc(score * 100) / 100)
+    this.set('globalScore', Math.trunc(score * 100) / 100)
   },
 
   getSources () {

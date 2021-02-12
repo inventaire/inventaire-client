@@ -23,21 +23,19 @@ export default Filterable.extend({
 
     const [ prefix ] = getPrefix(this.id)
 
-    switch (prefix) {
-    case 'wd': return this._wikidataInit()
-    case 'inv': return this._invInit()
-    }
+    if (prefix === 'wd') this._wikidataInit()
+    else if (prefix === 'inv') this._invInit()
   },
 
   _wikidataInit () {
-    return this.set({
+    this.set({
       uri: `wd:${this.id}`,
       url: `https://wikidata.org/entity/${this.id}`
     })
   },
 
   _invInit () {
-    return this.set({
+    this.set({
       uri: `inv:${this.id}`,
       url: `/entity/${this.id}`
     })

@@ -60,7 +60,7 @@ export default Backbone.NestedModel.extend({
       }
     }
 
-    return this.set('operations', operations)
+    this.set('operations', operations)
   },
 
   findPatchType () {

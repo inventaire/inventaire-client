@@ -1,7 +1,9 @@
 export default Backbone.Model.extend({
   initialize (data) {
     // Track TypeErrors where typeFormatters[data.type] isn't a function
-    try { return this.set(typeFormatters[data.type](data)) } catch (err) {
+    try {
+      this.set(typeFormatters[data.type](data))
+    } catch (err) {
       err.context = { data }
       throw err
     }

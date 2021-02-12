@@ -1,7 +1,7 @@
 export default function () {
   const [ itemId, ownerId, requesterId ] = this.gets('item', 'owner', 'requester')
   const { item, owner, requester } = this.get('snapshot')
-  return this.set({
+  this.set({
     'snapshot.item': formatSnapshotItem(itemId, item),
     'snapshot.owner': formatSnapshotUser(ownerId, owner, 'owner'),
     'snapshot.requester': formatSnapshotUser(requesterId, requester, 'requester')

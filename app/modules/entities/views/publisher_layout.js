@@ -22,9 +22,9 @@ export default TypedEntityLayout.extend({
     this.model.initPublisherPublications()
   },
 
-  onShow () {
-    return this.model.waitForPublications
-    .then(this.ifViewIsIntact('showPublications'))
+  async onShow () {
+    await this.model.waitForPublications
+    if (this.isIntact()) this.showPublications()
   },
 
   showPublications () {

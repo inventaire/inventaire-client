@@ -59,7 +59,7 @@ export default Marionette.LayoutView.extend({
     this.setStateClass('authors')
     this.setStateClass('editions')
     this.setStateClass('descriptions')
-    return this.setStateClass('large')
+    this.setStateClass('large')
   },
 
   serializeData () {

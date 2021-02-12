@@ -10,7 +10,7 @@ export default Marionette.CompositeView.extend({
   initialize () {
     this.collection = new Backbone.Collection();
     ({ title: this.title, period: this.period } = this.options)
-    return this.getActivityData()
+    this.getActivityData()
   },
 
   serializeData () { return { title: this.title } },

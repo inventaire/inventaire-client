@@ -13,7 +13,7 @@ const NotificationsList = Marionette.CollectionView.extend({
 
   onShow () {
     // Wait for the notifications to arrive to mark them as read
-    return app.request('wait:for', 'user')
+    app.request('wait:for', 'user')
     .then(this.collection.markAsRead.bind(this.collection))
   }
 })

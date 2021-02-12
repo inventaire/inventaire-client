@@ -21,7 +21,7 @@ export default TypedEntityLayout.extend({
   },
 
   onShow () {
-    return this.model.fetchSubEntitiesUris(this.refresh)
+    this.model.fetchSubEntitiesUris(this.refresh)
     .then(this.ifViewIsIntact('showPaginatedEditions'))
   },
 

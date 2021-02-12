@@ -25,7 +25,7 @@ export default Marionette.CompositeView.extend({
     this.collection = new Items()
     this.offset = 0
     this.limit = 20
-    return this.suggestLastItems()
+    this.suggestLastItems()
   },
 
   onShow () {

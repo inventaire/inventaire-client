@@ -12,7 +12,7 @@ export default Marionette.ItemView.extend({
 
   initialize () {
     this.isMessage = (this.model.get('message') != null)
-    return this.setClassNames()
+    this.setClassNames()
   },
 
   getTemplate () {

@@ -141,14 +141,12 @@ export default Filterable.extend({
   setFavoriteLabel (attrs) {
     this.originalLang = getOriginalLang(attrs.claims)
     const label = getBestLangValue(app.user.lang, this.originalLang, attrs.labels).value
-    return this.set('label', label)
+    this.set('label', label)
   },
 
   setInvAltUri () {
     const invId = this.get('_id')
-    if (invId != null) {
-      return this.set('altUri', `inv:${invId}`)
-    }
+    if (invId) this.set('altUri', `inv:${invId}`)
   },
 
   async fetchSubEntities (refresh) {
@@ -213,7 +211,7 @@ export default Filterable.extend({
     }
     // The list of all uris that describe an entity that is this work or a subentity,
     // that is, an edition of this work
-    return this.set('allUris', [ this.get('uri') ].concat(uris))
+    this.set('allUris', [ this.get('uri') ].concat(uris))
   },
 
   // To be called by a view onShow:

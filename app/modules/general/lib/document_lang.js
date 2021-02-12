@@ -9,7 +9,7 @@ export default function ($app, lang) {
 
   const elements = []
   addAlternateLangs(elements, addOgLocalAlternates(elements, lang))
-  return $('head').append(elements.join(''))
+  $('head').append(elements.join(''))
 }
 
 const setAppLang = ($app, lang) => $app.attr('lang', lang)
@@ -23,7 +23,7 @@ const addAlternateLangs = function (elements) {
   // The default lang - en - doesnt need a lang querystring to be set.
   // It could have one, but search engines need to know that the default url
   // they got matches this languages hreflang
-  return addHreflang(elements, href, false, 'en')
+  addHreflang(elements, href, false, 'en')
 }
 
 const addHreflang = function (elements, href, withLangQueryString, lang) {
@@ -31,7 +31,7 @@ const addHreflang = function (elements, href, withLangQueryString, lang) {
   // to be updated after route:navigate
   // Discarding querystring to only keep lang
   if (withLangQueryString) href = setQuerystring(href, 'lang', lang)
-  return elements.push(`<link rel='alternate' href='${href}' hreflang='${lang}' />`)
+  elements.push(`<link rel='alternate' href='${href}' hreflang='${lang}' />`)
 }
 
 const addOgLocalAlternates = function (elements, lang) {
@@ -41,5 +41,5 @@ const addOgLocalAlternates = function (elements, lang) {
 
   // set the others as 'og:locale:alternate'
   const otherTerritories = _.values(_.omit(regionify, lang))
-  return otherTerritories.map(territory => elements.push(`<meta property='og:locale:alternate' content='${territory}' />`))
+  otherTerritories.map(territory => elements.push(`<meta property='og:locale:alternate' content='${territory}' />`))
 }

@@ -44,11 +44,11 @@ export default Marionette.LayoutView.extend({
     landingScreen: '#landingScreen'
   },
 
-  onShow () {
+  async onShow () {
     this.showPublicItems()
 
-    return this.waitForMention
-    .then(this.ifViewIsIntact('showMentions'))
+    const data = await this.waitForMention
+    if (this.isIntact()) this.showMentions(data)
   },
 
   showPublicItems () {
@@ -78,7 +78,7 @@ export default Marionette.LayoutView.extend({
 
   showMentions (data) {
     this.triggerMethod('child:view:ready')
-    return this.mentions.show(new Mentions({ data }))
+    this.mentions.show(new Mentions({ data }))
   }
 })
 
