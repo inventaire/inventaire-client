@@ -4,6 +4,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = new HtmlWebpackPlugin({
   title: 'Inventaire',
   template: 'app/index.html',
-  minify: false,
+  minify: {
+    // See https://github.com/terser/html-minifier-terser#options-quick-reference
+    removeComments: true,
+  },
   showErrors: true,
 })
