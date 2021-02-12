@@ -83,11 +83,8 @@ export default Marionette.LayoutView.extend({
 })
 
 // no need to fetch mentions data more than once per session
-const mentionsData = null
-const getMentionsData = function () {
-  if (mentionsData != null) {
-    return Promise.resolve(mentionsData)
-  } else {
-    return preq.get(app.API.json('mentions'))
-  }
+let mentionsData = null
+const getMentionsData = async () => {
+  mentionsData = mentionsData || await preq.get(app.API.json('mentions'))
+  return mentionsData
 }

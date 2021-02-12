@@ -20,7 +20,7 @@ export default Marionette.CompositeView.extend({
   },
 
   initialize () {
-    ({ transaction: this.transaction } = this.options)
+    this.transaction = this.options.transaction
   },
 
   serializeData () {

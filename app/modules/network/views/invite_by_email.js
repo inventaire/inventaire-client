@@ -34,10 +34,10 @@ export default Marionette.LayoutView.extend({
 
   initialize () {
     this.emailsInvited = []
-    this.usersAlreadyThere = new Backbone.Collection();
+    this.usersAlreadyThere = new Backbone.Collection()
     // If a group is passed, invitations are group invitations
     // else they are friend requests
-    ({ group: this.group } = this.options)
+    this.group = this.options.group
     this.groupId = this.group?.id
   },
 

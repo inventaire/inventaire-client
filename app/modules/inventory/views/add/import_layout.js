@@ -50,7 +50,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    ({ isbnsBatch: this.isbnsBatch } = this.options)
+    this.isbnsBatch = this.options.isbnsBatch
 
     if (this.isbnsBatch != null) {
       this.hideImporters = true

@@ -27,7 +27,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    ({ mergedUris: this.mergedUris } = this.options)
+    this.mergedUris = this.options.mergedUris
   },
 
   onShow () {

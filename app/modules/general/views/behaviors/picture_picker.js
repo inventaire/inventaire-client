@@ -33,7 +33,7 @@ export default Marionette.CompositeView.extend({
   },
 
   initialize () {
-    ({ context: this.context } = this.options)
+    this.context = this.options.context
     this.limit = this.options.limit || 1
     const pictures = forceArray(this.options.pictures)
     const collectionData = pictures.map(getImgData.bind(null, this.options.crop))

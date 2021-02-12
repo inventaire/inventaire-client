@@ -36,8 +36,8 @@ export default Marionette.CompositeView.extend({
 
   initialize () {
     this.collection = new Results()
-    this._lazySearch = _.debounce(this.search.bind(this), 500);
-    ({ section: this.selectedSectionName } = this.options)
+    this._lazySearch = _.debounce(this.search.bind(this), 500)
+    this.selectedSectionName = this.options.section
     this._searchOffset = 0
   },
 

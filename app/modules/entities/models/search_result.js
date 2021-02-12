@@ -52,7 +52,7 @@ export default Filterable.extend({
   }
 })
 
-const getValues = function (obj) { if (obj != null) { return _.values(obj) } else { return [] } }
+const getValues = obj => obj != null ? _.values(obj) : []
 
 // Search results arrive as either Wikidata or inventaire documents
 // with ids unprefixed. The solutions to fix it:

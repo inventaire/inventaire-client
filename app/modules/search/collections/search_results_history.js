@@ -11,7 +11,9 @@ export default Backbone.Collection.extend({
     // create the model if not existing
     if (model != null) {
       model.updateTimestamp()
-    } else { model = this.add(data) }
+    } else {
+      model = this.add(data)
+    }
 
     return model
   },

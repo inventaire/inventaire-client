@@ -68,7 +68,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    ({ candidates: this.candidates } = this.options)
+    this.candidates = this.options.candidates
     this.items = new Backbone.Collection()
     this.lazyUpdateSteps = _.debounce(this.updateSteps.bind(this), 50)
   },

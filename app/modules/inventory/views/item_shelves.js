@@ -75,7 +75,9 @@ const ItemShelfLi = Marionette.ItemView.extend({
   onRender () {
     if (this.isSelected()) {
       this.$el.addClass('selected')
-    } else { this.$el.removeClass('selected') }
+    } else {
+      this.$el.removeClass('selected')
+    }
   },
 
   addShelf () {

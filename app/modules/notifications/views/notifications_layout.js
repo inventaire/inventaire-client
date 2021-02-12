@@ -35,7 +35,7 @@ export default Marionette.LayoutView.extend({
   },
 
   initialize () {
-    ({ notifications: this.notifications } = this.options)
+    this.notifications = this.options.notifications
 
     this.waitForFriendsRequests = app.request('fetch:otherRequested')
       .then(() => { this.otherRequested = app.users.otherRequested })

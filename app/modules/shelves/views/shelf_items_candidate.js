@@ -9,7 +9,7 @@ export default Marionette.ItemView.extend({
   template: shelfItemsCandidateTemplate,
 
   initialize () {
-    ({ shelf: this.shelf } = this.options)
+    this.shelf = this.options.shelf
     this.shelfId = this.shelf.id
   },
 

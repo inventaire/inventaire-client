@@ -18,7 +18,7 @@ export default InventoryCommonNav.extend({
   template: inventoryPublicNavTemplate,
 
   initialize () {
-    ({ filter: this.filter } = this.options)
+    this.filter = this.options.filter
 
     if (this.filter != null) {
       if (this.filter === 'users') this.hideGroups = true

@@ -10,7 +10,7 @@ export default Marionette.ItemView.extend({
   },
 
   initialize () {
-    ({ standalone: this.standalone } = this.options)
+    this.standalone = this.options.standalone
   },
 
   behaviors: {

@@ -4,7 +4,7 @@ import inventoryNavTemplate from './templates/inventory_nav.hbs'
 export default Marionette.ItemView.extend({
   template: inventoryNavTemplate,
   initialize () {
-    ({ section: this.section } = this.options)
+    this.section = this.options.section
   },
 
   serializeData () {
