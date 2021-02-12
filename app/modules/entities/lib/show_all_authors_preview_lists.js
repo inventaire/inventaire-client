@@ -11,7 +11,7 @@ const showAuthorsPreviewList = function (property, models) {
   if (models.length === 0) return
   const collection = new Backbone.Collection(models)
   const name = extendedAuthorsKeys[property]
-  return this[name].show(new AuthorsPreviewList({ collection, name }))
+  this[name].show(new AuthorsPreviewList({ collection, name }))
 }
 
 const extendedAuthorsKeys = {

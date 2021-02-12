@@ -41,8 +41,8 @@ export default Marionette.LayoutView.extend({
   async onRender () {
     app.execute('uriLabel:update')
 
-    await this.waitForAuthors
-    if (this.isIntact()) showAllAuthorsPreviewLists.call(this)
+    const authorsPerProperty = await this.waitForAuthors
+    if (this.isIntact()) showAllAuthorsPreviewLists.call(this, authorsPerProperty)
   }
 })
 

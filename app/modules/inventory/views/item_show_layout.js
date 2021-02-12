@@ -63,10 +63,11 @@ export default Marionette.LayoutView.extend({
     app.execute('modal:open', 'large')
   },
 
-  onRender () {
+  async onRender () {
     this.showItemData()
     this.showShelves()
-    this.waitForAuthors.then(showAllAuthorsPreviewLists.bind(this))
+    const authorsPerProperty = await this.waitForAuthors
+    if (this.isIntact()) showAllAuthorsPreviewLists.call(this, authorsPerProperty)
   },
 
   showItemData () {
