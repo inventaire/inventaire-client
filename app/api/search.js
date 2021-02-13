@@ -3,9 +3,9 @@ import { buildPath } from 'lib/location'
 import endpoint from './endpoint'
 const { base } = endpoint('search')
 
-export default function (types, search, limit = 10) {
+export default function (types, search, limit = 10, exact = false) {
   const { lang } = app.user
   types = forceArray(types).join('|')
   search = encodeURIComponent(search)
-  return buildPath(base, { types, search, lang, limit })
+  return buildPath(base, { types, search, lang, limit, exact })
 }

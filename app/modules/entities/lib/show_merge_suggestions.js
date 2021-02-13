@@ -71,7 +71,7 @@ const addTasksToEntities = async (uri, tasks, relation, entities) => {
 const getHomonyms = async (model, tasksEntitiesUris) => {
   const [ uri, label ] = model.gets('uri', 'label')
   const { pluralizedType } = model
-  const { results } = await preq.get(app.API.search(pluralizedType, label, 100))
+  const { results } = await preq.get(app.API.search(pluralizedType, label, 100, true))
   return parseSearchResults(uri, tasksEntitiesUris, results)
 }
 
