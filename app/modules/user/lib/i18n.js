@@ -10,6 +10,7 @@ import preq from 'lib/preq'
 import { capitalize } from 'lib/utils'
 import translate from './translate'
 import i18nMissingKey from './i18n_missing_key'
+import { update, refreshData } from 'lib/uri_label/uri_label'
 
 let currentLangI18n = _.identity
 
@@ -29,16 +30,9 @@ export const initI18n = async (app, lang) => {
 
   setLanguage(lang, onMissingKey)
 
-  // Prevent circular dependencies by using a late import
-  import('lib/uri_label/uri_label')
-  .then(uriLabel => {
-    app.commands.setHandlers({
-      'uriLabel:update': () => {
-        const { lang } = app.user
-        uriLabel.update(lang)
-      },
-      'uriLabel:refresh': uriLabel.refreshData
-    })
+  app.commands.setHandlers({
+    'uriLabel:update': () => update(app.user.lang),
+    'uriLabel:refresh': refreshData
   })
 
   return initLocalLang(lang)

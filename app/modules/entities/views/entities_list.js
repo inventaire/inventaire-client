@@ -9,7 +9,7 @@ import '../scss/entities_list.scss'
 // - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
 // - hide series parts when displayed as sub-series
 
-// Prevent circular dependencies
+// Work around circular dependencies
 let viewByType
 const lateImport = async () => {
   const [
