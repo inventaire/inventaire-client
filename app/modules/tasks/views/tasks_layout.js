@@ -92,7 +92,7 @@ export default Marionette.LayoutView.extend({
     .then(() => {
       this.currentTask.show(new CurrentTask({ model }))
       app.navigateFromModel(model)
-      return this.focusOnControls()
+      this.focusOnControls()
     })
   },
 
@@ -104,7 +104,7 @@ export default Marionette.LayoutView.extend({
         collection: model.suspect.mergeSuggestions,
         currentTaskModel: model
       }))
-      return this.updateRelativesCount(model)
+      this.updateRelativesCount(model)
     })
   },
 
@@ -136,7 +136,7 @@ export default Marionette.LayoutView.extend({
   },
 
   action (actionName) {
-    return this.currentTaskModel[actionName]()
+    this.currentTaskModel[actionName]()
     .catch(this.handleActionError.bind(this, this.currentTaskModel))
   },
 

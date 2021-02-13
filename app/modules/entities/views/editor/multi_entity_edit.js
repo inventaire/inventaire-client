@@ -40,13 +40,13 @@ export default EntityEdit.extend({
     const draftModel = serializeDraftModel(this.model)
     next.previous = draftModel
     if (labelTransfer != null) next.claims[labelTransfer] = [ draftModel.label ]
-    return this.navigateMultiEdit(next)
+    this.navigateMultiEdit(next)
   },
 
   showPreviousMultiEditPage () {
     const { relation } = this.options
     this.previous.next = serializeDraftModel(this.model, relation)
-    return this.navigateMultiEdit(this.previous)
+    this.navigateMultiEdit(this.previous)
   },
 
   navigateMultiEdit (data) {

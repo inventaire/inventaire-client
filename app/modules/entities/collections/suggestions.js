@@ -30,27 +30,45 @@ export default Backbone.Collection.extend({
     this.trigger('selected:value', model)
   },
 
-  highlightPrevious () { if (!this.isFirst()) { return this.highlightAt(this.index - 1) } },
-  highlightNext () { if (!this.isLast()) { return this.highlightAt(this.index + 1) } },
-  highlightFirst () { return this.highlightAt(0) },
-  highlightLast () { return this.highlightAt(this.length - 1) },
+  highlightPrevious () {
+    if (!this.isFirst()) this.highlightAt(this.index - 1)
+  },
+  highlightNext () {
+    if (!this.isLast()) this.highlightAt(this.index + 1)
+  },
+  highlightFirst () {
+    this.highlightAt(0)
+  },
+  highlightLast () {
+    this.highlightAt(this.length - 1)
+  },
   highlightAt (index) {
     if (this.index === index) return
 
     if (this.isStarted()) this.removeHighlight(this.index)
     this.index = index
-    return this.highlight(index)
+    this.highlight(index)
   },
 
-  isFirst () { return this.index === 0 },
-  isLast () { return this.index === (this.length - 1) },
+  isFirst () {
+    return this.index === 0
+  },
+  isLast () {
+    return this.index === (this.length - 1)
+  },
 
   // Check to see if we have navigated through the
   // suggestions list yet.
-  isStarted () { return this.index !== -1 },
+  isStarted () {
+    return this.index !== -1
+  },
 
-  highlight (index) { return this.highlightEvent('highlight', index) },
-  removeHighlight (index) { return this.highlightEvent('highlight:remove', index) },
+  highlight (index) {
+    this.highlightEvent('highlight', index)
+  },
+  removeHighlight (index) {
+    this.highlightEvent('highlight:remove', index)
+  },
   highlightEvent (eventName, index) {
     const model = this.at(index)
     // Known case: the collection just got reset

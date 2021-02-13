@@ -20,13 +20,12 @@ export default Backbone.Model.extend({
 
     if ((value != null) && haveValueEntity.includes(editorType)) {
       if (regex_.EntityUri.test(value)) {
-        return this.reqGrab('get:entity:model', value, 'valueEntity', true)
+        this.reqGrab('get:entity:model', value, 'valueEntity', true)
       } else if (_.isObject(value) && (value.claims != null)) {
         // Allow to pass an entity draft as an object of the form:
         // { labels: {}, claims: {} }
         // so that its creation is still pending, waiting for confirmation
         this.valueEntity = entityDraftModel.create(value)
-        return this.valueEntity
       } else {
         throw error_.new('invalid entity uri', this.toJSON())
       }

@@ -72,7 +72,7 @@ export default Marionette.LayoutView.extend({
       this.showSectionNav(section, 'user', userModel)
       // Do not scroll when showing the main user's inventory
       // to keep the other nav elements visible
-      if (section !== 'user') return scrollToSection(this.userProfile)
+      if (section !== 'user') scrollToSection(this.userProfile)
     })
     .catch(app.Execute('show:error'))
   },

@@ -19,7 +19,7 @@ export default Backbone.NestedModel.extend({
     this.mergeTestAndRemoveOperations()
     this.setOperationsData()
     this.set('patchType', this.findPatchType())
-    return this.setOperationsSummaryData()
+    this.setOperationsSummaryData()
   },
 
   mergeTestAndRemoveOperations () {

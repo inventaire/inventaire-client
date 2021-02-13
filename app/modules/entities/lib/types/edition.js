@@ -43,7 +43,7 @@ const specificMethods = {
 
   onClaimsChange (property, oldValue, newValue) {
     this.setClaimsBasedAttributes()
-    if (property === 'wdt:P629') return this.initWorksRelations()
+    if (property === 'wdt:P629') this.initWorksRelations()
   },
 
   getItemsByCategories: getEntityItemsByCategories,

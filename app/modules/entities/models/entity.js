@@ -134,7 +134,7 @@ export default Filterable.extend({
     }
 
     this.set({ type, prefix, pathname })
-    return this.setFavoriteLabel(attrs)
+    this.setFavoriteLabel(attrs)
   },
 
   // Not naming it 'setLabel' as it collides with editable_entity own 'setLabel'

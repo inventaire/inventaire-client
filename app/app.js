@@ -26,9 +26,9 @@ const App = Marionette.Application.extend({
       options.metadata = model.updateMetadata()
       const route = model.get(pathAttribute)
       if (isNonEmptyString(route)) {
-        return this.navigate(route, options)
+        this.navigate(route, options)
       } else {
-        return error_.report(`navigation model has no ${pathAttribute} attribute`, model)
+        error_.report(`navigation model has no ${pathAttribute} attribute`, model)
       }
     }
 
@@ -67,13 +67,13 @@ const App = Marionette.Application.extend({
     route = this.request('querystring:keep', route)
     Backbone.history.last.unshift(route)
     Backbone.history.navigate(route, options)
-    if (!options.preventScrollTop) return scrollToPageTop()
+    if (!options.preventScrollTop) scrollToPageTop()
   },
 
   navigateReplace (route, options) {
     if (!options) options = {}
     options.replace = true
-    return this.navigate(route, options)
+    this.navigate(route, options)
   }
 })
 
