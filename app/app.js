@@ -102,8 +102,13 @@ const monkeyPatchWreqrHandler = (attribute, handlers) => {
   const originalFn = app[attribute]
   app[attribute] = function (handlerKey, ...args) {
     // Prevent silent errors when a handler is called but hasn't been defined yet
-    if (handlers[handlerKey] == null) throw new Error(`wreqr ${attribute} "${handlerKey}" isn't defined`)
-    else return originalFn.call(this, handlerKey, ...args)
+    if (handlers[handlerKey] == null) {
+      // Not throwing to let a chance to the client to do without it
+      // In case of a 'request', the absence of returned value is likely to make it crash later though
+      error_.report(`wreqr ${attribute} "${handlerKey}" isn't defined`)
+    } else {
+      return originalFn.call(this, handlerKey, ...args)
+    }
   }
 }
 
