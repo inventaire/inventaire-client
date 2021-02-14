@@ -51,8 +51,14 @@ export default Marionette.LayoutView.extend({
   showNextTask (params = {}) {
     const { spinner } = params
     if (spinner != null) startLoading.call(this, spinner)
-    const offset = app.request('querystring:get', 'offset')
+    let offset = app.request('querystring:get', 'offset')
     const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel })
+    .catch(err => {
+      offset += 1
+      if (err.message.match('invalid task')) {
+        return getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel })
+      }
+    })
     if (spinner != null) stopLoading.call(this, spinner)
     this.showTask({ taskModelPromise: nextTask })
   },
