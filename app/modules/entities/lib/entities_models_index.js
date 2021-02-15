@@ -127,7 +127,7 @@ const sanitizeUris = uris => _.uniq(_.compact(forceArray(uris)))
 
 const invalidateCache = function (uri) {
   delete entitiesModelsIndexedByUri[uri]
-  return invalidateLabel(uri)
+  invalidateLabel(uri)
 }
 
 // Softer than invalidateCache: simply setting a flag to be taken into account

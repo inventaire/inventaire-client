@@ -42,7 +42,7 @@ export const initI18n = async (app, lang) => {
     'uriLabel:refresh': refreshData
   })
 
-  return initLocalLang(lang)
+  initLocalLang(lang)
 }
 
 export const I18n = (...args) => capitalize(currentLangI18n(...args))
