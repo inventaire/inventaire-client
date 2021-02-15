@@ -10,7 +10,14 @@ import preq from 'lib/preq'
 import { capitalize } from 'lib/utils'
 import translate from './translate'
 import i18nMissingKey from './i18n_missing_key'
-import { update, refreshData } from 'lib/uri_label/uri_label'
+
+// Work around circular dependency
+let update = _.noop
+let refreshData = _.noop
+const lateImport = async () => {
+  ({ update, refreshData } = await import('lib/uri_label/uri_label'))
+}
+setTimeout(lateImport, 0)
 
 let currentLangI18n = _.identity
 
