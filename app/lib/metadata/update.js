@@ -57,7 +57,7 @@ const applyMetadataUpdate = (route, metadata = {}) => {
   // image and rss can keep the default value, but description should be empty if no specific description can be found
   // to avoid just spamming with the default description
   if (metadata.description == null) metadata.description = ''
-  return updateMetadata(metadata)
+  updateMetadata(metadata)
 }
 
 const defaultMetadata = () => ({
@@ -86,12 +86,12 @@ const setPrerenderMeta = function (statusCode = 500, route) {
     prerenderMeta += `<meta name='prerender-header' content='Location: ${fullUrl}'>`
   }
 
-  return $('head').append(prerenderMeta)
+  $('head').append(prerenderMeta)
 }
 
 const setPrerenderStatusCode = function (statusCode, route) {
   setPrerenderMeta(statusCode, route)
-  return metadataUpdateDone()
+  metadataUpdateDone()
 }
 
 export { updateRouteMetadata, setPrerenderStatusCode }
