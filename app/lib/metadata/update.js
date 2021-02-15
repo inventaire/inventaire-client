@@ -14,9 +14,10 @@
 // such as RSS feed detections
 
 import updateNodeType from './update_node_type'
-import { currentRoute } from 'lib/location'
 import { I18n, i18n } from 'modules/user/lib/i18n'
-const initialRoute = currentRoute()
+import { transformers } from './apply_transformers'
+
+const initialFullPath = location.pathname.slice(1) + location.search
 // Make prerender wait before assuming everything is ready
 // see https://prerender.io/documentation/best-practices
 window.prerenderReady = false
@@ -41,7 +42,8 @@ const updateRouteMetadata = async (route, metadataPromise = {}) => {
 
 const applyMetadataUpdate = (route, metadata = {}) => {
   let redirection
-  if (!prerenderReady && (initialRoute !== route)) redirection = true
+  const targetFullPath = route + location.search
+  if (!prerenderReady && initialFullPath !== targetFullPath) redirection = true
 
   if (redirection) setPrerenderMeta(302, route)
 
@@ -80,8 +82,8 @@ const setPrerenderMeta = function (statusCode = 500, route) {
   if (!isPrerenderSession || prerenderReady) return
 
   let prerenderMeta = `<meta name='prerender-status-code' content='${statusCode}'>`
-  if ((statusCode === 302) && (route != null)) {
-    const fullUrl = `${document.location.origin}/${route}`.replace(/\/$/, '')
+  if (statusCode === 302 && route != null) {
+    const fullUrl = transformers.url(route)
     // See https://github.com/prerender/prerender#httpheaders
     prerenderMeta += `<meta name='prerender-header' content='Location: ${fullUrl}'>`
   }
