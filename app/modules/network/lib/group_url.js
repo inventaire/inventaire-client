@@ -22,7 +22,7 @@ const updateUrl = function (groupId) {
   if (isNonEmptyString(name)) {
     return preq.get(app.API.groups.slug(name, groupId))
     .then(res => {
-      this.ui.groupUrl.text(`${window.location.root}/groups/${res.slug}`)
+      this.ui.groupUrl.text(`${window.location.origin}/groups/${res.slug}`)
       this.ui.groupUrlWrapper.show()
     })
   } else {

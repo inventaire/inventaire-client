@@ -23,7 +23,6 @@ import reloadOnceADay from 'lib/reload_once_a_day'
 import initQuerystringHelpers from 'lib/querystring_helpers'
 
 window.app = app
-window.location.root = window.location.protocol + '//' + window.location.host
 if (window.env === 'dev') window.log_ = log_
 
 export default async function () {
