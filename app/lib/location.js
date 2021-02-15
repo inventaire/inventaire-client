@@ -60,9 +60,13 @@ const parseKeysValues = function (queryObj, nextParam) {
 }
 
 const permissiveJsonParse = input => {
-  try {
-    return JSON.parse(input)
-  } catch (err) {
+  if (input[0] === '{' || input[0] === '[') {
+    try {
+      return JSON.parse(input)
+    } catch (err) {
+      return input
+    }
+  } else {
     return input
   }
 }
