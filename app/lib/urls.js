@@ -4,14 +4,14 @@ const subdomain = sub => `http://${sub}.inventaire.io`
 const image = filename => `/img/assets/${filename}`
 
 export const host = 'https://inventaire.io'
-export const blog = subdomain('blog')
-export const git = subdomain('git')
-export const wiki = subdomain('wiki')
+export const blog = 'https://wiki.inventaire.io/wiki/Blog'
+export const git = 'https://github.com/inventaire'
+export const wiki = 'https://wiki.inventaire.io'
 export const faq = 'https://wiki.inventaire.io/wiki/FAQ'
 export const communicationChannels = 'https://wiki.inventaire.io/wiki/Communication-channels'
 export const chat = 'https://wiki.inventaire.io/wiki/Communication-channels#chats'
-export const translate = subdomain('translate')
-export const roadmap = subdomain('roadmap')
+export const translate = 'https://www.transifex.com/inventaire/inventaire'
+export const roadmap = 'https://trello.com/b/0lKcsZDj/inventaire-roadmap'
 export const apiDoc = subdomain('api')
 export const dataHome = subdomain('data')
 
@@ -37,6 +37,6 @@ export const donate = {
     hash: faircoinHash,
     url: `faircoin:${faircoinHash}`
   },
-  liberapay: subdomain('liberapay'),
-  paypal: subdomain('paypal')
+  liberapay: 'https://liberapay.com/inventaire_io',
+  paypal: 'https://www.paypal.me/inventaire/10'
 }
