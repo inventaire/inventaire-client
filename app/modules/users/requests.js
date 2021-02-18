@@ -26,14 +26,13 @@ export default function (app, _) {
   const API = {
     sendRequest (user) { return action(user, 'request', 'userRequested') },
     cancelRequest (user) { return action(user, 'cancel', 'public') },
-    acceptRequest (user, showUserInventory = true) {
+    acceptRequest (user) {
       action(user, 'accept', 'friends')
       .then(refreshNotificationsCounter)
 
       const [ , userId ] = normalizeUser(user)
       // Refresh to get the updated data
       return app.request('get:user:model', userId, true)
-      .then(() => { if (showUserInventory) { app.execute('show:inventory:user', user) } })
     },
     discardRequest (user) {
       return action(user, 'discard', 'public')
