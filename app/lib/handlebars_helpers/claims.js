@@ -69,6 +69,10 @@ export default API = {
     }
   },
 
+  quantityClaim (...args) {
+    return API.stringClaim(...args)
+  },
+
   urlClaim (...args) {
     const [ claims, prop ] = neutralizeDataObject(args)
     const firstUrl = claims?.[prop]?.[0]
