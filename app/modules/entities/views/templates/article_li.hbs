@@ -22,7 +22,7 @@
   {{/if}}
 
   <p class="claims">
-    {{claim claims 'wdt:P50' true false true}}  {{!-- author --}}
+    {{entityClaim claims 'wdt:P50' true false true}}  {{!-- author --}}
     {{joinAuthors claims.wdt:P2093}}  {{!-- short author name --}}
   </p>
 

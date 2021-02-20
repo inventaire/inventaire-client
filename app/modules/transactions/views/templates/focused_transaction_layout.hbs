@@ -13,7 +13,7 @@
             {{#if entity.authors}}
               {{entity.authors}}
             {{else}}
-              {{claim item.entityData.claims 'wdt:P50'}}
+              {{entityClaim item.entityData.claims 'wdt:P50'}}
             {{/if}}
           </div>
         </div>

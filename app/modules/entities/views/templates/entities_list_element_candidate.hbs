@@ -8,21 +8,21 @@
     <p class="label">{{label}}</p>
     <p class="description">{{description}}</p>
     <div class="claims">
-      {{claim claims 'wdt:P50'}}  {{!-- author --}}
-      {{claim claims 'wdt:P58'}} {{!-- scenarist --}}
-      {{claim claims 'wdt:P110'}} {{!-- illustrator --}}
-      {{claim claims 'wdt:P6338'}} {{!-- colorist --}}
+      {{entityClaim claims 'wdt:P50'}}  {{!-- author --}}
+      {{entityClaim claims 'wdt:P58'}} {{!-- scenarist --}}
+      {{entityClaim claims 'wdt:P110'}} {{!-- illustrator --}}
+      {{entityClaim claims 'wdt:P6338'}} {{!-- colorist --}}
       {{#if edition}}
-        {{claim claims 'wdt:P123'}} {{!-- publisher --}}
-        {{claim claims 'wdt:P195'}} {{!-- collection --}}
-        {{claim claims 'wdt:P98'}} {{!-- editor --}}
+        {{entityClaim claims 'wdt:P123'}} {{!-- publisher --}}
+        {{entityClaim claims 'wdt:P195'}} {{!-- collection --}}
+        {{entityClaim claims 'wdt:P98'}} {{!-- editor --}}
       {{/if}}
       {{#if collection}}
-        {{claim claims 'wdt:P123'}} {{!-- publisher --}}
-        {{claim claims 'wdt:P98'}} {{!-- editor --}}
+        {{entityClaim claims 'wdt:P123'}} {{!-- publisher --}}
+        {{entityClaim claims 'wdt:P98'}} {{!-- editor --}}
       {{/if}}
       {{timeClaim claims 'wdt:P577'}} {{!-- publication date --}}
-      {{claim claims 'wdt:P407'}} {{!-- language --}}
+      {{entityClaim claims 'wdt:P407'}} {{!-- language --}}
     </div>
   </div>
 </a>

@@ -23,7 +23,7 @@ let API
 export default API = {
   prop: propHelper,
   entity: entityHelper,
-  claim (...args) {
+  entityClaim (...args) {
     // entityLink: set to true to link to the entity layout (work, author, etc),
     // the alternative being to link to a claim_layout
     const [ claims, prop, entityLink, omitLabel, inline ] = neutralizeDataObject(args)
