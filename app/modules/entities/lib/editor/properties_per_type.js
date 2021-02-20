@@ -50,19 +50,30 @@ export default {
   },
 
   human: {
-    'wdt:P1412': {}, // languages of expression
     'wdt:P135': {}, // movement
+    'wdt:P213': {}, // ISNI
+    'wdt:P214': {}, // VIAF ID
+    'wdt:P227': {}, // GND ID
+    'wdt:P244': {}, // Library of Congress authority ID
+    'wdt:P268': {}, // BNF ID
+    'wdt:P269': {}, // IdRef ID
+    'wdt:P271': {}, // CiNii author ID (books)
     'wdt:P496': {}, // ORCID
     'wdt:P569': {}, // date of birth
     'wdt:P570': {}, // date of death
     'wdt:P737': {}, // influenced by
     'wdt:P856': {}, // official website
+    'wdt:P950': {}, // Biblioteca Nacional de España ID
+    'wdt:P1006': {}, // Nationale Thesaurus voor Auteurs ID
+    'wdt:P1015': {}, // BIBSYS ID
+    'wdt:P1412': {}, // languages of expression
     'wdt:P2002': {}, // Twitter account
-    'wdt:P2013': {}, // Facebook account
     'wdt:P2003': {}, // Instagram username
+    'wdt:P2013': {}, // Facebook account
     'wdt:P2397': {}, // YouTube channel ID
-    'wdt:P4033': {}
-  }, // Mastodon address
+    'wdt:P4033': {}, // Mastodon address
+    'wdt:P7859': {}, // WorldCat Identities ID
+  },
 
   // Using omit instead of having a common list, extended for works, so that
   // the properties order isn't constrained by being part or not of the common properties

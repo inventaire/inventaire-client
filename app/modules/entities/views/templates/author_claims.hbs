@@ -14,12 +14,23 @@
     {{claim claims 'wdt:P1066' true}} {{!-- student of --}}
     {{claim claims 'wdt:P737' true}} {{!-- influence by --}}
     {{urlClaim claims 'wdt:P856'}} {{!-- official website --}}
-    {{identifierClaim claims 'wdt:P496'}} {{!-- ORCID --}}
     {{platformClaim claims 'wdt:P4033'}} {{!-- mastodon --}}
     {{platformClaim claims 'wdt:P2002'}} {{!-- twitter --}}
     {{platformClaim claims 'wdt:P2013'}} {{!-- facebook --}}
     {{platformClaim claims 'wdt:P2003'}} {{!-- instagram --}}
     {{platformClaim claims 'wdt:P2397'}} {{!-- youtube --}}
+    {{identifierClaim claims 'wdt:P213'}} {{!-- ISNI --}}
+    {{identifierClaim claims 'wdt:P214'}} {{!-- VIAF ID --}}
+    {{identifierClaim claims 'wdt:P227'}} {{!-- GND ID --}}
+    {{identifierClaim claims 'wdt:P244'}} {{!-- Library of Congress authority ID --}}
+    {{identifierClaim claims 'wdt:P268' }} {{!-- BNF ID --}}
+    {{identifierClaim claims 'wdt:P269'}} {{!-- IdRef ID --}}
+    {{identifierClaim claims 'wdt:P271'}} {{!-- CiNii author ID (books) --}}
+    {{identifierClaim claims 'wdt:P496'}} {{!-- ORCID --}}
+    {{identifierClaim claims 'wdt:P950'}} {{!-- Biblioteca Nacional de España ID --}}
+    {{identifierClaim claims 'wdt:P1006'}} {{!-- Nationale Thesaurus voor Auteurs ID --}}
+    {{identifierClaim claims 'wdt:P1015'}} {{!-- BIBSYS ID --}}
+    {{identifierClaim claims 'wdt:P7859'}} {{!-- WorldCat Identities ID --}}
     {{#if hasEbooks}}{{> 'entities:ebooks' this}}{{/if}}
   </p>
 </div>
