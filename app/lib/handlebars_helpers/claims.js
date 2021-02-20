@@ -6,6 +6,7 @@ import wdLang from 'wikidata-lang'
 import commons_ from 'lib/wikimedia/commons'
 import linkify_ from './linkify'
 import platforms_ from './platforms'
+import identifiers_ from './identifiers'
 import {
   prop as propHelper,
   entity as entityHelper,
@@ -91,6 +92,19 @@ export default API = {
       const url = platform.url(firstPlatformId)
       const values = linkify_(text, url, 'link social-network')
       return claimString('', values)
+    }
+  },
+
+  identifierClaim (...args) {
+    const [ claims, prop ] = neutralizeDataObject(args)
+    const firstId = claims?.[prop]?.[0]
+    if (firstId != null) {
+      const identifier = identifiers_[prop]
+      const label = labelString(prop)
+      const url = identifier.url(firstId)
+      const textId = identifier.text(firstId)
+      const values = linkify_(textId, url, 'link')
+      return claimString(label, values)
     }
   },
 

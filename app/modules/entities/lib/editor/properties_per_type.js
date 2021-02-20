@@ -52,6 +52,7 @@ export default {
   human: {
     'wdt:P1412': {}, // languages of expression
     'wdt:P135': {}, // movement
+    'wdt:P496': {}, // ORCID
     'wdt:P569': {}, // date of birth
     'wdt:P570': {}, // date of death
     'wdt:P737': {}, // influenced by
