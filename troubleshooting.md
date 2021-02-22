@@ -101,3 +101,8 @@ Should have been fixed by `npm i svelte-loader@https://github.com/smittyvb/svelt
 MDN doc: https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Erreurs/No_properties
 
 Known case: when a function tries to set attributes on `this`, but `this` is undefined because the function was defined as an [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) at the ES module top level. The solution in that case was to convert the arrow function to an old-school `function` function.
+
+
+## Svelte
+### No reactivity despite an assignment in a nested object
+Assignments in nested objects won't trigger a refresh, until the top level object is reassigned. See https://github.com/sveltejs/svelte/issues/3212#issuecomment-510263274
