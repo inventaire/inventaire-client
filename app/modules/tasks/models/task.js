@@ -21,7 +21,7 @@ export default Backbone.Model.extend({
     })
   },
 
-  grabAuthor (name, isShownFromId) {
+  grabAuthor (name) {
     const uri = this.get(`${name}Uri`)
     return this.reqGrab('get:entity:model', uri, name)
     .then(model => {
@@ -35,7 +35,7 @@ export default Backbone.Model.extend({
     })
   },
 
-  grabSuspect (isShownFromId) { return this.grabAuthor('suspect', isShownFromId) },
+  grabSuspect () { return this.grabAuthor('suspect') },
 
   grabSuggestion () { return this.grabAuthor('suggestion') },
 
