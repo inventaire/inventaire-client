@@ -66,11 +66,11 @@ export default Marionette.LayoutView.extend({
   showTask (params) {
     const { taskModelPromise, isShownFromId } = params
     return taskModelPromise
-    .then(this.showFromModel.bind(this, isShownFromId))
+    .then(model => this.showFromModel(model, isShownFromId))
     .catch(app.Execute('show:error'))
   },
 
-  showFromModel (isShownFromId, model) {
+  showFromModel (model, isShownFromId) {
     this.previousTask = this.currentTaskModel
     this.currentTaskModel = model
 
@@ -85,7 +85,7 @@ export default Marionette.LayoutView.extend({
 
     previousTasks.push(model.get('_id'))
 
-    this._grabSuspectPromise = model.grabSuspect(isShownFromId)
+    this._grabSuspectPromise = model.grabSuspect()
 
     return Promise.all([
       this.showCurrentTask(model),
