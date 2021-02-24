@@ -11,11 +11,11 @@ const suggestionUrisFetched = []
 const limit = 10
 let offset = 0
 
-export default function (params = {}) {
+export default async function (params = {}) {
   const { lastTaskModel } = params
 
   if (lastTaskModel != null) {
-    if (backlogs.byAuthor.length !== 0) return Promise.resolve(nextTaskModel('byAuthor'))
+    if (backlogs.byAuthor.length !== 0) return getNextTaskModel('byAuthor')
     const suggestionUri = lastTaskModel.get('suggestionUri')
     if (!suggestionUrisFetched.includes(suggestionUri)) return getNextTaskBySuggestionUri(params)
   }
@@ -36,7 +36,7 @@ const getNextTaskBySuggestionUri = async params => {
 }
 
 const getNextTaskByScore = async params => {
-  if (backlogs.byScore.length !== 0) return nextTaskModel('byScore')
+  if (backlogs.byScore.length !== 0) return getNextTaskModel('byScore')
   const { previousTasks } = params
   offset = params.offset
 
@@ -44,8 +44,6 @@ const getNextTaskByScore = async params => {
   // to allow several contributors to work with the bests tasks at the same time
   // while having a low risk of conflicting
   if (offset == null) offset = Math.trunc(Math.random() * 500)
-  // Predictable behavior in development environment
-  if (window.env === 'dev') offset = 0
 
   let { tasks } = await preq.get(app.API.tasks.byScore(limit, offset))
   tasks = tasks.filter(removePreviousTasks(previousTasks))
@@ -57,10 +55,10 @@ const removePreviousTasks = previousTasks => task => !previousTasks.includes(tas
 
 const updateBacklogAndGetNextTask = function (tasks = [], backlogName) {
   backlogs[backlogName].push(...tasks)
-  return nextTaskModel(backlogName)
+  return getNextTaskModel(backlogName)
 }
 
-const nextTaskModel = function (backlogName) {
+const getNextTaskModel = function (backlogName) {
   const backlog = backlogs[backlogName]
   const model = new Task(backlog.shift())
   return model

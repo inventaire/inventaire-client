@@ -40,7 +40,7 @@ export default Marionette.LayoutView.extend({
   onShow () {
     const { task } = this.options
     if (isModel(task)) {
-      this.showTask({ taskModelPromise: Promise.resolve(task) })
+      this.showTask({ task })
     } else if (task != null) {
       this.showFromId(task)
     } else {
@@ -48,7 +48,7 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  showNextTask (params = {}) {
+  async showNextTask (params = {}) {
     const { spinner } = params
     if (spinner != null) startLoading.call(this, spinner)
     let offset = app.request('querystring:get', 'offset')
@@ -60,17 +60,16 @@ export default Marionette.LayoutView.extend({
       }
     })
     if (spinner != null) stopLoading.call(this, spinner)
-    this.showTask({ taskModelPromise: nextTask })
+    this.showTask({ task: nextTask })
   },
 
-  showTask (params) {
-    const { taskModelPromise, isShownFromId } = params
-    return taskModelPromise
-    .then(model => this.showFromModel(model, isShownFromId))
+  async showTask ({ task, isShownFromId }) {
+    task = await task
+    this.showFromModel(task, isShownFromId)
     .catch(app.Execute('show:error'))
   },
 
-  showFromModel (model, isShownFromId) {
+  async showFromModel (model, isShownFromId) {
     this.previousTask = this.currentTaskModel
     this.currentTaskModel = model
 
@@ -118,8 +117,8 @@ export default Marionette.LayoutView.extend({
     })
   },
 
-  showFromId (id) {
-    this.showTask({ taskModelPromise: getTaskById(id), isShownFromId: true })
+  async showFromId (id) {
+    this.showTask({ task: await getTaskById(id), isShownFromId: true })
   },
 
   focusOnControls () {
