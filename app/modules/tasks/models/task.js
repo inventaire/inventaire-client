@@ -28,7 +28,9 @@ export default Backbone.Model.extend({
       const resolvedUri = model.get('uri')
       if (resolvedUri !== uri) {
         const context = { task: this.id, oldUri: uri, newUri: resolvedUri }
-        throw error_.new(`${name} uri is obsolete`, 500, context)
+        const err = error_.new(`${name} uri is obsolete`, 500, context)
+        err.code = 'obsolete_task'
+        throw err
       }
 
       return model.initAuthorWorks()

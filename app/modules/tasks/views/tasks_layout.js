@@ -51,14 +51,7 @@ export default Marionette.LayoutView.extend({
   async showNextTask (params = {}) {
     const { spinner } = params
     if (spinner != null) startLoading.call(this, spinner)
-    let offset = app.request('querystring:get', 'offset')
-    const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel })
-    .catch(err => {
-      offset += 1
-      if (err.message.match('invalid task')) {
-        return getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel })
-      }
-    })
+    const nextTask = await getNextTask({ previousTasks, lastTaskModel: this.currentTaskModel })
     if (spinner != null) stopLoading.call(this, spinner)
     this.showTask({ task: nextTask })
   },
@@ -66,7 +59,7 @@ export default Marionette.LayoutView.extend({
   async showTask ({ task, isShownFromId }) {
     task = await task
     this.showFromModel(task, isShownFromId)
-    .catch(app.Execute('show:error'))
+    .catch(this.handleShowError.bind(this))
   },
 
   async showFromModel (model, isShownFromId) {
@@ -90,7 +83,7 @@ export default Marionette.LayoutView.extend({
       this.showCurrentTask(model),
       this.showRelativeTasks(model)
     ])
-    .catch(app.Execute('show:error'))
+    .catch(this.handleShowError.bind(this))
   },
 
   showCurrentTask (model) {
@@ -119,6 +112,15 @@ export default Marionette.LayoutView.extend({
 
   async showFromId (id) {
     this.showTask({ task: await getTaskById(id), isShownFromId: true })
+  },
+
+  handleShowError (err) {
+    if (err.code === 'obsolete_task') {
+      console.warn('passing obsolete task', err.context)
+      this.showNextTask({ spinner: '.next' })
+    } else {
+      app.execute('show:error', err)
+    }
   },
 
   focusOnControls () {
