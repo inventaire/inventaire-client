@@ -40,7 +40,7 @@ export default Marionette.LayoutView.extend({
   onShow () {
     const { task } = this.options
     if (isModel(task)) {
-      this.showTask(Promise.resolve(task))
+      this.showTask({ task })
     } else if (task != null) {
       this.showFromId(task)
     } else {
@@ -48,29 +48,31 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  showNextTask (params = {}) {
+  async showNextTask (params = {}) {
     const { spinner } = params
     if (spinner != null) startLoading.call(this, spinner)
-    const offset = app.request('querystring:get', 'offset')
-    const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel })
+    const nextTask = await getNextTask({ previousTasks, lastTaskModel: this.currentTaskModel })
     if (spinner != null) stopLoading.call(this, spinner)
-    this.showTask(nextTask)
+    this.showTask({ task: nextTask })
   },
 
-  showTask (taskModelPromise) {
-    return taskModelPromise
-    .then(this.showFromModel.bind(this))
-    .catch(app.Execute('show:error'))
+  async showTask ({ task, isShownFromId }) {
+    task = await task
+    this.showFromModel(task, isShownFromId)
+    .catch(this.handleShowError.bind(this))
   },
 
-  showFromModel (model) {
+  async showFromModel (model, isShownFromId) {
     this.previousTask = this.currentTaskModel
     this.currentTaskModel = model
 
     const state = model.get('state')
     if (state != null) {
-      const err = error_.new('this task has already been treated', 400, { model, state })
-      return app.execute('show:error:other', err, 'tasks_layout showFromModel')
+      if (isShownFromId) {
+        const err = error_.new('this task has already been treated', 400, { model, state })
+        return app.execute('show:error:other', err, 'tasks_layout showFromModel')
+      }
+      return this.showNextTask()
     }
 
     previousTasks.push(model.get('_id'))
@@ -81,7 +83,7 @@ export default Marionette.LayoutView.extend({
       this.showCurrentTask(model),
       this.showRelativeTasks(model)
     ])
-    .catch(app.Execute('show:error'))
+    .catch(this.handleShowError.bind(this))
   },
 
   showCurrentTask (model) {
@@ -108,7 +110,18 @@ export default Marionette.LayoutView.extend({
     })
   },
 
-  showFromId (id) { this.showTask(getTaskById(id)) },
+  async showFromId (id) {
+    this.showTask({ task: await getTaskById(id), isShownFromId: true })
+  },
+
+  handleShowError (err) {
+    if (err.code === 'obsolete_task' || err.message === 'entity_not_found') {
+      console.warn('passing task error', err.message, err.context)
+      this.showNextTask({ spinner: '.next' })
+    } else {
+      app.execute('show:error', err)
+    }
+  },
 
   focusOnControls () {
     // Take focus so that we can listen for keydown events
