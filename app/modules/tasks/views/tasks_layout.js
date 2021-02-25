@@ -115,8 +115,8 @@ export default Marionette.LayoutView.extend({
   },
 
   handleShowError (err) {
-    if (err.code === 'obsolete_task') {
-      console.warn('passing obsolete task', err.context)
+    if (err.code === 'obsolete_task' || err.message === 'entity_not_found') {
+      console.warn('passing task error', err.message, err.context)
       this.showNextTask({ spinner: '.next' })
     } else {
       app.execute('show:error', err)
