@@ -6,11 +6,12 @@
   import { autofocus } from 'lib/components/actions/autofocus'
   import _ from 'underscore'
   import EntityPreview from './entity_preview.svelte'
+  import Spinner from 'modules/general/components/spinner.svelte'
 
   const dispatch = createEventDispatcher()
   const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 50)
 
-  export let entity, error, selection, candidates, index
+  export let entity, error, selection, candidates, index, merging
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
@@ -19,42 +20,48 @@
     if (event.key === 'm') dispatch('merge')
     else if (event.key === 'n') dispatch('next')
   }
+
+  $: remainingCandidates = candidates && index + 1 <= candidates.length
 </script>
 
 <svelte:window on:keydown={handleKeydown}/>
 
 <div class="controls" tabindex="0" use:autofocus>
   <div class="buttons-wrapper">
-    {#if entity}
-      <div class="entity"><EntityPreview {entity} /></div>
-    {/if}
-    <input type="text"
-      name="filter"
-      placeholder="{i18n('filter')}"
-      title="{i18n('the filter can be a regular expression')}"
-      on:keyup={event => lazyDispatchFilter(event.target.value)}
-    >
-    <button
-      class="merge dangerous-button"
-      disabled={!($selection.from && $selection.to)}
-      title="{`merge ${$selection.from?.uri} into ${$selection.to?.uri}\nShortkey: m`}"
-      on:click={() => dispatch('merge')}
+    <div class="entity">
+      {#if entity}<EntityPreview {entity} />{/if}
+    </div>
+    <div class="center">
+      <input type="text"
+        name="filter"
+        placeholder="{i18n('filter')}"
+        title="{i18n('the filter can be a regular expression')}"
+        on:keyup={event => lazyDispatchFilter(event.target.value)}
       >
-      {@html icon('compress')}{I18n('merge')}
-    </button>
-    {#if candidates && index + 1 <= candidates.length}
       <button
-        class="next light-blue-button"
-        title="Shortkey: n"
-        on:click={() => dispatch('next')}
+        class="merge dangerous-button"
+        disabled={!($selection.from && $selection.to)}
+        title="{`merge ${$selection.from?.uri} into ${$selection.to?.uri}\nShortkey: m`}"
+        on:click={() => dispatch('merge')}
         >
-        {@html icon('arrow-right')}{I18n('next')}
+        {@html icon('compress')}{I18n('merge')}
+        {#if merging}<Spinner light={true}/>{/if}
       </button>
-
-      <p class="status">
-        candidates: {index + 1} / {candidates.length}
-      </p>
-    {/if}
+      {#if remainingCandidates}
+        <button
+          class="next light-blue-button"
+          title="Shortkey: n"
+          on:click={() => dispatch('next')}
+          >
+          {@html icon('arrow-right')}{I18n('next')}
+        </button>
+      {/if}
+    </div>
+    <div class="status">
+      {#if remainingCandidates}
+        <p>candidates: {index + 1} / {candidates.length}</p>
+      {/if}
+    </div>
   </div>
   <div class="alerts">
     {#if error}<Alertbox {error} on:closed={() => error = null } />{/if}
@@ -77,24 +84,16 @@
     align-items: stretch;
   }
 
-  .entity{
-    margin-right: auto;
-  }
-
   :disabled{
     cursor: not-allowed;
     opacity: 0.3;
   }
 
-  .buttons-wrapper, .alerts{
+  .buttons-wrapper, .alerts, .center{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-  }
-
-  .buttons-wrapper{
-    position: relative;
+    justify-content: space-between;
   }
 
   input{
@@ -109,18 +108,36 @@
     font-family: $sans-serif;
   }
 
-  .status{
-    padding: 0.2em 0.5em;
-    background-color: $light-grey;
-    white-space: nowrap;
-    margin-left: auto;
-  }
-
   .alerts{
     align-self: stretch;
     min-width: 50%;
     max-width: 30em;
     margin: 0 auto;
     background-color: $soft-red;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: 800px) {
+    .entity, .status{
+      display: none;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: 800px) {
+    .entity, .status{
+      // Make sure to push the center in the same proportion, to keep it in the center
+      min-width: 20em;
+    }
+    .status{
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      p{
+        padding: 0.2em 0.5em;
+        background-color: $light-grey;
+        white-space: nowrap;
+      }
+    }
   }
 </style>
