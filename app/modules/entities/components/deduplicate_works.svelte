@@ -6,6 +6,8 @@
   import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
   import { getSelectionStore, getFilterPattern, getEntityFilter } from './lib/deduplicate_helpers'
+  import { flip } from 'svelte/animate'
+
   export let worksPromise, author
 
   let wdWorks = []
@@ -113,7 +115,7 @@
       </div>
       <ul>
         {#each wdWorks as work (work.uri)}
-          <li class="work" in:fade={{ duration: 200 }}>
+          <li class="work" in:fade={{ duration: 200 }} animate:flip={{ duration: 200 }}>
             <MergeCandidate entity={work} {selection} {filterPattern}/>
           </li>
         {/each}
@@ -126,7 +128,7 @@
       </div>
       <ul>
         {#each invWorks as work (work.uri)}
-          <li class="work" in:fade={{ duration: 200 }}>
+          <li class="work" in:fade={{ duration: 200 }} animate:flip={{ duration: 200 }}>
             <MergeCandidate entity={work} {selection} {filterPattern}/>
           </li>
         {/each}
