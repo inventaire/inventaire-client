@@ -50,8 +50,6 @@ module.exports = {
     'object-shorthand': [ 'error', 'properties' ],
     // Being able to define several variables on a single line comes very handy with Svelte
     'one-var': 'off',
-    // "prefer-arrow/prefer-arrow-functions": [ "error" ],
-    // "prefer-arrow-callback": [ "error" ],
     'prefer-const': [ 'error' ]
   },
   globals: {
