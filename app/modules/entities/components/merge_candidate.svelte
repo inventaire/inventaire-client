@@ -2,11 +2,13 @@
   import EntityPreview from './entity_preview.svelte'
   import { I18n } from 'modules/user/lib/i18n'
   import { imgSrc } from 'lib/handlebars_helpers/images'
+  import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers'
   export let entity, selection
 
   entity.image.small = imgSrc(entity.image.url, 200, 400)
   entity.image.large = imgSrc(entity.image.url, 500, 1000)
   let zoom = false
+  const aggregatedLabelsAndAliases = getAggregatedLabelsAndAliases(entity)
 </script>
 
 <button
@@ -25,7 +27,11 @@
   <h3><a class="label showEntity" href="/entity/{entity.uri}">{entity.label}</a></h3>
   <p class="description">{entity.description || ''}</p>
   <p class="uri">{entity.uri}</p>
-  <!-- TODO: give access to labels and aliases in all available languages -->
+  <ul class="all-terms">
+    {#each aggregatedLabelsAndAliases as termData}
+      <li title="{termData.origins.join(', ')}">{termData.term}</li>
+    {/each}
+  </ul>
   <!-- TODO: highlight terms matching the current filter  -->
   <!-- TODO: add authors -->
   {#if entity.series?.length > 0}
@@ -35,7 +41,7 @@
         <span class="count">{entity.series.length}</span>
       </h4>
       {#each entity.series as serie (serie.uri)}
-        <li><EntityPreview entity={serie} /></li>
+        <li class="entity-preview"><EntityPreview entity={serie} /></li>
       {/each}
     </ul>
   {/if}
@@ -46,7 +52,7 @@
         <span class="count">{entity.works.length}</span>
       </h4>
       {#each entity.works as work (work.uri)}
-        <li><EntityPreview entity={work} /></li>
+        <li class="entity-preview"><EntityPreview entity={work} /></li>
       {/each}
     </ul>
   {/if}
@@ -101,7 +107,7 @@
   .description{
     color: $grey;
   }
-  li{
+  .entity-preview{
     background-color: $light-grey;
     padding: 0.5em;
     margin: 0.5em 0;
@@ -122,5 +128,13 @@
     padding: 0 0.3em;
     font-size: 1rem;
     margin: 0 0.5em;
+  }
+  .all-terms{
+    background-color: $off-white;
+    font-weight: normal;
+    text-align: left;
+    padding: 0.2em;
+    max-height: 10em;
+    overflow-y: auto;
   }
 </style>
