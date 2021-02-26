@@ -6,7 +6,7 @@ module.exports = {
   env: {
     browser: true,
     commonjs: false,
-    es6: true
+    es2020: true
   },
   parserOptions: {
     sourceType: 'module',
@@ -17,7 +17,6 @@ module.exports = {
     'standard'
   ],
   plugins: [
-    'prefer-arrow',
     'svelte3'
   ],
   rules: {
@@ -50,8 +49,6 @@ module.exports = {
     'object-shorthand': [ 'error', 'properties' ],
     // Being able to define several variables on a single line comes very handy with Svelte
     'one-var': 'off',
-    // "prefer-arrow/prefer-arrow-functions": [ "error" ],
-    // "prefer-arrow-callback": [ "error" ],
     'prefer-const': [ 'error' ]
   },
   globals: {
