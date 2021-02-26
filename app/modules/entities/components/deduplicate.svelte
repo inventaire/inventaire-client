@@ -7,7 +7,7 @@
   import DeduplicateAuthors from './deduplicate_authors.svelte'
   import DeduplicateWorks from './deduplicate_works.svelte'
 
-  let state, name, worksPromise
+  let state, name, worksPromise, author
 
   export let uris
 
@@ -22,7 +22,7 @@
     name = app.request('querystring:get', 'name')
   }
 
-  async function getAuthorWorksWithImagesAndCoauthors (author) {
+  async function getAuthorWorksWithImagesAndCoauthors () {
     const works = await getAuthorWorks(author)
     await addWorksImagesAndAuthors(works)
     works.forEach(work => {
@@ -36,8 +36,8 @@
     // Guess type from first entity
     const { type } = entities[0]
     if (type === 'human' && entities.length === 1) {
-      const author = entities[0]
-      worksPromise = getAuthorWorksWithImagesAndCoauthors(author)
+      author = entities[0]
+      worksPromise = getAuthorWorksWithImagesAndCoauthors()
       state = 'deduplicate:works'
       return
     }
@@ -51,6 +51,6 @@
 	{#if state === 'deduplicate:authors'}
 		<DeduplicateAuthors {name} />
 	{:else if state === 'deduplicate:works'}
-		<DeduplicateWorks {worksPromise} />
+		<DeduplicateWorks {worksPromise} {author} />
 	{/if}
 </div>
