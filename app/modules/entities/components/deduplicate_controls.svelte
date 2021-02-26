@@ -5,11 +5,12 @@
   import { createEventDispatcher } from 'svelte'
   import { autofocus } from 'lib/components/actions/autofocus'
   import _ from 'underscore'
+  import EntityPreview from './entity_preview.svelte'
 
   const dispatch = createEventDispatcher()
   const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 50)
 
-  export let error, selection, candidates, index
+  export let entity, error, selection, candidates, index
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
@@ -17,19 +18,21 @@
 
     if (event.key === 'm') dispatch('merge')
     else if (event.key === 'n') dispatch('next')
-	}
-
+  }
 </script>
 
 <svelte:window on:keydown={handleKeydown}/>
 
 <div class="controls" tabindex="0" use:autofocus>
   <div class="buttons-wrapper">
+    {#if entity}
+      <div class="entity"><EntityPreview {entity} /></div>
+    {/if}
     <input type="text"
       name="filter"
       placeholder="{i18n('filter')}"
       title="{i18n('the filter can be a regular expression')}"
-      on:keyup={(event) => lazyDispatchFilter(event.target.value)}
+      on:keyup={event => lazyDispatchFilter(event.target.value)}
     >
     <button
       class="merge dangerous-button"
@@ -74,6 +77,10 @@
     align-items: stretch;
   }
 
+  .entity{
+    margin-right: auto;
+  }
+
   :disabled{
     cursor: not-allowed;
     opacity: 0.3;
@@ -106,6 +113,7 @@
     padding: 0.2em 0.5em;
     background-color: $light-grey;
     white-space: nowrap;
+    margin-left: auto;
   }
 
   .alerts{
@@ -115,13 +123,4 @@
     margin: 0 auto;
     background-color: $soft-red;
   }
-
-  /*Large screens*/
-  @media screen and (min-width: 1000px) {
-    .status{
-      position: absolute;
-      right: 0;
-    }
-  }
-
 </style>

@@ -6,12 +6,12 @@
   import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
   import { getSelectionStore, getFilterPattern, getEntityFilter } from './lib/deduplicate_helpers'
-  export let worksPromise
+  export let worksPromise, author
 
   let wdWorks = []
   let invWorks = []
   let index = -1
-  let candidates, allWorksByPrefix, allCandidateWorksByPrefix, error
+  let candidates, allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern
 
   const waitForWorks = worksPromise.then(works => {
     allWorksByPrefix = spreadByPrefix(works)
@@ -78,8 +78,6 @@
     })
   }
 
-  let filterPattern
-
   function filter (event) {
     const filterText = event.detail.trim().toLowerCase()
     const pattern = getFilterPattern(event.detail)
@@ -137,7 +135,16 @@
   </div>
 {/await}
 
-<DeduplicateControls {selection} {error} {candidates} {index} on:merge={merge} on:next={next} on:filter={filter}/>
+<DeduplicateControls
+  entity={author}
+  {selection}
+  {error}
+  {candidates}
+  {index}
+  on:merge={merge}
+  on:next={next}
+  on:filter={filter}
+/>
 
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
