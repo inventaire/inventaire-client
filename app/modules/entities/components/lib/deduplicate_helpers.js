@@ -30,17 +30,29 @@ export function getSelectionStore () {
   return selection
 }
 
-export const getEntityFilter = text => {
-  if (!text || text.trim().length === 0) return () => true
+export const getFilterPattern = text => {
+  if (!text || text.trim().length === 0) return ''
 
   // Using a regex allows to accept OR operators in the form of `|`
-  const re = new RegExp(text, 'i')
-  return entity => anyLabelOrAliasMatch(entity, re)
+  let pattern
+  try {
+    pattern = new RegExp(text, 'i')
+  } catch (err) {
+    const escapedText = text.replace(/(\W)/g, '\\$1')
+    pattern = new RegExp(escapedText, 'i')
+  }
+
+  return pattern
 }
 
-const anyLabelOrAliasMatch = function (entity, re) {
+export const getEntityFilter = (text, pattern) => {
+  if (text.length === 0) return () => true
+  else return entity => anyLabelOrAliasMatch(entity, pattern)
+}
+
+const anyLabelOrAliasMatch = function (entity, pattern) {
   entity._matchable = entity._matchable || getEntityLabelsAndAliases(entity)
-  return entity._matchable.some(term => term.match(re))
+  return entity._matchable.some(term => term.match(pattern))
 }
 
 const getEntityLabelsAndAliases = entity => {

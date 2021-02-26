@@ -3,7 +3,7 @@
   import { I18n } from 'modules/user/lib/i18n'
   import { imgSrc } from 'lib/handlebars_helpers/images'
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers'
-  export let entity, selection
+  export let entity, selection, filterPattern
 
   entity.image.small = imgSrc(entity.image.url, 200, 400)
   entity.image.large = imgSrc(entity.image.url, 500, 1000)
@@ -28,11 +28,33 @@
   <p class="description">{entity.description || ''}</p>
   <p class="uri">{entity.uri}</p>
   <ul class="all-terms">
-    {#each aggregatedLabelsAndAliases as termData}
-      <li title="{termData.origins.join(', ')}">{termData.term}</li>
+    {#each aggregatedLabelsAndAliases as termData (termData.term)}
+      {#if filterPattern}
+        {#if termData.term.match(filterPattern)}
+          <li title="{termData.origins.join(', ')}">
+            {#each termData.getMatchParts(filterPattern) as part, i}
+              <!-- Odd parts are parts matching the filter and should be highlighted -->
+              {#if i % 2 === 1}
+                <strong>{part}</strong>
+              {:else}
+                {part}
+              {/if}
+            {/each}
+            {#if termData.origins.length > 1}
+              <span class="occurrences">({termData.origins.length})</span>
+            {/if}
+          </li>
+        {/if}
+      {:else}
+        <li title="{termData.origins.join(', ')}">
+          {termData.term}
+          {#if termData.origins.length > 1}
+            <span class="occurrences">({termData.origins.length})</span>
+          {/if}
+        </li>
+      {/if}
     {/each}
   </ul>
-  <!-- TODO: highlight terms matching the current filter  -->
   <!-- TODO: add authors -->
   {#if entity.series?.length > 0}
     <ul class="series">
@@ -130,11 +152,18 @@
     margin: 0 0.5em;
   }
   .all-terms{
-    background-color: $off-white;
     font-weight: normal;
     text-align: left;
-    padding: 0.2em;
     max-height: 10em;
     overflow-y: auto;
+    // background-color: $grey;
+  }
+  .all-terms li{
+    background-color: $off-white;
+    padding: 0.1em;
+    margin: 0.2em;
+  }
+  .occurrences{
+    color: $grey;
   }
 </style>
