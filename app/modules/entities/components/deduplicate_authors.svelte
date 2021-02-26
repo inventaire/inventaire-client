@@ -15,7 +15,7 @@
 
   export let name
   let showDuplicateAuthorsNames = false
-  let selectedName, waitingForHomonymes, homonymsEntities, error
+  let selectedName, waitingForHomonymes, homonymsEntities, error, filterPattern
 
   if (name) showName(name)
   else showDuplicateAuthorsNames = true
@@ -23,6 +23,7 @@
   async function showName (name) {
     app.execute('querystring:set', 'name', name)
     selectedName = name
+    filterPattern = new RegExp(name, 'i')
     waitingForHomonymes = getHomonyms(name)
   }
 
@@ -92,7 +93,7 @@
     <ul class="homonyms">
       {#each homonymsEntities as homonym (homonym.uri)}
         <li class="homonym" in:fade={{ duration: 200 }}>
-          <MergeCandidate entity={homonym} {selection} />
+          <MergeCandidate entity={homonym} {selection} {filterPattern} large={true}/>
         </li>
       {/each}
     </ul>
@@ -118,7 +119,6 @@
   .homonym{
     margin: 0.5em;
     width: 18em;
-    max-height: 20em;
     overflow-y: auto;
   }
 </style>
