@@ -84,12 +84,12 @@ const getBestMatchScore = function (aLabelsParts, bLabelsParts) {
     for (const bPart of bLabelsParts) {
       const [ shortest, longest ] = getShortestAndLongest(aPart.length, bPart.length)
       // Do not compare parts that are very different in length
-      if ((longest - shortest) < 5) {
+      if (longest - shortest < 5) {
         const distance = leven(aPart, bPart)
         const matchScore = longest - distance
         let matchRatio = matchScore / longest
         matchRatio = Math.round(matchRatio * 100) / 100
-        if ((distance < 5) && (matchRatio > 0.6) && (matchScore > data.bestMatchScore)) {
+        if (distance < 5 && matchRatio > 0.6 && matchScore > data.bestMatchScore) {
           data = { aPart, bPart, bestMatchScore: matchScore, matchRatio, distance }
         }
       }
@@ -104,7 +104,7 @@ const getShortestAndLongest = (a, b) => a > b ? [ b, a ] : [ a, b ]
 const hasPossibleDuplicates = function (candidate) {
   const possibleCandidatesCount = candidate.possibleDuplicateOf.length
   // Also ignore when there are too many candidates
-  return (possibleCandidatesCount > 0) && (possibleCandidatesCount < 10)
+  return possibleCandidatesCount > 0 && possibleCandidatesCount < 10
 }
 
 const byMatchLength = invUri => (a, b) => b.bestMatchScore[invUri] - a.bestMatchScore[invUri]
