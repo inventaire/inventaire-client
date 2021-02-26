@@ -3,7 +3,7 @@
   import { isNonEmptyArray } from 'lib/boolean_tests'
   import { getEntitiesByUris } from '../lib/entities'
   import { getAuthorWorks } from '../lib/types/author'
-  import { addWorksImages } from '../lib/types/work'
+  import { addWorksImagesAndAuthors } from '../lib/types/work'
   import DeduplicateAuthors from './deduplicate_authors.svelte'
   import DeduplicateWorks from './deduplicate_works.svelte'
 
@@ -22,19 +22,24 @@
     name = app.request('querystring:get', 'name')
   }
 
+  async function getAuthorWorksWithImagesAndCoauthors (author) {
+    const works = await getAuthorWorks(author)
+    await addWorksImagesAndAuthors(works)
+    works.forEach(work => {
+      work.coauthors = work.authors.filter(coauthor => coauthor.uri !== author.uri)
+    })
+    return works
+  }
+
   async function loadFromUris () {
     const entities = await getEntitiesByUris(uris)
     // Guess type from first entity
     const { type } = entities[0]
-    if (type === 'human') {
-      if (entities.length === 1) {
-        worksPromise = getAuthorWorks(entities[0])
-          .then(addWorksImages)
-        state = 'deduplicate:works'
-        return
-      }
-      // } else if (type === 'work') {
-      // return this.showDeduplicateWorks(entities)
+    if (type === 'human' && entities.length === 1) {
+      const author = entities[0]
+      worksPromise = getAuthorWorksWithImagesAndCoauthors(author)
+      state = 'deduplicate:works'
+      return
     }
 
     // If we haven't returned at this point, it is a non handled case
