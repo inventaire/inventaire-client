@@ -29,7 +29,7 @@
 <div class="controls" tabindex="0" use:autofocus>
   <div class="buttons-wrapper">
     <div class="entity">
-      {#if entity}<EntityPreview {entity} />{/if}
+      {#if entity}<EntityPreview {entity} large={true}/>{/if}
     </div>
     <div class="center">
       <input type="text"

@@ -3,7 +3,7 @@
   import { I18n } from 'modules/user/lib/i18n'
   import { imgSrc } from 'lib/handlebars_helpers/images'
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers'
-  export let entity, selection, filterPattern
+  export let entity, selection, filterPattern, large
 
   entity.image.small = imgSrc(entity.image.url, 200, 400)
   entity.image.large = imgSrc(entity.image.url, 500, 1000)
@@ -18,6 +18,7 @@
   class:selected-from={$selection.from?.uri === entity.uri}
   class:selected-to={$selection.to?.uri === entity.uri}
   class:zoom
+  class:large
   >
   {#if entity.image.url}
     <img
@@ -63,9 +64,11 @@
         {I18n('series')}
         <span class="count">{entity.series.length}</span>
       </h4>
-      {#each entity.series as serie (serie.uri)}
-        <li class="entity-preview"><EntityPreview entity={serie} /></li>
-      {/each}
+      <ul>
+        {#each entity.series as serie (serie.uri)}
+          <li class="entity-preview"><EntityPreview entity={serie} /></li>
+        {/each}
+      </ul>
     </ul>
   {/if}
   {#if entity.works?.length > 0}
@@ -74,9 +77,11 @@
         {I18n('works')}
         <span class="count">{entity.works.length}</span>
       </h4>
-      {#each entity.works as work (work.uri)}
-        <li class="entity-preview"><EntityPreview entity={work} /></li>
-      {/each}
+      <ul>
+        {#each entity.works as work (work.uri)}
+          <li class="entity-preview"><EntityPreview entity={work} /></li>
+        {/each}
+      </ul>
     </ul>
   {/if}
   {#if entity.coauthors?.length > 0}
@@ -96,10 +101,10 @@
     background-color: white;
     @include radius;
     width: 100%;
-    padding: 1em;
+    padding: 0.5em;
     transition: background-color 0.2s ease;
   }
-  button:not(.zoom){
+  button:not(.zoom):not(.large){
     max-width: 15em;
   }
   button.zoom{
@@ -110,6 +115,10 @@
   }
   button:not(.zoom) img{
     cursor: zoom-in;
+  }
+
+  .large{
+    max-width: 25em;
   }
 
   button:hover{
@@ -177,5 +186,11 @@
   }
   .coauthors a:hover{
     text-decoration: underline;
+  }
+  .works, .series{
+    ul{
+      max-height: 10em;
+      overflow-y: auto;
+    }
   }
 </style>
