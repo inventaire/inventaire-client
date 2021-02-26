@@ -9,6 +9,8 @@
   entity.image.large = imgSrc(entity.image.url, 500, 1000)
   let zoom = false
   const aggregatedLabelsAndAliases = getAggregatedLabelsAndAliases(entity)
+
+  const isNotLast = (array, index) => array.length > index + 1
 </script>
 
 <button
@@ -55,7 +57,6 @@
       {/if}
     {/each}
   </ul>
-  <!-- TODO: add authors -->
   {#if entity.series?.length > 0}
     <ul class="series">
       <h4>
@@ -77,6 +78,14 @@
         <li class="entity-preview"><EntityPreview entity={work} /></li>
       {/each}
     </ul>
+  {/if}
+  {#if entity.coauthors?.length > 0}
+    <p class="coauthors">
+      {I18n('coauthors')}:
+      {#each entity.coauthors as author, i (author.uri)}
+        <a href="{author.pathname}" title="{author.label}">{author.label}</a>{#if isNotLast(entity.coauthors, i)},&nbsp;{/if}
+      {/each}
+    </p>
   {/if}
 </button>
 
@@ -107,7 +116,7 @@
     opacity: 0.95;
   }
   .selected-from, .selected-to{
-    a, .uri{
+    a, .uri, .coauthors{
       color: white !important;
     }
   }
@@ -165,5 +174,8 @@
   }
   .occurrences{
     color: $grey;
+  }
+  .coauthors a:hover{
+    text-decoration: underline;
   }
 </style>

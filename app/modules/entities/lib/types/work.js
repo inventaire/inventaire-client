@@ -2,6 +2,7 @@ import commonsSerieWork from './commons_serie_work'
 import filterOutWdEditions from '../filter_out_wd_editions'
 import getEntityItemsByCategories from '../get_entity_items_by_categories'
 import getBestLangValue from '../get_best_lang_value'
+import { getEntitiesByUris } from '../entities'
 import preq from 'lib/preq'
 
 const publicDomainThresholdYear = new Date().getFullYear() - 70
@@ -105,6 +106,14 @@ const specificMethods = _.extend({}, commonsSerieWork, {
 
 // ## Backbone-free functions for Svelte components ##
 
+export async function addWorksImagesAndAuthors (works) {
+  await Promise.all([
+    addWorksImages(works),
+    addWorksAuthors(works),
+  ])
+  return works
+}
+
 export async function addWorksImages (works) {
   const remainingWorks = works.slice(0)
   const nextBatch = async () => {
@@ -125,3 +134,14 @@ export async function addWorkImages (work) {
   if (imageHash) work.image.url = `/img/entities/${imageHash}`
   return work
 }
+
+export async function addWorksAuthors (works) {
+  const authorsUris = _.uniq(_.compact(_.flatten(works.map(getWorkAuthorsUris))))
+  const entities = await getEntitiesByUris({ uris: authorsUris, index: true })
+  works.forEach(work => {
+    const workAuthorUris = getWorkAuthorsUris(work)
+    work.authors = _.values(_.pick(entities, workAuthorUris))
+  })
+}
+
+const getWorkAuthorsUris = work => work.claims['wdt:P50']

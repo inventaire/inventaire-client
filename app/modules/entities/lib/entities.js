@@ -31,10 +31,16 @@ export function normalizeUri (uri) {
   }
 }
 
-export const getEntitiesByUris = async uris => {
+export const getEntitiesByUris = async params => {
+  let uris
+  let index = false
+  if (_.isArray(params)) uris = params
+  else ({ uris, index } = params)
   if (uris.length === 0) return []
   const { entities } = await preq.get(app.API.entities.getByUris(uris))
-  return Object.values(entities).map(serializeEntity)
+  const serializedEntities = Object.values(entities).map(serializeEntity)
+  if (index) return _.indexBy(serializedEntities, 'uri')
+  else return serializedEntities
 }
 
 export const serializeEntity = entity => {
