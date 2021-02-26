@@ -34,7 +34,7 @@
         {I18n('series')}
         <span class="count">{entity.series.length}</span>
       </h4>
-      {#each entity.series as serie}
+      {#each entity.series as serie (serie.uri)}
         <li><EntityPreview entity={serie} /></li>
       {/each}
     </ul>
@@ -45,7 +45,7 @@
         {I18n('works')}
         <span class="count">{entity.works.length}</span>
       </h4>
-      {#each entity.works as work}
+      {#each entity.works as work (work.uri)}
         <li><EntityPreview entity={work} /></li>
       {/each}
     </ul>

@@ -106,7 +106,7 @@
     <div class="wdWorks">
       <h3>Wikidata</h3>
       <ul>
-        {#each wdWorks as work}
+        {#each wdWorks as work (work.uri)}
           <li class="work" in:fade={{ duration: 200 }}>
             <MergeCandidate entity={work} {selection} />
           </li>
@@ -116,7 +116,7 @@
     <div class="invWorks">
       <h3>Inventaire</h3>
       <ul>
-        {#each invWorks as work}
+        {#each invWorks as work (work.uri)}
           <li class="work" in:fade={{ duration: 200 }}>
             <MergeCandidate entity={work} {selection} />
           </li>

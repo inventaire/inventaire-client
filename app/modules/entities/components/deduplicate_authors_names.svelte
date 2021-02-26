@@ -19,7 +19,7 @@
 {:then}
   <h2>Author names with most occurrences</h2>
   <ul class="names">
-    {#each names as nameData}
+    {#each names as nameData (nameData.key)}
       <li>
         <button
           class="name tiny-button light-blue"

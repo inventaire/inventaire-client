@@ -90,7 +90,7 @@
     <p class="loading">Loading homonyms... <Spinner/></p>
   {:then}
     <ul class="homonyms">
-      {#each homonymsEntities as homonym}
+      {#each homonymsEntities as homonym (homonym.uri)}
         <li class="homonym" in:fade={{ duration: 200 }}>
           <MergeCandidate entity={homonym} {selection} />
         </li>
