@@ -109,7 +109,10 @@
 {:then}
   <div class="deduplicateWorks">
     <div class="wdWorks">
-      <h3>Wikidata</h3>
+      <div class="header">
+        <h3>Wikidata</h3>
+        <span class="count">{wdWorks.length}</span>
+      </div>
       <ul>
         {#each wdWorks as work (work.uri)}
           <li class="work" in:fade={{ duration: 200 }}>
@@ -119,7 +122,10 @@
       </ul>
     </div>
     <div class="invWorks">
-      <h3>Inventaire</h3>
+      <div class="header">
+        <h3>Inventaire</h3>
+        <span class="count">{invWorks.length}</span>
+      </div>
       <ul>
         {#each invWorks as work (work.uri)}
           <li class="work" in:fade={{ duration: 200 }}>
@@ -161,10 +167,24 @@
     flex: 1 0 0;
     min-width: 15em;
   }
+  .header{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+  }
   h3{
     font-size: 1.2rem;
     opacity: 0.8;
     text-align: center;
+  }
+  .count{
+    background-color: white;
+    padding: 0.1em 0.4em;
+    margin: 0.4em 0.5em;
+    line-height: 1em;
+    border-radius: 3px;
+    opacity: 0.8;
   }
   .wdWorks{
     background-color: $grey;
