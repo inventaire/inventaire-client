@@ -24,9 +24,14 @@ export default {
   serieParts: CustomQuery('serie-parts'),
   publisherPublications: CustomQuery('publisher-publications'),
 
-  activity (period) { return action('activity', { period }) },
+  images (uris, refresh) {
+    uris = forceArray(uris).join('|')
+    return action('images', { uris, refresh })
+  },
+
+  activity: period => action('activity', { period }),
   changes: action('changes'),
-  history (id) { return action('history', { id }) },
+  history: id => action('history', { id }),
 
   // POST
   create: action('create'),

@@ -6,8 +6,11 @@ export default function (lang, originalLang, data) {
 
   while (order.length > 0) {
     const nextLang = order.shift()
-    const value = data[nextLang]
-    if (value != null) return { value, lang: nextLang }
+    let value = data[nextLang]
+    if (value != null) {
+      if (value instanceof Array) value = value[0]
+      return { value, lang: nextLang }
+    }
   }
 
   return {}

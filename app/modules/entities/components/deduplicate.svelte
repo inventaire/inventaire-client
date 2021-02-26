@@ -3,6 +3,7 @@
   import { isNonEmptyArray } from 'lib/boolean_tests'
   import { getEntitiesByUris } from '../lib/entities'
   import { getAuthorWorks } from '../lib/types/author'
+  import { addWorksImages } from '../lib/types/work'
   import DeduplicateAuthors from './deduplicate_authors.svelte'
   import DeduplicateWorks from './deduplicate_works.svelte'
 
@@ -28,6 +29,7 @@
     if (type === 'human') {
       if (entities.length === 1) {
         worksPromise = getAuthorWorks(entities[0])
+          .then(addWorksImages)
         state = 'deduplicate:works'
         return
       }

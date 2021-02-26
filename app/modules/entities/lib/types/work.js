@@ -1,12 +1,16 @@
 import commonsSerieWork from './commons_serie_work'
 import filterOutWdEditions from '../filter_out_wd_editions'
 import getEntityItemsByCategories from '../get_entity_items_by_categories'
+import getBestLangValue from '../get_best_lang_value'
+import preq from 'lib/preq'
 
 const publicDomainThresholdYear = new Date().getFullYear() - 70
 
+const editionRelationProperty = 'wdt:P629'
+
 export default function () {
   // Main property by which sub-entities are linked to this one: edition of
-  this.childrenClaimProperty = 'wdt:P629'
+  this.childrenClaimProperty = editionRelationProperty
   // inverse property: edition(s)
   this.subEntitiesInverseProperty = 'wdt:P747'
 
@@ -50,14 +54,14 @@ const setImage = function () {
   this.set('images', images.slice(0, 3))
 }
 
-const getEditionImageData = function (model) {
-  const image = model.get('image')
+const getEditionImageData = function (edition) {
+  const image = edition.get('image')
   if (image?.url == null) return
   return {
     image,
-    lang: model.get('lang'),
-    publicationDate: model.get('publicationTime'),
-    isCompositeEdition: model.get('isCompositeEdition')
+    lang: edition.get('lang'),
+    publicationDate: edition.get('publicationTime'),
+    isCompositeEdition: edition.get('isCompositeEdition')
   }
 }
 
@@ -97,3 +101,26 @@ const specificMethods = _.extend({}, commonsSerieWork, {
   beforeSubEntitiesAdd: filterOutWdEditions,
   afterSubEntitiesAdd: setImage
 })
+
+// ## Backbone-free functions for Svelte components ##
+
+export async function addWorksImages (works) {
+  const remainingWorks = works.slice(0)
+  const nextBatch = async () => {
+    const batchWorks = remainingWorks.splice(0, 10)
+    if (batchWorks.length === 0) return
+    await Promise.all(batchWorks.map(addWorkImages))
+    return nextBatch()
+  }
+  await nextBatch()
+  return works
+}
+
+export async function addWorkImages (work) {
+  const { uri } = work
+  const { images } = await preq.get(app.API.entities.images(work.uri))
+  const workImages = images[uri]
+  const imageHash = getBestLangValue(app.user.lang, work.originalLang, workImages).value
+  if (imageHash) work.image.url = `/img/entities/${imageHash}`
+  return work
+}
