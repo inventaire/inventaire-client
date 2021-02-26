@@ -5,7 +5,7 @@
   import { fade } from 'svelte/transition'
   import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
-  import { getSelectionStore, getEntityFilter } from './lib/deduplicate_helpers'
+  import { getSelectionStore, getFilterPattern, getEntityFilter } from './lib/deduplicate_helpers'
   export let worksPromise
 
   let wdWorks = []
@@ -78,8 +78,13 @@
     })
   }
 
+  let filterPattern
+
   function filter (event) {
-    const filterFn = getEntityFilter(event.detail)
+    const filterText = event.detail.trim().toLowerCase()
+    const pattern = getFilterPattern(event.detail)
+    filterPattern = filterText !== '' ? pattern : null
+    const filterFn = getEntityFilter(filterText, pattern)
     if (candidates[index]) {
       wdWorks = allCandidateWorksByPrefix.wd.filter(filterFn)
       invWorks = allCandidateWorksByPrefix.inv.filter(filterFn)
@@ -108,7 +113,7 @@
       <ul>
         {#each wdWorks as work (work.uri)}
           <li class="work" in:fade={{ duration: 200 }}>
-            <MergeCandidate entity={work} {selection} />
+            <MergeCandidate entity={work} {selection} {filterPattern}/>
           </li>
         {/each}
       </ul>
@@ -118,7 +123,7 @@
       <ul>
         {#each invWorks as work (work.uri)}
           <li class="work" in:fade={{ duration: 200 }}>
-            <MergeCandidate entity={work} {selection} />
+            <MergeCandidate entity={work} {selection} {filterPattern}/>
           </li>
         {/each}
       </ul>
