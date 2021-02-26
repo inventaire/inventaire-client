@@ -1,11 +1,11 @@
 <script>
-  export let large = false
+  export let large = false, light = false
 </script>
 
 {#if large}
   <div class="spinner-outer"><div class="spinner-inner"></div></div>
 {:else}
-  <span class="small-spinner"></span>
+  <span class="small-spinner" class:light></span>
 {/if}
 
 <style>
@@ -38,14 +38,18 @@
     border: 2px solid;
   }
 
-  .small-spinner:after{
+  .spinner-inner:after{
+    font-size: 5em;
+    border-width: 8px;
+    border-color: #222 #319cc2 #ffd402 transparent;
+  }
+
+  .small-spinner:not(.light):after{
     border-color: #333 #333 #333 transparent;
   }
 
-  .spinner-inner:after{
-    border-color: #222 #319cc2 #ffd402 transparent;
-    font-size: 5em;
-    border-width: 8px;
+  .small-spinner.light:after{
+    border-color: white white white transparent;
   }
 
   @keyframes ring-loader{

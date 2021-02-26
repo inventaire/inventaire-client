@@ -17,18 +17,21 @@
   </div>
 </a>
 
-<style>
+<style lang="scss">
+  @import 'app/modules/general/scss/utils';
+
   .showEntity{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    background-color: white;
     transition: background-color 0.3s ease;
     border-radius: 3px;
     padding: 0 0.5em;
   }
   .showEntity:hover{
-    background-color: white;
+    background-color: $off-white;
   }
   .image-wrapper{
     max-width: 4em;

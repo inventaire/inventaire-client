@@ -14,6 +14,7 @@
   let invWorks = []
   let index = -1
   let candidates, allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern
+  let merging = false
 
   const waitForWorks = worksPromise.then(works => {
     allWorksByPrefix = spreadByPrefix(works)
@@ -69,6 +70,8 @@
 
   function merge () {
     const { from, to } = selection.get()
+    if (!(from && to)) return
+    merging = true
     mergeEntities(from.uri, to.uri)
     .then(() => {
       from._merged = true
@@ -78,6 +81,7 @@
     .catch(err => {
       error = err
     })
+    .finally(() => merging = false)
   }
 
   function filter (event) {
@@ -146,6 +150,7 @@
   on:merge={merge}
   on:next={next}
   on:filter={filter}
+  {merging}
 />
 
 <style lang="scss">
