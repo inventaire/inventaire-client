@@ -15,7 +15,6 @@ export default {
         'donate(/)': 'showDonate',
         'feedback(/)': 'showFeedback',
         'me(/)': 'showMainUser',
-        'svelte-test': 'showSvelteTest',
         '*route': 'notFound'
       }
     })
@@ -55,16 +54,6 @@ const API = {
     } else {
       app.execute('show:welcome')
     }
-  },
-
-  async showSvelteTest () {
-    const { default: SvelteTest } = await import('./test.svelte')
-    new SvelteTest({
-      target: document.querySelector('main'),
-      data: {
-        name: 'world'
-      }
-    })
   },
 
   notFound (route) {
