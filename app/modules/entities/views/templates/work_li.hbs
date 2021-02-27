@@ -36,10 +36,10 @@
   {{!-- Only show in deduplication mode --}}
   <span class="uri hidden">{{uri}}</span>
   <p class="claims">
-    {{claim claims 'wdt:P50' true}}  {{!-- author --}}
-    {{claim claims 'wdt:P58' true}} {{!-- scenarist --}}
-    {{claim claims 'wdt:P110' true}} {{!-- illustrator --}}
-    {{claim claims 'wdt:P6338' true}} {{!-- colorist --}}
+    {{entityClaim claims 'wdt:P50' true}}  {{!-- author --}}
+    {{entityClaim claims 'wdt:P58' true}} {{!-- scenarist --}}
+    {{entityClaim claims 'wdt:P110' true}} {{!-- illustrator --}}
+    {{entityClaim claims 'wdt:P6338' true}} {{!-- colorist --}}
   </p>
   <p class="date">
     {{timeClaim claims 'wdt:P577' 'year' true}} {{!-- time of publication --}}

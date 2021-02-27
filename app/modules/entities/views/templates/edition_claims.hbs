@@ -2,20 +2,22 @@
 <div class="inner-claims">
   <p>
     {{#unless onWorkLayout}}
-      {{claim claims 'wdt:P629' true}}  {{!-- edition of --}}
-      {{claim claims 'wdt:P50' true}}  {{!-- author --}}
-      {{claim claims 'wdt:P58' true}} {{!-- scenarist --}}
-      {{claim claims 'wdt:P110' true}} {{!-- illustrator --}}
-      {{claim claims 'wdt:P6338' true}} {{!-- colorist --}}
-      {{claim claims 'wdt:P179' true}} {{!-- serie --}}
+      {{entityClaim claims 'wdt:P629' true}}  {{!-- edition of --}}
+      {{entityClaim claims 'wdt:P50' true}}  {{!-- author --}}
+      {{entityClaim claims 'wdt:P58' true}} {{!-- scenarist --}}
+      {{entityClaim claims 'wdt:P110' true}} {{!-- illustrator --}}
+      {{entityClaim claims 'wdt:P6338' true}} {{!-- colorist --}}
+      {{entityClaim claims 'wdt:P179' true}} {{!-- serie --}}
     {{/unless}}
-    {{claim claims 'wdt:P2679' true}}  {{!-- author of foreword --}}
-    {{claim claims 'wdt:P2680' true}}  {{!-- author of afterword --}}
-    {{claim claims 'wdt:P655'}} {{!-- translator --}}
-    {{claim claims 'wdt:P407'}} {{!-- edition language --}}
-    {{claim claims 'wdt:P123' true}} {{!-- publisher --}}
-    {{claim claims 'wdt:P195' true}} {{!-- collection --}}
+    {{entityClaim claims 'wdt:P2679' true}}  {{!-- author of foreword --}}
+    {{entityClaim claims 'wdt:P2680' true}}  {{!-- author of afterword --}}
+    {{entityClaim claims 'wdt:P655'}} {{!-- translator --}}
+    {{entityClaim claims 'wdt:P407'}} {{!-- edition language --}}
+    {{entityClaim claims 'wdt:P123' true}} {{!-- publisher --}}
+    {{entityClaim claims 'wdt:P195' true}} {{!-- collection --}}
     {{timeClaim claims 'wdt:P577'}} {{!-- publication date --}}
+    {{quantityClaim claims 'wdt:P1104'}} {{!-- number of pages --}}
+    {{quantityClaim claims 'wdt:P2635'}} {{!-- number of volumes --}}
   </p>
   {{!-- not so important for most users --}}
   <div>
