@@ -79,6 +79,7 @@ export default Marionette.ItemView.extend({
     const count = this.getNetworkItemsCount()
     if (count != null) attrs.counter = { count, highlight: count > 0 }
     if (attrs.extract != null) attrs.description = attrs.extract
+    attrs.hasDescriptionAndShortTitle = attrs.label.length < 50 && attrs.description
     return attrs
   },
 

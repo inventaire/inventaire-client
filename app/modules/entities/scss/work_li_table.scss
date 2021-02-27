@@ -20,7 +20,6 @@
     .workCover{
       @include display-flex(row, center);
       width: 3em;
-      margin-right: 0.5em;
       min-height: 3em;
       min-width: 3em;
       max-height: 3em;
@@ -30,11 +29,12 @@
       margin: 0.2em 0;
       @include display-flex(column, left, center);
       min-height: 3em;
-      overflow: hidden;
+      margin-left: 0.5em;
       h4{
         line-height: 1;
         font-size: 1.2em;
-        margin: 0;
+        margin-top: 0;
+        margin-bottom: 0;
         text-align: left;
       }
       .date{
