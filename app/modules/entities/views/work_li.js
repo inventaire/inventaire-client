@@ -1,7 +1,8 @@
 import { invertAttr, isOpenedOutside } from 'lib/utils'
 import workLiTemplate from './templates/work_li.hbs'
-import workLiTemplateTable from './templates/work_li_table.hbs'
+import workLiTableTemplate from './templates/work_li_table.hbs'
 import '../scss/work_li.scss'
+import '../scss/work_li_table.scss'
 import { localStorageProxy } from 'lib/local_storage'
 
 export default Marionette.ItemView.extend({
@@ -9,8 +10,7 @@ export default Marionette.ItemView.extend({
     const prefix = this.model.get('prefix')
     if (this.wrap == null) this.wrap = this.options.wrap
     const wrap = this.wrap ? 'wrapped wrappable' : ''
-    const workLiDisplay = this.display === 'table' ? 'workLiTable' : 'workLi'
-    return `${workLiDisplay} entity-prefix-${prefix} ${wrap}`
+    return `entity-prefix-${prefix} ${wrap}`
   },
 
   initialize () {
@@ -18,9 +18,10 @@ export default Marionette.ItemView.extend({
     if (this.display === 'cascade') {
       this.template = workLiTemplate
     } else if (this.display === 'table') {
-      this.template = workLiTemplateTable
+      this.template = workLiTableTemplate
     }
 
+    this.display = localStorageProxy.getItem('entitiesDisplay') || 'entitiesCascade'
     app.execute('uriLabel:update');
 
     ({ showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap } = this.options)
@@ -53,8 +54,18 @@ export default Marionette.ItemView.extend({
     click: 'toggleWrap'
   },
 
+  getTemplate () {
+    if (this.display === 'entitiesTable') {
+      return workLiTableTemplate
+    } else {
+      return workLiTemplate
+    }
+  },
+
   onRender () {
     this.updateClassName()
+    const workLiDisplay = this.display === 'entitiesTable' ? 'workLiTable' : 'workLi'
+    this.$el.addClass(workLiDisplay)
   },
 
   showItemCreationForm (e) {

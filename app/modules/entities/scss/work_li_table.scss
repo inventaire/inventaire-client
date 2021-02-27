@@ -1,3 +1,5 @@
+@import 'modules/general/scss/utils';
+
 .workLiTable, .articleLiTable{
   margin: 0 auto;
   max-width: 100%;
@@ -21,10 +23,14 @@
       margin-right: 0.5em;
       min-height: 3em;
       min-width: 3em;
+      max-height: 3em;
+      overflow: hidden;
     }
     .workLiDataTable{
-      @include display-flex(column);
       margin: 0.2em 0;
+      @include display-flex(column, left, center);
+      min-height: 3em;
+      overflow: hidden;
       h4{
         line-height: 1;
         font-size: 1.2em;
