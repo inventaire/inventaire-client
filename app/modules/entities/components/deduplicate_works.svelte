@@ -7,6 +7,7 @@
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
   import { getSelectionStore, getFilterPattern, getEntityFilter } from './lib/deduplicate_helpers'
   import { flip } from 'svelte/animate'
+  import { tick } from 'svelte'
 
   export let worksPromise, author
 
@@ -106,6 +107,14 @@
     if (a.label.toLowerCase() > b.label.toLowerCase()) return 1
     else return -1
   }
+
+  async function skipCandidates () {
+    candidates = null
+    selection.reset()
+    // Let controls update before the possibly expensive operations block the thread
+    await tick()
+    showFullLists()
+  }
 </script>
 
 {#await waitForWorks}
@@ -150,6 +159,7 @@
   on:merge={merge}
   on:next={next}
   on:filter={filter}
+  on:skip={skipCandidates}
   {merging}
 />
 

@@ -60,6 +60,7 @@
     <div class="status">
       {#if remainingCandidates}
         <p>candidates: {index + 1} / {candidates.length}</p>
+        <button class="skip" on:click={() => dispatch('skip')}>{I18n('skip')}</button>
       {/if}
     </div>
   </div>
