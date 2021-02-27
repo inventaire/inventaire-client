@@ -46,11 +46,11 @@ export default Marionette.ItemView.extend({
 
   updateStatus () {
     if (this.isAlreadyAdded()) {
-      // Use classes instead of a re-render to prevent blinking {{claim}} labels
+      // Use classes instead of a re-render to prevent blinking {{entityClaim}} labels
       this.$el.find('.add').addClass('hidden')
       this.$el.find('.added').removeClass('hidden')
     } else {
-      // Use classes instead of a re-render to prevent blinking {{claim}} labels
+      // Use classes instead of a re-render to prevent blinking {{entityClaim}} labels
       this.$el.find('.add').removeClass('hidden')
       this.$el.find('.added').addClass('hidden')
     }
