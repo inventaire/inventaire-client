@@ -19,8 +19,8 @@ export default {
 }
 
 const API = {
-  showHumansTask (task) { API.showTask(task, 'humans') },
-  showWorksTask (task) { API.showTask(task, 'works') },
+  showHumansTask (task) { API.showTask(task, 'human') },
+  showWorksTask (task) { API.showTask(task, 'work') },
   showTask (task, type) {
     if (app.request('require:loggedIn', 'tasks')) {
       return showLayout({ task, entitiesType: type })

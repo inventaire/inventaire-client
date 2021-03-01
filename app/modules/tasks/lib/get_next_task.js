@@ -19,7 +19,7 @@ export default function (params = {}) {
 const getNextTask = async params => {
   const { entitiesType } = params
   let nextTaskGetter = ''
-  if (entitiesType === 'works') {
+  if (entitiesType === 'work') {
     params.backlogType = 'byWork'
     nextTaskGetter = 'byWork'
   } else {
@@ -42,6 +42,9 @@ const getNextTask = async params => {
   // while having a low risk of conflicting
   if (offset == null) offset = Math.trunc(Math.random() * 500)
 
+  // Predictable behavior in development environment
+  if (window.env === 'dev') offset = 0
+
   let { tasks } = await requestNewTasks(entitiesType, limit, offset)
   tasks = tasks.filter(removePreviousTasks(previousTasks))
   offset += tasks.length
@@ -60,8 +63,8 @@ const getNextTaskBySuggestionUri = async params => {
   else return updateBacklogAndGetNextTask(suggestionUriTasks, params.backlogType)
 }
 
-const requestNewTasks = (type, limit, offset) => {
-  if (type === 'works') {
+const requestNewTasks = async (type, limit, offset) => {
+  if (type === 'work') {
     return preq.get(app.API.tasks.byEntitiesType({ type, limit, offset }))
   } else {
     return preq.get(app.API.tasks.byScore(limit, offset))

@@ -8,7 +8,7 @@ export default Backbone.Model.extend({
     const type = this.get('type')
     if (type == null) { throw error_.new('invalid task', 500, attrs) }
     const entitiesType = this.get('entitiesType')
-    if (entitiesType === 'humans') { this.calculateGlobalScore() }
+    if (entitiesType === 'human') { this.calculateGlobalScore() }
     return this.set('pathname', `/tasks/${this.id}`)
   },
 
@@ -17,7 +17,7 @@ export default Backbone.Model.extend({
       suspect: this.suspect?.toJSON(),
       suggestion: this.suggestion?.toJSON(),
     })
-    if (this.get('entitiesType') === 'humans') {
+    if (this.get('entitiesType') === 'human') {
       _.extend(data, {
         isHumansEntitiesType: true,
         sources: this.getSources(),
