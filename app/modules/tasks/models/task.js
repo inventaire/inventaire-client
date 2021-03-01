@@ -5,20 +5,26 @@ import error_ from 'lib/error'
 
 export default Backbone.Model.extend({
   initialize (attrs) {
-    if (this.get('type') == null) throw error_.new('invalid task', 500, attrs)
-
-    this.calculateGlobalScore()
-
-    this.set('pathname', `/tasks/${this.id}`)
+    const type = this.get('type')
+    if (type == null) { throw error_.new('invalid task', 500, attrs) }
+    const entitiesType = this.get('entitiesType')
+    if (entitiesType === 'human') { this.calculateGlobalScore() }
+    return this.set('pathname', `/tasks/${this.id}`)
   },
 
   serializeData () {
-    return _.extend(this.toJSON(), {
+    const data = _.extend(this.toJSON(), {
       suspect: this.suspect?.toJSON(),
       suggestion: this.suggestion?.toJSON(),
-      sources: this.getSources(),
-      sourcesCount: this.get('externalSourcesOccurrences').length
     })
+    if (this.get('entitiesType') === 'human') {
+      _.extend(data, {
+        isHumansEntitiesType: true,
+        sources: this.getSources(),
+        sourcesCount: this.get('externalSourcesOccurrences').length
+      })
+    }
+    return data
   },
 
   grabAuthor (name) {
@@ -33,7 +39,9 @@ export default Backbone.Model.extend({
         throw err
       }
 
-      return model.initAuthorWorks()
+      if (model.get('type') === 'human') {
+        return model.initAuthorWorks()
+      }
     })
   },
 

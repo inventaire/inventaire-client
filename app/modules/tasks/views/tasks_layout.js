@@ -3,6 +3,7 @@ import { i18n } from 'modules/user/lib/i18n'
 import preq from 'lib/preq'
 import getNextTask from '../lib/get_next_task'
 import CurrentTask from './current_task'
+import NoTask from './no_task'
 import RelativeTasks from './relative_tasks'
 import Task from '../models/task'
 import error_ from 'lib/error'
@@ -38,20 +39,21 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    const { task } = this.options
+    const { task, entitiesType } = this.options
     if (isModel(task)) {
       this.showTask({ task })
     } else if (task != null) {
       this.showFromId(task)
     } else {
-      this.showNextTask()
+      this.showNextTask({ entitiesType })
     }
   },
 
-  async showNextTask (params = {}) {
-    const { spinner } = params
+  showNextTask (params = {}) {
+    const { spinner, entitiesType } = params
     if (spinner != null) startLoading.call(this, spinner)
-    const nextTask = await getNextTask({ previousTasks, lastTaskModel: this.currentTaskModel })
+    const offset = app.request('querystring:get', 'offset')
+    const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel, entitiesType })
     if (spinner != null) stopLoading.call(this, spinner)
     this.showTask({ task: nextTask })
   },
@@ -63,6 +65,7 @@ export default Marionette.LayoutView.extend({
   },
 
   async showFromModel (model, isShownFromId) {
+    if (!model) return this.showNoTask()
     this.previousTask = this.currentTaskModel
     this.currentTaskModel = model
 
@@ -98,15 +101,23 @@ export default Marionette.LayoutView.extend({
     })
   },
 
+  showNoTask () {
+    this.currentTask.show(new NoTask())
+    return this.focusOnControls()
+  },
+
   showRelativeTasks (model) {
+    // only authors have relative tasks
+    if (!model.get('entitiesType') === 'human') return
     return this._grabSuspectPromise
     .then(model.getOtherSuggestions.bind(model))
     .then(() => {
-      this.relativeTasks.show(new RelativeTasks({
+      const newRelativeTask = new RelativeTasks({
         collection: model.suspect.mergeSuggestions,
         currentTaskModel: model
-      }))
-      this.updateRelativesCount(model)
+      })
+      this.relativeTasks.show(newRelativeTask)
+      return this.updateRelativesCount(model)
     })
   },
 
@@ -138,13 +149,13 @@ export default Marionette.LayoutView.extend({
 
   dismiss (e) {
     this.action('dismiss')
-    this.showNextTask({ spinner: '.dismiss' })
+    this.showNextTask({ spinner: '.dismiss', entitiesType: this.options.entitiesType })
     e?.stopPropagation()
   },
 
   merge (e) {
     this.action('merge')
-    this.showNextTask({ spinner: '.merge' })
+    this.showNextTask({ spinner: '.merge', entitiesType: this.options.entitiesType })
     e?.stopPropagation()
   },
 
@@ -160,7 +171,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showNextTaskFromButton (e) {
-    this.showNextTask({ spinner: '.next' })
+    this.showNextTask({ spinner: '.next', entitiesType: this.options.entitiesType })
     e?.stopPropagation()
   },
 
