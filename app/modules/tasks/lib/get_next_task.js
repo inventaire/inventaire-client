@@ -38,9 +38,10 @@ const getNextTask = async params => {
   offset = params.offset
 
   // If an offset isn't specified, use a random offset between 0 and 500
-  // to allow several contributors to work with the bests tasks at the same time
+  // to allow several contributors to work with the bests humans tasks at the same time
   // while having a low risk of conflicting
-  if (offset == null) offset = Math.trunc(Math.random() * 500)
+  // (only for human tasks as there are not that many work tasks)
+  if (offset == null && entitiesType === 'human') offset = Math.trunc(Math.random() * 500)
 
   // Predictable behavior in development environment
   if (window.env === 'dev') offset = 0
@@ -72,13 +73,14 @@ const requestNewTasks = async (type, limit, offset) => {
 }
 const removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id)
 
-const updateBacklogAndGetNextTask = function (tasks = [], backlogName) {
+const updateBacklogAndGetNextTask = (tasks = [], backlogName) => {
   backlogs[backlogName].push(...tasks)
   return getNextTaskModel(backlogName)
 }
 
-const getNextTaskModel = function (backlogName) {
+const getNextTaskModel = backlogName => {
   const backlog = backlogs[backlogName]
+  if (backlog.length === 0) return
   const model = new Task(backlog.shift())
   return model
 }

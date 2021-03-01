@@ -53,7 +53,7 @@ const renameIsbnDuplicateErr = (workUri, isbn) => function (err) {
 
 const reportIsbnIssue = async (workUri, isbn) => {
   const params = { uri: workUri, isbn }
-  return preq.post(app.API.tasks.deduplicateWork, params)
+  return preq.post(app.API.tasks.deduplicateWorks, params)
 }
 
 const formatEditionAlreadyExistOnCurrentWork = err => {

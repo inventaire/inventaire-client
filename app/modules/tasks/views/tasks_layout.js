@@ -108,7 +108,7 @@ export default Marionette.LayoutView.extend({
 
   showRelativeTasks (model) {
     // only authors have relative tasks
-    if (!model.get('entitiesType') === 'human') return
+    if (!(model.get('entitiesType') === 'human')) return
     return this._grabSuspectPromise
     .then(model.getOtherSuggestions.bind(model))
     .then(() => {
