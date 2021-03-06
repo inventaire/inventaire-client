@@ -23,7 +23,7 @@ export default Marionette.ItemView.extend({
 
   selectDisplay (e) {
     const newDisplay = e.currentTarget.id
-    const type = e.currentTarget.attributes.displayType.value
+    const type = e.currentTarget.attributes['data-display-type'].value
     if (newDisplay === this[type]) { return }
     this[type] = newDisplay
     this.lazyRender()

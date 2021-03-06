@@ -22,6 +22,8 @@ export default Marionette.ItemView.extend({
     }
 
     this.display = localStorageProxy.getItem('entitiesDisplay') || 'entitiesCascade'
+    const workLiDisplay = this.display === 'entitiesTable' ? 'workLiTable' : 'workLi'
+    this.$el.addClass(workLiDisplay)
     app.execute('uriLabel:update');
 
     ({ showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap } = this.options)

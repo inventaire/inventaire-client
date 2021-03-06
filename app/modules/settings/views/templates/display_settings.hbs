@@ -1,4 +1,4 @@
-<h2 class="layout-title">{{I18n 'display'}}</h2>
+<h2 class="layout-title">{{I18n 'display_name'}}</h2>
 
 <section class="entities">
   <h3>{{i18n 'works'}} / {{i18n 'series'}} / {{i18n 'authors'}} {{i18n 'lists'}}</h3>
@@ -8,10 +8,10 @@
     <div class="{{#if entitiesTable}}shown{{/if}}">{{icon 'align-justify'}} {{I18n 'table'}}</div>
   </a>
   <ul id="entitiesDisplayOptions">
-    <li displayType="entitiesDisplay" id="entitiesCascade">
+    <li data-display-type="entitiesDisplay" id="entitiesCascade">
       <a>{{icon 'th-large'}} {{I18n 'select cascade display'}}</a>
     </li>
-    <li displayType="entitiesDisplay" id="entitiesTable">
+    <li data-display-type="entitiesDisplay" id="entitiesTable">
       <a>{{icon 'align-justify'}} {{I18n 'select table display'}}</a>
     </li>
   </ul>
@@ -25,10 +25,10 @@
     <div class="{{#if inventoryTable}}shown{{/if}}">{{icon 'align-justify'}} {{I18n 'table'}}</div>
   </a>
   <ul id="inventoryDisplayOptions">
-    <li displayType="inventoryDisplay" id="inventoryCascade">
+    <li data-display-type="inventoryDisplay" id="inventoryCascade">
       <a>{{icon 'th-large'}} {{I18n 'select cascade display'}}</a>
     </li>
-    <li displayType="inventoryDisplay" id="inventoryTable">
+    <li data-display-type="inventoryDisplay" id="inventoryTable">
       <a>{{icon 'align-justify'}} {{I18n 'select table display'}}</a>
     </li>
   </ul>
