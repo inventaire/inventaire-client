@@ -1,35 +1,17 @@
 <h2 class="layout-title">{{I18n 'display_name'}}</h2>
 
 <section class="entities">
-  <h3>{{i18n 'works'}} / {{i18n 'series'}} / {{i18n 'authors'}} {{i18n 'lists'}}</h3>
-  <a class="selector">
-    <span class="label">{{I18n 'current display'}} : </span>
-    <div class="{{#if entitiesCascade}}shown{{/if}}">{{icon 'th-large'}} {{I18n 'cascade'}}</div>
-    <div class="{{#if entitiesTable}}shown{{/if}}">{{icon 'align-justify'}} {{I18n 'table'}}</div>
-  </a>
-  <ul id="entitiesDisplayOptions">
-    <li data-display-type="entitiesDisplay" id="entitiesCascade">
-      <a>{{icon 'th-large'}} {{I18n 'select cascade display'}}</a>
-    </li>
-    <li data-display-type="entitiesDisplay" id="entitiesTable">
-      <a>{{icon 'align-justify'}} {{I18n 'select table display'}}</a>
-    </li>
-  </ul>
+  <label for="entitiesDisplay">{{i18n 'works'}} / {{i18n 'series'}} / {{i18n 'authors'}} {{i18n 'lists'}}</label>
+  <select id="entitiesDisplay">
+    <option value="entitiesCascade" {{#if entitiesCascade}}selected{{/if}}>{{I18n 'cascade'}}</option>
+    <option value="entitiesTable" {{#if entitiesTable}}selected{{/if}}>{{I18n 'table'}}</option>
+  </select>
 </section>
 
 <section class="inventory">
-  <h3>{{i18n 'inventory lists'}}</h3>
-  <a class="selector">
-    <span class="label">{{I18n 'current display'}} : </span>
-    <div class="{{#if inventoryCascade}}shown{{/if}}">{{icon 'th-large'}} {{I18n 'cascade'}}</div>
-    <div class="{{#if inventoryTable}}shown{{/if}}">{{icon 'align-justify'}} {{I18n 'table'}}</div>
-  </a>
-  <ul id="inventoryDisplayOptions">
-    <li data-display-type="inventoryDisplay" id="inventoryCascade">
-      <a>{{icon 'th-large'}} {{I18n 'select cascade display'}}</a>
-    </li>
-    <li data-display-type="inventoryDisplay" id="inventoryTable">
-      <a>{{icon 'align-justify'}} {{I18n 'select table display'}}</a>
-    </li>
-  </ul>
+  <label for="inventoryDisplay">{{i18n 'inventory lists'}}</label>
+  <select id="inventoryDisplay">
+    <option value="inventoryCascade" {{#if inventoryCascade}}selected{{/if}}>{{I18n 'cascade'}}</option>
+    <option value="inventoryTable" {{#if inventoryTable}}selected{{/if}}>{{I18n 'table'}}</option>
+  </select>
 </section>

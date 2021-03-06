@@ -17,16 +17,13 @@ export default Marionette.ItemView.extend({
   },
 
   events: {
-    'click #entitiesDisplayOptions li': 'selectDisplay',
-    'click #inventoryDisplayOptions li': 'selectDisplay'
+    'change #entitiesDisplay': 'selectDisplay',
+    'change #inventoryDisplay': 'selectDisplay'
   },
 
   selectDisplay (e) {
-    const newDisplay = e.currentTarget.id
-    const type = e.currentTarget.attributes['data-display-type'].value
-    if (newDisplay === this[type]) { return }
-    this[type] = newDisplay
-    this.lazyRender()
+    const type = e.currentTarget.id
+    const { value: newDisplay } = e.currentTarget
     return localStorageProxy.setItem(type, newDisplay)
   }
 })
