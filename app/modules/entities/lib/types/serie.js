@@ -41,7 +41,7 @@ const specificMethods = _.extend({}, commonsSerieWork, {
     app.execute('report:entity:type:issue', {
       model: this,
       expectedType: 'work',
-      context: { module: module.id }
+      context: { module: 'app/modules/entities/lib/types/serie' }
     })
     return Promise.resolve({ personal: [], network: [], public: [] })
   },

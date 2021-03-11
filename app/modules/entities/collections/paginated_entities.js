@@ -63,7 +63,7 @@ export default Entities.extend({
         model: entity,
         expectedType: this.typesAllowlist,
         context: {
-          module: module.id,
+          module: 'app/modules/entities/collections/paginated_entities',
           allUris: JSON.stringify(this.allUris),
           parentContext: (this.parentContext != null) ? JSON.stringify(this.parentContext) : undefined
         }
