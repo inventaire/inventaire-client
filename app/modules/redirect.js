@@ -68,8 +68,17 @@ const API = {
   },
 
   notFound (route) {
-    log_.info(route, 'route:notFound')
-    app.execute('show:error:missing')
+    const cleanedRoute = route
+      .replace(/^\//, '')
+      .replace(/\/\//g, '/')
+    // Attempt to recover cases where the route contains a double slash
+    if (cleanedRoute !== route) {
+      log_.info({ route, cleanedRoute }, 'route:recovered')
+      app.navigateReplace(cleanedRoute, { trigger: true })
+    } else {
+      log_.info(route, 'route:notFound')
+      app.execute('show:error:missing')
+    }
   },
 
   async showWelcome () {
