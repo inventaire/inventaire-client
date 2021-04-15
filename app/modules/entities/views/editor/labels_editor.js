@@ -27,7 +27,8 @@ export default EditorCommons.extend({
   },
 
   serializeData () {
-    const hasName = this.model.get('type') === 'human'
+    const type = this.model.get('type')
+    const hasName = type === 'human' || type === 'publisher'
     const { value, lang } = this.getValue()
     return {
       editMode: this.editMode,
