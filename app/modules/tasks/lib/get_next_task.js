@@ -29,7 +29,7 @@ const getNextTask = async params => {
 
   const { lastTaskModel } = params
   if (lastTaskModel != null) {
-    if (backlogs.byWork.length !== 0) { return Promise.resolve(getNextTaskModel(params.backlogType)) }
+    if (backlogs.byWork.length !== 0) return getNextTaskModel(params.backlogType)
     const suggestionUri = lastTaskModel.get('suggestionUri')
     if (!suggestionUrisFetched.includes(suggestionUri)) return getNextTaskBySuggestionUri(params)
   }

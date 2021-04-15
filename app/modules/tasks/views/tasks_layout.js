@@ -50,7 +50,8 @@ export default Marionette.LayoutView.extend({
   },
 
   showNextTask (params = {}) {
-    const { spinner, entitiesType } = params
+    const { spinner } = params
+    const entitiesType = this.options.entitiesType
     if (spinner != null) startLoading.call(this, spinner)
     const offset = app.request('querystring:get', 'offset')
     const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel, entitiesType })
@@ -149,13 +150,13 @@ export default Marionette.LayoutView.extend({
 
   dismiss (e) {
     this.action('dismiss')
-    this.showNextTask({ spinner: '.dismiss', entitiesType: this.options.entitiesType })
+    this.showNextTask({ spinner: '.dismiss' })
     e?.stopPropagation()
   },
 
   merge (e) {
     this.action('merge')
-    this.showNextTask({ spinner: '.merge', entitiesType: this.options.entitiesType })
+    this.showNextTask({ spinner: '.merge' })
     e?.stopPropagation()
   },
 
@@ -171,7 +172,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showNextTaskFromButton (e) {
-    this.showNextTask({ spinner: '.next', entitiesType: this.options.entitiesType })
+    this.showNextTask({ spinner: '.next' })
     e?.stopPropagation()
   },
 
