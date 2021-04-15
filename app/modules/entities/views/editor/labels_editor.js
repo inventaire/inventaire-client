@@ -27,9 +27,11 @@ export default EditorCommons.extend({
   },
 
   serializeData () {
+    const hasName = this.model.get('type') === 'human'
     const { value, lang } = this.getValue()
     return {
       editMode: this.editMode,
+      hasName,
       value,
       disableDelete: true,
       langs: getLangsData(lang, this.model.get('labels'))
