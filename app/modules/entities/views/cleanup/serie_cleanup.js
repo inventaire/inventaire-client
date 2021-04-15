@@ -222,34 +222,32 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  showPartsSuggestions () {
+  async showPartsSuggestions () {
     const serie = this.model
     const addToSerie = spreadPart.bind(this)
-    return getPartsSuggestions(serie)
-    .then(collection => {
-      return this.partsSuggestionsRegion.show(new PartsSuggestions({
-        collection,
-        addToSerie,
-        serie,
-        worksWithOrdinal: this.worksWithOrdinal,
-        worksWithoutOrdinal: this.worksWithoutOrdinal
-      }))
-    })
+    const collection = await getPartsSuggestions(serie)
+    if (!this.isIntact()) return
+    this.partsSuggestionsRegion.show(new PartsSuggestions({
+      collection,
+      addToSerie,
+      serie,
+      worksWithOrdinal: this.worksWithOrdinal,
+      worksWithoutOrdinal: this.worksWithoutOrdinal
+    }))
   },
 
-  showIsolatedEditions () {
-    return getIsolatedEditions(this.model.get('uri'))
-    .then(editions => {
-      if (editions.length === 0) return
-      this.ui.isolatedEditionsWrapper.removeClass('hidden')
-      const collection = new Backbone.Collection(editions)
-      this.isolatedEditionsRegion.show(new SerieCleanupEditions({
-        collection,
-        worksWithOrdinal: this.worksWithOrdinal,
-        worksWithoutOrdinal: this.worksWithoutOrdinal
-      }))
-      this.listenTo(collection, 'remove', this.hideIsolatedEditionsWhenEmpty.bind(this))
-    })
+  async showIsolatedEditions () {
+    const editions = await getIsolatedEditions(this.model.get('uri'))
+    if (!this.isIntact()) return
+    if (editions.length === 0) return
+    this.ui.isolatedEditionsWrapper.removeClass('hidden')
+    const collection = new Backbone.Collection(editions)
+    this.isolatedEditionsRegion.show(new SerieCleanupEditions({
+      collection,
+      worksWithOrdinal: this.worksWithOrdinal,
+      worksWithoutOrdinal: this.worksWithoutOrdinal
+    }))
+    this.listenTo(collection, 'remove', this.hideIsolatedEditionsWhenEmpty.bind(this))
   },
 
   hideIsolatedEditionsWhenEmpty (removedEdition, collection) {
