@@ -8,7 +8,6 @@ import getActionKey from 'lib/get_action_key'
 import Suggestions from 'modules/entities/collections/suggestions'
 import AutocompleteSuggestions from '../autocomplete_suggestions'
 import properties from 'modules/entities/lib/properties'
-
 import {
   addDefaultSuggestionsUris,
   addNextDefaultSuggestionsBatch,
@@ -16,6 +15,8 @@ import {
 } from './suggestions/default_suggestions'
 
 import { search, loadMoreFromSearch } from './suggestions/search_suggestions'
+
+const notSearchableProps = [ 'wdt:P31', 'wdt:P437' ]
 
 export default {
   onRender () {
@@ -113,10 +114,34 @@ const updateOnKey = function (value, actionKey) {
     showDefaultSuggestions.call(this)
     this._showingDefaultSuggestions = true
   } else if (value !== this._lastValue) {
-    this.showDropdown()
-    this.lazySearch(value)
+    refreshSuggestions.call(this, value)
     this._showingDefaultSuggestions = false
   }
+}
+
+const refreshSuggestions = function (searchValue) {
+  let matchedSuggestions
+  this.showDropdown()
+  // devide the search between searchable and non-searchable property:
+  // - searchable properties must have a type search (author, genre, etc) and possibly numerous results,
+  // - and properties based on hardcoded lists (aliases) such as P31
+  const isSearchableProp = !notSearchableProps.includes(this.property)
+  if (isSearchableProp) {
+    this.lazySearch(searchValue)
+  } else {
+    matchedSuggestions = filterSuggestions(this._defaultSuggestions, searchValue)
+    if (matchedSuggestions && matchedSuggestions.length > 0) {
+      this.suggestions.reset(matchedSuggestions)
+    }
+  }
+}
+
+const filterSuggestions = function (suggestions, searchValue) {
+  const inputBasedRegex = new RegExp(searchValue, 'i')
+  return suggestions
+  .map(model => model.getClosestMatchingFieldDistance(inputBasedRegex, searchValue))
+  .sort((a, b) => a.distance - b.distance)
+  .map(_.property('model'))
 }
 
 const keyAction = function (actionKey) {

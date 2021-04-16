@@ -21,6 +21,7 @@ import initWork from '../lib/types/work'
 import initEdition from '../lib/types/edition'
 import initPublisher from '../lib/types/publisher'
 import initCollection from '../lib/types/collection'
+import { pluralize } from '../lib/types/type_key'
 
 const specialInitializersByType = {
   human: initAuthor,
@@ -41,7 +42,7 @@ export default Filterable.extend({
     this.type = attrs.type || options.defaultType
 
     if (this.type != null) {
-      this.pluralizedType = this.type + 's'
+      this.pluralizedType = pluralize(this.type)
     }
 
     if (placeholdersTypes.includes(this.type)) {

@@ -3,18 +3,13 @@ import searchType from './search_type'
 import languageSearch from './language_search'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results'
 import error_ from 'lib/error'
-import TypeKey from '../types/type_key'
+import { pluralize } from '../types/type_key'
 import _wikidataSearch from './wikidata_search'
 
 const wikidataSearch = _wikidataSearch(true)
 
-const {
-  pluralize
-} = TypeKey
-
 export default function (type, input, limit, offset) {
   const uri = getEntityUri(input)
-
   if (uri != null) {
     return searchByEntityUri(uri, type)
   } else {
@@ -46,15 +41,23 @@ const searchByEntityUri = (uri, type) => {
   })
 }
 
+// The function should take a input string
+// and return an array of results
+const searchFunctionsByTypes = {
+  works: searchType('works'),
+  humans: searchType('humans'),
+  series: searchType('series'),
+  genres: searchType('genres'),
+  movements: searchType('movements'),
+  publishers: searchType('publishers'),
+  collections: searchType('collections'),
+  subjects: wikidataSearch,
+  languages: languageSearch,
+}
+
 const getSearchTypeFn = function (type) {
-  // if type.slice(-1)[0] isnt 's' then type += 's'
   type = pluralize(type)
-  // the searchType function should take a input string
-  // and return an array of results
-  switch (type) {
-  case 'works': case 'humans': case 'series': case 'genres': case 'movements': case 'publishers': case 'collections': return searchType(type)
-  case 'subjects': return wikidataSearch
-  case 'languages': return languageSearch
-  default: throw new Error(`unknown type: ${type}`)
-  }
+  const searchFn = searchFunctionsByTypes[type]
+  if (searchFn) return searchFn
+  else throw new Error(`unknown type: ${type}`)
 }

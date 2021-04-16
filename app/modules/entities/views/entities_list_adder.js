@@ -74,6 +74,9 @@ export default Marionette.CompositeView.extend({
       claims['wdt:P123'] = parentModel.get('claims.wdt:P123')
     }
 
+    const inferredP31 = inferP31FromParentEntityP31(parentModel)
+    if (inferredP31) claims['wdt:P31'] = [ inferredP31 ]
+
     const href = buildPath('/entity/new', { type: this.type, claims })
 
     this.createPath = href
@@ -145,3 +148,25 @@ export default Marionette.CompositeView.extend({
     app.execute('modal:close')
   }
 })
+
+const inferP31FromParentEntityP31 = parentModel => {
+  const { type: parentType } = parentModel
+  const parentP31Values = parentModel.get('claims.wdt:P31')
+  if (parentP31Values && parentP31Values.length === 1) {
+    const parentP31 = parentP31Values[0]
+    return P31FromParentTypeAndP31[parentType]?.[parentP31]
+  }
+}
+
+const P31FromParentTypeAndP31 = {
+  serie: {
+    // novel series => novel
+    'wd:Q1667921': 'wd:Q8261',
+    // comic book series => comic book
+    'wd:Q14406742': 'wd:Q1004',
+    // manga series => manga
+    'wd:Q21198342': 'wd:Q8274',
+    // manhwa series => manhwa
+    'wd:Q74262765': 'wd:Q562214'
+  }
+}

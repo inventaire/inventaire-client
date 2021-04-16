@@ -5,6 +5,7 @@ import properties from './properties'
 import Entity from '../models/entity'
 import { buildPath } from 'lib/location'
 import { asyncNoop } from 'lib/utils'
+import { pluralize } from '../lib/types/type_key'
 
 const typeDefaultP31 = {
   human: 'wd:Q5',
@@ -39,7 +40,7 @@ export default {
     }
 
     if (!claims) claims = {}
-    claims['wdt:P31'] = [ defaultP31 ]
+    claims['wdt:P31'] = claims['wdt:P31'] || [ defaultP31 ]
 
     const labels = {}
     if (label != null) {
@@ -56,6 +57,7 @@ export default {
 
     _.extend(model, {
       type,
+      pluralizedType: pluralize(type),
       creating: true,
       // The property that links this entity to another entity being created
       relation,

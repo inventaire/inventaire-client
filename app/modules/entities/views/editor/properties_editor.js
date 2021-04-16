@@ -7,7 +7,7 @@ export default Marionette.CompositeView.extend({
   childView: PropertyEditor,
   childViewContainer: '.properties',
   initialize () {
-    const { propertiesShortlist } = this.options
+    const propertiesShortlist = getPropertiesShortlistPerRole(this.options.propertiesShortlist)
     this.hasPropertiesShortlist = (propertiesShortlist != null)
 
     if (this.hasPropertiesShortlist) {
@@ -36,3 +36,13 @@ export default Marionette.CompositeView.extend({
     this.ui.showAllProperties.hide()
   }
 })
+
+const dataadminOnlyShortlistedProperties = [
+  'wdt:P31'
+]
+
+const getPropertiesShortlistPerRole = propertiesShortlist => {
+  if (!propertiesShortlist) return
+  if (app.user.hasDataadminAccess) return propertiesShortlist
+  else return _.without(propertiesShortlist, ...dataadminOnlyShortlistedProperties)
+}

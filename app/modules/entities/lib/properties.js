@@ -18,6 +18,8 @@ const addProp = (
 // and server/controllers/entities/lib/properties.js@inventaire/inventaire
 
 // # work
+// instance of
+addProp('wdt:P31', 'entity', null, false, false)
 // author
 addProp('wdt:P50', 'entity', 'humans', true, true)
 // genre
@@ -49,6 +51,8 @@ addProp('wdt:P212', 'fixed-string', null, false, null)
 addProp('wdt:P957', 'fixed-string', null, false, null)
 // collection
 addProp('wdt:P195', 'entity', 'collections', false, true)
+// distribution format
+addProp('wdt:P437', 'entity', 'shortlist', false, false)
 // date of publication
 addProp('wdt:P577', 'simple-day', null, false, null)
 // translator

@@ -19,7 +19,6 @@ export default Marionette.CompositeView.extend({
     results: '.results',
     loader: '.loaderWrapper'
   },
-
   childEvents: {
     highlight: 'scrollToHighlightedChild',
     'select:from:click': 'selectFromClick'

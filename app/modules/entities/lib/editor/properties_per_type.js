@@ -7,6 +7,7 @@
 // The order is meaningful:
 const work = {
   'wdt:P50': {}, // author
+  'wdt:P31': {}, // instance of
   'wdt:P136': {}, // genre
   'wdt:P921': {}, // main subject
   'wdt:P407': { customLabel: 'original language' }, // original language of work
@@ -16,7 +17,6 @@ const work = {
   'wdt:P144': {}, // based on
   'wdt:P941': {}, // inspired by
   'wdt:P856': {}, // official website
-  // 'wdt:P31: {}' # instance of (=> works aliases)
   // 'wdt:P110': {} # illustrator
   // 'wdt:P1476': {} # title (using P407 lang)
   // 'wdt:P1680': {} # subtitle (using P407 lang)
@@ -35,7 +35,6 @@ export default {
     'wdt:P1680': { customLabel: 'edition subtitle' },
     'wdt:P407': { customLabel: 'edition language' },
     'invp:P2': { customLabel: 'cover' },
-    // 'wdt:P31': {} # P31: instance of (=> edition aliases?)
     // P212 is used as unique ISBN field, accepting ISBN-10 but correcting server-side
     'wdt:P212': {}, // ISBN-13
     'wdt:P957': {}, // ISBN-10
@@ -46,7 +45,8 @@ export default {
     'wdt:P2679': {}, // author of foreword
     'wdt:P2680': {}, // author of afterword
     'wdt:P1104': {}, // number of pages
-    'wdt:P2635': { customLabel: 'number of volumes' }
+    'wdt:P2635': { customLabel: 'number of volumes' },
+    'wdt:P437': {}, // distribution format
   },
 
   human: {
