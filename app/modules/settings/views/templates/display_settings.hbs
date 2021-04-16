@@ -3,15 +3,15 @@
 <section class="entities">
   <label for="entitiesDisplay">{{I18n 'entities lists'}} ({{i18n 'works'}}, {{i18n 'series'}}, {{i18n 'authors'}}, ...)</label>
   <select id="entitiesDisplay">
-    <option value="entitiesLargeList" {{#if entitiesLargeList}}selected{{/if}}>{{I18n 'large'}}</option>
-    <option value="entitiesCompactList" {{#if entitiesCompactList}}selected{{/if}}>{{I18n 'compact'}}</option>
+    <option value="large" {{#if entitiesLargeList}}selected{{/if}}>{{I18n 'large'}}</option>
+    <option value="compact" {{#if entitiesCompactList}}selected{{/if}}>{{I18n 'compact'}}</option>
   </select>
 </section>
 
 <section class="inventory">
   <label for="inventoryDisplay">{{i18n 'inventory lists'}}</label>
   <select id="inventoryDisplay">
-    <option value="inventoryCascade" {{#if inventoryCascade}}selected{{/if}}>{{I18n 'cascade'}}</option>
-    <option value="inventoryTable" {{#if inventoryTable}}selected{{/if}}>{{I18n 'table'}}</option>
+    <option value="cascade" {{#if inventoryCascade}}selected{{/if}}>{{I18n 'cascade'}}</option>
+    <option value="table" {{#if inventoryTable}}selected{{/if}}>{{I18n 'table'}}</option>
   </select>
 </section>

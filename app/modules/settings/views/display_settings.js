@@ -11,8 +11,10 @@ export default Marionette.ItemView.extend({
 
   serializeData () {
     const data = {}
-    data[this.entitiesDisplay] = true
-    data[this.inventoryDisplay] = true
+    if (this.entitiesDisplay === 'compact') data.entitiesCompact = true
+    else data.entitiesLarge = true
+    if (this.inventoryDisplay === 'table') data.inventoryTable = true
+    else data.inventoryCascade = true
     return data
   },
 
@@ -24,6 +26,6 @@ export default Marionette.ItemView.extend({
   selectDisplay (e) {
     const type = e.currentTarget.id
     const { value: newDisplay } = e.currentTarget
-    return localStorageProxy.setItem(type, newDisplay)
+    localStorageProxy.setItem(type, newDisplay)
   }
 })

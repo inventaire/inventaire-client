@@ -21,8 +21,8 @@ export default Marionette.ItemView.extend({
       this.template = workLiCompactTemplate
     }
 
-    this.display = localStorageProxy.getItem('entitiesDisplay') || 'entitiesLargeList'
-    const workLiDisplay = this.display === 'entitiesCompactList' ? 'workLiCompact' : 'workLi'
+    this.display = localStorageProxy.getItem('entitiesDisplay') || 'large'
+    const workLiDisplay = this.display === 'compact' ? 'workLiCompact' : 'workLi'
     this.$el.addClass(workLiDisplay)
     app.execute('uriLabel:update');
 
@@ -57,7 +57,7 @@ export default Marionette.ItemView.extend({
   },
 
   getTemplate () {
-    if (this.display === 'entitiesCompactList') {
+    if (this.display === 'compact') {
       return workLiCompactTemplate
     } else {
       return workLiTemplate
@@ -66,7 +66,7 @@ export default Marionette.ItemView.extend({
 
   onRender () {
     this.updateClassName()
-    const workLiDisplay = this.display === 'entitiesCompactList' ? 'workLiCompact' : 'workLi'
+    const workLiDisplay = this.display === 'compact' ? 'workLiCompact' : 'workLi'
     this.$el.addClass(workLiDisplay)
   },
 
