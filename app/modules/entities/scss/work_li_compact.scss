@@ -1,17 +1,17 @@
 @import 'modules/general/scss/utils';
 
-.workLiTable, .articleLiTable{
+.workLiCompact, .articleLiCompact{
   margin: 0 auto;
   max-width: 100%;
   background-color: $contrast;
   @include shy-border;
 }
 
-.workLiTable{
+.workLiCompact{
   max-width: 45em;
   text-align: left;
   @include display-flex(row, center, space-between);
-  .workLiTableLeft{
+  .workLiCompactLeft{
     cursor: pointer;
     @include display-flex(row, left, space-between);
     .claims a{
@@ -25,7 +25,7 @@
       max-height: 3em;
       overflow: hidden;
     }
-    .workLiDataTable{
+    .workLiDataCompact{
       margin: 0.2em 0;
       @include display-flex(column, left, center);
       min-height: 3em;

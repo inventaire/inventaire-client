@@ -1,4 +1,4 @@
-<div class="workLiTableLeft showEntity">
+<div class="workLiCompactLeft showEntity">
   {{#if image.url}}
     <div class="workCover">
       <a class="showEntity" href="{{pathname}}">
@@ -6,7 +6,7 @@
       </a>
     </div>
   {{/if}}
-  <div class="workLiDataTable">
+  <div class="workLiDataCompact">
     <h4>
       <a class="showEntity link" href="{{pathname}}">
         {{#if claims.wdt:P1545}}
@@ -16,7 +16,7 @@
       </a>
     </h4>
     {{#if hasDescriptionAndShortTitle}}
-        <p class="description clamped grey">{{description}}</p>
+      <p class="description clamped grey">{{description}}</p>
     {{/if}}
   </div>
 </div>
@@ -25,8 +25,8 @@
     <a class='addToInventory' href="{{pathname}}/add" rel="nofollow" title="{{i18n 'add to my inventory'}}">
       {{icon 'plus'}}
     </a>
-      <a class='showEntity counter {{#if counter.highlight}}highlight{{/if}}' href="{{pathname}}" title="{{i18n 'network_counter_label'}}">
-        <span class="count">{{counter.count}}</span>
-      </a>
+    <a class='showEntity counter {{#if counter.highlight}}highlight{{/if}}' href="{{pathname}}" title="{{i18n 'network_counter_label'}}">
+      <span class="count">{{counter.count}}</span>
+    </a>
   </div>
 {{/if}}

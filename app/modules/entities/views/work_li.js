@@ -1,8 +1,8 @@
 import { invertAttr, isOpenedOutside } from 'lib/utils'
 import workLiTemplate from './templates/work_li.hbs'
-import workLiTableTemplate from './templates/work_li_table.hbs'
+import workLiCompactTemplate from './templates/work_li_compact.hbs'
 import '../scss/work_li.scss'
-import '../scss/work_li_table.scss'
+import '../scss/work_li_compact.scss'
 import { localStorageProxy } from 'lib/local_storage'
 
 export default Marionette.ItemView.extend({
@@ -18,11 +18,11 @@ export default Marionette.ItemView.extend({
     if (this.display === 'cascade') {
       this.template = workLiTemplate
     } else if (this.display === 'table') {
-      this.template = workLiTableTemplate
+      this.template = workLiCompactTemplate
     }
 
-    this.display = localStorageProxy.getItem('entitiesDisplay') || 'entitiesCascade'
-    const workLiDisplay = this.display === 'entitiesTable' ? 'workLiTable' : 'workLi'
+    this.display = localStorageProxy.getItem('entitiesDisplay') || 'entitiesLargeList'
+    const workLiDisplay = this.display === 'entitiesCompactList' ? 'workLiCompact' : 'workLi'
     this.$el.addClass(workLiDisplay)
     app.execute('uriLabel:update');
 
@@ -57,8 +57,8 @@ export default Marionette.ItemView.extend({
   },
 
   getTemplate () {
-    if (this.display === 'entitiesTable') {
-      return workLiTableTemplate
+    if (this.display === 'entitiesCompactList') {
+      return workLiCompactTemplate
     } else {
       return workLiTemplate
     }
@@ -66,7 +66,7 @@ export default Marionette.ItemView.extend({
 
   onRender () {
     this.updateClassName()
-    const workLiDisplay = this.display === 'entitiesTable' ? 'workLiTable' : 'workLi'
+    const workLiDisplay = this.display === 'entitiesCompactList' ? 'workLiCompact' : 'workLi'
     this.$el.addClass(workLiDisplay)
   },
 

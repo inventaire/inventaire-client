@@ -5,7 +5,7 @@ export default Marionette.ItemView.extend({
   template: displaySettingsTemplate,
   className: 'displaySettings',
   initialize () {
-    this.entitiesDisplay = localStorageProxy.getItem('entitiesDisplay') || 'entitiesCascade'
+    this.entitiesDisplay = localStorageProxy.getItem('entitiesDisplay') || 'entitiesLargeList'
     this.inventoryDisplay = localStorageProxy.getItem('inventoryDisplay') || 'inventoryCascade'
   },
 
