@@ -22,10 +22,11 @@
     background-color: #f4f4f4;
   }
 
-  h3{
+  h3, .displaySettings label{
     text-transform: uppercase;
     font-size: 1.2em;
     @include sans-serif;
+    color: $dark-grey;
   }
 
   .button{
