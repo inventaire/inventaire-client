@@ -1,5 +1,6 @@
 import CandidateInfo from './candidate_info'
 import candidateRowTemplate from './templates/candidate_row.hbs'
+import Entity from '../../../entities/models/entity'
 
 export default Marionette.ItemView.extend({
   tagName: 'li',
@@ -17,13 +18,21 @@ export default Marionette.ItemView.extend({
     return base
   },
 
+  initialize () {
+    if (this.isSelectable()) { this.editionModel = new Entity(this.model.attributes) }
+  },
+
   onShow () {
     this.listenTo(this.model, 'change', this.lazyRender)
   },
 
-  onRender () {
+  async onRender () {
     this.updateClassName()
     this.trigger('selection:changed')
+    if (this.editionModel) {
+      const authors = await this.editionModel.waitForWorks.then(getAndFormatAuthors)
+      this.model.set('authors', authors)
+    }
   },
 
   ui: {
@@ -36,7 +45,7 @@ export default Marionette.ItemView.extend({
     'click .remove': 'remov',
     // General click event: use stopPropagation to avoid triggering it
     // from other click event handlers
-    click: 'select'
+    'click input': 'select'
   },
 
   updateSelected (e) {
@@ -75,7 +84,22 @@ export default Marionette.ItemView.extend({
   remov (e) {
     this.model.collection.remove(this.model)
     e.stopPropagation()
+  },
+
+  isSelectable () {
+    return !(this.model.get('isInvalid') || this.model.get('needInfo'))
   }
 })
 
 const showCandidateInfo = isbn => new Promise((resolve, reject) => app.layout.modal.show(new CandidateInfo({ resolve, reject, isbn })))
+
+const getAndFormatAuthors = async works => {
+  const worksWithAuthorsModels = await Promise.all(works.map(work => work.getExtendedAuthorsModels()))
+  const authorsModelByWork = worksWithAuthorsModels.map(_.property('wdt:P50'))
+  const authorsModels = _.uniq(_.flatten(authorsModelByWork))
+  return authorsModels.map(authorModel => {
+    const name = authorModel.get('label')
+    const uri = authorModel.get('uri')
+    return { name, uri }
+  })
+}
