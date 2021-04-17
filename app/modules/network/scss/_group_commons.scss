@@ -16,8 +16,12 @@
   .name{
     color: white;
     margin: auto;
-    font-size: 1.6em;
+    font-size: 1.6rem;
     font-weight: bold;
     @include serif;
+    padding: 0.5em 1em;
+    @include radius;
+    color: white;
+    background-color: rgba($dark-grey, 0.9);
   }
 }
