@@ -20,6 +20,7 @@ export default TypedEntityLayout.extend({
 
   initialize () {
     this.model.initPublisherPublications()
+    this.displayMergeSuggestions = app.user.hasAdminAccess
   },
 
   async onShow () {
