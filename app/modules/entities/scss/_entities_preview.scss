@@ -10,8 +10,8 @@
       @include radius-left;
     }
     .summary-data{
-      @include display-flex(column, center, center);
-      flex: 1 0 auto;
+      margin: 0 auto;
+      text-align: center;
       .name{
         line-height: 1.2em;
       }
