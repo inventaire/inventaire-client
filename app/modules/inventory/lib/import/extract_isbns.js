@@ -1,5 +1,7 @@
 import { isNormalizedIsbn, normalizeIsbn } from 'lib/isbn'
-const isbnPattern = /(97(8|9))?[\d-]{9,13}([\dX])/g
+// {9,13} would be enough, but since this is an extractor, it makes sense to enlarge the possible scope to invalid isbns.
+// known cases: having five - instead of valid four.
+const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
 
 export default function (text) {
   const isbns = text.match(isbnPattern)
