@@ -4,7 +4,7 @@ import ClaimsEditorCommons from './claims_editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import files_ from 'lib/files'
-import { getUrlDataUrl, getImageHashFromDataUrl } from 'lib/images'
+import { getImageHashFromDataUrl } from 'lib/images'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import imageValueEditorTemplate from './templates/image_value_editor.hbs'
 
@@ -72,15 +72,8 @@ export default ClaimsEditorCommons.extend({
     startLoading.call(this, '.save')
 
     return preq.post(app.API.images.convertUrl, { url })
-    .then(res => {
-      if (res.converted) {
-        return this._bareSave(res.url)
-      } else {
-        // If dataseed is disabled, fallback to downloading the file at the URL
-        return getUrlDataUrl(url)
-        .then(this.uploadDataUrl.bind(this))
-      }
-    }).catch(error_.Complete(urlInputSelector, false))
+    .then(res => this._bareSave(res.hash))
+    .catch(error_.Complete(urlInputSelector, false))
     .catch(forms_.catchAlert.bind(null, this))
     .finally(stopLoading.bind(this, '.save'))
   },
