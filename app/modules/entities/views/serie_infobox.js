@@ -4,6 +4,7 @@ import serieInfoboxTemplate from './templates/serie_infobox.hbs'
 
 export default Marionette.LayoutView.extend({
   template: serieInfoboxTemplate,
+  className: 'serieInfobox',
   behaviors: {
     EntitiesCommons: {},
     ClampedExtract: {}

@@ -43,7 +43,7 @@ $work-infobox-property-color: #999;
     @include radius;
     margin: 0 auto;
     position: relative;
-    span:not(.entity-value), .property-value{
+    .property-value{
       color: #999;
       margin-right: 0.5em;
     }
@@ -129,14 +129,14 @@ $work-infobox-property-color: #999;
     min-width: 20em;
   }
     /*Small screens*/
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 650px) {
     .author-preview{
       min-width: 60%;
       flex: 1 0 auto;
     }
   }
   /*Medium to Large screens*/
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: 650px) {
     .author-preview{
       width: 18.5em;
     }

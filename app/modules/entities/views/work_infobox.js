@@ -4,7 +4,7 @@ import workInfoboxTemplate from './templates/work_infobox.hbs'
 
 export default Marionette.LayoutView.extend({
   template: workInfoboxTemplate,
-  className: 'workInfobox flex-column-center-center',
+  className: 'workInfobox',
   regions: {
     authors: '.authors',
     scenarists: '.scenarists',
