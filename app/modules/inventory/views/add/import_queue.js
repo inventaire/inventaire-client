@@ -195,7 +195,8 @@ export default Marionette.LayoutView.extend({
       }
       // recursively trigger next import
       return this.chainedImport(transaction, listing)
-    }).catch(error_.Complete('.validation'))
+    })
+    .catch(error_.Complete('.validation'))
     .catch(forms_.catchAlert.bind(null, this))
   },
 
