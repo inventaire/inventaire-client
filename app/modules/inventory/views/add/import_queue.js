@@ -38,7 +38,7 @@ export default Marionette.LayoutView.extend({
 
   ui: {
     headCheckbox: 'thead input',
-    validationElements: '.import, .progress',
+    validationElements: '.import, .progress-bar',
     validateButton: '#validate',
     disabledValidateButton: '#disabledValidate',
     transaction: '#transaction',
