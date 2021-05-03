@@ -169,7 +169,7 @@ export default Marionette.LayoutView.extend({
     app.execute('last:shelves:set', shelves)
 
     this.chainedImport(transaction, listing, shelves)
-    return this.planProgressUpdate()
+    this.planProgressUpdate()
   },
 
   chainedImport (transaction, listing, shelves) {
@@ -239,7 +239,7 @@ export default Marionette.LayoutView.extend({
     const percent = (added / this.total) * 100
     this.ui.meter.css('width', `${percent}%`)
     this.ui.fraction.text(`${added} / ${this.total}`)
-    return this.planProgressUpdate()
+    this.planProgressUpdate()
   },
 
   onDestroy () { return this.stopProgressUpdate() }
