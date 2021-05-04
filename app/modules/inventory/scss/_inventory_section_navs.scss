@@ -18,7 +18,7 @@ $map-large-screen-heigth: 70vh;
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  @media screen and (max-width: $small-screen) {
     .lists{
       flex-direction: column;
     }
@@ -35,7 +35,7 @@ $map-large-screen-heigth: 70vh;
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  @media screen and (min-width: $small-screen) {
     .list-wrapper{
       min-width: 14em;
       padding: 1em;
