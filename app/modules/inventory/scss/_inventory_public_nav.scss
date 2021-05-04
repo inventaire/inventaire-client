@@ -24,9 +24,7 @@
     #mapContainer{
       order: -1;
       height: 20em;
-      .leaflet-control-attribution{
-        display: none;
-      }
+      max-height: 50vh;
     }
   }
 

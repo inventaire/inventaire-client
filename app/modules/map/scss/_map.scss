@@ -5,7 +5,8 @@
 }
 
 .leaflet-control-attribution{
-  @include shy(0.5);
+  @include shy(0.8);
+  max-height: 1.6em;
 }
 
 #simpleMap{
