@@ -42,7 +42,7 @@ nav#top-bar{
     }
   }
   #searchGroup{
-    flex: 1 0 auto;
+    flex: 1 0 0;
     // 7 = max number of search section on a row
     max-width: 7 * $search-section-width;
     margin: 0 auto;
