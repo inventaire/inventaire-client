@@ -74,7 +74,7 @@ You might be dealing with a circular dependancy, see https://github.com/webpack/
 ### ERROR in ./node_modules/svelte/index.mjs 1:0-167
 ```
 ERROR in ./node_modules/svelte/index.mjs 1:0-167
-Module not found: Error: Can't resolve './internal' in '/home/maxlath/code/inventaire/inventaire/client/node_modules/svelte'
+Module not found: Error: Can't resolve './internal' in '/path/to/inventaire/client/node_modules/svelte'
 Did you mean 'index.mjs'?
 BREAKING CHANGE: The request './internal' failed to resolve only because it was resolved as fully specified
 (probably because the origin is a '*.mjs' file or a '*.js' file where the package.json contains '"type": "module"').
@@ -102,6 +102,30 @@ MDN doc: https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Erreurs/
 
 Known case: when a function tries to set attributes on `this`, but `this` is undefined because the function was defined as an [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) at the ES module top level. The solution in that case was to convert the arrow function to an old-school `function` function.
 
+### ENOENT: no such file or directory, scandir '/path/to/inventaire/client/node_modules/node-sass/vendor'
+
+```
+[webpack-cli] Failed to load '/path/to/inventaire/client/bundle/webpack.config.prod.cjs'
+[webpack-cli] Error: ENOENT: no such file or directory, scandir '/path/to/inventaire/client/node_modules/node-sass/vendor'
+    at Object.readdirSync (fs.js:982:3)
+    at Object.getInstalledBinaries (/path/to/inventaire/client/node_modules/node-sass/lib/extensions.js:134:13)
+    at foundBinariesList (/path/to/inventaire/client/node_modules/node-sass/lib/errors.js:20:15)
+    at foundBinaries (/path/to/inventaire/client/node_modules/node-sass/lib/errors.js:15:5)
+    at Object.module.exports.missingBinary (/path/to/inventaire/client/node_modules/node-sass/lib/errors.js:45:5)
+    at module.exports (/path/to/inventaire/client/node_modules/node-sass/lib/binding.js:15:30)
+    at Object.<anonymous> (/path/to/inventaire/client/node_modules/node-sass/lib/index.js:13:35)
+    at Module._compile (/path/to/inventaire/client/node_modules/v8-compile-cache/v8-compile-cache.js:192:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32) {
+  errno: -2,
+  syscall: 'scandir',
+  code: 'ENOENT',
+  path: '/path/to/inventaire/client/node_modules/node-sass/vendor'
+}
+```
+
+This seems to be related to https://github.com/sass/node-sass/issues/1579
+Changing npm version or running `npm rebuild node-sass` should solve the issue.
 
 ## Svelte
 ### No reactivity despite an assignment in a nested object
