@@ -101,6 +101,7 @@
       selection.setAttribute('from', invWorks[0])
       selection.setAttribute('to', wdWorks[0])
     }
+    window.scrollTo(0, 0)
   }
 
   function sortAlphabetically (a, b) {
