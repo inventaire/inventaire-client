@@ -5,7 +5,7 @@
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers'
   export let entity, selection, filterPattern, large
 
-  entity.image.small = imgSrc(entity.image.url, 200, 400)
+  entity.image.small = imgSrc(entity.image.url, 100, 200)
   entity.image.large = imgSrc(entity.image.url, 500, 1000)
   let zoom = false
   const aggregatedLabelsAndAliases = getAggregatedLabelsAndAliases(entity)
@@ -17,81 +17,81 @@
   on:click={() => selection.select(entity)}
   class:selected-from={$selection.from?.uri === entity.uri}
   class:selected-to={$selection.to?.uri === entity.uri}
-  class:zoom
   class:large
   >
   {#if entity.image.url}
     <img
+      class:zoom
       src="{zoom ? entity.image.large : entity.image.small}"
       alt="{entity.label} cover"
       on:click|stopPropagation={() => zoom = !zoom}
     >
+  {:else}
+    <div class="no-image"></div>
   {/if}
-  <h3><a class="label showEntity" href="/entity/{entity.uri}">{entity.label}</a></h3>
-  <p class="description">{entity.description || ''}</p>
-  <p class="uri">{entity.uri}</p>
-  <ul class="all-terms">
-    {#each aggregatedLabelsAndAliases as termData (termData.term)}
-      {#if filterPattern}
-        {#if termData.term.match(filterPattern)}
-          <li title="{termData.origins.join(', ')}">
-            {#each termData.getMatchParts(filterPattern) as part, i}
-              <!-- Odd parts are parts matching the filter and should be highlighted -->
-              {#if i % 2 === 1}
-                <strong>{part}</strong>
-              {:else}
-                {part}
-              {/if}
-            {/each}
-            {#if termData.origins.length > 1}
-              <span class="occurrences">({termData.origins.length})</span>
-            {/if}
+  <div class="info">
+    <h3><a class="label showEntity" href="/entity/{entity.uri}">{entity.label}</a></h3>
+    <p class="description">{entity.description || ''}</p>
+    <p class="uri" on:click|stopPropagation>{entity.uri}</p>
+    <ul class="all-terms" on:click|stopPropagation>
+      {#each aggregatedLabelsAndAliases as termData (termData.term)}
+        {#if filterPattern}
+          {#if termData.term.match(filterPattern)}
+            <li>
+              {#each termData.getMatchParts(filterPattern) as part, i}
+                <!-- Odd parts are parts matching the filter and should be highlighted -->
+                {#if i % 2 === 1}
+                  <strong>{part}</strong>
+                {:else}
+                  {part}
+                {/if}
+              {/each}
+              <span class="occurrences">({termData.origins.join(', ')})</span>
+            </li>
+          {/if}
+        {:else}
+          <li>
+            {termData.term}
+            <span class="occurrences">({termData.origins.join(', ')})</span>
           </li>
         {/if}
-      {:else}
-        <li title="{termData.origins.join(', ')}">
-          {termData.term}
-          {#if termData.origins.length > 1}
-            <span class="occurrences">({termData.origins.length})</span>
-          {/if}
-        </li>
-      {/if}
-    {/each}
-  </ul>
-  {#if entity.series?.length > 0}
-    <ul class="series">
-      <h4>
-        {I18n('series')}
-        <span class="count">{entity.series.length}</span>
-      </h4>
-      <ul>
-        {#each entity.series as serie (serie.uri)}
-          <li class="entity-preview"><EntityPreview entity={serie} /></li>
-        {/each}
-      </ul>
-    </ul>
-  {/if}
-  {#if entity.works?.length > 0}
-    <ul class="works">
-      <h4>
-        {I18n('works')}
-        <span class="count">{entity.works.length}</span>
-      </h4>
-      <ul>
-        {#each entity.works as work (work.uri)}
-          <li class="entity-preview"><EntityPreview entity={work} /></li>
-        {/each}
-      </ul>
-    </ul>
-  {/if}
-  {#if entity.coauthors?.length > 0}
-    <p class="coauthors">
-      {I18n('coauthors')}:
-      {#each entity.coauthors as author, i (author.uri)}
-        <a href="{author.pathname}" title="{author.label}">{author.label}</a>{#if isNotLast(entity.coauthors, i)},&nbsp;{/if}
       {/each}
-    </p>
-  {/if}
+    </ul>
+    {#if entity.series?.length > 0}
+      <ul class="series">
+        <h4>
+          {I18n('series')}
+          <span class="count">{entity.series.length}</span>
+        </h4>
+        <ul>
+          {#each entity.series as serie (serie.uri)}
+            <li class="entity-preview"><EntityPreview entity={serie} /></li>
+          {/each}
+        </ul>
+      </ul>
+    {/if}
+    {#if entity.works?.length > 0}
+      <ul class="works">
+        <h4>
+          {I18n('works')}
+          <span class="count">{entity.works.length}</span>
+        </h4>
+        <ul>
+          {#each entity.works as work (work.uri)}
+            <li class="entity-preview"><EntityPreview entity={work} /></li>
+          {/each}
+        </ul>
+      </ul>
+    {/if}
+    {#if entity.coauthors?.length > 0}
+      <p class="coauthors">
+        {I18n('coauthors')}:
+        {#each entity.coauthors as author, i (author.uri)}
+          <a href="{author.pathname}" title="{author.label}">{author.label}</a>{#if isNotLast(entity.coauthors, i)},&nbsp;{/if}
+        {/each}
+      </p>
+    {/if}
+  </div>
 </button>
 
 <style lang="scss">
@@ -103,22 +103,10 @@
     width: 100%;
     padding: 0.5em;
     transition: background-color 0.2s ease;
-  }
-  button:not(.zoom):not(.large){
-    max-width: 15em;
-  }
-  button.zoom{
-    max-width: 31em;
-  }
-  button.zoom img{
-    cursor: zoom-out;
-  }
-  button:not(.zoom) img{
-    cursor: zoom-in;
-  }
-
-  .large{
-    max-width: 25em;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
   }
 
   button:hover{
@@ -169,17 +157,20 @@
     font-size: 1rem;
     margin: 0 0.5em;
   }
+  .uri, .all-terms{
+    cursor: text;
+    user-select: text;
+  }
   .all-terms{
     font-weight: normal;
     text-align: left;
     max-height: 10em;
     overflow-y: auto;
-    // background-color: $grey;
   }
   .all-terms li{
     background-color: $off-white;
     padding: 0.1em;
-    margin: 0.2em;
+    margin: 0.2em 0;
   }
   .occurrences{
     color: $grey;
@@ -191,6 +182,26 @@
     ul{
       max-height: 10em;
       overflow-y: auto;
+    }
+  }
+  .no-image, img{
+    margin-right: 0.8em;
+  }
+  img{
+    position: sticky;
+    top: 64px;
+  }
+  .no-image, img:not(.zoom){
+    width: 6em;
+  }
+  .info{
+    flex: 1 0 0;
+    text-align: left;
+  }
+  /*Large screens*/
+  @media screen and (min-width: 1400px) {
+    ul:not(:empty){
+      flex-direction: row;
     }
   }
 </style>

@@ -178,19 +178,11 @@
     justify-content: center;
     /* Let room for the controls */
     min-height: calc(100vh - 7em);
-    margin-bottom: 4em;
+    margin-bottom: 6em;
   }
   .wdWorks, .invWorks{
     padding: 0.5em;
     flex: 1 0 0;
-  }
-  ul:not(:empty){
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: wrap;
-    flex: 1 0 0;
-    min-width: 15em;
   }
   .header{
     display: flex;
@@ -222,6 +214,30 @@
   }
   .work{
     flex-direction: column;
-    margin: 0.5em;
+    margin-top: 0.5em;
+  }
+  ul:not(:empty){
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex: 1 0 0;
+    min-width: 15em;
+  }
+  /*Large screens*/
+  @media screen and (min-width: 1400px) {
+    ul:not(:empty){
+      flex-direction: row;
+      align-items: stretch;
+      li{
+        flex: 1 0 45%;
+        margin: 0.2em;
+        max-width: 48%;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+      }
+    }
   }
 </style>
