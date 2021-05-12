@@ -119,7 +119,7 @@ const API = {
       path: 'entity/deduplicate',
       title: 'deduplicate',
       Component: DeduplicateAuthors,
-      componentOptions: { uris },
+      componentProps: { uris },
       // Assume that if uris are passed, navigate was already done
       // to avoid double navigation
       navigate: (uris == null),
@@ -147,7 +147,7 @@ const API = {
       path: `entity/${uri}/deduplicate`,
       title: 'deduplicate works',
       Component: DeduplicateWorks,
-      componentOptions: { author: entity },
+      componentProps: { author: entity },
       accessLevel: 'dataadmin'
     })
   },
@@ -392,7 +392,7 @@ const existsOrCreateFromSeed = async entry => {
 }
 
 const showViewByAccessLevel = function (params) {
-  let { path, title, View, viewOptions, Component, componentOptions, navigate, accessLevel } = params
+  let { path, title, View, viewOptions, Component, componentProps, navigate, accessLevel } = params
   if (navigate == null) navigate = true
   if (app.request('require:loggedIn', path)) {
     if (navigate) app.navigate(path, { metadata: { title } })
@@ -401,7 +401,7 @@ const showViewByAccessLevel = function (params) {
         app.layout.main.show(new View(viewOptions))
       } else {
         app.layout.main.showSvelteComponent(Component, {
-          props: componentOptions
+          props: componentProps
         })
       }
     }
