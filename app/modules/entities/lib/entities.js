@@ -43,6 +43,11 @@ export const getEntitiesByUris = async params => {
   else return serializedEntities
 }
 
+export const getEntityByUri = async ({ uri }) => {
+  const [ entity ] = await getEntitiesByUris({ uris: uri })
+  return entity
+}
+
 export const serializeEntity = entity => {
   entity.originalLang = getOriginalLang(entity.claims)
   entity.label = getBestLangValue(app.user.lang, entity.originalLang, entity.labels).value

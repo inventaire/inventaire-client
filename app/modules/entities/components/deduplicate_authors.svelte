@@ -13,7 +13,7 @@
   import { fade } from 'svelte/transition'
   const searchHumans = searchType('humans')
 
-  export let name
+  const name = app.request('querystring:get', 'name')
   let showDuplicateAuthorsNames = false
   let selectedName, waitingForHomonyms, homonymsEntities, error, filterPattern
 

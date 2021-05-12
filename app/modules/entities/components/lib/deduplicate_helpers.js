@@ -1,4 +1,6 @@
 import objectStore from 'lib/components/object_store'
+import { getAuthorWorks } from 'modules/entities/lib/types/author_alt'
+import { addWorksImagesAndAuthors } from 'modules/entities/lib/types/work_alt'
 
 export function getSelectionStore () {
   const selection = objectStore({})
@@ -102,4 +104,14 @@ const getTermPreferredOriginsCount = ({ origins }) => origins.filter(isPreferred
 const isPreferredOrigin = origin => {
   const lang = origin.split('.')[1]
   return (lang === app.user.lang || lang === 'en')
+}
+
+export async function getAuthorWorksWithImagesAndCoauthors (author) {
+  const { uri } = author
+  const works = await getAuthorWorks({ uri })
+  await addWorksImagesAndAuthors(works)
+  works.forEach(work => {
+    work.coauthors = work.authors.filter(coauthor => coauthor.uri !== author.uri)
+  })
+  return works
 }

@@ -8,7 +8,7 @@ import error_ from 'lib/error'
 import entityDraftModel from './lib/entity_draft_model'
 import * as entitiesModelsIndex from './lib/entities_models_index'
 import getEntityViewByType from './lib/get_entity_view_by_type'
-import { normalizeUri } from './lib/entities'
+import { getEntityByUri, normalizeUri } from './lib/entities'
 import showHomonyms from './lib/show_homonyms'
 
 export default {
@@ -18,11 +18,12 @@ export default {
         'entity/new(/)': 'showEntityCreateFromRoute',
         'entity/changes(/)': 'showChanges',
         'entity/activity(/)': 'showActivity',
-        'entity/deduplicate(/)': 'showDeduplicate',
+        'entity/deduplicate(/)': 'showDeduplicateAuthors',
         'entity/:uri/add(/)': 'showAddEntity',
         'entity/:uri/edit(/)': 'showEditEntityFromUri',
         'entity/:uri/cleanup(/)': 'showEntityCleanup',
         'entity/:uri/homonyms(/)': 'showHomonyms',
+        'entity/:uri/deduplicate(/)': 'showEntityDeduplicate',
         'entity/:uri/history(/)': 'showEntityHistory',
         'entity/:uri(/)': 'showEntity'
       }
@@ -108,20 +109,35 @@ const API = {
 
   // Do not use default parameter `(params = {})`
   // as the router might pass `null` as first argument
-  async showDeduplicate (params) {
+  async showDeduplicateAuthors (params) {
     params = params || {}
     // Using an object interface, as the router might pass querystrings
     let { uris } = params
     uris = forceArray(uris)
-    const { default: DeduplicateComponent } = await import('./components/deduplicate.svelte')
+    const { default: DeduplicateAuthors } = await import('./components/deduplicate_authors.svelte')
     showViewByAccessLevel({
       path: 'entity/deduplicate',
       title: 'deduplicate',
-      Component: DeduplicateComponent,
+      Component: DeduplicateAuthors,
       componentOptions: { uris },
       // Assume that if uris are passed, navigate was already done
       // to avoid double navigation
       navigate: (uris == null),
+      accessLevel: 'dataadmin'
+    })
+  },
+
+  async showEntityDeduplicate (uri) {
+    const entity = await getEntityByUri({ uri })
+    const { type } = entity
+    if (type !== 'human') throw new Error(`case not handled yet: ${type}`)
+    const { default: DeduplicateWorks } = await import('./components/deduplicate_works.svelte')
+
+    showViewByAccessLevel({
+      path: `entity/${uri}/deduplicate`,
+      title: 'deduplicate works',
+      Component: DeduplicateWorks,
+      componentOptions: { author: entity },
       accessLevel: 'dataadmin'
     })
   },
@@ -215,9 +231,7 @@ const setHandlers = function () {
 
     'show:deduplicate:sub:entities' (model) {
       const uri = model.get('uri')
-      const pathname = '/entity/deduplicate?uris=' + uri
-      API.showDeduplicate({ uris: [ uri ] })
-      app.navigate(pathname)
+      API.showEntityDeduplicate(uri)
     },
 
     'show:entity:add': API.showAddEntity.bind(API),
@@ -377,7 +391,7 @@ const showViewByAccessLevel = function (params) {
         app.layout.main.show(new View(viewOptions))
       } else {
         app.layout.main.showSvelteComponent(Component, {
-          data: componentOptions
+          props: componentOptions
         })
       }
     }

@@ -4,10 +4,10 @@
   import DeduplicateControls from './deduplicate_controls.svelte'
   import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
-  import { getSelectionStore, getFilterPattern, getEntityFilter } from './lib/deduplicate_helpers'
+  import { getSelectionStore, getFilterPattern, getEntityFilter, getAuthorWorksWithImagesAndCoauthors } from './lib/deduplicate_helpers'
   import { tick } from 'svelte'
 
-  export let worksPromise, author
+  export let author
 
   let wdWorks = []
   let invWorks = []
@@ -15,11 +15,12 @@
   let candidates, allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern
   let merging = false
 
-  const waitForWorks = worksPromise.then(works => {
-    allWorksByPrefix = spreadByPrefix(works)
-    candidates = getWorksMergeCandidates(allWorksByPrefix.inv, allWorksByPrefix.wd)
-    showNextProbableDuplicates()
-  })
+  const waitForWorks = getAuthorWorksWithImagesAndCoauthors(author)
+    .then(works => {
+      allWorksByPrefix = spreadByPrefix(works)
+      candidates = getWorksMergeCandidates(allWorksByPrefix.inv, allWorksByPrefix.wd)
+      showNextProbableDuplicates()
+    })
 
   const selection = getSelectionStore()
 
