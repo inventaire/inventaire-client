@@ -2,11 +2,9 @@
   import Spinner from 'modules/general/components/spinner.svelte'
   import MergeCandidate from './merge_candidate.svelte'
   import DeduplicateControls from './deduplicate_controls.svelte'
-  import { fade } from 'svelte/transition'
   import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
   import { getSelectionStore, getFilterPattern, getEntityFilter } from './lib/deduplicate_helpers'
-  import { flip } from 'svelte/animate'
   import { tick } from 'svelte'
 
   export let worksPromise, author
@@ -129,7 +127,7 @@
       </div>
       <ul>
         {#each wdWorks as work (work.uri)}
-          <li class="work" in:fade={{ duration: 200 }} animate:flip={{ duration: 200 }}>
+          <li class="work">
             <MergeCandidate entity={work} {selection} {filterPattern}/>
           </li>
         {/each}
@@ -142,7 +140,7 @@
       </div>
       <ul>
         {#each invWorks as work (work.uri)}
-          <li class="work" in:fade={{ duration: 200 }} animate:flip={{ duration: 200 }}>
+          <li class="work">
             <MergeCandidate entity={work} {selection} {filterPattern}/>
           </li>
         {/each}

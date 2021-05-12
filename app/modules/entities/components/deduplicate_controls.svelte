@@ -9,7 +9,7 @@
   import Spinner from 'modules/general/components/spinner.svelte'
 
   const dispatch = createEventDispatcher()
-  const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 50)
+  const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 200)
 
   export let entity, error, selection, candidates, index, merging
 
