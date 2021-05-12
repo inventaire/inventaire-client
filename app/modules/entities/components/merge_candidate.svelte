@@ -3,7 +3,7 @@
   import { I18n } from 'modules/user/lib/i18n'
   import { imgSrc } from 'lib/handlebars_helpers/images'
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers'
-  export let entity, selection, filterPattern, large
+  export let entity, selection, filterPattern
 
   entity.image.small = imgSrc(entity.image.url, 100, 200)
   entity.image.large = imgSrc(entity.image.url, 500, 1000)
@@ -17,7 +17,6 @@
   on:click={() => selection.select(entity)}
   class:selected-from={$selection.from?.uri === entity.uri}
   class:selected-to={$selection.to?.uri === entity.uri}
-  class:large
   >
   {#if entity.image.url}
     <img
