@@ -4,7 +4,7 @@
   import DeduplicateControls from './deduplicate_controls.svelte'
   import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
-  import { getSelectionStore, getFilterPattern, getEntityFilter, getAuthorWorksWithImagesAndCoauthors } from './lib/deduplicate_helpers'
+  import { getSelectionStore, getFilterPattern, getEntityFilter, getAuthorWorksWithImagesAndCoauthors, spreadByPrefix, sortAlphabetically } from './lib/deduplicate_helpers'
   import { tick } from 'svelte'
 
   export let author
@@ -42,14 +42,6 @@
     invWorks = allCandidateWorksByPrefix.inv
     selection.setAttribute('from', invWork)
     selection.setAttribute('to', mostProbableDuplicate)
-  }
-
-  function spreadByPrefix (works) {
-    const worksByPrefix = { wd: [], inv: [] }
-    works.forEach(work => {
-      worksByPrefix[work.prefix].push(work)
-    })
-    return worksByPrefix
   }
 
   function showFullLists () {
@@ -101,11 +93,6 @@
       selection.setAttribute('to', wdWorks[0])
     }
     window.scrollTo(0, 0)
-  }
-
-  function sortAlphabetically (a, b) {
-    if (a.label.toLowerCase() > b.label.toLowerCase()) return 1
-    else return -1
   }
 
   async function skipCandidates () {

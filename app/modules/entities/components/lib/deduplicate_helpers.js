@@ -115,3 +115,16 @@ export async function getAuthorWorksWithImagesAndCoauthors (author) {
   })
   return works
 }
+
+export function spreadByPrefix (works) {
+  const worksByPrefix = { wd: [], inv: [] }
+  works.forEach(work => {
+    worksByPrefix[work.prefix].push(work)
+  })
+  return worksByPrefix
+}
+
+export function sortAlphabetically (a, b) {
+  if (a.label.toLowerCase() > b.label.toLowerCase()) return 1
+  else return -1
+}
