@@ -12,8 +12,10 @@
   let wdWorks = []
   let invWorks = []
   let index = -1
-  let candidates, allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern
   let merging = false
+  let wdDisplayLimit = 10
+  let invDisplayLimit = 10
+  let candidates, allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl
 
   const waitForWorks = getAuthorWorksWithImagesAndCoauthors(author)
     .then(works => {
@@ -47,6 +49,23 @@
   function showFullLists () {
     wdWorks = allWorksByPrefix.wd.sort(sortAlphabetically)
     invWorks = allWorksByPrefix.inv.filter(notMerged).sort(sortAlphabetically)
+  }
+
+  $: displayedWdWorks = wdWorks.slice(0, wdDisplayLimit)
+  $: displayedInvWorks = invWorks.slice(0, invDisplayLimit)
+
+  $: {
+    if (wdBottomEl != null) {
+      const screenBottom = windowScrollY + window.screen.height
+      if (screenBottom + 100 > wdBottomEl.offsetTop) wdDisplayLimit += 10
+    }
+  }
+
+  $: {
+    if (invBottomEl != null) {
+      const screenBottom = windowScrollY + window.screen.height
+      if (screenBottom + 100 > invBottomEl.offsetTop) invDisplayLimit += 10
+    }
   }
 
   const notMerged = entity => !entity._merged
@@ -104,6 +123,8 @@
   }
 </script>
 
+<svelte:window bind:scrollY={windowScrollY} />
+
 {#await waitForWorks}
   <p class="loading">Loading works... <Spinner/></p>
 {:then}
@@ -114,12 +135,15 @@
         <span class="count">{wdWorks.length}</span>
       </div>
       <ul>
-        {#each wdWorks as work (work.uri)}
+        {#each displayedWdWorks as work (work.uri)}
           <li class="work">
             <MergeCandidate entity={work} {selection} {filterPattern}/>
           </li>
         {/each}
       </ul>
+      {#if displayedWdWorks.length < wdWorks.length}
+        <p class="more" bind:this={wdBottomEl}>Loading more...</p>
+      {/if}
     </div>
     <div class="invWorks">
       <div class="header">
@@ -127,11 +151,14 @@
         <span class="count">{invWorks.length}</span>
       </div>
       <ul>
-        {#each invWorks as work (work.uri)}
+        {#each displayedInvWorks as work (work.uri)}
           <li class="work">
             <MergeCandidate entity={work} {selection} {filterPattern}/>
           </li>
         {/each}
+        {#if displayedInvWorks.length < invWorks.length}
+          <p class="more" bind:this={invBottomEl}>Loading more...</p>
+        {/if}
       </ul>
     </div>
   </div>
@@ -210,6 +237,9 @@
     flex-wrap: wrap;
     flex: 1 0 0;
     min-width: 15em;
+  }
+  .more{
+    text-align: center;
   }
   /*Large screens*/
   @media screen and (min-width: 1400px) {
