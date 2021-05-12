@@ -182,6 +182,7 @@
 
   .loading{
     display: flex;
+    margin: 4em;
   }
 
   .deduplicateWorks{
