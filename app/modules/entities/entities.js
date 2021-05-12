@@ -128,10 +128,16 @@ const API = {
   },
 
   async showEntityDeduplicate (uri) {
-    const entity = await getEntityByUri({ uri })
+    const [
+      entity,
+      { default: DeduplicateWorks },
+    ] = await Promise.all([
+      getEntityByUri({ uri }),
+      import('./components/deduplicate_works.svelte'),
+    ])
+
     const { type } = entity
     if (type !== 'human') throw new Error(`case not handled yet: ${type}`)
-    const { default: DeduplicateWorks } = await import('./components/deduplicate_works.svelte')
 
     showViewByAccessLevel({
       path: `entity/${uri}/deduplicate`,
