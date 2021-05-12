@@ -7,7 +7,7 @@
   import searchType from '../lib/search/search_type'
   import { getEntityUri } from 'modules/entities/lib/search/entities_uris_results'
   import { getEntitiesByUris } from 'modules/entities/lib/entities'
-  import { addAuthorWorks } from '../lib/types/author'
+  import { addAuthorWorks } from '../lib/types/author_alt'
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
   import { getSelectionStore } from './lib/deduplicate_helpers'
   import { fade } from 'svelte/transition'

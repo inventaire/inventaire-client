@@ -2,8 +2,8 @@
 <script>
   import { isNonEmptyArray } from 'lib/boolean_tests'
   import { getEntitiesByUris } from '../lib/entities'
-  import { getAuthorWorks } from '../lib/types/author'
-  import { addWorksImagesAndAuthors } from '../lib/types/work'
+  import { getAuthorWorks } from '../lib/types/author_alt'
+  import { addWorksImagesAndAuthors } from '../lib/types/work_alt'
   import DeduplicateAuthors from './deduplicate_authors.svelte'
   import DeduplicateWorks from './deduplicate_works.svelte'
 
