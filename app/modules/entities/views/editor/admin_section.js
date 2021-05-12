@@ -17,10 +17,6 @@ export default Marionette.LayoutView.extend({
     Loading: {}
   },
 
-  regions: {
-    mergeSuggestion: '#merge-suggestion'
-  },
-
   ui: {
     mergeWithInput: '#mergeWithField',
   },
@@ -38,7 +34,6 @@ export default Marionette.LayoutView.extend({
   events: {
     'click #mergeWithButton': 'merge',
     'click .deleteEntity': 'deleteEntity',
-    'click #showMergeSuggestions': 'showMergeSuggestions',
   },
 
   canBeMerged () {
@@ -46,10 +41,6 @@ export default Marionette.LayoutView.extend({
     // Editions that have no ISBN can be merged
     if ((this.model.get('claims.wdt:P212') == null)) return true
     return false
-  },
-
-  showMergeSuggestions () {
-    app.execute('show:merge:suggestions', { region: this.mergeSuggestion, model: this.model })
   },
 
   merge (e) {

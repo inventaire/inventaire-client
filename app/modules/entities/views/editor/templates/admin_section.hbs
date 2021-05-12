@@ -4,11 +4,6 @@
 {{#if canBeMerged}}
   <h4>{{I18n 'merge with another entity'}}</h4>
   <section class="merge-section">
-    <div id="merge-suggestion">
-      {{#unless isAnEdition}}
-        <a id="showMergeSuggestions" class="light-blue-button">{{i18n 'Search possible duplicates'}}</a>
-      {{/unless}}
-    </div>
     <p class="warning">{{icon 'warning'}}{{i18n 'data_loss_at_merge'}}</p>
     {{input mergeWith}}
   </section>
