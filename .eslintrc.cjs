@@ -105,7 +105,8 @@ module.exports = {
   ],
   settings: {
     // Required to not get errors on components with style lang=scss
-    // See https://github.com/sveltejs/eslint-plugin-svelte3#svelte3ignore-styles
+    // See https://stackoverflow.com/questions/64644571/how-to-configure-sass-and-eslint-in-svelte-project
+    // and https://github.com/sveltejs/eslint-plugin-svelte3#svelte3ignore-styles
     'svelte3/ignore-styles': ({ lang }) => lang === 'scss'
   }
 }
