@@ -1,15 +1,15 @@
-import MergeSuggestion from './merge_suggestion'
+import MergeSuggestion from './merge_homonym'
 import NoResult from 'modules/search/views/no_result'
-import mergeSuggestionsTemplate from './templates/merge_suggestions.hbs'
+import mergeHomonymsTemplate from './templates/merge_homonyms.hbs'
 
 export default Marionette.CompositeView.extend({
-  template: mergeSuggestionsTemplate,
+  template: mergeHomonymsTemplate,
   className () {
-    let className = 'outer-merge-suggestions'
+    let className = 'outer-merge-homonyms'
     if (this.options.standalone) className += ' standalone'
     return className
   },
-  childViewContainer: '.inner-merge-suggestions',
+  childViewContainer: '.inner-merge-homonyms',
   childView: MergeSuggestion,
   initialize () {
     this.hasManySuggestions = this.collection.length > 1

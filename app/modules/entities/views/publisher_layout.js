@@ -15,7 +15,7 @@ export default TypedEntityLayout.extend({
     infoboxRegion: '.publisherInfobox',
     collectionsList: '#collectionsList',
     editionsList: '#editionsList',
-    mergeSuggestionsRegion: '.mergeSuggestions'
+    mergeHomonymsRegion: '.mergeHomonyms'
   },
 
   initialize () {

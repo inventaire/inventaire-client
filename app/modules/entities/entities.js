@@ -9,7 +9,7 @@ import entityDraftModel from './lib/entity_draft_model'
 import * as entitiesModelsIndex from './lib/entities_models_index'
 import getEntityViewByType from './lib/get_entity_view_by_type'
 import { normalizeUri } from './lib/entities'
-import showMergeSuggestions from './lib/show_merge_suggestions'
+import showHomonyms from './lib/show_homonyms'
 
 export default {
   define () {
@@ -22,7 +22,7 @@ export default {
         'entity/:uri/add(/)': 'showAddEntity',
         'entity/:uri/edit(/)': 'showEditEntityFromUri',
         'entity/:uri/cleanup(/)': 'showEntityCleanup',
-        'entity/:uri/deduplicate(/)': 'showEntityDeduplicate',
+        'entity/:uri/homonyms(/)': 'showHomonyms',
         'entity/:uri/history(/)': 'showEntityHistory',
         'entity/:uri(/)': 'showEntity'
       }
@@ -137,12 +137,12 @@ const API = {
     }
   },
 
-  showEntityDeduplicate (uri) {
-    if (!app.request('require:loggedIn', `entity/${uri}/deduplicate`)) return
+  showHomonyms (uri) {
+    if (!app.request('require:loggedIn', `entity/${uri}/homonyms`)) return
     if (!app.request('require:admin:access')) return
 
     return getEntityModel(uri, true)
-    .then(model => app.execute('show:merge:suggestions', { model, region: app.layout.main, standalone: true }))
+    .then(model => app.execute('show:homonyms', { model, region: app.layout.main, standalone: true }))
   },
 
   async showEntityHistory (uri) {
@@ -231,7 +231,7 @@ const setHandlers = function () {
     'show:entity:create': showEntityCreate,
     'show:entity:cleanup': API.showEntityCleanup,
     'show:entity:history': API.showEntityHistory,
-    'show:merge:suggestions': showMergeSuggestions,
+    'show:homonyms': showHomonyms,
     'report:entity:type:issue': reportTypeIssue,
     'show:wikidata:edit:intro:modal': showWikidataEditIntroModal
   })

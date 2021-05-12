@@ -21,7 +21,7 @@ export default TypedEntityLayout.extend({
     publicItemsRegion: '.workPublicItems',
     nearbyPublicItemsRegion: '.workNearbyPublicItems',
     otherPublicItemsRegion: '.workOtherPublicItems',
-    mergeSuggestionsRegion: '.mergeSuggestions'
+    mergeHomonymsRegion: '.mergeHomonyms'
   },
 
   initialize () {
@@ -69,7 +69,7 @@ export default TypedEntityLayout.extend({
 
   toggleWikipediaPreview () { this.$el.trigger('toggleWikiIframe', this) },
 
-  showMergeSuggestions () {
-    app.execute('show:merge:suggestions', { model: this.model, region: this.mergeSuggestionsRegion })
+  showHomonyms () {
+    app.execute('show:homonyms', { model: this.model, region: this.mergeHomonymsRegion })
   }
 })

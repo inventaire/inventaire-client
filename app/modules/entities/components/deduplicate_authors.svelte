@@ -15,7 +15,7 @@
 
   export let name
   let showDuplicateAuthorsNames = false
-  let selectedName, waitingForHomonymes, homonymsEntities, error, filterPattern
+  let selectedName, waitingForHomonyms, homonymsEntities, error, filterPattern
 
   if (name) showName(name)
   else showDuplicateAuthorsNames = true
@@ -24,7 +24,7 @@
     app.execute('querystring:set', 'name', name)
     selectedName = name
     filterPattern = new RegExp(name, 'i')
-    waitingForHomonymes = getHomonyms(name)
+    waitingForHomonyms = getHomonyms(name)
   }
 
   async function getHomonyms (name) {
@@ -87,7 +87,7 @@
 
 {#if selectedName}
   <h2>{selectedName}</h2>
-  {#await waitingForHomonymes}
+  {#await waitingForHomonyms}
     <p class="loading">Loading homonyms... <Spinner/></p>
   {:then}
     <ul class="homonyms">

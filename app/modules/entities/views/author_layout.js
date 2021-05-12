@@ -30,7 +30,7 @@ export default TypedEntityLayout.extend({
     seriesRegion: '.series',
     worksRegion: '.works',
     articlesRegion: '.articles',
-    mergeSuggestionsRegion: '.mergeSuggestions'
+    mergeHomonymsRegion: '.mergeHomonyms'
   },
 
   initialize () {

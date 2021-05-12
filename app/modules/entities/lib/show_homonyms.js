@@ -11,15 +11,15 @@ export default async params => {
   const { region, model, standalone } = params
   $(region.el).html(loader())
 
-  const [ entities, { default: MergeSuggestions } ] = await Promise.all([
-    getMergeSuggestions(model),
-    import('../views/editor/merge_suggestions')
+  const [ entities, { default: MergeHomonyms } ] = await Promise.all([
+    getHomonymsAndTasks(model),
+    import('../views/editor/merge_homonyms')
   ])
   const collection = new Entities(entities)
-  region.show(new MergeSuggestions({ collection, model, standalone }))
+  region.show(new MergeHomonyms({ collection, model, standalone }))
 }
 
-const getMergeSuggestions = async model => {
+const getHomonymsAndTasks = async model => {
   const tasksEntitiesData = await getTasksByUri(model)
   const tasksEntitiesUris = _.pluck(tasksEntitiesData, 'uri')
   const homonymEntities = await getHomonyms(model, tasksEntitiesUris)
@@ -32,7 +32,7 @@ const getTasksByUri = async model => {
   if (!entitiesTypesWithTasks.includes(type)) return []
 
   const uri = model.get('uri')
-  const [ action, relation ] = getMergeSuggestionsParams(uri)
+  const [ action, relation ] = getHomonymsParams(uri)
   const res = await preq.get(app.API.tasks[action](uri))
   const tasks = res.tasks[uri]
   const suggestionsUris = _.pluck(tasks, relation)
@@ -43,7 +43,7 @@ const getTasksByUri = async model => {
   return addTasksToEntities(uri, tasks, relation, entities)
 }
 
-const getMergeSuggestionsParams = uri => {
+const getHomonymsParams = uri => {
   const [ prefix ] = uri.split(':')
   if (prefix === 'wd') {
     return [ 'bySuggestionUris', 'suspectUri' ]
