@@ -137,7 +137,11 @@ const API = {
     ])
 
     const { type } = entity
-    if (type !== 'human') throw new Error(`case not handled yet: ${type}`)
+    if (type !== 'human') {
+      const err = new Error(`case not handled yet: ${type}`)
+      app.execute('show:error', err)
+      return
+    }
 
     showViewByAccessLevel({
       path: `entity/${uri}/deduplicate`,
