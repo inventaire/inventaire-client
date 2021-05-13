@@ -21,7 +21,7 @@
     else if (event.key === 'n') dispatch('next')
   }
 
-  $: remainingCandidates = candidates && index + 1 <= candidates.length
+  $: remainingCandidates = index + 1 <= candidates.length
 </script>
 
 <svelte:window on:keydown={handleKeydown}/>

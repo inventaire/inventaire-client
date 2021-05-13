@@ -11,11 +11,12 @@
 
   let wdWorks = []
   let invWorks = []
+  let candidates = []
   let index = -1
   let merging = false
   let wdDisplayLimit = 10
   let invDisplayLimit = 10
-  let candidates, allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl, from, to
+  let allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl, from, to
 
   const waitForWorks = getAuthorWorksWithImagesAndCoauthors(author)
     .then(works => {
@@ -120,7 +121,7 @@
   }
 
   async function skipCandidates () {
-    candidates = null
+    candidates = []
     from = null
     to = null
     // Let controls update before the possibly expensive operations block the thread
