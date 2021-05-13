@@ -202,7 +202,7 @@
     text-align: left;
   }
   /*Large screens*/
-  @media screen and (min-width: 1400px) {
+  @media screen and (min-width: 1800px) {
     ul:not(:empty){
       flex-direction: row;
     }

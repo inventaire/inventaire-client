@@ -267,7 +267,7 @@
     text-align: center;
   }
   /*Large screens*/
-  @media screen and (min-width: 1400px) {
+  @media screen and (min-width: 1800px) {
     ul:not(:empty){
       flex-direction: row;
       align-items: stretch;
