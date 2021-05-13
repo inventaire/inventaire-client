@@ -2,7 +2,7 @@
   import _ from 'underscore'
   import Spinner from 'modules/general/components/spinner.svelte'
   import DeduplicateAuthorsNames from './deduplicate_authors_names.svelte'
-  import MergeCandidate from './merge_candidate.svelte'
+  import SelectableEntity from './selectable_entity.svelte'
   import DeduplicateControls from './deduplicate_controls.svelte'
   import searchType from '../lib/search/search_type'
   import { getEntityUri } from 'modules/entities/lib/search/entities_uris_results'
@@ -75,7 +75,7 @@
     })
   }
 
-  const onCandidateSelect = ({ detail: entity }) => {
+  const onEntitySelect = ({ detail: entity }) => {
     ({ from, to } = select(entity, from, to))
   }
 </script>
@@ -96,9 +96,9 @@
     <ul class="homonyms">
       {#each homonymsEntities as homonym (homonym.uri)}
         <li class="homonym" in:fade={{ duration: 200 }}>
-          <MergeCandidate
+          <SelectableEntity
             entity={homonym}
-            on:select={onCandidateSelect}
+            on:select={onEntitySelect}
             bind:from={from}
             bind:to={to}
             {filterPattern}

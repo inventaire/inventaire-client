@@ -1,6 +1,6 @@
 <script>
   import Spinner from 'modules/general/components/spinner.svelte'
-  import MergeCandidate from './merge_candidate.svelte'
+  import SelectableEntity from './selectable_entity.svelte'
   import DeduplicateControls from './deduplicate_controls.svelte'
   import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
@@ -128,7 +128,7 @@
     showFullLists()
   }
 
-  const onCandidateSelect = ({ detail: entity }) => {
+  const onEntitySelect = ({ detail: entity }) => {
     ({ from, to } = select(entity, from, to))
   }
 </script>
@@ -147,12 +147,12 @@
       <ul>
         {#each displayedWdWorks as work (work.uri)}
           <li class="work">
-            <MergeCandidate
+            <SelectableEntity
               entity={work}
               bind:from={from}
               bind:to={to}
               {filterPattern}
-              on:select={onCandidateSelect}
+              on:select={onEntitySelect}
             />
           </li>
         {/each}
@@ -169,12 +169,12 @@
       <ul>
         {#each displayedInvWorks as work (work.uri)}
           <li class="work">
-            <MergeCandidate
+            <SelectableEntity
               entity={work}
               bind:from={from}
               bind:to={to}
               {filterPattern}
-              on:select={onCandidateSelect}
+              on:select={onEntitySelect}
             />
           </li>
         {/each}
