@@ -3,7 +3,11 @@
   import { I18n } from 'modules/user/lib/i18n'
   import { imgSrc } from 'lib/handlebars_helpers/images'
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers'
-  export let entity, selection, filterPattern
+  import { createEventDispatcher } from 'svelte'
+
+  export let entity, from, to, filterPattern
+
+  const dispatch = createEventDispatcher()
 
   entity.image.small = imgSrc(entity.image.url, 100, 200)
   entity.image.large = imgSrc(entity.image.url, 500, 1000)
@@ -14,9 +18,9 @@
 </script>
 
 <button
-  on:click={() => selection.select(entity)}
-  class:selected-from={$selection.from?.uri === entity.uri}
-  class:selected-to={$selection.to?.uri === entity.uri}
+  on:click={() => dispatch('select', entity)}
+  class:selected-from={from?.uri === entity.uri}
+  class:selected-to={to?.uri === entity.uri}
   >
   {#if entity.image.url}
     <img

@@ -11,7 +11,7 @@
   const dispatch = createEventDispatcher()
   const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 200)
 
-  export let entity, error, selection, candidates, index, merging
+  export let entity, error, from, to, candidates, index, merging
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
@@ -40,8 +40,8 @@
       >
       <button
         class="merge dangerous-button"
-        disabled={!($selection.from && $selection.to)}
-        title="{`merge ${$selection.from?.uri} into ${$selection.to?.uri}\nShortkey: m`}"
+        disabled={!(from && to)}
+        title="{from?.uri && to?.uri ? `merge ${from?.uri} into ${to?.uri}\nShortkey: m` : 'Shortkey: m'}"
         on:click={() => dispatch('merge')}
         >
         {@html icon('compress')}{I18n('merge')}

@@ -1,35 +1,24 @@
-import objectStore from 'lib/components/object_store'
 import { getAuthorWorks } from 'modules/entities/lib/types/author_alt'
 import { addWorksImagesAndAuthors } from 'modules/entities/lib/types/work_alt'
 
-export function getSelectionStore () {
-  const selection = objectStore({})
-
-  selection.select = entity => {
-    selection.update(data => {
-      if (!data.from) {
-        if (data.to === entity) data.to = null
-        if (entity.prefix === 'wd') data.to = entity
-        else data.from = entity
-      } else if (!data.to) {
-        if (data.from === entity) data.from = null
-        data.to = entity
-      } else {
-        if (entity.prefix === 'wd') {
-          data.from = null
-          data.to = entity
-        } else {
-          data.from = entity
-          data.to = null
-        }
-      }
-      return data
-    })
+export const select = (entity, from, to) => {
+  if (!from) {
+    if (to === entity) to = null
+    if (entity.prefix === 'wd') to = entity
+    else from = entity
+  } else if (!to) {
+    if (from === entity) from = null
+    to = entity
+  } else {
+    if (entity.prefix === 'wd') {
+      from = null
+      to = entity
+    } else {
+      from = entity
+      to = null
+    }
   }
-
-  selection.reset = () => selection.assign({ from: null, to: null })
-
-  return selection
+  return { from, to }
 }
 
 export const getFilterPattern = text => {

@@ -23,7 +23,7 @@
       <li>
         <button
           class="name tiny-button light-blue"
-          on:click={() => dispatch('selected', nameData.key)}
+          on:click={() => dispatch('select', nameData.key)}
         >{nameData.key} ({nameData.value})</button>
       </li>
     {/each}

@@ -9,13 +9,13 @@
   import { getEntitiesByUris } from 'modules/entities/lib/entities'
   import { addAuthorWorks } from '../lib/types/author_alt'
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
-  import { getSelectionStore } from './lib/deduplicate_helpers'
   import { fade } from 'svelte/transition'
+  import { select } from './lib/deduplicate_helpers'
   const searchHumans = searchType('humans')
 
   const name = app.request('querystring:get', 'name')
   let showDuplicateAuthorsNames = false
-  let selectedName, waitingForHomonyms, homonymsEntities, error, filterPattern
+  let selectedName, waitingForHomonyms, homonymsEntities, error, filterPattern, from, to
 
   if (name) showName(name)
   else showDuplicateAuthorsNames = true
@@ -63,22 +63,25 @@
     .toLowerCase()
   }
 
-  const selection = getSelectionStore()
-
   function merge () {
-    const { from, to } = selection.get()
     mergeEntities(from.uri, to.uri)
     .then(() => {
       homonymsEntities = homonymsEntities.filter(entity => entity !== from)
+      from = null
+      to = null
     })
     .catch(err => {
       error = err
     })
   }
+
+  const onCandidateSelect = ({ detail: entity }) => {
+    ({ from, to } = select(entity, from, to))
+  }
 </script>
 
 {#if showDuplicateAuthorsNames}
-  <DeduplicateAuthorsNames on:selected={e => showName(e.detail)} />
+  <DeduplicateAuthorsNames on:select={e => showName(e.detail)} />
 {:else}
   <button on:click={() => showDuplicateAuthorsNames = !showDuplicateAuthorsNames}>
     Display duplicated author names list
@@ -93,23 +96,35 @@
     <ul class="homonyms">
       {#each homonymsEntities as homonym (homonym.uri)}
         <li class="homonym" in:fade={{ duration: 200 }}>
-          <MergeCandidate entity={homonym} {selection} {filterPattern} large={true}/>
+          <MergeCandidate
+            entity={homonym}
+            on:select={onCandidateSelect}
+            bind:from={from}
+            bind:to={to}
+            {filterPattern}
+          />
         </li>
       {/each}
     </ul>
   {/await}
 {/if}
 
-<DeduplicateControls {selection} {error} on:merge={merge}/>
+<DeduplicateControls bind:from={from} bind:to={to} {error} on:merge={merge}/>
 
 <style>
   h2, .loading{
     text-align: center;
   }
-  .loading, .homonyms{
+  .loading{
     display: flex;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
+  }
+  .homonyms{
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
   }
   .homonyms{
     flex-wrap: wrap;
@@ -118,7 +133,7 @@
   }
   .homonym{
     margin: 0.5em;
-    width: 18em;
     overflow-y: auto;
+    width: 48%;
   }
 </style>

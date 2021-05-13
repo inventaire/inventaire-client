@@ -4,7 +4,7 @@
   import DeduplicateControls from './deduplicate_controls.svelte'
   import getWorksMergeCandidates from '../lib/get_works_merge_candidates'
   import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
-  import { getSelectionStore, getFilterPattern, getEntityFilter, getAuthorWorksWithImagesAndCoauthors, spreadByPrefix, sortAlphabetically } from './lib/deduplicate_helpers'
+  import { select, getFilterPattern, getEntityFilter, getAuthorWorksWithImagesAndCoauthors, spreadByPrefix, sortAlphabetically } from './lib/deduplicate_helpers'
   import { tick } from 'svelte'
 
   export let author
@@ -15,7 +15,7 @@
   let merging = false
   let wdDisplayLimit = 10
   let invDisplayLimit = 10
-  let candidates, allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl
+  let candidates, allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl, from, to
 
   const waitForWorks = getAuthorWorksWithImagesAndCoauthors(author)
     .then(works => {
@@ -23,8 +23,6 @@
       candidates = getWorksMergeCandidates(allWorksByPrefix.inv, allWorksByPrefix.wd)
       showNextProbableDuplicates()
     })
-
-  const selection = getSelectionStore()
 
   function showNextProbableDuplicates () {
     index += 1
@@ -42,8 +40,8 @@
     allCandidateWorksByPrefix = spreadByPrefix([ invWork ].concat(possibleDuplicateOf))
     wdWorks = allCandidateWorksByPrefix.wd
     invWorks = allCandidateWorksByPrefix.inv
-    selection.setAttribute('from', invWork)
-    selection.setAttribute('to', mostProbableDuplicate)
+    from = invWork
+    to = mostProbableDuplicate
   }
 
   function showFullLists () {
@@ -71,7 +69,8 @@
   const notMerged = entity => !entity._merged
 
   function next () {
-    selection.reset()
+    from = null
+    to = null
     if (candidates[index]) {
       showNextProbableDuplicates()
     } else {
@@ -80,7 +79,6 @@
   }
 
   function merge () {
-    const { from, to } = selection.get()
     if (!(from && to)) return
     merging = true
     mergeEntities(from.uri, to.uri)
@@ -95,6 +93,8 @@
     .finally(() => merging = false)
   }
 
+  let fromSelectedByFilter, toSelectedByFilter
+
   function filter (event) {
     const filterText = event.detail.trim().toLowerCase()
     const pattern = getFilterPattern(event.detail)
@@ -108,18 +108,28 @@
       invWorks = allWorksByPrefix.inv.filter(filterFn)
     }
     if (wdWorks.length === 1 && invWorks.length === 1) {
-      selection.setAttribute('from', invWorks[0])
-      selection.setAttribute('to', wdWorks[0])
+      from = invWorks[0]
+      to = wdWorks[0]
+      fromSelectedByFilter = from
+      toSelectedByFilter = to
+    } else {
+      if (fromSelectedByFilter === from) from = fromSelectedByFilter = null
+      if (toSelectedByFilter === to) to = toSelectedByFilter = null
     }
     window.scrollTo(0, 0)
   }
 
   async function skipCandidates () {
     candidates = null
-    selection.reset()
+    from = null
+    to = null
     // Let controls update before the possibly expensive operations block the thread
     await tick()
     showFullLists()
+  }
+
+  const onCandidateSelect = ({ detail: entity }) => {
+    ({ from, to } = select(entity, from, to))
   }
 </script>
 
@@ -137,7 +147,13 @@
       <ul>
         {#each displayedWdWorks as work (work.uri)}
           <li class="work">
-            <MergeCandidate entity={work} {selection} {filterPattern}/>
+            <MergeCandidate
+              entity={work}
+              bind:from={from}
+              bind:to={to}
+              {filterPattern}
+              on:select={onCandidateSelect}
+            />
           </li>
         {/each}
       </ul>
@@ -153,7 +169,13 @@
       <ul>
         {#each displayedInvWorks as work (work.uri)}
           <li class="work">
-            <MergeCandidate entity={work} {selection} {filterPattern}/>
+            <MergeCandidate
+              entity={work}
+              bind:from={from}
+              bind:to={to}
+              {filterPattern}
+              on:select={onCandidateSelect}
+            />
           </li>
         {/each}
         {#if displayedInvWorks.length < invWorks.length}
@@ -166,7 +188,8 @@
 
 <DeduplicateControls
   entity={author}
-  {selection}
+  bind:from={from}
+  bind:to={to}
   {error}
   {candidates}
   {index}
