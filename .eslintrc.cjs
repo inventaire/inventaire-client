@@ -6,7 +6,7 @@ module.exports = {
   env: {
     browser: true,
     commonjs: false,
-    es6: true
+    es2020: true
   },
   parserOptions: {
     sourceType: 'module',
@@ -17,7 +17,6 @@ module.exports = {
     'standard'
   ],
   plugins: [
-    'prefer-arrow',
     'svelte3'
   ],
   rules: {
@@ -48,8 +47,8 @@ module.exports = {
     'nonblock-statement-body-position': [ 'error', 'beside' ],
     'object-curly-spacing': [ 'error', 'always' ],
     'object-shorthand': [ 'error', 'properties' ],
-    // "prefer-arrow/prefer-arrow-functions": [ "error" ],
-    // "prefer-arrow-callback": [ "error" ],
+    // Being able to define several variables on a single line comes very handy with Svelte
+    'one-var': 'off',
     'prefer-const': [ 'error' ]
   },
   globals: {
@@ -106,7 +105,8 @@ module.exports = {
   ],
   settings: {
     // Required to not get errors on components with style lang=scss
-    // See https://github.com/sveltejs/eslint-plugin-svelte3#svelte3ignore-styles
+    // See https://stackoverflow.com/questions/64644571/how-to-configure-sass-and-eslint-in-svelte-project
+    // and https://github.com/sveltejs/eslint-plugin-svelte3#svelte3ignore-styles
     'svelte3/ignore-styles': ({ lang }) => lang === 'scss'
   }
 }

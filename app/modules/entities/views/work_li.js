@@ -11,22 +11,11 @@ export default Marionette.ItemView.extend({
     return `workLi entity-prefix-${prefix} ${wrap}`
   },
 
-  attributes () {
-    // Used by deduplicate_layout
-    return { 'data-uri': this.model.get('uri') }
-  },
-
   initialize () {
-    let preventRerender
     app.execute('uriLabel:update');
 
-    ({ showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap, preventRerender } = this.options)
+    ({ showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap } = this.options)
     if (this.showActions == null) this.showActions = true
-    if (preventRerender == null) preventRerender = false
-
-    // Allow to disable re-render for views that are used as part of layouts that store state
-    // in the DOM - such as ./deduplicate_layout - so that this state isn't lost
-    if (preventRerender) return
 
     if (this.model.usesImagesFromSubEntities) {
       this.model.fetchSubEntities()

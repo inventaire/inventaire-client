@@ -2,7 +2,7 @@ import GeneralInfobox from './general_infobox'
 export default Marionette.LayoutView.extend({
   // regions:
   //   infoboxRegion
-  //   mergeSuggestionsRegion: '.mergeSuggestions'
+  //   mergeHomonymsRegion: '.mergeHomonyms'
 
   className () {
     let className = this.baseClassName || ''
@@ -25,7 +25,7 @@ export default Marionette.LayoutView.extend({
 
   onRender () {
     this.showInfobox()
-    this.showMergeSuggestions()
+    this.showHomonyms()
   },
 
   showInfobox () {
@@ -36,11 +36,11 @@ export default Marionette.LayoutView.extend({
     }))
   },
 
-  showMergeSuggestions () {
+  showHomonyms () {
     if (!this.displayMergeSuggestions) return
-    app.execute('show:merge:suggestions', {
+    app.execute('show:homonyms', {
       model: this.model,
-      region: this.mergeSuggestionsRegion
+      region: this.mergeHomonymsRegion
     })
   }
 })

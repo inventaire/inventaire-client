@@ -1,15 +1,15 @@
 import { someMatch, isOpenedOutside, capitalize } from 'lib/utils'
-import mergeSuggestionTemplate from './templates/merge_suggestion.hbs'
-import mergeSuggestionSubentityTemplate from './templates/merge_suggestion_subentity.hbs'
+import mergeSuggestionTemplate from './templates/merge_homonym.hbs'
+import mergeSuggestionSubentityTemplate from './templates/merge_homonym_subentity.hbs'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import mergeEntities from './lib/merge_entities'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
-import 'modules/entities/scss/merge_suggestion.scss'
+import 'modules/entities/scss/merge_homonyms.scss'
 
 export default Marionette.LayoutView.extend({
   template: mergeSuggestionTemplate,
-  className: 'merge-suggestion',
+  className: 'merge-homonym',
   behaviors: {
     AlertBox: {},
     Loading: {},

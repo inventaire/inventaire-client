@@ -8,8 +8,8 @@ import error_ from 'lib/error'
 import entityDraftModel from './lib/entity_draft_model'
 import * as entitiesModelsIndex from './lib/entities_models_index'
 import getEntityViewByType from './lib/get_entity_view_by_type'
-import { normalizeUri } from './lib/entities'
-import showMergeSuggestions from './lib/show_merge_suggestions'
+import { getEntityByUri, normalizeUri } from './lib/entities'
+import showHomonyms from './lib/show_homonyms'
 
 export default {
   define () {
@@ -18,10 +18,11 @@ export default {
         'entity/new(/)': 'showEntityCreateFromRoute',
         'entity/changes(/)': 'showChanges',
         'entity/activity(/)': 'showActivity',
-        'entity/deduplicate(/)': 'showDeduplicate',
+        'entity/deduplicate(/)': 'showDeduplicateAuthors',
         'entity/:uri/add(/)': 'showAddEntity',
         'entity/:uri/edit(/)': 'showEditEntityFromUri',
         'entity/:uri/cleanup(/)': 'showEntityCleanup',
+        'entity/:uri/homonyms(/)': 'showHomonyms',
         'entity/:uri/deduplicate(/)': 'showEntityDeduplicate',
         'entity/:uri/history(/)': 'showEntityHistory',
         'entity/:uri(/)': 'showEntity'
@@ -108,20 +109,45 @@ const API = {
 
   // Do not use default parameter `(params = {})`
   // as the router might pass `null` as first argument
-  async showDeduplicate (params) {
+  async showDeduplicateAuthors (params) {
     params = params || {}
     // Using an object interface, as the router might pass querystrings
     let { uris } = params
     uris = forceArray(uris)
-    const { default: DeduplicateLayout } = await import('./views/deduplicate_layout')
+    const { default: DeduplicateAuthors } = await import('./components/deduplicate_authors.svelte')
     showViewByAccessLevel({
       path: 'entity/deduplicate',
       title: 'deduplicate',
-      View: DeduplicateLayout,
-      viewOptions: { uris },
+      Component: DeduplicateAuthors,
+      componentProps: { uris },
       // Assume that if uris are passed, navigate was already done
       // to avoid double navigation
       navigate: (uris == null),
+      accessLevel: 'dataadmin'
+    })
+  },
+
+  async showEntityDeduplicate (uri) {
+    const [
+      entity,
+      { default: DeduplicateWorks },
+    ] = await Promise.all([
+      getEntityByUri({ uri }),
+      import('./components/deduplicate_works.svelte'),
+    ])
+
+    const { type } = entity
+    if (type !== 'human') {
+      const err = new Error(`case not handled yet: ${type}`)
+      app.execute('show:error', err)
+      return
+    }
+
+    showViewByAccessLevel({
+      path: `entity/${uri}/deduplicate`,
+      title: 'deduplicate works',
+      Component: DeduplicateWorks,
+      componentProps: { author: entity },
       accessLevel: 'dataadmin'
     })
   },
@@ -137,12 +163,12 @@ const API = {
     }
   },
 
-  showEntityDeduplicate (uri) {
-    if (!app.request('require:loggedIn', `entity/${uri}/deduplicate`)) return
+  showHomonyms (uri) {
+    if (!app.request('require:loggedIn', `entity/${uri}/homonyms`)) return
     if (!app.request('require:admin:access')) return
 
     return getEntityModel(uri, true)
-    .then(model => app.execute('show:merge:suggestions', { model, region: app.layout.main, standalone: true }))
+    .then(model => app.execute('show:homonyms', { model, region: app.layout.main, standalone: true }))
   },
 
   async showEntityHistory (uri) {
@@ -215,9 +241,7 @@ const setHandlers = function () {
 
     'show:deduplicate:sub:entities' (model) {
       const uri = model.get('uri')
-      const pathname = '/entity/deduplicate?uris=' + uri
-      API.showDeduplicate({ uris: [ uri ] })
-      app.navigate(pathname)
+      API.showEntityDeduplicate(uri)
     },
 
     'show:entity:add': API.showAddEntity.bind(API),
@@ -231,7 +255,7 @@ const setHandlers = function () {
     'show:entity:create': showEntityCreate,
     'show:entity:cleanup': API.showEntityCleanup,
     'show:entity:history': API.showEntityHistory,
-    'show:merge:suggestions': showMergeSuggestions,
+    'show:homonyms': showHomonyms,
     'report:entity:type:issue': reportTypeIssue,
     'show:wikidata:edit:intro:modal': showWikidataEditIntroModal
   })
@@ -368,12 +392,18 @@ const existsOrCreateFromSeed = async entry => {
 }
 
 const showViewByAccessLevel = function (params) {
-  let { path, title, View, viewOptions, navigate, accessLevel } = params
+  let { path, title, View, viewOptions, Component, componentProps, navigate, accessLevel } = params
   if (navigate == null) navigate = true
   if (app.request('require:loggedIn', path)) {
     if (navigate) app.navigate(path, { metadata: { title } })
     if (app.request(`require:${accessLevel}:access`)) {
-      return app.layout.main.show(new View(viewOptions))
+      if (View) {
+        app.layout.main.show(new View(viewOptions))
+      } else {
+        app.layout.main.showSvelteComponent(Component, {
+          props: componentProps
+        })
+      }
     }
   }
 }

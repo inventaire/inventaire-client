@@ -58,14 +58,6 @@
     }
   }
 
-  #merge-suggestion{
-    margin: 1em 0;
-  }
-
-  #showMergeSuggestions{
-    display: inline-block;
-  }
-
   #mergeWithButton{
     // centering the loading button vertically
     @include display-flex(row, center, center);

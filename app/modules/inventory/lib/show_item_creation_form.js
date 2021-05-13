@@ -1,4 +1,3 @@
-
 export default async params => {
   const { entity } = params
   if (entity == null) throw new Error('missing entity')

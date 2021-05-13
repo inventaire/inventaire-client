@@ -4,9 +4,11 @@ import getEntityItemsByCategories from '../get_entity_items_by_categories'
 
 const publicDomainThresholdYear = new Date().getFullYear() - 70
 
+const editionRelationProperty = 'wdt:P629'
+
 export default function () {
   // Main property by which sub-entities are linked to this one: edition of
-  this.childrenClaimProperty = 'wdt:P629'
+  this.childrenClaimProperty = editionRelationProperty
   // inverse property: edition(s)
   this.subEntitiesInverseProperty = 'wdt:P747'
 
@@ -50,14 +52,14 @@ const setImage = function () {
   this.set('images', images.slice(0, 3))
 }
 
-const getEditionImageData = function (model) {
-  const image = model.get('image')
+const getEditionImageData = function (edition) {
+  const image = edition.get('image')
   if (image?.url == null) return
   return {
     image,
-    lang: model.get('lang'),
-    publicationDate: model.get('publicationTime'),
-    isCompositeEdition: model.get('isCompositeEdition')
+    lang: edition.get('lang'),
+    publicationDate: edition.get('publicationTime'),
+    isCompositeEdition: edition.get('isCompositeEdition')
   }
 }
 

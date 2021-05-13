@@ -1,27 +1,27 @@
 @import 'modules/general/scss/utils';
-.mergeSuggestions{
+.mergeHomonyms{
   .small-loader{
     color: white;
   }
 }
 
-#merge-suggestion{
+#merge-homonym{
   @include display-flex(row, center, center);
 }
-#showMergeSuggestions{
+#showHomonyms{
   margin: 1em;
 }
 
-.outer-merge-suggestions.standalone{
+.outer-merge-homonyms.standalone{
   padding: 1em;
   h2{
     text-align: center;
   }
 }
-.inner-merge-suggestions{
+.inner-merge-homonyms{
   @include display-flex(row, flex-start, center, wrap);
 }
-.merge-suggestion{
+.merge-homonym{
   position: relative;
   background-color: white;
   @include radius;
@@ -110,7 +110,7 @@
   }
 }
 
-.merge-suggestions-controls{
+.merge-homonyms-controls{
   @include display-flex(row, center, center);
   .tiny-button{
     margin: 0.5em;

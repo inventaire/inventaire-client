@@ -82,7 +82,6 @@
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prefer-arrow": "^1.2.2",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-svelte3": "^3.0.0",
     "file-loader": "^6.2.0",

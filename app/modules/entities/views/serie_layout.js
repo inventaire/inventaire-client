@@ -13,7 +13,7 @@ export default TypedEntityLayout.extend({
   regions: {
     infoboxRegion: '.serieInfobox',
     parts: '.parts',
-    mergeSuggestionsRegion: '.mergeSuggestions'
+    mergeHomonymsRegion: '.mergeHomonyms'
   },
 
   behaviors: {
