@@ -1,8 +1,10 @@
 import { I18n } from 'modules/user/lib/i18n'
+import error_ from 'lib/error'
 import initMainUser from './lib/init_main_user'
 import auth from './lib/auth'
 import userListings from './lib/user_listings'
 import userUpdate from './lib/user_update'
+import preq from 'lib/preq'
 
 export default {
   define () {
@@ -12,7 +14,8 @@ export default {
         'login(/)': 'showLogin',
         'login/forgot-password(/)': 'showForgotPassword',
         'login/reset-password(/)': 'showResetPassword',
-        'logout(/)': 'logout'
+        'logout(/)': 'logout',
+        'authorize(/)': 'showAuthorizeMenu',
       }
     })
 
@@ -79,5 +82,38 @@ const API = {
     }
   },
 
+  async showAuthorizeMenu () {
+    const query = app.request('querystring:get:all')
+
+    try {
+      validateAuthorizationRequest(query)
+      const postLoginRedirection = window.location.pathname + window.location.search
+      if (!(app.request('require:loggedIn', postLoginRedirection))) return
+      const client = await getOAuthClient(query.client_id)
+      const { default: AuthorizeMenu } = await import('./views/authorize_menu')
+      app.layout.main.show(new AuthorizeMenu({ query, client }))
+    } catch (err) {
+      app.execute('show:error', err)
+    }
+  },
+
   logout () { app.execute('logout') }
+}
+
+const getOAuthClient = async clientId => {
+  const { clients } = await preq.get(app.API.oauth.clients.byId(clientId))
+  return clients[clientId]
+}
+
+const validateAuthorizationRequest = query => {
+  const { state, scope, client_id: clientId, redirect_uri: redirectUri } = query
+
+  if (!clientId) throw invalidAuthorizationRequest('missing client_id')
+  if (!scope) throw invalidAuthorizationRequest('missing scope')
+  if (!state) throw invalidAuthorizationRequest('missing state')
+  if (!redirectUri) throw invalidAuthorizationRequest('missing redirect_uri')
+}
+
+const invalidAuthorizationRequest = (reason, query) => {
+  return error_.new(`invalid authorization request: ${reason}`, 400, { reason, query })
 }

@@ -4,7 +4,8 @@ const redirectTest = section => allowRedirectPersistantQuery.includes(section)
 
 const allowRedirectPersistantQuery = [
   'signup',
-  'login'
+  'login',
+  'authorize',
 ]
 
 export default {
