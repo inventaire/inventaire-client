@@ -150,8 +150,8 @@
           <li class="work">
             <SelectableEntity
               entity={work}
-              bind:from={from}
-              bind:to={to}
+              bind:from
+              bind:to
               {filterPattern}
               on:select={onEntitySelect}
             />
@@ -172,8 +172,8 @@
           <li class="work">
             <SelectableEntity
               entity={work}
-              bind:from={from}
-              bind:to={to}
+              bind:from
+              bind:to
               {filterPattern}
               on:select={onEntitySelect}
             />
@@ -189,8 +189,8 @@
 
 <DeduplicateControls
   entity={author}
-  bind:from={from}
-  bind:to={to}
+  bind:from
+  bind:to
   {error}
   {candidates}
   {index}

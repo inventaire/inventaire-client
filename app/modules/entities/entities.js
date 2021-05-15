@@ -18,7 +18,7 @@ export default {
         'entity/new(/)': 'showEntityCreateFromRoute',
         'entity/changes(/)': 'showChanges',
         'entity/activity(/)': 'showActivity',
-        'entity/deduplicate(/)': 'showDeduplicateAuthors',
+        'entity/deduplicate(/authors)(/)': 'showDeduplicateAuthors',
         'entity/:uri/add(/)': 'showAddEntity',
         'entity/:uri/edit(/)': 'showEditEntityFromUri',
         'entity/:uri/cleanup(/)': 'showEntityCleanup',
@@ -116,8 +116,8 @@ const API = {
     uris = forceArray(uris)
     const { default: DeduplicateAuthors } = await import('./components/deduplicate_authors.svelte')
     showViewByAccessLevel({
-      path: 'entity/deduplicate',
-      title: 'deduplicate',
+      path: 'entity/deduplicate/authors',
+      title: `${i18n('deduplicate')} - ${i18n('authors')}`,
       Component: DeduplicateAuthors,
       componentProps: { uris },
       // Assume that if uris are passed, navigate was already done
@@ -145,7 +145,7 @@ const API = {
 
     showViewByAccessLevel({
       path: `entity/${uri}/deduplicate`,
-      title: 'deduplicate works',
+      title: `${entity.label} - ${i18n('deduplicate')} - ${i18n('works')}`,
       Component: DeduplicateWorks,
       componentProps: { author: entity },
       accessLevel: 'dataadmin'

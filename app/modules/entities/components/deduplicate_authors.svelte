@@ -99,8 +99,8 @@
           <SelectableEntity
             entity={homonym}
             on:select={onEntitySelect}
-            bind:from={from}
-            bind:to={to}
+            bind:from
+            bind:to
             {filterPattern}
           />
         </li>
@@ -109,7 +109,7 @@
   {/await}
 {/if}
 
-<DeduplicateControls bind:from={from} bind:to={to} {error} on:merge={merge}/>
+<DeduplicateControls bind:from bind:to {error} on:merge={merge}/>
 
 <style>
   h2, .loading{
