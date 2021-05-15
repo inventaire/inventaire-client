@@ -37,8 +37,8 @@ export default {
   users,
 
   // /public endpoints
-  i18nStrings: lang => `/public/i18n/${lang}.json?DIGEST${getBuster()}`,
-  json: filename => `/public/json/${filename}.json?DIGEST${getBuster()}`,
+  i18nStrings: lang => `/public/i18n/${lang}.json${getBuster()}`,
+  json: filename => `/public/json/${filename}.json${getBuster()}`,
 
   // /img: endpoint serving images, handled by Nginx in production
   // thus not behing the /api root
@@ -50,6 +50,6 @@ export default {
 // replacing DIGEST with the last git commit hash
 // (the DIGEST keyword needs to be in a URL to be replaced)
 const getBuster = () => {
-  if (window.env === 'dev') return Date.now()
+  if (window.env === 'dev') return `?${Date.now()}`
   else return ''
 }
