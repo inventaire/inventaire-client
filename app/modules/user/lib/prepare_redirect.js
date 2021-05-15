@@ -9,5 +9,9 @@ export default function (redirect) {
 
   if (redirect[0] === '/') redirect = redirect.slice(1)
 
+  // Required for redirections including query strings
+  // Known case: redirections to /authorize during OAuth workflows
+  redirect = encodeURIComponent(redirect)
+
   return buildPath(formAction, { redirect })
 }

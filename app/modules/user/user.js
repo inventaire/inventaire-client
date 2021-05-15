@@ -87,7 +87,8 @@ const API = {
 
     try {
       validateAuthorizationRequest(query)
-      if (!(app.request('require:loggedIn', 'authorize'))) return
+      const postLoginRedirection = window.location.pathname + window.location.search
+      if (!(app.request('require:loggedIn', postLoginRedirection))) return
       const client = await getOAuthClient(query.client_id)
       const { default: AuthorizeMenu } = await import('./views/authorize_menu')
       app.layout.main.show(new AuthorizeMenu({ query, client }))
