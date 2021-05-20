@@ -12,7 +12,12 @@
     <span class="value">{{user.username}}</span>
     <span class="special-user">{{I18n 'special user'}}</span>
   {{else}}
-    <a class="value showUser" href="{{user.pathname}}">{{user.username}}</a>
+    {{#if user.deleted}}
+      <span class="value">{{user.username}}</span>
+      <span class="deleted-user">{{i18n 'deleted'}}</span>
+    {{else}}
+      <a class="value showUser" href="{{user.pathname}}">{{user.username}}</a>
+    {{/if}}
   {{/if}}
   <a class="showUserContributions" href="{{user.contributions}}">{{i18n 'contributions'}}</a>
 </p>
