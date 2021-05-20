@@ -12,6 +12,7 @@ import screen_ from 'lib/screen'
 import InventoryWelcome from './inventory_welcome'
 import inventoryLayoutTemplate from './templates/inventory_layout.hbs'
 import '../scss/inventory_layout.scss'
+import error_ from 'app/lib/error'
 
 const navs = {
   network: InventoryNetworkNav,
@@ -57,6 +58,10 @@ export default Marionette.LayoutView.extend({
   startFromUser (user, shelf) {
     return app.request('resolve:to:userModel', user)
     .then(userModel => {
+      if (userModel.deleted) {
+        const { _id: id, username } = userModel.attributes
+        throw error_.new('This user has been deleted', 400, { id, username })
+      }
       this._lastShownType = 'user'
       this._lastShownUser = userModel
       if (shelf) {

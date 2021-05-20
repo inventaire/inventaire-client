@@ -15,6 +15,10 @@
       display: inline-block;
       min-width: 10em;
       color: #777;
+      &.deleted{
+        color: red;
+        font-weight: bold;
+      }
     }
   }
   > .stats{

@@ -17,11 +17,15 @@
         <a class="link showUser" href="{{user.pathname}}">{{user.username}}</a>
       </li>
       <li>
-        <span class="stat-label">{{i18n 'created'}}</span>
-        <p class="stat-value">
-          <span class="time-from-now">{{timeFromNow user.created}}</span>
-          <span class="precise-time">{{localTimeString user.created}}</span>
-        </p>
+        {{#if user.deleted}}
+          <span class="stat-label deleted">{{i18n 'deleted'}}</span>
+        {{else}}
+          <span class="stat-label">{{i18n 'created'}}</span>
+          <p class="stat-value">
+            <span class="time-from-now">{{timeFromNow user.created}}</span>
+            <span class="precise-time">{{localTimeString user.created}}</span>
+          </p>
+        {{/if}}
       </li>
     {{/unless}}
     {{#if user.roles}}
