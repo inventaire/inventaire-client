@@ -13,6 +13,12 @@ export default UserCommons.extend({
       this.calculateDistance()
     }
 
+    if (this.get('type') === 'deletedUser') {
+      this.deleted = true
+      this.set('deleted', true)
+      return
+    }
+
     this.setInventoryStats()
     this.calculateHighlightScore()
 
