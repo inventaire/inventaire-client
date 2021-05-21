@@ -1,6 +1,8 @@
 <script>
+  import { I18n } from 'modules/user/lib/i18n'
   import app from 'app/app'
   import { wait } from 'lib/promises'
+  import Profile from './profile.svelte'
   import { onMount } from 'svelte'
   export let section = 'profile'
   $: app.navigate(`/settings/${section}`)
@@ -21,23 +23,25 @@
 </script>
 
 <div class="wrapper">
-  <nav class="navigation">
-    <a href='/settings/profile' class="{section === 'profile' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'profile' }}>
-      Profile
-    </a>
-    <a href='/settings/account' class="{section === 'account' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'account' }}>
-      Account
-    </a>
-    <a href='/settings/notifications' class="{section === 'notifications' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'notifications' }}>
-      Notifications
-    </a>
-    <a href='/settings/data' class="{section === 'data' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'data' }}>
-      Data
-    </a>
-  </nav>
+  <div class="subwrapper">
+    <nav class="navigation">
+      <a href='/settings/profile' class="{section === 'profile' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'profile' }}>
+        {I18n('profile')}
+      </a>
+      <a href='/settings/account' class="{section === 'account' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'account' }}>
+        {I18n('account')}
+      </a>
+      <a href='/settings/notifications' class="{section === 'notifications' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'notifications' }}>
+        {I18n('notifications')}
+      </a>
+      <a href='/settings/data' class="{section === 'data' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'data' }}>
+        {I18n('data')}
+      </a>
+    </nav>
+  </div>
   <div class="setting" bind:this={settingEl}>
     {#if section === 'profile'}
-      Profile
+      <Profile bind:user={app.user}/>
     {/if}
     {#if section === 'account'}
       Account
@@ -62,6 +66,7 @@
   .navigation{
     display: flex;
     flex-direction: column;
+    background-color: #fff;
     min-width: 10em;
     border-radius: 3px;
     margin-left: 2em;
@@ -81,6 +86,9 @@
     :last-child {
       border-bottom: 0;
     }
+  }
+  .setting{
+    width: 70%;
   }
   /*Small screens*/
   @media screen and (max-width: 470px) {
