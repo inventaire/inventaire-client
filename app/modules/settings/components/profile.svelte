@@ -2,11 +2,13 @@
   import { i18n, I18n } from 'modules/user/lib/i18n'
   import preq from 'lib/preq'
   import Flash from 'lib/components/flash.svelte'
+  import UserPicture from 'lib/components/user_picture.svelte'
   export let user
   let showFlashBio, showFlashUsername, hideFlashUsername, hideFlashBio
   let currentUsername = user.attributes.label
   let requestedUsername
   let bio = user.attributes.bio || ''
+  let currentPicture = user.attributes.picture
 
   const updateUsername = async () => {
     if (!requestedUsername || requestedUsername === currentUsername) {
@@ -107,6 +109,11 @@
   </div>
   <p class="note">{I18n('a few words on you?')} ({bio.length}/1000)</p>
   <button id="saveBio" class="save light-blue-button" on:click="{() => updateBio(bio)}">{I18n('update presentation')}</button>
+</section>
+
+<section>
+  <h2 class="title">{I18n('profile picture')}</h2>
+  <UserPicture bind:currentPicture={currentPicture} restricted='true'/>
 </section>
 
 <style lang="scss">
