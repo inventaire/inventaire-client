@@ -5,10 +5,10 @@
   import UserPicture from 'lib/components/user_picture.svelte'
   export let user
   let showFlashBio, showFlashUsername, hideFlashUsername, hideFlashBio
-  let currentUsername = user.attributes.label
+  let currentUsername = user.get('label')
   let requestedUsername
-  let bio = user.attributes.bio || ''
-  let currentPicture = user.attributes.picture
+  let bio = user.get('bio') || ''
+  let currentPicture = user.get('picture')
 
   const updateUsername = async () => {
     if (!requestedUsername || requestedUsername === currentUsername) {
@@ -67,6 +67,7 @@
     hideFlashBio()
     bio = value
   }
+
   const updateBio = async () => {
     if (bio.length > 1000) {
       return showFlashBio({
@@ -89,16 +90,15 @@
   }
 </script>
 
-<h2 class="title first-title">{I18n('public profile')}</h2>
-
 <section>
+  <h2 class="title first-title">{I18n('public profile')}</h2>
   <h3 class="label">{I18n('username')}</h3>
   <div class="text-zone">
     <input placeholder="{i18n('username')}..." value={currentUsername} on:keyup="{e => onUsernameChange(e.target.value)}">
     <Flash bind:show={showFlashUsername} bind:hide={hideFlashUsername}/>
   </div>
   <p class="note">{I18n('username_tip')}</p>
-  <button id="updateUsername" class="save light-blue-button" on:click="{updateUsername}">{I18n('update username')}</button>
+  <button class="light-blue-button" on:click="{updateUsername}">{I18n('update username')}</button>
 </section>
 
 <section>
@@ -108,12 +108,12 @@
     <Flash bind:show={showFlashBio} bind:hide={hideFlashBio}/>
   </div>
   <p class="note">{I18n('a few words on you?')} ({bio.length}/1000)</p>
-  <button id="saveBio" class="save light-blue-button" on:click="{() => updateBio(bio)}">{I18n('update presentation')}</button>
+  <button class="save light-blue-button" on:click="{() => updateBio(bio)}">{I18n('update presentation')}</button>
 </section>
 
 <section>
   <h2 class="title">{I18n('profile picture')}</h2>
-  <UserPicture bind:currentPicture={currentPicture} restricted='true'/>
+  <UserPicture bind:currentPicture={currentPicture}/>
 </section>
 
 <style lang="scss">
