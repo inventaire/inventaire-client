@@ -1,5 +1,6 @@
 <script>
-  let flashPriority, flashMessage, hidden = 'hidden'
+  let flashPriority, flashMessage
+  let hidden = 'hidden'
   import { icon } from 'app/lib/utils'
   export const show = ({ priority, message }) => {
     flashPriority = priority

@@ -25,16 +25,16 @@
 <div class="wrapper">
   <div class="subwrapper">
     <nav class="navigation">
-      <a href='/settings/profile' class="{section === 'profile' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'profile' }}>
+      <a href='/settings/profile' class="{section === 'profile' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'profile' }}">
         {I18n('profile')}
       </a>
-      <a href='/settings/account' class="{section === 'account' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'account' }}>
+      <a href='/settings/account' class="{section === 'account' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'account' }}">
         {I18n('account')}
       </a>
-      <a href='/settings/notifications' class="{section === 'notifications' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'notifications' }}>
+      <a href='/settings/notifications' class="{section === 'notifications' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'notifications' }}">
         {I18n('notifications')}
       </a>
-      <a href='/settings/data' class="{section === 'data' ? 'active' : ''}" on:click={goToSetting} on:click={() => { section = 'data' }}>
+      <a href='/settings/data' class="{section === 'data' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'data' }}">
         {I18n('data')}
       </a>
     </nav>
@@ -61,7 +61,8 @@
   .wrapper{
     display: flex;
     flex-direction: row;
-    margin-top: 5em;
+    margin: 5em auto;
+    max-width: 50em;
   }
   .navigation{
     display: flex;
@@ -95,8 +96,7 @@
     .wrapper{
       display: flex;
       flex-direction: column;
-      margin: 2em;
-      margin-top: 5em;
+      margin: 5em 2em;
     }
     .navigation{
       margin: 0;
