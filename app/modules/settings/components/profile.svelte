@@ -3,12 +3,14 @@
   import preq from 'lib/preq'
   import Flash from 'lib/components/flash.svelte'
   import UserPicture from 'lib/components/user_picture.svelte'
+  import map from 'modules/map/lib/map'
   export let user
   let showFlashBio, showFlashUsername, hideFlashUsername, hideFlashBio
   let currentUsername = user.get('label')
   let requestedUsername
   let bio = user.get('bio') || ''
   let currentPicture = user.get('picture')
+  const position = user.get('position')
 
   const updateUsername = async () => {
     if (!requestedUsername || requestedUsername === currentUsername) {
@@ -88,6 +90,9 @@
       })
     }
   }
+  const editPosition = () => {
+    map.showMainUserPositionPicker()
+  }
 </script>
 
 <section>
@@ -114,6 +119,24 @@
 <section>
   <h2 class="title">{I18n('profile picture')}</h2>
   <UserPicture bind:currentPicture={currentPicture}/>
+</section>
+
+<section>
+  <h2 class="title">{I18n('location')}</h2>
+  <p class="position-status">
+    {#if position}
+      {i18n('position is set to')}: {position[0]}, {position[1]}
+    {:else}
+      {i18n('no position set')}
+    {/if}
+  </p>
+  <button class="light-blue-button" on:click={editPosition}>
+    {#if position}
+      {I18n('change position')}
+    {:else}
+      {I18n('add a position')}
+    {/if}
+  </button>
 </section>
 
 <style lang="scss">
