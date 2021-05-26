@@ -3,6 +3,7 @@
   import app from 'app/app'
   import { wait } from 'lib/promises'
   import Profile from './profile.svelte'
+  import Account from './account.svelte'
   import { onMount } from 'svelte'
   export let section = 'profile'
   $: app.navigate(`/settings/${section}`)
@@ -41,10 +42,10 @@
   </div>
   <div class="setting" bind:this={settingEl}>
     {#if section === 'profile'}
-      <Profile bind:user={app.user}/>
+      <Profile user={app.user}/>
     {/if}
     {#if section === 'account'}
-      Account
+      <Account user={app.user}/>
     {/if}
     {#if section === 'notifications'}
       Notifications
