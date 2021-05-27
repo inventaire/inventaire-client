@@ -6,9 +6,11 @@ export default Filterable.extend({
   hasPosition () { return this.has('position') },
   getCoords () {
     const latLng = this.get('position')
-    if (latLng != null) {
+    if (latLng instanceof Array) {
       const [ lat, lng ] = latLng
       return { lat, lng }
+    } else if (latLng != null) {
+      return latLng
     } else {
       return {}
     }
