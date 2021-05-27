@@ -104,6 +104,7 @@
     .setting{
       margin-top: 2em;
       width: 100%;
+      padding: 0
     }
   }
 </style>

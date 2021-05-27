@@ -95,7 +95,7 @@
   }
 </script>
 
-<section>
+<section class="first-section">
   <h2 class="title first-title">{I18n('public profile')}</h2>
   <h3 class="label">{I18n('username')}</h3>
   <div class="text-zone">
@@ -104,9 +104,6 @@
   </div>
   <p class="note">{I18n('username_tip')}</p>
   <button class="light-blue-button" on:click="{updateUsername}">{I18n('update username')}</button>
-</section>
-
-<section>
   <h3 class="label">{I18n('presentation')}</h3>
   <div class="text-zone">
     <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" on:keyup="{e => onBioChange(e.target.value)}">{bio}</textarea>
@@ -141,4 +138,7 @@
 
 <style lang="scss">
   @import 'app/modules/settings/scss/section_settings_svelte';
+  .position-status{
+    padding-bottom: 1em;
+  }
 </style>

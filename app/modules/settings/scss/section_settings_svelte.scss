@@ -6,7 +6,9 @@ input, textarea{
 }
 section{
   padding: 1.5em;
-  padding-bottom: 2.5em;
+}
+.first-section{
+  padding-top: 0;
 }
 .text-zone{
   max-width: 25em;
@@ -31,4 +33,14 @@ section{
   font: sans-serif;
   font-size: 110%;
   font-weight: 600;
+}
+
+/*Small screens*/
+@media screen and (max-width: 470px) {
+  section{
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 1em;
+    padding-top: 1em;
+  }
 }
