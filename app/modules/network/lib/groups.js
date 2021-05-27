@@ -39,8 +39,8 @@ export default {
 }
 
 const groupNameTests = {
-  "group name can't be longer than 60 characters" (name) {
-    return name.length > 60
+  "group name can't be longer than 80 characters" (name) {
+    return name.length > 80
   }
 }
 
