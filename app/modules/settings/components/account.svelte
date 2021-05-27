@@ -78,9 +78,29 @@
     }
     showFlashEmail({ priority: 'error', message })
   }
+
+  const sendDeletionFeedback = message => preq.post(app.API.feedback, {
+    subject: '[account deletion]',
+    message
+  }
+  )
+
+  const deleteAccount = () => {
+    const args = { username: user.get('username') }
+    app.execute('ask:confirmation', {
+      confirmationText: i18n('delete_account_confirmation', args),
+      warningText: i18n('cant_undo_warning'),
+      action: user.deleteAccount.bind(user),
+      formAction: sendDeletionFeedback,
+      formLabel: "that would really help us if you could say a few words about why you're leaving:",
+      formPlaceholder: "our love wasn't possible because",
+      yes: 'delete your account',
+      no: 'cancel'
+    })
+  }
 </script>
 
-<section>
+<section class="first-section">
   <h2 class="title first-title">{I18n('account')}</h2>
   <h3 class="label">{I18n('language')}</h3>
   <select name="language" aria-label="language picker" value="{userLanguage.lang}" on:blur="{e => pickLanguage(e.target.value)}">
@@ -104,6 +124,17 @@
   <UpdatePassword/>
 </section>
 
+<section class="danger-zone">
+  <h2 class="title danger-zone-title">{I18n('danger zone')}</h2>
+  <span class="label"></span>
+  <button class="dangerous-button" on:click={deleteAccount}>{I18n('delete your account')}</button>
+</section>
+
 <style lang="scss">
+  @import 'app/modules/general/scss/utils';
   @import 'app/modules/settings/scss/section_settings_svelte';
+  .danger-zone-title{
+    color: $danger-color;
+    font-weight: bold
+  }
 </style>
