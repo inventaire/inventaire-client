@@ -26,18 +26,18 @@
 <div class="wrapper">
   <div class="subwrapper">
     <nav class="navigation">
-      <a href='/settings/profile' class="{section === 'profile' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'profile' }}">
+      <button class="{section === 'profile' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'profile' }}">
         {I18n('profile')}
-      </a>
-      <a href='/settings/account' class="{section === 'account' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'account' }}">
+      </button>
+      <button class="{section === 'account' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'account' }}">
         {I18n('account')}
-      </a>
-      <a href='/settings/notifications' class="{section === 'notifications' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'notifications' }}">
+      </button>
+      <button class="{section === 'notifications' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'notifications' }}">
         {I18n('notifications')}
-      </a>
-      <a href='/settings/data' class="{section === 'data' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'data' }}">
+      </button>
+      <button class="{section === 'data' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'data' }}">
         {I18n('data')}
-      </a>
+      </button>
     </nav>
   </div>
   <div class="setting" bind:this={settingEl}>
@@ -72,15 +72,14 @@
     min-width: 10em;
     border-radius: 3px;
     margin-left: 2em;
-    margin-right: 1.5em;
     border: solid 1px #ccc;
     .active {
       border-left: solid 0.15em $yellow;
       padding-left: 0.85em;
       font-weight: bold;
     }
-    a {
-      padding: 0.5em 1em;
+    button {
+      padding: 1em;
       border-bottom: solid 1px #ccc;
       text-align: left;
       font-weight: normal;
