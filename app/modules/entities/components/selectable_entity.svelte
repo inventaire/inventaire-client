@@ -193,6 +193,10 @@
   img{
     position: sticky;
     top: 64px;
+    cursor: zoom-in;
+    &.zoom{
+      cursor: zoom-out;
+    }
   }
   .no-image, img:not(.zoom){
     width: 6em;
