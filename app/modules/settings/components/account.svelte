@@ -2,6 +2,7 @@
   import { i18n, I18n } from 'modules/user/lib/i18n'
   import preq from 'lib/preq'
   import Flash from 'lib/components/flash.svelte'
+  import UpdatePassword from 'lib/components/update_password.svelte'
   import { languages as languagesObj } from 'lib/active_languages'
   import email_ from 'modules/user/lib/email_tests'
 
@@ -71,11 +72,9 @@
   }
 
   const emailErrorHandling = err => {
-    let message
-    if (err.message.startsWith('invalid email')) {
+    let { message } = err
+    if (message.startsWith('invalid email')) {
       message = I18n('this email is invalid.')
-    } else {
-      message = err.message
     }
     showFlashEmail({ priority: 'error', message })
   }
@@ -98,6 +97,11 @@
   <Flash bind:show={showFlashEmail} bind:hide={hideFlashEmail}/>
   <p class="note">{I18n('email will not be publicly displayed.')}</p>
   <button class="light-blue-button" on:click="{updateEmail}">{I18n('update email')}</button>
+</section>
+
+<section>
+  <h2 class="title">{I18n('password')}</h2>
+  <UpdatePassword/>
 </section>
 
 <style lang="scss">

@@ -1,0 +1,64 @@
+<script>
+  import app from 'app/app'
+  import PasswordInput from 'lib/components/password_input.svelte'
+  import { i18n, I18n } from 'modules/user/lib/i18n'
+
+  let showFlashCurrentPassword, showFlashNewPassword
+  let currentPassword = '', newPassword = ''
+
+  const updatePassword = async () => {
+    if (!currentPassword || currentPassword.length < 8) {
+      return flashCurrentPwdErr('wrong password')
+    }
+    if (!newPassword || newPassword.length < 8) {
+      return flashNewPwdErr('password should be 8 characters minimum')
+    }
+    if (newPassword === currentPassword) {
+      return flashNewPwdErr("that's the same password")
+    }
+    if (newPassword.length > 5000) {
+      return flashNewPwdErr('password should be 5000 characters maximum')
+    }
+    try {
+      await app.request('password:confirmation', currentPassword)
+    } catch (err) {
+      if (err.statusCode === 401) return flashCurrentPwdErr('wrong password')
+    }
+    try {
+      await app.request('password:update', currentPassword, newPassword)
+      showFlashNewPassword({
+        priority: 'success',
+        message: I18n('done')
+      })
+    } catch (err) {
+      return flashCurrentPwdErr('something went wrong, try again later')
+    }
+  }
+
+  const flashNewPwdErr = message => flashPasswordError({ input: 'new', message })
+
+  const flashCurrentPwdErr = message => flashPasswordError({ input: 'current', message })
+
+  const flashPasswordError = ({ input, message }) => {
+    const args = {
+      priority: 'error',
+      message: I18n(message)
+    }
+    if (input === 'new') {
+      return showFlashNewPassword(args)
+    } else {
+      return showFlashCurrentPassword(args)
+    }
+  }
+</script>
+<h3 class="label">{i18n('current password')}</h3>
+<PasswordInput bind:password={currentPassword} bind:showFlash={showFlashCurrentPassword} name="currentPassword"/>
+<div class="forgotPassword">
+  <a href="/login/forgot-password" class="link" on:click="{() => app.execute('show:forgot:password')}">{i18n('forgot your password?')}</a>
+</div>
+<h3 class="label">{i18n('new password')}</h3>
+<PasswordInput bind:password={newPassword} bind:showFlash={showFlashNewPassword} name="newPassword"/>
+<button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
+<style lang="scss">
+  @import 'app/modules/settings/scss/section_settings_svelte';
+</style>
