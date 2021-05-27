@@ -63,6 +63,9 @@
   max-height: 50vh;
   overflow-y: auto;
   align-self: stretch;
+  .no-suggestion{
+    text-align: center;
+  }
 }
 
 .shelf-items-candidate{
