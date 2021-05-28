@@ -6,7 +6,7 @@
       <span class="creation-progress">({{progress.current}}/{{progress.total}})</span>
     {{/if}}
   {{else}}
-    <h2 class="type-label">{{entityClaim claims 'wdt:P31' false true}}</h2>
+    <h2 class="type-label capitalized">{{entityClaim claims 'wdt:P31' false true}}</h2>
     {{#if wikidata}}
       <a href="{{wikidata.wiki}}" class="wikidata-edit" target="_blank">{{icon 'wikidata-colored'}}{{I18n 'edit on Wikidata'}}</a>
     {{else}}
