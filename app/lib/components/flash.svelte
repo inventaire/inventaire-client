@@ -13,6 +13,8 @@
   <span>
     {#if flashPriority === 'success'}
       {@html icon('check')}
+    {:else if flashPriority === 'warning'}
+      {@html icon('warning')}
     {/if}
     {flashMessage}
   </span>
@@ -52,6 +54,13 @@
     color: $primary-color;
     button{
       color: $primary-color;
+    };
+  }
+  .warning{
+    background-color: lighten($yellow, 30%);
+    color: darken($success-color, 70%);
+    button{
+      color: darken($success-color, 70%);
     };
   }
   .hidden{
