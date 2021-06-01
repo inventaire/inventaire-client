@@ -30,7 +30,7 @@
         priority: 'success',
         message: I18n('done')
       })
-    } catch (err) {
+    } catch {
       return flashCurrentPwdErr('something went wrong, try again later')
     }
   }
