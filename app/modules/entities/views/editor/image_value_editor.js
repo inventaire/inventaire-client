@@ -71,7 +71,7 @@ export default ClaimsEditorCommons.extend({
 
     startLoading.call(this, '.save')
 
-    return preq.post(app.API.images.convertUrl, { url })
+    return preq.post(app.API.images.convertUrl, { url, container: 'entities' })
     .then(res => this._bareSave(res.hash))
     .catch(error_.Complete(urlInputSelector, false))
     .catch(forms_.catchAlert.bind(null, this))
