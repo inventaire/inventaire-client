@@ -62,9 +62,11 @@
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
   .wrapper{
+    background-color: white;
     display: flex;
     flex-direction: row;
-    margin: 5em auto;
+    margin: 3em auto;
+    padding: 2em;
     max-width: 50em;
   }
   .navigation{
@@ -73,7 +75,6 @@
     background-color: #fff;
     min-width: 10em;
     border-radius: 3px;
-    margin-left: 2em;
     border: solid 1px #ccc;
     .active {
       border-left: solid 0.15em $yellow;
@@ -91,14 +92,14 @@
     }
   }
   .setting{
-    width: 70%;
+    width: 100%;
   }
   /*Small screens*/
   @media screen and (max-width: 470px) {
     .wrapper{
       display: flex;
       flex-direction: column;
-      margin: 5em 2em;
+      margin-bottom: 0
     }
     .navigation{
       margin: 0;

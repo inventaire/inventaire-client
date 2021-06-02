@@ -101,7 +101,7 @@
 </script>
 
 <section class="first-section">
-  <h2 class="title first-title">{I18n('account')}</h2>
+  <h2 class="first-title">{I18n('account')}</h2>
   <h3 class="label">{I18n('language')}</h3>
   <select name="language" aria-label="language picker" value="{userLanguage.lang}" on:blur="{e => pickLanguage(e.target.value)}">
     {#each Object.values(languagesObj) as language}
@@ -120,21 +120,32 @@
 </section>
 
 <section>
-  <h2 class="title">{I18n('password')}</h2>
+  <h2>{I18n('password')}</h2>
   <UpdatePassword/>
 </section>
 
 <section class="danger-zone">
   <h2 class="title danger-zone-title">{I18n('danger zone')}</h2>
-  <span class="label"></span>
+  <p class="note">{I18n('be careful, those actions might not be reversible')}</p>
   <button class="dangerous-button" on:click={deleteAccount}>{I18n('delete your account')}</button>
 </section>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
   @import 'app/modules/settings/scss/section_settings_svelte';
   .danger-zone-title{
     color: $danger-color;
     font-weight: bold
+  }
+  input{
+    appearance: none;
+    border: 1px solid #AAA;
+    margin-bottom: 0;
+  }
+  h3{
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+    font: sans-serif;
+    font-size: 110%;
+    font-weight: 600;
   }
 </style>
