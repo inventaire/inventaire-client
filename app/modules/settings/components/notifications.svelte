@@ -34,16 +34,16 @@
   }
 </script>
 <div class="wrapper">
-  <h2 class="title first-title">{I18n('notifications')}</h2>
+  <h2 class="first-title">{I18n('notifications')}</h2>
   <div class="note">{i18n('notifications_description')}</div>
   <!--  Choose how you receive email notifications. -->
   <div class="notification-border">
     <section class="first-section">
-      <h3 class="label">{I18n('global')}</h3>
+      <h3>{I18n('global')}</h3>
       <Toggler name="global" state={notificationData.global}/>
     </section>
     <section>
-      <h3 class="label">{I18n('news')}</h3>
+      <h3>{I18n('news')}</h3>
       <Toggler name="inventories_activity_summary" state={notificationData.inventories_activity_summary} bind:togglePeriodicity={togglePeriodicity}/>
       <div class={hidePeriodicity}>
         <span>{@html I18n('activity_summary_periodicity_tip')}</span>
@@ -56,19 +56,19 @@
       <Flash bind:show={showFlashPeriodicity} bind:hide={hideFlashPeriodicity}/>
     </section>
     <section>
-      <h3 class="label">{I18n('friends')}</h3>
+      <h3>{I18n('friends')}</h3>
       <div class="note">{i18n('email me when')}</div>
       <Toggler name="friendship_request" state={notificationData.friendship_request}/>
       <Toggler name="friend_accepted_request" state={notificationData.friend_accepted_request}/>
     </section>
     <section>
-      <h3 class="label">{I18n('groups')}</h3>
+      <h3>{I18n('groups')}</h3>
       <div class="note">{i18n('email me when')}</div>
       <Toggler name="group_invite" state={notificationData.group_invite}/>
       <Toggler name="group_acceptRequest" state={notificationData.group_acceptRequest}/>
     </section>
     <section>
-      <h3 class="label">{I18n('exchanges')}</h3>
+      <h3>{I18n('exchanges')}</h3>
       <div class="note">{i18n('email me when')}</div>
       <Toggler name="your_item_was_requested" state={notificationData.your_item_was_requested}/>
       <Toggler name="update_on_your_item" state={notificationData.update_on_your_item}/>
@@ -78,7 +78,6 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
   @import 'app/modules/settings/scss/section_settings_svelte';
   .title{
     padding-bottom: 0.3em;

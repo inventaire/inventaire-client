@@ -51,12 +51,12 @@
     }
   }
 </script>
-<h3 class="label">{i18n('current password')}</h3>
+<h3>{i18n('current password')}</h3>
 <PasswordInput bind:password={currentPassword} bind:showFlash={showFlashCurrentPassword} name="currentPassword"/>
 <div class="forgotPassword">
   <a href="/login/forgot-password" class="link" on:click="{() => app.execute('show:forgot:password')}">{i18n('forgot your password?')}</a>
 </div>
-<h3 class="label">{i18n('new password')}</h3>
+<h3>{i18n('new password')}</h3>
 <PasswordInput bind:password={newPassword} bind:showFlash={showFlashNewPassword} name="newPassword"/>
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
 <style lang="scss">

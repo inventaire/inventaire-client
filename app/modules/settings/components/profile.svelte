@@ -96,15 +96,15 @@
 </script>
 
 <section class="first-section">
-  <h2 class="title first-title">{I18n('public profile')}</h2>
-  <h3 class="label">{I18n('username')}</h3>
+  <h2 class="first-title">{I18n('public profile')}</h2>
+  <h3>{I18n('username')}</h3>
   <div class="text-zone">
     <input placeholder="{i18n('username')}..." value={currentUsername} on:keyup="{e => onUsernameChange(e.target.value)}">
     <Flash bind:show={showFlashUsername} bind:hide={hideFlashUsername}/>
   </div>
   <p class="note">{I18n('username_tip')}</p>
   <button class="light-blue-button" on:click="{updateUsername}">{I18n('update username')}</button>
-  <h3 class="label">{I18n('presentation')}</h3>
+  <h3>{I18n('presentation')}</h3>
   <div class="text-zone">
     <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" on:keyup="{e => onBioChange(e.target.value)}">{bio}</textarea>
     <Flash bind:show={showFlashBio} bind:hide={hideFlashBio}/>
@@ -114,12 +114,12 @@
 </section>
 
 <section>
-  <h2 class="title">{I18n('profile picture')}</h2>
+  <h2>{I18n('profile picture')}</h2>
   <UserPicture bind:currentPicture={currentPicture}/>
 </section>
 
 <section>
-  <h2 class="title">{I18n('location')}</h2>
+  <h2>{I18n('location')}</h2>
   <p class="position-status">
     {#if position}
       {i18n('position is set to')}: {position[0]}, {position[1]}
@@ -137,7 +137,7 @@
 </section>
 
 <section>
-  <h2 class="title">{I18n('download your profile')}</h2>
+  <h2>{I18n('download your profile')}</h2>
   <p class="note">{I18n('an export of all information stored about you, inside a JSON file. For more exports, see the "Data" section of the current settings')}</p>
   <button class="light-blue-button">
     <a href="/api/user" download="profile.csv">{I18n('download')}</a>
