@@ -5,6 +5,7 @@
   import Profile from './profile.svelte'
   import Account from './account.svelte'
   import Notifications from './notifications.svelte'
+  import Data from './data.svelte'
   import { onMount } from 'svelte'
   export let section = 'profile'
   $: app.navigate(`/settings/${section}`)
@@ -52,7 +53,7 @@
       <Notifications/>
     {/if}
     {#if section === 'data'}
-      Data
+      <Data user={app.user}/>
     {/if}
   </div>
 </div>
