@@ -150,4 +150,16 @@
   .position-status{
     padding-bottom: 1em;
   }
+  input, textarea{
+    appearance: none;
+    border: 1px solid #AAA;
+    margin-bottom: 0;
+  }
+  .text-zone{
+    max-width: 25em;
+    margin-bottom: 0.2em;
+  }
+  button a {
+    color: white
+  }
 </style>
