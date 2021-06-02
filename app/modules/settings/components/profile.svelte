@@ -136,6 +136,15 @@
   </button>
 </section>
 
+<section>
+  <h2 class="title">{I18n('download your profile')}</h2>
+  <p class="note">{I18n('an export of all information stored about you, inside a JSON file. For more exports, see the "Data" section of the current settings')}</p>
+  <button class="light-blue-button">
+    <a href="/api/user" download="profile.csv">{I18n('download')}</a>
+  </button>
+</section>
+
+
 <style lang="scss">
   @import 'app/modules/settings/scss/section_settings_svelte';
   .position-status{
