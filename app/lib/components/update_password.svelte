@@ -59,6 +59,12 @@
 <h3>{i18n('new password')}</h3>
 <PasswordInput bind:password={newPassword} bind:showFlash={showFlashNewPassword} name="newPassword"/>
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
-<style lang="scss">
-  @import 'app/modules/settings/scss/section_settings_svelte';
+<style>
+  h3{
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+    font: sans-serif;
+    font-size: 110%;
+    font-weight: 600;
+  }
 </style>

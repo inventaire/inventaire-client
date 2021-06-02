@@ -27,5 +27,8 @@
   @import 'app/modules/settings/scss/section_settings_svelte';
   button{
     margin-right:1em;
+    a {
+      color: white
+    }
   }
 </style>
