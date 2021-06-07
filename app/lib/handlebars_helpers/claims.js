@@ -1,11 +1,13 @@
 import { isEntityUri, isImageHash } from 'lib/boolean_tests'
 import typeOf from 'lib/type_of'
 import { i18n } from 'modules/user/lib/i18n'
+import { localStorageProxy } from 'lib/local_storage'
 import * as icons_ from './icons'
 import wdLang from 'wikidata-lang'
 import commons_ from 'lib/wikimedia/commons'
 import linkify_ from './linkify'
 import platforms_ from './platforms'
+import identifiersUrls_ from './identifiers'
 import {
   prop as propHelper,
   entity as entityHelper,
@@ -98,6 +100,18 @@ export default API = {
     }
   },
 
+  identifierClaim (...args) {
+    const [ claims, prop ] = neutralizeDataObject(args)
+    if (!isUserPreference(prop)) return ''
+    const firstId = claims?.[prop]?.[0]
+    if (firstId != null) {
+      const label = labelString(prop)
+      const url = identifiersUrls_[prop](firstId)
+      const values = linkify_(firstId, url, 'link')
+      return claimString(label, values)
+    }
+  },
+
   entityRemoteHref (uri) {
     const [ prefix, id ] = uri.split(':')
     switch (prefix) {
@@ -148,4 +162,8 @@ const imagePreview = imageHash => {
       <p class="image-hash">${imageHash}</p>
     </a>
   `
+}
+const isUserPreference = prop => {
+  const props = localStorageProxy.getItem('customIdentifiers')
+  return prop in props
 }

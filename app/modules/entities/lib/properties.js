@@ -71,6 +71,8 @@ addProp('wdt:P1476', 'string', null, false, null)
 addProp('wdt:P1680', 'string', null, false, null)
 
 // # human
+// ORCID
+addProp('wdt:P496', 'string', null, false, null)
 // date of birth
 addProp('wdt:P569', 'simple-day', null, false, null)
 // date of death
