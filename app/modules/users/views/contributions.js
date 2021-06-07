@@ -44,6 +44,7 @@ export default Marionette.CompositeView.extend({
 
   events: {
     'inview .fetchMore': 'fetchMore',
+    'click .showUser': 'showUser'
   },
 
   serializeData () {
@@ -71,5 +72,9 @@ export default Marionette.CompositeView.extend({
       this.ui.total.text(total)
     }
     this.collection.add(patches)
+  },
+
+  showUser () {
+    app.execute('show:user', this.user.get('_id'))
   },
 })
