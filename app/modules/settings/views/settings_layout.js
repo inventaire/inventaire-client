@@ -2,6 +2,7 @@ import { I18n } from 'modules/user/lib/i18n'
 import settingsTemplate from './templates/settings_layout.hbs'
 import profile from './profile_settings'
 import account from './account_settings'
+import display from './display_settings'
 import notifications from './notifications_settings'
 import data from './data_settings'
 import '../scss/settings_layout.scss'
@@ -9,6 +10,7 @@ import '../scss/settings_layout.scss'
 const views = {
   profile,
   account,
+  display,
   notifications,
   data,
 }
@@ -24,6 +26,7 @@ export default Marionette.LayoutView.extend({
     tabsTitles: '.custom-tabs-titles',
     profileTitle: '#profile',
     accountTitle: '#account',
+    displayTitle: '#display',
     notificationsTitle: '#notifications',
     dataTitle: '#data'
   },
@@ -36,6 +39,7 @@ export default Marionette.LayoutView.extend({
   events: {
     'click #profile': 'showProfileSettings',
     'click #account': 'showAccountSettings',
+    'click #display': 'showDisplaySettings',
     'click #notifications': 'showNotificationsSettings',
     'click #data': 'showDataSettings'
   },
@@ -65,6 +69,7 @@ export default Marionette.LayoutView.extend({
 
   showProfileSettings () { this.showTab('profile') },
   showAccountSettings () { this.showTab('account') },
+  showDisplaySettings () { this.showTab('display') },
   showNotificationsSettings () { this.showTab('notifications') },
   showDataSettings () { this.showTab('data') }
 })

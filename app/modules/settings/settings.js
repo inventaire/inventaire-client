@@ -4,6 +4,7 @@ export default {
       appRoutes: {
         'settings(/profile)(/)': 'showProfileSettings',
         'settings/account(/)': 'showAccountSettings',
+        'settings/display(/)': 'showDisplaySettings',
         'settings/notifications(/)': 'showNotificationsSettings',
         'settings/data(/)': 'showDataSettings',
         // Legacy
@@ -21,6 +22,7 @@ export default {
 const API = {
   showProfileSettings () { showSettings('profile') },
   showAccountSettings () { showSettings('account') },
+  showDisplaySettings () { showSettings('display') },
   showNotificationsSettings () { showSettings('notifications') },
   showDataSettings () { showSettings('data') }
 }
@@ -36,6 +38,7 @@ const setHandlers = () => app.commands.setHandlers({
   'show:settings': API.showProfileSettings,
   'show:settings:profile': API.showProfileSettings,
   'show:settings:account': API.showAccountSettings,
+  'show:settings:display': API.showDisplaySettings,
   'show:settings:notifications': API.showNotificationsSettings,
   'show:settings:data': API.showDataSettings
 })

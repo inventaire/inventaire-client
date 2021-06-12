@@ -33,7 +33,7 @@ export default Marionette.LayoutView.extend({
   initialize () {
     this.filters = {}
 
-    this.display = localStorageProxy.getItem('inventory:display') || 'cascade'
+    this.display = localStorageProxy.getItem('inventoryDisplay') || 'cascade'
     this.isMainUser = this.options.isMainUser
     this.groupContext = (this.options.group != null)
   },
@@ -197,7 +197,7 @@ export default Marionette.LayoutView.extend({
     const display = e.currentTarget.id
     if (display === this.display) return
     this.display = display
-    localStorageProxy.setItem('inventory:display', display)
+    localStorageProxy.setItem('inventoryDisplay', display)
     this.ui.currentDisplayOption.toggleClass('shown')
 
     // If @_lastShownDisplay isn't defined, the inventory data probably didn't arrive yet

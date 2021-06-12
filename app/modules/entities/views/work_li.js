@@ -1,17 +1,29 @@
 import { invertAttr, isOpenedOutside } from 'lib/utils'
 import workLiTemplate from './templates/work_li.hbs'
+import workLiCompactTemplate from './templates/work_li_compact.hbs'
 import '../scss/work_li.scss'
+import '../scss/work_li_compact.scss'
+import { localStorageProxy } from 'lib/local_storage'
 
 export default Marionette.ItemView.extend({
-  template: workLiTemplate,
   className () {
     const prefix = this.model.get('prefix')
     if (this.wrap == null) this.wrap = this.options.wrap
     const wrap = this.wrap ? 'wrapped wrappable' : ''
-    return `workLi entity-prefix-${prefix} ${wrap}`
+    return `entity-prefix-${prefix} ${wrap}`
   },
 
   initialize () {
+    this.display = localStorageProxy.getItem('entities:display') || 'cascade'
+    if (this.display === 'cascade') {
+      this.template = workLiTemplate
+    } else if (this.display === 'table') {
+      this.template = workLiCompactTemplate
+    }
+
+    this.display = localStorageProxy.getItem('entitiesDisplay') || 'large'
+    const workLiDisplay = this.display === 'compact' ? 'workLiCompact' : 'workLi'
+    this.$el.addClass(workLiDisplay)
     app.execute('uriLabel:update');
 
     ({ showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap } = this.options)
@@ -44,8 +56,18 @@ export default Marionette.ItemView.extend({
     click: 'toggleWrap'
   },
 
+  getTemplate () {
+    if (this.display === 'compact') {
+      return workLiCompactTemplate
+    } else {
+      return workLiTemplate
+    }
+  },
+
   onRender () {
     this.updateClassName()
+    const workLiDisplay = this.display === 'compact' ? 'workLiCompact' : 'workLi'
+    this.$el.addClass(workLiDisplay)
   },
 
   showItemCreationForm (e) {
@@ -59,6 +81,7 @@ export default Marionette.ItemView.extend({
     const count = this.getNetworkItemsCount()
     if (count != null) attrs.counter = { count, highlight: count > 0 }
     if (attrs.extract != null) attrs.description = attrs.extract
+    attrs.hasDescriptionAndShortTitle = attrs.label.length < 50 && attrs.description
     return attrs
   },
 
