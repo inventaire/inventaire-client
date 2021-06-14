@@ -3,9 +3,10 @@
   import preq from 'lib/preq'
   import Flash from 'lib/components/flash.svelte'
   import UserPicture from 'lib/components/user_picture.svelte'
+  import Spinner from 'modules/general/components/spinner.svelte'
   import map from 'modules/map/lib/map'
   export let user
-  let showFlashBio, showFlashUsername, hideFlashUsername, hideFlashBio
+  let showFlashBio, showFlashUsername, hideFlashUsername, hideFlashBio, bioSpinner
   let currentUsername = user.get('label')
   let requestedUsername
   let bio = user.get('bio') || ''
@@ -78,10 +79,14 @@
       })
     }
     try {
+      bioSpinner = true
       await updateUserReq('bio', bio)
-      showFlashBio({
-        priority: 'success',
-        message: I18n('done')
+      .then(() => {
+        bioSpinner = false
+        showFlashBio({
+          priority: 'success',
+          message: I18n('done')
+        })
       })
     } catch {
       showFlashBio({
@@ -108,6 +113,9 @@
   <div class="text-zone">
     <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" on:keyup="{e => onBioChange(e.target.value)}">{bio}</textarea>
     <Flash bind:show={showFlashBio} bind:hide={hideFlashBio}/>
+    {#if bioSpinner}
+      <p class="loading">Loading... <Spinner/></p>
+    {/if}
   </div>
   <p class="note">{I18n('a few words on you?')} ({bio.length}/1000)</p>
   <button class="save light-blue-button" on:click="{() => updateBio(bio)}">{I18n('update presentation')}</button>
