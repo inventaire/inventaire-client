@@ -4,11 +4,12 @@
   import _ from 'underscore'
   import Flash from 'lib/components/flash.svelte'
   import UpdatePassword from 'lib/components/update_password.svelte'
+  import Spinner from 'modules/general/components/spinner.svelte'
   import { languages as languagesObj } from 'lib/active_languages'
   import email_ from 'modules/user/lib/email_tests'
 
   export let user, requestedEmail
-  let showFlashLang, hideFlashLang, showFlashEmail, hideFlashEmail, newEmail
+  let showFlashLang, hideFlashLang, showFlashEmail, hideFlashEmail, waitingForPageReload, newEmail
   const { lang } = user
   let userLanguage = languagesObj[lang]
   const currentEmail = user.get('email')
@@ -17,6 +18,7 @@
     hideFlashLang()
     userLanguage = languagesObj[selectedLang]
     try {
+      waitingForPageReload = true
       const res = await preq.put(app.API.user, {
         attribute: 'language',
         value: selectedLang
@@ -106,11 +108,14 @@
 <section class="first-section">
   <h2 class="first-title">{I18n('account')}</h2>
   <h3 class="label">{I18n('language')}</h3>
-  <select name="language" aria-label="language picker" value="{userLanguage.lang}" on:blur="{e => pickLanguage(e.target.value)}">
+  <select name="language" aria-label="language picker" value="{userLanguage.lang}" on:change="{e => pickLanguage(e.target.value)}">
     {#each Object.values(languagesObj) as language}
       <option value={language.lang}>{language.lang} - {language.native}</option>
     {/each}
   </select>
+  {#if waitingForPageReload}
+    <p class="loading">Loading... <Spinner/></p>
+  {/if}
   <Flash bind:show={showFlashLang} bind:hide={hideFlashLang}/>
 </section>
 
