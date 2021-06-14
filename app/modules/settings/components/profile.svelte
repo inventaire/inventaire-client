@@ -139,6 +139,7 @@
       {i18n('no position set')}
     {/if}
   </p>
+  <p class="note">{I18n('position_settings_description')}</p>
   <button class="light-blue-button" on:click={editPosition}>
     {#if position}
       {I18n('change position')}
