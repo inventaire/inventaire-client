@@ -60,6 +60,10 @@
 <PasswordInput bind:password={newPassword} bind:showFlash={showFlashNewPassword} name="newPassword"/>
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
 <style>
+  .forgotPassword .link{
+    font-size: 90%;
+    color: #777;
+  }
   h3{
     margin-top: 1em;
     margin-bottom: 0.2em;
