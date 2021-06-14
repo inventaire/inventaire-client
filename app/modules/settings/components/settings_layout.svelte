@@ -5,6 +5,7 @@
   import Profile from './profile.svelte'
   import Account from './account.svelte'
   import Notifications from './notifications.svelte'
+  import Display from './display.svelte'
   import Data from './data.svelte'
   import { onMount } from 'svelte'
   export let section = 'profile'
@@ -40,6 +41,9 @@
       <button class="{section === 'data' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'data' }}">
         {I18n('data')}
       </button>
+      <button class="{section === 'display' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'display' }}">
+        {I18n('display')}
+      </button>
     </nav>
   </div>
   <div class="setting" bind:this={settingEl}>
@@ -51,6 +55,9 @@
     {/if}
     {#if section === 'notifications'}
       <Notifications/>
+    {/if}
+    {#if section === 'display'}
+      <Display/>
     {/if}
     {#if section === 'data'}
       <Data user={app.user}/>

@@ -92,7 +92,6 @@
     :last-child {
       border-bottom: 0;
     }
-
   }
   .wrapper{
     margin: 0 1.5em;
