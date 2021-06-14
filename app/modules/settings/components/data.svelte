@@ -11,12 +11,15 @@
     <a href="/api/items?action=export&format=csv" download="inventory.csv">{I18n('download CSV')}</a>
   </button>
   <button class="light-blue-button">
-    <a href="/api/items?action=by-users&users={user.id}&limit=100000" download="inventory.csv">{I18n('download JSON')}</a>
+    <a href="/api/items?action=by-users&users={user.id}&limit=100000" download="inventory.json">{I18n('download JSON')}</a>
   </button>
   <h3>{I18n('user profile')}</h3>
-  <p class="note">{I18n('all information stored about you, inside a JSON file')}</p>
+  <p class="note">{I18n('your profile contains information about you')}</p>
   <button class="light-blue-button">
-    <a href="/api/user" download="profile.csv">{I18n('download')}</a>
+    <a href="/api/user" download="profile.csv">{I18n('download CSV')}</a>
+  </button>
+  <button class="light-blue-button">
+    <a href="/api/user" download="profile.json">{I18n('download JSON')}</a>
   </button>
 </section>
 <section>
