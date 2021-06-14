@@ -3,6 +3,7 @@
   import { onMount } from 'svelte'
   import autosize from 'autosize'
   import preq from 'lib/preq'
+  import log_ from 'lib/loggers'
   import Flash from 'lib/components/flash.svelte'
   import UserPicture from 'lib/components/user_picture.svelte'
   import Spinner from 'modules/general/components/spinner.svelte'
@@ -92,7 +93,9 @@
           message: I18n('done')
         })
       })
-    } catch {
+    } catch (err) {
+      // Logs the error and report it
+      log_.error(err)
       showFlashBio({
         priority: 'error',
         message: I18n('something went wrong, try again later')

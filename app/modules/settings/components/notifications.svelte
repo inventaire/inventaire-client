@@ -1,5 +1,6 @@
 <script>
   import { i18n, I18n } from 'modules/user/lib/i18n'
+  import log_ from 'lib/loggers'
   import Toggler from 'lib/components/toggler.svelte'
   import Flash from 'lib/components/flash.svelte'
 
@@ -25,7 +26,9 @@
         attribute: 'summaryPeriodicity',
         value
       })
-    } catch {
+    } catch (err) {
+      // Logs the error and report it
+      log_.error(err)
       showFlashPeriodicity({
         priority: 'error',
         message: I18n('something went wrong, try again later')

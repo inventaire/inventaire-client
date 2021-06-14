@@ -1,5 +1,6 @@
 <script>
   import Flash from './flash.svelte'
+  import log_ from 'lib/loggers'
   import { I18n } from 'modules/user/lib/i18n'
   export let name
   export let state
@@ -16,7 +17,9 @@
         value: state,
         defaultPreviousValue: true
       })
-    } catch {
+    } catch (err) {
+      // Logs the error and report it
+      log_.error(err)
       showFlash({
         priority: 'error',
         message: I18n('something went wrong, try again later')
