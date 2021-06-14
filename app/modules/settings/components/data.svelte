@@ -1,5 +1,6 @@
 <script>
   import { I18n } from 'modules/user/lib/i18n'
+  import { icon } from 'lib/utils'
   export let user
 </script>
 <section class="first-section">
@@ -20,11 +21,14 @@
 </section>
 <section>
   <h2>{I18n('API')}</h2>
-  <a href="http://api.inventaire.io" target="_blank" class="link">{I18n('check the documentation')}</a>
+  <a href="http://api.inventaire.io" target="_blank" class="link">{I18n('check the documentation')} {@html icon('link')}</a>
 </section>
 
 <style lang="scss">
   @import 'app/modules/settings/scss/section_settings_svelte';
+  .link{
+    text-decoration: underline;
+  }
   button{
     margin-right:1em;
     a {
