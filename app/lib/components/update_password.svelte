@@ -1,5 +1,6 @@
 <script>
   import app from 'app/app'
+  import log_ from 'lib/loggers'
   import PasswordInput from 'lib/components/password_input.svelte'
   import { i18n, I18n } from 'modules/user/lib/i18n'
 
@@ -30,7 +31,9 @@
         priority: 'success',
         message: I18n('done')
       })
-    } catch {
+    } catch (err) {
+      // Logs the error and report it
+      log_.error(err)
       return flashCurrentPwdErr('something went wrong, try again later')
     }
   }

@@ -1,6 +1,7 @@
 <script>
   import { i18n, I18n } from 'modules/user/lib/i18n'
   import preq from 'lib/preq'
+  import log_ from 'lib/loggers'
   import _ from 'underscore'
   import Flash from 'lib/components/flash.svelte'
   import UpdatePassword from 'lib/components/update_password.svelte'
@@ -24,7 +25,9 @@
         value: selectedLang
       })
       if (res.ok) window.location.reload()
-    } catch {
+    } catch (err) {
+      // Logs the error and report it
+      log_.error(err)
       showFlashLang({
         priority: 'error',
         message: I18n('something went wrong, try again later')
