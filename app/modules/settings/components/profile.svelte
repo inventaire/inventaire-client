@@ -1,5 +1,7 @@
 <script>
   import { i18n, I18n } from 'modules/user/lib/i18n'
+  import { onMount } from 'svelte'
+  import autosize from 'autosize'
   import preq from 'lib/preq'
   import Flash from 'lib/components/flash.svelte'
   import UserPicture from 'lib/components/user_picture.svelte'
@@ -12,6 +14,7 @@
   let bio = user.get('bio') || ''
   let currentPicture = user.get('picture')
   const position = user.get('position')
+  onMount(() => autosize(document.querySelector('textarea')))
 
   const updateUsername = async () => {
     if (!requestedUsername || requestedUsername === currentUsername) {
@@ -33,8 +36,8 @@
 
   const doesUsernameCaseChange = () => requestedUsername.toLowerCase() === currentUsername.toLowerCase()
 
-  const updateUserReq = (attribute, value) => {
-    app.request('user:update', {
+  const updateUserReq = async (attribute, value) => {
+    return app.request('user:update', {
       attribute,
       value
     })
@@ -67,6 +70,7 @@
   const showUsernameError = message => showFlashUsername({ priority: 'error', message: I18n(message) })
 
   const onBioChange = value => {
+    autosize(document.querySelector('textarea'))
     hideFlashBio()
     bio = value
   }
