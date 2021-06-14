@@ -1,13 +1,14 @@
 <script>
   import { i18n, I18n } from 'modules/user/lib/i18n'
   import preq from 'lib/preq'
+  import _ from 'underscore'
   import Flash from 'lib/components/flash.svelte'
   import UpdatePassword from 'lib/components/update_password.svelte'
   import { languages as languagesObj } from 'lib/active_languages'
   import email_ from 'modules/user/lib/email_tests'
 
   export let user, requestedEmail
-  let showFlashLang, hideFlashLang, showFlashEmail, hideFlashEmail
+  let showFlashLang, hideFlashLang, showFlashEmail, hideFlashEmail, newEmail
   const { lang } = user
   let userLanguage = languagesObj[lang]
   const currentEmail = user.get('email')
@@ -29,11 +30,13 @@
     }
   }
 
-  const onEmailChange = async newEmail => {
+  const onEmailChange = async () => {
     hideFlashEmail()
     // email has been modfied back to its original state
     // nothing to update and nothing to flash notify either
-    if (currentEmail === newEmail) { return }
+    if (currentEmail === newEmail) {
+      return showFlashEmail({ priority: 'info', message: 'this is already your email' })
+    }
     try {
       const res = await email_.verifyAvailability(newEmail)
       if (res.status === 'available') {
@@ -48,17 +51,17 @@
     }
   }
 
-  const debouncedEmailChange = _.debounce(onEmailChange.bind(null, 'filter'), 500)
+  const debounceEmailChange = _.debounce(onEmailChange.bind(null, newEmail), 500)
 
-  const updateEmail = async requestedEmail => {
+  const updateEmail = async () => {
     hideFlashEmail()
-    if (!requestedEmail || requestedEmail === currentEmail) {
+    if (!newEmail || newEmail === currentEmail) {
       return showFlashEmail({ priority: 'info', message: 'this is already your email' })
     }
     try {
       const res = await preq.put(app.API.user, {
         attribute: 'email',
-        value: requestedEmail
+        value: newEmail
       })
       if (res.ok) {
         showFlashEmail({
@@ -113,7 +116,7 @@
 
 <section>
   <h2 class="title">{I18n('email')}</h2>
-  <input placeholder="{i18n('email')}" value={currentEmail} on:blur="{e => debouncedEmailChange(e.target.value)}"/>
+  <input placeholder="{i18n('email')}" value={currentEmail} on:keyup="{e => newEmail = e.target.value}" on:keyup="{e => debounceEmailChange(e.target.value)}"/>
   <Flash bind:show={showFlashEmail} bind:hide={hideFlashEmail}/>
   <p class="note">{I18n('email will not be publicly displayed.')}</p>
   <button class="light-blue-button" on:click="{updateEmail}">{I18n('update email')}</button>
