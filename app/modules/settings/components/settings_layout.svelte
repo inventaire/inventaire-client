@@ -15,9 +15,10 @@
   // to ensure variable is bound after its creation
   onMount(() => settingHeight = settingEl.offsetTop)
   const isSmallScreen = window.screen.width < 470
-  const goToSetting = async () => {
+  const goToSetting = sectionName => async () => {
+    section = sectionName
     if (isSmallScreen) {
-      await wait(5) //
+      await wait(5)
       window.scrollTo({
         top: settingHeight,
         behavior: 'smooth'
@@ -29,19 +30,19 @@
 <div class="wrapper">
   <div class="subwrapper">
     <nav class="navigation">
-      <button class="{section === 'profile' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'profile' }}">
+      <button class:active={section === 'profile'} on:click={goToSetting('profile')}>
         {I18n('profile')}
       </button>
-      <button class="{section === 'account' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'account' }}">
+      <button class:active={section === 'account'} on:click={goToSetting('account')}>
         {I18n('account')}
       </button>
-      <button class="{section === 'notifications' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'notifications' }}">
+      <button class:active={section === 'notifications'} on:click={goToSetting('notifications')}>
         {I18n('notifications')}
       </button>
-      <button class="{section === 'data' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'data' }}">
+      <button class:active={section === 'data'} on:click={goToSetting('data')}>
         {I18n('data')}
       </button>
-      <button class="{section === 'display' ? 'active' : ''}" on:click={goToSetting} on:click="{() => { section = 'display' }}">
+      <button class:active={section === 'display'} on:click={goToSetting('display')}>
         {I18n('display')}
       </button>
     </nav>
@@ -49,17 +50,13 @@
   <div class="setting" bind:this={settingEl}>
     {#if section === 'profile'}
       <Profile user={app.user}/>
-    {/if}
-    {#if section === 'account'}
+    {:else if section === 'account'}
       <Account user={app.user}/>
-    {/if}
-    {#if section === 'notifications'}
+    {:else if section === 'notifications'}
       <Notifications/>
-    {/if}
-    {#if section === 'display'}
+    {:else if section === 'display'}
       <Display/>
-    {/if}
-    {#if section === 'data'}
+    {:else if section === 'data'}
       <Data user={app.user}/>
     {/if}
   </div>
