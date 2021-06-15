@@ -30,7 +30,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/settings/scss/section_settings_svelte';
+  @import 'app/modules/settings/scss/common_settings';
   .wrapper{
     margin: 0 1.5em;
   }

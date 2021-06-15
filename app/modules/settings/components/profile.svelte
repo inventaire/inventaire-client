@@ -153,7 +153,7 @@
 </section>
 
 <style lang="scss">
-  @import 'app/modules/settings/scss/section_settings_svelte';
+  @import 'app/modules/settings/scss/common_settings';
   .position-status{
     padding-bottom: 1em;
   }

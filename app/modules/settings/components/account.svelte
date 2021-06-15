@@ -142,7 +142,7 @@
 </section>
 
 <style lang="scss">
-  @import 'app/modules/settings/scss/section_settings_svelte';
+  @import 'app/modules/settings/scss/common_settings';
   .danger-zone-title{
     color: $danger-color;
     font-weight: bold

@@ -83,7 +83,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/settings/scss/section_settings_svelte';
+  @import 'app/modules/settings/scss/common_settings';
   .title{
     padding-bottom: 0.3em;
     margin-bottom: 0.5em;
@@ -116,5 +116,4 @@
   .hidden{
     display: none;
   }
-
 </style>
