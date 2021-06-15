@@ -159,4 +159,9 @@
     font-size: 110%;
     font-weight: 600;
   }
+  .note{
+    color: $grey;
+    font-size: 90%;
+    margin-bottom: 1em;
+  }
 </style>
