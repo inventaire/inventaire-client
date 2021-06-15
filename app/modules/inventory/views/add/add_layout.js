@@ -58,8 +58,13 @@ export default Marionette.View.extend({
     const { wait, View } = tabsData[tab]
     const tabKey = `${tab}Tab`
     if (wait) await wait
-
-    this.showChildView('content', new View(this.options))
+    if (tab === 'import') {
+      app.layout.getRegion('main').showSvelteComponent(SvelteImportLayout, {
+        props: {}
+      })
+    } else {
+      this.getRegion('content').show(new View(this.options))
+    }
     this.ui.tabs.removeClass('active')
     this.ui[tabKey].addClass('active')
     app.navigate(`add/${tab}`, {
