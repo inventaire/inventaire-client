@@ -3,6 +3,7 @@ import tabsData from './lib/add_layout_tabs'
 import screen_ from 'lib/screen'
 import addLayoutTemplate from './templates/add_layout.hbs'
 import 'modules/inventory/scss/add_layout.scss'
+import SvelteImportLayout from 'modules/inventory/components/import_layout.svelte'
 
 export default Marionette.LayoutView.extend({
   template: addLayoutTemplate,
@@ -57,8 +58,13 @@ export default Marionette.LayoutView.extend({
     const { wait, View } = tabsData[tab]
     const tabKey = `${tab}Tab`
     if (wait) await wait
-
-    this.content.show(new View(this.options))
+    if (tab === 'import') {
+      app.layout.main.showSvelteComponent(SvelteImportLayout, {
+        props: {}
+      })
+    } else {
+      this.content.show(new View(this.options))
+    }
     this.ui.tabs.removeClass('active')
     this.ui[tabKey].addClass('active')
     app.navigate(`add/${tab}`, {
