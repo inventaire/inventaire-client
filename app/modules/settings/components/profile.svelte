@@ -124,7 +124,10 @@
       <p class="loading">Loading... <Spinner/></p>
     {/if}
   </div>
-  <p class="note">{I18n('a few words on you?')} ({bio.length}/1000)</p>
+  <p class="note">
+    {I18n('a few words on you?')}
+    <span class="counter" class:alert={bio.length > 1000}>({bio.length}/1000)</span>
+  </p>
   <button class="save light-blue-button" on:click="{() => updateBio(bio)}">{I18n('update presentation')}</button>
 </section>
 
@@ -177,5 +180,8 @@
     color: $grey;
     font-size: 90%;
     margin-bottom: 1em;
+  }
+  .counter.alert{
+    color: $soft-red;
   }
 </style>
