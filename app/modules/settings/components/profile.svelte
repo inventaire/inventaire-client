@@ -1,13 +1,13 @@
 <script>
   import { i18n, I18n } from 'modules/user/lib/i18n'
-  import { onMount } from 'svelte'
-  import autosize from 'autosize'
+  import { autosize } from 'lib/components/actions/autosize'
   import preq from 'lib/preq'
   import log_ from 'lib/loggers'
   import Flash from 'lib/components/flash.svelte'
   import UserPicture from 'lib/components/user_picture.svelte'
   import Spinner from 'modules/general/components/spinner.svelte'
   import map from 'modules/map/lib/map'
+
   export let user
   let showFlashBio, showFlashUsername, hideFlashUsername, hideFlashBio, bioSpinner
   let currentUsername = user.get('label')
@@ -15,7 +15,6 @@
   let bio = user.get('bio') || ''
   let currentPicture = user.get('picture')
   const position = user.get('position')
-  onMount(() => autosize(document.querySelector('textarea')))
 
   const updateUsername = async () => {
     if (!requestedUsername || requestedUsername === currentUsername) {
@@ -71,7 +70,6 @@
   const showUsernameError = message => showFlashUsername({ priority: 'error', message: I18n(message) })
 
   const onBioChange = value => {
-    autosize(document.querySelector('textarea'))
     hideFlashBio()
     bio = value
   }
@@ -118,7 +116,7 @@
   <button class="light-blue-button" on:click="{updateUsername}">{I18n('update username')}</button>
   <h3>{I18n('presentation')}</h3>
   <div class="text-zone">
-    <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" on:keyup="{e => onBioChange(e.target.value)}">{bio}</textarea>
+    <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" on:keyup="{e => onBioChange(e.target.value)}" use:autosize>{bio}</textarea>
     <Flash bind:show={showFlashBio} bind:hide={hideFlashBio}/>
     {#if bioSpinner}
       <p class="loading">Loading... <Spinner/></p>
