@@ -115,6 +115,7 @@ export default Backbone.NestedModel.extend({
     // Grabed models might not have came back yet
     attrs.user = this.user?.serializeData()
     attrs.entity = this.entity?.toJSON()
+    attrs.hasAdminAccess = app.user.hasAdminAccess
     return attrs
   }
 })
