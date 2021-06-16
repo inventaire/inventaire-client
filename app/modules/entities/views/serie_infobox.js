@@ -32,7 +32,6 @@ export default Marionette.LayoutView.extend({
     clampedExtract.setAttributes(attrs)
     attrs.standalone = this.options.standalone
     attrs.showCleanupButton = app.user.hasDataadminAccess
-    attrs.showHistoryButton = app.user.hasDataadminAccess
     return attrs
   },
 

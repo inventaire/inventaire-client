@@ -9,7 +9,6 @@ export default GeneralInfobox.extend({
     const attrs = this.model.toJSON()
     if (this.options.standalone) {
       attrs.showDeduplicateEntityButton = app.user.hasDataadminAccess
-      attrs.showHistoryButton = app.user.hasDataadminAccess
     }
     clampedExtract.setAttributes(attrs)
     attrs.standalone = this.options.standalone

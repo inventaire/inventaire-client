@@ -33,7 +33,6 @@ export default Marionette.LayoutView.extend({
     clampedExtract.setAttributes(attrs)
     attrs.standalone = this.options.standalone
     attrs.hidePicture = this.hidePicture
-    attrs.showHistoryButton = this.options.standalone && app.user.hasDataadminAccess
     setImagesSubGroups(attrs)
     return attrs
   },
