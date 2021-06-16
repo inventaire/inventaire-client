@@ -8,20 +8,16 @@
 </p>
 <p>
   <span class="label">{{i18n 'user'}}:</span>
-  {{#if user.special}}
-    {{#if user.isAnonymized}}
-      <span class="value"><em>{{user.username}}</em></span>
-    {{else}}
-      <span class="value">{{user.username}}</span>
-      <span class="special-user">{{I18n 'special user'}}</span>
-    {{/if}}
+  {{#if anonymized}}
+    <span class="value"><em>{{i18n 'anonymized'}}</em></span>
+  {{else if user.special}}
+    <span class="value">{{user.username}}</span>
+    <span class="special-user">{{I18n 'special user'}}</span>
+  {{else if user.deleted}}
+    <span class="value">{{user.username}}</span>
+    <span class="deleted-user">{{i18n 'deleted'}}</span>
   {{else}}
-    {{#if user.deleted}}
-      <span class="value">{{user.username}}</span>
-      <span class="deleted-user">{{i18n 'deleted'}}</span>
-    {{else}}
-      <a class="value showUser" href="{{user.pathname}}">{{user.username}}</a>
-    {{/if}}
+    <a class="value showUser" href="{{user.pathname}}">{{user.username}}</a>
   {{/if}}
   {{#if hasAdminAccess}}
     <a class="showUserContributions" href="{{user.contributions}}">{{i18n 'contributions'}}</a>
