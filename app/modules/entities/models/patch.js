@@ -9,7 +9,8 @@ export default Backbone.NestedModel.extend({
     this.set('invEntityUri', invEntityUri)
 
     this.reqGrab('get:entity:model', invEntityUri, 'entity')
-    this.reqGrab('get:user:model', attrs.user, 'user')
+    if (attrs.user) this.reqGrab('get:user:model', attrs.user, 'user')
+    else this.set('anonymized', true)
 
     const dbVersionNumber = parseInt(this.id.split(':')[1])
     // The first version is an empty document with only the basic attributes:
