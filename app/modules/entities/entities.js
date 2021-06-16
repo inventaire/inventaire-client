@@ -172,9 +172,6 @@ const API = {
   },
 
   async showEntityHistory (uri) {
-    if (!app.request('require:loggedIn', `entity/${uri}/history`)) return
-    if (!app.request('require:admin:access')) return
-
     app.execute('show:loader')
 
     uri = normalizeUri(uri)
