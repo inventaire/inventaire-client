@@ -111,7 +111,7 @@
 <section class="first-section">
   <h2 class="first-title">{I18n('account')}</h2>
   <h3 class="label">{I18n('language')}</h3>
-  <select name="language" aria-label="language picker" value="{userLanguage.lang}" on:change="{e => pickLanguage(e.target.value)}">
+  <select name="language" aria-label="language picker" value="{userLanguage.lang}" on:blue="{e => pickLanguage(e.target.value)}">
     {#each Object.values(languagesObj) as language}
       <option value={language.lang}>{language.lang} - {language.native}</option>
     {/each}
