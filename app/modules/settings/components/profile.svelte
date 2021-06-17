@@ -84,12 +84,10 @@
     try {
       bioSpinner = true
       await updateUserReq('bio', bio)
-      .then(() => {
-        bioSpinner = false
-        showFlashBio({
-          priority: 'success',
-          message: I18n('done')
-        })
+      bioSpinner = false
+      showFlashBio({
+        priority: 'success',
+        message: I18n('done')
       })
     } catch (err) {
       // Logs the error and report it
