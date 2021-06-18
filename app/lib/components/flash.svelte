@@ -1,27 +1,32 @@
 <script>
-  let flashPriority, flashMessage
-  let hidden = 'hidden'
   import { icon } from 'app/lib/utils'
-  export const show = ({ priority, message }) => {
-    flashPriority = priority
-    flashMessage = message
-    hidden = ''
+  import log_ from 'lib/loggers'
+  export let state
+  let flashPriority, iconName
+  $: {
+    if (state instanceof Error) {
+      flashPriority = 'error'
+      iconName = 'warning'
+      // Logs the error and report it
+      log_.error(state)
+    } else {
+      flashPriority = state?.priority
+      iconName = flashPriority === 'success' ? 'check' : null
+    }
   }
-  export const hide = () => hidden = 'hidden'
 </script>
-<div class="flash {flashPriority} {hidden}">
-  <span>
-    {#if flashPriority === 'success'}
-      {@html icon('check')}
-    {:else if flashPriority === 'warning'}
-      {@html icon('warning')}
-    {/if}
-    {flashMessage}
-  </span>
-  <button on:click="{hide}">
-    {@html icon('close')}
-  </button>
-</div>
+
+{#if state}
+  <div class="flash {flashPriority}">
+    <span>
+      {#if iconName}{@html icon(iconName)}{/if}
+      {state.message}
+    </span>
+    <button on:click={() => state = null}>
+      {@html icon('close')}
+    </button>
+  </div>
+{/if}
 
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
@@ -62,8 +67,5 @@
     button{
       color: darken($success-color, 70%);
     };
-  }
-  .hidden{
-    display: none;
   }
 </style>

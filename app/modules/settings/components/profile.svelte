@@ -2,14 +2,13 @@
   import { i18n, I18n } from 'modules/user/lib/i18n'
   import { autosize } from 'lib/components/actions/autosize'
   import preq from 'lib/preq'
-  import log_ from 'lib/loggers'
   import Flash from 'lib/components/flash.svelte'
   import UserPicture from 'lib/components/user_picture.svelte'
   import Spinner from 'modules/general/components/spinner.svelte'
   import map from 'modules/map/lib/map'
 
   export let user
-  let showFlashBio, showFlashUsername, hideFlashUsername, hideFlashBio, bioSpinner
+  let bioState, usernameState, bioSpinner
   let currentUsername = user.get('label')
   let requestedUsername
   let bio = user.get('bio') || ''
@@ -18,7 +17,8 @@
 
   const updateUsername = async () => {
     if (!requestedUsername || requestedUsername === currentUsername) {
-      return showFlashUsername({ priority: 'info', message: 'this is already your username' })
+      usernameState = { priority: 'info', message: 'this is already your username' }
+      return
     }
 
     try {
@@ -29,8 +29,8 @@
         action: updateUserReq('username', requestedUsername)
       })
       currentUsername = requestedUsername
-    } catch {
-      showUsernameError('something went wrong, try again later')
+    } catch (err) {
+      usernameState = err
     }
   }
 
@@ -44,7 +44,7 @@
   }
 
   const onUsernameChange = async newUsername => {
-    hideFlashUsername()
+    usernameState = null
     if (currentUsername === newUsername) {
       // username has been modfied back to its original state
       // nothing to update and nothing to flash notify either
@@ -64,38 +64,28 @@
     }
     await preq.get(app.API.auth.usernameAvailability(newUsername))
     .then(() => requestedUsername = newUsername)
-    .catch(err => showFlashUsername({ priority: 'error', message: err.message }))
+    .catch(err => usernameState = err)
   }
 
-  const showUsernameError = message => showFlashUsername({ priority: 'error', message: I18n(message) })
+  const showUsernameError = message => usernameState = new Error(I18n(message))
 
   const onBioChange = value => {
-    hideFlashBio()
+    bioState = null
     bio = value
   }
 
   const updateBio = async () => {
     if (bio.length > 1000) {
-      return showFlashBio({
-        priority: 'error',
-        message: I18n('presentation cannot be longer than 1000 characters')
-      })
+      bioState = new Error(I18n('presentation cannot be longer than 1000 characters'))
+      return
     }
     try {
       bioSpinner = true
       await updateUserReq('bio', bio)
       bioSpinner = false
-      showFlashBio({
-        priority: 'success',
-        message: I18n('done')
-      })
+      bioState = { priority: 'success', message: I18n('done') }
     } catch (err) {
-      // Logs the error and report it
-      log_.error(err)
-      showFlashBio({
-        priority: 'error',
-        message: I18n('something went wrong, try again later')
-      })
+      bioState = err
     }
   }
   const editPosition = () => {
@@ -108,14 +98,15 @@
   <h3>{I18n('username')}</h3>
   <div class="text-zone">
     <input placeholder="{i18n('username')}..." value={currentUsername} on:keyup="{e => onUsernameChange(e.target.value)}">
-    <Flash bind:show={showFlashUsername} bind:hide={hideFlashUsername}/>
+    <Flash bind:state={usernameState}/>
   </div>
   <p class="note">{I18n('username_tip')}</p>
   <button class="light-blue-button" on:click="{updateUsername}">{I18n('update username')}</button>
+
   <h3>{I18n('presentation')}</h3>
   <div class="text-zone">
     <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" on:keyup="{e => onBioChange(e.target.value)}" use:autosize>{bio}</textarea>
-    <Flash bind:show={showFlashBio} bind:hide={hideFlashBio}/>
+    <Flash bind:state={bioState}/>
     {#if bioSpinner}
       <p class="loading">Loading... <Spinner/></p>
     {/if}
