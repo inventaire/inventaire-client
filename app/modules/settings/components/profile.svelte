@@ -9,32 +9,33 @@
 
   export let user
   let bioState, usernameState, bioSpinner
-  let currentUsername = user.get('label')
-  let requestedUsername
-  let bio = user.get('bio') || ''
+  let currentUsername = user.get('username')
+  let usernameValue = currentUsername
+  let currentBio = user.get('bio') || ''
+  let bioValue = currentBio
+
   let currentPicture = user.get('picture')
   const position = user.get('position')
 
   const updateUsername = async () => {
-    if (!requestedUsername || requestedUsername === currentUsername) {
-      usernameState = { priority: 'info', message: 'this is already your username' }
+    if (usernameValue === currentUsername) {
+      usernameState = { priority: 'info', message: I18n('this is already your username') }
       return
     }
 
     try {
       await app.execute('ask:confirmation', {
-        confirmationText: i18n('username_change_confirmation', { requestedUsername, currentUsername }),
+        confirmationText: i18n('username_change_confirmation', { requestedUsername: usernameValue, currentUsername }),
         // no need to show the warning if it's just a case change
         warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
-        action: updateUserReq.bind(null, 'username', requestedUsername)
+        action: updateUserReq.bind(null, 'username', usernameValue)
       })
-      currentUsername = requestedUsername
     } catch (err) {
       usernameState = err
     }
   }
 
-  const doesUsernameCaseChange = () => requestedUsername.toLowerCase() === currentUsername.toLowerCase()
+  const doesUsernameCaseChange = () => usernameValue.toLowerCase() === currentUsername.toLowerCase()
 
   const updateUserReq = async (attribute, value) => {
     return app.request('user:update', {
@@ -43,61 +44,68 @@
     })
   }
 
-  const onUsernameChange = async newUsername => {
+  const validateUsernameChange = async () => {
     usernameState = null
-    if (currentUsername === newUsername) {
+    if (currentUsername === usernameValue) {
       // username has been modfied back to its original state
       // nothing to update and nothing to flash notify either
       return
     }
-    if (newUsername.length < 2) {
+    if (usernameValue.length < 2) {
       return showUsernameError('username should be 2 characters minimum')
     }
-    if (newUsername.length > 20) {
+    if (usernameValue.length > 20) {
       return showUsernameError('username should be 20 characters maximum')
     }
-    if (/\s/.test(newUsername)) {
+    if (/\s/.test(usernameValue)) {
       return showUsernameError('username can not contain space')
     }
-    if (/\W/.test(newUsername)) {
+    if (/\W/.test(usernameValue)) {
       return showUsernameError('username can only contain letters, figures or _')
     }
-    await preq.get(app.API.auth.usernameAvailability(newUsername))
-    .then(() => requestedUsername = newUsername)
-    .catch(err => usernameState = err)
+    const usernameValueBeforeCheck = usernameValue
+    preq.get(app.API.auth.usernameAvailability(usernameValue))
+    .catch(err => {
+      // Ignore errors when the requested username already changed
+      if (usernameValueBeforeCheck === usernameValue) usernameState = err
+    })
   }
 
   const showUsernameError = message => usernameState = new Error(I18n(message))
 
-  const onBioChange = value => {
+  const validateBioChange = () => {
     bioState = null
-    bio = value
+    if (bioValue.length > 1000) {
+      bioState = new Error(I18n('presentation cannot be longer than 1000 characters'))
+    }
   }
 
   const updateBio = async () => {
-    if (bio.length > 1000) {
-      bioState = new Error(I18n('presentation cannot be longer than 1000 characters'))
-      return
-    }
     try {
       bioSpinner = true
-      await updateUserReq('bio', bio)
+      const updatedBioValue = bioValue
+      await updateUserReq('bio', bioValue)
+      currentBio = updatedBioValue
       bioSpinner = false
       bioState = { priority: 'success', message: I18n('done') }
     } catch (err) {
       bioState = err
     }
   }
+
   const editPosition = () => {
     map.showMainUserPositionPicker()
   }
+
+  $: validateUsernameChange(usernameValue)
+  $: validateBioChange(bioValue)
 </script>
 
 <section class="first-section">
   <h2 class="first-title">{I18n('public profile')}</h2>
   <h3>{I18n('username')}</h3>
   <div class="text-zone">
-    <input placeholder="{i18n('username')}..." value={currentUsername} on:keyup="{e => onUsernameChange(e.target.value)}">
+    <input placeholder="{i18n('username')}..." bind:value={usernameValue}>
     <Flash bind:state={usernameState}/>
   </div>
   <p class="note">{I18n('username_tip')}</p>
@@ -105,7 +113,7 @@
 
   <h3>{I18n('presentation')}</h3>
   <div class="text-zone">
-    <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" on:keyup="{e => onBioChange(e.target.value)}" use:autosize>{bio}</textarea>
+    <textarea name="bio" id="bio" bind:value={bioValue} aria-label="{i18n('presentation')}" use:autosize></textarea>
     <Flash bind:state={bioState}/>
     {#if bioSpinner}
       <p class="loading">Loading... <Spinner/></p>
@@ -113,9 +121,9 @@
   </div>
   <p class="note">
     {I18n('a few words on you?')}
-    <span class="counter" class:alert={bio.length > 1000}>({bio.length}/1000)</span>
+    <span class="counter" class:alert={bioValue.length > 1000}>({bioValue.length}/1000)</span>
   </p>
-  <button class="save light-blue-button" on:click="{() => updateBio(bio)}">{I18n('update presentation')}</button>
+  <button class="save light-blue-button" on:click="{updateBio}">{I18n('update presentation')}</button>
 </section>
 
 <section>
