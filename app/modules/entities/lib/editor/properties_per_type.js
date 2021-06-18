@@ -4,6 +4,14 @@
 // and server/lib/wikidata/allowlisted_properties
 // and inventaire-i18n/original/wikidata.properties_list
 
+const socialNetworks = {
+  'wdt:P2002': {}, // Twitter account
+  'wdt:P2013': {}, // Facebook account
+  'wdt:P2003': {}, // Instagram username
+  'wdt:P2397': {}, // YouTube channel ID
+  'wdt:P4033': {}, // Mastodon address
+}
+
 // The order is meaningful:
 const work = {
   'wdt:P50': {}, // author
@@ -16,6 +24,7 @@ const work = {
   'wdt:P144': {}, // based on
   'wdt:P941': {}, // inspired by
   'wdt:P856': {}, // official website
+  ...socialNetworks,
   // 'wdt:P31: {}' # instance of (=> works aliases)
   // 'wdt:P110': {} # illustrator
   // 'wdt:P1476': {} # title (using P407 lang)
@@ -56,12 +65,8 @@ export default {
     'wdt:P570': {}, // date of death
     'wdt:P737': {}, // influenced by
     'wdt:P856': {}, // official website
-    'wdt:P2002': {}, // Twitter account
-    'wdt:P2013': {}, // Facebook account
-    'wdt:P2003': {}, // Instagram username
-    'wdt:P2397': {}, // YouTube channel ID
-    'wdt:P4033': {}
-  }, // Mastodon address
+    ...socialNetworks
+  },
 
   // Using omit instead of having a common list, extended for works, so that
   // the properties order isn't constrained by being part or not of the common properties
@@ -76,14 +81,16 @@ export default {
     'wdt:P571': { customLabel: 'date of foundation' }, // inception
     'wdt:P576': { customLabel: 'date of dissolution' }, // inception
     // Maybe, ISBN publisher prefix shouldn't be displayed but only used for administration(?)
-    'wdt:P3035': {}
-  }, // ISBN publisher
+    'wdt:P3035': {}, // ISBN publisher
+    ...socialNetworks,
+  },
 
   collection: {
     'wdt:P1476': { customLabel: 'collection title' },
     'wdt:P1680': {}, // subtitle
     'wdt:P123': {}, // publisher
     'wdt:P921': {}, // main subject
-    'wdt:P856': {}
-  } // official website
+    'wdt:P856': {}, // official website
+    ...socialNetworks,
+  }
 }
