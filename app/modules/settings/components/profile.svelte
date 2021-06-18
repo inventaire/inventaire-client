@@ -26,7 +26,7 @@
         confirmationText: i18n('username_change_confirmation', { requestedUsername, currentUsername }),
         // no need to show the warning if it's just a case change
         warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
-        action: updateUserReq('username', requestedUsername)
+        action: updateUserReq.bind(null, 'username', requestedUsername)
       })
       currentUsername = requestedUsername
     } catch (err) {
