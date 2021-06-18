@@ -98,6 +98,13 @@
   .setting{
     width: 100%;
   }
+  /*Large screens*/
+  @media screen and (min-width: 470px) {
+    .navigation{
+      position: sticky;
+      top: $topbar-height + 34px;
+    }
+  }
   /*Small screens*/
   @media screen and (max-width: 470px) {
     .wrapper{
