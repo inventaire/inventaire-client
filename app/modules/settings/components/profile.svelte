@@ -164,7 +164,7 @@
     margin-bottom: 0;
   }
   .text-zone{
-    max-width: 25em;
+    max-width: 28em;
     margin-bottom: 0.2em;
   }
   h3{
