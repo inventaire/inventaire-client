@@ -4,11 +4,10 @@
   import preq from 'lib/preq'
   import Flash from 'lib/components/flash.svelte'
   import UserPicture from 'lib/components/user_picture.svelte'
-  import Spinner from 'modules/general/components/spinner.svelte'
   import map from 'modules/map/lib/map'
 
   export let user
-  let bioState, usernameState, bioSpinner
+  let bioState, usernameState
   let currentUsername = user.get('username')
   let usernameValue = currentUsername
   let currentBio = user.get('bio') || ''
@@ -90,11 +89,10 @@
 
   const updateBio = async () => {
     try {
-      bioSpinner = true
+      bioState = { priority: 'loading', message: I18n('waiting') }
       const updatedBioValue = bioValue
       await updateUserReq('bio', bioValue)
       currentBio = updatedBioValue
-      bioSpinner = false
       bioState = { priority: 'success', message: I18n('done') }
     } catch (err) {
       bioState = err
@@ -123,9 +121,6 @@
   <div class="text-zone">
     <textarea name="bio" id="bio" bind:value={bioValue} aria-label="{i18n('presentation')}" use:autosize></textarea>
     <Flash bind:state={bioState}/>
-    {#if bioSpinner}
-      <p class="loading">Loading... <Spinner/></p>
-    {/if}
   </div>
   <p class="note">
     {I18n('a few words on you?')}

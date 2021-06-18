@@ -1,6 +1,8 @@
 <script>
   import { icon } from 'app/lib/utils'
   import log_ from 'lib/loggers'
+  import Spinner from 'modules/general/components/spinner.svelte'
+
   export let state
   let flashPriority, iconName
   $: {
@@ -18,10 +20,14 @@
 
 {#if state}
   <div class="flash {flashPriority}">
-    <span>
-      {#if iconName}{@html icon(iconName)}{/if}
+    <div>
+      {#if flashPriority === 'loading'}
+        <Spinner/>
+      {:else}
+        {#if iconName}{@html icon(iconName)}{/if}
+      {/if}
       {state.message}
-    </span>
+    </div>
     <button on:click={() => state = null}>
       {@html icon('close')}
     </button>
@@ -54,7 +60,7 @@
       color: darken($success-color, 20%);
     };
   }
-  .info{
+  .info, .loading{
     background-color: lighten($primary-color, 70%);
     color: $primary-color;
     button{

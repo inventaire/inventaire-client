@@ -29,7 +29,7 @@
 
   .small-spinner:after, .spinner-inner:after{
     content: " ";
-    display: inline-block;
+    display: inline-flex;
     width: 1em;
     height: 1em;
     margin: 0 0.5em;
