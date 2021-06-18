@@ -17,18 +17,20 @@
   const position = user.get('position')
 
   const updateUsername = async () => {
-    if (!requestedUsername || requestedUsername === currentUsername) {
+    if (requestedUsername === currentUsername) {
       return showFlashUsername({ priority: 'info', message: 'this is already your username' })
     }
-
+    app.execute('ask:confirmation', {
+      confirmationText: i18n('username_change_confirmation', { requestedUsername, currentUsername }),
+      // no need to show the warning if it's just a case change
+      warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
+      action: _updateUsername
+    })
+  }
+  const _updateUsername = async () => {
     try {
-      await app.execute('ask:confirmation', {
-        confirmationText: i18n('username_change_confirmation', { requestedUsername, currentUsername }),
-        // no need to show the warning if it's just a case change
-        warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
-        action: updateUserReq('username', requestedUsername)
-      })
-      currentUsername = requestedUsername
+      await updateUserReq('username', requestedUsername)
+      .then(() => { currentUsername = requestedUsername })
     } catch {
       showUsernameError('something went wrong, try again later')
     }
