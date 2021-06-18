@@ -23,15 +23,23 @@
       return
     }
 
+    app.execute('ask:confirmation', {
+      confirmationText: i18n('username_change_confirmation', { requestedUsername: usernameValue, currentUsername }),
+      // no need to show the warning if it's just a case change
+      warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
+      action: _updateUsername
+    })
+  }
+
+  const _updateUsername = async () => {
+    const requestedUsername = usernameValue
     try {
-      await app.execute('ask:confirmation', {
-        confirmationText: i18n('username_change_confirmation', { requestedUsername: usernameValue, currentUsername }),
-        // no need to show the warning if it's just a case change
-        warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
-        action: updateUserReq.bind(null, 'username', usernameValue)
-      })
+      await updateUserReq('username', requestedUsername)
+      currentUsername = requestedUsername
     } catch (err) {
       usernameState = err
+      // Rethrow to let the confiration modal display the error too
+      throw err
     }
   }
 
