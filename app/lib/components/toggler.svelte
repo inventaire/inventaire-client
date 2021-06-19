@@ -5,11 +5,11 @@
   export let name
   export let state
   export let togglePeriodicity
-  let showFlash, hideFlash
+  let flash
   const description = name + '_notification'
 
   const updateSetting = () => {
-    hideFlash()
+    flash = null
     state = !state
     try {
       app.request('user:update', {
@@ -20,16 +20,16 @@
     } catch (err) {
       // Logs the error and report it
       log_.error(err)
-      showFlash({
-        priority: 'error',
+      flash = {
+        type: 'error',
         message: I18n('something went wrong, try again later')
-      })
+      }
     }
     if (name === 'global' && state === false) {
-      showFlash({
-        priority: 'warning',
+      flash = {
+        type: 'warning',
         message: I18n('global_email_toggle_warning')
-      })
+      }
     }
     if (name === 'inventories_activity_summary') togglePeriodicity(state)
   }
@@ -39,7 +39,7 @@
   <input type="checkbox" id={name} bind:checked={state}>
   <label for="emailNotifications">{I18n(description)}</label>
 </div>
-<Flash bind:show={showFlash} bind:hide={hideFlash}/>
+<Flash bind:state={flash}/>
 
 <style lang="scss">
   @import 'app/modules/general/scss/utils';

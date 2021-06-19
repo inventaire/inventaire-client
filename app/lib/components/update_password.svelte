@@ -4,7 +4,7 @@
   import PasswordInput from 'lib/components/password_input.svelte'
   import { i18n, I18n } from 'modules/user/lib/i18n'
 
-  let showFlashCurrentPassword, showFlashNewPassword
+  let flashCurrentPassword, flashNewPassword
   let currentPassword = '', newPassword = ''
 
   const updatePassword = async () => {
@@ -27,10 +27,10 @@
     }
     try {
       await app.request('password:update', currentPassword, newPassword)
-      showFlashNewPassword({
-        priority: 'success',
+      flashNewPassword = {
+        type: 'success',
         message: I18n('done')
-      })
+      }
     } catch (err) {
       // Logs the error and report it
       log_.error(err)
@@ -44,23 +44,23 @@
 
   const flashPasswordError = ({ input, message }) => {
     const args = {
-      priority: 'error',
+      type: 'error',
       message: I18n(message)
     }
     if (input === 'new') {
-      return showFlashNewPassword(args)
+      return flashNewPassword = args
     } else {
-      return showFlashCurrentPassword(args)
+      return flashCurrentPassword = args
     }
   }
 </script>
 <h3>{i18n('current password')}</h3>
-<PasswordInput bind:password={currentPassword} bind:showFlash={showFlashCurrentPassword} name="currentPassword"/>
+<PasswordInput bind:password={currentPassword} bind:flash={flashCurrentPassword} name="currentPassword"/>
 <div class="forgotPassword">
   <a href="/login/forgot-password" class="link" on:click="{() => app.execute('show:forgot:password')}">{i18n('forgot your password?')}</a>
 </div>
 <h3>{i18n('new password')}</h3>
-<PasswordInput bind:password={newPassword} bind:showFlash={showFlashNewPassword} name="newPassword"/>
+<PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} name="newPassword"/>
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
 <style>
   .forgotPassword .link{

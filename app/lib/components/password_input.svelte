@@ -2,9 +2,9 @@
   import Flash from 'lib/components/flash.svelte'
   import { I18n } from 'modules/user/lib/i18n'
 
-  export let password, showFlash, name
+  export let password, flash, name
   let pwdInputType = 'password'
-  let showPassword, hideFlash
+  let showPassword
 
   const togglePassword = () => {
     showPassword = !showPassword
@@ -14,11 +14,14 @@
       pwdInputType = 'password'
     }
   }
-  const changePwd = value => password = value
+  const changePwd = value => {
+    flash = null
+    password = value
+  }
 </script>
 
-<input type={pwdInputType} on:blur={hideFlash} on:blur="{e => changePwd(e.target.value) }" title="{name}">
-<Flash bind:show={showFlash} bind:hide={hideFlash}/>
+<input type={pwdInputType} on:change="{e => changePwd(e.target.value) }" title="{name}">
+<Flash bind:state={flash}/>
 <div class="showPasswordWrapper">
   <input type="checkbox" class="showPassword" id="show{name}" bind:checked={showPassword} on:click={togglePassword}>
   <label for="show{name}">{I18n('Show password')}</label>

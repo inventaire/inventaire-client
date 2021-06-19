@@ -1,27 +1,46 @@
 <script>
-  let flashPriority, flashMessage
-  let hidden = 'hidden'
   import { icon } from 'app/lib/utils'
-  export const show = ({ priority, message }) => {
-    flashPriority = priority
-    flashMessage = message
-    hidden = ''
+  import log_ from 'lib/loggers'
+  import Spinner from 'modules/general/components/spinner.svelte'
+
+  export let state
+  let type, iconName
+  const types = {
+    success: { iconName: 'check' },
+    info: { iconName: 'info-circle' },
+    error: { iconName: 'warning' }
   }
-  export const hide = () => hidden = 'hidden'
+
+  const findIcon = type => types[type]?.iconName
+
+  $: {
+    if (state instanceof Error) {
+      type = 'error'
+      iconName = findIcon(type)
+      // Logs the error and report it
+      log_.error(state)
+    } else {
+      type = state?.type
+      iconName = findIcon(type)
+    }
+  }
 </script>
-<div class="flash {flashPriority} {hidden}">
-  <span>
-    {#if flashPriority === 'success'}
-      {@html icon('check')}
-    {:else if flashPriority === 'warning'}
-      {@html icon('warning')}
-    {/if}
-    {flashMessage}
-  </span>
-  <button on:click="{hide}">
-    {@html icon('close')}
-  </button>
-</div>
+
+{#if state}
+  <div class="flash {type}">
+    <div>
+      {#if type === 'loading'}
+        <Spinner/>
+      {:else}
+        {#if iconName}{@html icon(iconName)}{/if}
+      {/if}
+      {state.message}
+    </div>
+    <button on:click={() => state = null}>
+      {@html icon('close')}
+    </button>
+  </div>
+{/if}
 
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
@@ -49,7 +68,7 @@
       color: darken($success-color, 20%);
     };
   }
-  .info{
+  .info, .loading{
     background-color: lighten($primary-color, 70%);
     color: $primary-color;
     button{
@@ -62,8 +81,5 @@
     button{
       color: darken($success-color, 70%);
     };
-  }
-  .hidden{
-    display: none;
   }
 </style>

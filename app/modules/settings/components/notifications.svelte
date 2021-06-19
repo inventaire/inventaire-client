@@ -6,7 +6,7 @@
 
   const notificationData = app.user.get('settings.notifications')
   const days = []
-  let num, hidePeriodicity, showFlashPeriodicity, hideFlashPeriodicity
+  let num, hidePeriodicity, flashPeriodicity
   notificationData.inventories_activity_summary ? hidePeriodicity = '' : hidePeriodicity = 'hidden'
 
   let togglePeriodicity = togglerState => {
@@ -19,7 +19,7 @@
   }
   const periodicity = app.user.get('summaryPeriodicity') || 20
   const updatePeriodicity = requestedPeriodicity => {
-    hideFlashPeriodicity()
+    flashPeriodicity = null
     const value = parseInt(requestedPeriodicity)
     try {
       return app.request('user:update', {
@@ -29,10 +29,7 @@
     } catch (err) {
       // Logs the error and report it
       log_.error(err)
-      showFlashPeriodicity({
-        priority: 'error',
-        message: I18n('something went wrong, try again later')
-      })
+      flashPeriodicity = err
     }
   }
 </script>
@@ -57,7 +54,7 @@
             {/each}
           </select>
         </div>
-        <Flash bind:show={showFlashPeriodicity} bind:hide={hideFlashPeriodicity}/>
+        <Flash bind:state={flashPeriodicity}/>
       </section>
       <section>
         <h3>{I18n('friends')}</h3>

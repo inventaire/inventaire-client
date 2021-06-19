@@ -10,13 +10,13 @@
   import email_ from 'modules/user/lib/email_tests'
 
   export let user, requestedEmail
-  let showFlashLang, hideFlashLang, showFlashEmail, hideFlashEmail, waitingForPageReload, newEmail
+  let flashLang, flashEmail, waitingForPageReload, newEmail
   const { lang } = user
   let userLanguage = languagesObj[lang]
   const currentEmail = user.get('email')
 
   const pickLanguage = async selectedLang => {
-    hideFlashLang()
+    flashLang = null
     userLanguage = languagesObj[selectedLang]
     try {
       waitingForPageReload = true
@@ -28,40 +28,40 @@
     } catch (err) {
       // Logs the error and report it
       log_.error(err)
-      showFlashLang({
-        priority: 'error',
+      flashLang = {
+        type: 'error',
         message: I18n('something went wrong, try again later')
-      })
+      }
     }
   }
 
   const onEmailChange = async () => {
-    hideFlashEmail()
+    flashEmail = null
     // email has been modfied back to its original state
     // nothing to update and nothing to flash notify either
     if (currentEmail === newEmail) {
-      return showFlashEmail({ priority: 'info', message: 'this is already your email' })
+      return flashEmail = { type: 'info', message: 'this is already your email' }
     }
     try {
       const res = await email_.verifyAvailability(newEmail)
       if (res.status === 'available') {
         requestedEmail = newEmail
-        showFlashEmail({
-          priority: 'success',
+        flashEmail = {
+          type: 'success',
           message: I18n('this email is valid and available.')
-        })
+        }
       }
     } catch (err) {
-      emailErrorHandling(err)
+      flashEmail = err
     }
   }
 
   const debounceEmailChange = _.debounce(onEmailChange.bind(null, newEmail), 500)
 
   const updateEmail = async () => {
-    hideFlashEmail()
+    flashEmail = null
     if (!newEmail || newEmail === currentEmail) {
-      return showFlashEmail({ priority: 'info', message: 'this is already your email' })
+      return flashEmail = { type: 'info', message: 'this is already your email' }
     }
     try {
       const res = await preq.put(app.API.user, {
@@ -69,22 +69,14 @@
         value: newEmail
       })
       if (res.ok) {
-        showFlashEmail({
-          priority: 'success',
+        flashEmail = {
+          type: 'success',
           message: I18n('new_confirmation_email')
-        })
+        }
       }
     } catch (err) {
-      emailErrorHandling(err)
+      flashEmail = err
     }
-  }
-
-  const emailErrorHandling = err => {
-    let { message } = err
-    if (message.startsWith('invalid email')) {
-      message = I18n('this email is invalid.')
-    }
-    showFlashEmail({ priority: 'error', message })
   }
 
   const sendDeletionFeedback = message => preq.post(app.API.feedback, {
@@ -118,13 +110,13 @@
   {#if waitingForPageReload}
     <p class="loading">Loading... <Spinner/></p>
   {/if}
-  <Flash bind:show={showFlashLang} bind:hide={hideFlashLang}/>
+  <Flash bind:state={flashLang}/>
 </section>
 
 <section>
   <h2 class="title">{I18n('email')}</h2>
   <input placeholder="{i18n('email')}" value={currentEmail} on:keyup="{e => newEmail = e.target.value}" on:keyup="{e => debounceEmailChange(e.target.value)}"/>
-  <Flash bind:show={showFlashEmail} bind:hide={hideFlashEmail}/>
+  <Flash bind:state={flashEmail}/>
   <p class="note">{I18n('email will not be publicly displayed.')}</p>
   <button class="light-blue-button" on:click="{updateEmail}">{I18n('update email')}</button>
 </section>
