@@ -10,10 +10,11 @@
   import email_ from 'modules/user/lib/email_tests'
 
   export let user, requestedEmail
-  let flashLang, flashEmail, waitingForPageReload, newEmail
+  let flashLang, flashEmail, waitingForPageReload
   const { lang } = user
   let userLanguage = languagesObj[lang]
-  const currentEmail = user.get('email')
+  let emailValue = user.get('email')
+  let currentEmail = emailValue
 
   const pickLanguage = async selectedLang => {
     flashLang = null
@@ -36,44 +37,41 @@
   }
 
   const onEmailChange = async () => {
-    flashEmail = null
     // email has been modfied back to its original state
     // nothing to update and nothing to flash notify either
-    if (currentEmail === newEmail) {
-      return flashEmail = { type: 'info', message: 'this is already your email' }
-    }
+    if (currentEmail === emailValue) { return }
     try {
-      const res = await email_.verifyAvailability(newEmail)
+      const res = await email_.verifyAvailability(emailValue)
       if (res.status === 'available') {
-        requestedEmail = newEmail
+        requestedEmail = emailValue
         flashEmail = {
           type: 'success',
           message: I18n('this email is valid and available.')
         }
+      } else {
+        flashEmail = null
       }
     } catch (err) {
       flashEmail = err
     }
   }
 
-  const debounceEmailChange = _.debounce(onEmailChange.bind(null, newEmail), 500)
-
   const updateEmail = async () => {
     flashEmail = null
-    if (!newEmail || newEmail === currentEmail) {
+    if (currentEmail === emailValue) {
       return flashEmail = { type: 'info', message: 'this is already your email' }
     }
     try {
-      const res = await preq.put(app.API.user, {
+      flashEmail = { type: 'loading' }
+      await preq.put(app.API.user, {
         attribute: 'email',
-        value: newEmail
+        value: emailValue
       })
-      if (res.ok) {
-        flashEmail = {
-          type: 'success',
-          message: I18n('new_confirmation_email')
-        }
+      flashEmail = {
+        type: 'success',
+        message: I18n('new_confirmation_email')
       }
+      currentEmail = emailValue
     } catch (err) {
       flashEmail = err
     }
@@ -97,6 +95,8 @@
       no: 'cancel'
     })
   }
+
+  $: (async () => await _.debounce(onEmailChange.bind(null, emailValue), 500)())()
 </script>
 
 <section class="first-section">
@@ -115,7 +115,7 @@
 
 <section>
   <h2 class="title">{I18n('email')}</h2>
-  <input placeholder="{i18n('email')}" value={currentEmail} on:keyup="{e => newEmail = e.target.value}" on:keyup="{e => debounceEmailChange(e.target.value)}"/>
+  <input placeholder="{i18n('email')}" bind:value={emailValue}/>
   <Flash bind:state={flashEmail}/>
   <p class="note">{I18n('email will not be publicly displayed.')}</p>
   <button class="light-blue-button" on:click="{updateEmail}">{I18n('update email')}</button>
