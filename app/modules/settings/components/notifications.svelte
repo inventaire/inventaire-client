@@ -6,6 +6,7 @@
 
   const notificationData = app.user.get('settings.notifications')
   const days = []
+  let periodicity = app.user.get('summaryPeriodicity') || 20
   let num, hidePeriodicity, flashPeriodicity
   notificationData.inventories_activity_summary ? hidePeriodicity = '' : hidePeriodicity = 'hidden'
 
@@ -17,14 +18,13 @@
       days.push(num)
     }
   }
-  const periodicity = app.user.get('summaryPeriodicity') || 20
-  const updatePeriodicity = requestedPeriodicity => {
+
+  const updatePeriodicity = periodicity => {
     flashPeriodicity = null
-    const value = parseInt(requestedPeriodicity)
     try {
       return app.request('user:update', {
         attribute: 'summaryPeriodicity',
-        value
+        value: parseInt(periodicity)
       })
     } catch (err) {
       // Logs the error and report it
@@ -32,6 +32,8 @@
       flashPeriodicity = err
     }
   }
+
+  $: updatePeriodicity(periodicity)
 </script>
 <div class="wrapper">
   <h2 class="first-title">{I18n('notifications')}</h2>
@@ -48,9 +50,9 @@
         <Toggler name="inventories_activity_summary" state={notificationData.inventories_activity_summary} bind:togglePeriodicity={togglePeriodicity}/>
         <div class={hidePeriodicity}>
           <span>{@html I18n('activity_summary_periodicity_tip')}</span>
-          <select name="periodicity" on:blur="{e => updatePeriodicity(e.target.value)}" value={periodicity}>
+          <select name="periodicity" bind:value={periodicity}>
             {#each days as day}
-              <option value="{ day }">{ day }</option>
+              <option value="{day}">{day}</option>
             {/each}
           </select>
         </div>
