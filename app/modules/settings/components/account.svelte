@@ -5,25 +5,29 @@
   import _ from 'underscore'
   import Flash from 'lib/components/flash.svelte'
   import UpdatePassword from 'lib/components/update_password.svelte'
-  import Spinner from 'modules/general/components/spinner.svelte'
   import { languages as languagesObj } from 'lib/active_languages'
   import email_ from 'modules/user/lib/email_tests'
 
   export let user, requestedEmail
-  let flashLang, flashEmail, waitingForPageReload
+  let flashLang, flashEmail
   const { lang } = user
-  let userLanguage = languagesObj[lang]
+  const userLanguage = languagesObj[lang]
+  let userLang = userLanguage.lang
+  const currentUserLang = userLang
   let emailValue = user.get('email')
   let currentEmail = emailValue
 
-  const pickLanguage = async selectedLang => {
+  const pickLanguage = async () => {
     flashLang = null
-    userLanguage = languagesObj[selectedLang]
+    if (userLang === currentUserLang) { return }
     try {
-      waitingForPageReload = true
+      flashLang = {
+        type: 'loading',
+        message: I18n('loading')
+      }
       const res = await preq.put(app.API.user, {
         attribute: 'language',
-        value: selectedLang
+        value: userLang
       })
       if (res.ok) window.location.reload()
     } catch (err) {
@@ -97,19 +101,17 @@
   }
 
   $: (async () => await _.debounce(onEmailChange.bind(null, emailValue), 500)())()
+  $: pickLanguage(userLang)
 </script>
 
 <section class="first-section">
   <h2 class="first-title">{I18n('account')}</h2>
   <h3 class="label">{I18n('language')}</h3>
-  <select name="language" aria-label="language picker" value="{userLanguage.lang}" on:change="{e => pickLanguage(e.target.value)}">
+  <select name="language" aria-label="language picker" bind:value="{userLang}">
     {#each Object.values(languagesObj) as language}
       <option value={language.lang}>{language.lang} - {language.native}</option>
     {/each}
   </select>
-  {#if waitingForPageReload}
-    <p class="loading">Loading... <Spinner/></p>
-  {/if}
   <Flash bind:state={flashLang}/>
 </section>
 

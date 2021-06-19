@@ -12,7 +12,6 @@
   }
 
   const findIcon = type => types[type]?.iconName
-
   $: {
     if (state instanceof Error) {
       type = 'error'
