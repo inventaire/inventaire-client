@@ -10,7 +10,8 @@
   let bioState, usernameState
   let currentUsername = user.get('username')
   let usernameValue = currentUsername
-  let bio = user.get('bio') || ''
+  let bioValue = user.get('bio') || ''
+  let currentBio = bioValue
   let currentPicture = user.get('picture')
   const position = user.get('position')
 
@@ -70,20 +71,22 @@
 
   const showUsernameError = message => usernameState = new Error(I18n(message))
 
-  const onBioChange = value => {
-    bioState = null
-    bio = value
-  }
+  const onBioChange = value => bioState = null
 
   const updateBio = async () => {
-    if (bio.length > 1000) {
+    if (bioValue.length > 1000) {
       bioState = new Error(I18n('presentation cannot be longer than 1000 characters'))
+      return
+    }
+    if (bioValue === currentBio) {
+      bioState = { type: 'info', message: 'this is already your bio' }
       return
     }
     try {
       bioState = { type: 'loading', message: I18n('waiting') }
-      await updateUserReq('bio', bio)
+      await updateUserReq('bio', bioValue)
       bioState = { type: 'success', message: I18n('done') }
+      currentBio = bioValue
     } catch (err) {
       bioState = err
     }
@@ -93,6 +96,7 @@
   }
 
   $: validateUsername(usernameValue)
+  $: onBioChange(bioValue)
 </script>
 
 <section class="first-section">
@@ -107,14 +111,14 @@
 
   <h3>{I18n('presentation')}</h3>
   <div class="text-zone">
-    <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" on:keyup="{e => onBioChange(e.target.value)}" use:autosize>{bio}</textarea>
+    <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" bind:value={bioValue} use:autosize></textarea>
     <Flash bind:state={bioState}/>
   </div>
   <p class="note">
     {I18n('a few words on you?')}
-    <span class="counter" class:alert={bio.length > 1000}>({bio.length}/1000)</span>
+    <span class="counter" class:alert="{bioValue.length > 1000}">({bioValue.length}/1000)</span>
   </p>
-  <button class="save light-blue-button" on:click="{() => updateBio(bio)}">{I18n('update presentation')}</button>
+  <button class="save light-blue-button" on:click={updateBio}>{I18n('update presentation')}</button>
 </section>
 
 <section>
