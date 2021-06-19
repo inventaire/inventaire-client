@@ -9,33 +9,34 @@
   export let user
   let bioState, usernameState
   let currentUsername = user.get('username')
-  let requestedUsername
+  let usernameValue = currentUsername
   let bio = user.get('bio') || ''
   let currentPicture = user.get('picture')
   const position = user.get('position')
 
-  const updateUsername = async () => {
-    if (requestedUsername === currentUsername) {
+  const showUsernameConfirmation = async () => {
+    if (currentUsername === usernameValue) {
       usernameState = { type: 'info', message: 'this is already your username' }
       return
     }
     app.execute('ask:confirmation', {
-      confirmationText: i18n('username_change_confirmation', { requestedUsername, currentUsername }),
+      confirmationText: i18n('username_change_confirmation', { currentUsername, requestedUsername: usernameValue }),
       // no need to show the warning if it's just a case change
       warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
-      action: _updateUsername
+      action: updateUsername
     })
   }
-  const _updateUsername = async () => {
+
+  const updateUsername = async () => {
     try {
-      await updateUserReq('username', requestedUsername)
-      .then(() => { currentUsername = requestedUsername })
+      await updateUserReq('username', usernameValue)
+      currentUsername = usernameValue
     } catch (err) {
       usernameState = err
     }
   }
 
-  const doesUsernameCaseChange = () => requestedUsername.toLowerCase() === currentUsername.toLowerCase()
+  const doesUsernameCaseChange = () => currentUsername.toLowerCase() === usernameValue.toLowerCase()
 
   const updateUserReq = async (attribute, value) => {
     return app.request('user:update', {
@@ -44,11 +45,11 @@
     })
   }
 
-  const onUsernameChange = async newUsername => {
+  const validateUsername = async newUsername => {
     usernameState = null
     if (currentUsername === newUsername) {
       // username has been modfied back to its original state
-      // nothing to update and nothing to flash notify either
+      // nothing to update and nothing to notify either
       return
     }
     if (newUsername.length < 2) {
@@ -64,7 +65,6 @@
       return showUsernameError('username can only contain letters, figures or _')
     }
     await preq.get(app.API.auth.usernameAvailability(newUsername))
-    .then(() => requestedUsername = newUsername)
     .catch(err => usernameState = err)
   }
 
@@ -91,17 +91,19 @@
   const editPosition = () => {
     map.showMainUserPositionPicker()
   }
+
+  $: validateUsername(usernameValue)
 </script>
 
 <section class="first-section">
   <h2 class="first-title">{I18n('public profile')}</h2>
   <h3>{I18n('username')}</h3>
   <div class="text-zone">
-    <input placeholder="{i18n('username')}..." value={currentUsername} on:keyup="{e => onUsernameChange(e.target.value)}">
+    <input placeholder="{i18n('username')}..." bind:value={usernameValue}>
     <Flash bind:state={usernameState}/>
   </div>
   <p class="note">{I18n('username_tip')}</p>
-  <button class="light-blue-button" on:click="{updateUsername}">{I18n('update username')}</button>
+  <button class="light-blue-button" on:click={showUsernameConfirmation}>{I18n('update username')}</button>
 
   <h3>{I18n('presentation')}</h3>
   <div class="text-zone">
