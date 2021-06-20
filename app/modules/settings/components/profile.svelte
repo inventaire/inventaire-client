@@ -46,27 +46,31 @@
     })
   }
 
-  const validateUsername = async newUsername => {
+  const validateUsername = async () => {
     usernameState = null
-    if (currentUsername === newUsername) {
+    if (currentUsername === usernameValue) {
       // username has been modfied back to its original state
       // nothing to update and nothing to notify either
       return
     }
-    if (newUsername.length < 2) {
+    if (usernameValue.length < 2) {
       return showUsernameError('username should be 2 characters minimum')
     }
-    if (newUsername.length > 20) {
+    if (usernameValue.length > 20) {
       return showUsernameError('username should be 20 characters maximum')
     }
-    if (/\s/.test(newUsername)) {
+    if (/\s/.test(usernameValue)) {
       return showUsernameError('username can not contain space')
     }
-    if (/\W/.test(newUsername)) {
+    if (/\W/.test(usernameValue)) {
       return showUsernameError('username can only contain letters, figures or _')
     }
-    await preq.get(app.API.auth.usernameAvailability(newUsername))
-    .catch(err => usernameState = err)
+    const usernameValueBeforeCheck = usernameValue
+    await preq.get(app.API.auth.usernameAvailability(usernameValue))
+    .catch(err => {
+      // Ignore errors when the requested username already changed
+      if (usernameValueBeforeCheck === usernameValue) usernameState = err
+    })
   }
 
   const showUsernameError = message => usernameState = new Error(I18n(message))
