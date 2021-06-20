@@ -1,7 +1,6 @@
 <script>
   import { i18n, I18n } from 'modules/user/lib/i18n'
-  import log_ from 'lib/loggers'
-  import Toggler from 'lib/components/toggler.svelte'
+  import Toggler from 'lib/components/notification_toggler.svelte'
   import Flash from 'lib/components/flash.svelte'
 
   const notificationData = app.user.get('settings.notifications')
@@ -13,6 +12,7 @@
   let togglePeriodicity = togglerState => {
     togglerState ? hidePeriodicity = '' : hidePeriodicity = 'hidden'
   }
+
   for (num = 1; num <= 180; num++) {
     if ((num <= 30) || ((num % 10) === 0)) {
       days.push(num)
@@ -27,8 +27,6 @@
         value: parseInt(periodicity)
       })
     } catch (err) {
-      // Logs the error and report it
-      log_.error(err)
       flashPeriodicity = err
     }
   }
