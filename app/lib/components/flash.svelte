@@ -2,6 +2,7 @@
   import { icon } from 'app/lib/utils'
   import log_ from 'lib/loggers'
   import Spinner from 'modules/general/components/spinner.svelte'
+  import { I18n } from 'modules/user/lib/i18n'
 
   export let state
   let type, iconName
@@ -30,10 +31,11 @@
     <div>
       {#if type === 'loading'}
         <Spinner/>
+        {@html state.message || I18n('loading')}
       {:else}
         {#if iconName}{@html icon(iconName)}{/if}
+        {@html state.message}
       {/if}
-      {state.message}
     </div>
     <button on:click={() => state = null}>
       {@html icon('close')}

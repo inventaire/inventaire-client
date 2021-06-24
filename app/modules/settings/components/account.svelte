@@ -21,10 +21,7 @@
     flashLang = null
     if (userLang === currentUserLang) { return }
     try {
-      flashLang = {
-        type: 'loading',
-        message: I18n('loading')
-      }
+      flashLang = { type: 'loading' }
       const res = await preq.put(app.API.user, {
         attribute: 'language',
         value: userLang
@@ -41,16 +38,16 @@
   }
 
   const onEmailChange = async () => {
-    // email has been modfied back to its original state
+    // email has been modified back to its original state
     // nothing to update and nothing to flash notify either
     if (currentEmail === emailValue) { return }
     try {
       const res = await email_.verifyAvailability(emailValue)
-      if (res.status === 'available') {
+      if (!(res.status === 'available')) {
         requestedEmail = emailValue
         flashEmail = {
-          type: 'success',
-          message: I18n('this email is valid and available.')
+          type: 'error',
+          message: I18n('this email is not available. Please pick another one.')
         }
       } else {
         flashEmail = null

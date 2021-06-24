@@ -26,6 +26,7 @@
       if (err.statusCode === 401) return flashCurrentPwdErr('wrong password')
     }
     try {
+      flashNewPassword = { type: 'loading' }
       await app.request('password:update', currentPassword, newPassword)
       flashNewPassword = {
         type: 'success',
