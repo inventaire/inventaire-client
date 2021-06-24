@@ -1,0 +1,23 @@
+@import 'app/modules/general/scss/utils';
+section{
+  padding-top: 1.5em;
+  padding-left: 1.5em;
+}
+.first-section{
+  padding-top: 0;
+}
+h2{
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #CCC;
+  margin-bottom: 0.8em;
+}
+.first-title{
+  margin-top: 0;
+}
+
+/*Small screens*/
+@media screen and (max-width: 470px) {
+  section{
+    padding: 1em 0;
+  }
+}

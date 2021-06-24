@@ -27,10 +27,14 @@ const API = {
   showDataSettings () { showSettings('data') }
 }
 
-const showSettings = async tab => {
-  if (app.request('require:loggedIn', `settings/${tab}`)) {
-    const { default: SettingsLayout } = await import('./views/settings_layout')
-    return app.layout.main.show(new SettingsLayout({ model: app.user, tab }))
+const showSettings = async section => {
+  if (app.request('require:loggedIn', `settings/${section}`)) {
+    const { default: SettingsLayout } = await import('./components/settings_layout.svelte')
+    return app.layout.main.showSvelteComponent(SettingsLayout, {
+      props: {
+        section
+      }
+    })
   }
 }
 

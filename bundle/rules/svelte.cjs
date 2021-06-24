@@ -19,7 +19,10 @@ module.exports = mode => {
               style: sass({
                 includePaths: [ 'node_modules' ]
               })
-            }
+            },
+            onwarn: (warning, handleWarning) => {
+              if (!ignoredWarnings.includes(warning.code)) handleWarning(warning)
+            },
           },
         }
       ],
@@ -34,3 +37,7 @@ module.exports = mode => {
     }
   ]
 }
+
+const ignoredWarnings = [
+  'a11y-no-onchange'
+]
