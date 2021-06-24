@@ -1,10 +1,9 @@
 <script>
   import Flash from './flash.svelte'
-  import log_ from 'lib/loggers'
   import { I18n } from 'modules/user/lib/i18n'
   export let name
   export let state
-  export let togglePeriodicity
+  export let togglePeriodicity, toggleNotifications
   let flash
   const description = name + '_notification'
 
@@ -14,21 +13,18 @@
     try {
       app.request('user:update', {
         attribute: `settings.notifications.${name}`,
-        value: state,
-        defaultPreviousValue: true
+        value: state
       })
     } catch (err) {
-      // Logs the error and report it
-      log_.error(err)
-      flash = {
-        type: 'error',
-        message: I18n('something went wrong, try again later')
-      }
+      flash = err
     }
-    if (name === 'global' && state === false) {
-      flash = {
-        type: 'warning',
-        message: I18n('global_email_toggle_warning')
+    if (name === 'global') {
+      toggleNotifications = !toggleNotifications
+      if (state === false) {
+        flash = {
+          type: 'warning',
+          message: I18n('global_email_toggle_warning')
+        }
       }
     }
     if (name === 'inventories_activity_summary') togglePeriodicity(state)

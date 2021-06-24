@@ -5,6 +5,7 @@
 
   const notificationData = app.user.get('settings.notifications')
   const days = []
+  let toggleNotifications = notificationData.global
   let periodicity = app.user.get('summaryPeriodicity') || 20
   let num, hidePeriodicity, flashPeriodicity
   notificationData.inventories_activity_summary ? hidePeriodicity = '' : hidePeriodicity = 'hidden'
@@ -40,9 +41,9 @@
   <div class="notification-border">
     <section class="first-section">
       <h3>{I18n('global')}</h3>
-      <Toggler name="global" bind:state={notificationData.global}/>
+      <Toggler name="global" state={notificationData.global} bind:toggleNotifications/>
     </section>
-    {#if notificationData.global}
+    {#if toggleNotifications}
       <section>
         <h3>{I18n('news')}</h3>
         <Toggler name="inventories_activity_summary" state={notificationData.inventories_activity_summary} bind:togglePeriodicity={togglePeriodicity}/>
