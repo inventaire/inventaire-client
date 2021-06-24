@@ -43,7 +43,7 @@
         {I18n('data')}
       </button>
       <button class:active={section === 'display'} on:click={goToSetting('display')}>
-        {I18n('display')}
+        {I18n('display_name')}
       </button>
     </nav>
   </div>
