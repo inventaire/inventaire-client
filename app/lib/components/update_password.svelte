@@ -15,7 +15,7 @@
       return flashNewPwdErr('password should be 8 characters minimum')
     }
     if (newPassword === currentPassword) {
-      return flashNewPwdErr("that's the same password")
+      return flashNewPwdErr('current password and new password are the same, no need to update')
     }
     if (newPassword.length > 5000) {
       return flashNewPwdErr('password should be 5000 characters maximum')

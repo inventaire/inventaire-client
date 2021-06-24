@@ -16,9 +16,6 @@
   <h3>{I18n('user profile')}</h3>
   <p class="note">{I18n('your profile contains information about you')}</p>
   <button class="light-blue-button">
-    <a href="/api/user" download="profile.csv">{I18n('download CSV')}</a>
-  </button>
-  <button class="light-blue-button">
     <a href="/api/user" download="profile.json">{I18n('download JSON')}</a>
   </button>
 </section>
