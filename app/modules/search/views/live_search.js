@@ -19,7 +19,7 @@ import Result from './result'
 import NoResult from './no_result'
 import liveSearchTemplate from './templates/live_search.hbs'
 import { formatEntity, formatSubject } from '../lib/formatters'
-import { sectionToTypes, entitySectionsWithAlternatives, sectionsData, neverIncluded } from '../lib/search_sections'
+import { sectionToTypes, sectionsData, neverIncluded } from '../lib/search_sections'
 const wikidataSearch = WikidataSearch(false)
 
 const Results = Backbone.Collection.extend({ model: ResultModel })
@@ -39,6 +39,10 @@ export default Marionette.CompositeView.extend({
     this._lazySearch = _.debounce(this.search.bind(this), 500)
     this.selectedSectionName = this.options.section
     this._searchOffset = 0
+    // faking lastSelected to be able to show alternatives even though
+    // user is newly arriving here by selecting their category search
+    // known cases: all "search by" buttons at "/add/search" path
+    this._lastSelected = { category: this.selectedSectionName }
   },
 
   ui: {
@@ -123,12 +127,9 @@ export default Marionette.CompositeView.extend({
   },
 
   updateAlternatives (search) {
-    const { category, name } = (this._lastSelected || {})
-    if (category === 'entity' && entitySectionsWithAlternatives.includes(name)) {
-      this.showAlternatives(search)
-    } else {
-      this.hideAlternatives()
-    }
+    const { category } = (this._lastSelected || {})
+    if (category === 'social') return this.hideAlternatives()
+    this.showAlternatives(search)
   },
 
   search (search) {
@@ -201,7 +202,6 @@ export default Marionette.CompositeView.extend({
   getResultFromUri (uri, searchId, rawSearch) {
     log_.info(uri, 'uri found')
     this.showLoadingSpinner()
-
     return app.request('get:entity:model', uri)
     .then(entity => this.resetResults(searchId, [ formatEntity(entity) ]))
     .catch(err => {

@@ -15,8 +15,6 @@ export const sectionToTypes = {
   }
 }
 
-export const entitySectionsWithAlternatives = [ 'all', 'work', 'author', 'serie', 'collection', 'publisher' ]
-
 export const sectionsData = selected => {
   const sections = {
     entity: {
