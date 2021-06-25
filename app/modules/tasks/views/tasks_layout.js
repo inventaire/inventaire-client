@@ -113,12 +113,14 @@ export default Marionette.LayoutView.extend({
     return this._grabSuspectPromise
     .then(model.getOtherSuggestions.bind(model))
     .then(() => {
-      const newRelativeTask = new RelativeTasks({
+      const newRelativeTasks = new RelativeTasks({
         collection: model.suspect.mergeSuggestions,
         currentTaskModel: model
       })
-      this.relativeTasks.show(newRelativeTask)
-      return this.updateRelativesCount(model)
+      if (model.suspect) {
+        this.relativeTasks.show(newRelativeTasks)
+        return this.updateRelativesCount(model)
+      }
     })
   },
 
