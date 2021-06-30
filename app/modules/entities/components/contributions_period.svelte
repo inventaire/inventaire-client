@@ -8,12 +8,12 @@
   export let title, period
 
   const getContributionsData = async () => {
-    const res = await preq.get(app.API.entities.activity(period))
+    const res = await preq.get(app.API.entities.usersContributions(period))
     usersData = await addUsersData(res)
   }
 
   const addUsersData = async res => {
-    let { activity: contributionRows } = res
+    let { contributions: contributionRows } = res
     if (contributionRows.length === 0) return []
     contributionRows = contributionRows.slice(0, 10)
     const usersIds = contributionRows.map(_.property('user'))
