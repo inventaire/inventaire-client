@@ -17,7 +17,7 @@ export default {
       appRoutes: {
         'entity/new(/)': 'showEntityCreateFromRoute',
         'entity/changes(/)': 'showChanges',
-        'entity/activity(/)': 'showActivity',
+        'entity/contributions(/)': 'showContributions',
         'entity/deduplicate(/authors)(/)': 'showDeduplicateAuthors',
         'entity/:uri/add(/)': 'showAddEntity',
         'entity/:uri/edit(/)': 'showEditEntityFromUri',
@@ -97,12 +97,12 @@ const API = {
     app.navigate('entity/changes', { metadata: { title: i18n('recent changes') } })
   },
 
-  async showActivity () {
-    const { default: ActivityLayout } = await import('./views/activity_layout')
+  async showContributions () {
+    const { default: Contributions } = await import('./components/contributions.svelte')
     showViewByAccessLevel({
-      path: 'entity/activity',
-      title: 'activity',
-      View: ActivityLayout,
+      path: 'entity/contributions',
+      title: 'contributions',
+      Component: Contributions,
       accessLevel: 'admin'
     })
   },
