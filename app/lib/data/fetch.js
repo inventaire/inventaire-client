@@ -23,7 +23,7 @@ export default function (options) {
     fetchPromise = Promise.resolve()
   }
 
-  pTimeout(fetchPromise, 10000)
+  pTimeout(fetchPromise, 60000)
   .then(app.Execute('waiter:resolve', name))
   .catch(app.Execute('waiter:reject', name))
 
