@@ -81,7 +81,7 @@ export default UserCommons.extend({
   },
 
   setDefaultSettings (settings) {
-    const { notifications } = settings
+    const { notifications = {} } = settings
     settings.notifications = this.setDefaultNotificationsSettings(notifications)
     return settings
   },
