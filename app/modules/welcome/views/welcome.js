@@ -52,11 +52,12 @@ export default Marionette.LayoutView.extend({
   },
 
   showPublicItems () {
+    const limit = window.screen.width < 470 ? 7 : 15
     showPaginatedItems({
       request: 'items:getRecentPublic',
       region: this.previewColumns,
       allowMore: false,
-      limit: 15,
+      limit,
       lang: app.user.lang,
       assertImage: true
     })
