@@ -1,6 +1,7 @@
 import getBestLangValue from '../get_best_lang_value'
 import { getEntitiesByUris } from '../entities'
 import preq from 'lib/preq'
+import { isImageHash } from 'app/lib/boolean_tests'
 
 export async function addWorksImagesAndAuthors (works) {
   await Promise.all([
@@ -26,8 +27,11 @@ export async function addWorkImages (work) {
   const { uri } = work
   const { images } = await preq.get(app.API.entities.images(work.uri))
   const workImages = images[uri]
-  const imageHash = getBestLangValue(app.user.lang, work.originalLang, workImages).value
-  if (imageHash) work.image.url = `/img/entities/${imageHash}`
+  let imageValue = getBestLangValue(app.user.lang, work.originalLang, workImages).value
+  if (imageValue) {
+    if (isImageHash(imageValue)) imageValue = `/img/entities/${imageValue}`
+    work.image.url = imageValue
+  }
   return work
 }
 
