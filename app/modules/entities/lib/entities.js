@@ -37,7 +37,17 @@ export const getEntitiesByUris = async params => {
   if (_.isArray(params)) uris = params
   else ({ uris, index } = params)
   if (uris.length === 0) return []
-  const { entities } = await preq.get(app.API.entities.getByUris(uris))
+  let res
+  if (uris.length < 100) {
+    // Prefer to use get when not fetching that many entities
+    // - to make server log the requested URIs
+    // - to improve client caching
+    res = await preq.get(app.API.entities.getByUris(uris))
+  } else {
+    // Use the POST endpoint when using a GET might hit some URI length limits
+    res = await preq.post(app.API.entities.getManyByUris, { uris })
+  }
+  const { entities } = res
   const serializedEntities = Object.values(entities).map(serializeEntity)
   if (index) return _.indexBy(serializedEntities, 'uri')
   else return serializedEntities
