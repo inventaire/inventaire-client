@@ -22,9 +22,9 @@ export const get = function (key) {
 }
 
 const set = function (key, value) {
-  // Setting the value to 'null' and not just null allows to have the null value
-  // passed to the keep function (called by app.navigate), thus unsetting
-  // the desired key
+  // Setting the value to 'null' and not just the null keyword
+  // allows to have the null value passed to the keep function (called by app.navigate),
+  // thus unsetting the desired key
   if (value == null) value = 'null'
 
   // omit the first character: '/'
