@@ -47,7 +47,6 @@ export default Marionette.LayoutView.extend({
     return _.extend(this.model.toJSON(), {
       standalone: this.standalone,
       onWorkLayout: this.options.onWorkLayout,
-      showHistoryButton: app.user.hasDataadminAccess,
       works: this.model.works?.map(work => work.toJSON())
     })
   },
