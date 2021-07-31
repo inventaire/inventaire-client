@@ -78,7 +78,7 @@ export default {
     return applyOptions(input(data), options)
   },
 
-  disableAuto () { return 'autocorrect="off" autocapitalize="off"' },
+  disableAuto () { return new SafeString('autocorrect="off" autocapitalize="off"') },
 
   textarea (data, options) {
     if (data == null) {
