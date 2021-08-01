@@ -2,7 +2,7 @@
   import app from 'app/app'
   import log_ from 'lib/loggers'
   import PasswordInput from 'lib/components/password_input.svelte'
-  import { i18n, I18n } from 'modules/user/lib/i18n'
+  import { I18n } from 'modules/user/lib/i18n'
 
   let flashCurrentPassword, flashNewPassword
   let currentPassword = '', newPassword = ''
@@ -56,12 +56,12 @@
   }
 </script>
 
-<h3>{i18n('current password')}</h3>
+<h3>{I18n('current password')}</h3>
 <PasswordInput bind:password={currentPassword} bind:flash={flashCurrentPassword} name="currentPassword"/>
 <div class="forgotPassword">
-  <a href="/login/forgot-password" class="link" on:click="{() => app.execute('show:forgot:password')}">{i18n('forgot your password?')}</a>
+  <a href="/login/forgot-password" class="link" on:click="{() => app.execute('show:forgot:password')}">{I18n('forgot your password?')}</a>
 </div>
-<h3>{i18n('new password')}</h3>
+<h3>{I18n('new password')}</h3>
 <PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} name="newPassword"/>
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
 

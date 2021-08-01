@@ -128,9 +128,9 @@
   <h2>{I18n('location')}</h2>
   <p class="position-status">
     {#if $user.position}
-      {i18n('position is set to')}: {$user.position[0]}, {$user.position[1]}
+      {I18n('position is set to')}: {$user.position[0]}, {$user.position[1]}
     {:else}
-      {i18n('no position set')}
+      {I18n('no position set')}
     {/if}
   </p>
   <p class="note">{I18n('position_settings_description')}</p>
