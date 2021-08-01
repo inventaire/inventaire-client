@@ -8,19 +8,16 @@
   import { user } from 'app/modules/user/user_store'
 
   let bioState, usernameState
-  let currentUsername = $user.username
-  let usernameValue = currentUsername
+  let usernameValue = $user.username
   let bioValue = $user.bio || ''
-  let currentBio = bioValue
-  let currentPicture = $user.picture
 
   const showUsernameConfirmation = async () => {
-    if (currentUsername === usernameValue) {
+    if ($user.username === usernameValue) {
       usernameState = { type: 'info', message: 'this is already your username' }
       return
     }
     app.execute('ask:confirmation', {
-      confirmationText: i18n('username_change_confirmation', { currentUsername, requestedUsername: usernameValue }),
+      confirmationText: i18n('username_change_confirmation', { currentUsername: $user.username, requestedUsername: usernameValue }),
       // no need to show the warning if it's just a case change
       warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
       action: updateUsername
@@ -30,13 +27,12 @@
   const updateUsername = async () => {
     try {
       await updateUserReq('username', usernameValue)
-      currentUsername = usernameValue
     } catch (err) {
       usernameState = err
     }
   }
 
-  const doesUsernameCaseChange = () => currentUsername.toLowerCase() === usernameValue.toLowerCase()
+  const doesUsernameCaseChange = () => $user.username.toLowerCase() === usernameValue.toLowerCase()
 
   const updateUserReq = async (attribute, value) => {
     return app.request('user:update', {
@@ -47,7 +43,7 @@
 
   const validateUsername = async () => {
     usernameState = null
-    if (currentUsername === usernameValue) {
+    if ($user.username === usernameValue) {
       // username has been modfied back to its original state
       // nothing to update and nothing to notify either
       return
@@ -81,7 +77,7 @@
       bioState = new Error(I18n('presentation cannot be longer than 1000 characters'))
       return
     }
-    if (bioValue === currentBio) {
+    if (bioValue === $user.bio) {
       bioState = { type: 'info', message: 'this is already your bio' }
       return
     }
@@ -89,7 +85,6 @@
       bioState = { type: 'loading', message: I18n('waiting') }
       await updateUserReq('bio', bioValue)
       bioState = { type: 'success', message: I18n('done') }
-      currentBio = bioValue
     } catch (err) {
       bioState = err
     }
@@ -126,7 +121,7 @@
 
 <section>
   <h2>{I18n('profile picture')}</h2>
-  <UserPicture bind:currentPicture={currentPicture}/>
+  <UserPicture/>
 </section>
 
 <section>
