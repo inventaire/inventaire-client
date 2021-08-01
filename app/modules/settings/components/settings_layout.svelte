@@ -49,7 +49,7 @@
   </div>
   <div class="setting" bind:this={settingEl}>
     {#if section === 'profile'}
-      <Profile user={app.user}/>
+      <Profile/>
     {:else if section === 'account'}
       <Account user={app.user}/>
     {:else if section === 'notifications'}

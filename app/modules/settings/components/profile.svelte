@@ -5,15 +5,14 @@
   import Flash from 'lib/components/flash.svelte'
   import UserPicture from 'lib/components/user_picture.svelte'
   import map from 'modules/map/lib/map'
+  import { user } from 'app/modules/user/user_store'
 
-  export let user
   let bioState, usernameState
-  let currentUsername = user.get('username')
+  let currentUsername = $user.username
   let usernameValue = currentUsername
-  let bioValue = user.get('bio') || ''
+  let bioValue = $user.bio || ''
   let currentBio = bioValue
-  let currentPicture = user.get('picture')
-  const position = user.get('position')
+  let currentPicture = $user.picture
 
   const showUsernameConfirmation = async () => {
     if (currentUsername === usernameValue) {
@@ -133,15 +132,15 @@
 <section>
   <h2>{I18n('location')}</h2>
   <p class="position-status">
-    {#if position}
-      {i18n('position is set to')}: {position[0]}, {position[1]}
+    {#if $user.position}
+      {i18n('position is set to')}: {$user.position[0]}, {$user.position[1]}
     {:else}
       {i18n('no position set')}
     {/if}
   </p>
   <p class="note">{I18n('position_settings_description')}</p>
   <button class="light-blue-button" on:click={editPosition}>
-    {#if position}
+    {#if $user.position}
       {I18n('change position')}
     {:else}
       {I18n('add a position')}
