@@ -3,6 +3,7 @@
   import { icon } from 'lib/utils'
   export let user
 </script>
+
 <section class="first-section">
   <h2 class="first-title">{I18n('data exports')}</h2>
   <h3>{I18n('inventory')}</h3>

@@ -55,6 +55,7 @@
     }
   }
 </script>
+
 <h3>{i18n('current password')}</h3>
 <PasswordInput bind:password={currentPassword} bind:flash={flashCurrentPassword} name="currentPassword"/>
 <div class="forgotPassword">
@@ -63,6 +64,7 @@
 <h3>{i18n('new password')}</h3>
 <PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} name="newPassword"/>
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
+
 <style>
   .forgotPassword .link{
     font-size: 90%;

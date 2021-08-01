@@ -7,14 +7,14 @@
   import PicturePicker from 'modules/general/views/behaviors/picture_picker'
   import error_ from 'lib/error'
   import { images } from 'lib/urls'
+  import { user } from 'app/modules/user/user_store'
 
-  export let currentPicture
   let pictureIsNotDefaultAvatar
 
   const changePicture = () => {
     app.layout.modal.show(new PicturePicker({
       context: 'user',
-      pictures: app.user.get('picture'),
+      pictures: $user.picture,
       save: savePicture,
       delete: deletePicture,
       crop: true,
@@ -37,7 +37,6 @@
       value: picture,
       selector
     })
-    .then(refreshPicture)
   }
 
   const deletePicture = async () => {
@@ -46,17 +45,15 @@
       value: null,
       selector
     })
-    .then(refreshPicture)
   }
 
-  const refreshPicture = () => currentPicture = app.user.attributes.picture
-
-  $: pictureIsNotDefaultAvatar = currentPicture !== images.defaultAvatar
+  $: pictureIsNotDefaultAvatar = $user.picture !== images.defaultAvatar
 </script>
+
 <div>
   <figure>
     {#if pictureIsNotDefaultAvatar}
-      <img src="{imgSrc(currentPicture, 250, 250)}" alt="{i18n('profile picture')}">
+      <img src="{imgSrc($user.picture, 250, 250)}" alt="{i18n('profile picture')}">
     {:else}
       {I18n('no custom picture')}
     {/if}

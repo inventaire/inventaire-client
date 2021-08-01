@@ -34,6 +34,7 @@
 
   $: updatePeriodicity(periodicity)
 </script>
+
 <div class="wrapper">
   <h2 class="first-title">{I18n('notifications')}</h2>
   <div class="note">{i18n('notifications_description')}</div>
