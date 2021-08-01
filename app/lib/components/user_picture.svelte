@@ -6,10 +6,7 @@
   import log_ from 'lib/loggers'
   import PicturePicker from 'modules/general/views/behaviors/picture_picker'
   import error_ from 'lib/error'
-  import { images } from 'lib/urls'
   import { user } from 'app/modules/user/user_store'
-
-  let pictureIsNotDefaultAvatar
 
   const changePicture = () => {
     app.layout.modal.show(new PicturePicker({
@@ -46,26 +43,16 @@
       selector
     })
   }
-
-  $: pictureIsNotDefaultAvatar = $user.picture !== images.defaultAvatar
 </script>
 
 <div>
   <figure>
-    {#if pictureIsNotDefaultAvatar}
-      <img src="{imgSrc($user.picture, 250, 250)}" alt="{i18n('profile picture')}">
-    {:else}
-      {I18n('no custom picture')}
-    {/if}
+    <img src="{imgSrc($user.picture, 250, 250)}" alt="{i18n('profile picture')}">
   </figure>
 </div>
 
 <button class="light-blue-button" tabindex="0" on:click={changePicture}>
-  {#if pictureIsNotDefaultAvatar}
-    {I18n('change picture')}
-  {:else}
-    {I18n('add a picture')}
-  {/if}
+  {I18n('change picture')}
 </button>
 
 <style lang="scss">
