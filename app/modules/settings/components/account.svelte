@@ -7,26 +7,22 @@
   import UpdatePassword from 'lib/components/update_password.svelte'
   import { languages as languagesObj } from 'lib/active_languages'
   import email_ from 'modules/user/lib/email_tests'
+  import { user } from 'app/modules/user/user_store'
 
-  export let user, requestedEmail
-  let flashLang, flashEmail
-  const { lang } = user
-  const userLanguage = languagesObj[lang]
-  let userLang = userLanguage.lang
-  const currentUserLang = userLang
-  let emailValue = user.get('email')
-  let currentEmail = emailValue
+  let flashLang, flashEmail, requestedEmail
+  let userLang = $user.language
+  let emailValue = $user.email
 
   const pickLanguage = async () => {
     flashLang = null
-    if (userLang === currentUserLang) { return }
+    if (userLang === $user.language) return
     try {
       flashLang = { type: 'loading' }
-      const res = await preq.put(app.API.user, {
+      await app.request('user:update', {
         attribute: 'language',
         value: userLang
       })
-      if (res.ok) window.location.reload()
+      window.location.reload()
     } catch (err) {
       // Logs the error and report it
       log_.error(err)
@@ -40,7 +36,7 @@
   const onEmailChange = async () => {
     // email has been modified back to its original state
     // nothing to update and nothing to flash notify either
-    if (currentEmail === emailValue) { return }
+    if ($user.email === emailValue) { return }
     try {
       const res = await email_.verifyAvailability(emailValue)
       if (!(res.status === 'available')) {
@@ -59,12 +55,12 @@
 
   const updateEmail = async () => {
     flashEmail = null
-    if (currentEmail === emailValue) {
+    if ($user.email === emailValue) {
       return flashEmail = { type: 'info', message: 'this is already your email' }
     }
     try {
       flashEmail = { type: 'loading' }
-      await preq.put(app.API.user, {
+      await app.request('user:update', {
         attribute: 'email',
         value: emailValue
       })
@@ -72,7 +68,6 @@
         type: 'success',
         message: I18n('new_confirmation_email')
       }
-      currentEmail = emailValue
     } catch (err) {
       flashEmail = err
     }
@@ -84,11 +79,11 @@
   })
 
   const deleteAccount = () => {
-    const args = { username: user.get('username') }
+    const args = { username: $user.username }
     app.execute('ask:confirmation', {
       confirmationText: i18n('delete_account_confirmation', args),
       warningText: i18n('cant_undo_warning'),
-      action: user.deleteAccount.bind(user),
+      action: app.user.deleteAccount.bind(app.user),
       formAction: sendDeletionFeedback,
       formLabel: "that would really help us if you could say a few words about why you're leaving:",
       formPlaceholder: "our love wasn't possible because",

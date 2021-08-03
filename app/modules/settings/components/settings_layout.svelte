@@ -51,7 +51,7 @@
     {#if section === 'profile'}
       <Profile/>
     {:else if section === 'account'}
-      <Account user={app.user}/>
+      <Account/>
     {:else if section === 'notifications'}
       <Notifications/>
     {:else if section === 'display'}
