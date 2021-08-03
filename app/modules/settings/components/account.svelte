@@ -92,7 +92,9 @@
     })
   }
 
-  $: (async () => await _.debounce(onEmailChange.bind(null, emailValue), 500)())()
+  const lazyOnEmailChange = _.debounce(onEmailChange, 500)
+
+  $: lazyOnEmailChange(emailValue)
   $: pickLanguage(userLang)
 </script>
 
