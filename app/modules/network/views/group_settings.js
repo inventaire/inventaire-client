@@ -74,8 +74,7 @@ export default Marionette.ItemView.extend({
     saveCancel: '.saveCancel',
     searchabilityWarning: '.searchability .warning',
     opennessWarning: '.openness .warning'
-  }
-  ),
+  }),
 
   events: _.extend({}, groupUrlEvents, {
     'click #editNameButton': 'editName',
@@ -89,8 +88,7 @@ export default Marionette.ItemView.extend({
     'click a.destroy': 'destroyGroup',
     'click #showPositionPicker': 'showPositionPicker',
     'keydown textarea#description' () { this.lazyDescriptionUpdate() }
-  }
-  ),
+  }),
 
   modelEvents: {
     // re-render to unlock the possibility to leave the group
