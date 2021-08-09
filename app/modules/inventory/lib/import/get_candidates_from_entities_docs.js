@@ -6,7 +6,9 @@ export default function (entities, isbnsIndex) {
   const newCandidates = []
   for (const uri in entities) {
     const entity = entities[uri]
-    if (entity.type === 'edition') {
+    // Prevent using Wikidata edition entities that arrived here because an edition
+    // was linking to them as their work (wdt:P629)
+    if (entity.type === 'edition' && !entity.uri.startsWith('wd:')) {
       const { claims } = entity
       // Match the attributes expected by
       // modules/inventory/views/add/templates/candidate_row.hbs
