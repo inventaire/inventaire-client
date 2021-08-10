@@ -8,11 +8,11 @@
   const days = []
   let toggleNotifications = notificationData.global
   let periodicity = $user.summaryPeriodicity || 20
-  let num, hidePeriodicity, flashPeriodicity
-  notificationData.inventories_activity_summary ? hidePeriodicity = '' : hidePeriodicity = 'hidden'
+  let num, flashPeriodicity
+  let hidePeriodicity = notificationData.inventories_activity_summary ? '' : 'hidden'
 
   let togglePeriodicity = togglerState => {
-    togglerState ? hidePeriodicity = '' : hidePeriodicity = 'hidden'
+    hidePeriodicity = togglerState ? '' : 'hidden'
   }
 
   for (num = 1; num <= 180; num++) {
