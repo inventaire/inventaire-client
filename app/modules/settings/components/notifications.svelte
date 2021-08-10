@@ -2,11 +2,12 @@
   import { i18n, I18n } from 'modules/user/lib/i18n'
   import Toggler from 'lib/components/notification_toggler.svelte'
   import Flash from 'lib/components/flash.svelte'
+  import { user } from 'app/modules/user/user_store'
 
-  const notificationData = app.user.get('settings.notifications')
+  const notificationData = $user.settings.notifications || {}
   const days = []
   let toggleNotifications = notificationData.global
-  let periodicity = app.user.get('summaryPeriodicity') || 20
+  let periodicity = $user.summaryPeriodicity || 20
   let num, hidePeriodicity, flashPeriodicity
   notificationData.inventories_activity_summary ? hidePeriodicity = '' : hidePeriodicity = 'hidden'
 
@@ -23,7 +24,7 @@
   const updatePeriodicity = periodicity => {
     flashPeriodicity = null
     try {
-      return app.request('user:update', {
+      app.request('user:update', {
         attribute: 'summaryPeriodicity',
         value: parseInt(periodicity)
       })
