@@ -20,13 +20,13 @@
     if (newPassword.length > 5000) {
       return flashNewPwdErr('password should be 5000 characters maximum')
     }
+    flashNewPassword = { type: 'loading' }
     try {
       await app.request('password:confirmation', currentPassword)
     } catch (err) {
       if (err.statusCode === 401) return flashCurrentPwdErr('wrong password')
     }
     try {
-      flashNewPassword = { type: 'loading' }
       await app.request('password:update', currentPassword, newPassword)
       flashNewPassword = {
         type: 'success',
