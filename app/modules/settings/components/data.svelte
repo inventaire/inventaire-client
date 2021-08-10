@@ -8,17 +8,11 @@
   <h2 class="first-title">{I18n('data exports')}</h2>
   <h3>{I18n('inventory')}</h3>
   <p class="note">{I18n('download your inventory and its associated data (authors, works, publishers, etc.)')}</p>
-  <button class="light-blue-button">
-    <a href="/api/items?action=export&format=csv" download="inventory.csv">{I18n('download CSV')}</a>
-  </button>
-  <button class="light-blue-button">
-    <a href="/api/items?action=by-users&users={user.id}&limit=100000" download="inventory.json">{I18n('download JSON')}</a>
-  </button>
+  <a class="light-blue-button" href="/api/items?action=export&format=csv" download="inventory.csv">{I18n('download CSV')}</a>
+  <a class="light-blue-button" href="/api/items?action=by-users&users={user.id}&limit=100000" download="inventory.json">{I18n('download JSON')}</a>
   <h3>{I18n('user profile')}</h3>
   <p class="note">{I18n('your profile contains information about you')}</p>
-  <button class="light-blue-button">
-    <a href="/api/user" download="profile.json">{I18n('download JSON')}</a>
-  </button>
+  <a class="light-blue-button" href="/api/user" download="profile.json">{I18n('download JSON')}</a>
 </section>
 <section>
   <h2>{I18n('API')}</h2>
@@ -30,11 +24,10 @@
   .link{
     text-decoration: underline;
   }
-  button{
-    margin-right:1em;
-    a {
-      color: white
-    }
+  .light-blue-button{
+    display: inline-block;
+    margin: 0.5em 1em 0.5em 0;
+    color: white
   }
   h3{
     margin-top: 1em;
