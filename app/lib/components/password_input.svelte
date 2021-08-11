@@ -3,21 +3,16 @@
   import { I18n } from 'modules/user/lib/i18n'
 
   export let password, flash, title
-  let pwdInputType = 'password'
-  let showPassword
+  let showPassword = false
 
-  const togglePassword = () => {
-    showPassword = !showPassword
-    if (pwdInputType === 'password') {
-      pwdInputType = 'text'
-    } else {
-      pwdInputType = 'password'
-    }
-  }
+  const togglePassword = () => showPassword = !showPassword
+
   const changePwd = value => {
     flash = null
     password = value
   }
+
+  $: pwdInputType = showPassword ? 'text' : 'password'
 </script>
 
 <!--
