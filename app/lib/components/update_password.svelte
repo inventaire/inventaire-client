@@ -60,12 +60,12 @@
 </script>
 
 <h3>{I18n('current password')}</h3>
-<PasswordInput bind:password={currentPassword} bind:flash={flashCurrentPassword} name="currentPassword"/>
+<PasswordInput bind:password={currentPassword} bind:flash={flashCurrentPassword} title={I18n('current password')}/>
 <div class="forgotPassword">
   <a href="/login/forgot-password" class="link" on:click="{() => app.execute('show:forgot:password')}">{I18n('forgot your password?')}</a>
 </div>
 <h3>{I18n('new password')}</h3>
-<PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} name="newPassword"/>
+<PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} title={I18n('new password')}/>
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
 
 <style>
