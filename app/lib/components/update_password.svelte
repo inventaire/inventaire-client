@@ -50,9 +50,11 @@
       message: I18n(message)
     }
     if (input === 'new') {
-      return flashNewPassword = args
+      flashCurrentPassword = null
+      flashNewPassword = args
     } else {
-      return flashCurrentPassword = args
+      flashCurrentPassword = args
+      flashNewPassword = null
     }
   }
 </script>
