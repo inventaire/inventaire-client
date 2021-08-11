@@ -5,16 +5,7 @@
   import { user } from 'app/modules/user/user_store'
   import { range } from 'underscore'
 
-  const notificationData = $user.settings.notifications || {}
-  let toggleNotifications = notificationData.global
-  let periodicity = $user.summaryPeriodicity || 20
   let flashPeriodicity
-  let hidePeriodicity = notificationData.inventories_activity_summary ? '' : 'hidden'
-
-  let togglePeriodicity = togglerState => {
-    hidePeriodicity = togglerState ? '' : 'hidden'
-  }
-
   const days = range(1, 180).filter(num => num <= 30 || num % 10 === 0)
 
   const updatePeriodicity = periodicity => {
@@ -29,6 +20,8 @@
     }
   }
 
+  $: notificationData = $user.settings.notifications || {}
+  $: periodicity = $user.summaryPeriodicity || 20
   $: updatePeriodicity(periodicity)
 </script>
 
@@ -39,20 +32,22 @@
   <div class="notification-border">
     <section class="first-section">
       <h3>{I18n('global')}</h3>
-      <Toggler name="global" state={notificationData.global} bind:toggleNotifications/>
+      <Toggler name="global" state={notificationData.global}/>
     </section>
-    {#if toggleNotifications}
+    {#if notificationData.global}
       <section>
         <h3>{I18n('news')}</h3>
-        <Toggler name="inventories_activity_summary" state={notificationData.inventories_activity_summary} bind:togglePeriodicity={togglePeriodicity}/>
-        <div class={hidePeriodicity}>
-          <span>{@html I18n('activity_summary_periodicity_tip')}</span>
-          <select name="periodicity" bind:value={periodicity}>
-            {#each days as day}
-              <option value="{day}">{day}</option>
-            {/each}
-          </select>
-        </div>
+        <Toggler name="inventories_activity_summary" state={notificationData.inventories_activity_summary}/>
+        {#if notificationData.inventories_activity_summary}
+          <div>
+            <span>{@html I18n('activity_summary_periodicity_tip')}</span>
+            <select name="periodicity" bind:value={periodicity}>
+              {#each days as day}
+                <option value="{day}">{day}</option>
+              {/each}
+            </select>
+          </div>
+        {/if}
         <Flash bind:state={flashPeriodicity}/>
       </section>
       <section>
@@ -80,15 +75,11 @@
 
 <style lang="scss">
   @import 'app/modules/settings/scss/common_settings';
-  .title{
-    padding-bottom: 0.3em;
-    margin-bottom: 0.5em;
-  }
   .notification-border{
     margin-top: 1em;
     border: 1px solid #CCC;
     border-radius: 3px;
-    :last-child {
+    section:last-child {
       border-bottom: 0;
     }
   }
@@ -111,9 +102,6 @@
     font: sans-serif;
     font-size: 110%;
     font-weight: 600;
-  }
-  .hidden{
-    display: none;
   }
   /*Small screens*/
   @media screen and (max-width: 470px) {

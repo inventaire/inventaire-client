@@ -3,7 +3,6 @@
   import { I18n } from 'modules/user/lib/i18n'
   export let name
   export let state
-  export let togglePeriodicity, toggleNotifications
   let flash
   const description = name + '_notification'
 
@@ -18,16 +17,12 @@
     } catch (err) {
       flash = err
     }
-    if (name === 'global') {
-      toggleNotifications = !toggleNotifications
-      if (state === false) {
-        flash = {
-          type: 'warning',
-          message: I18n('global_email_toggle_warning')
-        }
+    if (name === 'global' && state === false) {
+      flash = {
+        type: 'warning',
+        message: I18n('global_email_toggle_warning')
       }
     }
-    if (name === 'inventories_activity_summary') togglePeriodicity(state)
   }
 </script>
 
