@@ -25,6 +25,7 @@
       await app.request('password:confirmation', currentPassword)
     } catch (err) {
       if (err.statusCode === 401) return flashCurrentPwdErr('wrong password')
+      else return flashCurrentPwdErr(err.message)
     }
     try {
       await app.request('password:update', currentPassword, newPassword)
@@ -35,7 +36,7 @@
     } catch (err) {
       // Logs the error and report it
       log_.error(err)
-      return flashCurrentPwdErr('something went wrong, try again later')
+      flashCurrentPwdErr(err.message)
     }
   }
 
