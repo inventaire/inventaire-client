@@ -8,10 +8,10 @@
   let flashPeriodicity
   const days = range(1, 180).filter(num => num <= 30 || num % 10 === 0)
 
-  const updatePeriodicity = periodicity => {
+  const updatePeriodicity = async periodicity => {
     flashPeriodicity = null
     try {
-      app.request('user:update', {
+      await app.request('user:update', {
         attribute: 'summaryPeriodicity',
         value: parseInt(periodicity)
       })
