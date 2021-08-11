@@ -3,23 +3,19 @@
   import Toggler from 'lib/components/notification_toggler.svelte'
   import Flash from 'lib/components/flash.svelte'
   import { user } from 'app/modules/user/user_store'
+  import { range } from 'underscore'
 
   const notificationData = $user.settings.notifications || {}
-  const days = []
   let toggleNotifications = notificationData.global
   let periodicity = $user.summaryPeriodicity || 20
-  let num, flashPeriodicity
+  let flashPeriodicity
   let hidePeriodicity = notificationData.inventories_activity_summary ? '' : 'hidden'
 
   let togglePeriodicity = togglerState => {
     hidePeriodicity = togglerState ? '' : 'hidden'
   }
 
-  for (num = 1; num <= 180; num++) {
-    if ((num <= 30) || ((num % 10) === 0)) {
-      days.push(num)
-    }
-  }
+  const days = range(1, 180).filter(num => num <= 30 || num % 10 === 0)
 
   const updatePeriodicity = periodicity => {
     flashPeriodicity = null
