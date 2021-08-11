@@ -3,8 +3,10 @@
   import log_ from 'lib/loggers'
   import PasswordInput from 'lib/components/password_input.svelte'
   import { I18n } from 'modules/user/lib/i18n'
+  import { user } from 'modules/user/user_store'
+  import { currentRoute } from 'lib/location'
 
-  let flashCurrentPassword, flashNewPassword
+  let flashCurrentPassword, flashNewPassword, form
   let currentPassword = '', newPassword = ''
 
   const updatePassword = async () => {
@@ -33,6 +35,8 @@
         type: 'success',
         message: I18n('done')
       }
+      // Trigger password manager update
+      form.submit()
     } catch (err) {
       // Logs the error and report it
       log_.error(err)
@@ -60,12 +64,21 @@
 </script>
 
 <h3>{I18n('current password')}</h3>
-<PasswordInput bind:password={currentPassword} bind:flash={flashCurrentPassword} title={I18n('current password')}/>
+<form>
+  <!-- Add the username in a form to give a hint to the browser of which user credentials should be used to autocomplete -->
+  <input type="text" name="username" value={$user.username} class="hidden">
+  <PasswordInput bind:password={currentPassword} bind:flash={flashCurrentPassword} title={I18n('current password')}/>
+</form>
 <div class="forgotPassword">
   <a href="/login/forgot-password" class="link" on:click="{() => app.execute('show:forgot:password')}">{I18n('forgot your password?')}</a>
 </div>
+
 <h3>{I18n('new password')}</h3>
-<PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} title={I18n('new password')}/>
+<form method="post" action="/api/submit?redirect={currentRoute()}" bind:this={form}>
+  <input type="text" name="username" value={$user.username} class="hidden">
+  <PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} title={I18n('new password')} triggerPasswordManagerUpdate />
+</form>
+
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
 
 <style>

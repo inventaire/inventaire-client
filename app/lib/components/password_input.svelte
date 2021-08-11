@@ -18,7 +18,8 @@
 <!--
 Prefer on:change to bind:value since svelte cannot dynamically change a value if another one is binded.
 aka `type={pwdInputType} bind:value={password}` is forbidden since generated code is different for different kinds of input. -->
-<input type={pwdInputType} on:change="{e => changePwd(e.target.value) }" title={title}>
+<input type={pwdInputType} on:change="{e => changePwd(e.target.value) }" title={title} name="password">
+
 <Flash bind:state={flash}/>
 <div class="showPasswordWrapper">
   <label>
