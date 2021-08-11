@@ -32,12 +32,12 @@
   <div class="notification-border">
     <section class="first-section">
       <h3>{I18n('global')}</h3>
-      <Toggler name="global" state={notificationData.global}/>
+      <Toggler name="global" value={notificationData.global}/>
     </section>
     {#if notificationData.global}
       <section>
         <h3>{I18n('news')}</h3>
-        <Toggler name="inventories_activity_summary" state={notificationData.inventories_activity_summary}/>
+        <Toggler name="inventories_activity_summary" value={notificationData.inventories_activity_summary}/>
         {#if notificationData.inventories_activity_summary}
           <div>
             <span>{@html I18n('activity_summary_periodicity_tip')}</span>
@@ -48,26 +48,26 @@
             </select>
           </div>
         {/if}
-        <Flash bind:state={flashPeriodicity}/>
+        <Flash bind:value={flashPeriodicity}/>
       </section>
       <section>
         <h3>{I18n('friends')}</h3>
         <div class="note">{i18n('email me when')}</div>
-        <Toggler name="friendship_request" state={notificationData.friendship_request}/>
-        <Toggler name="friend_accepted_request" state={notificationData.friend_accepted_request}/>
+        <Toggler name="friendship_request" value={notificationData.friendship_request}/>
+        <Toggler name="friend_accepted_request" value={notificationData.friend_accepted_request}/>
       </section>
       <section>
         <h3>{I18n('groups')}</h3>
         <div class="note">{i18n('email me when')}</div>
-        <Toggler name="group_invite" state={notificationData.group_invite}/>
-        <Toggler name="group_acceptRequest" state={notificationData.group_acceptRequest}/>
+        <Toggler name="group_invite" value={notificationData.group_invite}/>
+        <Toggler name="group_acceptRequest" value={notificationData.group_acceptRequest}/>
       </section>
       <section>
         <h3>{I18n('exchanges')}</h3>
         <div class="note">{i18n('email me when')}</div>
-        <Toggler name="your_item_was_requested" state={notificationData.your_item_was_requested}/>
-        <Toggler name="update_on_your_item" state={notificationData.update_on_your_item}/>
-        <Toggler name="update_on_item_you_requested" state={notificationData.update_on_item_you_requested}/>
+        <Toggler name="your_item_was_requested" value={notificationData.your_item_was_requested}/>
+        <Toggler name="update_on_your_item" value={notificationData.update_on_your_item}/>
+        <Toggler name="update_on_item_you_requested" value={notificationData.update_on_item_you_requested}/>
       </section>
     {/if}
   </div>

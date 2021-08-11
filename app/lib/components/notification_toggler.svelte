@@ -2,22 +2,22 @@
   import Flash from './flash.svelte'
   import { I18n } from 'modules/user/lib/i18n'
   export let name
-  export let state
+  export let value
   let flash
   const description = name + '_notification'
 
   const updateSetting = () => {
     flash = null
-    state = !state
+    value = !value
     try {
       app.request('user:update', {
         attribute: `settings.notifications.${name}`,
-        value: state
+        value
       })
     } catch (err) {
       flash = err
     }
-    if (name === 'global' && state === false) {
+    if (name === 'global' && value === false) {
       flash = {
         type: 'warning',
         message: I18n('global_email_toggle_warning')
@@ -27,7 +27,7 @@
 </script>
 
 <div class="wrapper" on:click={updateSetting}>
-  <input type="checkbox" id={name} bind:checked={state}>
+  <input type="checkbox" id={name} bind:checked={value}>
   <label for="emailNotifications">{I18n(description)}</label>
 </div>
 <Flash bind:state={flash}/>
