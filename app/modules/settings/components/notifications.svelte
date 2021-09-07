@@ -27,8 +27,7 @@
 
 <div class="wrapper">
   <h2 class="first-title">{I18n('notifications')}</h2>
-  <div class="note">{i18n('notifications_description')}</div>
-  <!--  Choose how you receive email notifications. -->
+  <div class="note">{I18n('notifications_description')}</div>
   <div class="notification-border">
     <section class="first-section">
       <h3>{I18n('global')}</h3>
