@@ -8,6 +8,32 @@ import draw from './draw'
 const { defaultZoom } = mapConfig
 
 let map_
+
+const showMainUserPositionPicker = async () => {
+  await getLeaflet()
+  return map_.updatePosition(app.user, 'user:update', 'user')
+}
+
+const getLeaflet = async () => {
+  const [ { default: mapConfig } ] = await Promise.all([
+    import('./config'),
+    // Set window.L
+    import('leaflet'),
+    import('leaflet/dist/leaflet.css'),
+    import('leaflet.markercluster/dist/MarkerCluster.css'),
+    import('leaflet.markercluster/dist/MarkerCluster.Default.css'),
+  ])
+  // Needs to be initialized after window.L was set
+  await import('leaflet.markercluster')
+  const { init: onLeafletReady } = mapConfig
+  onLeafletReady()
+}
+
+const showPositionPicker = async options => {
+  const { default: PositionPicker } = await import('../views/position_picker')
+  app.layout.modal.show(new PositionPicker(options))
+}
+
 export default map_ = {
   draw,
 
@@ -103,6 +129,25 @@ export default map_ = {
         if (user === app.user) map.mainUserMarker = marker
       }
     }
+  },
+  showMainUserPositionPicker,
+  getLeaflet,
+  showPositionPicker,
+  updatePosition (model, updateReqres, type, focusSelector) {
+    showPositionPicker({
+      model,
+      type,
+      focus: focusSelector,
+      resolve (newCoords, selector) {
+        return app.request(updateReqres, {
+          attribute: 'position',
+          value: newCoords,
+          selector,
+          // required by reqres updaters such as group:update:settings
+          model
+        })
+      }
+    })
   }
 }
 

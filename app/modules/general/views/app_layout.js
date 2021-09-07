@@ -9,6 +9,7 @@ import initFlashMessage from '../lib/flash_message'
 import ConfirmationModal from './confirmation_modal'
 import screen_ from 'lib/screen'
 import appLayoutTemplate from './templates/app_layout.hbs'
+import assert_ from 'app/lib/assert_types'
 
 export default Marionette.LayoutView.extend({
   template: appLayoutTemplate,
@@ -81,6 +82,9 @@ export default Marionette.LayoutView.extend({
   },
 
   askConfirmation (options) {
+    const { action, formAction } = options
+    assert_.function(action)
+    if (formAction != null) assert_.function(formAction)
     this.modal.show(new ConfirmationModal(options))
   }
 })
