@@ -63,7 +63,6 @@
   }
 </script>
 
-<h3>{I18n('current password')}</h3>
 <form>
   <!-- Add the username in a form to give a hint to the browser of which user credentials should be used to autocomplete -->
   <input type="text" name="username" value={$user.username} class="hidden">
@@ -73,7 +72,6 @@
   <a href="/login/forgot-password" class="link" on:click="{() => app.execute('show:forgot:password')}">{I18n('forgot your password?')}</a>
 </div>
 
-<h3>{I18n('new password')}</h3>
 <form method="post" action="/api/submit?redirect={currentRoute()}" bind:this={form}>
   <input type="text" name="username" value={$user.username} class="hidden">
   <PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} title={I18n('new password')} triggerPasswordManagerUpdate />
@@ -81,16 +79,11 @@
 
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
 
-<style>
+<style lang="scss">
+  @import 'app/modules/general/scss/utils';
+
   .forgotPassword .link{
     font-size: 90%;
     color: #777;
-  }
-  h3{
-    margin-top: 1em;
-    margin-bottom: 0.2em;
-    font: sans-serif;
-    font-size: 110%;
-    font-weight: 600;
   }
 </style>

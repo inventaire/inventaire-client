@@ -98,7 +98,7 @@
 </script>
 
 <section class="first-section">
-  <h2 class="first-title">{I18n('public profile')}</h2>
+  <h2 class="first-title">{I18n('profile')}</h2>
   <h3>{I18n('username')}</h3>
   <div class="text-zone">
     <input placeholder="{i18n('username')}..." bind:value={usernameValue}>
@@ -117,15 +117,11 @@
     <span class="counter" class:alert="{bioValue.length > 1000}">({bioValue.length}/1000)</span>
   </p>
   <button class="save light-blue-button" on:click={updateBio}>{I18n('update presentation')}</button>
-</section>
 
-<section>
-  <h2>{I18n('profile picture')}</h2>
+  <h3>{I18n('profile picture')}</h3>
   <UserPicture/>
-</section>
 
-<section>
-  <h2>{I18n('location')}</h2>
+  <h3>{I18n('location')}</h3>
   <p class="position-status">
     {#if $user.position}
       {I18n('position is set to')}: {$user.position[0]}, {$user.position[1]}

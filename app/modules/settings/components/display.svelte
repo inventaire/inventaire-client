@@ -37,4 +37,7 @@
   section{
     padding-left: 0;
   }
+  label{
+    font-size: 1rem;
+  }
 </style>

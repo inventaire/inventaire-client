@@ -107,18 +107,14 @@
     {/each}
   </select>
   <Flash bind:state={flashLang}/>
-</section>
 
-<section>
-  <h2 class="title">{I18n('email')}</h2>
+  <h3 class="title">{I18n('email')}</h3>
   <input placeholder="{i18n('email')}" bind:value={emailValue}/>
   <Flash bind:state={flashEmail}/>
   <p class="note">{I18n('email will not be publicly displayed.')}</p>
   <button class="light-blue-button" on:click="{updateEmail}">{I18n('update email')}</button>
-</section>
 
-<section>
-  <h2>{I18n('password')}</h2>
+  <h3>{I18n('password')}</h3>
   <UpdatePassword/>
 </section>
 
