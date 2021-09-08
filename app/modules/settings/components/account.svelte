@@ -9,7 +9,7 @@
   import email_ from 'modules/user/lib/email_tests'
   import { user } from 'app/modules/user/user_store'
 
-  let flashLang, flashEmail, requestedEmail
+  let flashLang, flashEmail, flashFediversable, requestedEmail, fediversable
   let userLang = $user.language
   let emailValue = $user.email
 
@@ -73,6 +73,19 @@
     }
   }
 
+  const toggleFediversable = () => {
+    flashFediversable = null
+    fediversable = !fediversable
+    try {
+      app.request('user:update', {
+        attribute: 'fediversable',
+        value: fediversable
+      })
+    } catch (err) {
+      flashFediversable = err
+    }
+  }
+
   const sendDeletionFeedback = message => preq.post(app.API.feedback, {
     subject: '[account deletion]',
     message
@@ -118,6 +131,16 @@
   <UpdatePassword/>
 </section>
 
+<section>
+  <h2 class="title">{I18n('discoverability')}</h2>
+  <label class="inline">
+    <input type="checkbox" class="fediversable" bind:checked={fediversable} on:click={toggleFediversable}>
+    {I18n('fediversable')}
+  </label>
+  <p class="note">{I18n('fediversable_description')}</p>
+  <Flash bind:state={flashFediversable}/>
+</section>
+
 <section class="danger-zone">
   <h2 class="title danger-zone-title">{I18n('danger zone')}</h2>
   <p class="note">{I18n('be careful, those actions might not be reversible')}</p>
@@ -134,6 +157,13 @@
     appearance: none;
     border: 1px solid #AAA;
     margin-bottom: 0;
+  }
+  input[type=checkbox]{
+    margin-right: 0.5em;
+  }
+  .inline{
+    display: flex;
+    align-items: center;
   }
   h3{
     margin-top: 1em;
