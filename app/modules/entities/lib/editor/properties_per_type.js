@@ -51,6 +51,7 @@ export default {
     'wdt:P577': {}, // publication date
     'wdt:P123': {}, // publisher
     'wdt:P195': {}, // collection
+    'wdt:P856': {}, // official website
     'wdt:P655': {}, // translator
     'wdt:P2679': {}, // author of foreword
     'wdt:P2680': {}, // author of afterword
