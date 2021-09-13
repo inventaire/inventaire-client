@@ -2,6 +2,7 @@ import { isNonEmptyString, isEntityUri, isAssetImg, isLocalImg, isImageHash } fr
 import { fixedEncodeURIComponent, hashCode } from 'lib/utils'
 import { buildPath } from 'lib/location'
 import commons_ from 'lib/wikimedia/commons'
+import { customizeInstance } from './instance'
 
 // Keep in sync with server/lib/emails/app_api
 export default function (path, width = 1600, height = 1600) {
@@ -10,7 +11,9 @@ export default function (path, width = 1600, height = 1600) {
   // Converting image hashes to a full URL
   if (isLocalImg(path) || isAssetImg(path)) {
     const [ container, filename ] = path.split('/').slice(2)
-    return `/img/${container}/${width}x${height}/${filename}`
+    const url = `/img/${container}/${width}x${height}/${filename}`
+    if (container === 'entities') return customizeInstance(url)
+    else return url
   }
 
   // The server may return images path on upload.wikimedia.org

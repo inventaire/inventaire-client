@@ -1,16 +1,9 @@
 import { forceArray } from 'lib/utils'
 import endpoint from './endpoint'
+import { customizeInstance } from './instance'
 const { action } = endpoint('entities')
 
 const CustomQuery = actionName => (uri, refresh) => action(actionName, { uri, refresh })
-
-const customizeInstance = url => {
-  if (app.config.remoteEntities != null) {
-    return `${app.config.remoteEntities}${url}`
-  } else {
-    return url
-  }
-}
 
 export default {
   // GET
