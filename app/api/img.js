@@ -7,11 +7,6 @@ import commons_ from 'lib/wikimedia/commons'
 export default function (path, width = 1600, height = 1600) {
   if (!isNonEmptyString(path)) return
 
-  if (path.startsWith('/ipfs/')) {
-    console.warn('outdated img path', path)
-    return
-  }
-
   // Converting image hashes to a full URL
   if (isLocalImg(path) || isAssetImg(path)) {
     const [ container, filename ] = path.split('/').slice(2)
