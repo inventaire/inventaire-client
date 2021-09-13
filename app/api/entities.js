@@ -3,7 +3,7 @@ import endpoint from './endpoint'
 import { customizeInstance } from './instance'
 const { action } = endpoint('entities')
 
-const CustomQuery = actionName => (uri, refresh) => action(actionName, { uri, refresh })
+const CustomQuery = actionName => (uri, refresh) => customizeInstance(action(actionName, { uri, refresh }))
 
 export default {
   // GET
@@ -19,7 +19,7 @@ export default {
   getManyByUris: () => customizeInstance(action('by-uris')),
 
   reverseClaims (property, value, refresh, sort) {
-    return action('reverse-claims', { property, value, refresh, sort })
+    return customizeInstance(action('reverse-claims', { property, value, refresh, sort }))
   },
 
   authorWorks: CustomQuery('author-works'),
@@ -28,12 +28,12 @@ export default {
 
   images (uris, refresh) {
     uris = forceArray(uris).join('|')
-    return action('images', { uris, refresh })
+    return customizeInstance(action('images', { uris, refresh }))
   },
 
-  activity: period => action('activity', { period }),
+  activity: period => customizeInstance(action('activity', { period })),
   changes: action('changes'),
-  history: id => action('history', { id }),
+  history: id => customizeInstance(action('history', { id })),
 
   // POST
   create: action('create'),
@@ -55,7 +55,7 @@ export default {
   delete: action('delete'),
   duplicates: action('duplicates'),
   contributions (userId, limit, offset) {
-    return action('contributions', { user: userId, limit, offset })
+    return customizeInstance(action('contributions', { user: userId, limit, offset }))
   },
   moveToWikidata: action('move-to-wikidata')
 }
