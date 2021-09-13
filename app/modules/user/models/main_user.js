@@ -43,8 +43,9 @@ export default UserCommons.extend({
     this.setDefaultPicture()
     const accessLevels = this.get('accessLevels')
     if (accessLevels == null) return
-    this.hasAdminAccess = accessLevels.includes('admin')
-    this.hasDataadminAccess = accessLevels.includes('dataadmin')
+    const clientUsesLocalEntities = app.config.remoteEntities == null
+    this.hasAdminAccess = accessLevels.includes('admin') && clientUsesLocalEntities
+    this.hasDataadminAccess = accessLevels.includes('dataadmin') && clientUsesLocalEntities
   },
 
   // Two valid language change cases:
