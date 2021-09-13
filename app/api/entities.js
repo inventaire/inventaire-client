@@ -4,17 +4,26 @@ const { action } = endpoint('entities')
 
 const CustomQuery = actionName => (uri, refresh) => action(actionName, { uri, refresh })
 
+const customizeInstance = url => {
+  if (app.config.remoteEntities != null) {
+    return `${app.config.remoteEntities}${url}`
+  } else {
+    return url
+  }
+}
+
 export default {
   // GET
   getByUris (uris, refresh, relatives) {
     uris = forceArray(uris).join('|')
     const autocreate = true
     if (relatives != null) relatives = forceArray(relatives).join('|')
-    return action('by-uris', { uris, refresh, relatives, autocreate })
+    const url = action('by-uris', { uris, refresh, relatives, autocreate })
+    return customizeInstance(url)
   },
 
   // Get many by POSTing URIs in the body
-  getManyByUris: action('by-uris'),
+  getManyByUris: () => customizeInstance(action('by-uris')),
 
   reverseClaims (property, value, refresh, sort) {
     return action('reverse-claims', { property, value, refresh, sort })

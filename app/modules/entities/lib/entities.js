@@ -45,7 +45,7 @@ export const getEntitiesByUris = async params => {
     res = await preq.get(app.API.entities.getByUris(uris))
   } else {
     // Use the POST endpoint when using a GET might hit some URI length limits
-    res = await preq.post(app.API.entities.getManyByUris, { uris })
+    res = await preq.post(app.API.entities.getManyByUris(), { uris })
   }
   const { entities } = res
   const serializedEntities = Object.values(entities).map(serializeEntity)

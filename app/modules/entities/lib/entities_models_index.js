@@ -68,7 +68,7 @@ const getRemoteEntitiesModels = function (uris, refresh, defaultType) {
     promise = preq.get(app.API.entities.getByUris(uris, refresh))
   } else {
     // Use the POST endpoint when using a GET might hit some URI length limits
-    promise = preq.post(app.API.entities.getManyByUris, { uris, refresh })
+    promise = preq.post(app.API.entities.getManyByUris(), { uris, refresh })
   }
 
   return promise
