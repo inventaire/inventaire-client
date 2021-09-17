@@ -23,8 +23,8 @@ export default Marionette.LayoutView.extend({
   },
 
   modelEvents: {
-    // The description might be overriden by a Wikipedia extract arrive later
-    'change:description': 'render'
+    // The description might be overriden by a Wikipedia extract arriving later
+    change: 'lazyRender'
   },
 
   serializeData () {
