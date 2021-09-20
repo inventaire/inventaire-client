@@ -36,8 +36,9 @@
   @import 'app/modules/general/scss/utils';
   input{
     margin: 0;
-    /*otherwise chrome do not display any checkbox*/
-    appearance: auto;
+  }
+  label {
+    font-size: 1rem
   }
   .wrapper{
     display: flex;

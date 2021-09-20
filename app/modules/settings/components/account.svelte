@@ -154,12 +154,14 @@
     font-weight: bold
   }
   input{
-    appearance: none;
     border: 1px solid #AAA;
     margin-bottom: 0;
   }
   input[type=checkbox]{
     margin-right: 0.5em;
+  }
+  label {
+    font-size: 1rem
   }
   .inline{
     display: flex;
