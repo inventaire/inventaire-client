@@ -8,6 +8,7 @@
   import { languages as languagesObj } from 'lib/active_languages'
   import email_ from 'modules/user/lib/email_tests'
   import { user } from 'app/modules/user/user_store'
+  import { domain } from 'lib/urls'
 
   let flashLang, flashEmail, flashFediversable, requestedEmail, fediversable
   let userLang = $user.language
@@ -137,7 +138,7 @@
     <input type="checkbox" class="fediversable" bind:checked={fediversable} on:click={toggleFediversable}>
     {I18n('fediversable')}
   </label>
-  <p class="note">{I18n('fediversable_description')}</p>
+  <p class="note">{@html I18n('fediversable_description', { username: $user.stableUsername, host: domain })}</p>
   <Flash bind:state={flashFediversable}/>
 </section>
 
