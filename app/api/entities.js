@@ -29,7 +29,8 @@ export default {
     return action('images', { uris, refresh })
   },
 
-  usersContributions: period => action('contributions', { period, users: true }),
+  usersContributionsCount: period => action('contributions-count', { period }),
+
   changes: action('changes'),
   history: id => action('history', { id }),
 

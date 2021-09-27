@@ -8,7 +8,7 @@
   export let title, period
 
   const getContributionsData = async () => {
-    const res = await preq.get(app.API.entities.usersContributions(period))
+    const res = await preq.get(app.API.entities.usersContributionsCount(period))
     usersData = await addUsersData(res)
   }
 
