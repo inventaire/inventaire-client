@@ -32,13 +32,13 @@ export default Backbone.Model.extend({
     }
   },
 
-  saveValue (newValue) {
+  async saveValue (newValue) {
     const oldValue = this.get('value')
     const oldValueEntity = this.valueEntity
     log_.info(oldValue, 'oldValue')
     log_.info(newValue, 'newValue')
 
-    if (newValue === oldValue) return Promise.resolve()
+    if (newValue === oldValue) return
 
     const property = this.get('property')
 

@@ -37,13 +37,13 @@ const specificMethods = _.extend({}, commonsSerieWork, {
 
   // Placeholder for cases when a series was formerly identified as a work
   // and got editions or items linking to it, assuming it is a work
-  getItemsByCategories () {
+  async getItemsByCategories () {
     app.execute('report:entity:type:issue', {
       model: this,
       expectedType: 'work',
       context: { module: 'app/modules/entities/lib/types/serie' }
     })
-    return Promise.resolve({ personal: [], network: [], public: [] })
+    return { personal: [], network: [], public: [] }
   },
 
   getAllAuthorsUris () {

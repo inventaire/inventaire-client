@@ -1,7 +1,7 @@
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 // Fetching sequentially to lower stress on the different APIs
-export default function (isbnsData) {
+export default async function (isbnsData) {
   const isbnsIndex = {}
 
   const commonRes = {
@@ -27,7 +27,7 @@ export default function (isbnsData) {
     }
   })
 
-  if (uris.length === 0) return Promise.resolve({ results: commonRes, isbnsIndex })
+  if (uris.length === 0) return { results: commonRes, isbnsIndex }
 
   const total = uris.length
 

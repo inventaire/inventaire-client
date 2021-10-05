@@ -137,8 +137,8 @@ export default Marionette.LayoutView.extend({
     this.$el.focus()
   },
 
-  create () {
-    if (!this.model.get('isPlaceholder')) return Promise.resolve()
+  async create () {
+    if (!this.model.get('isPlaceholder')) return
     const lang = this.ui.langSelector.val()
     const label = this.ui.placeholderLabelEditor.val()
     this.model.resetLabels(lang, label)

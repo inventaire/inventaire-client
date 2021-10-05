@@ -164,7 +164,7 @@ export default Marionette.LayoutView.extend({
   },
 
   // Override in sub views
-  beforeCreate () { return Promise.resolve() },
+  async beforeCreate () {},
 
   signalDataError (e) {
     const uri = this.model.get('uri')

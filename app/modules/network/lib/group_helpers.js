@@ -53,18 +53,15 @@ export default function () {
     }
   }
 
-  const resolveToGroupModel = function (group) {
+  const resolveToGroupModel = async function (group) {
     // 'group' is either the group model, a group id, or a group slug
-    if (isModel(group)) return Promise.resolve(group)
-
-    return getGroupModel(group)
-    .then(groupModel => {
-      if (groupModel != null) {
-        return groupModel
-      } else {
-        throw error_.new('group model not found', 404, { group })
-      }
-    })
+    if (isModel(group)) return group
+    const groupModel = await getGroupModel(group)
+    if (groupModel != null) {
+      return groupModel
+    } else {
+      throw error_.new('group model not found', 404, { group })
+    }
   }
 
   app.reqres.setHandlers({

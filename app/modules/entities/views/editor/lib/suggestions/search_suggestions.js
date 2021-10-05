@@ -2,12 +2,12 @@ import typeSearch from 'modules/entities/lib/search/type_search'
 import forms_ from 'modules/general/lib/forms'
 const batchLength = 10
 
-const search = function (input) {
+const search = async function (input) {
   // remove the value passed to the view as the input changed
   removeCurrentViewValue.call(this)
 
   input = input.trim().replace(/\s{2,}/g, ' ')
-  if (input === this.lastInput) return Promise.resolve()
+  if (input === this.lastInput) return
 
   this.showLoadingSpinner()
 
@@ -28,7 +28,7 @@ const search = function (input) {
   })
   .catch(err => {
     this.hideDropdown()
-    return forms_.catchAlert(this, err)
+    forms_.catchAlert(this, err)
   })
 }
 

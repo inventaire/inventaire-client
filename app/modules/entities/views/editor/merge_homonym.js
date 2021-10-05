@@ -72,8 +72,8 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  merge () {
-    if (this._mergedAlreadyTriggered) return Promise.resolve()
+  async merge () {
+    if (this._mergedAlreadyTriggered) return
     this._mergedAlreadyTriggered = true
 
     startLoading.call(this)

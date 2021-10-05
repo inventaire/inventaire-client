@@ -24,14 +24,14 @@ export const initMap = async params => {
   return map
 }
 
-const solvePosition = function (coords = {}) {
+const solvePosition = async function (coords = {}) {
   // priority is given to passed parameters
   const { lat, lng } = coords
-  if ((lat != null) && (lng != null)) return Promise.resolve(coords)
+  if ((lat != null) && (lng != null)) return coords
 
   // then to the user saved position
   const { user } = app
-  if (user.hasPosition()) return Promise.resolve(user.getCoords())
+  if (user.hasPosition()) return user.getCoords()
 
   // finally a request for the user position is issued
   return getPositionFromNavigator(containerId)

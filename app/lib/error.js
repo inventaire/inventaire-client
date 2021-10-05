@@ -43,9 +43,9 @@ const error_ = {
     }
   },
 
-  reject (message, context) {
+  async reject (message, context) {
     const err = formatError(message, context)
-    return Promise.reject(err)
+    throw err
   },
 
   // Log and report formatted errors to the server, without throwing

@@ -99,12 +99,12 @@ export default Marionette.LayoutView.extend({
     .catch(log_.Error('showShelves err'))
   },
 
-  getShelves () {
+  async getShelves () {
     if (this.model.mainUserIsOwner) {
       return getShelvesByOwner(app.user.id)
     } else {
       const itemShelves = this.model.get('shelves')
-      if (itemShelves?.length <= 0) return Promise.resolve([])
+      if (itemShelves?.length <= 0) return []
       return getShelvesByIds(itemShelves)
       .then(_.values)
     }

@@ -75,7 +75,7 @@ const specificMethods = {
   },
 
   // Editions don't have subentities
-  fetchSubEntities () { return Promise.resolve() }
+  async fetchSubEntities () {}
 }
 
 // Editions inherit some claims from their work but not all, as it could get confusing.

@@ -85,14 +85,14 @@ Backbone.Model.prototype.triggerGrab = function (name, model) {
 const WrapModelRequests = function (ClassObj, fnName) {
   const originalFn = ClassObj.prototype[fnName]
 
-  const wrappedFn = function () {
+  const wrappedFn = async function () {
     const result = originalFn.apply(this, arguments)
     // Backbone classes have some inconsistent APIs
     // like Model::delete that can return 'false' instead of a jQuery promise
     if (result.then != null) {
       return preq.wrap(result, arguments)
     } else {
-      return Promise.resolve(result)
+      return result
     }
   }
 

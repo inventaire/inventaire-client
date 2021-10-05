@@ -1,12 +1,12 @@
 import wdLang from 'wikidata-lang'
 const languages = _.values(wdLang.byCode)
 
-export default function (query) {
+export default async function (query) {
   query = query.toLowerCase()
 
   // If the query matches a lang code, only return the matching language
   const codeLang = wdLang.byCode[query]
-  if (codeLang != null) return Promise.resolve([ formatAsSearchResult(codeLang) ])
+  if (codeLang != null) return [ formatAsSearchResult(codeLang) ]
 
   const re = new RegExp(query, 'i')
   // one more reason to move to Lodash asap, this would really need lazy evaluation
@@ -19,7 +19,7 @@ export default function (query) {
     .map(formatAsSearchResult)
     .value()
 
-  return Promise.resolve(results)
+  return results
 }
 
 const formatAsSearchResult = function (result) {

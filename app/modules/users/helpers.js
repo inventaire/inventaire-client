@@ -18,7 +18,7 @@ export default function (app) {
 
       const model = app.users.byId(id)
       if ((model != null) && !refresh) {
-        return Promise.resolve(model)
+        return model
       } else {
         return usersData.get(id, 'collection')
         .then(addUser)

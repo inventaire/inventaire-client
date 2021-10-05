@@ -1,8 +1,8 @@
 import { chunk } from 'lib/utils'
 import preq from 'lib/preq'
 
-export default function (userId, uris) {
-  if (uris.length === 0) return Promise.resolve({})
+export default async function (userId, uris) {
+  if (uris.length === 0) return {}
 
   // Split in batches for cases where there might be too many uris
   // to put in a URL querystring without risking to reach URL character limit

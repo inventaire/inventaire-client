@@ -31,7 +31,7 @@ const showDefaultSuggestions = function () {
 
 const addNextDefaultSuggestionsBatch = async function () {
   const uris = this._remainingDefaultSuggestionsUris
-  if (uris.length === 0) return Promise.resolve()
+  if (uris.length === 0) return
 
   const nextBatch = uris.slice(0, batchLength)
   this._remainingDefaultSuggestionsUris = uris.slice(batchLength)

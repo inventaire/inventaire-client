@@ -81,7 +81,7 @@ export default Marionette.LayoutView.extend({
   }
 })
 
-const getUserId = function (username) {
-  if (!username) return Promise.resolve(app.user.id)
+const getUserId = async function (username) {
+  if (!username) return app.user.id
   return app.request('get:userId:from:username', username)
 }
