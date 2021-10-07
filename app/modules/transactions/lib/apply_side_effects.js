@@ -1,8 +1,10 @@
 import log_ from 'lib/loggers'
+
 export default function (transaction, state) {
   log_.info(arguments, 'applySideEffects')
   const { item } = transaction
-  sideEffects[state](transaction, item)
+  if (item) sideEffects[state](transaction, item)
+  else log_.warn({ transaction, item }, "item not found: can't apply side-effect")
 }
 
 const setItemBusyness = (bool, transaction, item) => item.set('busy', bool)
