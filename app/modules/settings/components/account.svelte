@@ -10,7 +10,8 @@
   import { user } from 'app/modules/user/user_store'
   import { domain } from 'lib/urls'
 
-  let flashLang, flashEmail, flashFediversable, requestedEmail, fediversable
+  let flashLang, flashEmail, flashFediversable, requestedEmail
+  let fediversable = $user.fediversable
   let userLang = $user.language
   let emailValue = $user.email
 
@@ -74,15 +75,16 @@
     }
   }
 
-  const toggleFediversable = () => {
+  const toggleFediversable = async () => {
     flashFediversable = null
     fediversable = !fediversable
     try {
-      app.request('user:update', {
+      await app.request('user:update', {
         attribute: 'fediversable',
         value: fediversable
       })
     } catch (err) {
+      fediversable = !fediversable
       flashFediversable = err
     }
   }
