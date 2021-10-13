@@ -49,8 +49,11 @@ const setAttributes = function (lang) {
     this.set('label', label)
   }
 
-  const description = getBestLangValue(lang, this.originalLang, this.get('descriptions')).value
-  if (description != null) this.set('description', description)
+  const { value: description, lang: descriptionLang } = getBestLangValue(lang, this.originalLang, this.get('descriptions'))
+  if (description != null) {
+    this.set('description', description)
+    this.set('descriptionLang', descriptionLang)
+  }
 }
 
 const specificMethods = {

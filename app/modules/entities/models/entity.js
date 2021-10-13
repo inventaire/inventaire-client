@@ -140,8 +140,9 @@ export default Filterable.extend({
   // Not naming it 'setLabel' as it collides with editable_entity own 'setLabel'
   setFavoriteLabel (attrs) {
     this.originalLang = getOriginalLang(attrs.claims)
-    const label = getBestLangValue(app.user.lang, this.originalLang, attrs.labels).value
-    this.set('label', label)
+    const { value, lang } = getBestLangValue(app.user.lang, this.originalLang, attrs.labels)
+    this.set('label', value)
+    this.set('labelLang', lang || '')
   },
 
   setInvAltUri () {

@@ -6,9 +6,9 @@
 {{/if}}
 <div class="entity-data-box">
   {{#if standalone}}
-    <h2 class="title">{{label}}</h2>
+    <h2 class="title" lang="{{labelLang}}">{{label}}</h2>
   {{else}}
-    <h3 class="title"><a href="{{pathname}}" class="showEntity link">{{label}}</a></h3>
+    <h3 class="title" lang="{{labelLang}}"><a href="{{pathname}}" class="showEntity link">{{label}}</a></h3>
   {{/if}}
   {{#if standalone}}{{> 'entities:clamped_extract' this}}{{/if}}
   {{> 'entities:authors_preview_lists'}}
