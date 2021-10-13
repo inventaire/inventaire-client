@@ -72,6 +72,7 @@ const _setWikipediaExtractAndDescription = function (extractData) {
   const { extract, lang } = extractData
   if (isNonEmptyString(extract)) {
     const extractDirection = rtlLang.includes(lang) ? 'rtl' : 'ltr'
+    this.set('extractLang', lang || '')
     this.set('extractDirection', extractDirection)
     this.set('extract', extract)
   }
