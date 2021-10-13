@@ -4,15 +4,13 @@ const { origin } = location
 
 // lang metadata updates needed by search engines
 // or to make by-language css rules (with :lang)
-export default function ($app, lang) {
-  setAppLang($app, lang)
+export default function (lang) {
+  document.documentElement.setAttribute('lang', lang)
 
   const elements = []
   addAlternateLangs(elements, addOgLocalAlternates(elements, lang))
-  $('head').append(elements.join(''))
+  $(document.head).append(elements.join(''))
 }
-
-const setAppLang = ($app, lang) => $app.attr('lang', lang)
 
 const addAlternateLangs = function (elements) {
   const href = `${origin}/${currentRoute()}`
