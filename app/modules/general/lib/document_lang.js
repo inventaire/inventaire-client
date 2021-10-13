@@ -1,11 +1,13 @@
 import { langs, regionify } from 'lib/active_languages'
 import { setQuerystring, currentRoute } from 'lib/location'
+import { getTextDirection } from 'app/lib/active_languages'
 const { origin } = location
 
 // lang metadata updates needed by search engines
 // or to make by-language css rules (with :lang)
 export default function (lang) {
   document.documentElement.setAttribute('lang', lang)
+  document.documentElement.setAttribute('dir', getTextDirection(lang))
 
   const elements = []
   addAlternateLangs(elements, addOgLocalAlternates(elements, lang))

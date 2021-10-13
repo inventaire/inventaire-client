@@ -5,7 +5,7 @@ import LiveSearch from 'modules/search/views/live_search'
 import TopBarButtons from './top_bar_buttons'
 import screen_ from 'lib/screen'
 import { currentRoute, currentSection } from 'lib/location'
-import { languages } from 'lib/active_languages'
+import languages from 'lib/languages_data'
 import topBarTemplate from './templates/top_bar.hbs'
 
 const mostCompleteFirst = (a, b) => b.completion - a.completion

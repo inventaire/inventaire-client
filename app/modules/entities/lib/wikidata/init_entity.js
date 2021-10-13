@@ -1,3 +1,4 @@
+import { getTextDirection } from 'app/lib/active_languages'
 import { isNonEmptyString } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
 import sitelinks_ from 'lib/wikimedia/sitelinks'
@@ -74,11 +75,8 @@ const specificMethods = {
 const _setWikipediaExtractAndDescription = function (extractData) {
   const { extract, lang } = extractData
   if (isNonEmptyString(extract)) {
-    const extractDirection = rtlLang.includes(lang) ? 'rtl' : 'ltr'
     this.set('extractLang', lang || '')
-    this.set('extractDirection', extractDirection)
+    this.set('extractDirection', getTextDirection(lang))
     this.set('extract', extract)
   }
 }
-
-const rtlLang = [ 'ar', 'he' ]

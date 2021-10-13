@@ -5,7 +5,7 @@
   import _ from 'underscore'
   import Flash from 'lib/components/flash.svelte'
   import UpdatePassword from 'lib/components/update_password.svelte'
-  import { languages as languagesObj } from 'lib/active_languages'
+  import languagesObj from 'lib/languages_data'
   import email_ from 'modules/user/lib/email_tests'
   import { user } from 'app/modules/user/user_store'
   import { domain } from 'lib/urls'
