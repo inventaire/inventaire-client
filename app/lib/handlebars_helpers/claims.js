@@ -51,12 +51,12 @@ export default API = {
     }
   },
 
-  imageClaim (claims, prop, omitLabel, inline, data) {
+  imageClaim (claims, prop, altText) {
     if (claims?.[prop]?.[0] != null) {
       const file = claims[prop][0]
       const src = commons_.thumbnail(file, 200)
       const propClass = prop.replace(':', '-')
-      return new SafeString(`<img class='image-claim ${propClass}' src='${src}'>`)
+      return new SafeString(`<img class='image-claim ${propClass}' src='${src}' alt='${i18n(altText)}'>`)
     }
   },
 

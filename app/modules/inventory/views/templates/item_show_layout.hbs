@@ -8,10 +8,9 @@
     {{else}}
       <span class="section-label">{{I18n 'work'}}</span>
     {{/if}}
-
     <a class="showEntity {{entityType}}" href="{{entityData.pathname}}">
       {{#if snapshot.entity:image}}
-        <img class="entity-image" src="{{imgSrc snapshot.entity:image 400}}">
+        <img class="entity-image" src="{{imgSrc snapshot.entity:image 400}}" alt="{{snapshot.entity:title}}">
       {{/if}}
       <span class="title" lang="{{snapshot.entity:lang}}" >{{snapshot.entity:title}}</span><br>
       <span class="subtitle" lang="{{snapshot.entity:lang}}">{{snapshot.entity:subtitle}}</span><br>
