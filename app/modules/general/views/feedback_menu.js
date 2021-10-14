@@ -83,7 +83,7 @@ export default Marionette.ItemView.extend({
 
   postFailed () {
     this.stopLoading('#sendFeedback')
-    return this.fail('feedback err')
+    this.fail('feedback err')
   },
 
   hideConfirmation () { if (!this.isDestroyed) { this.ui.confirmation.slideUp() } }

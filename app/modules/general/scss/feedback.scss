@@ -12,6 +12,10 @@
     margin: auto;
     text-align: center;
   }
+  label{
+    font-size: 1rem;
+    text-align: left;
+  }
   /*Not VerySmall screens*/
   @media screen and (min-width: $small-screen) {
     padding: 1em;
