@@ -72,13 +72,9 @@ export default Marionette.ItemView.extend({
     this.ui.message.val(null)
     this.ui.confirmation.slideDown()
 
-    if (this.standalone) {
-      // simply hide the confirmation so that the user can still send a new feedback
-      // and get a new confirmation for it
-      this.setTimeout(this.hideConfirmation.bind(this), 5000)
-    } else {
-      this.setTimeout(app.Execute('modal:close'), 2000)
-    }
+    // Simply hide the confirmation so that the user can still send a new feedback
+    // and get a new confirmation for it
+    this.setTimeout(this.hideConfirmation.bind(this), 30000)
   },
 
   postFailed () {
