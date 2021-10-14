@@ -37,7 +37,7 @@
         {@html state.message}
       {/if}
     </div>
-    <button on:click={() => state = null}>
+    <button on:click="{() => state = null}" title="{ I18n('close') }">
       {@html icon('close')}
     </button>
   </div>
