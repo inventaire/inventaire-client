@@ -72,6 +72,7 @@ export default Marionette.LayoutView.extend({
     'click #home': clickCommand('show:home'),
 
     'focus #searchField': 'showLiveSearch',
+    'blur #searchField': 'hideLiveSearch',
     'keyup #searchField': 'onKeyUp',
     'keydown #searchField': 'onKeyDown',
     'click .searchSection': 'recoverSearchFocus',
