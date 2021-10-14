@@ -153,7 +153,7 @@
 <style lang="scss">
   @import 'app/modules/settings/scss/common_settings';
   .danger-zone-title{
-    color: $danger-color;
+    color: $darker-danger-color;
     font-weight: bold
   }
   input{
