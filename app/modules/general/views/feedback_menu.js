@@ -47,6 +47,9 @@ export default Marionette.ItemView.extend({
   onShow () { if (!this.standalone) { app.execute('modal:open') } },
 
   sendFeedback () {
+    if (this.ui.subject.val().trim().length === 0) return
+    if (this.ui.message.val().trim().length === 0) return
+
     this.startLoading('#sendFeedback')
 
     return this.postFeedback()
