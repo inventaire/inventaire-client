@@ -15,14 +15,14 @@ nav#top-bar{
   a#home{
     color: white;
   }
-  .language-picker, .global-menu, .signupRequest, .loginRequest{
+  #language-picker, .global-menu, .signupRequest, .loginRequest{
     @include serif;
     font-weight: bold;
     color: white;
     white-space: nowrap;
     @include display-flex(row, center, center);
   }
-  .language-picker, .signupRequest, .loginRequest{
+  #language-picker, .signupRequest, .loginRequest{
     align-self: stretch;
   }
   .help-translate, .global-menu a{
@@ -70,10 +70,10 @@ nav#top-bar{
       bottom: 100vh;
     }
   }
-  .iconButton, .language-picker, .global-menu{
+  .iconButton, #language-picker, .global-menu{
     @include bg-hover-lighten($topbar-bg-color);
   }
-  .language-picker, .global-menu{
+  #language-picker, .global-menu{
     .fa-caret-down{
       color: #ccc;
     }
@@ -112,7 +112,7 @@ nav#top-bar{
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     .signupRequest{
-      // Push away the .language-picker
+      // Push away the #language-picker
       margin-left: 1em;
     }
   }
@@ -132,7 +132,7 @@ nav#top-bar{
       margin-left: 0.2em;
       margin-right: 0.4em;
     }
-    .language-picker{
+    #language-picker{
       display: none !important;
     }
     #searchGroup{

@@ -80,7 +80,7 @@ export default Marionette.LayoutView.extend({
     'click .closeSearch': 'closeSearch',
     'click #live-search': 'closeSearchOnOverlayClick',
 
-    'click .language-picker .option a': 'selectLang'
+    'click #language-picker .option a': 'selectLang'
   },
 
   childEvents: {

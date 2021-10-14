@@ -1,4 +1,4 @@
-.language-picker{
+#language-picker{
   padding-left: 0.5em;
   .dropdown{
     min-width: 18em;
@@ -18,6 +18,13 @@
       background-color: $grey;
       &, span{
         color: white !important;
+      }
+      &:focus{
+        background-color: $dark-grey;
+        .completion{
+          opacity: 0.25;
+          background-color: $dark-grey;
+        }
       }
     }
     .completion{
