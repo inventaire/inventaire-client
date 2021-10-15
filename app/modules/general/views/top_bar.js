@@ -72,7 +72,6 @@ export default Marionette.LayoutView.extend({
     'click #home': clickCommand('show:home'),
 
     'focus #searchField': 'showLiveSearch',
-    'blur #searchField': 'hideLiveSearch',
     'keyup #searchField': 'onKeyUp',
     'keydown #searchField': 'onKeyDown',
     'click .searchSection': 'recoverSearchFocus',
@@ -80,6 +79,7 @@ export default Marionette.LayoutView.extend({
     'click .closeSearch': 'closeSearch',
     'click #live-search': 'closeSearchOnOverlayClick',
 
+    'focus #language-picker': 'closeSearch',
     'click #language-picker .option a': 'selectLang'
   },
 
