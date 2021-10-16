@@ -33,6 +33,9 @@ body.openedModal{
     color: white;
     @include shy(0.8);
     @include position(absolute, 2.6rem, 0);
+    &:focus {
+      color: $light-grey
+    }
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
