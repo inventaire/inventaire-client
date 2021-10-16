@@ -29,7 +29,7 @@
   }
   > a.itemShow{
     width: 100%;
-    &:hover{
+    &:hover, &:focus{
       @include transition(background-color);
       background-color: $light-grey;
       h3.title{
