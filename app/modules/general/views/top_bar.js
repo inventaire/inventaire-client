@@ -79,6 +79,7 @@ export default Marionette.LayoutView.extend({
     'click .closeSearch': 'closeSearch',
     'click #live-search': 'closeSearchOnOverlayClick',
 
+    'focus #topBarButtons': 'closeSearch',
     'focus #language-picker': 'closeSearch',
     'click #language-picker .option a': 'selectLang'
   },
