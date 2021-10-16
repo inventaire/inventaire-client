@@ -9,14 +9,14 @@
     <div class="loading"></div>
   </div>
   <div id="displayControls" class="{{displayMode}} has-dropdown">
-    <a class="current">
+    <a class="current" tabindex="0">
       <div class="{{#if cascade}}shown{{/if}}">{{icon 'th-large'}}</div>
       <div class="{{#if table}}shown{{/if}}">{{icon 'align-justify'}}</div>
       <span class="label">{{I18n 'display_mode'}}</span>
     </a>
     <ul id="displayOptions" class="dropdown">
-      <li><a id="cascade">{{icon 'th-large'}} {{I18n 'cascade'}}</a></li>
-      <li><a id="table">{{icon 'align-justify'}} {{I18n 'table'}}</a></li>
+      <li><a id="cascade" tabindex="0">{{icon 'th-large'}} {{I18n 'cascade'}}</a></li>
+      <li><a id="table" tabindex="0">{{icon 'align-justify'}} {{I18n 'table'}}</a></li>
     </ul>
   </div>
 </div>

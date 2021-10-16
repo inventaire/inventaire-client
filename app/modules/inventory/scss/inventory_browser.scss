@@ -54,6 +54,9 @@
       .label{
         padding: 0 0.5em;
       }
+      &:hover, &:focus{
+        background-color: $light-grey;
+      }
     }
     /*Large screens*/
     @media screen and (min-width: $smaller-screen) {
