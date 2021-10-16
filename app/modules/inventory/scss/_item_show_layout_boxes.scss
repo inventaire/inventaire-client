@@ -38,6 +38,12 @@
         padding-left: 0.5em;
       }
     }
+    &:focus{
+      background-color: $soft-grey;
+      .current{
+        background-color: none;
+      }
+    }
   }
   @mixin box-color($color, $white-text:1){
     .icon{

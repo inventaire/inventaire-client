@@ -1,5 +1,5 @@
 {{#unless restricted}}
-  <div class="listingMenu {{currentListing.id}} has-dropdown">
+  <div class="listingMenu {{currentListing.id}} has-dropdown" tabindex="0">
     <a class="current">
       <span class="icon">{{icon currentListing.icon}}</span>
       <span class="rest">
@@ -11,7 +11,7 @@
       <li class="dropdown-label">{{i18n 'change visibility:'}}</li>
       {{#each listings}}
         <li>
-          <a id="{{id}}" class="listing {{classes}}">
+          <a id="{{id}}" class="listing {{classes}}" tabindex="0">
             {{icon icon}} {{i18n label}}
           </a>
         </li>

@@ -1,4 +1,4 @@
-<div class="transactionBox {{currentTransaction.id}} has-dropdown">
+<div class="transactionBox {{currentTransaction.id}} has-dropdown" tabindex="0">
   {{#if restricted}}
     <a class="current itemShow">
       {{icon currentTransaction.icon}}{{i18n currentTransaction.labelShort}}
@@ -17,7 +17,7 @@
       <li class="dropdown-label capitalized">{{i18n 'available for'}}:</li>
       {{#each transactions}}
         <li>
-          <a id="{{id}}" class="transaction {{classes}}">
+          <a id="{{id}}" class="transaction {{classes}}" tabindex="0">
             {{icon icon}} {{i18n label}}
           </a>
         </li>

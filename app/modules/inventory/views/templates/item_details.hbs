@@ -4,7 +4,7 @@
     <div class="right">
       {{#unless restricted}}
         <span class="indicator" title="{{i18n 'this is visible by anyone who can see this item'}}">{{icon currentListing.icon}}</span>
-        <a id="editDetails" class="editButton" title="{{i18n 'edit'}}">{{icon 'pencil'}}</a>
+        <a id="editDetails" class="editButton" title="{{i18n 'edit'}}" tabindex="0">{{icon 'pencil'}}</a>
       {{/unless}}
     </div>
   </div>
@@ -14,8 +14,8 @@
   <div id="detailsEditor" class='hidden'>
     <textarea placeholder='({{i18n 'details_placeholder'}})'>{{details}}</textarea>
     <div class="button-group-right">
-      <a id="cancelDetailsEdition" class="cancelButton">{{i18n 'cancel'}}</a>
-      <a id="validateDetails" class="validateButton">{{i18n 'save'}}</a>
+      <a id="cancelDetailsEdition" class="cancelButton" tabindex="0">{{i18n 'cancel'}}</a>
+      <a id="validateDetails" class="validateButton" tabindex="0">{{i18n 'save'}}</a>
     </div>
   </div>
 </div>

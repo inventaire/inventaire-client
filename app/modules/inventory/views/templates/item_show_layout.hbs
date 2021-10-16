@@ -52,7 +52,7 @@
     <div id="itemData"></div>
     {{> 'inventory:item_shelves' this}}
     {{#unless restricted}}
-      <a class="remove remove-button dark-grey">
+      <a class="remove remove-button dark-grey" tabindex="0">
         <span>{{I18n 'delete'}}</span>
         {{icon 'trash-o'}}
       </a>

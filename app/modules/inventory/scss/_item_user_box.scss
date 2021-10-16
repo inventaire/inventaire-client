@@ -5,7 +5,7 @@ a.user{
   .username{
     color: $username-color;
   }
-  &:hover{
+  &:hover, &:focus{
     .username{
       @include link;
     }
