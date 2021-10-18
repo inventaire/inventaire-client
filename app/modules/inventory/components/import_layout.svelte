@@ -9,6 +9,7 @@
   import extractIsbns from '#inventory/lib/import/extract_isbns'
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   import log_ from '#lib/loggers'
   import preq from '#lib/preq'
 
@@ -140,7 +141,7 @@
     <h3>2/ Select the books you want to add</h3>
     <ul>
       {#each candidates as candidate (candidate.isbnData.normalizedIsbn)}
-        {candidate.isbnData.rawIsbn}
+        <CandidateRow bind:candidate={candidate}/>
       {/each}
     </ul>
   {/if}
