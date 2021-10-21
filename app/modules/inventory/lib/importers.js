@@ -70,11 +70,11 @@ const prepareImporter = function (name, obj) {
   return obj
 }
 
-const wrappedImporters = {}
+const wrappedImporters = []
 
 for (const name in importers) {
   const params = importers[name]
-  wrappedImporters[name] = prepareImporter(name, params)
+  wrappedImporters.push(prepareImporter(name, params))
 }
 
 export default wrappedImporters
