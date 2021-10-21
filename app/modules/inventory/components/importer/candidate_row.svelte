@@ -10,7 +10,9 @@
     <input type="checkbox" bind:checked name="{I18n('select_book')}">
   </div>
   <div class="column isbn">
-    {candidate.isbnData.rawIsbn}
+    {#if candidate.isbnData}
+      {candidate.isbnData.rawIsbn}
+    {/if}
   </div>
   <div class="column works">
     <div class="column work">
