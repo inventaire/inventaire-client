@@ -7,22 +7,20 @@
   import Notifications from './notifications.svelte'
   import Display from './display.svelte'
   import Data from './data.svelte'
-  import { onMount } from 'svelte'
+  import screen_ from '#lib/screen'
+
   export let section = 'profile'
+
   $: app.navigate(`/settings/${section}`)
-  let settingEl, settingHeight
-  // onMount runs after the component is first rendered
-  // to ensure variable is bound after its creation
-  onMount(() => settingHeight = settingEl.offsetTop)
+
+  let settingEl
   const isSmallScreen = window.screen.width < 470
+
   const goToSetting = sectionName => async () => {
     section = sectionName
     if (isSmallScreen) {
       await wait(5)
-      window.scrollTo({
-        top: settingHeight,
-        behavior: 'smooth'
-      })
+      screen_.scrollToElement(settingEl.offsetTop)
     }
   }
 </script>

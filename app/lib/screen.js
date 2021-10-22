@@ -45,5 +45,11 @@ export default screen_ = {
       scrollTop = 0
     }
     return $parent.animate({ scrollTop }, { duration: 50, easing: 'swing' })
+  },
+  scrollToElement (element) {
+    window.scrollTo({
+      top: element,
+      behavior: 'smooth'
+    })
   }
 }
