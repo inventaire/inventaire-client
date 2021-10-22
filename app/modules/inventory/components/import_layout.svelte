@@ -13,18 +13,21 @@
   import dataValidator from '#inventory/lib/data_validator'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import importers from '#inventory/lib/importers'
+  import commonParser from '#inventory/lib/parsers/common'
+  import screen_ from '#lib/screen'
   import log_ from '#lib/loggers'
   import preq from '#lib/preq'
 
   onMount(() => autosize(document.querySelector('textarea')))
   let flashIsbnsImporter, flashInvalidIsbns, totalIsbns
-  const flashImporters = {}
+  let flashImporters = {}
   let completed = 0
   let isbnsText
   // a preCandidate have an isbnData key when an isbn is found
   let preCandidates = []
   // a candidate have an entities key containing the already known entities in inventaire
   let candidates = []
+  let candidatesElement
 
   const getFile = importer => {
     const { parse, encoding, files } = importer
@@ -39,17 +42,18 @@
     .then(([ data, { default: Papa }, { default: ISBN } ]) => {
       window.ISBN = ISBN
       window.Papa = Papa
+      flashImporters = {}
       dataValidator(importer, data)
       const fileRows = parse(data).map(commonParser)
       const allPreCandidates = fileRows.map(fetchAndAssignIsbnsData)
       removeIsbnKeyIfInvalid(allPreCandidates)
     })
+    .then(createCandidates)
+    .then(log_.Info('parsed'))
     .catch(log_.ErrorRethrow('parsing error'))
     .catch(message => {
       flashImporters[importer.name] = { type: 'error', message }
     })
-    .then(log_.Info('parsed'))
-    .then(createCandidates)
   }
 
   const fetchAndAssignIsbnsData = row => {
@@ -222,13 +226,15 @@
       <Spinner/>
     </p>
   {/if}
-  <h3>2/ Select the books you want to add</h3>
-  <Flash bind:state={flashInvalidIsbns}/>
-  <ul>
-    {#each candidates as candidate (candidate.index)}
-      <CandidateRow bind:candidate={candidate}/>
-    {/each}
-  </ul>
+  <div id="candidatesElement" bind:this={candidatesElement} hidden="{!candidates.length > 0}">
+    <h3>2/ Select the books you want to add</h3>
+    <Flash bind:state={flashInvalidIsbns}/>
+    <ul>
+      {#each candidates as candidate (candidate.index)}
+        <CandidateRow bind:candidate={candidate}/>
+      {/each}
+    </ul>
+  </div>
 </section>
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
