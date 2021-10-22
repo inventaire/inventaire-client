@@ -3,7 +3,7 @@ import log_ from '#lib/loggers'
 import libraryThingParser from './parsers/library_thing.js'
 import goodReadsParser from './parsers/good_reads.js'
 import babelioParser from './parsers/babelio.js'
-import extractIsbnsAndFetchData from './import/extract_isbns_and_fetch_data.js'
+import isbnExtractor from '#inventory/lib/import/extract_isbns'
 
 // How to add an importer:
 // - add an entry to the importers object hereafter
@@ -52,7 +52,10 @@ const importers = {
     help: 'any_isbn_text_file',
     // Require only on demande to avoid requiring it during other importers tests
     // and thus having to adapt its dependencies to the test environment
-    parse (data) { return extractIsbnsAndFetchData(data) }
+    parse (isbnsText) {
+      const isbnsData = isbnExtractor.extractIsbns(isbnsText).filter(isbnData => !isbnData.isInvalid)
+      return isbnsData.map(isbnData => { return { isbnData } })
+    }
   }
 }
 

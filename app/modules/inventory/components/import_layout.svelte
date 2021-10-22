@@ -12,11 +12,12 @@
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   import dataValidator from '#inventory/lib/data_validator'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
+  import importers from '#inventory/lib/importers'
   import log_ from '#lib/loggers'
   import preq from '#lib/preq'
 
   onMount(() => autosize(document.querySelector('textarea')))
-  let flashIsbnsImporter, flashInvalidIsbns, isbnLoading, totalIsbns, displayEditions
+  let flashIsbnsImporter, flashInvalidIsbns, totalIsbns
   const flashImporters = {}
   let completed = 0
   let isbnsText
@@ -91,17 +92,16 @@
     totalIsbns = preCandidates.length
     return fetchEntitiesSequentially()
     .then(entities => {
-      displayEditions = true
       preCandidates.forEach(buildCandidate(entities))
     })
+    .then(() => screen_.scrollToElement(candidatesElement.offsetTop))
   }
 
-  const fetchEntitiesSequentially = async () => {
+  const fetchEntitiesSequentially = () => {
     const preCandidates2 = _.clone(preCandidates)
-    completed = 0
     const entities = {}
+    completed = 0
     const relatives = [ 'wdt:P629', 'wdt:P50' ]
-    isbnLoading = true
     const fetchEntity = async () => {
       if (preCandidates2.length === 0) return
       const nextPreCandidate = preCandidates2.pop()
@@ -112,22 +112,19 @@
         _.extend(entities, res.entities)
         completed += 1
       })
-      // Log errors without throwing to prevent crashing the whole chain
+      // log errors without throwing to prevent crashing the whole chain
       .catch(log_.Error('fetchEntity err'))
       .then(fetchEntity)
     }
 
     return Promise.all([
-      // Using 5 separate channels, fetching entities one by one, instead of
+      // using 5 separate channels, fetching entities one by one, instead of
       // by batch, to avoid having one entity blocking a batch progression:
       // the hypothesis is that the request overhead should be smaller than
       // the time a new dataseed-based entity might take to be created
       fetchEntity(), fetchEntity(), fetchEntity(), fetchEntity(), fetchEntity()
     ])
-    .then(() => {
-      isbnLoading = false
-      return entities
-    })
+    .then(() => entities)
   }
 
   const buildCandidate = entities => preCandidate => {
@@ -219,23 +216,19 @@
   <div class="buttonWrapper">
     <a id="createCandidatesButton" on:click={createCandidates} class="button" tabindex="0">{I18n('find ISBNs')}</a>
   </div>
-  {#if isbnLoading}
+  {#if completed > 0}
     <p class="loading">
-      {#if completed}
-        {completed}/{totalIsbns}
-      {/if}
+      {completed}/{totalIsbns}
       <Spinner/>
     </p>
   {/if}
-  {#if displayEditions}
-    <h3>2/ Select the books you want to add</h3>
-    <Flash bind:state={flashInvalidIsbns}/>
-    <ul>
-      {#each candidates as candidate (candidate.index)}
-        <CandidateRow bind:candidate={candidate}/>
-      {/each}
-    </ul>
-  {/if}
+  <h3>2/ Select the books you want to add</h3>
+  <Flash bind:state={flashInvalidIsbns}/>
+  <ul>
+    {#each candidates as candidate (candidate.index)}
+      <CandidateRow bind:candidate={candidate}/>
+    {/each}
+  </ul>
 </section>
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
