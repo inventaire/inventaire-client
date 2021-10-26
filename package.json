@@ -46,7 +46,7 @@
     "blueimp-canvas-to-blob": "^3.28.0",
     "cropper": "^2.3.0",
     "enumerate-devices": "^1.1.0",
-    "fork-awesome": "^1.1.7",
+    "fork-awesome": "^1.2.0",
     "handlebars": "^4.7.6",
     "imagesloaded": "^4.1.4",
     "isbn3": "^1.1.6",
