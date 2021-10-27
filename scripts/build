@@ -52,6 +52,7 @@ fi
 
 echo -e '\e[0;30mgzip assets\e[0m'
 gzip -9kf public/fonts/*
+gzip -9kf public/i18n/*
 gzip -9kf public/json/*
 gzip -9kf public/sitemaps/*
 gzip -9kf public/*.xml
