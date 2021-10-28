@@ -1,5 +1,5 @@
 @import 'app/modules/general/scss/utils';
-section{
+section, fieldset{
   padding-top: 1.5em;
   padding-left: 1.5em;
 }
@@ -17,7 +17,7 @@ h2{
 
 /*Small screens*/
 @media screen and (max-width: 470px) {
-  section{
+  section, fieldset{
     padding: 1em 0;
   }
 }

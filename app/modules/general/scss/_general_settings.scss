@@ -42,6 +42,10 @@ body{
   a, button{
     outline: 0;
   }
+  fieldset{
+    padding: 0;
+    border: none;
+  }
 }
 
 // OPACITY

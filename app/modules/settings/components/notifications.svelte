@@ -26,14 +26,14 @@
 <div class="wrapper">
   <h2 class="first-title">{I18n('notifications')}</h2>
   <div class="note">{I18n('notifications_description')}</div>
-  <div class="notification-border">
-    <section class="first-section">
-      <h3>{I18n('global')}</h3>
+  <form>
+    <fieldset class="first-section">
+      <legend>{I18n('global')}</legend>
       <Toggler name="global" value={notificationData.global}/>
-    </section>
+    </fieldset>
     {#if notificationData.global}
-      <section>
-        <h3>{I18n('news')}</h3>
+      <fieldset>
+        <legend>{I18n('news')}</legend>
         <Toggler name="inventories_activity_summary" value={notificationData.inventories_activity_summary}/>
         {#if notificationData.inventories_activity_summary}
           <div>
@@ -46,44 +46,44 @@
           </div>
         {/if}
         <Flash bind:value={flashPeriodicity}/>
-      </section>
-      <section>
-        <h3>{I18n('friends')}</h3>
+      </fieldset>
+      <fieldset>
+        <legend>{I18n('friends')}</legend>
         <div class="note">{i18n('email me when')}</div>
         <Toggler name="friendship_request" value={notificationData.friendship_request}/>
         <Toggler name="friend_accepted_request" value={notificationData.friend_accepted_request}/>
-      </section>
-      <section>
-        <h3>{I18n('groups')}</h3>
+      </fieldset>
+      <fieldset>
+        <legend>{I18n('groups')}</legend>
         <div class="note">{i18n('email me when')}</div>
         <Toggler name="group_invite" value={notificationData.group_invite}/>
         <Toggler name="group_acceptRequest" value={notificationData.group_acceptRequest}/>
-      </section>
-      <section>
-        <h3>{I18n('exchanges')}</h3>
+      </fieldset>
+      <fieldset>
+        <legend>{I18n('exchanges')}</legend>
         <div class="note">{i18n('email me when')}</div>
         <Toggler name="your_item_was_requested" value={notificationData.your_item_was_requested}/>
         <Toggler name="update_on_your_item" value={notificationData.update_on_your_item}/>
         <Toggler name="update_on_item_you_requested" value={notificationData.update_on_item_you_requested}/>
-      </section>
+      </fieldset>
     {/if}
-  </div>
+  </form>
 </div>
 
 <style lang="scss">
   @import 'app/modules/settings/scss/common_settings';
-  .notification-border{
+  form{
     margin-top: 1em;
     border: 1px solid #CCC;
     border-radius: 3px;
-    section:last-child {
+    fieldset:last-child {
       border-bottom: 0;
     }
   }
   .wrapper{
     margin: 0 1.5em;
   }
-  section{
+  fieldset{
     border-bottom: 1px solid #CCC;
     padding: 1em;
     padding-top: 0;
@@ -93,12 +93,13 @@
     font-size: 90%;
     margin-bottom: 0
   }
-  h3{
+  legend{
+    @include serif;
     margin-top: 1em;
     margin-bottom: 0.2em;
     font: sans-serif;
-    font-size: 110%;
-    font-weight: 600;
+    font-size: 1.1em;
+    font-weight: bold;
   }
   /*Small screens*/
   @media screen and (max-width: 470px) {
