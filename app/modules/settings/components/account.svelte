@@ -115,7 +115,7 @@
 </script>
 
 <form>
-  <fieldset class="first-fieldset">
+  <fieldset>
     <h2 class="first-title">{I18n('account')}</h2>
     <h3 class="label">{I18n('language')}</h3>
     <select name="language" aria-label="language picker" bind:value="{userLang}">

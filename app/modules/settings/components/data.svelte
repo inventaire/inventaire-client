@@ -5,7 +5,7 @@
 </script>
 
 <form>
-  <fieldset class="first-fieldset">
+  <fieldset>
     <h2 class="first-title">{I18n('data exports')}</h2>
 
     <h3>{I18n('inventory')}</h3>

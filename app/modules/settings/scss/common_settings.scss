@@ -3,7 +3,7 @@ fieldset{
   padding-top: 1.5em;
   padding-left: 1.5em;
 }
-.first-fieldset{
+fieldset:first-of-type{
   padding-top: 0;
 }
 h2{

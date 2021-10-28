@@ -98,7 +98,7 @@
 </script>
 
 <form>
-  <fieldset class="first-fieldset">
+  <fieldset>
     <h2 class="first-title">{I18n('profile')}</h2>
     <h3>{I18n('username')}</h3>
     <div class="text-zone">

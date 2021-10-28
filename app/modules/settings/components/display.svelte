@@ -13,7 +13,7 @@
 
 <form>
   <h2 class="first-title">{I18n('display_name')}</h2>
-  <fieldset class="first-fieldset">
+  <fieldset>
     <label for="entitiesDisplay">{I18n('entities lists')} ({i18n('works')})</label>
     <select id="entitiesDisplay" on:blur="{e => selectDisplay('entitiesDisplay', e.target.value)}">
       <option value="large" selected="{entitiesLarge}">{I18n('large')}</option>
