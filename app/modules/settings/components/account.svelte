@@ -114,41 +114,43 @@
   $: pickLanguage(userLang)
 </script>
 
-<section class="first-section">
-  <h2 class="first-title">{I18n('account')}</h2>
-  <h3 class="label">{I18n('language')}</h3>
-  <select name="language" aria-label="language picker" bind:value="{userLang}">
-    {#each Object.values(languagesObj) as language}
-      <option value={language.lang}>{language.lang} - {language.native}</option>
-    {/each}
-  </select>
-  <Flash bind:state={flashLang}/>
+<form>
+  <fieldset class="first-fieldset">
+    <h2 class="first-title">{I18n('account')}</h2>
+    <h3 class="label">{I18n('language')}</h3>
+    <select name="language" aria-label="language picker" bind:value="{userLang}">
+      {#each Object.values(languagesObj) as language}
+        <option value={language.lang}>{language.lang} - {language.native}</option>
+      {/each}
+    </select>
+    <Flash bind:state={flashLang}/>
 
-  <h3 class="title">{I18n('email')}</h3>
-  <input placeholder="{i18n('email')}" bind:value={emailValue}/>
-  <Flash bind:state={flashEmail}/>
-  <p class="note">{I18n('email will not be publicly displayed.')}</p>
-  <button class="light-blue-button" on:click="{updateEmail}">{I18n('update email')}</button>
+    <h3 class="title">{I18n('email')}</h3>
+    <input placeholder="{i18n('email')}" bind:value={emailValue}/>
+    <Flash bind:state={flashEmail}/>
+    <p class="note">{I18n('email will not be publicly displayed.')}</p>
+    <button class="light-blue-button" on:click="{updateEmail}">{I18n('update email')}</button>
 
-  <h3>{I18n('password')}</h3>
-  <UpdatePassword/>
-</section>
+    <h3>{I18n('password')}</h3>
+    <UpdatePassword/>
+  </fieldset>
 
-<section>
-  <h2 class="title">{I18n('discoverability')}</h2>
-  <label class="inline">
-    <input type="checkbox" class="fediversable" bind:checked={fediversable} on:click={toggleFediversable}>
-    {I18n('fediversable')}
-  </label>
-  <p class="note">{@html I18n('fediversable_description', { username: $user.stableUsername, host: domain })}</p>
-  <Flash bind:state={flashFediversable}/>
-</section>
+  <fieldset>
+    <h2 class="title">{I18n('discoverability')}</h2>
+    <label class="inline">
+      <input type="checkbox" class="fediversable" bind:checked={fediversable} on:click={toggleFediversable}>
+      {I18n('fediversable')}
+    </label>
+    <p class="note">{@html I18n('fediversable_description', { username: $user.stableUsername, host: domain })}</p>
+    <Flash bind:state={flashFediversable}/>
+  </fieldset>
 
-<section class="danger-zone">
-  <h2 class="title danger-zone-title">{I18n('danger zone')}</h2>
-  <p class="note">{I18n('be careful, those actions might not be reversible')}</p>
-  <button class="dangerous-button" on:click={deleteAccount}>{I18n('delete your account')}</button>
-</section>
+  <fieldset class="danger-zone">
+    <h2 class="title danger-zone-title">{I18n('danger zone')}</h2>
+    <p class="note">{I18n('be careful, those actions might not be reversible')}</p>
+    <button class="dangerous-button" on:click={deleteAccount}>{I18n('delete your account')}</button>
+  </fieldset>
+</form>
 
 <style lang="scss">
   @import 'app/modules/settings/scss/common_settings';

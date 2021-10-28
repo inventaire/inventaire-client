@@ -27,7 +27,7 @@
   <h2 class="first-title">{I18n('notifications')}</h2>
   <div class="note">{I18n('notifications_description')}</div>
   <form>
-    <fieldset class="first-section">
+    <fieldset class="first-fieldset">
       <legend>{I18n('global')}</legend>
       <Toggler name="global" value={notificationData.global}/>
     </fieldset>

@@ -1,9 +1,9 @@
 @import 'app/modules/general/scss/utils';
-section, fieldset{
+fieldset{
   padding-top: 1.5em;
   padding-left: 1.5em;
 }
-.first-section{
+.first-fieldset{
   padding-top: 0;
 }
 h2{
@@ -17,7 +17,7 @@ h2{
 
 /*Small screens*/
 @media screen and (max-width: 470px) {
-  section, fieldset{
+  fieldset{
     padding: 1em 0;
   }
 }
