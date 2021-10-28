@@ -74,7 +74,7 @@
 
 <form method="post" action="/api/submit?redirect={currentRoute()}" bind:this={form}>
   <input type="text" name="username" value={$user.username} class="hidden">
-  <PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} title={I18n('new password')} triggerPasswordManagerUpdate />
+  <PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} title={I18n('new password')} />
 </form>
 
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
