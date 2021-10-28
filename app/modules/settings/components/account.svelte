@@ -36,9 +36,10 @@
   }
 
   const onEmailChange = async () => {
+    if (emailValue.trim() === '') return
     // email has been modified back to its original state
     // nothing to update and nothing to flash notify either
-    if ($user.email === emailValue) { return }
+    if ($user.email === emailValue) return
     try {
       const res = await email_.verifyAvailability(emailValue)
       if (!(res.status === 'available')) {
