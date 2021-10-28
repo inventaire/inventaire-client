@@ -1,5 +1,8 @@
 <div class="searchability">
-  {{> 'toggler' this}}
+  <label>
+    <input id="{{id}}" name="{{id}}" type="checkbox" {{#if checked}}checked="true"{{/if}}>
+    {{I18n label}}
+  </label>
   <p class="searchable warning {{#unless checked}}hidden{{/unless}}">
     {{icon 'search'}}{{I18n 'this group appears in public search results'}}
   </p>

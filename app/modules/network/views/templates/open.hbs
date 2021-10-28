@@ -1,5 +1,8 @@
 <div class="openness">
-  {{> 'toggler' this}}
+  <label>
+    <input id="{{id}}" name="{{id}}" type="checkbox" {{#if checked}}checked="true"{{/if}}>
+    {{I18n label}}
+  </label>
   <p class="closed warning {{#if checked}}hidden{{/if}}">
     {{icon 'key'}}{{I18n 'admins have to accept or refuse requests to join the group'}}
   </p>

@@ -22,6 +22,12 @@ input, textarea{
   }
 }
 
+label input[type=checkbox]{
+  display: inline;
+  height: auto;
+  margin-inline-end: 0.4em;
+}
+
 textarea{
   line-height: 1.6rem;
 }
