@@ -102,7 +102,7 @@
     <h2 class="first-title">{I18n('profile')}</h2>
     <h3>{I18n('username')}</h3>
     <div class="text-zone">
-      <input placeholder="{i18n('username')}..." bind:value={usernameValue}>
+      <input placeholder="{i18n('username')}..." bind:value={usernameValue} name="username">
       <Flash bind:state={usernameState}/>
     </div>
     <p class="note">{I18n('username_tip')}</p>

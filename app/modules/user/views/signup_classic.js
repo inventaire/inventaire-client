@@ -45,6 +45,7 @@ export default Marionette.LayoutView.extend({
   serializeData () {
     return {
       passwordLabel: 'password',
+      passwordInputName: 'new-password',
       formAction: this.formAction
     }
   },

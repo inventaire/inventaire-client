@@ -42,6 +42,7 @@ export default Marionette.ItemView.extend({
   serializeData () {
     return {
       passwordLabel: 'password',
+      passwordInputName: 'current-password',
       formAction: this.formAction
     }
   },
