@@ -15,7 +15,7 @@
   }
   .buttons{
     margin: 1em;
-    @include display-flex(row, center, center);
+    @include display-flex(row, center, center, wrap);
     a{
       margin: 1em;
       text-align: center;
