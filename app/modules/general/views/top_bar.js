@@ -47,6 +47,7 @@ export default Marionette.LayoutView.extend({
       smallScreen: screen_.isSmall(),
       isLoggedIn: app.user.loggedIn,
       currentLanguage: languages[app.user.lang].native,
+      currentLanguageShortName: languages[app.user.lang].lang.toUpperCase(),
       languages: languagesList,
       translate
     }
