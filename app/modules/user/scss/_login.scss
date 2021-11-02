@@ -10,10 +10,6 @@
     }
     text-transform: uppercase;
   }
-  .otherOptions{
-    margin-top: 1em;
-    @include display-flex(row, center, space-between);
-  }
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
@@ -32,21 +28,6 @@
       }
     }
   }
-
-  /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
-    .otherOptions{
-      flex-direction: column;
-      a{
-        margin: 0.5em;
-      }
-    }
-  }
-}
-
-#createAccount{
-  @include tiny-button($success-color);
-  @include shy(0.8);
 }
 
 #forgotPassword{

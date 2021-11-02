@@ -12,11 +12,37 @@
     text-align: left;
   }
 
+  hr{
+    border-color: #bbb;
+  }
+
   .inputGroup{
     input{
       margin-bottom: 0;
     }
     margin-bottom: 1em;
+  }
+
+  .otherOptions{
+    margin-top: 1em;
+    @include display-flex(row, center, space-around);
+    a:first-child{
+      @include shy(0.9);
+      @include tiny-button($success-color);
+    }
+    a:not(:first-child){
+      margin-inline-start: auto;
+    }
+  }
+
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .otherOptions{
+      flex-direction: column;
+      a{
+        margin: 0.5em;
+      }
+    }
   }
 
   /*Small screens*/

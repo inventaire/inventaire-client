@@ -35,7 +35,8 @@ export default Marionette.LayoutView.extend({
     // on "show password" clicks, which is boring
     // plus, it will presumably be verified next by click #validClassicSignup
     // 'blur #password': 'earlyVerifyPassword'
-    'click #classicSignup': 'validClassicSignup'
+    'click #classicSignup': 'validClassicSignup',
+    'click #login' () { app.execute('show:login') },
   },
 
   onShow () {
