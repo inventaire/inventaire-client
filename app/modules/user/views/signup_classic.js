@@ -6,6 +6,7 @@ import prepareRedirect from '../lib/prepare_redirect'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import signupClassicTemplate from './templates/signup_classic.hbs'
 import '../scss/auth_menu.scss'
+import { clickCommand } from 'app/lib/utils'
 
 export default Marionette.LayoutView.extend({
   className: 'authMenu signup',
@@ -13,7 +14,8 @@ export default Marionette.LayoutView.extend({
   behaviors: {
     AlertBox: {},
     TogglePassword: {},
-    Loading: {}
+    Loading: {},
+    PreventDefault: {},
   },
 
   ui: {
@@ -36,7 +38,7 @@ export default Marionette.LayoutView.extend({
     // plus, it will presumably be verified next by click #validClassicSignup
     // 'blur #password': 'earlyVerifyPassword'
     'click #classicSignup': 'validClassicSignup',
-    'click #login' () { app.execute('show:login') },
+    'click #login': clickCommand('show:login'),
   },
 
   onShow () {
