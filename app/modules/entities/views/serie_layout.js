@@ -9,6 +9,9 @@ export default TypedEntityLayout.extend({
   template: serieLayoutTemplate,
   Infobox: SerieInfobox,
   baseClassName: 'serieLayout',
+  tagName () {
+    return this.options.tagName || 'div'
+  },
 
   regions: {
     infoboxRegion: '.serieInfobox',

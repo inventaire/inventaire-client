@@ -4,6 +4,7 @@ import '../scss/article_li.scss'
 export default Marionette.ItemView.extend({
   template: articleLiTemplate,
   className: 'articleLi',
+  tagName: 'li',
   serializeData () {
     const attrs = this.model.toJSON()
     return _.extend(attrs, {

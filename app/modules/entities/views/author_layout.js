@@ -20,6 +20,9 @@ export default TypedEntityLayout.extend({
     const prefix = this.model.get('prefix')
     return `authorLayout ${secondClass} entity-prefix-${prefix}`
   },
+  tagName () {
+    return this.options.tagName || 'div'
+  },
 
   behaviors: {
     Loading: {}

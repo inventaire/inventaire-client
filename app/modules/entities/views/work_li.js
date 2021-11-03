@@ -13,6 +13,8 @@ export default Marionette.ItemView.extend({
     return `entity-prefix-${prefix} ${wrap}`
   },
 
+  tagName: 'li',
+
   initialize () {
     this.display = localStorageProxy.getItem('entities:display') || 'cascade'
     if (this.display === 'cascade') {

@@ -61,7 +61,6 @@ const EntitiesList = Marionette.CompositeView.extend({
   },
 
   childViewContainer: '.container',
-  tagName () { if (this.options.type === 'edition') { return 'ul' } else { return 'div' } },
 
   getChildView (model) {
     const { type } = model
@@ -79,7 +78,8 @@ const EntitiesList = Marionette.CompositeView.extend({
       refresh: this.options.refresh,
       showActions: this.options.showActions,
       wrap: this.options.wrapWorks,
-      compactMode: this.options.compactMode
+      compactMode: this.options.compactMode,
+      tagName: 'li',
     }
   },
 

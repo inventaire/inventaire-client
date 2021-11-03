@@ -9,6 +9,9 @@ import '../scss/publisher_layout.scss'
 export default TypedEntityLayout.extend({
   id: 'publisherLayout',
   className: 'standalone',
+  tagName () {
+    return this.options.tagName || 'div'
+  },
   template: publisherLayoutTemplate,
   Infobox: PublisherInfobox,
   regions: {

@@ -12,6 +12,9 @@ const Infobox = GeneralInfobox.extend({ template: collectionInfoboxTemplate })
 
 export default TypedEntityLayout.extend({
   baseClassName: 'collectionLayout',
+  tagName () {
+    return this.options.tagName || 'div'
+  },
   template: collectionLayoutTemplate,
   Infobox,
   regions: {
