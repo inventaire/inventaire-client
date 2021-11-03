@@ -14,7 +14,7 @@
   <h2><a class="showEntity link" href="{{pathname}}">{{label}}</a></h2>
   <h3 class="subheader">{{description}}</h3>
   {{#if extract}}
-    <p class="extract" dir="{{extractDirection}}">{{{extract}}}</p>
+    {{> 'entities:clamped_extract' this}}
   {{/if}}
   {{> 'entities:edit_data' this}}
 </div>

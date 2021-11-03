@@ -33,18 +33,20 @@
 }
 
 // Excluding the edition layout
-.authorInfobox, .serieInfobox, .workInfobox, .publisherInfobox, .collectionInfobox{
+.authorInfobox, .serieInfobox, .workInfobox, .publisherInfobox, .collectionInfobox, .generalInfobox{
   .entity-data-box{
     background-color: $darker-grey;
   }
   .extract{
     color: white;
     @include text-align-start;
-    margin-bottom: 0em;
-    padding-bottom: 0em;
+    margin-bottom: 0;
+    padding-bottom: 0;
   }
   .toggler{
     font-size: 1.6em;
+    text-align: center;
+    display: block;
     .fa{
       color: white;
     }

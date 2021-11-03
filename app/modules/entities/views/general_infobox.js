@@ -1,3 +1,4 @@
+import clampedExtract from '../lib/clamped_extract'
 import generalInfoboxTemplate from './templates/general_infobox.hbs'
 
 export default Marionette.ItemView.extend({
@@ -24,6 +25,7 @@ export default Marionette.ItemView.extend({
     // Also accept user models
     if (!attrs.extract) attrs.extract = attrs.bio
     if (!attrs.image) attrs.image = { url: attrs.picture }
+    clampedExtract.setAttributes(attrs)
     return _.extend(attrs, {
       standalone: this.options.standalone,
       small: this.small,
