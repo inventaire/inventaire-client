@@ -18,7 +18,7 @@
   @media screen and (max-width: $small-screen) {
     // Hackly center vertically to be aligned with search bar
     margin-top: 0.2em;
-    padding: 0.2em 0;
+    padding: 0.2em;
     margin-left: 0.1em;
     align-self: stretch;
     max-height: 2em;
@@ -34,8 +34,6 @@
   }
 
   .dropdown{
-    // Stick to the screen right side
-    right: -0.5em;
     /*Very Small screens*/
     @media screen and (max-width: $very-small-screen) {
       // Going over 100vw to cover the whole screen

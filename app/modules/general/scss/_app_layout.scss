@@ -1,5 +1,4 @@
 main{
-  margin-top: $topbar-height;
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     // Allow screen_.scrollTop to really get the top of the div
@@ -7,5 +6,9 @@ main{
     // if main was smaller than the screen
     min-height: 100vh;
     margin-bottom: $smallscreen-connection-buttons-height;
+  }
+
+  @media screen and (min-height: $top-bar-fixed-threshold) {
+    margin-top: $topbar-height;
   }
 }

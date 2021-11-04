@@ -1,8 +1,14 @@
 $search-section-width: 6em;
+$top-bar-fixed-threshold: 340px;
 
 nav#top-bar{
-  // Use position:fixed to make the top-bar stick to the screen top
-  @include position(fixed, 0, 0, null, 0, 15);
+  // Screens that have enough vertical space to display the full top bar menu,
+  // without needing to scroll
+  @media screen and (min-height: $top-bar-fixed-threshold) {
+    // Use position:fixed to make the top-bar stick to the screen top
+    @include position(fixed, 0, 0, null, 0, 15);
+  }
+
   @include display-flex(row, center, flex-start);
   background-color: $topbar-bg-color;
   h1{
@@ -119,7 +125,7 @@ nav#top-bar{
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    padding: 0.2em;
+    padding: 0.2em 0;
     h1{
       flex: 0 0 auto;
       font-size: 1.1rem;
