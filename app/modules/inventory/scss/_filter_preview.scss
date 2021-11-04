@@ -61,11 +61,10 @@ $inner-filter-preview-height: 15em;
   }
   .preview-region{
     @include display-flex(column, flex-start, flex-start);
-    max-height: $inner-filter-preview-height;
   }
   .generalInfobox{
     max-height: $inner-filter-preview-height;
-    @include display-flex(row, center, center);
+    @include display-flex(row, stretch, flex-start);
   }
   .image-wrapper{
     @include bg-cover;
@@ -81,6 +80,14 @@ $inner-filter-preview-height: 15em;
   .data{
     padding: 1em;
     max-height: $inner-filter-preview-height;
+  }
+  .entity-data-box{
+    max-width: 100vw;
+    overflow-y: auto;
+    background-color: $dark-grey;
+  }
+  .edit-data-buttons{
+    display: none;
   }
   /*Small screens*/
   @media screen and (max-width: $very-small-screen) {
