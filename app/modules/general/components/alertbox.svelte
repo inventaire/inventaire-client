@@ -7,5 +7,5 @@
 
 <div class='alert alert-box'>
   <span class='alert-message'>{error.message}</span>
-  <button on:click="{() => dispatch('closed')}" class='alert-close' title="{ I18n('close') }">&#215;</button>
+  <button on:click="{() => dispatch('closed')}" class='alert-close' title="{I18n('close')}" aria-label="${I18n('close')}">&#215;</button>
 </div>

@@ -8,7 +8,7 @@ export default Marionette.Behavior.extend({
   events: {
     alert: 'showAlertBox',
     hideAlertBox: 'hideAlertBoxOnly',
-    'click a.alert-close': 'hideAlertBoxOnly',
+    'click .alert-close': 'hideAlertBoxOnly',
     keydown: 'hideAlertBox',
     'click .button': 'hideAlertBox'
   },
@@ -33,7 +33,7 @@ export default Marionette.Behavior.extend({
 
     const box = `<div class='alert hidden alert-box'> \
 <span class='alert-message'>${message}</span> \
-<a title="${I18n('close')}" class='alert-close'>&#215;</a> \
+<button title="${I18n('close')}" class="alert-close" aria-label="${I18n('close')}">&#215;</button> \
 </div>`
 
     const $parent = $target.parent()
