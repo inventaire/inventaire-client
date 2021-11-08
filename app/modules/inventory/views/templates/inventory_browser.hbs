@@ -8,7 +8,7 @@
     </div>
     <div class="loading"></div>
   </div>
-  <div id="displayControls" class="{{displayMode}} has-dropdown">
+  <button id="displayControls" class="{{displayMode}} has-dropdown" aria-expanded="false" aria-controls="displayOptions">
     <a class="current" tabindex="0">
       <div class="{{#if cascade}}shown{{/if}}">{{icon 'th-large'}}</div>
       <div class="{{#if table}}shown{{/if}}">{{icon 'align-justify'}}</div>
@@ -18,7 +18,7 @@
       <li><a id="cascade" tabindex="0">{{icon 'th-large'}} {{I18n 'cascade'}}</a></li>
       <li><a id="table" tabindex="0">{{icon 'align-justify'}} {{I18n 'table'}}</a></li>
     </ul>
-  </div>
+  </button>
 </div>
 <div id="itemsView"></div>
 <div id="filterPreview"></div>

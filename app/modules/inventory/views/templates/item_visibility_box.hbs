@@ -1,5 +1,6 @@
 {{#unless restricted}}
-  <div class="listingMenu {{currentListing.id}} has-dropdown" tabindex="0">
+  {{!-- TODO: move dropdown out and replace by a button element --}}
+  <div class="listingMenu {{currentListing.id}} has-dropdown" role="button" tabindex="0" aria-expanded="false" aria-controls="listing-{{_id}}">
     <a class="current">
       <span class="icon">{{icon currentListing.icon}}</span>
       <span class="rest">
@@ -7,13 +8,13 @@
         {{icon 'caret-down'}}
       </span>
     </a>
-    <ul class="dropdown">
+    <ul id="listing-{{_id}}" class="dropdown">
       <li class="dropdown-label">{{i18n 'change visibility:'}}</li>
       {{#each listings}}
         <li>
-          <a id="{{id}}" class="listing {{classes}}" tabindex="0">
+          <button id="{{id}}" class="listing {{classes}}">
             {{icon icon}} {{i18n label}}
-          </a>
+          </button>
         </li>
       {{/each}}
     </ul>

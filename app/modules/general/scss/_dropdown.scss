@@ -14,18 +14,20 @@
   &.dropdown-align-right{ right: 0;  }
   white-space: nowrap;
   background-color: $off-white;
-  font-size: 0.9em;
+  font-size: 0.9rem;
   color: $dark-grey;
-  &, a, span:not(.counter), .fa{
+  &, a, button, span:not(.counter), .fa{
     text-align: left !important;
     color: $dark-grey;
+    font-size: 0.9rem;
   }
   @include shy-border;
   li{
     width: 100%;
-    a{
+    a, button{
       display: block;
       width: 100%;
+      font-weight: normal;
     }
   }
   .selected{
@@ -34,7 +36,7 @@
       color: white !important;
     }
   }
-  a{
+  a, button{
     padding: 0.5em;
     @include bg-hover(white);
   }

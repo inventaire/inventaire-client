@@ -8,6 +8,9 @@
     min-width: 12rem;
     @include radius;
   }
+  button{
+    font-size: 1rem;
+  }
   #selectTransaction, #selectListing{
     @include bg-hover(#eee);
   }

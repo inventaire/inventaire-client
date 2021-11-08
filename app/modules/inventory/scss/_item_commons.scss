@@ -33,12 +33,13 @@
       padding: 0.2em;
       text-align: left;
     }
-    a{
+    a, button{
       color: $dark-grey;
+      font-weight: normal;
     }
   }
   .dropdown{
-    a{
+    a, button{
       display: inline-block !important;
       width: 100%;
     }

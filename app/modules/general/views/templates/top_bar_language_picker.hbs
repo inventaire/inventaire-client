@@ -1,8 +1,8 @@
-<button class="has-dropdown" id="language-picker">
+<button class="has-dropdown" id="language-picker" aria-expanded="false" aria-controls="languages-options">
   <span class="current-lang">{{currentLanguage}}</span>
   <span class="current-lang-short">{{currentLanguageShortName}}</span>
   {{icon 'caret-down'}}
-  <div class="dropdown dropdown-align-right">
+  <div id="languages-options" class="dropdown dropdown-align-right">
     <ul class="options">
       {{#each languages}}
         <li class="option" tabindex="-1">

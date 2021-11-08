@@ -1,21 +1,23 @@
 <h3>{{{I18n 'editing_selected_items' smart_count=selectedIdsCount}}}</h3>
 
-<div id="selectTransaction" class="has-dropdown selector">
+{{!-- TODO: move dropdown out and replace by a button element --}}
+<div id="selectTransaction" class="has-dropdown selector" role="button" aria-expanded="false" aria-controls="selection-transactions">
   <p class="selector-label">{{I18n 'transaction'}} {{icon 'caret-down'}}</p>
-  <ul class="dropdown">
+  <ul id="selection-transactions" class="dropdown">
     <li class="dropdown-label capitalized">{{I18n 'available for'}}:</li>
     {{#each transactions}}
-      <li><a id="{{id}}" class="transaction-option">{{icon icon}} {{I18n label}}</a></li>
+      <li><button id="{{id}}" class="transaction-option">{{icon icon}} {{I18n label}}</button></li>
     {{/each}}
   </ul>
 </div>
 
-<div id="selectListing" class="has-dropdown selector">
+{{!-- TODO: move dropdown out and replace by a button element --}}
+<div id="selectListing" class="has-dropdown selector" role="button" aria-expanded="false" aria-controls="selection-transactions">
   <p class="selector-label">{{I18n 'listing'}} {{icon 'caret-down'}}</p>
-  <ul class="dropdown">
+  <ul id="selection-listing" class="dropdown">
     <li class="dropdown-label capitalized">{{I18n 'visible by'}}:</li>
     {{#each listings}}
-      <li><a id="{{id}}" class="listing-option">{{icon icon}} {{I18n label}}</a></li>
+      <li><button id="{{id}}" class="listing-option">{{icon icon}} {{I18n label}}</button></li>
     {{/each}}
   </ul>
 </div>

@@ -14,8 +14,10 @@ export default Marionette.Behavior.extend({
     const isVisible = $dropdown.css('display') !== 'none'
     if (isVisible) {
       hide($dropdown)
+      $hasDropdown.attr('aria-expanded', 'false')
     } else if (!isDisabled) {
       show($dropdown)
+      $hasDropdown.attr('aria-expanded', 'true')
       // Let a delay so that the toggle click itself isn't catched by the listener
       this.view.setTimeout(closeOnClick.bind(this, $dropdown), 100)
     }
