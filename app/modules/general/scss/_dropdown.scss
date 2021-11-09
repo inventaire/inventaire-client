@@ -1,7 +1,18 @@
+.dropdown-wrapper{
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: stretch;
+  .has-dropdown{
+    flex: 1 0 auto;
+  }
+}
+
 .has-dropdown{
   position: relative;
   cursor: pointer;
 }
+
 .dropdown{
   text-align: left;
   display: none;

@@ -21,7 +21,7 @@ nav#top-bar{
   a#home{
     color: white;
   }
-  #language-picker, .global-menu, .signupRequest, .loginRequest{
+  #language-picker, .signupRequest, .loginRequest{
     @include serif;
     font-weight: bold;
     color: white;
@@ -76,7 +76,7 @@ nav#top-bar{
       bottom: 100vh;
     }
   }
-  .iconButton, #language-picker, .global-menu{
+  .iconButton, #language-picker, .global-menu button{
     @include bg-hover-lighten($topbar-bg-color);
   }
   #language-picker, .global-menu{
