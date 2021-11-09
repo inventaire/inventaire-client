@@ -81,6 +81,7 @@
     max-height: 4em;
   }
   .transactionBox, .listingMenu{
+    @include display-flex(row, stretch);
     .label{
       display: none;
     }

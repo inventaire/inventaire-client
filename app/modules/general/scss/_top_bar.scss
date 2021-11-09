@@ -21,14 +21,12 @@ nav#top-bar{
   a#home{
     color: white;
   }
-  #language-picker, .signupRequest, .loginRequest{
+  .signupRequest, .loginRequest{
     @include serif;
     font-weight: bold;
     color: white;
     white-space: nowrap;
     @include display-flex(row, center, center);
-  }
-  #language-picker, .signupRequest, .loginRequest{
     align-self: stretch;
   }
   .help-translate, .global-menu a{
@@ -38,8 +36,8 @@ nav#top-bar{
     font-weight: bold;
     @include serif;
     @include bg-hover-lighten($topbar-bg-color);
-    font-size: 1.1em;
-    padding: 0.8em 1em;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
     span:not(.counter){
       color: white;
     }
@@ -76,7 +74,7 @@ nav#top-bar{
       bottom: 100vh;
     }
   }
-  .iconButton, #language-picker, .global-menu button{
+  .iconButton, #language-picker button, .global-menu button{
     @include bg-hover-lighten($topbar-bg-color);
   }
   #language-picker, .global-menu{

@@ -1,14 +1,15 @@
 {{#unless restricted}}
-  {{!-- TODO: move dropdown out and replace by a button element --}}
-  <div class="listingMenu {{currentListing.id}} has-dropdown" role="button" tabindex="0" aria-expanded="false" aria-controls="listing-{{_id}}">
-    <a class="current">
-      <span class="icon">{{icon currentListing.icon}}</span>
-      <span class="rest">
-        <span class="label">{{i18n currentListing.label}}</span>
-        {{icon 'caret-down'}}
-      </span>
-    </a>
-    <ul id="listing-{{_id}}" class="dropdown">
+  <div class="listingMenu {{currentListing.id}} dropdown-wrapper">
+    <button class="has-dropdown" aria-expanded="false" aria-controls="listing-{{_id}}">
+      <a class="current">
+        <span class="icon">{{icon currentListing.icon}}</span>
+        <span class="rest">
+          <span class="label">{{i18n currentListing.label}}</span>
+          {{icon 'caret-down'}}
+        </span>
+      </a>
+    </button>
+    <ul id="listing-{{_id}}" class="dropdown dropdown-align-right">
       <li class="dropdown-label">{{i18n 'change visibility:'}}</li>
       {{#each listings}}
         <li>

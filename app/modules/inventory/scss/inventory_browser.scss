@@ -42,7 +42,9 @@
   }
 
   #displayControls{
-    font-weight: normal;
+    button{
+      font-weight: normal;
+    }
     .current{
       padding: 0.5em;
       margin-right: 0.5em;

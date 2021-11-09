@@ -82,7 +82,7 @@
 
 @mixin white-text{
   color: white;
-  a.current{
+  a.current, button.current{
     color: white;
   }
 }

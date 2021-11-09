@@ -10,12 +10,8 @@ export default Marionette.Behavior.extend({
   toggleDropdown (e) {
     const $hasDropdown = $(e.currentTarget)
     const isDisabled = $hasDropdown.hasClass('disabled')
-    let $dropdown
-    if ($hasDropdown.parent().hasClass('dropdown-wrapper')) {
-      $dropdown = $hasDropdown.parent().find('.dropdown')
-    } else {
-      $dropdown = $hasDropdown.find('.dropdown')
-    }
+    if (!$hasDropdown.parent().hasClass('dropdown-wrapper')) throw new Error('dropdown wrapper not found')
+    const $dropdown = $hasDropdown.parent().find('.dropdown')
     const isVisible = $dropdown.css('display') !== 'none'
     if (isVisible) {
       hide($dropdown)

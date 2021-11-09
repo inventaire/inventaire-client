@@ -2,7 +2,7 @@
 
 .items-table-selection-editor{
   @include display-flex(column, center, center);
-  #selectTransaction, #selectListing, .dropdown{
+  #selectTransaction button, #selectListing button, .dropdown{
     padding: 0.5em 1em;
     width: 100%;
     min-width: 12rem;
@@ -11,7 +11,7 @@
   button{
     font-size: 1rem;
   }
-  #selectTransaction, #selectListing{
+  #selectTransaction button, #selectListing button{
     @include bg-hover(#eee);
   }
   .selector-label{
@@ -70,10 +70,10 @@
   @media screen and (max-width: $small-screen) {
     #selectTransaction, #selectListing{
       align-self: stretch;
-    }
-    #selectTransaction, #selectListing{
-      padding: 0.5em;
       margin: 1em 0;
+    }
+    #selectTransaction button, #selectListing button{
+      padding: 0.5em;
     }
     .shelvesSelector{
       .shelf-selector-buttons{
@@ -94,8 +94,10 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     #selectTransaction, #selectListing{
-      padding: 1em;
       margin: 1em 0;
+    }
+    #selectTransaction button, #selectListing button{
+      padding: 1em;
     }
     .buttons{
       @include display-flex(row, center, center);

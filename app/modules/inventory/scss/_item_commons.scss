@@ -39,10 +39,8 @@
     }
   }
   .dropdown{
-    a, button{
-      display: inline-block !important;
-      width: 100%;
-    }
+    border: 1px solid $soft-grey;
+    border-top: 0;
   }
 }
 

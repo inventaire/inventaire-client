@@ -4,15 +4,15 @@
 {{!-- Do not show the friends menu when not stretch as the dropdown requires place --}}
 {{#if member}}
   <span class="memberMenu">
-    {{!-- TODO: move dropdown out and replace by a button element --}}
-    <div class="member has-dropdown" role="button" aria-expanded="false" aria-controls="membership-actions-{{_id}}">
-      {{!-- <span class="label">{{I18n 'member'}}</span> --}}
-      {{icon 'chevron-down'}}
+    <div class="member dropdown-wrapper">
+      <button class="has-dropdown" aria-expanded="false" aria-controls="membership-actions-{{_id}}">
+        {{icon 'chevron-down'}}
+      </button>
       <ul id="membership-actions-{{_id}}" class="dropdown dropdown-align-right">
         <li>
-          <button class="select-2">
+          <a class="select-2" href="{{pathname}}">
             {{icon 'user'}} {{I18n 'see profile'}}</span>
-          </button>
+          </a>
         </li>
         {{#if mainUserIsAdmin}}
           {{#unless admin}}
