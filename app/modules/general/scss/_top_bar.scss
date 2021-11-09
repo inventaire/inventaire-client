@@ -74,7 +74,7 @@ nav#top-bar{
       bottom: 100vh;
     }
   }
-  .iconButton, #language-picker button, .global-menu button{
+  .iconButton, #language-picker > button, .global-menu > button{
     @include bg-hover-lighten($topbar-bg-color);
   }
   #language-picker, .global-menu{

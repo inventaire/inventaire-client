@@ -7,7 +7,6 @@ import screen_ from 'lib/screen'
 import { currentRoute, currentSection } from 'lib/location'
 import languages from 'lib/languages_data'
 import topBarTemplate from './templates/top_bar.hbs'
-import enterClick from '../lib/enter_click'
 
 const mostCompleteFirst = (a, b) => b.completion - a.completion
 const languagesList = _.values(languages).sort(mostCompleteFirst)
@@ -83,8 +82,7 @@ export default Marionette.LayoutView.extend({
 
     'focus #topBarButtons': 'closeSearch',
     'focus #language-picker': 'closeSearch',
-    'click #language-picker .option a': 'selectLang',
-    'keydown a[tabindex=0]': enterClick.button,
+    'click #language-picker .option button': 'selectLang',
   },
 
   childEvents: {

@@ -7,12 +7,12 @@
   <div id="languages-options" class="dropdown dropdown-align-right">
     <ul class="options">
       {{#each languages}}
-        <li class="option" tabindex="-1">
-          <a tabindex="0" data-lang="{{lang}}" title="{{i18n 'switch_to_lang' language=native}} ({{i18n 'translation_completion' completion=completion}})">
+        <li class="option">
+          <button data-lang="{{lang}}" title="{{i18n 'switch_to_lang' language=native}} ({{i18n 'translation_completion' completion=completion}})">
             <span class="completion" style="width:{{completion}}%"></span>
-            <span class="lang">{{native}}</span>
+            <span class="lang" lang="{{lang}}">{{native}}</span>
             <span class="completion-text">({{completion}}%)</span>
-          </a>
+          </button>
         </li>
       {{/each}}
     </ul>

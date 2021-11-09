@@ -2,7 +2,7 @@
   margin-left: 0.2em;
   padding-left: 0.5em;
   @include display-flex(row, stretch, center);
-  button{
+  button.has-dropdown{
     @include serif;
     font-weight: bold;
     color: white;
@@ -18,12 +18,13 @@
   }
   li.option{
     display: flex;
-    a{
+    button{
       flex: 1 0 auto;
       padding: 0.4em 0;
       position: relative;
       z-index: 1;
       background-color: $grey;
+      border-radius: 0;
       &, span{
         color: white !important;
       }
@@ -52,7 +53,7 @@
       .completion{
         opacity: 0.25;
       }
-      a{
+      button{
         background-color: $dark-grey;
       }
     }
