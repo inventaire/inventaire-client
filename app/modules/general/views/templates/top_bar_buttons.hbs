@@ -27,34 +27,38 @@
       {{icon 'caret-down'}}
     {{/if}}
   </button>
-  <div id="global-menu-dropdown" class="dropdown-align-right" role="menu">
-    <a class="showMainUser" href="{{userPathname}}">
-      <img src="{{imgSrc userPicture 32}}" alt="{{i18n 'profile pic'}}">
-      <span class="label">{{username}}</span>
-    </a>
+  <ul id="global-menu-dropdown" class="dropdown-align-right" role="menu">
+    <li>
+      <a class="showMainUser" href="{{userPathname}}">
+        <img src="{{imgSrc userPicture 32}}" alt="{{i18n 'profile pic'}}">
+        <span class="label">{{username}}</span>
+      </a>
+    </li>
     {{#if smallScreen}}
-
-      {{> 'icon_with_counter'
-        name='exchanges'
-        label='exchanges'
-        icon='exchange'
-        href='/transactions'
-        title='title_exchanges_layout'
-        counter=exchangesUpdates
-      }}
-
-      {{> 'icon_with_counter'
-        name='notifications'
-        label='notifications'
-        icon='bell'
-        href='/notifications'
-        title='notifications'
-        counter=notificationsUpdates
-      }}
+      <li>
+        {{> 'icon_with_counter'
+          name='exchanges'
+          label='exchanges'
+          icon='exchange'
+          href='/transactions'
+          title='title_exchanges_layout'
+          counter=exchangesUpdates
+        }}
+      </li>
+      <li>
+        {{> 'icon_with_counter'
+          name='notifications'
+          label='notifications'
+          icon='bell'
+          href='/notifications'
+          title='notifications'
+          counter=notificationsUpdates
+        }}
+      </li>
     {{/if}}
-    {{iconLinkText name='cog' url='/settings' I18n='settings' linkClasses='showSettings'}}
-    {{iconLinkText name='info-circle' url='/welcome' I18n='info' linkClasses='showInfo'}}
-    {{iconLinkText name='comments' url='/feedback' I18n='feedback' linkClasses='showFeedbackMenu'}}
-    {{iconLinkText name='sign-out' url='/logout' I18n='logout' linkClasses='logout'}}
-  </div>
+    <li>{{iconLinkText name='cog' url='/settings' I18n='settings' linkClasses='showSettings'}}</li>
+    <li>{{iconLinkText name='info-circle' url='/welcome' I18n='info' linkClasses='showInfo'}}</li>
+    <li>{{iconLinkText name='comments' url='/feedback' I18n='feedback' linkClasses='showFeedbackMenu'}}</li>
+    <li>{{iconLinkText name='sign-out' url='/logout' I18n='logout' linkClasses='logout'}}</li>
+  </ul>
 </div>

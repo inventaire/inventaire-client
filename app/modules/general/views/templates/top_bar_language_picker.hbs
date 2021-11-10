@@ -7,7 +7,7 @@
   <div id="languages-options" class="dropdown-align-right" role="menu">
     <ul class="options">
       {{#each languages}}
-        <li class="option">
+        <li class="option" role="menuitem">
           <button data-lang="{{lang}}" title="{{i18n 'switch_to_lang' language=native}} ({{i18n 'translation_completion' completion=completion}})">
             <span class="completion" style="width:{{completion}}%"></span>
             <span class="lang" lang="{{lang}}">{{native}}</span>
@@ -16,6 +16,8 @@
         </li>
       {{/each}}
     </ul>
-    {{iconLinkText name='pencil' url=translate I18n='help translate Inventaire' linkClasses='help-translate'}}
+    <div role="menuitem">
+      {{iconLinkText name='pencil' url=translate I18n='help translate Inventaire' linkClasses='help-translate'}}
+    </div>
   </div>
 </div>
