@@ -5,10 +5,10 @@
 {{#if member}}
   <span class="memberMenu">
     <div class="member dropdown-wrapper">
-      <button class="has-dropdown" aria-controls="membership-actions-{{_id}}">
+      <button aria-controls="membership-actions-{{_id}}" aria-haspopup="menu">
         {{icon 'chevron-down'}}
       </button>
-      <ul id="membership-actions-{{_id}}" class="dropdown dropdown-align-right">
+      <ul id="membership-actions-{{_id}}" class="dropdown-align-right" role="menu">
         <li>
           <a class="select-2" href="{{pathname}}">
             {{icon 'user'}} {{I18n 'see profile'}}</span>

@@ -1,10 +1,10 @@
 <div id="language-picker" class="dropdown-wrapper">
-  <button class="has-dropdown" aria-controls="languages-options">
+  <button aria-controls="languages-options" aria-haspopup="menu">
     <span class="current-lang">{{currentLanguage}}</span>
     <span class="current-lang-short">{{currentLanguageShortName}}</span>
     {{icon 'caret-down'}}
   </button>
-  <div id="languages-options" class="dropdown dropdown-align-right">
+  <div id="languages-options" class="dropdown-align-right" role="menu">
     <ul class="options">
       {{#each languages}}
         <li class="option">

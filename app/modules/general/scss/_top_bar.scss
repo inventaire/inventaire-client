@@ -82,7 +82,7 @@ nav#top-bar{
       color: #ccc;
     }
   }
-  .dropdown{
+  .dropdown-wrapper [role="menu"]{
     background-color: $topbar-bg-color;
     @include radius-bottom;
     font-weight: normal;

@@ -82,6 +82,10 @@
   }
   .transactionBox, .listingMenu{
     @include display-flex(row, stretch);
+    button[aria-haspopup="menu"]{
+      flex: 1 0 auto;
+      border-radius: 0;
+    }
     .label{
       display: none;
     }

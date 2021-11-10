@@ -1,10 +1,10 @@
-<div class="transactionBox {{currentTransaction.id}} dropdown-wrapper">
+<div class="transactionBox dropdown-wrapper">
   {{#if restricted}}
     <a class="current itemShow" href="{{pathname}}">
       {{icon currentTransaction.icon}}{{i18n currentTransaction.labelShort}}
     </a>
   {{else}}
-    <button class="has-dropdown current" aria-controls="transactions-{{_id}}">
+    <button class="current {{currentTransaction.id}}" aria-controls="transactions-{{_id}}" aria-haspopup="menu">
       <span class="icon">
         {{icon currentTransaction.icon}}
       </span>
@@ -13,7 +13,7 @@
         {{icon 'caret-down'}}
       </span>
     </button>
-    <ul id="transactions-{{_id}}" class="dropdown">
+    <ul id="transactions-{{_id}}" role="menu">
       <li class="dropdown-label capitalized">{{i18n 'available for'}}:</li>
       {{#each transactions}}
         <li>

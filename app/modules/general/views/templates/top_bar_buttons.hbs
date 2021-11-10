@@ -19,7 +19,7 @@
 {{/unless}}
 
 <div class="global-menu dropdown-wrapper">
-  <button class="has-dropdown" title="{{i18n 'global menu'}}" aria-controls="global-menu-dropdown">
+  <button title="{{i18n 'global menu'}}" aria-controls="global-menu-dropdown" aria-haspopup="menu">
     {{#if smallScreen}}
       {{icon 'bars'}}
     {{else}}
@@ -27,7 +27,7 @@
       {{icon 'caret-down'}}
     {{/if}}
   </button>
-  <div id="global-menu-dropdown" class="dropdown dropdown-align-right">
+  <div id="global-menu-dropdown" class="dropdown-align-right" role="menu">
     <a class="showMainUser" href="{{userPathname}}">
       <img src="{{imgSrc userPicture 32}}" alt="{{i18n 'profile pic'}}">
       <span class="label">{{username}}</span>

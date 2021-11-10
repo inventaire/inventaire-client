@@ -2,16 +2,19 @@
 
 .items-table-selection-editor{
   @include display-flex(column, center, center);
-  #selectTransaction button, #selectListing button, .dropdown{
+  button[aria-haspopup="menu"], .dropdown-wrapper [role="menu"]{
     padding: 0.5em 1em;
-    width: 100%;
     min-width: 12rem;
     @include radius;
   }
-  button{
-    font-size: 1rem;
+  .dropdown-wrapper, button[aria-haspopup="menu"]{
+    align-self: stretch;
+    flex: 1 0 auto;
   }
-  #selectTransaction button, #selectListing button{
+  [role="menu"]{
+    width: 100%;
+  }
+  button[aria-haspopup="menu"]{
     @include bg-hover(#eee);
   }
   .selector-label{
@@ -52,7 +55,7 @@
       padding: 0 0.5em;
     }
   }
-  .dropdown-label, .dropdown li{
+  .dropdown-label, .dropdown-wrapper [role="menu"] li{
     font-size: 1rem;
   }
   .dropdown-label{

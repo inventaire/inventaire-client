@@ -38,7 +38,7 @@
       font-weight: normal;
     }
   }
-  .dropdown{
+  .dropdown-wrapper [role="menu"]{
     border: 1px solid $soft-grey;
     border-top: 0;
   }

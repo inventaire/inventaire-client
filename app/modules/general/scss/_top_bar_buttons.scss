@@ -8,6 +8,7 @@
 }
 
 .global-menu{
+  align-self: stretch;
   @include display-flex(row, stretch, center);
   button{
     @include display-flex(row, center, center);
@@ -34,7 +35,7 @@
     width: 2em;
   }
 
-  .dropdown{
+  [role="menu"]{
     /*Very Small screens*/
     @media screen and (max-width: $very-small-screen) {
       // Going over 100vw to cover the whole screen

@@ -1,24 +1,20 @@
 export default Marionette.Behavior.extend({
-  ui: {
-    dropdown: '.dropdown'
-  },
-
   events: {
-    'click .has-dropdown': 'toggleDropdown'
+    'click [aria-haspopup="menu"]': 'toggleDropdown'
   },
 
   toggleDropdown (e) {
-    const $hasDropdown = $(e.currentTarget)
-    const isDisabled = $hasDropdown.hasClass('disabled')
-    if (!$hasDropdown.parent().hasClass('dropdown-wrapper')) throw new Error('dropdown wrapper not found')
-    const $dropdown = $hasDropdown.parent().find('.dropdown')
+    const $dropdownButton = $(e.currentTarget)
+    const isDisabled = $dropdownButton.hasClass('disabled')
+    if (!$dropdownButton.parent().hasClass('dropdown-wrapper')) throw new Error('dropdown wrapper not found')
+    const $dropdown = $dropdownButton.parent().find('[role="menu"]')
     const isVisible = $dropdown.css('display') !== 'none'
     if (isVisible) {
       hide($dropdown)
-      $hasDropdown.attr('aria-expanded', 'false')
+      $dropdownButton.attr('aria-expanded', 'false')
     } else if (!isDisabled) {
       show($dropdown)
-      $hasDropdown.attr('aria-expanded', 'true')
+      $dropdownButton.attr('aria-expanded', 'true')
       // Let a delay so that the toggle click itself isn't catched by the listener
       this.view.setTimeout(closeOnClick.bind(this, $dropdown), 100)
     }

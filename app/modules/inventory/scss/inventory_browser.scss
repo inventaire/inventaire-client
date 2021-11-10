@@ -44,8 +44,6 @@
   #displayControls{
     button{
       font-weight: normal;
-    }
-    .current{
       padding: 0.5em;
       margin-right: 0.5em;
       @include display-flex(row, center, flex-start);
