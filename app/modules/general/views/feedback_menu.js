@@ -70,6 +70,7 @@ export default Marionette.ItemView.extend({
     this.stopLoading('#sendFeedback')
     this.ui.subject.val(null)
     this.ui.message.val(null)
+    this.ui.confirmation.attr('role', 'alert')
     this.ui.confirmation.slideDown()
 
     // Simply hide the confirmation so that the user can still send a new feedback
@@ -82,5 +83,9 @@ export default Marionette.ItemView.extend({
     this.fail('feedback err')
   },
 
-  hideConfirmation () { if (!this.isDestroyed) { this.ui.confirmation.slideUp() } }
+  hideConfirmation () {
+    if (this.isDestroyed) return
+    this.ui.confirmation.slideUp()
+    this.ui.confirmation.removeAttr('role')
+  }
 })
