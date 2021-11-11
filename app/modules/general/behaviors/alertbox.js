@@ -31,8 +31,8 @@ export default Marionette.Behavior.extend({
       return log_.warn($target, 'alertbox: failed to find single target')
     }
 
-    const box = `<div class='alert hidden alert-box'> \
-<span class='alert-message'>${message}</span> \
+    const box = `<div class="alert hidden alert-box" role="alert"> \
+<span class="alert-message">${message}</span> \
 <button title="${I18n('close')}" class="alert-close" aria-label="${I18n('close')}">&#215;</button> \
 </div>`
 
