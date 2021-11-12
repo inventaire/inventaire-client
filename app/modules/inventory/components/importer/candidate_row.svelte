@@ -1,15 +1,14 @@
 <script>
-  import { onMount } from 'svelte'
-  import { I18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import preq from '#lib/preq'
-
+  import Spinner from '#components/spinner.svelte'
   export let candidate
 
   let checked = true
-  let editionLang
+  let editionLang, disabled
   let { preCandidate, edition, work, authors } = candidate
   const { isbnData } = preCandidate
   const rawIsbn = isbnData?.rawIsbn
@@ -26,20 +25,13 @@
   }
 
   const getEntitiesFromIsbn = async () => {
-    if (!isbnData) return
+    if (!isbnData || isbnData.isInvalid) return
     const relatives = [ 'wdt:P629', 'wdt:P50' ]
     const uri = `isbn:${isbnData?.normalizedIsbn}`
     const res = await preq.get(app.API.entities.getByUris(uri, false, relatives))
     entities = res.entities
     assignWorkAndAuthors(entities)
   }
-
-  onMount(async () => {
-    // spare fetching isbn related entities systematically at creation
-    // when candidate already have some relevant data to display
-    if (work) return
-    await getEntitiesFromIsbn()
-  })
 
   const assignWorkAndAuthors = entities => {
     const entityWork = _.find(entities, entity => entity.type === 'work')
@@ -50,45 +42,61 @@
     const workAuthors = _.values(_.pick(entities, workAuthorsUris))
     if (workAuthors.length > 0) authors = workAuthors
   }
+
+  $: {
+    if (isbnData?.isInvalid) {
+      checked = false
+      disabled = true
+    }
+  }
 </script>
-<li class="candidateRow" class:checked="{checked}">
-  <div class="column works">
-    <div class="column work">
+<li class="candidateRow" class:checked>
+  <div class="data">
+    {#if work}
       <div class="column workTitle">
-        {#if work}
-          {findBestLang(work)}
-          <sup class="sourceLogo">
-            {#if work.uri?.startsWith('wd:Q')}
-              {@html icon('wikidata')}
-            {:else if work.uri?.startsWith('inv:')}
-              inv
-            {/if}
-          </sup>
+        <span class="label">{i18n('title')}:</span>
+        {findBestLang(work)}
+        {#if work.uri?.startsWith('wd:Q')}
+          <sup class="supLogo">{@html icon('wikidata')}</sup>
+        {:else if work.uri?.startsWith('inv:')}
+          <sup class="supLogo">inv</sup>
         {/if}
       </div>
-      <div class="authors">
-        {#if authors}
-          {#each authors as author}
-            <div class="author">
-              {findBestLang(author)}
-              {#if author.uri?.startsWith('wd:Q')}
-                <sup class="sourceLogo">{@html icon('wikidata')}</sup>
-              {:else if author.uri?.startsWith('inv:')}
-                <sup class="sourceLogo">inv</sup>
-              {/if}
-            </div>
-          {/each}
-        {/if}
+    {:else}
+      <div class="column workTitle">
+        {#await getEntitiesFromIsbn()}
+          <Spinner/>
+        {/await}
       </div>
+    {/if}
+    {#if authors}
+      <span class="column authors">
+        <span class="label">{i18n('authors')}:</span>
+        {#each authors as author, id}
+          <span class="author">
+            {findBestLang(author)}
+          </span>
+          {#if author.uri?.startsWith('wd:Q')}
+            <sup class="supLogo">{@html icon('wikidata')}</sup>
+          {:else if author.uri?.startsWith('inv:')}
+            <sup class="supLogo">inv</sup>
+          {/if}
+          {#if id !== authors.length - 1},&nbsp;{/if}
+        {/each}
+      </span>
+    {/if}
+    <div class="column isbn">
+      {#if isbnData?.isInvalid}
+        <span class="warning">{i18n('invalid ISBN')}</span>
+      {/if}
+      {#if rawIsbn}
+        <span class="label">ISBN:</span>
+        {rawIsbn}
+      {/if}
     </div>
   </div>
-  <div class="column isbn">
-    {#if rawIsbn}
-      {rawIsbn}
-    {/if}
-  </div>
-  <div class="column checkbox">
-    <input type="checkbox" bind:checked="{checked}" name="{I18n('select_book')} {rawIsbn}">
+  <div class="checkbox">
+    <input type="checkbox" bind:checked {disabled} name="{I18n('select_book')} {rawIsbn}">
   </div>
 </li>
 <style lang="scss">
@@ -99,51 +107,54 @@
   }
   .candidateRow{
     @include display-flex(row, center, center);
-    .checkbox{
-      flex: 1 0 0;
-    }
-    .isbn{
-      flex: 4 0 0;
-    }
     margin: 0.2em 0;
     padding: 0.5em 1em;
     border: solid 1px #ccc;
     border-radius: 3px;
   }
+  .data{
+    @include display-flex(row, left, flex-start);
+    flex: 1 0 0;
+    .isbn{
+      text-align: right;
+      flex: 5 0 0;
+    }
+    .supLogo{
+      font-family: "Alegreya", serif;
+      font-weight: normal;
+      font-style: normal;
+      color: #222222;
+    }
+    .hidden, .label{
+      display: none;
+    }
+  }
+
+  .checkbox{
+    padding-left: 1em;
+  }
   .checked{
     background-color: rgba($success-color, 0.3);
   }
-  .work{
-    @include display-flex(row, center, center);
+  .warning{
+    background-color: lighten($yellow, 30%);
+    color: darken($success-color, 70%);
+    padding: 0.3em;
   }
-  .authors{
-    @include display-flex(column, center, center);
-  }
-  .isbn{
-    @include display-flex(column, baseline, center);
-  }
-  .author{
-    min-height: 2.5em;
-    @include display-flex(row, center, center);
-  }
-  .sourceLogo{
-    font-family: "Alegreya", serif;
-    font-weight: normal;
-    font-style: normal;
-    color: #222222;
-    padding: 0.15em;
-    margin: 0.2em;
-  }
-  button{
-    color:  white;
-  }
+
   /*Small screens*/
-  @media screen and (max-width: 470px) {
-    .column{
-      @include display-flex(column, center, center);
-    }
-    sup{
-      display: none
+  @media screen and (max-width: 45em) {
+    .data{
+      @include display-flex(column);
+      .column{
+        text-align: left;
+
+      }
+      .label{
+        display: inline;
+        color: $grey;
+        margin-right: 0.5em;
+      }
     }
   }
 </style>

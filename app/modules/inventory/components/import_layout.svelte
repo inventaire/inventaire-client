@@ -124,7 +124,7 @@
 </script>
 <section>
   <div id="importersWrapper">
-    <h3>1/ {I18n('upload your collection from another website')}</h3>
+    <h3>1/ {I18n('upload your books')}</h3>
     <ul class="importers">
       {#each importers as importer (importer.name)}
         <li id="{importer.name}-li">
@@ -150,7 +150,7 @@
       {/each}
       <li id="textIsbns-li">
         <div id="isbnsImporter">
-          {I18n('text')}
+          {I18n('import from a list of ISBNs')}
           <div class="textarea-wrapper">
             <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}"></textarea>
             <a id="emptyIsbns" title="{i18n('clear')}" on:click={emptyIsbns}>{@html icon('trash-o')}</a>
@@ -183,7 +183,9 @@
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
   section{
-    margin: 1em;
+    @include display-flex(column);
+    margin: 0 auto;
+    max-width: 70em;
   }
   input{
     padding: auto 0;
@@ -194,5 +196,9 @@
   .buttonWrapper{
     margin: 1em;
     text-align:center;
+  }
+  h3{
+    margin-top: 1em;
+    text-align: center;
   }
 </style>
