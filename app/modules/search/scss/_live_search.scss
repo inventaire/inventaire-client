@@ -1,5 +1,7 @@
 #live-search{
+  z-index: 1;
   flex: 1 0 auto;
+  @include display-flex(column, stretch);
   .resultsWrapper, .sections{
     background-color: #eee;
   }
@@ -250,12 +252,13 @@
       .sections, .alternatives{
         max-height: 0;
         padding: 0;
+        overflow: hidden;
       }
     }
   }
 }
 
-// The top-bar gives it a positive z-index, and it sould be displayed just below
+// The #topBar gives it a positive z-index, and it sould be displayed just below
 #overlay{
   z-index: -1;
 }
