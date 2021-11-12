@@ -124,7 +124,11 @@ export default Marionette.LayoutView.extend({
   _showResults () {
     // rendering to display @emailsInvited in the each loop
     this.render()
+    if (this.emailsInvited.length > 0) {
+      this.ui.output.attr('role', 'alert')
+    }
     if (this.usersAlreadyThere.length > 0) {
+      this.ui.usersAlreadyThere.attr('aria-live', 'polite')
       this.ui.usersAlreadyThere.slideDown()
     }
   }
