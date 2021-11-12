@@ -1,6 +1,6 @@
-import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
-import getOriginalLang from 'modules/entities/lib/get_original_lang'
-import { forceArray } from 'lib/utils'
+import getBestLangValue from '#entities/lib/get_best_lang_value'
+import getOriginalLang from '#entities/lib/get_original_lang'
+import { forceArray } from '#lib/utils'
 
 export const serializeResolverEntry = candidate => {
   const { lang, isbn, isbnData, title, authors: authorsNames } = candidate
