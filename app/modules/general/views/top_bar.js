@@ -74,7 +74,8 @@ export default Marionette.LayoutView.extend({
 
     'focus #searchField': 'showLiveSearch',
     'keyup #searchField': 'onKeyUp',
-    'keydown #searchField': 'onKeyDown',
+    'keydown #searchField': 'neutralizeKeys',
+    'keyup #searchControls': 'closeSearchOnEscapeKey',
     'click .searchSection': 'recoverSearchFocus',
     click: 'updateLiveSearch',
     'click .closeSearch': 'closeSearch',
@@ -161,16 +162,22 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  onKeyDown (e) {
+  neutralizeKeys (e) {
     // Prevent the cursor to move when using special keys
     // to navigate the live_search list
     const key = getActionKey(e)
     if (neutralizedKeys.includes(key)) e.preventDefault()
   },
 
+  closeSearchOnEscapeKey (e) {
+    // no other special keys than escape should be triggered
+    // known case: initial search without results
+    if (!this._liveSearchIsShown) this.showLiveSearch()
+    if (getActionKey(e) === 'esc') this.hideLiveSearch(true)
+  },
+
   onKeyUp (e) {
     if (!this._liveSearchIsShown) this.showLiveSearch()
-
     const key = getActionKey(e)
     if (key != null) {
       if (key === 'esc') {
