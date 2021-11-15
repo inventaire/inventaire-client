@@ -21,9 +21,12 @@
     &.included{
       background-color: #ddd;
     }
-    &:hover, &.selected{
+    &.selected{
       background-color: $light-blue;
       color: white;
+    }
+    &:hover, &:focus{
+      background-color: $grey;
     }
   }
   .resultsWrapper{
