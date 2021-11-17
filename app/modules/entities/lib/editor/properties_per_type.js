@@ -77,7 +77,7 @@ export default {
     'wdt:P856': {}, // official website
     'wdt:P112': {}, // founded by
     // Problematic to only autocomplete on humans as it is likely to be an organization
-    // see https://github.com/inventaire/inventaire/issues/295
+    // See https://github.com/inventaire/inventaire/issues/295
     // 'wdt:P127': {} # owned by
     'wdt:P571': { customLabel: 'date of foundation' }, // inception
     'wdt:P576': { customLabel: 'date of dissolution' }, // inception

@@ -1,4 +1,4 @@
-// Adapted from http://www.cssportal.com/css-tooltip-generator/
+// Adapted from https://www.cssportal.com/css-tooltip-generator/
 $tooltip-bg-color: $dark-grey;
 $tooltip-contrast-bg-color: white;
 $spike-size: 0.5em;
@@ -39,7 +39,7 @@ $spike-size: 0.5em;
             padding-right: 0.6em;
             // Prevent to be underlined when the .link is hovered
             text-decoration: none;
-            // Hack to get text-decoration to apply: http://stackoverflow.com/a/15688237/3324977
+            // Hack to get text-decoration to apply: https://stackoverflow.com/a/15688237/3324977
             display: inline-block;
           }
         }

@@ -32,7 +32,7 @@ export const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 // Isn't defined in test environment
 if (window.addEventListener != null) {
-  // see http://2ality.com/2016/04/unhandled-rejections.html
+  // See https://2ality.com/2016/04/unhandled-rejections.html
   window.addEventListener('unhandledrejection', event => {
     const err = event.reason
     console.error(`PossiblyUnhandledRejection: ${err.message}\n\n${err.stack}`, err, err.context)

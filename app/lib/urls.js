@@ -27,7 +27,7 @@ export const images = {
   // /!\ implies that the current server has it in its object storage container
   banner: image('banner.jpg'),
   // images in CC-BY or CC-BY-SA
-  // see app/modules/welcome/views/templates/credits.hbs for originals
+  // See app/modules/welcome/views/templates/credits.hbs for originals
   bokeh: image('bokeh.jpg'),
   brittanystevens: image('brittanystevens.jpg'),
   defaultAvatar: image('default_avatar')

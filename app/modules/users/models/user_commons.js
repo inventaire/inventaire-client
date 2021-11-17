@@ -34,7 +34,7 @@ export default Positionable.extend({
       url: this.get('pathname'),
       rss: this.getRss(),
       // Prevent having a big user picture as card
-      // see https://github.com/inventaire/inventaire/issues/402
+      // See https://github.com/inventaire/inventaire/issues/402
       smallCardType: true
     }
   },

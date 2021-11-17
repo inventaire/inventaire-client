@@ -1,6 +1,6 @@
 // Keep in sync with server/lib/regex
 
-// adapted from http://stackoverflow.com/a/14582229/3324977
+// Adapted from https://stackoverflow.com/a/14582229/3324977
 const urlPattern = '^(https?:\\/\\/)' + // protocol
   '(\\w+:\\w+@)?' + // auth?
   '((([a-z\\d]([a-z\\d-_]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name

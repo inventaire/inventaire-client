@@ -1,7 +1,7 @@
 /* eslint-disable prefer-regex-literals */
 /* eslint-disable no-multi-str */
 
-// Source: http://stackoverflow.com/questions/11381673/javascript-solution-to-detect-mobile-browser
+// Source: https://stackoverflow.com/questions/11381673/javascript-solution-to-detect-mobile-browser
 
 // Test for mobile OR tablet
 const test = agent => new RegExp('\

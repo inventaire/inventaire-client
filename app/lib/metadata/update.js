@@ -19,7 +19,7 @@ import { transformers } from './apply_transformers'
 
 const initialFullPath = location.pathname.slice(1) + location.search
 // Make prerender wait before assuming everything is ready
-// see https://prerender.io/documentation/best-practices
+// See https://prerender.io/documentation/best-practices
 window.prerenderReady = false
 const metadataUpdateDone = () => { window.prerenderReady = true }
 // Stop waiting if it takes more than 20 secondes: addresses cases

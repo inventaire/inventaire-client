@@ -31,7 +31,7 @@ export default Backbone.Collection.extend({
     // and those aren't critical data
     this.lazySave = _.debounce(this.save.bind(this), 3000)
     // Models 'change' events are propagated to the collection by Backbone
-    // see http://stackoverflow.com/a/9951424/3324977
+    // See https://stackoverflow.com/a/9951424/3324977
     this.on('add remove change reset', this.lazySave.bind(this))
   },
 

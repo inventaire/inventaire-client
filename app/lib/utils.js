@@ -57,7 +57,7 @@ export const isOpenedOutside = (e, ignoreMissingHref = false) => {
   return openInNewTabByKey || openInNewWindow || openOutsideByTarget
 }
 
-// source: http://stackoverflow.com/questions/10527983/best-way-to-detect-mac-os-x-or-windows-computers-with-javascript-or-jquery
+// source: https://stackoverflow.com/questions/10527983/best-way-to-detect-mac-os-x-or-windows-computers-with-javascript-or-jquery
 // Test existance to ignore in other contexts than the browser
 const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
@@ -105,7 +105,7 @@ export const focusInput = $el => {
   return $el[0].setSelectionRange(0, value.length)
 }
 
-// adapted from http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+// Adapted from https://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 export const hashCode = string => {
   let [ hash, i, len ] = [ 0, 0, string.length ]
   if (len === 0) return hash

@@ -50,7 +50,7 @@ const rewriteJqueryError = function (err, context) {
     app.execute('flash:message:show:network:error')
     message = 'network error'
   } else {
-    // cf http://stackoverflow.com/a/6186905
+    // cf https://stackoverflow.com/a/6186905
     // Known case: request blocked by CORS headers
     message = `parsing error: ${verb} ${url}
 got statusCode ${statusCode} but invalid JSON: ${responseText} / ${responseJSON}`

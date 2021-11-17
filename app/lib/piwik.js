@@ -44,7 +44,7 @@ export default async function () {
     piwikDisabled = true
   }
 
-  // Tracker API doc: http://developer.piwik.org/api-reference/tracking-javascript
+  // Tracker API doc: https://developer.piwik.org/api-reference/tracking-javascript
   const setUserId = function (id) {
     if (!isUserId(id)) return
 

@@ -141,7 +141,7 @@ button{
 // a div with a label and icon buttons floating at right
 // this is a hack to avoid using float:right
 // as it messes with click event listeners
-// closest clue found on this: http://stackoverflow.com/questions/6146568/floatleft-stops-click-event-on-android
+// closest clue found on this: https://stackoverflow.com/questions/6146568/floatleft-stops-click-event-on-android
 div.icon-buttons-header{
   width: 100%;
   height: 1.2em;

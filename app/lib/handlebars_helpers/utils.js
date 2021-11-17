@@ -1,9 +1,10 @@
 import { isNonEmptyArray } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
 import { fixedEncodeURIComponent } from 'lib/utils'
-// inspired by some things there http://assemble.io/helpers/
 import Handlebars from 'handlebars/runtime'
 const { SafeString, escapeExpression } = Handlebars
+
+// Inspired by some things there https://assemble.io/helpers/
 
 export default {
   join (array, separator) {

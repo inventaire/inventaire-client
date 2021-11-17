@@ -64,7 +64,7 @@ const startScanning = function (params) {
   })
 }
 
-// see doc: https://github.com/serratus/quaggaJS#configuration
+// See doc: https://github.com/serratus/quaggaJS#configuration
 const getOptions = function (constraints) {
   baseOptions.inputStream.target = document.querySelector('.embedded .container')
   baseOptions.inputStream.constraints = constraints

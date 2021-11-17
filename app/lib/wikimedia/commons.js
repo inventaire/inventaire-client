@@ -1,7 +1,7 @@
 import { fixedEncodeURIComponent } from 'lib/utils'
 export default {
   // For more complete data (author, license, ...)
-  // see in the server repo: server/data/commons/thumb.js
+  // See in the server repo: server/data/commons/thumb.js
   thumbnail (file, width = '100') {
     if (file == null) return
     if (!alreadyEncoded(file)) file = fixedEncodeURIComponent(file)
