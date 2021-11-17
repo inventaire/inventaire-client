@@ -156,10 +156,7 @@ export default Backbone.NestedModel.extend({
 
     [ attrs.user, attrs.other ] = this.aliasUsers(attrs)
 
-    // Legacy: the title and image were previously snapshot on snapshot.item
     if (!attrs.entity) attrs.entity = {}
-    if (!attrs.entity.title) attrs.entity.title = attrs.item.title
-    if (!attrs.entity.image) attrs.entity.image = attrs.item.pictures?.[0]
 
     return attrs
   },
