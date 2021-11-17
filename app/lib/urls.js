@@ -1,6 +1,6 @@
 const faircoinHash = 'fRFhk3DKubHmQu5i1NwY4mVErPVzXTtmDE'
 
-const subdomain = sub => `http://${sub}.inventaire.io`
+const subdomain = sub => `https://${sub}.inventaire.io`
 const image = filename => `/img/assets/${filename}`
 
 export const domain = 'inventaire.io'
