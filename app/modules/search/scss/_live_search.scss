@@ -9,6 +9,8 @@
     @include display-flex(row, flex-end, flex-start, wrap);
     text-align: center;
     overflow-x: auto;
+  }
+  .entitySections{
     border-bottom: 1px solid #ccc;
   }
   .searchSection{
