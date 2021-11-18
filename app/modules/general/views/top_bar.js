@@ -5,7 +5,7 @@ import LiveSearch from 'modules/search/views/live_search'
 import TopBarButtons from './top_bar_buttons'
 import screen_ from 'lib/screen'
 import { currentRoute, currentSection } from 'lib/location'
-import { languages } from 'lib/active_languages'
+import languages from 'lib/languages_data'
 import topBarTemplate from './templates/top_bar.hbs'
 
 const mostCompleteFirst = (a, b) => b.completion - a.completion
@@ -46,6 +46,7 @@ export default Marionette.LayoutView.extend({
       smallScreen: screen_.isSmall(),
       isLoggedIn: app.user.loggedIn,
       currentLanguage: languages[app.user.lang].native,
+      currentLanguageShortName: languages[app.user.lang].lang.toUpperCase(),
       languages: languagesList,
       translate
     }
@@ -73,13 +74,16 @@ export default Marionette.LayoutView.extend({
 
     'focus #searchField': 'showLiveSearch',
     'keyup #searchField': 'onKeyUp',
-    'keydown #searchField': 'onKeyDown',
+    'keydown #searchField': 'neutralizeKeys',
+    'keyup #searchControls': 'closeSearchOnEscapeKey',
     'click .searchSection': 'recoverSearchFocus',
     click: 'updateLiveSearch',
     'click .closeSearch': 'closeSearch',
     'click #live-search': 'closeSearchOnOverlayClick',
 
-    'click .language-picker .option a': 'selectLang'
+    'focus #topBarButtons': 'closeSearch',
+    'focus #language-picker': 'closeSearch',
+    'click #language-picker .option button': 'selectLang',
   },
 
   childEvents: {
@@ -158,16 +162,22 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  onKeyDown (e) {
+  neutralizeKeys (e) {
     // Prevent the cursor to move when using special keys
     // to navigate the live_search list
     const key = getActionKey(e)
     if (neutralizedKeys.includes(key)) e.preventDefault()
   },
 
+  closeSearchOnEscapeKey (e) {
+    // no other special keys than escape should be triggered
+    // known case: initial search without results
+    if (!this._liveSearchIsShown) this.showLiveSearch()
+    if (getActionKey(e) === 'esc') this.hideLiveSearch(true)
+  },
+
   onKeyUp (e) {
     if (!this._liveSearchIsShown) this.showLiveSearch()
-
     const key = getActionKey(e)
     if (key != null) {
       if (key === 'esc') {

@@ -1,44 +1,45 @@
-.has-dropdown{
+.dropdown-wrapper{
   position: relative;
-  cursor: pointer;
-}
-.dropdown{
-  text-align: left;
-  display: none;
-  position: absolute;
-  z-index: 30;
-  min-width: 10em;
-  top: 100%;
-  width: 100%;
-  &:not(.dropdown-align-right){ left: 0; }
-  &.dropdown-align-right{ right: 0;  }
-  white-space: nowrap;
-  background-color: $off-white;
-  font-size: 0.9em;
-  color: $dark-grey;
-  &, a, span:not(.counter), .fa{
-    text-align: left !important;
+  display: flex;
+  align-items: stretch;
+  [role="menu"]{
+    text-align: left;
+    display: none;
+    position: absolute;
+    z-index: 30;
+    min-width: 10em;
+    top: 100%;
+    &:not(.dropdown-align-right){ left: 0; }
+    &.dropdown-align-right{ right: 0;  }
+    white-space: nowrap;
+    background-color: $off-white;
     color: $dark-grey;
-  }
-  @include shy-border;
-  li{
-    width: 100%;
-    a{
-      display: block;
+    &, a, button, span:not(.counter), .fa{
+      text-align: left !important;
+      color: $dark-grey;
+    }
+    @include shy-border;
+    li{
       width: 100%;
+      a, button{
+        display: block;
+        width: 100%;
+        font-weight: normal;
+      }
     }
-  }
-  .selected{
-    background-color: #666;
-    &, .fa{
-      color: white !important;
+    .selected{
+      background-color: #666;
+      &, .fa{
+        color: white !important;
+      }
     }
-  }
-  a{
-    padding: 0.5em;
-    @include bg-hover(white);
+    a, button{
+      padding: 0.5em;
+      @include bg-hover(white);
+    }
   }
 }
+
 
 .dropdown-label{
   &, &:hover{

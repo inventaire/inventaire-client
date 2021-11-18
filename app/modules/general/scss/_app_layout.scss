@@ -1,5 +1,13 @@
+#topBar{
+  // Required to set a z-index
+  position: relative;
+  // Make the top bar appear above main
+  z-index: 1;
+}
+
 main{
-  margin-top: $topbar-height;
+  position: relative;
+  z-index: 0;
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     // Allow screen_.scrollTop to really get the top of the div
@@ -8,4 +16,12 @@ main{
     min-height: 100vh;
     margin-bottom: $smallscreen-connection-buttons-height;
   }
+
+  @media screen and (min-height: $top-bar-fixed-threshold) {
+    margin-top: $topbar-height;
+  }
+}
+
+#modalWrapper{
+  z-index: 2;
 }

@@ -3,7 +3,7 @@
     <div class="cover">
       <a href="{{item.pathname}}" rel="nofollow">
         {{#if item.picture}}
-          <img src="{{imgSrc item.picture 100}}">
+          <img src="{{imgSrc item.picture 100}}" alt="{{item.snapshot.entity:title}}">
         {{/if}}
       </a>
     </div>
@@ -22,7 +22,7 @@
 
 <a id="sendItemRequest" class="button success radius bold">
   {{icon 'send'}}
-  {{i18n 'send request'}}
+  {{I18n 'send request'}}
   <a class="loading"></a>
 </a>
 <div class="checkWrapper">

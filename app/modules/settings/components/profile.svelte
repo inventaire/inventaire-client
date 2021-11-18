@@ -97,47 +97,49 @@
   $: onBioChange(bioValue)
 </script>
 
-<section class="first-section">
-  <h2 class="first-title">{I18n('profile')}</h2>
-  <h3>{I18n('username')}</h3>
-  <div class="text-zone">
-    <input placeholder="{i18n('username')}..." bind:value={usernameValue}>
-    <Flash bind:state={usernameState}/>
-  </div>
-  <p class="note">{I18n('username_tip')}</p>
-  <button class="light-blue-button" on:click={showUsernameConfirmation}>{I18n('update username')}</button>
+<form>
+  <fieldset>
+    <h2 class="first-title">{I18n('profile')}</h2>
+    <h3>{I18n('username')}</h3>
+    <div class="text-zone">
+      <input placeholder="{i18n('username')}..." bind:value={usernameValue} name="username">
+      <Flash bind:state={usernameState}/>
+    </div>
+    <p class="note">{I18n('username_tip')}</p>
+    <button class="light-blue-button" on:click={showUsernameConfirmation}>{I18n('update username')}</button>
 
-  <h3>{I18n('presentation')}</h3>
-  <div class="text-zone">
-    <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" bind:value={bioValue} use:autosize></textarea>
-    <Flash bind:state={bioState}/>
-  </div>
-  <p class="note">
-    {I18n('a few words on you?')}
-    <span class="counter" class:alert="{bioValue.length > 1000}">({bioValue.length}/1000)</span>
-  </p>
-  <button class="save light-blue-button" on:click={updateBio}>{I18n('update presentation')}</button>
+    <h3>{I18n('presentation')}</h3>
+    <div class="text-zone">
+      <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" bind:value={bioValue} use:autosize></textarea>
+      <Flash bind:state={bioState}/>
+    </div>
+    <p class="note">
+      {I18n('a few words on you?')}
+      <span class="counter" class:alert="{bioValue.length > 1000}">({bioValue.length}/1000)</span>
+    </p>
+    <button class="save light-blue-button" on:click={updateBio}>{I18n('update presentation')}</button>
 
-  <h3>{I18n('profile picture')}</h3>
-  <UserPicture/>
+    <h3>{I18n('profile picture')}</h3>
+    <UserPicture/>
 
-  <h3>{I18n('location')}</h3>
-  <p class="position-status">
-    {#if $user.position}
-      {I18n('position is set to')}: {$user.position[0]}, {$user.position[1]}
-    {:else}
-      {I18n('no position set')}
-    {/if}
-  </p>
-  <p class="note">{I18n('position_settings_description')}</p>
-  <button class="light-blue-button" on:click={editPosition}>
-    {#if $user.position}
-      {I18n('change position')}
-    {:else}
-      {I18n('add a position')}
-    {/if}
-  </button>
-</section>
+    <h3>{I18n('location')}</h3>
+    <p class="position-status">
+      {#if $user.position}
+        {I18n('position is set to')}: {$user.position[0]}, {$user.position[1]}
+      {:else}
+        {I18n('no position set')}
+      {/if}
+    </p>
+    <p class="note">{I18n('position_settings_description')}</p>
+    <button class="light-blue-button" on:click={editPosition}>
+      {#if $user.position}
+        {I18n('change position')}
+      {:else}
+        {I18n('add a position')}
+      {/if}
+    </button>
+  </fieldset>
+</form>
 
 <style lang="scss">
   @import 'app/modules/settings/scss/common_settings';

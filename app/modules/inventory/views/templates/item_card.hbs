@@ -3,10 +3,10 @@
     {{icon 'sign-out'}}
   </div>
 {{/if}}
-<a class="itemShow" href="{{pathname}}" rel="nofollow">
+<a class="itemShow" href="{{pathname}}" rel="nofollow" tabindex="0">
   <div class="cover">
     {{#if picture}}
-      <img src="{{imgSrc picture 300}}">
+      <img src="{{imgSrc picture 300}}" alt="{{title}}">
     {{/if}}
   </div>
   <div class="data">
@@ -31,7 +31,7 @@
       {{#unless isPrivate}}
         {{> 'inventory:item_transaction_box' this}}
       {{/unless}}
-      {{> 'inventory:item_visibility_box' this}}
+      {{> 'inventory:item_listing_box' this}}
     </div>
   {{/if}}
   {{#if details}}

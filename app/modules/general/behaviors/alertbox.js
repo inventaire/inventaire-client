@@ -2,12 +2,13 @@ import log_ from 'lib/loggers'
 import { expired } from 'lib/utils'
 import getActionKey from 'lib/get_action_key'
 import error_ from 'lib/error'
+import { I18n } from 'modules/user/lib/i18n'
 
 export default Marionette.Behavior.extend({
   events: {
     alert: 'showAlertBox',
     hideAlertBox: 'hideAlertBoxOnly',
-    'click a.alert-close': 'hideAlertBoxOnly',
+    'click .alert-close': 'hideAlertBoxOnly',
     keydown: 'hideAlertBox',
     'click .button': 'hideAlertBox'
   },
@@ -30,9 +31,9 @@ export default Marionette.Behavior.extend({
       return log_.warn($target, 'alertbox: failed to find single target')
     }
 
-    const box = `<div class='alert hidden alert-box'> \
-<span class='alert-message'>${message}</span> \
-<a class='alert-close'>&#215;</a> \
+    const box = `<div class="alert hidden alert-box" role="alert"> \
+<span class="alert-message">${message}</span> \
+<button title="${I18n('close')}" class="alert-close" aria-label="${I18n('close')}">&#215;</button> \
 </div>`
 
     const $parent = $target.parent()

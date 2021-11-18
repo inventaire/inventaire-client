@@ -27,8 +27,8 @@
 </script>
 
 <div class="wrapper" on:click={updateSetting}>
-  <input type="checkbox" id={name} bind:checked={value}>
-  <label for="emailNotifications">{I18n(description)}</label>
+  <input type="checkbox" name={name} id={name} bind:checked={value}>
+  <label for={name}>{I18n(description)}</label>
 </div>
 <Flash bind:state={flash}/>
 

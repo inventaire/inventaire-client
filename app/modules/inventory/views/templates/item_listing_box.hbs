@@ -1,0 +1,23 @@
+{{#unless restricted}}
+  <div class="listingMenu dropdown-wrapper">
+    <button class="{{currentListing.id}}" aria-controls="listing-{{_id}}" aria-haspopup="menu">
+      <a class="current">
+        <span class="icon">{{icon currentListing.icon}}</span>
+        <span class="rest">
+          <span class="label">{{i18n currentListing.label}}</span>
+          {{icon 'caret-down'}}
+        </span>
+      </a>
+    </button>
+    <ul id="listing-{{_id}}" class="dropdown-align-right" role="menu">
+      <li class="dropdown-label">{{i18n 'change visibility:'}}</li>
+      {{#each listings}}
+        <li>
+          <button id="{{id}}" class="listing {{classes}}">
+            {{icon icon}} {{i18n label}}
+          </button>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+{{/unless}}

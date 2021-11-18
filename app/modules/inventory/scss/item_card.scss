@@ -29,7 +29,7 @@
   }
   > a.itemShow{
     width: 100%;
-    &:hover{
+    &:hover, &:focus{
       @include transition(background-color);
       background-color: $light-grey;
       h3.title{
@@ -81,6 +81,11 @@
     max-height: 4em;
   }
   .transactionBox, .listingMenu{
+    @include display-flex(row, stretch);
+    button[aria-haspopup="menu"]{
+      flex: 1 0 auto;
+      border-radius: 0;
+    }
     .label{
       display: none;
     }

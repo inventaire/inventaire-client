@@ -4,7 +4,7 @@
 </div>
 {{/if}}
 <div class="main">
-  <h4>
+  <h4 lang="{{labelLang}}">
     {{#if href}}
       {{iconLinkText 'link' href label}}
     {{else}}
@@ -18,7 +18,7 @@
   </h4>
 
   {{#if description}}
-    <p class="description grey">{{description}}</p>
+    <p class="description grey" lang="{{descriptionLang}}">{{description}}</p>
   {{/if}}
 
   <p class="claims">

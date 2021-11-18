@@ -2,7 +2,7 @@
   {{!-- using an image larger that what is displayed so that background cover scale up doesn't make the image pixelized --}}
   {{#if image.url }}<div class="image" style="background-image: url({{imgSrc image.url 90}})"></div>{{/if}}
   <div class="summary-data">
-    <span class="name">{{label}}</span>
+    <span class="name" lang="{{labelLang}}">{{label}}</span>
     {{> 'entities:birth_death_dates' claims}}
   </div>
 </a>

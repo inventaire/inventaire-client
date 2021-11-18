@@ -1,7 +1,7 @@
 import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import waitForCheck from '../lib/wait_for_check'
-import documentLang from '../lib/document_lang'
+import initDocumentLang from '../lib/document_lang'
 import showViews from '../lib/show_views'
 import TopBar from './top_bar'
 import initModal from '../lib/modal'
@@ -64,7 +64,7 @@ export default Marionette.LayoutView.extend({
       'post:feedback': postFeedback
     })
 
-    documentLang(this.$el, app.user.lang)
+    initDocumentLang(app.user.lang)
 
     initModal()
     initFlashMessage.call(this)
@@ -72,7 +72,7 @@ export default Marionette.LayoutView.extend({
     // to avoid firing a meaningless event at initialization
     app.request('waitForNetwork').then(initWindowResizeEvents)
 
-    return $('body').on('click', app.vent.Trigger('body:click'))
+    $('body').on('click', app.vent.Trigger('body:click'))
   },
 
   // /!\ app_layout is never 'show'n so onShow never gets fired

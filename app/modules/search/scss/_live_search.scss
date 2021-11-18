@@ -1,5 +1,7 @@
 #live-search{
+  z-index: 1;
   flex: 1 0 auto;
+  @include display-flex(column, stretch);
   .resultsWrapper, .sections{
     background-color: #eee;
   }
@@ -10,6 +12,8 @@
     border-bottom: 1px solid #ccc;
   }
   .searchSection{
+    font-weight: normal;
+    border-radius: 0;
     min-width: $search-section-width;
     padding: 0.5em 0.2em;
     background-color: #f3f3f3;
@@ -17,9 +21,12 @@
     &.included{
       background-color: #ddd;
     }
-    &:hover, &.selected{
+    &.selected{
       background-color: $light-blue;
       color: white;
+    }
+    &:hover, &:focus{
+      background-color: $grey;
     }
   }
   .resultsWrapper{
@@ -248,12 +255,13 @@
       .sections, .alternatives{
         max-height: 0;
         padding: 0;
+        overflow: hidden;
       }
     }
   }
 }
 
-// The top-bar gives it a positive z-index, and it sould be displayed just below
+// The #topBar gives it a positive z-index, and it sould be displayed just below
 #overlay{
   z-index: -1;
 }

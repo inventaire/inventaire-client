@@ -39,6 +39,7 @@ export default Marionette.LayoutView.extend({
 
   ui: {
     thanks: '#thanks',
+    missionsList: 'ul.mission',
     missions: 'ul.mission li',
     missionsTogglers: '.toggleMission .fa',
     landingScreen: '#landingScreen'
@@ -72,9 +73,11 @@ export default Marionette.LayoutView.extend({
     if (err != null) throw err
   },
 
-  toggleMission () {
+  toggleMission (e) {
     this.ui.missions.slideToggle()
     this.ui.missionsTogglers.toggle()
+    const currentAriaExpandedValue = this.ui.missionsList.attr('aria-expanded') === 'true'
+    this.ui.missionsList.attr('aria-expanded', !currentAriaExpandedValue)
   },
 
   showMentions (data) {

@@ -66,7 +66,7 @@
 <form>
   <!-- Add the username in a form to give a hint to the browser of which user credentials should be used to autocomplete -->
   <input type="text" name="username" value={$user.username} class="hidden">
-  <PasswordInput bind:password={currentPassword} bind:flash={flashCurrentPassword} title={I18n('current password')}/>
+  <PasswordInput bind:password={currentPassword} bind:flash={flashCurrentPassword} title={I18n('current password')} name="current-password" />
 </form>
 <div class="forgotPassword">
   <a href="/login/forgot-password" class="link" on:click="{() => app.execute('show:forgot:password')}">{I18n('forgot your password?')}</a>
@@ -74,7 +74,7 @@
 
 <form method="post" action="/api/submit?redirect={currentRoute()}" bind:this={form}>
   <input type="text" name="username" value={$user.username} class="hidden">
-  <PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} title={I18n('new password')} triggerPasswordManagerUpdate />
+  <PasswordInput bind:password={newPassword} bind:flash={flashNewPassword} title={I18n('new password')} name="new-password" />
 </form>
 
 <button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>

@@ -2,13 +2,19 @@
 
 .items-table-selection-editor{
   @include display-flex(column, center, center);
-  #selectTransaction, #selectListing, .dropdown{
+  button[aria-haspopup="menu"], .dropdown-wrapper [role="menu"]{
     padding: 0.5em 1em;
-    width: 100%;
     min-width: 12rem;
     @include radius;
   }
-  #selectTransaction, #selectListing{
+  .dropdown-wrapper, button[aria-haspopup="menu"]{
+    align-self: stretch;
+    flex: 1 0 auto;
+  }
+  [role="menu"]{
+    width: 100%;
+  }
+  button[aria-haspopup="menu"]{
     @include bg-hover(#eee);
   }
   .selector-label{
@@ -49,7 +55,7 @@
       padding: 0 0.5em;
     }
   }
-  .dropdown-label, .dropdown li{
+  .dropdown-label, .dropdown-wrapper [role="menu"] li{
     font-size: 1rem;
   }
   .dropdown-label{
@@ -67,10 +73,10 @@
   @media screen and (max-width: $small-screen) {
     #selectTransaction, #selectListing{
       align-self: stretch;
-    }
-    #selectTransaction, #selectListing{
-      padding: 0.5em;
       margin: 1em 0;
+    }
+    #selectTransaction button, #selectListing button{
+      padding: 0.5em;
     }
     .shelvesSelector{
       .shelf-selector-buttons{
@@ -91,8 +97,10 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     #selectTransaction, #selectListing{
-      padding: 1em;
       margin: 1em 0;
+    }
+    #selectTransaction button, #selectListing button{
+      padding: 1em;
     }
     .buttons{
       @include display-flex(row, center, center);

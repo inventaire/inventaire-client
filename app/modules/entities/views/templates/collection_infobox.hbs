@@ -6,9 +6,9 @@
 {{/if}}
 <div class="collectionData text-center entity-data-box">
   {{#if standalone}}
-    <h2>{{label}}</h2>
+    <h2 lang="{{labelLang}}">{{label}}</h2>
   {{else}}
-    <h3><a href="{{pathname}}" class="showEntity link">{{label}}</a></h3>
+    <h3 lang="{{labelLang}}"><a href="{{pathname}}" class="showEntity link">{{label}}</a></h3>
   {{/if}}
   <h4 class="subheader">{{shortDescription}}</h4>
   <div class='wiki-attributes'>

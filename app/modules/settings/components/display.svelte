@@ -11,30 +11,30 @@
   const selectDisplay = (type, value) => localStorageProxy.setItem(type, value)
 </script>
 
-<div class="wrapper">
+<form>
   <h2 class="first-title">{I18n('display_name')}</h2>
-  <section class="first-section">
+  <fieldset>
     <label for="entitiesDisplay">{I18n('entities lists')} ({i18n('works')})</label>
     <select id="entitiesDisplay" on:blur="{e => selectDisplay('entitiesDisplay', e.target.value)}">
       <option value="large" selected="{entitiesLarge}">{I18n('large')}</option>
       <option value="compact" selected="{entitiesCompact}">{I18n('compact')}</option>
     </select>
-  </section>
-  <section>
+  </fieldset>
+  <fieldset>
     <label for="inventoryDisplay">{i18n('inventory lists')}</label>
     <select id="inventoryDisplay" on:blur="{e => selectDisplay('inventoryDisplay', e.target.value)}">
       <option value="cascade" selected="{inventoryCascade}">{I18n('cascade')}</option>
       <option value="table" selected="{inventoryTable}">{I18n('table')}</option>
     </select>
-  </section>
-</div>
+  </fieldset>
+</form>
 
 <style lang="scss">
   @import 'app/modules/settings/scss/common_settings';
-  .wrapper{
+  form{
     margin: 0 1.5em;
   }
-  section{
+  fieldset{
     padding-left: 0;
   }
   label{

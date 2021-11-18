@@ -6,6 +6,7 @@ import forms_ from 'modules/general/lib/forms'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import prepareRedirect from '../lib/prepare_redirect'
 import loginTemplate from './templates/login.hbs'
+import { clickCommand } from 'app/lib/utils'
 import '../scss/auth_menu.scss'
 
 export default Marionette.ItemView.extend({
@@ -14,15 +15,16 @@ export default Marionette.ItemView.extend({
   events: {
     'blur #username': 'earlyVerifyUsername',
     'click #classicLogin': 'classicLoginAttempt',
-    'click #createAccount' () { app.execute('show:signup') },
-    'click #forgotPassword' () { app.execute('show:forgot:password') }
+    'click #createAccount': clickCommand('show:signup'),
+    'click #forgotPassword': clickCommand('show:forgot:password'),
   },
 
   behaviors: {
     Loading: {},
     SuccessCheck: {},
     AlertBox: {},
-    TogglePassword: {}
+    TogglePassword: {},
+    PreventDefault: {},
   },
 
   ui: {
@@ -42,6 +44,7 @@ export default Marionette.ItemView.extend({
   serializeData () {
     return {
       passwordLabel: 'password',
+      passwordInputName: 'current-password',
       formAction: this.formAction
     }
   },

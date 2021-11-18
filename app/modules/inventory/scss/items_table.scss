@@ -8,7 +8,7 @@
     background-color: $inventory-nav-grey;
     position: sticky;
     bottom: 0;
-    // Required for unclear reasons to allow .dropdown divs to appear
+    // Required for unclear reasons to allow dropdowns to appear
     // above .item-row elements
     z-index: 1;
     button{

@@ -42,7 +42,8 @@
   }
 
   #displayControls{
-    .current{
+    button{
+      font-weight: normal;
       padding: 0.5em;
       margin-right: 0.5em;
       @include display-flex(row, center, flex-start);
@@ -53,6 +54,9 @@
       }
       .label{
         padding: 0 0.5em;
+      }
+      &:hover, &:focus{
+        background-color: $light-grey;
       }
     }
     /*Large screens*/

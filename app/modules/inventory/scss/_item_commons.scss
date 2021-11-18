@@ -33,15 +33,14 @@
       padding: 0.2em;
       text-align: left;
     }
-    a{
+    a, button{
       color: $dark-grey;
+      font-weight: normal;
     }
   }
-  .dropdown{
-    a{
-      display: inline-block !important;
-      width: 100%;
-    }
+  .dropdown-wrapper [role="menu"]{
+    border: 1px solid $soft-grey;
+    border-top: 0;
   }
 }
 

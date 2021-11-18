@@ -48,7 +48,7 @@
     .fa{
       font-size: 1.1em;
     }
-    &:hover{
+    &:hover, &:focus {
       @include tiny-button-padding;
       border-radius: $global-radius;
       background-color: $danger-color;

@@ -8,13 +8,12 @@
     {{else}}
       <span class="section-label">{{I18n 'work'}}</span>
     {{/if}}
-
     <a class="showEntity {{entityType}}" href="{{entityData.pathname}}">
       {{#if snapshot.entity:image}}
-        <img class="entity-image" src="{{imgSrc snapshot.entity:image 400}}">
+        <img class="entity-image" src="{{imgSrc snapshot.entity:image 400}}" alt="{{snapshot.entity:title}}">
       {{/if}}
-      <span class="title">{{snapshot.entity:title}}</span><br>
-      <span class="subtitle">{{snapshot.entity:subtitle}}</span><br>
+      <span class="title" lang="{{snapshot.entity:lang}}" >{{snapshot.entity:title}}</span><br>
+      <span class="subtitle" lang="{{snapshot.entity:lang}}">{{snapshot.entity:subtitle}}</span><br>
       {{#if entityIsEdition}}{{#if entityData.claims.wdt:P212}}
         <span class="identifier">ISBN: {{entityData.claims.wdt:P212}}</span>
       {{/if}}{{/if}}
@@ -26,7 +25,7 @@
       </span>
       {{#each works}}
         <a class="work showEntity" href="{{pathname}}">
-          <span class="related-entity-label">{{label}}</span>
+          <span class="related-entity-label" lang="{{labelLang}}">{{label}}</span>
         </a>
       {{/each}}
     {{else}}
@@ -53,7 +52,7 @@
     <div id="itemData"></div>
     {{> 'inventory:item_shelves' this}}
     {{#unless restricted}}
-      <a class="remove remove-button dark-grey">
+      <a class="remove remove-button dark-grey" tabindex="0">
         <span>{{I18n 'delete'}}</span>
         {{icon 'trash-o'}}
       </a>

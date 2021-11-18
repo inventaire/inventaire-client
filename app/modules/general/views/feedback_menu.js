@@ -47,6 +47,9 @@ export default Marionette.ItemView.extend({
   onShow () { if (!this.standalone) { app.execute('modal:open') } },
 
   sendFeedback () {
+    if (this.ui.subject.val().trim().length === 0) return
+    if (this.ui.message.val().trim().length === 0) return
+
     this.startLoading('#sendFeedback')
 
     return this.postFeedback()
@@ -67,21 +70,22 @@ export default Marionette.ItemView.extend({
     this.stopLoading('#sendFeedback')
     this.ui.subject.val(null)
     this.ui.message.val(null)
+    this.ui.confirmation.attr('role', 'alert')
     this.ui.confirmation.slideDown()
 
-    if (this.standalone) {
-      // simply hide the confirmation so that the user can still send a new feedback
-      // and get a new confirmation for it
-      this.setTimeout(this.hideConfirmation.bind(this), 5000)
-    } else {
-      this.setTimeout(app.Execute('modal:close'), 2000)
-    }
+    // Simply hide the confirmation so that the user can still send a new feedback
+    // and get a new confirmation for it
+    this.setTimeout(this.hideConfirmation.bind(this), 30000)
   },
 
   postFailed () {
     this.stopLoading('#sendFeedback')
-    return this.fail('feedback err')
+    this.fail('feedback err')
   },
 
-  hideConfirmation () { if (!this.isDestroyed) { this.ui.confirmation.slideUp() } }
+  hideConfirmation () {
+    if (this.isDestroyed) return
+    this.ui.confirmation.slideUp()
+    this.ui.confirmation.removeAttr('role')
+  }
 })

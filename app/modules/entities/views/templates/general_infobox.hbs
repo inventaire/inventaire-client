@@ -11,8 +11,8 @@
   </a>
 {{/if}}
 <div class="entity-data-box">
-  <h2><a class="showEntity link" href="{{pathname}}">{{label}}</a></h2>
-  <h3 class="subheader">{{description}}</h3>
+  <h2 lang="{{labelLang}}"><a class="showEntity link" href="{{pathname}}">{{label}}</a></h2>
+  <h3 class="subheader" lang="{{descriptionLang}}">{{description}}</h3>
   {{#if extract}}
     {{> 'entities:clamped_extract' this}}
   {{/if}}

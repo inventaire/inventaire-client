@@ -2,10 +2,6 @@ $input-border-color: #c4c4c4;
 $input-font-color: black;
 $input-height: 2.3rem;
 
-input, textarea, [tabindex]:focus{
-  outline: none;
-}
-
 input, textarea{
   @include radius;
   background-color: white;
@@ -24,6 +20,12 @@ input, textarea{
   &.has-alertbox{
     margin-bottom: 0;
   }
+}
+
+label input[type=checkbox]{
+  display: inline;
+  height: auto;
+  margin-inline-end: 0.4em;
 }
 
 textarea{

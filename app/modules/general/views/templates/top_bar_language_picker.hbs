@@ -1,18 +1,23 @@
-<div class="language-picker has-dropdown">
-  <span class="current-lang">{{currentLanguage}}</span>
-  {{icon 'caret-down'}}
-  <div class="dropdown dropdown-align-right">
+<div id="language-picker" class="dropdown-wrapper">
+  <button aria-controls="languages-options" aria-haspopup="menu">
+    <span class="current-lang">{{currentLanguage}}</span>
+    <span class="current-lang-short">{{currentLanguageShortName}}</span>
+    {{icon 'caret-down'}}
+  </button>
+  <div id="languages-options" class="dropdown-align-right" role="menu">
     <ul class="options">
       {{#each languages}}
-        <li class="option">
-          <a data-lang="{{lang}}" title="{{i18n 'switch_to_lang' language=native}} ({{i18n 'translation_completion' completion=completion}})">
+        <li class="option" role="menuitem">
+          <button data-lang="{{lang}}" title="{{i18n 'switch_to_lang' language=native}} ({{i18n 'translation_completion' completion=completion}})">
             <span class="completion" style="width:{{completion}}%"></span>
-            <span class="lang">{{native}}</span>
+            <span class="lang" lang="{{lang}}">{{native}}</span>
             <span class="completion-text">({{completion}}%)</span>
-          </a>
+          </button>
         </li>
       {{/each}}
     </ul>
-    {{iconLinkText name='pencil' url=translate I18n='help translate Inventaire' linkClasses='help-translate'}}
+    <div role="menuitem">
+      {{iconLinkText name='pencil' url=translate I18n='help translate Inventaire' linkClasses='help-translate'}}
+    </div>
   </div>
 </div>

@@ -8,34 +8,34 @@
 }
 
 .global-menu{
+  align-self: stretch;
+  @include display-flex(row, stretch, center);
+  button{
+    @include display-flex(row, center, center);
+    color: white;
+    /*Large screens*/
+    @media screen and (min-width: $small-screen) {
+      align-self: stretch;
+      padding: 0 0.5em;
+    }
+    /*Small screens*/
+    @media screen and (max-width: $small-screen) {
+      margin-left: 0.2em;
+      align-self: stretch;
+      .fa-bars{
+        font-size: 1.5rem;
+      }
+    }
+  }
+
   img{
     @include radius;
     // Hard-coding the height and width is required so that color square svg can be properly sized
     height: 2em;
     width: 2em;
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    // Hackly center vertically to be aligned with search bar
-    margin-top: 0.2em;
-    padding: 0.2em 0;
-    margin-left: 0.1em;
-    align-self: stretch;
-    max-height: 2em;
-    .fa-bars{
-      font-size: 1.5rem;
-    }
-  }
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    align-self: stretch;
-    padding: 0 0.5em;
-  }
-
-  .dropdown{
-    // Stick to the screen right side
-    right: -0.5em;
+  [role="menu"]{
     /*Very Small screens*/
     @media screen and (max-width: $very-small-screen) {
       // Going over 100vw to cover the whole screen

@@ -1,8 +1,14 @@
 $search-section-width: 6em;
+$top-bar-fixed-threshold: 340px;
 
 nav#top-bar{
-  // Use position:fixed to make the top-bar stick to the screen top
-  @include position(fixed, 0, 0, null, 0, 15);
+  // Screens that have enough vertical space to display the full top bar menu,
+  // without needing to scroll
+  @media screen and (min-height: $top-bar-fixed-threshold) {
+    // Use position:fixed to make the top-bar stick to the screen top
+    @include position(fixed, 0, 0, null, 0);
+  }
+
   @include display-flex(row, center, flex-start);
   background-color: $topbar-bg-color;
   h1{
@@ -15,14 +21,12 @@ nav#top-bar{
   a#home{
     color: white;
   }
-  .language-picker, .global-menu, .signupRequest, .loginRequest{
+  .signupRequest, .loginRequest{
     @include serif;
     font-weight: bold;
     color: white;
     white-space: nowrap;
     @include display-flex(row, center, center);
-  }
-  .language-picker, .signupRequest, .loginRequest{
     align-self: stretch;
   }
   .help-translate, .global-menu a{
@@ -32,8 +36,8 @@ nav#top-bar{
     font-weight: bold;
     @include serif;
     @include bg-hover-lighten($topbar-bg-color);
-    font-size: 1.1em;
-    padding: 0.8em 1em;
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
     span:not(.counter){
       color: white;
     }
@@ -70,15 +74,15 @@ nav#top-bar{
       bottom: 100vh;
     }
   }
-  .iconButton, .language-picker, .global-menu{
+  .iconButton, #language-picker > button, .global-menu > button{
     @include bg-hover-lighten($topbar-bg-color);
   }
-  .language-picker, .global-menu{
+  #language-picker, .global-menu{
     .fa-caret-down{
       color: #ccc;
     }
   }
-  .dropdown{
+  .dropdown-wrapper [role="menu"]{
     background-color: $topbar-bg-color;
     @include radius-bottom;
     font-weight: normal;
@@ -112,14 +116,14 @@ nav#top-bar{
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     .signupRequest{
-      // Push away the .language-picker
+      // Push away the #language-picker
       margin-left: 1em;
     }
   }
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    padding: 0.2em;
+    padding: 0.2em 0;
     h1{
       flex: 0 0 auto;
       font-size: 1.1rem;
@@ -131,9 +135,6 @@ nav#top-bar{
       text-align: center;
       margin-left: 0.2em;
       margin-right: 0.4em;
-    }
-    .language-picker{
-      display: none !important;
     }
     #searchGroup{
       flex: 1 1 auto;
@@ -162,6 +163,19 @@ nav#top-bar{
     .loginRequest{
       left: 50vw;
       right: 0;
+    }
+  }
+
+  /*Not Too Small screens*/
+  @media screen and (min-width: $very-small-screen) {
+    .current-lang-short{
+      display: none;
+    }
+  }
+  /*Smaller screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .current-lang{
+      display: none;
     }
   }
 }

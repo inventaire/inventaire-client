@@ -17,6 +17,9 @@
     background-color: $warning-color;
     top: 0;
   }
+  &:not(.active){
+    display: none;
+  }
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {

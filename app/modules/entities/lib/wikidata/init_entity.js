@@ -1,3 +1,4 @@
+import { getTextDirection } from 'app/lib/active_languages'
 import { isNonEmptyString } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
 import sitelinks_ from 'lib/wikimedia/sitelinks'
@@ -49,8 +50,11 @@ const setAttributes = function (lang) {
     this.set('label', label)
   }
 
-  const description = getBestLangValue(lang, this.originalLang, this.get('descriptions')).value
-  if (description != null) this.set('description', description)
+  const { value: description, lang: descriptionLang } = getBestLangValue(lang, this.originalLang, this.get('descriptions'))
+  if (description != null) {
+    this.set('description', description)
+    this.set('descriptionLang', descriptionLang)
+  }
 }
 
 const specificMethods = {
@@ -71,10 +75,8 @@ const specificMethods = {
 const _setWikipediaExtractAndDescription = function (extractData) {
   const { extract, lang } = extractData
   if (isNonEmptyString(extract)) {
-    const extractDirection = rtlLang.includes(lang) ? 'rtl' : 'ltr'
-    this.set('extractDirection', extractDirection)
+    this.set('extractLang', lang || '')
+    this.set('extractDirection', getTextDirection(lang))
     this.set('extract', extract)
   }
 }
-
-const rtlLang = [ 'ar', 'he' ]

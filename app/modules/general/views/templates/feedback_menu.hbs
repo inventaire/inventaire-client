@@ -16,11 +16,15 @@
     <span class="email">{{contact.email}}</span>
   </div>
 
-  <input type="text" id="subject" name="subject" placeholder="{{i18n 'subject'}}..." class="radius" value="{{subject}}">
-  <textarea id="message" name="feedback" placeholder="{{i18n 'your message'}}..."></textarea>
+  <label for="subject">{{I18n 'subject'}}</label>
+  <input type="text" id="subject" name="subject" placeholder="{{I18n 'subject'}}..." class="radius" value="{{subject}}">
+
+  <label for="feedback">{{I18n 'message'}}</label>
+  <textarea id="message" name="feedback" placeholder="{{I18n 'your message'}}..."></textarea>
+
   <div>
     <a id="sendFeedback" class="button light-blue radius bold" tabindex="0">
-      {{icon 'send'}}{{i18n 'send feedback'}}
+      {{icon 'send'}}{{I18n 'send feedback'}}
       <span class="loading"></span>
     </a>
   </div>

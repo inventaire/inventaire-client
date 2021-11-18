@@ -40,7 +40,7 @@ export default Marionette.LayoutView.extend({
 
   ui: {
     browserControls: '#browserControls',
-    currentDisplayOption: '#displayControls .current div'
+    currentDisplayOption: '#displayControls button div'
   },
 
   events: {

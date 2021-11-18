@@ -1,12 +1,14 @@
 <h1 class="respect-case"><a id="home" href="/">{{#if smallScreen}}inv{{else}}inventaire{{/if}}</a></h1>
 
+<a href="#main" title="{{I18n 'skip to main content'}}"></a>
+
 <div id="searchGroup" class="inputGroup">
-  <div class="inputBox">
-    <input aria-label="search" id="searchField" name="search" placeholder="{{I18n 'search'}}" autocomplete="off" autocorrect="off" autocapitalize="off" type="search">
-    <a class="closeSearch hidden">{{icon 'close'}}</a>
+  <form class="inputBox" role="search">
+    <input id="searchField" name="search" placeholder="{{I18n 'search'}}" autocomplete="off" autocorrect="off" autocapitalize="off" type="search" aria-label="search" aria-autocomplete="list" aria-controls="liveSearch" >
+    <a class="closeSearch hidden" tabindex="0" title="{{I18n 'close'}}">{{icon 'close'}}</a>
     <div id="liveSearch"></div>
     <div id="overlay" class="hidden"></div>
-  </div>
+  </form>
 </div>
 
 {{> 'general:top_bar_language_picker' this}}

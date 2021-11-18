@@ -1,7 +1,7 @@
 import wdLang from 'wikidata-lang'
 import languages from './languages_data'
 
-const regionify = {}
+export const regionify = {}
 
 for (const lang in languages) {
   const obj = languages[lang]
@@ -10,6 +10,8 @@ for (const lang in languages) {
   regionify[lang] = obj.defaultRegion
 }
 
-const langs = Object.keys(languages)
+export const langs = Object.keys(languages)
 
-export { languages, langs, regionify }
+const rtlLang = [ 'ar', 'he' ]
+
+export const getTextDirection = lang => rtlLang.includes(lang) ? 'rtl' : 'ltr'

@@ -1,6 +1,15 @@
-.language-picker{
+#language-picker{
+  margin-left: 0.2em;
   padding-left: 0.5em;
-  .dropdown{
+  align-self: stretch;
+  @include display-flex(row, stretch, center);
+  button[aria-haspopup="menu"]{
+    @include serif;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+  }
+  [role="menu"]{
     min-width: 18em;
   }
   .options{
@@ -10,14 +19,22 @@
   }
   li.option{
     display: flex;
-    a{
+    button{
       flex: 1 0 auto;
       padding: 0.4em 0;
       position: relative;
       z-index: 1;
       background-color: $grey;
+      border-radius: 0;
       &, span{
         color: white !important;
+      }
+      &:focus{
+        background-color: $dark-grey;
+        .completion{
+          opacity: 0.25;
+          background-color: $dark-grey;
+        }
       }
     }
     .completion{
@@ -37,7 +54,7 @@
       .completion{
         opacity: 0.25;
       }
-      a{
+      button{
         background-color: $dark-grey;
       }
     }

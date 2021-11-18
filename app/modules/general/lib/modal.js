@@ -57,7 +57,8 @@ export default function () {
     setWidthJumpPreventingRules(`${bodyWidthBefore}px`, `${widthDiff}px`)
 
     $modalWrapper.removeClass('hidden')
-    return app.vent.trigger('modal:opened')
+    $modal.attr('aria-modal', true)
+    app.vent.trigger('modal:opened')
   }
 
   const closeModal = function (goBack) {
@@ -70,6 +71,7 @@ export default function () {
 
     $body.removeClass('openedModal')
     $modalWrapper.addClass('hidden')
+    $modal.attr('aria-modal', true)
 
     // Remove width diff jumps preventing rules
     setWidthJumpPreventingRules('', '')

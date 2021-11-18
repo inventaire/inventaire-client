@@ -17,9 +17,9 @@
 
 <div class="entity-data-box">
   {{#if standalone}}
-    <h2>{{label}}</h2>
+    <h2 lang="{{labelLang}}">{{label}}</h2>
   {{else}}
-    <h2><a href="{{pathname}}" class="showEntity link">{{label}}</a></h2>
+    <h2 lang="{{labelLang}}"><a href="{{pathname}}" class="showEntity link">{{label}}</a></h2>
   {{/if}}
   <p class="uri">{{uri}}</p>
   {{> 'entities:clamped_extract' this}}

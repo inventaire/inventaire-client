@@ -28,7 +28,7 @@ export default Marionette.ItemView.extend({
     this.$el.addClass(workLiDisplay)
     app.execute('uriLabel:update');
 
-    ({ showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap } = this.options)
+    ({ showActions: this.showActions, wrap: this.wrap } = this.options)
     if (this.showActions == null) this.showActions = true
 
     if (this.model.usesImagesFromSubEntities) {
@@ -79,7 +79,7 @@ export default Marionette.ItemView.extend({
   },
 
   serializeData () {
-    const attrs = _.extend(this.model.toJSON(), { showAllLabels: this.showAllLabels, showActions: this.showActions, wrap: this.wrap })
+    const attrs = _.extend(this.model.toJSON(), { showActions: this.showActions, wrap: this.wrap })
     const count = this.getNetworkItemsCount()
     if (count != null) attrs.counter = { count, highlight: count > 0 }
     if (attrs.extract != null) attrs.description = attrs.extract
