@@ -86,11 +86,11 @@
       </span>
     {/if}
     <div class="column isbn">
-      {#if isbnData?.isInvalid}
-        <span class="warning">{i18n('invalid ISBN')}</span>
-      {/if}
       {#if rawIsbn}
         <span class="label">ISBN:</span>
+        {#if isbnData?.isInvalid}
+          <span class="warning">{i18n('invalid ISBN')}</span>
+        {/if}
         {rawIsbn}
       {/if}
     </div>
@@ -113,9 +113,10 @@
     border-radius: 3px;
   }
   .data{
-    @include display-flex(row, left, flex-start);
+    @include display-flex(row, center, flex-start);
     flex: 1 0 0;
     .isbn{
+      @include display-flex(column, center, flex-start);
       text-align: right;
       flex: 5 0 0;
     }
@@ -148,7 +149,12 @@
       @include display-flex(column);
       .column{
         text-align: left;
-
+      }
+      .isbn{
+        @include display-flex(row, center);
+      }
+      .warning{
+        margin-right: 0.5em;
       }
       .label{
         display: inline;
