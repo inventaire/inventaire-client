@@ -19,7 +19,7 @@
     min-width: $search-section-width;
     padding: 0.5em 0.2em;
     background-color: #f3f3f3;
-    @include transition(background-color);
+    transition: color 0.3s ease, background-color 0.3s ease;
     &.included{
       background-color: #ddd;
     }
@@ -29,6 +29,7 @@
     }
     &:hover, &:focus{
       background-color: $grey;
+      color: white;
     }
   }
   .resultsWrapper{
