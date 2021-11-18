@@ -59,7 +59,7 @@ export default ItemLayout.extend({
     'click a#cancelNotesEdition': 'hideNotesEditor',
     'keydown #notesEditor': 'notesEditorKeyAction',
     'click a#validateNotes': 'validateNotes',
-    'click a.requestItem' () { app.execute('show:item:request', this.model) },
+    'click .requestItem' () { app.execute('show:item:request', this.model) },
   },
 
   serializeData () { return this.model.serializeData() },

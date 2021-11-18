@@ -1,10 +1,11 @@
-a.requestItem{
+.requestItem{
   // just 'height' wasnt working on chrome
   min-height: $user-box-heigth;
   max-height: $user-box-heigth;
-  @include bg-hover($off-white, 3%);
-  color: $grey;
-  background-color: $off-white;
+  font-weight: normal;
+  @include bg-hover($light-grey, 10%);
+  @include text-hover($dark-grey, $darker-grey);
+  transition: color 0.3s ease, background-color 0.3s ease;
   width: 100%;
   @include display-flex(row, center, center);
 }
