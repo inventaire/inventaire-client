@@ -52,6 +52,8 @@
 
 .entity-data-box{
   position: relative;
+  // Required to center button.toggler
+  @include display-flex(column);
   padding: 1em 1em 0.1em 1em;
   .edit-data-buttons{
     /*Large screens*/
