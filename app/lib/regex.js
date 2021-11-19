@@ -13,7 +13,8 @@ const urlPattern = '^(https?:\\/\\/)' + // protocol
 
 export const Url = new RegExp(urlPattern, 'i')
 export const ImageHash = /^[0-9a-f]{40}$/
-export const Email = /^[^@]+@[^@]+\.[^@]+$/
+// Source https://html.spec.whatwg.org/multipage/input.html#email-state-%28type=email%29
+export const Email = /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 export const Uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 export const CouchUuid = /^[0-9a-f]{32}$/
 export const Lang = /^\w{2}$/
