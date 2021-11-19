@@ -1,7 +1,11 @@
 <script>
   import { I18n } from 'modules/user/lib/i18n'
   import { icon } from 'lib/utils'
+  import { apiDoc } from 'lib/urls'
+  import app from 'app/app'
   export let user
+  const csvExportUrl = app.API.items.export({ format: 'csv' })
+  const inventoryJsonUrl = app.API.items.byUsers({ ids: user.id, limit: 100000 })
 </script>
 
 <form>
@@ -10,8 +14,8 @@
 
     <h3>{I18n('inventory')}</h3>
     <p class="note">{I18n('download your inventory and its associated data (authors, works, publishers, etc.)')}</p>
-    <a class="light-blue-button" href="/api/items?action=export&format=csv" download="inventory.csv">{I18n('download CSV')}</a>
-    <a class="light-blue-button" href="/api/items?action=by-users&users={user.id}&limit=100000" download="inventory.json">{I18n('download JSON')}</a>
+    <a class="light-blue-button" href="{csvExportUrl}" download="inventory.csv">{I18n('download CSV')}</a>
+    <a class="light-blue-button" href="{inventoryJsonUrl}" download="inventory.json">{I18n('download JSON')}</a>
 
     <h3>{I18n('user profile')}</h3>
     <p class="note">{I18n('your profile contains information about you')}</p>
@@ -19,7 +23,7 @@
   </fieldset>
   <fieldset>
     <h2>{I18n('API')}</h2>
-    <a href="http://api.inventaire.io" target="_blank" class="link">{I18n('check the documentation')} {@html icon('link')}</a>
+    <a href="{apiDoc}" target="_blank" class="link">{I18n('check the documentation')} {@html icon('link')}</a>
   </fieldset>
 </form>
 

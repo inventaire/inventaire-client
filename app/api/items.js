@@ -43,5 +43,9 @@ export default {
   search (user, search) {
     search = encodeURIComponent(search)
     return action('search', { user, search })
-  }
+  },
+
+  export ({ format }) {
+    return action('export', { format })
+  },
 }
