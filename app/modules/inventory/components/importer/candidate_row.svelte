@@ -6,8 +6,8 @@
   import preq from '#lib/preq'
   import Spinner from '#components/spinner.svelte'
   export let candidate
+  export let checked = true
 
-  let checked = true
   let editionLang, disabled
   let { preCandidate, edition, work, authors } = candidate
   const { isbnData } = preCandidate
@@ -27,7 +27,7 @@
   const getEntitiesFromIsbn = async () => {
     if (!isbnData || isbnData.isInvalid) return
     const relatives = [ 'wdt:P629', 'wdt:P50' ]
-    const uri = `isbn:${isbnData?.normalizedIsbn}`
+    const uri = `isbn:${isbnData.normalizedIsbn}`
     const res = await preq.get(app.API.entities.getByUris(uri, false, relatives))
     entities = res.entities
     assignWorkAndAuthors(entities)
@@ -43,12 +43,8 @@
     if (workAuthors.length > 0) authors = workAuthors
   }
 
-  $: {
-    if (isbnData?.isInvalid) {
-      checked = false
-      disabled = true
-    }
-  }
+  $: if (isbnData?.isInvalid) disabled = true
+  $: if (disabled && checked) checked = false
 </script>
 <li class="candidateRow" class:checked>
   <div class="data">
@@ -87,9 +83,10 @@
     {/if}
     <div class="column isbn">
       {#if rawIsbn}
-        <span class="label">ISBN:</span>
         {#if isbnData?.isInvalid}
           <span class="warning">{i18n('invalid ISBN')}</span>
+        {:else}
+          <span class="label">ISBN:</span>
         {/if}
         {rawIsbn}
       {/if}
@@ -116,7 +113,7 @@
     @include display-flex(row, center, flex-start);
     flex: 1 0 0;
     .isbn{
-      @include display-flex(column, center, flex-start);
+      @include display-flex(column);
       text-align: right;
       flex: 5 0 0;
     }
