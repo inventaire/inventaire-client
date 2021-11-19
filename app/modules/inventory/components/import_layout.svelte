@@ -19,6 +19,7 @@
 
   onMount(() => autosize(document.querySelector('textarea')))
   let flashIsbnsImporter, flashInvalidIsbns
+  let checked = true
   let flashImporters = {}
   let isbnsText, preCandidatesCount
   let candidates = []
@@ -117,6 +118,13 @@
 
   const emptyIsbns = () => isbnsText = ''
 
+  const unselectAll = () => {
+    // hack to avoid bind:checked of each candidate to this parent component
+    // ensure checked is always defined
+    checked = true
+    checked = false
+  }
+
   $: { candidatesLength = candidates.length }
   // dev stuff, delete before production
   isbnsText = ',9782352946847,9782352946847,2277119660,1591841380,978-2-207-11674-6'
@@ -162,7 +170,7 @@
     </ul>
   </div>
   <div class="buttonWrapper">
-    <a id="createCandidatesButton" on:click={createAndResolveCandidates} class="button" tabindex="0">{I18n('find ISBNs')}</a>
+    <a id="createCandidatesButton" on:click={createAndResolveCandidates} class="button">{I18n('find ISBNs')}</a>
   </div>
   <div id="candidatesElement" bind:this={candidatesElement} hidden="{!candidates.length > 0}">
     <h3>2/ Select the books you want to add</h3>
@@ -175,9 +183,21 @@
     <Flash bind:state={flashInvalidIsbns}/>
     <ul>
       {#each candidates as candidate}
-        <CandidateRow bind:candidate={candidate}/>
+        <CandidateRow bind:candidate={candidate} checked={checked}/>
       {/each}
     </ul>
+    <div id="candidates-nav">
+      <button class="grey-button" on:click="{() => checked = true}" name="{I18n('select all')}">
+        {I18n('select all')}
+      </button>
+      <button class="grey-button" on:click={unselectAll} name="{I18n('unselect all')}">
+        {I18n('unselect all')}
+      </button>
+      <button class="grey-button" on:click="{() => candidates = []}" name="{I18n('empty the queue')}">
+        <!-- TODO: insert "are you sure" popup -->
+        {@html icon('trash')} {I18n('empty the queue')}
+      </button>
+    </div>
   </div>
 </section>
 <style lang="scss">
@@ -200,5 +220,10 @@
   h3{
     margin-top: 1em;
     text-align: center;
+  }
+  #candidates-nav{
+    @include display-flex(row, center, center, wrap);
+    button { margin: 0.5em;}
+    margin: 1em;
   }
 </style>
