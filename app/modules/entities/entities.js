@@ -313,6 +313,11 @@ const showEntityEdit = async params => {
 }
 
 const showEntityEditFromModel = async model => {
+  const editRoute = model.get('edit')
+  if (!editRoute) {
+    const { uri, type } = model.toJSON()
+    throw error_.new('this entity can not be edited', 400, { uri, type })
+  }
   if (!app.request('require:loggedIn', model.get('edit'))) return
 
   rejectRemovedPlaceholder(model)
