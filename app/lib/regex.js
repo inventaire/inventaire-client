@@ -1,17 +1,5 @@
-// Keep in sync with server/lib/regex
+// See also server/lib/regex
 
-// Adapted from https://stackoverflow.com/a/14582229/3324977
-const urlPattern = '^(https?:\\/\\/)' + // protocol
-  '(\\w+:\\w+@)?' + // auth?
-  '((([a-z\\d]([a-z\\d-_]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))|' + // OR ip (v4) address
-  '(localhost)' + // OR localhost
-  '(\\:\\d+)?' + // port?
-  '(\\/[-a-z\\d%_.~+]*)*' + // path
-  '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string?
-  '(\\#[-a-z\\d_]*)?$' // fragment?
-
-export const Url = new RegExp(urlPattern, 'i')
 export const ImageHash = /^[0-9a-f]{40}$/
 // Source https://html.spec.whatwg.org/multipage/input.html#email-state-%28type=email%29
 export const Email = /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
