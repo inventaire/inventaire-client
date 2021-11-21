@@ -1,10 +1,10 @@
 <div class="transactionBox dropdown-wrapper">
   {{#if restricted}}
-    <a class="current itemShow" href="{{pathname}}">
+    <a class="itemShow" href="{{pathname}}">
       {{icon currentTransaction.icon}}{{i18n currentTransaction.labelShort}}
     </a>
   {{else}}
-    <button class="current {{currentTransaction.id}}" aria-controls="transactions-{{_id}}" aria-haspopup="menu">
+    <button class="{{currentTransaction.id}}" aria-controls="transactions-{{_id}}" aria-haspopup="menu">
       <span class="icon">
         {{icon currentTransaction.icon}}
       </span>

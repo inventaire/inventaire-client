@@ -12,13 +12,18 @@
     }
   }
   .transactionBox, .listingMenu{
-    .current{
+    button[aria-haspopup="menu"]{
       flex: 1 1 auto;
       height: 100%;
       // required in Chromium
       min-height: $user-box-heigth;
       @include display-flex(row, center, center);
       border-top: 1px solid #fefefe;
+      padding: 0;
+    }
+    ul[role="menu"]{
+      width: 100%;
+      @include shadow-box($dark-grey);
     }
     .icon{
       flex: 0 0 auto;
@@ -27,10 +32,6 @@
       width: $user-box-heigth;
       // required in Chromium
       min-height: $user-box-heigth;
-      .fa{
-        // centering
-        padding-left: 0.3em;
-      }
     }
     .rest{
       flex: 1 1 auto;
@@ -40,7 +41,7 @@
     }
     &:focus{
       background-color: $soft-grey;
-      .current{
+      button[aria-haspopup="menu"]{
         background-color: none;
       }
     }

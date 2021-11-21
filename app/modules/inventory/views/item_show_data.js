@@ -37,8 +37,8 @@ export default ItemLayout.extend({
   },
 
   events: {
-    'click a.transaction': 'updateTransaction',
-    'click a.listing': 'updateListing',
+    'click button.transaction': 'updateTransaction',
+    'click button.listing': 'updateListing',
     'click a.itemShow': 'itemShow',
     'click a.user': 'showUser',
     'click a.showUser': 'showUser',
