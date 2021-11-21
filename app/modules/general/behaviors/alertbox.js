@@ -3,6 +3,8 @@ import { expired } from 'lib/utils'
 import getActionKey from 'lib/get_action_key'
 import error_ from 'lib/error'
 import { I18n } from 'modules/user/lib/i18n'
+import Handlebars from 'handlebars/runtime'
+const { escapeExpression } = Handlebars
 
 export default Marionette.Behavior.extend({
   events: {
@@ -32,7 +34,7 @@ export default Marionette.Behavior.extend({
     }
 
     const box = `<div class="alert hidden alert-box" role="alert"> \
-<span class="alert-message">${message}</span> \
+<span class="alert-message">${escapeExpression(message)}</span> \
 <button title="${I18n('close')}" class="alert-close" aria-label="${I18n('close')}">&#215;</button> \
 </div>`
 
