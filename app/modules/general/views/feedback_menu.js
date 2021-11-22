@@ -90,7 +90,7 @@ export default Marionette.View.extend({
   },
 
   hideConfirmation () {
-    if (this.isDestroyed) return
+    if (this.isDestroyed()) return
     this.ui.confirmation.slideUp()
     this.ui.confirmation.removeAttr('role')
   }

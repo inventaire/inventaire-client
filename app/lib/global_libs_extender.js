@@ -156,12 +156,12 @@ Marionette.View.prototype.ifViewIsIntact = function (fn, ...args) {
   }
 }
 Marionette.View.prototype.isIntact = function () {
-  return this.isRendered && !this.isDestroyed
+  return this.isRendered() && !this.isDestroyed()
 }
 
 Marionette.View.prototype.setTimeout = function (fn, timeout) {
   const runUnlessViewIsDestroyed = () => {
-    if (!this.isDestroyed) return fn()
+    if (!this.isDestroyed()) return fn()
   }
   return setTimeout(runUnlessViewIsDestroyed, timeout)
 }
@@ -209,7 +209,7 @@ const specialRegexCharactersRegex = new RegExp(`([${specialRegexCharacters}])`, 
 
 const LazyRender = function (view, timespan = 200) {
   const cautiousRender = function (focusSelector) {
-    if (view.isRendered && !(view.isDestroyed || view._preventRerender)) {
+    if (view.isRendered() && !(view.isDestroyed() || view._preventRerender)) {
       view.render()
       if (_.isString(focusSelector)) view.$el.find(focusSelector).focus()
     }

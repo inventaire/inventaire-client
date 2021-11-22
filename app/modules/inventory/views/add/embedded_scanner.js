@@ -149,7 +149,7 @@ export default Marionette.View.extend({
     const { message, type, displayDelay, displayCondition, displayTime } = params
 
     const showMessage = () => {
-      if (this.isDestroyed) return
+      if (this.isDestroyed()) return
       if ((displayCondition != null) && !displayCondition()) return
 
       this.ui.statusMessage.html(icon(iconPerType[type]) + message)
@@ -160,7 +160,7 @@ export default Marionette.View.extend({
       this._lastMessage = message
 
       const hideMessage = () => {
-        if (this.isDestroyed || (this._lastMessage !== message)) return
+        if (this.isDestroyed() || (this._lastMessage !== message)) return
         this.ui.statusMessage.removeClass('shown')
       }
 
@@ -184,7 +184,7 @@ export default Marionette.View.extend({
 
   updateCounter (count) {
     // Prevent crashing with a 'TypeError: this.ui.totalCounter.text is not a function' error
-    if (this.isDestroyed) return
+    if (this.isDestroyed()) return
     this.ui.totalCounter.text(`(${this.batch.length})`)
     this.ui.validate.addClass('flash')
     this.setTimeout(this.ui.validate.removeClass.bind(this.ui.validate, 'flash'), 1000)
