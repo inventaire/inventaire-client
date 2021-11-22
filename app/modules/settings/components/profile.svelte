@@ -43,7 +43,7 @@
 
   const validateUsername = async () => {
     usernameState = null
-    if ($user.username === usernameValue) {
+    if ($user.username.toLowerCase() === usernameValue.toLowerCase()) {
       // username has been modfied back to its original state
       // nothing to update and nothing to notify either
       return
