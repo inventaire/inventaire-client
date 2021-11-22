@@ -14,12 +14,13 @@ import 'modules/inventory/scss/import_queue.scss'
 import AlertBox from 'behaviors/alert_box'
 import Loading from 'behaviors/loading'
 import UpdateSelector from 'modules/inventory/behaviors/update_selector'
+import { bubbleUpChildViewEvent } from 'lib/utils'
 
 const CandidatesQueue = Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: CandidateRow,
   childViewEvents: {
-    'selection:changed' () { this.triggerMethod('selection:changed') }
+    'selection:changed': bubbleUpChildViewEvent('selection:changed')
   }
 })
 
@@ -243,5 +244,7 @@ export default Marionette.View.extend({
     this.planProgressUpdate()
   },
 
-  onDestroy () { return this.stopProgressUpdate() }
+  onDestroy () {
+    this.stopProgressUpdate()
+  }
 })

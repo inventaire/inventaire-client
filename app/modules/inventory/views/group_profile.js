@@ -50,10 +50,4 @@ export default GroupLayoutView.extend({
     if (this.model.mainUserIsAdmin()) return this.model.get('requested').length
     else return 0
   },
-
-  childViewEvents: {
-    select (e, type, model) {
-      return app.vent.trigger('inventory:select', 'member', model)
-    }
-  }
 })

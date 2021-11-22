@@ -166,12 +166,11 @@ export default Marionette.View.extend({
     this.showChildView(`${name}Region`, new BrowserSelector({ name, collection, treeSection }))
   },
 
-  onFilterSelect (selectorView, selectedOption) {
+  onFilterSelect ({ selectorView, selectedOption }) {
     const { selectorName } = selectorView
     assert_.string(selectorName)
     const selectedOptionKey = getSelectedOptionKey(selectedOption, selectorName)
     this.filters[selectorName] = selectedOptionKey
-
     const intersectionWorkUris = getIntersectionWorkUris(this.worksTree, this.filters)
     this.filterSelectors(intersectionWorkUris)
     this.displayFilteredItems(intersectionWorkUris)

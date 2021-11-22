@@ -147,9 +147,9 @@ export default Marionette.View.extend({
 
   clickCurrentlySelected () { this.$el.find('.selected').trigger('click') },
 
-  selectOption (view, model) {
+  selectOption (model) {
     this._selectedOption = model
-    this.triggerMethod('filter:select', model)
+    this.triggerMethod('filter:select', { selectorView: this, selectedOption: model })
     const labelSpan = `<span class='label'>${model.get('label')}</span>`
     this.ui.selectedMode.html(labelSpan + icon('times'))
     this.hideOptions()
@@ -158,11 +158,11 @@ export default Marionette.View.extend({
 
   resetOptions () {
     this._selectedOption = null
-    this.triggerMethod('filter:select', null)
+    this.triggerMethod('filter:select', { selectorView: this, selectedOption: null })
     this.ui.selectorButton.removeClass('active')
     this.hideOptions()
     this.collectionsAction('removeFilter', 'text')
-    return this.updateCounter()
+    this.updateCounter()
   },
 
   treeKeyAttribute: 'uri',
@@ -179,7 +179,7 @@ export default Marionette.View.extend({
       this.collectionsAction('filterBy', 'intersection', filter)
     }
 
-    return this.updateCounter()
+    this.updateCounter()
   },
 
   _intersectionFilter (treeSection, intersectionWorkUris, model) {
