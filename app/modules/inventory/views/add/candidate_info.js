@@ -9,7 +9,7 @@ export default Marionette.View.extend({
     this.listenTo(app.vent, 'modal:closed', this.onClose.bind(this))
   },
 
-  onShow () { app.execute('modal:open') },
+  onRender () { app.execute('modal:open') },
 
   ui: {
     title: 'input[name="title"]',

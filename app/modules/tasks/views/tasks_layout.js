@@ -40,7 +40,7 @@ export default Marionette.View.extend({
     Loading,
   },
 
-  onShow () {
+  onRender () {
     const { task, entitiesType } = this.options
     if (isModel(task)) {
       this.showTask({ task })

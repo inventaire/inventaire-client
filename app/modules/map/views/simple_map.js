@@ -16,7 +16,7 @@ export default Marionette.View.extend({
     PreventDefault,
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open', 'large', this.options.focus)
     // let the time to the modal to be fully open
     // so that the map can be drawned correctly

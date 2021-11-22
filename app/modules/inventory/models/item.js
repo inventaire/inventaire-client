@@ -174,7 +174,7 @@ export default Filterable.extend({
     .then(tap(() => { this.isDestroyed = true }))
   },
 
-  // to be called by a view onShow:
+  // to be called by a view onRender:
   // updates the document with the item data
   updateMetadata () {
     // start by adding the entity's metadata

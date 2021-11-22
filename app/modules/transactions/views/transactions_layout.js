@@ -24,7 +24,7 @@ export default Marionette.View.extend({
 
   serializeData () { return { folders } },
 
-  onShow () { this.showTransactionsFolders() },
+  onRender () { this.showTransactionsFolders() },
 
   showTransactionsFolders () {
     // every folder share the app.transactions collection

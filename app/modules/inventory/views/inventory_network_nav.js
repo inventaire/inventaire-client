@@ -18,7 +18,7 @@ export default InventoryCommonNav.extend({
     groupMenu: '.groupMenu'
   },
 
-  onShow () {
+  onRender () {
     app.request('fetch:friends')
     .then(() => this.showList('usersList', app.users.filtered.friends()))
 

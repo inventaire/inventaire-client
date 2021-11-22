@@ -38,7 +38,7 @@ export default Marionette.View.extend({
     }
   },
 
-  onShow () { app.execute('modal:open') },
+  onRender () { app.execute('modal:open') },
 
   shelfEditorKeyAction (e) {
     const key = getActionKey(e)

@@ -46,7 +46,7 @@ export default GroupLayoutView.extend({
     this._lazyUpdateUrl = LazyUpdateUrl(this)
   },
 
-  onShow () { app.execute('modal:open', 'medium') },
+  onRender () { app.execute('modal:open', 'medium') },
 
   // Allows to define @_lazyUpdateUrl after events binding
   lazyUpdateUrl () { this._lazyUpdateUrl() },

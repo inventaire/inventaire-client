@@ -64,7 +64,7 @@ export default Marionette.View.extend({
     candidates = candidates || new Candidates()
   },
 
-  onShow () {
+  onRender () {
     // show the import queue if there were still candidates from last time
     this.showImportQueueUnlessEmpty()
 

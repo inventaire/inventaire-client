@@ -31,7 +31,7 @@ export default Marionette.CollectionView.extend({
     this.suggestLastItems()
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open')
     // Doesn't work if set in events for some reason
     this.ui.candidates.on('scroll', this.onScroll.bind(this))

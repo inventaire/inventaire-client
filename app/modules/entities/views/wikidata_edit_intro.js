@@ -5,7 +5,7 @@ export default Marionette.View.extend({
   className: 'wikidata-edit-intro',
   template: wikidataEditIntroTemplate,
 
-  onShow () { app.execute('modal:open', 'medium') },
+  onRender () { app.execute('modal:open', 'medium') },
 
   serializeData () {
     const attrs = this.model.toJSON()

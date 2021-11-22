@@ -26,7 +26,7 @@ export default Marionette.CollectionView.extend({
     this.collection.sort()
   },
 
-  onShow () {
+  onRender () {
     if (this.collection.length > 0) {
       this.ui.history.show()
     } else {

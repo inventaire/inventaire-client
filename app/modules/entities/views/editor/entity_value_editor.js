@@ -64,12 +64,18 @@ export default ClaimsEditorCommons.extend({
     'change:value': 'lazyRender'
   },
 
-  onShow () {
+  onRender () {
     this.listenTo(app.vent, 'entity:value:editor:edit', this.preventMultiEdit.bind(this))
 
     if (this.editMode) {
       this.triggerEditEvent()
       this.ui.input.focus()
+    }
+
+    this.selectIfInEditMode()
+    if (this.editMode) {
+      this.updateInputState()
+      autocomplete.onRender.call(this)
     }
   },
 
@@ -84,14 +90,6 @@ export default ClaimsEditorCommons.extend({
     }
 
     this.lazyRender()
-  },
-
-  onRender () {
-    this.selectIfInEditMode()
-    if (this.editMode) {
-      this.updateInputState()
-      autocomplete.onRender.call(this)
-    }
   },
 
   events: {

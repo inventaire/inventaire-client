@@ -34,7 +34,8 @@ export default Marionette.View.extend({
     }
   },
 
-  onShow () {
+  onRender () {
+    startLoading.call(this, '#usersList')
     this.lastQuery = ''
     this.showChildView('usersList', new UsersList({
       collection: this.collection,
@@ -47,10 +48,6 @@ export default Marionette.View.extend({
     // start with .noUser hidden
     // will eventually be re-shown by empty results later
     $('.noUser').hide()
-  },
-
-  onRender () {
-    startLoading.call(this, '#usersList')
   },
 
   initSearch () {

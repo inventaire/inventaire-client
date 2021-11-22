@@ -18,7 +18,7 @@ export default Marionette.View.extend({
     'click .typePicker a': 'updateTypePickerFromClick'
   },
 
-  onShow () {
+  onRender () {
     const type = this.options.type || 'work'
     this.selectType(type)
   },

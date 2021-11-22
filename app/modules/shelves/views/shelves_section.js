@@ -42,7 +42,7 @@ export default Marionette.View.extend({
     toggleButtons: '#toggleButtons'
   },
 
-  onShow () {
+  onRender () {
     const { username } = this.options
 
     this.waitForList = getUserId(username)

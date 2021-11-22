@@ -45,7 +45,7 @@ export default Marionette.View.extend({
     'click #login': clickCommand('show:login'),
   },
 
-  onShow () {
+  onRender () {
     this.ui.classicUsername.focus()
   },
 

@@ -4,7 +4,7 @@ export default Marionette.View.extend({
   tagName: 'div',
   className: 'text-center hidden',
   template: noItemTemplate,
-  onShow () { this.$el.fadeIn() },
+  onRender () { this.$el.fadeIn() },
   serializeData () {
     return {
       showIcon: this.options.showIcon !== false,

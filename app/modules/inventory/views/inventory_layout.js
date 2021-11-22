@@ -41,7 +41,7 @@ export default Marionette.View.extend({
     'close:shelf': 'closeShelf'
   },
 
-  onShow () {
+  onRender () {
     if (this.user != null) {
       this.startFromUser(this.user, this.shelf)
       this.showUserShelves(this.user)

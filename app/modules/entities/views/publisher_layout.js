@@ -26,7 +26,7 @@ export default TypedEntityLayout.extend({
     this.displayMergeSuggestions = app.user.hasAdminAccess
   },
 
-  async onShow () {
+  async onRender () {
     await this.model.waitForPublications
     if (this.isIntact()) this.showPublications()
   },

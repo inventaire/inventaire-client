@@ -80,7 +80,7 @@ export default Marionette.View.extend({
     }
   },
 
-  onShow () {
+  onRender () {
     this.showChildView('candidatesQueue', new CandidatesQueue({ collection: this.candidates }))
     this.showChildView('itemsList', new ImportedItemsList({ collection: this.items }))
     this.lazyUpdateSteps()

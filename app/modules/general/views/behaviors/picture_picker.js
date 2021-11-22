@@ -67,7 +67,7 @@ export default Marionette.CollectionView.extend({
     }
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open', 'large', this.options.focus)
     this.selectFirst()
     this.ui.urlInput.focus()

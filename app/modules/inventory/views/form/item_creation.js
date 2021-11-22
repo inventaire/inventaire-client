@@ -78,7 +78,7 @@ export default Marionette.View.extend({
     return attrs
   },
 
-  onShow () {
+  onRender () {
     this.showEntityData()
     this.showExistingInstances()
     this.showShelves()

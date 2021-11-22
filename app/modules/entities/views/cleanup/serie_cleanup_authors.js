@@ -35,7 +35,7 @@ export default Marionette.View.extend({
     authorsSuggestionsRegion: '.authorsSuggestions'
   },
 
-  onShow () {
+  onRender () {
     this.showList('currentAuthors')
     this.showList('authorsSuggestions')
   },

@@ -45,11 +45,9 @@ export default Marionette.View.extend({
     this.groupId = this.group?.id
   },
 
-  onShow () {
-    if (this.group == null) app.execute('modal:open', 'medium')
-  },
-
   onRender () {
+    if (this.group == null) app.execute('modal:open', 'medium')
+
     this.showChildView('usersAlreadyThereRegion', new UsersList({
       collection: this.usersAlreadyThere,
       stretch: false,

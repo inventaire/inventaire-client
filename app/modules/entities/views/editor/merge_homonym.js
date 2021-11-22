@@ -47,7 +47,7 @@ export default Marionette.View.extend({
     'click .merge': 'merge'
   },
 
-  async onShow () {
+  async onRender () {
     if (this.model.get('type') !== 'human') return
     await this.model.initAuthorWorks()
     if (this.isIntact()) this.showWorks()

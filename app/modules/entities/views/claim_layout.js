@@ -23,7 +23,7 @@ export default Marionette.View.extend({
       .then(model => { this.model = model })
   },
 
-  async onShow () {
+  async onRender () {
     this.waitForModel
     .then(this.ifViewIsIntact('showInfobox'))
     .catch(this.displayError)

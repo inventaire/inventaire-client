@@ -26,7 +26,7 @@ export default Marionette.CollectionView.extend({
     'click #showAllProperties': 'showAllProperties'
   },
 
-  onShow () {
+  onRender () {
     if (this.hasPropertiesShortlist) this.ui.showAllProperties.show()
   },
 

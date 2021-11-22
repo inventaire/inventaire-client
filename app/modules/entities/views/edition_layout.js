@@ -26,21 +26,19 @@ export default Marionette.View.extend({
     entityItems.initialize.call(this)
   },
 
-  async onShow () {
+  async onRender () {
     this.model.waitForWorks
     .then(works => works.map(work => work.fetchSubEntities()))
     .then(this.ifViewIsIntact('showWorks'))
     .catch(app.Execute('show:error'))
+
+    this.lazyShowItems()
+    this.showEntityActions()
   },
 
   showWorks () {
     const collection = new Backbone.Collection(this.model.works)
     this.showChildView('works', new EditionWorks({ collection }))
-  },
-
-  onRender () {
-    this.lazyShowItems()
-    this.showEntityActions()
   },
 
   serializeData () {

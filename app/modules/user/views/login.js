@@ -42,7 +42,7 @@ export default Marionette.View.extend({
     this.formAction = prepareRedirect.call(this)
   },
 
-  onShow () {
+  onRender () {
     this.ui.username.focus()
   },
 

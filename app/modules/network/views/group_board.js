@@ -57,10 +57,13 @@ export default GroupLayoutView.extend({
     return attrs
   },
 
-  events: _.extend({}, GroupLayoutView.prototype.events,
-    { 'click .section-toggler': 'toggleSection' }),
+  events: _.extend({}, GroupLayoutView.prototype.events, {
+    'click .section-toggler': 'toggleSection'
+  }),
 
-  onShow () {
+  async onRender () {
+    await this.model.beforeShow()
+    if (this.isIntact()) this._showBoard()
     if (this.openedSection != null) this.toggleUi(this.openedSection)
   },
 
@@ -99,11 +102,6 @@ export default GroupLayoutView.extend({
     groupRequests: 'showJoinRequests',
     groupInvite: 'showMembersInvitor',
     groupEmailInvite: 'showMembersEmailInvitor'
-  },
-
-  async onRender () {
-    await this.model.beforeShow()
-    if (this.isIntact()) this._showBoard()
   },
 
   _showBoard () {

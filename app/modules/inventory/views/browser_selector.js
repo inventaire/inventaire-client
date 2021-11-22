@@ -46,7 +46,7 @@ export default Marionette.View.extend({
   // Overriden in subclasses
   count () { return this.collection.length },
 
-  onShow () {
+  onRender () {
     this.showChildView('list', new BrowserSelectorOptions({ collection: this.collection }))
   },
 

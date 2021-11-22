@@ -31,7 +31,7 @@ export default Marionette.View.extend({
     }
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open')
     this.showShelves()
   },

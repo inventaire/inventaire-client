@@ -78,7 +78,7 @@ export default Marionette.View.extend({
     $('body').on('click', app.vent.Trigger('body:click'))
   },
 
-  // /!\ app_layout is never 'show'n so onShow never gets fired
+  // /!\ app_layout is never 'show'n so onRender never gets fired
   // but it gets rendered
   onRender () {
     this.showChildView('topBar', new TopBar())

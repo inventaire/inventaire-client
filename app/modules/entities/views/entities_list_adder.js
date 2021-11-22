@@ -48,7 +48,7 @@ export default Marionette.CollectionView.extend({
     }
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open', 'medium')
     // Doesn't work if set in events for some reason
     this.ui.candidates.on('scroll', this.onScroll.bind(this))

@@ -40,7 +40,13 @@ export default Marionette.View.extend({
     this.lazyDescriptionUpdate = _.debounce(updateLimit.bind(this, 'description', 'descriptionLimit', 5000), 200)
   },
 
-  onRender () { this.lazyDescriptionUpdate() },
+  onRender () {
+    this.lazyDescriptionUpdate()
+    this.listenTo(this.model, 'change:picture', this.LazyRenderFocus('#changePicture'))
+    // re-render after a position was selected to display
+    // the new geolocation status
+    this.listenTo(this.model, 'change:position', this.LazyRenderFocus('#showPositionPicker'))
+  },
 
   // Allows to define @_lazyUpdateUrl after events binding
   lazyUpdateUrl () { this._lazyUpdateUrl() },
@@ -102,13 +108,6 @@ export default Marionette.View.extend({
     // Prevent having to listen for 'change:searchable' among others
     // aas it will be out-of-date only in case of a rollback
     rollback: 'lazyRender'
-  },
-
-  onShow () {
-    this.listenTo(this.model, 'change:picture', this.LazyRenderFocus('#changePicture'))
-    // re-render after a position was selected to display
-    // the new geolocation status
-    this.listenTo(this.model, 'change:position', this.LazyRenderFocus('#showPositionPicker'))
   },
 
   LazyRenderFocus (focusSelector) { this.lazyRender.bind(this, focusSelector) },

@@ -20,7 +20,7 @@ export default Marionette.View.extend({
     'click #emailConfirmationRequest': 'emailConfirmationRequest'
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open')
   },
 

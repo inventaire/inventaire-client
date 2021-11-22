@@ -15,7 +15,7 @@ export default Marionette.View.extend({
     ({ labels: this.labels, claims: this.claims, wdEntity: this.wdEntity } = this.options.importData)
   },
 
-  onShow () { app.execute('modal:open', 'medium') },
+  onRender () { app.execute('modal:open', 'medium') },
 
   serializeData () {
     return {

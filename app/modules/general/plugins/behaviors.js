@@ -5,7 +5,7 @@ import error_ from 'lib/error'
 // behaviors: Loading MUST be added to the view
 // elements required in the view: .loading
 // startLoading / stopLoading MUST NOT be called at view initialization
-// but rathen onShow/onRender so that the expected DOM elements are rendered
+// but rathen onRender so that the expected DOM elements are rendered
 export function startLoading (params) {
   assertViewHasBehavior(this, 'Loading')
   if (_.isString(params)) params = { selector: params }

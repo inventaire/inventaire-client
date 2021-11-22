@@ -35,7 +35,7 @@ export default Marionette.CollectionView.extend({
 
   serializeData () { return this.model.serializeData() },
 
-  onShow () {
+  onRender () {
     this.model.markAsRead()
     if (screen_.isSmall() && !this.options.nonExplicitSelection) {
       screen_.scrollTop(this.$el)

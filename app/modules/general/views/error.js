@@ -27,7 +27,7 @@ export default Marionette.View.extend({
     }
   },
 
-  onShow () {
+  onRender () {
     this.ui.errorBox.fadeIn()
   }
 })

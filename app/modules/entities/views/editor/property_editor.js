@@ -75,7 +75,7 @@ export default Marionette.CollectionView.extend({
     return attrs
   },
 
-  onShow () {
+  onRender () {
     if (this.shouldBeHidden) this.$el.hide()
   },
 

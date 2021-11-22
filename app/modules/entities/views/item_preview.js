@@ -15,7 +15,7 @@ export default Marionette.View.extend({
     PreventDefault,
   },
 
-  onShow () {
+  onRender () {
     if (this.model.user == null) this.model.waitForUser.then(this.lazyRender.bind(this))
   },
 

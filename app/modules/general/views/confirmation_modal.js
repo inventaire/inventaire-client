@@ -42,7 +42,7 @@ export default Marionette.View.extend({
     'click a#back': 'back'
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open', null, this.options.focus)
     // leave the focus on textarea, if there is one
     if (this.$el.find('#confirmationForm')) { return }

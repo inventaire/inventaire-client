@@ -62,11 +62,8 @@ export default Marionette.View.extend({
     return attrs
   },
 
-  onShow () {
-    app.execute('modal:open', 'large')
-  },
-
   async onRender () {
+    app.execute('modal:open', 'large')
     this.showItemData()
     this.showShelves()
     const authorsPerProperty = await this.waitForAuthors

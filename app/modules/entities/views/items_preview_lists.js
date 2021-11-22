@@ -41,7 +41,7 @@ export default Marionette.View.extend({
     'click .showOnMap': 'showOnMap'
   },
 
-  onShow () {
+  onRender () {
     if (!this.emptyList) this.showItemsPreviewLists()
   },
 

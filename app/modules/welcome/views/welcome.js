@@ -49,7 +49,7 @@ export default Marionette.View.extend({
     landingScreen: '#landingScreen'
   },
 
-  async onShow () {
+  async onRender () {
     this.showPublicItems()
 
     const data = await this.waitForMention

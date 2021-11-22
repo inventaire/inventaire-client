@@ -67,7 +67,7 @@ export default Marionette.CollectionView.extend({
     'click .searchSettingsToggler': 'toggleSearchSettings',
   },
 
-  onShow () {
+  onRender () {
     // Doesn't work if set in events for some reason
     this.ui.resultsWrapper.on('scroll', this.onResultsScroll.bind(this))
   },

@@ -27,7 +27,7 @@ export default Marionette.View.extend({
     if (valueEntity != null) return valueEntity.toJSON()
   },
 
-  onShow () {
+  onRender () {
     this.listenTo(this.model, 'grab', this.onGrab.bind(this))
   },
 

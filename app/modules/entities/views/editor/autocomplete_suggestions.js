@@ -37,7 +37,7 @@ export default Marionette.CollectionView.extend({
   // Pass the child view event to the filtered collection
   selectFromClick (e, model) { return this.collection.trigger('select:from:click', model) },
 
-  onShow () {
+  onRender () {
     // Doesn't work if set in events for some reason
     this.ui.resultsWrapper.on('scroll', this.onResultsScroll.bind(this))
   },

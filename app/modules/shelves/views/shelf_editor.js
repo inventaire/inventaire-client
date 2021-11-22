@@ -35,7 +35,7 @@ export default Marionette.View.extend({
       { listings: listingsData() })
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open')
     const listing = this.model.get('listing')
     const $el = this.$el.find(`#${listing}`)

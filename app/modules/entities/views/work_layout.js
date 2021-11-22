@@ -34,21 +34,19 @@ export default TypedEntityLayout.extend({
   onRender () {
     TypedEntityLayout.prototype.onRender.call(this)
     this.lazyShowItems()
-  },
 
-  serializeData () {
-    return _.extend(this.model.toJSON(), {
-      displayMergeSuggestions: this.displayMergeSuggestions
-    })
-  },
-
-  onShow () {
     // Need to wait to know if the user has an instance of this work
     this.waitForItems
     .then(this.ifViewIsIntact('showEntityActions'))
 
     this.model.fetchSubEntities()
     .then(this.ifViewIsIntact('showEditions'))
+  },
+
+  serializeData () {
+    return _.extend(this.model.toJSON(), {
+      displayMergeSuggestions: this.displayMergeSuggestions
+    })
   },
 
   events: {

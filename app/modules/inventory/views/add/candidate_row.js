@@ -17,11 +17,8 @@ export default Marionette.View.extend({
     return base
   },
 
-  onShow () {
-    this.listenTo(this.model, 'change', this.lazyRender)
-  },
-
   onRender () {
+    this.listenTo(this.model, 'change', this.lazyRender)
     this.updateClassName()
     this.trigger('selection:changed')
   },

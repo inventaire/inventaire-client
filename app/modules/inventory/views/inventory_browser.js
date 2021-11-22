@@ -61,7 +61,7 @@ export default Marionette.View.extend({
     return data
   },
 
-  onShow () {
+  onRender () {
     this.initBrowser()
   },
 

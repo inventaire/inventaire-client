@@ -34,7 +34,7 @@ export default Marionette.View.extend({
     message: '#message'
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open')
   },
 

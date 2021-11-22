@@ -70,7 +70,7 @@ export default Marionette.View.extend({
 
   initPropertiesCollections () { this.properties = propertiesCollection(this.model) },
 
-  onShow () {
+  onRender () {
     if (this.requiresLabel) {
       this.showChildView('title', new LabelsEditor({ model: this.model }))
     }

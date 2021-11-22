@@ -12,7 +12,7 @@ const NotificationsList = Marionette.CollectionView.extend({
   childView: NotificationLi,
   emptyView: NoNotification,
 
-  onShow () {
+  onRender () {
     // Wait for the notifications to arrive to mark them as read
     app.request('wait:for', 'user')
     .then(this.collection.markAsRead.bind(this.collection))
@@ -48,7 +48,7 @@ export default Marionette.View.extend({
     PreventDefault,
   },
 
-  onShow () {
+  onRender () {
     this.waitForFriendsRequests
     .then(this.ifViewIsIntact('showFriendsRequests'))
 

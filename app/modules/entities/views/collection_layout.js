@@ -23,7 +23,7 @@ export default TypedEntityLayout.extend({
     mergeHomonymsRegion: '.mergeHomonyms'
   },
 
-  onShow () {
+  onRender () {
     this.model.fetchSubEntitiesUris(this.refresh)
     .then(this.ifViewIsIntact('showPaginatedEditions'))
   },

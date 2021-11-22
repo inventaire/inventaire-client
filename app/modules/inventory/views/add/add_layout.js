@@ -39,7 +39,7 @@ export default Marionette.View.extend({
     'click .tab': 'changeTab'
   },
 
-  onShow () {
+  onRender () {
     if (this.loggedIn) {
       this.showTabView(this.options.tab)
     } else {

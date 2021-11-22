@@ -50,7 +50,7 @@ export default Marionette.View.extend({
     'click a#sendFeedback': 'sendFeedback'
   },
 
-  onShow () { if (!this.standalone) { app.execute('modal:open') } },
+  onRender () { if (!this.standalone) { app.execute('modal:open') } },
 
   sendFeedback () {
     if (this.ui.subject.val().trim().length === 0) return

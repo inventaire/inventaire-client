@@ -14,7 +14,7 @@ export default Marionette.View.extend({
     otherSuggestions: '#otherSuggestions'
   },
 
-  onShow () {
+  onRender () {
     if (this.model.get('entitiesType') === 'human') {
       this.showAuthor('suspect')
       this.showAuthor('suggestion')
