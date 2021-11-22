@@ -77,7 +77,7 @@ export default Marionette.View.extend({
       this.showSectionNav(section, 'user', userModel)
       // Do not scroll when showing the main user's inventory
       // to keep the other nav elements visible
-      if (section !== 'user') scrollToSection(this.userProfile)
+      if (section !== 'user') this.scrollToSection('userProfile')
     })
     .catch(app.Execute('show:error'))
   },
@@ -91,7 +91,7 @@ export default Marionette.View.extend({
       this.showInventoryNav()
       this.showGroupProfile(groupModel)
       app.navigateFromModel(groupModel)
-      scrollToSection(this.groupProfile)
+      this.scrollToSection('groupProfile')
     })
     .catch(app.Execute('show:error'))
   },
@@ -101,18 +101,18 @@ export default Marionette.View.extend({
     const isMainUser = app.user.id === shelf.get('owner')
     this.showChildView('shelfInfo', new ShelfBox({ model: shelf }))
     this.showChildView('itemsList', new InventoryBrowser({ itemsDataPromise, isMainUser }))
-    this.waitForShelvesList.then(() => scrollToSection(this.shelfInfo))
+    this.waitForShelvesList.then(() => this.scrollToSection('shelfInfo'))
   },
 
   showUserShelves (userIdOrModel) {
     this.waitForShelvesList = app.request('resolve:to:userModel', userIdOrModel)
       .then(userModel => {
-        if ((this.shelvesList.currentView != null) && (userModel === this._lastShownUser)) return
+        if ((this.getRegion('shelvesList').currentView != null) && (userModel === this._lastShownUser)) return
         const shelvesCount = userModel.get('shelvesCount')
         if (shelvesCount === 0) return
         const username = userModel.get('username')
         this.showChildView('shelvesList', new ShelvesSection({ username }))
-        return this.shelvesList.currentView.waitForList
+        return this.getRegion('shelvesList').currentView.waitForList
       })
       .catch(app.Execute('show:error'))
   },
@@ -139,7 +139,7 @@ export default Marionette.View.extend({
     if (!this.isIntact()) return
     this.showUserProfile(memberModel)
     this.showInventoryBrowser('user', memberModel)
-    scrollToSection(this.userProfile)
+    this.scrollToSection('userProfile')
   },
 
   showGroupProfile (groupModel) {
@@ -179,7 +179,8 @@ export default Marionette.View.extend({
     } else {
       showPaginatedItems({
         request: sectionRequest[section],
-        region: this.itemsList,
+        layout: this,
+        regionName: 'itemsList',
         limit: 20,
         allowMore: true,
         showDistance: section === 'public'
@@ -189,8 +190,8 @@ export default Marionette.View.extend({
 
   closeShelf () {
     this.showInventoryBrowser(this._lastShownType, this._lastShownUser)
-    scrollToSection(this.userProfile)
-    this.shelfInfo.empty()
+    this.scrollToSection('userProfile')
+    this.getRegion('shelfInfo').empty()
     app.navigateFromModel(this._lastShownUser, { preventScrollTop: true })
   },
 
@@ -200,17 +201,17 @@ export default Marionette.View.extend({
       this._lastShownUser = model
       this.showUserInventory(model)
       this.showUserProfile(model)
-      this.groupProfile.empty()
-      this.shelvesList.empty()
+      this.getRegion('groupProfile').empty()
+      this.getRegion('shelvesList').empty()
       this.showUserShelves(model)
-      scrollToSection(this.userProfile)
+      this.scrollToSection('userProfile')
     } else if (type === 'group') {
       this.showGroupProfile(model)
-      this.userProfile.empty()
-      this.shelfInfo.empty()
-      this.shelvesList.empty()
+      this.getRegion('userProfile').empty()
+      this.getRegion('shelfInfo').empty()
+      this.getRegion('shelvesList').empty()
       this.showGroupInventory(model)
-      scrollToSection(this.groupProfile)
+      this.scrollToSection('groupProfile')
     } else if (type === 'member') {
       this._lastShownType = type
       this._lastShownUser = model
@@ -223,6 +224,10 @@ export default Marionette.View.extend({
     }
 
     app.navigateFromModel(model, { preventScrollTop: true })
+  },
+
+  scrollToSection (regionName) {
+    screen_.scrollTop({ $el: this.getRegion(regionName).$el, marginTop: 10, delay: 100 })
   }
 })
 
@@ -237,4 +242,3 @@ const sectionRequest = {
   public: 'items:getNearbyItems'
 }
 
-const scrollToSection = region => screen_.scrollTop({ $el: region.$el, marginTop: 10, delay: 100 })

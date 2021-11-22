@@ -175,12 +175,12 @@ export default Marionette.View.extend({
     const intersectionWorkUris = getIntersectionWorkUris(this.worksTree, this.filters)
     this.filterSelectors(intersectionWorkUris)
     this.displayFilteredItems(intersectionWorkUris)
-    this.filterPreview.currentView.updatePreview(selectorName, selectedOption)
+    this.getRegion('filterPreview').currentView.updatePreview(selectorName, selectedOption)
   },
 
   filterSelectors (intersectionWorkUris) {
     for (const selectorName of selectorsNames) {
-      const { currentView } = this[`${selectorName}Region`]
+      const { currentView } = this.getRegion(`${selectorName}Region`)
       currentView.filterOptions(intersectionWorkUris)
     }
   },

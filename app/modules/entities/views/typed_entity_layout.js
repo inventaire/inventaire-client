@@ -40,7 +40,8 @@ export default Marionette.View.extend({
     if (!this.displayMergeSuggestions) return
     app.execute('show:homonyms', {
       model: this.model,
-      region: this.mergeHomonymsRegion
+      layout: this,
+      regionName: 'mergeHomonymsRegion'
     })
   }
 })

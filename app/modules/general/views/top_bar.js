@@ -124,12 +124,12 @@ export default Marionette.View.extend({
     params = params || {}
     // If a section is specified, reinitialize the search view
     // to take that section request into account
-    if ((this.liveSearch.currentView != null) && (params.section == null)) {
-      this.liveSearch.$el.show()
+    if ((this.getRegion('liveSearch').currentView != null) && (params.section == null)) {
+      this.getRegion('liveSearch').$el.show()
     } else { this.showChildView('liveSearch', new LiveSearch(params)) }
-    this.liveSearch.$el.addClass('shown')
-    this.liveSearch.currentView.resetHighlightIndex()
-    this.liveSearch.currentView.showSearchSettings()
+    this.getRegion('liveSearch').$el.addClass('shown')
+    this.getRegion('liveSearch').currentView.resetHighlightIndex()
+    this.getRegion('liveSearch').currentView.showSearchSettings()
     this.ui.overlay.removeClass('hidden')
     this.ui.closeSearch.removeClass('hidden')
     this._liveSearchIsShown = true
@@ -139,10 +139,10 @@ export default Marionette.View.extend({
     // Discard non-boolean flags
     triggerFallbackLayout = (triggerFallbackLayout === true) && (currentRoute() === 'search')
 
-    if (this.liveSearch.$el == null) return
+    if (this.getRegion('liveSearch').$el == null) return
 
-    this.liveSearch.$el.hide()
-    this.liveSearch.$el.removeClass('shown')
+    this.getRegion('liveSearch').$el.hide()
+    this.getRegion('liveSearch').$el.removeClass('shown')
     this.ui.overlay.addClass('hidden')
     this.ui.closeSearch.addClass('hidden')
     this._liveSearchIsShown = false
@@ -183,7 +183,7 @@ export default Marionette.View.extend({
       if (key === 'esc') {
         return this.hideLiveSearch(true)
       } else {
-        return this.liveSearch.currentView.onSpecialKey(key)
+        return this.getRegion('liveSearch').currentView.onSpecialKey(key)
       }
     } else {
       const { value } = e.currentTarget
@@ -192,7 +192,7 @@ export default Marionette.View.extend({
   },
 
   searchLive (text) {
-    this.liveSearch.currentView.lazySearch(text)
+    this.getRegion('liveSearch').currentView.lazySearch(text)
     return app.vent.trigger('search:global:change', text)
   },
 
@@ -211,7 +211,7 @@ export default Marionette.View.extend({
   // thus the need to recover it
   recoverSearchFocus () {
     this.ui.searchField.focus()
-    this.liveSearch.currentView.hideSearchSettings()
+    this.getRegion('liveSearch').currentView.hideSearchSettings()
   },
 
   closeSearch () {

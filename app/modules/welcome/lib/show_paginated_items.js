@@ -4,7 +4,7 @@ import ItemsCascade from 'modules/inventory/views/items_cascade'
 
 export default async params => {
   let collection, moreData
-  const { region, allowMore, showDistance } = params
+  const { layout, regionName, allowMore, showDistance } = params
   params.collection = collection = new Items()
 
   // Use an object to store the flag so that it can be modified

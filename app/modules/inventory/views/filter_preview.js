@@ -44,14 +44,14 @@ export default Marionette.View.extend({
     this.ui[`${name}PreviewHandler`].addClass('shown')
     this.$el.find('.preview-wrapper.active').removeClass('active')
     // target .preview-wrapper
-    this[name].$el.parent().addClass('active')
+    this.getRegion(name).$el.parent().addClass('active')
     this.$el.addClass('shown')
   },
 
   removePreview (name) {
     this.ui[`${name}PreviewHandler`].removeClass('shown')
     // target .preview-wrapper
-    this[name].$el.parent().removeClass('active')
+    this.getRegion(name).$el.parent().removeClass('active')
     delete this._activeRegions[name]
     const fallbackRegion = Object.keys(this._activeRegions)[0]
     if (fallbackRegion != null) {

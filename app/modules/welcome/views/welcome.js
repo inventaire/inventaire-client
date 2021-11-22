@@ -60,7 +60,8 @@ export default Marionette.View.extend({
     const limit = window.screen.width < 470 ? 7 : 15
     showPaginatedItems({
       request: 'items:getRecentPublic',
-      region: this.previewColumns,
+      layout: this,
+      regionName: 'previewColumns',
       allowMore: false,
       limit,
       lang: app.user.lang,

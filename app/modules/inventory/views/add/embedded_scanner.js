@@ -206,7 +206,7 @@ export default Marionette.View.extend({
   close () {
     // come back to the previous view
     // which should trigger @destroy as the previous view is expected to be shown
-    // in app.layout.main too
+    // in app.layout.getRegion('main') too
     return window.history.back()
   },
 

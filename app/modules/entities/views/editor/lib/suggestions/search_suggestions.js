@@ -19,9 +19,9 @@ const search = async function (input) {
   .then(results => {
     if ((results != null) && (results.length === 0)) {
       this._lastResultsLength = results.length
-      this.suggestionsRegion.currentView.$el.addClass('no-results')
+      this.getRegion('suggestionsRegion').currentView.$el.addClass('no-results')
     } else {
-      this.suggestionsRegion.currentView.$el.removeClass('no-results')
+      this.getRegion('suggestionsRegion').currentView.$el.removeClass('no-results')
     }
     this.suggestions.reset(results)
     return this.stopLoadingSpinner()

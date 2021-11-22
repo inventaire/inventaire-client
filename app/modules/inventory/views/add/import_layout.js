@@ -87,12 +87,12 @@ export default Marionette.View.extend({
 
   showImportQueueUnlessEmpty () {
     if (candidates.length > 0) {
-      if (!this.queue.hasView()) {
+      if (!this.getRegion('queue').hasView()) {
         this.showChildView('queue', new ImportQueue({ candidates }))
       }
 
       // Run once @ui.importersWrapper is done sliding up
-      this.setTimeout(screen_.scrollTop.bind(null, this.queue.$el), 500)
+      this.setTimeout(screen_.scrollTop.bind(null, this.getRegion('queue').$el), 500)
     }
   },
 

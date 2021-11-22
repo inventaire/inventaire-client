@@ -68,8 +68,8 @@ export default Marionette.View.extend({
   },
 
   toggleMergeWorkPicker () {
-    if (this.mergeWorkPicker.currentView != null) {
-      this.mergeWorkPicker.currentView.$el.toggle()
+    if (this.getRegion('mergeWorkPicker').currentView != null) {
+      this.getRegion('mergeWorkPicker').currentView.$el.toggle()
     } else {
       this.showChildView('mergeWorkPicker', new WorkPicker({
         model: this.model,

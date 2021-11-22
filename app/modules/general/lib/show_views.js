@@ -11,7 +11,7 @@ setTimeout(lateImport, 0)
 export default {
   showLoader () {
     const loader = '<div class="full-screen-loader"><div></div></div>'
-    $(app.layout.main.el).html(loader)
+    $(app.layout.getRegion('main').el).html(loader)
   },
 
   showEntity (e) {

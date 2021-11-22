@@ -70,6 +70,6 @@ export default TypedEntityLayout.extend({
   toggleWikipediaPreview () { this.$el.trigger('toggleWikiIframe', this) },
 
   showHomonyms () {
-    app.execute('show:homonyms', { model: this.model, region: this.mergeHomonymsRegion })
+    app.execute('show:homonyms', { model: this.model, layout: this, regionName: 'mergeHomonymsRegion' })
   }
 })

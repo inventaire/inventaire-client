@@ -48,7 +48,7 @@ export default Marionette.View.extend({
     this.render()
     app.commands.setHandlers({
       'show:loader': this.showLoader,
-      'main:fadeIn' () { return app.layout.main.$el.hide().fadeIn(200) },
+      'main:fadeIn' () { return app.layout.getRegion('main').$el.hide().fadeIn(200) },
       'show:feedback:menu': this.showFeedbackMenu,
       'show:donate:menu': this.showDonateMenu,
       'ask:confirmation': this.askConfirmation.bind(this),

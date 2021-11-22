@@ -30,7 +30,7 @@ const API = {
 const showSettings = async section => {
   if (app.request('require:loggedIn', `settings/${section}`)) {
     const { default: SettingsLayout } = await import('./components/settings_layout.svelte')
-    return app.layout.main.showSvelteComponent(SettingsLayout, {
+    return app.layout.getRegion('main').showSvelteComponent(SettingsLayout, {
       props: {
         section
       }

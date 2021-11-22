@@ -168,7 +168,7 @@ const API = {
     if (!app.request('require:admin:access')) return
 
     return getEntityModel(uri, true)
-    .then(model => app.execute('show:homonyms', { model, region: app.layout.main, standalone: true }))
+    .then(model => app.execute('show:homonyms', { model, layout: app.layout, regionName: 'main', standalone: true }))
   },
 
   async showEntityHistory (uri) {
@@ -299,7 +299,7 @@ const getEntityModel = async (uri, refresh) => {
 const getEntityLocalHref = uri => `/entity/${uri}`
 
 const showEntityEdit = async params => {
-  let { model, region } = params
+  const { model } = params
   if (model.type == null) throw error_.new('invalid entity type', model)
   let View
   if (params.next != null || params.previous != null) {
@@ -401,7 +401,7 @@ const showViewByAccessLevel = function (params) {
       if (View) {
         app.layout.showChildView('main', new View(viewOptions))
       } else {
-        app.layout.main.showSvelteComponent(Component, {
+        app.layout.getRegion('main').showSvelteComponent(Component, {
           props: componentProps
         })
       }

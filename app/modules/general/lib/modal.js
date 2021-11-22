@@ -76,7 +76,7 @@ export default function () {
     // Remove width diff jumps preventing rules
     setWidthJumpPreventingRules('', '')
 
-    const navigateOnClose = app.layout.modal.currentView?.options.navigateOnClose
+    const navigateOnClose = app.layout.getRegion('modal').currentView?.options.navigateOnClose
 
     // goBack is true only when additionnaly to closing the modal
     // no new layout is shown in the main layout: it thus make sense to go back
@@ -90,7 +90,7 @@ export default function () {
   }
 
   const exitModal = function () {
-    app.layout.modal.currentView?.onModalExit?.()
+    app.layout.getRegion('modal').currentView?.onModalExit?.()
     return closeModal()
   }
 
