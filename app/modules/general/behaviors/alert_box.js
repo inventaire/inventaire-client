@@ -7,6 +7,8 @@ import Handlebars from 'handlebars/runtime'
 const { escapeExpression } = Handlebars
 
 export default Marionette.Behavior.extend({
+  behaviorName: 'AlertBox',
+
   events: {
     alert: 'showAlertBox',
     hideAlertBox: 'hideAlertBoxOnly',

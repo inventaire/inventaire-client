@@ -4,6 +4,8 @@ import { I18n } from 'modules/user/lib/i18n'
 import { icon } from 'lib/utils'
 
 export default Marionette.Behavior.extend({
+  behaviorName: 'Loading',
+
   events: {
     loading: 'showSpinningLoader',
     stopLoading: 'hideSpinningLoader',

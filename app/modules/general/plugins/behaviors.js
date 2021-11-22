@@ -51,13 +51,14 @@ export function alert (message) {
 
 const shouldAssertThatViewsHaveBehaviors = window.env === 'dev'
 
+// assertViewHasBehavior can be used for behavior classes
+// where the behaviorName attribute is set
 export const assertViewHasBehavior = function (view, name) {
   if (!shouldAssertThatViewsHaveBehaviors) return
-
   // When the view has no behavior, view._behaviors is an empty object
   if (view._behaviors instanceof Array) {
     for (const behavior of view._behaviors) {
-      if (Object.getPrototypeOf(behavior).constructor.behaviorName === name) return
+      if (behavior.behaviorName === name) return
     }
   }
   throw error_.new(`view misses behavior: ${name}`, 500)
