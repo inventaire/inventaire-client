@@ -14,7 +14,7 @@ import '../scss/tasks_layout.scss'
 
 const previousTasks = []
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'tasksLayout',
   attributes: {
     // Allow the view to be focused by clicking on it, thus being able to listen

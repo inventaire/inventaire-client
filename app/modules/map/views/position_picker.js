@@ -9,7 +9,7 @@ import '../scss/position_picker.scss'
 
 const containerId = 'positionPickerMap'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: positionPickerTemplate,
   className: 'positionPicker',
   behaviors: {

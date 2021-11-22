@@ -27,7 +27,7 @@ const Results = Backbone.Collection.extend({ model: ResultModel })
 const searchBatchLength = 10
 let searchCount = 0
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   id: 'live-search',
   template: liveSearchTemplate,
   childViewContainer: 'ul.results',

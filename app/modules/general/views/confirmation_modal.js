@@ -7,7 +7,7 @@ import forms_ from 'modules/general/lib/forms'
 import confirmationModalTemplate from './templates/confirmation_modal.hbs'
 import '../scss/confirmation_modal.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'confirmationModal',
   template: confirmationModalTemplate,
   behaviors: {

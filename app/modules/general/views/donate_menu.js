@@ -2,7 +2,7 @@ import { donate } from 'lib/urls'
 import donateMenuTemplate from './templates/donate_menu.hbs'
 import '../scss/donate.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: donateMenuTemplate,
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''

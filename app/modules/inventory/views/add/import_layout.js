@@ -16,7 +16,7 @@ import 'modules/inventory/scss/import_layout.scss'
 
 let candidates = null
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'importLayout',
   template: importTemplate,
   behaviors: {

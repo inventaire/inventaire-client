@@ -1,6 +1,6 @@
 import pictureTemplate from './templates/picture.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'div',
   template: pictureTemplate,
   behaviors: {

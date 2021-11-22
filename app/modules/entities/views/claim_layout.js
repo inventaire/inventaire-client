@@ -8,7 +8,7 @@ import { entity as entityValueTemplate } from 'lib/handlebars_helpers/claims_hel
 import claimLayoutTemplate from './templates/claim_layout.hbs'
 import '../scss/claim_layout.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'claimLayout',
   template: claimLayoutTemplate,
   regions: {

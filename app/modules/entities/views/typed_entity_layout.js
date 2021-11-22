@@ -1,5 +1,5 @@
 import GeneralInfobox from './general_infobox'
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   // regions:
   //   infoboxRegion
   //   mergeHomonymsRegion: '.mergeHomonyms'

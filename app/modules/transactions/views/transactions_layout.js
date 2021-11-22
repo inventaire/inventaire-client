@@ -6,7 +6,7 @@ import '../scss/transactions_layout.scss'
 
 const foldersNames = Object.keys(folders)
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   className: 'transactionsLayout',
   template: transactionsLayoutTemplate,
   regions: {

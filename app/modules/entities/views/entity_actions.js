@@ -1,7 +1,7 @@
 import entityActionsTemplate from './templates/entity_actions.hbs'
 import '../scss/entity_actions.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: entityActionsTemplate,
   className: 'entityActions',
   behaviors: {

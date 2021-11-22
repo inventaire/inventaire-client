@@ -8,7 +8,7 @@ import signupClassicTemplate from './templates/signup_classic.hbs'
 import '../scss/auth_menu.scss'
 import { clickCommand } from 'app/lib/utils'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   className: 'authMenu signup',
   template: signupClassicTemplate,
   behaviors: {

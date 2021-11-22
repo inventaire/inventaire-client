@@ -2,7 +2,7 @@ import { i18n } from 'modules/user/lib/i18n'
 import forms_ from 'modules/general/lib/forms'
 import entitiesListElementCandidateTemplate from './templates/entities_list_element_candidate.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   className: 'entities-list-element-candidate',
   template: entitiesListElementCandidateTemplate,

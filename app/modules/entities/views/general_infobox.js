@@ -1,7 +1,7 @@
 import clampedExtract from '../lib/clamped_extract'
 import generalInfoboxTemplate from './templates/general_infobox.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'generalInfobox',
   template: generalInfoboxTemplate,
   behaviors: {

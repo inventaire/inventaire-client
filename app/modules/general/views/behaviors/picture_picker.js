@@ -14,7 +14,7 @@ import Picture from './picture'
 import picturePickerTemplate from './templates/picture_picker.hbs'
 import '../../scss/picture_picker.scss'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   className () {
     const { limit } = this.options
     return `picture-picker limit-${limit}`

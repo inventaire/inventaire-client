@@ -6,7 +6,7 @@ import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import forgotPasswordTemplate from './templates/forgot_password.hbs'
 import '../scss/auth_menu.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'authMenu login',
   template: forgotPasswordTemplate,
   behaviors: {

@@ -9,7 +9,7 @@ import { startLoading } from 'modules/general/plugins/behaviors'
 import shelfEditorTemplate from './templates/shelf_editor.hbs'
 import '../scss/shelf_editor.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: shelfEditorTemplate,
 
   behaviors: {

@@ -7,7 +7,7 @@ import { createShelf as createShelfModel } from 'modules/shelves/lib/shelves'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import shelfEditorTemplate from './templates/shelf_editor.hbs'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: shelfEditorTemplate,
 
   behaviors: {

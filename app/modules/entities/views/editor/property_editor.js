@@ -21,7 +21,7 @@ const editors = {
   image: ImageValueEditor,
 }
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   className () {
     const specificClass = 'property-editor-' + this.model.get('editorType')
     return `property-editor ${specificClass}`

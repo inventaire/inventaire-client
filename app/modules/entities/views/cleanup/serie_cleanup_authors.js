@@ -1,7 +1,7 @@
 import serieCleanupAuthorTemplate from './templates/serie_cleanup_author.hbs'
 import serieCleanupAuthorsTemplate from './templates/serie_cleanup_authors.hbs'
 
-const SerieCleanupAuthor = Marionette.ItemView.extend({
+const SerieCleanupAuthor = Marionette.View.extend({
   template: serieCleanupAuthorTemplate,
   className () {
     let base = 'serie-cleanup-author'
@@ -28,7 +28,7 @@ const AuthorsList = Marionette.CollectionView.extend({
   }
 })
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: serieCleanupAuthorsTemplate,
   regions: {
     currentAuthorsRegion: '.currentAuthors',

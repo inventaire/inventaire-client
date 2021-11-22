@@ -9,7 +9,7 @@ import '../scss/shelf_items_adder.scss'
 // Like modules/inventory/collections/items.js but without comparator
 const Items = Backbone.Collection.extend({ model: Item })
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   id: 'shelfItemsAdder',
   template: shelfItemsAdderTemplate,
   childViewContainer: '.shelfItemsCandidates',

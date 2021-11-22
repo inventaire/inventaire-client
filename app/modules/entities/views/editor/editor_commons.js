@@ -3,7 +3,7 @@ import getActionKey from 'lib/get_action_key'
 import error_ from 'lib/error'
 
 // This needs to be a LayoutView so that view classes extending this one can have regions
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   className () { return `value-editor-commons ${this.mainClassName}` },
   selectIfInEditMode () {
     if (this.editMode) {

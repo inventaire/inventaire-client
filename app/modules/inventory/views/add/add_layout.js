@@ -4,7 +4,7 @@ import screen_ from 'lib/screen'
 import addLayoutTemplate from './templates/add_layout.hbs'
 import 'modules/inventory/scss/add_layout.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: addLayoutTemplate,
   id: 'addLayout',
 

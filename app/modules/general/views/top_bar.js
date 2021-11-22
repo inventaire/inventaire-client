@@ -11,7 +11,7 @@ import topBarTemplate from './templates/top_bar.hbs'
 const mostCompleteFirst = (a, b) => b.completion - a.completion
 const languagesList = _.values(languages).sort(mostCompleteFirst)
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'top-bar',
   tagName: 'nav',
   className () {

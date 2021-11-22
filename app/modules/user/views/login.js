@@ -9,7 +9,7 @@ import loginTemplate from './templates/login.hbs'
 import { clickCommand } from 'app/lib/utils'
 import '../scss/auth_menu.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'authMenu login',
   template: loginTemplate,
   events: {

@@ -49,7 +49,7 @@ export default async function (params) {
   return new EntitiesList(params)
 }
 
-const EntitiesList = Marionette.CompositeView.extend({
+const EntitiesList = Marionette.CollectionView.extend({
   template: entitiesListTemplate,
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''

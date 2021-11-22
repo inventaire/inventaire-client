@@ -1,6 +1,6 @@
 import fixedEntityValueTemplate from './templates/fixed_entity_value.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: fixedEntityValueTemplate,
   className: 'fixed-entity-value fixed-value value-editor-commons',
 

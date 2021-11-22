@@ -5,7 +5,7 @@ import actionTemplate from './templates/action.hbs'
 // the Event view can have both Message or Action models
 // the interest mixing those is to allow those views to be displayed
 // on chronological order within the transaction timeline
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   behaviors: {
     PreventDefault: {}
   },

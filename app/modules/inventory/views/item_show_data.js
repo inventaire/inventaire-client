@@ -5,7 +5,7 @@ import itemShowDataTemplate from './templates/item_show_data.hbs'
 import ItemTransactions from './item_transactions'
 import getActionKey from 'lib/get_action_key'
 import itemViewsCommons from '../lib/items_views_commons'
-const ItemLayout = Marionette.LayoutView.extend(itemViewsCommons)
+const ItemLayout = Marionette.View.extend(itemViewsCommons)
 
 export default ItemLayout.extend({
   id: 'itemShowData',

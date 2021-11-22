@@ -26,7 +26,7 @@ const ImportedItemsList = Marionette.CollectionView.extend({
   childView: ImportedItemRow
 })
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   className: 'import-queue',
   template: importQueueTemplate,
 

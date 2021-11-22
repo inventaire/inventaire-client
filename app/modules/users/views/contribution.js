@@ -1,7 +1,7 @@
 import contributionTemplate from './templates/contribution.hbs'
 import { isOpenedOutside } from 'lib/utils'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'contribution',
   template: contributionTemplate,
   tagName: 'li',

@@ -3,7 +3,7 @@ import forms_ from 'modules/general/lib/forms'
 import * as shelves_ from '../lib/shelves'
 import shelfItemsCandidateTemplate from './templates/shelf_items_candidate.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   className: 'shelf-items-candidate',
   template: shelfItemsCandidateTemplate,

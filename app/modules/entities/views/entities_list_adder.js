@@ -11,7 +11,7 @@ const cantTypeSearch = [
   'edition'
 ]
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   id: 'entitiesListAdder',
   template: entitiesListAdderTemplate,
   childViewContainer: '.entitiesListElementCandidates',

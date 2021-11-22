@@ -1,7 +1,7 @@
 import { isOpenedOutside } from 'lib/utils'
 import previousSearchTemplate from './templates/previous_search.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: previousSearchTemplate,
   tagName: 'li',
   className: 'previous-search',

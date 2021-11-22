@@ -2,7 +2,7 @@ import AuthorLayout from 'modules/entities/views/author_layout'
 import WorkInfobox from 'modules/entities/views/work_infobox'
 import currentTaskTemplate from './templates/current_task.hbs'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: currentTaskTemplate,
   serializeData () {
     return _.extend(this.model.serializeData(), { showSourcesLinks: true })

@@ -19,7 +19,7 @@ const navs = {
   public: InventoryPublicNav
 }
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'inventoryLayout',
   template: inventoryLayoutTemplate,
   regions: {

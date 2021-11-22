@@ -1,7 +1,7 @@
 import wikidataEditIntroTemplate from './templates/wikidata_edit_intro.hbs'
 import '../scss/wikidata_edit_intro.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'wikidata-edit-intro',
   template: wikidataEditIntroTemplate,
 

@@ -2,7 +2,7 @@ import PreviousSearch from './previous_search'
 import searchTemplate from './templates/search_layout.hbs'
 import 'modules/inventory/scss/search_layout.scss'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   id: 'addSearchLayout',
   template: searchTemplate,
   behaviors: {

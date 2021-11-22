@@ -4,7 +4,7 @@ import '../scss/call_to_connect.scss'
 
 const { banner } = images
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: callToConnectionTemplate,
   onShow () { app.execute('modal:open') },
   serializeData () {

@@ -4,7 +4,7 @@ import ShelvesList from './shelves_list'
 import shelvesSectionTemplate from './templates/shelves_section.hbs'
 import '../scss/shelves_section.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'shelvesSection',
   template: shelvesSectionTemplate,
 

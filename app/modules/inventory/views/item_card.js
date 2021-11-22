@@ -6,7 +6,7 @@ import '../scss/item_card.scss'
 const detailsLimit = 150
 
 // ItemItemView = (inv)Item(Marionette)ItemView
-const ItemItemView = Marionette.ItemView.extend(itemViewsCommons)
+const ItemItemView = Marionette.View.extend(itemViewsCommons)
 
 export default ItemItemView.extend({
   tagName: 'figure',

@@ -1,6 +1,6 @@
 import SectionList from './inventory_section_list'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   regions: {
     usersList: '#usersList',
     groupsList: '#groupsList'

@@ -2,7 +2,7 @@ import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_pr
 import clampedExtract from '../lib/clamped_extract'
 import serieInfoboxTemplate from './templates/serie_infobox.hbs'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: serieInfoboxTemplate,
   className: 'serieInfobox',
   behaviors: {

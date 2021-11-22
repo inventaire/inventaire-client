@@ -3,7 +3,7 @@ import relationsActions from '../plugins/relations_actions'
 import userLiTemplate from './templates/user_li.hbs'
 import '../scss/user_li.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   template: userLiTemplate,
   className () {

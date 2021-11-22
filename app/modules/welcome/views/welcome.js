@@ -6,7 +6,7 @@ import Mentions from './mentions'
 import welcomeTemplate from './templates/welcome.hbs'
 import '../scss/welcome.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'welcome',
   template: welcomeTemplate,
   regions: {

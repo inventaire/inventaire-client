@@ -10,7 +10,7 @@ import { getShelvesByOwner, getByIds as getShelvesByIds } from 'modules/shelves/
 import itemViewsCommons from '../lib/items_views_commons'
 const { itemDestroy } = itemViewsCommons
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'itemShowLayout',
   className: 'standalone',
   template: itemShowTemplate,

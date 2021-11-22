@@ -1,6 +1,6 @@
 import noItemTemplate from './templates/no_item.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'div',
   className: 'text-center hidden',
   template: noItemTemplate,

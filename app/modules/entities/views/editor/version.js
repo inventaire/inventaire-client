@@ -3,7 +3,7 @@ import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 import { isOpenedOutside } from 'lib/utils'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'version',
   template: versionTemplate,
 

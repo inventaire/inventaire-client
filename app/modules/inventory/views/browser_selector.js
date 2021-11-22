@@ -4,7 +4,7 @@ import BrowserSelectorOptions from './browser_selector_options'
 import screen_ from 'lib/screen'
 import browserSelectorTemplate from './templates/browser_selector.hbs'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   className: 'browser-selector',
   attributes () {
     // Value used as a CSS selector: [data-options="0"]

@@ -6,7 +6,7 @@ import error_ from 'lib/error'
 import inviteByEmailTemplate from './templates/invite_by_email.hbs'
 import '../scss/invite_by_email.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: inviteByEmailTemplate,
   id: 'inviteByEmail',
 

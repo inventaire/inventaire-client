@@ -19,7 +19,7 @@ const {
   LazyUpdateUrl
 } = GroupUrl
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: groupSettingsTemplate,
   behaviors: {
     AlertBox: {},

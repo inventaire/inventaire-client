@@ -8,7 +8,7 @@ import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import serieCleanupWorkTemplate from './templates/serie_cleanup_work.hbs'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   template: serieCleanupWorkTemplate,
   className () {

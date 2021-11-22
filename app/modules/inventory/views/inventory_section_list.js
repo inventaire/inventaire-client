@@ -1,7 +1,7 @@
 import { isOpenedOutside } from 'lib/utils'
 import inventorySectionListLiTemplate from './templates/inventory_section_list_li.hbs'
 
-const ListEl = Marionette.ItemView.extend({
+const ListEl = Marionette.View.extend({
   tagName: 'li',
   template: inventorySectionListLiTemplate,
 

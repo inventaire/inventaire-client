@@ -10,7 +10,7 @@ const {
   clickEvents
 } = EditionCreation
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   className: 'editions-list',
   template: editionsListTemplate,
   childViewContainer: 'ul',

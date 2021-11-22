@@ -2,7 +2,7 @@ import Version from './version'
 import historyTemplate from './templates/history.hbs'
 import 'modules/entities/scss/history.scss'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   className () {
     let classes = 'entity-history'
     if (this.options.standalone) classes += ' standalone'

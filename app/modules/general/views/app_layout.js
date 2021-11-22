@@ -11,7 +11,7 @@ import screen_ from 'lib/screen'
 import appLayoutTemplate from './templates/app_layout.hbs'
 import assert_ from 'app/lib/assert_types'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: appLayoutTemplate,
 
   el: '#app',

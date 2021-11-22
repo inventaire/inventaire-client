@@ -1,7 +1,7 @@
 import CandidateInfo from './candidate_info'
 import candidateRowTemplate from './templates/candidate_row.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   template: candidateRowTemplate,
   className () {

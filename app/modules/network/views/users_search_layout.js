@@ -3,7 +3,7 @@ import UsersList from 'modules/users/views/users_list'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import usersSearchLayoutTemplate from './templates/users_search_layout.hbs'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'usersSearchLayout',
   template: usersSearchLayoutTemplate,
   regions: {

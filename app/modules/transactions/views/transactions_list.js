@@ -4,7 +4,7 @@ import NoTransaction from './no_transaction'
 import transactionsListTemplate from './templates/transactions_list.hbs'
 import '../scss/transactions_list.scss'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   template: transactionsListTemplate,
   className: 'transactionList',
   childViewContainer: '.transactions',

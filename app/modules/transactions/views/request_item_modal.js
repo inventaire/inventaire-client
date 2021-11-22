@@ -4,7 +4,7 @@ import requestItemModalTemplate from './templates/request_item_modal.hbs'
 import { isOpenedOutside } from 'lib/utils'
 import '../scss/request_item_modal.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: requestItemModalTemplate,
   className: 'requestItemModal',
   behaviors: {

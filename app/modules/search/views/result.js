@@ -2,7 +2,7 @@ import { isImageHash } from 'lib/boolean_tests'
 import { forceArray, isOpenedOutside } from 'lib/utils'
 import resultTemplate from './templates/result.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'result',
   tagName: 'li',
   template: resultTemplate,

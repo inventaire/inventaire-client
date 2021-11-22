@@ -7,7 +7,7 @@ import prepareRedirect from '../lib/prepare_redirect'
 import resetPasswordTemplate from './templates/reset_password.hbs'
 import '../scss/auth_menu.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'authMenu login',
   template: resetPasswordTemplate,
   behaviors: {

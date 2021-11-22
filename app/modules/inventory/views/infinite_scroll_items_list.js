@@ -2,7 +2,7 @@ import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import { wait } from '../../../lib/promises'
 const alwaysFalse = () => false
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   behaviors: {
     Loading: {}
   },

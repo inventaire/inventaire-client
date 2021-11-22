@@ -2,7 +2,7 @@ import { transactionsData } from 'modules/inventory/lib/transactions_data'
 import ItemPreview from './item_preview'
 import itemsPreviewListTemplate from './templates/items_preview_list.hbs'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   template: itemsPreviewListTemplate,
   className () {
     let className = 'itemsPreviewList'

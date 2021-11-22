@@ -7,7 +7,7 @@ import contributionsTemplate from './templates/contributions.hbs'
 import '../scss/contributions.scss'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   id: 'contributions',
   template: contributionsTemplate,
   childViewContainer: '.contributionsList',

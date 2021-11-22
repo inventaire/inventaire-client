@@ -2,7 +2,7 @@ import { isOpenedOutside } from 'lib/utils'
 import errorTemplate from './templates/error.hbs'
 import '../scss/error_layout.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'errorLayout',
   template: errorTemplate,
   behaviors: {

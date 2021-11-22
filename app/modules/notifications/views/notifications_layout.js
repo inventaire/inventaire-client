@@ -18,7 +18,7 @@ const NotificationsList = Marionette.CollectionView.extend({
   }
 })
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'notificationsLayout',
   template: notificationsLayoutTemplate,
   childViewContainer: 'ul',

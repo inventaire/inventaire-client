@@ -17,7 +17,7 @@ const selectorsNames = [ 'author', 'genre', 'subject' ]
 const selectorsRegions = {}
 selectorsNames.forEach(name => { selectorsRegions[`${name}Region`] = `#${name}` })
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'inventory-browser',
   template: inventoryBrowserTemplate,
   regions: _.extend(selectorsRegions, {

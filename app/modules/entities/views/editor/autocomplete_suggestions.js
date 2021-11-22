@@ -8,7 +8,7 @@ import AutocompleteNoSuggestion from './autocomplete_no_suggestion'
 // keep in sync with app/modules/general/scss/_autocomplete.scss
 const listHeight = 170
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   template: autocompleteSuggestionsTemplate,
   className: 'autocomplete-suggestions',
   childViewContainer: '.results',

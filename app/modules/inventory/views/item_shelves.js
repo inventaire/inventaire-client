@@ -5,7 +5,7 @@ import forms_ from 'modules/general/lib/forms'
 import itemShelfLiTemplate from './templates/item_shelf_li.hbs'
 import 'modules/shelves/scss/item_shelves.scss'
 
-const ItemShelfLi = Marionette.ItemView.extend({
+const ItemShelfLi = Marionette.View.extend({
   tagName: 'li',
   className: 'shelfSelector',
 

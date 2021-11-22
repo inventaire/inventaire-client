@@ -23,7 +23,7 @@ const requiredPropertyPerType = {
   collection: [ 'wdt:P1476', 'wdt:P123' ]
 }
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'entityEdit',
   template: entityEditTemplate,
   behaviors: {

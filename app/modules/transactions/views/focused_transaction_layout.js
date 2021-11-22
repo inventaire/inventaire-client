@@ -9,7 +9,7 @@ import Event from './event'
 import focusedTransactionLayout from './templates/focused_transaction_layout.hbs'
 import '../scss/focused_transaction_layout.scss'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   template: focusedTransactionLayout,
   id: 'focusedTransactionLayout',
   behaviors: {

@@ -4,7 +4,7 @@ import simpleMapTemplate from './templates/simple_map.hbs'
 
 const containerId = 'simpleMap'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: simpleMapTemplate,
 
   initialize () {

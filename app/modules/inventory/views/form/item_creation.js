@@ -15,7 +15,7 @@ import 'modules/inventory/scss/item_creation.scss'
 
 const ItemsList = Marionette.CollectionView.extend({ childView: ItemRow })
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: itemCreationTemplate,
   className: 'addEntity',
 

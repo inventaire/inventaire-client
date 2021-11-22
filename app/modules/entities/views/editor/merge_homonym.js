@@ -7,7 +7,7 @@ import mergeEntities from './lib/merge_entities'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import 'modules/entities/scss/merge_homonyms.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: mergeSuggestionTemplate,
   className: 'merge-homonym',
   behaviors: {
@@ -98,7 +98,7 @@ const haveLabelMatch = (suggestion, toEntity) => someMatch(getNormalizedLabels(s
 const getNormalizedLabels = entity => Object.values(entity.get('labels')).map(normalizeLabel)
 const normalizeLabel = label => label.toLowerCase().replace(/\W+/g, '')
 
-const Subentity = Marionette.ItemView.extend({
+const Subentity = Marionette.View.extend({
   className: 'subentity',
   template: mergeSuggestionSubentityTemplate,
   attributes () {

@@ -1,6 +1,6 @@
 import candidateInfoTemplate from './templates/candidate_info.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: candidateInfoTemplate,
   className: 'candidate-info',
 

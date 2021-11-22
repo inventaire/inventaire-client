@@ -2,7 +2,7 @@ import { isOpenedOutside } from 'lib/utils'
 import { i18n } from 'modules/user/lib/i18n'
 import itemPreviewTemplate from './templates/item_preview.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: itemPreviewTemplate,
   className () {
     let className = 'item-preview'

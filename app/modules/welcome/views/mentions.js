@@ -1,6 +1,6 @@
 import mentionsTemplate from './templates/mentions.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: mentionsTemplate,
   serializeData () {
     const { lang } = app.user

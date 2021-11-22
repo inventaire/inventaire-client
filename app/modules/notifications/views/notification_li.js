@@ -2,7 +2,7 @@ import log_ from 'lib/loggers'
 import { isOpenedOutside } from 'lib/utils'
 import { templates } from '../lib/notifications_types'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   className () {
     const status = this.model.get('status')
