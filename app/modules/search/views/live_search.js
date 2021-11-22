@@ -73,7 +73,6 @@ export default Marionette.CollectionView.extend({
   },
 
   onSpecialKey (key) {
-    if (!this._lastResultsLength || this._lastResultsLength === 0) return
     if (key === 'up') this.highlightPreviousResult()
     else if (key === 'down') this.highlightNextResult()
     else if (key === 'enter') this.showCurrentlyHighlightedResult()
