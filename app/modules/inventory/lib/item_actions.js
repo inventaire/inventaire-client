@@ -55,7 +55,7 @@ export default {
       items.forEach(item => {
         if (_.isString(item)) return
         app.user.trigger('items:change', item.get('listing'), null)
-        item.isDestroyed = true
+        item.hasBeenDeleted = true
       })
       return next(res)
     }

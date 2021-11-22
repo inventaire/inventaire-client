@@ -143,7 +143,7 @@ export default Marionette.View.extend({
   },
 
   itemDestroyBack () {
-    if (this.model.isDestroyed) {
+    if (this.model.hasBeenDeleted) {
       app.execute('modal:close')
     } else {
       app.execute('show:item', this.model)
