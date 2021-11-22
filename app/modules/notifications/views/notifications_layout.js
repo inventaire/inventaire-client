@@ -5,6 +5,7 @@ import NotificationLi from './notification_li'
 import NoNotification from './no_notification'
 import notificationsLayoutTemplate from './templates/notifications_layout.hbs'
 import '../scss/notifications_layout.scss'
+import PreventDefault from 'behaviors/prevent_default'
 
 const NotificationsList = Marionette.CollectionView.extend({
   tagName: 'ul',
@@ -44,7 +45,7 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   onShow () {

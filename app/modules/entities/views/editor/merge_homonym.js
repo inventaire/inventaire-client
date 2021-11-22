@@ -6,14 +6,17 @@ import error_ from 'lib/error'
 import mergeEntities from './lib/merge_entities'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import 'modules/entities/scss/merge_homonyms.scss'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default Marionette.View.extend({
   template: mergeSuggestionTemplate,
   className: 'merge-homonym',
   behaviors: {
-    AlertBox: {},
-    Loading: {},
-    PreventDefault: {}
+    AlertBox,
+    Loading,
+    PreventDefault,
   },
 
   regions: {

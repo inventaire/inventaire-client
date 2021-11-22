@@ -1,5 +1,6 @@
 import contributionTemplate from './templates/contribution.hbs'
 import { isOpenedOutside } from 'lib/utils'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default Marionette.View.extend({
   className: 'contribution',
@@ -12,7 +13,7 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   modelEvents: {

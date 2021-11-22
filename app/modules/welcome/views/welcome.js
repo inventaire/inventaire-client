@@ -5,6 +5,10 @@ import * as urls from 'lib/urls'
 import Mentions from './mentions'
 import welcomeTemplate from './templates/welcome.hbs'
 import '../scss/welcome.scss'
+import AlertBox from 'behaviors/alert_box'
+import DeepLinks from 'behaviors/deep_links'
+import Loading from 'behaviors/loading'
+import SuccessCheck from 'behaviors/success_check'
 
 export default Marionette.View.extend({
   id: 'welcome',
@@ -23,10 +27,10 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    AlertBox: {},
-    DeepLinks: {},
-    Loading: {},
-    SuccessCheck: {}
+    AlertBox,
+    DeepLinks,
+    Loading,
+    SuccessCheck,
   },
 
   serializeData () {

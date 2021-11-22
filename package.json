@@ -15,6 +15,7 @@
     "app": "./app",
     "api": "./app/api",
     "assets": "./app/assets",
+    "behaviors": "./app/modules/general/behaviors",
     "lib": "./app/lib",
     "modules": "./app/modules",
     "vendor": "./vendor"

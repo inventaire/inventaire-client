@@ -3,6 +3,7 @@ import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
 import ShelvesList from './shelves_list'
 import shelvesSectionTemplate from './templates/shelves_section.hbs'
 import '../scss/shelves_section.scss'
+import BackupForm from 'behaviors/backup_form'
 
 export default Marionette.View.extend({
   id: 'shelvesSection',
@@ -13,7 +14,7 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    BackupForm: {}
+    BackupForm,
   },
 
   events: {

@@ -1,11 +1,12 @@
 import { isOpenedOutside } from 'lib/utils'
 import transactionPreviewTemplate from './templates/transaction_preview.hbs'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default Marionette.View.extend({
   template: transactionPreviewTemplate,
   className: 'transactionPreview',
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   initialize () {

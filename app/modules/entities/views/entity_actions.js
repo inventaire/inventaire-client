@@ -1,11 +1,12 @@
 import entityActionsTemplate from './templates/entity_actions.hbs'
 import '../scss/entity_actions.scss'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default Marionette.View.extend({
   template: entityActionsTemplate,
   className: 'entityActions',
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   initialize () {

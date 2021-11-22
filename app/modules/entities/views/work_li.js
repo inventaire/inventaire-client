@@ -4,6 +4,7 @@ import workLiCompactTemplate from './templates/work_li_compact.hbs'
 import '../scss/work_li.scss'
 import '../scss/work_li_compact.scss'
 import { localStorageProxy } from 'lib/local_storage'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default Marionette.View.extend({
   className () {
@@ -44,7 +45,7 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   ui: {

@@ -8,6 +8,9 @@ import ItemShelves from './item_shelves'
 import Shelves from 'modules/shelves/collections/shelves'
 import { getShelvesByOwner, getByIds as getShelvesByIds } from 'modules/shelves/lib/shelves'
 import itemViewsCommons from '../lib/items_views_commons'
+import PreventDefault from 'behaviors/prevent_default'
+import General from 'behaviors/general'
+
 const { itemDestroy } = itemViewsCommons
 
 export default Marionette.View.extend({
@@ -30,8 +33,8 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    General: {},
-    PreventDefault: {}
+    General,
+    PreventDefault,
   },
 
   initialize () {

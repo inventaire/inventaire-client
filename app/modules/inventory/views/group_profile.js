@@ -1,6 +1,9 @@
 import SectionList from './inventory_section_list'
 import { GroupLayoutView } from 'modules/network/views/group_views_commons'
 import groupProfileTemplate from './templates/group_profile.hbs'
+import AlertBox from 'behaviors/alert_box'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
 
 export default GroupLayoutView.extend({
   template: groupProfileTemplate,
@@ -17,9 +20,9 @@ export default GroupLayoutView.extend({
   },
 
   behaviors: {
-    PreventDefault: {},
-    SuccessCheck: {},
-    AlertBox: {}
+    PreventDefault,
+    SuccessCheck,
+    AlertBox,
   },
 
   serializeData () {

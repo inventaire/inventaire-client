@@ -13,6 +13,11 @@ import commonParser from '../../lib/parsers/common'
 import extractIsbnsAndFetchData from '../../lib/import/extract_isbns_and_fetch_data'
 import importTemplate from './templates/import_layout.hbs'
 import 'modules/inventory/scss/import_layout.scss'
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
 
 let candidates = null
 
@@ -20,11 +25,11 @@ export default Marionette.View.extend({
   id: 'importLayout',
   template: importTemplate,
   behaviors: {
-    AlertBox: {},
-    Loading: {},
-    PreventDefault: {},
-    SuccessCheck: {},
-    ElasticTextarea: {}
+    AlertBox,
+    ElasticTextarea,
+    Loading,
+    PreventDefault,
+    SuccessCheck,
   },
 
   regions: {

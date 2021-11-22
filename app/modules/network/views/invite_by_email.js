@@ -5,6 +5,10 @@ import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import inviteByEmailTemplate from './templates/invite_by_email.hbs'
 import '../scss/invite_by_email.scss'
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import Loading from 'behaviors/loading'
+import SuccessCheck from 'behaviors/success_check'
 
 export default Marionette.View.extend({
   template: inviteByEmailTemplate,
@@ -22,10 +26,10 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    Loading: {},
-    ElasticTextarea: {},
-    AlertBox: {},
-    SuccessCheck: {}
+    Loading,
+    ElasticTextarea,
+    AlertBox,
+    SuccessCheck,
   },
 
   events: {

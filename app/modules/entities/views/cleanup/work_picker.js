@@ -4,6 +4,7 @@ import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import workPickerTemplate from './templates/work_picker.hbs'
+import AlertBox from 'behaviors/alert_box'
 
 export default Marionette.View.extend({
   template: workPickerTemplate,
@@ -37,7 +38,7 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    AlertBox: {}
+    AlertBox,
   },
 
   events: {

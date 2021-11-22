@@ -4,6 +4,8 @@ import EntitiesListAdder from './entities_list_adder'
 import { currentRoute } from 'lib/location'
 import entitiesListTemplate from './templates/entities_list.hbs'
 import '../scss/entities_list.scss'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
 
 // TODO:
 // - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
@@ -56,8 +58,8 @@ const EntitiesList = Marionette.CollectionView.extend({
     return `entitiesList ${standalone}`
   },
   behaviors: {
-    Loading: {},
-    PreventDefault: {}
+    Loading,
+    PreventDefault,
   },
 
   childViewContainer: '.container',

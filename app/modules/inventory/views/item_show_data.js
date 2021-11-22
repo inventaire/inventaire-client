@@ -5,6 +5,9 @@ import itemShowDataTemplate from './templates/item_show_data.hbs'
 import ItemTransactions from './item_transactions'
 import getActionKey from 'lib/get_action_key'
 import itemViewsCommons from '../lib/items_views_commons'
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+
 const ItemLayout = Marionette.View.extend(itemViewsCommons)
 
 export default ItemLayout.extend({
@@ -15,8 +18,8 @@ export default ItemLayout.extend({
   },
 
   behaviors: {
-    ElasticTextarea: {},
-    AlertBox: {}
+    AlertBox,
+    ElasticTextarea,
   },
 
   initialize () {

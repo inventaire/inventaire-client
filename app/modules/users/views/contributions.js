@@ -6,6 +6,7 @@ import Patches from 'modules/entities/collections/patches'
 import contributionsTemplate from './templates/contributions.hbs'
 import '../scss/contributions.scss'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
+import Loading from 'behaviors/loading'
 
 export default Marionette.CollectionView.extend({
   id: 'contributions',
@@ -39,7 +40,7 @@ export default Marionette.CollectionView.extend({
   },
 
   behaviors: {
-    Loading: {},
+    Loading,
   },
 
   events: {

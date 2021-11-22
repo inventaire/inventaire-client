@@ -13,6 +13,11 @@ import getActionKey from 'lib/get_action_key'
 import Picture from './picture'
 import picturePickerTemplate from './templates/picture_picker.hbs'
 import '../../scss/picture_picker.scss'
+import AlertBox from 'behaviors/alert_box'
+import General from 'behaviors/general'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
 
 export default Marionette.CollectionView.extend({
   className () {
@@ -25,11 +30,11 @@ export default Marionette.CollectionView.extend({
   childView: Picture,
 
   behaviors: {
-    General: {},
-    AlertBox: {},
-    SuccessCheck: {},
-    Loading: {},
-    PreventDefault: {}
+    AlertBox,
+    General,
+    Loading,
+    PreventDefault,
+    SuccessCheck,
   },
 
   initialize () {

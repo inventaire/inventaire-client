@@ -13,6 +13,9 @@ import spreadPart from './lib/spread_part'
 import moveModelOnOrdinalChange from './lib/move_model_on_ordinal_change'
 import { createPlaceholders, removePlaceholder, removePlaceholdersAbove } from './lib/placeholders'
 import 'modules/entities/scss/serie_cleanup.scss'
+import ImgZoomIn from 'behaviors/img_zoom_in'
+import Loading from 'behaviors/loading'
+import Toggler from 'behaviors/toggler'
 
 export default Marionette.View.extend({
   id: 'serieCleanup',
@@ -36,9 +39,9 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    Toggler: {},
-    ImgZoomIn: {},
-    Loading: {}
+    Toggler,
+    ImgZoomIn,
+    Loading,
   },
 
   initialize () {

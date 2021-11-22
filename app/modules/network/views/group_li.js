@@ -1,6 +1,8 @@
 import { GroupItemView } from './group_views_commons'
 import groupLiTemplate from './templates/group_li.hbs'
 import '../scss/group_li.scss'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
 
 export default GroupItemView.extend({
   template: groupLiTemplate,
@@ -14,7 +16,7 @@ export default GroupItemView.extend({
   },
 
   behaviors: {
-    PreventDefault: {},
-    SuccessCheck: {}
+    PreventDefault,
+    SuccessCheck,
   }
 })

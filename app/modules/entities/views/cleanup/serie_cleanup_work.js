@@ -7,6 +7,7 @@ import WorkPicker from './work_picker'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import serieCleanupWorkTemplate from './templates/serie_cleanup_work.hbs'
+import AlertBox from 'behaviors/alert_box'
 
 export default Marionette.View.extend({
   tagName: 'li',
@@ -31,7 +32,7 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    AlertBox: {}
+    AlertBox,
   },
 
   initialize () {

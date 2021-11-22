@@ -9,6 +9,9 @@ import groups_ from '../lib/groups'
 import groupFormData from '../lib/group_form_data'
 import GroupUrl from '../lib/group_url'
 import '../scss/create_groupe_layout.scss'
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import Toggler from 'behaviors/toggler'
 
 const {
   ui: groupUrlUi,
@@ -21,9 +24,9 @@ export default GroupLayoutView.extend({
   template: createGroupLayoutTemplate,
   tagName: 'form',
   behaviors: {
-    AlertBox: {},
-    ElasticTextarea: {},
-    Toggler: {}
+    AlertBox,
+    ElasticTextarea,
+    Toggler,
   },
 
   regions: {

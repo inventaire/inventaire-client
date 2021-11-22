@@ -8,6 +8,11 @@ import prepareRedirect from '../lib/prepare_redirect'
 import loginTemplate from './templates/login.hbs'
 import { clickCommand } from 'app/lib/utils'
 import '../scss/auth_menu.scss'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
+import TogglePassword from 'behaviors/toggle_password'
 
 export default Marionette.View.extend({
   className: 'authMenu login',
@@ -20,11 +25,11 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    Loading: {},
-    SuccessCheck: {},
-    AlertBox: {},
-    TogglePassword: {},
-    PreventDefault: {},
+    Loading,
+    SuccessCheck,
+    AlertBox,
+    TogglePassword,
+    PreventDefault,
   },
 
   ui: {

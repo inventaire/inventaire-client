@@ -1,6 +1,5 @@
 import log_ from 'lib/loggers'
 import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation'
-import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import error_ from 'lib/error'
 import forms_ from 'modules/general/lib/forms'
 import screen_ from 'lib/screen'
@@ -12,6 +11,9 @@ import ImportedItemRow from './imported_item_row'
 import importQueueTemplate from './templates/import_queue.hbs'
 import 'modules/inventory/scss/item_creation_commons.scss'
 import 'modules/inventory/scss/import_queue.scss'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
+import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 
 const CandidatesQueue = Marionette.CollectionView.extend({
   tagName: 'ul',
@@ -52,11 +54,9 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    UpdateSelector: {
-      behaviorClass: UpdateSelector
-    },
-    AlertBox: {},
-    Loading: {}
+    AlertBox,
+    Loading,
+    UpdateSelector,
   },
 
   events: {

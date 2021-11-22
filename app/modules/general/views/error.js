@@ -1,12 +1,13 @@
 import { isOpenedOutside } from 'lib/utils'
 import errorTemplate from './templates/error.hbs'
 import '../scss/error_layout.scss'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default Marionette.View.extend({
   id: 'errorLayout',
   template: errorTemplate,
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   serializeData () { return this.options },

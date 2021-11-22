@@ -7,15 +7,19 @@ import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import signupClassicTemplate from './templates/signup_classic.hbs'
 import '../scss/auth_menu.scss'
 import { clickCommand } from 'app/lib/utils'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
+import TogglePassword from 'behaviors/toggle_password'
 
 export default Marionette.View.extend({
   className: 'authMenu signup',
   template: signupClassicTemplate,
   behaviors: {
-    AlertBox: {},
-    TogglePassword: {},
-    Loading: {},
-    PreventDefault: {},
+    AlertBox,
+    TogglePassword,
+    Loading,
+    PreventDefault,
   },
 
   ui: {

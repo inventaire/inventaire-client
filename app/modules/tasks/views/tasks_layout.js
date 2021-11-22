@@ -11,6 +11,8 @@ import forms_ from 'modules/general/lib/forms'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import tasksLayoutTemplate from './templates/tasks_layout.hbs'
 import '../scss/tasks_layout.scss'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
 
 const previousTasks = []
 
@@ -34,8 +36,8 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    AlertBox: {},
-    Loading: {}
+    AlertBox,
+    Loading,
   },
 
   onShow () {

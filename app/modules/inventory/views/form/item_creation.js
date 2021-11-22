@@ -4,7 +4,6 @@ import EntityDataOverview from 'modules/entities/views/entity_data_overview'
 import ItemShelves from '../item_shelves'
 import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation'
 import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
-import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import Shelves from 'modules/shelves/collections/shelves'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
@@ -12,6 +11,9 @@ import ItemRow from 'modules/inventory/views/item_row'
 import itemCreationTemplate from './templates/item_creation.hbs'
 import 'modules/inventory/scss/item_creation_commons.scss'
 import 'modules/inventory/scss/item_creation.scss'
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 
 const ItemsList = Marionette.CollectionView.extend({ childView: ItemRow })
 
@@ -26,11 +28,9 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    ElasticTextarea: {},
-    UpdateSelector: {
-      behaviorClass: UpdateSelector
-    },
-    AlertBox: {}
+    AlertBox,
+    ElasticTextarea,
+    UpdateSelector,
   },
 
   ui: {

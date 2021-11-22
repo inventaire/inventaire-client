@@ -10,6 +10,7 @@ import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import inventoryPublicNavTemplate from './templates/inventory_public_nav.hbs'
 import 'modules/map/scss/position_required.scss'
+import Loading from 'behaviors/loading'
 
 const { showOnMap, showUserOnMap, getBbox, isValidBbox } = map_
 
@@ -35,7 +36,7 @@ export default InventoryCommonNav.extend({
   },
 
   behaviors: {
-    Loading: {}
+    Loading,
   },
 
   events: {

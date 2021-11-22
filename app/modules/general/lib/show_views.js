@@ -1,6 +1,12 @@
 import { isOpenedOutside } from 'lib/utils'
-import DonateMenu from '../views/donate_menu'
-import FeedbackMenu from '../views/feedback_menu'
+
+// Work around circular dependencies
+let DonateMenu, FeedbackMenu
+const lateImport = async () => {
+  ;({ default: DonateMenu } = await import('../views/donate_menu'))
+  ;({ default: FeedbackMenu } = await import('../views/feedback_menu'))
+}
+setTimeout(lateImport, 0)
 
 export default {
   showLoader () {

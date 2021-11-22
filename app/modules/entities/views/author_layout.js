@@ -7,6 +7,7 @@ import AuthorInfobox from './author_infobox'
 import authorLayoutTemplate from './templates/author_layout.hbs'
 import '../scss/entities_layouts.scss'
 import '../scss/author_layout.scss'
+import Loading from 'behaviors/loading'
 
 export default TypedEntityLayout.extend({
   template: authorLayoutTemplate,
@@ -25,7 +26,7 @@ export default TypedEntityLayout.extend({
   },
 
   behaviors: {
-    Loading: {}
+    Loading,
   },
 
   regions: {

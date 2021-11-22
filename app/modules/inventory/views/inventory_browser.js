@@ -12,6 +12,8 @@ import error_ from 'lib/error'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import inventoryBrowserTemplate from './templates/inventory_browser.hbs'
 import 'modules/inventory/scss/inventory_browser.scss'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
 
 const selectorsNames = [ 'author', 'genre', 'subject' ]
 const selectorsRegions = {}
@@ -26,8 +28,8 @@ export default Marionette.View.extend({
   }),
 
   behaviors: {
-    PreventDefault: {},
-    Loading: {}
+    Loading,
+    PreventDefault,
   },
 
   initialize () {

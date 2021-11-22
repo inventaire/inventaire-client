@@ -3,14 +3,12 @@ import BindedPartialBuilder from 'lib/binded_partial_builder'
 import { updateRouteMetadata } from 'lib/metadata/update'
 import error_ from 'lib/error'
 import { routeSection, currentRoute } from 'lib/location'
-import behaviors from 'modules/general/behaviors/base'
 
 let initialUrlNavigateAlreadyCalled = false
 
 const App = Marionette.Application.extend({
   initialize () {
     Backbone.history.last = []
-    behaviors.initialize()
     this.Execute = BindedPartialBuilder(this, 'execute')
     this.Request = BindedPartialBuilder(this, 'request')
     this.vent.Trigger = BindedPartialBuilder(this.vent, 'trigger')

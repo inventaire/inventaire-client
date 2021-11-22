@@ -1,12 +1,14 @@
 import clampedExtract from '../lib/clamped_extract'
 import generalInfoboxTemplate from './templates/general_infobox.hbs'
+import ClampedExtract from 'behaviors/clamped_extract'
+import EntitiesCommons from 'behaviors/entities_commons'
 
 export default Marionette.View.extend({
   className: 'generalInfobox',
   template: generalInfoboxTemplate,
   behaviors: {
-    EntitiesCommons: {},
-    ClampedExtract: {}
+    EntitiesCommons,
+    ClampedExtract,
   },
 
   initialize () {

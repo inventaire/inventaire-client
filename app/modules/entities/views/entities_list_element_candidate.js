@@ -1,6 +1,7 @@
 import { i18n } from 'modules/user/lib/i18n'
 import forms_ from 'modules/general/lib/forms'
 import entitiesListElementCandidateTemplate from './templates/entities_list_element_candidate.hbs'
+import AlertBox from 'behaviors/alert_box'
 
 export default Marionette.View.extend({
   tagName: 'li',
@@ -16,7 +17,7 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    AlertBox: {}
+    AlertBox,
   },
 
   serializeData () {

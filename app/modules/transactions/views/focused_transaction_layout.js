@@ -8,15 +8,19 @@ import screen_ from 'lib/screen'
 import Event from './event'
 import focusedTransactionLayout from './templates/focused_transaction_layout.hbs'
 import '../scss/focused_transaction_layout.scss'
+import AlertBox from 'behaviors/alert_box'
+import BackupForm from 'behaviors/backup_form'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default Marionette.CollectionView.extend({
   template: focusedTransactionLayout,
   id: 'focusedTransactionLayout',
   behaviors: {
-    AlertBox: {},
-    ElasticTextarea: {},
-    PreventDefault: {},
-    BackupForm: {}
+    AlertBox,
+    BackupForm,
+    ElasticTextarea,
+    PreventDefault,
   },
 
   initialize () {

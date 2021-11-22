@@ -3,6 +3,7 @@ import tabsData from './lib/add_layout_tabs'
 import screen_ from 'lib/screen'
 import addLayoutTemplate from './templates/add_layout.hbs'
 import 'modules/inventory/scss/add_layout.scss'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default Marionette.View.extend({
   template: addLayoutTemplate,
@@ -31,7 +32,7 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   events: {

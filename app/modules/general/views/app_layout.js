@@ -10,6 +10,9 @@ import ConfirmationModal from './confirmation_modal'
 import screen_ from 'lib/screen'
 import appLayoutTemplate from './templates/app_layout.hbs'
 import assert_ from 'app/lib/assert_types'
+import Dropdown from 'behaviors/dropdown'
+import General from 'behaviors/general'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default Marionette.View.extend({
   template: appLayoutTemplate,
@@ -34,9 +37,9 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    General: {},
-    PreventDefault: {},
-    Dropdown: {}
+    Dropdown,
+    General,
+    PreventDefault,
   },
 
   initialize () {

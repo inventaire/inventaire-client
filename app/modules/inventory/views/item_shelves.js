@@ -4,14 +4,16 @@ import { startLoading } from 'modules/general/plugins/behaviors'
 import forms_ from 'modules/general/lib/forms'
 import itemShelfLiTemplate from './templates/item_shelf_li.hbs'
 import 'modules/shelves/scss/item_shelves.scss'
+import Loading from 'behaviors/loading'
+import AlertBox from 'behaviors/alert_box'
 
 const ItemShelfLi = Marionette.View.extend({
   tagName: 'li',
   className: 'shelfSelector',
 
   behaviors: {
-    AlertBox: {},
-    Loading: {}
+    AlertBox,
+    Loading,
   },
 
   template: itemShelfLiTemplate,

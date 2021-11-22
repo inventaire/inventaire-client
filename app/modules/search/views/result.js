@@ -1,13 +1,14 @@
 import { isImageHash } from 'lib/boolean_tests'
 import { forceArray, isOpenedOutside } from 'lib/utils'
 import resultTemplate from './templates/result.hbs'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default Marionette.View.extend({
   className: 'result',
   tagName: 'li',
   template: resultTemplate,
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   serializeData () {

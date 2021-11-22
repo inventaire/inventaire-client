@@ -1,6 +1,7 @@
 import { donate } from 'lib/urls'
 import donateMenuTemplate from './templates/donate_menu.hbs'
 import '../scss/donate.scss'
+import General from 'behaviors/general'
 
 export default Marionette.View.extend({
   template: donateMenuTemplate,
@@ -14,7 +15,7 @@ export default Marionette.View.extend({
   },
 
   behaviors: {
-    General: {}
+    General,
   },
 
   onShow () { if (!this.standalone) { app.execute('modal:open') } },
