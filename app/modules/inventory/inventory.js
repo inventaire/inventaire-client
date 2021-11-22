@@ -9,7 +9,7 @@ import { parseQuery, currentRoute, buildPath } from 'lib/location'
 import error_ from 'lib/error'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'inventory(/)': 'showGeneralInventory',
@@ -27,10 +27,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     initQueries(app)
     initializeInventoriesHandlers(app)
     initLayout(app)

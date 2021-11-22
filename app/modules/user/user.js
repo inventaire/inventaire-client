@@ -7,7 +7,7 @@ import userUpdate from './lib/user_update'
 import preq from 'lib/preq'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'signup(/)': 'showSignup',
@@ -19,7 +19,7 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
+    new Router({ controller: API })
 
     initMainUser(app)
     auth(app)

@@ -33,23 +33,22 @@ export default async function () {
 
   // Initialize all the modules and their routes before app.start()
   // The first routes initialized have the lowest priority
-
   // /!\ routes defined before Redirect will be overriden by the glob
-  app.module('Redirect', Redirect)
+  Redirect.initialize()
   // other modules might need to access app.user so it should be initialized early on
-  app.module('User', User)
+  User.initialize()
   // Users and Entities need to be initialize for the Welcome item panel to work
-  app.module('Users', Users)
-  app.module('Entities', Entities)
-  app.module('Search', Search)
-  app.module('Add', Add)
-  app.module('Inventory', Inventory)
-  app.module('Transactions', Transactions)
-  app.module('Network', Network)
-  app.module('Notifications', Notifications)
-  app.module('Settings', Settings)
-  app.module('Tasks', Tasks)
-  app.module('Shelves', Shelves)
+  Users.initialize()
+  Entities.initialize()
+  Search.initialize()
+  Add.initialize()
+  Inventory.initialize()
+  Transactions.initialize()
+  Network.initialize()
+  Notifications.initialize()
+  Settings.initialize()
+  Tasks.initialize()
+  Shelves.initialize()
   initMap()
   initQuerystringHelpers()
 

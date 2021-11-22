@@ -5,17 +5,15 @@ const notifications = new Notifications()
 let waitForNotifications
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'notifications(/)': 'showNotifications'
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.commands.setHandlers({
       'show:notifications': API.showNotifications
     })

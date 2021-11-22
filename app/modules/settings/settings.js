@@ -1,5 +1,5 @@
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'settings(/profile)(/)': 'showProfileSettings',
@@ -13,10 +13,10 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () { setHandlers() }
+    setHandlers()
+  },
 }
 
 const API = {

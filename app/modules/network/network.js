@@ -4,7 +4,7 @@ import initGroupHelpers from './lib/group_helpers'
 import fetchData from 'lib/data/fetch'
 
 export default {
-  define (Redirect, app, Backbone, Marionette, $, _) {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'groups/:id/settings(/)': 'showGroupBoard',
@@ -27,10 +27,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.commands.setHandlers({
       'show:group:create': API.showCreateGroup,
       'show:group:board': showGroupBoardFromModel,

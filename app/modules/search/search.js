@@ -5,17 +5,15 @@ import { parseQuery } from 'lib/location'
 import { setPrerenderStatusCode } from 'lib/metadata/update'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'search(/)': 'searchFromQueryString'
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.searchResultsHistory = new SearchResultsHistory()
 
     app.commands.setHandlers({

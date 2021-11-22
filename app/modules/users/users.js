@@ -7,7 +7,7 @@ import initRequests from './requests'
 import initInvitations from './invitations'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'u(sers)/:id/contributions(/)': 'showUserContributions',
@@ -17,10 +17,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.users = initUsersCollections(app)
     initHelpers(app)
     initRequests(app)

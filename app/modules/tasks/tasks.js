@@ -1,5 +1,5 @@
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'tasks(/)(works)(/)': 'showWorksTask',
@@ -8,10 +8,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.commands.setHandlers({
       'show:task': API.showHumansTask
     })

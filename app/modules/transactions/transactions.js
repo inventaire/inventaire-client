@@ -5,7 +5,7 @@ import fetchData from 'lib/data/fetch'
 let lastTransactionId = null
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'transactions(/)': 'showFirstTransaction',
@@ -13,11 +13,9 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
-    this.listenTo(app.vent, 'transaction:select', updateTransactionRoute)
+    app.vent.on('transaction:select', updateTransactionRoute)
 
     app.commands.setHandlers({
       'show:item:request': API.showItemRequestModal,
@@ -30,7 +28,7 @@ export default {
       'transactions:unread:count': unreadCount
     })
 
-    this.listenTo(app.vent, 'transaction:select', API.updateLastTransactionId)
+    app.vent.on('transaction:select', API.updateLastTransactionId)
 
     fetchData({
       name: 'transactions',
@@ -40,7 +38,7 @@ export default {
     .then(app.vent.Trigger('transactions:unread:changes'))
     .catch(log_.Error('transaction init err'))
 
-    return initHelpers()
+    initHelpers()
   }
 }
 

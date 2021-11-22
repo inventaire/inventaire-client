@@ -1,7 +1,7 @@
 import initAddHelpers from './lib/add_helpers'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'add(/search)(/)': 'showSearch',
@@ -11,10 +11,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     initAddHelpers()
     initializeHandlers()
   }

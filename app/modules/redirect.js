@@ -6,7 +6,7 @@ import { currentRoute } from 'lib/location'
 import { setPrerenderStatusCode } from 'lib/metadata/update'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         '(home)': 'showHome',
@@ -19,10 +19,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.reqres.setHandlers({
       'require:loggedIn': requireLoggedIn,
       'require:admin:access': requireAdminAccess,

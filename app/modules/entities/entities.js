@@ -12,7 +12,7 @@ import { getEntityByUri, normalizeUri } from './lib/entities'
 import showHomonyms from './lib/show_homonyms'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'entity/new(/)': 'showEntityCreateFromRoute',
@@ -29,10 +29,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     setHandlers()
   }
 }

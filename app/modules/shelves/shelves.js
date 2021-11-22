@@ -4,7 +4,7 @@ import ShelfModel from './models/shelf'
 import { getById } from './lib/shelves'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'shelves(/)(:id)(/)': 'showShelfFromId',
@@ -13,10 +13,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.commands.setHandlers({
       'show:shelf': showShelf
     })
