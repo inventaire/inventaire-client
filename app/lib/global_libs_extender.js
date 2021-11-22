@@ -141,10 +141,12 @@ const triggerUpdate = function (...args) {
   this.trigger('update', ...args)
 }
 
+// Extend Backbone.View.prototype to extend both Marionette.View and Marionette.CollectionView
+
 // Use in promise chains when the view might be about to be re-rendered
 // and calling would thus trigger error as the method depends on regions
 // being populated (which happens at render), typically in an onRender call.
-Marionette.View.prototype.ifViewIsIntact = function (fn, ...args) {
+Backbone.View.prototype.ifViewIsIntact = function (fn, ...args) {
   return result => {
     // Pass if the view was destroyed or let the onRender hook re-call the function
     if (!this.isIntact()) return
@@ -155,18 +157,18 @@ Marionette.View.prototype.ifViewIsIntact = function (fn, ...args) {
     return fn.apply(this, args)
   }
 }
-Marionette.View.prototype.isIntact = function () {
+Backbone.View.prototype.isIntact = function () {
   return this.isRendered() && !this.isDestroyed()
 }
 
-Marionette.View.prototype.setTimeout = function (fn, timeout) {
+Backbone.View.prototype.setTimeout = function (fn, timeout) {
   const runUnlessViewIsDestroyed = () => {
     if (!this.isDestroyed()) return fn()
   }
   return setTimeout(runUnlessViewIsDestroyed, timeout)
 }
 
-Marionette.View.prototype.updateClassName = function () {
+Backbone.View.prototype.updateClassName = function () {
   // Use in 'onRender' hooks to update the view el classes on re-render
   this.$el[0].className = this.className()
 }
@@ -175,9 +177,9 @@ Marionette.View.prototype.updateClassName = function () {
 // aliasing once to one to match Backbone vocabulary
 $.fn.once = $.fn.one
 
-Marionette.View.prototype.displayError = err => app.execute('show:error:other', err)
+Backbone.View.prototype.displayError = err => app.execute('show:error:other', err)
 
-Marionette.View.prototype.lazyRender = function (focusSelector) {
+Backbone.View.prototype.lazyRender = function (focusSelector) {
   if (this.render == null) throw new Error('lazyRender called without view as context')
 
   if (this._lazyRender == null) {
