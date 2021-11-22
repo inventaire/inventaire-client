@@ -25,7 +25,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showAuthor (name) {
-    return this[name].show(new AuthorLayout({
+    this[name].show(new AuthorLayout({
       model: this.model[name],
       initialWorksListLength: 20,
       wrapWorks: true,
@@ -35,7 +35,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showWork (name) {
-    return this[name].show(new WorkInfobox({
+    this[name].show(new WorkInfobox({
       model: this.model[name]
     }))
   }

@@ -35,7 +35,7 @@ const showItemsPreviewLists = async function () {
 const showItemsPreviews = function (itemsByCategory, category) {
   const itemsModels = itemsByCategory[category]
   const compact = !this.options.standalone
-  return this[`${category}ItemsRegion`].show(new ItemsPreviewLists({
+  this[`${category}ItemsRegion`].show(new ItemsPreviewLists({
     category,
     itemsModels,
     compact,

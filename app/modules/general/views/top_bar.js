@@ -96,7 +96,7 @@ export default Marionette.LayoutView.extend({
     if (screen_.isSmall() && ((section === 'signup') || (section === 'login'))) {
       return $('.connectionButton').hide()
     } else if (!app.user.loggedIn) {
-      return $('.connectionButton').show()
+      $('.connectionButton').show()
     }
   },
 

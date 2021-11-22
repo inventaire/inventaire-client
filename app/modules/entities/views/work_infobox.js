@@ -21,7 +21,7 @@ export default Marionette.LayoutView.extend({
   initialize (options) {
     this.hidePicture = options.hidePicture
     this.waitForAuthors = this.model.getExtendedAuthorsModels()
-    return this.model.getWikipediaExtract()
+    this.model.getWikipediaExtract()
   },
 
   modelEvents: {

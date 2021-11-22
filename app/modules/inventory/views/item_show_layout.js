@@ -116,7 +116,7 @@ export default Marionette.LayoutView.extend({
       return
     }
 
-    return this.shelvesSelector.show(new ItemShelves({
+    this.shelvesSelector.show(new ItemShelves({
       collection: this.shelves,
       item: this.model,
       mainUserIsOwner: this.model.mainUserIsOwner

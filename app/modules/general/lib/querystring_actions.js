@@ -15,5 +15,5 @@ const showValidEmailConfirmation = function (validEmail) {
   // user.attribute.validEmail has priority over the validEmail querystring
   // (even if hopefully, there is no reason for those to be different)
   if (app.user.loggedIn) validEmail = app.user.get('validEmail')
-  return app.layout.modal.show(new ValidEmailConfirmation({ validEmail }))
+  app.layout.modal.show(new ValidEmailConfirmation({ validEmail }))
 }

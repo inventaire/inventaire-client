@@ -38,7 +38,7 @@ const API = {
         app.navigate('add/scan/embedded')
         const { default: EmbeddedScanner } = await import('./views/add/embedded_scanner')
         // showing in main so that requesting another layout destroy this view
-        return app.layout.main.show(new EmbeddedScanner())
+        app.layout.main.show(new EmbeddedScanner())
       } else {
         API.showScan()
       }

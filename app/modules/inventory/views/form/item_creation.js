@@ -93,7 +93,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showEntityData () {
-    return this.entityRegion.show(new EntityDataOverview({ model: this.entity }))
+    this.entityRegion.show(new EntityDataOverview({ model: this.entity }))
   },
 
   showExistingInstances () {
@@ -102,7 +102,7 @@ export default Marionette.LayoutView.extend({
       if (existingEntityItems.length === 0) return
       const collection = new Backbone.Collection(existingEntityItems)
       this.$el.find('#existingEntityItemsWarning').show()
-      return this.existingEntityItemsRegion.show(new ItemsList({ collection }))
+      this.existingEntityItemsRegion.show(new ItemsList({ collection }))
     })
   },
 

@@ -84,7 +84,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showPropertiesEditor () {
-    return this.claims.show(new PropertiesEditor({
+    this.claims.show(new PropertiesEditor({
       collection: this.properties,
       propertiesShortlist: this.model.propertiesShortlist
     }))

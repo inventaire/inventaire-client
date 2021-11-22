@@ -130,6 +130,6 @@ export default ItemLayout.extend({
   },
 
   _showTransactions () {
-    return this.transactionsRegion.show(new ItemTransactions({ collection: this.transactions }))
+    this.transactionsRegion.show(new ItemTransactions({ collection: this.transactions }))
   },
 })

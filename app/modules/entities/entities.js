@@ -210,7 +210,7 @@ const showEntityCreate = async params => {
     return showEntityEdit(params)
   } else {
     const { default: EntityCreate } = await import('./views/editor/entity_create')
-    return app.layout.main.show(new EntityCreate(params))
+    app.layout.main.show(new EntityCreate(params))
   }
 }
 

@@ -68,9 +68,9 @@ export default Marionette.LayoutView.extend({
 
   toggleMergeWorkPicker () {
     if (this.mergeWorkPicker.currentView != null) {
-      return this.mergeWorkPicker.currentView.$el.toggle()
+      this.mergeWorkPicker.currentView.$el.toggle()
     } else {
-      return this.mergeWorkPicker.show(new WorkPicker({
+      this.mergeWorkPicker.show(new WorkPicker({
         model: this.model,
         worksWithOrdinal: this.worksWithOrdinal,
         worksWithoutOrdinal: this.worksWithoutOrdinal,
@@ -84,12 +84,12 @@ export default Marionette.LayoutView.extend({
   afterMerge (work) {
     this.worksWithOrdinal.remove(this.model)
     this.worksWithoutOrdinal.remove(this.model)
-    return work.editions.add(this.model.editions.models)
+    work.editions.add(this.model.editions.models)
   },
 
   showWorkAuthors () {
     const { currentAuthorsUris, authorsSuggestionsUris } = this.spreadAuthors()
-    return this.authorsContainer.show(new SerieCleanupAuthors({
+    this.authorsContainer.show(new SerieCleanupAuthors({
       work: this.model,
       currentAuthorsUris,
       authorsSuggestionsUris
@@ -97,7 +97,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showWorkEditions () {
-    return this.editionsContainer.show(new SerieCleanupEditions({
+    this.editionsContainer.show(new SerieCleanupEditions({
       collection: this.model.editions,
       worksWithOrdinal: this.worksWithOrdinal,
       worksWithoutOrdinal: this.worksWithoutOrdinal

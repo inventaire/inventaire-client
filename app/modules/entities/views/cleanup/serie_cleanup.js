@@ -124,7 +124,7 @@ export default Marionette.LayoutView.extend({
   showWorkList (options) {
     const { name, label, alwaysShow, showPossibleOrdinals } = options
     if (!alwaysShow && (this[name].length === 0)) return
-    return this[`${name}Region`].show(new SerieCleanupWorks({
+    this[`${name}Region`].show(new SerieCleanupWorks({
       name,
       label,
       collection: this[name],
