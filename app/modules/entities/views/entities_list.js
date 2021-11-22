@@ -139,7 +139,7 @@ const EntitiesList = Marionette.CompositeView.extend({
   addOne (e) {
     if (!app.request('require:loggedIn', currentRoute())) return
     const { type, parentModel } = this.options
-    app.layout.modal.show(new EntitiesListAdder({
+    app.layout.showChildView('modal', new EntitiesListAdder({
       header: this.addOneLabel,
       type,
       childrenClaimProperty: this.childrenClaimProperty,

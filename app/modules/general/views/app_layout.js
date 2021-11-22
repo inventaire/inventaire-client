@@ -78,14 +78,14 @@ export default Marionette.LayoutView.extend({
   // /!\ app_layout is never 'show'n so onShow never gets fired
   // but it gets rendered
   onRender () {
-    this.topBar.show(new TopBar())
+    this.showChildView('topBar', new TopBar())
   },
 
   askConfirmation (options) {
     const { action, formAction } = options
     assert_.function(action)
     if (formAction != null) assert_.function(formAction)
-    this.modal.show(new ConfirmationModal(options))
+    this.showChildView('modal', new ConfirmationModal(options))
   }
 })
 

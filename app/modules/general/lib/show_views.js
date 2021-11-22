@@ -20,7 +20,7 @@ export default {
   showEntityCleanup (e) { entityAction(e, 'show:entity:cleanup') },
   showEntityHistory (e) { entityAction(e, 'show:entity:history') },
   showDonateMenu () {
-    app.layout.modal.show(new DonateMenu({ navigateOnClose: true }))
+    app.layout.showChildView('modal', new DonateMenu({ navigateOnClose: true }))
     app.navigate('donate')
   },
 
@@ -36,7 +36,7 @@ export default {
       if (!options) options = {}
       // Do not navigate as that's a  mess to go back then
       // and handle the feedback modals with or without dedicated pathnames
-      app.layout.modal.show(new FeedbackMenu(options))
+      app.layout.showChildView('modal', new FeedbackMenu(options))
     }
   }
 }

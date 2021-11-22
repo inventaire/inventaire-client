@@ -70,7 +70,7 @@ export default Marionette.LayoutView.extend({
 
   _showShelves (shelves) {
     const shelvesCollection = new Shelves(shelves)
-    this.shelvesSelector.show(new ItemShelves({
+    this.showChildView('shelvesSelector', new ItemShelves({
       collection: shelvesCollection,
       itemsIds: this.selectedIds
     }))

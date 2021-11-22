@@ -30,7 +30,7 @@ export default Marionette.LayoutView.extend({
 
   showInfobox () {
     const { Infobox } = this
-    this.infoboxRegion.show(new Infobox({
+    this.showChildView('infoboxRegion', new Infobox({
       model: this.model,
       standalone: this.standalone
     }))

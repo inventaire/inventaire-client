@@ -81,8 +81,8 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    this.candidatesQueue.show(new CandidatesQueue({ collection: this.candidates }))
-    this.itemsList.show(new ImportedItemsList({ collection: this.items }))
+    this.showChildView('candidatesQueue', new CandidatesQueue({ collection: this.candidates }))
+    this.showChildView('itemsList', new ImportedItemsList({ collection: this.items }))
     this.lazyUpdateSteps()
     this.showShelves()
   },
@@ -140,7 +140,7 @@ export default Marionette.LayoutView.extend({
     // TODO: offer to create shelves from this form instead
     if (shelves.length > 0) {
       const collection = new Shelves(shelves, { selected: selectedShelves })
-      this.shelvesSelector.show(new ItemShelves({
+      this.showChildView('shelvesSelector', new ItemShelves({
         collection,
         selectedShelves,
         mainUserIsOwner: true

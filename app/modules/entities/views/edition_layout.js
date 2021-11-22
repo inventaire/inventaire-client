@@ -35,7 +35,7 @@ export default Marionette.LayoutView.extend({
 
   showWorks () {
     const collection = new Backbone.Collection(this.model.works)
-    this.works.show(new EditionWorks({ collection }))
+    this.showChildView('works', new EditionWorks({ collection }))
   },
 
   onRender () {
@@ -53,7 +53,7 @@ export default Marionette.LayoutView.extend({
 
   showEntityActions () {
     const { itemToUpdate } = this.options
-    this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate }))
+    this.showChildView('entityActions', new EntityActions({ model: this.model, itemToUpdate }))
   }
 })
 

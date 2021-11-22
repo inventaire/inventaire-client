@@ -35,7 +35,7 @@ export default Marionette.LayoutView.extend({
 
   onShow () {
     this.lastQuery = ''
-    this.usersList.show(new UsersList({
+    this.showChildView('usersList', new UsersList({
       collection: this.collection,
       groupContext: this.options.groupContext,
       group: this.options.group,

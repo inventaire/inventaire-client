@@ -12,8 +12,8 @@ export default Marionette.LayoutView.extend({
   },
 
   onShow () {
-    this.lastDay.show(new ActivityPeriod({ title: 'last day', period: 1 }))
-    this.lastWeek.show(new ActivityPeriod({ title: 'last 7 days', period: 7 }))
-    this.global.show(new ActivityPeriod({ title: 'global' }))
+    this.showChildView('lastDay', new ActivityPeriod({ title: 'last day', period: 1 }))
+    this.showChildView('lastWeek', new ActivityPeriod({ title: 'last 7 days', period: 7 }))
+    this.showChildView('global', new ActivityPeriod({ title: 'global' }))
   }
 })

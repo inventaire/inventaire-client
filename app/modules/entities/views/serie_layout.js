@@ -49,6 +49,6 @@ export default TypedEntityLayout.extend({
       addButtonLabel: 'add a work to this serie'
     })
 
-    this.parts.show(view)
+    this.showChildView('parts', view)
   }
 })

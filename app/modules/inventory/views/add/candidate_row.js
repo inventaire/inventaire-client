@@ -78,4 +78,4 @@ export default Marionette.ItemView.extend({
   }
 })
 
-const showCandidateInfo = isbn => new Promise((resolve, reject) => app.layout.modal.show(new CandidateInfo({ resolve, reject, isbn })))
+const showCandidateInfo = isbn => new Promise((resolve, reject) => app.layout.showChildView('modal', new CandidateInfo({ resolve, reject, isbn })))

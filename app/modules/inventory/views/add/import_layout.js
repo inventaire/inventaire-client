@@ -83,7 +83,7 @@ export default Marionette.LayoutView.extend({
   showImportQueueUnlessEmpty () {
     if (candidates.length > 0) {
       if (!this.queue.hasView()) {
-        this.queue.show(new ImportQueue({ candidates }))
+        this.showChildView('queue', new ImportQueue({ candidates }))
       }
 
       // Run once @ui.importersWrapper is done sliding up

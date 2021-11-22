@@ -96,14 +96,14 @@ export default Marionette.LayoutView.extend({
       model.grabSuggestion()
     ])
     .then(() => {
-      this.currentTask.show(new CurrentTask({ model }))
+      this.showChildView('currentTask', new CurrentTask({ model }))
       app.navigateFromModel(model)
       this.focusOnControls()
     })
   },
 
   showNoTask () {
-    this.currentTask.show(new NoTask())
+    this.showChildView('currentTask', new NoTask())
     return this.focusOnControls()
   },
 
@@ -118,7 +118,7 @@ export default Marionette.LayoutView.extend({
         currentTaskModel: model
       })
       if (model.suspect) {
-        this.relativeTasks.show(newRelativeTasks)
+        this.showChildView('relativeTasks', newRelativeTasks)
         return this.updateRelativesCount(model)
       }
     })

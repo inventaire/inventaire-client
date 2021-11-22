@@ -58,7 +58,7 @@ export default Marionette.LayoutView.extend({
     const tabKey = `${tab}Tab`
     if (wait) await wait
 
-    this.content.show(new View(this.options))
+    this.showChildView('content', new View(this.options))
     this.ui.tabs.removeClass('active')
     this.ui[tabKey].addClass('active')
     app.navigate(`add/${tab}`, {

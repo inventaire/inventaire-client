@@ -31,7 +31,7 @@ const getLeaflet = async () => {
 
 const showPositionPicker = async options => {
   const { default: PositionPicker } = await import('../views/position_picker')
-  app.layout.modal.show(new PositionPicker(options))
+  app.layout.showChildView('modal', new PositionPicker(options))
 }
 
 export default map_ = {

@@ -30,5 +30,5 @@ const API = {
 
 const showLayout = async params => {
   const { default: TasksLayout } = await import('./views/tasks_layout')
-  app.layout.main.show(new TasksLayout(params))
+  app.layout.showChildView('main', new TasksLayout(params))
 }

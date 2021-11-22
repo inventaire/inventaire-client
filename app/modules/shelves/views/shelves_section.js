@@ -76,7 +76,7 @@ export default Marionette.LayoutView.extend({
   showFromModel (docs) {
     if (docs && (docs.length < 1)) return
     this.collection = new Shelves(docs)
-    this.shelvesList.show(new ShelvesList({ collection: this.collection }))
+    this.showChildView('shelvesList', new ShelvesList({ collection: this.collection }))
     if (this.collection.length > 5) this.ui.toggleButtons.removeClass('hidden')
   }
 })

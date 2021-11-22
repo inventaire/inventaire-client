@@ -48,7 +48,7 @@ export default TypedEntityLayout.extend({
       compactMode: true,
       addButtonLabel: 'add a collection from this publisher'
     })
-    this.collectionsList.show(view)
+    this.showChildView('collectionsList', view)
   },
 
   async showIsolatedEditions () {
@@ -63,6 +63,6 @@ export default TypedEntityLayout.extend({
       compactMode: true,
       addButtonLabel: 'add an edition from this publisher'
     })
-    this.editionsList.show(view)
+    this.showChildView('editionsList', view)
   }
 })

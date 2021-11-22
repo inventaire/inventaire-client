@@ -77,7 +77,7 @@ export default Marionette.LayoutView.extend({
     // Show the controls all at once
     .then(this.ifViewIsIntact('browserControlsReady'))
 
-    this.filterPreview.show(new FilterPreview())
+    this.showChildView('filterPreview', new FilterPreview())
   },
 
   browserControlsReady () {
@@ -150,7 +150,7 @@ export default Marionette.LayoutView.extend({
   showItemsByDisplayMode () {
     const ItemsList = this.display === 'table' ? ItemsTable : ItemsCascade
     this._lastShownDisplay = this.display
-    this.itemsView.show(new ItemsList(this.itemsViewParams))
+    this.showChildView('itemsView', new ItemsList(this.itemsViewParams))
   },
 
   showEntitySelector (entities, propertyUris, name) {
@@ -161,7 +161,7 @@ export default Marionette.LayoutView.extend({
 
   showSelector (name, models, treeSection) {
     const collection = getSelectorsCollection(models)
-    this[`${name}Region`].show(new BrowserSelector({ name, collection, treeSection }))
+    this.showChildView(`${name}Region`, new BrowserSelector({ name, collection, treeSection }))
   },
 
   onFilterSelect (selectorView, selectedOption) {

@@ -62,7 +62,7 @@ export default Marionette.LayoutView.extend({
   showTopBarButtons () {
     // Use a child view for those buttons to be able to re-render them independenly
     // without disrupting the LiveSearch state
-    this.topBarButtons.show(new TopBarButtons())
+    this.showChildView('topBarButtons', new TopBarButtons())
   },
 
   onRouteChange (section, route) {
@@ -126,7 +126,7 @@ export default Marionette.LayoutView.extend({
     // to take that section request into account
     if ((this.liveSearch.currentView != null) && (params.section == null)) {
       this.liveSearch.$el.show()
-    } else { this.liveSearch.show(new LiveSearch(params)) }
+    } else { this.showChildView('liveSearch', new LiveSearch(params)) }
     this.liveSearch.$el.addClass('shown')
     this.liveSearch.currentView.resetHighlightIndex()
     this.liveSearch.currentView.showSearchSettings()

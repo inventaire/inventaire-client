@@ -69,11 +69,11 @@ export default Marionette.LayoutView.extend({
 
   onShow () {
     if (this.requiresLabel) {
-      this.title.show(new LabelsEditor({ model: this.model }))
+      this.showChildView('title', new LabelsEditor({ model: this.model }))
     }
 
     if (this.showAdminSection) {
-      this.admin.show(new AdminSection({ model: this.model }))
+      this.showChildView('admin', new AdminSection({ model: this.model }))
     }
 
     this.waitForPropCollection
@@ -84,7 +84,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showPropertiesEditor () {
-    this.claims.show(new PropertiesEditor({
+    this.showChildView('claims', new PropertiesEditor({
       collection: this.properties,
       propertiesShortlist: this.model.propertiesShortlist
     }))

@@ -29,15 +29,15 @@ export default Marionette.LayoutView.extend({
   updatePreview (name, model) {
     if ((model == null) || model.isUnknown) return this.removePreview(name)
 
-    const region = this[name]
+    const region = this.getRegion(name)
 
     if (region == null) return
 
     this._activeRegions[name] = true
 
-    region.show(new GeneralInfobox({ model, small: true }))
+    this.showChildView(name, new GeneralInfobox({ model, small: true }))
 
-    return this.highlightPreview(name)
+    this.highlightPreview(name)
   },
 
   highlightPreview (name) {

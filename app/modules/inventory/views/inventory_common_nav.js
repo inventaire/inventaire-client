@@ -6,5 +6,7 @@ export default Marionette.LayoutView.extend({
     groupsList: '#groupsList'
   },
 
-  showList (region, collection) { return region.show(new SectionList({ collection })) }
+  showList (regionName, collection) {
+    this.showChildView(regionName, new SectionList({ collection }))
+  }
 })

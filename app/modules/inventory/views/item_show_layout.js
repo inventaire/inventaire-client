@@ -71,7 +71,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showItemData () {
-    this.itemData.show(new ItemShowData({ model: this.model }))
+    this.showChildView('itemData', new ItemShowData({ model: this.model }))
   },
 
   preciseEdition () {
@@ -80,7 +80,7 @@ export default Marionette.LayoutView.extend({
 
     return entity.fetchSubEntities()
     .then(() => {
-      app.layout.modal.show(new EditionsList({
+      app.layout.showChildView('modal', new EditionsList({
         collection: entity.editions,
         work: entity,
         header: 'specify the edition',
@@ -116,7 +116,7 @@ export default Marionette.LayoutView.extend({
       return
     }
 
-    this.shelvesSelector.show(new ItemShelves({
+    this.showChildView('shelvesSelector', new ItemShelves({
       collection: this.shelves,
       item: this.model,
       mainUserIsOwner: this.model.mainUserIsOwner

@@ -40,7 +40,7 @@ export default Marionette.LayoutView.extend({
 
   showEntityActions () {
     if (!this.compactMode) {
-      this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate: this.itemToUpdate }))
+      this.showChildView('entityActions', new EntityActions({ model: this.model, itemToUpdate: this.itemToUpdate }))
     }
   }
 })

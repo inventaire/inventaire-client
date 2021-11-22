@@ -82,7 +82,7 @@ export default Marionette.LayoutView.extend({
 
   showMentions (data) {
     this.triggerMethod('child:view:ready')
-    this.mentions.show(new Mentions({ data }))
+    this.showChildView('mentions', new Mentions({ data }))
   }
 })
 

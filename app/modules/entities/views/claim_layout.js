@@ -38,7 +38,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showInfobox () {
-    this.infobox.show(new GeneralInfobox({ model: this.model }))
+    this.showChildView('infobox', new GeneralInfobox({ model: this.model }))
     // Use the URI from the returned entity as it might have been redirected
     const finalClaim = this.property + '-' + this.model.get('uri')
     app.navigate(`entity/${finalClaim}`)
@@ -66,7 +66,7 @@ export default Marionette.LayoutView.extend({
       addButtonLabel: addButtonLabelPerProperty[this.property]
     })
 
-    this.list.show(view)
+    this.showChildView('list', view)
   }
 })
 

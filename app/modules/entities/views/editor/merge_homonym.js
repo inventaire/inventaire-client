@@ -63,7 +63,7 @@ export default Marionette.LayoutView.extend({
 
   _showSubentities (name, collection) {
     this.$el.find(`.${name}Label`).show()
-    this[name].show(new SubentitiesList({ collection, entity: this.model }))
+    this.showChildView(name, new SubentitiesList({ collection, entity: this.model }))
   },
 
   showTask (e) {

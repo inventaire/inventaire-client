@@ -109,7 +109,7 @@ export default InfiniteScrollItemsList.extend({
   },
 
   showSelectionEditor () {
-    app.layout.modal.show(new ItemsTableSelectionEditor({
+    app.layout.showChildView('modal', new ItemsTableSelectionEditor({
       selectedIds: this.selectedIds,
       getSelectedModelsAndIds: this.getSelectedModelsAndIds.bind(this),
       afterItemsDelete: this.options.afterItemsDelete

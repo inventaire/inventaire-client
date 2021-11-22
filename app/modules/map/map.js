@@ -35,5 +35,5 @@ const showModelsOnMap = async models => {
     import('./views/simple_map'),
     map_.getLeaflet()
   ])
-  app.layout.modal.show(new SimpleMap({ models }))
+  app.layout.showChildView('modal', new SimpleMap({ models }))
 }

@@ -64,7 +64,7 @@ export default GroupLayoutView.extend({
   },
 
   showHeader () {
-    this.header.show(new GroupBoardHeader({ model: this.model }))
+    this.showChildView('header', new GroupBoardHeader({ model: this.model }))
   },
 
   toggleSection (e) {
@@ -118,7 +118,7 @@ export default GroupLayoutView.extend({
   },
 
   showSettings () {
-    this.groupSettings.show(new GroupSettings({ model: this.model }))
+    this.showChildView('groupSettings', new GroupSettings({ model: this.model }))
   },
 
   prepareJoinRequests () {
@@ -131,7 +131,7 @@ export default GroupLayoutView.extend({
   },
 
   showJoinRequests () {
-    this.groupRequests.show(new UsersList({
+    this.showChildView('groupRequests', new UsersList({
       collection: this.model.requested,
       groupContext: true,
       group: this.model,
@@ -140,7 +140,7 @@ export default GroupLayoutView.extend({
   },
 
   showMembers () {
-    this.groupMembers.show(new UsersList({
+    this.showChildView('groupMembers', new UsersList({
       collection: this.model.members,
       groupContext: true,
       group: this.model
@@ -151,7 +151,7 @@ export default GroupLayoutView.extend({
     const group = this.model
     // TODO: replace UsersSearchLayout by a user list fed with search results
     // that aren't added to the deprecated global users collections
-    this.groupInvite.show(new UsersSearchLayout({
+    this.showChildView('groupInvite', new UsersSearchLayout({
       stretch: false,
       updateRoute: false,
       groupContext: true,
@@ -166,7 +166,7 @@ export default GroupLayoutView.extend({
   onLeave () { app.execute('show:inventory:group', this.model, true) },
 
   showMembersEmailInvitor () {
-    this.groupEmailInvite.show(new InviteByEmail({ group: this.model }))
+    this.showChildView('groupEmailInvite', new InviteByEmail({ group: this.model }))
   },
 
   updateRoute () {

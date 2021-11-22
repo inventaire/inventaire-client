@@ -64,7 +64,7 @@ export default Marionette.LayoutView.extend({
   showFriendsRequests () {
     if (this.otherRequested.length > 0) {
       this.ui.friendsRequestsSection.removeClass('hidden')
-      this.friendsRequestsList.show(new UsersList({
+      this.showChildView('friendsRequestsList', new UsersList({
         collection: this.otherRequested,
         emptyViewMessage: 'no pending requests',
         stretch: true
@@ -75,11 +75,11 @@ export default Marionette.LayoutView.extend({
   showGroupsInvitations () {
     if (app.groups.mainUserInvited.length > 0) {
       this.ui.groupsInvitationsSection.removeClass('hidden')
-      this.groupsInvitationsList.show(new GroupsList({ collection: app.groups.mainUserInvited }))
+      this.showChildView('groupsInvitationsList', new GroupsList({ collection: app.groups.mainUserInvited }))
     }
   },
 
   showNotificationsList () {
-    this.notificationsList.show(new NotificationsList({ collection: this.notifications }))
+    this.showChildView('notificationsList', new NotificationsList({ collection: this.notifications }))
   }
 })

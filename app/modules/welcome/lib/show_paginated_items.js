@@ -14,7 +14,7 @@ export default async params => {
   const fetchMore = FetchMore(params)
 
   await fetchMore()
-  region.show(new ItemsCascade({
+  layout.showChildView(regionName, new ItemsCascade({
     collection,
     // if not allowMore, let ItemsList set the default values
     fetchMore: allowMore ? fetchMore : undefined,

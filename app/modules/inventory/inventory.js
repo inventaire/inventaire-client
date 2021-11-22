@@ -138,12 +138,12 @@ const showItemsFromModels = function (items) {
 
 const showInventory = async options => {
   const { default: InventoryLayout } = await import('./views/inventory_layout')
-  app.layout.main.show(new InventoryLayout(options))
+  app.layout.showChildView('main', new InventoryLayout(options))
 }
 
 const showItemsList = async collection => {
   const { default: ItemsCascade } = await import('./views/items_cascade')
-  app.layout.main.show(new ItemsCascade({ collection }))
+  app.layout.showChildView('main', new ItemsCascade({ collection }))
 }
 
 const showItemModal = async (model, fallback) => {
@@ -170,7 +170,7 @@ const showItemModal = async (model, fallback) => {
       await import('./views/item_show_layout'),
       model.grabWorks()
     ])
-    app.layout.modal.show(new ItemShowLayout({ model, fallback }))
+    app.layout.showChildView('modal', new ItemShowLayout({ model, fallback }))
   } catch (err) {
     app.execute('show:error', err)
   }

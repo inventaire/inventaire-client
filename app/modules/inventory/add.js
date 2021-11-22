@@ -38,7 +38,7 @@ const API = {
         app.navigate('add/scan/embedded')
         const { default: EmbeddedScanner } = await import('./views/add/embedded_scanner')
         // showing in main so that requesting another layout destroy this view
-        app.layout.main.show(new EmbeddedScanner())
+        app.layout.showChildView('main', new EmbeddedScanner())
       } else {
         API.showScan()
       }
@@ -50,7 +50,7 @@ const showAddLayout = async (tab = 'search', options = {}) => {
   if (app.request('require:loggedIn', `add/${tab}`)) {
     options.tab = tab
     const { default: AddLayout } = await import('./views/add/add_layout')
-    app.layout.main.show(new AddLayout(options))
+    app.layout.showChildView('main', new AddLayout(options))
   }
 }
 

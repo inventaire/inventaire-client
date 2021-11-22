@@ -17,7 +17,7 @@ export default async params => {
   if (type !== 'edition') throw new Error(`invalid entity type: ${type}`)
 
   const { default: ItemCreationForm } = await import('../views/form/item_creation')
-  app.layout.main.show(new ItemCreationForm(params))
+  app.layout.showChildView('main', new ItemCreationForm(params))
   app.navigate(pathname)
 }
 
@@ -26,7 +26,7 @@ const showEditionPicker = async work => {
     import('modules/entities/views/editions_list'),
     work.fetchSubEntities()
   ])
-  app.layout.modal.show(new EditionsList({
+  app.layout.showChildView('modal', new EditionsList({
     collection: work.editions,
     work,
     header: 'select an edition'

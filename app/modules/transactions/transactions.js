@@ -78,7 +78,7 @@ const API = {
   async showItemRequestModal (model) {
     if (app.request('require:loggedIn', model.get('pathname'))) {
       const { default: RequestItemModal } = await import('./views/request_item_modal')
-      app.layout.modal.show(new RequestItemModal({ model }))
+      app.layout.showChildView('modal', new RequestItemModal({ model }))
     }
   },
 
@@ -87,7 +87,7 @@ const API = {
 
 const showTransactionsLayout = async () => {
   const { default: TransactionsLayout } = await import('./views/transactions_layout')
-  app.layout.main.show(new TransactionsLayout())
+  app.layout.showChildView('main', new TransactionsLayout())
 }
 
 const triggerTransactionSelect = function (id) {

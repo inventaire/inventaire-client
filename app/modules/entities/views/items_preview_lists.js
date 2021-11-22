@@ -48,7 +48,7 @@ export default Marionette.LayoutView.extend({
   showItemsPreviewLists () {
     for (const transaction in this.collections) {
       const collection = this.collections[transaction]
-      this[`${transaction}Region`].show(new ItemsPreviewList({
+      this.showChildView(`${transaction}Region`, new ItemsPreviewList({
         transaction,
         collection,
         displayItemsCovers: this.displayItemsCovers,

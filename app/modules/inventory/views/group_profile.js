@@ -36,7 +36,11 @@ export default GroupLayoutView.extend({
   },
 
   showMembers () {
-    this.membersList.show(new SectionList({ collection: this.model.members, context: 'group', group: this.model }))
+    this.showChildView('membersList', new SectionList({
+      collection: this.model.members,
+      context: 'group',
+      group: this.model
+    }))
   },
 
   getRequestsCount () {

@@ -50,7 +50,7 @@ const API = {
       app.navigate(path, { metadata: { title } })
       if (app.request('require:admin:access')) {
         const { default: Contributions } = await import('./views/contributions')
-        app.layout.main.show(new Contributions({ user }))
+        app.layout.showChildView('main', new Contributions({ user }))
       }
     }
   },

@@ -93,7 +93,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showEntityData () {
-    this.entityRegion.show(new EntityDataOverview({ model: this.entity }))
+    this.showChildView('entityRegion', new EntityDataOverview({ model: this.entity }))
   },
 
   showExistingInstances () {
@@ -102,7 +102,7 @@ export default Marionette.LayoutView.extend({
       if (existingEntityItems.length === 0) return
       const collection = new Backbone.Collection(existingEntityItems)
       this.$el.find('#existingEntityItemsWarning').show()
-      this.existingEntityItemsRegion.show(new ItemsList({ collection }))
+      this.showChildView('existingEntityItemsRegion', new ItemsList({ collection }))
     })
   },
 
@@ -117,7 +117,7 @@ export default Marionette.LayoutView.extend({
     // TODO: offer to create shelves from this form instead
     if (shelves.length > 0) {
       const collection = new Shelves(shelves, { selected: selectedShelves })
-      this.shelvesSelector.show(new ItemShelves({
+      this.showChildView('shelvesSelector', new ItemShelves({
         collection,
         selectedShelves,
         mainUserIsOwner: true

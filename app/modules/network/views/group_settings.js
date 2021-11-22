@@ -122,7 +122,7 @@ export default Marionette.ItemView.extend({
   },
 
   changePicture () {
-    app.layout.modal.show(new PicturePicker({
+    app.layout.showChildView('modal', new PicturePicker({
       pictures: this.model.get('picture'),
       save: this._savePicture.bind(this),
       limit: 1,

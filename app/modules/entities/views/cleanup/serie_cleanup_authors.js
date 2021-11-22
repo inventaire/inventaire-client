@@ -42,7 +42,7 @@ export default Marionette.LayoutView.extend({
 
   showList (name) {
     const collection = this[`${name}Collection`] || (this[`${name}Collection`] = this.buildCollection(name))
-    this[`${name}Region`].show(new AuthorsList({ collection, name }))
+    this.showChildView(`${name}Region`, new AuthorsList({ collection, name }))
   },
 
   buildCollection (name) {

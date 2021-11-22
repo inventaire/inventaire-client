@@ -46,7 +46,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onRender () {
-    this.usersAlreadyThereRegion.show(new UsersList({
+    this.showChildView('usersAlreadyThereRegion', new UsersList({
       collection: this.usersAlreadyThere,
       stretch: false,
       showEmail: true,

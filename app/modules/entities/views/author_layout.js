@@ -104,7 +104,7 @@ export default TypedEntityLayout.extend({
       wrapWorks: this.options.wrapWorks,
       addButtonLabel: addButtonLabelPerType[type]
     })
-    this[`${type}Region`].show(view)
+    this.showChildView(`${type}Region`, view)
   }
 })
 

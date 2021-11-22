@@ -70,7 +70,7 @@ export default Marionette.LayoutView.extend({
     if (this.mergeWorkPicker.currentView != null) {
       this.mergeWorkPicker.currentView.$el.toggle()
     } else {
-      this.mergeWorkPicker.show(new WorkPicker({
+      this.showChildView('mergeWorkPicker', new WorkPicker({
         model: this.model,
         worksWithOrdinal: this.worksWithOrdinal,
         worksWithoutOrdinal: this.worksWithoutOrdinal,
@@ -89,7 +89,7 @@ export default Marionette.LayoutView.extend({
 
   showWorkAuthors () {
     const { currentAuthorsUris, authorsSuggestionsUris } = this.spreadAuthors()
-    this.authorsContainer.show(new SerieCleanupAuthors({
+    this.showChildView('authorsContainer', new SerieCleanupAuthors({
       work: this.model,
       currentAuthorsUris,
       authorsSuggestionsUris
@@ -97,7 +97,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showWorkEditions () {
-    this.editionsContainer.show(new SerieCleanupEditions({
+    this.showChildView('editionsContainer', new SerieCleanupEditions({
       collection: this.model.editions,
       worksWithOrdinal: this.worksWithOrdinal,
       worksWithoutOrdinal: this.worksWithoutOrdinal

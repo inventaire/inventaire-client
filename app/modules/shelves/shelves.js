@@ -52,7 +52,7 @@ const showShelfFromModel = async shelf => {
   const { default: InventoryLayout } = await import('../inventory/views/inventory_layout')
   const owner = shelf.get('owner')
   // Passing shelf to display items and passing owner for user profile info
-  app.layout.main.show(new InventoryLayout({
+  app.layout.showChildView('main', new InventoryLayout({
     shelf,
     user: owner,
     standalone: true

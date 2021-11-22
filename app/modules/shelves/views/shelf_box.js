@@ -33,10 +33,10 @@ export default Marionette.ItemView.extend({
   },
 
   showEditor (e) {
-    app.layout.modal.show(new ShelfEditor({ model: this.model }))
+    app.layout.showChildView('modal', new ShelfEditor({ model: this.model }))
   },
 
   addItems () {
-    app.layout.modal.show(new ShelfItemsAdder({ model: this.model }))
+    app.layout.showChildView('modal', new ShelfItemsAdder({ model: this.model }))
   }
 })

@@ -56,11 +56,11 @@ export default TypedEntityLayout.extend({
   },
 
   showEntityActions () {
-    this.entityActions.show(new EntityActions({ model: this.model }))
+    this.showChildView('entityActions', new EntityActions({ model: this.model }))
   },
 
   showEditions () {
-    this.editionsList.show(new EditionsList({
+    this.showChildView('editionsList', new EditionsList({
       collection: this.model.editions,
       work: this.model,
       onWorkLayout: true

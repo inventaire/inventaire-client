@@ -39,7 +39,7 @@ const API = {
         // presently in the collection
         waitForNotifications.then(notifications.beforeShow.bind(notifications))
       ])
-      app.layout.main.show(new NotificationsLayout({ notifications }))
+      app.layout.showChildView('main', new NotificationsLayout({ notifications }))
       app.navigate('notifications', {
         metadata: {
           title: i18n('notifications')

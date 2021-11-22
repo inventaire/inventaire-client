@@ -8,15 +8,15 @@ const entitiesTypesWithTasks = [
 
 export default async params => {
   if (!app.user.hasDataadminAccess) return
-  const { region, model, standalone } = params
-  $(region.el).html(loader())
+  const { layout, regionName, model, standalone } = params
+  layout.getRegion(regionName).$el.html(loader())
 
   const [ entities, { default: MergeHomonyms } ] = await Promise.all([
     getHomonymsAndTasks(model),
     import('../views/editor/merge_homonyms')
   ])
   const collection = new Entities(entities)
-  region.show(new MergeHomonyms({ collection, model, standalone }))
+  layout.showChildView(regionName, new MergeHomonyms({ collection, model, standalone }))
 }
 
 const getHomonymsAndTasks = async model => {

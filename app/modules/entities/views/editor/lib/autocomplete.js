@@ -20,7 +20,7 @@ import { search, loadMoreFromSearch } from './suggestions/search_suggestions'
 export default {
   onRender () {
     if (this.suggestions == null) initializeAutocomplete.call(this)
-    this.suggestionsRegion.show(new AutocompleteSuggestions({ collection: this.suggestions }))
+    this.showChildView('suggestionsRegion', new AutocompleteSuggestions({ collection: this.suggestions }))
     addDefaultSuggestionsUris.call(this)
   },
 
