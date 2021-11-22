@@ -156,7 +156,8 @@ export default GroupLayoutView.extend({
       groupContext: true,
       group,
       emptyViewMessage: 'no user found',
-      filter (user, index, collection) {
+      viewFilter (view) {
+        const user = view.model
         return group.userStatus(user) !== 'member'
       }
     }))

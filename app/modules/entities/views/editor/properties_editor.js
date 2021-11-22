@@ -12,7 +12,7 @@ export default Marionette.CollectionView.extend({
 
     if (this.hasPropertiesShortlist) {
       // set propertiesShortlist to display only a subset of properties by default
-      this.filter = function (child, index, collection) {
+      this.viewFilter = function (child) {
         return propertiesShortlist.includes(child.get('property'))
       }
     }
@@ -31,7 +31,7 @@ export default Marionette.CollectionView.extend({
   },
 
   showAllProperties () {
-    this.filter = null
+    this.viewFilter = null
     this.render()
     this.ui.showAllProperties.hide()
   }

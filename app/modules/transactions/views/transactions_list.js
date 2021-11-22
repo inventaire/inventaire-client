@@ -12,7 +12,7 @@ export default Marionette.CollectionView.extend({
   emptyView: NoTransaction,
   initialize () {
     this.folder = this.options.folder
-    this.filter = folders[this.folder].filter
+    this.viewFilter = folders[this.folder].viewFilter
     this.listenTo(app.vent, 'transactions:folder:change', this.render.bind(this))
   },
 

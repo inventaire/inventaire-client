@@ -42,7 +42,7 @@ export default Marionette.View.extend({
       groupContext: this.options.groupContext,
       group: this.options.group,
       emptyViewMessage: this.options.emptyViewMessage,
-      filter: this.options.filter
+      viewFilter: this.options.viewFilter
     }))
 
     // start with .noUser hidden
