@@ -58,7 +58,7 @@ export default Marionette.View.extend({
     'click input' (e) { e.stopPropagation() }
   },
 
-  childEvents: {
+  childViewEvents: {
     selectOption: 'selectOption'
   },
 

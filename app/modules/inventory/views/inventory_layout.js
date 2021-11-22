@@ -37,7 +37,7 @@ export default Marionette.View.extend({
     this.listenTo(app.vent, 'inventory:select', this.showSelectedInventory.bind(this))
   },
 
-  childEvents: {
+  childViewEvents: {
     'close:shelf': 'closeShelf'
   },
 

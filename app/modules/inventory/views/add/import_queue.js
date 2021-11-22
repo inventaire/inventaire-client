@@ -16,7 +16,7 @@ import 'modules/inventory/scss/import_queue.scss'
 const CandidatesQueue = Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: CandidateRow,
-  childEvents: {
+  childViewEvents: {
     'selection:changed' () { this.triggerMethod('selection:changed') }
   }
 })
@@ -101,7 +101,7 @@ export default Marionette.View.extend({
     return this.candidates.reset()
   },
 
-  childEvents: {
+  childViewEvents: {
     'selection:changed': 'lazyUpdateSteps'
   },
 
@@ -210,7 +210,7 @@ export default Marionette.View.extend({
       this.candidates.add(this.failed)
       this.failed = []
     }
-    // triggering events on the parent via childEvents
+    // triggering events on the parent via childViewEvents
     this.triggerMethod('import:done')
   },
 

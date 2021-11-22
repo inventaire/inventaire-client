@@ -45,7 +45,7 @@ export default Marionette.View.extend({
     'click #emptyIsbns': 'emptyIsbns'
   },
 
-  childEvents: {
+  childViewEvents: {
     'import:done': 'onImportDone'
   },
 

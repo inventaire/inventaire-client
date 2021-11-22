@@ -48,7 +48,7 @@ export default GroupLayoutView.extend({
     else return 0
   },
 
-  childEvents: {
+  childViewEvents: {
     select (e, type, model) {
       return app.vent.trigger('inventory:select', 'member', model)
     }

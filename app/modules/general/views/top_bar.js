@@ -86,7 +86,7 @@ export default Marionette.View.extend({
     'click #language-picker .option button': 'selectLang',
   },
 
-  childEvents: {
+  childViewEvents: {
     'hide:live:search': 'hideLiveSearch'
   },
 

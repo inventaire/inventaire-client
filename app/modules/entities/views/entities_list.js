@@ -62,14 +62,14 @@ const EntitiesList = Marionette.CollectionView.extend({
 
   childViewContainer: '.container',
 
-  getChildView (model) {
+  childView (model) {
     const { type } = model
     const View = viewByType[type]
     if (View != null) return View
     const err = error_.new(`unknown entity type: ${type}`, model)
     // Weird: errors thrown here don't appear anyware
     // where are those silently catched?!?
-    console.error('entities_list getChildView err', err, model)
+    console.error('entities_list childView err', err, model)
     throw err
   },
 

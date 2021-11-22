@@ -20,7 +20,7 @@ export default Marionette.CollectionView.extend({
     loader: '.loaderWrapper'
   },
 
-  childEvents: {
+  childViewEvents: {
     highlight: 'scrollToHighlightedChild',
     'select:from:click': 'selectFromClick'
   },

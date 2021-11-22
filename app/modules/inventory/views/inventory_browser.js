@@ -47,7 +47,7 @@ export default Marionette.View.extend({
     'click #displayOptions a': 'selectDisplay'
   },
 
-  childEvents: {
+  childViewEvents: {
     'filter:select': 'onFilterSelect'
   },
 

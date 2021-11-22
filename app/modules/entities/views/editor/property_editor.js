@@ -28,7 +28,7 @@ export default Marionette.CollectionView.extend({
   },
 
   template: propertyEditorTemplate,
-  getChildView () { return editors[this.model.get('editorType')] },
+  childView () { return editors[this.model.get('editorType')] },
   childViewContainer: '.values',
 
   behaviors: {
