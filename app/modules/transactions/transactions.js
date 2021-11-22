@@ -89,11 +89,12 @@ const showTransactionsLayout = async () => {
 }
 
 const triggerTransactionSelect = function (id) {
+  const pathname = `/transactions/${id}`
   const transaction = app.request('get:transaction:byId', id)
   if (transaction != null) {
     app.vent.trigger('transaction:select', transaction)
   } else {
-    app.execute('show:error:missing')
+    app.execute('show:error:missing', { pathname })
   }
 }
 

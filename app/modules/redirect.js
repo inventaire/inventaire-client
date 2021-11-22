@@ -145,14 +145,17 @@ const showErrorByStatus = function (err, label) {
   }
 }
 
-const showErrorMissing = () => showError({
-  name: 'missing',
-  icon: 'warning',
-  header: I18n('oops'),
-  message: i18n("this resource doesn't exist or you don't have the right to access it"),
-  context: location.pathname,
-  statusCode: 404
-})
+const showErrorMissing = ({ pathname = location.pathname }) => {
+  if (pathname !== location.pathname) app.navigate(pathname)
+  showError({
+    name: 'missing',
+    icon: 'warning',
+    header: I18n('oops'),
+    message: i18n("this resource doesn't exist or you don't have the right to access it"),
+    context: pathname,
+    statusCode: 404
+  })
+}
 
 const showErrorNotAdmin = () => showError({
   name: 'not_admin',

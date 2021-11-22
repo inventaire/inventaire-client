@@ -41,7 +41,8 @@ const API = {
     if (isClaim(uri)) return showClaimEntities(uri, refresh)
 
     uri = normalizeUri(uri)
-    if (!isExtendedEntityUri(uri)) return app.execute('show:error:missing')
+    const pathname = `/entity/${uri}`
+    if (!isExtendedEntityUri(uri)) return app.execute('show:error:missing', { pathname })
 
     app.execute('show:loader')
 
@@ -343,8 +344,9 @@ const handleMissingEntity = (uri, err) => {
     app.execute('show:error:other', err)
   } else if (err.message === 'entity_not_found') {
     const [ prefix, id ] = uri.split(':')
+    const pathname = `/entity/${uri}`
     if (prefix === 'isbn') showEntityCreateFromIsbn(id)
-    else app.execute('show:error:missing')
+    else app.execute('show:error:missing', { pathname })
   } else {
     app.execute('show:error:other', err, 'handleMissingEntity')
   }
@@ -411,16 +413,17 @@ const isClaim = claim => /^(wdt:|invp:)/.test(claim)
 
 const showClaimEntities = async (claim, refresh) => {
   const [ property, value ] = claim.split('-')
+  const pathname = `/entity/${claim}`
 
   if (!isPropertyUri(property)) {
     error_.report('invalid property')
-    app.execute('show:error:missing')
+    app.execute('show:error:missing', { pathname })
     return
   }
 
   if (!isExtendedEntityUri(value)) {
     error_.report('invalid value')
-    app.execute('show:error:missing')
+    app.execute('show:error:missing', { pathname })
     return
   }
 
