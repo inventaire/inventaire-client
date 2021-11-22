@@ -17,7 +17,7 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     padding: 1em 0;
-    .transactionBox, .listingMenu{
+    .transactionBox, .listingBox{
       flex: 1 0 0;
     }
     .transactionBox{
@@ -25,7 +25,7 @@
     }
     // The .transactionBox is not displayed when the listing is private
     // so no need for a margin
-    .listingMenu:not(.private){
+    .listingBox:not(.private){
       margin-left: 0.5em;
     }
   }

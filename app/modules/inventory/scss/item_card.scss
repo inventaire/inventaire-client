@@ -80,7 +80,7 @@
   .alert-box{
     max-height: 4em;
   }
-  .transactionBox, .listingMenu{
+  .transactionBox, .listingBox{
     @include display-flex(row, stretch);
     button[aria-haspopup="menu"]{
       flex: 1 0 auto;
