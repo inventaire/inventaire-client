@@ -12,6 +12,7 @@ module.exports = mode => ({
   plugins: [
     require('./plugins/extract_css.cjs'),
     require('./plugins/dynamic_html_index_plugin.cjs'),
+    require('./plugins/detect_circular_dependencies.cjs'),
   ],
   output: {
     path: path.resolve(__dirname, '../public/dist'),
