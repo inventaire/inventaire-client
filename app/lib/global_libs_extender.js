@@ -157,6 +157,28 @@ Backbone.View.prototype.ifViewIsIntact = function (fn, ...args) {
     return fn.apply(this, args)
   }
 }
+
+const originalShowChildView = Marionette.View.prototype.showChildView
+
+Marionette.View.prototype.showChildView = function (name, view, options) {
+  originalShowChildView.call(this, name, view, options)
+  const region = this.getRegion(name)
+  const children = region.$el.children()
+  if (children.length > 1) removeObsoleteChildren(children)
+  return view
+}
+
+function removeObsoleteChildren (children) {
+  // The latest view is always appended is must thus be the last element
+  const lastIndex = children.length - 1
+  children.each((i, el) => {
+    // Remove all but the last element
+    if (i !== lastIndex) $(el).remove()
+  })
+}
+
+Marionette.CollectionView.prototype.showChildView = Marionette.View.prototype.showChildView
+
 Backbone.View.prototype.isIntact = function () {
   return this.isRendered() && !this.isDestroyed()
 }
