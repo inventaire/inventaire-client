@@ -8,6 +8,7 @@ export default {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'groups/:id/settings(/)': 'showGroupBoard',
+        'g(roups)(/)': 'showSearchGroups',
 
         // Legacy redirections
         'network/friends(/)': 'redirectToInventoryNetwork',
@@ -83,7 +84,9 @@ const API = {
   async showCreateGroupLayout () {
     const { default: CreateGroupLayout } = await import('./views/create_group_layout')
     app.layout.modal.show(new CreateGroupLayout())
-  }
+  },
+
+  showSearchGroups () { app.execute('show:groups:search') }
 }
 
 const showGroupBoardFromModel = async (model, options = {}) => {
