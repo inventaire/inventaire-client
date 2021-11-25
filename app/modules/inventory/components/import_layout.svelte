@@ -33,6 +33,7 @@
   let processedPreCandidates = 0
   let transaction, listing
   let processedCandidates = 0
+  let selectedBooksCount
 
   const getFile = importer => {
     const { parse, encoding, files } = importer
@@ -222,9 +223,9 @@
 <div hidden="{!candidates.length > 0}">
   <div id="candidatesElement" bind:this={candidatesElement}>
     <h3>2/ Select the books you want to add</h3>
-    {#if processedPreCandidates > 0 && processedPreCandidates < preCandidatesCount - 1}
+    {#if candidatesLength > 0 && candidatesLength < preCandidatesCount}
       <p class="loading">
-        {processedPreCandidates}/{preCandidatesCount}
+        {candidatesLength}/{preCandidatesCount}
         <Spinner/>
       </p>
     {/if}
@@ -246,12 +247,16 @@
         {@html icon('trash')} {I18n('empty the queue')}
       </button>
     </div>
-    <!-- repeat counter when many candidates -->
-    {#if candidatesLength > 20 && candidatesLength < preCandidatesCount}
-      <p class="loading">
-        {candidatesLength}/{preCandidatesCount}
-        <Spinner/>
-      </p>
+    {#if candidatesLength > 20 }
+      <!-- repeat counter when many candidates -->
+      {#if candidatesLength < preCandidatesCount}
+        <p class="loading">
+          {candidatesLength}/{preCandidatesCount}
+          <Spinner/>
+        </p>
+      {/if}
+      <p>{I18n('Number of books found')}: {candidatesLength}</p>
+      <p>{I18n('Number of selected books')}: {selectedBooksCount}</p>
     {/if}
   </div>
   <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
