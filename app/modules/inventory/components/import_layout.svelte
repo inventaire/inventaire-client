@@ -7,6 +7,7 @@
   import autosize from 'autosize'
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
+  import SelectButtonGroup from '#inventory/components/select_button_group.svelte'
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   import dataValidator from '#inventory/lib/data_validator'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
@@ -16,9 +17,12 @@
   import log_ from '#lib/loggers'
   import preq from '#lib/preq'
   import { createCandidate } from '#inventory/lib/import_helpers'
+  import app from '#app/app'
 
   onMount(() => autosize(document.querySelector('textarea')))
-  let flashIsbnsImporter, flashInvalidIsbns
+
+  let flashIsbnsImporter, flashCandidates, flashImportCandidates, flashImportSuccess
+
   let checked = true
   let flashImporters = {}
   let isbnsText, preCandidatesCount
@@ -27,6 +31,8 @@
   let preCandidates = []
   let candidatesLength
   let processedPreCandidates = 0
+  let transaction, listing
+  let processedCandidates = 0
 
   const getFile = importer => {
     const { parse, encoding, files } = importer
@@ -55,7 +61,7 @@
     if (!isbnsText || isbnsText.length === 0) return
     window.ISBN = window.ISBN || (await import('isbn3')).default
     autosize(document.querySelector('textarea'))
-    flashIsbnsImporter = false
+    flashIsbnsImporter = null
 
     const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
     const isbns = isbnsText.match(isbnPattern)
@@ -79,6 +85,7 @@
 
   const createAndResolveCandidates = async () => {
     processedPreCandidates = 0
+    flashImportCandidates = flashImportSuccess = null
     preCandidatesCount = preCandidates.length
     const remainingPreCandidates = _.clone(preCandidates)
 
@@ -125,54 +132,95 @@
     checked = false
   }
 
+  const importCandidates = async () => {
+    let importingCandidates
+    if (importingCandidates) return flashImportCandidates = { type: 'warning', message: I18n('already importing some books') }
+    importingCandidates = true
+    if (_.isEmpty(candidates)) return flashImportCandidates = { type: 'warning', message: I18n('no book selected') }
+    const remainingCandidates = _.clone(candidates)
+    const candidatesErr = []
+
+    const createItem = async () => {
+      const nextCandidate = remainingCandidates.splice(0, 1)[0]
+      if (nextCandidate.checked) {
+        const { uri: editionUri } = nextCandidate.edition
+        if (editionUri) {
+          await app.request('item:create', {
+            transaction,
+            listing,
+            entity: editionUri
+          })
+          .catch(err => {
+            candidatesErr.push(nextCandidate)
+            flashImportCandidates = { type: 'error', message: I18n('something went wrong, retry?') }
+            log_.error(err, 'createItem err')
+          })
+        }
+      }
+      if (remainingCandidates.length === 0) return
+      processedCandidates += 1
+      await createItem()
+    }
+
+    return createItem()
+    .then(flashImportCandidates = { type: 'success', message: I18n('import completed') })
+    .catch(err => {
+      log_.error(candidatesErr, 'createItem from candidates err', { err })
+    })
+    .finally(() => {
+      processedCandidates = 0
+      importingCandidates = false
+    })
+  }
+
   $: { candidatesLength = candidates.length }
   // dev stuff, delete before production
   isbnsText = ',9782352946847,9782352946847,2277119660,1591841380,978-2-207-11674-6'
   Promise.resolve(onIsbnsChange()).then(createAndResolveCandidates)
 </script>
-<section>
-  <div id="importersWrapper">
-    <h3>1/ {I18n('upload your books')}</h3>
-    <ul class="importers">
-      {#each importers as importer (importer.name)}
-        <li id="{importer.name}-li">
-          <div class="importer-data">
-            <p class="importerName">
-              {#if importer.link}
-                <a name={importer.label} href={importer.link}>{importer.label}</a>
-              {:else}
-                <span title={importer.label}>{importer.label}</span>
-              {/if}
-              {#if importer.format && importer.format !== 'all'}
-                <span class="format">( .{importer.format} )</span>
-              {/if}
-            </p>
-            {#if importer.help}
-              <p class="help">{@html I18n(importer.help)}</p>
+<div id="importersWrapper">
+  <h3>1/ {I18n('upload your books')}</h3>
+  <ul class="importers">
+    {#each importers as importer (importer.name)}
+      <li id="{importer.name}-li">
+        <div class="importer-data">
+          <p class="importerName">
+            {#if importer.link}
+              <a name={importer.label} href={importer.link}>{importer.label}</a>
+            {:else}
+              <span title={importer.label}>{importer.label}</span>
             {/if}
-          </div>
-          <input id="{importer.name}" name="{importer.name}" type="file" bind:files={importer.files} accept="{importer.accept}" on:change={getFile(importer)}/>
-          <!-- <div class="loading"></div> -->
-          <Flash bind:state={flashImporters[importer.name]}/>
-        </li>
-      {/each}
-      <li id="textIsbns-li">
-        <div id="isbnsImporter">
-          {I18n('import from a list of ISBNs')}
-          <div class="textarea-wrapper">
-            <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}"></textarea>
-            <a id="emptyIsbns" title="{i18n('clear')}" on:click={emptyIsbns}>{@html icon('trash-o')}</a>
-          </div>
-          <Flash bind:state={flashIsbnsImporter}/>
-          <div class="loading"></div>
+            {#if importer.format && importer.format !== 'all'}
+              <span class="format">( .{importer.format} )</span>
+            {/if}
+          </p>
+          {#if importer.help}
+            <p class="help">{@html I18n(importer.help)}</p>
+          {/if}
         </div>
+        <input id="{importer.name}" name="{importer.name}" type="file" bind:files={importer.files} accept="{importer.accept}" on:change={getFile(importer)}/>
+        <!-- <div class="loading"></div> -->
+        <Flash bind:state={flashImporters[importer.name]}/>
       </li>
-    </ul>
-  </div>
-  <div class="buttonWrapper">
-    <a id="createCandidatesButton" on:click={createAndResolveCandidates} class="button">{I18n('find ISBNs')}</a>
-  </div>
-  <div id="candidatesElement" bind:this={candidatesElement} hidden="{!candidates.length > 0}">
+    {/each}
+    <li id="textIsbns-li">
+      <div id="isbnsImporter">
+        {I18n('import from a list of ISBNs')}
+        <div class="textarea-wrapper">
+          <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}"></textarea>
+          <a id="emptyIsbns" title="{i18n('clear')}" on:click={emptyIsbns}>{@html icon('trash-o')}</a>
+        </div>
+        <Flash bind:state={flashIsbnsImporter}/>
+        <div class="loading"></div>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="buttonWrapper">
+  <a id="createCandidatesButton" on:click={createAndResolveCandidates} class="button">{I18n('find ISBNs')}</a>
+</div>
+<div hidden="{!candidates.length > 0}">
+  <div id="candidatesElement" bind:this={candidatesElement}>
     <h3>2/ Select the books you want to add</h3>
     {#if processedPreCandidates > 0 && processedPreCandidates < preCandidatesCount - 1}
       <p class="loading">
@@ -180,13 +228,13 @@
         <Spinner/>
       </p>
     {/if}
-    <Flash bind:state={flashInvalidIsbns}/>
+    <Flash bind:state={flashCandidates}/>
     <ul>
       {#each candidates as candidate}
         <CandidateRow bind:candidate={candidate} checked={checked}/>
       {/each}
     </ul>
-    <div id="candidates-nav">
+    <div class="candidates-nav">
       <button class="grey-button" on:click="{() => checked = true}" name="{I18n('select all')}">
         {I18n('select all')}
       </button>
@@ -198,8 +246,45 @@
         {@html icon('trash')} {I18n('empty the queue')}
       </button>
     </div>
+    <!-- repeat counter when many candidates -->
+    {#if candidatesLength > 20 && candidatesLength < preCandidatesCount}
+      <p class="loading">
+        {candidatesLength}/{preCandidatesCount}
+        <Spinner/>
+      </p>
+    {/if}
   </div>
-</section>
+  <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
+  <div class="itemsSettings">
+    <SelectButtonGroup type="transaction" bind:selected={transaction}/>
+    <SelectButtonGroup type="listing" title="visibility" bind:selected={listing}/>
+  </div>
+  <h3>4/ {I18n('import this batch')}</h3>
+  <div class="importCandidates">
+    <Flash bind:state={flashImportCandidates}/>
+    {#if flashImportCandidates?.type === 'success'}
+      <button
+        href="/"
+        class="button"
+        on:click="{() => app.execute('show:home')}"
+        >{I18n('See the new books in my inventory')}</button>
+    {:else}
+      {#if processedCandidates > 0 && processedCandidates < candidatesLength}
+        <p class="loading">
+          {processedCandidates}/{candidatesLength}
+          <Spinner/>
+        </p>
+      {/if}
+      <button
+        class="importCandidatesButton button success"
+        on:click={importCandidates}
+        >
+        {I18n('import the selection')}
+      </button>
+    {/if}
+  </div>
+</div>
+
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
   section{
@@ -221,9 +306,17 @@
     margin-top: 1em;
     text-align: center;
   }
-  #candidates-nav{
+  .candidates-nav{
     @include display-flex(row, center, center, wrap);
+    margin: 1em;
     button { margin: 0.5em;}
     margin: 1em;
+  }
+  .importCandidates{
+    @include display-flex(column, center, center, wrap)
+  }
+  .importCandidates {
+    button { margin: 1em 0; }
+    text-align:center;
   }
 </style>
