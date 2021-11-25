@@ -45,6 +45,7 @@
 
   $: if (isbnData?.isInvalid) disabled = true
   $: if (disabled && checked) checked = false
+  $: candidate.checked = checked
 </script>
 <li class="candidateRow" class:checked>
   <div class="data">
