@@ -3,6 +3,7 @@
   import { I18n } from 'modules/user/lib/i18n'
 
   export let password, flash, title
+  export let autocomplete = 'on'
   let showPassword = false
 
   const togglePassword = () => showPassword = !showPassword
@@ -20,7 +21,7 @@ Prefer on:change to bind:value since svelte cannot dynamically change a value if
 aka `type={pwdInputType} bind:value={password}` is forbidden since generated code is different for different kinds of input. -->
 <label class="main-label">
   <span>{title}</span>
-  <input type={pwdInputType} on:change="{e => changePwd(e.target.value) }" title={title} name="password">
+  <input type={pwdInputType} autocomplete={autocomplete} on:change="{e => changePwd(e.target.value) }" title={title} name="password">
 </label>
 
 <Flash bind:state={flash}/>
