@@ -43,6 +43,7 @@ const importers = {
     // and the last time I checked, the export feature wasn't working
     // making it hard to arbitrate
     disableValidation: true,
+    help: 'library_or_critic',
     link: 'http://www.babelio.com/export.php',
     parse: csvParser(babelioParser)
   },

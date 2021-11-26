@@ -149,6 +149,7 @@
           await app.request('item:create', {
             transaction,
             listing,
+            details: nextCandidate.details,
             entity: editionUri
           })
           .catch(err => {
