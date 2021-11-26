@@ -66,7 +66,7 @@
 
     const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
     const isbns = isbnsText.match(isbnPattern)
-    if (isbns == null) return
+    if (isbns == null) return flashIsbnsImporter = { type: 'error', message: 'no new ISBN found' }
     const candidatesData = isbns.map(isbn => { return { isbn } })
 
     createPreCandidates(candidatesData)
