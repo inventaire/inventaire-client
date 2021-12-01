@@ -23,7 +23,9 @@ export default function () {
 
     if (dark) {
       $modalContent.addClass('dark')
-    } else { $modalContent.removeClass('dark') }
+    } else {
+      $modalContent.removeClass('dark')
+    }
 
     // Focusing is useful for devices with a keyboard, so that you can Tab your way through forms
     // but not for touch only devices

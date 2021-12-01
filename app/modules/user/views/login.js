@@ -86,7 +86,9 @@ export default Marionette.View.extend({
     this.stopLoading()
     if (err.statusCode === 401) {
       return this.alert(this.getErrMessage())
-    } else { throw err }
+    } else {
+      throw err
+    }
   },
 
   getErrMessage () {

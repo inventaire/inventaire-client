@@ -56,7 +56,9 @@ export default Marionette.View.extend({
   autoSelect (transac) {
     if (transac === this.model) {
       this.$el.addClass('selected')
-    } else { this.$el.removeClass('selected') }
+    } else {
+      this.$el.removeClass('selected')
+    }
   },
 
   requestContext () {

@@ -63,7 +63,9 @@ export default map_ = {
       return map_.showUsersOnMap(map, models)
     } else if (typeName === 'groups') {
       return map_.showGroupsOnMap(map, models)
-    } else { throw error_.new('invalid type', { typeName, map, models }) }
+    } else {
+      throw error_.new('invalid type', { typeName, map, models })
+    }
   },
 
   // Same as the above function, but guesses model type

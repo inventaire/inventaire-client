@@ -27,7 +27,9 @@ export default Marionette.View.extend({
   setClassNames () {
     if (this.isMessage) {
       this.$el.addClass('message')
-    } else { this.$el.addClass('action') }
+    } else {
+      this.$el.addClass('action')
+    }
   },
 
   serializeData () {

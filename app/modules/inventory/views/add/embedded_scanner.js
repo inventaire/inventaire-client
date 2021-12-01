@@ -101,7 +101,9 @@ export default Marionette.View.extend({
     .catch(err => {
       if (err.message.match('entity_not_found')) {
         return this.updateNotFoundCounter(isbn)
-      } else { throw err }
+      } else {
+        throw err
+      }
     })
     .catch(log_.Error('isbn batch pre-cache err'))
   },

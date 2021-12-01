@@ -126,7 +126,9 @@ export default Marionette.View.extend({
     // to take that section request into account
     if ((this.getRegion('liveSearch').currentView != null) && (params.section == null)) {
       this.getRegion('liveSearch').$el.show()
-    } else { this.showChildView('liveSearch', new LiveSearch(params)) }
+    } else {
+      this.showChildView('liveSearch', new LiveSearch(params))
+    }
     this.getRegion('liveSearch').$el.addClass('shown')
     this.getRegion('liveSearch').currentView.resetHighlightIndex()
     this.getRegion('liveSearch').currentView.showSearchSettings()

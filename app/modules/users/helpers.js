@@ -32,7 +32,9 @@ export default function (app) {
         const userModel = app.request('get:userModel:from:userId', id)
         if (userModel != null) {
           foundUsersModels.push(userModel)
-        } else { missingUsersIds.push(id) }
+        } else {
+          missingUsersIds.push(id)
+        }
       }
 
       if (missingUsersIds.length === 0) {
@@ -67,7 +69,9 @@ export default function (app) {
       .then(userModel => {
         if (userModel != null) {
           return userModel
-        } else { throw error_.new('user model not found', 404, user) }
+        } else {
+          throw error_.new('user model not found', 404, user)
+        }
       })
     },
 

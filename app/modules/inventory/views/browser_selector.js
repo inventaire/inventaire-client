@@ -95,7 +95,9 @@ export default Marionette.View.extend({
 
     if (this.$el.hasClass('showOptions')) {
       this.hideOptions()
-    } else { this.showOptions() }
+    } else {
+      this.showOptions()
+    }
 
     e.stopPropagation()
   },
