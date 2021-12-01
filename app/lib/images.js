@@ -4,15 +4,6 @@ import error_ from 'lib/error'
 import _dataURLtoBlob from 'blueimp-canvas-to-blob'
 import { isDataUrl } from 'lib/boolean_tests'
 
-export function addDataUrlToArray (file, array, event) {
-  return resize.photo(file, 600, 'dataURL', data => {
-    array.unshift(data)
-    if (array.trigger != null && event != null) {
-      return array.trigger(event)
-    }
-  })
-}
-
 export async function getUrlDataUrl (url) {
   const { 'data-url': dataUrl } = await preq.get(app.API.images.dataUrl(url))
   return dataUrl
@@ -21,13 +12,6 @@ export async function getUrlDataUrl (url) {
 export async function getUserGravatarUrl () {
   const { url } = await preq.get(app.API.images.gravatar)
   return url
-}
-
-export function getElementDataUrl ($el) {
-  // requires the source to be on the same domain
-  // or served with appropriate CORS headers.
-  // can be overpassed by using a proxy: see {{proxySrc}}
-  return $el.toDataURL()
 }
 
 export function resizeDataUrl (dataURL, maxSize, outputQuality = 1) {
