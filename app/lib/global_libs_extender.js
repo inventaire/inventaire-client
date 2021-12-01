@@ -129,18 +129,6 @@ FilteredCollection.prototype.filterByText = function (text, reset = true) {
   return this.filterBy('text', model => model.matches(filterRegex, rawText))
 }
 
-// The 'update' event will be added when updating to Backbone >= 1.2.0
-// but meanwhile we got to do without it
-// See https://backbonejs.org/#Changelog
-Backbone.Collection.prototype.triggerUpdateEvents = function () {
-  const lazyTriggerUpdate = _.debounce(triggerUpdate.bind(this), 200)
-  this.on('change', lazyTriggerUpdate)
-}
-
-const triggerUpdate = function (...args) {
-  this.trigger('update', ...args)
-}
-
 // Extend Backbone.View.prototype to extend both Marionette.View and Marionette.CollectionView
 
 // Use in promise chains when the view might be about to be re-rendered
