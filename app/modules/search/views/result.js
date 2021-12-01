@@ -47,7 +47,7 @@ export default Marionette.View.extend({
       app.request('search:history:add', { uri, label, type, pictures })
     }
 
-    return app.vent.trigger('live:search:show:result')
+    app.vent.trigger('live:search:show:result')
   },
 
   unhighlight () { this.$el.removeClass('highlight') },

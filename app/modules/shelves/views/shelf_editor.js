@@ -110,7 +110,7 @@ const afterShelfDelete = function (res) {
     return items.forEach(item => {
       const { listing } = item
       if (listing) {
-        return app.user.trigger('items:change', listing, null)
+        app.user.trigger('items:change', listing, null)
       }
     })
   }

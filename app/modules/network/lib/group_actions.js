@@ -15,7 +15,7 @@ export default {
       timestamp: Date.now()
     })
     this.triggeredListChange()
-    return triggerUserChange(user)
+    triggerUserChange(user)
   },
 
   acceptInvitation () {
@@ -107,7 +107,7 @@ export default {
 
   _postActionHooks (action) {
     this.trigger(`action:${action}`)
-    return app.vent.trigger('network:requests:update')
+    app.vent.trigger('network:requests:update')
   },
 
   revertMove (user, previousCategory, newCategory, err) {
@@ -130,7 +130,7 @@ export default {
 
     // Trigger after the lists where updated
     // so that groups filtered collections can correctly re-filter
-    if (user.isMainUser) return app.vent.trigger('group:main:user:move')
+    if (user.isMainUser) app.vent.trigger('group:main:user:move')
   },
 
   triggeredListChange () {
@@ -144,5 +144,5 @@ export default {
 const triggerUserChange = function (user) {
   const trigger = () => user.trigger('group:user:change')
   // delay the event to let the time to the debounced recalculateAllLists to run
-  return setTimeout(trigger, 100)
+  setTimeout(trigger, 100)
 }

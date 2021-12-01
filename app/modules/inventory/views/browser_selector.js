@@ -73,7 +73,7 @@ export default Marionette.View.extend({
   showOptions () {
     this.$el.addClass('showOptions')
     this.ui.filterField.focus()
-    return app.vent.trigger('browser:selector:click', this.cid)
+    app.vent.trigger('browser:selector:click', this.cid)
   },
 
   // Pass a view cid if that specific view shouldn't hide its options

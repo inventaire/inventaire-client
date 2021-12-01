@@ -195,7 +195,7 @@ export default Marionette.View.extend({
 
   searchLive (text) {
     this.getRegion('liveSearch').currentView.lazySearch(text)
-    return app.vent.trigger('search:global:change', text)
+    app.vent.trigger('search:global:change', text)
   },
 
   setQuery (params) {

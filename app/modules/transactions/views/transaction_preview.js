@@ -48,7 +48,7 @@ export default Marionette.View.extend({
         // Required to close the ItemShowLayout modal if one was open
         app.execute('modal:close')
       } else {
-        return app.vent.trigger('transaction:select', this.model)
+        app.vent.trigger('transaction:select', this.model)
       }
     }
   },

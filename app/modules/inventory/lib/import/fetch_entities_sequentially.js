@@ -33,7 +33,7 @@ export default async function (isbnsData) {
 
   const updateProgression = function () {
     const done = total - uris.length
-    return app.vent.trigger('progression:ISBNs', { done, total })
+    app.vent.trigger('progression:ISBNs', { done, total })
   }
 
   const fetchOneByOne = async () => {

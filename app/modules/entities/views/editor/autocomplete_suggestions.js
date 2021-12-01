@@ -35,7 +35,9 @@ export default Marionette.CollectionView.extend({
   },
 
   // Pass the child view event to the filtered collection
-  selectFromClick (e, model) { return this.collection.trigger('select:from:click', model) },
+  selectFromClick (e, model) {
+    this.collection.trigger('select:from:click', model)
+  },
 
   onRender () {
     // Doesn't work if set in events for some reason
@@ -50,7 +52,7 @@ export default Marionette.CollectionView.extend({
   },
 
   loadMore () {
-    return this.collection.trigger('load:more')
+    this.collection.trigger('load:more')
   },
 
   showLoadingSpinner () {

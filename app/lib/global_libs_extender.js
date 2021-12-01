@@ -24,7 +24,7 @@ const ArrayHandler = function (handler) {
     assert_.array(array)
     array = handler(array, value)
     this.set(attr, array)
-    return triggerChange(this, attr, value)
+    triggerChange(this, attr, value)
   }
 }
 
