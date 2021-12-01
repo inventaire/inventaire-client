@@ -26,8 +26,4 @@ export default Marionette.View.extend({
       if (_.isFunction(buttonAction)) buttonAction()
     }
   },
-
-  onRender () {
-    this.ui.errorBox.fadeIn()
-  }
 })
