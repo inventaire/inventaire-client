@@ -24,10 +24,11 @@ export default Marionette.Behavior.extend({
     'click .showWelcome': execute('show:welcome'),
     'click .showLogin': execute('show:login'),
     'click .showInventory': execute('show:inventory'),
-    'click a.entity-value, a.showEntity': 'showEntity',
     'click .signupRequest': execute('show:signup:redirect'),
-    'click .loginRequest': execute('show:login:redirect')
+    'click .loginRequest': execute('show:login:redirect'),
+    'click a.entity-value, a.showEntity': showViews.showEntity,
+    'click a.showEntityEdit': showViews.showEntityEdit,
+    'click a.showEntityCleanup': showViews.showEntityCleanup,
+    'click a.showEntityHistory': showViews.showEntityHistory,
   },
-
-  showEntity: showViews.showEntity
 })

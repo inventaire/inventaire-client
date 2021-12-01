@@ -2,7 +2,6 @@ import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import waitForCheck from '../lib/wait_for_check'
 import initDocumentLang from '../lib/document_lang'
-import showViews from '../lib/show_views'
 import TopBar from './top_bar'
 import initModal from '../lib/modal'
 import initFlashMessage from '../lib/flash_message'
@@ -30,12 +29,6 @@ export default Marionette.View.extend({
     flashMessage: '#flashMessage'
   },
 
-  events: {
-    'click .showEntityEdit': 'showEntityEdit',
-    'click .showEntityCleanup': 'showEntityCleanup',
-    'click .showEntityHistory': 'showEntityHistory',
-  },
-
   behaviors: {
     Dropdown,
     General,
@@ -43,9 +36,8 @@ export default Marionette.View.extend({
   },
 
   initialize () {
-    _.extend(this, showViews)
-
     this.render()
+
     app.commands.setHandlers({
       'show:loader': this.showLoader,
       'show:feedback:menu': this.showFeedbackMenu,
