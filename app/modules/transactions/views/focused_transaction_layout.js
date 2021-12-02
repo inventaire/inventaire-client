@@ -1,6 +1,5 @@
 import { isOpenedOutside } from 'lib/utils'
 import { i18n } from 'modules/user/lib/i18n'
-import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import screen_ from 'lib/screen'
@@ -24,12 +23,7 @@ export default Marionette.CollectionView.extend({
 
   initialize () {
     this.collection = this.model.timeline
-    this.initPlugins()
     this.model.beforeShow()
-  },
-
-  initPlugins () {
-    _.extend(this, behaviorsPlugin)
   },
 
   serializeData () { return this.model.serializeData() },
@@ -132,7 +126,7 @@ export default Marionette.CollectionView.extend({
   postMessageFail (message, err) {
     this.recoverMessage(message)
     err.selector = '.alertBox'
-    return forms_.alert(this, err)
+    forms_.alert(this, err)
   },
 
   recoverMessage (message) { this.ui.message.val(message) },
