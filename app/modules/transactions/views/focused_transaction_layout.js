@@ -1,7 +1,6 @@
 import { isOpenedOutside } from 'lib/utils'
 import { i18n } from 'modules/user/lib/i18n'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
-import messagesPlugin from 'modules/general/plugins/messages'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import screen_ from 'lib/screen'
@@ -30,7 +29,7 @@ export default Marionette.CollectionView.extend({
   },
 
   initPlugins () {
-    _.extend(this, behaviorsPlugin, messagesPlugin)
+    _.extend(this, behaviorsPlugin)
   },
 
   serializeData () { return this.model.serializeData() },
@@ -70,10 +69,6 @@ export default Marionette.CollectionView.extend({
     'click .info a[href^="/items/"]': 'showItem'
   },
 
-  sendMessage () {
-    this.postMessage('transaction:post:message', this.model.timeline)
-  },
-
   accept () { this.updateState('accepted') },
   decline () { this.updateState('declined') },
   confirm () { this.updateState('confirmed') },
@@ -109,5 +104,36 @@ export default Marionette.CollectionView.extend({
       action: this.model.cancelled.bind(this),
       selector: '.cancel'
     })
-  }
+  },
+
+  sendMessage () {
+    const message = this.ui.message.val()
+    if (!this.validMessageLength(message)) return
+
+    const { id } = this.model
+
+    app.request('transaction:post:message', id, message, this.model.timeline)
+    .catch(this.postMessageFail.bind(this, message))
+
+    // empty textarea
+    this.lazyRender()
+  },
+
+  validMessageLength (message, maxLength = 5000) {
+    if (message.length === 0) return false
+    if (message.length > maxLength) {
+      const err = new Error(`can't be longer than ${maxLength} characters`)
+      this.postMessageFail(message, err)
+      return false
+    }
+    return true
+  },
+
+  postMessageFail (message, err) {
+    this.recoverMessage(message)
+    err.selector = '.alertBox'
+    return forms_.alert(this, err)
+  },
+
+  recoverMessage (message) { this.ui.message.val(message) },
 })
