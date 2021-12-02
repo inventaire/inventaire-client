@@ -50,13 +50,16 @@ $inner-filter-preview-height: 15em;
     }
   }
   .preview-wrapper{
-    display: block;
     @include transition(width);
     background-color: $dark-grey;
     width: 100%;
     height: $inner-filter-preview-height;
     &:not(.active){
       width: 0;
+      overflow: hidden;
+    }
+    &.active{
+      overflow: auto;
     }
   }
   .preview-region{
