@@ -1,4 +1,4 @@
-import { capitalize, daysAgo } from 'lib/utils'
+import { capitalize, daysAgo, fixedEncodeURIComponent } from 'lib/utils'
 import { isNonEmptyString } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
 import { i18n } from 'modules/user/lib/i18n'
@@ -34,7 +34,7 @@ export default Positionable.extend({
 
   setInferredAttributes () {
     let pathname
-    const slug = this.get('slug')
+    const slug = fixedEncodeURIComponent(this.get('slug'))
     const canonical = (pathname = `/groups/${slug}`)
 
     this.set({

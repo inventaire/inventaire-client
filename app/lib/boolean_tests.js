@@ -8,7 +8,18 @@ const bindedTest = regexName => regex_[regexName].test.bind(regex_[regexName])
 
 export const isNonEmptyString = str => _.isString(str) && (str.length > 0)
 
-export const isUrl = bindedTest('Url')
+export const isUrl = url => {
+  try {
+    const { protocol, username, password } = new URL(url)
+    if (!(protocol === 'http:' || protocol === 'https:')) return false
+    if (username !== '' || password !== '') return false
+  } catch (err) {
+    if (err.code === 'ERR_INVALID_URL') return false
+    else throw err
+  }
+  return true
+}
+
 export const isImageHash = bindedTest('ImageHash')
 export const isLocalImg = bindedTest('LocalImg')
 export const isAssetImg = bindedTest('AssetImg')
