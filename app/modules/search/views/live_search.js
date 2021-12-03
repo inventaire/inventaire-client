@@ -19,7 +19,7 @@ import Result from './result'
 import NoResult from './no_result'
 import liveSearchTemplate from './templates/live_search.hbs'
 import { formatEntity, formatSubject } from '../lib/formatters'
-import { sectionToTypes, sectionsData, neverIncluded } from '../lib/search_sections'
+import { typesBySection, categoryBySection, entitySectionsWithAlternatives, sectionsData, neverIncluded } from '../lib/search_sections'
 const wikidataSearch = WikidataSearch(false)
 
 const Results = Backbone.Collection.extend({ model: ResultModel })
@@ -39,10 +39,13 @@ export default Marionette.CollectionView.extend({
     this._lazySearch = _.debounce(this.search.bind(this), 500)
     this.selectedSectionName = this.options.section
     this._searchOffset = 0
-    // faking lastSelected to be able to show alternatives even though
+    // Initialize _lastSelected to be able to show alternatives even though
     // user is newly arriving here by selecting their category search
-    // known cases: all "search by" buttons at "/add/search" path
-    this._lastSelected = { category: this.selectedSectionName }
+    // Known cases: all "search by" buttons at "/add/search" path
+    this._lastSelected = {
+      category: categoryBySection[this.selectedSectionName],
+      section: this.selectedSectionName,
+    }
   },
 
   ui: {
@@ -52,7 +55,9 @@ export default Marionette.CollectionView.extend({
     results: 'ul.results',
     alternatives: '.alternatives',
     shortcuts: '.shortcuts',
-    loader: '.loaderWrapper'
+    loader: '.loaderWrapper',
+    entityButtons: '.entitySections button',
+    socialButtons: '.sozialSections button',
   },
 
   serializeData () {
@@ -88,15 +93,15 @@ export default Marionette.CollectionView.extend({
     let $target = this.$el.find('.selected')[relation]()
     if ($target.length === 0) {
       const currentCategory = this.$el.find('.selected')[0].dataset.category
-      const otherCategory = currentCategory === 'entity' ? 'social' : 'entity'
-      $target = this.$el.find(`.${otherCategory}Sections a`)[fallback]()
+      const otherCategoryUiName = currentCategory === 'entity' ? 'socialButtons' : 'entityButtons'
+      $target = this.ui[otherCategoryUiName][fallback]()
     }
     this.selectTypeFromTarget($target)
   },
 
   selectTypeFromTarget ($target) {
     const { category, name } = $target[0].dataset
-    const type = sectionToTypes[category][name]
+    const type = typesBySection[category][name]
     this.selectType(category, name, type)
   },
 
@@ -127,9 +132,12 @@ export default Marionette.CollectionView.extend({
   },
 
   updateAlternatives (search) {
-    const { category } = (this._lastSelected || {})
-    if (category === 'social') return this.hideAlternatives()
-    this.showAlternatives(search)
+    const { category, name } = (this._lastSelected || {})
+    if (category === 'entity' && entitySectionsWithAlternatives.includes(name)) {
+      this.showAlternatives(search)
+    } else {
+      this.hideAlternatives()
+    }
   },
 
   search (search) {
@@ -180,7 +188,7 @@ export default Marionette.CollectionView.extend({
 
   getTypes () {
     const { category, name } = this.$el.find('.selected')[0].dataset
-    return sectionToTypes[category][name]
+    return typesBySection[category][name]
   },
 
   showAlternatives (search) {
@@ -288,7 +296,7 @@ export default Marionette.CollectionView.extend({
     } else {
       let type
       if (this._lastSelected?.category === 'entity' && this._lastSelected?.name !== 'all') {
-        type = sectionToTypes.entity[this._lastSelected.name]
+        type = typesBySection.entity[this._lastSelected.name]
       }
       app.execute('show:entity:create', { label: this._lastSearch, type, allowToChangeType: true })
     }

@@ -1,4 +1,4 @@
-export const sectionToTypes = {
+export const typesBySection = {
   entity: {
     all: [ 'works', 'humans', 'series', 'publishers', 'collections' ],
     work: 'works',
@@ -14,6 +14,16 @@ export const sectionToTypes = {
     group: 'groups'
   }
 }
+
+export const categoryBySection = {}
+
+for (const category of Object.keys(typesBySection)) {
+  for (const section of Object.keys(typesBySection[category])) {
+    if (section !== 'all') categoryBySection[section] = category
+  }
+}
+
+export const entitySectionsWithAlternatives = [ 'all', 'work', 'author', 'serie', 'collection', 'publisher' ]
 
 export const sectionsData = selected => {
   const sections = {
