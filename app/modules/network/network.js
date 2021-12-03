@@ -64,12 +64,13 @@ const API = {
   // Named showGroupBoard and not showGroupSettings
   // as GroupSettings are a child view of GroupBoard
   showGroupBoard (slug) {
-    if (app.request('require:loggedIn', `groups/${slug}/settings`)) {
+    const pathname = `groups/${slug}/settings`
+    if (app.request('require:loggedIn', pathname)) {
       return app.request('get:group:model', slug)
       .then(showGroupBoardFromModel)
       .catch(err => {
         log_.error(err, 'get:group:model err')
-        app.execute('show:error:missing')
+        app.execute('show:error:missing', { pathname })
       })
     }
   },

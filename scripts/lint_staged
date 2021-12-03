@@ -8,7 +8,7 @@ staged=$(git status --porcelain | grep -E "^(A|M).*\.(js|svelte)$" | awk '{print
 if [ -z "$staged" ]; then
   echo 'no file to lint'
 else
-  if [ "$1" = "fix" ]; then
+  if [ "$1" = "fix"  ] || [ "$1" = "--fix" ]; then
     echo $staged | xargs npm run lint-fix
   else
     echo $staged | xargs npm run lint

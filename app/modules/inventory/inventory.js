@@ -91,22 +91,30 @@ const API = {
   },
 
   showItemFromId (id) {
-    if (!isItemId(id)) return app.execute('show:error:missing')
+    const pathname = `/items/${id}`
+    if (!isItemId(id)) return app.execute('show:error:missing', { pathname })
 
     return app.request('get:item:model', id)
     .then(app.Execute('show:item'))
-    .catch(err => app.execute('show:error', err, 'showItemFromId'))
+    .catch(err => {
+      if (err.statusCode === 404) {
+        return app.execute('show:error:missing', { pathname })
+      } else {
+        app.execute('show:error', err, 'showItemFromId')
+      }
+    })
   },
 
   showUserItemsByEntity (username, uri, label) {
+    const pathname = `/inventory/${username}/${uri}`
     if (!isUsername(username) || !isEntityUri(uri)) {
-      return app.execute('show:error:missing')
+      return app.execute('show:error:missing', { pathname })
     }
 
     const title = label ? `${label} - ${username}` : `${uri} - ${username}`
 
     app.execute('show:loader')
-    app.navigate(`/inventory/${username}/${uri}`, { metadata: { title } })
+    app.navigate(pathname, { metadata: { title } })
 
     return app.request('get:userId:from:username', username)
     .then(userId => app.request('items:getByUserIdAndEntities', userId, uri))

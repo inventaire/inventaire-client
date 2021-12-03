@@ -31,11 +31,15 @@
   }
 }
 .transactionPreview{
-  max-width: 15em;
+  max-width: 20em;
   .showTransaction{
-    @include display-flex(row, center, space-between);
+    @include display-flex(row, center, flex-start);
     @include bg-hover($light-grey);
     padding-right: 0.2em;
+    .text{
+      flex: 1 0 auto;
+      margin-left: 0.5em;
+    }
   }
 }
 .panel{

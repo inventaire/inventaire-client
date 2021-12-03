@@ -36,6 +36,7 @@ if (window.addEventListener != null) {
   window.addEventListener('unhandledrejection', event => {
     const err = event.reason
     console.error(`PossiblyUnhandledRejection: ${err.message}\n\n${err.stack}`, err, err.context)
-    reportError(err)
+    if (window.env === 'dev' && err.name === 'ChunkLoadError') window.reload()
+    else reportError(err)
   })
 }
