@@ -14,6 +14,7 @@ module.exports = {
     sourceType: 'module',
   },
   extends: [
+    'plugin:cypress/recommended',
     // See https://github.com/standard/eslint-config-standard/blob/master/eslintrc.json
     'standard',
     'plugin:svelte/recommended',
