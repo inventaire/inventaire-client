@@ -2,7 +2,7 @@ import ItemsPreviewList from './items_preview_list'
 import itemsPreviewListsTemplate from './templates/items_preview_lists.hbs'
 import '../scss/items_preview_lists.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   className () {
     let className = 'itemsPreviewLists'
     if (this.options.compact) className += ' compact'
@@ -41,14 +41,14 @@ export default Marionette.LayoutView.extend({
     'click .showOnMap': 'showOnMap'
   },
 
-  onShow () {
+  onRender () {
     if (!this.emptyList) this.showItemsPreviewLists()
   },
 
   showItemsPreviewLists () {
     for (const transaction in this.collections) {
       const collection = this.collections[transaction]
-      this[`${transaction}Region`].show(new ItemsPreviewList({
+      this.showChildView(`${transaction}Region`, new ItemsPreviewList({
         transaction,
         collection,
         displayItemsCovers: this.displayItemsCovers,

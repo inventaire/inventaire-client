@@ -13,18 +13,23 @@ import commonParser from '../../lib/parsers/common'
 import extractIsbnsAndFetchData from '../../lib/import/extract_isbns_and_fetch_data'
 import importTemplate from './templates/import_layout.hbs'
 import 'modules/inventory/scss/import_layout.scss'
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
 
 let candidates = null
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'importLayout',
   template: importTemplate,
   behaviors: {
-    AlertBox: {},
-    Loading: {},
-    PreventDefault: {},
-    SuccessCheck: {},
-    ElasticTextarea: {}
+    AlertBox,
+    ElasticTextarea,
+    Loading,
+    PreventDefault,
+    SuccessCheck,
   },
 
   regions: {
@@ -45,7 +50,7 @@ export default Marionette.LayoutView.extend({
     'click #emptyIsbns': 'emptyIsbns'
   },
 
-  childEvents: {
+  childViewEvents: {
     'import:done': 'onImportDone'
   },
 
@@ -59,7 +64,7 @@ export default Marionette.LayoutView.extend({
     candidates = candidates || new Candidates()
   },
 
-  onShow () {
+  onRender () {
     // show the import queue if there were still candidates from last time
     this.showImportQueueUnlessEmpty()
 
@@ -82,12 +87,12 @@ export default Marionette.LayoutView.extend({
 
   showImportQueueUnlessEmpty () {
     if (candidates.length > 0) {
-      if (!this.queue.hasView()) {
-        this.queue.show(new ImportQueue({ candidates }))
+      if (!this.getRegion('queue').hasView()) {
+        this.showChildView('queue', new ImportQueue({ candidates }))
       }
 
       // Run once @ui.importersWrapper is done sliding up
-      this.setTimeout(screen_.scrollTop.bind(null, this.queue.$el), 500)
+      this.setTimeout(screen_.scrollTop.bind(null, this.getRegion('queue').$el), 500)
     }
   },
 

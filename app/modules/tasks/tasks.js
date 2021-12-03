@@ -1,5 +1,5 @@
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'tasks(/)(works)(/)': 'showWorksTask',
@@ -8,10 +8,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.commands.setHandlers({
       'show:task': API.showHumansTask
     })
@@ -30,5 +28,5 @@ const API = {
 
 const showLayout = async params => {
   const { default: TasksLayout } = await import('./views/tasks_layout')
-  return app.layout.main.show(new TasksLayout(params))
+  app.layout.showChildView('main', new TasksLayout(params))
 }

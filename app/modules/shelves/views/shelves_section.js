@@ -3,8 +3,9 @@ import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
 import ShelvesList from './shelves_list'
 import shelvesSectionTemplate from './templates/shelves_section.hbs'
 import '../scss/shelves_section.scss'
+import BackupForm from 'behaviors/backup_form'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'shelvesSection',
   template: shelvesSectionTemplate,
 
@@ -13,7 +14,7 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    BackupForm: {}
+    BackupForm,
   },
 
   events: {
@@ -41,7 +42,7 @@ export default Marionette.LayoutView.extend({
     toggleButtons: '#toggleButtons'
   },
 
-  onShow () {
+  onRender () {
     const { username } = this.options
 
     this.waitForList = getUserId(username)
@@ -76,7 +77,7 @@ export default Marionette.LayoutView.extend({
   showFromModel (docs) {
     if (docs && (docs.length < 1)) return
     this.collection = new Shelves(docs)
-    this.shelvesList.show(new ShelvesList({ collection: this.collection }))
+    this.showChildView('shelvesList', new ShelvesList({ collection: this.collection }))
     if (this.collection.length > 5) this.ui.toggleButtons.removeClass('hidden')
   }
 })

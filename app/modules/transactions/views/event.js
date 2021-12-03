@@ -1,13 +1,14 @@
 import { isOpenedOutside } from 'lib/utils'
 import messageTemplate from './templates/message.hbs'
 import actionTemplate from './templates/action.hbs'
+import PreventDefault from 'behaviors/prevent_default'
 
 // the Event view can have both Message or Action models
 // the interest mixing those is to allow those views to be displayed
 // on chronological order within the transaction timeline
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   initialize () {
@@ -26,7 +27,9 @@ export default Marionette.ItemView.extend({
   setClassNames () {
     if (this.isMessage) {
       this.$el.addClass('message')
-    } else { this.$el.addClass('action') }
+    } else {
+      this.$el.addClass('action')
+    }
   },
 
   serializeData () {

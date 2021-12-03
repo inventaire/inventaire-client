@@ -9,7 +9,7 @@
   import { user } from 'app/modules/user/user_store'
 
   const changePicture = () => {
-    app.layout.modal.show(new PicturePicker({
+    app.layout.showChildView('modal', new PicturePicker({
       context: 'user',
       pictures: $user.picture,
       save: savePicture,

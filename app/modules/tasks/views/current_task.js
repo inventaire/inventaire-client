@@ -2,7 +2,7 @@ import AuthorLayout from 'modules/entities/views/author_layout'
 import WorkInfobox from 'modules/entities/views/work_infobox'
 import currentTaskTemplate from './templates/current_task.hbs'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: currentTaskTemplate,
   serializeData () {
     return _.extend(this.model.serializeData(), { showSourcesLinks: true })
@@ -14,7 +14,7 @@ export default Marionette.LayoutView.extend({
     otherSuggestions: '#otherSuggestions'
   },
 
-  onShow () {
+  onRender () {
     if (this.model.get('entitiesType') === 'human') {
       this.showAuthor('suspect')
       this.showAuthor('suggestion')
@@ -25,7 +25,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showAuthor (name) {
-    return this[name].show(new AuthorLayout({
+    this.showChildView(name, new AuthorLayout({
       model: this.model[name],
       initialWorksListLength: 20,
       wrapWorks: true,
@@ -35,7 +35,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showWork (name) {
-    return this[name].show(new WorkInfobox({
+    this.showChildView(name, new WorkInfobox({
       model: this.model[name]
     }))
   }

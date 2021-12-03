@@ -11,7 +11,7 @@ import topBarTemplate from './templates/top_bar.hbs'
 const mostCompleteFirst = (a, b) => b.completion - a.completion
 const languagesList = _.values(languages).sort(mostCompleteFirst)
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'top-bar',
   tagName: 'nav',
   className () {
@@ -62,7 +62,7 @@ export default Marionette.LayoutView.extend({
   showTopBarButtons () {
     // Use a child view for those buttons to be able to re-render them independenly
     // without disrupting the LiveSearch state
-    this.topBarButtons.show(new TopBarButtons())
+    this.showChildView('topBarButtons', new TopBarButtons())
   },
 
   onRouteChange (section, route) {
@@ -86,7 +86,7 @@ export default Marionette.LayoutView.extend({
     'click #language-picker .option button': 'selectLang',
   },
 
-  childEvents: {
+  childViewEvents: {
     'hide:live:search': 'hideLiveSearch'
   },
 
@@ -96,7 +96,7 @@ export default Marionette.LayoutView.extend({
     if (screen_.isSmall() && ((section === 'signup') || (section === 'login'))) {
       return $('.connectionButton').hide()
     } else if (!app.user.loggedIn) {
-      return $('.connectionButton').show()
+      $('.connectionButton').show()
     }
   },
 
@@ -124,12 +124,14 @@ export default Marionette.LayoutView.extend({
     params = params || {}
     // If a section is specified, reinitialize the search view
     // to take that section request into account
-    if ((this.liveSearch.currentView != null) && (params.section == null)) {
-      this.liveSearch.$el.show()
-    } else { this.liveSearch.show(new LiveSearch(params)) }
-    this.liveSearch.$el.addClass('shown')
-    this.liveSearch.currentView.resetHighlightIndex()
-    this.liveSearch.currentView.showSearchSettings()
+    if ((this.getRegion('liveSearch').currentView != null) && (params.section == null)) {
+      this.getRegion('liveSearch').$el.show()
+    } else {
+      this.showChildView('liveSearch', new LiveSearch(params))
+    }
+    this.getRegion('liveSearch').$el.addClass('shown')
+    this.getRegion('liveSearch').currentView.resetHighlightIndex()
+    this.getRegion('liveSearch').currentView.showSearchSettings()
     this.ui.overlay.removeClass('hidden')
     this.ui.closeSearch.removeClass('hidden')
     this._liveSearchIsShown = true
@@ -139,10 +141,10 @@ export default Marionette.LayoutView.extend({
     // Discard non-boolean flags
     triggerFallbackLayout = (triggerFallbackLayout === true) && (currentRoute() === 'search')
 
-    if (this.liveSearch.$el == null) return
+    if (this.getRegion('liveSearch').$el == null) return
 
-    this.liveSearch.$el.hide()
-    this.liveSearch.$el.removeClass('shown')
+    this.getRegion('liveSearch').$el.hide()
+    this.getRegion('liveSearch').$el.removeClass('shown')
     this.ui.overlay.addClass('hidden')
     this.ui.closeSearch.addClass('hidden')
     this._liveSearchIsShown = false
@@ -183,7 +185,7 @@ export default Marionette.LayoutView.extend({
       if (key === 'esc') {
         return this.hideLiveSearch(true)
       } else {
-        return this.liveSearch.currentView.onSpecialKey(key)
+        return this.getRegion('liveSearch').currentView.onSpecialKey(key)
       }
     } else {
       const { value } = e.currentTarget
@@ -192,8 +194,8 @@ export default Marionette.LayoutView.extend({
   },
 
   searchLive (text) {
-    this.liveSearch.currentView.lazySearch(text)
-    return app.vent.trigger('search:global:change', text)
+    this.getRegion('liveSearch').currentView.lazySearch(text)
+    app.vent.trigger('search:global:change', text)
   },
 
   setQuery (params) {
@@ -211,7 +213,7 @@ export default Marionette.LayoutView.extend({
   // thus the need to recover it
   recoverSearchFocus () {
     this.ui.searchField.focus()
-    this.liveSearch.currentView.hideSearchSettings()
+    this.getRegion('liveSearch').currentView.hideSearchSettings()
   },
 
   closeSearch () {

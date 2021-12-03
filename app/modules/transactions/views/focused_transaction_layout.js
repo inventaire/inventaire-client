@@ -1,37 +1,34 @@
 import { isOpenedOutside } from 'lib/utils'
 import { i18n } from 'modules/user/lib/i18n'
-import behaviorsPlugin from 'modules/general/plugins/behaviors'
-import messagesPlugin from 'modules/general/plugins/messages'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import screen_ from 'lib/screen'
 import Event from './event'
 import focusedTransactionLayout from './templates/focused_transaction_layout.hbs'
 import '../scss/focused_transaction_layout.scss'
+import AlertBox from 'behaviors/alert_box'
+import BackupForm from 'behaviors/backup_form'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import PreventDefault from 'behaviors/prevent_default'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   template: focusedTransactionLayout,
   id: 'focusedTransactionLayout',
   behaviors: {
-    AlertBox: {},
-    ElasticTextarea: {},
-    PreventDefault: {},
-    BackupForm: {}
+    AlertBox,
+    BackupForm,
+    ElasticTextarea,
+    PreventDefault,
   },
 
   initialize () {
     this.collection = this.model.timeline
-    this.initPlugins()
     this.model.beforeShow()
-  },
-
-  initPlugins () {
-    _.extend(this, behaviorsPlugin, messagesPlugin)
   },
 
   serializeData () { return this.model.serializeData() },
 
-  onShow () {
+  onRender () {
     this.model.markAsRead()
     if (screen_.isSmall() && !this.options.nonExplicitSelection) {
       screen_.scrollTop(this.$el)
@@ -64,10 +61,6 @@ export default Marionette.CompositeView.extend({
     // Those anchors being generated within the i18n shortkeys flow
     // that's the best selector we can get
     'click .info a[href^="/items/"]': 'showItem'
-  },
-
-  sendMessage () {
-    this.postMessage('transaction:post:message', this.model.timeline)
   },
 
   accept () { this.updateState('accepted') },
@@ -105,5 +98,36 @@ export default Marionette.CompositeView.extend({
       action: this.model.cancelled.bind(this),
       selector: '.cancel'
     })
-  }
+  },
+
+  sendMessage () {
+    const message = this.ui.message.val()
+    if (!this.validMessageLength(message)) return
+
+    const { id } = this.model
+
+    app.request('transaction:post:message', id, message, this.model.timeline)
+    .catch(this.postMessageFail.bind(this, message))
+
+    // empty textarea
+    this.lazyRender()
+  },
+
+  validMessageLength (message, maxLength = 5000) {
+    if (message.length === 0) return false
+    if (message.length > maxLength) {
+      const err = new Error(`can't be longer than ${maxLength} characters`)
+      this.postMessageFail(message, err)
+      return false
+    }
+    return true
+  },
+
+  postMessageFail (message, err) {
+    this.recoverMessage(message)
+    err.selector = '.alertBox'
+    forms_.alert(this, err)
+  },
+
+  recoverMessage (message) { this.ui.message.val(message) },
 })

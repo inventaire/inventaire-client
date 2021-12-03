@@ -10,6 +10,7 @@ import InventoryCommonNav from 'modules/inventory/views/inventory_common_nav'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import inventoryPublicNavTemplate from './templates/inventory_public_nav.hbs'
 import 'modules/map/scss/position_required.scss'
+import Loading from 'behaviors/loading'
 
 const { showOnMap, showUserOnMap, getBbox, isValidBbox } = map_
 
@@ -18,11 +19,11 @@ export default InventoryCommonNav.extend({
   template: inventoryPublicNavTemplate,
 
   initialize () {
-    this.filter = this.options.filter
+    const { filter } = this.options
 
-    if (this.filter != null) {
-      if (this.filter === 'users') this.hideGroups = true
-      else if (this.filter === 'groups') this.hideUsers = true
+    if (filter != null) {
+      if (filter === 'users') this.hideGroups = true
+      else if (filter === 'groups') this.hideUsers = true
     }
 
     this.users = new FilteredCollection(new Users())
@@ -35,7 +36,7 @@ export default InventoryCommonNav.extend({
   },
 
   behaviors: {
-    Loading: {}
+    Loading,
   },
 
   events: {
@@ -55,8 +56,8 @@ export default InventoryCommonNav.extend({
   onRender () {
     if (app.user.get('position') != null) {
       this.initMap()
-      if (!this.hideUsers) this.showList(this.usersList, this.users)
-      if (!this.hideGroups) this.showList(this.groupsList, this.groups)
+      if (!this.hideUsers) this.showList('usersList', this.users)
+      if (!this.hideGroups) this.showList('groupsList', this.groups)
     }
   },
 

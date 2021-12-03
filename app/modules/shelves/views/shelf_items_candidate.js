@@ -2,8 +2,9 @@ import { isOpenedOutside } from 'lib/utils'
 import forms_ from 'modules/general/lib/forms'
 import * as shelves_ from '../lib/shelves'
 import shelfItemsCandidateTemplate from './templates/shelf_items_candidate.hbs'
+import AlertBox from 'behaviors/alert_box'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   className: 'shelf-items-candidate',
   template: shelfItemsCandidateTemplate,
@@ -14,7 +15,7 @@ export default Marionette.ItemView.extend({
   },
 
   behaviors: {
-    AlertBox: {}
+    AlertBox,
   },
 
   serializeData () {

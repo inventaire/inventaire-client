@@ -6,14 +6,17 @@ import error_ from 'lib/error'
 import mergeEntities from './lib/merge_entities'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import 'modules/entities/scss/merge_homonyms.scss'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: mergeSuggestionTemplate,
   className: 'merge-homonym',
   behaviors: {
-    AlertBox: {},
-    Loading: {},
-    PreventDefault: {}
+    AlertBox,
+    Loading,
+    PreventDefault,
   },
 
   regions: {
@@ -44,7 +47,7 @@ export default Marionette.LayoutView.extend({
     'click .merge': 'merge'
   },
 
-  async onShow () {
+  async onRender () {
     if (this.model.get('type') !== 'human') return
     await this.model.initAuthorWorks()
     if (this.isIntact()) this.showWorks()
@@ -63,7 +66,7 @@ export default Marionette.LayoutView.extend({
 
   _showSubentities (name, collection) {
     this.$el.find(`.${name}Label`).show()
-    this[name].show(new SubentitiesList({ collection, entity: this.model }))
+    this.showChildView(name, new SubentitiesList({ collection, entity: this.model }))
   },
 
   showTask (e) {
@@ -98,7 +101,7 @@ const haveLabelMatch = (suggestion, toEntity) => someMatch(getNormalizedLabels(s
 const getNormalizedLabels = entity => Object.values(entity.get('labels')).map(normalizeLabel)
 const normalizeLabel = label => label.toLowerCase().replace(/\W+/g, '')
 
-const Subentity = Marionette.ItemView.extend({
+const Subentity = Marionette.View.extend({
   className: 'subentity',
   template: mergeSuggestionSubentityTemplate,
   attributes () {

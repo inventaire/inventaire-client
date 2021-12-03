@@ -84,13 +84,13 @@ forms_.alert = function (view, err) {
     message = i18n(errMessage)
   }
 
-  return view.$el.trigger('alert', { message, selector })
+  view.$el.trigger('alert', { message, selector })
 }
 
 forms_.bundleAlert = function (view, message, selector) {
   const err = new Error(message)
   err.selector = selector
-  return forms_.alert(view, err)
+  forms_.alert(view, err)
 }
 
 // format the error to be catched by forms_.catchAlert

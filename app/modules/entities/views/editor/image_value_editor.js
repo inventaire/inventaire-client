@@ -7,6 +7,8 @@ import files_ from 'lib/files'
 import { getImageHashFromDataUrl } from 'lib/images'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import imageValueEditorTemplate from './templates/image_value_editor.hbs'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
 
 const urlInputSelector = '.imageUrl'
 const imagePreviewSelector = '.image-preview'
@@ -16,8 +18,8 @@ export default ClaimsEditorCommons.extend({
   template: imageValueEditorTemplate,
 
   behaviors: {
-    AlertBox: {},
-    Loading: {}
+    AlertBox,
+    Loading,
   },
 
   ui: {

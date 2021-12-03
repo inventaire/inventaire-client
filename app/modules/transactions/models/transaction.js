@@ -66,7 +66,7 @@ export default Backbone.NestedModel.extend({
 
     const prev = this.unreadUpdate
     this.unreadUpdate = this.mainUserRead ? 0 : 1
-    if (this.unreadUpdate !== prev) return app.vent.trigger('transactions:unread:change')
+    if (this.unreadUpdate !== prev) app.vent.trigger('transactions:unread:change')
   },
 
   async grabLinkedModels () {

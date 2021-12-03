@@ -8,7 +8,7 @@ import AutocompleteNoSuggestion from './autocomplete_no_suggestion'
 // keep in sync with app/modules/general/scss/_autocomplete.scss
 const listHeight = 170
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   template: autocompleteSuggestionsTemplate,
   className: 'autocomplete-suggestions',
   childViewContainer: '.results',
@@ -20,7 +20,7 @@ export default Marionette.CompositeView.extend({
     loader: '.loaderWrapper'
   },
 
-  childEvents: {
+  childViewEvents: {
     highlight: 'scrollToHighlightedChild',
     'select:from:click': 'selectFromClick'
   },
@@ -35,9 +35,11 @@ export default Marionette.CompositeView.extend({
   },
 
   // Pass the child view event to the filtered collection
-  selectFromClick (e, model) { return this.collection.trigger('select:from:click', model) },
+  selectFromClick (e, model) {
+    this.collection.trigger('select:from:click', model)
+  },
 
-  onShow () {
+  onRender () {
     // Doesn't work if set in events for some reason
     this.ui.resultsWrapper.on('scroll', this.onResultsScroll.bind(this))
   },
@@ -50,7 +52,7 @@ export default Marionette.CompositeView.extend({
   },
 
   loadMore () {
-    return this.collection.trigger('load:more')
+    this.collection.trigger('load:more')
   },
 
   showLoadingSpinner () {

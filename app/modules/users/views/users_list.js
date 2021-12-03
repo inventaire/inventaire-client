@@ -23,8 +23,8 @@ export default Marionette.CollectionView.extend({
   },
 
   initialize () {
-    const { filter, textFilter } = this.options
-    if (filter != null) this.filter = filter
+    const { viewFilter, textFilter } = this.options
+    if (viewFilter != null) this.viewFilter = viewFilter
 
     if (textFilter) {
       this.on('filter:text', this.setTextFilter.bind(this))
@@ -32,7 +32,7 @@ export default Marionette.CollectionView.extend({
   },
 
   setTextFilter (text) {
-    this.filter = model => model.matches(text)
+    this.viewFilter = view => view.model.matches(text)
     this.render()
   }
 })

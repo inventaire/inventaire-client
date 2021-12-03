@@ -5,8 +5,12 @@ import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import inviteByEmailTemplate from './templates/invite_by_email.hbs'
 import '../scss/invite_by_email.scss'
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import Loading from 'behaviors/loading'
+import SuccessCheck from 'behaviors/success_check'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: inviteByEmailTemplate,
   id: 'inviteByEmail',
 
@@ -22,10 +26,10 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    Loading: {},
-    ElasticTextarea: {},
-    AlertBox: {},
-    SuccessCheck: {}
+    Loading,
+    ElasticTextarea,
+    AlertBox,
+    SuccessCheck,
   },
 
   events: {
@@ -41,12 +45,10 @@ export default Marionette.LayoutView.extend({
     this.groupId = this.group?.id
   },
 
-  onShow () {
-    if (this.group == null) app.execute('modal:open', 'medium')
-  },
-
   onRender () {
-    this.usersAlreadyThereRegion.show(new UsersList({
+    if (this.group == null) app.execute('modal:open', 'medium')
+
+    this.showChildView('usersAlreadyThereRegion', new UsersList({
       collection: this.usersAlreadyThere,
       stretch: false,
       showEmail: true,

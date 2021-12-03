@@ -2,11 +2,13 @@ import { cutBeforeWord } from 'lib/utils'
 import itemViewsCommons from '../lib/items_views_commons'
 import itemCardTemplate from './templates/item_card.hbs'
 import '../scss/item_card.scss'
+import AlertBox from 'behaviors/alert_box'
+import PreventDefault from 'behaviors/prevent_default'
 
 const detailsLimit = 150
 
 // ItemItemView = (inv)Item(Marionette)ItemView
-const ItemItemView = Marionette.ItemView.extend(itemViewsCommons)
+const ItemItemView = Marionette.View.extend(itemViewsCommons)
 
 export default ItemItemView.extend({
   tagName: 'figure',
@@ -16,8 +18,8 @@ export default ItemItemView.extend({
   },
   template: itemCardTemplate,
   behaviors: {
-    PreventDefault: {},
-    AlertBox: {}
+    AlertBox,
+    PreventDefault,
   },
 
   initialize () {

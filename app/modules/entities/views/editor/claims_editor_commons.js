@@ -3,13 +3,14 @@ import EditorCommons from './editor_commons'
 import forms_ from 'modules/general/lib/forms'
 import properties from 'modules/entities/lib/properties'
 import { wait } from 'lib/promises'
+import AlertBox from 'behaviors/alert_box'
 
 // Methods that can't be on editor_commons because ./labels_editor is structured differently:
 // while property values are having an ad-hoc model created, labels just use their entity's
 // label
 export default EditorCommons.extend({
   behaviors: {
-    AlertBox: {}
+    AlertBox,
   },
 
   initEditModeState () {

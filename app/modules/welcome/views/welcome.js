@@ -5,8 +5,12 @@ import * as urls from 'lib/urls'
 import Mentions from './mentions'
 import welcomeTemplate from './templates/welcome.hbs'
 import '../scss/welcome.scss'
+import AlertBox from 'behaviors/alert_box'
+import DeepLinks from 'behaviors/deep_links'
+import Loading from 'behaviors/loading'
+import SuccessCheck from 'behaviors/success_check'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'welcome',
   template: welcomeTemplate,
   regions: {
@@ -23,10 +27,10 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    AlertBox: {},
-    DeepLinks: {},
-    Loading: {},
-    SuccessCheck: {}
+    AlertBox,
+    DeepLinks,
+    Loading,
+    SuccessCheck,
   },
 
   serializeData () {
@@ -45,7 +49,7 @@ export default Marionette.LayoutView.extend({
     landingScreen: '#landingScreen'
   },
 
-  async onShow () {
+  async onRender () {
     this.showPublicItems()
 
     const data = await this.waitForMention
@@ -56,7 +60,8 @@ export default Marionette.LayoutView.extend({
     const limit = window.screen.width < 470 ? 7 : 15
     showPaginatedItems({
       request: 'items:getRecentPublic',
-      region: this.previewColumns,
+      layout: this,
+      regionName: 'previewColumns',
       allowMore: false,
       limit,
       lang: app.user.lang,
@@ -82,7 +87,7 @@ export default Marionette.LayoutView.extend({
 
   showMentions (data) {
     this.triggerMethod('child:view:ready')
-    this.mentions.show(new Mentions({ data }))
+    this.showChildView('mentions', new Mentions({ data }))
   }
 })
 

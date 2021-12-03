@@ -8,9 +8,12 @@ import ItemShelves from './item_shelves'
 import Shelves from 'modules/shelves/collections/shelves'
 import { getShelvesByOwner, getByIds as getShelvesByIds } from 'modules/shelves/lib/shelves'
 import itemViewsCommons from '../lib/items_views_commons'
+import PreventDefault from 'behaviors/prevent_default'
+import General from 'behaviors/general'
+
 const { itemDestroy } = itemViewsCommons
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'itemShowLayout',
   className: 'standalone',
   template: itemShowTemplate,
@@ -30,8 +33,8 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    General: {},
-    PreventDefault: {}
+    General,
+    PreventDefault,
   },
 
   initialize () {
@@ -59,11 +62,8 @@ export default Marionette.LayoutView.extend({
     return attrs
   },
 
-  onShow () {
-    app.execute('modal:open', 'large')
-  },
-
   async onRender () {
+    app.execute('modal:open', 'large')
     this.showItemData()
     this.showShelves()
     const authorsPerProperty = await this.waitForAuthors
@@ -71,7 +71,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showItemData () {
-    this.itemData.show(new ItemShowData({ model: this.model }))
+    this.showChildView('itemData', new ItemShowData({ model: this.model }))
   },
 
   preciseEdition () {
@@ -80,7 +80,7 @@ export default Marionette.LayoutView.extend({
 
     return entity.fetchSubEntities()
     .then(() => {
-      app.layout.modal.show(new EditionsList({
+      app.layout.showChildView('modal', new EditionsList({
         collection: entity.editions,
         work: entity,
         header: 'specify the edition',
@@ -116,7 +116,7 @@ export default Marionette.LayoutView.extend({
       return
     }
 
-    return this.shelvesSelector.show(new ItemShelves({
+    this.showChildView('shelvesSelector', new ItemShelves({
       collection: this.shelves,
       item: this.model,
       mainUserIsOwner: this.model.mainUserIsOwner
@@ -143,7 +143,7 @@ export default Marionette.LayoutView.extend({
   },
 
   itemDestroyBack () {
-    if (this.model.isDestroyed) {
+    if (this.model.hasBeenDeleted) {
       app.execute('modal:close')
     } else {
       app.execute('show:item', this.model)

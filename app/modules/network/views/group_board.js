@@ -7,6 +7,7 @@ import InviteByEmail from './invite_by_email'
 import screen_ from 'lib/screen'
 import groupBoardTemplate from './templates/group_board.hbs'
 import '../scss/group_board.scss'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default GroupLayoutView.extend({
   template: groupBoardTemplate,
@@ -29,7 +30,7 @@ export default GroupLayoutView.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   regions: {
@@ -56,15 +57,18 @@ export default GroupLayoutView.extend({
     return attrs
   },
 
-  events: _.extend({}, GroupLayoutView.prototype.events,
-    { 'click .section-toggler': 'toggleSection' }),
+  events: _.extend({}, GroupLayoutView.prototype.events, {
+    'click .section-toggler': 'toggleSection'
+  }),
 
-  onShow () {
+  async onRender () {
+    await this.model.beforeShow()
+    if (this.isIntact()) this._showBoard()
     if (this.openedSection != null) this.toggleUi(this.openedSection)
   },
 
   showHeader () {
-    return this.header.show(new GroupBoardHeader({ model: this.model }))
+    this.showChildView('header', new GroupBoardHeader({ model: this.model }))
   },
 
   toggleSection (e) {
@@ -100,11 +104,6 @@ export default GroupLayoutView.extend({
     groupEmailInvite: 'showMembersEmailInvitor'
   },
 
-  async onRender () {
-    await this.model.beforeShow()
-    if (this.isIntact()) this._showBoard()
-  },
-
   _showBoard () {
     this.showHeader()
     this.prepareJoinRequests()
@@ -118,7 +117,7 @@ export default GroupLayoutView.extend({
   },
 
   showSettings () {
-    return this.groupSettings.show(new GroupSettings({ model: this.model }))
+    this.showChildView('groupSettings', new GroupSettings({ model: this.model }))
   },
 
   prepareJoinRequests () {
@@ -131,7 +130,7 @@ export default GroupLayoutView.extend({
   },
 
   showJoinRequests () {
-    return this.groupRequests.show(new UsersList({
+    this.showChildView('groupRequests', new UsersList({
       collection: this.model.requested,
       groupContext: true,
       group: this.model,
@@ -140,7 +139,7 @@ export default GroupLayoutView.extend({
   },
 
   showMembers () {
-    return this.groupMembers.show(new UsersList({
+    this.showChildView('groupMembers', new UsersList({
       collection: this.model.members,
       groupContext: true,
       group: this.model
@@ -151,13 +150,14 @@ export default GroupLayoutView.extend({
     const group = this.model
     // TODO: replace UsersSearchLayout by a user list fed with search results
     // that aren't added to the deprecated global users collections
-    return this.groupInvite.show(new UsersSearchLayout({
+    this.showChildView('groupInvite', new UsersSearchLayout({
       stretch: false,
       updateRoute: false,
       groupContext: true,
       group,
       emptyViewMessage: 'no user found',
-      filter (user, index, collection) {
+      viewFilter (view) {
+        const user = view.model
         return group.userStatus(user) !== 'member'
       }
     }))
@@ -166,7 +166,7 @@ export default GroupLayoutView.extend({
   onLeave () { app.execute('show:inventory:group', this.model, true) },
 
   showMembersEmailInvitor () {
-    return this.groupEmailInvite.show(new InviteByEmail({ group: this.model }))
+    this.showChildView('groupEmailInvite', new InviteByEmail({ group: this.model }))
   },
 
   updateRoute () {

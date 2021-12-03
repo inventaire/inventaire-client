@@ -5,7 +5,7 @@ import fetchData from 'lib/data/fetch'
 let lastTransactionId = null
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'transactions(/)': 'showFirstTransaction',
@@ -13,11 +13,9 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
-    this.listenTo(app.vent, 'transaction:select', updateTransactionRoute)
+    app.vent.on('transaction:select', updateTransactionRoute)
 
     app.commands.setHandlers({
       'show:item:request': API.showItemRequestModal,
@@ -30,7 +28,7 @@ export default {
       'transactions:unread:count': unreadCount
     })
 
-    this.listenTo(app.vent, 'transaction:select', API.updateLastTransactionId)
+    app.vent.on('transaction:select', API.updateLastTransactionId)
 
     fetchData({
       name: 'transactions',
@@ -40,7 +38,7 @@ export default {
     .then(app.vent.Trigger('transactions:unread:changes'))
     .catch(log_.Error('transaction init err'))
 
-    return initHelpers()
+    initHelpers()
   }
 }
 
@@ -78,7 +76,7 @@ const API = {
   async showItemRequestModal (model) {
     if (app.request('require:loggedIn', model.get('pathname'))) {
       const { default: RequestItemModal } = await import('./views/request_item_modal')
-      app.layout.modal.show(new RequestItemModal({ model }))
+      app.layout.showChildView('modal', new RequestItemModal({ model }))
     }
   },
 
@@ -87,7 +85,7 @@ const API = {
 
 const showTransactionsLayout = async () => {
   const { default: TransactionsLayout } = await import('./views/transactions_layout')
-  app.layout.main.show(new TransactionsLayout())
+  app.layout.showChildView('main', new TransactionsLayout())
 }
 
 const triggerTransactionSelect = function (id) {

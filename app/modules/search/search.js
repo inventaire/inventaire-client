@@ -5,17 +5,15 @@ import { parseQuery } from 'lib/location'
 import { setPrerenderStatusCode } from 'lib/metadata/update'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'search(/)': 'searchFromQueryString'
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.searchResultsHistory = new SearchResultsHistory()
 
     app.commands.setHandlers({
@@ -35,7 +33,7 @@ const API = {}
 API.search = function (search, section, showFallbackLayout) {
   // Prevent indexation of search pages, by making them appear as duplicates of the home
   setPrerenderStatusCode(302, '')
-  return app.vent.trigger('live:search:query', { search, section, showFallbackLayout })
+  app.vent.trigger('live:search:query', { search, section, showFallbackLayout })
 }
 
 API.searchFromQueryString = function (querystring) {

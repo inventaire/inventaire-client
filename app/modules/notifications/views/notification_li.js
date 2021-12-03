@@ -1,8 +1,9 @@
 import log_ from 'lib/loggers'
 import { isOpenedOutside } from 'lib/utils'
 import { templates } from '../lib/notifications_types'
+import PreventDefault from 'behaviors/prevent_default'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   className () {
     const status = this.model.get('status')
@@ -20,7 +21,7 @@ export default Marionette.ItemView.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   modelEvents: {

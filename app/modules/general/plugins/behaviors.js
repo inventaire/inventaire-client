@@ -5,7 +5,7 @@ import error_ from 'lib/error'
 // behaviors: Loading MUST be added to the view
 // elements required in the view: .loading
 // startLoading / stopLoading MUST NOT be called at view initialization
-// but rathen onShow/onRender so that the expected DOM elements are rendered
+// but rathen onRender so that the expected DOM elements are rendered
 export function startLoading (params) {
   assertViewHasBehavior(this, 'Loading')
   if (_.isString(params)) params = { selector: params }
@@ -51,13 +51,14 @@ export function alert (message) {
 
 const shouldAssertThatViewsHaveBehaviors = window.env === 'dev'
 
+// assertViewHasBehavior can be used for behavior classes
+// where the behaviorName attribute is set
 export const assertViewHasBehavior = function (view, name) {
   if (!shouldAssertThatViewsHaveBehaviors) return
-
   // When the view has no behavior, view._behaviors is an empty object
   if (view._behaviors instanceof Array) {
     for (const behavior of view._behaviors) {
-      if (Object.getPrototypeOf(behavior).constructor.behaviorName === name) return
+      if (behavior.behaviorName === name) return
     }
   }
   throw error_.new(`view misses behavior: ${name}`, 500)

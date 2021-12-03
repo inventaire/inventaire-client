@@ -1,7 +1,7 @@
 import { isOpenedOutside } from 'lib/utils'
 import inventoryNavTemplate from './templates/inventory_nav.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: inventoryNavTemplate,
   initialize () {
     this.section = this.options.section

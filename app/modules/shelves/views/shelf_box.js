@@ -3,7 +3,7 @@ import ShelfItemsAdder from './shelf_items_adder'
 import shelfBoxTemplate from './templates/shelf_box.hbs'
 import '../scss/shelf_box.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'shelfBox',
   template: shelfBoxTemplate,
 
@@ -33,10 +33,10 @@ export default Marionette.ItemView.extend({
   },
 
   showEditor (e) {
-    app.layout.modal.show(new ShelfEditor({ model: this.model }))
+    app.layout.showChildView('modal', new ShelfEditor({ model: this.model }))
   },
 
   addItems () {
-    app.layout.modal.show(new ShelfItemsAdder({ model: this.model }))
+    app.layout.showChildView('modal', new ShelfItemsAdder({ model: this.model }))
   }
 })

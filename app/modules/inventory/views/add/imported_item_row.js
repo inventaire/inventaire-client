@@ -1,7 +1,7 @@
 import { isOpenedOutside } from 'lib/utils'
 import importedItemRowTemplate from './templates/imported_item_row.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   className: 'imported-item-row',
   template: importedItemRowTemplate,

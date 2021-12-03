@@ -1,6 +1,6 @@
 import fixedEntityValueTemplate from './templates/fixed_entity_value.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: fixedEntityValueTemplate,
   className: 'fixed-entity-value fixed-value value-editor-commons',
 
@@ -27,7 +27,7 @@ export default Marionette.ItemView.extend({
     if (valueEntity != null) return valueEntity.toJSON()
   },
 
-  onShow () {
+  onRender () {
     this.listenTo(this.model, 'grab', this.onGrab.bind(this))
   },
 

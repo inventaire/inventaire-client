@@ -12,12 +12,14 @@ import error_ from 'lib/error'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import inventoryBrowserTemplate from './templates/inventory_browser.hbs'
 import 'modules/inventory/scss/inventory_browser.scss'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
 
 const selectorsNames = [ 'author', 'genre', 'subject' ]
 const selectorsRegions = {}
 selectorsNames.forEach(name => { selectorsRegions[`${name}Region`] = `#${name}` })
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'inventory-browser',
   template: inventoryBrowserTemplate,
   regions: _.extend(selectorsRegions, {
@@ -26,8 +28,8 @@ export default Marionette.LayoutView.extend({
   }),
 
   behaviors: {
-    PreventDefault: {},
-    Loading: {}
+    Loading,
+    PreventDefault,
   },
 
   initialize () {
@@ -47,7 +49,7 @@ export default Marionette.LayoutView.extend({
     'click #displayOptions a': 'selectDisplay'
   },
 
-  childEvents: {
+  childViewEvents: {
     'filter:select': 'onFilterSelect'
   },
 
@@ -59,7 +61,7 @@ export default Marionette.LayoutView.extend({
     return data
   },
 
-  onShow () {
+  onRender () {
     this.initBrowser()
   },
 
@@ -77,7 +79,7 @@ export default Marionette.LayoutView.extend({
     // Show the controls all at once
     .then(this.ifViewIsIntact('browserControlsReady'))
 
-    this.filterPreview.show(new FilterPreview())
+    this.showChildView('filterPreview', new FilterPreview())
   },
 
   browserControlsReady () {
@@ -150,7 +152,7 @@ export default Marionette.LayoutView.extend({
   showItemsByDisplayMode () {
     const ItemsList = this.display === 'table' ? ItemsTable : ItemsCascade
     this._lastShownDisplay = this.display
-    this.itemsView.show(new ItemsList(this.itemsViewParams))
+    this.showChildView('itemsView', new ItemsList(this.itemsViewParams))
   },
 
   showEntitySelector (entities, propertyUris, name) {
@@ -161,24 +163,23 @@ export default Marionette.LayoutView.extend({
 
   showSelector (name, models, treeSection) {
     const collection = getSelectorsCollection(models)
-    this[`${name}Region`].show(new BrowserSelector({ name, collection, treeSection }))
+    this.showChildView(`${name}Region`, new BrowserSelector({ name, collection, treeSection }))
   },
 
-  onFilterSelect (selectorView, selectedOption) {
+  onFilterSelect ({ selectorView, selectedOption }) {
     const { selectorName } = selectorView
     assert_.string(selectorName)
     const selectedOptionKey = getSelectedOptionKey(selectedOption, selectorName)
     this.filters[selectorName] = selectedOptionKey
-
     const intersectionWorkUris = getIntersectionWorkUris(this.worksTree, this.filters)
     this.filterSelectors(intersectionWorkUris)
     this.displayFilteredItems(intersectionWorkUris)
-    this.filterPreview.currentView.updatePreview(selectorName, selectedOption)
+    this.getRegion('filterPreview').currentView.updatePreview(selectorName, selectedOption)
   },
 
   filterSelectors (intersectionWorkUris) {
     for (const selectorName of selectorsNames) {
-      const { currentView } = this[`${selectorName}Region`]
+      const { currentView } = this.getRegion(`${selectorName}Region`)
       currentView.filterOptions(intersectionWorkUris)
     }
   },

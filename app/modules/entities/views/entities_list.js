@@ -4,6 +4,8 @@ import EntitiesListAdder from './entities_list_adder'
 import { currentRoute } from 'lib/location'
 import entitiesListTemplate from './templates/entities_list.hbs'
 import '../scss/entities_list.scss'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
 
 // TODO:
 // - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
@@ -49,27 +51,27 @@ export default async function (params) {
   return new EntitiesList(params)
 }
 
-const EntitiesList = Marionette.CompositeView.extend({
+const EntitiesList = Marionette.CollectionView.extend({
   template: entitiesListTemplate,
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''
     return `entitiesList ${standalone}`
   },
   behaviors: {
-    Loading: {},
-    PreventDefault: {}
+    Loading,
+    PreventDefault,
   },
 
   childViewContainer: '.container',
 
-  getChildView (model) {
+  childView (model) {
     const { type } = model
     const View = viewByType[type]
     if (View != null) return View
     const err = error_.new(`unknown entity type: ${type}`, model)
     // Weird: errors thrown here don't appear anyware
     // where are those silently catched?!?
-    console.error('entities_list getChildView err', err, model)
+    console.error('entities_list childView err', err, model)
     throw err
   },
 
@@ -139,7 +141,7 @@ const EntitiesList = Marionette.CompositeView.extend({
   addOne (e) {
     if (!app.request('require:loggedIn', currentRoute())) return
     const { type, parentModel } = this.options
-    app.layout.modal.show(new EntitiesListAdder({
+    app.layout.showChildView('modal', new EntitiesListAdder({
       header: this.addOneLabel,
       type,
       childrenClaimProperty: this.childrenClaimProperty,

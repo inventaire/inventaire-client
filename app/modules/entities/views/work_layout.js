@@ -34,15 +34,7 @@ export default TypedEntityLayout.extend({
   onRender () {
     TypedEntityLayout.prototype.onRender.call(this)
     this.lazyShowItems()
-  },
 
-  serializeData () {
-    return _.extend(this.model.toJSON(), {
-      displayMergeSuggestions: this.displayMergeSuggestions
-    })
-  },
-
-  onShow () {
     // Need to wait to know if the user has an instance of this work
     this.waitForItems
     .then(this.ifViewIsIntact('showEntityActions'))
@@ -51,16 +43,22 @@ export default TypedEntityLayout.extend({
     .then(this.ifViewIsIntact('showEditions'))
   },
 
+  serializeData () {
+    return _.extend(this.model.toJSON(), {
+      displayMergeSuggestions: this.displayMergeSuggestions
+    })
+  },
+
   events: {
     'click a.showWikipediaPreview': 'toggleWikipediaPreview'
   },
 
   showEntityActions () {
-    this.entityActions.show(new EntityActions({ model: this.model }))
+    this.showChildView('entityActions', new EntityActions({ model: this.model }))
   },
 
   showEditions () {
-    this.editionsList.show(new EditionsList({
+    this.showChildView('editionsList', new EditionsList({
       collection: this.model.editions,
       work: this.model,
       onWorkLayout: true
@@ -70,6 +68,6 @@ export default TypedEntityLayout.extend({
   toggleWikipediaPreview () { this.$el.trigger('toggleWikiIframe', this) },
 
   showHomonyms () {
-    app.execute('show:homonyms', { model: this.model, region: this.mergeHomonymsRegion })
+    app.execute('show:homonyms', { model: this.model, layout: this, regionName: 'mergeHomonymsRegion' })
   }
 })

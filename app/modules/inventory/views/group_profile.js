@@ -1,6 +1,9 @@
 import SectionList from './inventory_section_list'
 import { GroupLayoutView } from 'modules/network/views/group_views_commons'
 import groupProfileTemplate from './templates/group_profile.hbs'
+import AlertBox from 'behaviors/alert_box'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
 
 export default GroupLayoutView.extend({
   template: groupProfileTemplate,
@@ -17,9 +20,9 @@ export default GroupLayoutView.extend({
   },
 
   behaviors: {
-    PreventDefault: {},
-    SuccessCheck: {},
-    AlertBox: {}
+    PreventDefault,
+    SuccessCheck,
+    AlertBox,
   },
 
   serializeData () {
@@ -36,17 +39,15 @@ export default GroupLayoutView.extend({
   },
 
   showMembers () {
-    this.membersList.show(new SectionList({ collection: this.model.members, context: 'group', group: this.model }))
+    this.showChildView('membersList', new SectionList({
+      collection: this.model.members,
+      context: 'group',
+      group: this.model
+    }))
   },
 
   getRequestsCount () {
     if (this.model.mainUserIsAdmin()) return this.model.get('requested').length
     else return 0
   },
-
-  childEvents: {
-    select (e, type, model) {
-      return app.vent.trigger('inventory:select', 'member', model)
-    }
-  }
 })

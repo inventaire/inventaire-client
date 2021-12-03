@@ -7,7 +7,7 @@ import initRequests from './requests'
 import initInvitations from './invitations'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'u(sers)/:id/contributions(/)': 'showUserContributions',
@@ -17,10 +17,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.users = initUsersCollections(app)
     initHelpers(app)
     initRequests(app)
@@ -50,7 +48,7 @@ const API = {
       app.navigate(path, { metadata: { title } })
       if (app.request('require:admin:access')) {
         const { default: Contributions } = await import('./views/contributions')
-        return app.layout.main.show(new Contributions({ user }))
+        app.layout.showChildView('main', new Contributions({ user }))
       }
     }
   },

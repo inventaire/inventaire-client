@@ -66,7 +66,7 @@ $arrowHeight: 0.62em;
 .userMarker{
   // (1)
   margin-top: -$userMarkerHeight - $arrowHeight ;
-  margin-left: -$userMarkerWidth/2 + 0.25em;
+  margin-left: -$userMarkerWidth*0.5 + 0.25em;
   position: relative;
   #showPositionPicker, .items-count{
     position: absolute;
@@ -84,7 +84,7 @@ $arrowHeight: 0.62em;
 .groupMarker{
   // (1)
   margin-top: -$groupMarkerHeight - $arrowHeight + 0.25em;
-  margin-left: -$groupMarkerWidth/2 + 0.25em;
+  margin-left: -$groupMarkerWidth*0.5 + 0.25em;
   // Forcing the height to prevent .fa-group to increase the height
   // which, given its absolute position, might be a conflict with leaflet rules
   height: $groupMarkerHeight;
@@ -94,7 +94,7 @@ $arrowHeight: 0.62em;
 .itemMarker{
   // (1)
   margin-top: -$itemMarkerHeight - $arrowHeight + 0.25em;
-  margin-left: -$itemMarkerWidth/2 + 0.25em;
+  margin-left: -$itemMarkerWidth*0.5 + 0.25em;
   min-height: 5.5em;
   min-width:  7em;
   .showItem{

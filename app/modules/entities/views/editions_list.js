@@ -4,13 +4,16 @@ import EditionLi from './edition_li'
 import NoEdition from './no_edition'
 import editionsListTemplate from './templates/editions_list.hbs'
 import '../scss/editions_list.scss'
+import Loading from 'behaviors/loading'
+import AlertBox from 'behaviors/alert_box'
+import PreventDefault from 'behaviors/prevent_default'
 
 const {
   partialData,
   clickEvents
 } = EditionCreation
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   className: 'editions-list',
   template: editionsListTemplate,
   childViewContainer: 'ul',
@@ -25,10 +28,10 @@ export default Marionette.CompositeView.extend({
   },
 
   behaviors: {
-    Loading: {},
+    Loading,
     // Required by editionCreationParial
-    AlertBox: {},
-    PreventDefault: {}
+    AlertBox,
+    PreventDefault,
   },
 
   initialize () {
@@ -37,7 +40,7 @@ export default Marionette.CompositeView.extend({
 
     // Start with user lang as default if there are editions in that language
     if (this.sortByLang && (this.getAvailableLangs().includes(app.user.lang))) {
-      this.filter = LangFilter(app.user.lang)
+      this.viewFilter = LangFilter(app.user.lang)
     }
     this.selectedLang = app.user.lang
 
@@ -95,17 +98,21 @@ export default Marionette.CompositeView.extend({
     'click .edition-creation a': 'dispatchCreationEditionClickEvents'
   },
 
-  filter (child) { return child.get('lang') === app.user.lang },
+  viewFilter (view) {
+    return view.model.get('lang') === app.user.lang
+  },
 
-  filterLanguageFromEvent (e) { return this.filterLanguage(e.currentTarget.value) },
+  filterLanguageFromEvent (e) {
+    return this.filterLanguage(e.currentTarget.value)
+  },
 
   filterLanguage (lang) {
     let needle
     if ((lang === 'all') || ((needle = lang, !this.getAvailableLangs().includes(needle)))) {
-      this.filter = null
+      this.viewFilter = null
       this.selectedLang = 'all'
     } else {
-      this.filter = LangFilter(lang)
+      this.viewFilter = LangFilter(lang)
       this.selectedLang = lang
     }
 
@@ -124,4 +131,8 @@ export default Marionette.CompositeView.extend({
   }
 })
 
-const LangFilter = lang => child => child.get('lang') === lang
+// Generate a filter function that can be used by both collection and view filters
+const LangFilter = lang => model => {
+  model = model.model || model
+  return model.get('lang') === lang
+}

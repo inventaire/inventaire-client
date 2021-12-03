@@ -4,7 +4,7 @@ import NoTransaction from './no_transaction'
 import transactionsListTemplate from './templates/transactions_list.hbs'
 import '../scss/transactions_list.scss'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   template: transactionsListTemplate,
   className: 'transactionList',
   childViewContainer: '.transactions',
@@ -12,7 +12,7 @@ export default Marionette.CompositeView.extend({
   emptyView: NoTransaction,
   initialize () {
     this.folder = this.options.folder
-    this.filter = folders[this.folder].filter
+    this.viewFilter = folders[this.folder].viewFilter
     this.listenTo(app.vent, 'transactions:folder:change', this.render.bind(this))
   },
 

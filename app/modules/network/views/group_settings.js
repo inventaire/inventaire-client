@@ -3,7 +3,6 @@ import { isUserImg } from 'lib/boolean_tests'
 import log_ from 'lib/loggers'
 import { I18n, i18n } from 'modules/user/lib/i18n'
 import groupSettingsTemplate from './templates/group_settings.hbs'
-
 import forms_ from 'modules/general/lib/forms'
 import groups_ from '../lib/groups'
 import error_ from 'lib/error'
@@ -12,6 +11,12 @@ import groupFormData from '../lib/group_form_data'
 import getActionKey from 'lib/get_action_key'
 import { updateLimit } from 'lib/textarea_limit'
 import GroupUrl from '../lib/group_url'
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
+import BackupForm from 'behaviors/backup_form'
+import Toggler from 'behaviors/toggler'
 
 const {
   ui: groupUrlUi,
@@ -19,15 +24,15 @@ const {
   LazyUpdateUrl
 } = GroupUrl
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: groupSettingsTemplate,
   behaviors: {
-    AlertBox: {},
-    ElasticTextarea: {},
-    PreventDefault: {},
-    SuccessCheck: {},
-    BackupForm: {},
-    Toggler: {}
+    AlertBox,
+    ElasticTextarea,
+    PreventDefault,
+    SuccessCheck,
+    BackupForm,
+    Toggler,
   },
 
   initialize () {
@@ -35,7 +40,13 @@ export default Marionette.ItemView.extend({
     this.lazyDescriptionUpdate = _.debounce(updateLimit.bind(this, 'description', 'descriptionLimit', 5000), 200)
   },
 
-  onRender () { this.lazyDescriptionUpdate() },
+  onRender () {
+    this.lazyDescriptionUpdate()
+    this.listenTo(this.model, 'change:picture', this.LazyRenderFocus('#changePicture'))
+    // re-render after a position was selected to display
+    // the new geolocation status
+    this.listenTo(this.model, 'change:position', this.LazyRenderFocus('#showPositionPicker'))
+  },
 
   // Allows to define @_lazyUpdateUrl after events binding
   lazyUpdateUrl () { this._lazyUpdateUrl() },
@@ -99,13 +110,6 @@ export default Marionette.ItemView.extend({
     rollback: 'lazyRender'
   },
 
-  onShow () {
-    this.listenTo(this.model, 'change:picture', this.LazyRenderFocus('#changePicture'))
-    // re-render after a position was selected to display
-    // the new geolocation status
-    this.listenTo(this.model, 'change:position', this.LazyRenderFocus('#showPositionPicker'))
-  },
-
   LazyRenderFocus (focusSelector) { this.lazyRender.bind(this, focusSelector) },
 
   editName () {
@@ -122,7 +126,7 @@ export default Marionette.ItemView.extend({
   },
 
   changePicture () {
-    return app.layout.modal.show(new PicturePicker({
+    app.layout.showChildView('modal', new PicturePicker({
       pictures: this.model.get('picture'),
       save: this._savePicture.bind(this),
       limit: 1,

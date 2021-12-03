@@ -1,12 +1,13 @@
 import { isOpenedOutside } from 'lib/utils'
 import previousSearchTemplate from './templates/previous_search.hbs'
+import PreventDefault from 'behaviors/prevent_default'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: previousSearchTemplate,
   tagName: 'li',
   className: 'previous-search',
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   serializeData () { return this.model.serializeData() },

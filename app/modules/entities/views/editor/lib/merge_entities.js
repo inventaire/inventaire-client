@@ -39,6 +39,6 @@ const importEntityDataToWikidata = async (fromUri, toUri) => {
 const showWikidataDataImporter = async importData => {
   const { default: WikidataDataImporter } = await import('modules/entities/views/wikidata_data_importer')
   return new Promise((resolve, reject) => {
-    app.layout.modal.show(new WikidataDataImporter({ resolve, reject, importData }))
+    app.layout.showChildView('modal', new WikidataDataImporter({ resolve, reject, importData }))
   })
 }

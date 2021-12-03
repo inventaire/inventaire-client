@@ -6,15 +6,19 @@ import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import prepareRedirect from '../lib/prepare_redirect'
 import resetPasswordTemplate from './templates/reset_password.hbs'
 import '../scss/auth_menu.scss'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
+import TogglePassword from 'behaviors/toggle_password'
+import SuccessCheck from 'behaviors/success_check'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'authMenu login',
   template: resetPasswordTemplate,
   behaviors: {
-    AlertBox: {},
-    SuccessCheck: {},
-    Loading: {},
-    TogglePassword: {}
+    AlertBox,
+    SuccessCheck,
+    Loading,
+    TogglePassword,
   },
 
   ui: {

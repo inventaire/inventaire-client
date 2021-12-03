@@ -1,10 +1,11 @@
 import { isOpenedOutside } from 'lib/utils'
 import map_ from '../lib/map'
 import simpleMapTemplate from './templates/simple_map.hbs'
+import PreventDefault from 'behaviors/prevent_default'
 
 const containerId = 'simpleMap'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: simpleMapTemplate,
 
   initialize () {
@@ -12,10 +13,10 @@ export default Marionette.ItemView.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open', 'large', this.options.focus)
     // let the time to the modal to be fully open
     // so that the map can be drawned correctly

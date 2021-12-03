@@ -13,7 +13,7 @@ const showItemsPreviewLists = async function () {
 
   // Happens when app/modules/entities/views/editions_list.js
   // are displayed within work_layout and thus re-redered on filter
-  if (this.isDestroyed) return
+  if (this.isDestroyed()) return
 
   if (app.user.loggedIn) {
     showItemsPreviews.call(this, itemsByCategory, 'personal')
@@ -35,7 +35,7 @@ const showItemsPreviewLists = async function () {
 const showItemsPreviews = function (itemsByCategory, category) {
   const itemsModels = itemsByCategory[category]
   const compact = !this.options.standalone
-  return this[`${category}ItemsRegion`].show(new ItemsPreviewLists({
+  this.showChildView(`${category}ItemsRegion`, new ItemsPreviewLists({
     category,
     itemsModels,
     compact,

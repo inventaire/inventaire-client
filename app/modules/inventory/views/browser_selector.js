@@ -4,7 +4,7 @@ import BrowserSelectorOptions from './browser_selector_options'
 import screen_ from 'lib/screen'
 import browserSelectorTemplate from './templates/browser_selector.hbs'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   className: 'browser-selector',
   attributes () {
     // Value used as a CSS selector: [data-options="0"]
@@ -46,8 +46,8 @@ export default Marionette.LayoutView.extend({
   // Overriden in subclasses
   count () { return this.collection.length },
 
-  onShow () {
-    this.list.show(new BrowserSelectorOptions({ collection: this.collection }))
+  onRender () {
+    this.showChildView('list', new BrowserSelectorOptions({ collection: this.collection }))
   },
 
   events: {
@@ -58,7 +58,7 @@ export default Marionette.LayoutView.extend({
     'click input' (e) { e.stopPropagation() }
   },
 
-  childEvents: {
+  childViewEvents: {
     selectOption: 'selectOption'
   },
 
@@ -73,7 +73,7 @@ export default Marionette.LayoutView.extend({
   showOptions () {
     this.$el.addClass('showOptions')
     this.ui.filterField.focus()
-    return app.vent.trigger('browser:selector:click', this.cid)
+    app.vent.trigger('browser:selector:click', this.cid)
   },
 
   // Pass a view cid if that specific view shouldn't hide its options
@@ -95,7 +95,9 @@ export default Marionette.LayoutView.extend({
 
     if (this.$el.hasClass('showOptions')) {
       this.hideOptions()
-    } else { this.showOptions() }
+    } else {
+      this.showOptions()
+    }
 
     e.stopPropagation()
   },
@@ -147,9 +149,9 @@ export default Marionette.LayoutView.extend({
 
   clickCurrentlySelected () { this.$el.find('.selected').trigger('click') },
 
-  selectOption (view, model) {
+  selectOption (model) {
     this._selectedOption = model
-    this.triggerMethod('filter:select', model)
+    this.triggerMethod('filter:select', { selectorView: this, selectedOption: model })
     const labelSpan = `<span class='label'>${model.get('label')}</span>`
     this.ui.selectedMode.html(labelSpan + icon('times'))
     this.hideOptions()
@@ -158,11 +160,11 @@ export default Marionette.LayoutView.extend({
 
   resetOptions () {
     this._selectedOption = null
-    this.triggerMethod('filter:select', null)
+    this.triggerMethod('filter:select', { selectorView: this, selectedOption: null })
     this.ui.selectorButton.removeClass('active')
     this.hideOptions()
     this.collectionsAction('removeFilter', 'text')
-    return this.updateCounter()
+    this.updateCounter()
   },
 
   treeKeyAttribute: 'uri',
@@ -179,7 +181,7 @@ export default Marionette.LayoutView.extend({
       this.collectionsAction('filterBy', 'intersection', filter)
     }
 
-    return this.updateCounter()
+    this.updateCounter()
   },
 
   _intersectionFilter (treeSection, intersectionWorkUris, model) {

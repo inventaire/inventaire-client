@@ -24,7 +24,7 @@ const ArrayHandler = function (handler) {
     assert_.array(array)
     array = handler(array, value)
     this.set(attr, array)
-    return triggerChange(this, attr, value)
+    triggerChange(this, attr, value)
   }
 }
 
@@ -129,22 +129,12 @@ FilteredCollection.prototype.filterByText = function (text, reset = true) {
   return this.filterBy('text', model => model.matches(filterRegex, rawText))
 }
 
-// The 'update' event will be added when updating to Backbone >= 1.2.0
-// but meanwhile we got to do without it
-// See https://backbonejs.org/#Changelog
-Backbone.Collection.prototype.triggerUpdateEvents = function () {
-  const lazyTriggerUpdate = _.debounce(triggerUpdate.bind(this), 200)
-  this.on('change', lazyTriggerUpdate)
-}
-
-const triggerUpdate = function (...args) {
-  this.trigger('update', ...args)
-}
+// Extend Backbone.View.prototype to extend both Marionette.View and Marionette.CollectionView
 
 // Use in promise chains when the view might be about to be re-rendered
 // and calling would thus trigger error as the method depends on regions
 // being populated (which happens at render), typically in an onRender call.
-Marionette.View.prototype.ifViewIsIntact = function (fn, ...args) {
+Backbone.View.prototype.ifViewIsIntact = function (fn, ...args) {
   return result => {
     // Pass if the view was destroyed or let the onRender hook re-call the function
     if (!this.isIntact()) return
@@ -155,18 +145,40 @@ Marionette.View.prototype.ifViewIsIntact = function (fn, ...args) {
     return fn.apply(this, args)
   }
 }
-Marionette.View.prototype.isIntact = function () {
-  return this.isRendered && !this.isDestroyed
+
+const originalShowChildView = Marionette.View.prototype.showChildView
+
+Marionette.View.prototype.showChildView = function (name, view, options) {
+  originalShowChildView.call(this, name, view, options)
+  const region = this.getRegion(name)
+  const children = region.$el.children()
+  if (children.length > 1) removeObsoleteChildren(children)
+  return view
 }
 
-Marionette.View.prototype.setTimeout = function (fn, timeout) {
+function removeObsoleteChildren (children) {
+  // The latest view is always appended is must thus be the last element
+  const lastIndex = children.length - 1
+  children.each((i, el) => {
+    // Remove all but the last element
+    if (i !== lastIndex) $(el).remove()
+  })
+}
+
+Marionette.CollectionView.prototype.showChildView = Marionette.View.prototype.showChildView
+
+Backbone.View.prototype.isIntact = function () {
+  return this.isRendered() && !this.isDestroyed()
+}
+
+Backbone.View.prototype.setTimeout = function (fn, timeout) {
   const runUnlessViewIsDestroyed = () => {
-    if (!this.isDestroyed) return fn()
+    if (!this.isDestroyed()) return fn()
   }
   return setTimeout(runUnlessViewIsDestroyed, timeout)
 }
 
-Marionette.View.prototype.updateClassName = function () {
+Backbone.View.prototype.updateClassName = function () {
   // Use in 'onRender' hooks to update the view el classes on re-render
   this.$el[0].className = this.className()
 }
@@ -175,9 +187,9 @@ Marionette.View.prototype.updateClassName = function () {
 // aliasing once to one to match Backbone vocabulary
 $.fn.once = $.fn.one
 
-Marionette.View.prototype.displayError = err => app.execute('show:error:other', err)
+Backbone.View.prototype.displayError = err => app.execute('show:error:other', err)
 
-Marionette.View.prototype.lazyRender = function (focusSelector) {
+Backbone.View.prototype.lazyRender = function (focusSelector) {
   if (this.render == null) throw new Error('lazyRender called without view as context')
 
   if (this._lazyRender == null) {
@@ -209,7 +221,7 @@ const specialRegexCharactersRegex = new RegExp(`([${specialRegexCharacters}])`, 
 
 const LazyRender = function (view, timespan = 200) {
   const cautiousRender = function (focusSelector) {
-    if (view.isRendered && !(view.isDestroyed || view._preventRerender)) {
+    if (view.isRendered() && !(view.isDestroyed() || view._preventRerender)) {
       view.render()
       if (_.isString(focusSelector)) view.$el.find(focusSelector).focus()
     }

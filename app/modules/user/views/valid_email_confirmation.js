@@ -1,14 +1,17 @@
 import { Check } from 'modules/general/plugins/behaviors'
 import validEmailConfirmationTemplate from './templates/valid_email_confirmation.hbs'
 import '../scss/valid_email_confirmation.scss'
+import General from 'behaviors/general'
+import Loading from 'behaviors/loading'
+import SuccessCheck from 'behaviors/success_check'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'validEmailConfirmation',
   template: validEmailConfirmationTemplate,
   behaviors: {
-    Loading: {},
-    General: {},
-    SuccessCheck: {}
+    Loading,
+    General,
+    SuccessCheck,
   },
 
   events: {
@@ -17,7 +20,7 @@ export default Marionette.ItemView.extend({
     'click #emailConfirmationRequest': 'emailConfirmationRequest'
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open')
   },
 

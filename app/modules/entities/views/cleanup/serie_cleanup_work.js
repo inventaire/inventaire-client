@@ -7,8 +7,9 @@ import WorkPicker from './work_picker'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
 import serieCleanupWorkTemplate from './templates/serie_cleanup_work.hbs'
+import AlertBox from 'behaviors/alert_box'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   template: serieCleanupWorkTemplate,
   className () {
@@ -31,7 +32,7 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    AlertBox: {}
+    AlertBox,
   },
 
   initialize () {
@@ -67,10 +68,10 @@ export default Marionette.LayoutView.extend({
   },
 
   toggleMergeWorkPicker () {
-    if (this.mergeWorkPicker.currentView != null) {
-      return this.mergeWorkPicker.currentView.$el.toggle()
+    if (this.getRegion('mergeWorkPicker').currentView != null) {
+      this.getRegion('mergeWorkPicker').currentView.$el.toggle()
     } else {
-      return this.mergeWorkPicker.show(new WorkPicker({
+      this.showChildView('mergeWorkPicker', new WorkPicker({
         model: this.model,
         worksWithOrdinal: this.worksWithOrdinal,
         worksWithoutOrdinal: this.worksWithoutOrdinal,
@@ -84,12 +85,12 @@ export default Marionette.LayoutView.extend({
   afterMerge (work) {
     this.worksWithOrdinal.remove(this.model)
     this.worksWithoutOrdinal.remove(this.model)
-    return work.editions.add(this.model.editions.models)
+    work.editions.add(this.model.editions.models)
   },
 
   showWorkAuthors () {
     const { currentAuthorsUris, authorsSuggestionsUris } = this.spreadAuthors()
-    return this.authorsContainer.show(new SerieCleanupAuthors({
+    this.showChildView('authorsContainer', new SerieCleanupAuthors({
       work: this.model,
       currentAuthorsUris,
       authorsSuggestionsUris
@@ -97,7 +98,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showWorkEditions () {
-    return this.editionsContainer.show(new SerieCleanupEditions({
+    this.showChildView('editionsContainer', new SerieCleanupEditions({
       collection: this.model.editions,
       worksWithOrdinal: this.worksWithOrdinal,
       worksWithoutOrdinal: this.worksWithoutOrdinal

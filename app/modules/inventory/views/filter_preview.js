@@ -1,7 +1,7 @@
 import GeneralInfobox from 'modules/entities/views/general_infobox'
 import filterPreviewTemplate from './templates/filter_preview.hbs'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'inner-filter-preview',
   template: filterPreviewTemplate,
   regions: {
@@ -29,29 +29,29 @@ export default Marionette.LayoutView.extend({
   updatePreview (name, model) {
     if ((model == null) || model.isUnknown) return this.removePreview(name)
 
-    const region = this[name]
+    const region = this.getRegion(name)
 
     if (region == null) return
 
     this._activeRegions[name] = true
 
-    region.show(new GeneralInfobox({ model, small: true }))
+    this.showChildView(name, new GeneralInfobox({ model, small: true }))
 
-    return this.highlightPreview(name)
+    this.highlightPreview(name)
   },
 
   highlightPreview (name) {
     this.ui[`${name}PreviewHandler`].addClass('shown')
     this.$el.find('.preview-wrapper.active').removeClass('active')
     // target .preview-wrapper
-    this[name].$el.parent().addClass('active')
+    this.getRegion(name).$el.parent().addClass('active')
     this.$el.addClass('shown')
   },
 
   removePreview (name) {
     this.ui[`${name}PreviewHandler`].removeClass('shown')
     // target .preview-wrapper
-    this[name].$el.parent().removeClass('active')
+    this.getRegion(name).$el.parent().removeClass('active')
     delete this._activeRegions[name]
     const fallbackRegion = Object.keys(this._activeRegions)[0]
     if (fallbackRegion != null) {

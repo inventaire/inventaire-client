@@ -6,17 +6,21 @@ import error_ from 'lib/error'
 import { startLoading, stopLoading, Check } from 'modules/general/plugins/behaviors'
 import positionPickerTemplate from './templates/position_picker.hbs'
 import '../scss/position_picker.scss'
+import AlertBox from 'behaviors/alert_box'
+import General from 'behaviors/general'
+import Loading from 'behaviors/loading'
+import SuccessCheck from 'behaviors/success_check'
 
 const containerId = 'positionPickerMap'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: positionPickerTemplate,
   className: 'positionPicker',
   behaviors: {
-    AlertBox: {},
-    Loading: {},
-    SuccessCheck: {},
-    General: {}
+    AlertBox,
+    General,
+    Loading,
+    SuccessCheck,
   },
 
   events: {
@@ -42,7 +46,7 @@ export default Marionette.ItemView.extend({
     })
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open', 'large', this.options.focus)
     // let the time to the modal to be fully open
     // so that the map can be drawned correctly

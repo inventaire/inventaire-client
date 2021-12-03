@@ -1,7 +1,7 @@
 import PropertyEditor from './property_editor'
 import propertiesEditorTemplate from './templates/properties_editor.hbs'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   className: 'properties-editor',
   template: propertiesEditorTemplate,
   childView: PropertyEditor,
@@ -12,7 +12,7 @@ export default Marionette.CompositeView.extend({
 
     if (this.hasPropertiesShortlist) {
       // set propertiesShortlist to display only a subset of properties by default
-      this.filter = function (child, index, collection) {
+      this.viewFilter = function (child) {
         return propertiesShortlist.includes(child.get('property'))
       }
     }
@@ -26,12 +26,12 @@ export default Marionette.CompositeView.extend({
     'click #showAllProperties': 'showAllProperties'
   },
 
-  onShow () {
+  onRender () {
     if (this.hasPropertiesShortlist) this.ui.showAllProperties.show()
   },
 
   showAllProperties () {
-    this.filter = null
+    this.viewFilter = null
     this.render()
     this.ui.showAllProperties.hide()
   }

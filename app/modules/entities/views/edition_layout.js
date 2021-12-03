@@ -5,7 +5,7 @@ import editionWorkTemplate from './templates/edition_work.hbs'
 import '../scss/edition_commons.scss'
 import '../scss/edition_layout.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: editionLayoutTemplate,
   className: 'edition-commons editionLayout standalone',
   regions: {
@@ -26,21 +26,19 @@ export default Marionette.LayoutView.extend({
     entityItems.initialize.call(this)
   },
 
-  async onShow () {
+  async onRender () {
     this.model.waitForWorks
     .then(works => works.map(work => work.fetchSubEntities()))
     .then(this.ifViewIsIntact('showWorks'))
     .catch(app.Execute('show:error'))
+
+    this.lazyShowItems()
+    this.showEntityActions()
   },
 
   showWorks () {
     const collection = new Backbone.Collection(this.model.works)
-    this.works.show(new EditionWorks({ collection }))
-  },
-
-  onRender () {
-    this.lazyShowItems()
-    this.showEntityActions()
+    this.showChildView('works', new EditionWorks({ collection }))
   },
 
   serializeData () {
@@ -53,11 +51,11 @@ export default Marionette.LayoutView.extend({
 
   showEntityActions () {
     const { itemToUpdate } = this.options
-    this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate }))
+    this.showChildView('entityActions', new EntityActions({ model: this.model, itemToUpdate }))
   }
 })
 
-const EditionWork = Marionette.ItemView.extend({
+const EditionWork = Marionette.View.extend({
   className: 'edition-work',
   template: editionWorkTemplate
 })

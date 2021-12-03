@@ -12,7 +12,7 @@ import { getEntityByUri, normalizeUri } from './lib/entities'
 import showHomonyms from './lib/show_homonyms'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'entity/new(/)': 'showEntityCreateFromRoute',
@@ -29,10 +29,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     setHandlers()
   }
 }
@@ -54,7 +52,7 @@ const API = {
       rejectRemovedPlaceholder(entity)
 
       const view = await getEntityViewByType(entity, refresh)
-      app.layout.main.show(view)
+      app.layout.showChildView('main', view)
       app.navigateFromModel(entity)
     } catch (err) {
       handleMissingEntity(uri, err)
@@ -93,7 +91,7 @@ const API = {
     if (!app.request('require:loggedIn', 'entity/changes')) return
     if (!app.request('require:admin:access')) return
     const { default: Contributions } = await import('modules/users/views/contributions')
-    app.layout.main.show(new Contributions())
+    app.layout.showChildView('main', new Contributions())
     app.navigate('entity/changes', { metadata: { title: i18n('recent changes') } })
   },
 
@@ -168,7 +166,7 @@ const API = {
     if (!app.request('require:admin:access')) return
 
     return getEntityModel(uri, true)
-    .then(model => app.execute('show:homonyms', { model, region: app.layout.main, standalone: true }))
+    .then(model => app.execute('show:homonyms', { model, layout: app.layout, regionName: 'main', standalone: true }))
   },
 
   async showEntityHistory (uri) {
@@ -183,7 +181,7 @@ const API = {
         import('./views/editor/history'),
         model.fetchHistory(uri)
       ])
-      app.layout.main.show(new History({ model, standalone: true, uri }))
+      app.layout.showChildView('main', new History({ model, standalone: true, uri }))
       if (uri === model.get('uri')) {
         app.navigateFromModel(model, 'history')
       // Case where we got a redirected uri
@@ -210,7 +208,7 @@ const showEntityCreate = async params => {
     return showEntityEdit(params)
   } else {
     const { default: EntityCreate } = await import('./views/editor/entity_create')
-    return app.layout.main.show(new EntityCreate(params))
+    app.layout.showChildView('main', new EntityCreate(params))
   }
 }
 
@@ -299,7 +297,7 @@ const getEntityModel = async (uri, refresh) => {
 const getEntityLocalHref = uri => `/entity/${uri}`
 
 const showEntityEdit = async params => {
-  let { model, region } = params
+  const { model } = params
   if (model.type == null) throw error_.new('invalid entity type', model)
   let View
   if (params.next != null || params.previous != null) {
@@ -307,8 +305,7 @@ const showEntityEdit = async params => {
   } else {
     ({ default: View } = await import('./views/editor/entity_edit'))
   }
-  if (!region) region = app.layout.main
-  region.show(new View(params))
+  app.layout.showChildView('main', new View(params))
   app.navigateFromModel(model, 'edit')
 }
 
@@ -332,7 +329,7 @@ const showEntityEditFromModel = async model => {
 
 const showWikidataEditIntroModal = async model => {
   const { default: WikidataEditIntro } = await import('./views/wikidata_edit_intro')
-  app.layout.modal.show(new WikidataEditIntro({ model }))
+  app.layout.showChildView('modal', new WikidataEditIntro({ model }))
 }
 
 const rejectRemovedPlaceholder = function (entity) {
@@ -400,9 +397,9 @@ const showViewByAccessLevel = function (params) {
     if (navigate) app.navigate(path, { metadata: { title } })
     if (app.request(`require:${accessLevel}:access`)) {
       if (View) {
-        app.layout.main.show(new View(viewOptions))
+        app.layout.showChildView('main', new View(viewOptions))
       } else {
-        app.layout.main.showSvelteComponent(Component, {
+        app.layout.getRegion('main').showSvelteComponent(Component, {
           props: componentProps
         })
       }
@@ -429,7 +426,7 @@ const showClaimEntities = async (claim, refresh) => {
 
   const { default: ClaimLayout } = await import('./views/claim_layout')
 
-  app.layout.main.show(new ClaimLayout({ property, value, refresh }))
+  app.layout.showChildView('main', new ClaimLayout({ property, value, refresh }))
 }
 
 const reportTypeIssue = function (params) {
@@ -456,6 +453,6 @@ const showEntityCleanupFromModel = async entity => {
     entity.initSerieParts({ refresh: true, fetchAll: true })
   ])
 
-  app.layout.main.show(new SerieCleanup({ model: entity }))
+  app.layout.showChildView('main', new SerieCleanup({ model: entity }))
   app.navigateFromModel(entity, 'cleanup')
 }

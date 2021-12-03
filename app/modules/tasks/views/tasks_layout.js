@@ -11,10 +11,12 @@ import forms_ from 'modules/general/lib/forms'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
 import tasksLayoutTemplate from './templates/tasks_layout.hbs'
 import '../scss/tasks_layout.scss'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
 
 const previousTasks = []
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'tasksLayout',
   attributes: {
     // Allow the view to be focused by clicking on it, thus being able to listen
@@ -34,11 +36,11 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    AlertBox: {},
-    Loading: {}
+    AlertBox,
+    Loading,
   },
 
-  onShow () {
+  onRender () {
     const { task, entitiesType } = this.options
     if (isModel(task)) {
       this.showTask({ task })
@@ -96,14 +98,14 @@ export default Marionette.LayoutView.extend({
       model.grabSuggestion()
     ])
     .then(() => {
-      this.currentTask.show(new CurrentTask({ model }))
+      this.showChildView('currentTask', new CurrentTask({ model }))
       app.navigateFromModel(model)
       this.focusOnControls()
     })
   },
 
   showNoTask () {
-    this.currentTask.show(new NoTask())
+    this.showChildView('currentTask', new NoTask())
     return this.focusOnControls()
   },
 
@@ -118,7 +120,7 @@ export default Marionette.LayoutView.extend({
         currentTaskModel: model
       })
       if (model.suspect) {
-        this.relativeTasks.show(newRelativeTasks)
+        this.showChildView('relativeTasks', newRelativeTasks)
         return this.updateRelativesCount(model)
       }
     })

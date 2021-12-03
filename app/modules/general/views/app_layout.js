@@ -2,7 +2,6 @@ import log_ from 'lib/loggers'
 import preq from 'lib/preq'
 import waitForCheck from '../lib/wait_for_check'
 import initDocumentLang from '../lib/document_lang'
-import showViews from '../lib/show_views'
 import TopBar from './top_bar'
 import initModal from '../lib/modal'
 import initFlashMessage from '../lib/flash_message'
@@ -10,8 +9,11 @@ import ConfirmationModal from './confirmation_modal'
 import screen_ from 'lib/screen'
 import appLayoutTemplate from './templates/app_layout.hbs'
 import assert_ from 'app/lib/assert_types'
+import Dropdown from 'behaviors/dropdown'
+import General from 'behaviors/general'
+import PreventDefault from 'behaviors/prevent_default'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: appLayoutTemplate,
 
   el: '#app',
@@ -27,25 +29,17 @@ export default Marionette.LayoutView.extend({
     flashMessage: '#flashMessage'
   },
 
-  events: {
-    'click .showEntityEdit': 'showEntityEdit',
-    'click .showEntityCleanup': 'showEntityCleanup',
-    'click .showEntityHistory': 'showEntityHistory',
-  },
-
   behaviors: {
-    General: {},
-    PreventDefault: {},
-    Dropdown: {}
+    Dropdown,
+    General,
+    PreventDefault,
   },
 
   initialize () {
-    _.extend(this, showViews)
-
     this.render()
+
     app.commands.setHandlers({
       'show:loader': this.showLoader,
-      'main:fadeIn' () { return app.layout.main.$el.hide().fadeIn(200) },
       'show:feedback:menu': this.showFeedbackMenu,
       'show:donate:menu': this.showDonateMenu,
       'ask:confirmation': this.askConfirmation.bind(this),
@@ -75,17 +69,17 @@ export default Marionette.LayoutView.extend({
     $('body').on('click', app.vent.Trigger('body:click'))
   },
 
-  // /!\ app_layout is never 'show'n so onShow never gets fired
+  // /!\ app_layout is never 'show'n so onRender never gets fired
   // but it gets rendered
   onRender () {
-    this.topBar.show(new TopBar())
+    this.showChildView('topBar', new TopBar())
   },
 
   askConfirmation (options) {
     const { action, formAction } = options
     assert_.function(action)
     if (formAction != null) assert_.function(formAction)
-    this.modal.show(new ConfirmationModal(options))
+    this.showChildView('modal', new ConfirmationModal(options))
   }
 })
 

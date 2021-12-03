@@ -24,7 +24,9 @@ export default function (params) {
 
   if (latLng != null) {
     map.setView(latLng, zoom)
-  } else { map.fitBounds(bounds) }
+  } else {
+    map.fitBounds(bounds)
+  }
 
   L.tileLayer(tileUrl, settings).addTo(map)
 
@@ -32,7 +34,9 @@ export default function (params) {
 
   if (cluster) {
     initWithCluster(map)
-  } else { initWithoutCluster(map) }
+  } else {
+    initWithoutCluster(map)
+  }
 
   return map
 }

@@ -5,14 +5,17 @@ import ClaimsEditorCommons from './claims_editor_commons'
 import { byProperty as createByProperty } from 'modules/entities/lib/create_entities'
 import autocomplete from 'modules/entities/views/editor/lib/autocomplete'
 import entityValueEditorTemplate from './templates/entity_value_editor.hbs'
+import AlertBox from 'behaviors/alert_box'
+import Tooltip from 'behaviors/tooltip'
+import PreventDefault from 'behaviors/prevent_default'
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'entity-value-editor',
   template: entityValueEditorTemplate,
   behaviors: {
-    AlertBox: {},
-    Tooltip: {},
-    PreventDefault: {}
+    AlertBox,
+    PreventDefault,
+    Tooltip,
   },
 
   ui: {
@@ -61,12 +64,18 @@ export default ClaimsEditorCommons.extend({
     'change:value': 'lazyRender'
   },
 
-  onShow () {
+  onRender () {
     this.listenTo(app.vent, 'entity:value:editor:edit', this.preventMultiEdit.bind(this))
 
     if (this.editMode) {
       this.triggerEditEvent()
       this.ui.input.focus()
+    }
+
+    this.selectIfInEditMode()
+    if (this.editMode) {
+      this.updateInputState()
+      autocomplete.onRender.call(this)
     }
   },
 
@@ -81,14 +90,6 @@ export default ClaimsEditorCommons.extend({
     }
 
     this.lazyRender()
-  },
-
-  onRender () {
-    this.selectIfInEditMode()
-    if (this.editMode) {
-      this.updateInputState()
-      autocomplete.onRender.call(this)
-    }
   },
 
   events: {

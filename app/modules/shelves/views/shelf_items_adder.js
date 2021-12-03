@@ -9,7 +9,7 @@ import '../scss/shelf_items_adder.scss'
 // Like modules/inventory/collections/items.js but without comparator
 const Items = Backbone.Collection.extend({ model: Item })
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   id: 'shelfItemsAdder',
   template: shelfItemsAdderTemplate,
   childViewContainer: '.shelfItemsCandidates',
@@ -31,7 +31,7 @@ export default Marionette.CompositeView.extend({
     this.suggestLastItems()
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open')
     // Doesn't work if set in events for some reason
     this.ui.candidates.on('scroll', this.onScroll.bind(this))

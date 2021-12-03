@@ -1,6 +1,6 @@
 import candidateInfoTemplate from './templates/candidate_info.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: candidateInfoTemplate,
   className: 'candidate-info',
 
@@ -9,7 +9,7 @@ export default Marionette.ItemView.extend({
     this.listenTo(app.vent, 'modal:closed', this.onClose.bind(this))
   },
 
-  onShow () { app.execute('modal:open') },
+  onRender () { app.execute('modal:open') },
 
   ui: {
     title: 'input[name="title"]',

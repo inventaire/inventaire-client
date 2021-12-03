@@ -4,12 +4,13 @@ import { icon } from 'lib/utils'
 import embeddedScannerTemplate from './templates/embedded_scanner.hbs'
 import embedded_ from 'modules/inventory/lib/scanner/embedded'
 import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import Loading from 'behaviors/loading'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: embeddedScannerTemplate,
   className: 'embedded',
   behaviors: {
-    Loading: {}
+    Loading,
   },
 
   ui: {
@@ -26,7 +27,7 @@ export default Marionette.ItemView.extend({
     'click #validateScan': 'validate'
   },
 
-  onShow () {
+  onRender () {
     app.execute('last:add:mode:set', 'scan:embedded')
     // Removing the timeout on the loader as it depend on the time
     // the user takes to give the permission to access the camera
@@ -100,7 +101,9 @@ export default Marionette.ItemView.extend({
     .catch(err => {
       if (err.message.match('entity_not_found')) {
         return this.updateNotFoundCounter(isbn)
-      } else { throw err }
+      } else {
+        throw err
+      }
     })
     .catch(log_.Error('isbn batch pre-cache err'))
   },
@@ -148,7 +151,7 @@ export default Marionette.ItemView.extend({
     const { message, type, displayDelay, displayCondition, displayTime } = params
 
     const showMessage = () => {
-      if (this.isDestroyed) return
+      if (this.isDestroyed()) return
       if ((displayCondition != null) && !displayCondition()) return
 
       this.ui.statusMessage.html(icon(iconPerType[type]) + message)
@@ -159,7 +162,7 @@ export default Marionette.ItemView.extend({
       this._lastMessage = message
 
       const hideMessage = () => {
-        if (this.isDestroyed || (this._lastMessage !== message)) return
+        if (this.isDestroyed() || (this._lastMessage !== message)) return
         this.ui.statusMessage.removeClass('shown')
       }
 
@@ -183,7 +186,7 @@ export default Marionette.ItemView.extend({
 
   updateCounter (count) {
     // Prevent crashing with a 'TypeError: this.ui.totalCounter.text is not a function' error
-    if (this.isDestroyed) return
+    if (this.isDestroyed()) return
     this.ui.totalCounter.text(`(${this.batch.length})`)
     this.ui.validate.addClass('flash')
     this.setTimeout(this.ui.validate.removeClass.bind(this.ui.validate, 'flash'), 1000)
@@ -205,7 +208,7 @@ export default Marionette.ItemView.extend({
   close () {
     // come back to the previous view
     // which should trigger @destroy as the previous view is expected to be shown
-    // in app.layout.main too
+    // in app.layout.getRegion('main') too
     return window.history.back()
   },
 

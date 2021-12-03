@@ -23,15 +23,14 @@ export default {
   },
 
   button (e) {
-    if (e.keyCode === 13) return $(e.currentTarget).trigger('click')
+    if (e.keyCode === 13) $(e.currentTarget).trigger('click')
   }
 }
 
 const clickTarget = function ($target) {
   if ($target.length > 0) {
-    return $target.trigger('click')
-    // log_.info $target, 'enter click target'
+    $target.trigger('click')
   } else {
-    return log_.error('target not found')
+    log_.error('target not found')
   }
 }

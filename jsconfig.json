@@ -6,6 +6,7 @@
       "app/*": [ "*" ],
       "api/*": [ "api/*" ],
       "assets/*": [ "assets/*" ],
+      "behaviors/*": [ "modules/general/behaviors/*" ],
       "lib/*": [ "lib/*" ],
       "modules/*": [ "modules/*" ],
     }

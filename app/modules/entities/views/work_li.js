@@ -4,8 +4,9 @@ import workLiCompactTemplate from './templates/work_li_compact.hbs'
 import '../scss/work_li.scss'
 import '../scss/work_li_compact.scss'
 import { localStorageProxy } from 'lib/local_storage'
+import PreventDefault from 'behaviors/prevent_default'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className () {
     const prefix = this.model.get('prefix')
     if (this.wrap == null) this.wrap = this.options.wrap
@@ -44,7 +45,7 @@ export default Marionette.ItemView.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   ui: {

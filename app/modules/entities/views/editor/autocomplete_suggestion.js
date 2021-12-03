@@ -2,7 +2,7 @@ import autocompleteSuggestionTemplate from './templates/autocomplete_suggestion.
 
 // Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.childview.js
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   className: 'autocomplete-suggestion',
   template: autocompleteSuggestionTemplate,

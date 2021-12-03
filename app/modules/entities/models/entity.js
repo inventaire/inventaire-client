@@ -215,7 +215,7 @@ export default Filterable.extend({
     this.set('allUris', [ this.get('uri') ].concat(uris))
   },
 
-  // To be called by a view onShow:
+  // To be called by a view onRender:
   // updates the document with the entities data
   updateMetadata () {
     return this.waitForData

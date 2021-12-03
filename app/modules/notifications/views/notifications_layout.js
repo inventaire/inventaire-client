@@ -5,20 +5,21 @@ import NotificationLi from './notification_li'
 import NoNotification from './no_notification'
 import notificationsLayoutTemplate from './templates/notifications_layout.hbs'
 import '../scss/notifications_layout.scss'
+import PreventDefault from 'behaviors/prevent_default'
 
 const NotificationsList = Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: NotificationLi,
   emptyView: NoNotification,
 
-  onShow () {
+  onRender () {
     // Wait for the notifications to arrive to mark them as read
     app.request('wait:for', 'user')
     .then(this.collection.markAsRead.bind(this.collection))
   }
 })
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'notificationsLayout',
   template: notificationsLayoutTemplate,
   childViewContainer: 'ul',
@@ -44,10 +45,10 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
-  onShow () {
+  onRender () {
     this.waitForFriendsRequests
     .then(this.ifViewIsIntact('showFriendsRequests'))
 
@@ -64,7 +65,7 @@ export default Marionette.LayoutView.extend({
   showFriendsRequests () {
     if (this.otherRequested.length > 0) {
       this.ui.friendsRequestsSection.removeClass('hidden')
-      return this.friendsRequestsList.show(new UsersList({
+      this.showChildView('friendsRequestsList', new UsersList({
         collection: this.otherRequested,
         emptyViewMessage: 'no pending requests',
         stretch: true
@@ -75,11 +76,11 @@ export default Marionette.LayoutView.extend({
   showGroupsInvitations () {
     if (app.groups.mainUserInvited.length > 0) {
       this.ui.groupsInvitationsSection.removeClass('hidden')
-      return this.groupsInvitationsList.show(new GroupsList({ collection: app.groups.mainUserInvited }))
+      this.showChildView('groupsInvitationsList', new GroupsList({ collection: app.groups.mainUserInvited }))
     }
   },
 
   showNotificationsList () {
-    return this.notificationsList.show(new NotificationsList({ collection: this.notifications }))
+    this.showChildView('notificationsList', new NotificationsList({ collection: this.notifications }))
   }
 })

@@ -11,11 +11,10 @@ export default Marionette.Behavior.extend({
     this._lazyScroll = _.debounce(this.scrollToTarget.bind(this), delay)
   },
 
-  onShow () {
+  onRender () {
     this.alreadyScrolled = false
+    this._lazyScroll()
   },
-
-  onRender () { this._lazyScroll() },
 
   // defining it on the Class to allow event binding
   lazyScroll () { this._lazyScroll() },

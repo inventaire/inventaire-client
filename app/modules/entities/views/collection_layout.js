@@ -23,7 +23,7 @@ export default TypedEntityLayout.extend({
     mergeHomonymsRegion: '.mergeHomonyms'
   },
 
-  onShow () {
+  onRender () {
     this.model.fetchSubEntitiesUris(this.refresh)
     .then(this.ifViewIsIntact('showPaginatedEditions'))
   },
@@ -43,6 +43,6 @@ export default TypedEntityLayout.extend({
       title: 'editions',
       addButtonLabel: 'add an edition to this collection'
     })
-    this.editionsList.show(view)
+    this.showChildView('editionsList', view)
   }
 })

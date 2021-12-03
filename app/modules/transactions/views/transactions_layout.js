@@ -6,7 +6,7 @@ import '../scss/transactions_layout.scss'
 
 const foldersNames = Object.keys(folders)
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   className: 'transactionsLayout',
   template: transactionsLayoutTemplate,
   regions: {
@@ -24,7 +24,7 @@ export default Marionette.LayoutView.extend({
 
   serializeData () { return { folders } },
 
-  onShow () { this.showTransactionsFolders() },
+  onRender () { this.showTransactionsFolders() },
 
   showTransactionsFolders () {
     // every folder share the app.transactions collection
@@ -34,14 +34,14 @@ export default Marionette.LayoutView.extend({
   },
 
   showTransactionList (folder) {
-    this[`${folder}Region`].show(new TransactionsList({
+    this.showChildView(`${folder}Region`, new TransactionsList({
       folder,
       collection: app.transactions
     }))
   },
 
   showTransactionFull (transaction, nonExplicitSelection) {
-    this.fullviewRegion.show(new Transaction({ model: transaction, nonExplicitSelection }))
+    this.showChildView('fullviewRegion', new Transaction({ model: transaction, nonExplicitSelection }))
   },
 
   events: {
@@ -56,7 +56,7 @@ export default Marionette.LayoutView.extend({
 
   async showTransactionWelcome () {
     const { default: TransactionsWelcome } = await import('./transactions_welcome')
-    this.fullviewRegion.show(new TransactionsWelcome())
+    this.showChildView('fullviewRegion', new TransactionsWelcome())
     app.navigate('transactions')
   }
 })

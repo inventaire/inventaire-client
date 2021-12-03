@@ -1,9 +1,11 @@
 import { isOpenedOutside } from 'lib/utils'
-import relationsActions from '../plugins/relations_actions'
+import RelationsActions from '../behaviors/relations_actions'
 import userLiTemplate from './templates/user_li.hbs'
 import '../scss/user_li.scss'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   template: userLiTemplate,
   className () {
@@ -14,8 +16,9 @@ export default Marionette.ItemView.extend({
   },
 
   behaviors: {
-    PreventDefault: {},
-    SuccessCheck: {}
+    PreventDefault,
+    RelationsActions,
+    SuccessCheck,
   },
 
   events: {
@@ -27,18 +30,12 @@ export default Marionette.ItemView.extend({
     // mutualizing the view with user in group context
     this.group = this.options.group
     this.groupContext = this.options.groupContext
-
-    this.initPlugins()
     this.listenTo(app.vent, `inventory:${this.model.id}:change`, this.lazyRender.bind(this))
   },
 
   modelEvents: {
     change: 'lazyRender',
     'group:user:change': 'lazyRender'
-  },
-
-  initPlugins () {
-    relationsActions.call(this)
   },
 
   serializeData () {

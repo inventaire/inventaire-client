@@ -27,7 +27,7 @@ const Results = Backbone.Collection.extend({ model: ResultModel })
 const searchBatchLength = 10
 let searchCount = 0
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   id: 'live-search',
   template: liveSearchTemplate,
   childViewContainer: 'ul.results',
@@ -67,7 +67,7 @@ export default Marionette.CompositeView.extend({
     'click .searchSettingsToggler': 'toggleSearchSettings',
   },
 
-  onShow () {
+  onRender () {
     // Doesn't work if set in events for some reason
     this.ui.resultsWrapper.on('scroll', this.onResultsScroll.bind(this))
   },

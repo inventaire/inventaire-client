@@ -1,7 +1,7 @@
 import CandidateInfo from './candidate_info'
 import candidateRowTemplate from './templates/candidate_row.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   template: candidateRowTemplate,
   className () {
@@ -17,11 +17,8 @@ export default Marionette.ItemView.extend({
     return base
   },
 
-  onShow () {
-    this.listenTo(this.model, 'change', this.lazyRender)
-  },
-
   onRender () {
+    this.listenTo(this.model, 'change', this.lazyRender)
     this.updateClassName()
     this.trigger('selection:changed')
   },
@@ -78,4 +75,4 @@ export default Marionette.ItemView.extend({
   }
 })
 
-const showCandidateInfo = isbn => new Promise((resolve, reject) => app.layout.modal.show(new CandidateInfo({ resolve, reject, isbn })))
+const showCandidateInfo = isbn => new Promise((resolve, reject) => app.layout.showChildView('modal', new CandidateInfo({ resolve, reject, isbn })))

@@ -4,7 +4,7 @@ import authorizeMenuTemplate from './templates/authorize_menu.hbs'
 import { domain, host } from 'app/lib/urls'
 import '../scss/authorize_menu.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'authMenu authorizeMenu',
   template: authorizeMenuTemplate,
 

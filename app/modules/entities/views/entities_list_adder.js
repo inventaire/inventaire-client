@@ -11,7 +11,7 @@ const cantTypeSearch = [
   'edition'
 ]
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   id: 'entitiesListAdder',
   template: entitiesListAdderTemplate,
   childViewContainer: '.entitiesListElementCandidates',
@@ -48,7 +48,7 @@ export default Marionette.CompositeView.extend({
     }
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open', 'medium')
     // Doesn't work if set in events for some reason
     this.ui.candidates.on('scroll', this.onScroll.bind(this))

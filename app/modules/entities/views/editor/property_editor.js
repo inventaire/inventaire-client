@@ -9,6 +9,8 @@ import PositiveIntegerValueEditor from './positive_integer_value_editor'
 import PositiveIntegerStringValueEditor from './positive_integer_string_value_editor'
 import ImageValueEditor from './image_value_editor'
 import propertyEditorTemplate from './templates/property_editor.hbs'
+import AlertBox from 'behaviors/alert_box'
+import PreventDefault from 'behaviors/prevent_default'
 
 const editors = {
   entity: EntityValueEditor,
@@ -21,20 +23,20 @@ const editors = {
   image: ImageValueEditor,
 }
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   className () {
     const specificClass = 'property-editor-' + this.model.get('editorType')
     return `property-editor ${specificClass}`
   },
 
   template: propertyEditorTemplate,
-  getChildView () { return editors[this.model.get('editorType')] },
+  childView () { return editors[this.model.get('editorType')] },
   childViewContainer: '.values',
 
   behaviors: {
     // May be required by customAdd creation partials
-    AlertBox: {},
-    PreventDefault: {}
+    AlertBox,
+    PreventDefault,
   },
 
   initialize () {
@@ -73,7 +75,7 @@ export default Marionette.CompositeView.extend({
     return attrs
   },
 
-  onShow () {
+  onRender () {
     if (this.shouldBeHidden) this.$el.hide()
   },
 

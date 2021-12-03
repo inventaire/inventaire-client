@@ -6,15 +6,19 @@ import error_ from 'lib/error'
 import forms_ from 'modules/general/lib/forms'
 import confirmationModalTemplate from './templates/confirmation_modal.hbs'
 import '../scss/confirmation_modal.scss'
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import General from 'behaviors/general'
+import SuccessCheck from 'behaviors/success_check'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'confirmationModal',
   template: confirmationModalTemplate,
   behaviors: {
-    SuccessCheck: {},
-    AlertBox: {},
-    ElasticTextarea: {},
-    General: {}
+    AlertBox,
+    ElasticTextarea,
+    General,
+    SuccessCheck,
   },
 
   ui: {
@@ -38,7 +42,7 @@ export default Marionette.ItemView.extend({
     'click a#back': 'back'
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open', null, this.options.focus)
     // leave the focus on textarea, if there is one
     if (this.$el.find('#confirmationForm')) { return }

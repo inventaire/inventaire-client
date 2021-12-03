@@ -37,7 +37,7 @@ export default InfiniteScrollItemsList.extend({
     'filtered:add': 'lazyMasonryRefresh'
   },
 
-  childEvents: {
+  childViewEvents: {
     render: 'lazyMasonryRefresh',
     resize: 'lazyMasonryRefresh'
   }

@@ -2,13 +2,14 @@ import versionTemplate from './templates/version.hbs'
 import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 import { isOpenedOutside } from 'lib/utils'
+import AlertBox from 'behaviors/alert_box'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'version',
   template: versionTemplate,
 
   behaviors: {
-    AlertBox: {}
+    AlertBox,
   },
 
   serializeData () { return this.model.serializeData() },

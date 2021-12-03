@@ -4,7 +4,7 @@ import ShelfModel from './models/shelf'
 import { getById } from './lib/shelves'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'shelves(/)(:id)(/)': 'showShelfFromId',
@@ -13,10 +13,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.commands.setHandlers({
       'show:shelf': showShelf
     })
@@ -52,7 +50,7 @@ const showShelfFromModel = async shelf => {
   const { default: InventoryLayout } = await import('../inventory/views/inventory_layout')
   const owner = shelf.get('owner')
   // Passing shelf to display items and passing owner for user profile info
-  app.layout.main.show(new InventoryLayout({
+  app.layout.showChildView('main', new InventoryLayout({
     shelf,
     user: owner,
     standalone: true

@@ -1,11 +1,12 @@
 import { isOpenedOutside } from 'lib/utils'
 import transactionPreviewTemplate from './templates/transaction_preview.hbs'
+import PreventDefault from 'behaviors/prevent_default'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: transactionPreviewTemplate,
   className: 'transactionPreview',
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   initialize () {
@@ -47,7 +48,7 @@ export default Marionette.ItemView.extend({
         // Required to close the ItemShowLayout modal if one was open
         app.execute('modal:close')
       } else {
-        return app.vent.trigger('transaction:select', this.model)
+        app.vent.trigger('transaction:select', this.model)
       }
     }
   },
@@ -55,7 +56,9 @@ export default Marionette.ItemView.extend({
   autoSelect (transac) {
     if (transac === this.model) {
       this.$el.addClass('selected')
-    } else { this.$el.removeClass('selected') }
+    } else {
+      this.$el.removeClass('selected')
+    }
   },
 
   requestContext () {

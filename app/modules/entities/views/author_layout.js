@@ -7,6 +7,7 @@ import AuthorInfobox from './author_infobox'
 import authorLayoutTemplate from './templates/author_layout.hbs'
 import '../scss/entities_layouts.scss'
 import '../scss/author_layout.scss'
+import Loading from 'behaviors/loading'
 
 export default TypedEntityLayout.extend({
   template: authorLayoutTemplate,
@@ -25,7 +26,7 @@ export default TypedEntityLayout.extend({
   },
 
   behaviors: {
-    Loading: {}
+    Loading,
   },
 
   regions: {
@@ -83,7 +84,7 @@ export default TypedEntityLayout.extend({
     if ((seriesCount > 0) || this.standalone) {
       this.showWorkCollection('series', initialWorksListLength)
       // If the author has no series, move the series block down
-      if (seriesCount === 0) this.seriesRegion.$el.css('order', 2)
+      if (seriesCount === 0) this.getRegion('seriesRegion').$el.css('order', 2)
     }
 
     if (this.model.works.articles.totalLength > 0) {
@@ -104,7 +105,7 @@ export default TypedEntityLayout.extend({
       wrapWorks: this.options.wrapWorks,
       addButtonLabel: addButtonLabelPerType[type]
     })
-    this[`${type}Region`].show(view)
+    this.showChildView(`${type}Region`, view)
   }
 })
 

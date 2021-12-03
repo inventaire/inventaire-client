@@ -1,8 +1,9 @@
 import { isOpenedOutside } from 'lib/utils'
 import { i18n } from 'modules/user/lib/i18n'
 import itemPreviewTemplate from './templates/item_preview.hbs'
+import PreventDefault from 'behaviors/prevent_default'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: itemPreviewTemplate,
   className () {
     let className = 'item-preview'
@@ -11,10 +12,10 @@ export default Marionette.ItemView.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
-  onShow () {
+  onRender () {
     if (this.model.user == null) this.model.waitForUser.then(this.lazyRender.bind(this))
   },
 

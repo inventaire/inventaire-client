@@ -3,17 +3,28 @@ import BindedPartialBuilder from 'lib/binded_partial_builder'
 import { updateRouteMetadata } from 'lib/metadata/update'
 import error_ from 'lib/error'
 import { routeSection, currentRoute } from 'lib/location'
-import behaviors from 'modules/general/behaviors/base'
+import { channel, reqres, request, execute } from './radio'
 
 let initialUrlNavigateAlreadyCalled = false
 
 const App = Marionette.Application.extend({
   initialize () {
     Backbone.history.last = []
-    behaviors.initialize()
+
+    // Mapping backbone.radio concepts on the formerly used backbone-wreqr concepts
+    this.vent = channel
+    // `commands` and `requests` now use the same handler store
+    this.reqres = this.commands = reqres
+    // but keep there specific behaviors when called, namely,
+    // `request` returns something
+    this.request = request
+    // `execute` doesn't
+    this.execute = execute
+
     this.Execute = BindedPartialBuilder(this, 'execute')
     this.Request = BindedPartialBuilder(this, 'request')
     this.vent.Trigger = BindedPartialBuilder(this.vent, 'trigger')
+
     this.once('start', onceStart)
 
     const navigateFromModel = function (model, pathAttribute = 'pathname', options = {}) {
@@ -93,27 +104,10 @@ const onPreviousRoute = function () {
   app.execute('modal:close')
 
   const route = currentRoute()
-  return app.vent.trigger('route:change', routeSection(route), route)
+  app.vent.trigger('route:change', routeSection(route), route)
 }
 
 const app = window.app = new App()
-
-const monkeyPatchWreqrHandler = (attribute, handlers) => {
-  const originalFn = app[attribute]
-  app[attribute] = function (handlerKey, ...args) {
-    // Prevent silent errors when a handler is called but hasn't been defined yet
-    if (handlers[handlerKey] == null) {
-      // Not throwing to let a chance to the client to do without it
-      // In case of a 'request', the absence of returned value is likely to make it crash later though
-      error_.report(`wreqr ${attribute} "${handlerKey}" isn't defined`)
-    } else {
-      return originalFn.call(this, handlerKey, ...args)
-    }
-  }
-}
-
-monkeyPatchWreqrHandler('request', app.reqres._wreqrHandlers)
-monkeyPatchWreqrHandler('execute', app.commands._wreqrHandlers)
 
 export default app
 

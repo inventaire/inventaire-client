@@ -1,10 +1,11 @@
 import pictureTemplate from './templates/picture.hbs'
+import Loading from 'behaviors/loading'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'div',
   template: pictureTemplate,
   behaviors: {
-    Loading: {}
+    Loading,
   },
 
   initialize () {

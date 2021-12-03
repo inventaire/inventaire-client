@@ -3,8 +3,9 @@ import tabsData from './lib/add_layout_tabs'
 import screen_ from 'lib/screen'
 import addLayoutTemplate from './templates/add_layout.hbs'
 import 'modules/inventory/scss/add_layout.scss'
+import PreventDefault from 'behaviors/prevent_default'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: addLayoutTemplate,
   id: 'addLayout',
 
@@ -31,14 +32,14 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   events: {
     'click .tab': 'changeTab'
   },
 
-  onShow () {
+  onRender () {
     if (this.loggedIn) {
       this.showTabView(this.options.tab)
     } else {
@@ -58,7 +59,7 @@ export default Marionette.LayoutView.extend({
     const tabKey = `${tab}Tab`
     if (wait) await wait
 
-    this.content.show(new View(this.options))
+    this.showChildView('content', new View(this.options))
     this.ui.tabs.removeClass('active')
     this.ui[tabKey].addClass('active')
     app.navigate(`add/${tab}`, {

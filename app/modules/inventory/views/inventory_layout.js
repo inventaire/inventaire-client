@@ -19,7 +19,7 @@ const navs = {
   public: InventoryPublicNav
 }
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'inventoryLayout',
   template: inventoryLayoutTemplate,
   regions: {
@@ -37,11 +37,11 @@ export default Marionette.LayoutView.extend({
     this.listenTo(app.vent, 'inventory:select', this.showSelectedInventory.bind(this))
   },
 
-  childEvents: {
+  childViewEvents: {
     'close:shelf': 'closeShelf'
   },
 
-  onShow () {
+  onRender () {
     if (this.user != null) {
       this.startFromUser(this.user, this.shelf)
       this.showUserShelves(this.user)
@@ -77,7 +77,7 @@ export default Marionette.LayoutView.extend({
       this.showSectionNav(section, 'user', userModel)
       // Do not scroll when showing the main user's inventory
       // to keep the other nav elements visible
-      if (section !== 'user') scrollToSection(this.userProfile)
+      if (section !== 'user') this.scrollToSection('userProfile')
     })
     .catch(app.Execute('show:error'))
   },
@@ -91,7 +91,7 @@ export default Marionette.LayoutView.extend({
       this.showInventoryNav()
       this.showGroupProfile(groupModel)
       app.navigateFromModel(groupModel)
-      scrollToSection(this.groupProfile)
+      this.scrollToSection('groupProfile')
     })
     .catch(app.Execute('show:error'))
   },
@@ -99,20 +99,20 @@ export default Marionette.LayoutView.extend({
   showShelf (shelf) {
     const itemsDataPromise = getItemsData('shelf', shelf)
     const isMainUser = app.user.id === shelf.get('owner')
-    this.shelfInfo.show(new ShelfBox({ model: shelf }))
-    this.itemsList.show(new InventoryBrowser({ itemsDataPromise, isMainUser }))
-    this.waitForShelvesList.then(() => scrollToSection(this.shelfInfo))
+    this.showChildView('shelfInfo', new ShelfBox({ model: shelf }))
+    this.showChildView('itemsList', new InventoryBrowser({ itemsDataPromise, isMainUser }))
+    this.waitForShelvesList.then(() => this.scrollToSection('shelfInfo'))
   },
 
   showUserShelves (userIdOrModel) {
     this.waitForShelvesList = app.request('resolve:to:userModel', userIdOrModel)
       .then(userModel => {
-        if ((this.shelvesList.currentView != null) && (userModel === this._lastShownUser)) return
+        if ((this.getRegion('shelvesList').currentView != null) && (userModel === this._lastShownUser)) return
         const shelvesCount = userModel.get('shelvesCount')
         if (shelvesCount === 0) return
         const username = userModel.get('username')
-        this.shelvesList.show(new ShelvesSection({ username }))
-        return this.shelvesList.currentView.waitForList
+        this.showChildView('shelvesList', new ShelvesSection({ username }))
+        return this.getRegion('shelvesList').currentView.waitForList
       })
       .catch(app.Execute('show:error'))
   },
@@ -126,7 +126,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showInventoryWelcome () {
-    this.itemsList.show(new InventoryWelcome())
+    this.showChildView('itemsList', new InventoryWelcome())
   },
 
   async showGroupInventory (groupModel) {
@@ -139,21 +139,21 @@ export default Marionette.LayoutView.extend({
     if (!this.isIntact()) return
     this.showUserProfile(memberModel)
     this.showInventoryBrowser('user', memberModel)
-    scrollToSection(this.userProfile)
+    this.scrollToSection('userProfile')
   },
 
   showGroupProfile (groupModel) {
-    this.groupProfile.show(new GroupProfile({ model: groupModel }))
+    this.showChildView('groupProfile', new GroupProfile({ model: groupModel }))
   },
 
   showUserProfile (userModel) {
-    this.userProfile.show(new UserProfile({ model: userModel }))
+    this.showChildView('userProfile', new UserProfile({ model: userModel }))
   },
 
   showInventoryNav (section) {
     if (!app.user.loggedIn) return
     section = !this.standalone || (section === 'user') ? section : undefined
-    this.inventoryNav.show(new InventoryNav({ section }))
+    this.showChildView('inventoryNav', new InventoryNav({ section }))
   },
 
   showSectionNav (section, type, model) {
@@ -162,13 +162,13 @@ export default Marionette.LayoutView.extend({
     if (SectionNav == null) return
     const options = (type != null) && (model != null) ? { [type]: model } : {}
     options.filter = this.options.filter
-    this.sectionNav.show(new SectionNav(options))
+    this.showChildView('sectionNav', new SectionNav(options))
   },
 
   showInventoryBrowser (type, model) {
     const itemsDataPromise = getItemsData(type, model)
     const isMainUser = model?.isMainUser
-    this.itemsList.show(new InventoryBrowser({ itemsDataPromise, isMainUser }))
+    this.showChildView('itemsList', new InventoryBrowser({ itemsDataPromise, isMainUser }))
   },
 
   showSectionLastItems (section) {
@@ -179,7 +179,8 @@ export default Marionette.LayoutView.extend({
     } else {
       showPaginatedItems({
         request: sectionRequest[section],
-        region: this.itemsList,
+        layout: this,
+        regionName: 'itemsList',
         limit: 20,
         allowMore: true,
         showDistance: section === 'public'
@@ -189,8 +190,8 @@ export default Marionette.LayoutView.extend({
 
   closeShelf () {
     this.showInventoryBrowser(this._lastShownType, this._lastShownUser)
-    scrollToSection(this.userProfile)
-    this.shelfInfo.empty()
+    this.scrollToSection('userProfile')
+    this.getRegion('shelfInfo').empty()
     app.navigateFromModel(this._lastShownUser, { preventScrollTop: true })
   },
 
@@ -200,17 +201,17 @@ export default Marionette.LayoutView.extend({
       this._lastShownUser = model
       this.showUserInventory(model)
       this.showUserProfile(model)
-      this.groupProfile.empty()
-      this.shelvesList.empty()
+      this.getRegion('groupProfile').empty()
+      this.getRegion('shelvesList').empty()
       this.showUserShelves(model)
-      scrollToSection(this.userProfile)
+      this.scrollToSection('userProfile')
     } else if (type === 'group') {
       this.showGroupProfile(model)
-      this.userProfile.empty()
-      this.shelfInfo.empty()
-      this.shelvesList.empty()
+      this.getRegion('userProfile').empty()
+      this.getRegion('shelfInfo').empty()
+      this.getRegion('shelvesList').empty()
       this.showGroupInventory(model)
-      scrollToSection(this.groupProfile)
+      this.scrollToSection('groupProfile')
     } else if (type === 'member') {
       this._lastShownType = type
       this._lastShownUser = model
@@ -223,6 +224,10 @@ export default Marionette.LayoutView.extend({
     }
 
     app.navigateFromModel(model, { preventScrollTop: true })
+  },
+
+  scrollToSection (regionName) {
+    screen_.scrollTop({ $el: this.getRegion(regionName).$el, marginTop: 10, delay: 100 })
   }
 })
 
@@ -237,4 +242,3 @@ const sectionRequest = {
   public: 'items:getNearbyItems'
 }
 
-const scrollToSection = region => screen_.scrollTop({ $el: region.$el, marginTop: 10, delay: 100 })

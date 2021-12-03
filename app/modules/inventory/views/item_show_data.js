@@ -5,7 +5,10 @@ import itemShowDataTemplate from './templates/item_show_data.hbs'
 import ItemTransactions from './item_transactions'
 import getActionKey from 'lib/get_action_key'
 import itemViewsCommons from '../lib/items_views_commons'
-const ItemLayout = Marionette.LayoutView.extend(itemViewsCommons)
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+
+const ItemLayout = Marionette.View.extend(itemViewsCommons)
 
 export default ItemLayout.extend({
   id: 'itemShowData',
@@ -15,8 +18,8 @@ export default ItemLayout.extend({
   },
 
   behaviors: {
-    ElasticTextarea: {},
-    AlertBox: {}
+    AlertBox,
+    ElasticTextarea,
   },
 
   initialize () {
@@ -130,6 +133,6 @@ export default ItemLayout.extend({
   },
 
   _showTransactions () {
-    return this.transactionsRegion.show(new ItemTransactions({ collection: this.transactions }))
+    this.showChildView('transactionsRegion', new ItemTransactions({ collection: this.transactions }))
   },
 })

@@ -1,6 +1,6 @@
 import browserSelectorLiTemplate from './templates/browser_selector_li.hbs'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   tagName: 'li',
   className: 'browser-selector-li',
   template: browserSelectorLiTemplate,
@@ -23,5 +23,7 @@ export default Marionette.ItemView.extend({
     click: 'selectOption'
   },
 
-  selectOption () { this.triggerMethod('selectOption', this.model) }
+  selectOption () {
+    this.triggerMethod('selectOption', this.model)
+  }
 })

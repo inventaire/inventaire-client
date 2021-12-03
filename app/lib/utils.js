@@ -178,3 +178,9 @@ export function forceArray (keys) {
 }
 
 export async function asyncNoop () {}
+
+export const bubbleUpChildViewEvent = function (eventName) {
+  return function (...args) {
+    this.triggerMethod(eventName, ...args)
+  }
+}

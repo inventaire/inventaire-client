@@ -2,7 +2,7 @@ import MergeSuggestion from './merge_homonym'
 import NoResult from 'modules/search/views/no_result'
 import mergeHomonymsTemplate from './templates/merge_homonyms.hbs'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   template: mergeHomonymsTemplate,
   className () {
     let className = 'outer-merge-homonyms'

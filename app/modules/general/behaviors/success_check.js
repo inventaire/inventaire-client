@@ -4,6 +4,8 @@ import { icon } from 'lib/utils'
 // elements required in the view: .checkWrapper > .check
 
 export default Marionette.Behavior.extend({
+  behaviorName: 'SuccessCheck',
+
   events: {
     check: 'showSuccessCheck',
     fail: 'showFail'

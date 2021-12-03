@@ -171,10 +171,10 @@ export default Filterable.extend({
     // reproduce the behavior from the default Bacbkone::destroy
     this.trigger('destroy', this, this.collection)
     return preq.post(app.API.items.deleteByIds, { ids: [ this.id ] })
-    .then(tap(() => { this.isDestroyed = true }))
+    .then(tap(() => { this.hasBeenDeleted = true }))
   },
 
-  // to be called by a view onShow:
+  // to be called by a view onRender:
   // updates the document with the item data
   updateMetadata () {
     // start by adding the entity's metadata

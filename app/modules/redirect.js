@@ -6,7 +6,7 @@ import { currentRoute } from 'lib/location'
 import { setPrerenderStatusCode } from 'lib/metadata/update'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         '(home)': 'showHome',
@@ -19,10 +19,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.reqres.setHandlers({
       'require:loggedIn': requireLoggedIn,
       'require:admin:access': requireAdminAccess,
@@ -72,7 +70,7 @@ const API = {
 
   async showWelcome () {
     const { default: Welcome } = await import('modules/welcome/views/welcome')
-    app.layout.main.show(new Welcome())
+    app.layout.showChildView('main', new Welcome())
     app.navigate('welcome')
   },
 
@@ -200,7 +198,7 @@ const showErrorCookieRequired = command => showError({
 
 const showError = async options => {
   const { default: ErrorView } = await import('modules/general/views/error')
-  app.layout.main.show(new ErrorView(options))
+  app.layout.showChildView('main', new ErrorView(options))
   setPrerenderStatusCode(options.statusCode)
   // When the logic leading to the error didn't trigger a new 'navigate' action,
   // hitting 'Back' would bring back two pages before, so we can pass a navigate
@@ -210,10 +208,10 @@ const showError = async options => {
 
 const showCallToConnection = async message => {
   const { default: CallToConnection } = await import('modules/general/views/call_to_connection')
-  app.layout.modal.show(new CallToConnection({ connectionMessage: message }))
+  app.layout.showChildView('modal', new CallToConnection({ connectionMessage: message }))
 }
 
 const showMenuStandalone = function (Menu, titleKey) {
-  app.layout.main.show(new Menu({ standalone: true }))
+  app.layout.showChildView('main', new Menu({ standalone: true }))
   app.navigate(titleKey, { metadata: { title: i18n(titleKey) } })
 }

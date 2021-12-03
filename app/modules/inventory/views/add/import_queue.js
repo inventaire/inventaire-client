@@ -1,6 +1,5 @@
 import log_ from 'lib/loggers'
 import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation'
-import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import error_ from 'lib/error'
 import forms_ from 'modules/general/lib/forms'
 import screen_ from 'lib/screen'
@@ -12,12 +11,16 @@ import ImportedItemRow from './imported_item_row'
 import importQueueTemplate from './templates/import_queue.hbs'
 import 'modules/inventory/scss/item_creation_commons.scss'
 import 'modules/inventory/scss/import_queue.scss'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
+import UpdateSelector from 'modules/inventory/behaviors/update_selector'
+import { bubbleUpChildViewEvent } from 'lib/utils'
 
 const CandidatesQueue = Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: CandidateRow,
-  childEvents: {
-    'selection:changed' () { this.triggerMethod('selection:changed') }
+  childViewEvents: {
+    'selection:changed': bubbleUpChildViewEvent('selection:changed')
   }
 })
 
@@ -26,7 +29,7 @@ const ImportedItemsList = Marionette.CollectionView.extend({
   childView: ImportedItemRow
 })
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   className: 'import-queue',
   template: importQueueTemplate,
 
@@ -52,11 +55,9 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    UpdateSelector: {
-      behaviorClass: UpdateSelector
-    },
-    AlertBox: {},
-    Loading: {}
+    AlertBox,
+    Loading,
+    UpdateSelector,
   },
 
   events: {
@@ -80,9 +81,9 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  onShow () {
-    this.candidatesQueue.show(new CandidatesQueue({ collection: this.candidates }))
-    this.itemsList.show(new ImportedItemsList({ collection: this.items }))
+  onRender () {
+    this.showChildView('candidatesQueue', new CandidatesQueue({ collection: this.candidates }))
+    this.showChildView('itemsList', new ImportedItemsList({ collection: this.items }))
     this.lazyUpdateSteps()
     this.showShelves()
   },
@@ -101,7 +102,7 @@ export default Marionette.LayoutView.extend({
     return this.candidates.reset()
   },
 
-  childEvents: {
+  childViewEvents: {
     'selection:changed': 'lazyUpdateSteps'
   },
 
@@ -140,7 +141,7 @@ export default Marionette.LayoutView.extend({
     // TODO: offer to create shelves from this form instead
     if (shelves.length > 0) {
       const collection = new Shelves(shelves, { selected: selectedShelves })
-      this.shelvesSelector.show(new ItemShelves({
+      this.showChildView('shelvesSelector', new ItemShelves({
         collection,
         selectedShelves,
         mainUserIsOwner: true
@@ -210,7 +211,7 @@ export default Marionette.LayoutView.extend({
       this.candidates.add(this.failed)
       this.failed = []
     }
-    // triggering events on the parent via childEvents
+    // triggering events on the parent via childViewEvents
     this.triggerMethod('import:done')
   },
 
@@ -243,5 +244,7 @@ export default Marionette.LayoutView.extend({
     this.planProgressUpdate()
   },
 
-  onDestroy () { return this.stopProgressUpdate() }
+  onDestroy () {
+    this.stopProgressUpdate()
+  }
 })

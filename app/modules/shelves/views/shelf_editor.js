@@ -3,23 +3,25 @@ import { i18n } from 'modules/user/lib/i18n'
 import { listingsData } from 'modules/inventory/lib/item_creation'
 import forms_ from 'modules/general/lib/forms'
 import getActionKey from 'lib/get_action_key'
-import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import { deleteShelf, updateShelf } from 'modules/shelves/lib/shelves'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import shelfEditorTemplate from './templates/shelf_editor.hbs'
 import '../scss/shelf_editor.scss'
+import AlertBox from 'behaviors/alert_box'
+import BackupForm from 'behaviors/backup_form'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import Loading from 'behaviors/loading'
+import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: shelfEditorTemplate,
 
   behaviors: {
-    AlertBox: {},
-    BackupForm: {},
-    ElasticTextarea: {},
-    Loading: {},
-    UpdateSelector: {
-      behaviorClass: UpdateSelector
-    }
+    AlertBox,
+    BackupForm,
+    ElasticTextarea,
+    Loading,
+    UpdateSelector,
   },
 
   events: {
@@ -33,7 +35,7 @@ export default Marionette.LayoutView.extend({
       { listings: listingsData() })
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open')
     const listing = this.model.get('listing')
     const $el = this.$el.find(`#${listing}`)
@@ -108,7 +110,7 @@ const afterShelfDelete = function (res) {
     return items.forEach(item => {
       const { listing } = item
       if (listing) {
-        return app.user.trigger('items:change', listing, null)
+        app.user.trigger('items:change', listing, null)
       }
     })
   }

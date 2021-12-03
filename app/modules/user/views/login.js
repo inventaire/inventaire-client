@@ -8,8 +8,13 @@ import prepareRedirect from '../lib/prepare_redirect'
 import loginTemplate from './templates/login.hbs'
 import { clickCommand } from 'app/lib/utils'
 import '../scss/auth_menu.scss'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
+import TogglePassword from 'behaviors/toggle_password'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'authMenu login',
   template: loginTemplate,
   events: {
@@ -20,11 +25,11 @@ export default Marionette.ItemView.extend({
   },
 
   behaviors: {
-    Loading: {},
-    SuccessCheck: {},
-    AlertBox: {},
-    TogglePassword: {},
-    PreventDefault: {},
+    Loading,
+    SuccessCheck,
+    AlertBox,
+    TogglePassword,
+    PreventDefault,
   },
 
   ui: {
@@ -37,7 +42,7 @@ export default Marionette.ItemView.extend({
     this.formAction = prepareRedirect.call(this)
   },
 
-  onShow () {
+  onRender () {
     this.ui.username.focus()
   },
 
@@ -81,7 +86,9 @@ export default Marionette.ItemView.extend({
     this.stopLoading()
     if (err.statusCode === 401) {
       return this.alert(this.getErrMessage())
-    } else { throw err }
+    } else {
+      throw err
+    }
   },
 
   getErrMessage () {

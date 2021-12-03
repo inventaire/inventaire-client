@@ -1,11 +1,17 @@
 import { isOpenedOutside } from 'lib/utils'
-import DonateMenu from '../views/donate_menu'
-import FeedbackMenu from '../views/feedback_menu'
+
+// Work around circular dependencies
+let DonateMenu, FeedbackMenu
+const lateImport = async () => {
+  ;({ default: DonateMenu } = await import('../views/donate_menu'))
+  ;({ default: FeedbackMenu } = await import('../views/feedback_menu'))
+}
+setTimeout(lateImport, 0)
 
 export default {
   showLoader () {
     const loader = '<div class="full-screen-loader"><div></div></div>'
-    $(app.layout.main.el).html(loader)
+    $(app.layout.getRegion('main').el).html(loader)
   },
 
   showEntity (e) {
@@ -20,7 +26,7 @@ export default {
   showEntityCleanup (e) { entityAction(e, 'show:entity:cleanup') },
   showEntityHistory (e) { entityAction(e, 'show:entity:history') },
   showDonateMenu () {
-    app.layout.modal.show(new DonateMenu({ navigateOnClose: true }))
+    app.layout.showChildView('modal', new DonateMenu({ navigateOnClose: true }))
     app.navigate('donate')
   },
 
@@ -36,7 +42,7 @@ export default {
       if (!options) options = {}
       // Do not navigate as that's a  mess to go back then
       // and handle the feedback modals with or without dedicated pathnames
-      app.layout.modal.show(new FeedbackMenu(options))
+      app.layout.showChildView('modal', new FeedbackMenu(options))
     }
   }
 }

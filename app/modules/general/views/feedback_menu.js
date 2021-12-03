@@ -2,7 +2,13 @@ import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import { contact } from 'lib/urls'
 import feedbackMenuTemplate from './templates/feedback_menu.hbs'
 import '../scss/feedback.scss'
-export default Marionette.ItemView.extend({
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import General from 'behaviors/general'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
+
+export default Marionette.View.extend({
   template: feedbackMenuTemplate,
   className () {
     const standalone = this.options.standalone ? 'standalone' : ''
@@ -10,11 +16,11 @@ export default Marionette.ItemView.extend({
   },
 
   behaviors: {
-    Loading: {},
-    SuccessCheck: {},
-    ElasticTextarea: {},
-    General: {},
-    PreventDefault: {}
+    ElasticTextarea,
+    General,
+    Loading,
+    PreventDefault,
+    SuccessCheck,
   },
 
   initialize () {
@@ -44,7 +50,7 @@ export default Marionette.ItemView.extend({
     'click a#sendFeedback': 'sendFeedback'
   },
 
-  onShow () { if (!this.standalone) { app.execute('modal:open') } },
+  onRender () { if (!this.standalone) { app.execute('modal:open') } },
 
   sendFeedback () {
     if (this.ui.subject.val().trim().length === 0) return
@@ -84,7 +90,7 @@ export default Marionette.ItemView.extend({
   },
 
   hideConfirmation () {
-    if (this.isDestroyed) return
+    if (this.isDestroyed()) return
     this.ui.confirmation.slideUp()
     this.ui.confirmation.removeAttr('role')
   }

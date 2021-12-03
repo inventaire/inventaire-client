@@ -2,8 +2,9 @@ import { isNonEmptyString } from 'lib/boolean_tests'
 import UsersList from 'modules/users/views/users_list'
 import { startLoading } from 'modules/general/plugins/behaviors'
 import usersSearchLayoutTemplate from './templates/users_search_layout.hbs'
+import Loading from 'behaviors/loading'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'usersSearchLayout',
   template: usersSearchLayoutTemplate,
   regions: {
@@ -11,7 +12,7 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    Loading: {}
+    Loading,
   },
 
   events: {
@@ -33,23 +34,20 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  onShow () {
+  onRender () {
+    startLoading.call(this, '#usersList')
     this.lastQuery = ''
-    this.usersList.show(new UsersList({
+    this.showChildView('usersList', new UsersList({
       collection: this.collection,
       groupContext: this.options.groupContext,
       group: this.options.group,
       emptyViewMessage: this.options.emptyViewMessage,
-      filter: this.options.filter
+      viewFilter: this.options.viewFilter
     }))
 
     // start with .noUser hidden
     // will eventually be re-shown by empty results later
     $('.noUser').hide()
-  },
-
-  onRender () {
-    startLoading.call(this, '#usersList')
   },
 
   initSearch () {

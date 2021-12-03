@@ -5,7 +5,7 @@ import Shelves from 'modules/shelves/collections/shelves'
 import itemsTableSelectionEditorTemplate from './templates/items_table_selection_editor.hbs'
 import '../scss/items_table_selection_editor.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   className: 'items-table-selection-editor',
   template: itemsTableSelectionEditorTemplate,
   events: {
@@ -31,7 +31,7 @@ export default Marionette.LayoutView.extend({
     }
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open')
     this.showShelves()
   },
@@ -70,7 +70,7 @@ export default Marionette.LayoutView.extend({
 
   _showShelves (shelves) {
     const shelvesCollection = new Shelves(shelves)
-    return this.shelvesSelector.show(new ItemShelves({
+    this.showChildView('shelvesSelector', new ItemShelves({
       collection: shelvesCollection,
       itemsIds: this.selectedIds
     }))

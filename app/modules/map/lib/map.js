@@ -31,7 +31,7 @@ const getLeaflet = async () => {
 
 const showPositionPicker = async options => {
   const { default: PositionPicker } = await import('../views/position_picker')
-  app.layout.modal.show(new PositionPicker(options))
+  app.layout.showChildView('modal', new PositionPicker(options))
 }
 
 export default map_ = {
@@ -63,7 +63,9 @@ export default map_ = {
       return map_.showUsersOnMap(map, models)
     } else if (typeName === 'groups') {
       return map_.showGroupsOnMap(map, models)
-    } else { throw error_.new('invalid type', { typeName, map, models }) }
+    } else {
+      throw error_.new('invalid type', { typeName, map, models })
+    }
   },
 
   // Same as the above function, but guesses model type

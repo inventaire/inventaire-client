@@ -12,6 +12,9 @@ import { startLoading } from 'modules/general/plugins/behaviors'
 import propertiesPerType from 'modules/entities/lib/editor/properties_per_type'
 import entityEditTemplate from './templates/entity_edit.hbs'
 import 'modules/entities/scss/entity_edit.scss'
+import AlertBox from 'behaviors/alert_box'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
 
 const typesWithoutLabel = [
   'edition',
@@ -23,13 +26,13 @@ const requiredPropertyPerType = {
   collection: [ 'wdt:P1476', 'wdt:P123' ]
 }
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'entityEdit',
   template: entityEditTemplate,
   behaviors: {
-    AlertBox: {},
-    Loading: {},
-    PreventDefault: {}
+    AlertBox,
+    Loading,
+    PreventDefault,
   },
 
   regions: {
@@ -67,13 +70,13 @@ export default Marionette.LayoutView.extend({
 
   initPropertiesCollections () { this.properties = propertiesCollection(this.model) },
 
-  onShow () {
+  onRender () {
     if (this.requiresLabel) {
-      this.title.show(new LabelsEditor({ model: this.model }))
+      this.showChildView('title', new LabelsEditor({ model: this.model }))
     }
 
     if (this.showAdminSection) {
-      this.admin.show(new AdminSection({ model: this.model }))
+      this.showChildView('admin', new AdminSection({ model: this.model }))
     }
 
     this.waitForPropCollection
@@ -84,7 +87,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showPropertiesEditor () {
-    return this.claims.show(new PropertiesEditor({
+    this.showChildView('claims', new PropertiesEditor({
       collection: this.properties,
       propertiesShortlist: this.model.propertiesShortlist
     }))

@@ -1,7 +1,7 @@
 import SerieCleanupWork from './serie_cleanup_work'
 import serieCleanupWorksTemplate from './templates/serie_cleanup_works.hbs'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   className: 'serie-cleanup-works',
   template: serieCleanupWorksTemplate,
   childViewContainer: '.worksContainer',

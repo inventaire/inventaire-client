@@ -1,7 +1,7 @@
 import { isOpenedOutside } from 'lib/utils'
 import relativeTaskTemplate from './templates/relative_task.hbs'
 
-const RelativeTask = Marionette.ItemView.extend({
+const RelativeTask = Marionette.View.extend({
   tagName: 'a',
   className () {
     let classes = 'relative-task'

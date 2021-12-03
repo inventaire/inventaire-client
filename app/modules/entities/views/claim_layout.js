@@ -8,7 +8,7 @@ import { entity as entityValueTemplate } from 'lib/handlebars_helpers/claims_hel
 import claimLayoutTemplate from './templates/claim_layout.hbs'
 import '../scss/claim_layout.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'claimLayout',
   template: claimLayoutTemplate,
   regions: {
@@ -23,7 +23,7 @@ export default Marionette.LayoutView.extend({
       .then(model => { this.model = model })
   },
 
-  async onShow () {
+  async onRender () {
     this.waitForModel
     .then(this.ifViewIsIntact('showInfobox'))
     .catch(this.displayError)
@@ -38,7 +38,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showInfobox () {
-    this.infobox.show(new GeneralInfobox({ model: this.model }))
+    this.showChildView('infobox', new GeneralInfobox({ model: this.model }))
     // Use the URI from the returned entity as it might have been redirected
     const finalClaim = this.property + '-' + this.model.get('uri')
     app.navigate(`entity/${finalClaim}`)
@@ -66,7 +66,7 @@ export default Marionette.LayoutView.extend({
       addButtonLabel: addButtonLabelPerProperty[this.property]
     })
 
-    this.list.show(view)
+    this.showChildView('list', view)
   }
 })
 

@@ -1,13 +1,14 @@
 import { isImageHash } from 'lib/boolean_tests'
 import { forceArray, isOpenedOutside } from 'lib/utils'
 import resultTemplate from './templates/result.hbs'
+import PreventDefault from 'behaviors/prevent_default'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   className: 'result',
   tagName: 'li',
   template: resultTemplate,
   behaviors: {
-    PreventDefault: {}
+    PreventDefault,
   },
 
   serializeData () {
@@ -46,7 +47,7 @@ export default Marionette.ItemView.extend({
       app.request('search:history:add', { uri, label, type, pictures })
     }
 
-    return app.vent.trigger('live:search:show:result')
+    app.vent.trigger('live:search:show:result')
   },
 
   unhighlight () { this.$el.removeClass('highlight') },

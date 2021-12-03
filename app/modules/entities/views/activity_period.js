@@ -2,7 +2,7 @@ import preq from 'lib/preq'
 import ActivityPeriodRow from './activity_period_row'
 import activityPeriodTemplate from './templates/activity_period.hbs'
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   className: 'activityPeriod',
   template: activityPeriodTemplate,
   childViewContainer: 'tbody',

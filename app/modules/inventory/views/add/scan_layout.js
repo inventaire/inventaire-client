@@ -2,7 +2,7 @@ import embedded_ from 'modules/inventory/lib/scanner/embedded'
 import scanTemplate from './templates/scan_layout.hbs'
 import 'modules/inventory/scss/scan_layout.scss'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   id: 'scanLayout',
   template: scanTemplate,
   initialize () {

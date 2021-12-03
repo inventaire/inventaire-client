@@ -4,7 +4,7 @@ import editionLiTemplate from './templates/edition_li.hbs'
 import '../scss/edition_commons.scss'
 import '../scss/edition_li.scss'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: editionLiTemplate,
   tagName: 'li',
   className: 'edition-commons editionLi',
@@ -40,7 +40,7 @@ export default Marionette.LayoutView.extend({
 
   showEntityActions () {
     if (!this.compactMode) {
-      this.entityActions.show(new EntityActions({ model: this.model, itemToUpdate: this.itemToUpdate }))
+      this.showChildView('entityActions', new EntityActions({ model: this.model, itemToUpdate: this.itemToUpdate }))
     }
   }
 })

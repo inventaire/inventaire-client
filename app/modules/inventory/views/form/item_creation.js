@@ -4,7 +4,6 @@ import EntityDataOverview from 'modules/entities/views/entity_data_overview'
 import ItemShelves from '../item_shelves'
 import { listingsData, transactionsData, getSelectorData } from 'modules/inventory/lib/item_creation'
 import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
-import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 import Shelves from 'modules/shelves/collections/shelves'
 import forms_ from 'modules/general/lib/forms'
 import error_ from 'lib/error'
@@ -12,10 +11,13 @@ import ItemRow from 'modules/inventory/views/item_row'
 import itemCreationTemplate from './templates/item_creation.hbs'
 import 'modules/inventory/scss/item_creation_commons.scss'
 import 'modules/inventory/scss/item_creation.scss'
+import AlertBox from 'behaviors/alert_box'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import UpdateSelector from 'modules/inventory/behaviors/update_selector'
 
 const ItemsList = Marionette.CollectionView.extend({ childView: ItemRow })
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template: itemCreationTemplate,
   className: 'addEntity',
 
@@ -26,11 +28,9 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    ElasticTextarea: {},
-    UpdateSelector: {
-      behaviorClass: UpdateSelector
-    },
-    AlertBox: {}
+    AlertBox,
+    ElasticTextarea,
+    UpdateSelector,
   },
 
   ui: {
@@ -78,7 +78,7 @@ export default Marionette.LayoutView.extend({
     return attrs
   },
 
-  onShow () {
+  onRender () {
     this.showEntityData()
     this.showExistingInstances()
     this.showShelves()
@@ -93,7 +93,7 @@ export default Marionette.LayoutView.extend({
   },
 
   showEntityData () {
-    return this.entityRegion.show(new EntityDataOverview({ model: this.entity }))
+    this.showChildView('entityRegion', new EntityDataOverview({ model: this.entity }))
   },
 
   showExistingInstances () {
@@ -102,7 +102,7 @@ export default Marionette.LayoutView.extend({
       if (existingEntityItems.length === 0) return
       const collection = new Backbone.Collection(existingEntityItems)
       this.$el.find('#existingEntityItemsWarning').show()
-      return this.existingEntityItemsRegion.show(new ItemsList({ collection }))
+      this.showChildView('existingEntityItemsRegion', new ItemsList({ collection }))
     })
   },
 
@@ -117,7 +117,7 @@ export default Marionette.LayoutView.extend({
     // TODO: offer to create shelves from this form instead
     if (shelves.length > 0) {
       const collection = new Shelves(shelves, { selected: selectedShelves })
-      this.shelvesSelector.show(new ItemShelves({
+      this.showChildView('shelvesSelector', new ItemShelves({
         collection,
         selectedShelves,
         mainUserIsOwner: true

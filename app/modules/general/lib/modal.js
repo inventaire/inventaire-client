@@ -23,7 +23,9 @@ export default function () {
 
     if (dark) {
       $modalContent.addClass('dark')
-    } else { $modalContent.removeClass('dark') }
+    } else {
+      $modalContent.removeClass('dark')
+    }
 
     // Focusing is useful for devices with a keyboard, so that you can Tab your way through forms
     // but not for touch only devices
@@ -76,7 +78,7 @@ export default function () {
     // Remove width diff jumps preventing rules
     setWidthJumpPreventingRules('', '')
 
-    const navigateOnClose = app.layout.modal.currentView?.options.navigateOnClose
+    const navigateOnClose = app.layout.getRegion('modal').currentView?.options.navigateOnClose
 
     // goBack is true only when additionnaly to closing the modal
     // no new layout is shown in the main layout: it thus make sense to go back
@@ -90,7 +92,7 @@ export default function () {
   }
 
   const exitModal = function () {
-    app.layout.modal.currentView?.onModalExit?.()
+    app.layout.getRegion('modal').currentView?.onModalExit?.()
     return closeModal()
   }
 

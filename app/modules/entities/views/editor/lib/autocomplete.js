@@ -20,7 +20,7 @@ import { search, loadMoreFromSearch } from './suggestions/search_suggestions'
 export default {
   onRender () {
     if (this.suggestions == null) initializeAutocomplete.call(this)
-    this.suggestionsRegion.show(new AutocompleteSuggestions({ collection: this.suggestions }))
+    this.showChildView('suggestionsRegion', new AutocompleteSuggestions({ collection: this.suggestions }))
     addDefaultSuggestionsUris.call(this)
   },
 
@@ -48,21 +48,21 @@ export default {
   },
 
   showDropdown () {
-    this.suggestionsRegion.$el.show()
+    this.getRegion('suggestionsRegion').$el.show()
   },
 
   hideDropdown () {
-    this.suggestionsRegion.$el.hide()
+    this.getRegion('suggestionsRegion').$el.hide()
     this.ui.input.focus()
   },
 
   showLoadingSpinner (toggleResults = true) {
-    this.suggestionsRegion.currentView.showLoadingSpinner()
+    this.getRegion('suggestionsRegion').currentView.showLoadingSpinner()
     if (toggleResults) this.$el.find('.results').hide()
   },
 
   stopLoadingSpinner (toggleResults = true) {
-    this.suggestionsRegion.currentView.stopLoadingSpinner()
+    this.getRegion('suggestionsRegion').currentView.stopLoadingSpinner()
     if (toggleResults) this.$el.find('.results').show()
   }
 }

@@ -40,7 +40,7 @@ const passwordUpdate = function (currentPassword, newPassword, selector) {
     'current-password': currentPassword,
     'new-password': newPassword
   })
-  .then(() => { if (selector != null) { return $(selector).trigger('check') } })
+  .then(() => { if (selector != null) { $(selector).trigger('check') } })
   .then(formSubmit.bind(null, username, newPassword))
 }
 
@@ -52,7 +52,7 @@ const formSubmit = function (username, password) {
   // to the need to reload the page
   $('#browserLogin').find('input[name=username]').val(username)
   $('#browserLogin').find('input[name=password]').val(password)
-  return $('#browserLogin').trigger('submit')
+  $('#browserLogin').trigger('submit')
 }
 
 const passwordResetRequest = email => preq.post(app.API.auth.resetPassword, { email })

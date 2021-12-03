@@ -1,10 +1,12 @@
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
-import { wait } from '../../../lib/promises'
+import { wait } from 'lib/promises'
+import Loading from 'behaviors/loading'
+
 const alwaysFalse = () => false
 
-export default Marionette.CompositeView.extend({
+export default Marionette.CollectionView.extend({
   behaviors: {
-    Loading: {}
+    Loading,
   },
 
   events: {

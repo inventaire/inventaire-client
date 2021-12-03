@@ -4,7 +4,7 @@ import initGroupHelpers from './lib/group_helpers'
 import fetchData from 'lib/data/fetch'
 
 export default {
-  define (Redirect, app, Backbone, Marionette, $, _) {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'groups/:id/settings(/)': 'showGroupBoard',
@@ -27,10 +27,8 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
-  },
+    new Router({ controller: API })
 
-  initialize () {
     app.commands.setHandlers({
       'show:group:create': API.showCreateGroup,
       'show:group:board': showGroupBoardFromModel,
@@ -78,15 +76,18 @@ const API = {
 
   async showInviteFriendByEmail () {
     const { default: InviteByEmail } = await import('./views/invite_by_email')
-    app.layout.modal.show(new InviteByEmail())
+    app.layout.showChildView('modal', new InviteByEmail())
   },
 
   async showCreateGroupLayout () {
     const { default: CreateGroupLayout } = await import('./views/create_group_layout')
     app.layout.modal.show(new CreateGroupLayout())
+    app.layout.showChildView('modal', new CreateGroupLayout())
   },
 
-  showSearchGroups () { app.execute('show:groups:search') }
+  showSearchGroups () {
+    app.execute('show:groups:search')
+  },
 }
 
 const showGroupBoardFromModel = async (model, options = {}) => {
@@ -96,7 +97,7 @@ const showGroupBoardFromModel = async (model, options = {}) => {
       model.beforeShow()
     ])
     const { openedSection } = options
-    app.layout.main.show(new GroupBoard({ model, standalone: true, openedSection }))
+    app.layout.showChildView('main', new GroupBoard({ model, standalone: true, openedSection }))
     app.navigateFromModel(model, 'boardPathname')
   } else {
     // If the user isnt a member, redirect to the standalone group inventory

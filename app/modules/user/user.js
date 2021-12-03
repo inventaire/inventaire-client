@@ -7,7 +7,7 @@ import userUpdate from './lib/user_update'
 import preq from 'lib/preq'
 
 export default {
-  define () {
+  initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'signup(/)': 'showSignup',
@@ -19,7 +19,7 @@ export default {
       }
     })
 
-    app.addInitializer(() => new Router({ controller: API }))
+    new Router({ controller: API })
 
     initMainUser(app)
     auth(app)
@@ -41,7 +41,7 @@ const showAuth = (name, label, View, options) => {
 
   if (app.user.loggedIn) return app.execute('show:home')
 
-  app.layout.main.show(new View(options))
+  app.layout.showChildView('main', new View(options))
   app.navigate(name, { metadata: { title: I18n(label) } })
 }
 
@@ -60,7 +60,7 @@ const API = {
 
   async showForgotPassword (options) {
     const { default: ForgotPassword } = await import('./views/forgot_password')
-    app.layout.main.show(new ForgotPassword(options))
+    app.layout.showChildView('main', new ForgotPassword(options))
     app.navigate('login/forgot-password', {
       metadata: {
         title: I18n('forgot password')
@@ -71,7 +71,7 @@ const API = {
   async showResetPassword () {
     const { default: ResetPassword } = await import('./views/reset_password')
     if (app.user.loggedIn) {
-      app.layout.main.show(new ResetPassword())
+      app.layout.showChildView('main', new ResetPassword())
       app.navigate('login/reset-password', {
         metadata: {
           title: I18n('reset password')
@@ -91,7 +91,7 @@ const API = {
       if (!(app.request('require:loggedIn', postLoginRedirection))) return
       const client = await getOAuthClient(query.client_id)
       const { default: AuthorizeMenu } = await import('./views/authorize_menu')
-      app.layout.main.show(new AuthorizeMenu({ query, client }))
+      app.layout.showChildView('main', new AuthorizeMenu({ query, client }))
     } catch (err) {
       app.execute('show:error', err)
     }

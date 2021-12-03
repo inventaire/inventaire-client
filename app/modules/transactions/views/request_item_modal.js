@@ -3,16 +3,21 @@ import behaviorsPlugin from 'modules/general/plugins/behaviors'
 import requestItemModalTemplate from './templates/request_item_modal.hbs'
 import { isOpenedOutside } from 'lib/utils'
 import '../scss/request_item_modal.scss'
+import ElasticTextarea from 'behaviors/elastic_textarea'
+import General from 'behaviors/general'
+import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template: requestItemModalTemplate,
   className: 'requestItemModal',
   behaviors: {
-    PreventDefault: {},
-    Loading: {},
-    SuccessCheck: {},
-    ElasticTextarea: {},
-    General: {}
+    ElasticTextarea,
+    General,
+    Loading,
+    PreventDefault,
+    SuccessCheck,
   },
 
   initialize () {
@@ -29,7 +34,7 @@ export default Marionette.ItemView.extend({
     message: '#message'
   },
 
-  onShow () {
+  onRender () {
     app.execute('modal:open')
   },
 

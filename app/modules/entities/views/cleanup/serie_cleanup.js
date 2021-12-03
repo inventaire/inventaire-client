@@ -13,8 +13,11 @@ import spreadPart from './lib/spread_part'
 import moveModelOnOrdinalChange from './lib/move_model_on_ordinal_change'
 import { createPlaceholders, removePlaceholder, removePlaceholdersAbove } from './lib/placeholders'
 import 'modules/entities/scss/serie_cleanup.scss'
+import ImgZoomIn from 'behaviors/img_zoom_in'
+import Loading from 'behaviors/loading'
+import Toggler from 'behaviors/toggler'
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   id: 'serieCleanup',
   template: serieCleanupTemplate,
 
@@ -36,9 +39,9 @@ export default Marionette.LayoutView.extend({
   },
 
   behaviors: {
-    Toggler: {},
-    ImgZoomIn: {},
-    Loading: {}
+    Toggler,
+    ImgZoomIn,
+    Loading,
   },
 
   initialize () {
@@ -124,7 +127,7 @@ export default Marionette.LayoutView.extend({
   showWorkList (options) {
     const { name, label, alwaysShow, showPossibleOrdinals } = options
     if (!alwaysShow && (this[name].length === 0)) return
-    return this[`${name}Region`].show(new SerieCleanupWorks({
+    this.showChildView(`${name}Region`, new SerieCleanupWorks({
       name,
       label,
       collection: this[name],
@@ -227,7 +230,7 @@ export default Marionette.LayoutView.extend({
     const addToSerie = spreadPart.bind(this)
     const collection = await getPartsSuggestions(serie)
     if (!this.isIntact()) return
-    this.partsSuggestionsRegion.show(new PartsSuggestions({
+    this.showChildView('partsSuggestionsRegion', new PartsSuggestions({
       collection,
       addToSerie,
       serie,
@@ -242,7 +245,7 @@ export default Marionette.LayoutView.extend({
     if (editions.length === 0) return
     this.ui.isolatedEditionsWrapper.removeClass('hidden')
     const collection = new Backbone.Collection(editions)
-    this.isolatedEditionsRegion.show(new SerieCleanupEditions({
+    this.showChildView('isolatedEditionsRegion', new SerieCleanupEditions({
       collection,
       worksWithOrdinal: this.worksWithOrdinal,
       worksWithoutOrdinal: this.worksWithoutOrdinal
