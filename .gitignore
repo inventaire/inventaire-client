@@ -49,3 +49,4 @@ scripts/assets/bundles_stats/
 scripts/assets/bundles_archives/
 config/local.cjs
 jsconfig.json
+tests/cypress/cypress.json

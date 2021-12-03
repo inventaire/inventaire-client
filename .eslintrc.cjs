@@ -6,18 +6,21 @@ module.exports = {
   env: {
     browser: true,
     commonjs: false,
-    es2020: true
+    es2020: true,
+    'cypress/globals': true,
   },
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2020
   },
   extends: [
+    'plugin:cypress/recommended',
     // See https://github.com/standard/eslint-config-standard/blob/master/eslintrc.json
-    'standard'
+    'standard',
   ],
   plugins: [
-    'svelte3'
+    'cypress',
+    'svelte3',
   ],
   rules: {
     'array-bracket-spacing': [ 'error', 'always' ],
