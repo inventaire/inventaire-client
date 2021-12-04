@@ -28,6 +28,7 @@ export default Marionette.View.extend({
   },
 
   onRender () {
+    this.displayAboveTopBar()
     app.execute('last:add:mode:set', 'scan:embedded')
     // Removing the timeout on the loader as it depend on the time
     // the user takes to give the permission to access the camera
@@ -214,7 +215,18 @@ export default Marionette.View.extend({
 
   setStopScannerCallback (fn) { this.stopScanner = fn },
 
-  onDestroy () { this.stopScanner?.() }
+  onDestroy () {
+    this.stopScanner?.()
+    this.resetDisplay()
+  },
+
+  displayAboveTopBar () {
+    app.layout.getRegion('main').$el.css('z-index', '2')
+  },
+
+  resetDisplay () {
+    app.layout.getRegion('main').$el.css('z-index', '0')
+  },
 })
 
 const iconPerType = {
