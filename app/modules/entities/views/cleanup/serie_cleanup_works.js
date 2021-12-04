@@ -10,9 +10,9 @@ export default Marionette.CollectionView.extend({
     return { sectionLabel: this.options.label }
   },
 
-  filter (child) {
+  viewFilter (child) {
     if (this.options.name !== 'withOrdinal') return true
-    const ordinal = child.get('ordinal')
+    const ordinal = child.model.get('ordinal')
     return (ordinal != null) && (ordinal !== 0)
   },
 

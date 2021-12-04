@@ -14,5 +14,7 @@ export default Marionette.CollectionView.extend({
   viewComparator: 'label',
   // Filter-out composite editions as it would be a mess to handle the work picker
   // with several existing work claims
-  filter (child) { return child.get('claims.wdt:P629')?.length === 1 }
+  viewFilter (child) {
+    return child.model.get('claims.wdt:P629')?.length === 1
+  }
 })
