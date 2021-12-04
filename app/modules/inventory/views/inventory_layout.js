@@ -174,8 +174,7 @@ export default Marionette.View.extend({
   showSectionLastItems (section) {
     if (section === 'public' && app.user.get('position') == null) {
       // Hide loading spinner
-      // (somehow not accessible from this.itemsList.$el)
-      $('#itemsList').hide()
+      this.getRegion('itemsList').empty()
     } else {
       showPaginatedItems({
         request: sectionRequest[section],
