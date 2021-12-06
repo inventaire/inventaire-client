@@ -17,7 +17,7 @@ export default Marionette.View.extend({
   },
 
   highlight () {
-    this.trigger('highlight')
+    this.trigger('highlight', this)
     this.$el.addClass('active')
   },
 
