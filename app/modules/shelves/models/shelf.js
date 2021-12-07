@@ -1,4 +1,4 @@
-import { getColorSquareDataUriFromModelId } from 'lib/images'
+import { getColorHexCodeFromModelId, getColorSquareDataUri } from 'lib/images'
 
 import error_ from 'lib/error'
 
@@ -13,9 +13,11 @@ export default Backbone.Model.extend({
       type: 'shelf'
     })
 
-    if (this.get('picture') == null) {
-      this.set('picture', getColorSquareDataUriFromModelId(this.get('_id')))
+    if (this.get('color') == null) {
+      const colorHexCode = getColorHexCodeFromModelId(this.get('_id'))
+      this.set('color', colorHexCode)
     }
+    this.setDerivedAttributes()
 
     // The listing is only known for the main user's shelves
     const shelfListing = this.get('listing')
@@ -26,6 +28,12 @@ export default Backbone.Model.extend({
         label: listingKeys.label
       })
     }
+
+    this.on('change:color', this.setDerivedAttributes.bind(this))
+  },
+
+  setDerivedAttributes () {
+    this.set('picture', getColorSquareDataUri(this.get('color')))
   },
 
   updateMetadata () {

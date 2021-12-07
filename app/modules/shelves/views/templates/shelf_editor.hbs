@@ -16,6 +16,10 @@
     <label for="visibilityBox">{{i18n 'visibility'}}</label>
     {{> 'inventory:form:button_group' listings}}
   </div>
+  <div class="color">
+    <label for="shelfColorPicker">{{i18n 'color'}}</label>
+    <input id="shelfColorPicker" type="color" value="{{color}}">
+  </div>
   <div class="has-alertbox"></div>
   <div class="buttons">
     {{#unless isNewShelf}}

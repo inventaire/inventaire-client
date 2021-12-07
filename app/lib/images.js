@@ -87,16 +87,19 @@ export function getNonResizedUrl (url) {
   return url.replace(/\/img\/users\/\d+x\d+\//, '/img/')
 }
 
-export function getColorSquareDataUri (colorHash) {
+export function getColorSquareDataUri (colorHexCode) {
+  colorHexCode = normalizeColorHexCode(colorHexCode)
   // Using the base64 version and not the utf8, as it gets problematic
   // when used as background-image '<div style="background-image: url({{imgSrc picture 100}})"'
-  const base64Hash = btoa(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'><path d='M0,0h1v1H0' fill='#${colorHash}'/></svg>`)
+  const base64Hash = btoa(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'><path d='M0,0h1v1H0' fill='${colorHexCode}'/></svg>`)
   return `data:image/svg+xml;base64,${base64Hash}`
 }
 
+const normalizeColorHexCode = code => code[0] === '#' ? code : `#${code}`
+
 export function getColorSquareDataUriFromModelId (modelId) {
-  const colorHash = getFilterColor(modelId)
-  return getColorSquareDataUri(colorHash)
+  const colorHexCode = getColorHexCodeFromModelId(modelId)
+  return getColorSquareDataUri(colorHexCode)
 }
 
 const getResizedDimensions = function (width, height, maxSize) {
@@ -136,7 +139,7 @@ const colorFilters = [
   'cddc39'
 ]
 
-const getFilterColor = function (modelId) {
+export const getColorHexCodeFromModelId = function (modelId) {
   if (modelId == null) return colorFilters[0]
   const someStableModelNumber = parseInt(modelId.slice(-2), 16)
   // Pick one of the colors based on the group slug length
