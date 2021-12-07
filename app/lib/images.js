@@ -123,7 +123,7 @@ const saveDimensions = function (data, attribute, width, height) {
 }
 
 // Inspired by https://www.materialpalette.com/colors
-const colorFilters = [
+const someSuggestedColors = [
   '009688',
   '00bcd4',
   '03a9f4',
@@ -140,9 +140,11 @@ const colorFilters = [
 ]
 
 export const getColorHexCodeFromModelId = function (modelId) {
-  if (modelId == null) return colorFilters[0]
+  if (modelId == null) return someSuggestedColors[0]
   const someStableModelNumber = parseInt(modelId.slice(-2), 16)
   // Pick one of the colors based on the group slug length
-  const index = someStableModelNumber % colorFilters.length
-  return colorFilters[index]
+  const index = someStableModelNumber % someSuggestedColors.length
+  return someSuggestedColors[index]
 }
+
+export const getSomeColorHexCodeSuggestion = () => `#${_.sample(someSuggestedColors)}`

@@ -10,6 +10,7 @@ import BackupForm from 'behaviors/backup_form'
 import ElasticTextarea from 'behaviors/elastic_textarea'
 import Loading from 'behaviors/loading'
 import UpdateSelector from 'modules/inventory/behaviors/update_selector'
+import { getSomeColorHexCodeSuggestion } from 'lib/images'
 
 export default Marionette.View.extend({
   template: shelfEditorTemplate,
@@ -34,7 +35,8 @@ export default Marionette.View.extend({
   serializeData () {
     return {
       isNewShelf: true,
-      listings: listingsData()
+      listings: listingsData(),
+      color: getSomeColorHexCodeSuggestion(),
     }
   },
 
@@ -55,9 +57,10 @@ export default Marionette.View.extend({
     const name = $('#shelfNameEditor').val()
     let description = $('#shelfDescEditor ').val()
     if (description === '') description = null
+    const color = $('#shelfColorPicker').val()
     startLoading.call(this, '.validate .loading')
     const selectedListing = app.request('last:listing:get') || 'private'
-    return createShelfModel({ name, description, listing: selectedListing })
+    return createShelfModel({ name, description, listing: selectedListing, color })
     .then(afterCreate)
     .catch(forms_.catchAlert.bind(null, this))
   }
