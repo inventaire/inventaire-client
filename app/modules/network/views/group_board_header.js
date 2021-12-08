@@ -2,6 +2,7 @@ import { GroupItemView } from './group_views_commons'
 import groupBoardHeaderTemplate from './templates/group_board_header.hbs'
 import '../scss/group_board_header.scss'
 import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
 
 export default GroupItemView.extend({
   template: groupBoardHeaderTemplate,
@@ -13,6 +14,7 @@ export default GroupItemView.extend({
 
   behaviors: {
     PreventDefault,
+    SuccessCheck,
   },
 
   serializeData () {

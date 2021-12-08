@@ -11,6 +11,7 @@ import GroupUrl from '../lib/group_url'
 import '../scss/create_groupe_layout.scss'
 import AlertBox from 'behaviors/alert_box'
 import ElasticTextarea from 'behaviors/elastic_textarea'
+import SuccessCheck from 'behaviors/success_check'
 import Toggler from 'behaviors/toggler'
 
 const {
@@ -26,6 +27,7 @@ export default GroupLayoutView.extend({
   behaviors: {
     AlertBox,
     ElasticTextarea,
+    SuccessCheck,
     Toggler,
   },
 

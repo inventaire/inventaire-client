@@ -8,6 +8,7 @@ import screen_ from 'lib/screen'
 import groupBoardTemplate from './templates/group_board.hbs'
 import '../scss/group_board.scss'
 import PreventDefault from 'behaviors/prevent_default'
+import SuccessCheck from 'behaviors/success_check'
 
 export default GroupLayoutView.extend({
   template: groupBoardTemplate,
@@ -31,6 +32,7 @@ export default GroupLayoutView.extend({
 
   behaviors: {
     PreventDefault,
+    SuccessCheck,
   },
 
   regions: {
