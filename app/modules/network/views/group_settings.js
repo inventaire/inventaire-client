@@ -36,16 +36,20 @@ export default Marionette.View.extend({
   },
 
   initialize () {
-    this._lazyUpdateUrl = LazyUpdateUrl(this)
-    this.lazyDescriptionUpdate = _.debounce(updateLimit.bind(this, 'description', 'descriptionLimit', 5000), 200)
+    if (this.model.mainUserIsAdmin()) {
+      this._lazyUpdateUrl = LazyUpdateUrl(this)
+      this.lazyDescriptionUpdate = _.debounce(updateLimit.bind(this, 'description', 'descriptionLimit', 5000), 200)
+    }
   },
 
   onRender () {
-    this.lazyDescriptionUpdate()
-    this.listenTo(this.model, 'change:picture', this.LazyRenderFocus('#changePicture'))
-    // re-render after a position was selected to display
-    // the new geolocation status
-    this.listenTo(this.model, 'change:position', this.LazyRenderFocus('#showPositionPicker'))
+    if (this.model.mainUserIsAdmin()) {
+      this.lazyDescriptionUpdate()
+      this.listenTo(this.model, 'change:picture', this.LazyRenderFocus('#changePicture'))
+      // re-render after a position was selected to display
+      // the new geolocation status
+      this.listenTo(this.model, 'change:position', this.LazyRenderFocus('#showPositionPicker'))
+    }
   },
 
   // Allows to define @_lazyUpdateUrl after events binding
