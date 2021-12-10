@@ -58,6 +58,7 @@
         <div class="note">{i18n('email me when')}</div>
         <Toggler name="group_invite" value={notificationData.group_invite}/>
         <Toggler name="group_acceptRequest" value={notificationData.group_acceptRequest}/>
+        <Toggler name="group_join_request" value={notificationData.group_join_request}/>
       </fieldset>
       <fieldset>
         <legend>{I18n('exchanges')}</legend>

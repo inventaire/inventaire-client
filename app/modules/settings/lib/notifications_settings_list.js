@@ -11,6 +11,7 @@ export default [
   'friendship_request',
   'group_invite',
   'group_acceptRequest',
+  'group_join_request',
 
   // TRANSACTIONS
   'your_item_was_requested',
