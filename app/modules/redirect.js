@@ -145,7 +145,8 @@ const showErrorByStatus = function (err, label) {
   }
 }
 
-const showErrorMissing = ({ pathname = location.pathname }) => {
+const showErrorMissing = (params = {}) => {
+  const { pathname = location.pathname } = params
   if (pathname !== location.pathname) app.navigate(pathname)
   showError({
     name: 'missing',
