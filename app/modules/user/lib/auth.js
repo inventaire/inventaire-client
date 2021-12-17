@@ -4,8 +4,8 @@ import requestLogout from './request_logout'
 
 export default function () {
   app.reqres.setHandlers({
-    'signup:classic': requestClassicSignup,
-    'login:classic': requestClassicLogin,
+    signup: requestSignup,
+    login: requestLogin,
     'password:confirmation': passwordConfirmation,
     'password:update': passwordUpdate,
     'password:reset:request': passwordResetRequest,
@@ -15,33 +15,35 @@ export default function () {
   app.commands.setHandlers({ logout: requestLogout })
 }
 
-const requestClassicSignup = function (options) {
+const requestSignup = async function (options) {
   const { username, password } = options
-  return preq.post(app.API.auth.signup, options)
+  await preq.post(app.API.auth.signup, options)
   // not submitting email as there is no need for it
   // to be remembered by browsers
-  .then(formSubmit.bind(null, username, password))
+  formSubmit(username, password)
 }
 
 const passwordConfirmation = function (currentPassword) {
   // using the login route to verify the password validity
   const username = app.user.get('username')
-  return classicLogin(username, currentPassword)
+  return login(username, currentPassword)
 }
 
-const requestClassicLogin = (username, password) => classicLogin(username, password)
-.then(formSubmit.bind(null, username, password))
+const requestLogin = async (username, password) => {
+  await login(username, password)
+  formSubmit(username, password)
+}
 
-const classicLogin = (username, password) => preq.post(app.API.auth.login, { username, password })
+const login = (username, password) => preq.post(app.API.auth.login, { username, password })
 
-const passwordUpdate = function (currentPassword, newPassword, selector) {
+const passwordUpdate = async function (currentPassword, newPassword, selector) {
   const username = app.user.get('username')
-  return preq.post(app.API.auth.updatePassword, {
+  await preq.post(app.API.auth.updatePassword, {
     'current-password': currentPassword,
     'new-password': newPassword
   })
-  .then(() => { if (selector != null) { $(selector).trigger('check') } })
-  .then(formSubmit.bind(null, username, newPassword))
+  if (selector != null) $(selector).trigger('check')
+  formSubmit(username, newPassword)
 }
 
 const formSubmit = function (username, password) {

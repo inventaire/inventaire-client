@@ -19,7 +19,7 @@ export default Marionette.View.extend({
   template: loginTemplate,
   events: {
     'blur #username': 'earlyVerifyUsername',
-    'click #classicLogin': 'classicLoginAttempt',
+    'click #login': 'loginAttempt',
     'click #createAccount': clickCommand('show:signup'),
     'click #forgotPassword': clickCommand('show:forgot:password'),
   },
@@ -54,10 +54,10 @@ export default Marionette.View.extend({
     }
   },
 
-  classicLoginAttempt () {
+  loginAttempt (e) {
     return tryAsync(this.verifyUsername.bind(this))
     .then(this.verifyPassword.bind(this))
-    .then(this.classicLogin.bind(this))
+    .then(this.login.bind(this))
     .catch(forms_.catchAlert.bind(null, this))
   },
 
@@ -74,11 +74,11 @@ export default Marionette.View.extend({
     return password_.pass(this.ui.password.val(), '#finalAlertbox')
   },
 
-  classicLogin () {
+  login () {
     const username = this.ui.username.val()
     const password = this.ui.password.val()
-    this.startLoading('#classicLogin')
-    return app.request('login:classic', username, password)
+    this.startLoading('#login')
+    return app.request('login', username, password)
     .catch(this.loginError.bind(this))
   },
 

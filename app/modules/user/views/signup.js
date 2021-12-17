@@ -4,7 +4,7 @@ import password_ from 'modules/user/lib/password_tests'
 import forms_ from 'modules/general/lib/forms'
 import prepareRedirect from '../lib/prepare_redirect'
 import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
-import signupClassicTemplate from './templates/signup_classic.hbs'
+import signupTemplate from './templates/signup.hbs'
 import '../scss/auth_menu.scss'
 import { clickCommand } from 'app/lib/utils'
 import AlertBox from 'behaviors/alert_box'
@@ -14,7 +14,7 @@ import TogglePassword from 'behaviors/toggle_password'
 
 export default Marionette.View.extend({
   className: 'authMenu signup',
-  template: signupClassicTemplate,
+  template: signupTemplate,
   behaviors: {
     AlertBox,
     TogglePassword,
@@ -23,7 +23,7 @@ export default Marionette.View.extend({
   },
 
   ui: {
-    classicUsername: '#classicUsername',
+    username: '#username',
     email: '#email',
     suggestionGroup: '#suggestionGroup',
     suggestion: '#suggestion',
@@ -35,18 +35,18 @@ export default Marionette.View.extend({
   },
 
   events: {
-    'blur #classicUsername': 'earlyVerifyClassicUsername',
+    'blur #username': 'earlyVerifyUsername',
     'blur #email': 'earlyVerifyEmail',
     // do not forms_.earlyVerify @, password as it is triggered
     // on "show password" clicks, which is boring
-    // plus, it will presumably be verified next by click #validClassicSignup
+    // plus, it will presumably be verified next by click #validSignup
     // 'blur #password': 'earlyVerifyPassword'
-    'click #classicSignup': 'validClassicSignup',
+    'click #signup': 'validSignup',
     'click #login': clickCommand('show:login'),
   },
 
   onRender () {
-    this.ui.classicUsername.focus()
+    this.ui.username.focus()
   },
 
   serializeData () {
@@ -57,19 +57,16 @@ export default Marionette.View.extend({
     }
   },
 
-  // CLASSIC
-  validClassicSignup () {
-    startLoading.call(this, '#classicSignup')
+  validSignup () {
+    startLoading.call(this, '#signup')
 
-    return this.verifyClassicUsername()
+    return this.verifyUsername()
     .then(this.verifyEmail.bind(this))
     .then(this.verifyPassword.bind(this))
-    .then(this.sendClassicSignupRequest.bind(this))
+    .then(this.sendSignupRequest.bind(this))
     .catch(forms_.catchAlert.bind(null, this))
     .finally(stopLoading.bind(this))
   },
-
-  verifyClassicUsername () { return this.verifyUsername('classicUsername') },
 
   verifyEmail () {
     const email = this.ui.email.val()
@@ -79,22 +76,21 @@ export default Marionette.View.extend({
 
   verifyPassword () { return password_.pass(this.ui.password.val(), '#finalAlertbox') },
 
-  sendClassicSignupRequest () {
-    return app.request('signup:classic', {
-      username: this.ui.classicUsername.val(),
+  sendSignupRequest () {
+    return app.request('signup', {
+      username: this.ui.username.val(),
       password: this.ui.password.val(),
       email: this.ui.email.val()
     })
   },
 
-  // COMMON
-  verifyUsername (name) {
-    const username = this.ui[name].val()
-    return username_.verifyUsername(username, `#${name}`)
+  async verifyUsername () {
+    const username = this.ui.username.val()
+    await username_.verifyUsername(username, '#username')
   },
 
-  earlyVerifyClassicUsername (e) {
-    return forms_.earlyVerify(this, e, this.verifyClassicUsername.bind(this))
+  earlyVerifyUsername (e) {
+    return forms_.earlyVerify(this, e, this.verifyUsername.bind(this))
   },
   earlyVerifyEmail (e) {
     return forms_.earlyVerify(this, e, this.verifyEmail.bind(this))

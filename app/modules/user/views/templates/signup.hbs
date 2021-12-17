@@ -1,9 +1,9 @@
 <form class="custom-cell" {{> 'user:browser_login_form_attributes' this}}>
   <h2 class="subheader">{{i18n 'sign up'}}</h2>
 
-  <label for="classicUsername">{{i18n 'username'}}</label>
+  <label for="username">{{i18n 'username'}}</label>
   <div class="inputBox">
-    <input type="text" name="username" id="classicUsername" class="enterClick">
+    <input type="text" name="username" id="username" class="enterClick">
   </div>
 
   <label for="email">{{i18n 'email'}}</label>
@@ -13,7 +13,7 @@
 
   {{> 'user:password_input' this}}
 
-  <button id="classicSignup" class="button">
+  <button id="signup" class="button">
     {{i18n 'sign up'}}
     <span class="loading"></span>
   </button>

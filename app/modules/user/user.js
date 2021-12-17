@@ -49,8 +49,8 @@ const showAuth = (name, label, View, options) => {
 // app.layout should thus appear only in callbacks
 const API = {
   async showSignup (options) {
-    const { default: SignupClassic } = await import('./views/signup_classic')
-    showAuth('signup', 'sign up', SignupClassic, options)
+    const { default: Signup } = await import('./views/signup')
+    showAuth('signup', 'sign up', Signup, options)
   },
 
   async showLogin (options) {

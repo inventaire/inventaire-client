@@ -1,4 +1,3 @@
-import { tryAsync } from 'lib/promises'
 import preq from 'lib/preq'
 import forms_ from 'modules/general/lib/forms'
 let username_
@@ -21,8 +20,10 @@ export default username_ = {
   }
 }
 
-username_.verifyUsername = (username, selector) => tryAsync(username_.pass.bind(null, username, selector))
-.then(username_.verifyAvailability.bind(null, username, selector))
+username_.verifyUsername = async (username, selector) => {
+  username_.pass(username, selector)
+  await username_.verifyAvailability(username, selector)
+}
 
 const usernameTests = {
   'username should be 2 characters minimum' (username) { return username.length < 2 },
