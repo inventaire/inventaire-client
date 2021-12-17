@@ -6,6 +6,7 @@ import smartPreventDefault from 'modules/general/lib/smart_prevent_default'
 
 export default Marionette.Behavior.extend({
   events: {
-    'click a': smartPreventDefault
+    'click a': smartPreventDefault,
+    'click button': e => e.preventDefault(),
   }
 })
