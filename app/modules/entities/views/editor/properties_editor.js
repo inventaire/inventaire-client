@@ -12,8 +12,8 @@ export default Marionette.CollectionView.extend({
 
     if (this.hasPropertiesShortlist) {
       // set propertiesShortlist to display only a subset of properties by default
-      this.viewFilter = function (child) {
-        return propertiesShortlist.includes(child.get('property'))
+      this.viewFilter = function (view) {
+        return propertiesShortlist.includes(view.model.get('property'))
       }
     }
   },
