@@ -14,7 +14,9 @@ export default {
         'u(sers)/:id/inventory/:uri(/)': 'showUserItemsByEntity',
         'u(sers)/:id/inventory(/)': 'showUserInventory',
         'u(sers)/:id/lists(/)': 'showUserListings',
-        'u(sers)/:id/contributions(/)': 'showUserContributions',
+        'u(sers)/:id/contributions(/)': 'showUserContributionsFromRoute',
+        // Aliases
+        'u(sers)(/)': 'showSearchUsers'
       }
     })
 
@@ -28,7 +30,7 @@ export default {
 
     app.commands.setHandlers({
       'show:user': app.Execute('show:inventory:user'),
-      'show:user:contributions': API.showUserContributions
+      'show:user:contributions': showUserContributions
     })
 
     app.reqres.setHandlers({
@@ -40,20 +42,6 @@ export default {
 }
 
 const API = {
-  async showUserContributions (idOrUsernameOrModel) {
-    const user = await app.request('resolve:to:userModel', idOrUsernameOrModel)
-    if (app.request('require:loggedIn', user.get('contributionsPathname'))) {
-      const username = user.get('username')
-      const path = `users/${username}/contributions`
-      const title = i18n('contributions_by', { username })
-      app.navigate(path, { metadata: { title } })
-      if (app.request('require:admin:access')) {
-        const { default: Contributions } = await import('./views/contributions.js')
-        app.layout.showChildView('main', new Contributions({ user }))
-      }
-    }
-  },
-
   showUserInventory (id) {
     app.execute('show:inventory:user', id)
   },
@@ -63,6 +51,27 @@ const API = {
   showUserListings (id) {
     app.execute('show:user:listings', id)
   },
+  showUserContributionsFromRoute (idOrUsername) {
+    const filter = app.request('querystring:get', 'filter')
+    showUserContributions(idOrUsername, filter)
+  },
+  showUser (id) { app.execute('show:inventory:user', id) },
+  showSearchUsers () { app.execute('show:users:search') }
+}
+
+async function showUserContributions (idOrUsernameOrModel, filter) {
+  const user = await app.request('resolve:to:userModel', idOrUsernameOrModel)
+  if (app.request('require:loggedIn', user.get('contributionsPathname'))) {
+    const username = user.get('username')
+    let path = `users/${username}/contributions`
+    if (filter) path += `?filter=${filter}`
+    const title = i18n('contributions_by', { username })
+    app.navigate(path, { metadata: { title } })
+    if (app.request('require:admin:access')) {
+      const { default: Contributions } = await import('./views/contributions.js')
+      app.layout.showChildView('main', new Contributions({ user, filter }))
+    }
+  }
 }
 
 const initRelations = function () {

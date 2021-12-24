@@ -45,11 +45,15 @@ export default Marionette.CollectionView.extend({
 
   events: {
     'inview .fetchMore': 'fetchMore',
-    'click .showUser': 'showUser'
+    'click .showUser': 'showUser',
+    'click .removeFilter': 'removeFilter',
   },
 
   serializeData () {
-    return { user: this.user?.serializeData() }
+    return {
+      user: this.user?.serializeData(),
+      filter: this.options.filter,
+    }
   },
 
   async fetchMore () {
@@ -57,8 +61,13 @@ export default Marionette.CollectionView.extend({
     this._fetching = true
     startLoading.call(this)
     this.limit = Math.min(this.limit * 2, 500)
-    await preq.get(app.API.entities.contributions(this.userId, this.limit, this.offset))
-      .then(this.parseResponse.bind(this))
+    const res = await preq.get(app.API.entities.contributions({
+      userId: this.userId,
+      limit: this.limit,
+      offset: this.offset,
+      filter: this.options.filter,
+    }))
+    this.parseResponse(res)
     stopLoading.call(this)
     this._fetching = false
   },
@@ -78,4 +87,8 @@ export default Marionette.CollectionView.extend({
   showUser () {
     app.execute('show:user', this.user.get('_id'))
   },
+
+  removeFilter (e) {
+    app.execute('show:user:contributions', this.user)
+  }
 })

@@ -53,11 +53,17 @@ export default Backbone.NestedModel.extend({
           .replace(/^\/claims\//, '')
           .replace(/\/\d+$/, '')
         op.propertyLabel = getPropertyLabel(op.property)
+        op.filter = op.property
       } else if (op.path.startsWith('/labels/')) {
         const lang = _.last(op.path.split('/'))
         op.propertyLabel = `label ${lang}`
+        op.filter = lang
       } else if (op.path.startsWith('/redirect')) {
         op.propertyLabel = 'redirect'
+      }
+      if (op.filter) {
+        const userId = this.get('user')
+        op.filterPathname = `/users/${userId}/contributions?filter=${op.filter}`
       }
     }
 

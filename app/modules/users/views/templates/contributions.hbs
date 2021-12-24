@@ -4,6 +4,12 @@
   {{else}}
     {{I18n 'recent changes'}}
   {{/if}}
+  {{#if filter}}
+    <span class="filter">
+      {{filter}}
+      <button class="removeFilter" title="{{I18n 'remove filter'}}">&#215;</button>
+    </span>
+  {{/if}}
 </h3>
 <ul class="stats">
   {{#if user}}

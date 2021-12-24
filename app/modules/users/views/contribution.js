@@ -29,6 +29,7 @@ export default Marionette.View.extend({
   events: {
     'click .handle': 'toggleFullDetails',
     'click .showUserContributions': 'showUserContributions',
+    'click .filter': 'showFilteredContributions',
   },
 
   toggleFullDetails (e) {
@@ -42,4 +43,11 @@ export default Marionette.View.extend({
   showUserContributions (e) {
     if (!isOpenedOutside(e)) app.execute('show:user:contributions', this.model.user)
   },
+
+  showFilteredContributions (e) {
+    if (!isOpenedOutside(e)) {
+      const filter = e.currentTarget.innerText
+      app.execute('show:user:contributions', this.model.user, filter)
+    }
+  }
 })
