@@ -17,7 +17,7 @@ export default {
       appRoutes: {
         'entity/new(/)': 'showEntityCreateFromRoute',
         'entity/changes(/)': 'showChanges',
-        'entity/contributions(/)': 'showContributions',
+        'entity/contributions(/)': 'showContributionsCounts',
         'entity/deduplicate(/authors)(/)': 'showDeduplicateAuthors',
         'entity/merge(/)': 'showEntityMerge',
         'entity/:uri/add(/)': 'showAddEntity',
@@ -98,12 +98,12 @@ const API = {
     app.navigate('entity/changes', { metadata: { title: i18n('recent changes') } })
   },
 
-  async showContributions () {
-    const { default: Contributions } = await import('./components/contributions.svelte')
+  async showContributionsCounts () {
+    const { default: ContributionsCounts } = await import('./components/contributions_counts.svelte')
     showViewByAccessLevel({
       path: 'entity/contributions',
       title: 'contributions',
-      Component: Contributions,
+      Component: ContributionsCounts,
       accessLevel: 'admin'
     })
   },
