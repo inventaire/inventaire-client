@@ -83,7 +83,9 @@ const API = {
   showEntityCreateFromRoute () {
     if (app.request('require:loggedIn', 'entity/new')) {
       const params = app.request('querystring:get:all')
-      if (params.allowToChangeType == null) params.allowToChangeType = true
+      if (params.allowToChangeType == null && !params.next) {
+        params.allowToChangeType = true
+      }
       return showEntityCreate(params)
     }
   },
