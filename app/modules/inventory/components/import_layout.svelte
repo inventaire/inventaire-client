@@ -8,7 +8,7 @@
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
   import SelectButtonGroup from '#inventory/components/select_button_group.svelte'
-  import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
+  import CandidatesElement from '#inventory/components/importer/candidates_element.svelte'
   import dataValidator from '#inventory/lib/data_validator'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import importers from '#inventory/lib/importers'
@@ -21,9 +21,8 @@
 
   onMount(() => autosize(document.querySelector('textarea')))
 
-  let flashIsbnsImporter, flashCandidates, flashImportCandidates, flashImportSuccess
+  let flashIsbnsImporter, flashImportCandidates, flashImportSuccess
 
-  let checked = true
   let flashImporters = {}
   let isbnsText, preCandidatesCount
   let candidates = []
@@ -33,7 +32,6 @@
   let processedPreCandidates = 0
   let transaction, listing
   let processedCandidates = 0
-  let selectedBooksCount
 
   const getFile = importer => {
     const { parse, encoding, files } = importer
@@ -136,13 +134,6 @@
 
   const emptyIsbns = () => isbnsText = ''
 
-  const unselectAll = () => {
-    // hack to avoid bind:checked of each candidate to this parent component
-    // ensure checked is always defined
-    checked = true
-    checked = false
-  }
-
   const importCandidates = async () => {
     let importingCandidates
     if (importingCandidates) return flashImportCandidates = { type: 'warning', message: I18n('already importing some books') }
@@ -185,7 +176,7 @@
     })
   }
 
-  $: { candidatesLength = candidates.length }
+  $: candidatesLength = candidates.length
   // dev stuff, delete before production
   isbnsText = ',9782352946847,9782352946847,2277119660,1591841380,978-2-207-11674-6'
   Promise.resolve(onIsbnsChange()).then(createAndResolveCandidates)
@@ -233,42 +224,7 @@
 </div>
 <div hidden="{!candidates.length > 0}">
   <div id="candidatesElement" bind:this={candidatesElement}>
-    <h3>2/ Select the books you want to add</h3>
-    {#if candidatesLength > 0 && candidatesLength < preCandidatesCount}
-      <p class="loading">
-        {candidatesLength}/{preCandidatesCount}
-        <Spinner/>
-      </p>
-    {/if}
-    <Flash bind:state={flashCandidates}/>
-    <ul>
-      {#each candidates as candidate}
-        <CandidateRow bind:candidate={candidate} checked={checked}/>
-      {/each}
-    </ul>
-    <div class="candidates-nav">
-      <button class="grey-button" on:click="{() => checked = true}" name="{I18n('select all')}">
-        {I18n('select all')}
-      </button>
-      <button class="grey-button" on:click={unselectAll} name="{I18n('unselect all')}">
-        {I18n('unselect all')}
-      </button>
-      <button class="grey-button" on:click="{() => candidates = []}" name="{I18n('empty the queue')}">
-        <!-- TODO: insert "are you sure" popup -->
-        {@html icon('trash')} {I18n('empty the queue')}
-      </button>
-    </div>
-    {#if candidatesLength > 20 }
-      <!-- repeat counter when many candidates -->
-      {#if candidatesLength < preCandidatesCount}
-        <p class="loading">
-          {candidatesLength}/{preCandidatesCount}
-          <Spinner/>
-        </p>
-      {/if}
-      <p>{I18n('Number of books found')}: {candidatesLength}</p>
-      <p>{I18n('Number of selected books')}: {selectedBooksCount}</p>
-    {/if}
+    <CandidatesElement bind:candidates {preCandidatesCount}/>
   </div>
   <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
   <div class="itemsSettings">
@@ -321,12 +277,6 @@
   h3{
     margin-top: 1em;
     text-align: center;
-  }
-  .candidates-nav{
-    @include display-flex(row, center, center, wrap);
-    margin: 1em;
-    button { margin: 0.5em;}
-    margin: 1em;
   }
   .importCandidates{
     @include display-flex(column, center, center, wrap)
