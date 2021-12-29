@@ -90,7 +90,7 @@
     preCandidatesCount = preCandidates.length
     const remainingPreCandidates = _.clone(preCandidates)
 
-    const createCandidateSequentially = async () => {
+    const createCandidateOneByOne = async () => {
       const preCandidate = remainingPreCandidates.pop()
       const nextUri = `isbn:${preCandidate.isbnData.normalizedIsbn}`
       if (!isAlreadyCandidate(preCandidate.isbn)) {
@@ -102,12 +102,22 @@
       processedPreCandidates += 1
       // increase batch size to reduce queries amount on the long run
       // while serving first results quickly
-      createCandidateSequentially()
+      createCandidateOneByOne()
       // log errors without throwing to prevent crashing the whole chain
-      .catch(log_.Error('createCandidateSequentially err'))
+      .catch(log_.Error('createCandidateOneByOne err'))
     }
 
-    return createCandidateSequentially()
+    return Promise.all([
+      // Using 5 separate channels, fetching entities one by one, instead of
+      // by batch, to avoid having one entity blocking a batch progression:
+      // the hypothesis is that the request overhead should be smaller than
+      // the time a new dataseed-based entity might take to be created
+      createCandidateOneByOne(),
+      createCandidateOneByOne(),
+      createCandidateOneByOne(),
+      createCandidateOneByOne(),
+      createCandidateOneByOne()
+    ])
     .then(() => screen_.scrollToElement(candidatesElement.offsetTop))
   }
 
