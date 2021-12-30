@@ -17,6 +17,11 @@ export const createCandidate = (preCandidate, entitiesObj) => {
   return candidate
 }
 
+export const preCandidateUri = preCandidate => {
+  const isbn = preCandidate.isbnData?.normalizedIsbn
+  if (isbn) return `isbn:${isbn}`
+}
+
 const serializeEntity = entity => {
   entity.originalLang = getOriginalLang(entity.claims)
   entity.label = getBestLangValue(app.user.lang, entity.originalLang, entity.labels).value
