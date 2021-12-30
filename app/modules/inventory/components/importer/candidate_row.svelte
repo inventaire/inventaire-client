@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte'
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import getOriginalLang from '#entities/lib/get_original_lang'
@@ -12,12 +13,26 @@
   let { preCandidate, edition, work, authors } = candidate
   const { isbnData } = preCandidate
   const rawIsbn = isbnData?.rawIsbn
+  let needInfo, existingItemsCount, existingItemsPathname
+  let entities = {}
+
   if (edition) {
     editionLang = getOriginalLang(edition.claims)
   } else {
     editionLang = 'en'
   }
-  let entities = {}
+
+  onMount(() => {
+    existingItemsCount = preCandidate.existingItemsCount
+    if (existingItemsCount && existingItemsCount > 0) {
+      const uri = preCandidateUri(preCandidate)
+      const username = app.user.get('username')
+      existingItemsPathname = `/inventory/${username}/${uri}`
+    } else if (!candidate.works || candidate.works.length === 0) {
+      needInfo = true
+      disabled = true
+    }
+  })
 
   const findBestLang = objectWithLabels => {
     if (!objectWithLabels || !objectWithLabels.labels) return
@@ -90,6 +105,16 @@
           <span class="label">ISBN:</span>
         {/if}
         {rawIsbn}
+      {/if}
+    </div>
+    <div class="column status">
+      {#if needInfo}
+        <div>{i18n('need more information')}</div>
+      {/if}
+      {#if existingItemsCount}
+        <span class="existing-entity-items">
+          {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
+        </span>
       {/if}
     </div>
   </div>

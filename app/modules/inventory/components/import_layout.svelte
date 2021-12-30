@@ -16,7 +16,7 @@
   import screen_ from '#lib/screen'
   import log_ from '#lib/loggers'
   import preq from '#lib/preq'
-  import { createCandidate } from '#inventory/lib/import_helpers'
+  import { createCandidate, preCandidateUri } from '#inventory/lib/import_helpers'
   import app from '#app/app'
 
   onMount(() => autosize(document.querySelector('textarea')))
@@ -86,8 +86,8 @@
     processedPreCandidates = 0
     flashImportCandidates = flashImportSuccess = null
     preCandidatesCount = preCandidates.length
+    await addExistingItemsCounts()
     const remainingPreCandidates = _.clone(preCandidates)
-
     const createCandidateOneByOne = async () => {
       const preCandidate = remainingPreCandidates.pop()
       const nextUri = `isbn:${preCandidate.isbnData.normalizedIsbn}`
@@ -122,6 +122,23 @@
   // Fetch the works associated to the editions, and those works authors
   // to get access to the authors labels
   const relatives = [ 'wdt:P629', 'wdt:P50' ]
+
+  const addExistingItemsCounts = function () {
+    const uris = _.compact(preCandidates.map(preCandidateUri))
+    return app.request('items:getEntitiesItemsCount', app.user.id, uris)
+    .then(addCounts(preCandidates))
+  }
+
+  const addCounts = () => function (counts) {
+    preCandidates.forEach(preCandidate => {
+      const uri = preCandidateUri(preCandidate)
+      if (uri == null) return
+      const count = counts[uri]
+      if (count != null) preCandidate.existingItemsCount = count
+    })
+
+    return preCandidates
+  }
 
   const createCandidatesFromEntities = preCandidate => res => {
     if (!res) return
