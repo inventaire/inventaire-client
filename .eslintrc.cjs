@@ -49,7 +49,8 @@ module.exports = {
     'object-shorthand': [ 'error', 'properties' ],
     // Being able to define several variables on a single line comes very handy with Svelte
     'one-var': 'off',
-    'prefer-const': [ 'error' ]
+    // Disabling to prevent editors auto-fix before the variable was reassigned
+    'prefer-const': 'off',
   },
   globals: {
     app: 'writable',
