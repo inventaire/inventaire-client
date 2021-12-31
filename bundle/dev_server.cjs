@@ -26,7 +26,10 @@ module.exports = {
     },
   },
   client: {
-    overlay: true,
+    overlay: {
+      errors: true,
+      warnings: false
+    },
   },
   static: {
     directory: path.resolve(__dirname, '../public/dist'),
