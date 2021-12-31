@@ -6,6 +6,7 @@
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import preq from '#lib/preq'
   import Spinner from '#components/spinner.svelte'
+  import { preCandidateUri } from '#inventory/lib/import_helpers'
   export let candidate
   export let checked = true
 
@@ -149,7 +150,7 @@
       font-style: normal;
       color: #222222;
     }
-    .hidden, .label{
+    .label{
       display: none;
     }
   }
