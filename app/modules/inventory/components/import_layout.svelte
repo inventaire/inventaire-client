@@ -198,85 +198,87 @@
   isbnsText = ',9782352946847,9782352946847,2277119660,1591841380,978-2-207-11674-6'
   Promise.resolve(onIsbnsChange()).then(createAndResolveCandidates)
 </script>
-<div id="importersWrapper">
-  <h3>1/ {I18n('upload your books')}</h3>
-  <ul class="importers">
-    {#each importers as importer (importer.name)}
-      <li id="{importer.name}-li">
-        <div class="importer-data">
-          <p class="importerName">
-            {#if importer.link}
-              <a name={importer.label} href={importer.link}>{importer.label}</a>
-            {:else}
-              <span title={importer.label}>{importer.label}</span>
+<div id='importLayout'>
+  <div id="importersWrapper">
+    <h3>1/ {I18n('upload your books')}</h3>
+    <ul class="importers">
+      {#each importers as importer (importer.name)}
+        <li id="{importer.name}-li">
+          <div class="importer-data">
+            <p class="importerName">
+              {#if importer.link}
+                <a name={importer.label} href={importer.link}>{importer.label}</a>
+              {:else}
+                <span title={importer.label}>{importer.label}</span>
+              {/if}
+              {#if importer.format && importer.format !== 'all'}
+                <span class="format">( .{importer.format} )</span>
+              {/if}
+            </p>
+            {#if importer.help}
+              <p class="help">{@html I18n(importer.help)}</p>
             {/if}
-            {#if importer.format && importer.format !== 'all'}
-              <span class="format">( .{importer.format} )</span>
-            {/if}
-          </p>
-          {#if importer.help}
-            <p class="help">{@html I18n(importer.help)}</p>
-          {/if}
+          </div>
+          <input id="{importer.name}" name="{importer.name}" type="file" bind:files={importer.files} accept="{importer.accept}" on:change={getFile(importer)}/>
+          <!-- <div class="loading"></div> -->
+          <Flash bind:state={flashImporters[importer.name]}/>
+        </li>
+      {/each}
+      <li id="textIsbns-li">
+        <div id="isbnsImporter">
+          {I18n('import from a list of ISBNs')}
+          <div class="textarea-wrapper">
+            <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}"></textarea>
+            <a id="emptyIsbns" title="{i18n('clear')}" on:click={emptyIsbns}>{@html icon('trash-o')}</a>
+          </div>
+          <Flash bind:state={flashIsbnsImporter}/>
+          <div class="loading"></div>
         </div>
-        <input id="{importer.name}" name="{importer.name}" type="file" bind:files={importer.files} accept="{importer.accept}" on:change={getFile(importer)}/>
-        <!-- <div class="loading"></div> -->
-        <Flash bind:state={flashImporters[importer.name]}/>
       </li>
-    {/each}
-    <li id="textIsbns-li">
-      <div id="isbnsImporter">
-        {I18n('import from a list of ISBNs')}
-        <div class="textarea-wrapper">
-          <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}"></textarea>
-          <a id="emptyIsbns" title="{i18n('clear')}" on:click={emptyIsbns}>{@html icon('trash-o')}</a>
-        </div>
-        <Flash bind:state={flashIsbnsImporter}/>
-        <div class="loading"></div>
-      </div>
-    </li>
-  </ul>
-</div>
-<div class="buttonWrapper">
-  <a id="createCandidatesButton" on:click={createAndResolveCandidates} class="button">{I18n('find ISBNs')}</a>
-</div>
-<div hidden="{!candidates.length > 0}">
-  <div id="candidatesElement" bind:this={candidatesElement}>
-    <CandidatesElement bind:candidates {preCandidatesCount}/>
+    </ul>
   </div>
-  <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
-  <div class="itemsSettings">
-    <SelectButtonGroup type="transaction" bind:selected={transaction}/>
-    <SelectButtonGroup type="listing" title="visibility" bind:selected={listing}/>
+  <div class="buttonWrapper">
+    <a id="createCandidatesButton" on:click={createAndResolveCandidates} class="button">{I18n('find ISBNs')}</a>
   </div>
-  <h3>4/ {I18n('import this batch')}</h3>
-  <div class="importCandidates">
-    <Flash bind:state={flashImportCandidates}/>
-    {#if flashImportCandidates?.type === 'success'}
-      <button
-        href="/"
-        class="button"
-        on:click="{() => app.execute('show:home')}"
-        >{I18n('See the new books in my inventory')}</button>
-    {:else}
-      {#if processedCandidates > 0 && processedCandidates < candidatesLength}
-        <p class="loading">
-          {processedCandidates}/{candidatesLength}
-          <Spinner/>
-        </p>
+  <div hidden="{!candidates.length > 0}">
+    <div id="candidatesElement" bind:this={candidatesElement}>
+      <CandidatesElement bind:candidates {preCandidatesCount}/>
+    </div>
+    <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
+    <div class="itemsSettings">
+      <SelectButtonGroup type="transaction" bind:selected={transaction}/>
+      <SelectButtonGroup type="listing" title="visibility" bind:selected={listing}/>
+    </div>
+    <h3>4/ {I18n('import this batch')}</h3>
+    <div class="importCandidates">
+      <Flash bind:state={flashImportCandidates}/>
+      {#if flashImportCandidates?.type === 'success'}
+        <button
+          href="/"
+          class="button"
+          on:click="{() => app.execute('show:home')}"
+          >{I18n('See the new books in my inventory')}</button>
+      {:else}
+        {#if processedCandidates > 0 && processedCandidates < candidatesLength}
+          <p class="loading">
+            {processedCandidates}/{candidatesLength}
+            <Spinner/>
+          </p>
+        {/if}
+        <button
+          class="importCandidatesButton button success"
+          on:click={importCandidates}
+          >
+          {I18n('import the selection')}
+        </button>
       {/if}
-      <button
-        class="importCandidatesButton button success"
-        on:click={importCandidates}
-        >
-        {I18n('import the selection')}
-      </button>
-    {/if}
+    </div>
   </div>
 </div>
 
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
-  section{
+  #importLayout{
     @include display-flex(column);
     margin: 0 auto;
     max-width: 70em;
@@ -296,7 +298,7 @@
     text-align: center;
   }
   .importCandidates{
-    @include display-flex(column, center, center, wrap)
+    @include display-flex(column, center, center, wrap);
   }
   .importCandidates {
     button { margin: 1em 0; }

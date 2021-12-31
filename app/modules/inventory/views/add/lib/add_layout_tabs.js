@@ -1,6 +1,5 @@
 import SearchLayout from '../search_layout.js'
 import ScanLayout from '../scan_layout.js'
-import ImportLayout from '../import_layout.js'
 
 let tabs
 
@@ -16,7 +15,6 @@ export default tabs = {
   },
   import: {
     icon: 'database',
-    View: ImportLayout,
   }
 }
 
