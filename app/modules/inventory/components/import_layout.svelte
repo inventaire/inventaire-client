@@ -20,9 +20,7 @@
   import app from '#app/app'
 
   onMount(() => autosize(document.querySelector('textarea')))
-
-  let flashIsbnsImporter, flashImportCandidates, flashImportSuccess
-
+  let flashIsbnsImporter, flashImportCandidates
   let flashImporters = {}
   let isbnsText, preCandidatesCount
   let candidates = []
@@ -30,6 +28,7 @@
   let preCandidates = []
   let candidatesLength
   let processedPreCandidates = 0
+  let importingCandidates
   let transaction, listing
   let processedCandidates = 0
 
@@ -84,7 +83,7 @@
 
   const createAndResolveCandidates = async () => {
     processedPreCandidates = 0
-    flashImportCandidates = flashImportSuccess = null
+    flashImportCandidates = null
     preCandidatesCount = preCandidates.length
     await addExistingItemsCounts()
     const remainingPreCandidates = _.clone(preCandidates)
@@ -152,12 +151,14 @@
   const emptyIsbns = () => isbnsText = ''
 
   const importCandidates = async () => {
-    let importingCandidates
-    if (importingCandidates) return flashImportCandidates = { type: 'warning', message: I18n('already importing some books') }
+    flashImportCandidates = null
+    if (importingCandidates) return flashImportCandidates = { type: 'warning', message: I18n('already importing books') }
     importingCandidates = true
     if (_.isEmpty(candidates)) return flashImportCandidates = { type: 'warning', message: I18n('no book selected') }
+    processedCandidates = 0
+
     const remainingCandidates = _.clone(candidates)
-    const candidatesErr = []
+    const failedImports = []
 
     const createItem = async () => {
       const nextCandidate = remainingCandidates.splice(0, 1)[0]
@@ -171,24 +172,23 @@
             entity: editionUri
           })
           .catch(err => {
-            candidatesErr.push(nextCandidate)
-            flashImportCandidates = { type: 'error', message: I18n('something went wrong, retry?') }
+            failedImports.push(nextCandidate.preCandidate.isbn)
             log_.error(err, 'createItem err')
           })
         }
       }
-      if (remainingCandidates.length === 0) return
       processedCandidates += 1
+      if (remainingCandidates.length === 0) return
       await createItem()
     }
 
     return createItem()
-    .then(flashImportCandidates = { type: 'success', message: I18n('import completed') })
-    .catch(err => {
-      log_.error(candidatesErr, 'createItem from candidates err', { err })
-    })
-    .finally(() => {
-      processedCandidates = 0
+    .then(() => {
+      if (failedImports.length > 0) {
+        flashImportCandidates = { type: 'error', message: I18n('not_imported_books', { failedImports: failedImports.join(', ') }) }
+      } else {
+        flashImportCandidates = { type: 'success', message: I18n('import completed') }
+      }
       importingCandidates = false
     })
   }
@@ -267,6 +267,7 @@
         {/if}
         <button
           class="importCandidatesButton button success"
+          class:disabled={importingCandidates}
           on:click={importCandidates}
           >
           {I18n('import the selection')}
