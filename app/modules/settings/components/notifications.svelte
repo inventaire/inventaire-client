@@ -45,7 +45,7 @@
             </select>
           </div>
         {/if}
-        <Flash bind:value={flashPeriodicity}/>
+        <Flash bind:state={flashPeriodicity}/>
       </fieldset>
       <fieldset>
         <legend>{I18n('friends')}</legend>
