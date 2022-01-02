@@ -9,23 +9,22 @@
   export let candidates
   export let transaction
   export let listing
-  let flashImportCandidates
-  let candidatesLength
+  let flash
   let importingCandidates
   let processedCandidates = 0
 
   const importCandidates = async () => {
-    flashImportCandidates = null
-    if (importingCandidates) return flashImportCandidates = { type: 'warning', message: I18n('already importing books') }
+    flash = null
+    if (importingCandidates) return flash = { type: 'warning', message: I18n('already importing books') }
     importingCandidates = true
-    if (_.isEmpty(candidates)) return flashImportCandidates = { type: 'warning', message: I18n('no book selected') }
+    if (_.isEmpty(candidates)) return flash = { type: 'warning', message: I18n('no book selected') }
     processedCandidates = 0
 
     const remainingCandidates = _.clone(candidates)
     const failedImports = []
 
     const createItem = async () => {
-      const nextCandidate = remainingCandidates.splice(0, 1)[0]
+      const nextCandidate = remainingCandidates.pop()
       if (nextCandidate.checked) {
         const { uri: editionUri } = nextCandidate.edition
         if (editionUri) {
@@ -49,9 +48,9 @@
     return createItem()
     .then(() => {
       if (failedImports.length > 0) {
-        flashImportCandidates = { type: 'error', message: I18n('not_imported_books', { failedImports: failedImports.join(', ') }) }
+        flash = { type: 'error', message: I18n('not_imported_books', { failedImports: failedImports.join(', ') }) }
       } else {
-        flashImportCandidates = { type: 'success', message: I18n('import completed') }
+        flash = { type: 'success', message: I18n('import completed') }
       }
       importingCandidates = false
     })
@@ -61,8 +60,8 @@
 </script>
 <div class="importCandidates">
   <h3>4/ {I18n('import this batch')}</h3>
-  <Flash bind:state={flashImportCandidates}/>
-  {#if flashImportCandidates?.type === 'success'}
+  <Flash bind:state={flash}/>
+  {#if flash?.type === 'success'}
     <button
       href="/"
       class="button"
