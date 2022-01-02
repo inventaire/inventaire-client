@@ -20,7 +20,7 @@
   let preCandidates = []
   let flashImporters = {}
   let isbnsText
-  let flashIsbnsImporter, flashImportCandidates
+  let flashIsbnsImporter
   let bottomSectionElement = {}
 
   let processedPreCandidates = 0
@@ -60,26 +60,35 @@
     const isbns = isbnsText.match(isbnPattern)
     if (isbns == null) return flashIsbnsImporter = { type: 'error', message: 'no new ISBN found' }
     const candidatesData = isbns.map(isbn => { return { isbn } })
-
     createPreCandidates(candidatesData)
   }
 
   const createPreCandidates = candidatesData => {
-    preCandidates = _.compact(candidatesData.map(createPreCandidate))
+    flashIsbnsImporter = null
+    const invalidIsbns = []
+    preCandidates = _.compact(candidatesData.map(createPreCandidate(invalidIsbns)))
+    if (invalidIsbns.length > 0) {
+      const invalidRawIsbns = invalidIsbns.map(_.property('isbn'))
+      const message = I18n('invalid_isbns_warning', { invalidIsbns: invalidRawIsbns.join(', ') })
+      flashIsbnsImporter = { type: 'warning', message }
+    }
   }
 
-  const createPreCandidate = candidateData => {
+  const createPreCandidate = invalidIsbns => candidateData => {
     const { isbn } = candidateData
     const preCandidate = candidateData
     if (isbn) preCandidate.isbnData = isbnExtractor.getIsbnData(isbn)
-    return preCandidate
+    if (preCandidate.isbnData.isInvalid) {
+      invalidIsbns.push(preCandidate)
+      // do not return to avoid creating an invalid preCandidate
+    } else {
+      return preCandidate
+    }
   }
 
   const createAndResolveCandidates = async () => {
     processedPreCandidates = 0
-    flashImportCandidates = null
     preCandidatesCount = preCandidates.length
-    await addExistingItemsCounts()
     const remainingPreCandidates = _.clone(preCandidates)
     const createCandidateOneByOne = async () => {
       if (remainingPreCandidates.length === 0) return
@@ -87,7 +96,9 @@
       const nextUri = `isbn:${preCandidate.isbnData.normalizedIsbn}`
       if (!isAlreadyCandidate(preCandidate.isbnData.normalizedIsbn)) {
         await preq.get(app.API.entities.getByUris(nextUri, false, relatives))
-        .catch(err => { log_.error(err, 'resolver err') })
+        .catch(err => {
+          log_.error(err, 'no entities found err')
+        })
         .then(createCandidatesFromEntities(preCandidate))
       }
       processedPreCandidates += 1
@@ -109,8 +120,16 @@
       createCandidateOneByOne(),
       createCandidateOneByOne()
     ])
-    .then(() => screen_.scrollToElement(bottomSectionElement.offsetTop))
+    .then(async () => {
+      // add counts only now in order to handle entities redirects
+      await addExistingItemsCounts()
+      screen_.scrollToElement(bottomSectionElement.offsetTop)
+    })
   }
+
+  const isAlreadyCandidate = normalizedIsbn => _.some(candidates, haveIsbn(normalizedIsbn))
+
+  const haveIsbn = isbn => candidate => candidate.preCandidate.isbnData?.normalizedIsbn === isbn
 
   // Fetch the works associated to the editions, and those works authors
   // to get access to the authors labels
@@ -119,28 +138,23 @@
   const addExistingItemsCounts = function () {
     const uris = _.compact(preCandidates.map(preCandidateUri))
     return app.request('items:getEntitiesItemsCount', app.user.id, uris)
-    .then(addCounts(preCandidates))
+    .then(addCounts(candidates))
   }
 
   const addCounts = () => function (counts) {
-    preCandidates.forEach(preCandidate => {
-      const uri = preCandidateUri(preCandidate)
+    candidates.forEach(candidate => {
+      const uri = preCandidateUri(candidate.preCandidate)
       if (uri == null) return
       const count = counts[uri]
-      if (count != null) preCandidate.existingItemsCount = count
+      if (count != null) candidate.existingItemsCount = count
     })
-
-    return preCandidates
   }
 
   const createCandidatesFromEntities = preCandidate => res => {
     if (!res) return
-    const newCandidate = createCandidate(preCandidate, res.entities)
+    const newCandidate = createCandidate(preCandidate, res)
     candidates = [ ...candidates, newCandidate ]
   }
-  const isAlreadyCandidate = normalizedIsbn => _.some(candidates, haveIsbn(normalizedIsbn))
-
-  const haveIsbn = isbn => candidate => candidate.preCandidate.isbnData?.normalizedIsbn === isbn
 
   const emptyIsbns = () => isbnsText = ''
 
@@ -185,12 +199,13 @@
       </div>
     </li>
   </ul>
-<Flash bind:state={flashImportCandidates}/>
 </div>
 <div class="buttonWrapper">
   <a id="createCandidatesButton" on:click={createAndResolveCandidates} class="button">{I18n('find ISBNs')}</a>
 </div>
 <div bind:this={bottomSectionElement}></div>
+<!-- flash here to be able to view it while scrolling down to candidates section -->
+<Flash bind:state={flashIsbnsImporter}/>
 <style>
   h3{
     margin-top: 1em;
