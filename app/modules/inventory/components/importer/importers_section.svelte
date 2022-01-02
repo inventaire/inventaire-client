@@ -44,10 +44,10 @@
       dataValidator(importer, data)
       return parse(data).map(commonParser)
     })
-    .then(createPreCandidates)
-    .then(createAndResolveCandidates)
     .catch(log_.ErrorRethrow('parsing error'))
     .catch(message => flashImporters[importer.name] = { type: 'error', message })
+    .then(createPreCandidates)
+    .then(createAndResolveCandidates)
   }
 
   const onIsbnsChange = async () => {
@@ -72,7 +72,7 @@
     const { isbn } = candidateData
     const preCandidate = candidateData
     if (isbn) preCandidate.isbnData = isbnExtractor.getIsbnData(isbn)
-    if (!isAlreadyCandidate(preCandidate.isbnData.normalizedIsbn)) return preCandidate
+    return preCandidate
   }
 
   const createAndResolveCandidates = async () => {
@@ -85,7 +85,7 @@
       if (remainingPreCandidates.length === 0) return
       const preCandidate = remainingPreCandidates.pop()
       const nextUri = `isbn:${preCandidate.isbnData.normalizedIsbn}`
-      if (!isAlreadyCandidate(preCandidate.isbn)) {
+      if (!isAlreadyCandidate(preCandidate.isbnData.normalizedIsbn)) {
         await preq.get(app.API.entities.getByUris(nextUri, false, relatives))
         .catch(err => { log_.error(err, 'resolver err') })
         .then(createCandidatesFromEntities(preCandidate))
@@ -181,11 +181,11 @@
           <a id="emptyIsbns" title="{i18n('clear')}" on:click={emptyIsbns}>{@html icon('trash-o')}</a>
 
         </div>
-        <Flash bind:state={flashIsbnsImporter}/>
         <div class="loading"></div>
       </div>
     </li>
   </ul>
+<Flash bind:state={flashImportCandidates}/>
 </div>
 <div class="buttonWrapper">
   <a id="createCandidatesButton" on:click={createAndResolveCandidates} class="button">{I18n('find ISBNs')}</a>

@@ -2,12 +2,11 @@
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import Spinner from '#components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   export let candidates
   export let preCandidatesCount
   let checked = true
-  let flashCandidates, selectedBooksCount
+  let selectedBooksCount
 
   const unselectAll = () => {
     // hack to avoid bind:checked of each candidate to this parent component
@@ -26,7 +25,6 @@
     <Spinner/>
   </p>
 {/if}
-<Flash bind:state={flashCandidates}/>
 <ul>
   {#each candidates as candidate}
     <CandidateRow bind:candidate={candidate} checked={checked}/>
