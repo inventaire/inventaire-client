@@ -24,7 +24,7 @@
   }
 
   onMount(() => {
-    existingItemsCount = preCandidate.existingItemsCount
+    existingItemsCount = candidate.existingItemsCount
     if (existingItemsCount && existingItemsCount > 0) {
       const uri = preCandidateUri(preCandidate)
       const username = app.user.get('username')
