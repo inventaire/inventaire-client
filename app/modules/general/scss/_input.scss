@@ -82,15 +82,16 @@ textarea{
   width: 100%;
   @include display-flex(row, left, flex-start);
   margin-bottom: 0.5em;
-  a.button.postfix{
+  button.postfix{
     height: 2.2rem;
     white-space: nowrap;
+    @include capitalized;
   }
 
   /*Small screens*/
   @media screen and (max-width: $very-small-screen) {
     flex-direction: column;
-    .button{
+    button{
       width: 100%;
     }
   }
@@ -101,7 +102,7 @@ textarea{
       @include radius-left;
       @include radius-right(0);
     }
-    a.button.postfix{
+    button.postfix{
       @include radius-right;
       @include radius-left(0);
       width: auto;
@@ -125,7 +126,7 @@ textarea{
       margin: 0 !important;
       @include radius-top;
     }
-    a.button.postfix{
+    button.postfix{
       align-self: stretch;
       @include radius-bottom;
       @include radius-top(0);
