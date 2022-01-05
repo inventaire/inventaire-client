@@ -25,7 +25,6 @@ export default Marionette.View.extend({
 
   initialize () {
     _.extend(this, behaviorsPlugin)
-    this.lazySendEmail = _.debounce(this.sendEmail.bind(this), 1500, true)
   },
 
   serializeData () {
@@ -58,8 +57,8 @@ export default Marionette.View.extend({
     }
   },
 
-  events () {
-    return { 'click a#emailButton': 'lazySendEmail' }
+  events: {
+    'click #emailButton': 'sendEmail'
   },
 
   sendEmail () {
@@ -79,7 +78,7 @@ export default Marionette.View.extend({
   },
 
   showSuccessMessage () {
-    this.ui.confirmationEmailSent.fadeIn()
+    this.ui.confirmationEmailSent.removeClass('hidden')
   }
 })
 
