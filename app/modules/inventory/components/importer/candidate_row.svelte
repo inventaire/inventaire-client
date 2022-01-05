@@ -1,12 +1,12 @@
 <script>
   import { onMount } from 'svelte'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import preq from '#lib/preq'
   import Spinner from '#components/spinner.svelte'
   import { preCandidateUri } from '#inventory/lib/import_helpers'
+  import EntityLogo from './entity_source_logo.svelte'
   export let candidate
   export let checked = true
 
@@ -69,11 +69,7 @@
       <div class="column workTitle">
         <span class="label">{i18n('title')}:</span>
         {findBestLang(work)}
-        {#if work.uri?.startsWith('wd:Q')}
-          <sup class="supLogo">{@html icon('wikidata')}</sup>
-        {:else if work.uri?.startsWith('inv:')}
-          <sup class="supLogo">inv</sup>
-        {/if}
+        <EntityLogo uri="{work.uri}"/>
       </div>
     {:else}
       <div class="column workTitle">
@@ -88,13 +84,9 @@
         {#each authors as author, id}
           <span class="author">
             {findBestLang(author)}
+            <EntityLogo uri="{author.uri}"/>
+            {#if id !== authors.length - 1},&nbsp;{/if}
           </span>
-          {#if author.uri?.startsWith('wd:Q')}
-            <sup class="supLogo">{@html icon('wikidata')}</sup>
-          {:else if author.uri?.startsWith('inv:')}
-            <sup class="supLogo">inv</sup>
-          {/if}
-          {#if id !== authors.length - 1},&nbsp;{/if}
         {/each}
       </span>
     {/if}
@@ -144,17 +136,10 @@
       text-align: right;
       flex: 5 0 0;
     }
-    .supLogo{
-      font-family: "Alegreya", serif;
-      font-weight: normal;
-      font-style: normal;
-      color: #222222;
-    }
     .label{
       display: none;
     }
   }
-
   .checkbox{
     padding-left: 1em;
   }
