@@ -56,6 +56,6 @@ export default Marionette.CollectionView.extend({
     // Merge 3 at a time
     mergeSequentially()
     mergeSequentially()
-    return mergeSequentially()
+    mergeSequentially()
   }
 })

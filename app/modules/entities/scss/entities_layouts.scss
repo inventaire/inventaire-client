@@ -88,11 +88,11 @@ $author-layout-bg: #292929;
 }
 
 .authorLayout, #workLayout, .serieLayout, #publisherLayout, .collectionLayout{
-  .admin{
+  .mergeHomonyms{
     background-color: $darker-grey;
     @include radius;
     padding: 2em;
-    h3, h4{
+    h3{
       color: white;
       text-align: center;
       font-size: 1.4em;
