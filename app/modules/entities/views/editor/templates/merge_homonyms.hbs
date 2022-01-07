@@ -1,6 +1,9 @@
 {{#if standalone}}
   <h2><a href="{{pathname}}" class="showEntity link">{{label}}</a> - {{I18n 'merge suggestions'}}</h2>
+{{else}}
+  <h3>{{I18n 'merge suggestions'}}</h3>
 {{/if}}
+
 {{#if hasManySuggestions}}
   <div class="merge-homonyms-controls">
     <a class="selectAll tiny-button light-grey">{{icon 'check-square'}}<span>{{i18n 'select all'}}</span></a>

@@ -164,12 +164,17 @@ const API = {
     }
   },
 
-  showHomonyms (uri) {
+  async showHomonyms (uri) {
     if (!app.request('require:loggedIn', `entity/${uri}/homonyms`)) return
     if (!app.request('require:admin:access')) return
 
-    return getEntityModel(uri, true)
-    .then(model => app.execute('show:homonyms', { model, layout: app.layout, regionName: 'main', standalone: true }))
+    const model = await getEntityModel(uri, true)
+    app.execute('show:homonyms', {
+      model,
+      layout: app.layout,
+      regionName: 'main',
+      standalone: true
+    })
   },
 
   async showEntityHistory (uri) {

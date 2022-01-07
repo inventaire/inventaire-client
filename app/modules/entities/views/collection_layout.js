@@ -23,9 +23,11 @@ export default TypedEntityLayout.extend({
     mergeHomonymsRegion: '.mergeHomonyms'
   },
 
-  onRender () {
-    this.model.fetchSubEntitiesUris(this.refresh)
-    .then(this.ifViewIsIntact('showPaginatedEditions'))
+  async onRender () {
+    TypedEntityLayout.prototype.onRender.call(this)
+    const uris = await this.model.fetchSubEntitiesUris(this.refresh)
+    if (!this.isIntact()) return
+    this.showPaginatedEditions(uris)
   },
 
   serializeData () {
