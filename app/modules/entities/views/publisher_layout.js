@@ -27,8 +27,10 @@ export default TypedEntityLayout.extend({
   },
 
   async onRender () {
+    TypedEntityLayout.prototype.onRender.call(this)
     await this.model.waitForPublications
-    if (this.isIntact()) this.showPublications()
+    if (!this.isIntact()) return
+    this.showPublications()
   },
 
   showPublications () {
