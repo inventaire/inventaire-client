@@ -24,9 +24,11 @@
     const failedImports = []
 
     const createItem = async () => {
+      if (remainingCandidates.length === 0) return
       const nextCandidate = remainingCandidates.pop()
-      if (nextCandidate.checked) {
-        const { uri: editionUri } = nextCandidate.edition
+      const { edition } = nextCandidate
+      if (edition && nextCandidate.checked) {
+        const { uri: editionUri } = edition
         if (editionUri) {
           await app.request('item:create', {
             transaction,
@@ -41,7 +43,6 @@
         }
       }
       processedCandidates += 1
-      if (remainingCandidates.length === 0) return
       await createItem()
     }
 
