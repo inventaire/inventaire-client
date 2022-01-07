@@ -3,19 +3,24 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
-  import preq from '#lib/preq'
-  import Spinner from '#components/spinner.svelte'
+  import { isNonEmptyString } from '#lib/boolean_tests'
   import { preCandidateUri } from '#inventory/lib/import_helpers'
   import EntityLogo from './entity_source_logo.svelte'
   export let candidate
-  export let checked = true
+  export let checked
 
-  let editionLang, disabled
-  let { preCandidate, edition, work, authors } = candidate
+  let editionLang, disabled, work
+  const { preCandidate, edition, works, authors } = candidate
+  let existingItemsCount
+  if (works && works.length > 0) work = works[0]
   const { isbnData } = preCandidate
   const rawIsbn = isbnData?.rawIsbn
-  let needInfo, existingItemsCount, existingItemsPathname
-  let entities = {}
+  let needInfo, confirmInfo, existingItemsPathname, warning
+  let alreadyItemsCount
+  let customWorkTitle = preCandidate.title
+  let customAuthorName
+
+  const { authors: importedAuthors } = preCandidate
 
   if (edition) {
     editionLang = getOriginalLang(edition.claims)
@@ -23,15 +28,28 @@
     editionLang = 'en'
   }
 
+  if (importedAuthors && importedAuthors.length > 0) {
+    customAuthorName = importedAuthors[0]
+    if (importedAuthors.length > 1) {
+      warning = 'multiple authors detected, currently only one author can be created now, you may edit created work authors later.'
+    }
+  }
+
   onMount(() => {
-    existingItemsCount = candidate.existingItemsCount
     if (existingItemsCount && existingItemsCount > 0) {
       const uri = preCandidateUri(preCandidate)
       const username = app.user.get('username')
       existingItemsPathname = `/inventory/${username}/${uri}`
-    } else if (!candidate.works || candidate.works.length === 0) {
-      needInfo = true
-      disabled = true
+      checked = false
+    } else if (!works || works.length === 0) {
+      if (customWorkTitle) {
+        confirmInfo = true
+      } else {
+        needInfo = true
+        disabled = true
+      }
+    } else {
+      checked = true
     }
   })
 
@@ -40,69 +58,87 @@
     return getBestLangValue(editionLang, null, objectWithLabels.labels).value
   }
 
-  const getEntitiesFromIsbn = async () => {
-    if (!isbnData || isbnData.isInvalid) return
-    const relatives = [ 'wdt:P629', 'wdt:P50' ]
-    const uri = `isbn:${isbnData.normalizedIsbn}`
-    const res = await preq.get(app.API.entities.getByUris(uri, false, relatives))
-    entities = res.entities
-    assignWorkAndAuthors(entities)
+  if (isbnData?.isInvalid) disabled = true
+  $: {
+    if (disabled && checked) checked = false
+    candidate.checked = checked
   }
-
-  const assignWorkAndAuthors = entities => {
-    const entityWork = _.find(entities, entity => entity.type === 'work')
-    if (!entityWork) return
-    work = entityWork
-    if (authors?.length > 0) return
-    const workAuthorsUris = work.claims['wdt:P50']
-    const workAuthors = _.values(_.pick(entities, workAuthorsUris))
-    if (workAuthors.length > 0) authors = workAuthors
+  $: {
+    // only set checked at existingItemsCount creation which happens after candidate creation
+    // to allow user to check the box again
+    alreadyItemsCount = existingItemsCount
+    existingItemsCount = candidate.existingItemsCount
+    if (!alreadyItemsCount && existingItemsCount) checked = false
   }
-
-  $: if (isbnData?.isInvalid) disabled = true
-  $: if (disabled && checked) checked = false
-  $: candidate.checked = checked
+  $: candidate.customWorkTitle = customWorkTitle
+  $: candidate.customAuthorName = customAuthorName
+  $: {
+    if (isNonEmptyString(customWorkTitle)) {
+      disabled = false
+      checked = true
+    } else {
+      if (needInfo) {
+        disabled = true
+        checked = false
+      }
+    }
+  }
 </script>
 <li class="candidateRow" class:checked>
   <div class="data">
-    {#if work}
-      <div class="column workTitle">
-        <span class="label">{i18n('title')}:</span>
-        {findBestLang(work)}
-        <EntityLogo uri="{work.uri}"/>
-      </div>
-    {:else}
-      <div class="column workTitle">
-        {#await getEntitiesFromIsbn()}
-          <Spinner/>
-        {/await}
-      </div>
-    {/if}
-    {#if authors}
-      <span class="column authors">
-        <span class="label">{i18n('authors')}:</span>
+    <div class="column work">
+      <span class="label">{i18n('title')}:</span>
+      {#if work}
+        <span class="workTitle">
+          {findBestLang(work, editionLang)}
+          <EntityLogo uri="{work.uri}"/>
+        </span>
+      {:else}
+        <input
+          type="text"
+          name="customWorkTitle"
+          class="customInput"
+          bind:value={customWorkTitle}
+          placeholder="{I18n('write book title')}">
+      {/if}
+    </div>
+    <span class="column authors">
+      <span class="label">{i18n('authors')}:</span>
+      {#if authors}
         {#each authors as author, id}
-          <span class="author">
+          <span class="authorName">
             {findBestLang(author)}
             <EntityLogo uri="{author.uri}"/>
             {#if id !== authors.length - 1},&nbsp;{/if}
           </span>
         {/each}
-      </span>
-    {/if}
+      {:else }
+        <input
+          type="text"
+          name="customAuthorName"
+          class="customInput"
+          bind:value={customAuthorName}
+        >
+      {/if}
+    </span>
     <div class="column isbn">
       {#if rawIsbn}
-        {#if isbnData?.isInvalid}
-          <span class="warning">{i18n('invalid ISBN')}</span>
-        {:else}
-          <span class="label">ISBN:</span>
-        {/if}
+        <span class="label">ISBN:</span>
         {rawIsbn}
       {/if}
     </div>
     <div class="column status">
+      {#if isbnData?.isInvalid}
+        <span class="invalid-isbn">{I18n('invalid ISBN')}</span>
+      {/if}
       {#if needInfo}
-        <div>{i18n('need more information')}</div>
+        <div>{I18n('need more information')}</div>
+      {/if}
+      {#if warning}
+        <div>{I18n(warning)}</div>
+      {/if}
+      {#if confirmInfo}
+        <div>{I18n('edit incorrect information')}</div>
       {/if}
       {#if existingItemsCount}
         <span class="existing-entity-items">
@@ -136,6 +172,11 @@
       text-align: right;
       flex: 5 0 0;
     }
+    .status{
+      @include display-flex(column);
+      text-align: right;
+      flex: 7 0 0;
+    }
     .label{
       display: none;
     }
@@ -146,10 +187,12 @@
   .checked{
     background-color: rgba($success-color, 0.3);
   }
-  .warning{
-    background-color: lighten($yellow, 30%);
-    color: darken($success-color, 70%);
-    padding: 0.3em;
+  .authors, .work{
+    @include display-flex(row, center, center, wrap);
+      width: 100%;
+    .customInput{
+      width: 100%;
+    }
   }
 
   /*Small screens*/
@@ -161,9 +204,6 @@
       }
       .isbn{
         @include display-flex(row, center);
-      }
-      .warning{
-        margin-right: 0.5em;
       }
       .label{
         display: inline;

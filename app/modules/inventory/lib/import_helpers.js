@@ -18,7 +18,7 @@ export const createCandidate = (preCandidate, entitiesRes) => {
   }
   candidate.edition = editions[0]
   candidate.works = works
-  candidate.authors = authors
+  candidate.authors = authors || []
   return candidate
 }
 
