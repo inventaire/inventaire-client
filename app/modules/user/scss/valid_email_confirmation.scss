@@ -7,6 +7,7 @@
   p{
     margin-bottom: 1em;
     @include radius;
+    @include display-flex(row, center, center);
   }
   .fa{
     font-size: 2em;

@@ -2,15 +2,15 @@
   <div class="valid">
     <p>
       {{icon 'check'}}
-      {{i18n 'email_confirmation_success'}}
+      {{I18n 'email_confirmation_success'}}
     </p>
     {{#if loggedIn}}
       <a href="/inventory" class="button dark-grey radius showHome">
-        {{i18n 'back to your inventory'}}
+        {{I18n 'back to your inventory'}}
       </a>
     {{else}}
       <a href="/login" class="button dark-grey radius showLogin">
-        {{i18n 'login to your inventory'}}
+        {{I18n 'login to your inventory'}}
       </a>
     {{/if}}
   </div>
@@ -18,18 +18,18 @@
   <div class="invalid">
     <p>
       {{icon 'bolt'}}
-      {{i18n 'email_confirmation_error'}}
+      {{I18n 'email_confirmation_error'}}
     </p>
     {{#if loggedIn}}
       <a id="emailConfirmationRequest" class="button dark-grey radius">
-        {{i18n 'email_confirmation_error_button'}}
+        {{I18n 'email_confirmation_error_button'}}
       </a>
     {{else}}
       <p class="offline">
-        {{i18n 'email_confirmation_offline_error'}}
+        {{I18n 'email_confirmation_offline_error'}}
       </p>
       <a href="/login?redirect=settings/profile" class="button dark-grey radius showLoginRedirectSettings">
-        {{i18n 'login'}}
+        {{I18n 'login'}}
       </a>
     {{/if}}
   </div>
