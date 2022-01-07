@@ -21,7 +21,8 @@ export default API = {
     const data = window.ISBN.parse(normalizedIsbn)
     const isInvalid = (data == null)
     const isbn13 = isInvalid ? null : data.isbn13
-    return { rawIsbn, normalizedIsbn, isInvalid, isbn13 }
+    const isbn13h = isInvalid ? null : data.isbn13h
+    return { rawIsbn, normalizedIsbn, isInvalid, isbn13, isbn13h }
   }
 }
 
