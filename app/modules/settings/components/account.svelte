@@ -3,6 +3,7 @@
   import preq from 'lib/preq'
   import _ from 'underscore'
   import Flash from 'lib/components/flash.svelte'
+  import EmailValidation from './email_validation.svelte'
   import UpdatePassword from 'lib/components/update_password.svelte'
   import languagesObj from 'lib/languages_data'
   import email_ from 'modules/user/lib/email_tests'
@@ -125,6 +126,10 @@
     <Flash bind:state={flashEmail}/>
     <p class="note">{I18n('email will not be publicly displayed.')}</p>
     <button class="light-blue-button" on:click="{updateEmail}">{I18n('update email')}</button>
+
+    {#if !$user.validEmail}
+      <EmailValidation />
+    {/if}
 
     <h3>{I18n('password')}</h3>
     <UpdatePassword/>
