@@ -55,6 +55,7 @@ export default Marionette.View.extend({
   validateAction (e) {
     const shelfId = this.model.get('_id')
     const name = $('#shelfNameEditor').val()
+    const color = $('#shelfColorPicker').val()
     let description = $('#shelfDescEditor').val()
     if (description === '') description = null
     const selected = app.request('last:listing:get')
@@ -63,7 +64,8 @@ export default Marionette.View.extend({
       shelf: shelfId,
       name,
       description,
-      listing: selected
+      listing: selected,
+      color,
     })
     .catch(err => {
       if (err.message !== 'nothing to update') throw err

@@ -59,6 +59,12 @@ input[type="password"]{
   font-family: sans-serif !important;
 }
 
+input[type="color"]{
+  height: 3em;
+  width: 3em;
+  cursor: pointer;
+}
+
 input:disabled{
   cursor: not-allowed;
   opacity: 0.5;
