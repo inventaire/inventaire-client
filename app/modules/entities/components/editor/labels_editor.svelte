@@ -1,0 +1,99 @@
+<script>
+  import { i18n, I18n } from 'modules/user/lib/i18n'
+  import getLangsData from 'modules/entities/lib/editor/get_langs_data'
+  import DisplayModeButtons from './display_mode_buttons.svelte'
+  import EditModeButtons from './edit_mode_buttons.svelte'
+  import { autofocus } from 'lib/components/actions/autofocus'
+  import getActionKey from 'lib/get_action_key'
+
+  export let entity
+  let editMode = false
+
+  const { type, labels } = entity
+  const hasName = type === 'human' || type === 'publisher'
+  const userLang = app.user.lang
+  const languages = getLangsData(userLang, labels)
+  let currentLang = userLang
+  $: currentValue = labels[currentLang]
+
+  function showEditMode () { editMode = true }
+  function closeEditMode () { editMode = false }
+  function save () {}
+  function onInputKeyup (e) {
+    const key = getActionKey(e)
+    if (key === 'esc') closeEditMode()
+    else if (key === 'enter') save()
+  }
+</script>
+
+<div class="labels-editor">
+  <h3>
+    {#if hasName}
+      {I18n('name')}
+    {:else}
+      {I18n('title')}
+    {/if}
+  </h3>
+
+  <div class="language-values">
+    <select name="{i18n('language selector')}" bind:value={currentLang}>
+      {#each languages as { code, native }}
+        <option value="{code}">{code} - {native}</option>
+      {/each}
+    </select>
+    <div class="value">
+      {#if editMode}
+        <input type="text"
+          value={currentValue}
+          on:keyup={onInputKeyup}
+          use:autofocus
+        >
+        <EditModeButtons disableDelete={true} on:cancel={closeEditMode} />
+      {:else}
+        <button class="value-display" on:click={showEditMode} title="{i18n('edit')}">
+          {currentValue || ''}
+        </button>
+        <DisplayModeButtons on:edit={showEditMode} />
+      {/if}
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @import 'app/modules/general/scss/utils';
+  .labels-editor{
+    @include panel;
+    padding: 0.8em 1em 0.8em 1em;
+    align-self: stretch;
+  }
+  h3{
+    font-size: 1rem;
+    @include sans-serif;
+    font-weight: bold;
+    margin-right: 0.5em;
+  }
+  .language-values{
+    @include display-flex(row, stretch, center);
+    height: 2.5em;
+  }
+  select{
+    border-color: #ddd;
+    width: 10em;
+    height: 100%;
+  }
+  .value{
+    flex: 1;
+    @include display-flex(row, stretch);
+    input, button{
+      flex: 1;
+      height: 100%;
+      font-weight: normal;
+      margin: 0 0.5em;
+    }
+    button{
+      cursor: pointer;
+      text-align: left;
+      @include bg-hover(white, 5%);
+    }
+  }
+</style>
