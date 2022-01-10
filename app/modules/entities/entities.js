@@ -307,16 +307,19 @@ const getEntityLocalHref = uri => `/entity/${uri}`
 const showEntityEdit = async params => {
   const { model, layout, regionName } = params
   if (model.type == null) throw error_.new('invalid entity type', model)
-  let View
   if (params.next != null || params.previous != null) {
-    ({ default: View } = await import('./views/editor/multi_entity_edit'))
-  } else {
-    ({ default: View } = await import('./views/editor/entity_edit'))
-  }
-  if (layout && regionName) {
+    const { default: View } = await import('./views/editor/multi_entity_edit')
+    app.layout.showChildView('main', new View(params))
+  } else if (layout && regionName) {
+    const { default: View } = await import('./views/editor/entity_edit')
     layout.showChildView(regionName, new View(params))
   } else {
-    app.layout.showChildView('main', new View(params))
+    const { default: EntityEdit } = await import('./components/editor/entity_edit.svelte')
+    app.layout.getRegion('main').showSvelteComponent(EntityEdit, {
+      props: {
+        entity: model.toJSON()
+      }
+    })
   }
   app.navigateFromModel(model, 'edit')
 }
