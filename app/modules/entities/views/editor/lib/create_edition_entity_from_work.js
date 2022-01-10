@@ -1,5 +1,5 @@
 import { i18n } from '#user/lib/i18n'
-import { createWorkEdition } from '#entities/lib/create_entities'
+import { createAndGetEntityModel, createWorkEditionDraft } from '#entities/lib/create_entities'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
 import { normalizeIsbn } from '#lib/isbn'
@@ -18,7 +18,20 @@ export default function (params) {
 
   startLoading.call(view, '#isbnButton')
 
-  return createWorkEdition(workModel, isbn)
+  const workEntity = {
+    labels: workModel.get('labels'),
+    claims: workModel.get('claims'),
+    uri: workModel.get('uri')
+  }
+
+  return createWorkEditionDraft({ workEntity, isbn })
+  .then(editionDoc => createAndGetEntityModel(editionDoc))
+  .then(editionEntity => {
+    // If work editions have been fetched, add it to the list
+    workModel.editions?.add(editionEntity)
+    workModel.push('claims.wdt:P747', editionEntity.get('uri'))
+    return editionEntity
+  })
   .catch(renameIsbnDuplicateErr(workUri, isbn))
   .then(editionModel => {
     // Special case of property_values collection
@@ -26,7 +39,7 @@ export default function (params) {
       view.collection.addByValue(editionModel.get('uri'))
     }
     // In other cases, the model being added to the work edition collection
-    // by createWorkEdition is enough
+    // by createWorkEditionDraft is enough
     return $isbnField.val(null)
   })
   .catch(error_.Complete('#isbnField'))
