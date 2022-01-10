@@ -128,6 +128,7 @@
     <button class="light-blue-button" on:click="{updateEmail}">{I18n('update email')}</button>
 
     {#if !$user.validEmail}
+      <h3 class="label">{I18n('unverified email')}</h3>
       <EmailValidation />
     {/if}
 
