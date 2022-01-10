@@ -15,7 +15,10 @@ export const createWorkEdition = async function (workEntity, isbn) {
   const isbnData = await getIsbnData(isbn)
   let { title, groupLang: editionLang } = isbnData
   log_.info(title, 'title from isbn data')
-  if (!title) title = getTitleFromWork(workEntity, editionLang)
+  if (!title) {
+    const { labels: workLabels, claims: workClaims } = workEntity
+    title = getTitleFromWork({ workLabels, workClaims, editionLang })
+  }
   log_.info(title, 'title after work suggestion')
 
   if (title == null) throw error_.new('no title could be found', isbn)
@@ -41,21 +44,49 @@ export const createWorkEdition = async function (workEntity, isbn) {
   return editionEntity
 }
 
-const getTitleFromWork = function (workEntity, editionLang) {
-  const inEditionLang = workEntity.get(`labels.${editionLang}`)
+const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
+  const inEditionLang = workLabels[editionLang]
   if (inEditionLang != null) return inEditionLang
 
-  const inUserLang = workEntity.get(`labels.${app.user.lang}`)
+  const inUserLang = workLabels[app.user.lang]
   if (inUserLang != null) return inUserLang
 
-  const originalLang = getOriginalLang(workEntity.get('claims'))
-  const inWorkOriginalLang = workEntity.get(`labels.${originalLang}`)
+  const originalLang = getOriginalLang(workClaims)
+  const inWorkOriginalLang = workLabels[originalLang]
   if (inWorkOriginalLang != null) return inWorkOriginalLang
 
-  const inEnglish = workEntity.get('labels.en')
+  const inEnglish = workLabels.en
   if (inEnglish != null) return inEnglish
 
-  return workEntity.get('labels')[0]
+  return Object.values(workLabels)[0]
+}
+
+export const createWorkEditionDraft = async function ({ workEntity, isbn, isbnData }) {
+  const { labels: workLabels, claims: workClaims, uri: workUri } = workEntity
+  if (isbn && !isbnData) isbnData = await getIsbnData(isbn)
+  let { title, groupLang: editionLang } = isbnData
+  log_.info(title, 'title from isbn data')
+  if (!title) title = getTitleFromWork({ workLabels, workClaims, editionLang })
+  log_.info(title, 'title after work suggestion')
+
+  const { isbn13h } = isbnData
+  if (title == null) throw error_.new('no title could be found', isbn13h)
+
+  const claims = {
+    // instance of (P31) -> edition (Q3331189)
+    'wdt:P31': [ 'wd:Q3331189' ],
+    // isbn 13 (isbn 10 - if it exist - will be added by the server)
+    'wdt:P212': [ isbn13h ],
+    // edition or translation of (P629) -> created book
+    'wdt:P629': [ workUri ],
+    'wdt:P1476': [ title ]
+  }
+
+  if (isbnData.image != null) {
+    claims['invp:P2'] = [ isbnData.image ]
+  }
+
+  return { labels: {}, claims }
 }
 
 export const createByProperty = async function (options) {
