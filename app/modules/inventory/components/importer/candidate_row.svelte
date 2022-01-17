@@ -7,11 +7,9 @@
   import { preCandidateUri } from '#inventory/lib/import_helpers'
   import EntityLogo from './entity_source_logo.svelte'
   export let candidate
-  export let checked
 
-  let editionLang, disabled, work
+  let editionLang, work, disabled, existingItemsCount
   const { preCandidate, edition, works, authors } = candidate
-  let existingItemsCount
   if (works && works.length > 0) work = works[0]
   const { isbnData } = preCandidate
   const rawIsbn = isbnData?.rawIsbn
@@ -40,7 +38,7 @@
       const uri = preCandidateUri(preCandidate)
       const username = app.user.get('username')
       existingItemsPathname = `/inventory/${username}/${uri}`
-      checked = false
+      candidate.checked = false
     } else if (!works || works.length === 0) {
       if (customWorkTitle) {
         confirmInfo = true
@@ -49,7 +47,7 @@
         disabled = true
       }
     } else {
-      checked = true
+      candidate.checked = true
     }
   })
 
@@ -58,28 +56,29 @@
     return getBestLangValue(editionLang, null, objectWithLabels.labels).value
   }
 
-  if (isbnData?.isInvalid) disabled = true
-  $: {
-    if (disabled && checked) checked = false
-    candidate.checked = checked
+  const onCheckSelect = e => {
+    candidate.checked = e.target.checked
   }
+
+  if (isbnData?.isInvalid) disabled = true
   $: {
     // only set checked at existingItemsCount creation which happens after candidate creation
     // to allow user to check the box again
     alreadyItemsCount = existingItemsCount
     existingItemsCount = candidate.existingItemsCount
-    if (!alreadyItemsCount && existingItemsCount) checked = false
+    if (!alreadyItemsCount && existingItemsCount) candidate.checked = false
   }
+  $: checked = candidate.checked
   $: candidate.customWorkTitle = customWorkTitle
   $: candidate.customAuthorName = customAuthorName
   $: {
     if (isNonEmptyString(customWorkTitle)) {
       disabled = false
-      checked = true
+      candidate.checked = true
     } else {
       if (needInfo) {
         disabled = true
-        checked = false
+        candidate.checked = false
       }
     }
   }
@@ -148,7 +147,7 @@
     </div>
   </div>
   <div class="checkbox">
-    <input type="checkbox" bind:checked {disabled} name="{I18n('select_book')} {rawIsbn}">
+    <input type="checkbox" bind:checked on:click={onCheckSelect} {disabled} name="{I18n('select_book')} {rawIsbn}">
   </div>
 </li>
 <style lang="scss">

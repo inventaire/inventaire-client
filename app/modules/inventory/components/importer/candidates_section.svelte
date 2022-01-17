@@ -5,15 +5,9 @@
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   export let candidates
   export let preCandidatesCount
-  let checked = true
   let selectedBooksCount
 
-  const unselectAll = () => {
-    // hack to avoid bind:checked of each candidate to this parent component
-    // ensure checked is always defined
-    checked = true
-    checked = false
-  }
+  const checkAll = checked => candidates = candidates.map(candidate => ({ ...candidate, checked }))
 
   $: candidatesLength = candidates.length
   $: selectedBooksCount = candidates.filter(_.property('checked')).length
@@ -27,14 +21,14 @@
 {/if}
 <ul>
   {#each candidates as candidate}
-    <CandidateRow bind:candidate={candidate} checked={checked}/>
+    <CandidateRow bind:candidate/>
   {/each}
 </ul>
 <div class="candidates-nav">
-  <button class="grey-button" on:click="{() => checked = true}" name="{I18n('select all')}">
+  <button class="grey-button" on:click="{() => checkAll(true)}" name="{I18n('select all')}">
     {I18n('select all')}
   </button>
-  <button class="grey-button" on:click={unselectAll} name="{I18n('unselect all')}">
+  <button class="grey-button" on:click="{() => checkAll(false) }" name="{I18n('unselect all')}">
     {I18n('unselect all')}
   </button>
   <button class="grey-button" on:click="{() => candidates = []}" name="{I18n('empty the queue')}">
