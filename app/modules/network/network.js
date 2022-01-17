@@ -82,7 +82,6 @@ const API = {
 
   async showCreateGroupLayout () {
     const { default: CreateGroupLayout } = await import('./views/create_group_layout')
-    app.layout.modal.show(new CreateGroupLayout())
     app.layout.showChildView('modal', new CreateGroupLayout())
   },
 
