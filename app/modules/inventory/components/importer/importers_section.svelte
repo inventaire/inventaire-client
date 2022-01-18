@@ -16,14 +16,13 @@
   import log_ from '#lib/loggers'
 
   export let candidates
-  export let preCandidatesCount
+  export let processedPreCandidates = 0
+  let preCandidatesCount = 0
   let preCandidates = []
   let flashImporters = {}
   let isbnsText
   let flashIsbnsImporter
   let bottomSectionElement = {}
-
-  let processedPreCandidates = 0
 
   onMount(() => autosize(document.querySelector('textarea')))
 

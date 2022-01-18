@@ -2,7 +2,6 @@
   import { I18n } from '#user/lib/i18n'
   import _ from 'underscore'
   import Flash from '#lib/components/flash.svelte'
-  import Spinner from '#components/spinner.svelte'
   import log_ from '#lib/loggers'
   import app from '#app/app'
   import createEntity from '#entities/lib/create_entity'
@@ -98,12 +97,6 @@
       on:click="{() => app.execute('show:home')}"
       >{I18n('See the new books in my inventory')}</button>
   {:else}
-    {#if processedCandidates > 0 && processedCandidates < candidatesLength}
-      <p class="loading">
-        {processedCandidates}/{candidatesLength}
-        <Spinner/>
-      </p>
-    {/if}
     <button
       class="importCandidatesButton button success"
       class:disabled={importingCandidates}
