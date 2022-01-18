@@ -137,16 +137,15 @@
   const addExistingItemsCounts = function () {
     const uris = _.compact(preCandidates.map(preCandidateUri))
     return app.request('items:getEntitiesItemsCount', app.user.id, uris)
-    .then(addCounts(candidates))
+    .then(counts => candidates = candidates.map(addCountToCandidate(counts)))
   }
 
-  const addCounts = () => function (counts) {
-    candidates.forEach(candidate => {
-      const uri = preCandidateUri(candidate.preCandidate)
-      if (uri == null) return
-      const count = counts[uri]
-      if (count != null) candidate.existingItemsCount = count
-    })
+  const addCountToCandidate = counts => candidate => {
+    const uri = preCandidateUri(candidate.preCandidate)
+    if (uri == null) return candidate
+    const count = counts[uri]
+    if (count != null) candidate.existingItemsCount = count
+    return candidate
   }
 
   const createCandidatesFromEntities = preCandidate => res => {
