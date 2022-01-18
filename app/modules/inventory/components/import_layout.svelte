@@ -5,15 +5,15 @@
   import CandidatesSection from '#inventory/components/importer/candidates_section.svelte'
   import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'
 
-  let preCandidatesCount = 0
+  let processedPreCandidates
   let candidates = []
   let transaction, listing
 </script>
 <div id='importLayout'>
-  <ImportersSection bind:candidates bind:preCandidatesCount/>
+  <ImportersSection bind:candidates bind:processedPreCandidates/>
   <div hidden="{!candidates.length > 0}">
     <div id="candidatesElement">
-      <CandidatesSection bind:candidates {preCandidatesCount}/>
+      <CandidatesSection bind:candidates {processedPreCandidates}/>
     </div>
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
     <div class="itemsSettings">

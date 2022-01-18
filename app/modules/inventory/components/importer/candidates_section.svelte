@@ -1,10 +1,10 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import Spinner from '#components/spinner.svelte'
+  import Counter from '#components/counter.svelte'
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   export let candidates
-  export let preCandidatesCount
+  export let processedPreCandidates
   let selectedBooksCount
 
   const checkAll = checked => candidates = candidates.map(candidate => ({ ...candidate, checked }))
@@ -13,12 +13,7 @@
   $: selectedBooksCount = candidates.filter(_.property('checked')).length
 </script>
 <h3>2/ Select the books you want to add</h3>
-{#if candidatesLength > 0 && candidatesLength < preCandidatesCount}
-  <p class="loading">
-    {candidatesLength}/{preCandidatesCount}
-    <Spinner/>
-  </p>
-{/if}
+<Counter total={processedPreCandidates} count={candidatesLength}/>
 <ul>
   {#each candidates as candidate}
     <CandidateRow bind:candidate/>
@@ -38,12 +33,7 @@
 </div>
 {#if candidatesLength > 20 }
   <!-- repeat counter when many candidates -->
-  {#if candidatesLength < preCandidatesCount}
-    <p class="loading">
-      {candidatesLength}/{preCandidatesCount}
-      <Spinner/>
-    </p>
-  {/if}
+  <Counter total={processedPreCandidates} count={candidatesLength}/>
   <!-- stats -->
   <p>{I18n('Number of books found')}: {candidatesLength}</p>
   <p>{I18n('Number of selected books')}: {selectedBooksCount}</p>
