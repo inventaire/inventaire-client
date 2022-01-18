@@ -2,56 +2,35 @@
   import { I18n } from '#user/lib/i18n'
   import _ from 'underscore'
   import Flash from '#lib/components/flash.svelte'
-  import log_ from '#lib/loggers'
+  import Counter from '#components/counter.svelte'
   import app from '#app/app'
-  import createEntity from '#entities/lib/create_entity'
-  import entityDraft from '#entities/lib/entity_draft_model'
+  import { createEntitiesByCandidate } from '#inventory/components/importer/create_candidate_entities'
+  import { createCandidateItem } from '#inventory/components/importer/create_candidate_item'
+  import log_ from '#lib/loggers'
 
   export let candidates
   export let transaction
   export let listing
   let flash
   let importingCandidates
-  let processedCandidates = 0
+  let createdItems = []
+  const importErr = []
+  let processedItems = 0
+  let processedEntities = 0
 
   const importCandidates = async () => {
     flash = null
     if (importingCandidates) return flash = { type: 'warning', message: I18n('already importing books') }
     importingCandidates = true
     if (_.isEmpty(candidates)) return flash = { type: 'warning', message: I18n('no book selected') }
-    processedCandidates = 0
 
-    const remainingCandidates = _.clone(candidates)
-    const failedImports = []
-
-    candidates = await Promise.all(candidates.map(createEntitiesByCandidate))
-    const createItem = async () => {
-      if (remainingCandidates.length === 0) return
-      const nextCandidate = remainingCandidates.pop()
-      const { edition } = nextCandidate
-      if (edition && nextCandidate.checked) {
-        const { uri: editionUri } = edition
-        if (editionUri) {
-          await app.request('item:create', {
-            transaction,
-            listing,
-            details: nextCandidate.details,
-            entity: editionUri
-          })
-          .catch(err => {
-            failedImports.push(nextCandidate.preCandidate.isbn)
-            log_.error(err, 'createItem err')
-          })
-        }
-      }
-      processedCandidates += 1
-      await createItem()
-    }
-
-    return createItem()
+    processedEntities = 0
+    await createCandidatesEntities()
+    processedItems = 0
+    await createItemsSequentially()
     .then(() => {
-      if (failedImports.length > 0) {
-        flash = { type: 'error', message: I18n('not_imported_books', { failedImports: failedImports.join(', ') }) }
+      if (importErr.length > 0) {
+        flash = { type: 'error', message: I18n('not_imported_books', { importErr: importErr.join(', ') }) }
       } else {
         flash = { type: 'success', message: I18n('import completed') }
       }
@@ -59,30 +38,31 @@
     })
   }
 
-  const createEntitiesByCandidate = async candidate => {
-    const { customWorkTitle, customAuthorName } = candidate
-    if (candidate.works || !customWorkTitle) return candidate
-    let author
-    if (!candidate.authors && customAuthorName) {
-      const authorDraft = entityDraft.createDraft({ type: 'author', label: customAuthorName, claims: {} })
-      author = await createEntity(authorDraft)
+  const createCandidatesEntities = async () => {
+    const nextCandidate = candidates[processedEntities]
+    if (!nextCandidate) return
+    processedEntities += 1
+    const { customWorkTitle } = nextCandidate
+    if (customWorkTitle) {
+      const candidateWithEntities = await createEntitiesByCandidate(nextCandidate, importErr)
+      candidates = candidates.splice(processedEntities, 1, candidateWithEntities)
     }
-    const workClaims = {}
-    if (author?.uri) workClaims['wdt:P50'] = [ author.uri ]
-    const workDraft = entityDraft.createDraft({ type: 'work', label: customWorkTitle, claims: workClaims })
-    const work = await createEntity(workDraft)
-    const claims = {
-      'wdt:P629': [ work.uri ],
-      'wdt:P1476': [ customWorkTitle ],
-      'wdt:P212': [ candidate.preCandidate.isbnData.isbn13h ]
-    }
-    const draft = entityDraft.createDraft({ type: 'edition', claims })
-    const edition = await createEntity(draft)
-    candidate.edition = edition
-    candidate.works = [ work ]
-    // TODO: handle several authors case, probably when developping contributive entity builder
-    if (author) candidate.authors = [ author ]
-    return candidate
+    await createCandidatesEntities()
+  }
+
+  const createItemsSequentially = async () => {
+    const nextCandidate = candidates.pop()
+    candidates = candidates
+    if (!nextCandidate) return
+    processedItems += 1
+    await createCandidateItem(nextCandidate, importErr, transaction, listing)
+    .then(item => createdItems = [ ...createdItems, item ])
+    // do not throw to not crash the whole chain
+    .catch(err => {
+      importErr.push(nextCandidate.preCandidate.isbn)
+      log_.error(err, 'createItem err')
+    })
+    .finally(createItemsSequentially)
   }
 
   $: candidatesLength = candidates.length
@@ -90,6 +70,7 @@
 <div class="importCandidates">
   <h3>4/ {I18n('import this batch')}</h3>
   <Flash bind:state={flash}/>
+  <Counter total={candidatesLength} count={processedItems}/>
   {#if flash?.type === 'success'}
     <button
       href="/"

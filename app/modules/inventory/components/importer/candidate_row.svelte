@@ -61,6 +61,11 @@
   }
 
   if (isbnData?.isInvalid) disabled = true
+
+  $: {
+    // must call candidate to be reactive
+    if (disabled && candidate) candidate.checked = false
+  }
   $: {
     // only set checked at existingItemsCount creation which happens after candidate creation
     // to allow user to check the box again
