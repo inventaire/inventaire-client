@@ -28,7 +28,7 @@ export default Marionette.CollectionView.extend({
 
   onRender () {
     if (this.collection.length > 0) {
-      this.ui.history.show()
+      this.ui.history.removeClass('hidden')
     } else {
       this.listenToHistory()
     }

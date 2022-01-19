@@ -27,7 +27,7 @@ export default Marionette.CollectionView.extend({
   },
 
   onRender () {
-    if (this.hasPropertiesShortlist) this.ui.showAllProperties.show()
+    if (this.hasPropertiesShortlist) this.ui.showAllProperties.removeClass('hidden')
   },
 
   showAllProperties () {
