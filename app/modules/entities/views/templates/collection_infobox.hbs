@@ -16,7 +16,7 @@
       {{stringClaim claims 'wdt:P1680'}}  {{!-- subtitle --}}
       {{entityClaim claims 'wdt:P123' true}} {{!-- publisher --}}
       {{entityClaim claims 'wdt:P98' true}}  {{!-- editor --}}
-      {{urlClaim claims 'wdt:P856'}} {{!-- official website --}}
+      {{> 'entities:links_claims' this}}
     </p>
   </div>
 

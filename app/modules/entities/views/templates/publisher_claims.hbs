@@ -4,9 +4,6 @@
     {{timeClaim claims 'wdt:P576'}} {{!-- dissolution --}}
     {{entityClaim claims 'wdt:P112'}} {{!-- founded by --}}
     {{entityClaim claims 'wdt:P127'}} {{!-- owned by --}}
-    {{urlClaim claims 'wdt:P856'}} {{!-- official website --}}
-    {{platformClaim claims 'wdt:P4033'}} {{!-- mastodon --}}
-    {{platformClaim claims 'wdt:P2002'}} {{!-- twitter --}}
-    {{platformClaim claims 'wdt:P2013'}} {{!-- facebook --}}
+    {{> 'entities:links_claims' this}}
   </p>
 </div>

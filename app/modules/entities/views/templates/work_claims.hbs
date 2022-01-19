@@ -18,9 +18,8 @@
     {{entityClaim claims 'wdt:P1433' true}} {{!-- published in --}}
     {{entityClaim claims 'wdt:P155' true}} {{!-- preceded by --}}
     {{entityClaim claims 'wdt:P156' true}} {{!-- followed by --}}
-    {{urlClaim claims 'wdt:P856'}} {{!-- official website --}}
     {{urlClaim claims 'wdt:P953'}} {{!-- full text available at --}}
-    {{platformClaim claims 'wdt:P2002'}} {{!-- twitter: yes some books have a twitter!! actually, just one: Q20736124 --}}
+    {{> 'entities:links_claims' this}}
     {{#if hasEbooks}}{{> 'entities:ebooks' this}}{{/if}}
   </p>
 </div>
