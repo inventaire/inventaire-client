@@ -23,7 +23,6 @@ export default {
     })
 
     app.reqres.setHandlers({
-      'search:entities': API.searchEntities,
       'search:history:add' (data) { return app.searchResultsHistory.addNonExisting(data) }
     })
   }

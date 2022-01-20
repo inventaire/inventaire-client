@@ -1,4 +1,5 @@
 import Radio from 'backbone.radio'
+import assert_ from 'lib/assert_types'
 import error_ from 'lib/error'
 
 export const channel = Radio.channel('global')
@@ -6,6 +7,8 @@ export const channel = Radio.channel('global')
 export const reqres = {
   setHandlers (obj) {
     for (const [ key, callback ] of Object.entries(obj)) {
+      assert_.string(key)
+      assert_.function(callback)
       channel.reply(key, callback)
     }
   },

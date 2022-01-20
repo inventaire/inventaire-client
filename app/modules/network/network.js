@@ -30,7 +30,6 @@ export default {
     new Router({ controller: API })
 
     app.commands.setHandlers({
-      'show:group:create': API.showCreateGroup,
       'show:group:board': showGroupBoardFromModel,
       'show:invite:friend:by:email': API.showInviteFriendByEmail,
       'create:group': API.showCreateGroupLayout
