@@ -148,6 +148,7 @@
     font-weight: normal;
     font-size: 1.1em;
     font-family: $serif;
+    user-select: text;
   }
   .showEntity:hover{
     text-decoration: underline;
