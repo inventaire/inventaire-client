@@ -1,5 +1,5 @@
 <script>
-  import { i18n, I18n } from 'modules/user/lib/i18n'
+  import { I18n } from 'modules/user/lib/i18n'
   import { icon } from 'lib/utils'
   import { createEventDispatcher } from 'svelte'
   export let disableDelete
@@ -7,10 +7,12 @@
 </script>
 
 <div class="edit-mode-buttons">
-  <button class="tiny-button save" title="{I18n('save')} (Ctrl+Enter)">
-    <span class="hide-on-loading">{@html icon('check')}</span>
-    <span class="loading"></span>
-    <span>{i18n('save')}</span>
+  <button
+    class="tiny-button save"
+    title="{I18n('save')} (Ctrl+Enter)"
+    on:click={() => dispatch('save')}
+    >
+    {I18n('save')}
   </button>
   <button
     class="tiny-button cancel"
@@ -26,9 +28,16 @@
   {/if}
 </div>
 
-<style>
+<style lang="scss">
+  @import 'app/modules/general/scss/utils';
   button{
     height: 100%;
     font-weight: normal;
+  }
+  .save{
+    @include tiny-button-color($success-color);
+  }
+  .dangerous{
+    background-color: $dark-grey;
   }
 </style>

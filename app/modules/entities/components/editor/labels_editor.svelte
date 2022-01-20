@@ -2,14 +2,17 @@
   import { i18n, I18n } from 'modules/user/lib/i18n'
   import getLangsData from 'modules/entities/lib/editor/get_langs_data'
   import DisplayModeButtons from './display_mode_buttons.svelte'
+  import Flash from 'lib/components/flash.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
   import { autofocus } from 'lib/components/actions/autofocus'
   import getActionKey from 'lib/get_action_key'
+  import preq from 'lib/preq'
 
   export let entity
   let editMode = false
+  let input, flash
 
-  const { type, labels } = entity
+  const { uri, type, labels } = entity
   const hasName = type === 'human' || type === 'publisher'
   const userLang = app.user.lang
   const languages = getLangsData(userLang, labels)
@@ -18,11 +21,20 @@
 
   function showEditMode () { editMode = true }
   function closeEditMode () { editMode = false }
-  function save () {}
+  async function save () {
+    const { value } = input
+    labels[currentLang] = value
+    editMode = false
+    preq.put(app.API.entities.labels.update, { uri, lang: currentLang, value })
+    .catch(err => {
+      editMode = true
+      flash = err
+    })
+  }
   function onInputKeyup (e) {
     const key = getActionKey(e)
     if (key === 'esc') closeEditMode()
-    else if (key === 'enter') save()
+    else if (e.ctrlKey && key === 'enter') save()
   }
 </script>
 
@@ -44,11 +56,12 @@
     <div class="value">
       {#if editMode}
         <input type="text"
-          value={currentValue}
+          value={currentValue || ''}
           on:keyup={onInputKeyup}
+          bind:this={input}
           use:autofocus
         >
-        <EditModeButtons disableDelete={true} on:cancel={closeEditMode} />
+        <EditModeButtons disableDelete={true} on:cancel={closeEditMode} on:save={save}/>
       {:else}
         <button class="value-display" on:click={showEditMode} title="{i18n('edit')}">
           {currentValue || ''}
@@ -57,14 +70,21 @@
       {/if}
     </div>
   </div>
+
+  <Flash bind:state={flash}/>
 </div>
+
 
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
   .labels-editor{
     @include panel;
-    padding: 0.8em 1em 0.8em 1em;
+    padding: 0.8em 1em;
     align-self: stretch;
+    /*Large screens*/
+    @media screen and (min-width: $small-screen) {
+      padding: 1em 1.5em;
+    }
   }
   h3{
     font-size: 1rem;
@@ -94,6 +114,7 @@
       cursor: pointer;
       text-align: left;
       @include bg-hover(white, 5%);
+      user-select: text;
     }
   }
 </style>
