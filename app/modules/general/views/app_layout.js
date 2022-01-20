@@ -12,6 +12,7 @@ import assert_ from 'app/lib/assert_types'
 import Dropdown from 'behaviors/dropdown'
 import General from 'behaviors/general'
 import PreventDefault from 'behaviors/prevent_default'
+import { showDonateMenu, showFeedbackMenu, showLoader } from '../lib/show_views'
 
 export default Marionette.View.extend({
   template: appLayoutTemplate,
@@ -39,9 +40,9 @@ export default Marionette.View.extend({
     this.render()
 
     app.commands.setHandlers({
-      'show:loader': this.showLoader,
-      'show:feedback:menu': this.showFeedbackMenu,
-      'show:donate:menu': this.showDonateMenu,
+      'show:loader': showLoader,
+      'show:feedback:menu': showFeedbackMenu,
+      'show:donate:menu': showDonateMenu,
       'ask:confirmation': this.askConfirmation.bind(this),
       'history:back' (options) {
         // Go back only if going back means staying in the app

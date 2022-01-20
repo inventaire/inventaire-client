@@ -9,11 +9,6 @@ const lateImport = async () => {
 setTimeout(lateImport, 0)
 
 export default {
-  showLoader () {
-    const loader = '<div class="full-screen-loader"><div></div></div>'
-    $(app.layout.getRegion('main').el).html(loader)
-  },
-
   showEntity (e) {
     entityAction(e, 'show:entity')
     if (!isOpenedOutside(e)) {
@@ -25,26 +20,6 @@ export default {
   showEntityEdit (e) { entityAction(e, 'show:entity:edit') },
   showEntityCleanup (e) { entityAction(e, 'show:entity:cleanup') },
   showEntityHistory (e) { entityAction(e, 'show:entity:history') },
-  showDonateMenu () {
-    app.layout.showChildView('modal', new DonateMenu({ navigateOnClose: true }))
-    app.navigate('donate')
-  },
-
-  showFeedbackMenu (options) {
-    // In the case of 'show:feedback:menu', a unique object is passed
-    // in which the event object is passed either directly
-    // or as the value for the key 'event'
-    // but options might also be a click event object
-    const event = options?.event || options
-    // Known case of missing href: #signalDataError anchors won't have an href
-    const ignoreMissingHref = true
-    if (!isOpenedOutside(event, ignoreMissingHref)) {
-      if (!options) options = {}
-      // Do not navigate as that's a  mess to go back then
-      // and handle the feedback modals with or without dedicated pathnames
-      app.layout.showChildView('modal', new FeedbackMenu(options))
-    }
-  }
 }
 
 const entityAction = function (e, action) {
@@ -59,4 +34,30 @@ const entityAction = function (e, action) {
     app.execute(action, uri)
     e.stopPropagation()
   }
+}
+
+export function showLoader () {
+  const loader = '<div class="full-screen-loader"><div></div></div>'
+  $(app.layout.getRegion('main').el).html(loader)
+}
+
+export function showFeedbackMenu (options) {
+  // In the case of 'show:feedback:menu', a unique object is passed
+  // in which the event object is passed either directly
+  // or as the value for the key 'event'
+  // but options might also be a click event object
+  const event = options?.event || options
+  // Known case of missing href: #signalDataError anchors won't have an href
+  const ignoreMissingHref = true
+  if (!isOpenedOutside(event, ignoreMissingHref)) {
+    if (!options) options = {}
+    // Do not navigate as that's a  mess to go back then
+    // and handle the feedback modals with or without dedicated pathnames
+    app.layout.showChildView('modal', new FeedbackMenu(options))
+  }
+}
+
+export function showDonateMenu () {
+  app.layout.showChildView('modal', new DonateMenu({ navigateOnClose: true }))
+  app.navigate('donate')
 }
