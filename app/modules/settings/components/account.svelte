@@ -1,7 +1,6 @@
 <script>
   import { i18n, I18n } from 'modules/user/lib/i18n'
   import preq from 'lib/preq'
-  import log_ from 'lib/loggers'
   import _ from 'underscore'
   import Flash from 'lib/components/flash.svelte'
   import UpdatePassword from 'lib/components/update_password.svelte'
@@ -26,12 +25,7 @@
       })
       window.location.reload()
     } catch (err) {
-      // Logs the error and report it
-      log_.error(err)
-      flashLang = {
-        type: 'error',
-        message: I18n('something went wrong, try again later')
-      }
+      flashLang = err
     }
   }
 
