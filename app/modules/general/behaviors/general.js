@@ -1,7 +1,6 @@
-import { isOpenedOutside } from 'lib/utils'
 // General events to be shared between the app_layout and modal
 // given app_layout can't catch modal events
-import moveCaretToEnd from 'modules/general/lib/move_caret_to_end'
+import { isOpenedOutside } from 'lib/utils'
 import enterClick from 'modules/general/lib/enter_click'
 import preventFormSubmit from 'modules/general/lib/prevent_form_submit'
 import showViews from '../lib/show_views'
@@ -15,7 +14,6 @@ const execute = commandName => function (e) {
 export default Marionette.Behavior.extend({
   events: {
     'submit form': preventFormSubmit,
-    'focus textarea': moveCaretToEnd,
     'keyup input.enterClick': enterClick.input,
     'keyup textarea.ctrlEnterClick': enterClick.textarea,
     'keyup a.button,a.enterClick,div.enterClick,a[tabindex=0]': enterClick.button,
