@@ -31,7 +31,10 @@ export default TypedEntityLayout.extend({
   },
 
   serializeData () {
-    return { standalone: this.standalone }
+    return {
+      standalone: this.standalone,
+      displayMergeSuggestions: this.displayMergeSuggestions
+    }
   },
 
   async showPaginatedEditions (uris) {

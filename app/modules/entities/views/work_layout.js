@@ -4,6 +4,7 @@ import EntityActions from './entity_actions'
 import entityItems from '../lib/entity_items'
 import WorkInfobox from './work_infobox'
 import workLayoutTemplate from './templates/work_layout.hbs'
+import '../scss/entities_layouts.scss'
 import '../scss/work_layout.scss'
 
 export default TypedEntityLayout.extend({

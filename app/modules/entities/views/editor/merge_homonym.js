@@ -27,8 +27,9 @@ export default Marionette.View.extend({
   initialize () {
     const toEntityUri = this.options.toEntity.get('uri')
     this.taskModel = this.model.tasks?.[toEntityUri]
-    this.isTypeAttribute = `is${capitalize(this.model.type)}`
-
+    if (this.model.type) {
+      this.isTypeAttribute = `is${capitalize(this.model.type)}`
+    }
     this.isExactMatch = haveLabelMatch(this.model, this.options.toEntity)
     this.showCheckbox = this.options.showCheckbox
   },
