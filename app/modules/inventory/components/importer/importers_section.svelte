@@ -17,6 +17,7 @@
 
   export let candidates
   export let processedPreCandidates = 0
+  export let totalPreCandidates = 0
   let preCandidatesCount = 0
   let preCandidates = []
   let flashImporters = {}
@@ -66,6 +67,7 @@
     flashIsbnsImporter = null
     const invalidIsbns = []
     preCandidates = _.compact(candidatesData.map(createPreCandidate(invalidIsbns)))
+    totalPreCandidates = preCandidates.length
     if (invalidIsbns.length > 0) {
       const invalidRawIsbns = invalidIsbns.map(_.property('isbn'))
       const message = I18n('invalid_isbns_warning', { invalidIsbns: invalidRawIsbns.join(', ') })

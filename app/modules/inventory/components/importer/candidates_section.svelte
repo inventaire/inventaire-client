@@ -5,6 +5,7 @@
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   export let candidates
   export let processedPreCandidates
+  export let totalPreCandidates
   let selectedBooksCount
 
   const checkAll = checked => candidates = candidates.map(candidate => ({ ...candidate, checked }))
@@ -13,7 +14,7 @@
   $: selectedBooksCount = candidates.filter(_.property('checked')).length
 </script>
 <h3>2/ Select the books you want to add</h3>
-<Counter total={processedPreCandidates} count={candidatesLength}/>
+<Counter total={processedPreCandidates} count={totalPreCandidates}/>
 <ul>
   {#each candidates as candidate}
     <CandidateRow bind:candidate/>
@@ -33,10 +34,10 @@
 </div>
 {#if candidatesLength > 20 }
   <!-- repeat counter when many candidates -->
-  <Counter total={processedPreCandidates} count={candidatesLength}/>
+  <Counter total={processedPreCandidates} count={totalPreCandidates}/>
   <!-- stats -->
   <p>{I18n('Number of books found')}: {candidatesLength}</p>
-  <p>{I18n('Number of selected books')}: {selectedBooksCount}</p>
+  <p>{I18n('Number of books you selected to import')}: {selectedBooksCount}</p>
 {/if}
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
