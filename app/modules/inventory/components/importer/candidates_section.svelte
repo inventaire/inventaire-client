@@ -16,7 +16,7 @@
 <h3>2/ Select the books you want to add</h3>
 <Counter total={processedPreCandidates} count={totalPreCandidates}/>
 <ul>
-  {#each candidates as candidate}
+  {#each candidates as candidate (candidate.index)}
     <CandidateRow bind:candidate/>
   {/each}
 </ul>

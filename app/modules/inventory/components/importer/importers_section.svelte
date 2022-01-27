@@ -75,9 +75,14 @@
     }
   }
 
+  let preCandidateIndexCount = 0
+
   const createPreCandidate = invalidIsbns => candidateData => {
     const { isbn } = candidateData
-    const preCandidate = {}
+    const preCandidate = {
+      index: preCandidateIndexCount
+    }
+    preCandidateIndexCount += 1
     preCandidate.customWorkTitle = candidateData.title
     preCandidate.customAuthorsNames = candidateData.authors
     if (isbn) preCandidate.isbnData = isbnExtractor.getIsbnData(isbn)
@@ -124,11 +129,16 @@
       createCandidateOneByOne()
     ])
     .then(async () => {
+      // Display candidates in the order of the input
+      // to help the user fill the missing information
+      candidates = candidates.sort(byIndex)
       // add counts only now in order to handle entities redirects
       await addExistingItemsCounts()
       screen_.scrollToElement(bottomSectionElement.offsetTop)
     })
   }
+
+  const byIndex = (a, b) => a.index - b.index
 
   const isAlreadyCandidate = normalizedIsbn => _.some(candidates, haveIsbn(normalizedIsbn))
 

@@ -3,7 +3,9 @@ import getOriginalLang from '#entities/lib/get_original_lang'
 import { isNonEmptyString } from '#lib/boolean_tests'
 
 export const createCandidate = (preCandidate, entitiesRes) => {
-  const candidate = {}
+  const candidate = {
+    index: preCandidate.index
+  }
   const { isbnData, customWorkTitle, customAuthorsNames } = preCandidate
   if (isbnData && isbnData.normalizedIsbn.length === 10) {
     const redirectsUri = entitiesRes.redirects[guessUriFromIsbn({ preCandidate })]
