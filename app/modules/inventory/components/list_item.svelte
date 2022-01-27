@@ -1,5 +1,5 @@
 <script>
-  import { preCandidateUri } from '#inventory/lib/import_helpers'
+  import { guessUriFromIsbn } from '#inventory/lib/import_helpers'
   import { I18n, i18n } from '#user/lib/i18n'
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
@@ -7,15 +7,12 @@
   export let candidate
   let existingItemsCount
 
-  const { preCandidate, edition, works, authors } = candidate
-  const { isbnData } = preCandidate
+  const { isbnData, edition, works, authors } = candidate
+  let { customWorkTitle, customAuthorsNames } = candidate
   const rawIsbn = isbnData?.rawIsbn
   let needInfo, confirmInfo, existingItemsPathname, warning
-  let customWorkTitle = preCandidate.title
   let customAuthorName, work, editionLang
   if (works && works.length > 0) work = works[0]
-
-  const { authors: importedAuthors } = preCandidate
 
   if (edition) {
     editionLang = getOriginalLang(edition.claims)
@@ -23,16 +20,16 @@
     editionLang = 'en'
   }
 
-  if (importedAuthors && importedAuthors.length > 0) {
-    customAuthorName = importedAuthors[0]
-    if (!authors && importedAuthors.length > 1) {
-      warning = 'multiple authors detected, currently only one author can be created now, you may edit created work authors later.'
+  if (customAuthorsNames && customAuthorsNames.length > 0) {
+    customAuthorName = customAuthorsNames[0]
+    if (!authors && customAuthorsNames.length > 1) {
+      warning = 'multiple authors detected, this importer can only create one author. You may add authors later.'
     }
   }
 
   $: {
     if (existingItemsCount && existingItemsCount > 0) {
-      const uri = preCandidateUri(preCandidate)
+      const uri = guessUriFromIsbn({ isbnData })
       const username = app.user.get('username')
       existingItemsPathname = `/inventory/${username}/${uri}`
     }

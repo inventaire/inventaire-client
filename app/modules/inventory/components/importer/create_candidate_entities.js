@@ -22,7 +22,7 @@ export const createEntitiesByCandidate = async (candidate, importErr) => {
     }
   }
   if (!candidate.edition && workEntity) {
-    const editionDraft = await createWorkEditionDraft({ workEntity, isbnData: candidate.preCandidate.isbnData })
+    const editionDraft = await createWorkEditionDraft({ workEntity, isbnData: candidate.isbnData })
     const editionEntity = await createEntityFromDraft(editionDraft, importErr, candidate)
     if (editionEntity) candidate.edition = editionEntity
   }
@@ -35,7 +35,7 @@ const createEntityFromDraft = async (draft, importErr, candidate) => {
 }
 
 const handleErr = (importErr, candidate) => err => {
-  const { isbn } = candidate.preCandidate
+  const { isbn } = candidate.isbnData
   if (isbn && !importErr.includes(isbn)) {
     importErr.push(isbn)
     log_.error(err, 'create entity err')

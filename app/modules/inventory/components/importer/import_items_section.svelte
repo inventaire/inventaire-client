@@ -59,7 +59,7 @@
     .then(item => createdItems = [ ...createdItems, item ])
     // do not throw to not crash the whole chain
     .catch(err => {
-      importErr.push(nextCandidate.preCandidate.isbn)
+      importErr.push(nextCandidate.isbnData.isbn)
       log_.error(err, 'createItem err')
     })
     .finally(createItemsSequentially)

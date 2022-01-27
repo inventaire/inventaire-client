@@ -5,8 +5,7 @@
   export let candidate
 
   let disabled, existingItemsCount
-  const { preCandidate, works, customAuthorName, customWorkTitle } = candidate
-  const { isbnData } = preCandidate
+  const { isbnData, works, customAuthorName, customWorkTitle } = candidate
 
   const rawIsbn = isbnData?.rawIsbn
   let needInfo, confirmInfo

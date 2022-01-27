@@ -1,8 +1,7 @@
 import preq from '#lib/preq'
 
 export const createCandidateItem = async (candidate, importErr, transaction, listing) => {
-  const { edition, preCandidate, checked } = candidate
-  const { isbn } = preCandidate
+  const { edition, isbn, checked } = candidate
   if (!checked || !edition || importErr.includes(isbn)) return
   const { uri: editionUri } = edition
   if (!editionUri) return
