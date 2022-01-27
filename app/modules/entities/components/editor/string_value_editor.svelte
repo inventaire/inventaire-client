@@ -6,18 +6,21 @@
   import getActionKey from 'lib/get_action_key'
   import Flash from 'lib/components/flash.svelte'
   import preq from 'lib/preq'
+  import { createEventDispatcher } from 'svelte'
 
   export let uri, property, value
 
-  let editMode = false
+  let editMode = (value == null)
   let oldValue = value
   let currentValue = value
   let input, flash
+  const dispatch = createEventDispatcher()
 
   function showEditMode () { editMode = true }
   function closeEditMode () {
     editMode = false
     flash = null
+    if (value === null) dispatch('remove')
   }
   async function save () {
     const { value } = input
