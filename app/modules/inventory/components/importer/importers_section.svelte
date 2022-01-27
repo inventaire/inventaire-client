@@ -8,7 +8,7 @@
   import commonParser from '#inventory/lib/parsers/common'
   import dataValidator from '#inventory/lib/data_validator'
   import files_ from '#lib/files'
-  import { preCandidateUri, createCandidate } from '#inventory/lib/import_helpers'
+  import { guessUriFromIsbn, createCandidate } from '#inventory/lib/import_helpers'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import screen_ from '#lib/screen'
   import preq from '#lib/preq'
@@ -77,7 +77,9 @@
 
   const createPreCandidate = invalidIsbns => candidateData => {
     const { isbn } = candidateData
-    const preCandidate = candidateData
+    const preCandidate = {}
+    preCandidate.customWorkTitle = candidateData.title
+    preCandidate.customAuthorsNames = candidateData.authors
     if (isbn) preCandidate.isbnData = isbnExtractor.getIsbnData(isbn)
     if (preCandidate.isbnData.isInvalid) {
       invalidIsbns.push(preCandidate)
@@ -130,20 +132,21 @@
 
   const isAlreadyCandidate = normalizedIsbn => _.some(candidates, haveIsbn(normalizedIsbn))
 
-  const haveIsbn = isbn => candidate => candidate.preCandidate.isbnData?.normalizedIsbn === isbn
+  const haveIsbn = isbn => candidate => candidate.isbnData?.normalizedIsbn === isbn
 
   // Fetch the works associated to the editions, and those works authors
   // to get access to the authors labels
   const relatives = [ 'wdt:P629', 'wdt:P50' ]
 
   const addExistingItemsCounts = function () {
-    const uris = _.compact(preCandidates.map(preCandidateUri))
+    const uris = _.compact(preCandidates.map(preCandidate => guessUriFromIsbn({ preCandidate })))
     return app.request('items:getEntitiesItemsCount', app.user.id, uris)
     .then(counts => candidates = candidates.map(addCountToCandidate(counts)))
   }
 
   const addCountToCandidate = counts => candidate => {
-    const uri = preCandidateUri(candidate.preCandidate)
+    const { isbnData } = candidate
+    const uri = guessUriFromIsbn({ isbnData })
     if (uri == null) return candidate
     const count = counts[uri]
     if (count != null) candidate.existingItemsCount = count

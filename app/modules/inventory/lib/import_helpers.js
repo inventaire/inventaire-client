@@ -1,14 +1,17 @@
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
+import { isNonEmptyString } from '#lib/boolean_tests'
 
 export const createCandidate = (preCandidate, entitiesRes) => {
   const candidate = {}
-  const { isbnData } = preCandidate
+  const { isbnData, customWorkTitle, customAuthorsNames } = preCandidate
   if (isbnData && isbnData.normalizedIsbn.length === 10) {
-    const redirectsUri = entitiesRes.redirects[preCandidateUri(preCandidate)]
+    const redirectsUri = entitiesRes.redirects[guessUriFromIsbn({ preCandidate })]
     if (redirectsUri) isbnData.normalizedIsbn = redirectsUri.replace(/isbn:/, '')
   }
-  candidate.preCandidate = preCandidate
+  if (isbnData) candidate.isbnData = isbnData
+  if (isNonEmptyString(customWorkTitle)) candidate.customWorkTitle = customWorkTitle
+  if (customAuthorsNames) candidate.customAuthorsNames = customAuthorsNames
 
   const entities = Object.values(entitiesRes.entities).map(serializeEntity)
   const { edition: editions, work: works, human: authors } = _.groupBy(entities, _.property('type'))
@@ -22,8 +25,10 @@ export const createCandidate = (preCandidate, entitiesRes) => {
   return candidate
 }
 
-export const preCandidateUri = preCandidate => {
-  const isbn = preCandidate.isbnData?.normalizedIsbn
+export const guessUriFromIsbn = ({ preCandidate, isbnData }) => {
+  let isbn
+  if (preCandidate)isbn = preCandidate.isbnData?.normalizedIsbn
+  if (isbnData) isbn = isbnData.normalizedIsbn
   if (isbn) return `isbn:${isbn}`
 }
 
