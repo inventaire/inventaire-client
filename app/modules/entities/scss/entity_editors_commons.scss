@@ -1,0 +1,18 @@
+@import 'app/modules/general/scss/utils';
+
+.editor-section{
+  @include panel;
+  padding: 0.8em 1em;
+  align-self: stretch;
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    padding: 1em 1.5em;
+  }
+}
+
+.editor-section-header{
+  font-size: 1rem;
+  @include sans-serif;
+  font-weight: bold;
+  margin-right: 0.5em;
+}
