@@ -38,8 +38,8 @@
   }
 </script>
 
-<div class="labels-editor">
-  <h3>
+<div class="editor-section">
+  <h3 class="editor-section-header">
     {#if hasName}
       {I18n('name')}
     {:else}
@@ -76,22 +76,7 @@
 
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
-  .labels-editor{
-    @include panel;
-    padding: 0.8em 1em;
-    align-self: stretch;
-    /*Large screens*/
-    @media screen and (min-width: $small-screen) {
-      padding: 1em 1.5em;
-    }
-  }
-  h3{
-    font-size: 1rem;
-    @include sans-serif;
-    font-weight: bold;
-    margin-right: 0.5em;
-  }
+  @import 'app/modules/entities/scss/entity_editors_commons';
   .language-values{
     @include display-flex(row, stretch, center);
     height: 2.5em;
