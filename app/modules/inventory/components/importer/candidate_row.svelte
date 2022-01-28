@@ -68,7 +68,8 @@
   .candidateRow{
     @include display-flex(row, center, center);
     margin: 0.2em 0;
-    padding: 0.5em 1em;
+    padding: 0.2em 1em;
+    padding-left: 0.5em;
     border: solid 1px #ccc;
     border-radius: 3px;
   }
