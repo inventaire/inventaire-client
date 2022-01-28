@@ -101,8 +101,12 @@
     const createCandidateOneByOne = async () => {
       if (remainingPreCandidates.length === 0) return
       const preCandidate = remainingPreCandidates.pop()
-      const nextUri = `isbn:${preCandidate.isbnData.normalizedIsbn}`
-      if (!isAlreadyCandidate(preCandidate.isbnData.normalizedIsbn)) {
+      const { normalizedIsbn } = preCandidate.isbnData
+      const nextUri = `isbn:${normalizedIsbn}`
+      // wont prevent doublons candidates if 2 identical isbns are processed
+      // at the same time in separate channels (see below)
+      // this is acceptable, as long as it prevent doublons from one import to another
+      if (!isAlreadyCandidate(normalizedIsbn, candidates)) {
         await preq.get(app.API.entities.getByUris(nextUri, false, relatives))
         .catch(err => {
           log_.error(err, 'no entities found err')
