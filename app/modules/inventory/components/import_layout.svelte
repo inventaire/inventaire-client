@@ -18,10 +18,10 @@
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
     <div class="itemsSettings">
       <SelectButtonGroup type="transaction" bind:selected={transaction}/>
-      <SelectButtonGroup type="listing" title="visibility" bind:selected={listing}/>
+      <SelectButtonGroup type="listing" bind:selected={listing}/>
     </div>
-    <ImportItemsSection bind:candidates {transaction} {listing}/>
   </div>
+  <ImportItemsSection bind:candidates {transaction} {listing}/>
 </div>
 
 <style lang="scss">

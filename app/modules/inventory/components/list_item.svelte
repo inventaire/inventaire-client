@@ -7,7 +7,7 @@
   export let candidate
   let existingItemsCount
 
-  const { isbnData, edition, works, authors } = candidate
+  const { isbnData, edition, works, authors, error, item } = candidate
   let { customWorkTitle, customAuthorsNames } = candidate
   const rawIsbn = isbnData?.rawIsbn
   let needInfo, confirmInfo, existingItemsPathname, warning
@@ -90,6 +90,9 @@
     {#if isbnData?.isInvalid}
       <span class="invalid-isbn">{I18n('invalid ISBN')}</span>
     {/if}
+    {#if error}
+      <div>{I18n('error:')} {error.status_verbose}</div>
+    {/if}
     {#if needInfo}
       <div>{I18n('need more information')}</div>
     {/if}
@@ -99,7 +102,7 @@
     {#if confirmInfo}
       <div>{I18n('edit incorrect information')}</div>
     {/if}
-    {#if existingItemsCount}
+    {#if existingItemsCount && !error && !item}
       <span class="existing-entity-items">
         {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
       </span>

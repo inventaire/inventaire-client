@@ -217,7 +217,7 @@
   <a id="createCandidatesButton" on:click={createAndResolveCandidates} class="button">{I18n('find ISBNs')}</a>
 </div>
 <div bind:this={bottomSectionElement}></div>
-<!-- flash here to be able to view it while scrolling down to candidates section -->
+<!-- The flash element is here to be able to view it while scrolling down to candidates section -->
 <Flash bind:state={flashIsbnsImporter}/>
 <style>
   h3{

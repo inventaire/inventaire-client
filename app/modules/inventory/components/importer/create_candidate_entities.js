@@ -2,12 +2,12 @@ import createEntity from '#entities/lib/create_entity'
 import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import entityDraft from '#entities/lib/entity_draft_model'
 
-export const createEntitiesByCandidate = async (candidate, importErr) => {
+export const createEntitiesByCandidate = async candidate => {
   const { customWorkTitle, customAuthorName } = candidate
   let workEntity
   if (!candidate.authors && customAuthorName) {
     const authorDraft = entityDraft.createDraft({ type: 'human', label: customAuthorName, claims: {} })
-    const authorEntity = await createEntityFromDraft(authorDraft, importErr, candidate)
+    const authorEntity = await createEntity(authorDraft)
     if (authorEntity) candidate.authors = [ authorEntity ]
   }
   if (!candidate.works && candidate.authors) {
@@ -17,27 +17,14 @@ export const createEntitiesByCandidate = async (candidate, importErr) => {
       const workClaims = {}
       workClaims['wdt:P50'] = [ uri ]
       const workDraft = entityDraft.createDraft({ type: 'work', label: customWorkTitle, claims: workClaims })
-      workEntity = await createEntityFromDraft(workDraft, importErr, candidate)
+      workEntity = await createEntity(workDraft)
       if (workEntity) candidate.works = [ workEntity ]
     }
   }
   if (!candidate.edition && workEntity) {
     const editionDraft = await createWorkEditionDraft({ workEntity, isbnData: candidate.isbnData })
-    const editionEntity = await createEntityFromDraft(editionDraft, importErr, candidate)
+    const editionEntity = await createEntity(editionDraft)
     if (editionEntity) candidate.edition = editionEntity
   }
   return candidate
-}
-
-const createEntityFromDraft = async (draft, importErr, candidate) => {
-  return createEntity(draft)
-  .catch(handleErr(importErr, candidate))
-}
-
-const handleErr = (importErr, candidate) => err => {
-  const { isbn } = candidate.isbnData
-  if (isbn && !importErr.includes(isbn)) {
-    importErr.push(isbn)
-    log_.error(err, 'create entity err')
-  }
 }
