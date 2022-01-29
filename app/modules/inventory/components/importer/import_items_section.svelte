@@ -10,6 +10,7 @@
   export let candidates
   export let transaction
   export let listing
+  export let shelvesIds
   let flash
   let importingCandidates
   let processedCandidates = []
@@ -71,7 +72,7 @@
     processedItemsCount += 1
     if (nextCandidate.checked && !nextCandidate.error) {
       const { edition, details, notes } = nextCandidate
-      await createItem(edition, details, notes, transaction, listing)
+      await createItem(edition, details, notes, transaction, listing, shelvesIds)
       .then(item => {
         nextCandidate.item = item
       })
