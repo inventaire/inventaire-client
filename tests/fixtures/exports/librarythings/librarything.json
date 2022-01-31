@@ -117,6 +117,7 @@
     "56": [null,
     "Romans, nouvelles, etc. pour la jeunesse"]
   },
+  "review": "my review",
   "series": "Harry Potter",
   "originaltitle": "Harry Potter and the Order of the Phoenix",
   "awards": ["ALA Best Books for Young Adults",
@@ -146,6 +147,8 @@
   "Fantasy"],
   "genre_id": ["1879",
   "5280"],
+  "comment": "comment",
+  "privatecomment": "private notes",
   "source": "amazon.com",
   "workcode": "115",
   "entrydate": "2014-10-11",

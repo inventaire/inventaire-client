@@ -2,13 +2,14 @@ import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { tap } from '#lib/promises'
 
-export const createItem = async (edition, details, transaction, listing, shelves) => {
+export const createItem = async (edition, details, notes, transaction, listing, shelves) => {
   if (!edition) return
   const { uri: editionUri } = edition
   if (!editionUri) return
   const itemData = {
     transaction,
     listing,
+    notes,
     details,
     shelves,
     entity: editionUri
