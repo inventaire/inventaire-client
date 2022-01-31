@@ -85,6 +85,8 @@
     preCandidateIndexCount += 1
     preCandidate.customWorkTitle = candidateData.title
     preCandidate.customAuthorsNames = candidateData.authors
+    preCandidate.details = candidateData.details
+    preCandidate.notes = candidateData.notes
     if (isbn) preCandidate.isbnData = isbnExtractor.getIsbnData(isbn)
     if (preCandidate.isbnData.isInvalid) {
       invalidIsbns.push(preCandidate)

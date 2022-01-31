@@ -6,7 +6,7 @@ export const createCandidate = (preCandidate, entitiesRes) => {
   const candidate = {
     index: preCandidate.index
   }
-  const { isbnData, customWorkTitle, customAuthorsNames } = preCandidate
+  const { isbnData, customWorkTitle, customAuthorsNames, details, notes } = preCandidate
   if (isbnData && isbnData.normalizedIsbn.length === 10) {
     const redirectsUri = entitiesRes.redirects[guessUriFromIsbn({ preCandidate })]
     if (redirectsUri) isbnData.normalizedIsbn = redirectsUri.replace(/isbn:/, '')
@@ -14,6 +14,8 @@ export const createCandidate = (preCandidate, entitiesRes) => {
   if (isbnData) candidate.isbnData = isbnData
   if (isNonEmptyString(customWorkTitle)) candidate.customWorkTitle = customWorkTitle
   if (customAuthorsNames) candidate.customAuthorsNames = customAuthorsNames
+  if (details) candidate.details = details
+  if (notes) candidate.notes = notes
 
   const entities = Object.values(entitiesRes.entities).map(serializeEntity)
   const { edition: editions, work: works, human: authors } = _.groupBy(entities, _.property('type'))
