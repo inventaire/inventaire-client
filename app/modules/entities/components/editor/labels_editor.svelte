@@ -7,6 +7,7 @@
   import { autofocus } from 'lib/components/actions/autofocus'
   import getActionKey from 'lib/get_action_key'
   import preq from 'lib/preq'
+  import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 
   export let entity
   let editMode = false
@@ -16,8 +17,9 @@
   const hasName = type === 'human' || type === 'publisher'
   const userLang = app.user.lang
   const languages = getLangsData(userLang, labels)
-  let currentLang = userLang
-  $: currentValue = labels[currentLang]
+  const bestLangData = getBestLangValue(userLang, null, labels)
+  let currentLang = bestLangData.lang
+  $: currentValue = labels[currentLang] || userLang
 
   function showEditMode () { editMode = true }
   function closeEditMode () { editMode = false }
@@ -41,7 +43,7 @@
 <div class="editor-section">
   <h3 class="editor-section-header">
     {#if hasName}
-      {I18n('name')}
+      {I18n('name')}gd
     {:else}
       {I18n('title')}
     {/if}
