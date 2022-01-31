@@ -17,21 +17,23 @@ export const createCandidate = (preCandidate, entitiesRes) => {
   if (details) candidate.details = details
   if (notes) candidate.notes = notes
 
-  const entities = Object.values(entitiesRes.entities).map(serializeEntity)
-  const { edition: editions, work: works, human: authors } = _.groupBy(entities, _.property('type'))
-  if (!editions || editions.length > 1) {
-    candidate.notFound = true
-    return candidate
+  if (entitiesRes) {
+    const entities = Object.values(entitiesRes.entities).map(serializeEntity)
+    const { edition: editions, work: works, human: authors } = _.groupBy(entities, _.property('type'))
+    if (!editions || editions.length > 1) {
+      candidate.notFound = true
+      return candidate
+    }
+    candidate.edition = editions[0]
+    candidate.works = works
+    candidate.authors = authors || []
   }
-  candidate.edition = editions[0]
-  candidate.works = works
-  candidate.authors = authors || []
   return candidate
 }
 
 export const guessUriFromIsbn = ({ preCandidate, isbnData }) => {
   let isbn
-  if (preCandidate)isbn = preCandidate.isbnData?.normalizedIsbn
+  if (preCandidate) isbn = preCandidate.isbnData?.normalizedIsbn
   if (isbnData) isbn = isbnData.normalizedIsbn
   if (isbn) return `isbn:${isbn}`
 }

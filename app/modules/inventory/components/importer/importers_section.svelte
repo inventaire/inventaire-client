@@ -88,7 +88,7 @@
     preCandidate.details = candidateData.details
     preCandidate.notes = candidateData.notes
     if (isbn) preCandidate.isbnData = isbnExtractor.getIsbnData(isbn)
-    if (preCandidate.isbnData.isInvalid) {
+    if (preCandidate.isbnData?.isInvalid) {
       invalidIsbns.push(preCandidate)
       // do not return to avoid creating an invalid preCandidate
     } else {
@@ -103,17 +103,21 @@
     const createCandidateOneByOne = async () => {
       if (remainingPreCandidates.length === 0) return
       const preCandidate = remainingPreCandidates.pop()
-      const { normalizedIsbn } = preCandidate.isbnData
-      const nextUri = `isbn:${normalizedIsbn}`
-      // wont prevent doublons candidates if 2 identical isbns are processed
-      // at the same time in separate channels (see below)
-      // this is acceptable, as long as it prevent doublons from one import to another
-      if (!isAlreadyCandidate(normalizedIsbn, candidates)) {
-        await preq.get(app.API.entities.getByUris(nextUri, false, relatives))
-        .catch(err => {
-          log_.error(err, 'no entities found err')
-        })
-        .then(createCandidatesFromEntities(preCandidate))
+      if (preCandidate.isbnData) {
+        const { normalizedIsbn } = preCandidate.isbnData
+        const nextUri = `isbn:${normalizedIsbn}`
+        // wont prevent doublons candidates if 2 identical isbns are processed
+        // at the same time in separate channels (see below)
+        // this is acceptable, as long as it prevent doublons from one import to another
+        if (!isAlreadyCandidate(normalizedIsbn, candidates)) {
+          await preq.get(app.API.entities.getByUris(nextUri, false, relatives))
+          .catch(err => {
+            log_.error(err, 'no entities found err')
+          })
+          .then(createCandidates(preCandidate))
+        }
+      } else {
+        createCandidates(preCandidate)()
       }
       processedPreCandidates += 1
       // increase batch size to reduce queries amount on the long run
@@ -169,8 +173,7 @@
     return candidate
   }
 
-  const createCandidatesFromEntities = preCandidate => res => {
-    if (!res) return
+  const createCandidates = preCandidate => res => {
     const newCandidate = createCandidate(preCandidate, res)
     candidates = [ ...candidates, newCandidate ]
   }
