@@ -15,7 +15,7 @@ export default Marionette.View.extend({
   },
 
   events: {
-    'click .typePicker a': 'updateTypePickerFromClick'
+    'click .typePicker button': 'updateTypePickerFromClick'
   },
 
   onRender () {
