@@ -32,7 +32,8 @@ export default Marionette.View.extend({
     const { label, claims } = this.options
     const params = { type, label, claims }
     params.model = entityDraftModel.create(params)
-    params.region = this.typedEntityEdit
+    params.layout = this
+    params.regionName = 'typedEntityEdit'
     app.execute('show:entity:edit:from:params', params)
   },
 

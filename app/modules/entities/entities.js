@@ -305,7 +305,7 @@ const getEntityModel = async (uri, refresh) => {
 const getEntityLocalHref = uri => `/entity/${uri}`
 
 const showEntityEdit = async params => {
-  const { model } = params
+  const { model, layout, regionName } = params
   if (model.type == null) throw error_.new('invalid entity type', model)
   let View
   if (params.next != null || params.previous != null) {
@@ -313,7 +313,11 @@ const showEntityEdit = async params => {
   } else {
     ({ default: View } = await import('./views/editor/entity_edit'))
   }
-  app.layout.showChildView('main', new View(params))
+  if (layout && regionName) {
+    layout.showChildView(regionName, new View(params))
+  } else {
+    app.layout.showChildView('main', new View(params))
+  }
   app.navigateFromModel(model, 'edit')
 }
 
