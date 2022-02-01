@@ -85,7 +85,7 @@ export default Marionette.CollectionView.extend({
 
   events: {
     'click .addValue': 'addValue',
-    'click .creationPartial a': 'dispatchCreationPartialClickEvents'
+    'click .creationPartial button': 'dispatchCreationPartialClickEvents'
   },
 
   ui: {

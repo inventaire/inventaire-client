@@ -95,7 +95,7 @@ export default Marionette.CollectionView.extend({
 
   events: {
     'change .languageFilter': 'filterLanguageFromEvent',
-    'click .edition-creation a': 'dispatchCreationEditionClickEvents'
+    'click .edition-creation button': 'dispatchCreationEditionClickEvents'
   },
 
   viewFilter (view) {
