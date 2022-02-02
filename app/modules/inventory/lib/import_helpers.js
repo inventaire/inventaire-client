@@ -17,17 +17,16 @@ export const createCandidate = (preCandidate, entitiesRes) => {
   if (details) candidate.details = details
   if (notes) candidate.notes = notes
 
-  if (entitiesRes) {
-    const entities = Object.values(entitiesRes.entities).map(serializeEntity)
-    const { edition: editions, work: works, human: authors } = _.groupBy(entities, _.property('type'))
-    if (!editions || editions.length > 1) {
-      candidate.notFound = true
-      return candidate
-    }
-    candidate.edition = editions[0]
-    candidate.works = works
-    candidate.authors = authors || []
+  if (!entitiesRes) return candidate
+  const entities = Object.values(entitiesRes.entities).map(serializeEntity)
+  const { edition: editions, work: works, human: authors } = _.groupBy(entities, _.property('type'))
+  if (editions) candidate.edition = getEdition(editions)
+  if (!candidate.edition) {
+    candidate.notFound = true
+    return candidate
   }
+  candidate.works = works
+  candidate.authors = authors || []
   return candidate
 }
 
@@ -42,8 +41,17 @@ const serializeEntity = entity => {
   entity.originalLang = getOriginalLang(entity.claims)
   entity.label = getBestLangValue(app.user.lang, entity.originalLang, entity.labels).value
   entity.pathname = `/entity/${entity.uri}`
-  const [ prefix, id ] = entity.uri.split(':')
-  entity.prefix = prefix
-  entity.id = id
   return entity
+}
+
+const getEdition = editions => {
+  let edition
+  if (editions.length > 1) {
+    // remove wikidata editions (see server issue #182)
+    const invEditions = editions.filter(edition => !edition.uri.startsWith('wd:'))
+    if (invEditions.length > 0) edition = invEditions[0]
+  } else if (editions.length === 1) {
+    edition = editions[0]
+  }
+  return edition
 }
