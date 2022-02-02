@@ -68,7 +68,7 @@
     const invalidIsbns = []
     preCandidates = _.compact(candidatesData.map(createPreCandidate(invalidIsbns)))
     totalPreCandidates = preCandidates.length
-    if (invalidIsbns.length > 0) {
+    if (invalidIsbns.length > 0 && candidates.length > 0) {
       const invalidRawIsbns = invalidIsbns.map(_.property('isbn'))
       const message = I18n('invalid_isbns_warning', { invalidIsbns: invalidRawIsbns.join(', ') })
       flashIsbnsImporter = { type: 'warning', message }
