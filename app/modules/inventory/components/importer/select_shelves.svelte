@@ -1,10 +1,10 @@
 <script>
-  import { I18n } from 'modules/user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import _ from 'underscore'
-  import app from 'app/app'
-  import Spinner from 'modules/general/components/spinner.svelte'
-  import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
-  import SelectShelf from 'modules/inventory/components/importer/select_shelf.svelte'
+  import app from '#app/app'
+  import Spinner from '#components/spinner.svelte'
+  import { getShelvesByOwner } from '#shelves/lib/shelves'
+  import SelectShelf from '#inventory/components/importer/select_shelf.svelte'
 
   export let shelvesIds
   let userShelves = []

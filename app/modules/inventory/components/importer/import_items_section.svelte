@@ -6,6 +6,7 @@
   import { createEntitiesByCandidate } from '#inventory/components/importer/create_candidate_entities'
   import { createItem } from '#inventory/components/create_item'
   import ImportResults from '#inventory/components/importer/import_results.svelte'
+  import screen_ from '#lib/screen'
 
   export let candidates
   export let transaction
@@ -16,6 +17,7 @@
   let processedCandidates = []
   let processedItemsCount = 0
   let processedEntitiesCount = 0
+  let importResultsElement
 
   const importCandidates = async () => {
     flash = null
@@ -35,6 +37,7 @@
     await createItemsSequentially()
     importingCandidates = false
     removeCreatedCandidates()
+    screen_.scrollToElement(importResultsElement.offsetTop)
   }
 
   const removeCreatedCandidates = async () => {
@@ -99,8 +102,9 @@
         {I18n('import the selection')}
       </button>
     {/if}
+
     {#if processedCandidates.length > 0}
-      <ImportResults {transaction} {listing} bind:processedCandidates/>
+      <ImportResults bind:this={importResultsElement} {transaction} {listing} bind:processedCandidates/>
     {/if}
   </div>
 

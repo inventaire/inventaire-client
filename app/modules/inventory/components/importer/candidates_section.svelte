@@ -14,7 +14,6 @@
   $: selectedBooksCount = candidates.filter(_.property('checked')).length
 </script>
 <h3>2/ Select the books you want to add</h3>
-<Counter total={processedPreCandidates} count={totalPreCandidates}/>
 <ul>
   {#each candidates as candidate (candidate.index)}
     <CandidateRow bind:candidate/>
@@ -34,7 +33,7 @@
 </div>
 {#if candidatesLength > 20 }
   <!-- repeat counter when many candidates -->
-  <Counter total={processedPreCandidates} count={totalPreCandidates}/>
+  <Counter total={totalPreCandidates} count={processedPreCandidates}/>
   <!-- stats -->
   <p>{I18n('Number of books found')}: {candidatesLength}</p>
   <p>{I18n('Number of books you selected to import')}: {selectedBooksCount}</p>
