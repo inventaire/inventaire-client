@@ -1,18 +1,15 @@
 <script>
-  import { guessUriFromIsbn } from '#inventory/lib/import_helpers'
   import { I18n, i18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import EntityLogo from '#inventory/components/entity_source_logo.svelte'
   export let candidate
-  let existingItemsCount
 
-  const { isbnData, edition, works, authors, error, item } = candidate
+  const { isbnData, edition, works, authors } = candidate
   let { customWorkTitle, customAuthorsNames } = candidate
   const rawIsbn = isbnData?.rawIsbn
-  let needInfo, confirmInfo, existingItemsPathname, warning
-  let customAuthorName, work, editionLang
+  let customAuthorName, work, editionLang, existingItemsCount
   if (works && works.length > 0) work = works[0]
 
   if (edition) {
@@ -24,15 +21,7 @@
   if (customAuthorsNames && customAuthorsNames.length > 0) {
     customAuthorName = customAuthorsNames[0]
     if (!authors && customAuthorsNames.length > 1) {
-      warning = 'multiple authors detected, this importer can only create one author. You may add authors later.'
-    }
-  }
-
-  $: {
-    if (existingItemsCount && existingItemsCount > 0) {
-      const uri = guessUriFromIsbn({ isbnData })
-      const username = app.user.get('username')
-      existingItemsPathname = `/inventory/${username}/${uri}`
+      status.warning = 'multiple authors detected, this importer can only create one author. You may add authors later.'
     }
   }
 

@@ -3,62 +3,81 @@
   import { isNonEmptyString } from '#lib/boolean_tests'
   import ListItem from '#inventory/components/list_item.svelte'
   export let candidate
+  import { guessUriFromIsbn } from '#inventory/lib/import_helpers'
+
+  const { isbnData, works, error, item } = candidate
+
+  let existingItemsPathname
 
   let disabled, existingItemsCount
-  const { isbnData, works, customAuthorName, customWorkTitle } = candidate
-
   const rawIsbn = isbnData?.rawIsbn
-  let needInfo, confirmInfo
   let alreadyItemsCount
-  let checked = true
-
-  $: {
-    if (!works || works.length === 0) {
-      if (customWorkTitle) {
-        confirmInfo = true
-      } else {
-        needInfo = true
-        disabled = true
-      }
-    } else {
-      candidate.checked = true
-    }
-  }
-
-  const onCheckSelect = e => {
-    candidate.checked = e.target.checked
-  }
+  candidate.checked = true
+  let status = {}
 
   if (isbnData?.isInvalid) disabled = true
-
   $: {
-    // must call candidate to be reactive
-    if (disabled && candidate) candidate.checked = false
-  }
-  $: {
-    // only set checked at existingItemsCount creation which happens after candidate creation
-    // to allow user to check the box again
-    alreadyItemsCount = existingItemsCount
-    existingItemsCount = candidate.existingItemsCount
-    if (!alreadyItemsCount && existingItemsCount) candidate.checked = false
-  }
-  $: checked = candidate.checked
-  $: candidate.customWorkTitle = customWorkTitle
-  $: candidate.customAuthorName = customAuthorName
-  $: {
-    if (isNonEmptyString(customWorkTitle)) {
-      disabled = false
-      candidate.checked = true
-    } else {
-      if (needInfo) {
+    if (!works || works.length === 0) {
+      if (isNonEmptyString(candidate.customWorkTitle)) {
+        if (!status.confirmInfo) candidate.checked = true
+        status.confirmInfo = true
+        status.needInfo = false
+        disabled = false
+      } else {
+        status.confirmInfo = false
+        status.needInfo = true
         disabled = true
         candidate.checked = false
       }
     }
   }
+  $: {
+    // must call candidate to be reactive
+    if (disabled && candidate) candidate.checked = false
+  }
+  $: {
+    if (existingItemsCount && existingItemsCount > 0) {
+      const uri = guessUriFromIsbn({ isbnData })
+      const username = app.user.get('username')
+      existingItemsPathname = `/inventory/${username}/${uri}`
+    }
+  }
+  $: {
+    // only set checked at existingItemsCount creation which happens after candidate creation
+    // to allow user to check the box again
+    existingItemsCount = candidate.existingItemsCount
+    if (!alreadyItemsCount && existingItemsCount) {
+      candidate.checked = false
+      alreadyItemsCount = true
+    }
+  }
+  $: checked = candidate.checked
 </script>
 <li class="candidateRow" on:click="{() => candidate.checked = !candidate.checked}" class:checked>
   <ListItem bind:candidate/>
+  <div class="column status">
+    {#if isbnData?.isInvalid}
+      <span class="invalid-isbn">{I18n('invalid ISBN')}</span>
+    {/if}
+    {#if error}
+      <div>{I18n('error:')} {error.status_verbose}</div>
+    {/if}
+    {#if status.needInfo}
+      <div>{I18n('need more information')}</div>
+    {/if}
+    {#if status.warning}
+      <div>{I18n()}</div>
+    {/if}
+    {#if status.confirmInfo}
+      <div>{I18n('edit incorrect information')}</div>
+    {/if}
+    {#if existingItemsCount && !status.error && !item}
+      <span class="existing-entity-items">
+        {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
+      </span>
+    {/if}
+  </div>
+
   <div class="checkbox">
     <input type="checkbox" bind:checked {disabled} name="{I18n('select_book')} {rawIsbn}">
   </div>
