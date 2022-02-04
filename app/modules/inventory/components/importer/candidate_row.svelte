@@ -54,28 +54,30 @@
   $: checked = candidate.checked
 </script>
 <li class="candidateRow" on:click="{() => candidate.checked = !candidate.checked}" class:checked>
-  <ListItem bind:candidate/>
-  <div class="column status">
-    {#if isbnData?.isInvalid}
-      <span class="invalid-isbn">{I18n('invalid ISBN')}</span>
-    {/if}
-    {#if error}
-      <div>{I18n('error:')} {error.status_verbose}</div>
-    {/if}
-    {#if status.needInfo}
-      <div>{I18n('need more information')}</div>
-    {/if}
-    {#if status.warning}
-      <div>{I18n()}</div>
-    {/if}
-    {#if status.confirmInfo}
-      <div>{I18n('edit incorrect information')}</div>
-    {/if}
-    {#if existingItemsCount && !status.error && !item}
-      <span class="existing-entity-items">
-        {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
-      </span>
-    {/if}
+  <div class="candidateText">
+    <ListItem bind:candidate/>
+    <div class="column status">
+      {#if isbnData?.isInvalid}
+        <span class="invalid-isbn">{I18n('invalid ISBN')}</span>
+      {/if}
+      {#if error}
+        <div>{I18n('error:')} {error.status_verbose}</div>
+      {/if}
+      {#if status.needInfo}
+        <div>{I18n('need more information')}</div>
+      {/if}
+      {#if status.warning}
+        <div>{I18n()}</div>
+      {/if}
+      {#if status.confirmInfo}
+        <div>{I18n('edit incorrect information')}</div>
+      {/if}
+      {#if existingItemsCount && !status.error && !item}
+        <span class="existing-entity-items">
+          {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
+        </span>
+      {/if}
+    </div>
   </div>
 
   <div class="checkbox">
@@ -85,15 +87,20 @@
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
   .candidateRow{
-    @include display-flex(row, center, center);
-    margin: 0.2em 0;
-    padding: 0.2em 1em;
-    padding-left: 0.5em;
+    @include display-flex(row, center);
     border: solid 1px #ccc;
     border-radius: 3px;
+    padding: 0 1em ;
   }
-  .checkbox{
-    padding-left: 1em;
+  .candidateText{
+    flex: 10 0 0;
+    @include display-flex(column, flex-start);
+  }
+  .status{
+    background-color: rgba($yellow, 0.3);
+    padding: 0 1em;
+    /*should stay the same as .candidateCover{width}*/
+    margin-left: 4em;
   }
   .checked{
     background-color: rgba($success-color, 0.3);
