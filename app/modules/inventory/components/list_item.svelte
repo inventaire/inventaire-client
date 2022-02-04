@@ -87,7 +87,7 @@
   </div>
 </div>
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .column{
     padding: 0.2em 0;
   }

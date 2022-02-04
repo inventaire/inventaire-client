@@ -85,7 +85,7 @@
   </div>
 </li>
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .candidateRow{
     @include display-flex(row, center);
     border: solid 1px #ccc;

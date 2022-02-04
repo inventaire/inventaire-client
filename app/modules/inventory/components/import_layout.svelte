@@ -34,7 +34,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   #importLayout{
     margin: 0 auto;
     max-width: 70em;
