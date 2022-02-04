@@ -65,15 +65,22 @@
     const key = getActionKey(e)
     if (key === 'esc') closeEditMode()
     else if (e.ctrlKey && key === 'enter') save()
-    else search()
+    else lazySearch()
   }
 
+  let lastSearch
   async function search () {
     const searchText = input.value
-    if (searchText.length === 0) return
-    suggestions = await typeSearch(searchType, input.value, 20, 0)
-    showSuggestions = true
+    if (searchText.length === 0 || searchText === lastSearch) return
+    lastSearch = searchText
+    const res = await typeSearch(searchType, input.value, 20, 0)
+    if (searchText === lastSearch) {
+      suggestions = res
+      showSuggestions = true
+    }
   }
+
+  const lazySearch = _.debounce(search, 200)
 
   async function remove () {
     dispatch('remove')
