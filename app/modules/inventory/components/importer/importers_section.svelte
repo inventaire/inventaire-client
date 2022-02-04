@@ -100,6 +100,8 @@
     processedPreCandidates = 0
     preCandidatesCount = preCandidates.length
     const remainingPreCandidates = _.clone(preCandidates)
+    screen_.scrollToElement(bottomSectionElement.offsetTop)
+
     const createCandidateOneByOne = async () => {
       if (remainingPreCandidates.length === 0) return
       const preCandidate = remainingPreCandidates.pop()
@@ -144,7 +146,6 @@
       candidates = candidates.sort(byIndex)
       // add counts only now in order to handle entities redirects
       await addExistingItemsCounts()
-      screen_.scrollToElement(bottomSectionElement.offsetTop)
     })
   }
 
