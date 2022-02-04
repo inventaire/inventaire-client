@@ -5,41 +5,53 @@
   export let type
   export let selected
 
-  const titles = {
-    listing: 'visibility',
-    transaction: 'transaction'
+  const customization = {
+    listing: {
+      title: 'visibility',
+      // 'listing_description': 'select the visibility you would to apply to all selected books'
+      options: app.user.listings(),
+      defaultOption: 'private'
+    },
+    transaction: {
+      title: 'transaction',
+      // 'transaction_description': 'select the transaction mode you would to apply to all selected books'
+      options: transactionsDataFactory(),
+      defaultOption: 'inventorying'
+    }
   }
 
-  const title = titles[type]
-
-  const optionsTypes = {
-    transaction: transactionsDataFactory(),
-    listing: app.user.listings()
-  }
-  const optionsData = Object.values(optionsTypes[type])
-
-  const defaultOptions = {
-    transaction: 'inventorying',
-    listing: 'private'
-  }
-  selected = defaultOptions[type]
+  const title = customization[type].title
+  const optionsData = Object.values(customization[type].options)
+  selected = customization[type].defaultOption
 </script>
-
-<label for="{type}">{I18n(title)}</label>
-<div class="select-button-group {type}">
-  {#each optionsData as option}
-    <button
-      class="button {option.id}"
-      on:click="{() => { selected = option.id }}"
-      class:selected="{option.id === selected}"
-      >
-      {@html icon(option.icon)} <span>{I18n(option.label)}</span>
-    </button>
-  {/each}
+<div class="itemCreation">
+  <h4>{I18n(title)}</h4>
+  <label for="{type}">{I18n(title + '_description')}</label>
+  <div class="select-button-group">
+    {#each optionsData as option}
+      <button
+        id="{option.id}"
+        class="button {option.id}"
+        on:click="{() => { selected = option.id }}"
+        class:selected="{option.id === selected}"
+        >
+        {@html icon(option.icon)} <span>{I18n(option.label)}</span>
+      </button>
+    {/each}
+  </div>
 </div>
-
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
-  .selected{background-color: $light-blue}
-  label{font-size: 1em;}
+  @import '#inventory/scss/item_creation_commons';
+  h4, label{
+    text-align: center
+  }
+  .itemCreation{
+    margin: 1em 0
+  }
+  label{
+    font-size: 1em
+  }
+  .select-button-group{
+    justify-content: center;
+  }
 </style>

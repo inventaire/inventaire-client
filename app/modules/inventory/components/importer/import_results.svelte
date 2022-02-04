@@ -42,7 +42,7 @@
 {/if}
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .candidateErr{
     background-color: rgba($warning-color, 0.3);
   }

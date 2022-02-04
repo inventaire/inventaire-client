@@ -109,7 +109,7 @@
   </div>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   h3{
     margin-top: 1em;
     text-align: center;

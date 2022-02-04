@@ -46,7 +46,7 @@
   <p>{I18n('Number of books you selected to import')}: {selectedBooksCount}</p>
 {/if}
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .candidates-nav{
     margin: 1em;
     @include display-flex(row, center, center, wrap);

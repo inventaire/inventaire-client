@@ -22,7 +22,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .shelf{
     cursor: pointer;
     @include bg-hover($off-white, 5%);
