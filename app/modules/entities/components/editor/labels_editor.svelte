@@ -63,7 +63,7 @@
           bind:this={input}
           use:autofocus
         >
-        <EditModeButtons disableDelete={true} on:cancel={closeEditMode} on:save={save}/>
+        <EditModeButtons showDelete={false} on:cancel={closeEditMode} on:save={save}/>
       {:else}
         <button class="value-display" on:click={showEditMode} title="{i18n('edit')}">
           {currentValue || ''}
