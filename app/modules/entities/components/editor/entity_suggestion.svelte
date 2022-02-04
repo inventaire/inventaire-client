@@ -1,13 +1,19 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  export let suggestion
+  export let suggestion, highlight
+  let element
   const { uri, label, description } = suggestion
   const dispatch = createEventDispatcher()
   const select = () => dispatch('select')
+
+  $: if (element && highlight) element.scrollIntoView(false)
 </script>
 
-<li>
-  <button on:click={select}>
+<li bind:this={element}>
+  <button
+    on:click={select}
+    class:highlight={highlight}
+    >
     <div class="top">
       <span class="label">{label}</span>
       <span class="uri">{uri}</span>
@@ -26,6 +32,9 @@
     padding: 0.5em;
     width: 100%;
     margin: 0;
+  }
+  .highlight{
+    background-color: #ddd;
   }
   .top{
     @include display-flex(row, center, space-between);
