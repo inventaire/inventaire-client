@@ -2,18 +2,20 @@
   import { I18n } from 'modules/user/lib/i18n'
   import { icon } from 'lib/utils'
   import { createEventDispatcher } from 'svelte'
-  export let disableDelete
+  export let showSave, showDelete
   const dispatch = createEventDispatcher()
 </script>
 
 <div class="edit-mode-buttons">
-  <button
-    class="tiny-button save"
-    title="{I18n('save')} (Ctrl+Enter)"
-    on:click={() => dispatch('save')}
-    >
-    {I18n('save')}
-  </button>
+  {#if showSave !== false}
+    <button
+      class="tiny-button save"
+      title="{I18n('save')} (Ctrl+Enter)"
+      on:click={() => dispatch('save')}
+      >
+      {I18n('save')}
+    </button>
+  {/if}
   <button
     class="tiny-button cancel"
     title="{I18n('cancel')} (Esc)"
@@ -21,7 +23,7 @@
     >
     {@html icon('times')}
   </button>
-  {#if disableDelete !== true}
+  {#if showDelete !== false}
     <button
       class="tiny-button dangerous delete"
       title={I18n('delete')}

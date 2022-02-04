@@ -139,7 +139,7 @@
         {/if}
       </div>
       <EditModeButtons
-        on:save={save}
+        showSave={false}
         on:cancel={closeEditMode}
         on:delete={remove}
       />
