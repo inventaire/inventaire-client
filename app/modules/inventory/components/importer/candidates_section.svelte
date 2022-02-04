@@ -48,8 +48,14 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .candidates-nav{
-    margin: 1em;
     @include display-flex(row, center, center, wrap);
-    button { margin: 0.5em;}
+    button {
+      @include radius;
+      margin: 0.1em;
+      flex: 1 0 0;
+      padding: 0.5em;
+      word-wrap: break-word;
+      min-width: 10em;
+    }
   }
 </style>

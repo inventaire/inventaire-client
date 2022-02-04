@@ -115,8 +115,7 @@
     text-align: center;
   }
   .importCandidates {
-    @include display-flex(column, center, center, wrap);
+    @include display-flex(column, center, null, wrap);
     button { margin: 1em 0; }
-    text-align:center;
   }
 </style>

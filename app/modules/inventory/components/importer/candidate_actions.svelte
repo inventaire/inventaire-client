@@ -44,7 +44,14 @@
   </button>
 {/if}
 {#if item}
-  <a href="{editionPathname}" target='_blanck' on:click="{() => app.execute('show:item:byId', item._id)}">
-    {I18n('View book')}
-  </a>
+  <a class="viewBook tiny-button light-blue" href="{editionPathname}" target='_blanck' on:click="{() => app.execute('show:item:byId', item._id)}">
+      {I18n('View book')}
+    </a>
 {/if}
+
+<style>
+  .viewBook{
+    min-width: 6em;
+    text-align: center;
+  }
+</style>
