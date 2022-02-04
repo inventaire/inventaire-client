@@ -45,7 +45,7 @@
       <span class="label">{i18n('title')}:</span>
       {#if work}
         <span class="workTitle">
-          {findBestLang(work, editionLang)}
+          {findBestLang(work, editionLang)}&nbsp;
           <EntityLogo uri="{work.uri}"/>
         </span>
       {:else}
@@ -63,7 +63,7 @@
       {#if authors}
         {#each authors as author, id}
           <span class="authorName">
-            {findBestLang(author)}
+            {findBestLang(author)}&nbsp;
             <EntityLogo uri="{author.uri}"/>
             {#if id !== authors.length - 1},&nbsp;{/if}
           </span>
