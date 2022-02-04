@@ -40,14 +40,13 @@
     {/each}
   </ul>
 {/if}
-
 <style lang="scss">
   @import '#general/scss/utils';
   .candidateErr{
     background-color: rgba($warning-color, 0.3);
   }
   .listCandidate{
-    @include display-flex(row, center, center);
+    @include display-flex(row, center, space-between);
     margin: 0.2em 0;
     padding: 0.5em 1em;
     border: solid 1px #ccc;

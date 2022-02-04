@@ -55,7 +55,9 @@
 </script>
 <li class="candidateRow" on:click="{() => candidate.checked = !candidate.checked}" class:checked>
   <div class="candidateText">
-    <ListItem bind:candidate/>
+    <div class="listItemWrapper">
+      <ListItem bind:candidate/>
+    </div>
     <div class="column status">
       {#if isbnData?.isInvalid}
         <span class="invalid-isbn">{I18n('invalid ISBN')}</span>
@@ -70,7 +72,7 @@
         <div>{I18n()}</div>
       {/if}
       {#if status.confirmInfo}
-        <div>{I18n('edit incorrect information')}</div>
+        <div>{I18n('make sure information is correct')}</div>
       {/if}
       {#if existingItemsCount && !status.error && !item}
         <span class="existing-entity-items">
@@ -79,30 +81,41 @@
       {/if}
     </div>
   </div>
-
-  <div class="checkbox">
-    <input type="checkbox" bind:checked {disabled} name="{I18n('select_book')} {rawIsbn}">
-  </div>
+  <input type="checkbox" bind:checked {disabled} name="{I18n('select_book')} {rawIsbn}">
 </li>
 <style lang="scss">
   @import '#general/scss/utils';
   .candidateRow{
-    @include display-flex(row, center);
+    @include display-flex(row, center, space-between);
+    @include radius;
     border: solid 1px #ccc;
-    border-radius: 3px;
-    padding: 0 1em ;
+    padding: 0.2em 1em;
+    margin-bottom: 0.2em;
   }
   .candidateText{
-    flex: 10 0 0;
-    @include display-flex(column, flex-start);
+    width: 100%;
+    margin-right: 1em;
+    @include display-flex(row, center);
+  }
+  .listItemWrapper{
+    flex: 5 0 0;
   }
   .status{
-    background-color: rgba($yellow, 0.3);
-    padding: 0 1em;
-    /*should stay the same as .candidateCover{width}*/
-    margin-left: 4em;
+    @include radius;
+    background-color: $light-grey;
+    margin: 0.2em;
+    padding: 0.5em;
+    flex: 1 0 0;
+    text-align: center;
+    font-size: 90%;
   }
   .checked{
     background-color: rgba($success-color, 0.3);
+  }
+  /*Small screens*/
+  @media screen and (max-width: 470px) {
+    .candidateText{
+      @include display-flex(column, center, space-between);
+    }
   }
 </style>

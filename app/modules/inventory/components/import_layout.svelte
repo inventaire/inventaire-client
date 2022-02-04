@@ -37,7 +37,7 @@
   @import '#general/scss/utils';
   #importLayout{
     margin: 0 auto;
-    max-width: 70em;
+    max-width: 50em;
   }
   h3{
     margin-top: 1em;
