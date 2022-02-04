@@ -3,17 +3,24 @@
   import { icon } from '#lib/utils'
   import Counter from '#components/counter.svelte'
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
+  import screen_ from '#lib/screen'
+
   export let candidates
   export let processedPreCandidates
   export let totalPreCandidates
-  let selectedBooksCount
+  let selectedBooksCount, titleEl
 
   const checkAll = checked => candidates = candidates.map(candidate => ({ ...candidate, checked }))
 
+  $: {
+    if (processedPreCandidates === totalPreCandidates && processedPreCandidates > 0) {
+      screen_.scrollToElement(titleEl.offsetTop)
+    }
+  }
   $: candidatesLength = candidates.length
   $: selectedBooksCount = candidates.filter(_.property('checked')).length
 </script>
-<h3>2/ Select the books you want to add</h3>
+<h3 bind:this={titleEl}>2/ Select the books you want to add</h3>
 <ul>
   {#each candidates as candidate (candidate.index)}
     <CandidateRow bind:candidate/>

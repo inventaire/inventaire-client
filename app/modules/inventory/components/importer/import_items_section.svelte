@@ -17,7 +17,7 @@
   let processedCandidates = []
   let processedItemsCount = 0
   let processedEntitiesCount = 0
-  let importResultsElement
+  let importResultsElement = {}
 
   const importCandidates = async () => {
     flash = null
