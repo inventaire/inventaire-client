@@ -13,6 +13,10 @@ export default {
     return action('by-uris', { uris, refresh, relatives, autocreate })
   },
 
+  getPropsByUris ({ uris, props, lang }) {
+    return action('by-uris', { uris, props, lang })
+  },
+
   // Get many by POSTing URIs in the body
   getManyByUris: action('by-uris'),
 

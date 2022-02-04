@@ -16,8 +16,12 @@
 </div>
 
 <style>
+  .display-mode-button{
+    height: 2.5rem;
+  }
   button{
     height: 100%;
+    max-height: 2.5em;
     font-weight: normal;
   }
 </style>

@@ -7,7 +7,7 @@ $work-infobox-property-color: #999;
   .entity-data-box{
     max-width: 60em;
   }
-  h2, span, label, p{
+  h2, span, label, p:not(.uri){
     color: white;
   }
   a{

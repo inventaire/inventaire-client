@@ -65,5 +65,8 @@
     height: 2em;
     font-weight: normal;
     @include display-flex(row, center, space-between);
+    &:first-child{
+      margin: 0.5em 0;
+    }
   }
 </style>

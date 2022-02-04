@@ -73,3 +73,22 @@ export const attachEntities = async (entity, attribute, uris) => {
   entity[attribute] = await getEntitiesByUris(uris)
   return entity
 }
+
+export async function getBasicInfoByUri (uri) {
+  const { entities } = await preq.get(app.API.entities.getPropsByUris({
+    uris: uri,
+    props: 'labels|descriptions|image',
+    lang: app.user.lang
+  }))
+  const entity = entities[uri]
+  if (entity) {
+    const label = Object.values(entity.labels)[0]
+    let description
+    if (entity.descriptions) description = Object.values(entity.descriptions)[0]
+    return {
+      label,
+      description,
+      image: entity.image
+    }
+  }
+}
