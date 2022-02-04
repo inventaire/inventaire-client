@@ -61,6 +61,7 @@
         </span>
       {:else}
         <input
+          on:click|stopPropagation
           type="text"
           name="customWorkTitle"
           class="customInput"
@@ -80,6 +81,7 @@
         {/each}
       {:else}
         <input
+          on:click|stopPropagation
           type="text"
           name="customAuthorName"
           class="customInput"
@@ -93,65 +95,44 @@
         {rawIsbn}
       {/if}
     </div>
-    <div class="column status">
-      {#if isbnData?.isInvalid}
-        <span class="invalid-isbn">{I18n('invalid ISBN')}</span>
-      {/if}
-      {#if error}
-        <div>{I18n('error:')} {error.status_verbose}</div>
-      {/if}
-      {#if needInfo}
-        <div>{I18n('need more information')}</div>
-      {/if}
-      {#if warning}
-        <div>{I18n(warning)}</div>
-      {/if}
-      {#if confirmInfo}
-        <div>{I18n('edit incorrect information')}</div>
-      {/if}
-      {#if existingItemsCount && !error && !item}
-        <span class="existing-entity-items">
-          {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
-        </span>
-      {/if}
-    </div>
   </div>
 </div>
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
-    .column{
-      flex: 20 0 0;
-      padding: 0.2em;
-    }
-    .listItem{
-      flex: 1 0 0;
+  .column{
+    flex: 20 0 0;
+    padding: 0.2em;
+  }
+  .listItem{
+    flex: 1 0 0;
+    @include display-flex(row, center);
+    .candidateCover{
+      margin-right: 1em;
+    };
+    .textWrapper{
       @include display-flex(row, center);
-      .candidateCover{
-        margin-right: 1em;
-      };
-      .textWrapper{
-        @include display-flex(row, center);
-        flex: 1 0 0;
-        .isbn{
-          @include display-flex(column);
-          text-align: right;
-          flex: 5 0 0;
-        }
-        .status{
-          @include display-flex(column);
-          text-align: right;
-          flex: 7 0 0;
-        }
-        .label{
-          display: none;
-        }
+      flex: 1 0 0;
+      .isbn{
+        @include display-flex(column);
+        text-align: right;
+        flex: 5 0 0;
+      }
+      .status{
+        @include display-flex(column);
+        text-align: right;
+        flex: 7 0 0;
+      }
+      .label{
+        display: none;
       }
     }
-    .authors, .work{
-      @include display-flex(row, center, center, wrap);
-        width: 100%;
-      .customInput{
-        width: 100%;
+  }
+  .authors, .work{
+    @include display-flex(row, center, center, wrap);
+      width: 100%;
+    .customInput{
+      margin-bottom: 0;
+      width: 100%;
     }
   }
 

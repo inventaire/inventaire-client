@@ -7,9 +7,9 @@
 </script>
 <span class="entitySourceLogo" title="{uri}">
   {#if uri?.startsWith('wd:Q')}
-    <a href="https://wikidata.org/wiki/{unprefixify(uri)}" target="_blank">{@html icon('wikidata')}</a>
+    <a on:click|stopPropagation href="https://wikidata.org/wiki/{unprefixify(uri)}" target="_blank">{@html icon('wikidata')}</a>
   {:else if uri?.startsWith('inv:')}
-    <a href="{host}/entity/{uri}" target="_blank">inv</a>
+    <a on:click|stopPropagation href="{host}/entity/{uri}" target="_blank">inv</a>
   {/if}
 </span>
 

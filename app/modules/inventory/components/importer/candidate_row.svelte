@@ -57,10 +57,10 @@
     }
   }
 </script>
-<li class="candidateRow" class:checked>
+<li class="candidateRow" on:click="{() => candidate.checked = !candidate.checked}" class:checked>
   <ListItem bind:candidate/>
   <div class="checkbox">
-    <input type="checkbox" bind:checked on:click={onCheckSelect} {disabled} name="{I18n('select_book')} {rawIsbn}">
+    <input type="checkbox" bind:checked {disabled} name="{I18n('select_book')} {rawIsbn}">
   </div>
 </li>
 <style lang="scss">
