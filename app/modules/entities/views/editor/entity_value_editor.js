@@ -194,7 +194,7 @@ export default ClaimsEditorCommons.extend({
 const createdEntityType = {
   works: 'work',
   humans: 'author',
-  series: 'serie',
+  series: 'series',
   publishers: 'publisher',
   collections: 'collection'
 }

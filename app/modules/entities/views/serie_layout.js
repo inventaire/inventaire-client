@@ -47,7 +47,7 @@ export default TypedEntityLayout.extend({
       type: 'work',
       hideHeader: true,
       refresh: this.refresh,
-      addButtonLabel: 'add a work to this serie'
+      addButtonLabel: 'add a work to this series'
     })
 
     this.showChildView('parts', view)

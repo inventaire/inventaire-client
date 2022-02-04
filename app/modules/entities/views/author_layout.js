@@ -111,7 +111,7 @@ export default TypedEntityLayout.extend({
 
 const addButtonLabelPerType = {
   works: 'add a work from this author',
-  series: 'add a serie from this author'
+  series: 'add a series from this author'
 }
 
 const dropThePlural = type => type.replace(/s$/, '')
