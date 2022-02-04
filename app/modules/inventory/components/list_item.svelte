@@ -35,11 +35,11 @@
   $: candidate.customAuthorName = customAuthorName
 </script>
 <div class="listItem">
-  {#if edition?.image?.url}
-    <div class="candidateCover">
+  <div class="candidateCover">
+    {#if edition?.image?.url}
       <img src="{imgSrc(edition.image.url, 80)}" alt='{findBestLang(work, editionLang)} cover'>
-    </div>
-  {/if}
+    {/if}
+  </div>
   <div class="textWrapper">
     <div class="column work">
       <span class="label">{i18n('title')}:</span>
@@ -89,59 +89,25 @@
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
   .column{
-    flex: 20 0 0;
-    padding: 0.2em;
+    padding: 0.2em 0;
   }
   .listItem{
-    flex: 1 0 0;
     @include display-flex(row, center);
     .candidateCover{
+      width: 4em;
       margin-right: 1em;
-    };
-    .textWrapper{
-      @include display-flex(row, center);
-      flex: 1 0 0;
-      .isbn{
-        @include display-flex(column);
-        text-align: right;
-        flex: 5 0 0;
-      }
-      .status{
-        @include display-flex(column);
-        text-align: right;
-        flex: 7 0 0;
-      }
-      .label{
-        display: none;
-      }
     }
   }
   .authors, .work{
-    @include display-flex(row, center, center, wrap);
-      width: 100%;
     .customInput{
       margin-bottom: 0;
       width: 100%;
     }
   }
-
-  /*Small screens*/
-  @media screen and (max-width: 45em) {
-    .listItem{
-      .textWrapper{
-        @include display-flex(column, center);
-        .column{
-          text-align: left;
-        }
-        .isbn{
-          @include display-flex(row, center);
-        }
-        .label{
-          display: inline;
-          color: $grey;
-          margin-right: 0.5em;
-        }
-      }
-    }
+  .label{
+    display: inline;
+    color: $grey;
+    font-size: 90%;
+    margin-right: 0.5em;
   }
 </style>
