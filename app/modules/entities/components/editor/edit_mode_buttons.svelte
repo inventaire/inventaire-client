@@ -18,11 +18,15 @@
     class="tiny-button cancel"
     title="{I18n('cancel')} (Esc)"
     on:click={() => dispatch('cancel')}
-  >
+    >
     {@html icon('times')}
   </button>
-  {#if !disableDelete}
-    <button class="tiny-button dangerous delete" title="{I18n('delete')}">
+  {#if disableDelete !== true}
+    <button
+      class="tiny-button dangerous delete"
+      title={I18n('delete')}
+      on:click={() => dispatch('delete')}
+      >
       {@html icon('trash')}
     </button>
   {/if}
@@ -30,9 +34,13 @@
 
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
+  .edit-mode-buttons{
+    height: 2.5rem;
+  }
   button{
     height: 100%;
     font-weight: normal;
+    margin-left: 0.2em;
   }
   .save{
     @include tiny-button-color($success-color);

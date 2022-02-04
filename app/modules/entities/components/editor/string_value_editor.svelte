@@ -79,7 +79,7 @@
       font-weight: normal;
       margin: 0 0.5em;
     }
-    button{
+    .value-display{
       cursor: pointer;
       text-align: left;
       @include bg-hover(white, 5%);
