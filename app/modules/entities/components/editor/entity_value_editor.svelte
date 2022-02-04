@@ -63,9 +63,19 @@
   }
   function onInputKeyup (e) {
     const key = getActionKey(e)
-    if (key === 'esc') closeEditMode()
-    else if (e.ctrlKey && key === 'enter') save()
-    else lazySearch()
+    if (key === 'esc') {
+      closeEditMode()
+    } else if (key === 'enter') {
+      save(suggestions[highlightedIndex].uri)
+    } else if (key === 'down') {
+      highlightedIndex = highlightedIndex + 1
+      e.preventDefault()
+    } else if (key === 'up') {
+      highlightedIndex = highlightedIndex - 1
+      e.preventDefault()
+    } else {
+      lazySearch()
+    }
   }
 
   let lastSearch
@@ -77,10 +87,17 @@
     if (searchText === lastSearch) {
       suggestions = res
       showSuggestions = true
+      if (suggestions.length > 0) highlightedIndex = 0
     }
   }
 
   const lazySearch = _.debounce(search, 200)
+
+  let highlightedIndex = 0
+
+  $: {
+    if (highlightedIndex < 0) highlightedIndex = 0
+  }
 
   async function remove () {
     dispatch('remove')
@@ -104,9 +121,10 @@
         {#if showSuggestions && suggestions.length > 0}
           <div class="autocomplete">
             <ul class="suggestions">
-              {#each suggestions as suggestion (suggestion.uri)}
+              {#each suggestions as suggestion, i (suggestion.uri)}
                 <EntitySuggestion
                   {suggestion}
+                  highlight={i === highlightedIndex}
                   on:select={() => save(suggestion.uri)}
                 />
               {/each}
