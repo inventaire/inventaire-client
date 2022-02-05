@@ -4,12 +4,15 @@
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import EntityLogo from '#inventory/components/entity_source_logo.svelte'
-  export let candidate
+  export let isbnData
+  export let edition
+  export let works
+  export let authors
+  export let customWorkTitle
+  export let customAuthorsNames
 
-  const { isbnData, edition, works, authors } = candidate
-  let { customWorkTitle, customAuthorsNames } = candidate
   const rawIsbn = isbnData?.rawIsbn
-  let customAuthorName, work, editionLang, existingItemsCount
+  let customAuthorName, work, editionLang
   if (works && works.length > 0) work = works[0]
 
   if (edition) {
@@ -29,13 +32,9 @@
     if (!objectWithLabels || !objectWithLabels.labels) return
     return getBestLangValue(editionLang, null, objectWithLabels.labels).value
   }
-
-  $: existingItemsCount = candidate.existingItemsCount
-  $: candidate.customWorkTitle = customWorkTitle
-  $: candidate.customAuthorName = customAuthorName
 </script>
 <div class="listItem">
-    <div class="candidateCover">
+    <div class="editionCover">
       {#if edition?.image?.url}
         <img src="{imgSrc(edition.image.url, 80)}" alt='{findBestLang(work, editionLang)} cover'>
       {/if}
@@ -95,7 +94,7 @@
   .listItem{
     margin-right: 1em;
     @include display-flex(row, center,space-between);
-    .candidateCover{
+    .editionCover{
       margin-right: 1em;
       min-width: 4em;
     }
