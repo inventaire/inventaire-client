@@ -3,9 +3,7 @@ import error_ from '#lib/error'
 import importers from './importers.js'
 
 export default function (importer, data) {
-  const { format, label, disableValidation } = importer
-  if (disableValidation) return
-
+  const { format, label } = importer
   if (!isValid[format](importer, data)) {
     const message = i18n('data_mismatch', { source: label })
     // avoid attaching the whole file as context as it might be pretty heavy
