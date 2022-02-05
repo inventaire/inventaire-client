@@ -46,7 +46,7 @@
         {#if work}
           <span class="workTitle">
             {findBestLang(work, editionLang)}&nbsp;
-            <EntityLogo uri="{work.uri}"/>
+            <EntityLogo entity="{work}"/>
           </span>
         {:else}
           <input
@@ -64,7 +64,7 @@
           {#each authors as author, id}
             <span class="authorName">
               {findBestLang(author)}&nbsp;
-              <EntityLogo uri="{author.uri}"/>
+              <EntityLogo entity="{author}"/>
               {#if id !== authors.length - 1},&nbsp;{/if}
             </span>
           {/each}
@@ -82,6 +82,10 @@
         {#if rawIsbn}
           <span class="label">ISBN:</span>
           {rawIsbn}
+          {#if edition}
+            &nbsp;
+            <EntityLogo entity="{edition}"/>
+          {/if}
         {/if}
       </div>
     </div>

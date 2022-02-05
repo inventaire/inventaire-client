@@ -1,18 +1,21 @@
 <script>
-  import { host } from '#app/lib/urls'
   import { icon } from '#app/lib/utils'
-  export let uri
-
-  const unprefixify = uri => uri?.replace(/^wd:/, '')
+  export let entity
+  const { pathname, uri } = entity
+  const wdIdPattern = /Q\d+/
+  const invPrefixPattern = /[inv:][isbn:]/
 </script>
-<span class="entitySourceLogo" title="{uri}">
-  {#if uri?.startsWith('wd:Q')}
-    <a on:click|stopPropagation href="https://wikidata.org/wiki/{unprefixify(uri)}" target="_blank">{@html icon('wikidata')}</a>
-  {:else if uri?.startsWith('inv:')}
-    <a on:click|stopPropagation href="{host}/entity/{uri}" target="_blank">inv</a>
-  {/if}
-</span>
-
+{#if pathname}
+  <span class="entitySourceLogo" title="{uri}">
+    <a on:click|stopPropagation href="{pathname}" target="_blank">
+      {#if pathname?.match(wdIdPattern)}
+        {@html icon('wikidata')}
+      {:else if pathname?.match(invPrefixPattern)}
+        inv
+      {/if}
+    </a>
+  </span>
+{/if}
 <style>
   .entitySourceLogo{
     font-family: "Alegreya", serif;

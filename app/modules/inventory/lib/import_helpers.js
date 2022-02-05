@@ -46,7 +46,7 @@ const serializeEntity = entity => {
 
 const getEdition = editions => {
   let edition
-  if (editions.length > 1) {
+  if (editions && editions.length > 1) {
     // remove wikidata editions (see server issue #182)
     const invEditions = editions.filter(edition => !edition.uri.startsWith('wd:'))
     if (invEditions.length > 0) edition = invEditions[0]
