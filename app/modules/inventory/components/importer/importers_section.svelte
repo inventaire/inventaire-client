@@ -45,11 +45,9 @@
       return parse(data).map(commonParser)
     })
     .then(createPreCandidates)
-    .then(createAndResolveCandidates)
+    .then(createCandidatesQueue)
     .catch(log_.ErrorRethrow('parsing error'))
-    .catch(message => {
-      flashImporters[importer.name] = { type: 'error', message }
-    })
+    .catch(message => flashImporters[importer.name] = { type: 'error', message })
   }
 
   const onIsbnsChange = async () => {
@@ -98,7 +96,7 @@
     }
   }
 
-  const createAndResolveCandidates = async () => {
+  const createCandidatesQueue = async () => {
     processedPreCandidates = 0
     preCandidatesCount = preCandidates.length
     const remainingPreCandidates = _.clone(preCandidates)
@@ -118,12 +116,11 @@
           .catch(err => {
             log_.error(err, 'no entities found err')
           })
-          .then(createCandidates(preCandidate))
+          .then(createAndAssignCandidate(preCandidate))
         }
       } else {
-        createCandidates(preCandidate)()
+        createAndAssignCandidate(preCandidate)()
       }
-      processedPreCandidates += 1
       // increase batch size to reduce queries amount on the long run
       // while serving first results quickly
       createCandidateOneByOne()
@@ -176,7 +173,8 @@
     return candidate
   }
 
-  const createCandidates = preCandidate => res => {
+  const createAndAssignCandidate = preCandidate => res => {
+    processedPreCandidates += 1
     const newCandidate = createCandidate(preCandidate, res)
     candidates = [ ...candidates, newCandidate ]
   }
@@ -184,8 +182,8 @@
   const emptyIsbns = () => isbnsText = ''
 
   // dev stuff, delete before production
-  isbnsText = ',9782352946847,9782352946847,2277119660,1591841380,978-2-207-11674-6'
-  Promise.resolve(onIsbnsChange()).then(createAndResolveCandidates)
+  isbnsText = ',97823529462352946847,219660841380,978-2-207-11674-6'
+  Promise.resolve(onIsbnsChange()).then(createCandidatesQueue)
 </script>
 <div id="importersElement">
   <h3>1/ {I18n('upload your books from another website')}</h3>
@@ -226,7 +224,7 @@
   </ul>
 </div>
 <div class="buttonWrapper">
-  <a id="createCandidatesButton" on:click={createAndResolveCandidates} class="button">{I18n('find ISBNs')}</a>
+  <a id="createCandidatesButton" on:click={createCandidatesQueue} class="button">{I18n('find ISBNs')}</a>
 </div>
 <div bind:this={bottomSectionElement}></div>
 <!-- The flash element is here to be able to view it while scrolling down to candidates section -->
