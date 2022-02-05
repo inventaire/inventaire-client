@@ -1,31 +1,42 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { isNonEmptyString } from '#lib/boolean_tests'
+  import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
   import ListItem from '#inventory/components/list_item.svelte'
   export let candidate
   import { guessUriFromIsbn } from '#inventory/lib/import_helpers'
 
   const { isbnData, edition, works, authors, error, item } = candidate
   let { customWorkTitle, customAuthorsNames } = candidate
+  const initialWorkTitle = customWorkTitle
 
   let existingItemsPathname
-
   let disabled, existingItemsCount
   const rawIsbn = isbnData?.rawIsbn
   let alreadyItemsCount
-  candidate.checked = true
   let status = {}
+  let anyStatus
 
-  if (isbnData?.isInvalid) disabled = true
+  candidate.checked = true
+
+  const hasImportedData = customWorkTitle || customAuthorsNames
+  const noCandidateEntities = !isNonEmptyArray(works) || !isNonEmptyArray(authors)
+  const hasWorkWithoutAuthors = isNonEmptyArray(works) && !isNonEmptyArray(authors)
+  if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) status.confirmInfo = true
+
+  if (isbnData?.isInvalid) {
+    status.isInvalid = true
+    disabled = true
+  }
+
   $: {
     if (!works || works.length === 0) {
       if (isNonEmptyString(customWorkTitle)) {
         if (!status.confirmInfo) candidate.checked = true
-        status.confirmInfo = true
+        // confirm info disappear once user has modified info
+        if (initialWorkTitle !== customWorkTitle) status.confirmInfo = false
         status.needInfo = false
         disabled = false
       } else {
-        status.confirmInfo = false
         status.needInfo = true
         disabled = true
         candidate.checked = false
@@ -33,8 +44,7 @@
     }
   }
   $: {
-    // must call candidate to be reactive
-    if (disabled && candidate) candidate.checked = false
+    if (disabled) candidate.checked = false
   }
   $: {
     if (existingItemsCount && existingItemsCount > 0) {
@@ -54,6 +64,14 @@
   }
   $: checked = candidate.checked
   $: candidate.customWorkTitle = customWorkTitle
+  $: {
+    const statusValues = Object.values(status)
+    if (isNonEmptyArray(statusValues)) {
+      anyStatus = statusValues.includes(true)
+    } else {
+      anyStatus = false
+    }
+  }
 </script>
 <li class="candidateRow" on:click="{() => candidate.checked = !candidate.checked}" class:checked>
   <div class="candidateText">
@@ -67,28 +85,32 @@
         bind:customAuthorsNames
         />
     </div>
-    <div class="column status">
-      {#if isbnData?.isInvalid}
-        <span class="invalid-isbn">{I18n('invalid ISBN')}</span>
-      {/if}
-      {#if error}
-        <div>{I18n('error:')} {error.status_verbose}</div>
-      {/if}
-      {#if status.needInfo}
-        <div>{I18n('need more information')}</div>
-      {/if}
-      {#if status.warning}
-        <div>{I18n()}</div>
-      {/if}
-      {#if status.confirmInfo}
-        <div>{I18n('make sure information is correct')}</div>
-      {/if}
-      {#if existingItemsCount && !status.error && !item}
-        <span class="existing-entity-items">
-          {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
-        </span>
-      {/if}
-    </div>
+    {#if anyStatus}
+      <div class="statuses">
+        {#if status.isInvalid}
+          <div class="status">{I18n('invalid ISBN')}</div>
+        {/if}
+        {#if status.needInfo}
+          <div class="status">{I18n('need more information')}</div>
+        {/if}
+        {#if status.warning}
+          <div class="status">{I18n()}</div>
+        {/if}
+        {#if status.confirmInfo}
+          <div class="status">{I18n('make sure information is correct')}</div>
+        {/if}
+      </div>
+    {/if}
+    {#if error}
+      <div class="statuses status">
+        {I18n('error:')} {error.status_verbose}
+      </div>
+    {/if}
+    {#if existingItemsCount && !status.error && !item}
+      <div class="statuses status">
+        {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
+      </div>
+    {/if}
   </div>
   <input type="checkbox" bind:checked {disabled} name="{I18n('select_book')} {rawIsbn}">
 </li>
@@ -109,12 +131,15 @@
   .listItemWrapper{
     flex: 5 0 0;
   }
+  .statuses{
+    flex: 1 0 0;
+    @include display-flex(column, center);
+  }
   .status{
     @include radius;
     background-color: $light-grey;
     margin: 0.2em;
     padding: 0.5em;
-    flex: 1 0 0;
     text-align: center;
     font-size: 90%;
   }

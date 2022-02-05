@@ -224,7 +224,7 @@
   </ul>
 </div>
 <div class="buttonWrapper">
-  <a id="createCandidatesButton" on:click={createCandidatesQueue} class="button">{I18n('find ISBNs')}</a>
+  <a id="createCandidatesButton" on:click={createCandidatesQueue} class="success-button">{I18n('find ISBNs')}</a>
 </div>
 <div bind:this={bottomSectionElement}></div>
 <!-- The flash element is here to be able to view it while scrolling down to candidates section -->
@@ -241,7 +241,7 @@
     margin: 0 0.7em;
   }
   .buttonWrapper{
-    margin: 1em;
+    margin: 2em;
     text-align:center;
   }
 
