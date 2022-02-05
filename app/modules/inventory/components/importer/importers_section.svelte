@@ -44,10 +44,12 @@
       dataValidator(importer, data)
       return parse(data).map(commonParser)
     })
-    .catch(log_.ErrorRethrow('parsing error'))
-    .catch(message => flashImporters[importer.name] = { type: 'error', message })
     .then(createPreCandidates)
     .then(createAndResolveCandidates)
+    .catch(log_.ErrorRethrow('parsing error'))
+    .catch(message => {
+      flashImporters[importer.name] = { type: 'error', message }
+    })
   }
 
   const onIsbnsChange = async () => {

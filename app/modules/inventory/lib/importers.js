@@ -39,10 +39,6 @@ const importers = {
     format: 'csv',
     encoding: 'ISO-8859-1',
     first20Characters: '"ISBN";"Titre";"Aute',
-    // There seem to be several formats depending on the export time
-    // and the last time I checked, the export feature wasn't working
-    // making it hard to arbitrate
-    disableValidation: true,
     help: 'library_or_critic',
     link: 'http://www.babelio.com/export.php',
     parse: csvParser(babelioParser)
