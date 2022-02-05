@@ -5,7 +5,8 @@
   export let candidate
   import { guessUriFromIsbn } from '#inventory/lib/import_helpers'
 
-  const { isbnData, works, error, item } = candidate
+  const { isbnData, edition, works, authors, error, item } = candidate
+  let { customWorkTitle, customAuthorsNames } = candidate
 
   let existingItemsPathname
 
@@ -18,7 +19,7 @@
   if (isbnData?.isInvalid) disabled = true
   $: {
     if (!works || works.length === 0) {
-      if (isNonEmptyString(candidate.customWorkTitle)) {
+      if (isNonEmptyString(customWorkTitle)) {
         if (!status.confirmInfo) candidate.checked = true
         status.confirmInfo = true
         status.needInfo = false
@@ -52,11 +53,19 @@
     }
   }
   $: checked = candidate.checked
+  $: candidate.customWorkTitle = customWorkTitle
 </script>
 <li class="candidateRow" on:click="{() => candidate.checked = !candidate.checked}" class:checked>
   <div class="candidateText">
     <div class="listItemWrapper">
-      <ListItem bind:candidate/>
+      <ListItem
+        {isbnData}
+        {edition}
+        {works}
+        {authors}
+        bind:customWorkTitle
+        bind:customAuthorsNames
+        />
     </div>
     <div class="column status">
       {#if isbnData?.isInvalid}
