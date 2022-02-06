@@ -83,6 +83,7 @@
         {authors}
         bind:customWorkTitle
         bind:customAuthorsNames
+        withEditor={true}
         />
     </div>
     {#if anyStatus}

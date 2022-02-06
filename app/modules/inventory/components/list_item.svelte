@@ -10,6 +10,7 @@
   export let authors
   export let customWorkTitle
   export let customAuthorsNames
+  export let withEditor = false
 
   const rawIsbn = isbnData?.rawIsbn
   let customAuthorName, work, editionLang
@@ -41,25 +42,30 @@
     </div>
     <div class="textWrapper">
       <div class="column work">
-        <span class="label">{i18n('title')}:</span>
         {#if work}
+          <span class="label">{i18n('title')}:</span>
           <span class="workTitle">
             {findBestLang(work, editionLang)}&nbsp;
             <EntityLogo entity="{work}"/>
           </span>
         {:else}
-          <input
-            on:click|stopPropagation
-            type="text"
-            name="customWorkTitle"
-            class="customInput"
-            bind:value={customWorkTitle}
-            placeholder="{I18n('write book title')}">
+          {#if withEditor}
+            <span class="editorRow">
+              <span class="label">{i18n('title')}:</span>
+              <input
+                on:click|stopPropagation
+                type="text"
+                name="customWorkTitle"
+                class="customInput"
+                bind:value={customWorkTitle}
+                placeholder="{I18n('must have book title')}">
+            </span>
+          {/if}
         {/if}
       </div>
       <span class="column authors">
-        <span class="label">{i18n('authors')}:</span>
-        {#if authors}
+        {#if authors && authors.length > 0}
+          <span class="label">{i18n('authors')}:</span>
           {#each authors as author, id}
             <span class="authorName">
               {findBestLang(author)}&nbsp;
@@ -68,13 +74,18 @@
             </span>
           {/each}
         {:else}
-          <input
-            on:click|stopPropagation
-            type="text"
-            name="customAuthorName"
-            class="customInput"
-            bind:value={customAuthorName}
-          >
+          {#if withEditor}
+            <span class="editorRow">
+              <span class="label">{i18n('authors')}:</span>
+              <input
+                on:click|stopPropagation
+                type="text"
+                name="customAuthorName"
+                class="customInput"
+                bind:value={customAuthorName}
+              >
+            </span>
+          {/if}
         {/if}
       </span>
       <div class="column isbn">
@@ -93,7 +104,7 @@
   @import '#general/scss/utils';
   .listItem{
     margin-right: 1em;
-    @include display-flex(row, center,space-between);
+    @include display-flex(row, center, space-between);
     .editionCover{
       margin-right: 1em;
       min-width: 4em;
@@ -112,6 +123,9 @@
       margin-bottom: 0;
       width: 100%;
     }
+  }
+  .editorRow{
+    @include display-flex(row, center);
   }
   .label{
     display: inline;
