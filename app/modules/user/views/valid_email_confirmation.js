@@ -3,6 +3,7 @@ import validEmailConfirmationTemplate from './templates/valid_email_confirmation
 import '../scss/valid_email_confirmation.scss'
 import General from 'behaviors/general'
 import Loading from 'behaviors/loading'
+import PreventDefault from 'behaviors/prevent_default'
 import SuccessCheck from 'behaviors/success_check'
 
 export default Marionette.View.extend({
@@ -11,11 +12,12 @@ export default Marionette.View.extend({
   behaviors: {
     Loading,
     General,
+    PreventDefault,
     SuccessCheck,
   },
 
   events: {
-    'click .showHome, .showLoginRedirectSettings' () { app.execute('modal:close') },
+    'click .showHome': 'showHome',
     'click .showLoginRedirectSettings': 'showLoginRedirectSettings',
     'click #emailConfirmationRequest': 'emailConfirmationRequest'
   },
@@ -27,7 +29,8 @@ export default Marionette.View.extend({
   serializeData () {
     return {
       validEmail: this.options.validEmail,
-      loggedIn: app.user.loggedIn
+      loggedIn: app.user.loggedIn,
+      inventoryPath: app.user.get('pathname'),
     }
   },
 
@@ -40,7 +43,13 @@ export default Marionette.View.extend({
 
   showLoginRedirectSettings () {
     app.request('show:login:redirect', 'settings/profile')
-  }
+    app.execute('modal:close')
+  },
+
+  showHome () {
+    app.execute('show:home')
+    app.execute('modal:close')
+  },
 })
 
 const emailFail = function () {
