@@ -93,7 +93,8 @@
     {#if candidates.length > 0}
       <h3>4/ {I18n('import this batch')}</h3>
       <Flash bind:state={flash}/>
-      <Counter count={processedItemsCount} total={candidates.length} />
+      <Counter count={processedEntitiesCount} total={candidates.length} message='creating bibliographical data'/>
+      <Counter count={processedItemsCount} total={candidates.length} message='creating your books'/>
       <button
         class="importCandidatesButton button success"
         class:disabled={importingCandidates}
