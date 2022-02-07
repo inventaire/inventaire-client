@@ -21,7 +21,7 @@
   let preCandidates = []
   let flashImporters = {}
   let isbnsText
-  let flashIsbnsImporter
+  let flashBlockingProcess, flashOngoingProcess
   let bottomSectionElement = {}
 
   onMount(() => autosize(document.querySelector('textarea')))
@@ -53,24 +53,24 @@
     if (!isbnsText || isbnsText.length === 0) return
     window.ISBN = window.ISBN || (await import('isbn3')).default
     autosize(document.querySelector('textarea'))
-    flashIsbnsImporter = null
+    flashBlockingProcess = null
 
     const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
     const isbns = isbnsText.match(isbnPattern)
-    if (isbns == null) return flashIsbnsImporter = { type: 'error', message: 'no new ISBN found' }
+    if (isbns === null) return flashBlockingProcess = { type: 'error', message: 'no ISBN found' }
     const candidatesData = isbns.map(isbn => { return { isbn } })
     createPreCandidates(candidatesData)
   }
 
   const createPreCandidates = candidatesData => {
-    flashIsbnsImporter = null
+    flashOngoingProcess = null
+    flashBlockingProcess = null
     const invalidIsbns = []
     preCandidates = _.compact(candidatesData.map(createPreCandidate(invalidIsbns)))
-    totalPreCandidates = preCandidates.length
     if (invalidIsbns.length > 0 && candidates.length > 0) {
       const invalidRawIsbns = invalidIsbns.map(_.property('isbn'))
       const message = I18n('invalid_isbns_warning', { invalidIsbns: invalidRawIsbns.join(', ') })
-      flashIsbnsImporter = { type: 'warning', message }
+      flashOngoingProcess = { type: 'warning', message }
     }
   }
 
@@ -78,6 +78,7 @@
 
   const createPreCandidate = invalidIsbns => candidateData => {
     const { isbn } = candidateData
+    if (isAlreadyCandidate(isbn)) return
     const preCandidate = {
       index: preCandidateIndexCount
     }
@@ -96,6 +97,7 @@
   }
 
   const createCandidatesQueue = async () => {
+    if (noNewCandidates()) return flashBlockingProcess = { type: 'warning', message: 'no new book found' }
     processedPreCandidates = 0
     totalPreCandidates = preCandidates.length
     const remainingPreCandidates = _.clone(preCandidates)
@@ -146,6 +148,16 @@
       await addExistingItemsCounts()
     })
   }
+
+  const noNewCandidates = () => {
+    const preCandidatesIsbns = getNormalizedIsbns(preCandidates)
+    const candidatesIsbns = getNormalizedIsbns(candidates)
+    return preCandidatesIsbns.every(isCandidateIsbn(candidatesIsbns))
+  }
+
+  const getNormalizedIsbns = candidates => _.compact(candidates.map(candidate => candidate.isbnData?.normalizedIsbn))
+
+  const isCandidateIsbn = candidatesIsbns => preCandidateIsbn => candidatesIsbns.includes(preCandidateIsbn)
 
   const byIndex = (a, b) => a.index - b.index
 
@@ -222,12 +234,13 @@
     </li>
   </ul>
 </div>
+<Flash bind:state={flashBlockingProcess}/>
 <div class="buttonWrapper">
   <a id="createCandidatesButton" on:click={createCandidatesQueue} class="success-button">{I18n('find ISBNs')}</a>
 </div>
 <div bind:this={bottomSectionElement}></div>
 <!-- The flash element is here to be able to view it while scrolling down to candidates section -->
-<Flash bind:state={flashIsbnsImporter}/>
+<Flash bind:state={flashOngoingProcess}/>
 <style>
   h3{
     margin-top: 1em;
