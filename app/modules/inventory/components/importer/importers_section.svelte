@@ -18,7 +18,6 @@
   export let candidates
   export let processedPreCandidates = 0
   export let totalPreCandidates = 0
-  let preCandidatesCount = 0
   let preCandidates = []
   let flashImporters = {}
   let isbnsText
@@ -98,7 +97,7 @@
 
   const createCandidatesQueue = async () => {
     processedPreCandidates = 0
-    preCandidatesCount = preCandidates.length
+    totalPreCandidates = preCandidates.length
     const remainingPreCandidates = _.clone(preCandidates)
     screen_.scrollToElement(bottomSectionElement.offsetTop)
 
