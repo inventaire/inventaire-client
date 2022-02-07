@@ -24,9 +24,6 @@
 
   if (customAuthorsNames && customAuthorsNames.length > 0) {
     customAuthorName = customAuthorsNames[0]
-    if (!authors && customAuthorsNames.length > 1) {
-      status.warning = 'multiple authors detected, this importer can only create one author. You may add authors later.'
-    }
   }
 
   const findBestLang = objectWithLabels => {
