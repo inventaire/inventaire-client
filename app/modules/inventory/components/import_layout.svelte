@@ -8,12 +8,15 @@
   import Counter from '#components/counter.svelte'
 
   let processedPreCandidates
-  let totalPreCandidates, showCanditates
+  let totalPreCandidates, showCanditates, showImportItems
   let candidates = []
   let transaction, listing
   let shelvesIds = []
   $: {
     showCanditates = candidates.length > 0 && processedPreCandidates !== 0 && processedPreCandidates <= totalPreCandidates
+  }
+  $: {
+    showImportItems = processedPreCandidates !== 0 && processedPreCandidates === totalPreCandidates
   }
 </script>
 <div id='importLayout'>
@@ -30,7 +33,9 @@
       <SelectShelves bind:shelvesIds/>
     </div>
   </div>
-  <ImportItemsSection bind:candidates {transaction} {listing} {shelvesIds}/>
+  <div hidden="{!showImportItems}">
+    <ImportItemsSection bind:candidates {transaction} {listing} {shelvesIds}/>
+  </div>
 </div>
 
 <style lang="scss">
