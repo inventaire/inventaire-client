@@ -23,7 +23,7 @@
     >
     <div class="top">
       <span class="label">{label}</span>
-      <span class="uri">{uri}</span>
+      <a class="uri" href="/entity/{uri}" target="_blank" on:click|stopPropagation>{uri}</a>
     </div>
     {#if description}<span class="description">{description}</span>{/if}
   </button>
