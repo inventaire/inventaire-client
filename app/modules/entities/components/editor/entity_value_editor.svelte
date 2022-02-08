@@ -2,7 +2,7 @@
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
   import { autofocus } from 'lib/components/actions/autofocus'
-  import { i18n } from 'modules/user/lib/i18n'
+  import { I18n, i18n } from 'modules/user/lib/i18n'
   import getActionKey from 'lib/get_action_key'
   import Flash from 'lib/components/flash.svelte'
   import preq from 'lib/preq'
@@ -13,8 +13,10 @@
   import { getBasicInfoByUri } from 'modules/entities/lib/entities'
   import Spinner from 'modules/general/components/spinner.svelte'
   import { imgSrc } from 'lib/handlebars_helpers/images'
+  import { icon } from 'lib/utils'
+  import { createByProperty } from 'modules/entities/lib/create_entities'
 
-  export let uri, property, value
+  export let entity, uri, property, value
 
   let editMode = (value == null)
   let oldValue = value
@@ -22,7 +24,7 @@
   let input, flash, waitingForValueEntityBasicInfo, label, description, image
   let suggestions = []
   let showSuggestions = true
-  const { searchType } = properties[property]
+  const { searchType, allowEntityCreation, entityTypeName } = properties[property]
   const dispatch = createEventDispatcher()
 
   $: {
@@ -87,9 +89,9 @@
     }
   }
 
-  let lastSearch
+  let lastSearch, searchText
   async function search () {
-    const searchText = input.value
+    searchText = input.value
     if (searchText.length === 0 || searchText === lastSearch) return
     lastSearch = searchText
     const res = await typeSearch(searchType, input.value, 20, 0)
@@ -110,6 +112,20 @@
 
   async function remove () {
     await save(null)
+  }
+
+  async function create () {
+    try {
+      const createdEntityModel = await createByProperty({
+        property,
+        name: searchText,
+        relationEntity: entity,
+        createOnWikidata: uri.startsWith('wd:')
+      })
+      await save(createdEntityModel.get('uri'))
+    } catch (err) {
+      flash = err
+    }
   }
 </script>
 
@@ -137,12 +153,24 @@
                 />
               {/each}
             </ul>
-            <button
-              class="close"
-              on:click={() => showSuggestions = false}
-            >
-              {i18n('close')}
-            </button>
+            <div class="controls">
+              <button
+                class="close"
+                on:click={() => showSuggestions = false}
+              >
+                {@html icon('close')}
+                {I18n('close')}
+              </button>
+              {#if allowEntityCreation && searchText.length > 0}
+                <button
+                  class="create"
+                  on:click={create}
+                >
+                  {@html icon('plus')}
+                  {I18n(`create a new ${entityTypeName}`)}: "{searchText}"
+                </button>
+              {/if}
+            </div>
           </div>
         {/if}
       </div>
@@ -236,14 +264,27 @@
     overflow: auto;
     position: relative;
   }
-  .close{
+  .controls{
+    @include display-flex(row, center, space-between);
     width: 100%;
-    display: block;
-    text-align: center;
-    font-weight: normal;
-    @include bg-hover(#eaeaea);
+    background-color: #ddd;
+    button{
+      font-weight: normal;
+      margin: 0.5em;
+      padding: 0.5em;
+      white-space: nowrap;
+    }
+  }
+  .close{
+    @include bg-hover($light-grey);
     color: #333;
-    margin: 0;
+  }
+  .create{
+    margin-left: auto;
+    color: white;
+    @include bg-hover($success-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .label{
     text-align: left;
