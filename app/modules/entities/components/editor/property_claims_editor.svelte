@@ -20,8 +20,9 @@
     propertyClaims = propertyClaims.filter(value => value != null)
   }
 
-  function setValue (property, i, value) {
+  function setValue (i, value) {
     propertyClaims[i] = value
+    if (value == null) removeBlankValue()
   }
 
   let canAddValue
@@ -40,8 +41,7 @@
     {#each propertyClaims as value, i}
       <ClaimEditor
         {entity} {property} {value}
-        on:remove={removeBlankValue}
-        on:set={e => setValue(property, i, e.detail)}
+        on:set={e => setValue(i, e.detail)}
       />
     {/each}
     {#if canAddValue}

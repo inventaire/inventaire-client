@@ -45,7 +45,7 @@
   function closeEditMode () {
     editMode = false
     flash = null
-    if (value === null) dispatch('remove')
+    if (value === null) dispatch('set', null)
   }
 
   async function save (value) {
@@ -109,7 +109,6 @@
   }
 
   async function remove () {
-    dispatch('remove')
     await save(null)
   }
 </script>

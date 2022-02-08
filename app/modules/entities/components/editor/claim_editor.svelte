@@ -11,6 +11,5 @@
 
 <ValueEditor
   {uri} {property} {value}
-  on:remove={() => dispatch('remove')}
   on:set={e => dispatch('set', e.detail)}
 />
