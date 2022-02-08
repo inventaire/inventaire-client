@@ -1,7 +1,6 @@
 <script>
   import { onMount } from 'svelte'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
   import Flash from '#lib/components/flash.svelte'
   import autosize from 'autosize'
   import importers from '#inventory/lib/importers'
@@ -189,51 +188,42 @@
     const newCandidate = createCandidate(preCandidate, res)
     candidates = [ ...candidates, newCandidate ]
   }
-
-  const emptyIsbns = () => isbnsText = ''
-
-  // dev stuff, delete before production
-  isbnsText = ',97823529462352946847,219660841380,978-2-207-11674-6'
-  Promise.resolve(onIsbnsChange()).then(createCandidatesQueue)
 </script>
-<div id="importersElement">
-  <h3>1/ {I18n('upload your books from another website')}</h3>
-  <ul class="importers">
-    {#each importers as importer (importer.name)}
-      <li id="{importer.name}-li">
-        <div class="importer-data">
-          <p class="importerName">
-            {#if importer.link}
-              <a name={importer.label} href={importer.link}>{importer.label}</a>
-            {:else}
-              <span title={importer.label}>{importer.label}</span>
-            {/if}
-            {#if importer.format && importer.format !== 'all'}
-              <span class="format">( .{importer.format} )</span>
-            {/if}
-          </p>
-          {#if importer.help}
-            <p class="help">{@html I18n(importer.help)}</p>
+<h3>1/ {I18n('upload your books from another website')}</h3>
+<ul class="importers">
+  {#each importers as importer (importer.name)}
+    <li>
+      <div class="importerData">
+        <p class="importerName">
+          {#if importer.link}
+            <a name={importer.label} href={importer.link}>{importer.label}</a>
+          {:else}
+            <span title={importer.label}>{importer.label}</span>
           {/if}
-        </div>
-        <input id="{importer.name}" name="{importer.name}" type="file" bind:files={importer.files} accept="{importer.accept}" on:change={getFile(importer)}/>
-        <!-- <div class="loading"></div> -->
-        <Flash bind:state={flashImporters[importer.name]}/>
-      </li>
-    {/each}
-    <li id="textIsbns-li">
-      <div id="isbnsImporter">
-        {I18n('import from a list of ISBNs')}
-        <div class="textarea-wrapper">
-          <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}"></textarea>
-          <a id="emptyIsbns" title="{i18n('clear')}" on:click={emptyIsbns}>{@html icon('trash-o')}</a>
-
-        </div>
-        <div class="loading"></div>
+          {#if importer.format && importer.format !== 'all'}
+            <span class="format">( .{importer.format} )</span>
+          {/if}
+        </p>
+        {#if importer.help}
+          <p>{@html I18n(importer.help)}</p>
+        {/if}
       </div>
+      <input id="{importer.name}" name="{importer.name}" type="file" bind:files={importer.files} accept="{importer.accept}" on:change={getFile(importer)}/>
+      <Flash bind:state={flashImporters[importer.name]}/>
     </li>
-  </ul>
-</div>
+  {/each}
+  <li>
+    <div class="importerName">
+      {I18n('import from a list of ISBNs')}
+      <div class="textareaWrapper">
+        <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}"></textarea>
+        <button id="emptyIsbns" class="grey-button" title="{i18n('clear')}" on:click="{isbnsText = ''}">
+          {I18n('clear text')}
+        </button>
+      </div>
+    </div>
+  </li>
+</ul>
 <Flash bind:state={flashBlockingProcess}/>
 <div class="buttonWrapper">
   <a id="createCandidatesButton" on:click={createCandidatesQueue} class="success-button">{I18n('find ISBNs')}</a>
@@ -241,20 +231,35 @@
 <div bind:this={bottomSectionElement}></div>
 <!-- The flash element is here to be able to view it while scrolling down to candidates section -->
 <Flash bind:state={flashOngoingProcess}/>
-<style>
+<style lang="scss">
+  @import 'app/modules/general/scss/utils';
   h3{
     margin-top: 1em;
     text-align: center;
   }
+  .importerData{
+    @include display-flex(row, center);
+  }
+  .textareaWrapper{
+    @include display-flex(row, flex-start);
+    #isbnsTextarea{
+      margin: 0;
+    }
+    #emptyIsbns{
+      padding: 0.5em;
+      margin-left: 0.5em;
+      max-width: 5em;
+    }
+  }
   input{
     padding: auto 0;
   }
-  .importerName, #isbnsImporter{
+  .importerName{
     margin: 0 0.7em;
   }
   .buttonWrapper{
-    margin: 2em;
+    padding-top:2em;
+    padding-bottom:2em;
     text-align:center;
   }
-
 </style>
