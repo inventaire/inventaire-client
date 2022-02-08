@@ -6,7 +6,14 @@
   const dispatch = createEventDispatcher()
   const select = () => dispatch('select')
 
-  $: if (element && highlight) element.scrollIntoView(false)
+  $: {
+    if (element && highlight) {
+      element.parentElement.scroll({
+        top: Math.max(0, (element.offsetTop - 20)),
+        behavior: 'smooth'
+      })
+    }
+  }
 </script>
 
 <li bind:this={element}>
