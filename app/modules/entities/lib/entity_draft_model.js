@@ -1,6 +1,6 @@
 import { I18n } from '#user/lib/i18n'
 import editableEntity from './inv/editable_entity.js'
-import { create as createEntity } from './create_entities.js'
+import { createAndGetEntity } from './create_entities.js'
 import properties from './properties.js'
 import Entity from '../models/entity.js'
 import { buildPath } from '#lib/location'
@@ -71,7 +71,7 @@ export default {
       invalidateRelationsCache: _.noop,
       saveLabel: asyncNoop,
       create () {
-        return createEntity({
+        return createAndGetEntity({
           labels: this.get('labels'),
           claims: this.get('claims')
         })

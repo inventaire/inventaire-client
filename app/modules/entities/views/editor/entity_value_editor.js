@@ -2,7 +2,7 @@ import log_ from '#lib/loggers'
 import forms_ from '#general/lib/forms'
 import { i18n } from '#user/lib/i18n'
 import ClaimsEditorCommons from './claims_editor_commons.js'
-import { byProperty as createByProperty } from '#entities/lib/create_entities'
+import { createByProperty } from '#entities/lib/create_entities'
 import autocomplete from '#entities/views/editor/lib/autocomplete'
 import entityValueEditorTemplate from './templates/entity_value_editor.hbs'
 import AlertBox from '#behaviors/alert_box'
@@ -158,7 +158,12 @@ export default ClaimsEditorCommons.extend({
     // Assumes that the user has Wikidata Oauth setup as they are on the editor for a Wikidata entity
     const createOnWikidata = this.model.entity.get('isWikidataEntity')
 
-    return createByProperty({ property: this.property, name, relationEntity, createOnWikidata })
+    return createByProperty({
+      property: this.property,
+      name,
+      relationEntity: relationEntity.attributes,
+      createOnWikidata,
+    })
     .then(log_.Info('created entity'))
     .then(entity => this._save(entity.get('uri')))
     .catch(forms_.catchAlert.bind(null, this))

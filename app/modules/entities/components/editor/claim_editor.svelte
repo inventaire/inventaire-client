@@ -10,6 +10,6 @@
 </script>
 
 <ValueEditor
-  {uri} {property} {value}
+  {entity} {uri} {property} {value}
   on:set={e => dispatch('set', e.detail)}
 />

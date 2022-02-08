@@ -1,6 +1,14 @@
 const properties = {}
 export default properties
 
+const entityTypeNameByType = {
+  works: 'work',
+  humans: 'author',
+  series: 'series',
+  publishers: 'publisher',
+  collections: 'collection'
+}
+
 // editorTypes can stay permissive in the input
 // and let the server do the strict validation
 // Ex: isbns can be considered as simple strings before being validated server-side
@@ -11,7 +19,14 @@ const addProp = (
   multivalue = true,
   allowEntityCreation = false
 ) => {
-  properties[property] = { editorType, searchType, property, multivalue, allowEntityCreation }
+  properties[property] = {
+    editorType,
+    searchType,
+    property,
+    multivalue,
+    allowEntityCreation,
+    entityTypeName: entityTypeNameByType[searchType]
+  }
 }
 
 // Keep in sync with app/modules/entities/lib/editor/properties_per_type.js

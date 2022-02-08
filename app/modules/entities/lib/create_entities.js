@@ -9,7 +9,7 @@ import graphRelationsProperties from './graph_relations_properties.js'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import { tap } from '#lib/promises'
 
-const createWorkEdition = async function (workEntity, isbn) {
+export const createWorkEdition = async function (workEntity, isbn) {
   assert_.types(arguments, [ 'object', 'string' ])
 
   return getIsbnData(isbn)
@@ -62,7 +62,7 @@ const getTitleFromWork = function (workEntity, editionLang) {
   return workEntity.get('labels')[0]
 }
 
-const byProperty = async function (options) {
+export const createByProperty = async function (options) {
   let { property, name, relationEntity, createOnWikidata, lang } = options
   if (!lang) lang = app.user.lang
 
@@ -82,11 +82,11 @@ const byProperty = async function (options) {
   }
 
   if (property === 'wdt:P179') {
-    claims['wdt:P50'] = relationEntity.get('claims.wdt:P50')
+    claims['wdt:P50'] = relationEntity.claims['wdt:P50']
   }
 
   if (property === 'wdt:P195') {
-    claims['wdt:P123'] = relationEntity.get('claims.wdt:P123')
+    claims['wdt:P123'] = relationEntity.claims['wdt:P123']
     if (claims['wdt:P123'] == null) {
       throw error_.new('a publisher should be set before creating a collection', options)
     }
@@ -111,7 +111,7 @@ const subjectEntityP31ByProperty = {
   'wdt:P195': 'wd:Q20655472'
 }
 
-const createAndGetEntity = function (params) {
+export const createAndGetEntity = function (params) {
   const { claims } = params
   return createEntity(params)
   .then(tap(triggerEntityGraphChangesEvents(claims)))
@@ -130,5 +130,3 @@ const triggerEntityGraphChangesEvents = claims => function () {
     }
   }
 }
-
-export { createAndGetEntity as create, createWorkEdition, byProperty }
