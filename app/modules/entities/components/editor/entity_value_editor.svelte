@@ -19,7 +19,7 @@
   let editMode = (value == null)
   let oldValue = value
   let currentValue = value
-  let input, flash, label, description, image, waitingForInfo
+  let input, flash, waitingForValueEntityBasicInfo, label, description, image
   let suggestions = []
   let showSuggestions = true
   const { searchType } = properties[property]
@@ -27,13 +27,18 @@
 
   $: {
     if (currentValue) {
-      waitingForInfo = getBasicInfoByUri(currentValue)
-        .then(data => {
-          label = data.label
-          description = data.description
-          image = data.image
+      waitingForValueEntityBasicInfo = getBasicInfoByUri(currentValue)
+        .then(setInfo)
+        .catch(err => {
+          flash = err
         })
     }
+  }
+
+  function setInfo (data) {
+    label = data.label
+    description = data.description
+    image = data.image
   }
 
   function showEditMode () { editMode = true }
@@ -42,9 +47,11 @@
     flash = null
     if (value === null) dispatch('remove')
   }
+
   async function save (value) {
     editMode = false
     currentValue = value
+    dispatch('set', currentValue)
     if (oldValue === currentValue) return
     try {
       await preq.put(app.API.entities.claims.update, {
@@ -54,8 +61,10 @@
         'new-value': value,
       })
       oldValue = currentValue
-      currentValue = value
+      dispatch('set', currentValue)
     } catch (err) {
+      currentValue = oldValue
+      dispatch('set', currentValue)
       editMode = true
       showSuggestions = false
       flash = err
@@ -87,7 +96,7 @@
     if (searchText === lastSearch) {
       suggestions = res
       showSuggestions = true
-      if (suggestions.length > 0) highlightedIndex = 0
+      highlightedIndex = 0
     }
   }
 
@@ -145,7 +154,7 @@
       />
     {:else}
       <button class="value-display" on:click={showEditMode} title="{i18n('edit')}">
-        {#await waitingForInfo}
+        {#await waitingForValueEntityBasicInfo}
           <Spinner />
         {:then}
           <div
@@ -154,7 +163,7 @@
           >
           </div>
           <div>
-            <span class="label">{label}</span>
+            {#if label}<span class="label">{label}</span>{/if}
             <div class="bottom">
               {#if description}<span class="description">{description}</span>{/if}
               <!-- TODO: recover tooltip -->
@@ -226,6 +235,7 @@
   .suggestions{
     max-height: 10em;
     overflow: auto;
+    position: relative;
   }
   .close{
     width: 100%;
@@ -235,6 +245,9 @@
     @include bg-hover(#eaeaea);
     color: #333;
     margin: 0;
+  }
+  .label{
+    text-align: left;
   }
   .description{
     color: $grey;
