@@ -115,15 +115,6 @@
     width: 100%;
     padding: 0.2em 0;
   }
-  .authors, .work{
-    .customInput{
-      margin-bottom: 0;
-      width: 100%;
-    }
-  }
-  .editorRow{
-    @include display-flex(row, center);
-  }
   .label{
     display: inline;
     color: $grey;

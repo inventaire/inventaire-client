@@ -1,6 +1,5 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
   export let type
   export let selected
@@ -35,7 +34,8 @@
         on:click="{() => { selected = option.id }}"
         class:selected="{option.id === selected}"
         >
-        {@html icon(option.icon)} <span>{I18n(option.label)}</span>
+        <i class='fa fa-{option.icon}'></i>
+        <span>{I18n(option.label)}</span>
       </button>
     {/each}
   </div>
