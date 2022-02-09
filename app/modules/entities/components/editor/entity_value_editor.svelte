@@ -12,6 +12,7 @@
   import EntitySuggestion from './entity_suggestion.svelte'
   import { getBasicInfoByUri } from 'modules/entities/lib/entities'
   import Spinner from 'modules/general/components/spinner.svelte'
+  import IdentifierWithTooltip from './identifier_with_tooltip.svelte'
   import { imgSrc } from 'lib/handlebars_helpers/images'
   import { icon } from 'lib/utils'
   import { createByProperty } from 'modules/entities/lib/create_entities'
@@ -193,8 +194,9 @@
             {#if label}<span class="label">{label}</span>{/if}
             <div class="bottom">
               {#if description}<span class="description">{description}</span>{/if}
-              <!-- TODO: recover tooltip -->
-              {#if currentValue}<span class="uri">{currentValue}</span>{/if}
+              {#if currentValue}
+                <IdentifierWithTooltip uri={currentValue} />
+              {/if}
             </div>
           </div>
         {/await}
