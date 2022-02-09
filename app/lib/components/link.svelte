@@ -1,5 +1,5 @@
 <script>
-  import { isOpenedOutside } from '#lib/utils'
+  import { isOpenedOutside } from 'lib/utils'
 
   export let url, text, title = '', light = false
 
@@ -31,7 +31,7 @@
 </a>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import 'app/modules/general/scss/utils';
 
   a.light{
     @include link-light;
