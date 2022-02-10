@@ -61,6 +61,15 @@ export const isOpenedOutside = (e, ignoreMissingHref = false) => {
 // Test existance to ignore in other contexts than the browser
 const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
+export const loadInteralLink = e => {
+  e.stopPropagation()
+  if (!(isOpenedOutside(e))) {
+    const { pathname } = new URL(e.currentTarget.href)
+    app.navigateAndLoad(pathname)
+    e.preventDefault()
+  }
+}
+
 export const cutBeforeWord = (text, limit) => {
   const shortenedText = text.slice(0, +limit + 1 || undefined)
   return shortenedText.replace(/\s\w+$/, '')

@@ -9,7 +9,7 @@
   import preq from 'lib/preq'
   import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
 
-  export let entity
+  export let entity, favoriteLabel, favoriteLabelLang
   let editMode = false
   let input, flash
 
@@ -19,7 +19,14 @@
   const languages = getLangsData(userLang, labels)
   const bestLangData = getBestLangValue(userLang, null, labels)
   let currentLang = bestLangData.lang
-  $: currentValue = labels[currentLang] || userLang
+
+  let currentValue
+  $: {
+    currentValue = labels[currentLang] || userLang
+    if (favoriteLabelLang === currentLang) {
+      favoriteLabel = currentValue
+    }
+  }
 
   function showEditMode () { editMode = true }
   function closeEditMode () { editMode = false }
