@@ -9,7 +9,8 @@
   let propertyClaims = entity.claims[property] || []
 
   const { customLabel } = typeProperties[property]
-  const { multivalue } = properties[property]
+  const { multivalue, editorType } = properties[property]
+  const fixed = editorType.split('-')[0] === 'fixed'
 
   function addBlankValue () {
     propertyClaims = propertyClaims || []
@@ -35,7 +36,7 @@
   }
 </script>
 
-<div class="editor-section">
+<div class="editor-section" class:fixed>
   <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
   <div class="property-claim-values">
     {#each propertyClaims as value, i}
@@ -73,6 +74,12 @@
     @include display-flex(row, center, space-between);
     &:first-child{
       margin: 0.5em 0;
+    }
+  }
+  .fixed{
+    background-color: $dark-grey;
+    &, .editor-section-header{
+      color: white;
     }
   }
 </style>
