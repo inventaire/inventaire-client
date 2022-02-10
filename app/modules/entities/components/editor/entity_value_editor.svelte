@@ -24,7 +24,7 @@
   let currentValue = value
   let input, flash, waitingForValueEntityBasicInfo, label, description, image
   let suggestions = []
-  let showSuggestions = true
+  let showSuggestions = false
   const { searchType, allowEntityCreation, entityTypeName } = properties[property]
   const dispatch = createEventDispatcher()
 
@@ -90,16 +90,22 @@
     }
   }
 
-  let lastSearch, searchText
+  let lastSearch, searchText, waitForSearch
   async function search () {
-    searchText = input.value
-    if (searchText.length === 0 || searchText === lastSearch) return
-    lastSearch = searchText
-    const res = await typeSearch(searchType, input.value, 20, 0)
-    if (searchText === lastSearch) {
-      suggestions = res
+    try {
+      searchText = input.value
+      if (searchText.length === 0 || searchText === lastSearch) return
+      lastSearch = searchText
+      waitForSearch = typeSearch(searchType, input.value, 20, 0)
       showSuggestions = true
-      highlightedIndex = 0
+      const res = await waitForSearch
+      if (searchText === lastSearch) {
+        suggestions = res
+        showSuggestions = true
+        highlightedIndex = 0
+      }
+    } catch (err) {
+      flash = err
     }
   }
 
@@ -143,35 +149,43 @@
         {#if currentValue}
           <span class="uri">{currentValue}</span>
         {/if}
-        {#if showSuggestions && suggestions.length > 0}
+        {#if showSuggestions}
           <div class="autocomplete">
-            <ul class="suggestions">
-              {#each suggestions as suggestion, i (suggestion.uri)}
-                <EntitySuggestion
-                  {suggestion}
-                  highlight={i === highlightedIndex}
-                  on:select={() => save(suggestion.uri)}
-                />
-              {/each}
-            </ul>
-            <div class="controls">
-              <button
-                class="close"
-                on:click={() => showSuggestions = false}
-              >
-                {@html icon('close')}
-                {I18n('close')}
-              </button>
-              {#if allowEntityCreation && searchText.length > 0}
-                <button
-                  class="create"
-                  on:click={create}
-                >
-                  {@html icon('plus')}
-                  {I18n(`create a new ${entityTypeName}`)}: "{searchText}"
-                </button>
+            {#await waitForSearch}
+              <Spinner />
+            {:then}
+              {#if suggestions.length > 0}
+                <ul class="suggestions">
+                  {#each suggestions as suggestion, i (suggestion.uri)}
+                    <EntitySuggestion
+                      {suggestion}
+                      highlight={i === highlightedIndex}
+                      on:select={() => save(suggestion.uri)}
+                    />
+                  {/each}
+                </ul>
+              {:else}
+                <p class="no-result">{i18n('no result')}</p>
               {/if}
-            </div>
+              <div class="controls">
+                <button
+                  class="close"
+                  on:click={() => showSuggestions = false}
+                >
+                  {@html icon('close')}
+                  {I18n('close')}
+                </button>
+                {#if allowEntityCreation && searchText.length > 0}
+                  <button
+                    class="create"
+                    on:click={create}
+                  >
+                    {@html icon('plus')}
+                    {I18n(`create a new ${entityTypeName}`)}: "{searchText}"
+                  </button>
+                {/if}
+              </div>
+            {/await}
           </div>
         {/if}
       </div>
@@ -258,13 +272,16 @@
     top: 100%;
     left: -1px;
     right: -1px;
+    background-color: white;
     margin-top: -3px;
+    @include display-flex(column, center, center);
     @include shy-border(0.9);
   }
   .suggestions{
     max-height: 10em;
     overflow: auto;
     position: relative;
+    align-self: stretch;
   }
   .controls{
     @include display-flex(row, center, space-between);
@@ -299,5 +316,8 @@
     font-size: 0.7rem;
     font-family: sans-serif;
     color: #888;
+  }
+  .no-result{
+    text-align: center;
   }
 </style>
