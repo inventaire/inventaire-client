@@ -5,7 +5,7 @@
 <div class="body">
   <a class="showItem" href="{{pathname}}">
     <div class="image-wrapper">
-      {{~#if picture~}}<img src="{{imgSrc picture 128}}" alt="{{title}}">{{~/if~}}
+      {{~#if picture~}}<img src="{{imgSrc picture 128}}" alt="">{{~/if~}}
     </div>
     <div class="info">
       <p class="title">{{title}}</p>
@@ -15,7 +15,7 @@
   </a>
 
   {{#if groupContext}}
-    <img class="avatar" src="{{imgSrc user.picture 32}}" alt="{{user.username}}" title="{{user.username}}">
+    <img class="avatar" src="{{imgSrc user.picture 32}}" alt="">
   {{/if}}
 
   <div class="modes">
