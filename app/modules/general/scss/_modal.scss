@@ -25,6 +25,7 @@ body.openedModal{
   &.modal-medium{ max-width: $mediumModalWidth; }
   &.modal-large{ max-width: $largeModalWidth; }
   .close{
+    padding: 0;
     line-height: 0;
     font-size: 3.6rem;
     font-weight: bold;
