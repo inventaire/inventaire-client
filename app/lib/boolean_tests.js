@@ -59,3 +59,7 @@ export const isDateString = dateString => {
   if ((dateString == null) || (typeof dateString !== 'string')) return false
   return /^-?\d{4}(-\d{2})?(-\d{2})?$/.test(dateString)
 }
+
+// As Svelte components are the only known users of CustomEvent
+// in the stack, it doesn't not need to be more specific than that for now
+export const isComponentEvent = obj => obj instanceof CustomEvent

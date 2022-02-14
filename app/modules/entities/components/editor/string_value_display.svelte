@@ -1,0 +1,26 @@
+<script>
+  import { i18n } from 'modules/user/lib/i18n'
+  import { createEventDispatcher } from 'svelte'
+
+  export let value
+
+  const dispatch = createEventDispatcher()
+</script>
+
+<button class="value-display" on:click={e => dispatch('edit')} title={i18n('edit')}>
+  {value || ''}
+</button>
+
+<style lang="scss">
+  @import 'app/modules/general/scss/utils';
+
+  .value-display{
+    flex: 1;
+    align-self: stretch;
+    cursor: pointer;
+    text-align: left;
+    @include bg-hover(white, 5%);
+    user-select: text;
+    font-weight: normal;
+  }
+</style>

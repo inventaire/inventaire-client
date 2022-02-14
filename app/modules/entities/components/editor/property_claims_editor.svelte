@@ -73,7 +73,10 @@
     font-weight: normal;
     @include display-flex(row, center, space-between);
     &:first-child{
-      margin: 0.5em 0;
+      margin-top: 0.2em;
+    }
+    &:not(:first-child){
+      margin-top: 1em;
     }
   }
   .fixed{
