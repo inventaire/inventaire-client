@@ -5,6 +5,7 @@
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import EntityLogo from '#inventory/components/entity_source_logo.svelte'
   import ClaimEditor from '#inventory/components/claim_editor.svelte'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   export let isbnData
   export let edition
   export let works
@@ -14,7 +15,7 @@
   export let withEditor = false
 
   const rawIsbn = isbnData?.rawIsbn
-  let customAuthorName, work, editionLang
+  let firstAuthorName, work, editionLang
   if (works && works.length > 0) work = works[0]
 
   if (edition) {
@@ -23,13 +24,19 @@
     editionLang = 'en'
   }
 
-  if (customAuthorsNames && customAuthorsNames.length > 0) {
-    customAuthorName = customAuthorsNames[0]
+  if (isNonEmptyArray(customAuthorsNames)) {
+    firstAuthorName = customAuthorsNames[0]
   }
 
   const findBestLang = objectWithLabels => {
     if (!objectWithLabels || !objectWithLabels.labels) return
     return getBestLangValue(editionLang, null, objectWithLabels.labels).value
+  }
+
+  $: {
+    if (isNonEmptyArray(customAuthorsNames)) {
+      customAuthorsNames[0] = firstAuthorName
+    }
   }
 </script>
 <div class="listItem">
@@ -65,9 +72,20 @@
         {/each}
       {:else}
         <!-- do not display editor if work exists, as it may be a book without author -->
-        <!-- always displaying editor might over crowd the visual, known case: /add/import -->
-        {#if withEditor && !work}
-          <ClaimEditor type='author' bind:inputName={customAuthorsNames}/>
+        <!-- always displaying editor might overcrowd the visual, known case: /add/import -->
+        <!-- do not display editor if several authors -->
+        <!-- as creating multiple authors from user input overcrowds the visual too-->
+        {#if withEditor && !work && isNonEmptyArray(customAuthorsNames)}
+          <ClaimEditor type='author' bind:inputName={firstAuthorName}/>
+        {:else}
+          {#if isNonEmptyArray(customAuthorsNames)}
+            <span class="label">{I18n('authors')}:</span>
+            {#each customAuthorsNames as author, id}
+              <span class="authorName">
+                {author}
+              </span>
+            {/each}
+          {/if}
         {/if}
       {/if}
     </span>
