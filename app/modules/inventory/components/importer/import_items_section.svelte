@@ -103,12 +103,10 @@
         {I18n('import the selection')}
       </button>
     {/if}
-
     {#if processedCandidates.length > 0}
       <ImportResults bind:this={importResultsElement} {transaction} {listing} bind:processedCandidates/>
     {/if}
   </div>
-
 <style lang="scss">
   @import '#general/scss/utils';
   h3{

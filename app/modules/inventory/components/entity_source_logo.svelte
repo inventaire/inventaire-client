@@ -1,9 +1,12 @@
 <script>
   import { icon } from '#app/lib/utils'
   export let entity
-  const { pathname, uri } = entity
+  const { uri } = entity
+  let { pathname } = entity
   const wdIdPattern = /Q\d+/
   const invPrefixPattern = /[inv:][isbn:]/
+
+  if (!pathname && uri) pathname = `/entity/${uri}`
 </script>
 {#if pathname}
   <span class="entitySourceLogo" title="{uri}">

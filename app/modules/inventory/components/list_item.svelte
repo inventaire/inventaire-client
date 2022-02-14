@@ -57,8 +57,9 @@
         <span class="label">{i18n('authors')}:</span>
         {#each authors as author, id}
           <span class="authorName">
-            {findBestLang(author)}&nbsp;
+            {findBestLang(author)}
             <EntityLogo entity="{author}"/>
+            <!-- prefer this to CSS :last-child, to be able to have a space after the comma -->
             {#if id !== authors.length - 1},&nbsp;{/if}
           </span>
         {/each}
@@ -105,5 +106,8 @@
     color: $grey;
     font-size: 90%;
     margin-right: 0.5em;
+  }
+  .authors{
+    @include display-flex(row, center, center, wrap);
   }
 </style>

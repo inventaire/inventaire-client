@@ -1,6 +1,7 @@
 import createEntity from '#entities/lib/create_entity'
 import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import entityDraft from '#entities/lib/entity_draft_model'
+import { isNonEmptyArray } from '#lib/boolean_tests'
 
 export const createEntitiesByCandidate = async candidate => {
   const { customWorkTitle, customAuthorName } = candidate
@@ -11,7 +12,7 @@ export const createEntitiesByCandidate = async candidate => {
   }
 
   let workEntity
-  if (!candidate.works && customWorkTitle) {
+  if (!isNonEmptyArray(candidate.works) && customWorkTitle) {
     const workClaims = {}
     if (candidate.authors) {
       // TODO: handle several authors and remove candidate_row warning accordingly
@@ -25,7 +26,7 @@ export const createEntitiesByCandidate = async candidate => {
     if (workEntity) candidate.works = [ workEntity ]
   }
 
-  if (!candidate.edition && workEntity) {
+  if (!candidate.edition && isNonEmptyArray(candidate.works)) {
     const editionDraft = await createWorkEditionDraft({ workEntity, isbnData: candidate.isbnData })
     const editionEntity = await createEntity(editionDraft)
     if (editionEntity) candidate.edition = editionEntity
