@@ -4,22 +4,21 @@ import entityDraft from '#entities/lib/entity_draft_model'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 
 export const createEntitiesByCandidate = async candidate => {
-  const { customWorkTitle, customAuthorName } = candidate
-  if (!candidate.authors && customAuthorName) {
-    const authorDraft = entityDraft.createDraft({ type: 'human', label: customAuthorName, claims: {} })
-    const authorEntity = await createEntity(authorDraft)
-    if (authorEntity) candidate.authors = [ authorEntity ]
+  const { customWorkTitle, customAuthorsNames } = candidate
+  if (!isNonEmptyArray(candidate.authors) && isNonEmptyArray(customAuthorsNames)) {
+    const createdAuthorsEntities = await Promise.all(customAuthorsNames.map(authorName => {
+      const authorDraft = entityDraft.createDraft({ type: 'human', label: authorName, claims: {} })
+      return createEntity(authorDraft)
+    }))
+    if (isNonEmptyArray(createdAuthorsEntities)) candidate.authors = createdAuthorsEntities
   }
 
   let workEntity
   if (!isNonEmptyArray(candidate.works) && customWorkTitle) {
     const workClaims = {}
-    if (candidate.authors) {
-      // TODO: handle several authors and remove candidate_row warning accordingly
-      const { uri } = candidate.authors[0]
-      if (uri) {
-        workClaims['wdt:P50'] = [ uri ]
-      }
+    if (isNonEmptyArray(candidate.authors)) {
+      const authorsUris = candidate.authors.map(_.property('uri'))
+      if (isNonEmptyArray(authorsUris)) workClaims['wdt:P50'] = authorsUris
     }
     const workDraft = entityDraft.createDraft({ type: 'work', label: customWorkTitle, claims: workClaims })
     workEntity = await createEntity(workDraft)
