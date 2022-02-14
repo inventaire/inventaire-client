@@ -76,16 +76,16 @@
   let preCandidateIndexCount = 0
 
   const createPreCandidate = invalidIsbns => candidateData => {
-    const { isbn } = candidateData
+    const { isbn, title, authors, details, notes } = candidateData
     if (isAlreadyCandidate(isbn)) return
     const preCandidate = {
-      index: preCandidateIndexCount
+      index: preCandidateIndexCount,
+      customWorkTitle: title,
+      customAuthorsNames: authors,
+      details,
+      notes,
     }
     preCandidateIndexCount += 1
-    preCandidate.customWorkTitle = candidateData.title
-    preCandidate.customAuthorsNames = candidateData.authors
-    preCandidate.details = candidateData.details
-    preCandidate.notes = candidateData.notes
     if (isbn) preCandidate.isbnData = isbnExtractor.getIsbnData(isbn)
     if (preCandidate.isbnData?.isInvalid) {
       invalidIsbns.push(preCandidate)
