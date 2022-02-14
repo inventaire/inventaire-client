@@ -38,6 +38,7 @@
   @import 'app/modules/general/scss/utils';
   .edit-mode-buttons{
     height: 2.5rem;
+    flex: 0 0 auto;
   }
   button{
     height: 100%;
