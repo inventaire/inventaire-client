@@ -1,4 +1,3 @@
-import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
 import Entity from '../models/entity.js'
 import error_ from '#lib/error'
@@ -8,41 +7,6 @@ import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import graphRelationsProperties from './graph_relations_properties.js'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
-
-export const createWorkEdition = async function (workEntity, isbn) {
-  assert_.types(arguments, [ 'object', 'string' ])
-
-  const isbnData = await getIsbnData(isbn)
-  let { title, groupLang: editionLang } = isbnData
-  log_.info(title, 'title from isbn data')
-  if (!title) {
-    const { labels: workLabels, claims: workClaims } = workEntity
-    title = getTitleFromWork({ workLabels, workClaims, editionLang })
-  }
-  log_.info(title, 'title after work suggestion')
-
-  if (title == null) throw error_.new('no title could be found', isbn)
-
-  const claims = {
-    // instance of (P31) -> edition (Q3331189)
-    'wdt:P31': [ 'wd:Q3331189' ],
-    // isbn 13 (isbn 10 - if it exist - will be added by the server)
-    'wdt:P212': [ isbnData.isbn13h ],
-    // edition or translation of (P629) -> created book
-    'wdt:P629': [ workEntity.get('uri') ],
-    'wdt:P1476': [ title ]
-  }
-
-  if (isbnData.image != null) {
-    claims['invp:P2'] = [ isbnData.image ]
-  }
-
-  const editionEntity = await createAndGetEntityModel({ labels: {}, claims })
-  // If work editions have been fetched, add it to the list
-  workEntity.editions?.add(editionEntity)
-  workEntity.push('claims.wdt:P747', editionEntity.get('uri'))
-  return editionEntity
-}
 
 const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
   const inEditionLang = workLabels[editionLang]
@@ -61,14 +25,14 @@ const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
   return Object.values(workLabels)[0]
 }
 
-export const createWorkEditionDraft = async function ({ workEntity, isbn, isbnData }) {
+export const createWorkEditionDraft = async function ({ workEntity, isbn, isbnData, editionClaims }) {
   const { labels: workLabels, claims: workClaims, uri: workUri } = workEntity
-  const claims = {
+  const claims = _.extend(editionClaims, {
     // instance of (P31) -> edition (Q3331189)
     'wdt:P31': [ 'wd:Q3331189' ],
     // edition or translation of (P629) -> created book
     'wdt:P629': [ workUri ],
-  }
+  })
   let title, editionLang
   if (isbn && !isbnData) isbnData = await getIsbnData(isbn)
   if (isbnData) {
