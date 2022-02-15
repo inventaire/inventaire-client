@@ -1,10 +1,15 @@
 <script>
-  import { simpleDay } from 'lib/utils'
-  import { i18n } from 'modules/user/lib/i18n'
+  import { BubbleUpComponentEvent, simpleDay } from 'lib/utils'
+  import { createEventDispatcher } from 'svelte'
   import SimpleDayValueInputField from './simple_day_value_input_field.svelte'
   import SimpleDayValueInputLabel from './simple_day_value_input_label.svelte'
+  import { uniqueId } from 'underscore'
 
   export let currentValue, getInputValue
+
+  const dispatch = createEventDispatcher()
+  const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
+  const componentId = uniqueId('component')
 
   getInputValue = () => {
     if (day) return `${year}-${padField(month)}-${padField(day)}`
@@ -34,7 +39,7 @@
   $: if (month == null) resetDay()
 </script>
 
-<form>
+<div class="wrapper">
   <!-- Separate the labels from the inputs so that inputs can follow each others in tab order -->
   <div class="labels">
     <SimpleDayValueInputLabel
@@ -46,11 +51,13 @@
     <SimpleDayValueInputLabel
       name='month'
       bind:value={month}
+      {componentId}
     />
 
     <SimpleDayValueInputLabel
       name='day'
       bind:value={day}
+      {componentId}
     />
   </div>
 
@@ -61,7 +68,9 @@
       min=-3000
       max={nextYear}
       placeholder={currentYear}
+      on:keyup={bubbleUpEvent}
       optional={false}
+      {componentId}
     />
 
     <SimpleDayValueInputField
@@ -70,6 +79,8 @@
       min=1
       max=12
       placeholder={currentMonth}
+      on:keyup={bubbleUpEvent}
+      {componentId}
     />
 
     <SimpleDayValueInputField
@@ -78,13 +89,15 @@
       min=1
       max=31
       placeholder={currentDay}
+      on:keyup={bubbleUpEvent}
+      {componentId}
     />
   </div>
-</form>
+</div>
 
 <style lang="scss">
   @import 'app/modules/general/scss/utils';
-  form{
+  .wrapper{
     margin-right: auto;
   }
 

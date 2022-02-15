@@ -193,3 +193,5 @@ export const bubbleUpChildViewEvent = function (eventName) {
     this.triggerMethod(eventName, ...args)
   }
 }
+
+export const BubbleUpComponentEvent = dispatch => e => dispatch(e.type, e.detail)

@@ -1,6 +1,6 @@
 <script>
   import { i18n, I18n } from 'modules/user/lib/i18n'
-  export let value, name, optional = true
+  export let value, name, optional = true, componentId
 </script>
 
 {#if value || !optional}
@@ -9,6 +9,7 @@
     {#if optional}
       <button
         class="close"
+        aria-controls="{componentId}-{name}"
         title={i18n(`Remove ${name} precision`)}
         on:click={() => value = null}
       >
