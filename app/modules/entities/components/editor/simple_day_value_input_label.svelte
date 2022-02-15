@@ -1,6 +1,6 @@
 <script>
-  import { I18n } from 'modules/user/lib/i18n'
-  export let value, name, optional = true, closeButtonTitle
+  import { i18n, I18n } from 'modules/user/lib/i18n'
+  export let value, name, optional = true
 </script>
 
 {#if value || !optional}
@@ -9,7 +9,7 @@
     {#if optional}
       <button
         class="close"
-        title={closeButtonTitle}
+        title={i18n(`Remove ${name} precision`)}
         on:click={() => value = null}
       >
       &#215;

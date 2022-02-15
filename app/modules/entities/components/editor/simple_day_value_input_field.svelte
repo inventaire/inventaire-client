@@ -23,6 +23,7 @@
   >
 {:else}
   <button
+    title={i18n(`Precise the date to the ${name}`)}
     class="tiny-button"
     on:click={initValue}
     >
