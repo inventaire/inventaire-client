@@ -46,13 +46,11 @@
     <SimpleDayValueInputLabel
       name='month'
       bind:value={month}
-      closeButtonTitle={i18n('Remove month precision')}
     />
 
     <SimpleDayValueInputLabel
       name='day'
       bind:value={day}
-      closeButtonTitle={i18n('Remove day precision')}
     />
   </div>
 
