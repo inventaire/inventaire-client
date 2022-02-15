@@ -3,7 +3,7 @@ import EntityValueDisplay from '../editor/entity_value_display.svelte'
 import StringValueInput from '../editor/string_value_input.svelte'
 import StringValueDisplay from '../editor/string_value_display.svelte'
 import FixedStringValueDisplay from '../editor/fixed_string_value_display.svelte'
-// import SimpleDayValueInput from '../editor/simple_day_value_input.svelte'
+import SimpleDayValueInput from '../editor/simple_day_value_input.svelte'
 import PositiveIntegerValueInput from '../editor/positive_integer_value_input.svelte'
 // import PositiveIntegerStringValueInput from '../editor/positive_integer_string_value_input.svelte'
 // import ImageValueInput from '../editor/image_value_input.svelte'
@@ -23,7 +23,7 @@ export const editors = {
     DisplayComponent: FixedStringValueDisplay,
   },
   'simple-day': {
-    // InputComponent: SimpleDayValueInput,
+    InputComponent: SimpleDayValueInput,
     DisplayComponent: StringValueDisplay,
   },
   'positive-integer': {
