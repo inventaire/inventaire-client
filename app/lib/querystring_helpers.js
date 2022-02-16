@@ -1,4 +1,4 @@
-import allowPersistantQuery from './allow_persistant_query'
+import allowPersistantQuery from './allow_persistant_query.js'
 import { parseQuery, buildPath, setQuerystring, routeSection } from '#lib/location'
 
 export default function () {

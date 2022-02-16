@@ -1,4 +1,4 @@
-import ShelfModel from '../models/shelf'
+import ShelfModel from '../models/shelf.js'
 import getActionKey from '#lib/get_action_key'
 import forms_ from '#modules/general/lib/forms'
 import { listingsData } from '#modules/inventory/lib/item_creation'

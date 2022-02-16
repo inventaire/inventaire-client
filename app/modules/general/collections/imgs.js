@@ -1,4 +1,4 @@
-import Img from '../models/img'
+import Img from '../models/img.js'
 
 export default Backbone.Collection.extend({
   model: Img,

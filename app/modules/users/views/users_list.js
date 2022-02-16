@@ -1,5 +1,5 @@
-import UserLi from './user_li'
-import NoUser from './no_user'
+import UserLi from './user_li.js'
+import NoUser from './no_user.js'
 
 export default Marionette.CollectionView.extend({
   tagName: 'ul',

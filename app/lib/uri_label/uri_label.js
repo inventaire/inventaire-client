@@ -13,7 +13,7 @@ import {
   resetLabels,
   addPreviouslyMissingUris,
   wasntPrevisoulyMissing
-} from './labels_helpers'
+} from './labels_helpers.js'
 
 import { get as getEntitiesModels } from '#modules/entities/lib/entities_models_index'
 

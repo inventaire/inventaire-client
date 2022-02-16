@@ -1,5 +1,5 @@
 import { cutBeforeWord } from '#lib/utils'
-import itemViewsCommons from '../lib/items_views_commons'
+import itemViewsCommons from '../lib/items_views_commons.js'
 import itemCardTemplate from './templates/item_card.hbs'
 import '../scss/item_card.scss'
 import AlertBox from '#behaviors/alert_box'

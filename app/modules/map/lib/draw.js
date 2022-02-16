@@ -1,7 +1,7 @@
 import log_ from '#lib/loggers'
 import isMobile from '#lib/mobile_check'
-import mapConfig from './config'
-import buildMarker from './build_marker'
+import mapConfig from './config.js'
+import buildMarker from './build_marker.js'
 
 const {
   tileUrl,

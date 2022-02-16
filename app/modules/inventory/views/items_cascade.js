@@ -1,7 +1,7 @@
-import InfiniteScrollItemsList from './infinite_scroll_items_list'
+import InfiniteScrollItemsList from './infinite_scroll_items_list.js'
 import masonryPlugin from '#modules/general/plugins/masonry'
 import NoItem from '#modules/inventory/views/no_item'
-import ItemCard from './item_card'
+import ItemCard from './item_card.js'
 import itemsCascadeTemplate from './templates/items_cascade.hbs'
 import '../scss/items_cascade.scss'
 

@@ -1,5 +1,5 @@
-import GeneralInfobox from './general_infobox'
-import clampedExtract from '../lib/clamped_extract'
+import GeneralInfobox from './general_infobox.js'
+import clampedExtract from '../lib/clamped_extract.js'
 import authorInfoboxTemplate from './templates/author_infobox.hbs'
 import '../scss/entities_infoboxes.scss'
 

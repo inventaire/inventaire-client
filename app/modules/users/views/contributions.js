@@ -1,7 +1,7 @@
 // A layout to display a list of the patches, aka contributions
 
 import preq from '#lib/preq'
-import Contribution from './contribution'
+import Contribution from './contribution.js'
 import Patches from '#modules/entities/collections/patches'
 import contributionsTemplate from './templates/contributions.hbs'
 import '../scss/contributions.scss'

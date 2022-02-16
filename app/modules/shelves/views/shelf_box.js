@@ -1,5 +1,5 @@
-import ShelfEditor from './shelf_editor'
-import ShelfItemsAdder from './shelf_items_adder'
+import ShelfEditor from './shelf_editor.js'
+import ShelfItemsAdder from './shelf_items_adder.js'
 import shelfBoxTemplate from './templates/shelf_box.hbs'
 import '../scss/shelf_box.scss'
 

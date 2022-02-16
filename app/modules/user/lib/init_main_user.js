@@ -1,6 +1,6 @@
 import { parseBooleanString } from '#lib/utils'
 import fetchData from '#lib/data/fetch'
-import MainUser from '../models/main_user'
+import MainUser from '../models/main_user.js'
 import cookie_ from 'js-cookie'
 
 export default function (app) {

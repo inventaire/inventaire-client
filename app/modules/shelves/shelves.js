@@ -1,7 +1,7 @@
 import error_ from '#lib/error'
 import { isShelfId } from '#lib/boolean_tests'
-import ShelfModel from './models/shelf'
-import { getById } from './lib/shelves'
+import ShelfModel from './models/shelf.js'
+import { getById } from './lib/shelves.js'
 
 export default {
   initialize () {

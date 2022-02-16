@@ -1,4 +1,4 @@
-import Group from '../models/group'
+import Group from '../models/group.js'
 import { sum } from '#lib/utils'
 
 export default Backbone.Collection.extend({

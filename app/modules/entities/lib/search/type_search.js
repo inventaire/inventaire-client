@@ -1,10 +1,10 @@
 import log_ from '#lib/loggers'
-import searchType from './search_type'
-import languageSearch from './language_search'
-import { getEntityUri, prepareSearchResult } from './entities_uris_results'
+import searchType from './search_type.js'
+import languageSearch from './language_search.js'
+import { getEntityUri, prepareSearchResult } from './entities_uris_results.js'
 import error_ from '#lib/error'
-import TypeKey from '../types/type_key'
-import _wikidataSearch from './wikidata_search'
+import TypeKey from '../types/type_key.js'
+import _wikidataSearch from './wikidata_search.js'
 
 const wikidataSearch = _wikidataSearch(true)
 

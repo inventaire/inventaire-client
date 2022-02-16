@@ -1,6 +1,6 @@
 import { lazyMethod, icon } from '#lib/utils'
 import getActionKey from '#lib/get_action_key'
-import BrowserSelectorOptions from './browser_selector_options'
+import BrowserSelectorOptions from './browser_selector_options.js'
 import screen_ from '#lib/screen'
 import browserSelectorTemplate from './templates/browser_selector.hbs'
 

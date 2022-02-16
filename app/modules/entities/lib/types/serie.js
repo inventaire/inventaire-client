@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import commonsSerieWork from './commons_serie_work'
+import commonsSerieWork from './commons_serie_work.js'
 
 export default function () {
   // Main property by which sub-entities are linked to this one

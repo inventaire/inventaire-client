@@ -1,10 +1,10 @@
 import { isEntityUri, isUsername, isItemId } from '#lib/boolean_tests'
 import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
-import initQueries from './lib/queries'
-import initLayout from './lib/layout'
-import showItemCreationForm from './lib/show_item_creation_form'
-import itemActions from './lib/item_actions'
+import initQueries from './lib/queries.js'
+import initLayout from './lib/layout.js'
+import showItemCreationForm from './lib/show_item_creation_form.js'
+import itemActions from './lib/item_actions.js'
 import { parseQuery, currentRoute, buildPath } from '#lib/location'
 import error_ from '#lib/error'
 
@@ -143,12 +143,12 @@ const showItemsFromModels = function (items) {
 }
 
 const showInventory = async options => {
-  const { default: InventoryLayout } = await import('./views/inventory_layout')
+  const { default: InventoryLayout } = await import('./views/inventory_layout.js')
   app.layout.showChildView('main', new InventoryLayout(options))
 }
 
 const showItemsList = async collection => {
-  const { default: ItemsCascade } = await import('./views/items_cascade')
+  const { default: ItemsCascade } = await import('./views/items_cascade.js')
   app.layout.showChildView('main', new ItemsCascade({ collection }))
 }
 
@@ -173,7 +173,7 @@ const showItemModal = async (model, fallback) => {
 
   try {
     const [ { default: ItemShowLayout } ] = await Promise.all([
-      await import('./views/item_show_layout'),
+      await import('./views/item_show_layout.js'),
       model.grabWorks()
     ])
     app.layout.showChildView('modal', new ItemShowLayout({ model, fallback }))

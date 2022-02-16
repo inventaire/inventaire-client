@@ -1,5 +1,5 @@
-import app from './app'
-import getConfig from './get_config'
+import app from './app.js'
+import getConfig from './get_config.js'
 import initPiwik from '#lib/piwik'
 import API from '#app/api/api'
 import initDataWaiters from '#lib/data/waiters'

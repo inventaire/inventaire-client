@@ -1,4 +1,4 @@
-import SerieCleanupWork from './serie_cleanup_work'
+import SerieCleanupWork from './serie_cleanup_work.js'
 import serieCleanupWorksTemplate from './templates/serie_cleanup_works.hbs'
 
 export default Marionette.CollectionView.extend({

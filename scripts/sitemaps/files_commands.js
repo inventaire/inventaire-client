@@ -1,4 +1,4 @@
-import { folder } from './config'
+import { folder } from './config.js'
 import { exec } from 'child_process'
 import chalk from 'tiny-chalk'
 import fs from 'fs'

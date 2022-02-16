@@ -1,6 +1,6 @@
 import { isPositiveIntegerString, isNonNull, isDateString } from '#lib/boolean_tests'
 
-import decodeHtmlEntities from './decode_html_entities'
+import decodeHtmlEntities from './decode_html_entities.js'
 
 export default obj => ({
   isbn: getIsbn(obj),

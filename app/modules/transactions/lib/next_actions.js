@@ -1,6 +1,6 @@
-import { findNextActions, isArchived as _isArchived } from './transactions'
-import * as infoPartials from './info_partials'
-import actionsData from './actions_data'
+import { findNextActions, isArchived as _isArchived } from './transactions.js'
+import * as infoPartials from './info_partials.js'
+import actionsData from './actions_data.js'
 
 export const getNextActionsData = function (transaction) {
   const nextActions = proxyFindNextActions(transaction)

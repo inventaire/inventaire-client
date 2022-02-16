@@ -1,5 +1,5 @@
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint'
+import endpoint from './endpoint.js'
 const { base, action } = endpoint('items')
 
 const queryEndpoint = (actionName, idsLabel) => params => {

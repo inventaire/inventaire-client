@@ -1,5 +1,5 @@
-import getBestLangValue from '../get_best_lang_value'
-import { getEntitiesByUris } from '../entities'
+import getBestLangValue from '../get_best_lang_value.js'
+import { getEntitiesByUris } from '../entities.js'
 import preq from '#lib/preq'
 import { isImageHash } from '#app/lib/boolean_tests'
 

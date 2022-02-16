@@ -1,5 +1,5 @@
 import { I18n } from '#modules/user/lib/i18n'
-import EntityEdit from './entity_edit'
+import EntityEdit from './entity_edit.js'
 import entityDraftModel from '../../lib/entity_draft_model'
 
 export default EntityEdit.extend({

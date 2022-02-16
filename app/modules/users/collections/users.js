@@ -1,4 +1,4 @@
-import User from '../models/user'
+import User from '../models/user.js'
 
 export default Backbone.Collection.extend({
   model: User,

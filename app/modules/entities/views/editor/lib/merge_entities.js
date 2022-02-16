@@ -1,6 +1,6 @@
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import getEntityWikidataImportData from './get_entity_wikidata_import_data'
+import getEntityWikidataImportData from './get_entity_wikidata_import_data.js'
 
 export default async function (fromUri, toUri) {
   // Invert URIs if the toEntity is a Wikidata entity

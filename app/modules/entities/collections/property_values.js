@@ -1,5 +1,5 @@
 import { forceArray } from '#lib/utils'
-import PropertyValueModel from '../models/property_value'
+import PropertyValueModel from '../models/property_value.js'
 
 export default Backbone.Collection.extend({
   model: PropertyValueModel,

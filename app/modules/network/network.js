@@ -1,6 +1,6 @@
 import log_ from '#lib/loggers'
-import Groups from './collections/groups'
-import initGroupHelpers from './lib/group_helpers'
+import Groups from './collections/groups.js'
+import initGroupHelpers from './lib/group_helpers.js'
 import fetchData from '#lib/data/fetch'
 
 export default {
@@ -75,12 +75,12 @@ const API = {
   },
 
   async showInviteFriendByEmail () {
-    const { default: InviteByEmail } = await import('./views/invite_by_email')
+    const { default: InviteByEmail } = await import('./views/invite_by_email.js')
     app.layout.showChildView('modal', new InviteByEmail())
   },
 
   async showCreateGroupLayout () {
-    const { default: CreateGroupLayout } = await import('./views/create_group_layout')
+    const { default: CreateGroupLayout } = await import('./views/create_group_layout.js')
     app.layout.showChildView('modal', new CreateGroupLayout())
   },
 
@@ -92,7 +92,7 @@ const API = {
 const showGroupBoardFromModel = async (model, options = {}) => {
   if (model.mainUserIsMember()) {
     const [ { default: GroupBoard } ] = await Promise.all([
-      import('./views/group_board'),
+      import('./views/group_board.js'),
       model.beforeShow()
     ])
     const { openedSection } = options

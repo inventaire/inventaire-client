@@ -6,16 +6,16 @@
 import getActionKey from '#lib/get_action_key'
 
 import Suggestions from '#modules/entities/collections/suggestions'
-import AutocompleteSuggestions from '../autocomplete_suggestions'
+import AutocompleteSuggestions from '../autocomplete_suggestions.js'
 import properties from '#modules/entities/lib/properties'
 
 import {
   addDefaultSuggestionsUris,
   addNextDefaultSuggestionsBatch,
   showDefaultSuggestions,
-} from './suggestions/default_suggestions'
+} from './suggestions/default_suggestions.js'
 
-import { search, loadMoreFromSearch } from './suggestions/search_suggestions'
+import { search, loadMoreFromSearch } from './suggestions/search_suggestions.js'
 
 export default {
   onRender () {

@@ -7,19 +7,19 @@
 //   narrative location (wdt:P840), or authors born (wdt:P19)
 //   or dead (wdt:P20) nearby
 
-import findUri from '../lib/find_uri'
+import findUri from '../lib/find_uri.js'
 import { looksLikeAnIsbn } from '#lib/isbn'
 import screen_ from '#lib/screen'
 import preq from '#lib/preq'
-import ResultModel from '../models/result'
+import ResultModel from '../models/result.js'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
 import WikidataSearch from '#modules/entities/lib/search/wikidata_search'
-import Result from './result'
-import NoResult from './no_result'
+import Result from './result.js'
+import NoResult from './no_result.js'
 import liveSearchTemplate from './templates/live_search.hbs'
-import { formatEntity, formatSubject } from '../lib/formatters'
-import { typesBySection, categoryBySection, entitySectionsWithAlternatives, sectionsData, neverIncluded } from '../lib/search_sections'
+import { formatEntity, formatSubject } from '../lib/formatters.js'
+import { typesBySection, categoryBySection, entitySectionsWithAlternatives, sectionsData, neverIncluded } from '../lib/search_sections.js'
 const wikidataSearch = WikidataSearch(false)
 
 const Results = Backbone.Collection.extend({ model: ResultModel })

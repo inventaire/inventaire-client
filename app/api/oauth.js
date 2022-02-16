@@ -1,4 +1,4 @@
-import endpoint from './endpoint'
+import endpoint from './endpoint.js'
 const clientsEndpoint = endpoint('oauth/clients')
 
 export default {

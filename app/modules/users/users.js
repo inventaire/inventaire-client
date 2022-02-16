@@ -1,10 +1,10 @@
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { i18n } from '#modules/user/lib/i18n'
-import initUsersCollections from './users_collections'
-import initHelpers from './helpers'
-import initRequests from './requests'
-import initInvitations from './invitations'
+import initUsersCollections from './users_collections.js'
+import initHelpers from './helpers.js'
+import initRequests from './requests.js'
+import initInvitations from './invitations.js'
 
 export default {
   initialize () {
@@ -47,7 +47,7 @@ const API = {
       const title = i18n('contributions_by', { username })
       app.navigate(path, { metadata: { title } })
       if (app.request('require:admin:access')) {
-        const { default: Contributions } = await import('./views/contributions')
+        const { default: Contributions } = await import('./views/contributions.js')
         app.layout.showChildView('main', new Contributions({ user }))
       }
     }

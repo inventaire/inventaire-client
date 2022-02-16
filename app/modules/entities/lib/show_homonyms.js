@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import Entities from '../collections/entities'
+import Entities from '../collections/entities.js'
 import loader from '#modules/general/views/templates/loader.hbs'
 
 const entitiesTypesWithTasks = [

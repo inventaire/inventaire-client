@@ -1,5 +1,5 @@
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint'
+import endpoint from './endpoint.js'
 const { action } = endpoint('tasks')
 const byEntitiesUris = name => uris => {
   uris = forceArray(uris).join('|')

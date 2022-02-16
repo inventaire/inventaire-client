@@ -1,4 +1,4 @@
-import { GroupItemView } from './group_views_commons'
+import { GroupItemView } from './group_views_commons.js'
 import groupLiTemplate from './templates/group_li.hbs'
 import '../scss/group_li.scss'
 import PreventDefault from '#behaviors/prevent_default'

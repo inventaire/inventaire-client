@@ -2,9 +2,9 @@
 // - no need to reload the image on re-render (like when details are saved)
 import { capitalize } from '#lib/utils'
 import itemShowDataTemplate from './templates/item_show_data.hbs'
-import ItemTransactions from './item_transactions'
+import ItemTransactions from './item_transactions.js'
 import getActionKey from '#lib/get_action_key'
-import itemViewsCommons from '../lib/items_views_commons'
+import itemViewsCommons from '../lib/items_views_commons.js'
 import AlertBox from '#behaviors/alert_box'
 import ElasticTextarea from '#behaviors/elastic_textarea'
 

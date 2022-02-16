@@ -1,4 +1,4 @@
-import initAddHelpers from './lib/add_helpers'
+import initAddHelpers from './lib/add_helpers.js'
 
 export default {
   initialize () {
@@ -34,7 +34,7 @@ const API = {
         // navigate before triggering the view itself has
         // special behaviors on route change
         app.navigate('add/scan/embedded')
-        const { default: EmbeddedScanner } = await import('./views/add/embedded_scanner')
+        const { default: EmbeddedScanner } = await import('./views/add/embedded_scanner.js')
         // showing in main so that requesting another layout destroy this view
         app.layout.showChildView('main', new EmbeddedScanner())
       } else {
@@ -47,7 +47,7 @@ const API = {
 const showAddLayout = async (tab = 'search', options = {}) => {
   if (app.request('require:loggedIn', `add/${tab}`)) {
     options.tab = tab
-    const { default: AddLayout } = await import('./views/add/add_layout')
+    const { default: AddLayout } = await import('./views/add/add_layout.js')
     app.layout.showChildView('main', new AddLayout(options))
   }
 }

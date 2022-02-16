@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import filterOutWdEditions from '../filter_out_wd_editions'
+import filterOutWdEditions from '../filter_out_wd_editions.js'
 
 export default function () {
   this.childrenClaimProperty = 'wdt:P123'

@@ -1,5 +1,5 @@
 import assert_ from '#lib/assert_types'
-import leafletLite from './leaflet_lite'
+import leafletLite from './leaflet_lite.js'
 
 // Coordinates are returned in decimal degrees
 // There is no need to keep more than 4 decimals, cf https://xkcd.com/2170/

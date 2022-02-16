@@ -1,4 +1,4 @@
-import isLoggedIn from './lib/is_logged_in'
+import isLoggedIn from './lib/is_logged_in.js'
 import getActionKey from '#lib/get_action_key'
 import error_ from '#lib/error'
 

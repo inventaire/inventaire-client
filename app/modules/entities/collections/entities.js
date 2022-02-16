@@ -1,4 +1,4 @@
-import Entity from '../models/entity'
+import Entity from '../models/entity.js'
 
 export default Backbone.Collection.extend({
   model: Entity,

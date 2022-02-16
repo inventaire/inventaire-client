@@ -1,6 +1,6 @@
 import log_ from '#lib/loggers'
 import Transactions from '#modules/transactions/collections/transactions'
-import initHelpers from './helpers'
+import initHelpers from './helpers.js'
 import fetchData from '#lib/data/fetch'
 let lastTransactionId = null
 
@@ -75,7 +75,7 @@ const API = {
 
   async showItemRequestModal (model) {
     if (app.request('require:loggedIn', model.get('pathname'))) {
-      const { default: RequestItemModal } = await import('./views/request_item_modal')
+      const { default: RequestItemModal } = await import('./views/request_item_modal.js')
       app.layout.showChildView('modal', new RequestItemModal({ model }))
     }
   },
@@ -84,7 +84,7 @@ const API = {
 }
 
 const showTransactionsLayout = async () => {
-  const { default: TransactionsLayout } = await import('./views/transactions_layout')
+  const { default: TransactionsLayout } = await import('./views/transactions_layout.js')
   app.layout.showChildView('main', new TransactionsLayout())
 }
 

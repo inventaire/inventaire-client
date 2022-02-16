@@ -4,7 +4,7 @@ import { forceArray } from '#lib/utils'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import error_ from '#lib/error'
-import Entity from '../models/entity'
+import Entity from '../models/entity.js'
 import { invalidateLabel } from '#lib/uri_label/labels_helpers'
 
 // In-memory cache for all entities used during a session.

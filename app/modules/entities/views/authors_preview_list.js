@@ -1,4 +1,4 @@
-import AuthorPreview from './author_preview'
+import AuthorPreview from './author_preview.js'
 import authorsPreviewListTemplate from './templates/authors_preview_list.hbs'
 
 export default Marionette.CollectionView.extend({

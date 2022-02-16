@@ -1,5 +1,5 @@
 import { tryAsync } from '#lib/promises'
-import map_ from '../lib/map'
+import map_ from '../lib/map.js'
 import getPositionFromNavigator from '#modules/map/lib/navigator_position'
 import forms_ from '#modules/general/lib/forms'
 import error_ from '#lib/error'

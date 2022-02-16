@@ -1,6 +1,6 @@
-import Shelves from '../collections/shelves'
+import Shelves from '../collections/shelves.js'
 import { getShelvesByOwner } from '#modules/shelves/lib/shelves'
-import ShelvesList from './shelves_list'
+import ShelvesList from './shelves_list.js'
 import shelvesSectionTemplate from './templates/shelves_section.hbs'
 import '../scss/shelves_section.scss'
 import BackupForm from '#behaviors/backup_form'

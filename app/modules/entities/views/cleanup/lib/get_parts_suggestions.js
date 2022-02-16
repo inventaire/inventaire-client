@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import addPertinanceScore from './add_pertinance_score'
+import addPertinanceScore from './add_pertinance_score.js'
 import searchType from '#modules/entities/lib/search/search_type'
 
 const searchWorks = searchType('works')

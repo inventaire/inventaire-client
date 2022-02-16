@@ -1,6 +1,6 @@
 // used for: userMadeAdmin, groupUpdate (name, description)
 
-import Notification from './notification'
+import Notification from './notification.js'
 import Handlebars from 'handlebars/runtime'
 const { escapeExpression } = Handlebars
 

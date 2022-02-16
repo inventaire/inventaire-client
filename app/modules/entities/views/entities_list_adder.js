@@ -1,6 +1,6 @@
 import { isOpenedOutside } from '#lib/utils'
 import { buildPath } from '#lib/location'
-import EntitiesListElementCandidate from './entities_list_element_candidate'
+import EntitiesListElementCandidate from './entities_list_element_candidate.js'
 import typeSearch from '#modules/entities/lib/search/type_search'
 import PaginatedEntities from '#modules/entities/collections/paginated_entities'
 import AutocompleteNoSuggestion from '#modules/entities/views/editor/autocomplete_no_suggestion'

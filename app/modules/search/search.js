@@ -1,6 +1,6 @@
 import { parseBooleanString } from '#lib/utils'
-import SearchResultsHistory from './collections/search_results_history'
-import findUri from './lib/find_uri'
+import SearchResultsHistory from './collections/search_results_history.js'
+import findUri from './lib/find_uri.js'
 import { parseQuery } from '#lib/location'
 import { setPrerenderStatusCode } from '#lib/metadata/update'
 

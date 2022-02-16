@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import Task from '../models/task'
+import Task from '../models/task.js'
 
 const backlogs = {
   byScore: [],

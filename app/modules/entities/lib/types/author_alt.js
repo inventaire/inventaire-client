@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import { attachEntities, getEntitiesByUris } from '../entities'
+import { attachEntities, getEntitiesByUris } from '../entities.js'
 
 export const addAuthorWorks = async author => {
   const { uri } = author

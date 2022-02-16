@@ -1,5 +1,5 @@
 import { i18n } from '#modules/user/lib/i18n'
-import EditorCommons from './editor_commons'
+import EditorCommons from './editor_commons.js'
 import forms_ from '#modules/general/lib/forms'
 import properties from '#modules/entities/lib/properties'
 import { wait } from '#lib/promises'

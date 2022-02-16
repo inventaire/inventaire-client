@@ -1,4 +1,4 @@
-import SerieCleanupEdition from './serie_cleanup_edition'
+import SerieCleanupEdition from './serie_cleanup_edition.js'
 
 export default Marionette.CollectionView.extend({
   tagName: 'ul',

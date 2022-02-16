@@ -1,4 +1,4 @@
-import Item from '../models/item'
+import Item from '../models/item.js'
 
 export default Backbone.Collection.extend({
   model: Item,

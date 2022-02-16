@@ -1,7 +1,7 @@
-import InfiniteScrollItemsList from './infinite_scroll_items_list'
-import ItemsTableSelectionEditor from './items_table_selection_editor'
+import InfiniteScrollItemsList from './infinite_scroll_items_list.js'
+import ItemsTableSelectionEditor from './items_table_selection_editor.js'
 import NoItem from '#modules/inventory/views/no_item'
-import ItemRow from './item_row'
+import ItemRow from './item_row.js'
 import itemsTableTemplate from './templates/items_table.hbs'
 import '../scss/items_table.scss'
 

@@ -3,7 +3,7 @@ import { Rollback } from '#lib/utils'
 import properties from '#modules/entities/lib/properties'
 import * as regex_ from '#lib/regex'
 import error_ from '#lib/error'
-import entityDraftModel from '../lib/entity_draft_model'
+import entityDraftModel from '../lib/entity_draft_model.js'
 
 const haveValueEntity = [ 'entity', 'fixed-entity' ]
 

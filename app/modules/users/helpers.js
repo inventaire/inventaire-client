@@ -1,8 +1,8 @@
 import { isModel, isUserId } from '#lib/boolean_tests'
 import { forceArray } from '#lib/utils'
 import error_ from '#lib/error'
-import usersData from './users_data'
-import initSearch from './lib/search'
+import usersData from './users_data.js'
+import initSearch from './lib/search.js'
 
 export default function (app) {
   const sync = {

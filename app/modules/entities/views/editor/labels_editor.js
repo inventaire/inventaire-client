@@ -1,9 +1,9 @@
 import { isNonEmptyString } from '#lib/boolean_tests'
-import EditorCommons from './editor_commons'
+import EditorCommons from './editor_commons.js'
 import getBestLangValue from '#modules/entities/lib/get_best_lang_value'
 import forms_ from '#modules/general/lib/forms'
 import getLangsData from '#modules/entities/lib/editor/get_langs_data'
-import { initWorkLabelsTip, tipOnKeyup, tipOnRender } from './lib/title_tip'
+import { initWorkLabelsTip, tipOnKeyup, tipOnRender } from './lib/title_tip.js'
 import labelsEditorTemplate from './templates/labels_editor.hbs'
 import AlertBox from '#behaviors/alert_box'
 

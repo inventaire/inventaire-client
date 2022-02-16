@@ -1,4 +1,4 @@
-import PreviousSearch from './previous_search'
+import PreviousSearch from './previous_search.js'
 import searchTemplate from './templates/search_layout.hbs'
 import '#modules/inventory/scss/search_layout.scss'
 import PreventDefault from '#behaviors/prevent_default'

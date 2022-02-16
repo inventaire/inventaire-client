@@ -5,11 +5,11 @@ import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { i18n } from '#modules/user/lib/i18n'
 import error_ from '#lib/error'
-import entityDraftModel from './lib/entity_draft_model'
-import * as entitiesModelsIndex from './lib/entities_models_index'
-import getEntityViewByType from './lib/get_entity_view_by_type'
-import { getEntityByUri, normalizeUri } from './lib/entities'
-import showHomonyms from './lib/show_homonyms'
+import entityDraftModel from './lib/entity_draft_model.js'
+import * as entitiesModelsIndex from './lib/entities_models_index.js'
+import getEntityViewByType from './lib/get_entity_view_by_type.js'
+import { getEntityByUri, normalizeUri } from './lib/entities.js'
+import showHomonyms from './lib/show_homonyms.js'
 
 export default {
   initialize () {

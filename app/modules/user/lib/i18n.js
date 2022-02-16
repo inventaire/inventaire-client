@@ -8,8 +8,8 @@ import Polyglot from 'node-polyglot'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { capitalize } from '#lib/utils'
-import translate from './translate'
-import i18nMissingKey from './i18n_missing_key'
+import translate from './translate.js'
+import i18nMissingKey from './i18n_missing_key.js'
 
 // Work around circular dependency
 let update = _.noop

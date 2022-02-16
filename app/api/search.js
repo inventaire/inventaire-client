@@ -1,6 +1,6 @@
 import { forceArray } from '#lib/utils'
 import { buildPath } from '#lib/location'
-import endpoint from './endpoint'
+import endpoint from './endpoint.js'
 const { base } = endpoint('search')
 
 export default function (types, search, limit = 10, exact = false) {

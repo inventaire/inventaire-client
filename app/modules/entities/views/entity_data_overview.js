@@ -1,4 +1,4 @@
-import clampedExtract from '../lib/clamped_extract'
+import clampedExtract from '../lib/clamped_extract.js'
 import entityDataOverviewTemplate from './templates/entity_data_overview.hbs'
 import '../scss/entity_data_overview.scss'
 import ClampedExtract from '#behaviors/clamped_extract'

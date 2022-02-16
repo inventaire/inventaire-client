@@ -1,5 +1,5 @@
 import { isOpenedOutside } from '#lib/utils'
-import map_ from '../lib/map'
+import map_ from '../lib/map.js'
 import simpleMapTemplate from './templates/simple_map.hbs'
 import PreventDefault from '#behaviors/prevent_default'
 

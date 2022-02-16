@@ -1,4 +1,4 @@
-import SectionList from './inventory_section_list'
+import SectionList from './inventory_section_list.js'
 import { GroupLayoutView } from '#modules/network/views/group_views_commons'
 import groupProfileTemplate from './templates/group_profile.hbs'
 import AlertBox from '#behaviors/alert_box'

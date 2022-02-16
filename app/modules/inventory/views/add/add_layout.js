@@ -1,5 +1,5 @@
 import { I18n } from '#modules/user/lib/i18n'
-import tabsData from './lib/add_layout_tabs'
+import tabsData from './lib/add_layout_tabs.js'
 import screen_ from '#lib/screen'
 import addLayoutTemplate from './templates/add_layout.hbs'
 import '#modules/inventory/scss/add_layout.scss'

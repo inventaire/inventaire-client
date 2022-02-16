@@ -1,4 +1,4 @@
-import WorkPicker from './work_picker'
+import WorkPicker from './work_picker.js'
 import forms_ from '#modules/general/lib/forms'
 import error_ from '#lib/error'
 import serieCleanupEditionTemplate from './templates/serie_cleanup_edition.hbs'

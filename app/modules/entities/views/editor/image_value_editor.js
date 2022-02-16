@@ -1,6 +1,6 @@
 import { isUrl } from '#lib/boolean_tests'
 import preq from '#lib/preq'
-import ClaimsEditorCommons from './claims_editor_commons'
+import ClaimsEditorCommons from './claims_editor_commons.js'
 import forms_ from '#modules/general/lib/forms'
 import error_ from '#lib/error'
 import files_ from '#lib/files'

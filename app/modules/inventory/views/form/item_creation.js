@@ -1,7 +1,7 @@
 import log_ from '#lib/loggers'
 import { i18n } from '#modules/user/lib/i18n'
 import EntityDataOverview from '#modules/entities/views/entity_data_overview'
-import ItemShelves from '../item_shelves'
+import ItemShelves from '../item_shelves.js'
 import { listingsData, transactionsData, getSelectorData } from '#modules/inventory/lib/item_creation'
 import { getShelvesByOwner } from '#modules/shelves/lib/shelves'
 import Shelves from '#modules/shelves/collections/shelves'

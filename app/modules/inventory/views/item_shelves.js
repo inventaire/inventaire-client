@@ -1,5 +1,5 @@
 import { addItems, removeItems } from '#modules/shelves/lib/shelves'
-import NoShelfView from './no_shelf'
+import NoShelfView from './no_shelf.js'
 import { startLoading } from '#modules/general/plugins/behaviors'
 import forms_ from '#modules/general/lib/forms'
 import itemShelfLiTemplate from './templates/item_shelf_li.hbs'

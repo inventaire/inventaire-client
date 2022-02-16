@@ -1,4 +1,4 @@
-import PropertyEditor from './property_editor'
+import PropertyEditor from './property_editor.js'
 import propertiesEditorTemplate from './templates/properties_editor.hbs'
 
 export default Marionette.CollectionView.extend({

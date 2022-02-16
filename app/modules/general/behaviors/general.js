@@ -3,7 +3,7 @@
 import { isOpenedOutside } from '#lib/utils'
 import enterClick from '#modules/general/lib/enter_click'
 import preventFormSubmit from '#modules/general/lib/prevent_form_submit'
-import showViews from '../lib/show_views'
+import showViews from '../lib/show_views.js'
 
 const execute = commandName => function (e) {
   if (isOpenedOutside(e)) return

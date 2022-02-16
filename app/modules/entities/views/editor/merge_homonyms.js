@@ -1,4 +1,4 @@
-import MergeSuggestion from './merge_homonym'
+import MergeSuggestion from './merge_homonym.js'
 import NoResult from '#modules/search/views/no_result'
 import mergeHomonymsTemplate from './templates/merge_homonyms.hbs'
 

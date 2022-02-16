@@ -1,6 +1,6 @@
 import { i18n } from '#modules/user/lib/i18n'
 import preq from '#lib/preq'
-import Notifications from './collections/notifications'
+import Notifications from './collections/notifications.js'
 const notifications = new Notifications()
 let waitForNotifications
 
@@ -31,7 +31,7 @@ const API = {
     if (app.request('require:loggedIn', 'notifications')) {
       app.execute('show:loader')
       const [ { default: NotificationsLayout } ] = await Promise.all([
-        import('./views/notifications_layout'),
+        import('./views/notifications_layout.js'),
         // Make sure that the notifications arrived before calling 'beforeShow'
         // as it will only trigger 'beforeShow' on the notifications models
         // presently in the collection

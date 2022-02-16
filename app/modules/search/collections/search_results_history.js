@@ -1,5 +1,5 @@
 import { localStorageProxy } from '#lib/local_storage'
-import Search from '../models/search'
+import Search from '../models/search.js'
 
 export default Backbone.Collection.extend({
   model: Search,

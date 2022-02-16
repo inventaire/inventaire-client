@@ -1,4 +1,4 @@
-import map_ from './lib/map'
+import map_ from './lib/map.js'
 
 export default function () {
   app.commands.setHandlers({
@@ -32,7 +32,7 @@ const promptGroupPositionPicker = async () => {
 
 const showModelsOnMap = async models => {
   const [ { default: SimpleMap } ] = await Promise.all([
-    import('./views/simple_map'),
+    import('./views/simple_map.js'),
     map_.getLeaflet()
   ])
   app.layout.showChildView('modal', new SimpleMap({ models }))
