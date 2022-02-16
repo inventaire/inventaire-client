@@ -1,11 +1,12 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import EntityLogo from '#inventory/components/entity_source_logo.svelte'
   import ClaimEditor from '#inventory/components/claim_editor.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
+
   export let isbnData
   export let edition
   export let works
@@ -39,18 +40,19 @@
     }
   }
 </script>
-<div class="listItem">
-  <div class="editionCover">
+<div class="list-item">
+  <div class="edition-cover">
     {#if edition?.image?.url}
       <img src="{imgSrc(edition.image.url, 80)}" alt='{findBestLang(work, editionLang)} cover'>
     {/if}
   </div>
-  <div class="textWrapper">
-    <div class="column work">
+  <div class="text-wrapper">
+    <div class="work">
       {#if work}
-        <span class="label">{i18n('title')}:</span>
-        <span class="workTitle">
-          {findBestLang(work, editionLang)}&nbsp;
+        <span class="label">{I18n('title')}:</span>
+          <!-- necessary span to look like <sup> (exponent) element -->
+        <span>
+          {findBestLang(work, editionLang)}
           <EntityLogo entity="{work}"/>
         </span>
       {:else}
@@ -59,11 +61,12 @@
         {/if}
       {/if}
     </div>
-    <span class="column authors">
+    <div class="authors">
       {#if authors && authors.length > 0}
-        <span class="label">{i18n('authors')}:</span>
+        <span class="label">{I18n('authors')}:</span>
         {#each authors as author, id}
-          <span class="authorName">
+          <!-- necessary span to look like <sup> (exponent) element -->
+          <span>
             {findBestLang(author)}
             <EntityLogo entity="{author}"/>
             <!-- prefer this to CSS :last-child, to be able to have a space after the comma -->
@@ -81,15 +84,15 @@
           {#if isNonEmptyArray(customAuthorsNames)}
             <span class="label">{I18n('authors')}:</span>
             {#each customAuthorsNames as author, id}
-              <span class="authorName">
+              <span>
                 {author}
               </span>
             {/each}
           {/if}
         {/if}
       {/if}
-    </span>
-    <div class="column isbn">
+    </div>
+    <div class="isbn">
       {#if rawIsbn}
         <span class="label">ISBN:</span>
         {rawIsbn}
@@ -103,21 +106,19 @@
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
-  .listItem{
+  .list-item{
     margin-right: 1em;
     @include display-flex(row, center, space-between);
-    .editionCover{
+    .edition-cover{
       margin-right: 1em;
       min-width: 4em;
     }
   }
-  .column{
-    padding: 0.1em 0;
-  }
-  .textWrapper{
+  .text-wrapper{
     @include display-flex(column);
     width: 100%;
     padding: 0.2em 0;
+    line-height: 1.5em;
   }
   .label{
     display: inline;

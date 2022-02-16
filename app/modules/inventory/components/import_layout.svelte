@@ -27,11 +27,9 @@
       <CandidatesSection bind:candidates {processedPreCandidates} {totalPreCandidates}/>
     </div>
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
-    <div class="itemsSettings">
-      <SelectButtonGroup type="transaction" bind:selected={transaction}/>
-      <SelectButtonGroup type="listing" bind:selected={listing}/>
-      <SelectShelves bind:shelvesIds/>
-    </div>
+    <SelectButtonGroup type="transaction" bind:selected={transaction}/>
+    <SelectButtonGroup type="listing" bind:selected={listing}/>
+    <SelectShelves bind:shelvesIds/>
   </div>
   <div hidden="{!showImportItems}">
     <ImportItemsSection bind:candidates {transaction} {listing} {shelvesIds}/>

@@ -79,9 +79,9 @@
     }
   }
 </script>
-<li class="candidateRow" on:click="{() => candidate.checked = !candidate.checked}" class:checked>
-  <div class="candidateText">
-    <div class="listItemWrapper">
+<li class="candidate-row" on:click="{() => candidate.checked = !candidate.checked}" class:checked>
+  <div class="candidate-text">
+    <div class="list-item-wrapper">
       <ListItem
         {isbnData}
         {edition}
@@ -123,19 +123,19 @@
 </li>
 <style lang="scss">
   @import '#general/scss/utils';
-  .candidateRow{
+  .candidate-row{
     @include display-flex(row, center, space-between);
     @include radius;
     border: solid 1px #ccc;
     padding: 0.2em 1em;
     margin-bottom: 0.2em;
   }
-  .candidateText{
+  .candidate-text{
     width: 100%;
     margin-right: 1em;
     @include display-flex(row, center);
   }
-  .listItemWrapper{
+  .list-item-wrapper{
     flex: 5 0 0;
   }
   .statuses{
@@ -155,7 +155,7 @@
   }
   /*Small screens*/
   @media screen and (max-width: 470px) {
-    .candidateText{
+    .candidate-text{
       @include display-flex(column, center, space-between);
     }
   }

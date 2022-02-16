@@ -9,14 +9,12 @@
   $: shelf.checked = checked
 </script>
 <div class="shelf" on:click="{() => checked = !checked}">
-  <div class="checkbox">
-    <input type="checkbox" bind:checked name="{I18n('select_shelf')}">
-  </div>
-  <div class="shelfList">
-    <img class="shelfPicture" src="{imgSrc(shelfColor)}" alt='{shelf.name}'>
+  <input class="checkbox" type="checkbox" bind:checked name="{I18n('select_shelf')}">
+  <div class="shelf-list">
+    <img class="shelf-picture" src="{imgSrc(shelfColor)}" alt='{shelf.name}'>
     <div class="shelf-text">
-      <div class="name">{shelf.name}</div>
-      <div class="description">{shelf.description}</div>
+      <div>{shelf.name}</div>
+      <div>{shelf.description}</div>
     </div>
   </div>
 </div>
@@ -31,10 +29,10 @@
   .checkbox{
     margin: 0.5em;
   }
-  .shelfPicture{
+  .shelf-picture{
     width: 48px;
   };
-  .shelfList{
+  .shelf-list{
     @include display-flex(row, center, flex-start);
   }
 </style>

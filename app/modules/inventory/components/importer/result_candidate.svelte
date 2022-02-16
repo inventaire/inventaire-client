@@ -8,7 +8,7 @@
 
   let { isbnData, edition, works, authors, error } = candidate
 </script>
-<li class="listCandidate" class:error>
+<li class="list-candidate" class:error>
   <ListItem
     {isbnData}
     {edition}
@@ -27,7 +27,7 @@
   .error{
     background-color: rgba($warning-color, 0.3);
   }
-  .listCandidate{
+  .list-candidate{
     @include display-flex(row, center, space-between);
     margin: 0.2em 0;
     padding: 0.5em 1em;
