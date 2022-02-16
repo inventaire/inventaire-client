@@ -3,13 +3,12 @@
   "compilerOptions": {
     "baseUrl": "./app",
     "paths": {
-      "api/*": [ "api/*" ],
-      "assets/*": [ "assets/*" ],
-      "behaviors/*": [ "modules/general/behaviors/*" ],
-      "lib/*": [ "lib/*" ],
-      "modules/*": [ "modules/*" ],
+      "#assets/*": [ "assets/*" ],
+      "#behaviors/*": [ "modules/general/behaviors/*" ],
+      "#lib/*": [ "lib/*" ],
+      "#modules/*": [ "modules/*" ],
       // Set last to let other paths have priority
-      "app/*": [ "*" ],
+      "#app/*": [ "*" ],
     }
   },
   "exclude": [ "node_modules", "public", "vendor", "scripts/assets" ]
