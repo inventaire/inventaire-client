@@ -1,4 +1,4 @@
-import { currentRoute } from 'lib/location'
+import { currentRoute } from '#lib/location'
 const routeAllowlist = [
   'signup',
   'login',

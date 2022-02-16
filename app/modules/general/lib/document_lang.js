@@ -1,6 +1,6 @@
-import { langs, regionify } from 'lib/active_languages'
-import { setQuerystring, currentRoute } from 'lib/location'
-import { getTextDirection } from 'app/lib/active_languages'
+import { langs, regionify } from '#lib/active_languages'
+import { setQuerystring, currentRoute } from '#lib/location'
+import { getTextDirection } from '#app/lib/active_languages'
 const { origin } = location
 
 // lang metadata updates needed by search engines

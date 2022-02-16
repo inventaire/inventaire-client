@@ -1,4 +1,4 @@
-import { forceArray } from 'lib/utils'
+import { forceArray } from '#lib/utils'
 import PropertyValueModel from '../models/property_value'
 
 export default Backbone.Collection.extend({

@@ -1,5 +1,5 @@
-import { shortLang } from 'lib/utils'
-import { langs as activeLangs } from 'lib/active_languages'
+import { shortLang } from '#lib/utils'
+import { langs as activeLangs } from '#lib/active_languages'
 import cookie_ from 'js-cookie'
 
 export default function (userLanguage) {

@@ -1,4 +1,4 @@
-import { getReverseClaims } from 'modules/entities/lib/entities'
+import { getReverseClaims } from '#modules/entities/lib/entities'
 
 export default function (entity, index, propertyValuesCount) {
   const promises = []

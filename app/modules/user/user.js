@@ -1,10 +1,10 @@
-import { I18n } from 'modules/user/lib/i18n'
-import error_ from 'lib/error'
+import { I18n } from '#modules/user/lib/i18n'
+import error_ from '#lib/error'
 import initMainUser from './lib/init_main_user'
 import auth from './lib/auth'
 import userListings from './lib/user_listings'
 import userUpdate from './lib/user_update'
-import preq from 'lib/preq'
+import preq from '#lib/preq'
 
 export default {
   initialize () {

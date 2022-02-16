@@ -1,13 +1,13 @@
-import assert_ from 'lib/assert_types'
-import log_ from 'lib/loggers'
+import assert_ from '#lib/assert_types'
+import log_ from '#lib/loggers'
 import Entity from '../models/entity'
-import error_ from 'lib/error'
-import { getIsbnData } from 'lib/isbn'
+import error_ from '#lib/error'
+import { getIsbnData } from '#lib/isbn'
 import createEntity from './create_entity'
-import { addModel as addEntityModel } from 'modules/entities/lib/entities_models_index'
+import { addModel as addEntityModel } from '#modules/entities/lib/entities_models_index'
 import graphRelationsProperties from './graph_relations_properties'
-import getOriginalLang from 'modules/entities/lib/get_original_lang'
-import { tap } from 'lib/promises'
+import getOriginalLang from '#modules/entities/lib/get_original_lang'
+import { tap } from '#lib/promises'
 
 const createWorkEdition = async function (workEntity, isbn) {
   assert_.types(arguments, [ 'object', 'string' ])

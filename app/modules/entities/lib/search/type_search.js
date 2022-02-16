@@ -1,8 +1,8 @@
-import log_ from 'lib/loggers'
+import log_ from '#lib/loggers'
 import searchType from './search_type'
 import languageSearch from './language_search'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results'
-import error_ from 'lib/error'
+import error_ from '#lib/error'
 import TypeKey from '../types/type_key'
 import _wikidataSearch from './wikidata_search'
 

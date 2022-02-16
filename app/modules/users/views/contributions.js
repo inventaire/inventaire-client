@@ -1,12 +1,12 @@
 // A layout to display a list of the patches, aka contributions
 
-import preq from 'lib/preq'
+import preq from '#lib/preq'
 import Contribution from './contribution'
-import Patches from 'modules/entities/collections/patches'
+import Patches from '#modules/entities/collections/patches'
 import contributionsTemplate from './templates/contributions.hbs'
 import '../scss/contributions.scss'
-import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
-import Loading from 'behaviors/loading'
+import { startLoading, stopLoading } from '#modules/general/plugins/behaviors'
+import Loading from '#behaviors/loading'
 
 export default Marionette.CollectionView.extend({
   id: 'contributions',

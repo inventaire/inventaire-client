@@ -1,10 +1,10 @@
-import { i18n } from 'modules/user/lib/i18n'
-import { unprefixify } from 'lib/wikimedia/wikidata'
+import { i18n } from '#modules/user/lib/i18n'
+import { unprefixify } from '#lib/wikimedia/wikidata'
 import PaginatedEntities from '../collections/paginated_entities'
 import getEntitiesListView from './entities_list'
 import GeneralInfobox from './general_infobox'
 import { getReverseClaims } from '../lib/entities'
-import { entity as entityValueTemplate } from 'lib/handlebars_helpers/claims_helpers'
+import { entity as entityValueTemplate } from '#lib/handlebars_helpers/claims_helpers'
 import claimLayoutTemplate from './templates/claim_layout.hbs'
 import '../scss/claim_layout.scss'
 

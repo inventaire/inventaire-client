@@ -1,7 +1,7 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
+import { isNonEmptyString } from '#lib/boolean_tests'
 import ClaimsEditorCommons from './claims_editor_commons'
-import forms_ from 'modules/general/lib/forms'
-import error_ from 'lib/error'
+import forms_ from '#modules/general/lib/forms'
+import error_ from '#lib/error'
 import { initEditionTitleTip, tipOnKeyup, tipOnRender } from './lib/title_tip'
 import stringValueEditorTemplate from './templates/string_value_editor.hbs'
 

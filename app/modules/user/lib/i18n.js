@@ -5,9 +5,9 @@
 // we don't need to clutter every layout with events listeners like
 // @listenTo app.user, 'change:language', @render
 import Polyglot from 'node-polyglot'
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
-import { capitalize } from 'lib/utils'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import { capitalize } from '#lib/utils'
 import translate from './translate'
 import i18nMissingKey from './i18n_missing_key'
 
@@ -15,7 +15,7 @@ import i18nMissingKey from './i18n_missing_key'
 let update = _.noop
 let refreshData = _.noop
 const lateImport = async () => {
-  ({ update, refreshData } = await import('lib/uri_label/uri_label'))
+  ({ update, refreshData } = await import('#lib/uri_label/uri_label'))
 }
 setTimeout(lateImport, 0)
 

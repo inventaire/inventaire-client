@@ -1,6 +1,6 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import { forceArray } from 'lib/utils'
-import { normalizeIsbn } from 'lib/isbn'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import { forceArray } from '#lib/utils'
+import { normalizeIsbn } from '#lib/isbn'
 
 export default Backbone.Model.extend({
   // Use the normalized ISBN as id to deduplicate entries

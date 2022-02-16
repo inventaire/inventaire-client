@@ -1,4 +1,4 @@
-import { chat, wiki, roadmap, git } from 'lib/urls'
+import { chat, wiki, roadmap, git } from '#lib/urls'
 
 // roughtly addressing the general case
 if (location.hostname.match(/^(localhost|\d{1,3}\.\d{1,3}\.)/)) {

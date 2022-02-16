@@ -1,4 +1,4 @@
-@import 'modules/general/scss/utils';
+@import '#modules/general/scss/utils';
 .entityActions{
   @include display-flex(column, center, center);
 

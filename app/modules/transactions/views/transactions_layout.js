@@ -1,5 +1,5 @@
-import Transaction from 'app/modules/transactions/views/focused_transaction_layout'
-import TransactionsList from 'modules/transactions/views/transactions_list'
+import Transaction from '#app/modules/transactions/views/focused_transaction_layout'
+import TransactionsList from '#modules/transactions/views/transactions_list'
 import folders from '../lib/folders'
 import transactionsLayoutTemplate from './templates/transactions_layout.hbs'
 import '../scss/transactions_layout.scss'

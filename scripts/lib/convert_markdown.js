@@ -1,4 +1,4 @@
-import linkify from 'lib/handlebars_helpers/linkify'
+import linkify from '#lib/handlebars_helpers/linkify'
 
 const convertMarkdownBold = text => text?.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
 

@@ -9,8 +9,8 @@ import PositiveIntegerValueEditor from './positive_integer_value_editor'
 import PositiveIntegerStringValueEditor from './positive_integer_string_value_editor'
 import ImageValueEditor from './image_value_editor'
 import propertyEditorTemplate from './templates/property_editor.hbs'
-import AlertBox from 'behaviors/alert_box'
-import PreventDefault from 'behaviors/prevent_default'
+import AlertBox from '#behaviors/alert_box'
+import PreventDefault from '#behaviors/prevent_default'
 
 const editors = {
   entity: EntityValueEditor,

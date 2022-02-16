@@ -1,4 +1,4 @@
-import preq from 'lib/preq'
+import preq from '#lib/preq'
 import InventoryNav from './inventory_nav'
 import InventoryBrowser from './inventory_browser'
 import UserProfile from './user_profile'
@@ -7,12 +7,12 @@ import ShelfBox from '../../shelves/views/shelf_box'
 import ShelvesSection from '../../shelves/views/shelves_section'
 import InventoryNetworkNav from './inventory_network_nav'
 import InventoryPublicNav from './inventory_public_nav'
-import showPaginatedItems from 'modules/welcome/lib/show_paginated_items'
-import screen_ from 'lib/screen'
+import showPaginatedItems from '#modules/welcome/lib/show_paginated_items'
+import screen_ from '#lib/screen'
 import InventoryWelcome from './inventory_welcome'
 import inventoryLayoutTemplate from './templates/inventory_layout.hbs'
 import '../scss/inventory_layout.scss'
-import error_ from 'app/lib/error'
+import error_ from '#app/lib/error'
 
 const navs = {
   network: InventoryNetworkNav,

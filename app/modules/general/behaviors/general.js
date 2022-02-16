@@ -1,8 +1,8 @@
 // General events to be shared between the app_layout and modal
 // given app_layout can't catch modal events
-import { isOpenedOutside } from 'lib/utils'
-import enterClick from 'modules/general/lib/enter_click'
-import preventFormSubmit from 'modules/general/lib/prevent_form_submit'
+import { isOpenedOutside } from '#lib/utils'
+import enterClick from '#modules/general/lib/enter_click'
+import preventFormSubmit from '#modules/general/lib/prevent_form_submit'
 import showViews from '../lib/show_views'
 
 const execute = commandName => function (e) {

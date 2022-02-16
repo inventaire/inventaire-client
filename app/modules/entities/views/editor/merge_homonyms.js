@@ -1,5 +1,5 @@
 import MergeSuggestion from './merge_homonym'
-import NoResult from 'modules/search/views/no_result'
+import NoResult from '#modules/search/views/no_result'
 import mergeHomonymsTemplate from './templates/merge_homonyms.hbs'
 
 export default Marionette.CollectionView.extend({

@@ -1,6 +1,6 @@
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
-import error_ from 'lib/error'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import error_ from '#lib/error'
 import { models as modelsTypes } from '../lib/notifications_types'
 
 export default Backbone.Collection.extend({

@@ -1,4 +1,4 @@
-import { forceArray } from 'lib/utils'
+import { forceArray } from '#lib/utils'
 import endpoint from './endpoint'
 const { action } = endpoint('entities')
 

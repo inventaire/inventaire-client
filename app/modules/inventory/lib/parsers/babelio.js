@@ -1,4 +1,4 @@
-import { trim } from 'lib/utils'
+import { trim } from '#lib/utils'
 export default obj => ({
   title: obj.Titre,
   authors: obj.Auteur.split(',').map(trim),

@@ -1,15 +1,15 @@
 import ItemShowData from './item_show_data'
-import EditionsList from 'modules/entities/views/editions_list'
-import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_preview_lists'
+import EditionsList from '#modules/entities/views/editions_list'
+import showAllAuthorsPreviewLists from '#modules/entities/lib/show_all_authors_preview_lists'
 import itemShowTemplate from './templates/item_show_layout.hbs'
-import 'modules/inventory/scss/item_show_layout.scss'
-import log_ from 'lib/loggers'
+import '#modules/inventory/scss/item_show_layout.scss'
+import log_ from '#lib/loggers'
 import ItemShelves from './item_shelves'
-import Shelves from 'modules/shelves/collections/shelves'
-import { getShelvesByOwner, getByIds as getShelvesByIds } from 'modules/shelves/lib/shelves'
+import Shelves from '#modules/shelves/collections/shelves'
+import { getShelvesByOwner, getByIds as getShelvesByIds } from '#modules/shelves/lib/shelves'
 import itemViewsCommons from '../lib/items_views_commons'
-import PreventDefault from 'behaviors/prevent_default'
-import General from 'behaviors/general'
+import PreventDefault from '#behaviors/prevent_default'
+import General from '#behaviors/general'
 
 const { itemDestroy } = itemViewsCommons
 

@@ -1,5 +1,5 @@
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
 // Fetching sequentially to lower stress on the different APIs
 export default async function (isbnsData) {
   const isbnsIndex = {}

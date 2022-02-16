@@ -1,5 +1,5 @@
-import AuthorLayout from 'modules/entities/views/author_layout'
-import WorkInfobox from 'modules/entities/views/work_infobox'
+import AuthorLayout from '#modules/entities/views/author_layout'
+import WorkInfobox from '#modules/entities/views/work_infobox'
 import currentTaskTemplate from './templates/current_task.hbs'
 
 export default Marionette.View.extend({

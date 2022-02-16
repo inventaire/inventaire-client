@@ -1,6 +1,6 @@
-import { isNonEmptyArray } from 'lib/boolean_tests'
-import log_ from 'lib/loggers'
-import { fixedEncodeURIComponent } from 'lib/utils'
+import { isNonEmptyArray } from '#lib/boolean_tests'
+import log_ from '#lib/loggers'
+import { fixedEncodeURIComponent } from '#lib/utils'
 import Handlebars from 'handlebars/runtime'
 const { SafeString, escapeExpression } = Handlebars
 

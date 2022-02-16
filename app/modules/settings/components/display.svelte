@@ -1,6 +1,6 @@
 <script>
-  import { I18n, i18n } from 'modules/user/lib/i18n'
-  import { localStorageProxy } from 'lib/local_storage'
+  import { I18n, i18n } from '#modules/user/lib/i18n'
+  import { localStorageProxy } from '#lib/local_storage'
   export let entitiesLarge, inventoryCascade, entitiesCompact, inventoryTable
   const entitiesDisplay = localStorageProxy.getItem('entitiesDisplay') || 'entitiesLarge'
   const inventoryDisplay = localStorageProxy.getItem('inventoryDisplay') || 'inventoryCascade'

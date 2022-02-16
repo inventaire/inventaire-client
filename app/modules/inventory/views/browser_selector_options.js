@@ -1,4 +1,4 @@
-import { bubbleUpChildViewEvent } from 'lib/utils'
+import { bubbleUpChildViewEvent } from '#lib/utils'
 import BrowserSelectorLi from './browser_selector_li'
 
 export default Marionette.CollectionView.extend({

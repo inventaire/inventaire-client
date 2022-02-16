@@ -1,4 +1,4 @@
-import { transactionsData } from 'modules/inventory/lib/transactions_data'
+import { transactionsData } from '#modules/inventory/lib/transactions_data'
 import ItemPreview from './item_preview'
 import itemsPreviewListTemplate from './templates/items_preview_list.hbs'
 

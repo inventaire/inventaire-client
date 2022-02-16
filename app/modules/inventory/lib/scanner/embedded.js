@@ -1,6 +1,6 @@
-import log_ from 'lib/loggers'
+import log_ from '#lib/loggers'
 import drawCanvas from './draw_canvas'
-import screen_ from 'lib/screen'
+import screen_ from '#lib/screen'
 import onDetected from './on_detected'
 
 export default {

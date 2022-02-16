@@ -1,6 +1,6 @@
-import preq from 'lib/preq'
+import preq from '#lib/preq'
 import addPertinanceScore from './add_pertinance_score'
-import searchType from 'modules/entities/lib/search/search_type'
+import searchType from '#modules/entities/lib/search/search_type'
 
 const searchWorks = searchType('works')
 const descendingPertinanceScore = work => -work.get('pertinanceScore')

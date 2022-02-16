@@ -1,12 +1,12 @@
 import EditionCreation from './editor/lib/edition_creation'
-import availableLangList from 'lib/available_lang_list'
+import availableLangList from '#lib/available_lang_list'
 import EditionLi from './edition_li'
 import NoEdition from './no_edition'
 import editionsListTemplate from './templates/editions_list.hbs'
 import '../scss/editions_list.scss'
-import Loading from 'behaviors/loading'
-import AlertBox from 'behaviors/alert_box'
-import PreventDefault from 'behaviors/prevent_default'
+import Loading from '#behaviors/loading'
+import AlertBox from '#behaviors/alert_box'
+import PreventDefault from '#behaviors/prevent_default'
 
 const {
   partialData,

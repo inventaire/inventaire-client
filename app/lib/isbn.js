@@ -1,4 +1,4 @@
-import preq from 'lib/preq'
+import preq from '#lib/preq'
 const getIsbnData = isbn => preq.get(app.API.data.isbn(isbn))
 
 // Removing any non-alpha numeric characters, especially '-' and spaces

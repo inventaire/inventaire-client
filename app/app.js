@@ -1,8 +1,8 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import BindedPartialBuilder from 'lib/binded_partial_builder'
-import { updateRouteMetadata } from 'lib/metadata/update'
-import error_ from 'lib/error'
-import { routeSection, currentRoute } from 'lib/location'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import BindedPartialBuilder from '#lib/binded_partial_builder'
+import { updateRouteMetadata } from '#lib/metadata/update'
+import error_ from '#lib/error'
+import { routeSection, currentRoute } from '#lib/location'
 import { channel, reqres, request, execute } from './radio'
 
 let initialUrlNavigateAlreadyCalled = false

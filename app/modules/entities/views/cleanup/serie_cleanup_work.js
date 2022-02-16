@@ -1,13 +1,13 @@
-import { focusInput } from 'lib/utils'
-import getActionKey from 'lib/get_action_key'
-import getLangsData from 'modules/entities/lib/editor/get_langs_data'
+import { focusInput } from '#lib/utils'
+import getActionKey from '#lib/get_action_key'
+import getLangsData from '#modules/entities/lib/editor/get_langs_data'
 import SerieCleanupAuthors from './serie_cleanup_authors'
 import SerieCleanupEditions from './serie_cleanup_editions'
 import WorkPicker from './work_picker'
-import forms_ from 'modules/general/lib/forms'
-import error_ from 'lib/error'
+import forms_ from '#modules/general/lib/forms'
+import error_ from '#lib/error'
 import serieCleanupWorkTemplate from './templates/serie_cleanup_work.hbs'
-import AlertBox from 'behaviors/alert_box'
+import AlertBox from '#behaviors/alert_box'
 
 export default Marionette.View.extend({
   tagName: 'li',

@@ -1,4 +1,4 @@
-@import 'modules/general/scss/utils';
+@import '#modules/general/scss/utils';
 
 .groupLi{
   @include display-flex(row, center, space-between);

@@ -2,13 +2,13 @@ import { GroupLayoutView } from './group_views_commons'
 import GroupBoardHeader from './group_board_header'
 import GroupSettings from './group_settings'
 import UsersSearchLayout from '../views/users_search_layout'
-import UsersList from 'modules/users/views/users_list'
+import UsersList from '#modules/users/views/users_list'
 import InviteByEmail from './invite_by_email'
-import screen_ from 'lib/screen'
+import screen_ from '#lib/screen'
 import groupBoardTemplate from './templates/group_board.hbs'
 import '../scss/group_board.scss'
-import PreventDefault from 'behaviors/prevent_default'
-import SuccessCheck from 'behaviors/success_check'
+import PreventDefault from '#behaviors/prevent_default'
+import SuccessCheck from '#behaviors/success_check'
 
 export default GroupLayoutView.extend({
   template: groupBoardTemplate,

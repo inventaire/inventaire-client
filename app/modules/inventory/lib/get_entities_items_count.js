@@ -1,5 +1,5 @@
-import { chunk } from 'lib/utils'
-import preq from 'lib/preq'
+import { chunk } from '#lib/utils'
+import preq from '#lib/preq'
 
 export default async function (userId, uris) {
   if (uris.length === 0) return {}

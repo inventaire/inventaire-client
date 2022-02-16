@@ -1,4 +1,4 @@
-import { isPositiveIntegerString, isNonEmptyArray } from 'lib/boolean_tests'
+import { isPositiveIntegerString, isNonEmptyArray } from '#lib/boolean_tests'
 
 export default function (model, value) {
   if (!isNonEmptyArray(value)) return

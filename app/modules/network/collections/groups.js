@@ -1,5 +1,5 @@
 import Group from '../models/group'
-import { sum } from 'lib/utils'
+import { sum } from '#lib/utils'
 
 export default Backbone.Collection.extend({
   url () { return app.API.groups.base },

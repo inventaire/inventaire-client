@@ -14,7 +14,7 @@
 // such as RSS feed detections
 
 import updateNodeType from './update_node_type'
-import { I18n, i18n } from 'modules/user/lib/i18n'
+import { I18n, i18n } from '#modules/user/lib/i18n'
 import { transformers } from './apply_transformers'
 
 const initialFullPath = location.pathname.slice(1) + location.search

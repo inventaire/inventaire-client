@@ -3,5 +3,5 @@
 if [ "$1" != "" ] ; then
   node --no-warnings --loader ./custom-loader.js --es-module-specifier-resolution=node ./node_modules/.bin/mocha --exit $MOCHA_OPTIONS --recursive "$@"
 else
-  node --no-warnings --loader ./custom-loader.js --es-module-specifier-resolution=node ./node_modules/.bin/mocha --exit $MOCHA_OPTIONS --recursive tests
+  node --no-warnings --experimental-loader ./custom-loader.js --es-module-specifier-resolution=node ./node_modules/.bin/mocha --exit $MOCHA_OPTIONS --recursive tests
 fi

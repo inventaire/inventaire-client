@@ -1,14 +1,14 @@
 <script>
-  import { i18n, I18n } from 'modules/user/lib/i18n'
-  import preq from 'lib/preq'
+  import { i18n, I18n } from '#modules/user/lib/i18n'
+  import preq from '#lib/preq'
   import _ from 'underscore'
-  import Flash from 'lib/components/flash.svelte'
+  import Flash from '#lib/components/flash.svelte'
   import EmailValidation from './email_validation.svelte'
-  import UpdatePassword from 'lib/components/update_password.svelte'
-  import languagesObj from 'lib/languages_data'
-  import email_ from 'modules/user/lib/email_tests'
-  import { user } from 'app/modules/user/user_store'
-  import { domain } from 'lib/urls'
+  import UpdatePassword from '#lib/components/update_password.svelte'
+  import languagesObj from '#lib/languages_data'
+  import email_ from '#modules/user/lib/email_tests'
+  import { user } from '#app/modules/user/user_store'
+  import { domain } from '#lib/urls'
 
   let flashLang, flashEmail, flashFediversable, requestedEmail
   let fediversable = $user.fediversable

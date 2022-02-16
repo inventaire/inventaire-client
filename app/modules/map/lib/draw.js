@@ -1,5 +1,5 @@
-import log_ from 'lib/loggers'
-import isMobile from 'lib/mobile_check'
+import log_ from '#lib/loggers'
+import isMobile from '#lib/mobile_check'
 import mapConfig from './config'
 import buildMarker from './build_marker'
 

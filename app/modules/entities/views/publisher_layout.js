@@ -1,6 +1,6 @@
 import TypedEntityLayout from './typed_entity_layout'
 import getEntitiesListView from './entities_list'
-import PaginatedEntities from 'modules/entities/collections/paginated_entities'
+import PaginatedEntities from '#modules/entities/collections/paginated_entities'
 import PublisherInfobox from './publisher_infobox'
 import publisherLayoutTemplate from './templates/publisher_layout.hbs'
 import '../scss/entities_layouts.scss'

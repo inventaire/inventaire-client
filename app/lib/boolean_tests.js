@@ -1,7 +1,7 @@
-import typeOf from 'lib/type_of'
+import typeOf from '#lib/type_of'
 // Keep in sync with server/lib/boolean_tests
 
-import * as regex_ from 'lib/regex'
+import * as regex_ from '#lib/regex'
 
 const isCouchUuid = regex_.CouchUuid.test.bind(regex_.CouchUuid)
 const bindedTest = regexName => regex_[regexName].test.bind(regex_[regexName])

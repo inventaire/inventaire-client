@@ -1,7 +1,7 @@
-import { isPositiveIntegerString } from 'lib/boolean_tests'
+import { isPositiveIntegerString } from '#lib/boolean_tests'
 import ClaimsEditorCommons from './claims_editor_commons'
-import forms_ from 'modules/general/lib/forms'
-import error_ from 'lib/error'
+import forms_ from '#modules/general/lib/forms'
+import error_ from '#lib/error'
 import positiveIntegerValueEditorTemplate from './templates/positive_integer_value_editor.hbs'
 
 const inputSelector = '.positive-integer-picker'

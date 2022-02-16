@@ -1,7 +1,7 @@
-import assert_ from 'lib/assert_types'
-import log_ from 'lib/loggers'
-import { i18n } from 'modules/user/lib/i18n'
-import { assertViewHasBehavior } from 'modules/general/plugins/behaviors'
+import assert_ from '#lib/assert_types'
+import log_ from '#lib/loggers'
+import { i18n } from '#modules/user/lib/i18n'
+import { assertViewHasBehavior } from '#modules/general/plugins/behaviors'
 
 let forms_
 export default forms_ = {}

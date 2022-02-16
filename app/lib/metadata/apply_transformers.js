@@ -1,4 +1,4 @@
-import { host } from 'lib/urls'
+import { host } from '#lib/urls'
 
 const absolutePath = url => {
   if (url?.[0] === '/') {

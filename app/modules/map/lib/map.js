@@ -1,8 +1,8 @@
-import { forceArray } from 'lib/utils'
+import { forceArray } from '#lib/utils'
 import mapConfig from './config'
 import { truncateDecimals } from './geo'
-import { buildPath } from 'lib/location'
-import error_ from 'lib/error'
+import { buildPath } from '#lib/location'
+import error_ from '#lib/error'
 import draw from './draw'
 
 const { defaultZoom } = mapConfig

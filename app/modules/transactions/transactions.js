@@ -1,7 +1,7 @@
-import log_ from 'lib/loggers'
-import Transactions from 'modules/transactions/collections/transactions'
+import log_ from '#lib/loggers'
+import Transactions from '#modules/transactions/collections/transactions'
 import initHelpers from './helpers'
-import fetchData from 'lib/data/fetch'
+import fetchData from '#lib/data/fetch'
 let lastTransactionId = null
 
 export default {

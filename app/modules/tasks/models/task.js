@@ -1,7 +1,7 @@
-import { i18n } from 'modules/user/lib/i18n'
-import preq from 'lib/preq'
-import mergeEntities from 'modules/entities/views/editor/lib/merge_entities'
-import error_ from 'lib/error'
+import { i18n } from '#modules/user/lib/i18n'
+import preq from '#lib/preq'
+import mergeEntities from '#modules/entities/views/editor/lib/merge_entities'
+import error_ from '#lib/error'
 
 export default Backbone.Model.extend({
   initialize (attrs) {

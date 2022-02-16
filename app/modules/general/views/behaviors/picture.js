@@ -1,5 +1,5 @@
 import pictureTemplate from './templates/picture.hbs'
-import Loading from 'behaviors/loading'
+import Loading from '#behaviors/loading'
 
 export default Marionette.View.extend({
   tagName: 'div',

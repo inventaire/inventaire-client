@@ -1,13 +1,13 @@
-import { tryAsync } from 'lib/promises'
-import { i18n } from 'modules/user/lib/i18n'
-import email_ from 'modules/user/lib/email_tests'
-import forms_ from 'modules/general/lib/forms'
-import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import { tryAsync } from '#lib/promises'
+import { i18n } from '#modules/user/lib/i18n'
+import email_ from '#modules/user/lib/email_tests'
+import forms_ from '#modules/general/lib/forms'
+import behaviorsPlugin from '#modules/general/plugins/behaviors'
 import forgotPasswordTemplate from './templates/forgot_password.hbs'
 import '../scss/auth_menu.scss'
-import AlertBox from 'behaviors/alert_box'
-import Loading from 'behaviors/loading'
-import SuccessCheck from 'behaviors/success_check'
+import AlertBox from '#behaviors/alert_box'
+import Loading from '#behaviors/loading'
+import SuccessCheck from '#behaviors/success_check'
 
 export default Marionette.View.extend({
   className: 'authMenu login',

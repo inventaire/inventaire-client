@@ -1,7 +1,7 @@
-import { isNonEmptyString, isEntityUri, isAssetImg, isLocalImg, isImageHash } from 'lib/boolean_tests'
-import { fixedEncodeURIComponent, hashCode } from 'lib/utils'
-import { buildPath } from 'lib/location'
-import commons_ from 'lib/wikimedia/commons'
+import { isNonEmptyString, isEntityUri, isAssetImg, isLocalImg, isImageHash } from '#lib/boolean_tests'
+import { fixedEncodeURIComponent, hashCode } from '#lib/utils'
+import { buildPath } from '#lib/location'
+import commons_ from '#lib/wikimedia/commons'
 
 // Keep in sync with server/lib/emails/app_api
 export default function (path, width = 1600, height = 1600) {

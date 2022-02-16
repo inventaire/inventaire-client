@@ -1,4 +1,4 @@
-import assert_ from 'lib/assert_types'
+import assert_ from '#lib/assert_types'
 const oneSecond = 1000
 const oneMinute = 60 * oneSecond
 const oneHour = 60 * oneMinute

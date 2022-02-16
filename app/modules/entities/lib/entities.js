@@ -1,7 +1,7 @@
-import { isInvEntityId } from 'lib/boolean_tests'
-import preq from 'lib/preq'
-import wdk from 'lib/wikidata-sdk'
-import { looksLikeAnIsbn, normalizeIsbn } from 'lib/isbn'
+import { isInvEntityId } from '#lib/boolean_tests'
+import preq from '#lib/preq'
+import wdk from '#lib/wikidata-sdk'
+import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 import getBestLangValue from './get_best_lang_value'
 import getOriginalLang from './get_original_lang'
 

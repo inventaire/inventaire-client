@@ -4,10 +4,10 @@ import 'jquery-visible'
 // Sets $.event.special.inview
 import 'jquery-inview'
 
-import assert_ from 'lib/assert_types'
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
-import error_ from 'lib/error'
+import assert_ from '#lib/assert_types'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import error_ from '#lib/error'
 
 // Workaround XSS vulnerability https://github.com/advisories/GHSA-gxr4-xjj5-5px2
 // until we can upgrade or get rid of jquery

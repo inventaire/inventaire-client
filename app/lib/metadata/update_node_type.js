@@ -1,4 +1,4 @@
-import log_ from 'lib/loggers'
+import log_ from '#lib/loggers'
 import applyTransformers from './apply_transformers'
 import { metaNodes, possibleFields } from './nodes'
 const head = document.querySelector('head')

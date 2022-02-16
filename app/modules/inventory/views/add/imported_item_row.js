@@ -1,4 +1,4 @@
-import { isOpenedOutside } from 'lib/utils'
+import { isOpenedOutside } from '#lib/utils'
 import importedItemRowTemplate from './templates/imported_item_row.hbs'
 
 export default Marionette.View.extend({

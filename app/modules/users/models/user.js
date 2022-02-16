@@ -1,6 +1,6 @@
-import { daysAgo } from 'lib/utils'
+import { daysAgo } from '#lib/utils'
 import UserCommons from './user_commons'
-import { distanceBetween } from 'modules/map/lib/geo'
+import { distanceBetween } from '#modules/map/lib/geo'
 
 export default UserCommons.extend({
   isMainUser: false,

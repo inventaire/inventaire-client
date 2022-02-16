@@ -1,4 +1,4 @@
-import { props as promiseProps } from 'lib/promises'
+import { props as promiseProps } from '#lib/promises'
 export default {
   getExtendedAuthorsModels () {
     return promiseProps({

@@ -1,6 +1,6 @@
-import { isEntityUri, isInvEntityId } from 'lib/boolean_tests'
-import wdk from 'lib/wikidata-sdk'
-import { looksLikeAnIsbn, normalizeIsbn } from 'lib/isbn'
+import { isEntityUri, isInvEntityId } from '#lib/boolean_tests'
+import wdk from '#lib/wikidata-sdk'
+import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 
 export default function (text) {
   text = text.trim()

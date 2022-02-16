@@ -1,5 +1,5 @@
-import { forceArray } from 'lib/utils'
-import { buildPath } from 'lib/location'
+import { forceArray } from '#lib/utils'
+import { buildPath } from '#lib/location'
 import endpoint from './endpoint'
 const { base } = endpoint('search')
 

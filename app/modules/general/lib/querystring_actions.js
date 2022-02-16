@@ -1,5 +1,5 @@
-import ValidEmailConfirmation from 'modules/user/views/valid_email_confirmation'
-import { get as getQuerystringParameter } from 'lib/querystring_helpers'
+import ValidEmailConfirmation from '#modules/user/views/valid_email_confirmation'
+import { get as getQuerystringParameter } from '#lib/querystring_helpers'
 
 export default function () {
   const validEmail = getQuerystringParameter('validEmail')

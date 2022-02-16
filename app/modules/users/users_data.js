@@ -1,6 +1,6 @@
-import { forceArray } from 'lib/utils'
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
+import { forceArray } from '#lib/utils'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
 export default {
   get (ids, format = 'index', refresh) {
     let promise

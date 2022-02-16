@@ -1,6 +1,6 @@
-import { isOpenedOutside } from 'lib/utils'
-import behaviorsPlugin from 'modules/general/plugins/behaviors'
-import { i18n } from 'modules/user/lib/i18n'
+import { isOpenedOutside } from '#lib/utils'
+import behaviorsPlugin from '#modules/general/plugins/behaviors'
+import { i18n } from '#modules/user/lib/i18n'
 
 const groupViewsCommons = {
   events: {

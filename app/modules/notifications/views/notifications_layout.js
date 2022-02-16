@@ -1,11 +1,11 @@
-import { clickCommand } from 'lib/utils'
-import UsersList from 'modules/users/views/users_list'
-import GroupsList from 'modules/network/views/groups_list'
+import { clickCommand } from '#lib/utils'
+import UsersList from '#modules/users/views/users_list'
+import GroupsList from '#modules/network/views/groups_list'
 import NotificationLi from './notification_li'
 import NoNotification from './no_notification'
 import notificationsLayoutTemplate from './templates/notifications_layout.hbs'
 import '../scss/notifications_layout.scss'
-import PreventDefault from 'behaviors/prevent_default'
+import PreventDefault from '#behaviors/prevent_default'
 
 const NotificationsList = Marionette.CollectionView.extend({
   tagName: 'ul',

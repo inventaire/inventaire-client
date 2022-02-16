@@ -1,8 +1,8 @@
-import { forceArray } from 'lib/utils'
-import preq from 'lib/preq'
-import error_ from 'lib/error'
+import { forceArray } from '#lib/utils'
+import preq from '#lib/preq'
+import error_ from '#lib/error'
 import _dataURLtoBlob from 'blueimp-canvas-to-blob'
-import { isDataUrl } from 'lib/boolean_tests'
+import { isDataUrl } from '#lib/boolean_tests'
 
 export async function getUrlDataUrl (url) {
   const { 'data-url': dataUrl } = await preq.get(app.API.images.dataUrl(url))

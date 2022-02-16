@@ -1,5 +1,5 @@
 @import './auth_menu';
-@import 'modules/general/scss/utils';
+@import '#modules/general/scss/utils';
 
 .authorizeMenu{
   @include central-column(40em);

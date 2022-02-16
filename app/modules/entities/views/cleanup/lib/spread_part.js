@@ -1,4 +1,4 @@
-import { isPositiveIntegerString } from 'lib/boolean_tests'
+import { isPositiveIntegerString } from '#lib/boolean_tests'
 export default function (part) {
   const ordinal = part.get('claims.wdt:P1545.0')
 

@@ -1,4 +1,4 @@
-@import 'modules/general/scss/utils';
+@import '#modules/general/scss/utils';
 
 $itemCardBaseWidth: 230px;
 $multicolumnsThreshold: $itemCardBaseWidth * 2 + 50px;

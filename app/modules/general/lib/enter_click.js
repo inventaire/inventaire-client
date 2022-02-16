@@ -1,4 +1,4 @@
-import log_ from 'lib/loggers'
+import log_ from '#lib/loggers'
 
 export default {
   input (e) {

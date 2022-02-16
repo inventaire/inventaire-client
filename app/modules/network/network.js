@@ -1,7 +1,7 @@
-import log_ from 'lib/loggers'
+import log_ from '#lib/loggers'
 import Groups from './collections/groups'
 import initGroupHelpers from './lib/group_helpers'
-import fetchData from 'lib/data/fetch'
+import fetchData from '#lib/data/fetch'
 
 export default {
   initialize () {

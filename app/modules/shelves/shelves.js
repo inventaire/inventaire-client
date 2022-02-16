@@ -1,5 +1,5 @@
-import error_ from 'lib/error'
-import { isShelfId } from 'lib/boolean_tests'
+import error_ from '#lib/error'
+import { isShelfId } from '#lib/boolean_tests'
 import ShelfModel from './models/shelf'
 import { getById } from './lib/shelves'
 

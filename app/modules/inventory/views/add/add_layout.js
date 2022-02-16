@@ -1,9 +1,9 @@
-import { I18n } from 'modules/user/lib/i18n'
+import { I18n } from '#modules/user/lib/i18n'
 import tabsData from './lib/add_layout_tabs'
-import screen_ from 'lib/screen'
+import screen_ from '#lib/screen'
 import addLayoutTemplate from './templates/add_layout.hbs'
-import 'modules/inventory/scss/add_layout.scss'
-import PreventDefault from 'behaviors/prevent_default'
+import '#modules/inventory/scss/add_layout.scss'
+import PreventDefault from '#behaviors/prevent_default'
 
 export default Marionette.View.extend({
   template: addLayoutTemplate,

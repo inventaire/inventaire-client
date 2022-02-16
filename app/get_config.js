@@ -1,4 +1,4 @@
-import preq from 'lib/preq'
+import preq from '#lib/preq'
 
 // Request configuration to the server and make it accessible at app.config
 export default async function () {

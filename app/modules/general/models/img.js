@@ -1,5 +1,5 @@
-import log_ from 'lib/loggers'
-import { getUrlDataUrl, resizeDataUrl, upload, dataUrlToBlob } from 'lib/images'
+import log_ from '#lib/loggers'
+import { getUrlDataUrl, resizeDataUrl, upload, dataUrlToBlob } from '#lib/images'
 const maxSize = 1600
 const container = 'users'
 

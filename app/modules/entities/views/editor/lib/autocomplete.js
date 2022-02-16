@@ -3,11 +3,11 @@
 
 // Forked from: https://github.com/KyleNeedham/autocomplete/blob/a7b7525/src/autocomplete.behavior.coffee
 
-import getActionKey from 'lib/get_action_key'
+import getActionKey from '#lib/get_action_key'
 
-import Suggestions from 'modules/entities/collections/suggestions'
+import Suggestions from '#modules/entities/collections/suggestions'
 import AutocompleteSuggestions from '../autocomplete_suggestions'
-import properties from 'modules/entities/lib/properties'
+import properties from '#modules/entities/lib/properties'
 
 import {
   addDefaultSuggestionsUris,

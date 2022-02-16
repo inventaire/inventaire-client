@@ -1,8 +1,8 @@
-import { isNonEmptyPlainObject } from 'lib/boolean_tests'
-import error_ from 'lib/error'
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
-import { tap } from 'lib/promises'
+import { isNonEmptyPlainObject } from '#lib/boolean_tests'
+import error_ from '#lib/error'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import { tap } from '#lib/promises'
 
 // Wrapping model updates to recover the previous value on fails
 // - model:

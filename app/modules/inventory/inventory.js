@@ -1,12 +1,12 @@
-import { isEntityUri, isUsername, isItemId } from 'lib/boolean_tests'
-import assert_ from 'lib/assert_types'
-import log_ from 'lib/loggers'
+import { isEntityUri, isUsername, isItemId } from '#lib/boolean_tests'
+import assert_ from '#lib/assert_types'
+import log_ from '#lib/loggers'
 import initQueries from './lib/queries'
 import initLayout from './lib/layout'
 import showItemCreationForm from './lib/show_item_creation_form'
 import itemActions from './lib/item_actions'
-import { parseQuery, currentRoute, buildPath } from 'lib/location'
-import error_ from 'lib/error'
+import { parseQuery, currentRoute, buildPath } from '#lib/location'
+import error_ from '#lib/error'
 
 export default {
   initialize () {

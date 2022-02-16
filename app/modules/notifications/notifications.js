@@ -1,5 +1,5 @@
-import { i18n } from 'modules/user/lib/i18n'
-import preq from 'lib/preq'
+import { i18n } from '#modules/user/lib/i18n'
+import preq from '#lib/preq'
 import Notifications from './collections/notifications'
 const notifications = new Notifications()
 let waitForNotifications

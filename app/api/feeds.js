@@ -1,4 +1,4 @@
-import { buildPath } from 'lib/location'
+import { buildPath } from '#lib/location'
 import endpoint from './endpoint'
 const feedEndpointBase = endpoint('feeds', true)
 // Always using the absolute path so that links are treated as external links,

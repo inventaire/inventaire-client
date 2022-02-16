@@ -1,5 +1,5 @@
-import { i18n } from 'modules/user/lib/i18n'
-import error_ from 'lib/error'
+import { i18n } from '#modules/user/lib/i18n'
+import error_ from '#lib/error'
 import importers from './importers'
 
 export default function (source, data) {

@@ -1,4 +1,4 @@
-import preq from 'lib/preq'
+import preq from '#lib/preq'
 import filterOutWdEditions from '../filter_out_wd_editions'
 
 export default function () {

@@ -1,7 +1,7 @@
-import { isOpenedOutside } from 'lib/utils'
+import { isOpenedOutside } from '#lib/utils'
 import messageTemplate from './templates/message.hbs'
 import actionTemplate from './templates/action.hbs'
-import PreventDefault from 'behaviors/prevent_default'
+import PreventDefault from '#behaviors/prevent_default'
 
 // the Event view can have both Message or Action models
 // the interest mixing those is to allow those views to be displayed

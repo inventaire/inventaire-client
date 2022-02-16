@@ -1,13 +1,13 @@
-import { capitalize, daysAgo, fixedEncodeURIComponent } from 'lib/utils'
-import { isNonEmptyString } from 'lib/boolean_tests'
-import log_ from 'lib/loggers'
-import { i18n } from 'modules/user/lib/i18n'
+import { capitalize, daysAgo, fixedEncodeURIComponent } from '#lib/utils'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import log_ from '#lib/loggers'
+import { i18n } from '#modules/user/lib/i18n'
 // defining all and _recalculateAll methods
 import aggregateUsersIds from '../lib/aggregate_users_ids'
 import groupActions from '../lib/group_actions'
-import Positionable from 'modules/general/models/positionable'
-import { getColorSquareDataUriFromModelId } from 'lib/images'
-import { images } from 'lib/urls'
+import Positionable from '#modules/general/models/positionable'
+import { getColorSquareDataUriFromModelId } from '#lib/images'
+import { images } from '#lib/urls'
 const { defaultCover } = images
 
 export default Positionable.extend({

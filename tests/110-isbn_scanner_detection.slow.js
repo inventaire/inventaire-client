@@ -1,7 +1,7 @@
 import 'should'
 import ISBN from 'isbn3'
-import { wait } from 'lib/promises'
-import OnDetected from 'modules/inventory/lib/scanner/on_detected'
+import { wait } from '#lib/promises'
+import OnDetected from '#modules/inventory/lib/scanner/on_detected'
 
 window.ISBN = ISBN
 

@@ -1,8 +1,8 @@
-import { i18n } from 'modules/user/lib/i18n'
+import { i18n } from '#modules/user/lib/i18n'
 import wdLang from 'wikidata-lang'
-import { buildPath } from 'lib/location'
+import { buildPath } from '#lib/location'
 import CreateEditionEntityFromWork from './create_edition_entity_from_work'
-import 'modules/entities/scss/edition_creation.scss'
+import '#modules/entities/scss/edition_creation.scss'
 
 export default {
   partial: 'edition_creation',

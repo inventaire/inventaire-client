@@ -1,7 +1,7 @@
 import getBestLangValue from '../get_best_lang_value'
 import { getEntitiesByUris } from '../entities'
-import preq from 'lib/preq'
-import { isImageHash } from 'app/lib/boolean_tests'
+import preq from '#lib/preq'
+import { isImageHash } from '#app/lib/boolean_tests'
 
 export async function addWorksImagesAndAuthors (works) {
   await Promise.all([

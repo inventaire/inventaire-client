@@ -1,5 +1,5 @@
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
 
 export default function (params) {
   const { labels, claims, createOnWikidata } = params

@@ -1,6 +1,6 @@
-import { getColorHexCodeFromModelId, getColorSquareDataUri } from 'lib/images'
+import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'
 
-import error_ from 'lib/error'
+import error_ from '#lib/error'
 
 export default Backbone.Model.extend({
   initialize (attrs) {

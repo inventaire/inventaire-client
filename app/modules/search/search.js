@@ -1,8 +1,8 @@
-import { parseBooleanString } from 'lib/utils'
+import { parseBooleanString } from '#lib/utils'
 import SearchResultsHistory from './collections/search_results_history'
 import findUri from './lib/find_uri'
-import { parseQuery } from 'lib/location'
-import { setPrerenderStatusCode } from 'lib/metadata/update'
+import { parseQuery } from '#lib/location'
+import { setPrerenderStatusCode } from '#lib/metadata/update'
 
 export default {
   initialize () {

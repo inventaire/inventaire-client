@@ -1,4 +1,4 @@
-@import 'modules/general/scss/utils';
+@import '#modules/general/scss/utils';
 
 #contributions{
   margin: 0 auto;
@@ -50,4 +50,4 @@
 }
 
 @import 'contribution';
-@import 'modules/entities/scss/patch_operations';
+@import '#modules/entities/scss/patch_operations';

@@ -1,4 +1,4 @@
-import screen_ from 'lib/screen'
+import screen_ from '#lib/screen'
 // Keep in sync with app/modules/general/scss/_topbar.scss
 const topbarHeight = 45
 

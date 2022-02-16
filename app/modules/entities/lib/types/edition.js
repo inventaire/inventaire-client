@@ -1,8 +1,8 @@
-import { unprefixify } from 'lib/wikimedia/wikidata'
+import { unprefixify } from '#lib/wikimedia/wikidata'
 import wdLang from 'wikidata-lang'
 import getEntityItemsByCategories from '../get_entity_items_by_categories'
-import error_ from 'lib/error'
-import { tap } from 'lib/promises'
+import error_ from '#lib/error'
+import { tap } from '#lib/promises'
 const farInTheFuture = '2100'
 
 export default function () {

@@ -1,5 +1,5 @@
 import 'should'
-import { EntityUri, SimpleDay, ImageHash, Email } from 'lib/regex'
+import { EntityUri, SimpleDay, ImageHash, Email } from '#lib/regex'
 
 describe('Regex', () => {
   describe('EntityUri', () => {

@@ -1,4 +1,4 @@
-import assert_ from 'lib/assert_types'
+import assert_ from '#lib/assert_types'
 import leafletLite from './leaflet_lite'
 
 // Coordinates are returned in decimal degrees

@@ -1,6 +1,6 @@
-import { isOpenedOutside } from 'lib/utils'
+import { isOpenedOutside } from '#lib/utils'
 import previousSearchTemplate from './templates/previous_search.hbs'
-import PreventDefault from 'behaviors/prevent_default'
+import PreventDefault from '#behaviors/prevent_default'
 
 export default Marionette.View.extend({
   template: previousSearchTemplate,

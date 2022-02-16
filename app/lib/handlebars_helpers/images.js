@@ -1,7 +1,7 @@
 // This is tailored for handlebars, for other uses, use app.API.img directly.
 // Keep in sync with server/lib/emails/handlebars_helpers
 
-import { isDataUrl } from 'lib/boolean_tests'
+import { isDataUrl } from '#lib/boolean_tests'
 
 export const imgSrc = (path, width, height) => {
   if (isDataUrl(path)) return path

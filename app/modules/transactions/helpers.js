@@ -1,8 +1,8 @@
 import FilteredCollection from 'backbone-filtered-collection'
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
 import Message from './models/message'
-import poster_ from 'lib/poster'
+import poster_ from '#lib/poster'
 
 export default function () {
   app.reqres.setHandlers({

@@ -1,4 +1,4 @@
-import { i18n } from 'modules/user/lib/i18n'
+import { i18n } from '#modules/user/lib/i18n'
 export default Marionette.Behavior.extend({
   events: {
     'click img': 'zoomIn'

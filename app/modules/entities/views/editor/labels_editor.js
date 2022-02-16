@@ -1,11 +1,11 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
+import { isNonEmptyString } from '#lib/boolean_tests'
 import EditorCommons from './editor_commons'
-import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
-import forms_ from 'modules/general/lib/forms'
-import getLangsData from 'modules/entities/lib/editor/get_langs_data'
+import getBestLangValue from '#modules/entities/lib/get_best_lang_value'
+import forms_ from '#modules/general/lib/forms'
+import getLangsData from '#modules/entities/lib/editor/get_langs_data'
 import { initWorkLabelsTip, tipOnKeyup, tipOnRender } from './lib/title_tip'
 import labelsEditorTemplate from './templates/labels_editor.hbs'
-import AlertBox from 'behaviors/alert_box'
+import AlertBox from '#behaviors/alert_box'
 
 export default EditorCommons.extend({
   template: labelsEditorTemplate,

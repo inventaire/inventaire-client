@@ -1,8 +1,8 @@
 import 'should'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-import { looksLikeAnIsbn } from 'lib/isbn'
-import importers from 'modules/inventory/lib/importers'
+import { looksLikeAnIsbn } from '#lib/isbn'
+import importers from '#modules/inventory/lib/importers'
 import Papa from 'papaparse'
 import iconv from 'iconv-lite'
 

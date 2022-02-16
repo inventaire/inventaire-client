@@ -1,4 +1,4 @@
-import { reportError } from 'lib/reports'
+import { reportError } from '#lib/reports'
 
 export const props = async obj => {
   const keys = []

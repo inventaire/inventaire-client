@@ -1,5 +1,5 @@
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
 import getEntityWikidataImportData from './get_entity_wikidata_import_data'
 
 export default async function (fromUri, toUri) {
@@ -37,7 +37,7 @@ const importEntityDataToWikidata = async (fromUri, toUri) => {
 }
 
 const showWikidataDataImporter = async importData => {
-  const { default: WikidataDataImporter } = await import('modules/entities/views/wikidata_data_importer')
+  const { default: WikidataDataImporter } = await import('#modules/entities/views/wikidata_data_importer')
   return new Promise((resolve, reject) => {
     app.layout.showChildView('modal', new WikidataDataImporter({ resolve, reject, importData }))
   })

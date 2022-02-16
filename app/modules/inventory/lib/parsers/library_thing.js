@@ -1,4 +1,4 @@
-import { isPositiveIntegerString, isNonNull, isDateString } from 'lib/boolean_tests'
+import { isPositiveIntegerString, isNonNull, isDateString } from '#lib/boolean_tests'
 
 import decodeHtmlEntities from './decode_html_entities'
 

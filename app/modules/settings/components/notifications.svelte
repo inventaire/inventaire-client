@@ -1,8 +1,8 @@
 <script>
-  import { i18n, I18n } from 'modules/user/lib/i18n'
-  import Toggler from 'lib/components/notification_toggler.svelte'
-  import Flash from 'lib/components/flash.svelte'
-  import { user } from 'app/modules/user/user_store'
+  import { i18n, I18n } from '#modules/user/lib/i18n'
+  import Toggler from '#lib/components/notification_toggler.svelte'
+  import Flash from '#lib/components/flash.svelte'
+  import { user } from '#app/modules/user/user_store'
   import { range } from 'underscore'
 
   let flashPeriodicity

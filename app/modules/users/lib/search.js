@@ -1,4 +1,4 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
+import { isNonEmptyString } from '#lib/boolean_tests'
 import usersData from '../users_data'
 
 export default function (app) {

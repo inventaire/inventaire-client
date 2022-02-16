@@ -1,4 +1,4 @@
-import { reportError } from 'lib/reports'
+import { reportError } from '#lib/reports'
 
 const log = (obj, label) => {
   // customizing console.log

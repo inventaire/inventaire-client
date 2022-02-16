@@ -1,11 +1,11 @@
-import { i18n } from 'modules/user/lib/i18n'
-import { createWorkEdition } from 'modules/entities/lib/create_entities'
-import forms_ from 'modules/general/lib/forms'
-import error_ from 'lib/error'
-import { normalizeIsbn } from 'lib/isbn'
+import { i18n } from '#modules/user/lib/i18n'
+import { createWorkEdition } from '#modules/entities/lib/create_entities'
+import forms_ from '#modules/general/lib/forms'
+import error_ from '#lib/error'
+import { normalizeIsbn } from '#lib/isbn'
 import isLoggedIn from './is_logged_in'
-import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
-import preq from 'lib/preq'
+import { startLoading, stopLoading } from '#modules/general/plugins/behaviors'
+import preq from '#lib/preq'
 
 export default function (params) {
   if (!isLoggedIn()) return

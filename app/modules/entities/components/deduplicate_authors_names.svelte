@@ -1,6 +1,6 @@
 <script>
-  import preq from 'lib/preq'
-  import Spinner from 'modules/general/components/spinner.svelte'
+  import preq from '#lib/preq'
+  import Spinner from '#modules/general/components/spinner.svelte'
   import { createEventDispatcher } from 'svelte'
 
   const waitingForNames = fetchNames()

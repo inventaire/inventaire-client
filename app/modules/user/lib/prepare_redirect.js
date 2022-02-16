@@ -1,5 +1,5 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import { buildPath } from 'lib/location'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import { buildPath } from '#lib/location'
 const formAction = '/api/submit'
 
 export default function (redirect) {

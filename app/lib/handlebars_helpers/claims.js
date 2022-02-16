@@ -1,9 +1,9 @@
-import { isEntityUri, isImageHash } from 'lib/boolean_tests'
-import typeOf from 'lib/type_of'
-import { i18n } from 'modules/user/lib/i18n'
+import { isEntityUri, isImageHash } from '#lib/boolean_tests'
+import typeOf from '#lib/type_of'
+import { i18n } from '#modules/user/lib/i18n'
 import * as icons_ from './icons'
 import wdLang from 'wikidata-lang'
-import commons_ from 'lib/wikimedia/commons'
+import commons_ from '#lib/wikimedia/commons'
 import linkify_ from './linkify'
 import platforms_ from './platforms'
 import {

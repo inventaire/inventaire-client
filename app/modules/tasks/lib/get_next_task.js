@@ -1,4 +1,4 @@
-import preq from 'lib/preq'
+import preq from '#lib/preq'
 import Task from '../models/task'
 
 const backlogs = {

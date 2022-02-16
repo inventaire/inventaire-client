@@ -1,4 +1,4 @@
-import { isOpenedOutside } from 'lib/utils'
+import { isOpenedOutside } from '#lib/utils'
 import relativeTaskTemplate from './templates/relative_task.hbs'
 
 const RelativeTask = Marionette.View.extend({

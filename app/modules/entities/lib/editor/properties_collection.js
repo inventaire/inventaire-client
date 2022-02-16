@@ -1,7 +1,7 @@
-import PropertyValues from 'modules/entities/collections/property_values'
+import PropertyValues from '#modules/entities/collections/property_values'
 import properties from '../properties'
 import propertiesPerType from './properties_per_type'
-import error_ from 'lib/error'
+import error_ from '#lib/error'
 import { omit } from 'underscore'
 
 export default function (entityModel) {

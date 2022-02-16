@@ -1,5 +1,5 @@
-import { parseBooleanString } from 'lib/utils'
-import fetchData from 'lib/data/fetch'
+import { parseBooleanString } from '#lib/utils'
+import fetchData from '#lib/data/fetch'
 import MainUser from '../models/main_user'
 import cookie_ from 'js-cookie'
 
