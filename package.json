@@ -9,16 +9,15 @@
   },
   "type": "module",
   "engines": {
-    "node": ">= 14"
+    "node": ">= 16"
   },
-  "alias": {
-    "app": "./app",
-    "api": "./app/api",
-    "assets": "./app/assets",
-    "behaviors": "./app/modules/general/behaviors",
-    "lib": "./app/lib",
-    "modules": "./app/modules",
-    "vendor": "./vendor"
+  "imports": {
+    "#app/*": "./app/*.js",
+    "#assets/*": "./app/assets/*.js",
+    "#behaviors/*": "./app/modules/general/behaviors/*.js",
+    "#lib/*": "./app/lib/*.js",
+    "#modules/*": "./app/modules/*.js",
+    "#vendor/*": "./vendor/*.js"
   },
   "scripts": {
     "build": "./scripts/build",

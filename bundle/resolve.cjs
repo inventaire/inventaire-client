@@ -1,10 +1,22 @@
-
 const path = require('path')
-const { alias } = require('../package.json')
+const { imports } = require('../package.json')
 
-Object.keys(alias).forEach(aliasKey => {
-  alias[aliasKey] = path.resolve(__dirname, `../${alias[aliasKey]}`)
-})
+// Same aliases as package.json#imports, but intended
+// for other asset types than JS files (ex: scss, hbs, svelte, jpg, woff)
+// NB: Those being specific to Webpack, other node process (such as mocha)
+// won't be able to resolve imports from non-JS files
+const alias = {}
+
+for (const [ key, value ] of Object.entries(imports)) {
+  alias[key.replace('/*', '')] = value.replace('/*.js', '')
+}
+
+// Rule required to import assets in CSS url()
+alias.assets = './app/assets'
+
+for (const [ key, value ] of Object.entries(alias)) {
+  alias[key] = path.resolve(__dirname, `../${value}`)
+}
 
 // Recommended by https://github.com/sveltejs/svelte-loader#usage
 alias.svelte = path.resolve(__dirname, '../node_modules/svelte')
