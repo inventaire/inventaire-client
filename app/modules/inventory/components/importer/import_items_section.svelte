@@ -89,14 +89,14 @@
     await createItemsSequentially()
   }
 </script>
-  <div class="importCandidates">
+  <div class="import-candidates">
     {#if candidates.length > 0}
       <h3>4/ {I18n('import this batch')}</h3>
       <Flash bind:state={flash}/>
       <Counter count={processedEntitiesCount} total={candidates.length} message='creating bibliographical data'/>
       <Counter count={processedItemsCount} total={candidates.length} message='creating your books'/>
       <button
-        class="importCandidatesButton button success"
+        class="button success"
         class:disabled={importingCandidates}
         on:click={importCandidates}
         >
@@ -113,7 +113,7 @@
     margin-top: 1em;
     text-align: center;
   }
-  .importCandidates {
+  .import-candidates {
     @include display-flex(column, center, null, wrap);
     button { margin: 1em 0; }
   }

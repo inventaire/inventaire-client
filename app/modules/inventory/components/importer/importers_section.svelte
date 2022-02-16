@@ -208,8 +208,8 @@
 <ul class="importers">
   {#each importers as importer (importer.name)}
     <li>
-      <div class="importerData">
-        <p class="importerName">
+      <div class="importer-data">
+        <p class="importer-name">
           {#if importer.link}
             <a name={importer.label} href={importer.link}>{importer.label}</a>
           {:else}
@@ -228,9 +228,9 @@
     </li>
   {/each}
   <li>
-    <div class="importerName">
+    <div class="importer-name">
       {I18n('import from a list of ISBNs')}
-      <div class="textareaWrapper">
+      <div class="textarea-wrapper">
         <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}"></textarea>
         <button id="emptyIsbns" class="grey-button" title="{i18n('clear')}" on:click="{isbnsText = ''}">
           {I18n('clear text')}
@@ -240,22 +240,22 @@
   </li>
 </ul>
 <Flash bind:state={flashBlockingProcess}/>
-<div class="buttonWrapper">
+<div class="button-wrapper">
   <a id="createCandidatesButton" on:click={createCandidatesQueue} class="success-button">{I18n('find ISBNs')}</a>
 </div>
 <div bind:this={bottomSectionElement}></div>
 <!-- The flash element is here to be able to view it while scrolling down to candidates section -->
 <Flash bind:state={flashOngoingProcess}/>
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#modules/general/scss/utils';
   h3{
     margin-top: 1em;
     text-align: center;
   }
-  .importerData{
+  .importer-data{
     @include display-flex(row, center);
   }
-  .textareaWrapper{
+  .textarea-wrapper{
     @include display-flex(row, flex-start);
     #isbnsTextarea{
       margin: 0;
@@ -269,10 +269,10 @@
   input{
     padding: auto 0;
   }
-  .importerName{
+  .importer-name{
     margin: 0 0.7em;
   }
-  .buttonWrapper{
+  .button-wrapper{
     padding-top:2em;
     padding-bottom:2em;
     text-align:center;

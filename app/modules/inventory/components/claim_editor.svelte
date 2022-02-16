@@ -12,18 +12,18 @@
     }
   }
 </script>
-<span class="editorRow">
+<span class="editor-row">
   <span class="label">{I18n(options[type].label)}:</span>
   <input
     on:click|stopPropagation
     type="text"
-    class="customInput"
+    class="custom-input"
     bind:value={inputName}
     placeholder={I18n(options[type].placeholder)}>
 </span>
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
-  .editorRow{
+  @import '#modules/general/scss/utils';
+  .editor-row{
     @include display-flex(row, center);
   }
   .label{
@@ -32,7 +32,7 @@
     font-size: 90%;
     margin-right: 0.5em;
   }
-  .customInput{
+  .custom-input{
     margin-bottom: 0;
     width: 100%;
   }
