@@ -138,11 +138,11 @@
 
   <fieldset>
     <h2 class="title">{I18n('discoverability')}</h2>
+    <p class="note">{@html I18n('fediversable_description', { username: $user.stableUsername, host: domain })}</p>
     <label class="inline">
       <input type="checkbox" class="fediversable" bind:checked={fediversable} on:click={toggleFediversable}>
       {I18n('fediversable')}
     </label>
-    <p class="note">{@html I18n('fediversable_description', { username: $user.stableUsername, host: domain })}</p>
     <Flash bind:state={flashFediversable}/>
   </fieldset>
 
