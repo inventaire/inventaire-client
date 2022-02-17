@@ -36,6 +36,7 @@ export const entity = function (uri, entityLink, alt, property, title) {
 const propertyWithSpecialLayout = [
   'wdt:P50', // author
   'wdt:P179', // serie
+  'wdt:P361', // part of (serie)
   'wdt:P629', // work
   'wdt:P123', // publisher
   'wdt:P195', // collection
