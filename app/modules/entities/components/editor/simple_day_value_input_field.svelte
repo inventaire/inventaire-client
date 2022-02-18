@@ -1,7 +1,7 @@
 <script>
-  import { i18n } from 'modules/user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
-  import { BubbleUpComponentEvent } from 'lib/utils'
+  import { BubbleUpComponentEvent } from '#lib/utils'
 
   export let value, name, min, max, placeholder, optional = true, componentId
 

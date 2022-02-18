@@ -1,14 +1,14 @@
 <script>
-  import properties from 'modules/entities/lib/properties'
-  import { editors } from '../lib/editors'
+  import properties from '#entities/lib/properties'
+  import { editors } from '../lib/editors.js'
   import { createEventDispatcher } from 'svelte'
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
-  import getActionKey from 'lib/get_action_key'
-  import Flash from 'lib/components/flash.svelte'
-  import preq from 'lib/preq'
-  import { isComponentEvent } from 'lib/boolean_tests'
-  import { i18n } from 'modules/user/lib/i18n'
+  import getActionKey from '#lib/get_action_key'
+  import Flash from '#lib/components/flash.svelte'
+  import preq from '#lib/preq'
+  import { isComponentEvent } from '#lib/boolean_tests'
+  import { i18n } from '#user/lib/i18n'
 
   export let entity, property, value
 

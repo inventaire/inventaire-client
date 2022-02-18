@@ -1,5 +1,5 @@
 <script>
-  import { BubbleUpComponentEvent, simpleDay } from 'lib/utils'
+  import { BubbleUpComponentEvent, simpleDay } from '#lib/utils'
   import { createEventDispatcher } from 'svelte'
   import SimpleDayValueInputField from './simple_day_value_input_field.svelte'
   import SimpleDayValueInputLabel from './simple_day_value_input_label.svelte'

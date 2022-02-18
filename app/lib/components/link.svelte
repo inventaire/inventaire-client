@@ -1,5 +1,5 @@
 <script>
-  import { isOpenedOutside } from 'lib/utils'
+  import { isOpenedOutside } from '#lib/utils'
 
   export let url, text, title = '', light = false
 

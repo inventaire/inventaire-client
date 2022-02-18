@@ -1,7 +1,7 @@
 <script>
-  import { autofocus } from 'lib/components/actions/autofocus'
+  import { autofocus } from '#lib/components/actions/autofocus'
   import { createEventDispatcher } from 'svelte'
-  import error_ from 'lib/error'
+  import error_ from '#lib/error'
 
   export let currentValue, getInputValue
 
