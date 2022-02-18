@@ -1,4 +1,4 @@
-import preq from 'lib/preq'
+import preq from '#lib/preq'
 
 export default function (attrs) {
   const { _id } = attrs
@@ -22,7 +22,7 @@ const specificMethods = {
 
     const uri = this.get('uri')
 
-    const { default: Tasks } = await import('modules/tasks/collections/tasks')
+    const { default: Tasks } = await import('#modules/tasks/collections/tasks')
 
     this.mergeSuggestionsPromise = preq.get(app.API.tasks.bySuspectUris(uri))
       .then(res => {

@@ -1,10 +1,10 @@
-import { I18n, i18n } from 'modules/user/lib/i18n'
-import { parseQuery } from 'lib/location'
-import { icon as _icon } from 'lib/utils'
-import wikidataColored from 'assets/images/wikidata.svg'
-import wikisource from 'assets/images/wikisource-64.png'
-import barcodeScanner from 'assets/images/barcode-scanner-64.png'
-import gutenberg from 'assets/images/gutenberg.png'
+import { I18n, i18n } from '#modules/user/lib/i18n'
+import { parseQuery } from '#lib/location'
+import { icon as _icon } from '#lib/utils'
+import wikidataColored from '#assets/images/wikidata.svg'
+import wikisource from '#assets/images/wikisource-64.png'
+import barcodeScanner from '#assets/images/barcode-scanner-64.png'
+import gutenberg from '#assets/images/gutenberg.png'
 import Handlebars from 'handlebars/runtime'
 const { SafeString } = Handlebars
 

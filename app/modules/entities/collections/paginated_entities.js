@@ -1,5 +1,5 @@
-import log_ from 'lib/loggers'
-import Entities from './entities'
+import log_ from '#lib/loggers'
+import Entities from './entities.js'
 
 export default Entities.extend({
   initialize (models, options = {}) {

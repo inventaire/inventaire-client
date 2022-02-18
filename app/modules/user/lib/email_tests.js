@@ -1,6 +1,6 @@
-import { isEmail } from 'lib/boolean_tests'
-import preq from 'lib/preq'
-import forms_ from 'modules/general/lib/forms'
+import { isEmail } from '#lib/boolean_tests'
+import preq from '#lib/preq'
+import forms_ from '#modules/general/lib/forms'
 
 export default {
   pass (email, selector) {

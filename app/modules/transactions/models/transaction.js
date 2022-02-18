@@ -1,21 +1,21 @@
-import log_ from 'lib/loggers'
-import { i18n } from 'modules/user/lib/i18n'
-import preq from 'lib/preq'
+import log_ from '#lib/loggers'
+import { i18n } from '#modules/user/lib/i18n'
+import preq from '#lib/preq'
 // TRANSACTION STATES (actor)
 // - requested (requester)
 // - accepted / declined (owner)
 // - performed (requester)
 // - returned (owner) (for lending only)
 // - cancelled (owner/requester)
-import { getNextActionsData, isArchived } from '../lib/next_actions'
-import cancellableStates from '../lib/cancellable_states'
-import applySideEffects from '../lib/apply_side_effects'
-import { buildPath } from 'lib/location'
-import Action from '../models/action'
-import Message from '../models/message'
-import Timeline from '../collections/timeline'
-import formatSnapshotData from '../lib/format_snapshot_data'
-import { transactionsData } from 'modules/inventory/lib/transactions_data'
+import { getNextActionsData, isArchived } from '../lib/next_actions.js'
+import cancellableStates from '../lib/cancellable_states.js'
+import applySideEffects from '../lib/apply_side_effects.js'
+import { buildPath } from '#lib/location'
+import Action from '../models/action.js'
+import Message from '../models/message.js'
+import Timeline from '../collections/timeline.js'
+import formatSnapshotData from '../lib/format_snapshot_data.js'
+import { transactionsData } from '#modules/inventory/lib/transactions_data'
 
 export default Backbone.NestedModel.extend({
   url () { return app.API.transactions },

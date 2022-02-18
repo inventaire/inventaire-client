@@ -1,8 +1,8 @@
-import showAllAuthorsPreviewLists from 'modules/entities/lib/show_all_authors_preview_lists'
-import clampedExtract from '../lib/clamped_extract'
+import showAllAuthorsPreviewLists from '#modules/entities/lib/show_all_authors_preview_lists'
+import clampedExtract from '../lib/clamped_extract.js'
 import serieInfoboxTemplate from './templates/serie_infobox.hbs'
-import ClampedExtract from 'behaviors/clamped_extract'
-import EntitiesCommons from 'behaviors/entities_commons'
+import ClampedExtract from '#behaviors/clamped_extract'
+import EntitiesCommons from '#behaviors/entities_commons'
 
 export default Marionette.View.extend({
   template: serieInfoboxTemplate,

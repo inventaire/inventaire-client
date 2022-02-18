@@ -1,7 +1,7 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import assert_ from 'lib/assert_types'
-import log_ from 'lib/loggers'
-import error_ from 'lib/error'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import assert_ from '#lib/assert_types'
+import log_ from '#lib/loggers'
+import error_ from '#lib/error'
 
 const oneDay = 24 * 60 * 60 * 1000
 const iconAliases = {

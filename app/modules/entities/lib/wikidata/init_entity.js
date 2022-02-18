@@ -1,9 +1,9 @@
-import { getTextDirection } from 'app/lib/active_languages'
-import { isNonEmptyString } from 'lib/boolean_tests'
-import log_ from 'lib/loggers'
-import sitelinks_ from 'lib/wikimedia/sitelinks'
-import wikipedia_ from 'lib/wikimedia/wikipedia'
-import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
+import { getTextDirection } from '#app/lib/active_languages'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import log_ from '#lib/loggers'
+import sitelinks_ from '#lib/wikimedia/sitelinks'
+import wikipedia_ from '#lib/wikimedia/wikipedia'
+import getBestLangValue from '#modules/entities/lib/get_best_lang_value'
 const wdHost = 'https://www.wikidata.org'
 
 export default function (attrs) {

@@ -1,6 +1,6 @@
-import isLoggedIn from './lib/is_logged_in'
-import getActionKey from 'lib/get_action_key'
-import error_ from 'lib/error'
+import isLoggedIn from './lib/is_logged_in.js'
+import getActionKey from '#lib/get_action_key'
+import error_ from '#lib/error'
 
 // This needs to be a LayoutView so that view classes extending this one can have regions
 export default Marionette.View.extend({

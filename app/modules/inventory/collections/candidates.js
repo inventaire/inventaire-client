@@ -1,5 +1,5 @@
-import Candidate from '../models/candidate'
-import { looksLikeAnIsbn, normalizeIsbn } from 'lib/isbn'
+import Candidate from '../models/candidate.js'
+import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 
 export default Backbone.Collection.extend({
   model: Candidate,

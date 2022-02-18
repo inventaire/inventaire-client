@@ -1,5 +1,5 @@
 import FilteredCollection from 'backbone-filtered-collection'
-import Users from './collections/users'
+import Users from './collections/users.js'
 
 export default function (app) {
   const users = new Users()

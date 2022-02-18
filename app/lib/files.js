@@ -1,5 +1,5 @@
-import log_ from 'lib/loggers'
-import testEncodingErrors from './encoding_errors'
+import log_ from '#lib/loggers'
+import testEncodingErrors from './encoding_errors.js'
 
 const readFile = function (mode, file, encoding, verifyEncoding) {
   const reader = new FileReader()

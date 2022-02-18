@@ -1,4 +1,4 @@
-import { isOpenedOutside } from 'lib/utils'
+import { isOpenedOutside } from '#lib/utils'
 
 // Work around circular dependencies
 let DonateMenu, FeedbackMenu

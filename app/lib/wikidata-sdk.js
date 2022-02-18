@@ -1,7 +1,7 @@
 // A tree-shaked version of wikidata-sdk to fit the client's exact needs
 // https://github.com/maxlath/wikidata-sdk
 
-import { buildPath } from 'lib/location'
+import { buildPath } from '#lib/location'
 
 export default {
   searchEntities (params) {

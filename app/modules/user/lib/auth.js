@@ -1,6 +1,6 @@
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
-import requestLogout from './request_logout'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import requestLogout from './request_logout.js'
 
 export default function () {
   app.reqres.setHandlers({

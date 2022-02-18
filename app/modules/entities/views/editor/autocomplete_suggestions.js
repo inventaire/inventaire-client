@@ -2,8 +2,8 @@ import autocompleteSuggestionsTemplate from './templates/autocomplete_suggestion
 
 // Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collectionview.js
 
-import AutocompleteSuggestion from './autocomplete_suggestion'
-import AutocompleteNoSuggestion from './autocomplete_no_suggestion'
+import AutocompleteSuggestion from './autocomplete_suggestion.js'
+import AutocompleteNoSuggestion from './autocomplete_no_suggestion.js'
 
 // keep in sync with app/modules/general/scss/_autocomplete.scss
 const listHeight = 170

@@ -1,5 +1,5 @@
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
 let missingKeys = []
 let disabled = false
 

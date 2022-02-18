@@ -1,4 +1,4 @@
-import { transactionsDataFactory } from './transactions_data'
+import { transactionsDataFactory } from './transactions_data.js'
 
 export function listingsData (selectedListing) {
   if (selectedListing == null) selectedListing = app.request('last:listing:get') || 'private'

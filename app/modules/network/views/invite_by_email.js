@@ -1,14 +1,14 @@
-import log_ from 'lib/loggers'
-import UsersList from 'modules/users/views/users_list'
-import behaviorsPlugin from 'modules/general/plugins/behaviors'
-import forms_ from 'modules/general/lib/forms'
-import error_ from 'lib/error'
+import log_ from '#lib/loggers'
+import UsersList from '#modules/users/views/users_list'
+import behaviorsPlugin from '#modules/general/plugins/behaviors'
+import forms_ from '#modules/general/lib/forms'
+import error_ from '#lib/error'
 import inviteByEmailTemplate from './templates/invite_by_email.hbs'
 import '../scss/invite_by_email.scss'
-import AlertBox from 'behaviors/alert_box'
-import ElasticTextarea from 'behaviors/elastic_textarea'
-import Loading from 'behaviors/loading'
-import SuccessCheck from 'behaviors/success_check'
+import AlertBox from '#behaviors/alert_box'
+import ElasticTextarea from '#behaviors/elastic_textarea'
+import Loading from '#behaviors/loading'
+import SuccessCheck from '#behaviors/success_check'
 
 export default Marionette.View.extend({
   template: inviteByEmailTemplate,

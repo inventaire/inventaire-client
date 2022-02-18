@@ -1,4 +1,4 @@
-import { isOpenedOutside } from 'lib/utils'
+import { isOpenedOutside } from '#lib/utils'
 import inventoryNavTemplate from './templates/inventory_nav.hbs'
 
 export default Marionette.View.extend({

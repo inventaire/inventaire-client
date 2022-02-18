@@ -1,6 +1,6 @@
-import { i18n } from 'modules/user/lib/i18n'
-import error_ from 'lib/error'
-import importers from './importers'
+import { i18n } from '#modules/user/lib/i18n'
+import error_ from '#lib/error'
+import importers from './importers.js'
 
 export default function (source, data) {
   const { format, label, disableValidation } = importers[source]

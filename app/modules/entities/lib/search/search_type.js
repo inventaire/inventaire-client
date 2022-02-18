@@ -1,4 +1,4 @@
-import preq from 'lib/preq'
+import preq from '#lib/preq'
 
 // This endpoint might return different results from one call to the next,
 // making pagination suboptimal, thus this hack of calling more results

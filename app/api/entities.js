@@ -1,5 +1,5 @@
-import { forceArray } from 'lib/utils'
-import endpoint from './endpoint'
+import { forceArray } from '#lib/utils'
+import endpoint from './endpoint.js'
 const { action } = endpoint('entities')
 
 const CustomQuery = actionName => (uri, refresh) => action(actionName, { uri, refresh })

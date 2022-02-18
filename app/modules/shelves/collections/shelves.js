@@ -1,4 +1,4 @@
-import Shelf from '../models/shelf'
+import Shelf from '../models/shelf.js'
 
 export default Backbone.Collection.extend({
   model: Shelf,

@@ -1,9 +1,9 @@
-import Shelves from '../collections/shelves'
-import { getShelvesByOwner } from 'modules/shelves/lib/shelves'
-import ShelvesList from './shelves_list'
+import Shelves from '../collections/shelves.js'
+import { getShelvesByOwner } from '#modules/shelves/lib/shelves'
+import ShelvesList from './shelves_list.js'
 import shelvesSectionTemplate from './templates/shelves_section.hbs'
 import '../scss/shelves_section.scss'
-import BackupForm from 'behaviors/backup_form'
+import BackupForm from '#behaviors/backup_form'
 
 export default Marionette.View.extend({
   id: 'shelvesSection',

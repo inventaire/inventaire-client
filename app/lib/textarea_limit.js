@@ -1,4 +1,4 @@
-import { i18n } from 'modules/user/lib/i18n'
+import { i18n } from '#modules/user/lib/i18n'
 
 export function updateLimit (textareaEl, limitEl, limit) {
   const currentLength = this.ui[textareaEl].val().length

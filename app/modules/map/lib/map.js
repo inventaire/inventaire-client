@@ -1,9 +1,9 @@
-import { forceArray } from 'lib/utils'
-import mapConfig from './config'
-import { truncateDecimals } from './geo'
-import { buildPath } from 'lib/location'
-import error_ from 'lib/error'
-import draw from './draw'
+import { forceArray } from '#lib/utils'
+import mapConfig from './config.js'
+import { truncateDecimals } from './geo.js'
+import { buildPath } from '#lib/location'
+import error_ from '#lib/error'
+import draw from './draw.js'
 
 const { defaultZoom } = mapConfig
 
@@ -16,7 +16,7 @@ const showMainUserPositionPicker = async () => {
 
 const getLeaflet = async () => {
   const [ { default: mapConfig } ] = await Promise.all([
-    import('./config'),
+    import('./config.js'),
     // Set window.L
     import('leaflet'),
     import('leaflet/dist/leaflet.css'),

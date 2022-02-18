@@ -1,10 +1,10 @@
-import { I18n } from 'modules/user/lib/i18n'
-import error_ from 'lib/error'
-import initMainUser from './lib/init_main_user'
-import auth from './lib/auth'
-import userListings from './lib/user_listings'
-import userUpdate from './lib/user_update'
-import preq from 'lib/preq'
+import { I18n } from '#modules/user/lib/i18n'
+import error_ from '#lib/error'
+import initMainUser from './lib/init_main_user.js'
+import auth from './lib/auth.js'
+import userListings from './lib/user_listings.js'
+import userUpdate from './lib/user_update.js'
+import preq from '#lib/preq'
 
 export default {
   initialize () {
@@ -49,17 +49,17 @@ const showAuth = (name, label, View, options) => {
 // app.layout should thus appear only in callbacks
 const API = {
   async showSignup (options) {
-    const { default: Signup } = await import('./views/signup')
+    const { default: Signup } = await import('./views/signup.js')
     showAuth('signup', 'sign up', Signup, options)
   },
 
   async showLogin (options) {
-    const { default: Login } = await import('./views/login')
+    const { default: Login } = await import('./views/login.js')
     showAuth('login', 'login', Login, options)
   },
 
   async showForgotPassword (options) {
-    const { default: ForgotPassword } = await import('./views/forgot_password')
+    const { default: ForgotPassword } = await import('./views/forgot_password.js')
     app.layout.showChildView('main', new ForgotPassword(options))
     app.navigate('login/forgot-password', {
       metadata: {
@@ -69,7 +69,7 @@ const API = {
   },
 
   async showResetPassword () {
-    const { default: ResetPassword } = await import('./views/reset_password')
+    const { default: ResetPassword } = await import('./views/reset_password.js')
     if (app.user.loggedIn) {
       app.layout.showChildView('main', new ResetPassword())
       app.navigate('login/reset-password', {
@@ -90,7 +90,7 @@ const API = {
       const postLoginRedirection = window.location.pathname + window.location.search
       if (!(app.request('require:loggedIn', postLoginRedirection))) return
       const client = await getOAuthClient(query.client_id)
-      const { default: AuthorizeMenu } = await import('./views/authorize_menu')
+      const { default: AuthorizeMenu } = await import('./views/authorize_menu.js')
       app.layout.showChildView('main', new AuthorizeMenu({ query, client }))
     } catch (err) {
       app.execute('show:error', err)

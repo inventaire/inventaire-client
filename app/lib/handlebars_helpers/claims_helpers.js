@@ -1,8 +1,8 @@
-import { isEntityUri } from 'lib/boolean_tests'
-import entityValue from 'modules/general/views/behaviors/templates/entity_value.hbs'
-import propertyValue from 'modules/general/views/behaviors/templates/property_value.hbs'
-import wdk from 'lib/wikidata-sdk'
-import error_ from 'lib/error'
+import { isEntityUri } from '#lib/boolean_tests'
+import entityValue from '#modules/general/views/behaviors/templates/entity_value.hbs'
+import propertyValue from '#modules/general/views/behaviors/templates/property_value.hbs'
+import wdk from '#lib/wikidata-sdk'
+import error_ from '#lib/error'
 import Handlebars from 'handlebars/runtime'
 const { SafeString, escapeExpression } = Handlebars
 

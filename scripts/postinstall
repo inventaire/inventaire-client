@@ -16,3 +16,5 @@ ln -s ../.githooks .git/hooks
 # See https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Erreurs/Undeclared_var
 echo 'let JSON_PIWIK, AnalyticsTracker, piwik_log;' > ./vendor/piwik.js
 curl -sk https://piwik.allmende.io/piwik.js >> ./vendor/piwik.js
+
+npm run update-jsconfig

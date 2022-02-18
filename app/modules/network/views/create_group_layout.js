@@ -1,18 +1,18 @@
 // add name => creates group
 // invite friends
 // invite by email
-import log_ from 'lib/loggers'
+import log_ from '#lib/loggers'
 import createGroupLayoutTemplate from './templates/create_group_layout.hbs'
-import { GroupLayoutView } from './group_views_commons'
-import forms_ from 'modules/general/lib/forms'
-import groups_ from '../lib/groups'
-import groupFormData from '../lib/group_form_data'
-import GroupUrl from '../lib/group_url'
+import { GroupLayoutView } from './group_views_commons.js'
+import forms_ from '#modules/general/lib/forms'
+import groups_ from '../lib/groups.js'
+import groupFormData from '../lib/group_form_data.js'
+import GroupUrl from '../lib/group_url.js'
 import '../scss/create_groupe_layout.scss'
-import AlertBox from 'behaviors/alert_box'
-import ElasticTextarea from 'behaviors/elastic_textarea'
-import SuccessCheck from 'behaviors/success_check'
-import Toggler from 'behaviors/toggler'
+import AlertBox from '#behaviors/alert_box'
+import ElasticTextarea from '#behaviors/elastic_textarea'
+import SuccessCheck from '#behaviors/success_check'
+import Toggler from '#behaviors/toggler'
 
 const {
   ui: groupUrlUi,

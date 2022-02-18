@@ -1,5 +1,5 @@
-import { i18n } from 'modules/user/lib/i18n'
-import preq from 'lib/preq'
+import { i18n } from '#modules/user/lib/i18n'
+import preq from '#lib/preq'
 
 export default function () {
   // Main property by which sub-entities are linked to this one

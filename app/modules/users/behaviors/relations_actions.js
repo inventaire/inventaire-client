@@ -1,6 +1,6 @@
-import log_ from 'lib/loggers'
-import { I18n } from 'modules/user/lib/i18n'
-import behaviorsPlugin from 'modules/general/plugins/behaviors'
+import log_ from '#lib/loggers'
+import { I18n } from '#modules/user/lib/i18n'
+import behaviorsPlugin from '#modules/general/plugins/behaviors'
 
 export default Marionette.Behavior.extend({
   events: {

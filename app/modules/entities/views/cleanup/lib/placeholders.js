@@ -1,4 +1,4 @@
-import { startLoading } from 'modules/general/plugins/behaviors'
+import { startLoading } from '#modules/general/plugins/behaviors'
 
 const createPlaceholders = function () {
   if (this._placeholderCreationOngoing) return

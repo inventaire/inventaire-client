@@ -1,5 +1,5 @@
-import allowPersistantQuery from './allow_persistant_query'
-import { parseQuery, buildPath, setQuerystring, routeSection } from 'lib/location'
+import allowPersistantQuery from './allow_persistant_query.js'
+import { parseQuery, buildPath, setQuerystring, routeSection } from '#lib/location'
 
 export default function () {
   app.reqres.setHandlers({

@@ -1,4 +1,4 @@
-import Filterable from './filterable'
+import Filterable from './filterable.js'
 
 // Extending Filterable as the models needing position feature
 // happen to also need filterable features

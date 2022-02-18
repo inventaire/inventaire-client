@@ -1,4 +1,4 @@
-import log_ from 'lib/loggers'
+import log_ from '#lib/loggers'
 
 const formatError = function (message, statusCode, context) {
   // Accept a statusCode number as second argument as done on the server

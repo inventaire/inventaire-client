@@ -1,4 +1,4 @@
-import isMobile from 'lib/mobile_check'
+import isMobile from '#lib/mobile_check'
 
 export function autofocus (node, options = {}) {
   // Do not auto focus on mobile as it displays the virtual keyboard

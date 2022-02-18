@@ -1,8 +1,8 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import log_ from 'lib/loggers'
-import getActionKey from 'lib/get_action_key'
-import screen_ from 'lib/screen'
-import isMobile from 'lib/mobile_check'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import log_ from '#lib/loggers'
+import getActionKey from '#lib/get_action_key'
+import screen_ from '#lib/screen'
+import isMobile from '#lib/mobile_check'
 
 export default function () {
   const $body = $('body')

@@ -1,4 +1,4 @@
-import WorkPicker from './work_picker'
+import WorkPicker from './work_picker.js'
 import serieCleanupPartSuggestionTemplate from './templates/serie_cleanup_part_suggestion.hbs'
 
 const PartSuggestion = WorkPicker.extend({

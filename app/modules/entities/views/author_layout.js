@@ -1,13 +1,13 @@
-import log_ from 'lib/loggers'
-import TypedEntityLayout from './typed_entity_layout'
-import { startLoading } from 'modules/general/plugins/behaviors'
-import getEntitiesListView from './entities_list'
-import screen_ from 'lib/screen'
-import AuthorInfobox from './author_infobox'
+import log_ from '#lib/loggers'
+import TypedEntityLayout from './typed_entity_layout.js'
+import { startLoading } from '#modules/general/plugins/behaviors'
+import getEntitiesListView from './entities_list.js'
+import screen_ from '#lib/screen'
+import AuthorInfobox from './author_infobox.js'
 import authorLayoutTemplate from './templates/author_layout.hbs'
 import '../scss/entities_layouts.scss'
 import '../scss/author_layout.scss'
-import Loading from 'behaviors/loading'
+import Loading from '#behaviors/loading'
 
 export default TypedEntityLayout.extend({
   template: authorLayoutTemplate,

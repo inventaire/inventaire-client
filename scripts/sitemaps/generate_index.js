@@ -1,6 +1,6 @@
-import writeSitemap from './write_sitemap'
+import writeSitemap from './write_sitemap.js'
 import fs from 'fs'
-import { publicPath, folder, index } from './config'
+import { publicPath, folder, index } from './config.js'
 const exclude = [ index ]
 
 export default function () {

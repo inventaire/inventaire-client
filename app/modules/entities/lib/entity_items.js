@@ -1,4 +1,4 @@
-import ItemsPreviewLists from '../views/items_preview_lists'
+import ItemsPreviewLists from '../views/items_preview_lists.js'
 
 // Sharing logic between work_layout and edition_layout
 export default {

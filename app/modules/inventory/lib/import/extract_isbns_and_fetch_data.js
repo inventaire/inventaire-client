@@ -1,6 +1,6 @@
-import fetchEntitiesSequentially from './fetch_entities_sequentially'
-import extractIsbns from './extract_isbns'
-import getCandidatesFromEntitiesDocs from './get_candidates_from_entities_docs'
+import fetchEntitiesSequentially from './fetch_entities_sequentially.js'
+import extractIsbns from './extract_isbns.js'
+import getCandidatesFromEntitiesDocs from './get_candidates_from_entities_docs.js'
 
 export default async text => {
   window.ISBN = window.ISBN || (await import('isbn3')).default

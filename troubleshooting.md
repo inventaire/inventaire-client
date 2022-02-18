@@ -16,7 +16,7 @@ export default {
 ```
 and that the consumer might be trying to access `foo` with destructuring assignment:
 ```js
-import { foo } from './some_module'
+import { foo } from './some_module.js'
 // => error: foo is undefined
 ```
 This fails because the [ESM import](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Instructions/import) is different from destructuring assignment.
@@ -27,13 +27,13 @@ export const foo = 123
 ```
 or change the import:
 ```js
-import someModule from './some_module'
+import someModule from './some_module.js'
 const { foo } = someModule
 // => error: foo is undefined
 ```
 
 ### TypeError: fooModuleName.default is undefined
-It might be that there is no `export default` in the module you are trying to import, so `import fooModuleName from './foo_module_name` will fail. Possible solution: `import * as fooModuleName from './foo_module_name`
+It might be that there is no `export default` in the module you are trying to import, so `import fooModuleName from './foo_module_name.js` will fail. Possible solution: `import * as fooModuleName from './foo_module_name.js`
 
 ### TypeError: foo(...).then / foo(...).catch is not a function
 Calling the function `foo` should have returned a promise, and it doesn't, promise methods (`.then`, `.catch`) can't be called on it.

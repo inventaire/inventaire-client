@@ -1,5 +1,5 @@
-import Commons from './commons'
-import endpoint from './endpoint'
+import Commons from './commons.js'
+import endpoint from './endpoint.js'
 const { base, action } = endpoint('users')
 
 const {

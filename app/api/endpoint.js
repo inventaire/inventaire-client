@@ -1,5 +1,5 @@
-import { fixedEncodeURIComponent } from 'lib/utils'
-import { buildPath } from 'lib/location'
+import { fixedEncodeURIComponent } from '#lib/utils'
+import { buildPath } from '#lib/location'
 
 // build the endpoints routes
 export default function (name, getBaseOnly) {

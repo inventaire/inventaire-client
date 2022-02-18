@@ -1,4 +1,4 @@
-import forms_ from 'modules/general/lib/forms'
+import forms_ from '#modules/general/lib/forms'
 
 export default {
   pass (password, selector) {

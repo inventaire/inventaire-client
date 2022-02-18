@@ -1,7 +1,7 @@
-import { pickOne, objLength } from 'lib/utils'
+import { pickOne, objLength } from '#lib/utils'
 
 import wdLang from 'wikidata-lang'
-import { unprefixify } from 'lib/wikimedia/wikidata'
+import { unprefixify } from '#lib/wikimedia/wikidata'
 
 const langProperties = [
   'wdt:P103', // native language

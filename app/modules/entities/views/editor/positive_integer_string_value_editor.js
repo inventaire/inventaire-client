@@ -1,4 +1,4 @@
-import PositiveIntegerValueEditor from './positive_integer_value_editor'
+import PositiveIntegerValueEditor from './positive_integer_value_editor.js'
 
 // This editor is useful for properties that are expected to have string values
 // by Wikidata, but for which Inventaire restrict possible values to strings

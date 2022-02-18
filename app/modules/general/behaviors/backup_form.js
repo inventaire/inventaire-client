@@ -1,5 +1,5 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import log_ from 'lib/loggers'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import log_ from '#lib/loggers'
 // A behavior to preserve input text from being lost on a view re-render
 // by saving it at every change and recovering it on re-render
 // This behavior should probably be added to any view with input or textarea

@@ -1,6 +1,6 @@
-import SearchLayout from '../search_layout'
-import ScanLayout from '../scan_layout'
-import ImportLayout from '../import_layout'
+import SearchLayout from '../search_layout.js'
+import ScanLayout from '../scan_layout.js'
+import ImportLayout from '../import_layout.js'
 
 let tabs
 

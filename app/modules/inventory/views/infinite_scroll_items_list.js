@@ -1,6 +1,6 @@
-import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
-import { wait } from 'lib/promises'
-import Loading from 'behaviors/loading'
+import { startLoading, stopLoading } from '#modules/general/plugins/behaviors'
+import { wait } from '#lib/promises'
+import Loading from '#behaviors/loading'
 
 const alwaysFalse = () => false
 

@@ -1,4 +1,4 @@
-import error_ from 'lib/error'
+import error_ from '#lib/error'
 
 // Pre-formatting is required to set the type
 // Taking the opportunity to omit all non-required data

@@ -1,11 +1,11 @@
-import { isEntityUri, isImageHash } from 'lib/boolean_tests'
-import typeOf from 'lib/type_of'
-import { i18n } from 'modules/user/lib/i18n'
-import * as icons_ from './icons'
+import { isEntityUri, isImageHash } from '#lib/boolean_tests'
+import typeOf from '#lib/type_of'
+import { i18n } from '#modules/user/lib/i18n'
+import * as icons_ from './icons.js'
 import wdLang from 'wikidata-lang'
-import commons_ from 'lib/wikimedia/commons'
-import linkify_ from './linkify'
-import platforms_ from './platforms'
+import commons_ from '#lib/wikimedia/commons'
+import linkify_ from './linkify.js'
+import platforms_ from './platforms.js'
 import {
   prop as propHelper,
   entity as entityHelper,
@@ -13,8 +13,8 @@ import {
   getValuesTemplates,
   labelString,
   claimString
-} from './claims_helpers'
-import { imgSrc } from './images'
+} from './claims_helpers.js'
+import { imgSrc } from './images.js'
 import Handlebars from 'handlebars/runtime'
 const { SafeString, escapeExpression } = Handlebars
 

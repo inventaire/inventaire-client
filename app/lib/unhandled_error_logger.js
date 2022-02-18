@@ -1,4 +1,4 @@
-import { reportError } from 'lib/reports'
+import { reportError } from '#lib/reports'
 
 export default () => {
   // Override window.onerror to always log the stacktrace

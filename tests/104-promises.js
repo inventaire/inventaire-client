@@ -1,5 +1,5 @@
 import 'should'
-import { tryAsync, tap, props as promiseProps } from 'lib/promises'
+import { tryAsync, tap, props as promiseProps } from '#lib/promises'
 
 global.window = global
 const undesiredRes = done => res => {

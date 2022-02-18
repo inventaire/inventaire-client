@@ -1,9 +1,9 @@
-import { isInvEntityId } from 'lib/boolean_tests'
-import preq from 'lib/preq'
-import wdk from 'lib/wikidata-sdk'
-import { looksLikeAnIsbn, normalizeIsbn } from 'lib/isbn'
-import getBestLangValue from './get_best_lang_value'
-import getOriginalLang from './get_original_lang'
+import { isInvEntityId } from '#lib/boolean_tests'
+import preq from '#lib/preq'
+import wdk from '#lib/wikidata-sdk'
+import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
+import getBestLangValue from './get_best_lang_value.js'
+import getOriginalLang from './get_original_lang.js'
 
 export async function getReverseClaims (property, value, refresh, sort) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))

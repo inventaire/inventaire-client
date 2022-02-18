@@ -1,8 +1,8 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import UsersList from 'modules/users/views/users_list'
-import { startLoading } from 'modules/general/plugins/behaviors'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import UsersList from '#modules/users/views/users_list'
+import { startLoading } from '#modules/general/plugins/behaviors'
 import usersSearchLayoutTemplate from './templates/users_search_layout.hbs'
-import Loading from 'behaviors/loading'
+import Loading from '#behaviors/loading'
 
 export default Marionette.View.extend({
   id: 'usersSearchLayout',

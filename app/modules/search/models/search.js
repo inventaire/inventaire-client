@@ -1,4 +1,4 @@
-import { forceArray } from 'lib/utils'
+import { forceArray } from '#lib/utils'
 export default Backbone.Model.extend({
   initialize (data) {
     if (data.timestamp == null) return this.updateTimestamp()

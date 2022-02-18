@@ -1,7 +1,7 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import { simpleDay } from 'lib/utils'
-import { i18n } from 'modules/user/lib/i18n'
-import ClaimsEditorCommons from './claims_editor_commons'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import { simpleDay } from '#lib/utils'
+import { i18n } from '#modules/user/lib/i18n'
+import ClaimsEditorCommons from './claims_editor_commons.js'
 import simpleDayValueEditorTemplate from './templates/simple_day_value_editor.hbs'
 import { range } from 'underscore'
 

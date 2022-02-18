@@ -1,5 +1,5 @@
-import { transactionsData } from 'modules/inventory/lib/transactions_data'
-import ItemPreview from './item_preview'
+import { transactionsData } from '#modules/inventory/lib/transactions_data'
+import ItemPreview from './item_preview.js'
 import itemsPreviewListTemplate from './templates/items_preview_list.hbs'
 
 export default Marionette.CollectionView.extend({

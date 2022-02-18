@@ -1,5 +1,5 @@
-import { buildPath } from 'lib/location'
-import endpoint from './endpoint'
+import { buildPath } from '#lib/location'
+import endpoint from './endpoint.js'
 const feedEndpointBase = endpoint('feeds', true)
 // Always using the absolute path so that links are treated as external links,
 // thus getting target='_blank' attributes, and the associated click behaviors

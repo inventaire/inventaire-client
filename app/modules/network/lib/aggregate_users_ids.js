@@ -1,4 +1,4 @@
-import { forceArray, capitalize } from 'lib/utils'
+import { forceArray, capitalize } from '#lib/utils'
 
 export default function () {
   let categories, name

@@ -1,4 +1,4 @@
-import ItemsPreviewList from './items_preview_list'
+import ItemsPreviewList from './items_preview_list.js'
 import itemsPreviewListsTemplate from './templates/items_preview_lists.hbs'
 import '../scss/items_preview_lists.scss'
 

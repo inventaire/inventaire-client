@@ -1,4 +1,4 @@
-import { Updater } from 'lib/model_update'
+import { Updater } from '#lib/model_update'
 
 export default function (app) {
   const userUpdater = Updater({

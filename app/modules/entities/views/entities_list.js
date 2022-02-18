@@ -1,11 +1,11 @@
-import loader from 'modules/general/views/templates/loader.hbs'
-import error_ from 'lib/error'
-import EntitiesListAdder from './entities_list_adder'
-import { currentRoute } from 'lib/location'
+import loader from '#modules/general/views/templates/loader.hbs'
+import error_ from '#lib/error'
+import EntitiesListAdder from './entities_list_adder.js'
+import { currentRoute } from '#lib/location'
 import entitiesListTemplate from './templates/entities_list.hbs'
 import '../scss/entities_list.scss'
-import Loading from 'behaviors/loading'
-import PreventDefault from 'behaviors/prevent_default'
+import Loading from '#behaviors/loading'
+import PreventDefault from '#behaviors/prevent_default'
 
 // TODO:
 // - deduplicate series in sub series https://inventaire.io/entity/wd:Q740062
@@ -23,13 +23,13 @@ const lateImport = async () => {
     { default: PublisherLayout },
     { default: CollectionLayout },
   ] = await Promise.all([
-    import('./serie_layout'),
-    import('./work_li'),
-    import('./article_li'),
-    import('./edition_li'),
-    import('./author_layout'),
-    import('./publisher_layout'),
-    import('./collection_layout'),
+    import('./serie_layout.js'),
+    import('./work_li.js'),
+    import('./article_li.js'),
+    import('./edition_li.js'),
+    import('./author_layout.js'),
+    import('./publisher_layout.js'),
+    import('./collection_layout.js'),
   ])
   viewByType = {
     serie: SerieLayout,

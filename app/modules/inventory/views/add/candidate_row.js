@@ -1,4 +1,4 @@
-import CandidateInfo from './candidate_info'
+import CandidateInfo from './candidate_info.js'
 import candidateRowTemplate from './templates/candidate_row.hbs'
 
 export default Marionette.View.extend({

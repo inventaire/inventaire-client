@@ -1,6 +1,6 @@
-import { fixedEncodeURIComponent } from 'app/lib/utils'
-import Commons from './commons'
-import endpoint from './endpoint'
+import { fixedEncodeURIComponent } from '#lib/utils'
+import Commons from './commons.js'
+import endpoint from './endpoint.js'
 const { base, action } = endpoint('groups')
 
 const {

@@ -1,5 +1,5 @@
-import entityItems from '../lib/entity_items'
-import EntityActions from './entity_actions'
+import entityItems from '../lib/entity_items.js'
+import EntityActions from './entity_actions.js'
 import editionLayoutTemplate from './templates/edition_layout.hbs'
 import editionWorkTemplate from './templates/edition_work.hbs'
 import '../scss/edition_commons.scss'

@@ -1,5 +1,5 @@
-import { forceArray } from 'lib/utils'
-import preq from 'lib/preq'
+import { forceArray } from '#lib/utils'
+import preq from '#lib/preq'
 
 export function getById (id) {
   return preq.get(app.API.shelves.byIds(id))

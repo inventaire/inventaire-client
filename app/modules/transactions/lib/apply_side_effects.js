@@ -1,4 +1,4 @@
-import log_ from 'lib/loggers'
+import log_ from '#lib/loggers'
 
 export default function (transaction, state) {
   log_.info(arguments, 'applySideEffects')

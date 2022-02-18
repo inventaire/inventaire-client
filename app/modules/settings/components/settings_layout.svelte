@@ -1,7 +1,7 @@
 <script>
-  import { I18n } from 'modules/user/lib/i18n'
-  import app from 'app/app'
-  import { wait } from 'lib/promises'
+  import { I18n } from '#modules/user/lib/i18n'
+  import app from '#app/app'
+  import { wait } from '#lib/promises'
   import Profile from './profile.svelte'
   import Account from './account.svelte'
   import Notifications from './notifications.svelte'

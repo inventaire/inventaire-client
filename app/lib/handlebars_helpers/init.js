@@ -1,13 +1,13 @@
 import Handlebars from 'handlebars/runtime'
-import blocks from './blocks'
-import misc from './misc'
-import utils from './utils'
-import claims from './claims'
-import userContent from './user_content'
-import * as icons from './icons'
-import images from './images'
-import input from './input'
-import linkify from './linkify'
+import blocks from './blocks.js'
+import misc from './misc.js'
+import utils from './utils.js'
+import claims from './claims.js'
+import userContent from './user_content.js'
+import * as icons from './icons.js'
+import images from './images.js'
+import input from './input.js'
+import linkify from './linkify.js'
 
 const API = _.extend({ linkify }, blocks, misc, utils, claims, userContent, icons, images, input)
 

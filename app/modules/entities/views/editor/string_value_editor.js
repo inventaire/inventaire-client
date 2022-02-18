@@ -1,8 +1,8 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import ClaimsEditorCommons from './claims_editor_commons'
-import forms_ from 'modules/general/lib/forms'
-import error_ from 'lib/error'
-import { initEditionTitleTip, tipOnKeyup, tipOnRender } from './lib/title_tip'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import ClaimsEditorCommons from './claims_editor_commons.js'
+import forms_ from '#modules/general/lib/forms'
+import error_ from '#lib/error'
+import { initEditionTitleTip, tipOnKeyup, tipOnRender } from './lib/title_tip.js'
 import stringValueEditorTemplate from './templates/string_value_editor.hbs'
 
 const inputSelector = '.string-value-input'

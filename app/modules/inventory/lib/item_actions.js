@@ -1,8 +1,8 @@
-import assert_ from 'lib/assert_types'
-import log_ from 'lib/loggers'
-import { i18n } from 'modules/user/lib/i18n'
-import preq from 'lib/preq'
-import Item from 'modules/inventory/models/item'
+import assert_ from '#lib/assert_types'
+import log_ from '#lib/loggers'
+import { i18n } from '#modules/user/lib/i18n'
+import preq from '#lib/preq'
+import Item from '#modules/inventory/models/item'
 
 export default {
   create (itemData) {

@@ -1,9 +1,9 @@
-import { capitalize } from 'lib/utils'
-import log_ from 'lib/loggers'
-import libraryThingParser from './parsers/library_thing'
-import goodReadsParser from './parsers/good_reads'
-import babelioParser from './parsers/babelio'
-import extractIsbnsAndFetchData from './import/extract_isbns_and_fetch_data'
+import { capitalize } from '#lib/utils'
+import log_ from '#lib/loggers'
+import libraryThingParser from './parsers/library_thing.js'
+import goodReadsParser from './parsers/good_reads.js'
+import babelioParser from './parsers/babelio.js'
+import extractIsbnsAndFetchData from './import/extract_isbns_and_fetch_data.js'
 
 // How to add an importer:
 // - add an entry to the importers object hereafter

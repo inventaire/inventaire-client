@@ -1,8 +1,8 @@
 import userMarker from '../views/templates/user_marker.hbs'
 import groupMarker from '../views/templates/group_marker.hbs'
 import itemMarker from '../views/templates/item_marker.hbs'
-import customIcon from './custom_icon'
-import 'modules/map/scss/objects_markers.scss'
+import customIcon from './custom_icon.js'
+import '#modules/map/scss/objects_markers.scss'
 
 const objectMarker = markerBuilder => function (params) {
   const { model } = params

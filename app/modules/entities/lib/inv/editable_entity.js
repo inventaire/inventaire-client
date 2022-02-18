@@ -1,9 +1,9 @@
-import assert_ from 'lib/assert_types'
-import log_ from 'lib/loggers'
-import { Rollback } from 'lib/utils'
-import preq from 'lib/preq'
-import properties from '../properties'
-import error_ from 'lib/error'
+import assert_ from '#lib/assert_types'
+import log_ from '#lib/loggers'
+import { Rollback } from '#lib/utils'
+import preq from '#lib/preq'
+import properties from '../properties.js'
+import error_ from '#lib/error'
 
 const propertiesUsedByRelations = [
   // Series and works use editions covers as illustrations

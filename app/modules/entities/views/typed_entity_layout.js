@@ -1,4 +1,4 @@
-import GeneralInfobox from './general_infobox'
+import GeneralInfobox from './general_infobox.js'
 export default Marionette.View.extend({
   // regions:
   //   infoboxRegion

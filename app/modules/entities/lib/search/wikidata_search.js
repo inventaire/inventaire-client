@@ -1,5 +1,5 @@
-import preq from 'lib/preq'
-import wdk from 'lib/wikidata-sdk'
+import preq from '#lib/preq'
+import wdk from '#lib/wikidata-sdk'
 
 // Uses wbsearchentities despite its lack of inter-languages support
 // because it returns hits labels, descriptions and aliases

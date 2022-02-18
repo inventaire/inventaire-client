@@ -1,5 +1,5 @@
-import preq from 'lib/preq'
-import error_ from 'lib/error'
+import preq from '#lib/preq'
+import error_ from '#lib/error'
 
 export default {
   inviteUser (user) {

@@ -1,5 +1,5 @@
-import { i18n } from 'modules/user/lib/i18n'
-import { unprefixify } from 'lib/wikimedia/wikidata'
+import { i18n } from '#modules/user/lib/i18n'
+import { unprefixify } from '#lib/wikimedia/wikidata'
 
 export default Backbone.NestedModel.extend({
   initialize (attrs) {

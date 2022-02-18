@@ -1,5 +1,5 @@
-import { isNonEmptyString } from 'lib/boolean_tests'
-import preq from 'lib/preq'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import preq from '#lib/preq'
 export default {
   ui: {
     groupNameField: '.groupNameField',

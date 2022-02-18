@@ -1,7 +1,7 @@
-import log_ from 'lib/loggers'
-import { isOpenedOutside } from 'lib/utils'
-import { templates } from '../lib/notifications_types'
-import PreventDefault from 'behaviors/prevent_default'
+import log_ from '#lib/loggers'
+import { isOpenedOutside } from '#lib/utils'
+import { templates } from '../lib/notifications_types.js'
+import PreventDefault from '#behaviors/prevent_default'
 
 export default Marionette.View.extend({
   tagName: 'li',

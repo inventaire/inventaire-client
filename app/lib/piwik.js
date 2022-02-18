@@ -1,5 +1,5 @@
-import { isUserId } from 'lib/boolean_tests'
-import log_ from 'lib/loggers'
+import { isUserId } from '#lib/boolean_tests'
+import log_ from '#lib/loggers'
 // Module adapted from snippet at
 // https://piwik.instance/index.php?module=CoreAdminHome&action=trackingCodeGenerator&idSite=11&period=day&date=today
 
@@ -35,7 +35,7 @@ export default async function () {
   let piwikInitPromise
 
   try {
-    piwikInitPromise = import('vendor/piwik')
+    piwikInitPromise = import('#vendor/piwik')
     await piwikInitPromise
     tracker = window.Piwik.getAsyncTracker()
   } catch (err) {

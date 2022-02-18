@@ -1,7 +1,7 @@
 import wikidataDataImporterTemplate from './templates/wikidata_data_importer.hbs'
 import '../scss/wikidata_data_importer.scss'
-import { startLoading } from 'modules/general/plugins/behaviors'
-import Loading from 'behaviors/loading'
+import { startLoading } from '#modules/general/plugins/behaviors'
+import Loading from '#behaviors/loading'
 
 export default Marionette.View.extend({
   className: 'wikidata-data-importer',

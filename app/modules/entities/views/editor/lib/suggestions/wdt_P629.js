@@ -1,4 +1,4 @@
-import { isPositiveIntegerString } from 'lib/boolean_tests'
+import { isPositiveIntegerString } from '#lib/boolean_tests'
 export default function (entity, index, propertyValuesCount) {
   // We can't infer a suggestion if the work being modified is the only wdt:P629 value
   if ((index === 0) && (propertyValuesCount === 1)) return

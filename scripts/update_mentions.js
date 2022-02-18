@@ -4,7 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import papaparse from 'papaparse'
 import { promisify } from 'util'
-import convertMarkdown from './lib/convert_markdown'
+import convertMarkdown from './lib/convert_markdown.js'
 
 const { green, red } = chalk
 

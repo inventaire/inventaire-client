@@ -1,14 +1,14 @@
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
-import showPaginatedItems from '../lib/show_paginated_items'
-import * as urls from 'lib/urls'
-import Mentions from './mentions'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import showPaginatedItems from '../lib/show_paginated_items.js'
+import * as urls from '#lib/urls'
+import Mentions from './mentions.js'
 import welcomeTemplate from './templates/welcome.hbs'
 import '../scss/welcome.scss'
-import AlertBox from 'behaviors/alert_box'
-import DeepLinks from 'behaviors/deep_links'
-import Loading from 'behaviors/loading'
-import SuccessCheck from 'behaviors/success_check'
+import AlertBox from '#behaviors/alert_box'
+import DeepLinks from '#behaviors/deep_links'
+import Loading from '#behaviors/loading'
+import SuccessCheck from '#behaviors/success_check'
 
 export default Marionette.View.extend({
   id: 'welcome',

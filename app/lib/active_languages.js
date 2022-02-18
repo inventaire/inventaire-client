@@ -1,5 +1,5 @@
 import wdLang from 'wikidata-lang'
-import languages from './languages_data'
+import languages from './languages_data.js'
 
 export const regionify = {}
 

@@ -1,8 +1,8 @@
-import log_ from 'lib/loggers'
-import { expired } from 'lib/utils'
-import getActionKey from 'lib/get_action_key'
-import error_ from 'lib/error'
-import { I18n } from 'modules/user/lib/i18n'
+import log_ from '#lib/loggers'
+import { expired } from '#lib/utils'
+import getActionKey from '#lib/get_action_key'
+import error_ from '#lib/error'
+import { I18n } from '#modules/user/lib/i18n'
 import Handlebars from 'handlebars/runtime'
 const { escapeExpression } = Handlebars
 

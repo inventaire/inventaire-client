@@ -1,5 +1,5 @@
-import preq from 'lib/preq'
-import forms_ from 'modules/general/lib/forms'
+import preq from '#lib/preq'
+import forms_ from '#modules/general/lib/forms'
 let username_
 
 export default username_ = {

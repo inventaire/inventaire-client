@@ -1,9 +1,9 @@
-import { isOpenedOutside } from 'lib/utils'
-import RelationsActions from '../behaviors/relations_actions'
+import { isOpenedOutside } from '#lib/utils'
+import RelationsActions from '../behaviors/relations_actions.js'
 import userLiTemplate from './templates/user_li.hbs'
 import '../scss/user_li.scss'
-import PreventDefault from 'behaviors/prevent_default'
-import SuccessCheck from 'behaviors/success_check'
+import PreventDefault from '#behaviors/prevent_default'
+import SuccessCheck from '#behaviors/success_check'
 
 export default Marionette.View.extend({
   tagName: 'li',

@@ -1,7 +1,7 @@
-import log_ from 'lib/loggers'
-import preq from 'lib/preq'
-import forms_ from 'modules/general/lib/forms'
-import error_ from 'lib/error'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import forms_ from '#modules/general/lib/forms'
+import error_ from '#lib/error'
 
 export default {
   createGroup (data) {

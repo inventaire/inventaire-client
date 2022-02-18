@@ -1,8 +1,8 @@
 // dependencies: behaviorsPlugin, paginationPlugin
 
-import { isView } from 'lib/boolean_tests'
+import { isView } from '#lib/boolean_tests'
 import Masonry from 'masonry-layout'
-import screen_ from 'lib/screen'
+import screen_ from '#lib/screen'
 import 'imagesloaded'
 
 // To keep in sync with _items_list.scss $itemCardBaseWidth variable

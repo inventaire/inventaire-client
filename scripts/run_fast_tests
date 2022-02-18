@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -eu
-ls test/*.js -1 | grep -v slow | xargs mocha --exit

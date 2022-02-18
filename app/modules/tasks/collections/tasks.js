@@ -1,4 +1,4 @@
-import Task from '../models/task'
+import Task from '../models/task.js'
 
 export default Backbone.Collection.extend({
   model: Task,

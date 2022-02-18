@@ -1,12 +1,12 @@
-import { capitalize } from 'lib/utils'
-import { props as promiseProps, tap } from 'lib/promises'
-import { isNonEmptyString, isEntityUri } from 'lib/boolean_tests'
-import { i18n } from 'modules/user/lib/i18n'
-import preq from 'lib/preq'
-import Filterable from 'modules/general/models/filterable'
-import error_ from 'lib/error'
-import saveOmitAttributes from 'lib/save_omit_attributes'
-import { transactionsDataFactory } from '../lib/transactions_data'
+import { capitalize } from '#lib/utils'
+import { props as promiseProps, tap } from '#lib/promises'
+import { isNonEmptyString, isEntityUri } from '#lib/boolean_tests'
+import { i18n } from '#modules/user/lib/i18n'
+import preq from '#lib/preq'
+import Filterable from '#modules/general/models/filterable'
+import error_ from '#lib/error'
+import saveOmitAttributes from '#lib/save_omit_attributes'
+import { transactionsDataFactory } from '../lib/transactions_data.js'
 
 export default Filterable.extend({
   initialize (attrs, options) {

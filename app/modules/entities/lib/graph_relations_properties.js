@@ -1,4 +1,4 @@
-import properties from './properties'
+import properties from './properties.js'
 const graphRelationEditorType = [ 'entity', 'fixed-entity' ]
 
 export default _.values(properties)

@@ -1,5 +1,5 @@
-import log_ from 'lib/loggers'
-import { truncateDecimals } from './geo'
+import log_ from '#lib/loggers'
+import { truncateDecimals } from './geo.js'
 import pTimeout from 'p-timeout'
 
 // doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition

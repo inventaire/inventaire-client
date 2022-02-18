@@ -1,6 +1,6 @@
-import commonsSerieWork from './commons_serie_work'
-import filterOutWdEditions from '../filter_out_wd_editions'
-import getEntityItemsByCategories from '../get_entity_items_by_categories'
+import commonsSerieWork from './commons_serie_work.js'
+import filterOutWdEditions from '../filter_out_wd_editions.js'
+import getEntityItemsByCategories from '../get_entity_items_by_categories.js'
 
 const publicDomainThresholdYear = new Date().getFullYear() - 70
 

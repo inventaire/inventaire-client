@@ -1,5 +1,5 @@
-import { isPositiveIntegerString, isDateString } from 'lib/boolean_tests'
-import { trim } from 'lib/utils'
+import { isPositiveIntegerString, isDateString } from '#lib/boolean_tests'
+import { trim } from '#lib/utils'
 
 export default obj => ({
   title: obj.Title,

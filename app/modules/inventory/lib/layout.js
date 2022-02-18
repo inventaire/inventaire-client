@@ -1,4 +1,4 @@
-import { localStorageProxy } from 'lib/local_storage'
+import { localStorageProxy } from '#lib/local_storage'
 // the layout mode is persisted to the localStorage
 // to keep its state per-device
 

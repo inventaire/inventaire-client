@@ -1,10 +1,10 @@
-import { invertAttr, isOpenedOutside } from 'lib/utils'
+import { invertAttr, isOpenedOutside } from '#lib/utils'
 import workLiTemplate from './templates/work_li.hbs'
 import workLiCompactTemplate from './templates/work_li_compact.hbs'
 import '../scss/work_li.scss'
 import '../scss/work_li_compact.scss'
-import { localStorageProxy } from 'lib/local_storage'
-import PreventDefault from 'behaviors/prevent_default'
+import { localStorageProxy } from '#lib/local_storage'
+import PreventDefault from '#behaviors/prevent_default'
 
 export default Marionette.View.extend({
   className () {

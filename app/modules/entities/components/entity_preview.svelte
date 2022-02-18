@@ -1,5 +1,5 @@
 <script>
-  import { imgSrc } from 'lib/handlebars_helpers/images'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
 
   export let entity, large = false
 </script>

@@ -1,5 +1,5 @@
 import 'should'
-import BindedPartialBuilder from 'lib/binded_partial_builder'
+import BindedPartialBuilder from '#lib/binded_partial_builder'
 
 const obj = {
   a (x, y) { return x + y + this.z },

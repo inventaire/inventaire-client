@@ -1,12 +1,12 @@
-import behaviorsPlugin from 'modules/general/plugins/behaviors'
-import { contact } from 'lib/urls'
+import behaviorsPlugin from '#modules/general/plugins/behaviors'
+import { contact } from '#lib/urls'
 import feedbackMenuTemplate from './templates/feedback_menu.hbs'
 import '../scss/feedback.scss'
-import ElasticTextarea from 'behaviors/elastic_textarea'
-import General from 'behaviors/general'
-import Loading from 'behaviors/loading'
-import PreventDefault from 'behaviors/prevent_default'
-import SuccessCheck from 'behaviors/success_check'
+import ElasticTextarea from '#behaviors/elastic_textarea'
+import General from '#behaviors/general'
+import Loading from '#behaviors/loading'
+import PreventDefault from '#behaviors/prevent_default'
+import SuccessCheck from '#behaviors/success_check'
 
 export default Marionette.View.extend({
   template: feedbackMenuTemplate,

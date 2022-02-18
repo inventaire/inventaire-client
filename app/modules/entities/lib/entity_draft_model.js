@@ -1,10 +1,10 @@
-import { I18n } from 'modules/user/lib/i18n'
-import editableEntity from './inv/editable_entity'
-import { create as createEntity } from './create_entities'
-import properties from './properties'
-import Entity from '../models/entity'
-import { buildPath } from 'lib/location'
-import { asyncNoop } from 'lib/utils'
+import { I18n } from '#modules/user/lib/i18n'
+import editableEntity from './inv/editable_entity.js'
+import { create as createEntity } from './create_entities.js'
+import properties from './properties.js'
+import Entity from '../models/entity.js'
+import { buildPath } from '#lib/location'
+import { asyncNoop } from '#lib/utils'
 
 const typeDefaultP31 = {
   human: 'wd:Q5',

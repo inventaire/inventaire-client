@@ -1,5 +1,5 @@
 import 'should'
-import { parseQuery, buildPath } from 'lib/location'
+import { parseQuery, buildPath } from '#lib/location'
 
 describe('location utils', () => {
   const queries = {

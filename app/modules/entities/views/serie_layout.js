@@ -1,10 +1,10 @@
-import TypedEntityLayout from './typed_entity_layout'
-import getEntitiesListView from './entities_list'
-import { startLoading, stopLoading } from 'modules/general/plugins/behaviors'
-import SerieInfobox from './serie_infobox'
+import TypedEntityLayout from './typed_entity_layout.js'
+import getEntitiesListView from './entities_list.js'
+import { startLoading, stopLoading } from '#modules/general/plugins/behaviors'
+import SerieInfobox from './serie_infobox.js'
 import serieLayoutTemplate from './templates/serie_layout.hbs'
 import '../scss/serie_layout.scss'
-import Loading from 'behaviors/loading'
+import Loading from '#behaviors/loading'
 
 export default TypedEntityLayout.extend({
   template: serieLayoutTemplate,

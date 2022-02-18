@@ -1,10 +1,10 @@
 import fetch from 'node-fetch'
-import writeSitemap from './write_sitemap'
-import { folder } from './config'
+import writeSitemap from './write_sitemap.js'
+import { folder } from './config.js'
 import chalk from 'tiny-chalk'
 import wdk from 'wikidata-sdk'
-import queries from './queries'
-import wrapUrls from './wrap_urls'
+import queries from './queries.js'
+import wrapUrls from './wrap_urls.js'
 
 const { green } = chalk
 

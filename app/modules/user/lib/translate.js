@@ -1,4 +1,4 @@
-import assert_ from 'lib/assert_types'
+import assert_ from '#lib/assert_types'
 const wdPropPrefix = 'wdt:'
 
 export default function (lang, polyglot) {

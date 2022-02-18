@@ -1,7 +1,7 @@
-import log_ from 'lib/loggers'
-import drawCanvas from './draw_canvas'
-import screen_ from 'lib/screen'
-import onDetected from './on_detected'
+import log_ from '#lib/loggers'
+import drawCanvas from './draw_canvas.js'
+import screen_ from '#lib/screen'
+import onDetected from './on_detected.js'
 
 export default {
   // pre-fetch assets when the scanner is probably about to be used

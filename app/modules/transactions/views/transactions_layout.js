@@ -1,6 +1,6 @@
-import Transaction from 'app/modules/transactions/views/focused_transaction_layout'
-import TransactionsList from 'modules/transactions/views/transactions_list'
-import folders from '../lib/folders'
+import Transaction from '#app/modules/transactions/views/focused_transaction_layout'
+import TransactionsList from '#modules/transactions/views/transactions_list'
+import folders from '../lib/folders.js'
 import transactionsLayoutTemplate from './templates/transactions_layout.hbs'
 import '../scss/transactions_layout.scss'
 
@@ -55,7 +55,7 @@ export default Marionette.View.extend({
   },
 
   async showTransactionWelcome () {
-    const { default: TransactionsWelcome } = await import('./transactions_welcome')
+    const { default: TransactionsWelcome } = await import('./transactions_welcome.js')
     this.showChildView('fullviewRegion', new TransactionsWelcome())
     app.navigate('transactions')
   }

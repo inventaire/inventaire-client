@@ -1,13 +1,13 @@
-import log_ from 'lib/loggers'
-import forms_ from 'modules/general/lib/forms'
-import { i18n } from 'modules/user/lib/i18n'
-import ClaimsEditorCommons from './claims_editor_commons'
-import { byProperty as createByProperty } from 'modules/entities/lib/create_entities'
-import autocomplete from 'modules/entities/views/editor/lib/autocomplete'
+import log_ from '#lib/loggers'
+import forms_ from '#modules/general/lib/forms'
+import { i18n } from '#modules/user/lib/i18n'
+import ClaimsEditorCommons from './claims_editor_commons.js'
+import { byProperty as createByProperty } from '#modules/entities/lib/create_entities'
+import autocomplete from '#modules/entities/views/editor/lib/autocomplete'
 import entityValueEditorTemplate from './templates/entity_value_editor.hbs'
-import AlertBox from 'behaviors/alert_box'
-import Tooltip from 'behaviors/tooltip'
-import PreventDefault from 'behaviors/prevent_default'
+import AlertBox from '#behaviors/alert_box'
+import Tooltip from '#behaviors/tooltip'
+import PreventDefault from '#behaviors/prevent_default'
 
 export default ClaimsEditorCommons.extend({
   mainClassName: 'entity-value-editor',

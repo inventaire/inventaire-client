@@ -1,8 +1,8 @@
 <script>
-  import { I18n } from 'modules/user/lib/i18n'
-  import { icon } from 'lib/utils'
-  import { apiDoc } from 'lib/urls'
-  import app from 'app/app'
+  import { I18n } from '#modules/user/lib/i18n'
+  import { icon } from '#lib/utils'
+  import { apiDoc } from '#lib/urls'
+  import app from '#app/app'
   export let user
   const csvExportUrl = app.API.items.export({ format: 'csv' })
   const inventoryJsonUrl = app.API.items.byUsers({ ids: user.id, limit: 100000 })

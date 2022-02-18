@@ -1,7 +1,7 @@
-import { isImageHash } from 'lib/boolean_tests'
-import { forceArray, isOpenedOutside } from 'lib/utils'
+import { isImageHash } from '#lib/boolean_tests'
+import { forceArray, isOpenedOutside } from '#lib/utils'
 import resultTemplate from './templates/result.hbs'
-import PreventDefault from 'behaviors/prevent_default'
+import PreventDefault from '#behaviors/prevent_default'
 
 export default Marionette.View.extend({
   className: 'result',

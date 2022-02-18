@@ -1,8 +1,8 @@
 import FilteredCollection from 'backbone-filtered-collection'
-import { isModel, isGroupId } from 'lib/boolean_tests'
-import preq from 'lib/preq'
-import error_ from 'lib/error'
-import { Updater } from 'lib/model_update'
+import { isModel, isGroupId } from '#lib/boolean_tests'
+import preq from '#lib/preq'
+import error_ from '#lib/error'
+import { Updater } from '#lib/model_update'
 
 export default function () {
   const { groups } = app
