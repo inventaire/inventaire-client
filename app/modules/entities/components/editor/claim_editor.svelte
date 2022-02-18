@@ -110,7 +110,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .value{
     @include display-flex(row, center);
     &:not(:last-child){

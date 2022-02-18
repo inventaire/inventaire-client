@@ -35,7 +35,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .edit-mode-buttons{
     height: 2.5rem;
     flex: 0 0 auto;

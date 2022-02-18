@@ -85,7 +85,7 @@
 
 
 <style lang="scss">
-  @import 'app/modules/entities/scss/entity_editors_commons';
+  @import '#entities/scss/entity_editors_commons';
   .language-values{
     @include display-flex(row, stretch, center);
     height: 2.5em;

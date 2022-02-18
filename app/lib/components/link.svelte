@@ -31,7 +31,7 @@
 </a>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
 
   a.light{
     @include link-light;
