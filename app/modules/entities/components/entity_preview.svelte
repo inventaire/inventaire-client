@@ -18,7 +18,7 @@
 </a>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
 
   .showEntity{
     display: flex;

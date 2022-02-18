@@ -30,7 +30,7 @@
 </form>
 
 <style lang="scss">
-  @import 'app/modules/settings/scss/common_settings';
+  @import '#settings/scss/common_settings';
   form{
     margin: 0 1.5em;
   }

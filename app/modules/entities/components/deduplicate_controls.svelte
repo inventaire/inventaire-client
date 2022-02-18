@@ -70,7 +70,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
 
   .controls{
     background-color: #bbb;

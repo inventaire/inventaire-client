@@ -71,7 +71,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/settings/scss/common_settings';
+  @import '#settings/scss/common_settings';
   form{
     margin-top: 1em;
     border: 1px solid #CCC;

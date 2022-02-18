@@ -59,7 +59,7 @@
 </section>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   section{
     min-width: 20em;
     max-width: 50em;

@@ -142,7 +142,7 @@
 </form>
 
 <style lang="scss">
-  @import 'app/modules/settings/scss/common_settings';
+  @import '#settings/scss/common_settings';
   .position-status{
     padding-bottom: 1em;
   }

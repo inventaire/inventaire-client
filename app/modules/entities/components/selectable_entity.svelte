@@ -98,7 +98,7 @@
 </button>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
 
   button{
     background-color: white;

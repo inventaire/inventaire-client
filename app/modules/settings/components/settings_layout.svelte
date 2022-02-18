@@ -64,7 +64,7 @@
 
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .wrapper{
     background-color: white;
     display: flex;

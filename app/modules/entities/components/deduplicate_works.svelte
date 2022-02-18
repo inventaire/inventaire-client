@@ -202,7 +202,7 @@
 />
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
 
   .loading{
     display: flex;

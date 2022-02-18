@@ -44,7 +44,7 @@
 {/if}
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .flash{
     display: flex;
     flex-direction: row;
