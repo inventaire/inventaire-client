@@ -31,6 +31,7 @@
     "start": "webpack serve --config ./bundle/webpack.config.dev.cjs",
     "test": "./scripts/run_unit_tests",
     "update-i18n": "./scripts/update_i18n",
+    "update-jsconfig": "./scripts/generate_jsconfig.cjs > ./jsconfig.json",
     "update-mentions": "./scripts/update_mentions.js",
     "update-toc": "doctoc README.md",
     "watch": "npm start"
