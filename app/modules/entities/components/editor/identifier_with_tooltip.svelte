@@ -36,7 +36,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
 
   .uri{
     font-size: 0.7rem;

@@ -96,7 +96,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .wrapper{
     margin-right: auto;
   }

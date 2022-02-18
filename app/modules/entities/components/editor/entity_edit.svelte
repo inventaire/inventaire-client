@@ -41,7 +41,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .entity-edit{
     @include display-flex(column, center, center);
     max-width: 50em;

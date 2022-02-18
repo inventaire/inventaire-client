@@ -48,7 +48,7 @@
 </button>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .value-display{
     flex: 1;
     height: 100%;

@@ -30,7 +30,7 @@
 </li>
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   li{
     margin: 0;
   }

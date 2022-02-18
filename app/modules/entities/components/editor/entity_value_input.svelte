@@ -133,7 +133,7 @@
 
 
 <style lang="scss">
-  @import 'app/modules/general/scss/utils';
+  @import '#general/scss/utils';
   .input-wrapper{
     flex: 1;
     height: 3em;

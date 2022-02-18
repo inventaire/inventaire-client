@@ -58,7 +58,7 @@
 </div>
 
 <style lang="scss">
-  @import 'app/modules/entities/scss/entity_editors_commons';
+  @import '#entities/scss/entity_editors_commons';
   .editor-section{
     @include display-flex(row);
   }
