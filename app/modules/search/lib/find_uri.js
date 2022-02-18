@@ -4,7 +4,7 @@ import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 export default function (text) {
   text = text.trim()
   if (isWikidataId.test(text)) text = 'wd:' + text
-  if (caseInsensitiveEntityUri.test(text)) return text.replace(/wd:q/, 'wd:Q')
+  if (caseInsensitiveEntityUri.test(text)) return text.replace('wd:q', 'wd:Q')
   if (isInvEntityId(text)) return 'inv:' + text
   if (looksLikeAnIsbn(text)) return 'isbn:' + normalizeIsbn(text)
 }
