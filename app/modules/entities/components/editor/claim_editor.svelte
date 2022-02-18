@@ -8,6 +8,7 @@
   import Flash from 'lib/components/flash.svelte'
   import preq from 'lib/preq'
   import { isComponentEvent } from 'lib/boolean_tests'
+  import { i18n } from 'modules/user/lib/i18n'
 
   export let entity, property, value
 
@@ -56,8 +57,12 @@
     }
   }
 
-  // TODO: recover request to confirm
-  const remove = () => save(null)
+  const remove = () => {
+    app.execute('ask:confirmation', {
+      confirmationText: i18n('Are you sure you want to delete this statement?'),
+      action: () => save(null)
+    })
+  }
 
   function onInputKeyup (componentEvent) {
     const domEvent = componentEvent.detail
