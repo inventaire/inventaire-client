@@ -1,11 +1,14 @@
-import { isEntityUri, isInvEntityId } from '#lib/boolean_tests'
-import wdk from '#lib/wikidata-sdk'
+import { isInvEntityId } from '#lib/boolean_tests'
 import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 
 export default function (text) {
   text = text.trim()
-  if (isEntityUri(text)) return text
-  if (wdk.isWikidataItemId(text)) return 'wd:' + text
+  if (isWikidataId.test(text)) text = 'wd:' + text
+  if (caseInsensitiveEntityUri.test(text)) return text.replace('wd:q', 'wd:Q')
   if (isInvEntityId(text)) return 'inv:' + text
   if (looksLikeAnIsbn(text)) return 'isbn:' + normalizeIsbn(text)
 }
+
+const caseInsensitiveEntityUri = /^(wd:[Qq][1-9]\d*|inv:[0-9a-f]{32}|isbn:\w{10}(\w{3})?)$/
+
+const isWikidataId = /^[Qq][1-9]\d*/
