@@ -4,7 +4,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import { I18n } from '#user/lib/i18n'
 
-  export let state
+  export let state = null
   let type, iconName
   const types = {
     success: { iconName: 'check' },
