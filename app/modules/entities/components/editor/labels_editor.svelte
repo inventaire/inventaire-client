@@ -1,13 +1,13 @@
 <script>
-  import { i18n, I18n } from 'modules/user/lib/i18n'
-  import getLangsData from 'modules/entities/lib/editor/get_langs_data'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import getLangsData from '#entities/lib/editor/get_langs_data'
   import DisplayModeButtons from './display_mode_buttons.svelte'
-  import Flash from 'lib/components/flash.svelte'
+  import Flash from '#lib/components/flash.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
-  import { autofocus } from 'lib/components/actions/autofocus'
-  import getActionKey from 'lib/get_action_key'
-  import preq from 'lib/preq'
-  import getBestLangValue from 'modules/entities/lib/get_best_lang_value'
+  import { autofocus } from '#lib/components/actions/autofocus'
+  import getActionKey from '#lib/get_action_key'
+  import preq from '#lib/preq'
+  import getBestLangValue from '#entities/lib/get_best_lang_value'
 
   export let entity, favoriteLabel, favoriteLabelLang
   let editMode = false

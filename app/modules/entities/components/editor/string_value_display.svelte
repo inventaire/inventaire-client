@@ -1,5 +1,5 @@
 <script>
-  import { i18n } from 'modules/user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
 
   export let value

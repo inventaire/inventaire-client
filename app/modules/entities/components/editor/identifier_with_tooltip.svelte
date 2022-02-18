@@ -1,6 +1,6 @@
 <script>
-  import Link from 'lib/components/link.svelte'
-  import { i18n } from 'modules/user/lib/i18n'
+  import Link from '#lib/components/link.svelte'
+  import { i18n } from '#user/lib/i18n'
 
   export let uri, contrast = false
 

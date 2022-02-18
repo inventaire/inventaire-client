@@ -1,14 +1,14 @@
 <script>
-  import { autofocus } from 'lib/components/actions/autofocus'
+  import { autofocus } from '#lib/components/actions/autofocus'
   import { createEventDispatcher } from 'svelte'
-  import Spinner from 'modules/general/components/spinner.svelte'
+  import Spinner from '#general/components/spinner.svelte'
   import EntitySuggestion from './entity_suggestion.svelte'
-  import properties from 'modules/entities/lib/properties'
-  import { I18n, i18n } from 'modules/user/lib/i18n'
-  import { icon } from 'lib/handlebars_helpers/icons'
-  import getActionKey from 'lib/get_action_key'
-  import typeSearch from 'modules/entities/lib/search/type_search'
-  import { createByProperty } from 'modules/entities/lib/create_entities'
+  import properties from '#entities/lib/properties'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import { icon } from '#lib/handlebars_helpers/icons'
+  import getActionKey from '#lib/get_action_key'
+  import typeSearch from '#entities/lib/search/type_search'
+  import { createByProperty } from '#entities/lib/create_entities'
 
   export let currentValue, property, valueLabel, entity
 

@@ -1,10 +1,10 @@
 <script>
-  import { i18n } from 'modules/user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
-  import { getBasicInfoByUri } from 'modules/entities/lib/entities'
-  import Spinner from 'modules/general/components/spinner.svelte'
+  import { getBasicInfoByUri } from '#entities/lib/entities'
+  import Spinner from '#general/components/spinner.svelte'
   import IdentifierWithTooltip from './identifier_with_tooltip.svelte'
-  import { imgSrc } from 'lib/handlebars_helpers/images'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
 
   export let value, valueLabel
 

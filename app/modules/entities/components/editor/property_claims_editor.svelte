@@ -1,8 +1,8 @@
 <script>
-  import properties from 'modules/entities/lib/properties'
+  import properties from '#entities/lib/properties'
   import ClaimEditor from './claim_editor.svelte'
-  import { icon } from 'lib/utils'
-  import { i18n, I18n } from 'modules/user/lib/i18n'
+  import { icon } from '#lib/utils'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let entity, property, typeProperties
 

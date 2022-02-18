@@ -1,6 +1,6 @@
 <script>
-  import { I18n } from 'modules/user/lib/i18n'
-  import { icon } from 'lib/utils'
+  import { I18n } from '#user/lib/i18n'
+  import { icon } from '#lib/utils'
   import { createEventDispatcher } from 'svelte'
   export let showSave, showDelete
   const dispatch = createEventDispatcher()
