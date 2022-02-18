@@ -1,6 +1,6 @@
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import forms_ from '#modules/general/lib/forms'
+import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
 
 export default {

@@ -1,6 +1,6 @@
 import { isOpenedOutside } from '#lib/utils'
 import error_ from '#lib/error'
-import forms_ from '#modules/general/lib/forms'
+import forms_ from '#general/lib/forms'
 
 export default {
   itemShow (e) {

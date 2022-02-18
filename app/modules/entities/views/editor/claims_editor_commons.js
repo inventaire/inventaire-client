@@ -1,7 +1,7 @@
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import EditorCommons from './editor_commons.js'
-import forms_ from '#modules/general/lib/forms'
-import properties from '#modules/entities/lib/properties'
+import forms_ from '#general/lib/forms'
+import properties from '#entities/lib/properties'
 import { wait } from '#lib/promises'
 import AlertBox from '#behaviors/alert_box'
 

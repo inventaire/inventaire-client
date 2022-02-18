@@ -1,7 +1,7 @@
 import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
-import { I18n, i18n } from '#modules/user/lib/i18n'
-import initQuerystringActions from '#modules/general/lib/querystring_actions'
+import { I18n, i18n } from '#user/lib/i18n'
+import initQuerystringActions from '#general/lib/querystring_actions'
 import { currentRoute } from '#lib/location'
 import { setPrerenderStatusCode } from '#lib/metadata/update'
 
@@ -69,18 +69,18 @@ const API = {
   },
 
   async showWelcome () {
-    const { default: Welcome } = await import('#modules/welcome/views/welcome')
+    const { default: Welcome } = await import('#welcome/views/welcome')
     app.layout.showChildView('main', new Welcome())
     app.navigate('welcome')
   },
 
   async showDonate () {
-    const { default: DonateMenu } = await import('#modules/general/views/donate_menu')
+    const { default: DonateMenu } = await import('#general/views/donate_menu')
     showMenuStandalone(DonateMenu, 'donate')
   },
 
   async showFeedback () {
-    const { default: FeedbackMenu } = await import('#modules/general/views/feedback_menu')
+    const { default: FeedbackMenu } = await import('#general/views/feedback_menu')
     showMenuStandalone(FeedbackMenu, 'feedback')
   },
 
@@ -201,7 +201,7 @@ const showErrorCookieRequired = command => showError({
 })
 
 const showError = async options => {
-  const { default: ErrorView } = await import('#modules/general/views/error')
+  const { default: ErrorView } = await import('#general/views/error')
   app.layout.showChildView('main', new ErrorView(options))
   setPrerenderStatusCode(options.statusCode)
   // When the logic leading to the error didn't trigger a new 'navigate' action,
@@ -211,7 +211,7 @@ const showError = async options => {
 }
 
 const showCallToConnection = async message => {
-  const { default: CallToConnection } = await import('#modules/general/views/call_to_connection')
+  const { default: CallToConnection } = await import('#general/views/call_to_connection')
   app.layout.showChildView('modal', new CallToConnection({ connectionMessage: message }))
 }
 

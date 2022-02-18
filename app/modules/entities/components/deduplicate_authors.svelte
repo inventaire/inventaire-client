@@ -1,14 +1,14 @@
 <script>
   import _ from 'underscore'
-  import Spinner from '#modules/general/components/spinner.svelte'
+  import Spinner from '#general/components/spinner.svelte'
   import DeduplicateAuthorsNames from './deduplicate_authors_names.svelte'
   import SelectableEntity from './selectable_entity.svelte'
   import DeduplicateControls from './deduplicate_controls.svelte'
   import searchType from '../lib/search/search_type.js'
-  import { getEntityUri } from '#modules/entities/lib/search/entities_uris_results'
-  import { getEntitiesByUris } from '#modules/entities/lib/entities'
+  import { getEntityUri } from '#entities/lib/search/entities_uris_results'
+  import { getEntitiesByUris } from '#entities/lib/entities'
   import { addAuthorWorks } from '../lib/types/author_alt.js'
-  import mergeEntities from '#modules/entities/views/editor/lib/merge_entities'
+  import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import { fade } from 'svelte/transition'
   import { select } from './lib/deduplicate_helpers.js'
   const searchHumans = searchType('humans')

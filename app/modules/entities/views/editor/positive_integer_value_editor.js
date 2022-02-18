@@ -1,6 +1,6 @@
 import { isPositiveIntegerString } from '#lib/boolean_tests'
 import ClaimsEditorCommons from './claims_editor_commons.js'
-import forms_ from '#modules/general/lib/forms'
+import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
 import positiveIntegerValueEditorTemplate from './templates/positive_integer_value_editor.hbs'
 

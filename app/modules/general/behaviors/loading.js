@@ -1,6 +1,6 @@
 import { isNonEmptyString } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
-import { I18n } from '#modules/user/lib/i18n'
+import { I18n } from '#user/lib/i18n'
 import { icon } from '#lib/utils'
 
 export default Marionette.Behavior.extend({

@@ -1,6 +1,6 @@
 <script>
   import Flash from '#lib/components/flash.svelte'
-  import { I18n } from '#modules/user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
 
   export let password, flash, title
   export let autocomplete = 'on'

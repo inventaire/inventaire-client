@@ -1,5 +1,5 @@
 import log_ from '#lib/loggers'
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
 // TRANSACTION STATES (actor)
 // - requested (requester)
@@ -15,7 +15,7 @@ import Action from '../models/action.js'
 import Message from '../models/message.js'
 import Timeline from '../collections/timeline.js'
 import formatSnapshotData from '../lib/format_snapshot_data.js'
-import { transactionsData } from '#modules/inventory/lib/transactions_data'
+import { transactionsData } from '#inventory/lib/transactions_data'
 
 export default Backbone.NestedModel.extend({
   url () { return app.API.transactions },

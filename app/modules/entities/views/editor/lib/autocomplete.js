@@ -5,9 +5,9 @@
 
 import getActionKey from '#lib/get_action_key'
 
-import Suggestions from '#modules/entities/collections/suggestions'
+import Suggestions from '#entities/collections/suggestions'
 import AutocompleteSuggestions from '../autocomplete_suggestions.js'
-import properties from '#modules/entities/lib/properties'
+import properties from '#entities/lib/properties'
 
 import {
   addDefaultSuggestionsUris,

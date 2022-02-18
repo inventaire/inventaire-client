@@ -1,10 +1,10 @@
-import { i18n } from '#modules/user/lib/i18n'
-import { createWorkEdition } from '#modules/entities/lib/create_entities'
-import forms_ from '#modules/general/lib/forms'
+import { i18n } from '#user/lib/i18n'
+import { createWorkEdition } from '#entities/lib/create_entities'
+import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
 import { normalizeIsbn } from '#lib/isbn'
 import isLoggedIn from './is_logged_in.js'
-import { startLoading, stopLoading } from '#modules/general/plugins/behaviors'
+import { startLoading, stopLoading } from '#general/plugins/behaviors'
 import preq from '#lib/preq'
 
 export default function (params) {

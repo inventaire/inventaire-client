@@ -1,5 +1,5 @@
 import log_ from '#lib/loggers'
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
 import Handlebars from 'handlebars/runtime'
 const { escapeExpression } = Handlebars

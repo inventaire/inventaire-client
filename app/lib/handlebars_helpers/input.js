@@ -1,9 +1,9 @@
 import log_ from '#lib/loggers'
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import { icon } from '#lib/utils'
-import check from '#modules/general/views/behaviors/templates/success_check.hbs'
-import input from '#modules/general/views/behaviors/templates/input.hbs'
-import textarea from '#modules/general/views/behaviors/templates/textarea.hbs'
+import check from '#general/views/behaviors/templates/success_check.hbs'
+import input from '#general/views/behaviors/templates/input.hbs'
+import textarea from '#general/views/behaviors/templates/textarea.hbs'
 import Handlebars from 'handlebars/runtime'
 const { SafeString } = Handlebars
 

@@ -1,5 +1,5 @@
-import { prepareSearchResult } from '#modules/entities/lib/search/entities_uris_results'
-import getSuggestionsPerProperties from '#modules/entities/views/editor/lib/get_suggestions_per_properties'
+import { prepareSearchResult } from '#entities/lib/search/entities_uris_results'
+import getSuggestionsPerProperties from '#entities/views/editor/lib/get_suggestions_per_properties'
 const batchLength = 10
 
 const addDefaultSuggestionsUris = function () {

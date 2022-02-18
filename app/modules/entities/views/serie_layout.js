@@ -1,6 +1,6 @@
 import TypedEntityLayout from './typed_entity_layout.js'
 import getEntitiesListView from './entities_list.js'
-import { startLoading, stopLoading } from '#modules/general/plugins/behaviors'
+import { startLoading, stopLoading } from '#general/plugins/behaviors'
 import SerieInfobox from './serie_infobox.js'
 import serieLayoutTemplate from './templates/serie_layout.hbs'
 import '../scss/serie_layout.scss'

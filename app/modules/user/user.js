@@ -1,4 +1,4 @@
-import { I18n } from '#modules/user/lib/i18n'
+import { I18n } from '#user/lib/i18n'
 import error_ from '#lib/error'
 import initMainUser from './lib/init_main_user.js'
 import auth from './lib/auth.js'

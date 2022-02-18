@@ -1,8 +1,8 @@
 import { isOpenedOutside } from '#lib/utils'
 import preq from '#lib/preq'
 import ShelfItemsCandidates from './shelf_items_candidate.js'
-import Item from '#modules/inventory/models/item'
-import AutocompleteNoSuggestion from '#modules/entities/views/editor/autocomplete_no_suggestion'
+import Item from '#inventory/models/item'
+import AutocompleteNoSuggestion from '#entities/views/editor/autocomplete_no_suggestion'
 import shelfItemsAdderTemplate from './templates/shelf_items_adder.hbs'
 import '../scss/shelf_items_adder.scss'
 

@@ -1,5 +1,5 @@
-import typeSearch from '#modules/entities/lib/search/type_search'
-import forms_ from '#modules/general/lib/forms'
+import typeSearch from '#entities/lib/search/type_search'
+import forms_ from '#general/lib/forms'
 const batchLength = 10
 
 const search = async function (input) {

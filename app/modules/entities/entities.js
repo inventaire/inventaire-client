@@ -3,7 +3,7 @@ import assert_ from '#lib/assert_types'
 import { forceArray } from '#lib/utils'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import error_ from '#lib/error'
 import entityDraftModel from './lib/entity_draft_model.js'
 import * as entitiesModelsIndex from './lib/entities_models_index.js'
@@ -93,7 +93,7 @@ const API = {
   async showChanges () {
     if (!app.request('require:loggedIn', 'entity/changes')) return
     if (!app.request('require:admin:access')) return
-    const { default: Contributions } = await import('#modules/users/views/contributions')
+    const { default: Contributions } = await import('#users/views/contributions')
     app.layout.showChildView('main', new Contributions())
     app.navigate('entity/changes', { metadata: { title: i18n('recent changes') } })
   },

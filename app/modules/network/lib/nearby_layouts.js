@@ -1,7 +1,7 @@
 import assert_ from '#lib/assert_types'
-import map_ from '#modules/map/lib/map'
-import getPositionFromNavigator from '#modules/map/lib/navigator_position'
-import { startLoading, stopLoading } from '#modules/general/plugins/behaviors'
+import map_ from '#map/lib/map'
+import getPositionFromNavigator from '#map/lib/navigator_position'
+import { startLoading, stopLoading } from '#general/plugins/behaviors'
 const { updateRoute, updateRouteFromEvent, BoundFilter } = map_
 const containerId = 'mapContainer'
 const containerSelector = '#' + containerId

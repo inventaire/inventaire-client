@@ -1,6 +1,6 @@
 import preq from '#lib/preq'
 import Entities from '../collections/entities.js'
-import loader from '#modules/general/views/templates/loader.hbs'
+import loader from '#general/views/templates/loader.hbs'
 
 const entitiesTypesWithTasks = [
   'human'
@@ -53,7 +53,7 @@ const getHomonymsParams = uri => {
 }
 
 const addTasksToEntities = async (uri, tasks, relation, entities) => {
-  const { default: Task } = await import('#modules/tasks/models/task')
+  const { default: Task } = await import('#tasks/models/task')
 
   const tasksIndex = _.indexBy(tasks, relation)
 

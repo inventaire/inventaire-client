@@ -1,8 +1,8 @@
 <script>
   import { icon } from '#lib/utils'
   import log_ from '#lib/loggers'
-  import Spinner from '#modules/general/components/spinner.svelte'
-  import { I18n } from '#modules/user/lib/i18n'
+  import Spinner from '#general/components/spinner.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let state
   let type, iconName

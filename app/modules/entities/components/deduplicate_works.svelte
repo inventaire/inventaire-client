@@ -1,9 +1,9 @@
 <script>
-  import Spinner from '#modules/general/components/spinner.svelte'
+  import Spinner from '#general/components/spinner.svelte'
   import SelectableEntity from './selectable_entity.svelte'
   import DeduplicateControls from './deduplicate_controls.svelte'
   import getWorksMergeCandidates from '../lib/get_works_merge_candidates.js'
-  import mergeEntities from '#modules/entities/views/editor/lib/merge_entities'
+  import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import { select, getFilterPattern, getEntityFilter, getAuthorWorksWithImagesAndCoauthors, spreadByPrefix, sortAlphabetically } from './lib/deduplicate_helpers.js'
   import { tick } from 'svelte'
 

@@ -1,4 +1,4 @@
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import { unprefixify } from '#lib/wikimedia/wikidata'
 import PaginatedEntities from '../collections/paginated_entities.js'
 import getEntitiesListView from './entities_list.js'

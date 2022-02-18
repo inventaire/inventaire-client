@@ -52,7 +52,7 @@ const specificMethods = _.extend({}, commonsSerieWork, {
   },
 
   async getChildrenCandidatesUris () {
-    const { default: getPartsSuggestions } = await import('#modules/entities/views/cleanup/lib/get_parts_suggestions')
+    const { default: getPartsSuggestions } = await import('#entities/views/cleanup/lib/get_parts_suggestions')
     const suggestionsCollection = await getPartsSuggestions(this)
     return suggestionsCollection.map(getModelUri)
   }

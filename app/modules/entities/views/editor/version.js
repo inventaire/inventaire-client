@@ -1,6 +1,6 @@
 import versionTemplate from './templates/version.hbs'
 import preq from '#lib/preq'
-import forms_ from '#modules/general/lib/forms'
+import forms_ from '#general/lib/forms'
 import { isOpenedOutside } from '#lib/utils'
 import AlertBox from '#behaviors/alert_box'
 

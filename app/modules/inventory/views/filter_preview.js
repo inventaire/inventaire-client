@@ -1,4 +1,4 @@
-import GeneralInfobox from '#modules/entities/views/general_infobox'
+import GeneralInfobox from '#entities/views/general_infobox'
 import filterPreviewTemplate from './templates/filter_preview.hbs'
 
 export default Marionette.View.extend({

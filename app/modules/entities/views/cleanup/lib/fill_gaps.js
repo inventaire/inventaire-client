@@ -1,4 +1,4 @@
-import entityDraftModel from '#modules/entities/lib/entity_draft_model'
+import entityDraftModel from '#entities/lib/entity_draft_model'
 
 export default function () {
   const existingOrdinals = this.worksWithOrdinal.map(model => model.get('ordinal'))

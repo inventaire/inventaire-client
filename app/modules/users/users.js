@@ -1,6 +1,6 @@
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import initUsersCollections from './users_collections.js'
 import initHelpers from './helpers.js'
 import initRequests from './requests.js'

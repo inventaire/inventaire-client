@@ -1,5 +1,5 @@
-import { i18n } from '#modules/user/lib/i18n'
-import forms_ from '#modules/general/lib/forms'
+import { i18n } from '#user/lib/i18n'
+import forms_ from '#general/lib/forms'
 import entitiesListElementCandidateTemplate from './templates/entities_list_element_candidate.hbs'
 import AlertBox from '#behaviors/alert_box'
 

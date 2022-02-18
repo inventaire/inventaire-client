@@ -1,4 +1,4 @@
-import AuthorsPreviewList from '#modules/entities/views/authors_preview_list'
+import AuthorsPreviewList from '#entities/views/authors_preview_list'
 
 export default function (authorsPerProperty) {
   for (const property in authorsPerProperty) {

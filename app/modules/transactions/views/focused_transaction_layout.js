@@ -1,6 +1,6 @@
 import { isOpenedOutside } from '#lib/utils'
-import { i18n } from '#modules/user/lib/i18n'
-import forms_ from '#modules/general/lib/forms'
+import { i18n } from '#user/lib/i18n'
+import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
 import screen_ from '#lib/screen'
 import Event from './event.js'

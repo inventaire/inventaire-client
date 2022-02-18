@@ -1,7 +1,7 @@
 import TypedEntityLayout from './typed_entity_layout.js'
 import getEntitiesListView from './entities_list.js'
 import GeneralInfobox from './general_infobox.js'
-import PaginatedEntities from '#modules/entities/collections/paginated_entities'
+import PaginatedEntities from '#entities/collections/paginated_entities'
 import collectionLayoutTemplate from './templates/collection_layout.hbs'
 import collectionInfoboxTemplate from './templates/collection_infobox.hbs'
 import '../scss/entities_layouts.scss'

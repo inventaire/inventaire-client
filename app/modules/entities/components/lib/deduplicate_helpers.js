@@ -1,5 +1,5 @@
-import { getAuthorWorks } from '#modules/entities/lib/types/author_alt'
-import { addWorksImagesAndAuthors } from '#modules/entities/lib/types/work_alt'
+import { getAuthorWorks } from '#entities/lib/types/author_alt'
+import { addWorksImagesAndAuthors } from '#entities/lib/types/work_alt'
 
 export const select = (entity, from, to) => {
   if (!from) {

@@ -1,6 +1,6 @@
 import log_ from '#lib/loggers'
 import { capitalize } from '#lib/utils'
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import { parseQuery } from '#lib/location'
 import timeFromNow from '#lib/time_from_now'
 import Handlebars from 'handlebars/runtime'

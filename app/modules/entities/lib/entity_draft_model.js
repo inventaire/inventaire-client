@@ -1,4 +1,4 @@
-import { I18n } from '#modules/user/lib/i18n'
+import { I18n } from '#user/lib/i18n'
 import editableEntity from './inv/editable_entity.js'
 import { create as createEntity } from './create_entities.js'
 import properties from './properties.js'

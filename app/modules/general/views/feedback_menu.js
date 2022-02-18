@@ -1,4 +1,4 @@
-import behaviorsPlugin from '#modules/general/plugins/behaviors'
+import behaviorsPlugin from '#general/plugins/behaviors'
 import { contact } from '#lib/urls'
 import feedbackMenuTemplate from './templates/feedback_menu.hbs'
 import '../scss/feedback.scss'

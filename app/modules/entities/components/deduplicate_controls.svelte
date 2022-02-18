@@ -1,12 +1,12 @@
 <script>
-  import { i18n, I18n } from '#modules/user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import Alertbox from '#modules/general/components/alertbox.svelte'
+  import Alertbox from '#general/components/alertbox.svelte'
   import { createEventDispatcher } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
   import _ from 'underscore'
   import EntityPreview from './entity_preview.svelte'
-  import Spinner from '#modules/general/components/spinner.svelte'
+  import Spinner from '#general/components/spinner.svelte'
 
   const dispatch = createEventDispatcher()
   const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 200)

@@ -1,5 +1,5 @@
 import { buildPath } from '#lib/location'
-import { truncateDecimals } from '#modules/map/lib/geo'
+import { truncateDecimals } from '#map/lib/geo'
 
 export default {
   search (base, text) {

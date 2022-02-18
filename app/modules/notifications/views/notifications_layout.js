@@ -1,6 +1,6 @@
 import { clickCommand } from '#lib/utils'
-import UsersList from '#modules/users/views/users_list'
-import GroupsList from '#modules/network/views/groups_list'
+import UsersList from '#users/views/users_list'
+import GroupsList from '#network/views/groups_list'
 import NotificationLi from './notification_li.js'
 import NoNotification from './no_notification.js'
 import notificationsLayoutTemplate from './templates/notifications_layout.hbs'

@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import { I18n } from '#modules/user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   const dispatch = createEventDispatcher()
   export let error
 </script>

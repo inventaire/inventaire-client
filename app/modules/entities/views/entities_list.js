@@ -1,4 +1,4 @@
-import loader from '#modules/general/views/templates/loader.hbs'
+import loader from '#general/views/templates/loader.hbs'
 import error_ from '#lib/error'
 import EntitiesListAdder from './entities_list_adder.js'
 import { currentRoute } from '#lib/location'

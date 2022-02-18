@@ -1,6 +1,6 @@
 // Forked from: https://github.com/KyleNeedham/autocomplete/blob/master/src/autocomplete.collection.js
 
-import SearchResult from '#modules/entities/models/search_result'
+import SearchResult from '#entities/models/search_result'
 
 export default Backbone.Collection.extend({
   initialize (data, options) {

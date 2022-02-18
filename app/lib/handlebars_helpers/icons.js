@@ -1,4 +1,4 @@
-import { I18n, i18n } from '#modules/user/lib/i18n'
+import { I18n, i18n } from '#user/lib/i18n'
 import { parseQuery } from '#lib/location'
 import { icon as _icon } from '#lib/utils'
 import wikidataColored from '#assets/images/wikidata.svg'

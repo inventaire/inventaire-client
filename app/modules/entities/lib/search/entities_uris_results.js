@@ -1,4 +1,4 @@
-import SearchResult from '#modules/entities/models/search_result'
+import SearchResult from '#entities/models/search_result'
 const wdIdPattern = /Q\d+/
 const invIdPattern = /[0-9a-f]{32}/
 

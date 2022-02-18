@@ -1,5 +1,5 @@
 import log_ from '#lib/loggers'
-import Transactions from '#modules/transactions/collections/transactions'
+import Transactions from '#transactions/collections/transactions'
 import initHelpers from './helpers.js'
 import fetchData from '#lib/data/fetch'
 let lastTransactionId = null

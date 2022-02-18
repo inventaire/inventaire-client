@@ -1,7 +1,7 @@
 <script>
-  import { i18n, I18n } from '#modules/user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import preq from '#lib/preq'
-  import Spinner from '#modules/general/components/spinner.svelte'
+  import Spinner from '#general/components/spinner.svelte'
   import { isOpenedOutside } from '#lib/utils'
   let usersData
   let highest = 0

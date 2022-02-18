@@ -1,6 +1,6 @@
 import Version from './version.js'
 import historyTemplate from './templates/history.hbs'
-import '#modules/entities/scss/history.scss'
+import '#entities/scss/history.scss'
 
 export default Marionette.CollectionView.extend({
   className () {

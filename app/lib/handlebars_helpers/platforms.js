@@ -1,4 +1,4 @@
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import screen_ from '#lib/screen'
 
 const gutenbergText = id => i18n('on_website', { name: 'Gutenberg.org' })

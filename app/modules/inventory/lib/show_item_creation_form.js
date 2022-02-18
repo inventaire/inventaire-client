@@ -23,7 +23,7 @@ export default async params => {
 
 const showEditionPicker = async work => {
   const [ { default: EditionsList } ] = await Promise.all([
-    import('#modules/entities/views/editions_list'),
+    import('#entities/views/editions_list'),
     work.fetchSubEntities()
   ])
   app.layout.showChildView('modal', new EditionsList({

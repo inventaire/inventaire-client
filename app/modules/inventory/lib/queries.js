@@ -1,8 +1,8 @@
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { tap } from '#lib/promises'
-import Item from '#modules/inventory/models/item'
-import Items from '#modules/inventory/collections/items'
+import Item from '#inventory/models/item'
+import Items from '#inventory/collections/items'
 import getEntitiesItemsCount from './get_entities_items_count.js'
 import error_ from '#lib/error'
 

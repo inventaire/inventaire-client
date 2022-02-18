@@ -1,4 +1,4 @@
-@import '#modules/general/scss/utils';
+@import '#general/scss/utils';
 
 .itemCreation, .import-queue{
   #giving{ @include selected-button-color($giving-color); }

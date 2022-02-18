@@ -1,11 +1,11 @@
 <script>
-  import { i18n, I18n } from '#modules/user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { autosize } from '#lib/components/actions/autosize'
   import preq from '#lib/preq'
   import Flash from '#lib/components/flash.svelte'
   import UserPicture from '#lib/components/user_picture.svelte'
-  import map from '#modules/map/lib/map'
-  import { user } from '#app/modules/user/user_store'
+  import map from '#map/lib/map'
+  import { user } from '#user/user_store'
 
   let bioState, usernameState
   let usernameValue = $user.username

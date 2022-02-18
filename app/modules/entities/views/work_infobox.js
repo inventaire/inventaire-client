@@ -1,4 +1,4 @@
-import showAllAuthorsPreviewLists from '#modules/entities/lib/show_all_authors_preview_lists'
+import showAllAuthorsPreviewLists from '#entities/lib/show_all_authors_preview_lists'
 import clampedExtract from '../lib/clamped_extract.js'
 import workInfoboxTemplate from './templates/work_infobox.hbs'
 import ClampedExtract from '#behaviors/clamped_extract'

@@ -7,12 +7,12 @@ import ShelfBox from '../../shelves/views/shelf_box'
 import ShelvesSection from '../../shelves/views/shelves_section'
 import InventoryNetworkNav from './inventory_network_nav.js'
 import InventoryPublicNav from './inventory_public_nav.js'
-import showPaginatedItems from '#modules/welcome/lib/show_paginated_items'
+import showPaginatedItems from '#welcome/lib/show_paginated_items'
 import screen_ from '#lib/screen'
 import InventoryWelcome from './inventory_welcome.js'
 import inventoryLayoutTemplate from './templates/inventory_layout.hbs'
 import '../scss/inventory_layout.scss'
-import error_ from '#app/lib/error'
+import error_ from '#lib/error'
 
 const navs = {
   network: InventoryNetworkNav,

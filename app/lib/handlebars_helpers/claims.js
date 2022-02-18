@@ -1,6 +1,6 @@
 import { isEntityUri, isImageHash } from '#lib/boolean_tests'
 import typeOf from '#lib/type_of'
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import * as icons_ from './icons.js'
 import wdLang from 'wikidata-lang'
 import commons_ from '#lib/wikimedia/commons'

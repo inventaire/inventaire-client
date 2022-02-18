@@ -2,8 +2,8 @@
   import app from '#app/app'
   import log_ from '#lib/loggers'
   import PasswordInput from '#lib/components/password_input.svelte'
-  import { I18n } from '#modules/user/lib/i18n'
-  import { user } from '#modules/user/user_store'
+  import { I18n } from '#user/lib/i18n'
+  import { user } from '#user/user_store'
   import { currentRoute } from '#lib/location'
 
   let flashCurrentPassword, flashNewPassword, form

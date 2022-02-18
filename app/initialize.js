@@ -1,6 +1,6 @@
 import './init_globals'
 import '#lib/global_libs_extender'
-import '#modules/general/scss/base.scss'
+import '#general/scss/base.scss'
 import '#lib/handlebars_helpers/init'
 import '#lib/env_config'
 import initPolyfills from '#lib/polyfills'

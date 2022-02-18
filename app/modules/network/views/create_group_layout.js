@@ -4,7 +4,7 @@
 import log_ from '#lib/loggers'
 import createGroupLayoutTemplate from './templates/create_group_layout.hbs'
 import { GroupLayoutView } from './group_views_commons.js'
-import forms_ from '#modules/general/lib/forms'
+import forms_ from '#general/lib/forms'
 import groups_ from '../lib/groups.js'
 import groupFormData from '../lib/group_form_data.js'
 import GroupUrl from '../lib/group_url.js'

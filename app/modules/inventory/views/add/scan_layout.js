@@ -1,6 +1,6 @@
-import embedded_ from '#modules/inventory/lib/scanner/embedded'
+import embedded_ from '#inventory/lib/scanner/embedded'
 import scanTemplate from './templates/scan_layout.hbs'
-import '#modules/inventory/scss/scan_layout.scss'
+import '#inventory/scss/scan_layout.scss'
 
 export default Marionette.View.extend({
   id: 'scanLayout',

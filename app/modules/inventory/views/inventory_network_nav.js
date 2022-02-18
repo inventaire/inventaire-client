@@ -1,5 +1,5 @@
 import { clickCommand } from '#lib/utils'
-import InventoryCommonNav from '#modules/inventory/views/inventory_common_nav'
+import InventoryCommonNav from '#inventory/views/inventory_common_nav'
 import inventoryNetworkNavTemplate from './templates/inventory_network_nav.hbs'
 import PreventDefault from '#behaviors/prevent_default'
 

@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import behaviorsPlugin from '#modules/general/plugins/behaviors'
+import behaviorsPlugin from '#general/plugins/behaviors'
 import requestItemModalTemplate from './templates/request_item_modal.hbs'
 import { isOpenedOutside } from '#lib/utils'
 import '../scss/request_item_modal.scss'

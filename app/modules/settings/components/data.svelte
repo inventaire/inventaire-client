@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#modules/user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { apiDoc } from '#lib/urls'
   import app from '#app/app'

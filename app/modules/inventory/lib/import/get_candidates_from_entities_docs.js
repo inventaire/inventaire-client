@@ -1,6 +1,6 @@
 import { normalizeIsbn } from '#lib/isbn'
-import getBestLangValue from '#modules/entities/lib/get_best_lang_value'
-import getOriginalLang from '#modules/entities/lib/get_original_lang'
+import getBestLangValue from '#entities/lib/get_best_lang_value'
+import getOriginalLang from '#entities/lib/get_original_lang'
 
 export default function (entities, isbnsIndex) {
   const newCandidates = []

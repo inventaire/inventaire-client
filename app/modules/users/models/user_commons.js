@@ -1,7 +1,7 @@
 import { isNonEmptyString } from '#lib/boolean_tests'
-import { i18n } from '#modules/user/lib/i18n'
-import { countShelves } from '#modules/shelves/lib/shelves'
-import Positionable from '#modules/general/models/positionable'
+import { i18n } from '#user/lib/i18n'
+import { countShelves } from '#shelves/lib/shelves'
+import Positionable from '#general/models/positionable'
 import error_ from '#lib/error'
 import { images } from '#lib/urls'
 

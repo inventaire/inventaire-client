@@ -1,6 +1,6 @@
 <script>
   import EntityPreview from './entity_preview.svelte'
-  import { I18n } from '#modules/user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers.js'
   import { createEventDispatcher } from 'svelte'

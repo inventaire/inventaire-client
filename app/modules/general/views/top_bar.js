@@ -1,7 +1,7 @@
 import { clickCommand } from '#lib/utils'
 import { translate } from '#lib/urls'
 import getActionKey from '#lib/get_action_key'
-import LiveSearch from '#modules/search/views/live_search'
+import LiveSearch from '#search/views/live_search'
 import TopBarButtons from './top_bar_buttons.js'
 import screen_ from '#lib/screen'
 import { currentRoute, currentSection } from '#lib/location'

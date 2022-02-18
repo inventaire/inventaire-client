@@ -1,9 +1,9 @@
 import { isOpenedOutside, clickCommand } from '#lib/utils'
 import userProfileTemplate from './templates/user_profile.hbs'
 import { buildPath } from '#lib/location'
-import NewShelfEditor from '#modules/shelves/views/new_shelf_editor'
+import NewShelfEditor from '#shelves/views/new_shelf_editor'
 import PreventDefault from '#behaviors/prevent_default'
-import RelationsActions from '#modules/users/behaviors/relations_actions'
+import RelationsActions from '#users/behaviors/relations_actions'
 
 // TODO: add a 'close' button to allow to unfocus a user in group context
 export default Marionette.View.extend({

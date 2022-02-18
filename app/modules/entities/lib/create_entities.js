@@ -4,9 +4,9 @@ import Entity from '../models/entity.js'
 import error_ from '#lib/error'
 import { getIsbnData } from '#lib/isbn'
 import createEntity from './create_entity.js'
-import { addModel as addEntityModel } from '#modules/entities/lib/entities_models_index'
+import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import graphRelationsProperties from './graph_relations_properties.js'
-import getOriginalLang from '#modules/entities/lib/get_original_lang'
+import getOriginalLang from '#entities/lib/get_original_lang'
 import { tap } from '#lib/promises'
 
 const createWorkEdition = async function (workEntity, isbn) {

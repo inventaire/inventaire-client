@@ -1,4 +1,4 @@
-import { I18n } from '#modules/user/lib/i18n'
+import { I18n } from '#user/lib/i18n'
 import EntityEdit from './entity_edit.js'
 import entityDraftModel from '../../lib/entity_draft_model'
 

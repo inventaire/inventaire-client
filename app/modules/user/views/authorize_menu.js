@@ -1,7 +1,7 @@
 import { buildPath } from '#lib/location'
 import { fixedEncodeURIComponent } from '#lib/utils'
 import authorizeMenuTemplate from './templates/authorize_menu.hbs'
-import { domain, host } from '#app/lib/urls'
+import { domain, host } from '#lib/urls'
 import '../scss/authorize_menu.scss'
 
 export default Marionette.View.extend({

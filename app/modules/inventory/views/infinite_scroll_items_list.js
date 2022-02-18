@@ -1,4 +1,4 @@
-import { startLoading, stopLoading } from '#modules/general/plugins/behaviors'
+import { startLoading, stopLoading } from '#general/plugins/behaviors'
 import { wait } from '#lib/promises'
 import Loading from '#behaviors/loading'
 

@@ -1,6 +1,6 @@
 import { isInvEntityId } from '#lib/boolean_tests'
-import Filterable from '#modules/general/models/filterable'
-import getBestLangValue from '#modules/entities/lib/get_best_lang_value'
+import Filterable from '#general/models/filterable'
+import getBestLangValue from '#entities/lib/get_best_lang_value'
 import wdk from '#lib/wikidata-sdk'
 import error_ from '#lib/error'
 

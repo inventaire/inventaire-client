@@ -1,4 +1,4 @@
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 
 // Display a tip when a work label or an edition title contains the label of their serie
 // to invite to remove the serie label part

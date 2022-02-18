@@ -15,7 +15,7 @@ import {
   wasntPrevisoulyMissing
 } from './labels_helpers.js'
 
-import { get as getEntitiesModels } from '#modules/entities/lib/entities_models_index'
+import { get as getEntitiesModels } from '#entities/lib/entities_models_index'
 
 // keep in sync with app/modules/general/views/behaviors/templates/entity_value.hbs
 const className = 'uriLabel'

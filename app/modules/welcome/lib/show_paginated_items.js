@@ -1,6 +1,6 @@
 import log_ from '#lib/loggers'
-import Items from '#modules/inventory/collections/items'
-import ItemsCascade from '#modules/inventory/views/items_cascade'
+import Items from '#inventory/collections/items'
+import ItemsCascade from '#inventory/views/items_cascade'
 
 export default async params => {
   let collection, moreData

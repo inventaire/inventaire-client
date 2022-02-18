@@ -1,4 +1,4 @@
-import showViews from '#modules/general/lib/show_views'
+import showViews from '#general/lib/show_views'
 
 export default Marionette.Behavior.extend({
   events: {

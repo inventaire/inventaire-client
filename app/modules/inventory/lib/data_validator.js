@@ -1,4 +1,4 @@
-import { i18n } from '#modules/user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import error_ from '#lib/error'
 import importers from './importers.js'
 
