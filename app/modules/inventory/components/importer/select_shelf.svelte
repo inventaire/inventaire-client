@@ -22,9 +22,12 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .shelf{
-    cursor: pointer;
     @include bg-hover($off-white, 5%);
     @include display-flex(row, center, flex-start);
+    @include radius;
+    cursor: pointer;
+    border: solid 1px #ccc;
+    margin-bottom: 0.1em;
   }
   .checkbox{
     margin: 0.5em;
@@ -34,5 +37,8 @@
   };
   .shelf-list{
     @include display-flex(row, center, flex-start);
+  }
+  .shelf-text{
+    margin: 0 0.5em;
   }
 </style>
