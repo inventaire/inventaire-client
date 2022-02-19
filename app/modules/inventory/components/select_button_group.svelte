@@ -25,7 +25,7 @@
 </script>
 <div class="itemCreation">
   <h4>{I18n(title)}</h4>
-  <label for="{type}">{I18n(title + '_description')}</label>
+  <label for="{type}">{I18n(title + '_importer_description')}</label>
   <div class="select-button-group">
     {#each optionsData as option}
       <button
