@@ -271,6 +271,8 @@
   }
   .importer-name{
     margin: 0 0.7em;
+    /*overrides #addLayout*/
+    text-align: left;
   }
   .button-wrapper{
     padding-top:2em;

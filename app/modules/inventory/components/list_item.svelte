@@ -108,6 +108,7 @@
   @import '#general/scss/utils';
   .list-item{
     margin-right: 1em;
+    width: 100%;
     @include display-flex(row, center, space-between);
     .edition-cover{
       margin-right: 1em;
@@ -125,8 +126,5 @@
     color: $grey;
     font-size: 90%;
     margin-right: 0.5em;
-  }
-  .authors{
-    @include display-flex(row, center, center, wrap);
   }
 </style>

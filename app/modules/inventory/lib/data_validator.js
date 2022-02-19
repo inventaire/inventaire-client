@@ -1,6 +1,5 @@
 import { i18n } from '#user/lib/i18n'
 import error_ from '#lib/error'
-import importers from './importers.js'
 
 export default function (importer, data) {
   const { format, label } = importer

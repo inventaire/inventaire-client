@@ -1,52 +1,69 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
+  import { icon } from '#lib/utils'
   import ListItem from '#inventory/components/list_item.svelte'
   export let candidate
   import { guessUriFromIsbn } from '#inventory/lib/import_helpers'
 
-  const { isbnData, edition, works, authors, error, item } = candidate
+  const { isbnData, edition, works, authors, error } = candidate
   let { customWorkTitle, customAuthorsNames } = candidate
-  const initialWorkTitle = customWorkTitle
 
   let existingItemsPathname
   let disabled, existingItemsCount
   const rawIsbn = isbnData?.rawIsbn
   let alreadyItemsCount
-  let status = {}
-  let anyStatus
+  let statuses = []
 
   candidate.checked = true
+
+  const statusContents = {
+    newEntry: 'We could not identify this entry in the common bibliographic database. A new entry will be created',
+    error: 'oups, something wrong happened',
+    invalid: 'invalid ISBN',
+    multipleAuthors: 'multiple authors detected, this importer can only create one author. You may add authors later.',
+    needInfo: 'need more information',
+  }
+
+  const addStatus = status => {
+    statuses.push(status)
+    statuses = statuses
+  }
+
+  const removeStatus = status => {
+    const index = statuses.indexOf(statusContents.needInfo)
+    if (index) {
+      delete statuses[index]
+      statuses = _.compact(statuses)
+    }
+  }
 
   const hasImportedData = customWorkTitle || customAuthorsNames
   const noCandidateEntities = !isNonEmptyArray(works) || !isNonEmptyArray(authors)
   const hasWorkWithoutAuthors = isNonEmptyArray(works) && !isNonEmptyArray(authors)
-  if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) status.confirmInfo = true
-
-  if (isbnData?.isInvalid) {
-    status.isInvalid = true
-    disabled = true
-  }
-
+  if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) addStatus(statusContents.newEntry)
+  if (error) addStatus(statusContents.error)
+  if (isbnData?.isInvalid) addStatus(statusContents.invalid)
   if (isNonEmptyArray(customAuthorsNames)) {
     if (!authors && customAuthorsNames.length > 1) {
-      status.warning = 'multiple authors detected, this importer can only create one author. You may add authors later.'
+      addStatus(statusContents.multipleAuthors)
     }
   }
 
+  if (isNonEmptyArray(statuses)) { disabled = true }
+
+  const toggleCheckbox = () => {
+    if (!disabled) candidate.checked = !candidate.checked
+  }
+
   $: {
-    if (!works || works.length === 0) {
-      if (isNonEmptyString(customWorkTitle)) {
-        if (!status.confirmInfo) candidate.checked = true
-        // confirm info disappear once user has modified info
-        if (initialWorkTitle !== customWorkTitle) status.confirmInfo = false
-        status.needInfo = false
-        disabled = false
-      } else {
-        status.needInfo = true
-        disabled = true
-        candidate.checked = false
-      }
+    if (!isNonEmptyArray(works) && !isNonEmptyString(customWorkTitle)) {
+      addStatus(statusContents.needInfo)
+      disabled = true
+    } else {
+      removeStatus(statusContents.needInfo)
+      disabled = false
+      candidate.checked = true
     }
   }
   $: {
@@ -70,16 +87,8 @@
   }
   $: checked = candidate.checked
   $: candidate.customWorkTitle = customWorkTitle
-  $: {
-    const statusValues = Object.values(status)
-    if (isNonEmptyArray(statusValues)) {
-      anyStatus = statusValues.includes(true)
-    } else {
-      anyStatus = false
-    }
-  }
 </script>
-<li class="candidate-row" on:click="{() => candidate.checked = !candidate.checked}" class:checked>
+<li class="candidate-row" on:click="{toggleCheckbox}" class:checked>
   <div class="candidate-text">
     <div class="list-item-wrapper">
       <ListItem
@@ -92,30 +101,20 @@
         withEditor={true}
         />
     </div>
-    {#if anyStatus}
-      <div class="statuses">
-        {#if status.isInvalid}
-          <div class="status">{I18n('invalid ISBN')}</div>
-        {/if}
-        {#if status.needInfo}
-          <div class="status">{I18n('need more information')}</div>
-        {/if}
-        {#if status.warning}
-          <div class="status">{I18n()}</div>
-        {/if}
-        {#if status.confirmInfo}
-          <div class="status">{I18n('make sure information is correct')}</div>
-        {/if}
-      </div>
-    {/if}
-    {#if error}
-      <div class="statuses status">
-        {I18n('error:')} {error.status_verbose}
-      </div>
-    {/if}
-    {#if existingItemsCount && !status.error && !item}
-      <div class="statuses status">
-        {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
+    {#if isNonEmptyArray(statuses) || existingItemsCount}
+      <div class="status-row warning">
+        <ul>
+          {#each statuses as status}
+            <li class="status">
+              {@html icon('warning')} {I18n(status)}
+            </li>
+          {/each}
+          {#if existingItemsCount}
+            <li class="status">
+              {@html icon('warning')} {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
+            </li>
+          {/if}
+         </ul>
       </div>
     {/if}
   </div>
@@ -129,29 +128,33 @@
     border: solid 1px #ccc;
     padding: 0.2em 1em;
     margin-bottom: 0.2em;
-  }
-  .candidate-text{
-    width: 100%;
-    margin-right: 1em;
-    @include display-flex(row, center);
+    /*overrides #addLayout*/
+    text-align: initial;
   }
   .list-item-wrapper{
     flex: 5 0 0;
+    width: 100%;
   }
-  .statuses{
-    flex: 1 0 0;
+  .candidate-text{
     @include display-flex(column, center);
+    margin-right: 1em;
+    width: 100%;
+  }
+  .status-row{
+    width: 100%;
+    padding: 0.3em 0.5em;
   }
   .status{
-    @include radius;
-    background-color: $light-grey;
-    margin: 0.2em;
-    padding: 0.5em;
-    text-align: center;
     font-size: 90%;
+    :global(.link) {
+      text-decoration: underline;
+    }
   }
   .checked{
     background-color: rgba($success-color, 0.3);
+  }
+  .warning{
+    background-color: lighten($yellow, 30%);
   }
   /*Small screens*/
   @media screen and (max-width: 470px) {
