@@ -91,7 +91,7 @@
 </script>
   <div class="import-candidates">
     {#if candidates.length > 0}
-      <h3>4/ {I18n('import this batch')}</h3>
+      <h3>4/ {I18n('import the selection')}</h3>
       <Flash bind:state={flash}/>
       <Counter count={processedEntitiesCount} total={candidates.length} message='creating bibliographical data'/>
       <Counter count={processedItemsCount} total={candidates.length} message='creating your books'/>
@@ -100,7 +100,7 @@
         class:disabled={importingCandidates}
         on:click={importCandidates}
         >
-        {I18n('import the selection')}
+        {I18n('create selected books')}
       </button>
     {/if}
     {#if processedCandidates.length > 0}
