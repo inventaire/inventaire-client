@@ -33,7 +33,6 @@
     margin-right: 0.5em;
   }
   .custom-input{
-    margin-bottom: 0;
-    width: 100%;
+    margin: 0.5em 0;
   }
 </style>
