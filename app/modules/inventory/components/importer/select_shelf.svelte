@@ -1,11 +1,11 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { getColorSquareDataUri } from '#lib/images'
+  import { getColorSquareDataUri, getColorHexCodeFromModelId } from '#lib/images'
 
   export let shelf
   let checked = false
-  const shelfColor = getColorSquareDataUri(shelf.color)
+  const shelfColor = getColorSquareDataUri(shelf.color || getColorHexCodeFromModelId(shelf._id))
   $: shelf.checked = checked
 </script>
 <div class="shelf" on:click="{() => checked = !checked}">
