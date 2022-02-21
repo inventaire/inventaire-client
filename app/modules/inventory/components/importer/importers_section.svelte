@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte'
   import { I18n, i18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
   import autosize from 'autosize'
@@ -22,8 +21,6 @@
   let isbnsText
   let flashBlockingProcess, flashOngoingProcess
   let bottomSectionElement = {}
-
-  onMount(() => autosize(document.querySelector('textarea')))
 
   const getFile = importer => {
     const { parse, encoding, files } = importer
@@ -49,16 +46,21 @@
   }
 
   const onIsbnsChange = async () => {
+    flashBlockingProcess = null
     if (!isbnsText || isbnsText.length === 0) return
     window.ISBN = window.ISBN || (await import('isbn3')).default
-    autosize(document.querySelector('textarea'))
-    flashBlockingProcess = null
 
     const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
     const isbns = isbnsText.match(isbnPattern)
     if (isbns === null) return flashBlockingProcess = { type: 'error', message: 'no ISBN found' }
     const candidatesData = isbns.map(isbn => { return { isbn } })
     createPreCandidates(candidatesData)
+  }
+
+  const clearIsbnText = () => {
+    // Todo: do not display flash no isbn found
+    flashBlockingProcess = null
+    isbnsText = ''
   }
 
   const createPreCandidates = candidatesData => {
@@ -172,10 +174,10 @@
   const addExistingItemsCounts = function () {
     const uris = _.compact(preCandidates.map(preCandidate => guessUriFromIsbn({ preCandidate })))
     return app.request('items:getEntitiesItemsCount', app.user.id, uris)
-    .then(counts => candidates = candidates.map(addCountToCandidate(counts)))
+    .then(counts => candidates = candidates.map(addExistingItemsToCandidate(counts)))
   }
 
-  const addCountToCandidate = counts => candidate => {
+  const addExistingItemsToCandidate = counts => candidate => {
     const { isbnData } = candidate
     const uri = guessUriFromIsbn({ isbnData })
     if (uri == null) return candidate
@@ -217,8 +219,8 @@
     <div class="importer-name">
       {I18n('import from a list of ISBNs')}
       <div class="textarea-wrapper">
-        <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}"></textarea>
-        <button id="emptyIsbns" class="grey-button" title="{i18n('clear')}" on:click="{isbnsText = ''}">
+        <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}" use:autosize></textarea>
+        <button id="emptyIsbns" class="grey-button" title="{i18n('clear')}" on:click="{clearIsbnText}">
           {I18n('clear text')}
         </button>
       </div>
@@ -257,8 +259,6 @@
   }
   .importer-name{
     margin: 0 0.7em;
-    /*overrides #addLayout*/
-    text-align: left;
   }
   .button-wrapper{
     padding-top:2em;
