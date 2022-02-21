@@ -173,7 +173,11 @@ export default Marionette.CollectionView.extend({
       // the results that weren't returned in the previous query, whatever there place
       // in the newly returned results
       const searchLimit = searchBatchLength + this._searchOffset
-      const { results } = await preq.get(app.API.search(types, search, searchLimit))
+      const { results } = await preq.get(app.API.search({
+        types,
+        search,
+        limit: searchLimit,
+      }))
       return results
     }
   },

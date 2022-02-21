@@ -104,7 +104,7 @@ export default Marionette.CollectionView.extend({
 
   searchByType (input, initialCandidatesSearch) {
     return typeSearch(this.type, input, 50)
-    .then(results => {
+    .then(({ results }) => {
       // Ignore the results if the input changed
       if ((input !== this._lastInput) && !initialCandidatesSearch) return
       const uris = _.pluck(results, 'uri')

@@ -42,7 +42,7 @@ const isWorkWithoutSerie = work => (work.get('type') === 'work') && (work.get('c
 const searchMatchWorks = async serie => {
   const serieLabel = serie.get('label')
   const { allUris: partsUris } = serie.parts
-  const results = await searchWorks(serieLabel, 20)
+  const { results } = await searchWorks(serieLabel, 20)
   return results
   .filter(result => (result._score > 0.5) && !partsUris.includes(result.uri))
   .map(_.property('uri'))
