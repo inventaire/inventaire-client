@@ -15,7 +15,7 @@
   import log_ from '#lib/loggers'
 
   export let candidates
-  export let processedPreCandidates = 0
+  export let processedPreCandidatesCount = 0
   export let totalPreCandidates = 0
   let preCandidates = []
   let flashImporters = {}
@@ -98,7 +98,7 @@
 
   const createCandidatesQueue = async () => {
     if (noNewCandidates()) return flashBlockingProcess = { type: 'warning', message: 'no new book found' }
-    processedPreCandidates = 0
+    processedPreCandidatesCount = 0
     totalPreCandidates = preCandidates.length
     const remainingPreCandidates = _.clone(preCandidates)
     screen_.scrollToElement(bottomSectionElement.offsetTop)
@@ -185,7 +185,7 @@
   }
 
   const createAndAssignCandidate = preCandidate => res => {
-    processedPreCandidates += 1
+    processedPreCandidatesCount += 1
     const newCandidate = createCandidate(preCandidate, res)
     candidates = [ ...candidates, newCandidate ]
   }

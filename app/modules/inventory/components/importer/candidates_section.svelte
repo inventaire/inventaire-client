@@ -6,14 +6,14 @@
   import screen_ from '#lib/screen'
 
   export let candidates
-  export let processedPreCandidates
+  export let processedPreCandidatesCount
   export let totalPreCandidates
   let selectedBooksCount, titleEl
 
   const checkAll = checked => candidates = candidates.map(candidate => ({ ...candidate, checked }))
 
   $: {
-    if (processedPreCandidates === totalPreCandidates && processedPreCandidates > 0) {
+    if (processedPreCandidatesCount === totalPreCandidates && processedPreCandidatesCount > 0) {
       screen_.scrollToElement(titleEl.offsetTop)
     }
   }
@@ -40,7 +40,7 @@
 </div>
 {#if candidatesLength > 20 }
   <!-- repeat counter when many candidates -->
-  <Counter total={totalPreCandidates} count={processedPreCandidates}/>
+  <Counter total={totalPreCandidates} count={processedPreCandidatesCount}/>
   <!-- stats -->
   <p>{I18n('Number of books found')}: {candidatesLength}</p>
   <p>{I18n('Number of books you selected to import')}: {selectedBooksCount}</p>

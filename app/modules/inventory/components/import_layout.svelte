@@ -7,33 +7,33 @@
   import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'
   import Counter from '#components/counter.svelte'
 
-  let processedPreCandidates
+  let processedPreCandidatesCount
   let totalPreCandidates, showCanditates, showImportItems
   let candidates = []
   let transaction, listing
   let shelvesIds = []
   $: {
-    showCanditates = candidates.length > 0 && processedPreCandidates !== 0 && processedPreCandidates <= totalPreCandidates
+    showCanditates = (candidates.length > 0) && (processedPreCandidatesCount !== 0) && (processedPreCandidatesCount <= totalPreCandidates)
   }
   $: {
-    showImportItems = processedPreCandidates !== 0 && processedPreCandidates === totalPreCandidates
+    showImportItems = (processedPreCandidatesCount !== 0) && (processedPreCandidatesCount === totalPreCandidates)
   }
 </script>
 <div id='importLayout'>
-  <ImportersSection bind:candidates bind:processedPreCandidates bind:totalPreCandidates/>
-  <Counter count={processedPreCandidates} total={totalPreCandidates}/>
-  <div hidden="{!showCanditates}">
+  <ImportersSection bind:candidates bind:processedPreCandidatesCount bind:totalPreCandidates/>
+  <Counter count={processedPreCandidatesCount} total={totalPreCandidates}/>
+  {#if showCanditates}
     <div id="candidatesElement">
-      <CandidatesSection bind:candidates {processedPreCandidates} {totalPreCandidates}/>
+      <CandidatesSection bind:candidates {processedPreCandidatesCount} {totalPreCandidates}/>
     </div>
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
     <SelectButtonGroup type="transaction" bind:selected={transaction}/>
     <SelectButtonGroup type="listing" bind:selected={listing}/>
     <SelectShelves bind:shelvesIds/>
-  </div>
-  <div hidden="{!showImportItems}">
+  {/if}
+  {#if showImportItems}
     <ImportItemsSection bind:candidates {transaction} {listing} {shelvesIds}/>
-  </div>
+  {/if}
 </div>
 
 <style lang="scss">
