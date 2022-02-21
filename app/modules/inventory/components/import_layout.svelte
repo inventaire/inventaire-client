@@ -38,6 +38,7 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+  @import '#inventory/scss/import_layout.scss';
   #importLayout{
     margin: 0 auto;
     max-width: 50em;

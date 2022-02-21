@@ -128,8 +128,6 @@
     border: solid 1px #ccc;
     padding: 0.2em 1em;
     margin-bottom: 0.2em;
-    /*overrides #addLayout*/
-    text-align: initial;
   }
   .list-item-wrapper{
     flex: 5 0 0;
