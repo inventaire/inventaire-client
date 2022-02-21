@@ -5,10 +5,13 @@ import wdk from '#lib/wikidata-sdk'
 // because it returns hits labels, descriptions and aliases
 // while action=query&list=search&srsearch returns only hits ids
 export default (format = true) => async (search, limit = 10, offset) => {
-  let { search: results } = await preq.get(wdk.searchEntities({ search, limit, offset }))
+  let {
+    search: results,
+    'search-continue': continu
+  } = await preq.get(wdk.searchEntities({ search, limit, offset }))
   results = results.filter(filterOutSpecialPages)
-  if (format) return results.map(formatAsSearchResult)
-  else return results
+  if (format) results = results.map(formatAsSearchResult)
+  return { results, continue: continu }
 }
 
 // This is a hacky way to filter out special pages without having to request claims

@@ -39,31 +39,51 @@
   }
 
   let lastSearch, searchText, waitForSearch
-  async function search () {
+  let limit = 10, offset = 0, fetching = false, canFetchMore = true
+  async function search (options = {}) {
+    const { fetchMore = false } = options
     try {
       searchText = input.value
-      if (searchText.length === 0 || searchText === lastSearch) return
+      if (searchText.length === 0) return
+      if (searchText === lastSearch) {
+        if (fetching || !fetchMore || !canFetchMore) return
+        offset += limit
+        limit += 10
+      } else {
+        limit = 10
+        offset = 0
+        highlightedIndex = 0
+        suggestions = []
+        canFetchMore = true
+      }
       lastSearch = searchText
-      waitForSearch = typeSearch(searchType, input.value, 20, 0)
+      waitForSearch = typeSearch(searchType, searchText, limit, offset)
       showSuggestions = true
+      fetching = true
       const res = await waitForSearch
       if (searchText === lastSearch) {
-        suggestions = res
+        suggestions = suggestions.concat(res.results)
         showSuggestions = true
-        highlightedIndex = 0
+        canFetchMore = res.continue != null
       }
     } catch (err) {
       dispatch('error', err)
+    } finally {
+      fetching = false
     }
   }
 
   const lazySearch = _.debounce(search, 200)
 
+  function onSuggestionsScroll (e) {
+    const { scrollTop, scrollTopMax } = e.currentTarget
+    if (scrollTopMax < 100) return
+    if (scrollTop + 100 > scrollTopMax) search({ fetchMore: true })
+  }
+
   let highlightedIndex = 0
 
-  $: {
-    if (highlightedIndex < 0) highlightedIndex = 0
-  }
+  $: if (highlightedIndex < 0) highlightedIndex = 0
 
   async function create () {
     try {
@@ -92,45 +112,43 @@
   {/if}
   {#if showSuggestions}
     <div class="autocomplete">
-      {#await waitForSearch}
-        <Spinner />
-      {:then}
-        {#if suggestions.length > 0}
-          <ul class="suggestions">
-            {#each suggestions as suggestion, i (suggestion.uri)}
-              <EntitySuggestion
-                {suggestion}
-                highlight={i === highlightedIndex}
-                on:select={() => dispatch('save', suggestion.uri)}
-              />
-            {/each}
-          </ul>
-        {:else}
+      <div class="suggestions-wrapper" on:scroll={onSuggestionsScroll}>
+        <ul class="suggestions">
+          {#each suggestions as suggestion, i}
+            <EntitySuggestion
+              {suggestion}
+              highlight={i === highlightedIndex}
+              on:select={() => dispatch('save', suggestion.uri)}
+            />
+          {/each}
+        </ul>
+        {#if fetching}
+          <div class="spinner-wrapper"><Spinner /></div>
+        {:else if suggestions.length === 0}
           <p class="no-result">{i18n('no result')}</p>
         {/if}
-        <div class="controls">
+      </div>
+      <div class="controls">
+        <button
+          class="close"
+          on:click={() => showSuggestions = false}
+        >
+          {@html icon('close')}
+          {I18n('close')}
+        </button>
+        {#if allowEntityCreation && searchText.length > 0}
           <button
-            class="close"
-            on:click={() => showSuggestions = false}
+            class="create"
+            on:click={create}
           >
-            {@html icon('close')}
-            {I18n('close')}
+            {@html icon('plus')}
+            {I18n(`create a new ${entityTypeName}`)}: "{searchText}"
           </button>
-          {#if allowEntityCreation && searchText.length > 0}
-            <button
-              class="create"
-              on:click={create}
-            >
-              {@html icon('plus')}
-              {I18n(`create a new ${entityTypeName}`)}: "{searchText}"
-            </button>
-          {/if}
-        </div>
-      {/await}
+        {/if}
+      </div>
     </div>
   {/if}
 </div>
-
 
 <style lang="scss">
   @import '#general/scss/utils';
@@ -162,11 +180,14 @@
     @include display-flex(column, center, center);
     @include shy-border(0.9);
   }
-  .suggestions{
+  .suggestions-wrapper{
+    position: relative;
     max-height: 10em;
     overflow: auto;
-    position: relative;
     align-self: stretch;
+  }
+  .spinner-wrapper{
+    @include display-flex(row, center, center);
   }
   .controls{
     @include display-flex(row, center, space-between);

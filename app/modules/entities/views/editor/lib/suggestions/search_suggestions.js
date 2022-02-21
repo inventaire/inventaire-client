@@ -34,7 +34,7 @@ const search = async function (input) {
 
 const _search = function (input) {
   return typeSearch(this.searchType, input, batchLength, this._searchOffset)
-  .then(results => {
+  .then(({ results }) => {
     // Ignore the results if the input changed
     if (input !== this.lastInput) return
     return results
