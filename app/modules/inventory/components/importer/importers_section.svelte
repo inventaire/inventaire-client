@@ -6,7 +6,7 @@
   import commonParser from '#inventory/lib/parsers/common'
   import dataValidator from '#inventory/lib/data_validator'
   import files_ from '#lib/files'
-  import { guessUriFromIsbn, createCandidate } from '#inventory/lib/import_helpers'
+  import { guessUriFromIsbn, createCandidate, noNewCandidates, byIndex, isAlreadyCandidate, addExistingItemsCountToCandidate } from '#inventory/lib/import_helpers'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import screen_ from '#lib/screen'
   import preq from '#lib/preq'
@@ -76,7 +76,7 @@
 
   const createPreCandidate = invalidIsbns => candidateData => {
     const { isbn, title, authors } = candidateData
-    if (isAlreadyCandidate(isbn)) return
+    if (isAlreadyCandidate(isbn, candidates)) return
     let preCandidate = {
       index: preCandidateIndexCount,
       customWorkTitle: title,
@@ -96,7 +96,10 @@
   }
 
   const createCandidatesQueue = async () => {
-    if (noNewCandidates()) return flashBlockingProcess = { type: 'warning', message: 'no new book found' }
+    if (noNewCandidates({ preCandidates, candidates })) {
+      flashBlockingProcess = { type: 'warning', message: 'no new book found' }
+      return
+    }
     processedPreCandidatesCount = 0
     totalPreCandidates = preCandidates.length
     const remainingPreCandidates = _.clone(preCandidates)
@@ -148,39 +151,14 @@
     })
   }
 
-  const noNewCandidates = () => {
-    const preCandidatesIsbns = getNormalizedIsbns(preCandidates)
-    const candidatesIsbns = getNormalizedIsbns(candidates)
-    return preCandidatesIsbns.every(isCandidateIsbn(candidatesIsbns))
-  }
-
-  const getNormalizedIsbns = candidates => _.compact(candidates.map(candidate => candidate.isbnData?.normalizedIsbn))
-
-  const isCandidateIsbn = candidatesIsbns => preCandidateIsbn => candidatesIsbns.includes(preCandidateIsbn)
-
-  const byIndex = (a, b) => a.index - b.index
-
-  const isAlreadyCandidate = normalizedIsbn => _.some(candidates, haveIsbn(normalizedIsbn))
-
-  const haveIsbn = isbn => candidate => candidate.isbnData?.normalizedIsbn === isbn
-
   // Fetch the works associated to the editions, and those works authors
   // to get access to the authors labels
   const relatives = [ 'wdt:P629', 'wdt:P50' ]
 
-  const addExistingItemsCounts = function () {
+  const addExistingItemsCounts = async function () {
     const uris = _.compact(preCandidates.map(preCandidate => guessUriFromIsbn({ preCandidate })))
-    return app.request('items:getEntitiesItemsCount', app.user.id, uris)
-    .then(counts => candidates = candidates.map(addExistingItemsToCandidate(counts)))
-  }
-
-  const addExistingItemsToCandidate = counts => candidate => {
-    const { isbnData } = candidate
-    const uri = guessUriFromIsbn({ isbnData })
-    if (uri == null) return candidate
-    const count = counts[uri]
-    if (count != null) candidate.existingItemsCount = count
-    return candidate
+    const counts = await app.request('items:getEntitiesItemsCount', app.user.id, uris)
+    candidates = candidates.map(addExistingItemsCountToCandidate(counts))
   }
 
   const createAndAssignCandidate = preCandidate => res => {
