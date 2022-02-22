@@ -1,7 +1,6 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
-  import autosize from 'autosize'
   import importers from '#inventory/lib/importers'
   import { guessUriFromIsbn, createCandidate, noNewCandidates, byIndex, isAlreadyCandidate, addExistingItemsCountToCandidate } from '#inventory/lib/import_helpers'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
@@ -10,31 +9,14 @@
   import app from '#app/app'
   import log_ from '#lib/loggers'
   import FileImporter from './file_importer.svelte'
+  import IsbnImporter from './isbn_importer.svelte'
 
   export let candidates
   export let processedPreCandidatesCount = 0
   export let totalPreCandidates = 0
   let preCandidates = []
-  let isbnsText
   let flashBlockingProcess, flashOngoingProcess
   let bottomSectionElement = {}
-
-  const onIsbnsChange = async () => {
-    flashBlockingProcess = null
-    if (!isbnsText || isbnsText.length === 0) return
-
-    const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
-    const isbns = isbnsText.match(isbnPattern)
-    if (isbns === null) return flashBlockingProcess = { type: 'error', message: 'no ISBN found' }
-    const candidatesData = isbns.map(isbn => { return { isbn } })
-    createPreCandidates(candidatesData)
-  }
-
-  const clearIsbnText = () => {
-    // Todo: do not display flash no isbn found
-    flashBlockingProcess = null
-    isbnsText = ''
-  }
 
   const createPreCandidates = candidatesData => {
     flashOngoingProcess = null
@@ -146,35 +128,15 @@
 <h3>1/ {I18n('upload your books from another website')}</h3>
 <ul class="importers">
   {#each importers as importer (importer.name)}
-    <FileImporter {importer} {createPreCandidates} {createCandidatesQueue} />
+    <li>
+      <FileImporter {importer} {createPreCandidates} {createCandidatesQueue} />
+    </li>
   {/each}
   <li>
-    <div class="importer-name">
-      {I18n('import from a list of ISBNs')}
-      <div class="textarea-wrapper">
-        <textarea id="isbnsTextarea"
-          bind:value={isbnsText}
-          aria-label="{i18n('isbns list')}"
-          placeholder="{i18n('paste any kind of text containing ISBNs here')}"
-          on:change="{onIsbnsChange}"
-          use:autosize
-        ></textarea>
-        <button
-          id="emptyIsbns"
-          class="grey-button"
-          title="{i18n('clear')}"
-          on:click="{clearIsbnText}"
-          >
-          {I18n('clear text')}
-        </button>
-      </div>
-    </div>
+    <IsbnImporter {createPreCandidates} {createCandidatesQueue} />
   </li>
 </ul>
 <Flash bind:state={flashBlockingProcess}/>
-<div class="button-wrapper">
-  <button on:click={createCandidatesQueue} class="success-button">{I18n('find ISBNs')}</button>
-</div>
 <div bind:this={bottomSectionElement}></div>
 <!-- The flash element is here to be able to view it while scrolling down to candidates section -->
 <Flash bind:state={flashOngoingProcess}/>
@@ -186,29 +148,9 @@
     margin-top: 1em;
     text-align: center;
   }
-  .importer-data{
-    @include display-flex(row, center);
-  }
-  .textarea-wrapper{
-    @include display-flex(row, flex-start);
-  }
-  #isbnsTextarea{
-    margin: 0;
-  }
-  #emptyIsbns{
+  li{
+    margin: 0.5em 0;
     padding: 0.5em;
-    margin-left: 0.5em;
-    max-width: 5em;
-  }
-  input{
-    padding: auto 0;
-  }
-  .importer-name{
-    margin: 0 0.7em;
-  }
-  .button-wrapper{
-    padding-top:2em;
-    padding-bottom:2em;
-    text-align:center;
+    background-color: #fefefe;
   }
 </style>
