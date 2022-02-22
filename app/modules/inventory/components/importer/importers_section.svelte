@@ -236,7 +236,21 @@
 <Flash bind:state={flashOngoingProcess}/>
 <style lang="scss">
   @import '#modules/general/scss/utils';
+  .importers{
+    li{
+      margin: 0.5em 0;
+      padding: 0.5em;
+      background-color: #fefefe;
+    }
+  }
+  .format{
+    padding: 0;
+    color: #888;
+    font-size: 0.9em;
+  }
   h3{
+    padding-left: 0.2em;
+    font-weight: bold;
     margin-top: 1em;
     text-align: center;
   }

@@ -58,4 +58,8 @@
       min-width: 10em;
     }
   }
+  h3{
+    font-weight: bold;
+    margin-top: 1em;
+  }
 </style>

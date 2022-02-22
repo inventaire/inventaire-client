@@ -112,6 +112,7 @@
   h3{
     margin-top: 1em;
     text-align: center;
+    font-weight: bold;
   }
   .import-candidates {
     @include display-flex(column, center, null, wrap);
