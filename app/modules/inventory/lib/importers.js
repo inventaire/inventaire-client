@@ -4,6 +4,7 @@ import libraryThingParser from './parsers/library_thing.js'
 import goodReadsParser from './parsers/good_reads.js'
 import babelioParser from './parsers/babelio.js'
 import isbnExtractor from '#inventory/lib/import/extract_isbns'
+import Papa from 'papaparse'
 
 // How to add an importer:
 // - add an entry to the importers object hereafter
@@ -11,7 +12,7 @@ import isbnExtractor from '#inventory/lib/import/extract_isbns'
 
 const csvParser = parser => function (data) {
   data = data.trim()
-  const results = window.Papa.parse(data, { header: true })
+  const results = Papa.parse(data, { header: true })
   if (results.errors.length > 0) log_.error(results.errors, 'csv parser errors')
 
   return results.data.map(parser)
