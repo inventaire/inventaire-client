@@ -69,7 +69,6 @@ module.exports = {
     Backbone: 'writable',
     Marionette: 'writable',
     L: 'writable',
-    Quagga: 'writable',
     FilteredCollection: 'writable',
     Handlebars: 'writable',
     Piwik: 'writable',

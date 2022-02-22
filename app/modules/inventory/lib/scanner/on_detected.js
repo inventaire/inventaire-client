@@ -1,4 +1,6 @@
 import log_ from '#lib/loggers'
+import ISBN from 'isbn3'
+
 export default function (onDetectedActions) {
   const { showInvalidIsbnWarning, addIsbn } = onDetectedActions
   let lastIsbnScanTime = 0
@@ -10,9 +12,7 @@ export default function (onDetectedActions) {
 
   return function (result) {
     const candidate = result.codeResult.code
-    // window.ISBN is the object created by the isbn3 module
-    // If the candidate code can't be parsed, it's not a valid ISBN
-    if (window.ISBN.parse(candidate) != null) {
+    if (ISBN.parse(candidate) != null) {
       identicalInvalidIsbnCount = 0
     } else {
       if (candidate === lastInvalidIsbn) {

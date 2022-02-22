@@ -3,8 +3,6 @@ import extractIsbns from './extract_isbns.js'
 import getCandidatesFromEntitiesDocs from './get_candidates_from_entities_docs.js'
 
 export default async text => {
-  window.ISBN = window.ISBN || (await import('isbn3')).default
-  // window.ISBN should now be initalized
   const isbnsData = extractIsbns(text)
 
   if (isbnsData.length === 0) return []
