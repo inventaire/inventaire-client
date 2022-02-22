@@ -2,27 +2,10 @@ import log_ from '#lib/loggers'
 import drawCanvas from './draw_canvas.js'
 import screen_ from '#lib/screen'
 import onDetected from './on_detected.js'
+import Quagga from 'quagga'
 
 export default {
-  // pre-fetch assets when the scanner is probably about to be used
-  // to be ready to start scanning faster
-  prepare () {
-    import('quagga')
-    import('isbn3')
-  },
-
   async scan (params) {
-    const [
-      { default: Quagga },
-      { default: ISBN },
-    ] = await Promise.all([
-      import('quagga'),
-      import('isbn3'),
-    ])
-
-    window.Quagga = Quagga
-    window.ISBN = ISBN
-
     startScanning(params)
     .catch(log_.ErrorRethrow('embedded scanner err'))
   }

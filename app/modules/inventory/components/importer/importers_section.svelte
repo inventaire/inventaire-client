@@ -30,11 +30,9 @@
     return Promise.all([
       files_.readFile('readAsText', files[0], encoding, true),
       import('papaparse'),
-      import('isbn3'),
     ])
     // We only need the result from the file
-    .then(([ data, { default: Papa }, { default: ISBN } ]) => {
-      window.ISBN = ISBN
+    .then(([ data, { default: Papa } ]) => {
       window.Papa = Papa
       dataValidator(importer, data)
       return parse(data).map(commonParser)
@@ -48,7 +46,6 @@
   const onIsbnsChange = async () => {
     flashBlockingProcess = null
     if (!isbnsText || isbnsText.length === 0) return
-    window.ISBN = window.ISBN || (await import('isbn3')).default
 
     const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
     const isbns = isbnsText.match(isbnPattern)
