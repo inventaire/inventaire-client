@@ -14,7 +14,7 @@
 
   $: {
     if (processedPreCandidatesCount === totalPreCandidates && processedPreCandidatesCount > 0) {
-      screen_.scrollToElement(titleEl.offsetTop)
+      if (titleEl) screen_.scrollToElement(titleEl.offsetTop)
     }
   }
   $: candidatesLength = candidates.length

@@ -229,7 +229,7 @@
 </ul>
 <Flash bind:state={flashBlockingProcess}/>
 <div class="button-wrapper">
-  <a id="createCandidatesButton" on:click={createCandidatesQueue} class="success-button">{I18n('find ISBNs')}</a>
+  <button on:click={createCandidatesQueue} class="success-button">{I18n('find ISBNs')}</button>
 </div>
 <div bind:this={bottomSectionElement}></div>
 <!-- The flash element is here to be able to view it while scrolling down to candidates section -->
