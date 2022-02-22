@@ -23,33 +23,31 @@
   }
 </script>
 
-<li>
-  <div class="importer-data">
-    <p class="importer-name">
-      {#if link}
-        <a name={label} href={link}>{label}</a>
-      {:else}
-        <span title={label}>{label}</span>
-      {/if}
-      {#if format && format !== 'all'}
-        <span class="format">( .{format} )</span>
-      {/if}
-    </p>
-    {#if help}
-      <p>{@html I18n(help)}</p>
+<div class="importer-data">
+  <p class="importer-name">
+    {#if link}
+      <a name={label} href={link}>{label}</a>
+    {:else}
+      <span title={label}>{label}</span>
     {/if}
-  </div>
+    {#if format && format !== 'all'}
+      <span class="format">( .{format} )</span>
+    {/if}
+  </p>
+  {#if help}
+    <p>{@html I18n(help)}</p>
+  {/if}
+</div>
 
-  <input
-    name="{name}"
-    type="file"
-    bind:files={files}
-    accept="{accept}"
-    on:change={getFile}
-    />
+<input
+  name="{name}"
+  type="file"
+  bind:files={files}
+  accept="{accept}"
+  on:change={getFile}
+  />
 
-  <Flash bind:state={flash}/>
-</li>
+<Flash bind:state={flash}/>
 
 <style lang="scss">
   @import '#modules/general/scss/utils';
@@ -63,5 +61,8 @@
   }
   .importer-name{
     margin: 0 0.7em;
+  }
+  input{
+    padding: auto 0;
   }
 </style>
