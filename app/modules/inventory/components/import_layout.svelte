@@ -38,13 +38,18 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  @import '#inventory/scss/import_layout.scss';
   #importLayout{
     margin: 0 auto;
     max-width: 50em;
+    /*Small screens*/
+    @media screen and (max-width: $small-screen) {
+      margin: 0 0.5em;
+    }
   }
   h3{
     margin-top: 1em;
     text-align: center;
+    padding-left: 0.2em;
+    font-weight: bold;
   }
 </style>
