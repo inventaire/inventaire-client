@@ -37,7 +37,7 @@
     await createItemsSequentially()
     importingCandidates = false
     removeCreatedCandidates()
-    screen_.scrollToElement(importResultsElement.offsetTop)
+    if (importResultsElement) screen_.scrollToElement(importResultsElement.offsetTop)
   }
 
   const removeCreatedCandidates = async () => {
