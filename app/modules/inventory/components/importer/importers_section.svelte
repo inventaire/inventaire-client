@@ -3,45 +3,21 @@
   import Flash from '#lib/components/flash.svelte'
   import autosize from 'autosize'
   import importers from '#inventory/lib/importers'
-  import commonParser from '#inventory/lib/parsers/common'
-  import dataValidator from '#inventory/lib/data_validator'
-  import files_ from '#lib/files'
   import { guessUriFromIsbn, createCandidate, noNewCandidates, byIndex, isAlreadyCandidate, addExistingItemsCountToCandidate } from '#inventory/lib/import_helpers'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import screen_ from '#lib/screen'
   import preq from '#lib/preq'
   import app from '#app/app'
   import log_ from '#lib/loggers'
+  import FileImporter from './file_importer.svelte'
 
   export let candidates
   export let processedPreCandidatesCount = 0
   export let totalPreCandidates = 0
   let preCandidates = []
-  let flashImporters = {}
   let isbnsText
   let flashBlockingProcess, flashOngoingProcess
   let bottomSectionElement = {}
-
-  const getFile = importer => {
-    const { parse, encoding, files } = importer
-    // TODO: refactor by turning parsers into async functions
-    // which import their dependencies themselves
-    flashImporters = {}
-    return Promise.all([
-      files_.readFile('readAsText', files[0], encoding, true),
-      import('papaparse'),
-    ])
-    // We only need the result from the file
-    .then(([ data, { default: Papa } ]) => {
-      window.Papa = Papa
-      dataValidator(importer, data)
-      return parse(data).map(commonParser)
-    })
-    .then(createPreCandidates)
-    .then(createCandidatesQueue)
-    .catch(log_.ErrorRethrow('parsing error'))
-    .catch(message => flashImporters[importer.name] = { type: 'error', message })
-  }
 
   const onIsbnsChange = async () => {
     flashBlockingProcess = null
@@ -170,32 +146,25 @@
 <h3>1/ {I18n('upload your books from another website')}</h3>
 <ul class="importers">
   {#each importers as importer (importer.name)}
-    <li>
-      <div class="importer-data">
-        <p class="importer-name">
-          {#if importer.link}
-            <a name={importer.label} href={importer.link}>{importer.label}</a>
-          {:else}
-            <span title={importer.label}>{importer.label}</span>
-          {/if}
-          {#if importer.format && importer.format !== 'all'}
-            <span class="format">( .{importer.format} )</span>
-          {/if}
-        </p>
-        {#if importer.help}
-          <p>{@html I18n(importer.help)}</p>
-        {/if}
-      </div>
-      <input id="{importer.name}" name="{importer.name}" type="file" bind:files={importer.files} accept="{importer.accept}" on:change={getFile(importer)}/>
-      <Flash bind:state={flashImporters[importer.name]}/>
-    </li>
+    <FileImporter {importer} {createPreCandidates} {createCandidatesQueue} />
   {/each}
   <li>
     <div class="importer-name">
       {I18n('import from a list of ISBNs')}
       <div class="textarea-wrapper">
-        <textarea id="isbnsTextarea" bind:value={isbnsText} aria-label="{i18n('isbns list')}" placeholder="{i18n('paste any kind of text containing ISBNs here')}" on:change="{onIsbnsChange}" use:autosize></textarea>
-        <button id="emptyIsbns" class="grey-button" title="{i18n('clear')}" on:click="{clearIsbnText}">
+        <textarea id="isbnsTextarea"
+          bind:value={isbnsText}
+          aria-label="{i18n('isbns list')}"
+          placeholder="{i18n('paste any kind of text containing ISBNs here')}"
+          on:change="{onIsbnsChange}"
+          use:autosize
+        ></textarea>
+        <button
+          id="emptyIsbns"
+          class="grey-button"
+          title="{i18n('clear')}"
+          on:click="{clearIsbnText}"
+          >
           {I18n('clear text')}
         </button>
       </div>
@@ -211,18 +180,6 @@
 <Flash bind:state={flashOngoingProcess}/>
 <style lang="scss">
   @import '#modules/general/scss/utils';
-  .importers{
-    li{
-      margin: 0.5em 0;
-      padding: 0.5em;
-      background-color: #fefefe;
-    }
-  }
-  .format{
-    padding: 0;
-    color: #888;
-    font-size: 0.9em;
-  }
   h3{
     padding-left: 0.2em;
     font-weight: bold;
@@ -234,14 +191,14 @@
   }
   .textarea-wrapper{
     @include display-flex(row, flex-start);
-    #isbnsTextarea{
-      margin: 0;
-    }
-    #emptyIsbns{
-      padding: 0.5em;
-      margin-left: 0.5em;
-      max-width: 5em;
-    }
+  }
+  #isbnsTextarea{
+    margin: 0;
+  }
+  #emptyIsbns{
+    padding: 0.5em;
+    margin-left: 0.5em;
+    max-width: 5em;
   }
   input{
     padding: auto 0;
