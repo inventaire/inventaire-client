@@ -31,11 +31,7 @@
   }
 
   const removeStatus = status => {
-    const index = statuses.indexOf(statusContents.needInfo)
-    if (index) {
-      delete statuses[index]
-      statuses = _.compact(statuses)
-    }
+    statuses = _.without(statuses, status)
   }
 
   const hasImportedData = customWorkTitle || customAuthorsNames
