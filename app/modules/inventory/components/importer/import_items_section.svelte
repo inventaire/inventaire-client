@@ -89,24 +89,24 @@
     await createItemsSequentially()
   }
 </script>
-  <div class="import-candidates">
-    {#if candidates.length > 0}
-      <h3>4/ {I18n('import the selection')}</h3>
-      <Flash bind:state={flash}/>
-      <Counter count={processedEntitiesCount} total={candidates.length} message='creating bibliographical data'/>
-      <Counter count={processedItemsCount} total={candidates.length} message='creating your books'/>
-      <button
-        class="button success"
-        class:disabled={importingCandidates}
-        on:click={importCandidates}
-        >
-        {I18n('create selected books')}
-      </button>
-    {/if}
-    {#if processedCandidates.length > 0}
-      <ImportResults bind:this={importResultsElement} {transaction} {listing} bind:processedCandidates/>
-    {/if}
-  </div>
+<div class="import-candidates">
+  {#if candidates.length > 0}
+    <h3>4/ {I18n('import the selection')}</h3>
+    <Flash bind:state={flash}/>
+    <Counter count={processedEntitiesCount} total={candidates.length} message='creating bibliographical data'/>
+    <Counter count={processedItemsCount} total={candidates.length} message='creating your books'/>
+    <button
+      class="button success"
+      class:disabled={importingCandidates}
+      on:click={importCandidates}
+      >
+      {I18n('create selected books')}
+    </button>
+  {/if}
+  {#if processedCandidates.length > 0}
+    <ImportResults bind:this={importResultsElement} {transaction} {listing} bind:processedCandidates/>
+  {/if}
+</div>
 <style lang="scss">
   @import '#general/scss/utils';
   h3{
