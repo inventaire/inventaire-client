@@ -47,7 +47,7 @@
     bind:value={isbnsText}
     aria-label="{i18n('isbns list')}"
     placeholder="{i18n('paste any kind of text containing ISBNs here')}"
-    on:change="{onIsbnsChange}"
+    on:keyup="{onIsbnsChange}"
     use:autosize
   ></textarea>
   <button
