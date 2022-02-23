@@ -15,24 +15,17 @@
   export let processedPreCandidatesCount = 0
   export let totalPreCandidates = 0
   let preCandidates = []
-  let flashBlockingProcess, flashOngoingProcess
+  let flashBlockingProcess
   let bottomSectionElement = {}
 
   const createPreCandidates = candidatesData => {
-    flashOngoingProcess = null
     flashBlockingProcess = null
-    const invalidIsbns = []
-    preCandidates = _.compact(candidatesData.map(createPreCandidate(invalidIsbns)))
-    if (invalidIsbns.length > 0 && candidates.length > 0) {
-      const invalidRawIsbns = invalidIsbns.map(_.property('isbn'))
-      const message = I18n('invalid_isbns_warning', { invalidIsbns: invalidRawIsbns.join(', ') })
-      flashOngoingProcess = { type: 'warning', message }
-    }
+    preCandidates = _.compact(candidatesData.map(createPreCandidate))
   }
 
   let preCandidateIndexCount = 0
 
-  const createPreCandidate = invalidIsbns => candidateData => {
+  const createPreCandidate = candidateData => {
     const { isbn, title, authors } = candidateData
     if (isAlreadyCandidate(isbn, candidates)) return
     let preCandidate = {
@@ -45,12 +38,8 @@
     Object.assign(preCandidate, candidateData)
     preCandidateIndexCount += 1
     if (isbn) preCandidate.isbnData = isbnExtractor.getIsbnData(isbn)
-    if (preCandidate.isbnData?.isInvalid) {
-      invalidIsbns.push(preCandidate)
-      // do not return to avoid creating an invalid preCandidate
-    } else {
-      return preCandidate
-    }
+    if (preCandidate.isbnData?.isInvalid) return
+    return preCandidate
   }
 
   const createCandidatesQueue = async () => {
@@ -138,8 +127,6 @@
 </ul>
 <Flash bind:state={flashBlockingProcess}/>
 <div bind:this={bottomSectionElement}></div>
-<!-- The flash element is here to be able to view it while scrolling down to candidates section -->
-<Flash bind:state={flashOngoingProcess}/>
 <style lang="scss">
   @import '#modules/general/scss/utils';
   h3{
