@@ -7,6 +7,21 @@
   import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'
   import Counter from '#components/counter.svelte'
 
+  // This importer is capable of creating items from:
+  //   - import file from some other websites
+  //   - isbns textfile
+  //   - a text input
+  // Step 1: creating preCandidates (validate isbns, extract data from files)
+  // Step 2: creating candidates from preCandidates (find entities on the server when existing, propose to modify data if no entities found)
+  // Step 3: creating items from candidates (display errors if fails, display created items)
+
+  // Some specifications to have in mind:
+  // - A preCandidate may have data from file import (authors strings, work title strings, publication date, pages etc.)
+  // - A preCandidate may have an isbn (if so some processed isbn data are derived from the isbn thanks to the isbn lib)
+  // - A candidate may have associated entities (authors, a work and/or an edition)
+  // - If a candidate have authors and work title strings but no associated data, the user may edit those strings
+  // - Items are created from checked candidates
+
   let processedPreCandidatesCount
   let totalPreCandidates, showCanditates, showImportItems
   let candidates = []
