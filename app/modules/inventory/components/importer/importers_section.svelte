@@ -2,10 +2,18 @@
   import { I18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
   import importers from '#inventory/lib/importers'
-  import { guessUriFromIsbn, createCandidate, noNewCandidates, byIndex, isAlreadyCandidate, addExistingItemsCountToCandidate } from '#inventory/lib/import_helpers'
+  import {
+    guessUriFromIsbn,
+    createCandidate,
+    noNewCandidates,
+    byIndex,
+    isAlreadyCandidate,
+    addExistingItemsCountToCandidate,
+    resolveEntryAndFetchEntities,
+    getEditionEntitiesByUri,
+  } from '#inventory/lib/import_helpers'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import screen_ from '#lib/screen'
-  import preq from '#lib/preq'
   import app from '#app/app'
   import log_ from '#lib/loggers'
   import FileImporter from './file_importer.svelte'
@@ -55,24 +63,24 @@
     const createCandidateOneByOne = async () => {
       if (remainingPreCandidates.length === 0) return
       const preCandidate = remainingPreCandidates.pop()
-      if (preCandidate.isbnData) {
-        const { normalizedIsbn } = preCandidate.isbnData
-        const nextUri = `isbn:${normalizedIsbn}`
-        // wont prevent doublons candidates if 2 identical isbns are processed
-        // at the same time in separate channels (see below)
-        // this is acceptable, as long as it prevent doublons from one import to another
-        if (!isAlreadyCandidate(normalizedIsbn, candidates)) {
-          await preq.get(app.API.entities.getByUris(nextUri, false, relatives))
-          .catch(err => {
-            log_.error(err, 'no entities found err')
-          })
-          .then(createAndAssignCandidate(preCandidate))
+      const { normalizedIsbn } = preCandidate.isbnData
+      // wont prevent doublons candidates if 2 identical isbns are processed
+      // at the same time in separate channels (see below createCandidateOneByOne)
+      // this is acceptable, as long as it prevents doublons from one import to another
+      let entitiesRes
+      if (!isAlreadyCandidate(normalizedIsbn, candidates)) {
+        try {
+          if (!preCandidate.customWorkTitle) {
+            // not enough data for the resolver, so get edition by uri directly
+            entitiesRes = await getEditionEntitiesByUri(normalizedIsbn)
+          } else {
+            entitiesRes = await resolveEntryAndFetchEntities(preCandidate)
+          }
+        } catch (err) {
+          log_.error(err, 'no entities found err')
         }
-      } else {
-        createAndAssignCandidate(preCandidate)()
       }
-      // increase batch size to reduce queries amount on the long run
-      // while serving first results quickly
+      createAndAssignCandidate(preCandidate, entitiesRes)
       createCandidateOneByOne()
       // log errors without throwing to prevent crashing the whole chain
       .catch(log_.Error('createCandidateOneByOne err'))
@@ -98,19 +106,15 @@
     })
   }
 
-  // Fetch the works associated to the editions, and those works authors
-  // to get access to the authors labels
-  const relatives = [ 'wdt:P629', 'wdt:P50' ]
-
   const addExistingItemsCounts = async function () {
     const uris = _.compact(preCandidates.map(preCandidate => guessUriFromIsbn({ preCandidate })))
     const counts = await app.request('items:getEntitiesItemsCount', app.user.id, uris)
     candidates = candidates.map(addExistingItemsCountToCandidate(counts))
   }
 
-  const createAndAssignCandidate = preCandidate => res => {
+  const createAndAssignCandidate = (preCandidate, entities) => {
     processedPreCandidatesCount += 1
-    const newCandidate = createCandidate(preCandidate, res)
+    const newCandidate = createCandidate(preCandidate, entities)
     candidates = [ ...candidates, newCandidate ]
   }
 </script>
