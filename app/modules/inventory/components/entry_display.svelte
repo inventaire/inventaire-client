@@ -40,7 +40,7 @@
     }
   }
 </script>
-<div class="list-item">
+<div class="entry-display">
   <div class="edition-cover">
     {#if edition?.image?.url}
       <img src="{imgSrc(edition.image.url, 80)}" alt='{findBestLang(work, editionLang)} cover'>
@@ -50,7 +50,7 @@
     <div class="work">
       {#if work}
         <span class="label">{I18n('title')}:</span>
-          <!-- necessary span to look like <sup> (exponent) element -->
+          <!-- Necessary span to look like <sup> (exponent) element -->
         <span>
           {findBestLang(work, editionLang)}
           <EntityLogo entity="{work}"/>
@@ -65,7 +65,7 @@
       {#if authors && authors.length > 0}
         <span class="label">{I18n('authors')}:</span>
         {#each authors as author, id}
-          <!-- necessary span to look like <sup> (exponent) element -->
+          <!-- Necessary span to look like <sup> (exponent) element -->
           <span>
             {findBestLang(author)}
             <EntityLogo entity="{author}"/>
@@ -74,9 +74,9 @@
           </span>
         {/each}
       {:else}
-        <!-- do not display editor if work exists, as it may be a book without author -->
+        <!-- Do not display editor if work exists, as it may be a book without author -->
         <!-- always displaying editor might overcrowd the visual, known case: /add/import -->
-        <!-- do not display editor if several authors -->
+        <!-- Do not display editor if several authors -->
         <!-- as creating multiple authors from user input overcrowds the visual too-->
         {#if withEditor && !work && isNonEmptyArray(customAuthorsNames)}
           <ClaimEditor type='author' bind:inputName={firstAuthorName}/>
@@ -105,7 +105,7 @@
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
-  .list-item{
+  .entry-display{
     margin-right: 1em;
     width: 100%;
     @include display-flex(row, center, space-between);
