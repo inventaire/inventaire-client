@@ -1,6 +1,6 @@
 <script>
   import CandidateActions from '#inventory/components/importer/candidate_actions.svelte'
-  import ListItem from '#inventory/components/list_item.svelte'
+  import EntryDisplay from '#inventory/components/entry_display.svelte'
   export let candidate
   export let processedCandidates
   export let listing
@@ -9,7 +9,7 @@
   let { isbnData, edition, works, authors, error } = candidate
 </script>
 <li class="list-candidate" class:error>
-  <ListItem
+  <EntryDisplay
     {isbnData}
     {edition}
     {works}

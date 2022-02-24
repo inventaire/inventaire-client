@@ -2,7 +2,7 @@
   import { I18n } from '#user/lib/i18n'
   import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
   import { icon } from '#lib/utils'
-  import ListItem from '#inventory/components/list_item.svelte'
+  import EntryDisplay from '#inventory/components/entry_display.svelte'
   export let candidate
   import { guessUriFromIsbn } from '#inventory/lib/import_helpers'
 
@@ -87,7 +87,7 @@
 <li class="candidate-row" on:click="{toggleCheckbox}" class:checked>
   <div class="candidate-text">
     <div class="list-item-wrapper">
-      <ListItem
+      <EntryDisplay
         {isbnData}
         {edition}
         {works}
