@@ -97,7 +97,6 @@
         <span class="label">ISBN:</span>
         {rawIsbn}
         {#if edition}
-          &nbsp;
           <EntityLogo entity="{edition}"/>
         {/if}
       {/if}

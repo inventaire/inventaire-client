@@ -37,14 +37,13 @@
     const { isbn, title, authors } = candidateData
     if (isAlreadyCandidate(isbn, candidates)) return
     let preCandidate = {
-      index: preCandidateIndexCount,
+      index: preCandidateIndexCount++,
       customWorkTitle: title,
       customAuthorsNames: authors,
     }
     delete candidateData.title
     delete candidateData.authors
     Object.assign(preCandidate, candidateData)
-    preCandidateIndexCount += 1
     if (isbn) preCandidate.isbnData = isbnExtractor.getIsbnData(isbn)
     if (preCandidate.isbnData?.isInvalid) return
     return preCandidate
