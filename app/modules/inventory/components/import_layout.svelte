@@ -7,6 +7,9 @@
   import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'
   import Counter from '#components/counter.svelte'
 
+  // incoming from scan
+  export let isbns
+
   // This importer is capable of creating items from:
   //   - import file from some other websites
   //   - isbns textfile
@@ -35,7 +38,7 @@
   }
 </script>
 <div id='importLayout'>
-  <ImportersSection bind:candidates bind:processedPreCandidatesCount bind:totalPreCandidates/>
+  <ImportersSection bind:candidates bind:processedPreCandidatesCount bind:totalPreCandidates {isbns}/>
   <Counter count={processedPreCandidatesCount} total={totalPreCandidates}/>
   {#if showCanditates}
     <div id="candidatesElement">

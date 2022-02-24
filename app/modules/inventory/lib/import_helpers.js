@@ -83,6 +83,8 @@ export const byIndex = (a, b) => a.index - b.index
 
 export const isAlreadyCandidate = (normalizedIsbn, candidates) => candidates.some(haveIsbn(normalizedIsbn))
 
+export const formatCandidatesData = isbns => isbns.map(isbn => ({ isbn }))
+
 const haveIsbn = isbn => candidate => candidate.isbnData?.normalizedIsbn === isbn
 
 export const addExistingItemsCountToCandidate = counts => candidate => {
