@@ -3,6 +3,7 @@
   import Flash from '#lib/components/flash.svelte'
   import autosize from 'autosize'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
+  import { formatCandidatesData } from '#inventory/lib/import_helpers'
 
   export let createPreCandidates, createCandidatesQueue
 
@@ -15,8 +16,7 @@
     const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
     const isbns = isbnsText.match(isbnPattern)
     if (isbns === null) return flash = { type: 'error', message: 'no ISBN found' }
-    const candidatesData = isbns.map(isbn => ({ isbn }))
-
+    const candidatesData = formatCandidatesData(isbns)
     const invalidIsbns = getInvalidIsbnsString(isbns)
     if (invalidIsbns.length > 0) {
       const message = I18n('invalid_isbns_warning', { invalidIsbns })
