@@ -4,7 +4,7 @@
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import EntityLogo from '#inventory/components/entity_source_logo.svelte'
-  import ClaimEditor from '#inventory/components/claim_editor.svelte'
+  import EntityValueInput from '#inventory/components/entity_value_input.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let isbnData
@@ -57,7 +57,7 @@
         </span>
       {:else}
         {#if withEditor}
-          <ClaimEditor type='work' bind:inputName={customWorkTitle}/>
+          <EntityValueInput type='work' bind:inputName={customWorkTitle}/>
         {/if}
       {/if}
     </div>
@@ -79,7 +79,7 @@
         <!-- Do not display editor if several authors -->
         <!-- as creating multiple authors from user input overcrowds the visual too-->
         {#if withEditor && !work && isNonEmptyArray(customAuthorsNames)}
-          <ClaimEditor type='author' bind:inputName={firstAuthorName}/>
+          <EntityValueInput type='author' bind:inputName={firstAuthorName}/>
         {:else}
           {#if isNonEmptyArray(customAuthorsNames)}
             <span class="label">{I18n('authors')}:</span>
