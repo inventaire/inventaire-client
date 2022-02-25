@@ -19,12 +19,12 @@
     </a>
   </span>
 {/if}
-<style>
+<style lang="scss">
+  @import '#general/scss/utils';
   .entity-source-logo{
-    font-family: "Alegreya", serif;
+    @include serif;
     vertical-align: super;
     font-weight: normal;
-    font-style: normal;
     font-size: 0.8em ;
   }
 </style>
