@@ -6,13 +6,22 @@
   $: if (count === total) count = 0
 </script>
 {#if count > 0}
-  <p class="loading">
-    {count}/{total}
+  <div class="loading">
+    <div class="count">
+      {count}/{total}
+    </div>
     {#if spinner}
       <Spinner/>
     {/if}
     {#if message}
       {I18n(message)}...
     {/if}
-  </p>
+  </div>
 {/if}
+<style lang="scss">
+  @import '#modules/general/scss/utils';
+  .count{
+    min-width: 3em;
+    text-align: right;
+  }
+</style>

@@ -20,11 +20,11 @@
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import FileImporter from './file_importer.svelte'
   import IsbnImporter from './isbn_importer.svelte'
+  import Counter from '#components/counter.svelte'
 
-  export let candidates
+  export let candidates, isbns, cancel, processing
   export let processedExternalEntriesCount = 0
   export let totalExternalEntries = 0
-  export let isbns
 
   let externalEntries = []
   let flashBlockingProcess
@@ -64,6 +64,7 @@
     screen_.scrollToElement(bottomSectionElement.offsetTop)
 
     const createCandidateOneByOne = async () => {
+      if (cancel) return processedExternalEntriesCount = 0
       if (remainingExternalEntries.length === 0) return
       const externalEntry = remainingExternalEntries.pop()
       const { normalizedIsbn } = externalEntry.isbnData
@@ -107,6 +108,7 @@
       // add counts only now in order to handle entities redirects
       await addExistingItemsCounts()
     })
+    .finally(() => cancel = false)
   }
 
   const addExistingItemsCounts = async function () {
@@ -126,12 +128,14 @@
     createExternalEntries(candidatesData)
     Promise.resolve(createCandidatesQueue())
   }
+
+  $: processing = (processedExternalEntriesCount !== totalExternalEntries) && processedExternalEntriesCount > 0
 </script>
 <h3>1/ {I18n('upload your books from another website')}</h3>
 <ul class="importers">
   {#each importers as importer (importer.name)}
     <li>
-      <FileImporter {importer} {createExternalEntries} {createCandidatesQueue} />
+      <FileImporter {importer} {createExternalEntries} {createCandidatesQueue} {cancel}/>
     </li>
   {/each}
   <li>
@@ -140,6 +144,17 @@
 </ul>
 <Flash bind:state={flashBlockingProcess}/>
 <div bind:this={bottomSectionElement}></div>
+{#if processing}
+  <div class="processing-menu">
+    <Counter count={processedExternalEntriesCount} total={totalExternalEntries}/>
+    <button
+      class="grey-button dangerous"
+      on:click="{() => cancel = true}"
+      >
+      {I18n('cancel')}
+    </button>
+  </div>
+{/if}
 <style lang="scss">
   @import '#modules/general/scss/utils';
   h3{
@@ -152,5 +167,8 @@
     margin: 0.5em 0;
     padding: 0.5em;
     background-color: #fefefe;
+  }
+  .processing-menu{
+    @include display-flex(column, center, center);
   }
 </style>

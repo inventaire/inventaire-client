@@ -5,7 +5,6 @@
   import SelectShelves from '#inventory/components/importer/select_shelves.svelte'
   import CandidatesSection from '#inventory/components/importer/candidates_section.svelte'
   import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'
-  import Counter from '#components/counter.svelte'
 
   // incoming from scan
   export let isbns
@@ -39,7 +38,6 @@
 </script>
 <div id='importLayout'>
   <ImportersSection bind:candidates bind:processedExternalEntriesCount bind:totalExternalEntries {isbns}/>
-  <Counter count={processedExternalEntriesCount} total={totalExternalEntries}/>
   {#if showCanditates}
     <div id="candidatesElement">
       <CandidatesSection bind:candidates {processedExternalEntriesCount} {totalExternalEntries}/>
