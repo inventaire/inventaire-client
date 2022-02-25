@@ -137,6 +137,7 @@
   .status-row{
     width: 100%;
     padding: 0.3em 0.5em;
+    margin-top: 0.3em;
   }
   .status{
     font-size: 90%;
