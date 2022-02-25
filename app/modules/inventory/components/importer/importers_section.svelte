@@ -42,8 +42,8 @@
     if (isAlreadyCandidate(isbn, candidates)) return
     let externalEntry = {
       index: externalEntryIndexCount++,
-      customWorkTitle: title,
-      customAuthorsNames: authors,
+      workTitle: title,
+      authorsNames: authors,
     }
     delete candidateData.title
     delete candidateData.authors
@@ -73,7 +73,7 @@
       let entitiesRes
       if (!isAlreadyCandidate(normalizedIsbn, candidates)) {
         try {
-          if (!externalEntry.customWorkTitle) {
+          if (!externalEntry.workTitle) {
             // not enough data for the resolver, so get edition by uri directly
             entitiesRes = await getEditionEntitiesByUri(normalizedIsbn)
           } else {

@@ -52,8 +52,8 @@
     const nextCandidate = candidates[candidatePosition]
     if (!nextCandidate) return
     processedEntitiesCount += 1
-    const { customWorkTitle } = nextCandidate
-    if (customWorkTitle && nextCandidate.checked) {
+    const { workTitle } = nextCandidate
+    if (workTitle && nextCandidate.checked) {
       await createEntitiesByCandidate(nextCandidate)
       .then(async candidateWithEntities => {
         candidates[candidatePosition] = candidateWithEntities
