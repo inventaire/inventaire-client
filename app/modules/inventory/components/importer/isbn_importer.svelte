@@ -5,7 +5,7 @@
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import { formatCandidatesData } from '#inventory/lib/import_helpers'
 
-  export let createPreCandidates, createCandidatesQueue
+  export let createExternalEntries, createCandidatesQueue
 
   let isbnsText, flash
 
@@ -22,7 +22,7 @@
       const message = I18n('invalid_isbns_warning', { invalidIsbns })
       flash = { type: 'warning', message }
     }
-    createPreCandidates(candidatesData)
+    createExternalEntries(candidatesData)
   }
 
   const getInvalidIsbnsString = isbns => {

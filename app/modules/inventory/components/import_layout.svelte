@@ -14,35 +14,35 @@
   //   - import file from some other websites
   //   - isbns textfile
   //   - a text input
-  // Step 1: creating preCandidates (validate isbns, extract data from files)
-  // Step 2: creating candidates from preCandidates (find entities on the server when existing, propose to modify data if no entities found)
+  // Step 1: creating externalEntries (validate isbns, extract data from files)
+  // Step 2: creating candidates from externalEntries (find entities on the server when existing, propose to modify data if no entities found)
   // Step 3: creating items from candidates (display errors if fails, display created items)
 
   // Some specifications to have in mind:
-  // - A preCandidate may have data from file import (authors strings, work title strings, publication date, pages etc.)
-  // - A preCandidate may have an isbn (if so some processed isbn data are derived from the isbn thanks to the isbn lib)
+  // - A externalEntry may have data from file import (authors strings, work title strings, publication date, pages etc.)
+  // - A externalEntry may have an isbn (if so some processed isbn data are derived from the isbn thanks to the isbn lib)
   // - A candidate may have associated entities (authors, a work and/or an edition)
   // - If a candidate have authors and work title strings but no associated data, the user may edit those strings
   // - Items are created from checked candidates
 
-  let processedPreCandidatesCount
-  let totalPreCandidates, showCanditates, showImportItems
+  let processedExternalEntriesCount
+  let totalExternalEntries, showCanditates, showImportItems
   let candidates = []
   let transaction, listing
   let shelvesIds = []
   $: {
-    showCanditates = (candidates.length > 0) && (processedPreCandidatesCount !== 0) && (processedPreCandidatesCount <= totalPreCandidates)
+    showCanditates = (candidates.length > 0) && (processedExternalEntriesCount !== 0) && (processedExternalEntriesCount <= totalExternalEntries)
   }
   $: {
-    showImportItems = (processedPreCandidatesCount !== 0) && (processedPreCandidatesCount === totalPreCandidates)
+    showImportItems = (processedExternalEntriesCount !== 0) && (processedExternalEntriesCount === totalExternalEntries)
   }
 </script>
 <div id='importLayout'>
-  <ImportersSection bind:candidates bind:processedPreCandidatesCount bind:totalPreCandidates {isbns}/>
-  <Counter count={processedPreCandidatesCount} total={totalPreCandidates}/>
+  <ImportersSection bind:candidates bind:processedExternalEntriesCount bind:totalExternalEntries {isbns}/>
+  <Counter count={processedExternalEntriesCount} total={totalExternalEntries}/>
   {#if showCanditates}
     <div id="candidatesElement">
-      <CandidatesSection bind:candidates {processedPreCandidatesCount} {totalPreCandidates}/>
+      <CandidatesSection bind:candidates {processedExternalEntriesCount} {totalExternalEntries}/>
     </div>
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
     <SelectButtonGroup type="transaction" bind:selected={transaction}/>

@@ -41,9 +41,9 @@ export const createCandidate = (externalEntry, entitiesRes) => {
   return candidate
 }
 
-export const guessUriFromIsbn = ({ preCandidate, isbnData }) => {
+export const guessUriFromIsbn = ({ externalEntry, isbnData }) => {
   let isbn
-  if (preCandidate) isbn = preCandidate.isbnData?.normalizedIsbn
+  if (externalEntry) isbn = externalEntry.isbnData?.normalizedIsbn
   if (isbnData) isbn = isbnData.normalizedIsbn
   if (isbn) return `isbn:${isbn}`
 }
@@ -67,17 +67,17 @@ const getEdition = editions => {
   return edition
 }
 
-export const noNewCandidates = ({ preCandidates, candidates }) => {
-  const preCandidatesIsbns = getNormalizedIsbns(preCandidates)
+export const noNewCandidates = ({ externalEntries, candidates }) => {
+  const externalEntriesIsbns = getNormalizedIsbns(externalEntries)
   const candidatesIsbns = getNormalizedIsbns(candidates)
-  return preCandidatesIsbns.every(isCandidateIsbn(candidatesIsbns))
+  return externalEntriesIsbns.every(isCandidateIsbn(candidatesIsbns))
 }
 
 const getNormalizedIsbns = candidates => {
   return _.compact(candidates.map(candidate => candidate.isbnData?.normalizedIsbn))
 }
 
-export const isCandidateIsbn = candidatesIsbns => preCandidateIsbn => candidatesIsbns.includes(preCandidateIsbn)
+export const isCandidateIsbn = candidatesIsbns => externalEntryIsbn => candidatesIsbns.includes(externalEntryIsbn)
 
 export const byIndex = (a, b) => a.index - b.index
 
@@ -96,10 +96,10 @@ export const addExistingItemsCountToCandidate = counts => candidate => {
   return candidate
 }
 
-export const resolveEntryAndFetchEntities = async preCandidate => {
+export const resolveEntryAndFetchEntities = async externalEntry => {
   // take advantage of the file upload to update existing entities ASAP
   // but do not create to let user verify unresolved entries information
-  const entry = serializeResolverEntry(preCandidate)
+  const entry = serializeResolverEntry(externalEntry)
   const { entries } = await preq.post(app.API.entities.resolve, {
     entries: [ entry ],
     update: true
