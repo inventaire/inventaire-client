@@ -1,5 +1,5 @@
 <script>
-  import { icon } from '#app/lib/utils'
+  import { icon } from '#lib/utils'
   export let entity
   const { uri } = entity
   let { pathname } = entity
