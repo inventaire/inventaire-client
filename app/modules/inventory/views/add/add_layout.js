@@ -66,7 +66,7 @@ export default Marionette.View.extend({
         }
       })
     } else {
-      this.getRegion('content').show(new View(this.options))
+      this.showChildView('content', new View(this.options))
     }
     this.ui.tabs.removeClass('active')
     this.ui[tabKey].addClass('active')
