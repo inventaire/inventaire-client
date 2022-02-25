@@ -8,7 +8,7 @@
   const shelfColor = getColorSquareDataUri(shelf.color || getColorHexCodeFromModelId(shelf._id))
   $: shelf.checked = checked
 </script>
-<div class="shelf" on:click="{() => checked = !checked}">
+<li class="shelf" on:click="{() => checked = !checked}" role="menuitem">
   <input class="checkbox" type="checkbox" bind:checked name="{I18n('select_shelf')}">
   <div class="shelf-list">
     <img class="shelf-picture" src="{imgSrc(shelfColor)}" alt='{shelf.name}'>
@@ -17,7 +17,7 @@
       <div>{shelf.description}</div>
     </div>
   </div>
-</div>
+</li>
 
 <style lang="scss">
   @import '#general/scss/utils';
@@ -26,7 +26,6 @@
     @include display-flex(row, center, flex-start);
     @include radius;
     cursor: pointer;
-    border: solid 1px #ccc;
     margin-bottom: 0.1em;
   }
   .checkbox{
@@ -35,6 +34,7 @@
   .shelf-picture{
     flex: 0 0 auto;
     width: 48px;
+    @include radius;
   };
   .shelf-list{
     @include display-flex(row, center, flex-start);
