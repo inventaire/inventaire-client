@@ -45,9 +45,11 @@
       <CandidatesSection bind:candidates {processedExternalEntriesCount} {totalExternalEntries}/>
     </div>
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
-    <SelectButtonGroup type="transaction" bind:selected={transaction}/>
-    <SelectButtonGroup type="listing" bind:selected={listing}/>
-    <SelectShelves bind:shelvesIds/>
+    <div class="panel">
+      <SelectButtonGroup type="transaction" bind:selected={transaction}/>
+      <SelectButtonGroup type="listing" bind:selected={listing}/>
+      <SelectShelves bind:shelvesIds/>
+    </div>
   {/if}
   {#if showImportItems}
     <ImportItemsSection bind:candidates {transaction} {listing} {shelvesIds}/>
@@ -69,5 +71,8 @@
     text-align: center;
     padding-left: 0.2em;
     font-weight: bold;
+  }
+  .panel{
+    @include panel;
   }
 </style>

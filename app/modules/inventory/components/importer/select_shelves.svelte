@@ -17,23 +17,26 @@
   }))
 </script>
 {#await waitForShelves}
-  <h4 for="shelves">{I18n('shelves')}</h4>
+  <label for="shelves-selector">
+    <p class="title">{I18n('shelves')}</p>
+    <p class="description">{I18n('shelves_importer_description')}</p>
+  </label>
   <Spinner/>
 {:then}
   {#if userShelves.length > 0}
-    <h4 for="shelves">{I18n('shelves')}</h4>
-    <label for="shelves">{I18n('shelves_importer_description')}</label>
-    {#each userShelves as shelf}
-      <SelectShelf bind:shelf/>
-    {/each}
+    <label for="shelves-selector">
+      <p class="title">{I18n('shelves')}</p>
+      <p class="description">{I18n('shelves_importer_description')}</p>
+    </label>
+    <ul id="shelves-selector" class="select-button-group" role="menu">
+      {#each userShelves as shelf}
+        <SelectShelf bind:shelf/>
+      {/each}
+    </ul>
   {/if}
 {/await}
 <style>
-  label{
-    font-size: 1em;
-    margin-bottom: 1em;
-  }
-  h4, label{
-    text-align: center;
+  .description{
+    font-size: 0.9rem;
   }
 </style>
