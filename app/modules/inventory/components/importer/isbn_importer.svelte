@@ -5,9 +5,10 @@
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import { formatCandidatesData } from '#inventory/lib/import_helpers'
 
-  export let createExternalEntries, createCandidatesQueue
+  export let createExternalEntries, createCandidatesQueue, isbns
 
   let isbnsText, flash
+  if (isbns) isbnsText = isbns.join('\n')
 
   const onIsbnsChange = async () => {
     flash = null

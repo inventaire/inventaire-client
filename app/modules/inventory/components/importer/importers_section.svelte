@@ -135,7 +135,7 @@
     </li>
   {/each}
   <li>
-    <IsbnImporter {createExternalEntries} {createCandidatesQueue} />
+    <IsbnImporter {createExternalEntries} {createCandidatesQueue} {isbns}/>
   </li>
 </ul>
 <Flash bind:state={flashBlockingProcess}/>
