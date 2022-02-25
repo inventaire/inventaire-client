@@ -7,8 +7,8 @@ export const createCandidate = (externalEntry, entitiesRes) => {
   const {
     index,
     isbnData,
-    customWorkTitle,
-    customAuthorsNames,
+    workTitle,
+    authorsNames,
     details,
     notes,
     publicationDate,
@@ -19,8 +19,8 @@ export const createCandidate = (externalEntry, entitiesRes) => {
 
   const candidate = { index }
   if (isbnData) candidate.isbnData = isbnData
-  if (isNonEmptyString(customWorkTitle)) candidate.customWorkTitle = customWorkTitle
-  if (customAuthorsNames) candidate.customAuthorsNames = customAuthorsNames
+  if (isNonEmptyString(workTitle)) candidate.workTitle = workTitle
+  if (authorsNames) candidate.authorsNames = authorsNames
   if (isNonEmptyString(details)) candidate.details = details
   if (isNonEmptyString(notes)) candidate.notes = notes
   if (isNonEmptyString(publicationDate)) candidate.publicationDate = publicationDate
@@ -119,7 +119,7 @@ export const resolveEntryAndFetchEntities = async externalEntry => {
 const editionRelatives = [ 'wdt:P629', 'wdt:P50' ]
 
 export const serializeResolverEntry = data => {
-  const { isbn, customWorkTitle: title, lang, customAuthorsNames, normalizedIsbn } = data
+  const { isbn, workTitle: title, lang, authorsNames, normalizedIsbn } = data
   const labelLang = lang || app.user.lang
 
   const edition = {
@@ -139,8 +139,8 @@ export const serializeResolverEntry = data => {
 
   let authors
 
-  if (customAuthorsNames) {
-    authors = customAuthorsNames.map(name => {
+  if (authorsNames) {
+    authors = authorsNames.map(name => {
       const labels = { [labelLang]: name }
       return { labels }
     })

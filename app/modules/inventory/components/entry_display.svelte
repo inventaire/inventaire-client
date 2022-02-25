@@ -11,8 +11,8 @@
   export let edition
   export let works
   export let authors
-  export let customWorkTitle
-  export let customAuthorsNames
+  export let workTitle
+  export let authorsNames
   export let withEditor = false
 
   const rawIsbn = isbnData?.rawIsbn
@@ -25,8 +25,8 @@
     editionLang = 'en'
   }
 
-  if (isNonEmptyArray(customAuthorsNames)) {
-    firstAuthorName = customAuthorsNames[0]
+  if (isNonEmptyArray(authorsNames)) {
+    firstAuthorName = authorsNames[0]
   }
 
   const findBestLang = objectWithLabels => {
@@ -35,8 +35,8 @@
   }
 
   $: {
-    if (isNonEmptyArray(customAuthorsNames)) {
-      customAuthorsNames[0] = firstAuthorName
+    if (isNonEmptyArray(authorsNames)) {
+      authorsNames[0] = firstAuthorName
     }
   }
 </script>
@@ -57,7 +57,7 @@
         </span>
       {:else}
         {#if withEditor}
-          <EntityValueInput type='work' bind:inputName={customWorkTitle}/>
+          <EntityValueInput type='work' bind:inputName={workTitle}/>
         {/if}
       {/if}
     </div>
@@ -78,12 +78,12 @@
         <!-- always displaying editor might overcrowd the visual, known case: /add/import -->
         <!-- Do not display editor if several authors -->
         <!-- as creating multiple authors from user input overcrowds the visual too-->
-        {#if withEditor && !work && isNonEmptyArray(customAuthorsNames)}
+        {#if withEditor && !work && isNonEmptyArray(authorsNames)}
           <EntityValueInput type='author' bind:inputName={firstAuthorName}/>
         {:else}
-          {#if isNonEmptyArray(customAuthorsNames)}
+          {#if isNonEmptyArray(authorsNames)}
             <span class="label">{I18n('authors')}:</span>
-            {#each customAuthorsNames as author, id}
+            {#each authorsNames as author, id}
               <span>
                 {author}
               </span>
