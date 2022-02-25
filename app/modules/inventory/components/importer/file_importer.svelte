@@ -7,8 +7,7 @@
 
   export let importer, createExternalEntries, createCandidatesQueue
   const { name, accept, link, label, format, help, parse, encoding } = importer
-  let { files } = importer
-  let flash
+  let files, flash
 
   const getFile = async () => {
     try {
