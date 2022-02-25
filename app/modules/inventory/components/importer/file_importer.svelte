@@ -65,4 +65,10 @@
   input{
     padding: auto 0;
   }
+  p{
+    a, :global(a) {
+      color: #008;
+      text-decoration: underline;
+    }
+  }
 </style>
