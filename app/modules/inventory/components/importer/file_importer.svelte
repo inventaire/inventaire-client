@@ -5,7 +5,7 @@
   import Flash from '#lib/components/flash.svelte'
   import { I18n } from '#user/lib/i18n'
 
-  export let importer, createPreCandidates, createCandidatesQueue
+  export let importer, createExternalEntries, createCandidatesQueue
   const { name, accept, link, label, format, help, parse, encoding } = importer
   let { files } = importer
   let flash
@@ -15,7 +15,7 @@
       const data = await files_.readFile('readAsText', files[0], encoding, true)
       dataValidator(importer, data)
       const candidatesData = parse(data).map(commonParser)
-      createPreCandidates(candidatesData)
+      createExternalEntries(candidatesData)
       createCandidatesQueue()
     } catch (err) {
       flash = err

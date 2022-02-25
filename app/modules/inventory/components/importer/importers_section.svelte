@@ -22,68 +22,68 @@
   import IsbnImporter from './isbn_importer.svelte'
 
   export let candidates
-  export let processedPreCandidatesCount = 0
-  export let totalPreCandidates = 0
+  export let processedExternalEntriesCount = 0
+  export let totalExternalEntries = 0
   export let isbns
 
-  let preCandidates = []
+  let externalEntries = []
   let flashBlockingProcess
   let bottomSectionElement = {}
 
-  const createPreCandidates = candidatesData => {
+  const createExternalEntries = candidatesData => {
     flashBlockingProcess = null
-    preCandidates = _.compact(candidatesData.map(createPreCandidate))
+    externalEntries = _.compact(candidatesData.map(createExternalEntry))
   }
 
-  let preCandidateIndexCount = 0
+  let externalEntryIndexCount = 0
 
-  const createPreCandidate = candidateData => {
+  const createExternalEntry = candidateData => {
     const { isbn, title, authors } = candidateData
     if (isAlreadyCandidate(isbn, candidates)) return
-    let preCandidate = {
-      index: preCandidateIndexCount++,
+    let externalEntry = {
+      index: externalEntryIndexCount++,
       customWorkTitle: title,
       customAuthorsNames: authors,
     }
     delete candidateData.title
     delete candidateData.authors
-    Object.assign(preCandidate, candidateData)
-    if (isbn) preCandidate.isbnData = isbnExtractor.getIsbnData(isbn)
-    if (preCandidate.isbnData?.isInvalid) return
-    return preCandidate
+    Object.assign(externalEntry, candidateData)
+    if (isbn) externalEntry.isbnData = isbnExtractor.getIsbnData(isbn)
+    if (externalEntry.isbnData?.isInvalid) return
+    return externalEntry
   }
 
   const createCandidatesQueue = async () => {
-    if (noNewCandidates({ preCandidates, candidates })) {
+    if (noNewCandidates({ externalEntries, candidates })) {
       flashBlockingProcess = { type: 'warning', message: 'no new book found' }
       return
     }
-    processedPreCandidatesCount = 0
-    totalPreCandidates = preCandidates.length
-    const remainingPreCandidates = _.clone(preCandidates)
+    processedExternalEntriesCount = 0
+    totalExternalEntries = externalEntries.length
+    const remainingExternalEntries = _.clone(externalEntries)
     screen_.scrollToElement(bottomSectionElement.offsetTop)
 
     const createCandidateOneByOne = async () => {
-      if (remainingPreCandidates.length === 0) return
-      const preCandidate = remainingPreCandidates.pop()
-      const { normalizedIsbn } = preCandidate.isbnData
+      if (remainingExternalEntries.length === 0) return
+      const externalEntry = remainingExternalEntries.pop()
+      const { normalizedIsbn } = externalEntry.isbnData
       // wont prevent doublons candidates if 2 identical isbns are processed
       // at the same time in separate channels (see below createCandidateOneByOne)
       // this is acceptable, as long as it prevents doublons from one import to another
       let entitiesRes
       if (!isAlreadyCandidate(normalizedIsbn, candidates)) {
         try {
-          if (!preCandidate.customWorkTitle) {
+          if (!externalEntry.customWorkTitle) {
             // not enough data for the resolver, so get edition by uri directly
             entitiesRes = await getEditionEntitiesByUri(normalizedIsbn)
           } else {
-            entitiesRes = await resolveEntryAndFetchEntities(preCandidate)
+            entitiesRes = await resolveEntryAndFetchEntities(externalEntry)
           }
         } catch (err) {
           log_.error(err, 'no entities found err')
         }
       }
-      createAndAssignCandidate(preCandidate, entitiesRes)
+      createAndAssignCandidate(externalEntry, entitiesRes)
       createCandidateOneByOne()
       // log errors without throwing to prevent crashing the whole chain
       .catch(log_.Error('createCandidateOneByOne err'))
@@ -110,20 +110,20 @@
   }
 
   const addExistingItemsCounts = async function () {
-    const uris = _.compact(preCandidates.map(preCandidate => guessUriFromIsbn({ preCandidate })))
+    const uris = _.compact(externalEntries.map(externalEntry => guessUriFromIsbn({ externalEntry })))
     const counts = await app.request('items:getEntitiesItemsCount', app.user.id, uris)
     candidates = candidates.map(addExistingItemsCountToCandidate(counts))
   }
 
-  const createAndAssignCandidate = (preCandidate, entities) => {
-    processedPreCandidatesCount += 1
-    const newCandidate = createCandidate(preCandidate, entities)
+  const createAndAssignCandidate = (externalEntry, entities) => {
+    processedExternalEntriesCount += 1
+    const newCandidate = createCandidate(externalEntry, entities)
     candidates = [ ...candidates, newCandidate ]
   }
 
   if (isNonEmptyArray(isbns)) {
     const candidatesData = formatCandidatesData(isbns)
-    createPreCandidates(candidatesData)
+    createExternalEntries(candidatesData)
     Promise.resolve(createCandidatesQueue())
   }
 </script>
@@ -131,11 +131,11 @@
 <ul class="importers">
   {#each importers as importer (importer.name)}
     <li>
-      <FileImporter {importer} {createPreCandidates} {createCandidatesQueue} />
+      <FileImporter {importer} {createExternalEntries} {createCandidatesQueue} />
     </li>
   {/each}
   <li>
-    <IsbnImporter {createPreCandidates} {createCandidatesQueue} />
+    <IsbnImporter {createExternalEntries} {createCandidatesQueue} />
   </li>
 </ul>
 <Flash bind:state={flashBlockingProcess}/>
