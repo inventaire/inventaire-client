@@ -111,7 +111,9 @@
     @include display-flex(row, center, space-between);
     .edition-cover{
       margin-right: 1em;
-      min-width: 4em;
+      width: 4em;
+      max-height: 5em;
+      overflow: hidden;
     }
   }
   .text-wrapper{
