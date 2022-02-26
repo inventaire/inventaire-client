@@ -40,7 +40,7 @@
   }
 </script>
 {#if error}
-  <button on:click="{retryCreateItem}">
+  <button class='dangerous-button' on:click="{retryCreateItem}">
     {I18n('Retry')}
     {#if retrying}
       <Spinner/>
@@ -52,7 +52,6 @@
       {I18n('View book')}
     </a>
 {/if}
-
 <style>
   .view-book{
     min-width: 6em;
