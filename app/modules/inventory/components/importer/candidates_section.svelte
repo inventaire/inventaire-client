@@ -1,21 +1,17 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import Counter from '#components/counter.svelte'
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   import screen_ from '#lib/screen'
 
   export let candidates
-  export let processedExternalEntriesCount
-  export let totalExternalEntries
+  export let processing
   let selectedBooksCount, titleEl
 
   const checkAll = checked => candidates = candidates.map(candidate => ({ ...candidate, checked }))
 
   $: {
-    if (processedExternalEntriesCount === totalExternalEntries && processedExternalEntriesCount > 0) {
-      if (titleEl) screen_.scrollToElement(titleEl.offsetTop)
-    }
+    if (processing) screen_.scrollToElement(titleEl.offsetTop)
   }
   $: candidatesLength = candidates.length
   $: selectedBooksCount = candidates.filter(_.property('checked')).length
@@ -39,8 +35,6 @@
   </button>
 </div>
 {#if candidatesLength > 20 }
-  <!-- repeat counter when many candidates -->
-  <Counter total={totalExternalEntries} count={processedExternalEntriesCount}/>
   <!-- stats -->
   <p>{I18n('Number of books found')}: {candidatesLength}</p>
   <p>{I18n('Number of books you selected to import')}: {selectedBooksCount}</p>
