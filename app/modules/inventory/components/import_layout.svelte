@@ -24,23 +24,16 @@
   // - If a candidate have authors and work title strings but no associated data, the user may edit those strings
   // - Items are created from checked candidates
 
-  let processedExternalEntriesCount
-  let totalExternalEntries, showCanditates, showImportItems
+  let processing
   let candidates = []
   let transaction, listing
   let shelvesIds = []
-  $: {
-    showCanditates = (candidates.length > 0) && (processedExternalEntriesCount !== 0) && (processedExternalEntriesCount <= totalExternalEntries)
-  }
-  $: {
-    showImportItems = (processedExternalEntriesCount !== 0) && (processedExternalEntriesCount === totalExternalEntries)
-  }
 </script>
 <div id='importLayout'>
-  <ImportersSection bind:candidates bind:processedExternalEntriesCount bind:totalExternalEntries {isbns}/>
-  {#if showCanditates}
+  <ImportersSection bind:candidates {processing} {isbns}/>
+  {#if candidates.length > 0}
     <div id="candidatesElement">
-      <CandidatesSection bind:candidates {processedExternalEntriesCount} {totalExternalEntries}/>
+      <CandidatesSection bind:candidates {processing}/>
     </div>
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
     <div class="panel">
@@ -49,7 +42,7 @@
       <SelectShelves bind:shelvesIds/>
     </div>
   {/if}
-  {#if showImportItems}
+  {#if !processing}
     <ImportItemsSection bind:candidates {transaction} {listing} {shelvesIds}/>
   {/if}
 </div>
