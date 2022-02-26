@@ -57,10 +57,6 @@
   }
   .error{
     background-color: lighten($danger-color, 30%);
-    color: darken($danger-color, 20%);
-    button{
-      color: darken($danger-color, 20%);
-    };
   }
   .success{
     background-color: lighten($success-color, 30%);
