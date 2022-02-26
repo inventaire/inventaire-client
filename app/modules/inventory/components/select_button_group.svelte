@@ -9,24 +9,27 @@
       title: 'visibility',
       // 'listing_description': 'select the visibility you would to apply to all selected books'
       options: app.user.listings(),
-      defaultOption: 'private'
+      defaultOption: 'private',
+      description: 'Who can see it?',
     },
     transaction: {
       title: 'transaction',
       // 'transaction_description': 'select the transaction mode you would to apply to all selected books'
       options: transactionsDataFactory(),
-      defaultOption: 'inventorying'
+      defaultOption: 'inventorying',
+      description: "I have it and it's available for",
     }
   }
 
   const title = customization[type].title
+  const description = customization[type].description
   const optionsData = Object.values(customization[type].options)
   selected = customization[type].defaultOption
 </script>
 <div class="itemCreation">
   <label for="{type}-selector">
     <p class="title">{I18n(title)}</p>
-    <p class="description">{I18n(title + '_importer_description')}</p>
+    <p class="description">{I18n(description)}</p>
   </label>
   <div id="{type}-selector" class="select-button-group" role="menu">
     {#each optionsData as option}
@@ -47,6 +50,7 @@
   @import '#inventory/scss/item_creation_commons';
   .description{
     font-size: 0.9rem;
+    margin-bottom: 0.5em;
   }
   .itemCreation{
     margin: 1em 0
