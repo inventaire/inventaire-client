@@ -49,7 +49,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0.3em;
+    padding: 0.5em;
+    margin: 0.3em 0;
     padding-left: 0.5em;
     button{
       padding: 0;
