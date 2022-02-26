@@ -27,6 +27,7 @@
     <label for="shelves-selector">
       <p class="title">{I18n('shelves')}</p>
       <p class="description">{I18n('shelves_importer_description')}</p>
+      <!-- i18n suggestion: "shelves_importer_description": "Add the selected books to your shelf(ves)" -->
     </label>
     <ul id="shelves-selector" class="select-button-group" role="menu">
       {#each userShelves as shelf}
@@ -38,5 +39,6 @@
 <style>
   .description{
     font-size: 0.9rem;
+    margin-bottom: 0.5em;
   }
 </style>
