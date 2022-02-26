@@ -9,10 +9,11 @@
   export let candidate
   export let listing
   export let transaction
-  let retrying, editionPathname
+  let retrying, itemPath
 
   const { edition, details, error, item } = candidate
   const retryCreateItem = async () => {
+    retrying = true
     if (!edition) {
       const candidateWithEntities = await createEntitiesByCandidate(candidate)
       candidate = candidateWithEntities
@@ -31,16 +32,15 @@
 
   $: {
     const username = app.user.get('username')
-    if (edition) editionPathname = `/inventory/${username}/${edition.uri}`
+    if (edition) itemPath = `/inventory/${username}/${edition.uri}`
   }
 
-  const lazyRetry = _.debounce(retryCreateItem, 200)
   const viewBook = (e, itemId) => {
     if (!isOpenedOutside(e)) app.execute('show:item:byId', itemId)
   }
 </script>
 {#if error}
-  <button on:click="{lazyRetry}" on:click="{() => retrying = true}">
+  <button on:click="{retryCreateItem}">
     {I18n('Retry')}
     {#if retrying}
       <Spinner/>
@@ -48,7 +48,7 @@
   </button>
 {/if}
 {#if item}
-  <a class="view-book tiny-button light-blue" href="{editionPathname}" target='_blanck' on:click="{e => viewBook(e, item._id)}">
+  <a class="view-book tiny-button light-blue" href="{itemPath}" target='_blank' on:click="{e => viewBook(e, item._id)}">
       {I18n('View book')}
     </a>
 {/if}
