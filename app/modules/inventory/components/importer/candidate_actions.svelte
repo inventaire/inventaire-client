@@ -4,6 +4,7 @@
   import { createItem } from '#inventory/components/create_item'
   import Spinner from '#general/components/spinner.svelte'
   import { createEntitiesByCandidate } from '#inventory/components/importer/create_candidate_entities'
+  import { isOpenedOutside } from '#lib/utils'
 
   export let candidate
   export let listing
@@ -34,6 +35,9 @@
   }
 
   const lazyRetry = _.debounce(retryCreateItem, 200)
+  const viewBook = (e, itemId) => {
+    if (!isOpenedOutside(e)) app.execute('show:item:byId', itemId)
+  }
 </script>
 {#if error}
   <button on:click="{lazyRetry}" on:click="{() => retrying = true}">
@@ -44,7 +48,7 @@
   </button>
 {/if}
 {#if item}
-  <a class="view-book tiny-button light-blue" href="{editionPathname}" target='_blanck' on:click="{() => app.execute('show:item:byId', item._id)}">
+  <a class="view-book tiny-button light-blue" href="{editionPathname}" target='_blanck' on:click="{e => viewBook(e, item._id)}">
       {I18n('View book')}
     </a>
 {/if}
