@@ -52,6 +52,7 @@
     padding: 0.5em;
     margin: 0.3em 0;
     padding-left: 0.5em;
+    @include radius;
     button{
       padding: 0;
     }
