@@ -24,3 +24,11 @@
     {/each}
   </ul>
 {/if}
+<style>
+  ul{
+    width: 100%;
+  }
+  h4{
+    margin-top: 1em;
+  }
+</style>
