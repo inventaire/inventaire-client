@@ -1,14 +1,12 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
+  import CandidateNav from '#inventory/components/importer/candidate_nav.svelte'
   import screen_ from '#lib/screen'
 
   export let candidates
   export let processing
   let selectedBooksCount, titleEl
-
-  const checkAll = checked => candidates = candidates.map(candidate => ({ ...candidate, checked }))
 
   $: {
     if (processing) screen_.scrollToElement(titleEl.offsetTop)
@@ -17,41 +15,21 @@
   $: selectedBooksCount = candidates.filter(_.property('checked')).length
 </script>
 <h3 bind:this={titleEl}>2/ Select the books you want to add</h3>
+{#if candidatesLength > 20 }
+  <CandidateNav bind:candidates />
+{/if}
 <ul>
   {#each candidates as candidate (candidate.index)}
     <CandidateRow bind:candidate/>
   {/each}
 </ul>
-<div class="candidates-nav">
-  <button class="grey-button" on:click="{() => checkAll(true)}" name="{I18n('select all')}">
-    {I18n('select all')}
-  </button>
-  <button class="grey-button" on:click="{() => checkAll(false) }" name="{I18n('unselect all')}">
-    {I18n('unselect all')}
-  </button>
-  <button class="grey-button" on:click="{() => candidates = []}" name="{I18n('empty the queue')}">
-    <!-- TODO: insert "are you sure" popup -->
-    {@html icon('trash')} {I18n('empty the queue')}
-  </button>
-</div>
+<CandidateNav bind:candidates />
 {#if candidatesLength > 20 }
   <!-- stats -->
   <p>{I18n('Number of books found')}: {candidatesLength}</p>
   <p>{I18n('Number of books you selected to import')}: {selectedBooksCount}</p>
 {/if}
-<style lang="scss">
-  @import '#general/scss/utils';
-  .candidates-nav{
-    @include display-flex(row, center, center, wrap);
-    button {
-      @include radius;
-      margin: 0.1em;
-      flex: 1 0 0;
-      padding: 0.5em;
-      word-wrap: break-word;
-      min-width: 10em;
-    }
-  }
+<style>
   h3{
     font-weight: bold;
     margin-top: 1em;
