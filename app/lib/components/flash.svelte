@@ -58,7 +58,7 @@
     }
   }
   .error{
-    background-color: lighten($danger-color, 30%);
+    background-color: lighten($danger-color, 25%);
   }
   .success{
     background-color: lighten($success-color, 30%);
@@ -67,6 +67,6 @@
     background-color: lighten($primary-color, 70%);
   }
   .warning{
-    background-color: lighten($yellow, 30%);
+    background-color: lighten($yellow, 35%);
   }
 </style>
