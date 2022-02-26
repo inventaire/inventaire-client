@@ -62,23 +62,11 @@
   }
   .success{
     background-color: lighten($success-color, 30%);
-    color: darken($success-color, 20%);
-    button{
-      color: darken($success-color, 20%);
-    };
   }
   .info, .loading{
     background-color: lighten($primary-color, 70%);
-    color: $primary-color;
-    button{
-      color: $primary-color;
-    };
   }
   .warning{
     background-color: lighten($yellow, 30%);
-    color: darken($success-color, 70%);
-    button{
-      color: darken($success-color, 70%);
-    };
   }
 </style>
