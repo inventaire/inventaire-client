@@ -1,6 +1,7 @@
 <script>
   import Link from '#lib/components/link.svelte'
   import { i18n } from '#user/lib/i18n'
+  import Tooltip from '#components/tooltip.svelte'
 
   export let uri, contrast = false
 
@@ -12,28 +13,25 @@
   }
 </script>
 
-<div class="has-tooltip" tabindex="0">
-  <span class="uri">{uri}</span>
-  <div class="tooltip-wrapper" role="tooltip">
-    <div
-      class="tooltip-content"
-      class:contrast={contrast}
-      >
+<Tooltip {contrast} >
+  <div slot="primary">
+    <span class="uri">{uri}</span>
+  </div>
+  <div slot="tooltip-content">
+    <Link
+      url={internalUrl}
+      text={i18n('see_on_website', { website: 'inventaire.io' })}
+      light={true}
+    />
+    {#if wikidataUrl}
       <Link
-        url={internalUrl}
-        text={i18n('see_on_website', { website: 'inventaire.io' })}
+        url={wikidataUrl}
+        text={i18n('see_on_website', { website: 'wikidata.org' })}
         light={true}
       />
-      {#if wikidataUrl}
-        <Link
-          url={wikidataUrl}
-          text={i18n('see_on_website', { website: 'wikidata.org' })}
-          light={true}
-        />
-      {/if}
-    </div>
+    {/if}
   </div>
-</div>
+</Tooltip>
 
 <style lang="scss">
   @import '#general/scss/utils';
@@ -48,41 +46,7 @@
     padding-top: 1em;
   }
 
-  .has-tooltip{
-    display: inline-block;
-    position: relative;
-    &:not(:hover):not(:focus){
-      .tooltip-wrapper{
-        visibility: hidden;
-      }
-    }
-  }
-  .tooltip-wrapper{
-    position: absolute;
-    bottom: 130%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    white-space: nowrap;
-    cursor: default;
-  }
-
-  // Adapted from https://www.cssportal.com/css-tooltip-generator/
-  $tooltip-bg-color: $dark-grey;
-  $tooltip-contrast-bg-color: white;
-  $spike-size: 0.5em;
-
-  // The actual tooltip box shape and what's inside
-  .tooltip-content{
-    @include shy(0.95);
-    padding: 1em;
-    margin: 0 auto;
-    min-width: 3em;
-    text-align: center;
-    color: white;
-    background-color: $tooltip-bg-color;
-    @include radius;
-
+  [slot="tooltip-content"]{
     :global(a){
       padding: 0.5em;
       &:not(:first-child){
@@ -97,31 +61,6 @@
           // Hack to get text-decoration to apply: https://stackoverflow.com/a/15688237/3324977
           display: inline-block;
         }
-      }
-    }
-
-    // Arrow
-    &:after{
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -$spike-size;
-      width: 0;
-      height: 0;
-      border-top: $spike-size solid $tooltip-bg-color;
-      border-right: $spike-size solid transparent;
-      border-left: $spike-size solid transparent;
-    }
-
-    &.contrast{
-      color: $dark-grey;
-      background-color: white;
-      :global(a){
-        @include link-dark;
-      }
-      &:after{
-        border-top: $spike-size solid $tooltip-contrast-bg-color;
       }
     }
   }

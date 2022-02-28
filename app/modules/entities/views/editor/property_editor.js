@@ -21,6 +21,7 @@ const editors = {
   'positive-integer': PositiveIntegerValueEditor,
   'positive-integer-string': PositiveIntegerStringValueEditor,
   image: ImageValueEditor,
+  url: StringValueEditor,
 }
 
 export default Marionette.CollectionView.extend({
