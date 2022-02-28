@@ -1,6 +1,6 @@
 <script>
   import Link from '#lib/components/link.svelte'
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
   import Tooltip from '#components/tooltip.svelte'
 
@@ -9,7 +9,7 @@
   const dispatch = createEventDispatcher()
 </script>
 
-<button class="value-display" on:click={e => dispatch('edit')} title={i18n('edit')}>
+<button class="value-display" on:click={e => dispatch('edit')} title={I18n('edit')}>
   <Tooltip>
     <div slot="primary" aria-haspopup="menu">
       {value || ''}

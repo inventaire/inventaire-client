@@ -1,5 +1,5 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
   import { getBasicInfoByUri } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
@@ -26,7 +26,7 @@
   }
 </script>
 
-<button class="value-display" on:click={() => dispatch('edit')} title="{i18n('edit')}">
+<button class="value-display" on:click={() => dispatch('edit')} title="{I18n('edit')}">
   {#await waitingForValueEntityBasicInfo}
     <Spinner />
   {:then}
