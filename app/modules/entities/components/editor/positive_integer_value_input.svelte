@@ -2,11 +2,13 @@
   import { autofocus } from '#lib/components/actions/autofocus'
   import { i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
+  import { BubbleUpComponentEvent } from '#lib/utils'
   import error_ from '#lib/error'
 
   export let currentValue, getInputValue
 
   const dispatch = createEventDispatcher()
+  const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
 
   let input
   getInputValue = () => {
@@ -25,7 +27,7 @@
   step=1
   placeholder="{i18n('ex:')} 254"
   value={currentValue || ''}
-  on:keyup={e => dispatch('keyup', e)}
+  on:keyup={bubbleUpEvent}
   bind:this={input}
   use:autofocus
 >
