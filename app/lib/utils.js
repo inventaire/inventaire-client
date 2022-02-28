@@ -194,4 +194,12 @@ export const bubbleUpChildViewEvent = function (eventName) {
   }
 }
 
-export const BubbleUpComponentEvent = dispatch => e => dispatch(e.type, e.detail)
+export const BubbleUpComponentEvent = dispatch => e => {
+  if (e instanceof CustomEvent) {
+    // Assumes that this e.detail is the DOM event to bubble-up
+    dispatch(e.type, e.detail)
+  } else {
+    // Assumes that e is the DOM event to bubble-up
+    dispatch(e.type, e)
+  }
+}

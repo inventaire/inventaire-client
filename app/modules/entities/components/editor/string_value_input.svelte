@@ -2,10 +2,12 @@
   import { autofocus } from '#lib/components/actions/autofocus'
   import { createEventDispatcher } from 'svelte'
   import error_ from '#lib/error'
+  import { BubbleUpComponentEvent } from '#lib/utils'
 
   export let currentValue, getInputValue
 
   const dispatch = createEventDispatcher()
+  const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
 
   let input
   getInputValue = () => {
@@ -20,7 +22,7 @@
 <input
   type="text"
   value={currentValue || ''}
-  on:keyup={e => dispatch('keyup', e)}
+  on:keyup={bubbleUpEvent}
   bind:this={input}
   use:autofocus
 >
