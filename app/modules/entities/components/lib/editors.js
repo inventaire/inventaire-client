@@ -2,6 +2,8 @@ import EntityValueInput from '../editor/entity_value_input.svelte'
 import EntityValueDisplay from '../editor/entity_value_display.svelte'
 import StringValueInput from '../editor/string_value_input.svelte'
 import StringValueDisplay from '../editor/string_value_display.svelte'
+import UrlValueInput from '../editor/url_value_input.svelte'
+import UrlValueDisplay from '../editor/url_value_display.svelte'
 import FixedStringValueDisplay from '../editor/fixed_string_value_display.svelte'
 import SimpleDayValueInput from '../editor/simple_day_value_input.svelte'
 import PositiveIntegerValueInput from '../editor/positive_integer_value_input.svelte'
@@ -17,6 +19,10 @@ export const editors = {
   string: {
     InputComponent: StringValueInput,
     DisplayComponent: StringValueDisplay,
+  },
+  url: {
+    InputComponent: UrlValueInput,
+    DisplayComponent: UrlValueDisplay,
   },
   'fixed-string': {
     // InputComponent: FixedStringValue,

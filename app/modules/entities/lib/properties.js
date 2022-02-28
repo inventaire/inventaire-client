@@ -123,4 +123,4 @@ addProp('wdt:P3035', 'string', null, true, null)
 
 // # all
 // official website
-addProp('wdt:P856', 'string', null, false, null)
+addProp('wdt:P856', 'url', null, false, null)
