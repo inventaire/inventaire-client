@@ -1,14 +1,12 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { createEventDispatcher } from 'svelte'
-  import { BubbleUpComponentEvent } from '#lib/utils'
+  import { BubbleUpComponentEvent } from '#lib/svelte'
 
   export let value, name, min, max, placeholder, optional = true, componentId
 
   let inputEl
 
-  const dispatch = createEventDispatcher()
-  const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
+  const bubbleUpEvent = BubbleUpComponentEvent()
 
   function initValue () {
     value = value || 1

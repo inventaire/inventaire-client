@@ -1,13 +1,11 @@
 <script>
   import { autofocus } from '#lib/components/actions/autofocus'
-  import { createEventDispatcher } from 'svelte'
   import error_ from '#lib/error'
-  import { BubbleUpComponentEvent } from '#lib/utils'
+  import { BubbleUpComponentEvent } from '#lib/svelte'
 
   export let currentValue, getInputValue
 
-  const dispatch = createEventDispatcher()
-  const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
+  const bubbleUpEvent = BubbleUpComponentEvent()
 
   let input
   getInputValue = () => {

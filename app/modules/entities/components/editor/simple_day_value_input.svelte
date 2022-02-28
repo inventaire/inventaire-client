@@ -1,14 +1,13 @@
 <script>
-  import { BubbleUpComponentEvent, simpleDay } from '#lib/utils'
-  import { createEventDispatcher } from 'svelte'
+  import { simpleDay } from '#lib/utils'
   import SimpleDayValueInputField from './simple_day_value_input_field.svelte'
   import SimpleDayValueInputLabel from './simple_day_value_input_label.svelte'
   import { uniqueId } from 'underscore'
+  import { BubbleUpComponentEvent } from '#lib/svelte'
 
   export let currentValue, getInputValue
 
-  const dispatch = createEventDispatcher()
-  const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
+  const bubbleUpEvent = BubbleUpComponentEvent()
   const componentId = uniqueId('component')
 
   getInputValue = () => {
