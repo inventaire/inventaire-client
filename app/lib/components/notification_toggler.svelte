@@ -8,7 +8,6 @@
 
   const updateSetting = () => {
     flash = null
-    value = !value
     try {
       app.request('user:update', {
         attribute: `settings.notifications.${name}`,
@@ -17,6 +16,10 @@
     } catch (err) {
       flash = err
     }
+    setGlobalWarning()
+  }
+
+  function setGlobalWarning () {
     if (name === 'global' && value === false) {
       flash = {
         type: 'warning',
@@ -24,12 +27,14 @@
       }
     }
   }
+
+  setGlobalWarning()
 </script>
 
-<div class="wrapper" on:click={updateSetting}>
-  <input type="checkbox" name={name} id={name} bind:checked={value}>
-  <label for={name}>{I18n(description)}</label>
-</div>
+<label>
+  <input type="checkbox" name={name} id={name} bind:checked={value} on:change={updateSetting}>
+  {I18n(description)}
+</label>
 <Flash bind:state={flash}/>
 
 <style lang="scss">
@@ -38,10 +43,8 @@
     margin: 0;
   }
   label {
-    font-size: 1rem
-  }
-  .wrapper{
-    display: flex;
-    align-items: center;
+    display: block;
+    font-size: 1rem;
+    margin: 1em 0;
   }
 </style>
