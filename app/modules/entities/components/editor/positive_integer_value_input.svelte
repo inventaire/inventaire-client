@@ -4,7 +4,7 @@
   import { BubbleUpComponentEvent } from '#lib/svelte'
   import error_ from '#lib/error'
 
-  export let currentValue, getInputValue
+  export let currentValue, getInputValue, editorType
 
   const bubbleUpEvent = BubbleUpComponentEvent()
 
@@ -14,7 +14,8 @@
     if (!input.validity.valid) {
       throw error_.new('invalid value', 400, { value })
     }
-    return parseInt(input.value)
+    if (editorType === 'positive-integer-string') return input.value
+    else return parseInt(input.value)
   }
 </script>
 

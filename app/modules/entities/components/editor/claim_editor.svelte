@@ -80,6 +80,7 @@
         {property}
         {currentValue}
         {valueLabel}
+        {editorType}
         {entity}
         bind:getInputValue
         on:keyup={onInputKeyup}
