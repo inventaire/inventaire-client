@@ -3,10 +3,13 @@
   import _ from 'underscore'
   import Flash from '#lib/components/flash.svelte'
   import Counter from '#components/counter.svelte'
-  import { createEntitiesByCandidate } from '#inventory/components/importer/create_candidate_entities'
   import { createItem } from '#inventory/components/create_item'
   import ImportResults from '#inventory/components/importer/import_results.svelte'
   import screen_ from '#lib/screen'
+  import {
+    assignEntryEntitiesToCandidate,
+    resolveAndFetchEntities,
+  } from '#inventory/lib/import_helpers'
 
   export let candidates
   export let transaction
@@ -53,20 +56,25 @@
     if (!nextCandidate) return
     processedEntitiesCount += 1
     const { workTitle } = nextCandidate
-    if (workTitle && nextCandidate.checked) {
-      await createEntitiesByCandidate(nextCandidate)
-      .then(async candidateWithEntities => {
+    // no need to resolve unless candidates has unresolved subentries
+    if (workTitle && nextCandidate.checked && missingResolvableEntities(nextCandidate)) {
+      try {
+        const resolveOptions = { create: true }
+        const entitiesRes = await resolveAndFetchEntities(nextCandidate, resolveOptions)
+        const candidateWithEntities = assignEntryEntitiesToCandidate(nextCandidate, entitiesRes)
+
         candidates[candidatePosition] = candidateWithEntities
-      })
-      .catch(err => {
+      } catch (err) {
         // do not throw to not crash the whole chain
         const { responseJSON } = err
         nextCandidate.error = responseJSON
         candidates[candidatePosition] = nextCandidate
-      })
+      }
     }
     await createEntitiesSequentially()
   }
+
+  const missingResolvableEntities = candidate => !candidate.edition || !candidate.works
 
   const createItemsSequentially = async () => {
     const candidatePosition = processedItemsCount
