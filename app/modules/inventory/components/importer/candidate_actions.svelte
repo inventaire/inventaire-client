@@ -3,7 +3,7 @@
   import { I18n } from '#user/lib/i18n'
   import { createItem } from '#inventory/components/create_item'
   import Spinner from '#general/components/spinner.svelte'
-  import { createEntitiesByCandidate } from '#inventory/components/importer/create_candidate_entities'
+  import { resolveAndCreateCandidateEntities } from '#inventory/lib/import_helpers'
   import { isOpenedOutside } from '#lib/utils'
 
   export let candidate
@@ -15,7 +15,7 @@
   const retryCreateItem = async () => {
     retrying = true
     if (!edition) {
-      const candidateWithEntities = await createEntitiesByCandidate(candidate)
+      const candidateWithEntities = await resolveAndCreateCandidateEntities(candidate)
       candidate = candidateWithEntities
     }
 

@@ -29,6 +29,10 @@ export const createCandidate = (externalEntry, entitiesRes) => {
   if (libraryThingWorkId) candidate.libraryThingWorkId = libraryThingWorkId
 
   if (!entitiesRes) return candidate
+  return assignEntitiesToCandidate(candidate, entitiesRes)
+}
+
+export const assignEntitiesToCandidate = (candidate, entitiesRes) => {
   const entities = Object.values(entitiesRes.entities).map(serializeEntity)
   const { edition: editions, work: works, human: authors } = _.groupBy(entities, _.property('type'))
   if (editions) candidate.edition = getEdition(editions)
@@ -96,41 +100,66 @@ export const addExistingItemsCountToCandidate = counts => candidate => {
   return candidate
 }
 
-export const resolveEntryAndFetchEntities = async externalEntry => {
-  // take advantage of the file upload to update existing entities ASAP
-  // but do not create to let user verify unresolved entries information
-  const entry = serializeResolverEntry(externalEntry)
-  const { entries } = await preq.post(app.API.entities.resolve, {
-    entries: [ entry ],
-    update: true
-  })
+const areAllEntitiesResolved = candidate => candidate.edition && candidate.works
 
+export const resolveAndCreateCandidateEntities = async candidate => {
+  const { workTitle, checked } = candidate
+  if (!workTitle || !checked || areAllEntitiesResolved(candidate)) return candidate
+  const resolveOptions = { create: true }
+  const resEntry = await resolveCandidate(candidate, resolveOptions)
+  const entitiesRes = await fetchAllMissingEntities(resEntry, editionRelatives)
+  return assignEntitiesToCandidate(candidate, entitiesRes)
+}
+
+export const resolveCandidate = async (candidate, resolveOptions) => {
+  const entry = serializeResolverEntry(candidate)
+  const params = Object.assign({}, { entries: [ entry ] }, resolveOptions)
+  const { entries } = await preq.post(app.API.entities.resolve, params)
+  return entries[0]
+}
+
+export const getRelevantEntities = async (edition, works) => {
+  if (edition?.uri) {
+    // ignore resolver response, as some resolved uris might not be in the edition entity graph
+    return preq.get(app.API.entities.getByUris(edition.uri, false, editionRelatives))
+  } else {
+    const worksUris = getUris(works)
+    if (isNonEmptyArray(worksUris)) {
+      // ignore authors to let user verify authors information
+      return preq.get(app.API.entities.getByUris(worksUris, false, editionRelatives))
+    }
+  }
+}
+
+const editionRelatives = [ 'wdt:P629', 'wdt:P50' ]
+
+const getUris = works => _.compact(works.map(getUri))
+
+const getUri = _.property('uri')
+
+const fetchAllMissingEntities = (resEntry, editionRelatives) => {
   const uris = []
-  const { edition, works, authors } = entries[0]
+  const { edition, works, authors } = resEntry
   const pushUri = subEntry => { if (subEntry.uri) uris.push(subEntry.uri) }
   pushUri(edition)
   works.forEach(pushUri)
   authors.forEach(pushUri)
   if (!isNonEmptyArray(uris)) return
-
   return preq.get(app.API.entities.getByUris(uris, false, editionRelatives))
 }
 
-const editionRelatives = [ 'wdt:P629', 'wdt:P50' ]
-
-export const serializeResolverEntry = data => {
-  const { isbn, workTitle: title, lang, authorsNames, normalizedIsbn } = data
+const serializeResolverEntry = data => {
+  const { isbn, workTitle, lang, authorsNames, normalizedIsbn, isbnData } = data
   const labelLang = lang || app.user.lang
 
   const edition = {
-    isbn: isbn || normalizedIsbn,
+    isbn: isbn || normalizedIsbn || isbnData?.normalizedIsbn,
     claims: {
-      'wdt:P1476': [ title ]
+      'wdt:P1476': [ workTitle ]
     }
   }
-
   const work = { labels: {}, claims: {} }
-  work.labels[labelLang] = title
+  work.labels[labelLang] = workTitle
 
   if (data.publicationDate != null) edition.claims['wdt:P577'] = data.publicationDate
   if (data.numberOfPages != null) edition.claims['wdt:P1104'] = data.numberOfPages
