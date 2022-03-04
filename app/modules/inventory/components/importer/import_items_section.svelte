@@ -56,7 +56,7 @@
       const candidateWithEntities = await resolveAndCreateCandidateEntities(nextCandidate)
       candidates[candidatePosition] = candidateWithEntities
     } catch (err) {
-      // do not throw to not crash the whole chain
+      // Do not throw to not crash the whole chain
       const { responseJSON } = err
       nextCandidate.error = responseJSON
       candidates[candidatePosition] = nextCandidate
@@ -76,7 +76,7 @@
         nextCandidate.item = item
       })
       .catch(err => {
-        // do not throw to not crash the whole chain
+        // Do not throw to not crash the whole chain
         const { responseJSON } = err
         nextCandidate.error = responseJSON
       })
