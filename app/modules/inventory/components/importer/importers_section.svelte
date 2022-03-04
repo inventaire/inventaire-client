@@ -9,9 +9,10 @@
     byIndex,
     isAlreadyCandidate,
     addExistingItemsCountToCandidate,
-    resolveEntryAndFetchEntities,
+    resolveCandidate,
     getEditionEntitiesByUri,
     formatCandidatesData,
+    getRelevantEntities,
   } from '#inventory/lib/import_helpers'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import screen_ from '#lib/screen'
@@ -78,7 +79,10 @@
             // not enough data for the resolver, so get edition by uri directly
             entitiesRes = await getEditionEntitiesByUri(normalizedIsbn)
           } else {
-            entitiesRes = await resolveEntryAndFetchEntities(externalEntry)
+            const resolveOptions = { update: true }
+            const resEntry = await resolveCandidate(externalEntry, resolveOptions)
+            const { edition, works } = resEntry
+            entitiesRes = await getRelevantEntities(edition, works)
           }
         } catch (err) {
           log_.error(err, 'no entities found err')
