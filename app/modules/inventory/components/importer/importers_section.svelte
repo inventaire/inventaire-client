@@ -69,8 +69,8 @@
       if (remainingExternalEntries.length === 0) return
       const externalEntry = remainingExternalEntries.pop()
       const { normalizedIsbn } = externalEntry.isbnData
-      // wont prevent doublons candidates if 2 identical isbns are processed
-      // at the same time in separate channels (see below createCandidateOneByOne)
+      // Wont prevent doublons candidates when 2 identical isbns are processed
+      // at the same time in separate threads (see below createCandidatesQueue)
       // this is acceptable, as long as it prevents doublons from one import to another
       let entitiesRes
       if (!isAlreadyCandidate(normalizedIsbn, candidates)) {
@@ -90,15 +90,13 @@
       }
       createAndAssignCandidate(externalEntry, entitiesRes)
       createCandidateOneByOne()
-      // log errors without throwing to prevent crashing the whole chain
+      // Log errors without throwing to prevent crashing the whole chain
       .catch(log_.Error('createCandidateOneByOne err'))
     }
 
     return Promise.all([
       // Using 5 separate channels, fetching entities one by one, instead of
       // by batch, to avoid having one entity blocking a batch progression:
-      // the hypothesis is that the request overhead should be smaller than
-      // the time a new dataseed-based entity might take to be created
       createCandidateOneByOne(),
       createCandidateOneByOne(),
       createCandidateOneByOne(),
@@ -109,7 +107,7 @@
       // Display candidates in the order of the input
       // to help the user fill the missing information
       candidates = candidates.sort(byIndex)
-      // add counts only now in order to handle entities redirects
+      // Add counts only now in order to handle entities redirects
       await addExistingItemsCounts()
     })
     .finally(() => cancel = false)

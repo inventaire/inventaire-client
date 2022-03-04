@@ -25,7 +25,6 @@
 </ul>
 <CandidateNav bind:candidates />
 {#if candidatesLength > 20 }
-  <!-- stats -->
   <p>{I18n('Number of books found')}: {candidatesLength}</p>
   <p>{I18n('Number of books you selected to import')}: {selectedBooksCount}</p>
 {/if}

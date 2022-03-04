@@ -35,7 +35,6 @@
 }
 
   const clearIsbnText = () => {
-    // Todo: do not display flash no isbn found
     flash = null
     isbnsText = ''
   }
