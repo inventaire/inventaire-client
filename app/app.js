@@ -81,6 +81,11 @@ const App = Marionette.Application.extend({
     if (!options.preventScrollTop) scrollToPageTop()
   },
 
+  navigateAndLoad (route, options = {}) {
+    options.trigger = true
+    this.navigate(route, options)
+  },
+
   navigateReplace (route, options) {
     if (!options) options = {}
     options.replace = true
