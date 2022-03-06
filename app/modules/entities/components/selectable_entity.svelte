@@ -4,6 +4,7 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers.js'
   import { createEventDispatcher } from 'svelte'
+  import Link from '#lib/components/link.svelte'
 
   export let entity, from, to, filterPattern
 
@@ -33,7 +34,9 @@
     <div class="no-image"></div>
   {/if}
   <div class="info">
-    <h3><a class="label showEntity" href="/entity/{entity.uri}">{entity.label}</a></h3>
+    <h3>
+      <Link url={`/entity/${entity.uri}`} text={entity.label} />
+    </h3>
     <p class="description">{entity.description || ''}</p>
     <p class="uri" on:click|stopPropagation>{entity.uri}</p>
     <ul class="all-terms" on:click|stopPropagation>
@@ -132,7 +135,7 @@
   h4{
     font-size: 1.1em;
   }
-  .label, .description, h3, h4{
+  .description, h3, h4{
     margin: 0;
   }
   .description{
@@ -144,14 +147,16 @@
     margin: 0.5em 0;
     @include radius;
   }
-  .showEntity{
-    font-weight: normal;
-    font-size: 1.1em;
-    font-family: $serif;
-    user-select: text;
-  }
-  .showEntity:hover{
-    text-decoration: underline;
+  h3{
+    :global(a){
+      font-weight: normal;
+      font-size: 1.1em;
+      font-family: $serif;
+      user-select: text;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
   }
   .count{
     background-color: $off-white;
