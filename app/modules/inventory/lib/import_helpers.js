@@ -1,5 +1,6 @@
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
+import { createEntitiesByCandidate } from '#inventory/components/importer/create_candidate_entities'
 import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
 
@@ -73,9 +74,12 @@ const getEdition = editions => {
 
 export const noNewCandidates = ({ externalEntries, candidates }) => {
   const externalEntriesIsbns = getNormalizedIsbns(externalEntries)
+  if (someWithoutIsbns) return false
   const candidatesIsbns = getNormalizedIsbns(candidates)
   return externalEntriesIsbns.every(isCandidateIsbn(candidatesIsbns))
 }
+
+const someWithoutIsbns = (externalEntries, externalEntriesIsbns) => externalEntriesIsbns.length !== externalEntries.length
 
 const getNormalizedIsbns = candidates => {
   return _.compact(candidates.map(candidate => candidate.isbnData?.normalizedIsbn))
@@ -105,10 +109,21 @@ const areAllEntitiesResolved = candidate => candidate.edition && candidate.works
 export const resolveAndCreateCandidateEntities = async candidate => {
   const { workTitle, checked } = candidate
   if (!workTitle || !checked || areAllEntitiesResolved(candidate)) return candidate
-  const resolveOptions = { create: true }
-  const resEntry = await resolveCandidate(candidate, resolveOptions)
-  const entitiesRes = await fetchAllMissingEntities(resEntry, editionRelatives)
-  return assignEntitiesToCandidate(candidate, entitiesRes)
+  let entitiesRes
+  if (canBeResolved(candidate)) {
+    const resolveOptions = { create: true }
+    const resEntry = await resolveCandidate(candidate, resolveOptions)
+    entitiesRes = await fetchAllMissingEntities(resEntry, editionRelatives)
+    return assignEntitiesToCandidate(candidate, entitiesRes)
+  } else {
+    return createEntitiesByCandidate(candidate)
+  }
+}
+
+const canBeResolved = candidate => {
+  const { goodReadsEditionId } = candidate
+  const isbn = findIsbn(candidate)
+  return isbn || goodReadsEditionId
 }
 
 export const resolveCandidate = async (candidate, resolveOptions) => {
@@ -148,16 +163,25 @@ const fetchAllMissingEntities = (resEntry, editionRelatives) => {
   return preq.get(app.API.entities.getByUris(uris, false, editionRelatives))
 }
 
+const findIsbn = data => {
+  const { isbn, normalizedIsbn, isbnData } = data
+  return isbn || normalizedIsbn || isbnData?.normalizedIsbn
+}
+
 const serializeResolverEntry = data => {
-  const { isbn, workTitle, lang, authorsNames, normalizedIsbn, isbnData } = data
+  const { workTitle, lang, authorsNames } = data
+  let { isbn } = data
   const labelLang = lang || app.user.lang
 
   const edition = {
-    isbn: isbn || normalizedIsbn || isbnData?.normalizedIsbn,
     claims: {
       'wdt:P1476': [ workTitle ]
     }
   }
+
+  isbn = findIsbn(data)
+  if (isbn) Object.assign(edition, { isbn })
+
   const work = { labels: {}, claims: {} }
   work.labels[labelLang] = workTitle
 
