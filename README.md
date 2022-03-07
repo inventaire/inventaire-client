@@ -53,4 +53,4 @@ npm run build
 ```
 
 ## License
-[AGPL](LICENSE.md)
+Inventaire is an open-sourced project licensed under [AGPLv3](./LICENSES/AGPL-3.0-only.txt).
