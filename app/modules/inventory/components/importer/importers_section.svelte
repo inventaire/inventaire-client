@@ -7,7 +7,6 @@
     createCandidate,
     noNewCandidates,
     byIndex,
-    isAlreadyCandidate,
     addExistingItemsCountToCandidate,
     resolveCandidate,
     getEditionEntitiesByUri,
@@ -40,7 +39,6 @@
 
   const createExternalEntry = candidateData => {
     const { isbn, title, authors } = candidateData
-    if (isAlreadyCandidate(isbn, candidates)) return
     let externalEntry = {
       index: externalEntryIndexCount++,
       workTitle: title,
@@ -68,25 +66,23 @@
       if (cancel) return processedExternalEntriesCount = 0
       if (remainingExternalEntries.length === 0) return
       const externalEntry = remainingExternalEntries.pop()
-      const { normalizedIsbn } = externalEntry.isbnData
+      const normalizedIsbn = externalEntry.isbnData?.normalizedIsbn
       // Wont prevent doublons candidates when 2 identical isbns are processed
       // at the same time in separate threads (see below createCandidatesQueue)
       // this is acceptable, as long as it prevents doublons from one import to another
       let entitiesRes
-      if (!isAlreadyCandidate(normalizedIsbn, candidates)) {
-        try {
-          if (!externalEntry.workTitle) {
-            // not enough data for the resolver, so get edition by uri directly
-            entitiesRes = await getEditionEntitiesByUri(normalizedIsbn)
-          } else {
-            const resolveOptions = { update: true }
-            const resEntry = await resolveCandidate(externalEntry, resolveOptions)
-            const { edition, works } = resEntry
-            entitiesRes = await getRelevantEntities(edition, works)
-          }
-        } catch (err) {
-          log_.error(err, 'no entities found err')
+      try {
+        if (!externalEntry.workTitle) {
+          // not enough data for the resolver, so get edition by uri directly
+          entitiesRes = await getEditionEntitiesByUri(normalizedIsbn)
+        } else {
+          const resolveOptions = { update: true }
+          const resEntry = await resolveCandidate(externalEntry, resolveOptions)
+          const { edition, works } = resEntry
+          entitiesRes = await getRelevantEntities(edition, works)
         }
+      } catch (err) {
+        log_.error(err, 'no entities found err')
       }
       createAndAssignCandidate(externalEntry, entitiesRes)
       createCandidateOneByOne()
