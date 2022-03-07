@@ -7,7 +7,7 @@
   import { guessUriFromIsbn } from '#inventory/lib/import_helpers'
 
   const { isbnData, edition, works, authors, error } = candidate
-  let { workTitle, authorsNames } = candidate
+  let { editionTitle, authorsNames } = candidate
 
   let existingItemsPathname
   let disabled, existingItemsCount
@@ -34,7 +34,7 @@
     statuses = _.without(statuses, status)
   }
 
-  const hasImportedData = workTitle || authorsNames
+  const hasImportedData = editionTitle || authorsNames
   const noCandidateEntities = !isNonEmptyArray(works) || !isNonEmptyArray(authors)
   const hasWorkWithoutAuthors = isNonEmptyArray(works) && !isNonEmptyArray(authors)
   if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) addStatus(statusContents.newEntry)
@@ -53,7 +53,7 @@
   }
 
   $: {
-    if (!isNonEmptyArray(works) && !isNonEmptyString(workTitle)) {
+    if (!isNonEmptyArray(works) && !isNonEmptyString(editionTitle)) {
       addStatus(statusContents.needInfo)
       disabled = true
     } else {
@@ -82,7 +82,7 @@
     }
   }
   $: checked = candidate.checked
-  $: candidate.workTitle = workTitle
+  $: candidate.editionTitle = editionTitle
 </script>
 <li class="candidate-row" on:click="{toggleCheckbox}" class:checked>
   <div class="candidate-text">
@@ -92,7 +92,7 @@
         {edition}
         {works}
         {authors}
-        bind:workTitle
+        bind:editionTitle
         bind:authorsNames
         withEditor={true}
         />

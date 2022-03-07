@@ -5,7 +5,7 @@ import { isNonEmptyArray } from '#lib/boolean_tests'
 
 export const createEntitiesByCandidate = async candidate => {
   const {
-    workTitle,
+    editionTitle,
     authorsNames,
     libraryThingWorkId,
   } = candidate
@@ -14,8 +14,8 @@ export const createEntitiesByCandidate = async candidate => {
     candidate.authors = await createAuthors(authorsNames)
   }
 
-  if (!isNonEmptyArray(candidate.works) && workTitle) {
-    candidate.works = await createWorks(candidate.authors, workTitle, libraryThingWorkId)
+  if (!isNonEmptyArray(candidate.works) && editionTitle) {
+    candidate.works = await createWorks(candidate.authors, editionTitle, libraryThingWorkId)
   }
 
   if (!candidate.edition && isNonEmptyArray(candidate.works)) {
@@ -32,7 +32,7 @@ const createAuthors = async authorsNames => {
   if (isNonEmptyArray(createdAuthorsEntities)) return createdAuthorsEntities
 }
 
-const createWorks = async (authors, workTitle, libraryThingWorkId) => {
+const createWorks = async (authors, editionTitle, libraryThingWorkId) => {
   const workClaims = {}
   if (isNonEmptyArray(authors)) {
     const authorsUris = authors.map(_.property('uri'))
@@ -40,7 +40,7 @@ const createWorks = async (authors, workTitle, libraryThingWorkId) => {
   }
   if (libraryThingWorkId != null) workClaims['wdt:P1085'] = libraryThingWorkId
 
-  const workDraft = entityDraft.createDraft({ type: 'work', label: workTitle, claims: workClaims })
+  const workDraft = entityDraft.createDraft({ type: 'work', label: editionTitle, claims: workClaims })
   const workEntity = await createEntity(workDraft)
   if (workEntity) return [ workEntity ]
 }

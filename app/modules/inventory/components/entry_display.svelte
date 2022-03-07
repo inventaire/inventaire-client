@@ -11,7 +11,7 @@
   export let edition
   export let works
   export let authors
-  export let workTitle
+  export let editionTitle
   export let authorsNames
   export let withEditor = false
 
@@ -57,7 +57,7 @@
         </span>
       {:else}
         {#if withEditor}
-          <EntityValueInput type='work' bind:inputName={workTitle}/>
+          <EntityValueInput type='work' bind:inputName={editionTitle}/>
         {/if}
       {/if}
     </div>
