@@ -41,7 +41,7 @@
     const { isbn, title, authors } = candidateData
     let externalEntry = {
       index: externalEntryIndexCount++,
-      workTitle: title,
+      editionTitle: title,
       authorsNames: authors,
     }
     delete candidateData.title
@@ -72,7 +72,7 @@
       // this is acceptable, as long as it prevents doublons from one import to another
       let entitiesRes
       try {
-        if (!externalEntry.workTitle) {
+        if (!externalEntry.editionTitle) {
           // not enough data for the resolver, so get edition by uri directly
           entitiesRes = await getEditionEntitiesByUri(normalizedIsbn)
         } else {

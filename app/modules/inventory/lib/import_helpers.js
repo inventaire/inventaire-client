@@ -8,7 +8,7 @@ export const createCandidate = (externalEntry, entitiesRes) => {
   const {
     index,
     isbnData,
-    workTitle,
+    editionTitle,
     authorsNames,
     details,
     notes,
@@ -20,7 +20,7 @@ export const createCandidate = (externalEntry, entitiesRes) => {
 
   const candidate = { index }
   if (isbnData) candidate.isbnData = isbnData
-  if (isNonEmptyString(workTitle)) candidate.workTitle = workTitle
+  if (isNonEmptyString(editionTitle)) candidate.editionTitle = editionTitle
   if (authorsNames) candidate.authorsNames = authorsNames
   if (isNonEmptyString(details)) candidate.details = details
   if (isNonEmptyString(notes)) candidate.notes = notes
@@ -107,8 +107,8 @@ export const addExistingItemsCountToCandidate = counts => candidate => {
 const areAllEntitiesResolved = candidate => candidate.edition && candidate.works
 
 export const resolveAndCreateCandidateEntities = async candidate => {
-  const { workTitle, checked } = candidate
-  if (!workTitle || !checked || areAllEntitiesResolved(candidate)) return candidate
+  const { editionTitle, checked } = candidate
+  if (!editionTitle || !checked || areAllEntitiesResolved(candidate)) return candidate
   let entitiesRes
   if (canBeResolved(candidate)) {
     const resolveOptions = { create: true }
@@ -169,13 +169,13 @@ const findIsbn = data => {
 }
 
 const serializeResolverEntry = data => {
-  const { workTitle, lang, authorsNames } = data
+  const { editionTitle, lang, authorsNames } = data
   let { isbn } = data
   const labelLang = lang || app.user.lang
 
   const edition = {
     claims: {
-      'wdt:P1476': [ workTitle ]
+      'wdt:P1476': [ editionTitle ]
     }
   }
 
@@ -183,7 +183,7 @@ const serializeResolverEntry = data => {
   if (isbn) Object.assign(edition, { isbn })
 
   const work = { labels: {}, claims: {} }
-  work.labels[labelLang] = workTitle
+  work.labels[labelLang] = editionTitle
 
   if (data.publicationDate != null) edition.claims['wdt:P577'] = data.publicationDate
   if (data.numberOfPages != null) edition.claims['wdt:P1104'] = data.numberOfPages
