@@ -8,11 +8,15 @@
   import screen_ from '#lib/screen'
   import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
   import { isAlreadyResolved, removeCreatedCandidates } from '#inventory/components/importer/lib/import_items_helpers'
+  import { createShelf } from '#shelves/lib/shelves'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let candidates
   export let transaction
   export let visibility
   export let shelvesIds
+  export let externalShelves
+
   let flash
   let importingCandidates
   let processedCandidates = []
@@ -30,6 +34,7 @@
       await createEntitiesSequentially()
       processedItemsCount = 0
       await createItemsSequentially()
+      await createExternalShelves()
       importingCandidates = false
       candidates = removeCreatedCandidates({ candidates, processedCandidates })
       if (importResultsElement) screen_.scrollToElement(importResultsElement)
@@ -70,6 +75,36 @@
       processedCandidates = [ ...processedCandidates, nextCandidate ]
     }
     await createItemsSequentially()
+  }
+
+  // assuming a limited amount of shelves are imported at once, so requests can be grouped
+  const createExternalShelves = async () => externalShelves.forEach(await createAndAssignShelf)
+
+  const createAndAssignShelf = async externalShelf => {
+    assignItemsIdsToShelf(externalShelf)
+    const { itemsIds, checked } = externalShelf
+    if (checked && isNonEmptyArray(itemsIds)) {
+      const newShelf = await createShelf({
+        name: externalShelf.name,
+        items: itemsIds,
+        // TODO: allow a visibility selector for each shelf
+        // probably after finer privacy settings, to not redo interface twice
+        listing: 'private',
+      })
+      externalShelf = Object.assign(externalShelf, { invId: newShelf._id })
+    }
+  }
+
+  const assignItemsIdsToShelf = shelf => {
+    const itemsIds = []
+    shelf.candidatesIndexes.forEach(candidateIndex => {
+      const candidate = candidates.find(candidate => candidate.index === candidateIndex)
+      if (candidate && candidate.checked) {
+        const itemId = candidate.item?._id
+        if (itemId) itemsIds.push(itemId)
+      }
+    })
+    Object.assign(shelf, { itemsIds })
   }
 </script>
 <div class="import-candidates">

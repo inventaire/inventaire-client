@@ -3,8 +3,7 @@
   import ExternalShelf from '#inventory/components/importer/external_shelf.svelte'
   export let candidates
   export let processing
-
-  let externalShelves = []
+  export let externalShelves
 
   const groupExternalShelves = () => {
     candidates.forEach(candidate => {
