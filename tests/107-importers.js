@@ -14,13 +14,13 @@ const fixtures = {
   babelio: 'babelio/Biblio_export21507.csv'
 }
 
-const fixturePath = filename => {
-  return resolve(process.cwd(), `./tests/fixtures/exports/${filename}`)
-}
+const fixturePath = filename => resolve(process.cwd(), `./tests/fixtures/exports/${filename}`)
+
+const findImporterByName = name => importers.find(importer => importer.name === name)
 
 describe('Importers', () => {
   describe('Goodreads', () => {
-    const { parse } = importers.goodReads
+    const { parse } = findImporterByName('goodReads')
     const path = fixturePath(fixtures.goodreads)
     const exportData = readFileSync(path, { encoding: 'utf-8' })
 
@@ -48,7 +48,7 @@ describe('Importers', () => {
   })
 
   describe('LibraryThing', () => {
-    const { parse } = importers.libraryThing
+    const { parse } = findImporterByName('libraryThing')
     const path = fixturePath(fixtures.librarything)
     const exportData = readFileSync(path, { encoding: 'utf-8' })
 
@@ -76,7 +76,7 @@ describe('Importers', () => {
   })
 
   describe('Babelio', () => {
-    const { parse, encoding } = importers.babelio
+    const { parse, encoding } = findImporterByName('babelio')
     const path = fixturePath(fixtures.babelio)
     const exportDataBuffer = readFileSync(path)
     const exportData = iconv.decode(exportDataBuffer, encoding)
