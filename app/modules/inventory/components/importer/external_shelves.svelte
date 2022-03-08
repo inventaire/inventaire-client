@@ -1,5 +1,6 @@
 <script>
   import { I18n } from '#user/lib/i18n'
+  import ExternalShelf from '#inventory/components/importer/external_shelf.svelte'
   export let candidates
   export let processing
 
@@ -13,14 +14,16 @@
   }
 
   const asssignOrCreateExternalShelves = candidateIndex => candidateShelf => {
-    const alreadyNewShelf = externalShelves.find(importShelf => importShelf.name === candidateShelf)
-    if (alreadyNewShelf) {
-      alreadyNewShelf.candidatesIndexes.push(candidateIndex)
+    const existingShelf = externalShelves.find(importShelf => importShelf.name === candidateShelf)
+    if (existingShelf) {
+      existingShelf.candidatesIndexes = [ ...existingShelf.candidatesIndexes, candidateIndex ]
     } else {
-      externalShelves.push({
+      const newShelf = {
         name: candidateShelf,
-        candidatesIndexes: [ candidateIndex ]
-      })
+        candidatesIndexes: [ candidateIndex ],
+        checked: true,
+      }
+      externalShelves = [ ...externalShelves, newShelf ]
     }
   }
 
@@ -33,7 +36,7 @@
   </label>
   <div id="external-shelves-selector" class="select-button-group" role="menu">
     {#each externalShelves as externalShelf}
-      {externalShelf.name}
+      <ExternalShelf {externalShelf}/>
     {/each}
   </div>
 </div>
