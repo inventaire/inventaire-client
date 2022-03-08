@@ -8,9 +8,7 @@
 </script>
 <li class='external-shelf' on:click={toggleCheckbox}>
 	<input type="checkbox" bind:checked name="{I18n('external_shelf')}">
-	<p>
-		{externalShelf.name}
-	</p>
+	<p>{externalShelf.name}</p>
 </li>
 <style lang="scss">
   @import '#general/scss/utils';
