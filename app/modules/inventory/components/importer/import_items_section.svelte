@@ -17,12 +17,14 @@
   export let shelvesIds
   export let externalShelves
 
-  let flash
+  let flash, shelvesFlash
   let importingCandidates
   let processedCandidates = []
   let processedItemsCount = 0
   let processedEntitiesCount = 0
-  let importResultsElement
+  let importResultsElement = {}
+  let processedExternalShelvesCount = 0
+  let externalShelfErrors = []
 
   $: selectedCandidates = candidates.filter(_.property('checked'))
 
@@ -34,7 +36,8 @@
       await createEntitiesSequentially()
       processedItemsCount = 0
       await createItemsSequentially()
-      await createExternalShelves()
+      processedExternalShelvesCount = 0
+      await createExternalShelvesSequentially()
       importingCandidates = false
       candidates = removeCreatedCandidates({ candidates, processedCandidates })
       if (importResultsElement) screen_.scrollToElement(importResultsElement)
@@ -77,8 +80,26 @@
     await createItemsSequentially()
   }
 
-  // assuming a limited amount of shelves are imported at once, so requests can be grouped
-  const createExternalShelves = async () => externalShelves.forEach(await createAndAssignShelf)
+  const createExternalShelvesSequentially = async () => {
+    const currentPosition = processedExternalShelvesCount
+    const nextExternalShelf = externalShelves[currentPosition]
+    if (!nextExternalShelf) return
+    processedExternalShelvesCount += 1
+    try {
+      const newShelfId = await createAndAssignShelf(nextExternalShelf)
+      if (newShelfId) {
+        externalShelves[currentPosition] = Object.assign(nextExternalShelf, { invId: newShelfId })
+      }
+    } catch (err) {
+      // Do not throw to not crash the whole chain
+      const { responseJSON } = err
+      const shelfError = I18n('shelf could not be created', nextExternalShelf.name)
+      const shelfErrorMessage = `${shelfError} (${responseJSON.status_verbose}).`
+      externalShelfErrors = [ ...externalShelfErrors, shelfErrorMessage ]
+      shelvesFlash = { type: 'error', message: externalShelfErrors.join(' ') }
+    }
+    await createExternalShelvesSequentially()
+  }
 
   const createAndAssignShelf = async externalShelf => {
     assignItemsIdsToShelf(externalShelf)
@@ -91,7 +112,7 @@
         // probably after finer privacy settings, to not redo interface twice
         listing: 'private',
       })
-      externalShelf = Object.assign(externalShelf, { invId: newShelf._id })
+      if (newShelf) return newShelf._id
     }
   }
 
@@ -129,6 +150,7 @@
     <div bind:this={importResultsElement}>
       <ImportResults  {transaction} {visibility} bind:processedCandidates/>
     </div>
+    <Flash bind:state={shelvesFlash}/>
   {/if}
 </div>
 <style lang="scss">
