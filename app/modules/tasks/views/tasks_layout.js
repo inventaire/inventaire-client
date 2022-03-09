@@ -51,12 +51,12 @@ export default Marionette.View.extend({
     }
   },
 
-  showNextTask (params = {}) {
+  async showNextTask (params = {}) {
     const { spinner } = params
     const entitiesType = this.options.entitiesType
     if (spinner != null) startLoading.call(this, spinner)
     const offset = app.request('querystring:get', 'offset')
-    const nextTask = getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel, entitiesType })
+    const nextTask = await getNextTask({ previousTasks, offset, lastTaskModel: this.currentTaskModel, entitiesType })
     if (spinner != null) stopLoading.call(this, spinner)
     this.showTask({ task: nextTask })
   },

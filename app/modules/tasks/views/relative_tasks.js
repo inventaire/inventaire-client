@@ -44,5 +44,5 @@ export default Marionette.CollectionView.extend({
     this.currentTaskModelId = this.options.currentTaskModel.id
   },
 
-  filter (child) { return child.id !== this.currentTaskModelId }
+  filter (child) { if (child) { return child.id !== this.currentTaskModelId } }
 })
