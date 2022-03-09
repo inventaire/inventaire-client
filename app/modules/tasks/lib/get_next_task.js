@@ -1,5 +1,6 @@
 import preq from '#lib/preq'
 import Task from '../models/task.js'
+import { isNonEmptyArray } from '#lib/boolean_tests'
 
 const backlogs = {
   byScore: [],
@@ -58,7 +59,9 @@ const getNextTaskBySuggestionUri = async params => {
 
   const { tasks } = await preq.get(app.API.tasks.bySuggestionUris(suggestionUri))
   let suggestionUriTasks = tasks[suggestionUri]
-  suggestionUriTasks = suggestionUriTasks.filter(removePreviousTasks(previousTasks))
+  suggestionUriTasks = suggestionUriTasks
+    .filter(removePreviousTasks(previousTasks))
+    .filter(tasksWithOccurences)
   suggestionUrisFetched.push(suggestionUri)
   if (suggestionUriTasks.length === 0) return getNextTask(params)
   else return updateBacklogAndGetNextTask(suggestionUriTasks, params.backlogType)
@@ -72,6 +75,8 @@ const requestNewTasks = async (type, limit, offset) => {
   }
 }
 const removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id)
+
+const tasksWithOccurences = task => isNonEmptyArray(task.externalSourcesOccurrences)
 
 const updateBacklogAndGetNextTask = (tasks = [], backlogName) => {
   backlogs[backlogName].push(...tasks)
