@@ -46,14 +46,13 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .flash{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    @include display-flex(row, flex-start, space-between);
     padding: 0.5em;
     margin: 0.3em 0;
     padding-left: 0.5em;
     @include radius;
     button{
+      margin: 0.2em;
       padding: 0;
     }
   }
