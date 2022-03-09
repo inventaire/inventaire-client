@@ -46,41 +46,26 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .flash{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.3em;
+    @include display-flex(row, flex-start, space-between);
+    padding: 0.5em;
+    margin: 0.3em 0;
     padding-left: 0.5em;
+    @include radius;
     button{
+      margin: 0.2em;
       padding: 0;
     }
   }
   .error{
-    background-color: lighten($danger-color, 30%);
-    color: darken($danger-color, 20%);
-    button{
-      color: darken($danger-color, 20%);
-    };
+    background-color: lighten($danger-color, 25%);
   }
   .success{
     background-color: lighten($success-color, 30%);
-    color: darken($success-color, 20%);
-    button{
-      color: darken($success-color, 20%);
-    };
   }
   .info, .loading{
     background-color: lighten($primary-color, 70%);
-    color: $primary-color;
-    button{
-      color: $primary-color;
-    };
   }
   .warning{
-    background-color: lighten($yellow, 30%);
-    color: darken($success-color, 70%);
-    button{
-      color: darken($success-color, 70%);
-    };
+    background-color: lighten($yellow, 35%);
   }
 </style>
