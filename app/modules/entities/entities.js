@@ -50,12 +50,9 @@ const API = {
     if (refresh) app.execute('uriLabel:refresh')
 
     try {
-      const entity = await getEntityModel(uri, refresh)
-      rejectRemovedPlaceholder(entity)
-
-      const view = await getEntityViewByType(entity, refresh)
-      app.layout.showChildView('main', view)
-      app.navigateFromModel(entity)
+      const entity = await getEntityByUri({ uri })
+      const { view, props } = await getEntityViewByType(entity, refresh)
+      app.layout.showChildComponent('main', view, { props })
     } catch (err) {
       handleMissingEntity(uri, err)
     }

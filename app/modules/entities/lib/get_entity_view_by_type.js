@@ -1,3 +1,7 @@
+import error_ from '#lib/error'
+import preq from '#lib/preq'
+import { serializeEntity } from '#entities/lib/entities'
+import { aliasRedirects } from '#entities/lib/entities_models_index'
 const standalone = true
 
 export default async function getEntityViewByType (model, refresh) {
@@ -33,12 +37,36 @@ export default async function getEntityViewByType (model, refresh) {
   return new ClaimLayout({ property, value, refresh })
 }
 
-const getEditionView = async (model, refresh) => {
-  const [ { default: EditionLayout } ] = await Promise.all([
-    import('../views/edition_layout'),
-    model.waitForWorks
+const getEditionView = async (entity, refresh) => {
+  const [ { default: EditionLayout }, works ] = await Promise.all([
+    import('#entities/components/layouts/edition.svelte'),
+    getEditionWorks(entity, refresh)
   ])
-  return new EditionLayout({ model, refresh, standalone })
+  return {
+    view: EditionLayout,
+    props: {
+      entity,
+      works,
+      standalone
+    }
+  }
+}
+
+const getEditionWorks = async (entity, refresh) => {
+  const worksUris = entity.claims['wdt:P629']
+
+  if (worksUris == null) {
+    const { uri } = entity
+    const err = error_.new('edition entity misses associated works (wdt:P629)', { uri })
+    throw err
+  }
+
+  const { entities, redirects } = await preq.get(app.API.entities.getByUris(worksUris, refresh))
+  aliasRedirects(entities, redirects)
+  // Filtering-out any non-work undetected by the SPARQL query
+  return Object.values(entities)
+  .filter(entity => entity.type === 'work')
+  .map(serializeEntity)
 }
 
 const entityViewSpecialGetterByType = {
