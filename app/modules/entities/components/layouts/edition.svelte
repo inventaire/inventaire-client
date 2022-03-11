@@ -1,8 +1,10 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import ClaimsInfobox from './claims_infobox.svelte'
   export let entity, standalone
-  const { uri, image, label } = entity
+
+  const { uri, image, label, claims } = entity
 
   $: app.navigate(`/entity/${uri}`)
 </script>
@@ -18,7 +20,7 @@
     {/if}
     <div class="claims entity-data-box">
       <h2 class="edition-title">{entity.claims['wdt:P1476']}</h2>
-      <!-- TODO: <EntityClaims {entity}/> -->
+      <ClaimsInfobox {claims}/>
       <!-- TODO: 'entities:edit_data' -->
     </div>
   </div>
