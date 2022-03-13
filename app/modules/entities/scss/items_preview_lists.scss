@@ -31,18 +31,6 @@
       display: none;
     }
   }
-  .items-lists-loader{
-    text-align: center;
-    color: #bbb;
-    @include display-flex(row, center, center);
-    .small-loader{
-      padding: 0.3em;
-    }
-    label{
-      flex: 1 0 auto;
-      white-space: nowrap;
-    }
-  }
 
   &.compact{
     .items-lists-per-transactions{
@@ -74,5 +62,17 @@
   }
 }
 
+.items-lists-loader{
+  text-align: center;
+  color: #bbb;
+  @include display-flex(row, center, center);
+  .small-loader{
+    padding: 0.3em;
+  }
+  .label{
+    flex: 1 0 auto;
+    white-space: nowrap;
+  }
+}
 
 @import 'items_preview_list';
