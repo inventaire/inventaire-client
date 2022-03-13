@@ -1,6 +1,7 @@
 import preq from '#lib/preq'
 import Entities from '../collections/entities.js'
 import loader from '#general/views/templates/loader.hbs'
+import getBestLangValue from './get_best_lang_value'
 
 export default async params => {
   if (!app.user.hasDataadminAccess) return
@@ -17,7 +18,7 @@ export default async params => {
 
 const getHomonyms = async model => {
   const [ uri, labels, aliases ] = model.gets('uri', 'labels', 'aliases')
-  const terms = getTerms(labels, aliases)
+  const terms = getSearchTermsSelection(labels, aliases)
   const { pluralizedType } = model
   const responses = await Promise.all(terms.map(searchTerm(pluralizedType)))
   const results = _.pluck(responses, 'results').flat()
@@ -40,6 +41,19 @@ const parseSearchResults = async (uri, searchResults) => {
   const entities = await app.request('get:entities:models', { uris })
   // Re-filter out uris to omit as a redirection might have brought it back
   return entities.filter(entity => entity.get('uri') !== uri)
+}
+
+const getSearchTermsSelection = (labels, aliases) => {
+  let terms = getTerms(labels, aliases)
+  if (terms.length > 10) {
+    const { lang: bestAvailableLang } = getBestLangValue(app.user.lang, null, labels)
+    const langsShortlist = _.uniq([ bestAvailableLang, 'en' ])
+    labels = _.pick(labels, langsShortlist)
+    aliases = _.pick(aliases, langsShortlist)
+    return getTerms(labels, aliases).slice(0, 10)
+  } else {
+    return terms
+  }
 }
 
 const getTerms = (labels, aliases) => {
