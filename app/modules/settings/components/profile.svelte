@@ -6,6 +6,7 @@
   import UserPicture from '#lib/components/user_picture.svelte'
   import map from '#map/lib/map'
   import { user } from '#user/user_store'
+  import { Username } from '#lib/regex'
 
   let bioState, usernameState
   let usernameValue = $user.username
@@ -57,7 +58,7 @@
     if (/\s/.test(usernameValue)) {
       return showUsernameError('username can not contain space')
     }
-    if (/\W/.test(usernameValue)) {
+    if (!Username.test(usernameValue)) {
       return showUsernameError('username can only contain letters, figures or _')
     }
     const usernameValueBeforeCheck = usernameValue
