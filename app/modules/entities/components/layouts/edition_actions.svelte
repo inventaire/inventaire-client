@@ -1,0 +1,36 @@
+<script>
+  import { i18n } from '#user/lib/i18n'
+  import { isOpenedOutside } from '#lib/utils'
+  import Link from '#lib/components/link.svelte'
+
+  export let entity
+
+  const url = `/entity/${entity.uri}/add`
+
+  function onClick (e) {
+    e.stopPropagation()
+    if (!(isOpenedOutside(e))) {
+      app.navigateAndLoad(url)
+      e.preventDefault()
+    }
+  }
+</script>
+<button
+  class="add action-button tiny-button"
+  on:click={onClick}
+>
+  <Link
+    {url}
+    text={i18n('add to my inventory')}
+    icon='plus'
+    light={true}
+  />
+</button>
+<style lang="scss">
+  @import '#general/scss/utils';
+  .action-button{
+    @include tiny-button($light-blue);
+    margin-bottom: 1em;
+    padding: 0.5em;
+  };
+</style>

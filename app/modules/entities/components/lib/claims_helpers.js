@@ -6,18 +6,33 @@ import {
 import linkify_ from '#lib/handlebars_helpers/linkify'
 import { icon } from '#lib/utils'
 import { i18n } from '#user/lib/i18n'
+import { isNonEmptyArray } from '#lib/boolean_tests'
 
 const omitLabel = false
 
-export const formatClaim = (prop, claims) => {
-  let values = claims[prop]
-  if (values[0] === null) return ''
+export const formatClaim = params => {
+  const { prop, values, omitLabel } = params
+  if (!isNonEmptyArray(values)) return
   const type = propertiesType[prop]
-  if (!type) return ''
-  return claimFormats[type](values, prop)
+  if (!type) return
+  return claimFormats[type]({ values, prop, omitLabel })
 }
 
-export const propertiesType = {
+export const editionWorkProperties = [
+  'wdt:P50', // author
+  'wdt:P58', // scenarist
+  'wdt:P110', // illustrator
+  'wdt:P6338', // colorist
+  'wdt:P179', // serie
+]
+
+export const aggregateWorksClaims = (claims, works) => {
+  let worksClaims = editionWorkProperties.map(value => ({ [value]: [] }))
+  works.reduce(aggregateClaims, worksClaims)
+  return _.pick(worksClaims, isNonEmptyArray)
+}
+
+const propertiesType = {
   'wdt:P50': 'entityClaim',
   'wdt:P58': 'entityClaim',
   'wdt:P110': 'entityClaim',
@@ -38,13 +53,17 @@ export const propertiesType = {
 }
 
 const claimFormats = {
-  entityClaim: (values, prop) => {
+  entityClaim: params => {
+    const { prop, omitLabel } = params
+    let { values } = params
     const entityLink = true
     const label = labelString(prop, omitLabel)
     values = getValuesTemplates(values, entityLink, prop)
     return claimString(label, values)
   },
-  timeClaim (values, prop, format) {
+  timeClaim (params) {
+    const { prop } = params
+    let { values, format } = params
     format = format || 'year'
     values.map(unixTime => {
       const time = new Date(unixTime)
@@ -54,11 +73,14 @@ const claimFormats = {
     values = _.uniq(values).join(` ${i18n('or')} `)
     return claimString(label, values)
   },
-  stringClaim (values, prop) {
+  stringClaim (params) {
+    const { prop } = params
+    let { values } = params
     const label = labelString(prop, omitLabel)
     return claimString(label, values)
   },
-  urlClaim (values, prop) {
+  urlClaim (params) {
+    let { values } = params
     const label = icon('link')
     const firstUrl = values[0]
     const cleanedUrl = removeTailingSlash(dropProtocol(firstUrl))
@@ -66,5 +88,19 @@ const claimFormats = {
     return claimString(label, values)
   },
 }
+
+export const { entityClaim: formatEntityClaim } = claimFormats
+
+const aggregateClaims = (worksClaims, work) => {
+  editionWorkProperties.forEach(aggregateClaim(worksClaims, work))
+  return worksClaims
+}
+
+const aggregateClaim = (worksClaims, work) => prop => {
+  const claimValues = work.claims[prop]
+  // list of unique items
+  if (claimValues) worksClaims[prop] = _.union(worksClaims[prop], claimValues)
+}
+
 const removeTailingSlash = url => url.replace(/\/$/, '')
 const dropProtocol = url => url.replace(/^(https?:)?\/\//, '')

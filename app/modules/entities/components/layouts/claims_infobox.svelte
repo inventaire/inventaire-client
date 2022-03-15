@@ -1,20 +1,31 @@
 <script>
+  import { fade } from 'svelte/transition'
   export let claims
   export let claimsOrder = []
+
   import { formatClaim } from '#entities/components/lib/claims_helpers'
 
-  const props = Object.keys(claims).sort((a, b) => claimsOrder.indexOf(a) - claimsOrder.indexOf(b))
+  let claimsList = []
+
+  const addClaim = prop => {
+    const values = claims[prop]
+    if (values) return formatClaim({ prop, values })
+  }
+
+  $: claimsList = _.compact(claimsOrder.map(addClaim))
 </script>
 <div class="claims">
-  {#each props as prop}
-    {@html formatClaim(prop, claims)}
+  {#each claimsList as claimLi}
+    <div in:fade="{{ duration: 200 }}" out:fade="{{ duration: 200 }}">
+      {@html claimLi}
+    </div>
   {/each}
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
   .claims{
-    :global(.property-value){
-      margin-right: 0.5em;
+    button {
+      text-decoration: underline;
     };
   }
 </style>
