@@ -4,6 +4,7 @@ export default Marionette.Behavior.extend({
   },
 
   toggleDropdown (e) {
+    if (e.currentTarget.parentNode.className.includes('svelte')) return
     const $dropdownButton = $(e.currentTarget)
     const isDisabled = $dropdownButton.hasClass('disabled')
     if (!$dropdownButton.parent().hasClass('dropdown-wrapper')) throw new Error('dropdown wrapper not found')

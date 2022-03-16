@@ -2,15 +2,12 @@
   import Link from '#lib/components/link.svelte'
   import { i18n } from '#user/lib/i18n'
   import Tooltip from '#components/tooltip.svelte'
+  import { getWikidataUrl } from '#entities/lib/entities'
 
   export let uri
 
   const internalUrl = `/entity/${uri}`
-
-  let wikidataUrl
-  if (uri.startsWith('wd:')) {
-    wikidataUrl = `https://www.wikidata.org/entity/${uri.split(':')[1]}`
-  }
+  const wikidataUrl = getWikidataUrl(uri)
 </script>
 
 <Tooltip>
