@@ -36,8 +36,7 @@ export default function (path, width = 1600, height = 1600) {
   }
 
   if (isImageHash(path)) {
-    console.warn('image hash without container', path)
-    console.trace()
+    console.trace('image hash without container', path)
     return
   }
 
