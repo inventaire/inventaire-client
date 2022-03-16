@@ -7,7 +7,8 @@ import UrlValueDisplay from '../editor/url_value_display.svelte'
 import FixedStringValueDisplay from '../editor/fixed_string_value_display.svelte'
 import SimpleDayValueInput from '../editor/simple_day_value_input.svelte'
 import PositiveIntegerValueInput from '../editor/positive_integer_value_input.svelte'
-// import ImageValueInput from '../editor/image_value_input.svelte'
+import ImageValueInput from '../editor/image_value_input.svelte'
+import ImageValueDisplay from '../editor/image_value_display.svelte'
 
 export const editors = {
   entity: {
@@ -40,7 +41,7 @@ export const editors = {
     DisplayComponent: StringValueDisplay,
   },
   image: {
-    // InputComponent: ImageValueInput,
-    DisplayComponent: StringValueDisplay,
+    InputComponent: ImageValueInput,
+    DisplayComponent: ImageValueDisplay,
   },
 }
