@@ -14,8 +14,11 @@ export const isUrl = url => {
     if (!(protocol === 'http:' || protocol === 'https:')) return false
     if (username !== '' || password !== '') return false
   } catch (err) {
-    if (err.code === 'ERR_INVALID_URL') return false
-    else throw err
+    // On the server, only err.code === 'ERR_INVALID_URL' returns false
+    // and other errors are rethrown, but in the browser
+    // err.code might be inconsistent
+    // Ex: in Firefox 97, the error is "TypeError: URL constructor: bla is not a valid URL."
+    return false
   }
   return true
 }
