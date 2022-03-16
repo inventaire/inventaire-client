@@ -10,7 +10,7 @@
 
   $: showDelete = currentValue != null
 
-  let urlValue, files, dataUrl
+  let urlValue, files, dataUrl, dataUrlBeforeImageEdits
 
   getInputValue = async () => {
     if (imageWasCropped || imageWasRotated) {
@@ -27,6 +27,7 @@
     resetFileInput(fileInput)
     if (isUrl(urlValue)) {
       dataUrl = await getUrlDataUrl(urlValue)
+      dataUrlBeforeImageEdits = dataUrl
     }
   }
   const lazyOnUrlChange = _.debounce(onUrlChange, 500)
@@ -34,6 +35,7 @@
   async function onFilesChange () {
     urlValue = null
     dataUrl = await getFirstFileDataUrl({ fileList: files })
+    dataUrlBeforeImageEdits = dataUrl
   }
 
   $: urlValue && lazyOnUrlChange()
@@ -110,6 +112,11 @@
     cropper.setCropBoxData(cropper.getContainerData())
   }
 
+  function reset () {
+    cropper.replace(dataUrlBeforeImageEdits)
+    cropper.reset()
+  }
+
   function getEditedImageDataUrl () {
     const canvas = cropper.getCroppedCanvas()
     return canvas.toDataURL('image/jpeg', 1)
@@ -163,6 +170,13 @@
           title={i18n('Rotate right')}
           >
           {@html icon('rotate-right')}
+        </button>
+        <button
+          class="tiny-button grey"
+          on:click={reset}
+          title={i18n('Reset image')}
+          >
+          {@html icon('refresh')}
         </button>
       </div>
     {/if}
