@@ -1,15 +1,17 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import preq from '#lib/preq'
-  import { parseFileList } from '#lib/files'
-  import { getImageHashFromDataUrl } from '#lib/images'
+  import { getFirstFileDataUrl, resetFileInput } from '#lib/files'
+  import { getImageHashFromDataUrl, getUrlDataUrl } from '#lib/images'
+  import { isUrl } from '#lib/boolean_tests'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
 
-  export let currentValue, getInputValue, showDelete
+  export let currentValue, getInputValue, showDelete, fileInput, property
 
   $: showDelete = currentValue != null
 
-  let urlValue, files
+  let urlValue, files, dataUrl
 
   getInputValue = async () => {
     if (urlValue) {
@@ -17,6 +19,8 @@
     } else if (files) {
       const res = await getFileValue(files)
       return res
+    } else {
+      return currentValue
     }
   }
 
@@ -29,9 +33,24 @@
   }
 
   async function getFileValue (fileList) {
-    const [ dataUrl ] = await parseFileList({ fileList })
     return getImageHashFromDataUrl('entities', dataUrl)
   }
+
+  async function onUrlChange () {
+    resetFileInput(fileInput)
+    if (isUrl(urlValue)) {
+      dataUrl = await getUrlDataUrl(urlValue)
+    }
+  }
+  const lazyOnUrlChange = _.debounce(onUrlChange, 500)
+
+  async function onFilesChange () {
+    urlValue = null
+    dataUrl = await getFirstFileDataUrl({ fileList: files })
+  }
+
+  $: urlValue && lazyOnUrlChange()
+  $: files && onFilesChange()
 </script>
 
 <div class="wrapper">
@@ -51,13 +70,23 @@
       type="file"
       accept="image/jpeg"
       bind:files={files}
+      bind:this={fileInput}
     />
   </label>
+
+  {#if dataUrl}
+    <img src="{dataUrl}" alt="{i18n('Image preview')}">
+  {:else if currentValue}
+    <img
+      src={imgSrc(`/img/entities/${currentValue}`, 300, 300)}
+      alt="{I18n(property)}"
+    >
+  {/if}
 </div>
 
 <style>
   .wrapper{
-    height: 300px;
+    min-height: 18em;
     margin-bottom: 0.5em;
     flex: 1;
   }
@@ -65,6 +94,9 @@
     display: block;
     max-width: 25em;
     margin-bottom: 1em;
+  }
+  img{
+    max-height: 18em;
   }
   input{
     margin: 0 0.2em 0 0;

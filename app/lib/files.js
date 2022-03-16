@@ -44,10 +44,19 @@ const parseFileEvent = function (mode, e, expectOneFile = false, encoding) {
   }
 }
 
-export const parseFileList = ({ fileList, mode = 'readAsDataURL' }) => {
+export function parseFileList ({ fileList, mode = 'readAsDataURL' }) {
   return Promise.all(Array.from(fileList).map(file => {
     return readFile(mode, file)
   }))
+}
+
+export async function getFirstFileDataUrl ({ fileList, mode = 'readAsDataURL' }) {
+  const dataUrls = await parseFileList({ fileList, mode })
+  return dataUrls[0]
+}
+
+export function resetFileInput (inputElement) {
+  inputElement.value = ''
 }
 
 export default {
