@@ -59,14 +59,12 @@
 
 <style lang="scss">
   @import '#entities/scss/entity_editors_commons';
-  .editor-section{
-    @include display-flex(row);
-  }
   .editor-section-header{
     width: 9em;
   }
   .property-claim-values{
-    flex: 1;
+    flex: 1 1 auto;
+    max-width: 100%;
   }
   .add-value{
     height: 2em;

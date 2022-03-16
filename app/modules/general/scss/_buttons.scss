@@ -165,15 +165,7 @@ div.icon-buttons-header{
 }
 
 .shy-label{
-  span{
-    display: none;
-    @include transition(display);
-  }
-  &:hover, &:focus{
-    span{
-      display: inline;
-    }
-  }
+  @include shy-button-label;
   &.tiny-button{
     .fa{
       // centering

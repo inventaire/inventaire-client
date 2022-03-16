@@ -2,11 +2,17 @@
 
 .editor-section{
   @include panel;
-  margin: 0.4em 0 0.6em 0;
   align-self: stretch;
+  display: flex;
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (min-width: $smaller-screen) {
+    margin: 0.4em 0 0.6em 0;
     padding: 1em 1.5em;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    flex-direction: column;
+    padding: 0.4em;
   }
 }
 
@@ -16,4 +22,5 @@
   font-weight: bold;
   margin-right: 0.5em;
   margin-top: 0.5em;
+  flex: 0 0 auto;
 }

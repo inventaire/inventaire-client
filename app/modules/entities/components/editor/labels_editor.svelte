@@ -86,29 +86,64 @@
 
 <style lang="scss">
   @import '#entities/scss/entity_editors_commons';
-  .language-values{
-    @include display-flex(row, stretch, center);
-    height: 2.5em;
+  .editor-section{
+    flex-direction: column;
   }
   select{
     border-color: #ddd;
-    width: 10em;
-    height: 100%;
   }
   .value{
     flex: 1;
-    @include display-flex(row, stretch);
     input, button{
       flex: 1;
-      height: 100%;
       font-weight: normal;
-      margin: 0 0.5em;
     }
     button{
       cursor: pointer;
       text-align: left;
       @include bg-hover(white, 5%);
       user-select: text;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    select{
+      margin-bottom: 0.5em;
+    }
+    .language-values{
+      @include display-flex(column, stretch, center);
+    }
+    .value{
+      @include display-flex(column, center, center);
+      input, button{
+        width: 100%;
+        margin: 0.5em 0;
+        padding: 0.5em;
+      }
+      button{
+        @include bg-hover($light-grey, 5%);
+      }
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    select{
+      width: 10em;
+      height: 100%;
+    }
+    .language-values{
+      @include display-flex(row, stretch, center);
+      min-height: 2.5em;
+    }
+    .value{
+      @include display-flex(row, stretch);
+      input, button{
+        height: 100%;
+        margin: 0 0.5em;
+      }
+      button{
+        @include bg-hover(white, 5%);
+      }
     }
   }
 </style>

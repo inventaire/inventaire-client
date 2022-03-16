@@ -3,7 +3,7 @@
   import { i18n } from '#user/lib/i18n'
   import Tooltip from '#components/tooltip.svelte'
 
-  export let uri, contrast = false
+  export let uri
 
   const internalUrl = `/entity/${uri}`
 
@@ -13,7 +13,7 @@
   }
 </script>
 
-<Tooltip {contrast} >
+<Tooltip>
   <div slot="primary">
     <span class="uri">{uri}</span>
   </div>
@@ -40,28 +40,39 @@
     font-size: 0.7rem;
     font-family: sans-serif;
     color: #888;
-    // Give some room so that there is no space
-    // between the uri block and the tooltip block,
-    // to let the cursor be always hovering .has-tooltip
-    padding-top: 1em;
+    word-break: break-all;
   }
 
-  [slot="tooltip-content"]{
-    :global(a){
-      padding: 0.5em;
-      &:not(:first-child){
-        // Compensate for the presence of the hereafter defined separator
-        padding-left: 0;
-        // Separator
-        &:before{
-          content: '|';
-          padding-right: 0.6em;
-          // Prevent to be underlined when the .link is hovered
-          text-decoration: none;
-          // Hack to get text-decoration to apply: https://stackoverflow.com/a/15688237/3324977
-          display: inline-block;
+  /*Small screens*/
+  @media screen and (max-width: 700px) {
+    [slot="tooltip-content"]{
+      @include display-flex(column);
+      :global(a){
+        padding: 0.5em;
+      }
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: 700px) {
+    [slot="tooltip-content"]{
+      :global(a){
+        padding: 0.5em;
+        &:not(:first-child){
+          // Compensate for the presence of the hereafter defined separator
+          padding-left: 0;
+          // Separator
+          &:before{
+            content: '|';
+            padding-right: 0.6em;
+            // Prevent to be underlined when the .link is hovered
+            text-decoration: none;
+            // Hack to get text-decoration to apply: https://stackoverflow.com/a/15688237/3324977
+            display: inline-block;
+          }
         }
       }
     }
   }
+
 </style>

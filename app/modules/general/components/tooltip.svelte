@@ -1,5 +1,5 @@
 <script>
-  export let contrast = false
+  export let light = false
 </script>
 
 <div class="has-tooltip" tabindex="0">
@@ -9,7 +9,7 @@
     <div class="tooltip-wrapper" role="tooltip">
       <div
         class="tooltip-content"
-        class:contrast={contrast}
+        class:light={light}
         >
         <slot name="tooltip-content" />
       </div>
@@ -22,7 +22,7 @@
 
   // Adapted from https://www.cssportal.com/css-tooltip-generator/
   $tooltip-bg-color: $dark-grey;
-  $tooltip-contrast-bg-color: white;
+  $tooltip-light-bg-color: white;
   $spike-size: 0.5rem;
 
   .has-tooltip{
@@ -77,14 +77,19 @@
       border-left: $spike-size solid transparent;
     }
 
-    &.contrast{
+    &.light{
       color: $dark-grey;
       background-color: white;
       :global(a){
         @include link-dark;
       }
       &:after{
-        border-top: $spike-size solid $tooltip-contrast-bg-color;
+        border-top: $spike-size solid $tooltip-light-bg-color;
+      }
+    }
+    &:not(.light){
+      :global(a){
+        @include link-light;
       }
     }
   }
