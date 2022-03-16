@@ -2,6 +2,7 @@ import preq from '#lib/preq'
 import Entities from '../collections/entities.js'
 import loader from '#general/views/templates/loader.hbs'
 import getBestLangValue from './get_best_lang_value'
+import { someMatch } from '#lib/utils'
 
 export default async params => {
   if (!app.user.hasDataadminAccess) return
@@ -39,9 +40,34 @@ const parseSearchResults = async (uri, searchResults) => {
     .filter(result => result.uri !== uri)
   // Search results entities miss their claims, so we need to fetch the full entities
   const entities = await app.request('get:entities:models', { uris })
+  return entities
   // Re-filter out uris to omit as a redirection might have brought it back
-  return entities.filter(entity => entity.get('uri') !== uri)
+  .filter(entity => entity.get('uri') !== uri)
+  .filter(isntRelatedToAnyOtherEntity([ uri, ...uris ]))
 }
+
+const isntRelatedToAnyOtherEntity = uris => entity => {
+  const relationClaims = _.pick(entity.get('claims'), relationClaimsProperties)
+  const relationClaimValues = Object.values(relationClaims).flat()
+  return !someMatch(relationClaimValues, uris)
+}
+
+const relationClaimsProperties = [
+  // All types
+  'wdt:P138', // named after
+  'wdt:P361', // part of
+  'wdt:P2959', // permanent duplicated item
+  // Works and series
+  'wdt:P144', // based on
+  'wdt:P155', // follows
+  'wdt:P156', // is followed by
+  'wdt:P179', // series
+  'wdt:P921', // main subject
+  'wdt:P941', // inspired by
+  'wdt:P2860', // cites work
+  // Publishers
+  'wdt:P127', // owned by
+]
 
 const getSearchTermsSelection = (labels, aliases) => {
   let terms = getTerms(labels, aliases)
