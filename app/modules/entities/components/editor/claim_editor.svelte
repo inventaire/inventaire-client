@@ -120,5 +120,11 @@
     &:not(:last-child){
       margin-bottom: 1em;
     }
+    /*Small screens*/
+    @media screen and (max-width: $very-small-screen) {
+      flex-direction: column;
+      padding: 0.5em 0.2em;
+      margin: 0.5em 0;
+    }
   }
 </style>

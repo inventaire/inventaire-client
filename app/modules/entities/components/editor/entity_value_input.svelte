@@ -26,7 +26,9 @@
     if (key === 'esc') {
       dispatch('close')
     } else if (key === 'enter') {
-      dispatch('save', suggestions[highlightedIndex].uri)
+      if (suggestions[highlightedIndex]) {
+        dispatch('save', suggestions[highlightedIndex].uri)
+      }
     } else if (key === 'down') {
       highlightedIndex = highlightedIndex + 1
       e.preventDefault()
@@ -100,16 +102,18 @@
   }
 </script>
 
-<div class="input-wrapper">
-  <input type="text"
-    value={valueLabel || ''}
-    on:keyup={onInputKeyup}
-    bind:this={input}
-    use:autofocus
-  >
-  {#if currentValue}
-    <span class="uri">{currentValue}</span>
-  {/if}
+<div class="input-group">
+  <div class="input-wrapper">
+    <input type="text"
+      value={valueLabel || ''}
+      on:keyup={onInputKeyup}
+      bind:this={input}
+      use:autofocus
+    >
+    {#if currentValue}
+      <span class="uri">{currentValue}</span>
+    {/if}
+  </div>
   {#if showSuggestions}
     <div class="autocomplete">
       <div class="suggestions-wrapper" on:scroll={onSuggestionsScroll}>
@@ -152,17 +156,21 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .input-wrapper{
+  .input-group{
     flex: 1;
-    height: 3em;
     font-weight: normal;
     position: relative;
     margin-right: 0.5em;
+    width: 100%;
+  }
+  .input-wrapper{
+    width: 100%;
+    position: relative;
     input{
       flex: 1;
       height: 100%;
       font-weight: normal;
-      padding: 1.2em 0.5em 1.8em 0.5em;
+      padding: 0.5em 0.5em 0.8em 0.5em;
       margin-bottom: 0.1em;
     }
     .uri{
@@ -172,13 +180,22 @@
     }
   }
   .autocomplete{
-    position: absolute;
-    top: 100%;
-    left: -1px;
-    right: -1px;
+    /*Large screens*/
+    @media screen and (min-width: $very-small-screen) {
+      position: absolute;
+      top: 100%;
+      left: -1px;
+      right: -1px;
+      z-index: 1;
+    }
+    /*Small screens*/
+    @media screen and (max-width: $small-screen) {
+      width: 100%;
+    }
     background-color: white;
     @include display-flex(column, center, center);
     @include shy-border(0.9);
+    overflow: hidden;
   }
   .suggestions-wrapper{
     position: relative;

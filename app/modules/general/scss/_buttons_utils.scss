@@ -55,3 +55,15 @@ $default-button-padding: 1em;
   @include radius;
   font-weight: bold;
 }
+
+@mixin shy-button-label(){
+  span{
+    display: none;
+    @include transition(display);
+  }
+  &:hover, &:focus{
+    span{
+      display: inline;
+    }
+  }
+}

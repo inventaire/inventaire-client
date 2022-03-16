@@ -37,18 +37,34 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .edit-mode-buttons{
-    height: 2.5rem;
     flex: 0 0 auto;
+    @include display-flex(row);
   }
   button{
+    display: block;
     height: 100%;
     font-weight: normal;
-    margin-left: 0.2em;
   }
   .save{
     @include tiny-button-color($success-color);
   }
   .dangerous{
     background-color: $dark-grey;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    button{
+      padding: 0.5em;
+      margin: 0.2em;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $very-small-screen) {
+    .edit-mode-buttons{
+      height: 2.5rem;
+    }
+    button{
+      margin-left: 0.2em;
+    }
   }
 </style>
