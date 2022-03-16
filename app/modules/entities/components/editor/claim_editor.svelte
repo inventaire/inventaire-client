@@ -21,7 +21,7 @@
   let editMode = (value == null)
   let oldValue = value
   let currentValue = value
-  let getInputValue, flash, valueLabel
+  let getInputValue, flash, valueLabel, showDelete
 
   const updateUri = uri.split(':')[0] === 'isbn' ? `inv:${entity._id}` : uri
 
@@ -38,7 +38,8 @@
       // Allow null to be passed when trying to remove a value
       // but ignore the argument when dispatch('save') is called without
       if (value === undefined || isComponentEvent(value)) {
-        value = getInputValue()
+        // TODO: show spinner while waiting
+        value = await getInputValue()
       }
       editMode = false
       currentValue = value
@@ -83,6 +84,7 @@
         {editorType}
         {entity}
         bind:getInputValue
+        bind:showDelete
         on:keyup={onInputKeyup}
         on:save={e => save(e.detail)}
         on:close={closeEditMode}
@@ -90,6 +92,7 @@
       />
       <EditModeButtons
         {showSave}
+        {showDelete}
         on:save={save}
         on:cancel={closeEditMode}
         on:delete={remove}
