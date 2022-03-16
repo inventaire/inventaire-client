@@ -99,3 +99,10 @@ export async function getBasicInfoByUri (uri) {
     image: entity.image
   }
 }
+
+export function getWikidataUrl (uri) {
+  const [ prefix, id ] = uri.split(':')
+  if (prefix === 'wd') {
+    return `https://www.wikidata.org/entity/${id}`
+  }
+}
