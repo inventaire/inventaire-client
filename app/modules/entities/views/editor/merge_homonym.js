@@ -9,6 +9,7 @@ import '#entities/scss/merge_homonyms.scss'
 import AlertBox from '#behaviors/alert_box'
 import Loading from '#behaviors/loading'
 import PreventDefault from '#behaviors/prevent_default'
+import { buildPath } from '#lib/location'
 
 export default Marionette.View.extend({
   template: mergeSuggestionTemplate,
@@ -31,7 +32,15 @@ export default Marionette.View.extend({
       this.isTypeAttribute = `is${capitalize(this.model.type)}`
     }
     this.isExactMatch = haveLabelMatch(this.model, this.options.toEntity)
-    this.showCheckbox = this.options.showCheckbox
+
+    this.wikidataEntities = this.model.get('isWikidataEntity') && this.options.toEntity.get('isWikidataEntity')
+    if (this.wikidataEntities) {
+      const fromid = this.options.toEntity.get('uri').split(':')[1]
+      const toid = this.model.get('uri').split(':')[1]
+      this.wikidataMergeUrl = buildPath('https://www.wikidata.org/wiki/Special:MergeItems', { fromid, toid })
+    }
+
+    this.showCheckbox = this.options.showCheckbox && !this.wikidataEntities
   },
 
   serializeData () {
@@ -40,6 +49,8 @@ export default Marionette.View.extend({
     attrs[this.isTypeAttribute] = true
     attrs.isExactMatch = this.isExactMatch
     attrs.showCheckbox = this.showCheckbox
+    attrs.wikidataEntities = this.wikidataEntities
+    attrs.wikidataMergeUrl = this.wikidataMergeUrl
     return attrs
   },
 

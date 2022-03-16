@@ -36,8 +36,11 @@
   <div class="worksList"></div>
 </div>
 
-
-<a class="merge tiny-button dangerous">
-  <span class="hide-on-loading">{{icon 'compress'}}{{I18n 'merge'}}</span>
-  <span class="loading"></span>
-</a>
+{{#if wikidataEntities}}
+  {{iconLinkText name='wikidata' url=wikidataMergeUrl i18n='Merge on Wikidata' linkClasses='tiny-button'}}
+{{else}}
+  <button class="merge tiny-button dangerous">
+    <span class="hide-on-loading">{{icon 'compress'}}{{I18n 'merge'}}</span>
+    <span class="loading"></span>
+  </button>
+{{/if}}

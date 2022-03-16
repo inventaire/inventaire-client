@@ -21,6 +21,9 @@
 .inner-merge-homonyms{
   @include display-flex(row, flex-start, center, wrap);
 }
+.fa-wikidata{
+  margin-right: 0.2em;
+}
 .merge-homonym{
   position: relative;
   background-color: white;
@@ -81,6 +84,7 @@
     }
   }
   .merge{
+    font-weight: normal;
     text-align: center;
     padding: 0.5em;
     display: block;
