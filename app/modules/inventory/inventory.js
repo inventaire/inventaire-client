@@ -15,8 +15,6 @@ export default {
         'inventory(/)': 'showGeneralInventory',
         'inventory/network(/)': 'showNetworkInventory',
         'inventory/public(/)': 'showPublicInventory',
-        'inventory/nearby(/)': 'showInventoryNearby',
-        'inventory/last(/)': 'showInventoryLast',
         'inventory/:username(/)': 'showUserInventoryFromUrl',
         // 'title' is a legacy parameter
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity',
@@ -76,18 +74,6 @@ const API = {
 
   showGroupInventory (group, standalone = true) {
     return showInventory({ group, standalone })
-  },
-
-  showInventoryNearby () {
-    if (app.request('require:loggedIn', 'inventory/nearby')) {
-      return showInventory({ nearby: true })
-    }
-  },
-
-  showInventoryLast () {
-    if (app.request('require:loggedIn', 'inventory/last')) {
-      return showInventory({ last: true })
-    }
   },
 
   showItemFromId (id) {
@@ -222,9 +208,6 @@ const initializeInventoriesHandlers = function (app) {
 
     'show:item': showItemModal,
     'show:item:byId': API.showItemFromId,
-
-    'show:inventory:nearby': API.showInventoryNearby,
-    'show:inventory:last': API.showInventoryLast
   })
 
   app.reqres.setHandlers({
