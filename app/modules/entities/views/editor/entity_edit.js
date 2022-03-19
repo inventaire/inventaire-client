@@ -15,6 +15,7 @@ import '#entities/scss/entity_edit.scss'
 import AlertBox from '#behaviors/alert_box'
 import Loading from '#behaviors/loading'
 import PreventDefault from '#behaviors/prevent_default'
+import { isWikidataItemUri } from '#lib/boolean_tests'
 
 const typesWithoutLabel = [
   'edition',
@@ -227,7 +228,7 @@ export default Marionette.View.extend({
     const uri = this.model.get('uri')
 
     // An entity being created on Inventaire won't have a URI at this point
-    if ((uri == null) || isWikidataUri(uri)) return
+    if ((uri == null) || isWikidataItemUri(uri)) return
 
     const type = this.model.get('type')
     if (type === 'edition') {
@@ -241,7 +242,7 @@ export default Marionette.View.extend({
       const values = object[property]
       if (properties[property]?.editorType === 'entity') {
         for (const value of values) {
-          if (!isWikidataUri(value)) {
+          if (!isWikidataItemUri(value)) {
             const message = i18n("some values aren't Wikidata entities:")
             reason = `${message} ${i18n(unprefixify(property))}`
             return { ok: false, reason }
@@ -268,8 +269,6 @@ export default Marionette.View.extend({
     .catch(forms_.catchAlert.bind(null, this))
   }
 })
-
-const isWikidataUri = uri => uri.split(':')[0] === 'wd'
 
 const possessives = {
   work: "work's",
