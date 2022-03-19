@@ -52,13 +52,12 @@
     }
     :global(.dropdown-button){
       @include big-button($grey);
+      padding: 0.8rem;
     }
-    button, :global(a){
-      font-weight: normal;
-      padding: 0.5rem;
-      :global(.fa){
-        font-size: 1.4rem;
-      }
+  }
+  [slot="button-inner"]{
+    :global(.fa){
+      font-size: 1.2rem;
     }
   }
   [slot="dropdown-content"]{
@@ -78,6 +77,13 @@
       }
       &:not(:last-child){
         margin-bottom: 0.2em;
+      }
+    }
+    button, :global(a){
+      font-weight: normal;
+      padding: 0.5rem;
+      :global(.fa){
+        font-size: 1.4rem;
       }
     }
   }
