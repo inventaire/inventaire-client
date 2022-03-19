@@ -20,6 +20,7 @@ nav#top-bar{
   }
   a#home{
     color: white;
+    font-weight: bold;
   }
   .signupRequest, .loginRequest{
     @include serif;
