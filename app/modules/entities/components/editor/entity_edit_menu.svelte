@@ -6,15 +6,14 @@
   import { getWikidataUrl } from '#entities/lib/entities'
   import { checkWikidataMoveabilityStatus, moveToWikidata } from '#entities/lib/move_to_wikidata'
   import Flash from '#lib/components/flash.svelte'
+  import preq from '#lib/preq'
 
   export let entity
 
   let flash
-
-  const { uri } = entity
-
+  const { uri, invUri, label } = entity
+  const { hasDataadminAccess } = app.user
   const wikidataUrl = getWikidataUrl(uri)
-
   const { ok: canBeMovedToWikidata, reason: moveabilityStatus } = checkWikidataMoveabilityStatus(entity)
 
   async function _moveToWikidata () {
@@ -36,6 +35,25 @@
       uris: [ uri ],
       event: e
     })
+  }
+
+  function showMergeMenu () {}
+
+  function deleteEntity () {
+    app.execute('ask:confirmation', {
+      confirmationText: I18n('delete_entity_confirmation', { label }),
+      action: _deleteEntity
+    })
+  }
+
+  async function _deleteEntity () {
+    try {
+      await preq.post(app.API.entities.delete, { uris: [ invUri ] })
+      app.execute('show:entity:edit', uri)
+    } catch (err) {
+      // TODO: recover displayDeteEntityErrorContext feature to show rich error message
+      flash = err
+    }
   }
 </script>
 
@@ -66,6 +84,26 @@
           </button>
         {/if}
       </li>
+      {#if hasDataadminAccess}
+        <li>
+          <button
+            title={I18n('merge with another entity')}
+            on:click={showMergeMenu}
+            >
+              {@html icon('compress')}
+              {I18n('merge')}
+          </button>
+        </li>
+        <li>
+          <button
+            title={I18n('delete entity')}
+            on:click={deleteEntity}
+            >
+              {@html icon('trash')}
+              {I18n('delete')}
+          </button>
+        </li>
+      {/if}
       <li>
         <button
           title={I18n('report_an_error_in_entity_data')}
