@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import wdk from '#lib/wikidata-sdk'
+import { searchWikidataEntities } from '#lib/wikimedia/wikidata'
 
 // Uses wbsearchentities despite its lack of inter-languages support
 // because it returns hits labels, descriptions and aliases
@@ -8,7 +8,7 @@ export default (format = true) => async (search, limit = 10, offset) => {
   let {
     search: results,
     'search-continue': continu
-  } = await preq.get(wdk.searchEntities({ search, limit, offset }))
+  } = await preq.get(searchWikidataEntities({ search, limit, offset }))
   results = results.filter(filterOutSpecialPages)
   if (format) results = results.map(formatAsSearchResult)
   return { results, continue: continu }

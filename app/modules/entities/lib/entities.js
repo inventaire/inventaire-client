@@ -1,6 +1,5 @@
-import { isInvEntityId } from '#lib/boolean_tests'
+import { isInvEntityId, isWikidataItemId } from '#lib/boolean_tests'
 import preq from '#lib/preq'
-import wdk from '#lib/wikidata-sdk'
 import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 import getBestLangValue from './get_best_lang_value.js'
 import getOriginalLang from './get_original_lang.js'
@@ -13,7 +12,7 @@ export async function getReverseClaims (property, value, refresh, sort) {
 export function normalizeUri (uri) {
   let [ prefix, id ] = uri.split(':')
   if ((id == null)) {
-    if (wdk.isWikidataItemId(prefix)) {
+    if (isWikidataItemId(prefix)) {
       [ prefix, id ] = [ 'wd', prefix ]
     } else if (isInvEntityId(prefix)) {
       [ prefix, id ] = [ 'inv', prefix ]

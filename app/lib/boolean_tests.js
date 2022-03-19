@@ -44,6 +44,11 @@ export function isExtendedEntityUri (uri) {
   return isNonEmptyString(prefix) && isNonEmptyString(id)
 }
 
+export const isWikidataItemId = bindedTest('WikidataItemId')
+export const isWikidataPropertyId = bindedTest('WikidataPropertyId')
+export const isWikidataItemUri = bindedTest('WikidataItemUri')
+export const isWikidataPropertyUri = bindedTest('WikidataPropertyUri')
+
 export const isNonNull = obj => obj != null
 
 export const isNonEmptyArray = array => _.isArray(array) && (array.length > 0)

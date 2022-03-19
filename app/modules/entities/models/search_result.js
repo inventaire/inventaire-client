@@ -1,7 +1,6 @@
-import { isInvEntityId } from '#lib/boolean_tests'
+import { isInvEntityId, isWikidataItemId } from '#lib/boolean_tests'
 import Filterable from '#general/models/filterable'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
-import wdk from '#lib/wikidata-sdk'
 import error_ from '#lib/error'
 
 // make models use 'id' as idAttribute so that search results
@@ -60,7 +59,7 @@ const getValues = obj => obj != null ? _.values(obj) : []
 // * guessing which source the document belongs too from what we get
 // For the moment, let's keep it easy and use the 2nd solution
 const getPrefix = function (id) {
-  if (wdk.isWikidataItemId(id)) {
+  if (isWikidataItemId(id)) {
     return [ 'wd', id ]
   } else if (isInvEntityId(id)) {
     return [ 'inv', id ]
