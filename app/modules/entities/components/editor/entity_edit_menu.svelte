@@ -4,12 +4,31 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import Link from '#lib/components/link.svelte'
   import { getWikidataUrl } from '#entities/lib/entities'
+  import { checkWikidataMoveabilityStatus, moveToWikidata } from '#entities/lib/move_to_wikidata'
+  import Flash from '#lib/components/flash.svelte'
 
   export let entity
+
+  let flash
 
   const { uri } = entity
 
   const wikidataUrl = getWikidataUrl(uri)
+
+  const { ok: canBeMovedToWikidata, reason: moveabilityStatus } = checkWikidataMoveabilityStatus(entity)
+
+  async function _moveToWikidata () {
+    try {
+      if (!app.user.hasWikidataOauthTokens()) {
+        return app.execute('show:wikidata:edit:intro:modal', this.model)
+      }
+      await moveToWikidata(uri)
+      // This should now redirect us to the new Wikidata edit page
+      app.execute('show:entity:edit', uri)
+    } catch (err) {
+      flash = err
+    }
+  }
 </script>
 
 <div class="menu-wrapper">
@@ -30,13 +49,20 @@
           />
         {:else}
           <button
-            title="{I18n('this entity is ready to be imported to Wikidata')}"
+            disabled={!canBeMovedToWikidata}
+            title={moveabilityStatus}
+            on:click={_moveToWikidata}
             >
             {@html icon('wikidata-colored')}
             {I18n('move to Wikidata')}
           </button>
         {/if}
       </li>
+      {#if flash}
+        <li>
+          <Flash bind:state={flash} />
+        </li>
+      {/if}
     </ul>
   </Dropdown>
 </div>
@@ -66,8 +92,7 @@
     @include radius;
     min-width: 14em;
     li{
-      flex: 1;
-      @include display-flex(row, center, flex-start);
+      @include display-flex(row);
       button{
         flex: 1;
         @include display-flex(row, center, flex-start);
@@ -77,6 +102,9 @@
       }
       &:not(:last-child){
         margin-bottom: 0.2em;
+      }
+      :global(.error){
+        flex: 1;
       }
     }
     button, :global(a){
