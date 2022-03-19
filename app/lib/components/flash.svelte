@@ -31,10 +31,10 @@
     <div>
       {#if type === 'loading'}
         <Spinner/>
-        {@html state.message || I18n('loading')}
+        {state.message || I18n('loading')}
       {:else}
         {#if iconName}{@html icon(iconName)}{/if}
-        {@html state.message}
+        {state.message}
       {/if}
     </div>
     <button on:click="{() => state = null}" title="{ I18n('close') }">
