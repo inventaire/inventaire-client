@@ -260,7 +260,10 @@ const setHandlers = function () {
     'show:entity:history': API.showEntityHistory,
     'show:homonyms': showHomonyms,
     'report:entity:type:issue': reportTypeIssue,
-    'show:wikidata:edit:intro:modal': showWikidataEditIntroModal
+    'show:wikidata:edit:intro:modal': async uri => {
+      const model = await app.request('get:entity:model', uri)
+      showWikidataEditIntroModal(model)
+    }
   })
 
   app.reqres.setHandlers({
