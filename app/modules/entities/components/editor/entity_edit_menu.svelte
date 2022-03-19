@@ -29,6 +29,14 @@
       flash = err
     }
   }
+
+  function reportDataError (e) {
+    app.execute('show:feedback:menu', {
+      subject: `[${uri}][${I18n('data error')}] `,
+      uris: [ uri ],
+      event: e
+    })
+  }
 </script>
 
 <div class="menu-wrapper">
@@ -45,7 +53,7 @@
           <Link
             url={wikidataUrl}
             text={I18n('see_on_website', { website: 'wikidata.org' })}
-            icon='wikidata-colored'
+            icon='wikidata'
           />
         {:else}
           <button
@@ -53,10 +61,19 @@
             title={moveabilityStatus}
             on:click={_moveToWikidata}
             >
-            {@html icon('wikidata-colored')}
+            {@html icon('wikidata')}
             {I18n('move to Wikidata')}
           </button>
         {/if}
+      </li>
+      <li>
+        <button
+          title={I18n('report_an_error_in_entity_data')}
+          on:click={reportDataError}
+          >
+            {@html icon('flag')}
+            {I18n('report an error')}
+        </button>
       </li>
       {#if flash}
         <li>
@@ -92,14 +109,8 @@
     @include radius;
     min-width: 14em;
     li{
-      @include display-flex(row);
-      button{
-        flex: 1;
-        @include display-flex(row, center, flex-start);
-        text-align: left;
-        @include bg-hover(white, 5%);
-        padding: 0.5em;
-      }
+      @include display-flex(row, stretch);
+      min-height: 3em;
       &:not(:last-child){
         margin-bottom: 0.2em;
       }
@@ -110,8 +121,13 @@
     button, :global(a){
       font-weight: normal;
       padding: 0.5rem;
+      flex: 1;
+      @include display-flex(row, center, flex-start);
+      text-align: left;
+      @include bg-hover(white, 5%);
+      padding: 0.5em;
       :global(.fa){
-        font-size: 1.4rem;
+        margin-right: 0.5em;
       }
     }
   }
