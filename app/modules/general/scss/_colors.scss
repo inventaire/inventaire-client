@@ -1,32 +1,7 @@
-.secondary-button{
-  background-color: $secondary-color;
-  &:hover{
-    background-color: darken($secondary-color, 10%)
-  }
-  a{
-    color: #222;
-  }
-}
-
-.success-button{
-  background-color: $success-color;
-  &:hover{
-    background-color: darken($success-color, 20%)
-  }
-  a{
-    color: white;
-  }
-}
-
 .secondary{
   color: lighten($primary-color, 10%) !important;
 }
-.yellow{
-  background-color: $yellow;
-  &:hover{
-    background-color: darken($yellow, 20%)
-  }
-}
+
 .grey{
   @include color-class($grey);
 }
