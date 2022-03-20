@@ -11,10 +11,11 @@
   export let entity
 
   let flash
-  const { uri, invUri, label } = entity
+  const { uri, invUri, label, history } = entity
   const { hasDataadminAccess } = app.user
   const wikidataUrl = getWikidataUrl(uri)
   const { ok: canBeMovedToWikidata, reason: moveabilityStatus } = checkWikidataMoveabilityStatus(entity)
+  const canBeDeleted = invUri != null
 
   async function _moveToWikidata () {
     try {
@@ -36,8 +37,6 @@
       event: e
     })
   }
-
-  function showMergeMenu () {}
 
   function deleteEntity () {
     app.execute('ask:confirmation', {
@@ -66,41 +65,50 @@
       {@html icon('cog')}
     </div>
     <ul slot="dropdown-content">
-      <li>
-        {#if wikidataUrl}
+      {#if wikidataUrl}
+        <li>
           <Link
             url={wikidataUrl}
             text={I18n('see_on_website', { website: 'wikidata.org' })}
             icon='wikidata'
           />
-        {:else}
+        </li>
+      {/if}
+      <li>
+        <Link
+          url={history}
+          text={I18n('entity history')}
+          icon='history'
+        />
+      </li>
+      {#if hasDataadminAccess}
+        <li>
+          <Link
+            url='/entity/merge'
+            text={I18n('merge')}
+            icon='compress'
+          />
+        </li>
+        {#if canBeDeleted}
+          <li>
+            <button
+              title={I18n('delete entity')}
+              on:click={deleteEntity}
+              >
+                {@html icon('trash')}
+                {I18n('delete')}
+            </button>
+          </li>
+        {/if}
+      {/if}
+      {#if canBeMovedToWikidata}
+        <li>
           <button
-            disabled={!canBeMovedToWikidata}
             title={moveabilityStatus}
             on:click={_moveToWikidata}
             >
             {@html icon('wikidata')}
             {I18n('move to Wikidata')}
-          </button>
-        {/if}
-      </li>
-      {#if hasDataadminAccess}
-        <li>
-          <button
-            title={I18n('merge with another entity')}
-            on:click={showMergeMenu}
-            >
-              {@html icon('compress')}
-              {I18n('merge')}
-          </button>
-        </li>
-        <li>
-          <button
-            title={I18n('delete entity')}
-            on:click={deleteEntity}
-            >
-              {@html icon('trash')}
-              {I18n('delete')}
           </button>
         </li>
       {/if}

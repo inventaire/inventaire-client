@@ -19,6 +19,7 @@ export default {
         'entity/changes(/)': 'showChanges',
         'entity/contributions(/)': 'showContributions',
         'entity/deduplicate(/authors)(/)': 'showDeduplicateAuthors',
+        'entity/merge(/)': 'showEntityMerge',
         'entity/:uri/add(/)': 'showAddEntity',
         'entity/:uri/edit(/)': 'showEditEntityFromUri',
         'entity/:uri/cleanup(/)': 'showEntityCleanup',
@@ -199,7 +200,16 @@ const API = {
     } catch (err) {
       app.execute('show:error', err)
     }
-  }
+  },
+
+  async showEntityMerge (params) {
+    const { from, to, type } = (params || app.request('querystring:get:all'))
+    app.execute('show:loader')
+    const { default: EntityMerge } = await import('./components/entity_merge.svelte')
+    app.layout.getRegion('main').showSvelteComponent(EntityMerge, {
+      props: { from, to, type }
+    })
+  },
 }
 
 const showEntityCreate = async params => {

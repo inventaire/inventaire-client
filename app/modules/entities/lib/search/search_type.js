@@ -1,10 +1,15 @@
 import preq from '#lib/preq'
+import { entityTypeNameByType } from '#entities/lib/properties'
+const allSearchableTypes = Object.keys(entityTypeNameByType)
 
-export default type => async (search, limit = 10, offset = 0) => {
-  return preq.get(app.API.search({
-    types: type,
-    search,
-    limit,
-    offset,
-  }))
+export default function (types) {
+  types = types || allSearchableTypes
+  return async function (search, limit, offset) {
+    return preq.get(app.API.search({
+      types,
+      search,
+      limit,
+      offset,
+    }))
+  }
 }

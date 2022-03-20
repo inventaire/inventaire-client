@@ -63,7 +63,7 @@ const getTitleFromWork = function (workEntity, editionLang) {
 }
 
 export const createByProperty = async function (options) {
-  let { property, name, relationEntity, createOnWikidata, lang } = options
+  let { property, name, relationSubjectEntity, createOnWikidata, lang } = options
   if (!lang) lang = app.user.lang
 
   const wdtP31 = subjectEntityP31ByProperty[property]
@@ -82,11 +82,11 @@ export const createByProperty = async function (options) {
   }
 
   if (property === 'wdt:P179') {
-    claims['wdt:P50'] = relationEntity.claims['wdt:P50']
+    claims['wdt:P50'] = relationSubjectEntity.claims['wdt:P50']
   }
 
   if (property === 'wdt:P195') {
-    claims['wdt:P123'] = relationEntity.claims['wdt:P123']
+    claims['wdt:P123'] = relationSubjectEntity.claims['wdt:P123']
     if (claims['wdt:P123'] == null) {
       throw error_.new('a publisher should be set before creating a collection', options)
     }
