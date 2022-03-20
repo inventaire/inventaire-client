@@ -1,6 +1,4 @@
-export default {
-  pluralize (type) {
-    if (type.slice(-1)[0] !== 's') type += 's'
-    return type
-  }
+export function pluralize (type) {
+  if (type.slice(-1)[0] !== 's') type += 's'
+  return type
 }

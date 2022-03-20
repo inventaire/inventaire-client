@@ -4,10 +4,12 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Flash from '#lib/components/flash.svelte'
+  import { entityTypeNameByType } from '#entities/lib/properties'
+  import { pluralize } from '#entities/lib/types/type_key'
 
   export let from, to, type
 
-  let flash
+  let flash, typeName
 
   async function merge () {
     try {
@@ -16,10 +18,17 @@
       flash = err
     }
   }
+
+  $: if (type) typeName = entityTypeNameByType[pluralize(type)]
+  $: if (!(from || to)) type = null
 </script>
 
 <div class="entityMergeLayout">
   <h2>{i18n('Merge entities')}</h2>
+
+  {#if type}
+    <p class="type">{I18n('entity type')}: {I18n(typeName)}</p>
+  {/if}
 
   <section>
     <!-- svelte-ignore a11y-label-has-associated-control -->
@@ -27,7 +36,7 @@
       {i18n('The entity that should be merged')}
       <EntityMergeSection
         bind:uri={from}
-        {type}
+        bind:type
         on:select={e => from = e.detail}
       />
     </label>
@@ -39,7 +48,7 @@
       {i18n('The entity in which it should be merged')}
       <EntityMergeSection
         bind:uri={to}
-        {type}
+        bind:type
         on:select={e => to = e.detail}
       />
     </label>
@@ -66,6 +75,10 @@
     padding: 1em 2em;
     @include radius;
     background-color: white;
+  }
+  .type{
+    margin: 1em 0;
+    color: $grey;
   }
   h2{
     text-align: center;

@@ -25,7 +25,7 @@
       dispatch('close')
     } else if (key === 'enter') {
       if (suggestions[highlightedIndex]) {
-        dispatch('save', suggestions[highlightedIndex].uri)
+        dispatch('select', suggestions[highlightedIndex].uri)
       }
     } else if (key === 'down') {
       highlightedIndex = highlightedIndex + 1
@@ -76,6 +76,7 @@
 
   const lazySearch = _.debounce(search, 200)
 
+  // TODO: fix scroll
   function onSuggestionsScroll (e) {
     const { scrollTop, scrollTopMax } = e.currentTarget
     if (scrollTopMax < 100) return

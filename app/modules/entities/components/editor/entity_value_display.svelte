@@ -6,7 +6,7 @@
   import IdentifierWithTooltip from './identifier_with_tooltip.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
 
-  export let value, valueLabel
+  export let value, valueLabel, valueBasicInfo
 
   let waitingForValueEntityBasicInfo, label, description, image
   const dispatch = createEventDispatcher()
@@ -20,6 +20,7 @@
   }
 
   function setInfo (data) {
+    valueBasicInfo = data
     valueLabel = label = data.label
     description = data.description
     image = data.image

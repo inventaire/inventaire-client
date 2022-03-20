@@ -14,7 +14,7 @@
 </script>
 
 <EntityAutocompleteSelector
-  {searchType}
+  searchTypes={searchType}
   currentEntityUri={currentValue}
   currentEntityLabel={valueLabel}
   relationSubjectEntity={entity}
