@@ -18,7 +18,11 @@ main{
   }
 
   @media screen and (min-height: $top-bar-fixed-threshold) {
-    margin-top: $topbar-height;
+    // Prevent children margin-top to be collapsed with that margin-top
+    // by setting a border, so that children margin-top start from that border
+    // See https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
+    border-top: 1px solid transparent;
+    margin-top: calc($topbar-height - 1px);
   }
 }
 
