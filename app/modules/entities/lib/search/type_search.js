@@ -8,17 +8,20 @@ import _wikidataSearch from './wikidata_search.js'
 
 const wikidataSearch = _wikidataSearch(true)
 
-const {
-  pluralize
-} = TypeKey
+const { pluralize } = TypeKey
 
-export default function (type, input, limit, offset) {
+export default async function (type, input, limit, offset) {
   const uri = getEntityUri(input)
 
   if (uri != null) {
     return searchByEntityUri(uri, type)
+  } else if (type) {
+    type = pluralize(type)
+    if (type === 'subjects') return wikidataSearch(input, limit, offset)
+    if (type === 'languages') return languageSearch(input, limit, offset)
+    return searchType(type)(input, limit, offset)
   } else {
-    return getSearchTypeFn(type)(input, limit, offset)
+    return searchType()(input, limit, offset)
   }
 }
 
@@ -44,17 +47,4 @@ const searchByEntityUri = (uri, type) => {
       throw error_.new('invalid entity type', 400, model)
     }
   })
-}
-
-const getSearchTypeFn = function (type) {
-  // if type.slice(-1)[0] isnt 's' then type += 's'
-  type = pluralize(type)
-  // the searchType function should take a input string
-  // and return an array of results
-  switch (type) {
-  case 'works': case 'humans': case 'series': case 'genres': case 'movements': case 'publishers': case 'collections': return searchType(type)
-  case 'subjects': return wikidataSearch
-  case 'languages': return languageSearch
-  default: throw new Error(`unknown type: ${type}`)
-  }
 }

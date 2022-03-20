@@ -1,10 +1,12 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  export let suggestion, highlight
+  import { entityTypeNameByType } from '#entities/lib/properties'
+  import { I18n } from '#user/lib/i18n'
+  export let suggestion, highlight, displaySuggestionType = false
   let element
-  const { uri, label, description } = suggestion
+  const { uri, type, label, description } = suggestion
   const dispatch = createEventDispatcher()
-  const select = () => dispatch('select')
+  const typeName = entityTypeNameByType[type]
 
   $: {
     if (element && highlight) {
@@ -18,14 +20,17 @@
 
 <li bind:this={element}>
   <button
-    on:click={select}
+    on:click={() => dispatch('select')}
     class:highlight={highlight}
     >
     <div class="top">
       <span class="label">{label}</span>
       <a class="uri" href="/entity/{uri}" target="_blank" on:click|stopPropagation>{uri}</a>
     </div>
-    {#if description}<span class="description">{description}</span>{/if}
+    <div class="bottom">
+      {#if description}<span class="description">{description}</span>{/if}
+      {#if displaySuggestionType}<span class="type">{I18n(typeName)}</span>{/if}
+    </div>
   </button>
 </li>
 
@@ -46,18 +51,28 @@
   .top{
     @include display-flex(row, center, space-between);
   }
+  .bottom{
+    @include display-flex(row, center, space-between);
+  }
   .label{
     font-weight: bold;
     text-align: left;
+    margin-right: auto;
   }
   .description, .uri{
     font-weight: normal;
   }
+  .type, .description{
+    text-align: left;
+  }
   .description{
     color: $grey;
     display: block;
-    text-align: left;
-    font-weight: normal;
+  }
+  .type{
+    color: $grey;
+    text-align: right;
+    font-size: 0.9rem;
   }
   .uri{
     white-space: nowrap;

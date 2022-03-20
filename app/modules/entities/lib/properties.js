@@ -1,7 +1,7 @@
 const properties = {}
 export default properties
 
-const entityTypeNameByType = {
+export const entityTypeNameByType = {
   works: 'work',
   humans: 'author',
   series: 'series',

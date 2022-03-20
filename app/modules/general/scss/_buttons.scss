@@ -60,6 +60,9 @@ button{
   background-color: inherit;
   cursor: pointer;
   @include radius;
+  &.disabled, &:disabled{
+    cursor: not-allowed;
+  }
 }
 
 .tiny-button{
