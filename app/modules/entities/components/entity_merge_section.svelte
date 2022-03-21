@@ -40,6 +40,7 @@
     currentEntityUri={uri}
     currentEntityLabel={valueBasicInfo?.label}
     displaySuggestionType={true}
+    autofocus={false}
     on:close={() => editMode = false}
     on:error={e => flash = e.detail}
     on:select={bubbleUpComponentEvent}

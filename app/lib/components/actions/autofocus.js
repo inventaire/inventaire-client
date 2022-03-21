@@ -3,7 +3,7 @@ import isMobile from '#lib/mobile_check'
 export function autofocus (node, options = {}) {
   // Do not auto focus on mobile as it displays the virtual keyboard
   // which can take pretty much all the screen
-  if (isMobile) return
+  if (isMobile || options.disabled) return
 
   node.focus()
 
