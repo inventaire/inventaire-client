@@ -1,11 +1,16 @@
+import { isWikidataItemUri } from '#lib/boolean_tests.js'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
+import error_ from '#lib/error'
 import getEntityWikidataImportData from './get_entity_wikidata_import_data.js'
 
 export default async function (fromUri, toUri) {
+  if (isWikidataItemUri(fromUri) && isWikidataItemUri(toUri)) {
+    throw error_.new('Wikidata entities can not be merged on Inventaire', 400, { fromUri, toUri })
+  }
   // Invert URIs if the toEntity is a Wikidata entity
   // as we can't request Wikidata entities to merge into inv entities
-  if (fromUri.split(':')[0] === 'wd') [ fromUri, toUri ] = [ toUri, fromUri ]
+  if (isWikidataItemUri(fromUri)) [ fromUri, toUri ] = [ toUri, fromUri ]
 
   // Show the Wikidata data importer only if the user has already set their Wikidata tokens
   // Otherwise, just merge the entity without importing the data
