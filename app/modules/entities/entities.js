@@ -202,8 +202,8 @@ const API = {
     }
   },
 
-  async showEntityMerge (params) {
-    const { from, to, type } = (params || app.request('querystring:get:all'))
+  async showEntityMerge () {
+    const { from, to, type } = app.request('querystring:get:all')
     app.execute('show:loader')
     const { default: EntityMerge } = await import('./components/entity_merge.svelte')
     app.layout.getRegion('main').showSvelteComponent(EntityMerge, {
