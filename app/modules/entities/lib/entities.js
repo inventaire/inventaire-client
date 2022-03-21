@@ -82,13 +82,17 @@ export async function getEntitiesAttributesByUris ({ uris, attributes, lang }) {
 }
 
 export async function getBasicInfoByUri (uri) {
-  const { entities } = await getEntitiesAttributesByUris({
+  const { entities, redirects } = await getEntitiesAttributesByUris({
     uris: uri,
     attributes: [ 'type', 'labels', 'descriptions', 'image' ],
     lang: app.user.lang
   })
   const entity = entities[uri]
-  if (!entity) return {}
+  if (!entity) {
+    return {
+      redirection: redirects[uri],
+    }
+  }
   const label = Object.values(entity.labels)[0]
   let description
   if (entity.descriptions) description = Object.values(entity.descriptions)[0]
