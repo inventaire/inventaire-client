@@ -31,9 +31,6 @@ const work = {
   // 'wdt:P1680': {} # subtitle (using P407 lang)
   // 'wdt:P840': {} # narrative location
   // 'wdt:P674': {} # characters
-
-  // Reverse properties
-  'wdt:P747': { customLabel: 'editions' } // editions (inverse of wdt:P629)
 }
 
 export default {
