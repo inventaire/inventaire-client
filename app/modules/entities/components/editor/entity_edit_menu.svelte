@@ -84,7 +84,7 @@
       {#if hasDataadminAccess}
         <li>
           <Link
-            url='/entity/merge'
+            url='/entity/merge?from={uri}'
             text={I18n('merge')}
             icon='compress'
           />
