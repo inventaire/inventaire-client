@@ -6,6 +6,7 @@
   import Flash from '#lib/components/flash.svelte'
   import { entityTypeNameByType } from '#entities/lib/properties'
   import { pluralize } from '#entities/lib/types/type_key'
+  import { isWikidataItemUri } from '#lib/boolean_tests'
   import { slide } from 'svelte/transition'
 
   export let from, to, type
@@ -27,7 +28,12 @@
   }
 
   $: if (type) typeName = entityTypeNameByType[pluralize(type)]
-  $: if (!(from || to)) type = null
+  $: {
+    if (!(from || to)) type = null
+    else if (isWikidataItemUri(from) && to && !isWikidataItemUri(to)) {
+      [ from, to ] = [ to, from ]
+    }
+  }
 </script>
 
 <div class="entityMergeLayout">
