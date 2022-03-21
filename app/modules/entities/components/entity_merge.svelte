@@ -6,6 +6,7 @@
   import Flash from '#lib/components/flash.svelte'
   import { entityTypeNameByType } from '#entities/lib/properties'
   import { pluralize } from '#entities/lib/types/type_key'
+  import { slide } from 'svelte/transition'
 
   export let from, to, type
 
@@ -27,7 +28,7 @@
   <h2>{i18n('Merge entities')}</h2>
 
   {#if type}
-    <section class="type">
+    <section class="type" transition:slide={{ duration: 200 }}>
       <span class="label">{I18n('entity type')}:</span>
       <span class="type-name">{I18n(typeName)}</span>
     </section>
