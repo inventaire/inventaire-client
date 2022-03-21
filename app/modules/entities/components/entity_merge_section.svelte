@@ -8,7 +8,7 @@
 
   export let type, uri
 
-  let flash, valueBasicInfo
+  let flash, valueBasicInfo, editMode = false
   const bubbleUpComponentEvent = BubbleUpComponentEvent()
 
   $: if (valueBasicInfo) {
@@ -19,12 +19,12 @@
   }
 </script>
 
-{#if uri}
+{#if uri && !editMode}
   <div class="row">
-    <!-- TODO: edit on click -->
     <EntityValueDisplay
       value={uri}
       bind:valueBasicInfo
+      on:edit={() => editMode = true}
     />
     <button
       class="unselect"
@@ -37,7 +37,10 @@
 {:else}
   <EntityAutocompleteSelector
     searchTypes={type}
+    currentEntityUri={uri}
+    currentEntityLabel={valueBasicInfo?.label}
     displaySuggestionType={true}
+    on:close={() => editMode = false}
     on:error={e => flash = e.detail}
     on:select={bubbleUpComponentEvent}
   />
