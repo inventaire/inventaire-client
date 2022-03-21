@@ -39,6 +39,10 @@
 <div class="entityMergeLayout">
   <h2>{i18n('Merge entities')}</h2>
 
+  <p class="help">
+    {i18n('Entities can be merged when one is a duplicate of the other.')}
+  </p>
+
   {#if type}
     <section class="type" transition:slide={{ duration: 200 }}>
       <span class="label">{I18n('entity type')}:</span>
@@ -85,6 +89,9 @@
   .entityMergeLayout{
     max-width: 50em;
     margin: 1em auto;
+  }
+  .help{
+    margin-bottom: 1em;
   }
   .type{
     margin: 1em 0;
