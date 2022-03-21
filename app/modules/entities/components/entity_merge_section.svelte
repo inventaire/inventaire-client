@@ -13,6 +13,9 @@
 
   $: if (valueBasicInfo) {
     type = valueBasicInfo.type
+    if (valueBasicInfo.redirection) {
+      uri = valueBasicInfo.redirection
+    }
   }
 </script>
 
