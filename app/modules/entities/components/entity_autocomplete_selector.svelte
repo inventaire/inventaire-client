@@ -1,5 +1,5 @@
 <script>
-  import { autofocus } from '#lib/components/actions/autofocus'
+  import { autofocus as autofocusFn } from '#lib/components/actions/autofocus'
   import { createEventDispatcher } from 'svelte'
   import Spinner from '#general/components/spinner.svelte'
   import EntitySuggestion from './entity_suggestion.svelte'
@@ -9,7 +9,7 @@
   import typeSearch from '#entities/lib/search/type_search'
   import { createByProperty } from '#entities/lib/create_entities'
 
-  export let searchTypes, currentEntityUri, currentEntityLabel, allowEntityCreation = false, createdEntityTypeName, createOnWikidata, relationSubjectEntity, relationProperty, displaySuggestionType
+  export let searchTypes, currentEntityUri, currentEntityLabel, allowEntityCreation = false, createdEntityTypeName, createOnWikidata, relationSubjectEntity, relationProperty, displaySuggestionType, autofocus = true
 
   const dispatch = createEventDispatcher()
 
@@ -112,7 +112,7 @@
       value={currentEntityLabel || ''}
       on:keyup={onInputKeyup}
       bind:this={input}
-      use:autofocus
+      use:autofocusFn={{ disabled: autofocus !== true }}
     >
     {#if currentEntityUri}
       <span class="uri">{currentEntityUri}</span>
