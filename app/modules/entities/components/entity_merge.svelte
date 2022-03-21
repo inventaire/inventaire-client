@@ -27,7 +27,10 @@
   <h2>{i18n('Merge entities')}</h2>
 
   {#if type}
-    <p class="type">{I18n('entity type')}: {I18n(typeName)}</p>
+    <section class="type">
+      <span class="label">{I18n('entity type')}:</span>
+      <span class="type-name">{I18n(typeName)}</span>
+    </section>
   {/if}
 
   <section>
@@ -72,24 +75,26 @@
   .entityMergeLayout{
     max-width: 50em;
     margin: 1em auto;
-    padding: 1em 2em;
-    @include radius;
-    background-color: white;
   }
   .type{
     margin: 1em 0;
-    color: $grey;
+  }
+  .type-name{
+    display: block;
   }
   h2{
     text-align: center;
     margin-top: 0;
   }
-  label{
+  label, .label{
     font-size: 1rem;
-    color: $dark-grey;
+    color: $grey;
   }
   section{
     margin-bottom: 1em;
+    background-color: white;
+    padding: 1em;
+    @include radius;
   }
   .success-button{
     display: block;
