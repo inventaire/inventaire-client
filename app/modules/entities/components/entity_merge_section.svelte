@@ -3,20 +3,25 @@
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
-  import { BubbleUpComponentEvent } from '#lib/svelte'
   import { I18n } from '#user/lib/i18n'
 
   export let type, uri
 
   let flash, valueBasicInfo, editMode = false
-  const bubbleUpComponentEvent = BubbleUpComponentEvent()
 
-  $: if (valueBasicInfo) {
+  function select (e) {
+    uri = e.detail
+    editMode = false
+  }
+
+  function setInfo () {
     type = valueBasicInfo.type
-    if (valueBasicInfo.redirection) {
+    if (uri && valueBasicInfo.redirection) {
       uri = valueBasicInfo.redirection
     }
   }
+
+  $: if (valueBasicInfo) setInfo()
 </script>
 
 {#if uri && !editMode}
@@ -38,12 +43,12 @@
   <EntityAutocompleteSelector
     searchTypes={type}
     currentEntityUri={uri}
-    currentEntityLabel={valueBasicInfo?.label}
-    displaySuggestionType={true}
+    currentEntityLabel={uri ? valueBasicInfo?.label : null}
+    displaySuggestionType={type == null}
     autofocus={false}
     on:close={() => editMode = false}
     on:error={e => flash = e.detail}
-    on:select={bubbleUpComponentEvent}
+    on:select={select}
   />
 {/if}
 

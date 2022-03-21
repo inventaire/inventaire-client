@@ -15,6 +15,12 @@
   async function merge () {
     try {
       await mergeEntities(from, to)
+      from = null
+      to = null
+      flash = {
+        type: 'success',
+        message: I18n('success')
+      }
     } catch (err) {
       flash = err
     }
@@ -41,7 +47,6 @@
       <EntityMergeSection
         bind:uri={from}
         bind:type
-        on:select={e => from = e.detail}
       />
     </label>
   </section>
@@ -53,10 +58,11 @@
       <EntityMergeSection
         bind:uri={to}
         bind:type
-        on:select={e => to = e.detail}
       />
     </label>
   </section>
+
+  <Flash bind:state={flash}/>
 
   <button
     disabled={!(from && to)}
@@ -66,10 +72,7 @@
     {@html icon('compress')}
     {I18n('merge')}
   </button>
-
-  <Flash bind:state={flash}/>
 </div>
-
 
 <style lang="scss">
   @import '#general/scss/utils';
@@ -99,6 +102,6 @@
   }
   .success-button{
     display: block;
-    margin: 0 auto;
+    margin: 1em auto;
   }
 </style>
