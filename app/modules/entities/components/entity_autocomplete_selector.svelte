@@ -17,6 +17,7 @@
 
   let suggestions = []
   let showSuggestions = false
+  let scrollableElement
 
   function onInputKeyup (e) {
     const key = getActionKey(e)
@@ -120,12 +121,13 @@
   </div>
   {#if showSuggestions}
     <div class="autocomplete">
-      <div class="suggestions-wrapper" on:scroll={onSuggestionsScroll}>
+      <div class="suggestions-wrapper" on:scroll={onSuggestionsScroll} bind:this={scrollableElement}>
         <ul class="suggestions">
           {#each suggestions as suggestion, i}
             <EntitySuggestion
               {suggestion}
               {displaySuggestionType}
+              {scrollableElement}
               highlight={i === highlightedIndex}
               on:select={() => dispatch('select', suggestion.uri)}
             />

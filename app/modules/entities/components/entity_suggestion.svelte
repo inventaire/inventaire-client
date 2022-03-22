@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import { entityTypeNameByType } from '#entities/lib/types/entities_types'
   import { I18n } from '#user/lib/i18n'
-  export let suggestion, highlight, displaySuggestionType = false
+  export let suggestion, highlight, displaySuggestionType = false, scrollableElement
   let element
   const { uri, type, label, description } = suggestion
   const dispatch = createEventDispatcher()
@@ -10,7 +10,7 @@
 
   $: {
     if (element && highlight) {
-      element.parentElement.scroll({
+      scrollableElement.scroll({
         top: Math.max(0, (element.offsetTop - 20)),
         behavior: 'smooth'
       })
