@@ -95,7 +95,7 @@ export default {
   allowlistedTypes: Object.keys(typeDefaultP31)
 }
 
-const getPropertiesShortlist = function (type, claims) {
+export const getPropertiesShortlist = function (type, claims) {
   const typeShortlist = propertiesShortlists[type]
   if (typeShortlist == null) return null
 

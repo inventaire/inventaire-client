@@ -1,13 +1,7 @@
+import { entityTypeNameByType } from '#entities/lib/types/entities_types'
+
 const properties = {}
 export default properties
-
-export const entityTypeNameByType = {
-  works: 'work',
-  humans: 'author',
-  series: 'series',
-  publishers: 'publisher',
-  collections: 'collection'
-}
 
 // editorTypes can stay permissive in the input
 // and let the server do the strict validation

@@ -3,6 +3,7 @@
   import ClaimEditor from './claim_editor.svelte'
   import { icon } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { slide } from 'svelte/transition'
 
   export let entity, property, typeProperties
 
@@ -36,7 +37,7 @@
   }
 </script>
 
-<div class="editor-section" class:fixed>
+<div class="editor-section" class:fixed transition:slide>
   <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
   <div class="property-claim-values">
     {#each propertyClaims as value, i}

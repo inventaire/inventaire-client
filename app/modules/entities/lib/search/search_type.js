@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import { entityTypeNameByType } from '#entities/lib/properties'
+import { entityTypeNameByType } from '#entities/lib/types/entities_types'
 const allSearchableTypes = Object.keys(entityTypeNameByType)
 
 export default function (types) {

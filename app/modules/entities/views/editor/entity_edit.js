@@ -16,6 +16,7 @@ import AlertBox from '#behaviors/alert_box'
 import Loading from '#behaviors/loading'
 import PreventDefault from '#behaviors/prevent_default'
 import { isWikidataItemUri } from '#lib/boolean_tests'
+import { typesPossessiveForms } from '#entities/lib/types/entities_types.js'
 
 const typesWithoutLabel = [
   'edition',
@@ -97,7 +98,7 @@ export default Marionette.View.extend({
   serializeData () {
     const attrs = this.model.toJSON()
     attrs.creationMode = this.creationMode
-    const typePossessive = possessives[attrs.type]
+    const typePossessive = typesPossessiveForms[attrs.type]
     attrs.createAndShowLabel = `create and go to the ${typePossessive} page`
     attrs.returnLabel = `return to the ${typePossessive} page`
     attrs.creating = this.model.creating
@@ -269,14 +270,5 @@ export default Marionette.View.extend({
     .catch(forms_.catchAlert.bind(null, this))
   }
 })
-
-const possessives = {
-  work: "work's",
-  edition: "edition's",
-  serie: "series'",
-  human: "author's",
-  publisher: "publisher's",
-  collection: "collection's"
-}
 
 const inventoryTypes = [ 'work', 'edition' ]
