@@ -3,7 +3,7 @@ import searchType from './search_type.js'
 import languageSearch from './language_search.js'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.js'
 import error_ from '#lib/error'
-import { pluralize } from '#entities/lib/types/type_key'
+import { pluralize } from '#entities/lib/types/entities_types'
 import _wikidataSearch from './wikidata_search.js'
 
 const wikidataSearch = _wikidataSearch(true)

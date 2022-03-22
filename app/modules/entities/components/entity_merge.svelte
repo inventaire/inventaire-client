@@ -4,8 +4,7 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Flash from '#lib/components/flash.svelte'
-  import { entityTypeNameByType } from '#entities/lib/properties'
-  import { pluralize } from '#entities/lib/types/type_key'
+  import { entityTypeNameByType, pluralize } from '#entities/lib/types/entities_types'
   import { isWikidataItemUri } from '#lib/boolean_tests'
   import { slide } from 'svelte/transition'
 

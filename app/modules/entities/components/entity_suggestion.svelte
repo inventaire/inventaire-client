@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import { entityTypeNameByType } from '#entities/lib/properties'
+  import { entityTypeNameByType } from '#entities/lib/types/entities_types'
   import { I18n } from '#user/lib/i18n'
   export let suggestion, highlight, displaySuggestionType = false
   let element

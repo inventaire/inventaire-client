@@ -225,8 +225,10 @@ const showEntityCreate = async params => {
     params.model = entityDraftModel.create(params)
     return showEntityEdit(params)
   } else {
-    const { default: EntityCreate } = await import('./views/editor/entity_create')
-    app.layout.showChildView('main', new EntityCreate(params))
+    const { default: EntityCreate } = await import('./components/editor/entity_create.svelte')
+    app.layout.getRegion('main').showSvelteComponent(EntityCreate, {
+      props: params
+    })
   }
 }
 
