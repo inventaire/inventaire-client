@@ -7,7 +7,6 @@ import createEntity from './create_entity.js'
 import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import graphRelationsProperties from './graph_relations_properties.js'
 import getOriginalLang from '#entities/lib/get_original_lang'
-import { tap } from '#lib/promises'
 
 export const createWorkEdition = async function (workEntity, isbn) {
   assert_.types(arguments, [ 'object', 'string' ])
@@ -35,7 +34,7 @@ export const createWorkEdition = async function (workEntity, isbn) {
       claims['invp:P2'] = [ isbnData.image ]
     }
 
-    return createAndGetEntity({ labels: {}, claims })
+    return createAndGetEntityModel({ labels: {}, claims })
     .then(editionEntity => {
       // If work editions have been fetched, add it to the list
       workEntity.editions?.add(editionEntity)
@@ -92,7 +91,7 @@ export const createByProperty = async function (options) {
     }
   }
 
-  return createAndGetEntity({ labels, claims, createOnWikidata })
+  return createAndGetEntityModel({ labels, claims, createOnWikidata })
 }
 
 const subjectEntityP31ByProperty = {
@@ -111,16 +110,22 @@ const subjectEntityP31ByProperty = {
   'wdt:P195': 'wd:Q20655472'
 }
 
-export const createAndGetEntity = function (params) {
+export async function createAndGetEntityModel (params) {
   const { claims } = params
-  return createEntity(params)
-  .then(tap(triggerEntityGraphChangesEvents(claims)))
-  .then(entityData => new Entity(entityData))
+  const entityData = await createEntity(params)
+  triggerEntityGraphChangesEvents(claims)
+  const model = new Entity(entityData)
   // Update the local cache
-  .then(tap(addEntityModel))
+  addEntityModel(model)
+  return model
 }
 
-const triggerEntityGraphChangesEvents = claims => function () {
+export async function createAndGetEntity (params) {
+  const model = await createAndGetEntityModel(params)
+  return model.toJSON()
+}
+
+const triggerEntityGraphChangesEvents = claims => {
   for (const prop in claims) {
     const values = claims[prop]
     if (graphRelationsProperties.includes(prop)) {

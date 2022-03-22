@@ -1,12 +1,12 @@
 import { I18n } from '#user/lib/i18n'
 import editableEntity from './inv/editable_entity.js'
-import { createAndGetEntity } from './create_entities.js'
+import { createAndGetEntityModel } from './create_entities.js'
 import properties from './properties.js'
 import Entity from '../models/entity.js'
 import { buildPath } from '#lib/location'
 import { asyncNoop } from '#lib/utils'
 
-const typeDefaultP31 = {
+export const typeDefaultP31 = {
   human: 'wd:Q5',
   work: 'wd:Q47461344',
   serie: 'wd:Q277759',
@@ -71,7 +71,7 @@ export default {
       invalidateRelationsCache: _.noop,
       saveLabel: asyncNoop,
       create () {
-        return createAndGetEntity({
+        return createAndGetEntityModel({
           labels: this.get('labels'),
           claims: this.get('claims')
         })

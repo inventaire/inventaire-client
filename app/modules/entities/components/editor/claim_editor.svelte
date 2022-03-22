@@ -14,6 +14,7 @@
 
   const dispatch = createEventDispatcher()
   const { uri } = entity
+  const creationMode = uri == null
   const { editorType } = properties[property]
   const { InputComponent, DisplayComponent, showSave } = editors[editorType]
   const fixed = editorType.split('-')[0] === 'fixed'
@@ -23,7 +24,7 @@
   let currentValue = value
   let getInputValue, flash, valueLabel, showDelete
 
-  const updateUri = uri.split(':')[0] === 'isbn' ? `inv:${entity._id}` : uri
+  const updateUri = uri?.split(':')[0] === 'isbn' ? `inv:${entity._id}` : uri
 
   function showEditMode () { editMode = true }
   function closeEditMode () {
@@ -45,12 +46,14 @@
       currentValue = value
       if (oldValue === currentValue) return
       dispatch('set', currentValue)
-      await preq.put(app.API.entities.claims.update, {
-        uri: updateUri,
-        property,
-        'old-value': oldValue,
-        'new-value': value,
-      })
+      if (!creationMode) {
+        await preq.put(app.API.entities.claims.update, {
+          uri: updateUri,
+          property,
+          'old-value': oldValue,
+          'new-value': value,
+        })
+      }
       oldValue = currentValue
     } catch (err) {
       editMode = true
@@ -99,7 +102,9 @@
       />
     {:else}
       <DisplayComponent
-        {entity} {uri} {property} {value}
+        {entity}
+        {property}
+        {value}
         bind:valueLabel
         on:edit={showEditMode}
         on:error={showError}

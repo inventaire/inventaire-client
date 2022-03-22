@@ -13,6 +13,7 @@
   let input, flash
 
   const { uri, type, labels } = entity
+  const creationMode = uri == null
   const hasName = type === 'human' || type === 'publisher'
   const userLang = app.user.lang
   const languages = getLangsData(userLang, labels)
@@ -22,6 +23,7 @@
   let currentValue
   $: {
     currentValue = labels[currentLang] || userLang
+    if (currentValue == null) editMode = true
     if (favoriteLabelLang === currentLang) {
       favoriteLabel = currentValue
     }
@@ -38,6 +40,7 @@
     const { value } = input
     labels[currentLang] = value
     editMode = false
+    if (creationMode) return
     preq.put(app.API.entities.labels.update, { uri, lang: currentLang, value })
     .catch(err => {
       editMode = true
