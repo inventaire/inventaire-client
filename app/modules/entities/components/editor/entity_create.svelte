@@ -8,29 +8,54 @@
   import { entityTypeNameBySingularType, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
   import Flash from '#lib/components/flash.svelte'
+  import { requiredPropertyPerType } from '#entities/views/editor/entity_edit'
+  import { getMissingRequiredProperties } from '#entities/components/lib/create_helpers'
 
   export let type = 'works'
 
-  let showAllProperties = false, displayedProperties, entity, flash
-  let typeProperties, propertiesShortlist, hasMonolingualTitle, createAndShowLabel
-  $: {
+  let showAllProperties = false, displayedProperties, flash
+  let typeProperties, propertiesShortlist, hasMonolingualTitle, createAndShowLabel, requiresLabel, requiredProperties
+  let entity = {
+    type,
+    labels: {},
+    claims: {},
+  }
+
+  function onTypeChange () {
     typeProperties = propertiesPerType[type]
     hasMonolingualTitle = typeProperties['wdt:P1476'] != null
-    propertiesShortlist = getPropertiesShortlist(type, entity?.claims || {})
+    requiresLabel = !hasMonolingualTitle
+    propertiesShortlist = getPropertiesShortlist(type, entity.claims)
+    requiredProperties = requiredPropertyPerType[type] || []
     const typePossessive = typesPossessiveForms[type]
     createAndShowLabel = `create and go to the ${typePossessive} page`
     showAllProperties = false
-    entity = {
-      labels: {},
-      claims: {
-        'wdt:P31': [ typeDefaultP31[type] ]
-      }
-    }
+    entity.type = type
+    entity.claims['wdt:P31'] = [ typeDefaultP31[type] ]
+    app.execute('querystring:set', 'type', type)
   }
+
+  $: type && onTypeChange()
 
   $: {
     displayedProperties = showAllProperties ? typeProperties : _.pick(typeProperties, propertiesShortlist)
   }
+
+  let missingRequiredProperties
+  function onEntityChange () {
+    if (requiredProperties == null) return
+    missingRequiredProperties = getMissingRequiredProperties({ entity, requiredProperties, requiresLabel, type })
+    if (missingRequiredProperties.length > 0) {
+      flash = {
+        type: 'info',
+        message: `${I18n('required properties are missing')}: ${missingRequiredProperties.join(', ')}`
+      }
+    } else if (flash?.type === 'info') {
+      flash = null
+    }
+  }
+
+  $: entity && onEntityChange()
 
   async function createAndShowEntity () {
     try {
@@ -57,13 +82,13 @@
   </ul>
 
   {#if !hasMonolingualTitle}
-    <LabelsEditor {entity} />
+    <LabelsEditor bind:entity />
   {/if}
 
   {#if typeProperties}
     {#each Object.keys(displayedProperties) as property}
       <PropertyClaimsEditor
-        {entity}
+        bind:entity
         {property}
         {typeProperties}
       />
@@ -80,17 +105,18 @@
     </button>
   {/if}
 
+  <Flash state={flash} />
+
   <div class="next">
     <button
       class="light-blue-button"
+      disabled={missingRequiredProperties?.length > 0}
       on:click={createAndShowEntity}
       >
       {@html icon('arrow-right')}
       {I18n(createAndShowLabel)}
     </button>
   </div>
-
-  <Flash state={flash} />
 </div>
 
 <style lang="scss">
@@ -122,9 +148,14 @@
   }
   .show-all-properties{
     @include shy;
+    margin-bottom: 1em;
   }
   .next{
     margin: 1em auto;
     @include display-flex(row, center, center);
+    button:disabled{
+      background-color: $grey;
+      opacity: 0.6;
+    }
   }
 </style>

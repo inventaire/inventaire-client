@@ -7,7 +7,7 @@
   export let currentValue, property, valueLabel, entity
 
   const { searchType, allowEntityCreation, entityTypeName } = properties[property]
-  const createOnWikidata = entity.uri.startsWith('wd:')
+  const createOnWikidata = entity.uri?.startsWith('wd:')
 
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)

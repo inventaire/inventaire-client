@@ -7,7 +7,7 @@
 
   export let entity, property, typeProperties
 
-  let propertyClaims = entity.claims[property] || []
+  let propertyClaims = entity.claims[property] = entity.claims[property] || []
 
   const { customLabel } = typeProperties[property]
   const { multivalue, editorType } = properties[property]
@@ -25,6 +25,7 @@
   function setValue (i, value) {
     propertyClaims[i] = value
     if (value == null) removeBlankValue()
+    entity = entity
   }
 
   let canAddValue

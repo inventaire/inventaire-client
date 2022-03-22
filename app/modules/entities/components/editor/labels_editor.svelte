@@ -7,14 +7,15 @@
   import getActionKey from '#lib/get_action_key'
   import preq from '#lib/preq'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import { tick } from 'svelte'
+  import { typeHasName } from '#entities/lib/types/entities_types'
 
   export let entity, favoriteLabel, favoriteLabelLang
   let editMode = false
   let input, flash
 
-  const { uri, type, labels } = entity
+  const { uri, labels } = entity
   const creationMode = uri == null
-  const hasName = type === 'human' || type === 'publisher'
   const userLang = app.user.lang
   const languages = getLangsData(userLang, labels)
   const bestLangData = getBestLangValue(userLang, null, labels)
@@ -29,9 +30,12 @@
     }
   }
 
-  function showEditMode () {
+  $: hasName = typeHasName(entity.type)
+
+  async function showEditMode () {
     editMode = true
-    input.focus()
+    await tick()
+    input?.focus()
   }
 
   function closeEditMode () { editMode = false }
@@ -39,6 +43,7 @@
   async function save () {
     const { value } = input
     labels[currentLang] = value
+    triggerEntityRefresh()
     editMode = false
     if (creationMode) return
     preq.put(app.API.entities.labels.update, { uri, lang: currentLang, value })
@@ -52,6 +57,8 @@
     if (key === 'esc') closeEditMode()
     else if (e.ctrlKey && key === 'enter') save()
   }
+
+  const triggerEntityRefresh = () => entity = entity
 </script>
 
 <div class="editor-section">

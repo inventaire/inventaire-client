@@ -27,3 +27,7 @@ export function pluralize (type) {
   if (type.slice(-1)[0] !== 's') type += 's'
   return type
 }
+
+export function typeHasName (type) {
+  return type === 'human' || type === 'publisher'
+}

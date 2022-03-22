@@ -23,7 +23,7 @@ const typesWithoutLabel = [
   'collection'
 ]
 // Keep in sync with server/controllers/entities/lib/validate_critical_claims.js
-const requiredPropertyPerType = {
+export const requiredPropertyPerType = {
   edition: [ 'wdt:P629', 'wdt:P1476' ],
   collection: [ 'wdt:P1476', 'wdt:P123' ]
 }
