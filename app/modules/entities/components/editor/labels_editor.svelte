@@ -4,7 +4,6 @@
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import Flash from '#lib/components/flash.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
-  import { autofocus } from '#lib/components/actions/autofocus'
   import getActionKey from '#lib/get_action_key'
   import preq from '#lib/preq'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
@@ -28,8 +27,13 @@
     }
   }
 
-  function showEditMode () { editMode = true }
+  function showEditMode () {
+    editMode = true
+    input.focus()
+  }
+
   function closeEditMode () { editMode = false }
+
   async function save () {
     const { value } = input
     labels[currentLang] = value
@@ -68,7 +72,6 @@
           value={currentValue || ''}
           on:keyup={onInputKeyup}
           bind:this={input}
-          use:autofocus
         >
         <EditModeButtons showDelete={false} on:cancel={closeEditMode} on:save={save}/>
       {:else}
