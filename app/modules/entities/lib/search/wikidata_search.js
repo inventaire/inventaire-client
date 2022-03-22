@@ -24,7 +24,8 @@ const filterOutSpecialPages = result => {
 // make the result match the needs of app/modules/entities/models/search_result
 const formatAsSearchResult = result => {
   const { lang } = app.user
-  const { label, description, aliases } = result
+  const { id, label, description, aliases } = result
+  result.uri = `wd:${id}`
   result.labels = {}
   result.labels[lang] = label
   result.descriptions = {}
