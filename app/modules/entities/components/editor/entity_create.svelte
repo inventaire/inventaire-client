@@ -4,29 +4,41 @@
   import LabelsEditor from './labels_editor.svelte'
   import propertiesPerType from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
-  import { getPropertiesShortlist } from '#entities/lib/entity_draft_model'
+  import { getPropertiesShortlist, typeDefaultP31 } from '#entities/lib/entity_draft_model'
   import { entityTypeNameBySingularType, typesPossessiveForms } from '#entities/lib/types/entities_types'
+  import { createAndGetEntity } from '#entities/lib/create_entities'
+  import Flash from '#lib/components/flash.svelte'
 
   export let type = 'works'
 
-  let showAllProperties = false, displayedProperties
-
-  const entity = {
-    labels: {},
-    claims: {},
-  }
-
+  let showAllProperties = false, displayedProperties, entity, flash
   let typeProperties, propertiesShortlist, hasMonolingualTitle, createAndShowLabel
   $: {
     typeProperties = propertiesPerType[type]
     hasMonolingualTitle = typeProperties['wdt:P1476'] != null
-    propertiesShortlist = getPropertiesShortlist(type, entity.claims)
+    propertiesShortlist = getPropertiesShortlist(type, entity?.claims || {})
     const typePossessive = typesPossessiveForms[type]
     createAndShowLabel = `create and go to the ${typePossessive} page`
     showAllProperties = false
+    entity = {
+      labels: {},
+      claims: {
+        'wdt:P31': [ typeDefaultP31[type] ]
+      }
+    }
   }
+
   $: {
     displayedProperties = showAllProperties ? typeProperties : _.pick(typeProperties, propertiesShortlist)
+  }
+
+  async function createAndShowEntity () {
+    try {
+      const { uri } = await createAndGetEntity(entity)
+      app.execute('show:entity', uri)
+    } catch (err) {
+      flash = err
+    }
   }
 </script>
 
@@ -69,11 +81,16 @@
   {/if}
 
   <div class="next">
-    <button class="light-blue-button">
+    <button
+      class="light-blue-button"
+      on:click={createAndShowEntity}
+      >
       {@html icon('arrow-right')}
       {I18n(createAndShowLabel)}
     </button>
   </div>
+
+  <Flash state={flash} />
 </div>
 
 <style lang="scss">
