@@ -134,10 +134,15 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .menu-wrapper{
+    /*Small screens*/
+    @media screen and (max-width: $smaller-screen) {
+      margin-right: 0.5em;
+    }
     /*Large screens*/
     @media screen and (min-width: $smaller-screen) {
       position: absolute;
       right: 0;
+      top: 1.4em;
     }
     :global(.dropdown-button){
       @include big-button($grey);
