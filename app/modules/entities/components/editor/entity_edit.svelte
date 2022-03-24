@@ -21,13 +21,15 @@
 
 <div class="entity-edit">
   <div class="header">
-    <h2>
-      <a href="/entity/{uri}" on:click={loadInteralLink}>
-        {favoriteLabel || title}
-      </a>
-    </h2>
-    <p class="type">{I18n(entity.type)}</p>
-    <p class="uri">{uri}</p>
+    <div class="header-main">
+      <h2>
+        <a href="/entity/{uri}" on:click={loadInteralLink}>
+          {favoriteLabel || title}
+        </a>
+      </h2>
+      <p class="type">{I18n(entity.type)}</p>
+      <p class="uri">{uri}</p>
+    </div>
 
     <EntityEditMenu {entity} />
   </div>
@@ -54,7 +56,6 @@
   }
   .header{
     position: relative;
-    @include display-flex(column, center, center);
   }
   h2{
     margin-bottom: 0;
@@ -69,5 +70,20 @@
   .uri{
     @include sans-serif;
     font-size: 0.8rem;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .header{
+      @include display-flex(row, center, space-between, wrap);
+    }
+    .header-main{
+      margin: 0 0.5em;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .header-main{
+      @include display-flex(column, center, center);
+    }
   }
 </style>
