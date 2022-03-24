@@ -9,6 +9,7 @@
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { tick } from 'svelte'
   import { typeHasName } from '#entities/lib/types/entities_types'
+  import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/lib/editors_helpers'
 
   export let entity, favoriteLabel, favoriteLabelLang
   let editMode = false
@@ -59,6 +60,11 @@
   }
 
   const triggerEntityRefresh = () => entity = entity
+
+  function editLanguageValue (lang) {
+    currentLang = lang
+    showEditMode()
+  }
 </script>
 
 <div class="editor-section">
@@ -93,6 +99,21 @@
     </div>
   </div>
 
+  <ul class="other-languages">
+    {#each alphabeticallySortedEntries(labels) as [ lang, value ]}
+      {#if lang !== currentLang}
+        <li>
+          <button
+            on:click={() => editLanguageValue(lang)}
+            >
+            <span class="lang">{lang} - {getNativeLangName(lang)}</span>
+            <span class="other-value">{value}</span>
+          </button>
+        </li>
+      {/if}
+    {/each}
+  </ul>
+
   <Flash bind:state={flash}/>
 </div>
 
@@ -118,6 +139,20 @@
       user-select: text;
     }
   }
+  .other-languages{
+    button{
+      width: 100%;
+      margin: 0.5em 0;
+      padding: 0.5em 0;
+      @include display-flex(row, center, flex-start);
+      @include bg-hover(white, 5%);
+      text-align: left;
+    }
+  }
+  .other-value{
+    user-select: text;
+  }
+
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     select{
@@ -137,12 +172,22 @@
         @include bg-hover($light-grey, 5%);
       }
     }
+    .other-languages{
+      display: none;
+    }
   }
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
-    select{
+    select, .other-languages .lang{
       width: 10em;
       height: 100%;
+    }
+    .lang{
+      padding: 0 1rem;
+      font-size: 0.9rem;
+    }
+    .other-value{
+      margin: 0 1.1em;
     }
     .language-values{
       @include display-flex(row, stretch, center);
