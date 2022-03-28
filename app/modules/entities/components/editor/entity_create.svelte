@@ -67,7 +67,7 @@
   }
 </script>
 
-<div class="entity-create">
+<div class="column">
   <ul class="type-picker" role="listbox">
     {#each Object.entries(entityTypeNameBySingularType) as [ t, name ]}
       <li role="option">
@@ -120,7 +120,7 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .entity-create{
+  .column{
     @include display-flex(column, stretch, center);
     max-width: 50em;
     margin: 0 auto;
