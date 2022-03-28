@@ -5,11 +5,11 @@ import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
 import error_ from '#lib/error'
-import entityDraftModel from './lib/entity_draft_model.js'
 import * as entitiesModelsIndex from './lib/entities_models_index.js'
 import getEntityViewByType from './lib/get_entity_view_by_type.js'
 import { getEntityByUri, normalizeUri } from './lib/entities.js'
 import showHomonyms from './lib/show_homonyms.js'
+import { entityTypeNameByType } from '#entities/lib/types/entities_types'
 
 export default {
   initialize () {
@@ -84,10 +84,7 @@ const API = {
   showEntityCreateFromRoute () {
     if (app.request('require:loggedIn', 'entity/new')) {
       const params = app.request('querystring:get:all')
-      if (params.allowToChangeType == null && !params.next) {
-        params.allowToChangeType = true
-      }
-      return showEntityCreate(params)
+      showEntityCreate(params)
     }
   },
 
@@ -217,19 +214,14 @@ const showEntityCreate = async params => {
   params.type = params.type?.replace(/s$/, '')
 
   // Known case: when clicking 'create' while live search section is 'subject'
-  if (!entityDraftModel.allowlistedTypes.includes(params.type)) {
+  if (entityTypeNameByType[params.type] == null) {
     params.type = null
   }
 
-  if ((params.type != null) && !params.allowToChangeType) {
-    params.model = entityDraftModel.create(params)
-    return showEntityEdit(params)
-  } else {
-    const { default: EntityCreate } = await import('./components/editor/entity_create.svelte')
-    app.layout.getRegion('main').showSvelteComponent(EntityCreate, {
-      props: params
-    })
-  }
+  const { default: EntityCreate } = await import('./components/editor/entity_create.svelte')
+  app.layout.getRegion('main').showSvelteComponent(EntityCreate, {
+    props: params
+  })
 }
 
 const setHandlers = function () {
