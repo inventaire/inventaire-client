@@ -90,7 +90,6 @@
       <PropertyClaimsEditor
         bind:entity
         {property}
-        {typeProperties}
       />
     {/each}
   {/if}
