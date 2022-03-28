@@ -42,7 +42,6 @@
     <PropertyClaimsEditor
       {entity}
       {property}
-      {typeProperties}
     />
   {/each}
 </div>
