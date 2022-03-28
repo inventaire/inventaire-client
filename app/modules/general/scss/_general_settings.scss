@@ -122,3 +122,9 @@ body{
     text-decoration: underline;
   }
 }
+
+// Useful for display states in Svelte components, with for example:
+// <pre>{JSON.stringify(obj, null, 2)}</pre>
+pre{
+  font-family: monospace;
+}
