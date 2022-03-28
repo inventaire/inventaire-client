@@ -302,7 +302,7 @@ export default Marionette.CollectionView.extend({
       if (this._lastSelected?.category === 'entity' && this._lastSelected?.name !== 'all') {
         type = typesBySection.entity[this._lastSelected.name]
       }
-      app.execute('show:entity:create', { label: this._lastSearch, type, allowToChangeType: true })
+      app.execute('show:entity:create', { label: this._lastSearch, type })
     }
   },
 
