@@ -10,6 +10,7 @@
   import Flash from '#lib/components/flash.svelte'
   import { requiredPropertyPerType } from '#entities/views/editor/entity_edit'
   import { getMissingRequiredProperties } from '#entities/components/lib/create_helpers'
+  import WrapToggler from '#components/wrap_toggler.svelte'
 
   export let type = 'works'
 
@@ -86,7 +87,7 @@
   {/if}
 
   {#if typeProperties}
-    {#each Object.keys(displayedProperties) as property}
+    {#each Object.keys(displayedProperties) as property (property)}
       <PropertyClaimsEditor
         bind:entity
         {property}
@@ -94,15 +95,10 @@
     {/each}
   {/if}
 
-  {#if !showAllProperties}
-    <button
-      class="show-all-properties"
-      on:click={() => showAllProperties = true}
-      >
-      {@html icon('chevron-down')}
-      {I18n('add more details')}
-    </button>
-  {/if}
+  <WrapToggler
+    bind:show={showAllProperties}
+    moreText={I18n('add more details')}
+  />
 
   <Flash state={flash} />
 
@@ -124,6 +120,9 @@
     @include display-flex(column, stretch, center);
     max-width: 50em;
     margin: 0 auto;
+    :global(.wrap-toggler) {
+      margin-bottom: 1em;
+    }
   }
   .type-picker{
     flex: 1;
@@ -144,10 +143,6 @@
         color: $dark-grey;
       }
     }
-  }
-  .show-all-properties{
-    @include shy;
-    margin-bottom: 1em;
   }
   .next{
     margin: 1em auto;
