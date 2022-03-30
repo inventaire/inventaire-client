@@ -3,8 +3,11 @@ import { typeHasName } from '#entities/lib/types/entities_types'
 import { i18n } from '#user/lib/i18n'
 import wdLang from 'wikidata-lang'
 import preq from '#lib/preq'
+import assert_ from '#lib/assert_types'
 
-export function getMissingRequiredProperties ({ entity, requiredProperties, requiresLabel, type }) {
+export function getMissingRequiredProperties ({ entity, requiredProperties, requiresLabel }) {
+  const { type } = entity
+  assert_.string(type)
   const missingRequiredProperties = []
   if (requiresLabel) {
     if (Object.keys(entity.labels).length <= 0) {
@@ -16,7 +19,8 @@ export function getMissingRequiredProperties ({ entity, requiredProperties, requ
     }
   }
   for (const property of requiredProperties) {
-    if (entity.claims[property]?.length <= 0) {
+    const propertyClaims = _.compact(entity.claims[property])
+    if (propertyClaims.length <= 0) {
       const labelKey = propertiesPerType[type][property].customLabel || property
       missingRequiredProperties.push(i18n(labelKey))
     }

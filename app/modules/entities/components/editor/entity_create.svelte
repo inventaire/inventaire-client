@@ -8,7 +8,7 @@
   import { entityTypeNameBySingularType, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
   import Flash from '#lib/components/flash.svelte'
-  import { requiredPropertyPerType } from '#entities/views/editor/entity_edit'
+  import { requiredPropertiesPerType } from '#entities/views/editor/entity_edit'
   import { getMissingRequiredProperties } from '#entities/components/lib/create_helpers'
   import WrapToggler from '#components/wrap_toggler.svelte'
 
@@ -27,7 +27,7 @@
     hasMonolingualTitle = typeProperties['wdt:P1476'] != null
     requiresLabel = !hasMonolingualTitle
     propertiesShortlist = getPropertiesShortlist(type, entity.claims)
-    requiredProperties = requiredPropertyPerType[type] || []
+    requiredProperties = requiredPropertiesPerType[type] || []
     const typePossessive = typesPossessiveForms[type]
     createAndShowLabel = `create and go to the ${typePossessive} page`
     showAllProperties = false
@@ -45,7 +45,7 @@
   let missingRequiredProperties
   function onEntityChange () {
     if (requiredProperties == null) return
-    missingRequiredProperties = getMissingRequiredProperties({ entity, requiredProperties, requiresLabel, type })
+    missingRequiredProperties = getMissingRequiredProperties({ entity, requiredProperties, requiresLabel })
     if (missingRequiredProperties.length > 0) {
       flash = {
         type: 'info',
