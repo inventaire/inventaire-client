@@ -382,9 +382,10 @@ const showEntityCreateFromIsbn = async isbn => {
     claims['wdt:P407'] = [ groupLangUri ]
   }
 
-  const { default: EntityCreateEditionAndWork } = await import('./components/editor/entity_create_edition_and_work.svelte')
-  app.layout.getRegion('main').showSvelteComponent(EntityCreateEditionAndWork, {
+  const { default: EntityCreateEditionAndWorkFromIsbn } = await import('./components/editor/entity_create_edition_and_work_from_isbn.svelte')
+  app.layout.getRegion('main').showSvelteComponent(EntityCreateEditionAndWorkFromIsbn, {
     props: {
+      isbn13h,
       edition: { claims }
     }
   })
