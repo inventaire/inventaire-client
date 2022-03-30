@@ -1,6 +1,8 @@
 import propertiesPerType from '#entities/lib/editor/properties_per_type'
 import { typeHasName } from '#entities/lib/types/entities_types'
 import { i18n } from '#user/lib/i18n'
+import wdLang from 'wikidata-lang'
+import preq from '#lib/preq'
 
 export function getMissingRequiredProperties ({ entity, requiredProperties, requiresLabel, type }) {
   const missingRequiredProperties = []
@@ -20,4 +22,23 @@ export function getMissingRequiredProperties ({ entity, requiredProperties, requ
     }
   }
   return missingRequiredProperties
+}
+
+export async function createEditionAndWorkFromEntry ({ edition, work }) {
+  const title = edition.claims['wdt:P1476'][0]
+  const titleLang = edition.claims['wdt:P407'][0]
+  const workLabelLangCode = wdLang.byWdId[titleLang]?.code || 'en'
+  work.labels = { [workLabelLangCode]: title }
+  const entry = {
+    edition,
+    works: [ work ]
+  }
+  const { entries } = await preq.post(app.API.entities.resolve, {
+    entries: [ entry ],
+    update: true,
+    create: true,
+    enrich: true
+  })
+  const { uri } = entries[0].edition
+  return uri
 }

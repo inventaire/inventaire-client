@@ -1,10 +1,10 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
-  import wdLang from 'wikidata-lang'
-  import preq from '#lib/preq'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import propertiesPerType from '#entities/lib/editor/properties_per_type'
+  import { createEditionAndWorkFromEntry } from '#entities/components/lib/create_helpers'
+  import Flash from '#lib/components/flash.svelte'
 
   export let edition, isbn13h
 
@@ -46,23 +46,14 @@
 
   // TODO: add required properties
 
+  let flash
   async function create () {
-    const title = edition.claims['wdt:P1476'][0]
-    const titleLang = edition.claims['wdt:P407'][0]
-    const workLabelLangCode = wdLang.byWdId[titleLang]?.code || 'en'
-    work.labels = { [workLabelLangCode]: title }
-    const entry = {
-      edition,
-      works: [ work ]
+    try {
+      const editionUri = await createEditionAndWorkFromEntry({ edition, work })
+      app.execute('show:entity', editionUri, { refresh: true })
+    } catch (err) {
+      flash = err
     }
-    const { entries } = await preq.post(app.API.entities.resolve, {
-      entries: [ entry ],
-      update: true,
-      create: true,
-      enrich: true
-    })
-    const { uri } = entries[0].edition
-    app.execute('show:entity', uri, { refresh: true })
   }
 
   let workSection, editionSection
@@ -106,6 +97,8 @@
       scrollTopElement={editionSection}
     />
   </section>
+
+  <Flash state={flash} />
 
   <button
     on:click={create}
