@@ -22,9 +22,8 @@ const typesWithoutLabel = [
   'edition',
   'collection'
 ]
-// Keep in sync with server/controllers/entities/lib/validate_critical_claims.js
-export const requiredPropertyPerType = {
-  edition: [ 'wdt:P629', 'wdt:P1476' ],
+export const requiredPropertiesPerType = {
+  edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P407' ],
   collection: [ 'wdt:P1476', 'wdt:P123' ]
 }
 
@@ -51,7 +50,7 @@ export default Marionette.View.extend({
   initialize () {
     this.creationMode = this.model.creating
     this.requiresLabel = !typesWithoutLabel.includes(this.model.type)
-    this.requiredProperties = requiredPropertyPerType[this.model.type] || []
+    this.requiredProperties = requiredPropertiesPerType[this.model.type] || []
     this.canBeAddedToInventory = inventoryTypes.includes(this.model.type)
     this.showAdminSection = app.user.hasDataadminAccess && !this.creationMode
 

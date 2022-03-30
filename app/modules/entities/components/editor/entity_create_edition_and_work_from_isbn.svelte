@@ -3,8 +3,9 @@
   import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import propertiesPerType from '#entities/lib/editor/properties_per_type'
-  import { createEditionAndWorkFromEntry } from '#entities/components/lib/create_helpers'
+  import { createEditionAndWorkFromEntry, getMissingRequiredProperties } from '#entities/components/lib/create_helpers'
   import Flash from '#lib/components/flash.svelte'
+  import { requiredPropertiesPerType } from '#entities/views/editor/entity_edit'
 
   export let edition, isbn13h
 
@@ -25,26 +26,47 @@
   ]
 
   let editionPropertiesShortlist = [
-    'wdt:P212',
-    'wdt:P1476', // required
+    'wdt:P1476',
     'wdt:P1680',
-    'wdt:P407', // required
+    'wdt:P407',
     'wdt:P123',
     'invp:P2',
   ]
 
-  const allWorkProperties = Object.keys(propertiesPerType.work)
-  const allEditionProperties = _.without(Object.keys(propertiesPerType.edition), 'wdt:P629')
-  const isShortlisted = shortlist => property => shortlist.includes(property)
+  const editionImplicitProperties = [
+    'wdt:P629',
+    'wdt:P212',
+    'wdt:P957',
+  ]
 
+  const allWorkProperties = Object.keys(propertiesPerType.work)
+  const allEditionProperties = _.without(Object.keys(propertiesPerType.edition), ...editionImplicitProperties)
+  const isShortlisted = shortlist => property => shortlist.includes(property)
   // Regenerate shortlists from propertiesPerType properties to preserve order
   workPropertiesShortlist = allWorkProperties.filter(isShortlisted(workPropertiesShortlist))
   editionPropertiesShortlist = allEditionProperties.filter(isShortlisted(editionPropertiesShortlist))
-
   $: displayedWorkProperties = showAllWorkProperties ? allWorkProperties : workPropertiesShortlist
   $: displayedEditionProperties = showAllEditionProperties ? allEditionProperties : editionPropertiesShortlist
 
-  // TODO: add required properties
+  const editionRequiredProperties = _.without(requiredPropertiesPerType.edition, ...editionImplicitProperties)
+
+  let missingRequiredProperties
+  function onEditionChange () {
+    missingRequiredProperties = getMissingRequiredProperties({
+      entity: edition,
+      requiredProperties: editionRequiredProperties,
+    })
+    if (missingRequiredProperties.length > 0) {
+      flash = {
+        type: 'info',
+        message: `${I18n('required properties are missing')}: ${missingRequiredProperties.join(', ')}`
+      }
+    } else if (flash?.type === 'info') {
+      flash = null
+    }
+  }
+
+  $: edition && onEditionChange()
 
   let flash
   async function create () {
@@ -101,10 +123,11 @@
   <Flash state={flash} />
 
   <button
-    on:click={create}
     class="success-button"
+    disabled={missingRequiredProperties?.length > 0}
+    on:click={create}
     >
-    {I18n('create')}
+    {I18n("create and go to the edition's page")}
   </button>
 </div>
 
@@ -133,7 +156,7 @@
     padding: 1em;
   }
   .success-button{
-    margin: 0 auto;
+    margin: 1em auto;
   }
   section{
     :global(.wrap-toggler) {
