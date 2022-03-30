@@ -1,13 +1,20 @@
 <script>
   import { icon } from '#lib/handlebars_helpers/icons'
-  export let show, moreText, lessText
+  export let show = false, moreText, lessText, scrollTopElement
+
+  function toggle () {
+    show = !show
+    if (!show && scrollTopElement) {
+      scrollTopElement.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 </script>
 
 {#if show}
   {#if lessText}
     <button
       class="wrap-toggler"
-      on:click={() => show = false}
+      on:click={toggle}
       >
       {@html icon('chevron-up')}
       {lessText}
@@ -16,7 +23,7 @@
 {:else}
   <button
     class="wrap-toggler"
-    on:click={() => show = true}
+    on:click={toggle}
     >
     {@html icon('chevron-down')}
     {moreText}

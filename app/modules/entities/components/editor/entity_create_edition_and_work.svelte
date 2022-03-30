@@ -64,6 +64,8 @@
     const { uri } = entries[0].edition
     app.execute('show:entity', uri, { refresh: true })
   }
+
+  let workSection, editionSection
 </script>
 
 <div class="column">
@@ -72,7 +74,7 @@
     {I18n('can you tell us more about this work and this particular edition?')}
   </p>
 
-  <section class="work">
+  <section class="work" bind:this={workSection}>
     <h2>{I18n('work')}</h2>
     <p class="help">{i18n('Data common to all editions of this book')}</p>
     {#each displayedWorkProperties as property (property)}
@@ -85,6 +87,7 @@
       bind:show={showAllWorkProperties}
       moreText={I18n('add more details')}
       lessText={I18n('show only main properties')}
+      scrollTopElement={workSection}
     />
   </section>
 
@@ -101,6 +104,7 @@
       bind:show={showAllEditionProperties}
       moreText={I18n('add more details')}
       lessText={I18n('show only main properties')}
+      scrollTopElement={editionSection}
     />
   </section>
 
