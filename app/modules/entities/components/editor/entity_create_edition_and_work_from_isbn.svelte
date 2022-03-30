@@ -6,7 +6,7 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import propertiesPerType from '#entities/lib/editor/properties_per_type'
 
-  export let edition
+  export let edition, isbn13h
 
   edition.type = 'edition'
 
@@ -69,10 +69,9 @@
 </script>
 
 <div class="column">
-  <p class="context">
-    {i18n('No data could be found for that ISBN.')}
-    {I18n('can you tell us more about this work and this particular edition?')}
-  </p>
+  <h2>{isbn13h}</h2>
+  <p class="context">{i18n('No data could be found for that ISBN.')}</p>
+  <p class="context">{I18n('can you tell us more about this work and this particular edition?')}</p>
 
   <section class="work" bind:this={workSection}>
     <h2>{I18n('work')}</h2>
