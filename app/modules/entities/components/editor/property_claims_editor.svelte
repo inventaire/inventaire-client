@@ -9,7 +9,8 @@
 
   export let entity, property
 
-  let propertyClaims = entity.claims[property] = entity.claims[property] || []
+  let propertyClaims = entity.claims[property] || []
+  $: entity.claims[property] = propertyClaims
 
   const { type } = entity
   assert_.string(type)
@@ -19,8 +20,7 @@
   const fixed = editorType.split('-')[0] === 'fixed'
 
   function addBlankValue () {
-    propertyClaims = propertyClaims || []
-    propertyClaims.push(null)
+    propertyClaims = [ ...(propertyClaims || []), null ]
   }
 
   function removeBlankValue () {
@@ -30,7 +30,6 @@
   function setValue (i, value) {
     propertyClaims[i] = value
     if (value == null) removeBlankValue()
-    entity = entity
   }
 
   let canAddValue
