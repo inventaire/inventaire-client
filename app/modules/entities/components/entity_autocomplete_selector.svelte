@@ -69,6 +69,7 @@
         canFetchMore = res.continue != null
       }
     } catch (err) {
+      showSuggestions = false
       dispatch('error', err)
     } finally {
       fetching = false
