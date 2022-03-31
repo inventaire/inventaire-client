@@ -23,17 +23,19 @@
 
   let editMode = (value == null)
   let oldValue = value
-  let currentValue = value
   let getInputValue, flash, valueLabel, showDelete, previousValue, previousValueLabel
 
   const updateUri = uri?.split(':')[0] === 'isbn' ? `inv:${entity._id}` : uri
 
-  function showEditMode () { editMode = true }
+  function showEditMode () {
+    if (value === Symbol.for('removed')) value = null
+    editMode = true
+  }
   function closeEditMode () {
     editMode = false
     flash = null
     // Updates the parent array, mostly to remove a null value
-    dispatch('set', currentValue)
+    dispatch('set', value)
   }
 
   async function save (newValue) {
@@ -44,10 +46,10 @@
         // TODO: show spinner while waiting
         newValue = await getInputValue()
       }
-      currentValue = newValue
+      value = newValue
       editMode = false
-      dispatch('set', currentValue)
-      if (oldValue === currentValue) return
+      dispatch('set', value)
+      if (oldValue === value) return
       if (!creationMode) {
         await preq.put(app.API.entities.claims.update, {
           uri: updateUri,
@@ -58,7 +60,7 @@
       }
       previousValue = oldValue
       previousValueLabel = valueLabel
-      oldValue = currentValue
+      oldValue = value
     } catch (err) {
       editMode = true
       flash = err
@@ -90,7 +92,8 @@
   }
 
   function undo () {
-    save(previousValue)
+    value = previousValue
+    editMode = true
   }
 </script>
 
@@ -105,10 +108,11 @@
         {@html icon('undo')}
         {I18n('undo')}
       </button>
+      <DisplayModeButtons on:edit={showEditMode} />
     {:else if editMode}
       <InputComponent
         {property}
-        {currentValue}
+        currentValue={value}
         {valueLabel}
         {editorType}
         {entity}
@@ -161,7 +165,6 @@
   .undo{
     flex: 1;
     padding: 0.6em 0;
-    margin: 0.4em 0;
     @include shy(0.9);
     @include bg-hover(#ddd);
   }
