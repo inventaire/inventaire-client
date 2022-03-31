@@ -23,26 +23,27 @@ export default async function (type, input, limit, offset) {
   }
 }
 
-// As entering the entity URI triggers an entity request,
-// it might - in case of cache miss - make the server ask the search engine to
-// index that entity, so that it can be found by typing free text
-// instead of a URI next time
-// Refresh=true
-const searchByEntityUri = (uri, type) => {
-  return app.request('get:entity:model', uri, true)
-  .catch(log_.Error('get entity err'))
-  .then(model => {
-    // Ignore errors that were catched and thus didn't return anything
-    if (model == null) return
+async function searchByEntityUri (uri, type) {
+  let model
+  try {
+    model = await app.request('get:entity:model', uri)
+  } catch (err) {
+    log_.error(err, 'get entity err')
+  }
 
-    const pluarlizedType = (model.type != null) ? model.type + 's' : undefined
-    // The type subjects accepts any type, as any entity can be a topic
-    // Known issue: languages entities aren't attributed a type by the server
-    // thus thtowing an error here even if legit, prefer 2 letters language codes
-    if ((pluarlizedType === type) || (type === 'subjects')) {
-      return [ prepareSearchResult(model) ]
-    } else {
-      throw error_.new('invalid entity type', 400, model)
+  if (model == null) return
+
+  const pluarlizedType = (model.type != null) ? model.type + 's' : undefined
+  // The type subjects accepts any type, as any entity can be a topic
+  // Known issue: languages entities aren't attributed a type by the server
+  // thus thtowing an error here even if legit, prefer 2 letters language codes
+  if ((pluarlizedType === type) || (type === 'subjects')) {
+    return {
+      results: [
+        prepareSearchResult(model).toJSON()
+      ]
     }
-  })
+  } else {
+    throw error_.new('invalid entity type', 400, model)
+  }
 }
