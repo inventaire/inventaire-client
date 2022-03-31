@@ -7,12 +7,14 @@
   import { slide } from 'svelte/transition'
   import assert_ from '#lib/assert_types'
   import { getPropertyClaimsCount, isEmptyClaimValue, isNonEmptyClaimValue } from '#entities/components/lib/editors_helpers'
+  import Flash from '#lib/components/flash.svelte'
 
   export let entity, property, required = false
 
   let propertyClaims = entity.claims[property] || []
   $: entity.claims[property] = propertyClaims
 
+  let flash
   const { type } = entity
   assert_.string(type)
   const typeProperties = propertiesPerType[type]
@@ -30,6 +32,13 @@
   }
 
   function setValue (i, value) {
+    if (propertyClaims.includes(value) && propertyClaims.indexOf(value) !== i) {
+      flash = {
+        type: 'error',
+        message: I18n('this value is already used')
+      }
+      value = null
+    }
     propertyClaims[i] = value
     if (value === null) removeBlankValue()
   }
@@ -58,6 +67,7 @@
         on:set={e => setValue(i, e.detail)}
       />
     {/each}
+    <Flash bind:state={flash}/>
     {#if canAddValue}
       <button
         class="add-value tiny-button soft-grey"
