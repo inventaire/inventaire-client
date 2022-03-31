@@ -1,6 +1,6 @@
 <script>
   import properties from '#entities/lib/properties'
-  import propertiesPerType from '#entities/lib/editor/properties_per_type'
+  import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
   import ClaimEditor from './claim_editor.svelte'
   import { icon } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'

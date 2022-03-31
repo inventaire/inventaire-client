@@ -33,7 +33,7 @@ const work = {
   // 'wdt:P674': {} # characters
 }
 
-export default {
+export const propertiesPerType = {
   work,
   edition: {
     'wdt:P629': {}, // edition or translation of
@@ -91,4 +91,9 @@ export default {
     'wdt:P856': {}, // official website
     ...socialNetworks,
   }
+}
+
+export const requiredPropertiesPerType = {
+  edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P407' ],
+  collection: [ 'wdt:P1476', 'wdt:P123' ]
 }

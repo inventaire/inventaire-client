@@ -1,4 +1,4 @@
-import propertiesPerType from '#entities/lib/editor/properties_per_type'
+import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
 import { typeHasName } from '#entities/lib/types/entities_types'
 import { i18n } from '#user/lib/i18n'
 import wdLang from 'wikidata-lang'

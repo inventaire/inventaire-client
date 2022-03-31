@@ -258,7 +258,6 @@ const setHandlers = function () {
       // Uses API.showEditEntityFromUri the fetch fresh entity data
       return API.showEditEntityFromUri(model.get('uri'))
     },
-    'show:entity:edit:from:params': showEntityEdit,
     'show:entity:create': showEntityCreate,
     'show:entity:cleanup': API.showEntityCleanup,
     'show:entity:history': API.showEntityHistory,
@@ -309,22 +308,14 @@ const getEntityModel = async (uri, refresh) => {
 const getEntityLocalHref = uri => `/entity/${uri}`
 
 const showEntityEdit = async params => {
-  const { model, layout, regionName } = params
+  const { model } = params
   if (model.type == null) throw error_.new('invalid entity type', model)
-  if (params.next != null || params.previous != null) {
-    const { default: View } = await import('./views/editor/multi_entity_edit')
-    app.layout.showChildView('main', new View(params))
-  } else if (layout && regionName) {
-    const { default: View } = await import('./views/editor/entity_edit')
-    layout.showChildView(regionName, new View(params))
-  } else {
-    const { default: EntityEdit } = await import('./components/editor/entity_edit.svelte')
-    app.layout.getRegion('main').showSvelteComponent(EntityEdit, {
-      props: {
-        entity: model.toJSON()
-      }
-    })
-  }
+  const { default: EntityEdit } = await import('./components/editor/entity_edit.svelte')
+  app.layout.getRegion('main').showSvelteComponent(EntityEdit, {
+    props: {
+      entity: model.toJSON()
+    }
+  })
   app.navigateFromModel(model, 'edit')
 }
 
