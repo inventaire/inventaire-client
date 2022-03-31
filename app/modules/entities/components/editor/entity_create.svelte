@@ -91,6 +91,7 @@
       <PropertyClaimsEditor
         bind:entity
         {property}
+        required={requiredProperties.includes(property)}
       />
     {/each}
   {/if}
