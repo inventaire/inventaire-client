@@ -34,6 +34,7 @@
       height: 2.5rem;
     }
     button{
+      margin-left: 0.5em;
       height: 100%;
       @include shy-button-label;
     }
