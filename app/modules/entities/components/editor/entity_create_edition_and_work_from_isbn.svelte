@@ -2,10 +2,9 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
-  import propertiesPerType from '#entities/lib/editor/properties_per_type'
+  import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import { createEditionAndWorkFromEntry, getMissingRequiredProperties } from '#entities/components/lib/create_helpers'
   import Flash from '#lib/components/flash.svelte'
-  import { requiredPropertiesPerType } from '#entities/views/editor/entity_edit'
 
   export let edition, isbn13h
 

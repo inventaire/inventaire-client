@@ -1,7 +1,7 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import LabelsEditor from './labels_editor.svelte'
-  import propertiesPerType from '#entities/lib/editor/properties_per_type'
+  import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { loadInteralLink } from '#lib/utils'
