@@ -6,6 +6,7 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { slide } from 'svelte/transition'
   import assert_ from '#lib/assert_types'
+  import { getPropertyClaimsCount, isEmptyClaimValue, isNonEmptyClaimValue } from '#entities/components/lib/editors_helpers'
 
   export let entity, property, required = false
 
@@ -20,24 +21,25 @@
   const fixed = editorType.split('-')[0] === 'fixed'
 
   function addBlankValue () {
-    propertyClaims = [ ...(propertyClaims || []), null ]
+    removeBlankValue()
+    propertyClaims = [ ...propertyClaims, null ]
   }
 
   function removeBlankValue () {
-    propertyClaims = propertyClaims.filter(value => value != null)
+    propertyClaims = propertyClaims.filter(isNonEmptyClaimValue)
   }
 
   function setValue (i, value) {
     propertyClaims[i] = value
-    if (value == null) removeBlankValue()
+    if (value === null) removeBlankValue()
   }
 
   let canAddValue
   $: {
-    if (propertyClaims.at(-1) === null) {
+    if (isEmptyClaimValue(propertyClaims.at(-1))) {
       canAddValue = false
     } else {
-      canAddValue = (multivalue || propertyClaims.length === 0)
+      canAddValue = (multivalue || getPropertyClaimsCount(propertyClaims) === 0)
     }
   }
 </script>
@@ -45,7 +47,7 @@
 <div
   class="editor-section"
   class:fixed
-  class:missing-required={required && propertyClaims.length === 0}
+  class:missing-required={required && getPropertyClaimsCount(propertyClaims) === 0}
   transition:slide
   >
   <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>

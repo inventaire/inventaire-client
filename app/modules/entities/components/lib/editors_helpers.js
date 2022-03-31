@@ -7,3 +7,15 @@ export function alphabeticallySortedEntries (obj) {
 }
 
 export const getNativeLangName = code => langByCode[code]?.native
+
+export function getPropertyClaimsCount (propertyClaims) {
+  return propertyClaims
+  .filter(isNonEmptyClaimValue)
+  .length
+}
+
+export function isEmptyClaimValue (value) {
+  return value === null || value === Symbol.for('removed')
+}
+
+export const isNonEmptyClaimValue = value => !isEmptyClaimValue(value)

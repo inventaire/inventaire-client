@@ -8,7 +8,9 @@
   import Flash from '#lib/components/flash.svelte'
   import preq from '#lib/preq'
   import { isComponentEvent } from '#lib/boolean_tests'
-  import { i18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import { icon } from '#lib/handlebars_helpers/icons.js'
+  import { isNonEmptyClaimValue } from '#entities/components/lib/editors_helpers.js'
 
   export let entity, property, value
 
@@ -22,7 +24,7 @@
   let editMode = (value == null)
   let oldValue = value
   let currentValue = value
-  let getInputValue, flash, valueLabel, showDelete
+  let getInputValue, flash, valueLabel, showDelete, previousValue, previousValueLabel
 
   const updateUri = uri?.split(':')[0] === 'isbn' ? `inv:${entity._id}` : uri
 
@@ -34,26 +36,28 @@
     dispatch('set', currentValue)
   }
 
-  async function save (value) {
+  async function save (newValue) {
     try {
       // Allow null to be passed when trying to remove a value
       // but ignore the argument when dispatch('save') is called without
-      if (value === undefined || isComponentEvent(value)) {
+      if (newValue === undefined || isComponentEvent(newValue)) {
         // TODO: show spinner while waiting
-        value = await getInputValue()
+        newValue = await getInputValue()
       }
+      currentValue = newValue
       editMode = false
-      currentValue = value
-      if (oldValue === currentValue) return
       dispatch('set', currentValue)
+      if (oldValue === currentValue) return
       if (!creationMode) {
         await preq.put(app.API.entities.claims.update, {
           uri: updateUri,
           property,
           'old-value': oldValue,
-          'new-value': value,
+          'new-value': typeof newValue === 'symbol' ? null : newValue,
         })
       }
+      previousValue = oldValue
+      previousValueLabel = valueLabel
       oldValue = currentValue
     } catch (err) {
       editMode = true
@@ -62,10 +66,11 @@
   }
 
   const remove = () => {
-    app.execute('ask:confirmation', {
-      confirmationText: i18n('Are you sure you want to delete this statement?'),
-      action: () => save(null)
-    })
+    if (value === null) {
+      save(null)
+    } else {
+      save(Symbol.for('removed'))
+    }
   }
 
   function onInputKeyup (componentEvent) {
@@ -75,11 +80,32 @@
     else if (domEvent.ctrlKey && key === 'enter') save()
   }
   function showError (componentEvent) { flash = componentEvent.detail }
+
+  let undoTitle
+  $: {
+    if (value === Symbol.for('removed') && isNonEmptyClaimValue(previousValue)) {
+      undoTitle = `${i18n('Recover previous value:')} ${previousValueLabel}`
+      if (previousValue !== previousValueLabel) undoTitle += ` (${previousValue})`
+    }
+  }
+
+  function undo () {
+    save(previousValue)
+  }
 </script>
 
 <div class="wrapper">
   <div class="value">
-    {#if editMode}
+    {#if typeof value === 'symbol'}
+      <button
+        class="undo"
+        title={undoTitle}
+        on:click={undo}
+        >
+        {@html icon('undo')}
+        {I18n('undo')}
+      </button>
+    {:else if editMode}
       <InputComponent
         {property}
         {currentValue}
@@ -131,5 +157,12 @@
       padding: 0.5em 0.2em;
       margin: 0.5em 0;
     }
+  }
+  .undo{
+    flex: 1;
+    padding: 0.6em 0;
+    margin: 0.4em 0;
+    @include shy(0.9);
+    @include bg-hover(#ddd);
   }
 </style>
