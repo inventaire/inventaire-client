@@ -7,7 +7,7 @@
   import { slide } from 'svelte/transition'
   import assert_ from '#lib/assert_types'
 
-  export let entity, property
+  export let entity, property, required = false
 
   let propertyClaims = entity.claims[property] || []
   $: entity.claims[property] = propertyClaims
@@ -42,7 +42,12 @@
   }
 </script>
 
-<div class="editor-section" class:fixed transition:slide>
+<div
+  class="editor-section"
+  class:fixed
+  class:missing-required={required && propertyClaims.length === 0}
+  transition:slide
+  >
   <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
   <div class="property-claim-values">
     {#each propertyClaims as value, i}
@@ -88,5 +93,11 @@
     &, .editor-section-header{
       color: white;
     }
+  }
+  .editor-section{
+    @include transition(border);
+  }
+  .missing-required{
+    border: 1px solid lighten($primary-color, 30%);
   }
 </style>

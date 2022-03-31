@@ -110,6 +110,7 @@
       <PropertyClaimsEditor
         bind:entity={edition}
         {property}
+        required={editionRequiredProperties.includes(property)}
       />
     {/each}
     <WrapToggler
