@@ -8,12 +8,11 @@ const suggestionsPerProperties = {
   'wdt:P629': wdtP629
 }
 
-export default async (property, model) => {
+export async function getDefaultSuggestions ({ entity, property }) {
   const getSuggestions = suggestionsPerProperties[property]
   if (getSuggestions == null) return
-
-  const { entity } = model.collection
-  const index = model.collection.indexOf(model)
-  const propertyValuesCount = model.collection.length
-  return getSuggestions(entity, index, propertyValuesCount)
+  const uris = await getSuggestions({ entity })
+  if (uris == null || uris.length === 0) return
+  const entities = await app.request('get:entities:models', { uris })
+  return entities.map(model => model.toJSON())
 }

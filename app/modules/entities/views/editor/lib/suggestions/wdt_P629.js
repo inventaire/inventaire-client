@@ -1,25 +1,23 @@
 import { isPositiveIntegerString } from '#lib/boolean_tests'
-export default function (entity, index, propertyValuesCount) {
-  // We can't infer a suggestion if the work being modified is the only wdt:P629 value
-  if ((index === 0) && (propertyValuesCount === 1)) return
+import { isNonEmptyClaimValue } from '#entities/components/lib/editors_helpers'
 
-  const worksUris = entity.get('claims.wdt:P629')
+export default async function ({ entity }) {
+  let worksUris = entity.claims['wdt:P629']
   if (worksUris == null) return
+  worksUris = worksUris.filter(isNonEmptyClaimValue)
+  // At least 2 works are needed as suggestions rely on intersections
+  if (worksUris.length < 2) return
 
-  return app.request('get:entities:models', { uris: worksUris })
-  .then(works => {
-    const data = works.reduce(aggregate, { authors: [], series: [] })
-    const commonAuthors = _.intersection(...data.authors)
-    const commonSeries = _.intersection(...data.series)
-
-    if (commonSeries.length === 1) {
-      return getSuggestionsFromSerie(commonSeries[0], works, worksUris)
-    }
-
-    if (commonAuthors.length === 1) {
-      return getSuggestionsFromAuthor(commonAuthors[0], works, worksUris)
-    }
-  })
+  const works = await app.request('get:entities:models', { uris: worksUris })
+  const data = works.reduce(aggregate, { authors: [], series: [] })
+  const commonAuthors = _.intersection(...data.authors)
+  const commonSeries = _.intersection(...data.series)
+  if (commonSeries.length === 1) {
+    return getSuggestionsFromSerie(commonSeries[0], works, worksUris)
+  }
+  if (commonAuthors.length === 1) {
+    return getSuggestionsFromAuthor(commonAuthors[0], worksUris)
+  }
 }
 
 const aggregate = function (data, work) {
@@ -30,15 +28,14 @@ const aggregate = function (data, work) {
   return data
 }
 
-const getSuggestionsFromSerie = function (serieUri, works, worksUris) {
+const getSuggestionsFromSerie = async (serieUri, works, worksUris) => {
   const worksSeriesData = getSeriesData(works)
   const lastOrdinal = getOrdinals(worksSeriesData, serieUri).slice(-1)[0]
-
-  return app.request('get:entity:model', serieUri)
-  .then(getOtherSerieWorks(worksUris, lastOrdinal))
+  const serie = await app.request('get:entity:model', serieUri)
+  return getOtherSerieWorks({ serie, worksUris, lastOrdinal })
 }
 
-const getSuggestionsFromAuthor = async (authorUri, works, worksUris) => {
+const getSuggestionsFromAuthor = async (authorUri, worksUris) => {
   const author = await app.request('get:entity:model', authorUri)
   const { works: authorWorksData } = await author.fetchWorksData()
   return _.pluck(authorWorksData, 'uri')
@@ -68,7 +65,7 @@ const getSerieData = function (work) {
   return { serie, ordinal }
 }
 
-const getOtherSerieWorks = (worksUris, lastOrdinal) => async serie => {
+const getOtherSerieWorks = async ({ serie, worksUris, lastOrdinal }) => {
   const partsData = await serie.fetchPartsData()
   const partsDataWithoutCurrentWorks = getReorderedParts(partsData, worksUris, lastOrdinal)
   return _.pluck(partsDataWithoutCurrentWorks, 'uri')
