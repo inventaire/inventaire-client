@@ -8,8 +8,9 @@
   import getActionKey from '#lib/get_action_key'
   import typeSearch from '#entities/lib/search/type_search'
   import { createByProperty } from '#entities/lib/create_entities'
+  import { getDefaultSuggestions } from '#entities/views/editor/lib/get_suggestions_per_properties'
 
-  export let searchTypes, currentEntityUri, currentEntityLabel, allowEntityCreation = false, createdEntityTypeName, createOnWikidata, relationSubjectEntity, relationProperty, displaySuggestionType, autofocus = true
+  export let searchTypes, currentEntityUri, currentEntityLabel = '', allowEntityCreation = false, createdEntityTypeName, createOnWikidata, relationSubjectEntity, relationProperty, displaySuggestionType, autofocus = true
 
   const dispatch = createEventDispatcher()
 
@@ -39,7 +40,7 @@
     }
   }
 
-  let lastSearch, searchText, waitForSearch
+  let lastSearch, searchText = '', waitForSearch
   let limit = 10, offset = 0, fetching = false, canFetchMore = true
   // TODO: detect uris and get the corresponding entities
   async function search (options = {}) {
@@ -106,6 +107,25 @@
   function close () {
     showSuggestions = false
   }
+
+  let defaultSuggestions
+  async function showDefaultSuggestions () {
+    try {
+      showSuggestions = true
+      fetching = true
+      defaultSuggestions = defaultSuggestions || await getDefaultSuggestions({
+        entity: relationSubjectEntity,
+        property: relationProperty
+      })
+      fetching = false
+      if (defaultSuggestions && searchText === '') suggestions = defaultSuggestions
+    } catch (err) {
+      showSuggestions = false
+      dispatch('error', err)
+    }
+  }
+
+  $: if (searchText === '') showDefaultSuggestions()
 </script>
 
 <div class="input-group">
@@ -124,7 +144,7 @@
     <div class="autocomplete">
       <div class="suggestions-wrapper" on:scroll={onSuggestionsScroll} bind:this={scrollableElement}>
         <ul class="suggestions">
-          {#each suggestions as suggestion, i}
+          {#each suggestions as suggestion, i (suggestion.uri)}
             <EntitySuggestion
               {suggestion}
               {displaySuggestionType}
