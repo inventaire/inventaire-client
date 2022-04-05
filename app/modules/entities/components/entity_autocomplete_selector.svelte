@@ -8,7 +8,7 @@
   import getActionKey from '#lib/get_action_key'
   import typeSearch from '#entities/lib/search/type_search'
   import { createByProperty } from '#entities/lib/create_entities'
-  import { getDefaultSuggestions } from '#entities/views/editor/lib/get_suggestions_per_properties'
+  import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
 
   export let searchTypes, currentEntityUri, currentEntityLabel = '', allowEntityCreation = false, createdEntityTypeName, createOnWikidata, relationSubjectEntity, relationProperty, displaySuggestionType, autofocus = true
 

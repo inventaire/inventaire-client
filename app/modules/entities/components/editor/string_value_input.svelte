@@ -2,7 +2,7 @@
   import { autofocus } from '#lib/components/actions/autofocus'
   import error_ from '#lib/error'
   import { BubbleUpComponentEvent } from '#lib/svelte'
-  import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/views/editor/lib/title_tip'
+  import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/components/editor/lib/title_tip'
   import { createEventDispatcher } from 'svelte'
   import { I18n } from '#user/lib/i18n'
 
