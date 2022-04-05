@@ -27,6 +27,7 @@
       app.execute('show:entity:edit', uri)
     } catch (err) {
       flash = err
+      throw err
     }
   }
 
@@ -52,6 +53,7 @@
     } catch (err) {
       // TODO: recover displayDeteEntityErrorContext feature to show rich error message
       flash = err
+      throw err
     }
   }
 </script>
