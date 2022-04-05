@@ -68,6 +68,8 @@
 </script>
 
 <div class="column">
+  <h2>{I18n('Create a new entity')}</h2>
+
   <ul class="type-picker" role="listbox">
     {#each Object.entries(entityTypeNameBySingularType) as [ t, name ]}
       <li role="option">
@@ -81,37 +83,39 @@
     {/each}
   </ul>
 
-  {#if !hasMonolingualTitle}
-    <LabelsEditor bind:entity />
+  {#if type}
+    {#if !hasMonolingualTitle}
+      <LabelsEditor bind:entity />
+    {/if}
+
+    {#if typeProperties}
+      {#each Object.keys(displayedProperties) as property (property)}
+        <PropertyClaimsEditor
+          bind:entity
+          {property}
+          required={requiredProperties.includes(property)}
+        />
+      {/each}
+    {/if}
+
+    <WrapToggler
+      bind:show={showAllProperties}
+      moreText={I18n('add more details')}
+    />
+
+    <Flash state={flash} />
+
+    <div class="next">
+      <button
+        class="light-blue-button"
+        disabled={missingRequiredProperties?.length > 0}
+        on:click={createAndShowEntity}
+        >
+        {@html icon('arrow-right')}
+        {I18n(createAndShowLabel)}
+      </button>
+    </div>
   {/if}
-
-  {#if typeProperties}
-    {#each Object.keys(displayedProperties) as property (property)}
-      <PropertyClaimsEditor
-        bind:entity
-        {property}
-        required={requiredProperties.includes(property)}
-      />
-    {/each}
-  {/if}
-
-  <WrapToggler
-    bind:show={showAllProperties}
-    moreText={I18n('add more details')}
-  />
-
-  <Flash state={flash} />
-
-  <div class="next">
-    <button
-      class="light-blue-button"
-      disabled={missingRequiredProperties?.length > 0}
-      on:click={createAndShowEntity}
-      >
-      {@html icon('arrow-right')}
-      {I18n(createAndShowLabel)}
-    </button>
-  </div>
 </div>
 
 <style lang="scss">
@@ -123,6 +127,9 @@
     :global(.wrap-toggler) {
       margin-bottom: 1em;
     }
+  }
+  h2{
+    text-align: center;
   }
   .type-picker{
     flex: 1;
