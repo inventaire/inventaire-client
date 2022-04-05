@@ -31,3 +31,12 @@ export function pluralize (type) {
 export function typeHasName (type) {
   return type === 'human' || type === 'publisher'
 }
+
+export const typeDefaultP31 = {
+  human: 'wd:Q5',
+  work: 'wd:Q47461344',
+  serie: 'wd:Q277759',
+  edition: 'wd:Q3331189',
+  publisher: 'wd:Q2085381',
+  collection: 'wd:Q20655472'
+}
