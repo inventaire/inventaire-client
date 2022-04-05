@@ -10,6 +10,7 @@
   import { tick } from 'svelte'
   import { typeHasName } from '#entities/lib/types/entities_types'
   import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/lib/editors_helpers'
+  import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/views/editor/lib/title_tip'
 
   export let entity, favoriteLabel, favoriteLabelLang
   let editMode = false
@@ -53,10 +54,15 @@
       flash = err
     })
   }
+
   function onInputKeyup (e) {
     const key = getActionKey(e)
     if (key === 'esc') closeEditMode()
     else if (e.ctrlKey && key === 'enter') save()
+    if (serieLabels) {
+      const { value } = input
+      matchingSerieLabel = findMatchingSerieLabel(value, serieLabels)
+    }
   }
 
   const triggerEntityRefresh = () => entity = entity
@@ -64,6 +70,17 @@
   function editLanguageValue (lang) {
     currentLang = lang
     showEditMode()
+  }
+
+  let serieUri, serieLabels, matchingSerieLabel
+  if (entity.type === 'work' || entity.type === 'serie') {
+    getWorkSeriesLabels(entity)
+    .then(res => {
+      if (!res) return
+      serieUri = res.uri
+      serieLabels = res.labels
+    })
+    .catch(err => flash = err)
   }
 </script>
 
@@ -84,11 +101,20 @@
     </select>
     <div class="value">
       {#if editMode}
-        <input type="text"
-          value={currentValue || ''}
-          on:keyup={onInputKeyup}
-          bind:this={input}
-        >
+        <div class="input-wrapper">
+          <input type="text"
+            value={currentValue || ''}
+            on:keyup={onInputKeyup}
+            bind:this={input}
+          >
+          {#if matchingSerieLabel}
+            <p class="tip">
+              {@html I18n('title_matches_serie_label_tip', {
+                pathname: `/entity/${serieUri}/edit`
+              })}
+            </p>
+          {/if}
+        </div>
         <EditModeButtons showDelete={false} on:cancel={closeEditMode} on:save={save}/>
       {:else}
         <button class="value-display" on:click={showEditMode} title="{I18n('edit')}">
@@ -128,7 +154,7 @@
   }
   .value{
     flex: 1;
-    input, button{
+    .input-wrapper, button{
       flex: 1;
       font-weight: normal;
     }
@@ -139,7 +165,14 @@
       user-select: text;
     }
   }
+  .input-wrapper{
+    position: relative;
+    @import '#entities/scss/title_tip';
+  }
   .other-languages{
+    max-height: 10em;
+    overflow: auto;
+    margin-top: 1em;
     button{
       width: 100%;
       margin: 0.5em 0;
@@ -163,10 +196,13 @@
     }
     .value{
       @include display-flex(column, center, center);
-      input, button{
+      .input-wrapper, button{
         width: 100%;
         margin: 0.5em 0;
         padding: 0.5em;
+      }
+      input{
+        margin: 0;
       }
       button{
         @include bg-hover($light-grey, 5%);
@@ -195,7 +231,7 @@
     }
     .value{
       @include display-flex(row, stretch);
-      input, button{
+      .input-wrapper, button{
         height: 100%;
         margin: 0 0.5em;
       }
