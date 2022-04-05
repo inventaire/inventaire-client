@@ -8,7 +8,7 @@
   import { entityTypeNameBySingularType, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
   import Flash from '#lib/components/flash.svelte'
-  import { getMissingRequiredProperties } from '#entities/components/lib/create_helpers'
+  import { getMissingRequiredProperties } from '#entities/components/editor/lib/create_helpers'
   import WrapToggler from '#components/wrap_toggler.svelte'
 
   export let type = 'works'

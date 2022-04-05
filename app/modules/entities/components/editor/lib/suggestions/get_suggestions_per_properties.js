@@ -1,6 +1,6 @@
-import wdtP50 from './suggestions/wdt_P50.js'
-import wdtP123 from './suggestions/wdt_P123.js'
-import wdtP629 from './suggestions/wdt_P629.js'
+import wdtP50 from './wdt_P50.js'
+import wdtP123 from './wdt_P123.js'
+import wdtP629 from './wdt_P629.js'
 
 const suggestionsPerProperties = {
   'wdt:P50': wdtP50,

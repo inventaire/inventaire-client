@@ -9,8 +9,8 @@
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { tick } from 'svelte'
   import { typeHasName } from '#entities/lib/types/entities_types'
-  import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/lib/editors_helpers'
-  import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/views/editor/lib/title_tip'
+  import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/editor/lib/editors_helpers'
+  import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/components/editor/lib/title_tip'
 
   export let entity, favoriteLabel, favoriteLabelLang
   let editMode = false

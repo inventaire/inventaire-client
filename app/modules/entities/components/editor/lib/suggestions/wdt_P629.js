@@ -1,5 +1,5 @@
 import { isPositiveIntegerString } from '#lib/boolean_tests'
-import { isNonEmptyClaimValue } from '#entities/components/lib/editors_helpers'
+import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 
 export default async function ({ entity }) {
   let worksUris = entity.claims['wdt:P629']
