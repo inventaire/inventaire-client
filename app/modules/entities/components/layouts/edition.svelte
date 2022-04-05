@@ -3,6 +3,7 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import ClaimsInfobox from './claims_infobox.svelte'
+  import ItemsLists from './items_lists.svelte'
   import EditionActions from './edition_actions.svelte'
   import EditDataActions from './edit_data_actions.svelte'
   import { aggregateWorksClaims, editionWorkProperties, formatEntityClaim } from '#entities/components/lib/claims_helpers'
@@ -86,8 +87,10 @@
         <EditionActions {entity}/>
       </div>
     </div>
-    <!-- TODO: entities:items_lists -->
     <!-- TODO: works list -->
+  </div>
+  <div class="items-lists-wrapper">
+    <ItemsLists {uri}/>
   </div>
 </div>
 
@@ -149,7 +152,7 @@
     }
     .entity-wrapper{
       width: 100%;
-      padding: 0 1em;
+      padding: 0;
     }
     .entity{
       @include display-flex(column, center);

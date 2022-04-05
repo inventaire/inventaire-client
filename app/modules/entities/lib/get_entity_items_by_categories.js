@@ -9,7 +9,7 @@ const getAllEntityUris = model => {
   return model.fetchSubEntities().then(() => model.get('allUris'))
 }
 
-const spreadItems = uris => async items => {
+export const spreadItems = uris => async items => {
   let category
   const itemsByCategories = {
     personal: [],
