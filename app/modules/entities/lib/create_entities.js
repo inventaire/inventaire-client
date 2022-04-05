@@ -11,37 +11,33 @@ import getOriginalLang from '#entities/lib/get_original_lang'
 export const createWorkEdition = async function (workEntity, isbn) {
   assert_.types(arguments, [ 'object', 'string' ])
 
-  return getIsbnData(isbn)
-  .then(isbnData => {
-    let { title, groupLang: editionLang } = isbnData
-    log_.info(title, 'title from isbn data')
-    if (!title) title = getTitleFromWork(workEntity, editionLang)
-    log_.info(title, 'title after work suggestion')
+  const isbnData = await getIsbnData(isbn)
+  let { title, groupLang: editionLang } = isbnData
+  log_.info(title, 'title from isbn data')
+  if (!title) title = getTitleFromWork(workEntity, editionLang)
+  log_.info(title, 'title after work suggestion')
 
-    if (title == null) throw error_.new('no title could be found', isbn)
+  if (title == null) throw error_.new('no title could be found', isbn)
 
-    const claims = {
-      // instance of (P31) -> edition (Q3331189)
-      'wdt:P31': [ 'wd:Q3331189' ],
-      // isbn 13 (isbn 10 - if it exist - will be added by the server)
-      'wdt:P212': [ isbnData.isbn13h ],
-      // edition or translation of (P629) -> created book
-      'wdt:P629': [ workEntity.get('uri') ],
-      'wdt:P1476': [ title ]
-    }
+  const claims = {
+    // instance of (P31) -> edition (Q3331189)
+    'wdt:P31': [ 'wd:Q3331189' ],
+    // isbn 13 (isbn 10 - if it exist - will be added by the server)
+    'wdt:P212': [ isbnData.isbn13h ],
+    // edition or translation of (P629) -> created book
+    'wdt:P629': [ workEntity.get('uri') ],
+    'wdt:P1476': [ title ]
+  }
 
-    if (isbnData.image != null) {
-      claims['invp:P2'] = [ isbnData.image ]
-    }
+  if (isbnData.image != null) {
+    claims['invp:P2'] = [ isbnData.image ]
+  }
 
-    return createAndGetEntityModel({ labels: {}, claims })
-    .then(editionEntity => {
-      // If work editions have been fetched, add it to the list
-      workEntity.editions?.add(editionEntity)
-      workEntity.push('claims.wdt:P747', editionEntity.get('uri'))
-      return editionEntity
-    })
-  })
+  const editionEntity = await createAndGetEntityModel({ labels: {}, claims })
+  // If work editions have been fetched, add it to the list
+  workEntity.editions?.add(editionEntity)
+  workEntity.push('claims.wdt:P747', editionEntity.get('uri'))
+  return editionEntity
 }
 
 const getTitleFromWork = function (workEntity, editionLang) {
