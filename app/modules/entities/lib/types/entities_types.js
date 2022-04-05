@@ -1,4 +1,5 @@
 export const entityTypeNameByType = {
+  edition: 'edition',
   works: 'work',
   series: 'serie',
   humans: 'author',
@@ -7,6 +8,7 @@ export const entityTypeNameByType = {
 }
 
 export const entityTypeNameBySingularType = {
+  edition: 'edition',
   work: 'work',
   serie: 'serie',
   human: 'author',

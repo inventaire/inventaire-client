@@ -11,14 +11,16 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
 
-  export let type = 'works'
+  export let type = 'works', claims
+
+  const canChangeType = !(type && claims)
 
   let showAllProperties = false, displayedProperties, flash
   let typeProperties, propertiesShortlist, hasMonolingualTitle, createAndShowLabel, requiresLabel, requiredProperties
   let entity = {
     type,
     labels: {},
-    claims: {},
+    claims: claims || {},
   }
 
   function onTypeChange () {
@@ -68,9 +70,12 @@
 </script>
 
 <div class="column">
-  <h2>{I18n('Create a new entity')}</h2>
-
-  <EntityTypePicker bind:type />
+  {#if canChangeType}
+    <h2>{I18n('Create a new entity')}</h2>
+    <EntityTypePicker bind:type />
+  {:else if type === 'edition'}
+    <h2>{I18n('Create a new edition')}</h2>
+  {/if}
 
   {#if type}
     {#if !hasMonolingualTitle}
