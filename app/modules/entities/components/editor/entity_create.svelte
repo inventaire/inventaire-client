@@ -4,11 +4,10 @@
   import LabelsEditor from './labels_editor.svelte'
   import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
-  import { getPropertiesShortlist, typeDefaultP31 } from '#entities/lib/entity_draft_model'
-  import { entityTypeNameBySingularType, typesPossessiveForms } from '#entities/lib/types/entities_types'
+  import { typeDefaultP31, entityTypeNameBySingularType, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
   import Flash from '#lib/components/flash.svelte'
-  import { getMissingRequiredProperties } from '#entities/components/editor/lib/create_helpers'
+  import { getMissingRequiredProperties, getPropertiesShortlist } from '#entities/components/editor/lib/create_helpers'
   import WrapToggler from '#components/wrap_toggler.svelte'
 
   export let type = 'works'
