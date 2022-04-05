@@ -2,10 +2,14 @@
   import { autofocus } from '#lib/components/actions/autofocus'
   import error_ from '#lib/error'
   import { BubbleUpComponentEvent } from '#lib/svelte'
+  import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/views/editor/lib/title_tip'
+  import { createEventDispatcher } from 'svelte'
+  import { I18n } from '#user/lib/i18n'
 
-  export let currentValue, getInputValue
+  export let currentValue, getInputValue, entity, property
 
-  const bubbleUpEvent = BubbleUpComponentEvent()
+  const dispatch = createEventDispatcher()
+  const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
 
   let input
   getInputValue = () => {
@@ -15,17 +19,50 @@
     }
     return input.value
   }
+
+  let serieUri, serieLabels, matchingSerieLabel
+  if (entity.type === 'edition' && property === 'wdt:P1476') {
+    getEditionSeriesLabels(entity)
+    .then(res => {
+      if (!res) return
+      serieUri = res.uri
+      serieLabels = res.labels
+    })
+    .catch(err => dispatch('error', err))
+  }
+
+  function onInputKeyup (e) {
+    bubbleUpEvent(e)
+    if (serieLabels) {
+      const { value } = input
+      matchingSerieLabel = findMatchingSerieLabel(value, serieLabels)
+    }
+  }
 </script>
 
-<input
-  type="text"
-  value={currentValue || ''}
-  on:keyup={bubbleUpEvent}
-  bind:this={input}
-  use:autofocus
->
+<div class="wrapper">
+  <input
+    type="text"
+    value={currentValue || ''}
+    on:keyup={onInputKeyup}
+    bind:this={input}
+    use:autofocus
+  >
+  {#if matchingSerieLabel}
+    <p class="tip">
+      {@html I18n('title_matches_serie_label_tip', {
+        pathname: `/entity/${serieUri}/edit`
+      })}
+    </p>
+  {/if}
+</div>
 
-<style>
+<style lang="scss">
+  .wrapper{
+    position: relative;
+    flex: 1;
+    @import '#entities/scss/title_tip';
+  }
   input{
     margin: 0 0.2em 0 0;
   }
