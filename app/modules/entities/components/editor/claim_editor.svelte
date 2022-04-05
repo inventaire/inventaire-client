@@ -12,7 +12,7 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 
-  export let entity, property, value
+  export let entity, property, value, index, editModeIndex
 
   const dispatch = createEventDispatcher()
   const { uri } = entity
@@ -22,6 +22,8 @@
   const fixed = editorType.split('-')[0] === 'fixed'
 
   let editMode = (value == null)
+  if (editMode) editModeIndex = index
+
   let oldValue = value
   let getInputValue, flash, valueLabel, showDelete, previousValue, previousValueLabel
 
@@ -30,13 +32,23 @@
   function showEditMode () {
     if (value === Symbol.for('removed')) value = null
     editMode = true
+    editModeIndex = index
   }
+
   function closeEditMode () {
     editMode = false
     flash = null
     // Updates the parent array, mostly to remove a null value
     dispatch('set', value)
   }
+
+  function closeEditModeIfAnotherClaimIsEdited () {
+    if (editMode && editModeIndex !== index) {
+      editMode = false
+    }
+  }
+
+  $: editModeIndex != null && closeEditModeIfAnotherClaimIsEdited()
 
   async function save (newValue) {
     try {
@@ -62,7 +74,7 @@
       previousValueLabel = valueLabel
       oldValue = value
     } catch (err) {
-      editMode = true
+      showEditMode()
       flash = err
     }
   }
@@ -93,7 +105,7 @@
 
   function undo () {
     value = previousValue
-    editMode = true
+    showEditMode()
   }
 </script>
 
