@@ -4,11 +4,12 @@
   import LabelsEditor from './labels_editor.svelte'
   import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
-  import { typeDefaultP31, entityTypeNameBySingularType, typesPossessiveForms } from '#entities/lib/types/entities_types'
+  import { typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
   import Flash from '#lib/components/flash.svelte'
   import { getMissingRequiredProperties, getPropertiesShortlist } from '#entities/components/editor/lib/create_helpers'
   import WrapToggler from '#components/wrap_toggler.svelte'
+  import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
 
   export let type = 'works'
 
@@ -69,18 +70,7 @@
 <div class="column">
   <h2>{I18n('Create a new entity')}</h2>
 
-  <ul class="type-picker" role="listbox">
-    {#each Object.entries(entityTypeNameBySingularType) as [ t, name ]}
-      <li role="option">
-        <button
-          on:click={() => type = t}
-          class:selected={type === t}
-          >
-          {I18n(name)}
-        </button>
-      </li>
-    {/each}
-  </ul>
+  <EntityTypePicker bind:type />
 
   {#if type}
     {#if !hasMonolingualTitle}
@@ -129,26 +119,7 @@
   }
   h2{
     text-align: center;
-  }
-  .type-picker{
-    flex: 1;
-    text-align: center;
-    @include display-flex(row, center, center, wrap);
-    margin: 2em 0.5em 2em 0.5em;
-    li{
-      flex: 1 0 5em;
-      max-width: 10em;
-      margin: 0.1em;
-    }
-    button{
-      @include big-button($grey);
-      padding: 1em;
-      width: 100%;
-      &.selected{
-        @include bg-hover(white, 0%);
-        color: $dark-grey;
-      }
-    }
+    margin-top: 0.5em;
   }
   .next{
     margin: 1em auto;
