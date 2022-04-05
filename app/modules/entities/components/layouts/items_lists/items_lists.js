@@ -86,9 +86,8 @@ const formatItemDataFromModel = itemModel => {
     }
   }
 
-  const snapshot = itemModel.get('snapshot')
-  const cover = snapshot['entity:image']
-  item.cover = cover
+  item.title = itemModel.get('snapshot.entity:title')
+  item.cover = itemModel.get('snapshot.entity:image')
   return item
 }
 

@@ -88,9 +88,4 @@
   .distance{
     color: $grey;
   }
-  .map-button{
-    @include selected-button-color($grey);
-    margin: 0.3em;
-    padding: 0.5em;
-  }
 </style>

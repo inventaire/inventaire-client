@@ -1,10 +1,13 @@
 <script>
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import ItemsByTransaction from './items_by_transaction.svelte'
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
   export let itemsByCategorie
-  export let itemsToDisplay
+  export let itemsOnMap
   export let headers
   export let categorie
   const { customIcon, label, backgroundColor } = headers
@@ -22,14 +25,22 @@
     if (!someItems && transaction) someItems = true
     itemsByTransactions[transaction].push(item)
   }
-  const filterDocsToDisplay = () => itemsToDisplay = itemsByCategorie
+
+  const showItemsOnMap = () => {
+    itemsOnMap = itemsByCategorie
+    dispatch('showItemsOnMap')
+  }
 
   itemsByCategorie.forEach(dispatchByTransaction)
+  $: emptyList = !isNonEmptyArray(itemsByCategorie)
 </script>
 <div style="background-color:{backgroundColor}" class="items-list">
   <div class="header">
     <div class="categorie-title-wrapper">
-      <h3 class="categorie-title">
+      <h3
+        class="categorie-title"
+        class:emptyList
+      >
         {@html icon(customIcon)}
         {I18n(label)}
       </h3>
@@ -38,13 +49,13 @@
       {#if categorie !== 'personal'}
         <button
           class="map-button"
-          on:click={filterDocsToDisplay}
+          on:click={showItemsOnMap}
         >
           {@html icon('map-marker')}{I18n('show on map')}
         </button>
       {/if}
     {:else}
-      <div class="empty-list">
+      <div class="emptyList">
         {i18n('nothing here')}
       </div>
     {/if}
@@ -81,11 +92,14 @@
   }
   .header{
     @include display-flex(row, center, space-between);
-    margin-bottom: 0.5em;
   }
-  .empty-list{
+  .emptyList{
     padding: 0 0.5em;
     color: lighten($grey, 15%);
+    font-size: 1em;
+    :global(.fa){
+      color: lighten($grey, 15%);
+    }
   }
   .items-list{
     @include radius;

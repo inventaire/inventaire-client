@@ -3,6 +3,11 @@
   import { sortItemsByCategorieAndDistance } from './items_lists'
 
   export let initialItems
+  export let itemsOnMap
+  export let nearbyPublicItems
+
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
   let itemsByCategories = sortItemsByCategorieAndDistance(initialItems)
 
@@ -28,8 +33,15 @@
       backgroundColor: '#fcfcfc'
     }
   }
+
+  const showItemsOnMap = () => {
+    itemsOnMap = itemsOnMap
+    dispatch('scrollToMap')
+  }
+
+  $: nearbyPublicItems = itemsByCategories.nearbyPublic
+
   // Todo: add circle user position
-  // app.execute('show:models:on:map', items.concat([ app.user ]))
   // Add the main user to the list to make sure the map shows their position
 </script>
 <div class="items-lists">
@@ -38,6 +50,8 @@
       {categorie}
       headers={categoriesHeaders[categorie]}
       itemsByCategorie={itemsByCategories[categorie]}
+      bind:itemsOnMap
+      on:showItemsOnMap={showItemsOnMap}
     />
   {/each}
 </div>

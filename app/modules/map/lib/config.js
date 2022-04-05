@@ -15,5 +15,4 @@ Imagery © <a href="http://mapbox.com">Mapbox</a>`,
     accessToken: 'pk.eyJ1IjoibWF4bGF0aGEiLCJhIjoiY2lldm9xdjFrMDBkMnN6a3NmY211MzQxcyJ9.a7_CBy6Xao-yF6f1cjsBNA',
     noWrap: true
   },
-  defaultZoom: 13
 }
