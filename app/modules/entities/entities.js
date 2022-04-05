@@ -9,7 +9,7 @@ import * as entitiesModelsIndex from './lib/entities_models_index.js'
 import getEntityViewByType from './lib/get_entity_view_by_type.js'
 import { getEntityByUri, normalizeUri } from './lib/entities.js'
 import showHomonyms from './lib/show_homonyms.js'
-import { entityTypeNameByType } from '#entities/lib/types/entities_types'
+import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 
 export default {
   initialize () {
@@ -214,7 +214,7 @@ const showEntityCreate = async params => {
   params.type = params.type?.replace(/s$/, '')
 
   // Known case: when clicking 'create' while live search section is 'subject'
-  if (entityTypeNameByType[params.type] == null) {
+  if (entityTypeNameBySingularType[params.type] == null) {
     params.type = null
   }
 
