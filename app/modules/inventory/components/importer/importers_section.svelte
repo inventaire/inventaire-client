@@ -67,9 +67,9 @@
       if (remainingExternalEntries.length === 0) return
       const externalEntry = remainingExternalEntries.pop()
       const normalizedIsbn = externalEntry.isbnData?.normalizedIsbn
-      // Wont prevent doublons candidates when 2 identical isbns are processed
+      // Wont prevent duplicated candidates when 2 identical isbns are processed
       // at the same time in separate threads (see below createCandidatesQueue)
-      // this is acceptable, as long as it prevents doublons from one import to another
+      // this is acceptable, as long as it prevents duplicates from one import to another
       let entitiesRes
       try {
         if (!externalEntry.editionTitle) {
