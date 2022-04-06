@@ -10,7 +10,7 @@
   let userShelves = []
 
   const waitForShelves = getShelvesByOwner(app.user.id)
-  .then(res => userShelves = res)
+    .then(res => userShelves = res)
 
   $: shelvesIds = _.compact(userShelves.map(shelf => {
     if (shelf.checked) return shelf._id
@@ -40,5 +40,9 @@
   .description{
     font-size: 0.9rem;
     margin-bottom: 0.5em;
+  }
+  #shelves-selector{
+    max-height: 15em;
+    overflow: auto;
   }
 </style>
