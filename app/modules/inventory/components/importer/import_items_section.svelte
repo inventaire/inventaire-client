@@ -19,18 +19,11 @@
   let processedEntitiesCount = 0
   let importResultsElement = {}
 
+  $: selectedCandidates = candidates.filter(_.property('checked'))
+
   const importCandidates = async () => {
     flash = null
-    if (importingCandidates) {
-      return flash = { type: 'warning', message: I18n('already importing books') }
-    }
     importingCandidates = true
-
-    if (_.isEmpty(candidates.filter(_.property('checked')))) {
-      importingCandidates = false
-      return flash = { type: 'warning', message: I18n('no book selected') }
-    }
-
     processedEntitiesCount = 0
     await createEntitiesSequentially()
     processedItemsCount = 0
@@ -88,15 +81,19 @@
   {#if candidates.length > 0}
     <h3>4/ {I18n('import the selection')}</h3>
     <Flash bind:state={flash}/>
-    <Counter count={processedEntitiesCount} total={candidates.length} message='creating bibliographical data'/>
-    <Counter count={processedItemsCount} total={candidates.length} message='creating your books'/>
-    <button
-      class="button success"
-      disabled={importingCandidates}
-      on:click={importCandidates}
-      >
-      {I18n('create selected books')}
-    </button>
+    {#if importingCandidates}
+      <Counter count={processedEntitiesCount} total={candidates.length} message='creating bibliographical data'/>
+      <Counter count={processedItemsCount} total={candidates.length} message='creating your books'/>
+    {:else}
+      <button
+        class="button success"
+        disabled={selectedCandidates.length === 0}
+        title={selectedCandidates.length === 0 ? I18n('no book selected') : ''}
+        on:click={importCandidates}
+        >
+        {I18n('create selected books')}
+      </button>
+    {/if}
   {/if}
   {#if processedCandidates.length > 0}
     <ImportResults bind:this={importResultsElement} {transaction} {listing} bind:processedCandidates/>
