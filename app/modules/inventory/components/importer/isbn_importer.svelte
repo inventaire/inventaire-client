@@ -4,6 +4,7 @@
   import autosize from 'autosize'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import { formatCandidatesData } from '#inventory/lib/import_helpers'
+  import { isbnPattern } from '#lib/isbn'
 
   export let createExternalEntries, createCandidatesQueue, isbns
 
@@ -14,7 +15,6 @@
     flash = null
     if (!isbnsText || isbnsText.length === 0) return
 
-    const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
     const isbns = isbnsText.match(isbnPattern)
     if (isbns === null) return flash = { type: 'error', message: 'no ISBN found' }
     const candidatesData = formatCandidatesData(isbns)
@@ -32,7 +32,7 @@
       if (isbnData.isInvalid) return isbn
     })
     return _.compact(isbnsData).join(', ')
-}
+  }
 
   const clearIsbnText = () => {
     flash = null

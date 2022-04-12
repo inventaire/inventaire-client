@@ -1,9 +1,6 @@
-import { isNormalizedIsbn, normalizeIsbn } from '#lib/isbn'
+import { isbnPattern, isNormalizedIsbn, normalizeIsbn } from '#lib/isbn'
 import ISBN from 'isbn3'
 
-// {9,13} would be enough, but since this is an extractor, it makes sense to enlarge the possible scope to invalid isbns.
-// known cases: having five - instead of valid four.
-const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
 let API
 
 export default API = {
