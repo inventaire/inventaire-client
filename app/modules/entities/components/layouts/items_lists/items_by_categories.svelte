@@ -4,7 +4,6 @@
 
   export let initialItems
   export let itemsOnMap
-  export let nearbyPublicItems
 
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()

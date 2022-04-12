@@ -39,7 +39,8 @@
   }
 
   const syncMarkers = () => {
-    // Parsing all markers is not efficient, but it leaves room for having more than one type of filters.
+    // Parsing all markers for updating only a filter is not efficient,
+    // but it leaves room for having more than one type of filters.
     // A more efficient alternative would be to store markers by filter and update accordingly,
     // but then, intricacy between filters and markers might make future refactors harder.
     for (let markerKeyValue of markers.entries()) syncMarker(...markerKeyValue)
@@ -76,7 +77,14 @@
     reset(idsToDisplay)
   }
   $: {
-    if (map) map.fitBounds(bounds)
+    if (map) {
+      if (bounds.length === 1) {
+        const zoom = 9
+        map.setView(bounds[0], zoom)
+      } else {
+        map.fitBounds(bounds)
+      }
+    }
   }
 </script>
 <svelte:window on:resize={resizeMap} />

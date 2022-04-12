@@ -29,6 +29,7 @@
   $: notAllDocsAreDisplayed = items.length !== initialItems.length
   $: emptyList = !isNonEmptyArray(items)
 </script>
+
 <svelte:window bind:scrollY={windowScrollY} />
 {#await getItemsByCategories()}
   <div class="loading-wrapper">

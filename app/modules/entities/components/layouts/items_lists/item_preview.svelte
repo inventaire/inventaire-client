@@ -1,8 +1,10 @@
 <script>
-  import { isOpenedOutside } from '#lib/utils'
+  import { icon, isOpenedOutside } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   export let item
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
   const {
     id,
@@ -20,10 +22,13 @@
   const showItem = e => {
     e.stopPropagation()
     if (!isOpenedOutside(e)) {
+      // TODO: on item modal close, it should navigate back to entity page
       app.navigateAndLoad(url)
       e.preventDefault()
     }
   }
+
+  const showItemOnMap = () => dispatch('showItemOnMap')
 </script>
 <div class="show-item"
   on:click={showItem}
@@ -53,12 +58,21 @@
       </p>
     {/if}
   </a>
+  {#if distanceFromMainUser && notOwner}
+    <button
+      class="map-button"
+      on:click|stopPropagation="{showItemOnMap}"
+      title="{i18n('show user on map')}"
+    >
+      {@html icon('map-marker')}
+    </button>
+  {/if}
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
   .items-link{
-    @include bg-hover(white, 10%);
     @include display-flex(row, center, flex-start);
+    @include bg-hover(white, 10%);
     @include radius;
   }
   .show-item{
@@ -87,5 +101,10 @@
   }
   .distance{
     color: $grey;
+  }
+  .map-button{
+    @include selected-button-color($grey);
+    margin: 0.3em;
+    padding: 0.5em;
   }
 </style>

@@ -3,8 +3,11 @@
   import { icon } from '#lib/utils'
   import { transactionsData } from '#inventory/lib/transactions_data'
   import ItemPreview from './item_preview.svelte'
+  export let itemsByTransaction, transaction, itemOnMap
 
-  export let itemsByTransaction, transaction
+  const showItemOnMap = item => {
+    itemOnMap = item
+  }
 </script>
 {#if isNonEmptyArray(itemsByTransaction)}
   <div class="transaction-box {transaction}" title="{transaction}">
@@ -13,7 +16,10 @@
   </div>
   <div class="items-preview">
     {#each itemsByTransaction as item}
-      <ItemPreview {item}/>
+      <ItemPreview
+        {item}
+        on:showItemOnMap="{showItemOnMap(item)}"
+      />
     {/each}
   </div>
 {/if}

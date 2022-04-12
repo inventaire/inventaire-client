@@ -10,7 +10,9 @@
   export let itemsOnMap
   export let headers
   export let categorie
+
   const { customIcon, label, backgroundColor } = headers
+
   const itemsByTransactions = {
     giving: [],
     lending: [],
@@ -29,6 +31,16 @@
   const showItemsOnMap = () => {
     itemsOnMap = itemsByCategorie
     dispatch('showItemsOnMap')
+  }
+
+  let itemOnMap
+  const showItemOnMap = itemOnMap => {
+    if (itemOnMap) itemsOnMap = [ itemOnMap ]
+    dispatch('showItemsOnMap')
+  }
+
+  $: {
+    showItemOnMap(itemOnMap)
   }
 
   itemsByCategorie.forEach(dispatchByTransaction)
@@ -66,6 +78,7 @@
         <ItemsByTransaction
           itemsByTransaction={itemsByTransactions[transaction]}
           {transaction}
+          bind:itemOnMap
         />
       {/each}
     </div>
