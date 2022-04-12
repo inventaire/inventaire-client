@@ -71,15 +71,14 @@
     processedItemsCount += 1
     if (nextCandidate.checked && !nextCandidate.error) {
       const { edition, details, notes } = nextCandidate
-      await createItem(edition, details, notes, transaction, listing, shelvesIds)
-      .then(item => {
+      try {
+        const item = await createItem(edition, details, notes, transaction, listing, shelvesIds)
         nextCandidate.item = item
-      })
-      .catch(err => {
+      } catch (err) {
         // Do not throw to not crash the whole chain
         const { responseJSON } = err
         nextCandidate.error = responseJSON
-      })
+      }
     }
     processedCandidates = [ ...processedCandidates, nextCandidate ]
     await createItemsSequentially()
