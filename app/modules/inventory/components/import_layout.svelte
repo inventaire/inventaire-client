@@ -31,9 +31,7 @@
 <div id='importLayout'>
   <ImportersSection bind:candidates {processing} {isbns}/>
   {#if candidates.length > 0}
-    <div id="candidatesElement">
-      <CandidatesSection bind:candidates {processing}/>
-    </div>
+    <CandidatesSection bind:candidates {processing}/>
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
     <div class="panel">
       <SelectButtonGroup type="transaction" bind:selected={transaction}/>
