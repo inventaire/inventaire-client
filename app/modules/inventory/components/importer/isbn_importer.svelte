@@ -38,6 +38,8 @@
     flash = null
     isbnsText = ''
   }
+
+  if (isbns) onIsbnsChange()
 </script>
 <p class="importer-name">
   {I18n('import from a list of ISBNs')}
