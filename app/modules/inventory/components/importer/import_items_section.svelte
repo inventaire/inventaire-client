@@ -93,7 +93,7 @@
     <Counter count={processedItemsCount} total={candidates.length} message='creating your books'/>
     <button
       class="button success"
-      class:disabled={importingCandidates}
+      disabled={importingCandidates}
       on:click={importCandidates}
       >
       {I18n('create selected books')}
@@ -113,5 +113,8 @@
   .import-candidates {
     @include display-flex(column, center, null, wrap);
     button { margin: 1em 0; }
+  }
+  button:disabled{
+    opacity: 0.6;
   }
 </style>
