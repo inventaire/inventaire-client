@@ -83,7 +83,7 @@
         log_.error(err, 'no entities found err')
       }
       createAndAssignCandidate(externalEntry, entitiesRes)
-      createCandidateOneByOne()
+      await createCandidateOneByOne()
       // Log errors without throwing to prevent crashing the whole chain
       .catch(log_.Error('createCandidateOneByOne err'))
     }
