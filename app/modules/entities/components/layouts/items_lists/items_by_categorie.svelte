@@ -39,12 +39,13 @@
     dispatch('showItemsOnMap')
   }
 
+  let emptyList = !isNonEmptyArray(itemsByCategorie)
+
+  itemsByCategorie.forEach(dispatchByTransaction)
+
   $: {
     showItemOnMap(itemOnMap)
   }
-
-  itemsByCategorie.forEach(dispatchByTransaction)
-  $: emptyList = !isNonEmptyArray(itemsByCategorie)
 </script>
 <div style="background-color:{backgroundColor}" class="items-list">
   <div class="header">

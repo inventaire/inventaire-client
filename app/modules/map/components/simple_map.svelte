@@ -8,9 +8,7 @@
 
   export let markerOptions, bounds, initialDocs, selectedFilters, idsToDisplay, getFiltersValues
 
-  // All filter values must be declared initially, otherwise reset could be incomplete
-  const allFilters = selectedFilters
-
+  let allFilters = selectedFilters
   let map, markersLayer
   let markers = new Map()
 
@@ -39,7 +37,7 @@
   }
 
   const syncMarkers = () => {
-    // Parsing all markers for updating only a filter is not efficient,
+    // Parsing all markers for updating markers from only one filter is not efficient,
     // but it leaves room for having more than one type of filters.
     // A more efficient alternative would be to store markers by filter and update accordingly,
     // but then, intricacy between filters and markers might make future refactors harder.
@@ -55,6 +53,7 @@
   }
 
   const isFilterSelected = marker => {
+    if (!selectedFilters) return true
     const filtersValues = marker.options.filters
     const filters = _.intersection(selectedFilters, filtersValues)
     return isNonEmptyArray(filters)
@@ -70,6 +69,7 @@
     if (map) { map.invalidateSize() }
   }
 
+  $: ignoreFilters = !isNonEmptyArray(selectedFilters)
   $: {
     if (selectedFilters) syncMarkers()
   }

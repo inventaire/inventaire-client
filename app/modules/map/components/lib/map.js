@@ -21,8 +21,14 @@ export const buildMarker = (params, doc, getFiltersValues) => {
     className: `${params.className} objectMarker`
   })
   const [ lat, lng ] = position
+  const options = {
+    icon,
+  }
   const filtersValues = getFiltersValues(doc)
-  const marker = L.marker([ lat, lng ], { icon, filters: filtersValues })
+  if (filtersValues) {
+    Object.assign(options, { filters: filtersValues })
+  }
+  const marker = L.marker([ lat, lng ], options)
   return marker
 }
 
