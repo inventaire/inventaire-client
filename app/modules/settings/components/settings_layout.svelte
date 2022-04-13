@@ -1,7 +1,6 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import app from '#app/app'
-  import { wait } from '#lib/promises'
   import Profile from './profile.svelte'
   import Account from './account.svelte'
   import Notifications from './notifications.svelte'
@@ -19,8 +18,7 @@
   const goToSetting = sectionName => async () => {
     section = sectionName
     if (isSmallScreen) {
-      await wait(5)
-      screen_.scrollToElement(settingEl.offsetTop)
+      screen_.scrollToElement(settingEl)
     }
   }
 </script>

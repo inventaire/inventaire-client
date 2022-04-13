@@ -58,7 +58,7 @@
     processedExternalEntriesCount = 0
     totalExternalEntries = externalEntries.length
     const remainingExternalEntries = _.clone(externalEntries)
-    screen_.scrollToElement(bottomSectionElement.offsetTop)
+    screen_.scrollToElement(bottomSectionElement)
 
     const createCandidateOneByOne = async () => {
       if (cancel) return processedExternalEntriesCount = 0
