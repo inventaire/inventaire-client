@@ -26,7 +26,6 @@
     if (mapWrapper) { windowScrollY = mapWrapper.offsetTop }
   }
 
-  $: notAllDocsAreDisplayed = items.length !== initialItems.length
   $: emptyList = !isNonEmptyArray(items)
 </script>
 

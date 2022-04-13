@@ -69,27 +69,10 @@
   .loading-wrapper{
     @include display-flex(column, center);
   }
-  .filters-menu{
-    @include display-flex(row, center, space-between);
-    padding: 0.5em;
-    padding-left: 1em;
-    background-color: $off-white;
+  .items-map{
+    margin-bottom: 1em;
   }
-  .left-menu{
-    @include display-flex(row, center, flex-start);
-  }
-  .filters{
-    @include display-flex(row, center,flex-start,wrap);
-  }
-  .filter{
-    padding: 0.5em;
-    margin: 0 0.5em;
-  }
-  .filters-title{
-    font-weight: bold;
-    margin-right: 0.5em;
-  }
-  .select-all-button, .show-all-button{
+  .show-all-button{
     @include tiny-button($light-grey);
     @include text-hover(#333);
     margin: 0.2em;
