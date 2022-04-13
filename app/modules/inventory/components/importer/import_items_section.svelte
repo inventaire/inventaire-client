@@ -17,7 +17,7 @@
   let processedCandidates = []
   let processedItemsCount = 0
   let processedEntitiesCount = 0
-  let importResultsElement = {}
+  let importResultsElement
 
   $: selectedCandidates = candidates.filter(_.property('checked'))
 
@@ -96,7 +96,9 @@
     {/if}
   {/if}
   {#if processedCandidates.length > 0}
-    <ImportResults bind:this={importResultsElement} {transaction} {listing} bind:processedCandidates/>
+    <div bind:this={importResultsElement}>
+      <ImportResults  {transaction} {listing} bind:processedCandidates/>
+    </div>
   {/if}
 </div>
 <style lang="scss">
