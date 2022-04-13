@@ -9,7 +9,7 @@
   let selectedBooksCount, titleEl
 
   $: {
-    if (processing) screen_.scrollToElement(titleEl.offsetTop)
+    if (processing) screen_.scrollToElement(titleEl)
   }
   $: candidatesLength = candidates.length
   $: selectedBooksCount = candidates.filter(_.property('checked')).length
