@@ -11,7 +11,7 @@
   let isbnsText, flash
   if (isbns) isbnsText = isbns.join('\n')
 
-  const onIsbnsChange = async () => {
+  const onIsbnsChange = () => {
     flash = null
     if (!isbnsText || isbnsText.length === 0) return
 
@@ -39,7 +39,10 @@
     isbnsText = ''
   }
 
-  if (isbns) onIsbnsChange()
+  if (isbns) {
+    onIsbnsChange()
+    createCandidatesQueue()
+  }
 </script>
 <p class="importer-name">
   {I18n('import from a list of ISBNs')}

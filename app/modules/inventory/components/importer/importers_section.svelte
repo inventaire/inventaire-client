@@ -10,14 +10,12 @@
     addExistingItemsCountToCandidate,
     resolveCandidate,
     getEditionEntitiesByUri,
-    formatCandidatesData,
     getRelevantEntities,
   } from '#inventory/lib/import_helpers'
   import isbnExtractor from '#inventory/lib/import/extract_isbns'
   import screen_ from '#lib/screen'
   import app from '#app/app'
   import log_ from '#lib/loggers'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
   import FileImporter from './file_importer.svelte'
   import IsbnImporter from './isbn_importer.svelte'
   import Counter from '#components/counter.svelte'
@@ -119,12 +117,6 @@
     processedExternalEntriesCount += 1
     const newCandidate = createCandidate(externalEntry, entities)
     candidates = [ ...candidates, newCandidate ]
-  }
-
-  if (isNonEmptyArray(isbns)) {
-    const candidatesData = formatCandidatesData(isbns)
-    createExternalEntries(candidatesData)
-    Promise.resolve(createCandidatesQueue())
   }
 
   $: processing = (processedExternalEntriesCount !== totalExternalEntries) && processedExternalEntriesCount > 0
