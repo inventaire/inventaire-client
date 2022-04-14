@@ -37,12 +37,12 @@ export const assignEntitiesToCandidate = (candidate, entitiesRes) => {
   const entities = Object.values(entitiesRes.entities).map(serializeEntity)
   const { edition: editions, work: works, human: authors } = _.groupBy(entities, _.property('type'))
   if (editions) candidate.edition = getEdition(editions)
-  if (!candidate.edition) {
-    candidate.notFound = true
-    return candidate
-  }
+  // Works and authors might have been resolved independently from the edition
   candidate.works = works
   candidate.authors = authors || []
+  if (!candidate.edition) {
+    candidate.notFound = true
+  }
   return candidate
 }
 
