@@ -1,5 +1,5 @@
 <script>
-  import commonParser from '#inventory/lib/parsers/common'
+  import commonParser from '#inventory/lib/importer/parsers/common'
   import dataValidator from '#inventory/lib/data_validator'
   import files_ from '#lib/files'
   import Flash from '#lib/components/flash.svelte'

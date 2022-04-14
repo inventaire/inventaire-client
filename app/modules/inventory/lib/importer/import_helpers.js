@@ -1,6 +1,6 @@
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
-import { createEntitiesByCandidate } from '#inventory/components/importer/create_candidate_entities'
+import { createEntitiesByCandidate } from '#inventory/lib/importer/create_candidate_entities'
 import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
 

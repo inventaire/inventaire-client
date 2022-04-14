@@ -1,7 +1,7 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
-  import importers from '#inventory/lib/importers'
+  import importers from '#inventory/lib/importer/importers'
   import {
     guessUriFromIsbn,
     createCandidate,
@@ -11,8 +11,8 @@
     resolveCandidate,
     getEditionEntitiesByUri,
     getRelevantEntities,
-  } from '#inventory/lib/import_helpers'
-  import isbnExtractor from '#inventory/lib/import/extract_isbns'
+  } from '#inventory/lib/importer/import_helpers'
+  import isbnExtractor from '#inventory/lib/importer/extract_isbns'
   import screen_ from '#lib/screen'
   import app from '#app/app'
   import log_ from '#lib/loggers'
