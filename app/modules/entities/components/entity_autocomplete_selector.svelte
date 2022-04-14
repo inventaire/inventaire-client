@@ -154,8 +154,9 @@
 <div class="input-group">
   <div class="input-wrapper">
     <input type="text"
-      value={currentEntityLabel || ''}
+      bind:value={currentEntityLabel}
       on:keyup={onInputKeyup}
+      on:focus={lazySearch}
       bind:this={input}
       use:autofocusFn={{ disabled: autofocus !== true }}
     >

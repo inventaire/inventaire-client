@@ -5,18 +5,17 @@
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import EntityLogo from '#inventory/components/entity_source_logo.svelte'
   import EntityValueInput from '#inventory/components/entity_value_input.svelte'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import EntityResolverInput from '#inventory/components/entity_resolver_input.svelte'
 
   export let isbnData
   export let edition
   export let works
-  export let authors
+  export let authors = []
   export let editionTitle
-  export let authorsNames
   export let withEditor = false
 
   const rawIsbn = isbnData?.rawIsbn
-  let firstAuthorName, work, editionLang
+  let work, editionLang
   if (works && works.length > 0) work = works[0]
 
   if (edition) {
@@ -25,21 +24,16 @@
     editionLang = 'en'
   }
 
-  if (isNonEmptyArray(authorsNames)) {
-    firstAuthorName = authorsNames[0]
-  }
-
   const findBestLang = objectWithLabels => {
+    if (objectWithLabels.label) return objectWithLabels.label
     if (!objectWithLabels || !objectWithLabels.labels) return
     return getBestLangValue(editionLang, null, objectWithLabels.labels).value
   }
 
-  $: {
-    if (isNonEmptyArray(authorsNames)) {
-      authorsNames[0] = firstAuthorName
-    }
-  }
+  // Do not display editor if a work exists, as it may be a book without author
+  const editableAuthors = (withEditor && !work)
 </script>
+
 <div class="entry-display">
   <div class="edition-cover">
     {#if edition?.image?.url}
@@ -62,7 +56,15 @@
       {/if}
     </div>
     <div class="authors">
-      {#if authors && authors.length > 0}
+      {#if editableAuthors}
+        <span class="label">{I18n('authors')}:</span>
+        {#each authors as author}
+          <EntityResolverInput
+            type="human"
+            entity={author}
+          />
+        {/each}
+      {:else if authors.length > 0}
         <span class="label">{I18n('authors')}:</span>
         {#each authors as author, id}
           <!-- Necessary span to look like <sup> (exponent) element -->
@@ -73,23 +75,6 @@
             {#if id !== authors.length - 1},&nbsp;{/if}
           </span>
         {/each}
-      {:else}
-        <!-- Do not display editor if work exists, as it may be a book without author -->
-        <!-- always displaying editor might overcrowd the visual, known case: /add/import -->
-        <!-- Do not display editor if several authors -->
-        <!-- as creating multiple authors from user input overcrowds the visual too-->
-        {#if withEditor && !work && isNonEmptyArray(authorsNames)}
-          <EntityValueInput type='author' bind:inputName={firstAuthorName}/>
-        {:else}
-          {#if isNonEmptyArray(authorsNames)}
-            <span class="label">{I18n('authors')}:</span>
-            {#each authorsNames as author, id}
-              <span>
-                {author}
-              </span>
-            {/each}
-          {/if}
-        {/if}
       {/if}
     </div>
     <div class="isbn">

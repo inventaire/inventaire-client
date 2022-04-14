@@ -6,8 +6,8 @@
   export let candidate
   import { guessUriFromIsbn } from '#inventory/lib/importer/import_helpers'
 
-  const { isbnData, edition, works, authors, error } = candidate
-  let { editionTitle, authorsNames } = candidate
+  const { isbnData, edition, works, error } = candidate
+  let { editionTitle, authors, authorsNames } = candidate
 
   let existingItemsPathname
   let disabled, existingItemsCount
@@ -21,7 +21,6 @@
     newEntry: 'We could not identify this entry in the common bibliographic database. A new entry will be created',
     error: 'oups, something wrong happened',
     invalid: 'invalid ISBN',
-    multipleAuthors: 'multiple authors detected, this importer can only create one author. You may add authors later.',
     needInfo: 'need more information',
   }
 
@@ -40,11 +39,6 @@
   if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) addStatus(statusContents.newEntry)
   if (error) addStatus(statusContents.error)
   if (isbnData?.isInvalid) addStatus(statusContents.invalid)
-  if (isNonEmptyArray(authorsNames)) {
-    if (!authors && authorsNames.length > 1) {
-      addStatus(statusContents.multipleAuthors)
-    }
-  }
 
   if (isNonEmptyArray(statuses)) { disabled = true }
 
@@ -91,9 +85,9 @@
         {isbnData}
         {edition}
         {works}
-        {authors}
+        {authorsNames}
+        bind:authors
         bind:editionTitle
-        bind:authorsNames
         withEditor={true}
         />
     </div>

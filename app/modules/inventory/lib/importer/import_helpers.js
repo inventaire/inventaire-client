@@ -9,7 +9,7 @@ export const createCandidate = (externalEntry, entitiesRes) => {
     index,
     isbnData,
     editionTitle,
-    authorsNames,
+    authors,
     details,
     notes,
     publicationDate,
@@ -21,7 +21,7 @@ export const createCandidate = (externalEntry, entitiesRes) => {
   const candidate = { index }
   if (isbnData) candidate.isbnData = isbnData
   if (isNonEmptyString(editionTitle)) candidate.editionTitle = editionTitle
-  if (authorsNames) candidate.authorsNames = authorsNames
+  if (authors) candidate.authors = authors
   if (isNonEmptyString(details)) candidate.details = details
   if (isNonEmptyString(notes)) candidate.notes = notes
   if (isNonEmptyString(publicationDate)) candidate.publicationDate = publicationDate
@@ -169,8 +169,8 @@ const findIsbn = data => {
 }
 
 const serializeResolverEntry = data => {
-  const { editionTitle, lang, authorsNames } = data
-  let { isbn } = data
+  const { editionTitle, lang } = data
+  let { isbn, authors = [] } = data
   const labelLang = lang || app.user.lang
 
   const edition = {
@@ -190,14 +190,15 @@ const serializeResolverEntry = data => {
   if (data.goodReadsEditionId != null) edition.claims['wdt:P2969'] = data.goodReadsEditionId
   if (data.libraryThingWorkId != null) work.claims['wdt:P1085'] = data.libraryThingWorkId
 
-  let authors
-
-  if (authorsNames) {
-    authors = authorsNames.map(name => {
-      const labels = { [labelLang]: name }
-      return { labels }
-    })
-  }
+  authors = authors.map(author => {
+    const { uri, label } = author
+    return {
+      uri,
+      labels: {
+        [labelLang]: label
+      }
+    }
+  })
 
   return { edition, works: [ work ], authors }
 }

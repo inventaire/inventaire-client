@@ -40,7 +40,7 @@
     let externalEntry = {
       index: externalEntryIndexCount++,
       editionTitle: title,
-      authorsNames: authors,
+      authors: authors.map(name => ({ label: name })),
     }
     delete candidateData.title
     delete candidateData.authors
