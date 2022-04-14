@@ -33,7 +33,9 @@
     externalEntries = _.compact(candidatesData.map(createExternalEntry))
   }
 
-  let externalEntryIndexCount = 0
+  // Start from a different number at each session to avoid
+  // "Cannot have duplicate keys in a keyed each" errors in development
+  let externalEntryIndexCount = Date.now()
 
   const createExternalEntry = candidateData => {
     const { isbn, title, authors } = candidateData
