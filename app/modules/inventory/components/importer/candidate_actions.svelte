@@ -3,7 +3,7 @@
   import { I18n } from '#user/lib/i18n'
   import { createItem } from '#inventory/components/create_item'
   import Spinner from '#general/components/spinner.svelte'
-  import { resolveAndCreateCandidateEntities } from '#inventory/lib/import_helpers'
+  import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
   import { isOpenedOutside } from '#lib/utils'
 
   export let candidate

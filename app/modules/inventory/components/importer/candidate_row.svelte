@@ -4,7 +4,7 @@
   import { icon } from '#lib/utils'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
   export let candidate
-  import { guessUriFromIsbn } from '#inventory/lib/import_helpers'
+  import { guessUriFromIsbn } from '#inventory/lib/importer/import_helpers'
 
   const { isbnData, edition, works, authors, error } = candidate
   let { editionTitle, authorsNames } = candidate

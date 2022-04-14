@@ -3,7 +3,7 @@ import log_ from '#lib/loggers'
 import libraryThingParser from './parsers/library_thing.js'
 import goodReadsParser from './parsers/good_reads.js'
 import babelioParser from './parsers/babelio.js'
-import isbnExtractor from '#inventory/lib/import/extract_isbns'
+import isbnExtractor from '#inventory/lib/importer/extract_isbns'
 import Papa from 'papaparse'
 
 // How to add an importer:

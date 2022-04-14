@@ -2,8 +2,8 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
   import autosize from 'autosize'
-  import isbnExtractor from '#inventory/lib/import/extract_isbns'
-  import { formatCandidatesData } from '#inventory/lib/import_helpers'
+  import isbnExtractor from '#inventory/lib/importer/extract_isbns'
+  import { formatCandidatesData } from '#inventory/lib/importer/import_helpers'
   import { isbnPattern } from '#lib/isbn'
 
   export let createExternalEntries, createCandidatesQueue, isbns

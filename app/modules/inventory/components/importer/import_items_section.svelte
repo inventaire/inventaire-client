@@ -6,7 +6,7 @@
   import { createItem } from '#inventory/components/create_item'
   import ImportResults from '#inventory/components/importer/import_results.svelte'
   import screen_ from '#lib/screen'
-  import { resolveAndCreateCandidateEntities } from '#inventory/lib/import_helpers'
+  import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
 
   export let candidates
   export let transaction
