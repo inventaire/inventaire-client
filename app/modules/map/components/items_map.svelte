@@ -6,8 +6,9 @@
   import MapFilters from '#map/components/map_filters.svelte'
   import { buildMarker, getBounds, buildMainUserMarker } from './lib/map'
   import { getFiltersData } from './lib/filters'
+  import { onMount } from 'svelte'
 
-  export let initialDocs
+  export let initialDocs, initialBounds
   export let docsToDisplay = []
 
   let idsToDisplay = []
@@ -18,9 +19,8 @@
   let allFilters = Object.keys(filtersData)
   let selectedFilters = allFilters
 
-  const getFiltersValues = doc => [ doc.transaction ]
-
   let bounds
+  onMount(() => bounds = initialBounds || getBounds(docsToDisplay))
   const syncDocValues = () => {
     bounds = getBounds(docsToDisplay)
     idsToDisplay = docsToDisplay.map(_.property('id'))
@@ -28,6 +28,7 @@
 
   const buildMarkers = (initialDocs, markers) => {
     for (let doc of initialDocs) {
+      const getFiltersValues = doc => [ doc.transaction ]
       const marker = buildMarker(doc, getFiltersValues)
       markers.set(doc.id, marker)
     }

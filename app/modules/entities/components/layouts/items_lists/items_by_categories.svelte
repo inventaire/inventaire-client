@@ -1,9 +1,11 @@
 <script>
   import ItemsByCategorie from './items_by_categorie.svelte'
   import { sortItemsByCategorieAndDistance } from './items_lists'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let initialItems
   export let itemsOnMap
+  export let initialBounds
 
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
@@ -37,9 +39,9 @@
     itemsOnMap = itemsOnMap
     dispatch('scrollToMap')
   }
-
-  $: nearbyPublicItems = itemsByCategories.nearbyPublic
-
+  if (isNonEmptyArray(itemsByCategories.nearbyPublic)) {
+    initialBounds = itemsByCategories.nearbyPublic.map(_.property('position'))
+  }
   // Todo: add circle user position
   // Add the main user to the list to make sure the map shows their position
 </script>

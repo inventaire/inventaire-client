@@ -11,7 +11,11 @@
 
   let items = []
   let initialItems = []
-  let showMap = false
+  let initialBounds
+
+  // Mount ItemsByCategories with initialBounds
+  // before mounting ItemsMap
+  let showMap
 
   const getItemsByCategories = async () => {
     let uris
@@ -50,11 +54,13 @@
         <ItemsMap
           docsToDisplay={items}
           initialDocs={initialItems}
+          {initialBounds}
         />
       {/if}
     </div>
     <ItemsByCategories
       {initialItems}
+      bind:initialBounds
       bind:itemsOnMap={items}
       on:scrollToMap={scrollToMap}
     />
