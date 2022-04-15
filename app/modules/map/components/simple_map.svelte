@@ -82,7 +82,7 @@
     }
   }
 </script>
-<svelte:window on:resize={resizeMap} />
+<svelte:window on:resize={resizeMap}/>
 <div class="simple-map" use:initMap/>
 <style lang="scss">
   @import '#general/scss/utils';

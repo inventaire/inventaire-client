@@ -64,7 +64,7 @@
     />
   </div>
   {#if notAllDocsAreDisplayed}
-    <div class='show-all-wrapper'>
+    <div class="show-all-wrapper">
       <button class="show-all-button" on:click={resetDocsToDisplay}>
         {I18n('show every books on map')}
       </button>
