@@ -3,36 +3,39 @@ import UserMarker from '../user_marker.svelte'
 import ItemMarker from '../item_marker.svelte'
 import * as L from 'leaflet'
 
-export const buildMarker = (params, doc, getFiltersValues) => {
-  const { position } = doc
+export const buildMarker = (doc, getFiltersValues) => {
+  const { position, markerType } = doc
+  if (!position || !markerType) return
 
-  if (!position) return
+  const markerOptions = markersConfigByTypes[markerType]
+
   // Wrapper enables to pass a full svelte component,
   // passing the component to the icon div appears to have some mounting problems
   // see https://imfeld.dev/writing/leaflet_with_svelte
   let iconWrapper = L.DomUtil.create('div')
-  const Marker = params.markerModel
+  const Marker = markerOptions.markerModel
   new Marker({
     target: iconWrapper,
     props: { doc }
   })
   const icon = L.divIcon({
     html: iconWrapper,
-    className: `${params.className} objectMarker`
+    className: `${markerOptions.className} objectMarker`
   })
   const [ lat, lng ] = position
   const options = {
     icon,
+    doc
   }
-  const filtersValues = getFiltersValues(doc)
-  if (filtersValues) {
+  if (getFiltersValues) {
+    const filtersValues = getFiltersValues(doc)
     Object.assign(options, { filters: filtersValues })
   }
   const marker = L.marker([ lat, lng ], options)
   return marker
 }
 
-export const markersConfigByTypes = {
+const markersConfigByTypes = {
   item: {
     markerModel: ItemMarker,
     className: 'itemMarker'

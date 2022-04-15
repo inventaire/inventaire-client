@@ -69,10 +69,10 @@ const formatOwnerData = ownerModel => {
   return item
 }
 const formatItemDataFromModel = itemModel => {
-  // intention is to gather all necessary data in one object (including values defined in backbone models) which is not a backbone model,
   // TODO: debackbonification must involve user `network`, `itemsCount`, `distanceFromMainUser`
   const item = {}
   item.id = itemModel.id
+  item.markerType = 'item'
 
   const itemKeys = [
     'details',

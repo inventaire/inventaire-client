@@ -1,21 +1,18 @@
 <script>
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { buildMarker, getBounds } from './lib/map'
   import isMobile from '#lib/mobile_check'
   import mapConfig from '#map/lib/config.js'
 
   const { tileUrl, settings } = mapConfig
 
-  export let markerOptions, bounds, initialDocs, selectedFilters, idsToDisplay, getFiltersValues
+  export let bounds, markers, selectedFilters, idsToDisplay
 
   let allFilters = selectedFilters
   let map, markersLayer
-  let markers = new Map()
 
   const initMap = container => {
     map = L.map(container)
-    bounds = isNonEmptyArray(bounds) ? bounds : getBounds(initialDocs)
-    let isCluster = initialDocs.length > 2
+    let isCluster = markers.size > 2
     if (isCluster) {
     // See options https://github.com/Leaflet/Leaflet.markercluster#options
       markersLayer = L.markerClusterGroup()
@@ -24,16 +21,8 @@
     }
     L.tileLayer(tileUrl, settings).addTo(map)
     if (isMobile) map.scrollWheelZoom.disable()
-    buildMarkers(initialDocs)
     syncMarkers()
     map.addLayer(markersLayer)
-  }
-
-  const buildMarkers = initialDocs => {
-    for (let doc of initialDocs) {
-      const marker = buildMarker(markerOptions, doc, getFiltersValues)
-      markers.set(doc.id, marker)
-    }
   }
 
   const syncMarkers = () => {
@@ -71,13 +60,13 @@
 
   $: ignoreFilters = !isNonEmptyArray(selectedFilters)
   $: {
-    if (selectedFilters) syncMarkers()
+    if (map && selectedFilters) syncMarkers()
   }
   $: {
-    reset(idsToDisplay)
+    if (map) reset(idsToDisplay)
   }
   $: {
-    if (map) {
+    if (map && isNonEmptyArray(bounds)) {
       if (bounds.length === 1) {
         const zoom = 9
         map.setView(bounds[0], zoom)

@@ -4,14 +4,14 @@
   import { I18n } from '#user/lib/i18n'
   import SimpleMap from '#map/components/simple_map.svelte'
   import MapFilters from '#map/components/map_filters.svelte'
-  import { markersConfigByTypes, getBounds } from './lib/map'
+  import { buildMarker, getBounds } from './lib/map'
   import { getFiltersData } from './lib/filters'
-
-  const markerOptions = markersConfigByTypes.item
 
   export let initialDocs
   export let docsToDisplay = []
+
   let idsToDisplay = []
+  let markers = new Map()
 
   const { filtersData } = getFiltersData.transaction
   // All selectedFilters values must be declared initially, otherwise reset could be incomplete
@@ -26,6 +26,16 @@
     idsToDisplay = docsToDisplay.map(_.property('id'))
   }
 
+  const buildMarkers = (initialDocs, markers) => {
+    for (let doc of initialDocs) {
+      const marker = buildMarker(doc, getFiltersValues)
+      markers.set(doc.id, marker)
+    }
+    return markers
+  }
+
+  buildMarkers(initialDocs, markers)
+
   const resetDocsToDisplay = () => docsToDisplay = initialDocs
 
   $: notAllDocsAreDisplayed = docsToDisplay.length !== initialDocs.length
@@ -38,12 +48,10 @@
 {:then}
   <div class="items-map">
     <SimpleMap
-      {markerOptions}
       {bounds}
-      {initialDocs}
+      {markers}
       bind:selectedFilters
       {idsToDisplay}
-      {getFiltersValues}
     />
     <MapFilters
       {allFilters}
