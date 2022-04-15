@@ -37,17 +37,6 @@
 {:then}
   {#if !emptyList}
     <div bind:this={mapWrapper}>
-      {#if !showMap}
-        <div class='show-map-wrapper'>
-          <button
-            on:click="{() => { showMap = true }}"
-            class="show-map tiny-button"
-          >
-            {@html icon('map')}
-            {I18n('show map')}
-          </button>
-        </div>
-      {/if}
       {#if showMap}
         <div class='hide-map-wrapper'>
           <button

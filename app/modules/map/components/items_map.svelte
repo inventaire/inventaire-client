@@ -4,7 +4,7 @@
   import { I18n } from '#user/lib/i18n'
   import SimpleMap from '#map/components/simple_map.svelte'
   import MapFilters from '#map/components/map_filters.svelte'
-  import { buildMarker, getBounds } from './lib/map'
+  import { buildMarker, getBounds, buildMainUserMarker } from './lib/map'
   import { getFiltersData } from './lib/filters'
 
   export let initialDocs
@@ -30,6 +30,9 @@
     for (let doc of initialDocs) {
       const marker = buildMarker(doc, getFiltersValues)
       markers.set(doc.id, marker)
+    }
+    if (app.user.loggedIn && !markers.has(app.user.id)) {
+      markers.set(app.user.id, buildMainUserMarker())
     }
     return markers
   }

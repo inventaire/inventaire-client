@@ -59,3 +59,12 @@ export const getBounds = docsWithPosition => {
   const positions = Object.values(docsWithPosition.map(_.property('position')))
   return _.compact(positions)
 }
+
+export const buildMainUserMarker = () => {
+  const user = {}
+  user.position = app.user.get('position')
+  user.username = app.user.get('username')
+  user.picture = app.user.get('picture')
+  user.markerType = 'user'
+  return buildMarker(user)
+}

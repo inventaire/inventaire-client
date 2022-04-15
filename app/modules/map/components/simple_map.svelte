@@ -34,6 +34,12 @@
   }
 
   const syncMarker = (docId, marker) => {
+    if (docId === app.user.id) {
+      // add main user at initialisation, leave leaflet handle if marker is alredy created
+      markersLayer.addLayer(marker)
+      // never remove main user
+      return
+    }
     if (isFilterSelected(marker) && idsToDisplay.includes(docId)) {
       markersLayer.addLayer(marker)
     } else {
