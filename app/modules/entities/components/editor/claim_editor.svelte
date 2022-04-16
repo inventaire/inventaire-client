@@ -10,19 +10,18 @@
   import { isComponentEvent } from '#lib/boolean_tests'
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/handlebars_helpers/icons'
-  import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+  import { currentEditorKey, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 
-  export let entity, property, value, index, editModeIndex
+  export let entity, property, value, index
 
   const dispatch = createEventDispatcher()
-  const { uri } = entity
+  const { uri, type } = entity
   const creationMode = uri == null
   const { editorType } = properties[property]
   const { InputComponent, DisplayComponent, showSave } = editors[editorType]
   const fixed = editorType.split('-')[0] === 'fixed'
 
   let editMode = (value == null)
-  if (editMode) editModeIndex = index
 
   let oldValue = value
   let getInputValue, flash, valueLabel, showDelete, previousValue, previousValueLabel
@@ -32,7 +31,6 @@
   function showEditMode () {
     if (value === Symbol.for('removed')) value = null
     editMode = true
-    editModeIndex = index
   }
 
   function closeEditMode () {
@@ -42,13 +40,10 @@
     dispatch('set', value)
   }
 
-  function closeEditModeIfAnotherClaimIsEdited () {
-    if (editMode && editModeIndex !== index) {
-      editMode = false
-    }
-  }
-
-  $: editModeIndex != null && closeEditModeIfAnotherClaimIsEdited()
+  const editorKey = `${uri || type}:${property}:${index}`
+  const setCurrentEditorKey = () => $currentEditorKey = editorKey
+  $: if (editMode) setCurrentEditorKey()
+  $: if (editorKey !== $currentEditorKey) closeEditMode()
 
   async function save (newValue) {
     try {

@@ -52,7 +52,6 @@
       canAddValue = (multivalue || getPropertyClaimsCount(propertyClaims) === 0)
     }
   }
-  let editModeIndex
 </script>
 
 {#if propertyClaimsCanBeShown}
@@ -68,7 +67,6 @@
         <ClaimEditor
           {entity} {property} {value}
           index={i}
-          bind:editModeIndex
           on:set={e => setValue(i, e.detail)}
         />
       {/each}
