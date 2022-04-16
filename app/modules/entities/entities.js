@@ -210,6 +210,10 @@ const API = {
 }
 
 const showEntityCreate = async params => {
+  const path = 'entity/new'
+  if (!app.request('require:loggedIn', path)) return
+  app.navigate(path)
+
   // Drop possible type pluralization
   params.type = params.type?.replace(/s$/, '')
 
@@ -217,6 +221,8 @@ const showEntityCreate = async params => {
   if (entityTypeNameBySingularType[params.type] == null) {
     params.type = null
   }
+  if (params.type) app.execute('querystring:set', 'type', params.type)
+  if (params.claims) app.execute('querystring:set', 'claims', params.claims)
 
   const { default: EntityCreate } = await import('./components/editor/entity_create.svelte')
   app.layout.getRegion('main').showSvelteComponent(EntityCreate, {
