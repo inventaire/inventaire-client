@@ -174,9 +174,10 @@
         <button
           class="tiny-button grey"
           on:click={reset}
-          title={i18n('Reset image')}
+          title={i18n("Reset image to it's initial state")}
           >
           {@html icon('refresh')}
+          {i18n('Reset')}
         </button>
       </div>
     {/if}
