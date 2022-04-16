@@ -21,6 +21,7 @@
   const { customLabel } = typeProperties[property]
   const { multivalue, editorType } = properties[property]
   const fixed = editorType.split('-')[0] === 'fixed'
+  const propertyClaimsCanBeShown = !(fixed && propertyClaims.length === 0)
 
   function addBlankValue () {
     removeBlankValue()
@@ -54,34 +55,36 @@
   let editModeIndex
 </script>
 
-<div
-  class="editor-section"
-  class:fixed
-  class:missing-required={required && getPropertyClaimsCount(propertyClaims) === 0}
-  transition:slide
-  >
-  <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
-  <div class="property-claim-values">
-    {#each propertyClaims as value, i}
-      <ClaimEditor
-        {entity} {property} {value}
-        index={i}
-        bind:editModeIndex
-        on:set={e => setValue(i, e.detail)}
-      />
-    {/each}
-    <Flash bind:state={flash}/>
-    {#if canAddValue}
-      <button
-        class="add-value tiny-button soft-grey"
-        on:click={addBlankValue}
-      >
-        {@html icon('plus')}
-        <span>{i18n('add')}</span>
-      </button>
-    {/if}
+{#if propertyClaimsCanBeShown}
+  <div
+    class="editor-section"
+    class:fixed
+    class:missing-required={required && getPropertyClaimsCount(propertyClaims) === 0}
+    transition:slide
+    >
+    <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
+    <div class="property-claim-values">
+      {#each propertyClaims as value, i}
+        <ClaimEditor
+          {entity} {property} {value}
+          index={i}
+          bind:editModeIndex
+          on:set={e => setValue(i, e.detail)}
+        />
+      {/each}
+      <Flash bind:state={flash}/>
+      {#if canAddValue}
+        <button
+          class="add-value tiny-button soft-grey"
+          on:click={addBlankValue}
+        >
+          {@html icon('plus')}
+          <span>{i18n('add')}</span>
+        </button>
+      {/if}
+    </div>
   </div>
-</div>
+{/if}
 
 <style lang="scss">
   @import '#entities/scss/entity_editors_commons';
