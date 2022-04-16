@@ -3,6 +3,7 @@ import wdLang from 'wikidata-lang'
 import { buildPath } from '#lib/location'
 import CreateEditionEntityFromWork from './create_edition_entity_from_work.js'
 import '#entities/scss/edition_creation.scss'
+import { isOpenedOutside } from '#lib/utils'
 
 export default {
   partial: 'edition_creation',
@@ -27,7 +28,8 @@ export default {
   clickEvents: {
     isbnButton: CreateEditionEntityFromWork,
     withoutIsbn (params) {
-      const { work: workModel, itemToUpdate } = params
+      const { work: workModel, itemToUpdate, e } = params
+      if (isOpenedOutside(e)) return
       app.execute('show:entity:create', workEditionCreationData(workModel, itemToUpdate))
       // In case the edition list was opened in a modal
       app.execute('modal:close')
