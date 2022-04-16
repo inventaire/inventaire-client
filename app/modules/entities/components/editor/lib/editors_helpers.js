@@ -8,10 +8,13 @@ export function alphabeticallySortedEntries (obj) {
 
 export const getNativeLangName = code => langByCode[code]?.native
 
-export function getPropertyClaimsCount (propertyClaims) {
+export function getNonEmptyPropertyClaims (propertyClaims = []) {
   return propertyClaims
   .filter(isNonEmptyClaimValue)
-  .length
+}
+
+export function getPropertyClaimsCount (propertyClaims) {
+  return getNonEmptyPropertyClaims(propertyClaims).length
 }
 
 export function isEmptyClaimValue (value) {

@@ -1,3 +1,4 @@
+import { getNonEmptyPropertyClaims } from '#entities/components/editor/lib/editors_helpers'
 import { getReverseClaims } from '#entities/lib/entities'
 
 export default function ({ entity }) {
@@ -9,8 +10,8 @@ export default function ({ entity }) {
     promises.push(getReverseClaims('wdt:P3035', isbnPublisherPrefix))
   }
 
-  const collectionsUris = entity.claims['wdt:P195']
-  if (collectionsUris != null) {
+  const collectionsUris = getNonEmptyPropertyClaims(entity.claims['wdt:P195'])
+  if (collectionsUris.length > 0) {
     promises.push(getCollectionsPublishers(collectionsUris))
   }
 
