@@ -5,12 +5,14 @@
   import { getImageHashFromDataUrl, getUrlDataUrl } from '#lib/images'
   import { isUrl } from '#lib/boolean_tests'
   import Spinner from '#components/spinner.svelte'
+  import { createEventDispatcher } from 'svelte'
 
   export let currentValue, getInputValue, showDelete, fileInput, waitingForCropper, imageElement
 
   $: showDelete = currentValue != null
 
   let urlValue, files, dataUrl, dataUrlBeforeImageEdits
+  const dispatch = createEventDispatcher()
 
   getInputValue = async () => {
     if (imageWasCropped || imageWasRotated) {
@@ -24,10 +26,14 @@
   }
 
   async function onUrlChange () {
-    resetFileInput(fileInput)
-    if (isUrl(urlValue)) {
-      dataUrl = await getUrlDataUrl(urlValue)
-      dataUrlBeforeImageEdits = dataUrl
+    try {
+      resetFileInput(fileInput)
+      if (isUrl(urlValue)) {
+        dataUrl = await getUrlDataUrl(urlValue)
+        dataUrlBeforeImageEdits = dataUrl
+      }
+    } catch (err) {
+      dispatch('error', err)
     }
   }
   const lazyOnUrlChange = _.debounce(onUrlChange, 500)
