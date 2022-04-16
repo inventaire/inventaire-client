@@ -1,3 +1,4 @@
+import { writable } from 'svelte/store'
 import wdLang from 'wikidata-lang'
 const { byCode: langByCode } = wdLang
 
@@ -22,3 +23,5 @@ export function isEmptyClaimValue (value) {
 }
 
 export const isNonEmptyClaimValue = value => !isEmptyClaimValue(value)
+
+export const currentEditorKey = writable(null)
