@@ -12,12 +12,13 @@ export default async function getEntityViewByType (model, refresh) {
   if (getter != null) return getter(model, refresh)
 
   let View
+  let Component
   if (type === 'human') {
     ({ default: View } = await import('../views/author_layout'))
   } else if (type === 'serie') {
     ({ default: View } = await import('../views/serie_layout'))
   } else if (type === 'work') {
-    ({ default: View } = await import('../views/work_layout'))
+    ({ default: Component } = await import('#entities/components/layouts/work.svelte'))
   } else if (type === 'publisher') {
     ({ default: View } = await import('../views/publisher_layout'))
   } else if (type === 'article') {
@@ -26,6 +27,15 @@ export default async function getEntityViewByType (model, refresh) {
     ({ default: View } = await import('../views/collection_layout'))
   }
 
+  if (Component != null) {
+    return {
+      view: Component,
+      props: {
+        entity: model,
+        standalone
+      }
+    }
+  }
   if (View != null) {
     return new View({ model, refresh, standalone, displayMergeSuggestions })
   }
