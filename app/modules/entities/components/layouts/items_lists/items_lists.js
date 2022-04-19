@@ -78,6 +78,7 @@ const formatItemDataFromModel = itemModel => {
     'details',
     'owner',
     'transaction',
+    'entity',
   ]
   for (let key of itemKeys) {
     const itemValue = itemModel.attributes[key]

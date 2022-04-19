@@ -1,23 +1,35 @@
 <script>
+  import { isNonEmptyArray } from '#lib/boolean_tests'
+
   import map_ from '#map/lib/map'
   import Spinner from '#general/components/spinner.svelte'
   import { I18n } from '#user/lib/i18n'
+
   import SimpleMap from '#map/components/simple_map.svelte'
   import MapFilters from '#map/components/map_filters.svelte'
   import { buildMarker, getBounds, buildMainUserMarker } from './lib/map'
-  import { getFiltersData } from './lib/filters'
   import { onMount } from 'svelte'
+  import { transactionsData } from '#inventory/lib/transactions_data'
 
-  export let initialDocs, initialBounds
+  export let map, initialDocs, initialBounds, editionUriToDisplayOnMap
   export let docsToDisplay = []
 
   let idsToDisplay = []
   let markers = new Map()
 
-  const { filtersData } = getFiltersData.transaction
-  // All selectedFilters values must be declared initially, otherwise reset could be incomplete
-  let allFilters = Object.keys(filtersData)
-  let selectedFilters = allFilters
+  let allEditionsFilters = []
+  let selectedTransactionFilters = []
+  let allTransactionFilters = []
+
+  let transactionFiltersData = transactionsData
+  let editionsFiltersData = initialDocs.reduce((filtersData, item) => ({ ...filtersData, [item.entity]: item }), {})
+
+  if (isNonEmptyArray(initialDocs)) {
+    allEditionsFilters = _.uniq(initialDocs.map(_.property('entity')))
+  }
+  let selectedEditionFilters = allEditionsFilters
+
+  let selectedFilters = [ ...allTransactionFilters, ...allEditionsFilters ]
 
   let bounds
   onMount(() => bounds = initialBounds || getBounds(docsToDisplay))
@@ -27,8 +39,8 @@
   }
 
   const buildMarkers = (initialDocs, markers) => {
+    const getFiltersValues = doc => [ doc.transaction, doc.entity ]
     for (let doc of initialDocs) {
-      const getFiltersValues = doc => [ doc.transaction ]
       const marker = buildMarker(doc, getFiltersValues)
       markers.set(doc.id, marker)
     }
@@ -42,6 +54,7 @@
 
   const resetDocsToDisplay = () => docsToDisplay = initialDocs
 
+  $: selectedFilters = [ ...selectedTransactionFilters, ...selectedEditionFilters ]
   $: notAllDocsAreDisplayed = docsToDisplay.length !== initialDocs.length
   $: docsToDisplay && syncDocValues()
 </script>
@@ -58,10 +71,18 @@
       {idsToDisplay}
     />
     <MapFilters
-      {allFilters}
-      bind:selectedFilters
-      data={getFiltersData.transaction}
+      type='transaction'
+      bind:selectedFilters={selectedTransactionFilters}
+      bind:allFilters={allTransactionFilters}
     />
+    {#if allEditionsFilters.length > 1}
+      <MapFilters
+        type='editions'
+        bind:selectedFilters={selectedEditionFilters}
+        bind:allFilters={allEditionsFilters}
+        {initialDocs}
+      />
+    {/if}
   </div>
   {#if notAllDocsAreDisplayed}
     <div class="show-all-wrapper">

@@ -7,7 +7,7 @@
   import ItemsByCategories from './items_lists/items_by_categories.svelte'
   import ItemsMap from '#map/components/items_map.svelte'
 
-  export let uri
+  export let uri, editions
 
   let items = []
   let initialItems = []
@@ -20,7 +20,8 @@
   const getItemsByCategories = async () => {
     let uris
     if (uri) uris = [ uri ]
-    initialItems = await getItemsData(uris)
+    if (editions) uris = editions.map(_.property('uri'))
+    initialItems = await getItemsData(uris, editions)
     items = initialItems
   }
 

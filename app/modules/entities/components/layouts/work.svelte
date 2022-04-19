@@ -82,6 +82,15 @@
     </div>
     <!-- TODO: works list -->
   </div>
+  {#await getEditions()}
+    <div class="loading-wrapper">
+      <p class="loading">{I18n('looking for editions...')} <Spinner/></p>
+    </div>
+  {:then editions}
+    <div class="items-lists-wrapper">
+      <ItemsLists {editions}/>
+    </div>
+  {/await}
 </div>
 
 <style lang="scss">

@@ -1,19 +1,23 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
 
-  export let selectedFilters, data, allFilters
+  export let selectedFilters, filtersData, type, allFilters
 
-  const { filtersTitle, filtersData } = data
+  allFilters = Object.keys(filtersData)
 
   const selectAllFilters = () => { selectedFilters = allFilters }
+
+  // All selectedFilters values must be declared initially, otherwise reset could be incomplete
+  selectAllFilters()
 
   $: areAllFiltersSelected = allFilters.every(f => selectedFilters.includes(f))
 </script>
 <div class="filters-menu">
   <div class="left-menu">
     <span class="filters-title">
-      {I18n(`filter by ${filtersTitle}`)}
+      {I18n(`filter by ${type}`)}
     </span>
     <div class="filters">
       {#each allFilters as filterValue}
@@ -30,11 +34,17 @@
               bind:group={selectedFilters}
               value={filterValue}
             >
-            {I18n(filterValue)}
+            {#if filtersData[filterValue].cover}
+              <img class="cover" src="{imgSrc(filtersData[filterValue].cover, 128)}" alt="{filtersData[filterValue].title}">
+            {:else}
+              {I18n(filterValue)}
+            {/if}
           </span>
-          <span class="filter-count">
-            {@html icon(filtersData[filterValue].icon)}
-          </span>
+          {#if filtersData[filterValue].icon}
+            <span class="filter-count">
+              {@html icon(filtersData[filterValue].icon)}
+            </span>
+          {/if}
         </label>
       {/each}
     </div>
@@ -45,7 +55,7 @@
       on:click={selectAllFilters}
       disabled="{areAllFiltersSelected}"
     >
-    {I18n('select all filters', { filtersTitle })}
+    {I18n('select all filters', { filters: type })}
     </button>
   </div>
 </div>
@@ -65,7 +75,7 @@
   }
   .filter{
     padding: 0.5em;
-    margin: 0 0.5em;
+    @include selected-button-color(#ddd);
   }
   .filters-title{
     font-weight: bold;
@@ -81,6 +91,12 @@
   #filter-label-lending{ @include selected-button-color($lending-color); };
   #filter-label-selling{ @include selected-button-color($selling-color); };
   #filter-label-inventorying{ @include selected-button-color($inventorying-color); };
+  .cover{
+    padding: 0.2em;
+    font-size: 0.9em;
+    max-width: 5em;
+    height: 64px;
+  }
   :disabled{
     cursor: not-allowed;
     opacity: 0.5;

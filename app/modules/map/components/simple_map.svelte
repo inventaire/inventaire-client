@@ -50,8 +50,8 @@
   const isFilterSelected = marker => {
     if (!selectedFilters) return true
     const filtersValues = marker.options.filters
-    const filters = _.intersection(selectedFilters, filtersValues)
-    return isNonEmptyArray(filters)
+    const markerSelectedFilters = _.intersection(filtersValues, selectedFilters)
+    return _.isEqual(markerSelectedFilters, filtersValues)
   }
 
   const reset = () => {
