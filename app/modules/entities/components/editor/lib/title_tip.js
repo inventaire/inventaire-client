@@ -2,7 +2,7 @@ export async function getEditionSeriesLabels (edition) {
   const worksUris = edition.claims['wdt:P629']
   if (worksUris == null || worksUris.length === 0) return
   const works = await app.request('get:entities:models', { uris: worksUris })
-  const seriesUris = _.uniq(works.map(work => work.get('claims.wdt:P179')).flat())
+  const seriesUris = _.compact(_.uniq(works.map(work => work.get('claims.wdt:P179')).flat()))
   if (seriesUris.length !== 1) return
   const serie = await app.request('get:entity:model', seriesUris[0])
   return {
