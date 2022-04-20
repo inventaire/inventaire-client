@@ -4,7 +4,7 @@
 
   export let url, text, icon = null, title = '', light = false
 
-  const isExternalLink = url[0] !== '/'
+  const isExternalLink = url?.[0] !== '/'
   let target, rel
   if (isExternalLink) {
     target = '_blank'
