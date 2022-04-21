@@ -95,6 +95,10 @@
     if (value === Symbol.for('removed') && isNonEmptyClaimValue(previousValue)) {
       undoTitle = `${i18n('Recover previous value:')} ${previousValueLabel}`
       if (previousValue !== previousValueLabel) undoTitle += ` (${previousValue})`
+    } else if (value === null) {
+      // Reset label
+      valueLabel = ''
+      editMode = true
     }
   }
 

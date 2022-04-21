@@ -49,7 +49,8 @@
     }
   }
 
-  let lastSearch, searchText = '', waitForSearch
+  let lastSearch, waitForSearch
+  let searchText = currentEntityLabel || ''
   let limit = 10, offset = 0, fetching = false, canFetchMore = true
   // TODO: detect uris and get the corresponding entities
   async function search (options = {}) {
@@ -87,6 +88,8 @@
   }
 
   const lazySearch = _.debounce(search, 200)
+
+  if (currentEntityLabel) lazySearch()
 
   // TODO: fix scroll
   function onSuggestionsScroll (e) {
