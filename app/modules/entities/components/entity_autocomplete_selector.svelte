@@ -160,11 +160,13 @@
             />
           {/each}
         </ul>
-        {#if fetching}
+        {#await (waitForSearch || defaultSuggestions)}
           <div class="spinner-wrapper"><Spinner /></div>
-        {:else if suggestions.length === 0}
-          <p class="no-result">{i18n('no result')}</p>
-        {/if}
+        {:then}
+          {#if suggestions.length === 0}
+            <p class="no-result">{i18n('no result')}</p>
+          {/if}
+        {/await}
       </div>
       <div class="controls">
         <button class="close" on:click={close}>
