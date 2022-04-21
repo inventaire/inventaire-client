@@ -100,7 +100,7 @@
 
   function undo () {
     value = previousValue
-    showEditMode()
+    closeEditMode()
   }
 </script>
 
