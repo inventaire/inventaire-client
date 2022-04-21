@@ -88,7 +88,11 @@
     if (key === 'esc') closeEditMode()
     else if (domEvent.ctrlKey && key === 'enter') save()
   }
-  function showError (componentEvent) { flash = componentEvent.detail }
+
+  function showError (componentEvent) {
+    flash = componentEvent.detail
+    editMode = false
+  }
 
   let undoTitle
   $: {
