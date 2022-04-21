@@ -96,7 +96,10 @@
   <div class="language-values">
     <select name="{i18n('language selector')}" bind:value={currentLang}>
       {#each languages as { code, native }}
-        <option value="{code}">{code} - {native}</option>
+        <option value="{code}">
+          {code}
+          {#if native !== code} - {native}{/if}
+        </option>
       {/each}
     </select>
     <div class="value">
@@ -127,12 +130,13 @@
 
   <ul class="other-languages">
     {#each alphabeticallySortedEntries(labels) as [ lang, value ]}
+      {@const native = getNativeLangName(lang)}
       {#if lang !== currentLang}
         <li>
           <button
             on:click={() => editLanguageValue(lang)}
             >
-            <span class="lang">{lang} - {getNativeLangName(lang)}</span>
+            <span class="lang">{lang} {#if native}- {native}{/if}</span>
             <span class="other-value">{value}</span>
           </button>
         </li>
