@@ -6,7 +6,7 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { slide } from 'svelte/transition'
   import assert_ from '#lib/assert_types'
-  import { getPropertyClaimsCount, isEmptyClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+  import { getPropertyClaimsCount, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import Flash from '#lib/components/flash.svelte'
 
   export let entity, property, required = false
@@ -46,7 +46,7 @@
 
   let canAddValue
   $: {
-    if (isEmptyClaimValue(propertyClaims.at(-1))) {
+    if (propertyClaims.at(-1) === null) {
       canAddValue = false
     } else {
       canAddValue = (multivalue || getPropertyClaimsCount(propertyClaims) === 0)
