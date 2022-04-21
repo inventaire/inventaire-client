@@ -10,7 +10,16 @@
   import { createByProperty } from '#entities/lib/create_entities'
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
 
-  export let searchTypes, currentEntityUri, currentEntityLabel = '', allowEntityCreation = false, createdEntityTypeName, createOnWikidata, relationSubjectEntity, relationProperty, displaySuggestionType, autofocus = true
+  export let searchTypes
+  export let currentEntityUri
+  export let currentEntityLabel = ''
+  export let allowEntityCreation = false
+  export let createdEntityTypeName
+  export let createOnWikidata
+  export let relationSubjectEntity
+  export let relationProperty
+  export let displaySuggestionType
+  export let autofocus = true
 
   const dispatch = createEventDispatcher()
 
