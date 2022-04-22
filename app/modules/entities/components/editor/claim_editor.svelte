@@ -69,7 +69,9 @@
       previousValueLabel = valueLabel
       oldValue = value
     } catch (err) {
-      showEditMode()
+      // Revert change
+      value = oldValue
+      dispatch('set', value)
       flash = err
     }
   }
