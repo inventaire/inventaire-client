@@ -18,7 +18,7 @@
   export let createOnWikidata
   export let relationSubjectEntity
   export let relationProperty
-  export let displaySuggestionType
+  export let displaySuggestionType = false
   export let autofocus = true
 
   const dispatch = createEventDispatcher()
