@@ -24,6 +24,7 @@
   const propertyClaimsCanBeShown = !(fixed && propertyClaims.length === 0)
 
   function addBlankValue () {
+    flash = null
     removeBlankValue()
     propertyClaims = [ ...propertyClaims, null ]
   }
