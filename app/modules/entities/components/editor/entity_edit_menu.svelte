@@ -139,6 +139,7 @@
     /*Small screens*/
     @media screen and (max-width: $smaller-screen) {
       margin-right: 0.5em;
+      padding: 0.5em;
     }
     /*Large screens*/
     @media screen and (min-width: $smaller-screen) {
