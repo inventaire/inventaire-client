@@ -231,7 +231,7 @@
     }
     .language-values{
       @include display-flex(row, stretch, center);
-      height: 2.5em;
+      min-height: 2.5em;
     }
     .value{
       @include display-flex(row, stretch);
