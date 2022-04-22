@@ -22,14 +22,14 @@
     font-weight: normal;
   }
   /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $smaller-screen) {
     button{
       padding: 0.3em 0.5em;
       margin: 0.2em;
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $very-small-screen) {
+  @media screen and (min-width: $smaller-screen) {
     .display-mode-button{
       height: 2.5rem;
     }
