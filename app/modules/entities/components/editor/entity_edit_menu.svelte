@@ -79,7 +79,7 @@
       <li>
         <Link
           url={history}
-          text={i18n('Open entity history')}
+          text={I18n('entity history')}
           icon='history'
         />
       </li>
