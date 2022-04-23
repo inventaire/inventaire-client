@@ -20,7 +20,7 @@
   async function _moveToWikidata () {
     try {
       if (!app.user.hasWikidataOauthTokens()) {
-        return app.execute('show:wikidata:edit:intro:modal', this.model)
+        return app.execute('show:wikidata:edit:intro:modal', uri)
       }
       await moveToWikidata(uri)
       // This should now redirect us to the new Wikidata edit page
