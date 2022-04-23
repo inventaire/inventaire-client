@@ -98,6 +98,10 @@
   @import '#general/scss/utils';
   .wrapper{
     margin-right: auto;
+    /*Small screens*/
+    @media screen and (max-width: $smaller-screen) {
+      margin-left: auto;
+    }
   }
 
   .labels, .inputs{

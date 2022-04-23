@@ -168,15 +168,18 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .value{
-    @include display-flex(row, center);
+    @include display-flex(row, center, center);
     &:not(:last-child){
       margin-bottom: 1em;
     }
     /*Small screens*/
-    @media screen and (max-width: $very-small-screen) {
+    @media screen and (max-width: $smaller-screen) {
       flex-direction: column;
       padding: 0.5em 0.2em;
       margin: 0.5em 0;
+      :global(.edit-mode-buttons){
+        margin-top: 1em;
+      }
     }
   }
   .undo{
