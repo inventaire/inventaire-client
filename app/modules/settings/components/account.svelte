@@ -141,7 +141,7 @@
     <p class="note">{@html I18n('fediversable_description', { username: $user.stableUsername, host: domain })}</p>
     <label class="inline">
       <input type="checkbox" class="fediversable" bind:checked={fediversable} on:click={toggleFediversable}>
-      {I18n('fediversable')}
+      {i18n('Fediverse integration')}
     </label>
     <Flash bind:state={flashFediversable}/>
   </fieldset>
