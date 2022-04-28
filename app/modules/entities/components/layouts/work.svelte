@@ -20,15 +20,18 @@
   const { uri, image, label } = entity
   let { claims } = entity
   let displayedClaims = []
-  let authorsUris
-  let editions = []
+  let authorsUris, editionsUris
+  let editions = [], initialEditions = []
 
   const claimsOrder = [
     ...editionWorkProperties,
     'wdt:P856', // official website
   ]
 
-  const getEditions = async () => getSubEntities('work', uri)
+  const getEditions = async () => {
+    initialEditions = await getSubEntities('work', uri)
+    editions = initialEditions
+  }
 
   const addClaims = claims => {
     authorsUris = claims['wdt:P50']
@@ -48,7 +51,9 @@
   }
 
   $: app.navigate(`/entity/${uri}`)
-  $: editionsUris = editions.map(_.property('uri'))
+  $: if (isNonEmptyArray(editions)) {
+    editionsUris = editions.map(_.property('uri'))
+  }
 </script>
 <div class="layout">
   {#if standalone}
@@ -86,9 +91,9 @@
     <div class="loading-wrapper">
       <p class="loading">{I18n('looking for editions...')} <Spinner/></p>
     </div>
-  {:then editions}
+  {:then}
     <div class="items-lists-wrapper">
-      <ItemsLists {editions}/>
+      <ItemsLists {editionsUris}/>
     </div>
   {/await}
 </div>

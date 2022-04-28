@@ -1,10 +1,10 @@
-import { isNonEmptyArray } from '#lib/boolean_tests'
 import Item from '#inventory/models/item'
-import User from '#users/models/user'
+import { isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
+import User from '#users/models/user'
 
-export const getItemsData = async uris => {
-  const { items, users } = await preq.get(app.API.items.byEntities({ ids: uris }))
+export const getItemsData = async editionsUris => {
+  const { items, users } = await preq.get(app.API.items.byEntities({ ids: editionsUris }))
   return fetchModelsSequentially(items, users)
 }
 

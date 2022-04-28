@@ -1,45 +1,55 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
   import Spinner from '#general/components/spinner.svelte'
-  import { icon } from '#lib/utils'
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { getItemsData } from './items_lists/items_lists'
-  import ItemsByCategories from './items_lists/items_by_categories.svelte'
+  import { icon } from '#lib/utils'
   import ItemsMap from '#map/components/items_map.svelte'
+  import { I18n } from '#user/lib/i18n'
+  import ItemsByCategories from './items_lists/items_by_categories.svelte'
+  import { getItemsData } from './items_lists/items_lists'
 
-  export let uri, editions
+  export let uri, editionsUris, initialItems = [], triggerScrollToMap
 
   let items = []
-  let initialItems = []
   let initialBounds
+  let loading
 
-  // Mount ItemsByCategories with initialBounds
-  // before mounting ItemsMap
+  // showMap is falsy to be able to mount ItemsByCategories
+  // to set initialBounds before mounting ItemsMap
   let showMap
 
+  let fetchedEditionsUris = []
   const getItemsByCategories = async () => {
-    let uris
-    if (uri) uris = [ uri ]
-    if (editions) uris = editions.map(_.property('uri'))
-    initialItems = await getItemsData(uris, editions)
+    if (uri) editionsUris = [ uri ]
+
+    // easy caching, waiting for proper svelte caching tool
+    if (_.isEqual(fetchedEditionsUris, editionsUris)) return
+    fetchedEditionsUris = editionsUris
+    loading = true
+    initialItems = await getItemsData(editionsUris)
+    loading = false
     items = initialItems
   }
 
   let mapWrapper, windowScrollY
-  const scrollToMap = e => {
+  const scrollToMap = () => {
     if (!showMap) { showMap = true }
     if (mapWrapper) { windowScrollY = mapWrapper.offsetTop }
   }
 
+  $: {
+    triggerScrollToMap && scrollToMap()
+    triggerScrollToMap = false
+  }
   $: emptyList = !isNonEmptyArray(items)
+  $: editionsUris && getItemsByCategories()
 </script>
 
 <svelte:window bind:scrollY={windowScrollY} />
-{#await getItemsByCategories()}
+{#if loading}
   <div class="loading-wrapper">
     <p class="loading">{I18n('fetching available books...')} <Spinner/></p>
   </div>
-{:then}
+{:else}
   {#if !emptyList}
     <div bind:this={mapWrapper}>
       {#if showMap}
@@ -66,7 +76,7 @@
       on:scrollToMap={scrollToMap}
     />
   {/if}
-{/await}
+{/if}
 
 <style lang="scss">
   @import '#general/scss/utils';

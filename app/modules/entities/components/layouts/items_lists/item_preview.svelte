@@ -1,9 +1,11 @@
 <script>
+  import { imgSrc } from '#lib/handlebars_helpers/images'
   import { icon, isOpenedOutside } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  export let item
   import { createEventDispatcher } from 'svelte'
+
+  export let item
+
   const dispatch = createEventDispatcher()
 
   const {
@@ -30,7 +32,8 @@
 
   const showItemOnMap = () => dispatch('showItemOnMap')
 </script>
-<div class="show-item"
+<div
+  class="show-item"
   on:click={showItem}
 >
   <a

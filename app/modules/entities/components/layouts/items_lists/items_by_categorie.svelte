@@ -24,8 +24,15 @@
 
   const dispatchByTransaction = item => {
     const transaction = item.transaction
+    let itemsByTransaction = itemsByTransactions[transaction]
+    if (isNonEmptyArray(itemsByTransaction) && isAlreadyDisplayed(item, itemsByTransaction)) return
     if (!someItems && transaction) someItems = true
-    itemsByTransactions[transaction].push(item)
+    itemsByTransactions[transaction] = [ ...itemsByTransaction, item ]
+  }
+
+  const isAlreadyDisplayed = (item, itemsByTransaction) => {
+    let itemsByTransactionIds = itemsByTransaction.map(_.property('id'))
+    return itemsByTransactionIds.includes(item.id)
   }
 
   const showItemsOnMap = () => {
@@ -41,12 +48,13 @@
 
   let emptyList = !isNonEmptyArray(itemsByCategorie)
 
-  itemsByCategorie.forEach(dispatchByTransaction)
+  $: itemsByCategorie.forEach(dispatchByTransaction)
 
   $: {
     showItemOnMap(itemOnMap)
   }
 </script>
+
 <div style="background-color:{backgroundColor}" class="items-list">
   <div class="header">
     <div class="categorie-title-wrapper">

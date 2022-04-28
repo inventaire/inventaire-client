@@ -1,5 +1,4 @@
 <script>
-  import { fade } from 'svelte/transition'
   export let claims
   export let claimsOrder = []
 
@@ -16,7 +15,7 @@
 </script>
 <div class="claims">
   {#each claimsList as claimLi}
-    <div in:fade="{{ duration: 200 }}" out:fade="{{ duration: 200 }}">
+    <div>
       {@html claimLi}
     </div>
   {/each}

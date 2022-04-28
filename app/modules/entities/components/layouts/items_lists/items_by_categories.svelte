@@ -9,8 +9,7 @@
 
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
-
-  let itemsByCategories = sortItemsByCategorieAndDistance(initialItems)
+  let itemsByCategories = {}
 
   const categoriesHeaders = {
     personal: {
@@ -39,9 +38,15 @@
     itemsOnMap = itemsOnMap
     dispatch('scrollToMap')
   }
-  if (isNonEmptyArray(itemsByCategories.nearbyPublic)) {
-    initialBounds = itemsByCategories.nearbyPublic.map(_.property('position'))
+
+  const updateItems = () => {
+    itemsByCategories = sortItemsByCategorieAndDistance(initialItems)
+    if (isNonEmptyArray(itemsByCategories.nearbyPublic)) {
+      initialBounds = itemsByCategories.nearbyPublic.map(_.property('position'))
+    }
   }
+
+  $: initialItems && updateItems()
   // Todo: add circle user position
   // Add the main user to the list to make sure the map shows their position
 </script>
