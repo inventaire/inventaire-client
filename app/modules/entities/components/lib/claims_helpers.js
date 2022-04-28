@@ -7,7 +7,10 @@ import linkify_ from '#lib/handlebars_helpers/linkify'
 import { icon } from '#lib/utils'
 import { i18n } from '#user/lib/i18n'
 import { isNonEmptyArray } from '#lib/boolean_tests'
+import wdLang from 'wikidata-lang'
+import { unprefixify } from '#lib/wikimedia/wikidata'
 
+const farInTheFuture = '2100'
 const omitLabel = false
 
 export const formatClaim = params => {
@@ -104,3 +107,25 @@ const aggregateClaim = (worksClaims, work) => prop => {
 
 const removeTailingSlash = url => url.replace(/\/$/, '')
 const dropProtocol = url => url.replace(/^(https?:)?\/\//, '')
+
+export function getTitle (entity) {
+  return entity.claims['wdt:P1476'][0]
+}
+
+export function getLang (entity) {
+  const langUri = entity.claims['wdt:P407'][0]
+  return langUri ? wdLang.byWdId[unprefixify(langUri)]?.code : undefined
+}
+
+export function getPublicationTime (entity) {
+  const publicationDate = entity.claims['wdt:P577'][0]
+  return new Date(publicationDate || farInTheFuture).getTime()
+}
+
+export function getPublicationDate (entity) {
+  const publicationDate = entity.claims['wdt:P577'][0]
+  if (publicationDate != null) {
+    return parseInt(publicationDate.split('-')[0])
+    // inPublicDomain = this.publicationYear < publicDomainThresholdYear
+  }
+}

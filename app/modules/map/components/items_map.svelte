@@ -9,7 +9,7 @@
   import { buildMainUserMarker, buildMarker, getBounds } from './lib/map'
 
   export let docsToDisplay = []
-  export let initialDocs
+  export let initialDocs, displayCover
 
   let allEditionsFilters, editionsFiltersData, selectedFilters, bounds
   let selectedTransactionFilters = []
@@ -29,7 +29,7 @@
     const getFiltersValues = doc => [ doc.transaction, doc.entity ]
     for (let doc of items) {
       if (!markers.has(doc.id)) {
-        const marker = buildMarker(doc, getFiltersValues)
+        const marker = buildMarker(doc, getFiltersValues, displayCover)
         markers.set(doc.id, marker)
       }
     }
@@ -101,6 +101,11 @@
 {/await}
 <style lang="scss">
   @import '#general/scss/utils';
+  .items-map{
+    position: relative;
+    // z-index known cases: editions lang dropdown
+    z-index:0;
+  }
   .show-all-wrapper{
     @include display-flex(column, flex-end);
     margin-bottom: 1em;

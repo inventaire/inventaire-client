@@ -1,9 +1,10 @@
 <script>
-  import { isOpenedOutside, icon } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon, isOpenedOutside } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
 
   export let doc
+  export let displayCover
 
   const { transaction, userPicture, username, cover, id, title } = doc
 
@@ -29,7 +30,7 @@
   href="{pathname}"
   title="{findBestTitle()}"
 >
-  {#if cover}
+  {#if displayCover}
     <img src="{imgSrc(cover, 64)}" alt="{findBestTitle()}">
   {/if}
   {#if userPicture}

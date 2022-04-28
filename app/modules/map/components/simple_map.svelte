@@ -12,13 +12,10 @@
 
   const initMap = container => {
     map = L.map(container)
-    let isCluster = markers.size > 2
-    if (isCluster) {
+    // Always having cluster map enable to display more markers if/when added later,
+    // Who can do more can do less: clusters can handle uniq marker on map
     // See options https://github.com/Leaflet/Leaflet.markercluster#options
-      markersLayer = L.markerClusterGroup()
-    } else {
-      markersLayer = L.layerGroup()
-    }
+    markersLayer = L.markerClusterGroup()
     L.tileLayer(tileUrl, settings).addTo(map)
     if (isMobile) map.scrollWheelZoom.disable()
     syncMarkers()

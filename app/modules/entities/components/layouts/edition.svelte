@@ -6,7 +6,7 @@
   import ItemsLists from './items_lists.svelte'
   import EditionActions from './edition_actions.svelte'
   import EditDataActions from './edit_data_actions.svelte'
-  import { aggregateWorksClaims, editionWorkProperties, formatEntityClaim } from '#entities/components/lib/claims_helpers'
+  import { aggregateWorksClaims, editionWorkProperties, formatEntityClaim, getTitle } from '#entities/components/lib/claims_helpers'
 
   export let entity, works, standalone
 
@@ -51,6 +51,7 @@
   }
 
   const subtitle = entity.claims['wdt:P1680']
+  const title = getTitle(entity)
 
   $: app.navigate(`/entity/${uri}`)
 </script>
@@ -67,7 +68,7 @@
         </div>
       {/if}
       <div class="title-box">
-        <h2 class="edition-title">{entity.claims['wdt:P1476']}</h2>
+        <h2 class="edition-title">{title}</h2>
         {#if isNonEmptyArray(authorsUris)}
           <h3 class="edition-authors">
             {i18n('by')}
@@ -90,7 +91,7 @@
     <!-- TODO: works list -->
   </div>
   <div class="items-lists-wrapper">
-    <ItemsLists {uri}/>
+    <ItemsLists editionsUris={[ uri ]}/>
   </div>
 </div>
 

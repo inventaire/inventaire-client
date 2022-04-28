@@ -3,7 +3,7 @@ import UserMarker from '../user_marker.svelte'
 import ItemMarker from '../item_marker.svelte'
 import * as L from 'leaflet'
 
-export const buildMarker = (doc, getFiltersValues) => {
+export const buildMarker = (doc, getFiltersValues, displayCover) => {
   const { position, markerType } = doc
   if (!position || !markerType) return
 
@@ -16,7 +16,7 @@ export const buildMarker = (doc, getFiltersValues) => {
   const Marker = markerOptions.markerModel
   new Marker({
     target: iconWrapper,
-    props: { doc }
+    props: { doc, displayCover }
   })
   const icon = L.divIcon({
     html: iconWrapper,

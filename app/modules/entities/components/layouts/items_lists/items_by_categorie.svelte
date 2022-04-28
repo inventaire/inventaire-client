@@ -10,6 +10,7 @@
   export let itemsOnMap
   export let headers
   export let categorie
+  export let displayCover
 
   const { customIcon, label, backgroundColor } = headers
 
@@ -87,6 +88,7 @@
         <ItemsByTransaction
           itemsByTransaction={itemsByTransactions[transaction]}
           {transaction}
+          {displayCover}
           bind:itemOnMap
         />
       {/each}

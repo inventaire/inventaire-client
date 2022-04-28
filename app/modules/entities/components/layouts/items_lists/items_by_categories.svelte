@@ -6,6 +6,7 @@
   export let initialItems
   export let itemsOnMap
   export let initialBounds
+  export let displayCover
 
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
@@ -54,6 +55,7 @@
   {#each Object.keys(categoriesHeaders) as categorie}
     <ItemsByCategorie
       {categorie}
+      {displayCover}
       headers={categoriesHeaders[categorie]}
       itemsByCategorie={itemsByCategories[categorie]}
       bind:itemsOnMap

@@ -7,7 +7,7 @@
   import ItemsByCategories from './items_lists/items_by_categories.svelte'
   import { getItemsData } from './items_lists/items_lists'
 
-  export let uri, editionsUris, initialItems = [], triggerScrollToMap
+  export let editionsUris, initialItems = [], triggerScrollToMap
 
   let items = []
   let initialBounds
@@ -19,8 +19,6 @@
 
   let fetchedEditionsUris = []
   const getItemsByCategories = async () => {
-    if (uri) editionsUris = [ uri ]
-
     // easy caching, waiting for proper svelte caching tool
     if (_.isEqual(fetchedEditionsUris, editionsUris)) return
     fetchedEditionsUris = editionsUris
@@ -42,6 +40,7 @@
   }
   $: emptyList = !isNonEmptyArray(items)
   $: editionsUris && getItemsByCategories()
+  $: displayCover = editionsUris?.length > 1
 </script>
 
 <svelte:window bind:scrollY={windowScrollY} />
@@ -66,11 +65,13 @@
           docsToDisplay={items}
           initialDocs={initialItems}
           {initialBounds}
+          {displayCover}
         />
       {/if}
     </div>
     <ItemsByCategories
       {initialItems}
+      {displayCover}
       bind:initialBounds
       bind:itemsOnMap={items}
       on:scrollToMap={scrollToMap}

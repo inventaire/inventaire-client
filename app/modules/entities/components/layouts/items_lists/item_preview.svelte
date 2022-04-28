@@ -5,6 +5,7 @@
   import { createEventDispatcher } from 'svelte'
 
   export let item
+  export let displayCover
 
   const dispatch = createEventDispatcher()
 
@@ -15,7 +16,9 @@
     userPicture,
     username,
     distanceFromMainUser,
-    owner
+    owner,
+    cover,
+    title
   } = item
 
   const notOwner = owner !== app.user.id
@@ -41,6 +44,12 @@
     href={url}
     title="{i18n(`${transaction}_personalized`, { username })}"
   >
+    {#if displayCover}
+      <img
+        src="{imgSrc(cover, 64)}"
+        alt="{title}"
+      >
+    {/if}
     <img
       src="{imgSrc(userPicture, 64, 64)}"
       alt="{username}"

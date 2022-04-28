@@ -4,7 +4,7 @@
   import { transactionsData } from '#inventory/lib/transactions_data'
   import ItemPreview from './item_preview.svelte'
 
-  export let itemsByTransaction, transaction, itemOnMap
+  export let itemsByTransaction, transaction, itemOnMap, displayCover
 
   const showItemOnMap = item => {
     itemOnMap = item
@@ -20,6 +20,7 @@
     {#each itemsByTransaction as item}
       <ItemPreview
         {item}
+        {displayCover}
         on:showItemOnMap="{showItemOnMap(item)}"
       />
     {/each}
