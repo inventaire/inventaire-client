@@ -6,9 +6,7 @@
 
   export let itemsByTransaction, transaction, itemOnMap, displayCover
 
-  const showItemOnMap = item => {
-    itemOnMap = item
-  }
+  const showItemOnMap = item => itemOnMap = item
 </script>
 
 {#if isNonEmptyArray(itemsByTransaction)}

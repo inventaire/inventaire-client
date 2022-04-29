@@ -20,11 +20,3 @@
     </div>
   {/each}
 </div>
-<style lang="scss">
-  @import '#general/scss/utils';
-  .claims{
-    button {
-      text-decoration: underline;
-    };
-  }
-</style>

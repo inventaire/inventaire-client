@@ -81,7 +81,6 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  @import '#entities/scss/items_lists';
   .hide-map-wrapper{
     @include display-flex(column, flex-end);
   }

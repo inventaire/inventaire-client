@@ -61,6 +61,19 @@
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
+  @mixin filter-button($color, $text-color:white){
+    color: $dark-grey;
+    background-color: #eee;
+    margin: 0.2em;
+    border: 2px solid $light-grey;
+    border-radius: 5px;
+    @include sans-serif;
+    font-weight: normal;
+    &.selected, &:hover{
+      background-color: white;
+      border-color: $color;
+    }
+  }
   .filters-menu{
     @include display-flex(row, center, space-between);
     padding: 0.5em;
@@ -74,8 +87,8 @@
     @include display-flex(row, center,flex-start,wrap);
   }
   .filter{
+    @include filter-button(#ddd);
     padding: 0.5em;
-    @include selected-button-color(#ddd);
   }
   .filters-title{
     font-weight: bold;
@@ -87,10 +100,10 @@
     margin: 0.2em;
     padding: 0.5em;
   }
-  #filter-label-giving{ @include selected-button-color($giving-color); };
-  #filter-label-lending{ @include selected-button-color($lending-color); };
-  #filter-label-selling{ @include selected-button-color($selling-color); };
-  #filter-label-inventorying{ @include selected-button-color($inventorying-color); };
+  #filter-label-giving{ @include filter-button($giving-color); };
+  #filter-label-lending{ @include filter-button($lending-color); };
+  #filter-label-selling{ @include filter-button($selling-color); };
+  #filter-label-inventorying{ @include filter-button($inventorying-color); };
   .cover{
     padding: 0.2em;
     font-size: 0.9em;

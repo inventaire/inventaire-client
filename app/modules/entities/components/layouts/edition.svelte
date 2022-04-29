@@ -80,7 +80,7 @@
         {/if}
         <div class="info-wrapper">
           <div class="claims-infobox">
-            <ClaimsInfobox claims={displayedClaims} {uri} {claimsOrder}/>
+            <ClaimsInfobox claims={displayedClaims} {claimsOrder}/>
           </div>
         </div>
       </div>

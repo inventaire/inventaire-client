@@ -41,7 +41,7 @@
     dispatch('showItemsOnMap')
   }
 
-  let itemOnMap
+  let itemOnMap = false
   const showItemOnMap = itemOnMap => {
     if (itemOnMap) itemsOnMap = [ itemOnMap ]
     dispatch('showItemsOnMap')
@@ -132,13 +132,7 @@
     /* background-color is defined by backgroundColor*/
   }
   .map-button{
+    @include tiny-button($grey);
     padding: 0.5em;
-    @include selected-button-color($grey)
-  }
-  /*Small screens*/
-  @media screen and (max-width: 470px) {
-    .tiny-button{
-      padding: 0.3em;
-    }
   }
 </style>

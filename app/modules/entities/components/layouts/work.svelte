@@ -88,7 +88,7 @@
     <h3>{I18n(entity.type)}</h3>
   {/if}
   <div class="entity-wrapper">
-    <EditDataActions {entity} />
+    <EditDataActions {entity}/>
     <div class="entity">
       <div class="title-box">
         <h2 class="edition-title">{entity.label}</h2>
@@ -216,6 +216,9 @@
   }
   /*small and medium screens*/
   @media screen and (max-width: $small-screen) {
+    .entity-wrapper{
+      width: unset;
+    }
     .info-wrapper{
       @include display-flex(column, center);
     }

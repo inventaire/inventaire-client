@@ -42,9 +42,6 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .language-filter{
-    max-width: 10em;
-  }
   .map-button{
     @include tiny-button($grey);
     padding: 0.5em;
