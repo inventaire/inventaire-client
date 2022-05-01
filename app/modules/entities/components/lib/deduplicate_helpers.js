@@ -114,6 +114,8 @@ export function spreadByPrefix (works) {
 }
 
 export function sortAlphabetically (a, b) {
-  if (a.label.toLowerCase() > b.label.toLowerCase()) return 1
+  const labelA = a.label || ''
+  const labelB = b.label || ''
+  if (labelA.toLowerCase() > labelB.toLowerCase()) return 1
   else return -1
 }
