@@ -104,7 +104,7 @@
     const lastIndex = suggestions.length - 1
     if (highlightedIndex < 0) highlightedIndex = 0
     else if (!canFetchMore && highlightedIndex > lastIndex) {
-      highlightedIndex = lastIndex
+      highlightedIndex = 0
     }
   }
 
