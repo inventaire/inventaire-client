@@ -69,9 +69,14 @@
       previousValueLabel = valueLabel
       oldValue = value
     } catch (err) {
-      // Revert change
-      value = oldValue
-      dispatch('set', value)
+      // Revert change, unless that would mean removing this component
+      // thus hiding the error
+      if (oldValue === null) {
+        editMode = true
+      } else {
+        value = oldValue
+        dispatch('set', value)
+      }
       flash = err
     }
   }
