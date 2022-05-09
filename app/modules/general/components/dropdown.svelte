@@ -1,7 +1,21 @@
 <script>
-  export let alignRight = false, buttonTitle
+  export let buttonTitle
 
   let showDropdown = false
+  let alignRight = false
+  let buttonWithDropdown
+
+  function onButtonClick () {
+    showDropdown = !showDropdown
+    if (showDropdown) adjustDropdownPosition()
+  }
+
+  function adjustDropdownPosition () {
+    const { left, right } = buttonWithDropdown.getBoundingClientRect()
+    const distanceFromLeftScreenSide = left
+    const distanceFromRightScreenSide = window.screen.width - right
+    alignRight = (distanceFromLeftScreenSide > distanceFromRightScreenSide)
+  }
 
   function onOutsideClick () {
     showDropdown = false
@@ -9,6 +23,7 @@
 </script>
 
 <svelte:body on:click={onOutsideClick} />
+<svelte:window on:resize={adjustDropdownPosition} />
 
 <div
   class="has-dropdown"
@@ -18,7 +33,8 @@
     class="dropdown-button"
     title={buttonTitle}
     aria-haspopup="menu"
-    on:click={() => showDropdown = !showDropdown}
+    bind:this={buttonWithDropdown}
+    on:click={onButtonClick}
     >
     <slot name="button-inner" />
   </button>
@@ -40,6 +56,7 @@
   .dropdown-content{
     position: absolute;
     top: 100%;
+    z-index: 1;
     white-space: nowrap;
     &:not(.show){
       display: none;

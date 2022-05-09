@@ -60,7 +60,6 @@
 
 <div class="menu-wrapper">
   <Dropdown
-    alignRight={true}
     buttonTitle={i18n('Show actions')}
     >
     <div slot="button-inner">
