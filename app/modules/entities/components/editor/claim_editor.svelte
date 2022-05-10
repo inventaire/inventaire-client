@@ -121,7 +121,7 @@
 
 <div class="wrapper">
   <div class="value">
-    {#if typeof value === 'symbol'}
+    {#if value === Symbol.for('removed')}
       <button
         class="undo"
         title={undoTitle}
