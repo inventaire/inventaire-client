@@ -31,6 +31,7 @@
   function showEditMode () {
     if (value === Symbol.for('removed')) value = null
     editMode = true
+    flash = null
   }
 
   function closeEditMode () {
