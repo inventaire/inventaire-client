@@ -21,15 +21,16 @@
   const { InputComponent, DisplayComponent, showSave } = editors[editorType]
   const fixed = editorType.split('-')[0] === 'fixed'
 
-  let editMode = (value == null)
+  let inputValue = value
+  let savedValue = value
+  let editMode = (inputValue == null)
 
-  let oldValue = value
   let getInputValue, flash, valueLabel, showDelete, previousValue, previousValueLabel
 
   const updateUri = uri?.split(':')[0] === 'isbn' ? `inv:${entity._id}` : uri
 
   function showEditMode () {
-    if (value === Symbol.for('removed')) value = null
+    if (inputValue === Symbol.for('removed')) inputValue = null
     editMode = true
     flash = null
   }
@@ -38,7 +39,7 @@
     editMode = false
     flash = null
     // Updates the parent array, mostly to remove a null value
-    dispatch('set', value)
+    dispatch('set', inputValue)
   }
 
   const editorKey = `${uri || type}:${property}:${index}`
@@ -54,36 +55,36 @@
         // TODO: show spinner while waiting
         newValue = await getInputValue()
       }
-      value = newValue
+      inputValue = newValue
       editMode = false
-      dispatch('set', value)
-      if (oldValue === value) return
+      dispatch('set', inputValue)
+      if (savedValue === inputValue) return
       if (!creationMode) {
         await preq.put(app.API.entities.claims.update, {
           uri: updateUri,
           property,
-          'old-value': oldValue,
+          'old-value': savedValue,
           'new-value': typeof newValue === 'symbol' ? null : newValue,
         })
       }
-      previousValue = oldValue
+      previousValue = savedValue
       previousValueLabel = valueLabel
-      oldValue = value
+      savedValue = inputValue
     } catch (err) {
       // Revert change, unless that would mean removing this component
       // thus hiding the error
-      if (oldValue === null) {
+      if (savedValue === null) {
         editMode = true
       } else {
-        value = oldValue
-        dispatch('set', value)
+        inputValue = savedValue
+        dispatch('set', inputValue)
       }
       flash = err
     }
   }
 
   const remove = () => {
-    if (value === null) {
+    if (inputValue === null) {
       save(null)
     } else {
       save(Symbol.for('removed'))
@@ -104,10 +105,10 @@
 
   let undoTitle
   $: {
-    if (value === Symbol.for('removed') && isNonEmptyClaimValue(previousValue)) {
+    if (inputValue === Symbol.for('removed') && isNonEmptyClaimValue(previousValue)) {
       undoTitle = `${i18n('Recover previous value:')} ${previousValueLabel}`
       if (previousValue !== previousValueLabel) undoTitle += ` (${previousValue})`
-    } else if (value === null) {
+    } else if (inputValue === null) {
       // Reset label
       valueLabel = ''
       editMode = true
@@ -121,7 +122,7 @@
 
 <div class="wrapper">
   <div class="value">
-    {#if value === Symbol.for('removed')}
+    {#if inputValue === Symbol.for('removed')}
       <button
         class="undo"
         title={undoTitle}
@@ -134,7 +135,7 @@
     {:else if editMode}
       <InputComponent
         {property}
-        currentValue={value}
+        currentValue={inputValue}
         {valueLabel}
         {editorType}
         {entity}
@@ -156,7 +157,7 @@
       <DisplayComponent
         {entity}
         {property}
-        {value}
+        value={savedValue}
         bind:valueLabel
         on:edit={showEditMode}
         on:error={showError}
