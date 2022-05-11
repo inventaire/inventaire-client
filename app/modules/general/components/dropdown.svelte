@@ -1,22 +1,28 @@
 <script>
-  export let buttonTitle
+  export let buttonTitle, align = null
 
   let showDropdown = false
-  let alignRight = false
-  let buttonWithDropdown
+  let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft
 
   function onButtonClick () {
     showDropdown = !showDropdown
-    if (showDropdown) adjustDropdownPosition()
+    if (showDropdown) setTimeout(adjustDropdownPosition)
   }
 
   function adjustDropdownPosition () {
-    const { left, right } = buttonWithDropdown.getBoundingClientRect()
-    const distanceFromLeftScreenSide = left
-    const distanceFromRightScreenSide = window.screen.width - right
-    alignRight = (distanceFromLeftScreenSide > distanceFromRightScreenSide)
+    const buttonRect = buttonWithDropdown.getBoundingClientRect()
+    const buttonDistanceFromLeftScreenSide = buttonRect.left
+    const buttonDistanceFromRightScreenSide = window.screen.width - buttonRect.right
+    if (!align) {
+      align = (buttonDistanceFromLeftScreenSide > buttonDistanceFromRightScreenSide) ? 'right' : 'left'
+    }
+    if (align === 'right') dropdownPositionRight = 0
+    else if (align === 'left') dropdownPositionLeft = 0
+    else if (align === 'center') {
+      const dropdownRect = dropdown.getBoundingClientRect()
+      dropdownPositionLeft = (buttonRect.width / 2) - (dropdownRect.width / 2)
+    }
   }
-
   function onOutsideClick () {
     showDropdown = false
   }
@@ -40,8 +46,10 @@
   </button>
   <div
     class="dropdown-content"
+    bind:this={dropdown}
     class:show={showDropdown}
-    class:align-right={alignRight}
+    style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
+    style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
     role="menu"
     >
     <slot name="dropdown-content" />
@@ -60,12 +68,6 @@
     white-space: nowrap;
     &:not(.show){
       display: none;
-    }
-    &.align-right{
-      right: 0;
-    }
-    &:not(.align-right){
-      left: 0;
     }
   }
 </style>
