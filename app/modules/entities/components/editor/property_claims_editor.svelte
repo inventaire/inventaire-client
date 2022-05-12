@@ -53,15 +53,20 @@
       canAddValue = (multivalue || getPropertyClaimsCount(propertyClaims) === 0)
     }
   }
+
+  $: isRequiredAndMissing = required && getPropertyClaimsCount(propertyClaims) === 0
 </script>
 
 {#if propertyClaimsCanBeShown}
   <div
     class="editor-section"
     class:fixed
-    class:missing-required={required && getPropertyClaimsCount(propertyClaims) === 0}
+    class:missing-required={isRequiredAndMissing}
     transition:slide
     >
+    {#if isRequiredAndMissing}
+      <span class="required-notice">{I18n('required')}</span>
+    {/if}
     <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
     <div class="property-claim-values">
       {#each propertyClaims as value, i}
@@ -112,9 +117,23 @@
     }
   }
   .editor-section{
-    @include transition(border);
+    position: relative;
+    // add transition for both border and margin
+    @include transition(all);
+  }
+  $lighten-primary-color: lighten($primary-color, 30%);
+  .required-notice{
+    position: absolute;
+    bottom: 100%;
+    color: $lighten-primary-color;
+    left: 0;
+    font-size: 0.9rem;
+    line-height: 1.2rem;
+    @include radius;
   }
   .missing-required{
-    border: 1px solid lighten($primary-color, 30%);
+    border: 1px solid $lighten-primary-color;
+    // Make room for the .required-notice
+    margin-top: 1em;
   }
 </style>
