@@ -153,7 +153,7 @@
         on:cancel={closeEditMode}
         on:delete={remove}
       />
-    {:else}
+    {:else if isNonEmptyClaimValue(savedValue)}
       <DisplayComponent
         {entity}
         {property}
