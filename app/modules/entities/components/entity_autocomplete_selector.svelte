@@ -259,7 +259,6 @@
       font-weight: normal;
       margin: 0.5em;
       padding: 0.5em;
-      white-space: nowrap;
     }
   }
   .close{
