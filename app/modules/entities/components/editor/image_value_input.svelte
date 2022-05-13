@@ -7,9 +7,7 @@
   import Spinner from '#components/spinner.svelte'
   import { createEventDispatcher } from 'svelte'
 
-  export let currentValue, getInputValue, showDelete, fileInput, waitingForCropper, imageElement
-
-  $: showDelete = currentValue != null
+  export let currentValue, getInputValue, fileInput, waitingForCropper, imageElement
 
   let urlValue, files, dataUrl, dataUrlBeforeImageEdits
   const dispatch = createEventDispatcher()

@@ -25,7 +25,7 @@
   let savedValue = value
   let editMode = (inputValue == null)
 
-  let getInputValue, flash, valueLabel, showDelete, previousValue, previousValueLabel
+  let getInputValue, flash, valueLabel, previousValue, previousValueLabel
 
   const updateUri = uri?.split(':')[0] === 'isbn' ? `inv:${entity._id}` : uri
 
@@ -140,7 +140,6 @@
         {editorType}
         {entity}
         bind:getInputValue
-        bind:showDelete
         on:keyup={onInputKeyup}
         on:save={e => save(e.detail)}
         on:close={closeEditMode}
@@ -148,7 +147,7 @@
       />
       <EditModeButtons
         {showSave}
-        {showDelete}
+        showDelete={isNonEmptyClaimValue(savedValue)}
         on:save={save}
         on:cancel={closeEditMode}
         on:delete={remove}
