@@ -310,7 +310,9 @@ const getEntityModel = async (uri, refresh) => {
   } else {
     // See getEntitiesModels "Possible reasons for missing entities"
     log_.info(`getEntityModel entity_not_found: ${uri}`)
-    throw error_.new('entity_not_found', [ uri, model ])
+    const err = error_.new('entity_not_found', [ uri, model ])
+    err.code = 'entity_not_found'
+    throw err
   }
 }
 

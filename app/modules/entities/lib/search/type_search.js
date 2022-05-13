@@ -1,4 +1,3 @@
-import log_ from '#lib/loggers'
 import searchType from './search_type.js'
 import languageSearch from './language_search.js'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.js'
@@ -12,8 +11,13 @@ export default async function (type, input, limit, offset) {
   const uri = getEntityUri(input)
 
   if (uri != null) {
-    return searchByEntityUri(uri, type)
-  } else if (type) {
+    const res = await searchByEntityUri(uri, type)
+    // If no entity is found with what was found to look like a uri,
+    // fallback on searching that input instead
+    if (res) return res
+  }
+
+  if (type) {
     type = pluralize(type)
     if (type === 'subjects') return wikidataSearch(input, limit, offset)
     if (type === 'languages') return languageSearch(input, limit, offset)
@@ -28,7 +32,8 @@ async function searchByEntityUri (uri, type) {
   try {
     model = await app.request('get:entity:model', uri)
   } catch (err) {
-    log_.error(err, 'get entity err')
+    if (err.code === 'entity_not_found') return
+    else throw err
   }
 
   if (model == null) return
