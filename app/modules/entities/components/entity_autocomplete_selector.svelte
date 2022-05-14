@@ -75,7 +75,7 @@
       fetching = true
       const res = await waitForSearch
       if (searchText === lastSearch) {
-        suggestions = suggestions.concat(res.results)
+        suggestions = suggestions.concat(getNewSuggestions(res.results))
         showSuggestions = true
         canFetchMore = res.continue != null
       }
@@ -85,6 +85,11 @@
     } finally {
       fetching = false
     }
+  }
+
+  function getNewSuggestions (newSuggestions) {
+    const currentSuggestionsUris = new Set(_.map(suggestions, 'uri'))
+    return newSuggestions.filter(suggestion => !currentSuggestionsUris.has(suggestion.uri))
   }
 
   const lazySearch = _.debounce(search, 200)
