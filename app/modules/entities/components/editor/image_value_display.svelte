@@ -8,7 +8,7 @@
   const dispatch = createEventDispatcher()
 </script>
 
-<button class="value-display" on:click={e => dispatch('edit')} title={I18n('edit')}>
+<button class="value-display" on:click={() => dispatch('edit')} title={I18n('edit')}>
   {#if value}
     <img src={imgSrc(`/img/entities/${value}`, 300, 300)} alt="{I18n(property)}">
   {/if}

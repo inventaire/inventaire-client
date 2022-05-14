@@ -7,7 +7,7 @@
   const dispatch = createEventDispatcher()
 </script>
 
-<button class="value-display" on:click={e => dispatch('edit')} title={I18n('edit')}>
+<button class="value-display" on:click={() => dispatch('edit')} title={I18n('edit')}>
   {value || ''}
 </button>
 

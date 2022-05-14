@@ -1,7 +1,7 @@
 import { getNonEmptyPropertyClaims } from '#entities/components/editor/lib/editors_helpers'
 import { getReverseClaims } from '#entities/lib/entities'
 
-export default function ({ entity }) {
+export default async function ({ entity }) {
   const promises = []
   const isbn13h = entity.claims['wdt:P212']?.[0]
 
