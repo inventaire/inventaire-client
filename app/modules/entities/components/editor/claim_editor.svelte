@@ -11,6 +11,7 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { currentEditorKey, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+  import Spinner from '#components/spinner.svelte'
 
   export let entity, property, value, index
 
@@ -164,6 +165,9 @@
       {#if !fixed}
         <DisplayModeButtons on:edit={showEditMode} />
       {/if}
+    {:else}
+      <!-- Known case: savedValue is not set yet, after a claim was created -->
+      <Spinner />
     {/if}
   </div>
 
