@@ -25,6 +25,7 @@
 
   function onTypeChange () {
     typeProperties = propertiesPerType[type]
+    removeInvalidProperties(entity.claims, typeProperties)
     hasMonolingualTitle = typeProperties['wdt:P1476'] != null
     requiresLabel = !hasMonolingualTitle
     propertiesShortlist = getPropertiesShortlist(type, entity.claims)
@@ -35,6 +36,12 @@
     entity.type = type
     entity.claims['wdt:P31'] = [ typeDefaultP31[type] ]
     app.execute('querystring:set', 'type', type)
+  }
+
+  function removeInvalidProperties (claims, typeProperties) {
+    Object.keys(claims).forEach(property => {
+      if (typeProperties[property] == null) delete claims[property]
+    })
   }
 
   $: type && onTypeChange()
