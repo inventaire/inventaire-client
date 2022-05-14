@@ -7,6 +7,7 @@ import createEntity from './create_entity.js'
 import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import graphRelationsProperties from './graph_relations_properties.js'
 import getOriginalLang from '#entities/lib/get_original_lang'
+import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 
 export const createWorkEdition = async function (workEntity, isbn) {
   assert_.types(arguments, [ 'object', 'string' ])
@@ -108,12 +109,19 @@ const subjectEntityP31ByProperty = {
 
 export async function createAndGetEntityModel (params) {
   const { claims } = params
+  cleanupClaims(claims)
   const entityData = await createEntity(params)
   triggerEntityGraphChangesEvents(claims)
   const model = new Entity(entityData)
   // Update the local cache
   addEntityModel(model)
   return model
+}
+
+function cleanupClaims (claims) {
+  for (const [ property, propertyClaims ] of Object.entries(claims)) {
+    claims[property] = propertyClaims.filter(isNonEmptyClaimValue)
+  }
 }
 
 export async function createAndGetEntity (params) {
