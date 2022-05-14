@@ -12,11 +12,15 @@
   const { uri, type, labels } = entity
   const typeProperties = propertiesPerType[type]
   const hasMonolingualTitle = typeProperties['wdt:P1476'] != null
-  const title = hasMonolingualTitle ? entity.claims['wdt:P1476']?.[0] : null
-  let {
-    value: favoriteLabel,
-    lang: favoriteLabelLang,
-  } = getBestLangValue(app.user.lang, null, labels)
+
+  let favoriteLabel
+  $: {
+    if (hasMonolingualTitle) {
+      favoriteLabel = entity.claims['wdt:P1476']?.[0]
+    } else {
+      favoriteLabel = getBestLangValue(app.user.lang, null, labels).value
+    }
+  }
 </script>
 
 <div class="entity-edit">
@@ -24,7 +28,7 @@
     <div class="header-main">
       <h2>
         <a href="/entity/{uri}" on:click={loadInteralLink}>
-          {favoriteLabel || title}
+          {favoriteLabel}
         </a>
       </h2>
       <p class="type">{I18n(entity.type)}</p>
@@ -35,12 +39,12 @@
   </div>
 
   {#if !hasMonolingualTitle}
-    <LabelsEditor {entity} bind:favoriteLabel {favoriteLabelLang} />
+    <LabelsEditor {entity} bind:favoriteLabel />
   {/if}
 
   {#each Object.keys(typeProperties) as property}
     <PropertyClaimsEditor
-      {entity}
+      bind:entity
       {property}
     />
   {/each}
