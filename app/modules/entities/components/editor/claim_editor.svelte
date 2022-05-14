@@ -176,6 +176,9 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+  .wrapper:not(:last-child){
+    margin-bottom: 0.5em;
+  }
   .value{
     @include display-flex(row, center, center);
     &:not(:last-child){
