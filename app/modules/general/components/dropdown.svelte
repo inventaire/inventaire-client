@@ -1,7 +1,7 @@
 <script>
   export let buttonTitle, align = null
 
-  let showDropdown = false
+  let showDropdown = false, positionned = false
   let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft
 
   function onButtonClick () {
@@ -22,6 +22,7 @@
       const dropdownRect = dropdown.getBoundingClientRect()
       dropdownPositionLeft = (buttonRect.width / 2) - (dropdownRect.width / 2)
     }
+    positionned = true
   }
   function onOutsideClick () {
     showDropdown = false
@@ -44,16 +45,19 @@
     >
     <slot name="button-inner" />
   </button>
-  <div
-    class="dropdown-content"
-    bind:this={dropdown}
-    class:show={showDropdown}
-    style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
-    style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
-    role="menu"
-    >
-    <slot name="dropdown-content" />
-  </div>
+  {#if showDropdown}
+    <div
+      class="dropdown-content"
+      bind:this={dropdown}
+      class:show={showDropdown}
+      style:visibility={positionned ? 'visible' : 'hidden'}
+      style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
+      style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
+      role="menu"
+      >
+      <slot name="dropdown-content" />
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -66,8 +70,5 @@
     top: 100%;
     z-index: 1;
     white-space: nowrap;
-    &:not(.show){
-      display: none;
-    }
   }
 </style>
