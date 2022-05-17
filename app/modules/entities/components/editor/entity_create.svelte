@@ -78,10 +78,10 @@
 
 <div class="column">
   {#if canChangeType}
-    <h2>{I18n('Create a new entity')}</h2>
+    <h2>{I18n('create a new entity')}</h2>
     <EntityTypePicker bind:type />
   {:else if type === 'edition'}
-    <h2>{I18n('Create a new edition')}</h2>
+    <h2>{I18n('create a new edition')}</h2>
   {/if}
 
   {#if type}
