@@ -1,0 +1,18 @@
+@import '#general/scss/utils';
+
+.tip{
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+  padding: 0.4em 0.6em;
+  padding-left: 0.6em;
+  color: #666;
+  background-color: #eee;
+  :global(a){
+    text-decoration: underline;
+  }
+}

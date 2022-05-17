@@ -31,12 +31,9 @@ const work = {
   // 'wdt:P1680': {} # subtitle (using P407 lang)
   // 'wdt:P840': {} # narrative location
   // 'wdt:P674': {} # characters
-
-  // Reverse properties
-  'wdt:P747': { customLabel: 'editions' } // editions (inverse of wdt:P629)
 }
 
-export default {
+export const propertiesPerType = {
   work,
   edition: {
     'wdt:P629': {}, // edition or translation of
@@ -94,4 +91,9 @@ export default {
     'wdt:P856': {}, // official website
     ...socialNetworks,
   }
+}
+
+export const requiredPropertiesPerType = {
+  edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P407' ],
+  collection: [ 'wdt:P1476', 'wdt:P123' ]
 }

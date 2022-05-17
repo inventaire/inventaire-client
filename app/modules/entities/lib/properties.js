@@ -1,3 +1,5 @@
+import { entityTypeNameByType } from '#entities/lib/types/entities_types'
+
 const properties = {}
 export default properties
 
@@ -11,7 +13,14 @@ const addProp = (
   multivalue = true,
   allowEntityCreation = false
 ) => {
-  properties[property] = { editorType, searchType, property, multivalue, allowEntityCreation }
+  properties[property] = {
+    editorType,
+    searchType,
+    property,
+    multivalue,
+    allowEntityCreation,
+    entityTypeName: entityTypeNameByType[searchType]
+  }
 }
 
 // Keep in sync with app/modules/entities/lib/editor/properties_per_type.js
@@ -108,4 +117,4 @@ addProp('wdt:P3035', 'string', null, true, null)
 
 // # all
 // official website
-addProp('wdt:P856', 'string', null, false, null)
+addProp('wdt:P856', 'url', null, false, null)

@@ -111,7 +111,7 @@ const aliasRedirects = function (entities, redirects) {
 }
 
 // Used when an entity is created locally and needs to be added to the index
-export const addModel = function (entityModel) {
+export function addModel (entityModel) {
   const uri = entityModel.get('uri')
   entitiesModelsIndexedByUri[uri] = entityModel
   return entityModel

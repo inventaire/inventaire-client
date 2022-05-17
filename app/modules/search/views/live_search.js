@@ -173,7 +173,11 @@ export default Marionette.CollectionView.extend({
       // the results that weren't returned in the previous query, whatever there place
       // in the newly returned results
       const searchLimit = searchBatchLength + this._searchOffset
-      const { results } = await preq.get(app.API.search(types, search, searchLimit))
+      const { results } = await preq.get(app.API.search({
+        types,
+        search,
+        limit: searchLimit,
+      }))
       return results
     }
   },
@@ -298,7 +302,7 @@ export default Marionette.CollectionView.extend({
       if (this._lastSelected?.category === 'entity' && this._lastSelected?.name !== 'all') {
         type = typesBySection.entity[this._lastSelected.name]
       }
-      app.execute('show:entity:create', { label: this._lastSearch, type, allowToChangeType: true })
+      app.execute('show:entity:create', { label: this._lastSearch, type })
     }
   },
 

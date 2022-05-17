@@ -14,8 +14,11 @@ export const isUrl = url => {
     if (!(protocol === 'http:' || protocol === 'https:')) return false
     if (username !== '' || password !== '') return false
   } catch (err) {
-    if (err.code === 'ERR_INVALID_URL') return false
-    else throw err
+    // On the server, only err.code === 'ERR_INVALID_URL' returns false
+    // and other errors are rethrown, but in the browser
+    // err.code might be inconsistent
+    // Ex: in Firefox 97, the error is "TypeError: URL constructor: bla is not a valid URL."
+    return false
   }
   return true
 }
@@ -41,6 +44,11 @@ export function isExtendedEntityUri (uri) {
   return isNonEmptyString(prefix) && isNonEmptyString(id)
 }
 
+export const isWikidataItemId = bindedTest('WikidataItemId')
+export const isWikidataPropertyId = bindedTest('WikidataPropertyId')
+export const isWikidataItemUri = bindedTest('WikidataItemUri')
+export const isWikidataPropertyUri = bindedTest('WikidataPropertyUri')
+
 export const isNonNull = obj => obj != null
 
 export const isNonEmptyArray = array => _.isArray(array) && (array.length > 0)
@@ -59,3 +67,7 @@ export const isDateString = dateString => {
   if ((dateString == null) || (typeof dateString !== 'string')) return false
   return /^-?\d{4}(-\d{2})?(-\d{2})?$/.test(dateString)
 }
+
+// As Svelte components are the only known users of CustomEvent
+// in the stack, it doesn't not need to be more specific than that for now
+export const isComponentEvent = obj => obj instanceof CustomEvent

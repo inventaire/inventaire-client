@@ -1,22 +1,24 @@
 import { isEntityUri } from '#lib/boolean_tests'
 import entityValue from '#general/views/behaviors/templates/entity_value.hbs'
 import propertyValue from '#general/views/behaviors/templates/property_value.hbs'
-import wdk from '#lib/wikidata-sdk'
 import error_ from '#lib/error'
 import Handlebars from 'handlebars/runtime'
+import { isWikidataItemId, isWikidataPropertyId, isWikidataPropertyUri } from '../boolean_tests'
 const { SafeString, escapeExpression } = Handlebars
 
 export const prop = function (uri) {
   // Be more restrictive on the input to be able to use it in SafeStrings
-  if (/^wdt:P\d+$/.test(uri)) {
+  if (isWikidataPropertyUri(uri)) {
     return propertyValue({ uri })
-  } else if (wdk.isWikidataPropertyId(uri)) { return propertyValue({ uri: `wdt:${uri}` }) }
+  } else if (isWikidataPropertyId(uri)) {
+    return propertyValue({ uri: `wdt:${uri}` })
+  }
 }
 
 export const entity = function (uri, entityLink, alt, property, title) {
   // Be restricting on the input to be able to use it in SafeStrings
   let pathname
-  if (!wdk.isWikidataItemId(uri) && !isEntityUri(uri)) {
+  if (!isWikidataItemId(uri) && !isEntityUri(uri)) {
     throw error_.new('invalid entity uri', 500, { uri })
   }
 

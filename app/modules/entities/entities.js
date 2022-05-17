@@ -5,11 +5,11 @@ import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
 import error_ from '#lib/error'
-import entityDraftModel from './lib/entity_draft_model.js'
 import * as entitiesModelsIndex from './lib/entities_models_index.js'
 import getEntityViewByType from './lib/get_entity_view_by_type.js'
 import { getEntityByUri, normalizeUri } from './lib/entities.js'
 import showHomonyms from './lib/show_homonyms.js'
+import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 
 export default {
   initialize () {
@@ -19,6 +19,7 @@ export default {
         'entity/changes(/)': 'showChanges',
         'entity/contributions(/)': 'showContributions',
         'entity/deduplicate(/authors)(/)': 'showDeduplicateAuthors',
+        'entity/merge(/)': 'showEntityMerge',
         'entity/:uri/add(/)': 'showAddEntity',
         'entity/:uri/edit(/)': 'showEditEntityFromUri',
         'entity/:uri/cleanup(/)': 'showEntityCleanup',
@@ -83,10 +84,7 @@ const API = {
   showEntityCreateFromRoute () {
     if (app.request('require:loggedIn', 'entity/new')) {
       const params = app.request('querystring:get:all')
-      if (params.allowToChangeType == null && !params.next) {
-        params.allowToChangeType = true
-      }
-      return showEntityCreate(params)
+      showEntityCreate(params)
     }
   },
 
@@ -199,25 +197,37 @@ const API = {
     } catch (err) {
       app.execute('show:error', err)
     }
-  }
+  },
+
+  async showEntityMerge () {
+    const { from, to, type } = app.request('querystring:get:all')
+    app.execute('show:loader')
+    const { default: EntityMerge } = await import('./components/entity_merge.svelte')
+    app.layout.getRegion('main').showSvelteComponent(EntityMerge, {
+      props: { from, to, type }
+    })
+  },
 }
 
 const showEntityCreate = async params => {
+  const path = 'entity/new'
+  if (!app.request('require:loggedIn', path)) return
+  app.navigate(path)
+
   // Drop possible type pluralization
   params.type = params.type?.replace(/s$/, '')
 
   // Known case: when clicking 'create' while live search section is 'subject'
-  if (!entityDraftModel.allowlistedTypes.includes(params.type)) {
+  if (entityTypeNameBySingularType[params.type] == null) {
     params.type = null
   }
+  if (params.type) app.execute('querystring:set', 'type', params.type)
+  if (params.claims) app.execute('querystring:set', 'claims', params.claims)
 
-  if ((params.type != null) && !params.allowToChangeType) {
-    params.model = entityDraftModel.create(params)
-    return showEntityEdit(params)
-  } else {
-    const { default: EntityCreate } = await import('./views/editor/entity_create')
-    app.layout.showChildView('main', new EntityCreate(params))
-  }
+  const { default: EntityCreate } = await import('./components/editor/entity_create.svelte')
+  app.layout.getRegion('main').showSvelteComponent(EntityCreate, {
+    props: params
+  })
 }
 
 const setHandlers = function () {
@@ -254,13 +264,15 @@ const setHandlers = function () {
       // Uses API.showEditEntityFromUri the fetch fresh entity data
       return API.showEditEntityFromUri(model.get('uri'))
     },
-    'show:entity:edit:from:params': showEntityEdit,
     'show:entity:create': showEntityCreate,
     'show:entity:cleanup': API.showEntityCleanup,
     'show:entity:history': API.showEntityHistory,
     'show:homonyms': showHomonyms,
     'report:entity:type:issue': reportTypeIssue,
-    'show:wikidata:edit:intro:modal': showWikidataEditIntroModal
+    'show:wikidata:edit:intro:modal': async uri => {
+      const model = await app.request('get:entity:model', uri)
+      showWikidataEditIntroModal(model)
+    }
   })
 
   app.reqres.setHandlers({
@@ -298,26 +310,23 @@ const getEntityModel = async (uri, refresh) => {
   } else {
     // See getEntitiesModels "Possible reasons for missing entities"
     log_.info(`getEntityModel entity_not_found: ${uri}`)
-    throw error_.new('entity_not_found', [ uri, model ])
+    const err = error_.new('entity_not_found', [ uri, model ])
+    err.code = 'entity_not_found'
+    throw err
   }
 }
 
 const getEntityLocalHref = uri => `/entity/${uri}`
 
 const showEntityEdit = async params => {
-  const { model, layout, regionName } = params
+  const { model } = params
   if (model.type == null) throw error_.new('invalid entity type', model)
-  let View
-  if (params.next != null || params.previous != null) {
-    ({ default: View } = await import('./views/editor/multi_entity_edit'))
-  } else {
-    ({ default: View } = await import('./views/editor/entity_edit'))
-  }
-  if (layout && regionName) {
-    layout.showChildView(regionName, new View(params))
-  } else {
-    app.layout.showChildView('main', new View(params))
-  }
+  const { default: EntityEdit } = await import('./components/editor/entity_edit.svelte')
+  app.layout.getRegion('main').showSvelteComponent(EntityEdit, {
+    props: {
+      entity: model.toJSON()
+    }
+  })
   app.navigateFromModel(model, 'edit')
 }
 
@@ -363,30 +372,22 @@ const handleMissingEntity = (uri, err) => {
   }
 }
 
-const showEntityCreateFromIsbn = isbn => {
-  return preq.get(app.API.data.isbn(isbn))
-  .then(isbnData => {
-    const { isbn13h, groupLangUri } = isbnData
-    const claims = { 'wdt:P212': [ isbn13h ] }
-    // TODO: try to deduce publisher from ISBN publisher section
-    if (isEntityUri(groupLangUri)) claims['wdt:P407'] = [ groupLangUri ]
+const showEntityCreateFromIsbn = async isbn => {
+  const isbnData = await preq.get(app.API.data.isbn(isbn))
 
-    // Start by requesting the creation of a work entity
-    return showEntityCreate({
-      fromIsbn: isbn,
-      type: 'work',
-      // on which will be based an edition entity
-      next: {
-        // The work entity should be used as 'edition of' value
-        relation: 'wdt:P629',
-        // The work label should be used as edition title suggestion
-        labelTransfer: 'wdt:P1476',
-        type: 'edition',
-        claims
-      }
-    })
+  const { isbn13h, groupLangUri } = isbnData
+  const claims = { 'wdt:P212': [ isbn13h ] }
+  if (isEntityUri(groupLangUri)) {
+    claims['wdt:P407'] = [ groupLangUri ]
+  }
+
+  const { default: EntityCreateEditionAndWorkFromIsbn } = await import('./components/editor/entity_create_edition_and_work_from_isbn.svelte')
+  app.layout.getRegion('main').showSvelteComponent(EntityCreateEditionAndWorkFromIsbn, {
+    props: {
+      isbn13h,
+      edition: { claims }
+    }
   })
-  .catch(err => app.execute('show:error:other', err, 'showEntityCreateFromIsbn'))
 }
 
 // Create from the seed data we have, if the entity isn't known yet

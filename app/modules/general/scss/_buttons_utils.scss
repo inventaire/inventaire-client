@@ -54,4 +54,19 @@ $default-button-padding: 1em;
   @include custom-button($color);
   @include radius;
   font-weight: bold;
+  &:disabled{
+    opacity: 0.8;
+  }
+}
+
+@mixin shy-button-label(){
+  span{
+    display: none;
+    @include transition(display);
+  }
+  &:hover, &:focus{
+    span{
+      display: inline;
+    }
+  }
 }

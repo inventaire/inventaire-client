@@ -101,6 +101,7 @@ body{
   // Display only on .standalone layouts
   display: none;
   text-align: center;
+  margin-top: 0;
   margin-bottom: 0.5em;
   font-weight: normal;
   color: $grey;
@@ -120,4 +121,10 @@ body{
   a{
     text-decoration: underline;
   }
+}
+
+// Useful for display states in Svelte components, with for example:
+// <pre>{JSON.stringify(obj, null, 2)}</pre>
+pre{
+  font-family: monospace;
 }

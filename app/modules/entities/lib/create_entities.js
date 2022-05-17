@@ -7,42 +7,38 @@ import createEntity from './create_entity.js'
 import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import graphRelationsProperties from './graph_relations_properties.js'
 import getOriginalLang from '#entities/lib/get_original_lang'
-import { tap } from '#lib/promises'
+import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 
-const createWorkEdition = async function (workEntity, isbn) {
+export const createWorkEdition = async function (workEntity, isbn) {
   assert_.types(arguments, [ 'object', 'string' ])
 
-  return getIsbnData(isbn)
-  .then(isbnData => {
-    let { title, groupLang: editionLang } = isbnData
-    log_.info(title, 'title from isbn data')
-    if (!title) title = getTitleFromWork(workEntity, editionLang)
-    log_.info(title, 'title after work suggestion')
+  const isbnData = await getIsbnData(isbn)
+  let { title, groupLang: editionLang } = isbnData
+  log_.info(title, 'title from isbn data')
+  if (!title) title = getTitleFromWork(workEntity, editionLang)
+  log_.info(title, 'title after work suggestion')
 
-    if (title == null) throw error_.new('no title could be found', isbn)
+  if (title == null) throw error_.new('no title could be found', isbn)
 
-    const claims = {
-      // instance of (P31) -> edition (Q3331189)
-      'wdt:P31': [ 'wd:Q3331189' ],
-      // isbn 13 (isbn 10 - if it exist - will be added by the server)
-      'wdt:P212': [ isbnData.isbn13h ],
-      // edition or translation of (P629) -> created book
-      'wdt:P629': [ workEntity.get('uri') ],
-      'wdt:P1476': [ title ]
-    }
+  const claims = {
+    // instance of (P31) -> edition (Q3331189)
+    'wdt:P31': [ 'wd:Q3331189' ],
+    // isbn 13 (isbn 10 - if it exist - will be added by the server)
+    'wdt:P212': [ isbnData.isbn13h ],
+    // edition or translation of (P629) -> created book
+    'wdt:P629': [ workEntity.get('uri') ],
+    'wdt:P1476': [ title ]
+  }
 
-    if (isbnData.image != null) {
-      claims['invp:P2'] = [ isbnData.image ]
-    }
+  if (isbnData.image != null) {
+    claims['invp:P2'] = [ isbnData.image ]
+  }
 
-    return createAndGetEntity({ labels: {}, claims })
-    .then(editionEntity => {
-      // If work editions have been fetched, add it to the list
-      workEntity.editions?.add(editionEntity)
-      workEntity.push('claims.wdt:P747', editionEntity.get('uri'))
-      return editionEntity
-    })
-  })
+  const editionEntity = await createAndGetEntityModel({ labels: {}, claims })
+  // If work editions have been fetched, add it to the list
+  workEntity.editions?.add(editionEntity)
+  workEntity.push('claims.wdt:P747', editionEntity.get('uri'))
+  return editionEntity
 }
 
 const getTitleFromWork = function (workEntity, editionLang) {
@@ -62,8 +58,8 @@ const getTitleFromWork = function (workEntity, editionLang) {
   return workEntity.get('labels')[0]
 }
 
-const byProperty = async function (options) {
-  let { property, name, relationEntity, createOnWikidata, lang } = options
+export const createByProperty = async function (options) {
+  let { property, name, relationSubjectEntity, createOnWikidata, lang } = options
   if (!lang) lang = app.user.lang
 
   const wdtP31 = subjectEntityP31ByProperty[property]
@@ -82,17 +78,17 @@ const byProperty = async function (options) {
   }
 
   if (property === 'wdt:P179') {
-    claims['wdt:P50'] = relationEntity.get('claims.wdt:P50')
+    claims['wdt:P50'] = relationSubjectEntity.claims['wdt:P50']
   }
 
   if (property === 'wdt:P195') {
-    claims['wdt:P123'] = relationEntity.get('claims.wdt:P123')
+    claims['wdt:P123'] = relationSubjectEntity.claims['wdt:P123']
     if (claims['wdt:P123'] == null) {
       throw error_.new('a publisher should be set before creating a collection', options)
     }
   }
 
-  return createAndGetEntity({ labels, claims, createOnWikidata })
+  return createAndGetEntityModel({ labels, claims, createOnWikidata })
 }
 
 const subjectEntityP31ByProperty = {
@@ -111,16 +107,29 @@ const subjectEntityP31ByProperty = {
   'wdt:P195': 'wd:Q20655472'
 }
 
-const createAndGetEntity = function (params) {
+export async function createAndGetEntityModel (params) {
   const { claims } = params
-  return createEntity(params)
-  .then(tap(triggerEntityGraphChangesEvents(claims)))
-  .then(entityData => new Entity(entityData))
+  cleanupClaims(claims)
+  const entityData = await createEntity(params)
+  triggerEntityGraphChangesEvents(claims)
+  const model = new Entity(entityData)
   // Update the local cache
-  .then(tap(addEntityModel))
+  addEntityModel(model)
+  return model
 }
 
-const triggerEntityGraphChangesEvents = claims => function () {
+function cleanupClaims (claims) {
+  for (const [ property, propertyClaims ] of Object.entries(claims)) {
+    claims[property] = propertyClaims.filter(isNonEmptyClaimValue)
+  }
+}
+
+export async function createAndGetEntity (params) {
+  const model = await createAndGetEntityModel(params)
+  return model.toJSON()
+}
+
+const triggerEntityGraphChangesEvents = claims => {
   for (const prop in claims) {
     const values = claims[prop]
     if (graphRelationsProperties.includes(prop)) {
@@ -130,5 +139,3 @@ const triggerEntityGraphChangesEvents = claims => function () {
     }
   }
 }
-
-export { createAndGetEntity as create, createWorkEdition, byProperty }

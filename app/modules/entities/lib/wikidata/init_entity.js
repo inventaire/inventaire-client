@@ -1,5 +1,6 @@
 import { getTextDirection } from '#lib/active_languages'
 import { isNonEmptyString } from '#lib/boolean_tests'
+import { buildPath } from '#lib/location'
 import log_ from '#lib/loggers'
 import sitelinks_ from '#lib/wikimedia/sitelinks'
 import wikipedia_ from '#lib/wikimedia/wikipedia'
@@ -21,8 +22,9 @@ const setWikiLinks = function (lang) {
     wikidata: {
       url: `${wdHost}/entity/${this.wikidataId}`,
       wiki: `${wdHost}/wiki/${this.wikidataId}`,
-      history: `${wdHost}/w/index.php?title=${this.wikidataId}&action=history`
-    }
+      history: `${wdHost}/w/index.php?title=${this.wikidataId}&action=history`,
+      merge: buildPath(`${wdHost}/wiki/Special:MergeItems`, { fromid: this.wikidataId }),
+    },
   }
 
   // Alias on the root, as some views expect to find a history url there

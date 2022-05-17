@@ -1,9 +1,15 @@
 import preq from '#lib/preq'
+import { entityTypeNameByType } from '#entities/lib/types/entities_types'
+const allSearchableTypes = Object.keys(entityTypeNameByType)
 
-// This endpoint might return different results from one call to the next,
-// making pagination suboptimal, thus this hack of calling more results
-// instead of setting an offset
-export default type => async (search, limit = 10, offset = 0) => {
-  const { results } = await preq.get(app.API.search(type, search, offset + limit))
-  return results
+export default function (types) {
+  types = types || allSearchableTypes
+  return async function (search, limit, offset) {
+    return preq.get(app.API.search({
+      types,
+      search,
+      limit,
+      offset,
+    }))
+  }
 }

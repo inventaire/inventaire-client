@@ -60,6 +60,9 @@ button{
   background-color: inherit;
   cursor: pointer;
   @include radius;
+  &.disabled, &:disabled{
+    cursor: not-allowed;
+  }
 }
 
 .tiny-button{
@@ -165,15 +168,7 @@ div.icon-buttons-header{
 }
 
 .shy-label{
-  span{
-    display: none;
-    @include transition(display);
-  }
-  &:hover, &:focus{
-    span{
-      display: inline;
-    }
-  }
+  @include shy-button-label;
   &.tiny-button{
     .fa{
       // centering

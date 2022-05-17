@@ -10,6 +10,11 @@ export const LocalImg = /^\/img\/(entities|groups|users)\/[0-9a-f]{40}$/
 export const AssetImg = /^\/img\/assets\/\w/
 export const UserImg = /^\/img\/users\/[0-9a-f]{40}$/
 export const Username = /^[\p{Letter}\p{Number}_]{2,20}$/u
-export const EntityUri = /^(wd:Q\d+|inv:[0-9a-f]{32}|isbn:\w{10}(\w{3})?)$/
-export const PropertyUri = /^(wdt|invp):P\d+$/
 export const SimpleDay = /^-?([1-9]{1}[0-9]{0,3}|0)(-\d{2})?(-\d{2})?$/
+
+export const EntityUri = /^(wd:Q[1-9]\d*|inv:[0-9a-f]{32}|isbn:\w{10}(\w{3})?)$/
+export const PropertyUri = /^(wdt|invp):P[1-9]\d*$/
+export const WikidataItemUri = /^wd:Q[1-9]\d*$/
+export const WikidataPropertyUri = /^wdt:P[1-9]\d*$/
+export const WikidataItemId = /^Q[1-9]\d*$/
+export const WikidataPropertyId = /^P[1-9]\d*$/

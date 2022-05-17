@@ -1,28 +1,11 @@
 import { I18n } from '#user/lib/i18n'
 import editableEntity from './inv/editable_entity.js'
-import { create as createEntity } from './create_entities.js'
-import properties from './properties.js'
+import { createAndGetEntityModel } from './create_entities.js'
 import Entity from '../models/entity.js'
 import { buildPath } from '#lib/location'
 import { asyncNoop } from '#lib/utils'
-
-const typeDefaultP31 = {
-  human: 'wd:Q5',
-  work: 'wd:Q47461344',
-  serie: 'wd:Q277759',
-  edition: 'wd:Q3331189',
-  publisher: 'wd:Q2085381',
-  collection: 'wd:Q20655472'
-}
-
-const propertiesShortlists = {
-  human: [ 'wdt:P1412' ],
-  work: [ 'wdt:P50' ],
-  serie: [ 'wdt:P50' ],
-  edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P1680', 'wdt:P123', 'invp:P2', 'wdt:P407', 'wdt:P577' ],
-  publisher: [ 'wdt:P856', 'wdt:P112', 'wdt:P571', 'wdt:P576' ],
-  collection: [ 'wdt:P1476', 'wdt:P123', 'wdt:P856' ]
-}
+import { typeDefaultP31 } from '#entities/lib/types/entities_types'
+import { getPropertiesShortlist } from '#entities/components/editor/lib/create_helpers'
 
 const hasMonolingualTitle = [
   'collection'
@@ -71,7 +54,7 @@ export default {
       invalidateRelationsCache: _.noop,
       saveLabel: asyncNoop,
       create () {
-        return createEntity({
+        return createAndGetEntityModel({
           labels: this.get('labels'),
           claims: this.get('claims')
         })
@@ -93,28 +76,4 @@ export default {
   },
 
   allowlistedTypes: Object.keys(typeDefaultP31)
-}
-
-const getPropertiesShortlist = function (type, claims) {
-  const typeShortlist = propertiesShortlists[type]
-  if (typeShortlist == null) return null
-
-  const claimsProperties = Object.keys(claims).filter(nonFixedEditor)
-  const propertiesShortlist = propertiesShortlists[type].concat(claimsProperties)
-  // If a serie was passed in the claims, invite to add an ordinal
-  if (claimsProperties.includes('wdt:P179')) propertiesShortlist.push('wdt:P1545')
-
-  return propertiesShortlist
-}
-
-const nonFixedEditor = function (prop) {
-  // Testing properties[prop] existance as some properties don't
-  // have an editor. Ex: wdt:P31
-  const editorType = properties[prop]?.editorType
-  if (!editorType) return false
-
-  // Filter-out fixed editor: 'fixed-entity', 'fixed-string'
-  if (editorType.split('-')[0] === 'fixed') return false
-
-  return true
 }
