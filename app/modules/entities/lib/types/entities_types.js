@@ -1,3 +1,5 @@
+import { without } from 'underscore'
+
 export const entityTypeNameByType = {
   editions: 'edition',
   works: 'work',
@@ -43,3 +45,5 @@ export const typeDefaultP31 = {
   publisher: 'wd:Q2085381',
   collection: 'wd:Q20655472'
 }
+
+export const allSearchableTypes = without(Object.keys(entityTypeNameByType), 'editions')
