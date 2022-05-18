@@ -1,5 +1,5 @@
 export const entityTypeNameByType = {
-  edition: 'edition',
+  editions: 'edition',
   works: 'work',
   series: 'serie',
   humans: 'author',
