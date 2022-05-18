@@ -26,6 +26,7 @@ export const typesPossessiveForms = {
 }
 
 export function pluralize (type) {
+  if (!type) return
   if (type.slice(-1)[0] !== 's') type += 's'
   return type
 }

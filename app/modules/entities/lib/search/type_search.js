@@ -9,6 +9,7 @@ const wikidataSearch = _wikidataSearch(true)
 
 export default async function (type, input, limit, offset) {
   const uri = getEntityUri(input)
+  type = pluralize(type)
 
   if (uri != null) {
     const res = await searchByEntityUri(uri, type)
@@ -18,7 +19,6 @@ export default async function (type, input, limit, offset) {
   }
 
   if (type) {
-    type = pluralize(type)
     if (type === 'subjects') return wikidataSearch(input, limit, offset)
     if (type === 'languages') return languageSearch(input, limit, offset)
     return searchType(type)(input, limit, offset)
@@ -38,11 +38,11 @@ async function searchByEntityUri (uri, type) {
 
   if (model == null) return
 
-  const pluarlizedType = (model.type != null) ? model.type + 's' : undefined
+  const pluarlizedModelType = (model.type != null) ? model.type + 's' : undefined
   // The type subjects accepts any type, as any entity can be a topic
   // Known issue: languages entities aren't attributed a type by the server
   // thus thtowing an error here even if legit, prefer 2 letters language codes
-  if ((pluarlizedType === type) || (type === 'subjects')) {
+  if ((pluarlizedModelType === type) || (type === 'subjects')) {
     return {
       results: [
         prepareSearchResult(model).toJSON()
