@@ -21,11 +21,11 @@
   const userLang = app.user.lang
   const languages = getLangsData(userLang, labels)
   const bestLangData = getBestLangValue(userLang, null, labels)
-  let currentLang = bestLangData.lang
+  let currentLang = bestLangData.lang || userLang
 
   let currentValue
   $: {
-    currentValue = labels[currentLang] || userLang
+    currentValue = labels[currentLang]
     if (currentValue == null) editMode = true
     if (favoriteLabelLang === currentLang) {
       favoriteLabel = currentValue
