@@ -148,7 +148,7 @@
     }
   }
 
-  $: if (searchText === '') showDefaultSuggestions()
+  $: if (relationProperty && searchText === '') showDefaultSuggestions()
 </script>
 
 <div class="input-group">
