@@ -50,6 +50,7 @@
     padding: 0.5em;
     margin: 0.3em 0;
     padding-left: 0.5em;
+    color: $dark-grey;
     @include radius;
     button{
       margin: 0.2em;
