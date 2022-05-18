@@ -7,6 +7,7 @@
   import { checkWikidataMoveabilityStatus, moveToWikidata } from '#entities/lib/move_to_wikidata'
   import Flash from '#lib/components/flash.svelte'
   import preq from '#lib/preq'
+  import Spinner from '#components/spinner.svelte'
 
   export let entity
 
@@ -16,13 +17,15 @@
   const wikidataUrl = getWikidataUrl(uri)
   const { ok: canBeMovedToWikidata, reason: moveabilityStatus } = checkWikidataMoveabilityStatus(entity)
   const canBeDeleted = invUri != null
+  let waitForWikidataMove
 
   async function _moveToWikidata () {
     try {
       if (!app.user.hasWikidataOauthTokens()) {
         return app.execute('show:wikidata:edit:intro:modal', uri)
       }
-      await moveToWikidata(uri)
+      waitForWikidataMove = moveToWikidata(uri)
+      await waitForWikidataMove
       // This should now redirect us to the new Wikidata edit page
       app.execute('show:entity:edit', uri)
     } catch (err) {
@@ -108,7 +111,11 @@
             title={moveabilityStatus}
             on:click={_moveToWikidata}
             >
-            {@html icon('wikidata')}
+            {#await waitForWikidataMove}
+              <Spinner />
+            {:then}
+              {@html icon('wikidata')}
+            {/await}
             {I18n('move to Wikidata')}
           </button>
         </li>
@@ -150,6 +157,11 @@
     :global(.dropdown-button){
       @include big-button($grey);
       padding: 0.8rem;
+    }
+    :global(.small-spinner){
+      // Aligning with other icons
+      margin-left: -4px;
+      margin-right: 3px;
     }
   }
   [slot="button-inner"]{
