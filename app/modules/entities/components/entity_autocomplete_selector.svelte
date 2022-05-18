@@ -244,7 +244,7 @@
     }
     background-color: white;
     @include display-flex(column, center, center);
-    @include shy-border(0.9);
+    @include shy-border(0.5);
     overflow: hidden;
   }
   .suggestions-wrapper{
@@ -284,5 +284,6 @@
   }
   .no-result{
     text-align: center;
+    padding: 0.5em;
   }
 </style>
