@@ -14,7 +14,7 @@
   export let editionTitle
   export let withEditor = false
 
-  const rawIsbn = isbnData?.rawIsbn
+  const isbn13h = isbnData?.isbn13h
   let work, editionLang
   if (works && works.length > 0) work = works[0]
 
@@ -78,9 +78,9 @@
       {/if}
     </div>
     <div class="isbn">
-      {#if rawIsbn}
+      {#if isbn13h}
         <span class="label">ISBN:</span>
-        {rawIsbn}
+        {isbn13h}
         {#if edition}
           <EntityLogo entity="{edition}"/>
         {/if}
