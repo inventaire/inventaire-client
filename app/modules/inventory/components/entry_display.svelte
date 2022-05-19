@@ -113,4 +113,11 @@
     font-size: 90%;
     margin-right: 0.5em;
   }
+
+  /*Large screens*/
+  @media screen and (min-width: 800px) {
+    .authors{
+      @include display-flex(row, center, flex-start);
+    }
+  }
 </style>
