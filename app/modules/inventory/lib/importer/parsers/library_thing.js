@@ -1,4 +1,5 @@
-import { isPositiveIntegerString, isNonNull, isDateString } from '#lib/boolean_tests'
+import { isPositiveIntegerString, isDateString } from '#lib/boolean_tests'
+import { forceArray } from '#lib/utils'
 
 import decodeHtmlEntities from './decode_html_entities.js'
 
@@ -19,13 +20,8 @@ export default obj => ({
 })
 
 const getAuthorsString = function (obj) {
-  const { authors } = obj
-  if (!_.isArray(authors) || (authors.length <= 0)) return
-
-  return authors
-  .map(_.property('fl'))
-  .filter(isNonNull)
-  .map(decodeHtmlEntities)
+  // TODO: parse obj.authors and assign `secondaryauthorroles`
+  return forceArray(decodeHtmlEntities(obj.primaryauthor))
 }
 
 const getIsbn = function (obj) {
