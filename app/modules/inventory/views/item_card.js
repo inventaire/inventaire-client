@@ -38,7 +38,7 @@ export default ItemItemView.extend({
   events: {
     'click button.transaction': 'updateTransaction',
     'click button.listing': 'updateListing',
-    'click a.itemShow': 'itemShow',
+    'click button.itemShow': 'itemShow',
     'click a.user': 'showUser',
     'click a.showUser': 'showUser',
     'click .requestItem' () { app.execute('show:item:request', this.model) }
