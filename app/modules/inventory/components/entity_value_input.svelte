@@ -23,9 +23,6 @@
 </span>
 <style lang="scss">
   @import '#modules/general/scss/utils';
-  .editor-row{
-    @include display-flex(row, center);
-  }
   .label{
     display: inline;
     color: $grey;
@@ -33,6 +30,15 @@
     margin-right: 0.5em;
   }
   .custom-input{
-    margin: 0.5em 0;
+    margin: 0 0 0.5em 0;
+  }
+  /*Large screens*/
+  @media screen and (min-width: 800px) {
+    .editor-row{
+      @include display-flex(row, center);
+    }
+    .custom-input{
+      margin: 0.5em 0;
+    }
   }
 </style>
