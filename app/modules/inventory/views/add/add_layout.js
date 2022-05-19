@@ -80,8 +80,9 @@ export default Marionette.View.extend({
   changeTab (e) {
     const tab = e.currentTarget.id.split('Tab')[0]
     this.showTabView(tab)
-    if (screen_.isSmall()) {
-      screen_.scrollTop(this.getRegion('content').$el)
+    const contentEl = this.getRegion('content').$el
+    if (screen_.isSmall() && contentEl.position()) {
+      screen_.scrollTop(contentEl)
     }
   }
 })
