@@ -154,6 +154,7 @@
 <div class="input-group">
   <div class="input-wrapper">
     <input type="text"
+      on:click|stopPropagation
       bind:value={currentEntityLabel}
       on:keyup={onInputKeyup}
       on:focus={lazySearch}
@@ -187,7 +188,9 @@
         {/await}
       </div>
       <div class="controls">
-        <button class="close" on:click={close}>
+        <button class="close"
+          on:click|stopPropagation={close}
+        >
           {@html icon('close')}
           {I18n('close')}
         </button>

@@ -42,7 +42,7 @@
     <button
       class="unselect"
       title={I18n('unselect')}
-      on:click={() => uri = null}
+      on:click|stopPropagation={() => uri = null}
     >
       {@html icon('close')}
     </button>
