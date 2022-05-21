@@ -4,7 +4,6 @@
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import EntityLogo from '#inventory/components/entity_source_logo.svelte'
-  import EntityValueInput from '#inventory/components/entity_value_input.svelte'
   import EntityResolverInput from '#inventory/components/entity_resolver_input.svelte'
 
   export let isbnData
@@ -44,14 +43,17 @@
     <div class="work">
       {#if work}
         <span class="label">{I18n('title')}:</span>
-          <!-- Necessary span to look like <sup> (exponent) element -->
+        <!-- Necessary span to look like <sup> (exponent) element -->
         <span>
           {findBestLang(work, editionLang)}
           <EntityLogo entity="{work}"/>
         </span>
       {:else}
         {#if withEditor}
-          <EntityValueInput type='work' bind:inputName={editionTitle}/>
+          <EntityResolverInput
+            type="work"
+            label={editionTitle}
+          />
         {/if}
       {/if}
     </div>
