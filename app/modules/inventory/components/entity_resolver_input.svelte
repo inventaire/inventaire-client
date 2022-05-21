@@ -5,9 +5,9 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { I18n } from '#user/lib/i18n'
 
-  export let type, entity
+  export let type, entity = {}, label
 
-  const { label } = entity
+  label = entity?.label || label
   let currentEntityLabel = label
 
   let uri
@@ -28,8 +28,6 @@
   }
 
   $: if (valueBasicInfo) setInfo()
-
-  $: entity.label = currentEntityLabel
 </script>
 
 {#if uri && !editMode}
