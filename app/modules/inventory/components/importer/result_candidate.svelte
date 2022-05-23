@@ -17,7 +17,7 @@
     <EntryDisplay
       {isbnData}
       {edition}
-      {works}
+      work={works[0]}
       {authors}
       />
     <CandidateActions

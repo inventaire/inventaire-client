@@ -8,7 +8,9 @@
 
   const { isbnData, edition, works, error } = candidate
   let { editionTitle, authors, authorsNames } = candidate
-
+  let work
+  if (isNonEmptyArray(works)) work = works[0]
+  else work = { label: editionTitle }
   let existingItemsPathname
   let disabled, existingItemsCount
   const rawIsbn = isbnData?.rawIsbn
@@ -34,8 +36,8 @@
   }
 
   const hasImportedData = editionTitle || authorsNames
-  const noCandidateEntities = !isNonEmptyArray(works) || !isNonEmptyArray(authors)
-  const hasWorkWithoutAuthors = isNonEmptyArray(works) && !isNonEmptyArray(authors)
+  const noCandidateEntities = work.uri || !isNonEmptyArray(authors)
+  const hasWorkWithoutAuthors = work.uri && !isNonEmptyArray(authors)
   if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) addStatus(statusContents.newEntry)
   if (error) addStatus(statusContents.error)
   if (isbnData?.isInvalid) addStatus(statusContents.invalid)
@@ -47,13 +49,13 @@
   }
 
   $: {
-    if (!isNonEmptyArray(works) && !isNonEmptyString(editionTitle)) {
-      addStatus(statusContents.needInfo)
-      disabled = true
-    } else {
+    if (work.uri || isNonEmptyString(editionTitle)) {
       removeStatus(statusContents.needInfo)
       disabled = false
       candidate.checked = true
+    } else {
+      addStatus(statusContents.needInfo)
+      disabled = true
     }
   }
   $: {
@@ -77,6 +79,8 @@
   }
   $: checked = candidate.checked
   $: candidate.editionTitle = editionTitle
+  $: candidate.authors = authors
+  $: candidate.works = [ work ]
 </script>
 <li class="candidate-row" on:click="{toggleCheckbox}" class:checked>
   <div class="candidate-text">
@@ -84,7 +88,7 @@
       <EntryDisplay
         {isbnData}
         {edition}
-        {works}
+        bind:work
         {authorsNames}
         bind:authors
         bind:editionTitle
@@ -108,7 +112,11 @@
       </div>
     {/if}
   </div>
-  <input type="checkbox" bind:checked {disabled} name="{I18n('select_book')} {rawIsbn}">
+  <input type="checkbox"
+    bind:checked
+    {disabled}
+    name="{I18n('select_book')} {rawIsbn}"
+  >
 </li>
 <style lang="scss">
   @import '#general/scss/utils';
