@@ -8,14 +8,13 @@
 
   export let isbnData
   export let edition
-  export let works
+  export let work
   export let authors = []
   export let editionTitle
   export let withEditor = false
 
   const isbn13h = isbnData?.isbn13h
-  let work, editionLang
-  if (works && works.length > 0) work = works[0]
+  let editionLang, editableAuthors
 
   if (edition) {
     editionLang = getOriginalLang(edition.claims)
@@ -28,9 +27,6 @@
     if (!objectWithLabels || !objectWithLabels.labels) return
     return getBestLangValue(editionLang, null, objectWithLabels.labels).value
   }
-
-  // Do not display editor if a work exists, as it may be a book without author
-  const editableAuthors = (withEditor && !work)
 </script>
 
 <div class="entry-display">
