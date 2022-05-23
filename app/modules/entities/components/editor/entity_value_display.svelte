@@ -62,7 +62,7 @@
     padding: 0;
   }
   .image{
-    width: 3em;
+    flex: 0 0 3em;
     height: 3em;
     margin-right: 0.5em;
     background-size: cover;
