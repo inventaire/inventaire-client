@@ -3,7 +3,7 @@
     {{icon 'sign-out'}}
   </div>
 {{/if}}
-<a class="itemShow" href="{{pathname}}" rel="nofollow" tabindex="0">
+<a class="itemShow" href="{{pathname}}">
   <div class="cover">
     {{#if picture}}
       <img src="{{imgSrc picture 300}}" alt="{{title}}">
@@ -39,7 +39,7 @@
       <span class="details wrapped user-content">
         {{userContent details}}
         {{#if detailsMore}}
-          <button class='itemShow more'>{{i18n 'see more'}}</button>
+          <a class="itemShow more" href="{{pathname}}">{{i18n 'see more'}}</a>
         {{/if}}
       </span>
     </div>
