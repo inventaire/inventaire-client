@@ -33,7 +33,7 @@
   {:then}
     <div
       class="image"
-      style:background-image={image ? `url(${imgSrc(image.url, 64, 64)})` : ''}
+      style:background-image={image ? `url(${imgSrc(image.url, 64, 64)})` : 'none'}
     >
     </div>
     <div>
