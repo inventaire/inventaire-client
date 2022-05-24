@@ -1,6 +1,6 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
+  import { isNonEmptyString, isNonEmptyArray, isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { icon } from '#lib/utils'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
   export let candidate
@@ -36,8 +36,9 @@
   }
 
   const hasImportedData = editionTitle || authorsNames
-  const noCandidateEntities = work.uri || !isNonEmptyArray(authors)
+  const noCandidateEntities = !work.uri && !(authors && authors.every(_.property('uri')))
   const hasWorkWithoutAuthors = work.uri && !isNonEmptyArray(authors)
+  // TODO: remove newEntry status if work and authors both have entities uris
   if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) addStatus(statusContents.newEntry)
   if (error) addStatus(statusContents.error)
   if (isbnData?.isInvalid) addStatus(statusContents.invalid)
@@ -49,7 +50,7 @@
   }
 
   $: {
-    if (work.uri || isNonEmptyString(editionTitle)) {
+    if (isNonEmptyPlainObject(work) || isNonEmptyString(editionTitle)) {
       removeStatus(statusContents.needInfo)
       disabled = false
       candidate.checked = true

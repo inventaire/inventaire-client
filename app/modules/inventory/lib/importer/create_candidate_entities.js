@@ -3,18 +3,17 @@ import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import entityDraft from '#entities/lib/entity_draft_model'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 
-export const createEntitiesByCandidate = async candidate => {
+export const createCandidateEntities = async candidate => {
   const {
     editionTitle,
     authorsNames,
     libraryThingWorkId,
   } = candidate
 
-  if (!isNonEmptyArray(candidate.authors) && isNonEmptyArray(authorsNames)) {
-    candidate.authors = await createAuthors(authorsNames)
-  }
-
   if (!isNonEmptyArray(candidate.works) && editionTitle) {
+    if (!isNonEmptyArray(candidate.authors) && isNonEmptyArray(authorsNames)) {
+      candidate.authors = await createAuthors(authorsNames)
+    }
     candidate.works = await createWorks(candidate.authors, editionTitle, libraryThingWorkId)
   }
 
@@ -55,11 +54,15 @@ const createEdition = async candidate => {
   } = candidate
 
   const editionClaims = {}
-  if (publicationDate != null) editionClaims['wdt:P577'] = publicationDate
-  if (numberOfPages != null) editionClaims['wdt:P1104'] = numberOfPages
-  if (goodReadsEditionId != null) editionClaims['wdt:P2969'] = goodReadsEditionId
+  if (publicationDate != null) editionClaims['wdt:P577'] = [ publicationDate ]
+  if (numberOfPages != null) editionClaims['wdt:P1104'] = [ numberOfPages ]
+  if (goodReadsEditionId != null) editionClaims['wdt:P2969'] = [ goodReadsEditionId ]
 
-  const editionDraft = await createWorkEditionDraft({ workEntity: works[0], isbnData, editionClaims })
+  const editionDraft = await createWorkEditionDraft({
+    isbnData,
+    workEntity: works[0],
+    editionClaims
+  })
   const editionEntity = await createEntity(editionDraft)
   if (editionEntity) return editionEntity
 }

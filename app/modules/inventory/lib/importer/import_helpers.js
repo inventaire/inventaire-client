@@ -1,6 +1,6 @@
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
-import { createEntitiesByCandidate } from '#inventory/lib/importer/create_candidate_entities'
+import { createCandidateEntities } from '#inventory/lib/importer/create_candidate_entities'
 import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
 
@@ -104,20 +104,22 @@ export const addExistingItemsCountToCandidate = counts => candidate => {
   return candidate
 }
 
-const areAllEntitiesResolved = candidate => candidate.edition && candidate.works
-
 export const resolveAndCreateCandidateEntities = async candidate => {
-  const { editionTitle, checked } = candidate
-  if (!editionTitle || !checked || areAllEntitiesResolved(candidate)) return candidate
   let entitiesRes
-  if (canBeResolved(candidate)) {
+
+  if (canBeResolved(candidate) && !alreadyResolved(candidate)) {
     const resolveOptions = { create: true }
     const resEntry = await resolveCandidate(candidate, resolveOptions)
     entitiesRes = await fetchAllMissingEntities(resEntry, editionRelatives)
     return assignEntitiesToCandidate(candidate, entitiesRes)
   } else {
-    return createEntitiesByCandidate(candidate)
+    return createCandidateEntities(candidate)
   }
+}
+
+const alreadyResolved = candidate => {
+  return (candidate.authors && candidate.authors.every(_.property('uri'))) &&
+  (candidate.works && candidate.works.every(_.property('uri')))
 }
 
 const canBeResolved = candidate => {
