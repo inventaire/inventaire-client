@@ -46,8 +46,11 @@
     if (!nextCandidate) return
     processedEntitiesCount += 1
     try {
-      const candidateWithEntities = await resolveAndCreateCandidateEntities(nextCandidate)
-      candidates[candidatePosition] = candidateWithEntities
+      if (nextCandidate.checked && !alreadyResolved(nextCandidate)) {
+        let candidateWithEntities
+        candidateWithEntities = await resolveAndCreateCandidateEntities(nextCandidate)
+        candidates[candidatePosition] = candidateWithEntities
+      }
     } catch (err) {
       // Do not throw to not crash the whole chain
       const { responseJSON } = err
@@ -72,9 +75,15 @@
         const { responseJSON } = err
         nextCandidate.error = responseJSON
       }
+      processedCandidates = [ ...processedCandidates, nextCandidate ]
     }
-    processedCandidates = [ ...processedCandidates, nextCandidate ]
     await createItemsSequentially()
+  }
+
+  const alreadyResolved = candidate => {
+    return (candidate.authors && candidate.authors.every(_.property('uri'))) &&
+    (candidate.works && candidate.works.every(_.property('uri'))) &&
+    candidate.edition
   }
 </script>
 <div class="import-candidates">

@@ -5,12 +5,11 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { I18n } from '#user/lib/i18n'
 
-  export let type, entity = {}, label, currentEntityLabel
+  export let type, entity = {}, label, currentEntityLabel, uri
 
   const initialEntity = entity
   const initialLabel = label || entity?.label
 
-  let uri
   currentEntityLabel = initialLabel
   let flash, editMode = false
 
