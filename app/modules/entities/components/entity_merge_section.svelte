@@ -10,7 +10,7 @@
   let flash, valueBasicInfo, editMode = false
 
   function select (e) {
-    uri = e.detail
+    uri = e.detail.uri
     editMode = false
   }
 

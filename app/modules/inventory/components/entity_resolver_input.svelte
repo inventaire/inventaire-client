@@ -14,8 +14,14 @@
 
   let flash, valueBasicInfo, editMode = false
 
-  function select (e) {
-    uri = entity.uri = e.detail
+  function selectSuggestion (e) {
+    // Since autocomplete suggestion does not have labels key,
+    // e.detail is the full autocomplete suggestion (not only its uri).
+    // Which allows to use suggestion.label when creating edition from work,
+    // without having to server fetch the entity again
+    const { detail: suggestion } = e
+    entity = suggestion
+    uri = entity.uri
     editMode = false
   }
 
@@ -54,7 +60,7 @@
     autofocus={false}
     on:close={() => editMode = false}
     on:error={e => flash = e.detail}
-    on:select={select}
+    on:select={selectSuggestion}
   />
 {/if}
 

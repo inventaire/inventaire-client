@@ -36,7 +36,7 @@
       dispatch('close')
     } else if (key === 'enter') {
       if (suggestions[highlightedIndex]) {
-        dispatch('select', suggestions[highlightedIndex].uri)
+        dispatch('select', suggestions[highlightedIndex])
       }
     } else if (key === 'down') {
       highlightedIndex = highlightedIndex + 1
@@ -121,7 +121,7 @@
         name: searchText,
         createOnWikidata,
       })
-      dispatch('select', createdEntityModel.get('uri'))
+      dispatch('select', createdEntityModel)
     } catch (err) {
       dispatch('error', err)
     }
@@ -175,7 +175,7 @@
               {displaySuggestionType}
               {scrollableElement}
               highlight={i === highlightedIndex}
-              on:select={() => dispatch('select', suggestion.uri)}
+              on:select={() => dispatch('select', suggestion)}
             />
           {/each}
         </ul>

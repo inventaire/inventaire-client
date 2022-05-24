@@ -26,7 +26,7 @@ const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
 }
 
 export const createWorkEditionDraft = async function ({ workEntity, isbn, isbnData, editionClaims }) {
-  const { labels: workLabels, claims: workClaims, uri: workUri } = workEntity
+  const { labels: workLabels, claims: workClaims, uri: workUri, label } = workEntity
   const claims = _.extend(editionClaims, {
     // instance of (P31) -> edition (Q3331189)
     'wdt:P31': [ 'wd:Q3331189' ],
@@ -50,6 +50,9 @@ export const createWorkEditionDraft = async function ({ workEntity, isbn, isbnDa
       claims['invp:P2'] = [ isbnData.image ]
     }
   }
+  // if workEntity has been formatted already, use the label as title
+  // known case: autocomplete editor suggestion (which do not have `labels` key)
+  if (label) title = label
   if (!title) title = getTitleFromWork(workLabels, workClaims, editionLang)
   if (title == null) throw error_.new('no title could be found', workEntity)
   claims['wdt:P1476'] = [ title ]
