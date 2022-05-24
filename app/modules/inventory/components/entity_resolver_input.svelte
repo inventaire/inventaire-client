@@ -5,14 +5,14 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { I18n } from '#user/lib/i18n'
 
-  export let type, entity = {}, label
+  export let type, entity = {}, label, currentEntityLabel
 
-  label = entity?.label || label
-  let currentEntityLabel = label
+  const initialEntity = entity
+  const initialLabel = label || entity?.label
 
   let uri
-
-  let flash, valueBasicInfo, editMode = false
+  currentEntityLabel = initialLabel
+  let flash, editMode = false
 
   function selectSuggestion (e) {
     // Since autocomplete suggestion does not have labels key,
@@ -25,28 +25,24 @@
     editMode = false
   }
 
-  function setInfo () {
-    type = valueBasicInfo.type
-    if (uri && valueBasicInfo.redirection) {
-      uri = valueBasicInfo.redirection
-      currentEntityLabel = valueBasicInfo.label
-    }
+  function unselectSuggestion () {
+    // rewrite entity to trigger candidateRow statuses
+    entity = initialEntity
+    uri = null
+    currentEntityLabel = initialLabel
   }
-
-  $: if (valueBasicInfo) setInfo()
 </script>
 
 {#if uri && !editMode}
   <div class="row">
     <EntityValueDisplay
       value={uri}
-      bind:valueBasicInfo
       on:edit={() => editMode = true}
     />
     <button
       class="unselect"
       title={I18n('unselect')}
-      on:click|stopPropagation={() => uri = null}
+      on:click|stopPropagation={unselectSuggestion}
     >
       {@html icon('close')}
     </button>
