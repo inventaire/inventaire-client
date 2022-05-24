@@ -22,7 +22,7 @@
   {allowEntityCreation}
   {createOnWikidata}
   createdEntityTypeName={entityTypeName}
-  on:select={e => dispatch('save', e.detail)}
+  on:select={e => dispatch('save', e.detail.uri)}
   on:close={bubbleUpComponentEvent}
   on:error={bubbleUpComponentEvent}
 />
