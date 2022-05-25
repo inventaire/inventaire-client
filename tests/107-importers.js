@@ -2,7 +2,7 @@ import 'should'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import { looksLikeAnIsbn } from '#lib/isbn'
-import importers from '#inventory/lib/importers'
+import importers from '#inventory/lib/importer/importers'
 import Papa from 'papaparse'
 import iconv from 'iconv-lite'
 
@@ -25,15 +25,14 @@ describe('Importers', () => {
     const exportData = readFileSync(path, { encoding: 'utf-8' })
 
     describe('file', () => {
-      it('should return an string', done => {
+      it('should return an string', () => {
         exportData.should.be.a.String()
-        done()
       })
     })
 
     describe('parse', () => {
       const parsed = parse(exportData)
-      it('should return an array of book objects', done => {
+      it('should return an array of book objects', () => {
         parsed.should.be.a.Array()
         for (const doc of parsed) {
           doc.should.be.a.Object()
@@ -42,7 +41,6 @@ describe('Importers', () => {
           doc.authors.should.be.a.Array()
           if (doc.details) doc.details.should.be.a.String()
         }
-        done()
       })
     })
   })
@@ -53,15 +51,14 @@ describe('Importers', () => {
     const exportData = readFileSync(path, { encoding: 'utf-8' })
 
     describe('file', () => {
-      it('should return an string', done => {
+      it('should return an string', () => {
         exportData.should.be.a.String()
-        done()
       })
     })
 
     describe('parse', () => {
       const parsed = parse(exportData)
-      it('should return an array of book objects', done => {
+      it('should return an array of book objects', () => {
         parsed.should.be.a.Array()
         for (const doc of parsed) {
           doc.should.be.a.Object()
@@ -70,7 +67,7 @@ describe('Importers', () => {
           doc.authors.should.be.a.Array()
           if (doc.notes) doc.notes.should.be.a.String()
         }
-        done()
+        parsed[0].authors[0].should.equal('J. K. Rowling')
       })
     })
   })
@@ -82,15 +79,14 @@ describe('Importers', () => {
     const exportData = iconv.decode(exportDataBuffer, encoding)
 
     describe('file', () => {
-      it('should return an string', done => {
+      it('should return an string', () => {
         exportData.should.be.a.String()
-        done()
       })
     })
 
     describe('parse', () => {
       const parsed = parse(exportData)
-      it('should return an array of book objects', done => {
+      it('should return an array of book objects', () => {
         parsed.should.be.a.Array()
         for (const doc of parsed) {
           doc.should.be.a.Object()
@@ -99,7 +95,6 @@ describe('Importers', () => {
           doc.isbn.should.be.a.String()
           doc.authors.should.be.a.Array()
         }
-        done()
       })
     })
   })
