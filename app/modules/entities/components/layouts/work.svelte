@@ -1,22 +1,22 @@
 <script>
   import {
     editionWorkProperties,
-    formatEntityClaim, getLang
+    getLang
   } from '#entities/components/lib/claims_helpers'
   import Spinner from '#general/components/spinner.svelte'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { getSubEntities } from '../lib/entities'
-  import ClaimsInfobox from './claims_infobox.svelte'
+  import { isNonEmptyArray, isNonEmptyPlainObject } from '#lib/boolean_tests'
+  import { I18n } from '#user/lib/i18n'
+  import { getSubEntities, bestImage } from '../lib/entities'
+  import Infobox from './infobox.svelte'
   import EditionList from './edition_list.svelte'
-  import EditionActions from './edition_actions.svelte'
   import EditionsListActions from './editions_list_actions.svelte'
-  import EditDataActions from './edit_data_actions.svelte'
+  import BaseLayout from './base_layout.svelte'
   import ItemsLists from './items_lists.svelte'
+  import EntityImage from '../entity_image.svelte'
 
   export let entity, standalone, triggerScrollToMap
 
-  const { uri } = entity
+  const { uri, image } = entity
   let { claims } = entity
   let displayedClaims = []
   let authorsUris, editionsUris
@@ -24,10 +24,10 @@
   let initialEditions = []
   let editionsLangs
   let selectedLangs = [ app.user.lang ]
+  let mainCoverEdition, secondaryCoversEditions
 
   const claimsOrder = [
     ...editionWorkProperties,
-    'wdt:P856', // official website
   ]
 
   const getEditions = async () => {
@@ -69,6 +69,14 @@
     editions = initialEditions.filter(e => e.originalLang.includes(selectedLangs))
   }
 
+  const setEditionsImages = editions => {
+    const editionsWithCover = editions.filter(edition => edition.image.url)
+    .sort(bestImage)
+
+    mainCoverEdition = editionsWithCover[0]
+    secondaryCoversEditions = editionsWithCover.slice(1, 4)
+  }
+
   $: {
     if (initialEditions) {
       let rawEditionsLangs = _.uniq(initialEditions.map(getLang))
@@ -83,30 +91,52 @@
   }
   $: someEditions = initialEditions && initialEditions.length > 1
 </script>
-<div class="layout">
-  {#if standalone}
-    <h3>{I18n(entity.type)}</h3>
-  {/if}
-  <div class="entity-wrapper">
-    <EditDataActions {entity}/>
-    <div class="entity">
-      <div class="title-box">
-        <h2 class="edition-title">{entity.label}</h2>
-        {#if isNonEmptyArray(authorsUris)}
-          <h3 class="edition-authorsUris">
-            {i18n('by')}
-            {@html formatEntityClaim({ values: authorsUris, prop: 'wdt:P50', omitLabel: true })}
-          </h3>
-        {/if}
-        <div class="info-wrapper">
-          <div class="claims-infobox">
-            <ClaimsInfobox claims={displayedClaims} {uri} {claimsOrder}/>
-          </div>
-          <div class="entity-buttons">
-            <EditionActions {entity}/>
-          </div>
+<BaseLayout
+  {entity}
+  {standalone}
+>
+  <div class="entity-layout" slot="entity">
+    <div class="info-wrapper">
+      <div class="info">
+        <div class="covers">
+          {#if isNonEmptyPlainObject(image)}
+            <div class="main-cover">
+              <EntityImage
+                {entity}
+                withLink={false}
+                size={400}
+              />
+            </div>
+          {:else if someEditions}
+            {#if mainCoverEdition}
+              <div class="main-cover">
+                <EntityImage
+                  entity={mainCoverEdition}
+                  size={400}
+                />
+              </div>
+              {#if isNonEmptyArray(secondaryCoversEditions)}
+                <div class="secondary-covers">
+                  {#each secondaryCoversEditions as edition (edition._id)}
+                    <div class="secondary-cover">
+                      <EntityImage
+                        entity={edition}
+                        size={150}
+                      />
+                    </div>
+                  {/each}
+                </div>
+              {/if}
+            {/if}
+          {/if}
         </div>
       </div>
+      <Infobox
+        {entity}
+        {authorsUris}
+        {displayedClaims}
+        {claimsOrder}
+      />
     </div>
     <!-- TODO: works list -->
   </div>
@@ -141,41 +171,28 @@
       {/if}
     {/await}
   </div>
-</div>
+</BaseLayout>
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .actions-wrapper{
-    @include display-flex(row, center, center);
-    min-height: 2em;
-    padding-bottom: 1em;
+  .info-wrapper{
+    display: flex;
+    margin-bottom: 1em;
   }
-  .loading-wrapper{
-    @include display-flex(column, center);
+  .info{
+    display: flex;
   }
-  .layout{
-    @include display-flex(column, center, center);
-    margin: 0 auto;
-    max-width: 80em;
-    background-color: white;
+  .covers{
+    @include display-flex(row, center, space-around);
+    margin-bottom: 1em;
+    margin-right: 1em;
   }
-  .edition-title{
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
-    font-size: 1.5em;
+  .secondary-cover{
+    max-width: 7em;
   }
-  .edition-authorsUris{
-    margin-bottom: 0.5em;
-    font-size: 1.2em;
-  }
-  .entity-wrapper{
-    width: 100%;
-    padding: 0 1em;
-  }
-  .entity{
-    @include display-flex(row, stretch, stretch);
-    margin-bottom: 2em;
+  .main-cover, .secondary-cover{
+    width: 12em;
+    margin: 0.2em;
   }
   .editions-list-wrapper{
     @include display-flex(column, stretch, space-between);
@@ -188,19 +205,13 @@
     margin: 0;
     padding: 0 1em;
   }
-  .claims-infobox{
-    flex: 3 0 0;
-    margin-bottom: 2em;
-    margin-right: 2em;
-  }
-  .entity-buttons{
-    @include display-flex(column, stretch);
-    max-width: 20em;
+  .loading-wrapper{
+    @include display-flex(column, center);
   }
   .editions-wrapper{
     width: 100%;
   }
-  /*large screens*/
+  /*Large screens*/
   @media screen and (min-width: 1200px) {
     .lists{
       @include display-flex(row, flex-start, flex-start);
@@ -214,36 +225,20 @@
       margin: 0 0.5em;
     }
   }
-  /*small and medium screens*/
-  @media screen and (max-width: $small-screen) {
-    .entity-wrapper{
-      width: unset;
-    }
+
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
     .info-wrapper{
-      @include display-flex(column, center);
+      @include display-flex(column, center, center);
     }
-  }
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
-    .layout{
-      @include display-flex(column, center, flex-start);
+    .covers{
+      align-self: stretch;
+      flex-direction: column;
+      margin: 1em 0 0 0;
     }
-    .title-box{
-      @include display-flex(column, center);
-    }
-    .entity-wrapper{
-      width: 100%;
-      padding: 0;
-    }
-    .entity{
-      @include display-flex(column, center);
-      min-width: 100%;
-    }
-    .claims-infobox{
-      margin: 1em 0;
-    }
-    .editions-list-wrapper{
-      width: 100%;
+    .secondary-covers{
+      align-self: stretch;
+      @include display-flex(row, center, center);
     }
   }
 </style>

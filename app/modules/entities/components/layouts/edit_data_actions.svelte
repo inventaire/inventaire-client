@@ -12,7 +12,7 @@
 <!-- TODO: edit wikidata and show deduplicate -->
 <div class="menu-wrapper">
   <Dropdown
-    alignRight={true}
+    align={'right'}
     buttonTitle={i18n('Show actions')}
     >
     <div slot="button-inner">

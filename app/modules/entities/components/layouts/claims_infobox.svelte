@@ -13,10 +13,15 @@
 
   $: claimsList = _.compact(claimsOrder.map(addClaim))
 </script>
-<div class="claims">
-  {#each claimsList as claimLi}
-    <div>
-      {@html claimLi}
-    </div>
-  {/each}
-</div>
+{#each claimsList as claimLi}
+  <div class="claim">
+    {@html claimLi}
+  </div>
+{/each}
+
+<style lang="scss">
+  @import '#general/scss/utils';
+  .claim{
+    padding-bottom:0.2em;
+  }
+</style>

@@ -112,6 +112,14 @@ export function getTitle (entity) {
   return entity.claims['wdt:P1476'][0]
 }
 
+const getEntityPropValue = (entity, prop) => {
+  const claimValues = entity.claims[prop]
+  if (claimValues) return claimValues[0]
+}
+
+export const getIsbn = entity => getEntityPropValue(entity, 'wdt:P212')
+export const getPublication = entity => getEntityPropValue(entity, 'wdt:P577')
+
 export function getLang (entity) {
   const langUri = entity.claims['wdt:P407'][0]
   return langUri ? wdLang.byWdId[unprefixify(langUri)]?.code : undefined
