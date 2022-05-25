@@ -90,7 +90,7 @@
           {:else}
             {#each authors as author, id}
               <!-- Necessary span to look like <sup> (exponent) element -->
-              <span>
+              <span class="author-name">
                 {findBestLang(author)}
                 <EntityLogo entity="{author}"/>
                 <!-- prefer this to CSS :last-child, to be able to have a space after the comma -->
@@ -141,7 +141,10 @@
   /*Large screens*/
   @media screen and (min-width: 800px) {
     .authors{
-      @include display-flex(row, center, flex-start);
+      @include display-flex(row, center, flex-start, wrap);
+    }
+    .author-name{
+      white-space: nowrap;
     }
   }
 </style>
