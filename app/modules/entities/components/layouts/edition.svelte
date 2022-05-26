@@ -1,16 +1,15 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import ClaimsInfobox from './claims_infobox.svelte'
-  import ItemsLists from './items_lists.svelte'
+  import Infobox from './infobox.svelte'
+  import BaseLayout from './base_layout.svelte'
   import EditionActions from './edition_actions.svelte'
-  import EditDataActions from './edit_data_actions.svelte'
-  import { aggregateWorksClaims, editionWorkProperties, formatEntityClaim, getTitle } from '#entities/components/lib/claims_helpers'
+  import ItemsLists from './items_lists.svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { getTitle, aggregateWorksClaims, editionWorkProperties } from '#entities/components/lib/claims_helpers'
 
   export let entity, works, standalone
 
-  const { uri, image, label } = entity
+  const { uri, image } = entity
   let { claims } = entity
   let displayedClaims = []
   let authorsUris
@@ -33,7 +32,7 @@
   ]
 
   const addWorksClaims = (claims, works) => {
-    const worksClaims = aggregateWorksClaims(claims, works)
+    const worksClaims = aggregateWorksClaims(works)
     authorsUris = worksClaims['wdt:P50']
     delete worksClaims['wdt:P50']
     const nonEmptyWorksClaims = _.pick(worksClaims, isNonEmptyArray)
@@ -50,121 +49,69 @@
     delete displayedClaims['wdt:P50']
   }
 
-  const subtitle = entity.claims['wdt:P1680']
   const title = getTitle(entity)
 
   $: app.navigate(`/entity/${uri}`)
 </script>
-<div class="layout">
-  {#if standalone}
-    <h3 class="layout-type-label">{I18n(entity.type)}</h3>
-  {/if}
-  <div class="entity-wrapper">
-    <EditDataActions {entity}/>
-    <div class="entity">
-      {#if image.url}
-        <div class="cover">
-          <img src="{imgSrc(image.url, 300)}" alt="{label}">
-        </div>
-      {/if}
-      <div class="title-box">
-        <h2 class="edition-title">{title}</h2>
-        {#if isNonEmptyArray(authorsUris)}
-          <h3 class="edition-authors">
-            {i18n('by')}
-            {@html formatEntityClaim({ values: authorsUris, prop: 'wdt:P50', omitLabel: true })}
-          </h3>
-        {/if}
-        {#if subtitle}
-          <h4 class="edition-subtitle">{subtitle}</h4>
-        {/if}
-        <div class="info-wrapper">
-          <div class="claims-infobox">
-            <ClaimsInfobox claims={displayedClaims} {claimsOrder}/>
+<BaseLayout
+  {entity}
+  {standalone}
+>
+  <div class="entity-layout" slot="entity">
+    <div class="top-section">
+      <div class="info">
+        {#if image.url}
+          <div class="cover">
+            <img src="{imgSrc(image.url, 300)}" alt="{title}">
           </div>
-        </div>
+        {/if}
+        <Infobox
+          {entity}
+          {title}
+          {authorsUris}
+          {displayedClaims}
+          {claimsOrder}
+        />
       </div>
-      <div class="entity-buttons">
+      <div class="edition-actions">
         <EditionActions {entity}/>
       </div>
     </div>
-    <!-- TODO: works list -->
+    <div class="items-lists-wrapper">
+      <ItemsLists editionsUris={[ uri ]}/>
+    </div>
   </div>
-  <div class="items-lists-wrapper">
-    <ItemsLists editionsUris={[ uri ]}/>
-  </div>
-</div>
+</BaseLayout>
+<!-- TODO: works list -->
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .layout{
-    @include display-flex(column, center, center);
-    margin: 0 auto;
-    max-width: 80em;
-    background-color: white;
-  }
-  .edition-title{
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
-    font-size: 1.5em;
-  }
-  .edition-authors{
-    margin-bottom: 0.5em;
-    font-size: 1.2em;
-  }
-  .entity-wrapper{
-    width: 100%;
-    padding: 0 1em;
-  }
-  .entity{
-    @include display-flex(row, stretch, space-between);
-    margin-bottom: 2em;
+  .info{
+    @include display-flex(row, flex-start, center);
+    margin-bottom: 1em;
   }
   .cover{
-    @include display-flex(column, center);
-    max-width: 20%;
-    margin-bottom: 1em;
-    margin-right: 1em;
+    padding-right: 1em;
+    max-width: 12em;
   }
-  .claims-infobox{
-    flex: 3 0 0;
-    margin-bottom: 2em;
+  .top-section{
+    @include display-flex(row, center, space-between);
   }
-  .entity-buttons{
-    @include display-flex(row, center, center);
-  }
-  /*small and medium screens*/
-  @media screen and (max-width: $small-screen) {
-    .entity-wrapper{
-      width: unset;
-    }
-    .info-wrapper{
-      @include display-flex(column, center);
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .top-section{
+      @include display-flex(row, center, space-around);
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
-    .layout{
-      @include display-flex(column, center, flex-start);
+  @media screen and (max-width: $small-screen) {
+    .top-section{
+      @include display-flex(column, flex-start);
+      padding-top: 1em;
     }
-    .title-box{
-      max-width: 80%;
-    }
-    .entity-wrapper{
-      width: 100%;
-      padding: 0;
-    }
-    .entity{
+    .edition-actions{
       @include display-flex(column, center);
-      min-width: 100%;
-    }
-    .claims-infobox{
-      margin: 1em 0;
-    }
-    .cover{
-      max-width: 50%;
-      margin-right: 0;
+      width: 100%;
     }
   }
 </style>

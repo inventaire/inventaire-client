@@ -43,7 +43,7 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .map-button{
-    @include tiny-button($grey);
+    @include tiny-button($light-grey, black);
     padding: 0.5em;
     margin: 0.3em;
   }

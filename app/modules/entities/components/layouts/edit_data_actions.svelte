@@ -10,7 +10,7 @@
   const history = async () => app.execute('show:entity:history', uri)
 </script>
 <!-- TODO: edit wikidata and show deduplicate -->
-<div class="menu-wrapper">
+<div class="edit-data-actions">
   <Dropdown
     align={'right'}
     buttonTitle={i18n('Show actions')}
@@ -42,8 +42,7 @@
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
-  // Dropdown
-  .menu-wrapper{
+  .edit-data-actions{
     /*Small screens*/
     @media screen and (max-width: $smaller-screen) {
       margin-right: 0.5em;

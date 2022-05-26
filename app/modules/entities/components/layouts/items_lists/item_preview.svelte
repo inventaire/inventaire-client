@@ -115,7 +115,8 @@
     color: $grey;
   }
   .map-button{
-    @include tiny-button($grey);
+    @include tiny-button($light-grey, black);
     padding: 0.5em;
+    margin-right: 0.2em;
   }
 </style>

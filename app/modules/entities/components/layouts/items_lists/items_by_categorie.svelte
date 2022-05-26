@@ -106,6 +106,7 @@
     @include sans-serif;
     margin: 0;
     font-size: 1.2em;
+    margin-right: 1em;
   }
   .categorie-title-wrapper{
     @include display-flex(row, center, flex-start);
@@ -132,7 +133,6 @@
     /* background-color is defined by backgroundColor*/
   }
   .map-button{
-    @include tiny-button($grey);
-    padding: 0.5em;
+    @include tiny-button($light-grey, black);
   }
 </style>

@@ -89,7 +89,10 @@
   $: if (isNonEmptyArray(editions)) {
     editionsUris = editions.map(_.property('uri'))
   }
-  $: someEditions = initialEditions && initialEditions.length > 1
+  $: someEditions = initialEditions && isNonEmptyArray(initialEditions)
+  $: {
+    if (isNonEmptyArray(editions)) setEditionsImages(editions)
+  }
 </script>
 <BaseLayout
   {entity}
@@ -139,33 +142,37 @@
       />
     </div>
     <!-- TODO: works list -->
-  </div>
-  <h5>{I18n('editions')}</h5>
-  <div class="editions-wrapper">
     {#await getEditions()}
       <div class="loading-wrapper">
         <p class="loading">{I18n('looking for editions...')} <Spinner/></p>
       </div>
     {:then}
       {#if someEditions}
-        <div class="actions-wrapper">
-          <EditionsListActions
-            bind:selectedLangs={selectedLangs}
-            {editionsLangs}
-            bind:triggerScrollToMap={triggerScrollToMap}
-          />
-        </div>
-        <div class="lists">
-          <div class="editions-list-wrapper">
-            {#each editions as edition (edition._id)}
-              <EditionList {edition} {authorsUris}/>
-            {/each}
-          </div>
-          <div class="items-list-wrapper">
-            <ItemsLists
-              {editionsUris}
-              bind:triggerScrollToMap
-            />
+        <div class="editions-wrapper">
+          <h5 class="editions-title">
+            {I18n('editions of this work')}
+          </h5>
+          <div class="lists">
+            <div class="editions-list-wrapper">
+              {#each editions as edition (edition._id)}
+                <div class="edition-list">
+                  <EditionList {edition} {authorsUris}/>
+                </div>
+              {/each}
+              <div class="actions-wrapper">
+                <EditionsListActions
+                  bind:selectedLangs={selectedLangs}
+                  {editionsLangs}
+                  bind:triggerScrollToMap={triggerScrollToMap}
+                />
+              </div>
+            </div>
+            <div class="items-list-wrapper">
+              <ItemsLists
+                {editionsUris}
+                bind:triggerScrollToMap
+              />
+            </div>
           </div>
         </div>
       {/if}
@@ -191,38 +198,48 @@
     max-width: 7em;
   }
   .main-cover, .secondary-cover{
-    width: 12em;
+    max-width: 10em;
     margin: 0.2em;
   }
-  .editions-list-wrapper{
-    @include display-flex(column, stretch, space-between);
-    margin-bottom: 1em;
-    background-color: off-white;
+  .editions-wrapper{
+    border-top: 1px solid #ccc;
+    @include display-flex(column, center);
+    width:100%;
   }
-  .info-wrapper{
-    @include display-flex(row, stretch, stretch);
-    flex: 3 0 0;
-    margin: 0;
-    padding: 0 1em;
+  .editions-title{
+    @include display-flex(row, center, center);
+  }
+  .actions-wrapper{
+    @include display-flex(row, center, center);
+    min-height: 2em;
+    padding: 1em 0;
   }
   .loading-wrapper{
     @include display-flex(column, center);
   }
-  .editions-wrapper{
-    width: 100%;
+  .editions-list-wrapper{
+    background-color: off-white;
+    margin-right: 1em;
+  }
+  .edition-list{
+    @include display-flex(row, center, space-between);
+    background-color: $off-white;
+    border: 1px solid #ddd;
+    margin: 0.2em;
   }
   /*Large screens*/
-  @media screen and (min-width: 1200px) {
+  @media screen and (min-width: $very-small-screen) {
     .lists{
-      @include display-flex(row, flex-start, flex-start);
+      display: flex;
     }
     .editions-list-wrapper{
-      margin: 0 0.5em;
-      width: 50%;
+      margin-right: 0 0.5em;
     }
     .items-list-wrapper{
-      width: 50%;
-      margin: 0 0.5em;
+      margin-left: 0 0.5em;
+    }
+    .editions-wrapper{
+      width: 100%;
     }
   }
 
