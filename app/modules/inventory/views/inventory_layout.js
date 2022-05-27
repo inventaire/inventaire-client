@@ -226,6 +226,7 @@ export default Marionette.View.extend({
   },
 
   scrollToSection (regionName) {
+    if (!this.isIntact()) return
     screen_.scrollTop({ $el: this.getRegion(regionName).$el, marginTop: 10, delay: 100 })
   }
 })

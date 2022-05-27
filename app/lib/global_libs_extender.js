@@ -149,6 +149,7 @@ Backbone.View.prototype.ifViewIsIntact = function (fn, ...args) {
 const originalShowChildView = Marionette.View.prototype.showChildView
 
 Marionette.View.prototype.showChildView = function (name, view, options) {
+  if (!this.isIntact()) return
   originalShowChildView.call(this, name, view, options)
   const region = this.getRegion(name)
   const children = region.$el.children()
