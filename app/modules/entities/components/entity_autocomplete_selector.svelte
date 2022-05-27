@@ -94,7 +94,7 @@
 
   const lazySearch = _.debounce(search, 200)
 
-  if (currentEntityLabel) lazySearch()
+  if (currentEntityLabel && autofocus) lazySearch()
 
   // TODO: fix scroll
   function onSuggestionsScroll (e) {
