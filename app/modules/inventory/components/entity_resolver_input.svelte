@@ -17,9 +17,8 @@
     // Since autocomplete suggestion does not have labels key,
     // e.detail is the full autocomplete suggestion (not only its uri).
     // Which allows to use suggestion.label when creating edition from work,
-    // without having to server fetch the entity again
-    const { detail: suggestion } = e
-    entity = suggestion
+    // without having the server fetch the entity again
+    entity = e.detail
     uri = entity.uri
     editMode = false
   }
