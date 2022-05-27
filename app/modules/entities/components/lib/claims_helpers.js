@@ -3,6 +3,7 @@ import {
   getValuesTemplates,
   claimString,
 } from '#lib/handlebars_helpers/claims_helpers'
+import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
 import linkify_ from '#lib/handlebars_helpers/linkify'
 import { icon } from '#lib/utils'
 import { i18n } from '#user/lib/i18n'
@@ -21,6 +22,28 @@ export const formatClaim = params => {
   return claimFormats[type]({ values, prop, omitLabel })
 }
 
+// TODO: use propertiesPerType.work once commented props (ie. P840) are back in the object (needs some investigation on why its has been commented)
+export const workProperties = [
+  'wdt:P577',
+  'wdt:P361',
+  'wdt:P179',
+  'wdt:P1545',
+  'wdt:P1476',
+  'wdt:P1680',
+  'wdt:P407',
+  'wdt:P144',
+  'wdt:P941',
+  'wdt:P136',
+  'wdt:P135',
+  'wdt:P921',
+  'wdt:P840',
+  'wdt:P674',
+  'wdt:P1433',
+  'wdt:P155',
+  'wdt:P156',
+]
+
+export const editionProperties = Object.keys(propertiesPerType.edition)
 export const editionWorkProperties = [
   'wdt:P50', // author
   'wdt:P58', // scenarist
@@ -40,19 +63,37 @@ const propertiesType = {
   'wdt:P58': 'entityClaim',
   'wdt:P110': 'entityClaim',
   'wdt:P123': 'entityClaim',
+  'wdt:P135': 'entityClaim',
+  'wdt:P136': 'entityClaim',
+  'wdt:P144': 'entityClaim',
+  'wdt:P155': 'entityClaim',
+  'wdt:P156': 'entityClaim',
   'wdt:P179': 'entityClaim',
   'wdt:P195': 'entityClaim',
   'wdt:P212': 'stringClaim',
+  'wdt:P361': 'entityClaim',
   'wdt:P407': 'entityClaim',
   'wdt:P577': 'timeClaim',
   'wdt:P629': 'entityClaim',
   'wdt:P655': 'entityClaim',
+  'wdt:P674': 'entityClaim',
+  'wdt:P840': 'entityClaim',
   'wdt:P856': 'urlClaim',
+  'wdt:P921': 'entityClaim',
+  'wdt:P941': 'entityClaim',
+  'wdt:P953': 'urlClaim',
   'wdt:P1104': 'stringClaim',
+  'wdt:P1433': 'entityClaim',
+  'wdt:P1476': 'stringClaim',
+  'wdt:P1545': 'stringClaim',
+  'wdt:P1680': 'stringClaim',
   'wdt:P2635': 'stringClaim',
   'wdt:P2679': 'entityClaim',
   'wdt:P2680': 'entityClaim',
   'wdt:P6338': 'entityClaim',
+  'wdt:P2034': 'platformClaim',
+  'wdt:P724': 'platformClaim',
+  'wdt:P4258': 'platformClaim',
 }
 
 const claimFormats = {

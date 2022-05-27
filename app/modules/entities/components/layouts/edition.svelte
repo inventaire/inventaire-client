@@ -5,7 +5,12 @@
   import EditionActions from './edition_actions.svelte'
   import ItemsLists from './items_lists.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { getTitle, aggregateWorksClaims, editionWorkProperties } from '#entities/components/lib/claims_helpers'
+  import {
+    getTitle,
+    aggregateWorksClaims,
+    editionWorkProperties,
+    editionProperties,
+  } from '#entities/components/lib/claims_helpers'
 
   export let entity, works, standalone
 
@@ -15,24 +20,12 @@
   let authorsUris
 
   const claimsOrder = [
+    ...editionProperties,
     ...editionWorkProperties,
-    'wdt:P2679', // author of foreword
-    'wdt:P2680', // author of afterword
-    'wdt:P655', // translator
-    'wdt:P577', // date of publication
-    'wdt:P1104', // number of pages
-    'wdt:P123', // publisher
-    'wdt:P212', // isbn 13
-    'wdt:P957', // isbn 10
-    'wdt:P407', // language
-    'wdt:P629', // work
-    'wdt:P195', // collection
-    'wdt:P2635', // number of volumes
-    'wdt:P856', // official website
   ]
 
   const addWorksClaims = (claims, works) => {
-    const worksClaims = aggregateWorksClaims(works)
+    const worksClaims = aggregateWorksClaims(claims, works)
     authorsUris = worksClaims['wdt:P50']
     delete worksClaims['wdt:P50']
     const nonEmptyWorksClaims = _.pick(worksClaims, isNonEmptyArray)

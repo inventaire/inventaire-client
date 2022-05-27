@@ -1,11 +1,12 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import ClaimsInfobox from './claims_infobox.svelte'
   import { formatEntityClaim } from '#entities/components/lib/claims_helpers'
+  import WrapToggler from '#components/wrap_toggler.svelte'
 
   export let entity, authorsUris, displayedClaims, claimsOrder
-
+  $: showLess = true
   const subtitle = entity.claims['wdt:P1680']
 </script>
 <div class="infobox">
@@ -19,12 +20,23 @@
         {@html formatEntityClaim({ values: authorsUris, prop: 'wdt:P50', omitLabel: true })}
       </h3>
     {/if}
-    <div class="claims-infobox">
-      <ClaimsInfobox
+    <div
+      class="claims-infobox"
+      class:showLess={showLess}
+    >
+     <ClaimsInfobox
         claims={displayedClaims}
         {claimsOrder}
       />
     </div>
+    {#if Object.keys(displayedClaims).length > 4}
+      <WrapToggler
+        bind:show={showLess}
+        moreText={I18n('more details...')}
+        lessText={I18n('less details')}
+        reversedShow={true}
+      />
+    {/if}
   </div>
 </div>
 
@@ -37,9 +49,15 @@
       @include link-dark;
     }
   }
+  .showLess{
+    max-height: 4.5em;
+    overflow-y: hidden;
+  }
   .claims-infobox{
     flex: 3 0 0;
-    margin: 1em 0;
+  }
+  .infobox{
+    margin-bottom: 0.5em;
   }
   /*Large screens*/
   @media screen and (min-width: 1200px) {
@@ -48,20 +66,13 @@
       margin: 0 0 0 1em;
     }
   }
-  /*small and medium screens*/
-  @media screen and (max-width: $small-screen) {
-    .title-box{
-      // give space below edit data button when no cover
-      margin-right: 3em;
-    }
-  }
   /*Small screens*/
   @media screen and (max-width: $very-small-screen) {
     .infobox{
       @include display-flex(column, center);
     }
-    .claims-infobox{
-      margin: 1em 0;
+    .infobox{
+      margin-bottom: 0.5em;
     }
   }
 </style>

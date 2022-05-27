@@ -35,25 +35,26 @@ const work = {
 
 export const propertiesPerType = {
   work,
+  // The order is meaningful:
   edition: {
+    'wdt:P2679': {}, // author of foreword
+    'wdt:P2680': {}, // author of afterword
+    'wdt:P655': {}, // translator
+    'wdt:P577': {}, // publication date
+    'wdt:P1104': {}, // number of pages
+    'wdt:P123': {}, // publisher
+    'wdt:P212': {}, // ISBN-13
+    'wdt:P957': {}, // ISBN-10
     'wdt:P629': {}, // edition or translation of
+    'wdt:P195': {}, // collection
+    'wdt:P2635': { customLabel: 'number of volumes' },
+    'wdt:P856': {}, // official website
     'wdt:P1476': { customLabel: 'edition title' },
     'wdt:P1680': { customLabel: 'edition subtitle' },
     'wdt:P407': { customLabel: 'edition language' },
     'invp:P2': { customLabel: 'cover' },
     // 'wdt:P31': {} # P31: instance of (=> edition aliases?)
     // P212 is used as unique ISBN field, accepting ISBN-10 but correcting server-side
-    'wdt:P212': {}, // ISBN-13
-    'wdt:P957': {}, // ISBN-10
-    'wdt:P577': {}, // publication date
-    'wdt:P123': {}, // publisher
-    'wdt:P195': {}, // collection
-    'wdt:P856': {}, // official website
-    'wdt:P655': {}, // translator
-    'wdt:P2679': {}, // author of foreword
-    'wdt:P2680': {}, // author of afterword
-    'wdt:P1104': {}, // number of pages
-    'wdt:P2635': { customLabel: 'number of volumes' }
   },
 
   human: {

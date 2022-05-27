@@ -11,7 +11,7 @@
     if (values) return formatClaim({ prop, values })
   }
 
-  $: claimsList = _.compact(claimsOrder.map(addClaim))
+  claimsList = _.compact(claimsOrder.map(addClaim))
 </script>
 {#each claimsList as claimLi}
   <div class="claim">

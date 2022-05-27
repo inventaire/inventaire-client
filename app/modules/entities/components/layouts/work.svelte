@@ -1,7 +1,8 @@
 <script>
   import {
     editionWorkProperties,
-    getLang
+    workProperties,
+    getLang,
   } from '#entities/components/lib/claims_helpers'
   import Spinner from '#general/components/spinner.svelte'
   import { isNonEmptyArray, isNonEmptyPlainObject } from '#lib/boolean_tests'
@@ -26,9 +27,10 @@
   let selectedLangs = [ app.user.lang ]
   let mainCoverEdition, secondaryCoversEditions
 
-  const claimsOrder = [
+  const claimsOrder = _.uniq([
     ...editionWorkProperties,
-  ]
+    ...workProperties
+  ])
 
   const getEditions = async () => {
     initialEditions = await getSubEntities('work', uri)
