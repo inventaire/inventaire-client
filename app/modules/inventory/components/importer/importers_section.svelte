@@ -19,11 +19,14 @@
   import FileImporter from './file_importer.svelte'
   import IsbnImporter from './isbn_importer.svelte'
   import Counter from '#components/counter.svelte'
+  import Spinner from '#components/spinner.svelte'
+  import { icon } from '#lib/handlebars_helpers/icons'
 
-  export let candidates, isbns, cancel, processing
+  export let candidates, isbns, processing
   export let processedExternalEntriesCount = 0
   export let totalExternalEntries = 0
 
+  let cancelled
   let externalEntries = []
   let flashBlockingProcess
   let bottomSectionElement = {}
@@ -63,7 +66,7 @@
     screen_.scrollToElement(bottomSectionElement)
 
     const createCandidateOneByOne = async () => {
-      if (cancel) return processedExternalEntriesCount = 0
+      if (cancelled) return processedExternalEntriesCount = 0
       if (remainingExternalEntries.length === 0) return
       const externalEntry = remainingExternalEntries.pop()
       const normalizedIsbn = externalEntry.isbnData?.normalizedIsbn
@@ -106,7 +109,7 @@
       // Add counts only now in order to handle entities redirects
       await addExistingItemsCounts()
     })
-    .finally(() => cancel = false)
+    .finally(() => cancelled = false)
   }
 
   const addExistingItemsCounts = async function () {
@@ -127,7 +130,7 @@
 <ul class="importers">
   {#each importers as importer (importer.name)}
     <li>
-      <FileImporter {importer} {createExternalEntries} {createCandidatesQueue} {cancel}/>
+      <FileImporter {importer} {createExternalEntries} {createCandidatesQueue} />
     </li>
   {/each}
   <li>
@@ -141,8 +144,14 @@
     <Counter count={processedExternalEntriesCount} total={totalExternalEntries}/>
     <button
       class="grey-button dangerous"
-      on:click="{() => cancel = true}"
+      disabled={cancelled}
+      on:click="{() => cancelled = true}"
       >
+      {#if cancelled}
+        <Spinner />
+      {:else}
+        {@html icon('ban')}
+      {/if}
       {I18n('cancel')}
     </button>
   </div>
@@ -162,5 +171,10 @@
   }
   .processing-menu{
     @include display-flex(column, center, center);
+    .grey-button{
+      :global(.fa){
+        color: white;
+      }
+    }
   }
 </style>
