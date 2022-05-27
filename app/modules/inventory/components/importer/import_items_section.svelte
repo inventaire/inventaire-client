@@ -6,7 +6,7 @@
   import { createItem } from '#inventory/components/create_item'
   import ImportResults from '#inventory/components/importer/import_results.svelte'
   import screen_ from '#lib/screen'
-  import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
+  import { isResolved, resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
 
   export let candidates
   export let transaction
@@ -81,9 +81,9 @@
   }
 
   const alreadyResolved = candidate => {
-    return (candidate.authors && candidate.authors.every(_.property('uri'))) &&
-    (candidate.works && candidate.works.every(_.property('uri'))) &&
-    candidate.edition
+    const authorsResolved = candidate.authors?.every(isResolved)
+    const worksResolved = candidate.works?.every(isResolved)
+    return authorsResolved && worksResolved && candidate.edition
   }
 </script>
 <div class="import-candidates">
