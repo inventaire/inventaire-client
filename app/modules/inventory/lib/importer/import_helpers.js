@@ -118,9 +118,10 @@ export const resolveAndCreateCandidateEntities = async candidate => {
 }
 
 const alreadyResolved = candidate => {
-  return (candidate.authors && candidate.authors.every(_.property('uri'))) &&
-  (candidate.works && candidate.works.every(_.property('uri')))
+  return candidate.authors?.every(isResolved) && candidate.works?.every(isResolved)
 }
+
+export const isResolved = entity => entity.uri != null
 
 const canBeResolved = candidate => {
   const { goodReadsEditionId } = candidate

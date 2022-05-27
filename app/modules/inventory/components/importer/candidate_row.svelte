@@ -36,7 +36,7 @@
   }
 
   const hasImportedData = editionTitle || authorsNames
-  const noCandidateEntities = !work.uri && !(authors && authors.every(_.property('uri')))
+  const noCandidateEntities = !work.uri && !(authors?.every(_.property('uri')))
   const hasWorkWithoutAuthors = work.uri && !isNonEmptyArray(authors)
   // TODO: remove newEntry status if work and authors both have entities uris
   if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) addStatus(statusContents.newEntry)
