@@ -14,6 +14,7 @@
   import BaseLayout from './base_layout.svelte'
   import ItemsLists from './items_lists.svelte'
   import EntityImage from '../entity_image.svelte'
+  import Ebooks from './ebooks.svelte'
 
   export let entity, standalone, triggerScrollToMap
 
@@ -24,7 +25,8 @@
   let editions = []
   let initialEditions = []
   let editionsLangs
-  let selectedLangs = [ app.user.lang ]
+  const userLang = app.user.lang
+  let selectedLangs = [ userLang ]
   let mainCoverEdition, secondaryCoversEditions
 
   const claimsOrder = _.uniq([
@@ -55,7 +57,6 @@
   }
 
   const prioritizeMainUserLang = langs => {
-    const userLang = app.user.lang
     if (langs.includes(userLang)) {
       const userLangIndex = langs.indexOf(userLang)
       langs.splice(userLangIndex, 1)
@@ -143,6 +144,10 @@
         {claimsOrder}
       />
     </div>
+    <Ebooks
+      {entity}
+      {userLang}
+    />
     <!-- TODO: works list -->
     {#await getEditions()}
       <div class="loading-wrapper">

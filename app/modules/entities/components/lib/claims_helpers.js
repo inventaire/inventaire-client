@@ -10,16 +10,18 @@ import { i18n } from '#user/lib/i18n'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import wdLang from 'wikidata-lang'
 import { unprefixify } from '#lib/wikimedia/wikidata'
+import platforms_ from '#lib/handlebars_helpers/platforms.js'
+import * as icons_ from '#lib/handlebars_helpers/icons.js'
 
 const farInTheFuture = '2100'
 const omitLabel = false
 
 export const formatClaim = params => {
-  const { prop, values, omitLabel } = params
-  if (!isNonEmptyArray(values)) return
+  const { prop, values, omitLabel, inline } = params
+  if (values[0] === null) return
   const type = propertiesType[prop]
   if (!type) return
-  return claimFormats[type]({ values, prop, omitLabel })
+  return claimFormats[type]({ values, prop, omitLabel, inline })
 }
 
 // TODO: use propertiesPerType.work once commented props (ie. P840) are back in the object (needs some investigation on why its has been commented)
@@ -130,6 +132,19 @@ const claimFormats = {
     const cleanedUrl = removeTailingSlash(dropProtocol(firstUrl))
     values = linkify_(cleanedUrl, firstUrl, 'link website')
     return claimString(label, values)
+  },
+  platformClaim (params) {
+    const { prop } = params
+    let { values } = params
+    const firstPlatformId = values[0]
+    if (firstPlatformId != null) {
+      const platform = platforms_[prop]
+      const icon = icons_.icon(platform.icon)
+      const text = icon + '<span>' + platform.text(firstPlatformId) + '</span>'
+      const url = platform.url(firstPlatformId)
+      const values = linkify_(text, url, 'link social-network')
+      return claimString('', values)
+    }
   },
 }
 
