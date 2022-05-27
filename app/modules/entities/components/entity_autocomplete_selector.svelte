@@ -121,7 +121,7 @@
         name: searchText,
         createOnWikidata,
       })
-      dispatch('select', createdEntityModel)
+      dispatch('select', createdEntityModel.toJSON())
     } catch (err) {
       dispatch('error', err)
     }
