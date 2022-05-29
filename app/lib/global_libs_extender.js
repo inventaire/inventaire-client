@@ -150,30 +150,29 @@ const originalShowChildView = Marionette.View.prototype.showChildView
 
 Marionette.View.prototype.showChildView = function (regionName, view, options) {
   if (!this.isIntact()) return
-  originalShowChildView.call(this, regionName, view, options)
   const region = this.getRegion(regionName)
-  const children = region.$el.children()
-  if (children.length > 1) removeObsoleteChildren(children)
+  removeCurrentComponent(region)
+  originalShowChildView.call(this, regionName, view, options)
   return view
-}
-
-function removeObsoleteChildren (children) {
-  // The latest view is always appended is must thus be the last element
-  const lastIndex = children.length - 1
-  children.each((i, el) => {
-    // Remove all but the last element
-    if (i !== lastIndex) $(el).remove()
-  })
 }
 
 Marionette.View.prototype.showChildComponent = function (regionName, Component, options = {}) {
   if (!this.isIntact()) return
   const region = this.getRegion(regionName)
+  if (region.currentView) region.currentView.destroy()
+  removeCurrentComponent(region)
   const el = (typeof region.el === 'string') ? document.querySelector(region.el) : region.el
   options.target = el
-  // Svelte only appends to the target, thus the need to empty it before mounting
-  $(el).empty()
-  return new Component(options)
+  const component = new Component(options)
+  region.currentComponent = component
+  return component
+}
+
+function removeCurrentComponent (region) {
+  if (region.currentComponent) {
+    region.currentComponent.$destroy()
+    delete region.currentComponent
+  }
 }
 
 Marionette.CollectionView.prototype.showChildView = Marionette.View.prototype.showChildView
