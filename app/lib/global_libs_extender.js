@@ -172,6 +172,9 @@ function removeCurrentComponent (region) {
   if (region.currentComponent) {
     region.currentComponent.$destroy()
     delete region.currentComponent
+  } else if (region.currentView?._regions) {
+    const subregions = Object.values(region.currentView._regions)
+    subregions.forEach(removeCurrentComponent)
   }
 }
 
