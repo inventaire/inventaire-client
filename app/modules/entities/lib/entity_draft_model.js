@@ -11,30 +11,33 @@ const hasMonolingualTitle = [
   'collection'
 ]
 
+const createDraft = ({ type, claims, label }) => {
+  // TODO: allow to select specific type at creation
+  const defaultP31 = typeDefaultP31[type]
+  if (defaultP31 == null) {
+    throw new Error(`unknown type: ${type}`)
+  }
+
+  if (!claims) claims = {}
+  claims['wdt:P31'] = [ defaultP31 ]
+
+  const labels = {}
+  if (label != null) {
+    if (hasMonolingualTitle.includes(type)) {
+      claims['wdt:P1476'] = [ label ]
+    } else {
+      // use the label we got as a label suggestion
+      labels[app.user.lang] = label
+    }
+  }
+  return { type, claims, labels }
+}
+
 export default {
   create (options) {
-    let { type, label, claims, relation } = options
-
-    // TODO: allow to select specific type at creation
-    const defaultP31 = typeDefaultP31[type]
-    if (defaultP31 == null) {
-      throw new Error(`unknown type: ${type}`)
-    }
-
-    if (!claims) claims = {}
-    claims['wdt:P31'] = [ defaultP31 ]
-
-    const labels = {}
-    if (label != null) {
-      if (hasMonolingualTitle.includes(type)) {
-        claims['wdt:P1476'] = [ label ]
-      } else {
-        // use the label we got as a label suggestion
-        labels[app.user.lang] = label
-      }
-    }
-
-    const model = new Backbone.NestedModel({ type, labels, claims })
+    const { type, label, claims, relation } = options
+    const entityDraft = createDraft(options)
+    const model = new Backbone.NestedModel(entityDraft)
     Entity.prototype.setFavoriteLabel.call(model, model.toJSON())
 
     _.extend(model, {
@@ -75,5 +78,6 @@ export default {
     return model
   },
 
+  createDraft,
   allowlistedTypes: Object.keys(typeDefaultP31)
 }

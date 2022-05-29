@@ -1,4 +1,3 @@
-import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
 import Entity from '../models/entity.js'
 import error_ from '#lib/error'
@@ -9,53 +8,55 @@ import graphRelationsProperties from './graph_relations_properties.js'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 
-export const createWorkEdition = async function (workEntity, isbn) {
-  assert_.types(arguments, [ 'object', 'string' ])
-
-  const isbnData = await getIsbnData(isbn)
-  let { title, groupLang: editionLang } = isbnData
-  log_.info(title, 'title from isbn data')
-  if (!title) title = getTitleFromWork(workEntity, editionLang)
-  log_.info(title, 'title after work suggestion')
-
-  if (title == null) throw error_.new('no title could be found', isbn)
-
-  const claims = {
-    // instance of (P31) -> edition (Q3331189)
-    'wdt:P31': [ 'wd:Q3331189' ],
-    // isbn 13 (isbn 10 - if it exist - will be added by the server)
-    'wdt:P212': [ isbnData.isbn13h ],
-    // edition or translation of (P629) -> created book
-    'wdt:P629': [ workEntity.get('uri') ],
-    'wdt:P1476': [ title ]
-  }
-
-  if (isbnData.image != null) {
-    claims['invp:P2'] = [ isbnData.image ]
-  }
-
-  const editionEntity = await createAndGetEntityModel({ labels: {}, claims })
-  // If work editions have been fetched, add it to the list
-  workEntity.editions?.add(editionEntity)
-  workEntity.push('claims.wdt:P747', editionEntity.get('uri'))
-  return editionEntity
-}
-
-const getTitleFromWork = function (workEntity, editionLang) {
-  const inEditionLang = workEntity.get(`labels.${editionLang}`)
+const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
+  const inEditionLang = workLabels[editionLang]
   if (inEditionLang != null) return inEditionLang
 
-  const inUserLang = workEntity.get(`labels.${app.user.lang}`)
+  const inUserLang = workLabels[app.user.lang]
   if (inUserLang != null) return inUserLang
 
-  const originalLang = getOriginalLang(workEntity.get('claims'))
-  const inWorkOriginalLang = workEntity.get(`labels.${originalLang}`)
+  const originalLang = getOriginalLang(workClaims)
+  const inWorkOriginalLang = workLabels[originalLang]
   if (inWorkOriginalLang != null) return inWorkOriginalLang
 
-  const inEnglish = workEntity.get('labels.en')
+  const inEnglish = workLabels.en
   if (inEnglish != null) return inEnglish
 
-  return workEntity.get('labels')[0]
+  return Object.values(workLabels)[0]
+}
+
+export const createWorkEditionDraft = async function ({ workEntity, isbn, isbnData, editionClaims }) {
+  const { labels: workLabels, claims: workClaims, uri: workUri, label } = workEntity
+  const claims = _.extend(editionClaims, {
+    // instance of (P31) -> edition (Q3331189)
+    'wdt:P31': [ 'wd:Q3331189' ],
+    // edition or translation of (P629) -> created book
+    'wdt:P629': [ workUri ],
+  })
+  let title, editionLang
+  if (isbn && !isbnData) isbnData = await getIsbnData(isbn)
+  if (isbnData) {
+    editionLang = isbnData.groupLang
+    title = isbnData.title
+    log_.info(title, 'title from isbn data')
+    log_.info(title, 'title after work suggestion')
+
+    const { isbn13h } = isbnData
+
+    // isbn 13 (isbn 10 - if it exist - will be added by the server)
+    claims['wdt:P212'] = [ isbn13h ]
+
+    if (isbnData.image != null) {
+      claims['invp:P2'] = [ isbnData.image ]
+    }
+  }
+  // if workEntity has been formatted already, use the label as title
+  // known case: autocomplete editor suggestion (which do not have `labels` key)
+  if (label) title = label
+  if (!title) title = getTitleFromWork(workLabels, workClaims, editionLang)
+  if (title == null) throw error_.new('no title could be found', workEntity)
+  claims['wdt:P1476'] = [ title ]
+  return { labels: {}, claims }
 }
 
 export const createByProperty = async function (options) {

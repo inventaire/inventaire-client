@@ -26,7 +26,9 @@ const API = {
     showAddLayout('scan')
   },
   showImport () {
-    showAddLayout('import')
+    let isbns = app.request('querystring:get', 'isbns')
+    if (isbns) isbns = isbns.split('|')
+    showAddLayout('import', { isbns })
   },
   async showEmbeddedScanner () {
     if (app.request('require:loggedIn', 'add/scan/embedded')) {
@@ -58,8 +60,8 @@ const initializeHandlers = () => app.commands.setHandlers({
   // but more explicit
   'show:add:layout:search': API.showSearch,
 
-  'show:add:layout:import:isbns' (isbnsBatch) {
-    showAddLayout('import', { isbnsBatch })
+  'show:add:layout:import:isbns' (isbns) {
+    showAddLayout('import', { isbns })
   },
 
   'show:scan': API.showScan,

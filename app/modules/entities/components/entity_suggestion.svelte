@@ -20,9 +20,9 @@
 
 <li bind:this={element}>
   <button
-    on:click={() => dispatch('select')}
+    on:click|stopPropagation={() => dispatch('select')}
     class:highlight={highlight}
-    >
+  >
     <div class="top">
       <span class="label">{label}</span>
       <a class="uri" href="/entity/{uri}" target="_blank" on:click|stopPropagation>{uri}</a>

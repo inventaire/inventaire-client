@@ -5,7 +5,9 @@ $addLayoutWidth: 70em;
 
 #addLayout{
   @include central-column($addLayoutWidth);
-  text-align: center;
+  #scanLayout, #addSearchLayout{
+    text-align: center;
+  }
   .tab{
     .fa{
       margin-right: 0.5em;

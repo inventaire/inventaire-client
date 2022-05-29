@@ -36,7 +36,7 @@
       dispatch('close')
     } else if (key === 'enter') {
       if (suggestions[highlightedIndex]) {
-        dispatch('select', suggestions[highlightedIndex].uri)
+        dispatch('select', suggestions[highlightedIndex])
       }
     } else if (key === 'down') {
       highlightedIndex = highlightedIndex + 1
@@ -94,7 +94,7 @@
 
   const lazySearch = _.debounce(search, 200)
 
-  if (currentEntityLabel) lazySearch()
+  if (currentEntityLabel && autofocus) lazySearch()
 
   // TODO: fix scroll
   function onSuggestionsScroll (e) {
@@ -121,7 +121,7 @@
         name: searchText,
         createOnWikidata,
       })
-      dispatch('select', createdEntityModel.get('uri'))
+      dispatch('select', createdEntityModel.toJSON())
     } catch (err) {
       dispatch('error', err)
     }
@@ -154,8 +154,10 @@
 <div class="input-group">
   <div class="input-wrapper">
     <input type="text"
-      value={currentEntityLabel || ''}
+      on:click|stopPropagation
+      bind:value={currentEntityLabel}
       on:keyup={onInputKeyup}
+      on:focus={lazySearch}
       bind:this={input}
       use:autofocusFn={{ disabled: autofocus !== true }}
     >
@@ -173,7 +175,7 @@
               {displaySuggestionType}
               {scrollableElement}
               highlight={i === highlightedIndex}
-              on:select={() => dispatch('select', suggestion.uri)}
+              on:select={() => dispatch('select', suggestion)}
             />
           {/each}
         </ul>
@@ -186,7 +188,9 @@
         {/await}
       </div>
       <div class="controls">
-        <button class="close" on:click={close}>
+        <button class="close"
+          on:click|stopPropagation={close}
+        >
           {@html icon('close')}
           {I18n('close')}
         </button>

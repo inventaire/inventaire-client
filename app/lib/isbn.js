@@ -1,8 +1,9 @@
 import preq from '#lib/preq'
-const getIsbnData = isbn => preq.get(app.API.data.isbn(isbn))
+
+export const getIsbnData = isbn => preq.get(app.API.data.isbn(isbn))
 
 // Removing any non-alpha numeric characters, especially '-' and spaces
-const normalizeIsbn = text => {
+export const normalizeIsbn = text => {
   return text
   // Remove hypens
   .replace(/\W/g, '')
@@ -10,12 +11,12 @@ const normalizeIsbn = text => {
   .toUpperCase()
 }
 
-const isNormalizedIsbn = text => /^(97(8|9))?\d{9}(\d|X)$/.test(text)
+export const isNormalizedIsbn = text => /^(97(8|9))?\d{9}(\d|X)$/.test(text)
 
 // Stricter ISBN validation is done on the server but would be too expensive
 // to do client-side: so the trade-off is that invalid ISBN
 // might not be spotted client-side until refused by the server
-const looksLikeAnIsbn = function (text) {
+export const looksLikeAnIsbn = function (text) {
   if (typeof text !== 'string') return false
   const cleanedText = normalizeIsbn(text)
   if (isNormalizedIsbn(cleanedText)) {
@@ -25,4 +26,6 @@ const looksLikeAnIsbn = function (text) {
   return false
 }
 
-export { getIsbnData, normalizeIsbn, isNormalizedIsbn, looksLikeAnIsbn }
+// {9,13} would be enough, but since it is used this is an extractor, it makes sense to increase the possible scope to invalid isbns.
+// Known cases: having five - instead of valid four.
+export const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g

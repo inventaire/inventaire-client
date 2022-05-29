@@ -27,7 +27,10 @@
   }
 </script>
 
-<button class="value-display" on:click={() => dispatch('edit')} title="{I18n('edit')}">
+<button class="value-display"
+  on:click|stopPropagation={() => dispatch('edit')}
+  title="{I18n('edit')}"
+>
   {#await waitingForValueEntityBasicInfo}
     <Spinner />
   {:then}

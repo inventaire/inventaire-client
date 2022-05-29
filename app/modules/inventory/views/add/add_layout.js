@@ -58,8 +58,16 @@ export default Marionette.View.extend({
     const { wait, View } = tabsData[tab]
     const tabKey = `${tab}Tab`
     if (wait) await wait
-
-    this.showChildView('content', new View(this.options))
+    if (tab === 'import') {
+      const { default: SvelteImportLayout } = await import('#inventory/components/importer/import_layout.svelte')
+      this.getRegion('content').showSvelteComponent(SvelteImportLayout, {
+        props: {
+          isbns: this.options.isbns
+        }
+      })
+    } else {
+      this.showChildView('content', new View(this.options))
+    }
     this.ui.tabs.removeClass('active')
     this.ui[tabKey].addClass('active')
     app.navigate(`add/${tab}`, {
@@ -72,8 +80,9 @@ export default Marionette.View.extend({
   changeTab (e) {
     const tab = e.currentTarget.id.split('Tab')[0]
     this.showTabView(tab)
-    if (screen_.isSmall()) {
-      screen_.scrollTop(this.getRegion('content').$el)
+    const contentEl = this.getRegion('content').$el
+    if (screen_.isSmall() && contentEl.position()) {
+      screen_.scrollTop(contentEl)
     }
   }
 })

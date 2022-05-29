@@ -5,36 +5,42 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { I18n } from '#user/lib/i18n'
 
-  export let type, uri
+  export let type, entity = {}, label, currentEntityLabel, uri
 
-  let flash, valueBasicInfo, editMode = false
+  const initialEntity = entity
+  const initialLabel = label || entity?.label
 
-  function select (e) {
-    uri = e.detail.uri
+  currentEntityLabel = initialLabel
+  let flash, editMode = false
+
+  function selectSuggestion (e) {
+    // Since autocomplete suggestion does not have labels key,
+    // e.detail is the full autocomplete suggestion (not only its uri).
+    // Which allows to use suggestion.label when creating edition from work,
+    // without having the server fetch the entity again
+    entity = e.detail
+    uri = entity.uri
     editMode = false
   }
 
-  function setInfo () {
-    type = valueBasicInfo.type
-    if (uri && valueBasicInfo.redirection) {
-      uri = valueBasicInfo.redirection
-    }
+  function unselectSuggestion () {
+    // rewrite entity to trigger candidateRow statuses
+    entity = initialEntity
+    uri = null
+    currentEntityLabel = initialLabel
   }
-
-  $: if (valueBasicInfo) setInfo()
 </script>
 
 {#if uri && !editMode}
   <div class="row">
     <EntityValueDisplay
       value={uri}
-      bind:valueBasicInfo
       on:edit={() => editMode = true}
     />
     <button
       class="unselect"
       title={I18n('unselect')}
-      on:click={() => uri = null}
+      on:click|stopPropagation={unselectSuggestion}
     >
       {@html icon('close')}
     </button>
@@ -43,12 +49,12 @@
   <EntityAutocompleteSelector
     searchTypes={type}
     currentEntityUri={uri}
-    currentEntityLabel={uri ? valueBasicInfo?.label : null}
-    displaySuggestionType={type == null}
+    bind:currentEntityLabel
+    displaySuggestionType={false}
     autofocus={false}
     on:close={() => editMode = false}
     on:error={e => flash = e.detail}
-    on:select={select}
+    on:select={selectSuggestion}
   />
 {/if}
 
@@ -58,6 +64,10 @@
   @import '#general/scss/utils';
   .row{
     @include display-flex(row, center);
+    margin: 0.5em 0;
+    :global(.bottom){
+      padding: 0.2em 0;
+    }
   }
   .unselect{
     @include shy;

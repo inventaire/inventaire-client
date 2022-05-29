@@ -1,6 +1,6 @@
 @import '#general/scss/utils';
 
-.itemCreation, .import-queue{
+.itemCreation{
   #giving{ @include selected-button-color($giving-color); }
   #lending{ @include selected-button-color($lending-color); }
   #selling{ @include selected-button-color($selling-color); }

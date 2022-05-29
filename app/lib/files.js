@@ -61,5 +61,6 @@ export function resetFileInput (inputElement) {
 
 export default {
   parseFileEventAsDataURL: parseFileEvent.bind(null, 'readAsDataURL'),
-  parseFileEventAsText: parseFileEvent.bind(null, 'readAsText')
+  parseFileEventAsText: parseFileEvent.bind(null, 'readAsText'),
+  readFile
 }
