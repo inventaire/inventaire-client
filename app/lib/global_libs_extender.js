@@ -148,10 +148,10 @@ Backbone.View.prototype.ifViewIsIntact = function (fn, ...args) {
 
 const originalShowChildView = Marionette.View.prototype.showChildView
 
-Marionette.View.prototype.showChildView = function (name, view, options) {
+Marionette.View.prototype.showChildView = function (regionName, view, options) {
   if (!this.isIntact()) return
-  originalShowChildView.call(this, name, view, options)
-  const region = this.getRegion(name)
+  originalShowChildView.call(this, regionName, view, options)
+  const region = this.getRegion(regionName)
   const children = region.$el.children()
   if (children.length > 1) removeObsoleteChildren(children)
   return view
@@ -164,6 +164,16 @@ function removeObsoleteChildren (children) {
     // Remove all but the last element
     if (i !== lastIndex) $(el).remove()
   })
+}
+
+Marionette.View.prototype.showChildComponent = function (regionName, Component, options = {}) {
+  if (!this.isIntact()) return
+  const region = this.getRegion(regionName)
+  const el = (typeof region.el === 'string') ? document.querySelector(region.el) : region.el
+  options.target = el
+  // Svelte only appends to the target, thus the need to empty it before mounting
+  $(el).empty()
+  return new Component(options)
 }
 
 Marionette.CollectionView.prototype.showChildView = Marionette.View.prototype.showChildView
@@ -198,14 +208,6 @@ Backbone.View.prototype.lazyRender = function (focusSelector) {
     this._lazyRender = LazyRender(this, delay)
   }
   this._lazyRender(focusSelector)
-}
-
-Marionette.Region.prototype.showSvelteComponent = function (SvelteComponent, options) {
-  const el = (typeof this.el === 'string') ? document.querySelector(this.el) : this.el
-  options.target = el
-  // Svelte only appends to the target, thus the need to empty it before mounting
-  $(el).empty()
-  return new SvelteComponent(options)
 }
 
 const triggerChange = function (model, attr, value) {

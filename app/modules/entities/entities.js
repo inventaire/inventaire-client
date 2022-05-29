@@ -203,7 +203,7 @@ const API = {
     const { from, to, type } = app.request('querystring:get:all')
     app.execute('show:loader')
     const { default: EntityMerge } = await import('./components/entity_merge.svelte')
-    app.layout.getRegion('main').showSvelteComponent(EntityMerge, {
+    app.layout.showChildComponent('main', EntityMerge, {
       props: { from, to, type }
     })
   },
@@ -225,7 +225,7 @@ const showEntityCreate = async params => {
   if (params.claims) app.execute('querystring:set', 'claims', params.claims)
 
   const { default: EntityCreate } = await import('./components/editor/entity_create.svelte')
-  app.layout.getRegion('main').showSvelteComponent(EntityCreate, {
+  app.layout.showChildComponent('main', EntityCreate, {
     props: params
   })
 }
@@ -322,7 +322,7 @@ const showEntityEdit = async params => {
   const { model } = params
   if (model.type == null) throw error_.new('invalid entity type', model)
   const { default: EntityEdit } = await import('./components/editor/entity_edit.svelte')
-  app.layout.getRegion('main').showSvelteComponent(EntityEdit, {
+  app.layout.showChildComponent('main', EntityEdit, {
     props: {
       entity: model.toJSON()
     }
@@ -382,7 +382,7 @@ const showEntityCreateFromIsbn = async isbn => {
   }
 
   const { default: EntityCreateEditionAndWorkFromIsbn } = await import('./components/editor/entity_create_edition_and_work_from_isbn.svelte')
-  app.layout.getRegion('main').showSvelteComponent(EntityCreateEditionAndWorkFromIsbn, {
+  app.layout.showChildComponent('main', EntityCreateEditionAndWorkFromIsbn, {
     props: {
       isbn13h,
       edition: { claims }
@@ -413,7 +413,7 @@ const showViewByAccessLevel = function (params) {
       if (View) {
         app.layout.showChildView('main', new View(viewOptions))
       } else {
-        app.layout.getRegion('main').showSvelteComponent(Component, {
+        app.layout.showChildComponent('main', Component, {
           props: componentProps
         })
       }
