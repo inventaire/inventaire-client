@@ -60,7 +60,7 @@ export default Marionette.View.extend({
     if (wait) await wait
     if (tab === 'import') {
       const { default: SvelteImportLayout } = await import('#inventory/components/importer/import_layout.svelte')
-      this.getRegion('content').showSvelteComponent(SvelteImportLayout, {
+      this.showChildComponent('content', SvelteImportLayout, {
         props: {
           isbns: this.options.isbns
         }
