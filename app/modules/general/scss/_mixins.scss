@@ -89,7 +89,7 @@
 
 // capitalize only the first letter, not every words first letter
 @mixin capitalized(){
-  &:first-letter{
+  &::first-letter{
     text-transform: uppercase;
   }
 }

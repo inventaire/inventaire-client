@@ -46,7 +46,7 @@
     color: #444;
     cursor: default;
   }
-  &:first-letter{
+  &::first-letter{
     text-transform: uppercase;
   }
 }
