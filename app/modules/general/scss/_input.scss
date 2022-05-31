@@ -85,6 +85,10 @@ textarea{
   }
 }
 
+label{
+  cursor: pointer;
+}
+
 .inputGroup{
   width: 100%;
   @include display-flex(row, left, flex-start);
