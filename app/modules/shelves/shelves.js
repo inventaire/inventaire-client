@@ -1,5 +1,5 @@
 import error_ from '#lib/error'
-import { isShelfId } from '#lib/boolean_tests'
+import { isModel, isShelfId } from '#lib/boolean_tests'
 import ShelfModel from './models/shelf.js'
 import { getById } from './lib/shelves.js'
 
@@ -40,9 +40,10 @@ const API = {
 
 const showShelf = function (shelf) {
   if (isShelfId(shelf)) {
-    return API.showShelfFromId(shelf)
+    API.showShelfFromId(shelf)
   } else {
-    return showShelfFromModel(shelf)
+    if (!isModel(shelf)) shelf = new ShelfModel(shelf)
+    showShelfFromModel(shelf)
   }
 }
 
