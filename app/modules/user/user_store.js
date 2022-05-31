@@ -3,5 +3,7 @@ import { readable } from 'svelte/store'
 import app from '#app/app'
 
 export const user = readable(app.user.attributes, set => {
-  app.user.on('change', () => set(app.user.attributes))
+  const update = () => set(app.user.attributes)
+  app.user.on('change', update)
+  return () => app.user.off('change', update)
 })
