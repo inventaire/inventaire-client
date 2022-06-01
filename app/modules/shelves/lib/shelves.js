@@ -17,8 +17,14 @@ export async function createShelf (params) {
 }
 
 export async function updateShelf (params) {
-  const { shelf } = await preq.post(app.API.shelves.update, params)
-  return shelf
+  try {
+    const { shelf } = await preq.post(app.API.shelves.update, params)
+    return shelf
+  } catch (err) {
+    if (err.message !== 'nothing to update') {
+      throw err
+    }
+  }
 }
 
 export function deleteShelf (params) {
