@@ -5,23 +5,38 @@
   import VisibilitySelector from '#general/components/visibility_selector.svelte'
   import { getSomeColorHexCodeSuggestion } from '#lib/images'
   import Flash from '#lib/components/flash.svelte'
-  import { createShelf } from '#shelves/lib/shelves'
+  import { createShelf, updateShelf } from '#shelves/lib/shelves'
   import Spinner from '#components/spinner.svelte'
+  import { wait } from '#lib/promises'
 
-  onMount(() => {
-    app.execute('modal:open')
-  })
+  export let shelf = {}, model = null
 
-  let isNewShelf = true
-  let name = '', description = '', visibility = [], color = getSomeColorHexCodeSuggestion()
-  let flash, waitForCreation
+  onMount(() => app.execute('modal:open'))
 
-  async function create () {
+  let isNewShelf = !shelf._id
+
+  let {
+    name = '',
+    description = '',
+    visibility = [],
+    color = getSomeColorHexCodeSuggestion()
+  } = shelf
+
+  let flash, waiting
+  async function validate () {
     try {
-      waitForCreation = createShelf({ name, description, visibility, color })
-      const newShelf = await waitForCreation
-      app.user.trigger('shelves:change', 'createShelf')
-      app.execute('show:shelf', newShelf)
+      if (isNewShelf) {
+        waiting = createShelf({ name, description, visibility, color })
+        const newShelf = await waiting
+        app.user.trigger('shelves:change', 'createShelf')
+        app.execute('show:shelf', newShelf)
+      } else {
+        waiting = updateShelf({ shelf: shelf._id, name, description, visibility, color })
+        await waiting
+        model.set({ name, description, visibility, color })
+      }
+      flash = { type: 'success', message: I18n('saved') }
+      await wait(800)
       app.execute('modal:close')
     } catch (err) {
       flash = err
@@ -58,29 +73,31 @@
   <Flash state={flash} />
 
   <div class="buttons">
-    {#if !isNewShelf}
-      <button class="delete button">
-        {@html icon('trash')}
-        {I18n('delete')}
-      </button>
-    {/if}
-    <button
-      class="validate button success-button"
-      title={name === '' ? i18n('A shelf name is required') : I18n('validate')}
-      disabled={name === ''}
-      on:click={create}
-    >
-      {#await waitForCreation}
-        <Spinner />
-      {:then}
-        {@html icon('check')}
-      {/await}
-      {#if isNewShelf}
-        {I18n('create')}
-      {:else}
-        {I18n('validate')}
+    {#await waiting}
+      <Spinner />
+    {:then}
+      {#if !flash}
+        {#if !isNewShelf}
+          <button class="delete button">
+            {@html icon('trash')}
+            {I18n('delete')}
+          </button>
+        {/if}
+        <button
+          class="validate button success-button"
+          title={name === '' ? i18n('A shelf name is required') : I18n('validate')}
+          disabled={name === ''}
+          on:click={validate}
+        >
+          {@html icon('check')}
+          {#if isNewShelf}
+            {I18n('create')}
+          {:else}
+            {I18n('validate')}
+          {/if}
+        </button>
       {/if}
-    </button>
+    {/await}
   </div>
 </div>
 
@@ -91,6 +108,9 @@
     label, :global(fieldset){
       margin: 1em 0;
     }
+  }
+  input:invalid:not(:focus){
+    border: 1px solid red;
   }
   label{
     font-size: 1rem;
@@ -113,10 +133,9 @@
   .delete{
     @include dangerous-action;
   }
-  /*Smaller screens*/
+  /*Small screens*/
   @media screen and (max-width: $very-small-screen) {
     .shelf-editor{
-      @include display-flex(column, center, center);
       label, :global(fieldset){
         padding: 0 0.5em;
       }
