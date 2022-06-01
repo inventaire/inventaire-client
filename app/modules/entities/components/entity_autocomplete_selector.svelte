@@ -29,7 +29,7 @@
   let showSuggestions = false
   let scrollableElement
 
-  function onInputKeyup (e) {
+  function onInputKeydown (e) {
     const key = getActionKey(e)
     if (key === 'esc') {
       close()
@@ -156,7 +156,7 @@
     <input type="text"
       on:click|stopPropagation
       bind:value={currentEntityLabel}
-      on:keyup={onInputKeyup}
+      on:keydown={onInputKeydown}
       on:focus={lazySearch}
       bind:this={input}
       use:autofocusFn={{ disabled: autofocus !== true }}
