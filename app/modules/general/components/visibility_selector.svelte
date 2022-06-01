@@ -2,13 +2,12 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { userGroups } from '#user/user_groups_store'
   import { uniq } from 'underscore'
-  import { getGroupVisibilityKey, isNotGroupVisibilityKey } from '#general/lib/visibility'
+  import { getGroupVisibilityKey, isNotGroupVisibilityKey, isNotAllGroupsKey } from '#general/lib/visibility'
 
   export let visibility = []
   let checked = visibility
-  $: allGroupsVisibilityKeys = $userGroups.map(getGroupVisibilityKey)
-  $: checked != null && updateVisibility()
-  $: allGroups = visibility.includes('groups')
+
+  if (visibility.includes('groups')) checkAllGroups()
 
   function updateVisibility () {
     if (checked.includes('groups')) {
@@ -18,13 +17,23 @@
     }
   }
 
-  function onAllGroupsClick (e) {
-    if (e.target.checked) {
-      checked = uniq(checked.concat([ 'groups', ...allGroupsVisibilityKeys ]))
+  function updateCheckedGroupsKeys (allGroupsChecked) {
+    if (allGroupsChecked) {
+      checkAllGroups()
     } else {
-      checked = checked.filter(key => isNotAllGroupsKey(key) && isNotGroupVisibilityKey(key))
+      uncheckAllGroups()
     }
   }
+
+  function checkAllGroups () {
+    checked = uniq(checked.concat([ 'groups', ...allGroupsVisibilityKeys ]))
+  }
+
+  function uncheckAllGroups () {
+    checked = checked.filter(key => isNotAllGroupsKey(key) && isNotGroupVisibilityKey(key))
+  }
+
+  const onAllGroupsClick = e => updateCheckedGroupsKeys(e.target.checked)
 
   function onGroupClick (e) {
     if (!e.target.checked) {
@@ -32,7 +41,9 @@
     }
   }
 
-  const isNotAllGroupsKey = key => key !== 'groups'
+  $: allGroupsVisibilityKeys = $userGroups.map(getGroupVisibilityKey)
+  $: checked != null && updateVisibility()
+  $: allGroups = visibility.includes('groups')
 </script>
 
 <fieldset>
@@ -79,14 +90,16 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .options{
-    background-color: $light-grey;
-    @include radius;
-    padding: 0.5em;
-    max-height: 15em;
+    max-height: 25em;
     overflow-y: auto;
   }
   label{
+    padding: 0.2em 0.5em;
     font-size: 1rem;
+    color: $dark-grey;
+    &:hover{
+      background-color: $light-grey;
+    }
   }
   .indent{
     margin-left: 1.3em;
