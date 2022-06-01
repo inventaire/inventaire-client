@@ -38,49 +38,58 @@
 <fieldset>
   <legend>{I18n('visibility')}</legend>
 
-  <label>
-    <input type="checkbox" value="public" bind:group={checked}>
-    {i18n('public')}
-  </label>
+  <div class="options">
+    <label>
+      <input type="checkbox" value="public" bind:group={checked}>
+      {i18n('public')}
+    </label>
 
-  <label>
-    <input type="checkbox" value="friends" bind:group={checked}>
-    {i18n('friends')}
-  </label>
+    <label>
+      <input type="checkbox" value="friends" bind:group={checked}>
+      {i18n('friends')}
+    </label>
 
-  <label>
-    <input
-      type="checkbox"
-      value="groups"
-      bind:group={checked}
-      on:click={onAllGroupsClick}
-    >
-    {i18n('groups')}
-  </label>
-
-  {#each $userGroups as group}
-    <label
-      class="indent"
-      class:inferred={allGroups}
-      >
+    <label>
       <input
         type="checkbox"
-        value="group:{group._id}"
+        value="groups"
         bind:group={checked}
-        on:click={onGroupClick}
+        on:click={onAllGroupsClick}
       >
-      {group.name}
+      {i18n('groups')}
     </label>
-  {/each}
+
+    {#each $userGroups as group}
+      <label
+        class="indent"
+        class:inferred={allGroups}
+        >
+        <input
+          type="checkbox"
+          value="group:{group._id}"
+          bind:group={checked}
+          on:click={onGroupClick}
+        >
+        {group.name}
+      </label>
+    {/each}
+  </div>
 </fieldset>
 
 <style lang="scss">
   @import '#general/scss/utils';
+  .options{
+    background-color: $light-grey;
+    @include radius;
+    padding: 0.5em;
+    max-height: 15em;
+    overflow-y: auto;
+  }
   label{
     font-size: 1rem;
   }
   .indent{
-    margin-left: 1.4em;
+    margin-left: 1.3em;
   }
   .inferred:not(:hover){
     opacity: 0.7;
