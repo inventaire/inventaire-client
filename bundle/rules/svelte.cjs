@@ -1,7 +1,22 @@
 const { sass } = require('svelte-preprocess-sass')
+const { reactivePreprocess } = require('svelte-reactive-preprocessor')
 const { alias } = require('../resolve.cjs')
 
 module.exports = mode => {
+  const prod = mode === 'production'
+  const dev = !prod
+
+  const preprocess = {
+    style: sass({
+      importer: [
+        resolveScssAlias,
+      ],
+    }),
+  }
+  if (dev) {
+    preprocess.script = reactivePreprocess().script
+  }
+
   return [
     {
       test: /\.svelte$/,
@@ -11,18 +26,12 @@ module.exports = mode => {
           loader: 'svelte-loader',
           options: {
             compilerOptions: {
-              dev: mode !== 'production',
+              dev,
             },
-            hotReload: mode !== 'production',
+            hotReload: dev,
             // Only emit in production to get the page to reload on style change in development
-            emitCss: mode === 'production',
-            preprocess: {
-              style: sass({
-                importer: [
-                  resolveScssAlias,
-                ],
-              })
-            }
+            emitCss: prod,
+            preprocess,
           },
         }
       ],
