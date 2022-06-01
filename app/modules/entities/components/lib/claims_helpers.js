@@ -1,7 +1,5 @@
 import {
   labelString,
-  getValuesTemplates,
-  claimString,
 } from '#lib/handlebars_helpers/claims_helpers'
 import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
 import linkify_ from '#lib/handlebars_helpers/linkify'
@@ -13,11 +11,8 @@ import { unprefixify } from '#lib/wikimedia/wikidata'
 import platforms_ from '#lib/handlebars_helpers/platforms.js'
 import * as icons_ from '#lib/handlebars_helpers/icons.js'
 
-const farInTheFuture = '2100'
-const omitLabel = false
-
 export const formatClaim = params => {
-  const { prop, values, omitLabel, inline } = params
+  const { prop, values, inline, omitLabel } = params
   if (values[0] === null) return
   const type = propertiesType[prop]
   if (!type) return
@@ -54,76 +49,74 @@ export const editionWorkProperties = [
   'wdt:P179', // serie
 ]
 
-export const aggregateWorksClaims = (claims, works) => {
+export const aggregateWorksClaims = works => {
   let worksClaims = editionWorkProperties.map(value => ({ [value]: [] }))
   works.reduce(aggregateClaims, worksClaims)
   return _.pick(worksClaims, isNonEmptyArray)
 }
 
-const propertiesType = {
-  'wdt:P50': 'entityClaim',
-  'wdt:P58': 'entityClaim',
-  'wdt:P110': 'entityClaim',
-  'wdt:P123': 'entityClaim',
-  'wdt:P135': 'entityClaim',
-  'wdt:P136': 'entityClaim',
-  'wdt:P144': 'entityClaim',
-  'wdt:P155': 'entityClaim',
-  'wdt:P156': 'entityClaim',
-  'wdt:P179': 'entityClaim',
-  'wdt:P195': 'entityClaim',
+export const propertiesType = {
+  'wdt:P50': 'entityProp',
+  'wdt:P58': 'entityProp',
+  'wdt:P110': 'entityProp',
+  'wdt:P123': 'entityProp',
+  'wdt:P135': 'entityProp',
+  'wdt:P136': 'entityProp',
+  'wdt:P144': 'entityProp',
+  'wdt:P155': 'entityProp',
+  'wdt:P156': 'entityProp',
+  'wdt:P179': 'entityProp',
+  'wdt:P195': 'entityProp',
   'wdt:P212': 'stringClaim',
-  'wdt:P361': 'entityClaim',
-  'wdt:P407': 'entityClaim',
+  'wdt:P361': 'entityProp',
+  'wdt:P407': 'entityProp',
   'wdt:P577': 'timeClaim',
-  'wdt:P629': 'entityClaim',
-  'wdt:P655': 'entityClaim',
-  'wdt:P674': 'entityClaim',
-  'wdt:P840': 'entityClaim',
+  'wdt:P629': 'entityProp',
+  'wdt:P655': 'entityProp',
+  'wdt:P674': 'entityProp',
+  'wdt:P840': 'entityProp',
   'wdt:P856': 'urlClaim',
-  'wdt:P921': 'entityClaim',
-  'wdt:P941': 'entityClaim',
+  'wdt:P921': 'entityProp',
+  'wdt:P941': 'entityProp',
   'wdt:P953': 'urlClaim',
   'wdt:P1104': 'stringClaim',
-  'wdt:P1433': 'entityClaim',
+  'wdt:P1433': 'entityProp',
   'wdt:P1476': 'stringClaim',
   'wdt:P1545': 'stringClaim',
   'wdt:P1680': 'stringClaim',
   'wdt:P2635': 'stringClaim',
-  'wdt:P2679': 'entityClaim',
-  'wdt:P2680': 'entityClaim',
-  'wdt:P6338': 'entityClaim',
+  'wdt:P2679': 'entityProp',
+  'wdt:P2680': 'entityProp',
+  'wdt:P6338': 'entityProp',
   'wdt:P2034': 'platformClaim',
   'wdt:P724': 'platformClaim',
   'wdt:P4258': 'platformClaim',
 }
 
 const claimFormats = {
-  entityClaim: params => {
+  entityProp (params) {
     const { prop, omitLabel } = params
     let { values } = params
-    const entityLink = true
     const label = labelString(prop, omitLabel)
-    values = getValuesTemplates(values, entityLink, prop)
-    return claimString(label, values)
+    return `${label}${values}`
   },
   timeClaim (params) {
-    const { prop } = params
+    const { prop, omitLabel } = params
     let { values, format } = params
     format = format || 'year'
-    values.map(unixTime => {
+    values = values.map(unixTime => {
       const time = new Date(unixTime)
-      if (format === 'year') return time.getUTCFullYear()
+      if (format === 'year') { return time.getUTCFullYear() }
     })
     const label = labelString(prop, omitLabel)
     values = _.uniq(values).join(` ${i18n('or')} `)
-    return claimString(label, values)
+    return `${label}${values}`
   },
   stringClaim (params) {
-    const { prop } = params
+    const { prop, omitLabel } = params
     let { values } = params
     const label = labelString(prop, omitLabel)
-    return claimString(label, values)
+    return `${label}${values}`
   },
   urlClaim (params) {
     let { values } = params
@@ -131,7 +124,7 @@ const claimFormats = {
     const firstUrl = values[0]
     const cleanedUrl = removeTailingSlash(dropProtocol(firstUrl))
     values = linkify_(cleanedUrl, firstUrl, 'link website')
-    return claimString(label, values)
+    return `${label}${values}`
   },
   platformClaim (params) {
     const { prop } = params
@@ -142,13 +135,18 @@ const claimFormats = {
       const icon = icons_.icon(platform.icon)
       const text = icon + '<span>' + platform.text(firstPlatformId) + '</span>'
       const url = platform.url(firstPlatformId)
-      const values = linkify_(text, url, 'link social-network')
-      return claimString('', values)
+      return linkify_(text, url, 'link social-network')
     }
   },
 }
 
-export const { entityClaim: formatEntityClaim } = claimFormats
+export const {
+  entityProp,
+  timeClaim,
+  stringClaim,
+  urlClaim,
+  platformClaim,
+} = claimFormats
 
 const aggregateClaims = (worksClaims, work) => {
   editionWorkProperties.forEach(aggregateClaim(worksClaims, work))
@@ -177,19 +175,18 @@ export const getIsbn = entity => getEntityPropValue(entity, 'wdt:P212')
 export const getPublication = entity => getEntityPropValue(entity, 'wdt:P577')
 
 export function getLang (entity) {
-  const langUri = entity.claims['wdt:P407'][0]
+  const langUri = getEntityPropValue(entity, 'wdt:P407')
   return langUri ? wdLang.byWdId[unprefixify(langUri)]?.code : undefined
 }
 
-export function getPublicationTime (entity) {
-  const publicationDate = entity.claims['wdt:P577'][0]
-  return new Date(publicationDate || farInTheFuture).getTime()
+export function getPublicationDate (entity) {
+  const publicationDate = getPublication(entity, 'wdt:P577')
+  if (publicationDate != null) {
+    const publicationYear = parseInt(publicationDate.split('-')[0])
+    const inPublicDomain = publicationYear < publicDomainThresholdYear
+    return { publicationYear, inPublicDomain }
+  }
+  return {}
 }
 
-export function getPublicationDate (entity) {
-  const publicationDate = entity.claims['wdt:P577'][0]
-  if (publicationDate != null) {
-    return parseInt(publicationDate.split('-')[0])
-    // inPublicDomain = this.publicationYear < publicDomainThresholdYear
-  }
-}
+const publicDomainThresholdYear = new Date().getFullYear() - 70

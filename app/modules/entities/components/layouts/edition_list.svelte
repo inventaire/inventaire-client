@@ -1,35 +1,20 @@
 <script>
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { getPublicationDate, getIsbn, formatClaim, formatEntityClaim } from '#entities/components/lib/claims_helpers'
+  import { getPublicationDate, getIsbn } from '#entities/components/lib/claims_helpers'
   import EntityImage from '../entity_image.svelte'
   import { loadInteralLink } from '#lib/utils'
   import getFavoriteLabel from '#entities/lib/get_favorite_label'
+  import EntityValueInline from './entity_value_inline.svelte'
+  import getBestLangValue from '#entities/lib/get_best_lang_value'
 
-  export let edition, authorsUris
-
-  const addClaim = prop => {
-    const values = edition.claims[prop]
-    if (values) {
-      return formatClaim({
-        prop,
-        values,
-        omitLabel: true,
-        inline: true
-      })
-    }
+  export let edition, publisher
+  let publisherLabel, publisherUri
+  if (publisher) {
+    publisherLabel = getBestLangValue(app.user.lang, null, publisher.labels).value
+    publisherUri = publisher.uri
   }
-
-  const editionInfoLine = () => {
-    const lineElements = [
-      getPublicationDate(edition),
-      addClaim('wdt:P123'),
-      getIsbn(edition),
-    ]
-    return _.compact(lineElements)
-  }
-
-  let lineElements = editionInfoLine()
   const favoriteLabel = getFavoriteLabel(edition)
+  const isbn = getIsbn(edition)
+  const { publicationYear } = getPublicationDate(edition)
 </script>
 <div class="edition-list-info">
   <div>
@@ -37,17 +22,26 @@
       {favoriteLabel}
     </a>
   </div>
-  {#if isNonEmptyArray(authorsUris)}
-    <div class="authors-line">
-      {@html formatEntityClaim({ values: authorsUris, prop: 'wdt:P50', omitLabel: true })}
-    </div>
-  {/if}
   <div class="edition-info-line">
-    {#each lineElements as lineEl}
-      <span>
-        {@html lineEl}
-      </span>
-    {/each}
+    {#if publisherUri}
+      <div class="publisher">
+        <EntityValueInline
+          uri={publisherUri}
+          label={publisherLabel}
+          title={publisherLabel}
+        />
+      </div>
+    {/if}
+    {#if publicationYear}
+      <div class="publication-year">
+        {publicationYear}
+      </div>
+    {/if}
+    {#if isbn}
+      <div class="isbn">
+        {isbn}
+      </div>
+    {/if}
   </div>
 </div>
 {#if edition.image}
@@ -63,19 +57,17 @@
   .edition-title{
     @include link-dark;
   }
-  .authors-line{
-    font-style: italic;
-  }
   .cover{
     max-width: 7em;
     margin-left: 1em;
   }
   .edition-list-info{
-    @include display-flex(column, flex-start);
+    @include display-flex(column, flex-start, flex-start);
     padding: 0.3em;
     margin-left: 0.5em
   }
   .edition-info-line{
+    @include display-flex(row, center, flex-start, wrap);
     :not(:last-child):after{
       margin-right: 0.2em;
       content: ',';

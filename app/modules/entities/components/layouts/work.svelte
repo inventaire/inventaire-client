@@ -8,6 +8,7 @@
   import { isNonEmptyArray, isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { I18n } from '#user/lib/i18n'
   import { getSubEntities, bestImage } from '../lib/entities'
+  import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
   import EditionList from './edition_list.svelte'
   import EditionsListActions from './editions_list_actions.svelte'
@@ -15,46 +16,62 @@
   import ItemsLists from './items_lists.svelte'
   import EntityImage from '../entity_image.svelte'
   import Ebooks from './ebooks.svelte'
+  import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 
   export let entity, standalone, triggerScrollToMap
 
   const { uri, image } = entity
   let { claims } = entity
-  let displayedClaims = []
-  let authorsUris, editionsUris
+  let authorsClaims, editionsUris
   let editions = []
   let initialEditions = []
   let editionsLangs
   const userLang = app.user.lang
   let selectedLangs = [ userLang ]
   let mainCoverEdition, secondaryCoversEditions
+  let publishersByUris
 
-  const claimsOrder = _.uniq([
+  const allWorkProperties = _.uniq([
     ...editionWorkProperties,
     ...workProperties
   ])
 
-  const getEditions = async () => {
+  const workShortlist = [
+    'wdt:P577',
+    'wdt:P136',
+    'wdt:P921',
+  ]
+
+  const getEditionsWithPublishers = async () => {
     initialEditions = await getSubEntities('work', uri)
+    const publishersUris = getPublishersUrisFromEditions(initialEditions)
+    const { entities } = await getEntitiesAttributesByUris({
+      uris: publishersUris,
+      attributes: [ 'labels' ],
+      lang: app.user.lang
+    })
+    publishersByUris = entities
     editions = initialEditions
   }
 
+  const getPublishersUrisFromEditions = editions => {
+    return _.uniq(_.compact(_.flatten(editions.map(edition => {
+      return findFirstClaimValue(edition, 'wdt:P123')
+    }))))
+  }
+
+  const findFirstClaimValue = (entity, prop) => {
+    const values = entity?.claims[prop]
+    if (!values || !values[0]) return
+    return values[0]
+  }
+
   const addClaims = claims => {
-    authorsUris = claims['wdt:P50']
-    delete claims['wdt:P50']
     const nonEmptyClaims = _.pick(claims, isNonEmptyArray)
     return Object.assign(claims, nonEmptyClaims)
   }
-
-  const filterClaims = (_, key) => claimsOrder.includes(key)
-
-  const workClaims = _.pick(claims, filterClaims)
-
-  displayedClaims = addClaims(workClaims)
-
-  if (authorsUris) {
-    delete displayedClaims['wdt:P50']
-  }
+  const workClaims = _.pick(claims, allWorkProperties)
+  addClaims(workClaims)
 
   const prioritizeMainUserLang = langs => {
     if (langs.includes(userLang)) {
@@ -80,6 +97,12 @@
     secondaryCoversEditions = editionsWithCover.slice(1, 4)
   }
 
+  const findPublisher = (edition, publishersByUris) => {
+    const publisherUris = edition?.claims['wdt:P123']
+    if (!publisherUris || !publisherUris[0]) return
+    return publishersByUris[publisherUris[0]]
+  }
+
   $: {
     if (initialEditions) {
       let rawEditionsLangs = _.uniq(initialEditions.map(getLang))
@@ -102,56 +125,60 @@
   {standalone}
 >
   <div class="entity-layout" slot="entity">
-    <div class="info-wrapper">
-      <div class="info">
-        <div class="covers">
-          {#if isNonEmptyPlainObject(image)}
+    <div class="top-section">
+      <div class="covers">
+        {#if isNonEmptyPlainObject(image)}
+          <div class="main-cover">
+            <EntityImage
+              {entity}
+              withLink={false}
+              size={400}
+            />
+          </div>
+        {:else if someEditions}
+          {#if mainCoverEdition}
             <div class="main-cover">
               <EntityImage
-                {entity}
-                withLink={false}
+                entity={mainCoverEdition}
                 size={400}
               />
             </div>
-          {:else if someEditions}
-            {#if mainCoverEdition}
-              <div class="main-cover">
-                <EntityImage
-                  entity={mainCoverEdition}
-                  size={400}
-                />
+            {#if isNonEmptyArray(secondaryCoversEditions)}
+              <div class="secondary-covers">
+                {#each secondaryCoversEditions as edition (edition._id)}
+                  <div class="secondary-cover">
+                    <EntityImage
+                      entity={edition}
+                      size={150}
+                    />
+                  </div>
+                {/each}
               </div>
-              {#if isNonEmptyArray(secondaryCoversEditions)}
-                <div class="secondary-covers">
-                  {#each secondaryCoversEditions as edition (edition._id)}
-                    <div class="secondary-cover">
-                      <EntityImage
-                        entity={edition}
-                        size={150}
-                      />
-                    </div>
-                  {/each}
-                </div>
-              {/if}
             {/if}
           {/if}
-        </div>
+        {/if}
       </div>
-      <Infobox
-        {entity}
-        {authorsUris}
-        {displayedClaims}
-        {claimsOrder}
-      />
+      <div class="infobox">
+        <AuthorsInfo
+          {claims}
+        />
+        <Infobox
+          {claims}
+          propertiesLonglist={workProperties}
+          propertiesShortlist={workShortlist}
+        />
+      </div>
     </div>
     <Ebooks
       {entity}
       {userLang}
     />
     <!-- TODO: works list -->
-    {#await getEditions()}
+    {#await getEditionsWithPublishers()}
       <div class="loading-wrapper">
-        <p class="loading">{I18n('looking for editions...')} <Spinner/></p>
+        <p class="loading">{I18n('looking for editions...')}
+          <Spinner/>
+        </p>
       </div>
     {:then}
       {#if someEditions}
@@ -161,11 +188,6 @@
           </h5>
           <div class="lists">
             <div class="editions-list-wrapper">
-              {#each editions as edition (edition._id)}
-                <div class="edition-list">
-                  <EditionList {edition} {authorsUris}/>
-                </div>
-              {/each}
               <div class="actions-wrapper">
                 <EditionsListActions
                   bind:selectedLangs={selectedLangs}
@@ -173,6 +195,15 @@
                   bind:triggerScrollToMap={triggerScrollToMap}
                 />
               </div>
+              {#each editions as edition (edition._id)}
+                <div class="edition-list">
+                  <EditionList
+                    {edition}
+                    {authorsClaims}
+                    publisher={findPublisher(edition, publishersByUris)}
+                  />
+                </div>
+              {/each}
             </div>
             <div class="items-list-wrapper">
               <ItemsLists
@@ -189,17 +220,20 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .info-wrapper{
+  $entity-max-width: 650px;
+
+  .top-section{
     display: flex;
     margin-bottom: 1em;
   }
-  .info{
-    display: flex;
+  .infobox{
+    margin-bottom: 0.5em;
   }
   .covers{
     @include display-flex(row, center, space-around);
     margin-bottom: 1em;
     margin-right: 1em;
+    min-width: 12em;
   }
   .secondary-cover{
     max-width: 7em;
@@ -234,8 +268,16 @@
     border: 1px solid #ddd;
     margin: 0.2em;
   }
+
   /*Large screens*/
-  @media screen and (min-width: $very-small-screen) {
+  @media screen and (min-width: $small-screen) {
+    .entity-layout{
+      margin: 0 5em;
+    }
+  }
+
+  /*Medium and large screens*/
+  @media screen and (min-width: $entity-max-width) {
     .lists{
       display: flex;
     }
@@ -250,10 +292,14 @@
     }
   }
 
-  /*Very Small screens*/
+  /*Very small screens*/
   @media screen and (max-width: $very-small-screen) {
-    .info-wrapper{
+    .top-section{
       @include display-flex(column, center, center);
+    }
+    .infobox{
+      @include display-flex(column, center);
+      margin-bottom: 0.5em;
     }
     .covers{
       align-self: stretch;

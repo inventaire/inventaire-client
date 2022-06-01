@@ -1,78 +1,82 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import ClaimsInfobox from './claims_infobox.svelte'
-  import { formatEntityClaim } from '#entities/components/lib/claims_helpers'
+  import { I18n } from '#user/lib/i18n'
+  import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
+  import ClaimInfobox from './claim_infobox.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
+  import Spinner from '#general/components/spinner.svelte'
+  import { propertiesType } from '#entities/components/lib/claims_helpers'
 
-  export let entity, authorsUris, displayedClaims, claimsOrder
-  $: showLess = true
-  const subtitle = entity.claims['wdt:P1680']
+  export let claims = {}, propertiesLonglist, propertiesShortlist
+
+  const claimsLonglist = _.pick(claims, propertiesLonglist)
+  const claimsShortlist = _.pick(claims, propertiesShortlist)
+  const entityPropertiesLonglist = Object.keys(claimsLonglist)
+  const entityPropertiesShortlist = Object.keys(claimsShortlist)
+
+  let displayedProperties = propertiesShortlist
+
+  let entitiesByUris
+
+  const waitingForEntities = getInfoboxEntities(displayedProperties)
+  async function getInfoboxEntities () {
+    let entitiesClaims = {}
+    // lazy load propertiesLonglist entities when triggering showMore
+    displayedProperties.forEach(prop => {
+      if (claimsLonglist[prop] && (propertiesType[prop] === 'entityProp')) {
+        entitiesClaims[prop] = claims[prop]
+      }
+    })
+    entitiesByUris = await getEntitiesAttributesFromClaims(entitiesClaims)
+  }
+
+  let hasLonglistBeenDisplayed
+  $: (async () => {
+    // early return if all entities have been fetched already
+    if (hasLonglistBeenDisplayed) return
+    await getInfoboxEntities()
+    const isLonglistDisplayed = (displayedProperties === propertiesLonglist)
+    if (!hasLonglistBeenDisplayed && isLonglistDisplayed) hasLonglistBeenDisplayed = true
+  })()
+
+  let showMore = true
+  $: {
+    if (showMore) {
+      displayedProperties = entityPropertiesShortlist
+    } else {
+      displayedProperties = entityPropertiesLonglist
+    }
+  }
 </script>
-<div class="infobox">
-  <div class="title-box">
-    {#if subtitle}
-      <h3>{subtitle}</h3>
-    {/if}
-    {#if isNonEmptyArray(authorsUris)}
-      <h3 class="authors">
-        {i18n('by')}
-        {@html formatEntityClaim({ values: authorsUris, prop: 'wdt:P50', omitLabel: true })}
-      </h3>
-    {/if}
-    <div
-      class="claims-infobox"
-      class:showLess={showLess}
-    >
-     <ClaimsInfobox
-        claims={displayedClaims}
-        {claimsOrder}
-      />
+<div class="claims-infobox-wrapper">
+  {#await waitingForEntities}
+    <Spinner/>
+  {:then}
+    <div class="claims-infobox">
+      {#each displayedProperties as prop}
+        {#if claims[prop]}
+          <ClaimInfobox
+            values={claims[prop]}
+            {prop}
+            {entitiesByUris}
+            propType={propertiesType[prop]}
+          />
+        {/if}
+      {/each}
     </div>
-    {#if Object.keys(displayedClaims).length > 4}
+    {#if entityPropertiesShortlist.length !== entityPropertiesLonglist.length}
       <WrapToggler
-        bind:show={showLess}
+        bind:show={showMore}
         moreText={I18n('more details...')}
         lessText={I18n('less details')}
         reversedShow={true}
       />
     {/if}
-  </div>
+  {/await}
 </div>
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .authors{
-    margin-bottom: 0.5em;
-    font-size: 1.1em;
-    :global(.entity-value){
-      @include link-dark;
-    }
-  }
-  .showLess{
-    max-height: 4.5em;
-    overflow-y: hidden;
-  }
   .claims-infobox{
     flex: 3 0 0;
-  }
-  .infobox{
-    margin-bottom: 0.5em;
-  }
-  /*Large screens*/
-  @media screen and (min-width: 1200px) {
-    .title-box{
-      // give space below edit data button when no cover
-      margin: 0 0 0 1em;
-    }
-  }
-  /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
-    .infobox{
-      @include display-flex(column, center);
-    }
-    .infobox{
-      margin-bottom: 0.5em;
-    }
   }
 </style>

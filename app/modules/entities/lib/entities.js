@@ -1,4 +1,4 @@
-import { isInvEntityId, isWikidataItemId } from '#lib/boolean_tests'
+import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
 import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 import getBestLangValue from './get_best_lang_value.js'
@@ -74,6 +74,7 @@ export const attachEntities = async (entity, attribute, uris) => {
 }
 
 export async function getEntitiesAttributesByUris ({ uris, attributes, lang }) {
+  if (!isNonEmptyArray(uris)) return { entities: [] }
   return preq.get(app.API.entities.getAttributesByUris({
     uris,
     attributes,
@@ -102,6 +103,18 @@ export async function getBasicInfoByUri (uri) {
     description,
     image: entity.image
   }
+}
+
+export async function getEntitiesAttributesFromClaims (claims, attributes) {
+  if (!attributes) attributes = [ 'labels' ]
+  const claimsValues = _.flatten(Object.values(claims))
+  const uris = claimsValues.filter(isEntityUri)
+  const { entities } = await getEntitiesAttributesByUris({
+    uris,
+    attributes,
+    lang: app.user.lang
+  })
+  return entities
 }
 
 export function getWikidataUrl (uri) {

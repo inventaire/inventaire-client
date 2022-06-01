@@ -1,5 +1,6 @@
 <script>
   import { isNonEmptyArray } from '#lib/boolean_tests'
+  import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
   import BaseLayout from './base_layout.svelte'
   import EditionActions from './edition_actions.svelte'
@@ -8,7 +9,6 @@
   import {
     getTitle,
     aggregateWorksClaims,
-    editionWorkProperties,
     editionProperties,
   } from '#entities/components/lib/claims_helpers'
 
@@ -16,31 +16,38 @@
 
   const { uri, image } = entity
   let { claims } = entity
-  let displayedClaims = []
-  let authorsUris
 
-  const claimsOrder = [
+  const removeFromList = (list, el) => {
+    const index = list.indexOf(el)
+    list.splice(index, 1)
+  }
+
+  let editionLonglist = [
     ...editionProperties,
-    ...editionWorkProperties,
+    'wdt:P179', // series
+  ]
+  removeFromList(editionLonglist, 'invp:P2')
+  removeFromList(editionLonglist, 'wdt:P1476')
+
+  const editionShortlist = [
+    'wdt:P1680',
+    'wdt:P577',
+    'wdt:P123',
+    'wdt:P212',
+    'wdt:P179',
   ]
 
   const addWorksClaims = (claims, works) => {
-    const worksClaims = aggregateWorksClaims(claims, works)
-    authorsUris = worksClaims['wdt:P50']
-    delete worksClaims['wdt:P50']
+    const worksClaims = aggregateWorksClaims(works)
     const nonEmptyWorksClaims = _.pick(worksClaims, isNonEmptyArray)
     return Object.assign(claims, nonEmptyWorksClaims)
   }
 
-  const filterClaims = (_, key) => claimsOrder.includes(key)
+  const filterClaims = (_, key) => editionLonglist.includes(key)
 
   const claimsWithWorksClaims = _.pick(claims, filterClaims)
 
-  displayedClaims = addWorksClaims(claimsWithWorksClaims, works)
-
-  if (authorsUris) {
-    delete displayedClaims['wdt:P50']
-  }
+  claims = addWorksClaims(claimsWithWorksClaims, works)
 
   const title = getTitle(entity)
 
@@ -58,13 +65,16 @@
             <img src="{imgSrc(image.url, 300)}" alt="{title}">
           </div>
         {/if}
-        <Infobox
-          {entity}
-          {title}
-          {authorsUris}
-          {displayedClaims}
-          {claimsOrder}
-        />
+        <div class="infobox">
+          <AuthorsInfo
+            {claims}
+          />
+          <Infobox
+            {claims}
+            propertiesLonglist={editionLonglist}
+            propertiesShortlist={editionShortlist}
+          />
+        </div>
       </div>
       <div class="edition-actions">
         <EditionActions {entity}/>
@@ -93,7 +103,7 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     .top-section{
-      @include display-flex(row, center, space-around);
+      margin:0 5em;
     }
   }
   /*Small screens*/
@@ -105,6 +115,15 @@
     .edition-actions{
       @include display-flex(column, center);
       width: 100%;
+    }
+  }
+  /*Very mall screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .infobox{
+      width:100%;
+    }
+    .info{
+      @include display-flex(column, center);
     }
   }
 </style>
