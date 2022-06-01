@@ -49,8 +49,7 @@ export default Marionette.View.extend({
     app.execute('show:models:on:map', [ this.model, app.user ])
   },
 
-  showNewShelfEditor (e) {
+  showNewShelfEditor () {
     app.layout.showChildComponent('modal', ShelfEditor)
-    e?.stopPropagation()
   }
 })

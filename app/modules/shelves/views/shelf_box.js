@@ -1,4 +1,4 @@
-import ShelfEditor from './shelf_editor.js'
+import ShelfEditor from '#shelves/components/shelf_editor.svelte'
 import ShelfItemsAdder from './shelf_items_adder.js'
 import shelfBoxTemplate from './templates/shelf_box.hbs'
 import '../scss/shelf_box.scss'
@@ -33,7 +33,12 @@ export default Marionette.View.extend({
   },
 
   showEditor (e) {
-    app.layout.showChildView('modal', new ShelfEditor({ model: this.model }))
+    app.layout.showChildComponent('modal', ShelfEditor, {
+      props: {
+        shelf: this.model.toJSON(),
+        model: this.model,
+      }
+    })
   },
 
   addItems () {
