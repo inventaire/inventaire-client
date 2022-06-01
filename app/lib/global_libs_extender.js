@@ -162,6 +162,8 @@ Marionette.View.prototype.showChildComponent = function (regionName, Component, 
   if (region.currentView) region.currentView.destroy()
   removeCurrentComponent(region)
   const el = (typeof region.el === 'string') ? document.querySelector(region.el) : region.el
+  // Svelte only appends to the target, thus the need to empty it before mounting
+  el.innerHTML = null
   options.target = el
   const component = new Component(options)
   region.currentComponent = component
