@@ -1,49 +1,69 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import { userGroups } from '#user/user_groups_store'
-  import { uniq } from 'underscore'
-  import { getGroupVisibilityKey, isNotGroupVisibilityKey, isNotAllGroupsKey } from '#general/lib/visibility'
+  import { uniq, without } from 'underscore'
+  import { getGroupVisibilityKey, isNotGroupVisibilityKey, commonVisibilityKeys } from '#general/lib/visibility'
+  import { onChange } from '#lib/svelte'
 
   export let visibility = []
-  let checked = visibility
 
-  if (visibility.includes('groups')) checkAllGroups()
+  // Needs to be above reactive call to initCheckedGroupKeys
+  $: allGroupsVisibilityKeys = $userGroups.map(getGroupVisibilityKey)
+
+  // Group keys will be added to 'checked' once $userGroups will have been populated
+  let checked = visibility[0] === 'public' ? commonVisibilityKeys : visibility
+  $: onChange($userGroups, initCheckedGroupKeys)
+
+  function initCheckedGroupKeys () {
+    if (visibility.includes('public') || visibility.includes('groups')) checkAllGroups()
+  }
+
+  function updateCheckedGroupsKeys (allGroupsChecked) {
+    if (allGroupsChecked) checkAllGroups()
+    else uncheckAllGroups()
+  }
+
+  function checkAllGroups () {
+    checked = uniq([ ...checked, 'groups', ...allGroupsVisibilityKeys ])
+  }
+
+  function uncheckAllGroups () {
+    checked = without(checked, 'public', 'groups', ...allGroupsVisibilityKeys)
+  }
+
+  function onPublicClick (e) {
+    if (e.target.checked) {
+      checked = commonVisibilityKeys.concat(allGroupsVisibilityKeys)
+    }
+  }
+
+  function onFriendsClick (e) {
+    if (!e.target.checked) {
+      checked = without(checked, 'public', 'friends')
+    }
+  }
+
+  function onGroupsClick (e) {
+    updateCheckedGroupsKeys(e.target.checked)
+  }
+
+  function onSingleGroupClick (e) {
+    if (!e.target.checked) {
+      checked = without(checked, 'public', 'groups', e.target.value)
+    }
+  }
+
+  $: onChange(checked, updateVisibility)
 
   function updateVisibility () {
-    if (checked.includes('groups')) {
+    if (checked.includes('public')) {
+      visibility = [ 'public' ]
+    } else if (checked.includes('groups')) {
       visibility = checked.filter(isNotGroupVisibilityKey)
     } else {
       visibility = checked
     }
   }
-
-  function updateCheckedGroupsKeys (allGroupsChecked) {
-    if (allGroupsChecked) {
-      checkAllGroups()
-    } else {
-      uncheckAllGroups()
-    }
-  }
-
-  function checkAllGroups () {
-    checked = uniq(checked.concat([ 'groups', ...allGroupsVisibilityKeys ]))
-  }
-
-  function uncheckAllGroups () {
-    checked = checked.filter(key => isNotAllGroupsKey(key) && isNotGroupVisibilityKey(key))
-  }
-
-  const onAllGroupsClick = e => updateCheckedGroupsKeys(e.target.checked)
-
-  function onGroupClick (e) {
-    if (!e.target.checked) {
-      checked = checked.filter(key => isNotAllGroupsKey(key) && key !== e.target.value)
-    }
-  }
-
-  $: allGroupsVisibilityKeys = $userGroups.map(getGroupVisibilityKey)
-  $: checked != null && updateVisibility()
-  $: allGroups = visibility.includes('groups')
 </script>
 
 <fieldset>
@@ -51,35 +71,51 @@
 
   <div class="options">
     <label>
-      <input type="checkbox" value="public" bind:group={checked}>
-      {i18n('public')}
+      <input
+        type="checkbox"
+        value="public"
+        on:click={onPublicClick}
+        bind:group={checked}
+        >
+      {I18n('public')}
     </label>
 
-    <label>
-      <input type="checkbox" value="friends" bind:group={checked}>
-      {i18n('friends')}
+    <label
+      class:inferred={visibility.includes('public')}
+      >
+      <input
+        type="checkbox"
+        value="friends"
+        on:click={onFriendsClick}
+        bind:group={checked}
+      >
+      {I18n('friends')}
     </label>
 
-    <label>
+    <label
+      class:inferred={visibility.includes('public')}
+      >
       <input
         type="checkbox"
         value="groups"
+        on:click={onGroupsClick}
+
         bind:group={checked}
-        on:click={onAllGroupsClick}
       >
-      {i18n('groups')}
+      {I18n('groups')}
     </label>
 
     {#each $userGroups as group}
       <label
         class="indent"
-        class:inferred={allGroups}
+        class:inferred={visibility.includes('public') || visibility.includes('groups')}
         >
         <input
           type="checkbox"
           value="group:{group._id}"
+          on:click={onSingleGroupClick}
+
           bind:group={checked}
-          on:click={onGroupClick}
         >
         {group.name}
       </label>
