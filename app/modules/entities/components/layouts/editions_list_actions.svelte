@@ -7,38 +7,46 @@
   export let selectedLangs, editionsLangs, triggerScrollToMap
 
   const nativeLanguage = lang => languages[lang].native
+  const triggerMap = () => {
+    // hack to change state without caring about the current one
+    // allows to not bind variable to the receiver component (ItemsLists)
+    triggerScrollToMap = false
+    triggerScrollToMap = true
+  }
 </script>
 <button
   class="map-button"
-  on:click="{() => triggerScrollToMap = true}"
+  on:click={triggerMap}
   title="{i18n('show on map users who have these editions')}"
 >
   {@html icon('map-marker')} {i18n('show editions map')}
 </button>
-<div class="menu-wrapper">
-  <Dropdown
-    buttonTitle={i18n('Show langs')}
-    >
-    <div slot="button-inner">
-      {@html icon('language')}{i18n('filter editions by lang')}
-    </div>
-    <ul slot="dropdown-content">
-      <li class="dropdown-element">
-        <div on:click="{() => { selectedLangs = editionsLangs }}">
-          {i18n('all languages')}
-        </div>
-      </li>
-      {#each editionsLangs as lang}
+{#if editionsLangs.length > 1}
+  <div class="menu-wrapper">
+    <Dropdown
+      buttonTitle={i18n('Show langs')}
+      >
+      <div slot="button-inner">
+        {@html icon('language')}{i18n('filter editions by lang')}
+      </div>
+      <ul slot="dropdown-content">
         <li class="dropdown-element">
-          <label>
-            <input type="checkbox" bind:group={selectedLangs} value={lang} />
-            {lang} - {nativeLanguage(lang)}
-          </label>
+          <div on:click={() => { selectedLangs = editionsLangs }}>
+            {i18n('all languages')}
+          </div>
         </li>
-      {/each}
-    </ul>
-  </Dropdown>
-</div>
+        {#each editionsLangs as lang}
+          <li class="dropdown-element">
+            <label>
+              <input type="checkbox" bind:group={selectedLangs} value={lang} />
+              {lang} - {nativeLanguage(lang)}
+            </label>
+          </li>
+        {/each}
+      </ul>
+    </Dropdown>
+  </div>
+{/if}
 
 <style lang="scss">
   @import '#general/scss/utils';
@@ -62,6 +70,9 @@
       @include tiny-button($grey);
       padding: 0.5em;
     }
+  }
+  .dropdown-element{
+    cursor:pointer;
   }
   [slot="dropdown-content"]{
     @include shy-border;

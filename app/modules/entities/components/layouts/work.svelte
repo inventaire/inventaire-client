@@ -202,7 +202,7 @@
             <div class="items-list-wrapper">
               <ItemsLists
                 {editionsUris}
-                bind:triggerScrollToMap
+                {triggerScrollToMap}
               />
             </div>
           </div>
