@@ -1,6 +1,7 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
+  import autosize from 'autosize'
   import { onMount } from 'svelte'
   import VisibilitySelector from '#general/components/visibility_selector.svelte'
   import { getSomeColorHexCodeSuggestion } from '#lib/images'
@@ -60,7 +61,7 @@
 
   <label>
     {i18n('description')}
-    <textarea type="text" bind:value={description}></textarea>
+    <textarea type="text" bind:value={description} use:autosize></textarea>
   </label>
 
   <VisibilitySelector bind:visibility />
