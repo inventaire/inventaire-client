@@ -100,12 +100,6 @@ $arrowHeight: 0.62em;
   .showItem{
     position: relatives;
     @include display-flex(row);
-    img{
-      min-width: 3em;
-    }
-    .right{
-      // @include display-flex(column);
-    }
     .icon-wrapper{
       position: absolute;
       bottom: -1px;
