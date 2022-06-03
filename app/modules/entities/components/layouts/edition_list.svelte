@@ -1,4 +1,5 @@
 <script>
+  import { i18n } from '#user/lib/i18n'
   import { getPublicationDate, getIsbn } from '#entities/components/lib/claims_helpers'
   import EntityImage from '../entity_image.svelte'
   import { loadInteralLink } from '#lib/utils'
@@ -6,20 +7,29 @@
   import EntityValueInline from './entity_value_inline.svelte'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
 
-  export let edition, publisher
+  export let edition, publishersByUris = {}
+
+  const findEditionPublisher = edition => {
+    const publisherUris = edition?.claims['wdt:P123']
+    if (!publisherUris || !publisherUris[0]) return
+    return publishersByUris[publisherUris[0]]
+  }
+
+  const publisher = findEditionPublisher(edition)
   let publisherLabel, publisherUri
   if (publisher) {
     publisherLabel = getBestLangValue(app.user.lang, null, publisher.labels).value
     publisherUri = publisher.uri
   }
-  const favoriteLabel = getFavoriteLabel(edition)
+
+  const editionLabel = getFavoriteLabel(edition)
   const isbn = getIsbn(edition)
   const { publicationYear } = getPublicationDate(edition)
 </script>
 <div class="edition-list-info">
   <div>
     <a class='edition-title' href="/entity/{edition.uri}" on:click={loadInteralLink}>
-      {favoriteLabel}
+      {editionLabel}
     </a>
   </div>
   <div class="edition-info-line">
@@ -34,6 +44,9 @@
     {/if}
     {#if publicationYear}
       <div class="publication-year">
+        <span class='text-help'>
+          {i18n('published')}
+        </span>
         {publicationYear}
       </div>
     {/if}
@@ -49,6 +62,7 @@
     <EntityImage
       entity={edition}
       withLink={true}
+      maxHeight={'4em'}
     />
   </div>
 {/if}
@@ -72,6 +86,9 @@
       margin-right: 0.2em;
       content: ',';
     }
+  }
+  .text-help{
+    color: $grey;
   }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {

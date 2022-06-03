@@ -5,7 +5,10 @@
   import getFavoriteLabel from '#entities/lib/get_favorite_label'
   import Link from '#lib/components/link.svelte'
 
-  export let entity, size = 300, withLink = false
+  export let entity,
+    size = 300,
+    withLink = false,
+    maxHeight = 'none'
 
   const { image, uri } = entity
 
@@ -38,12 +41,14 @@
       <img
         src={imgSrc(image.url, size)}
         alt="{i18n(altMessage)} - {getFavoriteLabel(entity)}"
+        style="max-height: {maxHeight};"
       >
     </a>
   {:else}
     <img
       src={imgSrc(image.url, size)}
       alt="{i18n(altMessage)} - {getFavoriteLabel(entity)}"
+      style="max-height: {maxHeight};"
     >
   {/if}
   {#if creditsText}
@@ -59,9 +64,6 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .entity-image{
-    min-width: 5em;
-  }
   .photo-credits{
     margin: 0 auto;
     font-size: 0.8em;

@@ -97,12 +97,6 @@
     secondaryCoversEditions = editionsWithCover.slice(1, 4)
   }
 
-  const findPublisher = (edition, publishersByUris) => {
-    const publisherUris = edition?.claims['wdt:P123']
-    if (!publisherUris || !publisherUris[0]) return
-    return publishersByUris[publisherUris[0]]
-  }
-
   $: {
     if (initialEditions) {
       let rawEditionsLangs = _.uniq(initialEditions.map(getLang))
@@ -186,21 +180,21 @@
           <h5 class="editions-title">
             {I18n('editions of this work')}
           </h5>
+          <div class="actions-wrapper">
+            <EditionsListActions
+              bind:selectedLangs={selectedLangs}
+              {editionsLangs}
+              bind:triggerScrollToMap={triggerScrollToMap}
+            />
+          </div>
           <div class="lists">
             <div class="editions-list-wrapper">
-              <div class="actions-wrapper">
-                <EditionsListActions
-                  bind:selectedLangs={selectedLangs}
-                  {editionsLangs}
-                  bind:triggerScrollToMap={triggerScrollToMap}
-                />
-              </div>
               {#each editions as edition (edition._id)}
                 <div class="edition-list">
                   <EditionList
                     {edition}
                     {authorsClaims}
-                    publisher={findPublisher(edition, publishersByUris)}
+                    {publishersByUris}
                   />
                 </div>
               {/each}
@@ -253,20 +247,18 @@
   .actions-wrapper{
     @include display-flex(row, center, center);
     min-height: 2em;
-    padding: 1em 0;
   }
   .loading-wrapper{
     @include display-flex(column, center);
-  }
-  .editions-list-wrapper{
-    background-color: off-white;
-    margin-right: 1em;
   }
   .edition-list{
     @include display-flex(row, center, space-between);
     background-color: $off-white;
     border: 1px solid #ddd;
-    margin: 0.2em;
+    margin-bottom: 1em;
+  }
+  .lists{
+    margin-top: 1em;
   }
 
   /*Large screens*/
@@ -282,10 +274,10 @@
       display: flex;
     }
     .editions-list-wrapper{
-      margin-right: 0 0.5em;
+      margin-right: 0.5em;
     }
     .items-list-wrapper{
-      margin-left: 0 0.5em;
+      margin-left: 0.5em;
     }
     .editions-wrapper{
       width: 100%;

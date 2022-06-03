@@ -50,6 +50,11 @@
   </div>
 {:else}
   {#if !emptyList}
+    <div class="loading-wrapper">
+      <h6 class="items-title">
+        {I18n('users with these editions')}
+      </h6>
+    </div>
     <div bind:this={mapWrapper}>
       {#if showMap}
         <div class='hide-map-wrapper'>
@@ -85,14 +90,18 @@
     @include display-flex(column, flex-end);
   }
   .loading-wrapper{
-    @include display-flex(column, center);
+    display: none;
   }
   .hide-map{
     padding: 0.5em;
     margin: 0;
   }
+
   /*Small screens*/
-  @media screen and (max-width: 470px) {
+  @media screen and (max-width: $small-screen) {
+    .loading-wrapper{
+      @include display-flex(column, center);
+    }
     .hide-map{
       padding: 0.3em;
     }
