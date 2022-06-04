@@ -18,9 +18,6 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  :global(.entity-layout){
-    width:100%;
-  }
   .layout{
     @include display-flex(column, stretch, center);
     margin: 0 auto;

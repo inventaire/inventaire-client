@@ -35,7 +35,6 @@ const setWikiLinks = function (lang) {
     updates.wikipedia = sitelinks_.wikipedia(sitelinks, lang, this.originalLang)
     updates.wikisource = sitelinks_.wikisource(sitelinks, lang, this.originalLang)
   }
-
   this.set(updates)
 }
 

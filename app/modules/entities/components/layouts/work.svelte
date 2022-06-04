@@ -5,30 +5,28 @@
     getLang,
   } from '#entities/components/lib/claims_helpers'
   import Spinner from '#general/components/spinner.svelte'
-  import { isNonEmptyArray, isNonEmptyPlainObject } from '#lib/boolean_tests'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { I18n } from '#user/lib/i18n'
-  import { getSubEntities, bestImage } from '../lib/entities'
+  import { getSubEntities } from '../lib/entities'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
   import EditionList from './edition_list.svelte'
   import EditionsListActions from './editions_list_actions.svelte'
   import BaseLayout from './base_layout.svelte'
   import ItemsLists from './items_lists.svelte'
-  import EntityImage from '../entity_image.svelte'
   import Ebooks from './ebooks.svelte'
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+  import WikipediaExtract from './wikipedia_extract.svelte'
 
   export let entity, standalone, triggerScrollToMap
 
-  const { uri, image } = entity
-  let { claims } = entity
+  const { claims, uri } = entity
   let authorsClaims, editionsUris
   let editions = []
   let initialEditions = []
   let editionsLangs
   const userLang = app.user.lang
   let selectedLangs = [ userLang ]
-  let mainCoverEdition, secondaryCoversEditions
   let publishersByUris
 
   const allWorkProperties = _.uniq([
@@ -89,14 +87,6 @@
     editions = initialEditions.filter(e => e.originalLang.includes(selectedLangs))
   }
 
-  const setEditionsImages = editions => {
-    const editionsWithCover = editions.filter(edition => edition.image.url)
-    .sort(bestImage)
-
-    mainCoverEdition = editionsWithCover[0]
-    secondaryCoversEditions = editionsWithCover.slice(1, 4)
-  }
-
   $: {
     if (initialEditions) {
       let rawEditionsLangs = _.uniq(initialEditions.map(getLang))
@@ -110,48 +100,14 @@
     editionsUris = editions.map(_.property('uri'))
   }
   $: someEditions = initialEditions && isNonEmptyArray(initialEditions)
-  $: {
-    if (isNonEmptyArray(editions)) setEditionsImages(editions)
-  }
 </script>
+
 <BaseLayout
   {entity}
   {standalone}
 >
   <div class="entity-layout" slot="entity">
     <div class="top-section">
-      <div class="covers">
-        {#if isNonEmptyPlainObject(image)}
-          <div class="main-cover">
-            <EntityImage
-              {entity}
-              withLink={false}
-              size={400}
-            />
-          </div>
-        {:else if someEditions}
-          {#if mainCoverEdition}
-            <div class="main-cover">
-              <EntityImage
-                entity={mainCoverEdition}
-                size={400}
-              />
-            </div>
-            {#if isNonEmptyArray(secondaryCoversEditions)}
-              <div class="secondary-covers">
-                {#each secondaryCoversEditions as edition (edition._id)}
-                  <div class="secondary-cover">
-                    <EntityImage
-                      entity={edition}
-                      size={150}
-                    />
-                  </div>
-                {/each}
-              </div>
-            {/if}
-          {/if}
-        {/if}
-      </div>
       <div class="infobox">
         <AuthorsInfo
           {claims}
@@ -163,6 +119,9 @@
         />
       </div>
     </div>
+    <WikipediaExtract
+      {entity}
+    />
     <Ebooks
       {entity}
       {userLang}
@@ -223,23 +182,9 @@
   .infobox{
     margin-bottom: 0.5em;
   }
-  .covers{
-    @include display-flex(row, center, space-around);
-    margin-bottom: 1em;
-    margin-right: 1em;
-    min-width: 12em;
-  }
-  .secondary-cover{
-    max-width: 7em;
-  }
-  .main-cover, .secondary-cover{
-    max-width: 10em;
-    margin: 0.2em;
-  }
   .editions-wrapper{
     border-top: 1px solid #ccc;
     @include display-flex(column, center);
-    width:100%;
   }
   .editions-title{
     @include display-flex(row, center, center);
@@ -279,9 +224,6 @@
     .items-list-wrapper{
       margin-left: 0.5em;
     }
-    .editions-wrapper{
-      width: 100%;
-    }
   }
 
   /*Very small screens*/
@@ -292,15 +234,6 @@
     .infobox{
       @include display-flex(column, center);
       margin-bottom: 0.5em;
-    }
-    .covers{
-      align-self: stretch;
-      flex-direction: column;
-      margin: 1em 0 0 0;
-    }
-    .secondary-covers{
-      align-self: stretch;
-      @include display-flex(row, center, center);
     }
   }
 </style>
