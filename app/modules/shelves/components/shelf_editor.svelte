@@ -6,7 +6,7 @@
   import VisibilitySelector from '#general/components/visibility_selector.svelte'
   import { getSomeColorHexCodeSuggestion } from '#lib/images'
   import Flash from '#lib/components/flash.svelte'
-  import { createShelf, updateShelf } from '#shelves/lib/shelves'
+  import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
   import Spinner from '#components/spinner.svelte'
   import { wait } from '#lib/promises'
 
@@ -42,6 +42,21 @@
     } catch (err) {
       flash = err
     }
+  }
+  async function delet () {
+    app.execute('ask:confirmation', {
+      confirmationText: i18n('delete_shelf_confirmation', { name }),
+      warningText: i18n('cant_undo_warning'),
+      action: _deleteShelf
+    })
+  }
+
+  async function _deleteShelf () {
+    // TODO: catch and display error
+    await deleteShelf({ ids: shelf._id })
+    app.user.trigger('shelves:change', 'removeShelf')
+    app.execute('show:inventory:main:user')
+    app.execute('modal:close')
   }
 </script>
 
@@ -79,7 +94,7 @@
     {:then}
       {#if !flash}
         {#if !isNewShelf}
-          <button class="delete button">
+          <button class="delete button" on:click={delet}>
             {@html icon('trash')}
             {I18n('delete')}
           </button>
