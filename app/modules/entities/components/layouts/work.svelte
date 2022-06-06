@@ -103,7 +103,7 @@
 </script>
 
 <BaseLayout
-  {entity}
+  bind:entity={entity}
   {standalone}
 >
   <div class="entity-layout" slot="entity">
@@ -134,11 +134,11 @@
         </p>
       </div>
     {:then}
-      {#if someEditions}
-        <div class="editions-wrapper">
-          <h5 class="editions-title">
-            {I18n('editions of this work')}
-          </h5>
+      <div class="editions-wrapper">
+        <h5 class="editions-title">
+          {I18n('editions')}
+        </h5>
+        {#if someEditions}
           <div class="actions-wrapper">
             <EditionsListActions
               bind:selectedLangs={selectedLangs}
@@ -165,8 +165,12 @@
               />
             </div>
           </div>
-        </div>
-      {/if}
+        {:else}
+          <div class="no-edition">
+            {i18n('no editions found')}
+          </div>
+        {/if}
+      </div>
     {/await}
   </div>
 </BaseLayout>
@@ -183,6 +187,7 @@
     margin-bottom: 0.5em;
   }
   .editions-wrapper{
+    margin-top: 2em;
     border-top: 1px solid #ccc;
     @include display-flex(column, center);
   }
@@ -204,6 +209,9 @@
   }
   .lists{
     margin-top: 1em;
+  }
+  .no-edition{
+    color: $grey
   }
 
   /*Large screens*/
