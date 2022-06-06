@@ -34,7 +34,10 @@
   </div>
   <div class="edition-info-line">
     {#if publisherUri}
-      <div class="publisher">
+      <div class="publisher info">
+        <span class='text-help'>
+          {i18n('publisher')}
+        </span>
         <EntityValueInline
           uri={publisherUri}
           label={publisherLabel}
@@ -43,7 +46,7 @@
       </div>
     {/if}
     {#if publicationYear}
-      <div class="publication-year">
+      <div class="publication-year info">
         <span class='text-help'>
           {i18n('published')}
         </span>
@@ -51,7 +54,10 @@
       </div>
     {/if}
     {#if isbn}
-      <div class="isbn">
+      <div class="isbn info">
+        <span class='text-help'>
+          {i18n('isbn')}
+        </span>
         {isbn}
       </div>
     {/if}
@@ -62,7 +68,8 @@
     <EntityImage
       entity={edition}
       withLink={true}
-      maxHeight={'4em'}
+      maxHeight={'6em'}
+      size={128}
     />
   </div>
 {/if}
@@ -82,7 +89,7 @@
   }
   .edition-info-line{
     @include display-flex(row, center, flex-start, wrap);
-    :not(:last-child):after{
+    .info:not(:last-child):after{
       margin-right: 0.2em;
       content: ',';
     }

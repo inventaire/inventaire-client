@@ -6,7 +6,7 @@
   } from '#entities/components/lib/claims_helpers'
   import Spinner from '#general/components/spinner.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { I18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
@@ -52,6 +52,7 @@
     editions = initialEditions
   }
 
+  let editionsWithPublishers = getEditionsWithPublishers()
   const getPublishersUrisFromEditions = editions => {
     return _.uniq(_.compact(_.flatten(editions.map(edition => {
       return findFirstClaimValue(edition, 'wdt:P123')
@@ -107,47 +108,51 @@
   {standalone}
 >
   <div class="entity-layout" slot="entity">
-    <div class="top-section">
-      <div class="infobox">
-        <AuthorsInfo
-          {claims}
-        />
-        <Infobox
-          {claims}
-          propertiesLonglist={workProperties}
-          propertiesShortlist={workShortlist}
-        />
-      </div>
+    <div class="work-section">
+      <AuthorsInfo
+        {claims}
+      />
+      <Infobox
+        {claims}
+        propertiesLonglist={workProperties}
+        propertiesShortlist={workShortlist}
+      />
+      <WikipediaExtract
+        {entity}
+      />
+      <Ebooks
+        {entity}
+        {userLang}
+      />
     </div>
-    <WikipediaExtract
-      {entity}
-    />
-    <Ebooks
-      {entity}
-      {userLang}
-    />
-    <!-- TODO: works list -->
-    {#await getEditionsWithPublishers()}
-      <div class="loading-wrapper">
-        <p class="loading">{I18n('looking for editions...')}
-          <Spinner/>
-        </p>
-      </div>
-    {:then}
-      <div class="editions-wrapper">
-        <h5 class="editions-title">
-          {I18n('editions')}
-        </h5>
-        {#if someEditions}
-          <div class="actions-wrapper">
-            <EditionsListActions
-              bind:selectedLangs={selectedLangs}
-              {editionsLangs}
-              bind:triggerScrollToMap={triggerScrollToMap}
-            />
+    <div class="editions-section"
+      class:no-edition={!someEditions}
+    >
+      <div
+        class="editions-list-wrapper"
+        class:no-edition={!someEditions}
+      >
+        <div class="editions-list-title">
+          <h5>
+            {I18n('editions')}
+          </h5>
+        </div>
+        {#await editionsWithPublishers}
+          <div class="loading-wrapper">
+            <p class="loading">{I18n('looking for editions...')}
+              <Spinner/>
+            </p>
           </div>
-          <div class="lists">
-            <div class="editions-list-wrapper">
+        {:then}
+          {#if someEditions}
+            <div class="actions-wrapper">
+              <EditionsListActions
+                bind:selectedLangs={selectedLangs}
+                {editionsLangs}
+                bind:triggerScrollToMap={triggerScrollToMap}
+              />
+            </div>
+            <div class="editions-list">
               {#each editions as edition (edition._id)}
                 <div class="edition-list">
                   <EditionList
@@ -158,40 +163,46 @@
                 </div>
               {/each}
             </div>
-            <div class="items-list-wrapper">
+            <div class="editions-list">
               <ItemsLists
                 {editionsUris}
                 {triggerScrollToMap}
               />
             </div>
-          </div>
-        {:else}
-          <div class="no-edition">
-            {i18n('no editions found')}
-          </div>
-        {/if}
+          {:else}
+            <div class="no-edition-wrapper">
+              {i18n('no editions found')}
+            </div>
+          {/if}
+        {/await}
       </div>
-    {/await}
+      <!-- TODO: works list -->
+    </div>
   </div>
 </BaseLayout>
 
 <style lang="scss">
   @import '#general/scss/utils';
   $entity-max-width: 650px;
-
-  .top-section{
-    display: flex;
-    margin-bottom: 1em;
+  .entity-layout{
+    @include display-flex(row, flex-start, space-between);
+    width: 100%;
   }
-  .infobox{
-    margin-bottom: 0.5em;
+  .editions-section{
+    @include display-flex(row, flex-start, space-between);
+    flex: 1 0 0;
+    &.no-edition{
+      flex: none !important;
+    }
   }
-  .editions-wrapper{
-    margin-top: 2em;
-    border-top: 1px solid #ccc;
+  .work-section{
+    @include display-flex(column, flex-start, space-between);
+    flex: 1 0 0;
+  }
+  .editions-list{
     @include display-flex(column, center);
   }
-  .editions-title{
+  .editions-list-title{
     @include display-flex(row, center, center);
   }
   .actions-wrapper{
@@ -201,47 +212,49 @@
   .loading-wrapper{
     @include display-flex(column, center);
   }
-  .edition-list{
-    @include display-flex(row, center, space-between);
+  .editions-list-wrapper{
+    @include radius;
+    padding: 0.5em;
     background-color: $off-white;
-    border: 1px solid #ddd;
-    margin-bottom: 1em;
+    &.no-edition{
+      width: 10em;
+    }
   }
-  .lists{
-    margin-top: 1em;
+  .edition-list{
+    @include display-flex(row, flex-start, space-between);
+    border-top:1px solid #ddd;
+    width:100%;
   }
-  .no-edition{
+  .no-edition-wrapper{
+    @include display-flex(row, center, center);
     color: $grey
   }
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     .entity-layout{
-      margin: 0 5em;
+      margin-top: 1em;
+    }
+    .work-section{
+      margin: 0 1em;
     }
   }
 
-  /*Medium and large screens*/
-  @media screen and (min-width: $entity-max-width) {
-    .lists{
-      display: flex;
+  /*Smaller screens*/
+  @media screen and (max-width: $small-screen) {
+    .work-section{
+      @include display-flex(column);
+      margin: 0;
+      margin-right: 1em;
     }
-    .editions-list-wrapper{
-      margin-right: 0.5em;
-    }
-    .items-list-wrapper{
-      margin-left: 0.5em;
+    .editions-section{
     }
   }
 
-  /*Very small screens*/
-  @media screen and (max-width: $very-small-screen) {
-    .top-section{
-      @include display-flex(column, center, center);
-    }
-    .infobox{
-      @include display-flex(column, center);
-      margin-bottom: 0.5em;
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .entity-layout{
+      @include display-flex(column);
     }
   }
 </style>
