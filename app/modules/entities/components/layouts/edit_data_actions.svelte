@@ -1,19 +1,30 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { createEventDispatcher } from 'svelte'
+  import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import Dropdown from '#components/dropdown.svelte'
+  import { getWikidataUrl } from '#entities/lib/entities'
+  import Link from '#lib/components/link.svelte'
+  import { icon as iconFn } from '#lib/handlebars_helpers/icons'
 
   export let entity
+
+  const dispatch = createEventDispatcher()
+
   let { uri } = entity
+  const wikidataUrl = getWikidataUrl(uri)
 
   const edit = async () => app.execute('show:entity:edit', uri)
   const history = async () => app.execute('show:entity:history', uri)
+  const refreshEntity = () => {
+    dispatch('refreshEntity')
+  }
 </script>
 <!-- TODO: edit wikidata and show deduplicate -->
 <div class="edit-data-actions">
   <Dropdown
     align={'right'}
-    buttonTitle={i18n('Show actions')}
+    buttonTitle={I18n('Show actions')}
     >
     <div slot="button-inner">
       {@html icon('cog')}
@@ -21,21 +32,39 @@
     <ul slot="dropdown-content">
       <li
         class="dropdown-element"
-        on:click="{edit}"
+        on:click={edit}
       >
-        <a href="/entity/{uri}/edit">
-          {@html icon('pencil')}
-          <span>{i18n('edit bibliographical info')}</span>
-        </a>
+        <Link
+          url={`/entity/${uri}/edit`}
+          text={I18n('edit bibliographical info')}
+          icon='pencil'
+        />
       </li>
+      {#if wikidataUrl}
+        <li class="dropdown-element">
+          <Link
+            url={wikidataUrl}
+            text={I18n('see_on_website', { website: 'wikidata.org' })}
+            icon='wikidata'
+          />
+        </li>
+        <li
+          class="dropdown-element"
+          on:click={refreshEntity}
+        >
+          {@html iconFn('refresh')}
+          {I18n('refresh Wikidata data')}
+        </li>
+      {/if}
       <li
         class="dropdown-element"
         on:click="{history}"
       >
-        <a href="/entity/{uri}/history">
-          {@html icon('history')}
-          <span>{i18n('view history')}</span>
-        </a>
+        <Link
+          url={`/entity/${uri}/history`}
+          text={I18n('view history')}
+          icon='history'
+        />
       </li>
     </ul>
   </Dropdown>

@@ -20,7 +20,7 @@
 
   export let entity, standalone, triggerScrollToMap
 
-  const { claims, uri } = entity
+  const { uri } = entity
   let authorsClaims, editionsUris
   let editions = []
   let initialEditions = []
@@ -93,7 +93,7 @@
       editionsLangs = prioritizeMainUserLang(rawEditionsLangs)
     }
   }
-
+  $: claims = entity.claims
   $: selectedLangs && filterEditionByLang(initialEditions)
   $: app.navigate(`/entity/${uri}`)
   $: if (isNonEmptyArray(editions)) {

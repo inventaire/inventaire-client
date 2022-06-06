@@ -13,8 +13,11 @@
   const { uri, sitelinks, originalLang, image } = entity
 
   async function getWikipediaExtract () {
-    if (!uri.startsWith('wd:')) return {}
+    if (!uri.startsWith('wd:') || !isNonEmptyPlainObject(sitelinks)) {
+      return {}
+    }
     const userLang = app.user.lang
+
     const { title } = sitelinks_.wikipedia(sitelinks, userLang, originalLang)
     return preq.get(app.API.data.wikipediaExtract(userLang, title))
   }

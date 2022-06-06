@@ -5,22 +5,19 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import Spinner from '#general/components/spinner.svelte'
   import { propertiesType } from '#entities/components/lib/claims_helpers'
+  import log_ from '#lib/loggers'
 
   export let claims = {}, propertiesLonglist, propertiesShortlist
 
-  const claimsLonglist = _.pick(claims, propertiesLonglist)
-  const claimsShortlist = _.pick(claims, propertiesShortlist)
-  const entityPropertiesLonglist = Object.keys(claimsLonglist)
-  const entityPropertiesShortlist = Object.keys(claimsShortlist)
-
   let displayedProperties = propertiesShortlist
-
   let entitiesByUris
+  let claimsLonglist = _.pick(claims, propertiesLonglist)
+  let hasLonglistBeenDisplayed
 
   const waitingForEntities = getInfoboxEntities(displayedProperties)
+
   async function getInfoboxEntities () {
     let entitiesClaims = {}
-    // lazy load propertiesLonglist entities when triggering showMore
     displayedProperties.forEach(prop => {
       if (claimsLonglist[prop] && (propertiesType[prop] === 'entityProp')) {
         entitiesClaims[prop] = claims[prop]
@@ -29,16 +26,27 @@
     entitiesByUris = await getEntitiesAttributesFromClaims(entitiesClaims)
   }
 
-  let hasLonglistBeenDisplayed
+  const updateHasLonglistBeenDisplayed = () => {
+    const isLonglistDisplayed = (displayedProperties === propertiesLonglist)
+    if (!hasLonglistBeenDisplayed && isLonglistDisplayed) hasLonglistBeenDisplayed = true
+  }
+
   $: (async () => {
     // early return if all entities have been fetched already
     if (hasLonglistBeenDisplayed) return
+    // lazy load propertiesLonglist entities
     await getInfoboxEntities()
-    const isLonglistDisplayed = (displayedProperties === propertiesLonglist)
-    if (!hasLonglistBeenDisplayed && isLonglistDisplayed) hasLonglistBeenDisplayed = true
+    // logging is a pretext to trigger function when claims or displayedProperties are updated
+    if (displayedProperties) log_.info(displayedProperties, 'updated claims')
+    updateHasLonglistBeenDisplayed()
   })()
 
   let showMore = true
+
+  $: claimsLonglist = _.pick(claims, propertiesLonglist)
+  $: claimsShortlist = _.pick(claims, propertiesShortlist)
+  $: entityPropertiesLonglist = Object.keys(claimsLonglist)
+  $: entityPropertiesShortlist = Object.keys(claimsShortlist)
   $: {
     if (showMore) {
       displayedProperties = entityPropertiesShortlist
