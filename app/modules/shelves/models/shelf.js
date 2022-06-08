@@ -1,6 +1,7 @@
 import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'
 
 import error_ from '#lib/error'
+import { isGroupVisibilityKey } from '#general/lib/visibility'
 
 export default Backbone.Model.extend({
   initialize (attrs) {
@@ -18,21 +19,21 @@ export default Backbone.Model.extend({
       this.set('color', colorHexCode)
     }
     this.setDerivedAttributes()
-
-    // The listing is only known for the main user's shelves
-    const shelfListing = this.get('listing')
-    if (shelfListing != null) {
-      const listingKeys = app.user.listings.data[shelfListing]
-      this.set({
-        icon: listingKeys.icon,
-        label: listingKeys.label
-      })
-    }
-
-    this.on('change:color', this.setDerivedAttributes.bind(this))
+    this.on('change', this.setDerivedAttributes.bind(this))
   },
 
   setDerivedAttributes () {
+    // The visibility is only known for the main user's shelves
+    const visibility = this.get('visibility')
+    if (visibility != null) {
+      const correspondingListing = getCorrespondingListing(visibility)
+      const listingKeys = app.user.listings.data[correspondingListing]
+      this.set({
+        icon: listingKeys.icon,
+        label: getIconLabel(visibility)
+      })
+    }
+
     this.set('picture', getColorSquareDataUri(this.get('color')))
   },
 
@@ -48,3 +49,26 @@ export default Backbone.Model.extend({
 
   getRss () { return app.API.feeds('shelf', this.id) },
 })
+
+const getCorrespondingListing = visibility => {
+  if (visibility.length === 0) return 'private'
+  if (visibility.includes('public')) return 'public'
+  return 'network'
+}
+
+const getIconLabel = visibility => {
+  if (visibility.length === 0) return 'private'
+  if (visibility.includes('public')) return 'public'
+
+  const groupKeyCount = visibility.filter(isGroupVisibilityKey).length
+  if (visibility.includes('friends') && visibility.includes('groups')) {
+    return 'friends and groups'
+  } else if (groupKeyCount > 0) {
+    if (visibility.includes('friends')) return 'friends and some groups'
+    else return 'some groups'
+  } else if (visibility.includes('groups')) {
+    return 'groups'
+  } else {
+    return 'friends'
+  }
+}

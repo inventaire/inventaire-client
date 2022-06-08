@@ -6,4 +6,5 @@ export const commonVisibilityKeys = [
 
 export const getGroupVisibilityKey = group => `group:${group._id}`
 
-export const isNotGroupVisibilityKey = key => !key.startsWith('group:')
+export const isGroupVisibilityKey = key => key.startsWith('group:')
+export const isNotGroupVisibilityKey = key => !isGroupVisibilityKey(key)
