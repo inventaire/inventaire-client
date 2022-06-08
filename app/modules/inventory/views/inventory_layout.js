@@ -4,7 +4,7 @@ import InventoryBrowser from './inventory_browser.js'
 import UserProfile from './user_profile.js'
 import GroupProfile from './group_profile.js'
 import ShelfBox from '../../shelves/views/shelf_box'
-import ShelvesSection from '../../shelves/views/shelves_section'
+import ShelvesSection from '#shelves/components/shelves_section.svelte'
 import InventoryNetworkNav from './inventory_network_nav.js'
 import InventoryPublicNav from './inventory_public_nav.js'
 import showPaginatedItems from '#welcome/lib/show_paginated_items'
@@ -107,12 +107,13 @@ export default Marionette.View.extend({
   showUserShelves (userIdOrModel) {
     this.waitForShelvesList = app.request('resolve:to:userModel', userIdOrModel)
       .then(userModel => {
-        if ((this.getRegion('shelvesList').currentView != null) && (userModel === this._lastShownUser)) return
+        if ((this.getRegion('shelvesList').currentComponent != null) && (userModel === this._lastShownUser)) return
         const shelvesCount = userModel.get('shelvesCount')
         if (shelvesCount === 0) return
         const username = userModel.get('username')
-        this.showChildView('shelvesList', new ShelvesSection({ username }))
-        return this.getRegion('shelvesList').currentView.waitForList
+        // this.showChildView('shelvesList', new ShelvesSection({ username }))
+        this.showChildComponent('shelvesList', ShelvesSection, { props: { username } })
+        // return this.getRegion('shelvesList').currentComponent.waitForList
       })
       .catch(app.Execute('show:error'))
   },
