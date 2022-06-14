@@ -8,6 +8,7 @@
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
   import WikipediaExtract from './wikipedia_extract.svelte'
+  import Ebooks from './ebooks.svelte'
   import ItemsLists from './items_lists.svelte'
 
   export let entity, standalone, mapToShow
@@ -56,6 +57,9 @@
             propertiesShortlist={workShortlist}
           />
           <WikipediaExtract
+            {entity}
+          />
+          <Ebooks
             {entity}
           />
         </div>
