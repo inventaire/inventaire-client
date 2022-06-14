@@ -4,9 +4,12 @@
   import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let initialItems
+  export let itemsOnMap
   export let initialBounds
   export let displayCover
 
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
   let itemsByCategories = {}
 
   const categoriesHeaders = {
@@ -32,6 +35,11 @@
     }
   }
 
+  const showItemsOnMap = () => {
+    itemsOnMap = itemsOnMap
+    dispatch('scrollToMap')
+  }
+
   const updateItems = () => {
     itemsByCategories = sortItemsByCategorieAndDistance(initialItems)
     if (isNonEmptyArray(itemsByCategories.nearbyPublic)) {
@@ -50,6 +58,8 @@
       {displayCover}
       headers={categoriesHeaders[categorie]}
       itemsByCategorie={itemsByCategories[categorie]}
+      bind:itemsOnMap
+      on:showItemsOnMap={showItemsOnMap}
     />
   {/each}
 </div>

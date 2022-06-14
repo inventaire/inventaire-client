@@ -4,7 +4,9 @@
   import { transactionsData } from '#inventory/lib/transactions_data'
   import ItemPreview from './item_preview.svelte'
 
-  export let itemsByTransaction, transaction, displayCover
+  export let itemsByTransaction, transaction, itemOnMap, displayCover
+
+  const showItemOnMap = item => itemOnMap = item
 </script>
 
 {#if isNonEmptyArray(itemsByTransaction)}
@@ -17,6 +19,7 @@
       <ItemPreview
         {item}
         {displayCover}
+        on:showItemOnMap={showItemOnMap(item)}
       />
     {/each}
   </div>

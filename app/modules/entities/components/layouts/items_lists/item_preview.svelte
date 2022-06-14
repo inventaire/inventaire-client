@@ -1,10 +1,13 @@
 <script>
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { isOpenedOutside } from '#lib/utils'
+  import { icon, isOpenedOutside } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
+  import { createEventDispatcher } from 'svelte'
 
   export let item
   export let displayCover
+
+  const dispatch = createEventDispatcher()
 
   const {
     id,
@@ -29,6 +32,8 @@
       e.preventDefault()
     }
   }
+
+  const showItemOnMap = () => dispatch('showItemOnMap')
 </script>
 <div
   class="show-item"
@@ -65,6 +70,15 @@
       </p>
     {/if}
   </a>
+  {#if distanceFromMainUser && notOwner}
+    <button
+      class="map-button"
+      on:click|stopPropagation={showItemOnMap}
+      title={i18n('show user on map')}
+    >
+      {@html icon('map-marker')}
+    </button>
+  {/if}
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
