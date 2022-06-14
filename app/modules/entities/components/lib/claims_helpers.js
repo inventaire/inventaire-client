@@ -1,45 +1,53 @@
-import linkify_ from '#lib/handlebars_helpers/linkify'
-import { i18n } from '#user/lib/i18n'
 import { isNonEmptyArray } from '#lib/boolean_tests'
-import wdLang from 'wikidata-lang'
-import { unprefixify } from '#lib/wikimedia/wikidata'
 import platforms_ from '#lib/handlebars_helpers/platforms.js'
 import * as icons_ from '#lib/handlebars_helpers/icons.js'
 
-export const formatClaim = params => {
-  const { prop, values, inline, omitLabel } = params
-  if (values[0] === null) return
-  const type = propertiesType[prop]
-  if (!type) return
-  return claimFormats[type]({ values, prop, omitLabel, inline })
+export const formatClaimValue = params => {
+  const { value, propType, prop } = params
+  if (propType && claimFormats[propType]) {
+    return claimFormats[propType](params)
+  } else if (prop && propertiesType[prop]) {
+    const type = propertiesType[prop]
+    return claimFormats[type](params)
+  } else {
+    // TODO: sanitize value ? (known types: String, Number)
+    return value
+  }
 }
 
-// TODO: use propertiesPerType.work once commented props (ie. P840) are back in the object (needs some investigation on why its has been commented)
-export const workProperties = [
-  'wdt:P577',
-  'wdt:P361',
-  'wdt:P179',
-  'wdt:P1545',
-  'wdt:P1476',
-  'wdt:P1680',
-  'wdt:P407',
-  'wdt:P144',
-  'wdt:P941',
-  'wdt:P136',
-  'wdt:P135',
-  'wdt:P921',
-  'wdt:P840',
-  'wdt:P674',
-  'wdt:P1433',
-  'wdt:P155',
-  'wdt:P156',
-]
+export const getWorkProperties = omitAuthors => {
+  let props = [
+    'wdt:P577',
+    'wdt:P361',
+    'wdt:P179',
+    'wdt:P1545',
+    'wdt:P1476',
+    'wdt:P1680',
+    'wdt:P407',
+    'wdt:P144',
+    'wdt:P941',
+    'wdt:P136',
+    'wdt:P135',
+    'wdt:P921',
+    'wdt:P840',
+    'wdt:P674',
+    'wdt:P1433',
+    'wdt:P155',
+    'wdt:P156',
+  ]
+  if (!omitAuthors) props = [ ...authorsProps, ...props ]
+  return props
+}
 
-export const editionWorkProperties = [
+const authorsProps = [
   'wdt:P50', // author
   'wdt:P58', // scenarist
   'wdt:P110', // illustrator
   'wdt:P6338', // colorist
+]
+
+export const editionWorkProperties = [
+  ...authorsProps,
   'wdt:P179', // serie
 ]
 
@@ -50,38 +58,9 @@ export const aggregateWorksClaims = works => {
 }
 
 export const propertiesType = {
-  'wdt:P50': 'entityProp',
-  'wdt:P58': 'entityProp',
-  'wdt:P110': 'entityProp',
-  'wdt:P123': 'entityProp',
-  'wdt:P135': 'entityProp',
-  'wdt:P136': 'entityProp',
-  'wdt:P144': 'entityProp',
-  'wdt:P155': 'entityProp',
-  'wdt:P156': 'entityProp',
-  'wdt:P179': 'entityProp',
-  'wdt:P195': 'entityProp',
-  'wdt:P212': 'stringClaim',
-  'wdt:P361': 'entityProp',
-  'wdt:P407': 'entityProp',
   'wdt:P577': 'timeClaim',
-  'wdt:P629': 'entityProp',
-  'wdt:P655': 'entityProp',
-  'wdt:P674': 'entityProp',
-  'wdt:P840': 'entityProp',
   'wdt:P856': 'urlClaim',
-  'wdt:P921': 'entityProp',
-  'wdt:P941': 'entityProp',
   'wdt:P953': 'urlClaim',
-  'wdt:P1104': 'stringClaim',
-  'wdt:P1433': 'entityProp',
-  'wdt:P1476': 'stringClaim',
-  'wdt:P1545': 'stringClaim',
-  'wdt:P1680': 'stringClaim',
-  'wdt:P2635': 'stringClaim',
-  'wdt:P2679': 'entityProp',
-  'wdt:P2680': 'entityProp',
-  'wdt:P6338': 'entityProp',
   'wdt:P2034': 'platformClaim',
   'wdt:P724': 'platformClaim',
   'wdt:P4258': 'platformClaim',
@@ -89,39 +68,28 @@ export const propertiesType = {
 
 const claimFormats = {
   timeClaim (params) {
-    let { values, format } = params
+    const { value, format } = params
     if (format && format === 'year') {
-      values = values.map(unixTime => {
-        const time = new Date(unixTime)
-        return time.getUTCFullYear()
-      })
+      const unixTime = new Date(value)
+      return unixTime.getUTCFullYear()
     }
-    return _.uniq(values).join(` ${i18n('or')} `)
+    return value
   },
-  stringClaim (params) { return params.values },
   urlClaim (params) {
-    let { values } = params
-    const firstUrl = values[0]
-    const cleanedUrl = removeTailingSlash(dropProtocol(firstUrl))
-    return linkify_(cleanedUrl, firstUrl, 'link website')
+    return removeTailingSlash(dropProtocol(params.value))
   },
   platformClaim (params) {
-    const { prop } = params
-    let { values } = params
-    const firstPlatformId = values[0]
-    if (firstPlatformId != null) {
-      const platform = platforms_[prop]
-      const icon = icons_.icon(platform.icon)
-      const text = icon + '<span>' + platform.text(firstPlatformId) + '</span>'
-      const url = platform.url(firstPlatformId)
-      return linkify_(text, url, 'link social-network')
-    }
+    const { prop, value } = params
+    const platform = platforms_[prop]
+    const icon = icons_.icon(platform.icon)
+    const text = icon + '<span>' + platform.text(value) + '</span>'
+    const url = platform.url(value)
+    return { icon, text, url }
   },
 }
 
 export const {
   timeClaim,
-  stringClaim,
   urlClaim,
   platformClaim,
 } = claimFormats
@@ -140,31 +108,6 @@ const aggregateClaim = (worksClaims, work) => prop => {
 const removeTailingSlash = url => url.replace(/\/$/, '')
 const dropProtocol = url => url.replace(/^(https?:)?\/\//, '')
 
-export const getEntityPropValue = (entity, prop) => {
-  const claimValues = entity?.claims[prop]
-  if (claimValues) return claimValues[0]
-}
-
-export function getLang (entity) {
-  const langUri = getEntityPropValue(entity, 'wdt:P407')
-  return langUri ? wdLang.byWdId[unprefixify(langUri)]?.code : undefined
-}
-
-export function getPublicationDate (entity) {
-  const publicationDate = getEntityPropValue(entity, 'wdt:P577')
-  if (publicationDate === null) return {}
-  const publicationYear = parseInt(publicationDate.split('-')[0])
-  const inPublicDomain = publicationYear < publicDomainThresholdYear
-  return { publicationYear, inPublicDomain }
-}
-
-const publicDomainThresholdYear = new Date().getFullYear() - 70
-
-export const hasSelectedLang = selectedLangs => edition => {
-  const { originalLang } = edition
-  if (originalLang !== undefined) return selectedLangs.includes(originalLang)
-}
-
 export const editionShortlist = [
   'wdt:P1680', // subtitle
   'wdt:P577', // publication date
@@ -174,20 +117,19 @@ export const editionShortlist = [
 ]
 
 export const editionLonglist = [
+  'wdt:P1680', // edition subtitle
   'wdt:P2679', // author of foreword
   'wdt:P2680', // author of afterword
   'wdt:P655', // translator
   'wdt:P577', // publication date
-  'wdt:P1104', // number of pages
   'wdt:P123', // publisher
+  'wdt:P1104', // number of pages
   'wdt:P212', // ISBN-13
   'wdt:P957', // ISBN-10
   'wdt:P629', // edition or translation of
   'wdt:P195', // collection
   'wdt:P2635', // number of volumes
   'wdt:P856', // official website
-  'wdt:P1476', // edition title
-  'wdt:P1680', // edition subtitle
   'wdt:P407', // edition language
   'wdt:P179', // series
 ]

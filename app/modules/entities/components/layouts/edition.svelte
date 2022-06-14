@@ -1,12 +1,14 @@
 <script>
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import AuthorsInfo from './authors_info.svelte'
+  import Infobox from './infobox.svelte'
   import BaseLayout from './base_layout.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import getFavoriteLabel from '#entities/lib/get_favorite_label'
   import {
     aggregateWorksClaims,
     editionLonglist,
+    editionShortlist,
   } from '#entities/components/lib/claims_helpers'
 
   export let entity, works, standalone
@@ -44,6 +46,11 @@
         <div class="infobox">
           <AuthorsInfo
             {claims}
+          />
+          <Infobox
+            {claims}
+            propertiesLonglist={editionLonglist}
+            propertiesShortlist={editionShortlist}
           />
         </div>
       </div>
