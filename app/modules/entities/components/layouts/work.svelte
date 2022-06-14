@@ -2,16 +2,20 @@
   import Spinner from '#general/components/spinner.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { I18n } from '#user/lib/i18n'
+  import { getSubEntities } from '../lib/entities'
   import { getWorkProperties } from '#entities/components/lib/claims_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
   import WikipediaExtract from './wikipedia_extract.svelte'
+  import ItemsLists from './items_lists.svelte'
 
-  export let entity, standalone
+  export let entity, standalone, mapToShow
 
   const omitAuthorsProperties = true
   const { uri } = entity
+  let editionsUris
+  let initialEditions = []
 
   const workShortlist = [
     'wdt:P577',
@@ -19,9 +23,20 @@
     'wdt:P921',
   ]
 
+  const getEditions = async () => {
+    initialEditions = await getSubEntities('work', uri)
+    editions = initialEditions
+  }
+
+  let editions = getEditions()
+
   $: claims = entity.claims
   $: notOnlyP31 = Object.keys(claims).length > 1
   $: app.navigate(`/entity/${uri}`)
+  $: if (isNonEmptyArray(editions)) {
+    editionsUris = editions.map(_.property('uri'))
+  }
+  $: someEditions = editions && isNonEmptyArray(editions)
 </script>
 
 <BaseLayout
@@ -46,6 +61,25 @@
         </div>
       {/if}
     </div>
+    {#await editions}
+      <div class="loading-wrapper">
+        <p class="loading">{I18n('looking for editions...')}
+          <Spinner/>
+        </p>
+      </div>
+    {:then}
+      {#if someEditions}
+        <div
+          class="editions-list"
+        >
+          <!-- TODO: dont display items list if items owners are only main user items -->
+          <ItemsLists
+            {editionsUris}
+            bind:mapToShow={mapToShow}
+          />
+        </div>
+      {/if}
+    {/await}
   </div>
 </BaseLayout>
 
@@ -64,6 +98,13 @@
     @include display-flex(column, flex-start);
     flex: 1 0 0;
     margin: 0 1em;
+  }
+  .editions-list{
+    @include display-flex(column, center);
+    margin: 1em 0;
+  }
+  .loading-wrapper{
+    @include display-flex(column, center);
   }
 
   /*Small screens*/
