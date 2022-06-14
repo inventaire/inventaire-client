@@ -42,7 +42,7 @@ const error = (err, label) => {
   // This statusCode can be set from the client for this purpose
   // of not reporting the error to the server
   if (userError) {
-    return console.error(`[${err.statusCode}][${label}] ${err.message}]`)
+    return console.error(`[${err.statusCode}][${label}] ${err.message}`)
   }
 
   // No need to report server error back to the server

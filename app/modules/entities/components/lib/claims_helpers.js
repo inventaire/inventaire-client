@@ -162,17 +162,10 @@ const aggregateClaim = (worksClaims, work) => prop => {
 const removeTailingSlash = url => url.replace(/\/$/, '')
 const dropProtocol = url => url.replace(/^(https?:)?\/\//, '')
 
-export function getTitle (entity) {
-  return entity.claims['wdt:P1476'][0]
-}
-
-const getEntityPropValue = (entity, prop) => {
-  const claimValues = entity.claims[prop]
+export const getEntityPropValue = (entity, prop) => {
+  const claimValues = entity?.claims[prop]
   if (claimValues) return claimValues[0]
 }
-
-export const getIsbn = entity => getEntityPropValue(entity, 'wdt:P212')
-export const getPublication = entity => getEntityPropValue(entity, 'wdt:P577')
 
 export function getLang (entity) {
   const langUri = getEntityPropValue(entity, 'wdt:P407')
@@ -180,13 +173,48 @@ export function getLang (entity) {
 }
 
 export function getPublicationDate (entity) {
-  const publicationDate = getPublication(entity, 'wdt:P577')
-  if (publicationDate != null) {
-    const publicationYear = parseInt(publicationDate.split('-')[0])
-    const inPublicDomain = publicationYear < publicDomainThresholdYear
-    return { publicationYear, inPublicDomain }
-  }
-  return {}
+  const publicationDate = getEntityPropValue(entity, 'wdt:P577')
+  if (publicationDate === null) return {}
+  const publicationYear = parseInt(publicationDate.split('-')[0])
+  const inPublicDomain = publicationYear < publicDomainThresholdYear
+  return { publicationYear, inPublicDomain }
 }
 
 const publicDomainThresholdYear = new Date().getFullYear() - 70
+
+export const hasSelectedLang = selectedLangs => edition => {
+  const { originalLang } = edition
+  if (originalLang !== undefined) return selectedLangs.includes(originalLang)
+}
+
+export const editionShortlist = [
+  'wdt:P1680', // subtitle
+  'wdt:P577', // publication date
+  'wdt:P123', // publisher
+  'wdt:P212', // isbn 13
+  'wdt:P179', // serie
+]
+
+export const editionLonglist = [
+  'wdt:P2679', // author of foreword
+  'wdt:P2680', // author of afterword
+  'wdt:P655', // translator
+  'wdt:P577', // publication date
+  'wdt:P1104', // number of pages
+  'wdt:P123', // publisher
+  'wdt:P212', // ISBN-13
+  'wdt:P957', // ISBN-10
+  'wdt:P629', // edition or translation of
+  'wdt:P195', // collection
+  'wdt:P2635', // number of volumes
+  'wdt:P856', // official website
+  'wdt:P1476', // edition title
+  'wdt:P1680', // edition subtitle
+  'wdt:P407', // edition language
+  'wdt:P179', // series
+]
+
+export const removeFromList = (list, el) => {
+  const index = list.indexOf(el)
+  if (index >= 0) list.splice(index, 1)
+}

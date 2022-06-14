@@ -67,6 +67,5 @@
 <style>
   .items-lists{
     width: 100%;
-    padding: 0 0.5em;
   }
 </style>

@@ -89,7 +89,7 @@ export async function getBasicInfoByUri (uri) {
     lang: app.user.lang
   })
   const entity = entities[uri]
-  if (!entity) {
+  if (!entity && redirects) {
     return {
       redirection: redirects[uri],
     }

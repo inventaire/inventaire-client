@@ -7,7 +7,7 @@
   import ItemsByCategories from './items_lists/items_by_categories.svelte'
   import { getItemsData } from './items_lists/items_lists'
 
-  export let editionsUris, initialItems = [], triggerScrollToMap
+  export let editionsUris, initialItems = [], usersSize, mapToShow
 
   let items = []
   let initialBounds
@@ -30,15 +30,17 @@
 
   let mapWrapper, windowScrollY
   const scrollToMap = () => {
+    console.log('##### 33 items_lists.svelte')
     if (!showMap) { showMap = true }
     if (mapWrapper) { windowScrollY = mapWrapper.offsetTop }
   }
 
   $: {
-    triggerScrollToMap && scrollToMap()
-    triggerScrollToMap = false
+    mapToShow && scrollToMap()
+    mapToShow = false
   }
   $: emptyList = !isNonEmptyArray(items)
+  $: usersSize = _.compact(_.uniq(items.map(_.property('owner')))).length
   $: editionsUris && getItemsByCategories()
   $: displayCover = editionsUris?.length > 1
 </script>

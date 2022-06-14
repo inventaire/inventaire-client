@@ -1,38 +1,29 @@
 <script>
-  import {
-    editionWorkProperties,
-    workProperties,
-    getLang,
-  } from '#entities/components/lib/claims_helpers'
   import Spinner from '#general/components/spinner.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
+  import {
+    workProperties,
+  } from '#entities/components/lib/claims_helpers'
+  import { getEntitiesAttributesByUris } from '#entities/lib/entities'
   import { getSubEntities } from '../lib/entities'
+  import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
-  import EditionList from './edition_list.svelte'
-  import EditionsListActions from './editions_list_actions.svelte'
-  import BaseLayout from './base_layout.svelte'
-  import ItemsLists from './items_lists.svelte'
-  import Ebooks from './ebooks.svelte'
-  import { getEntitiesAttributesByUris } from '#entities/lib/entities'
   import WikipediaExtract from './wikipedia_extract.svelte'
+  import Ebooks from './ebooks.svelte'
+  import ItemsLists from './items_lists.svelte'
+  import EditionsList from './editions_list.svelte'
 
-  export let entity, standalone, triggerScrollToMap
+  export let entity, standalone, mapToShow
 
   const { uri } = entity
-  let authorsClaims, editionsUris
+  let editionsUris
   let editions = []
   let initialEditions = []
-  let editionsLangs
   const userLang = app.user.lang
-  let selectedLangs = [ userLang ]
   let publishersByUris
-
-  const allWorkProperties = _.uniq([
-    ...editionWorkProperties,
-    ...workProperties
-  ])
+  let usersSize = 0
 
   const workShortlist = [
     'wdt:P577',
@@ -46,7 +37,7 @@
     const { entities } = await getEntitiesAttributesByUris({
       uris: publishersUris,
       attributes: [ 'labels' ],
-      lang: app.user.lang
+      lang: userLang
     })
     publishersByUris = entities
     editions = initialEditions
@@ -65,78 +56,51 @@
     return values[0]
   }
 
-  const addClaims = claims => {
-    const nonEmptyClaims = _.pick(claims, isNonEmptyArray)
-    return Object.assign(claims, nonEmptyClaims)
-  }
-  const workClaims = _.pick(claims, allWorkProperties)
-  addClaims(workClaims)
-
-  const prioritizeMainUserLang = langs => {
-    if (langs.includes(userLang)) {
-      const userLangIndex = langs.indexOf(userLang)
-      langs.splice(userLangIndex, 1)
-      langs.unshift(userLang)
-    }
-    return langs
+  let editionsList, windowScrollY
+  const scrollToItemsList = () => {
+    if (editionsList) { windowScrollY = editionsList.offsetTop }
   }
 
-  const filterEditionByLang = initialEditions => {
-    if (selectedLangs.length === editionsLangs.length) {
-      return editions = initialEditions
-    }
-    editions = initialEditions.filter(e => e.originalLang.includes(selectedLangs))
-  }
-
-  $: {
-    if (initialEditions) {
-      let rawEditionsLangs = _.uniq(initialEditions.map(getLang))
-      editionsLangs = prioritizeMainUserLang(rawEditionsLangs)
-    }
-  }
   $: claims = entity.claims
-  $: selectedLangs && filterEditionByLang(initialEditions)
+  $: notOnlyP31 = Object.keys(claims).length > 1
   $: app.navigate(`/entity/${uri}`)
   $: if (isNonEmptyArray(editions)) {
     editionsUris = editions.map(_.property('uri'))
   }
-  $: someEditions = initialEditions && isNonEmptyArray(initialEditions)
+  $: someEditions = editions && isNonEmptyArray(editions)
+  $: someInitialEditions = initialEditions && isNonEmptyArray(initialEditions)
 </script>
 
+<svelte:window bind:scrollY={windowScrollY} />
 <BaseLayout
   bind:entity={entity}
   {standalone}
 >
   <div class="entity-layout" slot="entity">
-    <div class="work-section">
-      <AuthorsInfo
-        {claims}
-      />
-      <Infobox
-        {claims}
-        propertiesLonglist={workProperties}
-        propertiesShortlist={workShortlist}
-      />
-      <WikipediaExtract
-        {entity}
-      />
-      <Ebooks
-        {entity}
-        {userLang}
-      />
-    </div>
-    <div class="editions-section"
-      class:no-edition={!someEditions}
-    >
+    <div class="top-section">
+      {#if notOnlyP31}
+        <div class="work-section">
+          <AuthorsInfo
+            {claims}
+          />
+          <Infobox
+            {claims}
+            propertiesLonglist={workProperties}
+            propertiesShortlist={workShortlist}
+          />
+          <WikipediaExtract
+            {entity}
+          />
+          <Ebooks
+            {entity}
+            {userLang}
+          />
+        </div>
+      {/if}
       <div
-        class="editions-list-wrapper"
+        class="editions-section-wrapper"
         class:no-edition={!someEditions}
       >
-        <div class="editions-list-title">
-          <h5>
-            {I18n('editions')}
-          </h5>
-        </div>
         {#await editionsWithPublishers}
           <div class="loading-wrapper">
             <p class="loading">{I18n('looking for editions...')}
@@ -144,40 +108,43 @@
             </p>
           </div>
         {:then}
-          {#if someEditions}
-            <div class="actions-wrapper">
-              <EditionsListActions
-                bind:selectedLangs={selectedLangs}
-                {editionsLangs}
-                bind:triggerScrollToMap={triggerScrollToMap}
-              />
-            </div>
-            <div class="editions-list">
-              {#each editions as edition (edition._id)}
-                <div class="edition-list">
-                  <EditionList
-                    {edition}
-                    {authorsClaims}
-                    {publishersByUris}
-                  />
-                </div>
-              {/each}
-            </div>
-            <div class="editions-list">
-              <ItemsLists
-                {editionsUris}
-                {triggerScrollToMap}
-              />
-            </div>
-          {:else}
-            <div class="no-edition-wrapper">
-              {i18n('no editions found')}
-            </div>
-          {/if}
+          <EditionsList
+            {editionsWithPublishers}
+            {someInitialEditions}
+            {someEditions}
+            bind:usersSize={usersSize}
+            {publishersByUris}
+            {entity}
+            {initialEditions}
+            bind:editions={editions}
+            on:showMap={() => mapToShow = true}
+            on:scrollToItemsList={scrollToItemsList}
+          />
         {/await}
       </div>
-      <!-- TODO: works list -->
     </div>
+          <pre>######work.svelte:128 {JSON.stringify(usersSize, null, 2)}</pre>
+    {#await editionsWithPublishers}
+      <div class="loading-wrapper">
+        <p class="loading">{I18n('looking for editions...')}
+          <Spinner/>
+        </p>
+      </div>
+    {:then}
+      {#if someEditions}
+        <div
+          class="editions-list"
+          bind:this={editionsList}
+        >
+          <!-- TODO: dont display items list if items owners are only main user items -->
+          <ItemsLists
+            bind:usersSize={usersSize}
+            {editionsUris}
+            bind:mapToShow={mapToShow}
+          />
+        </div>
+      {/if}
+    {/await}
   </div>
 </BaseLayout>
 
@@ -185,69 +152,46 @@
   @import '#general/scss/utils';
   $entity-max-width: 650px;
   .entity-layout{
-    @include display-flex(row, flex-start, space-between);
+    @include display-flex(column, center);
     width: 100%;
   }
-  .editions-section{
-    @include display-flex(row, flex-start, space-between);
+  .editions-section-wrapper{
     flex: 1 0 0;
-    &.no-edition{
-      flex: none !important;
-    }
+    max-width: 50%;
+  }
+  .no-edition{
+    flex: none;
+    width: 15em;
+  }
+  .top-section{
+    @include display-flex(row, flex-start, center);
+    width: 100%;
+    margin: 1em 0;
   }
   .work-section{
-    @include display-flex(column, flex-start, space-between);
+    @include display-flex(column, flex-start);
     flex: 1 0 0;
+    margin: 0 1em;
   }
   .editions-list{
     @include display-flex(column, center);
   }
-  .editions-list-title{
-    @include display-flex(row, center, center);
-  }
-  .actions-wrapper{
-    @include display-flex(row, center, center);
-    min-height: 2em;
-  }
   .loading-wrapper{
     @include display-flex(column, center);
   }
-  .editions-list-wrapper{
-    @include radius;
-    padding: 0.5em;
-    background-color: $off-white;
-    &.no-edition{
-      width: 10em;
-    }
-  }
-  .edition-list{
-    @include display-flex(row, flex-start, space-between);
-    border-top:1px solid #ddd;
-    width:100%;
-  }
-  .no-edition-wrapper{
-    @include display-flex(row, center, center);
-    color: $grey
-  }
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    .entity-layout{
-      margin-top: 1em;
-    }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
     .work-section{
-      margin: 0 1em;
+      margin-left: 0;
+      margin-right: 1em;
     }
   }
 
   /*Smaller screens*/
-  @media screen and (max-width: $small-screen) {
-    .work-section{
+  @media screen and (max-width: $smaller-screen) {
+    .top-section{
       @include display-flex(column);
-      margin: 0;
-      margin-right: 1em;
-    }
-    .editions-section{
     }
   }
 

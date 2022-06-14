@@ -1,29 +1,44 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { getEntitiesAttributesByUris } from '#entities/lib/entities'
   import ClaimInfobox from './claim_infobox.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import Spinner from '#general/components/spinner.svelte'
   import { propertiesType } from '#entities/components/lib/claims_helpers'
   import log_ from '#lib/loggers'
 
-  export let claims = {}, propertiesLonglist, propertiesShortlist
+  export let claims = {},
+    propertiesLonglist,
+    propertiesShortlist,
+    relatedEntities = {},
+    compactView
 
   let displayedProperties = propertiesShortlist
-  let entitiesByUris
+  let entitiesByUris = relatedEntities
   let claimsLonglist = _.pick(claims, propertiesLonglist)
   let hasLonglistBeenDisplayed
 
-  const waitingForEntities = getInfoboxEntities(displayedProperties)
+  const waitingForEntities = getMissingEntities(displayedProperties)
 
-  async function getInfoboxEntities () {
-    let entitiesClaims = {}
+  async function getMissingEntities () {
+    let missingUris = []
     displayedProperties.forEach(prop => {
       if (claimsLonglist[prop] && (propertiesType[prop] === 'entityProp')) {
-        entitiesClaims[prop] = claims[prop]
+        const propMissingUris = claims[prop].filter(value => {
+          if (relatedEntities) return !relatedEntities[value]
+        })
+        missingUris.push(...propMissingUris)
       }
     })
-    entitiesByUris = await getEntitiesAttributesFromClaims(entitiesClaims)
+    if (isNonEmptyArray(missingUris)) {
+      const { entities } = await getEntitiesAttributesByUris({
+        uris: missingUris,
+        attributes: [ 'labels' ],
+        lang: app.user.lang
+      })
+      entitiesByUris = { ...entitiesByUris, ...entities }
+    }
   }
 
   const updateHasLonglistBeenDisplayed = () => {
@@ -32,17 +47,13 @@
   }
 
   $: (async () => {
-    // early return if all entities have been fetched already
-    if (hasLonglistBeenDisplayed) return
-    // lazy load propertiesLonglist entities
-    await getInfoboxEntities()
+    await getMissingEntities()
     // logging is a pretext to trigger function when claims or displayedProperties are updated
     if (displayedProperties) log_.info(displayedProperties, 'updated claims')
     updateHasLonglistBeenDisplayed()
   })()
 
   let showMore = true
-
   $: claimsLonglist = _.pick(claims, propertiesLonglist)
   $: claimsShortlist = _.pick(claims, propertiesShortlist)
   $: entityPropertiesLonglist = Object.keys(claimsLonglist)
@@ -77,6 +88,7 @@
         moreText={I18n('more details...')}
         lessText={I18n('less details')}
         reversedShow={true}
+        withIcon={!compactView}
       />
     {/if}
   {/await}

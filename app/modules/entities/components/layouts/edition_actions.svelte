@@ -21,8 +21,7 @@
 >
   <Link
     {url}
-    text={i18n('add to my inventory')}
-    icon='plus'
+    text={i18n('add to...')}
     light={true}
   />
 </button>
@@ -30,7 +29,7 @@
   @import '#general/scss/utils';
   .action-button{
     @include tiny-button($light-blue);
-    margin-bottom: 1em;
     padding: 0.5em;
+    white-space: nowrap;
   };
 </style>

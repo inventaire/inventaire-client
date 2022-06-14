@@ -34,7 +34,11 @@
         {state.message || I18n('loading')}
       {:else}
         {#if iconName}{@html icon(iconName)}{/if}
-        {state.message}
+        {#if state.escapeHtml}
+          {@html state.message}
+        {:else}
+          {state.message}
+        {/if}
       {/if}
     </div>
     <button on:click="{() => state = null}" title="{ I18n('close') }">

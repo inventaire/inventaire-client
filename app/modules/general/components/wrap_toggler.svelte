@@ -4,7 +4,8 @@
     moreText,
     lessText,
     scrollTopElement,
-    reversedShow
+    reversedShow,
+    withIcon = true
 
   function toggle () {
     show = !show
@@ -29,7 +30,9 @@
       class="wrap-toggler"
       on:click={toggle}
       >
-      {@html icon(`chevron-${showData.chevron}`)}
+      {#if withIcon}
+        {@html icon(`chevron-${showData.chevron}`)}
+      {/if}
       {showData.text}
     </button>
   {/if}
@@ -38,7 +41,9 @@
     class="wrap-toggler"
     on:click={toggle}
     >
-    {@html icon(`chevron-${notShowData.chevron}`)}
+    {#if withIcon}
+      {@html icon(`chevron-${notShowData.chevron}`)}
+    {/if}
     {notShowData.text}
   </button>
 {/if}

@@ -6,36 +6,17 @@
   import EditionActions from './edition_actions.svelte'
   import ItemsLists from './items_lists.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import getFavoriteLabel from '#entities/lib/get_favorite_label'
   import {
-    getTitle,
     aggregateWorksClaims,
-    editionProperties,
+    editionLonglist,
+    editionShortlist,
   } from '#entities/components/lib/claims_helpers'
 
   export let entity, works, standalone
 
   const { uri, image } = entity
   let { claims } = entity
-
-  const removeFromList = (list, el) => {
-    const index = list.indexOf(el)
-    list.splice(index, 1)
-  }
-
-  let editionLonglist = [
-    ...editionProperties,
-    'wdt:P179', // series
-  ]
-  removeFromList(editionLonglist, 'invp:P2')
-  removeFromList(editionLonglist, 'wdt:P1476')
-
-  const editionShortlist = [
-    'wdt:P1680',
-    'wdt:P577',
-    'wdt:P123',
-    'wdt:P212',
-    'wdt:P179',
-  ]
 
   const addWorksClaims = (claims, works) => {
     const worksClaims = aggregateWorksClaims(works)
@@ -47,11 +28,10 @@
 
   const claimsWithWorksClaims = _.pick(claims, filterClaims)
 
-  claims = addWorksClaims(claimsWithWorksClaims, works)
-
-  const title = getTitle(entity)
+  const title = getFavoriteLabel(entity)
 
   $: app.navigate(`/entity/${uri}`)
+  $: claims = addWorksClaims(claimsWithWorksClaims, works)
 </script>
 <BaseLayout
   {entity}
@@ -89,12 +69,19 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+  .entity-layout{
+    width: 100%;
+  }
   .info{
     @include display-flex(row, flex-start, center);
     margin-bottom: 1em;
   }
   .cover{
     padding-right: 1em;
+    max-width: 12em;
+  }
+  .edition-actions{
+    @include display-flex(column, center, flex-end);
     max-width: 12em;
   }
   .top-section{
@@ -104,17 +91,6 @@
   @media screen and (min-width: $small-screen) {
     .top-section{
       margin:0 5em;
-    }
-  }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    .top-section{
-      @include display-flex(column, flex-start);
-      padding-top: 1em;
-    }
-    .edition-actions{
-      @include display-flex(column, center);
-      width: 100%;
     }
   }
   /*Very mall screens*/
