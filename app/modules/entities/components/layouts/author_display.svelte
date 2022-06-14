@@ -1,4 +1,5 @@
 <script>
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { i18n } from '#user/lib/i18n'
   import { timeClaim } from '#entities/components/lib/claims_helpers'
   import Link from '#lib/components/link.svelte'
@@ -11,14 +12,9 @@
 
   const formatYearClaim = dateProp => {
     const values = claims[dateProp]
-    if (!values) return
-    return timeClaim({
-      values,
-      omitLabel: true,
-      inline: true,
-      prop: dateProp,
-    })
+    if (isNonEmptyArray(values)) return values.map(formatTime)
   }
+  const formatTime = value => timeClaim({ value, format: 'year' })
   const url = `/entity/${uri}`
   const title = `${authorRole} (${formatYearClaim('wdt:P569')}-${formatYearClaim('wdt:P570')})`
 </script>
@@ -39,3 +35,8 @@
     )
   </span>
 {/if}
+<style>
+  h4 {
+    margin-bottom: 0;
+  }
+</style>

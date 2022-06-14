@@ -67,7 +67,7 @@ export function getValuesTemplates (valueArray, entityLink, property) {
 }
 
 export function labelString (pid, omitLabel) {
-  return omitLabel ? '' : prop(pid)
+  return omitLabel ? '' : `${prop(pid)} `
 }
 
 export function claimString (label, values, inline) {

@@ -1,10 +1,22 @@
 <script>
+  import Spinner from '#general/components/spinner.svelte'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { I18n } from '#user/lib/i18n'
+  import { getWorkProperties } from '#entities/components/lib/claims_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
+  import Infobox from './infobox.svelte'
 
   export let entity, standalone
 
+  const omitAuthorsProperties = true
   const { uri } = entity
+
+  const workShortlist = [
+    'wdt:P577',
+    'wdt:P136',
+    'wdt:P921',
+  ]
 
   $: claims = entity.claims
   $: notOnlyP31 = Object.keys(claims).length > 1
@@ -22,8 +34,14 @@
           <AuthorsInfo
             {claims}
           />
+          <Infobox
+            {claims}
+            propertiesLonglist={getWorkProperties(omitAuthorsProperties)}
+            propertiesShortlist={workShortlist}
+          />
         </div>
       {/if}
+    </div>
   </div>
 </BaseLayout>
 
