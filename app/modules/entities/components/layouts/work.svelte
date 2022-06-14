@@ -6,6 +6,7 @@
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
+  import WikipediaExtract from './wikipedia_extract.svelte'
 
   export let entity, standalone
 
@@ -38,6 +39,9 @@
             {claims}
             propertiesLonglist={getWorkProperties(omitAuthorsProperties)}
             propertiesShortlist={workShortlist}
+          />
+          <WikipediaExtract
+            {entity}
           />
         </div>
       {/if}
