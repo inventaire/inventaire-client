@@ -1,11 +1,15 @@
 <script>
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { I18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import ItemsByTransaction from './items_by_transaction.svelte'
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
   export let itemsByCategorie
+  export let itemsOnMap
   export let headers
+  export let categorie
   export let displayCover
 
   const { customIcon, label, backgroundColor } = headers
@@ -32,9 +36,24 @@
     return itemsByTransactionIds.includes(item.id)
   }
 
+  const showItemsOnMap = () => {
+    itemsOnMap = itemsByCategorie
+    dispatch('showItemsOnMap')
+  }
+
+  let itemOnMap = false
+  const showItemOnMap = itemOnMap => {
+    if (itemOnMap) itemsOnMap = [ itemOnMap ]
+    dispatch('showItemsOnMap')
+  }
+
   let emptyList = !isNonEmptyArray(itemsByCategorie)
 
   $: itemsByCategorie.forEach(dispatchByTransaction)
+
+  $: {
+    showItemOnMap(itemOnMap)
+  }
 </script>
 
 <div style="background-color:{backgroundColor}" class="items-list">
@@ -48,6 +67,20 @@
         {I18n(label)}
       </h3>
     </div>
+    {#if someItems}
+      {#if categorie !== 'personal'}
+        <button
+          class="map-button"
+          on:click={showItemsOnMap}
+        >
+          {@html icon('map-marker')}{I18n('show on map')}
+        </button>
+      {/if}
+    {:else}
+      <div class="emptyList">
+        {i18n('nothing here')}
+      </div>
+    {/if}
   </div>
   {#if someItems}
     <div class="items-list-per-transactions">
@@ -56,6 +89,7 @@
           itemsByTransaction={itemsByTransactions[transaction]}
           {transaction}
           {displayCover}
+          bind:itemOnMap
         />
       {/each}
     </div>
@@ -97,5 +131,8 @@
     padding: 0.5em;
     margin-bottom: 0.5em;
     /* background-color is defined by backgroundColor*/
+  }
+  .map-button{
+    @include tiny-button($light-grey, black);
   }
 </style>
