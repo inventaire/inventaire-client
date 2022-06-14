@@ -1,4 +1,6 @@
 import { isNonEmptyArray } from '#lib/boolean_tests'
+import wdLang from 'wikidata-lang'
+import { unprefixify } from '#lib/wikimedia/wikidata'
 import platforms_ from '#lib/handlebars_helpers/platforms.js'
 import * as icons_ from '#lib/handlebars_helpers/icons.js'
 
@@ -107,6 +109,21 @@ const aggregateClaim = (worksClaims, work) => prop => {
 
 const removeTailingSlash = url => url.replace(/\/$/, '')
 const dropProtocol = url => url.replace(/^(https?:)?\/\//, '')
+
+export const getEntityPropValue = (entity, prop) => {
+  const claimValues = entity?.claims[prop]
+  if (claimValues) return claimValues[0]
+}
+
+export function getLang (entity) {
+  const langUri = getEntityPropValue(entity, 'wdt:P407')
+  return langUri ? wdLang.byWdId[unprefixify(langUri)]?.code : undefined
+}
+
+export const hasSelectedLang = selectedLangs => edition => {
+  const { originalLang } = edition
+  if (originalLang !== undefined) return selectedLangs.includes(originalLang)
+}
 
 export const editionShortlist = [
   'wdt:P1680', // subtitle
