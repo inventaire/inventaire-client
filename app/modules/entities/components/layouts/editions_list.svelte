@@ -4,6 +4,7 @@
   import { getLang, hasSelectedLang } from '#entities/components/lib/claims_helpers'
   import EditionsListActions from './editions_list_actions.svelte'
   import EntitiesList from './entities_list.svelte'
+  import EditionCreation from './edition_creation.svelte'
 
   const dispatch = createEventDispatcher()
 
@@ -11,6 +12,7 @@
     someEditions,
     editions,
     publishersByUris,
+    work,
     initialEditions,
     usersSize
 
@@ -68,6 +70,10 @@
       {I18n('no editions found')}
     </div>
   {/if}
+  <EditionCreation
+    {work}
+    bind:editions={initialEditions}
+  />
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
