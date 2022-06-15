@@ -114,6 +114,7 @@
             {someEditions}
             bind:usersSize={usersSize}
             {publishersByUris}
+            work={entity}
             {initialEditions}
             bind:editions={editions}
             on:showMap={() => showMap = true}
