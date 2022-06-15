@@ -1,12 +1,26 @@
 <script>
   import { icon } from '#lib/handlebars_helpers/icons'
-  export let show = false, moreText, lessText, scrollTopElement
+  export let show = false,
+    moreText,
+    lessText,
+    scrollTopElement,
+    reversedShow,
+    withIcon = true
 
   function toggle () {
     show = !show
     if (!show && scrollTopElement) {
       scrollTopElement.scrollIntoView({ behavior: 'smooth' })
     }
+  }
+
+  const showLessData = {
+    chevron: reversedShow ? 'up' : 'down',
+    text: reversedShow ? lessText : moreText
+  }
+  const showMoreData = {
+    chevron: reversedShow ? 'down' : 'up',
+    text: reversedShow ? moreText : lessText
   }
 </script>
 
@@ -16,8 +30,10 @@
       class="wrap-toggler"
       on:click={toggle}
       >
-      {@html icon('chevron-up')}
-      {lessText}
+      {#if withIcon}
+        {@html icon(`chevron-${showMoreData.chevron}`)}
+      {/if}
+      {showMoreData.text}
     </button>
   {/if}
 {:else}
@@ -25,8 +41,10 @@
     class="wrap-toggler"
     on:click={toggle}
     >
-    {@html icon('chevron-down')}
-    {moreText}
+    {#if withIcon}
+      {@html icon(`chevron-${showLessData.chevron}`)}
+    {/if}
+    {showLessData.text}
   </button>
 {/if}
 
