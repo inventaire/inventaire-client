@@ -87,6 +87,7 @@
         bind:show={showMore}
         moreText={I18n('more details')}
         lessText={I18n('less details')}
+        reversedShow={true}
         withIcon={!compactView}
       />
     {/if}
