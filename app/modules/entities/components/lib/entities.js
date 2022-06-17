@@ -26,3 +26,8 @@ export const bestImage = function (a, b) {
 
 const latestPublication = (a, b) => b.publicationTime - a.publicationTime
 
+export const buildAltUri = (uri, id) => {
+  if (id && (uri.split(':')[1] !== id)) {
+    return `inv:${id}`
+  }
+}

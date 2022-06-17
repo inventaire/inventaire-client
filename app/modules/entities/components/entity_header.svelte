@@ -2,11 +2,14 @@
   import { I18n } from '#user/lib/i18n'
   import getFavoriteLabel from '#entities/lib/get_favorite_label'
   import Link from '#lib/components/link.svelte'
+  import { buildAltUri } from './lib/entities'
 
   export let entity
   export let standalone = false
 
-  const { uri } = entity
+  const { uri, _id, type } = entity
+
+  const altUri = buildAltUri(uri, _id)
 
   $: favoriteLabel = getFavoriteLabel(entity)
 </script>
@@ -23,9 +26,14 @@
       />
     {/if}
   </h2>
-  <p class="type">{I18n(entity.type)}</p>
+  <p class="type">{I18n(type)}</p>
   {#if !standalone}
-    <p class="uri">{uri}</p>
+    <p class="uri">
+      - {uri}
+      {#if altUri}
+         - {altUri}
+      {/if}
+    </p>
   {/if}
 </div>
 
