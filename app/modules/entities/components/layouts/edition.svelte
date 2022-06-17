@@ -1,8 +1,9 @@
 <script>
   import { isNonEmptyArray } from '#lib/boolean_tests'
+  import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
-  import BaseLayout from './base_layout.svelte'
+  import OtherEditions from './other_editions.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import getFavoriteLabel from '#entities/lib/get_favorite_label'
   import {
@@ -27,6 +28,8 @@
   const claimsWithWorksClaims = _.pick(claims, filterClaims)
 
   const title = getFavoriteLabel(entity)
+
+  const firstWorkUri = works[0].uri
 
   $: app.navigate(`/entity/${uri}`)
   $: claims = addWorksClaims(claimsWithWorksClaims, works)
@@ -55,6 +58,12 @@
         </div>
       </div>
     </div>
+    <div class="bottom-section">
+      <OtherEditions
+        currentEdition={entity}
+        workUri={firstWorkUri}
+      />
+    </div>
   </div>
 </BaseLayout>
 <!-- TODO: works list -->
@@ -62,7 +71,6 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .entity-layout{
-    @include display-flex(column, center);
     width: 100%;
   }
   .info{
@@ -75,6 +83,9 @@
   }
   .top-section{
     @include display-flex(row, center, space-between);
+  }
+  .bottom-section{
+    @include display-flex(column, center);
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {

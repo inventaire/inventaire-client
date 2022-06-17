@@ -82,6 +82,7 @@
     @include display-flex(column, center);
     @include radius;
     padding: 0.5em;
+    width: 100%;
     background-color: $off-white;
   }
   .editions-list-title{

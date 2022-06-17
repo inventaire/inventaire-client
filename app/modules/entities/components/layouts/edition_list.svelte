@@ -7,7 +7,7 @@
   import Infobox from './infobox.svelte'
   import Link from '#lib/components/link.svelte'
 
-  export let entity, relatedEntities = {}
+  export let entity, relatedEntities, compactView
 
   const editionLabel = getFavoriteLabel(entity)
 
@@ -15,7 +15,10 @@
   removeFromList(workEditionLonglist, 'wdt:P629')
   removeFromList(workEditionLonglist, 'wdt:P1476')
 </script>
-<div class="edition-list">
+<div
+  class="edition-list"
+  class:compactView
+>
   {#if isNonEmptyPlainObject(entity.image)}
     <div class="cover">
       <EntityImage
@@ -26,42 +29,55 @@
       />
     </div>
   {/if}
-  <div class="edition-list-info">
-    <div class="edition-info-line">
-      <div>
-        <Link
-          url={`/entity/${entity.uri}`}
-          text={editionLabel}
-          dark={true}
-        />
+  {#if !compactView}
+    <div class="edition-list-info">
+      <div class="edition-info-line">
+        <div class="edition-title">
+          <Link
+            url={`/entity/${entity.uri}`}
+            text={editionLabel}
+            dark={true}
+          />
+        </div>
+        <div class="edition-details">
+          <Infobox
+            claims={entity.claims}
+            propertiesLonglist={workEditionLonglist}
+            propertiesShortlist={editionShortlist}
+            {relatedEntities}
+            compactView={true}
+          />
+        </div>
       </div>
-      <div class="edition-details">
-        <Infobox
-          claims={entity.claims}
-          propertiesLonglist={workEditionLonglist}
-          propertiesShortlist={editionShortlist}
-          {relatedEntities}
-          compactView={true}
-        />
+      <div class="edition-actions">
+        <EditionActions {entity}/>
       </div>
     </div>
-    <div class="edition-actions">
-      <EditionActions {entity}/>
-    </div>
-  </div>
+  {/if}
 </div>
 
 <style lang="scss">
   @import '#general/scss/utils';
   .edition-list{
     @include display-flex(row, flex-start, flex-start);
+    border-top: 1px solid #ddd;
+    padding: 0.3em 0;
+    margin-top: 1em;
+  }
+  .compactView{
+    @include display-flex(row);
+    max-width: 5em;
+    border-top: none;
+    padding: 0;
+    margin: 0;
+    .cover{
+      width: auto;
+    }
   }
   .edition-title{
     font-size:larger;
   }
   .cover{
-    min-width: 5em;
-    margin-right: 0.5em;
     margin-top: 0.5em;
   }
   .edition-list-info{
