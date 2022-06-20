@@ -92,6 +92,7 @@
     "babel-loader": "^8.2.5",
     "circular-dependency-plugin": "^5.2.2",
     "config": "^3.3.3",
+    "core-js": "^3.23.2",
     "css-loader": "^5.0.1",
     "cssnano": "^5.0.11",
     "doctoc": "^1.4.0",
@@ -126,14 +127,6 @@
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.5.0",
     "wikidata-sdk": "^5.16.2"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ],
-    "plugins": [
-      "@babel/plugin-transform-runtime"
-    ]
   },
   "browserslist": [
     "> 0.25%",
