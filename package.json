@@ -129,10 +129,9 @@
     "wikidata-sdk": "^5.16.2"
   },
   "browserslist": [
-    "> 0.25%",
-    "last 2 versions",
+    "> 0.5%",
     "Firefox ESR",
-    "last 5 years",
+    "last 3 years",
     "not dead"
   ]
 }
