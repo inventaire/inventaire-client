@@ -35,5 +35,10 @@ module.exports = {
     plugins: [ '@babel/plugin-transform-runtime' ],
     // See https://github.com/babel/babel-loader#babel-loader-is-slow
     cacheDirectory: true,
+    // See https://babeljs.io/docs/en/assumptions
+    assumptions: {
+      noDocumentAll: true,
+      noNewArrows: true,
+    }
   }
 }
