@@ -12,6 +12,7 @@
   import Ebooks from './ebooks.svelte'
   import ItemsLists from './items_lists.svelte'
   import EditionsList from './editions_list.svelte'
+  import HomonymDeduplicates from './homonym_deduplicates.svelte'
 
   export let entity, standalone
 
@@ -145,6 +146,9 @@
         </div>
       {/if}
     {/await}
+    <HomonymDeduplicates
+      {entity}
+    />
   </div>
 </BaseLayout>
 

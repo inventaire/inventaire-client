@@ -28,7 +28,7 @@
   {#if lessText}
     <button
       class="wrap-toggler"
-      on:click={toggle}
+      on:click|stopPropagation={toggle}
       >
       {#if withIcon}
         {@html icon(`chevron-${showMoreData.chevron}`)}
@@ -39,7 +39,7 @@
 {:else}
   <button
     class="wrap-toggler"
-    on:click={toggle}
+    on:click|stopPropagation={toggle}
     >
     {#if withIcon}
       {@html icon(`chevron-${showLessData.chevron}`)}
