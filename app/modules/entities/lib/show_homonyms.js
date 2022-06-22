@@ -1,13 +1,12 @@
 import preq from '#lib/preq'
 import Entities from '../collections/entities.js'
-import loader from '#general/views/templates/loader.hbs'
 import getBestLangValue from './get_best_lang_value'
 import { someMatch } from '#lib/utils'
+import { getEntitiesByUris } from '#entities/lib/entities'
 
 export default async params => {
   if (!app.user.hasDataadminAccess) return
   const { layout, regionName, model, standalone } = params
-  layout.getRegion(regionName).$el.html(loader())
 
   const [ entities, { default: MergeHomonyms } ] = await Promise.all([
     getHomonyms(model),
@@ -35,6 +34,15 @@ const searchTerm = types => term => {
   }))
 }
 
+export const getHomonymsEntities = async entity => {
+  const { uri, labels, aliases } = entity
+  const terms = getSearchTermsSelection(labels, aliases)
+  const pluralizedType = `${entity.type}s`
+  const responses = await Promise.all(terms.map(searchTerm(pluralizedType)))
+  const results = _.pluck(responses, 'results').flat()
+  return parseSearchResultsToEntities(uri, results)
+}
+
 const parseSearchResults = async (uri, searchResults) => {
   const uris = _.uniq(_.pluck(searchResults, 'uri'))
     .filter(result => result.uri !== uri)
@@ -43,11 +51,24 @@ const parseSearchResults = async (uri, searchResults) => {
   return entities
   // Re-filter out uris to omit as a redirection might have brought it back
   .filter(entity => entity.get('uri') !== uri)
-  .filter(isntRelatedToAnyOtherEntity([ uri, ...uris ]))
+  .filter(entity => {
+    const claims = entity.get('claims')
+    return isntRelatedToAnyOtherEntity([ uri, ...uris ], claims)
+  })
 }
 
-const isntRelatedToAnyOtherEntity = uris => entity => {
-  const relationClaims = _.pick(entity.get('claims'), relationClaimsProperties)
+const parseSearchResultsToEntities = async (uri, searchResults) => {
+  const uris = _.uniq(_.pluck(searchResults, 'uri'))
+    .filter(result => result.uri !== uri)
+  // Search results entities miss their claims, so we need to fetch the full entities
+  const entities = await getEntitiesByUris(uris)
+  // Re-filter out uris to omit as a redirection might have brought it back
+  return entities.filter(entity => entity.uri !== uri)
+  .filter(entity => isntRelatedToAnyOtherEntity([ uri, ...uris ], entity.claims))
+}
+
+const isntRelatedToAnyOtherEntity = (uris, entityClaims) => {
+  const relationClaims = _.pick(entityClaims, relationClaimsProperties)
   const relationClaimValues = Object.values(relationClaims).flat()
   return !someMatch(relationClaimValues, uris)
 }
