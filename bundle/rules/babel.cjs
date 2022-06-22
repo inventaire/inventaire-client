@@ -27,6 +27,8 @@ module.exports = {
           shippedProposals: true,
           // See https://babeljs.io/docs/en/babel-preset-env#bugfixes
           bugfixes: true,
+          // Uncomment to get the list of polyfills included in build logs
+          // debug: true,
         }
       ]
     ],
