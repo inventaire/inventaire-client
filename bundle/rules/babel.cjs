@@ -27,6 +27,11 @@ module.exports = {
           shippedProposals: true,
           // See https://babeljs.io/docs/en/babel-preset-env#bugfixes
           bugfixes: true,
+          exclude: [
+            // This would be needed if we were to use for...of on DOM collections, which we don't
+            // see https://github.com/zloirock/core-js/issues/1003
+            'web.dom-collections.iterator',
+          ],
           // Uncomment to get the list of polyfills included in build logs
           // debug: true,
         }
