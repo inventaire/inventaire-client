@@ -159,10 +159,6 @@
     @include display-flex(column, center);
     width: 100%;
   }
-  .editions-section-wrapper{
-    flex: 1 0 0;
-    max-width: 50%;
-  }
   .no-edition{
     flex: none;
     width: 15em;
@@ -183,7 +179,12 @@
   .loading-wrapper{
     @include display-flex(column, center);
   }
-
+  .editions-section-wrapper{
+    flex: 1;
+    &.no-edition{
+      flex: 0.4;
+    }
+  }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .work-section{
@@ -196,6 +197,10 @@
   @media screen and (max-width: $smaller-screen) {
     .top-section{
       @include display-flex(column);
+    }
+    .editions-section-wrapper{
+      width: 100%;
+      margin-top: 1em;
     }
   }
 

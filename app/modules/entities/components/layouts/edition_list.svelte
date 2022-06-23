@@ -65,7 +65,6 @@
     margin-top: 1em;
   }
   .compactView{
-    @include display-flex(row);
     max-width: 5em;
     border-top: none;
     padding: 0;
@@ -82,10 +81,12 @@
   }
   .edition-list-info{
     @include display-flex(row, center, space-between);
+    width: 100%;
     margin-left: 0.5em;
   }
   .edition-info-line{
     margin-right: 0.5em;
+    max-width: 30em;
   }
 
   /*Small screens*/
