@@ -47,7 +47,7 @@
 
   let canAddValue
   $: {
-    if (isEmptyClaimValue(propertyClaims.at(-1))) {
+    if (isEmptyClaimValue(propertyClaims.slice(-1)[0])) {
       canAddValue = false
     } else {
       canAddValue = (multivalue || getPropertyClaimsCount(propertyClaims) === 0)
