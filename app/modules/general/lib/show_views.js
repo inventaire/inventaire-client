@@ -1,3 +1,4 @@
+import FullScreenLoader from '#components/full_screen_loader.svelte'
 import { isOpenedOutside } from '#lib/utils'
 
 // Work around circular dependencies
@@ -37,8 +38,7 @@ const entityAction = function (e, action) {
 }
 
 export function showLoader () {
-  const loader = '<div class="full-screen-loader"><div></div></div>'
-  $(app.layout.getRegion('main').el).html(loader)
+  app.layout.showChildComponent('main', FullScreenLoader)
 }
 
 export function showFeedbackMenu (options) {
