@@ -30,7 +30,6 @@
     }
   }
   &.compact{
-    background-color: red;
     @include radius;
     margin: 0 0.1em;
   }
