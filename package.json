@@ -98,6 +98,7 @@
     "doctoc": "^1.4.0",
     "eslint": "^7.14.0",
     "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-compat": "^4.0.2",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.1",
@@ -132,6 +133,8 @@
     "> 0.5%",
     "Firefox ESR",
     "last 3 years",
+    "not ie 11",
+    "not op_mini all",
     "not dead"
   ]
 }
