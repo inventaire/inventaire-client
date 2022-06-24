@@ -1,16 +1,14 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import EditionList from './edition_list.svelte'
+  import EntityListElement from './entity_list_element.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
 
   // type is optional
-  export let type, entities, relatedEntities, compactView
+  export let type, entities, relatedEntities, compactView, parentEntity
 
   let showMore = false
   let shownEntities = entities
   let showLessSize = 4
-
-  const entityComponentsByType = { editions: EditionList }
 
   $: {
     if (showMore) shownEntities = entities
@@ -21,12 +19,13 @@
   class="entities-list"
   class:compactView={compactView}
 >
-  {#each shownEntities as entity (entity._id)}
-    <svelte:component
-      this={entityComponentsByType[type] || EditionList}
+  {#each shownEntities as entity (entity.uri)}
+    <EntityListElement
       {entity}
       {relatedEntities}
+      {parentEntity}
       {compactView}
+      actionType='link'
     />
   {/each}
 </div>

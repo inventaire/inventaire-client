@@ -18,30 +18,35 @@ export const formatClaimValue = params => {
 }
 
 export const getWorkProperties = omitAuthors => {
+  // propertiesPerType.work doesnt seem to have enough props available
+  // ie. original title, narrative location, characters
   let props = [
-    'wdt:P577',
-    'wdt:P361',
-    'wdt:P179',
-    'wdt:P1545',
-    'wdt:P1476',
-    'wdt:P1680',
-    'wdt:P407',
-    'wdt:P144',
-    'wdt:P941',
-    'wdt:P136',
-    'wdt:P135',
-    'wdt:P921',
-    'wdt:P840',
-    'wdt:P674',
-    'wdt:P1433',
-    'wdt:P155',
-    'wdt:P156',
+    'wdt:P50', // author
+    'wdt:P58', // scenarist
+    'wdt:P110', // illustrator
+    'wdt:P6338', // colorist
+    'wdt:P577', // publication date
+    'wdt:P136', // genre
+    'wdt:P361', // part of (serie)
+    'wdt:P179', // series
+    'wdt:P1545', // series ordinal
+    'wdt:P1476', // title
+    'wdt:P1680', // subtitle
+    'wdt:P144', // based on
+    'wdt:P941', // inspired by
+    'wdt:P135', // movement
+    'wdt:P921', // main subject
+    'wdt:P840', // narrative location
+    'wdt:P674', // characters
+    'wdt:P1433', // published in
+    'wdt:P155', // preceded by
+    'wdt:P156', // followed by
   ]
   if (!omitAuthors) props = [ ...authorsProps, ...props ]
   return props
 }
 
-const authorsProps = [
+export const authorsProps = [
   'wdt:P50', // author
   'wdt:P58', // scenarist
   'wdt:P110', // illustrator
@@ -125,33 +130,40 @@ export const hasSelectedLang = selectedLangs => edition => {
   if (originalLang !== undefined) return selectedLangs.includes(originalLang)
 }
 
-export const editionShortlist = [
-  'wdt:P1680', // subtitle
-  'wdt:P577', // publication date
-  'wdt:P123', // publisher
-  'wdt:P212', // isbn 13
-  'wdt:P179', // serie
-]
-
-export const editionLonglist = [
-  'wdt:P1680', // edition subtitle
-  'wdt:P2679', // author of foreword
-  'wdt:P2680', // author of afterword
-  'wdt:P655', // translator
-  'wdt:P577', // publication date
-  'wdt:P123', // publisher
-  'wdt:P1104', // number of pages
-  'wdt:P212', // ISBN-13
-  'wdt:P957', // ISBN-10
-  'wdt:P629', // edition or translation of
-  'wdt:P195', // collection
-  'wdt:P2635', // number of volumes
-  'wdt:P856', // official website
-  'wdt:P407', // edition language
-  'wdt:P179', // series
-]
-
-export const removeFromList = (list, el) => {
-  const index = list.indexOf(el)
-  if (index >= 0) list.splice(index, 1)
+export const infoboxPropsLists = {
+  edition: {
+    short: [
+      'wdt:P1680', // subtitle
+      'wdt:P577', // publication date
+      'wdt:P123', // publisher
+      'wdt:P212', // ISBN-13
+      'wdt:P179', // series
+    ],
+    long: [
+      'wdt:P1680', // edition subtitle
+      'wdt:P2679', // author of foreword
+      'wdt:P2680', // author of afterword
+      'wdt:P655', // translator
+      'wdt:P577', // publication date
+      'wdt:P123', // publisher
+      'wdt:P1104', // number of pages
+      'wdt:P212', // ISBN-13
+      'wdt:P957', // ISBN-10
+      'wdt:P629', // edition or translation of
+      'wdt:P195', // collection
+      'wdt:P2635', // number of volumes
+      'wdt:P856', // official website
+      'wdt:P407', // edition language
+      'wdt:P179', // series
+    ],
+  },
+  work: {
+    short: [
+      'wdt:P577', // publication date
+      'wdt:P179', // series
+      'wdt:P136', // genre
+      'wdt:P921', // main subject
+    ],
+    long: getWorkProperties(),
+  }
 }
