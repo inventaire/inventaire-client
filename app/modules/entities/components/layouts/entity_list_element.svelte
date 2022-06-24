@@ -1,5 +1,6 @@
 <script>
   import EditionActions from './edition_actions.svelte'
+  import MergeAction from './merge_action.svelte'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import EntityImage from '../entity_image.svelte'
   import getFavoriteLabel from '#entities/lib/get_favorite_label'
@@ -24,6 +25,9 @@
     edition: {
       link: EditionActions
     },
+    work: {
+      merge: MergeAction
+    }
   }
 </script>
 <div
