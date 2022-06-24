@@ -62,12 +62,15 @@ const getOptions = function (constraints) {
   return baseOptions
 }
 
+// See https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode
+const facingMode = { ideal: 'environment' }
+
 const getConstraints = function () {
   const minDimension = _.min([ screen_.width(), screen_.height() ])
   if (minDimension > 720) {
-    return { width: 1280, height: 720 }
+    return { width: 1280, height: 720, facingMode }
   } else {
-    return { width: 640, height: 480 }
+    return { width: 640, height: 480, facingMode }
   }
 }
 
