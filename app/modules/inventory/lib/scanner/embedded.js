@@ -2,7 +2,6 @@ import log_ from '#lib/loggers'
 import drawCanvas from './draw_canvas.js'
 import screen_ from '#lib/screen'
 import onDetected from './on_detected.js'
-import Quagga from 'quagga'
 
 export default {
   async scan (params) {
@@ -11,7 +10,16 @@ export default {
   }
 }
 
-const startScanning = function (params) {
+const startScanning = async function (params) {
+  // For some unknown reason, importing Quagga statically makes scanning fail:
+  //   message: 't is undefined',
+  //   stack: o.createLiveStream@webpack-internal:///./node_modules/quagga/dist/quagga.min.js:1:44717
+  //     i@webpack-internal:///./node_modules/quagga/dist/quagga.min.js:1:24184
+  //     init@webpack-internal:///./node_modules/quagga/dist/quagga.min.js:1:29451
+  //     startScanning/<@webpack-internal:///./app/modules/inventory/lib/scanner/embedded.js:46:41
+  // But importing it dynamically works
+  const { default: Quagga } = await import('quagga')
+
   const { beforeScannerStart, onDetectedActions, setStopScannerCallback } = params
   // Using a promise to get a friendly way to pass errors
   // but this promise will never resolve, and will be terminated,
@@ -40,7 +48,7 @@ const startScanning = function (params) {
       log_.info('quagga initialization finished. Starting')
       Quagga.start()
 
-      Quagga.onProcessed(drawCanvas())
+      Quagga.onProcessed(drawCanvas(Quagga))
 
       Quagga.onDetected(onDetected(onDetectedActions))
     })

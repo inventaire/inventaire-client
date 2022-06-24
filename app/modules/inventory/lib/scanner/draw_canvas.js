@@ -1,9 +1,7 @@
-import Quagga from 'quagga'
-
 const def = { x: 0, y: 1 }
 const style = { color: 'green', lineWidth: 2 }
 
-export default function () {
+export default function (Quagga) {
   let alreadyDrawn = false
   return function (result) {
     if (alreadyDrawn) return
