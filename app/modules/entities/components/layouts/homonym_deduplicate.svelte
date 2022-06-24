@@ -69,6 +69,7 @@
       claims={homonym.claims}
       propertiesLonglist={getWorkProperties()}
       propertiesShortlist={workShortlist}
+      entityType="work"
     />
     <div class="button-wrapper">
       <button

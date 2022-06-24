@@ -12,7 +12,7 @@
     someEditions,
     editions,
     publishersByUris,
-    work,
+    parentEntity,
     initialEditions,
     usersSize
 
@@ -63,6 +63,7 @@
     <EntitiesList
       entities={editions}
       relatedEntities={publishersByUris}
+      {parentEntity}
       type='editions'
     />
   {:else}
@@ -71,7 +72,7 @@
     </div>
   {/if}
   <EditionCreation
-    {work}
+    work={parentEntity}
     bind:editions={initialEditions}
   />
 </div>

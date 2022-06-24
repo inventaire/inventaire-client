@@ -8,8 +8,7 @@
   import getFavoriteLabel from '#entities/lib/get_favorite_label'
   import {
     aggregateWorksClaims,
-    editionLonglist,
-    editionShortlist,
+    infoboxPropsLists,
   } from '#entities/components/lib/claims_helpers'
 
   export let entity, works, standalone
@@ -23,7 +22,7 @@
     return Object.assign(claims, nonEmptyWorksClaims)
   }
 
-  const filterClaims = (_, key) => editionLonglist.includes(key)
+  const filterClaims = (_, key) => infoboxPropsLists.edition.long.includes(key)
 
   const claimsWithWorksClaims = _.pick(claims, filterClaims)
 
@@ -52,8 +51,7 @@
           />
           <Infobox
             {claims}
-            propertiesLonglist={editionLonglist}
-            propertiesShortlist={editionShortlist}
+            entityType={entity.type}
           />
         </div>
       </div>

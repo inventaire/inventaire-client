@@ -4,7 +4,7 @@
   import { I18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities'
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
-  import { getWorkProperties } from '#entities/components/lib/claims_helpers'
+  import { authorsProps } from '#entities/components/lib/claims_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
@@ -18,7 +18,6 @@
 
   let showMap
 
-  const omitAuthorsProperties = true
   const { uri } = entity
   let editionsUris
   let editions = []
@@ -26,12 +25,6 @@
   const userLang = app.user.lang
   let publishersByUris
   let usersSize = 0
-
-  const workShortlist = [
-    'wdt:P577',
-    'wdt:P136',
-    'wdt:P921',
-  ]
 
   const getEditionsWithPublishers = async () => {
     initialEditions = await getSubEntities('work', uri)
@@ -63,7 +56,16 @@
     if (editionsList) { windowScrollY = editionsList.offsetTop }
   }
 
+  const removeAuthorsClaims = claims => {
+    const infoboxClaims = _.clone(claims)
+    authorsProps.forEach(prop => {
+      if (claims[prop]) delete infoboxClaims[prop]
+    })
+    return infoboxClaims
+  }
+
   $: claims = entity.claims
+  $: infoboxClaims = removeAuthorsClaims(entity.claims)
   $: notOnlyP31 = Object.keys(claims).length > 1
   $: app.navigate(`/entity/${uri}`)
   $: if (isNonEmptyArray(editions)) {
@@ -86,9 +88,8 @@
             {claims}
           />
           <Infobox
-            {claims}
-            propertiesLonglist={getWorkProperties(omitAuthorsProperties)}
-            propertiesShortlist={workShortlist}
+            claims={infoboxClaims}
+            entityType={entity.type}
           />
           <WikipediaExtract
             {entity}
@@ -115,7 +116,7 @@
             {someEditions}
             bind:usersSize={usersSize}
             {publishersByUris}
-            work={entity}
+            parentEntity={entity}
             {initialEditions}
             bind:editions={editions}
             on:showMap={() => showMap = true}

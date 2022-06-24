@@ -5,26 +5,32 @@
   import ClaimInfobox from './claim_infobox.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { propertiesType } from '#entities/components/lib/claims_helpers'
-  import log_ from '#lib/loggers'
+  import {
+    propertiesType,
+    infoboxPropsLists,
+  } from '#entities/components/lib/claims_helpers'
 
   export let claims = {},
-    propertiesLonglist,
-    propertiesShortlist,
+    hasPropertiesShortlist,
     relatedEntities = {},
-    compactView
+    compactView,
+    entityType
 
-  let displayedProperties = propertiesShortlist
-  let entitiesByUris = relatedEntities
-  let claimsLonglist = _.pick(claims, propertiesLonglist)
-  let hasLonglistBeenDisplayed
+  const entityTypeClaimsLists = infoboxPropsLists[entityType]
+  const propertiesLonglist = entityTypeClaimsLists.long
 
-  const waitingForEntities = getMissingEntities(displayedProperties)
+  let propertiesShortlist
+  if (hasPropertiesShortlist) propertiesShortlist = entityTypeClaimsLists.short
+
+  let displayedProperties = propertiesShortlist || propertiesLonglist
+  let entityPropertiesShortlist, entityPropertiesLonglist
+
+  const waitingForEntities = getMissingEntities()
 
   async function getMissingEntities () {
     let missingUris = []
     displayedProperties.forEach(prop => {
-      if (claimsLonglist[prop]) {
+      if (claims[prop]) {
         const propMissingUris = claims[prop].filter(value => {
           if (isEntityUri(value)) return !relatedEntities[value]
         })
@@ -37,32 +43,30 @@
         attributes: [ 'labels' ],
         lang: app.user.lang
       })
-      entitiesByUris = { ...entitiesByUris, ...entities }
+      relatedEntities = { ...relatedEntities, ...entities }
     }
   }
 
-  const updateHasLonglistBeenDisplayed = () => {
-    const isLonglistDisplayed = (displayedProperties === propertiesLonglist)
-    if (!hasLonglistBeenDisplayed && isLonglistDisplayed) hasLonglistBeenDisplayed = true
-  }
-
   $: (async () => {
-    await getMissingEntities()
-    // logging is a pretext to trigger function when claims or displayedProperties are updated
-    if (displayedProperties) log_.info(displayedProperties, 'updated claims')
-    updateHasLonglistBeenDisplayed()
+    if (displayedProperties) await getMissingEntities()
   })()
 
-  let showMore = true
-  $: claimsLonglist = _.pick(claims, propertiesLonglist)
-  $: claimsShortlist = _.pick(claims, propertiesShortlist)
-  $: entityPropertiesLonglist = Object.keys(claimsLonglist)
-  $: entityPropertiesShortlist = Object.keys(claimsShortlist)
+  let showLess = true
   $: {
-    if (showMore) {
-      displayedProperties = entityPropertiesShortlist
-    } else {
-      displayedProperties = entityPropertiesLonglist
+    const claimsLonglist = _.pick(claims, propertiesLonglist)
+    entityPropertiesLonglist = Object.keys(claimsLonglist)
+    if (propertiesShortlist) {
+      const claimsShortlist = _.pick(claims, propertiesShortlist)
+      entityPropertiesShortlist = Object.keys(claimsShortlist)
+    }
+  }
+  $: {
+    if (hasPropertiesShortlist) {
+      if (showLess) {
+        displayedProperties = entityPropertiesShortlist
+      } else {
+        displayedProperties = entityPropertiesLonglist
+      }
     }
   }
 </script>
@@ -76,15 +80,15 @@
           <ClaimInfobox
             values={claims[prop]}
             {prop}
-            {entitiesByUris}
+            entitiesByUris={relatedEntities}
             propType={propertiesType[prop]}
           />
         {/if}
       {/each}
     </div>
-    {#if entityPropertiesShortlist.length !== entityPropertiesLonglist.length}
+    {#if hasPropertiesShortlist && entityPropertiesLonglist.length > 2}
       <WrapToggler
-        bind:show={showMore}
+        bind:show={showLess}
         moreText={I18n('more details')}
         lessText={I18n('less details')}
         reversedShow={true}
