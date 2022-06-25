@@ -13,6 +13,7 @@
   import ItemsLists from './items_lists.svelte'
   import EditionsList from './editions_list.svelte'
   import EntityTitle from './entity_title.svelte'
+  import WorkActions from './work_actions.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
 
   export let entity, standalone
@@ -100,6 +101,12 @@
             {entity}
             {userLang}
           />
+          <WorkActions
+            {someEditions}
+            bind:usersSize={usersSize}
+            on:showMap={() => showMap = true}
+            on:scrollToItemsList={scrollToItemsList}
+          />
         </div>
       {/if}
       <div
@@ -116,13 +123,10 @@
           <EditionsList
             {someInitialEditions}
             {someEditions}
-            bind:usersSize={usersSize}
             {publishersByUris}
             parentEntity={entity}
             {initialEditions}
             bind:editions={editions}
-            on:showMap={() => showMap = true}
-            on:scrollToItemsList={scrollToItemsList}
           />
         {/await}
       </div>
