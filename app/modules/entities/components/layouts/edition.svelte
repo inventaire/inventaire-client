@@ -8,6 +8,7 @@
   import Infobox from './infobox.svelte'
   import OtherEditions from './other_editions.svelte'
   import EntityTitle from './entity_title.svelte'
+  import EditionActions from './edition_actions.svelte'
 
   export let entity, works, standalone
 
@@ -43,15 +44,22 @@
             <img src={imgSrc(image.url, 300)} alt={label}>
           </div>
         {/if}
-        <div class="infobox">
+        <div class="title-wrapper">
           <EntityTitle {entity} {standalone}/>
-          <AuthorsInfo
-            {claims}
-          />
-          <Infobox
-            {claims}
-            entityType={entity.type}
-          />
+          <div class="infobox-wrapper">
+            <div class="infobox">
+              <AuthorsInfo
+                {claims}
+              />
+              <Infobox
+                {claims}
+                entityType={entity.type}
+              />
+            </div>
+            <EditionActions
+              {entity}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -71,7 +79,17 @@
   }
   .info{
     @include display-flex(row, flex-start, center);
+    flex: 1;
     margin-bottom: 1em;
+  }
+  .infobox{
+    margin-bottom: 1em;
+  }
+  .infobox-wrapper{
+    @include display-flex(row, center, space-between);
+  }
+  .title-wrapper{
+    flex: 1;
   }
   .cover{
     padding-right: 1em;
@@ -89,7 +107,13 @@
       margin:0 5em;
     }
   }
-  /*Very mall screens*/
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .infobox-wrapper{
+      @include display-flex(column, flex-start, center);
+    }
+  }
+  /*Very small screens*/
   @media screen and (max-width: $very-small-screen) {
     .infobox{
       width:100%;
