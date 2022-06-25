@@ -2,6 +2,7 @@
 export const transactionsDataFactory = () => ({
   giving: {
     id: 'giving',
+    name: 'giving',
     icon: 'heart',
     label: 'giving',
     labelShort: "I'm giving it",
@@ -11,6 +12,7 @@ export const transactionsDataFactory = () => ({
 
   lending: {
     id: 'lending',
+    name: 'lending',
     icon: 'refresh',
     label: 'lending',
     labelShort: 'I can lend it',
@@ -20,6 +22,7 @@ export const transactionsDataFactory = () => ({
 
   selling: {
     id: 'selling',
+    name: 'selling',
     icon: 'money',
     label: 'selling',
     labelShort: "I'm selling it",
@@ -29,6 +32,7 @@ export const transactionsDataFactory = () => ({
 
   inventorying: {
     id: 'inventorying',
+    name: 'inventorying',
     icon: 'cube',
     label: 'in my inventory',
     labelShort: 'in my inventory',

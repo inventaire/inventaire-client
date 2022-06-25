@@ -49,7 +49,7 @@ export default Filterable.extend({
 
   // Checking that attributes privacy is as expected
   testPrivateAttributes () {
-    const hasPrivateAttributes = (this.get('listing') != null)
+    const hasPrivateAttributes = (this.get('visibility') != null)
     if (this.get('owner') === app.user.id) {
       if (!hasPrivateAttributes) {
         error_.report('item missing private attributes', this)
@@ -102,7 +102,7 @@ export default Filterable.extend({
       userReady: this.userReady,
       mainUserIsOwner: this.mainUserIsOwner,
       user: this.userData(),
-      isPrivate: attrs.listing === 'private'
+      isPrivate: attrs.visibility?.length === 0
     })
 
     // @entity will be defined only if @grabEntity was called

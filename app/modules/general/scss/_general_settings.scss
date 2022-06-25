@@ -17,7 +17,7 @@ html{
 body{
   height: auto;
   background-color: $body-bg;
-  color: #222;
+  color: $default-text-color;
   padding: 0;
   margin: 0;
   font-family: "Alegreya Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
