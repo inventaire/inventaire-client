@@ -4,8 +4,10 @@
   import files_ from '#lib/files'
   import Flash from '#lib/components/flash.svelte'
   import { I18n } from '#user/lib/i18n'
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
-  export let importer, createExternalEntries, createCandidatesQueue
+  export let importer, createExternalEntries
   const { name, accept, link, label, format, help, parse, encoding } = importer
   let files, flash
 
@@ -15,7 +17,7 @@
       dataValidator(importer, data)
       const candidatesData = parse(data).map(commonParser)
       createExternalEntries(candidatesData)
-      createCandidatesQueue()
+      dispatch('createCandidatesQueue')
     } catch (err) {
       flash = err
     }

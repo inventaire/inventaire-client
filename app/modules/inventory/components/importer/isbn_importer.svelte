@@ -5,8 +5,11 @@
   import isbnExtractor from '#inventory/lib/importer/extract_isbns'
   import { formatCandidatesData } from '#inventory/lib/importer/import_helpers'
   import { isbnPattern } from '#lib/isbn'
+  import { createEventDispatcher } from 'svelte'
 
-  export let createExternalEntries, createCandidatesQueue, isbns
+  export let createExternalEntries, isbns
+
+  const dispatch = createEventDispatcher()
 
   let isbnsText, flash
   if (isbns) isbnsText = isbns.join('\n')
@@ -41,7 +44,7 @@
 
   if (isbns) {
     onIsbnsChange()
-    createCandidatesQueue()
+    dispatch('createCandidatesQueue')
   }
 </script>
 <p class="importer-name">
@@ -66,7 +69,7 @@
   <Flash bind:state={flash}/>
 </div>
 <button
-  on:click={createCandidatesQueue}
+  on:click={() => dispatch('createCandidatesQueue')}
   class="success-button"
   >
   {I18n('find ISBNs')}

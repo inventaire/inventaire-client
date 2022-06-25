@@ -130,11 +130,19 @@
 <ul class="importers">
   {#each importers as importer (importer.name)}
     <li>
-      <FileImporter {importer} {createExternalEntries} {createCandidatesQueue} />
+      <FileImporter
+        {importer}
+        {createExternalEntries}
+        on:createCandidatesQueue={createCandidatesQueue}
+      />
     </li>
   {/each}
   <li>
-    <IsbnImporter {createExternalEntries} {createCandidatesQueue} {isbns}/>
+    <IsbnImporter
+      {createExternalEntries}
+      on:createCandidatesQueue={createCandidatesQueue}
+      {isbns}
+    />
   </li>
 </ul>
 <Flash bind:state={flashBlockingProcess}/>
