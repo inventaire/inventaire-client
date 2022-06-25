@@ -41,7 +41,7 @@
   let externalEntryIndexCount = Date.now()
 
   const createExternalEntry = candidateData => {
-    const { isbn, title, authors } = candidateData
+    const { isbn, title, authors = [] } = candidateData
     let externalEntry = {
       index: externalEntryIndexCount++,
       editionTitle: title,
