@@ -12,6 +12,7 @@
   import Ebooks from './ebooks.svelte'
   import ItemsLists from './items_lists.svelte'
   import EditionsList from './editions_list.svelte'
+  import EntityTitle from './entity_title.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
 
   export let entity, standalone
@@ -84,6 +85,7 @@
     <div class="top-section">
       {#if notOnlyP31}
         <div class="work-section">
+          <EntityTitle {entity} {standalone}/>
           <AuthorsInfo
             {claims}
           />
