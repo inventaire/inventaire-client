@@ -1,7 +1,6 @@
-import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'
-
 import error_ from '#lib/error'
-import { isGroupVisibilityKey } from '#general/lib/visibility'
+import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'
+import { getCorrespondingListing, getIconLabel } from '#general/lib/visibility'
 
 export default Backbone.Model.extend({
   initialize (attrs) {
@@ -49,26 +48,3 @@ export default Backbone.Model.extend({
 
   getRss () { return app.API.feeds('shelf', this.id) },
 })
-
-const getCorrespondingListing = visibility => {
-  if (visibility.length === 0) return 'private'
-  if (visibility.includes('public')) return 'public'
-  return 'network'
-}
-
-const getIconLabel = visibility => {
-  if (visibility.length === 0) return 'private'
-  if (visibility.includes('public')) return 'public'
-
-  const groupKeyCount = visibility.filter(isGroupVisibilityKey).length
-  if (visibility.includes('friends') && visibility.includes('groups')) {
-    return 'friends and groups'
-  } else if (groupKeyCount > 0) {
-    if (visibility.includes('friends')) return 'friends and some groups'
-    else return 'some groups'
-  } else if (visibility.includes('groups')) {
-    return 'groups'
-  } else {
-    return 'friends'
-  }
-}
