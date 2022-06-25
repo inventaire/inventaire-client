@@ -48,6 +48,7 @@ const API = {
 
 const showAddLayout = async (tab = 'search', options = {}) => {
   if (app.request('require:loggedIn', `add/${tab}`)) {
+    app.execute('last:add:mode:set', tab)
     options.tab = tab
     const { default: AddLayout } = await import('./views/add/add_layout.js')
     app.layout.showChildView('main', new AddLayout(options))

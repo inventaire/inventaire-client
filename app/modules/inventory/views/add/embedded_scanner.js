@@ -30,7 +30,6 @@ export default Marionette.View.extend({
 
   onRender () {
     this.displayAboveTopBar()
-    app.execute('last:add:mode:set', 'scan:embedded')
     // Removing the timeout on the loader as it depend on the time
     // the user takes to give the permission to access the camera
     behaviorsPlugin.startLoading.call(this, { timeout: 'none' })

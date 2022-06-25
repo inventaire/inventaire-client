@@ -105,6 +105,12 @@
   &.selected, &.active, &:hover{
     background-color: white;
     border-color: $color;
-    i{ color: $color; }
+    i, :global(i){ color: $color; }
   }
+}
+
+@mixin text-ellipsis(){
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
