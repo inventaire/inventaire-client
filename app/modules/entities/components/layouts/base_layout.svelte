@@ -2,11 +2,9 @@
   import { I18n } from '#user/lib/i18n'
   import { buildAltUri } from '../lib/entities'
   import EditDataActions from './edit_data_actions.svelte'
-  import EntityHeader from '../entity_header.svelte'
   import preq from '#lib/preq'
 
   export let entity
-  export let standalone
 
   const { uri, _id, type } = entity
 
@@ -20,15 +18,13 @@
 
 <div class="layout">
   <div class="header-wrapper">
-    <div class="header-title">
-      <EntityHeader {entity} {standalone}/>
-    </div>
     <div class="header">
-      <EditDataActions
-        {entity}
-        on:refreshEntity={refreshEntity}
-      />
+      <p class="type">{I18n(type)}</p>
     </div>
+    <EditDataActions
+      {entity}
+      on:refreshEntity={refreshEntity}
+    />
   </div>
   <div class="entity-wrapper">
     <slot name="entity" />
@@ -53,9 +49,9 @@
     padding: 0 1em;
     background-color: white;
   }
-  .header-title{
-    @include display-flex(row, center);
-    width: 100%;
+  .type{
+    color: $grey;
+    font-size: 1rem;
   }
   .header-wrapper{
     display: flex;
@@ -72,20 +68,25 @@
   .entity-data-wrapper{
     @include display-flex(column, center);
   }
-  /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
-    .layout{
-      padding: 0;
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .header-wrapper{
+      margin-left: 1.2em;
     }
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .header-wrapper{
       @include display-flex(row, center, space-between);
-      padding-bottom: 1em;
     }
     .entity-wrapper{
       @include display-flex(column, flex-start);
+    }
+  }
+  /*Very Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .layout{
+      padding: 0;
     }
   }
 </style>

@@ -77,8 +77,19 @@ const claimFormats = {
   timeClaim (params) {
     const { value, format } = params
     if (format && format === 'year') {
-      const unixTime = new Date(value)
-      return unixTime.getUTCFullYear()
+      const splittedDate = value.split('-')
+      // Display before christ values with year precision only
+      // Convert -427-05-07 to -427
+      if (value.startsWith('-')) {
+        return `-${splittedDate[1]}`
+      }
+      const year = splittedDate[0]
+      let unixTime = new Date(year)
+      if (year < 1000) {
+        unixTime = new Date('0000')
+        unixTime.setFullYear(year)
+      }
+      return unixTime.getUTCFullYear(year)
     }
     return value
   },

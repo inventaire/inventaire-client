@@ -1,15 +1,13 @@
 <script>
   import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import getFavoriteLabel from '#entities/lib/get_favorite_label'
+  import { aggregateWorksClaims, infoboxPropsLists } from '#entities/components/lib/claims_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
   import OtherEditions from './other_editions.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import getFavoriteLabel from '#entities/lib/get_favorite_label'
-  import {
-    aggregateWorksClaims,
-    infoboxPropsLists,
-  } from '#entities/components/lib/claims_helpers'
+  import EntityTitle from './entity_title.svelte'
 
   export let entity, works, standalone
 
@@ -26,7 +24,7 @@
 
   const claimsWithWorksClaims = _.pick(claims, filterClaims)
 
-  const title = getFavoriteLabel(entity)
+  const label = getFavoriteLabel(entity)
 
   const firstWorkUri = works[0].uri
 
@@ -42,10 +40,11 @@
       <div class="info">
         {#if image.url}
           <div class="cover">
-            <img src={imgSrc(image.url, 300)} alt="{title}">
+            <img src={imgSrc(image.url, 300)} alt={label}>
           </div>
         {/if}
         <div class="infobox">
+          <EntityTitle {entity} {standalone}/>
           <AuthorsInfo
             {claims}
           />
@@ -64,7 +63,6 @@
     </div>
   </div>
 </BaseLayout>
-<!-- TODO: works list -->
 
 <style lang="scss">
   @import '#general/scss/utils';

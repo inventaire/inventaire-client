@@ -1,8 +1,9 @@
 <script>
+  import { i18n } from '#user/lib/i18n'
+  import Spinner from '#general/components/spinner.svelte'
   import { isNonEmptyArray, isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
-  import AuthorsDisplay from './authors_display.svelte'
-  import Spinner from '#general/components/spinner.svelte'
+  import AuthorDisplay from './author_display.svelte'
 
   export let claims = {}
 
@@ -22,7 +23,7 @@
   async function getAuthors () {
     let authorsClaims = _.pick(claims, authorProperties)
     // claims used for getting birth and death years
-    const attributes = [ 'labels', 'claims' ]
+    const attributes = [ 'labels', 'claims', 'image' ]
     if (isNonEmptyPlainObject(authorsClaims)) {
       authorsByUris = await getEntitiesAttributesFromClaims(authorsClaims, attributes)
     }
@@ -31,39 +32,46 @@
 {#await waitingForAuthors}
   <Spinner/>
 {:then}
-  <div class="authors-info">
-    {#each authorProperties as prop}
-      {#if isNonEmptyArray(claims[prop])}
-        <div class="authors">
-          <AuthorsDisplay
-            {prop}
-            values={claims[prop]}
-            authorsByUris={authorsByUris}
-            authorRole={authorRoles[prop]}
-          />
-        </div>
-      {/if}
-    {/each}
-  </div>
+  {#if authorsByUris}
+    <div class="authors-info">
+      {#each authorProperties as prop}
+        {#if isNonEmptyArray(claims[prop])}
+          <div class="{authorRoles[prop]} authors-role">
+            <span class="label">{i18n(prop)}</span>
+            <div class="authors">
+              {#each claims[prop] as authorUri}
+                <div class="author">
+                  <AuthorDisplay
+                    {prop}
+                    entityData={authorsByUris[authorUri]}
+                  />
+                </div>
+              {/each}
+            </div>
+          </div>
+        {/if}
+      {/each}
+    </div>
+  {/if}
 {/await}
 
 <style lang="scss">
   @import '#general/scss/utils';
   .authors-info{
-    @include display-flex(row, center, flex-start, wrap);
-    :not(:last-child):after{
-      margin-right: 0.3em;
-      content: ',';
-    }
+    @include display-flex(row, flex-end, flex-start, wrap);
+  }
+  .authors-role{
+    @include display-flex(column, flex-start, flex-start, wrap);
   }
   .authors{
     @include display-flex(row, flex-end, flex-start, wrap);
   }
-  /*Large screens*/
-  @media screen and (min-width: 1200px) {
-    .authors-info{
-      // give space below edit data button when no cover
-      margin-left: 0 0 0 1em;
-    }
+  .author{
+    margin-right: 0.5em;
+  }
+  .label{
+    color: $grey;
+    font-size: 90%;
+    margin-bottom: 0.1em;
   }
 </style>
