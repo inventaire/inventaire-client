@@ -5,15 +5,10 @@
   import { icon } from '#lib/utils'
   import wdLang from 'wikidata-lang'
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
-  import { createEventDispatcher } from 'svelte'
-
-  const dispatch = createEventDispatcher()
 
   export let selectedLangs,
     editionsLangs = [],
-    someInitialEditions,
-    someEditions,
-    usersSize
+    someInitialEditions
 
   let langEntitiesLabel = {}
 
@@ -38,82 +33,48 @@
   }
 
   const getLangLabel = lang => langEntitiesLabel[lang]?.labels[app.user.lang]
-
-  const triggerMap = () => {
-    dispatch('showMap')
-    dispatch('scrollToItemsList')
-  }
 </script>
-{#if (someEditions && usersSize > 0) && someInitialEditions}
+{#if someInitialEditions}
   <div class="actions-wrapper">
-    {#if someEditions && usersSize > 0}
-      <button
-        on:click={() => dispatch('scrollToItemsList')}
-        title={i18n('see users who have these editions')}
-        class="action-button"
-      >
-        {@html icon('user')}
-        {i18n('see users')}
-        ({usersSize})
-      </button>
-      <button
-        on:click={triggerMap}
-        title={i18n('see on map users who have these editions')}
-        class="action-button"
-      >
-        {@html icon('map-marker')}
-        {i18n('see map')}
-      </button>
-    {/if}
-    {#if someInitialEditions}
-      {#await waitingForEntities}
-        <Spinner/>
-      {:then}
-        {#if editionsLangs.length > 1}
-          <div class="menu-wrapper">
-            <Dropdown
-              buttonTitle={i18n('show langs')}
-            >
-              <div slot="button-inner">
-                {@html icon('language')}{i18n('filter by lang')}
-              </div>
-              <ul slot="dropdown-content">
+    {#await waitingForEntities}
+      <Spinner/>
+    {:then}
+      {#if editionsLangs.length > 1}
+        <div class="menu-wrapper">
+          <Dropdown
+            buttonTitle={i18n('show langs')}
+            align={'center'}
+          >
+            <div slot="button-inner">
+              {@html icon('language')}{i18n('filter by lang')}
+            </div>
+            <ul slot="dropdown-content">
+              <li class="dropdown-element">
+                <label
+                  on:click={() => { selectedLangs = editionsLangs }}
+                  for='all languages'
+                >
+                  {i18n('all languages')}
+                </label>
+              </li>
+              {#each editionsLangs as lang}
                 <li class="dropdown-element">
-                  <label
-                    on:click={() => { selectedLangs = editionsLangs }}
-                    for='all languages'
-                  >
-                    {i18n('all languages')}
+                  <label>
+                    <input type="checkbox" bind:group={selectedLangs} value={lang} />
+                    {lang} - {getLangLabel(lang)}
                   </label>
                 </li>
-                {#each editionsLangs as lang}
-                  <li class="dropdown-element">
-                    <label>
-                      <input type="checkbox" bind:group={selectedLangs} value={lang} />
-                      {lang} - {getLangLabel(lang)}
-                    </label>
-                  </li>
-                {/each}
-              </ul>
-            </Dropdown>
-          </div>
-        {/if}
-      {/await}
-    {/if}
+              {/each}
+            </ul>
+          </Dropdown>
+        </div>
+      {/if}
+    {/await}
   </div>
 {/if}
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .actions-wrapper{
-    @include display-flex(row, center, center);
-    min-height: 2em;
-  }
-  .action-button{
-    @include tiny-button($light-grey, black);
-    padding: 0.5em;
-    margin: 0.3em;
-  }
   // Dropdown
   .menu-wrapper{
     /*Small screens*/
