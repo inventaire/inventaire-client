@@ -56,6 +56,7 @@
       const { responseJSON } = err
       nextCandidate.error = responseJSON
       candidates[candidatePosition] = nextCandidate
+      flash = err
     }
     await createEntitiesSequentially()
   }
