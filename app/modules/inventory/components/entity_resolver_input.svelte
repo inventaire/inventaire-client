@@ -7,6 +7,8 @@
 
   export let type, entity = {}, label, currentEntityLabel, uri
 
+  if (!entity.claims) entity.claims = {}
+
   const initialEntity = entity
   const initialLabel = label || entity?.label
 
@@ -50,8 +52,12 @@
     searchTypes={type}
     currentEntityUri={uri}
     bind:currentEntityLabel
+    createdEntityTypeName={'work'}
     displaySuggestionType={false}
     autofocus={false}
+    relationSubjectEntity={entity}
+    relationProperty={'wdt:P629'}
+    allowEntityCreation={true}
     on:close={() => editMode = false}
     on:error={e => flash = e.detail}
     on:select={selectSuggestion}

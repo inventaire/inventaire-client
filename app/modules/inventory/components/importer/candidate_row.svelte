@@ -82,6 +82,7 @@
   $: candidate.editionTitle = editionTitle
   $: candidate.authors = authors
   $: candidate.works = [ work ]
+  $: disabled = !work.uri
 </script>
 <li class="candidate-row" on:click="{toggleCheckbox}" class:checked>
   <div class="candidate-text">
