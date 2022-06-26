@@ -65,6 +65,7 @@
           <EntityLogo entity="{work}"/>
         </span>
       {:else}
+        <span class="label">{I18n('title')}:</span>
         {#if withEditor}
           <EntityResolverInput
             type="work"
@@ -141,7 +142,7 @@
   /*Large screens*/
   @media screen and (min-width: 800px) {
     .authors{
-      @include display-flex(row, center, flex-start, wrap);
+      @include display-flex(row, flex-end, flex-start, wrap);
     }
     .author-name{
       white-space: nowrap;

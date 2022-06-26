@@ -1,21 +1,25 @@
 <script>
+  import Spinner from '#general/components/spinner.svelte'
+  import Flash from '#lib/components/flash.svelte'
   import app from '#app/app'
   import { I18n } from '#user/lib/i18n'
   import { createItem } from '#inventory/components/create_item'
-  import Spinner from '#general/components/spinner.svelte'
   import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
   import { isOpenedOutside } from '#lib/utils'
 
   export let candidate
   export let listing
   export let transaction
-  let retrying, itemPath
+
+  let retrying, itemPath, flash
 
   const { edition, details, error, item } = candidate
+
   const retryCreateItem = async () => {
     retrying = true
     if (!edition) {
       const candidateWithEntities = await resolveAndCreateCandidateEntities(candidate)
+      .catch(err => flash = err)
       candidate = candidateWithEntities
     }
 
@@ -30,13 +34,13 @@
     .finally(() => retrying = false)
   }
 
+  const viewBook = (e, itemId) => {
+    if (!isOpenedOutside(e)) app.execute('show:item:byId', itemId)
+  }
+
   $: {
     const username = app.user.get('username')
     if (edition) itemPath = `/inventory/${username}/${edition.uri}`
-  }
-
-  const viewBook = (e, itemId) => {
-    if (!isOpenedOutside(e)) app.execute('show:item:byId', itemId)
   }
 </script>
 {#if error}
@@ -47,6 +51,7 @@
     {/if}
   </button>
 {/if}
+<Flash bind:state={flash}/>
 {#if item}
   <a class="view-book tiny-button light-blue" href="{itemPath}" target='_blank' on:click="{e => viewBook(e, item._id)}">
       {I18n('View book')}
