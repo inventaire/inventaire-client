@@ -58,6 +58,7 @@
     relationSubjectEntity={entity}
     relationProperty={'wdt:P629'}
     allowEntityCreation={true}
+    showDefaultSuggestions={false}
     on:close={() => editMode = false}
     on:error={e => flash = e.detail}
     on:select={selectSuggestion}

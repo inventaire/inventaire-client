@@ -14,6 +14,7 @@
   export let currentEntityUri
   export let currentEntityLabel = ''
   export let allowEntityCreation = false
+  export let showDefaultSuggestions = true
   export let createdEntityTypeName
   export let createOnWikidata
   export let relationSubjectEntity
@@ -132,7 +133,7 @@
   }
 
   let defaultSuggestions
-  async function showDefaultSuggestions () {
+  async function fetchDefaultSuggestions () {
     try {
       showSuggestions = true
       fetching = true
@@ -148,7 +149,7 @@
     }
   }
 
-  $: if (relationProperty && searchText === '') showDefaultSuggestions()
+  $: if (showDefaultSuggestions && searchText === '') fetchDefaultSuggestions()
 </script>
 
 <div class="input-group">
