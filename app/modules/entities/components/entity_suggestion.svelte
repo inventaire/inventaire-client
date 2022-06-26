@@ -9,7 +9,7 @@
   const typeName = entityTypeNameByType[type]
 
   $: {
-    if (element && highlight) {
+    if (element && highlight && scrollableElement) {
       scrollableElement.scroll({
         top: Math.max(0, (element.offsetTop - 20)),
         behavior: 'smooth'
