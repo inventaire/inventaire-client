@@ -15,10 +15,11 @@ export const createCandidate = (externalEntry, entitiesRes) => {
     publicationDate,
     numberOfPages,
     goodReadsEditionId,
-    libraryThingWorkId
+    libraryThingWorkId,
+    rawEntry
   } = externalEntry
 
-  const candidate = { index }
+  const candidate = { index, rawEntry }
   if (isbnData) candidate.isbnData = isbnData
   if (isNonEmptyString(editionTitle)) candidate.editionTitle = editionTitle
   if (authors) candidate.authors = authors
@@ -172,7 +173,7 @@ const findIsbn = data => {
 }
 
 const serializeResolverEntry = data => {
-  const { editionTitle, lang } = data
+  const { editionTitle, lang, rawEntry } = data
   let { isbn, authors = [] } = data
   const labelLang = lang || app.user.lang
 
@@ -203,7 +204,7 @@ const serializeResolverEntry = data => {
     }
   })
 
-  return { edition, works: [ work ], authors }
+  return { edition, works: [ work ], authors, rawEntry }
 }
 
 export const getEditionEntitiesByUri = async isbn => {
