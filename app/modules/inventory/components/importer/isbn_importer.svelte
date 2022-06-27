@@ -2,10 +2,10 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
   import autosize from 'autosize'
-  import isbnExtractor from '#inventory/lib/importer/extract_isbns'
   import { formatCandidatesData } from '#inventory/lib/importer/import_helpers'
   import { isbnPattern } from '#lib/isbn'
   import { createEventDispatcher } from 'svelte'
+  import { getInvalidIsbnsString } from '#inventory/components/importer/lib/importers_helpers'
 
   export let createExternalEntries, isbns
 
@@ -27,14 +27,6 @@
       flash = { type: 'warning', message }
     }
     createExternalEntries(candidatesData)
-  }
-
-  const getInvalidIsbnsString = isbns => {
-    const isbnsData = isbns.map(isbn => {
-      const isbnData = isbnExtractor.getIsbnData(isbn)
-      if (isbnData.isInvalid) return isbn
-    })
-    return _.compact(isbnsData).join(', ')
   }
 
   const clearIsbnText = () => {

@@ -1,6 +1,6 @@
 import app from '#app/app'
 import { uniqueId } from 'underscore'
-import isbnExtractor from '#inventory/lib/importer/extract_isbns'
+import { getIsbnData } from '#inventory/lib/importer/extract_isbns'
 import { addExistingItemsCountToCandidate, getEditionEntitiesByUri, getRelevantEntities, guessUriFromIsbn, resolveCandidate } from '#inventory/lib/importer/import_helpers'
 
 export const createExternalEntry = candidateData => {
@@ -13,7 +13,7 @@ export const createExternalEntry = candidateData => {
   delete candidateData.title
   delete candidateData.authors
   Object.assign(externalEntry, candidateData)
-  if (isbn) externalEntry.isbnData = isbnExtractor.getIsbnData(isbn)
+  if (isbn) externalEntry.isbnData = getIsbnData(isbn)
   if (externalEntry.isbnData?.isInvalid) return
   return externalEntry
 }

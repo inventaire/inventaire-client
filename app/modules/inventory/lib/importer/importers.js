@@ -3,7 +3,7 @@ import log_ from '#lib/loggers'
 import libraryThingParser from './parsers/library_thing.js'
 import goodReadsParser from './parsers/good_reads.js'
 import babelioParser from './parsers/babelio.js'
-import isbnExtractor from '#inventory/lib/importer/extract_isbns'
+import { extractIsbns } from '#inventory/lib/importer/extract_isbns'
 import Papa from 'papaparse'
 
 // How to add an importer:
@@ -51,7 +51,7 @@ const importers = {
     // Require only on demande to avoid requiring it during other importers tests
     // and thus having to adapt its dependencies to the test environment
     parse (isbnsText) {
-      const isbnsData = isbnExtractor.extractIsbns(isbnsText).filter(isbnData => !isbnData.isInvalid)
+      const isbnsData = extractIsbns(isbnsText).filter(isbnData => !isbnData.isInvalid)
       return isbnsData.map(isbnData => { return { isbnData } })
     }
   }
