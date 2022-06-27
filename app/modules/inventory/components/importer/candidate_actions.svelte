@@ -3,7 +3,7 @@
   import Flash from '#lib/components/flash.svelte'
   import app from '#app/app'
   import { I18n } from '#user/lib/i18n'
-  import { createItem } from '#inventory/components/create_item'
+  import { createItem } from '#inventory/components/importer/lib/create_item'
   import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
   import { isOpenedOutside } from '#lib/utils'
 

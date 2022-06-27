@@ -3,7 +3,7 @@
   import _ from 'underscore'
   import Flash from '#lib/components/flash.svelte'
   import Counter from '#components/counter.svelte'
-  import { createItem } from '#inventory/components/create_item'
+  import { createItem } from '#inventory/components/importer/lib/create_item'
   import ImportResults from '#inventory/components/importer/import_results.svelte'
   import screen_ from '#lib/screen'
   import { isResolved, resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
