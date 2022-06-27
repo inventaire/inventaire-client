@@ -56,12 +56,12 @@ export default screen_ = {
       const viewportHeight = window.visualViewport.height
       const bodyHeight = window.document.body.clientHeight
       const hasRoomToScroll = (viewportHeight + offset < bodyHeight)
-      if (hasRoomToScroll) {
+      if (hasRoomToScroll || ++attempts > 10) {
         window.scrollTo({
           top: offset,
           behavior: 'smooth'
         })
-      } else if (++attempts < 10) {
+      } else {
         setTimeout(attemptToScroll, 50)
       }
     }
