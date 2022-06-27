@@ -3,11 +3,12 @@
   import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
   import { icon } from '#lib/utils'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
-  export let candidate
-  import { guessUriFromIsbn } from '#inventory/lib/importer/import_helpers'
   import { onChange } from '#lib/svelte'
   import { waitForAttribute } from '#lib/promises'
   import Flash from '#lib/components/flash.svelte'
+  import { getUserExistingItemsPathname } from '#inventory/components/importer/lib/candidate_row_helpers'
+
+  export let candidate
 
   const { isbnData, edition, works, error } = candidate
   let { editionTitle, authors, authorsNames } = candidate
@@ -75,9 +76,7 @@
     existingItemsCount = candidate.existingItemsCount
     itemsCountWereChecked = true
     if (existingItemsCount && existingItemsCount > 0) {
-      const uri = guessUriFromIsbn({ isbnData })
-      const username = app.user.get('username')
-      existingItemsPathname = `/inventory/${username}/${uri}`
+      existingItemsPathname = getUserExistingItemsPathname(isbnData)
       checked = false
     } else {
       // Let updateCandidateInfoStatus evaluate if the candidate should be checked or not
