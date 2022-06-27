@@ -73,28 +73,9 @@ const getEdition = editions => {
   return edition
 }
 
-export const noNewCandidates = ({ externalEntries, candidates }) => {
-  const externalEntriesIsbns = getNormalizedIsbns(externalEntries)
-  if (someWithoutIsbns) return false
-  const candidatesIsbns = getNormalizedIsbns(candidates)
-  return externalEntriesIsbns.every(isCandidateIsbn(candidatesIsbns))
-}
-
-const someWithoutIsbns = (externalEntries, externalEntriesIsbns) => externalEntriesIsbns.length !== externalEntries.length
-
-const getNormalizedIsbns = candidates => {
-  return _.compact(candidates.map(candidate => candidate.isbnData?.normalizedIsbn))
-}
-
-export const isCandidateIsbn = candidatesIsbns => externalEntryIsbn => candidatesIsbns.includes(externalEntryIsbn)
-
 export const byIndex = (a, b) => a.index - b.index
 
-export const isAlreadyCandidate = (normalizedIsbn, candidates) => candidates.some(haveIsbn(normalizedIsbn))
-
 export const formatCandidatesData = isbns => isbns.map(isbn => ({ isbn }))
-
-const haveIsbn = isbn => candidate => candidate.isbnData?.normalizedIsbn === isbn
 
 export const addExistingItemsCountToCandidate = counts => candidate => {
   const { isbnData } = candidate

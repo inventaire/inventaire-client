@@ -2,7 +2,7 @@
   import { I18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
   import importers from '#inventory/lib/importer/importers'
-  import { createCandidate, noNewCandidates, byIndex } from '#inventory/lib/importer/import_helpers'
+  import { createCandidate, byIndex } from '#inventory/lib/importer/import_helpers'
   import screen_ from '#lib/screen'
   import log_ from '#lib/loggers'
   import FileImporter from './file_importer.svelte'
@@ -27,10 +27,6 @@
   }
 
   const createCandidatesQueue = async () => {
-    if (noNewCandidates({ externalEntries, candidates })) {
-      flashBlockingProcess = { type: 'warning', message: 'no new book found' }
-      return
-    }
     processedExternalEntriesCount = 0
     totalExternalEntries = externalEntries.length
     const remainingExternalEntries = _.clone(externalEntries)
