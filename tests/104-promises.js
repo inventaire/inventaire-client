@@ -1,5 +1,5 @@
-import 'should'
-import { tryAsync, tap, props as promiseProps } from '#lib/promises'
+import should from 'should'
+import { tryAsync, tap, props as promiseProps, waitForAttribute, wait } from '#lib/promises'
 
 global.window = global
 const undesiredRes = done => res => {
@@ -119,6 +119,23 @@ describe('promises', () => {
         done()
       })
       .catch(done)
+    })
+  })
+
+  describe('waitForAttribute', () => {
+    it('should wait for an attribute to be defined to resolve', async () => {
+      const obj = {}
+      setTimeout(() => { obj.a = 123 }, 20)
+      should(obj.a).not.be.ok()
+      const a = await waitForAttribute(obj, 'a')
+      a.should.equal(123)
+    })
+
+    it('should wait for the attribute to resolve', async () => {
+      const obj = {}
+      obj.waitForA = wait(30).then(() => 123)
+      const a = await waitForAttribute(obj, 'waitForA')
+      a.should.equal(123)
     })
   })
 })

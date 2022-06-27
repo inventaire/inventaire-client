@@ -1,10 +1,13 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { isNonEmptyString, isNonEmptyArray, isNonEmptyPlainObject } from '#lib/boolean_tests'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
   import { icon } from '#lib/utils'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
   export let candidate
   import { guessUriFromIsbn } from '#inventory/lib/importer/import_helpers'
+  import { onChange } from '#lib/svelte'
+  import { waitForAttribute } from '#lib/promises'
+  import Flash from '#lib/components/flash.svelte'
 
   const { isbnData, edition, works, error } = candidate
   let { editionTitle, authors, authorsNames } = candidate
@@ -12,10 +15,11 @@
   if (isNonEmptyArray(works)) work = works[0]
   else work = { label: editionTitle }
   let existingItemsPathname
-  let disabled, existingItemsCount
+  let disabled
   let statuses = []
 
-  candidate.checked = true
+  let checked = false
+  $: candidate.checked = checked
 
   const statusContents = {
     newEntry: 'We could not identify this entry in the common bibliographic database. A new entry will be created',
@@ -25,8 +29,10 @@
   }
 
   const addStatus = status => {
-    statuses.push(status)
-    statuses = statuses
+    if (!statuses.includes(status)) {
+      statuses.push(status)
+      statuses = statuses
+    }
   }
 
   const removeStatus = status => {
@@ -41,49 +47,48 @@
   if (error) addStatus(statusContents.error)
   if (isbnData?.isInvalid) addStatus(statusContents.invalid)
 
-  if (isNonEmptyArray(statuses)) { disabled = true }
+  if (isNonEmptyArray(statuses)) disabled = true
 
-  const toggleCheckbox = () => {
-    if (!disabled) candidate.checked = !candidate.checked
-  }
-
-  $: {
-    if (isNonEmptyPlainObject(work) || isNonEmptyString(editionTitle)) {
+  let itemsCountWereChecked = false
+  const updateCandidateInfoStatus = () => {
+    if (work?.uri || isNonEmptyString(editionTitle)) {
       removeStatus(statusContents.needInfo)
       disabled = false
-      candidate.checked = true
+      if (itemsCountWereChecked) checked = true
     } else {
       addStatus(statusContents.needInfo)
       disabled = true
     }
   }
-  $: {
-    if (disabled) candidate.checked = false
+  $: onChange(work, updateCandidateInfoStatus)
+  $: onChange(editionTitle, updateCandidateInfoStatus)
+  $: if (disabled) checked = false
+
+  const toggleCheckbox = () => {
+    if (!disabled) checked = !checked
   }
-  $: {
+
+  const waitingForItemsCount = waitForAttribute(candidate, 'waitingForItemsCount', 200)
+
+  let existingItemsCount
+  waitingForItemsCount.then(() => {
+    existingItemsCount = candidate.existingItemsCount
+    itemsCountWereChecked = true
     if (existingItemsCount && existingItemsCount > 0) {
       const uri = guessUriFromIsbn({ isbnData })
       const username = app.user.get('username')
       existingItemsPathname = `/inventory/${username}/${uri}`
+      checked = false
+    } else {
+      // Let updateCandidateInfoStatus evaluate if the candidate should be checked or not
+      updateCandidateInfoStatus()
     }
-  }
-  let alreadyHasItemsCount
-  $: {
-    // Only set checked at existingItemsCount creation which happens after candidate creation
-    // to allow user to check the box again
-    existingItemsCount = candidate.existingItemsCount
-    if (!alreadyHasItemsCount && existingItemsCount) {
-      candidate.checked = false
-      alreadyHasItemsCount = true
-    }
-  }
-  $: checked = candidate.checked
+  })
   $: candidate.editionTitle = editionTitle
   $: candidate.authors = authors
   $: candidate.works = [ work ]
-  $: disabled = !work.uri && !editionTitle
 </script>
-<li class="candidate-row" on:click="{toggleCheckbox}" class:checked>
+<li class="candidate-row" on:click={toggleCheckbox} role="button" class:checked>
   <div class="candidate-text">
     <div class="list-item-wrapper">
       <EntryDisplay
@@ -111,6 +116,13 @@
           {/if}
          </ul>
       </div>
+    {:else}
+      {#await waitingForItemsCount}
+        <Flash state={{
+          type: 'loading',
+          message: i18n('Checking for existing items...')
+        }} />
+      {/await}
     {/if}
   </div>
   <input type="checkbox"
@@ -136,6 +148,9 @@
     @include display-flex(column, center);
     margin-right: 1em;
     width: 100%;
+    :global(.flash){
+      align-self: stretch;
+    }
   }
   .status-row{
     width: 100%;

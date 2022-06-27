@@ -2,6 +2,7 @@ import app from '#app/app'
 import { uniqueId } from 'underscore'
 import { getIsbnData } from '#inventory/lib/importer/extract_isbns'
 import { addExistingItemsCountToCandidate, getEditionEntitiesByUri, getRelevantEntities, guessUriFromIsbn, resolveCandidate } from '#inventory/lib/importer/import_helpers'
+import getEntitiesItemsCount from '#inventory/lib/get_entities_items_count'
 
 export const createExternalEntry = candidateData => {
   const { isbn, title, authors = [] } = candidateData
@@ -20,7 +21,9 @@ export const createExternalEntry = candidateData => {
 
 export const addExistingItemsCounts = async function ({ candidates, externalEntries }) {
   const uris = _.compact(externalEntries.map(getExternalEntryUri))
-  const counts = await app.request('items:getEntitiesItemsCount', app.user.id, uris)
+  const waitingForItemsCounts = getEntitiesItemsCount(app.user.id, uris)
+  candidates.forEach(candidate => { candidate.waitingForItemsCount = waitingForItemsCounts })
+  const counts = await waitingForItemsCounts
   candidates.forEach(addExistingItemsCountToCandidate(counts))
 }
 

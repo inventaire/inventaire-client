@@ -40,3 +40,15 @@ if (window.addEventListener != null) {
     else reportError(err)
   })
 }
+
+// Returns a promise that resolves when the target object
+// has the desired attribute set, and that the associated value has resolved
+export const waitForAttribute = (obj, attribute, ms = 10) => {
+  return new Promise(resolve => {
+    const checkAttribute = () => {
+      if (obj[attribute] != null) resolve(obj[attribute])
+      else setTimeout(checkAttribute, ms)
+    }
+    checkAttribute()
+  })
+}
