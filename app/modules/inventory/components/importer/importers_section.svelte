@@ -83,14 +83,14 @@
     <li>
       <FileImporter
         {importer}
-        {createExternalEntries}
+        on:createExternalEntries={e => createExternalEntries(e.detail)}
         on:createCandidatesQueue={createCandidatesQueue}
       />
     </li>
   {/each}
   <li>
     <IsbnImporter
-      {createExternalEntries}
+      on:createExternalEntries={e => createExternalEntries(e.detail)}
       on:createCandidatesQueue={createCandidatesQueue}
       {isbns}
     />

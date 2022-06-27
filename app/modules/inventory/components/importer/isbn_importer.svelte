@@ -7,7 +7,7 @@
   import { createEventDispatcher } from 'svelte'
   import { getInvalidIsbnsString } from '#inventory/components/importer/lib/importers_helpers'
 
-  export let createExternalEntries, isbns
+  export let isbns
 
   const dispatch = createEventDispatcher()
 
@@ -26,7 +26,7 @@
       const message = I18n('invalid_isbns_warning', { invalidIsbns })
       flash = { type: 'warning', message }
     }
-    createExternalEntries(candidatesData)
+    dispatch('createExternalEntries', candidatesData)
   }
 
   const clearIsbnText = () => {
