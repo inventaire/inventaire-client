@@ -21,6 +21,7 @@
   import Counter from '#components/counter.svelte'
   import Spinner from '#components/spinner.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
+  import { uniqueId } from 'underscore'
 
   export let candidates, isbns, processing
   export let processedExternalEntriesCount = 0
@@ -36,14 +37,10 @@
     externalEntries = _.compact(candidatesData.map(createExternalEntry))
   }
 
-  // Start from a different number at each session to avoid
-  // "Cannot have duplicate keys in a keyed each" errors in development
-  let externalEntryIndexCount = Date.now()
-
   const createExternalEntry = candidateData => {
     const { isbn, title, authors = [] } = candidateData
     let externalEntry = {
-      index: externalEntryIndexCount++,
+      index: uniqueId('candidate'),
       editionTitle: title,
       authors: authors.map(name => ({ label: name })),
     }
