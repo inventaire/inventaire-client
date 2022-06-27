@@ -13,7 +13,6 @@
   else work = { label: editionTitle }
   let existingItemsPathname
   let disabled, existingItemsCount
-  const rawIsbn = isbnData?.rawIsbn
   let statuses = []
 
   candidate.checked = true
@@ -117,7 +116,7 @@
   <input type="checkbox"
     bind:checked
     {disabled}
-    name="{I18n('select_book')} {rawIsbn}"
+    title={I18n('select_book')}
   >
 </li>
 <style lang="scss">

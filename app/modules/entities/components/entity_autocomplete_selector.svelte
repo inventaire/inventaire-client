@@ -177,6 +177,7 @@
       on:blur={onBlur}
       bind:this={input}
       use:autofocusFn={{ disabled: autofocus !== true }}
+      title={I18n('search for an entity')}
     >
     {#if currentEntityUri}
       <span class="uri">{currentEntityUri}</span>

@@ -41,7 +41,7 @@
 </div>
 
 <input
-  name="{name}"
+  title={name}
   type="file"
   bind:files={files}
   accept="{accept}"
