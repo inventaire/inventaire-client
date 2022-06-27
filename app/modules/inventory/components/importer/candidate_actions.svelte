@@ -26,7 +26,7 @@
     await createItem(edition, details, transaction, listing)
     .then(newItem => {
       if (newItem) {
-        candidate.error = undefined
+        delete candidate.error
         candidate.item = newItem
       }
     })

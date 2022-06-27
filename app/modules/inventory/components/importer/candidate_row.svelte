@@ -14,7 +14,6 @@
   let existingItemsPathname
   let disabled, existingItemsCount
   const rawIsbn = isbnData?.rawIsbn
-  let alreadyItemsCount
   let statuses = []
 
   candidate.checked = true
@@ -69,13 +68,14 @@
       existingItemsPathname = `/inventory/${username}/${uri}`
     }
   }
+  let alreadyHasItemsCount
   $: {
-    // only set checked at existingItemsCount creation which happens after candidate creation
+    // Only set checked at existingItemsCount creation which happens after candidate creation
     // to allow user to check the box again
     existingItemsCount = candidate.existingItemsCount
-    if (!alreadyItemsCount && existingItemsCount) {
+    if (!alreadyHasItemsCount && existingItemsCount) {
       candidate.checked = false
-      alreadyItemsCount = true
+      alreadyHasItemsCount = true
     }
   }
   $: checked = candidate.checked
