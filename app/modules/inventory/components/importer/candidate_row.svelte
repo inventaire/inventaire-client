@@ -10,7 +10,7 @@
 
   export let candidate
 
-  const { isbnData, edition, works, error } = candidate
+  const { isbnData, edition, works, error, index: candidateId } = candidate
   let { editionTitle, authors, authorsNames } = candidate
   let work
   if (isNonEmptyArray(works)) work = works[0]
@@ -56,10 +56,6 @@
     }
   }
 
-  const toggleCheckbox = () => {
-    if (!disabled) checked = !checked
-  }
-
   const waitingForItemsCount = waitForAttribute(candidate, 'waitingForItemsCount', 200)
 
   let existingItemsCount
@@ -83,57 +79,67 @@
   $: candidate.authors = authors
   $: candidate.works = [ work ]
 </script>
-<li class="candidate-row" on:click={toggleCheckbox} role="button" class:checked>
-  <div class="candidate-text">
-    <div class="list-item-wrapper">
-      <EntryDisplay
-        {isbnData}
-        {edition}
-        bind:work
-        {authorsNames}
-        bind:authors
-        bind:editionTitle
-        withEditor={true}
-        />
-    </div>
-    {#if isNonEmptyArray(statuses) || existingItemsCount}
-      <div class="status-row warning">
-        <ul>
-          {#each statuses as status}
-            <li class="status">
-              {@html icon('warning')} {I18n(status)}
-            </li>
-          {/each}
-          {#if existingItemsCount}
-            <li class="status">
-              {@html icon('warning')} {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
-            </li>
-          {/if}
-         </ul>
+
+<li class="candidate-row" class:checked>
+  <label title={disabled ? I18n(statuses[0]) : I18n('select_book')} for={`${candidateId}-checkbox`} class:disabled>
+    <div class="candidate-text">
+      <div class="list-item-wrapper">
+        <EntryDisplay
+          {isbnData}
+          {edition}
+          bind:work
+          {authorsNames}
+          bind:authors
+          bind:editionTitle
+          withEditor={true}
+          />
       </div>
-    {:else}
-      {#await waitingForItemsCount}
-        <Flash state={{
-          type: 'loading',
-          message: i18n('Checking for existing items...')
-        }} />
-      {/await}
-    {/if}
-  </div>
-  <input type="checkbox"
-    bind:checked
-    {disabled}
-    title={I18n('select_book')}
-  >
+      {#if isNonEmptyArray(statuses) || existingItemsCount}
+        <div class="status-row warning">
+          <ul>
+            {#each statuses as status}
+              <li class="status">
+                {@html icon('warning')} {I18n(status)}
+              </li>
+            {/each}
+            {#if existingItemsCount}
+              <li class="status">
+                {@html icon('warning')} {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
+              </li>
+            {/if}
+          </ul>
+        </div>
+      {:else}
+        {#await waitingForItemsCount}
+          <Flash state={{
+            type: 'loading',
+            message: i18n('Checking for existing items...')
+          }} />
+        {/await}
+      {/if}
+    </div>
+    <input type="checkbox"
+      id={`${candidateId}-checkbox`}
+      bind:checked
+      {disabled}
+      title={I18n('select_book')}
+    >
+  </label>
 </li>
 <style lang="scss">
   @import '#general/scss/utils';
-  .candidate-row{
+  label{
     @include display-flex(row, center, space-between);
     @include radius;
     border: solid 1px #ccc;
     padding: 0.2em 1em;
     margin-bottom: 0.2em;
+    &:not(.disabled){
+      cursor: pointer;
+    }
+    // Override global label rules
+    font-size: inherit;
+    color: inherit;
   }
   .list-item-wrapper{
     flex: 5 0 0;
