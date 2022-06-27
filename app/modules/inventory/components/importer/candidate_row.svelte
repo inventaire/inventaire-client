@@ -6,7 +6,7 @@
   import { onChange } from '#lib/svelte'
   import { waitForAttribute } from '#lib/promises'
   import Flash from '#lib/components/flash.svelte'
-  import { getUserExistingItemsPathname } from '#inventory/components/importer/lib/candidate_row_helpers'
+  import { getUserExistingItemsPathname, statusContents } from '#inventory/components/importer/lib/candidate_row_helpers'
 
   export let candidate
 
@@ -20,14 +20,6 @@
   let statuses = []
 
   let checked = false
-  $: candidate.checked = checked
-
-  const statusContents = {
-    newEntry: 'We could not identify this entry in the common bibliographic database. A new entry will be created',
-    error: 'oups, something wrong happened',
-    invalid: 'invalid ISBN',
-    needInfo: 'need more information',
-  }
 
   const addStatus = status => {
     if (!statuses.includes(status)) {
@@ -44,7 +36,9 @@
   const noCandidateEntities = !work.uri && !(authors?.every(_.property('uri')))
   const hasWorkWithoutAuthors = work.uri && !isNonEmptyArray(authors)
   // TODO: remove newEntry status if work and authors both have entities uris
-  if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) addStatus(statusContents.newEntry)
+  if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) {
+    addStatus(statusContents.newEntry)
+  }
   if (error) addStatus(statusContents.error)
   if (isbnData?.isInvalid) addStatus(statusContents.invalid)
 
@@ -61,9 +55,6 @@
       disabled = true
     }
   }
-  $: onChange(work, updateCandidateInfoStatus)
-  $: onChange(editionTitle, updateCandidateInfoStatus)
-  $: if (disabled) checked = false
 
   const toggleCheckbox = () => {
     if (!disabled) checked = !checked
@@ -83,6 +74,11 @@
       updateCandidateInfoStatus()
     }
   })
+
+  $: onChange(work, updateCandidateInfoStatus)
+  $: onChange(editionTitle, updateCandidateInfoStatus)
+  $: if (disabled) checked = false
+  $: candidate.checked = checked
   $: candidate.editionTitle = editionTitle
   $: candidate.authors = authors
   $: candidate.works = [ work ]
