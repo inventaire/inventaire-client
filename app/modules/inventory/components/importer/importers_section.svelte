@@ -138,7 +138,4 @@
       }
     }
   }
-  .spinner-wrapper{
-    @include display-flex(row, center, center);
-  }
 </style>
