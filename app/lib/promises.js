@@ -1,3 +1,4 @@
+import error_ from '#lib/error'
 import { reportError } from '#lib/reports'
 
 export const props = async obj => {
@@ -38,5 +39,28 @@ if (window.addEventListener != null) {
     console.error(`PossiblyUnhandledRejection: ${err.message}\n\n${err.stack}`, err, err.context)
     if (window.env === 'dev' && err.name === 'ChunkLoadError') window.location.reload()
     else reportError(err)
+  })
+}
+
+// Returns a promise that resolves when the target object
+// has the desired attribute set, and that the associated value has resolved
+export const waitForAttribute = (obj, attribute, options = {}) => {
+  const { attemptTimeout = 100, maxAttempts = 100 } = options
+  return new Promise((resolve, reject) => {
+    let attempts = 0
+    const checkAttribute = () => {
+      try {
+        if (obj[attribute] !== undefined) {
+          resolve(obj[attribute])
+        } else if (++attempts > maxAttempts) {
+          reject(error_.new('too many attempts', 500, { obj, attribute }))
+        } else {
+          setTimeout(checkAttribute, attemptTimeout)
+        }
+      } catch (err) {
+        reject(err)
+      }
+    }
+    checkAttribute()
   })
 }

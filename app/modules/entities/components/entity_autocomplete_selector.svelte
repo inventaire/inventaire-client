@@ -9,11 +9,13 @@
   import typeSearch from '#entities/lib/search/type_search'
   import { createByProperty } from '#entities/lib/create_entities'
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
+  import { wait } from '#lib/promises'
 
   export let searchTypes
   export let currentEntityUri
   export let currentEntityLabel = ''
   export let allowEntityCreation = false
+  export let showDefaultSuggestions = true
   export let createdEntityTypeName
   export let createOnWikidata
   export let relationSubjectEntity
@@ -96,6 +98,20 @@
 
   if (currentEntityLabel && autofocus) lazySearch()
 
+  function onFocus () {
+    if (searchText !== '') showSuggestions = true
+    lazySearch()
+  }
+
+  async function onBlur (e) {
+    // If the focus is lost because the user clicked on one of the suggestions,
+    // let EntitySuggestion 'select' event be acted upon before the component
+    // gets destroyed due to `showSuggestions = false`
+    // Somehow, waiting for the next tick isn't enough.
+    await wait(200)
+    showSuggestions = false
+  }
+
   // TODO: fix scroll
   function onSuggestionsScroll (e) {
     const { scrollTop, scrollTopMax } = e.currentTarget
@@ -132,7 +148,7 @@
   }
 
   let defaultSuggestions
-  async function showDefaultSuggestions () {
+  async function fetchDefaultSuggestions () {
     try {
       showSuggestions = true
       fetching = true
@@ -148,7 +164,7 @@
     }
   }
 
-  $: if (relationProperty && searchText === '') showDefaultSuggestions()
+  $: if (showDefaultSuggestions && searchText === '') fetchDefaultSuggestions()
 </script>
 
 <div class="input-group">
@@ -157,9 +173,11 @@
       on:click|stopPropagation
       bind:value={currentEntityLabel}
       on:keydown={onInputKeydown}
-      on:focus={lazySearch}
+      on:focus={onFocus}
+      on:blur={onBlur}
       bind:this={input}
       use:autofocusFn={{ disabled: autofocus !== true }}
+      title={I18n('search for an entity')}
     >
     {#if currentEntityUri}
       <span class="uri">{currentEntityUri}</span>

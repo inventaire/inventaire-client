@@ -30,5 +30,7 @@
   }
   h4{
     margin-top: 1em;
+    display: flex;
+    justify-content: center;
   }
 </style>

@@ -3,6 +3,7 @@ import { isPositiveIntegerString, isDateString } from '#lib/boolean_tests'
 import decodeHtmlEntities from './decode_html_entities.js'
 
 export default obj => ({
+  rawEntry: obj,
   isbn: getIsbn(obj),
 
   // Sometimes, titles and authors contains HTML entities
@@ -15,7 +16,7 @@ export default obj => ({
   numberOfPages: isPositiveIntegerString(obj.pages) ? parseInt(obj.pages) : undefined,
   details: obj.review,
   notes: obj.privatecomment,
-  libraryThingWorkId: obj.workcode
+  libraryThingWorkId: obj.workcode,
 })
 
 // TODO: parse obj.authors and assign `secondaryauthorroles`

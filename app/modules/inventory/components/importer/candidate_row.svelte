@@ -1,34 +1,30 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { isNonEmptyString, isNonEmptyArray, isNonEmptyPlainObject } from '#lib/boolean_tests'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
   import { icon } from '#lib/utils'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
-  export let candidate
-  import { guessUriFromIsbn } from '#inventory/lib/importer/import_helpers'
+  import { onChange } from '#lib/svelte'
+  import { waitForAttribute } from '#lib/promises'
+  import Flash from '#lib/components/flash.svelte'
+  import { getUserExistingItemsPathname, statusContents } from '#inventory/components/importer/lib/candidate_row_helpers'
 
-  const { isbnData, edition, works, error } = candidate
+  export let candidate
+
+  const { isbnData, edition, works, error, index: candidateId } = candidate
   let { editionTitle, authors, authorsNames } = candidate
   let work
   if (isNonEmptyArray(works)) work = works[0]
   else work = { label: editionTitle }
-  let existingItemsPathname
-  let disabled, existingItemsCount
-  const rawIsbn = isbnData?.rawIsbn
-  let alreadyItemsCount
+  let existingItemsPathname, flash
   let statuses = []
 
-  candidate.checked = true
-
-  const statusContents = {
-    newEntry: 'We could not identify this entry in the common bibliographic database. A new entry will be created',
-    error: 'oups, something wrong happened',
-    invalid: 'invalid ISBN',
-    needInfo: 'need more information',
-  }
+  let checked = false
 
   const addStatus = status => {
-    statuses.push(status)
-    statuses = statuses
+    if (!statuses.includes(status)) {
+      statuses.push(status)
+      statuses = statuses
+    }
   }
 
   const removeStatus = status => {
@@ -39,94 +35,122 @@
   const noCandidateEntities = !work.uri && !(authors?.every(_.property('uri')))
   const hasWorkWithoutAuthors = work.uri && !isNonEmptyArray(authors)
   // TODO: remove newEntry status if work and authors both have entities uris
-  if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) addStatus(statusContents.newEntry)
-  if (error) addStatus(statusContents.error)
-  if (isbnData?.isInvalid) addStatus(statusContents.invalid)
-
-  if (isNonEmptyArray(statuses)) { disabled = true }
-
-  const toggleCheckbox = () => {
-    if (!disabled) candidate.checked = !candidate.checked
+  if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) {
+    addStatus(statusContents.newEntry)
   }
 
-  $: {
-    if (isNonEmptyPlainObject(work) || isNonEmptyString(editionTitle)) {
+  let hasError = false
+  if (error) {
+    addStatus(statusContents.error)
+    hasError = true
+  }
+
+  let needInfo = true
+  let itemsCountWereChecked = false
+  const updateCandidateInfoStatus = () => {
+    if (work?.uri || isNonEmptyString(editionTitle)) {
       removeStatus(statusContents.needInfo)
-      disabled = false
-      candidate.checked = true
+      needInfo = false
+      if (itemsCountWereChecked) checked = true
     } else {
       addStatus(statusContents.needInfo)
-      disabled = true
+      needInfo = true
     }
   }
-  $: {
-    if (disabled) candidate.checked = false
-  }
-  $: {
-    if (existingItemsCount && existingItemsCount > 0) {
-      const uri = guessUriFromIsbn({ isbnData })
-      const username = app.user.get('username')
-      existingItemsPathname = `/inventory/${username}/${uri}`
-    }
-  }
-  $: {
-    // only set checked at existingItemsCount creation which happens after candidate creation
-    // to allow user to check the box again
+
+  const waitingForItemsCount = waitForAttribute(candidate, 'waitingForItemsCount', 200)
+
+  let existingItemsCount
+  waitingForItemsCount
+  .then(() => {
     existingItemsCount = candidate.existingItemsCount
-    if (!alreadyItemsCount && existingItemsCount) {
-      candidate.checked = false
-      alreadyItemsCount = true
+    itemsCountWereChecked = true
+    if (existingItemsCount && existingItemsCount > 0) {
+      existingItemsPathname = getUserExistingItemsPathname(isbnData)
+      checked = false
+    } else {
+      // Let updateCandidateInfoStatus evaluate if the candidate should be checked or not
+      updateCandidateInfoStatus()
     }
-  }
-  $: checked = candidate.checked
+  })
+  .catch(err => {
+    flash = err
+    itemsCountWereChecked = true
+  })
+
+  $: onChange(work, updateCandidateInfoStatus)
+  $: onChange(editionTitle, updateCandidateInfoStatus)
+  $: candidate.checked = checked
   $: candidate.editionTitle = editionTitle
   $: candidate.authors = authors
   $: candidate.works = [ work ]
+  $: disabled = (!itemsCountWereChecked) || needInfo || hasError
+  $: if (disabled) checked = false
 </script>
-<li class="candidate-row" on:click="{toggleCheckbox}" class:checked>
-  <div class="candidate-text">
-    <div class="list-item-wrapper">
-      <EntryDisplay
-        {isbnData}
-        {edition}
-        bind:work
-        {authorsNames}
-        bind:authors
-        bind:editionTitle
-        withEditor={true}
-        />
-    </div>
-    {#if isNonEmptyArray(statuses) || existingItemsCount}
-      <div class="status-row warning">
-        <ul>
-          {#each statuses as status}
-            <li class="status">
-              {@html icon('warning')} {I18n(status)}
-            </li>
-          {/each}
-          {#if existingItemsCount}
-            <li class="status">
-              {@html icon('warning')} {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
-            </li>
-          {/if}
-         </ul>
+
+<li class="candidate-row" class:checked>
+  <label title={disabled ? I18n(statuses[0]) : I18n('select_book')} for={`${candidateId}-checkbox`} class:disabled>
+    <div class="candidate-text">
+      <div class="list-item-wrapper">
+        <EntryDisplay
+          {isbnData}
+          {edition}
+          bind:work
+          {authorsNames}
+          bind:authors
+          bind:editionTitle
+          withEditor={true}
+          />
       </div>
-    {/if}
-  </div>
-  <input type="checkbox"
-    bind:checked
-    {disabled}
-    name="{I18n('select_book')} {rawIsbn}"
-  >
+      {#if isNonEmptyArray(statuses) || existingItemsCount}
+        <div class="status-row warning">
+          <ul>
+            {#each statuses as status}
+              <li class="status">
+                {@html icon('warning')} {I18n(status)}
+              </li>
+            {/each}
+            {#if existingItemsCount}
+              <li class="status">
+                {@html icon('warning')} {@html I18n('existing_entity_items', { smart_count: existingItemsCount, pathname: existingItemsPathname })}
+              </li>
+            {/if}
+          </ul>
+        </div>
+      {:else}
+        {#await waitingForItemsCount}
+          <Flash state={{
+            type: 'loading',
+            message: i18n('Checking for existing items...')
+          }} />
+        {/await}
+      {/if}
+    </div>
+    <input type="checkbox"
+      id={`${candidateId}-checkbox`}
+      bind:checked
+      {disabled}
+      title={I18n('select_book')}
+    >
+  </label>
+  <Flash state={flash} />
 </li>
 <style lang="scss">
   @import '#general/scss/utils';
   .candidate-row{
-    @include display-flex(row, center, space-between);
     @include radius;
     border: solid 1px #ccc;
     padding: 0.2em 1em;
     margin-bottom: 0.2em;
+  }
+  label{
+    @include display-flex(row, center, space-between);
+    &:not(.disabled){
+      cursor: pointer;
+    }
+    // Override global label rules
+    font-size: inherit;
+    color: inherit;
   }
   .list-item-wrapper{
     flex: 5 0 0;
@@ -136,6 +160,9 @@
     @include display-flex(column, center);
     margin-right: 1em;
     width: 100%;
+    :global(.flash){
+      align-self: stretch;
+    }
   }
   .status-row{
     width: 100%;

@@ -15,10 +15,11 @@ export const createCandidate = (externalEntry, entitiesRes) => {
     publicationDate,
     numberOfPages,
     goodReadsEditionId,
-    libraryThingWorkId
+    libraryThingWorkId,
+    rawEntry
   } = externalEntry
 
-  const candidate = { index }
+  const candidate = { index, rawEntry }
   if (isbnData) candidate.isbnData = isbnData
   if (isNonEmptyString(editionTitle)) candidate.editionTitle = editionTitle
   if (authors) candidate.authors = authors
@@ -72,28 +73,9 @@ const getEdition = editions => {
   return edition
 }
 
-export const noNewCandidates = ({ externalEntries, candidates }) => {
-  const externalEntriesIsbns = getNormalizedIsbns(externalEntries)
-  if (someWithoutIsbns) return false
-  const candidatesIsbns = getNormalizedIsbns(candidates)
-  return externalEntriesIsbns.every(isCandidateIsbn(candidatesIsbns))
-}
-
-const someWithoutIsbns = (externalEntries, externalEntriesIsbns) => externalEntriesIsbns.length !== externalEntries.length
-
-const getNormalizedIsbns = candidates => {
-  return _.compact(candidates.map(candidate => candidate.isbnData?.normalizedIsbn))
-}
-
-export const isCandidateIsbn = candidatesIsbns => externalEntryIsbn => candidatesIsbns.includes(externalEntryIsbn)
-
 export const byIndex = (a, b) => a.index - b.index
 
-export const isAlreadyCandidate = (normalizedIsbn, candidates) => candidates.some(haveIsbn(normalizedIsbn))
-
 export const formatCandidatesData = isbns => isbns.map(isbn => ({ isbn }))
-
-const haveIsbn = isbn => candidate => candidate.isbnData?.normalizedIsbn === isbn
 
 export const addExistingItemsCountToCandidate = counts => candidate => {
   const { isbnData } = candidate
@@ -172,7 +154,7 @@ const findIsbn = data => {
 }
 
 const serializeResolverEntry = data => {
-  const { editionTitle, lang } = data
+  const { editionTitle, lang, rawEntry } = data
   let { isbn, authors = [] } = data
   const labelLang = lang || app.user.lang
 
@@ -203,7 +185,7 @@ const serializeResolverEntry = data => {
     }
   })
 
-  return { edition, works: [ work ], authors }
+  return { edition, works: [ work ], authors, rawEntry }
 }
 
 export const getEditionEntitiesByUri = async isbn => {

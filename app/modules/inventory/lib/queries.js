@@ -3,7 +3,6 @@ import preq from '#lib/preq'
 import { tap } from '#lib/promises'
 import Item from '#inventory/models/item'
 import Items from '#inventory/collections/items'
-import getEntitiesItemsCount from './get_entities_items_count.js'
 import error_ from '#lib/error'
 
 const getById = async id => {
@@ -101,7 +100,6 @@ export default app => app.reqres.setHandlers({
   'items:getUserItems': getUserItems,
   'items:getGroupItems': getGroupItems,
   'items:getByUserIdAndEntities': getByUserIdAndEntities,
-  'items:getEntitiesItemsCount': getEntitiesItemsCount,
 
   // Using a different naming to match reqGrab requests style
   'get:item:model': getById

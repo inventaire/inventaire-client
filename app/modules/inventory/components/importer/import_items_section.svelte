@@ -3,10 +3,11 @@
   import _ from 'underscore'
   import Flash from '#lib/components/flash.svelte'
   import Counter from '#components/counter.svelte'
-  import { createItem } from '#inventory/components/create_item'
+  import { createItemFromCandidate } from '#inventory/components/importer/lib/create_item'
   import ImportResults from '#inventory/components/importer/import_results.svelte'
   import screen_ from '#lib/screen'
-  import { isResolved, resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
+  import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
+  import { isAlreadyResolved, removeCreatedCandidates } from '#inventory/components/importer/lib/import_items_helpers'
 
   export let candidates
   export let transaction
@@ -29,15 +30,8 @@
     processedItemsCount = 0
     await createItemsSequentially()
     importingCandidates = false
-    removeCreatedCandidates()
+    candidates = removeCreatedCandidates({ candidates, processedCandidates })
     if (importResultsElement) screen_.scrollToElement(importResultsElement)
-  }
-
-  const removeCreatedCandidates = async () => {
-    const createdIndices = processedCandidates.map(createdCandidate => {
-      if (createdCandidate.item) return createdCandidate.index
-    })
-    candidates = candidates.filter(candidate => !createdIndices.includes(candidate.index))
   }
 
   const createEntitiesSequentially = async () => {
@@ -46,7 +40,7 @@
     if (!nextCandidate) return
     processedEntitiesCount += 1
     try {
-      if (nextCandidate.checked && !alreadyResolved(nextCandidate)) {
+      if (nextCandidate.checked && !isAlreadyResolved(nextCandidate)) {
         let candidateWithEntities
         candidateWithEntities = await resolveAndCreateCandidateEntities(nextCandidate)
         candidates[candidatePosition] = candidateWithEntities
@@ -56,6 +50,7 @@
       const { responseJSON } = err
       nextCandidate.error = responseJSON
       candidates[candidatePosition] = nextCandidate
+      flash = err
     }
     await createEntitiesSequentially()
   }
@@ -66,24 +61,10 @@
     if (!nextCandidate) return
     processedItemsCount += 1
     if (nextCandidate.checked && !nextCandidate.error) {
-      const { edition, details, notes } = nextCandidate
-      try {
-        const item = await createItem(edition, details, notes, transaction, listing, shelvesIds)
-        nextCandidate.item = item
-      } catch (err) {
-        // Do not throw to not crash the whole chain
-        const { responseJSON } = err
-        nextCandidate.error = responseJSON
-      }
+      await createItemFromCandidate({ candidate: nextCandidate, transaction, listing, shelvesIds })
       processedCandidates = [ ...processedCandidates, nextCandidate ]
     }
     await createItemsSequentially()
-  }
-
-  const alreadyResolved = candidate => {
-    const authorsResolved = candidate.authors?.every(isResolved)
-    const worksResolved = candidate.works?.every(isResolved)
-    return authorsResolved && worksResolved && candidate.edition
   }
 </script>
 <div class="import-candidates">

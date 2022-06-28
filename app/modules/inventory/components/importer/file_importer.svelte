@@ -7,7 +7,7 @@
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 
-  export let importer, createExternalEntries
+  export let importer
   const { name, accept, link, label, format, help, parse, encoding } = importer
   let files, flash
 
@@ -16,7 +16,7 @@
       const data = await files_.readFile('readAsText', files[0], encoding, true)
       dataValidator(importer, data)
       const candidatesData = parse(data).map(commonParser)
-      createExternalEntries(candidatesData)
+      dispatch('createExternalEntries', candidatesData)
       dispatch('createCandidatesQueue')
     } catch (err) {
       flash = err
@@ -41,7 +41,7 @@
 </div>
 
 <input
-  name="{name}"
+  title={name}
   type="file"
   bind:files={files}
   accept="{accept}"

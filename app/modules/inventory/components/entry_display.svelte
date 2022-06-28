@@ -13,9 +13,7 @@
   export let authors = []
   export let editionTitle
   export let withEditor = false
-  const initialAuthors = authors
   const initialWorkUri = work.uri
-  const initialEditionTitle = editionTitle
   const isbn13h = isbnData?.isbn13h
   let editionLang, editableAuthors
   let userSelectedWorkUri, currentEditionLabel
@@ -38,15 +36,13 @@
     if (userSelectedWorkUri) {
       authors = []
       editionTitle = null
-    } else {
-      editionTitle = initialEditionTitle
-      authors = initialAuthors
     }
   }
   // Do not display authors editor if work exists
   // as this only an importer, not an editor of existing entity
   $: editableAuthors = (withEditor && !work.uri)
   // pass on user input to create work and edition when unseccessfull search
+  $: editionTitle = currentEditionLabel
 </script>
 
 <div class="entry-display">
@@ -65,6 +61,7 @@
           <EntityLogo entity="{work}"/>
         </span>
       {:else}
+        <span class="label">{I18n('title')}:</span>
         {#if withEditor}
           <EntityResolverInput
             type="work"
@@ -140,9 +137,6 @@
 
   /*Large screens*/
   @media screen and (min-width: 800px) {
-    .authors{
-      @include display-flex(row, center, flex-start, wrap);
-    }
     .author-name{
       white-space: nowrap;
     }
