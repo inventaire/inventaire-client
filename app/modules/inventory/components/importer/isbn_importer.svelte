@@ -4,7 +4,7 @@
   import autosize from 'autosize'
   import { formatCandidatesData } from '#inventory/lib/importer/import_helpers'
   import { isbnPattern } from '#lib/isbn'
-  import { createEventDispatcher } from 'svelte'
+  import { onMount, createEventDispatcher } from 'svelte'
   import { getInvalidIsbnsString } from '#inventory/components/importer/lib/importers_helpers'
 
   export let isbns
@@ -12,11 +12,14 @@
   const dispatch = createEventDispatcher()
 
   let isbnsText, flash
-  if (isbns) {
-    isbnsText = isbns.join('\n')
-    checkIsbns()
-    findIsbnsAndCreateCandidates()
-  }
+
+  onMount(() => {
+    if (isbns) {
+      isbnsText = isbns.join('\n')
+      checkIsbns()
+      findIsbnsAndCreateCandidates()
+    }
+  })
 
   function checkIsbns () {
     flash = null

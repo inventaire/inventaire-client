@@ -12,7 +12,7 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { addExistingItemsCounts, createExternalEntry, getExternalEntriesEntities } from '#inventory/components/importer/lib/importers_section_helpers'
 
-  export let candidates, isbns, processing
+  export let candidates, isbns, processing, isbnImporterEl
   export let processedExternalEntriesCount = 0
   export let totalExternalEntries = 0
 
@@ -20,6 +20,8 @@
   let externalEntries = []
   let flashBlockingProcess
   let bottomSectionElement = {}
+
+  const startedWithIsbns = isbns != null
 
   const createExternalEntries = candidatesData => {
     flashBlockingProcess = null
@@ -31,7 +33,8 @@
     processedExternalEntriesCount = 0
     totalExternalEntries = externalEntries.length
     const remainingExternalEntries = _.clone(externalEntries)
-    screen_.scrollToElement(bottomSectionElement)
+    if (startedWithIsbns) screen_.scrollToElement(isbnImporterEl)
+    else screen_.scrollToElement(bottomSectionElement)
 
     const createCandidateOneByOne = async () => {
       if (cancelled) return processedExternalEntriesCount = 0
@@ -84,7 +87,7 @@
       />
     </li>
   {/each}
-  <li>
+  <li bind:this={isbnImporterEl}>
     <IsbnImporter
       on:createExternalEntries={e => createExternalEntries(e.detail)}
       on:createCandidatesQueue={createCandidatesQueue}
