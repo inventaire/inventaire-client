@@ -9,6 +9,5 @@ export const getUserExistingItemsPathname = isbnData => {
 export const statusContents = {
   newEntry: 'We could not identify this entry in the common bibliographic database. A new entry will be created',
   error: 'oups, something wrong happened',
-  invalid: 'invalid ISBN',
   needInfo: 'need more information',
 }

@@ -16,7 +16,6 @@
   if (isNonEmptyArray(works)) work = works[0]
   else work = { label: editionTitle }
   let existingItemsPathname
-  let disabled
   let statuses = []
 
   let checked = false
@@ -39,20 +38,23 @@
   if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) {
     addStatus(statusContents.newEntry)
   }
-  if (error) addStatus(statusContents.error)
-  if (isbnData?.isInvalid) addStatus(statusContents.invalid)
 
-  if (isNonEmptyArray(statuses)) disabled = true
+  let hasError = false
+  if (error) {
+    addStatus(statusContents.error)
+    hasError = true
+  }
 
+  let needInfo = true
   let itemsCountWereChecked = false
   const updateCandidateInfoStatus = () => {
     if (work?.uri || isNonEmptyString(editionTitle)) {
       removeStatus(statusContents.needInfo)
-      disabled = false
+      needInfo = false
       if (itemsCountWereChecked) checked = true
     } else {
       addStatus(statusContents.needInfo)
-      disabled = true
+      needInfo = true
     }
   }
 
@@ -73,11 +75,12 @@
 
   $: onChange(work, updateCandidateInfoStatus)
   $: onChange(editionTitle, updateCandidateInfoStatus)
-  $: if (disabled) checked = false
   $: candidate.checked = checked
   $: candidate.editionTitle = editionTitle
   $: candidate.authors = authors
   $: candidate.works = [ work ]
+  $: disabled = (!itemsCountWereChecked) || needInfo || hasError
+  $: if (disabled) checked = false
 </script>
 
 <li class="candidate-row" class:checked>
