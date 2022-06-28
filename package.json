@@ -28,6 +28,7 @@
     "#settings/*": "./app/modules/settings/*.js",
     "#shelves/*": "./app/modules/shelves/*.js",
     "#tasks/*": "./app/modules/tasks/*.js",
+    "#tests/*": "./tests/*.js",
     "#transactions/*": "./app/modules/transactions/*.js",
     "#user/*": "./app/modules/user/*.js",
     "#users/*": "./app/modules/users/*.js",

@@ -1,5 +1,6 @@
 import should from 'should'
 import { tryAsync, tap, props as promiseProps, waitForAttribute, wait } from '#lib/promises'
+import { shouldNotBeCalled } from '#tests/utils/utils'
 
 global.window = global
 const undesiredRes = done => res => {
@@ -136,6 +137,30 @@ describe('promises', () => {
       obj.waitForA = wait(30).then(() => 123)
       const a = await waitForAttribute(obj, 'waitForA')
       a.should.equal(123)
+    })
+
+    it('should reject if not passed an object', async () => {
+      await waitForAttribute(null, 'waitForA')
+      .then(shouldNotBeCalled)
+      .catch(err => {
+        err.name.should.equal('TypeError')
+      })
+    })
+
+    it('should accept null values', async () => {
+      const obj = {}
+      setTimeout(() => { obj.a = null }, 20)
+      should(obj.a).not.be.ok()
+      const a = await waitForAttribute(obj, 'a')
+      should(a).be.Null()
+    })
+
+    it('should stop waiting after a certain number of attempts', async () => {
+      await waitForAttribute({}, 'a', { attemptTimeout: 10, maxAttempts: 5 })
+      .then(shouldNotBeCalled)
+      .catch(err => {
+        err.message.should.equal('too many attempts')
+      })
     })
   })
 })
