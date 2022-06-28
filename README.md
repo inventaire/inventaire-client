@@ -13,6 +13,7 @@ This repository tracks [inventaire.io](https://inventaire.io) client-side develo
 
 [![inventory-en](https://user-images.githubusercontent.com/5363918/104629906-0724d380-5692-11eb-9176-fb925da18855.png)](https://inventaire.io)
 
+A map of the client assets generated  by this repository can be found at [`/public/dist/bundle_report.html`](https://inventaire.io/public/dist/bundle_report.html).
 
 ## Summary
 
