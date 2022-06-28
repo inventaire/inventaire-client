@@ -15,7 +15,7 @@
   let work
   if (isNonEmptyArray(works)) work = works[0]
   else work = { label: editionTitle }
-  let existingItemsPathname
+  let existingItemsPathname, flash
   let statuses = []
 
   let checked = false
@@ -61,7 +61,8 @@
   const waitingForItemsCount = waitForAttribute(candidate, 'waitingForItemsCount', 200)
 
   let existingItemsCount
-  waitingForItemsCount.then(() => {
+  waitingForItemsCount
+  .then(() => {
     existingItemsCount = candidate.existingItemsCount
     itemsCountWereChecked = true
     if (existingItemsCount && existingItemsCount > 0) {
@@ -71,6 +72,10 @@
       // Let updateCandidateInfoStatus evaluate if the candidate should be checked or not
       updateCandidateInfoStatus()
     }
+  })
+  .catch(err => {
+    flash = err
+    itemsCountWereChecked = true
   })
 
   $: onChange(work, updateCandidateInfoStatus)
@@ -128,15 +133,18 @@
       title={I18n('select_book')}
     >
   </label>
+  <Flash state={flash} />
 </li>
 <style lang="scss">
   @import '#general/scss/utils';
-  label{
-    @include display-flex(row, center, space-between);
+  .candidate-row{
     @include radius;
     border: solid 1px #ccc;
     padding: 0.2em 1em;
     margin-bottom: 0.2em;
+  }
+  label{
+    @include display-flex(row, center, space-between);
     &:not(.disabled){
       cursor: pointer;
     }
