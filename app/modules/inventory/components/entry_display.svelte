@@ -137,9 +137,6 @@
 
   /*Large screens*/
   @media screen and (min-width: 800px) {
-    .authors{
-      @include display-flex(row, flex-end, flex-start, wrap);
-    }
     .author-name{
       white-space: nowrap;
     }

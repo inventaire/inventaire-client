@@ -27,6 +27,7 @@
   }
 
   const createCandidatesQueue = async () => {
+    cancelled = false
     processedExternalEntriesCount = 0
     totalExternalEntries = externalEntries.length
     const remainingExternalEntries = _.clone(externalEntries)
@@ -62,7 +63,6 @@
       // Add counts only now in order to handle entities redirects
       await addExistingItemsCounts({ candidates, externalEntries })
     })
-    .finally(() => cancelled = false)
   }
 
   const createAndAssignCandidate = (externalEntry, entities) => {
@@ -71,7 +71,7 @@
     candidates = [ ...candidates, newCandidate ]
   }
 
-  $: processing = (processedExternalEntriesCount !== totalExternalEntries) && processedExternalEntriesCount > 0
+  $: processing = (processedExternalEntriesCount !== totalExternalEntries) && totalExternalEntries > 0
 </script>
 <h3>1/ {I18n('upload your books from another website')}</h3>
 <ul class="importers">
@@ -94,14 +94,17 @@
 </ul>
 <Flash bind:state={flashBlockingProcess}/>
 <div bind:this={bottomSectionElement}></div>
-{#if processing}
+{#if processing && !cancelled}
   <div class="processing-menu">
     <Counter count={processedExternalEntriesCount} total={totalExternalEntries}/>
     <button
       class="grey-button dangerous"
       disabled={cancelled}
-      on:click="{() => cancelled = true}"
-      >
+      on:click={() => {
+        processing = false
+        cancelled = true
+      }}
+    >
       {#if cancelled}
         <Spinner />
       {:else}
@@ -131,5 +134,8 @@
         color: white;
       }
     }
+  }
+  .spinner-wrapper{
+    @include display-flex(row, center, center);
   }
 </style>
