@@ -144,14 +144,12 @@ export const hasSelectedLang = selectedLangs => edition => {
 export const infoboxPropsLists = {
   edition: {
     short: [
-      'wdt:P1680', // subtitle
       'wdt:P577', // publication date
       'wdt:P123', // publisher
       'wdt:P212', // ISBN-13
       'wdt:P179', // series
     ],
     long: [
-      'wdt:P1680', // edition subtitle
       'wdt:P2679', // author of foreword
       'wdt:P2680', // author of afterword
       'wdt:P655', // translator
