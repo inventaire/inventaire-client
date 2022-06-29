@@ -38,28 +38,26 @@
 >
   <div class="entity-layout" slot="entity">
     <div class="top-section">
-      <div class="info">
-        {#if image.url}
-          <div class="cover">
-            <img src={imgSrc(image.url, 300)} alt={label}>
-          </div>
-        {/if}
-        <div class="title-wrapper">
-          <EntityTitle {entity} {standalone}/>
-          <div class="infobox-wrapper">
-            <div class="infobox">
-              <AuthorsInfo
-                {claims}
-              />
-              <Infobox
-                {claims}
-                entityType={entity.type}
-              />
-            </div>
-            <EditionActions
-              {entity}
+      {#if image.url}
+        <div class="cover">
+          <img src={imgSrc(image.url, 300)} alt={label}>
+        </div>
+      {/if}
+      <div class="info-wrapper">
+        <EntityTitle {entity} {standalone}/>
+        <div class="infobox-wrapper">
+          <div class="infobox">
+            <AuthorsInfo
+              {claims}
+            />
+            <Infobox
+              {claims}
+              entityType={entity.type}
             />
           </div>
+          <EditionActions
+            {entity}
+          />
         </div>
       </div>
     </div>
@@ -77,9 +75,8 @@
   .entity-layout{
     width: 100%;
   }
-  .info{
-    @include display-flex(row, flex-start, center);
-    flex: 1;
+  .top-section{
+    @include display-flex(row, center, space-between);
     margin-bottom: 1em;
   }
   .infobox{
@@ -88,15 +85,12 @@
   .infobox-wrapper{
     @include display-flex(row, center, space-between);
   }
-  .title-wrapper{
+  .info-wrapper{
     flex: 1;
   }
   .cover{
     padding-right: 1em;
     max-width: 12em;
-  }
-  .top-section{
-    @include display-flex(row, center, space-between);
   }
   .bottom-section{
     @include display-flex(column, center);
@@ -108,7 +102,7 @@
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $smaller-screen) {
     .infobox-wrapper{
       @include display-flex(column, flex-start, center);
     }
@@ -118,7 +112,11 @@
     .infobox{
       width:100%;
     }
-    .info{
+    .info-wrapper{
+      @include display-flex(column, center, center);
+    }
+    .top-section{
+      margin: 0 2em;
       @include display-flex(column, center);
     }
   }
