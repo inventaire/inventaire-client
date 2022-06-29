@@ -51,7 +51,7 @@
     if (displayedProperties) await getMissingEntities()
   })()
 
-  let showLess = true
+  let showMore = true
   $: {
     const claimsLonglist = _.pick(claims, propertiesLonglist)
     entityPropertiesLonglist = Object.keys(claimsLonglist)
@@ -62,7 +62,7 @@
   }
   $: {
     if (hasPropertiesShortlist) {
-      if (showLess) {
+      if (showMore) {
         displayedProperties = entityPropertiesShortlist
       } else {
         displayedProperties = entityPropertiesLonglist
@@ -88,10 +88,9 @@
     </div>
     {#if hasPropertiesShortlist && entityPropertiesLonglist.length > 2}
       <WrapToggler
-        bind:show={showLess}
+        bind:show={showMore}
         moreText={I18n('more details')}
         lessText={I18n('less details')}
-        reversedShow={true}
         withIcon={!compactView}
       />
     {/if}

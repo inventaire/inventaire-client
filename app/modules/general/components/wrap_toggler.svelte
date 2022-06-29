@@ -4,7 +4,6 @@
     moreText,
     lessText,
     scrollTopElement,
-    reversedShow,
     withIcon = true
 
   function toggle () {
@@ -12,15 +11,6 @@
     if (!show && scrollTopElement) {
       scrollTopElement.scrollIntoView({ behavior: 'smooth' })
     }
-  }
-
-  const showLessData = {
-    chevron: reversedShow ? 'up' : 'down',
-    text: reversedShow ? lessText : moreText
-  }
-  const showMoreData = {
-    chevron: reversedShow ? 'down' : 'up',
-    text: reversedShow ? moreText : lessText
   }
 </script>
 
@@ -31,9 +21,9 @@
       on:click|stopPropagation={toggle}
       >
       {#if withIcon}
-        {@html icon(`chevron-${showMoreData.chevron}`)}
+        {@html icon('chevron-down')}
       {/if}
-      {showMoreData.text}
+      {moreText}
     </button>
   {/if}
 {:else}
@@ -42,9 +32,9 @@
     on:click|stopPropagation={toggle}
     >
     {#if withIcon}
-      {@html icon(`chevron-${showLessData.chevron}`)}
+      {@html icon('chevron-up')}
     {/if}
-    {showLessData.text}
+    {lessText}
   </button>
 {/if}
 
