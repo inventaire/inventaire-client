@@ -1,14 +1,18 @@
 <script>
+  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import EditionActions from './edition_actions.svelte'
   import MergeAction from './merge_action.svelte'
-  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import EntityImage from '../entity_image.svelte'
   import getFavoriteLabel from '#entities/lib/get_favorite_label'
   import Infobox from './infobox.svelte'
   import Link from '#lib/components/link.svelte'
   import Flash from '#lib/components/flash.svelte'
 
-  export let entity, parentEntity, relatedEntities, compactView, actionType, showInfobox = true
+  export let entity,
+    parentEntity,
+    relatedEntities,
+    actionType,
+    showInfobox = true
 
   let flash
 
@@ -30,10 +34,7 @@
     }
   }
 </script>
-<div
-  class="entity-list"
-  class:compactView
->
+<div class="entity-list">
   {#if isNonEmptyPlainObject(entity.image)}
     <div class="cover">
       <EntityImage
@@ -44,27 +45,26 @@
       />
     </div>
   {/if}
-  {#if !compactView}
-    <div class="entity-info-line">
-      <div class="entity-title">
-        <Link
-          url={`/entity/${entity.uri}`}
-          text={entityLabel}
-          dark=true
+  <div class="entity-info-line">
+    <div class="entity-title">
+      <Link
+        url={`/entity/${entity.uri}`}
+        text={entityLabel}
+        dark=true
+      />
+    </div>
+    {#if showInfobox}
+      <div class="entity-details">
+        <Infobox
+          claims={entity.claims}
+          {relatedEntities}
+          compactView=true
+          entityType={entity.type}
         />
       </div>
-      {#if showInfobox}
-        <div class="entity-details">
-          <Infobox
-            {claims}
-            {relatedEntities}
-            hasPropertiesShortlist={true}
-            compactView=true
-            entityType={entity.type}
-          />
-        </div>
-      {/if}
-    </div>
+    {/if}
+  </div>
+  <div class="action-button-wrapper">
     {#if actionType}
       <svelte:component
         this={buttonActionsComponentsByType[entity.type][actionType]}
@@ -73,7 +73,7 @@
         bind:flash={flash}
       />
     {/if}
-  {/if}
+  </div>
 </div>
 <div class="flash">
   <Flash bind:state={flash}/>
