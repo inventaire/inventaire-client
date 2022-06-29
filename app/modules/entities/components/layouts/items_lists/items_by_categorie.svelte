@@ -105,7 +105,7 @@
   .categorie-title{
     @include sans-serif;
     margin: 0;
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin-right: 1em;
   }
   .categorie-title-wrapper{

@@ -16,7 +16,7 @@
 </script>
 <div class="claim">
   {#if !omitLabel}
-    <span class='property-value'>
+    <span class='property'>
       {i18n(prop)}:&nbsp;
     </span>
   {/if}
@@ -56,7 +56,7 @@
       content: ',';
     }
   }
-  .property-value{
+  .property{
     color: $grey;
   }
 </style>

@@ -131,19 +131,12 @@
         {/await}
       </div>
     </div>
-    {#await editionsWithPublishers}
-      <div class="loading-wrapper">
-        <p class="loading">{I18n('looking for editions...')}
-          <Spinner/>
-        </p>
-      </div>
-    {:then}
+    {#await editionsWithPublishers then}
       {#if someEditions}
         <div
           class="editions-list"
           bind:this={editionsList}
         >
-          <!-- TODO: dont display items list if items owners are only main user items -->
           <ItemsLists
             {editionsUris}
             bind:showMap={showMap}

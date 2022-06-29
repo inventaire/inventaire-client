@@ -46,7 +46,7 @@
             align={'center'}
           >
             <div slot="button-inner">
-              {@html icon('language')}{i18n('filter by lang')}
+              {@html icon('language')}{i18n('filter by language')}
             </div>
             <ul slot="dropdown-content">
               <li class="dropdown-element">
