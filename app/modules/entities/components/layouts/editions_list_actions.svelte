@@ -10,7 +10,7 @@
     editionsLangs = [],
     someInitialEditions
 
-  let langEntitiesLabel = {}
+  let langEntitiesLabel = {}, showDropdown
 
   const getWdUri = lang => {
     const langWdId = wdLang.byCode[lang]?.wd
@@ -44,19 +44,12 @@
           <Dropdown
             buttonTitle={i18n('show langs')}
             align={'center'}
+            bind:showDropdown={showDropdown}
           >
             <div slot="button-inner">
               {@html icon('language')}{i18n('filter by language')}
             </div>
             <ul slot="dropdown-content">
-              <li class="dropdown-element">
-                <label
-                  on:click={() => { selectedLangs = editionsLangs }}
-                  for='all languages'
-                >
-                  {i18n('all languages')}
-                </label>
-              </li>
               {#each editionsLangs as lang}
                 <li class="dropdown-element">
                   <label>
@@ -65,6 +58,17 @@
                   </label>
                 </li>
               {/each}
+              <li class="dropdown-element">
+                <label
+                  on:click={() => {
+                    selectedLangs = editionsLangs
+                    showDropdown = false
+                  }}
+                  for='all languages'
+                >
+                  {i18n('all languages')}
+                </label>
+              </li>
             </ul>
           </Dropdown>
         </div>
