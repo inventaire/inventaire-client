@@ -40,7 +40,6 @@
       <EntityImage
         entity={entity}
         withLink=true
-        maxHeight='6em'
         size={128}
       />
     </div>
@@ -91,6 +90,10 @@
   }
   .cover{
     margin-top: 0.5em;
+    :global(a img){
+      max-height:6em;
+      max-width:4em;
+    }
   }
   .entity-info-line{
     flex: 1;

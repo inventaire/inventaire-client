@@ -7,8 +7,7 @@
 
   export let entity,
     size = 300,
-    withLink = false,
-    maxHeight = 'none'
+    withLink = false
 
   const { image, uri } = entity
 
@@ -41,14 +40,12 @@
       <img
         src={imgSrc(image.url, size)}
         alt="{i18n(altMessage)} - {getFavoriteLabel(entity)}"
-        style="max-height: {maxHeight};"
       >
     </a>
   {:else}
     <img
       src={imgSrc(image.url, size)}
       alt="{i18n(altMessage)} - {getFavoriteLabel(entity)}"
-      style="max-height: {maxHeight};"
     >
   {/if}
   {#if creditsText}
