@@ -4,7 +4,7 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
 
   // type is optional
-  export let type, entities, relatedEntities, compactView, parentEntity
+  export let type, entities, relatedEntities, parentEntity
 
   let showMore = false
   let shownEntities = entities
@@ -15,16 +15,12 @@
     else shownEntities = entities.slice(0, showLessSize)
   }
 </script>
-<div
-  class="entities-list"
-  class:compactView={compactView}
->
+<div  class="entities-list">
   {#each shownEntities as entity (entity.uri)}
     <EntityListElement
       {entity}
       {relatedEntities}
       {parentEntity}
-      {compactView}
       actionType='link'
     />
   {/each}
@@ -43,9 +39,6 @@
   @import '#general/scss/utils';
   .entities-list{
     width: 100%;
-  }
-  .compactView{
-    @include display-flex(row, center, center);
   }
   .toggler-wrapper{
     @include display-flex(column, center, flex-start);

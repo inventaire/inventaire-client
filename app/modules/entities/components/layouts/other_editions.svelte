@@ -2,9 +2,9 @@
   import { I18n } from '#user/lib/i18n'
   import Spinner from '#general/components/spinner.svelte'
   import Link from '#lib/components/link.svelte'
-  import EntitiesList from './entities_list.svelte'
+  import { isNonEmptyPlainObject, isNonEmptyArray } from '#lib/boolean_tests'
+  import EntityImage from '../entity_image.svelte'
   import { getSubEntities } from '../lib/entities'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let currentEdition, workUri
 
@@ -37,11 +37,18 @@
 	        {I18n('other editions')}
 	      </h5>
 	    </div>
-	    <EntitiesList
-	      type='editions'
-	      entities={otherEditions}
-	      compactView={true}
-	    />
+      <div class="entities-list">
+        {#each otherEditions as entity (entity.uri)}
+          {#if isNonEmptyPlainObject(entity.image)}
+            <EntityImage
+              entity={entity}
+              withLink=true
+              maxHeight='6em'
+              size={128}
+            />
+          {/if}
+        {/each}
+      </div>
 	    <button class="work-button tiny-button grey">
 	      <Link
 	        url={`/entity/${workUri}`}
@@ -67,5 +74,8 @@
     margin: 1em;
     width: 15em;
     padding: 0.5em;
+  }
+  .entities-list{
+    @include display-flex(row, center, center);
   }
 </style>
