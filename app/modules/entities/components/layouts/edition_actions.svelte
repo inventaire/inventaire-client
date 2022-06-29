@@ -21,8 +21,9 @@
 >
   <Link
     {url}
-    text={i18n('add to...')}
+    text={i18n('add to inventory')}
     light={true}
+    icon='plus'
   />
 </button>
 <style lang="scss">

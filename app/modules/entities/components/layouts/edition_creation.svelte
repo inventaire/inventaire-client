@@ -70,11 +70,11 @@
     const { lang } = app.user
     const langWdId = wdLang.byCode[lang]?.wd
     const langWdUri = (langWdId != null) ? `wd:${langWdId}` : undefined
-    // Suggest the user's language as the edition language
+    // Suggest user's language as edition language
     if (langWdUri) data.claims['wdt:P407'] = [ langWdUri ]
 
     const favoriteLabel = getFavoriteLabel(work)
-    // Suggest the work label in the user's language as the edition title
+    // Suggest work label in user's language as edition title
     if (favoriteLabel) data.claims['wdt:P1476'] = [ favoriteLabel ]
 
     return data
@@ -121,7 +121,7 @@
       class="tiny-button show-form"
       on:click={() => showForm = true}
     >
-      {@html icon('pencil')}
+      {@html icon('plus')}
       {i18n('add missing edition')}
     </button>
   {/if}
@@ -154,6 +154,7 @@
     padding: 0.5em;
   }
   .show-form{
+    padding: 0.3em;
     max-width:20em;
     font-size: 0.9em;
   }

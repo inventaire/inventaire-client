@@ -31,6 +31,7 @@ export const getWorkProperties = omitAuthors => {
     'wdt:P179', // series
     'wdt:P1545', // series ordinal
     'wdt:P1476', // title
+    'wdt:P407', // edition language
     'wdt:P1680', // subtitle
     'wdt:P144', // based on
     'wdt:P941', // inspired by

@@ -1,5 +1,5 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import { isNonEmptyString, isNonEmptyPlainObject } from '#lib/boolean_tests'
   import Spinner from '#general/components/spinner.svelte'
   import preq from '#lib/preq'
@@ -53,7 +53,7 @@
           {res.extract}
           <Link
             url={res.url}
-            text={i18n('read_more_on_wikipedia')}
+            text={I18n('read_more_on_wikipedia')}
             grey={true}
           />
         </div>

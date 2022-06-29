@@ -21,10 +21,10 @@
     </div>
   {:then}
   	<div class="dataadmin-section">
-  	  <h3>
+      <h4>
         {@html icon('compress')}
         {I18n('merge homonyms')}
-      </h3>
+      </h4>
   	  <div class='homonyms'>
         {#each homonyms as homonym, i}
           {#if !homonym.merged}

@@ -69,16 +69,15 @@
       </div>
     {/if}
   </div>
-  <div class="action-button-wrapper">
-    {#if actionType}
-      <svelte:component
-        this={buttonActionsComponentsByType[entity.type][actionType]}
-        {entity}
-        {parentEntity}
-        bind:flash={flash}
-      />
-    {/if}
-  </div>
+  <!-- keep action button on top (.entity-list flex-direction) to display dropdown later  -->
+  {#if actionType}
+    <svelte:component
+      this={buttonActionsComponentsByType[entity.type][actionType]}
+      {entity}
+      {parentEntity}
+      bind:flash={flash}
+    />
+  {/if}
 </div>
 <div class="flash">
   <Flash bind:state={flash}/>

@@ -1,20 +1,16 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { createEventDispatcher } from 'svelte'
   import { getLang, hasSelectedLang } from '#entities/components/lib/claims_helpers'
   import EditionsListActions from './editions_list_actions.svelte'
   import EntitiesList from './entities_list.svelte'
   import EditionCreation from './edition_creation.svelte'
-
-  const dispatch = createEventDispatcher()
 
   export let someInitialEditions,
     someEditions,
     editions,
     publishersByUris,
     parentEntity,
-    initialEditions,
-    usersSize
+    initialEditions
 
   let userLang = app.user.lang
   let selectedLangs = [ userLang ]
@@ -55,9 +51,6 @@
     bind:editionsLangs={editionsLangs}
     {someInitialEditions}
     {someEditions}
-    {usersSize}
-    on:scrollToItemsList={() => dispatch('scrollToItemsList')}
-    on:showMap={() => { dispatch('showMap') }}
   />
   {#if someEditions}
     <EntitiesList
@@ -88,6 +81,9 @@
   }
   .editions-list-title{
     @include display-flex(row, center, center);
+    h5{
+      @include sans-serif;
+    }
   }
   .no-edition-wrapper{
     @include display-flex(row, center, center);
