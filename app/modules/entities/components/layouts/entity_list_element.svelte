@@ -1,12 +1,12 @@
 <script>
+  import Link from '#lib/components/link.svelte'
+  import Flash from '#lib/components/flash.svelte'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
+
   import EditionActions from './edition_actions.svelte'
   import MergeAction from './merge_action.svelte'
   import EntityImage from '../entity_image.svelte'
-  import getFavoriteLabel from '#entities/lib/get_favorite_label'
   import Infobox from './infobox.svelte'
-  import Link from '#lib/components/link.svelte'
-  import Flash from '#lib/components/flash.svelte'
 
   export let entity,
     parentEntity,
@@ -16,10 +16,11 @@
 
   let flash
 
-  let { claims } = entity
+  let { claims, label } = entity
 
+  const subtitle = claims['wdt:P1680']
   const infoboxClaims = claims
-  const entityLabel = getFavoriteLabel(entity)
+
   if (parentEntity && parentEntity.type === 'work') {
     delete infoboxClaims['wdt:P629']
     delete infoboxClaims['wdt:P1476']
@@ -48,16 +49,21 @@
     <div class="entity-title">
       <Link
         url={`/entity/${entity.uri}`}
-        text={entityLabel}
+        text={label}
         dark=true
       />
+      {#if subtitle}
+        <div class="subtitle">
+          {subtitle}
+        </div>
+      {/if}
     </div>
     {#if showInfobox}
       <div class="entity-details">
         <Infobox
           claims={entity.claims}
           {relatedEntities}
-          compactView=true
+          hasPropertiesShortlist=true
           entityType={entity.type}
         />
       </div>
@@ -80,13 +86,13 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .entity-list{
-    @include display-flex(row, center, space-between);
+    @include display-flex(row, flex-start, space-between);
     border-top: 1px solid #ddd;
     padding: 0.3em 0;
     margin-top: 1em;
   }
   .entity-title{
-    font-size:larger;
+    font-size:1.1em;
   }
   .cover{
     margin-top: 0.5em;
@@ -105,13 +111,6 @@
   @media screen and (max-width: $smaller-screen) {
     .cover{
       width: 5em
-    }
-  }
-
-  /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
-    .entity-list-info{
-      @include display-flex(column);
     }
   }
 </style>
