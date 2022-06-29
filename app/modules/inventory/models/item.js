@@ -7,6 +7,7 @@ import Filterable from '#general/models/filterable'
 import error_ from '#lib/error'
 import saveOmitAttributes from '#lib/save_omit_attributes'
 import { transactionsDataFactory } from '../lib/transactions_data.js'
+import { getEntityLocalHref } from '#entities/lib/entities'
 
 export default Filterable.extend({
   initialize (attrs, options) {
@@ -24,7 +25,7 @@ export default Filterable.extend({
 
     this.setPathname()
 
-    this.entityPathname = app.request('get:entity:local:href', this.entityUri)
+    this.entityPathname = getEntityLocalHref(this.entityUri)
 
     if (attrs.shelves == null) this.set('shelves', [])
 

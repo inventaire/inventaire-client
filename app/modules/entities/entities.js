@@ -278,7 +278,6 @@ const setHandlers = function () {
   app.reqres.setHandlers({
     'get:entity:model': getEntityModel,
     'get:entities:models': getEntitiesModels,
-    'get:entity:local:href': getEntityLocalHref,
     'entity:exists:or:create:from:seed': existsOrCreateFromSeed
   })
 }
@@ -315,8 +314,6 @@ const getEntityModel = async (uri, refresh) => {
     throw err
   }
 }
-
-const getEntityLocalHref = uri => `/entity/${uri}`
 
 const showEntityEdit = async params => {
   const { model } = params

@@ -110,3 +110,5 @@ export function getWikidataUrl (uri) {
     return `https://www.wikidata.org/entity/${id}`
   }
 }
+
+export const getEntityLocalHref = uri => `/entity/${uri}`
