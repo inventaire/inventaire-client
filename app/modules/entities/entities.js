@@ -51,10 +51,10 @@ const API = {
 
     try {
       const model = await getEntityModel(uri)
-      let view = await getEntityViewByType(model, refresh)
-      const { component, props } = view
-      if (component) {
-        app.layout.showChildComponent('main', component, { props })
+      rejectRemovedPlaceholder(model)
+      const { view, Component, props } = await getEntityViewByType(model, refresh)
+      if (Component) {
+        app.layout.showChildComponent('main', Component, { props })
       } else if (view) {
         app.layout.showChildView('main', view)
       }
