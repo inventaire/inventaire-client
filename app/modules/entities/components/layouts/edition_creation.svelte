@@ -1,13 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import wdLang from 'wikidata-lang'
-  import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
   import { isNonEmptyString } from '#lib/boolean_tests'
-  import { getEntityPropValue } from '#entities/components/lib/claims_helpers'
-  import { buildPath } from '#lib/location'
-  import { createEditionFromWork } from '#entities/components/lib/create_edition_from_work.js'
-  import getFavoriteLabel from '#entities/lib/get_favorite_label'
-  import '#entities/scss/edition_creation.scss'
+  import { createEditionFromWork, validateEditionPossibility, addWithoutIsbnPath } from '#entities/components/lib/edition_creation_helpers'
   import { icon } from '#lib/utils'
   import Link from '#lib/components/link.svelte'
   import Flash from '#lib/components/flash.svelte'
@@ -21,7 +15,7 @@
 
   const isbnButton = async () => {
     flash = null
-    const flashErrMessage = validateEditionPossibility(userInput)
+    const flashErrMessage = validateEditionPossibility({ userInput, editions })
     if (isNonEmptyString(flashErrMessage)) {
       flash = {
         type: 'error',
@@ -40,44 +34,6 @@
     .then(newEdition => {
       editions = [ newEdition, ...editions ]
     })
-  }
-
-  const getNormalizedIsbn = edition => {
-    const isbn = getEntityPropValue(edition, 'wdt:P212')
-    if (isbn) return normalizeIsbn(isbn)
-  }
-
-  const validateEditionPossibility = userInput => {
-    if (!looksLikeAnIsbn(userInput)) return 'invalid isbn'
-    const isbn = normalizeIsbn(userInput)
-    if (editions.map(getNormalizedIsbn).includes(isbn)) {
-      return 'this edition is already in the list'
-    }
-  }
-
-  const addWithoutIsbnPath = function () {
-    if (!work) return {}
-    return buildPath('/entity/new', workEditionCreationData(work))
-  }
-
-  const workEditionCreationData = function () {
-    const data = {
-      type: 'edition',
-      claims: {
-        'wdt:P629': [ work.uri ]
-      }
-    }
-    const { lang } = app.user
-    const langWdId = wdLang.byCode[lang]?.wd
-    const langWdUri = (langWdId != null) ? `wd:${langWdId}` : undefined
-    // Suggest user's language as edition language
-    if (langWdUri) data.claims['wdt:P407'] = [ langWdUri ]
-
-    const favoriteLabel = getFavoriteLabel(work)
-    // Suggest work label in user's language as edition title
-    if (favoriteLabel) data.claims['wdt:P1476'] = [ favoriteLabel ]
-
-    return data
   }
 </script>
 <div class="wrapper">
@@ -110,7 +66,7 @@
     </div>
     <button id="withoutIsbn" class="tiny-button grey">
       <Link
-        url={addWithoutIsbnPath()}
+        url={addWithoutIsbnPath(work)}
         text={'add an edition without an ISBN'}
         icon='plus'
         light={true}
