@@ -177,3 +177,16 @@ export const infoboxPropsLists = {
     long: getWorkProperties(),
   }
 }
+
+export const formatYearClaim = (dateProp, claims) => {
+  const values = claims[dateProp]
+  return isNonEmptyArray(values) ? values.map(formatTime) : ''
+}
+
+const formatTime = value => timeClaim({ value, format: 'year' })
+
+export const formatEbooksClaim = (values, prop) => {
+  if (!values) return
+  // TODO: handle multiple values in a selector
+  return formatClaimValue({ prop, value: values[0] })
+}
