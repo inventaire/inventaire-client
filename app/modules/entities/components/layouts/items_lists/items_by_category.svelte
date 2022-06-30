@@ -6,10 +6,10 @@
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 
-  export let itemsByCategorie
+  export let itemsByCategory
   export let itemsOnMap
   export let headers
-  export let categorie
+  export let category
   export let displayCover
 
   const { customIcon, label, backgroundColor } = headers
@@ -37,7 +37,7 @@
   }
 
   const showItemsOnMap = () => {
-    itemsOnMap = itemsByCategorie
+    itemsOnMap = itemsByCategory
     dispatch('showItemsOnMap')
   }
 
@@ -47,9 +47,9 @@
     dispatch('showItemsOnMap')
   }
 
-  let emptyList = !isNonEmptyArray(itemsByCategorie)
+  let emptyList = !isNonEmptyArray(itemsByCategory)
 
-  $: itemsByCategorie.forEach(dispatchByTransaction)
+  $: itemsByCategory.forEach(dispatchByTransaction)
 
   $: {
     showItemOnMap(itemOnMap)
@@ -58,9 +58,9 @@
 
 <div style="background-color:{backgroundColor}" class="items-list">
   <div class="header">
-    <div class="categorie-title-wrapper">
+    <div class="category-title-wrapper">
       <h3
-        class="categorie-title"
+        class="category-title"
         class:emptyList
       >
         {@html icon(customIcon)}
@@ -68,7 +68,7 @@
       </h3>
     </div>
     {#if someItems}
-      {#if categorie !== 'personal'}
+      {#if category !== 'personal'}
         <button
           class="map-button"
           on:click={showItemsOnMap}
@@ -102,13 +102,13 @@
     overflow-y: auto;
     margin-top: 0.3em;
   }
-  .categorie-title{
+  .category-title{
     @include sans-serif;
     margin: 0;
     font-size: 1.1em;
     margin-right: 1em;
   }
-  .categorie-title-wrapper{
+  .category-title-wrapper{
     @include display-flex(row, center, flex-start);
     :global(.fa){
       color: $dark-grey;
