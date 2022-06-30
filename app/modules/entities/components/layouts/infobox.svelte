@@ -11,10 +11,10 @@
   } from '#entities/components/lib/claims_helpers'
 
   export let claims = {},
-    hasPropertiesShortlist,
     relatedEntities = {},
-    shortlistOnly,
-    entityType
+    entityType,
+    withShortlist,
+    shortlistOnly
 
   // Which parent/consumer params for which behavior:
   // - display shortlist, longlist and toggler             => withShortlist = true
@@ -30,7 +30,7 @@
   const propertiesLonglist = entityTypeClaimsLists.long
 
   let propertiesShortlist
-  if (hasPropertiesShortlist || shortlistOnly) propertiesShortlist = entityTypeClaimsLists.short
+  if (withShortlist || shortlistOnly) propertiesShortlist = entityTypeClaimsLists.short
 
   let displayedProperties = propertiesShortlist || propertiesLonglist
   let entityPropertiesShortlist, entityPropertiesLonglist
@@ -60,7 +60,7 @@
     if (displayedProperties) await getMissingEntities()
   })()
 
-  $: displayToggler = !shortlistOnly && hasPropertiesShortlist && entityPropertiesLonglist.length > longlistDisplayLimit
+  $: displayToggler = !shortlistOnly && withShortlist && entityPropertiesLonglist.length > longlistDisplayLimit
   $: {
     const claimsLonglist = _.pick(claims, propertiesLonglist)
     entityPropertiesLonglist = Object.keys(claimsLonglist)
@@ -70,7 +70,7 @@
     }
   }
   $: {
-    if (hasPropertiesShortlist) {
+    if (withShortlist) {
       if (showMore) {
         displayedProperties = entityPropertiesShortlist
       } else {
