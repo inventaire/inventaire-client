@@ -2,25 +2,14 @@
   import { I18n } from '#user/lib/i18n'
   import { isNonEmptyString, isNonEmptyPlainObject } from '#lib/boolean_tests'
   import Spinner from '#general/components/spinner.svelte'
-  import preq from '#lib/preq'
   import WrapToggler from '#components/wrap_toggler.svelte'
-  import sitelinks_ from '#lib/wikimedia/sitelinks'
   import Link from '#lib/components/link.svelte'
+  import { getWikipediaExtract } from '#entities/components/lib/wikipedia_extract_helpers'
   import EntityImage from '../entity_image.svelte'
 
   export let entity
 
-  const { uri, sitelinks, originalLang, image } = entity
-
-  async function getWikipediaExtract () {
-    if (!uri.startsWith('wd:') || !isNonEmptyPlainObject(sitelinks)) {
-      return {}
-    }
-    const userLang = app.user.lang
-
-    const { title } = sitelinks_.wikipedia(sitelinks, userLang, originalLang)
-    return preq.get(app.API.data.wikipediaExtract(userLang, title))
-  }
+  const { image } = entity
 
   let isWrapped = true
 
@@ -31,7 +20,7 @@
   // it will be forever, so dont display toggler
   $: displayToggler = extractElementHeight >= maxHeight
 </script>
-{#await getWikipediaExtract()}
+{#await getWikipediaExtract(entity)}
   <Spinner/>
 {:then res}
   <div class="wikipedia-extract-row">
