@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eu
+
 mkdir -p ./public/json ./vendor
 cp -r app/assets/* ./public
 
