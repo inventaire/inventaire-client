@@ -1,6 +1,5 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { icon } from '#lib/utils'
   import ItemsMap from '#map/components/items_map.svelte'
   import { I18n } from '#user/lib/i18n'
@@ -35,7 +34,6 @@
     showMap = true
   }
 
-  $: emptyList = !isNonEmptyArray(items)
   $: usersSize = _.compact(_.uniq(items.map(_.property('owner')))).length
   $: editionsUris && getItemsByCategories()
   $: displayCover = editionsUris?.length > 1
@@ -46,31 +44,29 @@
     <p class="loading">{I18n('fetching available books...')} <Spinner/></p>
   </div>
 {:else}
-  {#if !emptyList}
-    {#if showMap}
-      <div class='hide-map-wrapper'>
-        <button
-          on:click={() => showMap = false}
-          class="hide-map"
-        >
-          {I18n('hide map')}
-          {@html icon('close')}
-        </button>
-      </div>
-      <ItemsMap
-        docsToDisplay={items}
-        initialDocs={initialItems}
-        {initialBounds}
-      />
-    {/if}
-    <ItemsByCategories
-      {initialItems}
-      {displayCover}
-      bind:initialBounds
-      bind:itemsOnMap={items}
-      on:scrollToMap={scrollToMap}
+  {#if showMap}
+    <div class='hide-map-wrapper'>
+      <button
+        on:click={() => showMap = false}
+        class="hide-map"
+      >
+        {I18n('hide map')}
+        {@html icon('close')}
+      </button>
+    </div>
+    <ItemsMap
+      docsToDisplay={items}
+      initialDocs={initialItems}
+      {initialBounds}
     />
   {/if}
+  <ItemsByCategories
+    {initialItems}
+    {displayCover}
+    bind:initialBounds
+    bind:itemsOnMap={items}
+    on:scrollToMap={scrollToMap}
+  />
 {/if}
 
 <style lang="scss">
