@@ -3,7 +3,7 @@ import UserMarker from '../user_marker.svelte'
 import ItemMarker from '../item_marker.svelte'
 import * as L from 'leaflet'
 
-export const buildMarker = (doc, getFiltersValues, displayCover) => {
+export const buildMarker = (doc, getFiltersValues) => {
   const { position, markerType } = doc
   if (!position || !markerType) return
 
@@ -16,7 +16,7 @@ export const buildMarker = (doc, getFiltersValues, displayCover) => {
   const Marker = markerOptions.markerModel
   new Marker({
     target: iconWrapper,
-    props: { doc, displayCover }
+    props: { doc }
   })
   const icon = L.divIcon({
     html: iconWrapper,
@@ -68,3 +68,21 @@ export const buildMainUserMarker = () => {
   user.markerType = 'user'
   return buildMarker(user)
 }
+
+export const buildMarkers = (items, markers) => {
+  const getFiltersValues = doc => [ doc.transaction, doc.entity ]
+  for (let doc of items) {
+    if (notMainUserOwner(doc) && !markers.has(doc.id)) {
+      const marker = buildMarker(doc, getFiltersValues)
+      markers.set(doc.id, marker)
+    }
+  }
+  // add main user at initialisation, leave leaflet handle if marker is alredy created
+  if (app.user.loggedIn && app.user.get('position') && !markers.has(app.user.id)) {
+    markers.set(app.user.id, buildMainUserMarker())
+  }
+  return markers
+}
+
+const notMainUserOwner = doc => doc.owner !== app.user.id
+
