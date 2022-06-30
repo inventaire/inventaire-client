@@ -49,14 +49,14 @@
           {/if}
         {/each}
       </div>
-	    <button class="work-button tiny-button grey">
-	      <Link
-	        url={`/entity/${workUri}`}
-	        text={I18n('see_all_work_editions', { label: currentEdition.label })}
-	        light={true}
-	        escapeHtml={true}
-	      />
-	    </button>
+      <Link
+        url={`/entity/${workUri}`}
+        classNames="work-button"
+        text={I18n('see_all_work_editions', { label: currentEdition.label })}
+        grey={true}
+        tinyButton={true}
+        escapeHtml={true}
+      />
 	  </div>
 	{/if}
 {/await}
@@ -69,11 +69,13 @@
     max-width: 20em;
     padding: 0.5em;
     background-color: $off-white;
-  }
-  .work-button{
-    margin: 1em;
-    width: 15em;
-    padding: 0.5em;
+    :global(.work-button){
+      margin: 1em;
+      width: 15em;
+      padding: 0.5em;
+      text-align: center;
+      text-decoration: none;
+    }
   }
   .entities-list{
     @include display-flex(row, center, center);
