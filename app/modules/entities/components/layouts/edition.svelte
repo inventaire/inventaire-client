@@ -5,9 +5,10 @@
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
-  import OtherEditions from './other_editions.svelte'
   import EntityTitle from './entity_title.svelte'
+  import ItemsLists from './items_lists.svelte'
   import EditionActions from './edition_actions.svelte'
+  import OtherEditions from './other_editions.svelte'
 
   export let entity, works, standalone
 
@@ -58,6 +59,9 @@
         </div>
       </div>
     </div>
+    <div class="items-lists-wrapper">
+      <ItemsLists editionsUris={[ uri ]}/>
+    </div>
     <div class="bottom-section">
       <OtherEditions
         currentEdition={entity}
@@ -73,11 +77,12 @@
     width: 100%;
   }
   .top-section{
-    @include display-flex(row, center, space-between);
+    @include display-flex(row, flex-start, space-between);
     margin-bottom: 1em;
   }
-  .infobox{
-    margin-bottom: 1em;
+  .cover{
+    padding-right: 1em;
+    max-width: 12em;
   }
   .infobox-wrapper{
     @include display-flex(row, center, space-between);
@@ -85,9 +90,11 @@
   .info-wrapper{
     flex: 1;
   }
-  .cover{
-    padding-right: 1em;
-    max-width: 12em;
+  .infobox{
+    margin-bottom: 1em;
+  }
+  .items-lists-wrapper{
+    margin: 1em 0
   }
   .bottom-section{
     @include display-flex(column, center);

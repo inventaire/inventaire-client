@@ -47,11 +47,6 @@
   </div>
 {:else}
   {#if !emptyList}
-    <div class="loading-wrapper">
-      <h6 class="items-title">
-        {I18n('users with these editions')}
-      </h6>
-    </div>
     {#if showMap}
       <div class='hide-map-wrapper'>
         <button
