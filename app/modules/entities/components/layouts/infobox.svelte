@@ -5,10 +5,7 @@
   import ClaimInfobox from './claim_infobox.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import {
-    propertiesType,
-    infoboxPropsLists,
-  } from '#entities/components/lib/claims_helpers'
+  import { infoboxPropsLists } from '#entities/components/lib/claims_helpers'
 
   export let claims = {},
     relatedEntities = {},
@@ -90,7 +87,6 @@
             values={claims[prop]}
             {prop}
             entitiesByUris={relatedEntities}
-            propType={propertiesType[prop]}
           />
         {/if}
       {/each}
