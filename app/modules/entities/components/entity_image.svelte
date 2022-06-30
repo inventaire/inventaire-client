@@ -27,7 +27,12 @@
     }
   }
 
-  const altMessage = `${entity.type} image`
+  let altMessage
+  if (entity.type === 'edition') {
+    altMessage = `${entity.type} cover`
+  } else {
+    altMessage = `${entity.type} image`
+  }
 </script>
 
 <div class="entity-image">
