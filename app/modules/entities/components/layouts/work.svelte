@@ -134,7 +134,7 @@
     {#await editionsWithPublishers then}
       {#if someEditions}
         <div
-          class="editions-list"
+          class="users-editions-section"
           bind:this={editionsList}
         >
           <ItemsLists
@@ -172,8 +172,9 @@
     flex: 1 0 0;
     margin: 0 1em;
   }
-  .editions-list{
+  .users-editions-section{
     @include display-flex(column, center);
+    width:100%;
     margin: 1em 0;
   }
   .loading-wrapper{
