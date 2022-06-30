@@ -5,14 +5,14 @@ import platforms_ from '#lib/handlebars_helpers/platforms.js'
 import * as icons_ from '#lib/handlebars_helpers/icons.js'
 
 export const formatClaimValue = params => {
-  const { value, propType, prop } = params
+  const { value, prop } = params
+  const propType = propertiesType[prop]
   if (propType && claimFormats[propType]) {
     return claimFormats[propType](params)
   } else if (prop && propertiesType[prop]) {
     const type = propertiesType[prop]
     return claimFormats[type](params)
   } else {
-    // TODO: sanitize value ? (known types: String, Number)
     return value
   }
 }

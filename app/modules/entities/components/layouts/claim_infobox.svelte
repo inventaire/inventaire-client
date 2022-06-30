@@ -2,13 +2,14 @@
   import Link from '#lib/components/link.svelte'
   import { i18n } from '#user/lib/i18n'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
-  import { formatClaimValue } from '#entities/components/lib/claims_helpers'
+  import { propertiesType, formatClaimValue } from '#entities/components/lib/claims_helpers'
 
   export let prop,
-    propType,
     values,
     omitLabel = false,
     entitiesByUris
+
+  const propType = propertiesType[prop]
 
   let linkTitle = uri => `${i18n(prop)}: ${getBestLabel(entitiesByUris[uri])}`
 
@@ -33,11 +34,11 @@
         {:else if propType === 'urlClaim'}
           <Link
             url={value}
-            text={formatClaimValue({ prop, value, propType })}
+            text={formatClaimValue({ prop, value })}
             dark={true}
           />
         {:else}
-          {formatClaimValue({ prop, value, propType })}
+          {formatClaimValue({ prop, value })}
         {/if}
       </span>
     {/each}
