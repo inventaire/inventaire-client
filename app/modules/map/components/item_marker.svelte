@@ -4,7 +4,6 @@
   import { i18n } from '#user/lib/i18n'
 
   export let doc
-  export let displayCover
 
   const { transaction, userPicture, username, cover, id, title } = doc
 
@@ -30,9 +29,7 @@
   href={pathname}
   title={findBestTitle()}
 >
-  {#if displayCover}
-    <img src={imgSrc(cover, 64)} alt={findBestTitle()}>
-  {/if}
+  <img src={imgSrc(cover, 64)} alt={findBestTitle()}>
   {#if userPicture}
     <div class="right">
       <img src={imgSrc(userPicture, 64)} alt={username}>

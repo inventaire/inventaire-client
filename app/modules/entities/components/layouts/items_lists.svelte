@@ -66,7 +66,6 @@
         docsToDisplay={items}
         initialDocs={initialItems}
         {initialBounds}
-        {displayCover}
       />
     {/if}
     <ItemsByCategories
