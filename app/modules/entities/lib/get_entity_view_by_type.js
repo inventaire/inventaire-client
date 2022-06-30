@@ -12,8 +12,7 @@ export default async function getEntityViewByType (model, refresh) {
   const getter = entityViewSpecialGetterByType[type]
   if (getter != null) return getter(entity, refresh)
 
-  let View
-  let Component
+  let View, Component
   if (type === 'human') {
     ({ default: View } = await import('../views/author_layout'))
   } else if (type === 'serie') {
@@ -30,7 +29,7 @@ export default async function getEntityViewByType (model, refresh) {
 
   if (Component != null) {
     return {
-      component: Component,
+      Component,
       props: {
         entity,
         standalone
@@ -38,23 +37,25 @@ export default async function getEntityViewByType (model, refresh) {
     }
   }
   if (View != null) {
-    return new View({ model, refresh, standalone, displayMergeSuggestions })
+    const view = new View({ model, refresh, standalone, displayMergeSuggestions })
+    return { view }
   }
 
   let { defaultClaimProperty: property } = model
   const value = model.get('uri')
   if (!property) property = 'wdt:P921'
   const { default: ClaimLayout } = await import('../views/claim_layout')
-  return new ClaimLayout({ property, value, refresh })
+  const view = new ClaimLayout({ property, value, refresh })
+  return { view }
 }
 
-const getEditionView = async (entity, refresh) => {
+const getEditionComponent = async (entity, refresh) => {
   const [ { default: EditionLayout }, works ] = await Promise.all([
     import('#entities/components/layouts/edition.svelte'),
     getEditionWorks(entity, refresh)
   ])
   return {
-    component: EditionLayout,
+    Component: EditionLayout,
     props: {
       entity,
       works,
@@ -81,5 +82,5 @@ const getEditionWorks = async (entity, refresh) => {
 }
 
 const entityViewSpecialGetterByType = {
-  edition: getEditionView
+  edition: getEditionComponent
 }
