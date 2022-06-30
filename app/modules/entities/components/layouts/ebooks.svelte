@@ -1,5 +1,5 @@
 <script>
-  import { formatClaimValue } from '#entities/components/lib/claims_helpers'
+  import { formatEbooksClaim } from '#entities/components/lib/claims_helpers'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { I18n, i18n } from '#user/lib/i18n'
   import Link from '#lib/components/link.svelte'
@@ -12,10 +12,7 @@
   let ebooksData = []
 
   const formatAndAssignEbooks = prop => {
-    const values = claims[prop]
-    if (!values) return
-    // TODO: handle multiple values in a selector
-    const valueData = formatClaimValue({ prop, value: values[0] })
+    const valueData = formatEbooksClaim(claims[prop], prop)
     if (valueData) ebooksData = [ ...ebooksData, valueData ]
   }
 

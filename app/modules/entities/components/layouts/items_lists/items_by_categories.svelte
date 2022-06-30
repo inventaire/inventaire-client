@@ -1,6 +1,6 @@
 <script>
   import ItemsByCategory from './items_by_category.svelte'
-  import { sortItemsByCategorieAndDistance } from './items_lists'
+  import { sortItemsByCategorieAndDistance } from './items_lists_helpers'
   import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let initialItems
@@ -48,8 +48,6 @@
   }
 
   $: initialItems && updateItems()
-  // Todo: add circle user position
-  // Add the main user to the list to make sure the map shows their position
 </script>
 <div class="items-lists">
   {#each Object.keys(categoriesHeaders) as category}

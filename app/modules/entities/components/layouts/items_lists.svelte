@@ -4,7 +4,7 @@
   import ItemsMap from '#map/components/items_map.svelte'
   import { I18n } from '#user/lib/i18n'
   import ItemsByCategories from './items_lists/items_by_categories.svelte'
-  import { getItemsData } from './items_lists/items_lists'
+  import { getItemsData } from './items_lists/items_lists_helpers'
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 

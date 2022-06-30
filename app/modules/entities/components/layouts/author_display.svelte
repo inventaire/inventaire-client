@@ -1,8 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { isOpenedOutside } from '#lib/utils'
-  import { timeClaim } from '#entities/components/lib/claims_helpers'
+  import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import Link from '#lib/components/link.svelte'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
@@ -12,11 +11,6 @@
   const { labels, claims, uri, image } = entityData
   const label = getBestLangValue(app.user.lang, null, labels).value
 
-  const formatYearClaim = dateProp => {
-    const values = claims[dateProp]
-    return isNonEmptyArray(values) ? values.map(formatTime) : ''
-  }
-  const formatTime = value => timeClaim({ value, format: 'year' })
   const url = `/entity/${uri}`
 
   const showLink = e => {
@@ -48,11 +42,11 @@
     {/if}
     {#if birthOrDeathDates}
       <span title={i18n('wdt:P569')}>
-        {formatYearClaim('wdt:P569')}
+        {formatYearClaim('wdt:P569', claims)}
       </span>
        -
       <span title={i18n('wdt:P570')}>
-        {formatYearClaim('wdt:P570')}
+        {formatYearClaim('wdt:P570', claims)}
       </span>
     {/if}
   </div>
