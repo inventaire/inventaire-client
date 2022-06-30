@@ -13,14 +13,24 @@
   export let claims = {},
     hasPropertiesShortlist,
     relatedEntities = {},
-    compactView,
+    shortlistOnly,
     entityType
+
+  // Which parent/consumer params for which behavior:
+  // - display shortlist, longlist and toggler             => withShortlist = true
+  // - display only longlists (no shortlist, no toggler)   => withShortlist = false
+  // - display only shortlist (no longlist, no toggler)    => shortlistOnly = true
+
+  // When longlist length is below longlistDisplayLimit, dont display shortlist
+
+  let showMore = true
+  let longlistDisplayLimit = 4
 
   const entityTypeClaimsLists = infoboxPropsLists[entityType]
   const propertiesLonglist = entityTypeClaimsLists.long
 
   let propertiesShortlist
-  if (hasPropertiesShortlist) propertiesShortlist = entityTypeClaimsLists.short
+  if (hasPropertiesShortlist || shortlistOnly) propertiesShortlist = entityTypeClaimsLists.short
 
   let displayedProperties = propertiesShortlist || propertiesLonglist
   let entityPropertiesShortlist, entityPropertiesLonglist
@@ -46,12 +56,11 @@
       relatedEntities = { ...relatedEntities, ...entities }
     }
   }
-
   $: (async () => {
     if (displayedProperties) await getMissingEntities()
   })()
 
-  let showMore = true
+  $: displayToggler = !shortlistOnly && hasPropertiesShortlist && entityPropertiesLonglist.length > longlistDisplayLimit
   $: {
     const claimsLonglist = _.pick(claims, propertiesLonglist)
     entityPropertiesLonglist = Object.keys(claimsLonglist)
@@ -86,12 +95,11 @@
         {/if}
       {/each}
     </div>
-    {#if hasPropertiesShortlist && entityPropertiesLonglist.length > 2}
+    {#if displayToggler}
       <WrapToggler
         bind:show={showMore}
         moreText={I18n('more details')}
         lessText={I18n('less details')}
-        withIcon={!compactView}
       />
     {/if}
   {/await}
