@@ -6,10 +6,10 @@
   import SimpleMap from '#map/components/simple_map.svelte'
   import map_ from '#map/lib/map'
   import { I18n } from '#user/lib/i18n'
-  import { buildMainUserMarker, buildMarker, getBounds } from './lib/map'
+  import { buildMarkers, getBounds } from './lib/map'
 
   export let docsToDisplay = []
-  export let initialDocs, displayCover
+  export let initialDocs
 
   let allEditionsFilters, editionsFiltersData, selectedFilters, bounds
   let selectedTransactionFilters = []
@@ -23,22 +23,6 @@
   const syncDocValues = () => {
     bounds = getBounds(docsToDisplay)
     idsToDisplay = docsToDisplay.map(_.property('id'))
-  }
-  const notMainUserOwner = doc => doc.owner !== app.user.id
-
-  const buildMarkers = (items, markers) => {
-    const getFiltersValues = doc => [ doc.transaction, doc.entity ]
-    for (let doc of items) {
-      if (notMainUserOwner(doc) && !markers.has(doc.id)) {
-        const marker = buildMarker(doc, getFiltersValues, displayCover)
-        markers.set(doc.id, marker)
-      }
-    }
-    // add main user at initialisation, leave leaflet handle if marker is alredy created
-    if (app.user.loggedIn && app.user.get('position') && !markers.has(app.user.id)) {
-      markers.set(app.user.id, buildMainUserMarker())
-    }
-    return markers
   }
 
   const resetDocsToDisplay = () => docsToDisplay = initialDocs
