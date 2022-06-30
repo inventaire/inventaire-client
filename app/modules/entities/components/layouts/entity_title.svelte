@@ -1,23 +1,20 @@
 <script>
   import Link from '#lib/components/link.svelte'
-  import getFavoriteLabel from '#entities/lib/get_favorite_label'
 
   export let entity
   export let standalone = true
 
-  const { uri, claims } = entity
+  const { uri, claims, label } = entity
 
-  const subtitle = claims['wdt:P1680']
-
-  $: favoriteLabel = getFavoriteLabel(entity)
+  $: subtitle = claims['wdt:P1680']
 </script>
 <h2>
   {#if standalone}
-    {favoriteLabel}
+    {label}
   {:else}
     <Link
       url={`/entity/${uri}`}
-      text={favoriteLabel}
+      text={label}
       dark={true}
     />
   {/if}
