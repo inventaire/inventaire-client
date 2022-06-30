@@ -4,7 +4,7 @@
   import { I18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities'
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
-  import { authorsProps } from '#entities/components/lib/claims_helpers'
+  import { getPublishersUrisFromEditions, removeAuthorsClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
@@ -41,29 +41,10 @@
   }
 
   let editionsWithPublishers = getEditionsWithPublishers()
-  const getPublishersUrisFromEditions = editions => {
-    return _.uniq(_.compact(_.flatten(editions.map(edition => {
-      return findFirstClaimValue(edition, 'wdt:P123')
-    }))))
-  }
-
-  const findFirstClaimValue = (entity, prop) => {
-    const values = entity?.claims[prop]
-    if (!values || !values[0]) return
-    return values[0]
-  }
 
   let editionsList, windowScrollY
   const scrollToItemsList = () => {
     if (editionsList) { windowScrollY = editionsList.offsetTop }
-  }
-
-  const removeAuthorsClaims = claims => {
-    const infoboxClaims = _.clone(claims)
-    authorsProps.forEach(prop => {
-      if (claims[prop]) delete infoboxClaims[prop]
-    })
-    return infoboxClaims
   }
 
   $: claims = entity.claims
