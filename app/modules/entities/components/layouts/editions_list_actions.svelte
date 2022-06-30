@@ -4,8 +4,7 @@
   import Dropdown from '#components/dropdown.svelte'
   import { icon } from '#lib/utils'
   import { getLang, hasSelectedLang } from '#entities/components/lib/claims_helpers'
-  import wdLang from 'wikidata-lang'
-  import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+  import { fetchLangEntities, getWdUri, prioritizeMainUserLang } from '#entities/components/lib/editions_list_actions_helpers'
 
   export let editions,
     someInitialEditions,
@@ -16,31 +15,13 @@
   let userLang = app.user.lang
   let selectedLang = userLang
 
-  const getWdUri = lang => {
-    const langWdId = wdLang.byCode[lang]?.wd
-    if (langWdId) return `wd:${langWdId}`
-  }
-
-  const prioritizeMainUserLang = langs => {
-    if (langs.includes(userLang)) {
-      const userLangIndex = langs.indexOf(userLang)
-      langs.splice(userLangIndex, 1)
-      langs.unshift(userLang)
-    }
-    return langs
-  }
-
   const waitingForEntities = getLangEntities()
 
   async function getLangEntities () {
     let rawEditionsLangs = _.compact(_.uniq(initialEditions.map(getLang)))
     editionsLangs = prioritizeMainUserLang(rawEditionsLangs)
     const langsUris = _.compact(editionsLangs.map(getWdUri))
-    const { entities } = await getEntitiesAttributesByUris({
-      uris: langsUris,
-      attributes: [ 'labels' ],
-      lang: app.user.lang
-    })
+    const entities = await fetchLangEntities(langsUris)
     editionsLangs.forEach(lang => {
       const langWdId = getWdUri(lang)
       if (langWdId) langEntitiesLabel[lang] = entities[langWdId]
