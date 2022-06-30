@@ -6,13 +6,13 @@
   // type is optional
   export let type, entities, relatedEntities, parentEntity
 
-  let showMore = false
+  let showMore = true
   let shownEntities = entities
   let showLessSize = 4
 
   $: {
-    if (showMore) shownEntities = entities
-    else shownEntities = entities.slice(0, showLessSize)
+    if (showMore) shownEntities = entities.slice(0, showLessSize)
+    else shownEntities = entities
   }
 </script>
 <div  class="entities-list">
@@ -31,6 +31,7 @@
       bind:show={showMore}
       moreText={I18n(`see more ${type}`)}
       lessText={I18n(`see less ${type}`)}
+      remainingCounter={entities.length - shownEntities.length}
     />
   </div>
 {/if}
@@ -41,7 +42,6 @@
     width: 100%;
   }
   .toggler-wrapper{
-    @include display-flex(column, center, flex-start);
     padding: 0.3em;
   }
 </style>

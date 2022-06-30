@@ -4,7 +4,8 @@
     moreText,
     lessText,
     scrollTopElement,
-    withIcon = true
+    withIcon = true,
+    remainingCounter = 0
 
   function toggle () {
     show = !show
@@ -24,6 +25,9 @@
         {@html icon('chevron-down')}
       {/if}
       {moreText}
+      {#if remainingCounter > 0}
+        ({remainingCounter})
+      {/if}
     </button>
   {/if}
 {:else}

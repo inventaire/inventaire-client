@@ -63,13 +63,13 @@
         <Infobox
           claims={entity.claims}
           {relatedEntities}
-          hasPropertiesShortlist=true
+          shortlistOnly={true}
           entityType={entity.type}
         />
       </div>
     {/if}
   </div>
-  <!-- keep action button on top (.entity-list flex-direction) to display dropdown later  -->
+  <!-- keep action button on top (.entity-list flex-direction) to display dropdown  -->
   {#if actionType}
     <svelte:component
       this={buttonActionsComponentsByType[entity.type][actionType]}
