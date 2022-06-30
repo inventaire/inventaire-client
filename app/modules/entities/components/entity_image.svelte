@@ -2,14 +2,13 @@
   import { i18n } from '#user/lib/i18n'
   import { isOpenedOutside } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import getFavoriteLabel from '#entities/lib/get_favorite_label'
   import Link from '#lib/components/link.svelte'
 
   export let entity,
     size = 300,
     withLink = false
 
-  const { image, uri } = entity
+  const { image, uri, label } = entity
 
   let creditsUrl, creditsText
 
@@ -39,13 +38,13 @@
     >
       <img
         src={imgSrc(image.url, size)}
-        alt="{i18n(altMessage)} - {getFavoriteLabel(entity)}"
+        alt="{i18n(altMessage)} - {label}"
       >
     </a>
   {:else}
     <img
       src={imgSrc(image.url, size)}
-      alt="{i18n(altMessage)} - {getFavoriteLabel(entity)}"
+      alt="{i18n(altMessage)} - {label}"
     >
   {/if}
   {#if creditsText}
