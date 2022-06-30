@@ -1,5 +1,5 @@
 <script>
-  import ItemsByCategorie from './items_by_categorie.svelte'
+  import ItemsByCategory from './items_by_category.svelte'
   import { sortItemsByCategorieAndDistance } from './items_lists'
   import { isNonEmptyArray } from '#lib/boolean_tests'
 
@@ -52,12 +52,12 @@
   // Add the main user to the list to make sure the map shows their position
 </script>
 <div class="items-lists">
-  {#each Object.keys(categoriesHeaders) as categorie}
-    <ItemsByCategorie
-      {categorie}
+  {#each Object.keys(categoriesHeaders) as category}
+    <ItemsByCategory
+      {category}
       {displayCover}
-      headers={categoriesHeaders[categorie]}
-      itemsByCategorie={itemsByCategories[categorie]}
+      headers={categoriesHeaders[category]}
+      itemsByCategory={itemsByCategories[category]}
       bind:itemsOnMap
       on:showItemsOnMap={showItemsOnMap}
     />
