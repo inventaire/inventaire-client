@@ -1,5 +1,6 @@
 <script>
   import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { isFilterSelected } from './lib/map'
   import isMobile from '#lib/mobile_check'
   import mapConfig from '#map/lib/config.js'
 
@@ -36,18 +37,11 @@
       // never remove main user
       return
     }
-    if (isFilterSelected(marker) && idsToDisplay.includes(docId)) {
+    if (isFilterSelected(marker, selectedFilters) && idsToDisplay.includes(docId)) {
       markersLayer.addLayer(marker)
     } else {
       markersLayer.removeLayer(marker)
     }
-  }
-
-  const isFilterSelected = marker => {
-    if (!selectedFilters) return true
-    const filtersValues = marker.options.filters
-    const markerSelectedFilters = _.intersection(filtersValues, selectedFilters)
-    return _.isEqual(markerSelectedFilters, filtersValues)
   }
 
   const reset = () => {
