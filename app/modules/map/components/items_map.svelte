@@ -14,8 +14,8 @@
   let allEditionsFilters, editionsFiltersData, selectedFilters, bounds
   let selectedTransactionFilters = []
   let selectedEditionFilters = []
-  let transactionFiltersData = transactionsData
   let allTransactionFilters = []
+  let transactionFiltersData = {}
   let idsToDisplay = []
   let markers = new Map()
 
@@ -46,11 +46,12 @@
   const setMap = async items => {
     allEditionsFilters = []
 
-    editionsFiltersData = items.reduce((filtersData, item) => ({ ...filtersData, [item.entity]: item }), {})
-
     if (isNonEmptyArray(items)) {
       allEditionsFilters = _.uniq(items.map(_.property('entity')))
+      allTransactionFilters = _.uniq(items.map(_.property('transaction')))
     }
+    editionsFiltersData = items.reduce((filtersData, item) => ({ ...filtersData, [item.entity]: item }), {})
+    transactionFiltersData = _.pick(transactionsData, allTransactionFilters)
     selectedEditionFilters = allEditionsFilters
     selectedTransactionFilters = allTransactionFilters
     buildMarkers(items, markers)
@@ -77,12 +78,14 @@
       bind:selectedFilters
       {idsToDisplay}
     />
-    <MapFilters
-      type='transaction'
-      bind:selectedFilters={selectedTransactionFilters}
-      filtersData={transactionFiltersData}
-      bind:allFilters={allTransactionFilters}
-    />
+    {#if allTransactionFilters.length > 1}
+      <MapFilters
+        type='transaction'
+        bind:selectedFilters={selectedTransactionFilters}
+        filtersData={transactionFiltersData}
+        bind:allFilters={allTransactionFilters}
+      />
+    {/if}
     {#if allEditionsFilters.length > 1}
       <MapFilters
         type='editions'
@@ -104,8 +107,7 @@
   @import '#general/scss/utils';
   .items-map{
     position: relative;
-    // z-index known cases: editions lang dropdown
-    z-index:0;
+    width:100%
   }
   .show-all-wrapper{
     @include display-flex(column, flex-end);
