@@ -181,6 +181,7 @@
   }
   .editions-section-wrapper{
     flex: 1;
+    max-width: 40em;
     &.no-edition{
       flex: 0.4;
     }
