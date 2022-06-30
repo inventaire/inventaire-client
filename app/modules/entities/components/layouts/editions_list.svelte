@@ -1,6 +1,5 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { getLang, hasSelectedLang } from '#entities/components/lib/claims_helpers'
   import EditionsListActions from './editions_list_actions.svelte'
   import EntitiesList from './entities_list.svelte'
   import EditionCreation from './edition_creation.svelte'
@@ -11,34 +10,6 @@
     publishersByUris,
     parentEntity,
     initialEditions
-
-  let userLang = app.user.lang
-  let selectedLangs = [ userLang ]
-  let editionsLangs
-
-  const filterEditionByLang = _ => {
-    if (selectedLangs.length === editionsLangs.length) {
-      return editions = initialEditions
-    }
-    editions = initialEditions.filter(hasSelectedLang(selectedLangs))
-  }
-
-  const prioritizeMainUserLang = langs => {
-    if (langs.includes(userLang)) {
-      const userLangIndex = langs.indexOf(userLang)
-      langs.splice(userLangIndex, 1)
-      langs.unshift(userLang)
-    }
-    return langs
-  }
-
-  $: {
-    if (initialEditions) {
-      let rawEditionsLangs = _.compact(_.uniq(initialEditions.map(getLang)))
-      editionsLangs = prioritizeMainUserLang(rawEditionsLangs)
-    }
-  }
-  $: selectedLangs && filterEditionByLang(initialEditions)
 </script>
 <div class="editions-section">
   <div class="editions-list-title">
@@ -47,8 +18,8 @@
     </h5>
   </div>
   <EditionsListActions
-    bind:selectedLangs={selectedLangs}
-    bind:editionsLangs={editionsLangs}
+    bind:editions={editions}
+    {initialEditions}
     {someInitialEditions}
     {someEditions}
   />
@@ -83,6 +54,7 @@
     @include display-flex(row, center, center);
     h5{
       @include sans-serif;
+      margin-bottom: 0;
     }
   }
   .no-edition-wrapper{
