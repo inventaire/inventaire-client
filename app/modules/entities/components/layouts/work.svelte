@@ -27,6 +27,7 @@
   const userLang = app.user.lang
   let publishersByUris
   let usersSize = 0
+  let itemsByEditions = {}
 
   const getEditionsWithPublishers = async () => {
     initialEditions = await getSubEntities('work', uri)
@@ -108,6 +109,7 @@
             parentEntity={entity}
             {initialEditions}
             bind:editions={editions}
+            bind:itemsByEditions={itemsByEditions}
           />
         {/await}
       </div>
@@ -123,6 +125,7 @@
             bind:showMap={showMap}
             bind:usersSize={usersSize}
             on:scrollToItemsList={scrollToItemsList}
+            bind:itemsByEditions={itemsByEditions}
           />
         </div>
       {/if}

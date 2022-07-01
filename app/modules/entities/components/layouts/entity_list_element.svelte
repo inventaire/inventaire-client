@@ -16,7 +16,7 @@
 
   let flash
 
-  let { claims, label } = entity
+  let { claims, label, uri } = entity
 
   const subtitle = claims['wdt:P1680']
   const infoboxClaims = claims
@@ -35,61 +35,57 @@
     }
   }
 </script>
-<div class="entity-list">
-  {#if isNonEmptyPlainObject(entity.image)}
-    <div class="cover">
-      <EntityImage
-        entity={entity}
-        withLink=true
-        size={128}
-      />
-    </div>
-  {/if}
-  <div class="entity-info-line">
-    <div class="entity-title">
-      <Link
-        url={`/entity/${entity.uri}`}
-        text={label}
-        dark=true
-      />
-      {#if subtitle}
-        <div class="subtitle">
-          {subtitle}
-        </div>
-      {/if}
-    </div>
-    {#if showInfobox}
-      <div class="entity-details">
-        <Infobox
-          claims={entity.claims}
-          {relatedEntities}
-          shortlistOnly={true}
-          entityType={entity.type}
-        />
+{#if isNonEmptyPlainObject(entity.image)}
+  <div class="cover">
+    <EntityImage
+      entity={entity}
+      withLink=true
+      size={128}
+    />
+  </div>
+{/if}
+<div class="entity-info-line">
+  <div class="entity-title">
+    <Link
+      url={`/entity/${uri}`}
+      text={label}
+      dark=true
+    />
+    {#if subtitle}
+      <div class="subtitle">
+        {subtitle}
       </div>
     {/if}
   </div>
-  <!-- keep action button on top (.entity-list flex-direction) to display dropdown  -->
-  {#if actionType}
-    <svelte:component
-      this={buttonActionsComponentsByType[entity.type][actionType]}
-      {entity}
-      {parentEntity}
-      bind:flash={flash}
-    />
+  {#if showInfobox}
+    <div class="entity-details">
+      <Infobox
+        claims={entity.claims}
+        {relatedEntities}
+        shortlistOnly={true}
+        entityType={entity.type}
+      />
+    </div>
   {/if}
 </div>
-<div class="flash">
-  <Flash bind:state={flash}/>
-</div>
+{#if actionType}
+  <div class="actions-menu">
+    <!-- keep action button on top (.entity-list flex-direction) to display dropdown  -->
+    {#if actionType}
+      <svelte:component
+        this={buttonActionsComponentsByType[entity.type][actionType]}
+        {entity}
+        {parentEntity}
+        bind:flash={flash}
+      />
+    {/if}
+  </div>
+  <div class="flash">
+    <Flash bind:state={flash}/>
+  </div>
+{/if}
 <style lang="scss">
   @import '#general/scss/utils';
-  .entity-list{
-    @include display-flex(row, flex-start, space-between);
-    border-top: 1px solid #ddd;
-    padding: 0.3em 0;
-    margin-top: 1em;
-  }
   .entity-title{
     font-size:1.1em;
   }
@@ -105,7 +101,9 @@
     max-width: 30em;
     margin: 0 1em;
   }
-
+  .actions-menu{
+    @include display-flex(column);
+  }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     .cover{
