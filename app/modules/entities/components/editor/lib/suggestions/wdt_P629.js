@@ -5,9 +5,6 @@ export default async function ({ entity }) {
   let worksUris = entity.claims['wdt:P629']
   if (worksUris == null) return
   worksUris = worksUris.filter(isNonEmptyClaimValue)
-  // At least 2 works are needed as suggestions rely on intersections
-  if (worksUris.length < 2) return
-
   const works = await app.request('get:entities:models', { uris: worksUris })
   const data = works.reduce(aggregate, { authors: [], series: [] })
   const commonAuthors = _.intersection(...data.authors)
