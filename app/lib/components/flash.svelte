@@ -34,8 +34,8 @@
         {state.message || I18n('loading')}
       {:else}
         {#if iconName}{@html icon(iconName)}{/if}
-        {#if state.escapeHtml}
-          {@html state.message}
+        {#if state.html}
+          {@html state.html}
         {:else}
           {state.message}
         {/if}

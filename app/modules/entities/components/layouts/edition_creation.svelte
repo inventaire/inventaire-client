@@ -28,7 +28,6 @@
       userInput,
     })
     .catch(err => {
-      err.escapeHtml = true
       flash = err
     })
     .then(newEdition => {

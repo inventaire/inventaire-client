@@ -36,7 +36,8 @@ const formatDuplicateWorkErr = function (err, isbn) {
   const alreadyExist = i18n('this ISBN already exist:')
   const link = `<a href='/entity/isbn:${normalizedIsbn}' class='showEntity'>${normalizedIsbn}</a>`
   const reported = i18n('the issue was reported')
-  err.message = `${alreadyExist} ${link} (${reported})`
+  err.html = `${alreadyExist} ${link} (${reported})`
+  err.message = alreadyExist
 }
 
 export const validateEditionPossibility = ({ userInput, editions }) => {

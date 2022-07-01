@@ -52,10 +52,9 @@
       <Link
         url={`/entity/${workUri}`}
         classNames="work-button"
-        text={I18n('see_all_work_editions', { label: currentEdition.label })}
+        html={I18n('see_all_work_editions', { label: currentEdition.label })}
         grey={true}
         tinyButton={true}
-        escapeHtml={true}
       />
 	  </div>
 	{/if}
