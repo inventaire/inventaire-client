@@ -28,8 +28,7 @@
     {#each ebooksData as value}
       <Link
         url={value.url}
-        text={value.text}
-        escapeHtml={true}
+        html={value.text}
       />
     {/each}
     {#if wikisourceLink}

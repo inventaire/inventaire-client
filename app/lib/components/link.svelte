@@ -2,7 +2,7 @@
   import { isOpenedOutside } from '#lib/utils'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
 
-  export let url, text, icon = null, title = '', light = false, dark = false, grey = false, escapeHtml, classNames, tinyButton = false
+  export let url, text, html, icon = null, title = '', light = false, dark = false, grey = false, classNames, tinyButton = false
 
   const isExternalLink = url?.[0] !== '/'
   let target, rel
@@ -33,8 +33,8 @@
   on:click={onClick}
   >
   {#if icon}{@html iconFn(icon)}{/if}
-  {#if escapeHtml}
-    {@html text}
+  {#if html}
+    {@html html}
   {:else}
     {text}
   {/if}
