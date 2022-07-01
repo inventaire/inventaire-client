@@ -1,7 +1,5 @@
 <script>
-  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { aggregateWorksClaims, infoboxPropsLists } from '#entities/components/lib/claims_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
@@ -9,19 +7,12 @@
   import ItemsLists from './items_lists.svelte'
   import EditionActions from './edition_actions.svelte'
   import OtherEditions from './other_editions.svelte'
+  import { addWorksClaims, filterClaims } from '#entities/components/lib/edition_layout_helpers'
 
   export let entity, works, standalone
 
   const { uri, image, label } = entity
   let { claims } = entity
-
-  const addWorksClaims = (claims, works) => {
-    const worksClaims = aggregateWorksClaims(works)
-    const nonEmptyWorksClaims = _.pick(worksClaims, isNonEmptyArray)
-    return Object.assign(claims, nonEmptyWorksClaims)
-  }
-
-  const filterClaims = (_, key) => infoboxPropsLists.edition.long.includes(key)
 
   const claimsWithWorksClaims = _.pick(claims, filterClaims)
 
