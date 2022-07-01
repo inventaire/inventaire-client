@@ -9,7 +9,8 @@
     editions,
     publishersByUris,
     parentEntity,
-    initialEditions
+    initialEditions,
+    itemsByEditions
 </script>
 <div class="editions-section">
   <div class="editions-list-title">
@@ -29,6 +30,7 @@
       relatedEntities={publishersByUris}
       {parentEntity}
       type='editions'
+      itemsByEditions={itemsByEditions}
     />
   {:else}
     <div class="no-edition-wrapper">
