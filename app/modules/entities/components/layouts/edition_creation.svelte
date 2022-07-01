@@ -6,6 +6,8 @@
   import Link from '#lib/components/link.svelte'
   import Flash from '#lib/components/flash.svelte'
   import error_ from '#lib/error'
+  import { autofocus } from '#lib/components/actions/autofocus'
+  import getActionKey from '#lib/get_action_key'
 
   export let work, editions
 
@@ -34,6 +36,11 @@
       editions = [ newEdition, ...editions ]
     })
   }
+
+  function onInputKeyup (e) {
+    const key = getActionKey(e)
+    if (key === 'esc') showForm = false
+  }
 </script>
 <div class="wrapper">
 <div class="edition-creation-svelte">
@@ -50,7 +57,9 @@
             class="has-alertbox enterClick"
             bind:value={userInput}
             placeholder="ex: 2070368228"
+            on:keyup={onInputKeyup}
             aria-label="isbn"
+            use:autofocus
           >
         </div>
         <button
