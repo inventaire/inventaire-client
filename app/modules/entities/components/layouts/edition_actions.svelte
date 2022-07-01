@@ -1,10 +1,10 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { isOpenedOutside } from '#lib/utils'
   import Link from '#lib/components/link.svelte'
   import { getCounterText } from '#entities/components/lib/edition_action_helpers'
+  import { icon, loadInternalLink } from '#lib/utils'
 
-  export let entity, itemsByEditions
+  export let entity, itemsByEditions = {}
 
   const { uri, _id } = entity
   const url = `/entity/${uri}/add`
@@ -12,27 +12,19 @@
   // will break with #182 (remove edition from quarantine)
   const editionUri = `inv:${_id}`
 
-  function onClick (e) {
-    e.stopPropagation()
-    if (!(isOpenedOutside(e))) {
-      app.navigateAndLoad(url)
-      e.preventDefault()
-    }
-  }
   $: editionItems = itemsByEditions[editionUri]
 </script>
-<button
-  class="add action-button tiny-button"
-  on:click={onClick}
->
-  <Link
-    {url}
-    text={i18n('add to inventory')}
-    light={true}
-    icon='plus'
-  />
-</button>
-{#if editionItems}
+
+<a
+  href={url}
+  on:click={loadInternalLink}
+  class="action-button tiny-button"
+  >
+  {@html icon('plus') }
+  {i18n('add to inventory')}
+</a>
+
+{#if itemsByEditions[uri]}
   <div class="link-wrapper">
     <!-- insert itemsLists deeplink -->
     <Link

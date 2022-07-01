@@ -1,6 +1,6 @@
 <script>
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon, isOpenedOutside } from '#lib/utils'
+  import { icon, loadInternalLink } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
 
@@ -24,24 +24,15 @@
   const notOwner = owner !== app.user.id
   const url = `/items/${id}`
 
-  const showItem = e => {
-    e.stopPropagation()
-    if (!isOpenedOutside(e)) {
-      // TODO: on item modal close, it should navigate back to entity page
-      app.navigateAndLoad(url)
-      e.preventDefault()
-    }
-  }
-
   const showItemOnMap = () => dispatch('showItemOnMap')
 </script>
-<div
-  class="show-item"
-  on:click={showItem}
->
+
+<div class="show-item">
+  <!-- TODO: on item modal close, it should navigate back to entity page -->
   <a
     class="items-link"
     href={url}
+    on:click={loadInternalLink}
     title={i18n(`${transaction}_personalized`, { username })}
   >
     {#if displayCover}
@@ -83,6 +74,7 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .items-link{
+    display: block;
     @include display-flex(row, center, flex-start);
     @include bg-hover(white, 10%);
     @include radius;

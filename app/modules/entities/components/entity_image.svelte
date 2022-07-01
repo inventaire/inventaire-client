@@ -1,6 +1,6 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { isOpenedOutside } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import Link from '#lib/components/link.svelte'
 
@@ -19,14 +19,6 @@
 
   const url = `/entity/${uri}`
 
-  const showLink = e => {
-    e.stopPropagation()
-    if (!isOpenedOutside(e)) {
-      app.navigateAndLoad(url)
-      e.preventDefault()
-    }
-  }
-
   let altMessage
   if (entity.type === 'edition') {
     altMessage = `${entity.type} cover`
@@ -39,7 +31,7 @@
   {#if withLink}
     <a
       href={url}
-      on:click={showLink}
+      on:click={loadInternalLink}
     >
       <img
         src={imgSrc(image.url, size)}
