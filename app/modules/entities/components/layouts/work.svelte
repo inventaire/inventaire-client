@@ -174,21 +174,13 @@
       margin-left: 0;
       margin-right: 1em;
     }
-  }
-
-  /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
     .top-section{
-      @include display-flex(column);
+      @include display-flex(column, center);
     }
     .editions-section-wrapper{
       width: 100%;
       margin-top: 1em;
     }
-  }
-
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
     .entity-layout{
       @include display-flex(column);
     }
