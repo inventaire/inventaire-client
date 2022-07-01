@@ -7,6 +7,7 @@ import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import createEntity from '#entities/lib/create_entity'
 import isLoggedIn from '#entities/views/editor/lib/is_logged_in.js'
 import preq from '#lib/preq'
+import error_ from '#lib/error'
 
 export function createEditionFromWork (params) {
   if (!isLoggedIn()) return
@@ -41,10 +42,12 @@ const formatDuplicateWorkErr = function (err, isbn) {
 }
 
 export const validateEditionPossibility = ({ userInput, editions }) => {
-  if (!looksLikeAnIsbn(userInput)) return 'invalid isbn'
+  if (!looksLikeAnIsbn(userInput)) {
+    throw error_.new(`invalid isbn: ${userInput}`, 400, { userInput, editions })
+  }
   const isbn = normalizeIsbn(userInput)
   if (editions.map(getNormalizedIsbn).includes(isbn)) {
-    return 'this edition is already in the list'
+    throw error_.new('this edition is already in the list', 400, { isbn, editions })
   }
 }
 

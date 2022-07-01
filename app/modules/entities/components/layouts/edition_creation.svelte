@@ -1,11 +1,9 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { isNonEmptyString } from '#lib/boolean_tests'
   import { createEditionFromWork, validateEditionPossibility, addWithoutIsbnPath } from '#entities/components/lib/edition_creation_helpers'
   import { icon } from '#lib/utils'
   import Link from '#lib/components/link.svelte'
   import Flash from '#lib/components/flash.svelte'
-  import error_ from '#lib/error'
   import { autofocus } from '#lib/components/actions/autofocus'
   import getActionKey from '#lib/get_action_key'
 
@@ -15,26 +13,18 @@
   let flash
   let showForm
 
-  const isbnButton = async () => {
+  const onIsbnButtonClick = async () => {
     flash = null
-    const flashErrMessage = validateEditionPossibility({ userInput, editions })
-    if (isNonEmptyString(flashErrMessage)) {
-      flash = {
-        type: 'error',
-        message: flashErrMessage
-      }
-      throw error_.new(flashErrMessage)
-    }
-    await createEditionFromWork({
-      workEntity: work,
-      userInput,
-    })
-    .catch(err => {
-      flash = err
-    })
-    .then(newEdition => {
+    try {
+      validateEditionPossibility({ userInput, editions })
+      const newEdition = await createEditionFromWork({
+        workEntity: work,
+        userInput,
+      })
       editions = [ newEdition, ...editions ]
-    })
+    } catch (err) {
+      flash = err
+    }
   }
 
   function onInputKeyup (e) {
@@ -65,7 +55,7 @@
         <button
           id="isbnButton"
           class="button grey postfix sans-serif"
-          on:click={isbnButton}
+          on:click={onIsbnButtonClick}
         >
           {@html icon('plus')}
           {i18n('add')}
