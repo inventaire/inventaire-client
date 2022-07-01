@@ -5,10 +5,13 @@
   import { icon } from '#lib/utils'
   import { getLang, hasSelectedLang } from '#entities/components/lib/claims_helpers'
   import { fetchLangEntities, getWdUri, prioritizeMainUserLang } from '#entities/components/lib/editions_list_actions_helpers'
+  import { compact } from 'underscore'
 
   export let editions,
     someInitialEditions,
     initialEditions
+
+  someInitialEditions = compact(someInitialEditions)
 
   let editionsLangs = []
   let langEntitiesLabel = {}, showDropdown
@@ -47,7 +50,7 @@
     {#await waitingForEntities}
       <Spinner/>
     {:then}
-      {#if editionsLangs.length > 1}
+      {#if editionsLangs.length > 0}
         <div class="menu-wrapper">
           <Dropdown
             buttonTitle={i18n('show langs')}
