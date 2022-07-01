@@ -163,7 +163,7 @@ const showItemModal = async (model, fallback) => {
   const navigateAfterModal = function () {
     if (currentRoute() !== newRoute) return
     if (!previousRoute || previousRoute === newRoute) {
-      app.execute('show:inventory:user', model.get('owner'))
+      app.navigate(previousRoute, { preventScrollTop: true })
     } else {
       app.navigate(previousRoute, { preventScrollTop: true })
     }
