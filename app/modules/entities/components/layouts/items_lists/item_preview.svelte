@@ -28,7 +28,6 @@
 </script>
 
 <div class="show-item">
-  <!-- TODO: on item modal close, it should navigate back to entity page -->
   <a
     class="items-link"
     href={url}
