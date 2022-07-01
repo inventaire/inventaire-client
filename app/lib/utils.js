@@ -206,3 +206,5 @@ export const bubbleUpChildViewEvent = function (eventName) {
     this.triggerMethod(eventName, ...args)
   }
 }
+
+export const dropLeadingSlash = str => str.replace(/^\//, '')

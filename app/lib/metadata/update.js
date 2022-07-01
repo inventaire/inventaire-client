@@ -16,6 +16,7 @@
 import updateNodeType from './update_node_type.js'
 import { I18n, i18n } from '#user/lib/i18n'
 import { transformers } from './apply_transformers.js'
+import { dropLeadingSlash } from '#lib/utils'
 
 const initialFullPath = location.pathname.slice(1) + location.search
 // Make prerender wait before assuming everything is ready
@@ -29,7 +30,7 @@ const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != nul
 
 let lastRoute = null
 export const updateRouteMetadata = async (route, metadataPromise = {}) => {
-  route = route.replace(/^\//, '')
+  route = dropLeadingSlash(route)
   // There should be no need to re-update metadata when the route stays the same
   if (lastRoute === route) return
   lastRoute = route

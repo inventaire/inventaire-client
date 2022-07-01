@@ -122,8 +122,7 @@ const showItemsFromModels = function (items) {
     app.execute('show:error:missing')
   } else if (items.length === 1) {
     const item = items.models[0]
-    const fallback = () => API.showUserInventory(item.get('owner'), true)
-    showItemModal(item, fallback)
+    showItemModal(item)
   } else {
     showItemsList(items)
   }
@@ -151,14 +150,14 @@ export const getItemsListFromItemsCollection = collection => {
   })
 }
 
-const showItemModal = async (model, fallback) => {
+const showItemModal = async model => {
   assert_.object(model)
 
   // Do not scroll top as the modal might be displayed down at the level
   // where the item show event was triggered
   app.navigateFromModel(model, { preventScrollTop: true })
   const newRoute = currentRoute()
-  const previousRoute = Backbone.history.last.find(pathname => pathname !== newRoute)
+  const previousRoute = Backbone.history.last.find(route => route !== newRoute)
 
   const navigateAfterModal = function () {
     if (currentRoute() !== newRoute) return
@@ -168,8 +167,6 @@ const showItemModal = async (model, fallback) => {
       app.navigate(previousRoute, { preventScrollTop: true })
     }
   }
-
-  if (!fallback) fallback = navigateAfterModal
 
   app.execute('modal:open', 'large')
   app.execute('modal:spinner')
@@ -189,7 +186,7 @@ const showItemModal = async (model, fallback) => {
         entity: model.entity.toJSON(),
         works: model.works.map(work => work.toJSON()),
         authorsByProperty,
-        fallback,
+        fallback: navigateAfterModal,
       }
     })
   } catch (err) {
