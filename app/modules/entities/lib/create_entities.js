@@ -25,9 +25,9 @@ const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
   return Object.values(workLabels)[0]
 }
 
-export const createWorkEditionDraft = async function ({ workEntity, isbn, isbnData, editionClaims }) {
+export const createWorkEditionDraft = async function ({ workEntity, isbn, isbnData, editionClaims = {} }) {
   const { labels: workLabels, claims: workClaims, uri: workUri, label } = workEntity
-  const claims = _.extend(editionClaims, {
+  const claims = Object.assign(editionClaims, {
     // instance of (P31) -> edition (Q3331189)
     'wdt:P31': [ 'wd:Q3331189' ],
     // edition or translation of (P629) -> created book
