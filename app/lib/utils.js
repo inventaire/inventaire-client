@@ -12,6 +12,7 @@ const iconAliases = {
 }
 
 export const icon = (name, classes = '') => {
+  assert_.string(name)
   name = iconAliases[name] || name
   return `<i class='fa fa-${name} ${classes}'></i>`
 }
