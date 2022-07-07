@@ -7,6 +7,7 @@ export const transactionsDataFactory = () => ({
     label: 'giving',
     labelShort: "I'm giving it",
     labelPersonalized: 'giving_personalized_strong',
+    creationLabel: 'giving',
     unicodeIcon: '&#xf004;'
   },
 
@@ -17,6 +18,7 @@ export const transactionsDataFactory = () => ({
     label: 'lending',
     labelShort: 'I can lend it',
     labelPersonalized: 'lending_personalized_strong',
+    creationLabel: 'lending',
     unicodeIcon: '&#xf021;'
   },
 
@@ -27,6 +29,7 @@ export const transactionsDataFactory = () => ({
     label: 'selling',
     labelShort: "I'm selling it",
     labelPersonalized: 'selling_personalized_strong',
+    creationLabel: 'selling',
     unicodeIcon: '&#xf0d6;'
   },
 
@@ -37,6 +40,7 @@ export const transactionsDataFactory = () => ({
     label: 'in my inventory',
     labelShort: 'in my inventory',
     labelPersonalized: 'inventorying_personalized_strong',
+    creationLabel: 'just_inventorize_it',
     unicodeIcon: '&#xf1b2;'
   }
 })

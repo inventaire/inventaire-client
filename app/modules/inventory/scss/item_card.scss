@@ -1,9 +1,9 @@
 @import '#general/scss/utils';
-@import 'item_commons';
 
 // itemCard internal settings
 // for itemCard positioning, see items_list
 .itemCard{
+  @import 'item_commons';
   @include shadow-box;
   @include radius;
   @include glow-on-focus;

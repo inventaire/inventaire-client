@@ -15,6 +15,12 @@ export const getCorrespondingListing = visibility => {
   return 'network'
 }
 
+export const visibilityIconByCorrespondingListing = {
+  private: 'lock',
+  network: 'users',
+  public: 'globe',
+}
+
 export const getIconLabel = visibility => {
   if (visibility.length === 0) return 'private'
   if (visibility.includes('public')) return 'public'

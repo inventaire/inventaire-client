@@ -6,7 +6,7 @@
   import { onChange } from '#lib/svelte'
   import InfoTip from '#components/info_tip.svelte'
 
-  export let visibility = []
+  export let visibility = [], maxHeight = '25em'
 
   // Needs to be above reactive call to initCheckedGroupKeys
   $: allGroupsVisibilityKeys = $userGroups.map(getGroupVisibilityKey)
@@ -70,7 +70,10 @@
 <fieldset>
   <legend>{I18n('visibility')}</legend>
 
-  <div class="options">
+  <div
+    class="options"
+    style:max-height={maxHeight}
+    >
     <label>
       <input
         type="checkbox"
@@ -132,7 +135,6 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .options{
-    max-height: 25em;
     overflow-y: auto;
   }
   label{

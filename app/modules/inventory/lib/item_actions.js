@@ -3,6 +3,7 @@ import log_ from '#lib/loggers'
 import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
 import Item from '#inventory/models/item'
+import { isModel } from '#lib/boolean_tests'
 
 export default {
   create (itemData) {
@@ -28,11 +29,13 @@ export default {
 
     items.forEach(item => {
       if (_.isString(item)) return
-      item._backup = item.toJSON()
-      return item.set(attribute, value)
+      if (isModel(item)) {
+        item._backup = item.toJSON()
+        item.set(attribute, value)
+      }
     })
 
-    const ids = items.map(getIdFromModelOrId)
+    const ids = items.map(getItemId)
 
     try {
       await preq.put(app.API.items.update, { ids, attribute, value })
@@ -48,7 +51,7 @@ export default {
     const { items, next, back } = options
     assert_.types([ items, next ], [ 'array', 'function' ])
 
-    const ids = items.map(getIdFromModelOrId)
+    const ids = items.map(getItemId)
 
     const action = async () => {
       const res = await preq.post(app.API.items.deleteByIds, { ids })
@@ -73,9 +76,10 @@ export default {
   }
 }
 
-const getIdFromModelOrId = item => {
+const getItemId = item => {
   if (_.isString(item)) return item
-  else return item.id
+  // Support both models and item docs
+  else return item.id || item._id
 }
 
 const propagateItemsChanges = (items, attribute) => {
@@ -95,7 +99,9 @@ const propagateItemsChanges = (items, attribute) => {
 const rollbackUpdate = items => {
   items.forEach(item => {
     if (_.isString(item)) return
-    item.set(item._backup)
-    delete item._backup
+    if (isModel(item)) {
+      item.set(item._backup)
+      delete item._backup
+    }
   })
 }
