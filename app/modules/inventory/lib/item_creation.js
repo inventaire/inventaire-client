@@ -11,7 +11,6 @@ export function listingsData (selectedListing) {
 export function transactionsData (selectedTransaction) {
   if (selectedTransaction == null) selectedTransaction = app.request('last:transaction:get') || 'inventorying'
   const transactions = transactionsDataFactory()
-  transactions.inventorying.label = 'just_inventorize_it'
   const selectedTransactionData = transactions[selectedTransaction]
   selectedTransactionData.classes = 'selected'
   return transactions

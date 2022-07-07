@@ -11,11 +11,11 @@
 
 <fieldset>
   <legend>{I18n("I have it and it's available for:")}</legend>
-  {#each Object.values(transactionsDataFactory()) as { name, label, icon: iconName }}
+  {#each Object.values(transactionsDataFactory()) as { name, creationLabel, icon: iconName }}
     <label class="{name}" class:selected={transaction === name}>
       <input type="radio" bind:group={transaction} name="transaction" value={name}>
       {@html icon(iconName)}
-      {I18n(label)}
+      {I18n(creationLabel)}
     </label>
   {/each}
 </fieldset>

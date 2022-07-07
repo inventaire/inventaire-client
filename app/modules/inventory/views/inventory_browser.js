@@ -2,8 +2,6 @@ import FilteredCollection from 'backbone-filtered-collection'
 import { localStorageProxy } from '#lib/local_storage'
 import assert_ from '#lib/assert_types'
 import BrowserSelector from './browser_selector.js'
-import ItemsCascade from './items_cascade.js'
-import ItemsTable from './items_table.js'
 import SelectorsCollection from '../collections/selectors.js'
 import FilterPreview from './filter_preview.js'
 import getIntersectionWorkUris from '../lib/browser/get_intersection_work_uris.js'
@@ -149,10 +147,19 @@ export default Marionette.View.extend({
     .then(this.ifViewIsIntact('showItemsByDisplayMode'))
   },
 
-  showItemsByDisplayMode () {
-    const ItemsList = this.display === 'table' ? ItemsTable : ItemsCascade
+  async showItemsByDisplayMode () {
+    // const ItemsList = this.display === 'table' ? ItemsTable : ItemsCascade
+    const { default: ItemsCascade } = await import('#inventory/components/items_cascade.svelte')
     this._lastShownDisplay = this.display
-    this.showChildView('itemsView', new ItemsList(this.itemsViewParams))
+    const items = this.itemsViewParams.collection.models.map(model => {
+      const item = model.toJSON()
+      item.user = model.user.toJSON()
+      item.entityData = model.entity?.toJSON()
+      return item
+    })
+    this.showChildComponent('itemsView', ItemsCascade, {
+      props: { items }
+    })
   },
 
   showEntitySelector (entities, propertyUris, name) {

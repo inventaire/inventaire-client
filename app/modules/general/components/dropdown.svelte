@@ -1,5 +1,9 @@
 <script>
-  export let buttonTitle, align = null
+  import { isFunction } from 'underscore'
+
+  export let buttonTitle
+  export let align = null
+  export let clickOnContentShouldCloseDropdown = false
 
   let showDropdown = false, positionned = false
   let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft
@@ -26,6 +30,15 @@
   }
   function onOutsideClick () {
     showDropdown = false
+  }
+  function onContentClick (e) {
+    if (isFunction(clickOnContentShouldCloseDropdown)) {
+      if (clickOnContentShouldCloseDropdown(e)) {
+        showDropdown = false
+      }
+    } else if (clickOnContentShouldCloseDropdown === true) {
+      showDropdown = false
+    }
   }
 </script>
 
@@ -54,6 +67,7 @@
       style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
       style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
       role="menu"
+      on:click={onContentClick}
       >
       <slot name="dropdown-content" />
     </div>
@@ -64,6 +78,10 @@
   @import '#general/scss/utils';
   .has-dropdown{
     position: relative;
+    @include display-flex(row, stretch, center);
+  }
+  .dropdown-button{
+    flex: 1;
   }
   .dropdown-content{
     position: absolute;

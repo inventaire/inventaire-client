@@ -1,0 +1,17 @@
+.item-card-box{
+  flex: 1;
+  :global(.dropdown-button){
+    padding: 0;
+  }
+}
+[slot="button-inner"]{
+  flex: 1;
+  @include display-flex(row, center, center);
+  // Just 'height' wasnt working on chrome
+  min-height: $user-box-heigth;
+  max-height: $user-box-heigth;
+}
+[slot="dropdown-content"]{
+  @include shy-border;
+  background-color: white;
+}
