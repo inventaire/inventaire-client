@@ -4,7 +4,7 @@
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
-  import { loadInteralLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
   import EntityEditMenu from './entity_edit_menu.svelte'
 
   export let entity
@@ -27,7 +27,7 @@
   <div class="header">
     <div class="header-main">
       <h2>
-        <a href="/entity/{uri}" on:click={loadInteralLink}>
+        <a href="/entity/{uri}" on:click={loadInternalLink}>
           {favoriteLabel}
         </a>
       </h2>

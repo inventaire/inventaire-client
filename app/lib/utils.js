@@ -61,7 +61,7 @@ export const isOpenedOutside = (e, ignoreMissingHref = false) => {
 // Test existance to ignore in other contexts than the browser
 const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
-export const loadInteralLink = e => {
+export const loadInternalLink = e => {
   e.stopPropagation()
   if (!(isOpenedOutside(e))) {
     const { pathname } = new URL(e.currentTarget.href)
