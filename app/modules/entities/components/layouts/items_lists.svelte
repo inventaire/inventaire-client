@@ -76,9 +76,6 @@
     @include display-flex(column, flex-end);
     align-self: end;
   }
-  .loading-wrapper{
-    display: none;
-  }
   .hide-map{
     padding: 0.5em;
     margin: 0;
