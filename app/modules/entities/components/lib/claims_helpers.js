@@ -74,6 +74,28 @@ export const propertiesType = {
   'wdt:P4258': 'platformClaim',
 }
 
+export const buildPathname = (entity, prop) => {
+  const { uri } = entity
+  if (specialPathnameProperties.includes(prop)) {
+    return `/entity/${prop}-${uri}`
+  }
+  return `/entity/${uri}`
+}
+
+const specialPathnameProperties = [
+  'wdt:P135',
+  'wdt:P136',
+  'wdt:P144',
+  'wdt:P655',
+  'wdt:P674',
+  'wdt:P840',
+  'wdt:P921',
+  'wdt:P941',
+  'wdt:P1433',
+  'wdt:P2679',
+  'wdt:P2680',
+]
+
 const claimFormats = {
   timeClaim (params) {
     const { value, format } = params

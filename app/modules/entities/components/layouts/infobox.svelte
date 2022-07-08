@@ -47,7 +47,7 @@
     if (isNonEmptyArray(missingUris)) {
       const { entities } = await getEntitiesAttributesByUris({
         uris: missingUris,
-        attributes: [ 'labels' ],
+        attributes: [ 'labels', 'type' ],
         lang: app.user.lang
       })
       relatedEntities = { ...relatedEntities, ...entities }
