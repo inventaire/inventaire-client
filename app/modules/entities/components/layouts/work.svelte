@@ -93,7 +93,7 @@
       {/if}
       <div
         class="editions-section-wrapper"
-        class:no-edition={!someEditions}
+        class:no-edition={!someInitialEditions}
       >
         {#await editionsWithPublishers}
           <div class="loading-wrapper">
