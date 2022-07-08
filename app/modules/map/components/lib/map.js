@@ -78,6 +78,10 @@ const markersConfigByTypes = {
     markerModel: ItemMarker,
     className: 'itemMarker'
   },
+  'main-user': {
+    markerModel: UserMarker,
+    className: 'mainUserMarker'
+  },
   user: {
     markerModel: UserMarker,
     className: 'userMarker'
@@ -89,7 +93,7 @@ const buildMainUserMarker = () => {
   user.position = app.user.get('position')
   user.username = app.user.get('username')
   user.picture = app.user.get('picture')
-  user.markerType = 'user'
+  user.markerType = 'main-user'
   return buildMarker(user)
 }
 
