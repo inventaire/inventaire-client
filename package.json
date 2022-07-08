@@ -92,11 +92,13 @@
     "babel-loader": "^8.2.5",
     "circular-dependency-plugin": "^5.2.2",
     "config": "^3.3.3",
+    "core-js": "^3.23.2",
     "css-loader": "^5.0.1",
     "cssnano": "^5.0.11",
     "doctoc": "^1.4.0",
     "eslint": "^7.14.0",
     "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-compat": "^4.0.2",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.1",
@@ -127,19 +129,11 @@
     "webpack-dev-server": "^4.5.0",
     "wikidata-sdk": "^5.16.2"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ],
-    "plugins": [
-      "@babel/plugin-transform-runtime"
-    ]
-  },
   "browserslist": [
-    "> 0.25%",
-    "last 2 versions",
+    "> 0.5%",
     "Firefox ESR",
-    "last 5 years",
+    "last 3 years",
+    "not op_mini all",
     "not dead"
   ]
 }

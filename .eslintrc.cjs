@@ -14,7 +14,14 @@ module.exports = {
   },
   extends: [
     // See https://github.com/standard/eslint-config-standard/blob/master/eslintrc.json
-    'standard'
+    'standard',
+    // Helps to spot unsupported features that woul result in
+    // babel including the corresponding core-js polyfills
+    // in the bundle served to all users
+    // See https://github.com/amilajack/eslint-plugin-compat
+    // NB: some unsupported features are unfortunately not detected
+    // Ex: Array methods https://github.com/amilajack/eslint-plugin-compat/issues/258
+    'plugin:compat/recommended',
   ],
   plugins: [
     'svelte3'
@@ -107,6 +114,10 @@ module.exports = {
     // Required to not get errors on components with style lang=scss
     // See https://stackoverflow.com/questions/64644571/how-to-configure-sass-and-eslint-in-svelte-project
     // and https://github.com/sveltejs/eslint-plugin-svelte3#svelte3ignore-styles
-    'svelte3/ignore-styles': ({ lang }) => lang === 'scss'
-  }
+    'svelte3/ignore-styles': ({ lang }) => lang === 'scss',
+    // Used by eslint-plugin-compat
+    polyfills: [
+      'Promise',
+    ],
+  },
 }

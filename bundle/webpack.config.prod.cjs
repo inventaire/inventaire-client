@@ -4,6 +4,8 @@ const webpackConfig = require('./webpack.config.common.cjs')(mode)
 Object.assign(webpackConfig, {
   mode,
   devtool: 'source-map',
+  // Determines the target based on the browserslist set in package.json
+  // Run `browserslist --update-db` from time to time to update the generated list
   target: 'browserslist',
 })
 

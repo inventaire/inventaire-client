@@ -3,6 +3,8 @@
 module.exports = {
   moduleIds: 'named',
   chunkIds: 'named',
+  // Uncomment to inspect unminified bundled code
+  // minimize: false,
   // See https://webpack.js.org/configuration/optimization/#optimizationminimizer
   minimizer: [
     require('./terser.cjs')
@@ -17,6 +19,14 @@ module.exports = {
       vendor: {
         test: /[\\/](node_modules|vendor)[\\/](backbone|underscore|jquery|handlebars|fork-awesome|node-polyglot|regenerator-runtime|wikidata-lang|autosize|@babel|define-properties|css-loader|js-cookie|p-|leven)/,
         name: 'vendor',
+        chunks: 'all'
+      },
+      // Making a separate bundle as this is bundle is more likely to change than the libs above
+      // Ex: when browsers are removed from the browserslist-generated list of supported browsers
+      // some polyfills might be removed from this bundle
+      polyfills: {
+        test: /[\\/]node_modules[\\/]core-js/,
+        name: 'polyfills',
         chunks: 'all'
       },
       leaflet: {
