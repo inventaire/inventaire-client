@@ -35,38 +35,40 @@
     }
   }
 </script>
-{#if isNonEmptyPlainObject(entity.image)}
-  <div class="cover">
-    <EntityImage
-      entity={entity}
-      withLink=true
-      size={128}
-    />
-  </div>
-{/if}
-<div class="entity-info-line">
-  <div class="entity-title">
-    <Link
-      url={`/entity/${uri}`}
-      text={label}
-      dark=true
-    />
-    {#if subtitle}
-      <div class="subtitle">
-        {subtitle}
-      </div>
-    {/if}
-  </div>
-  {#if showInfobox}
-    <div class="entity-details">
-      <Infobox
-        claims={entity.claims}
-        {relatedEntities}
-        shortlistOnly={true}
-        entityType={entity.type}
+<div class="entity-wrapper">
+  {#if isNonEmptyPlainObject(entity.image)}
+    <div class="cover">
+      <EntityImage
+        entity={entity}
+        withLink=true
+        size={128}
       />
     </div>
   {/if}
+  <div class="entity-info-line">
+    <div class="entity-title">
+      <Link
+        url={`/entity/${uri}`}
+        text={label}
+        dark=true
+      />
+      {#if subtitle}
+        <div class="subtitle">
+          {subtitle}
+        </div>
+      {/if}
+    </div>
+    {#if showInfobox}
+      <div class="entity-details">
+        <Infobox
+          claims={entity.claims}
+          {relatedEntities}
+          shortlistOnly={true}
+          entityType={entity.type}
+        />
+      </div>
+    {/if}
+  </div>
 </div>
 {#if actionType}
   <div class="actions-menu">
@@ -86,11 +88,14 @@
 {/if}
 <style lang="scss">
   @import '#general/scss/utils';
+  .entity-wrapper{
+    @include display-flex(row);
+    margin-top: 0.5em;
+  }
   .entity-title{
     font-size:1.1em;
   }
   .cover{
-    margin-top: 0.5em;
     :global(a img){
       max-height:6em;
       max-width:4em;
@@ -100,9 +105,6 @@
     flex: 1;
     max-width: 30em;
     margin: 0 1em;
-  }
-  .actions-menu{
-    @include display-flex(column);
   }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
