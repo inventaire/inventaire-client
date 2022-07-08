@@ -148,7 +148,6 @@ export const infoboxPropsLists = {
       'wdt:P577', // publication date
       'wdt:P123', // publisher
       'wdt:P212', // ISBN-13
-      'wdt:P179', // series
     ],
     long: [
       'wdt:P2679', // author of foreword
@@ -164,7 +163,6 @@ export const infoboxPropsLists = {
       'wdt:P2635', // number of volumes
       'wdt:P856', // official website
       'wdt:P407', // edition language
-      'wdt:P179', // series
     ],
   },
   work: {
