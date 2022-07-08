@@ -2,7 +2,7 @@
   import Link from '#lib/components/link.svelte'
   import { i18n } from '#user/lib/i18n'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
-  import { propertiesType, formatClaimValue } from '#entities/components/lib/claims_helpers'
+  import { propertiesType, formatClaimValue, buildPathname } from '#entities/components/lib/claims_helpers'
 
   export let prop,
     values,
@@ -26,7 +26,7 @@
       <span>
         {#if entitiesByUris[value]}
           <Link
-            url={`/entity/${value}`}
+            url={buildPathname(entitiesByUris[value], prop)}
             text={getBestLabel(entitiesByUris[value])}
             dark={true}
             title={linkTitle(value)}

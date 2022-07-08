@@ -44,6 +44,7 @@
   @import '#general/scss/utils';
   .ebooks{
     @include display-flex(row, center, flex-start, wrap);
+    margin-top: 1em;
     :global(.icon){
       margin-left: 0.6em;
       margin-right: 0.4em;
