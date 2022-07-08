@@ -10,7 +10,12 @@
 
   function onButtonClick () {
     showDropdown = !showDropdown
-    if (showDropdown) setTimeout(adjustDropdownPosition)
+    if (showDropdown) setTimeout(refreshPositionAndScroll)
+  }
+
+  function refreshPositionAndScroll () {
+    adjustDropdownPosition()
+    scrollToDropdownIfNeeded()
   }
 
   function adjustDropdownPosition () {
@@ -28,6 +33,15 @@
     }
     positionned = true
   }
+
+  function scrollToDropdownIfNeeded () {
+    if (!dropdown) return
+    const dropdownRect = dropdown.getBoundingClientRect()
+    if (dropdownRect.bottom > window.visualViewport.height) {
+      dropdown.scrollIntoView({ block: 'end', inline: 'nearest', behavior: 'smooth' })
+    }
+  }
+
   function onOutsideClick () {
     showDropdown = false
   }
@@ -43,7 +57,7 @@
 </script>
 
 <svelte:body on:click={onOutsideClick} />
-<svelte:window on:resize={adjustDropdownPosition} />
+<svelte:window on:resize={refreshPositionAndScroll} />
 
 <div
   class="has-dropdown"
@@ -88,5 +102,8 @@
     top: 100%;
     z-index: 1;
     white-space: nowrap;
+    // Add a bit of padding so that there will be a bit of margin down
+    // when scrolling to get the dropdown content in the viewport
+    padding-bottom: 0.5em;
   }
 </style>
