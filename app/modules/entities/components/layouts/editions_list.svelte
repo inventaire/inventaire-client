@@ -24,7 +24,7 @@
     {someInitialEditions}
     {someEditions}
   />
-  {#if someEditions}
+  {#if someInitialEditions}
     <EntitiesList
       entities={editions}
       relatedEntities={publishersByUris}
