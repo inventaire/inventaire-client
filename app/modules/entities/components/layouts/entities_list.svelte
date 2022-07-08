@@ -24,13 +24,11 @@
         {relatedEntities}
         {parentEntity}
       />
-      <div class="actions-menu">
-        <!-- keep action button on top (.entity-list flex-direction) to display dropdown  -->
-        <EditionActions
-          {entity}
-          {itemsByEditions}
-        />
-      </div>
+      <!-- keep action button on top (.entity-list flex-direction) to display dropdown  -->
+      <EditionActions
+        {entity}
+        {itemsByEditions}
+      />
     </div>
   {/each}
 </div>
