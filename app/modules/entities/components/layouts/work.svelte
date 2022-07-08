@@ -72,12 +72,12 @@
           <AuthorsInfo
             {claims}
           />
+          <WikipediaExtract
+            {entity}
+          />
           <Infobox
             claims={infoboxClaims}
             entityType={entity.type}
-          />
-          <WikipediaExtract
-            {entity}
           />
           <Ebooks
             {entity}
