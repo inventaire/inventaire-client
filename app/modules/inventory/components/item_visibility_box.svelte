@@ -1,14 +1,13 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import VisibilitySelector from '#components/visibility_selector.svelte'
   import Dropdown from '#components/dropdown.svelte'
   import { getCorrespondingListing, visibilityIconByCorrespondingListing } from '#general/lib/visibility'
-  import { clone } from 'underscore'
+  import { clone, isEqual } from 'underscore'
+  import { onChange } from '#lib/svelte'
 
   export let item, flash
-
-  let selectedVisibility = clone(item.visibility)
 
   let listing, iconName
   $: {
@@ -16,18 +15,21 @@
     iconName = visibilityIconByCorrespondingListing[listing]
   }
 
+  let { visibility } = item
+
   async function save () {
-    const previousVisibility = clone(item.visibility)
-    item.visibility = selectedVisibility
+    if (isEqual(item.visibility, visibility)) return
+    const previousVisibility = clone(visibility)
+    item.visibility = visibility
     try {
       await app.request('items:update', {
         items: [ item ],
         attribute: 'visibility',
-        value: selectedVisibility,
+        value: visibility,
       })
     } catch (err) {
       flash = err
-      item.visibility = selectedVisibility = previousVisibility
+      item.visibility = visibility = previousVisibility
     }
   }
 
@@ -36,10 +38,13 @@
     // but not on the checkboxes
     return e.target.className.includes('save')
   }
+
+  $: onChange(visibility, save)
 </script>
 
 <div class="item-card-box">
   <Dropdown
+    align="right"
     buttonTitle={i18n('Select who can see this item')}
     clickOnContentShouldCloseDropdown={clickOnContentShouldCloseDropdown}
     >
@@ -58,13 +63,9 @@
       <!-- maxHeight is set to display only partially the first overflowing option
            to give the hint to scroll down for more -->
       <VisibilitySelector
-        bind:visibility={selectedVisibility}
+        bind:visibility
         maxHeight=10.5em
         />
-      <button on:click={save} class="save tiny-button success">
-        {@html icon('check')}
-        {I18n('save')}
-      </button>
     </div>
   </Dropdown>
 </div>
@@ -87,8 +88,5 @@
   }
   [slot="dropdown-content"]{
     @include display-flex(column, stretch);
-  }
-  .save{
-    margin: 0.5em auto;
   }
 </style>
