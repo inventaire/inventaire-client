@@ -32,16 +32,16 @@
     if (key === 'esc') showForm = false
   }
 </script>
-<div class="wrapper">
-<div class="edition-creation-svelte">
+<div class="edition-creation">
   {#if showForm}
     <div class="from-isbn">
-      <label for="isbnGroup">
+      <label for="isbn-group">
       	{i18n('Add an edition by its ISBN')}
       </label>
-      <form id="isbnGroup" class="inputGroup">
-        <div class="inputBox">
-          <input type="text"
+      <form id="isbn-group" class="input-group">
+        <div class="input-box">
+          <input
+            type="text"
             id="isbnField"
             name="isbn"
             class="has-alertbox enterClick"
@@ -79,19 +79,17 @@
       {i18n('add missing edition')}
     </button>
   {/if}
-
   <Flash bind:state={flash}/>
-</div>
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
-  .edition-creation-svelte{
+  .edition-creation{
     @include display-flex(row, flex-start, flex-start, wrap);
     @include radius;
-    margin: 1em;
     flex-direction: column;
     align-items: stretch;
-    max-width:20em;
+    max-width: 20em;
+    padding: 0.5em;
   }
   .wrapper{
     @include display-flex(row, center, center);
@@ -99,8 +97,6 @@
   #isbnButton{
     @include display-flex(row, center, center);
     white-space: nowrap;
-    // avoid .postfix to put button above langauge dropdown menu
-    z-index:0
   }
   #withoutIsbn{
     @include display-flex(row, center, center);
@@ -108,8 +104,40 @@
     padding: 0.5em;
   }
   .show-form{
-    padding: 0.3em;
-    max-width:20em;
+    padding: 0.5em;
+    max-width: 20em;
     font-size: 0.9em;
+  }
+  .input-group{
+    width: 100%;
+    @include display-flex(row, left, flex-start);
+    margin-bottom: 0.5em;
+    button.postfix{
+      height: 2.2rem;
+      white-space: nowrap;
+    }
+  }
+  .input-box{
+    flex: 1 1 auto;
+    min-width: 60%;
+    margin-right: 0.4em;
+    input{
+      height: 2.2rem;
+      padding: 0 0.5em;
+      margin-bottom: 0;
+    }
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .input-group{
+      flex-direction: column;
+      button{
+        width: 100%;
+      }
+    }
+    .input-box{
+      width: 100%;
+    }
   }
 </style>
