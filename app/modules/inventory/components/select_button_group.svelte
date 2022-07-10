@@ -17,7 +17,7 @@
       // 'transaction_description': 'select the transaction mode you would to apply to all selected books'
       options: transactionsDataFactory(),
       defaultOption: 'inventorying',
-      description: "I have it and it's available for",
+      description: "I have it and it's available for:",
     }
   }
 
