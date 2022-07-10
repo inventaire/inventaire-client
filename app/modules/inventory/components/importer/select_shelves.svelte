@@ -29,7 +29,7 @@
       <p class="description">{I18n('shelves_importer_description')}</p>
       <!-- i18n suggestion: "shelves_importer_description": "Add the selected books to your shelf(ves)" -->
     </label>
-    <ul id="shelves-selector" class="select-button-group" role="menu">
+    <ul id="shelves-selector" role="menu">
       {#each userShelves as shelf}
         <SelectShelf bind:shelf/>
       {/each}
