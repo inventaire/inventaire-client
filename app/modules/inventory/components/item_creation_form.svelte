@@ -27,33 +27,37 @@
   if (shelvesIds == null) shelvesIds = app.request('last:shelves:get')
 
   async function createItem () {
+    app.execute('last:shelves:set', shelvesIds)
+    await app.request('item:create', {
+      entity: uri,
+      transaction,
+      visibility,
+      details,
+      notes,
+      shelves: shelvesIds,
+    })
+  }
+
+  async function validate () {
     try {
-      app.execute('last:shelves:set', shelvesIds)
-      await app.request('item:create', {
-        entity: uri,
-        transaction,
-        visibility,
-        details,
-        notes,
-        shelves: shelvesIds,
-      })
+      await createItem()
+      if (shelvesIds.length > 0) {
+        app.execute('show:shelf', shelvesIds[0])
+      } else {
+        app.execute('show:inventory:main:user')
+      }
     } catch (err) {
       flash = err
     }
   }
 
-  async function validate () {
-    await createItem()
-    if (shelvesIds.length > 0) {
-      app.execute('show:shelf', shelvesIds[0])
-    } else {
-      app.execute('show:inventory:main:user')
-    }
-  }
-
   async function validateAndAddNext () {
-    await createItem()
-    addNext()
+    try {
+      await createItem()
+      addNext()
+    } catch (err) {
+      flash = err
+    }
   }
 </script>
 
@@ -103,6 +107,8 @@
       <textarea bind:value={notes} placeholder="{I18n('notes_placeholder')}"></textarea>
     </label>
 
+    <Flash state={flash} />
+
     <div class="buttons">
       <button
         class="button grey"
@@ -127,8 +133,6 @@
       </button>
     </div>
   </form>
-
-  <Flash state={flash} />
 </div>
 
 <style lang="scss">
@@ -180,7 +184,7 @@
   .buttons{
     @include display-flex(row, center, center);
     button{
-      margin: 0 0.5em;
+      margin: 0.5em;
     }
   }
 </style>
