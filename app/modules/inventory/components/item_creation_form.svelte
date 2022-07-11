@@ -22,7 +22,9 @@
     .catch(err => flash = err)
 
   let transaction = guessTransaction()
-  let visibility, shelvesIds = [], details, notes
+  let visibility, shelvesIds, details, notes
+
+  if (shelvesIds == null) shelvesIds = app.request('last:shelves:get')
 
   async function createItem () {
     try {
