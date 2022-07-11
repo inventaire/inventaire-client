@@ -4,7 +4,7 @@
   import VisibilitySelector from '#components/visibility_selector.svelte'
   import Dropdown from '#components/dropdown.svelte'
   import { getCorrespondingListing, visibilityIconByCorrespondingListing } from '#general/lib/visibility'
-  import { clone, isEqual } from 'underscore'
+  import { clone, debounce, isEqual } from 'underscore'
   import { onChange } from '#lib/svelte'
 
   export let item, flash
@@ -18,15 +18,21 @@
   let { visibility } = item
 
   async function save () {
+    await app.request('items:update', {
+      items: [ item ],
+      attribute: 'visibility',
+      value: visibility,
+    })
+  }
+
+  const lazySave = debounce(save, 1000)
+
+  async function udpateAndSave () {
     if (isEqual(item.visibility, visibility)) return
     const previousVisibility = clone(visibility)
     item.visibility = visibility
     try {
-      await app.request('items:update', {
-        items: [ item ],
-        attribute: 'visibility',
-        value: visibility,
-      })
+      lazySave()
     } catch (err) {
       flash = err
       item.visibility = visibility = previousVisibility
@@ -39,7 +45,7 @@
     return e.target.className.includes('save')
   }
 
-  $: onChange(visibility, save)
+  $: onChange(visibility, udpateAndSave)
 </script>
 
 <div class="item-card-box">
