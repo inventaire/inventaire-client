@@ -1,5 +1,6 @@
 <script>
   import { isFunction } from 'underscore'
+  import { slide } from 'svelte/transition'
 
   export let buttonTitle
   export let align = null
@@ -7,6 +8,7 @@
 
   let showDropdown = false, positionned = false
   let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft
+  const transitionDuration = 100
 
   function onButtonClick () {
     showDropdown = !showDropdown
@@ -15,7 +17,8 @@
 
   function refreshPositionAndScroll () {
     adjustDropdownPosition()
-    scrollToDropdownIfNeeded()
+    // Trigger after transition
+    setTimeout(scrollToDropdownIfNeeded, transitionDuration + 10)
   }
 
   function adjustDropdownPosition () {
@@ -81,6 +84,7 @@
       style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
       style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
       role="menu"
+      transition:slide={{ duration: transitionDuration }}
       on:click={onContentClick}
       >
       <slot name="dropdown-content" />
