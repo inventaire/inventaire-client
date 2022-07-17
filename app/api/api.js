@@ -9,6 +9,7 @@ import img from './img.js'
 import invitations from './invitations.js'
 import items from './items.js'
 import transactions from './transactions.js'
+import lists from './lists.js'
 import oauth from './oauth.js'
 import search from './search.js'
 import shelves from './shelves.js'
@@ -29,6 +30,7 @@ export default {
   images,
   invitations,
   items,
+  lists,
   notifications: endpoint('notifications', true),
   oauth,
   relations: endpoint('relations', true),
