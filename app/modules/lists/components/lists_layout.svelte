@@ -1,21 +1,31 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-
+  import Spinner from '#general/components/spinner.svelte'
+  import { getEntitiesByUris } from '#entities/lib/entities'
+  import ListSelectionsCandidate from './list_selections_candidate.svelte'
   export let list
 
-  let { _id, description, visibility, creator } = list
+  let { _id, description, visibility, creator, selections } = list
 
   const listings = app.user.listings()
   let visibilityData = listings[visibility]
   let isEditable = creator === app.user.id
+  let entities
+
+  const getSelectionsEntities = async () => {
+    const uris = selections.map(_.property('uri'))
+    entities = await getEntitiesByUris(uris)
+  }
+
+  const waitingForEntities = getSelectionsEntities()
 
   const showEditor = async () => {
     const { default: ListEditor } = await import('#lists/components/list_editor.svelte')
     app.execute('modal:open')
     const component = app.layout.showChildComponent('modal', ListEditor, {
       props: {
-        list
+        list,
       }
     })
     component.$on('listUpdated', event => {
@@ -26,7 +36,9 @@
   $: name = list.name
   $: description = list.description
 </script>
-<div class="header-wrapper">
+{#await waitingForEntities}
+  <p class="loading">Loading... <Spinner/></p>
+{:then}
   <div class="header">
 	  <p>{I18n('list')}</p>
 	  <h3>{name}</h3>
@@ -34,18 +46,23 @@
 	  	{@html icon(visibilityData.icon)} {visibilityData.label}
 	  </p>
 	  <p>{description}</p>
+    {#if isEditable}
+      <button
+        id="showListEditor"
+        class="tiny-button"
+        on:click={showEditor}
+      >
+        {@html icon('pencil')}
+        {I18n('edit info')}
+      </button>
+    {/if}
+    <ListSelectionsCandidate
+      bind:entities
+      listId={_id}
+      {isEditable}
+    />
   </div>
-  {#if isEditable}
-    <a
-      id="showListEditor"
-      class="tiny-button"
-      on:click={showEditor}
-    >
-      {@html icon('pencil')}
-      {I18n('edit list')}
-    </a>
-  {/if}
-</div>
+{/await}
 <div class="footer">
   <p class="list-id">
     {I18n('list')}
@@ -69,12 +86,9 @@
  	font-size: small;
  }
  #showListEditor{
+  margin: 1em 0;
+  padding: 0.3em;
   white-space: nowrap;
- }
- /*Large screens*/
- @media screen and (min-width: $small-screen) {
-   .header-wrapper{
-     @include display-flex(row, center, center);
-   }
+  width: 10em;
  }
 </style>
