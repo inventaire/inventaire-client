@@ -1,10 +1,10 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-
+  import ListSelectionsCandidate from './list_selections_candidate.svelte'
   export let list
 
-  let { _id, name, description, visibility, creator } = list
+  let { _id, name, description, visibility, creator, selections } = list
 
   const listings = app.user.listings()
   let visibilityData = listings[visibility]
@@ -15,7 +15,7 @@
     app.execute('modal:open')
     const component = app.layout.showChildComponent('modal', ListEditor, {
       props: {
-        list
+        list,
       }
     })
     component.$on('listUpdated', event => {
@@ -36,15 +36,20 @@
   </p>
   <p>{description}</p>
   {#if isEditable}
-    <a
+    <button
       id="showListEditor"
       class="tiny-button"
       on:click={showEditor}
     >
       {@html icon('pencil')}
-      {I18n('edit list')}
-    </a>
+      {I18n('edit info')}
+    </button>
   {/if}
+  <ListSelectionsCandidate
+    bind:selections
+    listId={_id}
+    {isEditable}
+  />
 </div>
 <div class="footer">
   <p class="list-id">
@@ -70,7 +75,7 @@
   }
   #showListEditor{
     margin: 1em 0;
-    padding: 0.3em;
+    padding: 0.5em;
     white-space: nowrap;
     width: 10em;
   }
