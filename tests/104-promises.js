@@ -160,6 +160,7 @@ describe('promises', () => {
       .then(shouldNotBeCalled)
       .catch(err => {
         err.message.should.equal('too many attempts')
+        err.name.should.equal('waitForAttributeError')
       })
     })
   })

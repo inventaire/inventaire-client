@@ -1,3 +1,4 @@
+import assert_ from '#lib/assert_types'
 import error_ from '#lib/error'
 import { reportError } from '#lib/reports'
 
@@ -45,6 +46,9 @@ if (window.addEventListener != null) {
 // Returns a promise that resolves when the target object
 // has the desired attribute set, and that the associated value has resolved
 export const waitForAttribute = (obj, attribute, options = {}) => {
+  assert_.object(obj)
+  assert_.string(attribute)
+  assert_.object(options)
   const { attemptTimeout = 100, maxAttempts = 100 } = options
   return new Promise((resolve, reject) => {
     let attempts = 0
@@ -53,7 +57,9 @@ export const waitForAttribute = (obj, attribute, options = {}) => {
         if (obj[attribute] !== undefined) {
           resolve(obj[attribute])
         } else if (++attempts > maxAttempts) {
-          reject(error_.new('too many attempts', 500, { obj, attribute }))
+          const err = error_.new('too many attempts', 500, { obj, attribute })
+          err.name = 'waitForAttributeError'
+          reject(err)
         } else {
           setTimeout(checkAttribute, attemptTimeout)
         }

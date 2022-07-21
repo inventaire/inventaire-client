@@ -7,6 +7,7 @@
   import { waitForAttribute } from '#lib/promises'
   import Flash from '#lib/components/flash.svelte'
   import { getUserExistingItemsPathname, statusContents } from '#inventory/components/importer/lib/candidate_row_helpers'
+  import log_ from '#lib/loggers'
 
   export let candidate
 
@@ -58,7 +59,7 @@
     }
   }
 
-  const waitingForItemsCount = waitForAttribute(candidate, 'waitingForItemsCount', 200)
+  const waitingForItemsCount = waitForAttribute(candidate, 'waitingForItemsCount', { attemptTimeout: 200, maxAttempts: 500 })
 
   let existingItemsCount
   waitingForItemsCount
@@ -74,7 +75,9 @@
     }
   })
   .catch(err => {
-    flash = err
+    // Checking existing items is an enhancement, but not a requirement
+    // If that check fails, no need to alert the user
+    log_.error(err)
     itemsCountWereChecked = true
   })
 
