@@ -61,7 +61,6 @@ module.exports = {
   },
   globals: {
     app: 'writable',
-    log_: 'writable',
     localStorage: 'writable',
     prerenderReady: 'writable',
     env: 'writable',

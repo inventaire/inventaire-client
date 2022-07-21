@@ -3,6 +3,7 @@ import { uniqueId } from 'underscore'
 import { getIsbnData } from '#inventory/lib/importer/extract_isbns'
 import { addExistingItemsCountToCandidate, getEditionEntitiesByUri, getRelevantEntities, guessUriFromIsbn, resolveCandidate } from '#inventory/lib/importer/import_helpers'
 import getEntitiesItemsCount from '#inventory/lib/get_entities_items_count'
+import log_ from '#lib/loggers'
 
 export const createExternalEntry = candidateData => {
   const { isbn, title, authors = [] } = candidateData
