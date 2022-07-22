@@ -83,7 +83,19 @@
 
   $: onChange(work, updateCandidateInfoStatus)
   $: onChange(editionTitle, updateCandidateInfoStatus)
-  $: candidate.checked = checked
+
+  const updateCandidateCheckedStatus = () => candidate.checked = checked
+  // Typically triggered when the checkbox is toggled
+  $: onChange(checked, updateCandidateCheckedStatus)
+
+  const updateLocalCheckedStatus = () => {
+    // Prevent assignment loop
+    if (checked === candidate.checked) return
+    checked = candidate.checked
+  }
+  // Typically triggered when the CandidatesNav checks or unchecks all
+  $: onChange(candidate.checked, updateLocalCheckedStatus)
+
   $: candidate.editionTitle = editionTitle
   $: candidate.authors = authors
   $: candidate.works = [ work ]
