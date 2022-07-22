@@ -13,16 +13,26 @@
 
   export let selections, listId, isEditable
 
-  let showSelectionSelector, flash
+  let showSelectionSelector, flash, listBottomEl
 
   let entities = []
 
-  const getSelectionsEntities = async () => {
+  const paginationSize = 15
+  let offset = paginationSize
+  let fetching
+  let windowScrollY = 0
+
+  const getSelectionsEntities = async selections => {
     const uris = selections.map(_.property('uri'))
-    entities = await getEntitiesByUris(uris)
+    return getEntitiesByUris(uris)
   }
 
-  const waitingForEntities = getSelectionsEntities()
+  const getInitialSelectionsEntities = async () => {
+    const firstSelections = selections.slice(0, paginationSize)
+    entities = await getSelectionsEntities(firstSelections)
+  }
+
+  const waitingForEntities = getInitialSelectionsEntities()
 
   const onRemoveSelection = async index => {
     const entity = entities[index]
@@ -50,8 +60,30 @@
     })
     .catch(err => flash = err)
   }
+
+  const fetchMore = async () => {
+    if (fetching || hasMore === false) return
+    fetching = true
+    const nextBatchSelections = selections.slice(offset, offset + paginationSize)
+    const nextEntities = await getSelectionsEntities(nextBatchSelections)
+    if (isNonEmptyArray(nextEntities)) {
+      offset += paginationSize
+      entities = [ ...entities, ...nextEntities ]
+    }
+    fetching = false
+  }
+
+  $: {
+    if (listBottomEl != null && hasMore) {
+      const screenBottom = windowScrollY + window.screen.height
+      if (screenBottom + 100 > listBottomEl.offsetTop) fetchMore()
+    }
+  }
+
+  $: hasMore = entities.length >= offset
 </script>
 
+<svelte:window bind:scrollY={windowScrollY} />
 {#await waitingForEntities}
   <Spinner center={true} />
 {:then}
@@ -100,6 +132,12 @@
         {i18n('nothing here')}
       {/each}
     </div>
+    {#if hasMore}
+      <p bind:this={listBottomEl}>
+        {I18n('loading')}
+        <Spinner/>
+      </p>
+    {/if}
   </section>
 {/await}
 
