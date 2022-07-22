@@ -4,14 +4,19 @@
   import Spinner from '#general/components/spinner.svelte'
   import { getListsByEntityUri } from '#lists/lib/lists'
 
-  export let entity
+  export let entity, emptyLists
   let lists = []
 
   const getLists = async () => {
-    lists = await getListsByEntityUri(entity.uri) || []
+    const { uri } = entity
+    if (uri) {
+      lists = await getListsByEntityUri(uri) || []
+    }
   }
 
   const waitingForLists = getLists()
+
+  $: emptyLists = lists.length === 0
 </script>
 
 <div class="lists-layout">
@@ -36,6 +41,11 @@
           </div>
         </div>
       {/each}
+      {#if emptyLists}
+        <div class="no-lists-wrapper">
+          {i18n('no list found')}
+        </div>
+      {/if}
     {/await}
   </div>
 </div>
@@ -54,6 +64,10 @@
   }
   .lists{
     width: 100%;
+  }
+  .no-lists-wrapper{
+    @include display-flex(row, center, center);
+    color: $grey;
   }
   .list-element{
     @include display-flex(column, flex-start, flex-start, wrap);

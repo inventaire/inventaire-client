@@ -14,7 +14,7 @@ export const createList = async list => {
 
 export const getListsByEntityUri = async uri => {
   const { lists } = await preq.get(app.API.lists.byEntities(uri))
-  return lists[uri]
+  return lists[uri] ? lists[uri] : []
 }
 
 export const updateList = async list => {
