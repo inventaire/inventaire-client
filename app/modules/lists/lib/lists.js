@@ -12,6 +12,11 @@ export const createList = async list => {
   return preq.post(app.API.lists.create, list)
 }
 
+export const getListsByEntityUri = async uri => {
+  const { lists } = await preq.get(app.API.lists.byEntities(uri))
+  return lists[uri]
+}
+
 export const updateList = async list => {
   return preq.put(app.API.lists.update, list)
 }

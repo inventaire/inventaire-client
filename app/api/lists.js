@@ -8,6 +8,9 @@ export default {
   byCreators (usersIds) {
     return action('by-creators', { users: usersIds })
   },
+  byEntities (uris) {
+    return action('by-entities', { uris })
+  },
   create: action('create'),
   update: base,
   addSelections: action('add-selections'),
