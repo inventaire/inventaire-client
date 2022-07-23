@@ -42,7 +42,7 @@
         </div>
       {/each}
       {#if emptyLists}
-        <div class="no-lists-wrapper">
+        <div class="no-lists">
           {i18n('no list found')}
         </div>
       {/if}
@@ -65,9 +65,13 @@
   .lists{
     width: 100%;
   }
-  .no-lists-wrapper{
+  .loading{
+    @include display-flex(column, center);
+  }
+  .no-lists{
     @include display-flex(row, center, center);
     color: $grey;
+    margin-top: 1em;
   }
   .list-element{
     @include display-flex(column, flex-start, flex-start, wrap);

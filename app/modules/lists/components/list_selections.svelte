@@ -172,7 +172,11 @@
     }
   }
   .entities-selector{
-    width:100%
+    width: 100%;
+    padding: 0 0.5em;
+  }
+  label{
+    cursor:auto;
   }
   .status{
     @include display-flex(row, center, center);

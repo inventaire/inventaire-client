@@ -90,12 +90,14 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .list-info{
-    align-self: stretch;
+    align-self: center;
     margin: 0.5em;
-    padding: 0.5em;
+    margin-bottom: 1em;
+    padding: 1em;
     @include radius;
     @include display-flex(row);
     background-color: $light-grey;
+    max-width: 60em;
   }
   .isNotEditable{
     align-self: center;
@@ -116,6 +118,13 @@
   }
   a:hover{
     text-decoration: underline;
-
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .list-info{
+      @include display-flex(column);
+      padding: 0.5em;
+      margin: 1em 0;
+    }
   }
 </style>

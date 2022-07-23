@@ -222,7 +222,6 @@
   @media screen and (max-width: $small-screen) {
     .work-section{
       margin-left: 0;
-      margin-right: 1em;
     }
     .top-section{
       @include display-flex(column, center);
