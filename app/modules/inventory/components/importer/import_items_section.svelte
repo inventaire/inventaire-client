@@ -24,14 +24,19 @@
 
   const importCandidates = async () => {
     flash = null
-    importingCandidates = true
-    processedEntitiesCount = 0
-    await createEntitiesSequentially()
-    processedItemsCount = 0
-    await createItemsSequentially()
-    importingCandidates = false
-    candidates = removeCreatedCandidates({ candidates, processedCandidates })
-    if (importResultsElement) screen_.scrollToElement(importResultsElement)
+    try {
+      importingCandidates = true
+      processedEntitiesCount = 0
+      await createEntitiesSequentially()
+      processedItemsCount = 0
+      await createItemsSequentially()
+      importingCandidates = false
+      candidates = removeCreatedCandidates({ candidates, processedCandidates })
+      if (importResultsElement) screen_.scrollToElement(importResultsElement)
+    } catch (err) {
+      importingCandidates = false
+      flash = err
+    }
   }
 
   const createEntitiesSequentially = async () => {

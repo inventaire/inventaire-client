@@ -40,14 +40,17 @@
       if (cancelled) return processedExternalEntriesCount = 0
       if (remainingExternalEntries.length === 0) return
       const externalEntry = remainingExternalEntries.pop()
-      // Wont prevent duplicated candidates when 2 identical isbns are processed
-      // at the same time in separate threads (see below createCandidatesQueue)
-      // this is acceptable, as long as it prevents duplicates from one import to another
-      const entitiesRes = await getExternalEntriesEntities(externalEntry)
-      createAndAssignCandidate(externalEntry, entitiesRes)
-      await createCandidateOneByOne()
-      // Log errors without throwing to prevent crashing the whole chain
-      .catch(log_.Error('createCandidateOneByOne err'))
+      try {
+        // Wont prevent duplicated candidates when 2 identical isbns are processed
+        // at the same time in separate threads (see below createCandidatesQueue)
+        // this is acceptable, as long as it prevents duplicates from one import to another
+        const entitiesRes = await getExternalEntriesEntities(externalEntry)
+        createAndAssignCandidate(externalEntry, entitiesRes)
+        await createCandidateOneByOne()
+      } catch (err) {
+        // Log errors without throwing to prevent crashing the whole chain
+        log_.error(err, 'createCandidateOneByOne err')
+      }
     }
 
     return Promise.all([
