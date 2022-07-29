@@ -36,26 +36,12 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .description{
-    font-size: 0.9rem;
-    margin-bottom: 0.5em;
-  }
-  legend{
-    max-height: 15em;
-    overflow: auto;
-  }
+  @import '#inventory/scss/shelves_selectors';
   .shelves-selector{
     margin-top: 1em;
   }
-  label{
-    color: $default-text-color;
-    @include bg-hover($off-white, 5%);
-    @include display-flex(row, center, flex-start);
-    @include radius;
-    cursor: pointer;
-    margin-bottom: 0.1em;
-  }
-  input[type="checkbox"]{
-    margin: 0.5em;
+  .description{
+    font-size: 0.9rem;
+    margin-bottom: 0.5em;
   }
 </style>

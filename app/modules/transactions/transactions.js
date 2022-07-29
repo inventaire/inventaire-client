@@ -1,7 +1,9 @@
 import log_ from '#lib/loggers'
 import Transactions from '#transactions/collections/transactions'
+import Item from '#inventory/models/item'
 import initHelpers from './helpers.js'
 import fetchData from '#lib/data/fetch'
+import { isModel } from '#lib/boolean_tests'
 let lastTransactionId = null
 
 export default {
@@ -74,6 +76,7 @@ const API = {
   },
 
   async showItemRequestModal (model) {
+    if (!isModel(model)) model = new Item(model)
     if (app.request('require:loggedIn', model.get('pathname'))) {
       const { default: RequestItemModal } = await import('./views/request_item_modal.js')
       app.layout.showChildView('modal', new RequestItemModal({ model }))

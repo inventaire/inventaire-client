@@ -1,0 +1,15 @@
+legend{
+  max-height: 15em;
+  overflow: auto;
+}
+label{
+  color: $default-text-color;
+  @include bg-hover($off-white, 5%);
+  @include display-flex(row, center, flex-start);
+  @include radius;
+  cursor: pointer;
+  margin-bottom: 0.1em;
+}
+input[type="checkbox"]{
+  margin: 0.5em;
+}

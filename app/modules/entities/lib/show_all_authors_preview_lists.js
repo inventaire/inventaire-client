@@ -14,7 +14,7 @@ const showAuthorsPreviewList = function (property, models) {
   this.showChildView(name, new AuthorsPreviewList({ collection, name }))
 }
 
-const extendedAuthorsKeys = {
+export const extendedAuthorsKeys = {
   'wdt:P50': 'authors',
   'wdt:P58': 'scenarists',
   'wdt:P110': 'illustrators',
