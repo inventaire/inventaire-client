@@ -3,6 +3,12 @@
   :global(.dropdown-button){
     padding: 0;
   }
+  &:not(:first-child){
+    margin-left: 0.5em;
+  }
+  &:not(:last-child){
+    margin-right: 0.5em;
+  }
 }
 [slot="button-inner"]{
   flex: 1;
@@ -14,4 +20,22 @@
 [slot="dropdown-content"]{
   @include shy-border;
   background-color: white;
+}
+
+.icon{
+  flex: 0 0 auto;
+  @include display-flex(row, center, center);
+  height: 100%;
+  width: $user-box-heigth;
+  // required in Chromium
+  min-height: $user-box-heigth;
+}
+.rest{
+  flex: 1 1 auto;
+  @include display-flex(row, center, center);
+  align-self: stretch;
+  background-color: #f5f5f5;
+  :global(.fa-caret-down){
+    padding-left: 0.5em;
+  }
 }

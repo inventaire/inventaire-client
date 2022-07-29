@@ -5,7 +5,7 @@
   import { uniqueId } from 'underscore'
   import { transactionsData } from '#inventory/lib/transactions_data'
 
-  export let item, flash
+  export let item, flash, large = false
 
   const { pathname, restricted } = item
   let { currentTransaction } = item
@@ -38,6 +38,7 @@
     <Dropdown
       buttonTitle={i18n('Select transaction mode')}
       clickOnContentShouldCloseDropdown={true}
+      alignButtonAndDropdownWidth={large}
       >
       <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->
       <!-- See See https://github.com/sveltejs/svelte/issues/1594 -->
@@ -48,11 +49,19 @@
         class:selling={currentTransaction.id === 'selling'}
         class:inventorying={currentTransaction.id === 'inventorying'}
         >
-        {@html icon(currentTransaction.icon)}
-        {@html icon('caret-down')}
+        <div class="icon">
+          {@html icon(currentTransaction.icon)}
+          {#if !large}{@html icon('caret-down')}{/if}
+        </div>
+        {#if large}
+          <div class="rest">
+            <span>{I18n(currentTransaction.labelShort)}</span>
+            {@html icon('caret-down')}
+          </div>
+        {/if}
       </div>
       <div slot="dropdown-content">
-        <label for={menuId}>{I18n('available, for')}:</label>
+        <label for={menuId}>{I18n('available for')}:</label>
         <ul id={menuId} role="menu">
           {#each Object.values(transactionsData) as transaction}
             <li>
@@ -75,18 +84,28 @@
   @import '#general/scss/utils';
   @import '#inventory/scss/item_card_box';
   [slot="button-inner"]{
-    color: white;
+    .icon{
+      color: white;
+    }
     &.giving{
-      background-color: $giving-color;
+      .icon{
+        background-color: $giving-color;
+      }
     }
     &.lending{
-      background-color: $lending-color;
+      .icon{
+        background-color: $lending-color;
+      }
     }
     &.selling{
-      background-color: $selling-color;
+      .icon{
+        background-color: $selling-color;
+      }
     }
     &.inventorying{
-      background-color: $inventorying-color;
+      .icon{
+        background-color: $inventorying-color;
+      }
     }
   }
   label{

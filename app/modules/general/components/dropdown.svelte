@@ -4,6 +4,7 @@
 
   export let buttonTitle
   export let align = null
+  export let alignButtonAndDropdownWidth = false
   export let clickOnContentShouldCloseDropdown = false
 
   let showDropdown = false, positionned = false
@@ -35,6 +36,10 @@
       dropdownPositionLeft = (buttonRect.width / 2) - (dropdownRect.width / 2)
     }
     positionned = true
+  }
+
+  function getButtonWidth () {
+    return buttonWithDropdown.getBoundingClientRect().width
   }
 
   function scrollToDropdownIfNeeded () {
@@ -83,6 +88,7 @@
       style:visibility={positionned ? 'visible' : 'hidden'}
       style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
       style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
+      style:width={alignButtonAndDropdownWidth ? `${getButtonWidth()}px` : null }
       role="menu"
       transition:slide={{ duration: transitionDuration }}
       on:click={onContentClick}

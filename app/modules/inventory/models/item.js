@@ -123,10 +123,10 @@ export default Filterable.extend({
       attrs.transactions = transacs
       attrs.transactions[transaction].classes = 'selected'
 
-      const { listing } = attrs
-      attrs.currentListing = app.user.listings()[listing]
-      attrs.listings = app.user.listings()
-      attrs.listings[listing].classes = 'selected'
+      // const { listing } = attrs
+      // attrs.currentListing = app.user.listings()[listing]
+      // attrs.listings = app.user.listings()
+      // attrs.listings[listing].classes = 'selected'
     } else {
       // used to hide the "request button" given accessible transactions
       // are necessarly involving the main user, which should be able

@@ -114,3 +114,11 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+@mixin layout-type-label(){
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: normal;
+  color: $grey;
+}

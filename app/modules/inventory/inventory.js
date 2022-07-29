@@ -7,6 +7,7 @@ import showItemCreationForm from './lib/show_item_creation_form.js'
 import itemActions from './lib/item_actions.js'
 import { parseQuery, currentRoute, buildPath } from '#lib/location'
 import error_ from '#lib/error'
+import { getAuthorsByProperty } from '#inventory/components/lib/item_show_helpers'
 
 export default {
   initialize () {
@@ -158,11 +159,23 @@ const showItemModal = async (model, fallback) => {
   if (!fallback) fallback = navigateAfterModal
 
   try {
-    const [ { default: ItemShowLayout } ] = await Promise.all([
-      await import('./views/item_show_layout.js'),
-      model.grabWorks()
+    const [ { default: ItemShow } ] = await Promise.all([
+      await import('#inventory/components/item_show.svelte'),
+      model.waitForEntity,
+      model.grabWorks(),
+      model.waitForUser,
     ])
-    app.layout.showChildView('modal', new ItemShowLayout({ model, fallback }))
+    const authorsByProperty = await getAuthorsByProperty(model.works)
+    app.layout.showChildComponent('modal', ItemShow, {
+      props: {
+        item: model.toJSON(),
+        user: model.user.toJSON(),
+        entity: model.entity.toJSON(),
+        works: model.works.map(work => work.toJSON()),
+        authorsByProperty,
+        fallback,
+      }
+    })
   } catch (err) {
     app.execute('show:error', err)
   }

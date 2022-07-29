@@ -1,18 +1,21 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import VisibilitySelector from '#components/visibility_selector.svelte'
   import Dropdown from '#components/dropdown.svelte'
-  import { getCorrespondingListing, visibilityIconByCorrespondingListing } from '#general/lib/visibility'
+  import { getCorrespondingListing, getIconLabel, visibilityIconByCorrespondingListing } from '#general/lib/visibility'
   import { clone, debounce, isEqual } from 'underscore'
   import { onChange } from '#lib/svelte'
 
-  export let item, flash
+  export let item, flash, large = false
 
-  let listing, iconName
+  let listing, iconName, iconLabel
   $: {
     listing = getCorrespondingListing(item.visibility)
     iconName = visibilityIconByCorrespondingListing[listing]
+    iconLabel = getIconLabel(item.visibility)
+    item.listing = listing
+    item.listingIconName = iconName
   }
 
   let { visibility } = item
@@ -48,11 +51,12 @@
   $: onChange(visibility, udpateAndSave)
 </script>
 
-<div class="item-card-box">
+<div class="item-card-box item-visibility-box">
   <Dropdown
     align="right"
     buttonTitle={i18n('Select who can see this item')}
     clickOnContentShouldCloseDropdown={clickOnContentShouldCloseDropdown}
+    alignButtonAndDropdownWidth={large}
     >
     <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->
     <!-- See See https://github.com/sveltejs/svelte/issues/1594 -->
@@ -62,8 +66,16 @@
       class:network={listing === 'network'}
       class:public={listing === 'public'}
       >
-      {@html icon(iconName)}
-      {@html icon('caret-down')}
+      <div class="icon">
+        {@html icon(iconName)}
+        {#if !large}{@html icon('caret-down')}{/if}
+      </div>
+      {#if large}
+        <div class="rest">
+          <span>{I18n(iconLabel)}</span>
+          {@html icon('caret-down')}
+        </div>
+      {/if}
     </div>
     <div slot="dropdown-content">
       <!-- maxHeight is set to display only partially the first overflowing option
@@ -81,15 +93,21 @@
   @import '#inventory/scss/item_card_box';
   [slot="button-inner"]{
     &.private{
-      background-color: $private-color;
-      color: white;
+      .icon{
+        background-color: $private-color;
+        color: white;
+      }
     }
     &.network{
-      background-color: $network-color;
-      color: white;
+      .icon{
+        background-color: $network-color;
+        color: white;
+      }
     }
     &.public{
-      background-color: $public-color;
+      .icon{
+        background-color: $public-color;
+      }
     }
   }
   [slot="dropdown-content"]{

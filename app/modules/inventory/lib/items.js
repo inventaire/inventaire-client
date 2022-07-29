@@ -5,6 +5,7 @@ import { i18n } from '#user/lib/i18n'
 
 export function serializeItem (item) {
   item.authorized = item.owner === app.user.id
+  item.mainUserIsOwner = item.authorized
   item.restricted = !item.authorized
 
   Object.assign(item, {
@@ -37,7 +38,7 @@ export function serializeItem (item) {
     // used to hide the "request button" given accessible transactions
     // are necessarly involving the main user, which should be able
     // to have several transactions ongoing with a given item
-    item.hasActiveTransaction = item.hasActiveTransaction()
+    item.hasActiveTransaction = hasActiveTransaction(item._id)
   }
 
   item.image = item.snapshot['entity:image']
@@ -53,4 +54,11 @@ function findBestTitle (item) {
   const transaction = item.transaction
   const context = i18n(`${transaction}_personalized`, { username: item.user.username })
   return `${title} - ${context}`
+}
+
+function hasActiveTransaction (itemId) {
+  // the reqres 'has:transactions:ongoing:byItemId' wont be defined
+  // if the user isn't logged in
+  if (!app.user.loggedIn) return false
+  return app.request('has:transactions:ongoing:byItemId', itemId)
 }
