@@ -93,7 +93,7 @@
   @import '#general/scss/utils';
   .item-details{
     background-color: $off-white;
-    padding: 0.8em 1em;
+    padding: 0.5em;
     margin: 0.4em 0 0.6em 0;
     @include radius;
   }

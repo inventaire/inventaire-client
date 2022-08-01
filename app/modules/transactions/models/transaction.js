@@ -18,7 +18,7 @@ import formatSnapshotData from '../lib/format_snapshot_data.js'
 import { transactionsData } from '#inventory/lib/transactions_data'
 
 export default Backbone.NestedModel.extend({
-  url () { return app.API.transactions },
+  url () { return app.API.transactions.base },
   initialize () {
     this.set('pathname', `/transactions/${this.id}`)
 
@@ -94,7 +94,7 @@ export default Backbone.NestedModel.extend({
   markAsRead () {
     if (!this.mainUserRead) {
       this.set(`read.${this.role}`, true)
-      return preq.put(app.API.transactions, {
+      return preq.put(app.API.transactions.base, {
         id: this.id,
         action: 'mark-as-read'
       })
@@ -115,7 +115,7 @@ export default Backbone.NestedModel.extend({
   },
 
   async fetchMessages () {
-    const url = buildPath(app.API.transactions, {
+    const url = buildPath(app.API.transactions.base, {
       action: 'get-messages',
       transaction: this.id
     })
@@ -219,7 +219,7 @@ export default Backbone.NestedModel.extend({
     this.push('actions', action)
     const actionModel = this.addActionToTimeline(action)
 
-    return preq.put(app.API.transactions, {
+    return preq.put(app.API.transactions.base, {
       transaction: this.id,
       state,
       action: 'update-state'

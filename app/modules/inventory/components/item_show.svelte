@@ -8,6 +8,9 @@
   import AuthorsPreviewLists from '#inventory/components/authors_preview_lists.svelte'
   import ItemShelves from '#inventory/components/item_shelves.svelte'
   import ItemShowData from '#inventory/components/item_show_data.svelte'
+  import ItemActiveTransactions from '#inventory/components/item_active_transactions.svelte'
+  import Flash from '#lib/components/flash.svelte'
+  import app from '#app/app'
 
   export let item, user, entity, works, authorsByProperty
 
@@ -22,6 +25,8 @@
   const { snapshot } = item
 
   onMount(() => app.execute('modal:open', 'large'))
+
+  let flash
 </script>
 
 <div class="item-show">
@@ -82,8 +87,12 @@
     </div>
 
     <div class="two">
-      <ItemShowData item={serializedItem} {user} />
+      <ItemShowData item={serializedItem} {user} bind:flash />
       <ItemShelves {serializedItem} />
+      {#if app.user.loggedIn}
+        <ItemActiveTransactions item={serializedItem} bind:flash />
+      {/if}
+      <Flash bind:state={flash} />
       {#if mainUserIsOwner}
         <button class="remove remove-button dark-grey">
           {I18n('delete')}

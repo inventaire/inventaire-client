@@ -7,14 +7,11 @@
   import ItemVisibilityBox from '#inventory/components/item_visibility_box.svelte'
   import ItemDetails from '#inventory/components/item_details.svelte'
   import ItemNotes from '#inventory/components/item_notes.svelte'
-  import Flash from '#lib/components/flash.svelte'
 
-  export let item, user
+  export let item, user, flash
 
   const { mainUserIsOwner, details } = item
   $: isPrivate = item.visibility?.length === 0
-
-  let flash
 </script>
 
 <span class="section-label">{I18n('owner')}</span>
@@ -36,12 +33,6 @@
     <ItemDetails bind:item bind:flash />
   {/if}
 {/if}
-
-<div id="transactions">
-  TRANSACTIONS
-</div>
-
-<Flash bind:state={flash} />
 
 <style lang="scss">
   @import '#general/scss/utils';

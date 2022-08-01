@@ -1,5 +1,10 @@
-// Keep in sync with server/models/attributes/transaction
+import app from '#app/app'
+import preq from '#lib/preq'
+import { transactionsData } from '#inventory/lib/transactions_data'
+import { i18n } from '#user/lib/i18n'
+import { getActionUserKey } from '#transactions/lib/transactions_actions'
 
+// Keep in sync with server/models/attributes/transaction
 const basicNextActions = {
   // current state:
   requested: {
@@ -56,3 +61,69 @@ export const findNextActions = function (transacData) {
 
 const isActive = transacData => findNextActions(transacData) != null
 export const isArchived = transacData => !isActive(transacData)
+
+async function getTransactionsByItemId (itemId) {
+  const { transactions } = await preq.get(app.API.transactions.byItem(itemId))
+  return transactions
+}
+
+export async function getActiveTransactionsByItemId (itemId) {
+  const transactions = await getTransactionsByItemId(itemId)
+  return transactions.filter(isActive)
+}
+
+export function addTransactionDerivedData (transaction) {
+  const { _id: id, owner } = transaction
+  const mainUserIsOwner = owner === app.user.id
+  const mainUserRole = mainUserIsOwner ? 'owner' : 'requester'
+  const mainUserRead = transaction.read[mainUserRole]
+  const transactionMode = transactionsData[transaction.transaction]
+  return Object.assign(transaction, {
+    pathname: `/transactions/${id}`,
+    mainUserRole,
+    mainUserIsOwner,
+    mainUserRead,
+    transactionMode,
+  })
+}
+
+export async function grabUsers (transaction) {
+  if (transaction.mainUserIsOwner) {
+    transaction.owner = app.user.toJSON()
+  } else {
+    transaction.requester = app.user.toJSON()
+  }
+}
+
+export function getTransactionStateText ({ transaction, withLink = false }) {
+  const lastAction = transaction.actions.at(-1)
+  console.log('🚀 ~ file: transactions.js ~ line', 101, 'getTransactionStateText ~ ', lastAction)
+  const userKey = getActionUserKey(lastAction, transaction)
+  console.log('🚀 ~ file: transactions.js ~ line', 103, 'getTransactionStateText ~ ', userKey)
+  const actionName = lastAction.action
+  console.log('🚀 ~ file: transactions.js ~ line', 105, 'getTransactionStateText ~ ', actionName)
+  const otherUsername = getOtherUsername(transaction)
+  console.log('🚀 ~ file: transactions.js ~ line', 107, 'getTransactionStateText ~ ', otherUsername)
+  const key = `${userKey}_user_${actionName}`
+  console.log('🚀 ~ file: transactions.js ~ line', 105, 'getTransactionStateText ~ ', key)
+  return i18n(`${userKey}_user_${actionName}`, { username: formatUsername(otherUsername, withLink) })
+}
+
+const getOtherUserRole = transaction => {
+  if (transaction.mainUserIsOwner) return 'requester'
+  else return 'owner'
+}
+
+const getOtherUsername = transaction => {
+  const otherUserRole = getOtherUserRole(transaction)
+  return transaction.snapshot[otherUserRole].username
+}
+
+const formatUsername = (username, withLink) => {
+  // injecting an html anchor instead of just a username string
+  if (withLink) {
+    return `<a href="/inventory/${username}" class="username">${username}</a>`
+  } else {
+    return username
+  }
+}
