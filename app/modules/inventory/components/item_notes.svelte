@@ -84,19 +84,18 @@
   @import '#general/scss/utils';
   .item-notes{
     background-color: $dark-grey;
+    padding: 0.5em;
+    margin: 0.4em 0 0.6em 0;
+    @include radius;
     &, .text button, :global(.fa){
       color: white;
     }
-    @include radius;
-    padding: 0.8em 1em;
-    margin: 0.4em 0 0.6em 0;
   }
   .section-label{
     color: $soft-grey;
   }
   .text{
     button{
-
       display: block;
       padding: 0;
     }

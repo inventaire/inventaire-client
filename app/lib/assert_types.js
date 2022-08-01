@@ -72,6 +72,7 @@ export default {
   number: num => assertType(num, 'number'),
   object: obj => assertType(obj, 'object'),
   string: str => assertType(str, 'string'),
+  boolean: str => assertType(str, 'boolean'),
 
   arrays: args => assertTypes(args, 'arrays...'),
   functions: args => assertTypes(args, 'functions...'),
