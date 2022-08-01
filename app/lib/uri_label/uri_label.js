@@ -53,7 +53,7 @@ const getEntities = function (uris) {
   .then(addEntitiesLabels)
   // /!\ Not waiting for the update to run
   // but simply calling the debounced function
-  .then(debouncedUpdate)
+  .then(update)
   .catch(log_.Error('uri_label getEntities err'))
 }
 
@@ -76,7 +76,7 @@ const getMissingEntities = async function (uris) {
   }
 }
 
-const update = function () {
+const _update = function () {
   const uris = gatherRequiredUris()
 
   // Do not trigger display when no uri was found at this stage
@@ -98,7 +98,7 @@ const update = function () {
 // thus this slightly hacky solution: one can open a 5 seconds window
 // during which, qlabels will be taken directly from Wikidata API,
 // thank to getEntities passing the refresh request to the local cache
-const refreshData = function () {
+export const refreshData = function () {
   refresh = true
   resetLabels()
   return setTimeout(endRefreshMode, 5000)
@@ -106,6 +106,4 @@ const refreshData = function () {
 
 const endRefreshMode = () => { refresh = false }
 
-const debouncedUpdate = _.debounce(update, 200)
-
-export { debouncedUpdate as update, refreshData }
+export const update = _.debounce(_update, 200)

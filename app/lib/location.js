@@ -1,4 +1,4 @@
-const parseQuery = function (queryString) {
+export const parseQuery = function (queryString) {
   if (queryString == null) return {}
   return queryString
   .replace(/^\?/, '')
@@ -6,7 +6,7 @@ const parseQuery = function (queryString) {
   .reduce(parseKeysValues, {})
 }
 
-const setQuerystring = function (url, key, value) {
+export const setQuerystring = function (url, key, value) {
   const [ href, qs ] = url.split('?')
   const qsObj = parseQuery(qs)
   // override the previous key/value
@@ -17,9 +17,9 @@ const setQuerystring = function (url, key, value) {
 // Calling a section the first part of the route matching to a module
 // ex: for '/inventory/bla/bla', the section is 'inventory'
 // Split on the first non-alphabetical character
-const routeSection = route => route.split(/[^\w]/)[0]
+export const routeSection = route => route.split(/[^\w]/)[0]
 
-const buildPath = function (pathname, queryObj, escape) {
+export const buildPath = function (pathname, queryObj, escape) {
   queryObj = removeUndefined(queryObj)
   if ((queryObj == null) || _.isEmpty(queryObj)) return pathname
 
@@ -39,9 +39,9 @@ const buildPath = function (pathname, queryObj, escape) {
   return pathname + '?' + queryString.slice(1)
 }
 
-const currentRoute = () => location.pathname.slice(1)
+export const currentRoute = () => location.pathname.slice(1)
 
-const currentSection = () => routeSection(currentRoute())
+export const currentSection = () => routeSection(currentRoute())
 
 const parseKeysValues = function (queryObj, nextParam) {
   const pairs = nextParam.split('=')
@@ -89,5 +89,3 @@ const removeUndefined = function (obj) {
   }
   return newObj
 }
-
-export { parseQuery, setQuerystring, routeSection, buildPath, currentRoute, currentSection }

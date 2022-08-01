@@ -1,4 +1,4 @@
-const metaNodes = {
+export const metaNodes = {
   title: [
     { selector: 'title', attribute: 'text' },
     { selector: '[property="og:title"]' },
@@ -30,5 +30,4 @@ const metaNodes = {
   ]
 }
 
-const possibleFields = Object.keys(metaNodes)
-export { metaNodes, possibleFields }
+export const possibleFields = Object.keys(metaNodes)

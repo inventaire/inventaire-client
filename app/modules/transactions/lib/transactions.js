@@ -47,7 +47,7 @@ const getNextActionsList = function (transactionName) {
   }
 }
 
-const findNextActions = function (transacData) {
+export const findNextActions = function (transacData) {
   const { name, state, mainUserIsOwner } = transacData
   const nextActions = getNextActionsList(name, state)
   const role = mainUserIsOwner ? 'owner' : 'requester'
@@ -55,6 +55,4 @@ const findNextActions = function (transacData) {
 }
 
 const isActive = transacData => findNextActions(transacData) != null
-const isArchived = transacData => !isActive(transacData)
-
-export { findNextActions, isArchived }
+export const isArchived = transacData => !isActive(transacData)

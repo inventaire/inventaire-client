@@ -11,7 +11,7 @@ import { tap } from '#lib/promises'
 // or pass it in the options at every updates
 // (ex: to update one of the groups the main user is admin of)
 
-const Updater = function (fixedOptions) {
+export const Updater = function (fixedOptions) {
   const { endpoint, action, uniqueModel, modelIdLabel } = fixedOptions
   return options => {
     let promise
@@ -88,5 +88,3 @@ const rollbackUpdate = function (options, err) {
   err = (selector != null) ? error_.complete(err, selector) : err
   throw err
 }
-
-export { Updater }

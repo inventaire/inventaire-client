@@ -1,6 +1,6 @@
 import { startLoading } from '#general/plugins/behaviors'
 
-const createPlaceholders = function () {
+export const createPlaceholders = function () {
   if (this._placeholderCreationOngoing) return
   this._placeholderCreationOngoing = true
 
@@ -21,16 +21,14 @@ const createPlaceholders = function () {
   })
 }
 
-const removePlaceholder = function (ordinalInt) {
+export const removePlaceholder = function (ordinalInt) {
   const existingModel = this.worksWithOrdinal.findWhere({ ordinal: ordinalInt })
   if ((existingModel != null) && existingModel.get('isPlaceholder')) {
     return this.worksWithOrdinal.remove(existingModel)
   }
 }
 
-const removePlaceholdersAbove = function (num) {
+export const removePlaceholdersAbove = function (num) {
   const toRemove = this.worksWithOrdinal.filter(model => model.get('isPlaceholder') && (model.get('ordinal') > num))
   return this.worksWithOrdinal.remove(toRemove)
 }
-
-export { createPlaceholders, removePlaceholder, removePlaceholdersAbove }

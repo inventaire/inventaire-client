@@ -28,7 +28,7 @@ setTimeout(metadataUpdateDone, 20 * 1000)
 const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
 let lastRoute = null
-const updateRouteMetadata = async (route, metadataPromise = {}) => {
+export const updateRouteMetadata = async (route, metadataPromise = {}) => {
   route = route.replace(/^\//, '')
   // There should be no need to re-update metadata when the route stays the same
   if (lastRoute === route) return
@@ -91,9 +91,7 @@ const setPrerenderMeta = function (statusCode = 500, route) {
   $('head').append(prerenderMeta)
 }
 
-const setPrerenderStatusCode = function (statusCode, route) {
+export const setPrerenderStatusCode = function (statusCode, route) {
   setPrerenderMeta(statusCode, route)
   metadataUpdateDone()
 }
-
-export { updateRouteMetadata, setPrerenderStatusCode }
