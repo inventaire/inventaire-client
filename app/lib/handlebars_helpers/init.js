@@ -3,13 +3,13 @@ import blocks from './blocks.js'
 import misc from './misc.js'
 import utils from './utils.js'
 import claims from './claims.js'
-import userContent from './user_content.js'
+import { userContent } from './user_content.js'
 import * as icons from './icons.js'
 import images from './images.js'
 import input from './input.js'
 import linkify from './linkify.js'
 
-const API = _.extend({ linkify }, blocks, misc, utils, claims, userContent, icons, images, input)
+const API = Object.assign({ linkify, userContent }, blocks, misc, utils, claims, icons, images, input)
 
 for (const name in API) {
   const fn = API[name]
