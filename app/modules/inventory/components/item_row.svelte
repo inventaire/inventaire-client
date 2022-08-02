@@ -18,7 +18,9 @@
   const currentListing = app.user.listings.data[correspondingListing]
 </script>
 
-<li class="item-row">
+<div class="item-row">
+  <slot name="checkbox" />
+
   <a href="{pathname}" on:click={loadInternalLink}>
     <div class="image-wrapper">
       {#if image}<img src="{imgSrc(image, 128)}" alt="">{/if}
@@ -40,11 +42,10 @@
       {@html icon(currentListing.icon)}
     </div>
   </div>
-</li>
+</div>
 
 <style lang="scss">
   @import '#general/scss/utils';
-
   .item-row{
     position: relative;
     background-color: #fefefe;
@@ -52,110 +53,117 @@
     @include shy-border;
     margin-bottom: 0.2em;
     @include display-flex(row, center, center);
-    .modes{
-      @include display-flex(row, center, center);
-      flex: 0 0 auto;
-      > div{
-        margin-left: 0.2em;
-      }
+    :global(input[type="checkbox"]){
+      padding: 1em;
+      margin: 1em;
     }
-    .authors{
-      color: $grey;
-      @include text-ellipsis;
+  }
+  .modes{
+    @include display-flex(row, center, center);
+    flex: 0 0 auto;
+    > div{
+      margin-left: 0.2em;
     }
-    .details:not(:empty){
-      background-color: #eee;
-      padding: 0 0.2em;
-      overflow: hidden;
-      @include radius;
+  }
+  .authors{
+    color: $grey;
+    @include text-ellipsis;
+  }
+  .details:not(:empty){
+    background-color: #eee;
+    padding: 0 0.2em;
+    overflow: hidden;
+    @include radius;
+  }
+  .transaction, .listing{
+    @include radius;
+    height: 2em;
+    width: 2em;
+    @include display-flex(row, center, center);
+    color: white;
+  }
+  .transaction{
+    margin-left: 1em;
+    &.giving{
+      background-color: $giving-color;
     }
-    .transaction, .listing{
-      @include radius;
-      height: 2em;
-      width: 2em;
-      @include display-flex(row, center, center);
-      color: white;
+    &.lending{
+      background-color: $lending-color;
     }
-    .transaction{
-      margin-left: 1em;
-      &.giving{
-        background-color: $giving-color;
-      }
-      &.lending{
-        background-color: $lending-color;
-      }
-      &.selling{
-        background-color: $selling-color;
-      }
-      &.inventorying{
-        background-color: $inventorying-color;
-      }
+    &.selling{
+      background-color: $selling-color;
     }
-    .listing{
-      &.private{
-        background-color: $private-color;
-      }
-      &.network{
-        background-color: $network-color;
-      }
-      &.public{
-        color: $default-text-color;
-        background-color: $public-color;
-      }
+    &.inventorying{
+      background-color: $inventorying-color;
     }
-    a{
-      @include display-flex(row, center, flex-start);
-      @include bg-hover(white, 5%);
-      flex: 1 0 0;
-      overflow: hidden;
-      margin-right: 0.5em;
+  }
+  .listing{
+    &.private{
+      background-color: $private-color;
     }
+    &.network{
+      background-color: $network-color;
+    }
+    &.public{
+      color: $default-text-color;
+      background-color: $public-color;
+    }
+  }
+  a{
+    @include display-flex(row, center, flex-start);
+    @include bg-hover(white, 5%);
+    flex: 1 0 0;
+    overflow: hidden;
+    margin-right: 0.5em;
+  }
 
-    /*Small screens*/
-    @media screen and (max-width: $smaller-screen) {
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .item-row{
       margin-bottom: 1em;
       margin: 0.5em 0;
       padding: 0.2em;
-      a{
-        flex-direction: column;
-        align-self: stretch;
-      }
-      .info{
-        align-self: stretch;
-        text-align: center;
-      }
-      .details{
-        max-height: 5em;
-        margin: 0.5em;
-      }
-      .modes{
-        flex-direction: column;
-        > div{
-          margin: 0.1em 0;
-        }
+    }
+    a{
+      flex-direction: column;
+      align-self: stretch;
+    }
+    .info{
+      align-self: stretch;
+      text-align: center;
+    }
+    .details{
+      max-height: 5em;
+      margin: 0.5em;
+    }
+    .modes{
+      flex-direction: column;
+      > div{
+        margin: 0.1em 0;
       }
     }
+  }
 
-    /*Large screens*/
-    @media screen and (min-width: $smaller-screen) {
-      .info{
-        flex: 1 1 0;
-        text-align: left;
-        max-width: 30em;
-      }
-      .details{
-        max-height: 3em;
-        margin: 0 0.5em;
-        flex: 1 1 auto;
-      }
-      .image-wrapper{
-        margin-right: 0.5em;
-        min-height: 3em;
-        flex: 0 0 3em;
-      }
-      .transaction, .listing{
-        margin-right: 1em;
-      }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .info{
+      flex: 1 1 0;
+      text-align: left;
+      min-width: 40%;
+      max-width: 30em;
+    }
+    .details{
+      max-height: 3em;
+      margin: 0 0.5em;
+      flex: 1 1 auto;
+    }
+    .image-wrapper{
+      margin-right: 0.5em;
+      min-height: 3em;
+      flex: 0 0 3em;
+    }
+    .transaction, .listing{
+      margin-right: 1em;
     }
   }
 </style>

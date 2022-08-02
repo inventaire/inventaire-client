@@ -149,12 +149,23 @@ export default Marionette.View.extend({
   },
 
   async showItemsByDisplayMode () {
-    // const ItemsList = this.display === 'table' ? ItemsTable : ItemsCascade
-    const { default: ItemsCascade } = await import('#inventory/components/items_cascade.svelte')
     this._lastShownDisplay = this.display
-    this.showChildComponent('itemsView', ItemsCascade, {
+    const { isMainUser, groupContext, itemsIds, collection } = this.itemsViewParams
+    const items = getItemsListFromItemsCollection(collection)
+    let Component
+    if (this.display === 'table') {
+      const { default: ItemsTable } = await import('#inventory/components/items_table.svelte')
+      Component = ItemsTable
+    } else {
+      const { default: ItemsCascade } = await import('#inventory/components/items_cascade.svelte')
+      Component = ItemsCascade
+    }
+    this.showChildComponent('itemsView', Component, {
       props: {
-        items: getItemsListFromItemsCollection(this.itemsViewParams.collection)
+        items,
+        isMainUser,
+        groupContext,
+        itemsIds,
       }
     })
   },
