@@ -84,7 +84,9 @@
         <p>{@html icon('warning')} {i18n('You already have this book in your inventory:')}</p>
         <ul>
           {#each existingEntityItems as item}
-            <ItemRow {item} />
+            <li>
+              <ItemRow {item} />
+            </li>
           {/each}
         </ul>
       </div>
