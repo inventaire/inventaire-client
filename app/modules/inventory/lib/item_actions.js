@@ -57,14 +57,19 @@ export default {
       const res = await preq.post(app.API.items.deleteByIds, { ids })
       items.forEach(item => {
         if (_.isString(item)) return
-        app.user.trigger('items:change', item.get('listing'), null)
+        // app.user.trigger('items:change', item.get('listing'), null)
         item.hasBeenDeleted = true
       })
       return next(res)
     }
 
-    if ((items.length === 1) && items[0] instanceof Backbone.Model) {
-      const title = items[0].get('snapshot.entity:title')
+    if ((items.length === 1)) {
+      let title
+      if (isModel(items[0])) {
+        title = items[0].get('snapshot.entity:title')
+      } else {
+        title = items[0].snapshot['entity:title']
+      }
       confirmationText = i18n('delete_item_confirmation', { title })
     } else {
       confirmationText = i18n('delete_items_confirmation', { amount: ids.length })
