@@ -4,6 +4,7 @@ import getActionKey from '#lib/get_action_key'
 import screen_ from '#lib/screen'
 import isMobile from '#lib/mobile_check'
 import { removeCurrentComponent } from '#lib/global_libs_extender'
+import Spinner from '#components/spinner.svelte'
 
 export default function () {
   const $body = $('body')
@@ -129,8 +130,17 @@ export default function () {
     modalOpen()
   }
 
+  const showModalSpinner = () => {
+    app.layout.showChildComponent('modal', Spinner, {
+      props: {
+        center: true,
+      }
+    })
+  }
+
   app.commands.setHandlers({
     'modal:open': modalOpen,
+    'modal:spinner': showModalSpinner,
     'modal:close': closeModal,
     'modal:html': modalHtml
   })

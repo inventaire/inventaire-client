@@ -1,11 +1,15 @@
 <script>
-  export let large = false, light = false
+  export let large = false, light = false, center = false
 </script>
 
 {#if large}
   <div class="spinner-outer"><div class="spinner-inner"></div></div>
+{:else if center}
+  <div class="center">
+    <span class="small-spinner" class:light></span>
+  </div>
 {:else}
-  <span class="small-spinner" class:light></span>
+    <span class="small-spinner" class:light></span>
 {/if}
 
 <style>
@@ -25,6 +29,10 @@
     transform: translateY(-50%);
     display: inline-block;
     align-self: center;
+  }
+
+  .center{
+    text-align: center;
   }
 
   .small-spinner:after, .spinner-inner:after{

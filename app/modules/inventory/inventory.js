@@ -159,6 +159,9 @@ const showItemModal = async (model, fallback) => {
 
   if (!fallback) fallback = navigateAfterModal
 
+  app.execute('modal:open', 'large')
+  app.execute('modal:spinner')
+
   try {
     const [ { default: ItemShow } ] = await Promise.all([
       await import('#inventory/components/item_show.svelte'),

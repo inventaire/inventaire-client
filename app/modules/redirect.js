@@ -202,6 +202,7 @@ const showErrorCookieRequired = command => showError({
 
 const showError = async options => {
   const { default: ErrorView } = await import('#general/views/error')
+  app.execute('modal:close')
   app.layout.showChildView('main', new ErrorView(options))
   setPrerenderStatusCode(options.statusCode)
   // When the logic leading to the error didn't trigger a new 'navigate' action,
