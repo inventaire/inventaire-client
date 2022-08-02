@@ -7,7 +7,6 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getSeriePathname } from '#inventory/components/lib/item_show_helpers'
   import { serializeItem } from '#inventory/lib/items'
-  import { onMount } from 'svelte'
   import AuthorsPreviewLists from '#inventory/components/authors_preview_lists.svelte'
   import ItemShelves from '#inventory/components/item_shelves.svelte'
   import ItemShowData from '#inventory/components/item_show_data.svelte'
@@ -27,8 +26,6 @@
   const entityIsEdition = entity.type === 'edition'
 
   const { snapshot } = item
-
-  onMount(() => app.execute('modal:open', 'large'))
 
   let flash
 </script>
