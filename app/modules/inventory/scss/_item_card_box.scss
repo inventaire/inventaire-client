@@ -3,11 +3,21 @@
   :global(.dropdown-button){
     padding: 0;
   }
-  &:not(:first-child){
-    margin-left: 0.5em;
+  &.large{
+    .icon{
+      width: $user-box-heigth;
+    }
+    &:not(:first-child){
+      margin-left: 0.5em;
+    }
+    &:not(:last-child){
+      margin-right: 0.5em;
+    }
   }
-  &:not(:last-child){
-    margin-right: 0.5em;
+  &:not(.large){
+    .icon{
+      flex: 1;
+    }
   }
 }
 [slot="button-inner"]{
@@ -21,12 +31,9 @@
   @include shy-border;
   background-color: white;
 }
-
 .icon{
-  flex: 0 0 auto;
   @include display-flex(row, center, center);
   height: 100%;
-  width: $user-box-heigth;
   // required in Chromium
   min-height: $user-box-heigth;
 }
