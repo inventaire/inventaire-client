@@ -1,3 +1,6 @@
+<!-- Needed to let app/modules/general/lib/modal.js access onModalExit  -->
+<svelte:options accessors/>
+
 <script>
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
@@ -12,7 +15,8 @@
   import Flash from '#lib/components/flash.svelte'
   import app from '#app/app'
 
-  export let item, user, entity, works, authorsByProperty
+  export let item, user, entity, works, authorsByProperty, fallback
+  export const onModalExit = fallback
 
   const seriePathname = getSeriePathname(works)
 

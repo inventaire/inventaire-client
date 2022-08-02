@@ -3,6 +3,7 @@ import log_ from '#lib/loggers'
 import getActionKey from '#lib/get_action_key'
 import screen_ from '#lib/screen'
 import isMobile from '#lib/mobile_check'
+import { removeCurrentComponent } from '#lib/global_libs_extender'
 
 export default function () {
   const $body = $('body')
@@ -87,13 +88,16 @@ export default function () {
       // closing it should bring back to the previous history state.
       app.execute('history:back')
     }
-
+    removeCurrentComponent(app.layout.getRegion('modal'))
     app.vent.trigger('modal:closed')
   }
 
   const exitModal = function () {
-    app.layout.getRegion('modal').currentView?.onModalExit?.()
-    return closeModal()
+    const region = app.layout.getRegion('modal')
+    region.currentView?.onModalExit?.()
+    region.currentComponent?.onModalExit?.()
+    removeCurrentComponent(region)
+    closeModal()
   }
 
   const setWidthJumpPreventingRules = function (maxWidth, rightOffset) {
