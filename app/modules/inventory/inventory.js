@@ -142,11 +142,11 @@ const showItemsList = async collection => {
 const showItemModal = async (model, fallback) => {
   assert_.object(model)
 
-  const previousRoute = currentRoute()
   // Do not scroll top as the modal might be displayed down at the level
   // where the item show event was triggered
   app.navigateFromModel(model, { preventScrollTop: true })
   const newRoute = currentRoute()
+  const previousRoute = Backbone.history.last.find(pathname => pathname !== newRoute)
 
   const navigateAfterModal = function () {
     if (currentRoute() !== newRoute) return
