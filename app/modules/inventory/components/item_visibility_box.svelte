@@ -51,7 +51,7 @@
   $: onChange(visibility, udpateAndSave)
 </script>
 
-<div class="item-card-box item-visibility-box">
+<div class="item-card-box item-visibility-box" class:large>
   <Dropdown
     align="right"
     buttonTitle={i18n('Select who can see this item')}

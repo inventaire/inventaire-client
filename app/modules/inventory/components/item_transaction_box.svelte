@@ -28,7 +28,7 @@
   }
 </script>
 
-<div class="item-card-box">
+<div class="item-card-box" class:large>
   {#if restricted}
     <a href={pathname} on:click={loadInternalLink}>
       {@html icon(currentTransaction.icon)}
