@@ -4,13 +4,18 @@
   import { guessTransaction } from '#inventory/components/lib/item_creation_helpers'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
 
-  export let transaction
+  export let transaction, showDescription = false
 
   transaction = guessTransaction(transaction)
 </script>
 
 <fieldset>
-  <legend>{I18n("I have it and it's available for:")}</legend>
+  <legend>
+    <p class="title">{I18n('transaction')}</p>
+    {#if showDescription}
+      <p class="description">{I18n("I have it and it's available for:")}</p>
+    {/if}
+  </legend>
   {#each Object.values(transactionsDataFactory()) as { name, creationLabel, icon: iconName }}
     <label class="{name}" class:selected={transaction === name}>
       <input type="radio" bind:group={transaction} name="transaction" value={name}>

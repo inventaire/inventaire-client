@@ -2,7 +2,7 @@
   import { I18n } from '#user/lib/i18n'
   import ResultCandidate from '#inventory/components/importer/result_candidate.svelte'
   export let processedCandidates
-  export let listing
+  export let visibility
   export let transaction
 
   $:candidatesErrors = processedCandidates.filter(_.property('error'))
@@ -12,7 +12,7 @@
   <h4>{I18n('books not imported')}</h4>
   <ul>
     {#each candidatesErrors as candidate (candidate.index)}
-      <ResultCandidate {candidate} {listing} {transaction}/>
+      <ResultCandidate {candidate} {visibility} {transaction}/>
     {/each}
   </ul>
 {/if}
@@ -20,7 +20,7 @@
   <h4>{I18n('books successfully added to your inventory')}</h4>
   <ul>
     {#each createdCandidates as candidate (candidate.index)}
-      <ResultCandidate {candidate} {listing} {transaction}/>
+      <ResultCandidate {candidate} {visibility} {transaction}/>
     {/each}
   </ul>
 {/if}

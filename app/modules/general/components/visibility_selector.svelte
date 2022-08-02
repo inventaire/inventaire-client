@@ -6,7 +6,9 @@
   import { onChange } from '#lib/svelte'
   import InfoTip from '#components/info_tip.svelte'
 
-  export let visibility = [], maxHeight = '25em'
+  export let visibility = []
+  export let maxHeight = '25em'
+  export let showDescription = false
 
   // Needs to be above reactive call to initCheckedGroupKeys
   $: allGroupsVisibilityKeys = $userGroups.map(getGroupVisibilityKey)
@@ -68,7 +70,12 @@
 </script>
 
 <fieldset>
-  <legend>{I18n('visibility')}</legend>
+  <legend>
+    <p class="title">{I18n('visibility')}</p>
+    {#if showDescription}
+      <p class="description">{i18n('Who should be allowed to see it?')}</p>
+    {/if}
+  </legend>
 
   <div
     class="options"
@@ -158,5 +165,9 @@
   }
   .inferred:not(:hover){
     opacity: 0.7;
+  }
+  .description{
+    font-size: 0.9rem;
+    margin-bottom: 0.5em;
   }
 </style>
