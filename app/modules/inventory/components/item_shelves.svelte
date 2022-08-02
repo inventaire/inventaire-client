@@ -5,7 +5,7 @@
   import { getShelvesByOwner, getByIds as getShelvesByIds } from '#shelves/lib/shelves'
   import ShelfInfo from '#inventory/components/importer/select_info.svelte'
   import { onChange } from '#lib/svelte'
-  import { debounce } from 'underscore'
+  import { debounce, isEqual } from 'underscore'
 
   export let serializedItem
 
@@ -32,7 +32,10 @@
   }
   $: onChange(hideUnselectedShelves, shelvesIds, userShelves, updateDisplayedShelves)
 
+  let currentShelves = shelvesIds
   async function save () {
+    if (isEqual(shelvesIds, currentShelves)) return
+    currentShelves = shelvesIds
     await app.request('items:update', {
       items: [ itemId ],
       attribute: 'shelves',
