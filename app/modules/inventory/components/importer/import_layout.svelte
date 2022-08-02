@@ -1,8 +1,9 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import ImportersSection from '#inventory/components/importer/importers_section.svelte'
-  import SelectButtonGroup from '#inventory/components/select_button_group.svelte'
+  import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import SelectShelves from '#inventory/components/importer/select_shelves.svelte'
+  import VisibilitySelector from '#components/visibility_selector.svelte'
   import CandidatesSection from '#inventory/components/importer/candidates_section.svelte'
   import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'
 
@@ -25,7 +26,7 @@
 
   let processing
   let candidates = []
-  let transaction, listing
+  let transaction, visibility
   let shelvesIds = []
 </script>
 <div id='importLayout'>
@@ -34,13 +35,13 @@
     <CandidatesSection bind:candidates {processing}/>
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
     <div class="panel">
-      <SelectButtonGroup type="transaction" bind:selected={transaction}/>
-      <SelectButtonGroup type="listing" bind:selected={listing}/>
+      <TransactionSelector bind:transaction showDescription={true} />
+      <VisibilitySelector bind:visibility showDescription={true} />
       <SelectShelves bind:shelvesIds/>
     </div>
   {/if}
   {#if !processing}
-    <ImportItemsSection bind:candidates {transaction} {listing} {shelvesIds}/>
+    <ImportItemsSection bind:candidates {transaction} {visibility} {shelvesIds}/>
   {/if}
 </div>
 

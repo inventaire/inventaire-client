@@ -92,8 +92,8 @@
   {/await}
 
   <form class="panel">
-    <TransactionSelector bind:transaction />
-    <VisibilitySelector bind:visibility />
+    <TransactionSelector bind:transaction showDescription={true} />
+    <VisibilitySelector bind:visibility showDescription={true} />
     <SelectShelves bind:shelvesIds/>
 
     <label class="details">
