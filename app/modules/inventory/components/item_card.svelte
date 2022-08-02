@@ -9,6 +9,7 @@
   import ItemVisibilityBox from '#inventory/components/item_visibility_box.svelte'
   import ItemRequestBox from '#inventory/components/item_request_box.svelte'
   import Flash from '#lib/components/flash.svelte'
+  import TruncatedText from '#components/truncated_text.svelte'
 
   export let item, showDistance
 
@@ -31,7 +32,6 @@
 
   $: isPrivate = item.visibility?.length === 0
 
-  let detailsMore = false
   let flash
 </script>
 
@@ -74,12 +74,13 @@
       </div>
     {/if}
     {#if details}
-      <div class="detailsBox">
+      <div class="details-box">
         <p class="details wrapped user-content">
-          {details}
-          {#if detailsMore}
-            <a class="itemShow more" href="{pathname}">{i18n('see more')}</a>
-          {/if}
+          <TruncatedText text={details} maxLength={180}>
+            <span slot="more">
+              <a class="more" href={pathname} on:click={loadInternalLink} >{i18n('see more')}</a>
+            </span>
+          </TruncatedText>
         </p>
       </div>
     {/if}
@@ -138,6 +139,17 @@
     border-bottom: 1px solid #ccc;
     padding-bottom: 15px;
     margin-bottom: 5px;
+  }
+  .details-box{
+    background-color: rgba($off-white, 0.7);
+    padding: 0.4em;
+    text-align: start;
+    .more{
+      padding-right: 0.2em;
+      float: right;
+      @include text-hover($grey);
+      @include underline(rgba($grey, 0.4));
+    }
   }
   .data{
     width: 100%;
