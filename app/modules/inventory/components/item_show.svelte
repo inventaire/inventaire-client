@@ -27,6 +27,20 @@
 
   const { snapshot } = item
 
+  function destroyItem () {
+    return app.request('items:delete', {
+      items: [ item ],
+      next: () => {
+        // Force a refresh of the inventory, so that the deleted item doesn't appear
+        app.execute('show:inventory:main:user')
+      },
+      back: () => {
+        if (item.hasBeenDeleted) app.execute('modal:close')
+        else app.execute('show:item', item._id)
+      },
+    })
+  }
+
   let flash
 </script>
 
@@ -95,7 +109,10 @@
       {/if}
       <Flash bind:state={flash} />
       {#if mainUserIsOwner}
-        <button class="remove remove-button dark-grey">
+        <button
+          class="remove remove-button dark-grey"
+          on:click={destroyItem}
+          >
           {I18n('delete')}
           {@html icon('trash-o')}
         </button>
