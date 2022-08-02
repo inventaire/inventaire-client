@@ -1,51 +1,45 @@
 <script>
+  import Masonry from 'svelte-bricks'
   import ItemCard from '#inventory/components/item_card.svelte'
+  import { debounce } from 'underscore'
+
   export let items
+
+  // Keep in sync with #inventory/components/item_card.svelte .item-card[max-width]
+  const baseColumnWidth = 230
+
+  let columnWidth = baseColumnWidth
+  function _refreshColumnWidth () {
+    if (window.visualViewport.width < (2 * baseColumnWidth + 50)) {
+      columnWidth = Math.min(window.visualViewport.width, 1.5 * baseColumnWidth)
+    } else {
+      columnWidth = baseColumnWidth
+    }
+  }
+
+  const refreshColumnWidth = debounce(_refreshColumnWidth, 200)
+
+  refreshColumnWidth()
 </script>
 
-<ul class="items-cascade">
-  {#each items as item}
+<svelte:window on:resize={refreshColumnWidth} />
+
+<div class="items-cascade">
+  <Masonry
+    {items}
+    idKey="_id"
+    gap={16}
+    minColWidth={columnWidth}
+    maxColWidth={columnWidth}
+    let:item
+    >
     <ItemCard {item} />
-  {/each}
-</ul>
+  </Masonry>
+</div>
 
 <style lang="scss">
   @import '#general/scss/utils';
-
-  $itemCardBaseWidth: 230px;
-  $itemsCasccadeMulticolumnsThreshold: $itemCardBaseWidth * 2 + 50px;
-
   .items-cascade{
-    // required to avoid itemsLists to overlapse when empty
-    // !important to override Masonry's style="height:0px"
-    // ex: entity_show
-    min-height: 10em !important;
-    /*Small screens*/
-    @media screen and (max-width: $itemsCasccadeMulticolumnsThreshold) {
-      @include display-flex(column, center, center);
-    }
-
-    /*Large screens MASONRY */
-    @media screen and (min-width: $itemsCasccadeMulticolumnsThreshold) {
-      // required by Masonry to center elements in conjunction with isFitWidth: true
-      // See https://desandro.github.io/masonry/demos/centered.html
-      margin: 0 auto;
-    }
-    // itemCard positioning item-settings
-    // for itemCard internal, see item_card
-    :global(.item-card){
-      width: $itemCardBaseWidth;
-      margin: 5px;
-      float: left;
-      /*Small screens*/
-      @media screen and (max-width: $itemsCasccadeMulticolumnsThreshold) {
-          width: 94vw;
-          max-width: 300px;
-        }
-
-      /*Large screens*/
-      @media screen and (min-width: $itemsCasccadeMulticolumnsThreshold) {
-      }
-    }
+    margin: 1em 0;
   }
 </style>

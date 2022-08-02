@@ -80,6 +80,7 @@
     "p-timeout": "^4.1.0",
     "papaparse": "^4.6.3",
     "quagga": "^0.12.1",
+    "svelte-bricks": "^0.1.7",
     "underscore": "^1.8.3",
     "wikidata-lang": "^2.0.11"
   },
