@@ -57,14 +57,17 @@ describe('utils', () => {
 
   describe('cutBeforeWord', () => {
     const text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit'
-    const result = cutBeforeWord(text, 24)
 
     it('should return a string shorter or egal to the limit', () => {
-      (result.length <= 24).should.equal(true)
+      (cutBeforeWord(text, 24).length <= 24).should.equal(true)
     })
 
     it('should cut between words', () => {
-      result.should.equal('Lorem ipsum dolor sit')
+      cutBeforeWord(text, 24).should.equal('Lorem ipsum dolor sit')
+    })
+
+    it('should not cut below limit', () => {
+      cutBeforeWord(text, 100).should.equal(text)
     })
   })
 })

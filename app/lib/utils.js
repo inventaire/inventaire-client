@@ -78,7 +78,8 @@ const isModalPathname = pathname => modalPathnamesPattern.test(pathname)
 const modalPathnamesPattern = /^\/items\/\w+/
 
 export const cutBeforeWord = (text, limit) => {
-  const shortenedText = text.slice(0, +limit + 1 || undefined)
+  if (text.length <= limit) return text
+  const shortenedText = text.slice(0, limit)
   return shortenedText.replace(/\s\w+$/, '')
 }
 
