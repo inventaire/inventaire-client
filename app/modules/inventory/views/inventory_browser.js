@@ -12,6 +12,7 @@ import inventoryBrowserTemplate from './templates/inventory_browser.hbs'
 import '#inventory/scss/inventory_browser.scss'
 import Loading from '#behaviors/loading'
 import PreventDefault from '#behaviors/prevent_default'
+import { getItemsListFromItemsCollection } from '#inventory/inventory'
 
 const selectorsNames = [ 'author', 'genre', 'subject' ]
 const selectorsRegions = {}
@@ -151,14 +152,10 @@ export default Marionette.View.extend({
     // const ItemsList = this.display === 'table' ? ItemsTable : ItemsCascade
     const { default: ItemsCascade } = await import('#inventory/components/items_cascade.svelte')
     this._lastShownDisplay = this.display
-    const items = this.itemsViewParams.collection.models.map(model => {
-      const item = model.toJSON()
-      item.user = model.user.toJSON()
-      item.entityData = model.entity?.toJSON()
-      return item
-    })
     this.showChildComponent('itemsView', ItemsCascade, {
-      props: { items }
+      props: {
+        items: getItemsListFromItemsCollection(this.itemsViewParams.collection)
+      }
     })
   },
 

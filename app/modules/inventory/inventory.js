@@ -135,8 +135,21 @@ const showInventory = async options => {
 }
 
 const showItemsList = async collection => {
-  const { default: ItemsCascade } = await import('./views/items_cascade.js')
-  app.layout.showChildView('main', new ItemsCascade({ collection }))
+  const { default: ItemsCascade } = await import('#inventory/components/items_cascade.svelte')
+  app.layout.showChildComponent('main', ItemsCascade, {
+    props: {
+      items: getItemsListFromItemsCollection(collection)
+    }
+  })
+}
+
+export const getItemsListFromItemsCollection = collection => {
+  return collection.models.map(model => {
+    const item = model.toJSON()
+    item.user = model.user.toJSON()
+    item.entityData = model.entity?.toJSON()
+    return item
+  })
 }
 
 const showItemModal = async (model, fallback) => {
