@@ -171,7 +171,7 @@ Marionette.View.prototype.showChildComponent = function (regionName, Component, 
   return component
 }
 
-function removeCurrentComponent (region) {
+export function removeCurrentComponent (region) {
   if (region.currentComponent) {
     region.currentComponent.$destroy()
     delete region.currentComponent
