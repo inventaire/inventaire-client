@@ -2,6 +2,7 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import ItemRow from '#inventory/components/item_row.svelte'
+  import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'
 
   export let items, isMainUser, itemsIds
 
@@ -14,7 +15,11 @@
     selectedItemsIds = []
   }
   function editSelection () {
-    alert('edit')
+    app.layout.showChildComponent('modal', ItemsTableSelectionEditor, {
+      props: {
+        selectedItemsIds,
+      }
+    })
   }
 
   $: emptySelection = selectedItemsIds.length === 0
