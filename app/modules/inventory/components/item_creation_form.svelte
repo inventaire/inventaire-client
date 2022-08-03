@@ -96,7 +96,7 @@
   <form class="panel">
     <TransactionSelector bind:transaction showDescription={true} />
     <VisibilitySelector bind:visibility showDescription={true} />
-    <ShelvesSelector bind:shelvesIds/>
+    <ShelvesSelector bind:shelvesIds showDescription={true} />
 
     <label class="details">
       {I18n('details')}
@@ -146,6 +146,15 @@
     /*Large screens*/
     @media screen and (min-width: $small-screen) {
       padding: 0em 1em 1em 1em;
+    }
+  }
+
+  .panel{
+    :global(fieldset){
+      margin-bottom: 1em;
+    }
+    :global(label.details), :global(label.notes){
+      font-size: 1rem;
     }
   }
 
