@@ -3,7 +3,7 @@
   import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import { getShelvesByOwner } from '#shelves/lib/shelves'
-  import ShelfInfo from '#inventory/components/importer/select_info.svelte'
+  import ShelfInfo from '#inventory/components/shelf_info.svelte'
 
   export let shelvesIds
   let userShelves = []

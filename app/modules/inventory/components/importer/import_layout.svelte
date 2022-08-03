@@ -2,7 +2,7 @@
   import { I18n } from '#user/lib/i18n'
   import ImportersSection from '#inventory/components/importer/importers_section.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
-  import SelectShelves from '#inventory/components/importer/select_shelves.svelte'
+  import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import VisibilitySelector from '#components/visibility_selector.svelte'
   import CandidatesSection from '#inventory/components/importer/candidates_section.svelte'
   import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'
@@ -37,7 +37,7 @@
     <div class="panel">
       <TransactionSelector bind:transaction showDescription={true} />
       <VisibilitySelector bind:visibility showDescription={true} />
-      <SelectShelves bind:shelvesIds/>
+      <ShelvesSelector bind:shelvesIds />
     </div>
   {/if}
   {#if !processing}
