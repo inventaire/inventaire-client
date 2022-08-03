@@ -9,8 +9,8 @@
 <div class="shelf-info">
   <img class="shelf-picture" src="{imgSrc(shelfColor)}" alt='{shelf.name}'>
   <div class="shelf-text">
-    <p>{shelf.name}</p>
-    <p>{shelf.description}</p>
+    <p class="name">{shelf.name}</p>
+    <p class="description">{shelf.description}</p>
   </div>
 </div>
 
@@ -26,5 +26,11 @@
   }
   .shelf-text{
     margin: 0 0.5em;
+  }
+  p{
+    line-height: 1.2rem;
+  }
+  .description{
+    color: $label-grey;
   }
 </style>

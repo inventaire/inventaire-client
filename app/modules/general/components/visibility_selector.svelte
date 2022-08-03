@@ -166,8 +166,4 @@
   .inferred:not(:hover){
     opacity: 0.7;
   }
-  .description{
-    font-size: 0.9rem;
-    margin-bottom: 0.5em;
-  }
 </style>

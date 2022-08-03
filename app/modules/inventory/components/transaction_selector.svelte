@@ -30,8 +30,6 @@
 
   fieldset{
     @include display-flex(row);
-    margin-top: 1rem;
-    margin-bottom: 1rem;
   }
 
   label{
@@ -92,9 +90,5 @@
     fieldset{
       flex-direction: column;
     }
-  }
-
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
   }
 </style>

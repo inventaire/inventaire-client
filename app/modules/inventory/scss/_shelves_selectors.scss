@@ -5,6 +5,7 @@ legend{
 label{
   color: $default-text-color;
   @include bg-hover($off-white, 5%);
+  background-color: inherit;
   @include display-flex(row, center, flex-start);
   @include radius;
   cursor: pointer;

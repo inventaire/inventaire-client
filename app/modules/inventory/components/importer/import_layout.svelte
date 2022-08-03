@@ -37,7 +37,7 @@
     <div class="panel">
       <TransactionSelector bind:transaction showDescription={true} />
       <VisibilitySelector bind:visibility showDescription={true} />
-      <ShelvesSelector bind:shelvesIds />
+      <ShelvesSelector bind:shelvesIds showDescription={true} />
     </div>
   {/if}
   {#if !processing}
@@ -63,5 +63,10 @@
   }
   .panel{
     @include panel;
+    // - `fieldset + fieldset`: do not target apply to the first fieldset
+    // - `:not(:empty)`: skip ShelvesSelector when empty
+    :global(fieldset + fieldset:not(:empty)){
+      margin-top: 1em;
+    }
   }
 </style>
