@@ -4,22 +4,38 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
   import { getCorrespondingListing, getIconLabel } from '#general/lib/visibility'
+  import { onChange } from '#lib/svelte'
+  import { onDestroy, onMount } from 'svelte'
+  import { subscribe, unsubscribe } from '#lib/components/global_updates_event_bus'
 
   export let item
 
-  const { pathname, details = '', transaction, visibility, snapshot } = item
-  const title = snapshot['entity:title']
-  const authors = snapshot['entity:authors']
-  const image = snapshot['entity:image']
-  const currentTransaction = transactionsDataFactory()[transaction]
-  const mainUserIsOwner = visibility != null
+  const mainUserIsOwner = item.visibility != null
 
-  let isPrivate, correspondingListing, currentListing
-  if (mainUserIsOwner) {
-    isPrivate = visibility.length === 0
-    correspondingListing = getCorrespondingListing(visibility)
-    currentListing = app.user.listings.data[correspondingListing]
+  let pathname, details, transaction, visibility, snapshot, title, authors, image, currentTransaction, isPrivate, correspondingListing, currentListing
+
+  function refreshData () {
+    ;({ pathname, details = '', transaction, visibility, snapshot } = item)
+    title = snapshot['entity:title']
+    authors = snapshot['entity:authors']
+    image = snapshot['entity:image']
+    currentTransaction = transactionsDataFactory()[transaction]
+    if (mainUserIsOwner) {
+      isPrivate = visibility.length === 0
+      correspondingListing = getCorrespondingListing(visibility)
+      currentListing = app.user.listings.data[correspondingListing]
+    }
   }
+
+  if (mainUserIsOwner) {
+    const updater = updatedItem => {
+      item = Object.assign(item, updatedItem)
+    }
+    onMount(() => subscribe('items', item._id, updater))
+    onDestroy(() => unsubscribe('items', item._id, updater))
+  }
+
+  $: onChange(item, refreshData)
 </script>
 
 <div class="item-row">

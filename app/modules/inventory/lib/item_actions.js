@@ -4,6 +4,7 @@ import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
 import Item from '#inventory/models/item'
 import { isModel } from '#lib/boolean_tests'
+import { hasSubscribers, update } from '#lib/components/global_updates_event_bus'
 
 export default {
   create (itemData) {
@@ -39,11 +40,11 @@ export default {
 
     try {
       await preq.put(app.API.items.update, { ids, attribute, value })
-      propagateItemsChanges(items, attribute)
     } catch (err) {
       rollbackUpdate(items)
       throw err
     }
+    propagateItemsChanges(ids)
   },
 
   delete (options) {
@@ -87,18 +88,11 @@ const getItemId = item => {
   else return item.id || item._id
 }
 
-const propagateItemsChanges = (items, attribute) => {
-  items.forEach(item => {
-    // TODO: update counters for non-model items too
-    if (_.isString(item)) return
-    if (attribute === 'listing') {
-      const { listing: previousListing } = item._backup
-      const newListing = item.get('listing')
-      if (newListing === previousListing) return
-      app.user.trigger('items:change', previousListing, newListing)
-    }
-    delete item._backup
-  })
+const propagateItemsChanges = async ids => {
+  ids = ids.filter(id => hasSubscribers('items', id))
+  if (ids.length === 0) return
+  const { items } = await preq.get(app.API.items.byIds({ ids }))
+  items.forEach(doc => update('items', doc))
 }
 
 const rollbackUpdate = items => {
