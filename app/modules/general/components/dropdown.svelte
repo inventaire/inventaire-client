@@ -8,7 +8,7 @@
   export let clickOnContentShouldCloseDropdown = false
 
   let showDropdown = false, positionned = false
-  let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft
+  let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft, dropdownWrapperEl
   const transitionDuration = 100
 
   function onButtonClick () {
@@ -50,8 +50,10 @@
     }
   }
 
-  function onOutsideClick () {
-    showDropdown = false
+  function onOutsideClick (e) {
+    if (!dropdownWrapperEl.contains(e.target)) {
+      showDropdown = false
+    }
   }
   function onContentClick (e) {
     if (isFunction(clickOnContentShouldCloseDropdown)) {
@@ -69,7 +71,7 @@
 
 <div
   class="has-dropdown"
-  on:click|stopPropagation
+  bind:this={dropdownWrapperEl}
   >
   <button
     class="dropdown-button"
