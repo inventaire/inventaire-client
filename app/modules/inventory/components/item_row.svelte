@@ -11,11 +11,15 @@
   const title = snapshot['entity:title']
   const authors = snapshot['entity:authors']
   const image = snapshot['entity:image']
-
   const currentTransaction = transactionsDataFactory()[transaction]
-  const isPrivate = visibility.length === 0
-  const correspondingListing = getCorrespondingListing(visibility)
-  const currentListing = app.user.listings.data[correspondingListing]
+  const mainUserIsOwner = visibility != null
+
+  let isPrivate, correspondingListing, currentListing
+  if (mainUserIsOwner) {
+    isPrivate = visibility.length === 0
+    correspondingListing = getCorrespondingListing(visibility)
+    currentListing = app.user.listings.data[correspondingListing]
+  }
 </script>
 
 <div class="item-row">
@@ -38,9 +42,11 @@
         {@html icon(currentTransaction.icon)}
       </div>
     {/if}
-    <div class="listing {correspondingListing}" title="{i18n(getIconLabel(visibility))}">
-      {@html icon(currentListing.icon)}
-    </div>
+    {#if mainUserIsOwner}
+      <div class="listing {correspondingListing}" title="{i18n(getIconLabel(visibility))}">
+        {@html icon(currentListing.icon)}
+      </div>
+    {/if}
   </div>
 </div>
 
