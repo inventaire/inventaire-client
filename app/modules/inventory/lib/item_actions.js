@@ -4,7 +4,7 @@ import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
 import Item from '#inventory/models/item'
 import { isModel } from '#lib/boolean_tests'
-import { hasSubscribers, update } from '#lib/components/global_updates_event_bus'
+import { updateDocStore } from '#lib/svelte/mono_document_stores'
 
 export default {
   create (itemData) {
@@ -44,7 +44,9 @@ export default {
       rollbackUpdate(items)
       throw err
     }
-    propagateItemsChanges(ids)
+    // Wait for confirmation to propagate changes, as there is no rollback
+    // on that propagation
+    propagateItemsChanges({ ids, attribute, value })
   },
 
   delete (options) {
@@ -88,11 +90,12 @@ const getItemId = item => {
   else return item.id || item._id
 }
 
-const propagateItemsChanges = async ids => {
-  ids = ids.filter(id => hasSubscribers('items', id))
-  if (ids.length === 0) return
-  const { items } = await preq.get(app.API.items.byIds({ ids }))
-  items.forEach(doc => update('items', doc))
+const propagateItemsChanges = async ({ ids, attribute, value }) => {
+  const updateFn = doc => {
+    doc[attribute] = value
+    return doc
+  }
+  ids.forEach(id => updateDocStore({ category: 'items', id, updateFn }))
 }
 
 const rollbackUpdate = items => {
