@@ -18,6 +18,12 @@ export function getDocStore ({ category, doc }) {
   return store
 }
 
+export function refreshDocStore ({ category, doc }) {
+  const { _id: id } = doc
+  const store = docStores[category]?.[id]
+  if (store) store.set(doc)
+}
+
 function initDocStore ({ category, id, doc }) {
   // `stopDocStore` will be called when there are no more subscribers
   const stopDocStore = () => {
@@ -33,4 +39,8 @@ function initDocStore ({ category, id, doc }) {
 export function updateDocStore ({ category, id, updateFn }) {
   const store = docStores[category]?.[id]
   if (store) store.update(updateFn)
+}
+
+export function hasSubscribers (category, id) {
+  return docStores[category]?.[id] != null
 }
