@@ -159,8 +159,11 @@ Marionette.View.prototype.showChildView = function (regionName, view, options) {
 Marionette.View.prototype.showChildComponent = function (regionName, Component, options = {}) {
   if (!this.isIntact()) return
   const region = this.getRegion(regionName)
-  if (region.currentView) region.currentView.destroy()
+  // Run `removeCurrentComponent` before attempting to destroy region.currentView
+  // as doing the opposite would prevent properly calling $destroy on components
+  // shown in the currentView regions and subregions
   removeCurrentComponent(region)
+  if (region.currentView) region.currentView.destroy()
   const el = (typeof region.el === 'string') ? document.querySelector(region.el) : region.el
   options.target = el
   const component = new Component(options)
