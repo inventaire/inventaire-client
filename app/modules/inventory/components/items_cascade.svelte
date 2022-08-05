@@ -6,32 +6,34 @@
   export let items
   export let showDistance = false
 
-  // Keep in sync with #inventory/components/item_card.svelte .item-card[max-width]
   const baseColumnWidth = 230
+  const gap = 16
+  // Disabling animations as it sometimes fails to re-position item cards when the screen is resized
+  const animate = false
 
-  let columnWidth = baseColumnWidth
-  function _refreshColumnWidth () {
-    if (window.visualViewport.width < (2 * baseColumnWidth + 50)) {
-      columnWidth = Math.min(window.visualViewport.width, 1.5 * baseColumnWidth)
+  let minColWidth, maxColWidth
+  function refreshColumnWidth () {
+    if (window.visualViewport.width < (2 * baseColumnWidth + gap)) {
+      minColWidth = Math.min(window.visualViewport.width, baseColumnWidth)
+      maxColWidth = Math.min(window.visualViewport.width - gap, baseColumnWidth * 1.5)
     } else {
-      columnWidth = baseColumnWidth
+      minColWidth = maxColWidth = baseColumnWidth
     }
   }
-
-  const refreshColumnWidth = debounce(_refreshColumnWidth, 200)
-
   refreshColumnWidth()
+  const lazyRefreshColumnWidth = debounce(refreshColumnWidth, 200)
 </script>
 
-<svelte:window on:resize={refreshColumnWidth} />
+<svelte:window on:resize={lazyRefreshColumnWidth} />
 
 <div class="items-cascade">
   <Masonry
     {items}
     idKey="_id"
-    gap={16}
-    minColWidth={columnWidth}
-    maxColWidth={columnWidth}
+    {gap}
+    {minColWidth}
+    {maxColWidth}
+    {animate}
     let:item
     >
     <ItemCard {item} {showDistance} />
