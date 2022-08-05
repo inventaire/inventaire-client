@@ -3,7 +3,7 @@
   import { userGroups } from '#user/user_groups_store'
   import { uniq, without } from 'underscore'
   import { getGroupVisibilityKey, isNotGroupVisibilityKey, commonVisibilityKeys } from '#general/lib/visibility'
-  import { onChange } from '#lib/svelte'
+  import { onChange } from '#lib/svelte/svelte'
   import InfoTip from '#components/info_tip.svelte'
 
   export let visibility = []

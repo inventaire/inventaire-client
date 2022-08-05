@@ -1,7 +1,7 @@
 <script>
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { createEventDispatcher } from 'svelte'
-  import { BubbleUpComponentEvent } from '#lib/svelte'
+  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import properties from '#entities/lib/properties'
 
   export let currentValue, property, valueLabel, entity

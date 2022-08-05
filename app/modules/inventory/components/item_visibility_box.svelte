@@ -5,7 +5,7 @@
   import Dropdown from '#components/dropdown.svelte'
   import { getCorrespondingListing, getIconLabel, visibilityIconByCorrespondingListing } from '#general/lib/visibility'
   import { clone, debounce, isEqual } from 'underscore'
-  import { onChange } from '#lib/svelte'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let item, flash, large = false
 

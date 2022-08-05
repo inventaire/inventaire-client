@@ -1,7 +1,7 @@
 <script>
   import { autofocus } from '#lib/components/actions/autofocus'
   import { i18n } from '#user/lib/i18n'
-  import { BubbleUpComponentEvent } from '#lib/svelte'
+  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import error_ from '#lib/error'
 
   export let currentValue, getInputValue, editorType

@@ -4,7 +4,7 @@
   import Spinner from '#components/spinner.svelte'
   import { getShelvesByOwner, getByIds as getShelvesByIds } from '#shelves/lib/shelves'
   import ShelfInfo from '#inventory/components/shelf_info.svelte'
-  import { onChange } from '#lib/svelte'
+  import { onChange } from '#lib/svelte/svelte'
   import { debounce, isEqual } from 'underscore'
 
   export let serializedItem
