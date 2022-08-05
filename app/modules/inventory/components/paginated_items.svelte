@@ -1,11 +1,11 @@
 <script>
   import Flash from '#lib/components/flash.svelte'
-  import Spinner from '#components/spinner.svelte'
   import viewport from '#lib/components/actions/viewport'
+  import { wait } from '#lib/promises'
 
   export let Component, componentProps, pagination
 
-  const { fetchMore, hasMore, allowMore } = pagination
+  const { fetchMore, hasMore, allowMore = true } = pagination
 
   let items = [], flash, waiting
 
@@ -15,26 +15,48 @@
       .catch(err => flash = err)
   }
 
-  function onBottomEnteringViewport (e) {
-    if (allowMore && hasMore()) fetch()
+  fetch()
+
+  let bottomElInView = false
+  async function bottomIsInViewport () {
+    bottomElInView = true
+    if (allowMore && hasMore()) {
+      await fetch()
+      // Let the time to fetched items to render
+      await wait(100)
+      // But if the bottom is still in viewport
+      // when the new items are rendered, fetch more
+      if (bottomElInView) bottomIsInViewport()
+    }
   }
 
-  if (!allowMore) {
-    // Fetch only once at initialization
-    fetch()
+  function bottomLeftViewport () {
+    bottomElInView = false
   }
 </script>
 
-<svelte:component this={Component} {items} {...componentProps} />
-
-<div class="bottom" use:viewport on:enterViewport={onBottomEnteringViewport}>
-  {#await waiting}<Spinner />{/await}
+<div class="paginated-items">
+  <svelte:component this={Component} {items} {waiting} {...componentProps} />
   <Flash state={flash} />
+  <div class="bottom"
+    use:viewport
+    on:enterViewport={bottomIsInViewport}
+    on:leaveViewport={bottomLeftViewport}
+    ></div>
 </div>
 
 <style lang="scss">
   @import '#general/scss/utils';
+  .paginated-items{
+    position: relative;
+    min-height: 20em;
+  }
   .bottom{
-    @include display-flex(column, center, center);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: min(60%, 100vh);
+    z-index: 1;
+    min-height: 1px;
   }
 </style>
