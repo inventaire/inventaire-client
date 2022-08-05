@@ -4,7 +4,8 @@ import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
 import Item from '#inventory/models/item'
 import { isModel } from '#lib/boolean_tests'
-import { updateDocStore } from '#lib/svelte/mono_document_stores'
+import { hasSubscribers, refreshDocStore, updateDocStore } from '#lib/svelte/mono_document_stores'
+import { addItemsUsers } from '#inventory/lib/queries'
 
 export default {
   create (itemData) {
@@ -39,14 +40,14 @@ export default {
     const ids = items.map(getItemId)
 
     try {
+      // Optimistic UI
+      propagateItemsChanges({ ids, attribute, value })
       await preq.put(app.API.items.update, { ids, attribute, value })
     } catch (err) {
-      rollbackUpdate(items)
+      // Revert optimistic changes
+      await reconcileWithServerState(ids)
       throw err
     }
-    // Wait for confirmation to propagate changes, as there is no rollback
-    // on that propagation
-    propagateItemsChanges({ ids, attribute, value })
   },
 
   delete (options) {
@@ -98,12 +99,10 @@ const propagateItemsChanges = async ({ ids, attribute, value }) => {
   ids.forEach(id => updateDocStore({ category: 'items', id, updateFn }))
 }
 
-const rollbackUpdate = items => {
-  items.forEach(item => {
-    if (_.isString(item)) return
-    if (isModel(item)) {
-      item.set(item._backup)
-      delete item._backup
-    }
-  })
+const reconcileWithServerState = async ids => {
+  ids = ids.filter(id => hasSubscribers('items', id))
+  if (ids.length === 0) return
+  const { items, users } = await preq.get(app.API.items.byIds({ ids, includeUsers: true }))
+  addItemsUsers({ items, users })
+  items.forEach(doc => refreshDocStore({ category: 'items', doc }))
 }

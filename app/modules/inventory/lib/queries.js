@@ -102,13 +102,17 @@ const getNetworkItems = async params => {
 }
 
 const updateItemsParams = (res, params) => {
-  const { items: newItems, users } = res
-  const usersById = indexBy(users.map(serializeUser), '_id')
-  newItems.forEach(item => {
-    item.user = usersById[item.owner]
-  })
+  const { items: newItems } = res
+  addItemsUsers(res)
   params.items.push(...newItems)
   return res
+}
+
+export const addItemsUsers = ({ items, users }) => {
+  const usersById = indexBy(users.map(serializeUser), '_id')
+  items.forEach(item => {
+    item.user = usersById[item.owner]
+  })
 }
 
 export default app => app.reqres.setHandlers({
