@@ -97,8 +97,6 @@
     @include radius;
     padding: 1em;
     background: #fefefe;
-    // Keep in sync with inventory/components/items_cascade.svelte baseColumnWidth
-    max-width: 230px;
   }
   .busy{
     .item-show{
