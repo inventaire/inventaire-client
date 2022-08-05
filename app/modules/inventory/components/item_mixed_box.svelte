@@ -3,7 +3,7 @@
   import { icon, loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
 
-  export let item, showDistance = true
+  export let item, showDistance = false
 
   const { pathname, user, currentTransaction } = item
 </script>
@@ -28,8 +28,8 @@
   <a href={pathname} class="label" on:click={loadInternalLink}>
     {@html i18n(currentTransaction.labelPersonalized, user)}
   </a>
-  {#if showDistance && user.distance}
-    <span class="distance">{i18n('km_away', user)}</span>
+  {#if showDistance && user.distanceFromMainUser}
+    <span class="distance">{i18n('km_away', { distance: user.distanceFromMainUser })}</span>
   {/if}
 </div>
 
