@@ -74,8 +74,9 @@ $arrowHeight: 0.62em;
     right: 0;
   }
   #showPositionPicker{
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: white;
+    padding: 0.2em 0;
     @include bg-hover($light-blue);
     @include radius;
   }
