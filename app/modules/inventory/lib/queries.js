@@ -23,11 +23,6 @@ const getById = async id => {
   }
 }
 
-const getByIds = async ids => {
-  const { items } = await preq.get(app.API.items.byIds({ ids }))
-  return items.map(item => new Item(item))
-}
-
 const getUserItems = function (params) {
   const userId = params.model.id
   return makeRequest(params, 'byUsers', [ userId ])
@@ -74,6 +69,11 @@ const makeRequestAlt = async (params, endpoint, ids, filter) => {
   return res
 }
 
+const getByIds = async ({ ids, items }) => {
+  const res = await preq.get(app.API.items.byIds({ ids, includeUsers: true }))
+  updateItemsParams(res, { items })
+  return res
+}
 const getNearbyItems = async params => {
   const { limit, offset } = params
   const res = await preq.get(app.API.items.nearby(limit, offset))

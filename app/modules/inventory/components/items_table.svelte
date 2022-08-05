@@ -3,8 +3,9 @@
   import { icon } from '#lib/utils'
   import ItemRow from '#inventory/components/item_row.svelte'
   import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'
+  import Spinner from '#components/spinner.svelte'
 
-  export let items, isMainUser, itemsIds
+  export let items, isMainUser, itemsIds, waiting
 
   let selectedItemsIds = []
 
@@ -41,6 +42,8 @@
       {/each}
     </ul>
   {/if}
+
+  {#await waiting}<Spinner center={true} />{/await}
 
   {#if isMainUser}
     <div id="table-actions">

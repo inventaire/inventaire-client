@@ -12,7 +12,7 @@ import inventoryBrowserTemplate from './templates/inventory_browser.hbs'
 import '#inventory/scss/inventory_browser.scss'
 import Loading from '#behaviors/loading'
 import PreventDefault from '#behaviors/prevent_default'
-import { getItemsListFromItemsCollection } from '#inventory/inventory'
+import PaginatedItems from '#inventory/components/paginated_items.svelte'
 
 const selectorsNames = [ 'author', 'genre', 'subject' ]
 const selectorsRegions = {}
@@ -114,44 +114,39 @@ export default Marionette.View.extend({
     this.showEntitySelector(entities, subjects, 'subject')
   },
 
-  showItemsListByIds (itemsIds) {
+  async showItemsListByIds (itemsIds) {
     // Default to showing the latest items
     if (!itemsIds) itemsIds = this.itemsByDate
     // - Deduplicate as editions with several P629 values might have generated duplicates
     // - Clone to avoid modifying @itemsByDate
     itemsIds = _.uniq(itemsIds)
-    const collection = new Backbone.Collection([])
+    const items = []
 
     const remainingItems = _.clone(itemsIds)
     const hasMore = () => remainingItems.length > 0
     const fetchMore = async () => {
       const batch = remainingItems.splice(0, 20)
       if (batch.length === 0) return
-      return app.request('items:getByIds', batch)
-      .then(collection.add.bind(collection))
+      await app.request('items:getByIds', { ids: batch, items })
     }
 
-    this.itemsViewParams = {
-      collection,
-      fetchMore,
-      hasMore,
-      itemsIds,
+    this.componentProps = {
       isMainUser: this.isMainUser,
       groupContext: this.groupContext,
-      // Regenerate the whole view to re-request the data without the deleted items
-      afterItemsDelete: this.initBrowser.bind(this)
+      itemsIds,
     }
 
-    // Fetch a first batch before displaying
-    // so that it doesn't start by displaying 'no item here'
-    return fetchMore()
-    .then(this.ifViewIsIntact('showItemsByDisplayMode'))
+    this.pagination = {
+      items,
+      fetchMore,
+      hasMore,
+    }
+
+    this.showItemsByDisplayMode()
   },
 
   async showItemsByDisplayMode () {
     this._lastShownDisplay = this.display
-    const { isMainUser, groupContext, itemsIds, collection } = this.itemsViewParams
-    const items = getItemsListFromItemsCollection(collection)
     let Component
     if (this.display === 'table') {
       const { default: ItemsTable } = await import('#inventory/components/items_table.svelte')
@@ -160,12 +155,12 @@ export default Marionette.View.extend({
       const { default: ItemsCascade } = await import('#inventory/components/items_cascade.svelte')
       Component = ItemsCascade
     }
-    this.showChildComponent('itemsView', Component, {
+
+    this.showChildComponent('itemsView', PaginatedItems, {
       props: {
-        items,
-        isMainUser,
-        groupContext,
-        itemsIds,
+        Component,
+        componentProps: this.componentProps,
+        pagination: this.pagination,
       }
     })
   },

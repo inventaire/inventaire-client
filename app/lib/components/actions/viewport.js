@@ -3,7 +3,7 @@
 
 let intersectionObserver
 
-function ensureIntersectionObserver () {
+function ensureIntersectionObserverExists () {
   if (intersectionObserver) return
 
   // This will not work on "UC Browser for Android" (a.k.a. and_uc) 12.12
@@ -14,14 +14,14 @@ function ensureIntersectionObserver () {
   // eslint-disable-next-line compat/compat
   intersectionObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      const eventName = entry.isIntersecting ? 'enterViewport' : 'exitViewport'
+      const eventName = entry.isIntersecting ? 'enterViewport' : 'leaveViewport'
       entry.target.dispatchEvent(new CustomEvent(eventName))
     })
   })
 }
 
 export default function viewport (element) {
-  ensureIntersectionObserver()
+  ensureIntersectionObserverExists()
 
   intersectionObserver.observe(element)
 

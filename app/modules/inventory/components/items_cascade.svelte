@@ -2,9 +2,11 @@
   import Masonry from 'svelte-bricks'
   import ItemCard from '#inventory/components/item_card.svelte'
   import { debounce } from 'underscore'
+  import Spinner from '#components/spinner.svelte'
 
   export let items
   export let showDistance = false
+  export let waiting
 
   const baseColumnWidth = 230
   const gap = 16
@@ -38,6 +40,8 @@
     >
     <ItemCard {item} {showDistance} />
   </Masonry>
+
+  {#await waiting}<Spinner center={true} />{/await}
 </div>
 
 <style lang="scss">
