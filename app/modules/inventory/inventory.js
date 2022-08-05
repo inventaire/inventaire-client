@@ -147,7 +147,6 @@ export const getItemsListFromItemsCollection = collection => {
   return collection.models.map(model => {
     const item = model.toJSON()
     item.user = model.user.toJSON()
-    item.entityData = model.entity?.toJSON()
     return item
   })
 }

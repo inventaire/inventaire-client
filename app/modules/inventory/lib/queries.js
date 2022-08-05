@@ -4,6 +4,8 @@ import { tap } from '#lib/promises'
 import Item from '#inventory/models/item'
 import Items from '#inventory/collections/items'
 import error_ from '#lib/error'
+import { indexBy } from 'underscore'
+import { serializeUser } from '#users/lib/users'
 
 const getById = async id => {
   const ids = [ id ]
@@ -26,42 +28,16 @@ const getByIds = async ids => {
   return items.map(item => new Item(item))
 }
 
-const getNetworkItems = async params => {
-  await app.request('wait:for', 'relations')
-  const { network: networkIds } = app.relations
-  return makeRequest(params, 'byUsers', networkIds)
-}
-
 const getUserItems = function (params) {
   const userId = params.model.id
   return makeRequest(params, 'byUsers', [ userId ])
 }
-
-const getGroupItems = params => makeRequest(params, 'byUsers', params.model.allMembersIds(), 'group')
 
 const makeRequest = function (params, endpoint, ids, filter) {
   if (ids.length === 0) return { items: [], total: 0 }
   const { collection, limit, offset } = params
   return preq.get(app.API.items[endpoint]({ ids, limit, offset, filter }))
   // Use tap to return the server response instead of the collection
-  .then(tap(addItemsAndUsers(collection)))
-}
-
-const getNearbyItems = function (params) {
-  const { collection, limit, offset } = params
-  return preq.get(app.API.items.nearby(limit, offset))
-  .then(tap(addItemsAndUsers(collection)))
-}
-
-const getLastPublic = function (params) {
-  const { collection, limit, offset, assertImage } = params
-  return preq.get(app.API.items.lastPublic(limit, offset, assertImage))
-  .then(tap(addItemsAndUsers(collection)))
-}
-
-const getRecentPublic = function (params) {
-  const { collection, limit, lang, assertImage } = params
-  return preq.get(app.API.items.recentPublic(limit, lang, assertImage))
   .then(tap(addItemsAndUsers(collection)))
 }
 
@@ -90,6 +66,51 @@ const addItemsAndUsers = collection => function (res) {
   return collection
 }
 
+const makeRequestAlt = async (params, endpoint, ids, filter) => {
+  if (ids.length === 0) return { items: [], total: 0 }
+  const { limit, offset } = params
+  const res = await preq.get(app.API.items[endpoint]({ ids, limit, offset, filter, includeUsers: true }))
+  updateItemsParams(res, params)
+  return res
+}
+
+const getNearbyItems = async params => {
+  const { limit, offset } = params
+  const res = await preq.get(app.API.items.nearby(limit, offset))
+  updateItemsParams(res, params)
+  return res
+}
+
+const getLastPublic = async params => {
+  const { limit, offset, assertImage } = params
+  const res = await preq.get(app.API.items.lastPublic(limit, offset, assertImage))
+  updateItemsParams(res, params)
+  return res
+}
+
+const getRecentPublic = async params => {
+  const { limit, lang, assertImage } = params
+  const res = await preq.get(app.API.items.recentPublic(limit, lang, assertImage))
+  updateItemsParams(res, params)
+  return res
+}
+
+const getNetworkItems = async params => {
+  await app.request('wait:for', 'relations')
+  const { network: networkIds } = app.relations
+  return makeRequestAlt(params, 'byUsers', networkIds)
+}
+
+const updateItemsParams = (res, params) => {
+  const { items: newItems, users } = res
+  const usersById = indexBy(users.map(serializeUser), '_id')
+  newItems.forEach(item => {
+    item.user = usersById[item.owner]
+  })
+  params.items.push(...newItems)
+  return res
+}
+
 export default app => app.reqres.setHandlers({
   'items:getByIds': getByIds,
   'items:getByEntities': getByEntities,
@@ -98,7 +119,6 @@ export default app => app.reqres.setHandlers({
   'items:getRecentPublic': getRecentPublic,
   'items:getNetworkItems': getNetworkItems,
   'items:getUserItems': getUserItems,
-  'items:getGroupItems': getGroupItems,
   'items:getByUserIdAndEntities': getByUserIdAndEntities,
 
   // Using a different naming to match reqGrab requests style

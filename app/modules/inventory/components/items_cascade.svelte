@@ -4,6 +4,7 @@
   import { debounce } from 'underscore'
 
   export let items
+  export let showDistance = false
 
   // Keep in sync with #inventory/components/item_card.svelte .item-card[max-width]
   const baseColumnWidth = 230
@@ -33,7 +34,7 @@
     maxColWidth={columnWidth}
     let:item
     >
-    <ItemCard {item} />
+    <ItemCard {item} {showDistance} />
   </Masonry>
 </div>
 
