@@ -5,7 +5,7 @@
   import Spinner from '#components/spinner.svelte'
   import { addNext, cancel, guessTransaction } from '#inventory/components/lib/item_creation_helpers'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
-  import VisibilitySelector from '#components/visibility_selector.svelte'
+  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import Flash from '#lib/components/flash.svelte'
   import ItemRow from '#inventory/components/item_row.svelte'

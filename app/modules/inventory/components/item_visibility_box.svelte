@@ -1,7 +1,7 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import VisibilitySelector from '#components/visibility_selector.svelte'
+  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import Dropdown from '#components/dropdown.svelte'
   import { getCorrespondingListing, getIconLabel, visibilityIconByCorrespondingListing } from '#general/lib/visibility'
   import { clone, debounce, isEqual } from 'underscore'
