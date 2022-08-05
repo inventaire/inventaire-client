@@ -4,38 +4,30 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
   import { getCorrespondingListing, getIconLabel } from '#general/lib/visibility'
-  import { onChange } from '#lib/svelte'
-  import { onDestroy, onMount } from 'svelte'
-  import { subscribe, unsubscribe } from '#lib/components/global_updates_event_bus'
+  import { getDocStore } from '#lib/svelte/mono_document_stores'
+  import { serializeItem } from '#inventory/lib/items'
 
   export let item
 
+  const itemStore = getDocStore({ category: 'items', doc: item })
+
   const mainUserIsOwner = item.visibility != null
 
-  let pathname, details, transaction, visibility, snapshot, title, authors, image, currentTransaction, isPrivate, correspondingListing, currentListing
+  const { pathname } = serializeItem(item)
+  const title = item.snapshot['entity:title']
+  const authors = item.snapshot['entity:authors']
+  const image = item.snapshot['entity:image']
 
-  function refreshData () {
-    ;({ pathname, details = '', transaction, visibility, snapshot } = item)
-    title = snapshot['entity:title']
-    authors = snapshot['entity:authors']
-    image = snapshot['entity:image']
-    currentTransaction = transactionsDataFactory()[transaction]
+  let details, transaction, visibility, isPrivate, correspondingListing, currentListing, currentTransaction
+  $: {
+    ;({ details = '', transaction, visibility } = $itemStore)
     if (mainUserIsOwner) {
       isPrivate = visibility.length === 0
       correspondingListing = getCorrespondingListing(visibility)
       currentListing = app.user.listings.data[correspondingListing]
     }
+    currentTransaction = transactionsDataFactory()[transaction]
   }
-
-  if (mainUserIsOwner) {
-    const updater = updatedItem => {
-      item = Object.assign(item, updatedItem)
-    }
-    onMount(() => subscribe('items', item._id, updater))
-    onDestroy(() => unsubscribe('items', item._id, updater))
-  }
-
-  $: onChange(item, refreshData)
 </script>
 
 <div class="item-row">
