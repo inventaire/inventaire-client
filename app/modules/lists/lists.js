@@ -4,7 +4,7 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'lists/:id(/)': 'showList',
+        'lists/(:id)(/)': 'showList',
       }
     })
 
@@ -20,10 +20,8 @@ const API = {
 
 const showList = async id => {
   const { default: ListLayout } = await import('./components/lists_layout.svelte')
-  return getListWithSelectionsById(id)
-  .then(list => {
-    return app.layout.showChildComponent('main', ListLayout, {
-      props: { list }
-    })
+  const list = await getListWithSelectionsById(id)
+  app.layout.showChildComponent('main', ListLayout, {
+    props: { list }
   })
 }
