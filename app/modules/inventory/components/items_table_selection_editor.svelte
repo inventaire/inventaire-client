@@ -26,8 +26,7 @@
     await saveAttribute('transaction', transaction)
     await saveAttribute('visibility', visibility)
     await saveAttribute('shelves', shelves)
-    // Force a refresh of the inventory, to get updated items
-    app.execute('show:inventory:main:user')
+    app.execute('modal:close')
   }
 
   function deleteItems () {
