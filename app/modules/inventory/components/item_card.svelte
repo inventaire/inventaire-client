@@ -10,15 +10,14 @@
   import ItemRequestBox from '#inventory/components/item_request_box.svelte'
   import Flash from '#lib/components/flash.svelte'
   import TruncatedText from '#components/truncated_text.svelte'
+  import { getDocStore } from '#lib/svelte/mono_document_stores'
 
   export let item, showDistance
 
-  const {
-    details,
-    busy,
-  } = item
+  const itemStore = getDocStore({ category: 'items', doc: item })
 
   const {
+    busy,
     pathname,
     image,
     title,
@@ -30,7 +29,8 @@
     userReady = true,
   } = serializeItem(item)
 
-  $: isPrivate = item.visibility?.length === 0
+  $: isPrivate = $itemStore.visibility?.length === 0
+  $: details = $itemStore.details
 
   let flash, itemCardSettingsEl
 </script>
@@ -41,7 +41,6 @@
       {@html icon('sign-out')}
     </div>
   {/if}
-  <!-- TODO: find a way to share item object with item_show to keep item data in sync -->
   <a class="item-show" href={pathname} on:click={loadInternalLink}>
     <div class="cover">
       {#if image}
