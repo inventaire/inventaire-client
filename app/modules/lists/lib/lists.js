@@ -2,7 +2,6 @@ import preq from '#lib/preq'
 
 export const getListWithSelectionsById = async id => {
   return preq.get(app.API.lists.byId(id))
-  .catch(app.Execute('show:error'))
 }
 
 export const updateList = async list => {
