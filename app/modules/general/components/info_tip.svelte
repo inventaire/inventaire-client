@@ -1,8 +1,10 @@
 <script>
   import { icon } from '#lib/handlebars_helpers/icons'
+  import { uniqueId } from 'underscore'
 
   export let text
   let showInfoText = false
+  const infotipId = uniqueId('infotip')
 
   const toggleInfoText = () => showInfoText = !showInfoText
   const hideInfoText = () => showInfoText = false
@@ -14,13 +16,18 @@
   >
   <button
     title={text}
+    aria-controls={infotipId}
     on:click={toggleInfoText}
     >
     {@html icon('question-circle')}
   </button>
-  {#if showInfoText}
-    <span class="info-text">{text}</span>
-  {/if}
+  <span
+    id={infotipId}
+    class="info-text"
+    style:visibility={showInfoText ? 'visible' : 'hidden'}
+    >
+    {text}
+  </span>
 </div>
 
 <svelte:body on:click={hideInfoText} />
