@@ -1,9 +1,10 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { userGroups } from '#user/user_groups_store'
   import { uniq, without } from 'underscore'
   import { getGroupVisibilityKey, isNotGroupVisibilityKey, commonVisibilityKeys } from '#general/lib/visibility'
   import { onChange } from '#lib/svelte'
+  import InfoTip from '#components/info_tip.svelte'
 
   export let visibility = []
 
@@ -93,16 +94,21 @@
     </label>
 
     <label
+      class="has-infotip"
       class:inferred={visibility.includes('public')}
       >
       <input
         type="checkbox"
         value="groups"
         on:click={onGroupsClick}
-
         bind:group={checked}
       >
-      {I18n('groups')}
+      <p class="label-text">
+        <span class="title">{I18n('groups')}</span>
+        <InfoTip
+          text={i18n('Include all your present and future groups')}
+        />
+      </p>
     </label>
 
     {#each $userGroups as group}
@@ -139,6 +145,14 @@
   }
   .indent{
     margin-left: 1.3em;
+  }
+  .has-infotip{
+    @include display-flex(row, center);
+  }
+  .description{
+    font-size: 0.9rem;
+    color: $label-grey;
+    margin-left: 0.5em;
   }
   .inferred:not(:hover){
     opacity: 0.7;
