@@ -16,7 +16,7 @@ import Notifications from '#notifications/notifications'
 import Settings from '#settings/settings'
 import Tasks from '#tasks/tasks'
 import Shelves from '#shelves/shelves'
-import List from '#lists/lists'
+import Lists from '#lists/lists'
 import initMap from '#map/map'
 import AppLayout from '#general/views/app_layout'
 import reloadOnceADay from '#lib/reload_once_a_day'
@@ -50,7 +50,7 @@ export default async function () {
   Settings.initialize()
   Tasks.initialize()
   Shelves.initialize()
-  List.initialize()
+  Lists.initialize()
   initMap()
   initQuerystringHelpers()
 
