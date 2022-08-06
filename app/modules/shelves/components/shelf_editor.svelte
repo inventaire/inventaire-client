@@ -43,7 +43,7 @@
       flash = err
     }
   }
-  async function delet () {
+  async function askShelfDeletionConfirmation () {
     app.execute('ask:confirmation', {
       confirmationText: i18n('delete_shelf_confirmation', { name }),
       warningText: i18n('cant_undo_warning'),
@@ -94,7 +94,7 @@
     {:then}
       {#if !flash}
         {#if !isNewShelf}
-          <button class="delete button" on:click={delet}>
+          <button class="delete button" on:click={askShelfDeletionConfirmation}>
             {@html icon('trash')}
             {I18n('delete')}
           </button>
