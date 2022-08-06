@@ -4,42 +4,48 @@
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import Dropdown from '#components/dropdown.svelte'
   import { getCorrespondingListing, getIconLabel, visibilityIconByCorrespondingListing } from '#general/lib/visibility'
-  import { clone, debounce, isEqual } from 'underscore'
+  import { debounce, isEqual } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
+  import { getDocStore } from '#lib/svelte/mono_document_stores'
 
   export let item, flash, large = false, widthReferenceEl
 
-  let listing, iconName, iconLabel
-  $: {
-    listing = getCorrespondingListing(item.visibility)
-    iconName = visibilityIconByCorrespondingListing[listing]
-    iconLabel = getIconLabel(item.visibility)
-    item.listing = listing
-    item.listingIconName = iconName
-  }
+  const itemStore = getDocStore({ category: 'items', doc: item })
 
-  let { visibility } = item
+  // Do not make it reactive to let udpateAndSave determine if it changed
+  let visibility = $itemStore.visibility
 
   async function save () {
-    await app.request('items:update', {
-      items: [ item ],
-      attribute: 'visibility',
-      value: visibility,
-    })
+    try {
+      await app.request('items:update', {
+        items: [ item ],
+        attribute: 'visibility',
+        value: visibility,
+      })
+    } catch (err) {
+      flash = err
+    }
   }
 
   const lazySave = debounce(save, 1000)
 
   async function udpateAndSave () {
-    if (isEqual(item.visibility, visibility)) return
-    const previousVisibility = clone(visibility)
-    item.visibility = visibility
-    try {
-      lazySave()
-    } catch (err) {
-      flash = err
-      item.visibility = visibility = previousVisibility
-    }
+    if (isEqual($itemStore.visibility, visibility)) return
+    lazySave()
+  }
+
+  $: onChange(visibility, udpateAndSave)
+
+  const reconcileWithStore = () => visibility = $itemStore.visibility
+  $: onChange($itemStore.visibility, reconcileWithStore)
+
+  let listing, iconName, iconLabel
+  $: {
+    listing = getCorrespondingListing(visibility)
+    iconName = visibilityIconByCorrespondingListing[listing]
+    iconLabel = getIconLabel(visibility)
+    item.listing = listing
+    item.listingIconName = iconName
   }
 
   function clickOnContentShouldCloseDropdown (e) {
@@ -47,8 +53,6 @@
     // but not on the checkboxes
     return e.target.className.includes('save')
   }
-
-  $: onChange(visibility, udpateAndSave)
 </script>
 
 <div class="item-card-box item-visibility-box" class:large>
