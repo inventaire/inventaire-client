@@ -1,6 +1,6 @@
 <script>
-	export let entity
-const { uri, label, description } = entity
+  export let entity
+  const { uri, label, description } = entity
 </script>
 <div class="entity-element">
   <div class="top">
