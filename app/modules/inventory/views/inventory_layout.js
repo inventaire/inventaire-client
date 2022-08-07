@@ -107,6 +107,7 @@ export default Marionette.View.extend({
   showUserShelves (userIdOrModel) {
     this.waitForShelvesList = app.request('resolve:to:userModel', userIdOrModel)
       .then(userModel => {
+        if (!this.isIntact()) return
         if ((this.getRegion('shelvesList').currentView != null) && (userModel === this._lastShownUser)) return
         const shelvesCount = userModel.get('shelvesCount')
         if (shelvesCount === 0) return
