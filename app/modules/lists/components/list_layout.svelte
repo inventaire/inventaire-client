@@ -8,10 +8,13 @@
   import ListSelectionsCandidate from './list_selections_candidate.svelte'
   export let list, selections
 
-  let { _id, description, visibility, creator } = list
+  let { _id, description, creator } = list
 
-  const listings = app.user.listings()
-  let visibilityData = listings[visibility]
+  // TODO: rebase and fix visibility once items/shelves visibility branches have been merged
+  // let { visibility } = list
+  // const listings = app.user.listings()
+  // let visibilityData = listings[visibility]
+
   let isEditable = creator === app.user.id
   let entities = []
 
@@ -71,10 +74,10 @@
   <p class="loading">Loading... <Spinner/></p>
 {:then}
   <div class="header">
-	  <p>{I18n('list')}</p>
+	  <!-- <p>{I18n('list')}</p> -->
 	  <h3>{name}</h3>
 	  <p class="visibility">
-	  	{@html icon(visibilityData.icon)} {visibilityData.label}
+      <!-- {@html icon(visibilityData.icon)} {visibilityData.label} -->
 	  </p>
 	  <p>{description}</p>
     {#if isEditable}
