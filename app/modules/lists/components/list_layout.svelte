@@ -5,7 +5,7 @@
   import screen_ from '#lib/screen'
   import Spinner from '#general/components/spinner.svelte'
   import { getEntitiesByUris } from '#entities/lib/entities'
-  import ListSelectionsCandidate from './list_selections_candidate.svelte'
+  import ListSelections from './list_selections.svelte'
   export let list, selections
 
   let { _id, description, creator } = list
@@ -90,7 +90,7 @@
         {I18n('edit info')}
       </button>
     {/if}
-    <ListSelectionsCandidate
+    <ListSelections
       bind:entities
       listId={_id}
       {isEditable}
