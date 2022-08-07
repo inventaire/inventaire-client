@@ -1,5 +1,4 @@
 <script>
-  import { icon } from '#lib/utils'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { i18n, I18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
@@ -13,14 +12,14 @@
 
   export let selections, listId, isEditable
 
-  let showSelectionSelector, flash, listBottomEl
-
+  let flash, inputValue = '', showSuggestions
   let entities = []
 
   const paginationSize = 15
   let offset = paginationSize
   let fetching
   let windowScrollY = 0
+  let listBottomEl
 
   const getSelectionsEntities = async selections => {
     const uris = selections.map(_.property('uri'))
@@ -36,7 +35,7 @@
 
   const onRemoveSelection = async index => {
     const entity = entities[index]
-    return removeSelection(listId, entity.uri)
+    removeSelection(listId, entity.uri)
     .then(() => {
       // Enhancement: after remove, have an "undo" button
       entities.splice(index, 1)
@@ -47,7 +46,9 @@
 
   const addUriAsSelection = async entity => {
     flash = null
-    return addSelection(listId, entity.uri)
+    inputValue = ''
+    showSuggestions = false
+    addSelection(listId, entity.uri)
     .then(selection => {
       if (isNonEmptyArray(selection.alreadyInList)) {
         return flash = {
@@ -87,31 +88,24 @@
 {#await waitingForEntities}
   <Spinner center={true} />
 {:then}
-  <section class="list-selections-section">
+  <section class="entities-list-section">
     {#if isEditable}
-      {#if showSelectionSelector}
-        <div class="selections-selector">
-          <label for={entities}>
-            {I18n('search for entities to add to the list')}
-          </label>
-          <!-- Reuse autocomplete selector with the caveat of no edition results possible. -->
-          <!-- A more advanced way would be to reuse a Svelte global search bar (not implemented) -->
-          <!-- TODO: dont show "no results" at initial state-->
-          <EntityAutocompleteSelector
-            on:select={e => addUriAsSelection(e.detail)}
-          />
-          <Flash bind:state={flash}/>
-        </div>
-      {:else}
-        <button
-          id="show-selection-selector"
-          class="tiny-button"
-          on:click={() => showSelectionSelector = true}
-        >
-          {@html icon('plus')}
-          {I18n('add entities')}
-        </button>
-      {/if}
+      <div class="entities-selector">
+        <!-- <label for={entities}>
+          {I18n('search for entities to add to the list')}
+        </label> -->
+        <!-- Reuse autocomplete selector with the caveat of no edition results possible. -->
+        <!-- A more advanced way would be to reuse a Svelte global search bar (not implemented) -->
+        <!-- TODO: dont show "no results" at initial state-->
+        <EntityAutocompleteSelector
+          placeholder={i18n('Add an entity to the list')}
+          autofocus={false}
+          bind:currentEntityLabel={inputValue}
+          bind:showSuggestions
+          on:select={e => addUriAsSelection(e.detail)}
+        />
+        <Flash bind:state={flash}/>
+      </div>
     {/if}
     <div class="list-selections">
       {#each entities as entity, index (entity.uri)}
@@ -143,7 +137,9 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .list-selections-section{
+  .entities-list-section{
+    flex: 1;
+    align-self: center;
     @include display-flex(column, center);
     width: 100%;
     padding: 0 1em;
@@ -166,7 +162,7 @@
   .list-selection:hover{
     background-color: white;
   }
-  .selections-selector{
+  .entities-selector{
     width:100%
   }
   .remove{
@@ -176,12 +172,15 @@
     @include display-flex(row, center, center);
     white-space: nowrap;
   }
-  #show-selection-selector{
-    width: 10em;
+  /*Large (>40em) screens*/
+  @media screen and (min-width: 40em) {
+    .entities-list-section{
+      width: 40em;
+    }
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .list-selections-section{
+    .entities-list-section{
       padding: 0;
     }
   }
