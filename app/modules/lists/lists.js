@@ -13,12 +13,6 @@ export default {
   },
 }
 
-const API = {
-  async showList (id) {
-    showList(id)
-  },
-}
-
 async function showList (id) {
   const { default: ListLayout } = await import('./components/list_layout.svelte')
   try {
@@ -29,4 +23,24 @@ async function showList (id) {
   } catch (err) {
     app.execute('show:error', err)
   }
+}
+
+async function showMainUserLists () {
+  const { default: ListsLayout } = await import('./components/lists_layout.svelte')
+  try {
+    const { lists } = await getListsByCreator(app.user.id)
+    app.layout.showChildComponent('main', ListsLayout, {
+      props: {
+        lists,
+        user: app.user.toJSON()
+      }
+    })
+  } catch (err) {
+    app.execute('show:error', err)
+  }
+}
+
+const API = {
+  showList,
+  showMainUserLists
 }
