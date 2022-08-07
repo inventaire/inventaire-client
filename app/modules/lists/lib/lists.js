@@ -23,3 +23,10 @@ export const addSelection = async (id, uri) => {
 export const removeSelection = async (id, uri) => {
   return preq.post(app.API.lists.removeSelections, { id, uris: [ uri ] })
 }
+
+export const serializeList = list => {
+  const { _id: id } = list
+  return Object.assign(list, {
+    pathname: `/lists/${id}`
+  })
+}

@@ -1,4 +1,4 @@
-import { getListsByCreator, getListWithSelectionsById } from './lib/lists.js'
+import { getListsByCreator, getListWithSelectionsById, serializeList } from './lib/lists.js'
 
 export default {
   initialize () {
@@ -31,7 +31,7 @@ async function showMainUserLists () {
     const { lists } = await getListsByCreator(app.user.id)
     app.layout.showChildComponent('main', ListsLayout, {
       props: {
-        lists,
+        lists: lists.map(serializeList),
         user: app.user.toJSON()
       }
     })

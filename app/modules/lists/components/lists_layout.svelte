@@ -1,16 +1,16 @@
 <script>
-  import { icon } from '#lib/handlebars_helpers/icons'
   import ListCreator from '#modules/lists/components/list_creator.svelte'
+  import { serializeList } from '#modules/lists/lib/lists'
   import { i18n, I18n } from '#user/lib/i18n'
+  import { loadInternalLink } from '#lib/utils'
   export let lists, user
 
   const isMainUser = user._id === app.user.id
-  let showCreateForm, newList = {}
+  let newList = {}
 
   $: if (newList._id) {
-    lists = lists.concat([ newList ])
-    newList = null
-    showCreateForm = false
+    lists = lists.concat([ serializeList(newList) ])
+    newList = {}
   }
 </script>
 
@@ -20,7 +20,9 @@
   <ul>
     {#each lists as list}
       <li>
-        {list.name}
+        <a href={list.pathname} on:click={loadInternalLink}>
+          {list.name}
+        </a>
       </li>
     {/each}
     {#if lists.length === 0}
@@ -32,17 +34,7 @@
 
   {#if isMainUser}
     <div class="menu">
-      {#if showCreateForm}
-        <ListCreator bind:list={newList} />
-      {:else}
-        <button
-          on:click={() => showCreateForm = true}
-          class="tiny-button light-blue"
-          >
-          {@html icon('plus')}
-          {i18n('Create a new list')}
-        </button>
-      {/if}
+      <ListCreator bind:list={newList} />
     </div>
   {/if}
 </div>
@@ -58,6 +50,13 @@
     font-size: 1rem;
     @include sans-serif;
   }
+  li a{
+    display: block;
+    @include bg-hover(darken($light-grey, 5%));
+    padding: 0.5em;
+    margin: 0.2em;
+    @include radius;
+  }
   .empty{
     color: $grey;
     text-align: center;
@@ -65,8 +64,5 @@
   .menu{
     margin-top: 1em;
     @include display-flex(row, center, flex-end);
-  }
-  .tiny-button{
-    padding: 0.5em;
   }
 </style>
