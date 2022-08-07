@@ -1,9 +1,18 @@
 <script>
   import ListCreator from '#modules/lists/components/list_creator.svelte'
-  import { serializeList } from '#modules/lists/lib/lists'
+  import { getListsByCreator, serializeList } from '#modules/lists/lib/lists'
   import { i18n, I18n } from '#user/lib/i18n'
   import { loadInternalLink } from '#lib/utils'
-  export let lists, user
+  import Flash from '#lib/components/flash.svelte'
+  import Spinner from '#components/spinner.svelte'
+
+  export let user
+
+  let lists, flash
+
+  const waitingForLists = getListsByCreator(user._id)
+    .then(res => lists = res.lists.map(serializeList))
+    .catch(err => flash = err)
 
   const isMainUser = user._id === app.user.id
   let newList = {}
@@ -17,26 +26,31 @@
 <div class="lists-layout">
   <h3 class="subheader">{I18n('lists')}</h3>
 
-  <ul>
-    {#each lists as list}
-      <li>
-        <a href={list.pathname} on:click={loadInternalLink}>
-          {list.name}
-        </a>
-      </li>
-    {/each}
-    {#if lists.length === 0}
-      <li class="empty">
-        {i18n('There is nothing here')}
-      </li>
+  {#await waitingForLists}
+    <Spinner />
+  {:then}
+    <ul>
+      {#each lists as list}
+        <li>
+          <a href={list.pathname} on:click={loadInternalLink}>
+            {list.name}
+          </a>
+        </li>
+      {/each}
+      {#if lists.length === 0}
+        <li class="empty">
+          {i18n('There is nothing here')}
+        </li>
+      {/if}
+    </ul>
+    {#if isMainUser}
+      <div class="menu">
+        <ListCreator bind:list={newList} />
+      </div>
     {/if}
-  </ul>
+  {/await}
 
-  {#if isMainUser}
-    <div class="menu">
-      <ListCreator bind:list={newList} />
-    </div>
-  {/if}
+  <Flash state={flash} />
 </div>
 
 <style lang="scss">

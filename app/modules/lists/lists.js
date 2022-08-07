@@ -1,4 +1,4 @@
-import { getListsByCreator, getListWithSelectionsById, serializeList } from './lib/lists.js'
+import { getListWithSelectionsById } from './lib/lists.js'
 
 export default {
   initialize () {
@@ -26,12 +26,10 @@ async function showList (id) {
 }
 
 async function showMainUserLists () {
-  const { default: ListsLayout } = await import('./components/lists_layout.svelte')
+  const { default: ListsLayout } = await import('./components/user_lists.svelte')
   try {
-    const { lists } = await getListsByCreator(app.user.id)
     app.layout.showChildComponent('main', ListsLayout, {
       props: {
-        lists: lists.map(serializeList),
         user: app.user.toJSON()
       }
     })

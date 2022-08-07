@@ -1,8 +1,7 @@
 <script>
   import { icon } from '#lib/handlebars_helpers/icons'
-  // import ListEditor from '#modules/lists/components/list_editor.svelte'
   import { createList } from '#modules/lists/lib/lists'
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
 
   export let list = {}
 
@@ -22,15 +21,14 @@
     class="tiny-button light-blue"
     >
     {@html icon('plus')}
-    {I18n('create')}
+    {i18n('Create a new list')}
   </button>
 </form>
 
 <style lang="scss">
   @import '#general/scss/utils';
-
   form{
-    @include display-flex(row, center, center);
+    @include display-flex(row, center, flex-end);
     max-width: 30em;
     flex: 1 0 auto;
   }
@@ -40,9 +38,10 @@
     white-space: nowrap;
   }
   input{
-    max-width: 20em;
+    max-width: 30em;
     margin: 0;
     margin-left: 0.5em;
+    flex: 1;
   }
   .tiny-button{
     padding: 0.5em;
