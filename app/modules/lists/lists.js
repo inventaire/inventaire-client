@@ -12,13 +12,7 @@ export default {
   },
 }
 
-const API = {
-  async showList (id) {
-    showList(id)
-  },
-}
-
-const showList = async id => {
+async function showList (id) {
   const { default: ListLayout } = await import('./components/list_layout.svelte')
   try {
     const list = await getListWithSelectionsById(id)
@@ -28,4 +22,22 @@ const showList = async id => {
   } catch (err) {
     app.execute('show:error', err)
   }
+}
+
+async function showMainUserLists () {
+  const { default: ListsLayout } = await import('./components/user_lists.svelte')
+  try {
+    app.layout.showChildComponent('main', ListsLayout, {
+      props: {
+        user: app.user.toJSON()
+      }
+    })
+  } catch (err) {
+    app.execute('show:error', err)
+  }
+}
+
+const API = {
+  showList,
+  showMainUserLists
 }
