@@ -20,11 +20,12 @@ const API = {
 
 const showList = async id => {
   const { default: ListLayout } = await import('./components/list_layout.svelte')
-  return getListWithSelectionsById(id)
-  .then(list => {
-    return app.layout.showChildComponent('main', ListLayout, {
+  try {
+    const list = await getListWithSelectionsById(id)
+    app.layout.showChildComponent('main', ListLayout, {
       props: { list }
     })
-  })
-  .catch(app.Execute('show:error'))
+  } catch (err) {
+    app.execute('show:error', err)
+  }
 }
