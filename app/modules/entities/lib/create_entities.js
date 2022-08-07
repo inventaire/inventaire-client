@@ -53,7 +53,7 @@ export const createWorkEditionDraft = async function ({ workEntity, isbn, isbnDa
   // if workEntity has been formatted already, use the label as title
   // known case: autocomplete editor suggestion (which do not have `labels` key)
   if (label) title = label
-  if (!title) title = getTitleFromWork(workLabels, workClaims, editionLang)
+  if (!title) title = getTitleFromWork({ workLabels, workClaims, editionLang })
   if (title == null) throw error_.new('no title could be found', workEntity)
   claims['wdt:P1476'] = [ title ]
   return { labels: {}, claims }
