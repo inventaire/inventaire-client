@@ -6,9 +6,9 @@
   import Spinner from '#general/components/spinner.svelte'
   import { getEntitiesByUris } from '#entities/lib/entities'
   import ListSelectionsCandidate from './list_selections_candidate.svelte'
-  export let list
+  export let list, selections
 
-  let { _id, description, visibility, creator, selections } = list
+  let { _id, description, visibility, creator } = list
 
   const listings = app.user.listings()
   let visibilityData = listings[visibility]

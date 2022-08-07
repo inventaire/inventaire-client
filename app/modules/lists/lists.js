@@ -1,10 +1,11 @@
-import { getListWithSelectionsById } from './lib/lists.js'
+import { getListsByCreator, getListWithSelectionsById } from './lib/lists.js'
 
 export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'lists/(:id)(/)': 'showList',
+        'lists(/)': 'showMainUserLists'
       }
     })
 
@@ -18,12 +19,12 @@ const API = {
   },
 }
 
-const showList = async id => {
-  const { default: ListLayout } = await import('./components/lists_layout.svelte')
+async function showList (id) {
+  const { default: ListLayout } = await import('./components/list_layout.svelte')
   try {
-    const list = await getListWithSelectionsById(id)
+    const { list, selections } = await getListWithSelectionsById(id)
     app.layout.showChildComponent('main', ListLayout, {
-      props: { list }
+      props: { list, selections }
     })
   } catch (err) {
     app.execute('show:error', err)
