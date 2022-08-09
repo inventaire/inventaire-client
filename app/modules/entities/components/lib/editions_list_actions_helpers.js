@@ -2,7 +2,7 @@ import wdLang from 'wikidata-lang'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { getEntityLang } from '#entities/components/lib/claims_helpers'
 
-async function fetchLangEntities (uris) {
+async function fetchEntitiesLabels (uris) {
   const { entities } = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'labels' ],
@@ -26,15 +26,37 @@ const prioritizeMainUserLang = langs => {
   return langs
 }
 
-export async function getLangEntities (initialEditions) {
-  const rawEditionsLangs = _.compact(_.uniq(initialEditions.map(getEntityLang)))
+export async function getLangEntities (editions) {
+  const rawEditionsLangs = _.compact(_.uniq(editions.map(getEntityLang)))
   const editionsLangs = prioritizeMainUserLang(rawEditionsLangs)
   const langsUris = _.compact(editionsLangs.map(getLangWdUri))
-  const entities = await fetchLangEntities(langsUris)
+  const entities = await fetchEntitiesLabels(langsUris)
   const langEntitiesLabel = {}
   editionsLangs.forEach(lang => {
     const langWdId = getLangWdUri(lang)
     if (langWdId) langEntitiesLabel[lang] = entities[langWdId]
   })
   return { editionsLangs, langEntitiesLabel }
+}
+
+export async function getPublishersEntities (editions) {
+  const rawPublishersUris = _.uniq(editions.flatMap(getPublisherUri))
+  const publishersUris = _.compact(rawPublishersUris)
+  const someEditionsHaveNoPublisher = rawPublishersUris.length !== publishersUris.length
+  const publishers = await fetchEntitiesLabels(publishersUris)
+  const publishersLabels = {}
+  Object.values(publishers).forEach(publisher => {
+    publishersLabels[publisher.uri] = Object.values(publisher.labels)[0]
+  })
+  return { publishersUris, publishersLabels, someEditionsHaveNoPublisher }
+}
+
+const getPublisherUri = edition => edition.claims['wdt:P123']
+
+export const hasPublisher = publisherUri => edition => {
+  if (publisherUri === 'unknown') {
+    return edition.claims['wdt:P123'] == null
+  } else {
+    return edition.claims['wdt:P123']?.includes(publisherUri)
+  }
 }
