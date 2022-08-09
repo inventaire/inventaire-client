@@ -58,7 +58,12 @@
       {#if editionsLangs.length > 0}
         <div class="filter">
           <label for="language-filter">{I18n('language')}</label>
-          <select id="language-filter" name="language" bind:value={selectedLang}>
+          <select
+            id="language-filter"
+            name="language"
+            bind:value={selectedLang}
+            class:filtering={selectedLang !== 'all'}
+            >
             <option value="all">{I18n('all languages')} ({initialEditions.length})</option>
             {#each editionsLangs as lang}
               <option value={lang}>{lang} - {getLangLabel(lang)} ({langEditionsCount(lang)})</option>
@@ -81,7 +86,12 @@
       {#if publishersUris.length > 0}
         <div class="filter">
           <label for="publisher-filter">{I18n('publisher')}</label>
-          <select id="publisher-filter" name="publisher" bind:value={selectedPublisher}>
+          <select
+            id="publisher-filter"
+            name="publisher"
+            bind:value={selectedPublisher}
+            class:filtering={selectedPublisher !== 'all'}
+            >
             <option value="all">{I18n('all publishers')} ({initialEditions.length})</option>
             {#each publishersUris as uri}
               <option value={uri}>{publishersLabels[uri]} ({publisherCount(uri)})</option>
@@ -130,5 +140,8 @@
       @include bg-hover(white);
       padding: 0;
     }
+  }
+  select.filtering{
+    border-color: $glow;
   }
 </style>
