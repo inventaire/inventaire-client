@@ -1,8 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
   import { createEditionFromWork, validateEditionPossibility, addWithoutIsbnPath } from '#entities/components/lib/edition_creation_helpers'
-  import { icon } from '#lib/utils'
-  import Link from '#lib/components/link.svelte'
+  import { icon, loadInternalLink } from '#lib/utils'
   import Flash from '#lib/components/flash.svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
   import getActionKey from '#lib/get_action_key'
@@ -62,14 +61,14 @@
         </button>
       </form>
     </div>
-    <button id="withoutIsbn" class="tiny-button grey">
-      <Link
-        url={addWithoutIsbnPath(work)}
-        text={'add an edition without an ISBN'}
-        icon='plus'
-        light={true}
-      />
-    </button>
+    <a
+      href={addWithoutIsbnPath(work)}
+      class="without-isbn tiny-button grey"
+      on:click={loadInternalLink}
+      >
+      {@html icon('plus')}
+      {i18n('add an edition without an ISBN')}
+    </a>
   {:else}
     <button
       class="tiny-button show-form"
@@ -98,7 +97,7 @@
     @include display-flex(row, center, center);
     white-space: nowrap;
   }
-  #withoutIsbn{
+  .without-isbn{
     @include display-flex(row, center, center);
     font-size: 0.9em;
     padding: 0.5em;
