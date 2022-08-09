@@ -85,7 +85,7 @@ export async function getEntitiesAttributesByUris ({ uris, attributes, lang }) {
 
 export async function getBasicInfoByUri (uri) {
   const { entities, redirects } = await getEntitiesAttributesByUris({
-    uris: uri,
+    uris: [ uri ],
     attributes: [ 'type', 'labels', 'descriptions', 'image' ],
     lang: app.user.lang
   })
