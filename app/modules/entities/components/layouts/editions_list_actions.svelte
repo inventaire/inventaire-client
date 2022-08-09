@@ -1,8 +1,8 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { getLang, hasSelectedLang } from '#entities/components/lib/claims_helpers'
-  import { fetchLangEntities, getWdUri, prioritizeMainUserLang } from '#entities/components/lib/editions_list_actions_helpers'
+  import { hasSelectedLang } from '#entities/components/lib/claims_helpers'
+  import { getLangEntities } from '#entities/components/lib/editions_list_actions_helpers'
   import { compact } from 'underscore'
 
   export let editions,
@@ -16,18 +16,8 @@
   let userLang = app.user.lang
   let selectedLang = userLang
 
-  const waitingForEntities = getLangEntities()
-
-  async function getLangEntities () {
-    let rawEditionsLangs = _.compact(_.uniq(initialEditions.map(getLang)))
-    editionsLangs = prioritizeMainUserLang(rawEditionsLangs)
-    const langsUris = _.compact(editionsLangs.map(getWdUri))
-    const entities = await fetchLangEntities(langsUris)
-    editionsLangs.forEach(lang => {
-      const langWdId = getWdUri(lang)
-      if (langWdId) langEntitiesLabel[lang] = entities[langWdId]
-    })
-  }
+  const waitingForEntities = getLangEntities(initialEditions)
+    .then(res => ({ editionsLangs, langEntitiesLabel } = res))
 
   const filterEditionByLang = () => {
     if (selectedLang === 'all') {

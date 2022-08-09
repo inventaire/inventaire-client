@@ -154,7 +154,7 @@ export const getEntityPropValue = (entity, prop) => {
   if (claimValues) return claimValues[0]
 }
 
-export function getLang (entity) {
+export function getEntityLang (entity) {
   const langUri = getEntityPropValue(entity, 'wdt:P407')
   return langUri ? wdLang.byWdId[unprefixify(langUri)]?.code : undefined
 }
