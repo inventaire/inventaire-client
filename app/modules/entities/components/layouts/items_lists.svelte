@@ -81,6 +81,14 @@
     margin: 0;
   }
 
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .loading-wrapper{
+      // Reduce risk and/or proportion of scroll jump when a filter triggers a reloading
+      padding-bottom: 20em;
+    }
+  }
+
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .loading-wrapper{
