@@ -17,6 +17,7 @@
     <h5>
       {I18n('editions')}
     </h5>
+    <span class="counter">{initialEditions.length}</span>
   </div>
   <EditionsListActions
     bind:editions={editions}
@@ -57,6 +58,13 @@
     h5{
       @include sans-serif;
       margin-bottom: 0;
+    }
+    .counter{
+      line-height: 1em;
+      margin: 0 0.5em;
+      padding: 0.2em 0.5em;
+      background-color: white;
+      @include radius;
     }
   }
   .no-edition-wrapper{
