@@ -102,3 +102,26 @@ const getItemCategory = item => {
 const byDistance = (distanceA, distanceB) => distanceA - distanceB
 const nearbyKmPerimeter = 50
 const isNearby = distance => nearbyKmPerimeter > distance
+
+export const categoriesHeaders = {
+  personal: {
+    label: 'in your inventory',
+    customIcon: 'user',
+    backgroundColor: '#eeeeee'
+  },
+  network: {
+    label: "in your friends' and groups' inventories",
+    customIcon: 'users',
+    backgroundColor: '#f4f4f4'
+  },
+  nearbyPublic: {
+    label: 'nearby',
+    customIcon: 'dot-circle-o',
+    backgroundColor: '#f8f8f8'
+  },
+  otherPublic: {
+    label: 'elsewhere',
+    customIcon: 'globe',
+    backgroundColor: '#fcfcfc'
+  }
+}
