@@ -5,6 +5,7 @@
   import { getLangEntities, getPublishersEntities, hasPublisher } from '#entities/components/lib/editions_list_actions_helpers'
   import Flash from '#lib/components/flash.svelte'
   import { onChange } from '#lib/svelte'
+  import { icon } from '#lib/handlebars_helpers/icons'
 
   export let editions,
     hasSomeInitialEditions,
@@ -55,36 +56,48 @@
       <Spinner/>
     {:then}
       {#if editionsLangs.length > 0}
-        <label>
-          {I18n('language')}
-          <select name="language" bind:value={selectedLang}>
+        <div class="filter">
+          <label for="language-filter">{I18n('language')}</label>
+          <select id="language-filter" name="language" bind:value={selectedLang}>
             <option value="all">{I18n('all languages')} ({initialEditions.length})</option>
             {#each editionsLangs as lang}
               <option value={lang}>{lang} - {getLangLabel(lang)} ({langEditionsCount(lang)})</option>
             {/each}
           </select>
-        </label>
+          {#if selectedLang !== 'all'}
+            <button
+              title={I18n('reset filter')}
+              aria-controls="language-filter"
+              on:click={() => selectedLang = 'all'}
+            >{@html icon('close')}</button>
+          {/if}
+        </div>
       {/if}
     {/await}
 
     {#await waitingForPublishersEntities}
       <Spinner/>
     {:then}
-      {#if editionsLangs.length > 0}
-        <label>
-          {I18n('publisher')}
-          <select name="publisher" bind:value={selectedPublisher}>
+      {#if publishersUris.length > 0}
+        <div class="filter">
+          <label for="publisher-filter">{I18n('publisher')}</label>
+          <select id="publisher-filter" name="publisher" bind:value={selectedPublisher}>
             <option value="all">{I18n('all publishers')} ({initialEditions.length})</option>
-            {#if publishersUris}
             {#each publishersUris as uri}
               <option value={uri}>{publishersLabels[uri]} ({publisherCount(uri)})</option>
             {/each}
-            {/if}
             {#if someEditionsHaveNoPublisher}
               <option value="unknown">{I18n('unknown')} ({publisherCount('unknown')})</option>
             {/if}
           </select>
-        </label>
+          {#if selectedPublisher !== 'all'}
+            <button
+              title={I18n('reset filter')}
+              aria-controls="publisher-filter"
+              on:click={() => selectedPublisher = 'all'}
+            >{@html icon('close')}</button>
+          {/if}
+        </div>
       {/if}
     {/await}
   </div>
@@ -102,7 +115,20 @@
     align-self: flex-end;
     color: $label-grey;
   }
-  label{
+  .filter{
     margin: 0 1em;
+    position: relative;
+    select{
+      padding-right: 2em;
+    }
+    button{
+      position: absolute;
+      right: 0.1em;
+      bottom: 0.1em;
+      height: 2.1em;
+      width: 2em;
+      @include bg-hover(white);
+      padding: 0;
+    }
   }
 </style>
