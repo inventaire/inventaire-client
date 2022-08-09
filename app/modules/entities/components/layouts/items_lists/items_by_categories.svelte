@@ -43,6 +43,7 @@
           on:click={() => $filters.selectedLang = 'all'}
           >
           {@html icon('close')}
+          {i18n('language')}:
           {$filters.selectedLangLabel}
         </button>
       {/if}
@@ -54,6 +55,7 @@
           on:click={() => $filters.selectedPublisher = 'all'}
           >
           {@html icon('close')}
+          {i18n('publisher')}:
           {$filters.selectedPublisherLabel}
         </button>
       {/if}
