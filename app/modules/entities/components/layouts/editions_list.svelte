@@ -4,7 +4,7 @@
   import EntitiesList from './entities_list.svelte'
   import EditionCreation from './edition_creation.svelte'
 
-  export let someInitialEditions,
+  export let hasSomeInitialEditions,
     someEditions,
     editions,
     publishersByUris,
@@ -22,10 +22,10 @@
   <EditionsListActions
     bind:editions={editions}
     {initialEditions}
-    {someInitialEditions}
+    {hasSomeInitialEditions}
     {someEditions}
   />
-  {#if someInitialEditions}
+  {#if hasSomeInitialEditions}
     <EntitiesList
       entities={editions}
       relatedEntities={publishersByUris}

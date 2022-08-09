@@ -56,7 +56,7 @@
     editionsUris = editions.map(_.property('uri'))
   }
   $: someEditions = editions && isNonEmptyArray(editions)
-  $: someInitialEditions = initialEditions && isNonEmptyArray(initialEditions)
+  $: hasSomeInitialEditions = initialEditions && isNonEmptyArray(initialEditions)
 </script>
 
 <svelte:window bind:scrollY={windowScrollY} />
@@ -93,7 +93,7 @@
       {/if}
       <div
         class="editions-section-wrapper"
-        class:no-edition={!someInitialEditions}
+        class:no-edition={!hasSomeInitialEditions}
       >
         {#await editionsWithPublishers}
           <div class="loading-wrapper">
@@ -103,7 +103,7 @@
           </div>
         {:then}
           <EditionsList
-            {someInitialEditions}
+            {hasSomeInitialEditions}
             {someEditions}
             {publishersByUris}
             parentEntity={entity}

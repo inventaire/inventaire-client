@@ -6,10 +6,10 @@
   import { compact } from 'underscore'
 
   export let editions,
-    someInitialEditions,
+    hasSomeInitialEditions,
     initialEditions
 
-  someInitialEditions = compact(someInitialEditions)
+  hasSomeInitialEditions = compact(hasSomeInitialEditions)
 
   let editionsLangs = []
   let langEntitiesLabel = {}
@@ -33,7 +33,7 @@
 
   $: selectedLang && filterEditionByLang(initialEditions)
 </script>
-{#if someInitialEditions}
+{#if hasSomeInitialEditions}
   <div class="filters">
     {#await waitingForEntities}
       <Spinner/>
