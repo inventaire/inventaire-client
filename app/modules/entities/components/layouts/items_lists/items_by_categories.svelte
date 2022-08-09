@@ -1,6 +1,6 @@
 <script>
   import ItemsByCategory from './items_by_category.svelte'
-  import { sortItemsByCategorieAndDistance } from './items_lists_helpers'
+  import { categoriesHeaders, sortItemsByCategorieAndDistance } from './items_lists_helpers'
   import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let initialItems
@@ -11,30 +11,6 @@
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
   let itemsByCategories = {}
-
-  const categoriesHeaders = {
-    personal: {
-      label: 'in your inventory',
-      customIcon: 'user',
-      backgroundColor: '#eeeeee'
-    },
-    network: {
-      label: "in your friends' and groups' inventories",
-      customIcon: 'users',
-      backgroundColor: '#f4f4f4'
-    },
-    nearbyPublic: {
-      label: 'nearby',
-      customIcon: 'dot-circle-o',
-      backgroundColor: '#f8f8f8'
-    },
-    otherPublic: {
-      label: 'elsewhere',
-      customIcon: 'globe',
-      backgroundColor: '#fcfcfc'
-    }
-  }
-
   const showItemsOnMap = () => {
     itemsOnMap = itemsOnMap
     dispatch('scrollToMap')
