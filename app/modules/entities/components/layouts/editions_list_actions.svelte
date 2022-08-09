@@ -6,39 +6,55 @@
   import Flash from '#lib/components/flash.svelte'
   import { onChange } from '#lib/svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
+  import { getContext } from 'svelte'
 
   export let editions,
     hasSomeInitialEditions,
     initialEditions
 
+  const filters = getContext('work-layout:filters-store')
+
   let flash
-  let userLang = app.user.lang
-  let selectedLang = userLang
-  let selectedPublisher = 'all'
+
+  $filters.selectedLang = app.user.lang
+  $filters.selectedPublisher = 'all'
 
   let editionsLangs, langEntitiesLabel
   const waitingForLangEntities = getLangEntities(initialEditions)
     .then(res => ({ editionsLangs, langEntitiesLabel } = res))
+    .then(refreshFilters)
     .catch(err => flash = err)
 
   let publishersUris, publishersLabels, someEditionsHaveNoPublisher
   const waitingForPublishersEntities = getPublishersEntities(initialEditions)
     .then(res => ({ publishersUris, publishersLabels, someEditionsHaveNoPublisher } = res))
+    .then(refreshFilters)
     .catch(err => flash = err)
 
-  const refreshFilters = () => {
+  function refreshFilters () {
     let displayedEntities = initialEditions
-    if (selectedLang !== 'all') {
-      displayedEntities = displayedEntities.filter(hasSelectedLang(selectedLang))
+    if ($filters.selectedLang !== 'all') {
+      displayedEntities = displayedEntities.filter(hasSelectedLang($filters.selectedLang))
     }
 
-    if (selectedPublisher === 'unknown') {
+    if ($filters.selectedPublisher === 'unknown') {
       displayedEntities = displayedEntities.filter(hasPublisher('unknown'))
-    } else if (selectedPublisher !== 'all') {
-      displayedEntities = displayedEntities.filter(hasPublisher(selectedPublisher))
+    } else if ($filters.selectedPublisher !== 'all') {
+      displayedEntities = displayedEntities.filter(hasPublisher($filters.selectedPublisher))
     }
 
     editions = displayedEntities
+
+    if (langEntitiesLabel) {
+      $filters.selectedLangLabel = getLangLabel($filters.selectedLang)
+    }
+    if (publishersLabels) {
+      if ($filters.selectedPublisher === 'unknown') {
+        $filters.selectedPublisherLabel = `${I18n('unknown publisher')}`
+      } else {
+        $filters.selectedPublisherLabel = publishersLabels[$filters.selectedPublisher]
+      }
+    }
   }
 
   const langEditionsCount = lang => initialEditions.filter(hasSelectedLang(lang)).length
@@ -46,8 +62,9 @@
 
   const getLangLabel = lang => langEntitiesLabel[lang]?.labels[app.user.lang]
 
-  $: onChange(initialEditions, selectedLang, selectedPublisher, refreshFilters)
+  $: onChange(initialEditions, $filters.selectedLang, $filters.selectedPublisher, refreshFilters)
 </script>
+
 {#if hasSomeInitialEditions}
   <div class="filters">
     <span class="filters-header">{i18n('Filter by')}</span>
@@ -61,19 +78,19 @@
           <select
             id="language-filter"
             name="language"
-            bind:value={selectedLang}
-            class:filtering={selectedLang !== 'all'}
+            bind:value={$filters.selectedLang}
+            class:filtering={$filters.selectedLang !== 'all'}
             >
             <option value="all">{I18n('all languages')} ({initialEditions.length})</option>
             {#each editionsLangs as lang}
               <option value={lang}>{lang} - {getLangLabel(lang)} ({langEditionsCount(lang)})</option>
             {/each}
           </select>
-          {#if selectedLang !== 'all'}
+          {#if $filters.selectedLang !== 'all'}
             <button
               title={I18n('reset filter')}
               aria-controls="language-filter"
-              on:click={() => selectedLang = 'all'}
+              on:click={() => $filters.selectedLang = 'all'}
             >{@html icon('close')}</button>
           {/if}
         </div>
@@ -89,8 +106,8 @@
           <select
             id="publisher-filter"
             name="publisher"
-            bind:value={selectedPublisher}
-            class:filtering={selectedPublisher !== 'all'}
+            bind:value={$filters.selectedPublisher}
+            class:filtering={$filters.selectedPublisher !== 'all'}
             >
             <option value="all">{I18n('all publishers')} ({initialEditions.length})</option>
             {#each publishersUris as uri}
@@ -100,11 +117,11 @@
               <option value="unknown">{I18n('unknown')} ({publisherCount('unknown')})</option>
             {/if}
           </select>
-          {#if selectedPublisher !== 'all'}
+          {#if $filters.selectedPublisher !== 'all'}
             <button
               title={I18n('reset filter')}
               aria-controls="publisher-filter"
-              on:click={() => selectedPublisher = 'all'}
+              on:click={() => $filters.selectedPublisher = 'all'}
             >{@html icon('close')}</button>
           {/if}
         </div>

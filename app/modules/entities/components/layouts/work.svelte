@@ -15,6 +15,8 @@
   import EntityTitle from './entity_title.svelte'
   import WorkActions from './work_actions.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
+  import { setContext } from 'svelte'
+  import { writable } from 'svelte/store'
 
   export let entity, standalone
 
@@ -28,6 +30,8 @@
   let publishersByUris
   let usersSize = 0
   let itemsByEditions = {}
+
+  setContext('work-layout:filters-store', writable({}))
 
   const getEditionsWithPublishers = async () => {
     initialEditions = await getSubEntities('work', uri)
