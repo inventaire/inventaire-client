@@ -9,6 +9,6 @@ export async function getWikipediaExtract (entity) {
     return {}
   }
   const userLang = app.user.lang
-  const { title } = sitelinks_.wikipedia(sitelinks, userLang, originalLang)
-  return preq.get(app.API.data.wikipediaExtract(userLang, title))
+  const { title, lang } = sitelinks_.wikipedia(sitelinks, userLang, originalLang)
+  return preq.get(app.API.data.wikipediaExtract(lang, title))
 }
