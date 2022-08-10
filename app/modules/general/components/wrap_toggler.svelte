@@ -22,12 +22,9 @@
       on:click|stopPropagation={toggle}
       >
       {#if withIcon}
-        {@html icon('chevron-down')}
+        {@html icon('chevron-up')}
       {/if}
-      {moreText}
-      {#if remainingCounter > 0}
-        ({remainingCounter})
-      {/if}
+      {lessText}
     </button>
   {/if}
 {:else}
@@ -36,9 +33,12 @@
     on:click|stopPropagation={toggle}
     >
     {#if withIcon}
-      {@html icon('chevron-up')}
+      {@html icon('chevron-down')}
     {/if}
-    {lessText}
+    {moreText}
+    {#if remainingCounter > 0}
+      ({remainingCounter})
+    {/if}
   </button>
 {/if}
 

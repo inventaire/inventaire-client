@@ -11,7 +11,7 @@
 
   const { image } = entity
 
-  let isWrapped = true
+  let isUnwrapped = false
 
   let extractElementHeight
   // sync with &:not(.show-more)
@@ -36,7 +36,7 @@
       {#if isNonEmptyString(res.extract)}
         <div
           class="wikipedia-extract"
-          class:show-more={!isWrapped}
+          class:show-more={isUnwrapped}
           bind:clientHeight={extractElementHeight}
         >
           {res.extract}
@@ -49,7 +49,7 @@
         {#if displayToggler}
           <div class="wrap-toggler-wrapper">
             <WrapToggler
-              bind:show={isWrapped}
+              bind:show={isUnwrapped}
               moreText={I18n('read more...')}
               lessText={I18n('read less')}
             />
