@@ -30,18 +30,16 @@ const fetchModelsSequentially = async (items, users) => {
   const batch = _.clone(items)
   const itemsData = []
   const fetchAndAssignData = async () => {
-    if (!isNonEmptyArray(batch)) return itemsData
+    if (!isNonEmptyArray(batch)) return
     const item = batch.pop()
     const owner = users.find(user => user._id === item.owner)
-    if (owner.position) {
-      let [ itemModel, ownerModel ] = await Promise.all([
-        new Item(item),
-        new User(owner)
-      ])
-      const itemData = formatItemDataFromModel(itemModel)
-      Object.assign(itemData, formatOwnerData(ownerModel))
-      itemsData.push(itemData)
-    }
+    let [ itemModel, ownerModel ] = await Promise.all([
+      new Item(item),
+      new User(owner)
+    ])
+    const itemData = formatItemDataFromModel(itemModel)
+    Object.assign(itemData, formatOwnerData(ownerModel))
+    itemsData.push(itemData)
     await fetchAndAssignData()
   }
   await fetchAndAssignData()
