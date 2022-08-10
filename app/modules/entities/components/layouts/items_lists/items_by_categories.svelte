@@ -59,6 +59,18 @@
           {$filters.selectedPublisherLabel}
         </button>
       {/if}
+      {#if $filters.selectedPublicationYear !== 'all'}
+        <button
+          class="tiny-button grey"
+          title={I18n('reset filter')}
+          aria-controls="publication-year-filter"
+          on:click={() => $filters.selectedPublicationYear = 'all'}
+          >
+          {@html icon('close')}
+          {i18n('publication year')}:
+          {$filters.selectedPublicationYear}
+        </button>
+      {/if}
     </div>
   </div>
 {/if}

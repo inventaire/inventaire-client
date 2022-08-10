@@ -1,6 +1,7 @@
 import wdLang from 'wikidata-lang'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { getEntityLang } from '#entities/components/lib/claims_helpers'
+import { compact, uniq } from 'underscore'
 
 async function fetchEntitiesLabels (uris) {
   const { entities } = await getEntitiesAttributesByUris({
@@ -58,5 +59,29 @@ export const hasPublisher = publisherUri => edition => {
     return edition.claims['wdt:P123'] == null
   } else {
     return edition.claims['wdt:P123']?.includes(publisherUri)
+  }
+}
+
+export function getPublicationYears (editions) {
+  const years = editions.map(getPublicationYear).flat()
+  const someEditionsHaveNoPublicationDate = compact(years).length !== years.length
+  return {
+    publicationYears: uniq(compact(years)).sort(antiChronologically),
+    someEditionsHaveNoPublicationDate,
+  }
+}
+
+const getPublicationYear = edition => {
+  const date = edition.claims['wdt:P577']?.[0]
+  if (date) return date.split('-')[0]
+}
+
+const antiChronologically = (a, b) => parseInt(b) - parseInt(a)
+
+export const hasPublicationYear = year => edition => {
+  if (year === 'unknown') {
+    return getPublicationYear(edition) == null
+  } else {
+    return getPublicationYear(edition) === year
   }
 }

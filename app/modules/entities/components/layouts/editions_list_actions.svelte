@@ -2,7 +2,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
   import { hasSelectedLang } from '#entities/components/lib/claims_helpers'
-  import { getLangEntities, getPublishersEntities, hasPublisher } from '#entities/components/lib/editions_list_actions_helpers'
+  import { getLangEntities, getPublishersEntities, getPublicationYears, hasPublisher, hasPublicationYear } from '#entities/components/lib/editions_list_actions_helpers'
   import Flash from '#lib/components/flash.svelte'
   import { onChange } from '#lib/svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
@@ -31,6 +31,8 @@
     .then(refreshFilters)
     .catch(err => flash = err)
 
+  const { publicationYears, someEditionsHaveNoPublicationDate } = getPublicationYears(initialEditions)
+
   function refreshFilters () {
     let displayedEntities = initialEditions
     if ($filters.selectedLang !== 'all') {
@@ -41,6 +43,12 @@
       displayedEntities = displayedEntities.filter(hasPublisher('unknown'))
     } else if ($filters.selectedPublisher !== 'all') {
       displayedEntities = displayedEntities.filter(hasPublisher($filters.selectedPublisher))
+    }
+
+    if ($filters.selectedPublicationYear === 'unknown') {
+      displayedEntities = displayedEntities.filter(hasPublicationYear('unknown'))
+    } else if ($filters.selectedPublicationYear !== 'all') {
+      displayedEntities = displayedEntities.filter(hasPublicationYear($filters.selectedPublicationYear))
     }
 
     editions = displayedEntities
@@ -59,10 +67,11 @@
 
   const langEditionsCount = lang => initialEditions.filter(hasSelectedLang(lang)).length
   const publisherCount = uri => initialEditions.filter(hasPublisher(uri)).length
+  const publicationYearCount = year => initialEditions.filter(hasPublicationYear(year)).length
 
   const getLangLabel = lang => langEntitiesLabel[lang]?.labels[app.user.lang]
 
-  $: onChange(initialEditions, $filters.selectedLang, $filters.selectedPublisher, refreshFilters)
+  $: onChange(initialEditions, $filters, refreshFilters)
 </script>
 
 {#if hasSomeInitialEditions}
@@ -127,6 +136,31 @@
         </div>
       {/if}
     {/await}
+
+    <div class="filter">
+      <label for="publication-year-filter">{I18n('publication year')}</label>
+      <select
+        id="publication-year-filter"
+        name="publication-year"
+        bind:value={$filters.selectedPublicationYear}
+        class:filtering={$filters.selectedPublicationYear !== 'all'}
+        >
+        <option value="all">{I18n('any year')} ({initialEditions.length})</option>
+        {#each publicationYears as year}
+          <option value={year}>{year} ({publicationYearCount(year)})</option>
+        {/each}
+        {#if someEditionsHaveNoPublicationDate}
+          <option value="unknown">{I18n('unknown')} ({publicationYearCount('unknown')})</option>
+        {/if}
+      </select>
+      {#if $filters.selectedPublicationYear !== 'all'}
+        <button
+          title={I18n('reset filter')}
+          aria-controls="publication-year-filter"
+          on:click={() => $filters.selectedPublicationYear = 'all'}
+        >{@html icon('close')}</button>
+      {/if}
+    </div>
   </div>
   <Flash state={flash} />
 {/if}
