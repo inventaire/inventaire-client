@@ -2,7 +2,7 @@
   import { i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { createEventDispatcher } from 'svelte'
-  import screen_ from '#lib/screen'
+  import { screen } from '#lib/components/stores/screen'
 
   const dispatch = createEventDispatcher()
 
@@ -15,7 +15,7 @@
 </script>
 {#if someEditions && usersSize > 0}
   <div class="actions-wrapper">
-    {#if screen_.isSmall(600)}
+    {#if $screen.isSmallerThan(600)}
       <button
         on:click={() => dispatch('scrollToItemsList')}
         title={i18n('Show users who have these editions')}
