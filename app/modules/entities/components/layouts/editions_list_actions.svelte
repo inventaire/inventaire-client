@@ -33,6 +33,12 @@
 
   const { publicationYears, someEditionsHaveNoPublicationDate } = getPublicationYears(initialEditions)
 
+  function unselectEmptyFilter () {
+    if (initialEditions && langEditionsCount($filters.selectedLang) === 0) {
+      $filters.selectedLang = 'all'
+    }
+  }
+
   function refreshFilters () {
     let displayedEntities = initialEditions
     if ($filters.selectedLang !== 'all') {
@@ -69,6 +75,7 @@
   const publisherCount = uri => initialEditions.filter(hasPublisher(uri)).length
   const publicationYearCount = year => initialEditions.filter(hasPublicationYear(year)).length
 
+  $: onChange(initialEditions, unselectEmptyFilter)
   $: onChange(initialEditions, $filters, refreshFilters)
 </script>
 
