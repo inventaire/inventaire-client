@@ -35,7 +35,9 @@ export async function getLangEntities (editions) {
   const langEntitiesLabel = {}
   editionsLangs.forEach(lang => {
     const langWdId = getLangWdUri(lang)
-    if (langWdId) langEntitiesLabel[lang] = entities[langWdId]
+    if (langWdId && entities[langWdId]) {
+      langEntitiesLabel[lang] = Object.values(entities[langWdId].labels)[0]
+    }
   })
   return { editionsLangs, langEntitiesLabel }
 }

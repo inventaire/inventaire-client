@@ -54,7 +54,7 @@
     editions = displayedEntities
 
     if (langEntitiesLabel) {
-      $filters.selectedLangLabel = getLangLabel($filters.selectedLang)
+      $filters.selectedLangLabel = langEntitiesLabel[$filters.selectedLang]
     }
     if (publishersLabels) {
       if ($filters.selectedPublisher === 'unknown') {
@@ -68,8 +68,6 @@
   const langEditionsCount = lang => initialEditions.filter(hasSelectedLang(lang)).length
   const publisherCount = uri => initialEditions.filter(hasPublisher(uri)).length
   const publicationYearCount = year => initialEditions.filter(hasPublicationYear(year)).length
-
-  const getLangLabel = lang => langEntitiesLabel[lang]?.labels[app.user.lang]
 
   $: onChange(initialEditions, $filters, refreshFilters)
 </script>
@@ -92,7 +90,7 @@
             >
             <option value="all">{I18n('all languages')} ({initialEditions.length})</option>
             {#each editionsLangs as lang}
-              <option value={lang}>{lang} - {getLangLabel(lang)} ({langEditionsCount(lang)})</option>
+              <option value={lang}>{lang} - {langEntitiesLabel[lang]} ({langEditionsCount(lang)})</option>
             {/each}
           </select>
           {#if $filters.selectedLang !== 'all'}
