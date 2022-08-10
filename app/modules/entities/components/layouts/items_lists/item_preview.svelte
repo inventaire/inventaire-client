@@ -34,12 +34,14 @@
     on:click={loadInternalLink}
     title={i18n(`${transaction}_personalized`, { username })}
   >
-    {#if displayCover}
-      <img
-        src={imgSrc(cover, 64)}
-        alt={title}
-      >
-    {/if}
+    <div class="cover-wrapper">
+      {#if displayCover && cover}
+        <img
+          src={imgSrc(cover, 64)}
+          alt={title}
+        >
+      {/if}
+    </div>
     <img
       src={imgSrc(userPicture, 64, 64)}
       alt={username}
@@ -83,6 +85,10 @@
     background-color: white;
     cursor: pointer;
     padding: 0.2em 0.5em;
+  }
+  .cover-wrapper{
+    // Force width so that items without cover image are also aligned
+    width: 2.2em;
   }
   img{
     @include radius;
