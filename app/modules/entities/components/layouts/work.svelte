@@ -142,7 +142,6 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  $entity-max-width: 650px;
   .entity-layout{
     @include display-flex(column, center);
     width: 100%;

@@ -148,6 +148,10 @@
     select{
       padding-right: 2em;
     }
+    label{
+      margin-left: 0.8em;
+      margin-bottom: 0.2em;
+    }
     button{
       position: absolute;
       right: 0.1em;

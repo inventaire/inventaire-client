@@ -55,6 +55,7 @@
   }
   .editions-list-title{
     @include display-flex(row, center, center);
+    margin-bottom: 0.5em;
     h5{
       @include sans-serif;
       margin-bottom: 0;
@@ -71,5 +72,12 @@
     @include display-flex(row, center, center);
     color: $grey;
     margin-top: 1em;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .editions-section{
+      padding: 1em;
+    }
   }
 </style>
