@@ -45,6 +45,13 @@
     <p class="loading">{I18n('fetching available books...')} <Spinner/></p>
   </div>
 {:else}
+  <ItemsByCategories
+    {initialItems}
+    {displayCover}
+    bind:initialBounds
+    bind:itemsOnMap={items}
+    on:scrollToMap={scrollToMap}
+  />
   {#if showMap}
     <div class='hide-map-wrapper'>
       <button
@@ -61,13 +68,6 @@
       {initialBounds}
     />
   {/if}
-  <ItemsByCategories
-    {initialItems}
-    {displayCover}
-    bind:initialBounds
-    bind:itemsOnMap={items}
-    on:scrollToMap={scrollToMap}
-  />
 {/if}
 
 <style lang="scss">
