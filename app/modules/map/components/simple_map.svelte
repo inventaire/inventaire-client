@@ -32,6 +32,7 @@
   }
 
   const syncMarker = (docId, marker) => {
+    if (!marker) return
     if (docId === app.user.id) {
       markersLayer.addLayer(marker)
       // never remove main user
