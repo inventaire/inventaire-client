@@ -5,6 +5,7 @@
   import { createEventDispatcher, getContext } from 'svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { I18n, i18n } from '#user/lib/i18n'
+  import screen_ from '#lib/screen'
 
   export let initialItems
   export let itemsOnMap
@@ -27,10 +28,18 @@
 
   const filters = getContext('work-layout:filters-store')
 
+  let filtersTopEl
+  function resetFilter (name) {
+    $filters[name] = 'all'
+    // Mitigate a scroll jump due to the edition list above being updated
+    screen_.scrollToElement(filtersTopEl, { marginTop: 32 })
+  }
+
   $: initialItems && updateItems()
   $: hasActiveFilter = $filters?.selectedLangLabel || $filters?.selectedPublisherLabel
 </script>
 
+<div class="filters-top" bind:this={filtersTopEl}></div>
 {#if hasActiveFilter}
   <div class="filters-wrapper">
     <div class="filters">
@@ -40,7 +49,7 @@
           class="tiny-button grey"
           title={I18n('reset filter')}
           aria-controls="language-filter"
-          on:click={() => $filters.selectedLang = 'all'}
+          on:click={() => resetFilter('selectedLang')}
           >
           {@html icon('close')}
           {i18n('language')}:
@@ -52,7 +61,7 @@
           class="tiny-button grey"
           title={I18n('reset filter')}
           aria-controls="publisher-filter"
-          on:click={() => $filters.selectedPublisher = 'all'}
+          on:click={() => resetFilter('selectedPublisher')}
           >
           {@html icon('close')}
           {i18n('publisher')}:
@@ -64,7 +73,7 @@
           class="tiny-button grey"
           title={I18n('reset filter')}
           aria-controls="publication-year-filter"
-          on:click={() => $filters.selectedPublicationYear = 'all'}
+          on:click={() => resetFilter('selectedPublicationYear')}
           >
           {@html icon('close')}
           {i18n('publication year')}:
