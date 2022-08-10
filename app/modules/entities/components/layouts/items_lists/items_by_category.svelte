@@ -4,6 +4,8 @@
   import { icon } from '#lib/utils'
   import ItemsByTransaction from './items_by_transaction.svelte'
   import { createEventDispatcher } from 'svelte'
+  import Spinner from '#components/spinner.svelte'
+
   const dispatch = createEventDispatcher()
 
   export let itemsByCategory
@@ -11,6 +13,7 @@
   export let headers
   export let category
   export let displayCover
+  export let waitingForItems
 
   const { customIcon, label, backgroundColor } = headers
 
@@ -82,18 +85,22 @@
       </div>
     {/if}
   </div>
-  {#if someItems}
-    <div class="items-list-per-transactions">
-      {#each Object.keys(itemsByTransactions) as transaction}
-        <ItemsByTransaction
-          itemsByTransaction={itemsByTransactions[transaction]}
-          {transaction}
-          {displayCover}
-          bind:itemOnMap
-        />
-      {/each}
-    </div>
-  {/if}
+  {#await waitingForItems}
+    <Spinner center={true} />
+  {:then}
+    {#if someItems}
+      <div class="items-list-per-transactions">
+        {#each Object.keys(itemsByTransactions) as transaction}
+          <ItemsByTransaction
+            itemsByTransaction={itemsByTransactions[transaction]}
+            {transaction}
+            {displayCover}
+            bind:itemOnMap
+          />
+        {/each}
+      </div>
+    {/if}
+  {/await}
 </div>
 <style lang="scss">
   @import '#general/scss/utils';

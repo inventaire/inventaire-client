@@ -11,6 +11,7 @@
   export let itemsOnMap
   export let initialBounds
   export let displayCover
+  export let waitingForItems
 
   const dispatch = createEventDispatcher()
   let itemsByCategories = {}
@@ -89,6 +90,7 @@
     <ItemsByCategory
       {category}
       {displayCover}
+      {waitingForItems}
       headers={categoriesHeaders[category]}
       itemsByCategory={itemsByCategories[category]}
       bind:itemsOnMap

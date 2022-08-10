@@ -1,5 +1,4 @@
 <script>
-  import Spinner from '#general/components/spinner.svelte'
   import { icon } from '#lib/utils'
   import ItemsMap from '#map/components/items_map.svelte'
   import { I18n } from '#user/lib/i18n'
@@ -12,7 +11,7 @@
 
   let items = []
   let initialBounds
-  let loading
+  let waitingForItems
 
   // showMap is falsy to be able to mount ItemsByCategories
   // to set initialBounds before mounting ItemsMap
@@ -23,9 +22,8 @@
     // easy caching, waiting for proper svelte caching tool
     if (_.isEqual(fetchedEditionsUris, editionsUris)) return
     fetchedEditionsUris = editionsUris
-    loading = true
-    initialItems = await getItemsData(editionsUris)
-    loading = false
+    waitingForItems = getItemsData(editionsUris)
+    initialItems = await waitingForItems
     items = initialItems
   }
 
@@ -40,34 +38,30 @@
   $: displayCover = editionsUris?.length > 1
 </script>
 
-{#if loading}
-  <div class="loading-wrapper">
-    <p class="loading">{I18n('fetching available books...')} <Spinner/></p>
+<ItemsByCategories
+  {initialItems}
+  {displayCover}
+  {waitingForItems}
+  bind:initialBounds
+  bind:itemsOnMap={items}
+  on:scrollToMap={scrollToMap}
+/>
+
+{#if showMap}
+  <div class='hide-map-wrapper'>
+    <button
+      on:click={() => showMap = false}
+      class="hide-map"
+    >
+      {I18n('hide map')}
+      {@html icon('close')}
+    </button>
   </div>
-{:else}
-  <ItemsByCategories
-    {initialItems}
-    {displayCover}
-    bind:initialBounds
-    bind:itemsOnMap={items}
-    on:scrollToMap={scrollToMap}
+  <ItemsMap
+    docsToDisplay={items}
+    initialDocs={initialItems}
+    {initialBounds}
   />
-  {#if showMap}
-    <div class='hide-map-wrapper'>
-      <button
-        on:click={() => showMap = false}
-        class="hide-map"
-      >
-        {I18n('hide map')}
-        {@html icon('close')}
-      </button>
-    </div>
-    <ItemsMap
-      docsToDisplay={items}
-      initialDocs={initialItems}
-      {initialBounds}
-    />
-  {/if}
 {/if}
 
 <style lang="scss">
@@ -81,19 +75,8 @@
     margin: 0;
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    .loading-wrapper{
-      // Reduce risk and/or proportion of scroll jump when a filter triggers a reloading
-      padding-bottom: 20em;
-    }
-  }
-
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .loading-wrapper{
-      @include display-flex(column, center);
-    }
     .hide-map{
       padding: 0.3em;
     }
