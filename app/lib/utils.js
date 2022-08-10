@@ -65,8 +65,8 @@ const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 export const loadInternalLink = e => {
   e.stopPropagation()
   if (!(isOpenedOutside(e))) {
-    const { pathname } = new URL(e.currentTarget.href)
-    app.navigateAndLoad(pathname, {
+    const { pathname, search } = new URL(e.currentTarget.href)
+    app.navigateAndLoad(`${pathname}${search}`, {
       preventScrollTop: isModalPathname(pathname)
     })
     e.preventDefault()
