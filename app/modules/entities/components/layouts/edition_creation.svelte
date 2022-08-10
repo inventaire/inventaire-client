@@ -20,7 +20,7 @@
         workEntity: work,
         userInput,
       })
-      editions = [ newEdition, ...editions ]
+      app.execute('show:entity', newEdition.uri)
     } catch (err) {
       flash = err
     }
