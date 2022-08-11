@@ -16,6 +16,7 @@
   let showDropdown = false, positionned = false
   let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft, dropdownWrapperEl
   let buttonWidth, dropdownWidth
+
   const transitionDuration = 100
 
   function onButtonClick () {
