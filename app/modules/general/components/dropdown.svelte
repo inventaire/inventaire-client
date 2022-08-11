@@ -83,7 +83,6 @@
       e.stopPropagation()
     }
   }
-
   $: {
     if (alignDropdownWidthOnButton && buttonWithDropdown) {
       dropdownWidth = `${buttonWithDropdown.getBoundingClientRect().width}px`

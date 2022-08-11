@@ -9,7 +9,6 @@
   import { uniqueId } from 'underscore'
 
   export let value, resetValue = null, options, buttonLabel = null, withImage = false
-
   const buttonId = uniqueId('button')
 
   function onKeyDown (e) {
@@ -37,7 +36,7 @@
   on:keydown={onKeyDown}
   >
   {#if buttonLabel}
-    <label for={buttonId} class="select-dropdown-label">{buttonLabel}</label>
+    <label for={buttonId}>{buttonLabel}</label>
   {/if}
   <Dropdown
     alignButtonWidthOnDropdown={true}
