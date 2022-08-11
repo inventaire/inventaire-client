@@ -198,6 +198,8 @@ export const infoboxPropsLists = {
   }
 }
 
+infoboxPropsLists.serie = infoboxPropsLists.work
+
 export const formatYearClaim = (dateProp, claims) => {
   const values = claims[dateProp]
   return isNonEmptyArray(values) ? values.map(formatTime) : ''

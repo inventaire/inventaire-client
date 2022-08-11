@@ -1,6 +1,9 @@
 import { getReverseClaims, getEntitiesByUris } from '#entities/lib/entities'
 
-const subEntitiesProp = { work: 'wdt:P629' }
+const subEntitiesProp = {
+  work: 'wdt:P629',
+  serie: 'wdt:P179',
+}
 
 export const getSubEntities = async (type, uri) => {
   const subEntitiesUris = await getReverseClaims(subEntitiesProp[type], uri, true)

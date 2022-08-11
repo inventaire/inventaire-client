@@ -1,5 +1,5 @@
 import wdLang from 'wikidata-lang'
-import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+import { getEntitiesAttributesByUris, getPublicationYear } from '#entities/lib/entities'
 import { getEntityLang } from '#entities/components/lib/claims_helpers'
 import { compact, uniq } from 'underscore'
 
@@ -71,11 +71,6 @@ export function getPublicationYears (editions) {
     publicationYears: uniq(compact(years)).sort(antiChronologically),
     someEditionsHaveNoPublicationDate,
   }
-}
-
-const getPublicationYear = edition => {
-  const date = edition.claims['wdt:P577']?.[0]
-  if (date) return date.split('-')[0]
 }
 
 const antiChronologically = (a, b) => parseInt(b) - parseInt(a)
