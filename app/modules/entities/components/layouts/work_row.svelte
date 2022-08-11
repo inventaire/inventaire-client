@@ -8,31 +8,43 @@
   const layoutContext = getContext('layout-context', 'serie')
 </script>
 
-<div
-  class="work"
-  class:grid={displayMode === 'grid'}
-  class:list={displayMode === 'list'}
-  class:has-cover={work.image.url != null}
-  style:background-image={displayMode === 'grid' ? `url(${imgSrc(work.image.url, 200)})` : null}
-  >
-  {#if displayMode === 'list'}
+{#if displayMode === 'grid'}
+  <a
+    href={work.pathname}
+    on:click={loadInternalLink}
+    title={work.label}
+    class="work grid"
+    class:has-cover={work.image.url != null}
+    style:background-image={`url(${imgSrc(work.image.url, 200)})`}
+    >
+    <div class="info">
+      <h3>
+        {#if layoutContext === 'serie' && work.serieOrdinal}
+          {work.serieOrdinal}.
+        {/if}
+        {work.label}
+      </h3>
+    </div>
+  </a>
+{:else}
+  <div class="work list">
     <div class="cover">
       {#if work.image?.url}
         <img src={imgSrc(work.image.url, 200)} alt="{work.label}">
       {/if}
     </div>
-  {/if}
-  <div class="info">
-    <h3>
-      <a href={work.pathname} on:click={loadInternalLink} class="link">
-        {#if layoutContext === 'serie' && work.serieOrdinal}
-          {work.serieOrdinal}.
-        {/if}
-        {work.label}
-      </a>
-    </h3>
+    <div class="info">
+      <h3>
+        <a href={work.pathname} on:click={loadInternalLink} class="link" title={work.label}>
+          {#if layoutContext === 'serie' && work.serieOrdinal}
+            {work.serieOrdinal}.
+          {/if}
+          {work.label}
+        </a>
+      </h3>
+    </div>
   </div>
-</div>
+{/if}
 
 <style lang="scss">
   @import '#general/scss/utils';
@@ -56,6 +68,9 @@
     background-size: cover;
     background-position: center center;
     margin: 0.5em;
+    &:hover{
+      @include shadow-box;
+    }
     @include display-flex(column, center, flex-end);
     .info{
       align-self: stretch;
