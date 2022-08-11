@@ -16,7 +16,7 @@ export default async function getEntityViewByType (model, refresh) {
   if (type === 'human') {
     ({ default: View } = await import('../views/author_layout'))
   } else if (type === 'serie') {
-    ({ default: View } = await import('../views/serie_layout'))
+    ({ default: Component } = await import('#entities/components/layouts/serie.svelte'))
   } else if (type === 'work') {
     ({ default: Component } = await import('#entities/components/layouts/work.svelte'))
   } else if (type === 'publisher') {

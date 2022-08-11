@@ -7,8 +7,9 @@
   import { getWikidataUrl } from '#entities/lib/entities'
   import Link from '#lib/components/link.svelte'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
+  import Flash from '#lib/components/flash.svelte'
 
-  export let entity
+  export let entity, flash
 
   let showDropdown
 
@@ -86,6 +87,7 @@
   <div class="entity-wrapper">
     <slot name="entity" />
   </div>
+  <Flash state={flash} />
   <div class="entity-data-wrapper">
     <p class="uri">
       {I18n(type)}

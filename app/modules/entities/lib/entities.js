@@ -59,6 +59,8 @@ export const getEntityByUri = async ({ uri }) => {
 
 export const serializeEntity = entity => {
   entity.originalLang = getOriginalLang(entity.claims)
+  entity.serieOrdinal = getSerieOrdinal(entity.claims)
+  entity.publicationYear = getPublicationYear(entity)
   entity.label = getBestLangValue(app.user.lang, entity.originalLang, entity.labels).value
   entity.description = getBestLangValue(app.user.lang, entity.originalLang, entity.descriptions).value
   entity.pathname = `/entity/${entity.uri}`
@@ -125,3 +127,14 @@ export function getWikidataUrl (uri) {
 }
 
 export const getEntityLocalHref = uri => `/entity/${uri}`
+
+const getSerieOrdinal = claims => claims['wdt:P1545']?.[0]
+
+export const bySerieOrdinal = (a, b) => {
+  return parseFloat(a.serieOrdinal || 10000) - parseFloat(b.serieOrdinal || 10000)
+}
+
+export const getPublicationYear = entity => {
+  const date = entity.claims['wdt:P577']?.[0]
+  if (date) return date.split('-')[0]
+}
