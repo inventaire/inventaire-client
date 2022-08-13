@@ -16,10 +16,10 @@
 
   let displayMode = 'grid'
 
-  let flash, facets, facetsSelectedValues, selectorsOptions
+  let flash, facets, facetsSelectedValues, facetsSelectors
 
   const waitForFacets = getWorksFacets(works)
-    .then(res => ({ facets, facetsSelectedValues, selectorsOptions } = res))
+    .then(res => ({ facets, facetsSelectedValues, facetsSelectors } = res))
     .catch(err => flash = err)
 
   let displayedWorks = works
@@ -40,13 +40,15 @@
       <Spinner />
     {:then}
       {#each Object.keys(facets) as property}
-        <SelectDropdown
-          bind:value={facetsSelectedValues[property]}
-          options={selectorsOptions[property]}
-          resetValue='all'
-          buttonLabel={i18n(property)}
-          withImage={entityProperties.includes(property)}
-        />
+        {#if !facetsSelectors[property].disabled}
+          <SelectDropdown
+            bind:value={facetsSelectedValues[property]}
+            options={facetsSelectors[property].options}
+            resetValue='all'
+            buttonLabel={i18n(property)}
+            withImage={entityProperties.includes(property)}
+          />
+        {/if}
       {/each}
     {/await}
 

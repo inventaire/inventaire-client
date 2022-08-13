@@ -11,9 +11,9 @@ export async function getWorksFacets (works) {
 
   const facetsEntitiesBasicInfo = await getBasicInfo(valuesUris)
 
-  const selectorsOptions = getSelectorsOptions({ facets, facetsEntitiesBasicInfo })
+  const facetsSelectors = getSelectorsOptions({ facets, facetsEntitiesBasicInfo })
 
-  return { facets, facetsEntitiesBasicInfo, facetsSelectedValues, selectorsOptions }
+  return { facets, facetsEntitiesBasicInfo, facetsSelectedValues, facetsSelectors }
 }
 
 const initialize = () => {
@@ -49,20 +49,27 @@ const setWorkFacets = ({ facets, valuesUris }) => work => {
 }
 
 const getSelectorsOptions = ({ facets, facetsEntitiesBasicInfo }) => {
-  const selectorsOptions = {}
+  const facetsSelectors = {}
   for (const [ property, worksUrisPerValue ] of Object.entries(facets)) {
-    selectorsOptions[property] = [
-      { value: 'all', text: I18n('all') },
-    ]
-    const options = getOptions({ property, worksUrisPerValue, facetsEntitiesBasicInfo })
-    selectorsOptions[property].push(...options)
+    const facetSelector = {
+      options: [
+        { value: 'all', text: I18n('all') },
+        ...getOptions({ property, worksUrisPerValue, facetsEntitiesBasicInfo })
+      ]
+    }
+    facetSelector.disabled = hasNoKnownValue(facetSelector.options)
+    facetsSelectors[property] = facetSelector
   }
-  return selectorsOptions
+  return facetsSelectors
 }
 
 const getOptions = ({ property, worksUrisPerValue, facetsEntitiesBasicInfo }) => {
   return Object.keys(worksUrisPerValue)
   .map(formatOption({ property, worksUrisPerValue, facetsEntitiesBasicInfo }))
+}
+
+const hasNoKnownValue = options => {
+  return !options.some(option => option.value !== 'all' && option.value !== 'unknown')
 }
 
 async function getBasicInfo (uris) {
