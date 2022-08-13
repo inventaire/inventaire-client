@@ -3,7 +3,7 @@
   import WorkRow from '#entities/components/layouts/work_row.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { I18n } from '#user/lib/i18n'
-  import { getSelectedUris } from '#entities/components/lib/works_browser_helpers'
+  import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { onChange } from '#lib/svelte'
   import WorksBrowserFacets from '#entities/components/layouts/works_browser_facets.svelte'
   import WorksBrowserTextFilter from '#entities/components/layouts/works_browser_text_filter.svelte'
@@ -26,6 +26,9 @@
     let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
     if (textFilterUris) selectedUris = setIntersection(selectedUris, textFilterUris)
     displayedWorks = works.filter(work => selectedUris.has(work.uri))
+    if (textFilterUris) {
+      displayedWorks = displayedWorks.sort(bySearchMatchScore(textFilterUris))
+    }
   }
 
   $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
