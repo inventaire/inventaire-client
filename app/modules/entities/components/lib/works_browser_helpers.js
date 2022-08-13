@@ -66,6 +66,7 @@ const getSelectorsOptions = ({ facets, facetsEntitiesBasicInfo }) => {
 const getOptions = ({ property, worksUrisPerValue, facetsEntitiesBasicInfo }) => {
   return Object.keys(worksUrisPerValue)
   .map(formatOption({ property, worksUrisPerValue, facetsEntitiesBasicInfo }))
+  .sort(propertiesSort[property])
 }
 
 const hasNoKnownValue = options => {
@@ -95,6 +96,19 @@ const facetsProperties = [
 
 const valueFormatters = {
   'wdt:P577': getYearFromSimpleDay,
+}
+
+const byCount = (a, b) => getCount(b) - getCount(a)
+const getCount = option => option.value === 'unknown' ? -1 : option.count
+
+const chronologically = (a, b) => getYearValue(a) - getYearValue(b)
+const getYearValue = option => option.value === 'unknown' ? 3000 : parseInt(option.value)
+
+const propertiesSort = {
+  'wdt:P50': byCount,
+  'wdt:P136': byCount,
+  'wdt:P921': byCount,
+  'wdt:P577': chronologically,
 }
 
 export const entityProperties = facetsProperties.filter(property => properties[property].editorType === 'entity')
