@@ -6,6 +6,8 @@
   import { getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { onChange } from '#lib/svelte'
   import WorksBrowserFacets from '#entities/components/layouts/works_browser_facets.svelte'
+  import WorksBrowserTextFilter from '#entities/components/layouts/works_browser_text_filter.svelte'
+  import { setIntersection } from '#lib/utils'
 
   export let works
 
@@ -16,16 +18,17 @@
 
   let displayMode = 'grid'
 
-  let flash, facets, facetsSelectedValues, facetsSelectors
+  let flash, facets, facetsSelectedValues, facetsSelectors, textFilterUris
 
   let displayedWorks = works
   function filterWorks () {
     if (!facetsSelectedValues) return
-    const selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
+    let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
+    if (textFilterUris) selectedUris = setIntersection(selectedUris, textFilterUris)
     displayedWorks = works.filter(work => selectedUris.has(work.uri))
   }
 
-  $: onChange(facetsSelectedValues, filterWorks)
+  $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
 </script>
 
 <Flash state={flash} />
@@ -39,6 +42,8 @@
       bind:facetsSelectedValues
       bind:flash
     />
+
+    <WorksBrowserTextFilter bind:textFilterUris />
 
     <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
   </div>

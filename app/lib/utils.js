@@ -209,3 +209,16 @@ export const bubbleUpChildViewEvent = function (eventName) {
 }
 
 export const dropLeadingSlash = str => str.replace(/^\//, '')
+
+export const setIntersection = (a, b) => {
+  let set, arrayOrSet
+  if (a instanceof Set) {
+    set = a
+    arrayOrSet = b
+  } else {
+    set = b
+    arrayOrSet = a
+  }
+  const intersection = Array.from(arrayOrSet).filter(value => set.has(value))
+  return new Set(intersection)
+}
