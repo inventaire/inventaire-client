@@ -137,5 +137,15 @@ export const bySerieOrdinal = (a, b) => {
 
 export const getPublicationYear = entity => {
   const date = entity.claims['wdt:P577']?.[0]
-  if (date) return date.split('-')[0]
+  return getYearFromSimpleDay(date)
+}
+
+export const getYearFromSimpleDay = date => {
+  if (!date) return
+  if (date[0] === '-') {
+    const year = date.split('-')[1]
+    return `-${year}`
+  } else {
+    return date.split('-')[0]
+  }
 }

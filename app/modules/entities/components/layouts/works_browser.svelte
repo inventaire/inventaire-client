@@ -1,7 +1,11 @@
 <script>
   import SelectDropdown from '#components/select_dropdown.svelte'
   import WorkRow from '#entities/components/layouts/work_row.svelte'
-  import { I18n } from '#user/lib/i18n'
+  import Flash from '#lib/components/flash.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { entityProperties, getSelectedUris, getWorksFacets } from '#entities/components/lib/works_browser_helpers'
+  import Spinner from '#components/spinner.svelte'
+  import { onChange } from '#lib/svelte'
 
   export let works
 
@@ -12,11 +16,40 @@
 
   let displayMode = 'grid'
 
-  const displayedWorks = works
+  let flash, facets, facetsSelectedValues, selectorsOptions
+
+  const waitForFacets = getWorksFacets(works)
+    .then(res => ({ facets, facetsSelectedValues, selectorsOptions } = res))
+    .catch(err => flash = err)
+
+  let displayedWorks = works
+  function filterWorks () {
+    if (!facetsSelectedValues) return
+    const selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
+    displayedWorks = works.filter(work => selectedUris.has(work.uri))
+  }
+
+  $: onChange(facetsSelectedValues, filterWorks)
 </script>
+
+<Flash state={flash} />
 
 <div class="works-browser">
   <div class="controls">
+    {#await waitForFacets}
+      <Spinner />
+    {:then}
+      {#each Object.keys(facets) as property}
+        <SelectDropdown
+          bind:value={facetsSelectedValues[property]}
+          options={selectorsOptions[property]}
+          resetValue='all'
+          buttonLabel={i18n(property)}
+          withImage={entityProperties.includes(property)}
+        />
+      {/each}
+    {/await}
+
     <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
   </div>
 
@@ -34,13 +67,19 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .works-browser{
-    @include display-flex(row);
-  }
   .controls{
     background-color: $off-white;
+    margin-bottom: 0.5em;
     @include radius;
     padding: 0.5em;
+    @include display-flex(row, center, flex-start);
+    :global(.select-dropdown){
+      width: 10em;
+      margin-right: 1em;
+      &:last-child{
+       margin-inline-start: auto;
+      }
+    }
   }
   ul{
     flex: 1;
