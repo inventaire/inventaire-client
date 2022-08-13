@@ -26,6 +26,7 @@
     .catch(err => flash = err)
 
   setContext('layout-context', 'serie')
+  setContext('search-filter-claim', `wdt:P179=${uri}`)
 
   $: app.navigate(`/entity/${uri}`)
 </script>
