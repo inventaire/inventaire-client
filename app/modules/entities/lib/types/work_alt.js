@@ -29,10 +29,15 @@ export async function addWorkImages (work) {
   const workImages = images[uri]
   let imageValue = getBestLangValue(app.user.lang, work.originalLang, workImages).value
   if (imageValue) {
-    if (isImageHash(imageValue)) imageValue = `/img/entities/${imageValue}`
-    work.image.url = imageValue
+    work.image.url = getEntityImagePath(imageValue)
   }
+  work.images = Object.values(workImages).flat().map(getEntityImagePath)
   return work
+}
+
+const getEntityImagePath = imageValue => {
+  if (isImageHash(imageValue)) return `/img/entities/${imageValue}`
+  else return imageValue
 }
 
 export async function addWorksAuthors (works) {
