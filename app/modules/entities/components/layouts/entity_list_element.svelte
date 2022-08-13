@@ -32,7 +32,10 @@
     },
     work: {
       merge: MergeAction
-    }
+    },
+    serie: {
+      merge: MergeAction
+    },
   }
 </script>
 <div class="entity-wrapper">
