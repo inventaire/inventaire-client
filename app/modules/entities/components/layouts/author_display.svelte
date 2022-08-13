@@ -15,6 +15,7 @@
 
 <a
   href={url}
+  title={label}
   on:click={loadInternalLink}
 >
   {#if image.url}
