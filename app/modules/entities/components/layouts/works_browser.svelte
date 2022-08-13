@@ -5,6 +5,7 @@
   import { I18n } from '#user/lib/i18n'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { onChange } from '#lib/svelte'
+  import { flip } from 'svelte/animate'
   import WorksBrowserFacets from '#entities/components/layouts/works_browser_facets.svelte'
   import WorksBrowserTextFilter from '#entities/components/layouts/works_browser_text_filter.svelte'
   import { setIntersection } from '#lib/utils'
@@ -20,6 +21,7 @@
 
   let flash, facets, facetsSelectedValues, facetsSelectors, textFilterUris
 
+  // TODO: display only the first n items, and add more on scroll
   let displayedWorks = works
   function filterWorks () {
     if (!facetsSelectedValues) return
@@ -56,7 +58,7 @@
     class:list={displayMode === 'list'}
     >
     {#each displayedWorks as work (work.uri)}
-      <li>
+      <li animate:flip={{ duration: 300 }}>
         <WorkRow {work} {displayMode} />
       </li>
     {/each}
