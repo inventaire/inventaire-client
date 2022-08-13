@@ -140,3 +140,7 @@ export function getSelectedUris ({ works, facets, facetsSelectedValues }) {
   }
   return new Set(selectedUris)
 }
+
+export const bySearchMatchScore = textFilterUris => (a, b) => {
+  return textFilterUris.indexOf(a.uri) - textFilterUris.indexOf(b.uri)
+}
