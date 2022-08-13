@@ -2,10 +2,10 @@
   import SelectDropdown from '#components/select_dropdown.svelte'
   import WorkRow from '#entities/components/layouts/work_row.svelte'
   import Flash from '#lib/components/flash.svelte'
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { entityProperties, getSelectedUris, getWorksFacets } from '#entities/components/lib/works_browser_helpers'
-  import Spinner from '#components/spinner.svelte'
+  import { I18n } from '#user/lib/i18n'
+  import { getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { onChange } from '#lib/svelte'
+  import WorksBrowserFacets from '#entities/components/layouts/works_browser_facets.svelte'
 
   export let works
 
@@ -17,10 +17,6 @@
   let displayMode = 'grid'
 
   let flash, facets, facetsSelectedValues, facetsSelectors
-
-  const waitForFacets = getWorksFacets(works)
-    .then(res => ({ facets, facetsSelectedValues, facetsSelectors } = res))
-    .catch(err => flash = err)
 
   let displayedWorks = works
   function filterWorks () {
@@ -36,21 +32,13 @@
 
 <div class="works-browser">
   <div class="controls">
-    {#await waitForFacets}
-      <Spinner />
-    {:then}
-      {#each Object.keys(facets) as property}
-        {#if !facetsSelectors[property].disabled}
-          <SelectDropdown
-            bind:value={facetsSelectedValues[property]}
-            options={facetsSelectors[property].options}
-            resetValue='all'
-            buttonLabel={i18n(property)}
-            withImage={entityProperties.includes(property)}
-          />
-        {/if}
-      {/each}
-    {/await}
+    <WorksBrowserFacets
+      {works}
+      bind:facets
+      bind:facetsSelectors
+      bind:facetsSelectedValues
+      bind:flash
+    />
 
     <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
   </div>
