@@ -1,7 +1,7 @@
 <script>
-  import { imgSrc } from '#lib/handlebars_helpers/images'
   import { loadInternalLink } from '#lib/utils'
   import { getContext } from 'svelte'
+  import ImagesCollage from '#components/images_collage.svelte'
 
   export let work, displayMode
 
@@ -14,9 +14,12 @@
     on:click={loadInternalLink}
     title={work.label}
     class="work grid"
-    class:has-cover={work.image.url != null}
-    style:background-image={`url(${imgSrc(work.image.url, 200)})`}
+    class:has-cover={work.images.length > 0}
     >
+    <ImagesCollage
+      imagesUrls={work.images}
+      limit={work.type === 'serie' ? 4 : 1}
+    />
     <div class="info">
       <h3>
         {#if layoutContext === 'serie' && work.serieOrdinal}
@@ -29,9 +32,10 @@
 {:else}
   <div class="work list">
     <div class="cover">
-      {#if work.image?.url}
-        <img src={imgSrc(work.image.url, 200)} alt="{work.label}">
-      {/if}
+      <ImagesCollage
+        imagesUrls={work.images}
+        limit={work.type === 'serie' ? 4 : 1}
+      />
     </div>
     <div class="info">
       <h3>
@@ -56,6 +60,10 @@
     padding: 1em;
     @include radius;
     @include display-flex(row, flex-start);
+    :global(.images-collage){
+      width: 9em;
+      height: 12em;
+    }
     .info{
       margin: 0 1em;
       flex: 1;
@@ -64,9 +72,6 @@
   .grid{
     width: 9em;
     height: 12em;
-    background-color: $soft-grey;
-    background-size: cover;
-    background-position: center center;
     margin: 0.5em;
     &:hover{
       @include shadow-box;
@@ -79,11 +84,19 @@
       overflow: hidden;
     }
     &.has-cover{
+      position: relative;
       .info{
+        // Set a position so that the positionned image collage still appears below
+        // Cf https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/Adding_z-index
+        position: relative;
         height: 2.5rem;
+      }
+      :global(.images-collage){
+        @include position(absolute, 0, 0, 0, 0);
       }
     }
     &:not(.has-cover){
+      background-color: $soft-grey;
       .info{
         flex: 1;
       }

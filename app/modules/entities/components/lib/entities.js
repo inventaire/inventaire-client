@@ -1,13 +1,27 @@
 import { getReverseClaims, getEntitiesByUris } from '#entities/lib/entities'
+import preq from '#lib/preq'
+import { pluck } from 'underscore'
 
 const subEntitiesProp = {
   work: 'wdt:P629',
   serie: 'wdt:P179',
 }
 
-export const getSubEntities = async (type, uri) => {
-  const subEntitiesUris = await getReverseClaims(subEntitiesProp[type], uri, true)
+const urisGetterByType = {
+  serie: async uri => {
+    const { parts } = await preq.get(app.API.entities.serieParts(uri))
+    return pluck(parts, 'uri')
+  },
+}
 
+export const getSubEntities = async (type, uri) => {
+  let subEntitiesUris
+  if (urisGetterByType[type]) {
+    const getSubEntitiesUris = urisGetterByType[type]
+    subEntitiesUris = await getSubEntitiesUris(uri)
+  } else {
+    subEntitiesUris = await getReverseClaims(subEntitiesProp[type], uri)
+  }
   return getEntitiesByUris({ uris: subEntitiesUris })
 }
 

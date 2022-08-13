@@ -21,7 +21,7 @@
       return
     }
     waiting = preq.get(app.API.search({
-      types: 'works',
+      types: [ 'works', 'series' ],
       claim: searchFilterClaim,
       search: textFilter,
       limit: 100,
