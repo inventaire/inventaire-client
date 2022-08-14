@@ -11,6 +11,11 @@ export const imgSrc = (path, width, height) => {
   height = getImgDimension(height, width)
   path = onePictureOnly(path)
 
+  if (window.devicePixelRatio !== 1) {
+    width = getScaledSize(width)
+    height = getScaledSize(height)
+  }
+
   if (path == null) return ''
 
   return app.API.img(path, width, height)
@@ -38,3 +43,27 @@ const bestImageWidth = function (width) {
   // group image width above 500 by levels of 100px to limit generated versions
   return Math.ceil(width / 100) * 100
 }
+
+// Regroup image dimensions to avoid generating and caching too many different sizes
+const getScaledSize = size => {
+  const scaledSize = window.devicePixelRatio * size
+  for (const value of thresolds) {
+    if (scaledSize <= value) return value
+  }
+  return thresolds.slice(-1)[0]
+}
+
+const thresolds = [
+  48,
+  64,
+  96,
+  100,
+  128,
+  150,
+  200,
+  300,
+  400,
+  500,
+  1000,
+  1600,
+]
