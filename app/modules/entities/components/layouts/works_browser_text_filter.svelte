@@ -4,7 +4,7 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte'
-  import { i18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import { getContext } from 'svelte'
   import { debounce, pluck } from 'underscore'
 
@@ -41,7 +41,16 @@
     {#await waiting}
       <Spinner />
     {:then}
-      {@html icon('search')}
+      {#if textFilter}
+        <button
+          title={I18n('reset filter')}
+          on:click={() => textFilter = ''}
+          >
+          {@html icon('close')}
+        </button>
+      {:else}
+        {@html icon('search')}
+      {/if}
     {/await}
   </div>
 </div>
@@ -55,11 +64,18 @@
   .search-icon{
     position: absolute;
     right: 0.5em;
-    top: 0.5em;
+    top: 0.35em;
     color: $grey;
+    button{
+      padding: 0.2em 0 0.2em 0.2em;
+      margin: 0;
+      @include shy;
+    }
   }
   input{
     margin: 0;
+    padding: 0 0.5em;
+    height: 2.1rem;
     @include radius(2em);
   }
 </style>
