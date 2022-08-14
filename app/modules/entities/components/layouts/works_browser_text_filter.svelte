@@ -1,6 +1,7 @@
 <script>
   import Spinner from '#components/spinner.svelte'
   import assert_ from '#lib/assert_types'
+  import getActionKey from '#lib/get_action_key'
   import { icon } from '#lib/handlebars_helpers/icons'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte'
@@ -33,10 +34,22 @@
   const lazySearch = debounce(search, 200)
 
   $: onChange(textFilter, lazySearch)
+
+  const reset = () => textFilter = ''
+
+  function onKeyDown (e) {
+    const key = getActionKey(e)
+    if (key === 'esc') reset()
+  }
 </script>
 
 <div class="wrapper">
-  <input type="text" placeholder={i18n('Filter...')} bind:value={textFilter}>
+  <input
+    type="text"
+    placeholder={i18n('Filter...')}
+    bind:value={textFilter}
+    on:keydown={onKeyDown}
+  >
   <div class="search-icon">
     {#await waiting}
       <Spinner />
@@ -44,7 +57,7 @@
       {#if textFilter}
         <button
           title={I18n('reset filter')}
-          on:click={() => textFilter = ''}
+          on:click={reset}
           >
           {@html icon('close')}
         </button>
@@ -60,6 +73,7 @@
   .wrapper{
     align-self: flex-end;
     position: relative;
+    margin-right: 1em;
   }
   .search-icon{
     position: absolute;
