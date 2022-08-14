@@ -195,6 +195,24 @@ export const infoboxPropsLists = {
       'wdt:P921', // main subject
     ],
     long: getWorkProperties(),
+  },
+  human: {
+    short: [
+
+    ],
+    long: [
+      'wdt:P135', // movement
+      'wdt:P136', // genre
+      'wdt:P27', // country of citizenship
+      'wdt:P103', // native language
+      'wdt:P1412', // language of expression
+      'wdt:P69', // educated at
+      'wdt:P106', // occupation
+      'wdt:P166', // award received
+      'wdt:P39', // position held
+      'wdt:P1066', // student of
+      'wdt:P737', // influence by
+    ]
   }
 }
 

@@ -12,6 +12,11 @@ const urisGetterByType = {
     const { parts } = await preq.get(app.API.entities.serieParts(uri))
     return pluck(parts, 'uri')
   },
+  human: async uri => {
+    // TODO: also handle series and articles
+    const { works } = await preq.get(app.API.entities.authorWorks(uri))
+    return pluck(works, 'uri')
+  },
 }
 
 export const getSubEntities = async (type, uri) => {
