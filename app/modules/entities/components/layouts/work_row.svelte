@@ -12,7 +12,7 @@
   <a
     href={work.pathname}
     on:click={loadInternalLink}
-    title={work.label}
+    title={work.title}
     class="work grid"
     class:has-cover={work.images.length > 0}
     >
@@ -25,8 +25,9 @@
         {#if layoutContext === 'serie' && work.serieOrdinal}
           {work.serieOrdinal}.
         {/if}
-        {work.label}
+        {work.title}
       </h3>
+      {#if work.subtitle}<p class="subtitle">{work.subtitle}</p>{/if}
     </div>
   </a>
 {:else}
@@ -39,13 +40,14 @@
     </div>
     <div class="info">
       <h3>
-        <a href={work.pathname} on:click={loadInternalLink} class="link" title={work.label}>
+        <a href={work.pathname} on:click={loadInternalLink} class="link" title={work.title}>
           {#if layoutContext === 'serie' && work.serieOrdinal}
             {work.serieOrdinal}.
           {/if}
-          {work.label}
+          {work.title}
         </a>
       </h3>
+      {#if work.subtitle}<p class="subtitle">{work.subtitle}</p>{/if}
     </div>
   </div>
 {/if}
@@ -79,17 +81,17 @@
     @include display-flex(column, center, flex-end);
     .info{
       align-self: stretch;
-      @include display-flex(row, center);
       background-color: rgba($light-grey, 0.8);
       overflow: hidden;
     }
     &.has-cover{
       position: relative;
       .info{
+        @include display-flex(column, stretch, center);
         // Set a position so that the positionned image collage still appears below
         // Cf https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/Adding_z-index
         position: relative;
-        height: 2.5rem;
+        height: 4rem;
       }
       :global(.images-collage){
         @include position(absolute, 0, 0, 0, 0);
@@ -98,11 +100,11 @@
     &:not(.has-cover){
       background-color: $soft-grey;
       .info{
+        @include display-flex(column, stretch, center);
         flex: 1;
       }
     }
     h3{
-      flex: 1;
       padding: 0.2em;
       line-height: 1.1rem;
       font-size: 1rem;
@@ -111,5 +113,11 @@
   }
   h3{
     text-align: center;
+  }
+  .subtitle{
+    line-height: 1rem;
+    font-size: 0.8rem;
+    text-align: center;
+    color: $label-grey;
   }
 </style>
