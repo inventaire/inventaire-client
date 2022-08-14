@@ -3,11 +3,12 @@ import properties from '#entities/lib/properties'
 import { I18n } from '#user/lib/i18n'
 import { intersection, pluck, uniq } from 'underscore'
 
-export async function getWorksFacets (works) {
-  const { facets, facetsSelectedValues } = initialize()
+export async function getWorksFacets ({ works, context }) {
+  const contextProperties = facetsProperties[context]
+  const { facets, facetsSelectedValues } = initialize({ contextProperties })
 
   const valuesUris = []
-  works.forEach(setWorkFacets({ facets, valuesUris }))
+  works.forEach(setWorkFacets({ facets, valuesUris, contextProperties }))
 
   const facetsEntitiesBasicInfo = await getBasicInfo(valuesUris)
 
@@ -16,11 +17,11 @@ export async function getWorksFacets (works) {
   return { facets, facetsEntitiesBasicInfo, facetsSelectedValues, facetsSelectors }
 }
 
-const initialize = () => {
+const initialize = ({ contextProperties }) => {
   const facets = {}
   const facetsSelectedValues = {}
 
-  facetsProperties.forEach(property => {
+  contextProperties.forEach(property => {
     facets[property] = {}
     facetsSelectedValues[property] = 'all'
   })
@@ -28,9 +29,9 @@ const initialize = () => {
   return { facets, facetsSelectedValues }
 }
 
-const setWorkFacets = ({ facets, valuesUris }) => work => {
+const setWorkFacets = ({ facets, valuesUris, contextProperties }) => work => {
   const { uri, claims } = work
-  for (const property of facetsProperties) {
+  for (const property of contextProperties) {
     const propertyClaims = claims[property]
     if (propertyClaims) {
       for (let value of propertyClaims) {
@@ -64,9 +65,10 @@ const getSelectorsOptions = ({ facets, facetsEntitiesBasicInfo }) => {
 }
 
 const getOptions = ({ property, worksUrisPerValue, facetsEntitiesBasicInfo }) => {
+  const sortFn = customPropertySort[property] || byCount
   return Object.keys(worksUrisPerValue)
   .map(formatOption({ property, worksUrisPerValue, facetsEntitiesBasicInfo }))
-  .sort(propertiesSort[property])
+  .sort(sortFn)
 }
 
 const hasNoKnownValue = options => {
@@ -86,13 +88,21 @@ async function getBasicInfo (uris) {
   return entities
 }
 
-const facetsProperties = [
-  // TODO: include other author properties in that same facet
-  'wdt:P50',
-  'wdt:P136',
-  'wdt:P921',
-  'wdt:P577',
-]
+const facetsProperties = {
+  author: [
+    'wdt:P179',
+    'wdt:P136',
+    'wdt:P921',
+    'wdt:P577',
+  ],
+  serie: [
+    // TODO: include other author properties in that same facet
+    'wdt:P50',
+    'wdt:P136',
+    'wdt:P921',
+    'wdt:P577',
+  ],
+}
 
 const valueFormatters = {
   'wdt:P577': getYearFromSimpleDay,
@@ -104,14 +114,13 @@ const getCount = option => option.value === 'unknown' ? -1 : option.count
 const chronologically = (a, b) => getYearValue(a) - getYearValue(b)
 const getYearValue = option => option.value === 'unknown' ? 3000 : parseInt(option.value)
 
-const propertiesSort = {
-  'wdt:P50': byCount,
-  'wdt:P136': byCount,
-  'wdt:P921': byCount,
+const customPropertySort = {
   'wdt:P577': chronologically,
 }
 
-export const entityProperties = facetsProperties.filter(property => properties[property].editorType === 'entity')
+export const entityProperties = uniq(Object.values(facetsProperties)
+  .flat()
+  .filter(property => properties[property].editorType === 'entity'))
 
 const formatOption = ({ property, worksUrisPerValue, facetsEntitiesBasicInfo }) => value => {
   if (entityProperties.includes(property)) {

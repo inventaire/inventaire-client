@@ -3,10 +3,13 @@
   import { i18n } from '#user/lib/i18n'
   import { entityProperties, getWorksFacets } from '#entities/components/lib/works_browser_helpers'
   import Spinner from '#components/spinner.svelte'
+  import { getContext } from 'svelte'
 
   export let works, facets, facetsSelectors, facetsSelectedValues, flash
 
-  const waitForFacets = getWorksFacets(works)
+  const layoutContext = getContext('layout-context')
+
+  const waitForFacets = getWorksFacets({ works, context: layoutContext })
     .then(res => ({ facets, facetsSelectedValues, facetsSelectors } = res))
     .catch(err => flash = err)
 </script>
