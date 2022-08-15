@@ -4,7 +4,7 @@
   import LabelsEditor from './labels_editor.svelte'
   import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
-  import { typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
+  import { entityTypeNameBySingularType, typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
   import Flash from '#lib/components/flash.svelte'
   import { getMissingRequiredProperties, getPropertiesShortlist } from '#entities/components/editor/lib/create_helpers'
@@ -80,8 +80,8 @@
   {#if canChangeType}
     <h2>{I18n('create a new entity')}</h2>
     <EntityTypePicker bind:type />
-  {:else if type === 'edition'}
-    <h2>{I18n('create a new edition')}</h2>
+  {:else}
+    <h2>{I18n(`create a new ${entityTypeNameBySingularType[type]}`)}</h2>
   {/if}
 
   {#if type}
