@@ -30,6 +30,12 @@ const urisGetterByType = {
       { label: 'editions', uris: pluck(editions, 'uri') },
     ]
   },
+  collection: async uri => {
+    const uris = await getReverseClaims('wdt:P195', uri)
+    return [
+      { label: 'editions', uris },
+    ]
+  }
 }
 
 export const getSubEntitiesSections = async ({ entity, sortFn }) => {
