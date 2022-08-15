@@ -11,10 +11,12 @@
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
+  import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
 
   export let entity, standalone, flash
 
   const { uri } = entity
+  app.navigate(`/entity/${uri}`)
 
   let sections
   const waitingForWorks = getSubEntitiesSections({ entity, sortFn: bySerieOrdinal })
@@ -23,8 +25,9 @@
 
   setContext('layout-context', 'serie')
   setContext('search-filter-claim', `wdt:P179=${uri}|wdt:P361=${uri}`)
-
-  $: app.navigate(`/entity/${uri}`)
+  const createButtons = [
+    { type: 'work', claims: { 'wdt:P179': [ uri ] } },
+  ]
 </script>
 
 <BaseLayout
@@ -50,6 +53,12 @@
           <WorksBrowser {sections} />
         {/await}
       </div>
+    </div>
+    <MissingEntitiesMenu
+      waiting={waitingForWorks}
+      questionText={'A work of this series is missing in the common database?'}
+      {createButtons}
+    />
     <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>
@@ -58,6 +67,7 @@
   @import '#general/scss/utils';
   .entity-layout{
     align-self: stretch;
+    @include display-flex(column, stretch);
   }
   .serie-parts{
     margin-top: 1em;

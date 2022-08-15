@@ -26,33 +26,42 @@
   $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
 </script>
 
-{#if label}
-  <h3>{I18n(label)}</h3>
-{/if}
+<div class="works-browser-section">
+  {#if label}
+    <h3>{I18n(label)}</h3>
+  {/if}
 
-<ul
-  class:grid={displayMode === 'grid'}
-  class:list={displayMode === 'list'}
-  >
-  {#each displayedWorks as work (work.uri)}
-    <li animate:flip={{ duration: 300 }}>
-      {#if displayMode === 'grid'}
-        <WorkGridCard {work} />
-      {:else}
-        <WorkListRow {work} />
-      {/if}
-    </li>
-  {/each}
-</ul>
+  <ul
+    class:grid={displayMode === 'grid'}
+    class:list={displayMode === 'list'}
+    >
+    {#each displayedWorks as work (work.uri)}
+      <li animate:flip={{ duration: 300 }}>
+        {#if displayMode === 'grid'}
+          <WorkGridCard {work} />
+        {:else}
+          <WorkListRow {work} />
+        {/if}
+      </li>
+    {/each}
+  </ul>
+</div>
 
 <style lang="scss">
   @import '#general/scss/utils';
+  .works-browser-section{
+    background-color: $off-white;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+  }
   h3{
     font-size: 1rem;
     margin: 0.5em 0.5em 0 0.5em;
   }
   ul{
     flex: 1;
+    max-height: 30em;
+    overflow-y: auto;
     &.list{
       max-width: 40em;
       margin: 0 auto;

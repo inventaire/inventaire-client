@@ -140,7 +140,7 @@
   .layout{
     @include display-flex(column, stretch, center);
     margin: 0 auto;
-    max-width: 82em;
+    max-width: 84em;
     padding: 0 1em;
     background-color: white;
   }
