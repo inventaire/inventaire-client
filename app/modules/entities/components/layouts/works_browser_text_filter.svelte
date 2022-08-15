@@ -11,8 +11,10 @@
 
   export let textFilterUris
 
-  let searchFilterClaim = getContext('search-filter-claim')
+  const searchFilterClaim = getContext('search-filter-claim')
+  const searchFilterTypes = getContext('search-filter-types')
   assert_.string(searchFilterClaim)
+  assert_.strings(searchFilterTypes)
 
   let textFilter, waiting
 
@@ -22,7 +24,7 @@
       return
     }
     waiting = preq.get(app.API.search({
-      types: [ 'works', 'series' ],
+      types: searchFilterTypes,
       claim: searchFilterClaim,
       search: textFilter,
       limit: 100,

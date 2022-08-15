@@ -101,6 +101,10 @@ const facetsProperties = {
     'wdt:P921',
     'wdt:P577',
   ],
+  publisher: [
+    'wdt:P123',
+    'wdt:P195',
+  ]
 }
 
 const valueFormatters = {

@@ -1,10 +1,8 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
   import { getSubEntitiesSections } from '../lib/entities'
-  import { bySerieOrdinal } from '#entities/lib/entities'
-  import { removeAuthorsClaims } from '#entities/components/lib/work_helpers'
+  import { byPublicationDate } from '#entities/lib/entities'
   import BaseLayout from './base_layout.svelte'
-  import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
   import WikipediaExtract from './wikipedia_extract.svelte'
   import EntityTitle from './entity_title.svelte'
@@ -19,15 +17,17 @@
   app.navigate(`/entity/${uri}`)
 
   let sections
-  const waitingForWorks = getSubEntitiesSections({ entity, sortFn: bySerieOrdinal })
+  const waitingForSubEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
     .then(res => sections = res)
     .catch(err => flash = err)
 
-  setContext('layout-context', 'serie')
-  setContext('search-filter-claim', `wdt:P179=${uri}|wdt:P361=${uri}`)
-  setContext('search-filter-types', [ 'series', 'works' ])
+  setContext('layout-context', 'publisher')
+  setContext('search-filter-claim', `wdt:P123=${uri}`)
+  // TODO: index editions
+  setContext('search-filter-types', [ 'collections' ])
   const createButtons = [
-    { type: 'work', claims: { 'wdt:P179': [ uri ] } },
+    { type: 'collection', claims: { 'wdt:P123': [ uri ] } },
+    { type: 'edition', claims: { 'wdt:P123': [ uri ] } },
   ]
 </script>
 
@@ -40,15 +40,14 @@
     <div class="top-section">
       <div class="work-section">
         <EntityTitle {entity} {standalone}/>
-        <AuthorsInfo claims={entity.claims} />
         <WikipediaExtract {entity} />
         <Infobox
-          claims={removeAuthorsClaims(entity.claims)}
+          claims={entity.claims}
           entityType={entity.type}
         />
       </div>
-      <div class="serie-parts">
-        {#await waitingForWorks}
+      <div class="publications">
+        {#await waitingForSubEntities}
           <Spinner center={true} />
         {:then}
           <WorksBrowser {sections} />
@@ -56,8 +55,8 @@
       </div>
     </div>
     <MissingEntitiesMenu
-      waiting={waitingForWorks}
-      questionText={'A work of this series is missing in the common database?'}
+      waiting={waitingForSubEntities}
+      questionText={'A collection or an edition from this publisher is missing in the common database?'}
       {createButtons}
     />
     <HomonymDeduplicates {entity} />
@@ -69,8 +68,5 @@
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
-  }
-  .serie-parts{
-    margin-top: 1em;
   }
 </style>
