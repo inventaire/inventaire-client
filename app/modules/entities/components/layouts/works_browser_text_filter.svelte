@@ -1,6 +1,5 @@
 <script>
   import Spinner from '#components/spinner.svelte'
-  import assert_ from '#lib/assert_types'
   import getActionKey from '#lib/get_action_key'
   import { icon } from '#lib/handlebars_helpers/icons'
   import preq from '#lib/preq'
@@ -13,8 +12,7 @@
 
   const searchFilterClaim = getContext('search-filter-claim')
   const searchFilterTypes = getContext('search-filter-types')
-  assert_.string(searchFilterClaim)
-  assert_.strings(searchFilterTypes)
+  const canSearch = searchFilterClaim && searchFilterTypes
 
   let textFilter, waiting
 
@@ -45,30 +43,32 @@
   }
 </script>
 
-<div class="wrapper">
-  <input
-    type="text"
-    placeholder={i18n('Filter...')}
-    bind:value={textFilter}
-    on:keydown={onKeyDown}
-  >
-  <div class="search-icon">
-    {#await waiting}
-      <Spinner />
-    {:then}
-      {#if textFilter}
-        <button
-          title={I18n('reset filter')}
-          on:click={reset}
-          >
-          {@html icon('close')}
-        </button>
-      {:else}
-        {@html icon('search')}
-      {/if}
-    {/await}
+{#if canSearch}
+  <div class="wrapper">
+    <input
+      type="text"
+      placeholder={i18n('Filter...')}
+      bind:value={textFilter}
+      on:keydown={onKeyDown}
+    >
+    <div class="search-icon">
+      {#await waiting}
+        <Spinner />
+      {:then}
+        {#if textFilter}
+          <button
+            title={I18n('reset filter')}
+            on:click={reset}
+            >
+            {@html icon('close')}
+          </button>
+        {:else}
+          {@html icon('search')}
+        {/if}
+      {/await}
+    </div>
   </div>
-</div>
+{/if}
 
 <style lang="scss">
   @import '#general/scss/utils';
