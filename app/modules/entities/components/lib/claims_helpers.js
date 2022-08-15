@@ -209,6 +209,23 @@ export const infoboxPropsLists = {
       'wdt:P1066', // student of
       'wdt:P737', // influence by
     ]
+  },
+  publisher: {
+    short: [],
+    long: [
+      'wdt:P571', // inception
+      'wdt:P576', // dissolution
+      'wdt:P112', // founded by
+      'wdt:P127', // owned by
+    ],
+  },
+  collection: {
+    short: [],
+    long: [
+      'wdt:P1680', // subtitle
+      'wdt:P123', // publisher
+      'wdt:P98', // editor
+    ],
   }
 }
 

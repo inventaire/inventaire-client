@@ -23,6 +23,13 @@ const urisGetterByType = {
       { label: 'works', uris: pluck(works, 'uri') },
     ]
   },
+  publisher: async uri => {
+    const { collections, editions } = await preq.get(app.API.entities.publisherPublications(uri))
+    return [
+      { label: 'collections', uris: pluck(collections, 'uri') },
+      { label: 'editions', uris: pluck(editions, 'uri') },
+    ]
+  },
 }
 
 export const getSubEntitiesSections = async ({ entity, sortFn }) => {

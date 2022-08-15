@@ -27,6 +27,7 @@
   setContext('layout-context', 'author')
   const authorProperties = Object.keys(extendedAuthorsKeys)
   setContext('search-filter-claim', authorProperties.map(property => `${property}=${uri}`).join('|'))
+  setContext('search-filter-types', [ 'series', 'works' ])
   const createButtons = [
     { type: 'serie', claims: { 'wdt:P50': [ uri ] } },
     { type: 'work', claims: { 'wdt:P50': [ uri ] } },

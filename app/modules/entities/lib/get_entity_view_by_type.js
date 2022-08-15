@@ -20,7 +20,7 @@ export default async function getEntityViewByType (model, refresh) {
   } else if (type === 'work') {
     ({ default: Component } = await import('#entities/components/layouts/work.svelte'))
   } else if (type === 'publisher') {
-    ({ default: View } = await import('../views/publisher_layout'))
+    ({ default: Component } = await import('#entities/components/layouts/publisher.svelte'))
   } else if (type === 'article') {
     ({ default: View } = await import('../views/article_li'))
   } else if (type === 'collection') {
