@@ -77,7 +77,10 @@
   }
   h3{
     padding: 0.2em;
-    line-height: 1.1rem;
+    $line-height: 1.1rem;
+    line-height: $line-height;
+    max-height: calc(3 * $line-height + 0.2rem);
+    overflow: hidden;
     font-size: 1rem;
     text-align: center;
     margin: 0;
