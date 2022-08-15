@@ -1,16 +1,15 @@
 <script>
   import SelectDropdown from '#components/select_dropdown.svelte'
-  import WorkRow from '#entities/components/layouts/work_row.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { I18n } from '#user/lib/i18n'
-  import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
-  import { onChange } from '#lib/svelte'
-  import { flip } from 'svelte/animate'
   import WorksBrowserFacets from '#entities/components/layouts/works_browser_facets.svelte'
   import WorksBrowserTextFilter from '#entities/components/layouts/works_browser_text_filter.svelte'
-  import { setIntersection } from '#lib/utils'
+  import { pluck } from 'underscore'
+  import WorksBrowserSection from '#entities/components/layouts/works_browser_section.svelte'
 
-  export let works
+  export let sections
+
+  const allWorks = pluck(sections, 'entities').flat()
 
   const displayOptions = [
     { value: 'grid', icon: 'th-large', text: I18n('grid') },
@@ -20,20 +19,6 @@
   let displayMode = 'grid'
 
   let flash, facets, facetsSelectedValues, facetsSelectors, textFilterUris
-
-  // TODO: display only the first n items, and add more on scroll
-  let displayedWorks = works
-  function filterWorks () {
-    if (!facetsSelectedValues) return
-    let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
-    if (textFilterUris) selectedUris = setIntersection(selectedUris, textFilterUris)
-    displayedWorks = works.filter(work => selectedUris.has(work.uri))
-    if (textFilterUris) {
-      displayedWorks = displayedWorks.sort(bySearchMatchScore(textFilterUris))
-    }
-  }
-
-  $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
 </script>
 
 <Flash state={flash} />
@@ -41,7 +26,7 @@
 <div class="works-browser">
   <div class="controls">
     <WorksBrowserFacets
-      {works}
+      works={allWorks}
       bind:facets
       bind:facetsSelectors
       bind:facetsSelectedValues
@@ -53,16 +38,17 @@
     <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
   </div>
 
-  <ul
-    class:grid={displayMode === 'grid'}
-    class:list={displayMode === 'list'}
-    >
-    {#each displayedWorks as work (work.uri)}
-      <li animate:flip={{ duration: 300 }}>
-        <WorkRow {work} {displayMode} />
-      </li>
+  {#if sections}
+    {#each sections as section}
+      <WorksBrowserSection
+        {section}
+        {displayMode}
+        {facets}
+        {facetsSelectedValues}
+        {textFilterUris}
+        />
     {/each}
-  </ul>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -79,16 +65,6 @@
       &:last-child{
        margin-inline-start: auto;
       }
-    }
-  }
-  ul{
-    flex: 1;
-    &.list{
-      max-width: 40em;
-      margin: 0 auto;
-    }
-    &.grid{
-      @include display-flex(row, center, flex-start, wrap);
     }
   }
 </style>

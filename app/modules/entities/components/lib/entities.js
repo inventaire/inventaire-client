@@ -1,4 +1,5 @@
-import { getReverseClaims, getEntitiesByUris } from '#entities/lib/entities'
+import { getReverseClaims, getEntitiesByUris, serializeEntity } from '#entities/lib/entities'
+import { addWorksImages } from '#entities/lib/types/work_alt'
 import preq from '#lib/preq'
 import { pluck } from 'underscore'
 
@@ -10,24 +11,38 @@ const subEntitiesProp = {
 const urisGetterByType = {
   serie: async uri => {
     const { parts } = await preq.get(app.API.entities.serieParts(uri))
-    return pluck(parts, 'uri')
+    return [
+      { uris: pluck(parts, 'uri') },
+    ]
   },
   human: async uri => {
-    // TODO: also handle series and articles
-    const { works } = await preq.get(app.API.entities.authorWorks(uri))
-    return pluck(works, 'uri')
+    // TODO: also handle articles
+    const { series, works } = await preq.get(app.API.entities.authorWorks(uri))
+    return [
+      { label: 'series', uris: pluck(series, 'uri') },
+      { label: 'works', uris: pluck(works, 'uri') },
+    ]
   },
 }
 
+export const getSubEntitiesSections = async ({ entity, sortFn }) => {
+  const { type, uri } = entity
+  const getSubEntitiesUris = urisGetterByType[type]
+  const sections = await getSubEntitiesUris(uri)
+  await Promise.all(sections.map(fetchSectionEntities({ sortFn })))
+  return sections
+}
+
+const fetchSectionEntities = ({ sortFn }) => async section => {
+  const entities = await getEntitiesByUris({ uris: section.uris })
+  section.entities = entities.map(serializeEntity).sort(sortFn)
+  await addWorksImages(section.entities)
+  return section
+}
+
 export const getSubEntities = async (type, uri) => {
-  let subEntitiesUris
-  if (urisGetterByType[type]) {
-    const getSubEntitiesUris = urisGetterByType[type]
-    subEntitiesUris = await getSubEntitiesUris(uri)
-  } else {
-    subEntitiesUris = await getReverseClaims(subEntitiesProp[type], uri)
-  }
-  return getEntitiesByUris({ uris: subEntitiesUris })
+  const uris = await getReverseClaims(subEntitiesProp[type], uri)
+  return getEntitiesByUris({ uris })
 }
 
 export const bestImage = function (a, b) {

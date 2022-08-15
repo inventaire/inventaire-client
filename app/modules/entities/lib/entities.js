@@ -142,6 +142,10 @@ export const bySerieOrdinal = (a, b) => {
   return parseFloat(a.serieOrdinal || 10000) - parseFloat(b.serieOrdinal || 10000)
 }
 
+export const byPublicationDate = (a, b) => {
+  return parseInt(a.publicationYear || 10000) - parseInt(b.publicationYear || 10000)
+}
+
 export const getPublicationYear = entity => {
   const date = entity.claims['wdt:P577']?.[0]
   return getYearFromSimpleDay(date)
