@@ -12,10 +12,12 @@
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
   import { extendedAuthorsKeys } from '#entities/lib/show_all_authors_preview_lists'
+  import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
 
   export let entity, standalone, flash
 
   const { uri } = entity
+  app.navigate(`/entity/${uri}`)
 
   let sections
   const waitingForSubEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
@@ -25,8 +27,10 @@
   setContext('layout-context', 'author')
   const authorProperties = Object.keys(extendedAuthorsKeys)
   setContext('search-filter-claim', authorProperties.map(property => `${property}=${uri}`).join('|'))
-
-  $: app.navigate(`/entity/${uri}`)
+  const createButtons = [
+    { type: 'serie', claims: { 'wdt:P50': [ uri ] } },
+    { type: 'work', claims: { 'wdt:P50': [ uri ] } },
+  ]
 </script>
 
 <BaseLayout
@@ -52,6 +56,12 @@
           <WorksBrowser {sections} />
         {/await}
       </div>
+    </div>
+    <MissingEntitiesMenu
+      waiting={waitingForSubEntities}
+      questionText={'A series or a work by this author is missing in the common database?'}
+      {createButtons}
+    />
     <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>
@@ -60,6 +70,7 @@
   @import '#general/scss/utils';
   .entity-layout{
     align-self: stretch;
+    @include display-flex(column, stretch);
   }
   .author-works{
     margin-top: 1em;
