@@ -2,6 +2,7 @@
   import { loadInternalLink } from '#lib/utils'
   import { getContext } from 'svelte'
   import ImagesCollage from '#components/images_collage.svelte'
+  import Infobox from '#entities/components/layouts/infobox.svelte'
 
   export let work
 
@@ -25,6 +26,10 @@
       </a>
     </h3>
     {#if work.subtitle}<p class="subtitle">{work.subtitle}</p>{/if}
+    <Infobox
+      claims={work.claims}
+      entityType={work.type}
+    />
   </div>
 </div>
 
@@ -32,7 +37,7 @@
   @import '#general/scss/utils';
   .work-list-row{
     @include display-flex(row, flex-start);
-    background-color: $off-white;
+    background-color: white;
     margin: 0.5em 0;
     padding: 1em;
     @include radius;
@@ -44,9 +49,6 @@
   .info{
     margin: 0 1em;
     flex: 1;
-  }
-  h3{
-    text-align: center;
   }
   .subtitle{
     line-height: 1rem;

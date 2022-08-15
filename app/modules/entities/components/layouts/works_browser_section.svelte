@@ -60,10 +60,9 @@
   }
   ul{
     flex: 1;
-    max-height: 30em;
+    max-height: 42em;
     overflow-y: auto;
     &.list{
-      max-width: 40em;
       margin: 0 auto;
     }
     &.grid{

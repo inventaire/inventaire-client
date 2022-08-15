@@ -21,10 +21,6 @@ export const getWorkProperties = omitAuthors => {
   // propertiesPerType.work doesnt seem to have enough props available
   // ie. original title, narrative location, characters
   let props = [
-    'wdt:P50', // author
-    'wdt:P58', // scenarist
-    'wdt:P110', // illustrator
-    'wdt:P6338', // colorist
     'wdt:P577', // publication date
     'wdt:P136', // genre
     'wdt:P361', // part of (serie)
