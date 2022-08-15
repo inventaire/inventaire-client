@@ -10,7 +10,7 @@
 <p>
   {displayedText}
   {#if displayedText.length < text.length}
-    ...
+    …
     <slot name="more" />
   {/if}
 </p>
