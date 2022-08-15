@@ -32,8 +32,6 @@
   let displayedProperties = propertiesShortlist || propertiesLonglist
   let entityPropertiesShortlist, entityPropertiesLonglist
 
-  const waitingForEntities = getMissingEntities()
-
   async function getMissingEntities () {
     let missingUris = []
     displayedProperties.forEach(prop => {
@@ -53,9 +51,10 @@
       relatedEntities = { ...relatedEntities, ...entities }
     }
   }
-  $: (async () => {
-    if (displayedProperties) await getMissingEntities()
-  })()
+  let waitingForEntities
+  $: if (displayedProperties) {
+    waitingForEntities = getMissingEntities()
+  }
 
   $: displayToggler = !shortlistOnly && withShortlist && entityPropertiesLonglist.length > longlistDisplayLimit
   $: {
