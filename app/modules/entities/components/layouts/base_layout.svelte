@@ -31,7 +31,7 @@
 <div class="layout">
   <div class="header-wrapper">
     <div class="header">
-      <p class="type">{I18n(type)}</p>
+      <h2 class="type">{I18n(type)}</h2>
     </div>
     <div class="edit-data-actions">
       <Dropdown
@@ -146,7 +146,8 @@
   }
   .type{
     color: $grey;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    @include sans-serif;
   }
   .header-wrapper{
     display: flex;

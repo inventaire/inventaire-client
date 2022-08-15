@@ -90,7 +90,6 @@ async function getBasicInfo (uris) {
 
 const facetsProperties = {
   author: [
-    'wdt:P179',
     'wdt:P136',
     'wdt:P921',
     'wdt:P577',

@@ -1,7 +1,7 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
-  import { getSubEntities } from '../lib/entities'
-  import { bySerieOrdinal, serializeEntity } from '#entities/lib/entities'
+  import { getSubEntitiesSections } from '../lib/entities'
+  import { byPublicationDate } from '#entities/lib/entities'
   import { removeAuthorsClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
@@ -11,19 +11,15 @@
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
-  import { addWorksImages } from '#entities/lib/types/work_alt'
   import { extendedAuthorsKeys } from '#entities/lib/show_all_authors_preview_lists'
 
   export let entity, standalone, flash
 
   const { uri } = entity
 
-  let works
-  const waitingForWorks = getSubEntities('human', uri)
-    .then(async res => {
-      works = res.map(serializeEntity).sort(bySerieOrdinal)
-      await addWorksImages(works)
-    })
+  let sections
+  const waitingForSubEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
+    .then(res => sections = res)
     .catch(err => flash = err)
 
   setContext('layout-context', 'author')
@@ -50,10 +46,10 @@
         />
       </div>
       <div class="author-works">
-        {#await waitingForWorks}
+        {#await waitingForSubEntities}
           <Spinner center={true} />
         {:then}
-          <WorksBrowser {works} />
+          <WorksBrowser {sections} />
         {/await}
       </div>
     <HomonymDeduplicates {entity} />
