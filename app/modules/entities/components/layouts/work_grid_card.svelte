@@ -6,6 +6,8 @@
   export let work
 
   const layoutContext = getContext('layout-context')
+
+  const { type } = work
 </script>
 
 <a
@@ -13,11 +15,12 @@
   on:click={loadInternalLink}
   title={work.title}
   class="work-grid-card"
+  class:serie={type === 'serie'}
   class:has-cover={work.images.length > 0}
   >
   <ImagesCollage
     imagesUrls={work.images}
-    limit={work.type === 'serie' ? 4 : 1}
+    limit={type === 'serie' ? 6 : 1}
   />
   <div class="info">
     <h3>
@@ -32,12 +35,17 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+  $card-base-width: 9em;
+  $card-margin: 0.5em;
   .work-grid-card{
     @include display-flex(column, center, flex-end);
     background-color: $off-white;
-    width: 9em;
+    width: $card-base-width;
     height: 12em;
-    margin: 0.5em;
+    margin: $card-margin;
+    &.serie{
+      width: calc($card-base-width * 2 + $card-margin * 2)
+    }
     &:hover{
       @include shadow-box;
     }
