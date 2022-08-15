@@ -9,9 +9,7 @@
 
 <div
   class="images-collage"
-  class:single={displayedImages.length === 1}
-  class:duo={displayedImages.length === 2}
-  class:square={displayedImages.length >= 3}
+  class:single={limit === 1}
   >
   {#each displayedImages as imageUrl}
     <div
@@ -26,29 +24,19 @@
   // Will have a width and height of 0 by default:
   // this need to be overriden by the parent component
   .images-collage{
+    background-color: #dcdcdc;
     @include display-flex(row, center, center, wrap);
+    overflow: hidden;
+    &:not(.single){
+      .image-container{
+        max-width: 50%;
+      }
+    }
   }
   .image-container{
     background-size: cover;
     background-position: center center;
-  }
-  .single{
-    .image-container{
-      flex: 1 0 100%;
-      height: 100%;
-    }
-  }
-  .duo{
-    .image-container{
-      background-position: top;
-      flex: 0 0 100%;
-      height: 50%;
-    }
-  }
-  .square{
-    .image-container{
-      flex: 0 0 50%;
-      height: 50%;
-    }
+    flex: 1 1 auto;
+    height: 100%;
   }
 </style>
