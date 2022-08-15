@@ -16,6 +16,7 @@
     { value: 'list', icon: 'align-justify', text: I18n('list') },
   ]
 
+  // TODO: persist display mode in localstorage
   let displayMode = 'grid'
 
   let flash, facets, facetsSelectedValues, facetsSelectors, textFilterUris
@@ -32,9 +33,7 @@
       bind:facetsSelectedValues
       bind:flash
     />
-
     <WorksBrowserTextFilter bind:textFilterUris />
-
     <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
   </div>
 
@@ -65,6 +64,17 @@
       &:last-child{
        margin-inline-start: auto;
       }
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .controls{
+      position: sticky;
+      top: $topbar-height;
+      left: 0;
+      right: 0;
+      z-index: 1;
     }
   }
 </style>
