@@ -1,5 +1,6 @@
 <script>
-  import WorkRow from '#entities/components/layouts/work_row.svelte'
+  import WorkListRow from '#entities/components/layouts/work_list_row.svelte'
+  import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import { I18n } from '#user/lib/i18n'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { onChange } from '#lib/svelte'
@@ -35,7 +36,11 @@
   >
   {#each displayedWorks as work (work.uri)}
     <li animate:flip={{ duration: 300 }}>
-      <WorkRow {work} {displayMode} />
+      {#if displayMode === 'grid'}
+        <WorkGridCard {work} />
+      {:else}
+        <WorkListRow {work} />
+      {/if}
     </li>
   {/each}
 </ul>
