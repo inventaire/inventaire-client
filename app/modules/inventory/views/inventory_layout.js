@@ -1,6 +1,6 @@
 import preq from '#lib/preq'
 import InventoryNav from './inventory_nav.js'
-import InventoryBrowser from './inventory_browser.js'
+import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
 import UserProfile from './user_profile.js'
 import GroupProfile from './group_profile.js'
 import ShelfBox from '../../shelves/views/shelf_box'
@@ -100,7 +100,9 @@ export default Marionette.View.extend({
     const itemsDataPromise = getItemsData('shelf', shelf)
     const isMainUser = app.user.id === shelf.get('owner')
     this.showChildView('shelfInfo', new ShelfBox({ model: shelf }))
-    this.showChildView('itemsList', new InventoryBrowser({ itemsDataPromise, isMainUser }))
+    this.showChildComponent('itemsList', InventoryBrowser, {
+      props: { itemsDataPromise, isMainUser }
+    })
     this.waitForShelvesList.then(() => this.scrollToSection('shelfInfo'))
   },
 
@@ -169,7 +171,9 @@ export default Marionette.View.extend({
   showInventoryBrowser (type, model) {
     const itemsDataPromise = getItemsData(type, model)
     const isMainUser = model?.isMainUser
-    this.showChildView('itemsList', new InventoryBrowser({ itemsDataPromise, isMainUser }))
+    this.showChildComponent('itemsList', InventoryBrowser, {
+      props: { itemsDataPromise, isMainUser }
+    })
   },
 
   async showSectionLastItems (section) {

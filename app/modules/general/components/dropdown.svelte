@@ -55,10 +55,13 @@
   }
 
   function onOutsideClick (e) {
-    if (!dropdownWrapperEl.contains(e.target)) {
+    if (!(dropdownWrapperEl.contains(e.target) || isButtonLabel(e.target))) {
       showDropdown = false
     }
   }
+
+  const isButtonLabel = target => target.attributes.for?.value === buttonId
+
   function onContentClick (e) {
     if (isFunction(clickOnContentShouldCloseDropdown)) {
       if (clickOnContentShouldCloseDropdown(e)) {

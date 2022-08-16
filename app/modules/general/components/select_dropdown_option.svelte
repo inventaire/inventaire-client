@@ -2,7 +2,7 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { truncateText } from '#lib/utils'
-  export let option, withImage = false
+  export let option, withImage = false, displayCount = true
 </script>
 
 <div
@@ -25,7 +25,7 @@
     {:else}
       {truncateText(option.text, 35)}
     {/if}
-    {#if option.count}
+    {#if displayCount && option.count != null}
       <span class="count">({option.count})</span>
     {/if}
   </span>
