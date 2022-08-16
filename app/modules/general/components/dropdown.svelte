@@ -7,6 +7,8 @@
   export let widthReferenceEl
   export let alignButtonAndDropdownWidth = false
   export let clickOnContentShouldCloseDropdown = false
+  export let buttonId = null
+  export let buttonRole = null
 
   let showDropdown = false, positionned = false
   let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft, dropdownWrapperEl
@@ -79,7 +81,9 @@
   <button
     class="dropdown-button"
     title={buttonTitle}
+    id={buttonId}
     aria-haspopup="menu"
+    role={buttonRole}
     bind:this={buttonWithDropdown}
     on:click={onButtonClick}
     >
