@@ -95,7 +95,7 @@
 
   <form class="panel">
     <TransactionSelector bind:transaction showDescription={true} />
-    <VisibilitySelector bind:visibility showDescription={true} />
+    <VisibilitySelector bind:visibility showDescription={true} showTip={true} />
     <ShelvesSelector bind:shelvesIds showDescription={true} />
 
     <label class="details">

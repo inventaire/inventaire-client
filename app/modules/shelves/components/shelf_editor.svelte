@@ -79,7 +79,7 @@
     <textarea type="text" bind:value={description} use:autosize></textarea>
   </label>
 
-  <VisibilitySelector bind:visibility />
+  <VisibilitySelector bind:visibility showTip={true} />
 
   <label>
     {i18n('color')}

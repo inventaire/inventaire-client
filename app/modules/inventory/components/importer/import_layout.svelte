@@ -36,7 +36,7 @@
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
     <div class="panel">
       <TransactionSelector bind:transaction showDescription={true} />
-      <VisibilitySelector bind:visibility showDescription={true} />
+      <VisibilitySelector bind:visibility showDescription={true} showTip={true} />
       <ShelvesSelector bind:shelvesIds showDescription={true} />
     </div>
   {/if}

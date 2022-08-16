@@ -5,7 +5,7 @@
   import { uniqueId } from 'underscore'
   import { transactionsData } from '#inventory/lib/transactions_data'
 
-  export let item, flash, large = false
+  export let item, flash, large = false, widthReferenceEl
 
   const { pathname, restricted } = item
   let { currentTransaction } = item
@@ -38,8 +38,9 @@
     <Dropdown
       buttonTitle={i18n('Select transaction mode')}
       clickOnContentShouldCloseDropdown={true}
-      alignButtonAndDropdownWidth={large}
       align="left"
+      {widthReferenceEl}
+      alignButtonAndDropdownWidth={large}
       >
       <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->
       <!-- See See https://github.com/sveltejs/svelte/issues/1594 -->
