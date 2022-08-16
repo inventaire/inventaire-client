@@ -2,24 +2,28 @@
 import { readable } from 'svelte/store'
 import app from '#app/app'
 
+export const userGroups = readable([], start)
+
 // The start function can not be async as it is supposed to return a stop function
 // and not a promise (see https://github.com/sveltejs/svelte/issues/4765#issuecomment-623092644=)
-export const userGroups = readable([], set => {
-  const stopFnPromise = init(set)
-  return async () => {
-    const stopFn = await stopFnPromise
-    stopFn()
+function start (setStoreValue) {
+  const update = async () => {
+    await app.request('wait:for', 'groups')
+    const updateStoreValue = app.groups.map(model => model.toJSON())
+    setStoreValue(updateStoreValue)
   }
-})
 
-const init = async set => {
-  await app.request('wait:for', 'groups')
-  const update = () => set(app.groups.map(model => model.toJSON()))
-  update()
   app.groups.on('add', update)
   app.groups.on('remove', update)
-  return () => {
+
+  // Call immediately, in case app.groups was populated
+  // before this start was called
+  update()
+
+  const stop = () => {
     app.groups.off('add', update)
     app.groups.off('remove', update)
   }
+
+  return stop
 }
