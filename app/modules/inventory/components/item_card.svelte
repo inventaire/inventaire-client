@@ -32,7 +32,7 @@
 
   $: isPrivate = item.visibility?.length === 0
 
-  let flash
+  let flash, itemCardSettingsEl
 </script>
 
 <li class="item-card" class:busy>
@@ -66,11 +66,11 @@
       <ItemMixedBox {item} {showDistance} />
     {:else}
       <ItemUserBox user={item.user} />
-      <div class="item-card-settings">
+      <div class="item-card-settings" bind:this={itemCardSettingsEl}>
         {#if !isPrivate}
-          <ItemTransactionBox bind:item bind:flash />
+          <ItemTransactionBox bind:item bind:flash widthReferenceEl={itemCardSettingsEl} />
         {/if}
-        <ItemVisibilityBox bind:item bind:flash />
+        <ItemVisibilityBox bind:item bind:flash widthReferenceEl={itemCardSettingsEl} />
       </div>
     {/if}
     {#if details}

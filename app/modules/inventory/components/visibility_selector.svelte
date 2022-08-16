@@ -9,6 +9,7 @@
   export let visibility = []
   export let maxHeight = '25em'
   export let showDescription = false
+  export let showTip = false
 
   // Needs to be above reactive call to initCheckedGroupKeys
   $: allGroupsVisibilityKeys = $userGroups.map(getGroupVisibilityKey)
@@ -115,9 +116,11 @@
       >
       <p class="label-text">
         <span class="title">{I18n('groups')}</span>
-        <InfoTip
-          text={i18n('Include all your present and future groups')}
-        />
+        {#if showTip}
+          <InfoTip
+            text={i18n('Include all your present and future groups')}
+          />
+        {/if}
       </p>
     </label>
 
@@ -130,7 +133,6 @@
           type="checkbox"
           value="group:{group._id}"
           on:click={onSingleGroupClick}
-
           bind:group={checked}
         >
         {group.name}
@@ -144,10 +146,14 @@
   .options{
     overflow-y: auto;
   }
+  legend{
+    padding: 0.2em 0.5em;
+  }
   label{
     padding: 0.2em 0.5em;
     font-size: 1rem;
     color: $dark-grey;
+    white-space: pre-wrap;
     &:hover{
       background-color: $light-grey;
     }

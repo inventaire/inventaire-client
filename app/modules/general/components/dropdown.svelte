@@ -4,6 +4,7 @@
 
   export let buttonTitle
   export let align = null
+  export let widthReferenceEl
   export let alignButtonAndDropdownWidth = false
   export let clickOnContentShouldCloseDropdown = false
 
@@ -38,8 +39,8 @@
     positionned = true
   }
 
-  function getButtonWidth () {
-    return buttonWithDropdown.getBoundingClientRect().width
+  function getReferenceElWidth () {
+    return widthReferenceEl.getBoundingClientRect().width
   }
 
   function scrollToDropdownIfNeeded () {
@@ -64,6 +65,8 @@
       showDropdown = false
     }
   }
+
+  $: if (alignButtonAndDropdownWidth) widthReferenceEl = buttonWithDropdown
 </script>
 
 <svelte:body on:click={onOutsideClick} />
@@ -90,7 +93,7 @@
       style:visibility={positionned ? 'visible' : 'hidden'}
       style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
       style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
-      style:width={alignButtonAndDropdownWidth ? `${getButtonWidth()}px` : null }
+      style:width={widthReferenceEl ? `${getReferenceElWidth()}px` : null }
       role="menu"
       transition:slide={{ duration: transitionDuration }}
       on:click={onContentClick}
@@ -117,5 +120,6 @@
     // Add a bit of padding so that there will be a bit of margin down
     // when scrolling to get the dropdown content in the viewport
     padding-bottom: 0.5em;
+    overflow-x: hidden;
   }
 </style>

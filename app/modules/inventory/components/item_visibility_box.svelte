@@ -7,7 +7,7 @@
   import { clone, debounce, isEqual } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
 
-  export let item, flash, large = false
+  export let item, flash, large = false, widthReferenceEl
 
   let listing, iconName, iconLabel
   $: {
@@ -56,6 +56,7 @@
     align="right"
     buttonTitle={i18n('Select who can see this item')}
     clickOnContentShouldCloseDropdown={clickOnContentShouldCloseDropdown}
+    {widthReferenceEl}
     alignButtonAndDropdownWidth={large}
     >
     <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->
@@ -82,7 +83,7 @@
            to give the hint to scroll down for more -->
       <VisibilitySelector
         bind:visibility
-        maxHeight=10.5em
+        maxHeight=15em
         />
     </div>
   </Dropdown>
