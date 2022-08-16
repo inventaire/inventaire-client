@@ -83,6 +83,12 @@ export const cutBeforeWord = (text, limit) => {
   return shortenedText.replace(/\s\w+$/, '')
 }
 
+export const truncateText = (text, limit) => {
+  const truncatedText = cutBeforeWord(text, limit)
+  if (truncatedText.length < text.length) return `${truncatedText.trim()}…`
+  else return truncatedText
+}
+
 export const lazyMethod = (methodName, delay = 200) => {
   return function (...args) {
     const lazyMethodName = `_lazy_${methodName}`
