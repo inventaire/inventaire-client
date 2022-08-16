@@ -1,6 +1,7 @@
 <script>
   import { isFunction } from 'underscore'
   import { slide } from 'svelte/transition'
+  import getActionKey from '#lib/get_action_key'
 
   export let buttonTitle
   export let align = null
@@ -68,6 +69,14 @@
     }
   }
 
+  function onKeyDown (e) {
+    const key = getActionKey(e)
+    if (key === 'esc') {
+      showDropdown = false
+      e.stopPropagation()
+    }
+  }
+
   $: if (alignButtonAndDropdownWidth) widthReferenceEl = buttonWithDropdown
 </script>
 
@@ -77,6 +86,7 @@
 <div
   class="has-dropdown"
   bind:this={dropdownWrapperEl}
+  on:keydown={onKeyDown}
   >
   <button
     class="dropdown-button"
