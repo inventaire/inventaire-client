@@ -39,6 +39,7 @@
       buttonTitle={i18n('Select transaction mode')}
       clickOnContentShouldCloseDropdown={true}
       alignButtonAndDropdownWidth={large}
+      align="left"
       >
       <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->
       <!-- See See https://github.com/sveltejs/svelte/issues/1594 -->
