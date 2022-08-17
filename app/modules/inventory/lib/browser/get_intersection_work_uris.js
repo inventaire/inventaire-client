@@ -1,9 +1,10 @@
+import { intersection } from 'underscore'
+
 let currentOwnerItemsByWork = null
 
-export default function (worksTree, filters) {
+export function getIntersectionWorkUris ({ worksTree, facetsSelectedValues }) {
   const subsets = []
-  for (const selectorName in filters) {
-    const selectedOptionKey = filters[selectorName]
+  for (const [ selectorName, selectedOptionKey ] of Object.entries(facetsSelectedValues)) {
     if (selectedOptionKey != null) {
       const uris = getFilterWorksUris(worksTree, selectorName, selectedOptionKey)
       subsets.push(uris)
@@ -14,10 +15,10 @@ export default function (worksTree, filters) {
 
   if (subsets.length === 0) return null
 
-  const intersectionWorkUris = _.intersection(...Array.from(subsets || []))
+  const intersectionWorkUris = intersection(...Array.from(subsets || []))
 
   return intersectionWorkUris
-};
+}
 
 const getFilterWorksUris = function (worksTree, selectorName, selectedOptionKey) {
   if (selectorName === 'owner') {

@@ -2,20 +2,35 @@
   import Flash from '#lib/components/flash.svelte'
   import viewport from '#lib/components/actions/viewport'
   import { wait } from '#lib/promises'
+  import { onChange } from '#lib/svelte/svelte'
+  import { clone } from 'underscore'
 
-  export let Component, componentProps, pagination
+  export let Component, itemsIds, componentProps
 
-  const { fetchMore, hasMore, allowMore = true } = pagination
+  const allowMore = true
 
   let items = [], flash, waiting
 
+  let hasMore, fetchMore
+  async function setupPagination () {
+    items = []
+    const remainingItems = clone(itemsIds)
+    hasMore = () => remainingItems.length > 0
+    fetchMore = async () => {
+      const batch = remainingItems.splice(0, 20)
+      if (batch.length === 0) return
+      await app.request('items:getByIds', { ids: batch, items })
+      items = items
+    }
+    fetch()
+  }
+
   function fetch () {
     waiting = fetchMore()
-      .then(() => items = pagination.items)
       .catch(err => flash = err)
   }
 
-  fetch()
+  $: onChange(itemsIds, setupPagination)
 
   let bottomElInView = false
   async function bottomIsInViewport () {
