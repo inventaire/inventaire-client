@@ -44,7 +44,7 @@ label{
   @include shy(0.9);
   @include bg-hover(white);
   padding: 0;
-  :global(.fa){
+  :global(.fa-close){
     padding: 0;
     margin: 0;
     line-height: 0;

@@ -29,6 +29,7 @@ export async function getSelectorsData ({ worksTree }) {
 
 async function getBasicInfo (uris) {
   uris = uniq(uris)
+  if (uris.length === 0) return []
   const { entities } = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'labels', 'image' ],
@@ -61,7 +62,7 @@ const getOptions = ({ worksUrisPerValue, facetsEntitiesBasicInfo }) => {
 }
 
 const hasNoKnownValue = options => {
-  return !options.some(option => option.value !== 'all' && option.value !== 'unknown')
+  return !options.some(option => option.value !== 'unknown')
 }
 
 const byCount = (a, b) => getCount(b) - getCount(a)
@@ -72,6 +73,7 @@ const formatOption = ({ worksUrisPerValue, facetsEntitiesBasicInfo }) => value =
     value,
     image: facetsEntitiesBasicInfo[value]?.image?.url,
     text: facetsEntitiesBasicInfo[value]?.label || value,
-    count: worksUrisPerValue[value].length
+    count: worksUrisPerValue[value].length,
+    worksUris: worksUrisPerValue[value],
   }
 }
