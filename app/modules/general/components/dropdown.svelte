@@ -60,7 +60,11 @@
     }
   }
 
-  const isButtonLabel = target => target.attributes.for?.value === buttonId
+  const isButtonLabel = target => {
+    const labelEl = document.querySelector(`label[for="${buttonId}"]`)
+    if (!labelEl) return false
+    return target === labelEl || labelEl.contains(target)
+  }
 
   function onContentClick (e) {
     if (isFunction(clickOnContentShouldCloseDropdown)) {
