@@ -9,7 +9,7 @@
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
-  import { pick, uniq } from 'underscore'
+  import { clone, pick, uniq } from 'underscore'
 
   export let itemsDataPromise
 
@@ -54,6 +54,25 @@
 
   $: Component = displayMode === 'cascade' ? ItemsCascade : ItemsTable
   $: onChange(facetsSelectedValues, filterItems)
+
+  let items = [], pagination, componentProps = {}
+
+  async function setupPagination () {
+    items = []
+    const remainingItems = clone(itemsIds)
+    pagination = {
+      allowMore: true,
+      hasMore: () => remainingItems.length > 0,
+      fetchMore: async () => {
+        const batch = remainingItems.splice(0, 20)
+        if (batch.length === 0) return
+        await app.request('items:getByIds', { ids: batch, items })
+        pagination.items = items
+      },
+    }
+  }
+
+  $: onChange(itemsIds, setupPagination)
 </script>
 
 <div class="controls" class:ready={facetsSelectors != null}>
@@ -82,7 +101,7 @@
 {#await waitForInventoryData}
   <Spinner center={true} />
 {:then}
-  <PaginatedItems {Component} {itemsIds} />
+  <PaginatedItems {Component} {componentProps} {pagination} />
 {/await}
 
 <style lang="scss">
