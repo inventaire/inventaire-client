@@ -11,7 +11,7 @@
   import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
   import { clone, pick, uniq } from 'underscore'
 
-  export let itemsDataPromise
+  export let itemsDataPromise, isMainUser
 
   let itemsIds
 
@@ -39,7 +39,6 @@
   function filterItems () {
     if (!worksTree) return
     intersectionWorkUris = getIntersectionWorkUris({ worksTree, facetsSelectedValues })
-
     if (intersectionWorkUris == null) {
       // Default to showing the latest items
       itemsIds = itemsByDate
@@ -55,10 +54,11 @@
   $: Component = displayMode === 'cascade' ? ItemsCascade : ItemsTable
   $: onChange(facetsSelectedValues, filterItems)
 
-  let items = [], pagination, componentProps = {}
+  let items = [], pagination, componentProps = { isMainUser }
 
   async function setupPagination () {
     items = []
+    componentProps.itemsIds = itemsIds
     const remainingItems = clone(itemsIds)
     pagination = {
       allowMore: true,
