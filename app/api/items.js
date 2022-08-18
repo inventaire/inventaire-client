@@ -40,7 +40,7 @@ export default {
 
   deleteByIds: action('delete-by-ids'),
 
-  search (user, search) {
+  search ({ user, search }) {
     search = encodeURIComponent(search)
     return action('search', { user, search })
   },

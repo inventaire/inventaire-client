@@ -172,7 +172,11 @@ export default Marionette.View.extend({
     const itemsDataPromise = getItemsData(type, model)
     const isMainUser = model?.isMainUser
     this.showChildComponent('itemsList', InventoryBrowser, {
-      props: { itemsDataPromise, isMainUser }
+      props: {
+        itemsDataPromise,
+        isMainUser,
+        ownerId: model.id,
+      }
     })
   },
 

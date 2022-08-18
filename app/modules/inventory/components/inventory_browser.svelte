@@ -6,12 +6,15 @@
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
-  import { clone, pick, uniq } from 'underscore'
+  import { clone, intersection, pick, uniq } from 'underscore'
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
+  import { setContext } from 'svelte'
 
-  export let itemsDataPromise, isMainUser
+  export let itemsDataPromise, isMainUser, ownerId
 
-  let itemsIds
+  if (ownerId) setContext('inventory-owner', ownerId)
+
+  let itemsIds, textFilterItemsIds
 
   // TODO: persist display mode in localstorage
   let displayMode = 'cascade'
@@ -30,7 +33,7 @@
 
   let intersectionWorkUris
   function filterItems () {
-    if (!worksTree) return
+    if (!(worksTree && facetsSelectedValues)) return
     intersectionWorkUris = getIntersectionWorkUris({ worksTree, facetsSelectedValues })
     if (intersectionWorkUris == null) {
       // Default to showing the latest items
@@ -42,10 +45,13 @@
       // Deduplicate as editions with several P629 values might have generated duplicates
       itemsIds = uniq(Object.values(worksItems).flat())
     }
+    if (textFilterItemsIds != null) {
+      itemsIds = intersection(itemsIds, textFilterItemsIds)
+    }
   }
 
   $: Component = displayMode === 'cascade' ? ItemsCascade : ItemsTable
-  $: onChange(facetsSelectedValues, filterItems)
+  $: onChange(facetsSelectedValues, textFilterItemsIds, filterItems)
 
   let items = [], pagination, componentProps = { isMainUser }
 
@@ -54,12 +60,16 @@
     componentProps.itemsIds = itemsIds
     const remainingItems = clone(itemsIds)
     pagination = {
+      items,
       allowMore: true,
-      hasMore: () => remainingItems.length > 0,
+      hasMore: () => {
+        return remainingItems.length > 0
+      },
       fetchMore: async () => {
         const batch = remainingItems.splice(0, 20)
-        if (batch.length === 0) return
-        await app.request('items:getByIds', { ids: batch, items })
+        if (batch.length > 0) {
+          await app.request('items:getByIds', { ids: batch, items })
+        }
         pagination.items = items
       },
     }
@@ -73,6 +83,7 @@
   bind:displayMode
   bind:facetsSelectors
   bind:facetsSelectedValues
+  bind:textFilterItemsIds
   {intersectionWorkUris}
 />
 
