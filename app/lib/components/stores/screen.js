@@ -1,13 +1,19 @@
 import { readable } from 'svelte/store'
 
-export const screen = readable({}, set => {
-  const update = () => {
-    set({
-      width: window.screen.width,
-      height: window.screen.height,
-      isSmallerThan,
-    })
+const getStoreValue = () => {
+  return {
+    width: window.screen.width,
+    height: window.screen.height,
+    isSmallerThan,
+    isLargerThan,
   }
+}
+
+const isSmallerThan = maxWidth => window.screen.width < maxWidth
+const isLargerThan = maxWidth => window.screen.width > maxWidth
+
+export const screen = readable(getStoreValue(), set => {
+  const update = () => set(getStoreValue())
 
   update()
   window.addEventListener('resize', update)
@@ -16,5 +22,3 @@ export const screen = readable({}, set => {
     window.removeEventListener('resize', update)
   }
 })
-
-const isSmallerThan = maxWidth => window.screen.width < maxWidth
