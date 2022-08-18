@@ -37,7 +37,7 @@
   on:keydown={onKeyDown}
   >
   {#if buttonLabel}
-    <label for={buttonId}>{buttonLabel}</label>
+    <label for={buttonId} class="select-dropdown-label">{buttonLabel}</label>
   {/if}
   <Dropdown
     alignButtonAndDropdownWidth={true}
