@@ -10,7 +10,8 @@
 
   export let textFilterItemsIds, flash
 
-  const inventoryOwnerId = getContext('inventory-owner')
+  const ownerId = getContext('inventory-owner')
+  const groupId = getContext('inventory-group')
 
   let textFilter, waiting
 
@@ -20,11 +21,13 @@
         textFilterItemsIds = null
         return
       }
-      waiting = preq.get(app.API.items.search({
-        user: inventoryOwnerId,
+      const query = {
         search: textFilter,
         limit: 100,
-      }))
+      }
+      if (groupId) query.group = groupId
+      else query.user = ownerId
+      waiting = preq.get(app.API.items.search(query))
       const { items } = await waiting
       textFilterItemsIds = pluck(items, '_id')
     } catch (err) {

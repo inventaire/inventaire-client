@@ -175,11 +175,18 @@ export default Marionette.View.extend({
   showInventoryBrowser (type, model) {
     const itemsDataPromise = getItemsData(type, model)
     const isMainUser = model?.isMainUser
+    let groupId, ownerId
+    if (model.get('type') === 'group') {
+      groupId = model.id
+    } else {
+      ownerId = model.id
+    }
     this.showChildComponent('itemsList', InventoryBrowser, {
       props: {
         itemsDataPromise,
         isMainUser,
-        ownerId: model.id,
+        ownerId,
+        groupId,
       }
     })
   },

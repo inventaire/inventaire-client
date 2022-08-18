@@ -10,9 +10,10 @@
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import { setContext } from 'svelte'
 
-  export let itemsDataPromise, isMainUser, ownerId
+  export let itemsDataPromise, isMainUser, ownerId, groupId
 
   if (ownerId) setContext('inventory-owner', ownerId)
+  if (groupId) setContext('inventory-group', groupId)
 
   let itemsIds, textFilterItemsIds
 
