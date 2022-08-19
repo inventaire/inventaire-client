@@ -24,52 +24,75 @@
   }
 
   const toggleShelves = () => showShelves = !showShelves
+
+  function showItemsNotInAShelf () {
+  }
 </script>
 
-<div class="wrapper">
+<div class="header">
   {#await waitForList}
-    <div class="waiting">
-      <h3 class="subheader">{I18n('shelves')} <Spinner /></h3>
-    </div>
+    <h3 class="subheader">{I18n('shelves')} <Spinner /></h3>
   {:then}
+    <h3 class="subheader">{I18n('shelves')}</h3>
     {#if shelves.length > 0}
       <button
-        class="toggle-button"
+        class="no-shelves-items tiny-button soft-grey"
+        on:click={showItemsNotInAShelf}
+        >
+        show items without shelf
+      </button>
+      <button
+        class="toggle-button tiny-button light-grey"
         title={showShelves ? I18n('hide shelves') : I18n('show shelves')}
         aria-controls="shelves-list"
         on:click={toggleShelves}
       >
-        <h3 class="subheader">{I18n('shelves')}</h3>
         {#if showShelves}
           {@html icon('chevron-up')}
         {:else}
           {@html icon('chevron-down')}
         {/if}
       </button>
-      <div id="shelves-list">
-        {#if showShelves}
-          <ul transition:slide={{ duration: delayBeforeScrollToSection - 100 }}>
-            {#each shelves as shelf}
-              <ShelfLi {shelf} />
-            {/each}
-          </ul>
-        {/if}
-      </div>
     {/if}
   {/await}
-
-  <Flash state={flash} />
 </div>
+
+<div id="shelves-list">
+  {#if shelves?.length > 0}
+    {#if showShelves}
+      <ul transition:slide={{ duration: delayBeforeScrollToSection - 100 }}>
+        {#each shelves as shelf}
+          <ShelfLi {shelf} />
+        {/each}
+      </ul>
+    {/if}
+  {/if}
+</div>
+
+<Flash state={flash} />
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .toggle-button, .waiting{
-    width: 100%;
+  .header{
+    background-color: $light-grey;
     @include display-flex(row, center, space-between);
     margin-top: 0.5em;
-    @include bg-hover($light-grey, 5%);
     @include display-flex(row, top, space-between);
-    padding: 1em;
+    padding: 0.8em 1em;
+    button:not(:last-child){
+      margin-right: 0.5em;
+    }
+  }
+  .toggle-button{
+    height: 2em;
+    width: 2em;
+    padding: 0;
+    @include display-flex(row, center, center);
+    :global(.fa){
+      margin-bottom: 0.1em;
+    }
+  }
+  .no-shelves-items{
   }
   .subheader{
     margin-top: 0;
