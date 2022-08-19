@@ -104,7 +104,7 @@ export default Marionette.View.extend({
       props: {
         itemsDataPromise,
         isMainUser,
-        ownerId: shelf.get('owner'),
+        shelfId: shelf.get('_id'),
       }
     })
     this.waitForShelvesList.then(() => this.scrollToSection('shelfInfo'))
