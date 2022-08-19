@@ -4,7 +4,7 @@ import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
 import UserProfile from './user_profile.js'
 import GroupProfile from './group_profile.js'
 import ShelfBox from '../../shelves/views/shelf_box'
-import ShelvesSection from '../../shelves/views/shelves_section'
+import ShelvesSection from '#shelves/components/shelves_section.svelte'
 import InventoryNetworkNav from './inventory_network_nav.js'
 import InventoryPublicNav from './inventory_public_nav.js'
 import showPaginatedItems from '#welcome/lib/show_paginated_items'
@@ -114,12 +114,16 @@ export default Marionette.View.extend({
     this.waitForShelvesList = app.request('resolve:to:userModel', userIdOrModel)
       .then(userModel => {
         if (!this.isIntact()) return
-        if ((this.getRegion('shelvesList').currentView != null) && (userModel === this._lastShownUser)) return
+        if ((this.getRegion('shelvesList').currentComponent != null) && (userModel === this._lastShownUser)) return
         const shelvesCount = userModel.get('shelvesCount')
         if (shelvesCount === 0) return
         const username = userModel.get('username')
-        this.showChildView('shelvesList', new ShelvesSection({ username }))
-        return this.getRegion('shelvesList').currentView.waitForList
+        this.showChildComponent('shelvesList', ShelvesSection, {
+          props: {
+            username,
+            delayBeforeScrollToSection,
+          }
+        })
       })
       .catch(app.Execute('show:error'))
   },
@@ -244,9 +248,11 @@ export default Marionette.View.extend({
 
   scrollToSection (regionName) {
     if (!this.isIntact()) return
-    screen_.scrollTop({ $el: this.getRegion(regionName).$el, marginTop: 10, delay: 100 })
+    screen_.scrollTop({ $el: this.getRegion(regionName).$el, marginTop: 10, delay: delayBeforeScrollToSection })
   }
 })
+
+const delayBeforeScrollToSection = 300
 
 const getItemsData = function (type, model) {
   const modelId = model.get('_id')
