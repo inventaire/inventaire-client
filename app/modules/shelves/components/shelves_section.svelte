@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { getShelvesByOwner } from '#shelves/lib/shelves'
   import { slide } from 'svelte/transition'
@@ -13,19 +13,22 @@
 
   let shelves, flash
 
+  const isMainUser = username = app.user.get('username')
+
   const waitForList = getUserId(username)
     .then(getShelvesByOwner)
     .then(res => shelves = res)
     .catch(err => flash = err)
 
   async function getUserId (username) {
-    if (!username) return app.user.id
-    return app.request('get:userId:from:username', username)
+    if (isMainUser) return app.user.id
+    else return app.request('get:userId:from:username', username)
   }
 
   const toggleShelves = () => showShelves = !showShelves
 
   function showItemsNotInAShelf () {
+    app.vent.trigger('inventory:select', 'without-shelf')
   }
 </script>
 
@@ -35,12 +38,15 @@
   {:then}
     <h3 class="subheader">{I18n('shelves')}</h3>
     {#if shelves.length > 0}
-      <button
-        class="no-shelves-items tiny-button soft-grey"
-        on:click={showItemsNotInAShelf}
-        >
-        show items without shelf
-      </button>
+      {#if isMainUser}
+        <button
+          class="no-shelves-items tiny-button soft-grey"
+          aria-controls="itemsList"
+          on:click={showItemsNotInAShelf}
+          >
+          {i18n('Show items without shelf')}
+        </button>
+      {/if}
       <button
         class="toggle-button tiny-button light-grey"
         title={showShelves ? I18n('hide shelves') : I18n('show shelves')}

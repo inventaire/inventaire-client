@@ -110,6 +110,16 @@ export default Marionette.View.extend({
     this.waitForShelvesList.then(() => this.scrollToSection('shelfInfo'))
   },
 
+  showItemsWithoutShelf () {
+    const itemsDataPromise = getItemsData('without-shelf')
+    this.showChildComponent('itemsList', InventoryBrowser, {
+      props: {
+        itemsDataPromise,
+        isMainUser: true,
+      }
+    })
+  },
+
   showUserShelves (userIdOrModel) {
     this.waitForShelvesList = app.request('resolve:to:userModel', userIdOrModel)
       .then(userModel => {
@@ -243,7 +253,11 @@ export default Marionette.View.extend({
       this.showShelf(model)
     }
 
-    app.navigateFromModel(model, { preventScrollTop: true })
+    if (type === 'without-shelf') {
+      this.showItemsWithoutShelf()
+    } else {
+      app.navigateFromModel(model, { preventScrollTop: true })
+    }
   },
 
   scrollToSection (regionName) {
@@ -255,8 +269,13 @@ export default Marionette.View.extend({
 const delayBeforeScrollToSection = 300
 
 const getItemsData = function (type, model) {
-  const modelId = model.get('_id')
-  const params = { [type]: modelId }
+  let params
+  if (type === 'without-shelf') {
+    params = { user: app.user.id, 'without-shelf': true }
+  } else {
+    const modelId = model.get('_id')
+    params = { [type]: modelId }
+  }
   return preq.get(app.API.items.inventoryView(params))
 }
 
