@@ -34,12 +34,15 @@
       currentOption = null
     }
   }
+
+  $: buttonDisabled = displayedOptions.length === 0
 </script>
 
 <div
   class="facet-selector select-dropdown"
   class:has-image={false}
   class:active={currentOption != null}
+  class:disabled={buttonDisabled}
   role="listbox"
   on:keydown={onKeyDown}
   >
@@ -55,6 +58,7 @@
     clickOnContentShouldCloseDropdown={true}
     {buttonId}
     buttonRole="listbox"
+    {buttonDisabled}
     >
     <div slot="button-inner">
       {#if currentOption}
@@ -104,6 +108,11 @@
       border-color: $light-blue;
       label{
         transform: translateY(-0.6rem);
+      }
+    }
+    &.disabled{
+      label{
+        opacity: 0.6;
       }
     }
     :global(.dropdown-button){

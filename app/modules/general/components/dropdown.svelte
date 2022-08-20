@@ -10,6 +10,7 @@
   export let clickOnContentShouldCloseDropdown = false
   export let buttonId = null
   export let buttonRole = null
+  export let buttonDisabled = false
 
   let showDropdown = false, positionned = false
   let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft, dropdownWrapperEl
@@ -101,6 +102,7 @@
     id={buttonId}
     aria-haspopup="menu"
     role={buttonRole}
+    disabled={buttonDisabled}
     bind:this={buttonWithDropdown}
     on:click={onButtonClick}
     >
@@ -132,6 +134,9 @@
   }
   .dropdown-button{
     flex: 1;
+  }
+  button:disabled{
+    opacity: 0.6;
   }
   .dropdown-content{
     position: absolute;
