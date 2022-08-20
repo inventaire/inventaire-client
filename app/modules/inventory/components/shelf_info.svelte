@@ -32,5 +32,7 @@
   }
   .description{
     color: $label-grey;
+    max-height: 1.2em;
+    overflow: hidden;
   }
 </style>
