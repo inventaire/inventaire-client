@@ -5,15 +5,28 @@
   import { serializeShelf } from '#shelves/lib/shelves'
   import Shelf from '#shelves/models/shelf'
 
-  export let shelf
+  export let shelf, withoutShelf
 
-  const { name, description } = shelf
-  const { pathname, picture, iconData, iconLabel } = serializeShelf(shelf)
+  let name, description, pathname, picture, iconData, iconLabel, title
+
+  if (withoutShelf) {
+    name = title = i18n('Show items without shelf')
+    description = ''
+    pathname = '/shelves/without'
+  } else {
+    ;({ name, description } = shelf)
+    ;({ pathname, picture, iconData, iconLabel } = serializeShelf(shelf))
+    title = `${name}${description ? ` - ${description}` : ''}`
+  }
 
   function onClick (e) {
     if (isOpenedOutside(e)) return
-    const model = new Shelf(shelf)
-    app.vent.trigger('inventory:select', 'shelf', model)
+    if (withoutShelf) {
+      app.vent.trigger('inventory:select', 'without-shelf')
+    } else {
+      const model = new Shelf(shelf)
+      app.vent.trigger('inventory:select', 'shelf', model)
+    }
     e.preventDefault()
   }
 </script>
@@ -22,11 +35,16 @@
   <a
     href={pathname}
     on:click={onClick}
-    class="selectShelf shelf-row"
-    title="{name}{description ? ` - ${description}` : ''}"
+    class="shelf-row"
+    class:without-shelf={withoutShelf}
+    {title}
   >
     <div class="shelf-left">
-      <div class="picture" style="background-image: url({imgSrc(picture, 48)})"></div>
+      {#if picture}
+        <div class="picture" style="background-image: url({imgSrc(picture, 48)})"></div>
+      {:else}
+        <div class="without-shelf-picture">{@html icon('question')}</div>
+      {/if}
       <div class="shelf-text">
         <div class="name">{name}</div>
         <div class="description">{description}</div>
@@ -59,6 +77,9 @@
     border-top: 1px solid $off-white;
     @include bg-hover($light-grey, 5%);
   }
+  .without-shelf{
+    @include shy(0.8);
+  }
   .shelf-left{
     @include display-flex(row, center);
     overflow: hidden;
@@ -75,10 +96,13 @@
     padding: 0.2em 0.4em;
     margin-right: 1em;
   }
-  .picture{
+  .picture, .without-shelf-picture{
     min-width: 3em;
     height: 3em;
     @include radius;
+  }
+  .without-shelf-picture{
+    @include display-flex(row, center, center);
   }
   .description{
     color: $grey;

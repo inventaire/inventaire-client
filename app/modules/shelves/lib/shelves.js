@@ -83,6 +83,7 @@ export function serializeShelf (shelf) {
   Object.assign(shelf, {
     pathname: `/shelves/${_id}`,
     picture: getColorSquareDataUri(color),
+    isEditable: shelf.owner === app.user.id
   })
   if (visibility) {
     const visibilitySummary = getVisibilitySummary(visibility)

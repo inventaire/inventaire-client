@@ -1,5 +1,5 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { getShelvesByOwner } from '#shelves/lib/shelves'
   import { slide } from 'svelte/transition'
@@ -26,10 +26,6 @@
   }
 
   const toggleShelves = () => showShelves = !showShelves
-
-  function showItemsNotInAShelf () {
-    app.vent.trigger('inventory:select', 'without-shelf')
-  }
 </script>
 
 <div class="header">
@@ -38,15 +34,6 @@
   {:then}
     <h3 class="subheader">{I18n('shelves')}</h3>
     {#if shelves.length > 0}
-      {#if isMainUser}
-        <button
-          class="no-shelves-items tiny-button soft-grey"
-          aria-controls="itemsList"
-          on:click={showItemsNotInAShelf}
-          >
-          {i18n('Show items without shelf')}
-        </button>
-      {/if}
       <button
         class="toggle-button tiny-button light-grey"
         title={showShelves ? I18n('hide shelves') : I18n('show shelves')}
@@ -66,10 +53,11 @@
 <div id="shelves-list">
   {#if shelves?.length > 0}
     {#if showShelves}
-      <ul transition:slide={{ duration: delayBeforeScrollToSection - 100 }}>
+      <ul transition:slide={{ duration: delayBeforeScrollToSection / 2 }}>
         {#each shelves as shelf}
           <ShelfLi {shelf} />
         {/each}
+        <ShelfLi withoutShelf={true} />
       </ul>
     {/if}
   {/if}
@@ -97,8 +85,6 @@
     :global(.fa){
       margin-bottom: 0.1em;
     }
-  }
-  .no-shelves-items{
   }
   .subheader{
     margin-top: 0;

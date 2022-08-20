@@ -2,7 +2,6 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import autosize from 'autosize'
-  import { onMount } from 'svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { getSomeColorHexCodeSuggestion } from '#lib/images'
   import Flash from '#lib/components/flash.svelte'
@@ -12,7 +11,7 @@
 
   export let shelf = {}, model = null
 
-  onMount(() => app.execute('modal:open'))
+  app.execute('modal:open')
 
   let isNewShelf = !shelf._id
 
