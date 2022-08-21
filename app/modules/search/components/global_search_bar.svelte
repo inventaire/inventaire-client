@@ -1,7 +1,4 @@
 <script>
-  // TO RECOVER:
-  // - Listen to 'search:global'
-  // - Listen to 'live:search:query'
   // TODO:
   // - hint to input ISBNs directly, maybe in the alternatives sections
   // - add 'help': indexed wiki.inventaire.io entries to give results
@@ -28,6 +25,7 @@
   import { onChange } from '#lib/svelte/svelte'
   import { serializeEntityModel, serializeSubject } from '#search/lib/search_results'
   import { screen } from '#lib/components/stores/screen'
+  import { onDestroy } from 'svelte'
 
   const wikidataSearch = WikidataSearch(false)
 
@@ -114,6 +112,7 @@
   }
   const hideLiveSearch = () => {
     showSearchDropdown = false
+    if (showFallbackLayout) showFallbackLayout()
   }
   const highlightPreviousResult = () => highlightedResultIndex = Math.max(highlightedResultIndex - 1, 0)
   const highlightNextResult = () => highlightedResultIndex = Math.min(highlightedResultIndex + 1, results.length - 1)
@@ -151,6 +150,19 @@
   }
 
   $: onChange(selectedCategory, selectedSection, onSectionChange)
+
+  let showFallbackLayout
+  function onSearchQuery ({ search: text, section, showFallbackLayout: fallback }) {
+    searchText = text
+    selectedCategory = (section === 'user' || section === 'group') ? 'social' : 'entity'
+    selectedSection = section
+    showFallbackLayout = fallback
+  }
+
+  app.vent.on('live:search:query', onSearchQuery)
+  onDestroy(() => {
+    app.vent.off('live:search:query', onSearchQuery)
+  })
 </script>
 
 <svelte:body on:click={onOutsideClick} />
