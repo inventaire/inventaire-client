@@ -12,7 +12,7 @@
 
 <a
   href={pathname}
-  on:click={loadInternalLink}
+  on:click|stopPropagation={loadInternalLink}
   class="transaction-preview"
   class:unread={!mainUserRead}
   class:on-item={onItem}

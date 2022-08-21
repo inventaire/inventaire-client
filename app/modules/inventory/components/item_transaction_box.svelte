@@ -32,7 +32,7 @@
 
 <div class="item-card-box" class:large>
   {#if restricted}
-    <a href={pathname} on:click={loadInternalLink}>
+    <a href={pathname} on:click|stopPropagation={loadInternalLink}>
       {@html icon(currentTransaction.icon)}
       {i18n(currentTransaction.labelShort)}
     </a>

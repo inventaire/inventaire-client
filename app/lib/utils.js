@@ -63,7 +63,6 @@ export const isOpenedOutside = (e, ignoreMissingHref = false) => {
 const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
 export const loadInternalLink = e => {
-  e.stopPropagation()
   if (!(isOpenedOutside(e))) {
     const { pathname } = new URL(e.currentTarget.href)
     app.navigateAndLoad(pathname, {

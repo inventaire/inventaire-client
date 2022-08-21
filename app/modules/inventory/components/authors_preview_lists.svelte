@@ -18,7 +18,7 @@
             <a
               href={author.pathname}
               title={author.label}
-              on:click={loadInternalLink}
+              on:click|stopPropagation={loadInternalLink}
               >
               <!-- using an image larger that what is displayed so that background cover scale up doesn't make the image pixelized -->
               {#if author.image?.url}<div class="image" style="background-image: url({imgSrc(author.image.url, 90)})"></div>{/if}

@@ -41,7 +41,8 @@
       {@html icon('sign-out')}
     </div>
   {/if}
-  <a class="item-show" href={pathname} on:click={loadInternalLink}>
+  <!-- TODO: find a way to share item object with item_show to keep item data in sync -->
+  <a class="item-show" href={pathname} on:click|stopPropagation={loadInternalLink}>
     <div class="cover">
       {#if image}
         <img src="{imgSrc(image, 300)}" alt="{title}">
@@ -76,7 +77,7 @@
       <div class="details-box">
         <TruncatedText text={details} maxLength={180}>
           <span slot="more">
-            <a class="more" href={pathname} on:click={loadInternalLink} >{i18n('see more')}</a>
+            <a class="more" href={pathname} on:click|stopPropagation={loadInternalLink} >{i18n('see more')}</a>
           </span>
         </TruncatedText>
       </div>
