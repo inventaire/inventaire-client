@@ -1,4 +1,3 @@
-$search-section-width: 7em;
 $top-bar-fixed-threshold: 340px;
 
 nav#top-bar{
@@ -46,35 +45,15 @@ nav#top-bar{
       color: #aaa;
     }
   }
-  #searchGroup{
+  #globalSearchBar{
+    align-self: center;
     flex: 1 0 0;
     // 7 = max number of search section on a row
     max-width: 7 * $search-section-width;
     margin: 0 auto;
     margin-bottom: 0;
   }
-  .inputBox{
-    position: relative;
-    input{
-      @include radius;
-      // Let room for .closeSearch
-      padding-right: 2em;
-    }
-    .closeSearch{
-      position: absolute;
-      right: 0;
-      top: 0;
-      font-size: 1.5rem;
-      @include text-hover($grey, $dark-grey);
-    }
-  }
-  #liveSearch{
-    @include position(absolute, 100%, 0, null, 0);
-    &:not(.shown){
-      top: -100vh;
-      bottom: 100vh;
-    }
-  }
+
   .iconButton, #language-picker > button, .global-menu > button{
     @include bg-hover-lighten($topbar-bg-color);
   }
@@ -137,20 +116,6 @@ nav#top-bar{
       margin-left: 0.2em;
       margin-right: 0.4em;
     }
-    #searchGroup{
-      flex: 1 1 auto;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      margin-left: auto;
-      margin-top: -0.3em;
-      &, input{
-        height: 2rem;
-      }
-    }
-    #liveSearch{
-      @include position(fixed, $topbar-height, 0, 0, 0);
-      @include display-flex(column);
-    }
     // Showing signup and login button at the bottom of the screen
     .signupRequest, .loginRequest{
       position: fixed;
@@ -183,4 +148,3 @@ nav#top-bar{
 
 @import 'top_bar_language_picker';
 @import 'top_bar_buttons';
-@import '../../search/scss/live_search';

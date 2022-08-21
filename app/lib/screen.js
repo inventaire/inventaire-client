@@ -1,16 +1,20 @@
 let screen_
 
 // Keep in sync with app/modules/general/scss/_grid_and_media_query_ranges.scss
-export const wellknownWidths = {
+const wellknownWidths = {
   '$small-screen': 1000,
   '$smaller-screen': 600,
   '$very-small-screen': 350,
 }
+const resolveWidth = width => wellknownWidths[width] ? wellknownWidths[width] : width
+
+export const viewportIsSmallerThan = maxWidth => window.visualViewport.width < resolveWidth(maxWidth)
+export const viewportIsLargerThan = maxWidth => window.visualViewport.width > resolveWidth(maxWidth)
 
 export default screen_ = {
   // /!\ window.screen.width is the screen's width not the current window width
-  width () { return $(window).width() },
-  height () { return $(window).height() },
+  width: () => window.visualViewport.width,
+  height: () => window.visualViewport.height,
   isSmall (ceil = wellknownWidths['$small-screen']) {
     return screen_.width() < ceil
   },

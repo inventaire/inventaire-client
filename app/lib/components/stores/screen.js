@@ -1,4 +1,4 @@
-import { wellknownWidths } from '#lib/screen'
+import { viewportIsSmallerThan, viewportIsLargerThan } from '#lib/screen'
 import { readable } from 'svelte/store'
 import { debounce } from 'underscore'
 
@@ -6,14 +6,10 @@ const getStoreValue = () => {
   return {
     width: window.visualViewport.width,
     height: window.visualViewport.height,
-    isSmallerThan,
-    isLargerThan,
+    isSmallerThan: viewportIsSmallerThan,
+    isLargerThan: viewportIsLargerThan,
   }
 }
-
-const resolveWidth = width => wellknownWidths[width] ? wellknownWidths[width] : width
-const isSmallerThan = maxWidth => window.visualViewport.width < resolveWidth(maxWidth)
-const isLargerThan = maxWidth => window.visualViewport.width > resolveWidth(maxWidth)
 
 export const screen = readable(getStoreValue(), set => {
   const update = () => set(getStoreValue())
