@@ -1,20 +1,31 @@
 <script>
   import { i18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { loadInternalLink } from '#lib/utils'
-  import { serializeResult } from '#search/lib/search_results'
+  import { forceArray, loadInternalLink } from '#lib/utils'
+  import { serializeResult, urlifyImageHash } from '#search/lib/search_results'
 
   export let result, highlighted
 
   result = serializeResult(result)
 
-  const { typeAlias, label, description = '', pathname } = result
+  const { uri, type, typeAlias, label, description = '', pathname } = result
   let { image } = result
+
+  function addToSearchHistory () {
+    if (uri) {
+      const pictures = forceArray(image).map(urlifyImageHash.bind(null, type))
+      app.request('search:history:add', { uri, label, type, pictures })
+    }
+  }
 </script>
 
 <li class="result" class:highlighted>
   <!-- Event propagation is needed to close the results dropdown -->
-  <a href={pathname} on:click={loadInternalLink}>
+  <a
+    href={pathname}
+    on:click={loadInternalLink}
+    on:click={addToSearchHistory}
+    >
     <div
       class="image"
       style:background-image={image ? `url(${imgSrc(image, 90)})` : ''}

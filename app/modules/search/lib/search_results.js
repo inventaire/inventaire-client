@@ -49,7 +49,7 @@ const typeFormatters = {
   }
 }
 
-const urlifyImageHash = function (type, hash) {
+export const urlifyImageHash = function (type, hash) {
   const nonEntityContainer = nonEntityContainersPerType[type]
   const container = nonEntityContainer || 'entities'
   if (isImageHash(hash)) {
