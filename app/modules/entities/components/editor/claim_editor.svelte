@@ -10,7 +10,7 @@
   import { isComponentEvent } from '#lib/boolean_tests'
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/handlebars_helpers/icons'
-  import { currentEditorKey, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+  import { currentEditorKey, errorMessageFormatter, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import Spinner from '#components/spinner.svelte'
 
   export let entity, property, value, index
@@ -80,7 +80,7 @@
         inputValue = savedValue
         dispatch('set', inputValue)
       }
-      flash = err
+      flash = errorMessageFormatter(err)
     }
   }
 
