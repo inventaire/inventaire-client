@@ -24,6 +24,8 @@ const work = {
   'wdt:P144': {}, // based on
   'wdt:P941': {}, // inspired by
   'wdt:P856': {}, // official website
+  'wdt:P268': {}, // BNF ID
+  'wdt:P648': {}, // Open Library ID
   ...socialNetworks,
   // 'wdt:P31: {}' # instance of (=> works aliases)
   // 'wdt:P110': {} # illustrator
@@ -53,7 +55,9 @@ export const propertiesPerType = {
     'wdt:P2679': {}, // author of foreword
     'wdt:P2680': {}, // author of afterword
     'wdt:P1104': {}, // number of pages
-    'wdt:P2635': { customLabel: 'number of volumes' }
+    'wdt:P2635': { customLabel: 'number of volumes' },
+    'wdt:P268': {}, // BNF ID
+    'wdt:P648': {}, // Open Library ID
   },
 
   human: {
@@ -63,6 +67,8 @@ export const propertiesPerType = {
     'wdt:P570': {}, // date of death
     'wdt:P737': {}, // influenced by
     'wdt:P856': {}, // official website
+    'wdt:P268': {}, // BNF ID,
+    'wdt:P648': {}, // Open Library ID
     ...socialNetworks
   },
 
@@ -80,6 +86,7 @@ export const propertiesPerType = {
     'wdt:P576': { customLabel: 'date of dissolution' }, // inception
     // Maybe, ISBN publisher prefix shouldn't be displayed but only used for administration(?)
     'wdt:P3035': {}, // ISBN publisher
+    'wdt:P268': {}, // BNF ID
     ...socialNetworks,
   },
 
@@ -89,6 +96,7 @@ export const propertiesPerType = {
     'wdt:P123': {}, // publisher
     'wdt:P921': {}, // main subject
     'wdt:P856': {}, // official website
+    'wdt:P268': {}, // BNF ID
     ...socialNetworks,
   }
 }
@@ -99,11 +107,16 @@ export const requiredPropertiesPerType = {
 }
 
 export const propertiesCategories = {
-  socialNetworks: { label: 'social networks' }
+  socialNetworks: { label: 'social networks' },
+  bibliographicDatabases: { label: 'bibliographic databases' },
 }
 
 const propertiesPerCategory = {
-  socialNetworks: Object.keys(socialNetworks)
+  socialNetworks: Object.keys(socialNetworks),
+  bibliographicDatabases: [
+    'wdt:P268', // BNF ID
+    'wdt:P648', // Open Library ID
+  ]
 }
 
 const categoryPerProperty = {}
