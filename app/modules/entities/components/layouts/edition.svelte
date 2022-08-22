@@ -8,6 +8,7 @@
   import EditionActions from './edition_actions.svelte'
   import OtherEditions from './other_editions.svelte'
   import { addWorksClaims, filterClaims } from '#entities/components/lib/edition_layout_helpers'
+  import Summary from '#entities/components/layouts/summary.svelte'
 
   export let entity, works, standalone
 
@@ -39,6 +40,7 @@
             <AuthorsInfo
               {claims}
             />
+            <Summary {entity} />
             <Infobox
               {claims}
               entityType={entity.type}

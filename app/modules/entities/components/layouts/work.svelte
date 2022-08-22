@@ -8,7 +8,6 @@
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
-  import WikipediaExtract from './wikipedia_extract.svelte'
   import Ebooks from './ebooks.svelte'
   import ItemsLists from './items_lists.svelte'
   import EditionsList from './editions_list.svelte'
@@ -17,6 +16,7 @@
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
+  import Summary from '#entities/components/layouts/summary.svelte'
 
   export let entity, standalone
 
@@ -76,9 +76,7 @@
           <AuthorsInfo
             {claims}
           />
-          <WikipediaExtract
-            {entity}
-          />
+          <Summary {entity} />
           <Infobox
             claims={infoboxClaims}
             entityType={entity.type}
