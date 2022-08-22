@@ -97,3 +97,30 @@ export const requiredPropertiesPerType = {
   edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P407' ],
   collection: [ 'wdt:P1476', 'wdt:P123' ]
 }
+
+export const propertiesCategories = {
+  socialNetworks: { label: 'social networks' }
+}
+
+const propertiesPerCategory = {
+  socialNetworks: Object.keys(socialNetworks)
+}
+
+const categoryPerProperty = {}
+
+for (const [ key, categoryData ] of Object.entries(propertiesPerCategory)) {
+  for (const property of categoryData) {
+    categoryPerProperty[property] = key
+  }
+}
+
+export const propertiesPerTypeAndCategory = {}
+
+for (const [ type, propertiesData ] of Object.entries(propertiesPerType)) {
+  propertiesPerTypeAndCategory[type] = {}
+  for (const [ property, propertyData ] of Object.entries(propertiesData)) {
+    const category = categoryPerProperty[property] || 'general'
+    propertiesPerTypeAndCategory[type][category] = propertiesPerTypeAndCategory[type][category] || {}
+    propertiesPerTypeAndCategory[type][category][property] = propertyData
+  }
+}

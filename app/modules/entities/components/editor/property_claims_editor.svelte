@@ -62,7 +62,7 @@
     class="editor-section"
     class:fixed
     class:missing-required={isRequiredAndMissing}
-    transition:slide
+    transition:slide={{ duration: 100 }}
     >
     {#if isRequiredAndMissing}
       <span class="required-notice">{I18n('required')}</span>
