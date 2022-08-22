@@ -1,17 +1,17 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import LabelsEditor from './labels_editor.svelte'
-  import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
-  import PropertyClaimsEditor from './property_claims_editor.svelte'
+  import { propertiesPerTypeAndCategory } from '#entities/lib/editor/properties_per_type'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { loadInternalLink } from '#lib/utils'
   import EntityEditMenu from './entity_edit_menu.svelte'
+  import PropertyCategory from '#entities/components/editor/property_category.svelte'
 
   export let entity
 
   const { uri, type, labels } = entity
-  const typeProperties = propertiesPerType[type]
-  const hasMonolingualTitle = typeProperties['wdt:P1476'] != null
+  const typePropertiesPerCategory = propertiesPerTypeAndCategory[type]
+  const hasMonolingualTitle = typePropertiesPerCategory.general['wdt:P1476'] != null
 
   let favoriteLabel
   $: {
@@ -42,11 +42,8 @@
     <LabelsEditor {entity} bind:favoriteLabel />
   {/if}
 
-  {#each Object.keys(typeProperties) as property}
-    <PropertyClaimsEditor
-      bind:entity
-      {property}
-    />
+  {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
+    <PropertyCategory {entity} {category} {categoryProperties} />
   {/each}
 </div>
 
