@@ -3,12 +3,15 @@
   import { I18n } from '#user/lib/i18n'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
+  import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 
   export let entity, category, categoryProperties
 
   const { label: categoryLabel } = (propertiesCategories[category] || {})
 
-  let showProperties = categoryLabel == null
+  let showCategory = getLocalStorageStore(`property_category:${category}:show`)
+  if (categoryLabel == null) $showCategory = true
+
   let scrollMarkerEl
 
   const id = `${category}-category-properties`
@@ -18,18 +21,19 @@
   }
 
   function toggle () {
-    showProperties = !showProperties
-    if (showProperties) {
+    $showCategory = !$showCategory
+    if ($showCategory) {
       // Wait for transitions to be over before attempting to scroll
       setTimeout(scroll, 200)
     }
   }
 </script>
 
+
 {#if categoryLabel}
   <button
     aria-controls={id}
-    class:active={showProperties}
+    class:active={$showCategory}
     on:click={toggle}
     >
     {@html icon('caret-right')}
@@ -38,7 +42,7 @@
   </button>
 {/if}
 
-{#if showProperties}
+{#if $showCategory}
   <div {id} class="category-properties">
     {#each Object.keys(categoryProperties) as property}
       <PropertyClaimsEditor
