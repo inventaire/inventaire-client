@@ -111,18 +111,18 @@ addProp('wdt:P856', 'url', null, false, null)
 
 // # social networks
 // Twitter account
-addProp('wdt:P2002', 'string', null, false, null)
+addProp('wdt:P2002', 'external-id', null, false, null)
 // Facebook account
-addProp('wdt:P2013', 'string', null, false, null)
+addProp('wdt:P2013', 'external-id', null, false, null)
 // Instagram username
-addProp('wdt:P2003', 'string', null, false, null)
+addProp('wdt:P2003', 'external-id', null, false, null)
 // YouTube channel ID
-addProp('wdt:P2397', 'string', null, false, null)
+addProp('wdt:P2397', 'external-id', null, false, null)
 // Mastodon address
-addProp('wdt:P4033', 'string', null, false, null)
+addProp('wdt:P4033', 'external-id', null, false, null)
 
 // # bibliographic databases
 // BNF ID
-addProp('wdt:P268', 'string', null, false, null)
+addProp('wdt:P268', 'external-id', null, false, null)
 // Open Library ID
-addProp('wdt:P648', 'string', null, false, null)
+addProp('wdt:P648', 'external-id', null, false, null)

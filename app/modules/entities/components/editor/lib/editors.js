@@ -9,6 +9,7 @@ import SimpleDayValueInput from '../simple_day_value_input.svelte'
 import PositiveIntegerValueInput from '../positive_integer_value_input.svelte'
 import ImageValueInput from '../image_value_input.svelte'
 import ImageValueDisplay from '../image_value_display.svelte'
+import ExternalIdValueDisplay from '../external_id_value_display.svelte'
 
 export const editors = {
   entity: {
@@ -19,6 +20,10 @@ export const editors = {
   string: {
     InputComponent: StringValueInput,
     DisplayComponent: StringValueDisplay,
+  },
+  'external-id': {
+    InputComponent: StringValueInput,
+    DisplayComponent: ExternalIdValueDisplay,
   },
   url: {
     InputComponent: UrlValueInput,
