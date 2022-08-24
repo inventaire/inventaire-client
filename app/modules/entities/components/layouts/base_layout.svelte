@@ -18,6 +18,8 @@
   const refreshEntity = async () => {
     const { entities } = await preq.get(app.API.entities.getByUris(uri, true))
     entity = Object.values(entities)[0]
+    // Let other components now that a refresh was requested
+    entity.refreshTimestamp = Date.now()
   }
 
   const altUri = buildAltUri(uri, _id)

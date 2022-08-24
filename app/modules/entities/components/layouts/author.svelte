@@ -6,13 +6,13 @@
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
-  import WikipediaExtract from './wikipedia_extract.svelte'
   import EntityTitle from './entity_title.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
   import { extendedAuthorsKeys } from '#entities/lib/show_all_authors_preview_lists'
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
+  import Summary from '#entities/components/layouts/summary.svelte'
 
   export let entity, standalone, flash
 
@@ -44,11 +44,13 @@
       <div class="work-section">
         <EntityTitle {entity} {standalone}/>
         <AuthorsInfo claims={entity.claims} />
-        <WikipediaExtract {entity} />
-        <Infobox
-          claims={removeAuthorsClaims(entity.claims)}
-          entityType={entity.type}
-        />
+        <div class="info">
+          <Infobox
+            claims={removeAuthorsClaims(entity.claims)}
+            entityType={entity.type}
+          />
+          <Summary {entity} />
+        </div>
       </div>
       <div class="author-works">
         {#await waitingForSubEntities}
@@ -75,5 +77,14 @@
   }
   .author-works{
     margin-top: 1em;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .info{
+      @include display-flex(row, baseline);
+      :global(.claims-infobox-wrapper), :global(.summary-wrapper){
+        width: 50%;
+      }
+    }
   }
 </style>
