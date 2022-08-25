@@ -1,21 +1,24 @@
 <script>
   import Spinner from '#components/spinner.svelte'
-  import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { getTextDirection } from '#lib/active_languages'
   import Flash from '#lib/components/flash.svelte'
   import Link from '#lib/components/link.svelte'
+  import languagesData from '#lib/languages_data'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { expired } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { indexBy } from 'underscore'
+  import { indexBy, partition } from 'underscore'
 
   export let entity
 
   const { uri } = entity
 
-  let summaryData, summaries, summeriesPerLang, summeriesPerKey, flash, selectedSummary
+  let summaryData, summaries, highlightedSummaries, otherSummaries, summeriesPerLang, summeriesPerKey, flash, selectedSummary
   let waitingForSummariesData, waitingForText
+
+  const { lang: userLang } = app.user
+  const langLabel = languagesData[userLang].native
 
   function getSummaries () {
     const refresh = entity.refreshTimestamp && !expired(entity.refreshTimestamp, 1000)
@@ -26,13 +29,16 @@
           summeriesPerLang = indexBy(summaries, 'lang')
           summeriesPerKey = indexBy(summaries, 'key')
           if (!selectedSummary) {
-            const bestOption = getBestLangValue(app.user.lang, null, summeriesPerLang).value
+            [ highlightedSummaries, otherSummaries ] = partition(summaries, isHighlightedSummary)
+            const bestOption = highlightedSummaries[0] || otherSummaries[0]
             if (bestOption) selectedSummary = bestOption.key
           }
         })
         .catch(err => flash = err)
     }
   }
+
+  const isHighlightedSummary = summary => summary.lang === userLang
 
   // This will trigger the first call to getSummaries, and further calls when the entity changes
   $: onChange(entity, getSummaries)
@@ -55,6 +61,7 @@
     }
   }
   $: onChange(selectedSummary, getText)
+  $: splitOptions = highlightedSummaries?.length > 0 && otherSummaries?.length > 0
 </script>
 
 <div class="summary-wrapper" class:has-summary={summaries?.length > 0}>
@@ -63,10 +70,23 @@
       <div class="header">
         <span class="label">{I18n('summary')}</span>
         {#if summaries.length > 1}
-          <select bind:value={selectedSummary}>
-            {#each summaries as summary (summary.link)}
-              <option value={summary.key}>{summary.name}</option>
-            {/each}
+          <select bind:value={selectedSummary} aria-controls="summary-text">
+            {#if splitOptions}
+              <optgroup label={langLabel}>
+                {#each highlightedSummaries as summary (summary.key)}
+                  <option value={summary.key}>{summary.name}</option>
+                {/each}
+              </optgroup>
+              <optgroup label={i18n('Other languages')}>
+                {#each otherSummaries as summary (summary.key)}
+                  <option value={summary.key}>{summary.name}</option>
+                {/each}
+              </optgroup>
+            {:else}
+              {#each summaries as summary (summary.key)}
+                <option value={summary.key}>{summary.name}</option>
+              {/each}
+            {/if}
           </select>
         {/if}
       </div>
