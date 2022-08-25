@@ -44,7 +44,7 @@
 </script>
 
 {#if canSearch}
-  <div class="wrapper">
+  <div class="works-browser-text-filter">
     <input
       type="text"
       placeholder={i18n('Filter...')}
@@ -72,10 +72,9 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .wrapper{
+  .works-browser-text-filter{
     align-self: flex-end;
     position: relative;
-    margin-right: 1em;
   }
   .search-icon{
     position: absolute;
@@ -93,5 +92,15 @@
     padding: 0 0.5em;
     height: 2.1rem;
     @include radius(2em);
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .works-browser-text-filter{
+      margin-right: 1em;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+
   }
 </style>

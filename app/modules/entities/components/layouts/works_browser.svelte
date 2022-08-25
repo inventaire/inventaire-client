@@ -61,9 +61,6 @@
     :global(.select-dropdown){
       width: 10em;
       margin-right: 1em;
-      &:last-child{
-       margin-inline-start: auto;
-      }
     }
   }
 
@@ -75,6 +72,20 @@
       left: 0;
       right: 0;
       z-index: 1;
+      :global(.select-dropdown){
+        &:last-child{
+          margin-inline-start: auto;
+        }
+      }
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .controls{
+      flex-wrap: wrap;
+      :global(.select-dropdown), :global(.works-browser-text-filter){
+        margin: 0.5em auto;
+      }
     }
   }
 </style>
