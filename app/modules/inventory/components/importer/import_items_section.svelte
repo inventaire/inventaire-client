@@ -108,9 +108,9 @@
       const newShelf = await createShelf({
         name: externalShelf.name,
         items: itemsIds,
-        // TODO: allow a visibility selector for each shelf
-        // probably after finer privacy settings, to not redo interface twice
-        listing: 'private',
+        // Set default visibility to private, as a selector would overcrowed the current interface
+        // Users may edit shelf visibility settings later
+        listing: [],
       })
       if (newShelf) return newShelf._id
     }
