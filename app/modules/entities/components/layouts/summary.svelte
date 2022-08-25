@@ -57,7 +57,7 @@
   $: onChange(selectedSummary, getText)
 </script>
 
-<div class="summary-wrapper">
+<div class="summary-wrapper" class:has-summary={summaries?.length > 0}>
   {#await waitingForSummariesData then}
     {#if summaries.length > 0}
       <div class="header">
@@ -90,7 +90,7 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .summary-wrapper{
+  .summary-wrapper.has-summary{
     padding: 0.5em;
     @include radius;
     background-color: $off-white;
