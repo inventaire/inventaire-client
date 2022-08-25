@@ -4,7 +4,7 @@
   import { byPublicationDate } from '#entities/lib/entities'
   import BaseLayout from './base_layout.svelte'
   import Infobox from './infobox.svelte'
-  import WikipediaExtract from './wikipedia_extract.svelte'
+  import Summary from '#entities/components/layouts/summary.svelte'
   import EntityTitle from './entity_title.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
@@ -40,11 +40,11 @@
     <div class="top-section">
       <div class="work-section">
         <EntityTitle {entity} {standalone}/>
-        <WikipediaExtract {entity} />
         <Infobox
           claims={entity.claims}
           entityType={entity.type}
         />
+        <Summary {entity} />
       </div>
       <div class="publications">
         {#await waitingForSubEntities}

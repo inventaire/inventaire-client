@@ -44,7 +44,7 @@
       <div class="work-section">
         <EntityTitle {entity} {standalone}/>
         <AuthorsInfo claims={entity.claims} />
-        <div class="info">
+        <div class="infobox-and-summary">
           <Infobox
             claims={removeAuthorsClaims(entity.claims)}
             entityType={entity.type}
@@ -80,10 +80,18 @@
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    .info{
+    .infobox-and-summary{
       @include display-flex(row, baseline);
       :global(.claims-infobox-wrapper), :global(.summary-wrapper){
         width: 50%;
+      }
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .infobox-and-summary{
+      :global(.summary-wrapper){
+        margin: 1em;
       }
     }
   }

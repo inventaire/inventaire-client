@@ -40,11 +40,11 @@
             <AuthorsInfo
               {claims}
             />
-            <Summary {entity} />
             <Infobox
               {claims}
               entityType={entity.type}
             />
+            <Summary {entity} />
           </div>
           <EditionActions
             {entity}
@@ -79,6 +79,9 @@
   }
   .infobox-wrapper{
     @include display-flex(row, center, space-between);
+    :global(.summary-wrapper){
+      margin-top: 1em;
+    }
   }
   .info-wrapper{
     flex: 1;

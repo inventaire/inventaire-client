@@ -76,11 +76,11 @@
           <AuthorsInfo
             {claims}
           />
-          <Summary {entity} />
           <Infobox
             claims={infoboxClaims}
             entityType={entity.type}
           />
+          <Summary {entity} />
           <Ebooks
             {entity}
             {userLang}
