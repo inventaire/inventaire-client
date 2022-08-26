@@ -33,7 +33,7 @@ export function checkWikidataMoveabilityStatus (entity) {
           const message = I18n("some values aren't Wikidata entities:")
           return {
             ok: false,
-            reason: `${message} ${i18n(unprefixify(property))}`
+            reason: `${message}: ${i18n(unprefixify(property))} (${property})`
           }
         }
       }
