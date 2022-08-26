@@ -105,21 +105,20 @@
           </li>
         {/if}
       {/if}
-      {#if canBeMovedToWikidata}
-        <li>
-          <button
-            title={moveabilityStatus}
-            on:click={_moveToWikidata}
-            >
-            {#await waitForWikidataMove}
-              <Spinner />
-            {:then}
-              {@html icon('wikidata')}
-            {/await}
-            {I18n('move to Wikidata')}
-          </button>
-        </li>
-      {/if}
+      <li>
+        <button
+          disabled={!canBeMovedToWikidata}
+          title={moveabilityStatus}
+          on:click={_moveToWikidata}
+          >
+          {#await waitForWikidataMove}
+            <Spinner />
+          {:then}
+            {@html icon('wikidata')}
+          {/await}
+          {I18n('move to Wikidata')}
+        </button>
+      </li>
       <li>
         <button
           title={I18n('report_an_error_in_entity_data')}
@@ -174,16 +173,6 @@
     background-color: white;
     @include radius;
     min-width: 14em;
-    li{
-      @include display-flex(row, stretch);
-      min-height: 3em;
-      &:not(:last-child){
-        margin-bottom: 0.2em;
-      }
-      :global(.error){
-        flex: 1;
-      }
-    }
     button, :global(a){
       font-weight: normal;
       padding: 0.5rem;
@@ -196,5 +185,18 @@
         margin-right: 0.5em;
       }
     }
+  }
+  li{
+    @include display-flex(row, stretch);
+    min-height: 3em;
+    &:not(:last-child){
+      margin-bottom: 0.2em;
+    }
+    :global(.error){
+      flex: 1;
+    }
+  }
+  button:disabled{
+    @include shy(0.9);
   }
 </style>
