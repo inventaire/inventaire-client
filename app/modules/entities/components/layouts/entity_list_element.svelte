@@ -26,16 +26,11 @@
     delete infoboxClaims['wdt:P1476']
   }
 
-  const buttonActionsComponentsByType = {
-    edition: {
-      link: EditionActions
-    },
-    work: {
-      merge: MergeAction
-    },
-    serie: {
-      merge: MergeAction
-    },
+  const buttonActionsComponents = {}
+  if (entity.type === 'edition') {
+    buttonActionsComponents.link = EditionActions
+  } else {
+    buttonActionsComponents.merge = MergeAction
   }
 </script>
 <div class="entity-wrapper">
@@ -78,7 +73,7 @@
     <!-- keep action button on top (.entity-list flex-direction) to display dropdown  -->
     {#if actionType}
       <svelte:component
-        this={buttonActionsComponentsByType[entity.type][actionType]}
+        this={buttonActionsComponents[actionType]}
         {entity}
         {parentEntity}
         bind:flash={flash}
