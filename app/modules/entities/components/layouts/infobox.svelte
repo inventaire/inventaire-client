@@ -6,6 +6,7 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import Spinner from '#general/components/spinner.svelte'
   import { infoboxPropsLists } from '#entities/components/lib/claims_helpers'
+  import EntityClaimsLinks from '#entities/components/layouts/entity_claims_links.svelte'
 
   export let claims = {},
     relatedEntities = {},
@@ -89,6 +90,7 @@
           />
         {/if}
       {/each}
+      <EntityClaimsLinks claims={claims} />
     </div>
     {#if displayToggler}
       <WrapToggler
