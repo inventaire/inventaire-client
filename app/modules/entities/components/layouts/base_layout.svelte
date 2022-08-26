@@ -8,6 +8,7 @@
   import Link from '#lib/components/link.svelte'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
   import Flash from '#lib/components/flash.svelte'
+  import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 
   export let entity, flash
 
@@ -33,7 +34,7 @@
 <div class="layout">
   <div class="header-wrapper">
     <div class="header">
-      <h2 class="type">{I18n(type)}</h2>
+      <h2 class="type">{I18n(entityTypeNameBySingularType[type])}</h2>
     </div>
     <div class="edit-data-actions">
       <Dropdown

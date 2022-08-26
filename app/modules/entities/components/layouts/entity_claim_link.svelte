@@ -6,4 +6,5 @@
   const url = externalIdsUrlFormatters[property](value)
 </script>
 
-<Link {url} text={label} classNames="link" />
+<!-- TODO: set an icon instead of a text -->
+<Link {url} text={label} title={label} classNames="link" />
