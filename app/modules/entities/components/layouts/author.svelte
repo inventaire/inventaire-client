@@ -13,6 +13,8 @@
   import { extendedAuthorsKeys } from '#entities/lib/show_all_authors_preview_lists'
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
+  import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let entity, standalone, flash
 
@@ -71,6 +73,11 @@
       waiting={waitingForSubEntities}
       questionText={'A series or a work by this author is missing in the common database?'}
       {createButtons}
+    />
+    <RelativeEntitiesList
+      {entity}
+      property="wdt:P737"
+      label={I18n('authors_influenced_by', { name: entity.label })}
     />
     <HomonymDeduplicates {entity} />
   </div>
