@@ -24,27 +24,29 @@
 </script>
 
 <div class="relative-entities-list">
-  <h3>{label}</h3>
   {#await waiting}
     <Spinner center={true} />
   {:then}
-    <ul>
-      {#each entities as entity (entity.uri)}
-        <li>
-          <a
-            href={entity.pathname}
-            on:click={loadInternalLink}
-            style:background-image={entity.images.length > 0 ? `url(${imgSrc(entity.images[0], 200)})` : null}
-            class:has-image={entity.images.length > 0}
-            data-data={JSON.stringify(entity.image)}
-            >
-            <div class="label-wrapper">
-              <span class="label">{entity.label}</span>
-            </div>
-          </a>
-        </li>
-      {/each}
-    </ul>
+    {#if entities?.length > 0}
+      <h3>{label}</h3>
+      <ul>
+        {#each entities as entity (entity.uri)}
+          <li>
+            <a
+              href={entity.pathname}
+              on:click={loadInternalLink}
+              style:background-image={entity.images.length > 0 ? `url(${imgSrc(entity.images[0], 200)})` : null}
+              class:has-image={entity.images.length > 0}
+              data-data={JSON.stringify(entity.image)}
+              >
+              <div class="label-wrapper">
+                <span class="label">{entity.label}</span>
+              </div>
+            </a>
+          </li>
+        {/each}
+      </ul>
+    {/if}
   {/await}
   <Flash state={flash} />
 </div>
