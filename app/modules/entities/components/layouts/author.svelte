@@ -84,6 +84,11 @@
       property="wdt:P921"
       label={I18n('works_about_entity', { name: entity.label })}
     />
+    <RelativeEntitiesList
+      {entity}
+      property={[ 'wdt:P2679', 'wdt:P2680' ]}
+      label={I18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
+    />
     <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>
