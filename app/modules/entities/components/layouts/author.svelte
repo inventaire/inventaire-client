@@ -102,6 +102,7 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+  @import '#entities/scss/relatives_lists';
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
