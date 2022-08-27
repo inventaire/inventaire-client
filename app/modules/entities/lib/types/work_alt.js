@@ -11,17 +11,19 @@ export async function addWorksImagesAndAuthors (works) {
   return works
 }
 
-export async function addWorksImages (works) {
-  const remainingWorks = works.slice(0)
+export async function addEntitiesImages (works) {
+  const remainingEntities = works.slice(0)
   const nextBatch = async () => {
-    const batchWorks = remainingWorks.splice(0, 10)
-    if (batchWorks.length === 0) return
-    await Promise.all(batchWorks.map(addEntityImages))
+    const batchEntities = remainingEntities.splice(0, 20)
+    if (batchEntities.length === 0) return
+    await Promise.all(batchEntities.map(addEntityImages))
     return nextBatch()
   }
   await nextBatch()
   return works
 }
+
+export const addWorksImages = addEntitiesImages
 
 export async function addEntityImages (entity) {
   const { type, uri } = entity

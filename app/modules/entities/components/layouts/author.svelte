@@ -79,6 +79,11 @@
       property="wdt:P737"
       label={I18n('authors_influenced_by', { name: entity.label })}
     />
+    <RelativeEntitiesList
+      {entity}
+      property="wdt:P921"
+      label={I18n('works_about_author', { name: entity.label })}
+    />
     <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>

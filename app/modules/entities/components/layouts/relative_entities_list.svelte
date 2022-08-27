@@ -1,6 +1,7 @@
 <script>
   import Spinner from '#components/spinner.svelte'
   import { getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
+  import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import Flash from '#lib/components/flash.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { loadInternalLink } from '#lib/utils'
@@ -17,6 +18,7 @@
         lang: app.user.lang,
       })
       entities = Object.values(res.entities).map(serializeEntity)
+      await addEntitiesImages(entities)
     })
     .catch(err => flash = err)
 </script>
@@ -32,8 +34,8 @@
           <a
             href={entity.pathname}
             on:click={loadInternalLink}
-            style:background-image={entity.image?.url ? `url(${imgSrc(entity.image.url, 200)})` : null}
-            class:has-image={entity.image?.url != null}
+            style:background-image={entity.images.length > 0 ? `url(${imgSrc(entity.images[0], 200)})` : null}
+            class:has-image={entity.images.length > 0}
             data-data={JSON.stringify(entity.image)}
             >
             <div class="label-wrapper">
