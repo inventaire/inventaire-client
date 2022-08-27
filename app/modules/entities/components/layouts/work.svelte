@@ -14,6 +14,7 @@
   import EntityTitle from './entity_title.svelte'
   import WorkActions from './work_actions.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
+  import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
   import Summary from '#entities/components/layouts/summary.svelte'
@@ -132,6 +133,11 @@
         </div>
       {/if}
     {/await}
+    <RelativeEntitiesList
+      {entity}
+      property="wdt:P921"
+      label={I18n('works_about_entity', { name: entity.label })}
+    />
     <HomonymDeduplicates
       {entity}
     />
