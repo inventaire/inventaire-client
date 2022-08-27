@@ -1,15 +1,15 @@
 <script>
   import { I18n } from '#user/lib/i18n'
+  import { onChange } from '#lib/svelte'
   import ExternalShelf from '#inventory/components/importer/external_shelf.svelte'
+
   export let candidates
-  export let processing
   export let externalShelves
 
   const groupExternalShelves = () => {
-    candidates.forEach(candidate => {
-      const { index, shelves } = candidate
-      if (shelves) shelves.forEach(assignOrCreateExternalShelves(index))
-    })
+    const lastCandidate = candidates[candidates.length - 1]
+    const { index, shelves } = lastCandidate
+    if (shelves) shelves.forEach(assignOrCreateExternalShelves(index))
   }
 
   const assignOrCreateExternalShelves = candidateIndex => candidateShelf => {
@@ -26,7 +26,7 @@
     }
   }
 
-  $: { if (!processing) groupExternalShelves() }
+  $: onChange(candidates, groupExternalShelves)
 </script>
 <div class="importShelves">
   <label for="external-shelves-selector">

@@ -43,7 +43,7 @@
     </div>
     <h3>3/ {I18n('select shelves to import')}</h3>
     <div class="panel">
-      <ExternalShelves bind:externalShelves {candidates} {processing}/>
+      <ExternalShelves bind:externalShelves {candidates}/>
     </div>
   {/if}
   {#if !processing}
