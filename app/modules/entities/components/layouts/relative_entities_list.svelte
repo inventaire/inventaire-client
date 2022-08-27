@@ -1,0 +1,83 @@
+<script>
+  import Spinner from '#components/spinner.svelte'
+  import { getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
+  import Flash from '#lib/components/flash.svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { loadInternalLink } from '#lib/utils'
+  export let entity, property, label
+
+  let flash, entities
+
+  const waiting = getReverseClaims(property, entity.uri)
+    .then(async uris => {
+      const res = await getEntitiesAttributesByUris({
+        uris,
+        // TODO: also request 'popularity' to be able to use it to sort the entities
+        attributes: [ 'type', 'labels', 'image' ],
+        lang: app.user.lang,
+      })
+      entities = Object.values(res.entities).map(serializeEntity)
+    })
+    .catch(err => flash = err)
+</script>
+
+<div class="relative-entities-list">
+  <h3>{label}</h3>
+  {#await waiting}
+    <Spinner center={true} />
+  {:then}
+    <ul>
+      {#each entities as entity (entity.uri)}
+        <li>
+          <a
+            href={entity.pathname}
+            on:click={loadInternalLink}
+            style:background-image={entity.image?.url ? `url(${imgSrc(entity.image.url, 200)})` : null}
+            class:has-image={entity.image?.url != null}
+            data-data={JSON.stringify(entity.image)}
+            >
+            <div class="label-wrapper">
+              <span class="label">{entity.label}</span>
+            </div>
+          </a>
+        </li>
+      {/each}
+    </ul>
+  {/await}
+  <Flash state={flash} />
+</div>
+
+<style lang="scss">
+  @import '#general/scss/utils';
+  ul{
+    @include display-flex(row, null, null, wrap)
+  }
+  li{
+    margin: 0.2em;
+  }
+  a{
+    display: block;
+    width: 6rem;
+    height: 8rem;
+    background-size: cover;
+    background-position: center center;
+    @include display-flex(column, stretch, flex-end);
+    &:not(.has-image) {
+      .label-wrapper{
+        flex: 1;
+      }
+    }
+    &:hover{
+      @include shadow-box;
+    }
+  }
+  .label-wrapper{
+    @include display-flex(column, stretch, center);
+    background-color: #dcdcdc;
+  }
+  .label{
+    text-align: center;
+    padding: 0.2em 0.1em;
+    line-height: 1.1rem;
+  }
+</style>
