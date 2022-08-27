@@ -82,7 +82,7 @@
     <RelativeEntitiesList
       {entity}
       property="wdt:P921"
-      label={I18n('works_about_author', { name: entity.label })}
+      label={I18n('works_about_entity', { name: entity.label })}
     />
     <HomonymDeduplicates {entity} />
   </div>
