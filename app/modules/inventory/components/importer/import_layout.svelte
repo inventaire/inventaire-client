@@ -40,6 +40,9 @@
       <TransactionSelector bind:transaction showDescription={true} />
       <VisibilitySelector bind:visibility showDescription={true} showTip={true} />
       <ShelvesSelector bind:shelvesIds showDescription={true} />
+    </div>
+    <h3>3/ {I18n('select shelves to import')}</h3>
+    <div class="panel">
       <ExternalShelves bind:externalShelves {candidates} {processing}/>
     </div>
   {/if}
