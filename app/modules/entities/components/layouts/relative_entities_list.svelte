@@ -35,7 +35,7 @@
     .catch(err => flash = err)
 </script>
 
-<div class="relative-entities-list">
+<div class="relative-entities-list" class:not-empty={entities?.length > 0}>
   {#await waiting}
     <Spinner center={true} />
   {:then}
@@ -65,6 +65,14 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+  .relative-entities-list.not-empty{
+    padding: 0.5rem;
+    background-color: $off-white;
+    margin-bottom: 0.5em;
+  }
+  h3{
+    font-size: 1.1rem;
+  }
   ul{
     @include display-flex(row, null, null, wrap)
   }

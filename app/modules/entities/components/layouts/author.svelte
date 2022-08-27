@@ -74,21 +74,28 @@
       questionText={'A series or a work by this author is missing in the common database?'}
       {createButtons}
     />
-    <RelativeEntitiesList
-      {entity}
-      property="wdt:P737"
-      label={I18n('authors_influenced_by', { name: entity.label })}
-    />
-    <RelativeEntitiesList
-      {entity}
-      property="wdt:P921"
-      label={I18n('works_about_entity', { name: entity.label })}
-    />
-    <RelativeEntitiesList
-      {entity}
-      property={[ 'wdt:P2679', 'wdt:P2680' ]}
-      label={I18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
-    />
+    <div class="relatives-lists">
+      <RelativeEntitiesList
+        {entity}
+        property="wdt:P737"
+        label={I18n('authors_influenced_by', { name: entity.label })}
+      />
+      <RelativeEntitiesList
+        {entity}
+        property="wdt:P921"
+        label={I18n('works_about_entity', { name: entity.label })}
+      />
+      <RelativeEntitiesList
+        {entity}
+        property={[ 'wdt:P2679', 'wdt:P2680' ]}
+        label={I18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
+      />
+      <RelativeEntitiesList
+        {entity}
+        property="wdt:P655"
+        label={I18n('editions_translated_by_author', { name: entity.label })}
+      />
+    </div>
     <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>
@@ -111,6 +118,17 @@
       @include display-flex(row, flex-start, flex-start);
       :global(.claims-infobox-wrapper), :global(.summary-wrapper){
         width: 50%;
+      }
+    }
+    .relatives-lists{
+      @include display-flex(row, baseline, flex-start, wrap);
+      $margin: 1rem;
+      // Hide the extra margin on each wrapped line
+      margin-inline-end: -$margin;
+      :global(.relative-entities-list.not-empty){
+        flex: 1 0 40%;
+        margin-inline-end: $margin;
+        margin-bottom: $margin;
       }
     }
   }
