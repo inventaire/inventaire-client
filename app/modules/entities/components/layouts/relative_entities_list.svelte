@@ -4,12 +4,24 @@
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import Flash from '#lib/components/flash.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { loadInternalLink } from '#lib/utils'
+  import { forceArray, loadInternalLink } from '#lib/utils'
+  import { uniq } from 'underscore'
   export let entity, property, label
 
   let flash, entities
 
-  const waiting = getReverseClaims(property, entity.uri)
+  const { uri } = entity
+
+  const properties = forceArray(property)
+
+  async function getUris () {
+    const uris = await Promise.all(properties.map(property => {
+      return getReverseClaims(property, uri)
+    }))
+    return uniq(uris.flat())
+  }
+
+  const waiting = getUris()
     .then(async uris => {
       const res = await getEntitiesAttributesByUris({
         uris,
