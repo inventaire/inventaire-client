@@ -3,7 +3,7 @@
   import { icon, loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
-  import { getCorrespondingListing, getIconLabel } from '#general/lib/visibility'
+  import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import { getDocStore } from '#lib/svelte/mono_document_stores'
   import { serializeItem } from '#inventory/lib/items'
 
@@ -18,13 +18,13 @@
   const authors = item.snapshot['entity:authors']
   const image = item.snapshot['entity:image']
 
-  let details, transaction, visibility, isPrivate, correspondingListing, currentListing, currentTransaction
+  let details, transaction, visibility, isPrivate, visibilitySummary, visibilitySummaryData, currentTransaction
   $: {
     ;({ details = '', transaction, visibility } = $itemStore)
     if (mainUserIsOwner) {
       isPrivate = visibility.length === 0
-      correspondingListing = getCorrespondingListing(visibility)
-      currentListing = app.user.listings.data[correspondingListing]
+      visibilitySummary = getVisibilitySummary(visibility)
+      visibilitySummaryData = visibilitySummariesData[visibilitySummary]
     }
     currentTransaction = transactionsDataFactory()[transaction]
   }
@@ -51,8 +51,8 @@
       </div>
     {/if}
     {#if mainUserIsOwner}
-      <div class="listing {correspondingListing}" title="{i18n(getIconLabel(visibility))}">
-        {@html icon(currentListing.icon)}
+      <div class="visibility {visibilitySummary}" title="{i18n(getVisibilitySummaryLabel(visibility))}">
+        {@html icon(visibilitySummaryData.icon)}
       </div>
     {/if}
   </div>
@@ -89,7 +89,7 @@
     overflow: hidden;
     @include radius;
   }
-  .transaction, .listing{
+  .transaction, .visibility{
     @include radius;
     height: 2em;
     width: 2em;
@@ -111,7 +111,7 @@
       background-color: $inventorying-color;
     }
   }
-  .listing{
+  .visibility{
     &.private{
       background-color: $private-color;
     }
@@ -176,7 +176,7 @@
       min-height: 3em;
       flex: 0 0 3em;
     }
-    .transaction, .listing{
+    .transaction, .visibility{
       margin-right: 1em;
     }
   }

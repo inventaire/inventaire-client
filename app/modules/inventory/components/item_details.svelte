@@ -8,7 +8,7 @@
 
   export let item, flash
 
-  const { restricted, listingIconName } = item
+  const { restricted, visibilitySummaryIconName } = item
   let { details = '' } = item
 
   let editMode = false
@@ -39,8 +39,8 @@
     <span class="section-label">{I18n('details')}</span>
     {#if !restricted}
       <span class="indicator" title={i18n('this is visible by anyone who can see this item')}>
-        {#if listingIconName}
-          {@html icon(listingIconName)}
+        {#if visibilitySummaryIconName}
+          {@html icon(visibilitySummaryIconName)}
         {/if}
       </span>
       <button

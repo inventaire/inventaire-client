@@ -3,7 +3,7 @@
   import { icon } from '#lib/utils'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import Dropdown from '#components/dropdown.svelte'
-  import { getCorrespondingListing, getIconLabel, visibilityIconByCorrespondingListing } from '#general/lib/visibility'
+  import { getVisibilitySummary, getVisibilitySummaryLabel, iconByVisibilitySummary } from '#general/lib/visibility'
   import { debounce, isEqual } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
   import { getDocStore } from '#lib/svelte/mono_document_stores'
@@ -39,13 +39,13 @@
   const reconcileWithStore = () => visibility = $itemStore.visibility
   $: onChange($itemStore.visibility, reconcileWithStore)
 
-  let listing, iconName, iconLabel
+  let visibilitySummary, iconName, iconLabel
   $: {
-    listing = getCorrespondingListing(visibility)
-    iconName = visibilityIconByCorrespondingListing[listing]
-    iconLabel = getIconLabel(visibility)
-    item.listing = listing
-    item.listingIconName = iconName
+    visibilitySummary = getVisibilitySummary(visibility)
+    iconName = iconByVisibilitySummary[visibilitySummary]
+    iconLabel = getVisibilitySummaryLabel(visibility)
+    item.visibilitySummary = visibilitySummary
+    item.visibilitySummaryIconName = iconName
   }
 
   function clickOnContentShouldCloseDropdown (e) {
@@ -67,9 +67,9 @@
     <!-- See See https://github.com/sveltejs/svelte/issues/1594 -->
     <div
       slot="button-inner"
-      class:private={listing === 'private'}
-      class:network={listing === 'network'}
-      class:public={listing === 'public'}
+      class:private={visibilitySummary === 'private'}
+      class:network={visibilitySummary === 'network'}
+      class:public={visibilitySummary === 'public'}
       >
       <div class="icon">
         {@html icon(iconName)}
