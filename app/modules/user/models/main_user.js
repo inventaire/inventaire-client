@@ -120,7 +120,7 @@ export default UserCommons.extend({
   updateShelvesCounter (action) {
     let shelvesCount = this.get('shelvesCount')
     if (action === 'createShelf') shelvesCount += 1
-    if (action === 'removeShelf') shelvesCount -= 1
+    else if (action === 'removeShelf') shelvesCount -= 1
     this.set('shelvesCount', shelvesCount)
     this.setAllInventoryStats()
   },
