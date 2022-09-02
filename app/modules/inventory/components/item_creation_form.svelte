@@ -3,7 +3,7 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { icon, loadInternalLink } from '#lib/utils'
   import Spinner from '#components/spinner.svelte'
-  import { addNext, cancel, guessTransaction } from '#inventory/components/lib/item_creation_helpers'
+  import { addNext, cancel, guessInitialTransaction } from '#inventory/components/lib/item_creation_helpers'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
@@ -21,7 +21,7 @@
     .then(itemsModels => existingEntityItems = itemsModels.map(model => model.toJSON()))
     .catch(err => flash = err)
 
-  let transaction = guessTransaction()
+  let transaction = guessInitialTransaction()
   let visibility, shelvesIds, details, notes
 
   if (shelvesIds == null) shelvesIds = app.request('last:shelves:get')

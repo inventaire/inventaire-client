@@ -1,4 +1,4 @@
-export function guessTransaction (transaction) {
+export function guessInitialTransaction (transaction) {
   transaction = transaction || app.request('last:transaction:get')
   if (transaction === 'null') transaction = null
   app.execute('last:transaction:set', transaction)

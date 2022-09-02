@@ -1,12 +1,12 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import { guessTransaction } from '#inventory/components/lib/item_creation_helpers'
+  import { guessInitialTransaction } from '#inventory/components/lib/item_creation_helpers'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
 
   export let transaction, showDescription = false
 
-  transaction = guessTransaction(transaction)
+  transaction = guessInitialTransaction(transaction)
 </script>
 
 <fieldset>
