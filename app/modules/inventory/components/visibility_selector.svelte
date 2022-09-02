@@ -114,14 +114,10 @@
         on:click={onGroupsClick}
         bind:group={checked}
       >
-      <p class="label-text">
-        <span class="title">{I18n('groups')}</span>
-        {#if showTip}
-          <InfoTip
-            text={i18n('Include all your present and future groups')}
-          />
-        {/if}
-      </p>
+      <span class="title">{I18n('groups')}</span>
+      {#if showTip}
+        <InfoTip text={i18n('Include all your present and future groups')} />
+      {/if}
     </label>
 
     {#each $userGroups as group}
@@ -160,9 +156,6 @@
   }
   .indent{
     margin-left: 1.3em;
-  }
-  .has-infotip{
-    @include display-flex(row, center);
   }
   .description{
     font-size: 0.9rem;
