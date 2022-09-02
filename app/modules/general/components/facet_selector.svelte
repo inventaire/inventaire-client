@@ -67,7 +67,7 @@
           class="reset"
           title={I18n('reset filter')}
           aria-controls="language-filter"
-          on:click|stopPropagation={() => value = null}
+          on:click={() => value = null}
         >{@html icon('close')}</button>
       {/if}
     </div>
