@@ -143,7 +143,7 @@
     overflow-y: auto;
   }
   legend{
-    padding: 0.2em 0.5em;
+    padding: 0.2em 0;
   }
   label{
     padding: 0.2em 0.5em;
