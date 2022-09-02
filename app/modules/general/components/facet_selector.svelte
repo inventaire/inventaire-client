@@ -148,4 +148,10 @@
   [role="option"][data-value="unknown"]{
     @include shy;
   }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .facet-selector{
+      margin-top: 1.6em;
+    }
+  }
 </style>
