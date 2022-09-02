@@ -28,7 +28,7 @@ const API = {
 
     const mesModel = addMessageToTimeline(messageData, timeline)
 
-    return preq.post(app.API.transactions, messageData)
+    return preq.post(app.API.transactions.base, messageData)
     .then(poster_.UpdateModelIdRev(mesModel))
     .catch(poster_.Rewind(mesModel, timeline))
     .catch(log_.Error('postMessage'))

@@ -74,9 +74,9 @@ export default Backbone.Model.extend({
   }
 })
 
-const actorCanBeBoth = [ 'cancelled' ]
+export const actorCanBeBoth = [ 'cancelled' ]
 
-const ownerActions = [
+export const ownerActions = [
   'accepted',
   'declined',
   'returned'

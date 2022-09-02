@@ -1,5 +1,6 @@
 $grey: #636466;
 $dark-grey: #222;
+$default-text-color: $dark-grey;
 $darker-grey: #1a1a1a;
 $light-grey: #eee;
 $lighter-grey: #f2f2f2;
@@ -90,6 +91,16 @@ $inventory-nav-grey: #eee;
   background-color: $bg-color;
   @include transition(background-color);
   &:not(.disabled):not(:disabled){
+    &:hover, &:focus{
+      background-color: darken($bg-color, $darken);
+    }
+  }
+}
+
+@mixin bg-hover-svelte($bg-color, $darken:15%){
+  background-color: $bg-color;
+  @include transition(background-color);
+  &:not(:disabled){
     &:hover, &:focus{
       background-color: darken($bg-color, $darken);
     }

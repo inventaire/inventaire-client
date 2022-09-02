@@ -2,7 +2,6 @@ import { I18n } from '#user/lib/i18n'
 import error_ from '#lib/error'
 import initMainUser from './lib/init_main_user.js'
 import auth from './lib/auth.js'
-import userListings from './lib/user_listings.js'
 import userUpdate from './lib/user_update.js'
 import preq from '#lib/preq'
 
@@ -23,7 +22,6 @@ export default {
 
     initMainUser(app)
     auth(app)
-    userListings(app)
     userUpdate(app)
 
     app.commands.setHandlers({

@@ -1,12 +1,26 @@
 <script>
-  export let buttonTitle, align = null
+  import { isFunction } from 'underscore'
+  import { slide } from 'svelte/transition'
+
+  export let buttonTitle
+  export let align = null
+  export let widthReferenceEl
+  export let alignButtonAndDropdownWidth = false
+  export let clickOnContentShouldCloseDropdown = false
 
   let showDropdown = false, positionned = false
-  let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft
+  let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft, dropdownWrapperEl
+  const transitionDuration = 100
 
   function onButtonClick () {
     showDropdown = !showDropdown
-    if (showDropdown) setTimeout(adjustDropdownPosition)
+    if (showDropdown) setTimeout(refreshPositionAndScroll)
+  }
+
+  function refreshPositionAndScroll () {
+    adjustDropdownPosition()
+    // Trigger after transition
+    setTimeout(scrollToDropdownIfNeeded, transitionDuration + 10)
   }
 
   function adjustDropdownPosition () {
@@ -24,17 +38,43 @@
     }
     positionned = true
   }
-  function onOutsideClick () {
-    showDropdown = false
+
+  function getReferenceElWidth () {
+    return widthReferenceEl.getBoundingClientRect().width
   }
+
+  function scrollToDropdownIfNeeded () {
+    if (!dropdown) return
+    const dropdownRect = dropdown.getBoundingClientRect()
+    if (dropdownRect.bottom > window.visualViewport.height) {
+      dropdown.scrollIntoView({ block: 'end', inline: 'nearest', behavior: 'smooth' })
+    }
+  }
+
+  function onOutsideClick (e) {
+    if (!dropdownWrapperEl.contains(e.target)) {
+      showDropdown = false
+    }
+  }
+  function onContentClick (e) {
+    if (isFunction(clickOnContentShouldCloseDropdown)) {
+      if (clickOnContentShouldCloseDropdown(e)) {
+        showDropdown = false
+      }
+    } else if (clickOnContentShouldCloseDropdown === true) {
+      showDropdown = false
+    }
+  }
+
+  $: if (alignButtonAndDropdownWidth) widthReferenceEl = buttonWithDropdown
 </script>
 
 <svelte:body on:click={onOutsideClick} />
-<svelte:window on:resize={adjustDropdownPosition} />
+<svelte:window on:resize={refreshPositionAndScroll} />
 
 <div
   class="has-dropdown"
-  on:click|stopPropagation
+  bind:this={dropdownWrapperEl}
   >
   <button
     class="dropdown-button"
@@ -53,7 +93,10 @@
       style:visibility={positionned ? 'visible' : 'hidden'}
       style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
       style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
+      style:width={widthReferenceEl ? `${getReferenceElWidth()}px` : null }
       role="menu"
+      transition:slide={{ duration: transitionDuration }}
+      on:click={onContentClick}
       >
       <slot name="dropdown-content" />
     </div>
@@ -64,11 +107,19 @@
   @import '#general/scss/utils';
   .has-dropdown{
     position: relative;
+    @include display-flex(row, stretch, center);
+  }
+  .dropdown-button{
+    flex: 1;
   }
   .dropdown-content{
     position: absolute;
     top: 100%;
     z-index: 1;
     white-space: nowrap;
+    // Add a bit of padding so that there will be a bit of margin down
+    // when scrolling to get the dropdown content in the viewport
+    padding-bottom: 0.5em;
+    overflow-x: hidden;
   }
 </style>

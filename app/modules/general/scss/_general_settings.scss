@@ -17,7 +17,7 @@ html{
 body{
   height: auto;
   background-color: $body-bg;
-  color: #222;
+  color: $default-text-color;
   padding: 0;
   margin: 0;
   font-family: "Alegreya Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -100,12 +100,9 @@ body{
 .layout-type-label{
   // Display only on .standalone layouts
   display: none;
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  font-weight: normal;
-  color: $grey;
+  @include layout-type-label;
 }
+
 .standalone > .layout-type-label{
   display: inherit;
 }

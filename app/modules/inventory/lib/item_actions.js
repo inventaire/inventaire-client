@@ -3,6 +3,9 @@ import log_ from '#lib/loggers'
 import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
 import Item from '#inventory/models/item'
+import { isModel } from '#lib/boolean_tests'
+import { hasSubscribers, refreshDocStore, updateDocStore } from '#lib/svelte/mono_document_stores'
+import { addItemsUsers } from '#inventory/lib/queries'
 
 export default {
   create (itemData) {
@@ -28,17 +31,21 @@ export default {
 
     items.forEach(item => {
       if (_.isString(item)) return
-      item._backup = item.toJSON()
-      return item.set(attribute, value)
+      if (isModel(item)) {
+        item._backup = item.toJSON()
+        item.set(attribute, value)
+      }
     })
 
-    const ids = items.map(getIdFromModelOrId)
+    const ids = items.map(getItemId)
 
     try {
+      // Optimistic UI
+      propagateItemsChanges({ ids, attribute, value })
       await preq.put(app.API.items.update, { ids, attribute, value })
-      propagateItemsChanges(items, attribute)
     } catch (err) {
-      rollbackUpdate(items)
+      // Revert optimistic changes
+      await reconcileWithServerState(ids)
       throw err
     }
   },
@@ -48,20 +55,25 @@ export default {
     const { items, next, back } = options
     assert_.types([ items, next ], [ 'array', 'function' ])
 
-    const ids = items.map(getIdFromModelOrId)
+    const ids = items.map(getItemId)
 
     const action = async () => {
       const res = await preq.post(app.API.items.deleteByIds, { ids })
       items.forEach(item => {
         if (_.isString(item)) return
-        app.user.trigger('items:change', item.get('listing'), null)
+        // app.user.trigger('items:change', item.get('listing'), null)
         item.hasBeenDeleted = true
       })
       return next(res)
     }
 
-    if ((items.length === 1) && items[0] instanceof Backbone.Model) {
-      const title = items[0].get('snapshot.entity:title')
+    if ((items.length === 1)) {
+      let title
+      if (isModel(items[0])) {
+        title = items[0].get('snapshot.entity:title')
+      } else {
+        title = items[0].snapshot['entity:title']
+      }
       confirmationText = i18n('delete_item_confirmation', { title })
     } else {
       confirmationText = i18n('delete_items_confirmation', { amount: ids.length })
@@ -73,29 +85,24 @@ export default {
   }
 }
 
-const getIdFromModelOrId = item => {
+const getItemId = item => {
   if (_.isString(item)) return item
-  else return item.id
+  // Support both models and item docs
+  else return item.id || item._id
 }
 
-const propagateItemsChanges = (items, attribute) => {
-  items.forEach(item => {
-    // TODO: update counters for non-model items too
-    if (_.isString(item)) return
-    if (attribute === 'listing') {
-      const { listing: previousListing } = item._backup
-      const newListing = item.get('listing')
-      if (newListing === previousListing) return
-      app.user.trigger('items:change', previousListing, newListing)
-    }
-    delete item._backup
-  })
+const propagateItemsChanges = async ({ ids, attribute, value }) => {
+  const updateFn = doc => {
+    doc[attribute] = value
+    return doc
+  }
+  ids.forEach(id => updateDocStore({ category: 'items', id, updateFn }))
 }
 
-const rollbackUpdate = items => {
-  items.forEach(item => {
-    if (_.isString(item)) return
-    item.set(item._backup)
-    delete item._backup
-  })
+const reconcileWithServerState = async ids => {
+  ids = ids.filter(id => hasSubscribers('items', id))
+  if (ids.length === 0) return
+  const { items, users } = await preq.get(app.API.items.byIds({ ids, includeUsers: true }))
+  addItemsUsers({ items, users })
+  items.forEach(doc => refreshDocStore({ category: 'items', doc }))
 }

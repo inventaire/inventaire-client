@@ -172,20 +172,16 @@ export default Marionette.View.extend({
     this.showChildView('itemsList', new InventoryBrowser({ itemsDataPromise, isMainUser }))
   },
 
-  showSectionLastItems (section) {
-    if (section === 'public' && app.user.get('position') == null) {
-      // Hide loading spinner
-      this.getRegion('itemsList').empty()
-    } else {
-      showPaginatedItems({
-        request: sectionRequest[section],
-        layout: this,
-        regionName: 'itemsList',
-        limit: 20,
-        allowMore: true,
-        showDistance: section === 'public'
-      })
-    }
+  async showSectionLastItems (section) {
+    if (section === 'public' && app.user.get('position') == null) return
+    showPaginatedItems({
+      requestName: sectionRequest[section],
+      layout: this,
+      regionName: 'itemsList',
+      limit: 20,
+      allowMore: true,
+      showDistance: section === 'public'
+    })
   },
 
   closeShelf () {

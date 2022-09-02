@@ -83,7 +83,7 @@ export default Marionette.View.extend({
   },
 
   async postRequest () {
-    const { transaction } = await preq.post(app.API.transactions, {
+    const { transaction } = await preq.post(app.API.transactions.base, {
       action: 'request',
       item: this.model.id,
       message: this.ui.message.val()

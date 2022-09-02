@@ -66,13 +66,20 @@ export const loadInternalLink = e => {
   e.stopPropagation()
   if (!(isOpenedOutside(e))) {
     const { pathname } = new URL(e.currentTarget.href)
-    app.navigateAndLoad(pathname)
+    app.navigateAndLoad(pathname, {
+      preventScrollTop: isModalPathname(pathname)
+    })
     e.preventDefault()
   }
 }
 
+const isModalPathname = pathname => modalPathnamesPattern.test(pathname)
+// Ideally, this could be declared within the routers
+const modalPathnamesPattern = /^\/items\/\w+/
+
 export const cutBeforeWord = (text, limit) => {
-  const shortenedText = text.slice(0, +limit + 1 || undefined)
+  if (text.length <= limit) return text
+  const shortenedText = text.slice(0, limit)
   return shortenedText.replace(/\s\w+$/, '')
 }
 

@@ -1,53 +1,65 @@
 import log_ from '#lib/loggers'
-import Items from '#inventory/collections/items'
-import ItemsCascade from '#inventory/views/items_cascade'
+import PaginatedItems from '#inventory/components/paginated_items.svelte'
+import ItemsCascade from '#inventory/components/items_cascade.svelte'
+import { wait } from '#lib/promises'
 
 export default async params => {
-  let collection, moreData
-  const { layout, regionName, allowMore, showDistance } = params
-  params.collection = collection = new Items()
+  const { layout, regionName, allowMore, showDistance, requestName, limit, requestParams } = params
+  const pagination = {
+    items: [],
+    limit,
+    allowMore,
+  }
+  pagination.moreData = { status: true }
+  pagination.hasMore = () => pagination.moreData.status
+  pagination.fetchMore = FetchMore({ requestName, requestParams, pagination })
 
-  // Use an object to store the flag so that it can be modified
-  // by functions the object is passed to
-  params.moreData = moreData = { status: true }
-  const hasMore = () => moreData.status
-  const fetchMore = FetchMore(params)
-
-  await fetchMore()
-  layout.showChildView(regionName, new ItemsCascade({
-    collection,
-    // if not allowMore, let ItemsList set the default values
-    fetchMore: allowMore ? fetchMore : undefined,
-    hasMore: allowMore ? hasMore : undefined,
-    showDistance
-  }))
+  // Waiting for the next tick is needed for some reason,
+  // otherwise the region element might not be ready
+  await wait(0)
+  layout.showChildComponent(regionName, PaginatedItems, {
+    props: {
+      Component: ItemsCascade,
+      componentProps: {
+        showDistance,
+      },
+      pagination,
+    },
+  })
 }
 
-const FetchMore = function (params) {
-  const { request, collection, moreData, fallback } = params
+const FetchMore = function ({ requestName, requestParams, pagination }) {
+  const { items, moreData, fallback } = pagination
   // Avoiding fetching more items several times at a time
   // as it will just return the same items, given that it will pass
   // the same arguments.
   // Known case: when the view is locked on the infiniteScroll trigger
   let busy = false
   const fetchMore = async () => {
-    const done = (moreData.total != null) && (collection.length >= moreData.total)
+    const done = (moreData.total != null) && (items.length >= moreData.total)
     if (busy || done) return
 
     busy = true
-    params.offset = collection.length
-    return app.request(request, params)
-    .then(res => {
+    pagination.offset = items.length
+    try {
+      const res = await app.request(requestName, {
+        items: pagination.items,
+        limit: pagination.limit,
+        offset: pagination.offset,
+        ...requestParams
+      })
       moreData.total = res.total
       moreData.continue = res.continue
       // Display the inventory welcome screen when appropriate
       if (res.total === 0 && fallback != null) return fallback()
-    })
-    .catch(catch404(fallback))
-    .finally(() => { busy = false })
+    } catch (err) {
+      catch404(err, fallback)
+    } finally {
+      busy = false
+    }
   }
 
-  const catch404 = fallback => err => {
+  const catch404 = (err, fallback) => {
     if (err.statusCode === 404) {
       moreData.status = false
       log_.warn('no more items to show')

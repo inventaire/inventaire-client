@@ -2,7 +2,7 @@ $input-border-color: #c4c4c4;
 $input-font-color: black;
 $input-height: 2.3rem;
 
-input, textarea{
+input[type="text"], input[type="password"], input[type="email"], input[type="search"], input[type="url"], textarea{
   @include radius;
   background-color: white;
   font-family: inherit;
@@ -22,7 +22,7 @@ input, textarea{
   }
 }
 
-label input[type=checkbox]{
+label input[type="checkbox"]{
   display: inline;
   height: auto;
   margin-inline-end: 0.4em;

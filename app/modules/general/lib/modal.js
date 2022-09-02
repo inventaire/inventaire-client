@@ -3,6 +3,8 @@ import log_ from '#lib/loggers'
 import getActionKey from '#lib/get_action_key'
 import screen_ from '#lib/screen'
 import isMobile from '#lib/mobile_check'
+import { removeCurrentComponent } from '#lib/global_libs_extender'
+import Spinner from '#components/spinner.svelte'
 
 export default function () {
   const $body = $('body')
@@ -87,13 +89,16 @@ export default function () {
       // closing it should bring back to the previous history state.
       app.execute('history:back')
     }
-
+    removeCurrentComponent(app.layout.getRegion('modal'))
     app.vent.trigger('modal:closed')
   }
 
   const exitModal = function () {
-    app.layout.getRegion('modal').currentView?.onModalExit?.()
-    return closeModal()
+    const region = app.layout.getRegion('modal')
+    region.currentView?.onModalExit?.()
+    region.currentComponent?.onModalExit?.()
+    removeCurrentComponent(region)
+    closeModal()
   }
 
   const setWidthJumpPreventingRules = function (maxWidth, rightOffset) {
@@ -125,8 +130,17 @@ export default function () {
     modalOpen()
   }
 
+  const showModalSpinner = () => {
+    app.layout.showChildComponent('modal', Spinner, {
+      props: {
+        center: true,
+      }
+    })
+  }
+
   app.commands.setHandlers({
     'modal:open': modalOpen,
+    'modal:spinner': showModalSpinner,
     'modal:close': closeModal,
     'modal:html': modalHtml
   })

@@ -56,16 +56,18 @@ export default Marionette.View.extend({
     if (this.isIntact()) this.showMentions(data)
   },
 
-  showPublicItems () {
+  async showPublicItems () {
     const limit = window.screen.width < 470 ? 7 : 15
     showPaginatedItems({
-      request: 'items:getRecentPublic',
       layout: this,
       regionName: 'previewColumns',
+      requestName: 'items:getRecentPublic',
+      requestParams: {
+        lang: app.user.lang,
+        assertImage: true,
+      },
       allowMore: false,
       limit,
-      lang: app.user.lang,
-      assertImage: true
     })
     .catch(this.hidePublicItems.bind(this))
     .catch(log_.Error('hidePublicItems err'))

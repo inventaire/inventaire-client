@@ -105,6 +105,20 @@
   &.selected, &.active, &:hover{
     background-color: white;
     border-color: $color;
-    i{ color: $color; }
+    i, :global(i){ color: $color; }
   }
+}
+
+@mixin text-ellipsis(){
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@mixin layout-type-label(){
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: normal;
+  color: $grey;
 }
