@@ -54,7 +54,7 @@
     {/if}
   </label>
   <Dropdown
-    alignButtonAndDropdownWidth={true}
+    alignDropdownWidthOnButton={true}
     clickOnContentShouldCloseDropdown={true}
     {buttonId}
     buttonRole="listbox"

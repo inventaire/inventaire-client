@@ -40,7 +40,7 @@
     <label for={buttonId} class="select-dropdown-label">{buttonLabel}</label>
   {/if}
   <Dropdown
-    alignButtonAndDropdownWidth={true}
+    alignButtonWidthOnDropdown={true}
     clickOnContentShouldCloseDropdown={true}
     {buttonId}
     buttonRole="listbox"
