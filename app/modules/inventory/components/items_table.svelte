@@ -74,7 +74,9 @@
         >
         {@html icon('pencil')}
         <span class="button-label">{I18n('edit selection')}</span>
-        <span class="selectionCounter count"></span>
+        {#if !emptySelection}
+          <span class="count">({selectedItemsIds.length})</span>
+        {/if}
       </button>
     </div>
   {/if}
