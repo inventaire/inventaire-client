@@ -42,7 +42,9 @@
 </script>
 
 <div class="paginated-items">
-  <svelte:component this={Component} {items} {waiting} {...componentProps} />
+  {#if items?.length > 0 || true}
+    <svelte:component this={Component} {items} {waiting} {...componentProps} />
+  {/if}
   <Flash state={flash} />
   <div class="bottom"
     use:viewport
