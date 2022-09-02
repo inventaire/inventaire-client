@@ -5,6 +5,8 @@
   import Flash from '#lib/components/flash.svelte'
   import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
+  import Link from '#lib/components/link.svelte'
+
   const dispatch = createEventDispatcher()
 
   export let importer
@@ -27,7 +29,7 @@
 <div class="importer-data">
   <p class="importer-name">
     {#if link}
-      <a name={label} href={link}>{label}</a>
+      <Link url={link} title={label} text={label} />
     {:else}
       <span title={label}>{label}</span>
     {/if}
@@ -67,7 +69,7 @@
     padding: auto 0;
   }
   p{
-    a, :global(a) {
+    :global(a){
       color: #008;
       text-decoration: underline;
     }
