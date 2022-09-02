@@ -8,6 +8,7 @@ import images from './images.js'
 import img from './img.js'
 import invitations from './invitations.js'
 import items from './items.js'
+import transactions from './transactions.js'
 import oauth from './oauth.js'
 import search from './search.js'
 import shelves from './shelves.js'
@@ -34,7 +35,7 @@ export default {
   shelves,
   tasks,
   tests: endpoint('tests', true),
-  transactions: endpoint('transactions', true),
+  transactions,
   user: endpoint('user', true),
   users,
 

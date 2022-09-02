@@ -24,7 +24,7 @@ export default UserCommons.extend({
     // Only listening for first change (when the main user data arrive)
     // as next changes happening in deep objects won't trigger this event anyway
     this.once('change:snapshot', this.setAllInventoryStats.bind(this))
-    this.on('items:change', this.updateItemsCounters.bind(this))
+    // this.on('items:change', this.updateItemsCounters.bind(this))
     this.on('shelves:change', this.updateShelvesCounter.bind(this))
 
     // user._id should only change once from undefined to defined

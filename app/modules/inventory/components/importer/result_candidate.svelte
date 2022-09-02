@@ -5,7 +5,7 @@
 
   export let candidate
   export let processedCandidates
-  export let listing
+  export let visibility
   export let transaction
 
   let { isbnData, edition, works, authors, error } = candidate
@@ -23,7 +23,7 @@
     <CandidateActions
       bind:candidate
       bind:processedCandidates
-      {listing}
+      {visibility}
       {transaction}
     />
   </div>

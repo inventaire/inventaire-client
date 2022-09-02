@@ -8,7 +8,7 @@
   import { isOpenedOutside } from '#lib/utils'
 
   export let candidate
-  export let listing
+  export let visibility
   export let transaction
 
   let retrying, itemPath, flash
@@ -23,7 +23,7 @@
       candidate = candidateWithEntities
     }
 
-    await createItem(edition, details, transaction, listing)
+    await createItem(edition, details, transaction, visibility)
     .then(newItem => {
       if (newItem) {
         delete candidate.error

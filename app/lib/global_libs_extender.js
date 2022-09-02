@@ -165,13 +165,14 @@ Marionette.View.prototype.showChildComponent = function (regionName, Component, 
   removeCurrentComponent(region)
   if (region.currentView) region.currentView.destroy()
   const el = (typeof region.el === 'string') ? document.querySelector(region.el) : region.el
+  assert_.object(el)
   options.target = el
   const component = new Component(options)
   region.currentComponent = component
   return component
 }
 
-function removeCurrentComponent (region) {
+export function removeCurrentComponent (region) {
   if (region.currentComponent) {
     region.currentComponent.$destroy()
     delete region.currentComponent

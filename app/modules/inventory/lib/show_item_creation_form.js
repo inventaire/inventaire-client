@@ -16,8 +16,12 @@ export default async params => {
 
   if (type !== 'edition') throw new Error(`invalid entity type: ${type}`)
 
-  const { default: ItemCreationForm } = await import('../views/form/item_creation')
-  app.layout.showChildView('main', new ItemCreationForm(params))
+  const { default: ItemCreationForm } = await import('#inventory/components/item_creation_form.svelte')
+  app.layout.showChildComponent('main', ItemCreationForm, {
+    props: {
+      entity: entity.toJSON()
+    }
+  })
   app.navigate(pathname)
 }
 

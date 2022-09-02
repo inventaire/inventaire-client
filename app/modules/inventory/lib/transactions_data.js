@@ -2,37 +2,49 @@
 export const transactionsDataFactory = () => ({
   giving: {
     id: 'giving',
+    name: 'giving',
     icon: 'heart',
     label: 'giving',
     labelShort: "I'm giving it",
-    labelPersonalized: 'giving_personalized_strong',
+    labelPersonalized: 'giving_personalized',
+    labelPersonalizedStrong: 'giving_personalized_strong',
+    creationLabel: 'giving',
     unicodeIcon: '&#xf004;'
   },
 
   lending: {
     id: 'lending',
+    name: 'lending',
     icon: 'refresh',
     label: 'lending',
     labelShort: 'I can lend it',
-    labelPersonalized: 'lending_personalized_strong',
+    labelPersonalized: 'lending_personalized',
+    labelPersonalizedStrong: 'lending_personalized_strong',
+    creationLabel: 'lending',
     unicodeIcon: '&#xf021;'
   },
 
   selling: {
     id: 'selling',
+    name: 'selling',
     icon: 'money',
     label: 'selling',
     labelShort: "I'm selling it",
-    labelPersonalized: 'selling_personalized_strong',
+    labelPersonalized: 'selling_personalized',
+    labelPersonalizedStrong: 'selling_personalized_strong',
+    creationLabel: 'selling',
     unicodeIcon: '&#xf0d6;'
   },
 
   inventorying: {
     id: 'inventorying',
+    name: 'inventorying',
     icon: 'cube',
     label: 'in my inventory',
     labelShort: 'in my inventory',
-    labelPersonalized: 'inventorying_personalized_strong',
+    labelPersonalized: 'inventorying_personalized',
+    labelPersonalizedStrong: 'inventorying_personalized_strong',
+    creationLabel: 'just_inventorize_it',
     unicodeIcon: '&#xf1b2;'
   }
 })

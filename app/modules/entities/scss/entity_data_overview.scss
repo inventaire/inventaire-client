@@ -1,7 +1,0 @@
-@import '#general/scss/utils';
-.entityDataOverview{
-  @include display-flex(row);
-  .data{
-    padding: 1em;
-  }
-}

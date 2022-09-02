@@ -3,7 +3,7 @@
   import { icon } from '#lib/utils'
   import autosize from 'autosize'
   import { onMount } from 'svelte'
-  import VisibilitySelector from '#general/components/visibility_selector.svelte'
+  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { getSomeColorHexCodeSuggestion } from '#lib/images'
   import Flash from '#lib/components/flash.svelte'
   import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
@@ -79,7 +79,7 @@
     <textarea type="text" bind:value={description} use:autosize></textarea>
   </label>
 
-  <VisibilitySelector bind:visibility />
+  <VisibilitySelector bind:visibility showTip={true} />
 
   <label>
     {i18n('color')}

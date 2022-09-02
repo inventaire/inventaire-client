@@ -1,10 +1,10 @@
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 
-export const createItemFromCandidate = async ({ candidate, transaction, listing, shelvesIds }) => {
+export const createItemFromCandidate = async ({ candidate, transaction, visibility, shelvesIds }) => {
   const { edition, details, notes } = candidate
   try {
-    const item = await createItem(edition, details, notes, transaction, listing, shelvesIds)
+    const item = await createItem(edition, details, notes, transaction, visibility, shelvesIds)
     candidate.item = item
   } catch (err) {
     // Do not throw to not crash the whole chain
@@ -13,12 +13,12 @@ export const createItemFromCandidate = async ({ candidate, transaction, listing,
   }
 }
 
-export const createItem = async (edition, details, notes, transaction, listing, shelves) => {
+export const createItem = async (edition, details, notes, transaction, visibility, shelves) => {
   if (!edition?.uri) return
   const { uri: editionUri } = edition
   const itemData = {
     transaction,
-    listing,
+    visibility,
     notes,
     details,
     shelves,

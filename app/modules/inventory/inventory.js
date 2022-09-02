@@ -7,6 +7,7 @@ import showItemCreationForm from './lib/show_item_creation_form.js'
 import itemActions from './lib/item_actions.js'
 import { parseQuery, currentRoute, buildPath } from '#lib/location'
 import error_ from '#lib/error'
+import { getAuthorsByProperty } from '#inventory/components/lib/item_show_helpers'
 
 export default {
   initialize () {
@@ -134,35 +135,63 @@ const showInventory = async options => {
 }
 
 const showItemsList = async collection => {
-  const { default: ItemsCascade } = await import('./views/items_cascade.js')
-  app.layout.showChildView('main', new ItemsCascade({ collection }))
+  const { default: ItemsCascade } = await import('#inventory/components/items_cascade.svelte')
+  app.layout.showChildComponent('main', ItemsCascade, {
+    props: {
+      items: getItemsListFromItemsCollection(collection)
+    }
+  })
+}
+
+export const getItemsListFromItemsCollection = collection => {
+  return collection.models.map(model => {
+    const item = model.toJSON()
+    item.user = model.user.toJSON()
+    return item
+  })
 }
 
 const showItemModal = async (model, fallback) => {
   assert_.object(model)
 
-  const previousRoute = currentRoute()
   // Do not scroll top as the modal might be displayed down at the level
   // where the item show event was triggered
   app.navigateFromModel(model, { preventScrollTop: true })
   const newRoute = currentRoute()
+  const previousRoute = Backbone.history.last.find(pathname => pathname !== newRoute)
 
   const navigateAfterModal = function () {
     if (currentRoute() !== newRoute) return
-    if (previousRoute === newRoute) {
+    if (!previousRoute || previousRoute === newRoute) {
       app.execute('show:inventory:user', model.get('owner'))
+    } else {
+      app.navigate(previousRoute, { preventScrollTop: true })
     }
-    app.navigate(previousRoute, { preventScrollTop: true })
   }
 
   if (!fallback) fallback = navigateAfterModal
 
+  app.execute('modal:open', 'large')
+  app.execute('modal:spinner')
+
   try {
-    const [ { default: ItemShowLayout } ] = await Promise.all([
-      await import('./views/item_show_layout.js'),
-      model.grabWorks()
+    const [ { default: ItemShow } ] = await Promise.all([
+      await import('#inventory/components/item_show.svelte'),
+      model.waitForEntity,
+      model.grabWorks(),
+      model.waitForUser,
     ])
-    app.layout.showChildView('modal', new ItemShowLayout({ model, fallback }))
+    const authorsByProperty = await getAuthorsByProperty(model.works)
+    app.layout.showChildComponent('modal', ItemShow, {
+      props: {
+        item: model.toJSON(),
+        user: model.user.toJSON(),
+        entity: model.entity.toJSON(),
+        works: model.works.map(work => work.toJSON()),
+        authorsByProperty,
+        fallback,
+      }
+    })
   } catch (err) {
     app.execute('show:error', err)
   }

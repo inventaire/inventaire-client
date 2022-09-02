@@ -11,7 +11,7 @@
 
   export let candidates
   export let transaction
-  export let listing
+  export let visibility
   export let shelvesIds
   let flash
   let importingCandidates
@@ -66,7 +66,7 @@
     if (!nextCandidate) return
     processedItemsCount += 1
     if (nextCandidate.checked && !nextCandidate.error) {
-      await createItemFromCandidate({ candidate: nextCandidate, transaction, listing, shelvesIds })
+      await createItemFromCandidate({ candidate: nextCandidate, transaction, visibility, shelvesIds })
       processedCandidates = [ ...processedCandidates, nextCandidate ]
     }
     await createItemsSequentially()
@@ -92,7 +92,7 @@
   {/if}
   {#if processedCandidates.length > 0}
     <div bind:this={importResultsElement}>
-      <ImportResults  {transaction} {listing} bind:processedCandidates/>
+      <ImportResults  {transaction} {visibility} bind:processedCandidates/>
     </div>
   {/if}
 </div>

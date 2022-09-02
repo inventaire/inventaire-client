@@ -3,7 +3,7 @@
   import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
   import { icon } from '#lib/utils'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
-  import { onChange } from '#lib/svelte'
+  import { onChange } from '#lib/svelte/svelte'
   import { waitForAttribute } from '#lib/promises'
   import Flash from '#lib/components/flash.svelte'
   import { getUserExistingItemsPathname, statusContents } from '#inventory/components/importer/lib/candidate_row_helpers'

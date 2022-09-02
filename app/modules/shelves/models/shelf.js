@@ -1,6 +1,6 @@
 import error_ from '#lib/error'
 import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'
-import { getCorrespondingListing, getIconLabel } from '#general/lib/visibility'
+import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
 
 export default Backbone.Model.extend({
   initialize (attrs) {
@@ -25,11 +25,11 @@ export default Backbone.Model.extend({
     // The visibility is only known for the main user's shelves
     const visibility = this.get('visibility')
     if (visibility != null) {
-      const correspondingListing = getCorrespondingListing(visibility)
-      const listingKeys = app.user.listings.data[correspondingListing]
+      const visibilitySummary = getVisibilitySummary(visibility)
+      const visibilitySummaryData = visibilitySummariesData[visibilitySummary]
       this.set({
-        icon: listingKeys.icon,
-        label: getIconLabel(visibility)
+        icon: visibilitySummaryData.icon,
+        label: getVisibilitySummaryLabel(visibility)
       })
     }
 

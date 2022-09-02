@@ -29,7 +29,7 @@ const changeOwnerIfOneWay = function (transaction, item) {
       owner: transaction.get('requester'),
       details: '',
       transaction: 'inventorying',
-      listing: 'private'
+      visibility: [],
     })
   }
 }
