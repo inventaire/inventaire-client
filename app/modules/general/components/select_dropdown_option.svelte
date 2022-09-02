@@ -51,10 +51,11 @@
   }
   .text{
     flex: 1 1 0;
-    text-align: center;
+    text-align: initial;
     white-space: pre-wrap;
     line-height: 1rem;
     margin: 0 0.2em;
+    padding-left: 0.2em;
   }
   .count{
     color: $grey;
