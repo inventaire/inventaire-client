@@ -5,12 +5,13 @@
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
+  import Spinner from '#components/spinner.svelte'
 
   app.execute('modal:open', 'large')
 
   export let selectedItemsIds
 
-  let transaction, visibility, shelves
+  let transaction, visibility, shelves, waitingForSave
 
   async function saveAttribute (attribute, value) {
     if (value != null) {
@@ -23,10 +24,15 @@
   }
 
   async function save () {
+    waitingForSave = _save()
+    await waitingForSave
+    app.execute('modal:close')
+  }
+
+  async function _save () {
     await saveAttribute('transaction', transaction)
     await saveAttribute('visibility', visibility)
     await saveAttribute('shelves', shelves)
-    app.execute('modal:close')
   }
 
   function deleteItems () {
@@ -111,22 +117,31 @@
   <div class="buttons">
     <button
       class="cancel"
+      disabled={waitingForSave != null}
       on:click={() => app.execute('modal:close')}
       >
       {@html icon('close')}
       <span>{I18n('cancel')}</span>
     </button>
 
-    <button class="delete" on:click={deleteItems}>
+    <button
+      class="delete"
+      disabled={waitingForSave != null}
+      on:click={deleteItems}>
       {@html icon('trash-o')}
       <span>{I18n('delete')}</span>
     </button>
 
     <button
       class="done success-button"
+      disabled={waitingForSave != null}
       on:click={save}
       >
-      {@html icon('check')}
+      {#if waitingForSave}
+        <Spinner />
+      {:else}
+        {@html icon('check')}
+      {/if}
       <span>{I18n('save')}</span>
     </button>
   </div>
