@@ -108,6 +108,10 @@
     &, .count{
       color: white;
     }
+    &:disabled{
+      background-color: white;
+      color: $grey;
+    }
   }
 
   /*Medium and Large screens*/
