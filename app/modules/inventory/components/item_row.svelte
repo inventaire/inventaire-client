@@ -46,7 +46,7 @@
 
   <div class="modes">
     {#if !isPrivate}
-      <div class="transaction {currentTransaction.id}" title="{i18n(currentTransaction.label)}">
+      <div class="transaction {currentTransaction.id}" title="{i18n(currentTransaction.labelPersonalized, item.user)}">
         {@html icon(currentTransaction.icon)}
       </div>
     {/if}

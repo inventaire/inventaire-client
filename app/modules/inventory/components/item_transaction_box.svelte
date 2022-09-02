@@ -73,6 +73,7 @@
                 role="menuitem"
                 class:selected={transaction.id === currentTransaction.id}
                 on:click={() => updateTransaction(transaction)}
+                title={I18n(transaction.labelShort)}
                 >
                 {@html icon(transaction.icon)} {i18n(transaction.label)}
               </button>

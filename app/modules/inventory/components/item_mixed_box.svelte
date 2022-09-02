@@ -25,8 +25,12 @@
   </a>
 </div>
 <div class="label-box">
-  <a href={pathname} class="label" on:click={loadInternalLink}>
-    {@html i18n(currentTransaction.labelPersonalized, user)}
+  <a
+    href={pathname}
+    class="label"
+    on:click={loadInternalLink}
+  >
+    {@html i18n(currentTransaction.labelPersonalizedStrong, user)}
   </a>
   {#if showDistance && user.distanceFromMainUser}
     <span class="distance">{i18n('km_away', { distance: user.distanceFromMainUser })}</span>
