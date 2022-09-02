@@ -28,13 +28,19 @@
 
 <div class="items-table">
   {#if isMainUser}
-    <fieldset id="selectable-items">
+    <ul id="selectable-items">
       {#each items as item (item._id)}
-        <ItemRow bind:item >
-          <input slot="checkbox" type="checkbox" bind:group={selectedItemsIds} value={item._id}>
-        </ItemRow>
+        <li>
+          <ItemRow bind:item >
+            <input
+              slot="checkbox"
+              type="checkbox"
+              bind:group={selectedItemsIds} value={item._id}
+            />
+          </ItemRow>
+        </li>
       {/each}
-    </fieldset>
+    </ul>
   {:else}
     <ul>
       {#each items as item (item._id)}
