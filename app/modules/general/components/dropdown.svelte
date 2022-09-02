@@ -6,7 +6,8 @@
   export let buttonTitle
   export let align = null
   export let widthReferenceEl
-  export let alignButtonAndDropdownWidth = false
+  export let alignDropdownWidthOnButton = false
+  export let alignButtonWidthOnDropdown = false
   export let clickOnContentShouldCloseDropdown = false
   export let buttonId = null
   export let buttonRole = null
@@ -14,6 +15,7 @@
 
   let showDropdown = false, positionned = false
   let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft, dropdownWrapperEl
+  let buttonWidth, dropdownWidth
   const transitionDuration = 100
 
   function onButtonClick () {
@@ -41,10 +43,6 @@
       dropdownPositionLeft = (buttonRect.width / 2) - (dropdownRect.width / 2)
     }
     positionned = true
-  }
-
-  function getReferenceElWidth () {
-    return widthReferenceEl.getBoundingClientRect().width
   }
 
   function scrollToDropdownIfNeeded () {
@@ -85,7 +83,15 @@
     }
   }
 
-  $: if (alignButtonAndDropdownWidth) widthReferenceEl = buttonWithDropdown
+  $: {
+    if (alignDropdownWidthOnButton && buttonWithDropdown) {
+      dropdownWidth = `${buttonWithDropdown.getBoundingClientRect().width}px`
+    } else if (alignButtonWidthOnDropdown && dropdown) {
+      buttonWidth = `${dropdown.getBoundingClientRect().width}px`
+    } else if (widthReferenceEl) {
+      dropdownWidth = `${widthReferenceEl.getBoundingClientRect().width}px`
+    }
+  }
 </script>
 
 <svelte:body on:click={onOutsideClick} />
@@ -103,6 +109,7 @@
     aria-haspopup="menu"
     role={buttonRole}
     disabled={buttonDisabled}
+    style:width={buttonWidth}
     bind:this={buttonWithDropdown}
     on:click={onButtonClick}
     >
@@ -116,7 +123,7 @@
       style:visibility={positionned ? 'visible' : 'hidden'}
       style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
       style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
-      style:width={widthReferenceEl ? `${getReferenceElWidth()}px` : null }
+      style:width={dropdownWidth}
       role="menu"
       transition:slide={{ duration: transitionDuration }}
       on:click={onContentClick}
