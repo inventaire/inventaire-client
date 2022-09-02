@@ -86,7 +86,10 @@
   }
   .display-controls{
     flex: 0 0 auto;
-    @include display-flex(row, center, center);
+    @include display-flex(row, center, flex-start);
+    :global(.select-dropdown){
+      @include display-flex(row, center, flex-start);
+    }
     :global(.select-dropdown-label){
       font-size: 1rem;
     }
