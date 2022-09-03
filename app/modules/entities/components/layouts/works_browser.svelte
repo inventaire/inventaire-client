@@ -61,8 +61,10 @@
     @include radius;
     padding: 0.5em;
     @include display-flex(row, center, flex-start);
-    :global(.select-dropdown){
+    :global(.select-dropdown), :global(.dropdown-content){
       width: 10em;
+    }
+    :global(.select-dropdown){
       margin-right: 1em;
     }
   }
