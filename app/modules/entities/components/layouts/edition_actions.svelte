@@ -14,26 +14,31 @@
   $: editionItems = itemsByEditions[editionUri]
 </script>
 
-<div class="edition-actions-wrapper">
-  <Link
-    {url}
-    text={i18n('add to my inventory')}
-    icon='plus'
-    classNames="action-button tiny-button"
-  />
-</div>
-{#if editionItems}
-  <div class="link-wrapper">
-    <!-- insert itemsLists deeplink -->
+<div class="right-section">
+  <div class="edition-actions-wrapper">
     <Link
-      url={`/entity/${uri}`}
-      text={getCounterText(editionItems)}
-      dark={true}
+      {url}
+      text={i18n('add to my inventory')}
+      icon='plus'
+      classNames="action-button tiny-button"
     />
   </div>
-{/if}
+  {#if editionItems}
+    <div class="link-wrapper">
+      <!-- insert itemsLists deeplink -->
+      <Link
+        url={`/entity/${uri}`}
+        text={getCounterText(editionItems)}
+        dark={true}
+      />
+    </div>
+  {/if}
+</div>
 <style lang="scss">
   @import '#general/scss/utils';
+  .right-section{
+    @include display-flex(column, center, flex-end);
+  }
   .edition-actions-wrapper{
     margin-top: 0.5em;
 
