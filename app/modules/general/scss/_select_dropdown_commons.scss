@@ -1,0 +1,67 @@
+@import '#general/scss/utils';
+
+.select-dropdown{
+  :global(.fa){
+    margin-right: 0.5em;
+  }
+  :global(.dropdown-button){
+    font-weight: normal;
+    @include shy-border;
+    padding: 0;
+    &:focus{
+      border-color: $glow;
+    }
+  }
+  &:not(.has-image){
+    [slot="button-inner"], [role="option"]{
+      padding: 0.5em;
+    }
+  }
+  &.has-image{
+    [slot="button-inner"], [role="option"]{
+      padding: 0;
+    }
+  }
+}
+label{
+  text-align: center;
+}
+[slot="button-inner"], [role="option"]{
+  @include bg-hover(white, 5%);
+  @include display-flex(row, center, center);
+}
+[slot="button-inner"]{
+  position: relative;
+}
+.reset{
+  position: absolute;
+  width: 2em;
+  height: 2em;
+  right: 0;
+  top: 0;
+  text-align: center;
+  @include shy(0.9);
+  @include bg-hover(white);
+  padding: 0;
+  :global(.fa-close){
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+  }
+}
+[slot="dropdown-content"]{
+  @include display-flex(column, stretch);
+  background-color: white;
+  @include shy-border;
+  @include radius-bottom;
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+[role="option"]{
+  @include radius(0);
+  border-bottom: 1px solid #ddd;
+  &[aria-selected=true]{
+    background-color: darken(white, 5%);
+  }
+}

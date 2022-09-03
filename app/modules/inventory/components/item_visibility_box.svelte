@@ -61,7 +61,7 @@
     buttonTitle={i18n('Select who can see this item')}
     clickOnContentShouldCloseDropdown={clickOnContentShouldCloseDropdown}
     {widthReferenceEl}
-    alignButtonAndDropdownWidth={large}
+    alignDropdownWidthOnButton={large}
     >
     <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->
     <!-- See See https://github.com/sveltejs/svelte/issues/1594 -->
