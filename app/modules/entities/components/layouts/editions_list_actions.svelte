@@ -4,7 +4,7 @@
   import { hasSelectedLang } from '#entities/components/lib/claims_helpers'
   import { getLangEntities, getPublishersEntities, getPublicationYears, hasPublisher, hasPublicationYear } from '#entities/components/lib/editions_list_actions_helpers'
   import Flash from '#lib/components/flash.svelte'
-  import { onChange } from '#lib/svelte'
+  import { onChange } from '#lib/svelte/svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { getContext } from 'svelte'
 
