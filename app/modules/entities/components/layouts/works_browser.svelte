@@ -1,6 +1,7 @@
 <script>
   import SelectDropdown from '#components/select_dropdown.svelte'
   import Flash from '#lib/components/flash.svelte'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { I18n } from '#user/lib/i18n'
   import WorksBrowserFacets from '#entities/components/layouts/works_browser_facets.svelte'
   import WorksBrowserTextFilter from '#entities/components/layouts/works_browser_text_filter.svelte'
@@ -25,17 +26,19 @@
 <Flash state={flash} />
 
 <div class="works-browser">
-  <div class="controls">
-    <WorksBrowserFacets
-      works={allWorks}
-      bind:facets
-      bind:facetsSelectors
-      bind:facetsSelectedValues
-      bind:flash
-    />
-    <WorksBrowserTextFilter bind:textFilterUris />
-    <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
-  </div>
+  {#if isNonEmptyArray(allWorks)}
+    <div class="controls">
+      <WorksBrowserFacets
+        works={allWorks}
+        bind:facets
+        bind:facetsSelectors
+        bind:facetsSelectedValues
+        bind:flash
+      />
+      <WorksBrowserTextFilter bind:textFilterUris />
+      <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
+    </div>
+  {/if}
 
   {#if sections}
     {#each sections as section}
