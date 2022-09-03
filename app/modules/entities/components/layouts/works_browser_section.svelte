@@ -1,7 +1,7 @@
 <script>
   import WorkListRow from '#entities/components/layouts/work_list_row.svelte'
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { onChange } from '#lib/svelte/svelte'
   import { flip } from 'svelte/animate'
@@ -31,20 +31,24 @@
     <h3>{I18n(label)}</h3>
   {/if}
 
-  <ul
-    class:grid={displayMode === 'grid'}
-    class:list={displayMode === 'list'}
-    >
-    {#each displayedWorks as work (work.uri)}
-      <li animate:flip={{ duration: 300 }}>
-        {#if displayMode === 'grid'}
-          <WorkGridCard {work} />
-        {:else}
-          <WorkListRow {work} />
-        {/if}
-      </li>
-    {/each}
-  </ul>
+  {#if displayedWorks.length > 0}
+    <ul
+      class:grid={displayMode === 'grid'}
+      class:list={displayMode === 'list'}
+      >
+      {#each displayedWorks as work (work.uri)}
+        <li animate:flip={{ duration: 300 }}>
+          {#if displayMode === 'grid'}
+            <WorkGridCard {work} />
+          {:else}
+            <WorkListRow {work} />
+          {/if}
+        </li>
+      {/each}
+    </ul>
+  {:else}
+    <p class="no-work">{i18n('There is nothing here')}</p>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -68,5 +72,10 @@
     &.grid{
       @include display-flex(row, center, flex-start, wrap);
     }
+  }
+  .no-work{
+    text-align: center;
+    color: $grey;
+    margin: 1em;
   }
 </style>
