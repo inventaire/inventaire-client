@@ -16,7 +16,6 @@
   title={work.title}
   class="work-grid-card"
   class:serie={type === 'serie'}
-  class:has-cover={work.images.length > 0}
   >
   <ImagesCollage
     imagesUrls={work.images}
@@ -49,25 +48,16 @@
     &:hover{
       @include shadow-box;
     }
-    &.has-cover{
+    position: relative;
+    .info{
+      @include display-flex(column, stretch, center);
+      // Set a position so that the positionned image collage still appears below
+      // Cf https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/Adding_z-index
       position: relative;
-      .info{
-        @include display-flex(column, stretch, center);
-        // Set a position so that the positionned image collage still appears below
-        // Cf https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/Adding_z-index
-        position: relative;
-        height: 4rem;
-      }
-      :global(.images-collage){
-        @include position(absolute, 0, 0, 0, 0);
-      }
+      height: 4rem;
     }
-    &:not(.has-cover){
-      background-color: $soft-grey;
-      .info{
-        @include display-flex(column, stretch, center);
-        flex: 1;
-      }
+    :global(.images-collage){
+      @include position(absolute, 0, 0, 0, 0);
     }
   }
   .info{
