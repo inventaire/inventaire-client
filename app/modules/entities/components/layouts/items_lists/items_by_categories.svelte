@@ -44,7 +44,7 @@
 {#if hasActiveFilter}
   <div class="filters-wrapper">
     <div class="filters">
-      <span>{i18n('Active filters:')}</span>
+      <span>{I18n('active filters')}</span>
       {#if $filters.selectedLangLabel}
         <button
           class="tiny-button grey"
@@ -118,6 +118,9 @@
     @include radius;
     align-self: stretch;
     @include display-flex(row, center, flex-start);
+    span{
+      color: $label-grey;
+    }
     button{
       margin: 0.5em;
       padding: 0.3em 0.4em 0.3em 0;
