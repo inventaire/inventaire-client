@@ -3,7 +3,7 @@
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import { I18n } from '#user/lib/i18n'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
-  import { onChange } from '#lib/svelte'
+  import { onChange } from '#lib/svelte/svelte'
   import { flip } from 'svelte/animate'
   import { setIntersection } from '#lib/utils'
 
