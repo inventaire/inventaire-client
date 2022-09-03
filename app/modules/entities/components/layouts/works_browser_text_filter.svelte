@@ -17,7 +17,7 @@
   let textFilter, waiting
 
   async function search () {
-    if (!textFilter) {
+    if (textFilter == null || textFilter.trim().length === 0) {
       textFilterUris = null
       return
     }
