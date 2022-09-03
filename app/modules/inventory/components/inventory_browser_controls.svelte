@@ -151,7 +151,7 @@
   @media screen and (min-width: $small-screen) {
     .controls:not(:empty), .filters{
       @include display-flex(row, center, center);
-      padding: 0.2em 0.5em;
+      padding: 0.2em 0.5em 0.2em 0.2em;
     }
     .selectors{
       @include display-flex(row, center, center);
