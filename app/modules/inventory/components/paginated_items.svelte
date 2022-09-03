@@ -2,10 +2,9 @@
   import Flash from '#lib/components/flash.svelte'
   import viewport from '#lib/components/actions/viewport'
   import { wait } from '#lib/promises'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let Component, componentProps, pagination
-
-  const { fetchMore, hasMore, allowMore = true } = pagination
 
   let items = [], flash, waiting
 
@@ -14,8 +13,6 @@
       .then(() => items = pagination.items)
       .catch(err => flash = err)
   }
-
-  fetch()
 
   let bottomElInView = false
   async function bottomIsInViewport () {
@@ -33,10 +30,21 @@
   function bottomLeftViewport () {
     bottomElInView = false
   }
+
+  let fetchMore, hasMore, allowMore
+  function reinitializePagination () {
+    if (!pagination) return
+    ;({ fetchMore, hasMore, allowMore } = pagination)
+    fetch()
+  }
+
+  $: onChange(pagination, reinitializePagination)
 </script>
 
 <div class="paginated-items">
-  <svelte:component this={Component} {items} {waiting} {...componentProps} />
+  {#if items?.length > 0 || true}
+    <svelte:component this={Component} {items} {waiting} {...componentProps} />
+  {/if}
   <Flash state={flash} />
   <div class="bottom"
     use:viewport

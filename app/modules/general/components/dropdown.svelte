@@ -1,15 +1,21 @@
 <script>
   import { isFunction } from 'underscore'
   import { slide } from 'svelte/transition'
+  import getActionKey from '#lib/get_action_key'
 
   export let buttonTitle
   export let align = null
   export let widthReferenceEl
-  export let alignButtonAndDropdownWidth = false
+  export let alignDropdownWidthOnButton = false
+  export let alignButtonWidthOnDropdown = false
   export let clickOnContentShouldCloseDropdown = false
+  export let buttonId = null
+  export let buttonRole = null
+  export let buttonDisabled = false
 
   let showDropdown = false, positionned = false
   let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft, dropdownWrapperEl
+  let buttonWidth, dropdownWidth
   const transitionDuration = 100
 
   function onButtonClick () {
@@ -39,10 +45,6 @@
     positionned = true
   }
 
-  function getReferenceElWidth () {
-    return widthReferenceEl.getBoundingClientRect().width
-  }
-
   function scrollToDropdownIfNeeded () {
     if (!dropdown) return
     const dropdownRect = dropdown.getBoundingClientRect()
@@ -52,10 +54,17 @@
   }
 
   function onOutsideClick (e) {
-    if (!dropdownWrapperEl.contains(e.target)) {
+    if (!(dropdownWrapperEl.contains(e.target) || isButtonLabel(e.target))) {
       showDropdown = false
     }
   }
+
+  const isButtonLabel = target => {
+    const labelEl = document.querySelector(`label[for="${buttonId}"]`)
+    if (!labelEl) return false
+    return target === labelEl || labelEl.contains(target)
+  }
+
   function onContentClick (e) {
     if (isFunction(clickOnContentShouldCloseDropdown)) {
       if (clickOnContentShouldCloseDropdown(e)) {
@@ -66,7 +75,23 @@
     }
   }
 
-  $: if (alignButtonAndDropdownWidth) widthReferenceEl = buttonWithDropdown
+  function onKeyDown (e) {
+    const key = getActionKey(e)
+    if (key === 'esc') {
+      showDropdown = false
+      e.stopPropagation()
+    }
+  }
+
+  $: {
+    if (alignDropdownWidthOnButton && buttonWithDropdown) {
+      dropdownWidth = `${buttonWithDropdown.getBoundingClientRect().width}px`
+    } else if (alignButtonWidthOnDropdown && dropdown) {
+      buttonWidth = `${dropdown.getBoundingClientRect().width}px`
+    } else if (widthReferenceEl) {
+      dropdownWidth = `${widthReferenceEl.getBoundingClientRect().width}px`
+    }
+  }
 </script>
 
 <svelte:body on:click={onOutsideClick} />
@@ -75,11 +100,16 @@
 <div
   class="has-dropdown"
   bind:this={dropdownWrapperEl}
+  on:keydown={onKeyDown}
   >
   <button
     class="dropdown-button"
     title={buttonTitle}
+    id={buttonId}
     aria-haspopup="menu"
+    role={buttonRole}
+    disabled={buttonDisabled}
+    style:width={buttonWidth}
     bind:this={buttonWithDropdown}
     on:click={onButtonClick}
     >
@@ -93,7 +123,7 @@
       style:visibility={positionned ? 'visible' : 'hidden'}
       style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
       style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
-      style:width={widthReferenceEl ? `${getReferenceElWidth()}px` : null }
+      style:width={dropdownWidth}
       role="menu"
       transition:slide={{ duration: transitionDuration }}
       on:click={onContentClick}
@@ -112,10 +142,13 @@
   .dropdown-button{
     flex: 1;
   }
+  button:disabled{
+    opacity: 0.6;
+  }
   .dropdown-content{
     position: absolute;
     top: 100%;
-    z-index: 1;
+    z-index: 10;
     white-space: nowrap;
     // Add a bit of padding so that there will be a bit of margin down
     // when scrolling to get the dropdown content in the viewport

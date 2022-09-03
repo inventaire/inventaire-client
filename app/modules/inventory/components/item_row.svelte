@@ -39,7 +39,7 @@
     </div>
     <div class="info">
       <p class="title">{title}</p>
-      <p class="authors">{authors}</p>
+      <p class="authors">{authors || ''}</p>
     </div>
     <p class="details">{details}</p>
   </a>

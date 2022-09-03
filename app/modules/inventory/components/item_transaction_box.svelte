@@ -42,7 +42,7 @@
       clickOnContentShouldCloseDropdown={true}
       align="left"
       {widthReferenceEl}
-      alignButtonAndDropdownWidth={large}
+      alignDropdownWidthOnButton={large}
       >
       <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->
       <!-- See See https://github.com/sveltejs/svelte/issues/1594 -->
