@@ -91,7 +91,7 @@
     padding: 0.5em;
   }
   .filters-title{
-    font-weight: bold;
+    color: $label-grey;
     margin-right: 0.5em;
   }
   .select-all-button{
