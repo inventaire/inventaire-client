@@ -92,7 +92,6 @@
   .facet-selector{
     position: relative;
     min-width: 12em;
-    margin: 0.8em 0.5em 0.2em 0.5em;
     // Always set a border, only change its color when needed
     // to avoid dimensions changes
     border: 1px solid transparent;
