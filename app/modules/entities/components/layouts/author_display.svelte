@@ -40,7 +40,7 @@
   a{
     @include display-flex(row, center, flex-start);
     background-color: $off-white;
-    min-height: 3.5em;
+    min-height: 4em;
     margin-bottom: 0.5em;
     &:hover{
       opacity: 0.8;
