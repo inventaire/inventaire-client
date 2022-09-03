@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import InventoryBrowserFacet from '#inventory/components/inventory_browser_facet.svelte'
   import Spinner from '#components/spinner.svelte'
@@ -27,6 +27,7 @@
       aria-controls="inventory-browser-controls"
       >
       {@html icon('cog')}
+      {i18n('advanced options')}
       {@html icon('caret-down')}
     </button>
   {/if}
@@ -99,8 +100,8 @@
     @include display-flex(row, center, center);
     @include bg-hover($off-white);
     @include radius;
-    width: 4em;
     padding: 0.5em;
+    color: $grey;
     :global(.fa){
       font-size: 1.4rem;
       padding: 0;
