@@ -126,9 +126,6 @@
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .controls:not(:empty), .filters{
-      padding: 0.3em 0 0.2em 0;
-    }
     .controls{
       flex-direction: column;
     }
