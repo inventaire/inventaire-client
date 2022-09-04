@@ -38,15 +38,6 @@
   $: displayCover = editionsUris?.length > 1
 </script>
 
-<ItemsByCategories
-  {initialItems}
-  {displayCover}
-  {waitingForItems}
-  bind:initialBounds
-  bind:itemsOnMap={items}
-  on:scrollToMap={scrollToMap}
-/>
-
 {#if showMap}
   <div class='hide-map-wrapper'>
     <button
@@ -63,6 +54,15 @@
     {initialBounds}
   />
 {/if}
+
+<ItemsByCategories
+  {initialItems}
+  {displayCover}
+  {waitingForItems}
+  bind:initialBounds
+  bind:itemsOnMap={items}
+  on:scrollToMap={scrollToMap}
+/>
 
 <style lang="scss">
   @import '#general/scss/utils';
