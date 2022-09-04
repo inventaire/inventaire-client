@@ -38,12 +38,12 @@
   .work-list-row{
     @include display-flex(row, flex-start);
     background-color: white;
-    margin: 0.5em 0;
-    padding: 1em;
+    margin: 0.3em 0;
+    padding: 0.5em;
     @include radius;
     :global(.images-collage){
-      width: 9em;
-      height: 12em;
+      width: 7em;
+      height: 10em;
     }
   }
   .info{
@@ -55,5 +55,9 @@
     font-size: 0.8rem;
     text-align: center;
     color: $label-grey;
+  }
+  h3{
+    font-weight: normal;
+    font-size: 1.1em;
   }
 </style>
