@@ -29,19 +29,19 @@
 
   const wikidataSearch = WikidataSearch(false)
 
-  let searchText = '', searchGroupEl, searchFieldEl, searchResultsEl, lastSearch, lastSearchId, waiting, flash
+  let searchText = '', searchGroupEl, searchFieldEl, searchResultsEl, waiting, flash
   let results = []
-  let searchCount = 0
   let searchOffset = 0
   let showSearchDropdown = false
   const searchBatchLength = 10
   let highlightedResultIndex = 0
   let showResults = false
+  let lastSearchKey
 
   async function search () {
-    if (lastSearch === searchText) return
-    lastSearch = searchText
-    lastSearchId = ++searchCount
+    const searchKey = `${selectedCategory}:${selectedSection}:${searchText}`
+    if (searchKey === lastSearchKey) return
+    lastSearchKey = searchKey
     if (searchText.trim().length === 0) {
       showResults = false
       return
@@ -49,17 +49,25 @@
 
     showLiveSearch()
 
-    const uri = findUri(searchText)
-    if (uri != null) {
-      return getResultFromUri(uri, lastSearchId, lastSearch)
-    }
     try {
-      waiting = _search(searchText)
-      await waiting
-      showResults = true
-      resetResults(lastSearchId)
+      waiting = getSearchResults(searchText)
+      const res = await waiting
+      if (searchKey === lastSearchKey) {
+        results = res
+        showResults = true
+        highlightedResultIndex = 0
+      }
     } catch (err) {
       flash = err
+    }
+  }
+
+  const getSearchResults = async searchText => {
+    const uri = findUri(searchText)
+    if (uri != null) {
+      return getResultFromUri(uri)
+    } else {
+      return _search(searchText)
     }
   }
 
@@ -70,7 +78,7 @@
     // on Wikidata can be considered a subject
     if (types === 'subjects') {
       const res = await wikidataSearch(searchText, searchBatchLength, searchOffset)
-      results = res.results.map(serializeSubject)
+      return res.results.map(serializeSubject)
     } else {
       // Increasing search limit instead of offset, as search pages aren't stable:
       // results popularity might have change the results order between two requests,
@@ -83,22 +91,17 @@
         search: searchText,
         limit: searchLimit,
       }))
-      results = res.results
+      return res.results
     }
   }
 
   const lazySearch = debounce(search, 400)
 
-  function resetResults (searchId) {
-    if (searchId !== lastSearchId) return
-    highlightedResultIndex = 0
-  }
-
   async function getResultFromUri (uri) {
     waiting = app.request('get:entity:model', uri)
     const entity = await waiting
     const result = serializeEntityModel(entity)
-    results = [ result ]
+    return [ result ]
   }
 
   function onKeyUp (e) {
