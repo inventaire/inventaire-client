@@ -103,11 +103,15 @@
     return [ result ]
   }
 
+  function onKeyDown (e) {
+    const key = getActionKey(e)
+    if (key === 'up') highlightPreviousResult()
+    else if (key === 'down') highlightNextResult()
+  }
+
   function onKeyUp (e) {
     const key = getActionKey(e)
     if (key === 'esc') hideLiveSearch()
-    else if (key === 'up') highlightPreviousResult()
-    else if (key === 'down') highlightNextResult()
     else if (key === 'enter') showCurrentlyHighlightedResult(e)
     else if (key === 'pageup') selectPrevSection()
     else if (key === 'pagedown') selectNextSection()
@@ -196,6 +200,7 @@
     bind:value={searchText}
     bind:this={searchFieldEl}
     on:focus={showLiveSearch}
+    on:keydown={onKeyDown}
     on:keyup={onKeyUp}
     >
   {#if showSearchDropdown}
