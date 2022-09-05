@@ -30,6 +30,7 @@
 </script>
 <div class="importShelves">
   <label for="external-shelves-selector">
+    <p class="title">{I18n('external_shelves_importer')}</p>
     <p class="description">{I18n('external_shelves_importer_description')}</p>
   </label>
   <div id="external-shelves-selector" class="select-button-group" role="menu">
