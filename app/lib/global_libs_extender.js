@@ -174,8 +174,12 @@ Marionette.View.prototype.showChildComponent = function (regionName, Component, 
 
 export function removeCurrentComponent (region) {
   if (region.currentComponent) {
-    region.currentComponent.$destroy()
-    delete region.currentComponent
+    try {
+      region.currentComponent.$destroy()
+      delete region.currentComponent
+    } catch (err) {
+      error_.report(err)
+    }
   } else if (region.currentView?._regions) {
     const subregions = Object.values(region.currentView._regions)
     subregions.forEach(removeCurrentComponent)
