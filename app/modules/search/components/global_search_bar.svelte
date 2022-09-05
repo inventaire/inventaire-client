@@ -36,11 +36,18 @@
   let showSearchDropdown = false
   const searchBatchLength = 10
   let highlightedResultIndex = 0
+  let showResults = false
 
   async function search () {
+    if (lastSearch === searchText) return
     lastSearch = searchText
     lastSearchId = ++searchCount
-    if (searchText.trim().length === 0) return
+    if (searchText.trim().length === 0) {
+      showResults = false
+      return
+    }
+
+    showLiveSearch()
 
     const uri = findUri(searchText)
     if (uri != null) {
@@ -49,6 +56,7 @@
     try {
       waiting = _search(searchText)
       await waiting
+      showResults = true
       resetResults(lastSearchId)
     } catch (err) {
       flash = err
@@ -207,14 +215,16 @@
           <Spinner center={true} />
         </div>
       {:then}
-        {#if results.length > 0}
-          <ul id="searchResults" class="results" on:click={hideLiveSearch} bind:this={searchResultsEl}>
-            {#each results as result, index (result.id)}
-              <SearchResult {result} highlighted={index === highlightedResultIndex} />
-            {/each}
-          </ul>
-        {:else if searchText.length > 0}
-          <p class="no-result">{i18n('no result')}</p>
+        {#if showResults}
+          {#if results.length > 0}
+            <ul id="searchResults" class="results" on:click={hideLiveSearch} bind:this={searchResultsEl}>
+              {#each results as result, index (result.id)}
+                <SearchResult {result} highlighted={index === highlightedResultIndex} />
+              {/each}
+            </ul>
+          {:else if searchText.length > 0}
+            <p class="no-result">{i18n('no result')}</p>
+          {/if}
         {/if}
       {/await}
         <SearchAlternatives
