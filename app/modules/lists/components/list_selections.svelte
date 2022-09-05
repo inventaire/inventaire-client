@@ -18,6 +18,7 @@
   const paginationSize = 15
   let offset = paginationSize
   let fetching
+  let isAddingSelection
   let windowScrollY = 0
   let listBottomEl
 
@@ -48,6 +49,7 @@
     flash = null
     inputValue = ''
     showSuggestions = false
+    isAddingSelection = true
     addSelection(listId, entity.uri)
     .then(selection => {
       if (isNonEmptyArray(selection.alreadyInList)) {
@@ -60,6 +62,7 @@
       dispatch('selectionAdded', { entity, selection })
     })
     .catch(err => flash = err)
+    .finally(() => isAddingSelection = false)
   }
 
   const fetchMore = async () => {
@@ -107,7 +110,11 @@
         <Flash bind:state={flash}/>
       </div>
     {/if}
-    <div class="list-selections">
+
+    <ul class="list-selections">
+      {#if isAddingSelection}
+        <li class="loading">{I18n('loading')}<Spinner/></li>
+      {/if}
       {#each entities as entity, index (entity.uri)}
         <li class="list-selection">
           <EntityElement
@@ -125,7 +132,7 @@
       {:else}
         {i18n('nothing here')}
       {/each}
-    </div>
+    </ul>
     {#if hasMore}
       <p bind:this={listBottomEl}>
         {I18n('loading')}
