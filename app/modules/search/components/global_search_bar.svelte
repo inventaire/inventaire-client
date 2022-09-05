@@ -281,8 +281,10 @@
   .loader, .results, .no-result{
     background-color: #eee;
   }
+  .loader, .no-result{
+    padding: 1em;
+  }
   .loader{
-    height: 60vh;
     @include display-flex(column, center, center);
   }
   .results{
@@ -291,7 +293,6 @@
   .no-result{
     text-align: center;
     color: $grey;
-    padding: 1em;
   }
 
   /*Medium to Large screens*/
