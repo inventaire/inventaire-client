@@ -29,11 +29,12 @@
 <div class="list-info">
   <div class="data">
     <h3>{name}</h3>
-    <p class="visibility">
-      <!-- {@html icon(visibilityData.icon)} {visibilityData.label} -->
-      {'<visibility>'}
-    </p>
-    <p>{description}</p>
+    <!-- <p class="visibility"> -->
+    <!--  {@html icon(visibilityData.icon)} {visibilityData.label} -->
+    <!-- </p> -->
+    {#if description}
+      <p>{description}</p>
+    {/if}
   </div>
   <div class="actions">
     {#if isEditable}
