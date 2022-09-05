@@ -114,6 +114,11 @@
     showSearchDropdown = false
     if (showFallbackLayout) showFallbackLayout()
   }
+  const hideAndResetLiveSearch = () => {
+    searchText = ''
+    hideLiveSearch()
+  }
+
   const highlightPreviousResult = () => highlightedResultIndex = Math.max(highlightedResultIndex - 1, 0)
   const highlightNextResult = () => highlightedResultIndex = Math.min(highlightedResultIndex + 1, results.length - 1)
   const showCurrentlyHighlightedResult = () => {
@@ -187,7 +192,7 @@
     <button
       id="closeSearch"
       title={I18n('close')}
-      on:click={hideLiveSearch}
+      on:click={hideAndResetLiveSearch}
       >
       {@html icon('close')}
     </button>
