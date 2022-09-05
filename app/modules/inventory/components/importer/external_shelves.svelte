@@ -1,6 +1,6 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { onChange } from '#lib/svelte'
+  import { onChange } from '#lib/svelte/svelte'
   import ExternalShelf from '#inventory/components/importer/external_shelf.svelte'
 
   export let candidates
@@ -40,9 +40,6 @@
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
-  .import-shelves {
-    margin: 1em 0;
-  }
   .description{
     font-size: 0.9rem;
     margin-bottom: 0.5em;
