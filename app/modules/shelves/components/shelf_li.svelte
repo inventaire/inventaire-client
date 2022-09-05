@@ -43,7 +43,7 @@
       {#if picture}
         <div class="picture" style="background-image: url({imgSrc(picture, 48)})"></div>
       {:else}
-        <div class="without-shelf-picture">{@html icon('question')}</div>
+        <div class="without-shelf-picture">...</div>
       {/if}
       <div class="shelf-text">
         <div class="name">{name}</div>

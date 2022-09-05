@@ -26,7 +26,7 @@
 <div class="shelf-box">
   <div class="header">
     {#if withoutShelf}
-      <div class="without-shelf-picture">{@html icon('question')}</div>
+      <div class="without-shelf-picture">...</div>
     {:else}
       <div class="picture" style="background-image: url({imgSrc(picture, 160)})"></div>
     {/if}
