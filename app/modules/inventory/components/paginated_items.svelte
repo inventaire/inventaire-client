@@ -42,7 +42,7 @@
 </script>
 
 <div class="paginated-items">
-  {#if items?.length > 0 || true}
+  {#if items?.length > 0}
     <svelte:component this={Component} {items} {waiting} {...componentProps} />
   {/if}
   <Flash state={flash} />
