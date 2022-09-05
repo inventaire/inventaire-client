@@ -42,10 +42,7 @@
     const searchKey = `${selectedCategory}:${selectedSection}:${searchText}`
     if (searchKey === lastSearchKey) return
     lastSearchKey = searchKey
-    if (searchText.trim().length === 0) {
-      showResults = false
-      return
-    }
+    if (searchText.trim().length === 0) return
 
     showLiveSearch()
 
@@ -61,6 +58,8 @@
       flash = err
     }
   }
+
+  $: if (searchText.trim().length === 0) showResults = false
 
   const getSearchResults = async searchText => {
     const uri = findUri(searchText)
