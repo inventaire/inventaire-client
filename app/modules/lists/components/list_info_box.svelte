@@ -1,6 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
+
   export let list
 
   let { name, description, creator } = list
@@ -23,6 +24,7 @@
     component.$on('listUpdated', event => {
       list = event.detail.list
     })
+    // todo: garbage collect event listener with onDestroy
   }
 </script>
 
