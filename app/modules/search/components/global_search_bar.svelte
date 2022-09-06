@@ -47,6 +47,7 @@
     flash = null
     if (searchKey === lastSearchKey) return
     lastSearchKey = searchKey
+    results = []
     if (searchText.trim().length === 0) return
 
     showLiveSearch()
@@ -274,7 +275,13 @@
             {/if}
           </div>
         {:else if searchText.length > 0}
-          <p class="no-result">{i18n('no result')}</p>
+          {#await waiting}
+            <div class="loader">
+              <Spinner center={true} />
+            </div>
+          {:then}
+            <p class="no-result">{i18n('no result')}</p>
+          {/await}
         {/if}
       {:else}
         {#await waiting}
