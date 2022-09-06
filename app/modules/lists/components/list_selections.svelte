@@ -120,14 +120,16 @@
           <EntityElement
             {entity}
           />
-          <div class="status">
-            <button
-              class="tiny-button"
-              on:click={() => onRemoveSelection(index)}
-            >
-              {i18n('remove')}
-            </button>
-          </div>
+          {#if isEditable}
+            <div class="status">
+              <button
+                class="tiny-button"
+                on:click={() => onRemoveSelection(index)}
+              >
+                {i18n('remove')}
+              </button>
+            </div>
+          {/if}
         </li>
       {:else}
         {i18n('nothing here')}
