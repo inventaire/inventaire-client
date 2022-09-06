@@ -39,9 +39,11 @@
   let showResults = false
   let lastSearchKey
   let showSearchControls
+  let hasMore = false
 
   async function search () {
     const searchKey = `${selectedCategory}:${selectedSection}:${searchText}`
+    hasMore = false
     flash = null
     if (searchKey === lastSearchKey) return
     lastSearchKey = searchKey
@@ -82,6 +84,7 @@
     // on Wikidata can be considered a subject
     if (types === 'subjects') {
       const res = await wikidataSearch(searchText, searchBatchLength, searchOffset)
+      hasMore = res.continue != null
       return res.results.map(serializeSubject)
     } else {
       // Increasing search limit instead of offset, as search pages aren't stable:
@@ -95,6 +98,7 @@
         search: searchText,
         limit: searchLimit,
       }))
+      hasMore = res.continue != null
       return res.results
     }
   }
@@ -257,16 +261,16 @@
                 <SearchResult {result} highlighted={index === highlightedResultIndex} />
               {/each}
             </ul>
-            {#await waiting}
-              <div class="loader">
+            {#if hasMore}
+              <div
+                class="loader"
+                use:viewport
+                on:enterViewport={resultsBottomEnteredViewport}
+                on:leaveViewport={resultsBottomLeftViewport}
+                >
                 <Spinner center={true} />
               </div>
-            {/await}
-            <div class="results-bottom"
-              use:viewport
-              on:enterViewport={resultsBottomEnteredViewport}
-              on:leaveViewport={resultsBottomLeftViewport}
-              ></div>
+            {/if}
           </div>
         {:else if searchText.length > 0}
           <p class="no-result">{i18n('no result')}</p>
@@ -339,22 +343,16 @@
   .loader{
     @include display-flex(column, center, center);
   }
-  .results{
-    overflow: auto;
-  }
   .no-result{
     text-align: center;
     color: $grey;
-  }
-  .results-bottom{
-    margin-top: min(-5%, -6em);
-    min-height: 1px;
   }
 
   /*Medium to Large screens*/
   @media screen and (min-width: $smaller-screen) {
     .results{
       max-height: 60vh;
+      overflow: auto;
     }
   }
 
