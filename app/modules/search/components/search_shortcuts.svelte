@@ -32,7 +32,7 @@
     @include position(fixed, $topbar-height, 0);
     background-color: rgba($dark-grey, 0.6);
     @include radius;
-    margin: 2em 1.5em;
+    margin: 0.5em;
     color: white;
     @include display-flex(column);
   }
