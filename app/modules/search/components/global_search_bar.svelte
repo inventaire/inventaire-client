@@ -287,7 +287,6 @@
           {selectedCategory}
           {selectedSection}
           {searchText}
-          {waiting}
           on:closeLiveSearch={hideLiveSearch}
         />
       {/if}

@@ -1,12 +1,11 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import { slide } from 'svelte/transition'
   import { entitySectionsWithAlternatives, typesBySection } from '#search/lib/search_sections'
   import { looksLikeAnIsbn } from '#lib/isbn'
   import { createEventDispatcher } from 'svelte'
 
-  export let selectedCategory, selectedSection, searchText, waiting
+  export let selectedCategory, selectedSection, searchText
 
   const dispatch = createEventDispatcher()
 
@@ -27,19 +26,17 @@
     entitySectionsWithAlternatives.includes(selectedSection))
 </script>
 
-{#await waiting then}
-  {#if showAlternatives}
-    <div class="alternatives" transition:slide|local={{ delay: 1000 }}>
-      <span class="label">{i18n("Can't find what you are searching?")}</span>
-      <div class="propositions">
-        <button on:click={showEntityCreate}>
-          {@html icon('plus')}
-          {I18n('create')}
-        </button>
-      </div>
+{#if showAlternatives}
+  <div class="alternatives">
+    <span class="label">{i18n("Can't find what you are searching?")}</span>
+    <div class="propositions">
+      <button on:click={showEntityCreate}>
+        {@html icon('plus')}
+        {I18n('create')}
+      </button>
     </div>
-  {/if}
-{/await}
+  </div>
+{/if}
 
 <style lang="scss">
   @import '#general/scss/utils';
