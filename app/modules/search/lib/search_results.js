@@ -1,5 +1,6 @@
 import error_ from '#lib/error'
 import { isImageHash } from '#lib/boolean_tests'
+import { pluralize } from '#entities/lib/types/entities_types'
 
 export function serializeResult (result) {
   try {
@@ -7,7 +8,9 @@ export function serializeResult (result) {
       result.image = result.image[0]
     }
     result.image = urlifyImageHash(result.type, result.image)
-    return typeFormatters[result.type](result)
+    const pluralizedType = pluralize(result.type)
+    const formatter = typeFormatters[pluralizedType] || entityFormatter
+    return formatter(result)
   } catch (err) {
     err.context = { result }
     throw err
@@ -21,6 +24,7 @@ const entityFormatter = typeAlias => result => {
 }
 
 const typeFormatters = {
+  editions: entityFormatter('edition'),
   works: entityFormatter('work'),
   humans: entityFormatter('author'),
   series: entityFormatter('serie'),
