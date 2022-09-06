@@ -31,7 +31,7 @@
       aria-controls="inventory-browser-controls"
       >
       {@html icon('cog')}
-      {i18n('advanced options')}
+      {i18n('Advanced options')}
       {@html icon('caret-down')}
     </button>
   {/if}
@@ -59,13 +59,13 @@
               {/each}
             </div>
           {/if}
+          <div class="text-filter">
+            <InventoryBrowserTextFilter
+              bind:textFilterItemsIds
+              bind:flash
+            />
+          </div>
         {/await}
-      </div>
-      <div class="text-filter">
-        <InventoryBrowserTextFilter
-          bind:textFilterItemsIds
-          bind:flash
-        />
       </div>
       <div class="display-controls" transition:slide>
         <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
@@ -127,11 +127,6 @@
     @include transition(opacity);
     opacity: 1;
     margin: 0.5em 0 0.5em 0;
-    &:not(.ready){
-      .filters{
-        flex: 1 0 0;
-      }
-    }
   }
   .control-label{
     color: $grey;
@@ -156,7 +151,7 @@
       margin: 1em;
     }
     .text-filter{
-      margin: 1em;
+      margin: 1em 0;
     }
   }
 
@@ -170,8 +165,8 @@
       @include display-flex(row, center, center);
     }
     .text-filter{
-      margin-top: 0.5em;
       margin-right: 1em;
+      margin-left: 0.2em;
     }
     .display-controls{
       margin-left: auto;

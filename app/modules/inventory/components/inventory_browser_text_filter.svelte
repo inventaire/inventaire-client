@@ -93,6 +93,6 @@
     margin: 0;
     padding: 0 0.5em;
     height: 2.1rem;
-    @include radius(2em);
+    @include radius;
   }
 </style>

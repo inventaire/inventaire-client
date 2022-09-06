@@ -88,7 +88,16 @@
 />
 
 {#await waitForInventoryData}
-  <Spinner center={true} />
+  <div class="spinner-wrap">
+    <Spinner center={true} />
+  </div>
 {:then}
   <PaginatedItems {Component} {componentProps} {pagination} />
 {/await}
+
+<style lang="scss">
+  @import '#general/scss/utils';
+  .spinner-wrap{
+    margin: 2em;
+  }
+</style>
