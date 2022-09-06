@@ -372,16 +372,19 @@
       @include display-flex(column);
     }
   }
+
   /*Smaller screens*/
   @media screen and (max-width: $smaller-screen) {
     #liveSearch{
       height: calc(100% - $topbar-height);
       @include display-flex(column);
+      overflow: hidden;
     }
     .results, .no-result, .loader{
       order: -1;
-      flex: 1;
-      margin-bottom: 1em;
+      flex: 1 0 0;
+      overflow: auto;
+      margin-bottom: 0.5em;
     }
   }
 </style>
