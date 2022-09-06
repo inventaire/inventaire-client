@@ -43,7 +43,10 @@
     position: relative;
     // Prevent triggering horizontal scroll because of too long content
     overflow: hidden;
-    &.highlighted, &:hover{
+    &:hover{
+      background-color: darken($light-grey, 5%);
+    }
+    &.highlighted{
       background-color: #666;
       .label{
         color: white;
