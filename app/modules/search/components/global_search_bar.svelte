@@ -183,12 +183,14 @@
     }
   }
 
+  const lazySearchMore = debounce(searchMore, 500, true)
+
   let canSearchMore = true
 
   function resultsBottomEnteredViewport () {
     if (canSearchMore) {
       canSearchMore = false
-      searchMore()
+      lazySearchMore()
     }
   }
 
