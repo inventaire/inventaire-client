@@ -74,7 +74,7 @@
         on:click={() => editMode = true}
         title={i18n('edit')}
         >
-          <p>{userContent(notes)}</p>
+          <p>{@html userContent(notes)}</p>
         </button>
     </div>
   {/if}

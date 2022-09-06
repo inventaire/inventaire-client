@@ -76,13 +76,13 @@
   {:else}
     <div class="text">
       {#if restricted}
-        <p>{userContent(details)}</p>
+        <p>{@html userContent(details)}</p>
       {:else}
         <button
           on:click={() => editMode = true}
           title={i18n('edit')}
           >
-            <p>{userContent(details)}</p>
+            <p>{@html userContent(details)}</p>
           </button>
       {/if}
     </div>
