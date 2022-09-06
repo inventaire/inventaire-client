@@ -2,6 +2,8 @@
 @import 'shelves_commons';
 
 #shelvesList{
+  max-height: 20em;
+  overflow-y: auto;
   li{
     @include transition(height, 0.3s);
   }
