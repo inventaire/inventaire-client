@@ -172,9 +172,6 @@
   .entities-selector{
     width:100%
   }
-  .remove{
-    margin-left: 1em;
-  }
   .status{
     @include display-flex(row, center, center);
     white-space: nowrap;
@@ -195,9 +192,6 @@
   @media screen and (max-width: $very-small-screen) {
     .list-selection{
       @include display-flex(column, flex-start);
-    }
-    .remove{
-      margin: 0.5em 0;
     }
   }
 </style>
