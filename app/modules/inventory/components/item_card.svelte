@@ -35,7 +35,7 @@
   let flash, itemCardSettingsEl
 </script>
 
-<li class="item-card" class:busy>
+<div class="item-card" class:busy>
   {#if busy}
     <div class="busy-sign" title="{i18n('unavailable')}">
       {@html icon('sign-out')}
@@ -74,23 +74,23 @@
     {/if}
     {#if details}
       <div class="details-box">
-        <p class="details wrapped user-content">
-          <TruncatedText text={details} maxLength={180}>
-            <span slot="more">
-              <a class="more" href={pathname} on:click={loadInternalLink} >{i18n('see more')}</a>
-            </span>
-          </TruncatedText>
-        </p>
+        <TruncatedText text={details} maxLength={180}>
+          <span slot="more">
+            <a class="more" href={pathname} on:click={loadInternalLink} >{i18n('see more')}</a>
+          </span>
+        </TruncatedText>
       </div>
     {/if}
     <ItemRequestBox {item} />
   {/if}
   <Flash state={flash} />
-</li>
+</div>
 
 <style lang="scss">
   @import '#general/scss/utils';
   .item-card{
+    width: 100%;
+    overflow: hidden;
     @include display-flex(column, stretch, center);
     @include shadow-box;
     @include radius;
