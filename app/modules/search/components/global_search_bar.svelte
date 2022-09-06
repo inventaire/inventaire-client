@@ -238,6 +238,7 @@
     on:keydown={onKeyDown}
     on:keyup={onKeyUp}
     >
+
   {#if showSearchDropdown}
     <button
       id="closeSearch"
@@ -296,6 +297,10 @@
       <Flash state={flash} />
     </div>
     <div id="overlay" on:click={hideLiveSearch}></div>
+  {:else}
+    <div class="search-icon">
+      {@html icon('search')}
+    </div>
   {/if}
 </div>
 
@@ -310,22 +315,35 @@
   #searchGroup{
     margin: 0;
     position: relative;
+    background-color: white;
   }
   input{
+    position: relative;
     @include radius;
     margin: 0;
-    // Let room for #closeSearch
+    // Let room for .search-icon and #closeSearch
     padding-right: 2em;
+    // Appear above .search-icon, so that click on .search-icon gives focus to the input
+    z-index: 1;
+    background-color: transparent;
   }
-  #closeSearch{
+  #closeSearch, .search-icon{
     position: absolute;
     right: 0;
     top: 0;
     padding: 0;
     height: 100%;
-    font-size: 1.5rem;
     @include display-flex(row, center, center);
     @include text-hover($grey, $dark-grey);
+  }
+  .search-icon{
+    font-size: 1.2rem;
+    margin-right: 0.3rem;
+  }
+  #closeSearch{
+    font-size: 1.5rem;
+    z-index: 1;
+    background-color: transparent;
   }
   #overlay{
     background: rgba(black, 0.55);
