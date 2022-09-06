@@ -8,9 +8,11 @@
 
   let isEditable = creator === app.user.id
 </script>
-
 <div class="list-layout">
-  <ListInfoBox {list} />
+  <ListInfoBox
+    {list}
+    {isEditable}
+  />
   <ListSelections
     bind:selections
     listId={_id}

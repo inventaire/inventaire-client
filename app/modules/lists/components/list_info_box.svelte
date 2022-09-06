@@ -1,17 +1,26 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon, loadInternalLink } from '#lib/utils'
+  import preq from '#lib/preq'
 
-  export let list
+  export let list, isEditable
 
-  let { name, description, creator } = list
+  let { name, description, creator: creatorId } = list
+  let creator = {}
 
   // TODO: rebase and fix visibility once items/shelves visibility branches have been merged
   // let { visibility } = list
   // const listings = app.user.listings()
   // let visibilityData = listings[visibility]
 
-  let isEditable = creator === app.user.id
+  const getCreatorUsername = async () => {
+    if (isEditable) return creator = app.user.toJSON()
+    creator = await getUserById(creatorId)
+  }
+
+  const getUserById = id => preq.get(app.API.users.byIds([ id ])).then(({ users }) => users[id])
+
+  const waitingForCreator = getCreatorUsername()
 
   const showEditor = async () => {
     const { default: ListEditor } = await import('#modules/lists/components/list_editor.svelte')
@@ -31,7 +40,10 @@
   $: description = list.description
 </script>
 
-<div class="list-info">
+<div
+  class="list-info"
+  class:isNotEditable={!isEditable}
+>
   <div class="data">
     <h3>{name}</h3>
     <!-- <p class="visibility"> -->
@@ -40,9 +52,23 @@
     {#if description}
       <p>{description}</p>
     {/if}
+    {#await waitingForCreator then}
+      <div class="creatorRow">
+        <label for='listCreator'>
+          {i18n('creator')}:
+        </label>
+        <a
+          id="listCreator"
+          href="/inventory/{creator.username}"
+          on:click={loadInternalLink}
+        >
+          {creator.username}
+        </a>
+      </div>
+    {/await}
   </div>
-  <div class="actions">
-    {#if isEditable}
+  {#if isEditable}
+    <div class="actions">
       <button
         class="tiny-button light-blue"
         on:click={showEditor}
@@ -50,8 +76,8 @@
         {@html icon('pencil')}
         {i18n('Edit list info')}
       </button>
-    {/if}
-  </div>
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -64,6 +90,13 @@
     @include display-flex(row);
     background-color: $light-grey;
   }
+  .isNotEditable{
+    align-self: center;
+    background-color: unset;
+  }
+  .creatorRow{
+    @include display-flex(row);
+  }
   .actions{
     margin: 1em;
     margin-left: auto;
@@ -73,5 +106,9 @@
     white-space: nowrap;
     line-height: 1.6em;
     // width: 10em;
+  }
+  a:hover{
+    text-decoration: underline;
+
   }
 </style>
