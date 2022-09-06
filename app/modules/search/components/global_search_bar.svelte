@@ -42,6 +42,7 @@
 
   async function search () {
     const searchKey = `${selectedCategory}:${selectedSection}:${searchText}`
+    flash = null
     if (searchKey === lastSearchKey) return
     lastSearchKey = searchKey
     if (searchText.trim().length === 0) return
@@ -289,12 +290,11 @@
       {#if $screen.isLargerThan('$small-screen')}
         <SearchShortcuts />
       {/if}
+      <Flash state={flash} />
     </div>
     <div id="overlay" on:click={hideLiveSearch}></div>
   {/if}
 </div>
-
-<Flash state={flash} />
 
 <style lang="scss">
   @import '#general/scss/utils';
