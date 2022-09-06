@@ -6,13 +6,15 @@
   import Spinner from '#general/components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { createEventDispatcher } from 'svelte'
+  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+
   const dispatch = createEventDispatcher()
 
   export let list
 
   let isValidating, flash
   const { _id } = list
-  let { name, description } = list
+  let { name, description, visibility } = list
 
   const validate = async () => {
     isValidating = true
@@ -20,6 +22,7 @@
       id: _id,
       name,
       description,
+      visibility,
     })
     .then(list => dispatch('listUpdated', list))
     .then(closeModal)
@@ -54,7 +57,7 @@
     use:autosize
 	/>
 </div>
-<!-- todo: visibility after finer privacy setting is merged -->
+<VisibilitySelector bind:visibility showTip={true} />
 <div class="buttons">
   <button
   	class="validate button success-button"

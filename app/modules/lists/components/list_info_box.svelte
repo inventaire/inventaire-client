@@ -2,6 +2,7 @@
   import { i18n } from '#user/lib/i18n'
   import { icon, loadInternalLink } from '#lib/utils'
   import preq from '#lib/preq'
+  import { onChange } from '#lib/svelte/svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
 
   export let list, isEditable
@@ -9,10 +10,7 @@
   let { name, description, creator: creatorId, visibility } = list
   let creator = {}
 
-  let visibilitySummary, visibilitySummaryData
-
-  visibilitySummary = getVisibilitySummary(visibility)
-  visibilitySummaryData = visibilitySummariesData[visibilitySummary]
+  let visibilitySummary, visibilitySummaryIcon, visibilitySummaryLabel
 
   const getCreatorUsername = async () => {
     if (isEditable) return creator = app.user.toJSON()
@@ -37,8 +35,16 @@
     // todo: garbage collect event listener with onDestroy
   }
 
+  const updateVisibilitySummary = () => {
+    visibility = list.visibility
+    visibilitySummary = getVisibilitySummary(visibility)
+    visibilitySummaryIcon = visibilitySummariesData[visibilitySummary].icon
+    visibilitySummaryLabel = i18n(getVisibilitySummaryLabel(visibility))
+  }
+
   $: name = list.name
   $: description = list.description
+  $: onChange(list, updateVisibilitySummary)
 </script>
 
 <div
@@ -47,8 +53,8 @@
 >
   <div class="data">
     <h3>{name}</h3>
-    <div class="visibility {visibilitySummary}" title="{i18n(getVisibilitySummaryLabel(visibility))}">
-      {@html icon(visibilitySummaryData.icon)} {visibilitySummaryData.label}
+    <div class="visibility {visibilitySummary}" title="{visibilitySummaryLabel}">
+      {@html icon(visibilitySummaryIcon)} {visibilitySummaryLabel}
     </div>
     {#if description}
       <p>{description}</p>
