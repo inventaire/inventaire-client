@@ -155,19 +155,19 @@
   .tiny-button{ padding: 0.5em; }
   .list-selections{
     @include display-flex(column, center);
+    @include radius;
     width: 100%;
     margin: 1em 0;
+    background-color: white;
   }
   .list-selection{
     @include display-flex(row, center);
     padding: 0 1em;
     width: 100%;
-    &:not(:last-child){
-      border-bottom: 1px solid $light-grey;
+    border-bottom: 1px solid $light-grey;
+    &:hover{
+      background-color: $off-white;
     }
-  }
-  .list-selection:hover{
-    background-color: white;
   }
   .entities-selector{
     width:100%
