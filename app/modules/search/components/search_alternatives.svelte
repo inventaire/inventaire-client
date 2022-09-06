@@ -29,7 +29,7 @@
 
 {#await waiting then}
   {#if showAlternatives}
-    <div class="alternatives" transition:slide>
+    <div class="alternatives" transition:slide|local={{ delay: 1000 }}>
       <span class="label">{i18n("Can't find what you are searching?")}</span>
       <div class="propositions">
         <button on:click={showEntityCreate}>

@@ -5,21 +5,20 @@
   import { sections } from '#search/lib/search_sections'
   import { slide } from 'svelte/transition'
   import { onChange } from '#lib/svelte/svelte'
-  import { viewportIsSmallerThan } from '#lib/screen'
+  import { screen } from '#lib/components/stores/screen'
 
+  export let showSearchControls = true
   export let selectedCategory = 'entity'
   export let selectedSection = 'all'
   export let results
 
-  let showSearchControls = true
-
   function letRoomForResults () {
-    if (results?.length > 0 && viewportIsSmallerThan('$small-screen')) {
+    if (results?.length > 0 && $screen.isSmallerThan(500)) {
       showSearchControls = false
     }
   }
 
-  $: onChange(results, letRoomForResults)
+  $: onChange(results, $screen, letRoomForResults)
 </script>
 
 <div class="searchSettingsTogglerWrapper">
@@ -91,7 +90,7 @@
   }
 
   /*Very Small screens*/
-  @media screen and (max-height: 500px), (max-width: 500px){
+  @media screen and (max-width: 500px){
     .searchSettingsTogglerWrapper{
       margin-top: auto;
       @include display-flex(row, center, center);

@@ -37,6 +37,7 @@
   let highlightedResultIndex = 0
   let showResults = false
   let lastSearchKey
+  let showSearchControls
 
   async function search () {
     const searchKey = `${selectedCategory}:${selectedSection}:${searchText}`
@@ -213,6 +214,7 @@
     </button>
     <div id="liveSearch">
       <SearchControls
+        bind:showSearchControls
         bind:selectedCategory
         bind:selectedSection
         {results}
@@ -234,6 +236,7 @@
           {/if}
         {/if}
       {/await}
+      {#if showSearchControls}
         <SearchAlternatives
           {selectedCategory}
           {selectedSection}
@@ -241,6 +244,7 @@
           {waiting}
           on:closeLiveSearch={hideLiveSearch}
         />
+      {/if}
       {#if $screen.isLargerThan('$small-screen')}
         <SearchShortcuts />
       {/if}
