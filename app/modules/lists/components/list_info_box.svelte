@@ -2,16 +2,17 @@
   import { i18n } from '#user/lib/i18n'
   import { icon, loadInternalLink } from '#lib/utils'
   import preq from '#lib/preq'
+  import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
 
   export let list, isEditable
 
-  let { name, description, creator: creatorId } = list
+  let { name, description, creator: creatorId, visibility } = list
   let creator = {}
 
-  // TODO: rebase and fix visibility once items/shelves visibility branches have been merged
-  // let { visibility } = list
-  // const listings = app.user.listings()
-  // let visibilityData = listings[visibility]
+  let visibilitySummary, visibilitySummaryData
+
+  visibilitySummary = getVisibilitySummary(visibility)
+  visibilitySummaryData = visibilitySummariesData[visibilitySummary]
 
   const getCreatorUsername = async () => {
     if (isEditable) return creator = app.user.toJSON()
@@ -46,9 +47,9 @@
 >
   <div class="data">
     <h3>{name}</h3>
-    <!-- <p class="visibility"> -->
-    <!--  {@html icon(visibilityData.icon)} {visibilityData.label} -->
-    <!-- </p> -->
+    <div class="visibility {visibilitySummary}" title="{i18n(getVisibilitySummaryLabel(visibility))}">
+      {@html icon(visibilitySummaryData.icon)} {visibilitySummaryData.label}
+    </div>
     {#if description}
       <p>{description}</p>
     {/if}
