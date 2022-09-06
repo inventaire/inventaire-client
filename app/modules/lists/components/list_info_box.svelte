@@ -26,6 +26,9 @@
     })
     // todo: garbage collect event listener with onDestroy
   }
+
+  $: name = list.name
+  $: description = list.description
 </script>
 
 <div class="list-info">
