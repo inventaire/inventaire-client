@@ -64,8 +64,9 @@
 
   $: if (searchText.trim().length === 0) showResults = false
 
+  let uri
   const getSearchResults = async searchText => {
-    const uri = findUri(searchText)
+    uri = findUri(searchText)
     if (uri != null) {
       return getResultFromUri(uri)
     } else {
@@ -274,7 +275,7 @@
           </div>
         {/await}
       {/if}
-      {#if showSearchControls}
+      {#if showSearchControls && uri == null}
         <SearchAlternatives
           {selectedCategory}
           {selectedSection}
