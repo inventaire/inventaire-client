@@ -1,3 +1,4 @@
+import assert_ from '#lib/assert_types'
 import { forceArray } from '#lib/utils'
 import endpoint from './endpoint.js'
 const { base, action } = endpoint('items')
@@ -40,9 +41,10 @@ export default {
 
   deleteByIds: action('delete-by-ids'),
 
-  search (user, search) {
+  search ({ user, group, shelf, search }) {
     search = encodeURIComponent(search)
-    return action('search', { user, search })
+    assert_.string(user || group || shelf)
+    return action('search', { user, group, shelf, search })
   },
 
   export ({ format }) {

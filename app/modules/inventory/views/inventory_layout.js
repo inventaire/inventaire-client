@@ -101,7 +101,11 @@ export default Marionette.View.extend({
     const isMainUser = app.user.id === shelf.get('owner')
     this.showChildView('shelfInfo', new ShelfBox({ model: shelf }))
     this.showChildComponent('itemsList', InventoryBrowser, {
-      props: { itemsDataPromise, isMainUser }
+      props: {
+        itemsDataPromise,
+        isMainUser,
+        shelfId: shelf.get('_id'),
+      }
     })
     this.waitForShelvesList.then(() => this.scrollToSection('shelfInfo'))
   },
@@ -171,8 +175,19 @@ export default Marionette.View.extend({
   showInventoryBrowser (type, model) {
     const itemsDataPromise = getItemsData(type, model)
     const isMainUser = model?.isMainUser
+    let groupId, ownerId
+    if (model.get('type') === 'group') {
+      groupId = model.id
+    } else {
+      ownerId = model.id
+    }
     this.showChildComponent('itemsList', InventoryBrowser, {
-      props: { itemsDataPromise, isMainUser }
+      props: {
+        itemsDataPromise,
+        isMainUser,
+        ownerId,
+        groupId,
+      }
     })
   },
 

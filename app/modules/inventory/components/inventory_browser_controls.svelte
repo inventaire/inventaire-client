@@ -6,8 +6,10 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { slide } from 'svelte/transition'
   import { screen } from '#lib/components/stores/screen'
+  import InventoryBrowserTextFilter from '#inventory/components/inventory_browser_text_filter.svelte'
+  import Flash from '#lib/components/flash.svelte'
 
-  export let waitForInventoryData, displayMode, facetsSelectors, facetsSelectedValues, intersectionWorkUris
+  export let waitForInventoryData, displayMode, facetsSelectors, facetsSelectedValues, intersectionWorkUris, textFilterItemsIds
 
   const displayOptions = [
     { value: 'cascade', icon: 'th-large', text: I18n('cascade') },
@@ -17,6 +19,8 @@
   let wrapped = true
   const smallScreenThreshold = 1000
   $: showControls = $screen.isLargerThan(smallScreenThreshold) || !wrapped
+
+  let flash
 </script>
 
 <div class="wrapper" class:unwrapped={showControls}>
@@ -57,11 +61,19 @@
           {/if}
         {/await}
       </div>
+      <div class="text-filter">
+        <InventoryBrowserTextFilter
+          bind:textFilterItemsIds
+          bind:flash
+        />
+      </div>
       <div class="display-controls" transition:slide>
         <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
       </div>
     {/if}
   </div>
+
+  <Flash state={flash} />
 </div>
 
 <style lang="scss">
@@ -143,6 +155,9 @@
     .display-controls{
       margin: 1em;
     }
+    .text-filter{
+      margin: 1em;
+    }
   }
 
   /*Large screens*/
@@ -153,6 +168,10 @@
     }
     .selectors{
       @include display-flex(row, center, center);
+    }
+    .text-filter{
+      margin-top: 0.5em;
+      margin-right: 1em;
     }
     .display-controls{
       margin-left: auto;

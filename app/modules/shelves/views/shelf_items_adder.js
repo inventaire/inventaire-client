@@ -69,7 +69,10 @@ export default Marionette.CollectionView.extend({
     this._lastInput = input
     this.$el.addClass('fetching')
 
-    return preq.get(app.API.items.search(app.user.id, input))
+    return preq.get(app.API.items.search({
+      user: app.user.id,
+      search: input,
+    }))
     .then(({ items }) => {
       this.offset += this.limit
       if (this._lastInput === input) {
