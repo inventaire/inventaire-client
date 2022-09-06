@@ -11,9 +11,10 @@
   export let selectedCategory = 'entity'
   export let selectedSection = 'all'
   export let results
+  const displayThreshold = '$small-screen'
 
   function letRoomForResults () {
-    if (results?.length > 0 && $screen.isSmallerThan(500)) {
+    if (results?.length > 0 && $screen.isSmallerThan(displayThreshold)) {
       showSearchControls = false
     }
   }
@@ -83,14 +84,7 @@
   }
 
   /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
-    .sections{
-      flex: 0 0 auto;
-    }
-  }
-
-  /*Very Small screens*/
-  @media screen and (max-width: 500px){
+  @media screen and (max-width: $small-screen) {
     .searchSettingsTogglerWrapper{
       margin-top: auto;
       @include display-flex(row, center, center);

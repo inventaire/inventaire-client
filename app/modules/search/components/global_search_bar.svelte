@@ -348,7 +348,7 @@
   }
 
   /*Medium to Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  @media screen and (min-width: $small-screen) {
     .results{
       max-height: 60vh;
       overflow: auto;
@@ -369,13 +369,6 @@
     }
     #liveSearch{
       @include position(fixed, $topbar-height, 0, 0, 0);
-      @include display-flex(column);
-    }
-  }
-
-  /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
-    #liveSearch{
       height: calc(100% - $topbar-height);
       @include display-flex(column);
       overflow: hidden;
