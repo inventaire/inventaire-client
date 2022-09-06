@@ -15,6 +15,7 @@
     const key = getActionKey(e)
     if (key === 'up') selectNext(-1)
     else if (key === 'down') selectNext(1)
+    else if (key === 'esc') resetSelector()
     else return
     e.stopPropagation()
     e.preventDefault()
@@ -24,6 +25,10 @@
     const currentOptionIndex = displayedOptions.indexOf(currentOption)
     const nextOption = displayedOptions[currentOptionIndex + indexIncrement]
     if (nextOption) value = nextOption.value
+  }
+
+  function resetSelector () {
+    value = null
   }
 
   let currentOption

@@ -78,8 +78,12 @@
   function onKeyDown (e) {
     const key = getActionKey(e)
     if (key === 'esc') {
-      showDropdown = false
-      e.stopPropagation()
+      if (showDropdown) {
+        showDropdown = false
+        // Do not stop propagation if the dropdown is already closed
+        // to let parent components bind actions to an esc key
+        e.stopPropagation()
+      }
     }
   }
 
