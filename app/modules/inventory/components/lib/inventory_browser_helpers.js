@@ -1,4 +1,5 @@
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+import error_ from '#lib/error'
 import { flatten, uniq, without } from 'underscore'
 
 export async function getSelectorsData ({ worksTree }) {
@@ -36,7 +37,12 @@ async function getBasicInfo (uris) {
     lang: app.user.lang
   })
   Object.values(entities).forEach(entity => {
-    entity.label = Object.values(entity.labels)[0]
+    if (entity.labels == null) {
+      error_.report('missing entity labels', { entity, uris })
+      entity.label = ''
+    } else {
+      entity.label = Object.values(entity.labels)[0]
+    }
   })
   return entities
 }
