@@ -26,6 +26,7 @@
   import { serializeEntityModel, serializeSubject } from '#search/lib/search_results'
   import { screen } from '#lib/components/stores/screen'
   import { onDestroy } from 'svelte'
+  import viewport from '#lib/components/actions/viewport'
 
   const wikidataSearch = WikidataSearch(false)
 
@@ -33,7 +34,7 @@
   let results = []
   let searchOffset = 0
   let showSearchDropdown = false
-  const searchBatchLength = 10
+  const searchBatchLength = 15
   let highlightedResultIndex = 0
   let showResults = false
   let lastSearchKey
@@ -54,6 +55,7 @@
         results = res
         showResults = true
         highlightedResultIndex = 0
+        searchOffset = 0
       }
     } catch (err) {
       flash = err
@@ -169,6 +171,30 @@
     lazySearch()
   }
 
+  async function searchMore () {
+    try {
+      searchOffset += searchBatchLength
+      waiting = getSearchResults(searchText)
+      const res = await waiting
+      results = res
+    } catch (err) {
+      flash = err
+    }
+  }
+
+  let canSearchMore = true
+
+  function resultsBottomEnteredViewport () {
+    if (canSearchMore) {
+      canSearchMore = false
+      searchMore()
+    }
+  }
+
+  function resultsBottomLeftViewport () {
+    canSearchMore = true
+  }
+
   $: onChange(selectedCategory, selectedSection, onSectionChange)
 
   let showFallbackLayout
@@ -219,23 +245,35 @@
         bind:selectedSection
         {results}
       />
-      {#await waiting}
-        <div class="loader">
-          <Spinner center={true} />
-        </div>
-      {:then}
-        {#if showResults}
-          {#if results.length > 0}
-            <ul id="searchResults" class="results" on:click={hideLiveSearch} bind:this={searchResultsEl}>
+      {#if showResults}
+        {#if results.length > 0}
+          <div class="results">
+            <ul id="searchResults" on:click={hideLiveSearch} bind:this={searchResultsEl}>
               {#each results as result, index (result.id)}
                 <SearchResult {result} highlighted={index === highlightedResultIndex} />
               {/each}
             </ul>
-          {:else if searchText.length > 0}
-            <p class="no-result">{i18n('no result')}</p>
-          {/if}
+            {#await waiting}
+              <div class="loader">
+                <Spinner center={true} />
+              </div>
+            {/await}
+            <div class="results-bottom"
+              use:viewport
+              on:enterViewport={resultsBottomEnteredViewport}
+              on:leaveViewport={resultsBottomLeftViewport}
+              ></div>
+          </div>
+        {:else if searchText.length > 0}
+          <p class="no-result">{i18n('no result')}</p>
         {/if}
-      {/await}
+      {:else}
+        {#await waiting}
+          <div class="loader">
+            <Spinner center={true} />
+          </div>
+        {/await}
+      {/if}
       {#if showSearchControls}
         <SearchAlternatives
           {selectedCategory}
@@ -304,6 +342,10 @@
   .no-result{
     text-align: center;
     color: $grey;
+  }
+  .results-bottom{
+    margin-top: min(-5%, -6em);
+    min-height: 1px;
   }
 
   /*Medium to Large screens*/
