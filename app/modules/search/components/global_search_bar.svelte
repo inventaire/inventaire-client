@@ -107,10 +107,17 @@
   const lazySearch = debounce(search, 400)
 
   async function getResultFromUri (uri) {
-    waiting = app.request('get:entity:model', uri)
-    const entity = await waiting
-    const result = serializeEntityModel(entity)
-    return [ result ]
+    try {
+      const entity = await app.request('get:entity:model', uri)
+      const result = serializeEntityModel(entity)
+      return [ result ]
+    } catch (err) {
+      if (err.message === 'entity_not_found') {
+        return []
+      } else {
+        throw err
+      }
+    }
   }
 
   function onKeyDown (e) {
