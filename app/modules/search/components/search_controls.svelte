@@ -11,6 +11,8 @@
   export let selectedCategory = 'entity'
   export let selectedSection = 'all'
   export let results
+  export let uri
+
   const displayThreshold = '$small-screen'
 
   function letRoomForResults () {
@@ -37,8 +39,8 @@
   </button>
 </div>
 
-{#if showSearchControls}
-  <div id="searchControls" class="sections" transition:slide|local>
+{#if showSearchControls && uri == null}
+  <div id="searchControls" class="sections" in:slide|local>
     <div class="entitySections">
       {#each Object.entries(sections.entity) as [ sectionName, section ]}
         <SearchSection

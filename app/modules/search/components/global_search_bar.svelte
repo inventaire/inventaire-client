@@ -260,6 +260,7 @@
         bind:showSearchControls
         bind:selectedCategory
         bind:selectedSection
+        {uri}
         {results}
       />
       {#if showResults}
