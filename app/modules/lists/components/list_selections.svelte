@@ -94,19 +94,19 @@
   <section class="entities-list-section">
     {#if isEditable}
       <div class="entities-selector">
-        <!-- <label for={entities}>
-          {I18n('search for entities to add to the list')}
-        </label> -->
-        <!-- Reuse autocomplete selector with the caveat of no edition results possible. -->
-        <!-- A more advanced way would be to reuse a Svelte global search bar (not implemented) -->
-        <!-- TODO: dont show "no results" at initial state-->
-        <EntityAutocompleteSelector
-          placeholder={i18n('Add an entity to the list')}
-          autofocus={false}
-          bind:currentEntityLabel={inputValue}
-          bind:showSuggestions
-          on:select={e => addUriAsSelection(e.detail)}
-        />
+        <label for={inputValue}>
+          {i18n('Add entity to this list')}
+          <!-- Reuse autocomplete selector with the caveat of no edition results possible. -->
+          <!-- A more advanced way would be to reuse a Svelte global search bar (not implemented) -->
+          <!-- TODO: dont show "no results" at initial state-->
+          <EntityAutocompleteSelector
+            placeholder={i18n('Search for an entity')}
+            autofocus={false}
+            bind:currentEntityLabel={inputValue}
+            bind:showSuggestions
+            on:select={e => addUriAsSelection(e.detail)}
+          />
+        </label>
         <Flash bind:state={flash}/>
       </div>
     {/if}
