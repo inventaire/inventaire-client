@@ -10,6 +10,7 @@
   export let Component, componentProps, pagination
 
   let items = [], flash, waiting
+  let fetchMore, hasMore, allowMore
 
   function fetch () {
     waiting = fetchMore()
@@ -38,11 +39,12 @@
     bottomElInView = false
   }
 
-  let fetchMore, hasMore, allowMore
+  let firstCall = true
   function reinitializePagination () {
     if (!pagination) return
     ;({ fetchMore, hasMore, allowMore } = pagination)
-    if (allowMore && hasMore()) {
+    if ((allowMore || firstCall) && hasMore()) {
+      firstCall = false
       fetch()
     } else {
       items = pagination.items
