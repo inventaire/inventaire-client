@@ -90,7 +90,6 @@
   @import '#general/scss/utils';
   .item-card{
     width: 100%;
-    overflow: hidden;
     @include display-flex(column, stretch, center);
     @include shadow-box;
     @include radius;
