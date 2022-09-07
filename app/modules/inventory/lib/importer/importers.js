@@ -1,7 +1,7 @@
 import { capitalize } from '#lib/utils'
 import log_ from '#lib/loggers'
 import libraryThingParser from './parsers/library_thing.js'
-import goodReadsParser from './parsers/good_reads.js'
+import goodReadsParser from './parsers/goodreads.js'
 import babelioParser from './parsers/babelio.js'
 import { extractIsbns } from '#inventory/lib/importer/extract_isbns'
 import Papa from 'papaparse'
