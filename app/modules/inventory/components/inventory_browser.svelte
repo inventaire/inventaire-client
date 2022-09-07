@@ -9,6 +9,7 @@
   import { clone, intersection, pick, uniq } from 'underscore'
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import { setContext } from 'svelte'
+  import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 
   export let itemsDataPromise, isMainUser, ownerId, groupId, shelfId
 
@@ -16,8 +17,7 @@
 
   let itemsIds, textFilterItemsIds
 
-  // TODO: persist display mode in localstorage
-  let displayMode = 'cascade'
+  const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
 
   let worksTree, workUriItemsMap, itemsByDate
   const waitForInventoryData = itemsDataPromise
@@ -50,7 +50,7 @@
     }
   }
 
-  $: Component = displayMode === 'cascade' ? ItemsCascade : ItemsTable
+  $: Component = $inventoryDisplay === 'cascade' ? ItemsCascade : ItemsTable
   $: onChange(facetsSelectedValues, textFilterItemsIds, filterItems)
 
   let items = [], pagination, componentProps = { isMainUser }
@@ -80,7 +80,6 @@
 
 <InventoryBrowserControls
   {waitForInventoryData}
-  bind:displayMode
   bind:facetsSelectors
   bind:facetsSelectedValues
   bind:textFilterItemsIds

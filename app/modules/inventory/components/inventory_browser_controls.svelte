@@ -8,12 +8,15 @@
   import { screen } from '#lib/components/stores/screen'
   import InventoryBrowserTextFilter from '#inventory/components/inventory_browser_text_filter.svelte'
   import Flash from '#lib/components/flash.svelte'
+  import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 
-  export let waitForInventoryData, displayMode, facetsSelectors, facetsSelectedValues, intersectionWorkUris, textFilterItemsIds
+  export let waitForInventoryData, facetsSelectors, facetsSelectedValues, intersectionWorkUris, textFilterItemsIds
+
+  const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
 
   const displayOptions = [
     { value: 'cascade', icon: 'th-large', text: I18n('cascade') },
-    { value: 'list', icon: 'align-justify', text: I18n('list') },
+    { value: 'table', icon: 'align-justify', text: I18n('table') },
   ]
 
   let wrapped = true
@@ -68,7 +71,7 @@
         {/await}
       </div>
       <div class="display-controls" transition:slide>
-        <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
+        <SelectDropdown bind:value={$inventoryDisplay} options={displayOptions} buttonLabel={I18n('display_mode')}/>
       </div>
     {/if}
   </div>

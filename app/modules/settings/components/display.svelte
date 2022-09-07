@@ -1,30 +1,25 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
-  import { localStorageProxy } from '#lib/local_storage'
-  export let entitiesLarge, inventoryCascade, entitiesCompact, inventoryTable
-  const entitiesDisplay = localStorageProxy.getItem('entitiesDisplay') || 'entitiesLarge'
-  const inventoryDisplay = localStorageProxy.getItem('inventoryDisplay') || 'inventoryCascade'
+  import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 
-  entitiesDisplay === 'compact' ? entitiesCompact = true : entitiesLarge = true
-  inventoryDisplay === 'table' ? inventoryTable = true : inventoryCascade = true
-
-  const selectDisplay = (type, value) => localStorageProxy.setItem(type, value)
+  const entitiesDisplay = getLocalStorageStore('entitiesDisplay', 'large')
+  const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
 </script>
 
 <form>
   <h2 class="first-title">{I18n('display_name')}</h2>
   <fieldset>
     <label for="entitiesDisplay">{I18n('entities lists')} ({i18n('works')})</label>
-    <select id="entitiesDisplay" on:blur="{e => selectDisplay('entitiesDisplay', e.target.value)}">
-      <option value="large" selected="{entitiesLarge}">{I18n('large')}</option>
-      <option value="compact" selected="{entitiesCompact}">{I18n('compact')}</option>
+    <select id="entitiesDisplay" bind:value={$entitiesDisplay}>
+      <option value="large">{I18n('large')}</option>
+      <option value="compact">{I18n('compact')}</option>
     </select>
   </fieldset>
   <fieldset>
     <label for="inventoryDisplay">{i18n('inventory lists')}</label>
-    <select id="inventoryDisplay" on:blur="{e => selectDisplay('inventoryDisplay', e.target.value)}">
-      <option value="cascade" selected="{inventoryCascade}">{I18n('cascade')}</option>
-      <option value="table" selected="{inventoryTable}">{I18n('table')}</option>
+    <select id="inventoryDisplay" bind:value={$inventoryDisplay}>
+      <option value="cascade">{I18n('cascade')}</option>
+      <option value="table">{I18n('table')}</option>
     </select>
   </fieldset>
 </form>
