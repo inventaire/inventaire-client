@@ -28,24 +28,22 @@
 
   $: onChange(candidates, groupExternalShelves)
 </script>
-<div class="importShelves">
-  <label for="external-shelves-selector">
+<fieldset class="import-shelves">
+  <legend>
     <p class="title">{I18n('external_shelves_importer')}</p>
     <p class="description">{I18n('external_shelves_importer_description')}</p>
-  </label>
-  <div id="external-shelves-selector" class="select-button-group" role="menu">
-    {#each externalShelves as externalShelf}
-      <ExternalShelf {externalShelf}/>
-    {/each}
-  </div>
-</div>
+  </legend>
+  {#each externalShelves as externalShelf}
+    <ExternalShelf {externalShelf}/>
+  {/each}
+</fieldset>
 <style lang="scss">
   @import '#general/scss/utils';
   .description{
     font-size: 0.9rem;
     margin-bottom: 0.5em;
   }
-  .importShelves{
+  .import-shelves{
     margin: 1em 0
   }
 </style>
