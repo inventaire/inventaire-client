@@ -7,6 +7,10 @@ Object.assign(webpackConfig, {
   // Determines the target based on the browserslist set in package.json
   // Run `browserslist --update-db` from time to time to update the generated list
   target: 'browserslist',
+  cache: {
+    type: 'filesystem',
+    profile: true,
+  }
 })
 
 webpackConfig.output.filename = '[name].[contenthash:8].js'
