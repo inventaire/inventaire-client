@@ -13,11 +13,11 @@ export default obj => ({
   notes: obj['Private Notes'],
   // See https://www.goodreads.com/api/index#book.id_to_work_id
   goodReadsEditionId: obj['Book Id'],
-  shelves: formatShelves(obj.Bookshelves),
+  shelvesNames: formatShelvesNames(obj.Bookshelves),
 })
 
 const cleanIsbn = isbn => isbn?.replace(/("|=)/g, '')
 
-const formatShelves = bookshelves => _.compact(bookshelves.split(',').map(formatShelf))
+const formatShelvesNames = bookshelves => _.compact(bookshelves.split(',').map(formatShelfName))
 
-const formatShelf = shelf => capitalize(trim(shelf.replace(/-/g, ' ')))
+const formatShelfName = name => capitalize(trim(name.replace(/-/g, ' ')))

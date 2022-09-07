@@ -8,17 +8,17 @@
 
   const groupExternalShelves = () => {
     const lastCandidate = candidates[candidates.length - 1]
-    const { index, shelves } = lastCandidate
-    if (shelves) shelves.forEach(assignOrCreateExternalShelves(index))
+    const { index, shelvesNames } = lastCandidate
+    if (shelvesNames) shelvesNames.forEach(assignOrCreateExternalShelves(index))
   }
 
-  const assignOrCreateExternalShelves = candidateIndex => candidateShelf => {
-    const existingShelf = externalShelves.find(importShelf => importShelf.name === candidateShelf)
+  const assignOrCreateExternalShelves = candidateIndex => candidateShelfName => {
+    const existingShelf = externalShelves.find(({ name }) => name === candidateShelfName)
     if (existingShelf) {
       existingShelf.candidatesIndexes = [ ...existingShelf.candidatesIndexes, candidateIndex ]
     } else {
       const newShelf = {
-        name: candidateShelf,
+        name: candidateShelfName,
         candidatesIndexes: [ candidateIndex ],
         checked: true,
       }
