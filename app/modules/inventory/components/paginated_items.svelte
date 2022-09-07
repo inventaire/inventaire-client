@@ -4,7 +4,6 @@
   import { wait } from '#lib/promises'
   import { onChange } from '#lib/svelte/svelte'
   import assert_ from '#lib/assert_types'
-  import { debounce } from 'underscore'
   import { i18n } from '#user/lib/i18n'
 
   export let Component, componentProps, pagination
@@ -12,13 +11,17 @@
   let items = [], flash, waiting
   let fetchMore, hasMore, allowMore
 
-  function fetch () {
+  let fetching = false
+  async function fetch () {
+    if (fetching) return
+    fetching = true
     waiting = fetchMore()
       .then(() => {
         assert_.array(pagination.items)
         items = pagination.items
       })
       .catch(err => flash = err)
+      .finally(() => fetching = false)
   }
 
   let bottomElInView = false
@@ -27,27 +30,22 @@
     if (!(allowMore && hasMore())) return
     await fetch()
     // Let the time to fetched items to render
-    await wait(100)
+    await wait(500)
     // But if the bottom is still in viewport
     // when the new items are rendered, fetch more
     if (bottomElInView) bottomIsInViewport()
   }
 
-  const lazyBottomIsInViewport = debounce(bottomIsInViewport, 200)
-
   function bottomLeftViewport () {
     bottomElInView = false
   }
 
-  let firstCall = true
   function reinitializePagination () {
     if (!pagination) return
     ;({ fetchMore, hasMore, allowMore } = pagination)
-    if ((allowMore || firstCall) && hasMore()) {
-      firstCall = false
+    if (!pagination.firstFetchDone) {
+      pagination.firstFetchDone = true
       fetch()
-    } else {
-      items = pagination.items
     }
   }
 
@@ -61,11 +59,13 @@
     <p class="no-item">{i18n('There is nothing here')}</p>
   {/if}
   <Flash state={flash} />
-  <div class="bottom"
-    use:viewport
-    on:enterViewport={lazyBottomIsInViewport}
-    on:leaveViewport={bottomLeftViewport}
-    ></div>
+  {#if allowMore && hasMore()}
+    <div class="bottom"
+      use:viewport
+      on:enterViewport={bottomIsInViewport}
+      on:leaveViewport={bottomLeftViewport}
+      ></div>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -78,7 +78,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: min(60%, 100vh);
+    bottom: min(20%, 50vh);
     z-index: 1;
     min-height: 1px;
   }
