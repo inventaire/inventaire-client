@@ -2,31 +2,30 @@
   import { I18n } from '#user/lib/i18n'
   import { onChange } from '#lib/svelte/svelte'
   import ExternalShelf from '#inventory/components/importer/external_shelf.svelte'
+  import { debounce } from 'underscore'
 
   export let candidates
   export let externalShelves
 
-  const groupExternalShelves = () => {
-    const lastCandidate = candidates[candidates.length - 1]
-    const { index, shelvesNames } = lastCandidate
-    if (shelvesNames) shelvesNames.forEach(assignOrCreateExternalShelves(index))
-  }
-
-  const assignOrCreateExternalShelves = candidateIndex => candidateShelfName => {
-    const existingShelf = externalShelves.find(({ name }) => name === candidateShelfName)
-    if (existingShelf) {
-      existingShelf.candidatesIndexes = [ ...existingShelf.candidatesIndexes, candidateIndex ]
-    } else {
-      const newShelf = {
-        name: candidateShelfName,
-        candidatesIndexes: [ candidateIndex ],
-        checked: true,
+  const refreshExternalShelves = () => {
+    const externalShelvesByName = {}
+    candidates.forEach(candidate => {
+      const { index: candidateIndex, shelvesNames } = candidate
+      if (shelvesNames) {
+        shelvesNames.forEach(shelfName => {
+          externalShelvesByName[shelfName] = externalShelvesByName[shelfName] || newShelf(shelfName)
+          externalShelvesByName[shelfName].candidatesIndexes.push(candidateIndex)
+        })
       }
-      externalShelves = [ ...externalShelves, newShelf ]
-    }
+    })
+    externalShelves = Object.values(externalShelvesByName)
   }
 
-  $: onChange(candidates, groupExternalShelves)
+  const newShelf = name => ({ name, candidatesIndexes: [], checked: true })
+
+  const lazyRefreshExternalShelves = debounce(refreshExternalShelves, 500)
+
+  $: onChange(candidates, lazyRefreshExternalShelves)
 </script>
 <fieldset class="import-shelves">
   <legend>
