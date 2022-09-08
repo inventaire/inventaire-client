@@ -84,7 +84,7 @@
           <li>
             <a
               href={`/shelves/${shelf._id}`}
-              on:click={loadInternalLink}
+              on:click|stopPropagation={loadInternalLink}
               >
               <ShelfInfo {shelf} />
             </a>

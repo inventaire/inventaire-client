@@ -33,7 +33,7 @@
 <div class="item-row">
   <slot name="checkbox" />
 
-  <a href="{pathname}" on:click={loadInternalLink}>
+  <a href="{pathname}" on:click|stopPropagation={loadInternalLink}>
     <div class="image-wrapper">
       {#if image}<img src="{imgSrc(image, 128)}" alt="">{/if}
     </div>

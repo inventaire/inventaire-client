@@ -5,7 +5,7 @@
   export let user
 </script>
 
-<a href={user.pathname} on:click={loadInternalLink}>
+<a href={user.pathname} on:click|stopPropagation={loadInternalLink}>
   <img alt="{user.username} avatar" src={imgSrc(user.picture, 48)}>
   <strong class="username">{user.username}</strong>
 </a>

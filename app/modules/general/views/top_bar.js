@@ -1,12 +1,13 @@
 import { clickCommand } from '#lib/utils'
 import { translate } from '#lib/urls'
-import getActionKey from '#lib/get_action_key'
-import LiveSearch from '#search/views/live_search'
+import GlobalSearchBar from '#search/components/global_search_bar.svelte'
 import TopBarButtons from './top_bar_buttons.js'
 import screen_ from '#lib/screen'
 import { currentRoute, currentSection } from '#lib/location'
 import languages from '#lib/languages_data'
 import topBarTemplate from './templates/top_bar.hbs'
+import { removeCurrentComponent } from '#lib/global_libs_extender'
+import { debounce } from 'underscore'
 
 const mostCompleteFirst = (a, b) => b.completion - a.completion
 const languagesList = _.values(languages).sort(mostCompleteFirst)
@@ -20,25 +21,23 @@ export default Marionette.View.extend({
   template: topBarTemplate,
 
   regions: {
-    liveSearch: '#liveSearch',
+    globalSearchBar: '#globalSearchBar',
     topBarButtons: '#topBarButtons'
   },
 
   ui: {
     searchField: '#searchField',
-    overlay: '#overlay',
-    closeSearch: '.closeSearch'
   },
 
   initialize () {
+    const lazySafeRender = debounce(this.safeRender.bind(this), 200)
+
     this.listenTo(app.vent, {
-      'screen:mode:change': this.lazyRender.bind(this),
+      'screen:mode:change': lazySafeRender,
       'route:change': this.onRouteChange.bind(this),
-      'live:search:show:result': this.hideLiveSearch.bind(this),
-      'live:search:query': this.setQuery.bind(this)
     })
 
-    this.listenTo(app.user, 'change:picture', this.lazyRender.bind(this))
+    this.listenTo(app.user, 'change:picture', lazySafeRender)
   },
 
   serializeData () {
@@ -57,11 +56,19 @@ export default Marionette.View.extend({
     // Needed as 'route:change' might have been triggered before
     // this view was initialized
     this.onRouteChange(currentSection(), currentRoute())
+    this.setTimeout(this.showGlobalSearchBar.bind(this), 0)
+  },
+
+  safeRender () {
+    // The component needs to be destroyed before the rerender
+    // as it otherwise produces type errors
+    removeCurrentComponent(this.getRegion('globalSearchBar'))
+    this.render()
   },
 
   showTopBarButtons () {
     // Use a child view for those buttons to be able to re-render them independenly
-    // without disrupting the LiveSearch state
+    // without disrupting the GlobalSearchBar state
     this.showChildView('topBarButtons', new TopBarButtons())
   },
 
@@ -71,23 +78,13 @@ export default Marionette.View.extend({
 
   events: {
     'click #home': clickCommand('show:home'),
-
-    'focus #searchField': 'showLiveSearch',
-    'keyup #searchField': 'onKeyUp',
-    'keydown #searchField': 'neutralizeKeys',
-    'keyup #searchControls': 'closeSearchOnEscapeKey',
-    'click .searchSection': 'recoverSearchFocus',
-    click: 'updateLiveSearch',
-    'click .closeSearch': 'closeSearch',
-    'click #live-search': 'closeSearchOnOverlayClick',
-
-    'focus #topBarButtons': 'closeSearch',
+    'focus #goToMain': 'closeSearch',
     'focus #language-picker': 'closeSearch',
     'click #language-picker .option button': 'selectLang',
   },
 
-  childViewEvents: {
-    'hide:live:search': 'hideLiveSearch'
+  closeSearch () {
+    document.getElementById('closeSearch')?.click()
   },
 
   updateConnectionButtons (section) {
@@ -118,117 +115,9 @@ export default Marionette.View.extend({
     }
   },
 
-  // Do not use default parameter `(params = {})`
-  // as the router might pass `null` as first argument
-  showLiveSearch (params) {
-    params = params || {}
-    // If a section is specified, reinitialize the search view
-    // to take that section request into account
-    if ((this.getRegion('liveSearch').currentView != null) && (params.section == null)) {
-      this.getRegion('liveSearch').$el.show()
-    } else {
-      this.showChildView('liveSearch', new LiveSearch(params))
-    }
-    this.getRegion('liveSearch').$el.addClass('shown')
-    this.getRegion('liveSearch').currentView.resetHighlightIndex()
-    this.getRegion('liveSearch').currentView.showSearchSettings()
-    this.ui.overlay.removeClass('hidden')
-    this.ui.closeSearch.removeClass('hidden')
-    this._liveSearchIsShown = true
+  showGlobalSearchBar () {
+    this.showChildComponent('globalSearchBar', GlobalSearchBar, {
+      props: {}
+    })
   },
-
-  hideLiveSearch (triggerFallbackLayout) {
-    // Discard non-boolean flags
-    triggerFallbackLayout = (triggerFallbackLayout === true) && (currentRoute() === 'search')
-
-    if (this.getRegion('liveSearch').$el == null) return
-
-    this.getRegion('liveSearch').$el.hide()
-    this.getRegion('liveSearch').$el.removeClass('shown')
-    this.ui.overlay.addClass('hidden')
-    this.ui.closeSearch.addClass('hidden')
-    this._liveSearchIsShown = false
-    // Trigger the fallback layout only in cases when no other layout
-    // is set to be displayed
-    if (triggerFallbackLayout && (this.showFallbackLayout != null)) {
-      this.showFallbackLayout()
-      this.showFallbackLayout = null
-    }
-  },
-
-  updateLiveSearch (e) {
-    // Make clicks on anything but the search group hide the live search
-    const { target } = e
-    if ((target.id === 'overlay') || ($(target).parents('#searchGroup').length === 0)) {
-      return this.hideLiveSearch(true)
-    }
-  },
-
-  neutralizeKeys (e) {
-    // Prevent the cursor to move when using special keys
-    // to navigate the live_search list
-    const key = getActionKey(e)
-    if (neutralizedKeys.includes(key)) e.preventDefault()
-  },
-
-  closeSearchOnEscapeKey (e) {
-    // no other special keys than escape should be triggered
-    // known case: initial search without results
-    if (!this._liveSearchIsShown) this.showLiveSearch()
-    if (getActionKey(e) === 'esc') this.hideLiveSearch(true)
-  },
-
-  onKeyUp (e) {
-    if (!this._liveSearchIsShown) this.showLiveSearch()
-    const key = getActionKey(e)
-    if (key != null) {
-      if (key === 'esc') {
-        return this.hideLiveSearch(true)
-      } else {
-        return this.getRegion('liveSearch').currentView.onSpecialKey(key)
-      }
-    } else {
-      const { value } = e.currentTarget
-      return this.searchLive(value)
-    }
-  },
-
-  searchLive (text) {
-    this.getRegion('liveSearch').currentView.lazySearch(text)
-    app.vent.trigger('search:global:change', text)
-  },
-
-  setQuery (params) {
-    let search, section;
-    ({ search, showFallbackLayout: this.showFallbackLayout, section } = params)
-    this.showLiveSearch({ section })
-    this.searchLive(search)
-    this.ui.searchField.focus()
-    // Set value after focusing so that the cursor appears at the end
-    // cf https://stackoverflow.com/a/8631903/3324977inv
-    this.ui.searchField.val(search)
-  },
-
-  // When clicking on a live_search searchField button, the search loose the focus
-  // thus the need to recover it
-  recoverSearchFocus () {
-    this.ui.searchField.focus()
-    this.getRegion('liveSearch').currentView.hideSearchSettings()
-  },
-
-  closeSearch () {
-    this.ui.searchField.val('')
-    return this.hideLiveSearch()
-  },
-
-  // If the click event is directly on the live search element
-  // that means that it was outside the search results or sections
-  // and should be interpreted as a close request
-  // This can be the case on small screens as #live-search takes all the height
-  // and thus clicks on #overlay won't be detected
-  closeSearchOnOverlayClick (e) {
-    if (e.target.id === 'live-search') return this.closeSearch()
-  }
 })
-
-const neutralizedKeys = [ 'up', 'down', 'pageup', 'pagedown' ]

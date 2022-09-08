@@ -1,11 +1,23 @@
 let screen_
 
+// Keep in sync with app/modules/general/scss/_grid_and_media_query_ranges.scss
+const wellknownWidths = {
+  '$small-screen': 1000,
+  '$smaller-screen': 600,
+  '$very-small-screen': 350,
+}
+const resolveWidth = width => wellknownWidths[width] ? wellknownWidths[width] : width
+
+export const viewportIsSmallerThan = maxWidth => window.visualViewport.width < resolveWidth(maxWidth)
+export const viewportIsLargerThan = maxWidth => window.visualViewport.width > resolveWidth(maxWidth)
+
 export default screen_ = {
   // /!\ window.screen.width is the screen's width not the current window width
-  width () { return $(window).width() },
-  height () { return $(window).height() },
-  // keep in sync with app/modules/general/scss/_grid_and_media_query_ranges.scss
-  isSmall (ceil = 1000) { return screen_.width() < ceil },
+  width: () => window.visualViewport.width,
+  height: () => window.visualViewport.height,
+  isSmall (ceil = wellknownWidths['$small-screen']) {
+    return screen_.width() < ceil
+  },
 
   // Scroll to the top of an $el
   // Increase marginTop to scroll to a point before the element top

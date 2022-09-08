@@ -27,7 +27,7 @@
   <div class="header">
     <div class="header-main">
       <h2>
-        <a href="/entity/{uri}" on:click={loadInternalLink}>
+        <a href="/entity/{uri}" on:click|stopPropagation={loadInternalLink}>
           {favoriteLabel}
         </a>
       </h2>

@@ -9,7 +9,7 @@
 </script>
 
 <div class="mixedBox">
-  <a href={user.pathname} on:click={loadInternalLink}>
+  <a href={user.pathname} on:click|stopPropagation={loadInternalLink}>
     <img class="profilePic" alt="{user.username} avatar" src="{imgSrc(user.picture, 48)}">
   </a>
   <a
@@ -19,7 +19,7 @@
     class:selling={currentTransaction.id === 'selling'}
     class:inventorying={currentTransaction.id === 'inventorying'}
     href={pathname}
-    on:click={loadInternalLink}
+    on:click|stopPropagation={loadInternalLink}
     >
     {@html icon(currentTransaction.icon)}
   </a>
@@ -28,7 +28,7 @@
   <a
     href={pathname}
     class="label"
-    on:click={loadInternalLink}
+    on:click|stopPropagation={loadInternalLink}
   >
     {@html i18n(currentTransaction.labelPersonalizedStrong, user)}
   </a>
