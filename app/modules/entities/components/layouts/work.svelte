@@ -28,7 +28,7 @@
   let initialEditions = []
   const userLang = app.user.lang
   let publishersByUris
-  let usersSize = 0
+  let itemsUsers = 0
   let itemsByEditions = {}
 
   setContext('work-layout:filters-store', writable({}))
@@ -89,7 +89,7 @@
           />
           <WorkActions
             {someEditions}
-            bind:usersSize={usersSize}
+            bind:itemsUsers={itemsUsers}
             on:showMap={() => showMap = true}
             on:scrollToItemsList={scrollToItemsList}
           />
@@ -127,7 +127,7 @@
           <ItemsLists
             {editionsUris}
             bind:showMap={showMap}
-            bind:usersSize={usersSize}
+            bind:itemsUsers={itemsUsers}
             on:scrollToItemsList={scrollToItemsList}
             bind:itemsByEditions={itemsByEditions}
           />

@@ -3,17 +3,32 @@
   import { icon } from '#lib/utils'
   import { createEventDispatcher } from 'svelte'
   import { screen } from '#lib/components/stores/screen'
+  import { onChange } from '#lib/svelte/svelte'
 
   const dispatch = createEventDispatcher()
 
-  export let someEditions, usersSize
+  export let someEditions, itemsUsers
+
+  let areNotOnlyMainUserItems
 
   const triggerMap = () => {
     dispatch('showMap')
     dispatch('scrollToItemsList')
   }
+
+  function hasUsersOtherThanMainUser () {
+    if (itemsUsers.length === 0) return false
+    if (_.isEqual(itemsUsers, [ app.user.id ])) return false
+    return true
+  }
+
+  function assignIfNotOnlyMainUserItems () {
+    areNotOnlyMainUserItems = hasUsersOtherThanMainUser()
+  }
+
+  $: onChange(itemsUsers, assignIfNotOnlyMainUserItems)
 </script>
-{#if someEditions && usersSize > 0}
+{#if someEditions && areNotOnlyMainUserItems}
   <div class="actions-wrapper">
     {#if $screen.isSmallerThan(600)}
       <button
@@ -23,7 +38,7 @@
       >
         {@html icon('user')}
         {i18n('Show who has this book')}
-        ({usersSize})
+        ({itemsUsers.length})
       </button>
     {/if}
     <button

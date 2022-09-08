@@ -7,7 +7,7 @@
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 
-  export let editionsUris, initialItems = [], usersSize, showMap, itemsByEditions
+  export let editionsUris, initialItems = [], itemsUsers, showMap, itemsByEditions
 
   let items = []
   let initialBounds
@@ -32,7 +32,7 @@
     showMap = true
   }
 
-  $: usersSize = _.compact(_.uniq(items.map(_.property('owner')))).length
+  $: itemsUsers = _.compact(_.uniq(items.map(_.property('owner'))))
   $: itemsByEditions = _.groupBy(initialItems, 'entity')
   $: editionsUris && getItemsByCategories()
   $: displayCover = editionsUris?.length > 1
