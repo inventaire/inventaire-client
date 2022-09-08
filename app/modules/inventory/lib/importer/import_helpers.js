@@ -16,6 +16,7 @@ export const createCandidate = (externalEntry, entitiesRes) => {
     numberOfPages,
     goodReadsEditionId,
     libraryThingWorkId,
+    shelvesNames,
     rawEntry
   } = externalEntry
 
@@ -29,6 +30,7 @@ export const createCandidate = (externalEntry, entitiesRes) => {
   if (numberOfPages) candidate.numberOfPages = numberOfPages
   if (goodReadsEditionId) candidate.goodReadsEditionId = goodReadsEditionId
   if (libraryThingWorkId) candidate.libraryThingWorkId = libraryThingWorkId
+  if (shelvesNames) candidate.shelvesNames = shelvesNames
 
   if (!entitiesRes) return candidate
   return assignEntitiesToCandidate(candidate, entitiesRes)

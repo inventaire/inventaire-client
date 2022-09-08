@@ -1,0 +1,48 @@
+<script>
+  import { I18n } from '#user/lib/i18n'
+  import { onChange } from '#lib/svelte/svelte'
+  import ExternalShelf from '#inventory/components/importer/external_shelf.svelte'
+  import { debounce } from 'underscore'
+
+  export let candidates
+  export let externalShelves
+
+  const refreshExternalShelves = () => {
+    const externalShelvesByName = {}
+    candidates.forEach(candidate => {
+      const { index: candidateIndex, shelvesNames } = candidate
+      if (shelvesNames) {
+        shelvesNames.forEach(shelfName => {
+          externalShelvesByName[shelfName] = externalShelvesByName[shelfName] || newShelf(shelfName)
+          externalShelvesByName[shelfName].candidatesIndexes.push(candidateIndex)
+        })
+      }
+    })
+    externalShelves = Object.values(externalShelvesByName)
+  }
+
+  const newShelf = name => ({ name, candidatesIndexes: [], checked: true })
+
+  const lazyRefreshExternalShelves = debounce(refreshExternalShelves, 500)
+
+  $: onChange(candidates, lazyRefreshExternalShelves)
+</script>
+<fieldset class="import-shelves">
+  <legend>
+    <p class="title">{I18n('external_shelves_importer')}</p>
+    <p class="description">{I18n('external_shelves_importer_description')}</p>
+  </legend>
+  {#each externalShelves as externalShelf}
+    <ExternalShelf {externalShelf}/>
+  {/each}
+</fieldset>
+<style lang="scss">
+  @import '#general/scss/utils';
+  .description{
+    font-size: 0.9rem;
+    margin-bottom: 0.5em;
+  }
+  .import-shelves{
+    margin: 1em 0
+  }
+</style>

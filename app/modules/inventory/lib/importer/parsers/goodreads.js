@@ -1,5 +1,5 @@
 import { isPositiveIntegerString, isDateString } from '#lib/boolean_tests'
-import { trim } from '#lib/utils'
+import { trim, capitalize } from '#lib/utils'
 
 export default obj => ({
   rawEntry: obj,
@@ -13,6 +13,11 @@ export default obj => ({
   notes: obj['Private Notes'],
   // See https://www.goodreads.com/api/index#book.id_to_work_id
   goodReadsEditionId: obj['Book Id'],
+  shelvesNames: formatShelvesNames(obj.Bookshelves),
 })
 
 const cleanIsbn = isbn => isbn?.replace(/("|=)/g, '')
+
+const formatShelvesNames = bookshelves => _.compact(bookshelves.split(',').map(formatShelfName))
+
+const formatShelfName = name => capitalize(trim(name.replace(/-/g, ' ')))

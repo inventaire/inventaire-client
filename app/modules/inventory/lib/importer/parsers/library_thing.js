@@ -17,6 +17,7 @@ export default obj => ({
   details: obj.review,
   notes: obj.privatecomment,
   libraryThingWorkId: obj.workcode,
+  shelvesNames: obj.collections
 })
 
 // TODO: parse obj.authors and assign `secondaryauthorroles`

@@ -40,6 +40,7 @@ describe('Importers', () => {
           looksLikeAnIsbn(doc.isbn).should.be.ok()
           doc.authors.should.be.a.Array()
           if (doc.details) doc.details.should.be.a.String()
+          if (doc.shelvesNames) doc.shelvesNames.should.be.a.Array()
         }
       })
     })

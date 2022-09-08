@@ -6,6 +6,7 @@
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import CandidatesSection from '#inventory/components/importer/candidates_section.svelte'
   import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'
+  import ExternalShelves from '#inventory/components/importer/external_shelves.svelte'
 
   // Known cases: incoming from scan
   export let isbns
@@ -28,6 +29,7 @@
   let candidates = []
   let transaction, visibility
   let shelvesIds = []
+  let externalShelves = []
 </script>
 <div id='importLayout'>
   <ImportersSection bind:candidates {processing} {isbns}/>
@@ -38,10 +40,11 @@
       <TransactionSelector bind:transaction showDescription={true} />
       <VisibilitySelector bind:visibility showDescription={true} showTip={true} />
       <ShelvesSelector bind:shelvesIds showDescription={true} />
+      <ExternalShelves bind:externalShelves {candidates}/>
     </div>
   {/if}
   {#if !processing}
-    <ImportItemsSection bind:candidates {transaction} {visibility} {shelvesIds}/>
+    <ImportItemsSection bind:candidates {transaction} {visibility} {shelvesIds} {externalShelves}/>
   {/if}
 </div>
 
