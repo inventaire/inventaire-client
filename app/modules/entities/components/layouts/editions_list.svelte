@@ -3,6 +3,7 @@
   import EditionsListActions from './editions_list_actions.svelte'
   import EntitiesList from './entities_list.svelte'
   import EditionCreation from './edition_creation.svelte'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let hasSomeInitialEditions,
     someEditions,
@@ -17,7 +18,14 @@
     <h5>
       {I18n('editions')}
     </h5>
-    <span class="counter">{initialEditions.length}</span>
+    {#if isNonEmptyArray(initialEditions)}
+      <span
+        class="counter"
+        title="{ I18n('all_editions_count', { count: initialEditions.length }) }"
+      >
+        {initialEditions.length}
+      </span>
+    {/if}
   </div>
   <EditionsListActions
     bind:editions={editions}
@@ -71,7 +79,6 @@
   .no-edition-wrapper{
     @include display-flex(row, center, center);
     color: $grey;
-    margin-top: 1em;
   }
 
   /*Large screens*/
