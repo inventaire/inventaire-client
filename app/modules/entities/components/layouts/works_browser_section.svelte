@@ -76,6 +76,6 @@
   .no-work{
     text-align: center;
     color: $grey;
-    margin: 1em;
+    margin-bottom: 0.5em;
   }
 </style>
