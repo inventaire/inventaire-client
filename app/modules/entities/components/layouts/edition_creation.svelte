@@ -81,9 +81,7 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .wrapper{
-    border-top: 1px solid #ddd;
     padding: 1em 0.5em 0.5em 0.5em;
-    margin-top: 0.5em;
     align-self: stretch;
   }
   .edition-creation{

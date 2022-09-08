@@ -88,7 +88,6 @@
   @import '#general/scss/utils';
   .entity-wrapper{
     @include display-flex(row);
-    margin-top: 0.5em;
   }
   .entity-title{
     font-size:1.1em;

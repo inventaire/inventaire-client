@@ -45,14 +45,16 @@
   @import '#general/scss/utils';
   .entities-list{
     width: 100%;
+    margin-top: 1em;
   }
   .toggler-wrapper{
     padding: 0.3em;
   }
   .list-entity{
     @include display-flex(row, center, space-between);
-    border-top: 1px solid #ddd;
-    padding: 0.3em 0;
-    margin-top: 1em;
+    @include radius;
+    border: 1px solid #ddd;
+    padding: 0.5em;
+    margin: 0.2em 0;
   }
 </style>
