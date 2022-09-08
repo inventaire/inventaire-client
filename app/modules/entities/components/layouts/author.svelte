@@ -87,12 +87,4 @@
       }
     }
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    .infobox-and-summary{
-      :global(.summary-wrapper){
-        margin: 1em;
-      }
-    }
-  }
 </style>
