@@ -1,8 +1,10 @@
 <script>
   import SelectDropdown from '#components/select_dropdown.svelte'
   import Flash from '#lib/components/flash.svelte'
+  import { icon } from '#lib/handlebars_helpers/icons'
+  import { screen } from '#lib/components/stores/screen'
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { I18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import WorksBrowserFacets from '#entities/components/layouts/works_browser_facets.svelte'
   import WorksBrowserTextFilter from '#entities/components/layouts/works_browser_text_filter.svelte'
   import { pluck } from 'underscore'
@@ -21,24 +23,43 @@
   let displayMode = 'grid'
 
   let flash, facets, facetsSelectedValues, facetsSelectors, textFilterUris
+
+  let wrapped = true
+  const smallScreenThreshold = 1000
+  $: showControls = $screen.isLargerThan(smallScreenThreshold - 1) || !wrapped
 </script>
 
 <Flash state={flash} />
 
 <div class="works-browser">
-  {#if isNonEmptyArray(allWorks)}
-    <div class="controls">
-      <WorksBrowserFacets
-        works={allWorks}
-        bind:facets
-        bind:facetsSelectors
-        bind:facetsSelectedValues
-        bind:flash
-      />
-      <WorksBrowserTextFilter bind:textFilterUris />
-      <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
-    </div>
-  {/if}
+  <div class="wrapper" class:unwrapped={showControls}>
+    {#if $screen.isSmallerThan(smallScreenThreshold)}
+      <button
+        class="toggle-controls"
+        on:click={() => wrapped = !wrapped}
+        aria-controls="works-browser-controls"
+        >
+        {@html icon('cog')}
+        {i18n('Advanced options')}
+        {@html icon('caret-down')}
+      </button>
+    {/if}
+    {#if showControls}
+      {#if isNonEmptyArray(allWorks)}
+        <div class="controls">
+          <WorksBrowserFacets
+            works={allWorks}
+            bind:facets
+            bind:facetsSelectors
+            bind:facetsSelectedValues
+            bind:flash
+          />
+          <WorksBrowserTextFilter bind:textFilterUris />
+          <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
+        </div>
+      {/if}
+    {/if}
+  </div>
 
   {#if sections}
     {#each sections as section}
@@ -56,7 +77,6 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .controls{
-    background-color: $off-white;
     margin-bottom: 0.5em;
     @include radius;
     padding: 0.5em;
@@ -66,6 +86,34 @@
     }
     :global(.select-dropdown){
       margin-right: 1em;
+    }
+  }
+
+  .wrapper{
+    @include display-flex(column, stretch);
+    margin-top: 0.5em;
+    &:not(.unwrapped){
+      @include display-flex(column, flex-end);
+    }
+    margin-bottom: 1em;
+    &.unwrapped{
+      background-color: $off-white;
+      .toggle-controls{
+        align-self: flex-end;
+      }
+    }
+  }
+  .toggle-controls{
+    z-index: 10;
+    @include display-flex(row, center, center);
+    @include bg-hover($off-white);
+    @include radius;
+    padding: 0.5em;
+    color: $grey;
+    :global(.fa){
+      font-size: 1.4rem;
+      padding: 0;
+      margin: 0;
     }
   }
 
@@ -84,6 +132,7 @@
       }
     }
   }
+
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .controls{
@@ -91,6 +140,13 @@
       :global(.select-dropdown), :global(.works-browser-text-filter){
         margin: 0.5em auto;
       }
+    }
+  }
+
+  /*Very small screens*/
+  @media screen and (max-width: $very-small-screen) {
+    .wrapper:not(.unwrapped){
+      @include display-flex(column, center);
     }
   }
 </style>
