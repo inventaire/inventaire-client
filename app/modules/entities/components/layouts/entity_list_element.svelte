@@ -93,6 +93,11 @@
   .entity-title{
     font-size:1.1em;
   }
+  .subtitle{
+    line-height: 1rem;
+    font-size: 0.8rem;
+    color: $label-grey;
+  }
   .cover{
     :global(a img){
       max-height:6em;
