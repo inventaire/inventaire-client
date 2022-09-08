@@ -23,7 +23,7 @@
   function getSummaries () {
     const refresh = entity.refreshTimestamp && !expired(entity.refreshTimestamp, 1000)
     if (summaries == null || refresh) {
-      waitingForSummariesData = preq.get(app.API.data.summaries({ uri, refresh }))
+      waitingForSummariesData = preq.get(app.API.data.summaries({ uri, langs: userLang, refresh }))
         .then(res => {
           summaries = res.summaries
           summeriesPerLang = indexBy(summaries, 'lang')

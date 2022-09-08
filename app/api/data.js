@@ -8,7 +8,7 @@ export default {
   isbn (isbn) {
     return action('isbn', { isbn })
   },
-  summaries: ({ uri, refresh }) => {
-    return action('summaries', { uri, refresh })
+  summaries: ({ uri, langs, refresh }) => {
+    return action('summaries', { uri, langs, refresh })
   },
 }
