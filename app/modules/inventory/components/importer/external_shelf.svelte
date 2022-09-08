@@ -1,9 +1,8 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
   export let externalShelf
 </script>
 <label>
-  <input type="checkbox" bind:checked={externalShelf.checked} name="{I18n('external_shelf')}">
+  <input type="checkbox" bind:checked={externalShelf.checked}>
   {externalShelf.name}
 </label>
 <style lang="scss">

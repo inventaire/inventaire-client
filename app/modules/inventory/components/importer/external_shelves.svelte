@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { onChange } from '#lib/svelte/svelte'
   import ExternalShelf from '#inventory/components/importer/external_shelf.svelte'
   import { debounce } from 'underscore'
@@ -29,8 +29,8 @@
 </script>
 <fieldset class="import-shelves">
   <legend>
-    <p class="title">{I18n('external_shelves_importer')}</p>
-    <p class="description">{I18n('external_shelves_importer_description')}</p>
+    <p class="title">{i18n('external_shelves_importer')}</p>
+    <p class="description">{i18n('external_shelves_importer_description')}</p>
   </legend>
   {#each externalShelves as externalShelf}
     <ExternalShelf {externalShelf}/>
