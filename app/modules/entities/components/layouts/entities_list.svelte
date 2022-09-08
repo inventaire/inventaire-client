@@ -18,13 +18,12 @@
 </script>
 <div  class="entities-list">
   {#each shownEntities as entity (entity.uri)}
-    <div class="entity-list">
+    <div class="list-entity">
       <EntityListElement
         {entity}
         {relatedEntities}
         {parentEntity}
       />
-      <!-- keep action button on top (.entity-list flex-direction) to display dropdown  -->
       <EditionActions
         {entity}
         {itemsByEditions}
@@ -50,8 +49,8 @@
   .toggler-wrapper{
     padding: 0.3em;
   }
-  .entity-list{
-    @include display-flex(row, flex-start, space-between);
+  .list-entity{
+    @include display-flex(row, center, space-between);
     border-top: 1px solid #ddd;
     padding: 0.3em 0;
     margin-top: 1em;

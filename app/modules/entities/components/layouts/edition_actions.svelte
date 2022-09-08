@@ -40,8 +40,6 @@
     @include display-flex(column, center, flex-end);
   }
   .edition-actions-wrapper{
-    margin-top: 0.5em;
-
     :global(.action-button){
       @include tiny-button($light-blue);
       padding: 0.5em;
