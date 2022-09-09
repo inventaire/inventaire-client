@@ -41,9 +41,11 @@
               <span class="count">{itemsCount}</span>
             </li>
           {/if}
-          <li id='listing' title={i18n('visible by')}>
-            {@html icon(iconData.icon)} {i18n(iconLabel)}
-          </li>
+          {#if shelf.visibility}
+            <li id='listing' title={i18n('visible by')}>
+              {@html icon(iconData.icon)} {i18n(iconLabel)}
+            </li>
+          {/if}
         </ul>
       {/if}
       <p class="description">{description}</p>
