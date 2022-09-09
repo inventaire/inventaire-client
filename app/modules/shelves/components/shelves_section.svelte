@@ -13,21 +13,13 @@
 
   let shelves, flash
 
-  const isMainUser = username = app.user.get('username')
-
-  const waitForList = getUserId(username)
+  const waitForList = app.request('get:userId:from:username', username)
     .then(getShelvesByOwner)
     .then(res => shelves = res)
     .catch(err => flash = err)
 
-  async function getUserId (username) {
-    if (isMainUser) return app.user.id
-    else return app.request('get:userId:from:username', username)
-  }
-
   const toggleShelves = () => showShelves = !showShelves
 </script>
-
 <div class="header">
   {#await waitForList}
     <h3 class="subheader">{I18n('shelves')} <Spinner /></h3>
