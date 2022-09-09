@@ -217,6 +217,7 @@ export default Marionette.View.extend({
       this.showUserInventory(model)
       this.showUserProfile(model)
       this.getRegion('groupProfile').empty()
+      this.getRegion('shelfInfo').empty()
       this.getRegion('shelvesList').empty()
       this.showUserShelves(model)
       this.scrollToSection('userProfile')
