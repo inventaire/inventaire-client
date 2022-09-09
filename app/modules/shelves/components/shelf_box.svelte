@@ -2,21 +2,13 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { serializeShelf } from '#shelves/lib/shelves'
+  import { serializeShelfData } from './lib/shelves'
 
   export let shelf, withoutShelf
 
-  let name, description, pathname, picture, iconData, iconLabel, title, isEditable, itemsCount
+  let itemsCount
 
-  if (withoutShelf) {
-    name = title = i18n('Items without shelf')
-    description = ''
-    pathname = '/shelves/without'
-  } else {
-    ;({ name, description } = shelf)
-    ;({ pathname, picture, iconData, iconLabel, isEditable } = serializeShelf(shelf))
-    title = `${name}${description ? ` - ${description}` : ''}`
-  }
+  const { name, description, picture, iconData, iconLabel, isEditable } = serializeShelfData(shelf, withoutShelf)
 
   const showShelfEditor = () => app.execute('show:shelf:editor', shelf)
   const addItems = () => app.execute('add:items:to:shelf', shelf)

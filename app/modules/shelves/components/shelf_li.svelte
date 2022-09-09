@@ -2,22 +2,12 @@
   import { i18n } from '#user/lib/i18n'
   import { icon, isOpenedOutside } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { serializeShelf } from '#shelves/lib/shelves'
+  import { serializeShelfData } from './lib/shelves'
   import Shelf from '#shelves/models/shelf'
 
   export let shelf, withoutShelf
 
-  let name, description, pathname, picture, iconData, iconLabel, title
-
-  if (withoutShelf) {
-    name = title = i18n('Show items without shelf')
-    description = ''
-    pathname = '/shelves/without'
-  } else {
-    ;({ name, description } = shelf)
-    ;({ pathname, picture, iconData, iconLabel } = serializeShelf(shelf))
-    title = `${name}${description ? ` - ${description}` : ''}`
-  }
+  let { name, description, pathname, title, picture, iconData, iconLabel } = serializeShelfData(shelf, withoutShelf)
 
   function onClick (e) {
     if (isOpenedOutside(e)) return
