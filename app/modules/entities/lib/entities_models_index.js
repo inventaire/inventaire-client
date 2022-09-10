@@ -103,7 +103,7 @@ const getRemoteEntitiesModels = function (uris, refresh, defaultType) {
 const inidivualPromise = (collectivePromise, uri) => collectivePromise.then(_.property(uri))
 
 // Add links to the redirected entities objects
-const aliasRedirects = function (entities, redirects) {
+export const aliasRedirects = function (entities, redirects) {
   for (const from in redirects) {
     const to = redirects[from]
     entities[from] = entities[to]

@@ -33,21 +33,8 @@
   }
 }
 
-.ebooks{
-  margin-top: 1em;
-  @include display-flex(row, center, flex-start);
-  .icon{
-    margin-left: 0.6em;
-    margin-right: 0.4em;
-  }
-  a span{
-    // Overriding .workInfobox span:not(.entity-value) selector
-    color: white !important;
-  }
-}
-
 .property-value{
-  color: darken($light-grey, 20%);
+  color: $grey;
 }
 
 .entity-data-box{

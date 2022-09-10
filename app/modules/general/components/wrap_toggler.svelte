@@ -1,6 +1,11 @@
 <script>
   import { icon } from '#lib/handlebars_helpers/icons'
-  export let show = false, moreText, lessText, scrollTopElement
+  export let show = false,
+    moreText,
+    lessText,
+    scrollTopElement,
+    withIcon = true,
+    remainingCounter = 0
 
   function toggle () {
     show = !show
@@ -14,19 +19,26 @@
   {#if lessText}
     <button
       class="wrap-toggler"
-      on:click={toggle}
+      on:click|stopPropagation={toggle}
       >
-      {@html icon('chevron-up')}
+      {#if withIcon}
+        {@html icon('chevron-up')}
+      {/if}
       {lessText}
     </button>
   {/if}
 {:else}
   <button
     class="wrap-toggler"
-    on:click={toggle}
+    on:click|stopPropagation={toggle}
     >
-    {@html icon('chevron-down')}
+    {#if withIcon}
+      {@html icon('chevron-down')}
+    {/if}
     {moreText}
+    {#if remainingCounter > 0}
+      ({remainingCounter})
+    {/if}
   </button>
 {/if}
 

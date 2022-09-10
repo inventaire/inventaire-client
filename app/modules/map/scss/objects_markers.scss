@@ -58,12 +58,12 @@ $arrowHeight: 0.62em;
   margin-left: -0.62em;
 }
 
-.userMarker, .groupMarker{
+.userMarker, .groupMarker, .mainUserMarker{
   min-height: $userMarkerHeight;
   min-width:  $userMarkerWidth;
 }
 
-.userMarker{
+.userMarker, .mainUserMarker{
   // (1)
   margin-top: -$userMarkerHeight - $arrowHeight ;
   margin-left: -$userMarkerWidth*0.5 + 0.25em;
@@ -81,7 +81,9 @@ $arrowHeight: 0.62em;
     @include radius;
   }
 }
-
+.mainUserMarker{
+  opacity: 0.7;
+}
 .groupMarker{
   // (1)
   margin-top: -$groupMarkerHeight - $arrowHeight + 0.25em;
@@ -101,12 +103,6 @@ $arrowHeight: 0.62em;
   .showItem{
     position: relatives;
     @include display-flex(row);
-    img{
-      min-width: 3em;
-    }
-    .right{
-      // @include display-flex(column);
-    }
     .icon-wrapper{
       position: absolute;
       bottom: -1px;

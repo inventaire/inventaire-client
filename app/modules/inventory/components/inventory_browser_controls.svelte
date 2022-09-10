@@ -21,7 +21,7 @@
 
   let wrapped = true
   const smallScreenThreshold = 1000
-  $: showControls = $screen.isLargerThan(smallScreenThreshold) || !wrapped
+  $: showControls = $screen.isLargerThan(smallScreenThreshold - 1) || !wrapped
 
   let flash
 </script>

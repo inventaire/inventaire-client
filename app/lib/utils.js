@@ -64,8 +64,8 @@ const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
 export const loadInternalLink = e => {
   if (!(isOpenedOutside(e))) {
-    const { pathname } = new URL(e.currentTarget.href)
-    app.navigateAndLoad(pathname, {
+    const { pathname, search } = new URL(e.currentTarget.href)
+    app.navigateAndLoad(`${pathname}${search}`, {
       preventScrollTop: isModalPathname(pathname)
     })
     e.preventDefault()
@@ -205,4 +205,19 @@ export const bubbleUpChildViewEvent = function (eventName) {
   return function (...args) {
     this.triggerMethod(eventName, ...args)
   }
+}
+
+export const dropLeadingSlash = str => str.replace(/^\//, '')
+
+export const setIntersection = (a, b) => {
+  let set, arrayOrSet
+  if (a instanceof Set) {
+    set = a
+    arrayOrSet = b
+  } else {
+    set = b
+    arrayOrSet = a
+  }
+  const intersection = Array.from(arrayOrSet).filter(value => set.has(value))
+  return new Set(intersection)
 }

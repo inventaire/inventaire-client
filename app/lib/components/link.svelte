@@ -2,7 +2,7 @@
   import { isOpenedOutside } from '#lib/utils'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
 
-  export let url, text, icon = null, title = '', light = false
+  export let url, text, html, icon = null, title = '', light = false, dark = false, grey = false, classNames, tinyButton = false
 
   const isExternalLink = url?.[0] !== '/'
   let target, rel
@@ -26,16 +26,32 @@
   {target}
   {rel}
   class:light
+  class:dark
+  class:grey
+  class:tiny-button={tinyButton}
+  class={classNames}
   on:click={onClick}
   >
   {#if icon}{@html iconFn(icon)}{/if}
-  {text}
+  {#if html}
+    {@html html}
+  {:else}
+    {text}
+  {/if}
 </a>
 
 <style lang="scss">
   @import '#general/scss/utils';
 
-  a.light{
-    @include link-light;
+  a:not(.tiny-button){
+    &.light{
+      @include link-light;
+    }
+    &.dark{
+      @include link-dark;
+    }
+    &.grey{
+      @include link-underline-on-hover($grey, $dark-grey);
+    }
   }
 </style>

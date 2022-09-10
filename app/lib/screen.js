@@ -59,8 +59,10 @@ export default screen_ = {
     return $parent.animate({ scrollTop }, { duration: 50, easing: 'swing' })
   },
 
-  scrollToElement (element) {
+  scrollToElement (element, options = {}) {
     if (!(element instanceof HTMLElement)) throw new Error('invalid element')
+
+    const { marginTop = 0 } = options
 
     let attempts = 0
     const attemptToScroll = () => {
@@ -70,7 +72,7 @@ export default screen_ = {
       const hasRoomToScroll = (viewportHeight + offset < bodyHeight)
       if (hasRoomToScroll || ++attempts > 10) {
         window.scrollTo({
-          top: offset,
+          top: Math.max(0, offset - marginTop),
           behavior: 'smooth'
         })
       } else {

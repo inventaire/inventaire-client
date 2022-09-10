@@ -36,7 +36,7 @@ const work = {
 export const propertiesPerType = {
   work,
   edition: {
-    'wdt:P629': {}, // edition or translation of
+    'wdt:P629': { customLabel: 'work from which this is an edition' }, // edition or translation of
     'wdt:P1476': { customLabel: 'edition title' },
     'wdt:P1680': { customLabel: 'edition subtitle' },
     'wdt:P407': { customLabel: 'edition language' },

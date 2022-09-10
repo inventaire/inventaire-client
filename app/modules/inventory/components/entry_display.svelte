@@ -48,7 +48,9 @@
 <div class="entry-display">
   <div class="edition-cover">
     {#if edition?.image?.url}
-      <img src="{imgSrc(edition.image.url, 80)}" alt='{findBestLang(work, editionLang)} cover'>
+      <img
+        src={imgSrc(edition.image.url, 80)}
+        alt="{findBestLang(work, editionLang)} cover">
     {/if}
   </div>
   <div class="text-wrapper">

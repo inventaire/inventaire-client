@@ -16,23 +16,34 @@ export async function addWorksImages (works) {
   const nextBatch = async () => {
     const batchWorks = remainingWorks.splice(0, 10)
     if (batchWorks.length === 0) return
-    await Promise.all(batchWorks.map(addWorkImages))
+    await Promise.all(batchWorks.map(addEntityImages))
     return nextBatch()
   }
   await nextBatch()
   return works
 }
 
-export async function addWorkImages (work) {
-  const { uri } = work
-  const { images } = await preq.get(app.API.entities.images(work.uri))
-  const workImages = images[uri]
-  let imageValue = getBestLangValue(app.user.lang, work.originalLang, workImages).value
-  if (imageValue) {
-    if (isImageHash(imageValue)) imageValue = `/img/entities/${imageValue}`
-    work.image.url = imageValue
+export async function addEntityImages (entity) {
+  const { type, uri } = entity
+  if (type === 'work' || type === 'serie') {
+    const { images } = await preq.get(app.API.entities.images(entity.uri))
+    const entityImages = images[uri]
+    let imageValue = getBestLangValue(app.user.lang, entity.originalLang, entityImages).value
+    if (imageValue) {
+      entity.image.url = getEntityImagePath(imageValue)
+    }
+    entity.images = Object.values(entityImages).flat().map(getEntityImagePath)
+  } else {
+    entity.images = []
+    if (entity.image?.url) {
+      entity.images.push(entity.image.url)
+    }
   }
-  return work
+}
+
+const getEntityImagePath = imageValue => {
+  if (isImageHash(imageValue)) return `/img/entities/${imageValue}`
+  else return imageValue
 }
 
 export async function addWorksAuthors (works) {

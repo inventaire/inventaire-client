@@ -4,6 +4,7 @@ import { updateRouteMetadata } from '#lib/metadata/update'
 import error_ from '#lib/error'
 import { routeSection, currentRoute } from '#lib/location'
 import { channel, reqres, request, execute } from './radio.js'
+import { dropLeadingSlash } from '#lib/utils'
 
 let initialUrlNavigateAlreadyCalled = false
 
@@ -72,7 +73,7 @@ const App = Marionette.Application.extend({
     // but routeSection relies on the route not starting by a slash.
     // it can't just thrown an error as pathnames commonly require to start
     // by a slash to avoid being interpreted as relative pathnames
-    route = route.replace(/^\//, '')
+    route = dropLeadingSlash(route)
 
     this.vent.trigger('route:change', routeSection(route), route)
     route = this.request('querystring:keep', route)
@@ -96,7 +97,7 @@ const App = Marionette.Application.extend({
 const onceStart = function () {
   Backbone.history.start({ pushState: true })
 
-  // Backbone.history 'route' event seem to be only triggerd
+  // Backbone.history 'route' event seem to be only triggered
   // when 'previous' is hit. it isn't very clear why,
   // but it allows to notify functionalities depending on the route
   Backbone.history.on('route', onPreviousRoute)
