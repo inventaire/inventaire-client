@@ -8,6 +8,7 @@
   import EditionActions from './edition_actions.svelte'
   import OtherEditions from './other_editions.svelte'
   import { addWorksClaims, filterClaims } from '#entities/components/lib/edition_layout_helpers'
+  import Summary from '#entities/components/layouts/summary.svelte'
 
   export let entity, works, standalone
 
@@ -43,6 +44,7 @@
               {claims}
               entityType={entity.type}
             />
+            <Summary {entity} />
           </div>
           <EditionActions
             {entity}
@@ -77,6 +79,9 @@
   }
   .infobox-wrapper{
     @include display-flex(row, center, space-between);
+    :global(.summary-wrapper){
+      margin-top: 1em;
+    }
   }
   .info-wrapper{
     flex: 1;

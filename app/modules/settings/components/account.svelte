@@ -5,7 +5,7 @@
   import Flash from '#lib/components/flash.svelte'
   import EmailValidation from './email_validation.svelte'
   import UpdatePassword from '#lib/components/update_password.svelte'
-  import languagesObj from '#lib/languages_data'
+  import languagesData from '#lib/languages_data'
   import email_ from '#user/lib/email_tests'
   import { user } from '#user/user_store'
   import { domain } from '#lib/urls'
@@ -115,7 +115,7 @@
     <h2 class="first-title">{I18n('account')}</h2>
     <h3 class="label">{I18n('language')}</h3>
     <select name="language" aria-label="language picker" bind:value="{userLang}">
-      {#each Object.values(languagesObj) as language}
+      {#each Object.values(languagesData) as language}
         <option value={language.lang}>{language.lang} - {language.native}</option>
       {/each}
     </select>

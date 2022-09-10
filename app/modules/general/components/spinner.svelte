@@ -5,7 +5,7 @@
 {#if large}
   <div class="spinner-outer"><div class="spinner-inner"></div></div>
 {:else if center}
-  <div class="center">
+  <div class="spinner-centered">
     <span class="small-spinner" class:light></span>
   </div>
 {:else}
@@ -31,7 +31,7 @@
     align-self: center;
   }
 
-  .center{
+  .spinner-centered{
     text-align: center;
   }
 
