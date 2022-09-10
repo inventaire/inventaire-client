@@ -1,6 +1,7 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
+  import DisplayedLinks from '#settings/components/displayed_links.svelte'
 
   const entitiesDisplay = getLocalStorageStore('entitiesDisplay', 'large')
   const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
@@ -22,6 +23,9 @@
       <option value="table">{I18n('table')}</option>
     </select>
   </fieldset>
+
+  <h3>{I18n('links')}</h3>
+  <DisplayedLinks />
 </form>
 
 <style lang="scss">
@@ -34,5 +38,10 @@
   }
   label{
     font-size: 1rem;
+  }
+  h3{
+    font-size: 1.1rem;
+    @include sans-serif;
+    margin-top: 1rem;
   }
 </style>

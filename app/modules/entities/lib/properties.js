@@ -90,16 +90,6 @@ addProp('wdt:P1412', 'entity', 'languages', true, null)
 addProp('wdt:P737', 'entity', 'humans', true, true)
 // movement
 addProp('wdt:P135', 'entity', 'movements', true, false)
-// Twitter account
-addProp('wdt:P2002', 'string', null, false, null)
-// Facebook account
-addProp('wdt:P2013', 'string', null, false, null)
-// Instagram username
-addProp('wdt:P2003', 'string', null, false, null)
-// YouTube channel ID
-addProp('wdt:P2397', 'string', null, false, null)
-// Mastodon address
-addProp('wdt:P4033', 'string', null, false, null)
 
 // # publisher
 // founded by
@@ -118,3 +108,21 @@ addProp('wdt:P3035', 'string', null, true, null)
 // # all
 // official website
 addProp('wdt:P856', 'url', null, false, null)
+
+// # social networks
+// Twitter account
+addProp('wdt:P2002', 'external-id', null, false, null)
+// Facebook account
+addProp('wdt:P2013', 'external-id', null, false, null)
+// Instagram username
+addProp('wdt:P2003', 'external-id', null, false, null)
+// YouTube channel ID
+addProp('wdt:P2397', 'external-id', null, false, null)
+// Mastodon address
+addProp('wdt:P4033', 'external-id', null, false, null)
+
+// # bibliographic databases
+// BNF ID
+addProp('wdt:P268', 'external-id', null, false, null)
+// Open Library ID
+addProp('wdt:P648', 'external-id', null, false, null)

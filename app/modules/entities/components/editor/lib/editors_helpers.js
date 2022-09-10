@@ -1,3 +1,4 @@
+import { i18n } from '#user/lib/i18n'
 import { writable } from 'svelte/store'
 import wdLang from 'wikidata-lang'
 const { byCode: langByCode } = wdLang
@@ -25,3 +26,11 @@ export function isEmptyClaimValue (value) {
 export const isNonEmptyClaimValue = value => !isEmptyClaimValue(value)
 
 export const currentEditorKey = writable(null)
+
+export function errorMessageFormatter (err) {
+  if (err.message === 'this property value is already used') {
+    const uri = err.responseJSON.context.entity
+    err.html = `${i18n(err.message)}: <a href="/entity/${uri}" class="link">${uri}</a>`
+  }
+  return err
+}
