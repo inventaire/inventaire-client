@@ -3,14 +3,15 @@
   import { I18n } from '#user/lib/i18n'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
-  import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 
   export let entity, category, categoryProperties
 
   const { label: categoryLabel } = (propertiesCategories[category] || {})
 
-  let showCategory = getLocalStorageStore(`property_category:${category}:show`)
-  if (categoryLabel == null) $showCategory = true
+  let showCategory
+  if (categoryLabel == null) showCategory = true
+
+  const customProperties = app.user.get('customProperties')
 
   let scrollMarkerEl
 
@@ -21,19 +22,30 @@
   }
 
   function toggle () {
-    $showCategory = !$showCategory
-    if ($showCategory) {
+    showCategory = !showCategory
+    if (showCategory) {
       // Wait for transitions to be over before attempting to scroll
       setTimeout(scroll, 200)
     }
   }
+
+  function isDisplayingClaimEditor (property) {
+    if (!categoryLabel) return true
+    return customProperties.includes(property)
+  }
+
+  function isDisplayingCategoryTitle () {
+    if (!categoryLabel) return false
+    const categoryPropertiesList = Object.keys(categoryProperties)
+    const categoryCustomProperties = _.intersection(categoryPropertiesList, customProperties)
+    return _.some(categoryCustomProperties)
+  }
 </script>
 
-
-{#if categoryLabel}
+{#if isDisplayingCategoryTitle()}
   <button
     aria-controls={id}
-    class:active={$showCategory}
+    class:active={showCategory}
     on:click={toggle}
     >
     {@html icon('caret-right')}
@@ -42,13 +54,15 @@
   </button>
 {/if}
 
-{#if $showCategory}
+{#if showCategory}
   <div {id} class="category-properties">
     {#each Object.keys(categoryProperties) as property}
-      <PropertyClaimsEditor
-        bind:entity
-        {property}
-      />
+      {#if isDisplayingClaimEditor(property)}
+        <PropertyClaimsEditor
+          bind:entity
+          {property}
+        />
+      {/if}
     {/each}
   </div>
 {/if}

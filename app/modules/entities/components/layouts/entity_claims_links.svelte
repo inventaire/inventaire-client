@@ -1,12 +1,13 @@
 <script>
-  import { categoryLabels, displayedPropertiesByCategory } from '#entities/lib/entity_links'
+  import { categoryLabels, getDisplayedPropertiesByCategory } from '#entities/lib/entity_links'
   import EntityClaimLink from '#entities/components/layouts/entity_claim_link.svelte'
 
   export let claims
 
   let categories = {}
+
   $: {
-    for (const [ category, propertiesData ] of Object.entries($displayedPropertiesByCategory)) {
+    for (const [ category, propertiesData ] of Object.entries(getDisplayedPropertiesByCategory())) {
       categories[category] = []
       for (const propertyData of propertiesData) {
         const { property } = propertyData

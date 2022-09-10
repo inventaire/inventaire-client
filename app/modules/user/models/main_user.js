@@ -13,6 +13,7 @@ export default UserCommons.extend({
     if (data.type === 'deletedUser') return app.execute('logout')
     data.settings = this.setDefaultSettings(data.settings)
     data.summaryPeriodicity = data.summaryPeriodicity || 20
+    data.customProperties = data.customProperties || []
     return data
   },
 
