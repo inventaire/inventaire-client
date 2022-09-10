@@ -3,8 +3,8 @@ import InventoryNav from './inventory_nav.js'
 import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
 import UserProfile from './user_profile.js'
 import GroupProfile from './group_profile.js'
-import ShelfBox from '../../shelves/views/shelf_box'
-import ShelvesSection from '../../shelves/views/shelves_section'
+import ShelfBox from '#shelves/components/shelf_box.svelte'
+import ShelvesSection from '#shelves/components/shelves_section.svelte'
 import InventoryNetworkNav from './inventory_network_nav.js'
 import InventoryPublicNav from './inventory_public_nav.js'
 import showPaginatedItems from '#welcome/lib/show_paginated_items'
@@ -33,8 +33,14 @@ export default Marionette.View.extend({
   },
 
   initialize () {
-    ({ user: this.user, group: this.group, shelf: this.shelf, standalone: this.standalone } = this.options)
+    ;({
+      user: this.user,
+      group: this.group,
+      shelf: this.shelf,
+      standalone: this.standalone
+    } = this.options)
     this.listenTo(app.vent, 'inventory:select', this.showSelectedInventory.bind(this))
+    this.listenTo(app.vent, 'close:shelf', this.closeShelf.bind(this))
   },
 
   childViewEvents: {
@@ -66,6 +72,8 @@ export default Marionette.View.extend({
       this._lastShownUser = userModel
       if (shelf) {
         this.showShelf(shelf)
+      } else if (this.options.withoutShelf) {
+        this.showItemsWithoutShelf()
       } else {
         this.showUserInventory(userModel)
         app.navigateFromModel(userModel)
@@ -99,7 +107,11 @@ export default Marionette.View.extend({
   showShelf (shelf) {
     const itemsDataPromise = getItemsData('shelf', shelf)
     const isMainUser = app.user.id === shelf.get('owner')
-    this.showChildView('shelfInfo', new ShelfBox({ model: shelf }))
+    this.showChildComponent('shelfInfo', ShelfBox, {
+      props: {
+        shelf: shelf.toJSON()
+      }
+    })
     this.showChildComponent('itemsList', InventoryBrowser, {
       props: {
         itemsDataPromise,
@@ -110,16 +122,36 @@ export default Marionette.View.extend({
     this.waitForShelvesList.then(() => this.scrollToSection('shelfInfo'))
   },
 
+  showItemsWithoutShelf () {
+    const itemsDataPromise = getItemsData('without-shelf')
+    this.showChildComponent('shelfInfo', ShelfBox, {
+      props: {
+        withoutShelf: true,
+      }
+    })
+    this.showChildComponent('itemsList', InventoryBrowser, {
+      props: {
+        itemsDataPromise,
+        isMainUser: true,
+      }
+    })
+    this.waitForShelvesList.then(() => this.scrollToSection('shelfInfo'))
+  },
+
   showUserShelves (userIdOrModel) {
     this.waitForShelvesList = app.request('resolve:to:userModel', userIdOrModel)
       .then(userModel => {
         if (!this.isIntact()) return
-        if ((this.getRegion('shelvesList').currentView != null) && (userModel === this._lastShownUser)) return
+        if ((this.getRegion('shelvesList').currentComponent != null) && (userModel === this._lastShownUser)) return
         const shelvesCount = userModel.get('shelvesCount')
         if (shelvesCount === 0) return
         const username = userModel.get('username')
-        this.showChildView('shelvesList', new ShelvesSection({ username }))
-        return this.getRegion('shelvesList').currentView.waitForList
+        this.showChildComponent('shelvesList', ShelvesSection, {
+          props: {
+            username,
+            delayBeforeScrollToSection,
+          }
+        })
       })
       .catch(app.Execute('show:error'))
   },
@@ -237,20 +269,35 @@ export default Marionette.View.extend({
       const userId = model.get('owner')
       this.showUserShelves(userId)
       this.showShelf(model)
+    } else if (type === 'without-shelf') {
+      this.showItemsWithoutShelf()
     }
 
-    app.navigateFromModel(model, { preventScrollTop: true })
+    if (type === 'without-shelf') {
+      app.navigate('/shelves/without', { preventScrollTop: true })
+    } else {
+      app.navigateFromModel(model, { preventScrollTop: true })
+    }
   },
 
   scrollToSection (regionName) {
     if (!this.isIntact()) return
-    screen_.scrollTop({ $el: this.getRegion(regionName).$el, marginTop: 10, delay: 100 })
+    const region = this.getRegion(regionName)
+    const $el = (region.$el?.[0] != null) ? region.$el : $(region.el)
+    screen_.scrollTop({ $el, marginTop: 10, delay: delayBeforeScrollToSection })
   }
 })
 
+const delayBeforeScrollToSection = 500
+
 const getItemsData = function (type, model) {
-  const modelId = model.get('_id')
-  const params = { [type]: modelId }
+  let params
+  if (type === 'without-shelf') {
+    params = { user: app.user.id, 'without-shelf': true }
+  } else {
+    const modelId = model.get('_id')
+    params = { [type]: modelId }
+  }
   return preq.get(app.API.items.inventoryView(params))
 }
 

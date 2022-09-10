@@ -7,6 +7,7 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
+        'shelves/without(/)': 'showItemsWithoutShelf',
         'shelves(/)(:id)(/)': 'showShelfFromId',
         // Redirection
         'shelf(/)(:id)(/)': 'showShelfFromId'
@@ -16,7 +17,9 @@ export default {
     new Router({ controller: API })
 
     app.commands.setHandlers({
-      'show:shelf': showShelf
+      'show:shelf': showShelf,
+      'show:shelf:editor': showShelfEditor,
+      'add:items:to:shelf': addItemsToShelf,
     })
   }
 }
@@ -35,7 +38,21 @@ const API = {
       }
     })
     .catch(app.Execute('show:error'))
-  }
+  },
+
+  async showItemsWithoutShelf () {
+    const pathname = 'shelves/without'
+    if (app.request('require:loggedIn', pathname)) {
+      const { default: InventoryLayout } = await import('#inventory/views/inventory_layout')
+      // Passing shelf to display items and passing owner for user profile info
+      app.layout.showChildView('main', new InventoryLayout({
+        user: app.user,
+        withoutShelf: true,
+        standalone: true,
+      }))
+      app.navigate('shelves/without')
+    }
+  },
 }
 
 const showShelf = function (shelf) {
@@ -48,7 +65,7 @@ const showShelf = function (shelf) {
 }
 
 const showShelfFromModel = async shelf => {
-  const { default: InventoryLayout } = await import('../inventory/views/inventory_layout')
+  const { default: InventoryLayout } = await import('#inventory/views/inventory_layout')
   const owner = shelf.get('owner')
   // Passing shelf to display items and passing owner for user profile info
   app.layout.showChildView('main', new InventoryLayout({
@@ -57,4 +74,21 @@ const showShelfFromModel = async shelf => {
     standalone: true
   }))
   app.navigateFromModel(shelf)
+}
+
+const addItemsToShelf = async shelf => {
+  const { default: ShelfItemsAdder } = await import('#shelves/views/shelf_items_adder')
+  const model = new ShelfModel(shelf)
+  app.layout.showChildView('modal', new ShelfItemsAdder({ model }))
+}
+
+const showShelfEditor = async shelf => {
+  const { default: ShelfEditor } = await import('#shelves/components/shelf_editor.svelte')
+  const model = new ShelfModel(shelf)
+  app.layout.showChildComponent('modal', ShelfEditor, {
+    props: {
+      shelf,
+      model,
+    }
+  })
 }

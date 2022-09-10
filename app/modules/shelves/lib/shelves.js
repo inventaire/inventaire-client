@@ -1,5 +1,7 @@
 import { forceArray } from '#lib/utils'
 import preq from '#lib/preq'
+import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
+import { getColorSquareDataUri } from '#lib/images'
 
 export function getById (id) {
   return preq.get(app.API.shelves.byIds(id))
@@ -75,3 +77,20 @@ const shelfActionReq = (id, itemsIds, action) => {
 }
 
 const getShelf = ({ shelves }) => Object.values(shelves)[0]
+
+export function serializeShelf (shelf) {
+  const { _id, color, visibility } = shelf
+  Object.assign(shelf, {
+    pathname: `/shelves/${_id}`,
+    picture: getColorSquareDataUri(color),
+    isEditable: shelf.owner === app.user.id
+  })
+  if (visibility) {
+    const visibilitySummary = getVisibilitySummary(visibility)
+    Object.assign(shelf, {
+      iconData: visibilitySummariesData[visibilitySummary],
+      iconLabel: getVisibilitySummaryLabel(visibility),
+    })
+  }
+  return shelf
+}
