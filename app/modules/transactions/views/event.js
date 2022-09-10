@@ -48,7 +48,7 @@ export default Marionette.View.extend({
     'click .showUser': 'showUser'
   },
 
-  // hide avatar on successsive messages from the same user
+  // hide avatar on successive messages from the same user
   sameUser () {
     if (!this.isMessage) return
     const index = this.model.collection.indexOf(this.model)

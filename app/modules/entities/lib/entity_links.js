@@ -1,9 +1,6 @@
-import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 import { I18n } from '#user/lib/i18n'
-import { derived } from 'svelte/store'
 import { groupBy } from 'underscore'
-
-export const linksSettings = getLocalStorageStore('settings:display:links', [])
+import { isNonEmptyArray } from '#lib/boolean_tests'
 
 const alphabetically = (a, b) => a.label > b.label ? 1 : -1
 
@@ -23,12 +20,15 @@ for (const category of Object.keys(linksClaimsPropertiesByCategory)) {
   linksClaimsPropertiesByCategory[category] = linksClaimsPropertiesByCategory[category].sort(alphabetically)
 }
 
-export const displayedPropertiesByCategory = derived(linksSettings, $linksSettings => {
-  const displayedProperties = linkClaimsProperties.filter(({ property }) => {
-    return $linksSettings.includes(property)
-  })
-  return groupBy(displayedProperties, 'category')
-})
+export const getDisplayedPropertiesByCategory = () => {
+  const customProperties = app.user.get('customProperties')
+  if (isNonEmptyArray(customProperties)) {
+    const displayedProperties = linkClaimsProperties.filter(({ property }) => {
+      return customProperties.includes(property)
+    })
+    return groupBy(displayedProperties, 'category')
+  }
+}
 
 export const categoryLabels = {
   bibliographicDatabases: I18n('bibliographic databases'),
