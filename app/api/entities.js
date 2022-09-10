@@ -13,6 +13,12 @@ export default {
     return action('by-uris', { uris, refresh, relatives, autocreate })
   },
 
+  getAttributesByUris ({ uris, attributes, lang }) {
+    uris = forceArray(uris).join('|')
+    attributes = forceArray(attributes).join('|')
+    return action('by-uris', { uris, attributes, lang })
+  },
+
   // Get many by POSTing URIs in the body
   getManyByUris: action('by-uris'),
 

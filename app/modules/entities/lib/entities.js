@@ -4,6 +4,7 @@ import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 import getBestLangValue from './get_best_lang_value.js'
 import getOriginalLang from './get_original_lang.js'
 import { forceArray } from '#lib/utils'
+import { chunk, compact, pluck } from 'underscore'
 
 export async function getReverseClaims (property, value, refresh, sort) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
@@ -83,13 +84,34 @@ export const attachEntities = async (entity, attribute, uris) => {
   return entity
 }
 
-export async function getEntitiesAttributesByUris ({ uris, attributes, lang }) {
-  if (!isNonEmptyArray(uris)) return { entities: [] }
-  return preq.get(app.API.entities.getAttributesByUris({
-    uris,
-    attributes,
-    lang,
+// Limiting the amount of uris requested to not get over the HTTP GET querystring length threshold.
+// Not using the POST equivalent endpoint, has duplicated request would then be answered with a 429 error
+const getManyEntities = async ({ uris, attributes, lang }) => {
+  const urisChunks = chunk(uris, 30)
+  const responses = await Promise.all(urisChunks.map(async urisChunks => {
+    return preq.get(app.API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang }))
   }))
+  return {
+    entities: mergeResponsesObjects(responses, 'entities'),
+    redirects: mergeResponsesObjects(responses, 'redirects'),
+  }
+}
+
+const mergeResponsesObjects = (responses, attribute) => {
+  const objs = compact(pluck(responses, attribute))
+  if (objs.length > 0) {
+    return Object.assign(...objs)
+  } else {
+    return {}
+  }
+}
+
+export async function getEntitiesAttributesByUris ({ uris, attributes, lang }) {
+  uris = forceArray(uris)
+  if (!isNonEmptyArray(uris)) return { entities: [] }
+  attributes = forceArray(attributes)
+  const res = await getManyEntities({ uris, attributes, lang })
+  return res
 }
 
 export async function getBasicInfoByUri (uri) {
