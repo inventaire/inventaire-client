@@ -11,6 +11,8 @@
   let showCategory
   if (categoryLabel == null) showCategory = true
 
+  const customProperties = app.user.get('customProperties')
+
   let scrollMarkerEl
 
   const id = `${category}-category-properties`
@@ -26,8 +28,21 @@
       setTimeout(scroll, 200)
     }
   }
+
+  function isDisplayingClaimEditor (property) {
+    if (!categoryLabel) return true
+    return customProperties.includes(property)
+  }
+
+  function isDisplayingCategoryTitle () {
+    if (!categoryLabel) return false
+    const categoryPropertiesList = Object.keys(categoryProperties)
+    const categoryCustomProperties = _.intersection(categoryPropertiesList, customProperties)
+    return _.some(categoryCustomProperties)
+  }
 </script>
-{#if categoryLabel}
+
+{#if isDisplayingCategoryTitle()}
   <button
     aria-controls={id}
     class:active={showCategory}
@@ -42,10 +57,12 @@
 {#if showCategory}
   <div {id} class="category-properties">
     {#each Object.keys(categoryProperties) as property}
-      <PropertyClaimsEditor
-        bind:entity
-        {property}
-      />
+      {#if isDisplayingClaimEditor(property)}
+        <PropertyClaimsEditor
+          bind:entity
+          {property}
+        />
+      {/if}
     {/each}
   </div>
 {/if}
