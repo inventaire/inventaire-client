@@ -1,6 +1,6 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
-  import Link from '#lib/components/link.svelte'
+  import ListLi from './list_li.svelte'
   import Spinner from '#general/components/spinner.svelte'
   import { getListsByEntityUri } from '#lists/lib/lists'
 
@@ -28,22 +28,11 @@
       <p class="loading">{I18n('loading')}<Spinner/></p>
     {:then}
       {#each lists as list}
-        <div class="list-element">
-          <div class="top">
-            <span class="label">{list.name}</span>
-            <Link
-              url={`/lists/${list._id}`}
-              text={list.name}
-            />
-          </div>
-          <div class="bottom">
-            {#if list.description}<span class="description">{list.description}</span>{/if}
-          </div>
-        </div>
+        <ListLi {list} />
       {/each}
       {#if emptyLists}
         <div class="no-lists">
-          {i18n('no list found')}
+          {i18n('There is nothing here')}
         </div>
       {/if}
     {/await}
@@ -55,15 +44,15 @@
   .lists-layout{
     @include display-flex(column, center);
     background-color: $off-white;
-    padding: 1em;
+    padding: 1em 0.5em;
     margin: 1em 0;
   }
   h5{
     @include sans-serif;
-    margin-bottom: 0;
+    margin-bottom: 0.5em;
   }
   .lists{
-    width: 100%;
+    @include display-flex(row, center);
   }
   .loading{
     @include display-flex(column, center);
@@ -73,14 +62,10 @@
     color: $grey;
     margin-top: 1em;
   }
-  .list-element{
-    @include display-flex(column, flex-start, flex-start, wrap);
-  }
-  .top{
-    @include display-flex(row, center, flex-start, wrap);
-  }
-  .description{
-    color: $grey;
-    margin-right: 1em;
+  /*Very small screens*/
+  @media screen and (max-width: 700px) {
+    .lists{
+      @include display-flex(column, center);
+    }
   }
 </style>
