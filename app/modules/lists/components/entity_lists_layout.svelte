@@ -53,6 +53,8 @@
   }
   .lists{
     @include display-flex(row, center);
+    max-height: 42em;
+    overflow-y: auto;
   }
   .loading{
     @include display-flex(column, center);
