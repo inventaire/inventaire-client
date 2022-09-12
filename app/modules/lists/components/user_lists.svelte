@@ -11,7 +11,7 @@
   let lists, flash
 
   const waitingForLists = getListsByCreator(user._id)
-    .then(res => lists = Object.values(res.lists).map(serializeList))
+    .then(res => lists = res.lists.map(serializeList))
     .catch(err => flash = err)
 
   const isMainUser = user._id === app.user.id

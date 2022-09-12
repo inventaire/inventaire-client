@@ -2,9 +2,9 @@
   import { I18n } from '#user/lib/i18n'
   import ListSelections from './list_selections.svelte'
   import ListInfoBox from '#modules/lists/components/list_info_box.svelte'
-  export let list
+  export let list, selections
 
-  let { _id, creator, selections } = list
+  let { _id, creator } = list
 
   let isEditable = creator === app.user.id
 </script>
