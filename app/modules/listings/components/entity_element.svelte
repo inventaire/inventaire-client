@@ -53,9 +53,6 @@
   .type{
     font-size: 0.9em;
   }
-  .top{
-  	@include display-flex(row, center, flex-start, wrap);
-  }
   .type, .description{
     color: $grey;
     margin-right: 1em;
