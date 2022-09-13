@@ -3,14 +3,14 @@
   import { getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import Flash from '#lib/components/flash.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import ImagesCollage from '#components/images_collage.svelte'
   import { forceArray, loadInternalLink } from '#lib/utils'
   import { uniq } from 'underscore'
   export let entity, property, label
 
   let flash, entities
 
-  const { uri } = entity
+  const { uri, image } = entity
 
   const properties = forceArray(property)
 
@@ -47,10 +47,11 @@
             <a
               href={entity.pathname}
               on:click={loadInternalLink}
-              style:background-image={entity.images.length > 0 ? `url(${imgSrc(entity.images[0], 200)})` : null}
-              class:has-image={entity.images.length > 0}
-              data-data={JSON.stringify(entity.image)}
-              >
+              data-data={JSON.stringify(image)}
+            >
+              <ImagesCollage
+                imagesUrls={[ entity.image.url ]}
+              />
               <div class="label-wrapper">
                 <span class="label">{entity.label}</span>
               </div>
@@ -65,6 +66,8 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+  $card-width: 6rem;
+  $card-height: 8rem;
   .relative-entities-list.not-empty{
     padding: 0.5rem;
     background-color: $off-white;
@@ -81,15 +84,14 @@
   }
   a{
     display: block;
-    width: 6rem;
-    height: 8rem;
+    width: $card-width;
+    height: $card-height;
     background-size: cover;
     background-position: center center;
     @include display-flex(column, stretch, flex-end);
-    &:not(.has-image) {
-      .label-wrapper{
-        flex: 1;
-      }
+    :global(.images-collage){
+      width: $card-width;
+      height: $card-height;
     }
     &:hover{
       @include shadow-box;
@@ -97,7 +99,7 @@
   }
   .label-wrapper{
     @include display-flex(column, stretch, center);
-    background-color: #dcdcdc;
+    background-color: #eaeaea;
   }
   .label{
     text-align: center;
