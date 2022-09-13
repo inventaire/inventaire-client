@@ -1,27 +1,28 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import ListSelections from './list_selections.svelte'
-  import ListInfoBox from '#modules/lists/components/list_info_box.svelte'
-  export let list, selections
+  import ListingSelections from './listing_selections.svelte'
+  import ListingInfoBox from '#modules/listings/components/listing_info_box.svelte'
 
-  let { _id, creator } = list
+  export let listing
+
+  let { _id, creator, selections } = listing
 
   let isEditable = creator === app.user.id
 </script>
-<div class="list-layout">
-  <ListInfoBox
-    {list}
+<div class="listing-layout">
+  <ListingInfoBox
+    {listing}
     {isEditable}
   />
-  <ListSelections
+  <ListingSelections
     bind:selections
-    listId={_id}
+    listingId={_id}
     {isEditable}
   />
 </div>
 
 <div class="footer">
-  <p class="list-id">
+  <p class="listing-id">
     {I18n('list')}
       -
     {_id}
@@ -30,10 +31,10 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
- .list-layout{
+ .listing-layout{
    @include display-flex(column, center);
  }
- .list-id{
+ .listing-id{
  	@include display-flex(column, center);
  	font-size: small;
  }

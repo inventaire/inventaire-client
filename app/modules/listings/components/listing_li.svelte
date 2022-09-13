@@ -4,16 +4,16 @@
   import ImagesCollage from '#components/images_collage.svelte'
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 
-  export let list
-  const { _id } = list
+  export let listing
+  const { _id } = listing
   let imagesUrls
 
-  const onClick = listId => e => {
-    app.navigateAndLoad(`/lists/${listId}`)
+  const onClick = listingId => e => {
+    app.navigateAndLoad(`/lists/${listingId}`)
   }
 
   const getSelectionsImages = async () => {
-    const allSelectionsUris = list.selections.map(_.property('uri'))
+    const allSelectionsUris = listing.selections.map(_.property('uri'))
     // TODO: make it fast by paginating entities: check if they hava enough images for the collage, and fetch more if not.
     const selectionsUris = allSelectionsUris.slice(0, 15)
     const { entities } = await getEntitiesAttributesByUris({
@@ -26,7 +26,7 @@
   const waitingForImages = getSelectionsImages()
 </script>
 <div
-  class="list-li"
+  class="listing-li"
   on:click={onClick(_id)}
 >
   {#await waitingForImages then}
@@ -40,17 +40,17 @@
   <span class="info">
     <Link
       url={`/lists/${_id}`}
-      text={list.name}
+      text={listing.name}
     />
-    <p class="list-counter">
-      {i18n('list_element_count', { count: list.selections.length })}
+    <p class="listing-counter">
+      {i18n('list_element_count', { count: listing.selections.length })}
     </p>
   </span>
 </div>
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .list-li{
+  .listing-li{
     @include display-flex(column, flex-start, flex-start, wrap);
     width: 20em;
     display: block;
@@ -65,7 +65,7 @@
     max-height: 3.5rem;
     overflow: hidden;
   }
-  .list-counter{
+  .listing-counter{
     color: $grey;
   }
 

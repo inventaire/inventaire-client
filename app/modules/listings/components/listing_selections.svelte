@@ -4,13 +4,13 @@
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#general/components/spinner.svelte'
   import { getEntitiesByUris } from '#entities/lib/entities'
-  import { addSelection, removeSelection } from '#lists/lib/lists'
+  import { addSelection, removeSelection } from '#listings/lib/listings'
   import EntityElement from './entity_element.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 
-  export let selections, listId, isEditable
+  export let selections, listingId, isEditable
 
   let flash, inputValue = '', showSuggestions
   let entities = []
@@ -20,7 +20,7 @@
   let fetching
   let isAddingSelection
   let windowScrollY = 0
-  let listBottomEl
+  let listingBottomEl
 
   const getSelectionsEntities = async selections => {
     const uris = selections.map(_.property('uri'))
@@ -36,7 +36,7 @@
 
   const onRemoveSelection = async index => {
     const entity = entities[index]
-    removeSelection(listId, entity.uri)
+    removeSelection(listingId, entity.uri)
     .then(() => {
       // Enhancement: after remove, have an "undo" button
       entities.splice(index, 1)
@@ -50,7 +50,7 @@
     inputValue = ''
     showSuggestions = false
     isAddingSelection = true
-    addSelection(listId, entity.uri)
+    addSelection(listingId, entity.uri)
     .then(selection => {
       if (isNonEmptyArray(selection.alreadyInList)) {
         return flash = {
@@ -78,9 +78,9 @@
   }
 
   $: {
-    if (listBottomEl != null && hasMore) {
+    if (listingBottomEl != null && hasMore) {
       const screenBottom = windowScrollY + window.screen.height
-      if (screenBottom + 100 > listBottomEl.offsetTop) fetchMore()
+      if (screenBottom + 100 > listingBottomEl.offsetTop) fetchMore()
     }
   }
 
@@ -91,7 +91,7 @@
 {#await waitingForEntities}
   <Spinner center={true} />
 {:then}
-  <section class="entities-list-section">
+  <section class="entities-listing-section">
     {#if isEditable}
       <div class="entities-selector">
         <label for={inputValue}>
@@ -111,12 +111,12 @@
       </div>
     {/if}
 
-    <ul class="list-selections">
+    <ul class="listing-selections">
       {#if isAddingSelection}
         <li class="loading">{I18n('loading')}<Spinner/></li>
       {/if}
       {#each entities as entity, index (entity.uri)}
-        <li class="list-selection">
+        <li class="listing-selection">
           <EntityElement
             {entity}
           />
@@ -136,7 +136,7 @@
       {/each}
     </ul>
     {#if hasMore}
-      <p bind:this={listBottomEl}>
+      <p bind:this={listingBottomEl}>
         {I18n('loading')}
         <Spinner/>
       </p>
@@ -146,7 +146,7 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .entities-list-section{
+  .entities-listing-section{
     flex: 1;
     align-self: center;
     @include display-flex(column, center);
@@ -155,14 +155,14 @@
 
   }
   .tiny-button{ padding: 0.5em; }
-  .list-selections{
+  .listing-selections{
     @include display-flex(column, center);
     @include radius;
     width: 100%;
     margin: 1em 0;
     background-color: white;
   }
-  .list-selection{
+  .listing-selection{
     @include display-flex(row, center);
     padding: 0 1em;
     width: 100%;
@@ -184,19 +184,19 @@
   }
   /*Large (>40em) screens*/
   @media screen and (min-width: 40em) {
-    .entities-list-section{
+    .entities-listing-section{
       width: 40em;
     }
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .entities-list-section{
+    .entities-listing-section{
       padding: 0;
     }
   }
   /*Very small screens*/
   @media screen and (max-width: $very-small-screen) {
-    .list-selection{
+    .listing-selection{
       @include display-flex(column, flex-start);
     }
   }

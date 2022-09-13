@@ -5,9 +5,9 @@
   import { onChange } from '#lib/svelte/svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
 
-  export let list, isEditable
+  export let listing, isEditable
 
-  let { name, description, creator: creatorId, visibility } = list
+  let { name, description, creator: creatorId, visibility } = listing
   let creator = {}
 
   let visibilitySummary, visibilitySummaryIcon, visibilitySummaryLabel
@@ -22,33 +22,33 @@
   const waitingForCreator = getCreatorUsername()
 
   const showEditor = async () => {
-    const { default: ListEditor } = await import('#modules/lists/components/list_editor.svelte')
+    const { default: ListingEditor } = await import('#modules/listings/components/listing_editor.svelte')
     app.execute('modal:open')
-    const component = app.layout.showChildComponent('modal', ListEditor, {
+    const component = app.layout.showChildComponent('modal', ListingEditor, {
       props: {
-        list,
+        listing,
       }
     })
-    component.$on('listUpdated', event => {
-      list = event.detail.list
+    component.$on('listingUpdated', event => {
+      listing = event.detail.listing
     })
     // todo: garbage collect event listener with onDestroy
   }
 
   const updateVisibilitySummary = () => {
-    visibility = list.visibility
+    visibility = listing.visibility
     visibilitySummary = getVisibilitySummary(visibility)
     visibilitySummaryIcon = visibilitySummariesData[visibilitySummary].icon
     visibilitySummaryLabel = i18n(getVisibilitySummaryLabel(visibility))
   }
 
-  $: name = list.name
-  $: description = list.description
-  $: onChange(list, updateVisibilitySummary)
+  $: name = listing.name
+  $: description = listing.description
+  $: onChange(listing, updateVisibilitySummary)
 </script>
 
 <div
-  class="list-info"
+  class="listing-info"
   class:isNotEditable={!isEditable}
 >
   <div class="data">
@@ -89,7 +89,7 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .list-info{
+  .listing-info{
     align-self: center;
     margin: 0.5em;
     margin-bottom: 1em;
@@ -121,7 +121,7 @@
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .list-info{
+    .listing-info{
       @include display-flex(column);
       padding: 0.5em;
       margin: 1em 0;

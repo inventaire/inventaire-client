@@ -12,7 +12,7 @@
   import Ebooks from './ebooks.svelte'
   import ItemsLists from './items_lists.svelte'
   import EditionsList from './editions_list.svelte'
-  import EntityListsLayout from '#lists/components/entity_lists_layout.svelte'
+  import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
   import EntityTitle from './entity_title.svelte'
   import WorkActions from './work_actions.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
@@ -131,7 +131,7 @@
             bind:itemsByEditions
           />
         {/await}
-        <EntityListsLayout
+        <EntityListingsLayout
           {entity}
         />
       </div>

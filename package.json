@@ -20,7 +20,7 @@
     "#general/*": "./app/modules/general/*.js",
     "#inventory/*": "./app/modules/inventory/*.js",
     "#lib/*": "./app/lib/*.js",
-    "#lists/*": "./app/modules/lists/*.js",
+    "#listings/*": "./app/modules/listings/*.js",
     "#map/*": "./app/modules/map/*.js",
     "#modules/*": "./app/modules/*.js",
     "#network/*": "./app/modules/network/*.js",

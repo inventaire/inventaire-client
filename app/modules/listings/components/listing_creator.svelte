@@ -1,20 +1,20 @@
 <script>
   import { icon } from '#lib/handlebars_helpers/icons'
-  import { createList } from '#modules/lists/lib/lists'
+  import { createListing } from '#modules/listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
 
-  export let list = {}
+  export let listing = {}
 
   async function create () {
-    const res = await createList(list)
-    list = res.list
+    const res = await createListing(listing)
+    listing = res.listing
   }
 </script>
 
 <form>
   <label>
     <span>{i18n('List name')}</span>
-    <input type="text" placeholder={i18n('ex: "Books for bird watchers"')} bind:value={list.name}>
+    <input type="text" placeholder={i18n('ex: "Books for bird watchers"')} bind:value={listing.name}>
   </label>
   <button
     on:click={create}

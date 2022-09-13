@@ -1,37 +1,37 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
-  import ListLi from './list_li.svelte'
+  import ListingLi from './listing_li.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { getListsByEntityUri } from '#lists/lib/lists'
+  import { getListingsByEntityUri } from '#listings/lib/listings'
 
-  export let entity, emptyLists
-  let lists = []
+  export let entity, emptyListings
+  let listings = []
 
-  const getLists = async () => {
+  const getListings = async () => {
     const { uri } = entity
     if (uri) {
-      lists = await getListsByEntityUri(uri) || []
+      listings = await getListingsByEntityUri(uri) || []
     }
   }
 
-  const waitingForLists = getLists()
+  const waitingForLists = getListings()
 
-  $: emptyLists = lists.length === 0
+  $: emptyListings = listings.length === 0
 </script>
 
-<div class="lists-layout">
+<div class="listings-layout">
   <h5>
     {I18n('lists with this entityType', { entityType: entity.type })}
   </h5>
-  <div class="lists">
+  <div class="listings">
     {#await waitingForLists}
       <p class="loading">{I18n('loading')}<Spinner/></p>
     {:then}
-      {#each lists as list}
-        <ListLi {list} />
+      {#each listings as listing}
+        <ListingLi {listing} />
       {/each}
-      {#if emptyLists}
-        <div class="no-lists">
+      {#if emptyListings}
+        <div class="no-listings">
           {i18n('There is nothing here')}
         </div>
       {/if}
@@ -41,7 +41,7 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .lists-layout{
+  .listings-layout{
     @include display-flex(column, center);
     background-color: $off-white;
     padding: 1em 0.5em;
@@ -51,7 +51,7 @@
     @include sans-serif;
     margin-bottom: 0.5em;
   }
-  .lists{
+  .listings{
     @include display-flex(row, center);
     max-height: 42em;
     overflow-y: auto;
@@ -59,14 +59,14 @@
   .loading{
     @include display-flex(column, center);
   }
-  .no-lists{
+  .no-listings{
     @include display-flex(row, center, center);
     color: $grey;
     margin-top: 1em;
   }
   /*Very small screens*/
   @media screen and (max-width: 700px) {
-    .lists{
+    .listings{
       @include display-flex(column, center);
     }
   }

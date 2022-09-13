@@ -1,6 +1,6 @@
 <script>
-  import ListCreator from '#modules/lists/components/list_creator.svelte'
-  import { getListsByCreator, serializeList } from '#modules/lists/lib/lists'
+  import ListingCreator from '#modules/listings/components/listing_creator.svelte'
+  import { getListingsByCreator, serializeListing } from '#modules/listings/lib/listings'
   import { i18n, I18n } from '#user/lib/i18n'
   import { loadInternalLink } from '#lib/utils'
   import Flash from '#lib/components/flash.svelte'
@@ -8,36 +8,36 @@
 
   export let user
 
-  let lists, flash
+  let listings, flash
 
-  const waitingForLists = getListsByCreator(user._id)
-    .then(res => lists = res.lists.map(serializeList))
+  const waitingForListings = getListingsByCreator(user._id)
+    .then(res => listings = res.listings.map(serializeListing))
     .catch(err => flash = err)
 
   const isMainUser = user._id === app.user.id
-  let newList = {}
+  let newListing = {}
 
-  $: if (newList._id) {
-    lists = lists.concat([ serializeList(newList) ])
-    newList = {}
+  $: if (newListing._id) {
+    listings = listings.concat([ serializeListing(newListing) ])
+    newListing = {}
   }
 </script>
 
-<div class="lists-layout">
+<div class="listings-layout">
   <h3 class="subheader">{I18n('lists')}</h3>
 
-  {#await waitingForLists}
+  {#await waitingForListings}
     <Spinner />
   {:then}
     <ul>
-      {#each lists as list}
+      {#each listings as listing}
         <li>
-          <a href={list.pathname} on:click={loadInternalLink}>
-            {list.name}
+          <a href={listing.pathname} on:click={loadInternalLink}>
+            {listing.name}
           </a>
         </li>
       {/each}
-      {#if lists.length === 0}
+      {#if listings.length === 0}
         <li class="empty">
           {i18n('There is nothing here')}
         </li>
@@ -45,7 +45,7 @@
     </ul>
     {#if isMainUser}
       <div class="menu">
-        <ListCreator bind:list={newList} />
+        <ListingCreator bind:listing={newListing} />
       </div>
     {/if}
   {/await}
@@ -55,7 +55,7 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .lists-layout{
+  .listings-layout{
     background-color: $light-grey;
     margin: 1em;
     padding: 0.5em;

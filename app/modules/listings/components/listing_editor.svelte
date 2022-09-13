@@ -1,7 +1,7 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import { updateList } from '#lists/lib/lists'
+  import { updateListing } from '#listings/lib/listings'
   import autosize from 'autosize'
   import Spinner from '#general/components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
@@ -10,21 +10,21 @@
 
   const dispatch = createEventDispatcher()
 
-  export let list
+  export let listing
 
   let isValidating, flash
-  const { _id } = list
-  let { name, description, visibility } = list
+  const { _id } = listing
+  let { name, description, visibility } = listing
 
   const validate = async () => {
     isValidating = true
-    return updateList({
+    return updateListing({
       id: _id,
       name,
       description,
       visibility,
     })
-    .then(list => dispatch('listUpdated', list))
+    .then(listing => dispatch('listingUpdated', listing))
     .then(closeModal)
     .catch(err => {
       // Prefer to close modal anyway if no info have been updated,
@@ -45,47 +45,47 @@
 <div class="field">
   <label for={name}>{i18n('name')}</label>
   <input
-  	placeholder={i18n('list name')}
-  	bind:value={name}
+    placeholder={i18n('list name')}
+    bind:value={name}
   />
 </div>
 <div class="field">
   <label for={description}>{i18n('description')}</label>
-	<textarea
-		type="text"
+  <textarea
+    type="text"
     bind:value={description}
     use:autosize
-	/>
+  />
 </div>
 <VisibilitySelector bind:visibility showTip={true} />
 <div class="buttons">
   <button
-  	class="validate button success-button"
-  	title={I18n('validate')}
-  	on:click={validate}
+    class="validate button success-button"
+    title={I18n('validate')}
+    on:click={validate}
   >
     {@html icon('check')}
     {I18n('validate')}
     {#if isValidating}
-    	<p class="loading">
-    		<Spinner/>
-    	</p>
+      <p class="loading">
+        <Spinner/>
+      </p>
     {/if}
   </button>
 </div>
 <Flash bind:state={flash}/>
 
 <style lang="scss">
-	@import '#general/scss/utils';
-	.header{
-	 @include display-flex(column, center);
-	 display: flex;
-	 width: 100%;
-	}
-	.field{
-		@include display-flex(column, flex-start, center);
-	}
-	.buttons{
-		@include display-flex(column, center);
-	}
+  @import '#general/scss/utils';
+  .header{
+   @include display-flex(column, center);
+   display: flex;
+   width: 100%;
+  }
+  .field{
+    @include display-flex(column, flex-start, center);
+  }
+  .buttons{
+    @include display-flex(column, center);
+  }
 </style>
