@@ -1,11 +1,11 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import ListingSelections from './listing_selections.svelte'
+  import ListingElements from './listing_elements.svelte'
   import ListingInfoBox from '#modules/listings/components/listing_info_box.svelte'
 
   export let listing
 
-  let { _id, creator, selections } = listing
+  let { _id, creator, elements } = listing
 
   let isEditable = creator === app.user.id
 </script>
@@ -14,8 +14,8 @@
     {listing}
     {isEditable}
   />
-  <ListingSelections
-    bind:selections
+  <ListingElements
+    bind:elements
     listingId={_id}
     {isEditable}
   />

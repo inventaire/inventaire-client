@@ -13,6 +13,6 @@ export default {
   },
   create: action('create'),
   update: base,
-  addSelections: action('add-selections'),
-  removeSelections: action('remove-selections'),
+  addElements: action('add-elements'),
+  removeElements: action('remove-elements'),
 }

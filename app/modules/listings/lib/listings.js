@@ -1,6 +1,6 @@
 import preq from '#lib/preq'
 
-export const getListingWithSelectionsById = async id => {
+export const getListingWithElementsById = async id => {
   const { list: listing } = await preq.get(app.API.listings.byId(id))
   return { listing }
 }
@@ -25,12 +25,12 @@ export const updateListing = async list => {
   return { listing }
 }
 
-export const addSelection = async (id, uri) => {
-  return preq.post(app.API.listings.addSelections, { id, uris: [ uri ] })
+export const addElement = async (id, uri) => {
+  return preq.post(app.API.listings.addElements, { id, uris: [ uri ] })
 }
 
-export const removeSelection = async (id, uri) => {
-  return preq.post(app.API.listings.removeSelections, { id, uris: [ uri ] })
+export const removeElement = async (id, uri) => {
+  return preq.post(app.API.listings.removeElements, { id, uris: [ uri ] })
 }
 
 export const serializeListing = listing => {

@@ -12,18 +12,18 @@
     app.navigateAndLoad(`/lists/${listingId}`)
   }
 
-  const getSelectionsImages = async () => {
-    const allSelectionsUris = listing.selections.map(_.property('uri'))
+  const getElementsImages = async () => {
+    const allElementsUris = listing.elements.map(_.property('uri'))
     // TODO: make it fast by paginating entities: check if they hava enough images for the collage, and fetch more if not.
-    const selectionsUris = allSelectionsUris.slice(0, 15)
+    const elementsUris = allElementsUris.slice(0, 15)
     const { entities } = await getEntitiesAttributesByUris({
-      uris: selectionsUris,
+      uris: elementsUris,
       attributes: [ 'image' ]
     })
     imagesUrls = _.compact(Object.values(entities).map(entity => entity.image.url))
   }
 
-  const waitingForImages = getSelectionsImages()
+  const waitingForImages = getElementsImages()
 </script>
 <div
   class="listing-li"
@@ -43,7 +43,7 @@
       text={listing.name}
     />
     <p class="listing-counter">
-      {i18n('list_element_count', { count: listing.selections.length })}
+      {i18n('list_element_count', { count: listing.elements.length })}
     </p>
   </span>
 </div>

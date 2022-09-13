@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { getListingWithSelectionsById } from './lib/listings.js'
+import { getListingWithElementsById } from './lib/listings.js'
 
 export default {
   initialize () {
@@ -18,7 +18,7 @@ export default {
 async function showListing (id) {
   const { default: ListingLayout } = await import('./components/listing_layout.svelte')
   try {
-    const { listing } = await getListingWithSelectionsById(id)
+    const { listing } = await getListingWithElementsById(id)
     app.layout.showChildComponent('main', ListingLayout, {
       props: { listing }
     })
