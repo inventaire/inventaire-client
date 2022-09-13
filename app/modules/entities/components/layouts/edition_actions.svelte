@@ -1,5 +1,5 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { I18n } from '#user/lib/i18n'
   import Link from '#lib/components/link.svelte'
   import { getCounterText } from '#entities/components/lib/edition_action_helpers'
 
@@ -18,7 +18,7 @@
   <div class="edition-actions-wrapper">
     <Link
       {url}
-      text={i18n('add to my inventory')}
+      text={I18n('add to my inventory')}
       icon='plus'
       classNames="action-button tiny-button"
     />

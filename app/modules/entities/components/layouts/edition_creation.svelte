@@ -109,7 +109,6 @@
     text-align: center;
   }
   .show-form{
-    padding: 0.5em;
     max-width: 20em;
   }
 </style>

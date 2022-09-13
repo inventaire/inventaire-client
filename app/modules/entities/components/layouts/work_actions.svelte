@@ -1,13 +1,14 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { createEventDispatcher } from 'svelte'
   import { screen } from '#lib/components/stores/screen'
   import { onChange } from '#lib/svelte/svelte'
+  import AddToListingButton from '#entities/components/layouts/add_to_listing_button.svelte'
 
   const dispatch = createEventDispatcher()
 
-  export let someEditions, itemsUsers
+  export let entity, someEditions, itemsUsers
 
   let areNotOnlyMainUserItems
 
@@ -27,6 +28,14 @@
 </script>
 {#if someEditions && areNotOnlyMainUserItems}
   <div class="actions-wrapper">
+    <button
+      class="tiny-button light-blue"
+      on:click={() => alert('TODO: show a modal to precise which edition should be added to the inventory')}
+    >
+      {@html icon('plus')}
+      {I18n('add to my inventory')}
+    </button>
+    <AddToListingButton {entity} />
     {#if $screen.isSmallerThan(smallScreenThreshold)}
       <button
         on:click={() => dispatch('scrollToItemsList')}
@@ -52,13 +61,16 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .actions-wrapper{
-    @include display-flex(row, center, center);
-    min-height: 2em;
+    @include display-flex(column, stretch, center);
     margin: 1em 0;
+    .tiny-button, .action-button, :global(.add-to-listing-button){
+      margin-bottom: 0.3em;
+    }
+    .tiny-button, .action-button, :global(.dropdown-button){
+      text-align: start;
+    }
   }
   .action-button{
     @include tiny-button($light-grey, black);
-    padding: 0.5em;
-    margin: 0.3em;
   }
 </style>

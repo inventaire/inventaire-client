@@ -29,5 +29,3 @@ function start (setStoreValue) {
 
   return stop
 }
-
-window.userGroups = userGroups
