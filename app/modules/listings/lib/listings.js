@@ -1,4 +1,5 @@
 import preq from '#lib/preq'
+import { pluck } from 'underscore'
 
 export const getListingWithElementsById = async id => {
   const { list: listing } = await preq.get(app.API.listings.byId(id))
@@ -16,8 +17,19 @@ export const createListing = async list => {
 }
 
 export const getListingsByEntityUri = async uri => {
-  const { lists } = await preq.get(app.API.listings.byEntities(uri))
+  const { lists } = await preq.get(app.API.listings.byEntities({ uris: uri }))
   return lists[uri] ? lists[uri] : []
+}
+
+export const getUserListingsByEntityUri = async ({ userId, uri }) => {
+  const { listings } = await getListingsByCreator(userId)
+  const listingsIds = pluck(listings, '_id')
+  return getListingsContainingEntityUri({ listingsIds, uri })
+}
+
+export const getListingsContainingEntityUri = async ({ listingsIds, uri }) => {
+  const { lists: listingsByEntity } = await preq.get(app.API.listings.byEntities({ uris: uri, lists: listingsIds }))
+  return listingsByEntity[uri]
 }
 
 export const updateListing = async list => {

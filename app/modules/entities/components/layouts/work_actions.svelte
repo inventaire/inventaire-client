@@ -5,12 +5,13 @@
   import { screen } from '#lib/components/stores/screen'
   import { onChange } from '#lib/svelte/svelte'
   import AddToListingButton from '#entities/components/layouts/add_to_listing_button.svelte'
+  import Flash from '#lib/components/flash.svelte'
 
   const dispatch = createEventDispatcher()
 
   export let entity, someEditions, itemsUsers
 
-  let areNotOnlyMainUserItems
+  let areNotOnlyMainUserItems, flash
 
   function hasUsersOtherThanMainUser () {
     if (itemsUsers.length === 0) return false
@@ -26,6 +27,7 @@
 
   $: onChange(itemsUsers, assignIfNotOnlyMainUserItems)
 </script>
+
 {#if someEditions && areNotOnlyMainUserItems}
   <div class="actions-wrapper">
     <button
@@ -35,7 +37,10 @@
       {@html icon('plus')}
       {I18n('add to my inventory')}
     </button>
-    <AddToListingButton {entity} />
+    <AddToListingButton
+      {entity}
+      {flash}
+    />
     {#if $screen.isSmallerThan(smallScreenThreshold)}
       <button
         on:click={() => dispatch('scrollToItemsList')}
@@ -57,6 +62,7 @@
     </button>
   </div>
 {/if}
+<Flash state={flash} />
 
 <style lang="scss">
   @import '#general/scss/utils';
