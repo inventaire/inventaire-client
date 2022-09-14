@@ -6,40 +6,39 @@
 
   export let entity, parentEntity, childEvents, flash
 
-  let isMerging
+  let waitForMerge, merged
 
   function merge () {
     if (!(entity && parentEntity)) return
-    if (isMerging) return
-    isMerging = true
-    mergeEntities(entity.uri, parentEntity.uri)
-    .then(() => {
-      flash = {
-        type: 'success',
-        message: I18n('merged')
-      }
-      parentEntity.merged = true
-    })
-    .catch(err => {
-      flash = err
-    })
-    .finally(() => {
-      isMerging = false
-    })
+    waitForMerge = mergeEntities(entity.uri, parentEntity.uri)
+      .then(() => {
+        flash = {
+          type: 'success',
+          message: I18n('merged')
+        }
+        parentEntity.merged = merged = true
+      })
+      .catch(err => {
+        flash = err
+      })
   }
   childEvents = { merge }
 </script>
-<button
-  class="tiny-button"
-  on:click|stopPropagation={merge}
-  >
-  {#if isMerging}
-    <Spinner/>
-  {:else}
+
+{#await waitForMerge}
+  <Spinner center={true}/>
+{/await}
+
+{#if !merged}
+  <button
+    class="tiny-button"
+    on:click|stopPropagation={merge}
+    >
     {@html icon('compress')}
-  {/if}
-  {i18n('merge')}
-</button>
+    {i18n('merge')}
+  </button>
+{/if}
+
 <style lang="scss">
   @import '#general/scss/utils';
   .tiny-button{
