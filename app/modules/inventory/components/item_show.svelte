@@ -136,12 +136,13 @@
     min-height: 350px;
   }
   a.edition, a.work, .series-preview a{
+    text-align: center;
+    min-height: 3em;
     margin: 0.2em 0;
     @include bg-hover-svelte(#f3f3f3);
   }
   a.edition, a.work{
     @include display-flex(column, center, center);
-    margin-bottom: 2em;
   }
   .series-preview{
     margin-top: 1em;

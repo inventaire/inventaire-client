@@ -61,6 +61,7 @@
       text-align: center;
       .name{
         line-height: 1.2em;
+        font-weight: bold;
       }
       .birth-death-dates{
         line-height: 1em;
