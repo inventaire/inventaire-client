@@ -25,19 +25,23 @@
         {@html icon('compress')}
         {I18n('merge homonyms')}
       </h4>
-  	  <div class='homonyms'>
-        {#each homonyms as homonym, i}
+      <!-- TODO: recover select all/unselect all/merge all selected buttons -->
+      <ul class='homonyms'>
+        {#each homonyms as homonym}
           {#if !homonym.merged}
-            <EntityListElement
-              entity={homonym}
-              actionType={'merge'}
-              parentEntity={entity}
-            />
+            <li>
+              <!-- TODO: recover list of subentities (typically author works) -->
+              <EntityListElement
+                entity={homonym}
+                actionType={'merge'}
+                parentEntity={entity}
+              />
+            </li>
           {/if}
         {:else}
           {i18n('has no homonym')}
         {/each}
-      </div>
+      </ul>
   	</div>
   {/await}
 {/if}
@@ -50,11 +54,20 @@
     margin: 1em 0;
   }
   .homonyms{
-    @include display-flex(column, center, space-between);
+    @include display-flex(row, baseline, space-around, wrap);
     :global(.entity-list){
       width: 100%;
       max-width: 30em;
     }
+  }
+  li{
+    @include display-flex(column, center, center);
+    padding: 0.5em;
+    margin: 0.5em;
+    width: 18em;
+    background-color: $light-grey;
+    background-color: white;
+    @include radius;
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
