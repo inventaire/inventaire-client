@@ -42,7 +42,6 @@
               {#each claims[prop] as authorUri}
                 <div class="author">
                   <AuthorDisplay
-                    {prop}
                     entityData={authorsByUris[authorUri]}
                   />
                 </div>

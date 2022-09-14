@@ -4,9 +4,9 @@
   import { byPublicationDate } from '#entities/lib/entities'
   import { removeAuthorsClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
-  import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
   import EntityTitle from './entity_title.svelte'
+  import EntityImage from '../entity_image.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
@@ -43,8 +43,15 @@
     <div class="top-section">
       <div class="work-section">
         <EntityTitle {entity} {standalone}/>
-        <AuthorsInfo claims={entity.claims} />
         <div class="infobox-and-summary">
+          {#if entity.image}
+            <div class="entity-image">
+              <EntityImage
+                entity={entity}
+                size={192}
+              />
+            </div>
+          {/if}
           <Infobox
             claims={removeAuthorsClaims(entity.claims)}
             entityType={entity.type}
@@ -78,10 +85,13 @@
   .author-works{
     margin-top: 1em;
   }
+  .entity-image{
+    margin-right: 1em
+  }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     .infobox-and-summary{
-      @include display-flex(row, baseline);
+      @include display-flex(row, flex-start, flex-start);
       :global(.claims-infobox-wrapper), :global(.summary-wrapper){
         width: 50%;
       }

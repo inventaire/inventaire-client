@@ -140,4 +140,10 @@
       color: $grey;
     }
   }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .summary-wrapper.has-summary{
+      margin-top: 0;
+    }
+  }
 </style>

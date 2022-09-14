@@ -61,7 +61,7 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .photo-credits{
-    margin: 0 auto;
+    margin: 0;
     font-size: 0.8em;
     max-width: 20em;
     @include shy(0.4);
