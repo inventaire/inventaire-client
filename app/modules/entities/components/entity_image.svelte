@@ -36,18 +36,20 @@
       <img
         src={imgSrc(image.url, size)}
         alt="{i18n(altMessage)} - {label}"
+        style:width={`${size}px`}
       >
     </a>
   {:else}
     <img
       src={imgSrc(image.url, size)}
       alt="{i18n(altMessage)} - {label}"
+      style:width={`${size}px`}
     >
   {/if}
   {#if creditsText}
     <p
       class="photo-credits"
-      style="max-width: {size};"
+      style:width={`${size}px`}
     >
       {i18n('photo credits:')}
       <Link
