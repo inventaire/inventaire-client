@@ -2,12 +2,16 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { createListing } from '#modules/listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
+  import { createEventDispatcher } from 'svelte'
 
   export let listing = {}
+
+  const dispatch = createEventDispatcher()
 
   async function create () {
     const res = await createListing(listing)
     listing = res.listing
+    dispatch('newListing', listing)
   }
 </script>
 
@@ -33,18 +37,40 @@
     flex: 1 0 auto;
   }
   label{
-    @include display-flex(row, center, center);
-    margin: 0 0.5em;
-    white-space: nowrap;
+    // @include display-flex(row, center, center);
+    // margin: 0 0.5em;
+    // white-space: nowrap;
   }
   input{
     max-width: 30em;
     margin: 0;
-    margin-left: 0.5em;
     flex: 1;
   }
   .tiny-button{
     padding: 0.5em;
     white-space: nowrap;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    form{
+      @include display-flex(column, center, center);
+    }
+    label{
+      display: block;
+    }
+    button{
+      margin-top: 1em;
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    label{
+      @include display-flex(row, center, center);
+      margin: 0 0.5em;
+      white-space: nowrap;
+    }
+    input{
+      margin-left: 0.5em;
+    }
   }
 </style>

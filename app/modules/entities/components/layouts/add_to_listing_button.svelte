@@ -7,6 +7,8 @@
   import Spinner from '#components/spinner.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { pluck } from 'underscore'
+  import Modal from '#components/modal.svelte'
+  import ListingCreator from '#modules/listings/components/listing_creator.svelte'
 
   export let entity, flash
 
@@ -30,13 +32,30 @@
     })
     .catch(err => flash = err)
 
-  function updateListing (e, listing) {
-    if (e.target.checked) {
-      addElement(listing._id, uri)
-    } else {
-      removeElement(listing._id, uri)
+  async function updateListing (e, listing) {
+    try {
+      if (e.target.checked) {
+        await addElement(listing._id, uri)
+      } else {
+        await removeElement(listing._id, uri)
+      }
+    } catch (err) {
+      flash = err
     }
   }
+
+  async function addNewListing (newListing) {
+    try {
+      showListCreationModal = false
+      $userListings = $userListings.concat([ newListing ])
+      listingsIdsMatchingUri = listingsIdsMatchingUri.concat([ newListing._id ])
+      await addElement(newListing._id, uri)
+    } catch (err) {
+      flash = err
+    }
+  }
+
+  let showListCreationModal = false
 </script>
 
 <div class="add-to-listing-button">
@@ -62,7 +81,7 @@
           {/each}
           <li>
             <button
-              on:click={() => alert('TODO: show a modal to create a new list')}
+              on:click={() => showListCreationModal = true}
             >
               {@html icon('plus')}
               {i18n('Create a new list')}
@@ -73,6 +92,14 @@
     </div>
   </Dropdown>
 </div>
+
+{#if showListCreationModal}
+  <Modal
+    on:closeModal={() => showListCreationModal = false}
+  >
+    <ListingCreator on:newListing={e => addNewListing(e.detail)} />
+  </Modal>
+{/if}
 
 <style lang="scss">
   @import '#general/scss/utils';
