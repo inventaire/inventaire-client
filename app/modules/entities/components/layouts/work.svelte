@@ -15,6 +15,7 @@
   import EntityTitle from './entity_title.svelte'
   import WorkActions from './work_actions.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
+  import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
   import Summary from '#entities/components/layouts/summary.svelte'
@@ -141,6 +142,23 @@
         </div>
       {/if}
     {/await}
+    <div class="relatives-lists">
+      <RelativeEntitiesList
+        {entity}
+        property="wdt:P144"
+        label={I18n('works_based_on_work', { name: entity.label })}
+      />
+      <RelativeEntitiesList
+        {entity}
+        property="wdt:P941"
+        label={I18n('works_inspired_by_work', { name: entity.label })}
+      />
+      <RelativeEntitiesList
+        {entity}
+        property="wdt:P921"
+        label={I18n('works_about_entity', { name: entity.label })}
+      />
+    </div>
     <HomonymDeduplicates
       {entity}
     />
@@ -149,6 +167,7 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+  @import '#entities/scss/relatives_lists';
   .entity-layout{
     @include display-flex(column, center);
     width: 100%;

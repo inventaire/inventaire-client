@@ -13,6 +13,8 @@
   import { extendedAuthorsKeys } from '#entities/lib/show_all_authors_preview_lists'
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
+  import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let entity, standalone, flash
 
@@ -72,12 +74,35 @@
       questionText={'A series or a work by this author is missing in the common database?'}
       {createButtons}
     />
+    <div class="relatives-lists">
+      <RelativeEntitiesList
+        {entity}
+        property="wdt:P737"
+        label={I18n('authors_influenced_by', { name: entity.label })}
+      />
+      <RelativeEntitiesList
+        {entity}
+        property="wdt:P921"
+        label={I18n('works_about_entity', { name: entity.label })}
+      />
+      <RelativeEntitiesList
+        {entity}
+        property={[ 'wdt:P2679', 'wdt:P2680' ]}
+        label={I18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
+      />
+      <RelativeEntitiesList
+        {entity}
+        property="wdt:P655"
+        label={I18n('editions_translated_by_author', { name: entity.label })}
+      />
+    </div>
     <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>
 
 <style lang="scss">
   @import '#general/scss/utils';
+  @import '#entities/scss/relatives_lists';
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
@@ -94,6 +119,17 @@
       @include display-flex(row, flex-start, flex-start);
       :global(.claims-infobox-wrapper), :global(.summary-wrapper){
         width: 50%;
+      }
+    }
+    .relatives-lists{
+      @include display-flex(row, baseline, flex-start, wrap);
+      $margin: 1rem;
+      // Hide the extra margin on each wrapped line
+      margin-inline-end: -$margin;
+      :global(.relative-entities-list.not-empty){
+        flex: 1 0 40%;
+        margin-inline-end: $margin;
+        margin-bottom: $margin;
       }
     }
   }

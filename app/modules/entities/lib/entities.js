@@ -60,17 +60,21 @@ export const getEntityByUri = async ({ uri }) => {
 }
 
 export const serializeEntity = entity => {
-  entity.originalLang = getOriginalLang(entity.claims)
-  entity.serieOrdinal = getSerieOrdinal(entity.claims)
-  entity.publicationYear = getPublicationYear(entity)
   entity.label = getBestLangValue(app.user.lang, entity.originalLang, entity.labels).value
-  entity.description = getBestLangValue(app.user.lang, entity.originalLang, entity.descriptions).value
-  const title = entity.claims['wdt:P1476']?.[0]
-  if (title) {
-    entity.title = title
-    entity.subtitle = entity.claims['wdt:P1680']?.[0]
-  } else {
-    entity.title = entity.label
+  if (entity.descriptions) {
+    entity.description = getBestLangValue(app.user.lang, entity.originalLang, entity.descriptions).value
+  }
+  if (entity.claims) {
+    entity.publicationYear = getPublicationYear(entity)
+    entity.originalLang = getOriginalLang(entity.claims)
+    entity.serieOrdinal = getSerieOrdinal(entity.claims)
+    const title = entity.claims['wdt:P1476']?.[0]
+    if (title) {
+      entity.title = title
+      entity.subtitle = entity.claims['wdt:P1680']?.[0]
+    } else {
+      entity.title = entity.label
+    }
   }
   entity.pathname = `/entity/${entity.uri}`
   const [ prefix, id ] = entity.uri.split(':')
