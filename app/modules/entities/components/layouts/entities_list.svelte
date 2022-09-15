@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import EntityListElement from './entity_list_element.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EditionActions from './edition_actions.svelte'
@@ -35,8 +35,8 @@
   <div class="toggler-wrapper">
     <WrapToggler
       bind:show={showMore}
-      moreText={I18n(`see more ${type}`)}
-      lessText={I18n(`see less ${type}`)}
+      moreText={i18n(`See more ${type}`)}
+      lessText={i18n(`See less ${type}`)}
       remainingCounter={entities.length - shownEntities.length}
     />
   </div>

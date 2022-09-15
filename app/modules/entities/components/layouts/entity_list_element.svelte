@@ -2,7 +2,6 @@
   import Link from '#lib/components/link.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
-
   import EditionActions from './edition_actions.svelte'
   import MergeAction from './merge_action.svelte'
   import EntityImage from '../entity_image.svelte'

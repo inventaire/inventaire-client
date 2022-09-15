@@ -44,7 +44,7 @@
 {#if hasActiveFilter}
   <div class="filters-wrapper">
     <div class="filters">
-      <span>{I18n('active filters')}</span>
+      <span>{i18n('Active filters')}</span>
       {#if $filters.selectedLangLabel}
         <button
           class="tiny-button grey"

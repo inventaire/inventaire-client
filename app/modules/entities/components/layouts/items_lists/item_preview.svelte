@@ -66,7 +66,7 @@
     <button
       class="map-button"
       on:click|stopPropagation={showItemOnMap}
-      title={i18n('show user on map')}
+      title={i18n('Show user on map')}
     >
       {@html icon('map-marker')}
     </button>

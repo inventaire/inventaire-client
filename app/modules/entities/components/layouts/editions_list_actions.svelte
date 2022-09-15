@@ -1,6 +1,6 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { hasSelectedLang } from '#entities/components/lib/claims_helpers'
   import { getLangEntities, getPublishersEntities, getPublicationYears, hasPublisher, hasPublicationYear } from '#entities/components/lib/editions_list_actions_helpers'
   import Flash from '#lib/components/flash.svelte'
@@ -81,7 +81,7 @@
 
 {#if hasSomeInitialEditions}
   <div class="filters">
-    <span class="filters-header">{I18n('filter by')}</span>
+    <span class="filters-header">{i18n('Filter by')}</span>
 
     {#await waitingForLangEntities}
       <Spinner/>

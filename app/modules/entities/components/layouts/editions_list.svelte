@@ -21,7 +21,7 @@
     {#if isNonEmptyArray(initialEditions)}
       <span
         class="counter"
-        title="{ I18n('all_editions_count', { count: initialEditions.length }) }"
+        title="{I18n('all_editions_count', { smart_count: initialEditions.length })}"
       >
         {initialEditions.length}
       </span>

@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { isNonEmptyString, isNonEmptyPlainObject } from '#lib/boolean_tests'
   import Spinner from '#general/components/spinner.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
@@ -50,8 +50,8 @@
           <div class="wrap-toggler-wrapper">
             <WrapToggler
               bind:show={isUnwrapped}
-              moreText={I18n('read more...')}
-              lessText={I18n('read less')}
+              moreText={i18n('Read more...')}
+              lessText={i18n('Read less')}
             />
           </div>
         {/if}

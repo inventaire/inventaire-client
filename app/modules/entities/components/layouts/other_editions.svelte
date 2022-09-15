@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import Spinner from '#general/components/spinner.svelte'
   import Link from '#lib/components/link.svelte'
   import { isNonEmptyPlainObject, isNonEmptyArray } from '#lib/boolean_tests'
@@ -25,7 +25,7 @@
 
 {#await getEditionsFromWork()}
   <div class="loading-wrapper">
-    <p class="loading">{I18n('looking for editions...')}
+    <p class="loading">{i18n('Looking for editions...')}
       <Spinner/>
     </p>
   </div>

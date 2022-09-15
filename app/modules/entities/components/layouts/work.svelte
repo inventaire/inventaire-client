@@ -1,7 +1,7 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities'
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
   import { getPublishersUrisFromEditions, removeAuthorsClaims } from '#entities/components/lib/work_helpers'
@@ -114,7 +114,7 @@
       >
         {#await editionsWithPublishers}
           <div class="loading-wrapper">
-            <p class="loading">{I18n('looking for editions...')}
+            <p class="loading">{i18n('Looking for editions...')}
               <Spinner/>
             </p>
           </div>
@@ -133,9 +133,7 @@
     </div>
     {#await editionsWithPublishers then}
       {#if someEditions}
-        <div
-          class="items-lists-section"
-        >
+        <div class="items-lists-section">
           <ItemsLists
             {editionsUris}
             bind:showMap
@@ -152,17 +150,17 @@
       <RelativeEntitiesList
         {entity}
         property="wdt:P144"
-        label={I18n('works_based_on_work', { name: entity.label })}
+        label={i18n('works_based_on_work', { name: entity.label })}
       />
       <RelativeEntitiesList
         {entity}
         property="wdt:P941"
-        label={I18n('works_inspired_by_work', { name: entity.label })}
+        label={i18n('works_inspired_by_work', { name: entity.label })}
       />
       <RelativeEntitiesList
         {entity}
         property="wdt:P921"
-        label={I18n('works_about_entity', { name: entity.label })}
+        label={i18n('works_about_entity', { name: entity.label })}
       />
     </div>
     <HomonymDeduplicates

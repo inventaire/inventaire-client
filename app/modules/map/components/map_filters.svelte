@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
 
@@ -17,7 +17,7 @@
 <div class="filters-menu">
   <div class="left-menu">
     <span class="filters-title">
-      {I18n(`filter by ${type}`)}
+      {i18n(`Filter by ${type}`)}
     </span>
     <div class="filters">
       {#each allFilters as filterValue}
@@ -55,7 +55,7 @@
       on:click={selectAllFilters}
       disabled={areAllFiltersSelected}
     >
-    {I18n('select all filters', { filters: type })}
+    {i18n('Select all filters', { filters: type })}
     </button>
   </div>
 </div>

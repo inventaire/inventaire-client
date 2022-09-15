@@ -14,7 +14,7 @@
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
 
   export let entity, standalone, flash
 
@@ -78,22 +78,22 @@
       <RelativeEntitiesList
         {entity}
         property="wdt:P737"
-        label={I18n('authors_influenced_by', { name: entity.label })}
+        label={i18n('authors_influenced_by', { name: entity.label })}
       />
       <RelativeEntitiesList
         {entity}
         property="wdt:P921"
-        label={I18n('works_about_entity', { name: entity.label })}
+        label={i18n('works_about_entity', { name: entity.label })}
       />
       <RelativeEntitiesList
         {entity}
         property={[ 'wdt:P2679', 'wdt:P2680' ]}
-        label={I18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
+        label={i18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
       />
       <RelativeEntitiesList
         {entity}
         property="wdt:P655"
-        label={I18n('editions_translated_by_author', { name: entity.label })}
+        label={i18n('editions_translated_by_author', { name: entity.label })}
       />
     </div>
     <HomonymDeduplicates {entity} />

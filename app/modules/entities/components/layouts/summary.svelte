@@ -122,10 +122,10 @@
   .header{
     @include display-flex(row, baseline, space-between);
   }
-  .label{
-    color: $label-grey;
-    margin-inline-start: 0.5em;
-  }
+  // .label{
+  //   color: $label-grey;
+  //   margin-inline-start: 0.5em;
+  // }
   select{
     max-width: 15em;
   }

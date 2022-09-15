@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { buildAltUri } from '../lib/entities'
   import preq from '#lib/preq'
   import { icon } from '#lib/utils'
@@ -39,7 +39,7 @@
     <div class="edit-data-actions">
       <Dropdown
         align={'right'}
-        buttonTitle={I18n('Show actions')}
+        buttonTitle={i18n('Show actions')}
         bind:showDropdown={showDropdown}
         >
         <div slot="button-inner">
@@ -52,7 +52,7 @@
           >
             <Link
               url={`/entity/${uri}/edit`}
-              text={I18n('edit bibliographical info')}
+              text={i18n('Edit bibliographical info')}
               icon='pencil'
             />
           </li>
