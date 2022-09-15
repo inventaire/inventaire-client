@@ -7,7 +7,7 @@
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { expired } from '#lib/utils'
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { indexBy, partition } from 'underscore'
 
   export let entity
@@ -67,7 +67,9 @@
   {#await waitingForSummariesData then}
     {#if summaries.length > 0}
       <div class="header">
-        <span class="label">{I18n('summary')}</span>
+        <!-- The label 'summary' is not adapted to human or publisher entities -->
+        <!-- Maybe the text doesn't need a label, has a summary/presentation text is kind of what one would expect to find here? -->
+        <!-- <span class="label">{i18n('Summary')}</span> -->
         {#if summaries.length > 1}
           <select bind:value={selectedSummary} aria-controls="summary-text">
             {#if splitOptions}
