@@ -16,9 +16,9 @@
     else shownEntities = entities.slice(0, showLessSize)
   }
 </script>
-<div  class="entities-list">
+<ul>
   {#each shownEntities as entity (entity.uri)}
-    <div class="list-entity">
+    <li>
       <EntityListElement
         {entity}
         {relatedEntities}
@@ -28,9 +28,9 @@
         {entity}
         {itemsByEditions}
       />
-    </div>
+    </li>
   {/each}
-</div>
+</ul>
 {#if entities.length > showLessSize}
   <div class="toggler-wrapper">
     <WrapToggler
@@ -43,18 +43,22 @@
 {/if}
 <style lang="scss">
   @import '#general/scss/utils';
-  .entities-list{
+  ul{
     width: 100%;
     margin-top: 1em;
+    border: 1px solid #ddd;
+    margin: 1em 0 0.5em 0;
+    @include radius;
+    background-color: white;
+  }
+  li{
+    @include display-flex(row, center, space-between);
+    padding: 0.5em;
+    &:not(:last-child){
+      border-bottom: 1px solid #ddd;
+    }
   }
   .toggler-wrapper{
     padding: 0.3em;
-  }
-  .list-entity{
-    @include display-flex(row, center, space-between);
-    @include radius;
-    border: 1px solid #ddd;
-    padding: 0.5em;
-    margin: 0.2em 0;
   }
 </style>
