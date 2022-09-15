@@ -1,13 +1,13 @@
 import preq from '#lib/preq'
 import { pluck } from 'underscore'
 
-export const getListingWithElementsById = async id => {
-  const { list: listing } = await preq.get(app.API.listings.byId(id))
+export const getListingWithElementsById = async (id, limit) => {
+  const { list: listing } = await preq.get(app.API.listings.byId(id, limit))
   return { listing }
 }
 
-export const getListingsByCreator = async userId => {
-  const { lists: listings } = await preq.get(app.API.listings.byCreators(userId))
+export const getListingsByCreator = async (userId, withElements) => {
+  const { lists: listings } = await preq.get(app.API.listings.byCreators(userId, withElements))
   return { listings }
 }
 

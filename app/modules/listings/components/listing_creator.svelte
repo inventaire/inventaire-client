@@ -33,7 +33,6 @@
   @import '#general/scss/utils';
   form{
     @include display-flex(row, center, flex-end);
-    max-width: 30em;
     flex: 1 0 auto;
   }
   label{
