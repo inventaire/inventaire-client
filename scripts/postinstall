@@ -20,3 +20,9 @@ echo 'let JSON_PIWIK, AnalyticsTracker, piwik_log;' > ./vendor/piwik.js
 curl -sk https://piwik.allmende.io/piwik.js >> ./vendor/piwik.js
 
 npm run update-jsconfig
+
+# Remove assets cached by node modules, in particular webpack cached builds,
+# as webpack does not invalidate its cache on modules updates.
+# This is recommanded in https://webpack.js.org/guides/build-performance/#persistent-cache
+# See also https://webpack.js.org/configuration/cache/
+rm -rf ./node_modules/.cache
