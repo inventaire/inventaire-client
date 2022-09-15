@@ -14,7 +14,7 @@
 
   const { uri } = entity
 
-  let summaryData, summaries, highlightedSummaries, otherSummaries, summeriesPerLang, summeriesPerKey, flash, selectedSummary
+  let summaryData, summaries, highlightedSummaries, otherSummaries, summeriesPerKey, flash, selectedSummary
   let waitingForSummariesData, waitingForText
 
   const { lang: userLang } = app.user
@@ -26,7 +26,6 @@
       waitingForSummariesData = preq.get(app.API.data.summaries({ uri, langs: userLang, refresh }))
         .then(res => {
           summaries = res.summaries
-          summeriesPerLang = indexBy(summaries, 'lang')
           summeriesPerKey = indexBy(summaries, 'key')
           if (!selectedSummary) {
             [ highlightedSummaries, otherSummaries ] = partition(summaries, isHighlightedSummary)
