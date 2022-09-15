@@ -15,7 +15,7 @@
   if (image.credits) {
     creditsUrl = image.credits.url
     creditsText = image.credits.text
-}
+  }
 
   const url = `/entity/${uri}`
 
@@ -27,33 +27,35 @@
   }
 </script>
 
-<div class="entity-image">
-  {#if withLink}
-    <a
-      href={url}
-      on:click={loadInternalLink}
-    >
+{#if image.url}
+  <div class="entity-image">
+    {#if withLink}
+      <a
+        href={url}
+        on:click={loadInternalLink}
+      >
+        <img
+          src={imgSrc(image.url, size)}
+          alt="{i18n(altMessage)} - {label}"
+        >
+      </a>
+    {:else}
       <img
         src={imgSrc(image.url, size)}
         alt="{i18n(altMessage)} - {label}"
       >
-    </a>
-  {:else}
-    <img
-      src={imgSrc(image.url, size)}
-      alt="{i18n(altMessage)} - {label}"
-    >
-  {/if}
-  {#if creditsText}
-    <p class="photo-credits" >
-      {i18n('photo credits:')}
-      <Link
-        url={creditsUrl}
-        text={creditsText}
-      />
-    </p>
-  {/if}
-</div>
+    {/if}
+    {#if creditsText}
+      <p class="photo-credits" >
+        {i18n('photo credits:')}
+        <Link
+          url={creditsUrl}
+          text={creditsText}
+        />
+      </p>
+    {/if}
+  </div>
+{/if}
 
 <style lang="scss">
   @import '#general/scss/utils';
