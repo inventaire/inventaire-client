@@ -5,7 +5,7 @@
 
   export let doc
 
-  const { transaction, userPicture, username, cover, id, title } = doc
+  const { transaction, picture: userPicture, username, cover, id, title } = doc
 
   const pathname = `/items/${id}`
 
@@ -15,7 +15,6 @@
   }
 </script>
 
-<!-- TODO: go back to entity page on closing item modal -->
 <a
   class="showItem"
   href={pathname}
