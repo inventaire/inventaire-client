@@ -11,7 +11,7 @@ export default Marionette.View.extend({
   template: userProfileTemplate,
   events: {
     'click .editProfile': clickCommand('show:settings:profile'),
-    'click .addItems': clickCommand('show:add:layout'),
+    'click .addItems': clickCommand('show:scan'),
     'click .showUserOnMap': 'showUserOnMap',
     'click #createShelf': 'showNewShelfEditor'
   },

@@ -8,7 +8,7 @@ export default Marionette.View.extend({
   template: inventoryWelcomeTemplate,
 
   events: {
-    'click a[href="/add"]': clickCommand('show:add:layout:search')
+    'click a[href="/add"]': clickCommand('show:scan')
   },
 
   behaviors: {
