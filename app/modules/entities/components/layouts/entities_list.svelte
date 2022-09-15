@@ -7,13 +7,13 @@
   // type is optional
   export let type, entities, relatedEntities, parentEntity, itemsByEditions
 
-  let showMore = true
+  let showMore = false
   let shownEntities = entities
   let showLessSize = 4
 
   $: {
-    if (showMore) shownEntities = entities.slice(0, showLessSize)
-    else shownEntities = entities
+    if (showMore) shownEntities = entities
+    else shownEntities = entities.slice(0, showLessSize)
   }
 </script>
 <div  class="entities-list">
