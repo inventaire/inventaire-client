@@ -9,6 +9,7 @@ export function getById (id) {
 }
 
 export async function getByIds (ids) {
+  if (ids.length === 0) return {}
   const { shelves } = await preq.get(app.API.shelves.byIds(ids))
   return shelves
 }
