@@ -16,6 +16,10 @@ export const createListing = async list => {
   return { listing }
 }
 
+export function deleteListing (params) {
+  return preq.post(app.API.listings.delete, params)
+}
+
 export const getListingsByEntityUri = async uri => {
   const { lists } = await preq.get(app.API.listings.byEntities({ uris: uri }))
   return lists[uri] ? lists[uri] : []

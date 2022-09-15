@@ -1,7 +1,7 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import { updateListing } from '#listings/lib/listings'
+  import { updateListing, deleteListing } from '#listings/lib/listings'
   import autosize from 'autosize'
   import Spinner from '#general/components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
@@ -37,6 +37,25 @@
     })
     .finally(() => isValidating = false)
   }
+
+  async function askListDeletionConfirmation () {
+    app.execute('ask:confirmation', {
+      confirmationText: i18n('delete_list_confirmation', { name }),
+      warningText: i18n('cant_undo_warning'),
+      action: _deleteListing
+    })
+  }
+
+  async function _deleteListing () {
+    try {
+      await deleteListing({ ids: _id })
+      app.execute('show:main:user:listings')
+      return closeModal()
+    } catch (err) {
+      flash = err
+    }
+  }
+
   const closeModal = () => app.execute('modal:close')
 </script>
 <div class="header">
@@ -59,6 +78,12 @@
 </div>
 <VisibilitySelector bind:visibility showTip={true} />
 <div class="buttons">
+  <button class="delete button"
+    on:click={askListDeletionConfirmation}
+  >
+    {@html icon('trash')}
+    {I18n('delete')}
+  </button>
   <button
     class="validate button success-button"
     title={I18n('validate')}
@@ -86,6 +111,11 @@
     @include display-flex(column, flex-start, center);
   }
   .buttons{
-    @include display-flex(column, center);
+    margin-top: 1em;
+    @include display-flex(row, center, center);
+  }
+  .delete{
+    @include dangerous-action;
+    margin-right: 1em;
   }
 </style>

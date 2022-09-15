@@ -12,6 +12,10 @@ export default {
     })
 
     new Router({ controller: API })
+
+    app.commands.setHandlers({
+      'show:main:user:listings': showMainUserListings,
+    })
   },
 }
 
