@@ -62,7 +62,7 @@ export default screen_ = {
   scrollToElement (element, options = {}) {
     if (!(element instanceof HTMLElement)) throw new Error('invalid element')
 
-    const { marginTop = 0 } = options
+    const { marginTop = 0, waitForRoomToScroll = true } = options
 
     let attempts = 0
     const attemptToScroll = () => {
@@ -70,7 +70,7 @@ export default screen_ = {
       const viewportHeight = window.visualViewport.height
       const bodyHeight = window.document.body.clientHeight
       const hasRoomToScroll = (viewportHeight + offset < bodyHeight)
-      if (hasRoomToScroll || ++attempts > 10) {
+      if (!waitForRoomToScroll || hasRoomToScroll || ++attempts > 10) {
         window.scrollTo({
           top: Math.max(0, offset - marginTop),
           behavior: 'smooth'

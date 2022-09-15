@@ -17,7 +17,7 @@
   let itemsByCategories = {}
   const showItemsOnMap = () => {
     itemsOnMap = itemsOnMap
-    dispatch('scrollToMap')
+    dispatch('showMapAndScrollToMap')
   }
 
   const updateItems = () => {

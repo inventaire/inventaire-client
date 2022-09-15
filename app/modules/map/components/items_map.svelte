@@ -91,7 +91,7 @@
   @import '#general/scss/utils';
   .items-map{
     position: relative;
-    width:100%
+    width: 100%;
   }
   .show-all-wrapper{
     @include display-flex(column, flex-end);

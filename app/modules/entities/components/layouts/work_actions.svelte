@@ -11,11 +11,6 @@
 
   let areNotOnlyMainUserItems
 
-  const triggerMap = () => {
-    dispatch('showMap')
-    dispatch('scrollToItemsList')
-  }
-
   function hasUsersOtherThanMainUser () {
     if (itemsUsers.length === 0) return false
     if (_.isEqual(itemsUsers, [ app.user.id ])) return false
@@ -44,7 +39,7 @@
       </button>
     {/if}
     <button
-      on:click={triggerMap}
+      on:click={() => dispatch('showMapAndScrollToMap')}
       title={i18n('Show users who have these editions on a map')}
       class="action-button"
     >

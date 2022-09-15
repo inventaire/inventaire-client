@@ -16,13 +16,14 @@
   import WorkActions from './work_actions.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
-  import { setContext } from 'svelte'
+  import { setContext, tick } from 'svelte'
   import { writable } from 'svelte/store'
   import Summary from '#entities/components/layouts/summary.svelte'
+  import screen_ from '#lib/screen'
 
   export let entity, standalone
 
-  let showMap
+  let showMap, itemsListsWrapperEl, mapWrapperEl
 
   const { uri } = entity
   let editionsUris
@@ -49,9 +50,14 @@
 
   let editionsWithPublishers = getEditionsWithPublishers()
 
-  let editionsList, windowScrollY
+  async function showMapAndScrollToMap () {
+    showMap = true
+    await tick()
+    screen_.scrollToElement(mapWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
+  }
+
   const scrollToItemsList = () => {
-    if (editionsList) { windowScrollY = editionsList.offsetTop }
+    screen_.scrollToElement(itemsListsWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
   }
 
   $: claims = entity.claims
@@ -65,7 +71,6 @@
   $: hasSomeInitialEditions = initialEditions && isNonEmptyArray(initialEditions)
 </script>
 
-<svelte:window bind:scrollY={windowScrollY} />
 <BaseLayout
   bind:entity={entity}
   {standalone}
@@ -98,7 +103,7 @@
           <WorkActions
             {someEditions}
             bind:itemsUsers={itemsUsers}
-            on:showMap={() => showMap = true}
+            on:showMapAndScrollToMap={showMapAndScrollToMap}
             on:scrollToItemsList={scrollToItemsList}
           />
         </div>
@@ -120,8 +125,8 @@
             {publishersByUris}
             parentEntity={entity}
             {initialEditions}
-            bind:editions={editions}
-            bind:itemsByEditions={itemsByEditions}
+            bind:editions
+            bind:itemsByEditions
           />
         {/await}
       </div>
@@ -129,15 +134,16 @@
     {#await editionsWithPublishers then}
       {#if someEditions}
         <div
-          class="users-editions-section"
-          bind:this={editionsList}
+          class="items-lists-section"
         >
           <ItemsLists
             {editionsUris}
-            bind:showMap={showMap}
-            bind:itemsUsers={itemsUsers}
-            on:scrollToItemsList={scrollToItemsList}
-            bind:itemsByEditions={itemsByEditions}
+            bind:showMap
+            bind:itemsUsers
+            bind:itemsByEditions
+            bind:mapWrapperEl
+            bind:itemsListsWrapperEl
+            on:showMapAndScrollToMap={showMapAndScrollToMap}
           />
         </div>
       {/if}
@@ -191,9 +197,9 @@
     flex: 1 0 0;
     margin: 0 1em;
   }
-  .users-editions-section{
+  .items-lists-section{
     @include display-flex(column, center);
-    width:100%;
+    width: 100%;
     margin: 1em 0;
   }
   .loading-wrapper{

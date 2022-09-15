@@ -5,9 +5,12 @@
   import ItemsByCategories from './items_lists/items_by_categories.svelte'
   import { getItemsData } from './items_lists/items_lists_helpers'
   import { createEventDispatcher } from 'svelte'
-  const dispatch = createEventDispatcher()
+  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
 
-  export let editionsUris, initialItems = [], itemsUsers, showMap, itemsByEditions
+  const dispatch = createEventDispatcher()
+  const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
+
+  export let editionsUris, initialItems = [], itemsUsers, showMap, itemsByEditions, mapWrapperEl, itemsListsWrapperEl
 
   let items = []
   let initialBounds
@@ -27,16 +30,22 @@
     items = initialItems
   }
 
-  const scrollToMap = () => {
-    dispatch('scrollToItemsList')
-    showMap = true
-  }
-
   $: itemsUsers = _.compact(_.uniq(items.map(_.property('owner'))))
   $: itemsByEditions = _.groupBy(initialItems, 'entity')
   $: editionsUris && getItemsByCategories()
   $: displayCover = editionsUris?.length > 1
 </script>
+
+<div class="items-lists-wrapper" bind:this={itemsListsWrapperEl}>
+  <ItemsByCategories
+    {initialItems}
+    {displayCover}
+    {waitingForItems}
+    bind:initialBounds
+    bind:itemsOnMap={items}
+    on:showMapAndScrollToMap={bubbleUpComponentEvent}
+  />
+</div>
 
 {#if showMap}
   <div class='hide-map-wrapper'>
@@ -48,21 +57,14 @@
       {@html icon('close')}
     </button>
   </div>
-  <ItemsMap
-    docsToDisplay={items}
-    initialDocs={initialItems}
-    {initialBounds}
-  />
+  <div class="map-wrapper" bind:this={mapWrapperEl}>
+    <ItemsMap
+      docsToDisplay={items}
+      initialDocs={initialItems}
+      {initialBounds}
+    />
+  </div>
 {/if}
-
-<ItemsByCategories
-  {initialItems}
-  {displayCover}
-  {waitingForItems}
-  bind:initialBounds
-  bind:itemsOnMap={items}
-  on:scrollToMap={scrollToMap}
-/>
 
 <style lang="scss">
   @import '#general/scss/utils';
@@ -74,7 +76,14 @@
     padding: 0.5em;
     margin: 0;
   }
-
+  .map-wrapper, .items-lists-wrapper{
+    align-self: stretch;
+  }
+  .map-wrapper{
+    // Set to the .simple-map height to allow to scroll to the right level
+    // before the map is rendered
+    min-height: 30em;
+  }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .hide-map{

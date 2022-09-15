@@ -9,8 +9,12 @@
   import OtherEditions from './other_editions.svelte'
   import { addWorksClaims, filterClaims } from '#entities/components/lib/edition_layout_helpers'
   import Summary from '#entities/components/layouts/summary.svelte'
+  import { tick } from 'svelte'
+  import screen_ from '#lib/screen'
 
   export let entity, works, standalone
+
+  let showMap, itemsListsWrapperEl, mapWrapperEl
 
   const { uri, image, label } = entity
   let { claims } = entity
@@ -18,6 +22,12 @@
   const claimsWithWorksClaims = _.pick(claims, filterClaims)
 
   const firstWorkUri = works[0].uri
+
+  async function showMapAndScrollToMap () {
+    showMap = true
+    await tick()
+    screen_.scrollToElement(mapWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
+  }
 
   $: app.navigate(`/entity/${uri}`)
   $: claims = addWorksClaims(claimsWithWorksClaims, works)
@@ -53,7 +63,13 @@
       </div>
     </div>
     <div class="items-lists-wrapper">
-      <ItemsLists editionsUris={[ uri ]}/>
+      <ItemsLists
+        editionsUris={[ uri ]}
+        bind:showMap
+        bind:mapWrapperEl
+        bind:itemsListsWrapperEl
+        on:showMapAndScrollToMap={showMapAndScrollToMap}
+      />
     </div>
     <div class="bottom-section">
       <OtherEditions
