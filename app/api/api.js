@@ -14,6 +14,7 @@ import search from './search.js'
 import shelves from './shelves.js'
 import tasks from './tasks.js'
 import users from './users.js'
+import { commitHash } from '#assets/js/build_metadata'
 
 export default {
   // /api endpoints
@@ -48,11 +49,7 @@ export default {
   img,
 }
 
-// Hacky way to never accept cached version in development,
-// while, in production, 'git-digest-brunch' will take care of
-// replacing DIGEST with the last git commit hash
-// (the DIGEST keyword needs to be in a URL to be replaced)
 const getBuster = () => {
   if (window.env === 'dev') return `?${Date.now()}`
-  else return ''
+  else return `?${commitHash}`
 }

@@ -7,6 +7,7 @@ cp -r app/assets/* ./public
 
 npm run update-mentions
 ./scripts/build_i18n
+./scripts/build_build_metadata
 
 # Make git hooks trackable (see https://stackoverflow.com/a/4457124/3324977)
 rm -rf .git/hooks

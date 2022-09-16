@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+mkdir -p ./app/assets/js
+last_commit_hash=$(git rev-parse --short HEAD)
+echo "export const commitHash = '${last_commit_hash}'" > ./app/assets/js/build_metadata.js
