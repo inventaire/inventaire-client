@@ -2,36 +2,63 @@
   import { i18n } from '#user/lib/i18n'
   import { icon, loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import app from '#app/app'
+  import { currentRoute } from '#lib/location'
 
   export let item, showDistance = false
 
   const { pathname, user, currentTransaction } = item
+  const { username, picture } = user
+  const isPartOfCurrentPath = str => currentRoute().includes(str)
 </script>
-
 <div class="mixedBox">
-  <a href={user.pathname} on:click|stopPropagation={loadInternalLink}>
-    <img class="profilePic" alt="{user.username} avatar" src="{imgSrc(user.picture, 48)}">
-  </a>
-  <a
-    class="transaction-box"
-    class:giving={currentTransaction.id === 'giving'}
-    class:lending={currentTransaction.id === 'lending'}
-    class:selling={currentTransaction.id === 'selling'}
-    class:inventorying={currentTransaction.id === 'inventorying'}
-    href={pathname}
-    on:click|stopPropagation={loadInternalLink}
+  {#if isPartOfCurrentPath(username)}
+    <img class="profilePic" alt="{username} avatar" src="{imgSrc(picture, 48)}">
+  {:else}
+    <a
+      href={`/inventory/${username}`}
+      on:click|stopPropagation={loadInternalLink}
     >
-    {@html icon(currentTransaction.icon)}
-  </a>
+      <img class="profilePic" alt="{username} avatar" src="{imgSrc(picture, 48)}">
+    </a>
+  {/if}
+  {#if isPartOfCurrentPath(item._id)}
+    <div
+      class="transaction-box"
+      class:giving={currentTransaction.id === 'giving'}
+      class:lending={currentTransaction.id === 'lending'}
+      class:selling={currentTransaction.id === 'selling'}
+      class:inventorying={currentTransaction.id === 'inventorying'}
+    >
+      {@html icon(currentTransaction.icon)}
+    </div>
+  {:else}
+    <a
+      class="transaction-box"
+      class:giving={currentTransaction.id === 'giving'}
+      class:lending={currentTransaction.id === 'lending'}
+      class:selling={currentTransaction.id === 'selling'}
+      class:inventorying={currentTransaction.id === 'inventorying'}
+      href={pathname}
+      on:click|stopPropagation={loadInternalLink}
+      >
+        {@html icon(currentTransaction.icon)}
+      </a>
+  {/if}
 </div>
 <div class="label-box">
-  <a
-    href={pathname}
-    class="label"
-    on:click|stopPropagation={loadInternalLink}
-  >
-    {@html i18n(currentTransaction.labelPersonalizedStrong, user)}
-  </a>
+  <div class="label">
+    {#if isPartOfCurrentPath(item._id)}
+      {@html i18n(currentTransaction.labelPersonalizedStrong, user)}
+    {:else}
+      <a
+        href={pathname}
+        on:click|stopPropagation={loadInternalLink}
+      >
+        {@html i18n(currentTransaction.labelPersonalizedStrong, user)}
+      </a>
+    {/if}
+  </div>
   {#if showDistance && user.distanceFromMainUser}
     <span class="distance">{i18n('km_away', { distance: user.distanceFromMainUser })}</span>
   {/if}
@@ -44,9 +71,9 @@
   }
   .transaction-box{
     flex: 1 0 0;
-    color: white;
     @include display-flex(column, center, center);
     :global(.fa){
+      color: white;
       font-size: 1.5rem;
       // centering
       padding-left: 0.2rem;
