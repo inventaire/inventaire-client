@@ -10,15 +10,17 @@
   import Flash from '#lib/components/flash.svelte'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import { screen } from '#lib/components/stores/screen'
+  import Spinner from '#general/components/spinner.svelte'
 
   export let entity, flash
 
-  let showDropdown
+  let showDropdown, waitForEntityRefresh
 
   const { uri, _id, type } = entity
 
   const refreshEntity = async () => {
-    const { entities } = await preq.get(app.API.entities.getByUris(uri, true))
+    waitForEntityRefresh = preq.get(app.API.entities.getByUris(uri, true))
+    const { entities } = await waitForEntityRefresh
     entity = Object.values(entities)[0]
     // Let other components now that a refresh was requested
     entity.refreshTimestamp = Date.now()
@@ -69,7 +71,11 @@
               class="action"
               title={I18n('refresh Wikidata data')}
             >
-              {@html iconFn('refresh')}
+              {#await waitForEntityRefresh}
+                <Spinner />
+              {:then}
+                {@html iconFn('refresh')}
+              {/await}
             </div>
           </li>
           <li>
@@ -130,7 +136,11 @@
                 on:click={refreshEntity}
                 on:click={() => { showDropdown = false }}
               >
-                {@html iconFn('refresh')}
+                {#await waitForEntityRefresh}
+                  <Spinner />
+                {:then}
+                  {@html iconFn('refresh')}
+                {/await}
                 {I18n('refresh Wikidata data')}
               </li>
               <li
