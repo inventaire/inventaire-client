@@ -11,6 +11,7 @@
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import { screen } from '#lib/components/stores/screen'
   import Spinner from '#general/components/spinner.svelte'
+  import app from '#app/app'
 
   export let entity, flash
 
@@ -101,6 +102,32 @@
             </a>
           </li>
         {/if}
+        {#if app.user.hasDataadminAccess}
+          {#if type === 'works'}
+            <li>
+              <a
+                class="action"
+                href={`/entity/${uri}/deduplicate`}
+                on:click={loadInternalLink}
+                title={i18n('Deduplicate sub-entities')}
+              >
+                {@html iconFn('compress')}
+              </a>
+            </li>
+          {/if}
+          {#if type === 'series'}
+            <li>
+              <a
+                class="action"
+                href={`/entity/${uri}/cleanup`}
+                on:click={loadInternalLink}
+                title={i18n('Cleanup entity')}
+              >
+                {@html iconFn('arrows')}
+              </a>
+            </li>
+          {/if}
+        {/if}
       </ul>
     {:else}
       <div class="small-screen-actions">
@@ -164,6 +191,26 @@
                   icon='history'
                 />
               </li>
+            {/if}
+            {#if app.user.hasDataadminAccess}
+              {#if type === 'works'}
+                <li>
+                  <Link
+                    url={`/entity/${uri}/deduplicate`}
+                    text={i18n('Deduplicate sub-entities')}
+                    icon='compress'
+                  />
+                </li>
+              {/if}
+              {#if type === 'series'}
+                <li>
+                  <Link
+                    url={`/entity/${uri}/cleanup`}
+                    text={i18n('Cleanup entity')}
+                    icon='arrows'
+                  />
+                </li>
+              {/if}
             {/if}
           </ul>
         </Dropdown>
