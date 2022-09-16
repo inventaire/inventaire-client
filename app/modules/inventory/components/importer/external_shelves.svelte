@@ -27,15 +27,19 @@
 
   $: onChange(candidates, lazyRefreshExternalShelves)
 </script>
-<fieldset class="import-shelves">
-  <legend>
-    <p class="title">{i18n('external_shelves_importer')}</p>
-    <p class="description">{i18n('external_shelves_importer_description')}</p>
-  </legend>
-  {#each externalShelves as externalShelf}
-    <ExternalShelf {externalShelf}/>
-  {/each}
-</fieldset>
+
+{#if externalShelves.length > 0}
+  <fieldset class="import-shelves">
+    <legend>
+      <p class="title">{i18n('external_shelves_importer')}</p>
+      <p class="description">{i18n('external_shelves_importer_description')}</p>
+    </legend>
+    {#each externalShelves as externalShelf}
+      <ExternalShelf {externalShelf}/>
+    {/each}
+  </fieldset>
+{/if}
+
 <style lang="scss">
   @import '#general/scss/utils';
   .description{
