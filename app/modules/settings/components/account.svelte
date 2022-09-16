@@ -5,7 +5,7 @@
   import Flash from '#lib/components/flash.svelte'
   import EmailValidation from './email_validation.svelte'
   import UpdatePassword from '#lib/components/update_password.svelte'
-  import languagesData from '#lib/languages_data'
+  import languagesData from '#assets/js/languages_data'
   import email_ from '#user/lib/email_tests'
   import { user } from '#user/user_store'
   import { domain } from '#lib/urls'

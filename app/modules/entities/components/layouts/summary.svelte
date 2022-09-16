@@ -3,7 +3,7 @@
   import { getTextDirection } from '#lib/active_languages'
   import Flash from '#lib/components/flash.svelte'
   import Link from '#lib/components/link.svelte'
-  import languagesData from '#lib/languages_data'
+  import languagesData from '#assets/js/languages_data'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { expired } from '#lib/utils'
