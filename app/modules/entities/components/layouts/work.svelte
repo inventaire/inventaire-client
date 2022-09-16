@@ -210,6 +210,7 @@
     }
   }
   .relatives-lists{
+    margin-top: 1em;
     align-self: stretch;
   }
   /*Small screens*/
