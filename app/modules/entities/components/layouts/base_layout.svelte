@@ -2,13 +2,14 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { buildAltUri } from '../lib/entities'
   import preq from '#lib/preq'
-  import { icon } from '#lib/utils'
+  import { icon, loadInternalLink } from '#lib/utils'
   import Dropdown from '#components/dropdown.svelte'
   import { getWikidataUrl, getWikidataHistoryUrl } from '#entities/lib/entities'
   import Link from '#lib/components/link.svelte'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
   import Flash from '#lib/components/flash.svelte'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
+  import { screen } from '#lib/components/stores/screen'
 
   export let entity, flash
 
@@ -37,67 +38,127 @@
     <div class="header">
       <h2 class="type">{I18n(entityTypeNameBySingularType[type])}</h2>
     </div>
-    <div class="edit-data-actions">
-      <Dropdown
-        align={'right'}
-        buttonTitle={i18n('Show actions')}
-        bind:showDropdown={showDropdown}
-        >
-        <div slot="button-inner">
-          {@html icon('cog')}
-        </div>
-        <ul slot="dropdown-content">
-          <li
-            class="dropdown-element"
-            on:click={edit}
+    {#if $screen.isLargerThan('$small-screen')}
+      <ul class="large-screen-actions">
+        <li>
+          <a
+            class="action"
+            href={`/entity/${uri}/edit`}
+            on:click={loadInternalLink}
+            title={i18n('Edit bibliographical info')}
           >
-            <Link
-              url={`/entity/${uri}/edit`}
-              text={i18n('Edit bibliographical info')}
-              icon='pencil'
-            />
+            {@html iconFn('pencil')}
+          </a>
+        </li>
+        {#if wikidataUrl}
+          <li>
+            <a
+              class="action"
+              target='_blank'
+              rel='noopener'
+              href={wikidataUrl}
+              title={I18n('see_on_website', { website: 'wikidata.org' })}
+            >
+              {@html iconFn('wikidata')}
+            </a>
           </li>
-          {#if wikidataUrl}
-            <li class="dropdown-element">
-              <Link
-                url={wikidataUrl}
-                text={I18n('see_on_website', { website: 'wikidata.org' })}
-                icon='wikidata'
-              />
-            </li>
-            <li
-              class="dropdown-element"
+          <li
+          >
+            <div
               on:click={refreshEntity}
-              on:click={() => { showDropdown = false }}
+              class="action"
+              title={I18n('refresh Wikidata data')}
             >
               {@html iconFn('refresh')}
-              {I18n('refresh Wikidata data')}
-            </li>
+            </div>
+          </li>
+          <li>
+            <a
+              class="action"
+              target='_blank'
+              rel='noopener'
+              href={wikidataHistoryUrl}
+              title={i18n('Entity history')}
+            >
+              {@html iconFn('history')}
+            </a>
+          </li>
+        {:else}
+          <li>
+            <a
+              class="action"
+              href={`/entity/${uri}/history`}
+              on:click={loadInternalLink}
+              title={i18n('Entity history')}
+            >
+              {@html iconFn('history')}
+            </a>
+          </li>
+        {/if}
+      </ul>
+    {:else}
+      <div class="small-screen-actions">
+        <Dropdown
+          align={'right'}
+          buttonTitle={i18n('Show actions')}
+          bind:showDropdown={showDropdown}
+          >
+          <div slot="button-inner">
+            {@html icon('cog')}
+          </div>
+          <ul slot="dropdown-content">
             <li
               class="dropdown-element"
-              on:click={history}
+              on:click={edit}
             >
               <Link
-                url={wikidataHistoryUrl}
-                text={I18n('entity history')}
-                icon='history'
+                url={`/entity/${uri}/edit`}
+                text={i18n('Edit bibliographical info')}
+                icon='pencil'
               />
             </li>
-          {:else}
-            <li
-              class="dropdown-element"
-              on:click={history}
-            >
-              <Link
-                url={`/entity/${uri}/history`}
-                text={I18n('entity history')}
-                icon='history'
-              />
-            </li>
-          {/if}
-        </ul>
-      </Dropdown>
-    </div>
+            {#if wikidataUrl}
+              <li class="dropdown-element">
+                <Link
+                  url={wikidataUrl}
+                  text={I18n('see_on_website', { website: 'wikidata.org' })}
+                  icon='wikidata'
+                />
+              </li>
+              <li
+                class="dropdown-element"
+                on:click={refreshEntity}
+                on:click={() => { showDropdown = false }}
+              >
+                {@html iconFn('refresh')}
+                {I18n('refresh Wikidata data')}
+              </li>
+              <li
+                class="dropdown-element"
+                on:click={history}
+              >
+                <Link
+                  url={wikidataHistoryUrl}
+                  text={I18n('entity history')}
+                  icon='history'
+                />
+              </li>
+            {:else}
+              <li
+                class="dropdown-element"
+                on:click={history}
+              >
+                <Link
+                  url={`/entity/${uri}/history`}
+                  text={I18n('entity history')}
+                  icon='history'
+                />
+              </li>
+            {/if}
+          </ul>
+        </Dropdown>
+      </div>
+    {/if}
   </div>
   <div class="entity-wrapper">
     <slot name="entity" />
@@ -116,15 +177,23 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .edit-data-actions{
-    /*Small screens*/
-    @media screen and (max-width: $smaller-screen) {
-      margin-right: 0.5em;
+  .large-screen-actions{
+    @include display-flex(row, flex-end);
+    .action{
+      @include display-flex(row, center);
+      @include tiny-button($off-white);
+      height: 1.5em;
+      cursor: pointer;
+      padding: 1.2em 1em;
+      margin: 0.5em;
+      :global(.fa){
+        color: grey;
+        font-size: 1.4rem;
+      }
     }
-    /*Large screens*/
-    @media screen and (min-width: $smaller-screen) {
-      right: 0;
-    }
+  }
+  .small-screen-actions{
+    right: 0;
     @include display-flex(column, flex-end);
     :global(.dropdown-button){
       @include tiny-button($grey);
