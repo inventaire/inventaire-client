@@ -79,7 +79,7 @@
       <RelativeEntitiesList
         {entity}
         claims={entity.claims['wdt:P737']}
-        label={i18n('authors_influencing_author', { name: entity.label })}
+        label={i18n('authors_or_works_influencing_author', { name: entity.label })}
       />
       <RelativeEntitiesList
         {entity}
