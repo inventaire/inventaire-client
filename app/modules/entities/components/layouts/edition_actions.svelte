@@ -47,6 +47,7 @@
     }
   }
   .link-wrapper{
-    padding: 1em 0.5em;
+    padding: 0.5em;
+    padding-top: 1em;
   }
 </style>
