@@ -2,7 +2,6 @@
   import { i18n } from '#user/lib/i18n'
   import { icon, loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import app from '#app/app'
   import { currentRoute } from '#lib/location'
 
   export let item, showDistance = false
