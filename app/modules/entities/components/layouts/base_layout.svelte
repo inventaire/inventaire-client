@@ -4,7 +4,7 @@
   import preq from '#lib/preq'
   import { icon } from '#lib/utils'
   import Dropdown from '#components/dropdown.svelte'
-  import { getWikidataUrl } from '#entities/lib/entities'
+  import { getWikidataUrl, getWikidataHistoryUrl } from '#entities/lib/entities'
   import Link from '#lib/components/link.svelte'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
   import Flash from '#lib/components/flash.svelte'
@@ -26,6 +26,7 @@
   const altUri = buildAltUri(uri, _id)
 
   const wikidataUrl = getWikidataUrl(uri)
+  const wikidataHistoryUrl = getWikidataHistoryUrl(uri)
 
   const edit = async () => app.execute('show:entity:edit', uri)
   const history = async () => app.execute('show:entity:history', uri)
@@ -72,17 +73,28 @@
               {@html iconFn('refresh')}
               {I18n('refresh Wikidata data')}
             </li>
+            <li
+              class="dropdown-element"
+              on:click={history}
+            >
+              <Link
+                url={wikidataHistoryUrl}
+                text={I18n('entity history')}
+                icon='history'
+              />
+            </li>
+          {:else}
+            <li
+              class="dropdown-element"
+              on:click={history}
+            >
+              <Link
+                url={`/entity/${uri}/history`}
+                text={I18n('entity history')}
+                icon='history'
+              />
+            </li>
           {/if}
-          <li
-            class="dropdown-element"
-            on:click={history}
-          >
-            <Link
-              url={`/entity/${uri}/history`}
-              text={I18n('entity history')}
-              icon='history'
-            />
-          </li>
         </ul>
       </Dropdown>
     </div>
