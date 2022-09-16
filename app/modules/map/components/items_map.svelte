@@ -5,7 +5,7 @@
   import MapFilters from '#map/components/map_filters.svelte'
   import SimpleMap from '#map/components/simple_map.svelte'
   import map_ from '#map/lib/map'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { buildMarkers, getBounds } from './lib/map'
 
   export let docsToDisplay = []
@@ -52,7 +52,7 @@
 </script>
 {#await map_.getLeaflet()}
   <div class="loading-wrapper">
-    <p class="loading">{I18n('loading map...')} <Spinner/></p>
+    <p class="loading">{i18n('Loading map...')} <Spinner/></p>
   </div>
 {:then}
   <div class="items-map">
@@ -82,7 +82,7 @@
   {#if notAllDocsAreDisplayed}
     <div class="show-all-wrapper">
       <button class="show-all-button" on:click={resetDocsToDisplay}>
-        {I18n('show every books on map')}
+        {i18n('Show every books on map')}
       </button>
     </div>
   {/if}

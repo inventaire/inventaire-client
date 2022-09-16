@@ -1,7 +1,7 @@
 <script>
   import { icon } from '#lib/utils'
   import ItemsMap from '#map/components/items_map.svelte'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import ItemsByCategories from './items_lists/items_by_categories.svelte'
   import { getItemsData } from './items_lists/items_lists_helpers'
   import { createEventDispatcher } from 'svelte'
@@ -48,34 +48,24 @@
 </div>
 
 {#if showMap}
-  <div class='hide-map-wrapper'>
-    <button
-      on:click={() => showMap = false}
-      class="hide-map"
-    >
-      {I18n('hide map')}
-      {@html icon('close')}
-    </button>
-  </div>
   <div class="map-wrapper" bind:this={mapWrapperEl}>
     <ItemsMap
       docsToDisplay={items}
       initialDocs={initialItems}
       {initialBounds}
     />
+    <button
+      on:click={() => showMap = false}
+      class="close-map-button"
+      title="{i18n('Close map')}"
+    >
+      {@html icon('close')}
+    </button>
   </div>
 {/if}
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .hide-map-wrapper{
-    @include display-flex(column, flex-end);
-    align-self: end;
-  }
-  .hide-map{
-    padding: 0.5em;
-    margin: 0;
-  }
   .map-wrapper, .items-lists-wrapper{
     align-self: stretch;
   }
@@ -83,10 +73,21 @@
     // Set to the .simple-map height to allow to scroll to the right level
     // before the map is rendered
     min-height: 30em;
+    position: relative;
+  }
+  .close-map-button{
+    @include position(absolute, 0.2rem, 0.2rem);
+    // Above .leaflet-pane
+    z-index: 401;
+    padding: 0.2rem;
+    margin: 0;
+    font-size: 1.5rem;
+    @include bg-hover(white);
+    @include radius;
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .hide-map{
+    .close-map-button{
       padding: 0.3em;
     }
   }
