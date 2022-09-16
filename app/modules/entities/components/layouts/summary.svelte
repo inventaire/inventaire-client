@@ -25,8 +25,9 @@
     if (summaries == null || refresh) {
       waitingForSummariesData = preq.get(app.API.data.summaries({ uri, langs: userLang, refresh }))
         .then(res => {
-          summaries = res.summaries
+          summaries = sortWikipediaSummaryFirst(res.summaries)
           summeriesPerKey = indexBy(summaries, 'key')
+
           if (!selectedSummary) {
             [ highlightedSummaries, otherSummaries ] = partition(summaries, isHighlightedSummary)
             const bestOption = highlightedSummaries[0] || otherSummaries[0]
@@ -35,6 +36,14 @@
         })
         .catch(err => flash = err)
     }
+  }
+
+  const sortWikipediaSummaryFirst = summaries => {
+    return summaries.sort((a, b) => {
+      if (a.key.includes('wiki')) return -1
+      if (b.key.includes('wiki')) return 1
+      return a.key > b.key
+    })
   }
 
   const isHighlightedSummary = summary => summary.lang === userLang
