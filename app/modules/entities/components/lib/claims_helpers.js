@@ -50,6 +50,10 @@ export const authorsProps = [
   'wdt:P6338', // colorist
 ]
 
+export const relativeEntitiesListsProps = [
+  'wdt:P737' // influenced by
+]
+
 export const editionWorkProperties = [
   ...authorsProps,
   'wdt:P179', // serie

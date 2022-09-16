@@ -6,18 +6,23 @@
   import ImagesCollage from '#components/images_collage.svelte'
   import { forceArray, loadInternalLink } from '#lib/utils'
   import { uniq } from 'underscore'
-  export let entity, property, label
+
+  export let entity, property, label, claims
 
   let flash, entities
 
   const { uri, image } = entity
 
-  const properties = forceArray(property)
-
   async function getUris () {
-    const uris = await Promise.all(properties.map(property => {
-      return getReverseClaims(property, uri)
-    }))
+    let uris
+    if (claims) {
+      uris = claims
+    } else {
+      const properties = forceArray(property)
+      uris = await Promise.all(properties.map(property => {
+        return getReverseClaims(property, uri)
+      }))
+    }
     return uniq(uris.flat())
   }
 
@@ -77,7 +82,9 @@
     font-size: 1.1rem;
   }
   ul{
-    @include display-flex(row, null, null, wrap)
+    @include display-flex(row, null, null, wrap);
+    max-height: calc($card-height * 2 + 3em);
+    overflow-y: auto;
   }
   li{
     margin: 0.2em;

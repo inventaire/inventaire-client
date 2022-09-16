@@ -2,7 +2,8 @@
   import Spinner from '#general/components/spinner.svelte'
   import { getSubEntitiesSections } from '../lib/entities'
   import { byPublicationDate } from '#entities/lib/entities'
-  import { removeAuthorsClaims } from '#entities/components/lib/work_helpers'
+  import { omitClaims } from '#entities/components/lib/work_helpers'
+  import { authorsProps, relativeEntitiesListsProps } from '#entities/components/lib/claims_helpers'
   import BaseLayout from './base_layout.svelte'
   import Infobox from './infobox.svelte'
   import EntityTitle from './entity_title.svelte'
@@ -55,7 +56,7 @@
             </div>
           {/if}
           <Infobox
-            claims={removeAuthorsClaims(entity.claims)}
+            claims={omitClaims(entity.claims, [ authorsProps, relativeEntitiesListsProps ])}
             entityType={entity.type}
           />
           <Summary {entity} />
@@ -75,6 +76,11 @@
       {createButtons}
     />
     <div class="relatives-lists">
+      <RelativeEntitiesList
+        {entity}
+        claims={entity.claims['wdt:P737']}
+        label={i18n('authors_influencing_author', { name: entity.label })}
+      />
       <RelativeEntitiesList
         {entity}
         property="wdt:P737"
