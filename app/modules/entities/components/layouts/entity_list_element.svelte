@@ -89,7 +89,7 @@
     @include display-flex(row);
   }
   .entity-title{
-    font-size:1.1em;
+    font-size: 1.1em;
   }
   .subtitle{
     line-height: 1rem;
@@ -97,9 +97,10 @@
     color: $label-grey;
   }
   .cover{
+    width: 3.5em;
     :global(a img){
-      max-height:6em;
-      max-width:4em;
+      max-height: 6em;
+      max-width: 3.5em;
     }
   }
   .entity-info-line{
