@@ -209,6 +209,9 @@
       flex: 0.4;
     }
   }
+  .relatives-lists{
+    align-self: stretch;
+  }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .work-section{
