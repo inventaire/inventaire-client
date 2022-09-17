@@ -157,6 +157,10 @@
     color: $label-grey;
     margin: 0.5em;
   }
+  ul{
+    max-height: 11em;
+    overflow-y: auto;
+  }
   li:not(:last-child){
     border-bottom: 1px solid #ddd;
   }
