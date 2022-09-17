@@ -35,7 +35,11 @@
       >
       {@html icon('cog')}
       {i18n('Advanced options')}
-      {@html icon('caret-down')}
+      {#if showControls}
+        {@html icon('caret-up')}
+      {:else}
+        {@html icon('caret-down')}
+      {/if}
     </button>
   {/if}
 
@@ -82,19 +86,18 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .wrapper{
-    position: relative;
     @include display-flex(column, stretch);
     margin-top: 0.5em;
-    background-color: $inventory-nav-grey;
     &:not(.unwrapped){
       .toggle-controls{
-        position: absolute;
-        top: 0.5em;
-        right: 0.5em;
+        align-self: flex-end;
+        margin-right: 0.5em;
       }
     }
     &.unwrapped{
+      background-color: $inventory-nav-grey;
       .toggle-controls{
+        position:absolute;
         margin: 0.5em 0.5em 0 0;
         align-self: flex-end;
       }
@@ -145,7 +148,7 @@
     }
     .filters{
       flex-direction: column;
-      margin: 0 1em;
+      margin: 1em;
     }
     .selectors{
       flex-direction: column;
