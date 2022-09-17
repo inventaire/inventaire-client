@@ -27,13 +27,12 @@
       </span>
     {/if}
   </div>
-  <EditionsListActions
-    bind:editions={editions}
-    {initialEditions}
-    {hasSomeInitialEditions}
-    {someEditions}
-  />
   {#if hasSomeInitialEditions}
+    <EditionsListActions
+      bind:editions={editions}
+      {initialEditions}
+      {someEditions}
+    />
     <EntitiesList
       entities={editions}
       relatedEntities={publishersByUris}

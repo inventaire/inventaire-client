@@ -8,9 +8,7 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { getContext } from 'svelte'
 
-  export let editions,
-    hasSomeInitialEditions,
-    initialEditions
+  export let editions, initialEditions
 
   const filters = getContext('work-layout:filters-store')
 
@@ -79,7 +77,7 @@
   $: onChange(initialEditions, $filters, refreshFilters)
 </script>
 
-{#if hasSomeInitialEditions}
+{#if initialEditions.length > 1}
   <div class="filters">
     <span class="filters-header">{i18n('Filter by')}</span>
 
