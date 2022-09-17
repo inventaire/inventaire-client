@@ -1,9 +1,10 @@
 <script>
+  import app from '#app/app'
   import { I18n } from '#user/lib/i18n'
   import LabelsEditor from './labels_editor.svelte'
   import { propertiesPerTypeAndCategory } from '#entities/lib/editor/properties_per_type'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
-  import { loadInternalLink } from '#lib/utils'
+  import { loadInternalLink, icon } from '#lib/utils'
   import EntityEditMenu from './entity_edit_menu.svelte'
   import PropertyCategory from '#entities/components/editor/property_category.svelte'
 
@@ -12,8 +13,10 @@
   const { uri, type, labels } = entity
   const typePropertiesPerCategory = propertiesPerTypeAndCategory[type]
   const hasMonolingualTitle = typePropertiesPerCategory.general['wdt:P1476'] != null
+  const createAndShowLabel = `go to the ${type} page`
 
   let favoriteLabel
+
   $: {
     if (hasMonolingualTitle) {
       favoriteLabel = entity.claims['wdt:P1476']?.[0]
@@ -45,6 +48,16 @@
   {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
     <PropertyCategory {entity} {category} {categoryProperties} />
   {/each}
+
+  <div class="next">
+    <button
+      class="light-blue-button"
+      on:click={() => app.execute('show:entity', uri)}
+      >
+      {@html icon('arrow-right')}
+      {I18n(createAndShowLabel)}
+    </button>
+  </div>
 </div>
 
 <style lang="scss">
@@ -71,6 +84,11 @@
     @include sans-serif;
     font-size: 0.8rem;
   }
+  .next{
+    @include display-flex(row, center, center);
+    margin: 1em auto;
+  }
+
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .header{
