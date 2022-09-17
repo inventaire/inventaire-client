@@ -1,13 +1,25 @@
 <script>
+  import getActionKey from '#lib/get_action_key'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
+  import { autofocus } from '#lib/components/actions/autofocus'
 
   const dispatch = createEventDispatcher()
   const close = () => dispatch('closeModal')
+
+  function onKeyUp (e) {
+    const key = getActionKey(e)
+    if (key === 'esc') close()
+  }
 </script>
 
-<div class="modal-overlay" on:click={close}>
+<div class="modal-overlay"
+  on:click={close}
+  on:keyup={onKeyUp}
+  use:autofocus={{ refocusOnVisibilityChange: false }}
+  tabindex="0"
+>
   <!-- stopPropagation so that only clicks on overlay trigger a close -->
   <div class="modal-outer" on:click|stopPropagation>
     <div class="modal-inner"><slot /></div>
