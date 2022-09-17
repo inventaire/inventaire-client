@@ -26,14 +26,14 @@
 
   let wrapped = true
   const smallScreenThreshold = 1000
+  const isNotEmpty = sections.map(_.property('uris')).flat().length > 0
+
   $: showControls = $screen.isLargerThan(smallScreenThreshold - 1) || !wrapped
 </script>
-
 <Flash state={flash} />
-
 <div class="works-browser">
   <div class="wrapper" class:unwrapped={showControls}>
-    {#if $screen.isSmallerThan(smallScreenThreshold)}
+    {#if $screen.isSmallerThan(smallScreenThreshold) && isNotEmpty}
       <button
         class="toggle-controls"
         on:click={() => wrapped = !wrapped}
@@ -41,7 +41,11 @@
         >
         {@html icon('cog')}
         {i18n('Advanced options')}
-        {@html icon('caret-down')}
+        {#if showControls}
+          {@html icon('caret-up')}
+        {:else}
+          {@html icon('caret-down')}
+        {/if}
       </button>
     {/if}
     {#if showControls}
