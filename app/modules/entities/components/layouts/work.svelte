@@ -104,7 +104,9 @@
           {userLang}
         />
         <WorkActions
+          {entity}
           {someEditions}
+          {editions}
           bind:itemsUsers={itemsUsers}
           on:showMapAndScrollToMap={showMapAndScrollToMap}
           on:scrollToItemsList={scrollToItemsList}

@@ -9,7 +9,7 @@
 
   const dispatch = createEventDispatcher()
 
-  export let entity, someEditions, itemsUsers
+  export let entity, editions, someEditions, itemsUsers
 
   let areNotOnlyMainUserItems, flash
 
@@ -31,6 +31,7 @@
 <div class="actions-wrapper">
   <AddToDotDotDotMenu
     {entity}
+    {editions}
     {flash}
   />
   {#if someEditions && areNotOnlyMainUserItems}

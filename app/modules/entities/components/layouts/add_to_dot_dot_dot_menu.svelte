@@ -9,8 +9,9 @@
   import { pluck } from 'underscore'
   import Modal from '#components/modal.svelte'
   import ListingCreator from '#modules/listings/components/listing_creator.svelte'
+  import EntitiesList from '#entities/components/layouts/entities_list.svelte'
 
-  export let entity, flash
+  export let entity, editions, flash
 
   const { uri } = entity
 
@@ -56,6 +57,7 @@
   }
 
   let showListCreationModal = false
+  let showEditionPickerModal = false
 </script>
 
 <div class="add-to-dot-dot-dot-menu">
@@ -73,7 +75,7 @@
       <div class="menu-section">
         <span class="section-label">{i18n('Inventory')}</span>
         <button
-          on:click={() => alert('TODO: show a modal to precise which edition should be added to the inventory')}
+          on:click={() => showEditionPickerModal = true}
         >
           {@html icon('plus')}
           {I18n('select the edition to add to my inventory')}
@@ -113,6 +115,18 @@
     on:closeModal={() => showListCreationModal = false}
   >
     <ListingCreator on:newListing={e => addNewListing(e.detail)} />
+  </Modal>
+{/if}
+
+{#if showEditionPickerModal}
+  <Modal
+    on:closeModal={() => showEditionPickerModal = false}
+  >
+  <h2>{i18n('Select an edition')}</h2>
+  <EntitiesList
+    entities={editions}
+    parentEntity={entity}
+  />
   </Modal>
 {/if}
 
