@@ -1,5 +1,5 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import Dropdown from '#components/dropdown.svelte'
   import { userListings } from '#listings/lib/stores/user_listings'
@@ -58,37 +58,52 @@
   let showListCreationModal = false
 </script>
 
-<div class="add-to-listing-button">
-  <Dropdown
-    alignDropdownWidthOnButton={true}
-  >
+<div class="add-to-dot-dot-dot-menu">
+  <Dropdown>
     <div slot="button-inner">
-      {@html icon('list')}
-      {i18n('Add to a list')}
+      <span>
+        {@html icon('plus')}
+        {i18n('Add to...')}
+      </span>
+      <span>
+        {@html icon('caret-down')}
+      </span>
     </div>
     <div slot="dropdown-content">
-      {#await waitingForListingsStates}
-        <Spinner center={true} />
-      {:then}
-        <ul role="menu">
-          {#each listings as listing}
+      <div class="menu-section">
+        <span class="section-label">{i18n('Inventory')}</span>
+        <button
+          on:click={() => alert('TODO: show a modal to precise which edition should be added to the inventory')}
+        >
+          {@html icon('plus')}
+          {I18n('select the edition to add to my inventory')}
+        </button>
+      </div>
+      <div class="menu-section">
+        <span class="section-label">{i18n('Lists')}</span>
+        {#await waitingForListingsStates}
+          <Spinner center={true} />
+        {:then}
+          <ul role="menu">
+            {#each listings as listing}
+              <li>
+                <label>
+                  <input type="checkbox" checked={listing.checked} on:click={e => updateListing(e, listing)}>
+                  {listing.name}
+                </label>
+              </li>
+            {/each}
             <li>
-              <label>
-                <input type="checkbox" checked={listing.checked} on:click={e => updateListing(e, listing)}>
-                {listing.name}
-              </label>
+              <button
+                on:click={() => showListCreationModal = true}
+              >
+                {@html icon('plus')}
+                {i18n('Create a new list')}
+              </button>
             </li>
-          {/each}
-          <li>
-            <button
-              on:click={() => showListCreationModal = true}
-            >
-              {@html icon('plus')}
-              {i18n('Create a new list')}
-            </button>
-          </li>
-        </ul>
-      {/await}
+          </ul>
+        {/await}
+      </div>
     </div>
   </Dropdown>
 </div>
@@ -103,17 +118,30 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .add-to-listing-button{
+  .add-to-dot-dot-dot-menu{
     :global(.dropdown-button){
-      @include tiny-button($green-tree);
+      @include tiny-button($light-blue);
     }
   }
+  [slot="button-inner"]{
+    @include display-flex(row, center, space-between);
+  }
   [slot="dropdown-content"]{
-    background-color: white;
+    background-color: $off-white;
     @include shy-border;
     @include display-flex(column, stretch);
     @include radius;
     overflow: hidden;
+  }
+  .menu-section{
+    @include display-flex(column, stretch);
+    &:not(:last-child){
+      border-bottom: 1px solid #ddd;
+    }
+  }
+  .section-label{
+    color: $label-grey;
+    margin: 0.5em;
   }
   li:not(:last-child){
     border-bottom: 1px solid #ddd;

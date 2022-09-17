@@ -1,10 +1,10 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { createEventDispatcher } from 'svelte'
   import { screen } from '#lib/components/stores/screen'
   import { onChange } from '#lib/svelte/svelte'
-  import AddToListingButton from '#entities/components/layouts/add_to_listing_button.svelte'
+  import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
   import Flash from '#lib/components/flash.svelte'
 
   const dispatch = createEventDispatcher()
@@ -28,19 +28,12 @@
   $: onChange(itemsUsers, assignIfNotOnlyMainUserItems)
 </script>
 
-{#if someEditions && areNotOnlyMainUserItems}
-  <div class="actions-wrapper">
-    <button
-      class="tiny-button light-blue"
-      on:click={() => alert('TODO: show a modal to precise which edition should be added to the inventory')}
-    >
-      {@html icon('plus')}
-      {I18n('add to my inventory')}
-    </button>
-    <AddToListingButton
-      {entity}
-      {flash}
-    />
+<div class="actions-wrapper">
+  <AddToDotDotDotMenu
+    {entity}
+    {flash}
+  />
+  {#if someEditions && areNotOnlyMainUserItems}
     {#if $screen.isSmallerThan(smallScreenThreshold)}
       <button
         on:click={() => dispatch('scrollToItemsList')}
@@ -60,8 +53,8 @@
       {@html icon('map-marker')}
       {i18n('Show books on a map')}
     </button>
-  </div>
-{/if}
+  {/if}
+</div>
 <Flash state={flash} />
 
 <style lang="scss">
