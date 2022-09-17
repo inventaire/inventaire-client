@@ -44,13 +44,16 @@
     @include position(fixed, 0, 0, 0, 0);
     // Above the dropdown
     z-index: 20;
-    @include display-flex(column, center, center);
+    @include display-flex(row, baseline, center);
+    overflow-y: auto;
   }
   .modal-outer{
     padding: 1em;
     position: relative;
     background-color: white;
     @include radius;
+    margin: 1em 0;
+    flex: 0 0 auto;
   }
   .close{
     position: absolute;
