@@ -2,7 +2,7 @@
   import getActionKey from '#lib/get_action_key'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { I18n } from '#user/lib/i18n'
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
 
   const dispatch = createEventDispatcher()
@@ -12,6 +12,9 @@
     const key = getActionKey(e)
     if (key === 'esc') close()
   }
+
+  onMount(() => app.vent.trigger('overlay:shown'))
+  onDestroy(() => app.vent.trigger('overlay:hidden'))
 </script>
 
 <div class="modal-overlay"
