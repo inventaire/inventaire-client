@@ -63,6 +63,9 @@
       margin: 0.2em;
       padding: 0;
     }
+    :global(a){
+      text-decoration: underline;
+    }
   }
   .error{
     background-color: lighten($danger-color, 25%);
