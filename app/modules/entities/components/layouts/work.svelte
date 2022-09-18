@@ -78,13 +78,13 @@
 >
   <div class="entity-layout" slot="entity">
     <div class="top-section">
-      {#if notOnlyP31}
-        <div class="work-section">
-          <EntityTitle {entity} {standalone}/>
-          <AuthorsInfo
-            {claims}
-          />
-          <div class="image-and-infobox">
+      <div class="work-section">
+        <EntityTitle {entity} {standalone}/>
+        <AuthorsInfo
+          {claims}
+        />
+        <div class="image-and-infobox">
+          {#if notOnlyP31}
             <div class="entity-image">
               <EntityImage
                 entity={entity}
@@ -95,20 +95,20 @@
               claims={infoboxClaims}
               entityType={entity.type}
             />
-          </div>
-          <Summary {entity} />
-          <Ebooks
-            {entity}
-            {userLang}
-          />
-          <WorkActions
-            {someEditions}
-            bind:itemsUsers={itemsUsers}
-            on:showMapAndScrollToMap={showMapAndScrollToMap}
-            on:scrollToItemsList={scrollToItemsList}
-          />
+          {/if}
         </div>
-      {/if}
+        <Summary {entity} />
+        <Ebooks
+          {entity}
+          {userLang}
+        />
+        <WorkActions
+          {someEditions}
+          bind:itemsUsers={itemsUsers}
+          on:showMapAndScrollToMap={showMapAndScrollToMap}
+          on:scrollToItemsList={scrollToItemsList}
+        />
+      </div>
       <div
         class="editions-section-wrapper"
         class:no-edition={!hasSomeInitialEditions}
