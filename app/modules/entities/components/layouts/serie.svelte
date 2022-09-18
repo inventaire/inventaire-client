@@ -12,11 +12,12 @@
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
+  import { getEntityMetadata } from '#entities/lib/document_metadata'
 
   export let entity, standalone, flash
 
   const { uri } = entity
-  app.navigate(`/entity/${uri}`)
+  app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
 
   let sections
   const waitingForWorks = getSubEntitiesSections({ entity, sortFn: bySerieOrdinal })

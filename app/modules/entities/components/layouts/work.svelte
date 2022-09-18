@@ -20,6 +20,7 @@
   import { writable } from 'svelte/store'
   import Summary from '#entities/components/layouts/summary.svelte'
   import screen_ from '#lib/screen'
+  import { getEntityMetadata } from '#entities/lib/document_metadata'
 
   export let entity, standalone
 
@@ -63,7 +64,7 @@
   $: claims = entity.claims
   $: infoboxClaims = removeAuthorsClaims(entity.claims)
   $: notOnlyP31 = Object.keys(claims).length > 1
-  $: app.navigate(`/entity/${uri}`)
+  $: app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
   $: if (isNonEmptyArray(editions)) {
     editionsUris = editions.map(_.property('uri'))
   }

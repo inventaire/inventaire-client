@@ -11,6 +11,7 @@
   import Summary from '#entities/components/layouts/summary.svelte'
   import { tick } from 'svelte'
   import screen_ from '#lib/screen'
+  import { getEntityMetadata } from '#entities/lib/document_metadata'
 
   export let entity, works, standalone
 
@@ -29,7 +30,7 @@
     screen_.scrollToElement(mapWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
   }
 
-  $: app.navigate(`/entity/${uri}`)
+  $: app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
   $: claims = addWorksClaims(claimsWithWorksClaims, works)
 </script>
 <BaseLayout

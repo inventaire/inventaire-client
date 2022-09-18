@@ -16,11 +16,12 @@
   import Summary from '#entities/components/layouts/summary.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import { i18n } from '#user/lib/i18n'
+  import { getEntityMetadata } from '#entities/lib/document_metadata'
 
   export let entity, standalone, flash
 
   const { uri } = entity
-  app.navigate(`/entity/${uri}`)
+  app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
 
   let sections
   const waitingForSubEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })

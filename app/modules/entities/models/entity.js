@@ -293,7 +293,7 @@ const defaultClaimPropertyByType = {
   subject: 'wdt:P921'
 }
 
-const typesString = {
+export const typesString = {
   'wd:Q5': 'author',
   // works
   'wd:Q571': 'book',
