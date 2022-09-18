@@ -21,6 +21,8 @@ export default {
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity',
         'items/:id(/)': 'showItemFromId',
         'items(/)': 'showGeneralInventory',
+        'lists(/)': 'showMainUserListings',
+        ':username/lists(/)': 'showUserListings',
         // 'name' is a legacy parameter
         'g(roups)/:id(/:name)(/)': 'showGroupInventory'
       }
@@ -68,6 +70,12 @@ const API = {
   showUserInventory (user, standalone) {
     return showInventory({ user, standalone })
   },
+
+  showUserListings (username) {
+    return showInventory({ user: username, standalone: true, listings: true })
+  },
+
+  showMainUserListings () { API.showUserListings(app.user.get('username')) },
 
   showUserInventoryFromUrl (username) {
     return showInventory({ user: username, standalone: true })

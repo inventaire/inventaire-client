@@ -2,6 +2,7 @@ import preq from '#lib/preq'
 import InventoryNav from './inventory_nav.js'
 import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
 import UserProfile from './user_profile.js'
+import InventoryOrListingNav from '#lib/components/inventory_or_listing_nav.svelte'
 import GroupProfile from './group_profile.js'
 import ShelfBox from '#shelves/components/shelf_box.svelte'
 import ShelvesSection from '#shelves/components/shelves_section.svelte'
@@ -27,6 +28,8 @@ export default Marionette.View.extend({
     sectionNav: '#sectionNav',
     groupProfile: '#groupProfile',
     userProfile: '#userProfile',
+    inventoryOrListingNav: '#inventoryOrListingNav',
+    listings: '#listings',
     shelvesList: '#shelvesList',
     shelfInfo: '#shelfInfo',
     itemsList: '#itemsList'
@@ -41,6 +44,7 @@ export default Marionette.View.extend({
     } = this.options)
     this.listenTo(app.vent, 'inventory:select', this.showSelectedInventory.bind(this))
     this.listenTo(app.vent, 'close:shelf', this.closeShelf.bind(this))
+    this.listenTo(app.vent, 'show:inventory:or:listing:section', this.showInventoryOrListingSection.bind(this))
   },
 
   childViewEvents: {
@@ -68,8 +72,11 @@ export default Marionette.View.extend({
         const { _id: id, username } = userModel.attributes
         throw error_.new('This user has been deleted', 400, { id, username })
       }
+      if (this.options.listings) return this.showUserListingsLayout(userModel)
       this._lastShownType = 'user'
       this._lastShownUser = userModel
+      this.showUserProfile(userModel)
+      this.showInventoryOrListingNav(userModel)
       if (shelf) {
         this.showShelf(shelf)
       } else if (this.options.withoutShelf) {
@@ -78,7 +85,6 @@ export default Marionette.View.extend({
         this.showUserInventory(userModel)
         app.navigateFromModel(userModel)
       }
-      this.showUserProfile(userModel)
       let section = userModel.get('itemsCategory')
       if (section === 'personal') section = 'user'
       this.showInventoryNav(section)
@@ -159,6 +165,8 @@ export default Marionette.View.extend({
   },
 
   showUserInventory (userModel) {
+    app.navigateFromModel(userModel)
+    this.getRegion('listings').empty()
     if ((userModel === app.user) && (userModel.get('itemsCount') === 0)) {
       this.showInventoryWelcome()
     } else {
@@ -189,6 +197,59 @@ export default Marionette.View.extend({
 
   showUserProfile (userModel) {
     this.showChildView('userProfile', new UserProfile({ model: userModel }))
+  },
+
+  showInventoryOrListingNav (userModel) {
+    this.showChildComponent('inventoryOrListingNav', InventoryOrListingNav, {
+      props: {
+        userModel
+      }
+    })
+  },
+
+  showInventoryOrListingSection ({ userModel, section }) {
+    switch (section) {
+    case 'inventory': return this.showInventorySection(userModel)
+    case 'listings': return this.showListingsSection(userModel)
+    default: throw error_.new('unknown section', 400, { section })
+    }
+  },
+
+  async showInventorySection (userModel) {
+    this.showUserInventory(userModel)
+    this.showUserProfile(userModel)
+    this.getRegion('shelvesList').empty()
+    this.showChildComponent('shelvesList', ShelvesSection, {
+      props: {
+        username: userModel.get('username')
+      }
+    })
+    app.navigateFromModel(userModel)
+  },
+
+  async showUserListingsLayout (userModel) {
+    this.showInventoryNav('user')
+    this.showListingsSection(userModel)
+    this.showUserProfile(userModel)
+    this.showInventoryOrListingNav(userModel)
+  },
+
+  async showListingsSection (userModel) {
+    try {
+      const { default: UserListings } = await import('#listings/components/user_listings.svelte')
+      const username = userModel.get('username')
+      this.showChildComponent('listings', UserListings, {
+        props: {
+          user: userModel.toJSON()
+        }
+      })
+      this.getRegion('shelvesList').empty()
+      this.getRegion('shelfInfo').empty()
+      this.getRegion('itemsList').empty()
+      app.navigate(`${username}/lists`)
+    } catch (err) {
+      app.execute('show:error', err)
+    }
   },
 
   showInventoryNav (section) {
@@ -249,6 +310,7 @@ export default Marionette.View.extend({
       this._lastShownType = type
       this._lastShownUser = model
       this.showUserInventory(model)
+      this.showInventoryOrListingNav(model)
       this.showUserProfile(model)
       this.getRegion('groupProfile').empty()
       this.getRegion('shelfInfo').empty()
@@ -266,6 +328,7 @@ export default Marionette.View.extend({
       this._lastShownType = type
       this._lastShownUser = model
       this.showMemberInventory(model)
+      this.showInventoryOrListingNav(model)
       this.showUserShelves(model)
     } else if (type === 'shelf') {
       const userId = model.get('owner')
@@ -275,6 +338,7 @@ export default Marionette.View.extend({
       this.showItemsWithoutShelf()
     }
 
+    this.getRegion('listings').empty()
     if (type === 'without-shelf') {
       app.navigate('/shelves/without', { preventScrollTop: true })
     } else {
