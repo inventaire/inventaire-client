@@ -48,12 +48,10 @@
     overflow-y: auto;
   }
   .modal-outer{
-    padding: 1em;
     position: relative;
     background-color: white;
     @include radius;
-    margin: 1em 0;
-    flex: 0 0 auto;
+    flex: 0 1 auto;
   }
   .close{
     position: absolute;
@@ -61,11 +59,22 @@
     right: 0;
     margin: 0;
     padding: 0;
-    font-size: 1.5rem;
+    font-size: 2rem;
     @include text-hover($grey, $dark-grey);
+  }
+  .modal-inner{
+    :global(h2){
+      text-align: center;
+      font-size: 1.2rem;
+      @include sans-serif;
+    }
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
+    .modal-outer{
+      margin: 1em 0;
+      padding: 1em;
+    }
     .modal-inner{
       min-width: 10em;
       margin: 1em;
@@ -73,9 +82,9 @@
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .modal-inner{
-      min-width: 10em;
-      margin: 1em 0;
+    .modal-outer{
+      margin: 0.5em 0;
+      padding: 0.5em;
     }
   }
 </style>

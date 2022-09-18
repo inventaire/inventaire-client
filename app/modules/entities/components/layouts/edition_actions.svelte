@@ -50,4 +50,11 @@
     padding: 0.5em;
     padding-top: 1em;
   }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .edition-actions-wrapper{
+      @include display-flex(row);
+      margin: 0.5em;
+    }
+  }
 </style>

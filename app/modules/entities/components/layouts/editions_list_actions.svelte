@@ -169,7 +169,6 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .filters{
-    @include display-flex(row, center, flex-start);
     align-self: stretch;
   }
   .filters-header{
@@ -199,5 +198,11 @@
   }
   select.filtering{
     border-color: $glow;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    .filters{
+      @include display-flex(row, center, flex-start);
+    }
   }
 </style>
