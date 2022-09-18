@@ -28,15 +28,11 @@ const metadataUpdateDone = () => { window.prerenderReady = true }
 setTimeout(metadataUpdateDone, 20 * 1000)
 const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
-let lastRoute = null
 export const updateRouteMetadata = async (route, metadataPromise = {}) => {
   route = dropLeadingSlash(route)
-  // There should be no need to re-update metadata when the route stays the same
-  if (lastRoute === route) return
-  lastRoute = route
-
   // metadataPromise can be a promise or a simple object
   const metadata = await metadataPromise
+  if (Object.keys(metadata).length === 0) return
   applyMetadataUpdate(route, metadata)
   metadataUpdateDone()
 }
