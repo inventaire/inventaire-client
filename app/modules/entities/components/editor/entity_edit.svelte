@@ -1,19 +1,20 @@
 <script>
   import app from '#app/app'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import LabelsEditor from './labels_editor.svelte'
   import { propertiesPerTypeAndCategory } from '#entities/lib/editor/properties_per_type'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { loadInternalLink, icon } from '#lib/utils'
   import EntityEditMenu from './entity_edit_menu.svelte'
   import PropertyCategory from '#entities/components/editor/property_category.svelte'
+  import { typesPossessiveForms } from '#entities/lib/types/entities_types'
 
   export let entity
 
   const { uri, type, labels } = entity
   const typePropertiesPerCategory = propertiesPerTypeAndCategory[type]
   const hasMonolingualTitle = typePropertiesPerCategory.general['wdt:P1476'] != null
-  const createAndShowLabel = `go to the ${type} page`
+  const goToEntityPageLabel = `Go to the ${typesPossessiveForms[type]} page`
 
   let favoriteLabel
 
@@ -55,7 +56,7 @@
       on:click={() => app.execute('show:entity', uri)}
       >
       {@html icon('arrow-right')}
-      {I18n(createAndShowLabel)}
+      {i18n(goToEntityPageLabel)}
     </button>
   </div>
 </div>
