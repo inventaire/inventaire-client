@@ -2,6 +2,7 @@ import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
+import { pluck } from 'underscore'
 
 export default {
   createGroup (data) {
@@ -48,4 +49,9 @@ const groupDescriptionTests = {
   "group description can't be longer than 5000 characters" (description) {
     return description.length > 5000
   }
+}
+
+export function getAllGroupMembersIds (group) {
+  const { admins, members } = group
+  return pluck([ ...admins, ...members ], 'user')
 }

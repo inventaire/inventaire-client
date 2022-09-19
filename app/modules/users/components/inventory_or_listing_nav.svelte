@@ -21,7 +21,7 @@
   const showSection = (e, section) => {
     if (isOpenedOutside(e)) return
     currentSection = section
-    app.vent.trigger('show:inventory:or:listing:section', { section, userModel })
+    app.vent.trigger('show:inventory:or:listing:section', { section, userModel, groupModel })
   }
 </script>
 <div class="inventory-or-listing-tabs">

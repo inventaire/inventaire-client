@@ -14,6 +14,7 @@ import showPaginatedItems from '#welcome/lib/show_paginated_items'
 import screen_ from '#lib/screen'
 import InventoryWelcome from '#inventory/views/inventory_welcome.js'
 import error_ from '#lib/error'
+import assert_ from '#lib/assert_types'
 
 const navs = {
   network: NetworkUsersNav,
@@ -104,6 +105,7 @@ export default Marionette.View.extend({
       await this.showGroupInventory(groupModel)
       if (!this.isIntact()) return
       this.showUsersHomeNav()
+      this.showInventoryOrListingNav({ groupModel, section: 'inventory' })
       this.showGroupProfile(groupModel)
       app.navigateFromModel(groupModel)
       this.scrollToSection('groupProfile')
@@ -211,29 +213,41 @@ export default Marionette.View.extend({
     })
   },
 
-  showInventoryOrListingSection ({ userModel, section }) {
-    if (section === 'inventory') this.showInventorySection(userModel)
-    else if (section === 'listings') this.showListingsSection(userModel)
+  showInventoryOrListingSection ({ userModel, groupModel, section }) {
+    assert_.object(userModel || groupModel)
+    if (section === 'inventory') this.showInventorySection({ userModel, groupModel })
+    else if (section === 'listings') this.showListingsSection({ userModel, groupModel })
     else throw error_.new('unknown section', 400, { section })
   },
 
-  async showInventorySection (userModel) {
-    this.showUserInventory(userModel)
-    this.showUserProfile(userModel)
+  async showInventorySection ({ userModel, groupModel }) {
+    if (userModel) {
+      this.showUserInventory(userModel)
+      this.showUserProfile(userModel)
+      this.showChildComponent('shelvesList', ShelvesSection, {
+        props: {
+          username: userModel.get('username')
+        }
+      })
+    } else {
+      this.showGroupInventory(groupModel)
+      this.showGroupProfile(groupModel)
+    }
     this.getRegion('shelvesList').empty()
-    this.showChildComponent('shelvesList', ShelvesSection, {
-      props: {
-        username: userModel.get('username')
-      }
-    })
-    app.navigateFromModel(userModel, { pathAttribute: 'inventoryPathname', preventScrollTop: true })
+    this.getRegion('listings').empty()
+    app.navigateFromModel(userModel || groupModel, { pathAttribute: 'inventoryPathname', preventScrollTop: true })
   },
 
-  async showUserListingsLayout (userModel) {
-    this.showUsersHomeNav('user')
-    this.showListingsSection(userModel)
-    this.showUserProfile(userModel)
-    this.showInventoryOrListingNav({ userModel, section: 'listings' })
+  async showUserListingsLayout ({ userModel, groupModel }) {
+    if (userModel) {
+      this.showUsersHomeNav('user')
+      this.showUserProfile(userModel)
+    } else {
+      this.showUsersHomeNav()
+      this.showGroupInventory(groupModel)
+    }
+    this.showListingsSection({ userModel, groupModel })
+    this.showInventoryOrListingNav({ userModel, groupModel, section: 'listings' })
   },
 
   async showMainUserListingsLayout () {
@@ -241,18 +255,27 @@ export default Marionette.View.extend({
     return this.showUserListingsLayout(userModel)
   },
 
-  async showListingsSection (userModel) {
+  async showListingsSection ({ userModel, groupModel }) {
     try {
-      const { default: UserListings } = await import('#listings/components/user_listings.svelte')
-      this.showChildComponent('listings', UserListings, {
-        props: {
-          user: userModel.toJSON()
-        }
-      })
       this.getRegion('shelvesList').empty()
       this.getRegion('shelfInfo').empty()
       this.getRegion('itemsList').empty()
-      app.navigateFromModel(userModel, { pathAttribute: 'listingsPathname', preventScrollTop: true })
+      if (userModel) {
+        const { default: UserListings } = await import('#listings/components/user_listings.svelte')
+        this.showChildComponent('listings', UserListings, {
+          props: {
+            user: userModel.toJSON()
+          }
+        })
+      } else {
+        const { default: GroupListings } = await import('#listings/components/group_listings.svelte')
+        this.showChildComponent('listings', GroupListings, {
+          props: {
+            group: groupModel.toJSON()
+          }
+        })
+      }
+      app.navigateFromModel(userModel || groupModel, { pathAttribute: 'listingsPathname', preventScrollTop: true })
     } catch (err) {
       app.execute('show:error', err)
     }

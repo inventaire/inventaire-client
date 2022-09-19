@@ -7,6 +7,7 @@ export default {
     return action('by-id', { id })
   },
   byCreators (usersIds, withElements = false) {
+    usersIds = forceArray(usersIds).join('|')
     return action('by-creators', { users: usersIds, 'with-elements': withElements })
   },
   byEntities ({ uris, lists }) {

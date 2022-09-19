@@ -2,33 +2,24 @@
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
   import ListingsLayout from '#modules/listings/components/listings_layout.svelte'
-  import ListingCreator from '#modules/listings/components/listing_creator.svelte'
   import { getListingsByCreators, serializeListing } from '#modules/listings/lib/listings'
+  import { getAllGroupMembersIds } from '#network/lib/groups'
 
-  export let user
+  export let group
 
   let listings, flash
 
-  const waitingForListings = getListingsByCreators(user._id, true)
+  const membersIds = getAllGroupMembersIds(group)
+
+  const waitingForListings = getListingsByCreators(membersIds, true)
     .then(res => listings = res.listings.map(serializeListing))
     .catch(err => flash = err)
-
-  const isMainUser = user._id === app.user.id
-  let newListing = {}
-
-  $: if (newListing._id) {
-    listings = [ serializeListing(newListing), ...listings ]
-    newListing = {}
-  }
 </script>
 
-<div class="user-listings">
+<div class="group-listings">
   {#await waitingForListings}
     <Spinner />
   {:then}
-    {#if isMainUser}
-      <ListingCreator bind:listing={newListing} />
-    {/if}
     <ListingsLayout listingsWithElements={listings} />
   {/await}
   <Flash state={flash} />
@@ -36,7 +27,7 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .user-listings{
+  .group-listings{
     margin: 0 auto;
     background-color: white;
     max-width: 60em;
