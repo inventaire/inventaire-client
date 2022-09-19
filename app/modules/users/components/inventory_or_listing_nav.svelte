@@ -1,6 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
   import app from '#app/app'
+  import { isOpenedOutside } from '#lib/utils'
 
   export let userModel, groupModel, currentSection
 
@@ -12,7 +13,8 @@
     ;({ inventoryPathname, listingsPathname } = groupModel.toJSON())
   }
 
-  const showSection = section => {
+  const showSection = (e, section) => {
+    if (isOpenedOutside(e)) return
     currentSection = section
     app.vent.trigger('show:inventory:or:listing:section', { section, userModel })
   }
@@ -23,7 +25,7 @@
     id="inventory-tab"
     class="tab"
     class:highlighted={currentSection === 'inventory'}
-    on:click={() => showSection('inventory')}
+    on:click={e => showSection(e, 'inventory')}
   >
     <span class="label">{i18n('Inventory')}</span>
   </a>
@@ -32,7 +34,7 @@
     id="list-tab"
     class="tab"
     class:highlighted={currentSection === 'listings'}
-    on:click={() => showSection('listings')}
+    on:click={e => showSection(e, 'listings')}
   >
     <span class="label">{i18n('Lists')}</span>
   </a>
