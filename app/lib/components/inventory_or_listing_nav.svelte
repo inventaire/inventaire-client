@@ -4,15 +4,16 @@
 
   export let userModel, groupModel, currentSection
 
-  let pathname, name
+  let inventoryPathame, listingsPathname, name
 
   if (userModel) {
     const user = userModel.toJSON()
-    pathname = user.pathname
+    inventoryPathame = user.inventory
+    listingsPathname = user.listings
     name = user.username
   } else if (groupModel) {
     const group = groupModel.toJSON()
-    pathname = group.pathname
+    inventoryPathame = group.inventory
     name = group.name
 }
 
@@ -23,7 +24,7 @@
 </script>
 <div class="inventory-or-listing-tabs">
   <a
-    href={pathname}
+    href={inventoryPathame}
     id="inventory-tab"
     class="tab"
     class:highlighted={currentSection === 'inventory'}
@@ -32,7 +33,7 @@
     <span class="label">{i18n('Inventory')}</span>
   </a>
   <a
-    href={`/lists/${name}`}
+    href={listingsPathname}
     id="list-tab"
     class="tab"
     class:highlighted={currentSection === 'listings'}

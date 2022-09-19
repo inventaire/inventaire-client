@@ -10,10 +10,10 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
+        'u(sers)/:id(/)': 'showUserInventory',
+        'u(sers)/:id/inventory(/)': 'showUserInventory',
+        'u(sers)/:id/lists(/)': 'showUserListings',
         'u(sers)/:id/contributions(/)': 'showUserContributions',
-        // Aliases
-        'u(sers)/:id(/)': 'showUser',
-        'u(sers)(/)': 'showSearchUsers'
       }
     })
 
@@ -53,8 +53,9 @@ const API = {
     }
   },
 
-  showUser (id) { app.execute('show:inventory:user', id) },
-  showSearchUsers () { app.execute('show:users:search') }
+  showUserInventory (id) { app.execute('show:inventory:user', id) },
+
+  showUserListings (id) { app.execute('show:user:listings', id) },
 }
 
 const initRelations = function () {

@@ -84,7 +84,7 @@ export default Marionette.View.extend({
         this.showItemsWithoutShelf()
       } else {
         this.showUserInventory(userModel)
-        app.navigateFromModel(userModel)
+        app.navigateFromModel(userModel, 'inventory')
       }
       let section = userModel.get('itemsCategory')
       if (section === 'personal') section = 'user'
@@ -166,7 +166,7 @@ export default Marionette.View.extend({
   },
 
   showUserInventory (userModel) {
-    app.navigateFromModel(userModel)
+    app.navigateFromModel(userModel, 'inventory')
     this.getRegion('listings').empty()
     if ((userModel === app.user) && (userModel.get('itemsCount') === 0)) {
       this.showInventoryWelcome()
@@ -217,11 +217,9 @@ export default Marionette.View.extend({
   },
 
   showInventoryOrListingSection ({ userModel, section }) {
-    switch (section) {
-    case 'inventory': return this.showInventorySection(userModel)
-    case 'listings': return this.showListingsSection(userModel)
-    default: throw error_.new('unknown section', 400, { section })
-    }
+    if (section === 'inventory') this.showInventorySection(userModel)
+    else if (section === 'listings') this.showListingsSection(userModel)
+    else throw error_.new('unknown section', 400, { section })
   },
 
   async showInventorySection (userModel) {
@@ -233,7 +231,7 @@ export default Marionette.View.extend({
         username: userModel.get('username')
       }
     })
-    app.navigateFromModel(userModel)
+    app.navigateFromModel(userModel, 'inventory')
   },
 
   async showUserListingsLayout (userModel) {
@@ -251,7 +249,6 @@ export default Marionette.View.extend({
   async showListingsSection (userModel) {
     try {
       const { default: UserListings } = await import('#listings/components/user_listings.svelte')
-      const username = userModel.get('username')
       this.showChildComponent('listings', UserListings, {
         props: {
           user: userModel.toJSON()
@@ -260,7 +257,7 @@ export default Marionette.View.extend({
       this.getRegion('shelvesList').empty()
       this.getRegion('shelfInfo').empty()
       this.getRegion('itemsList').empty()
-      app.navigate(`lists/${username}`)
+      app.navigateFromModel(userModel, 'listings')
     } catch (err) {
       app.execute('show:error', err)
     }
@@ -316,7 +313,7 @@ export default Marionette.View.extend({
     this.showInventoryBrowser(this._lastShownType, this._lastShownUser)
     this.scrollToSection('userProfile')
     this.getRegion('shelfInfo').empty()
-    app.navigateFromModel(this._lastShownUser, { preventScrollTop: true })
+    app.navigateFromModel(this._lastShownUser, { pathAttribute: 'inventory', preventScrollTop: true })
   },
 
   showSelectedInventory (type, model) {
@@ -357,7 +354,7 @@ export default Marionette.View.extend({
     if (type === 'without-shelf') {
       app.navigate('/shelves/without', { preventScrollTop: true })
     } else {
-      app.navigateFromModel(model, { preventScrollTop: true })
+      app.navigateFromModel(model, { pathAttribute: 'inventory', preventScrollTop: true })
     }
   },
 

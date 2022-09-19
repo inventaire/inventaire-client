@@ -13,6 +13,7 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
+        'u(sers)(/)': 'showGeneralInventory',
         'inventory(/)': 'showGeneralInventory',
         'inventory/network(/)': 'showNetworkInventory',
         'inventory/public(/)': 'showPublicInventory',
@@ -242,6 +243,8 @@ const initializeInventoriesHandlers = function (app) {
 
     'show:item': showItemModal,
     'show:item:byId': API.showItemFromId,
+
+    'show:user:listings': API.showUserListings,
   })
 
   app.reqres.setHandlers({

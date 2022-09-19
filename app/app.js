@@ -32,7 +32,7 @@ const App = Marionette.Application.extend({
       // Polymorphism
       if (_.isObject(pathAttribute)) {
         options = pathAttribute
-        pathAttribute = 'pathname'
+        pathAttribute = options.pathAttribute || 'pathname'
       }
 
       options.metadata = model.updateMetadata()
