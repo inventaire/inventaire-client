@@ -22,7 +22,7 @@ export default {
         'items/:id(/)': 'showItemFromId',
         'items(/)': 'showGeneralInventory',
         'lists(/)': 'showMainUserListings',
-        ':username/lists(/)': 'showUserListings',
+        'lists/:username(/)': 'showUserListings',
         // 'name' is a legacy parameter
         'g(roups)/:id(/:name)(/)': 'showGroupInventory'
       }

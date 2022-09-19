@@ -5,7 +5,7 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'lists/(:id)(/)': 'showListing',
+        'list/(:id)(/)': 'showListing',
       }
     })
 

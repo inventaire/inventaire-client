@@ -9,7 +9,7 @@
   let imagesUrls
 
   const onClick = listingId => () => {
-    app.navigateAndLoad(`/lists/${listingId}`)
+    app.navigateAndLoad(`/list/${listingId}`)
   }
 
   const getElementsImages = async () => {
@@ -39,7 +39,7 @@
   {/await}
   <span class="info">
     <Link
-      url={`/lists/${_id}`}
+      url={`/list/${_id}`}
       text={listing.name}
     />
     <p class="listing-counter">

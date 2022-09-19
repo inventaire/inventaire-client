@@ -246,7 +246,7 @@ export default Marionette.View.extend({
       this.getRegion('shelvesList').empty()
       this.getRegion('shelfInfo').empty()
       this.getRegion('itemsList').empty()
-      app.navigate(`${username}/lists`)
+      app.navigate(`lists/${username}`)
     } catch (err) {
       app.execute('show:error', err)
     }
