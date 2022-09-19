@@ -1,4 +1,4 @@
-import SectionList from './inventory_section_list.js'
+import SectionList from '#users/views/users_home_section_list.js'
 
 export default Marionette.View.extend({
   regions: {

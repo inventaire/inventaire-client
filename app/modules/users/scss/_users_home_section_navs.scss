@@ -1,6 +1,6 @@
 $map-large-screen-heigth: 70vh;
 
-#inventoryNetworkNav, #inventoryPublicNav{
+#networkUsersNav, #publicUsersNav{
   .lists{
     @include display-flex(row);
   }
@@ -56,5 +56,5 @@ $map-large-screen-heigth: 70vh;
   }
 }
 
-@import 'inventory_network_nav';
-@import 'inventory_public_nav';
+@import 'network_users_nav';
+@import 'public_users_nav';

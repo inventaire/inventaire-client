@@ -43,9 +43,9 @@ const API = {
   async showItemsWithoutShelf () {
     const pathname = 'shelves/without'
     if (app.request('require:loggedIn', pathname)) {
-      const { default: InventoryLayout } = await import('#inventory/views/inventory_layout')
+      const { default: UsersHomeLayout } = await import('#users/views/users_home_layout')
       // Passing shelf to display items and passing owner for user profile info
-      app.layout.showChildView('main', new InventoryLayout({
+      app.layout.showChildView('main', new UsersHomeLayout({
         user: app.user,
         withoutShelf: true,
         standalone: true,
@@ -65,10 +65,10 @@ const showShelf = function (shelf) {
 }
 
 const showShelfFromModel = async shelf => {
-  const { default: InventoryLayout } = await import('#inventory/views/inventory_layout')
+  const { default: UsersHomeLayout } = await import('#users/views/users_home_layout')
   const owner = shelf.get('owner')
   // Passing shelf to display items and passing owner for user profile info
-  app.layout.showChildView('main', new InventoryLayout({
+  app.layout.showChildView('main', new UsersHomeLayout({
     shelf,
     user: owner,
     standalone: true

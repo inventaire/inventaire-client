@@ -1,30 +1,30 @@
 import preq from '#lib/preq'
-import InventoryNav from './inventory_nav.js'
+import usersHomeLayoutTemplate from '#users/views/templates/users_home_layout.hbs'
+import '#users/scss/users_home_layout.scss'
+import UsersHomeNav from '#users/views/users_home_nav.js'
 import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
-import UserProfile from './user_profile.js'
+import UserProfile from '#users/views/user_profile.js'
 import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.svelte'
-import GroupProfile from './group_profile.js'
+import GroupProfile from '#users/views/group_profile.js'
 import ShelfBox from '#shelves/components/shelf_box.svelte'
 import ShelvesSection from '#shelves/components/shelves_section.svelte'
-import InventoryNetworkNav from './inventory_network_nav.js'
-import InventoryPublicNav from './inventory_public_nav.js'
+import NetworkUsersNav from '#users/views/network_users_nav.js'
+import PublicUsersNav from '#users/views/public_users_nav.js'
 import showPaginatedItems from '#welcome/lib/show_paginated_items'
 import screen_ from '#lib/screen'
-import InventoryWelcome from './inventory_welcome.js'
-import inventoryLayoutTemplate from './templates/inventory_layout.hbs'
-import '../scss/inventory_layout.scss'
+import InventoryWelcome from '#inventory/views/inventory_welcome.js'
 import error_ from '#lib/error'
 
 const navs = {
-  network: InventoryNetworkNav,
-  public: InventoryPublicNav
+  network: NetworkUsersNav,
+  public: PublicUsersNav
 }
 
 export default Marionette.View.extend({
-  id: 'inventoryLayout',
-  template: inventoryLayoutTemplate,
+  id: 'usersHomeLayout',
+  template: usersHomeLayoutTemplate,
   regions: {
-    inventoryNav: '#inventoryNav',
+    usersHomeNav: '#usersHomeNav',
     sectionNav: '#sectionNav',
     groupProfile: '#groupProfile',
     userProfile: '#userProfile',
@@ -60,7 +60,7 @@ export default Marionette.View.extend({
       this.startFromGroup(this.group)
     } else {
       const { section, filter } = this.options
-      this.showInventoryNav(section)
+      this.showUsersHomeNav(section)
       this.showSectionNav(section)
       if (filter == null) this.showSectionLastItems(section)
     }
@@ -88,7 +88,7 @@ export default Marionette.View.extend({
       }
       let section = userModel.get('itemsCategory')
       if (section === 'personal') section = 'user'
-      this.showInventoryNav(section)
+      this.showUsersHomeNav(section)
       this.showSectionNav(section, 'user', userModel)
       // Do not scroll when showing the main user's inventory
       // to keep the other nav elements visible
@@ -103,7 +103,7 @@ export default Marionette.View.extend({
       if (!this.isIntact()) return
       await this.showGroupInventory(groupModel)
       if (!this.isIntact()) return
-      this.showInventoryNav()
+      this.showUsersHomeNav()
       this.showGroupProfile(groupModel)
       app.navigateFromModel(groupModel)
       this.scrollToSection('groupProfile')
@@ -235,7 +235,7 @@ export default Marionette.View.extend({
   },
 
   async showUserListingsLayout (userModel) {
-    this.showInventoryNav('user')
+    this.showUsersHomeNav('user')
     this.showListingsSection(userModel)
     this.showUserProfile(userModel)
     this.showInventoryOrListingNav({ userModel, section: 'listings' })
@@ -263,10 +263,10 @@ export default Marionette.View.extend({
     }
   },
 
-  showInventoryNav (section) {
+  showUsersHomeNav (section) {
     if (!app.user.loggedIn) return
     section = !this.standalone || (section === 'user') ? section : undefined
-    this.showChildView('inventoryNav', new InventoryNav({ section }))
+    this.showChildView('usersHomeNav', new UsersHomeNav({ section }))
   },
 
   showSectionNav (section, type, model) {

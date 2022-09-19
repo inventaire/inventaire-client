@@ -6,17 +6,17 @@ import map_ from '#map/lib/map'
 import { initMap, grabMap, refreshListFilter } from '#network/lib/nearby_layouts'
 import Users from '#users/collections/users'
 import Groups from '#network/collections/groups'
-import InventoryCommonNav from '#inventory/views/inventory_common_nav'
+import InventoryCommonNav from '#users/views/users_home_sections_common_nav'
 import { startLoading, stopLoading } from '#general/plugins/behaviors'
-import inventoryPublicNavTemplate from './templates/inventory_public_nav.hbs'
+import publicUsersNavTemplate from './templates/public_users_nav.hbs'
 import '#map/scss/position_required.scss'
 import Loading from '#behaviors/loading'
 
 const { showOnMap, showUserOnMap, getBbox, isValidBbox } = map_
 
 export default InventoryCommonNav.extend({
-  id: 'inventoryPublicNav',
-  template: inventoryPublicNavTemplate,
+  id: 'publicUsersNav',
+  template: publicUsersNavTemplate,
 
   initialize () {
     const { filter } = this.options

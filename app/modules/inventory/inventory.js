@@ -138,8 +138,8 @@ const showItemsFromModels = function (items) {
 }
 
 const showInventory = async options => {
-  const { default: InventoryLayout } = await import('./views/inventory_layout.js')
-  app.layout.showChildView('main', new InventoryLayout(options))
+  const { default: UsersHomeLayout } = await import('#users/views/users_home_layout.js')
+  app.layout.showChildView('main', new UsersHomeLayout(options))
 }
 
 const showItemsList = async collection => {

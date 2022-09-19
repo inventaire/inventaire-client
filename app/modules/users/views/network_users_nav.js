@@ -1,11 +1,11 @@
 import { clickCommand } from '#lib/utils'
-import InventoryCommonNav from '#inventory/views/inventory_common_nav'
-import inventoryNetworkNavTemplate from './templates/inventory_network_nav.hbs'
+import InventoryCommonNav from '#users/views/users_home_sections_common_nav'
+import networkUsersNavTemplate from './templates/network_users_nav.hbs'
 import PreventDefault from '#behaviors/prevent_default'
 
 export default InventoryCommonNav.extend({
-  id: 'inventoryNetworkNav',
-  template: inventoryNetworkNavTemplate,
+  id: 'networkUsersNav',
+  template: networkUsersNavTemplate,
 
   behaviors: {
     PreventDefault,

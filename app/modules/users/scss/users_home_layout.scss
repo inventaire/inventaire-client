@@ -1,6 +1,6 @@
 @import '#general/scss/utils';
 
-#inventoryLayout{
+#usersHomeLayout{
   background-color: white;
   // Set a minimun height so that when a filter is picked and only a few items
   // are displayed as a result, the view doesn't jump up
@@ -15,9 +15,9 @@
     padding: 0.5em;
   }
 
-  @import 'inventory_nav';
+  @import 'users_home_nav';
   @import 'user_profile';
   @import 'group_profile';
-  @import 'inventory_section_navs';
-  @import 'inventory_nav_lists';
+  @import 'users_home_section_navs';
+  @import 'users_home_nav_lists';
 }
