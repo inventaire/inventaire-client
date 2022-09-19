@@ -15,6 +15,7 @@ import screen_ from '#lib/screen'
 import InventoryWelcome from '#inventory/views/inventory_welcome.js'
 import error_ from '#lib/error'
 import assert_ from '#lib/assert_types'
+import { emptyRegion } from '#lib/global_libs_extender'
 
 const navs = {
   network: NetworkUsersNav,
@@ -169,7 +170,7 @@ export default Marionette.View.extend({
 
   showUserInventory (userModel) {
     app.navigateFromModel(userModel, { pathAttribute: 'inventoryPathname', preventScrollTop: true })
-    this.getRegion('listings').empty()
+    emptyRegion(this.getRegion('listings'))
     if ((userModel === app.user) && (userModel.get('itemsCount') === 0)) {
       this.showInventoryWelcome()
     } else {
@@ -221,6 +222,8 @@ export default Marionette.View.extend({
   },
 
   async showInventorySection ({ userModel, groupModel }) {
+    emptyRegion(this.getRegion('listings'))
+    emptyRegion(this.getRegion('shelvesList'))
     if (userModel) {
       this.showUserInventory(userModel)
       this.showUserProfile(userModel)
@@ -233,8 +236,6 @@ export default Marionette.View.extend({
       this.showGroupInventory(groupModel)
       this.showGroupProfile(groupModel)
     }
-    this.getRegion('shelvesList').empty()
-    this.getRegion('listings').empty()
     app.navigateFromModel(userModel || groupModel, { pathAttribute: 'inventoryPathname', preventScrollTop: true })
   },
 
@@ -257,9 +258,9 @@ export default Marionette.View.extend({
 
   async showListingsSection ({ userModel, groupModel }) {
     try {
-      this.getRegion('shelvesList').empty()
-      this.getRegion('shelfInfo').empty()
-      this.getRegion('itemsList').empty()
+      emptyRegion(this.getRegion('shelvesList'))
+      emptyRegion(this.getRegion('shelfInfo'))
+      emptyRegion(this.getRegion('itemsList'))
       if (userModel) {
         const { default: UserListings } = await import('#listings/components/user_listings.svelte')
         this.showChildComponent('listings', UserListings, {
@@ -330,7 +331,7 @@ export default Marionette.View.extend({
   closeShelf () {
     this.showInventoryBrowser(this._lastShownType, this._lastShownUser)
     this.scrollToSection('userProfile')
-    this.getRegion('shelfInfo').empty()
+    emptyRegion(this.getRegion('shelfInfo'))
     app.navigateFromModel(this._lastShownUser, { pathAttribute: 'inventoryPathname', preventScrollTop: true })
   },
 
@@ -341,16 +342,16 @@ export default Marionette.View.extend({
       this.showUserInventory(model)
       this.showInventoryOrListingNav({ userModel: model, section: 'inventory' })
       this.showUserProfile(model)
-      this.getRegion('groupProfile').empty()
-      this.getRegion('shelfInfo').empty()
-      this.getRegion('shelvesList').empty()
+      emptyRegion(this.getRegion('groupProfile'))
+      emptyRegion(this.getRegion('shelfInfo'))
+      emptyRegion(this.getRegion('shelvesList'))
       this.showUserShelves(model)
       this.scrollToSection('userProfile')
     } else if (type === 'group') {
       this.showGroupProfile(model)
-      this.getRegion('userProfile').empty()
-      this.getRegion('shelfInfo').empty()
-      this.getRegion('shelvesList').empty()
+      emptyRegion(this.getRegion('userProfile'))
+      emptyRegion(this.getRegion('shelfInfo'))
+      emptyRegion(this.getRegion('shelvesList'))
       this.showInventoryOrListingNav({ groupModel: model, section: 'inventory' })
       this.showGroupInventory(model)
       this.scrollToSection('groupProfile')
@@ -367,8 +368,7 @@ export default Marionette.View.extend({
     } else if (type === 'without-shelf') {
       this.showItemsWithoutShelf()
     }
-
-    this.getRegion('listings').empty()
+    emptyRegion(this.getRegion('listings'))
     if (type === 'without-shelf') {
       app.navigate('/shelves/without', { preventScrollTop: true })
     } else {
