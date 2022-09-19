@@ -51,7 +51,7 @@ export default Positionable.extend({
     }
   },
 
-  setInventoryStats () {
+  async setInventoryStats () {
     const created = this.get('created') || 0
     // Make lastAdd default to the user creation date
     let data = { itemsCount: 0, lastAdd: created }
@@ -68,11 +68,12 @@ export default Positionable.extend({
     this.set('itemsCount', itemsCount)
     this.set('itemsLastAdded', lastAdd)
 
-    return Promise.all([ countShelves(this.get('_id')), countListings(this.get('_id')) ])
-    .then(([ shelvesCount, listingsCount ]) => {
-      this.set('shelvesCount', shelvesCount)
-      this.set('listingsCount', listingsCount)
-    })
+    const [ shelvesCount, listingsCount ] = await Promise.all([
+      countShelves(this.get('_id')),
+      countListings(this.get('_id'))
+    ])
+    this.set('shelvesCount', shelvesCount)
+    this.set('listingsCount', listingsCount)
   },
 
   getRss () { return app.API.feeds('user', this.id) },

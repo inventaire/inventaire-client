@@ -202,18 +202,13 @@ export default Marionette.View.extend({
 
   showInventoryOrListingNav (options) {
     const { userModel, groupModel, section: currentSection } = options
-    const { _id: userId, listingsCount } = userModel.toJSON()
-    const isMainUser = userId === app.user.get('_id')
-    // always display if main user,  in order to create new listing
-    if (groupModel || listingsCount > 0 || isMainUser) {
-      this.showChildComponent('inventoryOrListingNav', InventoryOrListingNav, {
-        props: {
-          groupModel,
-          userModel,
-          currentSection
-        }
-      })
-    }
+    this.showChildComponent('inventoryOrListingNav', InventoryOrListingNav, {
+      props: {
+        groupModel,
+        userModel,
+        currentSection,
+      }
+    })
   },
 
   showInventoryOrListingSection ({ userModel, section }) {
@@ -231,7 +226,7 @@ export default Marionette.View.extend({
         username: userModel.get('username')
       }
     })
-    app.navigateFromModel(userModel, 'inventoryPathname')
+    app.navigateFromModel(userModel, { pathAttribute: 'inventoryPathname', preventScrollTop: true })
   },
 
   async showUserListingsLayout (userModel) {
@@ -257,7 +252,7 @@ export default Marionette.View.extend({
       this.getRegion('shelvesList').empty()
       this.getRegion('shelfInfo').empty()
       this.getRegion('itemsList').empty()
-      app.navigateFromModel(userModel, 'listingsPathname')
+      app.navigateFromModel(userModel, { pathAttribute: 'listingsPathname', preventScrollTop: true })
     } catch (err) {
       app.execute('show:error', err)
     }

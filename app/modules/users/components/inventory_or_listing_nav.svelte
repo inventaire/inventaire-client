@@ -13,6 +13,11 @@
     ;({ inventoryPathname, listingsPathname } = groupModel.toJSON())
   }
 
+  let listingsCount
+  userModel?.waitingForInventoryStats.then(() => {
+    listingsCount = userModel.get('listingsCount')
+  })
+
   const showSection = (e, section) => {
     if (isOpenedOutside(e)) return
     currentSection = section
@@ -37,6 +42,9 @@
     on:click={e => showSection(e, 'listings')}
   >
     <span class="label">{i18n('Lists')}</span>
+    {#if listingsCount != null}
+      <span class="count">{listingsCount}</span>
+    {/if}
   </a>
 </div>
 <style lang="scss">
@@ -44,7 +52,6 @@
   .inventory-or-listing-tabs{
     @include display-flex(row, center, center, wrap);
     margin-bottom: 0.5em;
-    @include radius-horizontal-group;
   }
   .tab{
     flex: 1 0 auto;
@@ -59,5 +66,19 @@
     &:not(.highlighted){
       @include bg-hover(darken($light-grey, 10%));
     }
+    &:first-child{
+      @include radius-left;
+    }
+    &:last-child{
+      @include radius-right;
+    }
+  }
+  .count{
+    margin-left: 0.5em;
+    line-height: 1rem;
+    padding: 0.2em;
+    background-color: white;
+    opacity: 0.7;
+    @include radius;
   }
 </style>
