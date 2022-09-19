@@ -20,7 +20,6 @@
   @import '#general/scss/utils';
   .listings-layout{
     @include display-flex(row, center, center, wrap);
-    max-height: 42em;
     overflow-y: auto;
   }
   .empty{

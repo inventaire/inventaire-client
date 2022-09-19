@@ -1,5 +1,4 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
   import ListingsLayout from '#modules/listings/components/listings_layout.svelte'
@@ -24,14 +23,13 @@
 </script>
 
 <div class="user-listings-layout">
-  <h3 class="subheader">{I18n('user_lists', { username: user.username })}</h3>
   {#await waitingForListings}
     <Spinner />
   {:then}
-    <ListingsLayout listingsWithElements={listings} />
     {#if isMainUser}
       <ListingCreator bind:listing={newListing} />
     {/if}
+    <ListingsLayout listingsWithElements={listings} />
   {/await}
   <Flash state={flash} />
 </div>
@@ -43,10 +41,5 @@
     background-color: white;
     max-width: 60em;
     padding: 0.5em;
-  }
-  h3{
-    padding: 0.5em;
-    font-size: 1rem;
-    @include sans-serif;
   }
 </style>

@@ -33,8 +33,9 @@
 <style lang="scss">
   @import '#general/scss/utils';
   form{
-    @include display-flex(row, center, flex-end);
+    @include display-flex(row, flex-end, flex-end);
     flex: 1 0 auto;
+    margin-bottom: 1em
   }
   label{
     // @include display-flex(row, center, center);
@@ -47,14 +48,12 @@
     flex: 1;
   }
   .tiny-button{
-    padding: 0.5em;
+    margin-left: 0.5em;
+    padding: 0.4em;
     white-space: nowrap;
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    form{
-      @include display-flex(column, center, center);
-    }
     label{
       display: block;
     }
