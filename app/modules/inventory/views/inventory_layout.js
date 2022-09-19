@@ -77,7 +77,7 @@ export default Marionette.View.extend({
       this._lastShownType = 'user'
       this._lastShownUser = userModel
       this.showUserProfile(userModel)
-      this.showInventoryOrListingNav(userModel, 'inventory')
+      this.showInventoryOrListingNav({ userModel, section: 'inventory' })
       if (shelf) {
         this.showShelf(shelf)
       } else if (this.options.withoutShelf) {
@@ -200,13 +200,15 @@ export default Marionette.View.extend({
     this.showChildView('userProfile', new UserProfile({ model: userModel }))
   },
 
-  showInventoryOrListingNav (userModel, currentSection) {
+  showInventoryOrListingNav (options) {
+    const { userModel, groupModel, section: currentSection } = options
     const { _id: userId, listingsCount } = userModel.toJSON()
     const isMainUser = userId === app.user.get('_id')
     // always display if main user,  in order to create new listing
-    if (listingsCount > 0 || isMainUser) {
+    if (groupModel || listingsCount > 0 || isMainUser) {
       this.showChildComponent('inventoryOrListingNav', InventoryOrListingNav, {
         props: {
+          groupModel,
           userModel,
           currentSection
         }
@@ -238,7 +240,7 @@ export default Marionette.View.extend({
     this.showInventoryNav('user')
     this.showListingsSection(userModel)
     this.showUserProfile(userModel)
-    this.showInventoryOrListingNav(userModel, 'listings')
+    this.showInventoryOrListingNav({ userModel, section: 'listings' })
   },
 
   async showMainUserListingsLayout () {
@@ -322,7 +324,7 @@ export default Marionette.View.extend({
       this._lastShownType = type
       this._lastShownUser = model
       this.showUserInventory(model)
-      this.showInventoryOrListingNav(model, 'inventory')
+      this.showInventoryOrListingNav({ userModel: model, section: 'inventory' })
       this.showUserProfile(model)
       this.getRegion('groupProfile').empty()
       this.getRegion('shelfInfo').empty()
@@ -334,13 +336,14 @@ export default Marionette.View.extend({
       this.getRegion('userProfile').empty()
       this.getRegion('shelfInfo').empty()
       this.getRegion('shelvesList').empty()
+      this.showInventoryOrListingNav({ groupModel: model, section: 'inventory' })
       this.showGroupInventory(model)
       this.scrollToSection('groupProfile')
     } else if (type === 'member') {
       this._lastShownType = type
       this._lastShownUser = model
       this.showMemberInventory(model)
-      this.showInventoryOrListingNav(model, 'inventory')
+      this.showInventoryOrListingNav({ userModel: model, section: 'inventory' })
       this.showUserShelves(model)
     } else if (type === 'shelf') {
       const userId = model.get('owner')

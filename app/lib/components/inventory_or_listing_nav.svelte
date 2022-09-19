@@ -2,8 +2,19 @@
   import { i18n } from '#user/lib/i18n'
   import app from '#app/app'
 
-  export let userModel, currentSection
-  const { pathname, username } = userModel.toJSON()
+  export let userModel, groupModel, currentSection
+
+  let pathname, name
+
+  if (userModel) {
+    const user = userModel.toJSON()
+    pathname = user.pathname
+    name = user.username
+  } else if (groupModel) {
+    const group = groupModel.toJSON()
+    pathname = group.pathname
+    name = group.name
+}
 
   const showSection = section => {
     currentSection = section
@@ -21,7 +32,7 @@
     <span class="label">{i18n('Inventory')}</span>
   </a>
   <a
-    href={`/lists/${username}`}
+    href={`/lists/${name}`}
     id="list-tab"
     class="tab"
     class:highlighted={currentSection === 'listings'}
