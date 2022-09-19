@@ -50,15 +50,16 @@
   }
   .tab{
     flex: 1 0 auto;
-    @include bg-hover($dark-grey);
-    color: white;
+    color: $default-text-color;
     font-weight: bold;
     padding: 0.5em;
     align-self: stretch;
     @include display-flex(row, center, center);
-  }
-  .highlighted{
-    color: $dark-grey;
-    @include bg-hover($light-grey);
+    &.highlighted{
+      background-color: $light-grey;
+    }
+    &:not(.highlighted){
+      @include bg-hover(darken($light-grey, 10%));
+    }
   }
 </style>
