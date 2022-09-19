@@ -201,11 +201,16 @@ export default Marionette.View.extend({
   },
 
   showInventoryOrListingNav (userModel) {
-    this.showChildComponent('inventoryOrListingNav', InventoryOrListingNav, {
-      props: {
-        userModel
-      }
-    })
+    const { _id: userId, listingsCount } = userModel.toJSON()
+    const isMainUser = userId === app.user.get('_id')
+    // always display if main user,  in order to create new listing
+    if (listingsCount > 0 || isMainUser) {
+      this.showChildComponent('inventoryOrListingNav', InventoryOrListingNav, {
+        props: {
+          userModel
+        }
+      })
+    }
   },
 
   showInventoryOrListingSection ({ userModel, section }) {

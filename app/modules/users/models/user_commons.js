@@ -1,6 +1,7 @@
 import { isNonEmptyString } from '#lib/boolean_tests'
 import { i18n } from '#user/lib/i18n'
 import { countShelves } from '#shelves/lib/shelves'
+import { countListings } from '#listings/lib/listings'
 import Positionable from '#general/models/positionable'
 import error_ from '#lib/error'
 import { images } from '#lib/urls'
@@ -65,8 +66,11 @@ export default Positionable.extend({
     this.set('itemsCount', itemsCount)
     this.set('itemsLastAdded', lastAdd)
 
-    return countShelves(this.get('_id'))
-    .then(shelvesCount => this.set('shelvesCount', shelvesCount))
+    return Promise.all([ countShelves(this.get('_id')), countListings(this.get('_id')) ])
+    .then(([ shelvesCount, listingsCount ]) => {
+      this.set('shelvesCount', shelvesCount)
+      this.set('listingsCount', listingsCount)
+    })
   },
 
   getRss () { return app.API.feeds('user', this.id) },

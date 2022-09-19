@@ -6,6 +6,7 @@
 
   export let listing
   const { _id } = listing
+  let elements = listing.elements || []
   let imagesUrls
 
   const onClick = listingId => () => {
@@ -13,7 +14,7 @@
   }
 
   const getElementsImages = async () => {
-    const allElementsUris = listing.elements.map(_.property('uri'))
+    const allElementsUris = elements.map(_.property('uri'))
     // TODO: make it fast by paginating entities: check if they hava enough images for the collage, and fetch more if not.
     const elementsUris = allElementsUris.slice(0, 15)
     const { entities } = await getEntitiesAttributesByUris({
@@ -43,7 +44,7 @@
       text={listing.name}
     />
     <p class="listing-counter">
-      {i18n('list_element_count', { count: listing.elements.length })}
+      {i18n('list_element_count', { count: elements.length })}
     </p>
   </span>
 </div>

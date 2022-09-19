@@ -11,6 +11,7 @@
   async function create () {
     const res = await createListing(listing)
     listing = res.listing
+    app.user.trigger('listings:change', 'createListing')
     dispatch('newListing', listing)
   }
 </script>

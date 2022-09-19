@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { updateListing, deleteListing } from '#listings/lib/listings'
@@ -49,6 +50,7 @@
   async function _deleteListing () {
     try {
       await deleteListing({ ids: _id })
+      app.user.trigger('listings:change', 'removeListing')
       closeModal()
       app.execute('show:inventory:main:user', true)
     } catch (err) {

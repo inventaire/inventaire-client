@@ -55,3 +55,8 @@ export const serializeListing = listing => {
     pathname: `/lists/${id}`
   })
 }
+
+export async function countListings (userId) {
+  const { lists: listings } = await preq.get(app.API.listings.byCreators(userId))
+  return Object.keys(listings).length
+}
