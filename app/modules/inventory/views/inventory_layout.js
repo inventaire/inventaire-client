@@ -45,6 +45,7 @@ export default Marionette.View.extend({
     this.listenTo(app.vent, 'inventory:select', this.showSelectedInventory.bind(this))
     this.listenTo(app.vent, 'close:shelf', this.closeShelf.bind(this))
     this.listenTo(app.vent, 'show:inventory:or:listing:section', this.showInventoryOrListingSection.bind(this))
+    this.listenTo(app.vent, 'show:main:user:listings', this.showMainUserListingsLayout.bind(this))
   },
 
   childViewEvents: {
@@ -232,6 +233,11 @@ export default Marionette.View.extend({
     this.showListingsSection(userModel)
     this.showUserProfile(userModel)
     this.showInventoryOrListingNav(userModel)
+  },
+
+  async showMainUserListingsLayout () {
+    const userModel = app.user
+    return this.showUserListingsLayout(userModel)
   },
 
   async showListingsSection (userModel) {

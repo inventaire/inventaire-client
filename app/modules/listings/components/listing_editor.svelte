@@ -49,8 +49,8 @@
   async function _deleteListing () {
     try {
       await deleteListing({ ids: _id })
-      app.execute('show:main:user:listings')
-      return closeModal()
+      closeModal()
+      app.execute('show:inventory:main:user', true)
     } catch (err) {
       flash = err
     }

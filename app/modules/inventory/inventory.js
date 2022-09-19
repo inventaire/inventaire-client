@@ -67,8 +67,8 @@ const API = {
     }
   },
 
-  showUserInventory (user, standalone) {
-    return showInventory({ user, standalone })
+  showUserInventory (user, standalone, listings) {
+    return showInventory({ user, standalone, listings })
   },
 
   showUserListings (username) {
@@ -225,8 +225,8 @@ const initializeInventoriesHandlers = function (app) {
       return API.showUserInventory(user, true)
     },
 
-    'show:inventory:main:user' () {
-      return API.showUserInventory(app.user, true)
+    'show:inventory:main:user' (listings) {
+      return API.showUserInventory(app.user, true, listings)
     },
 
     'show:inventory:group': API.showGroupInventory,
