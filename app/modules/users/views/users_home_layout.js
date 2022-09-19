@@ -84,7 +84,7 @@ export default Marionette.View.extend({
         this.showItemsWithoutShelf()
       } else {
         this.showUserInventory(userModel)
-        app.navigateFromModel(userModel, 'inventory')
+        app.navigateFromModel(userModel, 'inventoryPathname')
       }
       let section = userModel.get('itemsCategory')
       if (section === 'personal') section = 'user'
@@ -166,7 +166,7 @@ export default Marionette.View.extend({
   },
 
   showUserInventory (userModel) {
-    app.navigateFromModel(userModel, 'inventory')
+    app.navigateFromModel(userModel, 'inventoryPathname')
     this.getRegion('listings').empty()
     if ((userModel === app.user) && (userModel.get('itemsCount') === 0)) {
       this.showInventoryWelcome()
@@ -231,7 +231,7 @@ export default Marionette.View.extend({
         username: userModel.get('username')
       }
     })
-    app.navigateFromModel(userModel, 'inventory')
+    app.navigateFromModel(userModel, 'inventoryPathname')
   },
 
   async showUserListingsLayout (userModel) {
@@ -257,7 +257,7 @@ export default Marionette.View.extend({
       this.getRegion('shelvesList').empty()
       this.getRegion('shelfInfo').empty()
       this.getRegion('itemsList').empty()
-      app.navigateFromModel(userModel, 'listings')
+      app.navigateFromModel(userModel, 'listingsPathname')
     } catch (err) {
       app.execute('show:error', err)
     }
@@ -313,7 +313,7 @@ export default Marionette.View.extend({
     this.showInventoryBrowser(this._lastShownType, this._lastShownUser)
     this.scrollToSection('userProfile')
     this.getRegion('shelfInfo').empty()
-    app.navigateFromModel(this._lastShownUser, { pathAttribute: 'inventory', preventScrollTop: true })
+    app.navigateFromModel(this._lastShownUser, { pathAttribute: 'inventoryPathname', preventScrollTop: true })
   },
 
   showSelectedInventory (type, model) {
@@ -354,7 +354,7 @@ export default Marionette.View.extend({
     if (type === 'without-shelf') {
       app.navigate('/shelves/without', { preventScrollTop: true })
     } else {
-      app.navigateFromModel(model, { pathAttribute: 'inventory', preventScrollTop: true })
+      app.navigateFromModel(model, { pathAttribute: 'inventoryPathname', preventScrollTop: true })
     }
   },
 

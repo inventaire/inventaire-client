@@ -41,7 +41,7 @@ export default {
 const API = {
   async showUserContributions (idOrUsernameOrModel) {
     const user = await app.request('resolve:to:userModel', idOrUsernameOrModel)
-    if (app.request('require:loggedIn', user.get('contributions'))) {
+    if (app.request('require:loggedIn', user.get('contributionsPathname'))) {
       const username = user.get('username')
       const path = `users/${username}/contributions`
       const title = i18n('contributions_by', { username })

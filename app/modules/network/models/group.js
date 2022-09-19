@@ -40,7 +40,9 @@ export default Positionable.extend({
     this.set({
       canonical,
       pathname,
-      boardPathname: `/groups/${slug}/settings`,
+      inventoryPathname: `${pathname}/inventory`,
+      listingsPathname: `${pathname}/listings`,
+      settingsPathname: `${pathname}/settings`,
       // non-persisted category used for convinience on client-side
       tmp: []
     })

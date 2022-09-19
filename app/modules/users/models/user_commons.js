@@ -13,9 +13,9 @@ export default Positionable.extend({
     const username = this.get('username')
     this.set({
       pathname: `/u/${username}`,
-      inventory: `/u/${username}/inventory`,
-      listings: `/u/${username}/lists`,
-      contributions: `/u/${username}/contributions`,
+      inventoryPathname: `/u/${username}/inventory`,
+      listingsPathname: `/u/${username}/lists`,
+      contributionsPathname: `/u/${username}/contributions`,
       // Set for compatibility with interfaces expecting a label
       // such as modules/inventory/views/browser_selector
       label: username

@@ -97,7 +97,7 @@ const showGroupBoardFromModel = async (model, options = {}) => {
     ])
     const { openedSection } = options
     app.layout.showChildView('main', new GroupBoard({ model, standalone: true, openedSection }))
-    app.navigateFromModel(model, 'boardPathname')
+    app.navigateFromModel(model, 'settingsPathname')
   } else {
     // If the user isnt a member, redirect to the standalone group inventory
     app.execute('show:inventory:group', model, true)

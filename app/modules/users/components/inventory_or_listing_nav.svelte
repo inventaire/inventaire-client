@@ -4,18 +4,13 @@
 
   export let userModel, groupModel, currentSection
 
-  let inventoryPathame, listingsPathname, name
+  let inventoryPathname, listingsPathname
 
   if (userModel) {
-    const user = userModel.toJSON()
-    inventoryPathame = user.inventory
-    listingsPathname = user.listings
-    name = user.username
+    ;({ inventoryPathname, listingsPathname } = userModel.toJSON())
   } else if (groupModel) {
-    const group = groupModel.toJSON()
-    inventoryPathame = group.inventory
-    name = group.name
-}
+    ;({ inventoryPathname, listingsPathname } = groupModel.toJSON())
+  }
 
   const showSection = section => {
     currentSection = section
@@ -24,7 +19,7 @@
 </script>
 <div class="inventory-or-listing-tabs">
   <a
-    href={inventoryPathame}
+    href={inventoryPathname}
     id="inventory-tab"
     class="tab"
     class:highlighted={currentSection === 'inventory'}
