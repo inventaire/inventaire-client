@@ -77,7 +77,7 @@ export default Marionette.View.extend({
       this._lastShownType = 'user'
       this._lastShownUser = userModel
       this.showUserProfile(userModel)
-      this.showInventoryOrListingNav(userModel)
+      this.showInventoryOrListingNav(userModel, 'inventory')
       if (shelf) {
         this.showShelf(shelf)
       } else if (this.options.withoutShelf) {
@@ -200,14 +200,15 @@ export default Marionette.View.extend({
     this.showChildView('userProfile', new UserProfile({ model: userModel }))
   },
 
-  showInventoryOrListingNav (userModel) {
+  showInventoryOrListingNav (userModel, currentSection) {
     const { _id: userId, listingsCount } = userModel.toJSON()
     const isMainUser = userId === app.user.get('_id')
     // always display if main user,  in order to create new listing
     if (listingsCount > 0 || isMainUser) {
       this.showChildComponent('inventoryOrListingNav', InventoryOrListingNav, {
         props: {
-          userModel
+          userModel,
+          currentSection
         }
       })
     }
@@ -237,7 +238,7 @@ export default Marionette.View.extend({
     this.showInventoryNav('user')
     this.showListingsSection(userModel)
     this.showUserProfile(userModel)
-    this.showInventoryOrListingNav(userModel)
+    this.showInventoryOrListingNav(userModel, 'listings')
   },
 
   async showMainUserListingsLayout () {
@@ -321,7 +322,7 @@ export default Marionette.View.extend({
       this._lastShownType = type
       this._lastShownUser = model
       this.showUserInventory(model)
-      this.showInventoryOrListingNav(model)
+      this.showInventoryOrListingNav(model, 'inventory')
       this.showUserProfile(model)
       this.getRegion('groupProfile').empty()
       this.getRegion('shelfInfo').empty()
@@ -339,7 +340,7 @@ export default Marionette.View.extend({
       this._lastShownType = type
       this._lastShownUser = model
       this.showMemberInventory(model)
-      this.showInventoryOrListingNav(model)
+      this.showInventoryOrListingNav(model, 'inventory')
       this.showUserShelves(model)
     } else if (type === 'shelf') {
       const userId = model.get('owner')

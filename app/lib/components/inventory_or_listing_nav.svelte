@@ -2,15 +2,21 @@
   import { i18n } from '#user/lib/i18n'
   import app from '#app/app'
 
-  export let userModel
+  export let userModel, currentSection
   const { pathname, username } = userModel.toJSON()
+
+  const showSection = section => {
+    currentSection = section
+    app.vent.trigger('show:inventory:or:listing:section', { section, userModel })
+  }
 </script>
 <div class="inventoryOrListingTabs">
   <a
     href={pathname}
     id="inventory-tab"
     class="tab"
-    on:click={app.vent.trigger('show:inventory:or:listing:section', { section: 'inventory', userModel })}
+    class:highlighted={currentSection === 'inventory'}
+    on:click={() => showSection('inventory')}
   >
     <span class="label">{i18n('Inventory')}</span>
   </a>
@@ -18,7 +24,8 @@
     href={`/lists/${username}`}
     id="list-tab"
     class="tab"
-    on:click={app.vent.trigger('show:inventory:or:listing:section', { section: 'listings', userModel })}
+    class:highlighted={currentSection === 'listings'}
+    on:click={() => showSection('listings')}
   >
     <span class="label">{i18n('Lists')}</span>
   </a>
@@ -31,10 +38,15 @@
   }
   .tab{
     flex: 1 0 auto;
-    @include bg-hover-lighten($light-grey);
+    @include bg-hover($dark-grey);
+    color: white;
     font-weight: bold;
     padding: 0.5em;
     align-self: stretch;
     @include display-flex(row, center, center);
+  }
+  .highlighted{
+    color: $dark-grey;
+    @include bg-hover($light-grey);
   }
 </style>
