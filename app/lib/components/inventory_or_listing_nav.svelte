@@ -21,7 +21,7 @@
     app.vent.trigger('show:inventory:or:listing:section', { section, userModel })
   }
 </script>
-<div class="inventoryOrListingTabs">
+<div class="inventory-or-listing-tabs">
   <a
     href={pathname}
     id="inventory-tab"
@@ -43,9 +43,10 @@
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
-  .inventoryOrListingTabs{
+  .inventory-or-listing-tabs{
     @include display-flex(row, center, center, wrap);
     margin-bottom: 0.5em;
+    @include radius-horizontal-group;
   }
   .tab{
     flex: 1 0 auto;
