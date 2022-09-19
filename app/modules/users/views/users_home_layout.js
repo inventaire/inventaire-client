@@ -103,12 +103,13 @@ export default Marionette.View.extend({
     app.request('resolve:to:groupModel', group)
     .then(async groupModel => {
       if (!this.isIntact()) return
+      if (this.options.listings) return this.showGroupListingsLayout(groupModel)
       await this.showGroupInventory(groupModel)
       if (!this.isIntact()) return
       this.showUsersHomeNav()
       this.showInventoryOrListingNav({ groupModel, section: 'inventory' })
       this.showGroupProfile(groupModel)
-      app.navigateFromModel(groupModel)
+      app.navigateFromModel(groupModel, 'inventoryPathname')
       this.scrollToSection('groupProfile')
     })
     .catch(app.Execute('show:error'))
@@ -239,21 +240,23 @@ export default Marionette.View.extend({
     app.navigateFromModel(userModel || groupModel, { pathAttribute: 'inventoryPathname', preventScrollTop: true })
   },
 
-  async showUserListingsLayout ({ userModel, groupModel }) {
-    if (userModel) {
-      this.showUsersHomeNav('user')
-      this.showUserProfile(userModel)
-    } else {
-      this.showUsersHomeNav()
-      this.showGroupInventory(groupModel)
-    }
-    this.showListingsSection({ userModel, groupModel })
-    this.showInventoryOrListingNav({ userModel, groupModel, section: 'listings' })
+  showUserListingsLayout (userModel) {
+    this.showUsersHomeNav('user')
+    this.showUserProfile(userModel)
+    this.showListingsSection({ userModel })
+    this.showInventoryOrListingNav({ userModel, section: 'listings' })
   },
 
-  async showMainUserListingsLayout () {
+  showMainUserListingsLayout () {
     const userModel = app.user
-    return this.showUserListingsLayout(userModel)
+    this.showUserListingsLayout(userModel)
+  },
+
+  showGroupListingsLayout (groupModel) {
+    this.showUsersHomeNav()
+    this.showGroupProfile(groupModel)
+    this.showListingsSection({ groupModel })
+    this.showInventoryOrListingNav({ groupModel, section: 'listings' })
   },
 
   async showListingsSection ({ userModel, groupModel }) {

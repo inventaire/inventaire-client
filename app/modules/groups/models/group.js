@@ -35,7 +35,7 @@ export default Positionable.extend({
   setInferredAttributes () {
     let pathname
     const slug = fixedEncodeURIComponent(this.get('slug'))
-    const canonical = (pathname = `/groups/${slug}`)
+    const canonical = (pathname = `/g/${slug}`)
 
     this.set({
       canonical,

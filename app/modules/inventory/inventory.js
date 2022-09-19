@@ -24,8 +24,6 @@ export default {
         'items(/)': 'showGeneralInventory',
         'lists(/)': 'showMainUserListings',
         'lists/:username(/)': 'showUserListings',
-        // 'name' is a legacy parameter
-        'g(roups)/:id(/:name)(/)': 'showGroupInventory'
       }
     })
 
@@ -77,6 +75,10 @@ const API = {
   },
 
   showMainUserListings () { API.showUserListings(app.user.get('username')) },
+
+  showGroupListings (group) {
+    return showInventory({ group, standalone: true, listings: true })
+  },
 
   showUserInventoryFromUrl (username) {
     return showInventory({ user: username, standalone: true })
@@ -245,6 +247,7 @@ const initializeInventoriesHandlers = function (app) {
     'show:item:byId': API.showItemFromId,
 
     'show:user:listings': API.showUserListings,
+    'show:group:listings': API.showGroupListings,
   })
 
   app.reqres.setHandlers({

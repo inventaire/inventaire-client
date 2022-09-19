@@ -7,7 +7,9 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'groups/:id/settings(/)': 'showGroupBoard',
+        'g(roups)/:id(/inventory)(/)': 'showGroupInventory',
+        'g(roups)/:id/listings(/)': 'showGroupListings',
+        'g(roups)/:id/settings(/)': 'showGroupBoard',
         'g(roups)(/)': 'showSearchGroups',
 
         // Legacy redirections
@@ -43,6 +45,13 @@ const initRequestsCollectionsEvent = function () {
 }
 
 const API = {
+  showGroupInventory (slug) {
+    app.execute('show:inventory:group', slug)
+  },
+
+  showGroupListings (slug) {
+    app.execute('show:group:listings', slug)
+  },
   // Named showGroupBoard and not showGroupSettings
   // as GroupSettings are a child view of GroupBoard
   showGroupBoard (slug) {
