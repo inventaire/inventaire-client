@@ -358,6 +358,8 @@ export default Marionette.View.extend({
     } else if (type === 'member') {
       this._lastShownType = type
       this._lastShownUser = model
+      emptyRegion(this.getRegion('shelfInfo'))
+      emptyRegion(this.getRegion('shelvesList'))
       this.showMemberInventory(model)
       this.showInventoryOrListingNav({ userModel: model, section: 'inventory' })
       this.showUserShelves(model)
