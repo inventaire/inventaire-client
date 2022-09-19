@@ -12,6 +12,7 @@ import Add from '#inventory/add'
 import Inventory from '#inventory/inventory'
 import Transactions from '#transactions/transactions'
 import Network from '#network/network'
+import Groups from '#groups/groups'
 import Notifications from '#notifications/notifications'
 import Settings from '#settings/settings'
 import Tasks from '#tasks/tasks'
@@ -46,6 +47,7 @@ export default async function () {
   Inventory.initialize()
   Transactions.initialize()
   Network.initialize()
+  Groups.initialize()
   Notifications.initialize()
   Settings.initialize()
   Tasks.initialize()

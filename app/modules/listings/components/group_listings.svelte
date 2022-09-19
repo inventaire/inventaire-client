@@ -3,7 +3,7 @@
   import Spinner from '#components/spinner.svelte'
   import ListingsLayout from '#modules/listings/components/listings_layout.svelte'
   import { getListingsByCreators, serializeListing } from '#modules/listings/lib/listings'
-  import { getAllGroupMembersIds } from '#network/lib/groups'
+  import { getAllGroupMembersIds } from '#groups/lib/groups'
 
   export let group
 

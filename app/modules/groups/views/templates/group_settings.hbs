@@ -2,7 +2,7 @@
   <section>
     <label for="editName">{{i18n 'name'}}</label>
     {{input editName 'check'}}
-    {{> 'network:group_url'}}
+    {{> 'groups:group_url'}}
   </section>
   <hr>
 
@@ -15,12 +15,12 @@
   <hr>
 
   <section>
-    {{> 'network:searchability' searchability}}
+    {{> 'groups:searchability' searchability}}
   </section>
   <hr>
 
   <section>
-    {{> 'network:open' openness}}
+    {{> 'groups:open' openness}}
   </section>
   <hr>
 
@@ -38,7 +38,7 @@
       {{i18n "the group's position isn't set yet"}}
     {{/if}}
   </p>
-  {{> 'network:group_position_setting'}}
+  {{> 'groups:group_position_setting'}}
   <hr>
 {{/if}}
 

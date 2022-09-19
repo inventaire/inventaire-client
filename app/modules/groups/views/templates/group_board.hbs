@@ -1,18 +1,18 @@
 <div class="header"></div>
 <div class="body">
   <section id="groupRequests">
-    {{> 'network:group_board_section' sections.requests}}
+    {{> 'groups:group_board_section' sections.requests}}
   </section>
   <section id="groupSettings">
-    {{> 'network:group_board_section' sections.settings}}
+    {{> 'groups:group_board_section' sections.settings}}
   </section>
   <section id="groupInvite" {{#unless status_member}}class="hidden"{{/unless}}>
-    {{> 'network:group_board_section' sections.invite}}
+    {{> 'groups:group_board_section' sections.invite}}
   </section>
   <section id="groupEmailInvite" {{#unless status_member}}class="hidden"{{/unless}}>
-    {{> 'network:group_board_section' sections.email}}
+    {{> 'groups:group_board_section' sections.email}}
   </section>
   <section id="groupMembers">
-    {{> 'network:group_board_section' sections.members}}
+    {{> 'groups:group_board_section' sections.members}}
   </section>
 </div>

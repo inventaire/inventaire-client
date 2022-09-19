@@ -31,9 +31,9 @@
 @import 'top_bar';
 @import 'flash_message';
 @import 'app_layout';
-@import '../../network/scss/network';
-@import '../../inventory/scss/inventory';
-@import '../../entities/scss/entities';
-@import '../../notifications/scss/notifications';
-@import '../../map/scss/map';
-@import '../../welcome/scss/embedded_welcome';
+@import '#groups/scss/groups';
+@import '#inventory/scss/inventory';
+@import '#entities/scss/entities';
+@import '#notifications/scss/notifications';
+@import '#map/scss/map';
+@import '#welcome/scss/embedded_welcome';

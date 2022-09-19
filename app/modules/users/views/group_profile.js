@@ -1,5 +1,5 @@
 import SectionList from '#users/views/users_home_section_list.js'
-import { GroupLayoutView } from '#network/views/group_views_commons'
+import { GroupLayoutView } from '#groups/views/group_views_commons'
 import groupProfileTemplate from './templates/group_profile.hbs'
 import AlertBox from '#behaviors/alert_box'
 import PreventDefault from '#behaviors/prevent_default'
