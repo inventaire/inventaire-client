@@ -35,6 +35,7 @@
                 entity={homonym}
                 actionType={'merge'}
                 parentEntity={entity}
+                noImageCredits=true
               />
             </li>
           {/if}

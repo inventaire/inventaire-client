@@ -11,7 +11,8 @@
     parentEntity,
     relatedEntities,
     actionType,
-    showInfobox = true
+    showInfobox = true,
+    noImageCredits
 
   let flash
 
@@ -39,6 +40,7 @@
         entity={entity}
         withLink=true
         size={128}
+        {noImageCredits}
       />
     </div>
   {/if}

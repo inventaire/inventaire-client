@@ -6,7 +6,8 @@
 
   export let entity,
     size = 300,
-    withLink = false
+    withLink = false,
+    noImageCredits
 
   const { image, uri, label } = entity
 
@@ -45,7 +46,7 @@
         alt="{i18n(altMessage)} - {label}"
       >
     {/if}
-    {#if creditsText}
+    {#if creditsText && !noImageCredits}
       <p class="photo-credits" >
         {i18n('photo credits:')}
         <Link
