@@ -76,7 +76,7 @@
       background-color: $light-grey;
     }
     &:not(.highlighted){
-      @include bg-hover(darken($light-grey, 10%));
+      @include bg-hover-from-to(darken($light-grey, 10%), lighten($light-grey, 2%));
     }
     &:first-child{
       @include radius-left;
