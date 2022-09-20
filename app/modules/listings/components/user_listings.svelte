@@ -29,7 +29,10 @@
     {#if isMainUser}
       <ListingCreator bind:listing={newListing} />
     {/if}
-    <ListingsLayout listingsWithElements={listings} />
+    <ListingsLayout
+      listingsWithElements={listings}
+      onUserLayout={true}
+    />
   {/await}
   <Flash state={flash} />
 </div>

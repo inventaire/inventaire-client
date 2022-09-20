@@ -17,7 +17,6 @@
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import { i18n } from '#user/lib/i18n'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
-  import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
 
   export let entity, standalone, flash
 
@@ -104,9 +103,6 @@
         label={i18n('editions_translated_by_author', { name: entity.label })}
       />
     </div>
-    <EntityListingsLayout
-      {entity}
-    />
     <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>

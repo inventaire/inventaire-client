@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import Spinner from '#general/components/spinner.svelte'
   import { getListingsByEntityUri } from '#listings/lib/listings'
   import ListingsLayout from '#modules/listings/components/listings_layout.svelte'
@@ -14,16 +14,14 @@
     }
   }
 
-  const waitingForLists = getListings()
+  const waitingForListings = getListings()
 
   $: emptyListings = listings.length === 0
 </script>
 
 <div class="listings-layout">
-  <h5>
-    {I18n('lists with this entityType', { entityType: entity.type })}
-  </h5>
-  {#await waitingForLists}
+  <h5>{i18n('Lists containing this work')}</h5>
+  {#await waitingForListings}
     <p class="loading">{I18n('loading')}<Spinner/></p>
   {:then}
     <ListingsLayout listingsWithElements={listings} />

@@ -2,12 +2,12 @@
   import ListingLi from '#modules/listings/components/listing_li.svelte'
   import { i18n } from '#user/lib/i18n'
 
-  export let listingsWithElements
+  export let listingsWithElements, onUserLayout = false
 </script>
 
 <ul class="listings-layout">
   {#each listingsWithElements as listing}
-    <ListingLi {listing} />
+    <ListingLi {listing} {onUserLayout} />
   {/each}
   {#if listingsWithElements.length === 0}
     <li class="empty">

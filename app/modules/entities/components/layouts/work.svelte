@@ -133,9 +133,6 @@
             bind:itemsByEditions
           />
         {/await}
-        <EntityListingsLayout
-          {entity}
-        />
       </div>
     </div>
     {#await editionsWithPublishers then}
@@ -153,6 +150,9 @@
         </div>
       {/if}
     {/await}
+    <EntityListingsLayout
+      {entity}
+    />
     <div class="relatives-lists">
       <RelativeEntitiesList
         {entity}

@@ -5,9 +5,11 @@
   import { getListingPathname } from '#listings/lib/listings'
   import { loadInternalLink } from '#lib/utils'
   import { pluck } from 'underscore'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
 
-  export let listing
-  const { _id } = listing
+  export let listing, onUserLayout
+
+  const { _id, name, creator } = listing
   let elements = listing.elements || []
   let imagesUrls
 
@@ -21,12 +23,23 @@
   }
 
   const waitingForImages = getElementsImages()
+
+  let username, userPicture, longName
+  const getCreator = async () => {
+    ;({ username, picture: userPicture } = await app.request('get:user:data', creator))
+    longName = `${name} - ${i18n('listing_created_by', { username })}`
+  }
+
+  let waitingForUserdata
+  if (!onUserLayout) waitingForUserdata = getCreator()
 </script>
 
 <li>
   <a
     href={pathname}
+    title={longName || name}
     on:click={loadInternalLink}
+    class:on-user-layout={onUserLayout}
   >
     {#await waitingForImages then}
       <div class="collage-wrapper">
@@ -36,41 +49,78 @@
         />
       </div>
     {/await}
-    <span class="info">
-      {listing.name}
-      <p class="listing-counter">
-        {i18n('list_element_count', { count: elements.length })}
-      </p>
-    </span>
+    <div class="listing-info">
+      <span class="name">{name}</span>
+      <span
+        class="counter"
+        title="{i18n('list_element_count', { smart_count: elements.length })}"
+      >
+        {elements.length}
+      </span>
+    </div>
+    {#if !onUserLayout}
+      <div class="creator-info" aria-label="{i18n('list creator')}">
+        {#await waitingForUserdata then}
+          <img src="{imgSrc(userPicture, 32)}" alt="">
+          <span class="username">{username}</span>
+        {/await}
+      </div>
+    {/if}
   </a>
 </li>
 
 <style lang="scss">
   @import '#general/scss/utils';
+  li{
+    margin: 0.2em;
+  }
   a{
-    @include display-flex(column, flex-start, flex-start, wrap);
+    @include display-flex(column, stretch, flex-start);
     @include bg-hover($light-grey);
     @include radius;
-    display: block;
     width: 19em;
-    min-height: 11em;
     padding: 0.3em;
-    margin: 0.2em;
-    cursor: pointer;
+    position: relative;
+    min-height: 11em;
   }
-  .info{
-    max-height: 3.5rem;
+  .collage-wrapper{
+    flex: 1 0 5em;
+    :global(.images-collage){
+      height: 100%;
+    }
+  }
+  .listing-info{
+    margin: 0.2em 0;
+    flex: 0 0 3.5em;
+    overflow: hidden;
+    @include display-flex(row, center, space-between);
+  }
+  .name{
+    font-size: 1.2rem;
+    font-weight: bold;
+    @include serif;
+    line-height: 1.4rem;
     overflow: hidden;
   }
-  .listing-counter{
+  .counter{
     color: $grey;
+    padding: 0.2em;
+    line-height: 1rem;
+    min-width: 1.2em;
+    text-align: center;
+    font-weight: bold;
+    background-color: white;
+    @include radius;
   }
-
-  .collage-wrapper{
-    margin-bottom: 0.3em;
-    :global(.images-collage){
-      width: 100%;
-      height: 5em;
-    }
+  .creator-info{
+    padding: 0.5em;
+    @include radius;
+    background-color: darken($light-grey, 5%);
+    @include display-flex(row, center, flex-start);
+  }
+  .username{
+    font-weight: bold;
+    @include serif;
+    margin-inline-start: 0.2em;
   }
 </style>
