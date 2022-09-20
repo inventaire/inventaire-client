@@ -67,10 +67,7 @@
   .label{
     padding-right: 0.5em;
   }
-  .type{
-    font-size: 0.9em;
-  }
-  .type, .description{
+  .description{
     color: $label-grey;
     margin-right: 1em;
   }

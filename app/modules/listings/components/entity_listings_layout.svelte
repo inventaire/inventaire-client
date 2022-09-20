@@ -43,9 +43,4 @@
   .loading{
     @include display-flex(column, center);
   }
-  .no-listings{
-    @include display-flex(row, center, center);
-    color: $grey;
-    margin-top: 1em;
-  }
 </style>

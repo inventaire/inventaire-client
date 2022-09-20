@@ -146,7 +146,6 @@
     width: 100%;
     padding: 0 1em;
   }
-  .tiny-button{ padding: 0.5em; }
   .listing-elements{
     @include display-flex(column, center);
     @include radius;

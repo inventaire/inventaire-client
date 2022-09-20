@@ -63,10 +63,10 @@
   .actions-wrapper{
     @include display-flex(column, stretch, center);
     margin: 1em 0;
-    .tiny-button, .action-button, :global(.add-to-listing-button){
+    .action-button, :global(.add-to-dot-dot-dot-menu){
       margin-bottom: 0.3em;
     }
-    .tiny-button, .action-button, :global(.dropdown-button){
+    .action-button, :global(.dropdown-button){
       text-align: start;
     }
   }
