@@ -4,8 +4,7 @@
     margin-bottom: 0.5em;
     a{
       flex: 1 0 auto;
-      @include bg-hover-lighten($dark-grey);
-      color: white;
+      @include bg-hover(darken($light-grey, 10%));
       font-weight: bold;
       padding: 0.5em;
       align-self: stretch;
