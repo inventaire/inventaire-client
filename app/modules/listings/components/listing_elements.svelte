@@ -18,7 +18,6 @@
   const paginationSize = 15
   let offset = paginationSize
   let fetching
-  let isAddingElement
   let windowScrollY = 0
   let listingBottomEl
 
@@ -46,24 +45,23 @@
     .catch(err => flash = err)
   }
 
+  let addingAnElement
   const addUriAsElement = async entity => {
     flash = null
     inputValue = ''
     showSuggestions = false
-    isAddingElement = true
-    addElement(listingId, entity.uri)
-    .then(element => {
-      if (isNonEmptyArray(element.alreadyInList)) {
-        return flash = {
-          type: 'info',
-          message: I18n('entity is already in list')
+    addingAnElement = addElement(listingId, entity.uri)
+      .then(element => {
+        if (isNonEmptyArray(element.alreadyInList)) {
+          return flash = {
+            type: 'info',
+            message: I18n('entity is already in list')
+          }
         }
-      }
-      entities = [ entity, ...entities ]
-      dispatch('elementAdded', { entity, element })
-    })
-    .catch(err => flash = err)
-    .finally(() => isAddingElement = false)
+        entities = [ entity, ...entities ]
+        dispatch('elementAdded', { entity, element })
+      })
+      .catch(err => flash = err)
   }
 
   const fetchMore = async () => {
@@ -111,9 +109,9 @@
     {/if}
 
     <ul class="listing-elements">
-      {#if isAddingElement}
+      {#await addingAnElement}
         <li class="loading">{I18n('loading')}<Spinner/></li>
-      {/if}
+      {/await}
       <!-- TODO: iterate on elements docs to be able to pass other metadata (ids, comments, etc) -->
       {#each entities as entity, index (entity.uri)}
         <ListingElement
