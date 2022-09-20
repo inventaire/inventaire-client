@@ -5,7 +5,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import { getEntitiesByUris } from '#entities/lib/entities'
   import { addElement, removeElement } from '#listings/lib/listings'
-  import EntityElement from './entity_element.svelte'
+  import ListingElement from './listing_element.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
@@ -115,7 +115,7 @@
       {/if}
       {#each entities as entity, index (entity.uri)}
         <li class="listing-element">
-          <EntityElement
+          <ListingElement
             {entity}
           />
           {#if isEditable}
