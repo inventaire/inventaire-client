@@ -35,6 +35,7 @@
   const waitingForEntities = getInitialElementsEntities()
 
   const onRemoveElement = async index => {
+    // TODO: replace the array index by the element doc _id
     const entity = entities[index]
     removeElement(listingId, entity.uri)
     .then(() => {
@@ -113,24 +114,15 @@
       {#if isAddingElement}
         <li class="loading">{I18n('loading')}<Spinner/></li>
       {/if}
+      <!-- TODO: iterate on elements docs to be able to pass other metadata (ids, comments, etc) -->
       {#each entities as entity, index (entity.uri)}
-        <li class="listing-element">
-          <ListingElement
-            {entity}
-          />
-          {#if isEditable}
-            <div class="status">
-              <button
-                class="tiny-button"
-                on:click={() => onRemoveElement(index)}
-              >
-                {i18n('remove')}
-              </button>
-            </div>
-          {/if}
-        </li>
+        <ListingElement
+          {entity}
+          {isEditable}
+          on:removeElement={() => onRemoveElement(index)}
+        />
       {:else}
-        {i18n('nothing here')}
+        <li>{i18n('nothing here')}</li>
       {/each}
     </ul>
     {#if hasMore}
@@ -160,25 +152,12 @@
     margin: 1em 0;
     background-color: white;
   }
-  .listing-element{
-    @include display-flex(row, center);
-    padding: 0 1em;
-    width: 100%;
-    border-bottom: 1px solid $light-grey;
-    &:hover{
-      background-color: $off-white;
-    }
-  }
   .entities-selector{
     width: 100%;
     padding: 0 0.5em;
   }
   label{
     cursor:auto;
-  }
-  .status{
-    @include display-flex(row, center, center);
-    white-space: nowrap;
   }
   /*Large (>40em) screens*/
   @media screen and (min-width: 40em) {
@@ -190,12 +169,6 @@
   @media screen and (max-width: $small-screen) {
     .entities-listing-section{
       padding: 0;
-    }
-  }
-  /*Very small screens*/
-  @media screen and (max-width: $very-small-screen) {
-    .listing-element{
-      @include display-flex(column, flex-start);
     }
   }
 </style>
