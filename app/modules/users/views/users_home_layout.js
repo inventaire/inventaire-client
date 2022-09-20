@@ -262,9 +262,6 @@ export default Marionette.View.extend({
 
   async showListingsSection ({ userModel, groupModel }) {
     try {
-      emptyRegion(this.getRegion('shelvesList'))
-      emptyRegion(this.getRegion('shelfInfo'))
-      emptyRegion(this.getRegion('itemsList'))
       if (userModel) {
         const { default: UserListings } = await import('#listings/components/user_listings.svelte')
         this.showChildComponent('listings', UserListings, {
@@ -280,6 +277,9 @@ export default Marionette.View.extend({
           }
         })
       }
+      emptyRegion(this.getRegion('shelvesList'))
+      emptyRegion(this.getRegion('shelfInfo'))
+      emptyRegion(this.getRegion('itemsList'))
       app.navigateFromModel(userModel || groupModel, { pathAttribute: 'listingsPathname', preventScrollTop: true })
     } catch (err) {
       app.execute('show:error', err)
