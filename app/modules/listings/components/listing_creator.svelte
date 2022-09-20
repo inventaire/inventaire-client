@@ -18,7 +18,7 @@
 
 <form>
   <label>
-    <span>{i18n('List name')}</span>
+    <span>{i18n('New list name')}</span>
     <input type="text" placeholder={i18n('ex: "Books for bird watchers"')} bind:value={listing.name}>
   </label>
   <button
@@ -26,7 +26,7 @@
     class="tiny-button light-blue"
     >
     {@html icon('plus')}
-    {i18n('Create a new list')}
+    {i18n('Create list')}
   </button>
 </form>
 
@@ -34,17 +34,14 @@
   @import '#general/scss/utils';
   form{
     @include display-flex(row, flex-end, flex-end);
+    background-color: $off-white;
+    padding: 0.5em;
     flex: 1 0 auto;
     margin-bottom: 1em
   }
-  label{
-    // @include display-flex(row, center, center);
-    // margin: 0 0.5em;
-    // white-space: nowrap;
-  }
   input{
-    max-width: 30em;
     margin: 0;
+    margin-left: 0.5em;
     flex: 1;
   }
   .tiny-button{
@@ -52,24 +49,33 @@
     padding: 0.4em;
     white-space: nowrap;
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    label{
-      display: block;
-    }
-    button{
-      margin-top: 1em;
-    }
+  label{
+    @include display-flex(row, center, center);
+    margin: 0 0.5em;
+    white-space: nowrap;
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
+    form{
+      padding: 1em 0.5em;
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
     label{
-      @include display-flex(row, center, center);
-      margin: 0 0.5em;
-      white-space: nowrap;
+      width: 100%
+    }
+  }
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    label{
+      display: block;
     }
     input{
-      margin-left: 0.5em;
+      margin: 0;
+    }
+    button{
+      margin-top: 1em;
     }
   }
 </style>

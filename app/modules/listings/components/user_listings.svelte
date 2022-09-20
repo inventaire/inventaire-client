@@ -38,8 +38,13 @@
   @import '#general/scss/utils';
   .user-listings{
     margin: 0 auto;
-    background-color: white;
     max-width: 60em;
     padding: 0.5em;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .user-listings{
+      padding: 0.5em 0;
+    }
   }
 </style>
