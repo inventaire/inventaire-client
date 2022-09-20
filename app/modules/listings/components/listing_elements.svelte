@@ -95,11 +95,9 @@
     {#if isEditable}
       <div class="entities-selector">
         <label for={inputValue}>
-          {i18n('Add entity to this list')}
-          <!-- Reuse autocomplete selector with the caveat of no edition results possible. -->
-          <!-- A more advanced way would be to reuse a Svelte global search bar (not implemented) -->
-          <!-- TODO: dont show "no results" at initial state-->
+          {i18n('Add a work to this list')}
           <EntityAutocompleteSelector
+            searchTypes={'works'}
             placeholder={i18n('Search for an entity')}
             autofocus={false}
             bind:currentEntityLabel={inputValue}
