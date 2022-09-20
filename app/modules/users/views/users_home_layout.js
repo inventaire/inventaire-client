@@ -173,13 +173,14 @@ export default Marionette.View.extend({
     app.navigateFromModel(userModel, { pathAttribute: 'inventoryPathname', preventScrollTop: true })
     emptyRegion(this.getRegion('listings'))
     if ((userModel === app.user) && (userModel.get('itemsCount') === 0)) {
-      this.showInventoryWelcome()
+      this.showInventoryWelcome(userModel)
     } else {
       this.showInventoryBrowser('user', userModel)
     }
   },
 
-  showInventoryWelcome () {
+  showInventoryWelcome (userModel) {
+    this.showInventoryOrListingNav({ userModel, section: 'inventory' })
     this.showChildView('itemsList', new InventoryWelcome())
   },
 
