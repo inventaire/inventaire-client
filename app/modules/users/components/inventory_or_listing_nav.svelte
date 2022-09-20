@@ -5,7 +5,17 @@
 
   export let userModel, groupModel, currentSection
 
-  let inventoryPathname, listingsPathname
+  let inventoryPathname, listingsPathname, listingsCount
+
+  const aggregateMembersListsCount = () => {
+    const groupUsersModels = groupModel.members.models
+
+    const sumsListingsCount = (sum, user) => {
+      const newCount = user.get('listingsCount')
+      return sum + newCount
+    }
+    return groupUsersModels.reduce(sumsListingsCount, 0)
+  }
 
   if (userModel) {
     ;({ inventoryPathname, listingsPathname } = userModel.toJSON())
@@ -13,9 +23,11 @@
     ;({ inventoryPathname, listingsPathname } = groupModel.toJSON())
   }
 
-  let listingsCount
-  userModel?.waitingForInventoryStats.then(() => {
+  userModel?.waitingForInventoryStats?.then(() => {
     listingsCount = userModel.get('listingsCount')
+  })
+  groupModel?.waitForMembers?.then(() => {
+    listingsCount = aggregateMembersListsCount()
   })
 
   const showSection = (e, section) => {
