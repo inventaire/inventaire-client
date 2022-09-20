@@ -7,8 +7,6 @@
   import { addElement, removeElement } from '#listings/lib/listings'
   import ListingElement from './listing_element.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
-  import { createEventDispatcher } from 'svelte'
-  const dispatch = createEventDispatcher()
 
   export let elements, listingId, isEditable
 
@@ -59,7 +57,6 @@
           }
         }
         entities = [ entity, ...entities ]
-        dispatch('elementAdded', { entity, element })
       })
       .catch(err => flash = err)
   }
