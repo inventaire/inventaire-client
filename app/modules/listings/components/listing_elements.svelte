@@ -3,10 +3,12 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { getEntitiesByUris } from '#entities/lib/entities'
+  import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
   import { addElement, removeElement } from '#listings/lib/listings'
   import ListingElement from './listing_element.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
+  import { pluck } from 'underscore'
+  import { addEntitiesImages } from '#entities/lib/types/work_alt'
 
   export let elements, listingId, isEditable
 
@@ -20,8 +22,15 @@
   let listingBottomEl
 
   const getElementsEntities = async elements => {
-    const uris = elements.map(_.property('uri'))
-    return getEntitiesByUris(uris)
+    const uris = pluck(elements, 'uri')
+    const res = await getEntitiesAttributesByUris({
+      uris,
+      attributes: [ 'type', 'labels', 'descriptions', 'image' ],
+      lang: app.user.lang
+    })
+    const serializedEntities = Object.values(res.entities).map(serializeEntity)
+    await addEntitiesImages(serializedEntities)
+    return serializedEntities
   }
 
   const getInitialElementsEntities = async () => {
@@ -93,7 +102,7 @@
           {i18n('Add a work to this list')}
           <EntityAutocompleteSelector
             searchTypes={'works'}
-            placeholder={i18n('Search for an entity')}
+            placeholder={i18n('Search a work by title, author, or series')}
             autofocus={false}
             bind:currentEntityLabel={inputValue}
             bind:showSuggestions
@@ -136,7 +145,6 @@
     @include display-flex(column, center);
     width: 100%;
     padding: 0 1em;
-
   }
   .tiny-button{ padding: 0.5em; }
   .listing-elements{
@@ -144,7 +152,7 @@
     @include radius;
     width: 100%;
     margin: 1em 0;
-    background-color: white;
+    overflow: hidden;
   }
   .entities-selector{
     width: 100%;
