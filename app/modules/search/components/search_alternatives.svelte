@@ -15,7 +15,9 @@
       // it will redirect to the ISBN edition creation form
       app.execute('show:entity', searchText)
     } else {
-      const type = typesBySection.entity[selectedSection]
+      let type = typesBySection.entity[selectedSection]
+      // default 'all' section to work type
+      if (_.isArray(type)) type = 'works'
       app.execute('show:entity:create', { label: searchText, type })
     }
     dispatch('closeLiveSearch')
