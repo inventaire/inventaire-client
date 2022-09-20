@@ -20,12 +20,14 @@
 
   const toggleShelves = () => showShelves = !showShelves
 </script>
-<div class="header">
-  {#await waitForList}
+{#await waitForList}
+  <div class="header">
     <h3 class="subheader">{I18n('shelves')} <Spinner /></h3>
-  {:then}
-    <h3 class="subheader">{I18n('shelves')}</h3>
-    {#if shelves.length > 0}
+  </div>
+{:then}
+  {#if shelves.length > 0}
+    <div class="header">
+      <h3 class="subheader">{I18n('shelves')}</h3>
       <button
         class="toggle-button tiny-button light-grey"
         title={showShelves ? I18n('hide shelves') : I18n('show shelves')}
@@ -38,9 +40,9 @@
           {@html icon('chevron-down')}
         {/if}
       </button>
-    {/if}
-  {/await}
-</div>
+    </div>
+  {/if}
+{/await}
 
 <div id="shelves-list">
   {#if shelves?.length > 0}
