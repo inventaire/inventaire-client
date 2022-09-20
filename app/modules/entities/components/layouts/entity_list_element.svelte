@@ -12,7 +12,8 @@
     relatedEntities,
     actionType,
     showInfobox = true,
-    noImageCredits
+    noImageCredits,
+    displayUri
 
   let flash
 
@@ -57,6 +58,16 @@
         </div>
       {/if}
     </div>
+    {#if displayUri}
+      <a
+        class="uri"
+        href="/entity/{uri}"
+        target="_blank"
+        on:click|stopPropagation
+      >
+        {uri}
+      </a>
+    {/if}
     {#if showInfobox}
       <div class="entity-details">
         <Infobox
@@ -89,6 +100,7 @@
   @import '#general/scss/utils';
   .entity-wrapper{
     @include display-flex(row);
+    margin-bottom: 1em
   }
   .entity-title{
     font-size: 1.1em;

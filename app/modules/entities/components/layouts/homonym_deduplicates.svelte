@@ -36,6 +36,7 @@
                 actionType={'merge'}
                 parentEntity={entity}
                 noImageCredits=true
+                displayUri=true
               />
             </li>
           {/if}
