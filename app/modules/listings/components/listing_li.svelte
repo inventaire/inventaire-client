@@ -1,57 +1,53 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import Link from '#lib/components/link.svelte'
   import ImagesCollage from '#components/images_collage.svelte'
-  import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+  import { getEntitiesImagesUrls } from '#entities/lib/entities'
+  import { getListingPathname } from '#listings/lib/listings'
+  import { loadInternalLink } from '#lib/utils'
+  import { pluck } from 'underscore'
 
   export let listing
   const { _id } = listing
   let elements = listing.elements || []
   let imagesUrls
 
-  const onClick = listingId => () => {
-    app.navigateAndLoad(`/list/${listingId}`)
-  }
+  const pathname = getListingPathname(_id)
 
   const getElementsImages = async () => {
-    const allElementsUris = elements.map(_.property('uri'))
-    // TODO: make it fast by paginating entities: check if they hava enough images for the collage, and fetch more if not.
-    const elementsUris = allElementsUris.slice(0, 15)
-    const { entities } = await getEntitiesAttributesByUris({
-      uris: elementsUris,
-      attributes: [ 'image' ]
-    })
-    imagesUrls = _.compact(Object.values(entities).map(entity => entity.image.url))
+    const allElementsUris = pluck(elements, 'uri')
+    // TODO: make it fast by paginating entities: check if they have enough images for the collage, and fetch more if not.
+    const elementsUris = allElementsUris.slice(0, 10)
+    imagesUrls = await getEntitiesImagesUrls(elementsUris)
   }
 
   const waitingForImages = getElementsImages()
 </script>
-<div
-  class="listing-li"
-  on:click={onClick(_id)}
->
-  {#await waitingForImages then}
-    <div class="collage-wrapper">
-      <ImagesCollage
-        imagesUrls={imagesUrls}
-        limit={6}
-      />
-    </div>
-  {/await}
-  <span class="info">
-    <Link
-      url={`/list/${_id}`}
-      text={listing.name}
-    />
-    <p class="listing-counter">
-      {i18n('list_element_count', { count: elements.length })}
-    </p>
-  </span>
-</div>
+
+<li>
+  <a
+    href={pathname}
+    on:click={loadInternalLink}
+  >
+    {#await waitingForImages then}
+      <div class="collage-wrapper">
+        <ImagesCollage
+          imagesUrls={imagesUrls}
+          limit={6}
+        />
+      </div>
+    {/await}
+    <span class="info">
+      {listing.name}
+      <p class="listing-counter">
+        {i18n('list_element_count', { count: elements.length })}
+      </p>
+    </span>
+  </a>
+</li>
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .listing-li{
+  a{
     @include display-flex(column, flex-start, flex-start, wrap);
     @include bg-hover($light-grey);
     @include radius;

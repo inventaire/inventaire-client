@@ -52,7 +52,7 @@ export const removeElement = async (id, uri) => {
 export const serializeListing = listing => {
   const { _id: id } = listing
   return Object.assign(listing, {
-    pathname: `/lists/${id}`
+    pathname: getListingPathname(id)
   })
 }
 
@@ -60,3 +60,5 @@ export async function countListings (userId) {
   const { lists: listings } = await preq.get(app.API.listings.byCreators(userId))
   return Object.keys(listings).length
 }
+
+export const getListingPathname = id => `/lists/${id}`

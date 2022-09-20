@@ -1,7 +1,5 @@
 import getBestLangValue from '../get_best_lang_value.js'
-import { getEntitiesByUris } from '../entities.js'
-import preq from '#lib/preq'
-import { isImageHash } from '#lib/boolean_tests'
+import { getEntitiesByUris, getEntityImage, getEntityImagePath } from '../entities.js'
 
 export async function addWorksImagesAndAuthors (works) {
   await Promise.all([
@@ -28,8 +26,7 @@ export const addWorksImages = addEntitiesImages
 export async function addEntityImages (entity) {
   const { type, uri } = entity
   if (type === 'work' || type === 'serie') {
-    const { images } = await preq.get(app.API.entities.images(entity.uri))
-    const entityImages = images[uri]
+    const entityImages = await getEntityImage(uri)
     let imageValue = getBestLangValue(app.user.lang, entity.originalLang, entityImages).value
     if (imageValue) {
       entity.image.url = getEntityImagePath(imageValue)
@@ -41,11 +38,6 @@ export async function addEntityImages (entity) {
       entity.images.push(entity.image.url)
     }
   }
-}
-
-const getEntityImagePath = imageValue => {
-  if (isImageHash(imageValue)) return `/img/entities/${imageValue}`
-  else return imageValue
 }
 
 export async function addWorksAuthors (works) {

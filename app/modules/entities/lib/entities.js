@@ -1,4 +1,4 @@
-import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray } from '#lib/boolean_tests'
+import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#lib/boolean_tests'
 import preq from '#lib/preq'
 import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 import getBestLangValue from './get_best_lang_value.js'
@@ -185,4 +185,29 @@ export const getYearFromSimpleDay = date => {
   } else {
     return date.split('-')[0]
   }
+}
+
+export async function getEntitiesImages (uris) {
+  if (uris.length === 0) return {}
+  const { images } = await preq.get(app.API.entities.images(uris))
+  return images
+}
+
+export async function getEntityImage (uri) {
+  const images = getEntitiesImages(uri)
+  return images[uri]
+}
+
+export async function getEntitiesImagesUrls (uris) {
+  const images = await getEntitiesImages(uris)
+  const imageUrls = Object.values(images).map(entityImages => {
+    const firstImage = getBestLangValue(app.user.lang, null, entityImages).value
+    if (firstImage) return getEntityImagePath(firstImage)
+  })
+  return compact(imageUrls)
+}
+
+export const getEntityImagePath = imageValue => {
+  if (isImageHash(imageValue)) return `/img/entities/${imageValue}`
+  else return imageValue
 }
