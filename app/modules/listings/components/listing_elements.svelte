@@ -78,14 +78,13 @@
 
   $: {
     if (listingBottomEl != null && hasMore) {
-      const screenBottom = windowScrollY + window.screen.height
+      const screenBottom = windowScrollY + window.visualViewport.height
       if (screenBottom + 100 > listingBottomEl.offsetTop) fetchMore()
     }
   }
 
   $: hasMore = entities.length >= offset
 </script>
-
 <svelte:window bind:scrollY={windowScrollY} />
 {#await waitingForEntities}
   <Spinner center={true} />
