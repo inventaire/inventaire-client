@@ -7,7 +7,7 @@
   import Spinner from '#components/spinner.svelte'
   import ShelfLi from '#shelves/components/shelf_li.svelte'
 
-  export let username, delayBeforeScrollToSection
+  export let username, isMainUser, delayBeforeScrollToSection
 
   let showShelves = true
 
@@ -49,7 +49,9 @@
         {#each shelves as shelf}
           <ShelfLi {shelf} />
         {/each}
-        <ShelfLi withoutShelf={true} />
+        {#if isMainUser}
+          <ShelfLi withoutShelf={true} />
+        {/if}
       </ul>
     {/if}
   {/if}

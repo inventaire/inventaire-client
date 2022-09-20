@@ -146,10 +146,12 @@ export default Marionette.View.extend({
         const shelvesCount = userModel.get('shelvesCount')
         if (shelvesCount === 0) return
         const username = userModel.get('username')
+        const { isMainUser } = userModel
         this.showChildComponent('shelvesList', ShelvesSection, {
           props: {
             username,
             delayBeforeScrollToSection,
+            isMainUser,
           }
         })
       })
