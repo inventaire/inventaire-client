@@ -247,6 +247,7 @@ const initializeInventoriesHandlers = function (app) {
     'show:item:byId': API.showItemFromId,
 
     'show:user:listings': API.showUserListings,
+    'show:main:user:listings': API.showMainUserListings,
     'show:group:listings': API.showGroupListings,
   })
 

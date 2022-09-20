@@ -13,30 +13,27 @@
 
   export let listing
 
-  let isValidating, flash
+  let validating, flash
   const { _id } = listing
   let { name, description, visibility } = listing
 
   const validate = async () => {
-    isValidating = true
-    return updateListing({
-      id: _id,
-      name,
-      description,
-      visibility,
-    })
-    .then(listing => dispatch('listingUpdated', listing))
-    .then(closeModal)
-    .catch(err => {
-      // Prefer to close modal anyway if no info have been updated,
-      // since action is most likely motivated by escaping this context,
-      // hence close modal.
-      if (err.message === 'nothing to update') {
-        return closeModal()
-      }
+    validating = _validate()
+  }
+
+  const _validate = async () => {
+    try {
+      await updateListing({
+        id: _id,
+        name,
+        description,
+        visibility,
+      })
+      listing = Object.assign(listing, { name, description, visibility })
+      dispatch('listingEditorDone')
+    } catch (err) {
       flash = err
-    })
-    .finally(() => isValidating = false)
+    }
   }
 
   async function askListDeletionConfirmation () {
@@ -51,66 +48,64 @@
     try {
       await deleteListing({ ids: _id })
       app.user.trigger('listings:change', 'removeListing')
-      closeModal()
-      app.execute('show:inventory:main:user', true)
+      app.execute('show:main:user:listings')
     } catch (err) {
       flash = err
     }
   }
-
-  const closeModal = () => app.execute('modal:close')
 </script>
-<div class="header">
-  <h3>{I18n('edit list')}</h3>
-</div>
-<div class="field">
-  <label for={name}>{i18n('name')}</label>
+
+<h3>{I18n('edit list')}</h3>
+<label>
+  {i18n('name')}
   <input
-    placeholder={i18n('list name')}
+    type="text"
+    placeholder={i18n('List name')}
     bind:value={name}
   />
-</div>
-<div class="field">
-  <label for={description}>{i18n('description')}</label>
+</label>
+<label>
+  {I18n('description')}
   <textarea
     type="text"
     bind:value={description}
     use:autosize
   />
-</div>
-<VisibilitySelector bind:visibility showTip={true} />
+</label>
+<VisibilitySelector
+  bind:visibility={visibility}
+  showTip={true}
+/>
 <div class="buttons">
-  <button class="delete button"
-    on:click={askListDeletionConfirmation}
-  >
-    {@html icon('trash')}
-    {I18n('delete')}
-  </button>
-  <button
-    class="validate button success-button"
-    title={I18n('validate')}
-    on:click={validate}
-  >
-    {@html icon('check')}
-    {I18n('validate')}
-    {#if isValidating}
-      <p class="loading">
-        <Spinner/>
-      </p>
-    {/if}
-  </button>
+  {#await validating}
+    <Spinner/>
+  {:then}
+    <button class="delete button"
+      on:click={askListDeletionConfirmation}
+    >
+      {@html icon('trash')}
+      {I18n('delete')}
+    </button>
+    <button
+      class="validate button success-button"
+      title={I18n('validate')}
+      on:click={validate}
+    >
+      {@html icon('check')}
+      {I18n('validate')}
+    </button>
+  {/await}
 </div>
 <Flash bind:state={flash}/>
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .header{
-   @include display-flex(column, center);
-   display: flex;
-   width: 100%;
+  h3{
+    text-align: center;
   }
-  .field{
-    @include display-flex(column, flex-start, center);
+  label{
+    font-size: 1rem;
+    margin-bottom: 0.2em;
   }
   .buttons{
     margin-top: 1em;

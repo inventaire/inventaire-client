@@ -4,12 +4,14 @@
   import { onChange } from '#lib/svelte/svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import ListingEditor from '#listings/components/listing_editor.svelte'
+  import Modal from '#components/modal.svelte'
 
   export let listing, isEditable
 
   let { name, description, creator: creatorId, visibility } = listing
 
-  let visibilitySummary, visibilitySummaryIcon, visibilitySummaryLabel
+  let visibilitySummary, visibilitySummaryIcon, visibilitySummaryLabel, showListEditorModal
 
   let username, userPicture, userListingsPathname
   const getCreator = async () => {
@@ -21,20 +23,6 @@
   }
 
   const waitingForCreator = getCreator()
-
-  const showEditor = async () => {
-    const { default: ListingEditor } = await import('#modules/listings/components/listing_editor.svelte')
-    app.execute('modal:open')
-    const component = app.layout.showChildComponent('modal', ListingEditor, {
-      props: {
-        listing,
-      }
-    })
-    component.$on('listingUpdated', event => {
-      listing = event.detail.listing
-    })
-    // todo: garbage collect event listener with onDestroy
-  }
 
   const updateVisibilitySummary = () => {
     visibility = listing.visibility
@@ -63,7 +51,7 @@
       <div class="actions">
         <button
           class="tiny-button light-blue"
-          on:click={showEditor}
+          on:click={() => showListEditorModal = true}
         >
           {@html icon('pencil')}
           {i18n('Edit list info')}
@@ -95,6 +83,17 @@
     {/if}
   </div>
 </div>
+
+{#if showListEditorModal}
+  <Modal
+    on:closeModal={() => showListEditorModal = false}
+  >
+    <ListingEditor
+      bind:listing
+      on:listingEditorDone={() => showListEditorModal = false}
+    />
+  </Modal>
+{/if}
 
 <style lang="scss">
   @import '#general/scss/utils';
