@@ -1,25 +1,26 @@
 <script>
   import { i18n } from '#user/lib/i18n'
   import { icon, loadInternalLink } from '#lib/utils'
-  import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
 
   export let listing, isEditable
 
   let { name, description, creator: creatorId, visibility } = listing
-  let creator = {}
 
   let visibilitySummary, visibilitySummaryIcon, visibilitySummaryLabel
 
-  const getCreatorUsername = async () => {
-    if (isEditable) return creator = app.user.toJSON()
-    creator = await getUserById(creatorId)
+  let username, userPicture, userListingsPathname
+  const getCreator = async () => {
+    ;({
+      username,
+      picture: userPicture,
+      listingsPathname: userListingsPathname
+    } = await app.request('get:user:data', creatorId))
   }
 
-  const getUserById = id => preq.get(app.API.users.byIds([ id ])).then(({ users }) => users[id])
-
-  const waitingForCreator = getCreatorUsername()
+  const waitingForCreator = getCreator()
 
   const showEditor = async () => {
     const { default: ListingEditor } = await import('#modules/listings/components/listing_editor.svelte')
@@ -51,80 +52,119 @@
   class="listing-info"
   class:isNotEditable={!isEditable}
 >
-  <div class="data">
-    <h3>{name}</h3>
-    <div class="visibility {visibilitySummary}" title="{visibilitySummaryLabel}">
-      {@html icon(visibilitySummaryIcon)} {visibilitySummaryLabel}
+  <div class="header">
+    <div class="data">
+      <h2>{name}</h2>
+      {#if description}
+        <p>{description}</p>
+      {/if}
     </div>
-    {#if description}
-      <p>{description}</p>
-    {/if}
-    {#await waitingForCreator then}
-      <div class="creatorRow">
-        <label for='listCreator'>
-          {i18n('creator')}:
-        </label>
-        <a
-          id="listCreator"
-          href="/inventory/{creator.username}"
-          on:click={loadInternalLink}
+    {#if isEditable}
+      <div class="actions">
+        <button
+          class="tiny-button light-blue"
+          on:click={showEditor}
         >
-          {creator.username}
-        </a>
+          {@html icon('pencil')}
+          {i18n('Edit list info')}
+        </button>
       </div>
-    {/await}
+    {/if}
   </div>
-  {#if isEditable}
-    <div class="actions">
-      <button
-        class="tiny-button light-blue"
-        on:click={showEditor}
+  <div class="creator-row">
+    <div class="creator-info">
+      <span class="label">{i18n('List creator')}</span>
+      <a
+        href={userListingsPathname}
+        title={i18n('see_all_listings_by_user', { username })}
+        on:click={loadInternalLink}
       >
-        {@html icon('pencil')}
-        {i18n('Edit list info')}
-      </button>
+        {#await waitingForCreator then}
+          <img src="{imgSrc(userPicture, 32)}" alt="">
+          <span class="username">{username}</span>
+        {/await}
+      </a>
     </div>
-  {/if}
+    {#if visibility}
+      <div class="visibility">
+        <span class="label">{i18n('Visible by')}</span>
+        <span class="visibility-indicator">
+          {@html icon(visibilitySummaryIcon)} {visibilitySummaryLabel}
+        </span>
+      </div>
+    {/if}
+  </div>
 </div>
 
 <style lang="scss">
   @import '#general/scss/utils';
   .listing-info{
-    align-self: center;
+    align-self: stretch;
     margin: 0.5em;
     margin-bottom: 1em;
-    padding: 1em;
+    padding: 0.5em 1em 1em 1em;
     @include radius;
-    @include display-flex(row);
     background-color: $light-grey;
     max-width: 60em;
+  }
+  h2{
+    margin-top: 0;
+  }
+  .header{
+    @include display-flex(row, center, space-between);
   }
   .isNotEditable{
     align-self: center;
     background-color: unset;
   }
-  .creatorRow{
-    @include display-flex(row);
+  .creator-row{
+    margin-top: 1em;
+    @include display-flex(row, center, space-between);
+  }
+  .label{
+    color: $label-grey;
+    display: block;
+  }
+  .creator-info{
+    a{
+      display: block;
+      padding: 0.5em;
+      @include radius;
+      @include bg-hover($light-grey);
+    }
+  }
+  .username{
+    font-weight: bold;
+    @include serif;
+    margin-inline-start: 0.2em;
   }
   .actions{
     margin: 1em;
     margin-left: auto;
   }
   button{
-    // padding: 0.5em;
     white-space: nowrap;
     line-height: 1.6em;
-    // width: 10em;
   }
-  a:hover{
-    text-decoration: underline;
+  .visibility{
+    padding: 0.2em;
+    @include radius;
+    text-align: end;
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .listing-info{
-      @include display-flex(column);
       padding: 0.5em;
       margin: 1em 0;
+    }
+    .header{
+      @include display-flex(column);
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .actions{
+      margin-inline-start: 1em;
     }
   }
 </style>

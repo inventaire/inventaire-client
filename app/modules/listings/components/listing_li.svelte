@@ -59,7 +59,7 @@
       </span>
     </div>
     {#if !onUserLayout}
-      <div class="creator-info" aria-label="{i18n('list creator')}">
+      <div class="creator-info" aria-label="{i18n('List creator')}">
         {#await waitingForUserdata then}
           <img src="{imgSrc(userPicture, 32)}" alt="">
           <span class="username">{username}</span>

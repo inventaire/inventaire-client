@@ -42,7 +42,7 @@
             </li>
           {/if}
           {#if shelf.visibility}
-            <li id='listing' title={i18n('visible by')}>
+            <li id='listing' title={i18n('Visible by')}>
               {@html icon(iconData.icon)} {i18n(iconLabel)}
             </li>
           {/if}
