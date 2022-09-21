@@ -27,6 +27,7 @@
   import { screen } from '#lib/components/stores/screen'
   import { onDestroy } from 'svelte'
   import viewport from '#lib/components/actions/viewport'
+  import { currentRoute } from '#lib/location'
 
   const wikidataSearch = WikidataSearch(false)
 
@@ -141,9 +142,13 @@
   const showLiveSearch = () => {
     showSearchDropdown = true
   }
+
+  const initialRoute = currentRoute()
   const hideLiveSearch = () => {
     showSearchDropdown = false
-    if (showFallbackLayout) showFallbackLayout()
+    if (showFallbackLayout && initialRoute === currentRoute()) {
+      showFallbackLayout()
+    }
   }
   const hideAndResetLiveSearch = () => {
     searchText = ''
