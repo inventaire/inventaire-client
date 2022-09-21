@@ -77,96 +77,94 @@
   $: onChange(initialEditions, $filters, refreshFilters)
 </script>
 
-{#if initialEditions.length > 1}
-  <div class="filters">
-    <span class="filters-header">{i18n('Filter by')}</span>
+<div class="filters">
+  <span class="filters-header">{i18n('Filter by')}</span>
 
-    {#await waitingForLangEntities}
-      <Spinner/>
-    {:then}
-      {#if editionsLangs.length > 0}
-        <div class="filter">
-          <label for="language-filter">{I18n('language')}</label>
-          <select
-            id="language-filter"
-            name="language"
-            bind:value={$filters.selectedLang}
-            class:filtering={$filters.selectedLang !== 'all'}
-            >
-            <option value="all">{I18n('all languages')} ({initialEditions.length})</option>
-            {#each editionsLangs as lang}
-              <option value={lang}>{lang} - {langEntitiesLabel[lang]} ({langEditionsCount(lang)})</option>
-            {/each}
-          </select>
-          {#if $filters.selectedLang !== 'all'}
-            <button
-              title={I18n('reset filter')}
-              aria-controls="language-filter"
-              on:click={() => $filters.selectedLang = 'all'}
-            >{@html icon('close')}</button>
-          {/if}
-        </div>
-      {/if}
-    {/await}
-
-    {#await waitingForPublishersEntities}
-      <Spinner/>
-    {:then}
-      {#if publishersUris.length > 0}
-        <div class="filter">
-          <label for="publisher-filter">{I18n('publisher')}</label>
-          <select
-            id="publisher-filter"
-            name="publisher"
-            bind:value={$filters.selectedPublisher}
-            class:filtering={$filters.selectedPublisher !== 'all'}
-            >
-            <option value="all">{I18n('all publishers')} ({initialEditions.length})</option>
-            {#each publishersUris as uri}
-              <option value={uri}>{publishersLabels[uri]} ({publisherCount(uri)})</option>
-            {/each}
-            {#if someEditionsHaveNoPublisher}
-              <option value="unknown">{I18n('unknown')} ({publisherCount('unknown')})</option>
-            {/if}
-          </select>
-          {#if $filters.selectedPublisher !== 'all'}
-            <button
-              title={I18n('reset filter')}
-              aria-controls="publisher-filter"
-              on:click={() => $filters.selectedPublisher = 'all'}
-            >{@html icon('close')}</button>
-          {/if}
-        </div>
-      {/if}
-    {/await}
-
-    <div class="filter">
-      <label for="publication-year-filter">{I18n('publication year')}</label>
-      <select
-        id="publication-year-filter"
-        name="publication-year"
-        bind:value={$filters.selectedPublicationYear}
-        class:filtering={$filters.selectedPublicationYear !== 'all'}
-        >
-        <option value="all">{I18n('any year')} ({initialEditions.length})</option>
-        {#each publicationYears as year}
-          <option value={year}>{year} ({publicationYearCount(year)})</option>
-        {/each}
-        {#if someEditionsHaveNoPublicationDate}
-          <option value="unknown">{I18n('unknown')} ({publicationYearCount('unknown')})</option>
+  {#await waitingForLangEntities}
+    <Spinner/>
+  {:then}
+    {#if editionsLangs.length > 0}
+      <div class="filter">
+        <label for="language-filter">{I18n('language')}</label>
+        <select
+          id="language-filter"
+          name="language"
+          bind:value={$filters.selectedLang}
+          class:filtering={$filters.selectedLang !== 'all'}
+          >
+          <option value="all">{I18n('all languages')} ({initialEditions.length})</option>
+          {#each editionsLangs as lang}
+            <option value={lang}>{lang} - {langEntitiesLabel[lang]} ({langEditionsCount(lang)})</option>
+          {/each}
+        </select>
+        {#if $filters.selectedLang !== 'all'}
+          <button
+            title={I18n('reset filter')}
+            aria-controls="language-filter"
+            on:click={() => $filters.selectedLang = 'all'}
+          >{@html icon('close')}</button>
         {/if}
-      </select>
-      {#if $filters.selectedPublicationYear !== 'all'}
-        <button
-          title={I18n('reset filter')}
-          aria-controls="publication-year-filter"
-          on:click={() => $filters.selectedPublicationYear = 'all'}
-        >{@html icon('close')}</button>
+      </div>
+    {/if}
+  {/await}
+
+  {#await waitingForPublishersEntities}
+    <Spinner/>
+  {:then}
+    {#if publishersUris.length > 0}
+      <div class="filter">
+        <label for="publisher-filter">{I18n('publisher')}</label>
+        <select
+          id="publisher-filter"
+          name="publisher"
+          bind:value={$filters.selectedPublisher}
+          class:filtering={$filters.selectedPublisher !== 'all'}
+          >
+          <option value="all">{I18n('all publishers')} ({initialEditions.length})</option>
+          {#each publishersUris as uri}
+            <option value={uri}>{publishersLabels[uri]} ({publisherCount(uri)})</option>
+          {/each}
+          {#if someEditionsHaveNoPublisher}
+            <option value="unknown">{I18n('unknown')} ({publisherCount('unknown')})</option>
+          {/if}
+        </select>
+        {#if $filters.selectedPublisher !== 'all'}
+          <button
+            title={I18n('reset filter')}
+            aria-controls="publisher-filter"
+            on:click={() => $filters.selectedPublisher = 'all'}
+          >{@html icon('close')}</button>
+        {/if}
+      </div>
+    {/if}
+  {/await}
+
+  <div class="filter">
+    <label for="publication-year-filter">{I18n('publication year')}</label>
+    <select
+      id="publication-year-filter"
+      name="publication-year"
+      bind:value={$filters.selectedPublicationYear}
+      class:filtering={$filters.selectedPublicationYear !== 'all'}
+      >
+      <option value="all">{I18n('any year')} ({initialEditions.length})</option>
+      {#each publicationYears as year}
+        <option value={year}>{year} ({publicationYearCount(year)})</option>
+      {/each}
+      {#if someEditionsHaveNoPublicationDate}
+        <option value="unknown">{I18n('unknown')} ({publicationYearCount('unknown')})</option>
       {/if}
-    </div>
+    </select>
+    {#if $filters.selectedPublicationYear !== 'all'}
+      <button
+        title={I18n('reset filter')}
+        aria-controls="publication-year-filter"
+        on:click={() => $filters.selectedPublicationYear = 'all'}
+      >{@html icon('close')}</button>
+    {/if}
   </div>
-  <Flash state={flash} />
-{/if}
+</div>
+<Flash state={flash} />
 
 <style lang="scss">
   @import '#general/scss/utils';
