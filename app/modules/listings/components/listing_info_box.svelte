@@ -115,14 +115,14 @@
     width: 100%;
   }
   .header{
-    @include display-flex(column, center);
+    @include display-flex(column, baseline);
   }
   .isNotEditable{
     align-self: center;
     background-color: unset;
   }
   .creator-row{
-    margin-top: 0.5em;
+    margin-top: 1em;
     @include display-flex(row, center, space-between);
   }
   .label{
