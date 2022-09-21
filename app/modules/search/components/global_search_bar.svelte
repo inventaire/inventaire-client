@@ -14,7 +14,7 @@
   import SearchShortcuts from '#search/components/search_shortcuts.svelte'
   import SearchControls from '#search/components/search_controls.svelte'
   import SearchAlternatives from '#search/components/search_alternatives.svelte'
-  import { getNextSection, getPrevSection, typesBySection } from '#search/lib/search_sections'
+  import { getNextSection, getPrevSection, sectionsNames, typesBySection } from '#search/lib/search_sections'
   import { debounce } from 'underscore'
   import findUri from '#search/lib/find_uri'
   import WikidataSearch from '#entities/lib/search/wikidata_search'
@@ -216,7 +216,7 @@
   let showFallbackLayout
   function onSearchQuery ({ search: text, section, showFallbackLayout: fallback }) {
     searchText = text
-    selectedCategory = (section === 'user' || section === 'group') ? 'social' : 'entity'
+    selectedCategory = sectionsNames.social.includes(section) ? 'social' : 'entity'
     selectedSection = section
     showFallbackLayout = fallback
   }

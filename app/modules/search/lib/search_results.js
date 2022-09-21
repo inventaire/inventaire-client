@@ -43,6 +43,12 @@ const typeFormatters = {
     return result
   },
 
+  lists (result) {
+    result.typeAlias = 'list'
+    result.pathname = `/lists/${result.id}`
+    return result
+  },
+
   subjects (result) {
     result.typeAlias = 'subject'
     result.pathname = `/entity/wdt:P921-${result.uri}`
