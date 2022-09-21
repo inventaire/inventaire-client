@@ -115,6 +115,7 @@
     on:closeModal={() => showListCreationModal = false}
   >
     <ListingEditor
+      layoutTitle={i18n('Create a new list')}
       on:listingEditorDone={e => addNewListing(e.detail)}
     />
   </Modal>

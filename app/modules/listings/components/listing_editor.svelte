@@ -12,7 +12,7 @@
 
   const dispatch = createEventDispatcher()
 
-  export let listing = {}
+  export let listing = {}, layoutTitle = i18n('Edit list')
 
   let validating, flash
   const { _id } = listing
@@ -75,7 +75,7 @@
   }
 </script>
 
-<h3>{I18n('edit list')}</h3>
+<h3>{layoutTitle}</h3>
 <label>
   {i18n('name')}
   <input
