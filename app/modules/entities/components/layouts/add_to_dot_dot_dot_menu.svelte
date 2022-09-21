@@ -8,7 +8,7 @@
   import { onChange } from '#lib/svelte/svelte'
   import { pluck } from 'underscore'
   import Modal from '#components/modal.svelte'
-  import ListingCreator from '#modules/listings/components/listing_creator.svelte'
+  import ListingEditor from '#modules/listings/components/listing_editor.svelte'
   import EntitiesList from '#entities/components/layouts/entities_list.svelte'
 
   export let entity, editions, flash
@@ -114,7 +114,9 @@
   <Modal
     on:closeModal={() => showListCreationModal = false}
   >
-    <ListingCreator on:newListing={e => addNewListing(e.detail)} />
+    <ListingEditor
+      on:listingEditorDone={e => addNewListing(e.detail)}
+    />
   </Modal>
 {/if}
 

@@ -2,16 +2,17 @@
   import app from '#app/app'
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import { updateListing, deleteListing } from '#listings/lib/listings'
+  import { updateListing, deleteListing, createListing } from '#listings/lib/listings'
   import autosize from 'autosize'
   import Spinner from '#general/components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { createEventDispatcher } from 'svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import { serializeListing } from '#modules/listings/lib/listings'
 
   const dispatch = createEventDispatcher()
 
-  export let listing
+  export let listing = {}
 
   let validating, flash
   const { _id } = listing
@@ -23,17 +24,36 @@
 
   const _validate = async () => {
     try {
-      await updateListing({
-        id: _id,
-        name,
-        description,
-        visibility,
-      })
-      listing = Object.assign(listing, { name, description, visibility })
-      dispatch('listingEditorDone')
+      if (_id) {
+        await _updateListing()
+      } else {
+        await _createListing()
+      }
+      dispatch('listingEditorDone', listing)
     } catch (err) {
       flash = err
     }
+  }
+
+  async function _updateListing () {
+    await updateListing({
+      id: _id,
+      name,
+      description,
+      visibility,
+    })
+    listing = Object.assign(listing, { name, description, visibility })
+  }
+
+  async function _createListing () {
+    const res = await createListing({
+      id: _id,
+      name,
+      description,
+      visibility,
+    })
+    listing = serializeListing(res.listing)
+    app.user.trigger('listings:change', 'createListing')
   }
 
   async function askListDeletionConfirmation () {
