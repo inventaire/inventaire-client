@@ -5,7 +5,6 @@
   import { getListingPathname } from '#listings/lib/listings'
   import { loadInternalLink } from '#lib/utils'
   import { pluck } from 'underscore'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
 
   export let listing, onUserLayout
 
@@ -27,7 +26,7 @@
   let username, userPicture, longName
   const getCreator = async () => {
     ;({ username, picture: userPicture } = await app.request('get:user:data', creator))
-    longName = `${name} - ${i18n('listing_created_by', { username })}`
+    longName = `${name} - ${i18n('list_created_by', { username })}`
   }
 
   let waitingForUserdata
@@ -47,21 +46,20 @@
           imagesUrls={imagesUrls}
           limit={6}
         />
+        <span
+          class="counter"
+          title={i18n('list_element_count', { smart_count: elements.length })}
+        >
+          {elements.length}
+        </span>
       </div>
     {/await}
     <div class="listing-info">
       <span class="name">{name}</span>
-      <span
-        class="counter"
-        title="{i18n('list_element_count', { smart_count: elements.length })}"
-      >
-        {elements.length}
-      </span>
     </div>
     {#if !onUserLayout}
-      <div class="creator-info" aria-label="{i18n('List creator')}">
+      <div class="creator-info" aria-label={i18n('list_created_by', { username })}>
         {#await waitingForUserdata then}
-          <img src="{imgSrc(userPicture, 32)}" alt="">
           <span class="username">{username}</span>
         {/await}
       </div>
@@ -81,7 +79,7 @@
     width: 19em;
     padding: 0.3em;
     position: relative;
-    min-height: 11em;
+    min-height: 12em;
   }
   .collage-wrapper{
     flex: 1 0 5em;
@@ -103,6 +101,9 @@
     overflow: hidden;
   }
   .counter{
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
     color: $grey;
     padding: 0.2em;
     line-height: 1rem;
@@ -113,14 +114,11 @@
     @include radius;
   }
   .creator-info{
-    padding: 0.5em;
-    @include radius;
-    background-color: darken($light-grey, 5%);
-    @include display-flex(row, center, flex-start);
+    padding: 0 0.5em;
+    @include display-flex(row, center, flex-end);
   }
   .username{
-    font-weight: bold;
-    @include serif;
-    margin-inline-start: 0.2em;
+    font-weight: normal;
+    @include sans-serif;
   }
 </style>
