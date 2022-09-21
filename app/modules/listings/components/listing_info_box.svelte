@@ -68,7 +68,7 @@
         on:click={loadInternalLink}
       >
         {#await waitingForCreator then}
-          <img src={imgSrc(userPicture, 32)} alt={i18n('profile pic')}>
+          <img src={imgSrc(userPicture, 32)} alt="">
           <span class="username">{username}</span>
         {/await}
       </a>
