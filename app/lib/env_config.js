@@ -1,4 +1,4 @@
-import { chat, wiki, roadmap, git } from '#lib/urls'
+import { chat, wiki, apiDoc, git } from '#lib/urls'
 
 // roughtly addressing the general case
 if (location.hostname.match(/^(localhost|\d{1,3}\.\d{1,3}\.)/)) {
@@ -22,7 +22,7 @@ if (window.env === 'dev') {
 Want to make Inventaire better? Jump in!
 Project chat: ${chat}
 Wiki: ${wiki}
-Design: ${roadmap}
+API Documentation: ${apiDoc}
 Code: ${git}/inventaire
 ------`)
 }
