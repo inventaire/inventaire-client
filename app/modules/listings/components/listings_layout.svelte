@@ -6,7 +6,7 @@
 </script>
 
 <ul class="listings-layout">
-  {#each listingsWithElements as listing}
+  {#each listingsWithElements as listing (listing._id)}
     <ListingLi {listing} {onUserLayout} />
   {/each}
   {#if listingsWithElements.length === 0}
