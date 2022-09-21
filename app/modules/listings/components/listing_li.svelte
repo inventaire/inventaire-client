@@ -48,7 +48,7 @@
         />
         <span
           class="counter"
-          title={i18n('list_element_count', { smart_count: elements.length })}
+          title={i18n('number_of_elements_in_the_list', { smart_count: elements.length })}
         >
           {elements.length}
         </span>
