@@ -9,9 +9,10 @@ export const typesBySection = {
     subject: 'subjects',
   },
   social: {
-    all: [ 'users', 'groups', 'lists' ],
+    all: [ 'users', 'groups', 'shelves', 'lists' ],
     user: 'users',
     group: 'groups',
+    shelf: 'shelves',
     list: 'lists',
   }
 }
@@ -40,6 +41,7 @@ export const sections = {
     all: { label: 'all' },
     user: { label: 'user' },
     group: { label: 'group' },
+    shelf: { label: 'shelf' },
     list: { label: 'list' },
   }
 }

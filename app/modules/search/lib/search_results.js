@@ -43,6 +43,12 @@ const typeFormatters = {
     return result
   },
 
+  shelves (result) {
+    result.typeAlias = 'shelf'
+    result.pathname = `/shelves/${result.id}`
+    return result
+  },
+
   lists (result) {
     result.typeAlias = 'list'
     result.pathname = `/lists/${result.id}`

@@ -98,5 +98,6 @@ const sections = {
   t: 'subject', // 't' for topic (as series already use the 's')
   u: 'user',
   w: 'work',
+  shelf: 'shelf',
   list: 'list',
 }
