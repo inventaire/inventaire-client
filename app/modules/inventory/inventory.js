@@ -15,8 +15,13 @@ export default {
       appRoutes: {
         'u(sers)(/)': 'showGeneralInventory',
         'inventory(/)': 'showGeneralInventory',
+        'u(sers)/network(/)': 'showNetworkInventory',
+        'u(sers)/public(/)': 'showPublicInventory',
+        // Legacy
         'inventory/network(/)': 'showNetworkInventory',
         'inventory/public(/)': 'showPublicInventory',
+        'inventory/nearby(/)': 'showPublicInventory',
+
         'inventory/:username(/)': 'showUserInventoryFromUrl',
         // 'title' is a legacy parameter
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity',
@@ -37,7 +42,7 @@ export default {
 
 const API = {
   showGeneralInventory () {
-    if (app.request('require:loggedIn', 'inventory')) {
+    if (app.request('require:loggedIn', app.user.get('inventoryPathname'))) {
       API.showUserInventory(app.user)
       // Give focus to the home button so that hitting tab gives focus
       // to the search input
@@ -46,9 +51,9 @@ const API = {
   },
 
   showNetworkInventory () {
-    if (app.request('require:loggedIn', 'inventory/network')) {
+    if (app.request('require:loggedIn', 'users/network')) {
       showInventory({ section: 'network' })
-      app.navigate('inventory/network')
+      app.navigate('users/network')
     }
   },
 
@@ -58,7 +63,7 @@ const API = {
     if (_.isString(options)) options = parseQuery(options)
     else options = options || {}
     const { filter } = options
-    const url = buildPath('inventory/public', { filter })
+    const url = buildPath('users/public', { filter })
 
     if (app.request('require:loggedIn', url)) {
       showInventory({ section: 'public', filter })

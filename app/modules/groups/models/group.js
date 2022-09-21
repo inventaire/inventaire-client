@@ -33,16 +33,15 @@ export default Positionable.extend({
   },
 
   setInferredAttributes () {
-    let pathname
     const slug = fixedEncodeURIComponent(this.get('slug'))
-    const canonical = (pathname = `/g/${slug}`)
+    const base = `/groups/${slug}`
 
     this.set({
-      canonical,
-      pathname,
-      inventoryPathname: `${pathname}/inventory`,
-      listingsPathname: `${pathname}/listings`,
-      settingsPathname: `${pathname}/settings`,
+      canonical: base,
+      pathname: base,
+      inventoryPathname: `${base}/inventory`,
+      listingsPathname: `${base}/listings`,
+      settingsPathname: `${base}/settings`,
       // non-persisted category used for convinience on client-side
       tmp: []
     })

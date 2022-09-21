@@ -43,7 +43,7 @@
     {#each usersData as userData}
       <div class="row">
         <div class="cell user {userData.user.deleted ? 'deleted' : ''}">
-          <a href="/u/{userData.user._id}/contributions" class="link" on:click="{e => showUserContributions(e, userData.user)}">{userData.user.username}</a>
+          <a href="/users/{userData.user._id}/contributions" class="link" on:click="{e => showUserContributions(e, userData.user)}">{userData.user.username}</a>
         </div>
         <div class="histogram">
           <div class="contributions">

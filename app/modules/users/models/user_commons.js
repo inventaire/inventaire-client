@@ -11,11 +11,12 @@ const { defaultAvatar } = images
 export default Positionable.extend({
   setPathname () {
     const username = this.get('username')
+    const base = `/users/${username}`
     this.set({
-      pathname: `/u/${username}`,
-      inventoryPathname: `/u/${username}/inventory`,
-      listingsPathname: `/u/${username}/lists`,
-      contributionsPathname: `/u/${username}/contributions`,
+      pathname: base,
+      inventoryPathname: `${base}/inventory`,
+      listingsPathname: `${base}/lists`,
+      contributionsPathname: `${base}/contributions`,
       // Set for compatibility with interfaces expecting a label
       // such as modules/inventory/views/browser_selector
       label: username
