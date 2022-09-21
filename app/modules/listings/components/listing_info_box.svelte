@@ -41,22 +41,22 @@
   class:isNotEditable={!isEditable}
 >
   <div class="header">
-    <div class="data">
+    <div class="first-row">
       <h2>{name}</h2>
-      {#if description}
-        <p>{description}</p>
+      {#if isEditable}
+        <div class="actions">
+          <button
+            class="tiny-button light-blue"
+            on:click={() => showListEditorModal = true}
+          >
+            {@html icon('pencil')}
+            {i18n('Edit list info')}
+          </button>
+        </div>
       {/if}
     </div>
-    {#if isEditable}
-      <div class="actions">
-        <button
-          class="tiny-button light-blue"
-          on:click={() => showListEditorModal = true}
-        >
-          {@html icon('pencil')}
-          {i18n('Edit list info')}
-        </button>
-      </div>
+    {#if description}
+      <p>{description}</p>
     {/if}
   </div>
   <div class="creator-row">
@@ -68,7 +68,7 @@
         on:click={loadInternalLink}
       >
         {#await waitingForCreator then}
-          <img src="{imgSrc(userPicture, 32)}" alt="">
+          <img src={imgSrc(userPicture, 32)} alt={i18n('profile pic')}>
           <span class="username">{username}</span>
         {/await}
       </a>
@@ -108,16 +108,21 @@
   }
   h2{
     margin-top: 0;
+    font-weight: bold;
+  }
+  .first-row{
+    @include display-flex(row, center, space-between);
+    width: 100%;
   }
   .header{
-    @include display-flex(row, center, space-between);
+    @include display-flex(column, center);
   }
   .isNotEditable{
     align-self: center;
     background-color: unset;
   }
   .creator-row{
-    margin-top: 1em;
+    margin-top: 0.5em;
     @include display-flex(row, center, space-between);
   }
   .label{
@@ -134,14 +139,14 @@
   }
   .username{
     font-weight: bold;
-    @include serif;
+    @include sans-serif;
     margin-inline-start: 0.2em;
   }
   .actions{
-    margin: 1em;
-    margin-left: auto;
+    margin: 0.5em 0 0 auto;
   }
   button{
+    margin-left: 1em;
     white-space: nowrap;
     line-height: 1.6em;
   }
@@ -156,8 +161,17 @@
       padding: 0.5em;
       margin: 1em 0;
     }
-    .header{
-      @include display-flex(column);
+    .actions{
+      margin: 0 0 1em auto;
+    }
+  }
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .first-row{
+      @include display-flex(column-reverse);
+    }
+    .actions{
+      margin-bottom: 0;
     }
   }
   /*Large screens*/
