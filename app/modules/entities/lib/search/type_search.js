@@ -13,7 +13,7 @@ export default async function (types, input, limit, offset) {
   types = forceArray(types).map(pluralize)
 
   if (uri != null) {
-    const res = await searchByEntityUri(uri, types[0])
+    const res = await searchByEntityUri(uri, types)
     // If no entity is found with what was found to look like a uri,
     // fallback on searching that input instead
     if (res) return res
@@ -30,7 +30,7 @@ export default async function (types, input, limit, offset) {
   }
 }
 
-async function searchByEntityUri (uri, type) {
+async function searchByEntityUri (uri, types) {
   let model
   try {
     model = await app.request('get:entity:model', uri)
@@ -44,8 +44,8 @@ async function searchByEntityUri (uri, type) {
   const pluarlizedModelType = (model.type != null) ? model.type + 's' : undefined
   // The type subjects accepts any type, as any entity can be a topic
   // Known issue: languages entities aren't attributed a type by the server
-  // thus thtowing an error here even if legit, prefer 2 letters language codes
-  if ((pluarlizedModelType === type) || (type === 'subjects')) {
+  // thus throwing an error here even if legit, prefer 2 letters language codes
+  if (types.includes(pluarlizedModelType) || types.includes('subjects')) {
     return {
       results: [
         prepareSearchResult(model).toJSON()
