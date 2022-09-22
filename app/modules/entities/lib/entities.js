@@ -33,22 +33,11 @@ export function normalizeUri (uri) {
 }
 
 export const getEntitiesByUris = async params => {
-  let uris
-  let index = false
+  let uris, attributes, lang, index = false
   if (_.isArray(params)) uris = params
-  else ({ uris, index } = params)
+  else ({ uris, index, attributes, lang } = params)
   if (uris.length === 0) return []
-  let res
-  if (uris.length < 100) {
-    // Prefer to use get when not fetching that many entities
-    // - to make server log the requested URIs
-    // - to improve client caching
-    res = await preq.get(app.API.entities.getByUris(uris))
-  } else {
-    // Use the POST endpoint when using a GET might hit some URI length limits
-    res = await preq.post(app.API.entities.getManyByUris, { uris })
-  }
-  const { entities } = res
+  const { entities } = await getManyEntities({ uris, attributes, lang })
   const serializedEntities = Object.values(entities).map(serializeEntity)
   if (index) return _.indexBy(serializedEntities, 'uri')
   else return serializedEntities
@@ -114,8 +103,7 @@ export async function getEntitiesAttributesByUris ({ uris, attributes, lang }) {
   uris = forceArray(uris)
   if (!isNonEmptyArray(uris)) return { entities: [] }
   attributes = forceArray(attributes)
-  const res = await getManyEntities({ uris, attributes, lang })
-  return res
+  return getManyEntities({ uris, attributes, lang })
 }
 
 export async function getBasicInfoByUri (uri) {
