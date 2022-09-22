@@ -101,8 +101,8 @@
         <label for={inputValue}>
           {i18n('Add a work to this list')}
           <EntityAutocompleteSelector
-            searchTypes={'works'}
-            placeholder={i18n('Search a work by title, author, or series')}
+            searchTypes={[ 'works', 'series' ]}
+            placeholder={i18n('Search for works or series')}
             autofocus={false}
             bind:currentEntityLabel={inputValue}
             bind:showSuggestions
