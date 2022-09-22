@@ -2,6 +2,7 @@ import { isNonEmptyString } from '#lib/boolean_tests'
 import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
 import error_ from '#lib/error'
+import { currentRoute } from '#lib/location'
 
 const oneDay = 24 * 60 * 60 * 1000
 const iconAliases = {
@@ -70,6 +71,10 @@ export const loadInternalLink = e => {
     })
     e.preventDefault()
   }
+}
+
+export const showLoginPageAndRedirectHere = () => {
+  app.request('require:loggedIn', currentRoute())
 }
 
 const isModalPathname = pathname => modalPathnamesPattern.test(pathname)

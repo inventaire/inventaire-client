@@ -1,6 +1,6 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon, showLoginPageAndRedirectHere } from '#lib/utils'
   import Dropdown from '#components/dropdown.svelte'
   import { userListings } from '#listings/lib/stores/user_listings'
   import { addElement, getUserListingsByEntityUri, removeElement } from '#modules/listings/lib/listings'
@@ -15,6 +15,7 @@
   export let entity, editions, flash
 
   const { uri } = entity
+  const { loggedIn } = app.user
 
   let listings, listingsIdsMatchingUri
 
@@ -62,8 +63,62 @@
 </script>
 
 <div class="add-to-dot-dot-dot-menu">
-  <Dropdown>
-    <div slot="button-inner">
+  {#if loggedIn}
+    <Dropdown
+      buttonTitle={i18n('Add this work to your inventory or to a list')}
+    >
+      <div slot="button-inner">
+        <span>
+          {@html icon('plus')}
+          {i18n('Add to...')}
+        </span>
+        <span>
+          {@html icon('caret-down')}
+        </span>
+      </div>
+      <div slot="dropdown-content">
+        <div class="menu-section">
+          <span class="section-label">{i18n('Inventory')}</span>
+          <button
+            on:click={() => showEditionPickerModal = true}
+          >
+            {@html icon('plus')}
+            {I18n('select the edition to add to my inventory')}
+          </button>
+        </div>
+        <div class="menu-section">
+          <span class="section-label">{i18n('Lists')}</span>
+          {#await waitingForListingsStates}
+            <Spinner center={true} />
+          {:then}
+            <ul role="menu">
+              {#each listings as listing}
+                <li>
+                  <label>
+                    <input type="checkbox" checked={listing.checked} on:click={e => updateListing(e, listing)}>
+                    {listing.name}
+                  </label>
+                </li>
+              {/each}
+              <li>
+                <button
+                  on:click={() => showListingCreationModal = true}
+                >
+                  {@html icon('plus')}
+                  {i18n('Create a new list')}
+                </button>
+              </li>
+            </ul>
+          {/await}
+        </div>
+      </div>
+    </Dropdown>
+  {:else}
+    <button
+      class="require-login"
+      title={i18n('Add this work to your inventory or to a list')}
+      on:click={showLoginPageAndRedirectHere}
+    >
       <span>
         {@html icon('plus')}
         {i18n('Add to...')}
@@ -71,44 +126,8 @@
       <span>
         {@html icon('caret-down')}
       </span>
-    </div>
-    <div slot="dropdown-content">
-      <div class="menu-section">
-        <span class="section-label">{i18n('Inventory')}</span>
-        <button
-          on:click={() => showEditionPickerModal = true}
-        >
-          {@html icon('plus')}
-          {I18n('select the edition to add to my inventory')}
-        </button>
-      </div>
-      <div class="menu-section">
-        <span class="section-label">{i18n('Lists')}</span>
-        {#await waitingForListingsStates}
-          <Spinner center={true} />
-        {:then}
-          <ul role="menu">
-            {#each listings as listing}
-              <li>
-                <label>
-                  <input type="checkbox" checked={listing.checked} on:click={e => updateListing(e, listing)}>
-                  {listing.name}
-                </label>
-              </li>
-            {/each}
-            <li>
-              <button
-                on:click={() => showListingCreationModal = true}
-              >
-                {@html icon('plus')}
-                {i18n('Create a new list')}
-              </button>
-            </li>
-          </ul>
-        {/await}
-      </div>
-    </div>
-  </Dropdown>
+    </button>
+  {/if}
 </div>
 
 {#if showListingCreationModal}
@@ -147,7 +166,7 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .add-to-dot-dot-dot-menu{
-    :global(.dropdown-button){
+    .require-login, :global(.dropdown-button){
       @include tiny-button($light-blue);
     }
   }
