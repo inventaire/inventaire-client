@@ -10,7 +10,7 @@
   import Modal from '#components/modal.svelte'
   import ListingEditor from '#modules/listings/components/listing_editor.svelte'
   import EntitiesList from '#entities/components/layouts/entities_list.svelte'
-  import EditionCreation from './edition_creation.svelte'
+  import EditionCreation from '#entities/components/layouts/edition_creation.svelte'
 
   export let entity, editions, flash
 
@@ -152,14 +152,12 @@
         parentEntity={entity}
       />
     {:else}
-      <div class="no-edition-wrapper">
-        {I18n('no editions found')}
-      </div>
-      <EditionCreation
-        work={entity}
-        bind:editions={editions}
-      />
+      <p class="no-edition">{I18n('no editions found')}</p>
     {/if}
+    <EditionCreation
+      work={entity}
+      bind:editions={editions}
+    />
   </Modal>
 {/if}
 
@@ -208,8 +206,7 @@
     font-size: 1rem;
     color: $default-text-color;
   }
-  .no-edition-wrapper{
-    @include display-flex(row, center, center);
-    color: $grey;
+  .no-edition{
+    color: $label-grey;
   }
 </style>
