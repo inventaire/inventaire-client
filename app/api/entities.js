@@ -14,9 +14,16 @@ export default {
   },
 
   getAttributesByUris ({ uris, attributes, lang }) {
-    uris = forceArray(uris).join('|')
-    attributes = forceArray(attributes).join('|')
-    return action('by-uris', { uris, attributes, lang })
+    const query = {
+      uris: forceArray(uris).join('|')
+    }
+    if (attributes) {
+      query.attributes = forceArray(attributes).join('|')
+    }
+    if (lang) {
+      query.lang = lang
+    }
+    return action('by-uris', query)
   },
 
   // Get many by POSTing URIs in the body

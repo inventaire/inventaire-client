@@ -1,4 +1,4 @@
-import { getReverseClaims, getEntitiesByUris, serializeEntity } from '#entities/lib/entities'
+import { getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { addWorksImages } from '#entities/lib/types/work_alt'
 import preq from '#lib/preq'
 import { pluck } from 'underscore'
@@ -47,8 +47,18 @@ export const getSubEntitiesSections = async ({ entity, sortFn }) => {
 }
 
 const fetchSectionEntities = ({ sortFn }) => async section => {
-  const entities = await getEntitiesByUris({ uris: section.uris })
-  section.entities = entities.map(serializeEntity).sort(sortFn)
+  const { entities } = await getEntitiesAttributesByUris({
+    uris: section.uris,
+    attributes: [
+      'type',
+      'labels',
+      'descriptions',
+      'claims',
+      'image',
+    ],
+    lang: app.user.lang
+  })
+  section.entities = Object.values(entities).map(serializeEntity).sort(sortFn)
   await addWorksImages(section.entities)
   return section
 }
