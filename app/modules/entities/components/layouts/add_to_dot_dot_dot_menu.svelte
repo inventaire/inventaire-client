@@ -10,6 +10,7 @@
   import Modal from '#components/modal.svelte'
   import ListingEditor from '#modules/listings/components/listing_editor.svelte'
   import EntitiesList from '#entities/components/layouts/entities_list.svelte'
+  import EditionCreation from './edition_creation.svelte'
 
   export let entity, editions, flash
 
@@ -125,11 +126,21 @@
   <Modal
     on:closeModal={() => showEditionPickerModal = false}
   >
-  <h2>{i18n('Select an edition')}</h2>
-  <EntitiesList
-    entities={editions}
-    parentEntity={entity}
-  />
+    <h2>{i18n('Select an edition')}</h2>
+    {#if editions.length > 0}
+      <EntitiesList
+        entities={editions}
+        parentEntity={entity}
+      />
+    {:else}
+      <div class="no-edition-wrapper">
+        {I18n('no editions found')}
+      </div>
+      <EditionCreation
+        work={entity}
+        bind:editions={editions}
+      />
+    {/if}
   </Modal>
 {/if}
 
@@ -177,5 +188,9 @@
   label{
     font-size: 1rem;
     color: $default-text-color;
+  }
+  .no-edition-wrapper{
+    @include display-flex(row, center, center);
+    color: $grey;
   }
 </style>
