@@ -131,8 +131,11 @@
     margin-top: 1em;
     @include display-flex(row, center, center);
   }
+  button{
+    min-width: 10rem;
+    margin: 0 0.5em;
+  }
   .delete{
     @include dangerous-action;
-    margin-right: 1em;
   }
 </style>

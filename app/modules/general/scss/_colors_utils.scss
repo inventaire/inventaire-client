@@ -132,8 +132,11 @@ $inventory-nav-grey: #eee;
   background-color: $grey;
   color: white;
   &:hover, &:focus{
-    color: white;
-    background-color: $danger-color;
+    // Required to give the following rules priority over button general rules
+    &:not(:disabled){
+      color: white;
+      background-color: $danger-color;
+    }
   }
 }
 
