@@ -74,10 +74,4 @@
     text-align: center;
     margin: 0;
   }
-  .subtitle{
-    line-height: 1rem;
-    font-size: 0.8rem;
-    text-align: center;
-    color: $label-grey;
-  }
 </style>
