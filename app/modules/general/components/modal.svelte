@@ -5,6 +5,8 @@
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
 
+  export let size = 'medium'
+
   const dispatch = createEventDispatcher()
   const close = () => dispatch('closeModal')
 
@@ -24,7 +26,12 @@
   tabindex="0"
 >
   <!-- stopPropagation so that only clicks on overlay trigger a close -->
-  <div class="modal-outer" on:click|stopPropagation>
+  <div
+    class="modal-outer"
+    class:size-auto={size === 'auto'}
+    class:size-medium={size === 'medium'}
+    on:click|stopPropagation
+  >
     <div class="modal-inner"><slot /></div>
     <button
       class="close"
@@ -51,7 +58,12 @@
     position: relative;
     background-color: white;
     @include radius;
-    flex: 0 1 auto;
+    &.size-auto{
+      flex: 0 1 auto;
+    }
+    &.size-medium{
+      flex: 0 1 40rem;
+    }
   }
   .close{
     position: absolute;
