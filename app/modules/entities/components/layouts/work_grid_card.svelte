@@ -13,7 +13,7 @@
 <a
   href={work.pathname}
   on:click={loadInternalLink}
-  title={work.title}
+  title={work.label}
   class="work-grid-card"
   class:serie={type === 'serie'}
   >
@@ -26,7 +26,7 @@
       {#if layoutContext === 'serie' && work.serieOrdinal}
         {work.serieOrdinal}.
       {/if}
-      {work.title}
+      {work.label}
     </h3>
     {#if work.subtitle}<p class="subtitle">{work.subtitle}</p>{/if}
   </div>
