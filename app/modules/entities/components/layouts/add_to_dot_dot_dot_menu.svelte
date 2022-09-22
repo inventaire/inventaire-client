@@ -47,7 +47,7 @@
 
   async function addNewListing (newListing) {
     try {
-      showListCreationModal = false
+      showListingCreationModal = false
       $userListings = $userListings.concat([ newListing ])
       listingsIdsMatchingUri = listingsIdsMatchingUri.concat([ newListing._id ])
       await addElement(newListing._id, uri)
@@ -56,7 +56,7 @@
     }
   }
 
-  let showListCreationModal = false
+  let showListingCreationModal = false
   let showEditionPickerModal = false
 </script>
 
@@ -97,7 +97,7 @@
             {/each}
             <li>
               <button
-                on:click={() => showListCreationModal = true}
+                on:click={() => showListingCreationModal = true}
               >
                 {@html icon('plus')}
                 {i18n('Create a new list')}
@@ -110,9 +110,9 @@
   </Dropdown>
 </div>
 
-{#if showListCreationModal}
+{#if showListingCreationModal}
   <Modal
-    on:closeModal={() => showListCreationModal = false}
+    on:closeModal={() => showListingCreationModal = false}
   >
     <ListingEditor
       layoutTitle={i18n('Create a new list')}
