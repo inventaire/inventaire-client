@@ -27,6 +27,7 @@ export default UserCommons.extend({
     this.once('change:snapshot', this.setAllInventoryStats.bind(this))
     // this.on('items:change', this.updateItemsCounters.bind(this))
     this.on('shelves:change', this.updateShelvesCounter.bind(this))
+    this.on('listings:change', this.updateListingsCounter.bind(this))
 
     // user._id should only change once from undefined to defined
     this.once('change:_id', (model, id) => app.execute('track:user:id', id))
@@ -115,6 +116,14 @@ export default UserCommons.extend({
     if (previousListing != null) snapshot[previousListing]['items:count'] -= 1
     if (newListing != null) snapshot[newListing]['items:count'] += 1
     this.set('snapshot', snapshot)
+    this.setAllInventoryStats()
+  },
+
+  updateListingsCounter (action) {
+    let listingsCount = this.get('listingsCount')
+    if (action === 'createListing') listingsCount += 1
+    else if (action === 'removeListing') listingsCount -= 1
+    this.set('listingsCount', listingsCount)
     this.setAllInventoryStats()
   },
 

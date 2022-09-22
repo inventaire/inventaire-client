@@ -1,7 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { forceArray, loadInternalLink } from '#lib/utils'
+  import { forceArray, isOpenedOutside, loadInternalLink } from '#lib/utils'
   import { serializeResult, urlifyImageHash } from '#search/lib/search_results'
 
   export let result, highlighted
@@ -17,13 +17,21 @@
       app.request('search:history:add', { uri, label, type, pictures })
     }
   }
+
+  function loadResult (e) {
+    if (isOpenedOutside(e)) {
+      e.stopPropagation()
+    } else {
+      // Do not stop propagation as the event propagation is needed to close the results dropdown
+      loadInternalLink(e)
+    }
+  }
 </script>
 
 <li class="result" class:highlighted>
-  <!-- Event propagation is needed to close the results dropdown -->
   <a
     href={pathname}
-    on:click={loadInternalLink}
+    on:click={loadResult}
     on:click={addToSearchHistory}
     >
     <div

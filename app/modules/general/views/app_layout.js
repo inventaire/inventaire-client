@@ -59,6 +59,9 @@ export default Marionette.View.extend({
       'post:feedback': postFeedback
     })
 
+    app.vent.on('overlay:shown', () => $('body').addClass('hasOverlay'))
+    app.vent.on('overlay:hidden', () => $('body').removeClass('hasOverlay'))
+
     initDocumentLang(app.user.lang)
 
     initModal()

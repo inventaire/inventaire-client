@@ -73,7 +73,7 @@ const showEntityPageIfUri = function (query, refresh) {
   }
 }
 
-const sectionSearchPattern = /^!([a-z])\s+/
+const sectionSearchPattern = /^!([a-z]+)\s+/
 
 const findSearchSection = function (q) {
   const sectionMatch = q.match(sectionSearchPattern)?.[1]
@@ -81,8 +81,7 @@ const findSearchSection = function (q) {
 
   q = q.replace(sectionSearchPattern, '').trim()
 
-  const firstLetter = sectionMatch[0]
-  const section = sections[firstLetter] || 'all'
+  const section = sections[sectionMatch] || 'all'
   console.log('section', section)
   return [ q, section ]
 }
@@ -99,4 +98,6 @@ const sections = {
   t: 'subject', // 't' for topic (as series already use the 's')
   u: 'user',
   w: 'work',
+  shelf: 'shelf',
+  list: 'list',
 }

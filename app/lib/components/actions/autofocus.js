@@ -5,17 +5,23 @@ export function autofocus (node, options = {}) {
   // which can take pretty much all the screen
   if (isMobile || options.disabled) return
 
+  const { refocusOnVisibilityChange = true } = options
+
   node.focus()
 
   function focusOnVisibilityChange () {
     if (document.visibilityState === 'visible') node.focus()
   }
 
-  document.addEventListener('visibilitychange', focusOnVisibilityChange)
+  if (refocusOnVisibilityChange) {
+    document.addEventListener('visibilitychange', focusOnVisibilityChange)
+  }
 
   return {
     destroy () {
-      document.removeEventListener('visibilitychange', focusOnVisibilityChange)
+      if (refocusOnVisibilityChange) {
+        document.removeEventListener('visibilitychange', focusOnVisibilityChange)
+      }
     }
   }
 }

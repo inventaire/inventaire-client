@@ -13,16 +13,22 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
+        'u(sers)(/)': 'showGeneralInventory',
         'inventory(/)': 'showGeneralInventory',
+        'u(sers)/network(/)': 'showNetworkInventory',
+        'u(sers)/public(/)': 'showPublicInventory',
+        // Legacy
         'inventory/network(/)': 'showNetworkInventory',
         'inventory/public(/)': 'showPublicInventory',
+        'inventory/nearby(/)': 'showPublicInventory',
+
         'inventory/:username(/)': 'showUserInventoryFromUrl',
         // 'title' is a legacy parameter
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity',
         'items/:id(/)': 'showItemFromId',
         'items(/)': 'showGeneralInventory',
-        // 'name' is a legacy parameter
-        'g(roups)/:id(/:name)(/)': 'showGroupInventory'
+        'lists(/)': 'showMainUserListings',
+        'lists/:username(/)': 'showUserListings',
       }
     })
 
@@ -36,7 +42,7 @@ export default {
 
 const API = {
   showGeneralInventory () {
-    if (app.request('require:loggedIn', 'inventory')) {
+    if (app.request('require:loggedIn', app.user.get('inventoryPathname'))) {
       API.showUserInventory(app.user)
       // Give focus to the home button so that hitting tab gives focus
       // to the search input
@@ -45,9 +51,9 @@ const API = {
   },
 
   showNetworkInventory () {
-    if (app.request('require:loggedIn', 'inventory/network')) {
+    if (app.request('require:loggedIn', 'users/network')) {
       showInventory({ section: 'network' })
-      app.navigate('inventory/network')
+      app.navigate('users/network')
     }
   },
 
@@ -57,7 +63,7 @@ const API = {
     if (_.isString(options)) options = parseQuery(options)
     else options = options || {}
     const { filter } = options
-    const url = buildPath('inventory/public', { filter })
+    const url = buildPath('users/public', { filter })
 
     if (app.request('require:loggedIn', url)) {
       showInventory({ section: 'public', filter })
@@ -65,8 +71,18 @@ const API = {
     }
   },
 
-  showUserInventory (user, standalone) {
-    return showInventory({ user, standalone })
+  showUserInventory (user, standalone, listings) {
+    return showInventory({ user, standalone, listings })
+  },
+
+  showUserListings (username) {
+    return showInventory({ user: username, standalone: true, listings: true })
+  },
+
+  showMainUserListings () { API.showUserListings(app.user.get('username')) },
+
+  showGroupListings (group) {
+    return showInventory({ group, standalone: true, listings: true })
   },
 
   showUserInventoryFromUrl (username) {
@@ -129,8 +145,8 @@ const showItemsFromModels = function (items) {
 }
 
 const showInventory = async options => {
-  const { default: InventoryLayout } = await import('./views/inventory_layout.js')
-  app.layout.showChildView('main', new InventoryLayout(options))
+  const { default: UsersHomeLayout } = await import('#users/views/users_home_layout.js')
+  app.layout.showChildView('main', new UsersHomeLayout(options))
 }
 
 const showItemsList = async collection => {
@@ -217,8 +233,8 @@ const initializeInventoriesHandlers = function (app) {
       return API.showUserInventory(user, true)
     },
 
-    'show:inventory:main:user' () {
-      return API.showUserInventory(app.user, true)
+    'show:inventory:main:user' (listings) {
+      return API.showUserInventory(app.user, true, listings)
     },
 
     'show:inventory:group': API.showGroupInventory,
@@ -234,6 +250,10 @@ const initializeInventoriesHandlers = function (app) {
 
     'show:item': showItemModal,
     'show:item:byId': API.showItemFromId,
+
+    'show:user:listings': API.showUserListings,
+    'show:main:user:listings': API.showMainUserListings,
+    'show:group:listings': API.showGroupListings,
   })
 
   app.reqres.setHandlers({

@@ -29,3 +29,13 @@ main{
 #modalWrapper{
   z-index: 2;
 }
+
+body.hasOverlay{
+  #topBar{
+    z-index: 0;
+  }
+  // It would also be possible to disable body scroll to let the scroll monopoly to the overlay
+  // but that would loose the scroll level when closing the overlay
+  // overflow: hidden;
+  // max-height: 100vh;
+}

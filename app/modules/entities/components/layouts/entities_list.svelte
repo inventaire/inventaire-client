@@ -52,13 +52,18 @@
     background-color: white;
   }
   li{
-    @include display-flex(row, center, space-between);
-    padding: 0.5em;
     &:not(:last-child){
       border-bottom: 1px solid #ddd;
     }
   }
   .toggler-wrapper{
     padding: 0.3em;
+  }
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    li{
+      padding: 0.5em;
+      @include display-flex(row, center, space-between);
+    }
   }
 </style>

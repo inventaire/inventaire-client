@@ -12,6 +12,7 @@
   import Ebooks from './ebooks.svelte'
   import ItemsLists from './items_lists.svelte'
   import EditionsList from './editions_list.svelte'
+  import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
   import EntityTitle from './entity_title.svelte'
   import WorkActions from './work_actions.svelte'
   import HomonymDeduplicates from './homonym_deduplicates.svelte'
@@ -103,7 +104,9 @@
           {userLang}
         />
         <WorkActions
+          {entity}
           {someEditions}
+          {editions}
           bind:itemsUsers={itemsUsers}
           on:showMapAndScrollToMap={showMapAndScrollToMap}
           on:scrollToItemsList={scrollToItemsList}
@@ -147,6 +150,9 @@
         </div>
       {/if}
     {/await}
+    <EntityListingsLayout
+      {entity}
+    />
     <div class="relatives-lists">
       <RelativeEntitiesList
         {entity}
@@ -218,7 +224,6 @@
   @media screen and (max-width: $small-screen) {
     .work-section{
       margin-left: 0;
-      margin-right: 1em;
     }
     .top-section{
       @include display-flex(column, center);

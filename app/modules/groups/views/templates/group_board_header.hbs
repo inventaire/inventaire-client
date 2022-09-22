@@ -1,0 +1,35 @@
+<a href="{{pathname}}" class="cover-link showGroup">
+  {{#if picture}}
+    <div class="group-cover-picture" style="background-image: url('{{imgSrc picture 540}}')"></div>
+  {{/if}}
+  <span class="name">{{name}}</span>
+</a>
+{{#if searchable}}
+  <span class="topicons searchable" title="{{I18n 'this group appears in public search results'}}">
+    {{icon 'search'}}
+  </span>
+{{else}}
+  <span class="topicons not-searchable" title="{{I18n 'only those who get the link or are invited can find this group'}}">
+    {{icon 'user-secret'}}
+  </span>
+{{/if}}
+{{#if open}}
+  <span class="topicons open" title="{{I18n 'this group is opened to membership without admin validation'}}">
+    {{icon 'globe'}}
+  </span>
+{{else}}
+  <span class="topicons not-open" title="{{I18n 'this group require admins to validate new memberships'}}">
+    {{icon 'key'}}
+  </span>
+{{/if}}
+
+<div class="bottom">
+  {{#if invitor.username}}
+    <span class="invitor">{{i18n 'group_invitor' invitor}}</span>
+  {{/if}}
+  {{> 'groups:group_actions' this}}
+</div>
+
+<a href="{{pathname}}" class="showGroup
+  {{#if mainUserIsMember}}tiny-button light-blue{{else}}link{{/if}}"
+>{{I18n "go to the group's inventory"}}</a>

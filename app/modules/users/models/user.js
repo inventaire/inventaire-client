@@ -19,7 +19,7 @@ export default UserCommons.extend({
       return
     }
 
-    this.setInventoryStats()
+    this.waitingForInventoryStats = this.setInventoryStats()
     this.calculateHighlightScore()
 
     // A type attribute is required by some views

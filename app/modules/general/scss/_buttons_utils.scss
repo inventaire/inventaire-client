@@ -23,10 +23,13 @@ $default-button-padding: 1em;
   transition-property: color, background-color;
 }
 
+$tiny-button-line-height: 1.6rem;
 @mixin tiny-button($bg-color, $color: white, $darken:15%, $radius: $global-radius){
   @include tiny-button-padding;
   border-radius: $radius;
   @include tiny-button-color($bg-color, $color);
+  // Align <button class="tiny-button"> line-height on <a> default
+  line-height: $tiny-button-line-height;
 }
 
 @mixin dangerous-button(){

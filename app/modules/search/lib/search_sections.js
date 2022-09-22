@@ -9,9 +9,11 @@ export const typesBySection = {
     subject: 'subjects',
   },
   social: {
-    all: [ 'users', 'groups' ],
+    all: [ 'users', 'groups', 'shelves', 'lists' ],
     user: 'users',
-    group: 'groups'
+    group: 'groups',
+    shelf: 'shelves',
+    list: 'lists',
   }
 }
 
@@ -39,10 +41,12 @@ export const sections = {
     all: { label: 'all' },
     user: { label: 'user' },
     group: { label: 'group' },
+    shelf: { label: 'shelf' },
+    list: { label: 'list' },
   }
 }
 
-const sectionsNames = {
+export const sectionsNames = {
   entity: Object.keys(sections.entity),
   social: Object.keys(sections.social),
 }

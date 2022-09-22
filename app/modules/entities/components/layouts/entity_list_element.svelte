@@ -124,6 +124,9 @@
   }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
+    .entity-wrapper{
+      flex-wrap: wrap;
+    }
     .cover{
       width: 5em
     }

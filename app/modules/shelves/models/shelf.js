@@ -8,8 +8,11 @@ export default Backbone.Model.extend({
 
     if (name == null) throw error_.new('invalid shelf', 500, attrs)
 
+    const pathname = `/shelves/${attrs._id}`
+
     this.set({
-      pathname: `/shelves/${attrs._id}`,
+      pathname,
+      inventoryPathname: pathname,
       type: 'shelf'
     })
 

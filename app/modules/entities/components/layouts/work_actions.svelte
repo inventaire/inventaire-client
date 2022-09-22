@@ -4,12 +4,14 @@
   import { createEventDispatcher } from 'svelte'
   import { screen } from '#lib/components/stores/screen'
   import { onChange } from '#lib/svelte/svelte'
+  import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
+  import Flash from '#lib/components/flash.svelte'
 
   const dispatch = createEventDispatcher()
 
-  export let someEditions, itemsUsers
+  export let entity, editions, someEditions, itemsUsers
 
-  let areNotOnlyMainUserItems
+  let areNotOnlyMainUserItems, flash
 
   function hasUsersOtherThanMainUser () {
     if (itemsUsers.length === 0) return false
@@ -25,8 +27,14 @@
 
   $: onChange(itemsUsers, assignIfNotOnlyMainUserItems)
 </script>
-{#if someEditions && areNotOnlyMainUserItems}
-  <div class="actions-wrapper">
+
+<div class="actions-wrapper">
+  <AddToDotDotDotMenu
+    {entity}
+    {editions}
+    {flash}
+  />
+  {#if someEditions && areNotOnlyMainUserItems}
     {#if $screen.isSmallerThan(smallScreenThreshold)}
       <button
         on:click={() => dispatch('scrollToItemsList')}
@@ -46,19 +54,23 @@
       {@html icon('map-marker')}
       {i18n('Show books on a map')}
     </button>
-  </div>
-{/if}
+  {/if}
+</div>
+<Flash state={flash} />
 
 <style lang="scss">
   @import '#general/scss/utils';
   .actions-wrapper{
-    @include display-flex(row, center, center);
-    min-height: 2em;
+    @include display-flex(column, stretch, center);
     margin: 1em 0;
+    .action-button, :global(.add-to-dot-dot-dot-menu){
+      margin-bottom: 0.3em;
+    }
+    .action-button, :global(.dropdown-button){
+      text-align: start;
+    }
   }
   .action-button{
     @include tiny-button($light-grey, black);
-    padding: 0.5em;
-    margin: 0.3em;
   }
 </style>

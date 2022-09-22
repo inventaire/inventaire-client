@@ -9,7 +9,7 @@ $lighter-grey: #f2f2f2;
 $soft-grey: #959595;
 $glow: rgba(158, 202, 237, 0.7);
 $off-white: #f5f5f5;
-$green-tree: #68b231;
+$green-tree: #68a431;
 $soft-red: #cf2408;
 $yellow: #ffd402;
 
@@ -113,6 +113,16 @@ $inventory-nav-grey: #eee;
   &:not(.disabled):not(:disabled){
     &:hover, &:focus{
       background-color: lighten($bg-color, $lighten);
+    }
+  }
+}
+
+@mixin bg-hover-from-to($from-bg-color, $to-bg-color){
+  background-color: $from-bg-color;
+  @include transition(background-color);
+  &:not(:disabled){
+    &:hover, &:focus{
+      background-color: $to-bg-color;
     }
   }
 }

@@ -1,7 +1,6 @@
 import getBestLangValue from '../get_best_lang_value.js'
-import { getEntitiesByUris } from '../entities.js'
-import preq from '#lib/preq'
-import { isImageHash } from '#lib/boolean_tests'
+import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath } from '../entities.js'
+import { pluck } from 'underscore'
 
 export async function addWorksImagesAndAuthors (works) {
   await Promise.all([
@@ -16,7 +15,7 @@ export async function addEntitiesImages (works) {
   const nextBatch = async () => {
     const batchEntities = remainingEntities.splice(0, 20)
     if (batchEntities.length === 0) return
-    await Promise.all(batchEntities.map(addEntityImages))
+    await _addEntitiesImages(batchEntities)
     return nextBatch()
   }
   await nextBatch()
@@ -25,11 +24,27 @@ export async function addEntitiesImages (works) {
 
 export const addWorksImages = addEntitiesImages
 
+async function _addEntitiesImages (entities) {
+  const uris = pluck(entities, 'uri')
+  const imagesByUri = await getEntitiesImages(uris)
+  entities.forEach(entity => {
+    const entityImages = imagesByUri[entity.uri]
+    setEntityImages(entity, entityImages)
+  })
+}
+
 export async function addEntityImages (entity) {
   const { type, uri } = entity
+  let entityImages
   if (type === 'work' || type === 'serie') {
-    const { images } = await preq.get(app.API.entities.images(entity.uri))
-    const entityImages = images[uri]
+    entityImages = await getEntityImage(uri)
+  }
+  setEntityImages(entity, entityImages)
+}
+
+const setEntityImages = (entity, entityImages) => {
+  const { type } = entity
+  if (type === 'work' || type === 'serie') {
     let imageValue = getBestLangValue(app.user.lang, entity.originalLang, entityImages).value
     if (imageValue) {
       entity.image.url = getEntityImagePath(imageValue)
@@ -41,11 +56,6 @@ export async function addEntityImages (entity) {
       entity.images.push(entity.image.url)
     }
   }
-}
-
-const getEntityImagePath = imageValue => {
-  if (isImageHash(imageValue)) return `/img/entities/${imageValue}`
-  else return imageValue
 }
 
 export async function addWorksAuthors (works) {

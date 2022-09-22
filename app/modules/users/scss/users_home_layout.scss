@@ -1,0 +1,23 @@
+@import '#general/scss/utils';
+
+#usersHomeLayout{
+  background-color: white;
+  // Set a minimun height so that when a filter is picked and only a few items
+  // are displayed as a result, the view doesn't jump up
+  min-height: 100vh;
+
+  #usersHomeBottom{
+    min-height: 100vh;
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    padding: 0.5em;
+  }
+
+  @import 'users_home_nav';
+  @import 'user_profile';
+  @import 'group_profile';
+  @import 'users_home_section_navs';
+  @import 'users_home_nav_lists';
+}

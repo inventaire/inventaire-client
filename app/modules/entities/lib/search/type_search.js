@@ -3,31 +3,34 @@ import languageSearch from './language_search.js'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.js'
 import error_ from '#lib/error'
 import { pluralize } from '#entities/lib/types/entities_types'
+import { forceArray } from '#lib/utils'
 import _wikidataSearch from './wikidata_search.js'
 
 const wikidataSearch = _wikidataSearch(true)
 
-export default async function (type, input, limit, offset) {
+export default async function (types, input, limit, offset) {
   const uri = getEntityUri(input)
-  type = pluralize(type)
+  types = forceArray(types).map(pluralize)
 
   if (uri != null) {
-    const res = await searchByEntityUri(uri, type)
+    const res = await searchByEntityUri(uri, types)
     // If no entity is found with what was found to look like a uri,
     // fallback on searching that input instead
     if (res) return res
   }
 
-  if (type) {
-    if (type === 'subjects') return wikidataSearch(input, limit, offset)
-    if (type === 'languages') return languageSearch(input, limit, offset)
-    return searchType(type)(input, limit, offset)
+  if (types.includes('languages')) {
+    return languageSearch(input, limit, offset)
+  } else if (types.includes('subjects')) {
+    return wikidataSearch(input, limit, offset)
+  } else if (types) {
+    return searchType(types)(input, limit, offset)
   } else {
     return searchType()(input, limit, offset)
   }
 }
 
-async function searchByEntityUri (uri, type) {
+async function searchByEntityUri (uri, types) {
   let model
   try {
     model = await app.request('get:entity:model', uri)
@@ -41,8 +44,8 @@ async function searchByEntityUri (uri, type) {
   const pluarlizedModelType = (model.type != null) ? model.type + 's' : undefined
   // The type subjects accepts any type, as any entity can be a topic
   // Known issue: languages entities aren't attributed a type by the server
-  // thus thtowing an error here even if legit, prefer 2 letters language codes
-  if ((pluarlizedModelType === type) || (type === 'subjects')) {
+  // thus throwing an error here even if legit, prefer 2 letters language codes
+  if (types.includes(pluarlizedModelType) || types.includes('subjects')) {
     return {
       results: [
         prepareSearchResult(model).toJSON()

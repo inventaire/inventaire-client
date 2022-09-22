@@ -1,6 +1,7 @@
 import { isNonEmptyString } from '#lib/boolean_tests'
 import { i18n } from '#user/lib/i18n'
 import { countShelves } from '#shelves/lib/shelves'
+import { countListings } from '#listings/lib/listings'
 import Positionable from '#general/models/positionable'
 import error_ from '#lib/error'
 import { images } from '#lib/urls'
@@ -10,9 +11,12 @@ const { defaultAvatar } = images
 export default Positionable.extend({
   setPathname () {
     const username = this.get('username')
+    const base = `/users/${username}`
     this.set({
-      pathname: `/inventory/${username}`,
-      contributions: `/users/${username}/contributions`,
+      pathname: base,
+      inventoryPathname: `${base}/inventory`,
+      listingsPathname: `${base}/lists`,
+      contributionsPathname: `${base}/contributions`,
       // Set for compatibility with interfaces expecting a label
       // such as modules/inventory/views/browser_selector
       label: username
@@ -48,7 +52,7 @@ export default Positionable.extend({
     }
   },
 
-  setInventoryStats () {
+  async setInventoryStats () {
     const created = this.get('created') || 0
     // Make lastAdd default to the user creation date
     let data = { itemsCount: 0, lastAdd: created }
@@ -65,8 +69,12 @@ export default Positionable.extend({
     this.set('itemsCount', itemsCount)
     this.set('itemsLastAdded', lastAdd)
 
-    return countShelves(this.get('_id'))
-    .then(shelvesCount => this.set('shelvesCount', shelvesCount))
+    const [ shelvesCount, listingsCount ] = await Promise.all([
+      countShelves(this.get('_id')),
+      countListings(this.get('_id'))
+    ])
+    this.set('shelvesCount', shelvesCount)
+    this.set('listingsCount', listingsCount)
   },
 
   getRss () { return app.API.feeds('user', this.id) },

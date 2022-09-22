@@ -1,0 +1,51 @@
+#publicUsersNav{
+  .map-lists-wrapper{
+    display: flex;
+    &:not(.mainUserHasPosition){
+      display: none;
+    }
+  }
+
+  #mapContainer{
+    z-index: 0;
+    // Centering loader
+    @include display-flex(row, center, center);
+    background-color: $off-white;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .lists{
+      flex-direction: column;
+    }
+    .map-lists-wrapper{
+      flex-direction: column;
+    }
+    #mapContainer{
+      order: -1;
+      height: 20em;
+      max-height: 50vh;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .position-required{
+      > .fa-map-marker{
+        margin-top: 2rem;
+      }
+      #showPositionPicker{
+        margin-top: 4em;
+      }
+    }
+    .map-lists-wrapper{
+      > div{
+        flex: 1 0 0;
+      }
+    }
+    #mapContainer{
+      margin-left: 0.6em;
+      height: $map-large-screen-heigth;
+    }
+  }
+}

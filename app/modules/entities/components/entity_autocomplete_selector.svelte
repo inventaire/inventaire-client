@@ -14,6 +14,7 @@
   export let searchTypes
   export let currentEntityUri
   export let currentEntityLabel = ''
+  export let placeholder
   export let allowEntityCreation = false
   export let showDefaultSuggestions = true
   export let createdEntityTypeName
@@ -22,13 +23,13 @@
   export let relationProperty
   export let displaySuggestionType = false
   export let autofocus = true
+  export let showSuggestions = false
 
   const dispatch = createEventDispatcher()
 
   let input
 
   let suggestions = []
-  let showSuggestions = false
   let scrollableElement
 
   function onInputKeydown (e) {
@@ -99,7 +100,6 @@
   if (currentEntityLabel && autofocus) lazySearch()
 
   function onFocus () {
-    if (searchText !== '') showSuggestions = true
     lazySearch()
   }
 
@@ -177,13 +177,15 @@
       on:blur={onBlur}
       bind:this={input}
       use:autofocusFn={{ disabled: autofocus !== true }}
+      class:has-entity-uri={currentEntityUri != null}
       title={I18n('search for an entity')}
+      placeholder={placeholder}
     >
     {#if currentEntityUri}
       <span class="uri">{currentEntityUri}</span>
     {/if}
   </div>
-  {#if showSuggestions}
+  {#if showSuggestions && (searchText !== '' || suggestions.length > 0)}
     <div class="autocomplete">
       <div class="suggestions-wrapper" on:scroll={onSuggestionsScroll} bind:this={scrollableElement}>
         <ul class="suggestions">
@@ -242,8 +244,14 @@
       flex: 1;
       height: 100%;
       font-weight: normal;
-      padding: 0.5em 0.5em 0.8em 0.5em;
       margin-bottom: 0.1em;
+      @include transition(padding, 0.2s);
+      &.has-entity-uri{
+        padding: 0.5em 0.5em 0.8em 0.5em;
+      }
+      &:not(.has-entity-uri){
+        padding: 0.5em;
+      }
     }
     .uri{
       position: absolute;

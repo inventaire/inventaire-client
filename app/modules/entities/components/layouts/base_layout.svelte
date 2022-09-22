@@ -185,7 +185,7 @@
   /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {
     .layout{
-      padding: 0;
+      padding: 0 0.5em;
     }
   }
 </style>

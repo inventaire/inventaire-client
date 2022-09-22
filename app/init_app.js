@@ -12,10 +12,12 @@ import Add from '#inventory/add'
 import Inventory from '#inventory/inventory'
 import Transactions from '#transactions/transactions'
 import Network from '#network/network'
+import Groups from '#groups/groups'
 import Notifications from '#notifications/notifications'
 import Settings from '#settings/settings'
 import Tasks from '#tasks/tasks'
 import Shelves from '#shelves/shelves'
+import Listings from '#listings/listings'
 import initMap from '#map/map'
 import AppLayout from '#general/views/app_layout'
 import reloadOnceADay from '#lib/reload_once_a_day'
@@ -45,10 +47,12 @@ export default async function () {
   Inventory.initialize()
   Transactions.initialize()
   Network.initialize()
+  Groups.initialize()
   Notifications.initialize()
   Settings.initialize()
   Tasks.initialize()
   Shelves.initialize()
+  Listings.initialize()
   initMap()
   initQuerystringHelpers()
 

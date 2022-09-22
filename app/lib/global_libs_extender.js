@@ -159,11 +159,7 @@ Marionette.View.prototype.showChildView = function (regionName, view, options) {
 Marionette.View.prototype.showChildComponent = function (regionName, Component, options = {}) {
   if (!this.isIntact()) return
   const region = this.getRegion(regionName)
-  // Run `removeCurrentComponent` before attempting to destroy region.currentView
-  // as doing the opposite would prevent properly calling $destroy on components
-  // shown in the currentView regions and subregions
-  removeCurrentComponent(region)
-  if (region.currentView) region.currentView.destroy()
+  this.emptyRegion(regionName)
   const el = (typeof region.el === 'string') ? document.querySelector(region.el) : region.el
   assert_.object(el)
   options.target = el
@@ -184,6 +180,15 @@ export function removeCurrentComponent (region) {
     const subregions = Object.values(region.currentView._regions)
     subregions.forEach(removeCurrentComponent)
   }
+}
+
+Marionette.View.prototype.emptyRegion = function (regionName) {
+  const region = this.getRegion(regionName)
+  // Run `removeCurrentComponent` before attempting to destroy region.currentView
+  // as doing the opposite would prevent properly calling $destroy on components
+  // shown in the currentView regions and subregions
+  removeCurrentComponent(region)
+  if (region.currentView) region.currentView.destroy()
 }
 
 Marionette.CollectionView.prototype.showChildView = Marionette.View.prototype.showChildView
