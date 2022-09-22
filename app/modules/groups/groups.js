@@ -8,7 +8,7 @@ export default {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'g(roups)/:id(/inventory)(/)': 'showGroupInventory',
-        'g(roups)/:id/listings(/)': 'showGroupListings',
+        'g(roups)/:id/lists(/)': 'showGroupListings',
         'g(roups)/:id/settings(/)': 'showGroupBoard',
         'g(roups)(/)': 'showSearchGroups',
 
