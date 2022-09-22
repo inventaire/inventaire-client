@@ -36,10 +36,7 @@
   $: onChange(listing, updateVisibilitySummary)
 </script>
 
-<div
-  class="listing-info"
-  class:isNotEditable={!isEditable}
->
+<div class="listing-info">
   <div class="header">
     <div class="first-row">
       <h2>{name}</h2>
@@ -104,7 +101,6 @@
     padding: 0.5em 1em 1em 1em;
     @include radius;
     background-color: $light-grey;
-    max-width: 60em;
   }
   h2{
     margin-top: 0;
@@ -116,10 +112,6 @@
   }
   .header{
     @include display-flex(column, baseline);
-  }
-  .isNotEditable{
-    align-self: center;
-    background-color: unset;
   }
   .creator-row{
     margin-top: 1em;
