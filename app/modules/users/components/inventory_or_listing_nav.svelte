@@ -2,6 +2,7 @@
   import { i18n } from '#user/lib/i18n'
   import app from '#app/app'
   import { isOpenedOutside } from '#lib/utils'
+  import { isNumber } from 'underscore'
 
   export let userModel, groupModel, currentSection
 
@@ -12,7 +13,8 @@
 
     const sumsListingsCount = (sum, user) => {
       const newCount = user.get('listingsCount')
-      return sum + newCount
+      if (isNumber(newCount)) sum += newCount
+      return sum
     }
     return groupUsersModels.reduce(sumsListingsCount, 0)
   }
