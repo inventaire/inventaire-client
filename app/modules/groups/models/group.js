@@ -40,7 +40,7 @@ export default Positionable.extend({
       canonical: base,
       pathname: base,
       inventoryPathname: `${base}/inventory`,
-      listingsPathname: `${base}/listings`,
+      listingsPathname: `${base}/lists`,
       settingsPathname: `${base}/settings`,
       // non-persisted category used for convinience on client-side
       tmp: []
