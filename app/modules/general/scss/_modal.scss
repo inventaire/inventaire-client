@@ -38,7 +38,7 @@ body.openedModal{
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    padding: 2em 1em;
+    padding: 2em 0.2em;
     min-width: 80vw;
     margin-top: 10px;
     .close{

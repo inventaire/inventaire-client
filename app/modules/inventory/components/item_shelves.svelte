@@ -54,17 +54,15 @@
       <Spinner/><span class="section-label">{I18n('shelves')}</span>
     {:then}
       {#if userShelves.length > 0}
-        <fieldset>
-          <legend class="section-label">{I18n('shelves')}</legend>
-          <div class="shelves-options">
-            {#each displayedShelves as shelf (shelf._id)}
-              <label title={I18n('select_shelf')}>
-                <input type="checkbox" bind:group={shelvesIds} value={shelf._id}>
-                <ShelfInfo bind:shelf />
-              </label>
-            {/each}
-          </div>
-        </fieldset>
+        <span class="section-label">{I18n('shelves')}</span>
+        <div class="shelves-options">
+          {#each displayedShelves as shelf (shelf._id)}
+            <label title={I18n('select_shelf')}>
+              <input type="checkbox" bind:group={shelvesIds} value={shelf._id}>
+              <ShelfInfo bind:shelf />
+            </label>
+          {/each}
+        </div>
         {#if selectedShelves.length < userShelves.length}
           <button
             on:click={e => hideUnselectedShelves = !hideUnselectedShelves}
@@ -103,6 +101,7 @@
     background: $off-white;
     padding: 0.5em 0;
     @include radius;
+    @include display-flex(column, stretch);
   }
   .section-label{
     padding: 0 0.5em;
@@ -111,9 +110,9 @@
   .shelves-options, ul{
     max-height: 16em;
     overflow-y: auto;
+    overflow-x: hidden;
   }
   button{
-    width: 100%;
     padding: 0.5em;
     @include bg-hover($off-white, 5%);
     @include display-flex(row, center, center);

@@ -1,7 +1,3 @@
-legend{
-  max-height: 15em;
-  overflow: auto;
-}
 label{
   color: $default-text-color;
   @include bg-hover($off-white, 5%);
@@ -13,4 +9,6 @@ label{
 }
 input[type="checkbox"]{
   margin: 0.5em;
+  // Prevent flex shrink on iOS 16 browsers
+  flex: 0 0 auto;
 }

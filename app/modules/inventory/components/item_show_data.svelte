@@ -38,6 +38,16 @@
   @import '#general/scss/utils';
   .item-settings{
     margin: 1em 0;
-    @include display-flex(row, center, center, wrap);
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    .item-settings{
+    }
+  }
+  /*Large screens*/
+  @media screen and (min-width: $small-screen) {
+    .item-settings{
+      @include display-flex(row, center, center);
+    }
   }
 </style>

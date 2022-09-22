@@ -7,11 +7,20 @@
     .icon{
       width: $user-box-heigth;
     }
-    &:not(:first-child){
-      margin-left: 0.5em;
+    /*Large screens*/
+    @media screen and (min-width: $small-screen) {
+      &:not(:first-child){
+        margin-left: 0.5em;
+      }
+      &:not(:last-child){
+        margin-right: 0.5em;
+      }
     }
-    &:not(:last-child){
-      margin-right: 0.5em;
+    /*Small screens*/
+    @media screen and (max-width: $small-screen) {
+      &:not(:last-child){
+        margin-bottom: 1em;
+      }
     }
   }
   &:not(.large){

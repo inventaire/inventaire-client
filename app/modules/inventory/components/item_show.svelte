@@ -124,7 +124,6 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .item-show{
-    padding: 0 1em;
     position: relative;
   }
   h3{
@@ -198,6 +197,9 @@
 
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
+    .item-show{
+      padding: 0 0.5em;
+    }
     .wrapper{
       @include display-flex(column, stretch, center);
     }
@@ -211,6 +213,9 @@
 
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
+    .item-show{
+      padding: 0 1em;
+    }
     .wrapper{
       @include display-flex(row, flex-start, center);
     }
