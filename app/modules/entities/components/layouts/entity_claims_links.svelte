@@ -11,7 +11,7 @@
       categories[category] = []
       for (const propertyData of propertiesData) {
         const { property } = propertyData
-        if (claims[property]) {
+        if (claims[property]?.[0] != null) {
           categories[category].push({ ...propertyData, value: claims[property][0] })
         }
       }
