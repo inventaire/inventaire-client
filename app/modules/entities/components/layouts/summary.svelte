@@ -121,7 +121,7 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .summary-wrapper.has-summary{
-    padding: 0.5em;
+    padding: 1em;
     margin-top: 1em;
     @include radius;
     background-color: $off-white;
@@ -140,7 +140,6 @@
     max-width: 15em;
   }
   #summary-text{
-    padding: 0.5em 0.5em 0 0.5em;
     max-height: 20em;
     overflow-y: auto;
   }
@@ -148,12 +147,6 @@
     margin-inline-start: 1em;
     :global(a){
       color: $grey;
-    }
-  }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
-    .summary-wrapper.has-summary{
-      margin-top: 0;
     }
   }
 </style>

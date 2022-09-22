@@ -86,12 +86,10 @@
         />
         <div class="image-and-infobox">
           {#if notOnlyP31}
-            <div class="entity-image">
-              <EntityImage
-                entity={entity}
-                size={192}
-              />
-            </div>
+            <EntityImage
+              entity={entity}
+              size={192}
+            />
             <Infobox
               claims={infoboxClaims}
               entityType={entity.type}
@@ -185,6 +183,10 @@
   }
   .image-and-infobox{
     @include display-flex(row, flex-start);
+    margin-top: 1em;
+    :global(.entity-image){
+      margin-right: 1em;
+    }
   }
   .entity-image{
     margin-right: 1em;
