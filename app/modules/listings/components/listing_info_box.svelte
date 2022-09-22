@@ -95,7 +95,6 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .listing-info{
-    width: 100%;
     align-self: stretch;
     margin: 0.5em;
     margin-bottom: 1em;
