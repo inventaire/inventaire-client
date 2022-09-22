@@ -28,7 +28,6 @@
       {/if}
       {work.label}
     </h3>
-    {#if work.subtitle}<p class="subtitle">{work.subtitle}</p>{/if}
   </div>
 </a>
 
