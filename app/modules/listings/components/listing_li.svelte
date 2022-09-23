@@ -76,7 +76,7 @@
     @include display-flex(column, stretch, flex-start);
     @include bg-hover($light-grey);
     @include radius;
-    width: 19em;
+    width: 30em;
     padding: 0.3em;
     position: relative;
     min-height: 12em;
@@ -120,5 +120,14 @@
   .username{
     font-weight: normal;
     @include sans-serif;
+  }
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    li{
+      width: 100%;
+    }
+    a {
+      width: 100%;
+    }
   }
 </style>
