@@ -4,7 +4,7 @@ let screen_
 const wellknownWidths = {
   '$small-screen': 1000,
   '$smaller-screen': 600,
-  '$very-small-screen': 350,
+  '$very-small-screen': 400,
 }
 const resolveWidth = width => wellknownWidths[width] ? wellknownWidths[width] : width
 
