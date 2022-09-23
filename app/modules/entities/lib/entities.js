@@ -149,6 +149,13 @@ export function getWikidataUrl (uri) {
   }
 }
 
+export function getWikidataHistoryUrl (uri) {
+  const [ prefix, id ] = uri.split(':')
+  if (prefix === 'wd') {
+    return `https://www.wikidata.org/w/index.php?title=${id}&action=history`
+  }
+}
+
 export const getEntityLocalHref = uri => `/entity/${uri}`
 
 const getSerieOrdinal = claims => claims['wdt:P1545']?.[0]

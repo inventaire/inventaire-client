@@ -11,6 +11,8 @@
     rel = 'noopener'
   }
 
+  if (text && !title) title = text
+
   function onClick (e) {
     e.stopPropagation()
     if (!(isExternalLink || isOpenedOutside(e))) {
@@ -36,7 +38,7 @@
   {#if html}
     {@html html}
   {:else}
-    {text}
+    <span class="link-text">{text}</span>
   {/if}
 </a>
 
