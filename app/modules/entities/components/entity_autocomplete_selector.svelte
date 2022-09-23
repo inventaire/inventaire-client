@@ -279,7 +279,7 @@
   }
   .suggestions-wrapper{
     position: relative;
-    max-height: 10em;
+    max-height: 15rem;
     overflow: auto;
     align-self: stretch;
   }

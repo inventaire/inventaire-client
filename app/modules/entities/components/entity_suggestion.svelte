@@ -2,11 +2,17 @@
   import { createEventDispatcher } from 'svelte'
   import { entityTypeNameByType } from '#entities/lib/types/entities_types'
   import { I18n } from '#user/lib/i18n'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { getEntityImagePath } from '#entities/lib/entities'
+
   export let suggestion, highlight, displaySuggestionType = false, scrollableElement
   let element
-  const { uri, type, label, description } = suggestion
+  const { uri, type, label, description, image: images } = suggestion
   const dispatch = createEventDispatcher()
   const typeName = entityTypeNameByType[type]
+
+  const image = images?.[0]
+  const imageUrl = image ? getEntityImagePath(image) : null
 
   $: {
     if (element && highlight && scrollableElement) {
@@ -23,13 +29,19 @@
     on:click|stopPropagation={() => dispatch('select')}
     class:highlight={highlight}
   >
-    <div class="top">
-      <span class="label">{label}</span>
-      <a class="uri" href="/entity/{uri}" target="_blank" on:click|stopPropagation>{uri}</a>
-    </div>
-    <div class="bottom">
-      {#if description}<span class="description">{description}</span>{/if}
-      {#if displaySuggestionType}<span class="type">{I18n(typeName)}</span>{/if}
+    <div
+      class="image"
+      style:background-image={imageUrl ? `url(${imgSrc(imageUrl, 90)})` : ''}
+      ></div>
+    <div class="right">
+      <div class="top">
+        <span class="label">{label}</span>
+        <a class="uri" href="/entity/{uri}" target="_blank" on:click|stopPropagation>{uri}</a>
+      </div>
+      <div class="bottom">
+        {#if description}<span class="description">{description}</span>{/if}
+        {#if displaySuggestionType}<span class="type">{I18n(typeName)}</span>{/if}
+      </div>
     </div>
   </button>
 </li>
@@ -41,12 +53,24 @@
   }
   button{
     @include bg-hover(white);
-    padding: 0.5em;
     width: 100%;
     margin: 0;
+    padding: 0;
+    @include display-flex(row, stretch);
   }
   .highlight{
     background-color: #ddd;
+  }
+  .image{
+    margin-right: 0.3em;
+    width: 48px;
+    height: 48px;
+    background-size: cover;
+    background-position: center center;
+  }
+  .right{
+    padding: 0.5em;
+    flex: 1 0 0;
   }
   .top{
     @include display-flex(row, center, space-between);
