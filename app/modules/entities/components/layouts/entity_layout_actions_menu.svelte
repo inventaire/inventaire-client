@@ -12,7 +12,7 @@
 
   export let entity
 
-  let showDropdown, waitForEntityRefresh
+  let waitForEntityRefresh
 
   const { uri, type } = entity
 
@@ -124,7 +124,7 @@
     <Dropdown
       align={'right'}
       buttonTitle={i18n('Show actions')}
-      bind:showDropdown={showDropdown}
+      clickOnContentShouldCloseDropdown={true}
       >
       <div slot="button-inner">
         {@html icon('cog')}
@@ -151,7 +151,6 @@
           <li
             class="dropdown-element"
             on:click={refreshEntity}
-            on:click={() => { showDropdown = false }}
           >
             {#await waitForEntityRefresh}
               <Spinner />
