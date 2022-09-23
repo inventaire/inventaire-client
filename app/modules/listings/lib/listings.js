@@ -1,4 +1,5 @@
 import preq from '#lib/preq'
+import { i18n } from '#user/lib/i18n'
 import { pluck } from 'underscore'
 
 export const getListingWithElementsById = async (id, limit) => {
@@ -62,3 +63,18 @@ export async function countListings (userId) {
 }
 
 export const getListingPathname = id => `/lists/${id}`
+
+export async function getListingMetadata (listing) {
+  return {
+    title: await getListingLongTitle(listing),
+    description: listing.description,
+    url: getListingPathname(listing._id),
+    smallCardType: true,
+  }
+}
+
+export async function getListingLongTitle (listing) {
+  const { name, creator } = listing
+  const { username } = await app.request('get:user:data', creator)
+  return `${name} - ${i18n('list_created_by', { username })}`
+}

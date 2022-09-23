@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { getListingWithElementsById } from './lib/listings.js'
+import { getListingMetadata, getListingPathname, getListingWithElementsById } from './lib/listings.js'
 
 export default {
   initialize () {
@@ -20,6 +20,7 @@ async function showListing (listingId) {
     app.layout.showChildComponent('main', ListingLayout, {
       props: { listing }
     })
+    app.navigate(getListingPathname(listing._id), { metadata: getListingMetadata(listing) })
   } catch (err) {
     app.execute('show:error', err)
   }
