@@ -10,22 +10,34 @@
 
   const { _id, name, creator } = listing
   let elements = listing.elements || []
-  let imagesUrls
+  let imagesUrls = [], imagesLimit = 6
 
   const pathname = getListingPathname(_id)
 
   const getElementsImages = async () => {
     const allElementsUris = pluck(elements, 'uri')
-    // TODO: make it fast by paginating entities: check if they have enough images for the collage, and fetch more if not.
-    const elementsUris = allElementsUris.slice(0, 10)
-    imagesUrls = await getEntitiesImagesUrls(elementsUris)
+
+    let limit = 0
+    const fetchMoreImages = async (offset = 0, amount = 10) => {
+      const enoughImages = imagesUrls.length >= imagesLimit
+      if (enoughImages) return
+      limit = offset + 10
+      const elementsUris = allElementsUris.slice(offset, limit)
+      const someImagesUrls = await getEntitiesImagesUrls(elementsUris)
+      imagesUrls = [ ...imagesUrls, ...someImagesUrls ]
+      if (elementsUris.length === 0) return
+      offset = amount
+      amount += amount
+      return fetchMoreImages(offset, amount)
+    }
+    await fetchMoreImages()
   }
 
   const waitingForImages = getElementsImages()
 
-  let username, userPicture, longName
+  let username, longName
   const getCreator = async () => {
-    ;({ username, picture: userPicture } = await app.request('get:user:data', creator))
+    ;({ username } = await app.request('get:user:data', creator))
     longName = `${name} - ${i18n('list_created_by', { username })}`
   }
 
@@ -44,7 +56,7 @@
       <div class="collage-wrapper">
         <ImagesCollage
           imagesUrls={imagesUrls}
-          limit={6}
+          limit={imagesLimit}
         />
         <span
           class="counter"
