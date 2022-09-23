@@ -3,12 +3,22 @@
   import { i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
   import ImagesCollage from '#components/images_collage.svelte'
+  import { getEntityImagePath } from '#entities/lib/entities'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let entity, isEditable
 
   const dispatch = createEventDispatcher()
 
   const { uri, label, description, image } = entity
+  let imageUrl
+
+  if (isNonEmptyArray(image)) {
+    // This is the case when the entity object is a search result object
+    imageUrl = getEntityImagePath(image[0])
+  } else if (image?.url) {
+    imageUrl = image.url
+  }
 </script>
 
 <li>
@@ -17,9 +27,9 @@
     title={label}
     on:click={loadInternalLink}
   >
-    {#if image}
+    {#if imageUrl}
       <ImagesCollage
-        imagesUrls={[ image.url ]}
+        imagesUrls={[ imageUrl ]}
         imageSize={100}
         limit={1}
       />

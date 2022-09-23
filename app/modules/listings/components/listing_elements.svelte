@@ -57,17 +57,23 @@
     flash = null
     inputValue = ''
     showSuggestions = false
-    addingAnElement = addElement(listingId, entity.uri)
-      .then(element => {
-        if (isNonEmptyArray(element.alreadyInList)) {
-          return flash = {
-            type: 'info',
-            message: I18n('entity is already in list')
-          }
+    addingAnElement = _addUriAsElement(listingId, entity)
+  }
+
+  const _addUriAsElement = async (listingId, entity) => {
+    try {
+      const element = await addElement(listingId, entity.uri)
+      if (isNonEmptyArray(element.alreadyInList)) {
+        return flash = {
+          type: 'info',
+          message: i18n('This work is already in the list')
         }
-        entities = [ entity, ...entities ]
-      })
-      .catch(err => flash = err)
+      }
+      await addEntitiesImages([ entity ])
+      entities = [ entity, ...entities ]
+    } catch (err) {
+      flash = err
+    }
   }
 
   const fetchMore = async () => {
