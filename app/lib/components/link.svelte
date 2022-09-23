@@ -36,7 +36,7 @@
   {#if html}
     {@html html}
   {:else}
-    {text}
+    <span class="link-text">{text}</span>
   {/if}
 </a>
 

@@ -1,123 +1,16 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import preq from '#lib/preq'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { i18n } from '#user/lib/i18n'
+  import { icon } from '#lib/utils'
   import Dropdown from '#components/dropdown.svelte'
-  import { getWikidataUrl, getWikidataHistoryUrl } from '#entities/lib/entities'
-  import Link from '#lib/components/link.svelte'
-  import { icon as iconFn } from '#lib/handlebars_helpers/icons'
   import { screen } from '#lib/components/stores/screen'
-  import Spinner from '#general/components/spinner.svelte'
-  import app from '#app/app'
+  import EntityLayoutActions from '#entities/components/layouts/entity_layout_actions.svelte'
 
   export let entity
-
-  let waitForEntityRefresh
-
-  const { uri, type } = entity
-
-  const refreshEntity = async () => {
-    waitForEntityRefresh = preq.get(app.API.entities.getByUris(uri, true))
-    const { entities } = await waitForEntityRefresh
-    entity = Object.values(entities)[0]
-    // Let other components now that a refresh was requested
-    entity.refreshTimestamp = Date.now()
-  }
-
-  const wikidataUrl = getWikidataUrl(uri)
-  const wikidataHistoryUrl = getWikidataHistoryUrl(uri)
-
-  const edit = async () => app.execute('show:entity:edit', uri)
-  const history = async () => app.execute('show:entity:history', uri)
 </script>
 
 {#if $screen.isLargerThan('$small-screen')}
   <ul class="large-screen-actions">
-    <li>
-      <a
-        class="action"
-        href={`/entity/${uri}/edit`}
-        on:click={loadInternalLink}
-        title={i18n('Edit bibliographical info')}
-      >
-        {@html iconFn('pencil')}
-      </a>
-    </li>
-    {#if wikidataUrl}
-      <li>
-        <a
-          class="action"
-          target="_blank"
-          rel="noopener"
-          href={wikidataUrl}
-          title={I18n('see_on_website', { website: 'wikidata.org' })}
-        >
-          {@html iconFn('wikidata')}
-        </a>
-      </li>
-      <li
-      >
-        <div
-          on:click={refreshEntity}
-          class="action"
-          title={I18n('refresh Wikidata data')}
-        >
-          {#await waitForEntityRefresh}
-            <Spinner />
-          {:then}
-            {@html iconFn('refresh')}
-          {/await}
-        </div>
-      </li>
-      <li>
-        <a
-          class="action"
-          target="_blank"
-          rel="noopener"
-          href={wikidataHistoryUrl}
-          title={i18n('Entity history')}
-        >
-          {@html iconFn('history')}
-        </a>
-      </li>
-    {:else}
-      <li>
-        <a
-          class="action"
-          href={`/entity/${uri}/history`}
-          on:click={loadInternalLink}
-          title={i18n('Entity history')}
-        >
-          {@html iconFn('history')}
-        </a>
-      </li>
-    {/if}
-    {#if app.user.hasDataadminAccess}
-      {#if type === 'works'}
-        <li>
-          <a
-            class="action"
-            href={`/entity/${uri}/deduplicate`}
-            on:click={loadInternalLink}
-            title={i18n('Deduplicate sub-entities')}
-          >
-            {@html iconFn('compress')}
-          </a>
-        </li>
-      {/if}
-      {#if type === 'series'}
-        <li>
-          <a
-            class="action"
-            href={`/entity/${uri}/cleanup`}
-            on:click={loadInternalLink}
-            title={i18n('Cleanup entity')}
-          >
-            {@html iconFn('arrows')}
-          </a>
-        </li>
-      {/if}
-    {/if}
+    <EntityLayoutActions bind:entity />
   </ul>
 {:else}
   <div class="small-screen-actions">
@@ -130,77 +23,7 @@
         {@html icon('cog')}
       </div>
       <ul slot="dropdown-content">
-        <li
-          class="dropdown-element"
-          on:click={edit}
-        >
-          <Link
-            url={`/entity/${uri}/edit`}
-            text={i18n('Edit bibliographical info')}
-            icon='pencil'
-          />
-        </li>
-        {#if wikidataUrl}
-          <li class="dropdown-element">
-            <Link
-              url={wikidataUrl}
-              text={I18n('see_on_website', { website: 'wikidata.org' })}
-              icon='wikidata'
-            />
-          </li>
-          <li
-            class="dropdown-element"
-            on:click={refreshEntity}
-          >
-            {#await waitForEntityRefresh}
-              <Spinner />
-            {:then}
-              {@html iconFn('refresh')}
-            {/await}
-            {I18n('refresh Wikidata data')}
-          </li>
-          <li
-            class="dropdown-element"
-            on:click={history}
-          >
-            <Link
-              url={wikidataHistoryUrl}
-              text={I18n('entity history')}
-              icon='history'
-            />
-          </li>
-        {:else}
-          <li
-            class="dropdown-element"
-            on:click={history}
-          >
-            <Link
-              url={`/entity/${uri}/history`}
-              text={I18n('entity history')}
-              icon='history'
-            />
-          </li>
-        {/if}
-        {#if app.user.hasDataadminAccess}
-          {#if type === 'works'}
-            <li>
-              <Link
-                url={`/entity/${uri}/deduplicate`}
-                text={i18n('Deduplicate sub-entities')}
-                icon='compress'
-              />
-            </li>
-          {/if}
-          {#if type === 'series'}
-            <li>
-              <Link
-                url={`/entity/${uri}/cleanup`}
-                text={i18n('Cleanup entity')}
-                icon='arrows'
-              />
-            </li>
-          {/if}
-        {/if}
+        <EntityLayoutActions bind:entity />
       </ul>
     </Dropdown>
   </div>
@@ -211,22 +34,22 @@
   @import '#general/scss/utils';
   .large-screen-actions{
     @include display-flex(row, flex-end);
-    .action{
+    :global(a), :global(button){
       @include display-flex(row, center);
       @include tiny-button($off-white);
       height: 1.5em;
-      cursor: pointer;
       padding: 1.2em 1em;
       margin: 0.5em;
-      :global(.fa){
-        color: grey;
-        font-size: 1.4rem;
-      }
+    }
+    :global(.fa){
+      color: grey;
+      font-size: 1.4rem;
+    }
+    :global(.link-text), :global(.button-text){
+      display: none;
     }
   }
   .small-screen-actions{
-    right: 0;
-    @include display-flex(column, flex-end);
     :global(.dropdown-button){
       @include tiny-button($grey);
       padding: 0.5em;
@@ -239,18 +62,21 @@
     // z-index known cases: items map
     z-index: 1;
     position: relative;
-    li{
-      @include bg-hover(white, 10%);
-      @include display-flex(row, center, flex-start);
-      min-height: 3em;
-      cursor:pointer;
-      padding: 0 1em;
+    :global(li){
+      @include display-flex(row, stretch, flex-start);
       &:not(:last-child){
         margin-bottom: 0.2em;
       }
-      :global(.error){
-        flex: 1;
-      }
+    }
+    :global(a), :global(button){
+      flex: 1;
+      @include display-flex(row, center, flex-start);
+      min-height: 3em;
+      @include bg-hover(white, 10%);
+      padding: 0 1em;
+    }
+    :global(.fa){
+      margin-right: 0.5rem;
     }
   }
 </style>
