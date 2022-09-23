@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { apiDoc } from '#lib/urls'
   import app from '#app/app'
@@ -12,7 +12,7 @@
   <fieldset>
     <h2 class="first-title">{I18n('data exports')}</h2>
 
-    <h3>{I18n('inventory')}</h3>
+    <h3>{i18n('Inventory')}</h3>
     <p class="note">{I18n('download your inventory and its associated data (authors, works, publishers, etc.)')}</p>
     <a class="light-blue-button" href="{csvExportUrl}" download="inventory.csv">{I18n('download CSV')}</a>
     <a class="light-blue-button" href="{inventoryJsonUrl}" download="inventory.json">{I18n('download JSON')}</a>
@@ -22,7 +22,7 @@
     <a class="light-blue-button" href="/api/user" download="profile.json">{I18n('download JSON')}</a>
   </fieldset>
   <fieldset>
-    <h2>{I18n('API')}</h2>
+    <h2>{i18n('API')}</h2>
     <a href="{apiDoc}" target="_blank" class="link">{I18n('check the documentation')} {@html icon('link')}</a>
   </fieldset>
 </form>
