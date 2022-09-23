@@ -44,6 +44,7 @@
   <li>
     <button
       on:click={refreshEntity}
+      title="{I18n('refresh Wikidata data')}"
     >
       {#await waitForEntityRefresh}
         <Spinner />

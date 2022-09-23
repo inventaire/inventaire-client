@@ -11,6 +11,8 @@
     rel = 'noopener'
   }
 
+  if (text && !title) title = text
+
   function onClick (e) {
     e.stopPropagation()
     if (!(isExternalLink || isOpenedOutside(e))) {
