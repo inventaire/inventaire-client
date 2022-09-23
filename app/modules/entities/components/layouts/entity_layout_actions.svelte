@@ -1,7 +1,7 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import preq from '#lib/preq'
-  import { getWikidataUrl, getWikidataHistoryUrl } from '#entities/lib/entities'
+  import { getWikidataUrl, getWikidataHistoryUrl, serializeEntity } from '#entities/lib/entities'
   import Link from '#lib/components/link.svelte'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
   import Spinner from '#general/components/spinner.svelte'
@@ -16,7 +16,7 @@
   const refreshEntity = async () => {
     waitForEntityRefresh = preq.get(app.API.entities.getByUris(uri, true))
     const { entities } = await waitForEntityRefresh
-    entity = Object.values(entities)[0]
+    entity = serializeEntity(Object.values(entities)[0])
     // Let other components now that a refresh was requested
     entity.refreshTimestamp = Date.now()
   }
