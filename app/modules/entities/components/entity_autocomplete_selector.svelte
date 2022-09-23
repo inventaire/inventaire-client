@@ -80,6 +80,7 @@
       if (searchText === lastSearch) {
         suggestions = suggestions.concat(getNewSuggestions(res.results))
         showSuggestions = true
+        setTimeout(scrollToSuggestionsDropdownIfNeeded, 50)
         canFetchMore = res.continue != null
       }
     } catch (err) {
@@ -164,6 +165,15 @@
   }
 
   $: if (showDefaultSuggestions && searchText === '') fetchDefaultSuggestions()
+
+  let autocompleteDropdownEl
+  function scrollToSuggestionsDropdownIfNeeded () {
+    if (!autocompleteDropdownEl) return
+    const dropdownRect = autocompleteDropdownEl.getBoundingClientRect()
+    if (dropdownRect.bottom > window.visualViewport.height) {
+      autocompleteDropdownEl.scrollIntoView({ block: 'end', inline: 'nearest', behavior: 'smooth' })
+    }
+  }
 </script>
 
 <div class="input-group">
@@ -185,7 +195,7 @@
     {/if}
   </div>
   {#if showSuggestions && (searchText !== '' || suggestions.length > 0)}
-    <div class="autocomplete">
+    <div class="autocomplete" bind:this={autocompleteDropdownEl}>
       <div class="suggestions-wrapper" on:scroll={onSuggestionsScroll} bind:this={scrollableElement}>
         <ul class="suggestions">
           {#each suggestions as suggestion, i (suggestion.uri)}
