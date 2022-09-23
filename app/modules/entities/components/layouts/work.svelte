@@ -188,9 +188,6 @@
       margin-right: 1em;
     }
   }
-  .entity-image{
-    margin-right: 1em;
-  }
   .no-edition{
     flex: none;
     width: 15em;
