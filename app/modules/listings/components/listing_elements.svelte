@@ -69,7 +69,6 @@
           message: i18n('This work is already in the list')
         }
       }
-      await addEntitiesImages([ entity ])
       entities = [ entity, ...entities ]
     } catch (err) {
       flash = err
