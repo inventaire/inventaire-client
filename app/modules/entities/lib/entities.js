@@ -36,6 +36,7 @@ export const getEntitiesByUris = async params => {
   let uris, attributes, lang, index = false
   if (_.isArray(params)) uris = params
   else ({ uris, index, attributes, lang } = params)
+  uris = forceArray(uris)
   if (uris.length === 0) return []
   const { entities } = await getManyEntities({ uris, attributes, lang })
   const serializedEntities = Object.values(entities).map(serializeEntity)
