@@ -112,7 +112,6 @@
     showSuggestions = false
   }
 
-  // TODO: fix scroll
   function onSuggestionsScroll (e) {
     const { scrollTop, scrollTopMax } = e.currentTarget
     if (scrollTopMax < 100) return
