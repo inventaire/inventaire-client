@@ -72,7 +72,7 @@
 {/if}
 
 {#if app.user.hasDataadminAccess}
-  {#if type === 'works'}
+  {#if type === 'human'}
     <li>
       <Link
         url={`/entity/${uri}/deduplicate`}
@@ -81,7 +81,7 @@
       />
     </li>
   {/if}
-  {#if type === 'series'}
+  {#if type === 'serie'}
     <li>
       <Link
         url={`/entity/${uri}/cleanup`}
