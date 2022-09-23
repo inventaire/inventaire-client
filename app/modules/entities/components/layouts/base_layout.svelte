@@ -162,7 +162,6 @@
   }
   .entity-wrapper{
     @include display-flex(column, flex-start);
-    margin-bottom: 2em;
   }
   .entity-data-wrapper{
     @include display-flex(column, center);

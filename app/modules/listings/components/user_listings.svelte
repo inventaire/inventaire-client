@@ -67,7 +67,6 @@
   @import '#general/scss/utils';
   .user-listings{
     margin: 0 auto;
-    max-width: 60em;
     padding: 0.5em;
   }
   .controls{
