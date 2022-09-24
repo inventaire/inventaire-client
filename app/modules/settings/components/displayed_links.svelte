@@ -1,13 +1,29 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { linksClaimsPropertiesByCategory } from '#entities/lib/entity_links'
+  import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
   import { onChange } from '#lib/svelte/svelte'
   import Flash from '#lib/components/flash.svelte'
   import { debounce } from 'underscore'
 
   export let linksSettings = app.user.get('customProperties') || []
+  export let entityType
 
-  const { bibliographicDatabases, socialNetworks } = linksClaimsPropertiesByCategory
+  const typeProperties = Object.keys(propertiesPerType[entityType])
+
+  let linksClaimsPropertiesByCategoryAndType = linksClaimsPropertiesByCategory
+
+  const isTypeProperty = propertyData => typeProperties.includes(propertyData.property)
+
+  const filterLinksByEntityType = () => {
+    for (const [ category, propertiesData ] of Object.entries(linksClaimsPropertiesByCategory)) {
+      linksClaimsPropertiesByCategoryAndType[category] = propertiesData.filter(isTypeProperty)
+    }
+  }
+
+  if (entityType) filterLinksByEntityType()
+
+  const { bibliographicDatabases, socialNetworks } = linksClaimsPropertiesByCategoryAndType
 
   let flash
 
@@ -36,6 +52,7 @@
     </label>
   {/each}
 </fieldset>
+
 <fieldset>
   <legend>{I18n('social networks')}</legend>
   {#each socialNetworks as option}

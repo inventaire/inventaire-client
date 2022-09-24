@@ -38,7 +38,7 @@
           {favoriteLabel}
         </a>
       </h2>
-      <p class="type">{I18n(entity.type)}</p>
+      <p class="type">{I18n(type)}</p>
       <p class="uri">{uri}</p>
     </div>
 
@@ -60,11 +60,11 @@
 
   <span>
     <button
-      class="add-props tiny-button soft-grey"
+      class="show-props-menu tiny-button soft-grey"
       on:click={() => showModal = true}
     >
       {@html icon('plus')}
-      {i18n('add more properties')}
+      {i18n('show more properties')}
     </button>
   </span>
 
@@ -72,8 +72,10 @@
     <Modal
       on:closeModal={() => showModal = false}
     >
+      <h3>{I18n('select_properties_to_edit', { entityType: type })}</h3>
       <DisplayedLinks
         bind:linksSettings={linksSettings}
+        entityType={type}
       />
     </Modal>
   {/if}
@@ -117,7 +119,10 @@
     @include display-flex(row, center, center);
     margin: 1em auto;
   }
-  .add-props{
+  h3{
+    margin-bottom: 1em;
+  }
+  .show-props-menu{
     margin: 1em;
   }
 
