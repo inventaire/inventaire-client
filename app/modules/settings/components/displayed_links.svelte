@@ -5,9 +5,10 @@
   import Flash from '#lib/components/flash.svelte'
   import { debounce } from 'underscore'
 
+  export let linksSettings = app.user.get('customProperties') || []
+
   const { bibliographicDatabases, socialNetworks } = linksClaimsPropertiesByCategory
 
-  let linksSettings = app.user.get('customProperties') || []
   let flash
 
   async function updateCustomProperties () {

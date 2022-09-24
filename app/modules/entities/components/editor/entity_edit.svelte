@@ -8,6 +8,8 @@
   import EntityEditMenu from './entity_edit_menu.svelte'
   import PropertyCategory from '#entities/components/editor/property_category.svelte'
   import { typesPossessiveForms } from '#entities/lib/types/entities_types'
+  import DisplayedLinks from '#settings/components/displayed_links.svelte'
+  import Modal from '#components/modal.svelte'
 
   export let entity
 
@@ -16,8 +18,9 @@
   const hasMonolingualTitle = typePropertiesPerCategory.general['wdt:P1476'] != null
   const goToEntityPageLabel = `Go to the ${typesPossessiveForms[type]} page`
 
-  let favoriteLabel
+  let favoriteLabel, linksSettings, showModal
 
+  $: customProperties = linksSettings || app.user.get('customProperties')
   $: {
     if (hasMonolingualTitle) {
       favoriteLabel = entity.claims['wdt:P1476']?.[0]
@@ -47,8 +50,33 @@
   {/if}
 
   {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
-    <PropertyCategory {entity} {category} {categoryProperties} />
+    <PropertyCategory
+      {entity}
+      {category}
+      {categoryProperties}
+      {customProperties}
+    />
   {/each}
+
+  <span>
+    <button
+      class="add-props tiny-button soft-grey"
+      on:click={() => showModal = true}
+    >
+      {@html icon('plus')}
+      {i18n('add more properties')}
+    </button>
+  </span>
+
+  {#if showModal}
+    <Modal
+      on:closeModal={() => showModal = false}
+    >
+      <DisplayedLinks
+        bind:linksSettings={linksSettings}
+      />
+    </Modal>
+  {/if}
 
   <div class="next">
     <a href="/entity/{uri}"
@@ -88,6 +116,9 @@
   .next{
     @include display-flex(row, center, center);
     margin: 1em auto;
+  }
+  .add-props{
+    margin: 1em;
   }
 
   /*Small screens*/
