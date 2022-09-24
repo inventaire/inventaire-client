@@ -3,15 +3,20 @@
   import { I18n } from '#user/lib/i18n'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
+  import { onChange } from '#lib/svelte/svelte'
 
-  export let entity, category, categoryProperties
+  export let entity, category, categoryProperties, customProperties
 
   const { label: categoryLabel } = (propertiesCategories[category] || {})
 
-  let showCategory
-  if (categoryLabel == null) showCategory = true
+  let showCategory, doesCategoryHaveActiveProperties
 
-  const customProperties = app.user.get('customProperties')
+  function getIfCategoryHasActiveProperties () {
+    if (!categoryLabel) return false
+    const categoryPropertiesList = Object.keys(categoryProperties)
+    const categoryCustomProperties = _.intersection(categoryPropertiesList, customProperties)
+    doesCategoryHaveActiveProperties = _.some(categoryCustomProperties)
+  }
 
   let scrollMarkerEl
 
@@ -29,20 +34,11 @@
     }
   }
 
-  function isDisplayingClaimEditor (property) {
-    if (!categoryLabel) return true
-    return customProperties.includes(property)
-  }
-
-  function isDisplayingCategoryTitle () {
-    if (!categoryLabel) return false
-    const categoryPropertiesList = Object.keys(categoryProperties)
-    const categoryCustomProperties = _.intersection(categoryPropertiesList, customProperties)
-    return _.some(categoryCustomProperties)
-  }
+  $: onChange(customProperties, getIfCategoryHasActiveProperties)
+  $: showCategory = (categoryLabel == null) || doesCategoryHaveActiveProperties
 </script>
 
-{#if isDisplayingCategoryTitle()}
+{#if doesCategoryHaveActiveProperties}
   <button
     aria-controls={id}
     class:active={showCategory}
@@ -57,7 +53,7 @@
 {#if showCategory}
   <div {id} class="category-properties">
     {#each Object.keys(categoryProperties) as property}
-      {#if isDisplayingClaimEditor(property)}
+      {#if !categoryLabel || customProperties.includes(property)}
         <PropertyClaimsEditor
           bind:entity
           {property}
