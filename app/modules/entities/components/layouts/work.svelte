@@ -7,7 +7,6 @@
   import { getPublishersUrisFromEditions, removeAuthorsClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
-  import EntityImage from '../entity_image.svelte'
   import Infobox from './infobox.svelte'
   import Ebooks from './ebooks.svelte'
   import ItemsLists from './items_lists.svelte'
@@ -84,18 +83,10 @@
         <AuthorsInfo
           {claims}
         />
-        <div class="image-and-infobox">
-          {#if notOnlyP31}
-            <EntityImage
-              entity={entity}
-              size={192}
-            />
-            <Infobox
-              claims={infoboxClaims}
-              entityType={entity.type}
-            />
-          {/if}
-        </div>
+        <Infobox
+          claims={infoboxClaims}
+          entityType={entity.type}
+        />
         <Summary {entity} />
         <Ebooks
           {entity}
@@ -180,13 +171,6 @@
   .entity-layout{
     @include display-flex(column, center);
     width: 100%;
-  }
-  .image-and-infobox{
-    @include display-flex(row, flex-start);
-    margin-top: 1em;
-    :global(.entity-image){
-      margin-right: 1em;
-    }
   }
   .no-edition{
     flex: none;
