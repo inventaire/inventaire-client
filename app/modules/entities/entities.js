@@ -50,7 +50,7 @@ const API = {
     if (refresh) app.execute('uriLabel:refresh')
 
     try {
-      const model = await getEntityModel(uri)
+      const model = await getEntityModel(uri, refresh)
       rejectRemovedPlaceholder(model)
       const { view, Component, props } = await getEntityViewByType(model, refresh)
       if (Component) {

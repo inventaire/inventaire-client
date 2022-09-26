@@ -18,6 +18,8 @@
 
   let favoriteLabel
 
+  const showRefreshedEntity = () => app.execute('show:entity', uri, { refresh: true })
+
   $: {
     if (hasMonolingualTitle) {
       favoriteLabel = entity.claims['wdt:P1476']?.[0]
@@ -53,7 +55,7 @@
   <div class="next">
     <button
       class="light-blue-button"
-      on:click={() => app.execute('show:entity', uri)}
+      on:click={showRefreshedEntity}
       >
       {@html icon('arrow-right')}
       {i18n(goToEntityPageLabel)}
