@@ -53,9 +53,7 @@
         dark=true
       />
       {#if subtitle}
-        <div class="subtitle">
-          {subtitle}
-        </div>
+        <span class="subtitle">{subtitle}</span>
       {/if}
     </div>
     {#if displayUri}
@@ -103,11 +101,15 @@
     margin-bottom: 1em
   }
   .entity-title{
-    font-size: 1.1em;
+    font-size: 1.1rem;
+    line-height: 1.2rem;
+    max-height: 2.4rem;
+    margin-bottom: 0.4rem;
+    overflow: hidden;
   }
   .subtitle{
     line-height: 1rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: $label-grey;
   }
   .cover{
