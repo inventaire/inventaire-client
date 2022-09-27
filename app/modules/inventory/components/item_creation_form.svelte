@@ -28,6 +28,7 @@
 
   async function createItem () {
     app.execute('last:shelves:set', shelvesIds)
+    app.request('last:transaction:set', transaction)
     await app.request('item:create', {
       entity: uri,
       transaction,
