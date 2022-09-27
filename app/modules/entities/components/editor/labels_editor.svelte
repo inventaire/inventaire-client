@@ -48,6 +48,7 @@
     triggerEntityRefresh()
     editMode = false
     if (creationMode) return
+    app.execute('invalidate:entities:cache', uri)
     preq.put(app.API.entities.labels.update, { uri, lang: currentLang, value })
     .catch(err => {
       editMode = true

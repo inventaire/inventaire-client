@@ -61,6 +61,7 @@
       dispatch('set', inputValue)
       if (savedValue === inputValue) return
       if (!creationMode) {
+        app.execute('invalidate:entities:cache', uri)
         await preq.put(app.API.entities.claims.update, {
           uri: updateUri,
           property,
