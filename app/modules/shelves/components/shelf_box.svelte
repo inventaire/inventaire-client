@@ -3,14 +3,21 @@
   import { icon } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { serializeShelfData } from './lib/shelves'
+  import ShelfEditor from '#shelves/components/shelf_editor.svelte'
+  import Modal from '#components/modal.svelte'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let shelf, withoutShelf
 
   let itemsCount
 
-  const { name, description, picture, iconData, iconLabel, isEditable } = serializeShelfData(shelf, withoutShelf)
+  let name, description, picture, iconData, iconLabel, isEditable
+  function refreshData () {
+    ;({ name, description, picture, iconData, iconLabel, isEditable } = serializeShelfData(shelf, withoutShelf))
+  }
+  $: onChange(shelf, refreshData)
 
-  const showShelfEditor = () => app.execute('show:shelf:editor', shelf)
+  let showShelfEditor = false
   const addItems = () => app.execute('add:items:to:shelf', shelf)
   const closeShelf = () => app.vent.trigger('close:shelf')
 </script>
@@ -60,7 +67,7 @@
         {#if isEditable}
           <button
             class="show-shelf-edit tiny-button light-blue"
-            on:click={showShelfEditor}
+            on:click={() => showShelfEditor = true}
             >
             {@html icon('pencil')}
             {I18n('edit shelf')}
@@ -77,6 +84,18 @@
     </div>
   </div>
 </div>
+
+{#if showShelfEditor}
+  <Modal
+    on:closeModal={() => showShelfEditor = false}
+  >
+    <ShelfEditor
+      bind:shelf
+      inGlobalModal={false}
+      on:shelfEditorDone={() => showShelfEditor = false}
+    />
+  </Modal>
+{/if}
 
 <style lang="scss">
   @import '#general/scss/utils';

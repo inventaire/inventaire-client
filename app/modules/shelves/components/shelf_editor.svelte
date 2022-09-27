@@ -8,10 +8,12 @@
   import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
   import Spinner from '#components/spinner.svelte'
   import { wait } from '#lib/promises'
+  import { createEventDispatcher } from 'svelte'
 
-  export let shelf = {}, model = null
+  export let shelf = {}, model = null, inGlobalModal = true
 
-  app.execute('modal:open')
+  if (inGlobalModal) app.execute('modal:open')
+  const dispatch = createEventDispatcher()
 
   let isNewShelf = !shelf._id
 
@@ -33,11 +35,16 @@
       } else {
         waiting = updateShelf({ shelf: shelf._id, name, description, visibility, color })
         await waiting
-        model.set({ name, description, visibility, color })
+        if (model) {
+          model.set({ name, description, visibility, color })
+        } else {
+          shelf = Object.assign(shelf, { name, description, visibility, color })
+        }
       }
       flash = { type: 'success', message: I18n('saved') }
       await wait(800)
-      app.execute('modal:close')
+      dispatch('shelfEditorDone')
+      if (inGlobalModal) app.execute('modal:close')
     } catch (err) {
       flash = err
     }
@@ -55,7 +62,7 @@
     await deleteShelf({ ids: shelf._id })
     app.user.trigger('shelves:change', 'removeShelf')
     app.execute('show:inventory:main:user')
-    app.execute('modal:close')
+    if (inGlobalModal) app.execute('modal:close')
   }
 </script>
 
