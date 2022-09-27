@@ -87,7 +87,7 @@ const specificMethods = {
   async fetchSubEntities () {}
 }
 
-const isWorkModel = workModel => workModel.get('type') === 'works'
+const isWorkModel = workModel => workModel.get('type') === 'work'
 
 // Editions inherit some claims from their work but not all, as it could get confusing.
 // Ex: publication date should not be inherited
