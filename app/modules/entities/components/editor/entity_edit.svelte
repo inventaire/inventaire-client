@@ -18,8 +18,6 @@
 
   let favoriteLabel
 
-  const showRefreshedEntity = () => app.execute('show:entity', uri, { refresh: true })
-
   $: {
     if (hasMonolingualTitle) {
       favoriteLabel = entity.claims['wdt:P1476']?.[0]
@@ -33,7 +31,7 @@
   <div class="header">
     <div class="header-main">
       <h2>
-        <a href="/entity/{uri}" on:click|stopPropagation={loadInternalLink}>
+        <a href="/entity/{uri}" on:click={loadInternalLink}>
           {favoriteLabel}
         </a>
       </h2>
@@ -53,13 +51,13 @@
   {/each}
 
   <div class="next">
-    <button
+    <a href="/entity/{uri}"
+      on:click={loadInternalLink}
       class="light-blue-button"
-      on:click={showRefreshedEntity}
-      >
+    >
       {@html icon('arrow-right')}
       {i18n(goToEntityPageLabel)}
-    </button>
+    </a>
   </div>
 </div>
 
