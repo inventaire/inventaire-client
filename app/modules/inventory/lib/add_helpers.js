@@ -2,10 +2,21 @@ import { localStorageProxy } from '#lib/local_storage'
 import assert_ from '#lib/assert_types'
 
 const set = localStorageProxy.setItem.bind(localStorageProxy)
+const SetArray = key => array => {
+  assert_.strings(array)
+  return set(key, JSON.stringify(array))
+}
+
 const parsedGet = function (key) {
   const value = localStorageProxy.getItem(key)
   if (value === 'null') return null
   return value
+}
+
+const GetArray = key => () => {
+  const array = parsedGet(key)
+  if (array != null) return JSON.parse(array)
+  else return []
 }
 
 export default function () {
@@ -14,27 +25,15 @@ export default function () {
     'last:add:mode:set': set.bind(null, 'lastAddMode'),
     // 'inventorying', 'giving', 'lending', 'selling'
     'last:transaction:set': set.bind(null, 'lastTransaction'),
-    // 'private', 'network', 'groups'
-    'last:listing:set': set.bind(null, 'lastListing'),
-    'last:shelves:set' (shelves = []) {
-      assert_.strings(shelves)
-      return set('lastShelves', JSON.stringify(shelves))
-    }
+    // An array of visibility keys
+    'last:visibility:set': SetArray('lastVisbility'),
+    'last:shelves:set': SetArray('lastShelves'),
   })
 
   app.reqres.setHandlers({
     'last:add:mode:get': parsedGet.bind(null, 'lastAddMode'),
     'last:transaction:get': parsedGet.bind(null, 'lastTransaction'),
-    'last:listing:get' () {
-      const lastListing = parsedGet('lastListing')
-      // Legacy support for friends listing
-      if (lastListing === 'friends') return 'network'
-      else return lastListing
-    },
-    'last:shelves:get' () {
-      const shelves = parsedGet('lastShelves')
-      if (shelves != null) return JSON.parse(shelves)
-      else return []
-    }
+    'last:visibility:get': GetArray('lastVisbility'),
+    'last:shelves:get': GetArray('lastShelves'),
   })
 }

@@ -16,6 +16,8 @@ export const createItemFromCandidate = async ({ candidate, transaction, visibili
 export const createItem = async (edition, details, notes, transaction, visibility, shelves) => {
   if (!edition?.uri) return
   const { uri: editionUri } = edition
+  app.request('last:transaction:set', transaction)
+  app.execute('last:visibility:set', visibility)
   const itemData = {
     transaction,
     visibility,

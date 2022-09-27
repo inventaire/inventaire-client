@@ -5,11 +5,14 @@
   import { getGroupVisibilityKey, isNotGroupVisibilityKey, commonVisibilityKeys } from '#general/lib/visibility'
   import { onChange } from '#lib/svelte/svelte'
   import InfoTip from '#components/info_tip.svelte'
+  import { guessInitialVisibility } from '#inventory/components/lib/item_creation_helpers'
 
-  export let visibility = []
+  export let visibility
   export let maxHeight = '25em'
   export let showDescription = false
   export let showTip = false
+
+  visibility = guessInitialVisibility(visibility)
 
   // Needs to be above reactive call to initCheckedGroupKeys
   $: allGroupsVisibilityKeys = $userGroups.map(getGroupVisibilityKey)
