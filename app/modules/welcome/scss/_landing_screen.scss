@@ -59,11 +59,13 @@ section#landingScreen{
   }
   #loginButtons{
     @include display-flex(row, center, center, wrap);
-    @include radius-horizontal-group;
     .button{
       font-weight: bold;
       min-width: 10em;
+      // Reset radius
+      @include radius(0);
     }
+    @include radius-horizontal-group;
   }
   // < compensation for Safari bad flex support
   .name{
