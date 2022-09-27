@@ -1,19 +1,19 @@
 import writeSitemap from './write_sitemap.js'
 import fs from 'fs'
-import { publicPath, folder, index } from './config.js'
+import { folderPath, index } from './config.js'
 const exclude = [ index ]
 
-export default function () {
-  const path = `${folder}/${index}`
+export function generateIndex () {
+  const path = `./${folderPath}/${index}`
   return writeSitemap(path, generate())
 }
 
 const generate = () => wrapIndex(getList().map(buildSitemapNode))
 
-const getList = () => fs.readdirSync(folder).filter(file => !exclude.includes(file))
+const getList = () => fs.readdirSync(`./${folderPath}`).filter(file => !exclude.includes(file))
 
 const buildSitemapNode = function (filename) {
-  const url = `https://inventaire.io/${publicPath}/${filename}`
+  const url = `https://inventaire.io/${folderPath}/${filename}`
   return `<sitemap><loc>${url}</loc></sitemap>`
 }
 

@@ -1,25 +1,20 @@
-import { folder } from './config.js'
+import { folderPath } from './config.js'
 import { exec } from 'child_process'
 import chalk from 'tiny-chalk'
 import fs from 'fs'
 
 const { grey, green } = chalk
-const ls = dir => console.log(fs.readdirSync(dir))
 const cp = (orignal, copy) => fs.createReadStream(orignal).pipe(fs.createWriteStream(copy))
 
 const { stderr } = process
 
-export default {
-  rmFiles () {
-    if (folder.trim() === '') throw new Error('missing folder')
-    exec(`rm -f ./${folder}/*`).stderr.pipe(stderr)
-    return console.log(grey('removed old files'))
-  },
-  generateMainSitemap () {
-    cp('scripts/sitemaps/main.xml', `${folder}/main.xml`)
-    return console.log(green('copied main.xml'))
-  },
+export function rmFiles () {
+  if (folderPath.trim() === '') throw new Error('missing folderPath')
+  exec(`rm -f ./${folderPath}/*`).stderr.pipe(stderr)
+  return console.log(grey('removed old files'))
+}
 
-  ls,
-  cp
+export function generateMainSitemap () {
+  cp('scripts/sitemaps/main.xml', `./${folderPath}/main.xml`)
+  return console.log(green('copied main.xml'))
 }

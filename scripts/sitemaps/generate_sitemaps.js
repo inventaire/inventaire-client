@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 import writeSitemap from './write_sitemap.js'
-import { folder } from './config.js'
+import { folderPath } from './config.js'
 import chalk from 'tiny-chalk'
 import wdk from 'wikidata-sdk'
 import queries from './queries.js'
@@ -8,7 +8,7 @@ import wrapUrls from './wrap_urls.js'
 
 const { green } = chalk
 
-export default function () {
+export function generateSitemaps () {
   const queriesNames = Object.keys(queries)
 
   // Generating sequentially to prevent overpassing Wikidata Query Service parallel request quota
@@ -69,4 +69,4 @@ const generateFile = part => {
 
 const buildUrlNode = id => `<url><loc>https://inventaire.io/entity/wd:${id}</loc></url>`
 
-const getFilePath = (name, index) => `${folder}/${name}-${index}.xml`
+const getFilePath = (name, index) => `./${folderPath}/${name}-${index}.xml`
