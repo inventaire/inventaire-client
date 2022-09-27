@@ -76,7 +76,7 @@
     <li>
       <Link
         url={`/entity/${uri}/deduplicate`}
-        text={I18n('deduplicate sub-entities')}
+        text={i18n('Deduplicate sub-entities')}
         icon='compress'
       />
     </li>
