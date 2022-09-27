@@ -141,7 +141,7 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .menu-wrapper{
-    $entity-edit-max-width: 50em;
+    $entity-edit-max-width: 40em;
     /*Small screens*/
     @media screen and (max-width: $entity-edit-max-width) {
       margin-right: 0.5em;
