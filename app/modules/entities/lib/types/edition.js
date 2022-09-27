@@ -2,7 +2,7 @@ import { unprefixify } from '#lib/wikimedia/wikidata'
 import wdLang from 'wikidata-lang'
 import getEntityItemsByCategories from '../get_entity_items_by_categories.js'
 import error_ from '#lib/error'
-import { tap } from '#lib/promises'
+import { partition } from 'underscore'
 const farInTheFuture = '2100'
 
 export default function () {
@@ -53,30 +53,41 @@ const specificMethods = {
     // cf https://github.com/inventaire/inventaire/issues/93
     const worksUris = this.get('claims.wdt:P629')
 
-    if (worksUris == null) {
-      if (this.creating) {
-        this.works = []
-        startListeningForClaimsChanges.call(this)
-        this.waitForWorks = Promise.resolve()
-      } else {
+    if (worksUris != null) {
+      this.waitForWorks = this._getWorks(worksUris)
+    } else {
+      if (!this.creating) {
         const uri = this.get('uri')
-        const err = error_.new('edition entity misses associated works (wdt:P629)', { uri })
-        this.waitForWorks = Promise.reject(err)
-        throw err
+        error_.report('edition entity misses associated works (wdt:P629)', { edition: uri })
       }
+      this.works = []
+      startListeningForClaimsChanges.call(this)
+      this.waitForWorks = Promise.resolve()
     }
+  },
 
-    this.waitForWorks = this.reqGrab('get:entities:models', { uris: worksUris }, 'works')
-      // Use tap to ignore the return values
-      .then(tap(inheritData.bind(this)))
-      // Got to be initialized after inheritData is run to avoid running
-      // several times at initialization
-      .then(tap(startListeningForClaimsChanges.bind(this)))
+  async _getWorks (worksUris) {
+    let works = await this.reqGrab('get:entities:models', { uris: worksUris }, 'works')
+    // Filter-out entities that are not typed as works. Typically editions wrongly used as P629 values in Wikidata,
+    // or Wikidata works that have had their P31 changed to be an edition
+    const [ confirmedWorks, nonWorks ] = partition(works, isWorkModel)
+    works = confirmedWorks
+    if (nonWorks.length > 0) {
+      const nonWorksUris = nonWorks.map(entity => entity.get('uri'))
+      error_.report('non-works entities used as P629', { edition: this.get('uri'), nonWorksUris })
+    }
+    inheritData.call(this, works)
+    // Got to be initialized after inheritData is run to avoid running
+    // several times at initialization
+    startListeningForClaimsChanges.call(this)
+    return works
   },
 
   // Editions don't have subentities
   async fetchSubEntities () {}
 }
+
+const isWorkModel = workModel => workModel.get('type') === 'works'
 
 // Editions inherit some claims from their work but not all, as it could get confusing.
 // Ex: publication date should not be inherited

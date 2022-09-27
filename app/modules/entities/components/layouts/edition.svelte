@@ -22,7 +22,7 @@
 
   const claimsWithWorksClaims = _.pick(claims, filterClaims)
 
-  const firstWorkUri = works[0].uri
+  const firstWorkUri = works[0]?.uri
 
   async function showMapAndScrollToMap () {
     showMap = true
@@ -73,10 +73,12 @@
       />
     </div>
     <div class="bottom-section">
-      <OtherEditions
-        currentEdition={entity}
-        workUri={firstWorkUri}
-      />
+      {#if firstWorkUri}
+        <OtherEditions
+          currentEdition={entity}
+          workUri={firstWorkUri}
+        />
+      {/if}
     </div>
   </div>
 </BaseLayout>
