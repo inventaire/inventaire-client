@@ -2,10 +2,10 @@
 import chalk from 'tiny-chalk'
 import { generateSitemaps } from './generate_sitemaps.js'
 import { generateIndex } from './generate_index.js'
-import { rmFiles, generateMainSitemap } from './files_commands.js'
+import { rmFiles, generateMainSitemap, mkdirp } from './files_commands.js'
 
 rmFiles()
-
+mkdirp()
 generateMainSitemap()
 
 generateSitemaps()

@@ -18,3 +18,8 @@ export function generateMainSitemap () {
   cp('scripts/sitemaps/main.xml', `./${folderPath}/main.xml`)
   return console.log(green('copied main.xml'))
 }
+
+export function mkdirp () {
+  fs.mkdirSync(`./${folderPath}`, { recursive: true })
+  return console.log(grey('created directory'))
+}
