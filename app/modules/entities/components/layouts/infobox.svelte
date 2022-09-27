@@ -90,7 +90,9 @@
           />
         {/if}
       {/each}
-      <EntityClaimsLinks claims={claims} />
+      {#if !shortlistOnly}
+        <EntityClaimsLinks claims={claims} />
+      {/if}
     </div>
     {#if displayToggler}
       <WrapToggler
