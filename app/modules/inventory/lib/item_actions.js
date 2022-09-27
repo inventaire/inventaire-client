@@ -72,7 +72,7 @@ export default {
       if (isModel(items[0])) {
         title = items[0].get('snapshot.entity:title')
       } else {
-        title = items[0].snapshot['entity:title']
+        title = items[0].snapshot?.['entity:title']
       }
       confirmationText = i18n('delete_item_confirmation', { title })
     } else {
