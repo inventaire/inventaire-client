@@ -4,13 +4,20 @@
   import Spinner from '#components/spinner.svelte'
   import { getShelvesByOwner } from '#shelves/lib/shelves'
   import ShelfInfo from '#inventory/components/shelf_info.svelte'
+  import { pluck } from 'underscore'
 
   export let shelvesIds
   export let showDescription = false
   let userShelves = []
 
   const waitForShelves = getShelvesByOwner(app.user.id)
-    .then(res => userShelves = res)
+    .then(res => {
+      userShelves = res
+      const userShelvesIds = pluck(userShelves, '_id')
+      // Filter-out any shelf that might have been deleted
+      // but passed as it was saved by `app.execute('last:shelves:set')`
+      shelvesIds = shelvesIds.filter(id => userShelvesIds.includes(id))
+    })
 </script>
 
 <fieldset>
