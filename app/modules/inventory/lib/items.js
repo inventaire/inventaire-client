@@ -52,8 +52,12 @@ export function serializeItem (item) {
 function findBestTitle (item) {
   const title = item.snapshot['entity:title']
   const transaction = item.transaction
-  const context = i18n(`${transaction}_personalized`, { username: item.user.username })
-  return `${title} - ${context}`
+  if (item.user) {
+    const context = i18n(`${transaction}_personalized`, { username: item.user.username })
+    return `${title} - ${context}`
+  } else {
+    return title
+  }
 }
 
 function hasActiveTransaction (itemId) {
