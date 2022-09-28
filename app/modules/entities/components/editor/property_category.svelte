@@ -5,7 +5,9 @@
   import { icon } from '#lib/handlebars_helpers/icons'
   import { onChange } from '#lib/svelte/svelte'
 
-  export let entity, category, categoryProperties, customProperties
+  export let entity, category, categoryProperties
+
+  const customProperties = app.user.get('customProperties')
 
   const { label: categoryLabel } = (propertiesCategories[category] || {})
 
