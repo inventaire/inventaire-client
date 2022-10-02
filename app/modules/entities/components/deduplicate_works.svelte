@@ -1,4 +1,5 @@
 <script>
+  import { i18n } from '#user/lib/i18n'
   import Spinner from '#general/components/spinner.svelte'
   import SelectableEntity from './selectable_entity.svelte'
   import DeduplicateControls from './deduplicate_controls.svelte'
@@ -17,13 +18,18 @@
   let wdDisplayLimit = 10
   let invDisplayLimit = 10
   let allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl, from, to
+  let loading
 
-  const waitForWorks = getAuthorWorksWithImagesAndCoauthors(author)
+  const waitForWorks = assignCantidates()
+
+  async function assignCantidates () {
+    return getAuthorWorksWithImagesAndCoauthors(author)
     .then(works => {
       allWorksByPrefix = spreadByPrefix(works)
       candidates = getWorksMergeCandidates(allWorksByPrefix.inv, allWorksByPrefix.wd)
       showNextProbableDuplicates()
     })
+  }
 
   function showNextProbableDuplicates () {
     index += 1
@@ -129,15 +135,24 @@
     showFullLists()
   }
 
+  async function resetCandidates () {
+    loading = true
+    wdWorks = []
+    invWorks = []
+    await assignCantidates()
+    index = -1
+    showNextProbableDuplicates()
+    loading = false
+  }
+
   const onEntitySelect = ({ detail: entity }) => {
     ({ from, to } = select(entity, from, to))
   }
 </script>
 
 <svelte:window bind:scrollY={windowScrollY} />
-
 {#await waitForWorks}
-  <p class="loading">Loading works... <Spinner/></p>
+  <p class="loading">{i18n('Loading works...')}<Spinner/></p>
 {:then}
   <div class="deduplicateWorks">
     <div class="wdWorks">
@@ -156,6 +171,10 @@
               on:select={onEntitySelect}
             />
           </li>
+        {:else}
+          {#if loading}
+            <p class="loading">{i18n('Loading works...')}<Spinner/></p>
+          {/if}
         {/each}
       </ul>
       {#if displayedWdWorks.length < wdWorks.length}
@@ -178,6 +197,10 @@
               on:select={onEntitySelect}
             />
           </li>
+        {:else}
+          {#if loading}
+            <p class="loading">{i18n('Loading works...')}<Spinner/></p>
+          {/if}
         {/each}
         {#if displayedInvWorks.length < invWorks.length}
           <p class="more" bind:this={invBottomEl}>Loading more...</p>
@@ -198,6 +221,7 @@
   on:next={next}
   on:filter={filter}
   on:skip={skipCandidates}
+  on:reset={resetCandidates}
   {merging}
 />
 
