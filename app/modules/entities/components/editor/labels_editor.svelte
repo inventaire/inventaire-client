@@ -88,7 +88,7 @@
 <div class="editor-section">
   <h3 class="editor-section-header">
     {#if hasName}
-      {I18n('name')}gd
+      {I18n('name')}
     {:else}
       {I18n('title')}
     {/if}
