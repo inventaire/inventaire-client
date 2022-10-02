@@ -12,7 +12,7 @@
   import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/editor/lib/editors_helpers'
   import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/components/editor/lib/title_tip'
 
-  export let entity, favoriteLabel, favoriteLabelLang
+  export let entity, favoriteLabel, favoriteLabelLang, inputLabel
   let editMode = false
   let input, flash
 
@@ -26,7 +26,10 @@
   let currentValue
   $: {
     currentValue = labels[currentLang]
-    if (currentValue == null) editMode = true
+    if (currentValue == null) {
+      editMode = true
+      if (inputLabel) currentValue = inputLabel
+    }
     if (favoriteLabelLang === currentLang) {
       favoriteLabel = currentValue
     }
