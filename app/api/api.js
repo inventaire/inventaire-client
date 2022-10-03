@@ -15,7 +15,7 @@ import search from './search.js'
 import shelves from './shelves.js'
 import tasks from './tasks.js'
 import users from './users.js'
-import { commitHash } from '#assets/js/build_metadata'
+import { i18nContentHash } from '#assets/js/build_metadata'
 
 export default {
   // /api endpoints
@@ -53,5 +53,5 @@ export default {
 
 const getBuster = () => {
   if (window.env === 'dev') return `?${Date.now()}`
-  else return `?${commitHash}`
+  else return `?${i18nContentHash}`
 }
