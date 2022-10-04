@@ -19,6 +19,7 @@
 
     if (event.key === 'm') dispatch('merge')
     else if (event.key === 'n') dispatch('next')
+    else if (event.key === 'r') dispatch('reset')
   }
 
   $: remainingCandidates = candidates && index + 1 <= candidates.length
@@ -60,8 +61,16 @@
     <div class="status">
       {#if remainingCandidates}
         <p>candidates: {index + 1} / {candidates.length}</p>
-        <button class="skip" on:click={() => dispatch('skip')}>{I18n('skip')}</button>
+        <button
+          class="skip"
+          on:click={() => dispatch('skip')}>{I18n('skip')}
+        </button>
       {/if}
+      <button
+        class="reset"
+        title="Shortkey: r"
+        on:click={() => dispatch('reset')}>{I18n('reset')}
+      </button>
     </div>
   </div>
   <div class="alerts">
