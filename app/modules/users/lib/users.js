@@ -1,19 +1,22 @@
+import { buildPath } from '#lib/location'
 import { images } from '#lib/urls'
 import { distanceBetween } from '#map/lib/geo'
 const { defaultAvatar } = images
 
 export function serializeUser (user) {
-  if (!user.picture) {
-    user.picture = defaultAvatar
-  }
-  if (app.user.has('position') && user.position) {
-    setDistance(user)
-  }
+  user.picture = getPicture(user)
+  setDistance(user)
   Object.assign(user, getUserPathnames(user.username))
   return user
 }
 
-function setDistance (user) {
+export function getPicture (user) {
+  return user.picture || defaultAvatar
+}
+
+export function setDistance (user) {
+  if (user.distanceFromMainUser != null) return
+  if (!(app.user.has('position') && user.position)) return
   const a = app.user.getCoords()
   const b = getCoords(user)
   const distance = distanceBetween(a, b)
@@ -49,4 +52,10 @@ export function getUserPathnames (username) {
     listingsPathname: `${base}/lists`,
     contributionsPathname: `${base}/contributions`,
   }
+}
+
+export function getPositionUrl (user) {
+  if (user.distanceFromMainUser == null) return
+  const [ lat, lng ] = user.position
+  return buildPath('/network/users/nearby', { lat, lng })
 }
