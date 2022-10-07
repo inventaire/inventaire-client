@@ -3,7 +3,7 @@ import usersHomeLayoutTemplate from '#users/views/templates/users_home_layout.hb
 import '#users/scss/users_home_layout.scss'
 import UsersHomeNav from '#users/views/users_home_nav.js'
 import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
-import UserProfile from '#users/views/user_profile.js'
+import UserProfile from '#users/components/user_profile.svelte'
 import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.svelte'
 import GroupProfile from '#users/views/group_profile.js'
 import ShelfBox from '#shelves/components/shelf_box.svelte'
@@ -202,7 +202,12 @@ export default Marionette.View.extend({
   },
 
   showUserProfile (userModel) {
-    this.showChildView('userProfile', new UserProfile({ model: userModel }))
+    const nonPrivate = false
+    this.showChildComponent('userProfile', UserProfile, {
+      props: {
+        user: userModel.serializeData(nonPrivate)
+      }
+    })
   },
 
   showInventoryOrListingNav (options) {
