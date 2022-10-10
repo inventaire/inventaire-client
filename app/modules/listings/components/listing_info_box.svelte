@@ -53,7 +53,7 @@
       {/if}
     </div>
     {#if description}
-      <p>{description}</p>
+      <p>{@html description}</p>
     {/if}
   </div>
   <div class="creator-row">
