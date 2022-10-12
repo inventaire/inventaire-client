@@ -28,6 +28,7 @@
       class:lending={currentTransaction.id === 'lending'}
       class:selling={currentTransaction.id === 'selling'}
       class:inventorying={currentTransaction.id === 'inventorying'}
+      title={i18n(currentTransaction.labelPersonalized, user)}
     >
       {@html icon(currentTransaction.icon)}
     </div>
@@ -39,6 +40,7 @@
       class:selling={currentTransaction.id === 'selling'}
       class:inventorying={currentTransaction.id === 'inventorying'}
       href={pathname}
+      title={i18n(currentTransaction.labelPersonalized, user)}
       on:click|stopPropagation={loadInternalLink}
       >
         {@html icon(currentTransaction.icon)}
