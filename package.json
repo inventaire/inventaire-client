@@ -80,6 +80,7 @@
     "p-timeout": "^4.1.0",
     "papaparse": "^4.6.3",
     "quagga": "^0.12.1",
+    "svelte": "^3.51.0",
     "svelte-bricks": "^0.1.7",
     "underscore": "^1.8.3",
     "wikidata-lang": "^2.0.11"
@@ -118,7 +119,6 @@
     "should": "^13.2.3",
     "sinon": "^1.17.3",
     "style-loader": "^2.0.0",
-    "svelte": "^3.48.0",
     "svelte-loader": "^3.1.2",
     "svelte-preprocess-sass": "^2.0.1",
     "svelte-reactive-preprocessor": "^0.8.2",
