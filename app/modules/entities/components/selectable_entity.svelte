@@ -5,6 +5,7 @@
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers.js'
   import { createEventDispatcher } from 'svelte'
   import Link from '#lib/components/link.svelte'
+  import getActionKey from '#lib/get_action_key'
 
   export let entity, from, to, filterPattern
 
@@ -16,6 +17,11 @@
   const aggregatedLabelsAndAliases = getAggregatedLabelsAndAliases(entity)
 
   const isNotLast = (array, index) => array.length > index + 1
+
+  function toggleZoomOnEnter (e) {
+    const key = getActionKey(e)
+    if (key === 'enter') zoom = !zoom
+  }
 </script>
 
 <button
@@ -29,6 +35,7 @@
       src="{zoom ? entity.image.large : entity.image.small}"
       alt="{entity.label} cover"
       on:click|stopPropagation={() => zoom = !zoom}
+      on:keyup={toggleZoomOnEnter}
     >
   {:else}
     <div class="no-image"></div>
@@ -38,8 +45,16 @@
       <Link url={`/entity/${entity.uri}`} text={entity.label} />
     </h3>
     <p class="description">{entity.description || ''}</p>
-    <p class="uri" on:click|stopPropagation>{entity.uri}</p>
-    <ul class="all-terms" on:click|stopPropagation>
+    <p
+      class="uri"
+      on:click|stopPropagation
+      on:keyup|stopPropagation
+    >{entity.uri}</p>
+    <ul
+      class="all-terms"
+      on:click|stopPropagation
+      on:keyup|stopPropagation
+    >
       {#each aggregatedLabelsAndAliases as termData (termData.term)}
         {#if filterPattern}
           {#if termData.term.match(filterPattern)}

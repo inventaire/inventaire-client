@@ -131,6 +131,7 @@
       role="menu"
       transition:slide={{ duration: transitionDuration }}
       on:click={onContentClick}
+      on:keydown
       >
       <slot name="dropdown-content" />
     </div>

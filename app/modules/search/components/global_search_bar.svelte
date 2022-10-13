@@ -137,6 +137,11 @@
     if (neutralizedKeys.has(key)) e.preventDefault()
   }
 
+  function hideOnEsc (e) {
+    const key = getActionKey(e)
+    if (key === 'esc') hideLiveSearch()
+  }
+
   const neutralizedKeys = new Set([ 'up', 'down', 'pageup', 'pagedown' ])
 
   const showLiveSearch = () => {
@@ -271,7 +276,7 @@
       {#if showResults}
         {#if results.length > 0}
           <div class="results">
-            <ul id="searchResults" on:click={hideLiveSearch} bind:this={searchResultsEl}>
+            <ul bind:this={searchResultsEl} >
               {#each results as result, index (result.id)}
                 <SearchResult {result} highlighted={index === highlightedResultIndex} />
               {/each}
@@ -316,7 +321,7 @@
       {/if}
       <Flash state={flash} />
     </div>
-    <div id="overlay" on:click={hideLiveSearch}></div>
+    <div id="overlay" on:click={hideLiveSearch} on:keydown={hideOnEsc}></div>
   {:else}
     <div class="search-icon">
       {@html icon('search')}

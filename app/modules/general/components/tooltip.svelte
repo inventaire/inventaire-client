@@ -2,7 +2,7 @@
   export let light = false
 </script>
 
-<div class="has-tooltip" tabindex="0">
+<div class="has-tooltip">
   <slot name="primary" />
 
   <div class="tooltip-outer">

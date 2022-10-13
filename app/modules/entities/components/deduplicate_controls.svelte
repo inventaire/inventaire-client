@@ -27,7 +27,7 @@
 
 <svelte:window on:keydown={handleKeydown}/>
 
-<div class="controls" tabindex="0" use:autofocus>
+<div class="controls" tabindex="-1" use:autofocus>
   <div class="buttons-wrapper">
     <div class="entity">
       {#if entity}<EntityPreview {entity} large={true}/>{/if}

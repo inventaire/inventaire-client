@@ -23,7 +23,7 @@
   on:click={close}
   on:keyup={onKeyUp}
   use:autofocus={{ refocusOnVisibilityChange: false }}
-  tabindex="0"
+  tabindex="-1"
 >
   <!-- stopPropagation so that only clicks on overlay trigger a close -->
   <div
@@ -31,6 +31,7 @@
     class:size-auto={size === 'auto'}
     class:size-medium={size === 'medium'}
     on:click|stopPropagation
+    on:keydown|stopPropagation
   >
     <div class="modal-inner"><slot /></div>
     <button

@@ -7,7 +7,10 @@
 
 <ul class="type-picker" role="listbox">
   {#each Object.entries(entityTypeNameBySingularType) as [ t, name ]}
-    <li role="option">
+    <li
+      role="option"
+      aria-selected={type === t}
+      >
       <button
         on:click={() => type = t}
         class:selected={type === t}
