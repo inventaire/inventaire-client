@@ -11,6 +11,7 @@
   import { updateRelationStatus } from '#users/lib/relations'
   import Spinner from '#components/spinner.svelte'
   import User from '#users/models/user'
+  import { screen } from '#lib/components/stores/screen'
 
   export let user
 
@@ -70,12 +71,11 @@
 </script>
 
 <div class="user-profile">
-  <div class="avatar-wrapper">
-    <img class="avatar" src={imgSrc(picture, 150, 150, true)} alt="{username} avatar">
-  </div>
-
-  <div class="info">
-    <div class="left">
+  <div class="user-card">
+    <div class="avatar-wrapper">
+      <img class="avatar" src={imgSrc(picture, 150, 150)} alt="{username} avatar">
+    </div>
+    <div class="info">
       <h2 class="username respect-case">{username}</h2>
       <ul class="data">
         {#if inventoryLength != null}
@@ -91,92 +91,100 @@
           </li>
         {/if}
       </ul>
-      {#if bio}
-        <span class="bio-wrapper">{@html userContent(bio)}</span>
+      {#if $screen.isLargerThan('$small-screen')}
+        {#if bio}
+          <p class="bio-wrapper">{@html userContent(bio)}</p>
+        {/if}
       {/if}
     </div>
+  </div>
 
-    <div class="profile-buttons">
-      {#if mainUser}
-        <a
-          class="editProfile action tiny-button light-blue"
-          href="/settings/profile"
-          on:click={loadInternalLink}
-        >
-          {@html icon('pencil')}
-          {I18n('edit profile')}
-        </a>
-        <a
-          class="addItems action tiny-button light-blue"
-          href="/add/scan" title={I18n('title_add_layout')}
-          on:click={loadInternalLink}
-        >
-          {@html icon('plus')} {I18n('add books')}
-        </a>
+  {#if $screen.isSmallerThan('$small-screen')}
+    {#if bio}
+      <p class="bio-wrapper">{@html userContent(bio)}</p>
+    {/if}
+  {/if}
+
+  <div class="profile-buttons">
+    {#if mainUser}
+      <a
+        class="editProfile action tiny-button light-blue"
+        href="/settings/profile"
+        on:click={loadInternalLink}
+      >
+        {@html icon('pencil')}
+        {I18n('edit profile')}
+      </a>
+      <a
+        class="addItems action tiny-button light-blue"
+        href="/add/scan" title={I18n('title_add_layout')}
+        on:click={loadInternalLink}
+      >
+        {@html icon('plus')} {I18n('add books')}
+      </a>
+      <button
+        class="action tiny-button light-blue"
+        on:click={() => showShelfCreator = true}
+      >
+        {@html icon('plus')}{I18n('create shelf')}
+      </button>
+    {:else}
+      {#if distanceFromMainUser}
         <button
-          class="action tiny-button light-blue"
-          on:click={() => showShelfCreator = true}
+          class="showUserOnMap tiny-button light-blue"
+          on:click={showUserOnMap}
         >
-          {@html icon('plus')}{I18n('create shelf')}
+          {@html icon('map-marker')}
+          <span class="label">
+            {i18n('km_away_from_you', { distance: distanceFromMainUser })}
+          </span>
         </button>
-      {:else}
-        {#if distanceFromMainUser}
+      {/if}
+      {#await waitingForUpdate}
+        <Spinner />
+      {:then}
+        {#if relationState === 'friends'}
           <button
-            class="showUserOnMap tiny-button light-blue"
-            on:click={showUserOnMap}
+            on:click={unfriend}
+            class="unfriend action tiny-button"
+            title={I18n('unfriend')}
           >
-            {@html icon('map-marker')}
-            <span class="label">
-              {i18n('km_away_from_you', { distance: distanceFromMainUser })}
-            </span>
+            {@html icon('minus')}<span class="label"> {I18n('unfriend')}</span>
+          </button>
+        {:else if relationState === 'userRequested'}
+          <button
+            on:click={cancelFriendRequest}
+            class="cancel action tiny-button"
+            title={I18n('cancel friend request')}
+          >
+            {@html icon('ban')}<span class="label"> {I18n('cancel request')}</span>
+          </button>
+        {:else if relationState === 'otherRequested'}
+          <button
+            on:click={acceptFriendRequest}
+            class="accept action tiny-button light-blue"
+            title={I18n('accept friend request')}
+          >
+            {@html icon('check')}<span class="label"> {I18n('confirm')}</span>
+          </button>
+          <button
+            on:click={discardFriendRequest}
+            class="discard action tiny-button"
+            title={I18n('discard friend request')}
+          >
+            {@html icon('minus')}<span class="label"> {I18n('decline')}</span>
+          </button>
+        {:else}
+          <button
+            on:click={sendFriendRequest}
+            class="request action tiny-button light-blue"
+            title={I18n('send friend request')}
+          >
+            {@html icon('plus')}<span class="label"> {I18n('add friend')}</span>
           </button>
         {/if}
-        {#await waitingForUpdate}
-          <Spinner />
-        {:then}
-          {#if relationState === 'friends'}
-            <button
-              on:click={unfriend}
-              class="unfriend action tiny-button"
-              title={I18n('unfriend')}
-            >
-              {@html icon('minus')}<span class="label"> {I18n('unfriend')}</span>
-            </button>
-          {:else if relationState === 'userRequested'}
-            <button
-              on:click={cancelFriendRequest}
-              class="cancel action tiny-button"
-              title={I18n('cancel friend request')}
-            >
-              {@html icon('ban')}<span class="label"> {I18n('cancel request')}</span>
-            </button>
-          {:else if relationState === 'otherRequested'}
-            <button
-              on:click={acceptFriendRequest}
-              class="accept action tiny-button light-blue"
-              title={I18n('accept friend request')}
-            >
-              {@html icon('check')}<span class="label"> {I18n('confirm')}</span>
-            </button>
-            <button
-              on:click={discardFriendRequest}
-              class="discard action tiny-button"
-              title={I18n('discard friend request')}
-            >
-              {@html icon('minus')}<span class="label"> {I18n('decline')}</span>
-            </button>
-          {:else}
-            <button
-              on:click={sendFriendRequest}
-              class="request action tiny-button light-blue"
-              title={I18n('send friend request')}
-            >
-              {@html icon('plus')}<span class="label"> {I18n('add friend')}</span>
-            </button>
-          {/if}
-        {/await}
-      {/if}
-    </div>
+      {/await}
+    {/if}
   </div>
 </div>
 
@@ -200,6 +208,9 @@
     @include display-flex(row);
     margin: 0.5em 0;
   }
+  .user-card{
+    @include display-flex(row);
+  }
   .avatar{
     background-color: #eee;
     height: 10em;
@@ -207,7 +218,6 @@
   }
   .info{
     flex: 1 0 0;
-    padding: 0.8em 1em;
     position: relative;
   }
   .username{
@@ -252,31 +262,38 @@
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  @media screen and (min-width: $small-screen) {
     .avatar-wrapper{
       flex: 0 0 auto;
     }
-    .info{
-      @include display-flex(row, baseline, center);
-      .profile-buttons{
-        margin-left: auto;
-      }
+    .profile-buttons{
+      margin-left: auto;
     }
     .action{
       margin: 0 0.5em;
     }
+    .info{
+      padding: 0.8em 1em;
+    }
   }
 
-  /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
     .user-profile{
       @include display-flex(column, center, center);
+    }
+    .user-card{
+      @include display-flex(row, baseline, flex-start, wrap);
+      align-self: stretch;
+      margin: 0 0.5em;
     }
     .avatar-wrapper{
       flex: 0 0 auto;
     }
     .avatar{
       margin-top: 1em;
+      max-height: 4em;
+      max-width: 4em;
     }
     .username{
       text-align: center;
@@ -297,17 +314,10 @@
     }
     .bio-wrapper{
       max-height: 10em;
+      margin: 0.5em;
     }
     .action{
       margin: 0.5em 0;
-    }
-  }
-
-  /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
-    .avatar-wrapper{
-      flex: 0 0 auto;
-      padding: 1em;
     }
   }
 </style>
