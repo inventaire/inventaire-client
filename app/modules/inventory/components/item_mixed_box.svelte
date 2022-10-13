@@ -15,7 +15,7 @@
     <img class="profilePic" alt="{username} avatar" src="{imgSrc(picture, 48)}">
   {:else}
     <a
-      href={`/inventory/${username}`}
+      href={`/users/${username}/inventory`}
       on:click|stopPropagation={loadInternalLink}
     >
       <img class="profilePic" alt="{username} avatar" src="{imgSrc(picture, 48)}">

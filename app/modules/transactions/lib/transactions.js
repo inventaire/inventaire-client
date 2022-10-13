@@ -116,7 +116,7 @@ const getOtherUsername = transaction => {
 const formatUsername = (username, withLink) => {
   // injecting an html anchor instead of just a username string
   if (withLink) {
-    return `<a href="/inventory/${username}" class="username">${username}</a>`
+    return `<a href="/users/${username}/inventory" class="username">${username}</a>`
   } else {
     return username
   }
