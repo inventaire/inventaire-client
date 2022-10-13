@@ -1,11 +1,12 @@
 import app from '#app/app'
-import { getListingMetadata, getListingPathname, getListingWithElementsById } from './lib/listings.js'
+import { getListingMetadata, getListingPathname, getListingWithElementsById } from '#listings/lib/listings'
 
 export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'lists/(:id)(/)': 'showListing',
+        'lists(/)': 'showMainUserListings',
       }
     })
 
@@ -28,4 +29,5 @@ async function showListing (listingId) {
 
 const API = {
   showListing,
+  showMainUserListings: () => app.execute('show:main:user:listings'),
 }
