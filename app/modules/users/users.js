@@ -1,10 +1,9 @@
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
 import initUsersCollections from './users_collections.js'
 import initHelpers from './helpers.js'
 import initRequests from './requests.js'
 import initInvitations from './invitations.js'
+import { initRelations } from '#users/lib/relations'
 
 export default {
   initialize () {
@@ -63,23 +62,4 @@ const API = {
   showUserListings (id) {
     app.execute('show:user:listings', id)
   },
-}
-
-const initRelations = function () {
-  if (app.user.loggedIn) {
-    return preq.get(app.API.relations)
-    .then(relations => {
-      app.relations = relations
-      app.execute('waiter:resolve', 'relations')
-    })
-    .catch(log_.Error('relations init err'))
-  } else {
-    app.relations = {
-      friends: [],
-      userRequested: [],
-      otherRequested: [],
-      network: []
-    }
-    app.execute('waiter:resolve', 'relations')
-  }
 }
