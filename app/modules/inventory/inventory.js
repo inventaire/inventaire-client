@@ -2,7 +2,6 @@ import { isEntityUri, isUsername, isItemId } from '#lib/boolean_tests'
 import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
 import initQueries from './lib/queries.js'
-import initLayout from './lib/layout.js'
 import showItemCreationForm from './lib/show_item_creation_form.js'
 import itemActions from './lib/item_actions.js'
 import { parseQuery, currentRoute, buildPath } from '#lib/location'
@@ -36,7 +35,6 @@ export default {
 
     initQueries(app)
     initializeInventoriesHandlers(app)
-    initLayout(app)
   }
 }
 
