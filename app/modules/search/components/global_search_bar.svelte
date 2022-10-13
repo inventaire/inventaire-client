@@ -226,7 +226,9 @@
   let showFallbackLayout
   function onSearchQuery ({ search: text, section, showFallbackLayout: fallback }) {
     searchText = text
-    selectedCategory = sectionsNames.social.includes(section) ? 'social' : 'entity'
+    // Checking on sectionsNames.entity so that 'all' default to 'entity:all'
+    // rather than 'social:all'
+    selectedCategory = sectionsNames.entity.includes(section) ? 'entity' : 'social'
     selectedSection = section
     showFallbackLayout = fallback
   }
