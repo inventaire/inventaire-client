@@ -107,7 +107,7 @@ const API = {
   },
 
   showUserItemsByEntity (username, uri, label) {
-    const pathname = `/inventory/${username}/${uri}`
+    const pathname = `/users/${username}/inventory/${uri}`
     if (!isUsername(username) || !isEntityUri(uri)) {
       return app.execute('show:error:missing', { pathname })
     }
@@ -228,11 +228,15 @@ const initializeInventoriesHandlers = function (app) {
 
     // user can be either a username or a user model
     'show:inventory:user' (user) {
-      return API.showUserInventory(user, true)
+      API.showUserInventory(user, true)
     },
 
     'show:inventory:main:user' (listings) {
-      return API.showUserInventory(app.user, true, listings)
+      API.showUserInventory(app.user, true, listings)
+    },
+
+    'show:user:items:by:entity' (username, uri) {
+      API.showUserItemsByEntity(username, uri)
     },
 
     'show:inventory:group': API.showGroupInventory,

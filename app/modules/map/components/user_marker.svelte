@@ -4,7 +4,7 @@
 
   export let doc
   const { username, picture } = doc
-  const pathname = `/inventory/${username}`
+  const pathname = `/users/${username}/inventory`
 </script>
 <a
   href={pathname}
