@@ -11,7 +11,7 @@ const wellknownWidths = {
 const resolveWidth = width => wellknownWidths[width] ? wellknownWidths[width] : width
 
 export const viewportIsSmallerThan = maxWidth => window.visualViewport.width < resolveWidth(maxWidth)
-export const viewportIsLargerThan = maxWidth => window.visualViewport.width > resolveWidth(maxWidth)
+export const viewportIsLargerThan = maxWidth => window.visualViewport.width >= resolveWidth(maxWidth)
 
 export default screen_ = {
   // /!\ window.screen.width is the screen's width not the current window width
