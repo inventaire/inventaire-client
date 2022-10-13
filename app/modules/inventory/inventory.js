@@ -26,8 +26,6 @@ export default {
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity',
         'items/:id(/)': 'showItemFromId',
         'items(/)': 'showGeneralInventory',
-        'lists(/)': 'showMainUserListings',
-        'lists/:username(/)': 'showUserListings',
       }
     })
 
