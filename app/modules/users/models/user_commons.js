@@ -11,7 +11,7 @@ const { defaultAvatar } = images
 export default Positionable.extend({
   setPathname () {
     const username = this.get('username')
-    const base = `/users/${username}`
+    const base = `/users/${username.toLowerCase()}`
     this.set({
       pathname: base,
       inventoryPathname: `${base}/inventory`,
