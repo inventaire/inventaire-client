@@ -3,6 +3,7 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { forceArray, isOpenedOutside, loadInternalLink } from '#lib/utils'
   import { serializeResult, urlifyImageHash } from '#search/lib/search_results'
+  import { createEventDispatcher } from 'svelte'
 
   export let result, highlighted
 
@@ -18,13 +19,14 @@
     }
   }
 
+  const dispatch = createEventDispatcher()
+
   function loadResult (e) {
-    if (isOpenedOutside(e)) {
-      e.stopPropagation()
-    } else {
-      // Do not stop propagation as the event propagation is needed to close the results dropdown
+    if (!isOpenedOutside(e)) {
       loadInternalLink(e)
+      dispatch('resultSelected')
     }
+    e.stopPropagation()
   }
 </script>
 

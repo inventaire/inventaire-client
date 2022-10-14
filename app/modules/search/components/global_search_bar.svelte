@@ -278,7 +278,11 @@
           <div class="results">
             <ul bind:this={searchResultsEl} >
               {#each results as result, index (result.id)}
-                <SearchResult {result} highlighted={index === highlightedResultIndex} />
+                <SearchResult
+                  {result}
+                  highlighted={index === highlightedResultIndex}
+                  on:resultSelected={hideLiveSearch}
+                />
               {/each}
             </ul>
             {#if hasMore}
