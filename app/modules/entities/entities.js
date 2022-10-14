@@ -182,9 +182,8 @@ const API = {
 
     uri = normalizeUri(uri)
 
-    const model = await getEntityModel(uri)
-
     try {
+      const model = await getEntityModel(uri)
       const [ { default: History } ] = await Promise.all([
         import('./views/editor/history'),
         model.fetchHistory(uri)
