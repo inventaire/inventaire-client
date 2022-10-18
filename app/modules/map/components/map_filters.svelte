@@ -9,6 +9,8 @@
 
   const selectAllFilters = () => { selectedFilters = allFilters }
 
+  const unselectAllFilters = () => { selectedFilters = [] }
+
   // All selectedFilters values must be declared initially, otherwise reset could be incomplete
   selectAllFilters()
 
@@ -59,13 +61,21 @@
     </div>
   </div>
   <div class="right-menu">
-    <button
-      class="select-all-button"
-      on:click={selectAllFilters}
-      disabled={areAllFiltersSelected}
-    >
-      {i18n('Select all filters')}
-    </button>
+    {#if areAllFiltersSelected}
+      <button
+        class="select-filters"
+        on:click={unselectAllFilters}
+      >
+        {i18n('Unselect all filters')}
+      </button>
+    {:else}
+      <button
+        class="select-filters"
+        on:click={selectAllFilters}
+      >
+        {i18n('Select all filters')}
+      </button>
+    {/if}
   </div>
 </div>
 <style lang="scss">
@@ -104,7 +114,7 @@
     color: $label-grey;
     margin-right: 0.5em;
   }
-  .select-all-button{
+  .select-filters{
     @include tiny-button($light-grey);
     @include text-hover(#333);
     margin: 0.2em;
