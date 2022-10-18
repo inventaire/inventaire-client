@@ -113,6 +113,8 @@
   }
   .cover{
     width: 3.5em;
+    margin-top: 0.5em;
+    margin-left: 0.5em;
     :global(a img){
       max-height: 6em;
       max-width: 3.5em;
