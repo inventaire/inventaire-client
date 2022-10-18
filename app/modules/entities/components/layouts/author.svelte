@@ -126,6 +126,10 @@
       @include display-flex(row, flex-start, flex-start);
       :global(.claims-infobox-wrapper), :global(.summary-wrapper){
         width: 50%;
+        }
+      :global(.claims-infobox){
+        margin-right: 1em;
+        margin-bottom: 1em;
       }
     }
     .relatives-lists{

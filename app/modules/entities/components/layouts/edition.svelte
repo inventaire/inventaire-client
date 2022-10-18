@@ -47,7 +47,7 @@
       <div class="info-wrapper">
         <EntityTitle {entity} {standalone}/>
         <div class="infobox-wrapper">
-          <div class="infobox">
+          <div class="author-and-info">
             <AuthorsInfo
               {claims}
             />
@@ -96,17 +96,17 @@
     padding-right: 1em;
     max-width: 12em;
   }
+  .info-wrapper{
+    flex: 1;
+  }
   .infobox-wrapper{
     @include display-flex(row, center, space-between);
     :global(.summary-wrapper){
       margin-top: 1em;
     }
   }
-  .info-wrapper{
-    flex: 1;
-  }
-  .infobox{
-    margin-bottom: 1em;
+  .author-and-info{
+    margin-right: 1em;
   }
   .items-lists-wrapper{
     margin: 1em 0
@@ -117,26 +117,26 @@
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     .top-section{
-      margin:0 5em;
+      margin: 0 5em;
     }
   }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
+    .info-wrapper{
+      @include display-flex(column, center, center);
+      margin-top: 1em;
+    }
     .infobox-wrapper{
       @include display-flex(column, flex-start, center);
+    }
+    .top-section{
+      @include display-flex(column, center);
     }
   }
   /*Very small screens*/
   @media screen and (max-width: $very-small-screen) {
-    .infobox{
-      width:100%;
-    }
-    .info-wrapper{
-      @include display-flex(column, center, center);
-    }
-    .top-section{
-      margin: 0 2em;
-      @include display-flex(column, center);
+    .author-and-info{
+      margin-right: 0;
     }
   }
 </style>

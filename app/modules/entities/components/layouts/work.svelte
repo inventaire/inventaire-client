@@ -184,6 +184,9 @@
     @include display-flex(column, flex-start);
     flex: 1 0 0;
     margin: 0 1em;
+    :global(.claims-infobox-wrapper){
+      margin-bottom: 1em;
+    }
   }
   .items-lists-section{
     @include display-flex(column, center);
@@ -207,6 +210,9 @@
   @media screen and (max-width: $small-screen) {
     .work-section{
       margin-left: 0;
+      :global(.claims-infobox-wrapper){
+        margin-bottom: 0;
+      }
     }
     .top-section{
       @include display-flex(column, center);

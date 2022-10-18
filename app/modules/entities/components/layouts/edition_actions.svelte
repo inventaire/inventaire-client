@@ -14,8 +14,8 @@
   $: editionItems = itemsByEditions[editionUri]
 </script>
 
-<div class="right-section">
-  <div class="edition-actions-wrapper">
+<div class="edition-actions">
+  <div class="add-to-my-inventory">
     <Link
       {url}
       text={I18n('add to my inventory')}
@@ -36,10 +36,10 @@
 </div>
 <style lang="scss">
   @import '#general/scss/utils';
-  .right-section{
+  .edition-actions{
     @include display-flex(column, center, flex-end);
   }
-  .edition-actions-wrapper{
+  .add-to-my-inventory{
     :global(.action-button){
       @include tiny-button($light-blue);
       padding: 0.5em;
@@ -52,9 +52,9 @@
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
-    .edition-actions-wrapper{
+    .add-to-my-inventory{
       @include display-flex(row);
-      margin: 0.5em;
+      margin-bottom: 0.5em;
     }
   }
 </style>
