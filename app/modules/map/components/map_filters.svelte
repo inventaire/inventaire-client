@@ -64,7 +64,7 @@
       on:click={selectAllFilters}
       disabled={areAllFiltersSelected}
     >
-    {i18n('Select all filters', { filters: type })}
+      {i18n('Select all filters')}
     </button>
   </div>
 </div>
