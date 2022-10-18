@@ -27,19 +27,28 @@
           id="filter-label-{filterValue}"
           for="filter-value-{filterValue}"
         >
-          <span class="filter-box">
-            <input
-              id="filter-value-{filterValue}"
-              type="checkbox"
-              bind:group={selectedFilters}
-              value={filterValue}
+          <input
+            id="filter-value-{filterValue}"
+            type="checkbox"
+            bind:group={selectedFilters}
+            value={filterValue}
+          >
+          {#if filtersData[filterValue].cover}
+            <img
+              class="cover"
+              src={imgSrc(filtersData[filterValue].cover, 128)}
+              alt={filtersData[filterValue].title}
             >
-            {#if filtersData[filterValue].cover}
-              <img class="cover" src={imgSrc(filtersData[filterValue].cover, 128)} alt={filtersData[filterValue].title}>
-            {:else}
-              {I18n(filterValue)}
-            {/if}
-          </span>
+          {:else}
+            <div class="no-cover-data">
+              {#if filtersData[filterValue].title}
+                {filtersData[filterValue].title}
+              {/if}
+              <div class="filter-value">
+                {I18n(filterValue)}
+              </div>
+            </div>
+          {/if}
           {#if filtersData[filterValue].icon}
             <span class="filter-count">
               {@html icon(filtersData[filterValue].icon)}
@@ -87,6 +96,7 @@
     @include display-flex(row, center,flex-start,wrap);
   }
   .filter{
+    @include display-flex(row, center);
     @include filter-button(#ddd);
     padding: 0.5em;
   }
@@ -105,19 +115,24 @@
   #filter-label-selling{ @include filter-button($selling-color); };
   #filter-label-inventorying{ @include filter-button($inventorying-color); };
   .cover{
-    padding: 0.2em;
     font-size: 0.9em;
     max-width: 5em;
-    height: 64px;
   }
   :disabled{
     cursor: not-allowed;
     opacity: 0.5;
   }
+  .no-cover-data{
+    display: inline-block;
+    max-width: 8em;
+  }
+  .filter-value{
+    overflow: hidden;
+  }
   /*Small screens*/
   @media screen and (max-width: 470px) {
     .filters-menu{
-      @include display-flex(column,flex-start);
+      @include display-flex(column, flex-start);
       padding-left: 1em;
     }
     .left-menu{
