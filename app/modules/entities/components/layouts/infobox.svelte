@@ -82,13 +82,11 @@
   {:then}
     <div class="claims-infobox">
       {#each displayedProperties as prop}
-        {#if claims[prop]}
-          <ClaimInfobox
-            values={claims[prop]}
-            {prop}
-            entitiesByUris={relatedEntities}
-          />
-        {/if}
+        <ClaimInfobox
+          values={claims[prop]}
+          {prop}
+          entitiesByUris={relatedEntities}
+        />
       {/each}
       {#if !shortlistOnly}
         <EntityClaimsLinks claims={claims} />

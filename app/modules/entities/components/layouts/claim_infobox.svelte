@@ -16,29 +16,32 @@
 
   const getBestLabel = entity => getBestLangValue(app.user.lang, null, entity.labels).value
 </script>
-<div class="claim">
-  {#if !omitLabel}
-    <span class='property'>
-      {i18n(prop)}:&nbsp;
+{#if values}
+  <div class="claim">
+    {#if !omitLabel}
+      <span class='property'>
+        {i18n(prop)}:&nbsp;
+      </span>
+    {/if}
+    <span class="values">
+      {#each values as value, i}
+        <!-- This peculiar formatting is used to avoid undesired spaces to be inserted
+             See https://github.com/sveltejs/svelte/issues/3080 -->
+        {#if entitiesByUris[value]}
+        <Link
+            url={buildPathname(entitiesByUris[value], prop)}
+            text={getBestLabel(entitiesByUris[value])}
+            dark={true}
+            title={linkTitle(value)}
+          />{:else if propType === 'urlClaim'}<Link
+            url={value}
+            text={formatClaimValue({ prop, value })}
+            dark={true}
+          />{:else}{formatClaimValue({ prop, value })}{/if}{#if i !== lastValueIndex},{/if}
+      {/each}
     </span>
-  {/if}
-  <span class="values">
-    {#each values as value, i}
-      <!-- This peculiar formatting is used to avoid undesired spaces to be incerted
-           See https://github.com/sveltejs/svelte/issues/3080 -->
-      {#if entitiesByUris[value]}<Link
-          url={buildPathname(entitiesByUris[value], prop)}
-          text={getBestLabel(entitiesByUris[value])}
-          dark={true}
-          title={linkTitle(value)}
-        />{:else if propType === 'urlClaim'}<Link
-          url={value}
-          text={formatClaimValue({ prop, value })}
-          dark={true}
-        />{:else}{formatClaimValue({ prop, value })}{/if}{#if i !== lastValueIndex},{/if}
-    {/each}
-  </span>
-</div>
+  </div>
+{/if}
 <style lang="scss">
   @import '#general/scss/utils';
   .property{
