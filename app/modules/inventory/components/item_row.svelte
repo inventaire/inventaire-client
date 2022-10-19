@@ -7,7 +7,7 @@
   import { getDocStore } from '#lib/svelte/mono_document_stores'
   import { serializeItem } from '#inventory/lib/items'
 
-  export let item
+  export let item, showUser
 
   const itemStore = getDocStore({ category: 'items', doc: item })
 
@@ -18,7 +18,7 @@
   const authors = item.snapshot['entity:authors']
   const image = item.snapshot['entity:image']
 
-  let details, transaction, visibility, isPrivate, visibilitySummary, visibilitySummaryData, currentTransaction
+  let details, transaction, visibility, isPrivate, visibilitySummary, visibilitySummaryData, currentTransaction, username, picture, inventoryPathname
   $: {
     ;({ details = '', transaction, visibility } = $itemStore)
     if (mainUserIsOwner) {
@@ -27,13 +27,20 @@
       visibilitySummaryData = visibilitySummariesData[visibilitySummary]
     }
     currentTransaction = transactionsDataFactory()[transaction]
+    if ($itemStore.user) {
+      ;({ username, picture, inventoryPathname } = $itemStore.user)
+    }
   }
 </script>
 
 <div class="item-row">
   <slot name="checkbox" />
 
-  <a href="{pathname}" on:click|stopPropagation={loadInternalLink}>
+  <a
+    href="{pathname}"
+    on:click|stopPropagation={loadInternalLink}
+    class="show-item"
+  >
     <div class="image-wrapper">
       {#if image}<img src="{imgSrc(image, 128)}" alt="">{/if}
     </div>
@@ -45,6 +52,17 @@
       <p class="details">{details}</p>
     {/if}
   </a>
+
+  {#if showUser && $itemStore.user}
+    <a
+      class="user"
+      href={inventoryPathname}
+      on:click|stopPropagation={loadInternalLink}
+    >
+      <img class="avatar" alt="{username} avatar" src="{imgSrc(picture, 48)}">
+      <span class="username">{username}</span>
+    </a>
+  {/if}
 
   <div class="modes">
     {#if !isPrivate}
@@ -90,10 +108,12 @@
     overflow: hidden;
     @include radius;
   }
-  .transaction, .visibility{
+  .transaction, .visibility, .avatar{
     @include radius;
     height: 2em;
     width: 2em;
+  }
+  .transaction, .visibility{
     @include display-flex(row, center, center);
     color: white;
   }
@@ -124,12 +144,23 @@
       background-color: $public-color;
     }
   }
-  a{
+  .show-item{
     @include display-flex(row, center, flex-start);
     @include bg-hover(white, 5%);
     flex: 1 0 0;
     overflow: hidden;
     margin-right: 0.5em;
+  }
+  .user{
+    @include bg-hover(white, 5%);
+    align-self: stretch;
+    margin: 0.2em 0;
+    padding: 0 0.2em;
+    @include display-flex(row, center, center);
+  }
+  .username{
+    margin-left: 0.5em;
+    @include serif;
   }
 
   /*Small screens*/
@@ -177,8 +208,8 @@
       min-height: 3em;
       flex: 0 0 3em;
     }
-    .transaction, .visibility{
-      margin-right: 1em;
+    .transaction, .visibility, .user{
+      margin-right: 0.5em;
     }
   }
 </style>

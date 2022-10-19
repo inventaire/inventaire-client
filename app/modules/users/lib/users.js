@@ -9,6 +9,7 @@ export function serializeUser (user) {
   if (app.user.has('position') && user.position) {
     setDistance(user)
   }
+  Object.assign(user, getUserPathnames(user.username))
   return user
 }
 
@@ -38,4 +39,14 @@ function getCoords (user) {
 
 export function getUserBasePathname (usernameOrId) {
   return `/users/${usernameOrId.toLowerCase()}`
+}
+
+export function getUserPathnames (username) {
+  const base = getUserBasePathname(username)
+  return {
+    pathname: base,
+    inventoryPathname: `${base}/inventory`,
+    listingsPathname: `${base}/lists`,
+    contributionsPathname: `${base}/contributions`,
+  }
 }
