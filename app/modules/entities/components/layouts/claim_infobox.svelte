@@ -1,4 +1,5 @@
 <script>
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   import Link from '#lib/components/link.svelte'
   import { i18n } from '#user/lib/i18n'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
@@ -10,13 +11,12 @@
     entitiesByUris
 
   const propType = propertiesType[prop]
-  const lastValueIndex = values.length - 1
 
   let linkTitle = uri => `${i18n(prop)}: ${getBestLabel(entitiesByUris[uri])}`
 
   const getBestLabel = entity => getBestLangValue(app.user.lang, null, entity.labels).value
 </script>
-{#if values}
+{#if values && isNonEmptyArray(values)}
   <div class="claim">
     {#if !omitLabel}
       <span class='property'>
@@ -37,7 +37,7 @@
             url={value}
             text={formatClaimValue({ prop, value })}
             dark={true}
-          />{:else}{formatClaimValue({ prop, value })}{/if}{#if i !== lastValueIndex},{/if}
+          />{:else}{formatClaimValue({ prop, value })}{/if}{#if i !== values.length - 1},{/if}
       {/each}
     </span>
   </div>
