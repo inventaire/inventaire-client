@@ -6,7 +6,7 @@
   import assert_ from '#lib/assert_types'
   import { i18n } from '#user/lib/i18n'
 
-  export let Component, componentProps, pagination
+  export let Component, componentProps, pagination, haveSeveralOwners = false
 
   let items = [], flash, waiting
   let fetchMore, hasMore, allowMore
@@ -54,7 +54,7 @@
 
 <div class="paginated-items">
   {#if items?.length > 0}
-    <svelte:component this={Component} {items} {waiting} {...componentProps} />
+    <svelte:component this={Component} {items} {waiting} {haveSeveralOwners} {...componentProps} />
   {:else}
     <p class="no-item">{i18n('There is nothing here')}</p>
   {/if}

@@ -91,7 +91,12 @@
     <Spinner center={true} />
   </div>
 {:then}
-  <PaginatedItems {Component} {componentProps} {pagination} />
+  <PaginatedItems
+    {Component}
+    {componentProps}
+    {pagination}
+    haveSeveralOwners={groupId != null}
+  />
 {/await}
 
 <style lang="scss">
