@@ -121,6 +121,13 @@
       color: $grey;
     }
   }
+  ul{
+    border: 1px solid #ddd;
+    @include radius;
+  }
+  li:not(:last-child){
+    border-bottom: 1px solid #ddd;
+  }
 
   /*Medium and Large screens*/
   @media screen and (min-width: 800px) {

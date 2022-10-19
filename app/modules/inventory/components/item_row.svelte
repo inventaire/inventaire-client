@@ -65,9 +65,8 @@
   .item-row{
     position: relative;
     background-color: #fefefe;
-    @include radius(4px);
-    @include shy-border;
-    margin-bottom: 0.2em;
+    height: 4em;
+    overflow: hidden;
     @include display-flex(row, center, center);
     :global(input[type="checkbox"]){
       padding: 1em;
