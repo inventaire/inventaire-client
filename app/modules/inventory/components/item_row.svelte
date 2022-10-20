@@ -6,6 +6,8 @@
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import { getDocStore } from '#lib/svelte/mono_document_stores'
   import { serializeItem } from '#inventory/lib/items'
+  import { screen } from '#lib/components/stores/screen'
+  import ImageDiv from '#components/image_div.svelte'
 
   export let item, showUser
 
@@ -36,33 +38,36 @@
 <div class="item-row">
   <slot name="checkbox" />
 
-  <a
-    href="{pathname}"
-    on:click|stopPropagation={loadInternalLink}
-    class="show-item"
-  >
-    <div class="image-wrapper">
-      {#if image}<img src="{imgSrc(image, 128)}" alt="">{/if}
-    </div>
-    <div class="info">
-      <p class="title">{title}</p>
-      <p class="authors">{authors || ''}</p>
-    </div>
-    {#if details}
-      <p class="details">{details}</p>
-    {/if}
-  </a>
-
-  {#if showUser && $itemStore.user}
+  <div class="middle">
     <a
-      class="user"
-      href={inventoryPathname}
+      href="{pathname}"
       on:click|stopPropagation={loadInternalLink}
+      class="show-item"
     >
-      <img class="avatar" alt="{username} avatar" src="{imgSrc(picture, 48)}">
-      <span class="username">{username}</span>
+      <ImageDiv url={image} size={128} />
+      <div class="info">
+        <p class="title">{title}</p>
+        <p class="authors">{authors || ''}</p>
+        {#if details && $screen.isSmallerThan('$smaller-screen')}
+          <p class="details">{details}</p>
+        {/if}
+      </div>
+      {#if details && $screen.isLargerThan('$smaller-screen')}
+        <p class="details">{details}</p>
+      {/if}
     </a>
-  {/if}
+
+    {#if showUser && $itemStore.user}
+      <a
+        class="user"
+        href={inventoryPathname}
+        on:click|stopPropagation={loadInternalLink}
+      >
+        <img class="avatar" alt="{username} avatar" src="{imgSrc(picture, 48)}">
+        <span class="username">{username}</span>
+      </a>
+    {/if}
+  </div>
 
   <div class="modes">
     {#if !isPrivate}
@@ -80,23 +85,32 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+
+  $item-row-height-base: 4em;
+
   .item-row{
     position: relative;
     background-color: #fefefe;
-    height: 4em;
-    overflow: hidden;
     @include display-flex(row, center, center);
     :global(input[type="checkbox"]){
       padding: 1em;
       margin: 1em;
     }
   }
+  .middle{
+    flex: 1;
+    align-self: stretch;
+    @include display-flex(row, center);
+    :global(.image-div){
+      flex: 0 0 3em;
+      align-self: stretch;
+      margin-right: 0.5em;
+      max-height: $item-row-height-base;
+    }
+  }
   .modes{
     @include display-flex(row, center, center);
     flex: 0 0 auto;
-    > div{
-      margin-left: 0.2em;
-    }
   }
   .authors{
     color: $grey;
@@ -109,7 +123,6 @@
     @include radius;
   }
   .transaction, .visibility, .avatar{
-    @include radius;
     height: 2em;
     width: 2em;
   }
@@ -117,8 +130,10 @@
     @include display-flex(row, center, center);
     color: white;
   }
+  .avatar{
+    @include radius;
+  }
   .transaction{
-    margin-left: 1em;
     &.giving{
       background-color: $giving-color;
     }
@@ -166,32 +181,45 @@
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     .item-row{
-      margin-bottom: 1em;
-      margin: 0.5em 0;
-      padding: 0.2em;
+      align-self: stretch;
+      min-height: $item-row-height-base;
     }
-    a{
-      flex-direction: column;
+    .show-item{
       align-self: stretch;
     }
     .info{
-      align-self: stretch;
-      text-align: center;
+      text-align: left;
+      padding: 0 0.5em;
     }
     .details{
-      max-height: 5em;
+      max-height: 3em;
       margin: 0.5em;
     }
     .modes{
       flex-direction: column;
-      > div{
-        margin: 0.1em 0;
+      margin-right: 0.2em;
+    }
+    .transaction, .visibility{
+      &:first-child{
+        @include radius-top;
+        margin-top: 0.2em;
       }
+      &:last-child{
+        @include radius-bottom;
+        margin-bottom: 0.2em;
+      }
+    }
+    .user{
+      margin-right: 0.5em;
     }
   }
 
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
+    .item-row{
+      height: $item-row-height-base;
+      overflow: hidden;
+    }
     .info{
       flex: 1 1 0;
       text-align: left;
@@ -203,13 +231,12 @@
       margin: 0 0.5em;
       flex: 1 1 auto;
     }
-    .image-wrapper{
-      margin-right: 0.5em;
-      min-height: 3em;
-      flex: 0 0 3em;
-    }
     .transaction, .visibility, .user{
       margin-right: 0.5em;
+    }
+    .transaction, .visibility{
+      margin-left: 0.2em;
+      @include radius;
     }
   }
 </style>
