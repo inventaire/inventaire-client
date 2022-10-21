@@ -16,11 +16,11 @@
 
   $: areAllFiltersSelected = allFilters.every(f => selectedFilters.includes(f))
 </script>
+<div class="filters-title">
+  {i18n(`Filter by ${type}`)}
+</div>
 <div class="filters-menu">
   <div class="left-menu">
-    <span class="filters-title">
-      {i18n(`Filter by ${type}`)}
-    </span>
     <div class="filters">
       {#each allFilters as filterValue}
         <label
@@ -88,16 +88,19 @@
     border-radius: 5px;
     @include sans-serif;
     font-weight: normal;
-    &.selected, &:hover{
+    &.selected{
       background-color: white;
+      border-color: $color;
+    }
+    &:hover{
+      background-color: #ddd;
       border-color: $color;
     }
   }
   .filters-menu{
     @include display-flex(row, center, space-between);
-    padding: 0.5em;
-    padding-left: 1em;
-    background-color: $off-white;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    background-color: white;
   }
   .left-menu{
     @include display-flex(row, center, flex-start);
@@ -111,8 +114,11 @@
     padding: 0.5em;
   }
   .filters-title{
-    color: $label-grey;
-    margin-right: 0.5em;
+    color: $grey;
+    background-color: white;
+    padding-top: 0.5em;
+    padding-left: 1em;
+    margin-top: 0.5em;
   }
   .select-filters{
     @include tiny-button($light-grey);

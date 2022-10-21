@@ -100,9 +100,6 @@
   .loading-wrapper{
     @include display-flex(column, center);
   }
-  .items-map{
-    margin-bottom: 1em;
-  }
   .show-all-button{
     @include tiny-button($light-grey);
     @include text-hover(#333);

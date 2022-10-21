@@ -72,16 +72,18 @@
   .map-wrapper{
     // Set to the .simple-map height to allow to scroll to the right level
     // before the map is rendered
+    padding: 0.5em;
     min-height: 30em;
     position: relative;
+    background-color: $off-white;
   }
   .close-map-button{
-    @include position(absolute, 0.2rem, 0.2rem);
+    @include position(absolute, 1rem, 1rem);
     // Above .leaflet-pane
     z-index: 401;
     padding: 0.2rem;
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     @include bg-hover(white);
     @include radius;
   }
