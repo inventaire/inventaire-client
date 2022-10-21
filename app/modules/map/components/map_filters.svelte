@@ -82,24 +82,21 @@
   @import '#general/scss/utils';
   @mixin filter-button($color, $text-color:white){
     color: $dark-grey;
-    background-color: #eee;
+    background-color: white;
+    border-color: $color;
     margin: 0.2em;
     border: 2px solid $light-grey;
     border-radius: 5px;
     @include sans-serif;
     font-weight: normal;
-    &.selected{
-      background-color: white;
-      border-color: $color;
-    }
     &:hover{
-      background-color: #ddd;
+      background-color: $off-white;
       border-color: $color;
     }
   }
   .filters-menu{
     @include display-flex(row, center, space-between);
-    padding: 0.5em 0.5em 0.5em 0.5em;
+    padding: 0.5em;
     background-color: white;
   }
   .left-menu{
@@ -121,8 +118,7 @@
     margin-top: 0.5em;
   }
   .select-filters{
-    @include tiny-button($light-grey);
-    @include text-hover(#333);
+    @include tiny-button($off-white, black);
     margin: 0.2em;
     padding: 0.5em;
   }
