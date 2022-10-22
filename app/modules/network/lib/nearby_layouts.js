@@ -1,8 +1,8 @@
 import assert_ from '#lib/assert_types'
-import map_ from '#map/lib/map'
 import getPositionFromNavigator from '#map/lib/navigator_position'
 import { startLoading, stopLoading } from '#general/plugins/behaviors'
-const { updateRoute, updateRouteFromEvent, BoundFilter } = map_
+import { updateRoute, updateRouteFromEvent, BoundFilter } from '#map/lib/map'
+import { drawMap } from '#map/lib/draw'
 const containerId = 'mapContainer'
 const containerSelector = '#' + containerId
 
@@ -19,7 +19,7 @@ export const initMap = async params => {
     app.request('map:before')
   ])
   stopLoading.call(view, containerSelector)
-  const map = drawMap(params, coords)
+  const map = drawLayoutMap(params, coords)
   initEventListners(params, map)
   return map
 }
@@ -37,11 +37,11 @@ const solvePosition = async function (coords = {}) {
   return getPositionFromNavigator(containerId)
 }
 
-const drawMap = function (params, coords) {
+const drawLayoutMap = function (params, coords) {
   const { lat, lng, zoom } = coords
   const { showObjects, path } = params
 
-  const map = map_.draw({
+  const map = drawMap({
     containerId,
     latLng: [ lat, lng ],
     zoom,

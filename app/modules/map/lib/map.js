@@ -3,18 +3,15 @@ import mapConfig from './config.js'
 import { truncateDecimals } from './geo.js'
 import { buildPath } from '#lib/location'
 import error_ from '#lib/error'
-import draw from './draw.js'
 
 const { defaultZoom } = mapConfig
 
-let map_
-
-const showMainUserPositionPicker = async () => {
+export const showMainUserPositionPicker = async () => {
   await getLeaflet()
-  return map_.updatePosition(app.user, 'user:update', 'user')
+  return updatePosition(app.user, 'user:update', 'user')
 }
 
-const getLeaflet = async () => {
+export const getLeaflet = async () => {
   const [ { default: mapConfig } ] = await Promise.all([
     import('./config.js'),
     // Set window.L
@@ -29,128 +26,120 @@ const getLeaflet = async () => {
   onLeafletReady()
 }
 
-const showPositionPicker = async options => {
+export async function showPositionPicker (options) {
   const { default: PositionPicker } = await import('../views/position_picker')
   app.layout.showChildView('modal', new PositionPicker(options))
 }
 
-export default map_ = {
-  draw,
+export function updateRoute (root, lat, lng, zoom = defaultZoom) {
+  lat = truncateDecimals(lat)
+  lng = truncateDecimals(lng)
+  // Keep only defined parameters in the route
+  // Allow to pass a custom root to let it be used in multiple modules
+  const route = buildPath(root, { lat, lng, zoom })
+  app.navigate(route, { preventScrollTop: true })
+}
 
-  updateRoute (root, lat, lng, zoom = defaultZoom) {
-    lat = truncateDecimals(lat)
-    lng = truncateDecimals(lng)
-    // Keep only defined parameters in the route
-    // Allow to pass a custom root to let it be used in multiple modules
-    const route = buildPath(root, { lat, lng, zoom })
-    app.navigate(route, { preventScrollTop: true })
-  },
+export function updateRouteFromEvent (root, e) {
+  const { lat, lng } = e.target.getCenter()
+  const { _zoom } = e.target
+  return updateRoute(root, lat, lng, _zoom)
+}
 
-  updateRouteFromEvent (root, e) {
-    const { lat, lng } = e.target.getCenter()
-    const { _zoom } = e.target
-    return map_.updateRoute(root, lat, lng, _zoom)
-  },
+export function updateMarker (marker, coords) {
+  if (coords?.lat == null) return marker.remove()
+  const { lat, lng } = coords
+  return marker.setLatLng([ lat, lng ])
+}
 
-  updateMarker (marker, coords) {
-    if (coords?.lat == null) return marker.remove()
-    const { lat, lng } = coords
-    return marker.setLatLng([ lat, lng ])
-  },
-
-  showOnMap (typeName, map, models) {
-    if (typeName === 'users') {
-      return map_.showUsersOnMap(map, models)
-    } else if (typeName === 'groups') {
-      return map_.showGroupsOnMap(map, models)
-    } else {
-      throw error_.new('invalid type', { typeName, map, models })
-    }
-  },
-
-  // Same as the above function, but guesses model type
-  showModelsOnMap (map, models) {
-    for (const model of forceArray(models)) {
-      const type = model.get('type')
-      if (type === 'user') map_.showUserOnMap(map, model)
-      else if (type === 'group') showGroupOnMap(map, model)
-      else showItemOnMap(map, model)
-    }
-  },
-
-  showUsersOnMap (map, users) {
-    return forceArray(users).map(user => map_.showUserOnMap(map, user))
-  },
-
-  showGroupsOnMap (map, groups) {
-    return forceArray(groups).map(group => showGroupOnMap(map, group))
-  },
-
-  BoundFilter (map) {
-    const bounds = map.getBounds()
-    return function (model) {
-      if (!model.hasPosition()) return false
-      const point = model.getLatLng()
-      return bounds.contains(point)
-    }
-  },
-
-  getBbox (map) {
-    const { _southWest, _northEast } = map.getBounds()
-    return [ _southWest.lng, _southWest.lat, _northEast.lng, _northEast.lat ]
-  },
-
-  isValidBbox ([ southWestLng, southWestLat, northEastLng, northEastLat ]) {
-    // Specifically:
-    // - reject case where southWestLng===northEastLng && southWestLat===northEastLat
-    return southWestLng < northEastLng && southWestLat < northEastLat
-  },
-
-  showUserOnMap (map, user) {
-    // Substitude the main user model to the one created from user document
-    // so that updates on the main user model are correctly displayed,
-    // and to avoid to display duplicates
-    if (user.id === app.user.id) {
-      ({
-        user
-      } = app)
-    }
-
-    if (user.hasPosition()) {
-      const marker = map.addMarker({
-        objectId: user.cid,
-        model: user,
-        markerType: 'user'
-      })
-
-      // map.addMarker will return undefined if the marker was already added
-      // which allows here to not re-add the event listerner
-      if (marker != null) {
-        // Expose the main user marker to make it easier to update
-        // on user position change
-        if (user === app.user) map.mainUserMarker = marker
-      }
-    }
-  },
-  showMainUserPositionPicker,
-  getLeaflet,
-  showPositionPicker,
-  updatePosition (model, updateReqres, type, focusSelector) {
-    showPositionPicker({
-      model,
-      type,
-      focus: focusSelector,
-      resolve (newCoords, selector) {
-        return app.request(updateReqres, {
-          attribute: 'position',
-          value: newCoords,
-          selector,
-          // required by reqres updaters such as group:update:settings
-          model
-        })
-      }
-    })
+export function showOnMap (typeName, map, models) {
+  if (typeName === 'users') {
+    return showUsersOnMap(map, models)
+  } else if (typeName === 'groups') {
+    return showGroupsOnMap(map, models)
+  } else {
+    throw error_.new('invalid type', { typeName, map, models })
   }
+}
+
+// Same as the above function, but guesses model type
+export function showModelsOnMap (map, models) {
+  for (const model of forceArray(models)) {
+    const type = model.get('type')
+    if (type === 'user') showUserOnMap(map, model)
+    else if (type === 'group') showGroupOnMap(map, model)
+    else showItemOnMap(map, model)
+  }
+}
+
+export function showUsersOnMap (map, users) {
+  return forceArray(users).map(user => showUserOnMap(map, user))
+}
+
+export function showGroupsOnMap (map, groups) {
+  return forceArray(groups).map(group => showGroupOnMap(map, group))
+}
+
+export function BoundFilter (map) {
+  const bounds = map.getBounds()
+  return function (model) {
+    if (!model.hasPosition()) return false
+    const point = model.getLatLng()
+    return bounds.contains(point)
+  }
+}
+
+export function getBbox (map) {
+  const { _southWest, _northEast } = map.getBounds()
+  return [ _southWest.lng, _southWest.lat, _northEast.lng, _northEast.lat ]
+}
+
+export function isValidBbox ([ southWestLng, southWestLat, northEastLng, northEastLat ]) {
+  // Specifically:
+  // - reject case where southWestLng===northEastLng && southWestLat===northEastLat
+  return southWestLng < northEastLng && southWestLat < northEastLat
+}
+
+export function showUserOnMap (map, user) {
+  // Substitude the main user model to the one created from user document
+  // so that updates on the main user model are correctly displayed,
+  // and to avoid to display duplicates
+  if (user.id === app.user.id) {
+    ;({ user } = app)
+  }
+
+  if (user.hasPosition()) {
+    const marker = map.addMarker({
+      objectId: user.cid,
+      model: user,
+      markerType: 'user'
+    })
+
+    // map.addMarker will return undefined if the marker was already added
+    // which allows here to not re-add the event listerner
+    if (marker != null) {
+      // Expose the main user marker to make it easier to update
+      // on user position change
+      if (user === app.user) map.mainUserMarker = marker
+    }
+  }
+}
+
+export function updatePosition (model, updateReqres, type, focusSelector) {
+  showPositionPicker({
+    model,
+    type,
+    focus: focusSelector,
+    resolve (newCoords, selector) {
+      return app.request(updateReqres, {
+        attribute: 'position',
+        value: newCoords,
+        selector,
+        // required by reqres updaters such as group:update:settings
+        model
+      })
+    }
+  })
 }
 
 const showGroupOnMap = function (map, group) {

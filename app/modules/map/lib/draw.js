@@ -9,7 +9,7 @@ const {
   defaultZoom
 } = mapConfig
 
-export default function (params) {
+export function drawMap (params) {
   let { containerId, latLng, zoom, bounds, cluster } = params
   bounds = _.compact(bounds)
 

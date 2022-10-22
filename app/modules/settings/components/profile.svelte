@@ -4,7 +4,7 @@
   import preq from '#lib/preq'
   import Flash from '#lib/components/flash.svelte'
   import UserPicture from '#lib/components/user_picture.svelte'
-  import map from '#map/lib/map'
+  import { showMainUserPositionPicker } from '#map/lib/map'
   import { user } from '#user/user_store'
   import { Username } from '#lib/regex'
 
@@ -91,7 +91,7 @@
     }
   }
   const editPosition = () => {
-    map.showMainUserPositionPicker()
+    showMainUserPositionPicker()
   }
 
   $: validateUsername(usernameValue)

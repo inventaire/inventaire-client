@@ -1,5 +1,4 @@
 import { tryAsync } from '#lib/promises'
-import map_ from '../lib/map.js'
 import getPositionFromNavigator from '#map/lib/navigator_position'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
@@ -10,6 +9,8 @@ import AlertBox from '#behaviors/alert_box'
 import General from '#behaviors/general'
 import Loading from '#behaviors/loading'
 import SuccessCheck from '#behaviors/success_check'
+import { drawMap } from '#map/lib/draw'
+import { updateMarker } from '#map/lib/map'
 
 const containerId = 'positionPickerMap'
 
@@ -66,7 +67,7 @@ export default Marionette.View.extend({
 
   _initMap (coords) {
     const { lat, lng, zoom } = coords
-    const map = map_.draw({
+    const map = drawMap({
       containerId,
       latLng: [ lat, lng ],
       zoom,
@@ -79,7 +80,7 @@ export default Marionette.View.extend({
       latLng: [ lat, lng ]
     })
 
-    map.on('move', updateMarker.bind(null, this.marker))
+    map.on('move', e => updateMarker(this.marker, e.target.getCenter()))
   },
 
   getCoords () {
@@ -120,5 +121,3 @@ const typeStrings = {
     context: 'group_position_context'
   }
 }
-
-const updateMarker = (marker, e) => map_.updateMarker(marker, e.target.getCenter())

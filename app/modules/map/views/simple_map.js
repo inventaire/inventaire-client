@@ -1,7 +1,8 @@
 import { isOpenedOutside } from '#lib/utils'
-import map_ from '../lib/map.js'
 import simpleMapTemplate from './templates/simple_map.hbs'
 import PreventDefault from '#behaviors/prevent_default'
+import { drawMap } from '#map/lib/draw'
+import { showModelsOnMap } from '#map/lib/map'
 
 const containerId = 'simpleMap'
 
@@ -26,13 +27,13 @@ export default Marionette.View.extend({
   initMap () {
     const bounds = this.models.map(getPosition)
 
-    const map = map_.draw({
+    const map = drawMap({
       containerId,
       bounds,
       cluster: this.models.length > 2
     })
 
-    return map_.showModelsOnMap(map, this.models)
+    showModelsOnMap(map, this.models)
   },
 
   events: {

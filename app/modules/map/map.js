@@ -1,29 +1,29 @@
-import map_ from './lib/map.js'
+import { getLeaflet, showMainUserPositionPicker, showPositionPicker, updatePosition } from '#map/lib/map'
 
 export default function () {
   app.commands.setHandlers({
-    'show:position:picker:main:user': map_.showMainUserPositionPicker,
+    'show:position:picker:main:user': showMainUserPositionPicker,
     'show:position:picker:group': showGroupPositionPicker,
     'show:models:on:map': showModelsOnMap
   })
 
   app.reqres.setHandlers({
     'prompt:group:position:picker': promptGroupPositionPicker,
-    'map:before': map_.getLeaflet
+    'map:before': getLeaflet
   })
 }
 
 const showGroupPositionPicker = async (group, focusSelector) => {
-  await map_.getLeaflet()
-  map_.updatePosition(group, 'group:update:settings', 'group', focusSelector)
+  await getLeaflet()
+  updatePosition(group, 'group:update:settings', 'group', focusSelector)
 }
 
 // Returns a promise that should resolve with the selected coordinates
 const promptGroupPositionPicker = async () => {
-  await map_.getLeaflet()
+  await getLeaflet()
   return new Promise((resolve, reject) => {
     try {
-      map_.showPositionPicker({ resolve, type: 'group' })
+      showPositionPicker({ resolve, type: 'group' })
     } catch (err) {
       reject(err)
     }
@@ -33,7 +33,7 @@ const promptGroupPositionPicker = async () => {
 const showModelsOnMap = async models => {
   const [ { default: SimpleMap } ] = await Promise.all([
     import('./views/simple_map.js'),
-    map_.getLeaflet()
+    getLeaflet(),
   ])
   app.layout.showChildView('modal', new SimpleMap({ models }))
 }

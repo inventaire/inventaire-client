@@ -2,7 +2,6 @@ import FilteredCollection from 'backbone-filtered-collection'
 import log_ from '#lib/loggers'
 import { isOpenedOutside } from '#lib/utils'
 import preq from '#lib/preq'
-import map_ from '#map/lib/map'
 import { initMap, grabMap, refreshListFilter } from '#network/lib/nearby_layouts'
 import Users from '#users/collections/users'
 import Groups from '#groups/collections/groups'
@@ -11,8 +10,7 @@ import { startLoading, stopLoading } from '#general/plugins/behaviors'
 import publicUsersNavTemplate from './templates/public_users_nav.hbs'
 import '#map/scss/position_required.scss'
 import Loading from '#behaviors/loading'
-
-const { showOnMap, showUserOnMap, getBbox, isValidBbox } = map_
+import { showOnMap, showUserOnMap, getBbox, isValidBbox } from '#map/lib/map'
 
 export default InventoryCommonNav.extend({
   id: 'publicUsersNav',

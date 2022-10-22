@@ -4,7 +4,7 @@
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import MapFilters from '#map/components/map_filters.svelte'
   import SimpleMap from '#map/components/simple_map.svelte'
-  import map_ from '#map/lib/map'
+  import { getLeaflet } from '#map/lib/map'
   import { i18n } from '#user/lib/i18n'
   import { buildMarkers, getBounds } from './lib/map'
 
@@ -50,7 +50,7 @@
     setMap(docsToDisplay)
   }
 </script>
-{#await map_.getLeaflet()}
+{#await getLeaflet()}
   <div class="loading-wrapper">
     <p class="loading">{i18n('Loading map...')} <Spinner/></p>
   </div>
