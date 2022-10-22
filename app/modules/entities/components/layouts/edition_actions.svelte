@@ -48,7 +48,6 @@
   }
   .link-wrapper{
     padding: 0.5em;
-    padding-top: 1em;
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {

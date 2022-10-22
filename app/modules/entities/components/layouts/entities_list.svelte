@@ -46,15 +46,13 @@
   ul{
     width: 100%;
     margin-top: 1em;
-    border: 1px solid #ddd;
     margin: 1em 0 0.5em 0;
     @include radius;
-    background-color: white;
   }
   li{
-    &:not(:last-child){
-      border-bottom: 1px solid #ddd;
-    }
+    border: 1px solid #ddd;
+    background-color: white;
+    margin: 0.3em 0;
   }
   .toggler-wrapper{
     padding: 0.3em;
