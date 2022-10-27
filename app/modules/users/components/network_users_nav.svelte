@@ -1,0 +1,164 @@
+<script>
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { icon, loadInternalLink } from '#lib/utils'
+  import Flash from '#lib/components/flash.svelte'
+  import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
+  import app from '#app/app'
+
+  let flash, users, groups
+
+  app.request('fetch:friends')
+    .then(() => {
+      users = app.users.filtered.friends().toJSON()
+    })
+    .catch(err => flash = err)
+
+  app.request('wait:for', 'groups')
+    .then(() => groups = app.groups.toJSON())
+    .catch(err => flash = err)
+
+  let showUsersMenu, showGroupsMenu
+</script>
+
+<div class="lists">
+  <div class="list-wrapper">
+    <div class="list-label-wrapper">
+      <h2 class="list-label">{I18n('friends')}</h2>
+      {#if !showUsersMenu}
+        <button
+          class="menu-toggler"
+          on:click={() => showUsersMenu = true}
+          aria-controls="userMenu"
+        >
+          {@html icon('plus')} {i18n('add friend')}
+        </button>
+      {/if}
+      <div id="userMenu" class="buttons">
+        {#if showUsersMenu}
+          <button on:click={app.Execute('show:invite:friend:by:email')}
+          >
+            {@html icon('envelope')}
+            {I18n('invite')}
+          </button>
+          <button on:click={app.Execute('show:users:search')}
+          >
+            {@html icon('search')}
+            {I18n('search')}
+          </button>
+          <button on:click={app.Execute('show:users:nearby')}
+          >
+            {@html icon('map-marker')}
+            {I18n('find on map')}
+          </button>
+        {/if}
+      </div>
+    </div>
+    {#if users}
+      <UsersHomeSectionList docs={users} type="users" />
+    {/if}
+  </div>
+
+  <div class="list-wrapper">
+    <div class="list-label-wrapper">
+      <h2 class="list-label">{I18n('groups')}</h2>
+      {#if !showGroupsMenu}
+        <button
+          class="menu-toggler"
+          on:click={() => showGroupsMenu = true}
+          aria-controls="groupMenu"
+        >
+          {@html icon('plus')} {i18n('add group')}
+        </button>
+      {/if}
+      <div class="buttons groupMenu">
+        {#if showGroupsMenu}
+          <button on:click={app.Execute('show:groups:search')}
+          >
+            {@html icon('search')}
+            {I18n('search')}
+          </button>
+          <button on:click={app.Execute('show:groups:nearby')}
+          >
+            {@html icon('map-marker')}
+            {I18n('find on map')}
+          </button>
+          <a
+            href="/network/groups/create"
+            on:click={loadInternalLink}
+          >
+            {@html icon('plus')}
+            {I18n('create')}
+          </a>
+        {/if}
+      </div>
+    </div>
+    {#if groups}
+      <UsersHomeSectionList docs={groups} type="groups" />
+    {/if}
+  </div>
+</div>
+
+<Flash state={flash} />
+
+<style lang="scss">
+  @import "#general/scss/utils";
+  @import "#users/scss/users_home_section_navs";
+  .list-wrapper{
+    @include display-flex(column);
+  }
+  .list-label-wrapper{
+    @include display-flex(row, flex-end, space-between);
+    padding: 0.5em 0;
+  }
+  .menu-toggler{
+    @include tiny-button($grey);
+    align-self: center;
+  }
+  .buttons{
+    a, button{
+      @include tiny-button($light-blue);
+    }
+    @include display-flex(row, center, center, wrap);
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
+    .list-wrapper{
+      min-width: 30em;
+    }
+    .buttons{
+      a, button{
+        margin: 0 0.5em;
+      }
+    }
+  }
+
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
+    .list-label{
+      margin-bottom: 0.5em;
+      font-size: 1.2em;
+    }
+    .list-label-wrapper{
+      text-align: center;
+      @include display-flex(column, center, center);
+      flex-direction: column;
+    }
+    .buttons{
+      a, button{
+        margin: 0.5em;
+      }
+    }
+  }
+
+  /* Very Small screens */
+  @media screen and (max-width: $very-small-screen){
+    .buttons{
+      flex-direction: column;
+      a, button{
+        margin: 0.5em 0;
+      }
+    }
+  }
+</style>
