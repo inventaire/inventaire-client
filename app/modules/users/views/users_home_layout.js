@@ -8,13 +8,14 @@ import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.sv
 import GroupProfile from '#users/views/group_profile.js'
 import ShelfBox from '#shelves/components/shelf_box.svelte'
 import ShelvesSection from '#shelves/components/shelves_section.svelte'
-import NetworkUsersNav from '#users/views/network_users_nav.js'
-import PublicUsersNav from '#users/views/public_users_nav.js'
+import NetworkUsersNav from '#users/components/network_users_nav.svelte'
+import PublicUsersNav from '#users/components/public_users_nav.svelte'
 import showPaginatedItems from '#welcome/lib/show_paginated_items'
 import screen_ from '#lib/screen'
 import InventoryWelcome from '#inventory/views/inventory_welcome.js'
 import error_ from '#lib/error'
 import assert_ from '#lib/assert_types'
+import { wait } from '#lib/promises'
 
 const navs = {
   network: NetworkUsersNav,
@@ -291,13 +292,17 @@ export default Marionette.View.extend({
     this.showChildView('usersHomeNav', new UsersHomeNav({ section }))
   },
 
-  showSectionNav (section, type, model) {
+  async showSectionNav (section, type, model) {
     if (this.standalone || !app.user.loggedIn) return
     const SectionNav = navs[section]
     if (SectionNav == null) return
-    const options = (type != null) && (model != null) ? { [type]: model } : {}
-    options.filter = this.options.filter
-    this.showChildView('sectionNav', new SectionNav(options))
+    const props = {}
+    if (type && model) {
+      props[type] = model.toJSON()
+    }
+    props.filter = this.options.filter
+    await wait(0)
+    this.showChildComponent('sectionNav', SectionNav, { props })
   },
 
   showInventoryBrowser (type, model) {

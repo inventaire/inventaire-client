@@ -3,6 +3,8 @@ import mapConfig from './config.js'
 import { truncateDecimals } from './geo.js'
 import { buildPath } from '#lib/location'
 import error_ from '#lib/error'
+import User from '#users/models/user'
+import Group from '#groups/models/group'
 
 const { defaultZoom } = mapConfig
 
@@ -52,13 +54,15 @@ export function updateMarker (marker, coords) {
   return marker.setLatLng([ lat, lng ])
 }
 
-export function showOnMap (typeName, map, models) {
+export function showOnMap (typeName, map, docs) {
   if (typeName === 'users') {
+    const models = docs.map(doc => new User(doc))
     return showUsersOnMap(map, models)
   } else if (typeName === 'groups') {
+    const models = docs.map(doc => new Group(doc))
     return showGroupsOnMap(map, models)
   } else {
-    throw error_.new('invalid type', { typeName, map, models })
+    throw error_.new('invalid type', { typeName, map, docs })
   }
 }
 
@@ -91,6 +95,9 @@ export function BoundFilter (map) {
 
 export function getBbox (map) {
   const { _southWest, _northEast } = map.getBounds()
+  if (_southWest.lng === _northEast.lng || _southWest.lat === _northEast.lat) {
+    return
+  }
   return [ _southWest.lng, _southWest.lat, _northEast.lng, _northEast.lat ]
 }
 
@@ -110,7 +117,7 @@ export function showUserOnMap (map, user) {
 
   if (user.hasPosition()) {
     const marker = map.addMarker({
-      objectId: user.cid,
+      objectId: `u${user.id}`,
       model: user,
       markerType: 'user'
     })
@@ -145,7 +152,7 @@ export function updatePosition (model, updateReqres, type, focusSelector) {
 const showGroupOnMap = function (map, group) {
   if (group.hasPosition()) {
     return map.addMarker({
-      objectId: group.cid,
+      objectId: `g${group.id}`,
       model: group,
       markerType: 'group'
     })
@@ -155,9 +162,17 @@ const showGroupOnMap = function (map, group) {
 const showItemOnMap = function (map, item) {
   if (item.position != null) {
     return map.addMarker({
-      objectId: item.cid,
+      objectId: `i${item.id}`,
       model: item,
       markerType: 'item'
     })
   }
+}
+
+export function getLatLng (doc) {
+  if (!doc._latLng) {
+    const [ lat, lng ] = doc.position
+    doc._latLng = new L.LatLng(lat, lng)
+  }
+  return doc._latLng
 }

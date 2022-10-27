@@ -3,14 +3,16 @@ import { distanceBetween } from '#map/lib/geo'
 const { defaultAvatar } = images
 
 export function serializeUser (user) {
-  if (!user.picture) {
-    user.picture = defaultAvatar
-  }
+  user.picture = getPicture(user)
   if (app.user.has('position') && user.position) {
     setDistance(user)
   }
   Object.assign(user, getUserPathnames(user.username))
   return user
+}
+
+export function getPicture (user) {
+  return user.picture || defaultAvatar
 }
 
 function setDistance (user) {

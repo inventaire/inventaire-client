@@ -55,3 +55,7 @@ export function getAllGroupMembersIds (group) {
   const { admins, members } = group
   return pluck([ ...admins, ...members ], 'user')
 }
+
+export function getGroupMembersCount (group) {
+  return group.admins.length + group.members.length
+}

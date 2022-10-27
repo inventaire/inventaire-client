@@ -1,7 +1,7 @@
 import assert_ from '#lib/assert_types'
 import getPositionFromNavigator from '#map/lib/navigator_position'
 import { startLoading, stopLoading } from '#general/plugins/behaviors'
-import { updateRoute, updateRouteFromEvent, BoundFilter } from '#map/lib/map'
+import { updateRoute, updateRouteFromEvent, BoundFilter, getLeaflet } from '#map/lib/map'
 import { drawMap } from '#map/lib/draw'
 const containerId = 'mapContainer'
 const containerSelector = '#' + containerId
@@ -16,7 +16,7 @@ export const initMap = async params => {
 
   const [ coords ] = await Promise.all([
     solvePosition(query),
-    app.request('map:before')
+    getLeaflet()
   ])
   stopLoading.call(view, containerSelector)
   const map = drawLayoutMap(params, coords)
@@ -24,7 +24,7 @@ export const initMap = async params => {
   return map
 }
 
-const solvePosition = async function (coords = {}) {
+export const solvePosition = async function (coords = {}) {
   // priority is given to passed parameters
   const { lat, lng } = coords
   if ((lat != null) && (lng != null)) return coords
