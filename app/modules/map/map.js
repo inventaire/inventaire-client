@@ -9,7 +9,6 @@ export default function () {
 
   app.reqres.setHandlers({
     'prompt:group:position:picker': promptGroupPositionPicker,
-    'map:before': getLeaflet
   })
 }
 
