@@ -42,7 +42,10 @@
       <p class="uri">{uri}</p>
     </div>
 
-    <EntityEditMenu {entity} />
+    <EntityEditMenu
+      {entity}
+      on:showModal={() => showModal = true}
+    />
   </div>
 
   {#if !hasMonolingualTitle}
@@ -57,16 +60,6 @@
       {customProperties}
     />
   {/each}
-
-  <span>
-    <button
-      class="show-props-menu tiny-button soft-grey"
-      on:click={() => showModal = true}
-    >
-      {@html icon('plus')}
-      {i18n('show more properties')}
-    </button>
-  </span>
 
   {#if showModal}
     <Modal

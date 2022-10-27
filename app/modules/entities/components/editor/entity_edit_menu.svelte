@@ -8,6 +8,8 @@
   import Flash from '#lib/components/flash.svelte'
   import preq from '#lib/preq'
   import Spinner from '#components/spinner.svelte'
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
   export let entity
 
@@ -126,6 +128,15 @@
           >
             {@html icon('flag')}
             {I18n('report an error')}
+        </button>
+      </li>
+      <li>
+        <button
+          class="show-props-menu tiny-button soft-grey"
+          on:click={() => dispatch('showModal')}
+        >
+          {@html icon('plus')}
+          {i18n('customize editable properties')}
         </button>
       </li>
       {#if flash}
