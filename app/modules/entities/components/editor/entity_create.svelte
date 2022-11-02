@@ -77,11 +77,9 @@
 </script>
 
 <div class="column">
+  <h2>{I18n(`create a new ${entityTypeNameBySingularType[type]}`)}</h2>
   {#if canChangeType}
-    <h2>{I18n('create a new entity')}</h2>
     <EntityTypePicker bind:type />
-  {:else}
-    <h2>{I18n(`create a new ${entityTypeNameBySingularType[type]}`)}</h2>
   {/if}
 
   {#if type}
