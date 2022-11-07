@@ -66,18 +66,20 @@ const formatOwnerData = ownerModel => {
   item.distanceFromMainUser = ownerModel.distanceFromMainUser
   return item
 }
+
+const itemKeys = [
+  'details',
+  'owner',
+  'transaction',
+  'entity',
+]
+
 const formatItemDataFromModel = itemModel => {
   // TODO: debackbonification must involve user `network`, `itemsCount`, `distanceFromMainUser`
   const item = {}
   item.id = itemModel.id
   item.markerType = 'item'
 
-  const itemKeys = [
-    'details',
-    'owner',
-    'transaction',
-    'entity',
-  ]
   for (let key of itemKeys) {
     const itemValue = itemModel.attributes[key]
     if (itemValue) {
