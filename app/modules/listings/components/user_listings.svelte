@@ -40,7 +40,7 @@
           class="tiny-button light-blue"
           >
           {@html icon('plus')}
-          {i18n('Create list')}
+          {i18n('Create a new list')}
         </button>
       </div>
     {/if}
