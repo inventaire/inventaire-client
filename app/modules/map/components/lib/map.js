@@ -51,7 +51,7 @@ const buildMarker = (doc, getFiltersValues) => {
   // passing the component to the icon div appears to have some mounting problems
   // see https://imfeld.dev/writing/leaflet_with_svelte
   let iconWrapper = L.DomUtil.create('div')
-  const Marker = markerOptions.markerModel
+  const Marker = markerOptions.markerComponent
   new Marker({
     target: iconWrapper,
     props: { doc }
@@ -75,15 +75,15 @@ const buildMarker = (doc, getFiltersValues) => {
 
 const markersConfigByTypes = {
   item: {
-    markerModel: ItemMarker,
+    markerComponent: ItemMarker,
     className: 'itemMarker'
   },
   'main-user': {
-    markerModel: UserMarker,
+    markerComponent: UserMarker,
     className: 'mainUserMarker'
   },
   user: {
-    markerModel: UserMarker,
+    markerComponent: UserMarker,
     className: 'userMarker'
   }
 }
