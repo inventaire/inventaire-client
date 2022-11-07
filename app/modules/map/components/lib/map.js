@@ -66,8 +66,7 @@ const buildMarker = (doc, getFiltersValues) => {
     doc
   }
   if (getFiltersValues) {
-    const filtersValues = getFiltersValues(doc)
-    Object.assign(options, { filters: filtersValues })
+    options.filters = getFiltersValues(doc)
   }
   const marker = L.marker([ lat, lng ], options)
   return marker
