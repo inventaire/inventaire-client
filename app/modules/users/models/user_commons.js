@@ -5,13 +5,14 @@ import { countListings } from '#listings/lib/listings'
 import Positionable from '#general/models/positionable'
 import error_ from '#lib/error'
 import { images } from '#lib/urls'
+import { getUserBasePathname } from '#users/lib/users'
 
 const { defaultAvatar } = images
 
 export default Positionable.extend({
   setPathname () {
     const username = this.get('username')
-    const base = `/users/${username.toLowerCase()}`
+    const base = getUserBasePathname(username)
     this.set({
       pathname: base,
       inventoryPathname: `${base}/inventory`,
