@@ -165,6 +165,7 @@
     flex: 1 0 0;
     overflow: hidden;
     margin-right: 0.5em;
+    min-height: 3rem;
   }
   .user{
     @include bg-hover(white, 5%);
