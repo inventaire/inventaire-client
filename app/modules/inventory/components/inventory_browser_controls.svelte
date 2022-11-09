@@ -75,7 +75,12 @@
         {/await}
       </div>
       <div class="display-controls" transition:slide>
-        <SelectDropdown bind:value={$inventoryDisplay} options={displayOptions} buttonLabel={I18n('display_mode')}/>
+        <SelectDropdown
+          bind:value={$inventoryDisplay}
+          options={displayOptions}
+          buttonLabel={I18n('display_mode')}
+          hideCurrentlySelectedOption={true}
+        />
       </div>
     {/if}
   </div>

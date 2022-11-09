@@ -8,7 +8,7 @@
   import { I18n } from '#user/lib/i18n'
   import { uniqueId } from 'underscore'
 
-  export let value, resetValue = null, options, buttonLabel = null, withImage = false
+  export let value, resetValue = null, options, buttonLabel = null, withImage = false, hideCurrentlySelectedOption = false
   const buttonId = uniqueId('button')
 
   function onKeyDown (e) {
@@ -56,14 +56,16 @@
     </div>
     <div slot="dropdown-content" role="presentation">
       {#each options as option}
-        <button
-          role="option"
-          title={option.text}
-          aria-selected={option.value === value}
-          on:click={() => value = option.value}
-          >
-          <SelectDropdownOption {option} {withImage} />
-        </button>
+        {#if !(hideCurrentlySelectedOption && option.value === value)}
+          <button
+            role="option"
+            title={option.text}
+            aria-selected={option.value === value}
+            on:click={() => value = option.value}
+            >
+            <SelectDropdownOption {option} {withImage} />
+          </button>
+        {/if}
       {/each}
     </div>
   </Dropdown>
