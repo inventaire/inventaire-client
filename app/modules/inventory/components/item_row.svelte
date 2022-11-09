@@ -108,6 +108,11 @@
       max-height: $item-row-height-base;
     }
   }
+  .title{
+    line-height: 1.1rem;
+    max-height: 2.2rem;
+    overflow: hidden;
+  }
   .modes{
     @include display-flex(row, center, center);
     flex: 0 0 auto;
