@@ -1,3 +1,4 @@
+import { getUserBasePathname } from '#users/lib/users'
 import Notification from './notification.js'
 
 export default Notification.extend({
@@ -9,7 +10,7 @@ export default Notification.extend({
     const attrs = this.toJSON()
     attrs.username = this.user?.get('username')
     attrs.picture = this.user?.get('picture')
-    attrs.pathname = `/inventory/${attrs.username}`
+    attrs.pathname = getUserBasePathname(attrs.username)
     return attrs
   }
 })

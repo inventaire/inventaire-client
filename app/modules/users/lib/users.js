@@ -35,3 +35,7 @@ function getCoords (user) {
     return {}
   }
 }
+
+export function getUserBasePathname (usernameOrId) {
+  return `/users/${usernameOrId.toLowerCase()}`
+}
