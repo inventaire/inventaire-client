@@ -8,7 +8,7 @@ export default {
     attribution: `Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors,
 <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,
 Imagery © <a href="http://mapbox.com">Mapbox</a>`,
-    minZoom: 2,
+    minZoom: 6,
     maxZoom: 18,
     // Different styles are available https://docs.mapbox.com/api/maps/#styles
     id: 'mapbox/streets-v8',

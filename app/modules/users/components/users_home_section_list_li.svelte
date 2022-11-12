@@ -1,11 +1,10 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon, isOpenedOutside } from '#lib/utils'
+  import { icon } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getGroupMembersCount, getGroupPicture } from '#groups/lib/groups'
-  import User from '#users/models/user'
-  import Group from '#groups/models/group'
   import { getPicture as getUserPicture } from '#users/lib/users'
+  import { SelectInventoryOnClick } from '#users/components/lib/navs_helpers'
 
   export let doc, context, group
   const { name, username, hasItemsCount, pathname, itemsCount } = doc
@@ -24,14 +23,7 @@
     userIsGroupAdmin = group.admins.find(({ user }) => user === doc._id) != null
   }
 
-  function onClick (e) {
-    if (isOpenedOutside(e)) return
-    let model
-    if (type === 'user') model = new User(doc)
-    else if (type === 'group') model = new Group(doc)
-    app.vent.trigger('inventory:select', type, model)
-    e.preventDefault()
-  }
+  const onClick = SelectInventoryOnClick({ type, doc })
 </script>
 
 <a

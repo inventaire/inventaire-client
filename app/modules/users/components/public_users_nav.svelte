@@ -2,14 +2,19 @@
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import preq from '#lib/preq'
+  import { onChange } from '#lib/svelte/svelte'
+  import GroupMarker from '#map/components/group_marker.svelte'
+  import LeafletMap from '#map/components/leaflet_map.svelte'
+  import Marker from '#map/components/marker.svelte'
   import PositionRequired from '#map/components/position_required.svelte'
-  import { drawMap } from '#map/lib/draw'
-  import { getBbox, getLatLng, getLeaflet, isValidBbox, showOnMap, showUserOnMap } from '#map/lib/map'
+  import UserMarkerAlt from '#map/components/user_marker_alt.svelte'
+  import { getBbox, getLatLng, isValidBbox } from '#map/lib/map'
   import { solvePosition } from '#network/lib/nearby_layouts'
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import { isNotMainUser } from '#users/components/lib/navs_helpers'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
+  import { serializeUser } from '#users/lib/users'
   import { pluck } from 'underscore'
 
   export let filter
@@ -18,25 +23,33 @@
   const showGroups = filter !== 'users'
 
   let users = [], groups = []
-  let map, bounds, flash
+  let map, bounds, mapViewLatLng, mapZoom, flash
 
   const getByPosition = async (name, bbox) => {
-    if (!isValidBbox(bbox)) throw new Error(`invalid bbox: ${bbox}`)
-    let { [name]: docs } = await preq.get(app.API[name].searchByPosition(bbox))
-    if (name === 'users') {
-      const knownIds = new Set(pluck(users, '_id'))
-      docs = docs
-        .filter(isNotMainUser)
-        .filter(doc => !knownIds.has(doc._id))
-      users = users.concat(docs)
-    } else if (name === 'groups') {
-      const knownIds = new Set(pluck(groups, '_id'))
-      docs = docs.filter(doc => !knownIds.has(doc._id))
-      groups = groups.concat(docs)
+    try {
+      if (!isValidBbox(bbox)) throw new Error(`invalid bbox: ${bbox}`)
+      let { [name]: docs } = await preq.get(app.API[name].searchByPosition(bbox))
+      if (name === 'users') {
+        const knownIds = new Set(pluck(users, '_id'))
+        docs = docs
+          .filter(isNotMainUser)
+          .filter(doc => !knownIds.has(doc._id))
+          .map(serializeUser)
+        users = users.concat(docs)
+      } else if (name === 'groups') {
+        const knownIds = new Set(pluck(groups, '_id'))
+        docs = docs
+          .filter(doc => !knownIds.has(doc._id))
+        groups = groups.concat(docs)
+      }
+    } catch (err) {
+      flash = err
     }
   }
 
+  const waiters = {}
   function fetchAndShowUsersAndGroupsOnMap () {
+    if (!map) return
     const displayedElementsCount = users.length + groups.length
     if (map._zoom < 10 && displayedElementsCount > 20) return
     const bbox = getBbox(map)
@@ -44,38 +57,19 @@
     bounds = map.getBounds()
 
     if (showUsers) {
-      showUserOnMap(map, app.user)
-      showByPosition('users', bbox)
+      waiters.users = getByPosition('users', bbox)
     }
 
     if (showGroups) {
-      showByPosition('groups', bbox)
+      waiters.groups = getByPosition('groups', bbox)
     }
   }
 
-  const waiters = {}
-  async function showByPosition (name, bbox) {
-    waiters[name] = getByPosition(name, bbox)
-    await waiters[name]
-    const docs = name === 'users' ? users : groups
-    showOnMap(name, map, docs)
-  }
-
-  const mapContainerId = 'mapContainer'
-  Promise.all([
-    solvePosition(),
-    getLeaflet(),
-  ])
-  .then(([ coords ]) => {
+  solvePosition()
+  .then(coords => {
     const { lat, lng, zoom } = coords
-    map = drawMap({
-      containerId: mapContainerId,
-      latLng: [ lat, lng ],
-      zoom,
-      cluster: true
-    })
-    fetchAndShowUsersAndGroupsOnMap()
-    map.on('moveend', fetchAndShowUsersAndGroupsOnMap)
+    mapViewLatLng = [ lat, lng ]
+    mapZoom = zoom
   })
   .catch(err => flash = err)
 
@@ -86,6 +80,7 @@
 
   $: usersInBounds = users.filter(docIsInBounds(bounds))
   $: groupsInBounds = groups.filter(docIsInBounds(bounds))
+  $: onChange(map, fetchAndShowUsersAndGroupsOnMap)
 </script>
 
 {#if $user.position != null}
@@ -120,9 +115,30 @@
       {/if}
     </div>
 
-    <!-- Avoid using just 'map' as id as that sets a global variable that might cause confusion -->
-    <!-- See https://www.tjvantoll.com/2012/07/19/dom-element-references-as-global-variables/ -->
-    <div id={mapContainerId}></div>
+    <div id="mapContainer">
+      {#if mapViewLatLng}
+        <LeafletMap
+          bind:map
+          view={mapViewLatLng}
+          zoom={mapZoom}
+          cluster={true}
+          on:moveend={fetchAndShowUsersAndGroupsOnMap}
+          >
+
+          {#each usersInBounds as user (user._id)}
+            <Marker latLng={user.position}>
+              <UserMarkerAlt doc={user} />
+            </Marker>
+          {/each}
+
+          {#each groupsInBounds as group (group._id)}
+            <Marker latLng={group.position}>
+              <GroupMarker doc={group} />
+            </Marker>
+          {/each}
+        </LeafletMap>
+      {/if}
+    </div>
   </div>
 {:else}
   <PositionRequired />
