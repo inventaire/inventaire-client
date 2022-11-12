@@ -3,6 +3,7 @@ import preq from '#lib/preq'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
 import { pluck } from 'underscore'
+import { getColorSquareDataUriFromModelId } from '#lib/images'
 
 export default {
   createGroup (data) {
@@ -58,4 +59,12 @@ export function getAllGroupMembersIds (group) {
 
 export function getGroupMembersCount (group) {
   return group.admins.length + group.members.length
+}
+
+export function getGroupPicture (group) {
+  return group.picture || getColorSquareDataUriFromModelId(group._id)
+}
+
+export function getGroupPathname (group) {
+  return `/groups/${group.slug}`
 }
