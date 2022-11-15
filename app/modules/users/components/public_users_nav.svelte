@@ -13,7 +13,6 @@
   import { solvePosition } from '#network/lib/nearby_layouts'
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
-  import { isNotMainUser } from '#users/components/lib/navs_helpers'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import { serializeUser } from '#users/lib/users'
 
@@ -31,7 +30,7 @@
       let { [name]: docs } = await preq.get(app.API[name].searchByPosition(bbox))
       if (name === 'users') {
         for (const doc of docs) {
-          if (isNotMainUser(doc) && usersById[doc._id] == null) {
+          if (usersById[doc._id] == null) {
             usersById[doc._id] = serializeUser(doc)
           }
         }
