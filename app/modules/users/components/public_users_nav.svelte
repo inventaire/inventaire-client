@@ -3,6 +3,7 @@
   import Flash from '#lib/components/flash.svelte'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
+  import { objLength } from '#lib/utils'
   import GroupMarker from '#map/components/group_marker.svelte'
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import Marker from '#map/components/marker.svelte'
@@ -15,32 +16,33 @@
   import { isNotMainUser } from '#users/components/lib/navs_helpers'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import { serializeUser } from '#users/lib/users'
-  import { pluck } from 'underscore'
 
   export let filter
 
   const showUsers = filter !== 'groups'
   const showGroups = filter !== 'users'
 
-  let users = [], groups = []
-  let map, bounds, mapViewLatLng, mapZoom, flash
+  let usersById = {}, groupsById = {}
+  let map, bounds, mapViewLatLng, mapZoom, flash, usersInBounds = [], groupsInBounds = []
 
   const getByPosition = async (name, bbox) => {
     try {
       if (!isValidBbox(bbox)) throw new Error(`invalid bbox: ${bbox}`)
       let { [name]: docs } = await preq.get(app.API[name].searchByPosition(bbox))
       if (name === 'users') {
-        const knownIds = new Set(pluck(users, '_id'))
-        docs = docs
-          .filter(isNotMainUser)
-          .filter(doc => !knownIds.has(doc._id))
-          .map(serializeUser)
-        users = users.concat(docs)
+        for (const doc of docs) {
+          if (isNotMainUser(doc) && usersById[doc._id] == null) {
+            usersById[doc._id] = serializeUser(doc)
+          }
+        }
+        usersInBounds = Object.values(usersById).filter(docIsInBounds(bounds))
       } else if (name === 'groups') {
-        const knownIds = new Set(pluck(groups, '_id'))
-        docs = docs
-          .filter(doc => !knownIds.has(doc._id))
-        groups = groups.concat(docs)
+        for (const doc of docs) {
+          if (groupsById[doc._id] == null) {
+            groupsById[doc._id] = doc
+          }
+        }
+        groupsInBounds = Object.values(groupsById).filter(docIsInBounds(bounds))
       }
     } catch (err) {
       flash = err
@@ -50,7 +52,7 @@
   const waiters = {}
   function fetchAndShowUsersAndGroupsOnMap () {
     if (!map) return
-    const displayedElementsCount = users.length + groups.length
+    const displayedElementsCount = objLength(usersById) + objLength(groupsById)
     if (map._zoom < 10 && displayedElementsCount > 20) return
     const bbox = getBbox(map)
     if (!bbox) return
@@ -78,8 +80,6 @@
     return bounds.contains(latLng)
   }
 
-  $: usersInBounds = users.filter(docIsInBounds(bounds))
-  $: groupsInBounds = groups.filter(docIsInBounds(bounds))
   $: onChange(map, fetchAndShowUsersAndGroupsOnMap)
 </script>
 
@@ -94,9 +94,9 @@
               <div class="usersLoading"><Spinner /></div>
             {/await}
           </div>
-          {#await waiters.users then}
+          {#if usersInBounds}
             <UsersHomeSectionList docs={usersInBounds} type="users" />
-          {/await}
+          {/if}
         </div>
       {/if}
 
@@ -108,9 +108,9 @@
               <div class="groupsLoading"><Spinner /></div>
             {/await}
           </div>
-          {#await waiters.groups then}
+          {#if groupsInBounds}
             <UsersHomeSectionList docs={groupsInBounds} type="groups" />
-          {/await}
+          {/if}
         </div>
       {/if}
     </div>
