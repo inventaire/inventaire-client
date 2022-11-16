@@ -5,7 +5,7 @@
   import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'
   import Spinner from '#components/spinner.svelte'
 
-  export let items, isMainUser, itemsIds, waiting, haveSeveralOwners
+  export let items, shelves, isMainUser, itemsIds, waiting, haveSeveralOwners
 
   let selectedItemsIds = []
 
@@ -25,13 +25,12 @@
 
   $: emptySelection = selectedItemsIds.length === 0
 </script>
-
 <div class="items-table">
   {#if isMainUser}
     <ul id="selectable-items">
       {#each items as item (item._id)}
         <li>
-          <ItemRow bind:item>
+          <ItemRow bind:item {shelves}>
             <input
               slot="checkbox"
               type="checkbox"
@@ -45,7 +44,7 @@
   {:else}
     <ul>
       {#each items as item (item._id)}
-        <li><ItemRow {item} showUser={haveSeveralOwners} /></li>
+        <li><ItemRow {item} {shelves} showUser={haveSeveralOwners} /></li>
       {/each}
     </ul>
   {/if}

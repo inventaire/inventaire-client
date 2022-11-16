@@ -2,8 +2,7 @@
   import { i18n } from '#user/lib/i18n'
   import { icon, isOpenedOutside } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { serializeShelfData } from './lib/shelves'
-  import Shelf from '#shelves/models/shelf'
+  import { serializeShelfData, loadShelfLink } from './lib/shelves'
 
   export let shelf, withoutShelf
 
@@ -14,8 +13,7 @@
     if (withoutShelf) {
       app.vent.trigger('inventory:select', 'without-shelf')
     } else {
-      const model = new Shelf(shelf)
-      app.vent.trigger('inventory:select', 'shelf', model)
+      loadShelfLink(shelf)
     }
     e.preventDefault()
   }
