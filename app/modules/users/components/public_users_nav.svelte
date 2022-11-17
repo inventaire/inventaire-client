@@ -9,7 +9,7 @@
   import Marker from '#map/components/marker.svelte'
   import PositionRequired from '#map/components/position_required.svelte'
   import UserMarkerAlt from '#map/components/user_marker_alt.svelte'
-  import { getBbox, getLatLng, isValidBbox } from '#map/lib/map'
+  import { getBbox, isValidBbox } from '#map/lib/map'
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
@@ -67,14 +67,14 @@
 
   function addMainUserMarker () {
     mapViewLatLng = $user.position
+    bounds = map?.getBounds()
     usersById[$user._id] = $user
     usersById = usersById
   }
 
   const docIsInBounds = doc => {
     if (!bounds) return false
-    const latLng = getLatLng(doc)
-    return bounds.contains(latLng)
+    return bounds.contains(doc.position)
   }
 
   function init () {
