@@ -168,11 +168,3 @@ const showItemOnMap = function (map, item) {
     })
   }
 }
-
-export function getLatLng (doc) {
-  if (!doc._latLng) {
-    const [ lat, lng ] = doc.position
-    doc._latLng = new L.LatLng(lat, lng)
-  }
-  return doc._latLng
-}
