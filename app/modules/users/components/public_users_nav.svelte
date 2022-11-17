@@ -10,7 +10,6 @@
   import PositionRequired from '#map/components/position_required.svelte'
   import UserMarkerAlt from '#map/components/user_marker_alt.svelte'
   import { getBbox, getLatLng, isValidBbox } from '#map/lib/map'
-  import { solvePosition } from '#network/lib/nearby_layouts'
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
@@ -22,7 +21,7 @@
   const showGroups = filter !== 'users'
 
   let usersById = {}, groupsById = {}
-  let map, bounds, mapViewLatLng, mapZoom, flash, usersInBounds = [], groupsInBounds = []
+  let map, bounds, mapViewLatLng, mapZoom, flash
 
   const getByPosition = async (name, bbox) => {
     try {
@@ -34,14 +33,14 @@
             usersById[doc._id] = serializeUser(doc)
           }
         }
-        usersInBounds = Object.values(usersById).filter(docIsInBounds(bounds))
+        usersById = usersById
       } else if (name === 'groups') {
         for (const doc of docs) {
           if (groupsById[doc._id] == null) {
             groupsById[doc._id] = doc
           }
         }
-        groupsInBounds = Object.values(groupsById).filter(docIsInBounds(bounds))
+        groupsById = groupsById
       }
     } catch (err) {
       flash = err
@@ -66,20 +65,36 @@
     }
   }
 
-  solvePosition()
-  .then(coords => {
-    const { lat, lng, zoom } = coords
-    mapViewLatLng = [ lat, lng ]
-    mapZoom = zoom
-  })
-  .catch(err => flash = err)
+  function addMainUserMarker () {
+    mapViewLatLng = $user.position
+    usersById[$user._id] = $user
+    usersById = usersById
+  }
 
-  const docIsInBounds = bounds => doc => {
+  const docIsInBounds = doc => {
+    if (!bounds) return false
     const latLng = getLatLng(doc)
     return bounds.contains(latLng)
   }
 
-  $: onChange(map, fetchAndShowUsersAndGroupsOnMap)
+  function init () {
+    if (!map) return
+    fetchAndShowUsersAndGroupsOnMap()
+    bounds = map.getBounds()
+  }
+
+  let usersInBounds, groupsInBounds
+  function refreshUsersInBounds () {
+    usersInBounds = Object.values(usersById).filter(docIsInBounds)
+  }
+  function refreshGroupsInBounds () {
+    groupsInBounds = Object.values(groupsById).filter(docIsInBounds)
+  }
+
+  $: onChange(map, init)
+  $: onChange($user.position, addMainUserMarker)
+  $: onChange(bounds, usersById, refreshUsersInBounds)
+  $: onChange(bounds, groupsById, refreshGroupsInBounds)
 </script>
 
 {#if $user.position != null}
