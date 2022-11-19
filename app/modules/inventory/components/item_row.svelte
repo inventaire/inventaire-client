@@ -41,7 +41,9 @@
       <p class="title">{title}</p>
       <p class="authors">{authors || ''}</p>
     </div>
-    <p class="details">{details}</p>
+    {#if details}
+      <p class="details">{details}</p>
+    {/if}
   </a>
 
   <div class="modes">
@@ -85,7 +87,7 @@
   }
   .details:not(:empty){
     background-color: #eee;
-    padding: 0 0.2em;
+    padding: 0 0.5em;
     overflow: hidden;
     @include radius;
   }
