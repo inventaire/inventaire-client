@@ -91,7 +91,7 @@
           </li>
         {/if}
       </ul>
-      {#if $screen.isLargerThan('$small-screen')}
+      {#if $screen.isLargerThan('$smaller-screen')}
         {#if bio}
           <p class="bio-wrapper">{@html userContent(bio)}</p>
         {/if}
@@ -99,7 +99,7 @@
     </div>
   </div>
 
-  {#if $screen.isSmallerThan('$small-screen')}
+  {#if $screen.isSmallerThan('$smaller-screen')}
     {#if bio}
       <p class="bio-wrapper">{@html userContent(bio)}</p>
     {/if}
@@ -209,23 +209,21 @@
     margin: 0.5em 0;
   }
   .user-card{
+    flex: 1;
     @include display-flex(row);
   }
   .avatar{
     background-color: #eee;
-    height: 10em;
-    width: 10em;
   }
   .info{
-    flex: 1 0 0;
     position: relative;
   }
   .username{
     @include sans-serif;
-    flex: 1 0 auto;
     margin: 0;
   }
   .profile-buttons{
+    margin: 0.5em;
     @include display-flex(column, stretch, center);
     a, button{
       line-height: 1;
@@ -262,7 +260,7 @@
   }
 
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (min-width: $smaller-screen) {
     .avatar-wrapper{
       flex: 0 0 auto;
     }
@@ -273,27 +271,29 @@
       margin: 0 0.5em;
     }
     .info{
+      flex: 1 0 0;
       padding: 0.8em 1em;
     }
   }
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $smaller-screen) {
     .user-profile{
       @include display-flex(column, center, center);
     }
     .user-card{
-      @include display-flex(row, baseline, flex-start, wrap);
+      flex-wrap: wrap;
       align-self: stretch;
       margin: 0 0.5em;
     }
     .avatar-wrapper{
-      flex: 0 0 auto;
+      flex: 1 0 0;
+      max-width: 30%;
+      min-width: 4em;
     }
-    .avatar{
-      margin-top: 1em;
-      max-height: 4em;
-      max-width: 4em;
+    .info{
+      flex: 2 0 0;
+      min-width: min(10em, 90vw);
     }
     .username{
       text-align: center;
