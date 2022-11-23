@@ -11,7 +11,7 @@
 
   export let candidate
 
-  const { isbnData, edition, works, error, index: candidateId } = candidate
+  const { isbnData, edition, works, index: candidateId } = candidate
   let { editionTitle, authors, authorsNames } = candidate
   let work
   if (isNonEmptyArray(works)) work = works[0]
@@ -40,10 +40,10 @@
     addStatus(statusContents.newEntry)
   }
 
-  let hasError = false
-  if (error) {
-    addStatus(statusContents.error)
-    hasError = true
+  $: {
+    if (candidate.error) {
+      flash = candidate.error
+    }
   }
 
   let needInfo = true
@@ -99,7 +99,7 @@
   $: candidate.editionTitle = editionTitle
   $: candidate.authors = authors
   $: candidate.works = [ work ]
-  $: disabled = (!itemsCountWereChecked) || needInfo || hasError
+  $: disabled = (!itemsCountWereChecked) || needInfo || (candidate.error != null)
   $: if (disabled) checked = false
 </script>
 

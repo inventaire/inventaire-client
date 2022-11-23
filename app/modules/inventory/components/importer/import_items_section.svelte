@@ -60,10 +60,9 @@
       }
     } catch (err) {
       // Do not throw to not crash the whole chain
-      const { responseJSON } = err
-      nextCandidate.error = responseJSON
+      // Let the candidate_row display candidate specific errors
+      nextCandidate.error = err
       candidates[candidatePosition] = nextCandidate
-      flash = err
     }
     await createEntitiesSequentially()
   }
