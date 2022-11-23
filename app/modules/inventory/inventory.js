@@ -107,7 +107,7 @@ const API = {
   },
 
   showUserItemsByEntity (username, uri, label) {
-    const pathname = `/inventory/${username}/${uri}`
+    const pathname = `/users/${username}/inventory/${uri}`
     if (!isUsername(username) || !isEntityUri(uri)) {
       return app.execute('show:error:missing', { pathname })
     }
@@ -136,7 +136,7 @@ const showItemsFromModels = function (items) {
     app.execute('show:error:missing')
   } else if (items.length === 1) {
     const item = items.models[0]
-    showItemModal(item)
+    showItemModal(item, { fallbackToUserInventory: true })
   } else {
     showItemsList(items)
   }
@@ -164,8 +164,9 @@ export const getItemsListFromItemsCollection = collection => {
   })
 }
 
-const showItemModal = async model => {
+const showItemModal = async (model, options = {}) => {
   assert_.object(model)
+  const { fallbackToUserInventory = false } = options
 
   // Do not scroll top as the modal might be displayed down at the level
   // where the item show event was triggered
@@ -175,7 +176,7 @@ const showItemModal = async model => {
 
   const navigateAfterModal = function () {
     if (currentRoute() !== newRoute) return
-    if (!previousRoute || previousRoute === newRoute) {
+    if (fallbackToUserInventory || !previousRoute || previousRoute === newRoute) {
       app.execute('show:inventory:user', model.get('owner'))
     } else {
       app.navigate(previousRoute, { preventScrollTop: true })
@@ -228,11 +229,15 @@ const initializeInventoriesHandlers = function (app) {
 
     // user can be either a username or a user model
     'show:inventory:user' (user) {
-      return API.showUserInventory(user, true)
+      API.showUserInventory(user, true)
     },
 
     'show:inventory:main:user' (listings) {
-      return API.showUserInventory(app.user, true, listings)
+      API.showUserInventory(app.user, true, listings)
+    },
+
+    'show:user:items:by:entity' (username, uri) {
+      API.showUserItemsByEntity(username, uri)
     },
 
     'show:inventory:group': API.showGroupInventory,

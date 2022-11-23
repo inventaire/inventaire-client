@@ -1,6 +1,7 @@
 import error_ from '#lib/error'
 import { isImageHash } from '#lib/boolean_tests'
 import { pluralize } from '#entities/lib/types/entities_types'
+import { getUserBasePathname } from '#users/lib/users'
 
 export function serializeResult (result) {
   try {
@@ -33,7 +34,7 @@ const typeFormatters = {
   users (result) {
     result.typeAlias = 'user'
     // label is the username
-    result.pathname = `/inventory/${result.label}`
+    result.pathname = getUserBasePathname(result.label)
     return result
   },
 

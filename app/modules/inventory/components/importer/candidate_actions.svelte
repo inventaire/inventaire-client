@@ -40,7 +40,7 @@
 
   $: {
     const username = app.user.get('username')
-    if (edition) itemPath = `/inventory/${username}/${edition.uri}`
+    if (edition) itemPath = `/users/${username}/inventory/${edition.uri}`
   }
 </script>
 {#if error}

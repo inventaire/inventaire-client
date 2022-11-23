@@ -1,3 +1,5 @@
+import { getUserBasePathname } from '#users/lib/users'
+
 export default function () {
   const [ itemId, ownerId, requesterId ] = this.gets('item', 'owner', 'requester')
   const { item, owner, requester } = this.get('snapshot')
@@ -14,6 +16,6 @@ const formatSnapshotItem = function (itemId, data) {
 }
 
 const formatSnapshotUser = function (userId, data, role) {
-  data.pathname = '/inventory/' + userId
+  data.pathname = getUserBasePathname(userId)
   return data
 }
