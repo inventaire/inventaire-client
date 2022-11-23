@@ -1,3 +1,5 @@
+import error_ from '#lib/error'
+
 let screen_
 
 // Keep in sync with app/modules/general/scss/_grid_and_media_query_ranges.scss
@@ -60,7 +62,11 @@ export default screen_ = {
   },
 
   scrollToElement (element, options = {}) {
-    if (!(element instanceof HTMLElement)) throw new Error('invalid element')
+    if (!(element instanceof HTMLElement)) {
+      error_.report('invalid element', { element, options })
+      // Assumes that a failing scroll is never worth crashing the calling function
+      return
+    }
 
     const { marginTop = 0, waitForRoomToScroll = true } = options
 
