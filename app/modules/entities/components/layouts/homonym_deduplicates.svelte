@@ -4,6 +4,7 @@
   import { icon } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
   import EntityListElement from './entity_list_element.svelte'
+  import MergeAction from '#entities/components/layouts/merge_action.svelte'
 
   export let entity
 
@@ -33,10 +34,13 @@
               <!-- TODO: recover list of subentities (typically author works) -->
               <EntityListElement
                 entity={homonym}
-                actionType="merge"
                 parentEntity={entity}
                 noImageCredits="true"
                 displayUri="true"
+              />
+              <MergeAction
+                entity={homonym}
+                parentEntity={entity}
               />
             </li>
           {/if}

@@ -1,21 +1,15 @@
 <script>
   import Link from '#lib/components/link.svelte'
-  import Flash from '#lib/components/flash.svelte'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
-  import EditionActions from './edition_actions.svelte'
-  import MergeAction from './merge_action.svelte'
   import EntityImage from '../entity_image.svelte'
   import Infobox from './infobox.svelte'
 
   export let entity,
     parentEntity,
     relatedEntities,
-    actionType,
     showInfobox = true,
     noImageCredits,
     displayUri
-
-  let flash
 
   let { claims, label, uri } = entity
 
@@ -25,13 +19,6 @@
   if (parentEntity && parentEntity.type === 'work') {
     delete infoboxClaims['wdt:P629']
     delete infoboxClaims['wdt:P1476']
-  }
-
-  const buttonActionsComponents = {}
-  if (entity.type === 'edition') {
-    buttonActionsComponents.link = EditionActions
-  } else {
-    buttonActionsComponents.merge = MergeAction
   }
 </script>
 <div class="entity-wrapper">
@@ -79,22 +66,6 @@
     {/if}
   </div>
 </div>
-{#if actionType}
-  <div class="actions-menu">
-    <!-- keep action button on top (.entity-list flex-direction) to display dropdown  -->
-    {#if actionType}
-      <svelte:component
-        this={buttonActionsComponents[actionType]}
-        {entity}
-        {parentEntity}
-        bind:flash
-      />
-    {/if}
-  </div>
-  <div class="flash">
-    <Flash bind:state={flash} />
-  </div>
-{/if}
 <style lang="scss">
   @import "#general/scss/utils";
   .entity-wrapper{
