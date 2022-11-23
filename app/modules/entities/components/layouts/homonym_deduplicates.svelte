@@ -41,6 +41,7 @@
               <MergeAction
                 entity={homonym}
                 parentEntity={entity}
+                on:merged={() => homonym.merged = true}
               />
             </li>
           {/if}

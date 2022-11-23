@@ -1,9 +1,11 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Flash from '#lib/components/flash.svelte'
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
   export let entity, parentEntity, isToMerge
 
@@ -13,10 +15,7 @@
     if (!(entity && parentEntity)) return
     waitForMerge = mergeEntities(entity.uri, parentEntity.uri)
       .then(() => {
-        flash = {
-          type: 'success',
-          message: I18n('merged')
-        }
+        dispatch('merged')
       })
       .catch(err => {
         flash = err
