@@ -22,7 +22,7 @@
   let processedCandidates = []
   let processedItemsCount = 0
   let processedEntitiesCount = 0
-  let importResultsElement = {}
+  let importResultsElement
   let processedExternalShelvesCount = 0
   let externalShelfErrors = []
 
