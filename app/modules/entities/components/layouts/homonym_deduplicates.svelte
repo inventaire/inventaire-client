@@ -154,4 +154,16 @@
       min-width: 30em;
     }
   }
+  /*Smaller screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .merge-homonyms-controls{
+      @include display-flex(column, center);
+    }
+  }
+  /*Small screens*/
+  @media screen and (max-width: $small-screen) {
+    button{
+      margin-bottom: 0.5em;
+    }
+  }
 </style>
