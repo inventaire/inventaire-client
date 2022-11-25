@@ -16,7 +16,11 @@ export const createExternalEntry = candidateData => {
   delete candidateData.authors
   Object.assign(externalEntry, candidateData)
   if (isbn) externalEntry.isbnData = getIsbnData(isbn)
-  if (externalEntry.isbnData?.isInvalid) return
+  if (externalEntry.isbnData?.isInvalid) {
+    externalEntry.error = new Error('invalid isbn')
+    delete externalEntry.isbnData
+    delete externalEntry.isbn
+  }
   return externalEntry
 }
 
