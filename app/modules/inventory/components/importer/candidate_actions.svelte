@@ -5,7 +5,6 @@
   import { I18n } from '#user/lib/i18n'
   import { createItem } from '#inventory/components/importer/lib/create_item'
   import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
-  import { isOpenedOutside } from '#lib/utils'
 
   export let candidate
   export let visibility
@@ -34,13 +33,13 @@
     .finally(() => retrying = false)
   }
 
-  const viewBook = (e, itemId) => {
-    if (!isOpenedOutside(e)) app.execute('show:item:byId', itemId)
-  }
-
   $: {
-    const username = app.user.get('username')
-    if (edition) itemPath = `/users/${username}/inventory/${edition.uri}`
+    if (candidate.item) {
+      itemPath = `/items/${candidate.item._id}`
+    } else {
+      const username = app.user.get('username')
+      if (edition) itemPath = `/users/${username}/inventory/${edition.uri}`
+    }
   }
 </script>
 {#if error}
@@ -53,7 +52,11 @@
 {/if}
 <Flash bind:state={flash}/>
 {#if item}
-  <a class="view-book tiny-button light-blue" href="{itemPath}" target='_blank' on:click="{e => viewBook(e, item._id)}">
+  <a
+    class="view-book tiny-button light-blue"
+    href="{itemPath}"
+    target="_blank"
+    >
       {I18n('View book')}
     </a>
 {/if}
