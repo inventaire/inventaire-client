@@ -8,7 +8,7 @@
   import screen_ from '#lib/screen'
   import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
   import { isAlreadyResolved, removeCreatedCandidates } from '#inventory/components/importer/lib/import_items_helpers'
-  import { createShelf } from '#shelves/lib/shelves'
+  import { addItemsByIdsToShelf, createShelf, getShelvesByOwner } from '#shelves/lib/shelves'
   import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let candidates
@@ -100,18 +100,34 @@
     await createExternalShelvesSequentially()
   }
 
+  let mainUserShelves
+  const getExistingShelfOrCreateShelf = async ({ name, itemsIds }) => {
+    mainUserShelves = mainUserShelves || await getShelvesByOwner(app.user.id)
+    const matchingShelf = mainUserShelves.find(shelf => shelf.name === name)
+    if (matchingShelf) {
+      await addItemsByIdsToShelf({ shelfId: matchingShelf._id, itemsIds })
+      return matchingShelf
+    } else {
+      const newShelf = await createShelf({
+        name,
+        items: itemsIds,
+        // Set default visibility to private, as a selector would overcrowed the current interface
+        // Users may edit shelf visibility settings later
+        visibility: []
+      })
+      return newShelf
+    }
+  }
+
   const createAndAssignShelf = async externalShelf => {
     assignItemsIdsToShelf(externalShelf)
     const { itemsIds, checked } = externalShelf
     if (checked && isNonEmptyArray(itemsIds)) {
-      const newShelf = await createShelf({
+      const shelf = await getExistingShelfOrCreateShelf({
         name: externalShelf.name,
-        items: itemsIds,
-        // Set default visibility to private, as a selector would overcrowed the current interface
-        // Users may edit shelf visibility settings later
-        listing: [],
+        itemsIds,
       })
-      if (newShelf) return newShelf._id
+      if (shelf) return shelf._id
     }
   }
 

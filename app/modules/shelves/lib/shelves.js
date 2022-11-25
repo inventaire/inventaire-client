@@ -62,6 +62,10 @@ export function addItems (model, items) {
   return shelfActionReq(id, itemsIds, 'addItems')
 }
 
+export async function addItemsByIdsToShelf ({ shelfId, itemsIds }) {
+  return shelfActionReq(shelfId, itemsIds, 'addItems')
+}
+
 export async function getShelvesByOwner (userId) {
   const { shelves } = await preq.get(app.API.shelves.byOwners(userId))
   return _.values(shelves)
