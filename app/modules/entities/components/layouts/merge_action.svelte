@@ -7,26 +7,19 @@
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 
-  export let entity, parentEntity, isToMerge
+  export let entity, parentEntity
 
   let waitForMerge, flash
 
-  function merge () {
-    if (!(entity && parentEntity)) return
+  export async function merge () {
+    if (!(entity.uri && parentEntity.uri)) return
+    dispatch('isMerging')
     waitForMerge = mergeEntities(entity.uri, parentEntity.uri)
-      .then(() => {
-        dispatch('merged')
-      })
-      .catch(err => {
-        flash = err
-      })
+      .then(() => dispatch('merged'))
+      .catch(err => flash = err)
   }
-  $: { if (isToMerge) merge() }
 </script>
 
-{#await waitForMerge}
-  <Spinner center={true} />
-{/await}
 {#if flash}
   <Flash bind:state={flash}/>
 {:else}
@@ -34,6 +27,9 @@
     class="tiny-button"
     on:click|stopPropagation={merge}
   >
+    {#await waitForMerge}
+      <Spinner center={true}/>
+    {/await}
     {@html icon('compress')}
     {i18n('merge')}
   </button>

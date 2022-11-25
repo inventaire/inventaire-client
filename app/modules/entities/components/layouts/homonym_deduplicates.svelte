@@ -1,5 +1,5 @@
 <script>
-  import { getHomonymsEntities } from '#entities/lib/show_homonyms'
+  import { getHomonymsEntities, haveLabelMatch } from '#entities/lib/show_homonyms'
   import Spinner from '#general/components/spinner.svelte'
   import { icon } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
@@ -9,9 +9,44 @@
   export let entity
 
   let homonyms = []
+  let selectedHomonymsUris = []
+
   const { hasDataadminAccess } = app.user
 
   const getHomonymsPromise = async () => homonyms = await getHomonymsEntities(entity)
+  .then(checkCheckoxOnLabelsMatch)
+
+  async function checkCheckoxOnLabelsMatch (homonyms) {
+    homonyms.forEach(homonym => {
+      if (haveLabelMatch(homonym, entity)) selectedHomonymsUris.push(homonym.uri)
+    })
+    return homonyms
+  }
+
+  const selectedHomonyms = homonym => !homonym.isMerging && !homonym.merged && selectedHomonymsUris.includes(homonym.uri)
+
+  function selectAll () {
+    selectedHomonymsUris = homonyms.map(_.property('uri'))
+  }
+  function unselectAll () {
+    selectedHomonymsUris = []
+  }
+
+  function mergeSelectedSuggestions () {
+    const homonymsToMerge = homonyms.filter(selectedHomonyms)
+
+    const mergeSequentially = function () {
+      const nextSelectedView = homonymsToMerge.shift()
+      if (nextSelectedView == null) return
+      return nextSelectedView.merge()
+      .then(mergeSequentially)
+    }
+
+    // Merge 3 at a time
+    mergeSequentially()
+    mergeSequentially()
+    mergeSequentially()
+  }
 </script>
 {#if hasDataadminAccess}
   {#await getHomonymsPromise()}
@@ -26,11 +61,38 @@
         {@html icon('compress')}
         {I18n('merge homonyms')}
       </h4>
-      <!-- TODO: recover select all/unselect all/merge all selected buttons -->
-      <ul class="homonyms">
+
+      <div class="merge-homonyms-controls">
+        <button
+          on:click={selectAll}
+          aria-controls="selectable-homonyms"
+          >
+          {@html icon('check-square')}
+          <span class="button-label">{I18n('select all')}</span>
+          <span class="count">({homonyms.length})</span>
+        </button>
+        <button
+          on:click={unselectAll}
+          aria-controls="selectable-homonyms"
+          >
+          {@html icon('square')}
+          <span class="button-label">{I18n('unselect all')}</span>
+        </button>
+        <button
+          on:click={mergeSelectedSuggestions}
+          aria-controls="selectable-homonyms"
+          disabled={selectedHomonymsUris.length === 0}
+          >
+          {@html icon('compress')}
+          <span class="button-label">{I18n('merge selected suggestions')}</span>
+          <span class="count">({selectedHomonymsUris.length})</span>
+        </button>
+      </div>
+      <ul id='selectable-homonyms'>
         {#each homonyms as homonym}
           {#if !homonym.merged}
             <li>
+              <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri}>
               <!-- TODO: recover list of subentities (typically author works) -->
               <EntityListElement
                 entity={homonym}
@@ -39,9 +101,11 @@
                 displayUri="true"
               />
               <MergeAction
+                bind:merge={homonym.merge}
                 entity={homonym}
                 parentEntity={entity}
                 on:merged={() => homonym.merged = true}
+                on:isMerging={() => homonym.isMerging = true}
               />
             </li>
           {/if}
@@ -60,7 +124,7 @@
     padding: 1em;
     margin: 1em 0;
   }
-  .homonyms{
+  #selectable-homonyms{
     @include display-flex(row, baseline, space-around, wrap);
     :global(.entity-list){
       width: 100%;
@@ -68,13 +132,19 @@
     }
   }
   li{
-    @include display-flex(column, center, center);
+    @include display-flex(row, center, center);
+    @include radius;
     padding: 0.5em;
     margin: 0.5em;
     width: 18em;
     background-color: $light-grey;
     background-color: white;
-    @include radius;
+    input{
+      margin-right: 1em
+    }
+  }
+  button{
+    @include tiny-button($grey);
   }
   /* Large screens */
   @media screen and (min-width: $small-screen){
