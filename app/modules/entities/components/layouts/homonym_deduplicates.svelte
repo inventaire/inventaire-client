@@ -98,6 +98,7 @@
               <EntityListRow
                 entity={homonym}
                 parentEntity={entity}
+                noImageCredits="true"
                 displayUri="true"
               />
               <MergeAction
