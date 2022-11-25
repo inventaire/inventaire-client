@@ -102,8 +102,8 @@
               />
               <MergeAction
                 bind:merge={homonym.merge}
-                entity={homonym}
-                parentEntity={entity}
+                fromEntityUri={homonym.uri}
+                targetEntityUri={entity.uri}
                 on:merged={() => homonym.merged = true}
                 on:isMerging={() => homonym.isMerging = true}
               />

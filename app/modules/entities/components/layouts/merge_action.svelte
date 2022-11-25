@@ -7,14 +7,14 @@
   import { createEventDispatcher } from 'svelte'
   const dispatch = createEventDispatcher()
 
-  export let entity, parentEntity
+  export let fromEntityUri, targetEntityUri
 
   let waitForMerge, flash
 
   export async function merge () {
-    if (!(entity.uri && parentEntity.uri)) return
+    if (!(fromEntityUri && targetEntityUri)) return
     dispatch('isMerging')
-    waitForMerge = mergeEntities(entity.uri, parentEntity.uri)
+    waitForMerge = mergeEntities(fromEntityUri, targetEntityUri)
       .then(() => dispatch('merged'))
       .catch(err => flash = err)
   }
