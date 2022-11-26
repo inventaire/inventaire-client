@@ -3,6 +3,7 @@
   import { isFilterSelected } from './lib/map'
   import isMobile from '#lib/mobile_check'
   import mapConfig from '#map/lib/config.js'
+  import '#map/scss/objects_markers.scss'
 
   const { tileUrl, settings } = mapConfig
 
