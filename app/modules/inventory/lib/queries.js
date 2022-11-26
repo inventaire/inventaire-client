@@ -74,6 +74,7 @@ const getByIds = async ({ ids, items }) => {
   updateItemsParams(res, { items })
   return res
 }
+
 const getNearbyItems = async params => {
   const { limit, offset } = params
   const res = await preq.get(app.API.items.nearby(limit, offset))

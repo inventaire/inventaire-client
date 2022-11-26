@@ -5,7 +5,7 @@
   import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'
   import Spinner from '#components/spinner.svelte'
 
-  export let items, isMainUser, itemsIds, waiting
+  export let items, isMainUser, itemsIds, waiting, haveSeveralOwners
 
   let selectedItemsIds = []
 
@@ -44,7 +44,7 @@
   {:else}
     <ul>
       {#each items as item (item._id)}
-        <li><ItemRow {item} /></li>
+        <li><ItemRow {item} showUser={haveSeveralOwners} /></li>
       {/each}
     </ul>
   {/if}
@@ -120,6 +120,13 @@
       background-color: white;
       color: $grey;
     }
+  }
+  ul{
+    border: 1px solid #ddd;
+    @include radius;
+  }
+  li:not(:last-child){
+    border-bottom: 1px solid #ddd;
   }
 
   /*Medium and Large screens*/
