@@ -6,13 +6,12 @@
   import EntityImage from '../entity_image.svelte'
   import { getSubEntities } from '../lib/entities'
 
-  export let currentEdition, workUri
+  export let currentEdition, work
 
   let editions = []
   let otherEditions
-
+  const { uri: workUri, label: workLabel } = work
   const getEditionsFromWork = async () => {
-    // TODO: fetch multiple works edition
     editions = await getSubEntities('work', workUri)
     const allOtherEditions = editions.filter(filterEditionWithCover(currentEdition))
     otherEditions = allOtherEditions.splice(0, 4)
@@ -31,12 +30,7 @@
   </div>
 {:then}
 	{#if isNonEmptyArray(otherEditions)}
-	  <div class="other-editions">
-	    <div class="editions-list-title">
-	      <h5>
-	        {I18n('other editions')}
-	      </h5>
-	    </div>
+    <li class="other-work-editions">
       <div class="entities-list">
         {#each otherEditions as entity (entity.uri)}
           {#if isNonEmptyPlainObject(entity.image)}
@@ -52,21 +46,22 @@
       <Link
         url={`/entity/${workUri}`}
         classNames="work-button"
-        html={I18n('see_all_work_editions', { label: currentEdition.label })}
+        html={I18n('see_all_work_editions', { label: workLabel })}
         grey={true}
         tinyButton={true}
       />
-	  </div>
+    </li>
 	{/if}
 {/await}
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .other-editions{
-    @include display-flex(column, center);
+  .other-work-editions{
+    @include display-flex(column, center, end);
     @include radius;
     max-width: 20em;
-    padding: 0.5em;
+    padding-top: 1em;
+    margin: 0.5em;
     background-color: $off-white;
     :global(.work-button){
       margin: 1em;

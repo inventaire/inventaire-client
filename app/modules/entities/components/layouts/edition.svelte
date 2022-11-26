@@ -1,4 +1,5 @@
 <script>
+  import { I18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
@@ -21,8 +22,6 @@
   let { claims } = entity
 
   const claimsWithWorksClaims = _.pick(claims, filterClaims)
-
-  const firstWorkUri = works[0]?.uri
 
   async function showMapAndScrollToMap () {
     showMap = true
@@ -73,12 +72,17 @@
       />
     </div>
     <div class="bottom-section">
-      {#if firstWorkUri}
-        <OtherEditions
-          currentEdition={entity}
-          workUri={firstWorkUri}
-        />
-      {/if}
+      <h5 class="other-editions-title">
+        {I18n('other editions')}
+      </h5>
+      <ul class="other-works-editions">
+        {#each works as work (work.uri)}
+          <OtherEditions
+            currentEdition={entity}
+            {work}
+          />
+        {/each}
+      </ul>
     </div>
   </div>
 </BaseLayout>
@@ -113,6 +117,12 @@
   }
   .bottom-section{
     @include display-flex(column, center);
+  }
+  .other-editions-title{
+    @include sans-serif;
+  }
+  .other-works-editions{
+    @include display-flex(row, initial, flex-end, wrap);
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
