@@ -168,6 +168,7 @@
     @include display-flex(row, center, flex-start);
     @include bg-hover(white, 5%);
     flex: 1 0 0;
+    align-self: stretch;
     overflow: hidden;
     margin-right: 0.5em;
     min-height: 3rem;
