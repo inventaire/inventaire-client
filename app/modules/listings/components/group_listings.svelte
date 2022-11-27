@@ -11,7 +11,7 @@
 
   const membersIds = getAllGroupMembersIds(group)
 
-  const waitingForListings = getListingsByCreators(membersIds, true)
+  const waitingForListings = getListingsByCreators({ creatorsIds: membersIds, withElements: true })
     .then(res => listings = res.listings.map(serializeListing))
     .catch(err => flash = err)
 </script>

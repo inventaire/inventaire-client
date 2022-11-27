@@ -12,7 +12,7 @@
 
   let listings, flash
 
-  const waitingForListings = getListingsByCreators(user._id, true)
+  const waitingForListings = getListingsByCreators({ creatorsIds: user._id, withElements: true })
     .then(res => listings = res.listings.map(serializeListing))
     .catch(err => flash = err)
 
