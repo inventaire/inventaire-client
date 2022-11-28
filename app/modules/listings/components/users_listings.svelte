@@ -85,10 +85,7 @@
         </button>
       </div>
     {/if}
-    <ListingsLayout
-      listingsWithElements={listings}
-      {onUserLayout}
-    />
+    <ListingsLayout {listings} {onUserLayout} />
     {#if hasMore}
       <p bind:this={listingBottomEl}>
         <Spinner/>

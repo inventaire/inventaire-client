@@ -263,7 +263,7 @@ export default Marionette.View.extend({
   async showListingsSection ({ userModel, groupModel }) {
     try {
       let props
-      const { default: UserListings } = await import('#listings/components/user_listings.svelte')
+      const { default: UserListings } = await import('#listings/components/users_listings.svelte')
       if (userModel) {
         props = {
           usersIds: [ userModel.toJSON()._id ],
