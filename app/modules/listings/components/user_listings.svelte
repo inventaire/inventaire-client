@@ -9,7 +9,7 @@
   import ListingEditor from '#listings/components/listing_editor.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
 
-  export let user
+  export let usersIds, onUserLayout
 
   let listings = []
   let flash
@@ -23,7 +23,7 @@
   const getSomeListings = async (offset, limit) => {
     try {
       const { listings: newListings } = await getListingsByCreators({
-        creatorsIds: user.id,
+        creatorsIds: usersIds,
         withElements: true,
         limit,
         offset
@@ -40,7 +40,7 @@
 
   const waitingForInitialListings = getSomeListings(0, paginationSize)
 
-  const isMainUser = user._id === app.user.id
+  const isMainUser = usersIds[0] === app.user.id
 
   let showListingCreationModal = false
   async function addNewListing (newListing) {
@@ -62,7 +62,6 @@
     offset += paginationSize
     fetching = false
   }
-
   $: {
     if (listingBottomEl != null && hasMore) {
       const screenBottom = windowScrollY + window.visualViewport.height
@@ -88,7 +87,7 @@
     {/if}
     <ListingsLayout
       listingsWithElements={listings}
-      onUserLayout={true}
+      {onUserLayout}
     />
     {#if hasMore}
       <p bind:this={listingBottomEl}>

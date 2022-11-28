@@ -265,7 +265,8 @@ export default Marionette.View.extend({
         const { default: UserListings } = await import('#listings/components/user_listings.svelte')
         this.showChildComponent('listings', UserListings, {
           props: {
-            user: userModel.toJSON()
+            usersIds: [ userModel.toJSON()._id ],
+            onUserLayout: true
           }
         })
       } else {
