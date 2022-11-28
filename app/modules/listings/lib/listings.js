@@ -7,8 +7,8 @@ export const getListingWithElementsById = async (id, limit) => {
   return { listing }
 }
 
-export const getListingsByCreators = async ({ creatorsIds, withElements }) => {
-  const { lists: listings } = await preq.get(app.API.listings.byCreators(creatorsIds, withElements))
+export const getListingsByCreators = async ({ creatorsIds, withElements, offset, limit }) => {
+  const { lists: listings } = await preq.get(app.API.listings.byCreators(creatorsIds, withElements, offset, limit))
   return { listings }
 }
 
