@@ -20,11 +20,9 @@ export default async function getEntityViewByType (model, refresh) {
   } else if (type === 'work') {
     ({ default: Component } = await import('#entities/components/layouts/work.svelte'))
   } else if (type === 'publisher') {
-    // ({ default: Component } = await import('#entities/components/layouts/publisher.svelte'))
-    ({ default: View } = await import('../views/publisher_layout'))
+    ({ default: Component } = await import('#entities/components/layouts/publisher.svelte'))
   } else if (type === 'collection') {
-    // ({ default: Component } = await import('#entities/components/layouts/collection.svelte'))
-    ({ default: View } = await import('../views/collection_layout'))
+    ({ default: Component } = await import('#entities/components/layouts/collection.svelte'))
   } else if (type === 'article') {
     ({ default: View } = await import('../views/article_li'))
   }
