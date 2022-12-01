@@ -1,7 +1,6 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
   import { getSubEntitiesSections } from '../lib/entities'
-  import { byPublicationDate } from '#entities/lib/entities'
   import BaseLayout from './base_layout.svelte'
   import Infobox from './infobox.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
@@ -18,7 +17,8 @@
   app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
 
   let sections
-  const waitingForSubEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
+  // server is already sorting byPublicationDate
+  const waitingForSubEntities = getSubEntitiesSections({ entity })
     .then(res => sections = res)
     .catch(err => flash = err)
 
