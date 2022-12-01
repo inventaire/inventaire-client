@@ -49,7 +49,6 @@
     @include radius;
   }
   li{
-    border: 1px solid #ddd;
     background-color: white;
     margin: 0.3em 0;
   }

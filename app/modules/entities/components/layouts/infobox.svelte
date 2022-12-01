@@ -20,9 +20,8 @@
   // - display only shortlist (no longlist, no toggler)    => shortlistOnly = true
 
   // When longlist length is below longlistDisplayLimit, dont display shortlist
-
-  let showMore = true
   let longlistDisplayLimit = 4
+  let showMore = true
 
   const entityTypeClaimsLists = infoboxPropsLists[entityType]
   const propertiesLonglist = entityTypeClaimsLists?.long || []

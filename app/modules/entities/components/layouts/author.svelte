@@ -50,12 +50,10 @@
         <EntityTitle {entity} {standalone} />
         <div class="infobox-and-summary">
           {#if isNonEmptyPlainObject(entity.image)}
-            <div class="entity-image">
-              <EntityImage
-                {entity}
-                size={192}
-              />
-            </div>
+            <EntityImage
+              {entity}
+              size={192}
+            />
           {/if}
           <Infobox
             claims={omitClaims(entity.claims, [ authorsProps, relativeEntitiesListsProps ])}
@@ -118,8 +116,11 @@
   .author-works{
     margin-top: 1em;
   }
-  .entity-image{
-    margin-right: 1em;
+  .infobox-and-summary{
+    :global(.entity-image){
+      margin-right: 1em;
+      max-width: 9em;
+    }
   }
   /* Large screens */
   @media screen and (min-width: $small-screen){

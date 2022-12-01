@@ -1,6 +1,5 @@
 <script>
   import Link from '#lib/components/link.svelte'
-  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import EntityImage from '../entity_image.svelte'
   import Infobox from './infobox.svelte'
 
@@ -22,16 +21,14 @@
   }
 </script>
 <div class="entity-wrapper">
-  {#if isNonEmptyPlainObject(entity.image)}
-    <div class="cover">
-      <EntityImage
-        {entity}
-        withLink="true"
-        size={128}
-        {noImageCredits}
-      />
-    </div>
-  {/if}
+  <div class="cover">
+    <EntityImage
+      entity={entity}
+      withLink=true
+      size={128}
+      {noImageCredits}
+    />
+  </div>
   <div class="entity-info-line">
     <div class="entity-title">
       <Link
@@ -69,7 +66,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .entity-wrapper{
-    @include display-flex(row);
+    @include display-flex(row, center);
   }
   .entity-title{
     font-size: 1.1rem;
@@ -84,17 +81,14 @@
     color: $label-grey;
   }
   .cover{
-    width: 3.5em;
-    margin-top: 0.5em;
-    margin-left: 0.5em;
-    :global(a img){
-      max-height: 6em;
-      max-width: 3.5em;
+    margin: 0 1em 0 0;
+    :global(.images-collage){
+      width: 7em;
+      height: 10em;
     }
   }
   .entity-info-line{
     flex: 1;
-    max-width: 30em;
     margin: 0 1em;
   }
   /* Small screens */

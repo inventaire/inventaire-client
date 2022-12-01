@@ -1,8 +1,8 @@
 <script>
   import { i18n } from '#user/lib/i18n'
   import { loadInternalLink } from '#lib/utils'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
   import Link from '#lib/components/link.svelte'
+  import ImagesCollage from '#components/images_collage.svelte'
 
   export let entity,
     size = 300,
@@ -10,7 +10,7 @@
     noImageCredits
 
   const { image, uri } = entity
-
+  const { url: imageUrl } = image
   let creditsUrl, creditsText
 
   if (image.credits) {
@@ -21,35 +21,35 @@
   const url = `/entity/${uri}`
 </script>
 
-{#if image.url}
-  <div class="entity-image">
-    {#if withLink}
-      <a
-        href={url}
-        on:click={loadInternalLink}
-      >
-        <img
-          src={imgSrc(image.url, size)}
-          alt=""
-        />
-      </a>
-    {:else}
-      <img
-        src={imgSrc(image.url, size)}
-        alt=""
+<div class="entity-image">
+  {#if withLink}
+    <a
+      href={url}
+      on:click={loadInternalLink}
+    >
+      <ImagesCollage
+        imagesUrls={[ imageUrl ]}
+        imageSize={size}
+        limit={1}
       />
-    {/if}
-    {#if creditsText && !noImageCredits}
-      <p class="photo-credits">
-        {i18n('photo credits:')}
-        <Link
-          url={creditsUrl}
-          text={creditsText}
-        />
-      </p>
-    {/if}
-  </div>
-{/if}
+    </a>
+  {:else}
+    <ImagesCollage
+      imagesUrls={[ imageUrl ]}
+      imageSize={size}
+      limit={1}
+    />
+  {/if}
+  {#if creditsText && !noImageCredits}
+    <p class="photo-credits" >
+      {i18n('photo credits:')}
+      <Link
+        url={creditsUrl}
+        text={creditsText}
+      />
+    </p>
+  {/if}
+</div>
 
 <style lang="scss">
   @import "#general/scss/utils";
