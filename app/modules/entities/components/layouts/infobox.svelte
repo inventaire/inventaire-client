@@ -12,7 +12,8 @@
     relatedEntities = {},
     entityType,
     withShortlist,
-    shortlistOnly
+    shortlistOnly,
+    showAuthors
 
   // Which parent/consumer params for which behavior:
   // - display shortlist, longlist and toggler             => withShortlist = true
@@ -58,6 +59,9 @@
 
   $: displayToggler = !shortlistOnly && withShortlist && entityPropertiesLonglist.length > longlistDisplayLimit
   $: {
+    if (!showAuthors) {
+      delete claims['wd:P50']
+    }
     const claimsLonglist = _.pick(claims, propertiesLonglist)
     entityPropertiesLonglist = Object.keys(claimsLonglist)
     if (propertiesShortlist) {

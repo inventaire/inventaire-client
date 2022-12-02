@@ -1,7 +1,10 @@
 import { getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
+import { isNonEmptyArray } from '#lib/boolean_tests'
 import { addWorksImages } from '#entities/lib/types/work_alt'
+import { addWorksClaims } from './edition_layout_helpers'
 import preq from '#lib/preq'
 import { pluck } from 'underscore'
+import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.js'
 
 const subEntitiesProp = {
   work: 'wdt:P629',
@@ -42,11 +45,11 @@ export const getSubEntitiesSections = async ({ entity, sortFn }) => {
   const { type, uri } = entity
   const getSubEntitiesUris = urisGetterByType[type]
   const sections = await getSubEntitiesUris(uri)
-  await Promise.all(sections.map(fetchSectionEntities({ sortFn })))
+  await Promise.all(sections.map(fetchSectionEntities({ sortFn, parentEntityType: type })))
   return sections
 }
 
-const fetchSectionEntities = ({ sortFn }) => async section => {
+const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => {
   const { entities } = await getEntitiesAttributesByUris({
     uris: section.uris,
     attributes: [
@@ -60,8 +63,22 @@ const fetchSectionEntities = ({ sortFn }) => async section => {
   })
   section.entities = Object.values(entities).map(serializeEntity).sort(sortFn)
   await addWorksImages(section.entities)
+  if (parentEntityType === 'publisher') {
+    const relatedEntities = await getEditionsWorks(section.entities)
+    Object.values(entities).forEach(pickAndAssignWorksClaims(relatedEntities))
+  }
   return section
 }
+
+const pickAndAssignWorksClaims = relatedEntities => edition => {
+  const { claims } = edition
+  const editionWorks = relatedEntities.filter(isClaimValue(claims))
+  if (isNonEmptyArray(editionWorks)) {
+    edition.claims = addWorksClaims(claims, editionWorks)
+  }
+}
+
+const isClaimValue = claims => entity => claims['wdt:P629'].includes(entity.uri)
 
 export const getSubEntities = async (type, uri) => {
   const uris = await getReverseClaims(subEntitiesProp[type], uri)

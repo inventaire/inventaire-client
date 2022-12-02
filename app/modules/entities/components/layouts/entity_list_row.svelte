@@ -58,6 +58,7 @@
           bind:relatedEntities={relatedEntities}
           shortlistOnly={true}
           entityType={entity.type}
+          showAuthors={() => parentEntity.type === 'publisher'}
         />
       </div>
     {/if}
