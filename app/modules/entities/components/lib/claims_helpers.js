@@ -199,6 +199,15 @@ export const infoboxPropsLists = {
     ],
     long: getWorkProperties(),
   },
+  serie: {
+    short: [
+      'wdt:P577', // publication date
+      'wdt:P179', // series
+      'wdt:P136', // genre
+      'wdt:P921', // main subject
+    ],
+    long: getWorkProperties(),
+  },
   human: {
     short: [
 

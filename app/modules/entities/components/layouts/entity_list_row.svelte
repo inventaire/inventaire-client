@@ -1,17 +1,18 @@
 <script>
-  import Link from '#lib/components/link.svelte'
-  import EntityImage from '../entity_image.svelte'
+  import { loadInternalLink } from '#lib/utils'
+  import ImagesCollage from '#components/images_collage.svelte'
   import Infobox from './infobox.svelte'
+  import { getContext } from 'svelte'
 
   export let entity,
     parentEntity,
     relatedEntities,
     showInfobox = true,
-    noImageCredits,
     displayUri
 
-  let { claims, label, uri } = entity
+  let { claims, label, uri, title, serieOrdinal, images, image, type, pathname } = entity
 
+  const layoutContext = getContext('layout-context')
   const subtitle = claims['wdt:P1680']
   const infoboxClaims = claims
 
@@ -22,20 +23,21 @@
 </script>
 <div class="entity-wrapper">
   <div class="cover">
-    <EntityImage
-      entity={entity}
-      withLink=true
-      size={128}
-      {noImageCredits}
+    <ImagesCollage
+      imagesUrls={images || [ image.url ]}
+      limit={type === 'serie' ? 4 : 1}
     />
   </div>
   <div class="entity-info-line">
     <div class="entity-title">
-      <Link
-        url={`/entity/${uri}`}
-        text={label}
-        dark="true"
-      />
+      <h3>
+        <a href={pathname} on:click={loadInternalLink} class="link" title={title}>
+          {#if layoutContext === 'serie' && serieOrdinal}
+            {serieOrdinal}.
+          {/if}
+          {title || label}
+        </a>
+      </h3>
       {#if subtitle}
         <span class="subtitle">{subtitle}</span>
       {/if}
@@ -58,7 +60,7 @@
           bind:relatedEntities={relatedEntities}
           shortlistOnly={true}
           entityType={entity.type}
-          showAuthors={() => parentEntity.type === 'publisher'}
+          showAuthors={() => layoutContext === 'publisher'}
         />
       </div>
     {/if}
@@ -92,8 +94,14 @@
     flex: 1;
     margin: 0 1em;
   }
-  /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  h3{
+    font-weight: normal;
+    font-size: 1.1em;
+    margin: 0;
+  }
+
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
     .entity-wrapper{
       flex-wrap: wrap;
     }
