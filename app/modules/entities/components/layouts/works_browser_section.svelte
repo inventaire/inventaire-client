@@ -1,6 +1,6 @@
 <script>
-  import WorkListRow from '#entities/components/layouts/work_list_row.svelte'
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
+  import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { onChange } from '#lib/svelte/svelte'
@@ -13,6 +13,9 @@
 
   // TODO: display only the first n items, and add more on scroll
   let displayedWorks = works
+
+  let relatedEntities = {}
+
   function filterWorks () {
     if (!facetsSelectedValues) return
     let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
@@ -41,7 +44,10 @@
           {#if displayMode === 'grid'}
             <WorkGridCard {work} />
           {:else}
-            <WorkListRow {work} />
+            <EntityListRow
+              entity={work}
+              bind:relatedEntities={relatedEntities}
+            />
           {/if}
         </li>
       {/each}
@@ -71,6 +77,10 @@
     }
     &.grid{
       @include display-flex(row, center, flex-start, wrap);
+    }
+    :global(.entity-wrapper){
+      padding: 0.5em;
+      background-color: white;
     }
   }
   .no-work{

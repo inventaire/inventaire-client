@@ -1,6 +1,6 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import EntityListElement from './entity_list_element.svelte'
+  import EntityListRow from './entity_list_row.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EditionActions from './edition_actions.svelte'
 
@@ -19,7 +19,7 @@
 <ul>
   {#each shownEntities as entity (entity.uri)}
     <li>
-      <EntityListElement
+      <EntityListRow
         {entity}
         {relatedEntities}
         {parentEntity}

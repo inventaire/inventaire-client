@@ -3,7 +3,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import { icon } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
-  import EntityListElement from './entity_list_element.svelte'
+  import EntityListRow from './entity_list_row.svelte'
   import MergeAction from '#entities/components/layouts/merge_action.svelte'
 
   export let entity
@@ -94,7 +94,7 @@
             <li>
               <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri}>
               <!-- TODO: recover list of subentities (typically author works) -->
-              <EntityListElement
+              <EntityListRow
                 entity={homonym}
                 parentEntity={entity}
                 noImageCredits="true"

@@ -54,8 +54,8 @@
     {#if showInfobox}
       <div class="entity-details">
         <Infobox
-          claims={entity.claims}
-          {relatedEntities}
+          {claims}
+          bind:relatedEntities={relatedEntities}
           shortlistOnly={true}
           entityType={entity.type}
         />
