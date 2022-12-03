@@ -74,7 +74,6 @@
   .entity-title{
     font-size: 1.1rem;
     line-height: 1.2rem;
-    max-height: 2.4rem;
     margin-bottom: 0.4rem;
     overflow: hidden;
   }

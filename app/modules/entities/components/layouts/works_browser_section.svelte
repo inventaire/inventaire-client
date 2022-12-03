@@ -66,7 +66,7 @@
   }
   h3{
     font-size: 1rem;
-    margin: 0.5em 0.5em 0;
+    margin: 0.5em;
   }
   ul{
     flex: 1;
@@ -79,6 +79,7 @@
       @include display-flex(row, center, flex-start, wrap);
     }
     :global(.entity-wrapper){
+      margin: 0.5em 0;
       padding: 0.5em;
       background-color: white;
     }
