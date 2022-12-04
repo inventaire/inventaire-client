@@ -1,4 +1,5 @@
 <script>
+  import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
   import { loadInternalLink } from '#lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import Infobox from './infobox.svelte'
@@ -25,7 +26,7 @@
   <div class="cover">
     <ImagesCollage
       imagesUrls={images || [ image.url ]}
-      limit={type === 'serie' ? 4 : 1}
+      limit={isSubEntitiesType(type) ? 4 : 1}
     />
   </div>
   <div class="entity-info-line">

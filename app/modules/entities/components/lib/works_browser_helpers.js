@@ -3,6 +3,10 @@ import properties from '#entities/lib/properties'
 import { I18n } from '#user/lib/i18n'
 import { intersection, pluck, uniq } from 'underscore'
 
+export function isSubEntitiesType (type) {
+  return [ 'serie', 'collection' ].includes(type)
+}
+
 export async function getWorksFacets ({ works, context }) {
   const contextProperties = facetsProperties[context]
   const { facets, facetsSelectedValues } = initialize({ contextProperties })

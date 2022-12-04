@@ -44,7 +44,7 @@ export async function addEntityImages (entity) {
 
 const setEntityImages = (entity, entityImages) => {
   const { type } = entity
-  if (type === 'work' || type === 'serie') {
+  if (type === 'work' || type === 'collection' || type === 'serie') {
     let imageValue = getBestLangValue(app.user.lang, entity.originalLang, entityImages).value
     if (imageValue) {
       entity.image.url = getEntityImagePath(imageValue)
