@@ -1,4 +1,5 @@
 <script>
+  import { isWorksClaimsContext } from '#entities/components/lib/edition_layout_helpers'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
   import { loadInternalLink } from '#lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
@@ -6,7 +7,6 @@
   import { getContext } from 'svelte'
 
   export let entity,
-    parentEntity,
     relatedEntities,
     showInfobox = true,
     displayUri
@@ -17,9 +17,12 @@
   const subtitle = claims['wdt:P1680']
   const infoboxClaims = claims
 
-  if (parentEntity && parentEntity.type === 'work') {
+  if (layoutContext === 'work') {
     delete infoboxClaims['wdt:P629']
     delete infoboxClaims['wdt:P1476']
+  }
+  if (!isWorksClaimsContext(layoutContext)) {
+    delete claims['wd:P50']
   }
 </script>
 <div class="entity-wrapper">
@@ -75,8 +78,7 @@
           {claims}
           bind:relatedEntities={relatedEntities}
           shortlistOnly={true}
-          entityType={entity.type}
-          showAuthors={() => layoutContext === 'publisher'}
+          entityType={type}
         />
       </div>
     {/if}

@@ -8,3 +8,5 @@ export const addWorksClaims = (claims, works) => {
 }
 
 export const filterClaims = (_, key) => infoboxPropsLists.edition.long.includes(key)
+
+export const isWorksClaimsContext = type => [ 'collection', 'publisher' ].includes(type)

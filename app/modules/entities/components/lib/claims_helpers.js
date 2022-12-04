@@ -171,6 +171,7 @@ export const infoboxPropsLists = {
       'wdt:P50', // author
       'wdt:P577', // publication date
       'wdt:P123', // publisher
+      'wdt:P195', // collection
       'wdt:P212', // ISBN-13
     ],
     long: [

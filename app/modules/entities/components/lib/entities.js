@@ -1,7 +1,7 @@
 import { getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import { addWorksImages } from '#entities/lib/types/work_alt'
-import { addWorksClaims } from './edition_layout_helpers'
+import { addWorksClaims, isWorksClaimsContext } from './edition_layout_helpers'
 import preq from '#lib/preq'
 import { pluck } from 'underscore'
 import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.js'
@@ -63,7 +63,7 @@ const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => 
   })
   section.entities = Object.values(entities).map(serializeEntity).sort(sortFn)
   await addWorksImages(section.entities)
-  if (parentEntityType === 'publisher') {
+  if (isWorksClaimsContext(parentEntityType)) {
     const relatedEntities = await getEditionsWorks(section.entities)
     Object.values(entities).forEach(pickAndAssignWorksClaims(relatedEntities))
   }
