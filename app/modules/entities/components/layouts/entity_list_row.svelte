@@ -23,16 +23,31 @@
   }
 </script>
 <div class="entity-wrapper">
-  <div class="cover">
-    <ImagesCollage
-      imagesUrls={images || [ image.url ]}
-      limit={isSubEntitiesType(type) ? 4 : 1}
-    />
+  <div
+    class="cover"
+    class:hasSubEntities={isSubEntitiesType(type)}
+  >
+    <a
+      href={pathname}
+      on:click={loadInternalLink}
+      title={title}
+      tabindex="-1"
+      >
+      <ImagesCollage
+        imagesUrls={images || [ image.url ]}
+        limit={isSubEntitiesType(type) ? 4 : 1}
+      />
+    </a>
   </div>
   <div class="entity-info-line">
     <div class="entity-title">
       <h3>
-        <a href={pathname} on:click={loadInternalLink} class="link" title={title}>
+        <a
+          href={pathname}
+          on:click={loadInternalLink}
+          class="link"
+          title={title}
+          >
           {#if layoutContext === 'serie' && serieOrdinal}
             {serieOrdinal}.
           {/if}
