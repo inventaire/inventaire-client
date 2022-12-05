@@ -55,17 +55,7 @@
   $: if (displayedProperties) {
     waitingForEntities = getMissingEntities()
   }
-
-  // implement scroll
   $: displayToggler = !shortlistOnly && withShortlist && entityPropertiesLonglist.length > longlistDisplayLimit
-  $: {
-    const claimsLonglist = _.pick(claims, propertiesLonglist)
-    entityPropertiesLonglist = Object.keys(claimsLonglist)
-    if (propertiesShortlist) {
-      const claimsShortlist = _.pick(claims, propertiesShortlist)
-      entityPropertiesShortlist = Object.keys(claimsShortlist)
-    }
-  }
   $: {
     if (withShortlist) {
       if (showMore) {
@@ -77,29 +67,30 @@
   }
 </script>
 <div class="claims-infobox-wrapper">
-  {#await waitingForEntities}
-    <Spinner />
-  {:then}
-    <div class="claims-infobox">
-      {#each displayedProperties as prop}
-        <ClaimInfobox
-          values={claims[prop]}
-          {prop}
-          entitiesByUris={relatedEntities}
-        />
-      {/each}
-      {#if !shortlistOnly}
-        <EntityClaimsLinks {claims} />
-      {/if}
-    </div>
-    {#if displayToggler}
-      <WrapToggler
-        bind:show={showMore}
-        moreText={I18n('more details')}
-        lessText={I18n('less details')}
+  <div class="claims-infobox">
+    {#each displayedProperties as prop}
+      <ClaimInfobox
+        values={claims[prop]}
+        {prop}
+        entitiesByUris={relatedEntities}
       />
+    {/each}
+    {#if !shortlistOnly}
+      <EntityClaimsLinks claims={claims} />
     {/if}
-  {/await}
+  </div>
+  {#if isNonEmptyArray(displayedProperties)}
+    {#await waitingForEntities}
+      <Spinner/>
+    {/await}
+  {/if}
+  {#if displayToggler}
+    <WrapToggler
+      bind:show={showMore}
+      moreText={I18n('more details')}
+      lessText={I18n('less details')}
+    />
+  {/if}
 </div>
 
 <style lang="scss">
