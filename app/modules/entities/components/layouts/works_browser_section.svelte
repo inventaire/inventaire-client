@@ -47,6 +47,7 @@
             <EntityListRow
               entity={work}
               bind:relatedEntities={relatedEntities}
+              listDisplay={true}
             />
           {/if}
         </li>

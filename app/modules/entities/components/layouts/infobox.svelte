@@ -11,26 +11,16 @@
   export let claims = {},
     relatedEntities = {},
     entityType,
-    withShortlist,
-    shortlistOnly
-
-  // Which parent/consumer params for which behavior:
-  // - display shortlist, longlist and toggler             => withShortlist = true
-  // - display only longlists (no shortlist, no toggler)   => withShortlist = false
-  // - display only shortlist (no longlist, no toggler)    => shortlistOnly = true
-
-  // When longlist length is below longlistDisplayLimit, dont display shortlist
-  let longlistDisplayLimit = 4
-  let showMore = true
+    shortlistOnly,
+    listDisplay
 
   const entityTypeClaimsLists = infoboxPropsLists[entityType]
   const propertiesLonglist = entityTypeClaimsLists?.long || []
 
   let propertiesShortlist
-  if (withShortlist || shortlistOnly) propertiesShortlist = entityTypeClaimsLists?.short || []
+  if (shortlistOnly) propertiesShortlist = entityTypeClaimsLists?.short || []
 
   let displayedProperties = propertiesShortlist || propertiesLonglist
-  let entityPropertiesShortlist, entityPropertiesLonglist
 
   async function getMissingEntities () {
     let missingUris = []
@@ -55,19 +45,18 @@
   $: if (displayedProperties) {
     waitingForEntities = getMissingEntities()
   }
-  $: displayToggler = !shortlistOnly && withShortlist && entityPropertiesLonglist.length > longlistDisplayLimit
-  $: {
-    if (withShortlist) {
-      if (showMore) {
-        displayedProperties = entityPropertiesShortlist
-      } else {
-        displayedProperties = entityPropertiesLonglist
-      }
-    }
-  }
+
+  let infoboxHeight, showDetails, infobox
+  const wrappedInfoboxHeight = 128
+  $: infoboxHeight = infobox?.clientHeight
+  $: wrappedSize = listDisplay && infoboxHeight > wrappedInfoboxHeight
 </script>
 <div class="claims-infobox-wrapper">
-  <div class="claims-infobox">
+  <div
+    bind:this={infobox}
+    class:wrapped-size={wrappedSize && !showDetails}
+    class="claims-infobox"
+    >
     {#each displayedProperties as prop}
       <ClaimInfobox
         values={claims[prop]}
@@ -84,9 +73,9 @@
       <Spinner/>
     {/await}
   {/if}
-  {#if displayToggler}
+  {#if wrappedSize}
     <WrapToggler
-      bind:show={showMore}
+      bind:show={showDetails}
       moreText={I18n('more details')}
       lessText={I18n('less details')}
     />
@@ -97,5 +86,10 @@
   @import "#general/scss/utils";
   .claims-infobox{
     flex: 3 0 0;
+  }
+  .wrapped-size{
+    // in sync with wrappedInfoboxHeight variable
+    height: 125px;
+    overflow: hidden;
   }
 </style>

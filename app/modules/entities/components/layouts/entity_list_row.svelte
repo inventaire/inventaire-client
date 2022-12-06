@@ -9,6 +9,7 @@
   export let entity,
     relatedEntities,
     showInfobox = true,
+    listDisplay = false,
     displayUri
 
   let { claims, label, uri, title, serieOrdinal, images, image, type, pathname } = entity
@@ -77,6 +78,7 @@
         <Infobox
           {claims}
           bind:relatedEntities={relatedEntities}
+          {listDisplay}
           shortlistOnly={true}
           entityType={type}
         />
