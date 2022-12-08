@@ -1,6 +1,7 @@
 <script>
   import { isWorksClaimsContext } from '#entities/components/lib/edition_layout_helpers'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
+  import { removeAuthorsClaims } from '#entities/components/lib/work_helpers'
   import { loadInternalLink } from '#lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import Infobox from './infobox.svelte'
@@ -12,18 +13,14 @@
     listDisplay = false,
     displayUri
 
-  let { claims, label, uri, title, serieOrdinal, images, image, type, pathname } = entity
+  let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri } = entity
 
   const layoutContext = getContext('layout-context')
-  const subtitle = claims['wdt:P1680']
-  const infoboxClaims = claims
 
-  if (layoutContext === 'work') {
-    delete infoboxClaims['wdt:P629']
-    delete infoboxClaims['wdt:P1476']
-  }
   if (!isWorksClaimsContext(layoutContext)) {
-    delete claims['wd:P50']
+    // Known case: dont show authors in editions infobox on a on work layout,
+    // as its already shown in the work infobox
+    removeAuthorsClaims(claims)
   }
 </script>
 <div class="entity-wrapper">

@@ -64,17 +64,6 @@ const getEditionComponent = async (entity, refresh) => {
   }
 }
 
-export const getEditionWorksUris = edition => {
-  const editionWorksUris = edition.claims['wdt:P629']
-  if (edition.type !== 'edition') return []
-  if (editionWorksUris == null) {
-    const { uri } = edition
-    const err = error_.new('edition entity misses associated works (wdt:P629)', { uri })
-    throw err
-  }
-  return editionWorksUris
-}
-
 export const getEditionsWorks = async (editions, refresh) => {
   const worksUris = editions.map(getEditionWorksUris).flat()
   if (worksUris.length === 0) return []
@@ -84,6 +73,17 @@ export const getEditionsWorks = async (editions, refresh) => {
   return Object.values(entities)
   .filter(entity => entity.type === 'work')
   .map(serializeEntity)
+}
+
+const getEditionWorksUris = edition => {
+  const editionWorksUris = edition.claims['wdt:P629']
+  if (edition.type !== 'edition') return []
+  if (editionWorksUris == null) {
+    const { uri } = edition
+    const err = error_.new('edition entity misses associated works (wdt:P629)', { uri })
+    throw err
+  }
+  return editionWorksUris
 }
 
 const entityViewSpecialGetterByType = {
