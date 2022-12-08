@@ -58,18 +58,16 @@
       {#if subtitle}
         <span class="subtitle">{subtitle}</span>
       {/if}
+      {#if displayUri}
+        <a
+          href={pathname}
+          target="_blank"
+          on:click|stopPropagation={loadInternalLink}
+        >
+          {uri}
+        </a>
+      {/if}
     </div>
-    {#if displayUri}
-      <a
-        class="uri"
-        href="/entity/{uri}"
-        target="_blank"
-        rel="noreferrer"
-        on:click|stopPropagation
-      >
-        {uri}
-      </a>
-    {/if}
     {#if showInfobox}
       <div class="entity-details">
         <Infobox

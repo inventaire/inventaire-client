@@ -97,8 +97,7 @@
               <EntityListRow
                 entity={homonym}
                 parentEntity={entity}
-                noImageCredits="true"
-                displayUri="true"
+                displayUri=true
               />
               <MergeAction
                 bind:merge={homonym.merge}
@@ -126,17 +125,19 @@
   }
   #selectable-homonyms{
     @include display-flex(row, baseline, space-around, wrap);
-    :global(.entity-list){
-      width: 100%;
+    :global(.entity-wrapper){
       max-width: 30em;
     }
   }
   li{
+    :global(.images-collage){
+      // keep series covers tight
+      width: 7em;
+    }
     @include display-flex(row, center, center);
     @include radius;
-    padding: 0.5em;
+    padding: 0.5em 1em;
     margin: 0.5em;
-    width: 18em;
     background-color: $light-grey;
     background-color: white;
     input{
