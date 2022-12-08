@@ -4,7 +4,7 @@
   import { i18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities'
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
-  import { getPublishersUrisFromEditions, removeAuthorsClaims } from '#entities/components/lib/work_helpers'
+  import { getPublishersUrisFromEditions, omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
@@ -62,7 +62,7 @@
   }
 
   $: claims = entity.claims
-  $: infoboxClaims = removeAuthorsClaims(entity.claims)
+  $: infoboxClaims = omitNonInfoboxClaims(entity.claims)
   $: app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
   $: if (isNonEmptyArray(editions)) {
     editionsUris = editions.map(_.property('uri'))

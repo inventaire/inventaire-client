@@ -1,7 +1,7 @@
 <script>
   import { isWorksClaimsContext } from '#entities/components/lib/edition_layout_helpers'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
-  import { removeAuthorsClaims } from '#entities/components/lib/work_helpers'
+  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import { loadInternalLink } from '#lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import Infobox from './infobox.svelte'
@@ -20,7 +20,7 @@
   if (!isWorksClaimsContext(layoutContext)) {
     // Known case: dont show authors in editions infobox on a on work layout,
     // as its already shown in the work infobox
-    removeAuthorsClaims(claims)
+    omitNonInfoboxClaims(claims)
   }
 </script>
 <div class="entity-wrapper">

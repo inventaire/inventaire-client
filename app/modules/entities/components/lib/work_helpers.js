@@ -6,8 +6,9 @@ export const getPublishersUrisFromEditions = editions => {
   }))))
 }
 
-export const removeAuthorsClaims = claims => {
-  return omitClaims(claims, authorsProps)
+export const omitNonInfoboxClaims = claims => {
+  const omitProps = [ ...authorsProps, 'wdt:P1680' ]
+  return omitClaims(claims, omitProps)
 }
 
 export const omitClaims = (claims, properties) => {

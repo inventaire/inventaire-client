@@ -2,7 +2,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import { getSubEntitiesSections } from '../lib/entities'
   import { bySerieOrdinal } from '#entities/lib/entities'
-  import { removeAuthorsClaims } from '#entities/components/lib/work_helpers'
+  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
@@ -43,7 +43,7 @@
         <EntityTitle {entity} {standalone} />
         <AuthorsInfo claims={entity.claims} />
         <Infobox
-          claims={removeAuthorsClaims(entity.claims)}
+          claims={omitNonInfoboxClaims(entity.claims)}
           entityType={entity.type}
         />
         <Summary {entity} />
