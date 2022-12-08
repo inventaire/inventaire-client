@@ -25,10 +25,10 @@
   let longlistDisplayLimit = 4
 
   const entityTypeClaimsLists = infoboxPropsLists[entityType]
-  const propertiesLonglist = entityTypeClaimsLists.long
+  const propertiesLonglist = entityTypeClaimsLists?.long || []
 
   let propertiesShortlist
-  if (withShortlist || shortlistOnly) propertiesShortlist = entityTypeClaimsLists.short
+  if (withShortlist || shortlistOnly) propertiesShortlist = entityTypeClaimsLists?.short || []
 
   let displayedProperties = propertiesShortlist || propertiesLonglist
   let entityPropertiesShortlist, entityPropertiesLonglist
