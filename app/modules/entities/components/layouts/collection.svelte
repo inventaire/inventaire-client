@@ -12,7 +12,8 @@
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
 
-  export let entity, standalone, flash
+  export let entity, standalone
+  let flash
 
   const { uri } = entity
   app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })

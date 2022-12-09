@@ -15,7 +15,9 @@ export const entityTypeNameBySingularType = {
   serie: 'serie',
   human: 'author',
   publisher: 'publisher',
-  collection: 'collection'
+  collection: 'collection',
+  subject: 'subject',
+  genre: 'genre',
 }
 
 export const typesPossessiveForms = {

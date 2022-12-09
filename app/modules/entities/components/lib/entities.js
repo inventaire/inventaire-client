@@ -38,13 +38,33 @@ const urisGetterByType = {
     return [
       { label: 'editions', uris },
     ]
+  },
+  claim: async (uri, property) => {
+    const uris = await getReverseClaims(property, uri)
+    return [
+      { label: inverseLabel[property], uris },
+    ]
   }
 }
 
-export const getSubEntitiesSections = async ({ entity, sortFn }) => {
+const inverseLabel = {
+  // In comment, their inverse label wikidata item
+  'wdt:P674': 'character in', // Q66220634
+  'wdt:P921': 'main subject of', // Q70782961
+  'wdt:P135': 'associated with this movement', // Q69493769
+  'wdt:P840': 'narrative set in this location', // Q86998205
+}
+
+export const getSubEntitiesSections = async ({ entity, sortFn, property }) => {
   const { type, uri } = entity
-  const getSubEntitiesUris = urisGetterByType[type]
-  const sections = await getSubEntitiesUris(uri)
+  let sections
+  if (property) {
+    const getSubEntitiesUris = urisGetterByType.claim
+    sections = await getSubEntitiesUris(uri, property)
+  } else {
+    const getSubEntitiesUris = urisGetterByType[type]
+    sections = await getSubEntitiesUris(uri)
+  }
   await Promise.all(sections.map(fetchSectionEntities({ sortFn, parentEntityType: type })))
   return sections
 }

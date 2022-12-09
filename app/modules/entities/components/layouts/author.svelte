@@ -19,7 +19,8 @@
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
 
-  export let entity, standalone, flash
+  export let entity, standalone
+  let flash
 
   const { uri } = entity
   app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })

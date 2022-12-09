@@ -8,6 +8,7 @@ export default async function getEntityViewByType (model, refresh) {
   const entity = model.toJSON()
   const { type } = model
   const displayMergeSuggestions = app.user.hasDataadminAccess
+  let props = { entity, standalone }
 
   const getter = entityViewSpecialGetterByType[type]
   if (getter != null) return getter(entity, refresh)
@@ -25,28 +26,23 @@ export default async function getEntityViewByType (model, refresh) {
     ({ default: Component } = await import('#entities/components/layouts/collection.svelte'))
   } else if (type === 'article') {
     ({ default: View } = await import('../views/article_li'))
+  } else {
+    ({ default: Component } = await import('#entities/components/layouts/claim_layout.svelte'))
+    const property = model.defaultClaimProperty || 'wdt:P921'
+    props = { entity, property }
   }
 
   if (Component != null) {
     return {
       Component,
-      props: {
-        entity,
-        standalone
-      }
+      props
     }
   }
+
   if (View != null) {
     const view = new View({ model, refresh, standalone, displayMergeSuggestions })
     return { view }
   }
-
-  let { defaultClaimProperty: property } = model
-  const value = model.get('uri')
-  if (!property) property = 'wdt:P921'
-  const { default: ClaimLayout } = await import('../views/claim_layout')
-  const view = new ClaimLayout({ property, value, refresh })
-  return { view }
 }
 
 const getEditionComponent = async (entity, refresh) => {

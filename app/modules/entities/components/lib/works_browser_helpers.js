@@ -110,6 +110,12 @@ const facetsProperties = {
   ],
   collection: [
     'wdt:P577',
+  ],
+  claim: [
+    'wdt:P50',
+    'wdt:P136',
+    'wdt:P921',
+    'wdt:P577',
   ]
 }
 
