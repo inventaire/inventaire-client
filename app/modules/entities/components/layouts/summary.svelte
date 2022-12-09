@@ -72,7 +72,7 @@
   $: splitOptions = highlightedSummaries?.length > 0 && otherSummaries?.length > 0
 </script>
 
-<div class="summary-wrapper" class:has-summary={summaries?.length > 0}>
+<div class="summary" class:has-summary={summaries?.length > 0}>
   {#await waitingForSummariesData then}
     {#if summaries.length > 0}
       <!-- The label 'summary' is not adapted to human or publisher entities -->
@@ -120,7 +120,7 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .summary-wrapper.has-summary{
+  .summary.has-summary{
     padding: 1em;
     margin-top: 1em;
     @include radius;
@@ -131,6 +131,7 @@
   }
   .header{
     @include display-flex(row, baseline, space-between);
+    margin-bottom: 0.5em;
   }
   // .label{
   //   color: $label-grey;
@@ -140,7 +141,7 @@
     max-width: 15em;
   }
   #summary-text{
-    max-height: 20em;
+    max-height: 10em;
     overflow-y: auto;
   }
   .source{
@@ -151,7 +152,7 @@
   }
   /* Large screens */
   @media screen and (min-width: $small-screen){
-    .summary-wrapper.has-summary{
+    .summary.has-summary{
       margin-top: 0;
     }
   }
