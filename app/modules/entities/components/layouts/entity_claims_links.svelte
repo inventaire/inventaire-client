@@ -24,8 +24,8 @@
     {#if propertiesData.length > 0}
       <p class="category">
         <span class="category-label">{categoryLabels[category]}:</span>
-        {#each propertiesData as { property, label, value }}
-          <EntityClaimLink {property} {label} {value} />
+        {#each propertiesData as { property, label, value }, i}
+          <EntityClaimLink {property} {label} {value} />{#if i !== propertiesData.length - 1},{/if}
         {/each}
       </p>
     {/if}
