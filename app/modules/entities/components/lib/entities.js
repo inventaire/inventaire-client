@@ -1,4 +1,5 @@
 import { getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
+import { inverseLabels } from '#entities/components/lib/claims_helpers'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import { addWorksImages } from '#entities/lib/types/work_alt'
 import { addWorksClaims, isWorksClaimsContext } from './edition_layout_helpers'
@@ -41,18 +42,11 @@ const urisGetterByType = {
   },
   claim: async (uri, property) => {
     const uris = await getReverseClaims(property, uri)
+    const label = inverseLabels[property] || ''
     return [
-      { label: inverseLabel[property], uris },
+      { label, uris },
     ]
   }
-}
-
-const inverseLabel = {
-  // In comment, their inverse label wikidata item
-  'wdt:P674': 'character in', // Q66220634
-  'wdt:P921': 'main subject of', // Q70782961
-  'wdt:P135': 'associated with this movement', // Q69493769
-  'wdt:P840': 'narrative set in this location', // Q86998205
 }
 
 export const getSubEntitiesSections = async ({ entity, sortFn, property }) => {

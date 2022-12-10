@@ -83,19 +83,24 @@ export const buildPathname = (entity, prop) => {
   return `/entity/${uri}`
 }
 
-const specialPathnameProperties = [
-  'wdt:P135',
-  'wdt:P136',
-  'wdt:P144',
-  'wdt:P655',
-  'wdt:P674',
-  'wdt:P840',
-  'wdt:P921',
-  'wdt:P941',
-  'wdt:P1433',
-  'wdt:P2679',
-  'wdt:P2680',
-]
+export const inverseLabels = {
+  // Hardcoding as a make it work implmentation for translation purposes (not to be updated too often).
+  // TODO: use the inverse label property (P7087) and wikidata-lang to generate translation
+  'wdt:P135': 'associated_with_this_movement',
+  'wdt:P136': 'works_in_this_genre',
+  'wdt:P144': 'works_based_on_work',
+  'wdt:P655': 'translator_of',
+  'wdt:P674': 'character_in',
+  'wdt:P737': 'authors_influenced_by',
+  'wdt:P840': 'narrative_set_in_this_location',
+  'wdt:P921': 'works_about_entity',
+  'wdt:P941': 'works_inspired_by_work',
+  'wdt:P1433': 'published_in',
+  'wdt:P2679': 'prefaced_works',
+  'wdt:P2680': 'postfaced_works',
+}
+
+const specialPathnameProperties = Object.keys(inverseLabels)
 
 const claimFormats = {
   timeClaim (params) {

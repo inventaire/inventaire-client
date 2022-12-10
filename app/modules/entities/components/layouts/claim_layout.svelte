@@ -1,4 +1,5 @@
 <script>
+  import { i18n } from '#user/lib/i18n'
   import Spinner from '#general/components/spinner.svelte'
   import { getSubEntitiesSections } from '../lib/entities'
   import { byPublicationDate } from '#entities/lib/entities'
@@ -6,9 +7,11 @@
   import EntityImage from '../entity_image.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import EntityTitle from './entity_title.svelte'
+  import RelativeEntitiesList from './relative_entities_list.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { inverseLabels } from '#entities/components/lib/claims_helpers'
 
   export let entity, property
   let flash
@@ -22,6 +25,16 @@
       sections = res
     })
     .catch(err => flash = err)
+
+  let relativeEntitiesProperties = [
+    'wdt:P144',
+    'wdt:P921',
+    'wdt:P941',
+    'wdt:P655',
+    'wdt:P2679',
+    'wdt:P2680'
+  ]
+  relativeEntitiesProperties = _.without(relativeEntitiesProperties, property)
 
   setContext('layout-context', 'claim')
   setContext('search-filter-claim', `${property}=${uri}`)
@@ -57,6 +70,15 @@
           <WorksBrowser {sections} />
         {/await}
       </div>
+    </div>
+    <div class="relatives-lists">
+      {#each relativeEntitiesProperties as property}
+        <RelativeEntitiesList
+          {entity}
+          {property}
+          label={i18n(inverseLabels[property], { name: entity.label })}
+        />
+      {/each}
     </div>
   </div>
 </BaseLayout>
