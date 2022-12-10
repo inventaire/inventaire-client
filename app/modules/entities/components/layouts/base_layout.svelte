@@ -5,7 +5,7 @@
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import EntityLayoutActionsMenu from '#entities/components/layouts/entity_layout_actions_menu.svelte'
 
-  export let entity, flash
+  export let entity, flash, showEntityEditButtons
 
   const { uri, _id, type } = entity
 
@@ -17,7 +17,9 @@
     <div class="header">
       <h2 class="type">{I18n(entityTypeNameBySingularType[type])}</h2>
     </div>
-    <EntityLayoutActionsMenu bind:entity
+    <EntityLayoutActionsMenu
+      bind:entity
+      {showEntityEditButtons}
     />
   </div>
   <div class="entity-wrapper">

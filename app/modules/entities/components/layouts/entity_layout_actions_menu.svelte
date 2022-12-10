@@ -5,12 +5,12 @@
   import { screen } from '#lib/components/stores/screen'
   import EntityLayoutActions from '#entities/components/layouts/entity_layout_actions.svelte'
 
-  export let entity
+  export let entity, showEntityEditButtons
 </script>
 
 {#if $screen.isLargerThan('$small-screen')}
   <ul class="large-screen-actions">
-    <EntityLayoutActions bind:entity />
+    <EntityLayoutActions bind:entity {showEntityEditButtons}/>
   </ul>
 {:else}
   <div class="small-screen-actions">
@@ -23,7 +23,7 @@
         {@html icon('cog')}
       </div>
       <ul slot="dropdown-content">
-        <EntityLayoutActions bind:entity />
+        <EntityLayoutActions bind:entity {showEntityEditButtons}/>
       </ul>
     </Dropdown>
   </div>

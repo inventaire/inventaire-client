@@ -7,7 +7,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import app from '#app/app'
 
-  export let entity
+  export let entity, showEntityEditButtons = true
 
   let waitForEntityRefresh
 
@@ -25,13 +25,15 @@
   const wikidataHistoryUrl = getWikidataHistoryUrl(uri)
 </script>
 
-<li>
-  <Link
-    url={`/entity/${uri}/edit`}
-    text={i18n('Edit bibliographical info')}
-    icon="pencil"
-  />
-</li>
+{#if showEntityEditButtons}
+  <li>
+    <Link
+      url={`/entity/${uri}/edit`}
+      text={i18n('Edit bibliographical info')}
+      icon='pencil'
+    />
+  </li>
+{/if}
 
 {#if wikidataUrl}
   <li>
@@ -71,7 +73,7 @@
   </li>
 {/if}
 
-{#if app.user.hasDataadminAccess}
+{#if app.user.hasDataadminAccess && showEntityEditButtons}
   {#if type === 'human'}
     <li>
       <Link
