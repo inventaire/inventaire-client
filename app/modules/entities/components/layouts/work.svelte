@@ -21,6 +21,7 @@
   import Summary from '#entities/components/layouts/summary.svelte'
   import { scrollToElement } from '#lib/screen'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { inverseLabels } from '#entities/components/lib/claims_helpers'
 
   export let entity, standalone
 
@@ -50,6 +51,8 @@
   }
 
   let editionsWithPublishers = getEditionsWithPublishers()
+
+  let relativeEntitiesProperties = [ 'wdt:P144', 'wdt:P941', 'wdt:P921' ]
 
   async function showMapAndScrollToMap () {
     showMap = true
@@ -140,21 +143,13 @@
     <EntityListingsLayout {entity}
     />
     <div class="relatives-lists">
-      <RelativeEntitiesList
-        {entity}
-        property="wdt:P144"
-        label={i18n('works_based_on_work', { name: entity.label })}
-      />
-      <RelativeEntitiesList
-        {entity}
-        property="wdt:P941"
-        label={i18n('works_inspired_by_work', { name: entity.label })}
-      />
-      <RelativeEntitiesList
-        {entity}
-        property="wdt:P921"
-        label={i18n('works_about_entity', { name: entity.label })}
-      />
+      {#each relativeEntitiesProperties as property}
+        <RelativeEntitiesList
+          {entity}
+          {property}
+          label={i18n(inverseLabels[property], { name: entity.label })}
+        />
+      {/each}
     </div>
     <HomonymDeduplicates {entity}
     />

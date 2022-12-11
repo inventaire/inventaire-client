@@ -4,6 +4,7 @@
   import { byPublicationDate } from '#entities/lib/entities'
   import { omitClaims } from '#entities/components/lib/work_helpers'
   import { authorsProps, relativeEntitiesListsProps } from '#entities/components/lib/claims_helpers'
+  import { inverseLabels } from '#entities/components/lib/claims_helpers'
   import BaseLayout from './base_layout.svelte'
   import Infobox from './infobox.svelte'
   import EntityTitle from './entity_title.svelte'
@@ -32,6 +33,8 @@
 
   setContext('layout-context', 'author')
   const authorProperties = Object.keys(extendedAuthorsKeys)
+  let relativeEntitiesProperties = [ 'wdt:P737', 'wdt:P921', 'wdt:P855' ]
+
   setContext('search-filter-claim', authorProperties.map(property => `${property}=${uri}`).join('|'))
   setContext('search-filter-types', [ 'series', 'works' ])
   const createButtons = [
@@ -84,24 +87,16 @@
       />
       <RelativeEntitiesList
         {entity}
-        property="wdt:P737"
-        label={i18n('authors_influenced_by', { name: entity.label })}
-      />
-      <RelativeEntitiesList
-        {entity}
-        property="wdt:P921"
-        label={i18n('works_about_entity', { name: entity.label })}
-      />
-      <RelativeEntitiesList
-        {entity}
         property={[ 'wdt:P2679', 'wdt:P2680' ]}
         label={i18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
       />
-      <RelativeEntitiesList
-        {entity}
-        property="wdt:P655"
-        label={i18n('editions_translated_by_author', { name: entity.label })}
-      />
+      {#each relativeEntitiesProperties as property}
+        <RelativeEntitiesList
+          {entity}
+          {property}
+          label={i18n(inverseLabels[property], { name: entity.label })}
+        />
+      {/each}
     </div>
     <HomonymDeduplicates {entity} />
   </div>
