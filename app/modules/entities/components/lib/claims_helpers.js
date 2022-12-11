@@ -216,7 +216,12 @@ export const infoboxPropsLists = {
   },
   human: {
     short: [
-
+      'wdt:P135', // movement
+      'wdt:P136', // genre
+      'wdt:P27', // country of citizenship
+      'wdt:P1412', // language of expression
+      'wdt:P69', // educated at
+      'wdt:P106', // occupation
     ],
     long: [
       'wdt:P135', // movement
@@ -229,7 +234,7 @@ export const infoboxPropsLists = {
       'wdt:P166', // award received
       'wdt:P39', // position held
       'wdt:P1066', // student of
-      'wdt:P737', // influence by
+      'wdt:P737', // influenced by
     ]
   },
   publisher: {
