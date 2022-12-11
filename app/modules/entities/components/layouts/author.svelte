@@ -2,8 +2,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import { getSubEntitiesSections } from '../lib/entities'
   import { byPublicationDate } from '#entities/lib/entities'
-  import { omitClaims } from '#entities/components/lib/work_helpers'
-  import { authorsProps, relativeEntitiesListsProps } from '#entities/components/lib/claims_helpers'
+  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import { inverseLabels } from '#entities/components/lib/claims_helpers'
   import BaseLayout from './base_layout.svelte'
   import Infobox from './infobox.svelte'
@@ -60,7 +59,7 @@
             />
           {/if}
           <Infobox
-            claims={omitClaims(entity.claims, [ authorsProps, relativeEntitiesListsProps ])}
+            claims={omitNonInfoboxClaims(entity.claims)}
             entityType={entity.type}
           />
           <Summary {entity} />
