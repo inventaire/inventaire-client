@@ -75,11 +75,11 @@
 <div class="summary-wrapper" class:has-summary={summaries?.length > 0}>
   {#await waitingForSummariesData then}
     {#if summaries.length > 0}
-      <div class="header">
-        <!-- The label 'summary' is not adapted to human or publisher entities -->
-        <!-- Maybe the text doesn't need a label, has a summary/presentation text is kind of what one would expect to find here? -->
-        <!-- <span class="label">{i18n('Summary')}</span> -->
-        {#if summaries.length > 1}
+      <!-- The label 'summary' is not adapted to human or publisher entities -->
+      <!-- Maybe the text doesn't need a label, has a summary/presentation text is kind of what one would expect to find here? -->
+      <!-- <span class="label">{i18n('Summary')}</span> -->
+      {#if summaries.length > 1}
+        <div class="header">
           <select bind:value={selectedSummary} aria-controls="summary-text">
             {#if splitOptions}
               <optgroup label={langLabel}>
@@ -98,8 +98,8 @@
               {/each}
             {/if}
           </select>
-        {/if}
-      </div>
+        </div>
+      {/if}
       {#await waitingForText}
         <Spinner center={true} />
       {:then}
