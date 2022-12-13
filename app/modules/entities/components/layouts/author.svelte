@@ -3,7 +3,6 @@
   import { getSubEntitiesSections } from '../lib/entities'
   import { byPublicationDate } from '#entities/lib/entities'
   import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
-  import { inverseLabels } from '#entities/components/lib/claims_helpers'
   import BaseLayout from './base_layout.svelte'
   import Infobox from './infobox.svelte'
   import EntityTitle from './entity_title.svelte'
@@ -18,11 +17,12 @@
   import { i18n } from '#user/lib/i18n'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
 
   export let entity, standalone
   let flash
 
-  const { uri } = entity
+  const { uri, type } = entity
   app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
 
   let sections
@@ -32,7 +32,6 @@
 
   setContext('layout-context', 'author')
   const authorProperties = Object.keys(extendedAuthorsKeys)
-  let relativeEntitiesProperties = [ 'wdt:P737', 'wdt:P921', 'wdt:P855' ]
 
   setContext('search-filter-claim', authorProperties.map(property => `${property}=${uri}`).join('|'))
   setContext('search-filter-types', [ 'series', 'works' ])
@@ -89,11 +88,11 @@
         property={[ 'wdt:P2679', 'wdt:P2680' ]}
         label={i18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
       />
-      {#each relativeEntitiesProperties as property}
+      {#each getRelativeEntitiesProperties(type) as property}
         <RelativeEntitiesList
           {entity}
           {property}
-          label={i18n(inverseLabels[property], { name: entity.label })}
+          label={getRelativeEntitiesListLabel({ property, entity })}
         />
       {/each}
     </div>

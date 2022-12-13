@@ -21,13 +21,13 @@
   import Summary from '#entities/components/layouts/summary.svelte'
   import { scrollToElement } from '#lib/screen'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
-  import { inverseLabels } from '#entities/components/lib/claims_helpers'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
 
   export let entity, standalone
 
   let showMap, itemsListsWrapperEl, mapWrapperEl
 
-  const { uri } = entity
+  const { uri, type } = entity
   let editionsUris
   let editions = []
   let initialEditions = []
@@ -51,8 +51,6 @@
   }
 
   let editionsWithPublishers = getEditionsWithPublishers()
-
-  let relativeEntitiesProperties = [ 'wdt:P144', 'wdt:P941', 'wdt:P921' ]
 
   async function showMapAndScrollToMap () {
     showMap = true
@@ -143,11 +141,11 @@
     <EntityListingsLayout {entity}
     />
     <div class="relatives-lists">
-      {#each relativeEntitiesProperties as property}
+      {#each getRelativeEntitiesProperties(type) as property}
         <RelativeEntitiesList
           {entity}
           {property}
-          label={i18n(inverseLabels[property], { name: entity.label })}
+          label={getRelativeEntitiesListLabel({ property, entity })}
         />
       {/each}
     </div>
