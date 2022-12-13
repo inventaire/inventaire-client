@@ -114,5 +114,7 @@
     text-align: center;
     padding: 0.2em 0.1em;
     line-height: 1.1rem;
+    max-height: $card-height;
+    overflow: hidden;
   }
 </style>
