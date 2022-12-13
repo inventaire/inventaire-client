@@ -2,6 +2,7 @@
   import { i18n } from '#user/lib/i18n'
   import Link from '#lib/components/link.svelte'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
+  import { capitalize } from '#lib/utils'
 
   export let entity
   export let standalone = true
@@ -13,7 +14,7 @@
 </script>
 <h2>
   {#if standalone}
-    {label}
+    {capitalize(label)}
   {:else}
     <Link
       url={`/entity/${uri}`}
