@@ -6,6 +6,7 @@
   import ImagesCollage from '#components/images_collage.svelte'
   import { forceArray, loadInternalLink } from '#lib/utils'
   import { uniq } from 'underscore'
+  import { isPropertyUri } from '#lib/boolean_tests'
 
   export let entity, property, label, claims
 
@@ -45,7 +46,18 @@
     <Spinner center={true} />
   {:then}
     {#if entities?.length > 0}
-      <h3>{label}</h3>
+      <h3>
+        {#if isPropertyUri(property)}
+          <a
+            href={`/entity/${property}-${entity.uri}`}
+            on:click={loadInternalLink}
+            >
+            {label}
+          </a>
+        {:else}
+          {label}
+        {/if}
+      </h3>
       <ul>
         {#each entities as entity (entity.uri)}
           <li>
@@ -53,6 +65,7 @@
               href={entity.pathname}
               on:click={loadInternalLink}
               data-data={JSON.stringify(image)}
+              class="entity-link"
             >
               {#if entity.image.url}
                 <ImagesCollage imagesUrls={[ entity.image.url ]}
@@ -81,6 +94,9 @@
   }
   h3{
     font-size: 1.1rem;
+    a:hover{
+      text-decoration: underline;
+    }
   }
   ul{
     @include display-flex(row, null, null, wrap);
@@ -90,7 +106,7 @@
   li{
     margin: 0.2em;
   }
-  a{
+  .entity-link{
     display: block;
     width: $card-width;
     height: $card-height;
