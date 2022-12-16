@@ -25,8 +25,19 @@
       displayedWorks = displayedWorks.sort(bySearchMatchScore(textFilterUris))
     }
   }
-
   $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
+
+  function onWorksScroll (e) {
+    const { scrollTop, scrollTopMax } = e.currentTarget
+    if (scrollTopMax < 100) return
+    if (scrollTop + 100 > scrollTopMax) displayLimit += 10
+  }
+
+  // Limit needs to be high enough for a large screen element to be scrollable
+  // otherwise on:scroll wont be triggered
+  let displayLimit = 25
+  let scrollableElement
+  $: displayedWorks = works.slice(0, displayLimit)
 </script>
 
 <div class="works-browser-section">
@@ -38,7 +49,9 @@
     <ul
       class:grid={displayMode === 'grid'}
       class:list={displayMode === 'list'}
-    >
+      on:scroll={onWorksScroll}
+      bind:this={scrollableElement}
+      >
       {#each displayedWorks as work (work.uri)}
         <li animate:flip={{ duration: 300 }}>
           {#if displayMode === 'grid'}
