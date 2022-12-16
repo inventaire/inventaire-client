@@ -31,7 +31,7 @@
 
 <div class="works-browser-section">
   {#if label}
-    <h3>{I18n(label)}</h3>
+    <h3>{label}</h3>
   {/if}
 
   {#if displayedWorks.length > 0}
