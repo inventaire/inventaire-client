@@ -11,6 +11,7 @@
   import { setContext } from 'svelte'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
+  import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
 
   export let entity, property
   let flash
@@ -39,19 +40,22 @@
     <div class="top-section">
       <EntityTitle
         {entity}
+        standalone={!isStandaloneEntityType(type)}
       />
       <div class="description">
         {entity.description}
       </div>
-      {#if entity.image}
-        <div class="entity-image">
-          <EntityImage
-            entity={entity}
-            size={192}
-          />
-        </div>
+      {#if !isStandaloneEntityType(type)}
+        {#if entity.image}
+          <div class="entity-image">
+            <EntityImage
+              entity={entity}
+              size={192}
+            />
+          </div>
+        {/if}
+        <Summary {entity} />
       {/if}
-      <Summary {entity} />
       <div class="relatives-browser">
         {#await waitingForReverseEntities}
           <Spinner center={true} />

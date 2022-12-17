@@ -49,3 +49,8 @@ export const typeDefaultP31 = {
 }
 
 export const allSearchableTypes = without(Object.keys(entityTypeNameByType), 'editions')
+
+// Standalone meaning the entity URI can be a valid URL on its own (unlike claim based URLs)
+export function isStandaloneEntityType (type) {
+  return Object.keys(typeDefaultP31).includes(type)
+}
