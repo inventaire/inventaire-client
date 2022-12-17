@@ -15,16 +15,15 @@
     listDisplay
 
   const entityTypeClaimsLists = infoboxPropsLists[entityType]
-  const propertiesLonglist = entityTypeClaimsLists?.long || []
-
-  let propertiesShortlist
-  if (shortlistOnly) propertiesShortlist = entityTypeClaimsLists?.short || []
-
-  let displayedProperties = propertiesShortlist || propertiesLonglist
+  let allowlistedProperties = entityTypeClaimsLists?.long
+  if (shortlistOnly) {
+    allowlistedProperties = entityTypeClaimsLists?.short
+  }
+  allowlistedProperties = allowlistedProperties || []
 
   async function getMissingEntities () {
     let missingUris = []
-    displayedProperties.forEach(prop => {
+    allowlistedProperties.forEach(prop => {
       if (claims[prop]) {
         const propMissingUris = claims[prop].filter(value => {
           if (isEntityUri(value)) return !relatedEntities[value]
@@ -42,7 +41,7 @@
     }
   }
   let waitingForEntities
-  $: if (displayedProperties) {
+  $: if (allowlistedProperties) {
     waitingForEntities = getMissingEntities()
   }
 
@@ -57,7 +56,7 @@
     class:wrapped-size={wrappedSize && !showDetails}
     class="claims-infobox"
     >
-    {#each displayedProperties as prop}
+    {#each allowlistedProperties as prop}
       <ClaimInfobox
         values={claims[prop]}
         {prop}
@@ -68,7 +67,7 @@
       <EntityClaimsLinks claims={claims} />
     {/if}
   </div>
-  {#if isNonEmptyArray(displayedProperties)}
+  {#if isNonEmptyArray(allowlistedProperties)}
     {#await waitingForEntities}
       <Spinner/>
     {/await}
