@@ -6,6 +6,7 @@
   import { onChange } from '#lib/svelte/svelte'
   import { flip } from 'svelte/animate'
   import { setIntersection } from '#lib/utils'
+  import SectionLabel from '#entities/components/layouts/section_label.svelte'
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
@@ -41,10 +42,10 @@
 </script>
 
 <div class="works-browser-section">
-  {#if label}
-    <h3>{label}</h3>
-  {/if}
-
+  <SectionLabel
+    {label}
+    entitiesLength={works.length}
+  />
   {#if displayedWorks.length > 0}
     <ul
       class:grid={displayMode === 'grid'}
@@ -77,10 +78,6 @@
     background-color: $off-white;
     padding: 0.5em;
     margin-bottom: 0.5em;
-  }
-  h3{
-    font-size: 1rem;
-    margin: 0.5em;
   }
   ul{
     flex: 1;

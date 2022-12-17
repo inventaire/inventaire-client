@@ -4,9 +4,9 @@
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import Flash from '#lib/components/flash.svelte'
   import ImagesCollage from '#components/images_collage.svelte'
+  import SectionLabel from '#entities/components/layouts/section_label.svelte'
   import { forceArray, loadInternalLink } from '#lib/utils'
   import { uniq } from 'underscore'
-  import { isPropertyUri } from '#lib/boolean_tests'
 
   export let entity, property, label, claims
 
@@ -46,18 +46,12 @@
     <Spinner center={true} />
   {:then}
     {#if entities?.length > 0}
-      <h3>
-        {#if isPropertyUri(property)}
-          <a
-            href={`/entity/${property}-${entity.uri}`}
-            on:click={loadInternalLink}
-            >
-            {label}
-          </a>
-        {:else}
-          {label}
-        {/if}
-      </h3>
+      <SectionLabel
+        {label}
+        {property}
+        {uri}
+        entitiesLength={entities.length}
+      />
       <ul>
         {#each entities as entity (entity.uri)}
           <li>
@@ -91,12 +85,6 @@
     padding: 0.5rem;
     background-color: $off-white;
     margin-bottom: 0.5em;
-  }
-  h3{
-    font-size: 1.1rem;
-    a:hover{
-      text-decoration: underline;
-    }
   }
   ul{
     @include display-flex(row, null, null, wrap);

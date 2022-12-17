@@ -1,0 +1,56 @@
+<script>
+  import { i18n } from '#user/lib/i18n'
+  import { loadInternalLink } from '#lib/utils'
+  import { isPropertyUri } from '#lib/boolean_tests'
+
+  export let property, label, entitiesLength, uri
+</script>
+{#if label}
+  <div class="label-wrapper">
+    <div class="left-section">
+      <h3>
+        {label}
+      </h3>
+      {#if entitiesLength > 0}
+        <span class="counter">
+          {entitiesLength}
+        </span>
+      {/if}
+    </div>
+    {#if isPropertyUri(property)}
+      <a
+        href={ `/entity/${property}-${uri}`}
+        on:click={loadInternalLink}
+        >
+         {i18n('Advanced options')}
+      </a>
+    {/if}
+  </div>
+{/if}
+<style lang="scss">
+  @import '#general/scss/utils';
+  .label-wrapper{
+    @include display-flex(row, center,space-between);
+    margin: 0.5em;
+  }
+
+  .left-section{
+    @include display-flex(row, center);
+  }
+  h3{
+    @include sans-serif;
+    font-size: 1.1rem;
+  }
+  a{
+    @include shy;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+  .counter{
+    @include counter-commons;
+    background-color: white;
+    font-size: 1rem;
+    margin-left: 0.5em;
+  }
+</style>
