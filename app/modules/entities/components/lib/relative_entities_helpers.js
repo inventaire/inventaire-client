@@ -26,6 +26,8 @@ export const relativeEntitiesPropertiesByType = {
     'wdt:P840', // narrative location
     'wdt:P921', // main subject
     'wdt:P941', // inspired by
+    'wdt:P1433', // published in
+    'wdt:P69', // educated at
   ],
   human: [
     'wdt:P135', // movement
