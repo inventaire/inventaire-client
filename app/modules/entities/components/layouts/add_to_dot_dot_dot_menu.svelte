@@ -4,6 +4,7 @@
   import Dropdown from '#components/dropdown.svelte'
   import { userListings } from '#listings/lib/stores/user_listings'
   import { addElement, getUserListingsByEntityUri, removeElement } from '#modules/listings/lib/listings'
+  import { getSubEntities } from '../lib/entities'
   import Spinner from '#components/spinner.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { pluck } from 'underscore'
@@ -12,7 +13,7 @@
   import EntitiesList from '#entities/components/layouts/entities_list.svelte'
   import EditionCreation from '#entities/components/layouts/edition_creation.svelte'
 
-  export let entity, editions, flash
+  export let entity, editions, flash, align
 
   const { uri } = entity
   const { loggedIn } = app.user
@@ -58,13 +59,23 @@
     }
   }
 
+  async function fetchEditions () {
+    if (!editions) {
+      editions = await getSubEntities('work', entity.uri)
+    }
+  }
+
   let showListingCreationModal = false
   let showEditionPickerModal = false
+
+  $:onChange(showEditionPickerModal, fetchEditions)
 </script>
 
 <div class="add-to-dot-dot-dot-menu">
   {#if loggedIn}
-    <Dropdown buttonTitle={i18n('Add this work to your inventory or to a list')}
+    <Dropdown
+      {align}
+      buttonTitle={i18n('Add this work to your inventory or to a list')}
     >
       <div slot="button-inner">
         <span>

@@ -1,13 +1,14 @@
 <script>
-  import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
-  import { i18n, I18n } from '#user/lib/i18n'
+  import SectionLabel from '#entities/components/layouts/section_label.svelte'
+  import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
+  import WorkActions from '#entities/components/layouts/work_actions.svelte'
+  import { i18n } from '#user/lib/i18n'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { onChange } from '#lib/svelte/svelte'
   import { flip } from 'svelte/animate'
   import { setIntersection } from '#lib/utils'
-  import SectionLabel from '#entities/components/layouts/section_label.svelte'
-
+  import { screen } from '#lib/components/stores/screen'
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
   const { label, entities: works } = section
@@ -52,7 +53,7 @@
       class:list={displayMode === 'list'}
       on:scroll={onWorksScroll}
       bind:this={scrollableElement}
-      >
+    >
       {#each displayedWorks as work (work.uri)}
         <li animate:flip={{ duration: 300 }}>
           {#if displayMode === 'grid'}
@@ -60,9 +61,15 @@
           {:else}
             <EntityListRow
               entity={work}
-              bind:relatedEntities={relatedEntities}
+              bind:relatedEntities
               listDisplay={true}
-            />
+            >
+              <WorkActions
+                slot="actions"
+                entity={work}
+                align={$screen.isSmallerThan('$smaller-screen') ? 'center' : 'right'}
+              />
+            </EntityListRow>
           {/if}
         </li>
       {/each}
@@ -95,9 +102,21 @@
       background-color: white;
     }
   }
+  li{
+    @include display-flex(row, inherit, space-between);
+    background-color: white;
+  }
   .no-work{
     text-align: center;
     color: $grey;
     margin-bottom: 0.5em;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    li{
+      @include display-flex(column);
+      margin-bottom: 0.5em;
+      padding: 0;
+    }
   }
 </style>

@@ -39,8 +39,7 @@
       entities={editions}
       relatedEntities={publishersByUris}
       {parentEntity}
-      type="editions"
-      {itemsByEditions}
+      itemsByEditions={itemsByEditions}
     />
   {:else}
     <div class="no-edition-wrapper">

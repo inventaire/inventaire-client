@@ -4,8 +4,7 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EditionActions from './edition_actions.svelte'
 
-  // type is optional
-  export let type, entities, relatedEntities, parentEntity, itemsByEditions
+  export let type = 'editions', entities, relatedEntities, parentEntity, itemsByEditions
 
   let showMore = false
   let shownEntities = entities

@@ -31,9 +31,9 @@
     <a
       href={pathname}
       on:click={loadInternalLink}
-      title={title}
+      {title}
       tabindex="-1"
-      >
+    >
       <ImagesCollage
         imagesUrls={images || [ image.url ]}
         limit={isSubEntitiesType(type) ? 4 : 1}
@@ -47,8 +47,8 @@
           href={pathname}
           on:click={loadInternalLink}
           class="link"
-          title={title}
-          >
+          {title}
+        >
           {#if layoutContext === 'serie' && serieOrdinal}
             {serieOrdinal}.
           {/if}
@@ -72,7 +72,7 @@
       <div class="entity-details">
         <Infobox
           {claims}
-          bind:relatedEntities={relatedEntities}
+          bind:relatedEntities
           {listDisplay}
           shortlistOnly={true}
           entityType={type}
@@ -81,6 +81,9 @@
     {/if}
   </div>
 </div>
+{#if type === 'work'}
+  <slot name="actions" />
+{/if}
 <style lang="scss">
   @import "#general/scss/utils";
   .entity-wrapper{
@@ -118,6 +121,7 @@
   @media screen and (max-width: $smaller-screen) {
     .entity-wrapper{
       flex-wrap: wrap;
+      align-self: center;
     }
     .cover{
       width: 5em;
