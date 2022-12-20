@@ -21,11 +21,11 @@ const urisGetterByType = {
     ]
   },
   human: async uri => {
-    // TODO: also handle articles
-    const { series, works } = await preq.get(app.API.entities.authorWorks(uri))
+    const { series, works, articles } = await preq.get(app.API.entities.authorWorks(uri))
     return [
       { label: I18n('series'), uris: pluck(series, 'uri') },
       { label: I18n('works'), uris: pluck(works, 'uri') },
+      { label: I18n('articles'), uris: pluck(articles, 'uri') },
     ]
   },
   publisher: async uri => {

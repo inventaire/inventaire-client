@@ -10,6 +10,7 @@ export const entityTypeNameByType = {
 }
 
 export const entityTypeNameBySingularType = {
+  article: 'article',
   edition: 'edition',
   work: 'work',
   serie: 'serie',

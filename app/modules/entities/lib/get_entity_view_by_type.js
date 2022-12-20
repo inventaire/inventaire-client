@@ -25,7 +25,7 @@ export default async function getEntityViewByType (model, refresh) {
   } else if (type === 'collection') {
     ({ default: Component } = await import('#entities/components/layouts/collection.svelte'))
   } else if (type === 'article') {
-    ({ default: View } = await import('../views/article_li'))
+    ({ default: Component } = await import('#entities/components/layouts/article.svelte'))
   } else {
     ({ default: Component } = await import('#entities/components/layouts/claim_layout.svelte'))
     const property = model.defaultClaimProperty || 'wdt:P921'

@@ -243,6 +243,11 @@ export const infoboxPropertiesByType = {
     'wdt:P123', // publisher
     'wdt:P98', // editor
   ],
+  article: [
+    'wdt:P1433', // published in
+    'wdt:P577', // publication date
+    'wdt:P356', // DOI
+  ],
 }
 
 export const formatYearClaim = (dateProp, claims) => {
