@@ -1,7 +1,6 @@
 <script>
-  import { isWorksClaimsContext } from '#entities/components/lib/edition_layout_helpers'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
-  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
+  import { omitClaims } from '#entities/components/lib/work_helpers'
   import { loadInternalLink } from '#lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import Infobox from './infobox.svelte'
@@ -17,11 +16,27 @@
 
   const layoutContext = getContext('layout-context')
 
-  if (!isWorksClaimsContext(layoutContext)) {
-    // Known case: dont show authors in editions infobox on a on work layout,
-    // as its already shown in the work infobox
-    omitNonInfoboxClaims(claims)
+  const mainPropertyType = {
+    author: 'wdt:P50',
+    publisher: 'wdt:P123',
+    genre: 'wdt:P136',
+    series: 'wdt:P179',
+    collection: 'wdt:P195',
+    edition: 'wdt:P629',
+    translator: 'wdt:P655',
+    subject: 'wdt:P921',
   }
+
+  const omitLayoutClaim = layoutContext => {
+    const prop = mainPropertyType[layoutContext]
+    if (prop && hasOnlyOneClaimValue(prop)) {
+      claims = omitClaims(claims, [ prop ])
+    }
+  }
+
+  const hasOnlyOneClaimValue = prop => claims?.[prop]?.length === 1
+
+  omitLayoutClaim(layoutContext)
 </script>
 <div class="entity-wrapper">
   <div
