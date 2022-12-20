@@ -18,7 +18,7 @@
   let infoboxPropertiesToDisplay = infoboxPropertiesByType[entityType]
 
   if (shortlistOnly) {
-    allowlistedProperties = infoboxShortlistPropertiesByType[entityType]
+    allowlistedProperties = infoboxShortlistPropertiesByType[entityType] || infoboxPropertiesToDisplay
   } else {
     allowlistedProperties = infoboxPropertiesToDisplay
   }
