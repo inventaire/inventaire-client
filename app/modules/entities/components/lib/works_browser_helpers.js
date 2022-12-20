@@ -106,9 +106,13 @@ const facetsProperties = {
     'wdt:P577',
   ],
   publisher: [
+    'wdt:P50',
     'wdt:P577',
+    'wdt:P195',
   ],
   collection: [
+    'wdt:P50',
+    'wdt:P123',
     'wdt:P577',
   ],
   claim: [
