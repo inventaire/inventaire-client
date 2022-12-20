@@ -44,12 +44,14 @@ export const getWorkProperties = omitAuthors => {
   return props
 }
 
-export const authorsProps = [
-  'wdt:P50', // author
-  'wdt:P58', // scenarist
-  'wdt:P110', // illustrator
-  'wdt:P6338', // colorist
-]
+export const propertiesByRoles = {
+  author: [ 'wdt:P50', 'wdt:P2093' ],
+  scenarist: [ 'wdt:P58' ],
+  illustrator: [ 'wdt:P110' ],
+  colorist: [ 'wdt:P6338' ],
+}
+
+export const authorsProps = Object.values(propertiesByRoles).flat()
 
 export const relativeEntitiesListsProps = [
   'wdt:P737' // influenced by
