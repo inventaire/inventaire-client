@@ -1,4 +1,4 @@
-import { aggregateWorksClaims, infoboxPropsLists } from '#entities/components/lib/claims_helpers'
+import { aggregateWorksClaims, infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 
 export const addWorksClaims = (claims, works) => {
@@ -7,6 +7,6 @@ export const addWorksClaims = (claims, works) => {
   return Object.assign(claims, nonEmptyWorksClaims)
 }
 
-export const filterClaims = (_, key) => infoboxPropsLists.edition.long.includes(key)
+export const filterClaims = (_, key) => infoboxPropertiesByType.edition.includes(key)
 
 export const isWorksClaimsContext = type => [ 'collection', 'publisher' ].includes(type)

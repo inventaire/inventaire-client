@@ -173,93 +173,77 @@ export const hasSelectedLang = selectedLangs => edition => {
   if (originalLang !== undefined) return selectedLangs.includes(originalLang)
 }
 
-export const infoboxPropsLists = {
-  edition: {
-    short: [
-      'wdt:P50', // author
-      'wdt:P577', // publication date
-      'wdt:P123', // publisher
-      'wdt:P195', // collection
-      'wdt:P212', // ISBN-13
-    ],
-    long: [
-      ...authorsProps,
-      'wdt:P2679', // author of foreword
-      'wdt:P2680', // author of afterword
-      'wdt:P655', // translator
-      'wdt:P577', // publication date
-      'wdt:P123', // publisher
-      'wdt:P1104', // number of pages
-      'wdt:P212', // ISBN-13
-      'wdt:P957', // ISBN-10
-      'wdt:P629', // edition or translation of
-      'wdt:P195', // collection
-      'wdt:P2635', // number of volumes
-      'wdt:P856', // official website
-      'wdt:P407', // edition language
-    ],
-  },
-  work: {
-    short: [
-      'wdt:P577', // publication date
-      'wdt:P179', // series
-      'wdt:P136', // genre
-      'wdt:P921', // main subject
-    ],
-    long: getWorkProperties(),
-  },
-  serie: {
-    short: [
-      'wdt:P577', // publication date
-      'wdt:P179', // series
-      'wdt:P136', // genre
-      'wdt:P921', // main subject
-    ],
-    long: getWorkProperties(),
-  },
-  human: {
-    short: [
-      'wdt:P135', // movement
-      'wdt:P136', // genre
-      'wdt:P27', // country of citizenship
-      'wdt:P1412', // language of expression
-      'wdt:P69', // educated at
-      'wdt:P106', // occupation
-    ],
-    long: [
-      'wdt:P135', // movement
-      'wdt:P136', // genre
-      'wdt:P27', // country of citizenship
-      'wdt:P103', // native language
-      'wdt:P1412', // language of expression
-      'wdt:P69', // educated at
-      'wdt:P106', // occupation
-      'wdt:P166', // award received
-      'wdt:P39', // position held
-      'wdt:P1066', // student of
-      'wdt:P737', // influenced by
-    ]
-  },
-  publisher: {
-    short: [],
-    long: [
-      'wdt:P571', // inception
-      'wdt:P576', // dissolution
-      'wdt:P112', // founded by
-      'wdt:P127', // owned by
-    ],
-  },
-  collection: {
-    short: [],
-    long: [
-      'wdt:P1680', // subtitle
-      'wdt:P123', // publisher
-      'wdt:P98', // editor
-    ],
-  }
+export const infoboxShortlistPropertiesByType = {
+  edition: [
+    'wdt:P50', // author
+    'wdt:P577', // publication date
+    'wdt:P123', // publisher
+    'wdt:P195', // collection
+    'wdt:P212', // ISBN-13
+  ],
+  work: [
+    'wdt:P577', // publication date
+    'wdt:P179', // series
+    'wdt:P136', // genre
+    'wdt:P921', // main subject
+  ],
+  human: [
+    'wdt:P135', // movement
+    'wdt:P136', // genre
+    'wdt:P27', // country of citizenship
+    'wdt:P1412', // language of expression
+    'wdt:P69', // educated at
+    'wdt:P106', // occupation
+  ]
 }
+infoboxShortlistPropertiesByType.serie = infoboxShortlistPropertiesByType.work
 
-infoboxPropsLists.serie = infoboxPropsLists.work
+export const infoboxPropertiesByType = {
+  edition: [
+    ...authorsProps,
+    'wdt:P2679', // author of foreword
+    'wdt:P2680', // author of afterword
+    'wdt:P655', // translator
+    'wdt:P577', // publication date
+    'wdt:P123', // publisher
+    'wdt:P1104', // number of pages
+    'wdt:P212', // ISBN-13
+    'wdt:P957', // ISBN-10
+    'wdt:P629', // edition or translation of
+    'wdt:P195', // collection
+    'wdt:P2635', // number of volumes
+    'wdt:P856', // official website
+    'wdt:P407', // edition language
+  ],
+  work: getWorkProperties(),
+  serie: getWorkProperties(),
+  human: [
+    'wdt:P135', // movement
+    'wdt:P136', // genre
+    'wdt:P27', // country of citizenship
+    'wdt:P103', // native language
+    'wdt:P1412', // language of expression
+    'wdt:P69', // educated at
+    'wdt:P106', // occupation
+    'wdt:P166', // award received
+    'wdt:P39', // position held
+    'wdt:P1066', // student of
+    'wdt:P737', // influenced by
+    'wdt:P856', // official website
+  ],
+  publisher: [
+    'wdt:P571', // inception
+    'wdt:P576', // dissolution
+    'wdt:P112', // founded by
+    'wdt:P127', // owned by
+    'wdt:P856', // official website
+  ],
+  collection: [
+    'wdt:P1680', // subtitle
+    'wdt:P123', // publisher
+    'wdt:P98', // editor
+  ],
+}
 
 export const formatYearClaim = (dateProp, claims) => {
   const values = claims[dateProp]

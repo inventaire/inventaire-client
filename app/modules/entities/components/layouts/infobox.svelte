@@ -5,7 +5,7 @@
   import ClaimInfobox from './claim_infobox.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { infoboxPropsLists } from '#entities/components/lib/claims_helpers'
+  import { infoboxShortlistPropertiesByType, infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
   import EntityClaimsLinks from '#entities/components/layouts/entity_claims_links.svelte'
 
   export let claims = {},
@@ -14,10 +14,13 @@
     shortlistOnly,
     listDisplay
 
-  const entityTypeClaimsLists = infoboxPropsLists[entityType]
-  let allowlistedProperties = entityTypeClaimsLists?.long
+  let allowlistedProperties
+  let infoboxPropertiesToDisplay = infoboxPropertiesByType[entityType]
+
   if (shortlistOnly) {
-    allowlistedProperties = entityTypeClaimsLists?.short
+    allowlistedProperties = infoboxShortlistPropertiesByType[entityType]
+  } else {
+    allowlistedProperties = infoboxPropertiesToDisplay
   }
   allowlistedProperties = allowlistedProperties || []
 
