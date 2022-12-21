@@ -163,7 +163,6 @@
   .description{
     font-size: 0.9rem;
     color: $label-grey;
-    margin-left: 0.5em;
   }
   .inferred:not(:hover){
     opacity: 0.7;
