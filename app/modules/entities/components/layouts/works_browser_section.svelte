@@ -7,13 +7,16 @@
   import { addWorksImages } from '#entities/lib/types/work_alt'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { flip } from 'svelte/animate'
+  import { getContext } from 'svelte'
   import { i18n } from '#user/lib/i18n'
   import { onChange } from '#lib/svelte/svelte'
   import { setIntersection } from '#lib/utils'
   import { screen } from '#lib/components/stores/screen'
+
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
-  const { label, entities: works } = section
+  const { entities: works } = section
+  let { label } = section
 
   let filteredWorks = works
   let paginatedWorks = []
@@ -58,16 +61,23 @@
     displayLimit = initialLimit
   }
 
+  const layoutContext = getContext('layout-context')
+
+  // as claim layout already displays label
+  if (layoutContext === 'claim') label = null
+
   $: onChange(displayLimit, addMoreWorks)
   $: onChange(displayMode, resetView)
   $: onChange(filteredWorks, resetView, addMoreWorks)
 </script>
 
 <div class="works-browser-section">
-  <SectionLabel
-    {label}
-    entitiesLength={works.length}
-  />
+  {#if label}
+    <SectionLabel
+      {label}
+      entitiesLength={works.length}
+    />
+  {/if}
   {#if paginatedWorks.length > 0}
     <ul
       class:grid={displayMode === 'grid'}

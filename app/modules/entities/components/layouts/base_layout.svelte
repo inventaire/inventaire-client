@@ -6,8 +6,9 @@
   import EntityLayoutActionsMenu from '#entities/components/layouts/entity_layout_actions_menu.svelte'
 
   export let entity, flash, showEntityEditButtons
+  export let typeLabel = entity.type
 
-  const { uri, _id, type } = entity
+  const { uri, _id } = entity
 
   const altUri = buildAltUri(uri, _id)
 </script>
@@ -15,7 +16,7 @@
 <div class="layout">
   <div class="header-wrapper">
     <div class="header">
-      <h2 class="type">{I18n(entityTypeNameBySingularType[type])}</h2>
+      <h2 class="typeLabel">{I18n(entityTypeNameBySingularType[typeLabel])}</h2>
     </div>
     <EntityLayoutActionsMenu
       bind:entity
@@ -28,7 +29,7 @@
   <Flash state={flash} />
   <div class="entity-data-wrapper">
     <p class="uri">
-      {I18n(type)}
+      {I18n(typeLabel)}
       - {uri}
       {#if altUri}
         - {altUri}
@@ -46,7 +47,7 @@
     padding: 0 1em;
     background-color: white;
   }
-  .type{
+  .typeLabel{
     color: $grey;
     font-size: 1.1rem;
     @include sans-serif;

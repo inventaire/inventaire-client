@@ -5,7 +5,6 @@
   import BaseLayout from './base_layout.svelte'
   import EntityImage from '../entity_image.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
-  import EntityTitle from './entity_title.svelte'
   import RelativeEntitiesList from './relative_entities_list.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
@@ -17,6 +16,9 @@
   let flash
 
   const { uri, type } = entity
+  let { label } = entity
+  if (property) label = getRelativeEntitiesListLabel({ property, entity }) || entity.label
+
   app.navigate(`/entity/${property}-${uri}`, { metadata: getEntityMetadata(entity) })
   let sections
 
@@ -29,27 +31,42 @@
   setContext('layout-context', 'claim')
   setContext('search-filter-claim', `${property}=${uri}`)
   setContext('search-filter-types', null)
+
+  const defaultTypeByClaimProperty = {
+    'wdt:P135': 'movement',
+    'wdt:P136': 'genre',
+  }
+
+  const typeLabel = defaultTypeByClaimProperty[property] || 'subject'
+
+  $: entitiesLength = sections?.map(_.property('uris')).flat().length
 </script>
 
 <BaseLayout
-  bind:entity={entity}
+  bind:entity
   bind:flash
+  {typeLabel}
   showEntityEditButtons={false}
 >
   <div class="entity-layout" slot="entity">
     <div class="top-section">
-      <EntityTitle
-        {entity}
-        standalone={!isStandaloneEntityType(type)}
-      />
-      <div class="description">
-        {entity.description}
+      <div class="title-row">
+        <h2>
+          {label}
+        </h2>
+        {#if sections}
+          {#if entitiesLength > 10}
+            <span class="counter">
+              {entitiesLength}
+            </span>
+          {/if}
+        {/if}
       </div>
       {#if !isStandaloneEntityType(type)}
         {#if entity.image}
           <div class="entity-image">
             <EntityImage
-              entity={entity}
+              {entity}
               size={192}
             />
           </div>
@@ -81,6 +98,15 @@
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
+  }
+  .title-row{
+    @include display-flex(row, center);
+  }
+  .counter{
+    @include counter-commons;
+    background-color: white;
+    font-size: 1rem;
+    margin-left: 0.5em;
   }
   .relatives-browser{
     margin-top: 1em;

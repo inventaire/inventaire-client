@@ -2,8 +2,8 @@ import { i18n } from '#user/lib/i18n'
 import { inverseLabels } from '#entities/components/lib/claims_helpers'
 
 export function getRelativeEntitiesListLabel ({ property, entity }) {
-  const label = inverseLabels[property] || ''
-  return i18n(label, { name: entity.label })
+  const label = inverseLabels[property]
+  if (label) return i18n(label, { name: entity.label })
 }
 
 export function getRelativeEntitiesProperties (type, mainProperty) {
