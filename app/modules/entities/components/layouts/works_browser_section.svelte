@@ -1,20 +1,22 @@
 <script>
+  import Spinner from '#general/components/spinner.svelte'
   import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import WorkActions from '#entities/components/layouts/work_actions.svelte'
-  import { i18n } from '#user/lib/i18n'
+  import { addWorksImages } from '#entities/lib/types/work_alt'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
-  import { onChange } from '#lib/svelte/svelte'
   import { flip } from 'svelte/animate'
+  import { i18n } from '#user/lib/i18n'
+  import { onChange } from '#lib/svelte/svelte'
   import { setIntersection } from '#lib/utils'
   import { screen } from '#lib/components/stores/screen'
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
   const { label, entities: works } = section
 
-  // TODO: display only the first n items, and add more on scroll
-  let displayedWorks = works
+  let filteredWorks = works
+  let paginatedWorks = []
 
   let relatedEntities = {}
 
@@ -22,9 +24,9 @@
     if (!facetsSelectedValues) return
     let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
     if (textFilterUris) selectedUris = setIntersection(selectedUris, textFilterUris)
-    displayedWorks = works.filter(work => selectedUris.has(work.uri))
+    filteredWorks = works.filter(work => selectedUris.has(work.uri))
     if (textFilterUris) {
-      displayedWorks = displayedWorks.sort(bySearchMatchScore(textFilterUris))
+      filteredWorks = filteredWorks.sort(bySearchMatchScore(textFilterUris))
     }
   }
   $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
@@ -35,11 +37,30 @@
     if (scrollTop + 100 > scrollTopMax) displayLimit += 10
   }
 
-  // Limit needs to be high enough for a large screen element to be scrollable
+  // Limit needs to be high enough to have enough elements in order to be scrollable
   // otherwise on:scroll wont be triggered
-  let displayLimit = 25
+  let initialLimit = 25
+  let displayLimit = initialLimit
+
   let scrollableElement
-  $: displayedWorks = works.slice(0, displayLimit)
+
+  async function addMoreWorks () {
+    paginatedWorks = filteredWorks.slice(0, displayLimit)
+    await addImagesToPaginatedWorks()
+  }
+
+  async function addImagesToPaginatedWorks () {
+    paginatedWorks = await addWorksImages(paginatedWorks)
+  }
+
+  function resetView () {
+    if (scrollableElement) scrollableElement.scroll({ top: 0, behavior: 'smooth' })
+    displayLimit = initialLimit
+  }
+
+  $: onChange(displayLimit, addMoreWorks)
+  $: onChange(displayMode, resetView)
+  $: onChange(filteredWorks, resetView, addMoreWorks)
 </script>
 
 <div class="works-browser-section">
@@ -47,32 +68,36 @@
     {label}
     entitiesLength={works.length}
   />
-  {#if displayedWorks.length > 0}
+  {#if paginatedWorks.length > 0}
     <ul
       class:grid={displayMode === 'grid'}
       class:list={displayMode === 'list'}
       on:scroll={onWorksScroll}
       bind:this={scrollableElement}
     >
-      {#each displayedWorks as work (work.uri)}
-        <li animate:flip={{ duration: 300 }}>
-          {#if displayMode === 'grid'}
-            <WorkGridCard {work} />
-          {:else}
-            <EntityListRow
-              entity={work}
-              bind:relatedEntities
-              listDisplay={true}
-            >
-              <WorkActions
-                slot="actions"
+      {#await addImagesToPaginatedWorks()}
+        <p class="loading"><Spinner /></p>
+      {:then}
+        {#each paginatedWorks as work (work.uri)}
+          <li animate:flip={{ duration: 300 }}>
+            {#if displayMode === 'grid'}
+              <WorkGridCard {work} />
+            {:else}
+              <EntityListRow
                 entity={work}
-                align={$screen.isSmallerThan('$smaller-screen') ? 'center' : 'right'}
-              />
-            </EntityListRow>
-          {/if}
-        </li>
-      {/each}
+                bind:relatedEntities
+                listDisplay={true}
+              >
+                <WorkActions
+                  slot="actions"
+                  entity={work}
+                  align={$screen.isSmallerThan('$smaller-screen') ? 'center' : 'right'}
+                />
+              </EntityListRow>
+            {/if}
+          </li>
+        {/each}
+      {/await}
     </ul>
   {:else}
     <p class="no-work">{i18n('There is nothing here')}</p>
@@ -101,6 +126,9 @@
       padding: 0.5em;
       background-color: white;
     }
+  }
+  .loading{
+    margin: 0 auto;
   }
   li{
     @include display-flex(row, inherit, space-between);

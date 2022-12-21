@@ -1,6 +1,7 @@
 import getBestLangValue from '../get_best_lang_value.js'
 import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath } from '../entities.js'
 import { pluck } from 'underscore'
+import { isNonEmptyArray } from '#lib/boolean_tests.js'
 
 export async function addWorksImagesAndAuthors (works) {
   await Promise.all([
@@ -15,7 +16,7 @@ export async function addEntitiesImages (works) {
   const nextBatch = async () => {
     const batchEntities = remainingEntities.splice(0, 20)
     if (batchEntities.length === 0) return
-    await _addEntitiesImages(batchEntities)
+    await addMissingImages(batchEntities)
     return nextBatch()
   }
   await nextBatch()
@@ -24,12 +25,13 @@ export async function addEntitiesImages (works) {
 
 export const addWorksImages = addEntitiesImages
 
-async function _addEntitiesImages (entities) {
-  const uris = pluck(entities, 'uri')
+async function addMissingImages (entities) {
+  const entitiesWithoutImages = entities.filter(entity => !entity.images)
+  const uris = pluck(entitiesWithoutImages, 'uri')
   const imagesByUri = await getEntitiesImages(uris)
   entities.forEach(entity => {
     const entityImages = imagesByUri[entity.uri]
-    setEntityImages(entity, entityImages)
+    if (isNonEmptyArray(entityImages)) setEntityImages(entity, entityImages)
   })
 }
 

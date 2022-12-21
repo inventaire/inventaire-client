@@ -19,7 +19,7 @@
   class:hasSubEntities={isSubEntitiesType(type)}
   >
   <ImagesCollage
-    imagesUrls={work.images}
+    imagesUrls={work.images || []}
     limit={isSubEntitiesType(type) ? 6 : 1}
   />
   <div class="info">

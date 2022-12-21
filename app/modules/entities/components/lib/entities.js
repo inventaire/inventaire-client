@@ -2,7 +2,6 @@ import { i18n, I18n } from '#user/lib/i18n'
 import { getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { inverseLabels } from '#entities/components/lib/claims_helpers'
 import { isNonEmptyArray } from '#lib/boolean_tests'
-import { addWorksImages } from '#entities/lib/types/work_alt'
 import { addWorksClaims, isWorksClaimsContext } from './edition_layout_helpers'
 import preq from '#lib/preq'
 import { pluck } from 'underscore'
@@ -78,7 +77,6 @@ const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => 
     lang: app.user.lang
   })
   section.entities = Object.values(entities).map(serializeEntity).sort(sortFn)
-  await addWorksImages(section.entities)
   if (isWorksClaimsContext(parentEntityType)) {
     const relatedEntities = await getEditionsWorks(section.entities)
     Object.values(entities).forEach(pickAndAssignWorksClaims(relatedEntities))
