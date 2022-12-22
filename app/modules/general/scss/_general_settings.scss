@@ -39,9 +39,11 @@ body{
     margin: 0;
     padding: 0;
   }
-  fieldset{
+  fieldset, legend{
+    border: 0;
     padding: 0;
-    border: none;
+    margin: 0;
+    min-width: 0;
   }
 }
 
