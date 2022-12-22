@@ -20,6 +20,12 @@ ln -s ../.githooks .git/hooks
 echo 'let JSON_PIWIK, AnalyticsTracker, piwik_log;' > ./vendor/piwik.js
 curl -sk https://piwik.allmende.io/piwik.js >> ./vendor/piwik.js
 
+echo "// A polyfill for visualViewport is required until we stop supporting Firefox < v91
+// https://developer.mozilla.org/en-US/docs/Web/API/Window/visualViewport#browser_compatibility
+// Source: https://github.com/WICG/visual-viewport/blob/gh-pages/polyfill/visualViewport.js
+" > ./vendor/visual_viewport_polyfill.js
+curl -sk https://raw.githubusercontent.com/WICG/visual-viewport/44deaba/polyfill/visualViewport.js >> ./vendor/visual_viewport_polyfill.js
+
 npm run update-jsconfig
 
 # Remove assets cached by node modules, in particular webpack cached builds,
