@@ -11,7 +11,7 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
 
-  export let type = 'works', claims
+  export let type = 'works', claims, label
 
   const canChangeType = !(type && claims)
 
@@ -77,16 +77,17 @@
 </script>
 
 <div class="column">
+  <h2>{I18n(`create a new ${entityTypeNameBySingularType[type]}`)}</h2>
   {#if canChangeType}
-    <h2>{I18n('create a new entity')}</h2>
     <EntityTypePicker bind:type />
-  {:else}
-    <h2>{I18n(`create a new ${entityTypeNameBySingularType[type]}`)}</h2>
   {/if}
 
   {#if type}
     {#if !hasMonolingualTitle}
-      <LabelsEditor bind:entity />
+      <LabelsEditor
+        bind:entity
+        inputLabel={label}
+      />
     {/if}
 
     {#if typeProperties}
