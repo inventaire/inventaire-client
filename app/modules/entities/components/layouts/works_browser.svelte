@@ -39,11 +39,11 @@
         on:click={() => wrapped = !wrapped}
         aria-controls="works-browser-controls"
       >
-        {@html icon('cog')}
-        {i18n('Advanced options')}
         {#if showControls}
           {@html icon('caret-up')}
         {:else}
+          {@html icon('cog')}
+          {i18n('Advanced options')}
           {@html icon('caret-down')}
         {/if}
       </button>
@@ -84,7 +84,8 @@
     margin-block-end: 0.5em;
     @include radius;
     padding: 0.5em;
-    @include display-flex(row, center, flex-start);
+    @include display-flex(row, space-between);
+    flex: 1;
     :global(.select-dropdown), :global(.dropdown-content){
       inline-size: 10em;
     }
@@ -94,15 +95,15 @@
   }
 
   .wrapper{
-    @include display-flex(column, stretch);
-    margin-block: 0.5em 1em;
+    @include display-flex(row-reverse, space-between);
+    margin-block-start: 0.5em;
     &:not(.unwrapped){
       @include display-flex(column, flex-end);
     }
     &.unwrapped{
       background-color: $off-white;
       .toggle-controls{
-        align-self: flex-end;
+        align-self: flex-start;
       }
     }
   }
@@ -148,7 +149,10 @@
   /* Very small screens */
   @media screen and (max-width: $very-small-screen){
     .wrapper:not(.unwrapped){
-      @include display-flex(column, center);
+      @include display-flex(column, center, stretch);
+    }
+    .wrapper{
+      @include display-flex(column, center, space-between);
     }
   }
 </style>
