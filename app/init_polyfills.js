@@ -6,3 +6,5 @@ export async function initPolyfills () {
     await import('#vendor/visual_viewport_polyfill')
   }
 }
+
+export const waitingForPolyfills = initPolyfills()

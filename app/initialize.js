@@ -1,5 +1,5 @@
 import './init_globals'
-import { initPolyfills } from './init_polyfills'
+import { waitingForPolyfills } from './init_polyfills'
 import '#lib/global_libs_extender'
 import '#general/scss/base.scss'
 import '#lib/handlebars_helpers/init'
@@ -12,5 +12,5 @@ import initApp from './init_app.js'
 initUnhandledErrorLogger()
 testVideoInput()
 
-initPolyfills()
+waitingForPolyfills
 .then(initApp)
