@@ -63,7 +63,6 @@
 
   $: claims = entity.claims
   $: infoboxClaims = removeAuthorsClaims(entity.claims)
-  $: notOnlyP31 = Object.keys(claims).length > 1
   $: app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
   $: if (isNonEmptyArray(editions)) {
     editionsUris = editions.map(_.property('uri'))

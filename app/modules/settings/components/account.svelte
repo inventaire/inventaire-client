@@ -10,7 +10,7 @@
   import { user } from '#user/user_store'
   import { domain } from '#lib/urls'
 
-  let flashLang, flashEmail, flashFediversable, requestedEmail
+  let flashLang, flashEmail, flashFediversable
   let fediversable = $user.fediversable
   let userLang = $user.language
   let emailValue = $user.email
@@ -38,7 +38,6 @@
     try {
       const res = await email_.verifyAvailability(emailValue)
       if (!(res.status === 'available')) {
-        requestedEmail = emailValue
         flashEmail = {
           type: 'error',
           message: I18n('this email is not available. Please pick another one.')

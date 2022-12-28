@@ -37,7 +37,7 @@
     @include display-flex(column, center);
  }
  .listing-id{
- 	@include display-flex(column, center);
- 	font-size: small;
+    @include display-flex(column, center);
+    font-size: small;
  }
 </style>

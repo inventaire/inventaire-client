@@ -21,6 +21,7 @@
     e.preventDefault()
   }
 
+  let currentOption
   function selectNext (indexIncrement) {
     const currentOptionIndex = displayedOptions.indexOf(currentOption)
     const nextOption = displayedOptions[currentOptionIndex + indexIncrement]
@@ -31,7 +32,6 @@
     value = null
   }
 
-  let currentOption
   $: {
     if (value != null) {
       currentOption = displayedOptions.find(option => option.value === value)

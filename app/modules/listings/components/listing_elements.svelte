@@ -75,6 +75,8 @@
     }
   }
 
+  $: hasMore = entities.length >= offset
+
   const fetchMore = async () => {
     if (fetching || hasMore === false) return
     fetching = true
@@ -93,8 +95,6 @@
       if (screenBottom + 100 > listingBottomEl.offsetTop) fetchMore()
     }
   }
-
-  $: hasMore = entities.length >= offset
 </script>
 <svelte:window bind:scrollY={windowScrollY} />
 {#await waitingForEntities}

@@ -20,13 +20,13 @@
     e.preventDefault()
   }
 
+  $: currentOption = options.find(option => option.value === value)
+
   function selectNext (indexIncrement) {
     const currentOptionIndex = options.indexOf(currentOption)
     const nextOption = options[currentOptionIndex + indexIncrement]
     if (nextOption) value = nextOption.value
   }
-
-  $: currentOption = options.find(option => option.value === value)
 </script>
 
 <div
