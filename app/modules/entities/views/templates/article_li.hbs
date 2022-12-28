@@ -31,12 +31,12 @@
   <div class="fa fa-file-text-o" title="{{i18n 'article_limitation'}}"></div>
   {{> 'entities:edit_data' this}}
   {{#if wikisource}}
-    <a class="wikisource" href="{{wikisource.url}}" target="_blank" title="{{I18n 'read online'}}">
+    <a class="wikisource" href="{{wikisource.url}}" target="_blank" rel="noreferrer" title="{{I18n 'read online'}}">
       {{icon 'wikisource'}}
     </a>
   {{/if}}
   {{#if wikipedia}}
-    <a class="wikipedia" href="{{wikipedia.url}}" target="_blank" title="{{I18n 'see_on_website' website='Wikipedia'}}">
+    <a class="wikipedia" href="{{wikipedia.url}}" target="_blank" rel="noreferrer" title="{{I18n 'see_on_website' website='Wikipedia'}}">
       {{icon 'wikipedia-w'}}
     </a>
   {{/if}}

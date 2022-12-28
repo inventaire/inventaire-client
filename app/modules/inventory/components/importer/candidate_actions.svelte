@@ -56,6 +56,7 @@
     class="view-book tiny-button light-blue"
     href="{itemPath}"
     target="_blank"
+    rel="noreferrer"
     >
       {I18n('View book')}
     </a>

@@ -61,6 +61,7 @@
         class="uri"
         href="/entity/{uri}"
         target="_blank"
+        rel="noreferrer"
         on:click|stopPropagation
       >
         {uri}

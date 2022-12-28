@@ -23,7 +23,10 @@
   </fieldset>
   <fieldset>
     <h2>{i18n('API')}</h2>
-    <a href="{apiDoc}" target="_blank" class="link">{I18n('check the documentation')} {@html icon('link')}</a>
+    <a href="{apiDoc}" target="_blank" rel="noreferrer" class="link">
+      {I18n('check the documentation')}
+      {@html icon('link')}
+    </a>
   </fieldset>
 </form>
 
