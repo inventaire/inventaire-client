@@ -22,9 +22,7 @@ module.exports = {
     // NB: some unsupported features are unfortunately not detected
     // Ex: Array methods https://github.com/amilajack/eslint-plugin-compat/issues/258
     'plugin:compat/recommended',
-  ],
-  plugins: [
-    'svelte3'
+    'plugin:svelte/recommended',
   ],
   rules: {
     'array-bracket-spacing': [ 'error', 'always' ],
@@ -50,6 +48,7 @@ module.exports = {
     'no-multiple-empty-lines': [ 'error', { max: 1, maxBOF: 0, maxEOF: 1 } ],
     // svelte components initialization are a "new" with side-effect
     'no-new': 'off',
+    'no-self-assign': 'off',
     'no-var': [ 'error' ],
     'nonblock-statement-body-position': [ 'error', 'beside' ],
     'object-curly-spacing': [ 'error', 'always' ],
@@ -58,6 +57,40 @@ module.exports = {
     'one-var': 'off',
     // Disabling to prevent editors auto-fix before the variable was reassigned
     'prefer-const': 'off',
+
+    'svelte/no-at-html-tags': 'off',
+    'svelte/no-reactive-functions': 'error',
+    'svelte/no-reactive-literals': 'error',
+    'svelte/no-store-async': 'error',
+    'svelte/no-useless-mustaches': 'error',
+    'svelte/require-optimized-style-attribute': 'error',
+    // 'svelte/require-store-callbacks-use-set-param': 'error',
+    'svelte/require-store-reactive-access': 'error',
+
+    'svelte/derived-has-same-inputs-outputs': 'error',
+    'svelte/first-attribute-linebreak': 'error',
+    'svelte/html-closing-bracket-spacing': 'error',
+    'svelte/html-quotes': 'error',
+    'svelte/html-self-closing': 'error',
+    'svelte/indent': 'error',
+    'svelte/max-attributes-per-line': [
+      'error',
+      {
+        multiline: 1,
+        singleline: 3
+      }
+    ],
+    'svelte/mustache-spacing': 'error',
+    // 'svelte/no-extra-reactive-curlies': 'error',
+    'svelte/no-spaces-around-equal-signs-in-attribute': 'error',
+    'svelte/prefer-class-directive': 'error',
+    'svelte/prefer-style-directive': 'error',
+    'svelte/shorthand-attribute': 'error',
+    'svelte/shorthand-directive': 'error',
+    // 'svelte/sort-attributes': 'error',
+    'svelte/spaced-html-comment': 'error',
+
+    'svelte/no-trailing-spaces': 'error',
   },
   globals: {
     app: 'writable',
@@ -96,24 +129,17 @@ module.exports = {
   overrides: [
     {
       files: [ '*.svelte' ],
-      processor: 'svelte3/svelte3',
+      parser: 'svelte-eslint-parser',
       rules: {
         // In Svelte, assignment is used everywhere to update a componenent's state;
         // Turning off this rule allows to write less curly-brackets-loaded inline functions
         // Example:      on:click={() => zoom = !zoom }
         // instead of:   on:click={() => { zoom = !zoom }}
         'no-return-assign': 'off',
-        // Rules known to not work correctly with eslint-plugin-svelte3
-        // See https://github.com/sveltejs/eslint-plugin-svelte3/blob/master/OTHER_PLUGINS.md#eslint-plugin-import
-        'import/first': 'off',
       }
     }
   ],
   settings: {
-    // Required to not get errors on components with style lang=scss
-    // See https://stackoverflow.com/questions/64644571/how-to-configure-sass-and-eslint-in-svelte-project
-    // and https://github.com/sveltejs/eslint-plugin-svelte3#svelte3ignore-styles
-    'svelte3/ignore-styles': ({ lang }) => lang === 'scss',
     // Used by eslint-plugin-compat
     polyfills: [
       'Promise',
