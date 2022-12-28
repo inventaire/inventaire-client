@@ -70,7 +70,7 @@
   }
   .label{
     color: $grey;
-    font-size: 90%;
+    font-size: 0.9rem;
     margin-bottom: 0.1em;
   }
 </style>

@@ -8,9 +8,17 @@ fieldset:first-of-type{
 }
 h2{
   padding-bottom: 0.5em;
-  border-bottom: 1px solid #CCC;
+  border-bottom: 1px solid #ccc;
   margin-bottom: 0.8em;
 }
+@mixin settings-h3(){
+  margin-top: 1em;
+  margin-bottom: 0.2em;
+  @include sans-serif;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
 .first-title{
   margin-top: 0;
 }

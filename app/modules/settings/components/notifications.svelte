@@ -91,14 +91,13 @@
   }
   .note{
     color: $grey;
-    font-size: 90%;
+    font-size: 0.9rem;
     margin-bottom: 0
   }
   legend{
-    @include serif;
-    margin-top: 1em;
+    margin-top: 0.5em;
     margin-bottom: 0.2em;
-    font: sans-serif;
+    @include sans-serif;
     font-size: 1.1em;
     font-weight: bold;
   }

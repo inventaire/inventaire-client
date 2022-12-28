@@ -41,15 +41,11 @@
     color: white
   }
   h3{
-    margin-top: 1em;
-    margin-bottom: 0.2em;
-    font: sans-serif;
-    font-size: 110%;
-    font-weight: 600;
+    @include settings-h3;
   }
   .note{
     color: $grey;
-    font-size: 90%;
+    font-size: 0.9rem;
     margin-bottom: 1em;
   }
 </style>

@@ -133,7 +133,7 @@
   .label{
     display: inline;
     color: $grey;
-    font-size: 90%;
+    font-size: 0.9rem;
     margin-right: 0.5em;
   }
 </style>

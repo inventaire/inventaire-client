@@ -40,8 +40,6 @@
     font-size: 1rem;
   }
   h3{
-    font-size: 1.1rem;
-    @include sans-serif;
-    margin-top: 1rem;
+    @include settings-h3;
   }
 </style>

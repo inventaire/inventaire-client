@@ -95,7 +95,7 @@
   @import '#general/scss/utils';
 
   .forgotPassword .link{
-    font-size: 90%;
+    font-size: 0.9rem;
     color: #777;
   }
 </style>

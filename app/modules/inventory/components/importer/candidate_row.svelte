@@ -185,7 +185,7 @@
     margin-top: 0.3em;
   }
   .status{
-    font-size: 90%;
+    font-size: 0.9rem;
     :global(.link) {
       text-decoration: underline;
     }
