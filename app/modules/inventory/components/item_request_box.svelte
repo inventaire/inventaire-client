@@ -25,9 +25,8 @@
       </span>
     {:else}
       {#if transaction !== 'inventorying'}
-        <button
-          on:click={() => app.execute('show:item:request', item)}
-          >
+        <button on:click={() => app.execute('show:item:request', item)}
+        >
           {@html icon('comments')}
           {I18n('send request')}
         </button>

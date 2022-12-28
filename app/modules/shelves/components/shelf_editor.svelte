@@ -77,19 +77,19 @@
 
   <label>
     {i18n('name')}
-    <input type="text" bind:value={name} required>
+    <input type="text" bind:value={name} required />
   </label>
 
   <label>
     {i18n('description')}
-    <textarea type="text" bind:value={description} use:autosize></textarea>
+    <textarea type="text" bind:value={description} use:autosize />
   </label>
 
   <VisibilitySelector bind:visibility showTip={true} />
 
   <label>
     {i18n('color')}
-    <input type="color" bind:value={color}>
+    <input type="color" bind:value={color} />
   </label>
 
   <Flash state={flash} />

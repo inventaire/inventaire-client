@@ -55,7 +55,7 @@
     {#await waitingForImages then}
       <div class="collage-wrapper">
         <ImagesCollage
-          imagesUrls={imagesUrls}
+          {imagesUrls}
           limit={imagesLimit}
         />
         <span

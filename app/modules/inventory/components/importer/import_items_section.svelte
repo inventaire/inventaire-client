@@ -146,26 +146,26 @@
 <div class="import-candidates">
   {#if candidates.length > 0}
     <h3>4/ {I18n('import the selection')}</h3>
-    <Flash bind:state={flash}/>
+    <Flash bind:state={flash} />
     {#if importingCandidates}
-      <Counter count={processedEntitiesCount} total={candidates.length} message='creating bibliographical data'/>
-      <Counter count={processedItemsCount} total={candidates.length} message='creating your books'/>
+      <Counter count={processedEntitiesCount} total={candidates.length} message="creating bibliographical data" />
+      <Counter count={processedItemsCount} total={candidates.length} message="creating your books" />
     {:else}
       <button
         class="button success"
         disabled={selectedCandidates.length === 0}
         title={selectedCandidates.length === 0 ? I18n('no book selected') : ''}
         on:click={importCandidates}
-        >
+      >
         {I18n('create selected books')}
       </button>
     {/if}
   {/if}
   {#if processedCandidates.length > 0}
     <div bind:this={importResultsElement}>
-      <ImportResults  {transaction} {visibility} bind:processedCandidates/>
+      <ImportResults {transaction} {visibility} bind:processedCandidates />
     </div>
-    <Flash bind:state={shelvesFlash}/>
+    <Flash bind:state={shelvesFlash} />
   {/if}
 </div>
 <style lang="scss">

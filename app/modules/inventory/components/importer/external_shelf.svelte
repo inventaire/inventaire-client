@@ -2,7 +2,7 @@
   export let externalShelf
 </script>
 <label>
-  <input type="checkbox" bind:checked={externalShelf.checked}>
+  <input type="checkbox" bind:checked={externalShelf.checked} />
   {externalShelf.name}
 </label>
 <style lang="scss">

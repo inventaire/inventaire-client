@@ -104,7 +104,7 @@
         <Spinner center={true} />
       {:then}
         {#if summaryData.text}
-          <p id="summary-text" lang={summaryData.lang} dir={getTextDirection(summaryData.lang)} >
+          <p id="summary-text" lang={summaryData.lang} dir={getTextDirection(summaryData.lang)}>
             {summaryData.text}
             <span class="source">
               <Link url={summaryData.link} text={`${i18n('Source:')} ${summaryData.name}`} classNames="link" />

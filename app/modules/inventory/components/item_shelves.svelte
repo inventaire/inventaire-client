@@ -51,14 +51,14 @@
 <div class="item-shelves">
   {#if mainUserIsOwner}
     {#await waitForShelves}
-      <Spinner/><span class="section-label">{I18n('shelves')}</span>
+      <Spinner /><span class="section-label">{I18n('shelves')}</span>
     {:then}
       {#if userShelves.length > 0}
         <span class="section-label">{I18n('shelves')}</span>
         <div class="shelves-options">
           {#each displayedShelves as shelf (shelf._id)}
             <label title={I18n('select_shelf')}>
-              <input type="checkbox" bind:group={shelvesIds} value={shelf._id}>
+              <input type="checkbox" bind:group={shelvesIds} value={shelf._id} />
               <ShelfInfo bind:shelf />
             </label>
           {/each}
@@ -68,7 +68,7 @@
             on:click={e => hideUnselectedShelves = !hideUnselectedShelves}
             title={hideUnselectedShelves ? i18n('Show other shelves') : i18n('Hide non-selected shelves')}
             class:rotate={!hideUnselectedShelves}
-            >
+          >
             {@html icon('chevron-down')}
           </button>
         {/if}
@@ -83,7 +83,7 @@
             <a
               href={`/shelves/${shelf._id}`}
               on:click|stopPropagation={loadInternalLink}
-              >
+            >
               <ShelfInfo {shelf} />
             </a>
           </li>

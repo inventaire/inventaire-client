@@ -38,7 +38,7 @@
         class="toggle-controls"
         on:click={() => wrapped = !wrapped}
         aria-controls="works-browser-controls"
-        >
+      >
         {@html icon('cog')}
         {i18n('Advanced options')}
         {#if showControls}
@@ -59,7 +59,7 @@
             bind:flash
           />
           <WorksBrowserTextFilter bind:textFilterUris />
-          <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')}/>
+          <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')} />
         </div>
       {/if}
     {/if}
@@ -73,7 +73,7 @@
         {facets}
         {facetsSelectedValues}
         {textFilterUris}
-        />
+      />
     {/each}
   {/if}
 </div>

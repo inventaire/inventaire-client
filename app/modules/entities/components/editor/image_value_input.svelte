@@ -134,9 +134,9 @@
     {@html icon('link')}{I18n('from a URL')}
     <input
       type="url"
-      placeholder="{I18n('enter an image url')}"
+      placeholder={I18n('enter an image url')}
       bind:value={urlValue}
-    >
+    />
   </label>
 
   <label>
@@ -144,7 +144,7 @@
     <input
       type="file"
       accept="image/*"
-      bind:files={files}
+      bind:files
       bind:this={fileInput}
     />
   </label>
@@ -156,30 +156,30 @@
       <div class="image-wrapper">
         <img
           src={dataUrl || `/img/entities/${currentValue}`}
-          alt="{i18n('Image preview')}"
+          alt={i18n('Image preview')}
           bind:this={imageElement}
-        >
+        />
       </div>
       <div class="controls">
         <button
           class="tiny-button grey"
           on:click={() => rotate(-90)}
           title={i18n('Rotate left')}
-          >
+        >
           {@html icon('rotate-left')}
         </button>
         <button
           class="tiny-button grey"
           on:click={() => rotate(90)}
           title={i18n('Rotate right')}
-          >
+        >
           {@html icon('rotate-right')}
         </button>
         <button
           class="tiny-button grey"
           on:click={reset}
           title={i18n("Reset image to it's initial state")}
-          >
+        >
           {@html icon('refresh')}
           {i18n('Reset')}
         </button>

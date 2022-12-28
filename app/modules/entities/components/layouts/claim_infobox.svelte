@@ -19,7 +19,7 @@
 {#if values && isNonEmptyArray(values)}
   <div class="claim">
     {#if !omitLabel}
-      <span class='property'>
+      <span class="property">
         {i18n(prop)}:&nbsp;
       </span>
     {/if}
@@ -28,16 +28,16 @@
         <!-- This peculiar formatting is used to avoid undesired spaces to be inserted
              See https://github.com/sveltejs/svelte/issues/3080 -->
         {#if entitiesByUris[value]}
-        <Link
+          <Link
             url={buildPathname(entitiesByUris[value], prop)}
             text={getBestLabel(entitiesByUris[value])}
             dark={true}
             title={linkTitle(value)}
           />{:else if propType === 'urlClaim'}<Link
-            url={value}
-            text={formatClaimValue({ prop, value })}
-            dark={true}
-          />{:else}{formatClaimValue({ prop, value })}{/if}{#if i !== values.length - 1},{/if}
+          url={value}
+          text={formatClaimValue({ prop, value })}
+          dark={true}
+        />{:else}{formatClaimValue({ prop, value })}{/if}{#if i !== values.length - 1},{/if}
       {/each}
     </span>
   </div>

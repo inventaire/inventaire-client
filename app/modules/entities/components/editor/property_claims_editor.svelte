@@ -63,7 +63,7 @@
     class:fixed
     class:missing-required={isRequiredAndMissing}
     transition:slide={{ duration: 100 }}
-    >
+  >
     {#if isRequiredAndMissing}
       <span class="required-notice">{I18n('required')}</span>
     {/if}
@@ -71,12 +71,14 @@
     <div class="property-claim-values">
       {#each propertyClaims as value, i}
         <ClaimEditor
-          {entity} {property} {value}
+          {entity}
+          {property}
+          {value}
           index={i}
           on:set={e => setValue(i, e.detail)}
         />
       {/each}
-      <Flash bind:state={flash}/>
+      <Flash bind:state={flash} />
       {#if canAddValue}
         <button
           class="add-value tiny-button soft-grey"

@@ -50,7 +50,7 @@
       placeholder={i18n('Filter...')}
       bind:value={textFilter}
       on:keydown={onKeyDown}
-    >
+    />
     <div class="search-icon">
       {#await waiting}
         <Spinner />
@@ -59,7 +59,7 @@
           <button
             title={I18n('reset filter')}
             on:click={reset}
-            >
+          >
             {@html icon('close')}
           </button>
         {:else}

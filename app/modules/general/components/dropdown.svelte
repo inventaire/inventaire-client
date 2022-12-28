@@ -105,7 +105,7 @@
   class="has-dropdown"
   bind:this={dropdownWrapperEl}
   on:keydown={onKeyDown}
-  >
+>
   <button
     class="dropdown-button"
     title={buttonTitle}
@@ -116,7 +116,7 @@
     style:width={buttonWidth}
     bind:this={buttonWithDropdown}
     on:click={onButtonClick}
-    >
+  >
     <slot name="button-inner" />
   </button>
   {#if showDropdown}
@@ -132,7 +132,7 @@
       transition:slide={{ duration: transitionDuration }}
       on:click={onContentClick}
       on:keydown
-      >
+    >
       <slot name="dropdown-content" />
     </div>
   {/if}

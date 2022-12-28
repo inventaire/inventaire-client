@@ -51,7 +51,8 @@
   {/each}
 
   <div class="next">
-    <a href="/entity/{uri}"
+    <a
+      href="/entity/{uri}"
       on:click={loadInternalLink}
       class="light-blue-button"
     >

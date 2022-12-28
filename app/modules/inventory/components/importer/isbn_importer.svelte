@@ -56,21 +56,21 @@
     placeholder={i18n('Enter a list of ISBNs or any text containing ISBNs here')}
     on:keyup={checkIsbns}
     use:autosize
-  ></textarea>
+  />
   <button
     class="grey-button"
     on:click={clearIsbnText}
-    >
+  >
     {I18n('clear text')}
   </button>
 </div>
 <div class="flash-wrapper">
-  <Flash bind:state={flash}/>
+  <Flash bind:state={flash} />
 </div>
 <button
   on:click={findIsbnsAndCreateCandidates}
   class="success-button"
-  >
+>
   {I18n('find ISBNs')}
 </button>
 <style lang="scss">

@@ -25,35 +25,36 @@
   $: remainingCandidates = candidates && index + 1 <= candidates.length
 </script>
 
-<svelte:window on:keydown={handleKeydown}/>
+<svelte:window on:keydown={handleKeydown} />
 
 <div class="controls" tabindex="-1" use:autofocus>
   <div class="buttons-wrapper">
     <div class="entity">
-      {#if entity}<EntityPreview {entity} large={true}/>{/if}
+      {#if entity}<EntityPreview {entity} large={true} />{/if}
     </div>
     <div class="center">
-      <input type="text"
+      <input
+        type="text"
         name="filter"
-        placeholder="{i18n('filter')}"
-        title="{i18n('the filter can be a regular expression')}"
+        placeholder={i18n('filter')}
+        title={i18n('the filter can be a regular expression')}
         on:keyup={event => lazyDispatchFilter(event.target.value)}
-      >
+      />
       <button
         class="merge dangerous-button"
         disabled={!(from && to)}
-        title="{from?.uri && to?.uri ? `merge ${from?.uri} into ${to?.uri}\nShortkey: m` : 'Shortkey: m'}"
+        title={from?.uri && to?.uri ? `merge ${from?.uri} into ${to?.uri}\nShortkey: m` : 'Shortkey: m'}
         on:click={() => dispatch('merge')}
-        >
+      >
         {@html icon('compress')}{I18n('merge')}
-        {#if merging}<Spinner light={true}/>{/if}
+        {#if merging}<Spinner light={true} />{/if}
       </button>
       {#if remainingCandidates}
         <button
           class="next light-blue-button"
           title="Shortkey: n"
           on:click={() => dispatch('next')}
-          >
+        >
           {@html icon('arrow-right')}{I18n('next')}
         </button>
       {/if}
@@ -74,7 +75,7 @@
     </div>
   </div>
   <div class="alerts">
-    {#if error}<Alertbox {error} on:closed={() => error = null } />{/if}
+    {#if error}<Alertbox {error} on:closed={() => error = null} />{/if}
   </div>
 </div>
 

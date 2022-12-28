@@ -31,7 +31,7 @@
   >
     <div class="shelf-left">
       {#if picture}
-        <div class="picture" style="background-image: url({imgSrc(picture, 48)})"></div>
+        <div class="picture" style:background-image="url({imgSrc(picture, 48)})" />
       {:else}
         <div class="without-shelf-picture">...</div>
       {/if}
@@ -47,8 +47,8 @@
           class:private={iconData.id === 'private'}
           class:network={iconData.id === 'network'}
           class:public={iconData.id === 'public'}
-          title="{i18n(iconLabel)}"
-          >
+          title={i18n(iconLabel)}
+        >
           {@html icon(iconData.icon)}
         </span>
       {/if}

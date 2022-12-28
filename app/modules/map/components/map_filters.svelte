@@ -34,13 +34,13 @@
             type="checkbox"
             bind:group={selectedFilters}
             value={filterValue}
-          >
+          />
           {#if filtersData[filterValue].cover}
             <img
               class="cover"
               src={imgSrc(filtersData[filterValue].cover, 128)}
               alt={filtersData[filterValue].title}
-            >
+            />
           {:else}
             <div class="no-cover-data">
               {#if filtersData[filterValue].title}

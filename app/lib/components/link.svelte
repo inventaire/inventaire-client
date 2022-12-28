@@ -33,7 +33,7 @@
   class:tiny-button={tinyButton}
   class={classNames}
   on:click={onClick}
-  >
+>
   {#if icon}{@html iconFn(icon)}{/if}
   {#if html}
     {@html html}

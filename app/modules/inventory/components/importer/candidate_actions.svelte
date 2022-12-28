@@ -18,19 +18,19 @@
     retrying = true
     if (!edition) {
       const candidateWithEntities = await resolveAndCreateCandidateEntities(candidate)
-      .catch(err => flash = err)
+        .catch(err => flash = err)
       candidate = candidateWithEntities
     }
 
     await createItem(edition, details, transaction, visibility)
-    .then(newItem => {
-      if (newItem) {
-        delete candidate.error
-        candidate.item = newItem
-      }
-    })
-    .catch(err => candidate.error = err.responseJSON)
-    .finally(() => retrying = false)
+      .then(newItem => {
+        if (newItem) {
+          delete candidate.error
+          candidate.item = newItem
+        }
+      })
+      .catch(err => candidate.error = err.responseJSON)
+      .finally(() => retrying = false)
   }
 
   $: {
@@ -43,23 +43,23 @@
   }
 </script>
 {#if error}
-  <button class='dangerous-button' on:click="{retryCreateItem}">
+  <button class="dangerous-button" on:click={retryCreateItem}>
     {I18n('Retry')}
     {#if retrying}
-      <Spinner/>
+      <Spinner />
     {/if}
   </button>
 {/if}
-<Flash bind:state={flash}/>
+<Flash bind:state={flash} />
 {#if item}
   <a
     class="view-book tiny-button light-blue"
-    href="{itemPath}"
+    href={itemPath}
     target="_blank"
     rel="noreferrer"
-    >
-      {I18n('View book')}
-    </a>
+  >
+    {I18n('View book')}
+  </a>
 {/if}
 <style>
   .view-book{

@@ -35,7 +35,7 @@
       <p class="description">{i18n('external_shelves_importer_description')}</p>
     </legend>
     {#each externalShelves as externalShelf}
-      <ExternalShelf {externalShelf}/>
+      <ExternalShelf {externalShelf} />
     {/each}
   </fieldset>
 {/if}

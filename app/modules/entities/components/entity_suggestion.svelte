@@ -27,16 +27,21 @@
 <li bind:this={element}>
   <button
     on:click|stopPropagation={() => dispatch('select')}
-    class:highlight={highlight}
+    class:highlight
   >
     <div
       class="image"
       style:background-image={imageUrl ? `url(${imgSrc(imageUrl, 90)})` : ''}
-      ></div>
+    />
     <div class="right">
       <div class="top">
         <span class="label">{label}</span>
-        <a class="uri" href="/entity/{uri}" target="_blank" rel="noreferrer" on:click|stopPropagation>{uri}</a>
+        <a
+          class="uri"
+          href="/entity/{uri}"
+          target="_blank"
+          rel="noreferrer"
+          on:click|stopPropagation>{uri}</a>
       </div>
       <div class="bottom">
         {#if description}<span class="description">{description}</span>{/if}

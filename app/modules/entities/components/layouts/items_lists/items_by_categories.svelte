@@ -40,7 +40,7 @@
   $: hasActiveFilter = $filters?.selectedLangLabel || $filters?.selectedPublisherLabel
 </script>
 
-<div class="filters-top" bind:this={filtersTopEl}></div>
+<div class="filters-top" bind:this={filtersTopEl} />
 {#if hasActiveFilter}
   <div class="filters-wrapper">
     <div class="filters">
@@ -51,7 +51,7 @@
           title={I18n('reset filter')}
           aria-controls="language-filter"
           on:click={() => resetFilter('selectedLang')}
-          >
+        >
           {@html icon('close')}
           {i18n('language')}:
           {$filters.selectedLangLabel}
@@ -63,7 +63,7 @@
           title={I18n('reset filter')}
           aria-controls="publisher-filter"
           on:click={() => resetFilter('selectedPublisher')}
-          >
+        >
           {@html icon('close')}
           {i18n('publisher')}:
           {$filters.selectedPublisherLabel}
@@ -75,7 +75,7 @@
           title={I18n('reset filter')}
           aria-controls="publication-year-filter"
           on:click={() => resetFilter('selectedPublicationYear')}
-          >
+        >
           {@html icon('close')}
           {i18n('publication year')}:
           {$filters.selectedPublicationYear}

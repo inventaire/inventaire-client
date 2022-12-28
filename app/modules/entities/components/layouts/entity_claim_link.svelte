@@ -7,4 +7,8 @@
 </script>
 
 <!-- TODO: set an icon instead of a text -->
-<Link {url} text={label} title={label} classNames="link" />
+<Link
+  {url}
+  text={label}
+  title={label}
+  classNames="link" />

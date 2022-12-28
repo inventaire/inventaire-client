@@ -18,7 +18,11 @@
   </div>
   <div class="info">
     <h3>
-      <a href={work.pathname} on:click={loadInternalLink} class="link" title={work.title}>
+      <a
+        href={work.pathname}
+        on:click={loadInternalLink}
+        class="link"
+        title={work.title}>
         {#if layoutContext === 'serie' && work.serieOrdinal}
           {work.serieOrdinal}.
         {/if}

@@ -26,14 +26,14 @@
 </script>
 
 {#await waitForMerge}
-  <Spinner center={true}/>
+  <Spinner center={true} />
 {/await}
 
 {#if !merged}
   <button
     class="tiny-button"
     on:click|stopPropagation={merge}
-    >
+  >
     {@html icon('compress')}
     {i18n('merge')}
   </button>

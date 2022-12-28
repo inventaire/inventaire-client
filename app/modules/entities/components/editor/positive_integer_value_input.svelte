@@ -21,15 +21,15 @@
 
 <input
   type="number"
-  min=1
-  max=100000
-  step=1
+  min="1"
+  max="100000"
+  step="1"
   placeholder="{i18n('ex:')} 254"
   value={currentValue || ''}
   on:keyup={bubbleUpEvent}
   bind:this={input}
   use:autofocus
->
+/>
 
 <style>
   input{

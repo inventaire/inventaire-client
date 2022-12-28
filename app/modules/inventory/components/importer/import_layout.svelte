@@ -31,20 +31,25 @@
   let shelvesIds = []
   let externalShelves = []
 </script>
-<div id='importLayout'>
-  <ImportersSection bind:candidates {processing} {isbns}/>
+<div id="importLayout">
+  <ImportersSection bind:candidates {processing} {isbns} />
   {#if candidates.length > 0}
-    <CandidatesSection bind:candidates {processing}/>
+    <CandidatesSection bind:candidates {processing} />
     <h3>3/ {I18n('select the settings to apply to the selected books')}</h3>
     <div class="panel">
       <TransactionSelector bind:transaction showDescription={true} />
       <VisibilitySelector bind:visibility showDescription={true} showTip={true} />
       <ShelvesSelector bind:shelvesIds showDescription={true} />
-      <ExternalShelves bind:externalShelves {candidates}/>
+      <ExternalShelves bind:externalShelves {candidates} />
     </div>
   {/if}
   {#if !processing}
-    <ImportItemsSection bind:candidates {transaction} {visibility} {shelvesIds} {externalShelves}/>
+    <ImportItemsSection
+      bind:candidates
+      {transaction}
+      {visibility}
+      {shelvesIds}
+      {externalShelves} />
   {/if}
 </div>
 

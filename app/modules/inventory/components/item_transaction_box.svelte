@@ -43,7 +43,7 @@
       align="left"
       {widthReferenceEl}
       alignDropdownWidthOnButton={large}
-      >
+    >
       <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->
       <!-- See See https://github.com/sveltejs/svelte/issues/1594 -->
       <div
@@ -52,7 +52,7 @@
         class:lending={currentTransaction.id === 'lending'}
         class:selling={currentTransaction.id === 'selling'}
         class:inventorying={currentTransaction.id === 'inventorying'}
-        >
+      >
         <div class="icon">
           {@html icon(currentTransaction.icon)}
           {#if !large}{@html icon('caret-down')}{/if}
@@ -74,7 +74,7 @@
                 class:selected={transaction.id === currentTransaction.id}
                 on:click={() => updateTransaction(transaction)}
                 title={I18n(transaction.labelShort)}
-                >
+              >
                 {@html icon(transaction.icon)} {i18n(transaction.label)}
               </button>
             </li>

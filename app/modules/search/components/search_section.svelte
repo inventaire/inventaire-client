@@ -15,11 +15,11 @@
 <button
   data-category="entity"
   data-name={name}
-  class:selected={selected}
-  class:included={included}
+  class:selected
+  class:included
   aria-controls="searchResults"
   on:click={select}
-  >
+>
   {I18n(label)}
 </button>
 

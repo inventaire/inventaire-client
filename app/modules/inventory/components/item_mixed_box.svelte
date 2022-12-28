@@ -12,13 +12,13 @@
 </script>
 <div class="mixedBox">
   {#if isPartOfCurrentPath(username)}
-    <img class="profilePic" alt="{username} avatar" src="{imgSrc(picture, 48)}">
+    <img class="profilePic" alt="{username} avatar" src={imgSrc(picture, 48)} />
   {:else}
     <a
       href={`/users/${username}/inventory`}
       on:click|stopPropagation={loadInternalLink}
     >
-      <img class="profilePic" alt="{username} avatar" src="{imgSrc(picture, 48)}">
+      <img class="profilePic" alt="{username} avatar" src={imgSrc(picture, 48)} />
     </a>
   {/if}
   {#if isPartOfCurrentPath(item._id)}
@@ -42,9 +42,9 @@
       href={pathname}
       title={i18n(currentTransaction.labelPersonalized, user)}
       on:click|stopPropagation={loadInternalLink}
-      >
-        {@html icon(currentTransaction.icon)}
-      </a>
+    >
+      {@html icon(currentTransaction.icon)}
+    </a>
   {/if}
 </div>
 <div class="label-box">

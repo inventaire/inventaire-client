@@ -19,7 +19,8 @@
   onDestroy(() => app.vent.trigger('overlay:hidden'))
 </script>
 
-<div class="modal-overlay"
+<div
+  class="modal-overlay"
   on:click={close}
   on:keyup={onKeyUp}
   use:autofocus={{ refocusOnVisibilityChange: false }}
@@ -38,7 +39,7 @@
       class="close"
       title={I18n('close')}
       on:click={close}
-      >
+    >
       {@html icon('close')}
     </button>
   </div>

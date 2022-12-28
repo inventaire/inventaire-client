@@ -20,23 +20,23 @@
       </p>
     </div>
   {:then}
-  	<div class="dataadmin-section">
+    <div class="dataadmin-section">
       <h4>
         {@html icon('compress')}
         {I18n('merge homonyms')}
       </h4>
       <!-- TODO: recover select all/unselect all/merge all selected buttons -->
-      <ul class='homonyms'>
+      <ul class="homonyms">
         {#each homonyms as homonym}
           {#if !homonym.merged}
             <li>
               <!-- TODO: recover list of subentities (typically author works) -->
               <EntityListElement
                 entity={homonym}
-                actionType={'merge'}
+                actionType="merge"
                 parentEntity={entity}
-                noImageCredits=true
-                displayUri=true
+                noImageCredits="true"
+                displayUri="true"
               />
             </li>
           {/if}
@@ -44,7 +44,7 @@
           {i18n('has no homonym')}
         {/each}
       </ul>
-  	</div>
+    </div>
   {/await}
 {/if}
 <style lang="scss">

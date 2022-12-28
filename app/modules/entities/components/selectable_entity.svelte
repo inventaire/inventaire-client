@@ -28,17 +28,17 @@
   on:click={() => dispatch('select', entity)}
   class:selected-from={from?.uri === entity.uri}
   class:selected-to={to?.uri === entity.uri}
-  >
+>
   {#if entity.image.url}
     <img
       class:zoom
-      src="{zoom ? entity.image.large : entity.image.small}"
+      src={zoom ? entity.image.large : entity.image.small}
       alt="{entity.label} cover"
       on:click|stopPropagation={() => zoom = !zoom}
       on:keyup={toggleZoomOnEnter}
-    >
+    />
   {:else}
-    <div class="no-image"></div>
+    <div class="no-image" />
   {/if}
   <div class="info">
     <h3>
@@ -108,7 +108,7 @@
       <p class="coauthors">
         {I18n('coauthors')}:
         {#each entity.coauthors as author, i (author.uri)}
-          <a href="{author.pathname}" title="{author.label}">{author.label}</a>{#if isNotLast(entity.coauthors, i)},&nbsp;{/if}
+          <a href={author.pathname} title={author.label}>{author.label}</a>{#if isNotLast(entity.coauthors, i)},&nbsp;{/if}
         {/each}
       </p>
     {/if}

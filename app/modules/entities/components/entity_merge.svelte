@@ -67,13 +67,13 @@
     />
   </section>
 
-  <Flash bind:state={flash}/>
+  <Flash bind:state={flash} />
 
   <button
     disabled={!(from && to)}
     class="success-button"
     on:click={merge}
-    >
+  >
     {@html icon('compress')}
     {I18n('merge')}
   </button>

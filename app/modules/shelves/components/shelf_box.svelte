@@ -27,13 +27,13 @@
     {#if withoutShelf}
       <div class="without-shelf-picture">...</div>
     {:else}
-      <div class="picture" style="background-image: url({imgSrc(picture, 160)})"></div>
+      <div class="picture" style:background-image="url({imgSrc(picture, 160)})" />
     {/if}
     <button
       class="close-shelf-small close-button"
       title={I18n('unselect shelf')}
       on:click={closeShelf}
-      >
+    >
       {@html icon('close')}
     </button>
   </div>
@@ -49,7 +49,7 @@
             </li>
           {/if}
           {#if shelf.visibility}
-            <li id='listing' title={i18n('Visible by')}>
+            <li id="listing" title={i18n('Visible by')}>
               {@html icon(iconData.icon)} {i18n(iconLabel)}
             </li>
           {/if}
@@ -62,13 +62,13 @@
         class="close-shelf close-button"
         title={I18n('unselect shelf')}
         on:click={closeShelf}
-        >{@html icon('close')}</button>
+      >{@html icon('close')}</button>
       <div class="buttons">
         {#if isEditable}
           <button
             class="show-shelf-edit tiny-button light-blue"
             on:click={() => showShelfEditor = true}
-            >
+          >
             {@html icon('pencil')}
             {I18n('edit shelf')}
           </button>
@@ -76,7 +76,7 @@
             class="tiny-button light-blue"
             on:click={addItems}
             title={I18n('add books to this shelf')}
-            >
+          >
             {@html icon('plus')} {I18n('add books')}
           </button>
         {/if}
@@ -86,8 +86,7 @@
 </div>
 
 {#if showShelfEditor}
-  <Modal
-    on:closeModal={() => showShelfEditor = false}
+  <Modal on:closeModal={() => showShelfEditor = false}
   >
     <ShelfEditor
       bind:shelf

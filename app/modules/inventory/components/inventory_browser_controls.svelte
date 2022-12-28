@@ -32,7 +32,7 @@
       class="toggle-controls"
       on:click={() => wrapped = !wrapped}
       aria-controls="inventory-browser-controls"
-      >
+    >
       {@html icon('cog')}
       {i18n('Advanced options')}
       {#if showControls}
@@ -47,7 +47,7 @@
     id="inventory-browser-controls"
     class="controls"
     class:ready={facetsSelectors != null}
-    >
+  >
     {#if showControls}
       <div class="filters" transition:slide>
         <span class="control-label">{I18n('filters')}</span>

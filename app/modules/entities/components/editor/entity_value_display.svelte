@@ -27,9 +27,10 @@
   }
 </script>
 
-<button class="value-display"
+<button
+  class="value-display"
   on:click|stopPropagation={() => dispatch('edit')}
-  title="{I18n('edit')}"
+  title={I18n('edit')}
 >
   {#await waitingForValueEntityBasicInfo}
     <Spinner />
@@ -37,8 +38,7 @@
     <div
       class="image"
       style:background-image={image ? `url(${imgSrc(image.url, 64, 64)})` : 'none'}
-    >
-    </div>
+    />
     <div>
       {#if label}<span class="label">{label}</span>{/if}
       <div class="bottom">

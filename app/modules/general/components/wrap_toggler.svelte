@@ -20,7 +20,7 @@
     <button
       class="wrap-toggler"
       on:click|stopPropagation={toggle}
-      >
+    >
       {#if withIcon}
         {@html icon('chevron-up')}
       {/if}
@@ -31,7 +31,7 @@
   <button
     class="wrap-toggler"
     on:click|stopPropagation={toggle}
-    >
+  >
     {#if withIcon}
       {@html icon('chevron-down')}
     {/if}

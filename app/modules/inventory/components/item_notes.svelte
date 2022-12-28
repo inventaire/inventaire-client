@@ -42,7 +42,7 @@
     <button
       title={i18n('edit')}
       on:click={() => editMode = true}
-      >
+    >
       {@html icon('pencil')}
     </button>
   </div>
@@ -53,18 +53,18 @@
       use:autofocus
       use:autosize
       on:keydown={onKeyDown}
-      ></textarea>
+    />
     <div class="button-group-right">
       <button
         class="tiny-button cancel"
         on:click={() => editMode = false}
-        >
+      >
         {i18n('cancel')}
       </button>
       <button
         class="tiny-button success"
         on:click={save}
-        >
+      >
         {i18n('save')}
       </button>
     </div>
@@ -73,9 +73,9 @@
       <button
         on:click={() => editMode = true}
         title={i18n('edit')}
-        >
-          <p>{@html userContent(notes)}</p>
-        </button>
+      >
+        <p>{@html userContent(notes)}</p>
+      </button>
     </div>
   {/if}
 </div>

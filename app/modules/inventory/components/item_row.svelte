@@ -40,7 +40,7 @@
 
   <div class="middle">
     <a
-      href="{pathname}"
+      href={pathname}
       on:click|stopPropagation={loadInternalLink}
       class="show-item"
     >
@@ -63,7 +63,7 @@
         href={inventoryPathname}
         on:click|stopPropagation={loadInternalLink}
       >
-        <img class="avatar" alt="{username} avatar" src="{imgSrc(picture, 48)}">
+        <img class="avatar" alt="{username} avatar" src={imgSrc(picture, 48)} />
         <span class="username">{username}</span>
       </a>
     {/if}
@@ -71,12 +71,12 @@
 
   <div class="modes">
     {#if !isPrivate}
-      <div class="transaction {currentTransaction.id}" title="{i18n(currentTransaction.labelPersonalized, item.user)}">
+      <div class="transaction {currentTransaction.id}" title={i18n(currentTransaction.labelPersonalized, item.user)}>
         {@html icon(currentTransaction.icon)}
       </div>
     {/if}
     {#if mainUserIsOwner}
-      <div class="visibility {visibilitySummary}" title="{i18n(getVisibilitySummaryLabel(visibility))}">
+      <div class="visibility {visibilitySummary}" title={i18n(getVisibilitySummaryLabel(visibility))}>
         {@html icon(visibilitySummaryData.icon)}
       </div>
     {/if}

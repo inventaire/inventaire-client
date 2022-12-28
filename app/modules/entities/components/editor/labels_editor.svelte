@@ -53,10 +53,10 @@
     if (creationMode) return
     app.execute('invalidate:entities:cache', uri)
     preq.put(app.API.entities.labels.update, { uri, lang: currentLang, value })
-    .catch(err => {
-      editMode = true
-      flash = err
-    })
+      .catch(err => {
+        editMode = true
+        flash = err
+      })
   }
 
   function onInputKeyup (e) {
@@ -79,12 +79,12 @@
   let serieUri, serieLabels, matchingSerieLabel
   if (entity.type === 'work' || entity.type === 'serie') {
     getWorkSeriesLabels(entity)
-    .then(res => {
-      if (!res) return
-      serieUri = res.uri
-      serieLabels = res.labels
-    })
-    .catch(err => flash = err)
+      .then(res => {
+        if (!res) return
+        serieUri = res.uri
+        serieLabels = res.labels
+      })
+      .catch(err => flash = err)
   }
 </script>
 
@@ -98,9 +98,9 @@
   </h3>
 
   <div class="language-values">
-    <select name="{i18n('language selector')}" bind:value={currentLang}>
+    <select name={i18n('language selector')} bind:value={currentLang}>
       {#each languages as { code, native }}
-        <option value="{code}">
+        <option value={code}>
           {code}
           {#if native !== code} - {native}{/if}
         </option>
@@ -109,11 +109,12 @@
     <div class="value">
       {#if editMode}
         <div class="input-wrapper">
-          <input type="text"
+          <input
+            type="text"
             value={currentValue || ''}
             on:keyup={onInputKeyup}
             bind:this={input}
-          >
+          />
           {#if matchingSerieLabel}
             <p class="tip">
               {@html I18n('title_matches_serie_label_tip', {
@@ -122,9 +123,9 @@
             </p>
           {/if}
         </div>
-        <EditModeButtons showDelete={false} on:cancel={closeEditMode} on:save={save}/>
+        <EditModeButtons showDelete={false} on:cancel={closeEditMode} on:save={save} />
       {:else}
-        <button class="value-display" on:click={showEditMode} title="{I18n('edit')}">
+        <button class="value-display" on:click={showEditMode} title={I18n('edit')}>
           {currentValue || ''}
         </button>
         <DisplayModeButtons on:edit={showEditMode} />
@@ -137,9 +138,8 @@
       {@const native = getNativeLangName(lang)}
       {#if lang !== currentLang}
         <li>
-          <button
-            on:click={() => editLanguageValue(lang)}
-            >
+          <button on:click={() => editLanguageValue(lang)}
+          >
             <span class="lang">{lang} {#if native}- {native}{/if}</span>
             <span class="other-value">{value}</span>
           </button>
@@ -148,9 +148,8 @@
     {/each}
   </ul>
 
-  <Flash bind:state={flash}/>
+  <Flash bind:state={flash} />
 </div>
-
 
 <style lang="scss">
   @import '#entities/scss/entity_editors_commons';

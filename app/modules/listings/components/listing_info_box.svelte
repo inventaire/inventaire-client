@@ -65,7 +65,7 @@
         on:click={loadInternalLink}
       >
         {#await waitingForCreator then}
-          <img src={imgSrc(userPicture, 32)} alt="">
+          <img src={imgSrc(userPicture, 32)} alt="" />
           <span class="username">{username}</span>
         {/await}
       </a>
@@ -82,8 +82,7 @@
 </div>
 
 {#if showListEditorModal}
-  <Modal
-    on:closeModal={() => showListEditorModal = false}
+  <Modal on:closeModal={() => showListEditorModal = false}
   >
     <ListingEditor
       bind:listing

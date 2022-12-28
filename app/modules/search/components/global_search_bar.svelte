@@ -241,11 +241,11 @@
 
 <svelte:body on:click={onOutsideClick} />
 
-<div id="searchGroup" bind:this={searchGroupEl} >
+<div id="searchGroup" bind:this={searchGroupEl}>
   <input
     type="search"
     name="search"
-    placeholder="{i18n('Search by title, author, ISBN, series, publisher, collection...')}"
+    placeholder={i18n('Search by title, author, ISBN, series, publisher, collection...')}
     autocomplete="off"
     autocorrect="off"
     autocapitalize="off"
@@ -257,14 +257,14 @@
     on:focus={showLiveSearch}
     on:keydown={onKeyDown}
     on:keyup={onKeyUp}
-    >
+  />
 
   {#if showSearchDropdown}
     <button
       id="closeSearch"
       title={I18n('close')}
       on:click={hideAndResetLiveSearch}
-      >
+    >
       {@html icon('close')}
     </button>
     <div id="liveSearch">
@@ -278,7 +278,7 @@
       {#if showResults}
         {#if results.length > 0}
           <div class="results">
-            <ul bind:this={searchResultsEl} >
+            <ul bind:this={searchResultsEl}>
               {#each results as result, index (result.id)}
                 <SearchResult
                   {result}
@@ -293,7 +293,7 @@
                 use:viewport
                 on:enterViewport={resultsBottomEnteredViewport}
                 on:leaveViewport={resultsBottomLeftViewport}
-                >
+              >
                 <Spinner center={true} />
               </div>
             {/if}
@@ -327,7 +327,7 @@
       {/if}
       <Flash state={flash} />
     </div>
-    <div id="overlay" on:click={hideLiveSearch} on:keydown={hideOnEsc}></div>
+    <div id="overlay" on:click={hideLiveSearch} on:keydown={hideOnEsc} />
   {:else}
     <div class="search-icon">
       {@html icon('search')}

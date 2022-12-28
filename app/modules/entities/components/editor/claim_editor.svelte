@@ -129,7 +129,7 @@
         class="undo"
         title={undoTitle}
         on:click={undo}
-        >
+      >
         {@html icon('undo')}
         {I18n('undo')}
       </button>
@@ -172,7 +172,7 @@
     {/if}
   </div>
 
-  <Flash bind:state={flash}/>
+  <Flash bind:state={flash} />
 </div>
 
 <style lang="scss">

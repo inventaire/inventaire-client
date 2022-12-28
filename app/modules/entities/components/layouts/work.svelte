@@ -72,15 +72,14 @@
 </script>
 
 <BaseLayout
-  bind:entity={entity}
+  bind:entity
   {standalone}
 >
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       <div class="work-section">
-        <EntityTitle {entity} {standalone}/>
-        <AuthorsInfo
-          {claims}
+        <EntityTitle {entity} {standalone} />
+        <AuthorsInfo {claims}
         />
         <Infobox
           claims={infoboxClaims}
@@ -95,7 +94,7 @@
           {entity}
           {someEditions}
           {editions}
-          bind:itemsUsers={itemsUsers}
+          bind:itemsUsers
           on:showMapAndScrollToMap={showMapAndScrollToMap}
           on:scrollToItemsList={scrollToItemsList}
         />
@@ -107,7 +106,7 @@
         {#await editionsWithPublishers}
           <div class="loading-wrapper">
             <p class="loading">{i18n('Looking for editions...')}
-              <Spinner/>
+              <Spinner />
             </p>
           </div>
         {:then}
@@ -138,8 +137,7 @@
         </div>
       {/if}
     {/await}
-    <EntityListingsLayout
-      {entity}
+    <EntityListingsLayout {entity}
     />
     <div class="relatives-lists">
       <RelativeEntitiesList
@@ -158,8 +156,7 @@
         label={i18n('works_about_entity', { name: entity.label })}
       />
     </div>
-    <HomonymDeduplicates
-      {entity}
+    <HomonymDeduplicates {entity}
     />
   </div>
 </BaseLayout>

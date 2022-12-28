@@ -30,7 +30,7 @@
   <div class="flash {type}">
     <div>
       {#if type === 'loading'}
-        <Spinner/>
+        <Spinner />
         {state.message || I18n('loading')}
       {:else}
         {#if iconName}{@html icon(iconName)}{/if}
@@ -43,7 +43,7 @@
     </div>
     <button
       on:click|stopPropagation={() => state = null}
-      title="{ I18n('close') }"
+      title={I18n('close')}
     >
       {@html icon('close')}
     </button>

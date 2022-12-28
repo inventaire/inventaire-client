@@ -16,7 +16,7 @@
   class="transaction-preview"
   class:unread={!mainUserRead}
   class:on-item={onItem}
-  >
+>
   <!-- snapshot data are always more meaningful than the item data
   as they reflect the state of the item - especially the transaction -
   when the transaction started -->
@@ -26,13 +26,13 @@
     class:lending={transactionMode.id === 'lending'}
     class:selling={transactionMode.id === 'selling'}
     class:inventorying={transactionMode.id === 'inventorying'}
-    >
+  >
     {@html icon(transactionMode.icon)}
   </div>
   {#if onItem}
     <div class="profile-pic">
       {#if requester.picture}
-        <img src={imgSrc(requester.picture, 48)} alt={requester.username}>
+        <img src={imgSrc(requester.picture, 48)} alt={requester.username} />
       {/if}
     </div>
     <span class="context-text">{@html transactionStateText}</span>

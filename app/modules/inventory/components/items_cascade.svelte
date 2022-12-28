@@ -37,7 +37,7 @@
     {maxColWidth}
     {animate}
     let:item
-    >
+  >
     <ItemCard {item} {showDistance} />
   </Masonry>
 

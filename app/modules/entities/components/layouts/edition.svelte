@@ -40,15 +40,14 @@
     <div class="top-section">
       {#if image.url}
         <div class="cover">
-          <img src={imgSrc(image.url, 300)} alt={label}>
+          <img src={imgSrc(image.url, 300)} alt={label} />
         </div>
       {/if}
       <div class="info-wrapper">
-        <EntityTitle {entity} {standalone}/>
+        <EntityTitle {entity} {standalone} />
         <div class="infobox-wrapper">
           <div class="author-and-info">
-            <AuthorsInfo
-              {claims}
+            <AuthorsInfo {claims}
             />
             <Infobox
               {claims}
@@ -56,8 +55,7 @@
             />
             <Summary {entity} />
           </div>
-          <EditionActions
-            {entity}
+          <EditionActions {entity}
           />
         </div>
       </div>

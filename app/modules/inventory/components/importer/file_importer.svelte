@@ -45,12 +45,12 @@
 <input
   title={name}
   type="file"
-  bind:files={files}
-  accept="{accept}"
+  bind:files
+  {accept}
   on:change={getFile}
-  />
+/>
 
-<Flash bind:state={flash}/>
+<Flash bind:state={flash} />
 
 <style lang="scss">
   @import '#modules/general/scss/utils';

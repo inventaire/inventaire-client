@@ -84,39 +84,38 @@
   <div
     class="options"
     style:max-height={maxHeight}
-    >
+  >
     <label>
       <input
         type="checkbox"
         value="public"
         on:click={onPublicClick}
         bind:group={checked}
-        >
+      />
       {I18n('public')}
     </label>
 
-    <label
-      class:inferred={visibility.includes('public')}
-      >
+    <label class:inferred={visibility.includes('public')}
+    >
       <input
         type="checkbox"
         value="friends"
         on:click={onFriendsClick}
         bind:group={checked}
-      >
+      />
       {I18n('friends')}
     </label>
 
     <label
       class="has-infotip"
       class:inferred={visibility.includes('public')}
-      >
+    >
       <input
         type="checkbox"
         value="groups"
         on:click={onGroupsClick}
         bind:group={checked}
-      >
+      />
       <span class="title">{I18n('groups')}</span>
       {#if showTip}
         <InfoTip text={i18n('Include all your present and future groups')} />
@@ -127,13 +126,13 @@
       <label
         class="indent"
         class:inferred={visibility.includes('public') || visibility.includes('groups')}
-        >
+      >
         <input
           type="checkbox"
           value="group:{group._id}"
           on:click={onSingleGroupClick}
           bind:group={checked}
-        >
+        />
         {group.name}
       </label>
     {/each}

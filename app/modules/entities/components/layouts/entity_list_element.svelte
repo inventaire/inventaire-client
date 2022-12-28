@@ -38,8 +38,8 @@
   {#if isNonEmptyPlainObject(entity.image)}
     <div class="cover">
       <EntityImage
-        entity={entity}
-        withLink=true
+        {entity}
+        withLink="true"
         size={128}
         {noImageCredits}
       />
@@ -50,7 +50,7 @@
       <Link
         url={`/entity/${uri}`}
         text={label}
-        dark=true
+        dark="true"
       />
       {#if subtitle}
         <span class="subtitle">{subtitle}</span>
@@ -87,12 +87,12 @@
         this={buttonActionsComponents[actionType]}
         {entity}
         {parentEntity}
-        bind:flash={flash}
+        bind:flash
       />
     {/if}
   </div>
   <div class="flash">
-    <Flash bind:state={flash}/>
+    <Flash bind:state={flash} />
   </div>
 {/if}
 <style lang="scss">

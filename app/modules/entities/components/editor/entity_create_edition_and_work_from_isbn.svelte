@@ -126,7 +126,7 @@
     class="success-button"
     disabled={missingRequiredProperties?.length > 0}
     on:click={create}
-    >
+  >
     {I18n("create and go to the edition's page")}
   </button>
 </div>

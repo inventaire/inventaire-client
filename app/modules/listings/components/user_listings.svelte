@@ -38,7 +38,7 @@
         <button
           on:click={() => showListingCreationModal = true}
           class="tiny-button light-blue"
-          >
+        >
           {@html icon('plus')}
           {i18n('Create a new list')}
         </button>
@@ -53,8 +53,7 @@
 </div>
 
 {#if showListingCreationModal}
-  <Modal
-    on:closeModal={() => showListingCreationModal = false}
+  <Modal on:closeModal={() => showListingCreationModal = false}
   >
     <ListingEditor
       layoutTitle={i18n('Create a new list')}

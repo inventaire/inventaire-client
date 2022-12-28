@@ -178,7 +178,8 @@
 
 <div class="input-group">
   <div class="input-wrapper">
-    <input type="text"
+    <input
+      type="text"
       on:click|stopPropagation
       bind:value={currentEntityLabel}
       on:keydown={onInputKeydown}
@@ -188,8 +189,8 @@
       use:autofocusFn={{ disabled: autofocus !== true }}
       class:has-entity-uri={currentEntityUri != null}
       title={I18n('search for an entity')}
-      placeholder={placeholder}
-    >
+      {placeholder}
+    />
     {#if currentEntityUri}
       <span class="uri">{currentEntityUri}</span>
     {/if}
@@ -217,7 +218,8 @@
         {/await}
       </div>
       <div class="controls">
-        <button class="close"
+        <button
+          class="close"
           on:click|stopPropagation={close}
         >
           {@html icon('close')}

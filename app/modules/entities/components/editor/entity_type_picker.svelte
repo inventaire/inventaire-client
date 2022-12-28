@@ -10,11 +10,11 @@
     <li
       role="option"
       aria-selected={type === t}
-      >
+    >
       <button
         on:click={() => type = t}
         class:selected={type === t}
-        >
+      >
         {I18n(name)}
       </button>
     </li>

@@ -34,7 +34,7 @@
 <section>
   <h2>{I18n(title)}</h2>
   {#await getContributionsData()}
-    <p class="loading">Loading... <Spinner/></p>
+    <p class="loading">Loading... <Spinner /></p>
   {:then}
     <div class="row">
       <div class="cell title">{i18n('user')}</div>
@@ -42,14 +42,14 @@
     </div>
     {#each usersData as userData}
       <div class="row">
-        <div class="cell user {userData.user.deleted ? 'deleted' : ''}">
-          <a href="/users/{userData.user._id}/contributions" class="link" on:click="{e => showUserContributions(e, userData.user)}">{userData.user.username}</a>
+        <div class="cell user" class:deleted={userData.user.deleted}>
+          <a href="/users/{userData.user._id}/contributions" class="link" on:click={e => showUserContributions(e, userData.user)}>{userData.user.username}</a>
         </div>
         <div class="histogram">
           <div class="contributions">
             {userData.contributions}
           </div>
-          <div class="bar" style="width: {userData.contributions * 100.0 / highest}px;"></div>
+          <div class="bar" style:width="{userData.contributions * 100.0 / highest}px" />
         </div>
       </div>
     {:else}

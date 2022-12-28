@@ -29,7 +29,7 @@
   <Link
     url={`/entity/${uri}/edit`}
     text={i18n('Edit bibliographical info')}
-    icon='pencil'
+    icon="pencil"
   />
 </li>
 
@@ -38,13 +38,13 @@
     <Link
       url={wikidataUrl}
       text={I18n('see_on_website', { website: 'wikidata.org' })}
-      icon='wikidata'
+      icon="wikidata"
     />
   </li>
   <li>
     <button
       on:click={refreshEntity}
-      title="{I18n('refresh Wikidata data')}"
+      title={I18n('refresh Wikidata data')}
     >
       {#await waitForEntityRefresh}
         <Spinner />
@@ -58,7 +58,7 @@
     <Link
       url={wikidataHistoryUrl}
       text={I18n('entity history')}
-      icon='history'
+      icon="history"
     />
   </li>
 {:else}
@@ -66,7 +66,7 @@
     <Link
       url={`/entity/${uri}/history`}
       text={I18n('entity history')}
-      icon='history'
+      icon="history"
     />
   </li>
 {/if}
@@ -77,7 +77,7 @@
       <Link
         url={`/entity/${uri}/deduplicate`}
         text={i18n('Deduplicate sub-entities')}
-        icon='compress'
+        icon="compress"
       />
     </li>
   {/if}
@@ -86,7 +86,7 @@
       <Link
         url={`/entity/${uri}/cleanup`}
         text={I18n('cleanup entity')}
-        icon='arrows'
+        icon="arrows"
       />
     </li>
   {/if}

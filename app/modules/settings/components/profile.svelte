@@ -63,10 +63,10 @@
     }
     const usernameValueBeforeCheck = usernameValue
     await preq.get(app.API.auth.usernameAvailability(usernameValue))
-    .catch(err => {
-      // Ignore errors when the requested username already changed
-      if (usernameValueBeforeCheck === usernameValue) usernameState = err
-    })
+      .catch(err => {
+        // Ignore errors when the requested username already changed
+        if (usernameValueBeforeCheck === usernameValue) usernameState = err
+      })
   }
 
   const showUsernameError = message => usernameState = new Error(I18n(message))
@@ -103,25 +103,30 @@
     <h2 class="first-title">{I18n('profile')}</h2>
     <h3>{I18n('username')}</h3>
     <div class="text-zone">
-      <input placeholder="{i18n('username')}..." bind:value={usernameValue} name="username">
-      <Flash bind:state={usernameState}/>
+      <input placeholder="{i18n('username')}..." bind:value={usernameValue} name="username" />
+      <Flash bind:state={usernameState} />
     </div>
     <p class="note">{I18n('username_tip')}</p>
     <button class="light-blue-button" on:click={showUsernameConfirmation}>{I18n('update username')}</button>
 
     <h3>{I18n('presentation')}</h3>
     <div class="text-zone">
-      <textarea name="bio" id="bio" aria-label="{i18n('presentation')}" bind:value={bioValue} use:autosize></textarea>
-      <Flash bind:state={bioState}/>
+      <textarea
+        name="bio"
+        id="bio"
+        aria-label={i18n('presentation')}
+        bind:value={bioValue}
+        use:autosize />
+      <Flash bind:state={bioState} />
     </div>
     <p class="note">
       {I18n('a few words on you?')}
-      <span class="counter" class:alert="{bioValue.length > 1000}">({bioValue.length}/1000)</span>
+      <span class="counter" class:alert={bioValue.length > 1000}>({bioValue.length}/1000)</span>
     </p>
     <button class="save light-blue-button" on:click={updateBio}>{I18n('update presentation')}</button>
 
     <h3>{I18n('profile picture')}</h3>
-    <UserPicture/>
+    <UserPicture />
 
     <h3>{I18n('location')}</h3>
     <p class="position-status">

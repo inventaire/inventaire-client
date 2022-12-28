@@ -19,7 +19,7 @@
       {edition}
       work={works[0]}
       {authors}
-      />
+    />
     <CandidateActions
       bind:candidate
       bind:processedCandidates
@@ -28,7 +28,7 @@
     />
   </div>
   {#if error}
-    <Flash bind:state={flash}/>
+    <Flash bind:state={flash} />
   {/if}
 </li>
 <style lang="scss">

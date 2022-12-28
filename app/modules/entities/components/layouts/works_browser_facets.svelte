@@ -22,7 +22,7 @@
       <SelectDropdown
         bind:value={facetsSelectedValues[property]}
         options={facetsSelectors[property].options}
-        resetValue='all'
+        resetValue="all"
         buttonLabel={i18n(property)}
         withImage={entityProperties.includes(property)}
       />

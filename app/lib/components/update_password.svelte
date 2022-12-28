@@ -65,31 +65,39 @@
 
 <form>
   <!-- Add the username in a form to give a hint to the browser of which user credentials should be used to autocomplete -->
-  <input type="text" name="username" value={$user.username} class="hidden">
+  <input
+    type="text"
+    name="username"
+    value={$user.username}
+    class="hidden" />
   <PasswordInput
     bind:password={currentPassword}
     bind:flash={flashCurrentPassword}
-    title="{I18n('current password')}"
-    autocomplete='current-password'
+    title={I18n('current password')}
+    autocomplete="current-password"
     name="current-password"
   />
 </form>
 <div class="forgotPassword">
-  <a href="/login/forgot-password" class="link" on:click="{() => app.execute('show:forgot:password')}">{I18n('forgot your password?')}</a>
+  <a href="/login/forgot-password" class="link" on:click={() => app.execute('show:forgot:password')}>{I18n('forgot your password?')}</a>
 </div>
 
 <form method="post" action="/api/submit?redirect={currentRoute()}" bind:this={form}>
-  <input type="text" name="username" value={$user.username} class="hidden">
+  <input
+    type="text"
+    name="username"
+    value={$user.username}
+    class="hidden" />
   <PasswordInput
     bind:password={newPassword}
     bind:flash={flashNewPassword}
-    title="{I18n('new password')}"
+    title={I18n('new password')}
     autocomplete="new-password"
     name="new-password"
   />
 </form>
 
-<button class="light-blue-button" on:click="{updatePassword}">{I18n('change password')}</button>
+<button class="light-blue-button" on:click={updatePassword}>{I18n('change password')}</button>
 
 <style lang="scss">
   @import '#general/scss/utils';

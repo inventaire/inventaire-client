@@ -8,7 +8,7 @@
 <div
   class="inner-select-option"
   class:has-image={withImage}
-  >
+>
   {#if option.icon}
     {@html icon(option.icon)}
   {/if}
@@ -16,8 +16,7 @@
     <div
       class="image"
       style:background-image={option.image ? `url(${imgSrc(option.image, 64, 64)})` : null}
-      >
-    </div>
+    />
   {/if}
   <span class="text">
     {#if option.image}

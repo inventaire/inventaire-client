@@ -19,7 +19,7 @@
   on:click={loadInternalLink}
 >
   {#if image.url}
-    <img src={imgSrc(image.url, 56)} alt={i18n('author picture')}>
+    <img src={imgSrc(image.url, 56)} alt={i18n('author picture')} />
   {/if}
   <div class="author-info">
     <p class="author-label">{label}</p>
@@ -27,7 +27,7 @@
       <span title={i18n('wdt:P569')}>
         {formatYearClaim('wdt:P569', claims)}
       </span>
-       -
+      -
       <span title={i18n('wdt:P570')}>
         {formatYearClaim('wdt:P570', claims)}
       </span>

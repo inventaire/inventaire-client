@@ -50,7 +50,7 @@
   class:disabled={buttonDisabled}
   role="listbox"
   on:keydown={onKeyDown}
-  >
+>
   <label class="select-label" for={buttonId}>
     {buttonLabel}
     {#if currentOption == null}
@@ -64,7 +64,7 @@
     {buttonId}
     buttonRole="listbox"
     {buttonDisabled}
-    >
+  >
     <div slot="button-inner">
       {#if currentOption}
         <SelectDropdownOption option={currentOption} withImage={true} displayCount={false} />
@@ -84,7 +84,7 @@
           data-value={option.value}
           aria-selected={option.value === value}
           on:click={() => value = option.value}
-          >
+        >
           <SelectDropdownOption {option} withImage={true} />
         </button>
       {/each}
