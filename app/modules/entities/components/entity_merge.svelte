@@ -50,25 +50,21 @@
   {/if}
 
   <section>
-    <!-- svelte-ignore a11y-label-has-associated-control -->
-    <label>
-      {i18n('The entity that should be merged')}
-      <EntityMergeSection
-        bind:uri={from}
-        bind:type
-      />
-    </label>
+    <!-- Not using a <label> to avoid getting a false positive a11y-label-has-associated-control warning from Svelte
+         See https://github.com/sveltejs/svelte/issues/6469 -->
+    <h3>{i18n('The entity that should be merged')}</h3>
+    <EntityMergeSection
+      bind:uri={from}
+      bind:type
+    />
   </section>
 
   <section>
-    <!-- svelte-ignore a11y-label-has-associated-control -->
-    <label>
-      {i18n('The entity in which it should be merged')}
-      <EntityMergeSection
-        bind:uri={to}
-        bind:type
-      />
-    </label>
+    <h3>{i18n('The entity in which it should be merged')}</h3>
+    <EntityMergeSection
+      bind:uri={to}
+      bind:type
+    />
   </section>
 
   <Flash bind:state={flash}/>
@@ -102,7 +98,11 @@
     text-align: center;
     margin-top: 0;
   }
-  label, .label{
+  h3{
+    font-size: 1rem;
+    @include sans-serif;
+  }
+  h3, .label{
     font-size: 1rem;
     color: $grey;
   }
