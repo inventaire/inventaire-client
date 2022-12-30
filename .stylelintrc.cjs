@@ -11,6 +11,7 @@ module.exports = {
     'function-no-unknown': [ true, { ignoreFunctions: [ 'lighten', 'darken' ] }],
     'function-url-no-scheme-relative': true,
     'function-url-quotes': 'always',
+    indentation: 2,
     'no-descending-specificity': null,
     'no-duplicate-selectors': true,
     'scss/no-global-function-names': null,

@@ -78,7 +78,7 @@
     }
   }
 
- /*Very Small screens*/
+  /*Very Small screens*/
   @media screen and (max-height: 500px), (max-width: 500px){
     .alternatives{
       // A max-height is required for the transition:

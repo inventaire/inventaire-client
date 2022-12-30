@@ -31,13 +31,13 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
- .listing-layout{
+  .listing-layout{
     max-width: 50em;
     margin: 0 auto;
     @include display-flex(column, center);
- }
- .listing-id{
+  }
+  .listing-id{
     @include display-flex(column, center);
     font-size: small;
- }
+  }
 </style>
