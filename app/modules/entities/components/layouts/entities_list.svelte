@@ -45,7 +45,6 @@
   @import '#general/scss/utils';
   ul{
     width: 100%;
-    margin-top: 1em;
     margin: 1em 0 0.5em 0;
     @include radius;
   }

@@ -87,8 +87,6 @@
     margin-bottom: 0;
     font-size: 1rem;
     @include sans-serif;
-  }
-  .subheader{
     flex: 1 0 0;
     padding-right: 0.8em;
     @include display-flex(row, center, space-between);
@@ -96,8 +94,7 @@
   /*Smaller screens*/
   @media screen and (max-width: $smaller-screen) {
     .toggle-button{
-      padding-right: 0.5em;
-      padding: 1em;
+      padding: 1em 0.5em 1em 1em;
     }
     .subheader{
       @include display-flex(column, center);

@@ -146,6 +146,15 @@
   }
   h3{
     font-size: 1.2em;
+    :global(a){
+      font-weight: normal;
+      font-size: 1.1em;
+      font-family: $serif;
+      user-select: text;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
   }
   h4{
     font-size: 1.1em;
@@ -161,17 +170,6 @@
     padding: 0.5em;
     margin: 0.5em 0;
     @include radius;
-  }
-  h3{
-    :global(a){
-      font-weight: normal;
-      font-size: 1.1em;
-      font-family: $serif;
-      user-select: text;
-      &:hover{
-        text-decoration: underline;
-      }
-    }
   }
   .count{
     background-color: $off-white;

@@ -61,10 +61,10 @@
 </div>
 
 <style lang="scss">
+  @import '#entities/scss/title_tip';
   .wrapper{
     position: relative;
     flex: 1;
-    @import '#entities/scss/title_tip';
   }
   input{
     margin: 0 0.2em 0 0;

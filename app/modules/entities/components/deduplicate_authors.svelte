@@ -129,8 +129,6 @@
     display: flex;
     align-items: stretch;
     justify-content: flex-start;
-  }
-  .homonyms{
     flex-wrap: wrap;
     /* Compensating for the place taken by the controls */
     margin-bottom: 4em;
