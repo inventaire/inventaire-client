@@ -8,6 +8,7 @@ module.exports = {
   rules: {
     'at-rule-no-unknown': null,
     'color-named': null,
+    'declaration-colon-space-after': 'always',
     'function-no-unknown': [ true, { ignoreFunctions: [ 'lighten', 'darken' ] }],
     'function-url-no-scheme-relative': true,
     'function-url-quotes': 'always',

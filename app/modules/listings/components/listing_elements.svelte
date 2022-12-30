@@ -163,7 +163,7 @@
     padding: 0 0.5em;
   }
   label{
-    cursor:auto;
+    cursor: auto;
   }
   /*Large (>40em) screens*/
   @media screen and (min-width: 40em) {

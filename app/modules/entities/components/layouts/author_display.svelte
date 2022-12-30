@@ -44,7 +44,7 @@
     margin-bottom: 0.5em;
     &:hover{
       opacity: 0.8;
-      cursor:pointer;
+      cursor: pointer;
     }
   }
   .author-info{
