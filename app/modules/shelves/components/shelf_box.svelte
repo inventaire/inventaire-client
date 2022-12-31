@@ -173,7 +173,7 @@
       margin-top: 0.5em
     }
     .close-shelf-small{
-      padding-top: 0.5em;
+      padding: 0.5em 0.3em 0 0;
       position: absolute;
       right: 0.3em;
       display: block;
