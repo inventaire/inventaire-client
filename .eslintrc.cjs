@@ -15,13 +15,6 @@ module.exports = {
   extends: [
     // See https://github.com/standard/eslint-config-standard/blob/master/eslintrc.json
     'standard',
-    // Helps to spot unsupported features that woul result in
-    // babel including the corresponding core-js polyfills
-    // in the bundle served to all users
-    // See https://github.com/amilajack/eslint-plugin-compat
-    // NB: some unsupported features are unfortunately not detected
-    // Ex: Array methods https://github.com/amilajack/eslint-plugin-compat/issues/258
-    'plugin:compat/recommended',
     'plugin:svelte/recommended',
   ],
   rules: {
@@ -139,10 +132,4 @@ module.exports = {
       }
     }
   ],
-  settings: {
-    // Used by eslint-plugin-compat
-    polyfills: [
-      'Promise',
-    ],
-  },
 }
