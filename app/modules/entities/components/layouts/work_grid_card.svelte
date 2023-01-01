@@ -17,7 +17,7 @@
   title={work.label}
   class="work-grid-card"
   class:hasSubEntities={isSubEntitiesType(type)}
-  >
+>
   <ImagesCollage
     imagesUrls={work.images || []}
     limit={isSubEntitiesType(type) ? 6 : 1}

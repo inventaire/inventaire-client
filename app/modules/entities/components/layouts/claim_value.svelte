@@ -15,17 +15,17 @@
 </script>
 <!-- This peculiar formatting is used to avoid undesired spaces to be inserted
      See https://github.com/sveltejs/svelte/issues/3080 -->
-  {#if entity}
+{#if entity}
   <Link
-      url={buildPathname(entity, prop)}
-      text={getBestLabel(entity)}
-      dark={true}
-      title={linkTitle(value)}
-    />{:else if propType === 'urlClaim'}<Link
-      url={value}
-      text={formatClaimValue({ prop, value })}
-      dark={true}
-    />{:else}{#if !isEntityUri(value)}{formatClaimValue({ prop, value })}{/if}{/if}
+    url={buildPathname(entity, prop)}
+    text={getBestLabel(entity)}
+    dark={true}
+    title={linkTitle(value)}
+  />{:else if propType === 'urlClaim'}<Link
+  url={value}
+  text={formatClaimValue({ prop, value })}
+  dark={true}
+/>{:else}{#if !isEntityUri(value)}{formatClaimValue({ prop, value })}{/if}{/if}
 <style lang="scss">
   @import '#general/scss/utils';
 </style>

@@ -41,7 +41,7 @@
     />
   {/if}
   {#if creditsText && !noImageCredits}
-    <p class="photo-credits" >
+    <p class="photo-credits">
       {i18n('photo credits:')}
       <Link
         url={creditsUrl}

@@ -19,10 +19,10 @@
     </div>
     {#if isPropertyUri(property)}
       <a
-        href={ `/entity/${property}-${uri}`}
+        href={`/entity/${property}-${uri}`}
         on:click={loadInternalLink}
-        >
-         {i18n('Advanced options')}
+      >
+        {i18n('Advanced options')}
       </a>
     {/if}
   </div>

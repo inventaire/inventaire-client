@@ -77,6 +77,7 @@
         <a
           href={pathname}
           target="_blank"
+          rel="noreferrer"
           on:click|stopPropagation={loadInternalLink}
         >
           {uri}

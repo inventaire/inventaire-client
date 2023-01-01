@@ -14,7 +14,7 @@
   const { hasDataadminAccess } = app.user
 
   const getHomonymsPromise = async () => homonyms = await getHomonymsEntities(entity)
-  .then(checkCheckoxOnLabelsMatch)
+    .then(checkCheckoxOnLabelsMatch)
 
   async function checkCheckoxOnLabelsMatch (homonyms) {
     homonyms.forEach(homonym => {
@@ -39,7 +39,7 @@
       const nextSelectedView = homonymsToMerge.shift()
       if (nextSelectedView == null) return
       return nextSelectedView.merge()
-      .then(mergeSequentially)
+        .then(mergeSequentially)
     }
 
     // Merge 3 at a time
@@ -66,7 +66,7 @@
         <button
           on:click={selectAll}
           aria-controls="selectable-homonyms"
-          >
+        >
           {@html icon('check-square')}
           <span class="button-label">{I18n('select all')}</span>
           <span class="count">({homonyms.length})</span>
@@ -74,7 +74,7 @@
         <button
           on:click={unselectAll}
           aria-controls="selectable-homonyms"
-          >
+        >
           {@html icon('square')}
           <span class="button-label">{I18n('unselect all')}</span>
         </button>
@@ -82,22 +82,22 @@
           on:click={mergeSelectedSuggestions}
           aria-controls="selectable-homonyms"
           disabled={selectedHomonymsUris.length === 0}
-          >
+        >
           {@html icon('compress')}
           <span class="button-label">{I18n('merge selected suggestions')}</span>
           <span class="count">({selectedHomonymsUris.length})</span>
         </button>
       </div>
-      <ul id='selectable-homonyms'>
+      <ul id="selectable-homonyms">
         {#each homonyms as homonym}
           {#if !homonym.merged}
             <li>
-              <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri}>
+              <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri} />
               <!-- TODO: recover list of subentities (typically author works) -->
               <EntityListRow
                 entity={homonym}
                 parentEntity={entity}
-                displayUri=true
+                displayUri="true"
               />
               <MergeAction
                 bind:merge={homonym.merge}

@@ -58,7 +58,7 @@
     bind:this={infobox}
     class:wrapped-size={wrappedSize && !showDetails}
     class="claims-infobox"
-    >
+  >
     {#each allowlistedProperties as prop}
       <ClaimInfobox
         values={claims[prop]}
@@ -67,12 +67,12 @@
       />
     {/each}
     {#if !shortlistOnly}
-      <EntityClaimsLinks claims={claims} />
+      <EntityClaimsLinks {claims} />
     {/if}
   </div>
   {#if isNonEmptyArray(allowlistedProperties)}
     {#await waitingForEntities}
-      <Spinner/>
+      <Spinner />
     {/await}
   {/if}
   {#if wrappedSize}

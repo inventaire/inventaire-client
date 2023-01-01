@@ -10,7 +10,7 @@
 
 {#if $screen.isLargerThan('$small-screen')}
   <ul class="large-screen-actions">
-    <EntityLayoutActions bind:entity {showEntityEditButtons}/>
+    <EntityLayoutActions bind:entity {showEntityEditButtons} />
   </ul>
 {:else}
   <div class="small-screen-actions">
@@ -23,7 +23,7 @@
         {@html icon('cog')}
       </div>
       <ul slot="dropdown-content">
-        <EntityLayoutActions bind:entity {showEntityEditButtons}/>
+        <EntityLayoutActions bind:entity {showEntityEditButtons} />
       </ul>
     </Dropdown>
   </div>

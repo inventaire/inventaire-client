@@ -21,14 +21,14 @@
 </script>
 
 {#if flash}
-  <Flash bind:state={flash}/>
+  <Flash bind:state={flash} />
 {:else}
   <button
     class="tiny-button"
     on:click|stopPropagation={merge}
   >
     {#await waitForMerge}
-      <Spinner center={true}/>
+      <Spinner center={true} />
     {/await}
     {@html icon('compress')}
     {i18n('merge')}

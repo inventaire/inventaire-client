@@ -30,7 +30,7 @@
     <Link
       url={`/entity/${uri}/edit`}
       text={i18n('Edit bibliographical info')}
-      icon='pencil'
+      icon="pencil"
     />
   </li>
 {/if}

@@ -23,9 +23,8 @@
     }
   }
 
+  const claimsProperties = Object.keys(claims)
   const hasPropertiesToDisplay = role => isNonEmptyArray(_.intersection(propertiesByRoles[role], claimsProperties))
-
-  $: claimsProperties = Object.keys(claims)
 </script>
 
 {#await waitingForAuthors}

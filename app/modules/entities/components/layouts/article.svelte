@@ -21,7 +21,7 @@
 </script>
 
 <BaseLayout
-  bind:entity={entity}
+  bind:entity
   {standalone}
 >
   <div class="entity-layout" slot="entity">
@@ -41,9 +41,7 @@
         {#if description}
           <p class="description grey" lang={descriptionLang}>{description}</p>
         {/if}
-        <AuthorsInfo
-          {claims}
-        />
+        <AuthorsInfo {claims} />
         <Infobox
           claims={omitNonInfoboxClaims(entity.claims)}
           entityType={entity.type}
