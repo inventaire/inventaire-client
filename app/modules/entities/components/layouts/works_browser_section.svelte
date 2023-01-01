@@ -69,16 +69,20 @@
   $: onChange(displayLimit, addMoreWorks)
   $: onChange(displayMode, resetView)
   $: onChange(filteredWorks, resetView, addMoreWorks)
+  $: anyWork = paginatedWorks.length > 0
 </script>
 
-<div class="works-browser-section">
+<div
+  class="works-browser-section"
+  class:section-without-work={!anyWork}
+>
   {#if label}
     <SectionLabel
       {label}
       entitiesLength={works.length}
     />
   {/if}
-  {#if paginatedWorks.length > 0}
+  {#if anyWork}
     <ul
       class:grid={displayMode === 'grid'}
       class:list={displayMode === 'list'}
@@ -121,6 +125,9 @@
     padding: 0.5em;
     margin-bottom: 0.5em;
   }
+  .section-without-work {
+    @include display-flex(row, center);
+  }
   ul{
     flex: 1;
     max-height: 42em;
@@ -145,9 +152,8 @@
     background-color: white;
   }
   .no-work{
-    text-align: center;
     color: $grey;
-    margin-bottom: 0.5em;
+    margin: auto;
   }
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
