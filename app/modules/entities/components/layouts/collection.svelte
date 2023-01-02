@@ -1,6 +1,6 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
-  import { getSubEntitiesSections } from '../lib/entities'
+  import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { byPublicationDate } from '#entities/lib/entities'
   import BaseLayout from './base_layout.svelte'
   import Infobox from './infobox.svelte'
