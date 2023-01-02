@@ -69,5 +69,11 @@
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
+    :global(.summary.has-summary){
+      margin-top: 1em;
+    }
+  }
+  .publications{
+    margin-top: 1em;
   }
 </style>

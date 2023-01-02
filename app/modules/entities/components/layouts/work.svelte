@@ -202,6 +202,9 @@
       :global(.claims-infobox-wrapper){
         margin-bottom: 0;
       }
+      :global(.summary.has-summary){
+        margin-top: 1em;
+      }
     }
     .top-section{
       @include display-flex(column, center);

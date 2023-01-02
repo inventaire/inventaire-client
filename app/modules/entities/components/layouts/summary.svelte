@@ -122,7 +122,6 @@
   @import "#general/scss/utils";
   .summary.has-summary{
     padding: 1em;
-    margin-top: 1em;
     @include radius;
     background-color: $off-white;
     :global(.spinner-centered){

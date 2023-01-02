@@ -47,7 +47,7 @@
         />
         <Summary {entity} />
       </div>
-      <div class="publications">
+      <div class="editions">
         {#await waitingForSubEntities}
           <Spinner center={true} />
         {:then}
@@ -69,5 +69,11 @@
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
+    :global(.summary.has-summary){
+      margin-top: 1em;
+    }
+  }
+  .editions{
+    margin-top: 1em;
   }
 </style>

@@ -106,6 +106,9 @@
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
+    :global(.summary.has-summary){
+      margin-top: 1em;
+    }
   }
   .author-works{
     margin-top: 1em;
@@ -126,6 +129,9 @@
       :global(.claims-infobox){
         margin-right: 1em;
         margin-bottom: 1em;
+      }
+      :global(.summary.has-summary){
+        margin-top: 0;
       }
     }
     .relatives-lists{
