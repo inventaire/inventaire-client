@@ -41,11 +41,11 @@
     <div class="top-section">
       <div class="work-section">
         <EntityTitle {entity} {standalone} />
-        <Summary {entity} />
         <Infobox
           claims={entity.claims}
           entityType={entity.type}
         />
+        <Summary {entity} />
       </div>
       <div class="publications">
         {#await waitingForSubEntities}
