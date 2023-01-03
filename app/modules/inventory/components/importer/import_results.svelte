@@ -12,7 +12,7 @@
   <h4>{I18n('books not imported')}</h4>
   <ul>
     {#each candidatesErrors as candidate (candidate.index)}
-      <ResultCandidate {candidate} {visibility} {transaction}/>
+      <ResultCandidate {candidate} {visibility} {transaction} />
     {/each}
   </ul>
 {/if}
@@ -20,7 +20,7 @@
   <h4>{I18n('books successfully added to your inventory')}</h4>
   <ul>
     {#each createdCandidates as candidate (candidate.index)}
-      <ResultCandidate {candidate} {visibility} {transaction}/>
+      <ResultCandidate {candidate} {visibility} {transaction} />
     {/each}
   </ul>
 {/if}

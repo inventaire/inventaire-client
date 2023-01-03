@@ -22,7 +22,7 @@
 <div class="listings-layout">
   <h5>{i18n('Lists containing this work')}</h5>
   {#await waitingForListings}
-    <p class="loading">{I18n('loading')}<Spinner/></p>
+    <p class="loading">{I18n('loading')}<Spinner /></p>
   {:then}
     <ListingsLayout listingsWithElements={listings} />
   {/await}

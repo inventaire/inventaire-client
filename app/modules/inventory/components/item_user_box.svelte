@@ -9,13 +9,14 @@
 </script>
 <div class="item-user-box">
   {#if currentRoute().includes(username)}
-    <img alt="{username} avatar" src={imgSrc(picture, 48)}>
+    <img alt="{username} avatar" src={imgSrc(picture, 48)} />
     <strong class="username">{username}</strong>
   {:else}
-    <a href={user.pathname}
+    <a
+      href={user.pathname}
       on:click|stopPropagation={loadInternalLink}
     >
-      <img alt="{username} avatar" src={imgSrc(picture, 48)}>
+      <img alt="{username} avatar" src={imgSrc(picture, 48)} />
       <strong class="username">{username}</strong>
     </a>
   {/if}

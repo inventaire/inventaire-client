@@ -63,23 +63,23 @@
 
   let existingItemsCount
   waitingForItemsCount
-  .then(() => {
-    existingItemsCount = candidate.existingItemsCount
-    itemsCountWereChecked = true
-    if (existingItemsCount && existingItemsCount > 0) {
-      existingItemsPathname = getUserExistingItemsPathname(isbnData)
-      checked = false
-    } else {
-      // Let updateCandidateInfoStatus evaluate if the candidate should be checked or not
-      updateCandidateInfoStatus()
-    }
-  })
-  .catch(err => {
-    // Checking existing items is an enhancement, but not a requirement
+    .then(() => {
+      existingItemsCount = candidate.existingItemsCount
+      itemsCountWereChecked = true
+      if (existingItemsCount && existingItemsCount > 0) {
+        existingItemsPathname = getUserExistingItemsPathname(isbnData)
+        checked = false
+      } else {
+        // Let updateCandidateInfoStatus evaluate if the candidate should be checked or not
+        updateCandidateInfoStatus()
+      }
+    })
+    .catch(err => {
+      // Checking existing items is an enhancement, but not a requirement
     // If that check fails, no need to alert the user
-    log_.error(err)
-    itemsCountWereChecked = true
-  })
+      log_.error(err)
+      itemsCountWereChecked = true
+    })
 
   $: onChange(work, updateCandidateInfoStatus)
   $: onChange(editionTitle, updateCandidateInfoStatus)
@@ -115,7 +115,7 @@
           bind:authors
           bind:editionTitle
           withEditor={true}
-          />
+        />
       </div>
       {#if isNonEmptyArray(statuses) || existingItemsCount}
         <div class="status-row warning">
@@ -134,19 +134,21 @@
         </div>
       {:else}
         {#await waitingForItemsCount}
-          <Flash state={{
-            type: 'loading',
-            message: i18n('Checking for existing items...')
-          }} />
+          <Flash
+            state={{
+              type: 'loading',
+              message: i18n('Checking for existing items...')
+            }} />
         {/await}
       {/if}
     </div>
-    <input type="checkbox"
+    <input
+      type="checkbox"
       id={`${candidateId}-checkbox`}
       bind:checked
       {disabled}
       title={I18n('select_book')}
-    >
+    />
   </label>
   <Flash state={flash} />
 </li>

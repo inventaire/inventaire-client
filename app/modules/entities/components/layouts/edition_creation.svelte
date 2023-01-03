@@ -48,7 +48,7 @@
             on:keyup={onInputKeyup}
             aria-label="isbn"
             use:autofocus
-          >
+          />
           <button
             class="isbn-button tiny-button grey"
             on:click={onIsbnButtonClick}
@@ -62,7 +62,7 @@
         href={addWithoutIsbnPath(work)}
         class="without-isbn tiny-button grey"
         on:click={loadInternalLink}
-        >
+      >
         {@html icon('plus')}
         {i18n('add an edition without an ISBN')}
       </a>
@@ -76,7 +76,7 @@
       </button>
     {/if}
   </div>
-  <Flash bind:state={flash}/>
+  <Flash bind:state={flash} />
 </div>
 <style lang="scss">
   @import '#general/scss/utils';

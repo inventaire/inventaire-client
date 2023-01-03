@@ -5,7 +5,7 @@
 
 {#if value || !optional}
   <div>
-    <label for="{name}">{I18n(name)}</label>
+    <label for={name}>{I18n(name)}</label>
     {#if optional}
       <button
         class="close"
@@ -13,7 +13,7 @@
         title={i18n(`Remove ${name} precision`)}
         on:click={() => value = null}
       >
-      &#215;
+        &#215;
       </button>
     {/if}
   </div>

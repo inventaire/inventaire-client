@@ -37,7 +37,7 @@
 
 <div class="item-card" class:busy>
   {#if busy}
-    <div class="busy-sign" title="{i18n('unavailable')}">
+    <div class="busy-sign" title={i18n('unavailable')}>
       {@html icon('sign-out')}
     </div>
   {/if}
@@ -45,19 +45,19 @@
   <a class="item-show" href={pathname} on:click|stopPropagation={loadInternalLink}>
     <div class="cover">
       {#if image}
-        <img src="{imgSrc(image, 300)}" alt="{title}">
+        <img src={imgSrc(image, 300)} alt={title} />
       {/if}
     </div>
     <div class="data">
       {#if series}
-        <span class="series" title="{i18n('series')}">{series} {#if ordinal}- {ordinal}{/if}</span>
-        <hr>
+        <span class="series" title={i18n('series')}>{series} {#if ordinal}- {ordinal}{/if}</span>
+        <hr />
       {/if}
       <h3 class="title">{title}</h3>
       {#if subtitle}<p class="subtitle">{subtitle}</p>{/if}
       {#if authors}
-        <hr>
-        <span class="authors" title="{i18n('authors')}">{authors}</span>
+        <hr />
+        <span class="authors" title={i18n('authors')}>{authors}</span>
       {/if}
     </div>
   </a>
@@ -77,7 +77,7 @@
       <div class="details-box">
         <TruncatedText text={details} maxLength={180}>
           <span slot="more">
-            <a class="more" href={pathname} on:click|stopPropagation={loadInternalLink} >{i18n('see more')}</a>
+            <a class="more" href={pathname} on:click|stopPropagation={loadInternalLink}>{i18n('see more')}</a>
           </span>
         </TruncatedText>
       </div>

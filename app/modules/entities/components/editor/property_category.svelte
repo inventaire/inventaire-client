@@ -45,10 +45,10 @@
     aria-controls={id}
     class:active={showCategory}
     on:click={toggle}
-    >
+  >
     {@html icon('caret-right')}
     <h3>{I18n(categoryLabel)}</h3>
-    <div class="scroll-marker" bind:this={scrollMarkerEl}></div>
+    <div class="scroll-marker" bind:this={scrollMarkerEl} />
   </button>
 {/if}
 

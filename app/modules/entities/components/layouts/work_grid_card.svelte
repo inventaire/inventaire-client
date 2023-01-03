@@ -16,7 +16,7 @@
   title={work.label}
   class="work-grid-card"
   class:serie={type === 'serie'}
-  >
+>
   <ImagesCollage
     imagesUrls={work.images}
     limit={type === 'serie' ? 6 : 1}

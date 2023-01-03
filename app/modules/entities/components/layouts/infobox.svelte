@@ -78,7 +78,7 @@
 </script>
 <div class="claims-infobox-wrapper">
   {#await waitingForEntities}
-    <Spinner/>
+    <Spinner />
   {:then}
     <div class="claims-infobox">
       {#each displayedProperties as prop}
@@ -89,7 +89,7 @@
         />
       {/each}
       {#if !shortlistOnly}
-        <EntityClaimsLinks claims={claims} />
+        <EntityClaimsLinks {claims} />
       {/if}
     </div>
     {#if displayToggler}

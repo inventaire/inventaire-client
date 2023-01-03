@@ -50,7 +50,7 @@
     {#if edition?.image?.url}
       <img
         src={imgSrc(edition.image.url, 80)}
-        alt="{findBestLang(work, editionLang)} cover">
+        alt="{findBestLang(work, editionLang)} cover" />
     {/if}
   </div>
   <div class="text-wrapper">
@@ -60,7 +60,7 @@
         <!-- Necessary span to look like <sup> (exponent) element -->
         <span>
           {findBestLang(work, editionLang)}
-          <EntityLogo entity="{work}"/>
+          <EntityLogo entity={work} />
         </span>
       {:else}
         <span class="label">{I18n('title')}:</span>
@@ -91,7 +91,7 @@
               <!-- Necessary span to look like <sup> (exponent) element -->
               <span class="author-name">
                 {findBestLang(author)}
-                <EntityLogo entity="{author}"/>
+                <EntityLogo entity={author} />
                 <!-- prefer this to CSS :last-child, to be able to have a space after the comma -->
                 {#if id !== authors.length - 1},&nbsp;{/if}
               </span>
@@ -105,7 +105,7 @@
         <span class="label">ISBN:</span>
         {isbn13h}
         {#if edition}
-          <EntityLogo entity="{edition}"/>
+          <EntityLogo entity={edition} />
         {/if}
       {/if}
     </div>

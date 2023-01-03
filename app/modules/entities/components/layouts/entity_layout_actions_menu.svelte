@@ -15,10 +15,10 @@
 {:else}
   <div class="small-screen-actions">
     <Dropdown
-      align={'right'}
+      align="right"
       buttonTitle={i18n('Show actions')}
       clickOnContentShouldCloseDropdown={true}
-      >
+    >
       <div slot="button-inner">
         {@html icon('cog')}
       </div>
@@ -28,7 +28,6 @@
     </Dropdown>
   </div>
 {/if}
-
 
 <style lang="scss">
   @import '#general/scss/utils';

@@ -14,8 +14,8 @@
 
     <h3>{i18n('Inventory')}</h3>
     <p class="note">{I18n('download your inventory and its associated data (authors, works, publishers, etc.)')}</p>
-    <a class="light-blue-button" href="{csvExportUrl}" download="inventory.csv">{I18n('download CSV')}</a>
-    <a class="light-blue-button" href="{inventoryJsonUrl}" download="inventory.json">{I18n('download JSON')}</a>
+    <a class="light-blue-button" href={csvExportUrl} download="inventory.csv">{I18n('download CSV')}</a>
+    <a class="light-blue-button" href={inventoryJsonUrl} download="inventory.json">{I18n('download JSON')}</a>
 
     <h3>{I18n('user profile')}</h3>
     <p class="note">{I18n('your profile contains information about you')}</p>
@@ -23,7 +23,11 @@
   </fieldset>
   <fieldset>
     <h2>{i18n('API')}</h2>
-    <a href="{apiDoc}" target="_blank" rel="noreferrer" class="link">
+    <a
+      href={apiDoc}
+      target="_blank"
+      rel="noreferrer"
+      class="link">
       {I18n('check the documentation')}
       {@html icon('link')}
     </a>

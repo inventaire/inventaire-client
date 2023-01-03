@@ -22,7 +22,7 @@
 
 <fieldset>
   {#await waitForShelves}
-    <Spinner/><span class="title">{I18n('shelves')}</span>
+    <Spinner /><span class="title">{I18n('shelves')}</span>
   {:then}
     {#if userShelves.length > 0}
       <legend>
@@ -34,7 +34,7 @@
       </legend>
       {#each userShelves as shelf}
         <label title={I18n('select_shelf')}>
-          <input type="checkbox" bind:group={shelvesIds} value={shelf._id}>
+          <input type="checkbox" bind:group={shelvesIds} value={shelf._id} />
           <ShelfInfo bind:shelf />
         </label>
       {/each}

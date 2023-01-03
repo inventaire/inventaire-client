@@ -52,11 +52,11 @@
     searchTypes={type}
     currentEntityUri={uri}
     bind:currentEntityLabel
-    createdEntityTypeName={'work'}
+    createdEntityTypeName="work"
     displaySuggestionType={false}
     autofocus={false}
     relationSubjectEntity={entity}
-    relationProperty={'wdt:P629'}
+    relationProperty="wdt:P629"
     allowEntityCreation={true}
     showDefaultSuggestions={false}
     on:close={() => editMode = false}
@@ -65,7 +65,7 @@
   />
 {/if}
 
-<Flash bind:state={flash}/>
+<Flash bind:state={flash} />
 
 <style lang="scss">
   @import '#general/scss/utils';

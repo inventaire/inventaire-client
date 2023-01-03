@@ -7,7 +7,7 @@
   class="image-div"
   style:background-image={`url(${imgSrc(url, size, size)})`}
   style:width={size}
-></div>
+/>
 
 <style lang="scss">
   @import '#general/scss/utils';

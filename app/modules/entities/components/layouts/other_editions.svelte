@@ -25,19 +25,19 @@
 {#await getEditionsFromWork()}
   <div class="loading-wrapper">
     <p class="loading">{i18n('Looking for editions...')}
-      <Spinner/>
+      <Spinner />
     </p>
   </div>
 {:then}
-	{#if isNonEmptyArray(otherEditions)}
+  {#if isNonEmptyArray(otherEditions)}
     <li class="other-work-editions">
       <div class="entities-list">
         {#each otherEditions as entity (entity.uri)}
           {#if isNonEmptyPlainObject(entity.image)}
             <EntityImage
-              entity={entity}
-              withLink=true
-              maxHeight='6em'
+              {entity}
+              withLink="true"
+              maxHeight="6em"
               size={128}
             />
           {/if}
@@ -51,7 +51,7 @@
         tinyButton={true}
       />
     </li>
-	{/if}
+  {/if}
 {/await}
 
 <style lang="scss">

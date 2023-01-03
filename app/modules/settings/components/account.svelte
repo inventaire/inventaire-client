@@ -113,18 +113,18 @@
   <fieldset>
     <h2 class="first-title">{I18n('account')}</h2>
     <h3 class="label">{I18n('language')}</h3>
-    <select name="language" aria-label="language picker" bind:value="{userLang}">
+    <select name="language" aria-label="language picker" bind:value={userLang}>
       {#each Object.values(languagesData) as language}
         <option value={language.lang}>{language.lang} - {language.native}</option>
       {/each}
     </select>
-    <Flash bind:state={flashLang}/>
+    <Flash bind:state={flashLang} />
 
     <h3 class="title">{I18n('email')}</h3>
-    <input placeholder="{i18n('email')}" bind:value={emailValue}/>
-    <Flash bind:state={flashEmail}/>
+    <input placeholder={i18n('email')} bind:value={emailValue} />
+    <Flash bind:state={flashEmail} />
     <p class="note">{I18n('email will not be publicly displayed.')}</p>
-    <button class="light-blue-button" on:click="{updateEmail}">{I18n('update email')}</button>
+    <button class="light-blue-button" on:click={updateEmail}>{I18n('update email')}</button>
 
     {#if !$user.validEmail}
       <h3 class="label">{I18n('unverified email')}</h3>
@@ -132,17 +132,21 @@
     {/if}
 
     <h3>{I18n('password')}</h3>
-    <UpdatePassword/>
+    <UpdatePassword />
   </fieldset>
 
   <fieldset>
     <h2 class="title">{I18n('discoverability')}</h2>
     <p class="note">{@html I18n('fediversable_description', { username: $user.stableUsername, host: domain })}</p>
     <label class="inline">
-      <input type="checkbox" class="fediversable" bind:checked={fediversable} on:click={toggleFediversable}>
+      <input
+        type="checkbox"
+        class="fediversable"
+        bind:checked={fediversable}
+        on:click={toggleFediversable} />
       {i18n('Fediverse integration')}
     </label>
-    <Flash bind:state={flashFediversable}/>
+    <Flash bind:state={flashFediversable} />
   </fieldset>
 
   <fieldset class="danger-zone">

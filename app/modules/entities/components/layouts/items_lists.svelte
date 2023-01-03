@@ -57,7 +57,7 @@
     <button
       on:click={() => showMap = false}
       class="close-map-button"
-      title="{i18n('Close map')}"
+      title={i18n('Close map')}
     >
       {@html icon('close')}
     </button>

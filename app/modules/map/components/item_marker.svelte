@@ -21,10 +21,10 @@
   on:click={loadInternalLink}
   title={findBestTitle()}
 >
-  <img src={imgSrc(cover, 64)} alt={findBestTitle()}>
+  <img src={imgSrc(cover, 64)} alt={findBestTitle()} />
   {#if userPicture}
     <div class="right">
-      <img src={imgSrc(userPicture, 64)} alt={username}>
+      <img src={imgSrc(userPicture, 64)} alt={username} />
     </div>
   {/if}
   <div class="icon-wrapper">

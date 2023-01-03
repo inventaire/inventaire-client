@@ -44,12 +44,12 @@
     // TODO: replace the array index by the element doc _id
     const entity = entities[index]
     removeElement(listingId, entity.uri)
-    .then(() => {
-      // Enhancement: after remove, have an "undo" button
-      entities.splice(index, 1)
-      entities = entities
-    })
-    .catch(err => flash = err)
+      .then(() => {
+        // Enhancement: after remove, have an "undo" button
+        entities.splice(index, 1)
+        entities = entities
+      })
+      .catch(err => flash = err)
   }
 
   let addingAnElement
@@ -114,13 +114,13 @@
             on:select={e => addUriAsElement(e.detail)}
           />
         </label>
-        <Flash bind:state={flash}/>
+        <Flash bind:state={flash} />
       </div>
     {/if}
 
     <ul class="listing-elements">
       {#await addingAnElement}
-        <li class="loading">{I18n('loading')}<Spinner/></li>
+        <li class="loading">{I18n('loading')}<Spinner /></li>
       {/await}
       <!-- TODO: iterate on elements docs to be able to pass other metadata (ids, comments, etc) -->
       {#each entities as entity, index (entity.uri)}
@@ -136,7 +136,7 @@
     {#if hasMore}
       <p bind:this={listingBottomEl}>
         {I18n('loading')}
-        <Spinner/>
+        <Spinner />
       </p>
     {/if}
   </section>

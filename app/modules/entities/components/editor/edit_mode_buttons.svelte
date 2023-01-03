@@ -12,7 +12,7 @@
       class="tiny-button save"
       title="{I18n('save')} (Ctrl+Enter)"
       on:click={() => dispatch('save')}
-      >
+    >
       {I18n('save')}
     </button>
   {/if}
@@ -20,7 +20,7 @@
     class="tiny-button cancel"
     title="{I18n('cancel')} (Esc)"
     on:click={() => dispatch('cancel')}
-    >
+  >
     {@html icon('times')}
   </button>
   {#if showDelete !== false}
@@ -28,7 +28,7 @@
       class="tiny-button dangerous delete"
       title={I18n('delete')}
       on:click={() => dispatch('delete')}
-      >
+    >
       {@html icon('trash')}
     </button>
   {/if}

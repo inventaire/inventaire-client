@@ -12,8 +12,12 @@
   if (!pathname && uri) pathname = `/entity/${uri}`
 </script>
 {#if pathname && hasUserAccess}
-  <span class="entity-source-logo" title="{uri}">
-    <a on:click|stopPropagation href="{pathname}" target="_blank" rel="noreferrer">
+  <span class="entity-source-logo" title={uri}>
+    <a
+      on:click|stopPropagation
+      href={pathname}
+      target="_blank"
+      rel="noreferrer">
       {#if pathname?.match(wdIdPattern)}
         {@html icon('wikidata')}
       {:else if pathname?.match(invPrefixPattern)}

@@ -8,12 +8,12 @@
 <div
   class="images-collage"
   class:single={limit === 1}
-  >
+>
   {#each displayedImages as imageUrl}
     <div
       class="image-container"
       style:background-image={`url(${imgSrc(imageUrl, imageSize, imageSize)})`}
-    ></div>
+    />
   {/each}
 </div>
 

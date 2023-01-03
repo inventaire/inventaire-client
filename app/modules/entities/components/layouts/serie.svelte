@@ -33,14 +33,14 @@
 </script>
 
 <BaseLayout
-  bind:entity={entity}
+  bind:entity
   {standalone}
   bind:flash
 >
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       <div class="work-section">
-        <EntityTitle {entity} {standalone}/>
+        <EntityTitle {entity} {standalone} />
         <AuthorsInfo claims={entity.claims} />
         <Infobox
           claims={removeAuthorsClaims(entity.claims)}
@@ -58,7 +58,7 @@
     </div>
     <MissingEntitiesMenu
       waiting={waitingForWorks}
-      questionText={'A work of this series is missing in the common database?'}
+      questionText="A work of this series is missing in the common database?"
       {createButtons}
     />
     <HomonymDeduplicates {entity} />

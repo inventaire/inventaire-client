@@ -14,7 +14,7 @@
   title={text}
   aria-controls={infotipId}
   on:click|stopPropagation={toggleInfoText}
-  >
+>
   {@html icon('question-circle')}
 </button>
 
@@ -22,7 +22,7 @@
   <p
     id={infotipId}
     class="info-text"
-    >
+  >
     {text}
   </p>
 {/if}

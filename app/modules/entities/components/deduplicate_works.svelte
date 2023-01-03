@@ -24,11 +24,11 @@
 
   async function assignCantidates () {
     return getAuthorWorksWithImagesAndCoauthors(author)
-    .then(works => {
-      allWorksByPrefix = spreadByPrefix(works)
-      candidates = getWorksMergeCandidates(allWorksByPrefix.inv, allWorksByPrefix.wd)
-      showNextProbableDuplicates()
-    })
+      .then(works => {
+        allWorksByPrefix = spreadByPrefix(works)
+        candidates = getWorksMergeCandidates(allWorksByPrefix.inv, allWorksByPrefix.wd)
+        showNextProbableDuplicates()
+      })
   }
 
   function showNextProbableDuplicates () {
@@ -89,15 +89,15 @@
     if (!(from && to)) return
     merging = true
     mergeEntities(from.uri, to.uri)
-    .then(() => {
-      from._merged = true
-      invWorks = invWorks.filter(notMerged)
-      next()
-    })
-    .catch(err => {
-      error = err
-    })
-    .finally(() => merging = false)
+      .then(() => {
+        from._merged = true
+        invWorks = invWorks.filter(notMerged)
+        next()
+      })
+      .catch(err => {
+        error = err
+      })
+      .finally(() => merging = false)
   }
 
   let fromSelectedByFilter, toSelectedByFilter
@@ -152,7 +152,7 @@
 
 <svelte:window bind:scrollY={windowScrollY} />
 {#await waitForWorks}
-  <p class="loading">{i18n('Loading works...')}<Spinner/></p>
+  <p class="loading">{i18n('Loading works...')}<Spinner /></p>
 {:then}
   <div class="deduplicateWorks">
     <div class="wdWorks">
@@ -173,7 +173,7 @@
           </li>
         {:else}
           {#if loading}
-            <p class="loading">{i18n('Loading works...')}<Spinner/></p>
+            <p class="loading">{i18n('Loading works...')}<Spinner /></p>
           {/if}
         {/each}
       </ul>
@@ -199,7 +199,7 @@
           </li>
         {:else}
           {#if loading}
-            <p class="loading">{i18n('Loading works...')}<Spinner/></p>
+            <p class="loading">{i18n('Loading works...')}<Spinner /></p>
           {/if}
         {/each}
         {#if displayedInvWorks.length < invWorks.length}

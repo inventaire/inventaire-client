@@ -17,8 +17,7 @@
     <div class="header">
       <h2 class="type">{I18n(entityTypeNameBySingularType[type])}</h2>
     </div>
-    <EntityLayoutActionsMenu
-      bind:entity
+    <EntityLayoutActionsMenu bind:entity
     />
   </div>
   <div class="entity-wrapper">
@@ -30,7 +29,7 @@
       {I18n(type)}
       - {uri}
       {#if altUri}
-         - {altUri}
+        - {altUri}
       {/if}
     </p>
   </div>

@@ -32,10 +32,15 @@
 </script>
 
 <label>
-  <input type="checkbox" name={name} id={name} bind:checked={value} on:change={updateSetting}>
+  <input
+    type="checkbox"
+    {name}
+    id={name}
+    bind:checked={value}
+    on:change={updateSetting} />
   {I18n(description)}
 </label>
-<Flash bind:state={flash}/>
+<Flash bind:state={flash} />
 
 <style lang="scss">
   @import '#general/scss/utils';

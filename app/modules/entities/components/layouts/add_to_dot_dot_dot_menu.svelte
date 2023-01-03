@@ -64,8 +64,7 @@
 
 <div class="add-to-dot-dot-dot-menu">
   {#if loggedIn}
-    <Dropdown
-      buttonTitle={i18n('Add this work to your inventory or to a list')}
+    <Dropdown buttonTitle={i18n('Add this work to your inventory or to a list')}
     >
       <div slot="button-inner">
         <span>
@@ -79,8 +78,7 @@
       <div slot="dropdown-content">
         <div class="menu-section">
           <span class="section-label">{i18n('Inventory')}</span>
-          <button
-            on:click={() => showEditionPickerModal = true}
+          <button on:click={() => showEditionPickerModal = true}
           >
             {@html icon('plus')}
             {I18n('select the edition to add to my inventory')}
@@ -95,14 +93,13 @@
               {#each listings as listing}
                 <li>
                   <label>
-                    <input type="checkbox" checked={listing.checked} on:click={e => updateListing(e, listing)}>
+                    <input type="checkbox" checked={listing.checked} on:click={e => updateListing(e, listing)} />
                     {listing.name}
                   </label>
                 </li>
               {/each}
               <li>
-                <button
-                  on:click={() => showListingCreationModal = true}
+                <button on:click={() => showListingCreationModal = true}
                 >
                   {@html icon('plus')}
                   {i18n('Create a new list')}
@@ -131,8 +128,7 @@
 </div>
 
 {#if showListingCreationModal}
-  <Modal
-    on:closeModal={() => showListingCreationModal = false}
+  <Modal on:closeModal={() => showListingCreationModal = false}
   >
     <ListingEditor
       layoutTitle={i18n('Create a new list')}
@@ -142,8 +138,7 @@
 {/if}
 
 {#if showEditionPickerModal}
-  <Modal
-    on:closeModal={() => showEditionPickerModal = false}
+  <Modal on:closeModal={() => showEditionPickerModal = false}
   >
     <h2>{i18n('Select an edition')}</h2>
     {#if editions.length > 0}
@@ -156,7 +151,7 @@
     {/if}
     <EditionCreation
       work={entity}
-      bind:editions={editions}
+      bind:editions
     />
   </Modal>
 {/if}

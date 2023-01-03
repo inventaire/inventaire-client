@@ -31,11 +31,12 @@
     <ul id="selectable-items">
       {#each items as item (item._id)}
         <li>
-          <ItemRow bind:item >
+          <ItemRow bind:item>
             <input
               slot="checkbox"
               type="checkbox"
-              bind:group={selectedItemsIds} value={item._id}
+              bind:group={selectedItemsIds}
+              value={item._id}
             />
           </ItemRow>
         </li>
@@ -57,7 +58,7 @@
         id="selectAll"
         on:click={selectAll}
         aria-controls="selectable-items"
-        >
+      >
         {@html icon('check-square-o')}
         <span class="button-label">{I18n('select all')}</span>
         <span class="count">({itemsIds.length})</span>
@@ -67,7 +68,7 @@
         disabled={emptySelection}
         on:click={unselectAll}
         aria-controls="selectable-items"
-        >
+      >
         {@html icon('square-o')}
         <span class="button-label">{I18n('unselect all')}</span>
       </button>
@@ -77,7 +78,7 @@
         title={emptySelection ? i18n('You need to select items to be able to edit the selection') : null}
         on:click={editSelection}
         aria-controls="selectable-items"
-        >
+      >
         {@html icon('pencil')}
         <span class="button-label">{I18n('edit selection')}</span>
         {#if !emptySelection}

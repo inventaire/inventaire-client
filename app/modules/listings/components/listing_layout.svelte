@@ -24,7 +24,7 @@
 <div class="footer">
   <p class="listing-id">
     {I18n('list')}
-      -
+    -
     {_id}
   </p>
 </div>

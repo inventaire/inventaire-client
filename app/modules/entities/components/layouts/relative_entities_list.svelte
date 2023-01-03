@@ -54,8 +54,7 @@
               on:click={loadInternalLink}
               data-data={JSON.stringify(image)}
             >
-              <ImagesCollage
-                imagesUrls={[ entity.image.url ]}
+              <ImagesCollage imagesUrls={[ entity.image.url ]}
               />
               <div class="label-wrapper">
                 <span class="label">{entity.label}</span>

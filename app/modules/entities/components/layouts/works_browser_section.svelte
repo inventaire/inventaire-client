@@ -35,7 +35,7 @@
     <ul
       class:grid={displayMode === 'grid'}
       class:list={displayMode === 'list'}
-      >
+    >
       {#each displayedWorks as work (work.uri)}
         <li animate:flip={{ duration: 300 }}>
           {#if displayMode === 'grid'}

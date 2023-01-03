@@ -42,19 +42,19 @@
   <!-- Separate the labels from the inputs so that inputs can follow each others in tab order -->
   <div class="labels">
     <SimpleDayValueInputLabel
-      name='year'
+      name="year"
       bind:value={year}
       optional={false}
     />
 
     <SimpleDayValueInputLabel
-      name='month'
+      name="month"
       bind:value={month}
       {componentId}
     />
 
     <SimpleDayValueInputLabel
-      name='day'
+      name="day"
       bind:value={day}
       {componentId}
     />
@@ -62,9 +62,9 @@
 
   <div class="inputs">
     <SimpleDayValueInputField
-      name='year'
+      name="year"
       bind:value={year}
-      min=-3000
+      min="-3000"
       max={nextYear}
       placeholder={currentYear}
       on:keyup={bubbleUpEvent}
@@ -73,20 +73,20 @@
     />
 
     <SimpleDayValueInputField
-      name='month'
+      name="month"
       bind:value={month}
-      min=1
-      max=12
+      min="1"
+      max="12"
       placeholder={currentMonth}
       on:keyup={bubbleUpEvent}
       {componentId}
     />
 
     <SimpleDayValueInputField
-      name='day'
+      name="day"
       bind:value={day}
-      min=1
-      max=31
+      min="1"
+      max="31"
       placeholder={currentDay}
       on:keyup={bubbleUpEvent}
       {componentId}

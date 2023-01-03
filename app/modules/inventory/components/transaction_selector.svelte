@@ -17,8 +17,12 @@
     {/if}
   </legend>
   {#each Object.values(transactionsDataFactory()) as { name, creationLabel, icon: iconName }}
-    <label class="{name}" class:selected={transaction === name}>
-      <input type="radio" bind:group={transaction} name="transaction" value={name}>
+    <label class={name} class:selected={transaction === name}>
+      <input
+        type="radio"
+        bind:group={transaction}
+        name="transaction"
+        value={name} />
       {@html icon(iconName)}
       {I18n(creationLabel)}
     </label>

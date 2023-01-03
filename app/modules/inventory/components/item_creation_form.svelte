@@ -66,7 +66,7 @@
   <div class="entity-preview">
     {#if image.url}
       <div class="cover">
-        <img src="{imgSrc(image.url, 300)}" alt="{label} {i18n('cover')}">
+        <img src={imgSrc(image.url, 300)} alt="{label} {i18n('cover')}" />
       </div>
     {/if}
 
@@ -101,13 +101,13 @@
 
     <label class="details">
       {I18n('details')}
-      <textarea bind:value={details} placeholder="{I18n("details_placeholder")}"></textarea>
+      <textarea bind:value={details} placeholder={I18n('details_placeholder')} />
     </label>
 
     <label class="notes">
       {I18n('notes')}
-      <span class="indicator" title="{I18n('notes_placeholder')}">{@html icon('lock')}</span>
-      <textarea bind:value={notes} placeholder="{I18n('notes_placeholder')}"></textarea>
+      <span class="indicator" title={I18n('notes_placeholder')}>{@html icon('lock')}</span>
+      <textarea bind:value={notes} placeholder={I18n('notes_placeholder')} />
     </label>
 
     <Flash state={flash} />
@@ -116,21 +116,21 @@
       <button
         class="button grey"
         on:click={cancel}
-        >
+      >
         {@html icon('ban')}
         {I18n('cancel')}
       </button>
       <button
         class="button success"
         on:click={validate}
-        >
+      >
         {@html icon('check')}
         {I18n('validate')}
       </button>
       <button
         class="button secondary"
         on:click={validateAndAddNext}
-        >
+      >
         {@html icon('plus')}
         {I18n('validate and add another book')}
       </button>

@@ -8,7 +8,7 @@
     {count}/{total}
   </div>
   {#if spinner}
-    <Spinner/>
+    <Spinner />
   {/if}
   {#if message}
     {I18n(message)}...

@@ -21,7 +21,7 @@
     {#if isNonEmptyArray(initialEditions)}
       <span
         class="counter"
-        title="{I18n('all_editions_count', { smart_count: initialEditions.length })}"
+        title={I18n('all_editions_count', { smart_count: initialEditions.length })}
       >
         {initialEditions.length}
       </span>
@@ -30,7 +30,7 @@
   {#if hasSomeInitialEditions}
     {#if initialEditions.length > 1}
       <EditionsListActions
-        bind:editions={editions}
+        bind:editions
         {initialEditions}
         {someEditions}
       />
@@ -39,8 +39,8 @@
       entities={editions}
       relatedEntities={publishersByUris}
       {parentEntity}
-      type='editions'
-      itemsByEditions={itemsByEditions}
+      type="editions"
+      {itemsByEditions}
     />
   {:else}
     <div class="no-edition-wrapper">

@@ -9,8 +9,8 @@
     <div class="tooltip-wrapper" role="tooltip">
       <div
         class="tooltip-content"
-        class:light={light}
-        >
+        class:light
+      >
         <slot name="tooltip-content" />
       </div>
     </div>

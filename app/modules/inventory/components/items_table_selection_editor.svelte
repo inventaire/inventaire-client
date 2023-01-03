@@ -58,7 +58,7 @@
     <button
       class="editor-toggler"
       on:click={e => transaction = 'inventorying'}
-      >
+    >
       {i18n('Edit items transaction')}
     </button>
   {:else}
@@ -67,7 +67,7 @@
         class="editor-untoggler"
         title={I18n('cancel')}
         on:click={e => transaction = null}
-        >
+      >
         {@html icon('close')}
       </button>
       <TransactionSelector bind:transaction />
@@ -78,7 +78,7 @@
     <button
       class="editor-toggler"
       on:click={e => visibility = []}
-      >
+    >
       {i18n('Edit items visibility')}
     </button>
   {:else}
@@ -87,7 +87,7 @@
         class="editor-untoggler"
         title={I18n('cancel')}
         on:click={e => visibility = null}
-        >
+      >
         {@html icon('close')}
       </button>
       <VisibilitySelector bind:visibility />
@@ -98,7 +98,7 @@
     <button
       class="editor-toggler"
       on:click={e => shelves = []}
-      >
+    >
       {i18n('Edit items shelves')}
     </button>
   {:else}
@@ -107,7 +107,7 @@
         class="editor-untoggler"
         title={I18n('cancel')}
         on:click={e => shelves = null}
-        >
+      >
         {@html icon('close')}
       </button>
       <ShelvesSelector bind:shelvesIds={shelves} />
@@ -119,7 +119,7 @@
       class="cancel"
       disabled={waitingForSave != null}
       on:click={() => app.execute('modal:close')}
-      >
+    >
       {@html icon('close')}
       <span>{I18n('cancel')}</span>
     </button>
@@ -136,7 +136,7 @@
       class="done success-button"
       disabled={waitingForSave != null}
       on:click={save}
-      >
+    >
       {#if waitingForSave}
         <Spinner />
       {:else}

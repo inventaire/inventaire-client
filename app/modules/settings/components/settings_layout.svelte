@@ -45,19 +45,18 @@
   </div>
   <div class="setting" bind:this={settingEl}>
     {#if section === 'profile'}
-      <Profile/>
+      <Profile />
     {:else if section === 'account'}
-      <Account/>
+      <Account />
     {:else if section === 'notifications'}
-      <Notifications/>
+      <Notifications />
     {:else if section === 'display'}
-      <Display/>
+      <Display />
     {:else if section === 'data'}
-      <Data user={app.user}/>
+      <Data user={app.user} />
     {/if}
   </div>
 </div>
-
 
 <style lang="scss">
   @import '#general/scss/utils';

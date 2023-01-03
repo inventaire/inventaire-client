@@ -19,7 +19,7 @@
     <Link
       {url}
       text={I18n('add to my inventory')}
-      icon='plus'
+      icon="plus"
       classNames="action-button tiny-button"
     />
   </div>

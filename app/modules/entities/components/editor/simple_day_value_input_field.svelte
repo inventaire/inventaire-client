@@ -22,12 +22,12 @@
     {name}
     {min}
     {max}
-    step=1
-    bind:value={value}
+    step="1"
+    bind:value
     on:keyup={bubbleUpEvent}
     {placeholder}
     bind:this={inputEl}
-  >
+  />
 {:else}
   <button
     title={i18n(`Precise the date to the ${name}`)}

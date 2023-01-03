@@ -54,17 +54,23 @@
 
 <div class="paginated-items">
   {#if items?.length > 0}
-    <svelte:component this={Component} {items} {waiting} {haveSeveralOwners} {...componentProps} />
+    <svelte:component
+      this={Component}
+      {items}
+      {waiting}
+      {haveSeveralOwners}
+      {...componentProps} />
   {:else}
     <p class="no-item">{i18n('There is nothing here')}</p>
   {/if}
   <Flash state={flash} />
   {#if allowMore && hasMore()}
-    <div class="bottom"
+    <div
+      class="bottom"
       use:viewport
       on:enterViewport={bottomIsInViewport}
       on:leaveViewport={bottomLeftViewport}
-      ></div>
+    />
   {/if}
 </div>
 

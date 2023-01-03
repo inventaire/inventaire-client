@@ -15,7 +15,7 @@
 </script>
 
 {#await waitingForNames}
-  <p class="loading">Loading authors... <Spinner/></p>
+  <p class="loading">Loading authors... <Spinner /></p>
 {:then}
   <h2>Author names with most occurrences</h2>
   <ul class="names">

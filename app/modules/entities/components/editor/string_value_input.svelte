@@ -26,12 +26,12 @@
   let serieUri, serieLabels, matchingSerieLabel
   if (entity.type === 'edition' && property === 'wdt:P1476') {
     getEditionSeriesLabels(entity)
-    .then(res => {
-      if (!res) return
-      serieUri = res.uri
-      serieLabels = res.labels
-    })
-    .catch(err => dispatch('error', err))
+      .then(res => {
+        if (!res) return
+        serieUri = res.uri
+        serieLabels = res.labels
+      })
+      .catch(err => dispatch('error', err))
   }
 
   function onInputKeyup (e) {
@@ -50,7 +50,7 @@
     on:keyup={onInputKeyup}
     bind:this={input}
     use:autofocus
-  >
+  />
   {#if matchingSerieLabel}
     <p class="tip">
       {@html I18n('title_matches_serie_label_tip', {

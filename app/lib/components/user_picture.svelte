@@ -47,7 +47,7 @@
 
 <div>
   <figure>
-    <img src="{imgSrc($user.picture, 250, 250)}" alt="{i18n('profile picture')}">
+    <img src={imgSrc($user.picture, 250, 250)} alt={i18n('profile picture')} />
   </figure>
 </div>
 

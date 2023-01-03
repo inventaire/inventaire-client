@@ -35,7 +35,7 @@
       <Link
         url={wikisourceLink.url}
         text={i18n('on Wikisource')}
-        icon='wikisource'
+        icon="wikisource"
       />
     {/if}
   </div>

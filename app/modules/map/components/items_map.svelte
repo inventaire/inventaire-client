@@ -52,7 +52,7 @@
 </script>
 {#await getLeaflet()}
   <div class="loading-wrapper">
-    <p class="loading">{i18n('Loading map...')} <Spinner/></p>
+    <p class="loading">{i18n('Loading map...')} <Spinner /></p>
   </div>
 {:then}
   <div class="items-map">
@@ -64,7 +64,7 @@
     />
     {#if allTransactionFilters.length > 1}
       <MapFilters
-        type='transaction'
+        type="transaction"
         bind:selectedFilters={selectedTransactionFilters}
         filtersData={transactionFiltersData}
         bind:allFilters={allTransactionFilters}
@@ -72,7 +72,7 @@
     {/if}
     {#if allEditionsFilters.length > 1}
       <MapFilters
-        type='editions'
+        type="editions"
         bind:selectedFilters={selectedEditionFilters}
         filtersData={editionsFiltersData}
         bind:allFilters={allEditionsFilters}

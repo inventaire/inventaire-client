@@ -1,5 +1,5 @@
 <!-- Needed to let app/modules/general/lib/modal.js access onModalExit  -->
-<svelte:options accessors/>
+<svelte:options accessors />
 
 <script>
   import { I18n } from '#user/lib/i18n'
@@ -56,9 +56,9 @@
       {/if}
       <a class="showEntity {entity.type}" href={entity.pathname}>
         {#if snapshot['entity:image']}
-          <img class="entity-image" src={imgSrc(snapshot['entity:image'], 400)} alt={snapshot['entity:title']}>
+          <img class="entity-image" src={imgSrc(snapshot['entity:image'], 400)} alt={snapshot['entity:title']} />
         {/if}
-        <p class="title" lang={snapshot['entity:lang']} >{snapshot['entity:title']}</p>
+        <p class="title" lang={snapshot['entity:lang']}>{snapshot['entity:title']}</p>
         {#if snapshot['entity:subtitle']}
           <p class="subtitle" lang={snapshot['entity:lang']}>{snapshot['entity:subtitle']}</p>
         {/if}
@@ -71,7 +71,7 @@
 
       {#if entityIsEdition}
         <span class="section-label">
-        {#if works.length > 1}{I18n('works')}{:else}{I18n('work')}{/if}
+          {#if works.length > 1}{I18n('works')}{:else}{I18n('work')}{/if}
         </span>
         {#each works as work}
           <a class="work showEntity" href={work.pathname}>
@@ -112,7 +112,7 @@
         <button
           class="remove remove-button dark-grey"
           on:click={destroyItem}
-          >
+        >
           {I18n('delete')}
           {@html icon('trash-o')}
         </button>

@@ -81,7 +81,7 @@
   <span class="filters-header">{i18n('Filter by')}</span>
 
   {#await waitingForLangEntities}
-    <Spinner/>
+    <Spinner />
   {:then}
     {#if editionsLangs.length > 0}
       <div class="filter">
@@ -91,7 +91,7 @@
           name="language"
           bind:value={$filters.selectedLang}
           class:filtering={$filters.selectedLang !== 'all'}
-          >
+        >
           <option value="all">{I18n('all languages')} ({initialEditions.length})</option>
           {#each editionsLangs as lang}
             <option value={lang}>{lang} - {langEntitiesLabel[lang]} ({langEditionsCount(lang)})</option>
@@ -109,7 +109,7 @@
   {/await}
 
   {#await waitingForPublishersEntities}
-    <Spinner/>
+    <Spinner />
   {:then}
     {#if publishersUris.length > 0}
       <div class="filter">
@@ -119,7 +119,7 @@
           name="publisher"
           bind:value={$filters.selectedPublisher}
           class:filtering={$filters.selectedPublisher !== 'all'}
-          >
+        >
           <option value="all">{I18n('all publishers')} ({initialEditions.length})</option>
           {#each publishersUris as uri}
             <option value={uri}>{publishersLabels[uri]} ({publisherCount(uri)})</option>
@@ -146,7 +146,7 @@
       name="publication-year"
       bind:value={$filters.selectedPublicationYear}
       class:filtering={$filters.selectedPublicationYear !== 'all'}
-      >
+    >
       <option value="all">{I18n('any year')} ({initialEditions.length})</option>
       {#each publicationYears as year}
         <option value={year}>{year} ({publicationYearCount(year)})</option>

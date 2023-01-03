@@ -59,7 +59,7 @@
   }
 </script>
 
-<div style="background-color:{backgroundColor}" class="items-list">
+<div style:background-color={backgroundColor} class="items-list">
   <div class="header">
     <div class="category-title-wrapper">
       <h3

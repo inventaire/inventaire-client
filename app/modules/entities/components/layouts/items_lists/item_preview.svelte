@@ -39,13 +39,13 @@
         <img
           src={imgSrc(cover, 64)}
           alt={title}
-        >
+        />
       {/if}
     </div>
     <img
       src={imgSrc(userPicture, 64, 64)}
       alt={username}
-    >
+    />
     <div class="user-info">
       <p class="username">
         {username}

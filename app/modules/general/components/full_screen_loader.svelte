@@ -1,1 +1,1 @@
-<div class="full-screen-loader"><div></div></div>
+<div class="full-screen-loader"><div /></div>

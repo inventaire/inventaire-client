@@ -39,19 +39,19 @@
 </script>
 
 <BaseLayout
-  bind:entity={entity}
+  bind:entity
   {standalone}
   bind:flash
 >
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       <div class="work-section">
-        <EntityTitle {entity} {standalone}/>
+        <EntityTitle {entity} {standalone} />
         <div class="infobox-and-summary">
           {#if entity.image}
             <div class="entity-image">
               <EntityImage
-                entity={entity}
+                {entity}
                 size={192}
               />
             </div>
@@ -73,7 +73,7 @@
     </div>
     <MissingEntitiesMenu
       waiting={waitingForSubEntities}
-      questionText={'A series or a work by this author is missing in the common database?'}
+      questionText="A series or a work by this author is missing in the common database?"
       {createButtons}
     />
     <div class="relatives-lists">

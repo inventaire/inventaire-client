@@ -112,7 +112,7 @@
         class="light-blue-button"
         disabled={missingRequiredProperties?.length > 0}
         on:click={createAndShowEntity}
-        >
+      >
         {@html icon('arrow-right')}
         {I18n(createAndShowLabel)}
       </button>

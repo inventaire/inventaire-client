@@ -93,14 +93,15 @@
   />
 </label>
 <VisibilitySelector
-  bind:visibility={visibility}
+  bind:visibility
   showTip={true}
 />
 <div class="buttons">
   {#await validating}
-    <Spinner/>
+    <Spinner />
   {:then}
-    <button class="delete button"
+    <button
+      class="delete button"
       on:click={askListDeletionConfirmation}
     >
       {@html icon('trash')}
@@ -116,7 +117,7 @@
     </button>
   {/await}
 </div>
-<Flash bind:state={flash}/>
+<Flash bind:state={flash} />
 
 <style lang="scss">
   @import '#general/scss/utils';

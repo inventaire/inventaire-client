@@ -59,10 +59,10 @@
   <Dropdown
     align="right"
     buttonTitle={i18n('Select who can see this item')}
-    clickOnContentShouldCloseDropdown={clickOnContentShouldCloseDropdown}
+    {clickOnContentShouldCloseDropdown}
     {widthReferenceEl}
     alignDropdownWidthOnButton={large}
-    >
+  >
     <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->
     <!-- See See https://github.com/sveltejs/svelte/issues/1594 -->
     <div
@@ -70,7 +70,7 @@
       class:private={visibilitySummary === 'private'}
       class:network={visibilitySummary === 'network'}
       class:public={visibilitySummary === 'public'}
-      >
+    >
       <div class="icon">
         {@html icon(iconName)}
         {#if !large}{@html icon('caret-down')}{/if}
@@ -87,8 +87,8 @@
            to give the hint to scroll down for more -->
       <VisibilitySelector
         bind:visibility
-        maxHeight=15em
-        />
+        maxHeight="15em"
+      />
     </div>
   </Dropdown>
 </div>

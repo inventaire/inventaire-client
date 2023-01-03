@@ -11,7 +11,7 @@
   title="{username} - {I18n('user')}">
   <div
     class="picture"
-    style="background-image: url({imgSrc(picture, 100)})"
+    style:background-image="url({imgSrc(picture, 100)})"
   />
   <p class="username label">
     {username}

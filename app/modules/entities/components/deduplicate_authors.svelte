@@ -53,26 +53,26 @@
   const labelMatch = name => label => normalize(label) === normalize(name)
   const normalize = name => {
     return name
-    .trim()
-    // Remove single letter for second names 'L.'
-    .replace(/\s\w{1}\.\s?/g, ' ')
-    // Remove double spaces
-    .replace(/\s\s/g, ' ')
-    // Remove special characters
-    .replace(/[./\\,]/g, '')
-    .toLowerCase()
+      .trim()
+      // Remove single letter for second names 'L.'
+      .replace(/\s\w{1}\.\s?/g, ' ')
+      // Remove double spaces
+      .replace(/\s\s/g, ' ')
+      // Remove special characters
+      .replace(/[./\\,]/g, '')
+      .toLowerCase()
   }
 
   function merge () {
     mergeEntities(from.uri, to.uri)
-    .then(() => {
-      homonymsEntities = homonymsEntities.filter(entity => entity !== from)
-      from = null
-      to = null
-    })
-    .catch(err => {
-      error = err
-    })
+      .then(() => {
+        homonymsEntities = homonymsEntities.filter(entity => entity !== from)
+        from = null
+        to = null
+      })
+      .catch(err => {
+        error = err
+      })
   }
 
   const onEntitySelect = ({ detail: entity }) => {
@@ -91,7 +91,7 @@
 {#if selectedName}
   <h2>{selectedName}</h2>
   {#await waitingForHomonyms}
-    <p class="loading">Loading homonyms... <Spinner/></p>
+    <p class="loading">Loading homonyms... <Spinner /></p>
   {:then}
     <ul class="homonyms">
       {#each homonymsEntities as homonym (homonym.uri)}
@@ -109,7 +109,11 @@
   {/await}
 {/if}
 
-<DeduplicateControls bind:from bind:to {error} on:merge={merge}/>
+<DeduplicateControls
+  bind:from
+  bind:to
+  {error}
+  on:merge={merge} />
 
 <style>
   h2, .loading{

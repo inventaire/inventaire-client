@@ -30,7 +30,7 @@
   }
 </script>
 {#await waitingForAuthors}
-  <Spinner/>
+  <Spinner />
 {:then}
   {#if authorsByUris}
     <div class="authors-info">
@@ -41,8 +41,7 @@
             <div class="authors">
               {#each claims[prop] as authorUri}
                 <div class="author">
-                  <AuthorDisplay
-                    entityData={authorsByUris[authorUri]}
+                  <AuthorDisplay entityData={authorsByUris[authorUri]}
                   />
                 </div>
               {/each}

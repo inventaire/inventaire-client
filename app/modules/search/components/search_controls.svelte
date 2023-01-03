@@ -29,7 +29,7 @@
     class="searchSettingsToggler"
     aria-controls="searchControls"
     on:click={() => showSearchControls = !showSearchControls}
-    >
+  >
     {#if showSearchControls}
       {@html icon('chevron-down')}
     {:else}
@@ -52,7 +52,7 @@
         />
       {/each}
     </div>
-    <!-- Typo on purpose: .socialSections is blocked by this popular ad blocker list: https://secure.fanboy.co.nz/fanboy-annoyance.txt-->
+    <!-- Typo on purpose: .socialSections is blocked by this popular ad blocker list: https://secure.fanboy.co.nz/fanboy-annoyance.txt -->
     <div class="sozialSections">
       {#each Object.entries(sections.social) as [ sectionName, section ]}
         <SearchSection

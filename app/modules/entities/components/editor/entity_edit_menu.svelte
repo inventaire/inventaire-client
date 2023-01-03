@@ -62,9 +62,8 @@
 </script>
 
 <div class="menu-wrapper">
-  <Dropdown
-    buttonTitle={i18n('Show actions')}
-    >
+  <Dropdown buttonTitle={i18n('Show actions')}
+  >
     <div slot="button-inner">
       {@html icon('cog')}
     </div>
@@ -74,7 +73,7 @@
           <Link
             url={wikidataUrl}
             text={I18n('see_on_website', { website: 'wikidata.org' })}
-            icon='wikidata'
+            icon="wikidata"
           />
         </li>
       {/if}
@@ -82,15 +81,15 @@
         <Link
           url={history}
           text={I18n('entity history')}
-          icon='history'
+          icon="history"
         />
       </li>
       {#if hasDataadminAccess}
         <li>
           <Link
-            url='/entity/merge?from={uri}'
+            url="/entity/merge?from={uri}"
             text={I18n('merge')}
-            icon='compress'
+            icon="compress"
           />
         </li>
         {#if canBeDeleted}
@@ -98,9 +97,9 @@
             <button
               title={I18n('delete entity')}
               on:click={deleteEntity}
-              >
-                {@html icon('trash')}
-                {I18n('delete')}
+            >
+              {@html icon('trash')}
+              {I18n('delete')}
             </button>
           </li>
         {/if}
@@ -110,7 +109,7 @@
           disabled={!canBeMovedToWikidata}
           title={moveabilityStatus}
           on:click={_moveToWikidata}
-          >
+        >
           {#await waitForWikidataMove}
             <Spinner />
           {:then}
@@ -123,9 +122,9 @@
         <button
           title={I18n('report_an_error_in_entity_data')}
           on:click={reportDataError}
-          >
-            {@html icon('flag')}
-            {I18n('report an error')}
+        >
+          {@html icon('flag')}
+          {I18n('report an error')}
         </button>
       </li>
       {#if flash}
@@ -136,7 +135,6 @@
     </ul>
   </Dropdown>
 </div>
-
 
 <style lang="scss">
   @import '#general/scss/utils';

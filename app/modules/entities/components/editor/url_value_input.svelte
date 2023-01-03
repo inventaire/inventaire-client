@@ -25,7 +25,7 @@
   on:keyup={bubbleUpEvent}
   bind:this={input}
   use:autofocus
->
+/>
 
 <style>
   input{

@@ -34,7 +34,7 @@
   class:has-image={withImage}
   role="listbox"
   on:keydown={onKeyDown}
-  >
+>
   {#if buttonLabel}
     <label for={buttonId}>{buttonLabel}</label>
   {/if}
@@ -43,7 +43,7 @@
     clickOnContentShouldCloseDropdown={true}
     {buttonId}
     buttonRole="listbox"
-    >
+  >
     <div slot="button-inner">
       <SelectDropdownOption option={currentOption} {withImage} />
       {#if resetValue && value !== resetValue}
@@ -62,7 +62,7 @@
             title={option.text}
             aria-selected={option.value === value}
             on:click={() => value = option.value}
-            >
+          >
             <SelectDropdownOption {option} {withImage} />
           </button>
         {/if}

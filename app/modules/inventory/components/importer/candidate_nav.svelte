@@ -16,7 +16,7 @@
   </button>
   <button
     class="grey-button"
-    on:click={() => checkAll(false) }
+    on:click={() => checkAll(false)}
     name={I18n('unselect all')}
   >
     {I18n('unselect all')}

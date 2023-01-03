@@ -30,7 +30,7 @@
   <legend>{I18n('bibliographic databases')}</legend>
   {#each bibliographicDatabases as option}
     <label>
-      <input type="checkbox" bind:group={linksSettings} value={option.property}>
+      <input type="checkbox" bind:group={linksSettings} value={option.property} />
       {option.label}
     </label>
   {/each}
@@ -39,12 +39,12 @@
   <legend>{I18n('social networks')}</legend>
   {#each socialNetworks as option}
     <label>
-      <input type="checkbox" bind:group={linksSettings} value={option.property}>
+      <input type="checkbox" bind:group={linksSettings} value={option.property} />
       {option.label}
     </label>
   {/each}
 </fieldset>
-<Flash bind:state={flash}/>
+<Flash bind:state={flash} />
 
 <style lang="scss">
   @import '#general/scss/utils';

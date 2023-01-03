@@ -62,13 +62,13 @@
       createCandidateOneByOne(),
       createCandidateOneByOne()
     ])
-    .then(async () => {
-      // Display candidates in the order of the input
+      .then(async () => {
+        // Display candidates in the order of the input
       // to help the user fill the missing information
-      candidates = candidates.sort(byIndex)
-      // Add counts only now in order to handle entities redirects
-      await addExistingItemsCounts({ candidates, externalEntries })
-    })
+        candidates = candidates.sort(byIndex)
+        // Add counts only now in order to handle entities redirects
+        await addExistingItemsCounts({ candidates, externalEntries })
+      })
   }
 
   const createAndAssignCandidate = (externalEntry, entities) => {
@@ -98,11 +98,11 @@
     />
   </li>
 </ul>
-<Flash bind:state={flashBlockingProcess}/>
-<div bind:this={bottomSectionElement}></div>
+<Flash bind:state={flashBlockingProcess} />
+<div bind:this={bottomSectionElement} />
 {#if processing && !cancelled}
   <div class="processing-menu">
-    <Counter count={processedExternalEntriesCount} total={totalExternalEntries}/>
+    <Counter count={processedExternalEntriesCount} total={totalExternalEntries} />
     <button
       class="grey-button dangerous"
       disabled={cancelled}
