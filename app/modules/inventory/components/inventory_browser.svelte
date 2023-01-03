@@ -10,7 +10,7 @@
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import { setContext } from 'svelte'
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
-  import { getShelvesPromise } from '#shelves/lib/shelves'
+  import { getShelves } from '#shelves/lib/shelves'
 
   export let itemsDataPromise, isMainUser, ownerId, groupId, shelfId
 
@@ -59,7 +59,7 @@
   async function getShelvesData (items, currentShelves) {
     const shelvesIds = items.map(_.property('shelves')).flat()
     const newShelvesIds = _.difference(_.uniq(shelvesIds), currentShelves)
-    if (newShelvesIds.length > 0) return getShelvesPromise(newShelvesIds)
+    if (newShelvesIds.length > 0) return getShelves(newShelvesIds)
   }
 
   async function setupPagination () {

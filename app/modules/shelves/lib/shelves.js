@@ -102,7 +102,7 @@ export function serializeShelf (shelf) {
   return shelf
 }
 
-export async function getShelvesPromise (shelvesIds, mainUserIsOwner) {
+export async function getShelves (shelvesIds, mainUserIsOwner) {
   if (mainUserIsOwner) {
     const { shelves } = await preq.get(app.API.shelves.byOwners(app.user.id))
     return shelves
