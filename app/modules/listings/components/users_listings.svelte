@@ -88,7 +88,7 @@
     <ListingsLayout {listings} {onUserLayout} />
     {#if hasMore}
       <p bind:this={listingBottomEl}>
-        <Spinner />
+        <Spinner center={true} />
       </p>
     {/if}
   {/await}
