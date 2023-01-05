@@ -6,7 +6,7 @@ export default {
   byId (id) {
     return action('by-id', { id })
   },
-  byCreators (usersIds, withElements = false, offset, limit) {
+  byCreators ({ usersIds, withElements = false, offset, limit }) {
     usersIds = forceArray(usersIds).join('|')
     const params = {
       users: usersIds,

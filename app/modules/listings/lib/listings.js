@@ -7,8 +7,8 @@ export const getListingWithElementsById = async (id, limit) => {
   return { listing }
 }
 
-export const getListingsByCreators = async ({ creatorsIds, withElements, offset, limit }) => {
-  const { lists: listings } = await preq.get(app.API.listings.byCreators(creatorsIds, withElements, offset, limit))
+export const getListingsByCreators = async params => {
+  const { lists: listings } = await preq.get(app.API.listings.byCreators(params))
   return { listings }
 }
 
@@ -27,7 +27,7 @@ export const getListingsByEntityUri = async uri => {
 }
 
 export const getUserListingsByEntityUri = async ({ userId, uri }) => {
-  const { listings } = await getListingsByCreators({ creatorsIds: userId })
+  const { listings } = await getListingsByCreators({ usersIds: userId })
   const listingsIds = pluck(listings, '_id')
   return getListingsContainingEntityUri({ listingsIds, uri })
 }
@@ -58,7 +58,7 @@ export const serializeListing = listing => {
 }
 
 export async function countListings (userId) {
-  const { lists: listings } = await preq.get(app.API.listings.byCreators(userId))
+  const { lists: listings } = await preq.get(app.API.listings.byCreators({ usersIds: userId }))
   return Object.keys(listings).length
 }
 

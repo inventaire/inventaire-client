@@ -23,7 +23,7 @@
   const getNextListingsBatch = async (offset, limit) => {
     try {
       const { listings: newListings } = await getListingsByCreators({
-        creatorsIds: usersIds,
+        usersIds,
         withElements: true,
         limit,
         offset
