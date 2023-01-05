@@ -13,7 +13,7 @@
 
   let listings = []
   let flash
-  const paginationSize = 15
+  const paginationSize = Math.trunc(window.visualViewport.width / 100) + 5
   let offset = paginationSize
   let fetching
   let windowScrollY = 0
