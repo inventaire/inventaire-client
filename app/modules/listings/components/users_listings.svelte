@@ -20,7 +20,7 @@
   let listingBottomEl
   let hasMore = true
 
-  const getSomeListings = async (offset, limit) => {
+  const getNextListingsBatch = async (offset, limit) => {
     try {
       const { listings: newListings } = await getListingsByCreators({
         creatorsIds: usersIds,
@@ -38,7 +38,7 @@
     }
   }
 
-  const waitingForInitialListings = getSomeListings(0, paginationSize)
+  const waitingForInitialListings = getNextListingsBatch(0, paginationSize)
 
   const isMainUser = usersIds[0] === app.user.id
 
@@ -55,7 +55,7 @@
   const fetchMore = async () => {
     if (fetching || hasMore === false) return
     fetching = true
-    const nextListings = await getSomeListings(offset, paginationSize)
+    const nextListings = await getNextListingsBatch(offset, paginationSize)
     if (isNonEmptyArray(nextListings)) {
       listings = [ ...listings, ...nextListings ]
     }
@@ -88,7 +88,7 @@
     <ListingsLayout {listings} {onUserLayout} />
     {#if hasMore}
       <p bind:this={listingBottomEl}>
-        <Spinner/>
+        <Spinner />
       </p>
     {/if}
   {/await}
