@@ -1,5 +1,5 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { createEditionFromWork, validateEditionPossibility, addWithoutIsbnPath } from '#entities/components/lib/edition_creation_helpers'
   import { icon, loadInternalLink } from '#lib/utils'
   import Flash from '#lib/components/flash.svelte'
@@ -64,7 +64,7 @@
         on:click={loadInternalLink}
       >
         {@html icon('plus')}
-        {i18n('add an edition without an ISBN')}
+        {I18n('add an edition without an ISBN')}
       </a>
     {:else}
       <button
@@ -72,7 +72,7 @@
         on:click={() => showForm = true}
       >
         {@html icon('plus')}
-        {i18n('add a missing edition')}
+        {I18n('add a missing edition')}
       </button>
     {/if}
   </div>
