@@ -48,6 +48,11 @@ export default {
   changes: action('changes'),
   history: id => action('history', { id }),
 
+  popularity (uris, refresh) {
+    uris = forceArray(uris).join('|')
+    return action('popularity', { uris, refresh })
+  },
+
   // POST
   create: action('create'),
   resolve: action('resolve'),

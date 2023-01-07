@@ -140,6 +140,23 @@ export async function getEntitiesBasicInfoByUris (uris) {
   })
 }
 
+export async function getAndAssignPopularity (entities) {
+  const uris = pluck(entities, 'uri')
+  if (!isNonEmptyArray(uris)) return entities
+  // Limiting refresh to not overcrowd Wikidata
+  const refresh = uris.length < 30
+  const urisChunks = chunk(uris, 30)
+  const responses = await Promise.all(urisChunks.map(async urisChunk => {
+    return preq.get(app.API.entities.popularity(urisChunk, refresh))
+  }))
+  const scores = mergeResponsesObjects(responses, 'scores')
+
+  entities.forEach(entity => {
+    const popularity = scores[entity.uri]
+    if (popularity >= 0) entity.popularity = popularity
+  })
+}
+
 export async function getEntityBasicInfoByUri (uri) {
   const entities = await getEntitiesBasicInfoByUris([ uri ])
   return entities[uri]
@@ -180,7 +197,13 @@ export const bySerieOrdinal = (a, b) => {
 }
 
 export const byPublicationDate = (a, b) => {
+  // Ascendant order
   return parseInt(a.publicationYear || 10000) - parseInt(b.publicationYear || 10000)
+}
+
+export function byPopularity (a, b) {
+  // Descending order
+  return parseInt(b.popularity || 0) - parseInt(a.popularity || 0)
 }
 
 export const getPublicationYear = entity => {
