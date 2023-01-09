@@ -34,7 +34,6 @@
     }
     span{
       padding: 0;
-      @include serif;
       font-weight: bold;
     }
     :global(.fa), span{
