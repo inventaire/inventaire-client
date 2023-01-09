@@ -2,7 +2,7 @@
   import { onChange } from '#lib/svelte/svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import { getSortingOptionsByNames } from '#entities/components/lib/works_browser_helpers'
-  import { byPublicationDate, byPopularity, getAndAssignPopularity } from '#entities/lib/entities'
+  import { byPublicationDate, byPopularity, bySerieOrdinal, getAndAssignPopularity } from '#entities/lib/entities'
   import { I18n } from '#user/lib/i18n'
 
   export let sortingType = 'works', entities
@@ -14,6 +14,7 @@
   const sortFunctions = {
     byPublicationDate,
     byPopularity,
+    bySerieOrdinal
   }
 
   async function sortEntities () {

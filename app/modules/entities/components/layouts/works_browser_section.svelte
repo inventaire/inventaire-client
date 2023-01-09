@@ -111,7 +111,10 @@
   class:disabled
   title={disabled ? i18n('Searching is not possible for this section yet') : ''}
 >
-  <div class="title-row">
+  <div
+    class="title-row"
+    class:empty={!label}
+  >
     {#if label}
       <SectionLabel
         {label}
@@ -170,7 +173,7 @@
     background-color: $off-white;
     padding: 0.5em;
     margin-block-end: 0.5em;
-    @include display-flex(column, flex-start);
+    @include display-flex(column);
     &.disabled{
       opacity: 0.5;
     }
