@@ -1,7 +1,5 @@
 import error_ from '#lib/error'
-import preq from '#lib/preq'
-import { serializeEntity } from '#entities/lib/entities'
-import { aliasRedirects } from '#entities/lib/entities_models_index'
+import { getEntitiesByUris } from '#entities/lib/entities'
 const standalone = true
 
 export default async function getEntityViewByType (model, refresh) {
@@ -61,14 +59,8 @@ const getEditionComponent = async (entity, refresh) => {
 }
 
 export const getEditionsWorks = async (editions, refresh) => {
-  const worksUris = editions.map(getEditionWorksUris).flat()
-  if (worksUris.length === 0) return []
-  const { entities, redirects } = await preq.get(app.API.entities.getByUris(worksUris, refresh))
-  aliasRedirects(entities, redirects)
-  // Filtering-out any non-work undetected by the SPARQL query
-  return Object.values(entities)
-  .filter(entity => entity.type === 'work')
-  .map(serializeEntity)
+  const uris = editions.map(getEditionWorksUris).flat()
+  return getEntitiesByUris({ uris })
 }
 
 const getEditionWorksUris = edition => {
