@@ -4,6 +4,9 @@
 // and server/lib/wikidata/allowlisted_properties
 // and inventaire-i18n/original/wikidata.properties_list
 
+import { pluralize } from '#entities/lib/types/entities_types'
+import { infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
+
 const socialNetworks = {
   'wdt:P2002': {}, // Twitter account
   'wdt:P2013': {}, // Facebook account
@@ -136,4 +139,15 @@ for (const [ type, propertiesData ] of Object.entries(propertiesPerType)) {
     propertiesPerTypeAndCategory[type][category] = propertiesPerTypeAndCategory[type][category] || {}
     propertiesPerTypeAndCategory[type][category][property] = propertyData
   }
+}
+
+export const getSubentitiesTypes = property => {
+  const subentitiesTypes = []
+  Object.keys(infoboxPropertiesByType).forEach(type => {
+    const typeProps = infoboxPropertiesByType[type]
+    if (typeProps.includes(property) && type !== 'article') {
+      subentitiesTypes.push(pluralize(type))
+    }
+  })
+  return subentitiesTypes
 }

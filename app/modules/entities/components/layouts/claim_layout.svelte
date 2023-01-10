@@ -11,6 +11,7 @@
   import { getEntityMetadata } from '#entities/lib/document_metadata'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
+  import { getSubentitiesTypes } from '#entities/lib/editor/properties_per_type'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
 
   export let entity, property
@@ -31,7 +32,9 @@
 
   setContext('layout-context', 'claim')
   setContext('search-filter-claim', `${property}=${uri}`)
-  setContext('search-filter-types', null)
+
+  const searchTypes = getSubentitiesTypes(property)
+  if (searchTypes.length > 0) setContext('search-filter-types', searchTypes)
 
   const defaultTypeByClaimProperty = {
     'wdt:P135': 'movement',
