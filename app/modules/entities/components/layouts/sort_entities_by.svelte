@@ -21,7 +21,10 @@
     const sortFn = sortFunctions[currentSortingName]
     if (sortFn) {
       if (currentSortingName === 'byPopularity') {
-        await getAndAssignPopularity(entities)
+        let promise = getAndAssignPopularity(entities)
+        const option = optionsByNames.byPopularity
+        option.promise = promise
+        await promise
       }
       entities = entities.sort(sortFn)
     }
