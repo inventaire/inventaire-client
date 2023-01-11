@@ -2,7 +2,7 @@ import error_ from '#lib/error'
 
 let screen_
 
-// Keep in sync with app/modules/general/scss/_grid_and_media_query_ranges.scss
+// Keep in sync with app/modules/general/scss/_media_query_thresholds.scss
 const wellknownWidths = {
   '$small-screen': 1000,
   '$smaller-screen': 600,
