@@ -78,7 +78,8 @@
     </a>
     <a
       class="addItems action tiny-button light-blue"
-      href="/add/scan" title={I18n('title_add_layout')}
+      href="/add/scan"
+      title={I18n('title_add_layout')}
       on:click={loadInternalLink}
     >
       {@html icon('plus')} {I18n('add books')}
@@ -149,8 +150,7 @@
 </div>
 
 {#if showShelfCreator}
-  <Modal
-    on:closeModal={() => showShelfCreator = false}
+  <Modal on:closeModal={() => showShelfCreator = false}
   >
     <ShelfEditor
       inGlobalModal={false}
@@ -160,7 +160,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .profile-buttons{
     margin: 0.5em;
     @include display-flex(column, stretch, center);
@@ -178,8 +178,8 @@
       @include display-flex(row, center, flex-start);
     }
   }
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  /* Large screens */
+  @media screen and (min-width: $smaller-screen){
     .profile-buttons{
       margin-left: auto;
     }
@@ -188,8 +188,8 @@
     }
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     .profile-buttons{
       margin-bottom: 0.5em;
       flex-direction: column;

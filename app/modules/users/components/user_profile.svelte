@@ -17,7 +17,7 @@
 <div class="user-profile">
   <div class="user-card">
     <div class="avatar-wrapper">
-      <img class="avatar" src={imgSrc(picture, 150, 150)} alt="{username} avatar">
+      <img class="avatar" src={imgSrc(picture, 150, 150)} alt="{username} avatar" />
     </div>
     <div class="info">
       <h2 class="username respect-case">{username}</h2>
@@ -55,7 +55,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .user-profile{
     background-color: #eee;
     @include display-flex(row);
@@ -95,19 +95,19 @@
     overflow: auto;
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  /* Large screens */
+  @media screen and (min-width: $smaller-screen){
     .avatar-wrapper{
       flex: 0 0 auto;
     }
     .info{
       flex: 1 0 0;
-      padding: 0.8em 1em 0 1em;
+      padding: 0.8em 1em 0;
     }
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     .user-profile{
       @include display-flex(column, center, center);
     }
@@ -129,8 +129,8 @@
       text-align: center;
     }
     .data{
-      li {
-        margin: 0 0 0.5em 0;
+      li{
+        margin: 0 0 0.5em;
       }
       flex-direction: column;
       align-items: center;
