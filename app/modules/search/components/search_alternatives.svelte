@@ -65,7 +65,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .alternatives{
       background-color: white;
     }

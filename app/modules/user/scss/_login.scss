@@ -21,7 +21,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     label{
       .complement{
         margin-left: 0.2em;

@@ -36,7 +36,7 @@
   }
 
   /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $below-very-small-screen) {
     .otherOptions{
       flex-direction: column;
       a{
@@ -46,7 +46,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  @media screen and (max-width: $below-smaller-screen) {
     .custom-cell{
       padding: 1em;
       text-align: center;

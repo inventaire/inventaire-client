@@ -33,7 +33,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     .list-label{
       margin-bottom: 0.5em;
       font-size: 1.2em;
@@ -52,7 +52,7 @@
   }
 
   /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $below-very-small-screen) {
     .buttons{
       flex-direction: column;
       a{

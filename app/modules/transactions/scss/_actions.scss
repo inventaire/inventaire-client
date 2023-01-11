@@ -17,7 +17,7 @@
     cursor: default;
   }
   /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $below-very-small-screen) {
     @include display-flex(column, center, stretch);
     .action{
       width: 100%;

@@ -24,7 +24,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  @media screen and (max-width: $below-smaller-screen) {
     @include display-flex(column, center, center);
     padding-top: 1em;
     margin-bottom: 1em;

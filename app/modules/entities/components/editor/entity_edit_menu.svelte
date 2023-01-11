@@ -140,8 +140,9 @@
   @import "#general/scss/utils";
   .menu-wrapper{
     $entity-edit-max-width: 40em;
+    $below-entity-edit-max-width: calc($entity-edit-max-width - 0.01em);
     /* Small screens */
-    @media screen and (max-width: $entity-edit-max-width){
+    @media screen and (max-width: $below-entity-edit-max-width){
       margin-right: 0.5em;
       padding: 0.5em;
     }

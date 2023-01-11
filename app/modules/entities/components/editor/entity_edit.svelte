@@ -92,7 +92,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .header{
       @include display-flex(row, center, space-between, wrap);
     }

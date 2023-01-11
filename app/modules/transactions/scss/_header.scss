@@ -27,7 +27,7 @@
     display: none;
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     padding: 1em;
     @include display-flex(row, center, space-around, wrap);
     .context{

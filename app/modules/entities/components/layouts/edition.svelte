@@ -129,7 +129,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (max-width: $below-smaller-screen){
     .info-wrapper{
       @include display-flex(column, center, center);
       margin-top: 1em;
@@ -142,7 +142,7 @@
     }
   }
   /* Very small screens */
-  @media screen and (max-width: $very-small-screen){
+  @media screen and (max-width: $below-very-small-screen){
     .author-and-info{
       margin-right: 0;
     }

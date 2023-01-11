@@ -153,7 +153,7 @@
     @include shy;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .facet-selector{
       margin-top: 1.6em;
     }

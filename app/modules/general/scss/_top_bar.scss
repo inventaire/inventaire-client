@@ -101,7 +101,7 @@ nav#top-bar{
   }
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     padding: 0.2em 0;
     h1{
       flex: 0 0 auto;
@@ -138,7 +138,7 @@ nav#top-bar{
     }
   }
   /*Smaller screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $below-very-small-screen) {
     .current-lang{
       display: none;
     }

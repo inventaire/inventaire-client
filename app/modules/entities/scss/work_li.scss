@@ -1,9 +1,10 @@
 @import '#general/scss/utils';
-$workLiMaxWidth: 45em;
+$work-li-max-width: 45em;
+$below-work-li-max-width: calc($work-li-max-width - 0.01em);
 
 .workLi{
   margin: 0 auto;
-  max-width: $workLiMaxWidth;
+  max-width: $work-li-max-width;
   background-color: $contrast;
   &:not(:first-child):not(.wrappable){
     margin-top: 1em;
@@ -93,7 +94,7 @@ $workLiMaxWidth: 45em;
 }
 
 /*Small screens*/
-@media screen and (max-width: $workLiMaxWidth) {
+@media screen and (max-width: $below-work-li-max-width) {
   .workLi{
     max-width: 100vw;
     @include display-flex(column);
@@ -114,7 +115,7 @@ $workLiMaxWidth: 45em;
 }
 
 /*Large screens*/
-@media screen and (min-width: $workLiMaxWidth) {
+@media screen and (min-width: $work-li-max-width) {
   .workLi{
     .workCover{
       margin: 1em;

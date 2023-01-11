@@ -172,7 +172,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .entities-listing-section{
       padding: 0;
     }

@@ -134,7 +134,7 @@
     @include sans-serif;
   }
   /* Smaller screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (max-width: $below-smaller-screen){
     li{
       width: 100%;
     }

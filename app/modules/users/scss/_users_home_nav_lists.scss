@@ -41,7 +41,7 @@ $nav-avatar-size: 5em;
     padding: 0 0.2em;
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     ul{
       justify-content: center;
     }

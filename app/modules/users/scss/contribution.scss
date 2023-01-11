@@ -128,7 +128,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     max-width: 98vw;
     .handle{
       margin: 0.5em 0;
@@ -140,7 +140,7 @@
   }
 
   /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
+  @media screen and (max-width: $below-smaller-screen) {
     .summary{
       min-width: 60vw;
       margin-right: auto;

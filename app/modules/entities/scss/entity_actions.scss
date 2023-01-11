@@ -3,7 +3,7 @@
   @include display-flex(column, center, center);
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     flex-direction: column;
     .button-group > li{
       margin: 0;

@@ -57,7 +57,7 @@ $user-bg: #ddd;
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     width: 100%;
     .right-box{
       width: 100%;
@@ -95,7 +95,7 @@ $user-bg: #ddd;
     }
   }
   /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $below-very-small-screen) {
     &.group-context{
       .request-actions{
         .action{

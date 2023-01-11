@@ -280,7 +280,7 @@
       z-index: 1;
     }
     /* Small screens */
-    @media screen and (max-width: $small-screen){
+    @media screen and (max-width: $below-small-screen){
       width: 100%;
     }
     background-color: white;

@@ -28,7 +28,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  @media screen and (max-width: $below-smaller-screen) {
     padding: 1em;
     flex-direction: column;
     align-items: stretch;

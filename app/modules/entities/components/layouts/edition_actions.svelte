@@ -50,7 +50,7 @@
     padding: 0.5em;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .add-to-my-inventory{
       @include display-flex(row);
       margin-bottom: 0.5em;

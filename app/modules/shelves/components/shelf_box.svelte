@@ -158,7 +158,7 @@
     color: $grey;
   }
   /* Smaller screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (max-width: $below-smaller-screen){
     .shelf-box{
       @include display-flex(column, center, center);
     }

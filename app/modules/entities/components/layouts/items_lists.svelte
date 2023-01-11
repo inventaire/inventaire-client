@@ -88,7 +88,7 @@
     @include radius;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .close-map-button{
       padding: 0.3em;
     }

@@ -19,7 +19,7 @@
       padding: 0 0.5em;
     }
     /*Small screens*/
-    @media screen and (max-width: $small-screen) {
+    @media screen and (max-width: $below-small-screen) {
       margin-left: 0.2em;
       align-self: stretch;
       .fa-bars{
@@ -37,7 +37,7 @@
 
   [role="menu"]{
     /*Very Small screens*/
-    @media screen and (max-width: $very-small-screen) {
+    @media screen and (max-width: $below-very-small-screen) {
       // Going over 100vw to cover the whole screen
       min-width: 102vw;
     }
@@ -70,7 +70,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     .label{
       margin-right: 1em;
     }

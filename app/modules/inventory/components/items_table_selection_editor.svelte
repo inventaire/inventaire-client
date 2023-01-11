@@ -191,7 +191,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .buttons{
       align-self: stretch;
       @include display-flex(column, stretch, center);

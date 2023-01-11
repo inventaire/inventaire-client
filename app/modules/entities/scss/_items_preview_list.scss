@@ -48,7 +48,7 @@ $preview-icon-base-size: 2em;
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     @include display-flex(column, center, flex-start);
   }
 }

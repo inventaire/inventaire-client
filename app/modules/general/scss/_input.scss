@@ -100,7 +100,7 @@ label{
   }
 
   /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $below-very-small-screen) {
     flex-direction: column;
     button{
       width: 100%;
@@ -131,7 +131,7 @@ label{
     margin-bottom: 0;
   }
   /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $below-very-small-screen) {
     width: 100%;
     input{
       margin: 0 !important;

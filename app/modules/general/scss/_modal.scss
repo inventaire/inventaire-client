@@ -37,7 +37,7 @@ body.openedModal{
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     padding: 2em 0.2em;
     min-width: 80vw;
     margin-top: 10px;
@@ -67,7 +67,7 @@ body.openedModal{
   }
   box-shadow: 3px 3px 10px 3px rgba(#222, 0.5);
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     padding: 1em 0;
   }
   /*Large screens*/

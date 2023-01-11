@@ -84,7 +84,7 @@
   }
 
   /* Smaller screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .searchSettingsTogglerWrapper{
       margin-top: auto;
       @include display-flex(row, center, center);

@@ -203,7 +203,7 @@
     align-self: stretch;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .work-section{
       margin-left: 0;
       :global(.claims-infobox-wrapper){

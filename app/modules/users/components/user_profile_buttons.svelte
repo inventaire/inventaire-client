@@ -189,7 +189,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (max-width: $below-smaller-screen){
     .profile-buttons{
       margin-bottom: 0.5em;
       flex-direction: column;

@@ -33,7 +33,7 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     #tabs{
       margin-top: 0.5em;
     }

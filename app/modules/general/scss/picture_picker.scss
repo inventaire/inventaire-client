@@ -42,7 +42,7 @@
   img.original{
     max-width: 50em;
     /*Small screens*/
-    @media screen and (max-width: $small-screen) {
+    @media screen and (max-width: $below-small-screen) {
       max-width: 95vw;
     }
     @include radius-top;

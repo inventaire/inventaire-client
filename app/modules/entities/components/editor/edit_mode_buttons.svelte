@@ -52,7 +52,7 @@
     background-color: $dark-grey;
   }
   /* Small screens */
-  @media screen and (max-width: $very-small-screen){
+  @media screen and (max-width: $below-very-small-screen){
     button{
       padding: 0.5em;
       margin: 0.2em;

@@ -80,7 +80,7 @@ $author-layout-bg: #292929;
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     .workLi:first-child:not(.wrappable){
       margin-top: 1em;
     }

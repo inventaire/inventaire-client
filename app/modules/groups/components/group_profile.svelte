@@ -162,7 +162,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .group-profile{
       @include display-flex(column, stretch, center);
     }

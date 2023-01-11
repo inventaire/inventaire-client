@@ -212,7 +212,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (max-width: $below-smaller-screen){
     .item-row{
       align-self: stretch;
       min-height: $item-row-height-base;

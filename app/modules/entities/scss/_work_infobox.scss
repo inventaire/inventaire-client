@@ -53,7 +53,7 @@ $work-infobox-property-color: #999;
     text-align: center;
   }
   /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $below-very-small-screen) {
     .covers{
       align-self: stretch;
       flex-direction: column;

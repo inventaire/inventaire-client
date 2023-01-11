@@ -4,7 +4,7 @@
   @include radius;
   padding: 0.8em 1em 0.8em 1em;
   /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $below-very-small-screen) {
     margin: 0.2em 0 0.3em 0;
   }
   /*Medium to Large screens*/

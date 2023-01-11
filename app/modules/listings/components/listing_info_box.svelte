@@ -147,7 +147,7 @@
     text-align: end;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .listing-info{
       padding: 0.5em;
       margin: 1em 0;
@@ -157,7 +157,7 @@
     }
   }
   /* Smaller screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (max-width: $below-smaller-screen){
     .first-row{
       @include display-flex(column-reverse);
     }

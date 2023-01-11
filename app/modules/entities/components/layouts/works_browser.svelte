@@ -138,7 +138,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .controls{
       flex-wrap: wrap;
       :global(.select-dropdown), :global(.works-browser-text-filter){
@@ -148,7 +148,7 @@
   }
 
   /* Very small screens */
-  @media screen and (max-width: $very-small-screen){
+  @media screen and (max-width: $below-very-small-screen){
     .wrapper:not(.unwrapped){
       @include display-flex(column, center);
     }

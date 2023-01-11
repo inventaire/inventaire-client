@@ -1,16 +1,17 @@
-$customTabMaxWidth: 40em;
+$custom-tab-max-width: 40em;
+$below-custom-tab-max-width: calc($custom-tab-max-width - 0.01em);
 
 .custom-tabs{
   @include display-flex(column, left);
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     width: 100%;
   }
 
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
-    width: $customTabMaxWidth;
+    width: $custom-tab-max-width;
   }
 }
 
@@ -36,7 +37,7 @@ $customTabMaxWidth: 40em;
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $customTabMaxWidth) {
+  @media screen and (max-width: $below-custom-tab-max-width) {
     flex-wrap: wrap;
     width: 100%;
     .active{
@@ -65,11 +66,11 @@ $customTabMaxWidth: 40em;
   @include radius-bottom;
   border-top-right-radius: $global-radius;
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     padding: 0.5em;
   }
   /*Large screens*/
-  @media screen and (min-width: $customTabMaxWidth) {
+  @media screen and (min-width: $custom-tab-max-width) {
     padding: 2em;
   }
 }

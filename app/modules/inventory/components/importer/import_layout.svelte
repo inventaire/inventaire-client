@@ -59,7 +59,7 @@
     margin: 0 auto;
     max-width: 50em;
     /* Small screens */
-    @media screen and (max-width: $small-screen){
+    @media screen and (max-width: $below-small-screen){
       margin: 0 0.5em;
     }
   }

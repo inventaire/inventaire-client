@@ -194,7 +194,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (max-width: $below-smaller-screen){
     select{
       margin-bottom: 0.5em;
     }

@@ -1,6 +1,7 @@
 @import '#general/scss/utils';
 
 $author-data-threshold: 25em;
+$below-author-data-threshold: calc($author-data-threshold - 0.01em);
 
 .authorInfobox, .publisherInfobox, .collectionInfobox{
   margin: 0 auto;
@@ -49,7 +50,7 @@ $author-data-threshold: 25em;
   margin-bottom: 1em;
   color: white;
   /*Small screens*/
-  @media screen and (max-width: $author-data-threshold) {
+  @media screen and (max-width: $below-author-data-threshold) {
     // Give some room to a.edit .fa-pencil
     min-width: 90vw
   }

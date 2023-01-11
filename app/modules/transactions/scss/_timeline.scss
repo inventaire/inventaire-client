@@ -3,7 +3,7 @@
   @import './action';
   @import './message';
   /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (max-width: $below-very-small-screen) {
     padding-left: 0.4em;
     padding-right: 0.2em;
     max-width: 100%;

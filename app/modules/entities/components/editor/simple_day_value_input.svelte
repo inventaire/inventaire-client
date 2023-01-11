@@ -99,7 +99,7 @@
   .wrapper{
     margin-right: auto;
     /* Small screens */
-    @media screen and (max-width: $smaller-screen){
+    @media screen and (max-width: $below-smaller-screen){
       margin-left: auto;
     }
   }

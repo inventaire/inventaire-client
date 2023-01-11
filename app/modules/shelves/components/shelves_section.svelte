@@ -92,7 +92,7 @@
     @include display-flex(row, center, space-between);
   }
   /* Smaller screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (max-width: $below-smaller-screen){
     .toggle-button{
       padding: 1em 0.5em 1em 1em;
     }

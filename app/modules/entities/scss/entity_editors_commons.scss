@@ -10,7 +10,7 @@
     padding: 1em 1.5em;
   }
   /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  @media screen and (max-width: $below-smaller-screen) {
     flex-direction: column;
     padding: 0.4em;
   }

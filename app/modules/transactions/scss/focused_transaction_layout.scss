@@ -34,7 +34,7 @@
     @include radius;
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {

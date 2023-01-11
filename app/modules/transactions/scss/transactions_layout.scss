@@ -19,7 +19,7 @@ $transaction-list-width: 20em;
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $below-small-screen) {
     #list{
       margin-bottom: 1em;
     }

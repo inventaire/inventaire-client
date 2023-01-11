@@ -22,7 +22,7 @@
     font-weight: normal;
   }
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (max-width: $below-smaller-screen){
     button{
       padding: 0.3em 0.5em;
       margin: 0.2em;

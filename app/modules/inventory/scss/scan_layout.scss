@@ -14,7 +14,7 @@ $scan-contrast: #f5f5f5;
       margin-right: 0.5em;
     }
     /*Small screens*/
-    @media screen and (max-width: $small-screen) {
+    @media screen and (max-width: $below-small-screen) {
       // make it stand-out more
       margin-top: 2em;
       margin-bottom: 2em;

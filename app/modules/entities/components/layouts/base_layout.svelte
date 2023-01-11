@@ -70,7 +70,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .header-wrapper{
       @include display-flex(row, center, space-between);
     }
@@ -79,7 +79,7 @@
     }
   }
   /* Very Small screens */
-  @media screen and (max-width: $very-small-screen){
+  @media screen and (max-width: $below-very-small-screen){
     .layout{
       padding: 0 0.5em;
     }

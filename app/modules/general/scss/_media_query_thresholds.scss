@@ -3,3 +3,7 @@
 $small-screen: 1000px;
 $smaller-screen: 600px;
 $very-small-screen: 350px;
+
+$below-small-screen: calc($small-screen - 1px);
+$below-smaller-screen: calc($smaller-screen - 1px);
+$below-very-small-screen: calc($very-small-screen - 1px);

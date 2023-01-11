@@ -95,7 +95,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $below-small-screen){
     .modal-outer{
       margin: 0.5em 0;
       padding: 0.5em;

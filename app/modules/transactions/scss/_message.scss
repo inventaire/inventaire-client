@@ -26,7 +26,7 @@
       max-width: 100%;
     }
     /*Small screens*/
-    @media screen and (max-width: $very-small-screen) {
+    @media screen and (max-width: $below-very-small-screen) {
       flex-direction: column;
       .message-text{
         padding-bottom: 0.5em;
