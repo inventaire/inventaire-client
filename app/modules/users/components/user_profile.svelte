@@ -102,7 +102,7 @@
     }
     .info{
       flex: 1 0 0;
-      padding: 0.8em 1em;
+      padding: 0.8em 1em 0 1em;
     }
   }
 
