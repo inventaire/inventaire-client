@@ -32,38 +32,43 @@
 </script>
 <Flash state={flash} />
 <div class="works-browser">
-  <div class="wrapper" class:unwrapped={showControls}>
-    {#if $screen.isSmallerThan(smallScreenThreshold) && isNotEmpty}
-      <button
-        class="toggle-controls"
-        on:click={() => wrapped = !wrapped}
-        aria-controls="works-browser-controls"
-      >
-        {#if showControls}
-          {@html icon('caret-up')}
-        {:else}
-          {@html icon('cog')}
-          {i18n('Advanced options')}
-          {@html icon('caret-down')}
-        {/if}
-      </button>
-    {/if}
-    {#if showControls}
-      {#if isNonEmptyArray(allWorks)}
-        <div class="controls">
-          <WorksBrowserFacets
-            works={allWorks}
-            bind:facets
-            bind:facetsSelectors
-            bind:facetsSelectedValues
-            bind:flash
-          />
-          <WorksBrowserTextFilter bind:textFilterUris />
-          <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')} />
-        </div>
+  {#if isNotEmpty}
+    <div
+      class="wrapper"
+      class:unwrapped={showControls}
+    >
+      {#if $screen.isSmallerThan(smallScreenThreshold) && isNotEmpty}
+        <button
+          class="toggle-controls"
+          on:click={() => wrapped = !wrapped}
+          aria-controls="works-browser-controls"
+        >
+          {#if showControls}
+            {@html icon('caret-up')}
+          {:else}
+            {@html icon('cog')}
+            {i18n('Advanced options')}
+            {@html icon('caret-down')}
+          {/if}
+        </button>
       {/if}
-    {/if}
-  </div>
+      {#if showControls}
+        {#if isNonEmptyArray(allWorks)}
+          <div class="controls">
+            <WorksBrowserFacets
+              works={allWorks}
+              bind:facets
+              bind:facetsSelectors
+              bind:facetsSelectedValues
+              bind:flash
+            />
+            <WorksBrowserTextFilter bind:textFilterUris />
+            <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')} />
+          </div>
+        {/if}
+      {/if}
+    </div>
+  {/if}
 
   {#if sections}
     {#each sections as section}

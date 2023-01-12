@@ -57,10 +57,9 @@ const setWorkFacets = ({ facets, valuesUris, contextProperties }) => work => {
 }
 
 const removeFacetsWithNoKnownValue = facets => {
-  Object.keys(facets).forEach(prop => {
-    const facet = facets[prop]
+  for (const [ prop, facet ] of Object.entries(facets)) {
     if (notOnlyUnknownKey(facet)) delete facets[prop]
-  })
+  }
 }
 
 const notOnlyUnknownKey = facet => facet.unknown && Object.keys(facet).length === 1
