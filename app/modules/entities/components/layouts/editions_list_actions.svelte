@@ -7,6 +7,7 @@
   import { onChange } from '#lib/svelte/svelte'
   import { icon } from '#lib/utils'
   import { getContext } from 'svelte'
+  import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'
 
   export let editions, initialEditions
 
@@ -77,7 +78,7 @@
   $: onChange(initialEditions, $filters, refreshFilters)
 </script>
 
-<div class="filters">
+<div class="filters menu">
   <span class="filters-header">{i18n('Filter by')}</span>
 
   {#await waitingForLangEntities}
@@ -164,10 +165,30 @@
     {/if}
   </div>
 </div>
+<div class="sort-selector-wrapper menu">
+  <SortEntitiesBy
+    sortingType="editions"
+    bind:entities={editions}
+  />
+</div>
 <Flash state={flash} />
 
 <style lang="scss">
   @import "#general/scss/utils";
+  .sort-selector-wrapper{
+    width: 100%;
+    margin-top: 0.5em;
+    :global(.sort-selector), :global(label){
+      margin: 0 1em;
+      margin-left: 0;
+      font-size: 100%;
+      text-align: left;
+    }
+  }
+  .menu{
+    background-color: $light-grey;
+    padding: 0.5em;
+  }
   .filters{
     align-self: stretch;
   }
