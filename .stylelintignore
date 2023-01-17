@@ -1,0 +1,5 @@
+**/*.js
+**/*.hbs
+app/assets
+**/*.scss
+app/index.html
