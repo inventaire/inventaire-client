@@ -1,6 +1,6 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { icon, isOpenedOutside, loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
@@ -39,6 +39,12 @@
 
   function getShelfColor (shelf) {
     return getColorSquareDataUri(shelf.color || getColorHexCodeFromModelId(shelf._id))
+  }
+
+  function onShelfDotClick (e, shelf) {
+    if (isOpenedOutside(e)) return
+    loadShelfLink(shelf)
+    e.preventDefault()
   }
 
   $: {
@@ -104,7 +110,7 @@
           {:else}
             <a
               href="/shelves/{shelf._id}"
-              on:click={() => loadShelfLink(shelf)}
+              on:click={e => onShelfDotClick(e, shelf)}
               title={i18n(shelf.name)}
             >
               <div
