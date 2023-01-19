@@ -26,7 +26,7 @@
 label{
   text-align: center;
 }
-[slot="button-inner"], [role="option"]{
+.button-toggler, [slot="button-inner"], [role="option"]{
   @include bg-hover(white, 5%);
   @include display-flex(row, center, center);
 }
