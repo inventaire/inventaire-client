@@ -1,6 +1,6 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, isOpenedOutside, loadInternalLink } from '#lib/utils'
+  import { icon, loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
@@ -8,10 +8,8 @@
   import { serializeItem } from '#inventory/lib/items'
   import { screen } from '#lib/components/stores/screen'
   import ImageDiv from '#components/image_div.svelte'
-  import { getColorSquareDataUri, getColorHexCodeFromModelId } from '#lib/images'
+  import ShelfDot from './shelf_dot.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import screen_ from '#lib/screen'
-  import { loadShelfLink } from '#shelves/components/lib/shelves'
 
   export let item, showUser, shelves
 
@@ -36,16 +34,6 @@
     inventoryPathname,
     shelvesIds,
     itemShelves
-
-  function getShelfColor (shelf) {
-    return getColorSquareDataUri(shelf.color || getColorHexCodeFromModelId(shelf._id))
-  }
-
-  function onShelfDotClick (e, shelf) {
-    if (isOpenedOutside(e)) return
-    loadShelfLink(shelf)
-    e.preventDefault()
-  }
 
   $: {
     ;({ details = '', transaction, visibility, shelves: shelvesIds } = $itemStore)
@@ -99,28 +87,7 @@
   {#if isNonEmptyArray(itemShelves)}
     <ul class="shelves-dots">
       {#each itemShelves as shelf}
-        <li>
-          {#if screen_.isSmall(600)}
-            <div
-              class="shelf-dot"
-              style="background-image: url({imgSrc(getShelfColor(shelf), 8)})"
-              title={i18n(shelf.name)}
-            >
-            </div>
-          {:else}
-            <a
-              href="/shelves/{shelf._id}"
-              on:click={e => onShelfDotClick(e, shelf)}
-              title={i18n(shelf.name)}
-            >
-              <div
-                class="shelf-dot"
-                style="background-image: url({imgSrc(getShelfColor(shelf), 8)})"
-              >
-              </div>
-            </a>
-          {/if}
-        </li>
+        <ShelfDot {shelf} />
       {/each}
     </ul>
   {/if}
@@ -185,11 +152,6 @@
   .shelves-dots{
     @include display-flex(row);
     margin: 0 0.4em;
-  }
-  .shelf-dot{
-    @include radius;
-    width: 1em;
-    height: 1em;
   }
   .transaction, .visibility, .avatar{
     @include radius;
@@ -271,9 +233,6 @@
       @include display-flex(column, flex-end, center, wrap-reverse);
       height: 4.5em;
     }
-    .shelf-dot{
-      margin: 0.3em;
-    }
     .modes{
       margin-right: 0.2em;
       flex-direction: column-reverse;
@@ -312,9 +271,6 @@
       max-height: 3em;
       margin: 0 0.5em;
       flex: 1 1 auto;
-    }
-    .shelf-dot{
-      margin: 0.2em;
     }
     .transaction, .visibility, .user{
       margin-right: 0.5em;
