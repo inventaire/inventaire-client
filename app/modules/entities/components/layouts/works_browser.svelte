@@ -1,5 +1,5 @@
 <script>
-  import SelectDropdown from '#components/select_dropdown.svelte'
+  import SelectToggler from '#components/select_toggler.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { screen } from '#lib/components/stores/screen'
@@ -59,7 +59,7 @@
             bind:flash
           />
           <WorksBrowserTextFilter bind:textFilterUris />
-          <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')} />
+          <SelectToggler bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')} />
         </div>
       {/if}
     {/if}

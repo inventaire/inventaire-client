@@ -21,7 +21,6 @@
     e.preventDefault()
   }
 
-  const hasTwoOptions = options.length === 2
   $: currentOption = options.find(option => option.value === value)
 
   function selectNext (indexIncrement) {
@@ -29,11 +28,6 @@
     const nextOption = options[currentOptionIndex + indexIncrement]
     if (nextOption) value = nextOption.value
   }
-  function toggleOption () {
-    const toggledOption = options.find(opt => opt.value !== value)
-    value = toggledOption.value
-  }
-
 </script>
 
 <div
@@ -45,59 +39,39 @@
   {#if buttonLabel}
     <label for={buttonId}>{buttonLabel}</label>
   {/if}
-  {#if hasTwoOptions}
-    <button
-      title={currentOption.text}
-      aria-selected={currentOption.value === value}
-      class="button-toggler"
-      on:click={toggleOption}
-    >
-      {#key currentOption}
-        <SelectDropdownOption option={currentOption} {withImage} />
-      {/key}
-    </button>
-  {:else}
-    <Dropdown
-      alignButtonWidthOnDropdown={true}
-      clickOnContentShouldCloseDropdown={true}
-      {buttonId}
-      buttonRole="listbox"
-    >
-      <div slot="button-inner">
-        <SelectDropdownOption option={currentOption} {withImage} />
-        {#if resetValue && value !== resetValue}
+  <Dropdown
+    alignButtonWidthOnDropdown={true}
+    clickOnContentShouldCloseDropdown={true}
+    {buttonId}
+    buttonRole="listbox"
+  >
+    <div slot="button-inner">
+      <SelectDropdownOption option={currentOption} {withImage} />
+      {#if resetValue && value !== resetValue}
+        <button
+          class="reset"
+          title={I18n('reset filter')}
+          on:click|stopPropagation={() => value = resetValue}
+        >{@html icon('close')}</button>
+      {/if}
+    </div>
+    <div slot="dropdown-content" role="presentation">
+      {#each options as option}
+        {#if !(hideCurrentlySelectedOption && option.value === value)}
           <button
-            class="reset"
-            title={I18n('reset filter')}
-            on:click|stopPropagation={() => value = resetValue}
-          >{@html icon('close')}</button>
+            role="option"
+            title={option.text}
+            aria-selected={option.value === value}
+            on:click={() => value = option.value}
+          >
+            <SelectDropdownOption {option} {withImage} />
+          </button>
         {/if}
-      </div>
-      <div slot="dropdown-content" role="presentation">
-        {#each options as option}
-          {#if !(hideCurrentlySelectedOption && option.value === value)}
-            <button
-              role="option"
-              title={option.text}
-              aria-selected={option.value === value}
-              on:click={() => value = option.value}
-            >
-              <SelectDropdownOption {option} {withImage} />
-            </button>
-          {/if}
-        {/each}
-      </div>
-    </Dropdown>
-  {/if}
+      {/each}
+    </div>
+  </Dropdown>
 </div>
 
 <style lang="scss">
   @import '#general/scss/select_dropdown_commons';
-  .not-selected{
-    display: none;
-  }
-  .button-toggler{
-    @include shy-border;
-    padding: 0.5em;
-  }
 </style>

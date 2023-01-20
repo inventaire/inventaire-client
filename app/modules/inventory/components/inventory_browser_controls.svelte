@@ -1,6 +1,6 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
-  import SelectDropdown from '#components/select_dropdown.svelte'
+  import SelectToggler from '#components/select_toggler.svelte'
   import InventoryBrowserFacet from '#inventory/components/inventory_browser_facet.svelte'
   import Spinner from '#components/spinner.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
@@ -75,7 +75,7 @@
         {/await}
       </div>
       <div class="display-controls" transition:slide>
-        <SelectDropdown
+        <SelectToggler
           bind:value={$inventoryDisplay}
           options={displayOptions}
           buttonLabel={I18n('display_mode')}
