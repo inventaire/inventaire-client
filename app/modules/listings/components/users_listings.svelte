@@ -1,22 +1,46 @@
 <script>
+  import { i18n } from '#user/lib/i18n'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
   import ListingsLayout from '#modules/listings/components/listings_layout.svelte'
   import { getListingsByCreators, serializeListing } from '#modules/listings/lib/listings'
   import Modal from '#components/modal.svelte'
   import ListingEditor from '#listings/components/listing_editor.svelte'
-  import { i18n } from '#user/lib/i18n'
   import { icon } from '#lib/handlebars_helpers/icons'
 
-  export let user
+  export let usersIds, onUserLayout
 
-  let listings, flash
+  let listings = []
+  let flash
+  const paginationSize = Math.trunc(window.visualViewport.width / 100) + 5
+  let offset = paginationSize
+  let fetching
+  let windowScrollY = 0
+  let listingBottomEl
+  let hasMore = true
 
-  const waitingForListings = getListingsByCreators(user._id, true)
-    .then(res => listings = res.listings.map(serializeListing))
-    .catch(err => flash = err)
+  const getNextListingsBatch = async (offset, limit) => {
+    try {
+      const { listings: newListings } = await getListingsByCreators({
+        usersIds,
+        withElements: true,
+        limit,
+        offset
+      })
+      if (isNonEmptyArray(newListings)) {
+        listings = [ ...listings, ...newListings.map(serializeListing) ]
+        offset += paginationSize
+      }
+      if (newListings.length < paginationSize) hasMore = false
+    } catch (err) {
+      flash = err
+    }
+  }
 
-  const isMainUser = user._id === app.user.id
+  const waitingForInitialListings = getNextListingsBatch(0, paginationSize)
+
+  const isMainUser = usersIds[0] === app.user.id
 
   let showListingCreationModal = false
   async function addNewListing (newListing) {
@@ -27,10 +51,25 @@
       flash = err
     }
   }
-</script>
 
+  const fetchMore = async () => {
+    if (fetching || hasMore === false) return
+    fetching = true
+    await getNextListingsBatch(offset, paginationSize)
+    offset += paginationSize
+    fetching = false
+  }
+
+  $: {
+    if (listingBottomEl != null && hasMore) {
+      const screenBottom = windowScrollY + window.visualViewport.height
+      if (screenBottom + 100 > listingBottomEl.offsetTop) fetchMore()
+    }
+  }
+</script>
+<svelte:window bind:scrollY={windowScrollY} />
 <div class="user-listings">
-  {#await waitingForListings}
+  {#await waitingForInitialListings}
     <Spinner />
   {:then}
     {#if isMainUser}
@@ -44,10 +83,12 @@
         </button>
       </div>
     {/if}
-    <ListingsLayout
-      listingsWithElements={listings}
-      onUserLayout={true}
-    />
+    <ListingsLayout {listings} {onUserLayout} />
+    {#if hasMore}
+      <p bind:this={listingBottomEl}>
+        <Spinner center={true} />
+      </p>
+    {/if}
   {/await}
   <Flash state={flash} />
 </div>

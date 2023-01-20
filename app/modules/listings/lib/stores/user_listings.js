@@ -11,7 +11,7 @@ function start (setStoreValue) {
 }
 
 async function refresh (setStoreValue) {
-  const { lists: listings } = await preq.get(app.API.listings.byCreators(app.user.id))
+  const { lists: listings } = await preq.get(app.API.listings.byCreators({ usersIds: app.user.id }))
   setStoreValue(listings)
 }
 

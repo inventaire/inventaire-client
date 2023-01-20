@@ -15,6 +15,7 @@ import screen_ from '#lib/screen'
 import InventoryWelcome from '#inventory/views/inventory_welcome.js'
 import error_ from '#lib/error'
 import assert_ from '#lib/assert_types'
+import { getAllGroupMembersIds } from '#groups/lib/groups'
 
 const navs = {
   network: NetworkUsersNav,
@@ -261,21 +262,18 @@ export default Marionette.View.extend({
 
   async showListingsSection ({ userModel, groupModel }) {
     try {
+      let props
+      const { default: UserListings } = await import('#listings/components/users_listings.svelte')
       if (userModel) {
-        const { default: UserListings } = await import('#listings/components/user_listings.svelte')
-        this.showChildComponent('listings', UserListings, {
-          props: {
-            user: userModel.toJSON()
-          }
-        })
+        props = {
+          usersIds: [ userModel.toJSON()._id ],
+          onUserLayout: true
+        }
       } else {
-        const { default: GroupListings } = await import('#listings/components/group_listings.svelte')
-        this.showChildComponent('listings', GroupListings, {
-          props: {
-            group: groupModel.toJSON()
-          }
-        })
+        const membersIds = getAllGroupMembersIds(groupModel.toJSON())
+        props = { usersIds: membersIds }
       }
+      this.showChildComponent('listings', UserListings, { props })
       this.emptyRegion('shelvesList')
       this.emptyRegion('shelfInfo')
       this.emptyRegion('itemsList')

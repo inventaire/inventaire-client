@@ -24,7 +24,7 @@
   {#await waitingForListings}
     <p class="loading">{I18n('loading')}<Spinner /></p>
   {:then}
-    <ListingsLayout listingsWithElements={listings} />
+    <ListingsLayout {listings} />
   {/await}
 </div>
 

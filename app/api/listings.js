@@ -6,9 +6,15 @@ export default {
   byId (id) {
     return action('by-id', { id })
   },
-  byCreators (usersIds, withElements = false) {
+  byCreators ({ usersIds, withElements = false, offset, limit }) {
     usersIds = forceArray(usersIds).join('|')
-    return action('by-creators', { users: usersIds, 'with-elements': withElements })
+    const params = {
+      users: usersIds,
+      'with-elements': withElements,
+      offset,
+      limit
+    }
+    return action('by-creators', params)
   },
   byEntities ({ uris, lists }) {
     uris = forceArray(uris).join('|')

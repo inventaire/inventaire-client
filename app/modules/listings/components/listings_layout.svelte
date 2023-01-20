@@ -2,14 +2,14 @@
   import ListingLi from '#modules/listings/components/listing_li.svelte'
   import { i18n } from '#user/lib/i18n'
 
-  export let listingsWithElements, onUserLayout = false
+  export let listings, onUserLayout = false
 </script>
 
 <ul class="listings-layout">
-  {#each listingsWithElements as listing (listing._id)}
+  {#each listings as listing (listing._id)}
     <ListingLi {listing} {onUserLayout} />
   {/each}
-  {#if listingsWithElements.length === 0}
+  {#if listings.length === 0}
     <li class="empty">
       {i18n('There is nothing here')}
     </li>
