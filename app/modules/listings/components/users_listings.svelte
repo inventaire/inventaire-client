@@ -55,13 +55,11 @@
   const fetchMore = async () => {
     if (fetching || hasMore === false) return
     fetching = true
-    const nextListings = await getNextListingsBatch(offset, paginationSize)
-    if (isNonEmptyArray(nextListings)) {
-      listings = [ ...listings, ...nextListings ]
-    }
+    await getNextListingsBatch(offset, paginationSize)
     offset += paginationSize
     fetching = false
   }
+
   $: {
     if (listingBottomEl != null && hasMore) {
       const screenBottom = windowScrollY + window.visualViewport.height
