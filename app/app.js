@@ -2,7 +2,7 @@ import { isNonEmptyString } from '#lib/boolean_tests'
 import BindedPartialBuilder from '#lib/binded_partial_builder'
 import { updateRouteMetadata } from '#lib/metadata/update'
 import error_ from '#lib/error'
-import { routeSection, currentRoute } from '#lib/location'
+import { routeSection, currentRouteWithQueryString } from '#lib/location'
 import { channel, reqres, request, execute } from './radio.js'
 import { dropLeadingSlash } from '#lib/utils'
 
@@ -59,7 +59,7 @@ const App = Marionette.Application.extend({
     updateRouteMetadata(route, options.metadata)
     // Easing code mutualization by firing app.navigate, even when the module
     // simply reacted to the requested URL
-    if (route === currentRoute()) {
+    if (route === currentRouteWithQueryString()) {
       // Trigger a route event for the first URL, so that views listening
       // on the route:change event can update accordingly
       if (!initialUrlNavigateAlreadyCalled) {
@@ -109,7 +109,7 @@ const onPreviousRoute = function () {
   // be reopen by the view being reshown
   app.execute('modal:close')
 
-  const route = currentRoute()
+  const route = currentRouteWithQueryString()
   app.vent.trigger('route:change', routeSection(route), route)
 }
 

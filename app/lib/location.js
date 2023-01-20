@@ -41,6 +41,8 @@ export const buildPath = function (pathname, queryObj, escape) {
 
 export const currentRoute = () => location.pathname.slice(1)
 
+export const currentRouteWithQueryString = () => location.pathname.slice(1) + location.search
+
 export const currentSection = () => routeSection(currentRoute())
 
 const parseKeysValues = function (queryObj, nextParam) {
