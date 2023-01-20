@@ -90,5 +90,6 @@ export default Marionette.CollectionView.extend({
 
   removeFilter (e) {
     app.execute('show:user:contributions', this.user)
+    app.execute('querystring:remove', 'filter')
   }
 })

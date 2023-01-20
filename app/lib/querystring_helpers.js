@@ -9,7 +9,8 @@ export default function () {
   })
 
   app.commands.setHandlers({
-    'querystring:set': set
+    'querystring:set': setParameter,
+    'querystring:remove': removeParameter,
   })
 }
 
@@ -21,12 +22,17 @@ export const get = function (key) {
   return value
 }
 
-const set = function (key, value) {
+const setParameter = function (key, value) {
   // Setting the value to 'null' and not just the null keyword
   // allows to have the null value passed to the keep function (called by app.navigate),
   // thus unsetting the desired key
   if (value == null) value = 'null'
+  updateParameter(key, value)
+}
 
+const removeParameter = key => updateParameter(key, null)
+
+const updateParameter = (key, value) => {
   // omit the first character: '/'
   const currentPath = window.location.pathname.slice(1) + window.location.search
   const updatedPath = setQuerystring(currentPath, key, value)
