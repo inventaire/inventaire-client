@@ -122,10 +122,10 @@
     margin: 0.2em;
     padding: 0.5em;
   }
-  #filter-label-giving{ @include filter-button($giving-color); };
-  #filter-label-lending{ @include filter-button($lending-color); };
-  #filter-label-selling{ @include filter-button($selling-color); };
-  #filter-label-inventorying{ @include filter-button($inventorying-color); };
+  #filter-label-giving{ @include filter-button($giving-color); }
+  #filter-label-lending{ @include filter-button($lending-color); }
+  #filter-label-selling{ @include filter-button($selling-color); }
+  #filter-label-inventorying{ @include filter-button($inventorying-color); }
   .cover{
     font-size: 0.9em;
     max-width: 5em;

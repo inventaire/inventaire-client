@@ -59,7 +59,6 @@
 <style lang="scss">
   @import '#general/scss/utils';
   .shelf-row{
-    height: 3em;
     @include display-flex(row, center, space-between);
     cursor: pointer;
     height: 3em;

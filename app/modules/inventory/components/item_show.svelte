@@ -190,7 +190,6 @@
   }
   .preciseEdition{
     display: block;
-    margin: 0 auto;
     text-align: center;
     margin: 1em 0;
   }

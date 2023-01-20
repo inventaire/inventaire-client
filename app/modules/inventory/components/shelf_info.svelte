@@ -20,7 +20,7 @@
     flex: 0 0 auto;
     width: 48px;
     @include radius;
-  };
+  }
   .shelf-info{
     @include display-flex(row, center, flex-start);
   }
