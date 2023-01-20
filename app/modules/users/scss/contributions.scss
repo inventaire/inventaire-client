@@ -8,6 +8,24 @@
   @include display-flex(column, center, center);
   h3{
     text-align: center;
+    @include display-flex(row, center, center);
+    .filter{
+      margin: 0 1em;
+      @include display-flex(row, center, center);
+      @include sans-serif;
+      background-color: $light-blue;
+      padding-left: 0.2rem;
+      font-size: 1rem;
+      border-radius: $global-radius;
+      color: white;
+    }
+    .removeFilter{
+      @include tiny-button($light-blue);
+      font-size: 1.5rem;
+      line-height: 1rem;
+      padding: 0.5rem;
+      align-self: stretch;
+    }
   }
   .stats{
     background-color: $light-grey;

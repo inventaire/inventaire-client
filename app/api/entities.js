@@ -66,8 +66,8 @@ export default {
 
   delete: action('delete'),
   duplicates: action('duplicates'),
-  contributions (userId, limit, offset) {
-    return action('contributions', { user: userId, limit, offset })
+  contributions ({ userId, limit, offset, filter }) {
+    return action('contributions', { user: userId, limit, offset, filter })
   },
   moveToWikidata: action('move-to-wikidata')
 }

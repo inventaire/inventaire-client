@@ -10,7 +10,11 @@ export const setQuerystring = function (url, key, value) {
   const [ href, qs ] = url.split('?')
   const qsObj = parseQuery(qs)
   // override the previous key/value
-  qsObj[key] = value
+  if (value != null) {
+    qsObj[key] = value
+  } else {
+    delete qsObj[key]
+  }
   return buildPath(href, qsObj)
 }
 

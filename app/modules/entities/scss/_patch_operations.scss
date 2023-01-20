@@ -26,6 +26,10 @@
     .value{
       overflow: hidden;
     }
+    .filter{
+      @include tiny-button($light-blue);
+      margin-left: auto;
+    }
   }
   .patch-add{
     .op{

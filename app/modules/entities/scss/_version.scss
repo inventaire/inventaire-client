@@ -37,6 +37,9 @@
     margin-top: 1em;
     @include display-flex(row);
   }
+  .patch-operations .filter{
+    display: none;
+  }
 }
 
 @import 'patch_operations';
