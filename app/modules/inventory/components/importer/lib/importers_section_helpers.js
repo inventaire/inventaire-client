@@ -4,6 +4,7 @@ import { getIsbnData } from '#inventory/lib/importer/extract_isbns'
 import { addExistingItemsCountToCandidate, getEditionEntitiesByUri, getRelevantEntities, guessUriFromIsbn, resolveCandidate } from '#inventory/lib/importer/import_helpers'
 import getEntitiesItemsCount from '#inventory/lib/get_entities_items_count'
 import log_ from '#lib/loggers'
+import error_ from '#lib/error'
 
 export const createExternalEntry = candidateData => {
   const { isbn, title, authors = [] } = candidateData
@@ -36,15 +37,17 @@ const getExternalEntryUri = externalEntry => guessUriFromIsbn({ externalEntry })
 
 export const getExternalEntriesEntities = async externalEntry => {
   try {
-    if (!externalEntry.editionTitle) {
-      const { normalizedIsbn } = externalEntry.isbnData
-      // not enough data for the resolver, so get edition by uri directly
-      return getEditionEntitiesByUri(normalizedIsbn)
-    } else {
+    if (externalEntry.editionTitle) {
       const resolveOptions = { update: true }
       const resEntry = await resolveCandidate(externalEntry, resolveOptions)
       const { edition, works } = resEntry
       return getRelevantEntities(edition, works)
+    } else if (externalEntry.isbnData) {
+      // Not enough data for the resolver, so get edition by uri directly
+      const { normalizedIsbn } = externalEntry.isbnData
+      return getEditionEntitiesByUri(normalizedIsbn)
+    } else {
+      throw error_.new('not enough entry data', 400, { externalEntry })
     }
   } catch (err) {
     log_.error(err, 'no entities found err')
