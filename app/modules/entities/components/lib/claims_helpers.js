@@ -259,6 +259,5 @@ const formatTime = value => timeClaim({ value, format: 'year' })
 
 export const formatEbooksClaim = (values, prop) => {
   if (!values) return
-  // TODO: handle multiple values in a selector
-  return formatClaimValue({ prop, value: values[0] })
+  return values.map(value => formatClaimValue({ prop, value }))
 }

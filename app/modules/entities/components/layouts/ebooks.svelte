@@ -12,8 +12,8 @@
   let ebooksData = []
 
   const formatAndAssignEbooks = prop => {
-    const valueData = formatEbooksClaim(claims[prop], prop)
-    if (valueData) ebooksData = [ ...ebooksData, valueData ]
+    const valuesData = formatEbooksClaim(claims[prop], prop)
+    if (valuesData) ebooksData = [ ...ebooksData, ...valuesData ]
   }
 
   formatAndAssignEbooks('wdt:P2034')
