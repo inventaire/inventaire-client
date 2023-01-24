@@ -127,7 +127,12 @@ const valueFormatters = {
   'wdt:P577': getYearFromSimpleDay,
 }
 
-const byCount = (a, b) => getCount(b) - getCount(a)
+const byCount = (a, b) => {
+  const count = getCount(b) - getCount(a)
+  if (count === 0) return alphabetically(a, b)
+  else return count
+}
+const alphabetically = (a, b) => a.text > b.text ? 1 : -1
 const getCount = option => option.value === 'unknown' ? -1 : option.count
 
 const chronologically = (a, b) => getYearValue(a) - getYearValue(b)
