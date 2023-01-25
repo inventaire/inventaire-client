@@ -30,7 +30,7 @@
     })
     .catch(err => flash = err)
 
-  setContext('layout-context', 'claim')
+  setContext('layout-context', type)
   setContext('search-filter-claim', `${property}=${uri}`)
 
   const searchTypes = getSubentitiesTypes(property)

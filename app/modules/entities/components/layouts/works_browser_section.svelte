@@ -5,7 +5,7 @@
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import WorkActions from '#entities/components/layouts/work_actions.svelte'
   import { addWorksImages } from '#entities/lib/types/work_alt'
-  import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
+  import { bySearchMatchScore, getSelectedUris, isClaimLayout } from '#entities/components/lib/works_browser_helpers'
   import { flip } from 'svelte/animate'
   import { getContext } from 'svelte'
   import { i18n } from '#user/lib/i18n'
@@ -62,7 +62,7 @@
   const layoutContext = getContext('layout-context')
 
   // as claim layout already displays label
-  if (layoutContext === 'claim') label = null
+  if (isClaimLayout(layoutContext)) label = null
 
   $: onChange(displayLimit, addMoreWorks)
   $: onChange(displayMode, resetView)

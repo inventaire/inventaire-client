@@ -14,8 +14,6 @@
 
   let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri } = entity
 
-  const layoutContext = getContext('layout-context')
-
   const mainPropertyType = {
     author: 'wdt:P50',
     publisher: 'wdt:P123',
@@ -27,16 +25,13 @@
     subject: 'wdt:P921',
   }
 
-  const omitLayoutClaim = layoutContext => {
-    const prop = mainPropertyType[layoutContext]
-    if (prop && hasOnlyOneClaimValue(prop)) {
-      claims = omitClaims(claims, [ prop ])
-    }
-  }
+  const layoutContext = getContext('layout-context')
 
+  const prop = mainPropertyType[layoutContext]
   const hasOnlyOneClaimValue = prop => claims?.[prop]?.length === 1
-
-  omitLayoutClaim(layoutContext)
+  if (prop && hasOnlyOneClaimValue(prop)) {
+    claims = omitClaims(claims, [ prop ])
+  }
 </script>
 <div class="entity-wrapper">
   <div

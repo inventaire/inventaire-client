@@ -92,6 +92,13 @@ async function getBasicInfo (uris) {
   return entities
 }
 
+const claimProperties = [
+  'wdt:P50',
+  'wdt:P136',
+  'wdt:P921',
+  'wdt:P577',
+]
+
 const facetsProperties = {
   author: [
     'wdt:P136',
@@ -115,12 +122,9 @@ const facetsProperties = {
     'wdt:P123',
     'wdt:P577',
   ],
-  claim: [
-    'wdt:P50',
-    'wdt:P136',
-    'wdt:P921',
-    'wdt:P577',
-  ]
+  genre: claimProperties,
+  subject: claimProperties,
+  movement: claimProperties,
 }
 
 const valueFormatters = {
@@ -176,4 +180,8 @@ export function getSelectedUris ({ works, facets, facetsSelectedValues }) {
 
 export const bySearchMatchScore = textFilterUris => (a, b) => {
   return textFilterUris.indexOf(a.uri) - textFilterUris.indexOf(b.uri)
+}
+
+export function isClaimLayout (layoutContext) {
+  return [ 'genre', 'subject', 'movement' ].includes(layoutContext)
 }
