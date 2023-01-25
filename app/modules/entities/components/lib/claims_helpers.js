@@ -182,6 +182,7 @@ export const infoboxShortlistPropertiesByType = {
     'wdt:P212', // ISBN-13
   ],
   work: [
+    ...authorsProps,
     'wdt:P577', // publication date
     'wdt:P179', // series
     'wdt:P136', // genre

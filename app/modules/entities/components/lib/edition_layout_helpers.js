@@ -9,4 +9,6 @@ export const addWorksClaims = (claims, works) => {
 
 export const filterClaims = (_, key) => infoboxPropertiesByType.edition.includes(key)
 
-export const isWorksClaimsContext = type => [ 'collection', 'publisher' ].includes(type)
+export const isSubentitiesTypeEdition = type => [
+  'collection',
+  'publisher' ].includes(type)

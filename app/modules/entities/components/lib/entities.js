@@ -2,7 +2,7 @@ import { i18n, I18n } from '#user/lib/i18n'
 import { getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { inverseLabels } from '#entities/components/lib/claims_helpers'
 import { isNonEmptyArray } from '#lib/boolean_tests'
-import { addWorksClaims, isWorksClaimsContext } from './edition_layout_helpers'
+import { addWorksClaims, isSubentitiesTypeEdition } from './edition_layout_helpers'
 import preq from '#lib/preq'
 import { pluck } from 'underscore'
 import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.js'
@@ -77,12 +77,27 @@ const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => 
     lang: app.user.lang
   })
   section.entities = Object.values(entities).map(serializeEntity).sort(sortFn)
-  if (isWorksClaimsContext(parentEntityType)) {
-    const relatedEntities = await getEditionsWorks(section.entities)
-    Object.values(entities).forEach(pickAndAssignWorksClaims(relatedEntities))
-  }
+  await fetchRelatedEntities(section.entities, parentEntityType)
   return section
 }
+
+async function fetchRelatedEntities (entities, parentEntityType) {
+  if (isSubentitiesTypeEdition(parentEntityType)) {
+    const relatedEntities = await getEditionsWorks(entities)
+    Object.values(entities).forEach(pickAndAssignWorksClaims(relatedEntities))
+  }
+  await addWorksAuthors(entities)
+}
+
+export async function addWorksAuthors (works) {
+  const authorsUris = _.uniq(_.compact(_.flatten(works.map(getWorkAuthorsUris))))
+  const entities = await getEntitiesByUris({ uris: authorsUris, index: true })
+  works.forEach(work => {
+    const workAuthorUris = getWorkAuthorsUris(work)
+    work.relatedEntities = _.pick(entities, workAuthorUris)
+  })
+}
+const getWorkAuthorsUris = work => work.claims['wdt:P50']
 
 const pickAndAssignWorksClaims = relatedEntities => edition => {
   const { claims } = edition

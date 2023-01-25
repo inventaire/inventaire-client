@@ -21,8 +21,6 @@
   let filteredWorks = works
   let paginatedWorks = []
 
-  let relatedEntities = {}
-
   function filterWorks () {
     if (!facetsSelectedValues) return
     let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
@@ -99,7 +97,7 @@
             {:else}
               <EntityListRow
                 entity={work}
-                bind:relatedEntities
+                bind:relatedEntities={work.relatedEntities}
                 listDisplay={true}
               >
                 <WorkActions
