@@ -11,6 +11,8 @@ else
   if [ "$1" = "fix"  ] || [ "$1" = "--fix" ]; then
     echo $staged | xargs npm run lint-fix
   else
+    git stash -k
     echo $staged | xargs npm run lint
+    git stash pop -q
   fi
 fi
