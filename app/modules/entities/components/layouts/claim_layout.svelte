@@ -11,6 +11,7 @@
   import { getEntityMetadata } from '#entities/lib/document_metadata'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
+  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
 
   export let entity, property
   let flash
@@ -49,37 +50,35 @@
   showEntityEditButtons={false}
 >
   <div class="entity-layout" slot="entity">
-    <div class="top-section">
-      <div class="title-row">
-        <h2>
-          {label}
-        </h2>
-        {#if sections}
-          {#if entitiesLength > 10}
-            <span class="counter">
-              {entitiesLength}
-            </span>
-          {/if}
+    <div class="title-row">
+      <h2>
+        {label}
+      </h2>
+      {#if sections}
+        {#if entitiesLength > 10}
+          <span class="counter">
+            {entitiesLength}
+          </span>
         {/if}
-      </div>
+      {/if}
+    </div>
+    <div class="top-section">
       {#if !isStandaloneEntityType(type)}
-        {#if entity.image}
-          <div class="entity-image">
-            <EntityImage
-              {entity}
-              size={192}
-            />
-          </div>
+        {#if isNonEmptyPlainObject(entity.image)}
+          <EntityImage
+            {entity}
+            size={192}
+          />
         {/if}
         <Summary {entity} />
       {/if}
-      <div class="relatives-browser">
-        {#await waitingForReverseEntities}
-          <Spinner center={true} />
-        {:then}
-          <WorksBrowser {sections} />
-        {/await}
-      </div>
+    </div>
+    <div class="relatives-browser">
+      {#await waitingForReverseEntities}
+        <Spinner center={true} />
+      {:then}
+        <WorksBrowser {sections} />
+      {/await}
     </div>
     <div class="relatives-lists">
       {#each getRelativeEntitiesProperties(type, property) as property}
@@ -99,6 +98,13 @@
     align-self: stretch;
     @include display-flex(column, stretch);
   }
+  .top-section{
+    @include display-flex(row, center);
+    :global(.entity-image){
+      flex: 1 0 auto;
+      margin-right: 2em;
+    }
+  }
   .title-row{
     @include display-flex(row, center);
   }
@@ -110,5 +116,14 @@
   }
   .relatives-browser{
     margin-top: 1em;
+  }
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .top-section{
+      display: block;
+      :global(.entity-image){
+        margin-bottom: 1em;
+      }
+    }
   }
 </style>
