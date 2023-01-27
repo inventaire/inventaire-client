@@ -49,11 +49,13 @@ const error_ = {
   },
 
   // Log and report formatted errors to the server, without throwing
-  report (message, context = {}) {
+  report (message, context = {}, statusCode = 599) {
     context = deepClone(context)
     context.location = location.href
-    // Non-standard convention: 599 = client implementation error
-    const err = formatError(message, 599, context)
+    // Non-standard convention
+    // 599 = client implementation error
+    // 598 = user abuse
+    const err = formatError(message, statusCode, context)
     log_.error(err, `[reported error (not thrown)] ${message}`)
   }
 }
