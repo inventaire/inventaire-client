@@ -4,6 +4,7 @@ import { unprefixify } from '#lib/wikimedia/wikidata'
 import platforms_ from '#lib/handlebars_helpers/platforms.js'
 import * as icons_ from '#lib/handlebars_helpers/icons.js'
 import { uniq } from 'underscore'
+import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
 
 export const formatClaimValue = params => {
   const { value, prop } = params
@@ -78,11 +79,13 @@ export const propertiesType = {
 }
 
 export const buildPathname = (entity, prop) => {
-  const { uri } = entity
-  if (specialPathnameProperties.includes(prop)) {
-    return `/entity/${prop}-${uri}`
+  const { uri, type } = entity
+
+  if (isStandaloneEntityType(type)) {
+    return `/entity/${uri}`
   }
-  return `/entity/${uri}`
+  if (!specialPathnameProperties.includes(prop)) prop = 'wdt:P921'
+  return `/entity/${prop}-${uri}`
 }
 
 export const inverseLabels = {
