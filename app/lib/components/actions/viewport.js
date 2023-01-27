@@ -6,12 +6,6 @@ let intersectionObserver
 function ensureIntersectionObserverExists () {
   if (intersectionObserver) return
 
-  // This will not work on "UC Browser for Android" (a.k.a. and_uc) 12.12
-  // as "isIntersecting property of IntersectionObserverEntry was not implemented"
-  // See https://caniuse.com/intersectionobserver
-  // Core-js does not offer a polyfill for it
-  // See https://github.com/zloirock/core-js/issues/386
-  // eslint-disable-next-line compat/compat
   intersectionObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       const eventName = entry.isIntersecting ? 'enterViewport' : 'leaveViewport'
