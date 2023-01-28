@@ -246,9 +246,13 @@ export const infoboxPropertiesByType = {
     'wdt:P921', // subject
   ],
   collection: [
-    'wdt:P1680', // subtitle
     'wdt:P123', // publisher
+    'wdt:P571', // inception
     'wdt:P98', // editor
+    'wdt:P112', // founded by
+    'wdt:P127', // owned by
+    'wdt:P856', // official website
+    'wdt:P921', // subject
   ],
   article: [
     'wdt:P1433', // published in
