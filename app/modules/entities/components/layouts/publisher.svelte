@@ -25,7 +25,8 @@
 
   setContext('layout-context', 'publisher')
   setContext('search-filter-claim', `wdt:P123=${uri}`)
-  setContext('search-filter-types', [ 'collections' ])
+  // TODO: index editions
+  // setContext('search-filter-types', null)
   const createButtons = [
     { type: 'collection', claims: { 'wdt:P123': [ uri ] } },
     { type: 'edition', claims: { 'wdt:P123': [ uri ] } },
