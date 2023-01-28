@@ -250,7 +250,8 @@ export const infoboxPropertiesByType = {
   article: [
     'wdt:P1433', // published in
     'wdt:P577', // publication date
-    'wdt:P356', // DOI
+    'wdt:P407', // language
+    'wdt:P921', // subject
   ],
 }
 

@@ -125,6 +125,11 @@ const facetsProperties = {
   genre: claimProperties,
   subject: claimProperties,
   movement: claimProperties,
+  article: [
+    'wdt:P50',
+    'wdt:P577',
+    'wdt:P921',
+  ],
 }
 
 const valueFormatters = {

@@ -13,13 +13,17 @@ const subEntitiesProp = {
 }
 
 const urisGetterByType = {
-  serie: async uri => {
+  serie: async entity => {
+    const { uri } = entity
+
     const { parts } = await preq.get(app.API.entities.serieParts(uri))
     return [
       { uris: pluck(parts, 'uri') },
     ]
   },
-  human: async uri => {
+  human: async entity => {
+    const { uri } = entity
+
     const { series, works, articles } = await preq.get(app.API.entities.authorWorks(uri))
     return [
       { label: I18n('series'), uris: pluck(series, 'uri') },
@@ -27,20 +31,32 @@ const urisGetterByType = {
       { label: I18n('articles'), uris: pluck(articles, 'uri') },
     ]
   },
-  publisher: async uri => {
+  publisher: async entity => {
+    const { uri } = entity
+
     const { collections, editions } = await preq.get(app.API.entities.publisherPublications(uri))
     return [
       { label: I18n('collections'), uris: pluck(collections, 'uri') },
       { label: I18n('editions'), uris: pluck(editions, 'uri') },
     ]
   },
-  collection: async uri => {
+  collection: async entity => {
+    const { uri } = entity
+
     const uris = await getReverseClaims('wdt:P195', uri)
     return [
       { label: I18n('editions'), uris },
     ]
   },
-  claim: async (uri, property, entityLabel) => {
+  article: async entity => {
+    const { claims } = entity
+    const uris = claims['wdt:P2860']
+    return [
+      { label: I18n('cites articles'), uris },
+    ]
+  },
+  claim: async (entity, property) => {
+    const { uri, label: entityLabel } = entity
     const uris = await getReverseClaims(property, uri)
     const propLabel = inverseLabels[property] || ''
     const label = i18n(propLabel, { name: entityLabel })
@@ -51,14 +67,14 @@ const urisGetterByType = {
 }
 
 export const getSubEntitiesSections = async ({ entity, sortFn, property }) => {
-  const { type, uri, label } = entity
+  const { type } = entity
   let sections
   if (property) {
     const getSubEntitiesUris = urisGetterByType.claim
-    sections = await getSubEntitiesUris(uri, property, label)
+    sections = await getSubEntitiesUris(entity, property)
   } else {
     const getSubEntitiesUris = urisGetterByType[type]
-    sections = await getSubEntitiesUris(uri)
+    sections = await getSubEntitiesUris(entity)
   }
   await Promise.all(sections.map(fetchSectionEntities({ sortFn, parentEntityType: type })))
   return sections

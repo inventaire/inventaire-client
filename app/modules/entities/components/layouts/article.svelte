@@ -6,12 +6,25 @@
   import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import Link from '#lib/components/link.svelte'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import Spinner from '#general/components/spinner.svelte'
+  import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
+  import { getSubEntitiesSections } from '#entities/components/lib/entities'
+  import { byPublicationDate } from '#entities/lib/entities'
+  import { setContext } from 'svelte'
 
   export let entity, standalone
 
   const { uri, claims, wikisource, originalLang, description, label, labelLang } = entity
 
   const descriptionLang = getBestLangValue(app.user.lang, originalLang, description)
+
+  setContext('layout-context', 'article')
+  let sections, flash
+  const waitingForReverseEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
+    .then(res => {
+      sections = res
+    })
+    .catch(err => flash = err)
 
   let href
   const DOI = claims['wdt:P356']?.[0]
@@ -22,6 +35,7 @@
 
 <BaseLayout
   bind:entity
+  bind:flash
   {standalone}
 >
   <div class="entity-layout" slot="entity">
@@ -56,6 +70,14 @@
         {/if}
       </div>
     </div>
+    <div class="relatives-browser">
+      {#await waitingForReverseEntities}
+        <Spinner center={true} />
+      {:then}
+        <WorksBrowser {sections} />
+      {/await}
+    </div>
+    <!-- TODO: add RelativeEntitiesList "cited by" -->
   </div>
 </BaseLayout>
 
@@ -85,7 +107,7 @@
     width: 100%;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (max-width: $small-screen) {
     .work-section{
       margin-left: 0;
       :global(.claims-infobox-wrapper){
