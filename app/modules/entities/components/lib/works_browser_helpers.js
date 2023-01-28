@@ -127,6 +127,7 @@ const facetsProperties = {
   movement: claimProperties,
   article: [
     'wdt:P50',
+    'wdt:P1433', // published in
     'wdt:P577',
     'wdt:P921',
   ],
