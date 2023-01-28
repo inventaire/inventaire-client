@@ -241,6 +241,9 @@ export const infoboxPropertiesByType = {
     'wdt:P112', // founded by
     'wdt:P127', // owned by
     'wdt:P856', // official website
+    'wdt:P407', // language
+    'wdt:P136', // genre
+    'wdt:P921', // subject
   ],
   collection: [
     'wdt:P1680', // subtitle
