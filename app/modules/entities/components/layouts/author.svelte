@@ -16,6 +16,7 @@
   import Summary from '#entities/components/layouts/summary.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import { i18n } from '#user/lib/i18n'
+  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
 
   export let entity, standalone, flash
@@ -48,7 +49,7 @@
       <div class="work-section">
         <EntityTitle {entity} {standalone} />
         <div class="infobox-and-summary">
-          {#if entity.image}
+          {#if isNonEmptyPlainObject(entity.image)}
             <div class="entity-image">
               <EntityImage
                 {entity}
