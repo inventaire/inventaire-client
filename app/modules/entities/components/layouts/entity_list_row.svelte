@@ -73,6 +73,7 @@
           href={pathname}
           target="_blank"
           rel="noreferrer"
+          class="uri"
           on:click|stopPropagation={loadInternalLink}
         >
           {uri}
@@ -105,6 +106,10 @@
     line-height: 1.2rem;
     margin-bottom: 0.4rem;
     overflow: hidden;
+    .uri {
+      @include shy;
+      font-size: 0.9rem;
+    }
   }
   .subtitle{
     line-height: 1rem;
