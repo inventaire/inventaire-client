@@ -86,7 +86,9 @@
     }
     if (await looksLikeSpam(bioValue)) {
       error_.report('possible spam attempt', { bioValue }, 598)
-      // Do not display an error message to not give a clue to spammers
+      // Display a success message to not give a clue to spammers
+      // as to when a text is rejected
+      bioState = { type: 'success', message: I18n('done') }
       return
     }
     try {
