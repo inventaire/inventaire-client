@@ -1,4 +1,4 @@
-import { getConfig } from '#app/get_config'
+import { getConfig } from '#app/config'
 import { isUserId } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
 // Module adapted from snippet at

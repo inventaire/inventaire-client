@@ -1,4 +1,4 @@
-import { getConfig } from '#app/get_config'
+import { getConfig } from '#app/config'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 
 let suspectKeywordsPattern
