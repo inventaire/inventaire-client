@@ -1,27 +1,23 @@
-export function looksLikeSpam (str) {
-  return urlPattern.test(str) && suspectKeywordPattern.test(str)
+import { getConfig } from '#app/get_config'
+import { isNonEmptyArray } from '#lib/boolean_tests'
+
+let suspectKeywordsPattern
+
+async function initSuspectKeywordsPattern () {
+  if (suspectKeywordsPattern === undefined) {
+    const config = await getConfig()
+    if (isNonEmptyArray(config.spam?.suspectKeywords)) {
+      const { suspectKeywords } = config.spam
+      suspectKeywordsPattern = new RegExp(`(${suspectKeywords.join('|')})`, 'i')
+    } else {
+      suspectKeywordsPattern = null
+    }
+  }
+}
+
+export async function looksLikeSpam (str) {
+  await initSuspectKeywordsPattern()
+  return suspectKeywordsPattern?.test(str) && urlPattern.test(str)
 }
 
 const urlPattern = /(http|www\.|\w+\.\w+\/)/i
-
-const suspectKeyword = [
-  'SEO',
-  'service',
-  'customer',
-  'printer',
-  'professional',
-  'escort',
-  'assignment',
-  'job',
-  'content writer',
-  'market',
-  'business',
-  'corporate',
-  'support',
-  'visit',
-  'shopping',
-  'gemstone',
-  'product',
-]
-
-const suspectKeywordPattern = new RegExp(`(${suspectKeyword.join('|')})`, 'i')

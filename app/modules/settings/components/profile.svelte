@@ -84,7 +84,7 @@
       bioState = { type: 'info', message: 'this is already your bio' }
       return
     }
-    if (looksLikeSpam(bioValue)) {
+    if (await looksLikeSpam(bioValue)) {
       error_.report('possible spam attempt', { bioValue }, 598)
       // Do not display an error message to not give a clue to spammers
       return
