@@ -8,7 +8,7 @@
   <LandingScreen />
   <SomePublicBooks />
   <LandingPageFooter />
-  <div class="background-cover"></div>
+  <div class="background-cover" />
 </div>
 
 <style lang="scss">

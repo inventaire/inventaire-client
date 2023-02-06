@@ -197,6 +197,7 @@
     .info{
       text-align: left;
       padding: 0 0.5em;
+      max-width: 60vw;
     }
     .details{
       max-height: 3em;
