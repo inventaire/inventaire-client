@@ -1,33 +1,43 @@
-section#quick-links{
-  background-color: $darker-grey;
-  text-align: center;
-  padding: 1em;
-  @include display-flex(row, flex-start, space-around, wrap);
+<script>
+  import { icon as iconFn } from '#lib/handlebars_helpers/icons'
+
+  export let url
+  export let icon
+  export let text
+</script>
+
+<a
+  href={url}
+  target="_blank"
+  rel="noreferrer"
+>
+  {@html iconFn(icon)}
+  <span class="text">{text}</span>
+</a>
+
+<style lang="scss">
+  @import '#general/scss/utils';
   a{
     @include display-flex(column, center, center);
     margin-top: 1em;
     margin-bottom: 1em;
     &:hover{
-      .fa, span{
+      text-decoration: none;
+      :global(.fa), span{
         color: $secondary-color;
       }
     }
-    .fa{
+    :global(.fa){
       margin: 0;
       padding: 0;
+      font-size: 2.5em;
     }
     span{
       padding: 0;
-      @include serif;
       font-weight: bold;
     }
-  }
-  .fa, span{
-    color: white;
-  }
-  a{
-    &:hover{
-      text-decoration: none;
+    :global(.fa), span{
+      color: white;
     }
     // The following adjustements are coupled to a list of 8 icons
     flex: 1 0 10em;
@@ -41,7 +51,4 @@ section#quick-links{
       flex: 1 0 10em;
     }
   }
-  .fa{
-    font-size: 2.5em;
-  }
-}
+</style>

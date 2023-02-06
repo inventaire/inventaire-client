@@ -69,8 +69,8 @@ const API = {
   },
 
   async showWelcome () {
-    const { default: Welcome } = await import('#welcome/views/welcome')
-    app.layout.showChildView('main', new Welcome())
+    const { default: WelcomeLayout } = await import('#welcome/components/welcome_layout.svelte')
+    app.layout.showChildComponent('main', WelcomeLayout)
     app.navigate('welcome')
   },
 
