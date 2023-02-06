@@ -5,7 +5,6 @@ set -eu
 mkdir -p ./public/json ./vendor
 cp -r app/assets/* ./public
 
-npm run update-mentions
 ./scripts/build_i18n
 ./scripts/build_build_metadata
 

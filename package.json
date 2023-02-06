@@ -40,7 +40,6 @@
   "scripts": {
     "build": "./scripts/build",
     "build:dev": "webpack --config ./bundle/webpack.config.dev.cjs",
-    "edit-mentions": "libreoffice ./scripts/assets/mentions.csv && ./scripts/update_mentions.js",
     "generate-sitemaps": "./scripts/sitemaps/generate.js",
     "lint": "./scripts/lint",
     "lint-fix": "./scripts/lint_fix",
@@ -50,7 +49,6 @@
     "test": "./scripts/run_unit_tests",
     "update-i18n": "./scripts/update_i18n",
     "update-jsconfig": "./scripts/generate_jsconfig.cjs > ./jsconfig.json",
-    "update-mentions": "./scripts/update_mentions.js",
     "update-toc": "doctoc README.md",
     "watch": "npm start"
   },
