@@ -13,10 +13,8 @@
   export let results
   export let uri
 
-  const displayThreshold = '$small-screen'
-
   function letRoomForResults () {
-    if (results?.length > 0 && $screen.isSmallerThan(displayThreshold)) {
+    if (results?.length > 0 && $screen.isSmallerThan('$small-screen')) {
       showSearchControls = false
     }
   }

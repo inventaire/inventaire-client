@@ -23,8 +23,6 @@
     areNotOnlyMainUserItems = hasUsersOtherThanMainUser()
   }
 
-  const smallScreenThreshold = 1000
-
   $: onChange(itemsUsers, assignIfNotOnlyMainUserItems)
 </script>
 
@@ -35,7 +33,7 @@
     {flash}
   />
   {#if someEditions && areNotOnlyMainUserItems}
-    {#if $screen.isSmallerThan(smallScreenThreshold)}
+    {#if $screen.isSmallerThan('$small-screen')}
       <button
         on:click={() => dispatch('scrollToItemsList')}
         title={i18n('Show users who have these editions')}
