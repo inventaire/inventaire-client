@@ -22,7 +22,7 @@
     classNames="link"
     light={true} />
   <Link
-    url="https://wiki.inventaire.io/wiki/Legal-notice"
+    url="https://wiki.inventaire.io/wiki/Legal_notice"
     text={I18n('legal notice')}
     classNames="link"
     light={true} />
