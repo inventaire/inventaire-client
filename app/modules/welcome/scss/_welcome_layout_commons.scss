@@ -3,7 +3,7 @@
 $welcome-bg-filter: rgba(#123456, 0.5);
 
 h3{
-  @include sans-serif;
+  @include serif;
   margin-top: 0.5em;
   color: $dark-grey;
 }

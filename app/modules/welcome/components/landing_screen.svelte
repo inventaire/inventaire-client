@@ -111,7 +111,6 @@
     #loginButtons{
       @include display-flex(row, center, center, wrap);
       .button{
-        font-weight: bold;
         min-width: 10em;
         // Reset radius
         @include radius(0);
