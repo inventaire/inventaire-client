@@ -91,9 +91,11 @@ export default Marionette.View.extend({
     if (app.user.loggedIn) return
 
     if (screen_.isSmall() && ((section === 'signup') || (section === 'login'))) {
-      return $('.connectionButton').hide()
+      $('.connectionButton').hide()
+      $('main').removeClass('active-connection-button')
     } else if (!app.user.loggedIn) {
       $('.connectionButton').show()
+      $('main').addClass('active-connection-button')
     }
   },
 
