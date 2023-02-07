@@ -10,7 +10,7 @@
 
   const colorHexCode = shelf.color || `#${getColorHexCodeFromModelId(_id)}`
 
-  function onShelfDotClick (e, shelf) {
+  function onShelfDotClick (e) {
     if (isOpenedOutside(e)) return
     loadShelfLink(shelf)
     e.preventDefault()
@@ -26,7 +26,7 @@
   {:else}
     <a
       href="/shelves/{_id}"
-      on:click={e => onShelfDotClick(e, shelf)}
+      on:click={onShelfDotClick}
       title={name}
     >
       <div
