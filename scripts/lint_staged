@@ -11,6 +11,6 @@ else
   if [ "$1" = "fix"  ] || [ "$1" = "--fix" ]; then
     echo $staged | xargs npm run lint-fix
   else
-    echo $staged | xargs npm run lint -- --config .eslintrc.pre-commit.cjs
+    echo $staged | xargs npm run lint -- --config .eslintrc.pre-commit-extra.cjs
   fi
 fi
