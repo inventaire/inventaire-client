@@ -1,6 +1,8 @@
 // This config file is used by stylelint
 // See package.json scripts: lint*
 // Rules documentation: https://stylelint.io/user-guide/rules/
+// Inspect the generated config:
+//    stylelint --print-config .
 module.exports = {
   extends: [
     'stylelint-config-recommended-scss',
