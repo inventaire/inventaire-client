@@ -10,12 +10,13 @@
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import { setContext } from 'svelte'
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
+  import { getShelves } from '#shelves/lib/shelves'
 
   export let itemsDataPromise, isMainUser, ownerId, groupId, shelfId
 
   setContext('items-search-filters', { ownerId, groupId, shelfId })
 
-  let itemsIds, textFilterItemsIds
+  let itemsIds, textFilterItemsIds, shelves
 
   const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
 
@@ -55,12 +56,20 @@
 
   let items = [], pagination, componentProps = { isMainUser }
 
+  async function getShelvesData (items, currentShelves) {
+    const shelvesIds = items.map(_.property('shelves')).flat()
+    const newShelvesIds = _.difference(_.uniq(shelvesIds), currentShelves)
+    if (newShelvesIds.length > 0) return getShelves(newShelvesIds)
+  }
+
   async function setupPagination () {
     items = []
+    shelves = {}
     componentProps.itemsIds = itemsIds
     const remainingItems = clone(itemsIds)
     pagination = {
       items,
+      shelves,
       allowMore: true,
       hasMore: () => {
         return remainingItems.length > 0
@@ -71,6 +80,8 @@
           await app.request('items:getByIds', { ids: batch, items })
         }
         pagination.items = items
+        const newShelves = await getShelvesData(items, shelves)
+        pagination.shelves = _.assign(pagination.shelves, newShelves)
       },
     }
   }

@@ -8,8 +8,10 @@
   import { serializeItem } from '#inventory/lib/items'
   import { screen } from '#lib/components/stores/screen'
   import ImageDiv from '#components/image_div.svelte'
+  import ShelfDot from './shelf_dot.svelte'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
 
-  export let item, showUser
+  export let item, showUser, shelves
 
   const itemStore = getDocStore({ category: 'items', doc: item })
 
@@ -20,9 +22,21 @@
   const authors = item.snapshot['entity:authors']
   const image = item.snapshot['entity:image']
 
-  let details, transaction, visibility, isPrivate, visibilitySummary, visibilitySummaryData, currentTransaction, username, picture, inventoryPathname
+  let details,
+    transaction,
+    visibility,
+    isPrivate,
+    visibilitySummary,
+    visibilitySummaryData,
+    currentTransaction,
+    username,
+    picture,
+    inventoryPathname,
+    shelvesIds,
+    itemShelves
+
   $: {
-    ;({ details = '', transaction, visibility } = $itemStore)
+    ;({ details = '', transaction, visibility, shelves: shelvesIds } = $itemStore)
     if (mainUserIsOwner) {
       isPrivate = visibility.length === 0
       visibilitySummary = getVisibilitySummary(visibility)
@@ -32,6 +46,7 @@
     if ($itemStore.user) {
       ;({ username, picture, inventoryPathname } = $itemStore.user)
     }
+    itemShelves = shelvesIds.map(shelfId => shelves[shelfId])
   }
 </script>
 
@@ -69,6 +84,13 @@
     {/if}
   </div>
 
+  {#if isNonEmptyArray(itemShelves)}
+    <ul class="shelves-dots">
+      {#each itemShelves as shelf}
+        <ShelfDot {shelf} />
+      {/each}
+    </ul>
+  {/if}
   <div class="modes">
     {#if !isPrivate}
       <div class="transaction {currentTransaction.id}" title={i18n(currentTransaction.labelPersonalized, item.user)}>
@@ -127,7 +149,12 @@
     overflow: hidden;
     @include radius;
   }
+  .shelves-dots{
+    @include display-flex(row);
+    margin: 0 0.4em;
+  }
   .transaction, .visibility, .avatar{
+    @include radius;
     height: 2em;
     width: 2em;
   }
@@ -166,7 +193,6 @@
   }
   .show-item{
     @include display-flex(row, center, flex-start);
-    @include bg-hover(white, 5%);
     flex: 1 0 0;
     align-self: stretch;
     overflow: hidden;
@@ -203,9 +229,16 @@
       max-height: 3em;
       margin: 0.5em;
     }
+    .shelves-dots{
+      @include display-flex(column, flex-end, center, wrap-reverse);
+      height: 4.5em;
+    }
     .modes{
-      flex-direction: column;
       margin-right: 0.2em;
+      flex-direction: column-reverse;
+      > div{
+        margin: 0.1em 0;
+      }
     }
     .transaction, .visibility{
       &:first-child{
@@ -244,6 +277,7 @@
     }
     .transaction, .visibility{
       margin-left: 0.2em;
+      margin-right: 0.8em;
       @include radius;
     }
   }

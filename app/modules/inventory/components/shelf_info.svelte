@@ -7,7 +7,11 @@
 </script>
 
 <div class="shelf-info">
-  <img class="shelf-picture" src={imgSrc(shelfColor)} alt={shelf.name} />
+  <img
+    class="shelf-picture"
+    src={imgSrc(shelfColor)}
+    alt={shelf.name}
+  />
   <div class="shelf-text">
     <p class="name">{shelf.name}</p>
     <p class="description">{shelf.description}</p>
