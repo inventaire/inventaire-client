@@ -6,7 +6,7 @@
 #    git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 # Find commits with the most line changes over the most files (potentially good candidates for this list):
-# git log --abbrev-commit --no-merges --oneline --pretty="@%H"  --stat | grep -v \| |  tr "\n" " "  |  tr "@" "\n" |  awk '{print ($5*$2)" "$1}' | sort -rn | head
+# git log --abbrev-commit --no-merges --oneline --pretty="@%H¤¤%s" --stat | sed '/¤¤/s/ /¤/g' | grep -v \| | tr "\n" " " | tr "@" "\n" | awk '{print ($2*$5)" "$1}' | sort -rn | head -n 20 | sed -E 's/¤+/ /g'
 
 300621839f525deb89a6ea766577e99014ad75cb
 67f037d0cebd46558f7e442a5c077cc3509db5cf
