@@ -173,7 +173,6 @@
     min-width: 14em;
     button, :global(a){
       font-weight: normal;
-      padding: 0.5rem;
       flex: 1;
       @include display-flex(row, center, flex-start);
       text-align: left;

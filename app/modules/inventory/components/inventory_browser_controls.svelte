@@ -102,7 +102,7 @@
     &.unwrapped{
       background-color: $inventory-nav-grey;
       .toggle-controls{
-        position:absolute;
+        position: absolute;
         margin: 0.5em 0.5em 0 0;
         align-self: flex-end;
       }

@@ -48,9 +48,9 @@
     :global(.icon){
       margin-left: 0.6em;
       margin-right: 0.4em;
-    };
+    }
     :global(a){
       @include link-dark;
-    };
+    }
   }
 </style>

@@ -118,6 +118,7 @@
     }
     .actions{
       padding-top: 1em;
+      margin-bottom: 1em;
     }
     .group-cover-picture{
       @include position(absolute, 0, 0, 0, 0);
@@ -125,9 +126,6 @@
       width: 100%;
       @include display-flex(column, center, center);
       overflow: hidden;
-    }
-    .actions{
-      margin-bottom: 1em;
     }
   }
   .section-two{

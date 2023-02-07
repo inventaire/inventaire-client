@@ -56,7 +56,7 @@
   }
   [slot="dropdown-content"]{
     @include shy-border;
-    background-color:white;
+    background-color: white;
     @include radius;
     // z-index known cases: items map
     z-index: 1;

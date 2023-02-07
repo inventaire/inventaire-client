@@ -153,6 +153,7 @@
 
 <style lang="scss">
   @import '#entities/scss/entity_editors_commons';
+  @import '#entities/scss/title_tip';
   .editor-section{
     flex-direction: column;
   }
@@ -174,7 +175,6 @@
   }
   .input-wrapper{
     position: relative;
-    @import '#entities/scss/title_tip';
   }
   .other-languages{
     max-height: 10em;

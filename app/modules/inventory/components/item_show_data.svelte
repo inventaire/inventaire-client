@@ -39,11 +39,6 @@
   .item-settings{
     margin: 1em 0;
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
-    .item-settings{
-    }
-  }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     .item-settings{

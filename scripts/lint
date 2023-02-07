@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 if [ "$1" != "" ] ; then
   eslint --config .eslintrc.cjs --format codeframe --ext js,svelte "$@"
+  stylelint --config .stylelintrc.cjs "$@"
 else
   eslint --config .eslintrc.cjs --format codeframe --ext js,svelte app tests scripts
+  stylelint --config .stylelintrc.cjs app
 fi
