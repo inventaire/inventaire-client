@@ -12,6 +12,9 @@ cp -r app/assets/* ./public
 rm -rf .git/hooks
 ln -s ../.githooks .git/hooks
 
+# See https://git-scm.com/docs/git-config#Documentation/git-config.txt-blameignoreRevsFile
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+
 # Initialize global variables to prevent triggering
 # an 'assignment to undeclared variable JSON_PIWIK' errors
 # as webpack imports this script as an ES module, thus activating strict mode
