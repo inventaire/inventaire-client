@@ -31,7 +31,7 @@
 </Tooltip>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   .uri{
     font-size: 0.7rem;
@@ -40,8 +40,8 @@
     word-break: break-all;
   }
 
-  /*Small screens*/
-  @media screen and (max-width: 700px) {
+  /* Small screens */
+  @media screen and (max-width: 700px){
     [slot="tooltip-content"]{
       @include display-flex(column);
       :global(a){
@@ -50,8 +50,8 @@
     }
   }
 
-  /*Large screens*/
-  @media screen and (min-width: 700px) {
+  /* Large screens */
+  @media screen and (min-width: 700px){
     [slot="tooltip-content"]{
       :global(a){
         padding: 0.5em;
@@ -59,8 +59,8 @@
           // Compensate for the presence of the hereafter defined separator
           padding-left: 0;
           // Separator
-          &:before{
-            content: '|';
+          &::before{
+            content: "|";
             padding-right: 0.6em;
             // Prevent to be underlined when the .link is hovered
             text-decoration: none;

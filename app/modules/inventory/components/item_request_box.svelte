@@ -36,7 +36,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   button{
     // just 'height' wasnt working on chrome
     min-height: $user-box-heigth;

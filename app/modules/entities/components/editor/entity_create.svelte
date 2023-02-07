@@ -121,12 +121,12 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .column{
     @include display-flex(column, stretch, center);
     max-width: 50em;
     margin: 0 auto;
-    :global(.wrap-toggler) {
+    :global(.wrap-toggler){
       margin-bottom: 1em;
     }
   }

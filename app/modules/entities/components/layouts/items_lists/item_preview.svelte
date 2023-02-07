@@ -73,7 +73,7 @@
   {/if}
 </div>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .items-link{
     display: block;
     @include display-flex(row, center, flex-start);

@@ -63,7 +63,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .entity-edit{
     @include display-flex(column, stretch, center);
     max-width: 50em;
@@ -91,8 +91,8 @@
     margin: 1em auto;
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .header{
       @include display-flex(row, center, space-between, wrap);
     }
@@ -100,8 +100,8 @@
       margin: 0 0.5em;
     }
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .header-main{
       @include display-flex(column, center, center);
     }

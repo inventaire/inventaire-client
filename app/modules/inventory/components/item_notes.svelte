@@ -81,11 +81,11 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .item-notes{
     background-color: $dark-grey;
     padding: 0.5em;
-    margin: 0.4em 0 0.6em 0;
+    margin: 0.4em 0 0.6em;
     @include radius;
     &, .text button, :global(.fa){
       color: white;

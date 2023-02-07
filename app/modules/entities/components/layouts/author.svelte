@@ -109,8 +109,8 @@
 </BaseLayout>
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#entities/scss/relatives_lists';
+  @import "#general/scss/utils";
+  @import "#entities/scss/relatives_lists";
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
@@ -119,10 +119,10 @@
     margin-top: 1em;
   }
   .entity-image{
-    margin-right: 1em
+    margin-right: 1em;
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .infobox-and-summary{
       @include display-flex(row, flex-start, flex-start);
       :global(.claims-infobox-wrapper), :global(.summary-wrapper){

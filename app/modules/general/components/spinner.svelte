@@ -35,7 +35,7 @@
     text-align: center;
   }
 
-  .small-spinner:after, .spinner-inner:after{
+  .small-spinner::after, .spinner-inner::after{
     content: " ";
     display: inline-flex;
     width: 1em;
@@ -46,17 +46,17 @@
     border: 2px solid;
   }
 
-  .spinner-inner:after{
+  .spinner-inner::after{
     font-size: 5em;
     border-width: 8px;
     border-color: #222 #319cc2 #ffd402 transparent;
   }
 
-  .small-spinner:not(.light):after{
+  .small-spinner:not(.light)::after{
     border-color: #333 #333 #333 transparent;
   }
 
-  .small-spinner.light:after{
+  .small-spinner.light::after{
     border-color: white white white transparent;
   }
 

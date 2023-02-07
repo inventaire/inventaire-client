@@ -45,7 +45,7 @@ aka `type={pwdInputType} bind:value={password}` is forbidden since generated cod
   input{
     margin: 0;
   }
-  input[type=checkbox]{
+  input[type="checkbox"]{
     margin-right: 0.5em;
   }
   .main-label span{
@@ -66,7 +66,7 @@ aka `type={pwdInputType} bind:value={password}` is forbidden since generated cod
     align-items: center;
   }
   .showPassword{
-    /*otherwise chrome do not display any checkbox*/
+    /* otherwise chrome do not display any checkbox */
     appearance: auto;
   }
 </style>

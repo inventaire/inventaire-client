@@ -35,7 +35,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .edit-mode-buttons{
     flex: 0 0 auto;
     @include display-flex(row);
@@ -51,15 +51,15 @@
   .dangerous{
     background-color: $dark-grey;
   }
-  /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $very-small-screen){
     button{
       padding: 0.5em;
       margin: 0.2em;
     }
   }
-  /*Large screens*/
-  @media screen and (min-width: $very-small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $very-small-screen){
     .edit-mode-buttons{
       height: 2.5rem;
     }

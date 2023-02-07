@@ -137,16 +137,16 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .menu-wrapper{
     $entity-edit-max-width: 40em;
-    /*Small screens*/
-    @media screen and (max-width: $entity-edit-max-width) {
+    /* Small screens */
+    @media screen and (max-width: $entity-edit-max-width){
       margin-right: 0.5em;
       padding: 0.5em;
     }
-    /*Large screens*/
-    @media screen and (min-width: $entity-edit-max-width) {
+    /* Large screens */
+    @media screen and (min-width: $entity-edit-max-width){
       position: absolute;
       right: 0;
       top: 1.4em;

@@ -112,7 +112,7 @@
   </div>
 </div>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .entry-display{
     margin-right: 1em;
     width: 100%;

@@ -20,7 +20,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   div{
     margin-bottom: 0.1em;
     height: 1.5rem;

@@ -72,12 +72,12 @@
 </div>
 
 <style lang="scss">
-  @import '#settings/scss/common_settings';
+  @import "#settings/scss/common_settings";
   form{
     margin-top: 1em;
-    border: 1px solid #CCC;
+    border: 1px solid #ccc;
     border-radius: 3px;
-    fieldset:last-child {
+    fieldset:last-child{
       border-bottom: 0;
     }
   }
@@ -85,14 +85,14 @@
     margin: 0 1.5em;
   }
   fieldset{
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid #ccc;
     padding: 1em;
     padding-top: 0;
   }
   .note{
     color: $grey;
     font-size: 0.9rem;
-    margin-bottom: 0
+    margin-bottom: 0;
   }
   legend{
     margin-top: 0.5em;
@@ -101,8 +101,8 @@
     font-size: 1.1em;
     font-weight: bold;
   }
-  /*Small screens*/
-  @media screen and (max-width: 470px) {
+  /* Small screens */
+  @media screen and (max-width: 470px){
     .wrapper{
       margin: 0;
     }

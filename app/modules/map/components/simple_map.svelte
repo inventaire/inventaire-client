@@ -76,7 +76,7 @@
 <svelte:window on:resize={resizeMap} />
 <div class="simple-map" use:initMap />
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .simple-map{
     height: 30em;
     width: 100%;

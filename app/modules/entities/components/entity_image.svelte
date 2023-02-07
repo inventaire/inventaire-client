@@ -59,7 +59,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .photo-credits{
     margin: 0;
     font-size: 0.8em;

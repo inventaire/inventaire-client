@@ -152,8 +152,8 @@
 </div>
 
 <style lang="scss">
-  @import '#entities/scss/entity_editors_commons';
-  @import '#entities/scss/title_tip';
+  @import "#entities/scss/entity_editors_commons";
+  @import "#entities/scss/title_tip";
   .editor-section{
     flex-direction: column;
   }
@@ -193,8 +193,8 @@
     user-select: text;
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     select{
       margin-bottom: 0.5em;
     }
@@ -219,8 +219,8 @@
       display: none;
     }
   }
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  /* Large screens */
+  @media screen and (min-width: $smaller-screen){
     select, .other-languages .lang{
       width: 10em;
       height: 100%;

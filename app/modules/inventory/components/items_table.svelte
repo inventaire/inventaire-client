@@ -90,7 +90,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .items-table{
     position: relative;
     background-color: $inventory-nav-grey;
@@ -130,8 +130,8 @@
     border-bottom: 1px solid #ddd;
   }
 
-  /*Medium and Large screens*/
-  @media screen and (min-width: 800px) {
+  /* Medium and Large screens */
+  @media screen and (min-width: 800px){
     #table-actions:not(.hidden){
       padding: 0.5em;
     }
@@ -141,8 +141,8 @@
     }
   }
 
-  /*Small screens*/
-  @media screen and (max-width: 800px) {
+  /* Small screens */
+  @media screen and (max-width: 800px){
     #table-actions:not(.hidden){
       @include shy-border;
       align-items: stretch;

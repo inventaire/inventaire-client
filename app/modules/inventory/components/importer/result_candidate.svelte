@@ -32,7 +32,7 @@
   {/if}
 </li>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .error{
     background-color: rgba($warning-color, 0.3);
   }

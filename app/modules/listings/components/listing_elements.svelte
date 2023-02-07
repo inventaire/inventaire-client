@@ -143,7 +143,7 @@
 {/await}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .entities-listing-section{
     flex: 1;
     align-self: center;
@@ -165,14 +165,14 @@
   label{
     cursor: auto;
   }
-  /*Large (>40em) screens*/
-  @media screen and (min-width: 40em) {
+  /* Large (>40em) screens */
+  @media screen and (min-width: 40em){
     .entities-listing-section{
       width: 40em;
     }
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .entities-listing-section{
       padding: 0;
     }

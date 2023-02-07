@@ -121,7 +121,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import '#modules/general/scss/utils';
+  @import "#modules/general/scss/utils";
   h3{
     padding-left: 0.2em;
     font-weight: bold;

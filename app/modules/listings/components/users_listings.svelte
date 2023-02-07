@@ -104,7 +104,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .user-listings{
     margin: 0 auto;
     padding: 0.5em;
@@ -118,8 +118,8 @@
       margin: 0;
     }
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .user-listings{
       padding: 0.5em 0;
     }

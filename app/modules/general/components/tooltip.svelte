@@ -18,7 +18,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   // Adapted from https://www.cssportal.com/css-tooltip-generator/
   $tooltip-bg-color: $dark-grey;
@@ -28,7 +28,7 @@
   .has-tooltip{
     display: inline-block;
     position: relative;
-    &:not(:hover):not(:focus){
+    &:not(:hover, :focus){
       .tooltip-wrapper{
         display: none;
       }
@@ -64,8 +64,8 @@
     }
 
     // Arrow
-    &:after{
-      content: '';
+    &::after{
+      content: "";
       position: absolute;
       top: 100%;
       left: 50%;
@@ -83,7 +83,7 @@
       :global(a){
         @include link-dark;
       }
-      &:after{
+      &::after{
         border-top: $spike-size solid $tooltip-light-bg-color;
       }
     }

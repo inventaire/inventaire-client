@@ -176,7 +176,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .wrapper:not(:last-child){
     margin-bottom: 0.5em;
   }
@@ -185,8 +185,8 @@
     &:not(:last-child){
       margin-bottom: 1em;
     }
-    /*Small screens*/
-    @media screen and (max-width: $smaller-screen) {
+    /* Small screens */
+    @media screen and (max-width: $smaller-screen){
       flex-direction: column;
       padding: 0.5em 0.2em;
       margin: 0.5em 0;

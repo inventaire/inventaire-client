@@ -103,7 +103,7 @@
   {/await}
 </div>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .items-list-per-transactions{
     max-height: 15em;
     overflow-y: auto;
@@ -137,7 +137,7 @@
     @include radius;
     padding: 0.5em;
     margin-bottom: 0.5em;
-    /* background-color is defined by backgroundColor*/
+    /* background-color is defined by backgroundColor */
   }
   .map-button{
     @include tiny-button($light-grey, black);

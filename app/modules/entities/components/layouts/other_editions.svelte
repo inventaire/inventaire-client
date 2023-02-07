@@ -55,7 +55,7 @@
 {/await}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .other-work-editions{
     @include display-flex(column, center, end);
     @include radius;

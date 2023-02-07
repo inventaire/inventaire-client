@@ -12,7 +12,7 @@
 </button>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   .value-display{
     flex: 1;

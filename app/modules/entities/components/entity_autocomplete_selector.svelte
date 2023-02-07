@@ -240,7 +240,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .input-group{
     flex: 1;
     font-weight: normal;
@@ -258,7 +258,7 @@
       margin-bottom: 0.1em;
       @include transition(padding, 0.2s);
       &.has-entity-uri{
-        padding: 0.5em 0.5em 0.8em 0.5em;
+        padding: 0.5em 0.5em 0.8em;
       }
       &:not(.has-entity-uri){
         padding: 0.5em;
@@ -271,16 +271,16 @@
     }
   }
   .autocomplete{
-    /*Large screens*/
-    @media screen and (min-width: $very-small-screen) {
+    /* Large screens */
+    @media screen and (min-width: $very-small-screen){
       position: absolute;
       top: 100%;
       left: -1px;
       right: -1px;
       z-index: 1;
     }
-    /*Small screens*/
-    @media screen and (max-width: $small-screen) {
+    /* Small screens */
+    @media screen and (max-width: $small-screen){
       width: 100%;
     }
     background-color: white;

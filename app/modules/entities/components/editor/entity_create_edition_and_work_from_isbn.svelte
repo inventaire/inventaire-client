@@ -132,14 +132,14 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .column{
     @include display-flex(column, stretch, center);
     max-width: 50em;
     margin: 1em auto;
   }
   .context{
-    margin-top: .6em;
+    margin-top: 0.6em;
     text-align: center;
   }
   h2, .help{
@@ -159,7 +159,7 @@
     margin: 1em auto;
   }
   section{
-    :global(.wrap-toggler) {
+    :global(.wrap-toggler){
       margin: 0 auto;
     }
   }

@@ -80,7 +80,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   .controls{
     background-color: #bbb;
@@ -127,15 +127,15 @@
     background-color: $soft-red;
   }
 
-  /*Small screens*/
-  @media screen and (max-width: 800px) {
+  /* Small screens */
+  @media screen and (max-width: 800px){
     .entity, .status{
       display: none;
     }
   }
 
-  /*Large screens*/
-  @media screen and (min-width: 800px) {
+  /* Large screens */
+  @media screen and (min-width: 800px){
     .entity, .status{
       // Make sure to push the center in the same proportion, to keep it in the center
       min-width: 20em;

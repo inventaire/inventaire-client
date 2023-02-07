@@ -41,7 +41,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .alternatives{
     background-color: #dadada;
     @include display-flex(row, center, center, wrap);
@@ -64,21 +64,21 @@
     }
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .alternatives{
       background-color: white;
     }
   }
 
-  /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Smaller screens */
+  @media screen and (max-width: $smaller-screen){
     .propositions{
       justify-content: center;
     }
   }
 
-  /*Very Small screens*/
+  /* Very Small screens */
   @media screen and (max-height: 500px), (max-width: 500px){
     .alternatives{
       // A max-height is required for the transition:

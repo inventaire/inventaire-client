@@ -30,7 +30,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .large-screen-actions{
     @include display-flex(row, flex-end);
     :global(a), :global(button){

@@ -54,12 +54,12 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   #importLayout{
     margin: 0 auto;
     max-width: 50em;
-    /*Small screens*/
-    @media screen and (max-width: $small-screen) {
+    /* Small screens */
+    @media screen and (max-width: $small-screen){
       margin: 0 0.5em;
     }
   }

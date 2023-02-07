@@ -34,7 +34,7 @@
 </section>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   section{
     background-color: $darker-grey;

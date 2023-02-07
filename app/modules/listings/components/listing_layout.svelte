@@ -30,7 +30,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .listing-layout{
     max-width: 50em;
     margin: 0 auto;

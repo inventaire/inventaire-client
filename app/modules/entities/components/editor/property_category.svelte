@@ -66,13 +66,13 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   button{
     @include display-flex(row, center, flex-start);
     @include bg-hover($light-grey, 5%);
     @include radius;
-    margin: 1em 0 0.5em 0;
+    margin: 1em 0 0.5em;
     :global(.fa){
       font-size: 1.6rem;
       @include transition(transform, 0.2s);

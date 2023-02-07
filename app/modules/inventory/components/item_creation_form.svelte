@@ -139,14 +139,14 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   .item-creation{
     max-width: 50em;
     margin: 0 auto;
-    /*Large screens*/
-    @media screen and (min-width: $small-screen) {
-      padding: 0em 1em 1em 1em;
+    /* Large screens */
+    @media screen and (min-width: $small-screen){
+      padding: 0 1em 1em;
     }
   }
 
@@ -176,7 +176,7 @@
     @include radius;
     margin: 1em 0;
     padding: 0.2em 0 1em;
-    padding: 0.2em 1em 0.5em 1em;
+    padding: 0.2em 1em 0.5em;
     color: white;
   }
 

@@ -32,10 +32,10 @@
   </button>
 </div>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .candidates-nav{
     @include display-flex(row, center, center, wrap);
-    button {
+    button{
       @include radius;
       margin: 0.1em;
       flex: 1 0 0;

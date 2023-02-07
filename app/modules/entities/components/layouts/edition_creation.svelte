@@ -79,9 +79,9 @@
   <Flash bind:state={flash} />
 </div>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .wrapper{
-    padding: 1em 0.5em 0.5em 0.5em;
+    padding: 1em 0.5em 0.5em;
     align-self: stretch;
   }
   .edition-creation{

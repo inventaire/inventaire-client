@@ -52,7 +52,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .works-browser-section{
     background-color: $off-white;
     padding: 0.5em;
@@ -60,7 +60,7 @@
   }
   h3{
     font-size: 1rem;
-    margin: 0.5em 0.5em 0 0.5em;
+    margin: 0.5em 0.5em 0;
   }
   ul{
     flex: 1;

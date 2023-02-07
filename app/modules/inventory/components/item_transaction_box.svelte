@@ -86,8 +86,8 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#inventory/scss/item_card_box';
+  @import "#general/scss/utils";
+  @import "#inventory/scss/item_card_box";
   [slot="button-inner"]{
     .icon{
       color: white;

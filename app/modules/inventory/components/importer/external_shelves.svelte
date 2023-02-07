@@ -41,12 +41,12 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .description{
     font-size: 0.9rem;
     margin-bottom: 0.5em;
   }
   .import-shelves{
-    margin: 1em 0
+    margin: 1em 0;
   }
 </style>

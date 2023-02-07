@@ -79,7 +79,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .controls{
     margin-bottom: 0.5em;
     @include radius;
@@ -121,8 +121,8 @@
     }
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .controls{
       position: sticky;
       top: $topbar-height;
@@ -137,8 +137,8 @@
     }
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .controls{
       flex-wrap: wrap;
       :global(.select-dropdown), :global(.works-browser-text-filter){
@@ -147,8 +147,8 @@
     }
   }
 
-  /*Very small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  /* Very small screens */
+  @media screen and (max-width: $very-small-screen){
     .wrapper:not(.unwrapped){
       @include display-flex(column, center);
     }

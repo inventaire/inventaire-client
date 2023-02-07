@@ -153,7 +153,7 @@
   <Flash state={flash} />
 </li>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .candidate-row{
     @include radius;
     border: solid 1px #ccc;
@@ -188,7 +188,7 @@
   }
   .status{
     font-size: 0.9rem;
-    :global(.link) {
+    :global(.link){
       text-decoration: underline;
     }
   }
@@ -198,8 +198,8 @@
   .warning{
     background-color: lighten($yellow, 30%);
   }
-  /*Small screens*/
-  @media screen and (max-width: 470px) {
+  /* Small screens */
+  @media screen and (max-width: 470px){
     .candidate-text{
       @include display-flex(column, center, space-between);
     }

@@ -29,7 +29,7 @@
 </form>
 
 <style lang="scss">
-  @import '#settings/scss/common_settings';
+  @import "#settings/scss/common_settings";
   form{
     margin: 0 1.5em;
   }

@@ -43,11 +43,11 @@
 <Flash bind:state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   input{
     margin: 0;
   }
-  label {
+  label{
     display: block;
     font-size: 1rem;
     margin: 1em 0;

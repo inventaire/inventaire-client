@@ -43,7 +43,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .property{
     color: $grey;
   }

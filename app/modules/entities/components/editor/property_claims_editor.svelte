@@ -93,7 +93,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#entities/scss/entity_editors_commons';
+  @import "#entities/scss/entity_editors_commons";
   .editor-section-header{
     width: 9em;
   }

@@ -16,20 +16,20 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   button{
     max-height: 2.5em;
     font-weight: normal;
   }
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     button{
       padding: 0.3em 0.5em;
       margin: 0.2em;
     }
   }
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  /* Large screens */
+  @media screen and (min-width: $smaller-screen){
     .display-mode-button{
       height: 2.5rem;
     }

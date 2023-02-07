@@ -96,7 +96,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .entity-wrapper{
     @include display-flex(row, center, center);
   }
@@ -126,13 +126,13 @@
     max-width: 30em;
     margin: 0 1em;
   }
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     .entity-wrapper{
       flex-wrap: wrap;
     }
     .cover{
-      width: 5em
+      width: 5em;
     }
     .entity-info-line{
       margin: 0.5em 0.5em 0.5em 0;

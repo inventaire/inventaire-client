@@ -66,7 +66,7 @@
 </BaseLayout>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);

@@ -27,11 +27,11 @@
   </span>
 {/if}
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .entity-source-logo{
     @include serif;
     vertical-align: super;
     font-weight: normal;
-    font-size: 0.8em ;
+    font-size: 0.8em;
   }
 </style>

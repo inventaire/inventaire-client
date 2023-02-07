@@ -10,7 +10,7 @@
 />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .image-div{
     background-size: cover;
     background-position: center center;

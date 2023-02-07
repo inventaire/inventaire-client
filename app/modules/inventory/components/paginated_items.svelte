@@ -75,7 +75,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .paginated-items{
     position: relative;
     min-height: 20em;

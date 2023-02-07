@@ -12,7 +12,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .welcome-layout{
     :global(h3){
       margin-top: 0.5em;
@@ -25,6 +25,6 @@
     // as emitCss=false in Svelte dev config, so the image will only appear
     // when building for production.
     // Photo attribution in credits.hbs: Brittany Stevens
-    @include multidef-bg-cover('brittanystevens.jpg', 'hd');
+    @include multidef-bg-cover("brittanystevens.jpg", "hd");
   }
 </style>

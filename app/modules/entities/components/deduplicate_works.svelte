@@ -226,7 +226,7 @@
 />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   .loading{
     display: flex;
@@ -290,8 +290,8 @@
   .more{
     text-align: center;
   }
-  /*Large screens*/
-  @media screen and (min-width: 1800px) {
+  /* Large screens */
+  @media screen and (min-width: 1800px){
     ul:not(:empty){
       flex-direction: row;
       align-items: stretch;

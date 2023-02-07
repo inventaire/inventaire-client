@@ -41,7 +41,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .ebooks{
     @include display-flex(row, center, flex-start, wrap);
     margin-top: 1em;

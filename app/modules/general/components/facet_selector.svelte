@@ -93,7 +93,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/select_dropdown_commons';
+  @import "#general/scss/select_dropdown_commons";
   .facet-selector{
     position: relative;
     min-width: 12em;
@@ -152,8 +152,8 @@
   [role="option"][data-value="unknown"]{
     @include shy;
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .facet-selector{
       margin-top: 1.6em;
     }

@@ -72,5 +72,5 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/select_dropdown_commons';
+  @import "#general/scss/select_dropdown_commons";
 </style>

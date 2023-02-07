@@ -42,10 +42,10 @@
   </div>
 {/if}
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   ul{
     width: 100%;
-    margin: 1em 0 0.5em 0;
+    margin: 1em 0 0.5em;
     @include radius;
   }
   li{
@@ -56,8 +56,8 @@
   .toggler-wrapper{
     padding: 0.3em;
   }
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  /* Large screens */
+  @media screen and (min-width: $smaller-screen){
     li{
       padding: 0.5em;
       @include display-flex(row, center, space-between);

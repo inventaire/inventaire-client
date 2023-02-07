@@ -100,7 +100,7 @@
 {/await}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .spinner-wrap{
     margin: 2em;
   }

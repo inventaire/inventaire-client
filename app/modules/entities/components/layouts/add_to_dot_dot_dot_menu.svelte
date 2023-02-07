@@ -157,7 +157,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .add-to-dot-dot-dot-menu{
     .require-login, :global(.dropdown-button){
       @include tiny-button($light-blue);

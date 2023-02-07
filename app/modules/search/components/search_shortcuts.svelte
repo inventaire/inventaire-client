@@ -27,7 +27,7 @@
 </ul>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .shortcuts{
     @include position(fixed, $topbar-height, 0);
     background-color: rgba($dark-grey, 0.6);

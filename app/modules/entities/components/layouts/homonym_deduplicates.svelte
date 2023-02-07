@@ -48,7 +48,7 @@
   {/await}
 {/if}
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .dataadmin-section{
     @include display-flex(column, center);
     background-color: $off-white;
@@ -71,8 +71,8 @@
     background-color: white;
     @include radius;
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .dataadmin-section{
       min-width: 30em;
     }

@@ -167,7 +167,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .filters{
     align-self: stretch;
   }
@@ -199,8 +199,8 @@
   select.filtering{
     border-color: $glow;
   }
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  /* Large screens */
+  @media screen and (min-width: $smaller-screen){
     .filters{
       @include display-flex(row, center, flex-start);
     }

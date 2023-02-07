@@ -88,7 +88,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .item-card{
     width: 100%;
     @include display-flex(column, stretch, center);
@@ -111,7 +111,7 @@
     height: 2em;
     width: 2em;
     color: white;
-    padding: 0.3em 0.5em 0.5em 0.5em;
+    padding: 0.3em 0.5em 0.5em;
     @include radius-diagonal-b;
   }
   .item-show{
@@ -133,7 +133,7 @@
     margin: 0.2em auto;
     max-width: 1em;
   }
-  img:not(.profilePic) {
+  img:not(.profilePic){
     max-height: 20em;
     border-bottom: 1px solid #ccc;
     padding-bottom: 15px;

@@ -69,7 +69,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   $card-width: 6rem;
   $card-height: 8rem;
   .relative-entities-list.not-empty{

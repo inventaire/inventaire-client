@@ -116,7 +116,7 @@
 </button>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   button{
     background-color: white;
@@ -224,8 +224,8 @@
     flex: 1 0 0;
     text-align: left;
   }
-  /*Large screens*/
-  @media screen and (min-width: 1800px) {
+  /* Large screens */
+  @media screen and (min-width: 1800px){
     ul:not(:empty){
       flex-direction: row;
     }

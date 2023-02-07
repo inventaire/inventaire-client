@@ -119,7 +119,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .summary-wrapper.has-summary{
     padding: 1em;
     margin-top: 1em;
@@ -149,10 +149,10 @@
       color: $grey;
     }
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .summary-wrapper.has-summary{
-      margin-top: 0
+      margin-top: 0;
     }
   }
 </style>

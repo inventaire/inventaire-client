@@ -95,11 +95,11 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .wrapper{
     margin-right: auto;
-    /*Small screens*/
-    @media screen and (max-width: $smaller-screen) {
+    /* Small screens */
+    @media screen and (max-width: $smaller-screen){
       margin-left: auto;
     }
   }

@@ -148,7 +148,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .items-table-selection-editor{
     @include display-flex(column, center, center);
   }
@@ -190,20 +190,20 @@
     @include dangerous-action;
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .buttons{
       align-self: stretch;
       @include display-flex(column, stretch, center);
       > button{
-        margin: 1em auto 0 auto;
+        margin: 1em auto 0;
         width: 15em;
       }
     }
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .buttons{
       @include display-flex(row, center, center);
       align-self: stretch;

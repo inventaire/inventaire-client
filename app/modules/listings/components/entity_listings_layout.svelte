@@ -29,7 +29,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .listings-layout{
     @include display-flex(column, center);
     background-color: $off-white;

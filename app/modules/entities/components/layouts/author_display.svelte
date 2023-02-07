@@ -36,7 +36,7 @@
 </a>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   a{
     @include display-flex(row, center, flex-start);
     background-color: $off-white;

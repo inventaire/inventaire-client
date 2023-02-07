@@ -86,7 +86,7 @@
 </BaseLayout>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .entity-layout{
     width: 100%;
   }
@@ -111,7 +111,7 @@
     margin-right: 1em;
   }
   .items-lists-wrapper{
-    margin: 1em 0
+    margin: 1em 0;
   }
   .bottom-section{
     @include display-flex(column, center);
@@ -122,14 +122,14 @@
   .other-works-editions{
     @include display-flex(row, initial, flex-end, wrap);
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .top-section{
       margin: 0 5em;
     }
   }
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     .info-wrapper{
       @include display-flex(column, center, center);
       margin-top: 1em;
@@ -141,8 +141,8 @@
       @include display-flex(column, center);
     }
   }
-  /*Very small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  /* Very small screens */
+  @media screen and (max-width: $very-small-screen){
     .author-and-info{
       margin-right: 0;
     }

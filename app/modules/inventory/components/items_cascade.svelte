@@ -45,7 +45,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .items-cascade{
     margin: 1em 0;
   }

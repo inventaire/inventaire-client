@@ -32,7 +32,7 @@
 </a>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   $card-base-width: 9em;
   $card-margin: 0.5em;
   .work-grid-card{
@@ -42,7 +42,7 @@
     height: 12em;
     margin: $card-margin;
     &.serie{
-      width: calc($card-base-width * 2 + $card-margin * 2)
+      width: calc($card-base-width * 2 + $card-margin * 2);
     }
     &:hover{
       @include shadow-box;

@@ -24,7 +24,7 @@
 </button>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   button{
     font-weight: normal;
     border-radius: 0;
@@ -45,8 +45,8 @@
     color: white;
   }
 
-  /*Very Small screens*/
-  @media screen and (max-width: calc(5 * $search-section-width)) {
+  /* Very Small screens */
+  @media screen and (max-width: calc(5 * $search-section-width)){
     button{
       flex: 1 0 0;
     }

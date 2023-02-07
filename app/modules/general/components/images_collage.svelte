@@ -18,7 +18,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   // Will have a width and height of 0 by default:
   // this need to be overriden by the parent component
   .images-collage{

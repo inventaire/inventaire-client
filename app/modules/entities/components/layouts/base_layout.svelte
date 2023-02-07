@@ -36,7 +36,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .layout{
     @include display-flex(column, stretch, center);
     margin: 0 auto;
@@ -63,14 +63,14 @@
   .entity-data-wrapper{
     @include display-flex(column, center);
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .header-wrapper{
       margin-left: 1.2em;
     }
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .header-wrapper{
       @include display-flex(row, center, space-between);
     }
@@ -78,8 +78,8 @@
       @include display-flex(column, flex-start);
     }
   }
-  /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  /* Very Small screens */
+  @media screen and (max-width: $very-small-screen){
     .layout{
       padding: 0 0.5em;
     }

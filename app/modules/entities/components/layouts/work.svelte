@@ -162,8 +162,8 @@
 </BaseLayout>
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#entities/scss/relatives_lists';
+  @import "#general/scss/utils";
+  @import "#entities/scss/relatives_lists";
   .entity-layout{
     @include display-flex(column, center);
     width: 100%;
@@ -202,8 +202,8 @@
     margin-top: 1em;
     align-self: stretch;
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .work-section{
       margin-left: 0;
       :global(.claims-infobox-wrapper){

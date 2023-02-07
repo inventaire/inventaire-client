@@ -89,7 +89,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .wrapper{
     @include display-flex(column, stretch);
     margin-top: 0.5em;
@@ -137,14 +137,14 @@
   .controls:not(:empty){
     @include transition(opacity);
     opacity: 1;
-    margin: 0.5em 0 0.5em 0;
+    margin: 0.5em 0;
   }
   .control-label{
     color: $grey;
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .controls{
       flex-direction: column;
     }
@@ -166,8 +166,8 @@
     }
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .controls:not(:empty), .filters{
       @include display-flex(row, center, center);
       padding: 0.2em 0.5em 0.2em 0.2em;

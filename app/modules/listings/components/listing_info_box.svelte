@@ -92,12 +92,12 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .listing-info{
     align-self: stretch;
     margin: 0.5em;
     margin-bottom: 1em;
-    padding: 0.5em 1em 1em 1em;
+    padding: 0.5em 1em 1em;
     @include radius;
     background-color: $light-grey;
   }
@@ -146,8 +146,8 @@
     @include radius;
     text-align: end;
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .listing-info{
       padding: 0.5em;
       margin: 1em 0;
@@ -156,8 +156,8 @@
       margin: 0 0 1em auto;
     }
   }
-  /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Smaller screens */
+  @media screen and (max-width: $smaller-screen){
     .first-row{
       @include display-flex(column-reverse);
     }
@@ -165,8 +165,8 @@
       margin-bottom: 0;
     }
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .actions{
       margin-inline-start: 1em;
     }

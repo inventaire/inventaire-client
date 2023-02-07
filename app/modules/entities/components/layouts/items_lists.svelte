@@ -65,7 +65,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .map-wrapper, .items-lists-wrapper{
     align-self: stretch;
   }
@@ -87,8 +87,8 @@
     @include bg-hover(white);
     @include radius;
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .close-map-button{
       padding: 0.3em;
     }

@@ -66,7 +66,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .searchSettingsTogglerWrapper{
     @include display-flex(row, center, flex-end);
     display: none;
@@ -83,8 +83,8 @@
     border-bottom: 1px solid #ccc;
   }
 
-  /*Smaller screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Smaller screens */
+  @media screen and (max-width: $small-screen){
     .searchSettingsTogglerWrapper{
       margin-top: auto;
       @include display-flex(row, center, center);
@@ -95,7 +95,7 @@
       @include display-flex(row, center, center);
       background-color: #f3f3f3;
       padding: 0.4em 0.2em;
-      margin: 0.1em 1em 0 1em;
+      margin: 0.1em 1em 0;
       @include radius-top(5px);
       @include radius-bottom(0);
       :global(.fa){

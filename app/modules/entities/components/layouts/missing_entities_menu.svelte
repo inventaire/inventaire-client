@@ -27,7 +27,7 @@
 {/await}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .missing-entities{
     align-self: center;
     margin: 1em auto;

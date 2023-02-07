@@ -46,8 +46,8 @@
 </section>
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#welcome/scss/welcome_layout_commons';
+  @import "#general/scss/utils";
+  @import "#welcome/scss/welcome_layout_commons";
 
   $title-color: white;
   $pitch-text-color: rgba(darken($welcome-bg-filter, 15%), 0.9);
@@ -58,6 +58,9 @@
     @include display-flex(column, center, center);
     .name{
       @include display-flex(column, center, center);
+      // Those margins are compensating for Safari bad flex support
+      margin-top: 2em;
+      margin-bottom: 2em;
       h2{
         color: $title-color;
         font-weight: bold;
@@ -90,7 +93,7 @@
         flex: 1 0 0;
         background-color: $pitch-bg-color;
         @include radius(5px);
-        padding: 1em 0.6em 1em 0.6em;
+        padding: 1em 0.6em;
         margin: 0.5em;
         :global(.fa), h3, p{
           color: $pitch-text-color;
@@ -110,6 +113,9 @@
     }
     #loginButtons{
       @include display-flex(row, center, center, wrap);
+      // Those margins are compensating for Safari bad flex support
+      margin-top: 1em;
+      margin-bottom: 1em;
       .button{
         min-width: 10em;
         // Reset radius
@@ -117,19 +123,9 @@
       }
       @include radius-horizontal-group;
     }
-    // < compensation for Safari bad flex support
-    .name{
-      margin-top: 2em;
-      margin-bottom: 2em;
-    }
-    #loginButtons{
-      margin-top: 1em;
-      margin-bottom: 1em;
-    }
-    // />
 
-    /*Small screens*/
-    @media screen and (max-width: $small-screen) {
+    /* Small screens */
+    @media screen and (max-width: $small-screen){
       .name{
         padding-top: 3em;
         padding-bottom: 2em;
@@ -146,8 +142,8 @@
       }
     }
 
-    /*Smaller screens*/
-    @media screen and (max-width: 800px) {
+    /* Smaller screens */
+    @media screen and (max-width: 800px){
       .pitch{
         flex-direction: column;
         align-items: stretch;
@@ -156,7 +152,7 @@
         }
       }
     }
-    @media screen and (max-width: $smaller-screen) {
+    @media screen and (max-width: $smaller-screen){
       .name{
         h2{
           font-size: 3em;
@@ -164,8 +160,8 @@
       }
     }
 
-    /*Large screens*/
-    @media screen and (min-width: $small-screen) {
+    /* Large screens */
+    @media screen and (min-width: $small-screen){
       height: 85vh;
       // prevent everything from overflowing on screens with a rather small height
       min-height: 650px;

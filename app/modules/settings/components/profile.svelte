@@ -148,13 +148,13 @@
 </form>
 
 <style lang="scss">
-  @import '#settings/scss/common_settings';
+  @import "#settings/scss/common_settings";
   .position-status{
     padding-bottom: 1em;
   }
   input, textarea{
     appearance: none;
-    border: 1px solid #AAA;
+    border: 1px solid #aaa;
     margin-bottom: 0;
   }
   .text-zone{

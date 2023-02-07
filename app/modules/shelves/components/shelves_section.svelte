@@ -62,7 +62,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .header{
     background-color: $light-grey;
     @include display-flex(row, center, space-between);
@@ -91,8 +91,8 @@
     padding-right: 0.8em;
     @include display-flex(row, center, space-between);
   }
-  /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Smaller screens */
+  @media screen and (max-width: $smaller-screen){
     .toggle-button{
       padding: 1em 0.5em 1em 1em;
     }

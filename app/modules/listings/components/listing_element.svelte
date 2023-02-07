@@ -56,7 +56,7 @@
 </li>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   li{
     @include display-flex(row, center);
     padding-right: 0.5em;
@@ -85,8 +85,8 @@
     @include display-flex(row, center, center);
     white-space: nowrap;
   }
-  /*Very small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  /* Very small screens */
+  @media screen and (max-width: $very-small-screen){
     li{
       @include display-flex(column, flex-start);
     }

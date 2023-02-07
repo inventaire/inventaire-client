@@ -71,7 +71,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .works-browser-text-filter{
     align-self: flex-end;
     position: relative;
@@ -93,8 +93,8 @@
     height: 2.1rem;
     @include radius(2px);
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .works-browser-text-filter{
       margin-right: 1em;
     }

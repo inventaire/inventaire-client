@@ -35,7 +35,7 @@
   {/if}
 </div>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .edition-actions{
     @include display-flex(column, center, flex-end);
   }
@@ -49,8 +49,8 @@
   .link-wrapper{
     padding: 0.5em;
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .add-to-my-inventory{
       @include display-flex(row);
       margin-bottom: 0.5em;

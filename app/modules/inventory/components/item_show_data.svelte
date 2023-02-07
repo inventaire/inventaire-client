@@ -35,12 +35,12 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .item-settings{
     margin: 1em 0;
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .item-settings{
       @include display-flex(row, center, center);
     }

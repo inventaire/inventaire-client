@@ -35,14 +35,14 @@
 </form>
 
 <style lang="scss">
-  @import '#settings/scss/common_settings';
+  @import "#settings/scss/common_settings";
   .link{
     text-decoration: underline;
   }
   .light-blue-button{
     display: inline-block;
     margin: 0.5em 1em 0.5em 0;
-    color: white
+    color: white;
   }
   h3{
     @include settings-h3;

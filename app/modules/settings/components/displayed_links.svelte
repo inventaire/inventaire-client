@@ -47,7 +47,7 @@
 <Flash bind:state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   fieldset{
     @include display-flex(row, null, null, wrap);
   }

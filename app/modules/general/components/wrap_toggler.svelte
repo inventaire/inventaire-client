@@ -43,7 +43,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   button{
     display: block;
     @include shy;

@@ -55,7 +55,7 @@
 <Flash bind:state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .row{
     @include display-flex(row, center);
   }

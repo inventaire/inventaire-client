@@ -22,12 +22,12 @@
 </ul>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .type-picker{
     flex: 1;
     text-align: center;
     @include display-flex(row, center, center, wrap);
-    margin: 0.5em 0.5em 2em 0.5em;
+    margin: 0.5em 0.5em 2em;
     white-space: nowrap;
     li{
       flex: 1 0 6em;

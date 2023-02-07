@@ -46,7 +46,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .modal-overlay{
     background: rgba(black, 0.55);
     overflow: auto;
@@ -83,8 +83,8 @@
       @include sans-serif;
     }
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .modal-outer{
       margin: 1em 0;
       padding: 1em;
@@ -94,8 +94,8 @@
       margin: 1em;
     }
   }
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .modal-outer{
       margin: 0.5em 0;
       padding: 0.5em;

@@ -25,7 +25,7 @@
   </div>
 {/if}
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .transaction-box{
     width: max-content;
     @include display-flex(row, center, flex-start);

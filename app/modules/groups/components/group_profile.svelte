@@ -77,7 +77,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .group-profile{
     background-color: #eee;
     margin: 0.5em 0;
@@ -161,8 +161,8 @@
     }
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .group-profile{
       @include display-flex(column, stretch, center);
     }
@@ -188,8 +188,8 @@
     }
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     h3{
       text-align: right;
       margin-right: 1em;
@@ -222,8 +222,8 @@
     }
   }
 
-  /*Very Large screens*/
-  @media screen and (min-width: 1200px) {
+  /* Very Large screens */
+  @media screen and (min-width: 1200px){
     .section-two{
       max-width: 70vw;
     }

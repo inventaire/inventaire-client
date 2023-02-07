@@ -38,7 +38,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .work-list-row{
     @include display-flex(row, flex-start);
     background-color: white;

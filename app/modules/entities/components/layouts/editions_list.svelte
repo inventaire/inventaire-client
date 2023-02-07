@@ -53,7 +53,7 @@
   />
 </div>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   .editions-section{
     @include display-flex(column, center);
@@ -82,8 +82,8 @@
     color: $grey;
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .editions-section{
       padding: 1em;
     }

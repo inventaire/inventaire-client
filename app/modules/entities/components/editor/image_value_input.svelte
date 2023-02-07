@@ -189,7 +189,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .wrapper{
     min-height: 18em;
     margin-bottom: 0.5em;

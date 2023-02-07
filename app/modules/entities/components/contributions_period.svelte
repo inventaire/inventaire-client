@@ -59,7 +59,7 @@
 </section>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   section{
     min-width: 20em;
     max-width: 50em;
@@ -67,7 +67,7 @@
     padding: 1em;
     margin: 0.5em;
   }
-  .contributions {
+  .contributions{
     padding: 0 0.5em;
     position: absolute;
     flex: 2 0 auto;

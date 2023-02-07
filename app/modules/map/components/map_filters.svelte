@@ -79,7 +79,7 @@
   </div>
 </div>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   @mixin filter-button($color, $text-color:white){
     color: $dark-grey;
     background-color: white;
@@ -141,8 +141,8 @@
   .filter-value{
     overflow: hidden;
   }
-  /*Small screens*/
-  @media screen and (max-width: 470px) {
+  /* Small screens */
+  @media screen and (max-width: 470px){
     .filters-menu{
       @include display-flex(column, flex-start);
       padding-left: 1em;

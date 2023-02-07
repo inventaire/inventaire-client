@@ -51,7 +51,7 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .flash{
     @include display-flex(row, flex-start, space-between);
     padding: 0.5em;

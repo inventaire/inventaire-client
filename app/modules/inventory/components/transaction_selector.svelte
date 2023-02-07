@@ -30,7 +30,7 @@
 </fieldset>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   fieldset{
     @include display-flex(row);
@@ -89,8 +89,8 @@
     }
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     fieldset{
       flex-direction: column;
     }

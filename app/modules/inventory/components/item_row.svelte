@@ -84,7 +84,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
 
   $item-row-height-base: 4em;
 
@@ -185,8 +185,8 @@
     @include serif;
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     .item-row{
       align-self: stretch;
       min-height: $item-row-height-base;
@@ -222,8 +222,8 @@
     }
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  /* Large screens */
+  @media screen and (min-width: $smaller-screen){
     .item-row{
       height: $item-row-height-base;
       overflow: hidden;

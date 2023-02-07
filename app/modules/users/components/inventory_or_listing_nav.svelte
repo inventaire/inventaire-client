@@ -62,7 +62,7 @@
   </a>
 </div>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .inventory-or-listing-tabs{
     @include display-flex(row, center, center, wrap);
     margin-bottom: 0.5em;

@@ -52,7 +52,7 @@
 </li>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   li{
     margin: 0;
   }

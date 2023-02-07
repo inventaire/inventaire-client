@@ -47,7 +47,7 @@
 </li>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .result{
     line-height: 1em;
     position: relative;

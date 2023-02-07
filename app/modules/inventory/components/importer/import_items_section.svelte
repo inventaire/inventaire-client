@@ -169,15 +169,15 @@
   {/if}
 </div>
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   h3{
     margin-top: 1em;
     text-align: center;
     font-weight: bold;
   }
-  .import-candidates {
+  .import-candidates{
     @include display-flex(column, center, null, wrap);
-    button { margin: 1em 0; }
+    button{ margin: 1em 0; }
   }
   button:disabled{
     opacity: 0.6;

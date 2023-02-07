@@ -57,7 +57,7 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .actions-wrapper{
     @include display-flex(column, stretch, center);
     margin: 1em 0;

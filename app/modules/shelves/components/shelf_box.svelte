@@ -97,9 +97,9 @@
 {/if}
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .shelf-box{
-    margin: 0.5em 0 0 0;
+    margin: 0.5em 0 0;
     @include display-flex(row);
   }
   .picture{
@@ -157,8 +157,8 @@
     width: 3em;
     color: $grey;
   }
-  /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Smaller screens */
+  @media screen and (max-width: $smaller-screen){
     .shelf-box{
       @include display-flex(column, center, center);
     }
@@ -169,7 +169,7 @@
       // TODO: shelf picture
       width: 3em;
       height: 3em;
-      margin-top: 0.5em
+      margin-top: 0.5em;
     }
     .close-shelf-small{
       padding: 0.5em 0.3em 0 0;

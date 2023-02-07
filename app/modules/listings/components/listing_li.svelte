@@ -80,7 +80,7 @@
 </li>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   li{
     margin: 0.2em;
   }
@@ -133,12 +133,12 @@
     font-weight: normal;
     @include sans-serif;
   }
-  /*Smaller screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Smaller screens */
+  @media screen and (max-width: $smaller-screen){
     li{
       width: 100%;
     }
-    a {
+    a{
       width: 100%;
     }
   }

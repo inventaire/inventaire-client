@@ -122,7 +122,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .item-show{
     position: relative;
   }
@@ -177,7 +177,7 @@
     :global(.fa){
       font-size: 1.1em;
     }
-    &:hover, &:focus {
+    &:hover, &:focus{
       @include tiny-button-padding;
       border-radius: $global-radius;
       background-color: $danger-color;
@@ -194,8 +194,8 @@
     margin: 1em 0;
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     .item-show{
       padding: 0 0.5em;
     }
@@ -210,8 +210,8 @@
     }
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  /* Large screens */
+  @media screen and (min-width: $smaller-screen){
     .item-show{
       padding: 0 1em;
     }

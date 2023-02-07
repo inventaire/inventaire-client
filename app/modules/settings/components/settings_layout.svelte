@@ -59,7 +59,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .wrapper{
     background-color: white;
     display: flex;
@@ -75,37 +75,37 @@
     min-width: 10em;
     border-radius: 3px;
     border: solid 1px #ccc;
-    .active {
+    .active{
       border-left: solid 0.15em $yellow;
       padding-left: 0.85em;
       font-weight: bold;
     }
-    button {
+    button{
       padding: 1em;
       border-bottom: solid 1px #ccc;
       text-align: left;
       font-weight: normal;
     }
-    :last-child {
+    :last-child{
       border-bottom: 0;
     }
   }
   .setting{
     width: 100%;
   }
-  /*Large screens*/
-  @media screen and (min-width: 470px) {
+  /* Large screens */
+  @media screen and (min-width: 470px){
     .navigation{
       position: sticky;
       top: $topbar-height + 34px;
     }
   }
-  /*Small screens*/
-  @media screen and (max-width: 470px) {
+  /* Small screens */
+  @media screen and (max-width: 470px){
     .wrapper{
       display: flex;
       flex-direction: column;
-      margin-bottom: 0
+      margin-bottom: 0;
     }
     .navigation{
       margin: 0;
@@ -113,7 +113,7 @@
     .setting{
       margin-top: 2em;
       width: 100%;
-      padding: 0
+      padding: 0;
     }
   }
 </style>

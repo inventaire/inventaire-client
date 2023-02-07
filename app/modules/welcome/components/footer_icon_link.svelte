@@ -16,7 +16,7 @@
 </a>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   a{
     @include display-flex(column, center, center);
     margin-top: 1em;
@@ -41,13 +41,13 @@
     }
     // The following adjustements are coupled to a list of 8 icons
     flex: 1 0 10em;
-    /*Medium screens*/
-    @media screen and (max-width: 82em) {
+    /* Medium screens */
+    @media screen and (max-width: 82em){
       // Do not let a lonely icon on a line
       flex: 1 0 25%;
     }
-    /*Small screens*/
-    @media screen and (max-width: 42em) {
+    /* Small screens */
+    @media screen and (max-width: 42em){
       flex: 1 0 10em;
     }
   }

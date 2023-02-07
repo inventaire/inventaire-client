@@ -61,7 +61,7 @@
 </div>
 
 <style lang="scss">
-  @import '#entities/scss/title_tip';
+  @import "#entities/scss/title_tip";
   .wrapper{
     position: relative;
     flex: 1;

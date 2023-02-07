@@ -336,7 +336,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   #liveSearch{
     @include position(absolute, 100%, 0, null, 0);
     z-index: 1;
@@ -396,16 +396,16 @@
     color: $grey;
   }
 
-  /*Medium to Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Medium to Large screens */
+  @media screen and (min-width: $small-screen){
     .results{
       max-height: 60vh;
       overflow: auto;
     }
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     #searchGroup, input{
       height: 2rem;
     }

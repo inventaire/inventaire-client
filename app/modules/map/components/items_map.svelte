@@ -88,7 +88,7 @@
   {/if}
 {/await}
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .items-map{
     position: relative;
     width: 100%;

@@ -29,7 +29,7 @@
 </section>
 
 <style lang="scss">
-  @import '#welcome/scss/welcome_layout_commons';
+  @import "#welcome/scss/welcome_layout_commons";
 
   section{
     background-color: $off-white;
@@ -37,8 +37,8 @@
     max-height: 150vh;
     overflow-y: hidden;
   }
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  /* Large screens */
+  @media screen and (min-width: $smaller-screen){
     section{
       padding: 0 1em;
     }

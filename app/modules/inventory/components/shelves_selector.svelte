@@ -43,6 +43,6 @@
 </fieldset>
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#inventory/scss/shelves_selectors';
+  @import "#general/scss/utils";
+  @import "#inventory/scss/shelves_selectors";
 </style>
