@@ -1,8 +1,16 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+
+set -e
+
+ESLINT_ARGS="--format codeframe --ext js,svelte --config .eslintrc.cjs"
+if [ "$ESLINT_PRE_COMMIT_EXTRA" != "" ] ; then
+  ESLINT_ARGS="$ESLINT_ARGS --config .eslintrc.pre-commit-extra.cjs"
+fi
+
 if [ "$1" != "" ] ; then
-  eslint --config .eslintrc.cjs --format codeframe --ext js,svelte "$@"
+  eslint $ESLINT_ARGS "$@"
   stylelint --config .stylelintrc.cjs "$@"
 else
-  eslint --config .eslintrc.cjs --format codeframe --ext js,svelte app tests scripts
+  eslint $ESLINT_ARGS app tests scripts
   stylelint --config .stylelintrc.cjs app
 fi

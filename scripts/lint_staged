@@ -5,12 +5,14 @@ set -e
 # Keep A (added) and M (modified) files, if staged (no space before)
 staged=$(git status --porcelain | grep -E "^(A|M).*\.(js|svelte)$" | awk '{print $2}')
 
+export ESLINT_PRE_COMMIT_EXTRA=1
+
 if [ -z "$staged" ]; then
   echo 'no file to lint'
 else
   if [ "$1" = "fix"  ] || [ "$1" = "--fix" ]; then
     echo $staged | xargs npm run lint-fix
   else
-    echo $staged | xargs npm run lint -- --config .eslintrc.pre-commit-extra.cjs
+    echo $staged | xargs npm run lint
   fi
 fi
