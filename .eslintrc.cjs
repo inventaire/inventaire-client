@@ -87,6 +87,19 @@ module.exports = {
 
     'svelte/no-trailing-spaces': 'error',
   },
+  overrides: [
+    {
+      files: [ '*.svelte' ],
+      parser: 'svelte-eslint-parser',
+      rules: {
+        // In Svelte, assignment is used everywhere to update a componenent's state;
+        // Turning off this rule allows to write less curly-brackets-loaded inline functions
+        // Example:      on:click={() => zoom = !zoom }
+        // instead of:   on:click={() => { zoom = !zoom }}
+        'no-return-assign': 'off',
+      }
+    }
+  ],
   globals: {
     app: 'writable',
     localStorage: 'writable',
@@ -121,17 +134,4 @@ module.exports = {
     xdescribe: 'readonly',
     beforeEach: 'readonly'
   },
-  overrides: [
-    {
-      files: [ '*.svelte' ],
-      parser: 'svelte-eslint-parser',
-      rules: {
-        // In Svelte, assignment is used everywhere to update a componenent's state;
-        // Turning off this rule allows to write less curly-brackets-loaded inline functions
-        // Example:      on:click={() => zoom = !zoom }
-        // instead of:   on:click={() => { zoom = !zoom }}
-        'no-return-assign': 'off',
-      }
-    }
-  ],
 }
