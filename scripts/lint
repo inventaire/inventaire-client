@@ -9,7 +9,7 @@ fi
 
 if [ "$1" != "" ] ; then
   eslint $ESLINT_ARGS "$@"
-  stylelint --config .stylelintrc.cjs "$@"
+  stylelint --config .stylelintrc.cjs --allow-empty-input "$@"
 else
   eslint $ESLINT_ARGS app tests scripts
   stylelint --config .stylelintrc.cjs app
