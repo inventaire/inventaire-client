@@ -37,21 +37,6 @@
       class="wrapper"
       class:unwrapped={showControls}
     >
-      {#if $screen.isSmallerThan(smallScreenThreshold) && isNotEmpty}
-        <button
-          class="toggle-controls"
-          on:click={() => wrapped = !wrapped}
-          aria-controls="works-browser-controls"
-        >
-          {#if showControls}
-            {@html icon('caret-up')}
-          {:else}
-            {@html icon('cog')}
-            {i18n('Advanced options')}
-            {@html icon('caret-down')}
-          {/if}
-        </button>
-      {/if}
       {#if showControls}
         {#if isNonEmptyArray(allWorks)}
           <div class="controls">
@@ -66,6 +51,21 @@
             <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')} />
           </div>
         {/if}
+      {/if}
+      {#if $screen.isSmallerThan(smallScreenThreshold) && isNotEmpty}
+        <button
+          class="toggle-controls"
+          on:click={() => wrapped = !wrapped}
+          aria-controls="works-browser-controls"
+        >
+          {#if showControls}
+            {@html icon('caret-up')}
+          {:else}
+            {@html icon('cog')}
+            {i18n('Advanced options')}
+            {@html icon('caret-down')}
+          {/if}
+        </button>
       {/if}
     </div>
   {/if}
@@ -100,7 +100,7 @@
   }
 
   .wrapper{
-    @include display-flex(row-reverse, space-between);
+    @include display-flex(row, space-between);
     margin-block-start: 0.5em;
     &:not(.unwrapped){
       @include display-flex(column, flex-end);
