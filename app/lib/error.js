@@ -54,7 +54,7 @@ const error_ = {
     context.location = location.href
     // Non-standard convention
     // 599 = client implementation error
-    // 598 = user abuse
+    // 598 = suspected user abuse or spam account
     const err = formatError(message, statusCode, context)
     log_.error(err, `[reported error (not thrown)] ${message}`)
   }
