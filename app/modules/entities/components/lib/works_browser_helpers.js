@@ -17,7 +17,7 @@ export function getWorksFacets ({ works, context }) {
   return { valuesUris, facets, facetsSelectedValues }
 }
 
-export async function getFacetsSelectors (facetsObj) {
+export async function getFacetsEntitiesBasicInfo (facetsObj) {
   const { valuesUris, facets } = facetsObj
   const facetsEntitiesBasicInfo = await getBasicInfo(valuesUris)
   const facetsSelectors = getSelectorsOptions({ facets, facetsEntitiesBasicInfo })

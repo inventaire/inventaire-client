@@ -15,7 +15,8 @@
     buttonLabel = null,
     withImage = false,
     hideCurrentlySelectedOption = false,
-    loadingMessage = false
+    loadingMessage,
+    waitingForOptions
   const buttonId = uniqueId('button')
 
   function onKeyDown (e) {
@@ -63,12 +64,12 @@
       {/if}
     </div>
     <div slot="dropdown-content" role="presentation">
-      {#if loadingMessage}
+      {#await waitingForOptions}
         <div class="loading-message">
           <Spinner />
           <p>{loadingMessage}</p>
         </div>
-      {:else}
+      {:then}
         {#each options as option}
           {#if !(hideCurrentlySelectedOption && option.value === value)}
             <button
@@ -81,7 +82,7 @@
             </button>
           {/if}
         {/each}
-      {/if}
+      {/await}
     </div>
   </Dropdown>
 </div>
