@@ -5,12 +5,12 @@ import error_ from '#lib/error'
 // Uses wbsearchentities despite its lack of inter-languages support
 // because it returns hits labels, descriptions and aliases
 // while action=query&list=search&srsearch returns only hits ids
-export default (format = true) => async (search, limit = 10, offset) => {
+export async function wikidataSearch ({ search, limit = 10, offset, formatResults = false }) {
   const res = await preq.get(searchWikidataEntities({ search, limit, offset }))
   let { search: results, 'search-continue': continu } = res
   if (results) {
     results = results.filter(filterOutSpecialPages)
-    if (format) results = results.map(formatAsSearchResult)
+    if (formatResults) results = results.map(formatAsSearchResult)
   } else {
     error_.report('wikidata search returned no results', { search, res })
     results = []

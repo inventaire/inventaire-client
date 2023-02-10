@@ -2,11 +2,9 @@ import languageSearch from './language_search.js'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.js'
 import error_ from '#lib/error'
 import { pluralize } from '#entities/lib/types/entities_types'
-import { forceArray } from '#lib/utils'
-import _wikidataSearch from './wikidata_search.js'
 import { searchByTypes } from '#entities/lib/search/search_by_types'
-
-const wikidataSearch = _wikidataSearch(true)
+import { forceArray } from '#lib/utils'
+import { wikidataSearch } from './wikidata_search.js'
 
 export default async function (types, input, limit, offset) {
   const uri = getEntityUri(input)
@@ -22,7 +20,12 @@ export default async function (types, input, limit, offset) {
   if (types.includes('languages')) {
     return languageSearch(input, limit, offset)
   } else if (types.includes('subjects')) {
-    return wikidataSearch(input, limit, offset)
+    return wikidataSearch({
+      search: input,
+      limit,
+      offset,
+      formatResults: true,
+    })
   } else {
     return searchByTypes({ types, search: input, limit, offset })
   }

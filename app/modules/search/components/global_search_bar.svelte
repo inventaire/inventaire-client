@@ -17,7 +17,7 @@
   import { getNextSection, getPrevSection, sectionsNames, typesBySection } from '#search/lib/search_sections'
   import { debounce } from 'underscore'
   import findUri from '#search/lib/find_uri'
-  import WikidataSearch from '#entities/lib/search/wikidata_search'
+  import { wikidataSearch } from '#entities/lib/search/wikidata_search'
   import Spinner from '#components/spinner.svelte'
   import SearchResult from '#search/components/search_result.svelte'
   import Flash from '#lib/components/flash.svelte'
@@ -28,8 +28,6 @@
   import viewport from '#lib/components/actions/viewport'
   import { currentRoute } from '#lib/location'
   import { searchByTypes } from '#entities/lib/search/search_by_types'
-
-  const wikidataSearch = WikidataSearch(false)
 
   let searchText = '', searchGroupEl, searchFieldEl, searchResultsEl, waiting, flash
   let results = []
@@ -85,7 +83,11 @@
     // as it's not a subset of Wikidata anymore: pretty much anything
     // on Wikidata can be considered a subject
     if (types === 'subjects') {
-      const res = await wikidataSearch(searchText, searchBatchLength, searchOffset)
+      const res = await wikidataSearch({
+        search: searchText,
+        limit: searchBatchLength,
+        offset: searchOffset,
+      })
       hasMore = res.continue != null
       return res.results.map(serializeSubject)
     } else {
