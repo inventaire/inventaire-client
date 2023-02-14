@@ -7,9 +7,16 @@ import { wikidataSearch } from './wikidata_search.js'
 import preq from '#lib/preq'
 
 export default async function (types, input, limit, offset) {
-  const uri = getEntityUri(input)
   types = forceArray(types).map(pluralize)
 
+  if (types.length === 1 && types[0] === 'languages') {
+    // Language search also handles search by uri,
+    // providing some entity type validation, as it only returns
+    // entities that were indexed in the languages index
+    return searchLanguages({ search: input, limit, offset })
+  }
+
+  const uri = getEntityUri(input)
   if (uri != null) {
     const res = await searchByEntityUri(uri, types)
     // If no entity is found with what was found to look like a uri,
@@ -17,9 +24,7 @@ export default async function (types, input, limit, offset) {
     if (res) return res
   }
 
-  if (types.length === 1 && types[0] === 'languages') {
-    return searchLanguages({ search: input, limit, offset })
-  } else if (types.length === 1 && types[0] === 'subjects') {
+  if (types.length === 1 && types[0] === 'subjects') {
     return wikidataSearch({
       search: input,
       limit,
