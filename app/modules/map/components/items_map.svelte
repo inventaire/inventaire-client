@@ -19,7 +19,6 @@
   let idsToDisplay = []
   let markers = new Map()
 
-  // onMount(() => bounds = initialBounds || getBounds(docsToDisplay))
   const syncDocValues = () => {
     bounds = getBounds(docsToDisplay)
     idsToDisplay = docsToDisplay.map(_.property('id'))
@@ -27,7 +26,7 @@
 
   const resetDocsToDisplay = () => docsToDisplay = initialDocs
 
-  const setMap = async items => {
+  const displayItemsMarkers = async items => {
     allEditionsFilters = []
 
     if (isNonEmptyArray(items)) {
@@ -41,16 +40,19 @@
     buildMarkers(items, markers)
   }
 
+  async function initMap () {
+    await getLeaflet()
+    await displayItemsMarkers(docsToDisplay)
+  }
+
   $: {
     selectedFilters = [ ...selectedTransactionFilters, ...selectedEditionFilters ]
   }
   $: docsToDisplay && syncDocValues()
   $: notAllDocsAreDisplayed = docsToDisplay.length !== initialDocs.length
-  $: {
-    setMap(docsToDisplay)
-  }
+  $: displayItemsMarkers(docsToDisplay)
 </script>
-{#await getLeaflet()}
+{#await initMap()}
   <div class="loading-wrapper">
     <p class="loading">{i18n('Loading map...')} <Spinner /></p>
   </div>
