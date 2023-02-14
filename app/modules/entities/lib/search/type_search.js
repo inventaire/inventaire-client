@@ -1,4 +1,4 @@
-import searchType from './search_type.js'
+import searchType from './search_by_types.js'
 import languageSearch from './language_search.js'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.js'
 import error_ from '#lib/error'

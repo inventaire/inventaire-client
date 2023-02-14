@@ -4,7 +4,7 @@
   import DeduplicateAuthorsNames from './deduplicate_authors_names.svelte'
   import SelectableEntity from './selectable_entity.svelte'
   import DeduplicateControls from './deduplicate_controls.svelte'
-  import searchType from '../lib/search/search_type.js'
+  import searchType from '../lib/search/search_by_types.js'
   import { getEntityUri } from '#entities/lib/search/entities_uris_results'
   import { getEntitiesByUris } from '#entities/lib/entities'
   import { addAuthorWorks } from '../lib/types/author_alt.js'
