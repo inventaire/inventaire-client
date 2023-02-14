@@ -1,8 +1,7 @@
+import { searchWorks } from '#entities/lib/search/search_by_types'
 import preq from '#lib/preq'
 import addPertinanceScore from './add_pertinance_score.js'
-import searchType from '#entities/lib/search/search_by_types'
 
-const searchWorks = searchType('works')
 const descendingPertinanceScore = work => -work.get('pertinanceScore')
 const Suggestions = Backbone.Collection.extend({ comparator: descendingPertinanceScore })
 
@@ -42,7 +41,7 @@ const isWorkWithoutSerie = work => (work.get('type') === 'work') && (work.get('c
 const searchMatchWorks = async serie => {
   const serieLabel = serie.get('label')
   const { allUris: partsUris } = serie.parts
-  const { results } = await searchWorks(serieLabel, 20)
+  const { results } = await searchWorks({ search: serieLabel, limit: 20 })
   return results
   .filter(result => (result._score > 0.5) && !partsUris.includes(result.uri))
   .map(_.property('uri'))

@@ -4,14 +4,13 @@
   import DeduplicateAuthorsNames from './deduplicate_authors_names.svelte'
   import SelectableEntity from './selectable_entity.svelte'
   import DeduplicateControls from './deduplicate_controls.svelte'
-  import searchType from '../lib/search/search_by_types.js'
   import { getEntityUri } from '#entities/lib/search/entities_uris_results'
   import { getEntitiesByUris } from '#entities/lib/entities'
   import { addAuthorWorks } from '../lib/types/author_alt.js'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import { fade } from 'svelte/transition'
   import { select } from './lib/deduplicate_helpers.js'
-  const searchHumans = searchType('humans')
+  import { searchHumans } from '#entities/lib/search/search_by_types'
 
   const name = app.request('querystring:get', 'name')
   let showDuplicateAuthorsNames = false
@@ -28,7 +27,7 @@
   }
 
   async function getHomonyms (name) {
-    let humans = await searchHumans(name, 4)
+    let humans = await searchHumans({ search: name, limit: 4 })
     // If there are many candidates, keep only those that look the closest, if any
     if (humans.length > 50) {
       const subset = humans.filter(asNameMatch(name))

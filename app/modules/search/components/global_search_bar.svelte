@@ -18,7 +18,6 @@
   import { debounce } from 'underscore'
   import findUri from '#search/lib/find_uri'
   import WikidataSearch from '#entities/lib/search/wikidata_search'
-  import preq from '#lib/preq'
   import Spinner from '#components/spinner.svelte'
   import SearchResult from '#search/components/search_result.svelte'
   import Flash from '#lib/components/flash.svelte'
@@ -28,6 +27,7 @@
   import { onDestroy } from 'svelte'
   import viewport from '#lib/components/actions/viewport'
   import { currentRoute } from '#lib/location'
+  import { searchByTypes } from '#entities/lib/search/search_by_types'
 
   const wikidataSearch = WikidataSearch(false)
 
@@ -95,11 +95,11 @@
       // the results that weren't returned in the previous query, whatever there place
       // in the newly returned results
       const searchLimit = searchBatchLength + searchOffset
-      const res = await preq.get(app.API.search({
+      const res = await searchByTypes({
         types,
         search: searchText,
         limit: searchLimit,
-      }))
+      })
       hasMore = res.continue != null
       return res.results
     }
