@@ -1,10 +1,10 @@
-import languageSearch from './language_search.js'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.js'
 import error_ from '#lib/error'
 import { pluralize } from '#entities/lib/types/entities_types'
 import { searchByTypes } from '#entities/lib/search/search_by_types'
 import { forceArray } from '#lib/utils'
 import { wikidataSearch } from './wikidata_search.js'
+import preq from '#lib/preq'
 
 export default async function (types, input, limit, offset) {
   const uri = getEntityUri(input)
@@ -17,9 +17,9 @@ export default async function (types, input, limit, offset) {
     if (res) return res
   }
 
-  if (types.includes('languages')) {
-    return languageSearch(input, limit, offset)
-  } else if (types.includes('subjects')) {
+  if (types.length === 1 && types[0] === 'languages') {
+    return searchLanguages({ search: input, limit, offset })
+  } else if (types.length === 1 && types[0] === 'subjects') {
     return wikidataSearch({
       search: input,
       limit,
@@ -55,4 +55,13 @@ async function searchByEntityUri (uri, types) {
   } else {
     throw error_.new('invalid entity type', 400, model)
   }
+}
+
+async function searchLanguages ({ search, limit, offset }) {
+  const { languages } = await preq.get(app.API.entities.languages({
+    search,
+    limit,
+    offset,
+  }))
+  return { results: languages }
 }

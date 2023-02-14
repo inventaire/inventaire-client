@@ -46,6 +46,14 @@ export default {
 
   changes: action('changes'),
   history: id => action('history', { id }),
+  duplicates: action('duplicates'),
+  contributions ({ userId, limit, offset, filter }) {
+    return action('contributions', { user: userId, limit, offset, filter })
+  },
+
+  languages ({ search, limit, offset }) {
+    return action('languages', { search, limit, offset })
+  },
 
   // POST
   create: action('create'),
@@ -55,6 +63,7 @@ export default {
   claims: {
     update: action('update-claim')
   },
+  moveToWikidata: action('move-to-wikidata'),
 
   labels: {
     update: action('update-label')
@@ -65,9 +74,4 @@ export default {
   revertEdit: action('revert-edit'),
 
   delete: action('delete'),
-  duplicates: action('duplicates'),
-  contributions ({ userId, limit, offset, filter }) {
-    return action('contributions', { user: userId, limit, offset, filter })
-  },
-  moveToWikidata: action('move-to-wikidata')
 }
