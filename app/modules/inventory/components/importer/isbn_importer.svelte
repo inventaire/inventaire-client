@@ -3,7 +3,7 @@
   import Flash from '#lib/components/flash.svelte'
   import autosize from 'autosize'
   import { formatCandidatesData } from '#inventory/lib/importer/import_helpers'
-  import { isbnPattern } from '#lib/isbn'
+  import { findIsbns } from '#lib/isbn'
   import { onMount, createEventDispatcher } from 'svelte'
   import { getInvalidIsbnsString } from '#inventory/components/importer/lib/importers_helpers'
 
@@ -24,12 +24,12 @@
   function checkIsbns () {
     flash = null
     if (!isbnsText || isbnsText.length === 0) return
-    isbns = isbnsText.match(isbnPattern)
+    isbns = findIsbns(isbnsText)
     if (isbns === null) return flash = { type: 'error', message: 'no ISBN found' }
   }
 
   function findIsbnsAndCreateCandidates () {
-    isbns = isbnsText.match(isbnPattern)
+    isbns = findIsbns(isbnsText)
     const candidatesData = formatCandidatesData(isbns)
     const invalidIsbns = getInvalidIsbnsString(isbns)
     if (invalidIsbns.length > 0) {

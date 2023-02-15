@@ -1,8 +1,8 @@
-import { isbnPattern, isNormalizedIsbn, normalizeIsbn } from '#lib/isbn'
+import { findIsbns, isNormalizedIsbn, normalizeIsbn } from '#lib/isbn'
 import ISBN from 'isbn3'
 
 export const extractIsbns = text => {
-  const isbns = text.match(isbnPattern)
+  const isbns = findIsbns(text)
   if (isbns == null) return []
 
   return isbns

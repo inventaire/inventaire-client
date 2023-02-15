@@ -28,4 +28,4 @@ export const looksLikeAnIsbn = function (text) {
 
 // {9,13} would be enough, but since it is used this is an extractor, it makes sense to increase the possible scope to invalid isbns.
 // Known cases: having five - instead of valid four.
-export const isbnPattern = /(97(8|9))?[\d-]{9,14}([\dX])/g
+export const findIsbns = str => str.match(/(97(8|9))?[\d-]{9,14}([\dX])/g)
