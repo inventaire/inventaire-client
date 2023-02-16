@@ -38,6 +38,6 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .property{
-    color: $grey;
+    color: $label-grey;
   }
 </style>
