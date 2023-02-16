@@ -8,7 +8,7 @@
   import ItemsLists from './items_lists.svelte'
   import EditionActions from './edition_actions.svelte'
   import OtherEditions from './other_editions.svelte'
-  import { addWorksClaims, filterClaims } from '#entities/components/lib/edition_layout_helpers'
+  import { addWorksClaims } from '#entities/components/lib/edition_layout_helpers'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { tick } from 'svelte'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
@@ -21,8 +21,6 @@
   const { uri, image, label } = entity
   let { claims } = entity
 
-  const claimsWithWorksClaims = _.pick(claims, filterClaims)
-
   async function showMapAndScrollToMap () {
     showMap = true
     await tick()
@@ -30,7 +28,7 @@
   }
 
   $: app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
-  $: claims = addWorksClaims(claimsWithWorksClaims, works)
+  $: claims = addWorksClaims(claims, works)
 </script>
 <BaseLayout
   {entity}
