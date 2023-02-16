@@ -87,11 +87,11 @@
           claims={infoboxClaims}
           entityType={entity.type}
         />
-        <Summary {entity} />
         <Ebooks
           {entity}
           {userLang}
         />
+        <Summary {entity} />
         <WorkActions
           {entity}
           {someEditions}
