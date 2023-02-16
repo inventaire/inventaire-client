@@ -31,12 +31,12 @@
   href={pathname}
   on:click={onClick}
 >
-  <div class="picture" style="background-image: url({imgSrc(picture, 100)})"></div>
+  <div class="picture" style:background-image="url({imgSrc(picture, 100)})" />
   {#if type === 'group'}
     <div class="members-count">{@html icon('group')} {membersCount}</div>
   {:else}
     {#if hasItemsCount}
-      <div class="items-count" title="{i18n('num_books', { smart_count: itemsCount })}">{@html icon('book')} {itemsCount}</div>
+      <div class="items-count" title={i18n('num_books', { smart_count: itemsCount })}>{@html icon('book')} {itemsCount}</div>
     {/if}
   {/if}
 
@@ -54,7 +54,7 @@
 </a>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .nav-list-element{
     position: relative;
     display: block;

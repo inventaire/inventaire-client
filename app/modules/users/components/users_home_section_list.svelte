@@ -4,9 +4,8 @@
   export let docs, type
 </script>
 
-<ul
-  class:members={type === 'members'}
-  >
+<ul class:members={type === 'members'}
+>
   {#each docs as doc}
     <li>
       <UsersHomeSectionListLi {doc} />
@@ -15,7 +14,7 @@
 </ul>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   ul{
     @include display-flex(row, center, flex-start, wrap);
     margin: 0 auto;
@@ -33,16 +32,16 @@
     @include radius;
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     ul{
       justify-content: center;
       max-height: 15em;
       overflow-y: auto;
     }
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     ul{
       // <ul> are the elements that needs to have a scroll
       // but it's a child of .list-wrapper which is the one
