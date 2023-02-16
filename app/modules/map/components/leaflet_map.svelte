@@ -42,7 +42,7 @@
     }
 
     L.tileLayer(mapConfig.tileUrl, mapConfig.settings)
-    .addTo(map)
+      .addTo(map)
 
     if (isMobile) map.scrollWheelZoom.disable()
 
