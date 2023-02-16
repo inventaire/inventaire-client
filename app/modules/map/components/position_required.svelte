@@ -21,7 +21,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .position-required{
     @include display-flex(column, center, center);
     margin: 2em auto;
@@ -43,8 +43,8 @@
     text-align: center;
     margin: 1em;
   }
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .position-required{
       > :global(.fa-map-marker){
         margin-top: 2rem;

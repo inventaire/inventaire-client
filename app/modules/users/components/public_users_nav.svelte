@@ -137,7 +137,7 @@
           zoom={mapZoom}
           cluster={true}
           on:moveend={fetchAndShowUsersAndGroupsOnMap}
-          >
+        >
 
           {#each usersInBounds as user (user._id)}
             <Marker latLng={user.position}>
@@ -161,8 +161,8 @@
 <Flash state={flash} />
 
 <style lang="scss">
-  @import '#general/scss/utils';
-  @import '#users/scss/users_home_section_navs';
+  @import "#general/scss/utils";
+  @import "#users/scss/users_home_section_navs";
 
   .list-header{
     @include display-flex(row, center, space-between);
@@ -205,8 +205,8 @@
     }
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
     .lists{
       flex-direction: column;
     }
@@ -220,8 +220,8 @@
     }
   }
 
-  /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  /* Large screens */
+  @media screen and (min-width: $small-screen){
     .map-lists-wrapper{
       > div{
         flex: 1 0 0;
