@@ -4,6 +4,7 @@ import actionsData from './actions_data.js'
 
 export const getNextActionsData = function (transaction) {
   const nextActions = proxyFindNextActions(transaction)
+  if (nextActions == null) return
   let data = actionsData()[nextActions]
   if (data == null) return
   data = addTransactionInfo(data, transaction)
