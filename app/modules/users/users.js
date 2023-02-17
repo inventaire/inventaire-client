@@ -59,16 +59,20 @@ const API = {
 }
 
 async function showUserContributions (idOrUsernameOrModel, filter) {
-  const user = await app.request('resolve:to:userModel', idOrUsernameOrModel)
-  if (app.request('require:loggedIn', user.get('contributionsPathname'))) {
-    const username = user.get('username')
-    let path = `users/${username}/contributions`
-    if (filter) path += `?filter=${filter}`
-    const title = i18n('contributions_by', { username })
-    app.navigate(path, { metadata: { title } })
-    if (app.request('require:admin:access')) {
-      const { default: Contributions } = await import('./views/contributions.js')
-      app.layout.showChildView('main', new Contributions({ user, filter }))
+  try {
+    const user = await app.request('resolve:to:userModel', idOrUsernameOrModel)
+    if (app.request('require:loggedIn', user.get('contributionsPathname'))) {
+      const username = user.get('username')
+      let path = `users/${username}/contributions`
+      if (filter) path += `?filter=${filter}`
+      const title = i18n('contributions_by', { username })
+      app.navigate(path, { metadata: { title } })
+      if (app.request('require:admin:access')) {
+        const { default: Contributions } = await import('./views/contributions.js')
+        app.layout.showChildView('main', new Contributions({ user, filter }))
+      }
     }
+  } catch (err) {
+    app.execute('show:error', err)
   }
 }
