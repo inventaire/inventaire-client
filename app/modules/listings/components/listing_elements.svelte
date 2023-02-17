@@ -9,6 +9,7 @@
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { pluck } from 'underscore'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
+  import { getViewportHeight } from '#lib/screen'
 
   export let elements, listingId, isEditable
 
@@ -91,7 +92,7 @@
 
   $: {
     if (listingBottomEl != null && hasMore) {
-      const screenBottom = windowScrollY + window.visualViewport.height
+      const screenBottom = windowScrollY + getViewportHeight()
       if (screenBottom + 100 > listingBottomEl.offsetTop) fetchMore()
     }
   }

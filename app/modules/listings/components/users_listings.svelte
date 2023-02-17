@@ -8,12 +8,13 @@
   import Modal from '#components/modal.svelte'
   import ListingEditor from '#listings/components/listing_editor.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
+  import { getViewportHeight, getViewportWidth } from '#lib/screen'
 
   export let usersIds, onUserLayout
 
   let listings = []
   let flash
-  const paginationSize = Math.trunc(window.visualViewport.width / 100) + 5
+  const paginationSize = Math.trunc(getViewportWidth() / 100) + 5
   let offset = paginationSize
   let fetching
   let windowScrollY = 0
@@ -62,7 +63,7 @@
 
   $: {
     if (listingBottomEl != null && hasMore) {
-      const screenBottom = windowScrollY + window.visualViewport.height
+      const screenBottom = windowScrollY + getViewportHeight()
       if (screenBottom + 100 > listingBottomEl.offsetTop) fetchMore()
     }
   }

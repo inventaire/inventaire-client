@@ -2,6 +2,7 @@
   import { isFunction } from 'underscore'
   import { slide } from 'svelte/transition'
   import getActionKey from '#lib/get_action_key'
+  import { getViewportHeight } from '#lib/screen'
 
   export let buttonTitle
   export let align = null
@@ -49,7 +50,7 @@
   function scrollToDropdownIfNeeded () {
     if (!dropdown) return
     const dropdownRect = dropdown.getBoundingClientRect()
-    if (dropdownRect.bottom > window.visualViewport.height) {
+    if (dropdownRect.bottom > getViewportHeight()) {
       dropdown.scrollIntoView({ block: 'end', inline: 'nearest', behavior: 'smooth' })
     }
   }

@@ -1,12 +1,12 @@
 import { waitingForPolyfills } from '#app/init_polyfills'
-import { viewportIsSmallerThan, viewportIsLargerThan } from '#lib/screen'
+import { viewportIsSmallerThan, viewportIsLargerThan, getViewportWidth, getViewportHeight } from '#lib/screen'
 import { readable } from 'svelte/store'
 import { debounce } from 'underscore'
 
 const getStoreValue = () => {
   return {
-    width: window.visualViewport?.width || window.screen.width,
-    height: window.visualViewport?.height || window.screen.height,
+    width: getViewportWidth(),
+    height: getViewportHeight(),
     isSmallerThan: viewportIsSmallerThan,
     isLargerThan: viewportIsLargerThan,
   }

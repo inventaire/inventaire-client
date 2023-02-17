@@ -1,7 +1,5 @@
 import error_ from '#lib/error'
 
-let screen_
-
 // Keep in sync with app/modules/general/scss/_media_query_thresholds.scss
 const wellknownWidths = {
   '$small-screen': 1000,
@@ -10,15 +8,17 @@ const wellknownWidths = {
 }
 const resolveWidth = width => wellknownWidths[width] ? wellknownWidths[width] : width
 
-export const viewportIsSmallerThan = maxWidth => window.visualViewport.width < resolveWidth(maxWidth)
-export const viewportIsLargerThan = maxWidth => window.visualViewport.width >= resolveWidth(maxWidth)
+// window.visualViewport is being polyfilled (see app/init_polyfills.js)
+// but errors can still be found in the logs
+export const getViewportWidth = () => window.visualViewport?.width || window.screen.width
+export const getViewportHeight = () => window.visualViewport?.height || window.screen.height
 
-export default screen_ = {
-  // /!\ window.screen.width is the screen's width not the current window width
-  width: () => window.visualViewport.width,
-  height: () => window.visualViewport.height,
+export const viewportIsSmallerThan = maxWidth => getViewportWidth() < resolveWidth(maxWidth)
+export const viewportIsLargerThan = maxWidth => getViewportWidth() >= resolveWidth(maxWidth)
+
+export default {
   isSmall (ceil = wellknownWidths['$small-screen']) {
-    return screen_.width() < ceil
+    return getViewportWidth() < ceil
   },
 
   // Scroll to the top of an $el
@@ -73,7 +73,7 @@ export default screen_ = {
     let attempts = 0
     const attemptToScroll = () => {
       const offset = element.offsetTop
-      const viewportHeight = window.visualViewport.height
+      const viewportHeight = getViewportHeight()
       const bodyHeight = window.document.body.clientHeight
       const hasRoomToScroll = (viewportHeight + offset < bodyHeight)
       if (!waitForRoomToScroll || hasRoomToScroll || ++attempts > 10) {

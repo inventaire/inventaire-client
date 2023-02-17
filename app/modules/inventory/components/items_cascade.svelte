@@ -3,6 +3,7 @@
   import ItemCard from '#inventory/components/item_card.svelte'
   import { debounce } from 'underscore'
   import Spinner from '#components/spinner.svelte'
+  import { getViewportWidth } from '#lib/screen'
 
   export let items
   export let showDistance = false
@@ -15,9 +16,10 @@
 
   let minColWidth, maxColWidth
   function refreshColumnWidth () {
-    if (window.visualViewport.width < (2 * baseColumnWidth + gap)) {
-      minColWidth = Math.min(window.visualViewport.width, baseColumnWidth)
-      maxColWidth = Math.min(window.visualViewport.width - gap, baseColumnWidth * 1.5)
+    const viewportWidth = getViewportWidth()
+    if (viewportWidth < (2 * baseColumnWidth + gap)) {
+      minColWidth = Math.min(viewportWidth, baseColumnWidth)
+      maxColWidth = Math.min(viewportWidth - gap, baseColumnWidth * 1.5)
     } else {
       minColWidth = maxColWidth = baseColumnWidth
     }

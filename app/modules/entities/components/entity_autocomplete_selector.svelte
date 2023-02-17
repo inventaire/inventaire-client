@@ -10,6 +10,7 @@
   import { createByProperty } from '#entities/lib/create_entities'
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
   import { wait } from '#lib/promises'
+  import { getViewportHeight } from '#lib/screen'
 
   export let searchTypes
   export let currentEntityUri
@@ -170,7 +171,7 @@
   function scrollToSuggestionsDropdownIfNeeded () {
     if (!autocompleteDropdownEl) return
     const dropdownRect = autocompleteDropdownEl.getBoundingClientRect()
-    if (dropdownRect.bottom > window.visualViewport.height) {
+    if (dropdownRect.bottom > getViewportHeight()) {
       autocompleteDropdownEl.scrollIntoView({ block: 'end', inline: 'nearest', behavior: 'smooth' })
     }
   }

@@ -1,6 +1,6 @@
 import log_ from '#lib/loggers'
 import drawCanvas from './draw_canvas.js'
-import screen_ from '#lib/screen'
+import { getViewportHeight, getViewportWidth } from '#lib/screen'
 import onDetected from './on_detected.js'
 
 export default {
@@ -66,7 +66,7 @@ const getOptions = function (constraints) {
 const facingMode = { ideal: 'environment' }
 
 const getConstraints = function () {
-  const minDimension = _.min([ screen_.width(), screen_.height() ])
+  const minDimension = _.min([ getViewportWidth(), getViewportHeight() ])
   if (minDimension > 720) {
     return { width: 1280, height: 720, facingMode }
   } else {
