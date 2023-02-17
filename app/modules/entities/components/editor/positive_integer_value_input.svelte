@@ -3,13 +3,16 @@
   import { i18n } from '#user/lib/i18n'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import error_ from '#lib/error'
+  import { tick } from 'svelte'
 
   export let currentValue, getInputValue, editorType
 
   const bubbleUpEvent = BubbleUpComponentEvent()
 
   let input
-  getInputValue = () => {
+  getInputValue = async () => {
+    // Wait for input to be mounted
+    await tick()
     const { value } = input
     if (!input.validity.valid) {
       throw error_.new('invalid value', 400, { value })

@@ -3,7 +3,7 @@
   import error_ from '#lib/error'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/components/editor/lib/title_tip'
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, tick } from 'svelte'
   import { I18n } from '#user/lib/i18n'
 
   export let currentValue, getInputValue, entity, property
@@ -12,7 +12,9 @@
   const bubbleUpEvent = BubbleUpComponentEvent(dispatch)
 
   let input
-  getInputValue = () => {
+  getInputValue = async () => {
+    // Wait for input to be mounted
+    await tick()
     const { value } = input
     // Testing the length in addition to the minlength setting
     // as that setting does not seem to set input.validity.valid=false correctly
