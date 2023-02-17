@@ -11,8 +11,8 @@
   import { addWorksClaims, filterClaims } from '#entities/components/lib/edition_layout_helpers'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { tick } from 'svelte'
-  import screen_ from '#lib/screen'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { scrollToElement } from '#lib/screen'
 
   export let entity, works, standalone
 
@@ -26,7 +26,7 @@
   async function showMapAndScrollToMap () {
     showMap = true
     await tick()
-    screen_.scrollToElement(mapWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
+    scrollToElement(mapWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
   }
 
   $: app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })

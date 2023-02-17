@@ -3,7 +3,7 @@
   import Flash from '#lib/components/flash.svelte'
   import importers from '#inventory/lib/importer/importers'
   import { createCandidate, byIndex } from '#inventory/lib/importer/import_helpers'
-  import screen_ from '#lib/screen'
+  import { scrollToElement } from '#lib/screen'
   import log_ from '#lib/loggers'
   import FileImporter from './file_importer.svelte'
   import IsbnImporter from './isbn_importer.svelte'
@@ -33,8 +33,8 @@
     processedExternalEntriesCount = 0
     totalExternalEntries = externalEntries.length
     const remainingExternalEntries = _.clone(externalEntries)
-    if (startedWithIsbns) screen_.scrollToElement(isbnImporterEl)
-    else screen_.scrollToElement(bottomSectionElement)
+    if (startedWithIsbns) scrollToElement(isbnImporterEl)
+    else scrollToElement(bottomSectionElement)
 
     const createCandidateOneByOne = async () => {
       if (cancelled) return processedExternalEntriesCount = 0

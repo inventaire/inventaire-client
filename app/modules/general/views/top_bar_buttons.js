@@ -1,4 +1,4 @@
-import screen_ from '#lib/screen'
+import { viewportIsSmall } from '#lib/screen'
 import { clickCommand } from '#lib/utils'
 import topBarButtonsTemplate from './templates/top_bar_buttons.hbs'
 
@@ -24,7 +24,7 @@ export default Marionette.View.extend({
 
   serializeData () {
     return {
-      smallScreen: screen_.isSmall(),
+      smallScreen: viewportIsSmall(),
       exchangesUpdates: app.request('transactions:unread:count'),
       notificationsUpdates: this.getNotificationsCount(),
       username: app.user.get('username'),

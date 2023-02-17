@@ -2,14 +2,14 @@
   import { I18n } from '#user/lib/i18n'
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   import CandidateNav from '#inventory/components/importer/candidate_nav.svelte'
-  import screen_ from '#lib/screen'
+  import { scrollToElement } from '#lib/screen'
 
   export let candidates
   export let processing
   let selectedBooksCount, titleEl
 
   $: {
-    if (processing) screen_.scrollToElement(titleEl)
+    if (processing) scrollToElement(titleEl)
   }
   $: candidatesLength = candidates.length
   $: selectedBooksCount = candidates.filter(_.property('checked')).length

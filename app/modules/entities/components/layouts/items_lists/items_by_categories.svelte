@@ -5,7 +5,7 @@
   import { createEventDispatcher, getContext } from 'svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { I18n, i18n } from '#user/lib/i18n'
-  import screen_ from '#lib/screen'
+  import { scrollToElement } from '#lib/screen'
 
   export let initialItems
   export let itemsOnMap
@@ -33,7 +33,7 @@
   function resetFilter (name) {
     $filters[name] = 'all'
     // Mitigate a scroll jump due to the edition list above being updated
-    screen_.scrollToElement(filtersTopEl, { marginTop: 32 })
+    scrollToElement(filtersTopEl, { marginTop: 32 })
   }
 
   $: initialItems && updateItems()

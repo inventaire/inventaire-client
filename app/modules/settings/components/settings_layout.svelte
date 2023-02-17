@@ -6,7 +6,7 @@
   import Notifications from './notifications.svelte'
   import Display from './display.svelte'
   import Data from './data.svelte'
-  import screen_ from '#lib/screen'
+  import { scrollToElement } from '#lib/screen'
 
   export let section = 'profile'
 
@@ -18,7 +18,7 @@
   const goToSetting = sectionName => async () => {
     section = sectionName
     if (isSmallScreen) {
-      screen_.scrollToElement(settingEl)
+      scrollToElement(settingEl)
     }
   }
 </script>

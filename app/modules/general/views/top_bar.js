@@ -2,7 +2,7 @@ import { clickCommand } from '#lib/utils'
 import { translate } from '#lib/urls'
 import GlobalSearchBar from '#search/components/global_search_bar.svelte'
 import TopBarButtons from './top_bar_buttons.js'
-import screen_ from '#lib/screen'
+import { viewportIsSmall } from '#lib/screen'
 import { currentRoute, currentSection } from '#lib/location'
 import languages from '#assets/js/languages_data'
 import topBarTemplate from './templates/top_bar.hbs'
@@ -42,7 +42,7 @@ export default Marionette.View.extend({
 
   serializeData () {
     return {
-      smallScreen: screen_.isSmall(),
+      smallScreen: viewportIsSmall(),
       isLoggedIn: app.user.loggedIn,
       currentLanguage: languages[app.user.lang].native,
       currentLanguageShortName: languages[app.user.lang].lang.toUpperCase(),
@@ -90,7 +90,7 @@ export default Marionette.View.extend({
   updateConnectionButtons (section) {
     if (app.user.loggedIn) return
 
-    if (screen_.isSmall() && ((section === 'signup') || (section === 'login'))) {
+    if (viewportIsSmall() && ((section === 'signup') || (section === 'login'))) {
       $('.connectionButton').hide()
       $('main').removeClass('active-connection-button')
     } else if (!app.user.loggedIn) {

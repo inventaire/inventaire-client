@@ -19,7 +19,7 @@
   import { setContext, tick } from 'svelte'
   import { writable } from 'svelte/store'
   import Summary from '#entities/components/layouts/summary.svelte'
-  import screen_ from '#lib/screen'
+  import { scrollToElement } from '#lib/screen'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
 
   export let entity, standalone
@@ -54,11 +54,11 @@
   async function showMapAndScrollToMap () {
     showMap = true
     await tick()
-    screen_.scrollToElement(mapWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
+    scrollToElement(mapWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
   }
 
   const scrollToItemsList = () => {
-    screen_.scrollToElement(itemsListsWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
+    scrollToElement(itemsListsWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
   }
 
   $: claims = entity.claims

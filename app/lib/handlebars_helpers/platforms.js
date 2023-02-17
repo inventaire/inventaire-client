@@ -1,5 +1,5 @@
 import { i18n } from '#user/lib/i18n'
-import screen_ from '#lib/screen'
+import { viewportIsSmall } from '#lib/screen'
 
 const gutenbergText = id => i18n('on_website', { name: 'Gutenberg.org' })
 
@@ -55,6 +55,6 @@ export default {
 }
 
 const gutenbergBase = function () {
-  const base = screen_.isSmall() ? 'http://m.' : 'https://www.'
+  const base = viewportIsSmall() ? 'http://m.' : 'https://www.'
   return `${base}gutenberg.org/`
 }

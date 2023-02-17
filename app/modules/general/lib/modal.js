@@ -1,7 +1,7 @@
 import { isNonEmptyString } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
 import getActionKey from '#lib/get_action_key'
-import screen_ from '#lib/screen'
+import { viewportIsSmallerThan } from '#lib/screen'
 import isMobile from '#lib/mobile_check'
 import { removeCurrentComponent } from '#lib/global_libs_extender'
 import Spinner from '#components/spinner.svelte'
@@ -31,7 +31,7 @@ export default function () {
 
     // Focusing is useful for devices with a keyboard, so that you can Tab your way through forms
     // but not for touch only devices
-    if (!(isMobile || screen_.isSmall(800))) {
+    if (!(isMobile || viewportIsSmallerThan(800))) {
       setTimeout(focusFirstTabElement, 200)
       // Allow to pass a selector to which to re-focus once the modal closes
       if (isNonEmptyString(focusSelector)) return prepareRefocus(focusSelector)

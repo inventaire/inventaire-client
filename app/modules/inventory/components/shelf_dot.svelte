@@ -2,7 +2,7 @@
   import { isOpenedOutside } from '#lib/utils'
   import { loadShelfLink } from '#shelves/components/lib/shelves'
   import { getColorHexCodeFromModelId } from '#lib/images'
-  import screen_ from '#lib/screen'
+  import { viewportIsSmallerThan } from '#lib/screen'
 
   export let shelf
 
@@ -17,7 +17,7 @@
   }
 </script>
 <li>
-  {#if screen_.isSmall(600)}
+  {#if viewportIsSmallerThan(600)}
     <div
       class="shelf-dot"
       title={name}

@@ -5,7 +5,7 @@
   import Counter from '#components/counter.svelte'
   import { createItemFromCandidate } from '#inventory/components/importer/lib/create_item'
   import ImportResults from '#inventory/components/importer/import_results.svelte'
-  import screen_ from '#lib/screen'
+  import { scrollToElement } from '#lib/screen'
   import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
   import { isAlreadyResolved, removeCreatedCandidates } from '#inventory/components/importer/lib/import_items_helpers'
   import { addItemsByIdsToShelf, createShelf, getShelvesByOwner } from '#shelves/lib/shelves'
@@ -40,7 +40,7 @@
       await createExternalShelvesSequentially()
       importingCandidates = false
       candidates = removeCreatedCandidates({ candidates, processedCandidates })
-      if (importResultsElement) screen_.scrollToElement(importResultsElement)
+      if (importResultsElement) scrollToElement(importResultsElement)
     } catch (err) {
       importingCandidates = false
       flash = err

@@ -2,7 +2,7 @@ import log_ from '#lib/loggers'
 import TypedEntityLayout from './typed_entity_layout.js'
 import { startLoading } from '#general/plugins/behaviors'
 import getEntitiesListView from './entities_list.js'
-import screen_ from '#lib/screen'
+import { viewportIsSmallerThan } from '#lib/screen'
 import AuthorInfobox from './author_infobox.js'
 import authorLayoutTemplate from './templates/author_layout.hbs'
 import '../scss/entities_layouts.scss'
@@ -74,7 +74,7 @@ export default TypedEntityLayout.extend({
     const total = works.totalLength + series.totalLength + articles.totalLength
 
     // Always starting wrapped on small screens
-    if (!screen_.isSmall(600) && (total > 0)) this.unwrap()
+    if (!viewportIsSmallerThan(600) && (total > 0)) this.unwrap()
 
     const initialWorksListLength = this.standalone ? 10 : 5
 

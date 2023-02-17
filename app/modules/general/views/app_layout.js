@@ -6,7 +6,7 @@ import TopBar from './top_bar.js'
 import initModal from '../lib/modal.js'
 import initFlashMessage from '../lib/flash_message.js'
 import ConfirmationModal from './confirmation_modal.js'
-import screen_ from '#lib/screen'
+import { viewportIsSmall } from '#lib/screen'
 import appLayoutTemplate from './templates/app_layout.hbs'
 import assert_ from '#lib/assert_types'
 import Dropdown from '#behaviors/dropdown'
@@ -88,9 +88,9 @@ export default Marionette.View.extend({
 })
 
 const initWindowResizeEvents = function () {
-  let previousScreenMode = screen_.isSmall()
+  let previousScreenMode = viewportIsSmall()
   const resizeEnd = function () {
-    const newScreenMode = screen_.isSmall()
+    const newScreenMode = viewportIsSmall()
     if (newScreenMode !== previousScreenMode) {
       previousScreenMode = newScreenMode
       app.vent.trigger('screen:mode:change')

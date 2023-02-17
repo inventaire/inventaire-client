@@ -4,7 +4,7 @@ import GroupSettings from './group_settings.js'
 import UsersSearchLayout from '../views/users_search_layout.js'
 import UsersList from '#users/views/users_list'
 import InviteByEmail from '#network/views/invite_by_email.js'
-import screen_ from '#lib/screen'
+import { scrollToElementTop } from '#lib/screen'
 import groupBoardTemplate from './templates/group_board.hbs'
 import '../scss/group_board.scss'
 import PreventDefault from '#behaviors/prevent_default'
@@ -95,7 +95,7 @@ export default GroupLayoutView.extend({
     const $parent = $el.parent()
     $el.slideToggle()
     $parent.find('.fa-caret-right').toggleClass('toggled')
-    if (scroll && $el.visible()) screen_.scrollTop($parent, null, 20)
+    if (scroll && $el.visible()) scrollToElementTop($parent, null, 20)
   },
 
   onFirstToggle: {
