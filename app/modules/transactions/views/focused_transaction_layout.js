@@ -2,7 +2,7 @@ import { isOpenedOutside } from '#lib/utils'
 import { i18n } from '#user/lib/i18n'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
-import { scrollToElementTop, viewportIsSmall } from '#lib/screen'
+import { scrollTo$Element, viewportIsSmall } from '#lib/screen'
 import Event from './event.js'
 import focusedTransactionLayout from './templates/focused_transaction_layout.hbs'
 import '../scss/focused_transaction_layout.scss'
@@ -31,7 +31,7 @@ export default Marionette.CollectionView.extend({
   onRender () {
     this.model.markAsRead()
     if (viewportIsSmall() && !this.options.nonExplicitSelection) {
-      scrollToElementTop({ $el: this.$el })
+      scrollTo$Element({ $el: this.$el })
     }
   },
 

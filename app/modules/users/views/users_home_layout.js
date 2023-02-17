@@ -11,7 +11,7 @@ import ShelvesSection from '#shelves/components/shelves_section.svelte'
 import NetworkUsersNav from '#users/views/network_users_nav.js'
 import PublicUsersNav from '#users/views/public_users_nav.js'
 import showPaginatedItems from '#welcome/lib/show_paginated_items'
-import { scrollToElementTop } from '#lib/screen'
+import { scrollTo$Element } from '#lib/screen'
 import InventoryWelcome from '#inventory/views/inventory_welcome.js'
 import error_ from '#lib/error'
 import assert_ from '#lib/assert_types'
@@ -388,7 +388,7 @@ export default Marionette.View.extend({
     if (!this.isIntact()) return
     const region = this.getRegion(regionName)
     const $el = (region.$el?.[0] != null) ? region.$el : $(region.el)
-    scrollToElementTop({ $el, marginTop: 10, delay: delayBeforeScrollToSection })
+    scrollTo$Element({ $el, marginTop: 10, delay: delayBeforeScrollToSection })
   }
 })
 

@@ -20,7 +20,7 @@ export const viewportIsSmall = () => viewportIsSmallerThan('$small-screen')
 
 // Scroll to the top of an $el
 // Increase marginTop to scroll to a point before the element top
-export function scrollToElementTop ({ $el, duration = 500, marginTop = 0, delay = 100 }) {
+export function scrollTo$Element ({ $el, duration = 500, marginTop = 0, delay = 100 }) {
   if (!($el instanceof $)) {
     throw error_.new('expected jquery $el', 500, arguments)
   }

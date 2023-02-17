@@ -1,6 +1,6 @@
 import { I18n } from '#user/lib/i18n'
 import tabsData from './lib/add_layout_tabs.js'
-import { scrollToElementTop, viewportIsSmall } from '#lib/screen'
+import { scrollTo$Element, viewportIsSmall } from '#lib/screen'
 import addLayoutTemplate from './templates/add_layout.hbs'
 import '#inventory/scss/add_layout.scss'
 import PreventDefault from '#behaviors/prevent_default'
@@ -82,7 +82,7 @@ export default Marionette.View.extend({
     this.showTabView(tab)
     const contentEl = this.getRegion('content').$el
     if (viewportIsSmall() && contentEl.position()) {
-      scrollToElementTop({ $el: contentEl })
+      scrollTo$Element({ $el: contentEl })
     }
   }
 })
