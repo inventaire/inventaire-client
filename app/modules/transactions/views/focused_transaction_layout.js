@@ -31,7 +31,7 @@ export default Marionette.CollectionView.extend({
   onRender () {
     this.model.markAsRead()
     if (viewportIsSmall() && !this.options.nonExplicitSelection) {
-      scrollToElementTop(this.$el)
+      scrollToElementTop({ $el: this.$el })
     }
   },
 

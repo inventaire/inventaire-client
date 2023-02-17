@@ -20,18 +20,10 @@ export const viewportIsSmall = () => viewportIsSmallerThan('$small-screen')
 
 // Scroll to the top of an $el
 // Increase marginTop to scroll to a point before the element top
-export function scrollToElementTop ($el, duration, marginTop, delay) {
-  if (_.isObject($el) && !($el instanceof $)) {
-    ({ $el, duration, marginTop, delay } = $el)
+export function scrollToElementTop ({ $el, duration = 500, marginTop = 0, delay = 100 }) {
+  if (!($el instanceof $)) {
+    throw error_.new('expected jquery $el', 500, arguments)
   }
-
-  // Polymorphism: accept jquery objects or selector strings as $el
-  if (_.isString($el)) $el = $($el)
-
-  if (duration == null) duration = 500
-  if (marginTop == null) marginTop = 0
-  if (delay == null) delay = 100
-
   const scroll = function () {
     const top = $el.position().top - marginTop
     return $('html, body').animate({ scrollTop: top }, duration)

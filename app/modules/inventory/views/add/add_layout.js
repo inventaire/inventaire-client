@@ -82,7 +82,7 @@ export default Marionette.View.extend({
     this.showTabView(tab)
     const contentEl = this.getRegion('content').$el
     if (viewportIsSmall() && contentEl.position()) {
-      scrollToElementTop(contentEl)
+      scrollToElementTop({ $el: contentEl })
     }
   }
 })

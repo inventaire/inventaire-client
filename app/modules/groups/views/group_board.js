@@ -95,7 +95,9 @@ export default GroupLayoutView.extend({
     const $parent = $el.parent()
     $el.slideToggle()
     $parent.find('.fa-caret-right').toggleClass('toggled')
-    if (scroll && $el.visible()) scrollToElementTop($parent, null, 20)
+    if (scroll && $el.visible()) {
+      scrollToElementTop({ $el: $parent, marginTop: 20 })
+    }
   },
 
   onFirstToggle: {
