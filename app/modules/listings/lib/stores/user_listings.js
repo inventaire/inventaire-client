@@ -1,4 +1,4 @@
-import preq from '#lib/preq'
+import { getListingsByCreators } from '#listings/lib/listings'
 import { writable } from 'svelte/store'
 const noop = () => {}
 
@@ -11,8 +11,12 @@ function start (setStoreValue) {
 }
 
 async function refresh (setStoreValue) {
-  const { lists: listings } = await preq.get(app.API.listings.byCreators({ usersIds: app.user.id }))
-  setStoreValue(listings)
+  if (app.user.loggedIn) {
+    const { listings } = await getListingsByCreators({ usersIds: app.user.id })
+    setStoreValue(listings)
+  } else {
+    setStoreValue([])
+  }
 }
 
 userListings.refresh = refresh

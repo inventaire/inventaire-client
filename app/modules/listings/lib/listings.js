@@ -58,7 +58,7 @@ export const serializeListing = listing => {
 }
 
 export async function countListings (userId) {
-  const { lists: listings } = await preq.get(app.API.listings.byCreators({ usersIds: userId }))
+  const { listings } = await getListingsByCreators({ usersIds: userId })
   return Object.keys(listings).length
 }
 
