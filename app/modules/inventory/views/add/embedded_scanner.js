@@ -112,8 +112,8 @@ export default Marionette.View.extend({
   updateNotFoundCounter (isbn) {
     this.notFound.push(isbn)
     const notFoundCount = this.notFound.length
-    if (notFoundCount === 1) this.ui.notFoundCounter.parent().removeClass('hidden')
-    this.ui.notFoundCounter.text(notFoundCount)
+    if (notFoundCount === 1) this.ui.notFoundCounter?.parent().removeClass('hidden')
+    this.ui.notFoundCounter?.text(notFoundCount)
   },
 
   showDuplicateIsbnWarning (isbn) {
