@@ -23,13 +23,13 @@
     userIsGroupAdmin = group.admins.find(({ user }) => user === doc._id) != null
   }
 
-  const onClick = SelectInventoryOnClick({ type, doc })
+  const selectInventory = SelectInventoryOnClick({ type, doc })
 </script>
 
 <a
   class="nav-list-element"
   href={pathname}
-  on:click={onClick}
+  on:click={selectInventory}
 >
   <div class="picture" style:background-image="url({imgSrc(picture, 100)})" />
   {#if type === 'group'}
