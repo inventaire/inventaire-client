@@ -80,8 +80,8 @@
         href={inventoryPathname}
         on:click|stopPropagation={loadInternalLink}
       >
-        <img class="avatar" alt="{username} avatar" src={imgSrc(picture, 48)} />
         <span class="username">{username}</span>
+        <img class="avatar" alt="{username} avatar" src={imgSrc(picture, 48)} />
       </a>
     {/if}
   </div>
@@ -211,6 +211,13 @@
   .username{
     margin-left: 0.5em;
     @include serif;
+  }
+
+  /* Smaller screens */
+  @media screen and (max-width: $smaller-screen){
+    .username{
+      display: none;
+    }
   }
 
   /* Small screens */
