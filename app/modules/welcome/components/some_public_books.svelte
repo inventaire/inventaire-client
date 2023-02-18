@@ -26,6 +26,7 @@
       <ItemsCascade items={params.items} {waiting} />
     {/if}
   {/await}
+  <div class="fade-out" />
 </section>
 
 <style lang="scss">
@@ -36,6 +37,15 @@
     overflow: hidden;
     max-height: 150vh;
     overflow-y: hidden;
+    position: relative;
+  }
+  .fade-out{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(0deg, $off-white, 50%, transparent);
+    height: 5em;
   }
   /* Large screens */
   @media screen and (min-width: $smaller-screen){
