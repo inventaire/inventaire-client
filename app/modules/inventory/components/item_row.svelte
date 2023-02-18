@@ -46,7 +46,9 @@
     if ($itemStore.user) {
       ;({ username, picture, inventoryPathname } = $itemStore.user)
     }
-    itemShelves = shelvesIds.map(shelfId => shelves[shelfId])
+    if (shelves) {
+      itemShelves = shelvesIds.map(shelfId => shelves[shelfId])
+    }
   }
 </script>
 
