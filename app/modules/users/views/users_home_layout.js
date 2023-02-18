@@ -384,10 +384,10 @@ export default Marionette.View.extend({
     }
   },
 
-  scrollToSection (regionName) {
+  async scrollToSection (regionName) {
     if (!this.isIntact()) return
     const region = this.getRegion(regionName)
-    const $el = (region.$el?.[0] != null) ? region.$el : $(region.el)
+    const $el = (region.$el?.[0]?.isConnected) ? region.$el : $(region.el)
     scrollTo$Element({ $el, marginTop: 10, delay: delayBeforeScrollToSection })
   }
 })

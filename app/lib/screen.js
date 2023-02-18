@@ -25,6 +25,10 @@ export function scrollTo$Element ({ $el, duration = 500, marginTop = 0, delay = 
     throw error_.new('expected jquery $el', 500, arguments)
   }
   const scroll = function () {
+    if (!$el[0]?.isConnected) {
+      error_.report('element is not connected to the DOM anymore', { $el })
+      return
+    }
     const top = $el.position().top - marginTop
     return $('html, body').animate({ scrollTop: top }, duration)
   }
