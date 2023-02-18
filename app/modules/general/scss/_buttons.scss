@@ -40,7 +40,7 @@
   &.alert{
     @include bg-hover($warning-color);
   }
-  &.disabled{
+  &.disabled, &:disabled{
     cursor: not-allowed;
     &:hover{
       background-color: auto;

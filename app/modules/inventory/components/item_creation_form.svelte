@@ -39,9 +39,11 @@
     })
   }
 
+  let validating
   async function validate () {
     try {
-      await createItem()
+      validating = createItem()
+      await validating
       if (shelvesIds.length > 0) {
         app.execute('show:shelf', shelvesIds[0])
       } else {
@@ -52,14 +54,18 @@
     }
   }
 
+  let validatingBeforeAddingNext
   async function validateAndAddNext () {
     try {
-      await createItem()
+      validatingBeforeAddingNext = createItem()
+      await validatingBeforeAddingNext
       addNext()
     } catch (err) {
       flash = err
     }
   }
+
+  $: disableButtons = validating || validatingBeforeAddingNext
 </script>
 
 <div class="item-creation">
@@ -115,23 +121,36 @@
     <div class="buttons">
       <button
         class="button grey"
+        disabled={disableButtons}
         on:click={cancel}
       >
         {@html icon('ban')}
         {I18n('cancel')}
       </button>
+
       <button
         class="button success"
         on:click={validate}
+        disabled={disableButtons}
       >
-        {@html icon('check')}
+        {#await validating}
+          <Spinner light={true} />
+        {:then}
+          {@html icon('check')}
+        {/await}
         {I18n('validate')}
       </button>
+
       <button
         class="button secondary"
         on:click={validateAndAddNext}
+        disabled={disableButtons}
       >
-        {@html icon('plus')}
+        {#await validatingBeforeAddingNext}
+          <Spinner light={true} />
+        {:then}
+          {@html icon('plus')}
+        {/await}
         {I18n('validate and add another book')}
       </button>
     </div>

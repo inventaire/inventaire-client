@@ -56,8 +56,10 @@ $inventory-nav-grey: #eee;
 @mixin hover-darken($color, $darken:15%) {
   background-color: $color;
   @include transition(background-color);
-  &:hover, &:focus{
-    background-color: darken($color, $darken);
+  &:not(.disabled):not(:disabled){
+    &:hover, &:focus{
+      background-color: darken($color, $darken);
+    }
   }
 }
 
