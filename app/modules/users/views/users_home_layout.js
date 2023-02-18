@@ -328,15 +328,16 @@ export default Marionette.View.extend({
   },
 
   async showSectionLastItems (section) {
-    if (section === 'public' && app.user.get('position') == null) return
-    showPaginatedItems({
-      requestName: sectionRequest[section],
-      layout: this,
-      regionName: 'itemsList',
-      limit: 20,
-      allowMore: true,
-      showDistance: section === 'public'
-    })
+    if (section === 'network') {
+      showPaginatedItems({
+        requestName: 'items:getNetworkItems',
+        layout: this,
+        regionName: 'itemsList',
+        limit: 20,
+        allowMore: true,
+        showDistance: false
+      })
+    }
   },
 
   closeShelf () {
@@ -409,9 +410,3 @@ const getItemsData = function (type, model) {
   }
   return preq.get(app.API.items.inventoryView(params))
 }
-
-const sectionRequest = {
-  network: 'items:getNetworkItems',
-  public: 'items:getNearbyItems'
-}
-

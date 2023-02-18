@@ -12,6 +12,7 @@
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import { docIsInBounds, getGroupsByPosition, getUsersByPosition } from '#users/components/lib/public_users_nav_helpers'
+  import PublicItemsNearby from '#users/components/public_items_nearby.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
 
   export let filter
@@ -136,6 +137,9 @@
       {/if}
     </div>
   </div>
+
+  <!-- TODO: pass bounds and update displays items accordingly -->
+  <PublicItemsNearby />
 {:else}
   <PositionRequired />
 {/if}
