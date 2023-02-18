@@ -1,4 +1,5 @@
 <script>
+  import { i18n } from '#user/lib/i18n'
   import UsersHomeSectionListLi from '#users/components/users_home_section_list_li.svelte'
 
   export let docs, type
@@ -7,9 +8,11 @@
 <ul class:members={type === 'members'}
 >
   {#each docs as doc}
-    <li>
+    <li class="user">
       <UsersHomeSectionListLi {doc} />
     </li>
+  {:else}
+    <li class="empty">{i18n('There is nothing here')}</li>
   {/each}
 </ul>
 
@@ -23,13 +26,20 @@
       @include radius;
     }
   }
-  li{
+  .user{
     position: relative;
     height: $users-home-nav-avatar-size;
     width: $users-home-nav-avatar-size;
     flex: 0 0 $users-home-nav-avatar-size;
     margin: 0.2em;
     @include radius;
+  }
+  .empty{
+    padding: 0.5em;
+    opacity: 0.8;
+    font-style: italic;
+    text-align: center;
+    flex: 1;
   }
 
   /* Small screens */
