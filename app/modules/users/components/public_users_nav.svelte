@@ -1,7 +1,6 @@
 <script>
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
-  import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { objLength } from '#lib/utils'
   import GroupMarker from '#map/components/group_marker.svelte'
@@ -9,11 +8,11 @@
   import Marker from '#map/components/marker.svelte'
   import PositionRequired from '#map/components/position_required.svelte'
   import UserMarkerAlt from '#map/components/user_marker_alt.svelte'
-  import { getBbox, isValidBbox } from '#map/lib/map'
+  import { getBbox } from '#map/lib/map'
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
+  import { docIsInBounds, getGroupsByPosition, getUsersByPosition } from '#users/components/lib/public_users_nav_helpers'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
-  import { serializeUser } from '#users/lib/users'
 
   export let filter
 
@@ -25,22 +24,10 @@
 
   const getByPosition = async (name, bbox) => {
     try {
-      if (!isValidBbox(bbox)) throw new Error(`invalid bbox: ${bbox}`)
-      let { [name]: docs } = await preq.get(app.API[name].searchByPosition(bbox))
       if (name === 'users') {
-        for (const doc of docs) {
-          if (usersById[doc._id] == null) {
-            usersById[doc._id] = serializeUser(doc)
-          }
-        }
-        usersById = usersById
+        usersById = await getUsersByPosition({ bbox, usersById })
       } else if (name === 'groups') {
-        for (const doc of docs) {
-          if (groupsById[doc._id] == null) {
-            groupsById[doc._id] = doc
-          }
-        }
-        groupsById = groupsById
+        groupsById = await getGroupsByPosition({ bbox, groupsById })
       }
     } catch (err) {
       flash = err
@@ -72,11 +59,6 @@
     usersById = usersById
   }
 
-  const docIsInBounds = doc => {
-    if (!bounds) return false
-    return bounds.contains(doc.position)
-  }
-
   function init () {
     if (!map) return
     fetchAndShowUsersAndGroupsOnMap()
@@ -85,10 +67,10 @@
 
   let usersInBounds, groupsInBounds
   function refreshUsersInBounds () {
-    usersInBounds = Object.values(usersById).filter(docIsInBounds)
+    usersInBounds = Object.values(usersById).filter(docIsInBounds(bounds))
   }
   function refreshGroupsInBounds () {
-    groupsInBounds = Object.values(groupsById).filter(docIsInBounds)
+    groupsInBounds = Object.values(groupsById).filter(docIsInBounds(bounds))
   }
 
   $: onChange(map, init)
