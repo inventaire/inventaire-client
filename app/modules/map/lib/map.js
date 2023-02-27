@@ -117,7 +117,7 @@ export function showUserOnMap (map, user) {
 
   if (user.hasPosition()) {
     const marker = map.addMarker({
-      objectId: `u${user.id}`,
+      objectId: `user-${user.id}`,
       model: user,
       markerType: 'user'
     })
@@ -152,7 +152,7 @@ export function updatePosition (model, updateReqres, type, focusSelector) {
 const showGroupOnMap = function (map, group) {
   if (group.hasPosition()) {
     return map.addMarker({
-      objectId: `g${group.id}`,
+      objectId: `group-${group.id}`,
       model: group,
       markerType: 'group'
     })
@@ -162,7 +162,7 @@ const showGroupOnMap = function (map, group) {
 const showItemOnMap = function (map, item) {
   if (item.position != null) {
     return map.addMarker({
-      objectId: `i${item.id}`,
+      objectId: `item-${item.id}`,
       model: item,
       markerType: 'item'
     })
