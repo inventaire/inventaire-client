@@ -7,7 +7,7 @@
 
 <ul class:members={type === 'members'}
 >
-  {#each docs as doc}
+  {#each docs as doc (doc._id)}
     <li class="user">
       <UsersHomeSectionListLi {doc} />
     </li>
