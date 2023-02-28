@@ -5,8 +5,9 @@ import buildMarker from './build_marker.js'
 
 const {
   tileUrl,
-  settings,
-  defaultZoom
+  tileLayerOptions,
+  defaultZoom,
+  mapOptions,
 } = mapConfig
 
 export function drawMap (params) {
@@ -20,7 +21,7 @@ export function drawMap (params) {
 
   if (!zoom) zoom = defaultZoom
 
-  const map = L.map(containerId)
+  const map = L.map(containerId, mapOptions)
 
   if (latLng != null) {
     map.setView(latLng, zoom)
@@ -28,7 +29,7 @@ export function drawMap (params) {
     map.fitBounds(bounds)
   }
 
-  L.tileLayer(tileUrl, settings).addTo(map)
+  L.tileLayer(tileUrl, tileLayerOptions).addTo(map)
 
   if (isMobile) map.scrollWheelZoom.disable()
 
