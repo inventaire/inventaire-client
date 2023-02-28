@@ -31,7 +31,7 @@
   setContext('layer', () => clusterGroup || map)
 
   function createLeaflet (node) {
-    map = L.map(node)
+    map = L.map(node, mapConfig.mapOptions)
       .on('zoom', e => dispatch('zoom', e))
       .on('moveend', e => dispatch('moveend', e))
 
@@ -41,7 +41,7 @@
       map.setView(view, zoom)
     }
 
-    L.tileLayer(mapConfig.tileUrl, mapConfig.settings)
+    L.tileLayer(mapConfig.tileUrl, mapConfig.tileLayerOptions)
       .addTo(map)
 
     if (isMobile) map.scrollWheelZoom.disable()
