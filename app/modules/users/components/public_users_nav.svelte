@@ -2,14 +2,13 @@
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { onChange } from '#lib/svelte/svelte'
-  import { objLength } from '#lib/utils'
   import GroupMarker from '#map/components/group_marker.svelte'
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import Marker from '#map/components/marker.svelte'
   import PositionRequired from '#map/components/position_required.svelte'
   import UserMarkerAlt from '#map/components/user_marker_alt.svelte'
   import { getBbox } from '#map/lib/map'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import { getGroupsByPosition, getUsersByPosition } from '#users/components/lib/public_users_nav_helpers'
   import PublicItemsNearby from '#users/components/public_items_nearby.svelte'
@@ -40,8 +39,7 @@
   const waiters = {}
   function fetchAndShowUsersAndGroupsOnMap () {
     if (!map) return
-    const displayedElementsCount = objLength(usersById) + objLength(groupsById)
-    if (map._zoom < 10 && displayedElementsCount > 20) return
+    if (mapIsTooZoomedOut()) return
     bbox = getBbox(map)
     if (!bbox) return
 
@@ -58,15 +56,23 @@
     mapViewLatLng = $user.position
   }
 
-  function init () {
-    if (!map) return
-    fetchAndShowUsersAndGroupsOnMap()
+  function mapIsTooZoomedOut () {
+    if (mapZoom >= 10) return false
+    if (!usersInBounds || !groupsInBounds) return false
+    const displayedElementsCount = usersInBounds.length + groupsInBounds.length
+    return displayedElementsCount > 20
+  }
+
+  let zoomInToDisplayMore = false
+  function updateZoomStatus () {
+    zoomInToDisplayMore = mapIsTooZoomedOut()
   }
 
   let usersInBounds, groupsInBounds
 
-  $: onChange(map, init)
+  $: onChange(map, fetchAndShowUsersAndGroupsOnMap)
   $: onChange($user.position, initMapViewFromMainUserPosition)
+  $: onChange(mapZoom, usersInBounds, groupsInBounds, updateZoomStatus)
 </script>
 
 {#if $user.position != null}
@@ -81,7 +87,11 @@
             {/await}
           </div>
           {#if usersInBounds}
-            <UsersHomeSectionList docs={usersInBounds} type="users" />
+            <UsersHomeSectionList
+              docs={usersInBounds}
+              type="users"
+              hideList={zoomInToDisplayMore}
+              hideListMessage={i18n('Zoom-in to display more')} />
           {/if}
         </div>
       {/if}
@@ -95,7 +105,11 @@
             {/await}
           </div>
           {#if groupsInBounds}
-            <UsersHomeSectionList docs={groupsInBounds} type="groups" />
+            <UsersHomeSectionList
+              docs={groupsInBounds}
+              type="groups"
+              hideList={zoomInToDisplayMore}
+              hideListMessage={i18n('Zoom-in to display more')} />
           {/if}
         </div>
       {/if}
@@ -106,11 +120,11 @@
         <LeafletMap
           bind:map
           view={mapViewLatLng}
-          zoom={mapZoom}
+          bind:zoom={mapZoom}
           cluster={true}
           on:moveend={fetchAndShowUsersAndGroupsOnMap}
         >
-          {#if usersInBounds}
+          {#if usersInBounds && !zoomInToDisplayMore}
             {#each usersInBounds as user (user._id)}
               <Marker latLng={user.position}>
                 <UserMarkerAlt doc={user} />
@@ -118,12 +132,18 @@
             {/each}
           {/if}
 
-          {#if groupsInBounds}
+          {#if groupsInBounds && !zoomInToDisplayMore}
             {#each groupsInBounds as group (group._id)}
               <Marker latLng={group.position}>
                 <GroupMarker doc={group} />
               </Marker>
             {/each}
+          {/if}
+
+          {#if zoomInToDisplayMore}
+            <div class="zoom-in-overlay">
+              <p>{i18n('Zoom-in to display more')}</p>
+            </div>
           {/if}
         </LeafletMap>
       {/if}
@@ -159,6 +179,7 @@
     z-index: 0;
     @include display-flex(row, center, center);
     background-color: $off-white;
+    position: relative;
     :global(.items-count), :global(.group-admin-badge), :global(.members-count){
       position: absolute;
       background-color: white;
@@ -181,6 +202,14 @@
       line-height: 0;
       border-bottom-right-radius: $global-radius;
     }
+  }
+
+  .zoom-in-overlay{
+    background-color: rgba($dark-grey, 0.5);
+    @include position(absolute, 0, 0, 0, 0);
+    // Above map but below controls
+    z-index: 400;
+    @include display-flex(column, center, center);
   }
 
   /* Small screens */
