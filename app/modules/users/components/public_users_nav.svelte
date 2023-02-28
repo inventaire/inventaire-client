@@ -11,7 +11,7 @@
   import { getBbox } from '#map/lib/map'
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
-  import { docIsInBounds, getGroupsByPosition, getUsersByPosition } from '#users/components/lib/public_users_nav_helpers'
+  import { getGroupsByPosition, getUsersByPosition } from '#users/components/lib/public_users_nav_helpers'
   import PublicItemsNearby from '#users/components/public_items_nearby.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
 
@@ -21,14 +21,16 @@
   const showGroups = filter !== 'users'
 
   let usersById = {}, groupsById = {}
-  let map, bounds, mapViewLatLng, mapZoom, flash
+  let map, bbox, mapViewLatLng, mapZoom, flash
 
   const getByPosition = async (name, bbox) => {
     try {
       if (name === 'users') {
-        usersById = await getUsersByPosition({ bbox, usersById })
+        usersById = await getUsersByPosition({ bbox })
+        usersInBounds = Object.values(usersById)
       } else if (name === 'groups') {
-        groupsById = await getGroupsByPosition({ bbox, groupsById })
+        groupsById = await getGroupsByPosition({ bbox })
+        groupsInBounds = Object.values(groupsById)
       }
     } catch (err) {
       flash = err
@@ -40,9 +42,8 @@
     if (!map) return
     const displayedElementsCount = objLength(usersById) + objLength(groupsById)
     if (map._zoom < 10 && displayedElementsCount > 20) return
-    const bbox = getBbox(map)
+    bbox = getBbox(map)
     if (!bbox) return
-    bounds = map.getBounds()
 
     if (showUsers) {
       waiters.users = getByPosition('users', bbox)
@@ -53,31 +54,19 @@
     }
   }
 
-  function addMainUserMarker () {
+  function initMapViewFromMainUserPosition () {
     mapViewLatLng = $user.position
-    bounds = map?.getBounds()
-    usersById[$user._id] = $user
-    usersById = usersById
   }
 
   function init () {
     if (!map) return
     fetchAndShowUsersAndGroupsOnMap()
-    bounds = map.getBounds()
   }
 
   let usersInBounds, groupsInBounds
-  function refreshUsersInBounds () {
-    usersInBounds = Object.values(usersById).filter(docIsInBounds(bounds))
-  }
-  function refreshGroupsInBounds () {
-    groupsInBounds = Object.values(groupsById).filter(docIsInBounds(bounds))
-  }
 
   $: onChange(map, init)
-  $: onChange($user.position, addMainUserMarker)
-  $: onChange(bounds, usersById, refreshUsersInBounds)
-  $: onChange(bounds, groupsById, refreshGroupsInBounds)
+  $: onChange($user.position, initMapViewFromMainUserPosition)
 </script>
 
 {#if $user.position != null}
@@ -121,25 +110,28 @@
           cluster={true}
           on:moveend={fetchAndShowUsersAndGroupsOnMap}
         >
+          {#if usersInBounds}
+            {#each usersInBounds as user (user._id)}
+              <Marker latLng={user.position}>
+                <UserMarkerAlt doc={user} />
+              </Marker>
+            {/each}
+          {/if}
 
-          {#each usersInBounds as user (user._id)}
-            <Marker latLng={user.position}>
-              <UserMarkerAlt doc={user} />
-            </Marker>
-          {/each}
-
-          {#each groupsInBounds as group (group._id)}
-            <Marker latLng={group.position}>
-              <GroupMarker doc={group} />
-            </Marker>
-          {/each}
+          {#if groupsInBounds}
+            {#each groupsInBounds as group (group._id)}
+              <Marker latLng={group.position}>
+                <GroupMarker doc={group} />
+              </Marker>
+            {/each}
+          {/if}
         </LeafletMap>
       {/if}
     </div>
   </div>
 
-  <!-- TODO: pass bounds and update displays items accordingly -->
-  <PublicItemsNearby />
+  <!-- TODO: use bbox to update displayed items accordingly -->
+  <PublicItemsNearby {bbox} />
 {:else}
   <PositionRequired />
 {/if}

@@ -1,8 +1,8 @@
 import preq from '#lib/preq'
-import { isValidBbox } from '#map/lib/map'
 import { serializeUser } from '#users/lib/users'
 
-export async function getUsersByPosition ({ bbox, usersById }) {
+export async function getUsersByPosition ({ bbox }) {
+  const usersById = {}
   const docs = await getDocsByPosition('users', bbox)
   for (const doc of docs) {
     if (usersById[doc._id] == null) {
@@ -12,7 +12,8 @@ export async function getUsersByPosition ({ bbox, usersById }) {
   return usersById
 }
 
-export async function getGroupsByPosition ({ bbox, groupsById }) {
+export async function getGroupsByPosition ({ bbox }) {
+  const groupsById = {}
   const docs = await getDocsByPosition('groups', bbox)
   for (const doc of docs) {
     if (groupsById[doc._id] == null) {
@@ -23,12 +24,6 @@ export async function getGroupsByPosition ({ bbox, groupsById }) {
 }
 
 async function getDocsByPosition (name, bbox) {
-  if (!isValidBbox(bbox)) throw new Error(`invalid bbox: ${bbox}`)
   const { [name]: docs } = await preq.get(app.API[name].searchByPosition(bbox))
   return docs
-}
-
-export const docIsInBounds = bounds => doc => {
-  if (!bounds) return false
-  return bounds.contains(doc.position)
 }
