@@ -12,6 +12,7 @@
   import '#map/scss/objects_markers.scss'
   import mapConfig from '#map/lib/config.js'
   import isMobile from '#lib/mobile_check'
+  import { onChange } from '#lib/svelte/svelte'
 
   mapConfig.init()
 
@@ -32,7 +33,10 @@
 
   function createLeaflet (node) {
     map = L.map(node, mapConfig.mapOptions)
-      .on('zoom', e => dispatch('zoom', e))
+      .on('zoom', e => {
+        dispatch('zoom', e)
+        zoom = e.target._zoom
+      })
       .on('moveend', e => dispatch('moveend', e))
 
     if (bounds) {
@@ -59,13 +63,17 @@
     }
   }
 
-  $: if (map) {
-    if (bounds) {
-      map.fitBounds(bounds)
-    } else {
-      map.setView(view, zoom)
+  function init () {
+    if (map) {
+      if (bounds) {
+        map.fitBounds(bounds)
+      } else {
+        map.setView(view, zoom)
+      }
     }
   }
+
+  $: onChange(map, init)
 </script>
 
 <div use:createLeaflet>
