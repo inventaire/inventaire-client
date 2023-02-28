@@ -1,18 +1,18 @@
 import { getConfig } from '#app/config'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 
+let initialized = false
 let suspectKeywordsPattern
 
 async function initSuspectKeywordsPattern () {
-  if (suspectKeywordsPattern === undefined) {
+  if (!initialized) {
     const config = await getConfig()
     if (isNonEmptyArray(config.spam?.suspectKeywords)) {
       const { suspectKeywords } = config.spam
       suspectKeywordsPattern = new RegExp(`(${suspectKeywords.join('|')})`, 'i')
-    } else {
-      suspectKeywordsPattern = null
     }
   }
+  initialized = true
 }
 
 export async function looksLikeSpam (str) {
