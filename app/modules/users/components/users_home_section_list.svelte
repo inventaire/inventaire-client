@@ -2,19 +2,22 @@
   import { i18n } from '#user/lib/i18n'
   import UsersHomeSectionListLi from '#users/components/users_home_section_list_li.svelte'
 
-  export let docs, type
+  export let docs, type, hideList = false, hideListMessage
 </script>
 
-<ul class:members={type === 'members'}
->
-  {#each docs as doc (doc._id)}
-    <li class="user">
-      <UsersHomeSectionListLi {doc} />
-    </li>
-  {:else}
-    <li class="empty">{i18n('There is nothing here')}</li>
-  {/each}
-</ul>
+{#if hideList}
+  <p class="hidden-list-message">{hideListMessage}</p>
+{:else}
+  <ul class:members={type === 'members'}>
+    {#each docs as doc (doc._id)}
+      <li class="user">
+        <UsersHomeSectionListLi {doc} />
+      </li>
+    {:else}
+      <li class="empty">{i18n('There is nothing here')}</li>
+    {/each}
+  </ul>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
@@ -34,7 +37,7 @@
     margin: 0.2em;
     @include radius;
   }
-  .empty{
+  .hidden-list-message, .empty{
     padding: 0.5em;
     opacity: 0.8;
     font-style: italic;
