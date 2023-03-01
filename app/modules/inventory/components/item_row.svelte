@@ -10,6 +10,7 @@
   import ImageDiv from '#components/image_div.svelte'
   import ShelfDot from './shelf_dot.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { compact } from 'underscore'
 
   export let item, showUser, shelves
 
@@ -47,7 +48,7 @@
       ;({ username, picture, inventoryPathname } = $itemStore.user)
     }
     if (shelves) {
-      itemShelves = shelvesIds.map(shelfId => shelves[shelfId])
+      itemShelves = compact(shelvesIds.map(shelfId => shelves[shelfId]))
     }
   }
 </script>
