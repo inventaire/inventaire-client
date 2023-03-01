@@ -1,18 +1,19 @@
 <script>
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  export let url, size = 200
+  export let url, size = 200, alt = ''
 </script>
 
-<div
-  class="image-div"
-  style:background-image={`url(${imgSrc(url, size, size)})`}
-  style:width={size}
-/>
+<div class="image-div">
+  {#if url}
+    <img src={imgSrc(url, size, size)} {alt} />
+  {/if}
+</div>
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .image-div{
-    background-size: cover;
-    background-position: center center;
+  img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
   }
 </style>

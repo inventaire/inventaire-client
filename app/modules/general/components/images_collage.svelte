@@ -10,10 +10,7 @@
   class:single={limit === 1}
 >
   {#each displayedImages as imageUrl}
-    <div
-      class="image-container"
-      style:background-image={`url(${imgSrc(imageUrl, imageSize, imageSize)})`}
-    />
+    <img src={imgSrc(imageUrl, imageSize, imageSize)} alt="" />
   {/each}
 </div>
 
@@ -23,18 +20,17 @@
   // this need to be overriden by the parent component
   .images-collage{
     background-color: #dcdcdc;
-    @include display-flex(row, center, center, wrap);
+    @include display-flex(row, center, center);
     overflow: hidden;
     &:not(.single){
-      .image-container{
+      img{
         max-width: 50%;
       }
     }
   }
-  .image-container{
-    background-size: cover;
-    background-position: center center;
+  img{
     flex: 1 1 auto;
     height: 100%;
+    object-fit: cover;
   }
 </style>
