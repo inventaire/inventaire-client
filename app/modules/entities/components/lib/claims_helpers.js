@@ -3,6 +3,7 @@ import wdLang from 'wikidata-lang'
 import { unprefixify } from '#lib/wikimedia/wikidata'
 import platforms_ from '#lib/handlebars_helpers/platforms.js'
 import * as icons_ from '#lib/handlebars_helpers/icons.js'
+import { uniq } from 'underscore'
 
 export const formatClaimValue = params => {
   const { value, prop } = params
@@ -237,7 +238,7 @@ infoboxPropsLists.serie = infoboxPropsLists.work
 
 export const formatYearClaim = (dateProp, claims) => {
   const values = claims[dateProp]
-  return isNonEmptyArray(values) ? values.map(formatTime) : ''
+  return isNonEmptyArray(values) ? uniq(values.map(formatTime)) : ''
 }
 
 const formatTime = value => timeClaim({ value, format: 'year' })
