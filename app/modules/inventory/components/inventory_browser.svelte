@@ -6,7 +6,7 @@
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
-  import { clone, intersection, pick, uniq } from 'underscore'
+  import { clone, intersection, pick, uniq, pluck, compact } from 'underscore'
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import { setContext } from 'svelte'
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
@@ -56,10 +56,11 @@
 
   let items = [], pagination, componentProps = { isMainUser }
 
-  async function getShelvesData (items, currentShelves) {
-    const shelvesIds = items.map(_.property('shelves')).flat()
-    const newShelvesIds = _.difference(_.uniq(shelvesIds), currentShelves)
+  async function getShelvesData (items, currentShelvesIds) {
+    const shelvesIds = compact(pluck(items, 'shelves').flat())
+    const newShelvesIds = _.difference(_.uniq(shelvesIds), currentShelvesIds)
     if (newShelvesIds.length > 0) return getShelves(newShelvesIds)
+    else return {}
   }
 
   async function setupPagination () {
@@ -80,8 +81,8 @@
           await app.request('items:getByIds', { ids: batch, items })
         }
         pagination.items = items
-        const newShelves = await getShelvesData(items, shelves)
-        pagination.shelves = _.assign(pagination.shelves, newShelves)
+        const newShelves = await getShelvesData(items, Object.keys(shelves))
+        pagination.shelves = Object.assign(pagination.shelves, newShelves)
       },
     }
   }
