@@ -37,7 +37,7 @@
     itemShelves
 
   $: {
-    ;({ details = '', transaction, visibility, shelves: shelvesIds } = $itemStore)
+    ;({ details = '', transaction, visibility, shelves: shelvesIds = [] } = $itemStore)
     if (mainUserIsOwner) {
       isPrivate = visibility.length === 0
       visibilitySummary = getVisibilitySummary(visibility)
