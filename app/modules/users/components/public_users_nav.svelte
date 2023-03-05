@@ -11,7 +11,7 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import { getGroupsByPosition, getUsersByPosition } from '#users/components/lib/public_users_nav_helpers'
-  import PublicItemsNearby from '#users/components/public_items_nearby.svelte'
+  import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
 
   export let filter
@@ -151,7 +151,11 @@
   </div>
 
   <!-- TODO: use bbox to update displayed items accordingly -->
-  <PublicItemsNearby {bbox} />
+  <PaginatedSectionItems
+    sectionRequestName="items:getNearbyItems"
+    showDistance={true}
+    {bbox}
+  />
 {:else}
   <PositionRequired />
 {/if}

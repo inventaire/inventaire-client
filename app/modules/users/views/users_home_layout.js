@@ -10,7 +10,6 @@ import ShelfBox from '#shelves/components/shelf_box.svelte'
 import ShelvesSection from '#shelves/components/shelves_section.svelte'
 import NetworkUsersNav from '#users/components/network_users_nav.svelte'
 import PublicUsersNav from '#users/components/public_users_nav.svelte'
-import showPaginatedItems from '#welcome/lib/show_paginated_items'
 import { scrollTo$Element } from '#lib/screen'
 import InventoryWelcome from '#inventory/views/inventory_welcome.js'
 import error_ from '#lib/error'
@@ -62,10 +61,9 @@ export default Marionette.View.extend({
     } else if (this.group != null) {
       this.startFromGroup(this.group)
     } else {
-      const { section, filter } = this.options
+      const { section } = this.options
       this.showUsersHomeNav(section)
       this.showSectionNav(section)
-      if (filter == null) this.showSectionLastItems(section)
     }
   },
 
@@ -325,19 +323,6 @@ export default Marionette.View.extend({
         groupId,
       }
     })
-  },
-
-  async showSectionLastItems (section) {
-    if (section === 'network') {
-      showPaginatedItems({
-        requestName: 'items:getNetworkItems',
-        layout: this,
-        regionName: 'itemsList',
-        limit: 20,
-        allowMore: true,
-        showDistance: false
-      })
-    }
   },
 
   closeShelf () {

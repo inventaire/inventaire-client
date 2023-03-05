@@ -2,14 +2,15 @@
   export let large = false, light = false, center = false
 </script>
 
+<!-- The "spinner" class is set on the outer elements to let it be style from parent components -->
 {#if large}
-  <div class="spinner-outer"><div class="spinner-inner" /></div>
+  <div class="spinner spinner-outer"><div class="spinner-inner" /></div>
 {:else if center}
-  <div class="spinner-centered">
+  <div class="spinner spinner-centered">
     <span class="small-spinner" class:light />
   </div>
 {:else}
-  <span class="small-spinner" class:light />
+  <span class="spinner small-spinner" class:light />
 {/if}
 
 <style>

@@ -70,3 +70,7 @@ export const waitForAttribute = (obj, attribute, options = {}) => {
     checkAttribute()
   })
 }
+
+// Returns a promise that never resolves, that can be used
+// as a placeholder while waiting for the real promise
+export const getPromisePlaceholder = () => new Promise(() => {})

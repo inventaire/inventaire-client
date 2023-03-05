@@ -4,6 +4,7 @@
   import Flash from '#lib/components/flash.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import app from '#app/app'
+  import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
 
   let flash, users, groups
 
@@ -97,6 +98,8 @@
     {/if}
   </div>
 </div>
+
+<PaginatedSectionItems sectionRequestName="items:getNetworkItems" />
 
 <Flash state={flash} />
 

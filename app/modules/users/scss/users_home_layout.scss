@@ -6,10 +6,6 @@
   // are displayed as a result, the view doesn't jump up
   min-height: 100vh;
 
-  #usersHomeBottom{
-    min-height: 100vh;
-  }
-
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     padding: 0.5em;

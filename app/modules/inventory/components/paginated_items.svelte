@@ -1,16 +1,17 @@
 <script>
   import Flash from '#lib/components/flash.svelte'
   import viewport from '#lib/components/actions/viewport'
-  import { wait } from '#lib/promises'
+  import { getPromisePlaceholder, wait } from '#lib/promises'
   import { onChange } from '#lib/svelte/svelte'
   import assert_ from '#lib/assert_types'
   import { i18n } from '#user/lib/i18n'
+  import Spinner from '#components/spinner.svelte'
 
   export let Component, componentProps, pagination, haveSeveralOwners = false
 
   let items = [], shelves = []
-  let flash, waiting
-  let fetchMore, hasMore, allowMore
+  let waiting = getPromisePlaceholder()
+  let flash, fetchMore, hasMore, allowMore
 
   let fetching = false
   async function fetch () {
@@ -64,7 +65,11 @@
       {haveSeveralOwners}
       {...componentProps} />
   {:else}
-    <p class="no-item">{i18n('There is nothing here')}</p>
+    {#await waiting}
+      <Spinner center={true} />
+    {:then}
+      <p class="no-item">{i18n('There is nothing here')}</p>
+    {/await}
   {/if}
   <Flash state={flash} />
   {#if allowMore && hasMore()}
@@ -82,6 +87,9 @@
   .paginated-items{
     position: relative;
     min-height: 20em;
+    :global(.spinner){
+      margin: 1em;
+    }
   }
   .bottom{
     position: absolute;
