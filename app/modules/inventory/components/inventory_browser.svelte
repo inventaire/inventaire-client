@@ -81,8 +81,12 @@
           await app.request('items:getByIds', { ids: batch, items })
         }
         pagination.items = items
-        const newShelves = await getShelvesData(items, Object.keys(shelves))
-        pagination.shelves = Object.assign(pagination.shelves, newShelves)
+        // TODO: re-enable fetching shelves for other users
+        // Requires to filter-out unauthorized shelves from item.shelves
+        if (isMainUser) {
+          const newShelves = await getShelvesData(items, Object.keys(shelves))
+          pagination.shelves = Object.assign(pagination.shelves, newShelves)
+        }
       },
     }
   }
