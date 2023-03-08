@@ -210,7 +210,7 @@
     @include display-flex(row, center, center);
   }
   .username{
-    margin-left: 0.5em;
+    margin-right: 0.5em;
     @include serif;
   }
 
