@@ -40,6 +40,9 @@
   let showSearchControls
   let hasMore = false
 
+  // In sync with limit parameter in `server/controllers/search/search.js`
+  const resultsMaxLength = 100
+
   async function search () {
     const searchKey = `${selectedCategory}:${selectedSection}:${searchText}`
     hasMore = false
@@ -88,7 +91,8 @@
         limit: searchBatchLength,
         offset: searchOffset,
       })
-      hasMore = res.continue != null
+      hasMore = res.continue != null && res.continue < resultsMaxLength
+
       return res.results.map(serializeSubject)
     } else {
       // Increasing search limit instead of offset, as search pages aren't stable:
@@ -102,7 +106,8 @@
         search: searchText,
         limit: searchLimit,
       })
-      hasMore = res.continue != null
+      hasMore = res.continue != null && res.continue < resultsMaxLength
+
       return res.results
     }
   }
