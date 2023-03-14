@@ -99,9 +99,16 @@ const claimProperties = [
   'wdt:P577',
 ]
 
+const authorsFacetsProps = [
+  'wdt:P50', // author
+  'wdt:P110', // illustrator
+  'wdt:P58', // scenarist
+  'wdt:P6338', // colorist
+]
+
 const workProperties = [
-  // TODO: include other author properties in that same facet
-  'wdt:P50',
+  ...authorsFacetsProps,
+  'wdt:P110',
   'wdt:P136',
   'wdt:P921',
   'wdt:P577',
@@ -116,12 +123,12 @@ const facetsProperties = {
   work: workProperties,
   serie: workProperties,
   publisher: [
-    'wdt:P50',
+    ...authorsFacetsProps,
     'wdt:P577',
     'wdt:P195',
   ],
   collection: [
-    'wdt:P50',
+    ...authorsFacetsProps,
     'wdt:P123',
     'wdt:P577',
   ],
@@ -129,7 +136,7 @@ const facetsProperties = {
   subject: claimProperties,
   movement: claimProperties,
   article: [
-    'wdt:P50',
+    ...authorsFacetsProps,
     'wdt:P1433', // published in
     'wdt:P577',
     'wdt:P921',
