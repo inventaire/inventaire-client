@@ -99,19 +99,22 @@ const claimProperties = [
   'wdt:P577',
 ]
 
+const workProperties = [
+  // TODO: include other author properties in that same facet
+  'wdt:P50',
+  'wdt:P136',
+  'wdt:P921',
+  'wdt:P577',
+]
+
 const facetsProperties = {
   author: [
     'wdt:P136',
     'wdt:P921',
     'wdt:P577',
   ],
-  serie: [
-    // TODO: include other author properties in that same facet
-    'wdt:P50',
-    'wdt:P136',
-    'wdt:P921',
-    'wdt:P577',
-  ],
+  work: workProperties,
+  serie: workProperties,
   publisher: [
     'wdt:P50',
     'wdt:P577',
