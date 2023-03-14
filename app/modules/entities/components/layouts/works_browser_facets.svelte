@@ -10,8 +10,8 @@
   const facetsObj = getWorksFacets({ works, context: layoutContext })
 
   let loadingMessage
-  const urisSize = facetsObj.valuesUris.length
-  loadingMessage = I18n('loading_facets_may_take_a_while', { smart_count: urisSize })
+  const urisCount = facetsObj.valuesUris.length
+  loadingMessage = I18n('loading_facets_may_take_a_while', { smart_count: urisCount })
 
   ;({ facets, facetsSelectedValues } = facetsObj)
   const waitingForOptions = getFacetsEntitiesBasicInfo(facetsObj)
