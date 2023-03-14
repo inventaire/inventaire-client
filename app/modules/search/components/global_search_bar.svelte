@@ -284,7 +284,7 @@
       />
       {#if showResults}
         {#if results.length > 0}
-          <div class="results">
+          <div class="search-results">
             <ul bind:this={searchResultsEl}>
               {#each results as result, index (result.id)}
                 <SearchResult
@@ -402,7 +402,7 @@
     // The #topBar gives it a positive z-index, and it sould be displayed just below
     z-index: -1;
   }
-  .loader, .results, .no-result{
+  .loader, .search-results, .no-result{
     background-color: #eee;
   }
   .loader, .no-result{
@@ -418,7 +418,7 @@
 
   /* Medium to Large screens */
   @media screen and (min-width: $small-screen){
-    .results{
+    .search-results{
       max-height: 60vh;
       overflow: auto;
     }
@@ -442,7 +442,7 @@
       @include display-flex(column);
       overflow: hidden;
     }
-    .results, .no-result, .loader{
+    .search-results, .no-result, .loader{
       order: -1;
       flex: 1 0 0;
       overflow: auto;
