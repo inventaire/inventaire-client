@@ -11,7 +11,7 @@ import ShelvesSection from '#shelves/components/shelves_section.svelte'
 import NetworkUsersNav from '#users/components/network_users_nav.svelte'
 import PublicUsersNav from '#users/components/public_users_nav.svelte'
 import { scrollTo$Element } from '#lib/screen'
-import InventoryWelcome from '#inventory/views/inventory_welcome.js'
+import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
 import error_ from '#lib/error'
 import assert_ from '#lib/assert_types'
 import { getAllGroupMembersIds } from '#groups/lib/groups'
@@ -180,7 +180,7 @@ export default Marionette.View.extend({
 
   showInventoryWelcome (userModel) {
     this.showInventoryOrListingNav({ userModel, section: 'inventory' })
-    this.showChildView('itemsList', new InventoryWelcome())
+    this.showChildComponent('itemsList', InventoryWelcome)
   },
 
   async showGroupInventory (groupModel) {
