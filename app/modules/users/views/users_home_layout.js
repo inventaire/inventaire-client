@@ -1,7 +1,7 @@
 import preq from '#lib/preq'
 import usersHomeLayoutTemplate from '#users/views/templates/users_home_layout.hbs'
 import '#users/scss/users_home_layout.scss'
-import UsersHomeNav from '#users/views/users_home_nav.js'
+import UsersHomeNav from '#users/components/users_home_nav.svelte'
 import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
 import UserProfile from '#users/components/user_profile.svelte'
 import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.svelte'
@@ -287,10 +287,11 @@ export default Marionette.View.extend({
     }
   },
 
-  showUsersHomeNav (section) {
+  async showUsersHomeNav (section) {
     if (!app.user.loggedIn) return
     section = !this.standalone || (section === 'user') ? section : undefined
-    this.showChildView('usersHomeNav', new UsersHomeNav({ section }))
+    await wait(0)
+    this.showChildComponent('usersHomeNav', UsersHomeNav, { props: { section } })
   },
 
   async showSectionNav (section, type, model) {
