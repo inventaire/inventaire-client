@@ -116,7 +116,6 @@
   .infobox-and-summary{
     :global(.entity-image){
       margin-right: 1em;
-      max-width: 9em;
     }
   }
   /* Large screens */

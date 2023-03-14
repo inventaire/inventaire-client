@@ -105,7 +105,7 @@
     @include display-flex(row, center);
     :global(.entity-image){
       flex: 1 0 auto;
-      margin-right: 2em;
+      margin-right: 1em;
     }
   }
   .title-row{

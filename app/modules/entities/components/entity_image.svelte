@@ -2,7 +2,7 @@
   import { i18n } from '#user/lib/i18n'
   import { loadInternalLink } from '#lib/utils'
   import Link from '#lib/components/link.svelte'
-  import ImagesCollage from '#components/images_collage.svelte'
+  import ImageDiv from '#components/image_div.svelte'
 
   export let entity,
     size = 300,
@@ -10,7 +10,7 @@
     noImageCredits
 
   const { image, uri } = entity
-  const { url: imageUrl } = image
+  const { url } = image
   let creditsUrl, creditsText
 
   if (image.credits) {
@@ -18,27 +18,21 @@
     creditsText = image.credits.text
   }
 
-  const url = `/entity/${uri}`
+  const entityUrl = `/entity/${uri}`
 </script>
-
-<div class="entity-image">
+<div
+  class="entity-image"
+  style:max-width="{size}px"
+>
   {#if withLink}
     <a
-      href={url}
+      href={entityUrl}
       on:click={loadInternalLink}
     >
-      <ImagesCollage
-        imagesUrls={[ imageUrl ]}
-        imageSize={size}
-        limit={1}
-      />
+      <ImageDiv {url} {size} />
     </a>
   {:else}
-    <ImagesCollage
-      imagesUrls={[ imageUrl ]}
-      imageSize={size}
-      limit={1}
-    />
+    <ImageDiv {url} {size} />
   {/if}
   {#if creditsText && !noImageCredits}
     <p class="photo-credits">
@@ -53,6 +47,11 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
+  .entity-image{
+    :global(.images-collage){
+      height: 10em;
+    }
+  }
   .photo-credits{
     margin: 0;
     font-size: 0.8em;
