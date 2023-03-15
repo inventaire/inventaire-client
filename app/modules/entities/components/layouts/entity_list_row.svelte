@@ -106,7 +106,7 @@
     line-height: 1.2rem;
     margin-bottom: 0.4rem;
     overflow: hidden;
-    .uri {
+    .uri{
       @include shy;
       font-size: 0.9rem;
     }
@@ -133,8 +133,8 @@
     margin: 0;
   }
 
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     .entity-wrapper{
       flex-wrap: wrap;
       align-self: center;

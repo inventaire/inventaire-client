@@ -43,7 +43,7 @@
     height: 12em;
     margin: $card-margin;
     &.hasSubEntities{
-      width: calc($card-base-width * 2 + $card-margin * 2)
+      width: calc($card-base-width * 2 + $card-margin * 2);
     }
     &:hover{
       @include shadow-box;

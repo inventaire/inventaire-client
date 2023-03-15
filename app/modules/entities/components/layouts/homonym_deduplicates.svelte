@@ -141,7 +141,7 @@
     background-color: $light-grey;
     background-color: white;
     input{
-      margin-right: 1em
+      margin-right: 1em;
     }
   }
   button{

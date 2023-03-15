@@ -109,7 +109,7 @@
 </div>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   $card-height: 8rem;
   .relative-entities-list.not-empty{
     padding: 0.5rem;

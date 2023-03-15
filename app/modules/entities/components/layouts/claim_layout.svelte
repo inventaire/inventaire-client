@@ -96,7 +96,7 @@
 </BaseLayout>
 
 <style lang="scss">
-  @import '#general/scss/utils';
+  @import "#general/scss/utils";
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
@@ -120,8 +120,8 @@
   .relatives-browser{
     margin-top: 1em;
   }
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     .top-section{
       display: block;
       :global(.entity-image){

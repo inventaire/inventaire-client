@@ -123,7 +123,7 @@
     padding: 0.5em;
     margin-bottom: 0.5em;
   }
-  .section-without-work {
+  .section-without-work{
     @include display-flex(row, center);
   }
   ul{
@@ -153,8 +153,8 @@
     color: $grey;
     margin: auto;
   }
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
     li{
       @include display-flex(column);
       margin-bottom: 0.5em;
