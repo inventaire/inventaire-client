@@ -114,12 +114,15 @@ const workProperties = [
   'wdt:P577',
 ]
 
+const humanProperties = [
+  'wdt:P136',
+  'wdt:P921',
+  'wdt:P577',
+]
+
 const facetsProperties = {
-  author: [
-    'wdt:P136',
-    'wdt:P921',
-    'wdt:P577',
-  ],
+  author: humanProperties,
+  human: humanProperties,
   work: workProperties,
   serie: workProperties,
   publisher: [
