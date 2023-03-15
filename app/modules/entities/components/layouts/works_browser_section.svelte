@@ -68,10 +68,13 @@
   class="works-browser-section"
   class:section-without-work={!anyWork}
 >
-  <SectionLabel
-    {label}
-    entitiesLength={works.length}
-  />
+  {#if label}
+    <SectionLabel
+      {label}
+      entitiesLength={works.length}
+      filteredEntitiesLength={filteredWorks.length}
+    />
+  {/if}
   {#if anyWork}
     <ul
       class:grid={displayMode === 'grid'}
