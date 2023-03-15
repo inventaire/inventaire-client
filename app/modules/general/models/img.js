@@ -1,7 +1,6 @@
 import log_ from '#lib/loggers'
 import { getUrlDataUrl, resizeDataUrl, upload, dataUrlToBlob } from '#lib/images'
 const maxSize = 1600
-const container = 'users'
 
 // named Img and not Image to avoid overwritting window.Image
 export default Backbone.NestedModel.extend({
@@ -78,7 +77,7 @@ export default Backbone.NestedModel.extend({
     return this.get(a)[value] !== this.get(b)[value]
   },
 
-  async getFinalUrl () {
+  async uploadAndGetFinalUrl ({ container }) {
     if (this.crop) this.setCroppedDataUrl()
     // testing the original url existance as it imageHasChanged alone
     // wouldn't detect that a new image from file

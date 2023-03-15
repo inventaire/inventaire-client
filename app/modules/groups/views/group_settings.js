@@ -1,5 +1,5 @@
 import { tryAsync } from '#lib/promises'
-import { isUserImg } from '#lib/boolean_tests'
+import { isGroupImg } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
 import { I18n, i18n } from '#user/lib/i18n'
 import groupSettingsTemplate from './templates/group_settings.hbs'
@@ -131,6 +131,7 @@ export default Marionette.View.extend({
 
   changePicture () {
     app.layout.showChildView('modal', new PicturePicker({
+      container: 'groups',
       pictures: this.model.get('picture'),
       save: this._savePicture.bind(this),
       limit: 1,
@@ -141,8 +142,8 @@ export default Marionette.View.extend({
   _savePicture (pictures) {
     const picture = pictures[0]
     log_.info(picture, 'picture')
-    if (!isUserImg(picture)) {
-      const message = 'couldnt save picture: requires a local user image url'
+    if (!isGroupImg(picture)) {
+      const message = 'couldnt save picture: requires a local group image url'
       throw error_.new(message, pictures)
     }
 

@@ -27,6 +27,7 @@ export const isImageHash = bindedTest('ImageHash')
 export const isLocalImg = bindedTest('LocalImg')
 export const isAssetImg = bindedTest('AssetImg')
 export const isUserImg = bindedTest('UserImg')
+export const isGroupImg = bindedTest('GroupImg')
 export const isInvEntityId = isCouchUuid
 export const isEmail = bindedTest('Email')
 export const isUserId = isCouchUuid

@@ -9,6 +9,7 @@ export const Lang = /^\w{2}$/
 export const LocalImg = /^\/img\/(entities|groups|users)\/[0-9a-f]{40}$/
 export const AssetImg = /^\/img\/assets\/\w/
 export const UserImg = /^\/img\/users\/[0-9a-f]{40}$/
+export const GroupImg = /^\/img\/groups\/[0-9a-f]{40}$/
 export const Username = /^[\p{Letter}\p{Number}_]{2,20}$/u
 export const SimpleDay = /^-?([1-9]{1}[0-9]{0,3}|0)(-\d{2})?(-\d{2})?$/
 

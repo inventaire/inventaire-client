@@ -105,17 +105,20 @@ export default Marionette.CollectionView.extend({
       timeout: 600
     })
 
-    return this.getFinalUrls()
+    return this.uploadAndGetFinalUrls()
     .catch(error_.Complete('.alertBox'))
     .then(log_.Info('final urls'))
     .then(this._saveAndClose.bind(this))
     .catch(forms_.catchAlert.bind(null, this))
   },
 
-  getFinalUrls () {
+  uploadAndGetFinalUrls () {
     let selectedModels = this.collection.models.filter(isSelectedModel)
     selectedModels = selectedModels.slice(0, this.limit)
-    return Promise.all(_.invoke(selectedModels, 'getFinalUrl'))
+    const { container = 'users' } = this.options
+    return Promise.all(selectedModels.map(imageModel => {
+      return imageModel.uploadAndGetFinalUrl({ container })
+    }))
   },
 
   _saveAndClose (urls) {
