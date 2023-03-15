@@ -200,7 +200,3 @@ export function getSelectedUris ({ works, facets, facetsSelectedValues }) {
 export const bySearchMatchScore = textFilterUris => (a, b) => {
   return textFilterUris.indexOf(a.uri) - textFilterUris.indexOf(b.uri)
 }
-
-export function isClaimLayout (layoutContext) {
-  return [ 'genre', 'subject', 'movement' ].includes(layoutContext)
-}

@@ -19,7 +19,6 @@
 
   const { uri, type } = entity
   let { label } = entity
-  if (property) label = getRelativeEntitiesListLabel({ property, entity }) || entity.label
 
   app.navigate(`/entity/${property}-${uri}`, { metadata: getEntityMetadata(entity) })
   let sections
@@ -42,8 +41,6 @@
   }
 
   const typeLabel = defaultTypeByClaimProperty[property] || 'subject'
-
-  $: entitiesLength = sections?.map(_.property('uris')).flat().length
 </script>
 
 <BaseLayout
@@ -57,13 +54,6 @@
       <h2>
         {label}
       </h2>
-      {#if sections}
-        {#if entitiesLength > 10}
-          <span class="counter">
-            {entitiesLength}
-          </span>
-        {/if}
-      {/if}
     </div>
     <div class="top-section">
       {#if !isStandaloneEntityType(type)}

@@ -5,9 +5,8 @@
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import WorkActions from '#entities/components/layouts/work_actions.svelte'
   import { addWorksImages } from '#entities/lib/types/work_alt'
-  import { bySearchMatchScore, getSelectedUris, isClaimLayout } from '#entities/components/lib/works_browser_helpers'
+  import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { flip } from 'svelte/animate'
-  import { getContext } from 'svelte'
   import { i18n } from '#user/lib/i18n'
   import { onChange } from '#lib/svelte/svelte'
   import { setIntersection } from '#lib/utils'
@@ -59,11 +58,6 @@
     displayLimit = initialLimit
   }
 
-  const layoutContext = getContext('layout-context')
-
-  // as claim layout already displays label
-  if (isClaimLayout(layoutContext)) label = null
-
   $: onChange(displayLimit, addMoreWorks)
   $: onChange(displayMode, resetView)
   $: onChange(filteredWorks, resetView, addMoreWorks)
@@ -74,12 +68,10 @@
   class="works-browser-section"
   class:section-without-work={!anyWork}
 >
-  {#if label}
-    <SectionLabel
-      {label}
-      entitiesLength={works.length}
-    />
-  {/if}
+  <SectionLabel
+    {label}
+    entitiesLength={works.length}
+  />
   {#if anyWork}
     <ul
       class:grid={displayMode === 'grid'}
