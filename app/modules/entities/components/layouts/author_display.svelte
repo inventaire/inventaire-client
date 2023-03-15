@@ -14,7 +14,7 @@
     label = getBestLangValue(app.user.lang, null, labels).value
   } else {
     label = claimValue
-    url = `/search?q=${label}`
+    url = `/search?q=!a ${label}`
   }
   const birthOrDeathDates = claims['wdt:P569'] || claims['wdt:P570']
 </script>

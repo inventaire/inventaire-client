@@ -148,9 +148,9 @@ const valueFormatters = {
 }
 
 const byCount = (a, b) => {
-  const count = getCount(b) - getCount(a)
-  if (count === 0) return alphabetically(a, b)
-  else return count
+  const countDifference = getCount(b) - getCount(a)
+  if (countDifference === 0) return alphabetically(a, b)
+  else return countDifference
 }
 const alphabetically = (a, b) => a.text > b.text ? 1 : -1
 const getCount = option => option.value === 'unknown' ? -1 : option.count

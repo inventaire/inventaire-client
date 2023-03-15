@@ -9,7 +9,7 @@
 
   const propType = propertiesType[prop]
 
-  let linkTitle = uri => `${i18n(prop)}: ${getBestLabel(entity)}`
+  const linkTitle = uri => `${i18n(prop)}: ${getBestLabel(entity)}`
 
   const getBestLabel = entity => getBestLangValue(app.user.lang, null, entity.labels).value
 </script>

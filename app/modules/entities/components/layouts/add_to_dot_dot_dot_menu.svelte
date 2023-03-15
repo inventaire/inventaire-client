@@ -68,7 +68,7 @@
   let showListingCreationModal = false
   let showEditionPickerModal = false
 
-  $:onChange(showEditionPickerModal, fetchEditions)
+  $: onChange(showEditionPickerModal, fetchEditions)
 </script>
 
 <div class="add-to-dot-dot-dot-menu">

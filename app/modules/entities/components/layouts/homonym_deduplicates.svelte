@@ -5,6 +5,7 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import EntityListRow from './entity_list_row.svelte'
   import MergeAction from '#entities/components/layouts/merge_action.svelte'
+  import { pluck } from 'underscore'
 
   export let entity
 
@@ -14,19 +15,19 @@
   const { hasDataadminAccess } = app.user
 
   const getHomonymsPromise = async () => homonyms = await getHomonymsEntities(entity)
-    .then(checkCheckoxOnLabelsMatch)
+    .then(checkCheckboxOnLabelsMatch)
 
-  async function checkCheckoxOnLabelsMatch (homonyms) {
-    homonyms.forEach(homonym => {
-      if (haveLabelMatch(homonym, entity)) selectedHomonymsUris.push(homonym.uri)
-    })
+  async function checkCheckboxOnLabelsMatch (homonyms) {
+    selectedHomonymsUris = homonyms
+      .filter(homonym => haveLabelMatch(homonym, entity))
+      .map((_.property('uri')))
     return homonyms
   }
 
   const selectedHomonyms = homonym => !homonym.isMerging && !homonym.merged && selectedHomonymsUris.includes(homonym.uri)
 
   function selectAll () {
-    selectedHomonymsUris = homonyms.map(_.property('uri'))
+    selectedHomonymsUris = pluck(homonyms, 'uri')
   }
   function unselectAll () {
     selectedHomonymsUris = []

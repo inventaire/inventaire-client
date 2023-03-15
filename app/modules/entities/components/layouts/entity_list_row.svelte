@@ -42,7 +42,6 @@
       href={pathname}
       on:click={loadInternalLink}
       {title}
-      tabindex="-1"
     >
       <ImagesCollage
         imagesUrls={images || [ image.url ]}
