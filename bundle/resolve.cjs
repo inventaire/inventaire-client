@@ -28,4 +28,6 @@ module.exports = {
   alias,
   // Recommended by https://github.com/sveltejs/svelte-loader#resolvemainfields
   mainFields: [ 'svelte', 'browser', 'module', 'main' ],
+  // Required to use the original component source code, see https://github.com/sveltejs/svelte-loader#resolveconditionnames
+  conditionNames: [ 'svelte' ],
 }
