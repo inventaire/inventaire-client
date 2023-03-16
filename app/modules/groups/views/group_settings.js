@@ -174,6 +174,7 @@ export default Marionette.View.extend({
 
   updateSettings (update) {
     update.model = this.model
+    this.lazyRender()
     return app.request('group:update:settings', update)
   },
 
