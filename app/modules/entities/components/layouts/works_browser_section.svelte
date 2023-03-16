@@ -24,11 +24,23 @@
     if (!facetsSelectedValues) return
     let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
     if (textFilterUris) selectedUris = setIntersection(selectedUris, textFilterUris)
-    filteredWorks = works.filter(work => selectedUris.has(work.uri))
+    filteredWorks = works.filter(filterSelectedWorks(selectedUris, facetsSelectedValues))
     if (textFilterUris) {
       filteredWorks = filteredWorks.sort(bySearchMatchScore(textFilterUris))
     }
   }
+
+  const filterSelectedWorks = (selectedUris, facetsSelectedValues) => work => {
+    const { uri } = work
+    return selectedUris.has(uri) || isSelectedEntityAParent(uri, facetsSelectedValues)
+  }
+
+  const isSelectedEntityAParent = (uri, facetsSelectedValues) => {
+    // ie. if a collection is selected, display the collection in question.
+    // TODO: generalize pattern to series
+    return facetsSelectedValues['wdt:P195'] === uri
+  }
+
   $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
 
   function onWorksScroll (e) {
