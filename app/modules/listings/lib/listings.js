@@ -33,6 +33,7 @@ export const getUserListingsByEntityUri = async ({ userId, uri }) => {
 }
 
 export const getListingsContainingEntityUri = async ({ listingsIds, uri }) => {
+  if (listingsIds.length === 0) return []
   const { lists: listingsByEntity } = await preq.get(app.API.listings.byEntities({ uris: uri, lists: listingsIds }))
   return listingsByEntity[uri]
 }
