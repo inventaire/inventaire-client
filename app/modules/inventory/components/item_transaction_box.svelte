@@ -66,9 +66,9 @@
       </div>
       <div slot="dropdown-content">
         <label for={menuId}>{I18n('available for')}:</label>
-        <ul id={menuId} role="menu">
+        <div id={menuId} role="menu">
           {#each Object.values(transactionsData) as transaction}
-            <li>
+            <div>
               <button
                 role="menuitem"
                 class:selected={transaction.id === currentTransaction.id}
@@ -77,9 +77,9 @@
               >
                 {@html icon(transaction.icon)} {i18n(transaction.label)}
               </button>
-            </li>
+            </div>
           {/each}
-        </ul>
+        </div>
       </div>
     </Dropdown>
   {/if}

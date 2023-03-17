@@ -5,9 +5,9 @@
   export let type
 </script>
 
-<ul class="type-picker" role="listbox">
+<div class="type-picker" role="listbox">
   {#each Object.entries(entityTypeNameBySingularType) as [ t, name ]}
-    <li
+    <div
       role="option"
       aria-selected={type === t}
     >
@@ -17,9 +17,9 @@
       >
         {I18n(name)}
       </button>
-    </li>
+    </div>
   {/each}
-</ul>
+</div>
 
 <style lang="scss">
   @import "#general/scss/utils";
@@ -29,19 +29,19 @@
     @include display-flex(row, center, center, wrap);
     margin: 0.5em 0.5em 2em;
     white-space: nowrap;
-    li{
-      flex: 1 0 6em;
-      max-width: 10em;
-      margin: 0.1em;
-    }
-    button{
-      @include big-button($grey);
-      padding: 1em;
-      width: 100%;
-      &.selected{
-        @include bg-hover(white, 0%);
-        color: $dark-grey;
-      }
+  }
+  [role="option"]{
+    flex: 1 0 6em;
+    max-width: 10em;
+    margin: 0.1em;
+  }
+  button{
+    @include big-button($grey);
+    padding: 1em;
+    width: 100%;
+    &.selected{
+      @include bg-hover(white, 0%);
+      color: $dark-grey;
     }
   }
 </style>

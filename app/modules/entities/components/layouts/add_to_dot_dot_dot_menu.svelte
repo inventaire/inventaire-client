@@ -89,23 +89,23 @@
           {#await waitingForListingsStates}
             <Spinner center={true} />
           {:then}
-            <ul role="menu">
+            <div role="menu">
               {#each listings as listing}
-                <li>
+                <div role="menuitem">
                   <label>
                     <input type="checkbox" checked={listing.checked} on:click={e => updateListing(e, listing)} />
                     {listing.name}
                   </label>
-                </li>
+                </div>
               {/each}
-              <li>
+              <div role="menuitem">
                 <button on:click={() => showListingCreationModal = true}
                 >
                   {@html icon('plus')}
                   {i18n('Create a new list')}
                 </button>
-              </li>
-            </ul>
+              </div>
+            </div>
           {/await}
         </div>
       </div>
@@ -183,11 +183,11 @@
     color: $label-grey;
     margin: 0.5em;
   }
-  ul{
+  [role="menu"]{
     max-height: 11em;
     overflow-y: auto;
   }
-  li:not(:last-child){
+  [role="menuitem"]:not(:last-child){
     border-bottom: 1px solid #ddd;
   }
   button, label{
