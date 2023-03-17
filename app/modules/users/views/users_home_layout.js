@@ -5,7 +5,7 @@ import UsersHomeNav from '#users/components/users_home_nav.svelte'
 import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
 import UserProfile from '#users/components/user_profile.svelte'
 import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.svelte'
-import GroupProfile from '#users/views/group_profile.js'
+import GroupProfile from '#groups/components/group_profile.svelte'
 import ShelfBox from '#shelves/components/shelf_box.svelte'
 import ShelvesSection from '#shelves/components/shelves_section.svelte'
 import NetworkUsersNav from '#users/components/network_users_nav.svelte'
@@ -196,8 +196,9 @@ export default Marionette.View.extend({
     this.scrollToSection('userProfile')
   },
 
-  showGroupProfile (groupModel) {
-    this.showChildView('groupProfile', new GroupProfile({ model: groupModel }))
+  async showGroupProfile (groupModel) {
+    const group = groupModel.toJSON()
+    this.showChildComponent('groupProfile', GroupProfile, { props: { group } })
   },
 
   showUserProfile (userModel) {

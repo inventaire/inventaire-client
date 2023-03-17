@@ -30,6 +30,11 @@ export default function (app) {
       return userModel.toJSON()
     },
 
+    async getUsersData (ids) {
+      const models = await async.getUsersModels(ids)
+      return models.map(model => model.toJSON())
+    },
+
     async getUsersModels (ids) {
       const foundUsersModels = []
       const missingUsersIds = []
@@ -116,6 +121,7 @@ export default function (app) {
   app.reqres.setHandlers({
     'get:user:model': async.getUserModel,
     'get:user:data': async.getUserData,
+    'get:users': async.getUsersData,
     'get:users:models': async.getUsersModels,
     'resolve:to:userModel': async.resolveToUserModel,
     'get:userModel:from:userId': sync.getUserModelFromUserId,

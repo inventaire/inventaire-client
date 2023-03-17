@@ -8,7 +8,7 @@
 {#if hideList}
   <p class="hidden-list-message">{hideListMessage}</p>
 {:else}
-  <ul class:members={type === 'members'}>
+  <ul class:members={type === 'members'} class="users-home-section-list">
     {#each docs as doc (doc._id)}
       <li class="user">
         <UsersHomeSectionListLi {doc} />

@@ -1,4 +1,5 @@
 import log_ from '#lib/loggers'
+import Group from './models/group.js'
 import Groups from './collections/groups.js'
 import initGroupHelpers from './lib/group_helpers.js'
 import fetchData from '#lib/data/fetch'
@@ -76,7 +77,8 @@ const API = {
   },
 }
 
-const showGroupBoardFromModel = async (model, options = {}) => {
+const showGroupBoardFromModel = async (group, options = {}) => {
+  const model = group instanceof Backbone.Model ? group : new Group(group)
   if (model.mainUserIsMember()) {
     const [ { default: GroupBoard } ] = await Promise.all([
       import('./views/group_board.js'),
