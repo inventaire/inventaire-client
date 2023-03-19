@@ -27,6 +27,9 @@ const API = {
 }
 
 const showLayout = async params => {
-  const { default: TasksLayout } = await import('./views/tasks_layout.js')
-  app.layout.showChildView('main', new TasksLayout(params))
+  const { default: TasksLayout } = await import('./components/tasks_layout.svelte')
+  const { task: taskId, entitiesType } = params
+  app.layout.showChildComponent('main', TasksLayout, {
+    props: { taskId, entitiesType }
+  })
 }
