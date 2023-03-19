@@ -20,7 +20,12 @@ const aggregateAuthorsByProperty = worksAuthors => {
     for (const property in workAuthors) {
       const authors = workAuthors[property] || []
       if (authorsByProperty[property] == null) authorsByProperty[property] = []
-      authorsByProperty[property].push(...authors)
+      const propertyAuthorsUris = authorsByProperty[property].map(author => author.get('uri'))
+      authors.forEach(author => {
+        if (!propertyAuthorsUris.includes(author.get('uri'))) {
+          authorsByProperty[property].push(author)
+        }
+      })
     }
   }
   for (const [ property, authors ] of Object.entries(authorsByProperty)) {
