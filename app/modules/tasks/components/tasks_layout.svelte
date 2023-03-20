@@ -3,10 +3,13 @@
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import TaskControls from './task_controls.svelte'
+  import getNextTask from '#tasks/lib/get_next_task.js'
 
   export let taskId
 
   let task, from, to, error
+
+  let previousTasksIds = []
 
   const waitForTask = getTask()
 
@@ -22,8 +25,18 @@
     task = tasks[0]
   }
 
-  function next () {
-  // getNextTask()
+  async function next () {
+    previousTasksIds.push(task._id)
+    const { entitiesType } = task
+    const params = {
+      entitiesType,
+      previousTasks: previousTasksIds
+    }
+    await getNextTask(params)
+      .then(newTask => {
+        task = newTask
+        app.navigate(`/tasks/${task._id}`)
+      })
   }
 
   async function updateFromAndToEntities () {
