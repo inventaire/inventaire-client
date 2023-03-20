@@ -1,7 +1,6 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon, loadInternalLink } from '#lib/utils'
-  import { setDistance } from '#users/lib/users'
   import Modal from '#components/modal.svelte'
   import ShelfEditor from '#shelves/components/shelf_editor.svelte'
   import assert_ from '#lib/assert_types'
@@ -11,9 +10,7 @@
 
   export let user, flash
 
-  if (!user.mainUser) setDistance(user)
-
-  const { username, mainUser, distanceFromMainUser } = user
+  const { username, isMainUser, distanceFromMainUser } = user
 
   let showShelfCreator
 
@@ -67,7 +64,7 @@
 </script>
 
 <div class="profile-buttons">
-  {#if mainUser}
+  {#if isMainUser}
     <a
       class="editProfile action tiny-button light-blue"
       href="/settings/profile"

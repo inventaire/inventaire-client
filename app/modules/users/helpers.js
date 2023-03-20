@@ -85,6 +85,11 @@ export default function (app) {
       })
     },
 
+    async resolveToUser (user) {
+      const userModel = await async.resolveToUserModel(user)
+      return userModel.toJSON()
+    },
+
     getUserIdFromUsername (username) {
       return getUserModelFromUsername(username)
       .then(userModel => userModel.get('_id'))
@@ -124,6 +129,7 @@ export default function (app) {
     'get:users': async.getUsersData,
     'get:users:models': async.getUsersModels,
     'resolve:to:userModel': async.resolveToUserModel,
+    'resolve:to:user': async.resolveToUser,
     'get:userModel:from:userId': sync.getUserModelFromUserId,
     'get:userId:from:username': async.getUserIdFromUsername,
     'users:search': searchByText,

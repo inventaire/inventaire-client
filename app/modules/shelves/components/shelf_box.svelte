@@ -6,6 +6,7 @@
   import ShelfEditor from '#shelves/components/shelf_editor.svelte'
   import Modal from '#components/modal.svelte'
   import { onChange } from '#lib/svelte/svelte'
+  import { createEventDispatcher } from 'svelte'
 
   export let shelf, withoutShelf
 
@@ -19,7 +20,9 @@
 
   let showShelfEditor = false
   const addItems = () => app.execute('add:items:to:shelf', shelf)
-  const closeShelf = () => app.vent.trigger('close:shelf')
+
+  const dispatch = createEventDispatcher()
+  const closeShelf = () => dispatch('closeShelf')
 </script>
 
 <div class="shelf-box">
@@ -32,7 +35,7 @@
     <button
       class="close-shelf-small close-button"
       title={I18n('unselect shelf')}
-      on:click={closeShelf}
+      on:click={() => dispatch('closeShelf')}
     >
       {@html icon('close')}
     </button>

@@ -140,9 +140,13 @@ const showItemsFromModels = function (items) {
   }
 }
 
-const showInventory = async options => {
-  const { default: UsersHomeLayout } = await import('#users/views/users_home_layout.js')
-  app.layout.showChildView('main', new UsersHomeLayout(options))
+const showInventory = async ({ user, group, section, standalone }) => {
+  const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
+  const props = {}
+  if (user) props.user = await app.request('resolve:to:user', user)
+  if (group) props.group = await app.request('resolve:to:group', group)
+  props.section = !standalone || (section === 'user') ? section : undefined
+  app.layout.showChildComponent('main', UsersHomeLayout, { props })
 }
 
 const showItemsList = async collection => {

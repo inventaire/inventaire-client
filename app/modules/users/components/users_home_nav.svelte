@@ -8,8 +8,7 @@
 
   function selectTab (e) {
     if (isOpenedOutside(e)) return
-    const section = e.currentTarget.id.replace('Tab', '')
-    app.execute('show:inventory:section', section)
+    section = e.currentTarget.id.replace('Tab', '')
     e.preventDefault()
   }
 </script>
@@ -49,6 +48,12 @@
   #tabs{
     @include display-flex(row, center, center, wrap);
     margin-bottom: 0.5em;
+    .avatar, :global(.fa){
+      margin: 0 0.5em;
+    }
+    :global(.fa){
+      font-size: 1.4em;
+    }
   }
   a{
     flex: 1 0 auto;
@@ -58,14 +63,8 @@
     align-self: stretch;
     @include display-flex(row, center, center);
   }
-  .avatar, .fa{
-    margin: 0 0.5em;
-  }
   .avatar{
     height: 2.5em;
-  }
-  .fa{
-    font-size: 1.4em;
   }
   .selected{
     @include bg-hover($inventory-nav-grey, 0);

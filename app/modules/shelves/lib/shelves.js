@@ -2,6 +2,7 @@ import { forceArray } from '#lib/utils'
 import preq from '#lib/preq'
 import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
 import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'
+import assert_ from '#lib/assert_types'
 
 export function getById (id) {
   return preq.get(app.API.shelves.byIds(id))
@@ -67,8 +68,9 @@ export async function addItemsByIdsToShelf ({ shelfId, itemsIds }) {
 }
 
 export async function getShelvesByOwner (userId) {
+  assert_.string(userId)
   const { shelves } = await preq.get(app.API.shelves.byOwners(userId))
-  return _.values(shelves)
+  return Object.values(shelves)
 }
 
 export async function countShelves (userId) {

@@ -4,7 +4,6 @@
   import InventoryBrowserFacet from '#inventory/components/inventory_browser_facet.svelte'
   import Spinner from '#components/spinner.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
-  import { slide } from 'svelte/transition'
   import { screen } from '#lib/components/stores/screen'
   import InventoryBrowserTextFilter from '#inventory/components/inventory_browser_text_filter.svelte'
   import Flash from '#lib/components/flash.svelte'
@@ -49,7 +48,7 @@
     class:ready={facetsSelectors != null}
   >
     {#if showControls}
-      <div class="filters" transition:slide>
+      <div class="filters">
         <span class="control-label">{I18n('filters')}</span>
         {#await waitForInventoryData}
           <Spinner center={true} />
@@ -74,7 +73,7 @@
           </div>
         {/await}
       </div>
-      <div class="display-controls" transition:slide>
+      <div class="display-controls">
         <SelectDropdown
           bind:value={$inventoryDisplay}
           options={displayOptions}

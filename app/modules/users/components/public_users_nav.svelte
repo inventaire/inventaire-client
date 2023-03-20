@@ -1,5 +1,6 @@
 <script>
   import Spinner from '#components/spinner.svelte'
+  import GroupProfile from '#groups/components/group_profile.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import GroupMarker from '#map/components/group_marker.svelte'
@@ -13,6 +14,7 @@
   import { getGroupsByPosition, getUsersByPosition } from '#users/components/lib/public_users_nav_helpers'
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
+  import UserProfile from '#users/components/user_profile.svelte'
 
   export let filter
 
@@ -73,6 +75,19 @@
   $: onChange(map, fetchAndShowUsersAndGroupsOnMap)
   $: onChange($user.position, initMapViewFromMainUserPosition)
   $: onChange(mapZoom, usersInBounds, groupsInBounds, updateZoomStatus)
+
+  let selectedUser, selectedGroup
+  function onSelectUser (e) {
+    selectedUser = e.detail.doc
+    selectedGroup = null
+    app.navigate(selectedUser.pathname)
+  }
+
+  function onSelectGroup (e) {
+    selectedUser = null
+    selectedGroup = e.detail.doc
+    app.navigate(selectedGroup.pathname)
+  }
 </script>
 
 {#if $user.position != null}
@@ -91,7 +106,9 @@
               docs={usersInBounds}
               type="users"
               hideList={zoomInToDisplayMore}
-              hideListMessage={i18n('Zoom-in to display more')} />
+              hideListMessage={i18n('Zoom-in to display more')}
+              on:select={onSelectUser}
+            />
           {/if}
         </div>
       {/if}
@@ -109,7 +126,9 @@
               docs={groupsInBounds}
               type="groups"
               hideList={zoomInToDisplayMore}
-              hideListMessage={i18n('Zoom-in to display more')} />
+              hideListMessage={i18n('Zoom-in to display more')}
+              on:select={onSelectGroup}
+            />
           {/if}
         </div>
       {/if}
@@ -150,12 +169,23 @@
     </div>
   </div>
 
-  <!-- TODO: use bbox to update displayed items accordingly -->
-  <PaginatedSectionItems
-    sectionRequestName="items:getNearbyItems"
-    showDistance={true}
-    {bbox}
-  />
+  {#if selectedUser}
+    <!-- Recreate component when selectedUser changes, see https://svelte.dev/docs#template-syntax-key -->
+    {#key selectedUser}
+      <UserProfile user={selectedUser} />
+    {/key}
+  {:else if selectedGroup}
+    {#key selectedGroup}
+      <GroupProfile group={selectedGroup} />
+    {/key}
+  {:else}
+    <!-- TODO: use bbox to update displayed items accordingly -->
+    <PaginatedSectionItems
+      sectionRequestName="items:getNearbyItems"
+      showDistance={true}
+      {bbox}
+    />
+  {/if}
 {:else}
   <PositionRequired />
 {/if}

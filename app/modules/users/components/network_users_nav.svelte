@@ -5,6 +5,8 @@
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import app from '#app/app'
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
+  import UserProfile from '#users/components/user_profile.svelte'
+  import GroupProfile from '#groups/components/group_profile.svelte'
 
   let flash, users, groups
 
@@ -19,6 +21,19 @@
     .catch(err => flash = err)
 
   let showUsersMenu, showGroupsMenu
+
+  let selectedUser, selectedGroup
+  function onSelectUser (e) {
+    selectedUser = e.detail.doc
+    selectedGroup = null
+    app.navigate(selectedUser.pathname)
+  }
+
+  function onSelectGroup (e) {
+    selectedUser = null
+    selectedGroup = e.detail.doc
+    app.navigate(selectedGroup.pathname)
+  }
 </script>
 
 <div class="lists">
@@ -55,7 +70,7 @@
       </div>
     </div>
     {#if users}
-      <UsersHomeSectionList docs={users} type="users" />
+      <UsersHomeSectionList docs={users} type="users" on:select={onSelectUser} />
     {/if}
   </div>
 
@@ -94,12 +109,23 @@
       </div>
     </div>
     {#if groups}
-      <UsersHomeSectionList docs={groups} type="groups" />
+      <UsersHomeSectionList docs={groups} type="groups" on:select={onSelectGroup} />
     {/if}
   </div>
 </div>
 
-<PaginatedSectionItems sectionRequestName="items:getNetworkItems" />
+{#if selectedUser}
+  <!-- Recreate component when selectedUser changes, see https://svelte.dev/docs#template-syntax-key -->
+  {#key selectedUser}
+    <UserProfile user={selectedUser} />
+  {/key}
+{:else if selectedGroup}
+  {#key selectedGroup}
+    <GroupProfile group={selectedGroup} />
+  {/key}
+{:else}
+  <PaginatedSectionItems sectionRequestName="items:getNetworkItems" />
+{/if}
 
 <Flash state={flash} />
 

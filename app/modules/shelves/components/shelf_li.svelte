@@ -2,18 +2,21 @@
   import { i18n } from '#user/lib/i18n'
   import { icon, isOpenedOutside } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { serializeShelfData, loadShelfLink } from './lib/shelves'
+  import { serializeShelfData } from './lib/shelves'
+  import { createEventDispatcher } from 'svelte'
 
   export let shelf, withoutShelf
 
   let { name, description, pathname, title, picture, iconData, iconLabel } = serializeShelfData(shelf, withoutShelf)
 
+  const dispatch = createEventDispatcher()
+
   function onClick (e) {
     if (isOpenedOutside(e)) return
     if (withoutShelf) {
-      app.vent.trigger('inventory:select', 'without-shelf')
+      dispatch('selectShelf', { shelf: null })
     } else {
-      loadShelfLink(shelf)
+      dispatch('selectShelf', { shelf })
     }
     e.preventDefault()
   }

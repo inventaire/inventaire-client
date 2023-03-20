@@ -5,19 +5,24 @@
   import { userContent } from '#lib/handlebars_helpers/user_content'
   import GroupActions from '#groups/components/group_actions.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
-  import { getAllGroupMembersDocs, serializeGroup } from '#groups/lib/groups'
+  import { getAllGroupMembersDocs, getAllGroupMembersIds, serializeGroup } from '#groups/lib/groups'
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
+  import UserProfile from '#users/components/user_profile.svelte'
+  import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.svelte'
+  import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
+  import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
+  import UsersListings from '#listings/components/users_listings.svelte'
 
   export let group
 
-  let members, flash
+  let members, flash, section = 'inventory'
 
   const waitForMembers = getAllGroupMembersDocs(group)
     .then(users => members = users)
     .catch(err => flash = err)
 
-  const { name, description, requested } = group
+  const { _id: groupId, name, description, requested } = group
   let settingsPathname, mainUserIsMember, mainUserIsAdmin, picture
   $: ({ settingsPathname, mainUserIsMember, mainUserIsAdmin, picture } = serializeGroup(group))
 
@@ -25,6 +30,18 @@
     if (isOpenedOutside(e)) return
     app.execute('show:group:board', group, { openedSection: 'groupInvite' })
     e.preventDefault()
+  }
+
+  let selectedMember
+  function onSelectMember (e) {
+    selectedMember = e.detail.doc
+  }
+
+  $: {
+    if (!selectedMember) {
+      if (section === 'inventory') app.navigate(group.inventoryPathname)
+      else if (section === 'listings') app.navigate(group.listingsPathname)
+    }
   }
 </script>
 
@@ -77,7 +94,7 @@
         {#await waitForMembers}
           <Spinner />
         {:then}
-          <UsersHomeSectionList docs={members} type="members" />
+          <UsersHomeSectionList docs={members} type="members" on:select={onSelectMember} />
         {/await}
       </div>
     </div>
@@ -89,6 +106,23 @@
 </div>
 
 <Flash state={flash} />
+
+{#if selectedMember}
+  <!-- Recreate component when selectedMember changes, see https://svelte.dev/docs#template-syntax-key -->
+  {#key selectedMember}
+    <UserProfile user={selectedMember} {groupId} />
+  {/key}
+{:else}
+  <InventoryOrListingNav {group} bind:currentSection={section} />
+  {#if section === 'inventory'}
+    <InventoryBrowser
+      itemsDataPromise={getInventoryView('group', group)}
+      {groupId}
+    />
+  {:else if section === 'listings'}
+    <UsersListings usersIds={getAllGroupMembersIds(group)} />
+  {/if}
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
@@ -182,6 +216,11 @@
     }
   }
 
+  .list-label-wrapper{
+    @include display-flex(row, flex-end, space-between);
+    padding: 0.5em 0;
+  }
+
   /* Small screens */
   @media screen and (max-width: $small-screen){
     .group-profile{
@@ -198,6 +237,15 @@
     .description{
       max-height: 10em;
       padding: 0.5em;
+    }
+    .list-label{
+      margin-bottom: 0.5em;
+      font-size: 1.2em;
+    }
+    .list-label-wrapper{
+      text-align: center;
+      @include display-flex(column, center, center);
+      flex-direction: column;
     }
   }
 

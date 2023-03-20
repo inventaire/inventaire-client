@@ -4,7 +4,7 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getGroupMembersCount, getGroupPicture } from '#groups/lib/groups'
   import { getPicture as getUserPicture } from '#users/lib/users'
-  import { SelectInventoryOnClick } from '#users/components/lib/navs_helpers'
+  import { createEventDispatcher } from 'svelte'
 
   export let doc, context, group
   const { name, username, hasItemsCount, pathname, itemsCount } = doc
@@ -23,13 +23,13 @@
     userIsGroupAdmin = group.admins.find(({ user }) => user === doc._id) != null
   }
 
-  const selectInventory = SelectInventoryOnClick({ type, doc })
+  const dispatch = createEventDispatcher()
 </script>
 
 <a
   class="nav-list-element"
   href={pathname}
-  on:click={selectInventory}
+  on:click={() => dispatch('select', { type, doc })}
 >
   <div class="picture" style:background-image="url({imgSrc(picture, 100)})" />
   {#if type === 'group'}

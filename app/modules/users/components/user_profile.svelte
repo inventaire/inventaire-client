@@ -6,12 +6,31 @@
   import Flash from '#lib/components/flash.svelte'
   import { screen } from '#lib/components/stores/screen'
   import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
+  import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.svelte'
+  import ShelvesSection from '#shelves/components/shelves_section.svelte'
+  import ShelfBox from '#shelves/components/shelf_box.svelte'
+  import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
+  import UsersListings from '#listings/components/users_listings.svelte'
+  import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
 
-  export let user
+  export let user, section = 'inventory', groupId = null
 
-  const { username, bio, picture, inventoryLength, shelvesCount } = user
+  // TODO: recover inventoryLength and shelvesCount
+  const { username, bio, picture, inventoryLength, shelvesCount, isMainUser } = user
 
-  let flash
+  $: {
+    if (section === 'inventory') app.navigate(user.inventoryPathname)
+    else if (section === 'listings') app.navigate(user.listingsPathname)
+  }
+
+  let flash, shelf
+
+  function onSelectShelf (e) {
+    shelf = e.detail.shelf
+  }
+  function onCloseShelf (e) {
+    shelf = null
+  }
 </script>
 
 <div class="user-profile">
@@ -53,6 +72,36 @@
 </div>
 
 <Flash state={flash} />
+
+<InventoryOrListingNav {user} bind:currentSection={section} />
+
+{#if section === 'inventory'}
+  <ShelvesSection {user} on:selectShelf={onSelectShelf} />
+  {#if shelf === 'without-shelf'}
+    <ShelfBox withoutShelf={true} on:closeShelf={onCloseShelf} />
+    <InventoryBrowser
+      itemsDataPromise={getInventoryView('without-shelf')}
+      {isMainUser}
+    />
+  {:else if shelf}
+    <ShelfBox {shelf} on:closeShelf={onCloseShelf} />
+    <InventoryBrowser
+      itemsDataPromise={getInventoryView('shelf', shelf)}
+      {isMainUser}
+      shelfId={shelf._id}
+    />
+  {:else}
+    <!-- TODO: recover display of InventoryWelcome for the main user -->
+    <InventoryBrowser
+      itemsDataPromise={getInventoryView('user', user)}
+      ownerId={user._id}
+      {groupId}
+      {isMainUser}
+    />
+  {/if}
+{:else if section === 'listings'}
+  <UsersListings usersIds={[ user._id ]} onUserLayout={true} />
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
@@ -97,7 +146,11 @@
 
   /* Large screens */
   @media screen and (min-width: $smaller-screen){
+    .user-card{
+      min-height: 9em;
+    }
     .avatar-wrapper{
+      width: 9em;
       flex: 0 0 auto;
     }
     .info{

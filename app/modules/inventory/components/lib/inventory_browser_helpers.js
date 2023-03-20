@@ -1,5 +1,6 @@
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import error_ from '#lib/error'
+import preq from '#lib/preq'
 import { flatten, uniq, without } from 'underscore'
 
 export async function getSelectorsData ({ worksTree }) {
@@ -82,4 +83,14 @@ const formatOption = ({ worksUrisPerValue, facetsEntitiesBasicInfo }) => value =
     count: worksUrisPerValue[value].length,
     worksUris: worksUrisPerValue[value],
   }
+}
+
+export async function getInventoryView (type, doc) {
+  let params
+  if (type === 'without-shelf') {
+    params = { user: app.user.id, 'without-shelf': true }
+  } else {
+    params = { [type]: doc._id }
+  }
+  return preq.get(app.API.items.inventoryView(params))
 }
