@@ -91,17 +91,16 @@
     width: 30em;
     padding: 0.3em;
     position: relative;
-    min-height: 12em;
   }
   .collage-wrapper{
-    flex: 1 0 5em;
+    height: 10em;
     :global(.images-collage){
       height: 100%;
     }
   }
   .listing-info{
     margin: 0.2em 0;
-    flex: 0 0 3.5em;
+    height: 3.5em;
     overflow: hidden;
     @include display-flex(row, center, space-between);
   }
