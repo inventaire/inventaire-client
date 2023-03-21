@@ -47,7 +47,7 @@ const API = {
       // Passing shelf to display items and passing owner for user profile info
       app.layout.showChildComponent('main', UsersHomeLayout, {
         props: {
-          user: app.user,
+          user: app.user.toJSON(),
           withoutShelf: true,
           standalone: true,
         }
@@ -69,11 +69,12 @@ const showShelf = function (shelf) {
 const showShelfFromModel = async shelf => {
   const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
   const owner = shelf.get('owner')
+  const user = await app.request('resolve:to:user', owner)
   // Passing shelf to display items and passing owner for user profile info
   app.layout.showChildComponent('main', UsersHomeLayout, {
     props: {
-      shelf,
-      user: owner,
+      shelf: shelf.toJSON(),
+      user,
       standalone: true
     }
   })

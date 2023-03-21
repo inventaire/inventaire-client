@@ -4,10 +4,15 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { serializeShelfData } from './lib/shelves'
   import { createEventDispatcher } from 'svelte'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let shelf, withoutShelf
 
-  let { name, description, pathname, title, picture, iconData, iconLabel } = serializeShelfData(shelf, withoutShelf)
+  let name, description, pathname, title, picture, iconData, iconLabel
+  function refreshData () {
+    ;({ name, description, pathname, title, picture, iconData, iconLabel } = serializeShelfData(shelf, withoutShelf))
+  }
+  $: onChange(shelf, refreshData)
 
   const dispatch = createEventDispatcher()
 

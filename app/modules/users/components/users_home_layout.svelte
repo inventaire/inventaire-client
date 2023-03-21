@@ -7,7 +7,7 @@
   import { serializeUser } from '#users/lib/users'
   import app from '#app/app'
 
-  export let user, group, section, subsection = 'inventory'
+  export let user, group, shelf, section, subsection = 'inventory'
 
   const { loggedIn } = app.user
 
@@ -28,7 +28,7 @@
   {:else if section === 'public'}
     <PublicUsersNav />
   {:else if user}
-    <UserProfile {user} section={subsection} />
+    <UserProfile {user} {shelf} section={subsection} />
   {:else if group}
     <GroupProfile {group} />
   {/if}

@@ -12,9 +12,10 @@
 
   let itemsCount
 
-  let name, description, picture, iconData, iconLabel, isEditable
+  let name, description, picture, iconData, iconLabel, isEditable, pathname
   function refreshData () {
-    ;({ name, description, picture, iconData, iconLabel, isEditable } = serializeShelfData(shelf, withoutShelf))
+    ;({ name, description, picture, iconData, iconLabel, isEditable, pathname } = serializeShelfData(shelf, withoutShelf))
+    app.navigate(pathname, { preventScrollTop: true })
   }
   $: onChange(shelf, refreshData)
 

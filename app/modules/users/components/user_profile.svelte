@@ -7,30 +7,22 @@
   import { screen } from '#lib/components/stores/screen'
   import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
   import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.svelte'
-  import ShelvesSection from '#shelves/components/shelves_section.svelte'
-  import ShelfBox from '#shelves/components/shelf_box.svelte'
-  import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
+  import UserInventory from '#shelves/components/user_inventory.svelte'
   import UsersListings from '#listings/components/users_listings.svelte'
-  import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
 
-  export let user, section = 'inventory', groupId = null
+  export let user, shelf, section = 'inventory', groupId = null
 
   // TODO: recover inventoryLength and shelvesCount
-  const { username, bio, picture, inventoryLength, shelvesCount, isMainUser } = user
+  const { username, bio, picture, inventoryLength, shelvesCount } = user
 
   $: {
-    if (section === 'inventory') app.navigate(user.inventoryPathname)
-    else if (section === 'listings') app.navigate(user.listingsPathname)
+    if (!shelf) {
+      if (section === 'inventory') app.navigate(user.inventoryPathname)
+      else if (section === 'listings') app.navigate(user.listingsPathname)
+    }
   }
 
-  let flash, shelf
-
-  function onSelectShelf (e) {
-    shelf = e.detail.shelf
-  }
-  function onCloseShelf (e) {
-    shelf = null
-  }
+  let flash
 </script>
 
 <div class="user-profile">
@@ -76,29 +68,11 @@
 <InventoryOrListingNav {user} bind:currentSection={section} />
 
 {#if section === 'inventory'}
-  <ShelvesSection {user} on:selectShelf={onSelectShelf} />
-  {#if shelf === 'without-shelf'}
-    <ShelfBox withoutShelf={true} on:closeShelf={onCloseShelf} />
-    <InventoryBrowser
-      itemsDataPromise={getInventoryView('without-shelf')}
-      {isMainUser}
-    />
-  {:else if shelf}
-    <ShelfBox {shelf} on:closeShelf={onCloseShelf} />
-    <InventoryBrowser
-      itemsDataPromise={getInventoryView('shelf', shelf)}
-      {isMainUser}
-      shelfId={shelf._id}
-    />
-  {:else}
-    <!-- TODO: recover display of InventoryWelcome for the main user -->
-    <InventoryBrowser
-      itemsDataPromise={getInventoryView('user', user)}
-      ownerId={user._id}
-      {groupId}
-      {isMainUser}
-    />
-  {/if}
+  <UserInventory
+    {user}
+    {groupId}
+    selectedShelf={shelf}
+    bind:flash />
 {:else if section === 'listings'}
   <UsersListings usersIds={[ user._id ]} onUserLayout={true} />
 {/if}

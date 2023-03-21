@@ -1,24 +1,19 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import { getShelvesByOwner } from '#shelves/lib/shelves'
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
   import ShelfLi from '#shelves/components/shelf_li.svelte'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import { createEventDispatcher } from 'svelte'
 
-  export let user
+  export let waitForShelves, shelves, user
 
   const { isMainUser } = user
 
   let showShelves = true
 
-  let shelves, flash
-
-  const waitForList = getShelvesByOwner(user._id)
-    .then(res => shelves = res)
-    .catch(err => flash = err)
+  let flash
 
   const toggleShelves = () => showShelves = !showShelves
 
@@ -26,7 +21,7 @@
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 </script>
 
-{#await waitForList}
+{#await waitForShelves}
   <div class="header">
     <h3 class="subheader">{I18n('shelves')} <Spinner /></h3>
   </div>
@@ -54,7 +49,7 @@
   {#if shelves?.length > 0}
     {#if showShelves}
       <ul>
-        {#each shelves as shelf}
+        {#each shelves as shelf (shelf._id)}
           <ShelfLi {shelf} on:selectShelf={bubbleUpComponentEvent} />
         {/each}
         {#if isMainUser}
