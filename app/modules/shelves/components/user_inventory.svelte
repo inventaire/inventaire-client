@@ -5,23 +5,21 @@
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
   import { getShelvesByOwner } from '#shelves/lib/shelves'
   import { onChange } from '#lib/svelte/svelte'
+  import { getContext } from 'svelte'
 
-  export let user, selectedShelf, section = 'inventory', groupId = null, flash
+  export let user, selectedShelf, groupId = null, flash
 
   const { isMainUser } = user
 
-  $: {
-    if (!selectedShelf) {
-      if (section === 'inventory') app.navigate(user.inventoryPathname)
-      else if (section === 'listings') app.navigate(user.listingsPathname)
-    }
-  }
+  const focusStore = getContext('focus-store')
 
   function onSelectShelf (e) {
     selectedShelf = e.detail.shelf
+    $focusStore = { type: 'shelf', doc: selectedShelf }
   }
   function onCloseShelf (e) {
     selectedShelf = null
+    $focusStore = { type: 'user', doc: user }
   }
 
   let shelves

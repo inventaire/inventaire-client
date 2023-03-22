@@ -13,6 +13,7 @@
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
   import UsersListings from '#listings/components/users_listings.svelte'
+  import { getContext, tick } from 'svelte'
 
   export let group
 
@@ -32,20 +33,26 @@
     e.preventDefault()
   }
 
-  let selectedMember
+  let selectedMember, groupProfileEl
   function onSelectMember (e) {
     selectedMember = e.detail.doc
   }
 
-  $: {
-    if (!selectedMember) {
-      if (section === 'inventory') app.navigate(group.inventoryPathname)
-      else if (section === 'listings') app.navigate(group.listingsPathname)
+  const focusStore = getContext('focus-store')
+
+  async function onFocus () {
+    if (!groupProfileEl) await tick()
+    if (section === 'inventory') {
+      app.navigate(group.inventoryPathname, { pageSectionElement: groupProfileEl })
+    } else if (section === 'listings') {
+      app.navigate(group.listingsPathname, { pageSectionElement: groupProfileEl })
     }
   }
+
+  $: if ($focusStore.type === 'group') onFocus()
 </script>
 
-<div class="group-profile">
+<div class="group-profile" bind:this={groupProfileEl}>
   <div class="group-profile-header">
     <div class="section-one">
       <div class="cover-header">

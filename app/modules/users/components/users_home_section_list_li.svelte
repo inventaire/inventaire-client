@@ -4,7 +4,7 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getGroupMembersCount, getGroupPicture } from '#groups/lib/groups'
   import { getPicture as getUserPicture } from '#users/lib/users'
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, getContext } from 'svelte'
 
   export let doc, context, group
   const { name, username, hasItemsCount, pathname, itemsCount } = doc
@@ -24,12 +24,19 @@
   }
 
   const dispatch = createEventDispatcher()
+
+  const focusStore = getContext('focus-store')
+
+  function select () {
+    dispatch('select', { type, doc })
+    $focusStore = { type, doc }
+  }
 </script>
 
 <a
   class="nav-list-element"
   href={pathname}
-  on:click={() => dispatch('select', { type, doc })}
+  on:click={select}
 >
   <div class="picture" style:background-image="url({imgSrc(picture, 100)})" />
   {#if type === 'group'}

@@ -5,7 +5,7 @@
   export let user, group, currentSection
 
   // TODO: recover items and listings count
-  let inventoryPathname, listingsPathname, listingsCount
+  let inventoryPathname, listingsPathname, listingsCount, navEl
 
   if (user) {
     ;({ inventoryPathname, listingsPathname } = user)
@@ -16,10 +16,15 @@
   const showSection = (e, section) => {
     if (isOpenedOutside(e)) return
     currentSection = section
+    if (currentSection === 'inventory') {
+      app.navigate(inventoryPathname, { pageSectionElement: navEl })
+    } else {
+      app.navigate(listingsPathname, { pageSectionElement: navEl })
+    }
   }
 </script>
 
-<div class="inventory-or-listing-tabs">
+<div class="inventory-or-listing-tabs" bind:this={navEl}>
   <a
     href={inventoryPathname}
     class="tab"

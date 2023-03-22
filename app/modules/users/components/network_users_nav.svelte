@@ -26,13 +26,11 @@
   function onSelectUser (e) {
     selectedUser = e.detail.doc
     selectedGroup = null
-    app.navigate(selectedUser.pathname)
   }
 
   function onSelectGroup (e) {
     selectedUser = null
     selectedGroup = e.detail.doc
-    app.navigate(selectedGroup.pathname)
   }
 </script>
 

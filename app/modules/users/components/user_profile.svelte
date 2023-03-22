@@ -9,23 +9,30 @@
   import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.svelte'
   import UserInventory from '#shelves/components/user_inventory.svelte'
   import UsersListings from '#listings/components/users_listings.svelte'
+  import { getContext, tick } from 'svelte'
 
   export let user, shelf, section = 'inventory', groupId = null
 
   // TODO: recover inventoryLength and shelvesCount
   const { username, bio, picture, inventoryLength, shelvesCount } = user
 
-  $: {
-    if (!shelf) {
-      if (section === 'inventory') app.navigate(user.inventoryPathname)
-      else if (section === 'listings') app.navigate(user.listingsPathname)
+  let flash, userProfileEl
+
+  const focusStore = getContext('focus-store')
+
+  async function onFocus () {
+    if (!userProfileEl) await tick()
+    if (section === 'inventory') {
+      app.navigate(user.inventoryPathname, { pageSectionElement: userProfileEl })
+    } else if (section === 'listings') {
+      app.navigate(user.listingsPathname, { pageSectionElement: userProfileEl })
     }
   }
 
-  let flash
+  $: if ($focusStore.type === 'user') onFocus()
 </script>
 
-<div class="user-profile">
+<div class="user-profile" bind:this={userProfileEl}>
   <div class="user-card">
     <div class="avatar-wrapper">
       <img class="avatar" src={imgSrc(picture, 150, 150)} alt="{username} avatar" />

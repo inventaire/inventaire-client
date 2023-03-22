@@ -6,16 +6,15 @@
   import ShelfEditor from '#shelves/components/shelf_editor.svelte'
   import Modal from '#components/modal.svelte'
   import { onChange } from '#lib/svelte/svelte'
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, getContext, tick } from 'svelte'
 
   export let shelf, withoutShelf
 
-  let itemsCount
+  let itemsCount, shelfBoxEl
 
   let name, description, picture, iconData, iconLabel, isEditable, pathname
   function refreshData () {
     ;({ name, description, picture, iconData, iconLabel, isEditable, pathname } = serializeShelfData(shelf, withoutShelf))
-    app.navigate(pathname, { preventScrollTop: true })
   }
   $: onChange(shelf, refreshData)
 
@@ -24,9 +23,18 @@
 
   const dispatch = createEventDispatcher()
   const closeShelf = () => dispatch('closeShelf')
+
+  const focusStore = getContext('focus-store')
+
+  async function onFocus () {
+    if (!shelfBoxEl) await tick()
+    app.navigate(pathname, { pageSectionElement: shelfBoxEl })
+  }
+
+  $: if ($focusStore.type === 'shelf') onFocus()
 </script>
 
-<div class="shelf-box">
+<div class="shelf-box" bind:this={shelfBoxEl}>
   <div class="header">
     {#if withoutShelf}
       <div class="without-shelf-picture">...</div>

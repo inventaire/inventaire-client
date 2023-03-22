@@ -9,6 +9,8 @@
   function selectTab (e) {
     if (isOpenedOutside(e)) return
     section = e.currentTarget.id.replace('Tab', '')
+    if (section === 'user') app.navigate($user.inventoryPathname)
+    else app.navigate(`users/${section}`)
     e.preventDefault()
   }
 </script>
