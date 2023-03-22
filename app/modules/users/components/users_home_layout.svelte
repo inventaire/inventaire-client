@@ -9,6 +9,8 @@
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
   import { onChange } from '#lib/svelte/svelte'
+  import { getViewportHeight } from '#lib/screen'
+  import { resizeObserver } from '#lib/components/actions/resize_observer'
 
   export let user, group, shelf, section, subsection = 'inventory'
 
@@ -32,34 +34,50 @@
   }
 
   $: onChange(section, onSectionChange)
+
+  let wrapperEl, innerEl
+
+  function onElementResize () {
+    if (wrapperEl && innerEl) {
+      const minHeight = Math.max(innerEl.clientHeight, getViewportHeight())
+      // Set a minimun height so that the view doesn't jump up when the content height suddenly shrinks
+      // Known cases:
+      // - when then content is shorter, such as when a filter is picked and only a few items are displayed
+      // - during a transition between two views, such as when a shelf is closed
+      wrapperEl.style.minHeight = `${minHeight}px`
+    }
+  }
 </script>
 
-<!-- TODO: prevent content height jump when navigating within the page -->
-<div id="usersHomeLayout">
-  {#if loggedIn}
-    <UsersHomeNav bind:section />
-  {/if}
+<div class="wrapper" bind:this={wrapperEl}>
+  <div id="usersHomeLayout" bind:this={innerEl} use:resizeObserver={{ onElementResize }}>
+    {#if loggedIn}
+      <UsersHomeNav bind:section />
+    {/if}
 
-  {#if section === 'user' && !shelf}
-    <UserProfile user={app.user.toJSON()} section={subsection} />
-  {:else if section === 'network'}
-    <NetworkUsersNav />
-  {:else if section === 'public'}
-    <PublicUsersNav />
-  {:else if user}
-    <UserProfile {user} {shelf} section={subsection} />
-  {:else if group}
-    <GroupProfile {group} />
-  {/if}
+    {#if section === 'user' && !shelf}
+      <UserProfile user={app.user.toJSON()} section={subsection} />
+    {:else if section === 'network'}
+      <NetworkUsersNav />
+    {:else if section === 'public'}
+      <PublicUsersNav />
+    {:else if user}
+      <UserProfile {user} {shelf} section={subsection} />
+    {:else if group}
+      <GroupProfile {group} />
+    {/if}
+  </div>
 </div>
 
 <style lang="scss">
   @import "#general/scss/utils";
 
+  .wrapper{
+    transition: min-height 0.5s 5s ease;
+  }
+
   #usersHomeLayout{
     background-color: white;
-    // Set a minimun height so that when a filter is picked and only a few items
-    // are displayed as a result, the view doesn't jump up
     min-height: 100vh;
 
     /* Large screens */
