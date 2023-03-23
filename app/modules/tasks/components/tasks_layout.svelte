@@ -2,7 +2,9 @@
   import app from '#app/app'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
+  import { serializeEntity } from '#entities/lib/entities'
   import TaskControls from './task_controls.svelte'
+  import TaskEntity from './task_entity.svelte'
   import getNextTask from '#tasks/lib/get_next_task.js'
 
   export let taskId
@@ -15,6 +17,7 @@
 
   async function getTask () {
     return getTaskById(taskId)
+      .then(updateFromAndToEntities)
       .catch(err => {
         error = err
       })
@@ -41,19 +44,52 @@
 
   async function updateFromAndToEntities () {
     error = null
-    if (!task) return
+    // Nullifying in order to reload entities infobox
+    from = null
+    to = null
+    if (!task || task.state === 'merged') return
     const fromUri = task.suspectUri
     const toUri = task.suggestionUri
-    const { entities } = await preq.get(app.API.entities.getByUris([ fromUri, toUri ]))
+    return preq.get(app.API.entities.getByUris([ fromUri, toUri ]))
+      .then(({ entities }) => {
+        from = serializeEntity(entities[fromUri])
+        to = serializeEntity(entities[toUri])
+      })
       .catch(err => {
         error = err
       })
-    from = entities[fromUri]
-    to = entities[toUri]
   }
 
+  $: ({ externalSourcesOccurrences } = task)
+  $: isMerged = task && task.state === 'merged'
   $: onChange(task, updateFromAndToEntities)
 </script>
+<div class="entities-section">
+  <div class="from-entity">
+    <h2>From</h2>
+    {#if from}
+      <TaskEntity
+        entity={from}
+        {error}
+        {externalSourcesOccurrences}
+      />
+    {/if}
+  </div>
+  <div class="to-entity">
+    <h2>To</h2>
+    {#if to}
+      <TaskEntity
+        entity={to}
+        {error}
+      />
+    {/if}
+  </div>
+</div>
+{#if isMerged}
+  <div class="error-wrapper">
+    <pre>{JSON.stringify(task, null, 2)}</pre>
+  </div>
+{/if}
 {#await waitForTask then}
   <TaskControls
     {task}
@@ -63,7 +99,39 @@
     on:next={next}
   />
 {/await}
-
+<!-- css hack to not let fixed .controls overflow task-entity -->
+<div class="placeholder" />
 <style lang="scss">
   @import "#general/scss/utils";
+  .entities-section{
+    @include display-flex(row, flex-start, flex-start);
+    background-color: #ddd;
+  }
+  .from-entity{
+    flex: 1 0 0;
+    h3{
+      color: white;
+    }
+  }
+  .to-entity{
+    min-height: 100vh;
+    background-color: $light-grey;
+    flex: 1 0 0;
+  }
+  h2{
+    @include display-flex(row, null, center);
+    @include sans-serif;
+    font-size: 1.2rem;
+    margin: 0;
+    padding-top: 0.3em;
+  }
+  .error-wrapper{
+    background-color: $light-grey;
+    max-width: 40em;
+    margin: 1em auto;
+    padding: 1em;
+  }
+  .placeholder{
+    height: 6em;
+  }
 </style>
