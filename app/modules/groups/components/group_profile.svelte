@@ -14,6 +14,7 @@
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
   import UsersListings from '#listings/components/users_listings.svelte'
   import { getContext, tick } from 'svelte'
+  import { debounce } from 'underscore'
 
   export let group
 
@@ -48,8 +49,9 @@
       app.navigate(group.listingsPathname, { pageSectionElement: groupProfileEl })
     }
   }
+  const debouncedOnFocus = debounce(onFocus, 500, true)
 
-  $: if ($focusStore.type === 'group') onFocus()
+  $: if ($focusStore.type === 'group') debouncedOnFocus()
 </script>
 
 <div class="group-profile" bind:this={groupProfileEl}>

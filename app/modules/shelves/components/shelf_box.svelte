@@ -7,6 +7,7 @@
   import Modal from '#components/modal.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { createEventDispatcher, getContext, tick } from 'svelte'
+  import { debounce } from 'underscore'
 
   export let shelf, withoutShelf
 
@@ -31,7 +32,9 @@
     app.navigate(pathname, { pageSectionElement: shelfBoxEl })
   }
 
-  $: if ($focusStore.type === 'shelf') onFocus()
+  const debouncedOnFocus = debounce(onFocus, 500, true)
+
+  $: if ($focusStore.type === 'shelf') debouncedOnFocus()
 </script>
 
 <div class="shelf-box" bind:this={shelfBoxEl}>
