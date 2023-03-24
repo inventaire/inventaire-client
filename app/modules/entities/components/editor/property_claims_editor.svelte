@@ -123,7 +123,6 @@
     // add transition for both border and margin
     @include transition(all);
   }
-  $lighten-primary-color: lighten($primary-color, 30%);
   .required-notice{
     position: absolute;
     inset-block-end: 100%;

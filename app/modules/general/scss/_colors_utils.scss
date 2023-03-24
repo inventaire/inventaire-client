@@ -14,6 +14,7 @@ $soft-red: #cf2408;
 $yellow: #ffd402;
 
 $primary-color: #16212c;
+$lighten-primary-color: lighten($primary-color, 30%);
 $secondary-color: $yellow;
 $warning-color: #e13a00;
 $success-color: #4eba76;
