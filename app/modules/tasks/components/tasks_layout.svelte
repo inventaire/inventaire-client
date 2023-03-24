@@ -6,10 +6,11 @@
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
   import getNextTask from '#tasks/lib/get_next_task.js'
+  import { pluck } from 'underscore'
 
   export let taskId
 
-  let task, from, to, error
+  let task, from, to, error, matchedTitles
 
   let previousTasksIds = []
 
@@ -60,7 +61,11 @@
       })
   }
 
-  $: ({ externalSourcesOccurrences } = task)
+  $: {
+    if (task) {
+      matchedTitles = pluck(task.externalSourcesOccurrences, 'matchedTitles').flat()
+    }
+  }
   $: isMerged = task && task.state === 'merged'
   $: onChange(task, updateFromAndToEntities)
 </script>
@@ -71,7 +76,7 @@
       <TaskEntity
         entity={from}
         {error}
-        {externalSourcesOccurrences}
+        {matchedTitles}
       />
     {/if}
   </div>
@@ -81,6 +86,7 @@
       <TaskEntity
         entity={to}
         {error}
+        {matchedTitles}
       />
     {/if}
   </div>
