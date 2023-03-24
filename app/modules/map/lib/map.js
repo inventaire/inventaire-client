@@ -42,12 +42,6 @@ export function updateRoute (root, lat, lng, zoom = defaultZoom) {
   app.navigate(route, { preventScrollTop: true })
 }
 
-export function updateRouteFromEvent (root, e) {
-  const { lat, lng } = e.target.getCenter()
-  const { _zoom } = e.target
-  return updateRoute(root, lat, lng, _zoom)
-}
-
 export function updateMarker (marker, coords) {
   if (coords?.lat == null) return marker.remove()
   const { lat, lng } = coords
@@ -82,15 +76,6 @@ export function showUsersOnMap (map, users) {
 
 export function showGroupsOnMap (map, groups) {
   return forceArray(groups).map(group => showGroupOnMap(map, group))
-}
-
-export function BoundFilter (map) {
-  const bounds = map.getBounds()
-  return function (model) {
-    if (!model.hasPosition()) return false
-    const point = model.getLatLng()
-    return bounds.contains(point)
-  }
 }
 
 export function getBbox (map) {
