@@ -11,6 +11,7 @@
   import { setContext } from 'svelte'
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
   import { getShelves } from '#shelves/lib/shelves'
+  import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
 
   export let itemsDataPromise, isMainUser, ownerId, groupId, shelfId
 
@@ -20,11 +21,17 @@
 
   const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
 
+  let showInventoryWelcome = false
+
   let worksTree, workUriItemsMap, itemsByDate
   const waitForInventoryData = itemsDataPromise
     .then(async res => {
       ;({ worksTree, workUriItemsMap, itemsByDate } = res)
-      await showEntitySelectors()
+      if (itemsByDate.length === 0 && ownerId === app.user.id) {
+        showInventoryWelcome = true
+      } else {
+        await showEntitySelectors()
+      }
     })
 
   let facetsSelectors, facetsSelectedValues
@@ -94,26 +101,30 @@
   $: onChange(itemsIds, setupPagination)
 </script>
 
-<InventoryBrowserControls
-  {waitForInventoryData}
-  bind:facetsSelectors
-  bind:facetsSelectedValues
-  bind:textFilterItemsIds
-  {intersectionWorkUris}
-/>
-
-{#await waitForInventoryData}
-  <div class="spinner-wrap">
-    <Spinner center={true} />
-  </div>
-{:then}
-  <PaginatedItems
-    {Component}
-    {componentProps}
-    {pagination}
-    haveSeveralOwners={groupId != null}
+{#if showInventoryWelcome}
+  <InventoryWelcome />
+{:else}
+  <InventoryBrowserControls
+    {waitForInventoryData}
+    bind:facetsSelectors
+    bind:facetsSelectedValues
+    bind:textFilterItemsIds
+    {intersectionWorkUris}
   />
-{/await}
+
+  {#await waitForInventoryData}
+    <div class="spinner-wrap">
+      <Spinner center={true} />
+    </div>
+  {:then}
+    <PaginatedItems
+      {Component}
+      {componentProps}
+      {pagination}
+      haveSeveralOwners={groupId != null}
+    />
+  {/await}
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";

@@ -65,7 +65,6 @@
     />
   {/key}
 {:else}
-  <!-- TODO: recover display of InventoryWelcome for the main user -->
   <InventoryBrowser
     itemsDataPromise={getInventoryView('user', user)}
     ownerId={user._id}
