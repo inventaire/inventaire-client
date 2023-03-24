@@ -117,6 +117,9 @@
     :global(.select-dropdown-label){
       font-size: 1rem;
     }
+    :global(label){
+      margin: 0 0.5em;
+    }
   }
   .toggle-controls{
     z-index: 10;
