@@ -8,7 +8,7 @@
   import getNextTask from '#tasks/lib/get_next_task.js'
   import { pluck } from 'underscore'
 
-  export let taskId
+  export let taskId, entitiesType
 
   let task, from, to, error, matchedTitles
 
@@ -17,7 +17,13 @@
   const waitForTask = getTask()
 
   async function getTask () {
-    return getTaskById(taskId)
+    let promise
+    if (taskId) {
+      promise = getTaskById(taskId)
+    } else if (entitiesType) {
+      promise = next()
+    } else return
+    return promise
       .then(updateFromAndToEntities)
       .catch(err => {
         error = err
@@ -30,8 +36,9 @@
   }
 
   async function next () {
-    previousTasksIds.push(task._id)
-    const { entitiesType } = task
+    error = null
+    if (task) previousTasksIds.push(task._id)
+    if (!entitiesType) ({ entitiesType } = task)
     const params = {
       entitiesType,
       previousTasks: previousTasksIds
