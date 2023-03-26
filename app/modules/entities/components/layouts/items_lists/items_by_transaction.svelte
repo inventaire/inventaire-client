@@ -3,6 +3,7 @@
   import { icon } from '#lib/utils'
   import { transactionsData } from '#inventory/lib/transactions_data'
   import ItemPreview from './item_preview.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let itemsByTransaction, transaction, itemOnMap, displayCover
 
@@ -12,7 +13,7 @@
 {#if isNonEmptyArray(itemsByTransaction)}
   <div class="transaction-box {transaction}" title={transaction}>
     {@html icon(transactionsData[transaction].icon)}
-    <span class="label">{transaction}</span>
+    <span class="label">{I18n(transaction)}</span>
   </div>
   <div class="items-preview">
     {#each itemsByTransaction as item}
