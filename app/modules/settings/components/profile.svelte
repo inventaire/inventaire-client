@@ -7,6 +7,8 @@
   import { showMainUserPositionPicker } from '#map/lib/map'
   import { user } from '#user/user_store'
   import { Username } from '#lib/regex'
+  import error_ from '#lib/error'
+  import { looksLikeSpam } from '#lib/spam'
 
   let bioState, usernameState
   let usernameValue = $user.username
@@ -80,6 +82,13 @@
     }
     if (bioValue === $user.bio) {
       bioState = { type: 'info', message: 'this is already your bio' }
+      return
+    }
+    if (await looksLikeSpam(bioValue)) {
+      error_.report('possible spam attempt', { bioValue }, 598)
+      // Display a success message to not give a clue to spammers
+      // as to when a text is rejected
+      bioState = { type: 'success', message: I18n('done') }
       return
     }
     try {

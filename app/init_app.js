@@ -1,5 +1,4 @@
 import app from './app.js'
-import getConfig from './get_config.js'
 import initPiwik from '#lib/piwik'
 import API from '#app/api/api'
 import initDataWaiters from '#lib/data/waiters'
@@ -29,8 +28,6 @@ export default async function () {
   // gets all the routes used in the app
   app.API = API
 
-  const configPromise = getConfig()
-
   initDataWaiters()
 
   // Initialize all the modules and their routes before app.start()
@@ -56,10 +53,7 @@ export default async function () {
   initMap()
   initQuerystringHelpers()
 
-  await Promise.all([
-    app.request('wait:for', 'i18n'),
-    configPromise
-  ])
+  await app.request('wait:for', 'i18n')
 
   // Initialize the application on DOM ready event.
   $(() => {
@@ -69,5 +63,5 @@ export default async function () {
     reloadOnceADay()
   })
 
-  configPromise.then(initPiwik)
+  initPiwik()
 }
