@@ -3,8 +3,8 @@
   import { omitClaims } from '#entities/components/lib/work_helpers'
   import { authorsProps, relativeEntitiesListsProps } from '#entities/components/lib/claims_helpers'
   import { getAuthorWorksWithImagesAndCoauthors } from '#entities/components/lib/deduplicate_helpers.js'
+  import { sortMatchedLabelsEntities, hasMatchedLabel } from '#tasks/components/lib/tasks_helpers.js'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { intersection } from 'underscore'
   import Spinner from '#general/components/spinner.svelte'
   import Infobox from '#entities/components/layouts/infobox.svelte'
   import EntityTitle from '#entities/components/layouts/entity_title.svelte'
@@ -17,17 +17,10 @@
   let subEntities
 
   const waitingForSubEntities = getAuthorWorksWithImagesAndCoauthors(entity)
-    .then(res => {
-      const matchedLabelsFirstEntities = res.sort((a, b) => hasMatchedLabel(a) < hasMatchedLabel(b) ? 1 : -1)
-      subEntities = matchedLabelsFirstEntities
+    .then(entities => {
+      subEntities = sortMatchedLabelsEntities(entities, matchedTitles)
     })
     .catch(err => error = err)
-
-  function hasMatchedLabel (entity) {
-    const entityLabels = Object.values(entity.labels)
-    const matchedLabels = intersection(matchedTitles, entityLabels)
-    return matchedLabels.length > 0
-  }
 
   $: claims = omitClaims(entity.claims, [ authorsProps, relativeEntitiesListsProps ])
 </script>

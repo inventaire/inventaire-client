@@ -19,7 +19,7 @@
   async function getTask () {
     let promise
     if (taskId) {
-      promise = getTaskById(taskId)
+      promise = assignTaskById(taskId)
     } else if (entitiesType) {
       promise = next()
     } else return
@@ -30,8 +30,8 @@
       })
   }
 
-  async function getTaskById (id) {
-    const { tasks } = await preq.get(app.API.tasks.byIds(id))
+  async function assignTaskById () {
+    const { tasks } = await preq.get(app.API.tasks.byIds(taskId))
     task = tasks[0]
   }
 
@@ -52,7 +52,7 @@
 
   async function updateFromAndToEntities () {
     error = null
-    // Nullifying in order to reload entities infobox
+    // Nullifying in order to request new claims values entities
     from = null
     to = null
     if (!task || task.state === 'merged') return
