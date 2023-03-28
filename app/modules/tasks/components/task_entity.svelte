@@ -1,7 +1,7 @@
 <script>
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { omitClaims } from '#entities/components/lib/work_helpers'
-  import { authorsProps, relativeEntitiesListsProps } from '#entities/components/lib/claims_helpers'
+  import { authorsProps } from '#entities/components/lib/claims_helpers'
   import { getAuthorWorksWithImagesAndCoauthors } from '#entities/components/lib/deduplicate_helpers.js'
   import { sortMatchedLabelsEntities, hasMatchedLabel } from '#tasks/components/lib/tasks_helpers.js'
   import { I18n, i18n } from '#user/lib/i18n'
@@ -10,7 +10,8 @@
   import EntityTitle from '#entities/components/layouts/entity_title.svelte'
   import EntityImage from '#entities/components/entity_image.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
-  import TaskSubEntity from '#entities/components/task_sub_entity.svelte'
+  import WorkSubEntity from '#entities/components/work_sub_entity.svelte'
+  import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
 
   export let entity, error, matchedTitles
   let standalone = false
@@ -22,7 +23,8 @@
     })
     .catch(err => error = err)
 
-  $: claims = omitClaims(entity.claims, [ authorsProps, relativeEntitiesListsProps ])
+  $: claims = entity.claims
+  $: infoboxClaims = omitClaims(entity.claims, authorsProps)
 </script>
 
 {#if entity}
@@ -44,10 +46,13 @@
         </div>
       {/if}
     </div>
+    {#if entity.type === 'work'}
+      <AuthorsInfo {claims} />
+    {/if}
     <div class="entity-section">
       <div class="infobox-wrapper">
         <Infobox
-          {claims}
+          claims={infoboxClaims}
           entityType={entity.type}
         />
       </div>
@@ -55,27 +60,29 @@
         <Summary {entity} />
       </div>
     </div>
-    <div class="sub-entities-section">
-      {#await waitingForSubEntities}
-        <p class="loading">{i18n('Loading works...')}<Spinner /></p>
-      {:then}
-        <div class="header">
-          <h3>{I18n('works')}</h3>
-          <span class="count">{subEntities.length}</span>
-        </div>
-        <ul>
-          {#each subEntities as subEntity (subEntity.uri)}
-            <li
-              class="sub-entity"
-              class:has-matched-label={hasMatchedLabel(subEntity)}
-              title={hasMatchedLabel(subEntity) ? I18n('Matched title') : null}
-            >
-              <TaskSubEntity entity={subEntity} />
-            </li>
-          {/each}
-        </ul>
-      {/await}
-    </div>
+    {#if entity.type === 'human'}
+      <div class="sub-entities-section">
+        {#await waitingForSubEntities}
+          <p class="loading">{i18n('Loading works...')}<Spinner /></p>
+        {:then}
+          <div class="header">
+            <h3>{I18n('works')}</h3>
+            <span class="count">{subEntities.length}</span>
+          </div>
+          <ul>
+            {#each subEntities as subEntity (subEntity.uri)}
+              <li
+                class="sub-entity"
+                class:has-matched-label={hasMatchedLabel(subEntity)}
+                title={hasMatchedLabel(subEntity) ? I18n('Matched title') : null}
+              >
+                <WorkSubEntity entity={subEntity} />
+              </li>
+            {/each}
+          </ul>
+        {/await}
+      </div>
+    {/if}
   </div>
 {/if}
 
