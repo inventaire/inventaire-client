@@ -13,10 +13,12 @@
   $: sourcesCount = externalSourcesOccurrences?.length
   $: globalScore = calculateGlobalScore(task)
 </script>
-<li>
-  <strong>{i18n('global match score')}:</strong>
-  {globalScore}
-</li>
+{#if globalScore}
+  <li>
+    <strong>{i18n('global match score')}:</strong>
+    {globalScore}
+  </li>
+{/if}
 <li>
   <strong>{i18n('sources')}:</strong>
   <span class="sources-count count-{sourcesCount}">{sourcesCount}</span>
@@ -42,7 +44,11 @@
     {/each}
   </ul>
 </li>
-<li><strong>{i18n('lexical score')}:</strong> {lexicalScore}</li>
+{#if lexicalScore}
+  <li>
+    <strong>{i18n('lexical score')}:</strong> {lexicalScore}
+  </li>
+{/if}
 
 <style lang="scss">
   .sources-links{
