@@ -7,10 +7,11 @@
   import TaskEntity from './task_entity.svelte'
   import getNextTask from '#tasks/lib/get_next_task.js'
   import { pluck } from 'underscore'
+  import { I18n } from '#user/lib/i18n'
 
   export let taskId, entitiesType
 
-  let task, from, to, error, matchedTitles
+  let task, from, to, error, matchedTitles, noTask
 
   let previousTasksIds = []
 
@@ -45,16 +46,26 @@
     }
     await getNextTask(params)
       .then(newTask => {
+        if (!newTask) {
+          reset()
+          noTask = true
+          app.navigate('/tasks/works')
+          return
+        }
         task = newTask
         app.navigate(`/tasks/${task._id}`)
       })
   }
 
-  async function updateFromAndToEntities () {
+  function reset () {
     error = null
-    // Nullifying in order to request new claims values entities
     from = null
     to = null
+  }
+
+  async function updateFromAndToEntities () {
+    // Nullifying `from` and `to` in order to request new claims values entities
+    reset()
     if (!task || task.state === 'merged') return
     const fromUri = task.suspectUri
     const toUri = task.suggestionUri
@@ -76,47 +87,57 @@
   $: isMerged = task && task.state === 'merged'
   $: onChange(task, updateFromAndToEntities)
 </script>
-<div class="entities-section">
-  <div class="from-entity">
-    <h2>From</h2>
-    {#if from}
-      <TaskEntity
-        entity={from}
-        {error}
-        {matchedTitles}
-      />
-    {/if}
+{#if noTask}
+  <p id="no-task" class="grey">
+    {I18n('no task available, this is fine')}
+  <p />
+{:else}
+  <div class="entities-section">
+    <div class="from-entity">
+      <h2>From</h2>
+      {#if from}
+        <TaskEntity
+          entity={from}
+          {error}
+          {matchedTitles}
+        />
+      {/if}
+    </div>
+    <div class="to-entity">
+      <h2>To</h2>
+      {#if to}
+        <TaskEntity
+          entity={to}
+          {error}
+          {matchedTitles}
+        />
+      {/if}
+    </div>
   </div>
-  <div class="to-entity">
-    <h2>To</h2>
-    {#if to}
-      <TaskEntity
-        entity={to}
-        {error}
-        {matchedTitles}
-      />
-    {/if}
-  </div>
-</div>
-{#if isMerged}
-  <div class="error-wrapper">
-    <pre>{JSON.stringify(task, null, 2)}</pre>
-  </div>
+  {#if isMerged}
+    <div class="error-wrapper">
+      <pre>{JSON.stringify(task, null, 2)}</pre>
+    </div>
+  {/if}
+  {#await waitForTask then}
+    <TaskControls
+      {task}
+      {from}
+      {to}
+      {error}
+      on:next={next}
+    />
+  {/await}
+  <!-- CSS hack to not let sticky .controls overflow the bottom of task-entity -->
+  <!-- Needed since .controls has a dynamic height (due to .sources-links length). -->
+  <div class="placeholder" />
 {/if}
-{#await waitForTask then}
-  <TaskControls
-    {task}
-    {from}
-    {to}
-    {error}
-    on:next={next}
-  />
-{/await}
-<!-- CSS hack to not let sticky .controls overflow the bottom of task-entity -->
-<!-- Needed since .controls has a dynamic height (due to .sources-links length). -->
-<div class="placeholder" />
 <style lang="scss">
   @import "#general/scss/utils";
+  #no-task{
+    @include display-flex(row, center, center);
+    padding: 3em;
+  }
   .entities-section{
     @include display-flex(row, flex-start, flex-start);
     background-color: #ddd;
