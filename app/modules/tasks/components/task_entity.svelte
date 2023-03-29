@@ -122,7 +122,8 @@
   .sub-entity{
     @include display-flex(row, flex-start, flex-start);
     margin: 0.3em;
-    padding: 0 0.5em;
+    padding: 0.5em;
+
     background-color: $off-white;
   }
   .has-matched-label{

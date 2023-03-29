@@ -1,27 +1,13 @@
 <script>
-  import EntityPreview from './entity_preview.svelte'
-  import { I18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import WorkSubEntity from '#entities/components/work_sub_entity.svelte'
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers.js'
   import { createEventDispatcher } from 'svelte'
-  import Link from '#lib/components/link.svelte'
-  import { getActionKey } from '#lib/key_events'
 
   export let entity, from, to, filterPattern
 
   const dispatch = createEventDispatcher()
 
-  entity.image.small = imgSrc(entity.image.url, 100, 200)
-  entity.image.large = imgSrc(entity.image.url, 500, 1000)
-  let zoom = false
   const aggregatedLabelsAndAliases = getAggregatedLabelsAndAliases(entity)
-
-  const isNotLast = (array, index) => array.length > index + 1
-
-  function toggleZoomOnEnter (e) {
-    const key = getActionKey(e)
-    if (key === 'enter') zoom = !zoom
-  }
 </script>
 
 <button
@@ -29,94 +15,11 @@
   class:selected-from={from?.uri === entity.uri}
   class:selected-to={to?.uri === entity.uri}
 >
-  {#if entity.image.url}
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <img
-      class:zoom
-      src={zoom ? entity.image.large : entity.image.small}
-      alt=""
-      loading="lazy"
-      on:click|stopPropagation={() => zoom = !zoom}
-      on:keyup={toggleZoomOnEnter}
-    />
-  {:else}
-    <div class="no-image" />
-  {/if}
-  <div class="info">
-    <h3>
-      <Link url={`/entity/${entity.uri}`} text={entity.label} />
-    </h3>
-    <p class="description">{entity.description || ''}</p>
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <p
-      class="uri"
-      on:click|stopPropagation
-      on:keyup|stopPropagation
-    >{entity.uri}</p>
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <ul
-      class="all-terms"
-      on:click|stopPropagation
-      on:keyup|stopPropagation
-    >
-      {#each aggregatedLabelsAndAliases as termData (termData.term)}
-        {#if filterPattern}
-          {#if termData.term.match(filterPattern)}
-            <li>
-              {#each termData.getMatchParts(filterPattern) as part, i}
-                <!-- Odd parts are parts matching the filter and should be highlighted -->
-                {#if i % 2 === 1}
-                  <strong>{part}</strong>
-                {:else}
-                  {part}
-                {/if}
-              {/each}
-              <span class="occurrences">({termData.origins.join(', ')})</span>
-            </li>
-          {/if}
-        {:else}
-          <li>
-            {termData.term}
-            <span class="occurrences">({termData.origins.join(', ')})</span>
-          </li>
-        {/if}
-      {/each}
-    </ul>
-    {#if entity.series?.length > 0}
-      <ul class="series">
-        <h4>
-          {I18n('series')}
-          <span class="count">{entity.series.length}</span>
-        </h4>
-        <ul>
-          {#each entity.series as serie (serie.uri)}
-            <li class="entity-preview"><EntityPreview entity={serie} /></li>
-          {/each}
-        </ul>
-      </ul>
-    {/if}
-    {#if entity.works?.length > 0}
-      <ul class="works">
-        <h4>
-          {I18n('works')}
-          <span class="count">{entity.works.length}</span>
-        </h4>
-        <ul>
-          {#each entity.works as work (work.uri)}
-            <li class="entity-preview"><EntityPreview entity={work} /></li>
-          {/each}
-        </ul>
-      </ul>
-    {/if}
-    {#if entity.coauthors?.length > 0}
-      <p class="coauthors">
-        {I18n('coauthors')}:
-        {#each entity.coauthors as author, i (author.uri)}
-          <a href={author.pathname} title={author.label}>{author.label}</a>{#if isNotLast(entity.coauthors, i)},&nbsp;{/if}
-        {/each}
-      </p>
-    {/if}
-  </div>
+  <WorkSubEntity
+    {entity}
+    {filterPattern}
+    {aggregatedLabelsAndAliases}
+  />
 </button>
 
 <style lang="scss">
