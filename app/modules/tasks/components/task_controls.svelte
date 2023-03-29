@@ -8,6 +8,7 @@
   import TaskInfo from './task_info.svelte'
   import TaskScores from './task_scores.svelte'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
+  import { onChange } from '#lib/svelte/svelte'
 
   const dispatch = createEventDispatcher()
 
@@ -37,6 +38,7 @@
       error = { message: I18n('this task has already been treated') }
     }
   }
+  $: onChange(task, () => { error = null })
 </script>
 
 <svelte:window on:keydown={handleKeydown} />

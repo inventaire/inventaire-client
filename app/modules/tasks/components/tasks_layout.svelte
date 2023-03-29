@@ -37,7 +37,6 @@
   }
 
   async function next () {
-    error = null
     if (task) previousTasksIds.push(task._id)
     if (!entitiesType) ({ entitiesType } = task)
     const params = {
@@ -58,7 +57,6 @@
   }
 
   function reset () {
-    error = null
     from = null
     to = null
   }
