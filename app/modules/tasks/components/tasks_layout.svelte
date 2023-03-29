@@ -128,7 +128,8 @@
       on:next={next}
     />
   {/await}
-  <!-- css hack to not let fixed .controls overflow task-entity -->
+  <!-- CSS hack to not let sticky .controls overflow the bottom of task-entity -->
+  <!-- Needed since .controls has a dynamic height (due to .sources-links length). -->
   <div class="placeholder" />
 {/if}
 <style lang="scss">
