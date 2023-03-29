@@ -1,5 +1,3 @@
-import preq from '#lib/preq'
-
 export default function (attrs) {
   const { _id } = attrs
   const pathname = this.get('pathname')
@@ -13,25 +11,5 @@ export default function (attrs) {
     history: `${pathname}/history`,
   })
 
-  return _.extend(this, specificMethods)
-}
-
-const specificMethods = {
-  async fetchMergeSuggestions () {
-    if (this.mergeSuggestionsPromise != null) return this.mergeSuggestionsPromise
-
-    const uri = this.get('uri')
-
-    const { default: Tasks } = await import('#tasks/collections/tasks')
-
-    this.mergeSuggestionsPromise = preq.get(app.API.tasks.bySuspectUris(uri))
-      .then(res => {
-        const tasks = res.tasks[uri]
-        this.mergeSuggestions = new Tasks(tasks)
-        this.mergeSuggestions.sort()
-        return this.mergeSuggestions
-      })
-
-    return this.mergeSuggestionsPromise
-  }
+  return this
 }
