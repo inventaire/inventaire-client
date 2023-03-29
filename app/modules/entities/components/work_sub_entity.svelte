@@ -5,7 +5,7 @@
   import Link from '#lib/components/link.svelte'
   import getActionKey from '#lib/get_action_key'
 
-  export let entity
+  export let entity, filterPattern, aggregatedLabelsAndAliases
 
   entity.image.small = imgSrc(entity.image.url, 100, 200)
   entity.image.large = imgSrc(entity.image.url, 500, 1000)
@@ -40,6 +40,36 @@
     on:click|stopPropagation
     on:keyup|stopPropagation
   >{entity.uri}</p>
+  {#if filterPattern}
+    <ul
+      class="all-terms"
+      on:click|stopPropagation
+      on:keyup|stopPropagation
+    >
+      {#each aggregatedLabelsAndAliases as termData (termData.term)}
+        {#if filterPattern}
+          {#if termData.term.match(filterPattern)}
+            <li>
+              {#each termData.getMatchParts(filterPattern) as part, i}
+                <!-- Odd parts are parts matching the filter and should be highlighted -->
+                {#if i % 2 === 1}
+                  <strong>{part}</strong>
+                {:else}
+                  {part}
+                {/if}
+              {/each}
+              <span class="occurrences">({termData.origins.join(', ')})</span>
+            </li>
+          {/if}
+        {:else}
+          <li>
+            {termData.term}
+            <span class="occurrences">({termData.origins.join(', ')})</span>
+          </li>
+        {/if}
+      {/each}
+    </ul>
+  {/if}
   {#if entity.series?.length > 0}
     <ul class="series">
       <h4>
@@ -113,6 +143,24 @@
     padding: 0 0.3em;
     font-size: 1rem;
     margin: 0 0.5em;
+  }
+  .uri, .all-terms{
+    cursor: text;
+    user-select: text;
+  }
+  .all-terms{
+    font-weight: normal;
+    text-align: left;
+    max-height: 10em;
+    overflow-y: auto;
+  }
+  .all-terms li{
+    background-color: $off-white;
+    padding: 0.1em;
+    margin: 0.2em 0;
+  }
+  .occurrences{
+    color: $grey;
   }
   .coauthors a:hover{
     text-decoration: underline;
