@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
 
+set -eu
+
 # Keep 'inventaire-i18n' as the directory name to make this directory easy to ignore
 # in gitignore or text editor exclude patterns
 
-[ -e inventaire-i18n ] && {
-  cd inventaire-i18n
-  # Update dist files
-  git fetch origin dist
-  git checkout origin/dist
-  git checkout -B dist
-  cd ..
-} || {
-  git clone https://github.com/inventaire/inventaire-i18n.git --branch dist
+[ -e inventaire-i18n ] || {
+  git clone https://github.com/inventaire/inventaire-i18n.git
 }
 
-mkdir -p ./public/i18n ./app/assets/js
-echo "copying dist files"
-cp inventaire-i18n/dist/client/* ./public/i18n
+cd ./inventaire-i18n
+rm -rf ./dist
+git checkout origin/master
+git checkout -B master
+git pull origin master
+npm run build
+cd ..
 
-echo "copying languages_data.js to app/lib"
-cp inventaire-i18n/dist/languages_data.js ./app/assets/js
-sed -i 's/module.exports =/export default/' ./app/assets/js/languages_data.js
-./node_modules/.bin/eslint --fix ./app/assets/js/languages_data.js
+mkdir -p ./public/i18n ./app/assets/js
+
+echo "copying dist files"
+cp ./inventaire-i18n/dist/client/*json ./public/i18n
+
+echo "copying languages_data.js"
+cp ./inventaire-i18n/dist/languages_data.js ./app/assets/js
