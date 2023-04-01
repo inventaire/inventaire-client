@@ -54,8 +54,10 @@
               on:click={loadInternalLink}
               data-data={JSON.stringify(image)}
             >
-              <ImagesCollage imagesUrls={[ entity.image.url ]}
-              />
+              {#if entity.image.url}
+                <ImagesCollage imagesUrls={[ entity.image.url ]}
+                />
+              {/if}
               <div class="label-wrapper">
                 <span class="label">{entity.label}</span>
               </div>
@@ -94,6 +96,7 @@
     height: $card-height;
     background-size: cover;
     background-position: center center;
+    background-color: #dcdcdc;
     @include display-flex(column, stretch, flex-end);
     :global(.images-collage){
       width: $card-width;
