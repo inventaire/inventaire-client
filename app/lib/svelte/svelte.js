@@ -4,10 +4,12 @@ export const BubbleUpComponentEvent = dispatch => {
   dispatch = dispatch || createEventDispatcher()
   return e => {
     if (e instanceof CustomEvent) {
-      // Assumes that this e.detail is the DOM event to bubble-up
+      // Re-dispatch an identical custom event
       dispatch(e.type, e.detail)
     } else {
-      // Assumes that e is the DOM event to bubble-up
+      // 'e' is expected to be a DOM event
+      // Dispatch the event object as event detail to make its attributes,
+      // such as its `target` accessible to parent components
       dispatch(e.type, e)
     }
   }
