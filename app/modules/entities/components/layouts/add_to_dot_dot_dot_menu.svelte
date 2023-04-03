@@ -69,7 +69,7 @@
       <div slot="button-inner">
         <span>
           {@html icon('plus')}
-          {i18n('Add to...')}
+          {i18n('Add to…')}
         </span>
         <span>
           {@html icon('caret-down')}
@@ -118,7 +118,7 @@
     >
       <span>
         {@html icon('plus')}
-        {i18n('Add to...')}
+        {i18n('Add to…')}
       </span>
       <span>
         {@html icon('caret-down')}

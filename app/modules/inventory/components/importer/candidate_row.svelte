@@ -137,7 +137,7 @@
           <Flash
             state={{
               type: 'loading',
-              message: i18n('Checking for existing items...')
+              message: i18n('Checking for existing items…')
             }} />
         {/await}
       {/if}

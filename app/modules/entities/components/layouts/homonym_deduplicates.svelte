@@ -15,7 +15,7 @@
 {#if hasDataadminAccess}
   {#await getHomonymsPromise()}
     <div class="loading-wrapper">
-      <p class="loading">{i18n('Looking for duplicates...')}
+      <p class="loading">{i18n('Looking for duplicates…')}
         <Spinner center={true} />
       </p>
     </div>

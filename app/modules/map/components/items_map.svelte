@@ -54,7 +54,7 @@
 </script>
 {#await initMap()}
   <div class="loading-wrapper">
-    <p class="loading">{i18n('Loading map...')} <Spinner /></p>
+    <p class="loading">{i18n('Loading map…')} <Spinner /></p>
   </div>
 {:then}
   <div class="items-map">

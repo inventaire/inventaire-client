@@ -247,7 +247,7 @@
   <input
     type="search"
     name="search"
-    placeholder={i18n('Search by title, author, ISBN, series, publisher, collection...')}
+    placeholder={i18n('Search by title, author, ISBN, series, publisher, collection…')}
     autocomplete="off"
     autocorrect="off"
     autocapitalize="off"

@@ -21,7 +21,7 @@
       <li>
         {@html icon('list')}
         <h3>{I18n('keep an inventory of your books')}</h3>
-        <p>{i18n('and of what can be done with them:')} "<em>{i18n('this book I can lend, this book I can give, this one is for sale...')}</em>"</p>
+        <p>{i18n('and of what can be done with them:')} "<em>{i18n('this book I can lend, this book I can give, this one is for sale…')}</em>"</p>
       </li>
       <li>
         {@html icon('users')}

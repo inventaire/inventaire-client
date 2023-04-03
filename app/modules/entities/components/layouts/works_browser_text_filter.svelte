@@ -47,7 +47,7 @@
   <div class="works-browser-text-filter">
     <input
       type="text"
-      placeholder={i18n('Filter...')}
+      placeholder={i18n('Filter…')}
       bind:value={textFilter}
       on:keydown={onKeyDown}
     />

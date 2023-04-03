@@ -105,7 +105,7 @@
       >
         {#await editionsWithPublishers}
           <div class="loading-wrapper">
-            <p class="loading">{i18n('Looking for editions...')}
+            <p class="loading">{i18n('Looking for editions…')}
               <Spinner />
             </p>
           </div>

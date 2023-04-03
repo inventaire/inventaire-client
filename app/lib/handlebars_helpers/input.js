@@ -37,7 +37,7 @@ export default {
     // default data, overridden by arguments
     const field = {
       type: 'text',
-      dotdotdot: '...'
+      dotdotdot: '…'
     }
     const button =
       { classes: 'success postfix' }
