@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
-
 set -eu
-
-# Keep 'inventaire-i18n' as the directory name to make this directory easy to ignore
-# in gitignore or text editor exclude patterns
 
 [ -e inventaire-i18n ] || {
   git clone https://github.com/inventaire/inventaire-i18n.git
