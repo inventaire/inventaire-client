@@ -12,7 +12,7 @@
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { compact } from 'underscore'
 
-  export let item, showUser, shelves
+  export let item, showUser, shelvesByIds
 
   const itemStore = getDocStore({ category: 'items', doc: item })
 
@@ -33,11 +33,11 @@
     username,
     picture,
     inventoryPathname,
-    shelvesIds,
+    itemShelvesIds,
     itemShelves
 
   $: {
-    ;({ details = '', transaction, visibility, shelves: shelvesIds = [] } = $itemStore)
+    ;({ details = '', transaction, visibility, shelves: itemShelvesIds = [] } = $itemStore)
     if (mainUserIsOwner) {
       isPrivate = visibility.length === 0
       visibilitySummary = getVisibilitySummary(visibility)
@@ -47,8 +47,8 @@
     if ($itemStore.user) {
       ;({ username, picture, inventoryPathname } = $itemStore.user)
     }
-    if (shelves) {
-      itemShelves = compact(shelvesIds.map(shelfId => shelves[shelfId]))
+    if (shelvesByIds) {
+      itemShelves = compact(itemShelvesIds.map(shelfId => shelvesByIds[shelfId]))
     }
   }
 </script>

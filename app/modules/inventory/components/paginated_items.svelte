@@ -9,7 +9,7 @@
 
   export let Component, componentProps, pagination, haveSeveralOwners = false
 
-  let items = [], shelves = []
+  let items = [], shelvesByIds = {}
   let waiting = getPromisePlaceholder()
   let flash, fetchMore, hasMore, allowMore
 
@@ -18,7 +18,7 @@
       .then(() => {
         assert_.array(pagination.items)
         items = pagination.items
-        shelves = pagination.shelves
+        shelvesByIds = pagination.shelvesByIds
       })
       .catch(err => flash = err)
   }
@@ -56,7 +56,7 @@
     <svelte:component
       this={Component}
       {items}
-      {shelves}
+      {shelvesByIds}
       {waiting}
       {haveSeveralOwners}
       {...componentProps} />

@@ -1,5 +1,5 @@
 <script>
-  import { getFilteredItemsIds, getSelectorsData, setupPagination } from '#inventory/components/lib/inventory_browser_helpers'
+  import { getFilteredItemsIds, getSelectorsData, resetPagination } from '#inventory/components/lib/inventory_browser_helpers'
   import Spinner from '#components/spinner.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
@@ -45,7 +45,7 @@
     intersectionWorkUris = getIntersectionWorkUris({ worksTree, facetsSelectedValues })
     itemsIds = getFilteredItemsIds({ intersectionWorkUris, itemsByDate, workUriItemsMap, textFilterItemsIds })
     componentProps.itemsIds = itemsIds
-    pagination = setupPagination({ itemsIds, isMainUser, display: $inventoryDisplay })
+    pagination = resetPagination({ itemsIds, isMainUser, display: $inventoryDisplay })
   }
 
   const lazyUpdateDisplayedItems = debounce(updateDisplayedItems, 100)

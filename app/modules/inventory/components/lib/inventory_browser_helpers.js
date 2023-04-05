@@ -121,14 +121,14 @@ export function getFilteredItemsIds ({ intersectionWorkUris, itemsByDate, workUr
   return itemsIds
 }
 
-export function setupPagination ({ itemsIds, isMainUser, display }) {
+export function resetPagination ({ itemsIds, isMainUser, display }) {
   const items = []
-  const shelves = {}
+  const shelvesByIds = {}
   const remainingItems = clone(itemsIds)
   let fetching
   const pagination = {
     items,
-    shelves,
+    shelvesByIds,
     allowMore: true,
     hasMore: () => {
       return remainingItems.length > 0
@@ -145,8 +145,8 @@ export function setupPagination ({ itemsIds, isMainUser, display }) {
       // TODO: re-enable fetching shelves for other users
       // Requires to filter-out unauthorized shelves from item.shelves
       if (display === 'table' && isMainUser) {
-        const newShelves = await getNewItemsShelves(items, Object.keys(shelves))
-        pagination.shelves = Object.assign(pagination.shelves, newShelves)
+        const newShelvesByIds = await getNewItemsShelves(items, Object.keys(shelvesByIds))
+        pagination.shelvesByIds = Object.assign(pagination.shelvesByIds, newShelvesByIds)
       }
       fetching = false
     },
