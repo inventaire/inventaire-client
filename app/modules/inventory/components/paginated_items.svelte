@@ -13,10 +13,7 @@
   let waiting = getPromisePlaceholder()
   let flash, fetchMore, hasMore, allowMore
 
-  let fetching = false
   async function fetch () {
-    if (fetching) return
-    fetching = true
     waiting = fetchMore()
       .then(() => {
         assert_.array(pagination.items)
@@ -24,7 +21,6 @@
         shelves = pagination.shelves
       })
       .catch(err => flash = err)
-      .finally(() => fetching = false)
   }
 
   let bottomElInView = false

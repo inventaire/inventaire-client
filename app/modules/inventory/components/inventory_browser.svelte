@@ -1,12 +1,12 @@
 <script>
-  import { getNewItemsShelves, getSelectorsData } from '#inventory/components/lib/inventory_browser_helpers'
+  import { getFilteredItemsIds, getSelectorsData, setupPagination } from '#inventory/components/lib/inventory_browser_helpers'
   import Spinner from '#components/spinner.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
-  import { clone, intersection, pick, uniq } from 'underscore'
+  import { debounce } from 'underscore'
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import { setContext } from 'svelte'
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
@@ -16,7 +16,7 @@
 
   setContext('items-search-filters', { ownerId, groupId, shelfId })
 
-  let itemsIds, textFilterItemsIds, shelves
+  let itemsIds, textFilterItemsIds
 
   const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
 
@@ -38,59 +38,20 @@
     ;({ facetsSelectors, facetsSelectedValues } = await getSelectorsData({ worksTree }))
   }
 
-  let intersectionWorkUris
-  function filterItems () {
+  let intersectionWorkUris, pagination, componentProps = { isMainUser }
+
+  function updateDisplayedItems () {
     if (!(worksTree && facetsSelectedValues)) return
     intersectionWorkUris = getIntersectionWorkUris({ worksTree, facetsSelectedValues })
-    if (intersectionWorkUris == null) {
-      // Default to showing the latest items
-      itemsIds = itemsByDate
-    } else if (intersectionWorkUris.length === 0) {
-      itemsIds = []
-    } else {
-      const worksItems = pick(workUriItemsMap, intersectionWorkUris)
-      // Deduplicate as editions with several P629 values might have generated duplicates
-      itemsIds = uniq(Object.values(worksItems).flat())
-    }
-    if (textFilterItemsIds != null) {
-      itemsIds = intersection(itemsIds, textFilterItemsIds)
-    }
+    itemsIds = getFilteredItemsIds({ intersectionWorkUris, itemsByDate, workUriItemsMap, textFilterItemsIds })
+    componentProps.itemsIds = itemsIds
+    pagination = setupPagination({ itemsIds, isMainUser, display: $inventoryDisplay })
   }
+
+  const lazyUpdateDisplayedItems = debounce(updateDisplayedItems, 100)
 
   $: Component = $inventoryDisplay === 'cascade' ? ItemsCascade : ItemsTable
-  $: onChange(facetsSelectedValues, textFilterItemsIds, filterItems)
-
-  let items = [], pagination, componentProps = { isMainUser }
-
-  async function setupPagination () {
-    items = []
-    shelves = {}
-    componentProps.itemsIds = itemsIds
-    const remainingItems = clone(itemsIds)
-    pagination = {
-      items,
-      shelves,
-      allowMore: true,
-      hasMore: () => {
-        return remainingItems.length > 0
-      },
-      fetchMore: async () => {
-        const batch = remainingItems.splice(0, 20)
-        if (batch.length > 0) {
-          await app.request('items:getByIds', { ids: batch, items })
-        }
-        pagination.items = items
-        // TODO: re-enable fetching shelves for other users
-        // Requires to filter-out unauthorized shelves from item.shelves
-        if (isMainUser) {
-          const newShelves = await getNewItemsShelves(items, Object.keys(shelves))
-          pagination.shelves = Object.assign(pagination.shelves, newShelves)
-        }
-      },
-    }
-  }
-
-  $: onChange(itemsIds, setupPagination)
+  $: onChange(facetsSelectedValues, textFilterItemsIds, lazyUpdateDisplayedItems)
 </script>
 
 {#if showInventoryWelcome}
@@ -109,12 +70,14 @@
       <Spinner center={true} />
     </div>
   {:then}
-    <PaginatedItems
-      {Component}
-      {componentProps}
-      {pagination}
-      haveSeveralOwners={groupId != null}
-    />
+    {#if pagination}
+      <PaginatedItems
+        {Component}
+        {componentProps}
+        {pagination}
+        haveSeveralOwners={groupId != null}
+      />
+    {/if}
   {/await}
 {/if}
 

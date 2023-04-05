@@ -2,7 +2,7 @@ import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import error_ from '#lib/error'
 import preq from '#lib/preq'
 import { getShelves } from '#shelves/lib/shelves'
-import { compact, difference, flatten, pluck, uniq, without } from 'underscore'
+import { clone, compact, difference, flatten, intersection, pick, pluck, uniq, without } from 'underscore'
 
 export async function getSelectorsData ({ worksTree }) {
   const facets = worksTree
@@ -96,9 +96,60 @@ export async function getInventoryView (type, doc) {
   return preq.get(app.API.items.inventoryView(params))
 }
 
-export async function getNewItemsShelves (items, knownShelvesIds) {
+async function getNewItemsShelves (items, knownShelvesIds) {
   const shelvesIds = compact(pluck(items, 'shelves').flat())
   const newShelvesIds = difference(uniq(shelvesIds), knownShelvesIds)
   if (newShelvesIds.length > 0) return getShelves(newShelvesIds)
   else return {}
+}
+
+export function getFilteredItemsIds ({ intersectionWorkUris, itemsByDate, workUriItemsMap, textFilterItemsIds }) {
+  let itemsIds
+  if (intersectionWorkUris == null) {
+    // Default to showing the latest items
+    itemsIds = itemsByDate
+  } else if (intersectionWorkUris.length === 0) {
+    itemsIds = []
+  } else {
+    const worksItems = pick(workUriItemsMap, intersectionWorkUris)
+    // Deduplicate as editions with several P629 values might have generated duplicates
+    itemsIds = uniq(Object.values(worksItems).flat())
+  }
+  if (textFilterItemsIds != null) {
+    itemsIds = intersection(itemsIds, textFilterItemsIds)
+  }
+  return itemsIds
+}
+
+export function setupPagination ({ itemsIds, isMainUser, display }) {
+  const items = []
+  const shelves = {}
+  const remainingItems = clone(itemsIds)
+  let fetching
+  const pagination = {
+    items,
+    shelves,
+    allowMore: true,
+    hasMore: () => {
+      return remainingItems.length > 0
+    },
+    fetchMore: async () => {
+      if (fetching) return
+      fetching = true
+      const batch = remainingItems.splice(0, 20)
+      if (batch.length > 0) {
+        await app.request('items:getByIds', { ids: batch, items })
+      }
+      pagination.items = items
+      // Fetch items shelves to be able to display shelf dots on items rows
+      // TODO: re-enable fetching shelves for other users
+      // Requires to filter-out unauthorized shelves from item.shelves
+      if (display === 'table' && isMainUser) {
+        const newShelves = await getNewItemsShelves(items, Object.keys(shelves))
+        pagination.shelves = Object.assign(pagination.shelves, newShelves)
+      }
+      fetching = false
+    },
+  }
+  return pagination
 }
