@@ -1,7 +1,8 @@
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import error_ from '#lib/error'
 import preq from '#lib/preq'
-import { flatten, uniq, without } from 'underscore'
+import { getShelves } from '#shelves/lib/shelves'
+import { compact, difference, flatten, pluck, uniq, without } from 'underscore'
 
 export async function getSelectorsData ({ worksTree }) {
   const facets = worksTree
@@ -93,4 +94,11 @@ export async function getInventoryView (type, doc) {
     params = { [type]: doc._id }
   }
   return preq.get(app.API.items.inventoryView(params))
+}
+
+export async function getNewItemsShelves (items, knownShelvesIds) {
+  const shelvesIds = compact(pluck(items, 'shelves').flat())
+  const newShelvesIds = difference(uniq(shelvesIds), knownShelvesIds)
+  if (newShelvesIds.length > 0) return getShelves(newShelvesIds)
+  else return {}
 }

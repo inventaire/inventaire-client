@@ -1,16 +1,15 @@
 <script>
-  import { getSelectorsData } from '#inventory/components/lib/inventory_browser_helpers'
+  import { getNewItemsShelves, getSelectorsData } from '#inventory/components/lib/inventory_browser_helpers'
   import Spinner from '#components/spinner.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
-  import { clone, intersection, pick, uniq, pluck, compact } from 'underscore'
+  import { clone, intersection, pick, uniq } from 'underscore'
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import { setContext } from 'svelte'
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
-  import { getShelves } from '#shelves/lib/shelves'
   import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
 
   export let itemsDataPromise, isMainUser, ownerId, groupId, shelfId
@@ -63,13 +62,6 @@
 
   let items = [], pagination, componentProps = { isMainUser }
 
-  async function getShelvesData (items, currentShelvesIds) {
-    const shelvesIds = compact(pluck(items, 'shelves').flat())
-    const newShelvesIds = _.difference(_.uniq(shelvesIds), currentShelvesIds)
-    if (newShelvesIds.length > 0) return getShelves(newShelvesIds)
-    else return {}
-  }
-
   async function setupPagination () {
     items = []
     shelves = {}
@@ -91,7 +83,7 @@
         // TODO: re-enable fetching shelves for other users
         // Requires to filter-out unauthorized shelves from item.shelves
         if (isMainUser) {
-          const newShelves = await getShelvesData(items, Object.keys(shelves))
+          const newShelves = await getNewItemsShelves(items, Object.keys(shelves))
           pagination.shelves = Object.assign(pagination.shelves, newShelves)
         }
       },
