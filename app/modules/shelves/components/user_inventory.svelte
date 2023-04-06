@@ -6,6 +6,7 @@
   import { getShelvesByOwner } from '#shelves/lib/shelves'
   import { onChange } from '#lib/svelte/svelte'
   import { getContext } from 'svelte'
+  import { indexBy } from 'underscore'
 
   export let user, selectedShelf, groupId = null, flash
 
@@ -22,7 +23,7 @@
     $focusStore = { type: 'user', doc: user }
   }
 
-  let shelves
+  let shelves, userShelvesById
   const waitForShelves = getShelvesByOwner(user._id)
     .then(res => {
       shelves = res
@@ -39,6 +40,7 @@
     shelves = shelves
   }
   $: onChange(selectedShelf, refreshShelves)
+  $: if (shelves) userShelvesById = indexBy(shelves, '_id')
 </script>
 
 <ShelvesSection
@@ -62,6 +64,7 @@
       itemsDataPromise={getInventoryView('shelf', selectedShelf)}
       {isMainUser}
       shelfId={selectedShelf._id}
+      itemsShelvesByIds={userShelvesById}
     />
   {/key}
 {:else}
@@ -70,5 +73,6 @@
     ownerId={user._id}
     {groupId}
     {isMainUser}
+    itemsShelvesByIds={userShelvesById}
   />
 {/if}

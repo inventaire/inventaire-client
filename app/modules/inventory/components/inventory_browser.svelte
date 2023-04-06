@@ -12,7 +12,7 @@
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
   import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
 
-  export let itemsDataPromise, isMainUser, ownerId, groupId, shelfId
+  export let itemsDataPromise, isMainUser, ownerId, groupId, shelfId, itemsShelvesByIds
 
   setContext('items-search-filters', { ownerId, groupId, shelfId })
 
@@ -38,18 +38,18 @@
     ;({ facetsSelectors, facetsSelectedValues } = await getSelectorsData({ worksTree }))
   }
 
-  let intersectionWorkUris, pagination, componentProps = { isMainUser }
+  let intersectionWorkUris, pagination
 
   function updateDisplayedItems () {
     if (!(worksTree && facetsSelectedValues)) return
     intersectionWorkUris = getIntersectionWorkUris({ worksTree, facetsSelectedValues })
     itemsIds = getFilteredItemsIds({ intersectionWorkUris, itemsByDate, workUriItemsMap, textFilterItemsIds })
-    componentProps.itemsIds = itemsIds
     pagination = resetPagination({ itemsIds, isMainUser, display: $inventoryDisplay })
   }
 
   const lazyUpdateDisplayedItems = debounce(updateDisplayedItems, 100)
 
+  $: componentProps = { isMainUser, itemsShelvesByIds, itemsIds }
   $: Component = $inventoryDisplay === 'cascade' ? ItemsCascade : ItemsTable
   $: onChange(facetsSelectedValues, textFilterItemsIds, lazyUpdateDisplayedItems)
 </script>

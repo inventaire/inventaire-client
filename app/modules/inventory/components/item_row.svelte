@@ -89,7 +89,7 @@
 
   {#if isNonEmptyArray(itemShelves)}
     <ul class="shelves-dots">
-      {#each itemShelves as shelf}
+      {#each itemShelves as shelf (shelf._id)}
         <ShelfDot {shelf} />
       {/each}
     </ul>
