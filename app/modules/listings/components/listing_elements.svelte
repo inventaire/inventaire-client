@@ -10,8 +10,9 @@
   import { pluck } from 'underscore'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import { getViewportHeight } from '#lib/screen'
+  import { icon } from '#lib/handlebars_helpers/icons'
 
-  export let elements, listingId, isEditable
+  export let elements, listingId, isEditable, isReorderMode
 
   let flash, inputValue = '', showSuggestions
   let entities = []
@@ -119,6 +120,16 @@
       </div>
     {/if}
 
+    {#if isReorderMode}
+      <button
+        on:click={() => isReorderMode = false}
+        class="success-button tiny-button"
+      >
+        {@html icon('check')}
+        {i18n('Reorder done')}
+      </button>
+    {/if}
+
     <ul class="listing-elements">
       {#await addingAnElement}
         <li class="loading">{I18n('loading')}<Spinner /></li>
@@ -159,6 +170,14 @@
     margin: 1em 0;
     overflow: hidden;
   }
+  .success-button{
+    margin-left: auto;
+    padding: 0.2em 0.6em;
+    margin-top: 1em;
+    white-space: nowrap;
+    line-height: 1.6em;
+  }
+
   .entities-selector{
     width: 100%;
     padding: 0 0.5em;
