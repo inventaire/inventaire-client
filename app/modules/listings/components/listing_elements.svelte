@@ -3,6 +3,7 @@
   import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
   import { getViewportHeight } from '#app/lib/screen'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
@@ -12,7 +13,7 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import ListingElement from './listing_element.svelte'
 
-  export let elements = [], listingId, isEditable
+  export let elements = [], listingId, isEditable, isReorderMode
 
   let flash, inputValue = '', showSuggestions
 
@@ -123,6 +124,16 @@
       </div>
     {/if}
 
+    {#if isReorderMode}
+      <button
+        on:click={() => isReorderMode = false}
+        class="success-button tiny-button"
+      >
+        {@html icon('check')}
+        {i18n('Reorder done')}
+      </button>
+    {/if}
+
     <ul class="listing-elements">
       {#await addingAnElement}
         <li class="loading">{I18n('loading')}<Spinner /></li>
@@ -162,6 +173,14 @@
     margin: 1em 0;
     overflow: hidden;
   }
+  .success-button{
+    margin-inline-start: auto;
+    padding: 0.2em 0.6em;
+    margin-block-start: 1em;
+    white-space: nowrap;
+    line-height: 1.6em;
+  }
+
   .entities-selector{
     width: 100%;
   }
