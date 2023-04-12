@@ -13,7 +13,7 @@
     <strong class="username">{username}</strong>
   {:else}
     <a
-      href={user.pathname}
+      href={user.inventoryPathname}
       on:click|stopPropagation={loadInternalLink}
     >
       <img alt="{username} avatar" src={imgSrc(picture, 48)} />

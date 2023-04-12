@@ -36,7 +36,7 @@ export default Marionette.View.extend({
 
   showItem (e) {
     if (isOpenedOutside(e)) return
-    app.execute('show:item', this.model)
+    app.execute('show:item', { itemId: this.model.get('_id') })
   }
 })
 

@@ -6,47 +6,45 @@
   import { getVisibilitySummary, getVisibilitySummaryLabel, iconByVisibilitySummary } from '#general/lib/visibility'
   import { debounce, isEqual } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
-  import { getDocStore } from '#lib/svelte/mono_document_stores'
 
   export let item, flash, large = false, widthReferenceEl
 
-  const itemStore = getDocStore({ category: 'items', doc: item })
-
-  // Do not make it reactive to let udpateAndSave determine if it changed
-  let visibility = $itemStore.visibility
+  let visibility = item.visibility
+  let savedVisibility = visibility
+  $: item.visibility = visibility
 
   async function save () {
     try {
+      if (isEqual(savedVisibility, visibility)) return
       await app.request('items:update', {
         items: [ item ],
         attribute: 'visibility',
         value: visibility,
       })
+      savedVisibility = visibility
     } catch (err) {
+      // Ignore duplicated request errors
+      // as that means the server is at the desired state
+      if (err.statusCode === 429) return
+      // Restore saved value
+      visibility = savedVisibility
       flash = err
     }
   }
 
   const lazySave = debounce(save, 1000)
 
-  async function udpateAndSave () {
-    if (isEqual($itemStore.visibility, visibility)) return
-    lazySave()
-  }
-
-  $: onChange(visibility, udpateAndSave)
-
-  const reconcileWithStore = () => visibility = $itemStore.visibility
-  $: onChange($itemStore.visibility, reconcileWithStore)
-
   let visibilitySummary, iconName, iconLabel
-  $: {
+  function onVisibilityChange () {
+    lazySave()
     visibilitySummary = getVisibilitySummary(visibility)
     iconName = iconByVisibilitySummary[visibilitySummary]
     iconLabel = getVisibilitySummaryLabel(visibility)
     item.visibilitySummary = visibilitySummary
     item.visibilitySummaryIconName = iconName
   }
+
+  $: onChange(visibility, onVisibilityChange)
 
   function clickOnContentShouldCloseDropdown (e) {
     // Close dropdown when clicking on the save button

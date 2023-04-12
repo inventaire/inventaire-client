@@ -1,6 +1,7 @@
 <script>
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { currentRoute } from '#lib/location'
+  import { icon, isOpenedOutside } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
 
@@ -25,13 +26,19 @@
   const url = `/items/${id}`
 
   const showItemOnMap = () => dispatch('showItemOnMap')
+
+  function showItem (e) {
+    if (isOpenedOutside(e)) return
+    app.execute('show:item', { itemId: id, regionName: 'svelteModal', pathnameAfterClosingModal: currentRoute() })
+    e.preventDefault()
+  }
 </script>
 
 <div class="show-item">
   <a
     class="items-link"
     href={url}
-    on:click={loadInternalLink}
+    on:click={showItem}
     title={i18n(`${transaction}_personalized`, { username })}
   >
     <div class="cover-wrapper">

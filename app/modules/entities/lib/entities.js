@@ -50,7 +50,9 @@ export const getEntityByUri = async ({ uri }) => {
 }
 
 export const serializeEntity = entity => {
-  entity.label = getBestLangValue(app.user.lang, entity.originalLang, entity.labels).value
+  const { value: label, lang: labelLang } = getBestLangValue(app.user.lang, entity.originalLang, entity.labels)
+  entity.label = label
+  entity.labelLang = labelLang
   if (entity.descriptions) {
     entity.description = getBestLangValue(app.user.lang, entity.originalLang, entity.descriptions).value
   }
@@ -80,10 +82,10 @@ export const attachEntities = async (entity, attribute, uris) => {
 
 // Limiting the amount of uris requested to not get over the HTTP GET querystring length threshold.
 // Not using the POST equivalent endpoint, has duplicated request would then be answered with a 429 error
-const getManyEntities = async ({ uris, attributes, lang }) => {
+const getManyEntities = async ({ uris, attributes, lang, relatives }) => {
   const urisChunks = chunk(uris, 30)
   const responses = await Promise.all(urisChunks.map(async urisChunks => {
-    return preq.get(app.API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang }))
+    return preq.get(app.API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives }))
   }))
   return {
     entities: mergeResponsesObjects(responses, 'entities'),
@@ -100,25 +102,26 @@ const mergeResponsesObjects = (responses, attribute) => {
   }
 }
 
-export async function getEntitiesAttributesByUris ({ uris, attributes, lang }) {
+export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives }) {
   uris = forceArray(uris)
   if (!isNonEmptyArray(uris)) return { entities: [] }
   attributes = forceArray(attributes)
-  return getManyEntities({ uris, attributes, lang })
+  const { entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives })
+  if (redirects) {
+    for (const [ fromUri, toUri ] of Object.entries(redirects)) {
+      entities[fromUri] = entities[toUri]
+    }
+  }
+  return { entities }
 }
 
 export async function getBasicInfoByUri (uri) {
-  const { entities, redirects } = await getEntitiesAttributesByUris({
+  const { entities } = await getEntitiesAttributesByUris({
     uris: [ uri ],
     attributes: [ 'type', 'labels', 'descriptions', 'image' ],
     lang: app.user.lang
   })
   const entity = entities[uri]
-  if (!entity && redirects) {
-    return {
-      redirection: redirects[uri],
-    }
-  }
   const label = Object.values(entity.labels)[0]
   let description
   if (entity.descriptions) description = Object.values(entity.descriptions)[0]

@@ -4,9 +4,12 @@ import log_ from '#lib/loggers'
 import initQueries from './lib/queries.js'
 import showItemCreationForm from './lib/show_item_creation_form.js'
 import itemActions from './lib/item_actions.js'
-import { parseQuery, currentRoute, buildPath } from '#lib/location'
+import { parseQuery, buildPath } from '#lib/location'
 import error_ from '#lib/error'
-import { getAuthorsByProperty } from '#inventory/components/lib/item_show_helpers'
+import preq from '#lib/preq'
+import ItemShowStandalone from '#inventory/components/item_show_standalone.svelte'
+import app from '#app/app'
+import { removeCurrentComponent } from '#lib/global_libs_extender'
 
 export default {
   initialize () {
@@ -89,19 +92,8 @@ const API = {
     return showInventory({ group, standalone })
   },
 
-  showItemFromId (id) {
-    const pathname = `/items/${id}`
-    if (!isItemId(id)) return app.execute('show:error:missing', { pathname })
-
-    return app.request('get:item:model', id)
-    .then(app.Execute('show:item'))
-    .catch(err => {
-      if (err.statusCode === 404) {
-        return app.execute('show:error:missing', { pathname })
-      } else {
-        app.execute('show:error', err, 'showItemFromId')
-      }
-    })
+  async showItemFromId (id) {
+    showItem({ itemId: id, regionName: 'main' })
   },
 
   showUserItemsByEntity (username, uri, label) {
@@ -134,7 +126,7 @@ const showItemsFromModels = function (items) {
     app.execute('show:error:missing')
   } else if (items.length === 1) {
     const item = items.models[0]
-    showItemModal(item, { fallbackToUserInventory: true })
+    showItem({ item: item._id })
   } else {
     showItemsList(items)
   }
@@ -166,48 +158,28 @@ export const getItemsListFromItemsCollection = collection => {
   })
 }
 
-const showItemModal = async (model, options = {}) => {
-  assert_.object(model)
-  const { fallbackToUserInventory = false } = options
-
-  // Do not scroll top as the modal might be displayed down at the level
-  // where the item show event was triggered
-  app.navigateFromModel(model, { preventScrollTop: true })
-  const newRoute = currentRoute()
-  const previousRoute = Backbone.history.last.find(route => route !== newRoute)
-
-  const navigateAfterModal = function () {
-    if (currentRoute() !== newRoute) return
-    if (fallbackToUserInventory || !previousRoute || previousRoute === newRoute) {
-      app.execute('show:inventory:user', model.get('owner'))
-    } else {
-      app.navigate(previousRoute, { preventScrollTop: true })
-    }
-  }
-
-  app.execute('modal:open', 'large')
-  app.execute('modal:spinner')
-
+const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal }) => {
   try {
-    const [ { default: ItemShow } ] = await Promise.all([
-      await import('#inventory/components/item_show.svelte'),
-      model.waitForEntity,
-      model.grabWorks(),
-      model.waitForUser,
-    ])
-    const authorsByProperty = await getAuthorsByProperty(model.works)
-    app.layout.showChildComponent('modal', ItemShow, {
-      props: {
-        item: model.toJSON(),
-        user: model.user.toJSON(),
-        entity: model.entity.toJSON(),
-        works: model.works.map(work => work.toJSON()),
-        authorsByProperty,
-        fallback: navigateAfterModal,
-      }
-    })
+    assert_.string(itemId)
+    const pathname = `/items/${itemId}`
+    if (!isItemId(itemId)) return app.execute('show:error:missing', { pathname })
+    const { items, users } = await preq.get(app.API.items.byIds({ ids: itemId, includeUsers: true }))
+    const item = items[0]
+    const user = users[0]
+    if (item) {
+      app.layout.showChildComponent(regionName, ItemShowStandalone, {
+        props: {
+          item,
+          user,
+          pathnameAfterClosingModal,
+          autodestroyComponent: () => removeCurrentComponent(app.layout.getRegion(regionName))
+        }
+      })
+    } else {
+      app.execute('show:error:missing', { pathname })
+    }
   } catch (err) {
-    app.execute('show:error', err)
+    app.execute('show:error', err, 'showItemFromId')
   }
 }
 
@@ -253,7 +225,7 @@ const initializeInventoriesHandlers = function (app) {
 
     'show:item:creation:form': showItemCreationForm,
 
-    'show:item': showItemModal,
+    'show:item': showItem,
     'show:item:byId': API.showItemFromId,
 
     'show:user:listings': API.showUserListings,

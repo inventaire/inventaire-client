@@ -1,8 +1,7 @@
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import error_ from '#lib/error'
 import preq from '#lib/preq'
-import { getShelves } from '#shelves/lib/shelves'
-import { clone, compact, difference, flatten, intersection, pick, pluck, uniq, without } from 'underscore'
+import { clone, flatten, intersection, pick, uniq, without } from 'underscore'
 
 export async function getSelectorsData ({ worksTree }) {
   const facets = worksTree
@@ -18,7 +17,7 @@ export async function getSelectorsData ({ worksTree }) {
   // won't know how to resolve it
   valuesUris = without(valuesUris, 'unknown')
 
-  const facetsEntitiesBasicInfo = await getBasicInfo(valuesUris)
+  const facetsEntitiesBasicInfo = await getEntitiesBasicInfo(valuesUris)
 
   const facetsSelectors = getSelectorsOptions({ worksTree, facetsEntitiesBasicInfo })
 
@@ -30,7 +29,7 @@ export async function getSelectorsData ({ worksTree }) {
   }
 }
 
-async function getBasicInfo (uris) {
+async function getEntitiesBasicInfo (uris) {
   uris = uniq(uris)
   if (uris.length === 0) return []
   const { entities } = await getEntitiesAttributesByUris({
@@ -96,13 +95,6 @@ export async function getInventoryView (type, doc) {
   return preq.get(app.API.items.inventoryView(params))
 }
 
-async function getNewItemsShelves (items, knownShelvesIds) {
-  const shelvesIds = compact(pluck(items, 'shelves').flat())
-  const newShelvesIds = difference(uniq(shelvesIds), knownShelvesIds)
-  if (newShelvesIds.length > 0) return getShelves(newShelvesIds)
-  else return {}
-}
-
 export function getFilteredItemsIds ({ intersectionWorkUris, itemsByDate, workUriItemsMap, textFilterItemsIds }) {
   let itemsIds
   if (intersectionWorkUris == null) {
@@ -141,13 +133,6 @@ export function resetPagination ({ itemsIds, isMainUser, display }) {
         await app.request('items:getByIds', { ids: batch, items })
       }
       pagination.items = items
-      // Fetch items shelves to be able to display shelf dots on items rows
-      // TODO: re-enable fetching shelves for other users
-      // Requires to filter-out unauthorized shelves from item.shelves
-      if (display === 'table' && isMainUser) {
-        const newShelvesByIds = await getNewItemsShelves(items, Object.keys(shelvesByIds))
-        pagination.shelvesByIds = Object.assign(pagination.shelvesByIds, newShelvesByIds)
-      }
       fetching = false
     },
   }

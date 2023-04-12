@@ -4,8 +4,6 @@ import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
 import Item from '#inventory/models/item'
 import { isModel } from '#lib/boolean_tests'
-import { hasSubscribers, refreshDocStore, updateDocStore } from '#lib/svelte/mono_document_stores'
-import { addItemsUsers } from '#inventory/lib/queries'
 
 export default {
   create (itemData) {
@@ -39,15 +37,7 @@ export default {
 
     const ids = items.map(getItemId)
 
-    try {
-      // Optimistic UI
-      propagateItemsChanges({ ids, attribute, value })
-      await preq.put(app.API.items.update, { ids, attribute, value })
-    } catch (err) {
-      // Revert optimistic changes
-      await reconcileWithServerState(ids)
-      throw err
-    }
+    return preq.put(app.API.items.update, { ids, attribute, value })
   },
 
   delete (options) {
@@ -89,20 +79,4 @@ const getItemId = item => {
   if (_.isString(item)) return item
   // Support both models and item docs
   else return item.id || item._id
-}
-
-const propagateItemsChanges = async ({ ids, attribute, value }) => {
-  const updateFn = doc => {
-    doc[attribute] = value
-    return doc
-  }
-  ids.forEach(id => updateDocStore({ category: 'items', id, updateFn }))
-}
-
-const reconcileWithServerState = async ids => {
-  ids = ids.filter(id => hasSubscribers('items', id))
-  if (ids.length === 0) return
-  const { items, users } = await preq.get(app.API.items.byIds({ ids, includeUsers: true }))
-  addItemsUsers({ items, users })
-  items.forEach(doc => refreshDocStore({ category: 'items', doc }))
 }

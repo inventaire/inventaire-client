@@ -22,7 +22,8 @@ export default Marionette.View.extend({
   regions: {
     topBar: '#topBar',
     main: 'main',
-    modal: '#modalContent'
+    modal: '#modalContent',
+    svelteModal: '#svelteModal',
   },
 
   ui: {

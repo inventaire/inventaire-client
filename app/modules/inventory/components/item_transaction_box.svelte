@@ -4,27 +4,35 @@
   import Dropdown from '#components/dropdown.svelte'
   import { uniqueId } from 'underscore'
   import { transactionsData } from '#inventory/lib/transactions_data'
-  import { getDocStore } from '#lib/svelte/mono_document_stores'
   import { serializeItem } from '#inventory/lib/items'
 
   export let item, flash, large = false, widthReferenceEl
 
-  const itemStore = getDocStore({ category: 'items', doc: item })
-
   const { pathname, restricted } = item
 
-  $: currentTransaction = serializeItem($itemStore).currentTransaction
+  let currentTransaction
+  let transactionName = item.transaction
+  $: {
+    item.transaction = transactionName
+    currentTransaction = serializeItem(item).currentTransaction
+  }
 
   const menuId = uniqueId('item-transaction-box-')
 
+  let savedTransactionName = transactionName
   async function updateTransaction (newTransactionData) {
     try {
+      if (savedTransactionName === newTransactionData.id) return
+      transactionName = newTransactionData.id
       await app.request('items:update', {
         items: [ item ],
         attribute: 'transaction',
         value: newTransactionData.id,
       })
+      savedTransactionName = transactionName
     } catch (err) {
+      // Restore saved value
+      transactionName = savedTransactionName
       flash = err
     }
   }
