@@ -10,7 +10,7 @@
   import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import Spinner from '#general/components/spinner.svelte'
-  import { addElement, removeElement } from '#listings/lib/listings'
+  import { addElement, removeElement, reorder } from '#listings/lib/listings'
   import { i18n, I18n } from '#user/lib/i18n'
   import ListingElement from './listing_element.svelte'
   import Reorder from './reorder.svelte'
@@ -22,7 +22,7 @@
   let paginatedElements = []
   const paginationSize = 15
   let offset = 0
-  let fetching
+  let fetching, reordering
   let windowScrollY = 0
   let listingBottomEl
 
@@ -97,6 +97,18 @@
 
   const waitingForEntities = fetchMore()
 
+  const onReorder = async () => {
+    reordering = true
+    const uris = pluck(paginatedElements, 'uri')
+    try {
+      await reorder(listingId, uris)
+      isReorderMode = false
+    } catch (err) {
+      flash = err
+    }
+    reordering = false
+  }
+
   $: {
     if (listingBottomEl != null && hasMore) {
       const screenBottom = windowScrollY + getViewportHeight()
@@ -128,11 +140,17 @@
 
     {#if isReorderMode}
       <button
-        on:click={() => isReorderMode = false}
+        on:click={onReorder}
         class="success-button tiny-button"
+        disabled={reordering}
       >
-        {@html icon('check')}
-        {i18n('Reorder done')}
+        {#if reordering}
+          {I18n('loading')}
+          <Spinner />
+        {:else}
+          {@html icon('check')}
+          {i18n('Done')}
+        {/if}
       </button>
     {/if}
 

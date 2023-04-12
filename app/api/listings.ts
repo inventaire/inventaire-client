@@ -35,4 +35,5 @@ export default {
   addElements: action('add-elements'),
   removeElements: action('remove-elements'),
   delete: action('delete'),
+  reorder: action('reorder'),
 }
