@@ -26,5 +26,6 @@ export default {
   update: base,
   addElements: action('add-elements'),
   removeElements: action('remove-elements'),
-  delete: action('delete')
+  delete: action('delete'),
+  reorder: action('reorder'),
 }

@@ -51,6 +51,10 @@ export const removeElement = async (id, uri) => {
   return preq.post(app.API.listings.removeElements, { id, uris: [ uri ] })
 }
 
+export const reorder = async (id, uris) => {
+  return preq.post(app.API.listings.reorder, { id, uris })
+}
+
 export const serializeListing = listing => {
   const { _id: id } = listing
   return Object.assign(listing, {
