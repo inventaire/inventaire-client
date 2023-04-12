@@ -139,11 +139,19 @@
         <li class="loading">{I18n('loading')}<Spinner /></li>
       {/await}
       {#each paginatedElements as element (element.uri)}
-        <ListingElement
-          entity={element.entity}
-          {isEditable}
-          on:removeElement={() => onRemoveElement(element)}
-        />
+        <li>
+          <ListingElement entity={element.entity} />
+          {#if isEditable}
+            <div class="status">
+              <button
+                class="tiny-button"
+                on:click={() => onRemoveElement(element)}
+              >
+                {i18n('remove')}
+              </button>
+            </div>
+          {/if}
+        </li>
       {:else}
         <li>{i18n('nothing here')}</li>
       {/each}
@@ -172,6 +180,13 @@
     width: 100%;
     margin: 1em 0;
     overflow: hidden;
+  }
+  li{
+    @include display-flex(row, center);
+    padding-inline-end: 0.5em;
+    width: 100%;
+    border-block-end: 1px solid $light-grey;
+    @include bg-hover(white);
   }
   .success-button{
     margin-inline-start: auto;
