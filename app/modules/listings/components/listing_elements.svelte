@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { flip } from 'svelte/animate'
   import { pluck } from 'underscore'
   import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
@@ -12,6 +13,7 @@
   import { addElement, removeElement } from '#listings/lib/listings'
   import { i18n, I18n } from '#user/lib/i18n'
   import ListingElement from './listing_element.svelte'
+  import Reorder from './reorder.svelte'
 
   export let elements = [], listingId, isEditable, isReorderMode
 
@@ -139,9 +141,9 @@
         <li class="loading">{I18n('loading')}<Spinner /></li>
       {/await}
       {#each paginatedElements as element (element.uri)}
-        <li>
+        <li animate:flip={{ duration: 300 }}>
           <ListingElement entity={element.entity} />
-          {#if isEditable}
+          {#if isEditable && !isReorderMode}
             <div class="status">
               <button
                 class="tiny-button"
@@ -149,6 +151,14 @@
               >
                 {i18n('remove')}
               </button>
+            </div>
+          {/if}
+          {#if isReorderMode}
+            <div class="reorder-wrapper">
+              <Reorder
+                bind:elements={paginatedElements}
+                elementId={element._id}
+              />
             </div>
           {/if}
         </li>
@@ -202,8 +212,8 @@
   label{
     cursor: auto;
   }
-  /* Large (>40em) screens */
-  @media screen and (width >= 40em){
+  /* Large screens */
+  @media screen and (width > 40em){
     .entities-listing-section{
       width: 40em;
     }
@@ -212,6 +222,16 @@
   @media screen and (width < $small-screen){
     .entities-listing-section{
       padding: 0;
+    }
+  }
+  /* Very small screens */
+  @media screen and (max-width: $very-small-screen){
+    li{
+      @include display-flex(column, flex-start);
+    }
+    .reorder-wrapper{
+      width: 100%;
+      align-items: center;
     }
   }
 </style>
