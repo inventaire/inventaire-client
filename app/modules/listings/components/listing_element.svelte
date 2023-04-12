@@ -1,14 +1,10 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getEntityImagePath } from '#entities/lib/entities'
-  import { i18n } from '#user/lib/i18n'
 
-  export let entity, isEditable
-
-  const dispatch = createEventDispatcher()
+  export let entity
 
   const { uri, label, description, image } = entity
   let imageUrl
@@ -21,49 +17,30 @@
   }
 </script>
 
-<li>
-  <a
-    href="/entity/{uri}"
-    title={label}
-    on:click={loadInternalLink}
-  >
-    {#if imageUrl}
-      <ImagesCollage
-        imagesUrls={[ imageUrl ]}
-        imageSize={100}
-        limit={1}
-      />
-    {/if}
-    <div>
-      <span class="label">{label}</span>
-      <!-- The type isn't useful as long as lists only contain works -->
-      <!-- <span class="type">{type}</span> -->
-      {#if description}
-        <div class="description">{description}</div>
-      {/if}
-    </div>
-  </a>
-  {#if isEditable}
-    <div class="status">
-      <button
-        class="tiny-button"
-        on:click={() => dispatch('removeElement')}
-      >
-        {i18n('remove')}
-      </button>
-    </div>
+<a
+  href="/entity/{uri}"
+  title={label}
+  on:click={loadInternalLink}
+>
+  {#if imageUrl}
+    <ImagesCollage
+      imagesUrls={[ imageUrl ]}
+      imageSize={100}
+      limit={1}
+    />
   {/if}
-</li>
+  <div>
+    <span class="label">{label}</span>
+    <!-- The type isn't useful as long as lists only contain works -->
+    <!-- <span class="type">{type}</span> -->
+    {#if description}
+      <div class="description">{description}</div>
+    {/if}
+  </div>
+</a>
 
 <style lang="scss">
   @import "#general/scss/utils";
-  li{
-    @include display-flex(row, center);
-    padding-inline-end: 0.5em;
-    width: 100%;
-    border-block-end: 1px solid $light-grey;
-    @include bg-hover(white);
-  }
   a{
     @include display-flex(row, stretch, flex-start);
     height: 6em;
@@ -80,15 +57,5 @@
   .description{
     color: $label-grey;
     margin-inline-end: 1em;
-  }
-  .status{
-    @include display-flex(row, center, center);
-    white-space: nowrap;
-  }
-  /* Very small screens */
-  @media screen and (width < $very-small-screen){
-    li{
-      @include display-flex(column, flex-start);
-    }
   }
 </style>
