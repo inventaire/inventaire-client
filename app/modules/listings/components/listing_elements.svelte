@@ -1,4 +1,6 @@
 <script>
+  import { flip } from 'svelte/animate'
+  import { pluck } from 'underscore'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { i18n, I18n } from '#user/lib/i18n'
   import Flash from '#lib/components/flash.svelte'
@@ -6,8 +8,8 @@
   import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
   import { addElement, removeElement } from '#listings/lib/listings'
   import ListingElement from './listing_element.svelte'
+  import Reorder from './reorder.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
-  import { pluck } from 'underscore'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import { getViewportHeight } from '#lib/screen'
   import { icon } from '#lib/handlebars_helpers/icons'
@@ -136,9 +138,9 @@
       {/await}
       <!-- TODO: iterate on elements docs to be able to pass other metadata (ids, comments, etc) -->
       {#each entities as entity, index (entity.uri)}
-        <li>
+        <li animate:flip={{ duration: 300 }}>
           <ListingElement {entity} />
-          {#if isEditable}
+          {#if isEditable && !isReorderMode}
             <div class="status">
               <button
                 class="tiny-button"
@@ -146,6 +148,15 @@
               >
                 {i18n('remove')}
               </button>
+            </div>
+          {/if}
+          {#if isReorderMode}
+            <div class="reorder-wrapper">
+              <Reorder
+                bind:entities
+                elementId={entity.uri}
+                {index}
+              />
             </div>
           {/if}
         </li>
@@ -209,6 +220,16 @@
   @media screen and (max-width: $small-screen){
     .entities-listing-section{
       padding: 0;
+    }
+  }
+  /* Very small screens */
+  @media screen and (max-width: $very-small-screen){
+    li{
+      @include display-flex(column, flex-start);
+    }
+    .reorder-wrapper{
+      width: 100%;
+      align-items: center;
     }
   }
 </style>
