@@ -17,7 +17,7 @@
   export let elements, listingId, isEditable, isReorderMode
 
   let flash, inputValue = '', showSuggestions
-  let entities = []
+  let paginatedElements = []
 
   const paginationSize = 15
   let offset = paginationSize
@@ -25,7 +25,7 @@
   let windowScrollY = 0
   let listingBottomEl
 
-  const getElementsEntities = async elements => {
+  const serializeElements = async elements => {
     const uris = pluck(elements, 'uri')
     const res = await getEntitiesAttributesByUris({
       uris,
@@ -34,24 +34,30 @@
     })
     const serializedEntities = Object.values(res.entities).map(serializeEntity)
     await addEntitiesImages(serializedEntities)
-    return serializedEntities
+    elements.forEach(assignEntityToElement(serializedEntities))
   }
 
   const getInitialElementsEntities = async () => {
     const firstElements = elements.slice(0, paginationSize)
-    entities = await getElementsEntities(firstElements)
+    await serializeElements(firstElements)
+    paginatedElements = firstElements
+  }
+
+  const assignEntityToElement = entities => element => {
+    const entity = entities.find(entity => entity.uri === element.uri)
+    if (entity) element.entity = entity
   }
 
   const waitingForEntities = getInitialElementsEntities()
 
   const onRemoveElement = async index => {
     // TODO: replace the array index by the element doc _id
-    const entity = entities[index]
-    removeElement(listingId, entity.uri)
+    const element = paginatedElements[index]
+    removeElement(listingId, element.uri)
       .then(() => {
         // Enhancement: after remove, have an "undo" button
-        entities.splice(index, 1)
-        entities = entities
+        paginatedElements.splice(index, 1)
+        paginatedElements = paginatedElements
       })
       .catch(err => flash = err)
   }
@@ -66,36 +72,41 @@
 
   const _addUriAsElement = async (listingId, entity) => {
     try {
-      const element = await addElement(listingId, entity.uri)
-      if (isNonEmptyArray(element.alreadyInList)) {
+      const { createdElements, alreadyInList } = await addElement(listingId, entity.uri)
+      if (isNonEmptyArray(alreadyInList)) {
         return flash = {
           type: 'info',
           message: i18n('This work is already in the list')
         }
       }
-      entities = [ entity, ...entities ]
+      await serializeElements(createdElements)
+      paginatedElements = [ ...paginatedElements, ...createdElements ]
+      return flash = {
+        type: 'success',
+        message: i18n('Successfully added to the list')
+      }
     } catch (err) {
       flash = err
     }
   }
 
-  $: hasMore = entities.length >= offset
+  $: hasMore = elements.length >= offset
 
   const fetchMore = async () => {
     if (fetching || hasMore === false) return
     fetching = true
     const nextBatchElements = elements.slice(offset, offset + paginationSize)
-    const nextEntities = await getElementsEntities(nextBatchElements)
-    if (isNonEmptyArray(nextEntities)) {
+    await serializeElements(nextBatchElements)
+    if (isNonEmptyArray(nextBatchElements)) {
       offset += paginationSize
-      entities = [ ...entities, ...nextEntities ]
+      paginatedElements = [ ...paginatedElements, ...nextBatchElements ]
     }
     fetching = false
   }
 
   const onReorder = async () => {
     reordering = true
-    const uris = pluck(entities, 'uri')
+    const uris = pluck(paginatedElements, 'uri')
     try {
       await reorder(listingId, uris)
       isReorderMode = false
@@ -104,6 +115,7 @@
     }
     reordering = false
   }
+
   $: {
     if (listingBottomEl != null && hasMore) {
       const screenBottom = windowScrollY + getViewportHeight()
@@ -153,10 +165,9 @@
       {#await addingAnElement}
         <li class="loading">{I18n('loading')}<Spinner /></li>
       {/await}
-      <!-- TODO: iterate on elements docs to be able to pass other metadata (ids, comments, etc) -->
-      {#each entities as entity, index (entity.uri)}
+      {#each paginatedElements as element, index (element.uri)}
         <li animate:flip={{ duration: 300 }}>
-          <ListingElement {entity} />
+          <ListingElement entity={element.entity} />
           {#if isEditable && !isReorderMode}
             <div class="status">
               <button
@@ -170,8 +181,8 @@
           {#if isReorderMode}
             <div class="reorder-wrapper">
               <Reorder
-                bind:entities
-                elementId={entity.uri}
+                bind:elements={paginatedElements}
+                elementId={element._id}
                 {index}
               />
             </div>

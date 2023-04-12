@@ -5,7 +5,7 @@
   export let elements, index, elementId
 
   function moveElement (isMoveUp) {
-    const index = elements.findIndex(obj => obj.uri === elementId)
+    const index = elements.findIndex(obj => obj._id === elementId)
     const element = elements[index]
     let newIndex
     if (isMoveUp) newIndex = index - 1
