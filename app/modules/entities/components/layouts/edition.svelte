@@ -120,7 +120,7 @@
     @include sans-serif;
   }
   .other-works-editions{
-    @include display-flex(row, initial, flex-end, wrap);
+    @include display-flex(row, initial, space-around, wrap);
   }
   /* Large screens */
   @media screen and (min-width: $small-screen){
