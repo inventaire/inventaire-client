@@ -2,10 +2,11 @@
   import { i18n } from '#user/lib/i18n'
   import { icon } from '#lib/handlebars_helpers/icons'
 
-  export let elements, index, elementId
+  export let elements, elementId
+
+  const index = elements.findIndex(obj => obj._id === elementId)
 
   function moveElement (isMoveUp) {
-    const index = elements.findIndex(obj => obj._id === elementId)
     const element = elements[index]
     let newIndex
     if (isMoveUp) newIndex = index - 1

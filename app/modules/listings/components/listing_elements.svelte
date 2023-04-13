@@ -14,7 +14,7 @@
   import { getViewportHeight } from '#lib/screen'
   import { icon } from '#lib/handlebars_helpers/icons'
 
-  export let elements, listingId, isEditable, isReorderMode
+  export let elements = [], listingId, isEditable, isReorderMode
 
   let flash, inputValue = '', showSuggestions
   let paginatedElements = []
@@ -50,12 +50,14 @@
 
   const waitingForEntities = getInitialElementsEntities()
 
-  const onRemoveElement = async index => {
-    // TODO: replace the array index by the element doc _id
-    const element = paginatedElements[index]
+  const onRemoveElement = async element => {
     removeElement(listingId, element.uri)
       .then(() => {
-        // Enhancement: after remove, have an "undo" button
+        // Enhancement: after remove, have an "undo" button.
+        // But it needs to find a way to retrieve the deleted doc
+        // especially if other data belong to the element (ie. comments)
+        // Having confirmation modal may be easier.
+        const index = paginatedElements.indexOf(element)
         paginatedElements.splice(index, 1)
         paginatedElements = paginatedElements
       })
@@ -165,14 +167,14 @@
       {#await addingAnElement}
         <li class="loading">{I18n('loading')}<Spinner /></li>
       {/await}
-      {#each paginatedElements as element, index (element.uri)}
+      {#each paginatedElements as element (element.uri)}
         <li animate:flip={{ duration: 300 }}>
           <ListingElement entity={element.entity} />
           {#if isEditable && !isReorderMode}
             <div class="status">
               <button
                 class="tiny-button"
-                on:click={() => onRemoveElement(index)}
+                on:click={() => onRemoveElement(element)}
               >
                 {i18n('remove')}
               </button>
@@ -183,7 +185,6 @@
               <Reorder
                 bind:elements={paginatedElements}
                 elementId={element._id}
-                {index}
               />
             </div>
           {/if}
