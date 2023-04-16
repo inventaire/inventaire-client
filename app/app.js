@@ -7,6 +7,7 @@ import { channel, reqres, request, execute } from './radio.js'
 import { dropLeadingSlash } from '#lib/utils'
 
 let initialUrlNavigateAlreadyCalled = false
+let lastNavigateTimestamp = 0
 
 const App = Marionette.Application.extend({
   initialize () {
@@ -78,6 +79,14 @@ const App = Marionette.Application.extend({
     this.vent.trigger('route:change', routeSection(route), route)
     route = this.request('querystring:keep', route)
     Backbone.history.last.unshift(route)
+
+    // Replace last route in history when several navigation happen quickly
+    // so that hitting "Previous" correctly brings back to the last page
+    // where a user action triggered a page change
+    const now = Date.now()
+    if (now < lastNavigateTimestamp + 200) options.replace = true
+    lastNavigateTimestamp = now
+
     Backbone.history.navigate(route, options)
     if (!options.preventScrollTop) scrollToPageTop()
   },
