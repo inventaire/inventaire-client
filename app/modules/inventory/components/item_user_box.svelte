@@ -31,7 +31,7 @@
     @include bg-hover(white);
   }
   .username{
-    margin-left: 0.4em;
+    margin: 0 0.4em;
   }
   img{
     height: 2.8em;
