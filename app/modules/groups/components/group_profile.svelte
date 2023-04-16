@@ -16,9 +16,9 @@
   import { getContext, tick } from 'svelte'
   import { debounce } from 'underscore'
 
-  export let group
+  export let group, section = 'inventory'
 
-  let members, flash, section = 'inventory'
+  let members, flash
 
   const waitForMembers = getAllGroupMembersDocs(group)
     .then(users => members = users)

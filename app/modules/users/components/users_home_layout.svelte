@@ -64,7 +64,7 @@
     {:else if user}
       <UserProfile {user} {shelf} section={subsection} />
     {:else if group}
-      <GroupProfile {group} />
+      <GroupProfile {group} section={subsection} />
     {/if}
   </div>
 </div>
