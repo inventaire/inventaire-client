@@ -5,28 +5,28 @@ import initQueries from './lib/queries.js'
 import showItemCreationForm from './lib/show_item_creation_form.js'
 import itemActions from './lib/item_actions.js'
 import { parseQuery, buildPath } from '#lib/location'
-import error_ from '#lib/error'
 import preq from '#lib/preq'
 import ItemShowStandalone from '#inventory/components/item_show_standalone.svelte'
 import app from '#app/app'
 import { removeCurrentComponent } from '#lib/global_libs_extender'
+import { showUsersHome } from '#users/users'
 
 export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'u(sers)(/)': 'showGeneralInventory',
-        'inventory(/)': 'showGeneralInventory',
         'u(sers)/network(/)': 'showNetworkInventory',
         'u(sers)/public(/)': 'showPublicInventory',
+
         // Legacy
+        'inventory(/)': 'showGeneralInventory',
         'inventory/network(/)': 'showNetworkInventory',
         'inventory/public(/)': 'showPublicInventory',
         'inventory/nearby(/)': 'showPublicInventory',
-
         'inventory/:username(/)': 'showUserInventoryFromUrl',
-        // 'title' is a legacy parameter
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity',
+
         'items/:id(/)': 'showItemFromId',
         'items(/)': 'showGeneralInventory',
       }
@@ -37,6 +37,11 @@ export default {
     initQueries(app)
     initializeInventoriesHandlers(app)
   }
+}
+
+async function showInventory (params) {
+  params.subsection = 'inventory'
+  return showUsersHome(params)
 }
 
 const API = {
@@ -70,22 +75,12 @@ const API = {
     }
   },
 
-  showUserInventory (user, standalone, listings) {
-    return showInventory({ user, standalone, listings })
-  },
-
-  showUserListings (username) {
-    return showInventory({ user: username, standalone: true, listings: true })
-  },
-
-  showMainUserListings () { API.showUserListings(app.user.get('username')) },
-
-  showGroupListings (group) {
-    return showInventory({ group, standalone: true, listings: true })
+  showUserInventory (user, standalone) {
+    return showInventory({ user, standalone })
   },
 
   showUserInventoryFromUrl (username) {
-    return showInventory({ user: username, standalone: true })
+    return showInventory({ user: username })
   },
 
   showGroupInventory (group, standalone = true) {
@@ -130,15 +125,6 @@ const showItemsFromModels = function (items) {
   } else {
     showItemsList(items)
   }
-}
-
-const showInventory = async ({ user, group, section, listings, standalone }) => {
-  const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
-  const props = { subsection: listings ? 'listings' : 'inventory' }
-  if (user) props.user = await app.request('resolve:to:user', user)
-  if (group) props.group = await app.request('resolve:to:group', group)
-  props.section = !standalone || (section === 'user') ? section : undefined
-  app.layout.showChildComponent('main', UsersHomeLayout, { props })
 }
 
 const showItemsList = async collection => {
@@ -186,15 +172,6 @@ const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal
 const initializeInventoriesHandlers = function (app) {
   app.commands.setHandlers({
     'show:inventory': showInventory,
-    'show:inventory:section' (section) {
-      switch (section) {
-      case 'user': return API.showUserInventory(app.user)
-      case 'network': return API.showNetworkInventory()
-      case 'public': return API.showPublicInventory()
-      default: throw error_.new('unknown section', 400, { section })
-      }
-    },
-
     'show:inventory:network': API.showNetworkInventory,
     'show:inventory:public': API.showPublicInventory,
 
@@ -206,8 +183,8 @@ const initializeInventoriesHandlers = function (app) {
       API.showUserInventory(user, true)
     },
 
-    'show:inventory:main:user' (listings) {
-      API.showUserInventory(app.user, true, listings)
+    'show:inventory:main:user' () {
+      API.showUserInventory(app.user, true)
     },
 
     'show:user:items:by:entity' (username, uri) {
@@ -227,10 +204,6 @@ const initializeInventoriesHandlers = function (app) {
 
     'show:item': showItem,
     'show:item:byId': API.showItemFromId,
-
-    'show:user:listings': API.showUserListings,
-    'show:main:user:listings': API.showMainUserListings,
-    'show:group:listings': API.showGroupListings,
   })
 
   app.reqres.setHandlers({

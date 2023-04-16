@@ -40,6 +40,10 @@ export default {
   }
 }
 
+export async function showUserListings (username) {
+  return showUsersHome({ user: username, subsection: 'listings' })
+}
+
 const API = {
   showUserInventory (id) {
     app.execute('show:inventory:user', id)
@@ -47,15 +51,22 @@ const API = {
   showUserItemsByEntity (username, uri) {
     app.execute('show:user:items:by:entity', username, uri)
   },
-  showUserListings (id) {
-    app.execute('show:user:listings', id)
-  },
+  showUserListings,
   showUserContributionsFromRoute (idOrUsername) {
     const filter = app.request('querystring:get', 'filter')
     showUserContributions(idOrUsername, filter)
   },
   showUser (id) { app.execute('show:inventory:user', id) },
   showSearchUsers () { app.execute('show:users:search') }
+}
+
+export async function showUsersHome ({ user, group, section, subsection = 'inventory', standalone }) {
+  const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
+  const props = { subsection }
+  if (user) props.user = await app.request('resolve:to:user', user)
+  if (group) props.group = await app.request('resolve:to:group', group)
+  props.section = !standalone || (section === 'user') ? section : undefined
+  app.layout.showChildComponent('main', UsersHomeLayout, { props })
 }
 
 async function showUserContributions (idOrUsernameOrModel, filter) {

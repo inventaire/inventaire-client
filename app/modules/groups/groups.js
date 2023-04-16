@@ -3,6 +3,7 @@ import Group from './models/group.js'
 import Groups from './collections/groups.js'
 import initGroupHelpers from './lib/group_helpers.js'
 import fetchData from '#lib/data/fetch'
+import { showUsersHome } from '#users/users'
 
 export default {
   initialize () {
@@ -51,7 +52,7 @@ const API = {
   },
 
   showGroupListings (slug) {
-    app.execute('show:group:listings', slug)
+    return showUsersHome({ group: slug, subsection: 'listings' })
   },
   // Named showGroupBoard and not showGroupSettings
   // as GroupSettings are a child view of GroupBoard
