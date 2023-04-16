@@ -214,6 +214,7 @@
     margin-right: 0.5em;
     min-height: 3rem;
   }
+  $user-horizontal-padding: 0.2em;
   .user{
     @include bg-hover(white, 5%);
     align-self: stretch;
@@ -294,12 +295,15 @@
       margin: 0 0.5em;
       flex: 1 1 auto;
     }
+    $images-right-margin: 0.5em;
     .transaction, .visibility, .user{
-      margin-right: 0.5em;
+      margin-right: $images-right-margin;
+    }
+    .user{
+      margin-right: calc($images-right-margin - $user-horizontal-padding);
     }
     .transaction, .visibility{
       margin-left: 0.2em;
-      margin-right: 0.8em;
       @include radius;
     }
   }
