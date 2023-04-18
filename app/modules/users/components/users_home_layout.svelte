@@ -12,7 +12,11 @@
   import { getViewportHeight } from '#lib/screen'
   import { resizeObserver } from '#lib/components/actions/resize_observer'
 
-  export let user, group, shelf, section, subsection = 'inventory'
+  export let user = null
+  export let group = null
+  export let shelf = null
+  export let section = null
+  export let subsection = 'inventory'
 
   const { loggedIn } = app.user
 

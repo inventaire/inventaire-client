@@ -2,7 +2,9 @@
   import { i18n } from '#user/lib/i18n'
   import { isOpenedOutside } from '#lib/utils'
 
-  export let user, group, currentSection
+  export let user = null
+  export let group = null
+  export let currentSection = null
 
   // TODO: recover items and listings count
   let inventoryPathname, listingsPathname, listingsCount, navEl

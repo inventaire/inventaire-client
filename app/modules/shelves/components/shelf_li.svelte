@@ -6,7 +6,7 @@
   import { createEventDispatcher } from 'svelte'
   import { onChange } from '#lib/svelte/svelte'
 
-  export let shelf, withoutShelf
+  export let shelf, withoutShelf = false
 
   let name, description, pathname, title, picture, iconData, iconLabel
   function refreshData () {
