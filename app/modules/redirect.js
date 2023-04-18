@@ -48,7 +48,7 @@ export default {
 const API = {
   showHome () {
     if (app.user.loggedIn) {
-      app.execute('show:inventory:main:user')
+      app.execute('show:main:user:profile')
     } else {
       app.execute('show:welcome')
     }

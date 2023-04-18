@@ -9,7 +9,8 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'g(roups)/:id(/inventory)(/)': 'showGroupInventory',
+        'g(roups)/:id(/)': 'showGroupProfile',
+        'g(roups)/:id/inventory(/)': 'showGroupInventory',
         'g(roups)/:id/lists(/)': 'showGroupListings',
         'g(roups)/:id/settings(/)': 'showGroupBoard',
         'g(roups)(/)': 'showSearchGroups',
@@ -47,12 +48,14 @@ const initRequestsCollectionsEvent = function () {
 }
 
 const API = {
-  showGroupInventory (slug) {
-    app.execute('show:inventory:group', slug)
+  showGroupProfile (slug) {
+    return showUsersHome({ group: slug })
   },
-
+  showGroupInventory (slug) {
+    return showUsersHome({ group: slug, profileSection: 'inventory' })
+  },
   showGroupListings (slug) {
-    return showUsersHome({ group: slug, subsection: 'listings' })
+    return showUsersHome({ group: slug, profileSection: 'listings' })
   },
   // Named showGroupBoard and not showGroupSettings
   // as GroupSettings are a child view of GroupBoard

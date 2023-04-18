@@ -16,7 +16,9 @@
   import { getContext, tick } from 'svelte'
   import { debounce } from 'underscore'
 
-  export let group, section = 'inventory'
+  export let group
+  export let profileSection = null
+  export let standalone = false
 
   let members, flash
 
@@ -43,10 +45,15 @@
 
   async function onFocus () {
     if (!groupProfileEl) await tick()
-    if (section === 'inventory') {
-      app.navigate(group.inventoryPathname, { pageSectionElement: groupProfileEl })
-    } else if (section === 'listings') {
-      app.navigate(group.listingsPathname, { pageSectionElement: groupProfileEl })
+    // Let app.navigate scroll to the page top when GroupProfile
+    // is already at the top itself (standalone mode), to make the UsersHomeNav visible
+    const pageSectionElement = standalone ? null : groupProfileEl
+    if (profileSection === 'inventory') {
+      app.navigate(group.inventoryPathname, { pageSectionElement })
+    } else if (profileSection === 'listings') {
+      app.navigate(group.listingsPathname, { pageSectionElement })
+    } else {
+      app.navigate(group.pathname, { pageSectionElement })
     }
   }
   const debouncedOnFocus = debounce(onFocus, 500, true)
@@ -127,14 +134,14 @@
     <UserProfile user={selectedMember} {groupId} />
   {/key}
 {:else}
-  <InventoryOrListingNav {group} bind:currentSection={section} />
-  {#if section === 'inventory'}
+  <InventoryOrListingNav {group} bind:profileSection />
+  {#if profileSection === 'listings'}
+    <UsersListings usersIds={getAllGroupMembersIds(group)} />
+  {:else}
     <InventoryBrowser
       itemsDataPromise={getInventoryView('group', group)}
       {groupId}
     />
-  {:else if section === 'listings'}
-    <UsersListings usersIds={getAllGroupMembersIds(group)} />
   {/if}
 {/if}
 

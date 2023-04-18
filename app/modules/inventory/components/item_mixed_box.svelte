@@ -7,7 +7,7 @@
   export let item, showDistance = false
 
   const { pathname, user, currentTransaction } = item
-  const { username, picture, inventoryPathname } = user
+  const { username, picture, pathname: userProfilePathname } = user
   const isPartOfCurrentPath = str => currentRoute().includes(str)
 </script>
 <div class="mixedBox">
@@ -15,7 +15,7 @@
     <img class="profilePic" alt="{username} avatar" src={imgSrc(picture, 48)} />
   {:else}
     <a
-      href={inventoryPathname}
+      href={userProfilePathname}
       on:click|stopPropagation={loadInternalLink}
     >
       <img class="profilePic" alt="{username} avatar" src={imgSrc(picture, 48)} />

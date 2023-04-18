@@ -4,7 +4,7 @@
 
   export let user = null
   export let group = null
-  export let currentSection = null
+  export let profileSection = null
 
   // TODO: recover items and listings count
   let inventoryPathname, listingsPathname, listingsCount, navEl
@@ -15,12 +15,12 @@
     ;({ inventoryPathname, listingsPathname } = group)
   }
 
-  const showSection = (e, section) => {
+  const showSection = (e, value) => {
     if (isOpenedOutside(e)) return
-    currentSection = section
-    if (currentSection === 'inventory') {
+    profileSection = value
+    if (profileSection === 'inventory') {
       app.navigate(inventoryPathname, { pageSectionElement: navEl })
-    } else {
+    } else if (profileSection === 'listings') {
       app.navigate(listingsPathname, { pageSectionElement: navEl })
     }
   }
@@ -30,7 +30,7 @@
   <a
     href={inventoryPathname}
     class="tab"
-    class:highlighted={currentSection === 'inventory'}
+    class:highlighted={profileSection === 'inventory' || profileSection == null}
     on:click={e => showSection(e, 'inventory')}
   >
     <span class="label">{i18n('Inventory')}</span>
@@ -38,7 +38,7 @@
   <a
     href={listingsPathname}
     class="tab"
-    class:highlighted={currentSection === 'listings'}
+    class:highlighted={profileSection === 'listings'}
     on:click={e => showSection(e, 'listings')}
   >
     <span class="label">{i18n('Lists')}</span>

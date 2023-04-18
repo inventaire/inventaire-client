@@ -12,7 +12,11 @@
   import { getContext, tick } from 'svelte'
   import { debounce } from 'underscore'
 
-  export let user, shelf, section = 'inventory', groupId = null
+  export let user
+  export let shelf = null
+  export let profileSection = null
+  export let groupId = null
+  export let standalone = false
 
   // TODO: recover inventoryLength and shelvesCount
   const { username, bio, picture, inventoryLength, shelvesCount } = user
@@ -23,10 +27,15 @@
 
   async function onFocus () {
     if (!userProfileEl) await tick()
-    if (section === 'inventory') {
-      app.navigate(user.inventoryPathname, { pageSectionElement: userProfileEl })
-    } else if (section === 'listings') {
-      app.navigate(user.listingsPathname, { pageSectionElement: userProfileEl })
+    // Let app.navigate scroll to the page top when UserProfile
+    // is already at the top itself (standalone mode), to make the UsersHomeNav visible
+    const pageSectionElement = standalone ? null : userProfileEl
+    if (profileSection === 'inventory') {
+      app.navigate(user.inventoryPathname, { pageSectionElement })
+    } else if (profileSection === 'listings') {
+      app.navigate(user.listingsPathname, { pageSectionElement })
+    } else {
+      app.navigate(user.pathname, { pageSectionElement })
     }
   }
 
@@ -75,16 +84,17 @@
 
 <Flash state={flash} />
 
-<InventoryOrListingNav {user} bind:currentSection={section} />
+<InventoryOrListingNav {user} bind:profileSection />
 
-{#if section === 'inventory'}
+{#if profileSection === 'listings'}
+  <UsersListings usersIds={[ user._id ]} onUserLayout={true} />
+{:else}
   <UserInventory
     {user}
     {groupId}
     selectedShelf={shelf}
-    bind:flash />
-{:else if section === 'listings'}
-  <UsersListings usersIds={[ user._id ]} onUserLayout={true} />
+    bind:flash
+  />
 {/if}
 
 <style lang="scss">

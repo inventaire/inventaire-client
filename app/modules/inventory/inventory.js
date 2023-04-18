@@ -15,10 +15,6 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'u(sers)(/)': 'showGeneralInventory',
-        'u(sers)/network(/)': 'showNetworkInventory',
-        'u(sers)/public(/)': 'showPublicInventory',
-
         // Legacy
         'inventory(/)': 'showGeneralInventory',
         'inventory/network(/)': 'showNetworkInventory',
@@ -40,7 +36,7 @@ export default {
 }
 
 async function showInventory (params) {
-  params.subsection = 'inventory'
+  params.profileSection = 'inventory'
   return showUsersHome(params)
 }
 

@@ -16,7 +16,7 @@
   export let group = null
   export let shelf = null
   export let section = null
-  export let subsection = 'inventory'
+  export let profileSection = null
 
   const { loggedIn } = app.user
 
@@ -54,21 +54,37 @@
 </script>
 
 <div class="wrapper" bind:this={wrapperEl}>
-  <div id="usersHomeLayout" bind:this={innerEl} use:resizeObserver={{ onElementResize }}>
+  <div
+    id="usersHomeLayout"
+    bind:this={innerEl}
+    use:resizeObserver={{ onElementResize }}
+  >
     {#if loggedIn}
       <UsersHomeNav bind:section />
     {/if}
 
     {#if section === 'user' && !shelf}
-      <UserProfile user={app.user.toJSON()} section={subsection} />
+      <UserProfile
+        user={app.user.toJSON()}
+        {profileSection}
+        standalone={true}
+      />
     {:else if section === 'network'}
       <NetworkUsersNav />
     {:else if section === 'public'}
       <PublicUsersNav />
     {:else if user}
-      <UserProfile {user} {shelf} section={subsection} />
+      <UserProfile
+        {user}
+        {shelf}
+        {profileSection}
+        standalone={true} />
     {:else if group}
-      <GroupProfile {group} section={subsection} />
+      <GroupProfile
+        {group}
+        {profileSection}
+        standalone={true}
+      />
     {/if}
   </div>
 </div>

@@ -31,7 +31,7 @@
     currentTransaction,
     username,
     picture,
-    inventoryPathname,
+    userProfilePathname,
     itemShelvesIds,
     itemShelves
 
@@ -44,7 +44,7 @@
     }
     currentTransaction = transactionsDataFactory()[transaction]
     if (item.user) {
-      ;({ username, picture, inventoryPathname } = item.user)
+      ;({ username, picture, pathname: userProfilePathname } = item.user)
     }
     if (shelvesByIds) {
       itemShelves = compact(itemShelvesIds.map(shelfId => shelvesByIds[shelfId]))
@@ -84,7 +84,7 @@
     {#if showUser && item.user}
       <a
         class="user"
-        href={inventoryPathname}
+        href={userProfilePathname}
         on:click|stopPropagation={showItem}
       >
         <span class="username">{username}</span>

@@ -9,13 +9,14 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'u(sers)/:id(/)': 'showUserInventory',
+        'u(sers)(/)': 'showHome',
+        'u(sers)/network(/)': 'showNetworkHome',
+        'u(sers)/public(/)': 'showPublicHome',
+        'u(sers)/:id(/)': 'showUserProfile',
         'u(sers)/:id/inventory/:uri(/)': 'showUserItemsByEntity',
         'u(sers)/:id/inventory(/)': 'showUserInventory',
         'u(sers)/:id/lists(/)': 'showUserListings',
         'u(sers)/:id/contributions(/)': 'showUserContributionsFromRoute',
-        // Aliases
-        'u(sers)(/)': 'showSearchUsers'
       }
     })
 
@@ -29,6 +30,7 @@ export default {
 
     app.commands.setHandlers({
       'show:user': app.Execute('show:inventory:user'),
+      'show:main:user:profile': showMainUserProfile,
       'show:user:contributions': showUserContributions
     })
 
@@ -40,32 +42,56 @@ export default {
   }
 }
 
-export async function showUserListings (username) {
-  return showUsersHome({ user: username, subsection: 'listings' })
+export async function showHome () {
+  if (app.request('require:loggedIn', app.user.get('inventoryPathname'))) {
+    // Give focus to the home button so that hitting tab gives focus
+    // to the search input
+    $('#home').focus()
+    return showUsersHome({ users: app.user })
+  }
+}
+
+export async function showUserProfile (user) {
+  return showUsersHome({ user })
+}
+
+export async function showMainUserProfile () {
+  return showUsersHome({ user: app.user })
+}
+
+export async function showUserInventory (user) {
+  return showUsersHome({ user, profileSection: 'inventory' })
+}
+
+export async function showUserListings (user) {
+  return showUsersHome({ user, profileSection: 'listings' })
 }
 
 const API = {
-  showUserInventory (id) {
-    app.execute('show:inventory:user', id)
+  showHome,
+  showNetworkHome () {
+    return showUsersHome({ section: 'network' })
   },
+  showPublicHome () {
+    return showUsersHome({ section: 'public' })
+  },
+  showUserProfile,
+  showUserInventory,
+  showUserListings,
   showUserItemsByEntity (username, uri) {
     app.execute('show:user:items:by:entity', username, uri)
   },
-  showUserListings,
   showUserContributionsFromRoute (idOrUsername) {
     const filter = app.request('querystring:get', 'filter')
     showUserContributions(idOrUsername, filter)
   },
-  showUser (id) { app.execute('show:inventory:user', id) },
-  showSearchUsers () { app.execute('show:users:search') }
 }
 
-export async function showUsersHome ({ user, group, section, subsection = 'inventory', standalone }) {
+export async function showUsersHome ({ user, group, section, profileSection }) {
   const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
-  const props = { subsection }
+  const props = { section, profileSection }
   if (user) props.user = await app.request('resolve:to:user', user)
   if (group) props.group = await app.request('resolve:to:group', group)
-  props.section = !standalone || (section === 'user') ? section : undefined
   app.layout.showChildComponent('main', UsersHomeLayout, { props })
 }
 
