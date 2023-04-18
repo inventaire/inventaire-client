@@ -6,7 +6,7 @@
   import { getPicture as getUserPicture } from '#users/lib/users'
   import { createEventDispatcher, getContext } from 'svelte'
 
-  export let doc, context, group
+  export let doc, group = null
   const { name, username, hasItemsCount, pathname, itemsCount } = doc
   let { type = 'user' } = doc
 
@@ -19,7 +19,7 @@
   }
 
   let userIsGroupAdmin
-  if (context === 'group') {
+  if (group) {
     userIsGroupAdmin = group.admins.find(({ user }) => user === doc._id) != null
   }
 

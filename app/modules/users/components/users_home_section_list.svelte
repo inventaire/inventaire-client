@@ -4,7 +4,12 @@
   import UsersHomeSectionListLi from '#users/components/users_home_section_list_li.svelte'
   import { createEventDispatcher } from 'svelte'
 
-  export let docs, type, hideList = false, hideListMessage
+  export let docs
+  export let type
+  export let group = null
+  export let hideList = false
+  export let hideListMessage = null
+
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 </script>
@@ -15,7 +20,7 @@
   <ul class:members={type === 'members'} class="users-home-section-list">
     {#each docs as doc (doc._id)}
       <li class="user">
-        <UsersHomeSectionListLi {doc} on:select={bubbleUpComponentEvent} />
+        <UsersHomeSectionListLi {doc} {group} on:select={bubbleUpComponentEvent} />
       </li>
     {:else}
       <li class="empty">{i18n('There is nothing here')}</li>

@@ -103,7 +103,12 @@
         {#await waitForMembers}
           <Spinner />
         {:then}
-          <UsersHomeSectionList docs={members} type="members" on:select={onSelectMember} />
+          <UsersHomeSectionList
+            docs={members}
+            type="members"
+            {group}
+            on:select={onSelectMember}
+          />
         {/await}
       </div>
     </div>
