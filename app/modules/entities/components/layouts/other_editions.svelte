@@ -57,7 +57,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .other-work-editions{
-    @include display-flex(column, center, end);
+    @include display-flex(column, center, flex-end);
     @include radius;
     max-width: 20em;
     padding-top: 1em;
