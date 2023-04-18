@@ -13,9 +13,7 @@
     allowMore: true,
   })
 
-  const componentProps = { showDistance }
-
   $: Component = $screen.isSmallerThan('$smaller-screen') ? ItemsTable : ItemsCascade
 </script>
 
-<PaginatedItems {Component} {componentProps} {pagination} />
+<PaginatedItems {Component} {showDistance} {pagination} />

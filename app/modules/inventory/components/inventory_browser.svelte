@@ -12,7 +12,12 @@
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
   import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
 
-  export let itemsDataPromise, isMainUser, ownerId, groupId, shelfId, itemsShelvesByIds
+  export let itemsDataPromise
+  export let isMainUser = false
+  export let ownerId = null
+  export let groupId = null
+  export let shelfId = null
+  export let itemsShelvesByIds = null
 
   setContext('items-search-filters', { ownerId, groupId, shelfId })
 
@@ -49,7 +54,6 @@
 
   const lazyUpdateDisplayedItems = debounce(updateDisplayedItems, 100)
 
-  $: componentProps = { isMainUser, itemsShelvesByIds, itemsIds }
   $: Component = $inventoryDisplay === 'cascade' ? ItemsCascade : ItemsTable
   $: onChange(facetsSelectedValues, textFilterItemsIds, lazyUpdateDisplayedItems)
 </script>
@@ -73,7 +77,9 @@
     {#if pagination}
       <PaginatedItems
         {Component}
-        {componentProps}
+        {itemsIds}
+        {itemsShelvesByIds}
+        {isMainUser}
         {pagination}
         haveSeveralOwners={groupId != null}
       />

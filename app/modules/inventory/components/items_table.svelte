@@ -5,7 +5,12 @@
   import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'
   import Spinner from '#components/spinner.svelte'
 
-  export let items, itemsShelvesByIds, isMainUser, itemsIds, waiting, haveSeveralOwners
+  export let items
+  export let itemsShelvesByIds
+  export let isMainUser
+  export let itemsIds
+  export let waiting
+  export let haveSeveralOwners
 
   let selectedItemsIds = []
 

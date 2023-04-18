@@ -7,9 +7,15 @@
   import { i18n } from '#user/lib/i18n'
   import Spinner from '#components/spinner.svelte'
 
-  export let Component, componentProps, pagination, haveSeveralOwners = false
+  export let Component
+  export let itemsIds
+  export let itemsShelvesByIds
+  export let isMainUser
+  export let pagination
+  export let showDistance = false
+  export let haveSeveralOwners = false
 
-  let items = [], shelvesByIds = {}
+  let items = []
   let waiting = getPromisePlaceholder()
   let flash, fetchMore, hasMore, allowMore
 
@@ -18,7 +24,6 @@
       .then(() => {
         assert_.array(pagination.items)
         items = pagination.items
-        shelvesByIds = pagination.shelvesByIds
       })
       .catch(err => flash = err)
   }
@@ -56,10 +61,13 @@
     <svelte:component
       this={Component}
       {items}
-      {shelvesByIds}
       {waiting}
+      {itemsIds}
+      {itemsShelvesByIds}
+      {isMainUser}
+      {showDistance}
       {haveSeveralOwners}
-      {...componentProps} />
+    />
   {:else}
     {#await waiting}
       <Spinner center={true} />
