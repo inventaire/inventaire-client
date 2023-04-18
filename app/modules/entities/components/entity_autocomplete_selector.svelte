@@ -58,6 +58,7 @@
   // TODO: detect uris and get the corresponding entities
   async function search (options = {}) {
     const { fetchMore = false } = options
+    if (isNotSearchable) return
     try {
       searchText = input.value
       if (searchText.length === 0) return
@@ -154,14 +155,17 @@
         property: relationProperty
       })
       fetching = false
-      if (defaultSuggestions && searchText === '') suggestions = defaultSuggestions
+      if (defaultSuggestions && canDefaultSuggestionsBeDisplayed) suggestions = defaultSuggestions
     } catch (err) {
       showSuggestions = false
       dispatch('error', err)
     }
   }
 
-  $: if (showDefaultSuggestions && searchText === '') fetchDefaultSuggestions()
+  const notSearchableProps = [ 'wdt:P31', 'wdt:P437' ]
+  const isNotSearchable = notSearchableProps.includes(relationProperty)
+  const canDefaultSuggestionsBeDisplayed = isNotSearchable || (showDefaultSuggestions && searchText === '')
+  $: if (canDefaultSuggestionsBeDisplayed) fetchDefaultSuggestions()
 
   let autocompleteDropdownEl
   function scrollToSuggestionsDropdownIfNeeded () {
