@@ -6,12 +6,14 @@
   import assert_ from '#lib/assert_types'
   import { i18n } from '#user/lib/i18n'
   import Spinner from '#components/spinner.svelte'
+  import ItemsTable from '#inventory/components/items_table.svelte'
+  import ItemsCascade from '#inventory/components/items_cascade.svelte'
 
-  export let Component
-  export let itemsIds
-  export let itemsShelvesByIds
-  export let isMainUser
+  export let display
   export let pagination
+  export let itemsIds = null
+  export let itemsShelvesByIds = null
+  export let isMainUser = false
   export let showDistance = false
   export let haveSeveralOwners = false
 
@@ -58,16 +60,22 @@
 
 <div class="paginated-items">
   {#if items?.length > 0}
-    <svelte:component
-      this={Component}
-      {items}
-      {waiting}
-      {itemsIds}
-      {itemsShelvesByIds}
-      {isMainUser}
-      {showDistance}
-      {haveSeveralOwners}
-    />
+    {#if display === 'cascade'}
+      <ItemsCascade
+        {items}
+        {showDistance}
+        {waiting}
+      />
+    {:else if display === 'table'}
+      <ItemsTable
+        {items}
+        {itemsShelvesByIds}
+        {isMainUser}
+        {itemsIds}
+        {waiting}
+        {haveSeveralOwners}
+      />
+    {/if}
   {:else}
     {#await waiting}
       <Spinner center={true} />

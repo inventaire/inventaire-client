@@ -1,8 +1,6 @@
 <script>
   import { getFilteredItemsIds, getSelectorsData, resetPagination } from '#inventory/components/lib/inventory_browser_helpers'
   import Spinner from '#components/spinner.svelte'
-  import ItemsTable from '#inventory/components/items_table.svelte'
-  import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
@@ -54,7 +52,6 @@
 
   const lazyUpdateDisplayedItems = debounce(updateDisplayedItems, 100)
 
-  $: Component = $inventoryDisplay === 'cascade' ? ItemsCascade : ItemsTable
   $: onChange(facetsSelectedValues, textFilterItemsIds, lazyUpdateDisplayedItems)
 </script>
 
@@ -76,7 +73,7 @@
   {:then}
     {#if pagination}
       <PaginatedItems
-        {Component}
+        display={$inventoryDisplay}
         {itemsIds}
         {itemsShelvesByIds}
         {isMainUser}
