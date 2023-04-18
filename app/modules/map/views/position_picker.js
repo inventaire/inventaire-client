@@ -11,6 +11,7 @@ import Loading from '#behaviors/loading'
 import SuccessCheck from '#behaviors/success_check'
 import { drawMap } from '#map/lib/draw'
 import { updateMarker } from '#map/lib/map'
+import { truncateDecimals } from '#map/lib/geo'
 
 const containerId = 'positionPickerMap'
 
@@ -85,7 +86,7 @@ export default Marionette.View.extend({
 
   getCoords () {
     const { lat, lng } = this.marker._latlng
-    return [ lat, lng ]
+    return [ truncateDecimals(lat), truncateDecimals(lng) ]
   },
 
   validatePosition () { return this._updatePosition(this.getCoords(), '#validatePosition') },
