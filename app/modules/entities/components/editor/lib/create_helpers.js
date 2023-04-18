@@ -1,4 +1,5 @@
 import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
+import { without } from 'underscore'
 import { typeHasName } from '#entities/lib/types/entities_types'
 import { i18n } from '#user/lib/i18n'
 import wdLang from 'wikidata-lang'
@@ -62,11 +63,21 @@ export const getPropertiesShortlist = function (type, claims) {
   if (typeShortlist == null) return null
 
   const claimsProperties = Object.keys(claims).filter(nonFixedEditor)
-  const propertiesShortlist = propertiesShortlists[type].concat(claimsProperties)
+  let propertiesShortlist = propertiesShortlists[type].concat(claimsProperties)
   // If a serie was passed in the claims, invite to add an ordinal
   if (claimsProperties.includes('wdt:P179')) propertiesShortlist.push('wdt:P1545')
-
+  propertiesShortlist = filterPerRole(propertiesShortlist)
   return propertiesShortlist
+}
+
+const dataadminOnlyShortlistedProperties = [
+  'wdt:P31'
+]
+
+const filterPerRole = propertiesShortlist => {
+  if (!propertiesShortlist) return
+  if (app.user.hasDataadminAccess) return propertiesShortlist
+  else return without(propertiesShortlist, ...dataadminOnlyShortlistedProperties)
 }
 
 const nonFixedEditor = function (prop) {

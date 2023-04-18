@@ -35,6 +35,8 @@ addProp('wdt:P110', 'entity', 'humans', true, true)
 addProp('wdt:P58', 'entity', 'humans', true, true)
 // colorist
 addProp('wdt:P6338', 'entity', 'humans', true, true)
+// instance of
+addProp('wdt:P31', 'entity', null, false, false)
 // genre
 addProp('wdt:P136', 'entity', 'genres', true, false)
 // main subject
@@ -64,6 +66,8 @@ addProp('wdt:P212', 'fixed-string', null, false, null)
 addProp('wdt:P957', 'fixed-string', null, false, null)
 // collection
 addProp('wdt:P195', 'entity', 'collections', false, true)
+// distribution format
+addProp('wdt:P437', 'entity', 'shortlist', false, false)
 // date of publication
 addProp('wdt:P577', 'simple-day', null, false, null)
 // translator

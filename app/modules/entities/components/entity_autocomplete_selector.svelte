@@ -25,7 +25,6 @@
   export let displaySuggestionType = false
   export let autofocus = true
   export let showSuggestions = false
-
   const dispatch = createEventDispatcher()
 
   let input

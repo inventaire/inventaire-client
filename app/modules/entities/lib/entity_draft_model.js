@@ -19,7 +19,7 @@ const createDraft = ({ type, claims, label }) => {
   }
 
   if (!claims) claims = {}
-  claims['wdt:P31'] = [ defaultP31 ]
+  claims['wdt:P31'] = claims['wdt:P31'] || [ defaultP31 ]
 
   const labels = {}
   if (label != null) {
