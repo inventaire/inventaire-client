@@ -6,7 +6,7 @@
   import Flash from '#lib/components/flash.svelte'
   import { screen } from '#lib/components/stores/screen'
   import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
-  import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.svelte'
+  import ProfileNav from '#users/components/profile_nav.svelte'
   import UserInventory from '#shelves/components/user_inventory.svelte'
   import UsersListings from '#listings/components/users_listings.svelte'
   import { getContext, tick } from 'svelte'
@@ -84,7 +84,7 @@
 
 <Flash state={flash} />
 
-<InventoryOrListingNav {user} bind:profileSection />
+<ProfileNav {user} bind:profileSection />
 
 {#if profileSection === 'listings'}
   <UsersListings usersIds={[ user._id ]} onUserLayout={true} />

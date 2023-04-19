@@ -9,7 +9,7 @@
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
-  import InventoryOrListingNav from '#users/components/inventory_or_listing_nav.svelte'
+  import ProfileNav from '#users/components/profile_nav.svelte'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
   import UsersListings from '#listings/components/users_listings.svelte'
@@ -134,7 +134,7 @@
     <UserProfile user={selectedMember} {groupId} />
   {/key}
 {:else}
-  <InventoryOrListingNav {group} bind:profileSection />
+  <ProfileNav {group} bind:profileSection />
   {#if profileSection === 'listings'}
     <UsersListings usersIds={getAllGroupMembersIds(group)} />
   {:else}

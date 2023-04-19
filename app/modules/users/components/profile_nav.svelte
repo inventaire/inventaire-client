@@ -26,7 +26,7 @@
   }
 </script>
 
-<div class="inventory-or-listing-tabs" bind:this={navEl}>
+<div class="profile-tabs" bind:this={navEl}>
   <a
     href={inventoryPathname}
     class="tab"
@@ -50,7 +50,7 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .inventory-or-listing-tabs{
+  .profile-tabs{
     @include display-flex(row, center, center, wrap);
     margin-bottom: 0.5em;
   }
