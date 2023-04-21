@@ -42,6 +42,10 @@
     })
   }
 
+  function loadSettings () {
+    app.execute('show:settings:display')
+  }
+
   function deleteEntity () {
     app.execute('ask:confirmation', {
       confirmationText: I18n('delete_entity_confirmation', { label }),
@@ -125,6 +129,15 @@
         >
           {@html icon('flag')}
           {I18n('report an error')}
+        </button>
+      </li>
+      <li>
+        <button
+          class="show-props-menu tiny-button soft-grey"
+          on:click={loadSettings}
+        >
+          {@html icon('plus')}
+          {I18n('customize editable properties')}
         </button>
       </li>
       {#if flash}
