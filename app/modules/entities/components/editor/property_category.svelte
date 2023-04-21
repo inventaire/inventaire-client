@@ -40,7 +40,7 @@
   $: showCategory = (categoryLabel == null) || doesCategoryHaveActiveProperties
 </script>
 
-{#if doesCategoryHaveActiveProperties}
+{#if categoryLabel}
   <button
     aria-controls={id}
     class:active={showCategory}
@@ -51,7 +51,6 @@
     <div class="scroll-marker" bind:this={scrollMarkerEl} />
   </button>
 {/if}
-
 {#if showCategory}
   <div {id} class="category-properties">
     {#each Object.keys(categoryProperties) as property}
