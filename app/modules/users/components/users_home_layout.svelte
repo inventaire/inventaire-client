@@ -20,8 +20,6 @@
 
   const { loggedIn } = app.user
 
-  if (user?._id === app.user.id) section = 'user'
-
   const focusStore = writable({})
   setContext('focus-store', focusStore)
 
@@ -31,10 +29,10 @@
 
   $: if (user) user = serializeUser(user)
 
+  if (user?._id === app.user.id) section = 'user'
   function onSectionChange () {
     if (section && section !== 'user') shelf = null
   }
-
   $: onChange(section, onSectionChange)
 
   let wrapperEl, innerEl
