@@ -38,7 +38,7 @@
 
   const debouncedOnFocus = debounce(onFocus, 500, true)
 
-  $: if ($focusStore.type === 'shelf') debouncedOnFocus()
+  $: if ($focusStore === 'shelf') debouncedOnFocus()
 </script>
 
 <div class="full-shelf-box">

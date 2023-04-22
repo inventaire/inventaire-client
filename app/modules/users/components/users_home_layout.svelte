@@ -19,11 +19,14 @@
 
   const { loggedIn } = app.user
 
+  // The focus store is used to determine which component should claim the focus
+  // It plays the role of an event bus between the layout children component
+  // to allow url navigation and scroll within the layout
   const focusStore = writable({})
 
-  if (shelf) $focusStore = { type: 'shelf' }
-  else if (user) $focusStore = { type: 'user' }
-  else if (group) $focusStore = { type: 'group' }
+  if (shelf) $focusStore = 'shelf'
+  else if (user) $focusStore = 'user'
+  else if (group) $focusStore = 'group'
 
   $: if (user) user = serializeUser(user)
 

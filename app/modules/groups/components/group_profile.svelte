@@ -40,7 +40,7 @@
   let selectedMember, groupProfileEl
   function onSelectMember (e) {
     selectedMember = e.detail.doc
-    $focusStore.type = 'user'
+    $focusStore = 'user'
   }
 
   async function onFocus () {
@@ -58,7 +58,7 @@
   }
   const debouncedOnFocus = debounce(onFocus, 500, true)
 
-  $: if ($focusStore.type === 'group') debouncedOnFocus()
+  $: if ($focusStore === 'group') debouncedOnFocus()
 </script>
 
 <div class="full-group-profile">

@@ -41,7 +41,7 @@
 
   const debouncedOnFocus = debounce(onFocus, 500, true)
 
-  $: if ($focusStore.type === 'user') debouncedOnFocus()
+  $: if ($focusStore === 'user') debouncedOnFocus()
 </script>
 
 <div class="full-user-profile">

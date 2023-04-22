@@ -19,7 +19,7 @@
   const showSection = (e, value) => {
     if (isOpenedOutside(e)) return
     profileSection = value
-    $focusStore = { type: user ? 'user' : 'group' }
+    $focusStore = user ? 'user' : 'group'
     if (profileSection === 'inventory') {
       app.navigate(inventoryPathname, { pageSectionElement: navEl })
     } else if (profileSection === 'listings') {

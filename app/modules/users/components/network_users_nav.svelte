@@ -28,13 +28,13 @@
   function onSelectUser (e) {
     selectedUser = e.detail.doc
     selectedGroup = null
-    $focusStore = { type: 'user' }
+    $focusStore = 'user'
   }
 
   function onSelectGroup (e) {
     selectedUser = null
     selectedGroup = e.detail.doc
-    $focusStore = { type: 'group' }
+    $focusStore = 'group'
   }
 </script>
 
