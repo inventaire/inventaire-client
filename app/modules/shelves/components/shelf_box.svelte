@@ -42,85 +42,87 @@
   $: if ($focusStore.type === 'shelf') debouncedOnFocus()
 </script>
 
-<div class="shelf-box" bind:this={shelfBoxEl}>
-  <div class="header">
-    {#if withoutShelf}
-      <div class="without-shelf-picture">...</div>
-    {:else}
-      <div class="picture" style:background-image="url({imgSrc(picture, 160)})" />
-    {/if}
-    <button
-      class="close-shelf-small close-button"
-      title={I18n('unselect shelf')}
-      on:click={() => dispatch('closeShelf')}
-    >
-      {@html icon('close')}
-    </button>
-  </div>
-  <div class="info-box">
-    <div>
-      <h3 class="name">{name}</h3>
-      {#if shelf}
-        <ul class="data">
-          {#if itemsCount}
-            <li>
-              <span>{@html icon('book')}{i18n('books')}</span>
-              <span class="count">{itemsCount}</span>
-            </li>
-          {/if}
-          {#if shelf.visibility}
-            <li id="listing" title={i18n('Visible by')}>
-              {@html icon(iconData.icon)} {i18n(iconLabel)}
-            </li>
-          {/if}
-        </ul>
+<div class="full-shelf-box">
+  <div class="shelf-box" bind:this={shelfBoxEl}>
+    <div class="header">
+      {#if withoutShelf}
+        <div class="without-shelf-picture">...</div>
+      {:else}
+        <div class="picture" style:background-image="url({imgSrc(picture, 160)})" />
       {/if}
-      <p class="description">{description}</p>
-    </div>
-    <div class="actions">
       <button
-        class="close-shelf close-button"
+        class="close-shelf-small close-button"
         title={I18n('unselect shelf')}
-        on:click={closeShelf}
-      >{@html icon('close')}</button>
-      <div class="buttons">
-        {#if isEditable}
-          <button
-            class="show-shelf-edit tiny-button light-blue"
-            on:click={() => showShelfEditor = true}
-          >
-            {@html icon('pencil')}
-            {I18n('edit shelf')}
-          </button>
-          <button
-            class="tiny-button light-blue"
-            on:click={addItems}
-            title={I18n('add books to this shelf')}
-          >
-            {@html icon('plus')} {I18n('add books')}
-          </button>
+        on:click={() => dispatch('closeShelf')}
+      >
+        {@html icon('close')}
+      </button>
+    </div>
+    <div class="info-box">
+      <div>
+        <h3 class="name">{name}</h3>
+        {#if shelf}
+          <ul class="data">
+            {#if itemsCount}
+              <li>
+                <span>{@html icon('book')}{i18n('books')}</span>
+                <span class="count">{itemsCount}</span>
+              </li>
+            {/if}
+            {#if shelf.visibility}
+              <li id="listing" title={i18n('Visible by')}>
+                {@html icon(iconData.icon)} {i18n(iconLabel)}
+              </li>
+            {/if}
+          </ul>
         {/if}
+        <p class="description">{description}</p>
+      </div>
+      <div class="actions">
+        <button
+          class="close-shelf close-button"
+          title={I18n('unselect shelf')}
+          on:click={closeShelf}
+        >{@html icon('close')}</button>
+        <div class="buttons">
+          {#if isEditable}
+            <button
+              class="show-shelf-edit tiny-button light-blue"
+              on:click={() => showShelfEditor = true}
+            >
+              {@html icon('pencil')}
+              {I18n('edit shelf')}
+            </button>
+            <button
+              class="tiny-button light-blue"
+              on:click={addItems}
+              title={I18n('add books to this shelf')}
+            >
+              {@html icon('plus')} {I18n('add books')}
+            </button>
+          {/if}
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-{#if withoutShelf}
-  <InventoryBrowser
-    itemsDataPromise={getInventoryView('without-shelf')}
-    {isMainUser}
-  />
-{:else}
-  <!-- Recreate the component when shelf changes, see https://svelte.dev/docs#template-syntax-key -->
-  {#key shelf}
+  {#if withoutShelf}
     <InventoryBrowser
-      itemsDataPromise={getInventoryView('shelf', shelf)}
+      itemsDataPromise={getInventoryView('without-shelf')}
       {isMainUser}
-      shelfId={shelf._id}
-      {itemsShelvesByIds}
     />
-  {/key}
-{/if}
+  {:else}
+    <!-- Recreate the component when shelf changes, see https://svelte.dev/docs#template-syntax-key -->
+    {#key shelf}
+      <InventoryBrowser
+        itemsDataPromise={getInventoryView('shelf', shelf)}
+        {isMainUser}
+        shelfId={shelf._id}
+        {itemsShelvesByIds}
+      />
+    {/key}
+  {/if}
+</div>
 
 {#if showShelfEditor}
   <Modal on:closeModal={() => showShelfEditor = false}
@@ -135,6 +137,10 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
+  .full-shelf-box{
+    // Make sure it is possible to scroll to put the shelf box at the top of the viewport
+    min-height: 100vh;
+  }
   .shelf-box{
     margin: 0.5em 0 0;
     @include display-flex(row);
