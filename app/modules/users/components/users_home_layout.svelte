@@ -6,7 +6,6 @@
   import PublicUsersNav from '#users/components/public_users_nav.svelte'
   import { serializeUser } from '#users/lib/users'
   import app from '#app/app'
-  import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
   import { getViewportHeight } from '#lib/screen'
   import { resizeObserver } from '#lib/components/actions/resize_observer'
@@ -21,7 +20,6 @@
   const { loggedIn } = app.user
 
   const focusStore = writable({})
-  setContext('focus-store', focusStore)
 
   if (shelf) $focusStore = { type: 'shelf' }
   else if (user) $focusStore = { type: 'user' }
@@ -60,19 +58,21 @@
     {/if}
 
     {#if section === 'network'}
-      <NetworkUsersNav />
+      <NetworkUsersNav {focusStore} />
     {:else if section === 'public'}
-      <PublicUsersNav />
+      <PublicUsersNav {focusStore} />
     {:else if user}
       <UserProfile
         {user}
         bind:shelf
         bind:profileSection
+        {focusStore}
         standalone={true} />
     {:else if group}
       <GroupProfile
         {group}
         {profileSection}
+        {focusStore}
         standalone={true}
       />
     {/if}

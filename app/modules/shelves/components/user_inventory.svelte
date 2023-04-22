@@ -5,17 +5,15 @@
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
   import { getShelvesByOwner } from '#shelves/lib/shelves'
   import { onChange } from '#lib/svelte/svelte'
-  import { getContext } from 'svelte'
   import { indexBy } from 'underscore'
 
   export let user
   export let selectedShelf = null
   export let groupId = null
   export let flash
+  export let focusStore
 
   const { isMainUser } = user
-
-  const focusStore = getContext('focus-store')
 
   function onSelectShelf (e) {
     selectedShelf = e.detail.shelf
@@ -59,6 +57,7 @@
     on:closeShelf={onCloseShelf}
     {isMainUser}
     itemsShelvesByIds={userShelvesById}
+    {focusStore}
   />
 {:else if selectedShelf}
   <ShelfBox
@@ -66,6 +65,7 @@
     on:closeShelf={onCloseShelf}
     {isMainUser}
     itemsShelvesByIds={userShelvesById}
+    {focusStore}
   />
 {:else}
   <InventoryBrowser

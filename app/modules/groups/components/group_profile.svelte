@@ -13,12 +13,13 @@
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
   import UsersListings from '#listings/components/users_listings.svelte'
-  import { getContext, tick } from 'svelte'
+  import { tick } from 'svelte'
   import { debounce } from 'underscore'
 
   export let group
   export let profileSection = null
   export let standalone = false
+  export let focusStore
 
   let members, flash
 
@@ -40,8 +41,6 @@
   function onSelectMember (e) {
     selectedMember = e.detail.doc
   }
-
-  const focusStore = getContext('focus-store')
 
   async function onFocus () {
     if (!groupProfileEl) await tick()
@@ -135,7 +134,7 @@
       <UserProfile user={selectedMember} {groupId} />
     {/key}
   {:else}
-    <ProfileNav {group} bind:profileSection />
+    <ProfileNav {group} bind:profileSection {focusStore} />
     {#if profileSection === 'listings'}
       <UsersListings usersIds={getAllGroupMembersIds(group)} />
     {:else}

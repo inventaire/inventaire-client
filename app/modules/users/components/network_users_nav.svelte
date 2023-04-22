@@ -8,6 +8,8 @@
   import UserProfile from '#users/components/user_profile.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
 
+  export let focusStore
+
   let flash, users, groups
 
   app.request('fetch:friends')
@@ -68,7 +70,12 @@
       </div>
     </div>
     {#if users}
-      <UsersHomeSectionList docs={users} type="users" on:select={onSelectUser} />
+      <UsersHomeSectionList
+        docs={users}
+        type="users"
+        {focusStore}
+        on:select={onSelectUser}
+      />
     {/if}
   </div>
 
@@ -115,11 +122,11 @@
 {#if selectedUser}
   <!-- Recreate component when selectedUser changes, see https://svelte.dev/docs#template-syntax-key -->
   {#key selectedUser}
-    <UserProfile user={selectedUser} />
+    <UserProfile user={selectedUser} {focusStore} />
   {/key}
 {:else if selectedGroup}
   {#key selectedGroup}
-    <GroupProfile group={selectedGroup} />
+    <GroupProfile group={selectedGroup} {focusStore} />
   {/key}
 {:else}
   <PaginatedSectionItems sectionRequestName="items:getNetworkItems" />

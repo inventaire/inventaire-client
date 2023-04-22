@@ -4,9 +4,12 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getGroupMembersCount, getGroupPicture } from '#groups/lib/groups'
   import { getPicture as getUserPicture } from '#users/lib/users'
-  import { createEventDispatcher, getContext } from 'svelte'
+  import { createEventDispatcher } from 'svelte'
 
-  export let doc, group = null
+  export let doc
+  export let group = null
+  export let focusStore
+
   const { name, username, hasItemsCount, pathname, itemsCount } = doc
   let { type = 'user' } = doc
 
@@ -24,8 +27,6 @@
   }
 
   const dispatch = createEventDispatcher()
-
-  const focusStore = getContext('focus-store')
 
   function select () {
     dispatch('select', { type, doc })

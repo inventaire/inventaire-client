@@ -6,7 +6,7 @@
   import ShelfEditor from '#shelves/components/shelf_editor.svelte'
   import Modal from '#components/modal.svelte'
   import { onChange } from '#lib/svelte/svelte'
-  import { createEventDispatcher, getContext, tick } from 'svelte'
+  import { createEventDispatcher, tick } from 'svelte'
   import { debounce } from 'underscore'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
@@ -15,6 +15,7 @@
   export let withoutShelf = false
   export let isMainUser
   export let itemsShelvesByIds
+  export let focusStore
 
   let itemsCount, shelfBoxEl
 
@@ -29,8 +30,6 @@
 
   const dispatch = createEventDispatcher()
   const closeShelf = () => dispatch('closeShelf')
-
-  const focusStore = getContext('focus-store')
 
   async function onFocus () {
     if (!shelfBoxEl) await tick()

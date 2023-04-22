@@ -1,11 +1,11 @@
 <script>
   import { i18n } from '#user/lib/i18n'
   import { isOpenedOutside } from '#lib/utils'
-  import { getContext } from 'svelte'
 
   export let user = null
   export let group = null
   export let profileSection = null
+  export let focusStore
 
   // TODO: recover items and listings count
   let inventoryPathname, listingsPathname, listingsCount, navEl
@@ -15,8 +15,6 @@
   } else if (group) {
     ;({ inventoryPathname, listingsPathname } = group)
   }
-
-  const focusStore = getContext('focus-store')
 
   const showSection = (e, value) => {
     if (isOpenedOutside(e)) return

@@ -9,6 +9,7 @@
   export let group = null
   export let hideList = false
   export let hideListMessage = null
+  export let focusStore
 
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
@@ -20,7 +21,12 @@
   <ul class:members={type === 'members'} class="users-home-section-list">
     {#each docs as doc (doc._id)}
       <li class="user">
-        <UsersHomeSectionListLi {doc} {group} on:select={bubbleUpComponentEvent} />
+        <UsersHomeSectionListLi
+          {doc}
+          {group}
+          {focusStore}
+          on:select={bubbleUpComponentEvent}
+        />
       </li>
     {:else}
       <li class="empty">{i18n('There is nothing here')}</li>

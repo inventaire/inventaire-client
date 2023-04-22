@@ -9,7 +9,7 @@
   import ProfileNav from '#users/components/profile_nav.svelte'
   import UserInventory from '#shelves/components/user_inventory.svelte'
   import UsersListings from '#listings/components/users_listings.svelte'
-  import { getContext, tick } from 'svelte'
+  import { tick } from 'svelte'
   import { debounce } from 'underscore'
 
   export let user
@@ -17,13 +17,12 @@
   export let profileSection = null
   export let groupId = null
   export let standalone = false
+  export let focusStore
 
   // TODO: recover inventoryLength and shelvesCount
   const { username, bio, picture, inventoryLength, shelvesCount } = user
 
   let flash, userProfileEl
-
-  const focusStore = getContext('focus-store')
 
   async function onFocus () {
     if (!userProfileEl) await tick()
@@ -86,7 +85,7 @@
 
   <Flash state={flash} />
 
-  <ProfileNav {user} bind:profileSection />
+  <ProfileNav {user} bind:profileSection {focusStore} />
 
   {#if profileSection === 'listings'}
     <UsersListings usersIds={[ user._id ]} onUserLayout={true} />
@@ -94,6 +93,7 @@
     <UserInventory
       {user}
       {groupId}
+      {focusStore}
       selectedShelf={shelf}
       bind:flash
     />

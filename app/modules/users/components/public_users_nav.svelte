@@ -16,7 +16,7 @@
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
 
-  export let filter
+  export let filter = null, focusStore
 
   const showUsers = filter !== 'groups'
   const showGroups = filter !== 'users'
@@ -105,6 +105,7 @@
               type="users"
               hideList={zoomInToDisplayMore}
               hideListMessage={i18n('Zoom-in to display more')}
+              {focusStore}
               on:select={onSelectUser}
             />
           {/if}
@@ -125,6 +126,7 @@
               type="groups"
               hideList={zoomInToDisplayMore}
               hideListMessage={i18n('Zoom-in to display more')}
+              {focusStore}
               on:select={onSelectGroup}
             />
           {/if}
@@ -170,11 +172,11 @@
   {#if selectedUser}
     <!-- Recreate component when selectedUser changes, see https://svelte.dev/docs#template-syntax-key -->
     {#key selectedUser}
-      <UserProfile user={selectedUser} />
+      <UserProfile user={selectedUser} {focusStore} />
     {/key}
   {:else if selectedGroup}
     {#key selectedGroup}
-      <GroupProfile group={selectedGroup} />
+      <GroupProfile group={selectedGroup} {focusStore} />
     {/key}
   {:else}
     <!-- TODO: use bbox to update displayed items accordingly -->
