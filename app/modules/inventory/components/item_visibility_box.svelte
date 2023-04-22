@@ -7,7 +7,10 @@
   import { debounce, isEqual } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
 
-  export let item, flash, large = false, widthReferenceEl
+  export let item
+  export let flash
+  export let large = false
+  export let widthReferenceEl = null
 
   let visibility = item.visibility
   let savedVisibility = visibility

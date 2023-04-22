@@ -6,7 +6,10 @@
   import { transactionsData } from '#inventory/lib/transactions_data'
   import { serializeItem } from '#inventory/lib/items'
 
-  export let item, flash, large = false, widthReferenceEl
+  export let item
+  export let flash
+  export let large = false
+  export let widthReferenceEl = null
 
   const { pathname, restricted } = item
 
