@@ -61,13 +61,7 @@
       <UsersHomeNav bind:section />
     {/if}
 
-    {#if section === 'user' && !shelf}
-      <UserProfile
-        user={app.user.toJSON()}
-        {profileSection}
-        standalone={true}
-      />
-    {:else if section === 'network'}
+    {#if section === 'network'}
       <NetworkUsersNav />
     {:else if section === 'public'}
       <PublicUsersNav />
