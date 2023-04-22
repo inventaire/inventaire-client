@@ -8,9 +8,9 @@
   import app from '#app/app'
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
-  import { onChange } from '#lib/svelte/svelte'
   import { getViewportHeight } from '#lib/screen'
   import { resizeObserver } from '#lib/components/actions/resize_observer'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let user = null
   export let group = null
@@ -26,15 +26,13 @@
   setContext('focus-store', focusStore)
 
   if (shelf) $focusStore = { type: 'shelf', doc: shelf }
-  // When starting from a user or a group, no need to scroll
-  // as it's already pretty much at the top
-  // if (user) $focusStore = { type: 'user', doc: user }
-  // if (group) $focusStore = { type: 'group', doc: group }
+  else if (user) $focusStore = { type: 'user', doc: user }
+  else if (group) $focusStore = { type: 'group', doc: group }
 
   $: if (user) user = serializeUser(user)
 
   function onSectionChange () {
-    if (section !== 'user') shelf = null
+    if (section && section !== 'user') shelf = null
   }
 
   $: onChange(section, onSectionChange)
@@ -76,8 +74,8 @@
     {:else if user}
       <UserProfile
         {user}
-        {shelf}
-        {profileSection}
+        bind:shelf
+        bind:profileSection
         standalone={true} />
     {:else if group}
       <GroupProfile

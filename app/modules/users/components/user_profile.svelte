@@ -33,6 +33,7 @@
     if (profileSection === 'inventory') {
       app.navigate(user.inventoryPathname, { pageSectionElement })
     } else if (profileSection === 'listings') {
+      shelf = null
       app.navigate(user.listingsPathname, { pageSectionElement })
     } else {
       app.navigate(user.pathname, { pageSectionElement })

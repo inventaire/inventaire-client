@@ -8,7 +8,10 @@
   import { getContext } from 'svelte'
   import { indexBy } from 'underscore'
 
-  export let user, selectedShelf, groupId = null, flash
+  export let user
+  export let selectedShelf = null
+  export let groupId = null
+  export let flash
 
   const { isMainUser } = user
 

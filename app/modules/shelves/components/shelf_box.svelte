@@ -9,7 +9,7 @@
   import { createEventDispatcher, getContext, tick } from 'svelte'
   import { debounce } from 'underscore'
 
-  export let shelf, withoutShelf
+  export let shelf, withoutShelf = false
 
   let itemsCount, shelfBoxEl
 

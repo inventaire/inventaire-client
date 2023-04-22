@@ -1,6 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
   import { isOpenedOutside } from '#lib/utils'
+  import { getContext } from 'svelte'
 
   export let user = null
   export let group = null
@@ -15,9 +16,12 @@
     ;({ inventoryPathname, listingsPathname } = group)
   }
 
+  const focusStore = getContext('focus-store')
+
   const showSection = (e, value) => {
     if (isOpenedOutside(e)) return
     profileSection = value
+    $focusStore = { type: user ? 'user' : 'group', doc: user || group }
     if (profileSection === 'inventory') {
       app.navigate(inventoryPathname, { pageSectionElement: navEl })
     } else if (profileSection === 'listings') {
