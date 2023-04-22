@@ -8,9 +8,13 @@
   import { onChange } from '#lib/svelte/svelte'
   import { createEventDispatcher, getContext, tick } from 'svelte'
   import { debounce } from 'underscore'
+  import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
+  import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
 
   export let shelf = null
   export let withoutShelf = false
+  export let isMainUser
+  export let itemsShelvesByIds
 
   let itemsCount, shelfBoxEl
 
@@ -100,6 +104,23 @@
     </div>
   </div>
 </div>
+
+{#if withoutShelf}
+  <InventoryBrowser
+    itemsDataPromise={getInventoryView('without-shelf')}
+    {isMainUser}
+  />
+{:else}
+  <!-- Recreate the component when shelf changes, see https://svelte.dev/docs#template-syntax-key -->
+  {#key shelf}
+    <InventoryBrowser
+      itemsDataPromise={getInventoryView('shelf', shelf)}
+      {isMainUser}
+      shelfId={shelf._id}
+      {itemsShelvesByIds}
+    />
+  {/key}
+{/if}
 
 {#if showShelfEditor}
   <Modal on:closeModal={() => showShelfEditor = false}

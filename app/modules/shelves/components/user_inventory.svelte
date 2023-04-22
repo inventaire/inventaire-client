@@ -54,22 +54,19 @@
 />
 
 {#if selectedShelf === 'without-shelf'}
-  <ShelfBox withoutShelf={true} on:closeShelf={onCloseShelf} />
-  <InventoryBrowser
-    itemsDataPromise={getInventoryView('without-shelf')}
+  <ShelfBox
+    withoutShelf={true}
+    on:closeShelf={onCloseShelf}
     {isMainUser}
+    itemsShelvesByIds={userShelvesById}
   />
 {:else if selectedShelf}
-  <ShelfBox bind:shelf={selectedShelf} on:closeShelf={onCloseShelf} />
-  <!-- Recreate component when selectedShelf changes, see https://svelte.dev/docs#template-syntax-key -->
-  {#key selectedShelf}
-    <InventoryBrowser
-      itemsDataPromise={getInventoryView('shelf', selectedShelf)}
-      {isMainUser}
-      shelfId={selectedShelf._id}
-      itemsShelvesByIds={userShelvesById}
-    />
-  {/key}
+  <ShelfBox
+    bind:shelf={selectedShelf}
+    on:closeShelf={onCloseShelf}
+    {isMainUser}
+    itemsShelvesByIds={userShelvesById}
+  />
 {:else}
   <InventoryBrowser
     itemsDataPromise={getInventoryView('user', user)}
