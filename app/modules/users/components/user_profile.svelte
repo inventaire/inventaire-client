@@ -45,61 +45,67 @@
   $: if ($focusStore.type === 'user') debouncedOnFocus()
 </script>
 
-<div class="user-profile" bind:this={userProfileEl}>
-  <div class="user-card">
-    <div class="avatar-wrapper">
-      <img class="avatar" src={imgSrc(picture, 150, 150)} alt="{username} avatar" />
+<div class="full-user-profile">
+  <div class="user-profile" bind:this={userProfileEl}>
+    <div class="user-card">
+      <div class="avatar-wrapper">
+        <img class="avatar" src={imgSrc(picture, 150, 150)} alt="{username} avatar" />
+      </div>
+      <div class="info">
+        <h2 class="username respect-case">{username}</h2>
+        <ul class="data">
+          {#if inventoryLength != null}
+            <li class="inventoryLength">
+              <span>{@html icon('book')}{i18n('books')}</span>
+              <span class="count">{inventoryLength}</span>
+            </li>
+          {/if}
+          {#if shelvesCount != null}
+            <li class="showShelvesList shelvesLength">
+              <span>{@html icon('server')}{i18n('shelves')}</span>
+              <span class="count">{shelvesCount}</span>
+            </li>
+          {/if}
+        </ul>
+        {#if $screen.isLargerThan('$smaller-screen')}
+          {#if bio}
+            <p class="bio-wrapper">{@html userContent(bio)}</p>
+          {/if}
+        {/if}
+      </div>
     </div>
-    <div class="info">
-      <h2 class="username respect-case">{username}</h2>
-      <ul class="data">
-        {#if inventoryLength != null}
-          <li class="inventoryLength">
-            <span>{@html icon('book')}{i18n('books')}</span>
-            <span class="count">{inventoryLength}</span>
-          </li>
-        {/if}
-        {#if shelvesCount != null}
-          <li class="showShelvesList shelvesLength">
-            <span>{@html icon('server')}{i18n('shelves')}</span>
-            <span class="count">{shelvesCount}</span>
-          </li>
-        {/if}
-      </ul>
-      {#if $screen.isLargerThan('$smaller-screen')}
-        {#if bio}
-          <p class="bio-wrapper">{@html userContent(bio)}</p>
-        {/if}
+
+    {#if $screen.isSmallerThan('$smaller-screen')}
+      {#if bio}
+        <p class="bio-wrapper">{@html userContent(bio)}</p>
       {/if}
-    </div>
+    {/if}
+
+    <UserProfileButtons {user} bind:flash />
   </div>
 
-  {#if $screen.isSmallerThan('$smaller-screen')}
-    {#if bio}
-      <p class="bio-wrapper">{@html userContent(bio)}</p>
-    {/if}
+  <Flash state={flash} />
+
+  <ProfileNav {user} bind:profileSection />
+
+  {#if profileSection === 'listings'}
+    <UsersListings usersIds={[ user._id ]} onUserLayout={true} />
+  {:else}
+    <UserInventory
+      {user}
+      {groupId}
+      selectedShelf={shelf}
+      bind:flash
+    />
   {/if}
-
-  <UserProfileButtons {user} bind:flash />
 </div>
-
-<Flash state={flash} />
-
-<ProfileNav {user} bind:profileSection />
-
-{#if profileSection === 'listings'}
-  <UsersListings usersIds={[ user._id ]} onUserLayout={true} />
-{:else}
-  <UserInventory
-    {user}
-    {groupId}
-    selectedShelf={shelf}
-    bind:flash
-  />
-{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
+  .full-user-profile{
+    // Make sure it is possible to scroll to put the user profile at the top of the viewport
+    min-height: 100vh;
+  }
   .user-profile{
     background-color: #eee;
     @include display-flex(row);

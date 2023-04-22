@@ -61,92 +61,98 @@
   $: if ($focusStore.type === 'group') debouncedOnFocus()
 </script>
 
-<div class="group-profile" bind:this={groupProfileEl}>
-  <div class="group-profile-header">
-    <div class="section-one">
-      <div class="cover-header">
-        {#if picture}
-          <img class="cover-image" src={imgSrc(picture, 1600)} alt="" />
-        {/if}
-        <div class="info">
-          <span class="name">{name}</span>
+<div class="full-group-profile">
+  <div class="group-profile" bind:this={groupProfileEl}>
+    <div class="group-profile-header">
+      <div class="section-one">
+        <div class="cover-header">
+          {#if picture}
+            <img class="cover-image" src={imgSrc(picture, 1600)} alt="" />
+          {/if}
+          <div class="info">
+            <span class="name">{name}</span>
+          </div>
+          <div class="icon-buttons">
+            {#if mainUserIsMember}
+              <a
+                class="show-group-settings"
+                href={settingsPathname}
+                title={i18n('settings')}
+                on:click={loadInternalLink}
+              >
+                {@html icon('cog')}
+                {#if mainUserIsAdmin && requested.length > 0}
+                  <span class="counter">{requested.length}</span>
+                {/if}
+              </a>
+            {/if}
+          </div>
         </div>
-        <div class="icon-buttons">
+        {#if description}
+          <p class="description">{@html userContent(description)}</p>
+        {/if}
+      </div>
+
+      <div class="section-two">
+        <div class="list-label-wrapper">
+          <p class="list-label">{I18n('members')}</p>
           {#if mainUserIsMember}
             <a
-              class="show-group-settings"
+              class="show-members-menu tiny-button light-blue"
               href={settingsPathname}
-              title={i18n('settings')}
-              on:click={loadInternalLink}
+              on:click={showMembersMenu}
             >
-              {@html icon('cog')}
-              {#if mainUserIsAdmin && requested.length > 0}
-                <span class="counter">{requested.length}</span>
-              {/if}
+              {@html icon('plus')}
+              {i18n('invite')}
             </a>
           {/if}
         </div>
+        <div class="members-list">
+          {#await waitForMembers}
+            <Spinner />
+          {:then}
+            <UsersHomeSectionList
+              docs={members}
+              type="members"
+              {group}
+              on:select={onSelectMember}
+            />
+          {/await}
+        </div>
       </div>
-      {#if description}
-        <p class="description">{@html userContent(description)}</p>
-      {/if}
     </div>
 
-    <div class="section-two">
-      <div class="list-label-wrapper">
-        <p class="list-label">{I18n('members')}</p>
-        {#if mainUserIsMember}
-          <a
-            class="show-members-menu tiny-button light-blue"
-            href={settingsPathname}
-            on:click={showMembersMenu}
-          >
-            {@html icon('plus')}
-            {i18n('invite')}
-          </a>
-        {/if}
-      </div>
-      <div class="members-list">
-        {#await waitForMembers}
-          <Spinner />
-        {:then}
-          <UsersHomeSectionList
-            docs={members}
-            type="members"
-            {group}
-            on:select={onSelectMember}
-          />
-        {/await}
-      </div>
+    <div class="group-actions">
+      <GroupActions bind:group />
     </div>
   </div>
 
-  <div class="group-actions">
-    <GroupActions bind:group />
-  </div>
-</div>
+  <Flash state={flash} />
 
-<Flash state={flash} />
-
-{#if selectedMember}
-  <!-- Recreate component when selectedMember changes, see https://svelte.dev/docs#template-syntax-key -->
-  {#key selectedMember}
-    <UserProfile user={selectedMember} {groupId} />
-  {/key}
-{:else}
-  <ProfileNav {group} bind:profileSection />
-  {#if profileSection === 'listings'}
-    <UsersListings usersIds={getAllGroupMembersIds(group)} />
+  {#if selectedMember}
+    <!-- Recreate component when selectedMember changes, see https://svelte.dev/docs#template-syntax-key -->
+    {#key selectedMember}
+      <UserProfile user={selectedMember} {groupId} />
+    {/key}
   {:else}
-    <InventoryBrowser
-      itemsDataPromise={getInventoryView('group', group)}
-      {groupId}
-    />
+    <ProfileNav {group} bind:profileSection />
+    {#if profileSection === 'listings'}
+      <UsersListings usersIds={getAllGroupMembersIds(group)} />
+    {:else}
+      <InventoryBrowser
+        itemsDataPromise={getInventoryView('group', group)}
+        {groupId}
+      />
+    {/if}
   {/if}
-{/if}
+</div>
 
 <style lang="scss">
   @import "#general/scss/utils";
+  .full-group-profile{
+    // Make sure it is possible to scroll to put the group profile at the top of the viewport
+    min-height: 100vh;
+  }
   .group-profile{
     background-color: #eee;
     margin: 0.5em 0;
