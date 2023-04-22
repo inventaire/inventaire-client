@@ -144,6 +144,7 @@
   .shelf-box{
     margin: 0.5em 0 0;
     @include display-flex(row);
+    background-color: $light-grey;
   }
   .picture{
     // TODO: shelf picture
