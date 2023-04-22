@@ -30,7 +30,6 @@ export default {
 
     app.commands.setHandlers({
       'show:user': app.Execute('show:inventory:user'),
-      'show:main:user:profile': showMainUserProfile,
       'show:user:contributions': showUserContributions
     })
 
