@@ -63,6 +63,8 @@ export const isOpenedOutside = (e, ignoreMissingHref = false) => {
 // Test existance to ignore in other contexts than the browser
 const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
+// TODO: consider having a global event listener,
+// rather than having to set it in all those <a on:click>
 export const loadInternalLink = e => {
   if (!(isOpenedOutside(e))) {
     const { pathname, search } = new URL(e.currentTarget.href)
