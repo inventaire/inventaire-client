@@ -78,7 +78,7 @@
         {itemsShelvesByIds}
         {isMainUser}
         {pagination}
-        haveSeveralOwners={groupId != null}
+        haveSeveralOwners={ownerId == null}
       />
     {/if}
   {/await}
