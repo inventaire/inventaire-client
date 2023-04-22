@@ -48,7 +48,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   #tabs{
-    @include display-flex(row, center, center, wrap);
+    @include display-flex(row, center, center);
     margin-bottom: 0.5em;
     .avatar, :global(.fa){
       margin: 0 0.5em;
@@ -58,15 +58,18 @@
     }
   }
   a{
-    flex: 1 0 auto;
+    flex: 1 0 0;
     @include bg-hover-from-to(darken($light-grey, 10%), lighten($light-grey, 2%));
     font-weight: bold;
     padding: 0.5em;
     align-self: stretch;
     @include display-flex(row, center, center);
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .avatar{
     height: 2.5em;
+    flex: 0 0 2.5em;
   }
   .selected{
     @include bg-hover($inventory-nav-grey, 0);
@@ -86,8 +89,9 @@
       margin-top: 0.5em;
     }
     a{
+      max-width: 34%;
       height: 3em;
-      flex-direction: column;
+      padding: 0.5em;
     }
   }
 
