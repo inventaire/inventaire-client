@@ -24,7 +24,7 @@
     $focusStore = 'user'
   }
 
-  let shelves, userShelvesById
+  let shelves, itemsShelvesByIds
   const waitForShelves = getShelvesByOwner(user._id)
     .then(res => {
       shelves = res
@@ -41,7 +41,7 @@
     shelves = shelves
   }
   $: onChange(selectedShelf, refreshShelves)
-  $: if (shelves) userShelvesById = indexBy(shelves, '_id')
+  $: if (shelves) itemsShelvesByIds = indexBy(shelves, '_id')
 </script>
 
 <ShelvesSection
@@ -56,7 +56,7 @@
     withoutShelf={true}
     on:closeShelf={onCloseShelf}
     {isMainUser}
-    itemsShelvesByIds={userShelvesById}
+    {itemsShelvesByIds}
     {focusStore}
   />
 {:else if selectedShelf}
@@ -64,7 +64,7 @@
     bind:shelf={selectedShelf}
     on:closeShelf={onCloseShelf}
     {isMainUser}
-    itemsShelvesByIds={userShelvesById}
+    {itemsShelvesByIds}
     {focusStore}
   />
 {:else}
@@ -73,6 +73,6 @@
     ownerId={user._id}
     {groupId}
     {isMainUser}
-    itemsShelvesByIds={userShelvesById}
+    {itemsShelvesByIds}
   />
 {/if}
