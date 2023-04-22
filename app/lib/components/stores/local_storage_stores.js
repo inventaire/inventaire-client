@@ -17,11 +17,13 @@ export function getLocalStorageStore (key, initialValue) {
 
 function initStore (key, initialValue) {
   const start = set => {
-    let value
+    let value, stringifiedStoredValue
     try {
-      value = JSON.parse(localStorage.getItem(key))
+      stringifiedStoredValue = localStorage.getItem(key)
+      value = JSON.parse(stringifiedStoredValue)
     } catch (err) {
-      error_.report(err, { key, initialValue })
+      if (err.name === 'SyntaxError') localStorage.removeItem(key)
+      error_.report(err, { key, initialValue, stringifiedStoredValue })
     }
     if (value == null) value = initialValue
     set(value)
@@ -31,7 +33,12 @@ function initStore (key, initialValue) {
   const store = writable(initialValue, start)
   return {
     set (value) {
-      localStorage.setItem(key, JSON.stringify(value))
+      // There is no known case yet, where saving an empty value is the desired behavior
+      // There is a known case where the store is shortly assigned an empty value:
+      // when binding the store to an input, the value may start by being undefined
+      if (value != null) {
+        localStorage.setItem(key, JSON.stringify(value))
+      }
       store.set(value)
     },
     subscribe: store.subscribe,
