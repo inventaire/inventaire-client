@@ -6,7 +6,9 @@
   import { createEventDispatcher } from 'svelte'
   import { onChange } from '#lib/svelte/svelte'
 
-  export let shelf, withoutShelf = false
+  // If withoutShelf=true, no shelf is passed
+  export let shelf = null
+  export let withoutShelf = false
 
   let name, description, pathname, title, picture, iconData, iconLabel
   function refreshData () {
@@ -19,7 +21,7 @@
   function onClick (e) {
     if (isOpenedOutside(e)) return
     if (withoutShelf) {
-      dispatch('selectShelf', { shelf: null })
+      dispatch('selectShelf', { shelf: 'without-shelf' })
     } else {
       dispatch('selectShelf', { shelf })
     }

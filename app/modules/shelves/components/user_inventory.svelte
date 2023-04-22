@@ -30,7 +30,7 @@
   const waitForShelves = getShelvesByOwner(user._id)
     .then(res => {
       shelves = res
-      if (selectedShelf) {
+      if (selectedShelf && selectedShelf !== 'without-shelf') {
         // Replace the shelf object passed by the parent component by the one in the shelves array
         // so that changes made in the ShelfBox propagate to the ShelvesSection
         selectedShelf = shelves.find(({ _id }) => _id === selectedShelf._id)

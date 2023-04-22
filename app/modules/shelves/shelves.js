@@ -48,8 +48,7 @@ const API = {
       app.layout.showChildComponent('main', UsersHomeLayout, {
         props: {
           user: app.user.toJSON(),
-          withoutShelf: true,
-          standalone: true,
+          shelf: 'without-shelf',
         }
       })
       app.navigate('shelves/without')
@@ -75,7 +74,6 @@ const showShelfFromModel = async shelf => {
     props: {
       shelf: shelf.toJSON(),
       user,
-      standalone: true
     }
   })
   app.navigateFromModel(shelf)
