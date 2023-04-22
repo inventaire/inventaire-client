@@ -87,11 +87,15 @@ const API = {
 }
 
 export async function showUsersHome ({ user, group, section, profileSection }) {
-  const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
-  const props = { section, profileSection }
-  if (user) props.user = await app.request('resolve:to:user', user)
-  if (group) props.group = await app.request('resolve:to:group', group)
-  app.layout.showChildComponent('main', UsersHomeLayout, { props })
+  try {
+    const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
+    const props = { section, profileSection }
+    if (user) props.user = await app.request('resolve:to:user', user)
+    if (group) props.group = await app.request('resolve:to:group', group)
+    app.layout.showChildComponent('main', UsersHomeLayout, { props })
+  } catch (err) {
+    app.execute('show:error', err)
+  }
 }
 
 async function showUserContributions (idOrUsernameOrModel, filter) {
