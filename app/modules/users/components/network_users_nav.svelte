@@ -28,11 +28,13 @@
   function onSelectUser (e) {
     selectedUser = e.detail.doc
     selectedGroup = null
+    $focusStore = { type: 'user' }
   }
 
   function onSelectGroup (e) {
     selectedUser = null
     selectedGroup = e.detail.doc
+    $focusStore = { type: 'group' }
   }
 </script>
 
@@ -73,7 +75,6 @@
       <UsersHomeSectionList
         docs={users}
         type="users"
-        {focusStore}
         on:select={onSelectUser}
       />
     {/if}

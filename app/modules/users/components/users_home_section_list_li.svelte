@@ -8,7 +8,6 @@
 
   export let doc
   export let group = null
-  export let focusStore
 
   const { name, username, hasItemsCount, pathname, itemsCount } = doc
   let { type = 'user' } = doc
@@ -30,7 +29,6 @@
 
   function select () {
     dispatch('select', { type, doc })
-    $focusStore = { type }
   }
 </script>
 

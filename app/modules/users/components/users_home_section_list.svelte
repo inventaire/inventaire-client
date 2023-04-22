@@ -9,7 +9,6 @@
   export let group = null
   export let hideList = false
   export let hideListMessage = null
-  export let focusStore
 
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
@@ -24,7 +23,6 @@
         <UsersHomeSectionListLi
           {doc}
           {group}
-          {focusStore}
           on:select={bubbleUpComponentEvent}
         />
       </li>

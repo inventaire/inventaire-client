@@ -1,21 +1,28 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon, isOpenedOutside } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getGroupMembersCount, getGroupPathname, getGroupPicture } from '#groups/lib/groups'
-  import { SelectInventoryOnClick } from '#users/components/lib/navs_helpers'
+  import { createEventDispatcher } from 'svelte'
 
   export let doc
   const { name } = doc
   const picture = getGroupPicture(doc)
   const pathname = getGroupPathname(doc)
   const membersCount = getGroupMembersCount(doc)
-  const onClick = SelectInventoryOnClick({ type: 'group', doc })
+
+  const dispatch = createEventDispatcher()
+
+  function select (e) {
+    if (!isOpenedOutside(e)) {
+      dispatch('select', { type: 'user', doc })
+    }
+  }
 </script>
 
 <a
   href={pathname}
-  on:click={onClick}
+  on:click={select}
   title="{name} - {I18n('group')}"
   class="objectMarker groupMarker"
 >

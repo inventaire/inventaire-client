@@ -16,7 +16,8 @@
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
 
-  export let filter = null, focusStore
+  export let filter = null
+  export let focusStore
 
   const showUsers = filter !== 'groups'
   const showGroups = filter !== 'users'
@@ -80,11 +81,13 @@
   function onSelectUser (e) {
     selectedUser = e.detail.doc
     selectedGroup = null
+    $focusStore = { type: 'user' }
   }
 
   function onSelectGroup (e) {
     selectedUser = null
     selectedGroup = e.detail.doc
+    $focusStore = { type: 'group' }
   }
 </script>
 
@@ -105,7 +108,6 @@
               type="users"
               hideList={zoomInToDisplayMore}
               hideListMessage={i18n('Zoom-in to display more')}
-              {focusStore}
               on:select={onSelectUser}
             />
           {/if}
@@ -126,7 +128,6 @@
               type="groups"
               hideList={zoomInToDisplayMore}
               hideListMessage={i18n('Zoom-in to display more')}
-              {focusStore}
               on:select={onSelectGroup}
             />
           {/if}
@@ -146,7 +147,7 @@
           {#if usersInBounds && !zoomInToDisplayMore}
             {#each usersInBounds as user (user._id)}
               <Marker latLng={user.position}>
-                <UserMarkerAlt doc={user} />
+                <UserMarkerAlt doc={user} on:select={onSelectUser} />
               </Marker>
             {/each}
           {/if}
@@ -154,7 +155,7 @@
           {#if groupsInBounds && !zoomInToDisplayMore}
             {#each groupsInBounds as group (group._id)}
               <Marker latLng={group.position}>
-                <GroupMarker doc={group} />
+                <GroupMarker doc={group} on:select={onSelectGroup} />
               </Marker>
             {/each}
           {/if}

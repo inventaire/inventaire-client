@@ -40,6 +40,7 @@
   let selectedMember, groupProfileEl
   function onSelectMember (e) {
     selectedMember = e.detail.doc
+    $focusStore.type = 'user'
   }
 
   async function onFocus () {
@@ -131,7 +132,7 @@
   {#if selectedMember}
     <!-- Recreate component when selectedMember changes, see https://svelte.dev/docs#template-syntax-key -->
     {#key selectedMember}
-      <UserProfile user={selectedMember} {groupId} />
+      <UserProfile user={selectedMember} {groupId} {focusStore} />
     {/key}
   {:else}
     <ProfileNav {group} bind:profileSection {focusStore} />

@@ -2,22 +2,29 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { SelectInventoryOnClick } from '#users/components/lib/navs_helpers'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { showMainUserPositionPicker } from '#map/lib/map'
+  import { createEventDispatcher } from 'svelte'
+  import { isOpenedOutside } from '#lib/utils'
 
   export let doc
   const { _id, username, picture } = doc
   const pathname = `/users/${username}`
   const isMainUser = _id === app.user.id
 
-  const onClick = SelectInventoryOnClick({ type: 'user', doc })
+  const dispatch = createEventDispatcher()
+
+  function select (e) {
+    if (!isOpenedOutside(e)) {
+      dispatch('select', { type: 'user', doc })
+    }
+  }
 </script>
 
 <div class="objectMarker userMarker">
   <a
     href={pathname}
-    on:click={onClick}
+    on:click={select}
     title="{username} - {I18n('user')}"
   >
     <div
