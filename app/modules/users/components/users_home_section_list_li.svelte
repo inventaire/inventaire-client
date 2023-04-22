@@ -29,7 +29,7 @@
 
   function select () {
     dispatch('select', { type, doc })
-    $focusStore = { type, doc }
+    $focusStore = { type }
   }
 </script>
 

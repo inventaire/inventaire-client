@@ -19,11 +19,11 @@
 
   function onSelectShelf (e) {
     selectedShelf = e.detail.shelf
-    $focusStore = { type: 'shelf', doc: selectedShelf }
+    $focusStore = { type: 'shelf' }
   }
   function onCloseShelf (e) {
     selectedShelf = null
-    $focusStore = { type: 'user', doc: user }
+    $focusStore = { type: 'user' }
   }
 
   let shelves, userShelvesById

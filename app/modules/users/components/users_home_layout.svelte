@@ -23,9 +23,9 @@
   const focusStore = writable({})
   setContext('focus-store', focusStore)
 
-  if (shelf) $focusStore = { type: 'shelf', doc: shelf }
-  else if (user) $focusStore = { type: 'user', doc: user }
-  else if (group) $focusStore = { type: 'group', doc: group }
+  if (shelf) $focusStore = { type: 'shelf' }
+  else if (user) $focusStore = { type: 'user' }
+  else if (group) $focusStore = { type: 'group' }
 
   $: if (user) user = serializeUser(user)
 
