@@ -32,6 +32,8 @@
 
   function toggle () {
     showCategory = !showCategory
+    // Known case: in user settings, no custom properties of a category are checked.
+    if (categoryCustomProperties.length === 0) showAllProperties = true
     if (showCategory) {
       // Wait for transitions to be over before attempting to scroll
       setTimeout(scroll, 200)
@@ -39,7 +41,8 @@
   }
 
   $: onChange(customProperties, getIfCategoryHasActiveProperties)
-  $: showCategory = (categoryLabel == null) || _.some(categoryCustomProperties)
+  $: someCustomProperties = _.some(categoryCustomProperties)
+  $: showCategory = (categoryLabel == null) || someCustomProperties
 </script>
 
 {#if categoryLabel}
@@ -61,7 +64,7 @@
         {property}
       />
     {/each}
-    {#if categoryLabel}
+    {#if categoryLabel && someCustomProperties}
       <WrapToggler
         bind:show={showAllProperties}
         moreText={I18n('show more properties')}
