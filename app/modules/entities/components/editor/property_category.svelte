@@ -64,7 +64,7 @@
         {property}
       />
     {/each}
-    {#if categoryLabel && someCustomProperties}
+    {#if categoryLabel && someCustomProperties && (categoryCustomProperties.length !== categoryAllProperties.length)}
       <WrapToggler
         bind:show={showAllProperties}
         moreText={I18n('show more properties')}
