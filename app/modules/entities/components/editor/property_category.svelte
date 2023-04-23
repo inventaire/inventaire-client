@@ -2,6 +2,7 @@
   import { propertiesCategories } from '#entities/lib/editor/properties_per_type'
   import { I18n } from '#user/lib/i18n'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
+  import WrapToggler from '#components/wrap_toggler.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { onChange } from '#lib/svelte/svelte'
 
@@ -11,13 +12,14 @@
 
   const { label: categoryLabel } = (propertiesCategories[category] || {})
 
-  let showCategory, doesCategoryHaveActiveProperties
+  let showCategory
 
+  let showAllProperties = categoryLabel == null
+  $: categoryAllProperties = Object.keys(categoryProperties)
+  $: categoryCustomProperties = _.intersection(categoryAllProperties, customProperties)
+  $: displayedProperties = showAllProperties ? categoryAllProperties : categoryCustomProperties
   function getIfCategoryHasActiveProperties () {
     if (!categoryLabel) return false
-    const categoryPropertiesList = Object.keys(categoryProperties)
-    const categoryCustomProperties = _.intersection(categoryPropertiesList, customProperties)
-    doesCategoryHaveActiveProperties = _.some(categoryCustomProperties)
   }
 
   let scrollMarkerEl
@@ -37,7 +39,7 @@
   }
 
   $: onChange(customProperties, getIfCategoryHasActiveProperties)
-  $: showCategory = (categoryLabel == null) || doesCategoryHaveActiveProperties
+  $: showCategory = (categoryLabel == null) || _.some(categoryCustomProperties)
 </script>
 
 {#if categoryLabel}
@@ -53,14 +55,19 @@
 {/if}
 {#if showCategory}
   <div {id} class="category-properties">
-    {#each Object.keys(categoryProperties) as property}
-      {#if !categoryLabel || customProperties.includes(property)}
-        <PropertyClaimsEditor
-          bind:entity
-          {property}
-        />
-      {/if}
+    {#each displayedProperties as property}
+      <PropertyClaimsEditor
+        bind:entity
+        {property}
+      />
     {/each}
+    {#if categoryLabel}
+      <WrapToggler
+        bind:show={showAllProperties}
+        moreText={I18n('show more properties')}
+        lessText={I18n('show only main properties')}
+      />
+    {/if}
   </div>
 {/if}
 
