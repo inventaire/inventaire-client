@@ -1,8 +1,10 @@
 import { isModel, isUserId } from '#lib/boolean_tests'
 import { forceArray } from '#lib/utils'
 import error_ from '#lib/error'
-import usersData from './users_data.js'
+import usersData, { getUsersByIds } from './users_data.js'
 import initSearch from './lib/search.js'
+import { pick } from 'underscore'
+import { serializeUser } from '#users/lib/users'
 
 export default function (app) {
   const sync = {
@@ -28,11 +30,6 @@ export default function (app) {
     async getUserData (id) {
       const userModel = await async.getUserModel(id)
       return userModel.toJSON()
-    },
-
-    async getUsersData (ids) {
-      const models = await async.getUsersModels(ids)
-      return models.map(model => model.toJSON())
     },
 
     async getUsersModels (ids) {
@@ -126,7 +123,6 @@ export default function (app) {
   app.reqres.setHandlers({
     'get:user:model': async.getUserModel,
     'get:user:data': async.getUserData,
-    'get:users': async.getUsersData,
     'get:users:models': async.getUsersModels,
     'resolve:to:userModel': async.resolveToUserModel,
     'resolve:to:user': async.resolveToUser,
@@ -142,3 +138,24 @@ export default function (app) {
 }
 
 const isntMainUser = user => user._id !== app.user.id
+
+// TODO: add mechanism to empty cache after a time of inactivity
+// to not leak memory and keep long outdated data on very long sessions
+// (i.e. people never closing their tabs)
+const cachedSerializedUsers = {}
+
+// TODO: handle special case of main user, for which we might have fresher data
+export async function getCachedSerializedUsers (ids) {
+  const missingUsersIds = ids.filter(isntCached)
+  const foundUsersByIds = await getUsersByIds(missingUsersIds)
+  addSerializedUsersToCache(foundUsersByIds)
+  return Object.values(pick(cachedSerializedUsers, ids))
+}
+
+const isntCached = id => cachedSerializedUsers[id] == null
+
+function addSerializedUsersToCache (usersByIds) {
+  for (const user of Object.values(usersByIds)) {
+    cachedSerializedUsers[user._id] = serializeUser(user)
+  }
+}

@@ -5,6 +5,7 @@ import error_ from '#lib/error'
 import { pluck } from 'underscore'
 import { getColorSquareDataUriFromModelId } from '#lib/images'
 import { fixedEncodeURIComponent } from '#lib/utils'
+import { getCachedSerializedUsers } from '#users/helpers'
 
 export default {
   createGroup (data) {
@@ -96,9 +97,9 @@ export function getUserGroupStatus (userId, group) {
 
 export const getMainUserGroupStatus = group => getUserGroupStatus(app.user.id, group)
 
-export async function getAllGroupMembersDocs (group) {
+export async function getCachedSerializedGroupMembers (group) {
   const allMembersIds = getAllGroupMembersIds(group)
-  return app.request('get:users', allMembersIds)
+  return getCachedSerializedUsers(allMembersIds)
 }
 
 export function serializeGroup (group) {

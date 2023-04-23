@@ -5,7 +5,7 @@
   import { userContent } from '#lib/handlebars_helpers/user_content'
   import GroupActions from '#groups/components/group_actions.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
-  import { getAllGroupMembersDocs, getAllGroupMembersIds, serializeGroup } from '#groups/lib/groups'
+  import { getCachedSerializedGroupMembers, getAllGroupMembersIds, serializeGroup } from '#groups/lib/groups'
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
@@ -23,7 +23,7 @@
 
   let members, flash
 
-  const waitForMembers = getAllGroupMembersDocs(group)
+  const waitForMembers = getCachedSerializedGroupMembers(group)
     .then(users => members = users)
     .catch(err => flash = err)
 

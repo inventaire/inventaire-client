@@ -32,7 +32,11 @@ export default {
   },
 }
 
-const getUsersByIds = ids => preq.get(app.API.users.byIds(ids)).then(({ users }) => users)
+export async function getUsersByIds (ids) {
+  if (ids.length === 0) return {}
+  const { users } = await preq.get(app.API.users.byIds(ids))
+  return users
+}
 
 const formatData = (format, data) => {
   if (format === 'collection') return _.values(data)
