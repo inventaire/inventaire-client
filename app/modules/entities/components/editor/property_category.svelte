@@ -33,17 +33,21 @@
     scrollMarkerEl.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
   }
 
+  function scrollToCategory () {
+    if (!scrollMarkerEl) return
+    // Wait for transitions to be over before attempting to scroll
+    setTimeout(scroll, 200)
+  }
+
   function toggle () {
     showCategory = !showCategory
     // Known case: in user settings, no custom properties of a category are checked.
     if (categoryCustomProperties.length === 0) showAllProperties = true
-    if (showCategory) {
-      // Wait for transitions to be over before attempting to scroll
-      setTimeout(scroll, 200)
-    }
+    if (showCategory) scrollToCategory()
   }
 
   $: onChange(customProperties, getIfCategoryHasActiveProperties)
+  $: onChange(displayedProperties, scrollToCategory)
   $: someCustomProperties = _.some(categoryCustomProperties)
   $: showCategory = (categoryLabel == null) || someCustomProperties
 </script>
