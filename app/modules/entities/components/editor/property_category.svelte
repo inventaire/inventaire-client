@@ -67,14 +67,16 @@
         {property}
       />
     {/each}
-    {#if categoryLabel && someCustomProperties && (categoryCustomProperties.length !== categoryAllProperties.length)}
+  </div>
+  {#if categoryLabel && someCustomProperties && (categoryCustomProperties.length !== categoryAllProperties.length)}
+    <div class="toggle-custom-properties">
       <WrapToggler
         bind:show={showAllProperties}
         moreText={I18n('show more properties')}
         lessText={I18n('show only main properties')}
       />
-    {/if}
-  </div>
+    </div>
+  {/if}
 {/if}
 
 <style lang="scss">
@@ -103,5 +105,8 @@
   .scroll-marker{
     position: absolute;
     top: -$topbar-height - 10;
+  }
+  .toggle-custom-properties{
+    margin-left: 0.5em;
   }
 </style>
