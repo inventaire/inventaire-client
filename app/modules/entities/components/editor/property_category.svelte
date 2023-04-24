@@ -15,9 +15,12 @@
   let showCategory
 
   let showAllProperties = categoryLabel == null
-  $: categoryAllProperties = Object.keys(categoryProperties)
-  $: categoryCustomProperties = _.intersection(categoryAllProperties, customProperties)
+  let categoryAllUnsortedProperties = Object.keys(categoryProperties)
+  $: categoryCustomProperties = _.intersection(categoryAllUnsortedProperties, customProperties)
+  $: notCategoryCustomProperties = _.without(categoryAllUnsortedProperties, ...customProperties)
+  $: categoryAllProperties = [ ...categoryCustomProperties, ...notCategoryCustomProperties ]
   $: displayedProperties = showAllProperties ? categoryAllProperties : categoryCustomProperties
+
   function getIfCategoryHasActiveProperties () {
     if (!categoryLabel) return false
   }
