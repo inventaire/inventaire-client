@@ -58,7 +58,7 @@
 </script>
 
 {#if propertyClaimsCanBeShown}
-  <div
+  <li
     class="editor-section"
     class:fixed
     class:missing-required={isRequiredAndMissing}
@@ -89,7 +89,7 @@
         </button>
       {/if}
     </div>
-  </div>
+  </li>
 {/if}
 
 <style lang="scss">

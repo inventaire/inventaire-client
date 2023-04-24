@@ -64,14 +64,14 @@
   </button>
 {/if}
 {#if showCategory}
-  <div {id} class="category-properties">
+  <ul {id} class="category-properties">
     {#each displayedProperties as property}
       <PropertyClaimsEditor
         bind:entity
         {property}
       />
     {/each}
-  </div>
+  </ul>
   {#if categoryLabel && someCustomProperties && (categoryCustomProperties.length !== categoryAllProperties.length)}
     <div class="toggle-custom-properties">
       <WrapToggler
