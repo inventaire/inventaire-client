@@ -101,12 +101,6 @@
   .title-row{
     @include display-flex(row, center);
   }
-  .counter{
-    @include counter-commons;
-    background-color: white;
-    font-size: 1rem;
-    margin-left: 0.5em;
-  }
   .relatives-browser{
     margin-top: 1em;
   }
