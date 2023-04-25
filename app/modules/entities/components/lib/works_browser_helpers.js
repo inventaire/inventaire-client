@@ -87,7 +87,8 @@ async function getBasicInfo (uris) {
     lang: app.user.lang
   })
   Object.values(entities).forEach(entity => {
-    entity.label = Object.values(entity.labels)[0]
+    const { labels } = entity
+    if (labels) entity.label = Object.values(labels)[0]
   })
   return entities
 }
