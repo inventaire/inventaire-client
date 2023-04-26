@@ -184,7 +184,6 @@
     <PaginatedSectionItems
       sectionRequestName="items:getNearbyItems"
       showDistance={true}
-      {bbox}
     />
   {/if}
 {:else}

@@ -17,8 +17,8 @@
   mapConfig.init()
 
   // Must set either bounds, or view and zoom.
-  export let bounds
-  export let view
+  export let bounds = null
+  export let view = null
   export let zoom = 13
   export let cluster = false
 

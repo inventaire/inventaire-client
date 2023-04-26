@@ -13,7 +13,7 @@
   import ItemShow from '#inventory/components/item_show.svelte'
   import Modal from '#components/modal.svelte'
 
-  export let item, showUser, shelvesByIds
+  export let item, showUser = false, shelvesByIds
 
   const mainUserIsOwner = item.visibility != null
 
