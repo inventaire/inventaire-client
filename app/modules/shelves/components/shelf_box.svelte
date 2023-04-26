@@ -7,7 +7,6 @@
   import Modal from '#components/modal.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { createEventDispatcher, tick } from 'svelte'
-  import { debounce } from 'underscore'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
 
@@ -36,9 +35,7 @@
     app.navigate(pathname, { pageSectionElement: shelfBoxEl })
   }
 
-  const debouncedOnFocus = debounce(onFocus, 500, true)
-
-  $: if ($focusStore === 'shelf') debouncedOnFocus()
+  $: if ($focusStore === 'shelf') onFocus()
 </script>
 
 <div class="full-shelf-box">

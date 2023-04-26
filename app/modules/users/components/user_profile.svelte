@@ -10,7 +10,6 @@
   import UserInventory from '#shelves/components/user_inventory.svelte'
   import UsersListings from '#listings/components/users_listings.svelte'
   import { tick } from 'svelte'
-  import { debounce } from 'underscore'
 
   export let user
   export let shelf = null
@@ -39,9 +38,7 @@
     }
   }
 
-  const debouncedOnFocus = debounce(onFocus, 500, true)
-
-  $: if ($focusStore === 'user') debouncedOnFocus()
+  $: if ($focusStore === 'user') onFocus()
 </script>
 
 <div class="full-user-profile">

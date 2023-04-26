@@ -56,7 +56,7 @@
       app.navigate(group.pathname, { pageSectionElement })
     }
   }
-  const debouncedOnFocus = debounce(onFocus, 500, true)
+  const debouncedOnFocus = debounce(onFocus, 200, true)
 
   $: if ($focusStore === 'group') debouncedOnFocus()
 </script>
