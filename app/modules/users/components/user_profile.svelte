@@ -16,7 +16,7 @@
   export let profileSection = null
   export let groupId = null
   export let standalone = false
-  export let focusStore
+  export let focusedSection
 
   // TODO: recover inventoryLength and shelvesCount
   const { username, bio, picture, inventoryLength, shelvesCount } = user
@@ -38,7 +38,7 @@
     }
   }
 
-  $: if ($focusStore === 'user') onFocus()
+  $: if ($focusedSection === 'user') onFocus()
 </script>
 
 <div class="full-user-profile">
@@ -82,7 +82,7 @@
 
   <Flash state={flash} />
 
-  <ProfileNav {user} bind:profileSection {focusStore} />
+  <ProfileNav {user} bind:profileSection {focusedSection} />
 
   {#if profileSection === 'listings'}
     <UsersListings usersIds={[ user._id ]} onUserLayout={true} />
@@ -90,7 +90,7 @@
     <UserInventory
       {user}
       {groupId}
-      {focusStore}
+      {focusedSection}
       selectedShelf={shelf}
       bind:flash
     />

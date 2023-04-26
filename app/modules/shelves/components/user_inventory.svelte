@@ -11,17 +11,17 @@
   export let selectedShelf = null
   export let groupId = null
   export let flash
-  export let focusStore
+  export let focusedSection
 
   const { isMainUser } = user
 
   function onSelectShelf (e) {
     selectedShelf = e.detail.shelf
-    $focusStore = 'shelf'
+    $focusedSection = 'shelf'
   }
   function onCloseShelf (e) {
     selectedShelf = null
-    $focusStore = 'user'
+    $focusedSection = 'user'
   }
 
   let shelves, itemsShelvesByIds
@@ -57,7 +57,7 @@
     on:closeShelf={onCloseShelf}
     {isMainUser}
     {itemsShelvesByIds}
-    {focusStore}
+    {focusedSection}
   />
 {:else if selectedShelf}
   <ShelfBox
@@ -65,7 +65,7 @@
     on:closeShelf={onCloseShelf}
     {isMainUser}
     {itemsShelvesByIds}
-    {focusStore}
+    {focusedSection}
   />
 {:else}
   <InventoryBrowser

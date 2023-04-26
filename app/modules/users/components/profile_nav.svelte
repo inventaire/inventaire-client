@@ -5,7 +5,7 @@
   export let user = null
   export let group = null
   export let profileSection = null
-  export let focusStore
+  export let focusedSection
 
   // TODO: recover items and listings count
   let inventoryPathname, listingsPathname, listingsCount, navEl
@@ -19,7 +19,7 @@
   const showSection = (e, value) => {
     if (isOpenedOutside(e)) return
     profileSection = value
-    $focusStore = user ? 'user' : 'group'
+    $focusedSection = user ? 'user' : 'group'
     if (profileSection === 'inventory') {
       app.navigate(inventoryPathname, { pageSectionElement: navEl })
     } else if (profileSection === 'listings') {

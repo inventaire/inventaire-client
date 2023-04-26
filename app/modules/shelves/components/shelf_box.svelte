@@ -14,7 +14,7 @@
   export let withoutShelf = false
   export let isMainUser
   export let itemsShelvesByIds
-  export let focusStore
+  export let focusedSection
 
   let itemsCount, shelfBoxEl
 
@@ -35,7 +35,7 @@
     app.navigate(pathname, { pageSectionElement: shelfBoxEl })
   }
 
-  $: if ($focusStore === 'shelf') onFocus()
+  $: if ($focusedSection === 'shelf') onFocus()
 </script>
 
 <div class="full-shelf-box">

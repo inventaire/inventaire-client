@@ -19,7 +19,7 @@
   export let group
   export let profileSection = null
   export let standalone = false
-  export let focusStore
+  export let focusedSection
 
   let members, flash
 
@@ -40,7 +40,7 @@
   let selectedMember, groupProfileEl
   function onSelectMember (e) {
     selectedMember = e.detail.doc
-    $focusStore = 'user'
+    $focusedSection = 'user'
   }
 
   async function onFocus () {
@@ -58,7 +58,7 @@
   }
   const debouncedOnFocus = debounce(onFocus, 200, true)
 
-  $: if ($focusStore === 'group') debouncedOnFocus()
+  $: if ($focusedSection === 'group') debouncedOnFocus()
 </script>
 
 <div class="full-group-profile">
@@ -132,10 +132,10 @@
   {#if selectedMember}
     <!-- Recreate component when selectedMember changes, see https://svelte.dev/docs#template-syntax-key -->
     {#key selectedMember}
-      <UserProfile user={selectedMember} {groupId} {focusStore} />
+      <UserProfile user={selectedMember} {groupId} {focusedSection} />
     {/key}
   {:else}
-    <ProfileNav {group} bind:profileSection {focusStore} />
+    <ProfileNav {group} bind:profileSection {focusedSection} />
     {#if profileSection === 'listings'}
       <UsersListings usersIds={getAllGroupMembersIds(group)} />
     {:else}

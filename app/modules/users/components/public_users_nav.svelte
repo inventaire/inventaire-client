@@ -17,7 +17,7 @@
   import UserProfile from '#users/components/user_profile.svelte'
 
   export let filter = null
-  export let focusStore
+  export let focusedSection
 
   const showUsers = filter !== 'groups'
   const showGroups = filter !== 'users'
@@ -81,13 +81,13 @@
   function onSelectUser (e) {
     selectedUser = e.detail.doc
     selectedGroup = null
-    $focusStore = 'user'
+    $focusedSection = 'user'
   }
 
   function onSelectGroup (e) {
     selectedUser = null
     selectedGroup = e.detail.doc
-    $focusStore = 'group'
+    $focusedSection = 'group'
   }
 </script>
 
@@ -173,11 +173,11 @@
   {#if selectedUser}
     <!-- Recreate component when selectedUser changes, see https://svelte.dev/docs#template-syntax-key -->
     {#key selectedUser}
-      <UserProfile user={selectedUser} {focusStore} />
+      <UserProfile user={selectedUser} {focusedSection} />
     {/key}
   {:else if selectedGroup}
     {#key selectedGroup}
-      <GroupProfile group={selectedGroup} {focusStore} />
+      <GroupProfile group={selectedGroup} {focusedSection} />
     {/key}
   {:else}
     <!-- TODO: use bbox to update displayed items accordingly -->

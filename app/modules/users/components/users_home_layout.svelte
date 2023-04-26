@@ -22,11 +22,11 @@
   // The focus store is used to determine which component should claim the focus
   // It plays the role of an event bus between the layout children component
   // to allow url navigation and scroll within the layout
-  const focusStore = writable({})
+  const focusedSection = writable({})
 
-  if (shelf) $focusStore = 'shelf'
-  else if (user) $focusStore = 'user'
-  else if (group) $focusStore = 'group'
+  if (shelf) $focusedSection = 'shelf'
+  else if (user) $focusedSection = 'user'
+  else if (group) $focusedSection = 'group'
 
   $: if (user) user = serializeUser(user)
 
@@ -61,21 +61,21 @@
     {/if}
 
     {#if section === 'network'}
-      <NetworkUsersNav {focusStore} />
+      <NetworkUsersNav {focusedSection} />
     {:else if section === 'public'}
-      <PublicUsersNav {focusStore} />
+      <PublicUsersNav {focusedSection} />
     {:else if user}
       <UserProfile
         {user}
         bind:shelf
         bind:profileSection
-        {focusStore}
+        {focusedSection}
         standalone={true} />
     {:else if group}
       <GroupProfile
         {group}
         {profileSection}
-        {focusStore}
+        {focusedSection}
         standalone={true}
       />
     {/if}
