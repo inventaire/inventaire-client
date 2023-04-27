@@ -11,14 +11,22 @@
   import { onChange } from '#lib/svelte/svelte'
   import { setIntersection } from '#lib/utils'
   import { screen } from '#lib/components/stores/screen'
+  import Flash from '#lib/components/flash.svelte'
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
   const { entities: works } = section
-  let { label } = section
+  let { label, context } = section
 
   let filteredWorks = works
   let paginatedWorks = []
+  let flash
+  if (context) {
+    flash = {
+      type: 'warning',
+      message: context
+    }
+  }
 
   function filterWorks () {
     if (!facetsSelectedValues) return
@@ -87,6 +95,7 @@
       filteredEntitiesLength={filteredWorks.length}
     />
   {/if}
+  <Flash bind:state={flash} />
   {#if anyWork}
     <ul
       class:grid={displayMode === 'grid'}
