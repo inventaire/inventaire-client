@@ -7,10 +7,11 @@
   import { updateRelationStatus } from '#users/lib/relations'
   import Spinner from '#components/spinner.svelte'
   import User from '#users/models/user'
+  import { serializeUser } from '#users/lib/users'
 
   export let user, flash
 
-  const { username, isMainUser, distanceFromMainUser } = user
+  const { username, isMainUser, distanceFromMainUser } = serializeUser(user)
 
   let showShelfCreator
 
