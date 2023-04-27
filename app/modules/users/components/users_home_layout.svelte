@@ -10,6 +10,7 @@
   import { getViewportHeight } from '#lib/screen'
   import { resizeObserver } from '#lib/components/actions/resize_observer'
   import { onChange } from '#lib/svelte/svelte'
+  import { user as mainUser } from '#user/user_store'
 
   export let user = null
   export let group = null
@@ -32,7 +33,13 @@
 
   if (user?._id === app.user.id) section = 'user'
   function onSectionChange () {
-    if (section && section !== 'user') shelf = null
+    if (section) {
+      if (section === 'user') {
+        user = $mainUser
+      } else {
+        shelf = null
+      }
+    }
   }
   $: onChange(section, onSectionChange)
 
