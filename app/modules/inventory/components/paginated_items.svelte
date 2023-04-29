@@ -1,7 +1,7 @@
 <script>
   import Flash from '#lib/components/flash.svelte'
   import viewport from '#lib/components/actions/viewport'
-  import { getPromisePlaceholder, wait } from '#lib/promises'
+  import { wait } from '#lib/promises'
   import { onChange } from '#lib/svelte/svelte'
   import assert_ from '#lib/assert_types'
   import { i18n } from '#user/lib/i18n'
@@ -17,15 +17,16 @@
   export let showDistance = false
   export let haveSeveralOwners = false
 
-  let items = []
-  let waiting = getPromisePlaceholder()
-  let flash, fetchMore, hasMore, allowMore
+  let items, waiting, fetchMore, hasMore, allowMore, flash
+  let fetching = false
 
   async function fetch () {
+    fetching = true
     waiting = fetchMore()
       .then(() => {
         assert_.array(pagination.items)
         items = pagination.items
+        fetching = false
       })
       .catch(err => flash = err)
   }
@@ -33,7 +34,7 @@
   let bottomElInView = false
   async function bottomIsInViewport () {
     bottomElInView = true
-    if (!(allowMore && hasMore())) return
+    if (fetching || !(allowMore && hasMore())) return
     await fetch()
     // Let the time to fetched items to render
     await wait(500)
@@ -80,7 +81,9 @@
     {#await waiting}
       <Spinner center={true} />
     {:then}
-      <p class="no-item">{i18n('There is nothing here')}</p>
+      {#if items?.length === 0}
+        <p class="no-item">{i18n('There is nothing here')}</p>
+      {/if}
     {/await}
   {/if}
   <Flash state={flash} />
