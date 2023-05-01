@@ -1,10 +1,7 @@
 import log_ from '#lib/loggers'
-import PaginatedItems from '#inventory/components/paginated_items.svelte'
-import ItemsCascade from '#inventory/components/items_cascade.svelte'
-import { wait } from '#lib/promises'
 
-export default async params => {
-  const { layout, regionName, allowMore, showDistance, requestName, limit, requestParams } = params
+export function getPaginationParameters (params) {
+  const { allowMore, requestName, limit, requestParams } = params
   const pagination = {
     items: [],
     limit,
@@ -13,19 +10,7 @@ export default async params => {
   pagination.moreData = { status: true }
   pagination.hasMore = () => pagination.moreData.status
   pagination.fetchMore = FetchMore({ requestName, requestParams, pagination })
-
-  // Waiting for the next tick is needed for some reason,
-  // otherwise the region element might not be ready
-  await wait(0)
-  layout.showChildComponent(regionName, PaginatedItems, {
-    props: {
-      Component: ItemsCascade,
-      componentProps: {
-        showDistance,
-      },
-      pagination,
-    },
-  })
+  return pagination
 }
 
 const FetchMore = function ({ requestName, requestParams, pagination }) {

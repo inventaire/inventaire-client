@@ -53,7 +53,7 @@ const groupViewsCommons = {
   joinRequest () {
     if (app.request('require:loggedIn', this.model.get('pathname'))) {
       return this.model.requestToJoin()
-    .catch(behaviorsPlugin.Fail.call(this, 'joinRequest'))
+      .catch(behaviorsPlugin.Fail.call(this, 'joinRequest'))
     }
   },
   joinGroupAction () {

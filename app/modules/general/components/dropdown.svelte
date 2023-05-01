@@ -4,9 +4,9 @@
   import getActionKey from '#lib/get_action_key'
   import { getViewportHeight } from '#lib/screen'
 
-  export let buttonTitle
+  export let buttonTitle = null
   export let align = null
-  export let widthReferenceEl
+  export let widthReferenceEl = null
   export let alignDropdownWidthOnButton = false
   export let alignButtonWidthOnDropdown = false
   export let clickOnContentShouldCloseDropdown = false

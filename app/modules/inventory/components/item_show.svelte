@@ -1,11 +1,8 @@
-<!-- Needed to let app/modules/general/lib/modal.js access onModalExit  -->
-<svelte:options accessors />
-
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon, isOpenedOutside, loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { getSeriePathname } from '#inventory/components/lib/item_show_helpers'
+  import { getItemEntityData } from '#inventory/components/lib/item_show_helpers'
   import { serializeItem } from '#inventory/lib/items'
   import AuthorsPreviewLists from '#inventory/components/authors_preview_lists.svelte'
   import ItemShelves from '#inventory/components/item_shelves.svelte'
@@ -13,17 +10,25 @@
   import ItemActiveTransactions from '#inventory/components/item_active_transactions.svelte'
   import Flash from '#lib/components/flash.svelte'
   import app from '#app/app'
+  import Spinner from '#components/spinner.svelte'
+  import { createEventDispatcher } from 'svelte'
+  import { serializeUser } from '#users/lib/users'
 
-  export let item, user, entity, works, authorsByProperty, fallback
-  export const onModalExit = fallback
+  export let item, user
 
-  const seriePathname = getSeriePathname(works)
+  item.user = user = serializeUser(user)
+  item = serializeItem(item)
+  const { mainUserIsOwner } = item
 
-  item.user = user
-  const serializedItem = serializeItem(item)
-  const { mainUserIsOwner } = serializedItem
+  app.navigate(item.pathname, { preventScrollTop: true })
 
-  const entityIsEdition = entity.type === 'edition'
+  let entity, works, series, authorsByProperty, entityIsEdition, flash
+  const waitingForEntity = getItemEntityData(item.entity)
+    .then(res => {
+      ;({ entity, works, series, authorsByProperty } = res)
+      entityIsEdition = entity.type === 'edition'
+    })
+    .catch(err => flash = err)
 
   const { snapshot } = item
 
@@ -36,76 +41,94 @@
       },
       back: () => {
         if (item.hasBeenDeleted) app.execute('modal:close')
-        else app.execute('show:item', item._id)
+        else app.execute('show:item', { itemId: item._id })
       },
     })
   }
 
-  let flash
+  const dispatch = createEventDispatcher()
+
+  function loadInternalLinkAndClose (e) {
+    if (isOpenedOutside(e)) return
+    loadInternalLink(e)
+    dispatch('close')
+  }
 </script>
 
 <div class="item-show">
   <h3>{I18n('book')}</h3>
 
   <div class="wrapper">
+    <!-- TODO: extract .one to a subcomponent -->
     <div class="one">
-      {#if entityIsEdition}
-        <span class="section-label">{I18n('edition')}</span>
-      {:else}
-        <span class="section-label">{I18n('work')}</span>
-      {/if}
-      <a class="showEntity {entity.type}" href={entity.pathname}>
-        {#if snapshot['entity:image']}
-          <img class="entity-image" src={imgSrc(snapshot['entity:image'], 400)} alt={snapshot['entity:title']} />
-        {/if}
-        <p class="title" lang={snapshot['entity:lang']}>{snapshot['entity:title']}</p>
-        {#if snapshot['entity:subtitle']}
-          <p class="subtitle" lang={snapshot['entity:lang']}>{snapshot['entity:subtitle']}</p>
-        {/if}
+      {#await waitingForEntity}
+        <Spinner />
+      {:then}
         {#if entityIsEdition}
-          {#if entity.claims['wdt:P212']}
-            <span class="identifier">ISBN: {entity.claims['wdt:P212']}</span>
-          {/if}
+          <span class="section-label">{I18n('edition')}</span>
+        {:else}
+          <span class="section-label">{I18n('work')}</span>
         {/if}
-      </a>
+        <a
+          class:edition={entity.type === 'edition'}
+          class:work={entity.type === 'work'}
+          href={entity.pathname}
+          on:click={loadInternalLinkAndClose}
+        >
+          {#if snapshot['entity:image']}
+            <img class="entity-image" src={imgSrc(snapshot['entity:image'], 400)} alt={snapshot['entity:title']} />
+          {/if}
+          <p class="title" lang={snapshot['entity:lang']}>{snapshot['entity:title']}</p>
+          {#if snapshot['entity:subtitle']}
+            <p class="subtitle" lang={snapshot['entity:lang']}>{snapshot['entity:subtitle']}</p>
+          {/if}
+          {#if entityIsEdition}
+            {#if entity.claims['wdt:P212']}
+              <span class="identifier">ISBN: {entity.claims['wdt:P212']}</span>
+            {/if}
+          {/if}
+        </a>
 
-      {#if entityIsEdition}
-        <span class="section-label">
-          {#if works.length > 1}{I18n('works')}{:else}{I18n('work')}{/if}
-        </span>
-        {#each works as work}
-          <a class="work showEntity" href={work.pathname}>
-            <span class="related-entity-label" lang={work.labelLang}>{work.label}</span>
-          </a>
-        {/each}
-      {:else}
-        <!-- {#if mainUserIsOwner}
+        {#if entityIsEdition}
+          <span class="section-label">
+            {#if works.length > 1}{I18n('works')}{:else}{I18n('work')}{/if}
+          </span>
+          {#each works as work}
+            <a class="work" href={work.pathname} on:click={loadInternalLinkAndClose}>
+              <span class="related-entity-label" lang={work.labelLang}>{work.label}</span>
+            </a>
+          {/each}
+        {:else}
+          <!-- {#if mainUserIsOwner}
           <a class="preciseEdition tiny-button light-blue bold" title={I18n('precise the edition')}>
             {@html icon('question-circle')}
             {i18n('which edition?')}
           </a>
         {/if} -->
-      {/if}
-
-      <AuthorsPreviewLists {authorsByProperty} />
-
-      {#if snapshot['entity:series']}
-        {#if seriePathname}
-          <p class="series-preview">
-            <span class="section-label">{I18n('serie')}</span>
-            <a class="showEntity" href={seriePathname}>
-              <span class="related-entity-label">{snapshot['entity:series']}</span>
-            </a>
-          </p>
         {/if}
-      {/if}
+
+        <AuthorsPreviewLists {authorsByProperty} />
+
+        {#if series.length >= 1}
+          <span class="section-label">
+            {#if series.length > 1}{I18n('series')}{:else}{I18n('serie')}{/if}
+          </span>
+          {#each series as serie}
+            <a class="serie" href={serie.pathname} on:click={loadInternalLinkAndClose}>
+              <span class="related-entity-label" lang={serie.labelLang}>{serie.label}</span>
+            </a>
+          {/each}
+        {/if}
+
+        <!-- TODO: add publishers and collections -->
+      {/await}
     </div>
 
     <div class="two">
-      <ItemShowData item={serializedItem} {user} bind:flash />
-      <ItemShelves {serializedItem} />
+      <ItemShowData bind:item {user} bind:flash />
+      <ItemShelves serializedItem={item} />
       {#if app.user.loggedIn}
-        <ItemActiveTransactions item={serializedItem} bind:flash />
+        <ItemActiveTransactions {item} bind:flash />
       {/if}
       <Flash bind:state={flash} />
       {#if mainUserIsOwner}
@@ -121,6 +144,8 @@
   </div>
 </div>
 
+<!-- TODO: display edition summary when available -->
+
 <style lang="scss">
   @import "#general/scss/utils";
   .item-show{
@@ -134,20 +159,12 @@
     max-width: 36em;
     min-height: 350px;
   }
-  a.edition, a.work, .series-preview a{
+  .edition, .work, .serie{
+    @include display-flex(column, center, center);
     text-align: center;
     min-height: 3em;
     margin: 0.2em 0;
     @include bg-hover-svelte(#f3f3f3);
-  }
-  a.edition, a.work{
-    @include display-flex(column, center, center);
-  }
-  .series-preview{
-    margin-top: 1em;
-    .related-entity-label{
-      padding: 0.5em;
-    }
   }
   // Also target .section-label in authors preview lists
   .item-show :global(.section-label){
@@ -164,35 +181,29 @@
   .title{
     font-size: 1.1em;
   }
-  .title, .authors, .scenarists, .illustrators, .colorists, .related-entity-label{
+  .title, .related-entity-label{
     font-weight: bold;
   }
   .remove-button{
     float: right;
     margin: 1em 0;
-    padding: 0.2em 1em;
+    padding: 0.4em 0.6em;
     @include shy(0.9);
     @include display-flex(row, center, center);
-
     :global(.fa){
       font-size: 1.1em;
     }
     &:hover, &:focus{
-      @include tiny-button-padding;
       border-radius: $global-radius;
       background-color: $danger-color;
-      padding: 0.2em 1em;
       color: white;
-      span{
-        padding-left: 0.4em;
-      }
     }
   }
-  .preciseEdition{
-    display: block;
-    text-align: center;
-    margin: 1em 0;
-  }
+  // .preciseEdition{
+  //   display: block;
+  //   text-align: center;
+  //   margin: 1em 0;
+  // }
 
   /* Small screens */
   @media screen and (max-width: $smaller-screen){

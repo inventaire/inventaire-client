@@ -64,10 +64,16 @@ export default function () {
     }
   }
 
+  const resolveToGroup = async function (group) {
+    const groupModel = await resolveToGroupModel(group)
+    return groupModel.toJSON()
+  }
+
   app.reqres.setHandlers({
     'get:group:model': getGroupModel,
     'group:update:settings': groupSettingsUpdater,
-    'resolve:to:groupModel': resolveToGroupModel
+    'resolve:to:groupModel': resolveToGroupModel,
+    'resolve:to:group': resolveToGroup,
   })
 
   initGroupFilteredCollection(groups, 'mainUserMember')

@@ -4,26 +4,25 @@ import log_ from '#lib/loggers'
 import initQueries from './lib/queries.js'
 import showItemCreationForm from './lib/show_item_creation_form.js'
 import itemActions from './lib/item_actions.js'
-import { parseQuery, currentRoute, buildPath } from '#lib/location'
-import error_ from '#lib/error'
-import { getAuthorsByProperty } from '#inventory/components/lib/item_show_helpers'
+import { parseQuery, buildPath } from '#lib/location'
+import preq from '#lib/preq'
+import ItemShowStandalone from '#inventory/components/item_show_standalone.svelte'
+import app from '#app/app'
+import { removeCurrentComponent } from '#lib/global_libs_extender'
+import { showUsersHome } from '#users/users'
 
 export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'u(sers)(/)': 'showGeneralInventory',
-        'inventory(/)': 'showGeneralInventory',
-        'u(sers)/network(/)': 'showNetworkInventory',
-        'u(sers)/public(/)': 'showPublicInventory',
         // Legacy
+        'inventory(/)': 'showGeneralInventory',
         'inventory/network(/)': 'showNetworkInventory',
         'inventory/public(/)': 'showPublicInventory',
         'inventory/nearby(/)': 'showPublicInventory',
-
         'inventory/:username(/)': 'showUserInventoryFromUrl',
-        // 'title' is a legacy parameter
         'inventory/:username/:entity(/:title)(/)': 'showUserItemsByEntity',
+
         'items/:id(/)': 'showItemFromId',
         'items(/)': 'showGeneralInventory',
       }
@@ -34,6 +33,11 @@ export default {
     initQueries(app)
     initializeInventoriesHandlers(app)
   }
+}
+
+async function showInventory (params) {
+  params.profileSection = 'inventory'
+  return showUsersHome(params)
 }
 
 const API = {
@@ -67,41 +71,20 @@ const API = {
     }
   },
 
-  showUserInventory (user, standalone, listings) {
-    return showInventory({ user, standalone, listings })
-  },
-
-  showUserListings (username) {
-    return showInventory({ user: username, standalone: true, listings: true })
-  },
-
-  showMainUserListings () { API.showUserListings(app.user.get('username')) },
-
-  showGroupListings (group) {
-    return showInventory({ group, standalone: true, listings: true })
+  showUserInventory (user, standalone) {
+    return showInventory({ user, standalone })
   },
 
   showUserInventoryFromUrl (username) {
-    return showInventory({ user: username, standalone: true })
+    return showInventory({ user: username })
   },
 
   showGroupInventory (group, standalone = true) {
     return showInventory({ group, standalone })
   },
 
-  showItemFromId (id) {
-    const pathname = `/items/${id}`
-    if (!isItemId(id)) return app.execute('show:error:missing', { pathname })
-
-    return app.request('get:item:model', id)
-    .then(app.Execute('show:item'))
-    .catch(err => {
-      if (err.statusCode === 404) {
-        return app.execute('show:error:missing', { pathname })
-      } else {
-        app.execute('show:error', err, 'showItemFromId')
-      }
-    })
+  async showItemFromId (id) {
+    showItem({ itemId: id, regionName: 'main' })
   },
 
   showUserItemsByEntity (username, uri, label) {
@@ -134,15 +117,10 @@ const showItemsFromModels = function (items) {
     app.execute('show:error:missing')
   } else if (items.length === 1) {
     const item = items.models[0]
-    showItemModal(item, { fallbackToUserInventory: true })
+    showItem({ item: item._id })
   } else {
     showItemsList(items)
   }
-}
-
-const showInventory = async options => {
-  const { default: UsersHomeLayout } = await import('#users/views/users_home_layout.js')
-  app.layout.showChildView('main', new UsersHomeLayout(options))
 }
 
 const showItemsList = async collection => {
@@ -162,63 +140,34 @@ export const getItemsListFromItemsCollection = collection => {
   })
 }
 
-const showItemModal = async (model, options = {}) => {
-  assert_.object(model)
-  const { fallbackToUserInventory = false } = options
-
-  // Do not scroll top as the modal might be displayed down at the level
-  // where the item show event was triggered
-  app.navigateFromModel(model, { preventScrollTop: true })
-  const newRoute = currentRoute()
-  const previousRoute = Backbone.history.last.find(route => route !== newRoute)
-
-  const navigateAfterModal = function () {
-    if (currentRoute() !== newRoute) return
-    if (fallbackToUserInventory || !previousRoute || previousRoute === newRoute) {
-      app.execute('show:inventory:user', model.get('owner'))
-    } else {
-      app.navigate(previousRoute, { preventScrollTop: true })
-    }
-  }
-
-  app.execute('modal:open', 'large')
-  app.execute('modal:spinner')
-
+const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal }) => {
   try {
-    const [ { default: ItemShow } ] = await Promise.all([
-      await import('#inventory/components/item_show.svelte'),
-      model.waitForEntity,
-      model.grabWorks(),
-      model.waitForUser,
-    ])
-    const authorsByProperty = await getAuthorsByProperty(model.works)
-    app.layout.showChildComponent('modal', ItemShow, {
-      props: {
-        item: model.toJSON(),
-        user: model.user.toJSON(),
-        entity: model.entity.toJSON(),
-        works: model.works.map(work => work.toJSON()),
-        authorsByProperty,
-        fallback: navigateAfterModal,
-      }
-    })
+    assert_.string(itemId)
+    const pathname = `/items/${itemId}`
+    if (!isItemId(itemId)) return app.execute('show:error:missing', { pathname })
+    const { items, users } = await preq.get(app.API.items.byIds({ ids: itemId, includeUsers: true }))
+    const item = items[0]
+    const user = users[0]
+    if (item) {
+      app.layout.showChildComponent(regionName, ItemShowStandalone, {
+        props: {
+          item,
+          user,
+          pathnameAfterClosingModal,
+          autodestroyComponent: () => removeCurrentComponent(app.layout.getRegion(regionName))
+        }
+      })
+    } else {
+      app.execute('show:error:missing', { pathname })
+    }
   } catch (err) {
-    app.execute('show:error', err)
+    app.execute('show:error', err, 'showItemFromId')
   }
 }
 
 const initializeInventoriesHandlers = function (app) {
   app.commands.setHandlers({
     'show:inventory': showInventory,
-    'show:inventory:section' (section) {
-      switch (section) {
-      case 'user': return API.showUserInventory(app.user)
-      case 'network': return API.showNetworkInventory()
-      case 'public': return API.showPublicInventory()
-      default: throw error_.new('unknown section', 400, { section })
-      }
-    },
-
     'show:inventory:network': API.showNetworkInventory,
     'show:inventory:public': API.showPublicInventory,
 
@@ -230,8 +179,8 @@ const initializeInventoriesHandlers = function (app) {
       API.showUserInventory(user, true)
     },
 
-    'show:inventory:main:user' (listings) {
-      API.showUserInventory(app.user, true, listings)
+    'show:inventory:main:user' () {
+      API.showUserInventory(app.user, true)
     },
 
     'show:user:items:by:entity' (username, uri) {
@@ -249,12 +198,8 @@ const initializeInventoriesHandlers = function (app) {
 
     'show:item:creation:form': showItemCreationForm,
 
-    'show:item': showItemModal,
+    'show:item': showItem,
     'show:item:byId': API.showItemFromId,
-
-    'show:user:listings': API.showUserListings,
-    'show:main:user:listings': API.showMainUserListings,
-    'show:group:listings': API.showGroupListings,
   })
 
   app.reqres.setHandlers({

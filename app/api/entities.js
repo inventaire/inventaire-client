@@ -13,7 +13,7 @@ export default {
     return action('by-uris', { uris, refresh, relatives, autocreate })
   },
 
-  getAttributesByUris ({ uris, attributes, lang }) {
+  getAttributesByUris ({ uris, attributes, lang, relatives }) {
     const query = {
       uris: forceArray(uris).join('|')
     }
@@ -23,6 +23,7 @@ export default {
     if (lang) {
       query.lang = lang
     }
+    if (relatives != null) query.relatives = forceArray(relatives).join('|')
     return action('by-uris', query)
   },
 

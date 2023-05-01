@@ -1,6 +1,6 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { icon, isOpenedOutside } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { serializeItem } from '#inventory/lib/items'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
@@ -10,11 +10,12 @@
   import ItemRequestBox from '#inventory/components/item_request_box.svelte'
   import Flash from '#lib/components/flash.svelte'
   import TruncatedText from '#components/truncated_text.svelte'
-  import { getDocStore } from '#lib/svelte/mono_document_stores'
+  import Modal from '#components/modal.svelte'
+  import ItemShow from '#inventory/components/item_show.svelte'
 
   export let item, showDistance
 
-  const itemStore = getDocStore({ category: 'items', doc: item })
+  item = serializeItem(item)
 
   const {
     busy,
@@ -27,12 +28,19 @@
     ordinal,
     restricted,
     userReady = true,
-  } = serializeItem(item)
+  } = item
 
-  $: isPrivate = $itemStore.visibility?.length === 0
-  $: details = $itemStore.details
+  $: isPrivate = item.visibility?.length === 0
+  $: details = item.details
 
   let flash, itemCardSettingsEl
+
+  let showItemModal
+  function showItem (e) {
+    if (isOpenedOutside(e)) return
+    showItemModal = true
+    e.preventDefault()
+  }
 </script>
 
 <div class="item-card" class:busy>
@@ -41,8 +49,7 @@
       {@html icon('sign-out')}
     </div>
   {/if}
-  <!-- TODO: find a way to share item object with item_show to keep item data in sync -->
-  <a class="item-show" href={pathname} on:click|stopPropagation={loadInternalLink}>
+  <a class="item-show" href={pathname} on:click|stopPropagation={showItem}>
     <div class="cover">
       {#if image}
         <img src={imgSrc(image, 300)} alt={title} />
@@ -77,7 +84,7 @@
       <div class="details-box">
         <TruncatedText text={details} maxLength={180}>
           <span slot="more">
-            <a class="more" href={pathname} on:click|stopPropagation={loadInternalLink}>{i18n('see more')}</a>
+            <a class="more" href={pathname} on:click|stopPropagation={showItem}>{i18n('see more')}</a>
           </span>
         </TruncatedText>
       </div>
@@ -86,6 +93,12 @@
   {/if}
   <Flash state={flash} />
 </div>
+
+{#if showItemModal}
+  <Modal size="large" on:closeModal={() => showItemModal = false}>
+    <ItemShow bind:item user={item.user} on:close={() => showItemModal = false} />
+  </Modal>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";

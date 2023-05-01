@@ -10,6 +10,7 @@ $arrowHeight: 0.62em;
 
 .objectMarker{
   // Override .leaflet-container font-size:12px
+  display: block;
   font-size: 1rem;
   color: $dark-grey;
   @include bg-hover(white, 10%);

@@ -3,6 +3,8 @@ import mapConfig from './config.js'
 import { truncateDecimals } from './geo.js'
 import { buildPath } from '#lib/location'
 import error_ from '#lib/error'
+import User from '#users/models/user'
+import Group from '#groups/models/group'
 
 const { defaultZoom } = mapConfig
 
@@ -40,25 +42,21 @@ export function updateRoute (root, lat, lng, zoom = defaultZoom) {
   app.navigate(route, { preventScrollTop: true })
 }
 
-export function updateRouteFromEvent (root, e) {
-  const { lat, lng } = e.target.getCenter()
-  const { _zoom } = e.target
-  return updateRoute(root, lat, lng, _zoom)
-}
-
 export function updateMarker (marker, coords) {
   if (coords?.lat == null) return marker.remove()
   const { lat, lng } = coords
   return marker.setLatLng([ lat, lng ])
 }
 
-export function showOnMap (typeName, map, models) {
+export function showOnMap (typeName, map, docs) {
   if (typeName === 'users') {
+    const models = docs.map(doc => new User(doc))
     return showUsersOnMap(map, models)
   } else if (typeName === 'groups') {
+    const models = docs.map(doc => new Group(doc))
     return showGroupsOnMap(map, models)
   } else {
-    throw error_.new('invalid type', { typeName, map, models })
+    throw error_.new('invalid type', { typeName, map, docs })
   }
 }
 
@@ -80,24 +78,12 @@ export function showGroupsOnMap (map, groups) {
   return forceArray(groups).map(group => showGroupOnMap(map, group))
 }
 
-export function BoundFilter (map) {
-  const bounds = map.getBounds()
-  return function (model) {
-    if (!model.hasPosition()) return false
-    const point = model.getLatLng()
-    return bounds.contains(point)
-  }
-}
-
 export function getBbox (map) {
   const { _southWest, _northEast } = map.getBounds()
+  if (_southWest.lng === _northEast.lng || _southWest.lat === _northEast.lat) {
+    return
+  }
   return [ _southWest.lng, _southWest.lat, _northEast.lng, _northEast.lat ]
-}
-
-export function isValidBbox ([ southWestLng, southWestLat, northEastLng, northEastLat ]) {
-  // Specifically:
-  // - reject case where southWestLng===northEastLng && southWestLat===northEastLat
-  return southWestLng < northEastLng && southWestLat < northEastLat
 }
 
 export function showUserOnMap (map, user) {
@@ -110,7 +96,7 @@ export function showUserOnMap (map, user) {
 
   if (user.hasPosition()) {
     const marker = map.addMarker({
-      objectId: user.cid,
+      objectId: `user-${user.id}`,
       model: user,
       markerType: 'user'
     })
@@ -145,7 +131,7 @@ export function updatePosition (model, updateReqres, type, focusSelector) {
 const showGroupOnMap = function (map, group) {
   if (group.hasPosition()) {
     return map.addMarker({
-      objectId: group.cid,
+      objectId: `group-${group.id}`,
       model: group,
       markerType: 'group'
     })
@@ -155,7 +141,7 @@ const showGroupOnMap = function (map, group) {
 const showItemOnMap = function (map, item) {
   if (item.position != null) {
     return map.addMarker({
-      objectId: item.cid,
+      objectId: `item-${item.id}`,
       model: item,
       markerType: 'item'
     })

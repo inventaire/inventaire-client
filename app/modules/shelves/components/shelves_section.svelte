@@ -1,26 +1,27 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import { getShelvesByOwner } from '#shelves/lib/shelves'
-  import { slide } from 'svelte/transition'
   import Flash from '#lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
   import ShelfLi from '#shelves/components/shelf_li.svelte'
+  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import { createEventDispatcher } from 'svelte'
 
-  export let username, isMainUser, delayBeforeScrollToSection
+  export let waitForShelves, shelves, user
+
+  const { isMainUser } = user
 
   let showShelves = true
 
-  let shelves, flash
-
-  const waitForList = app.request('get:userId:from:username', username)
-    .then(getShelvesByOwner)
-    .then(res => shelves = res)
-    .catch(err => flash = err)
+  let flash
 
   const toggleShelves = () => showShelves = !showShelves
+
+  const dispatch = createEventDispatcher()
+  const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 </script>
-{#await waitForList}
+
+{#await waitForShelves}
   <div class="header">
     <h3 class="subheader">{I18n('shelves')} <Spinner /></h3>
   </div>
@@ -47,12 +48,12 @@
 <div id="shelves-list">
   {#if shelves?.length > 0}
     {#if showShelves}
-      <ul transition:slide={{ duration: delayBeforeScrollToSection / 2 }}>
-        {#each shelves as shelf}
-          <ShelfLi {shelf} />
+      <ul>
+        {#each shelves as shelf (shelf._id)}
+          <ShelfLi {shelf} on:selectShelf={bubbleUpComponentEvent} />
         {/each}
         {#if isMainUser}
-          <ShelfLi withoutShelf={true} />
+          <ShelfLi withoutShelf={true} on:selectShelf={bubbleUpComponentEvent} />
         {/if}
       </ul>
     {/if}

@@ -1,4 +1,4 @@
-.groupLi, .groupProfile, .group-board-header{
+.groupLi, .group-board-header{
   .group-cover-picture .name{
     text-align: center;
     font-size: 1.5em;
@@ -6,13 +6,13 @@
     max-width: 100%;
   }
 }
-.groupLi, .groupProfile{
+.groupLi{
   .group-cover-picture .name{
     max-height: 3em;
   }
 }
 
-.group-board-header, .groupProfile{
+.group-board-header{
   .name{
     color: white;
     margin: auto;

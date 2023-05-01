@@ -1,6 +1,7 @@
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import error_ from '#lib/error'
-import { flatten, uniq, without } from 'underscore'
+import preq from '#lib/preq'
+import { clone, flatten, intersection, pick, uniq, without } from 'underscore'
 
 export async function getSelectorsData ({ worksTree }) {
   const facets = worksTree
@@ -16,7 +17,7 @@ export async function getSelectorsData ({ worksTree }) {
   // won't know how to resolve it
   valuesUris = without(valuesUris, 'unknown')
 
-  const facetsEntitiesBasicInfo = await getBasicInfo(valuesUris)
+  const facetsEntitiesBasicInfo = await getEntitiesBasicInfo(valuesUris)
 
   const facetsSelectors = getSelectorsOptions({ worksTree, facetsEntitiesBasicInfo })
 
@@ -28,7 +29,7 @@ export async function getSelectorsData ({ worksTree }) {
   }
 }
 
-async function getBasicInfo (uris) {
+async function getEntitiesBasicInfo (uris) {
   uris = uniq(uris)
   if (uris.length === 0) return []
   const { entities } = await getEntitiesAttributesByUris({
@@ -82,4 +83,58 @@ const formatOption = ({ worksUrisPerValue, facetsEntitiesBasicInfo }) => value =
     count: worksUrisPerValue[value].length,
     worksUris: worksUrisPerValue[value],
   }
+}
+
+export async function getInventoryView (type, doc) {
+  let params
+  if (type === 'without-shelf') {
+    params = { user: app.user.id, 'without-shelf': true }
+  } else {
+    params = { [type]: doc._id }
+  }
+  return preq.get(app.API.items.inventoryView(params))
+}
+
+export function getFilteredItemsIds ({ intersectionWorkUris, itemsByDate, workUriItemsMap, textFilterItemsIds }) {
+  let itemsIds
+  if (intersectionWorkUris == null) {
+    // Default to showing the latest items
+    itemsIds = itemsByDate
+  } else if (intersectionWorkUris.length === 0) {
+    itemsIds = []
+  } else {
+    const worksItems = pick(workUriItemsMap, intersectionWorkUris)
+    // Deduplicate as editions with several P629 values might have generated duplicates
+    itemsIds = uniq(Object.values(worksItems).flat())
+  }
+  if (textFilterItemsIds != null) {
+    itemsIds = intersection(itemsIds, textFilterItemsIds)
+  }
+  return itemsIds
+}
+
+export function resetPagination ({ itemsIds, isMainUser, display }) {
+  const items = []
+  const shelvesByIds = {}
+  const remainingItems = clone(itemsIds)
+  let fetching
+  const pagination = {
+    items,
+    shelvesByIds,
+    allowMore: true,
+    hasMore: () => {
+      return remainingItems.length > 0
+    },
+    fetchMore: async () => {
+      if (fetching) return
+      fetching = true
+      const batch = remainingItems.splice(0, 20)
+      if (batch.length > 0) {
+        await app.request('items:getByIds', { ids: batch, items })
+      }
+      pagination.items = items
+      fetching = false
+    },
+  }
+  return pagination
 }

@@ -4,6 +4,7 @@ import { distanceBetween } from '#map/lib/geo'
 const { defaultAvatar } = images
 
 export function serializeUser (user) {
+  user.isMainUser = user._id === app.user.id
   user.picture = getPicture(user)
   setDistance(user)
   Object.assign(user, getUserPathnames(user.username))

@@ -6,56 +6,103 @@
   import Flash from '#lib/components/flash.svelte'
   import { screen } from '#lib/components/stores/screen'
   import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
+  import ProfileNav from '#users/components/profile_nav.svelte'
+  import UserInventory from '#shelves/components/user_inventory.svelte'
+  import UsersListings from '#listings/components/users_listings.svelte'
+  import { tick } from 'svelte'
 
   export let user
+  export let shelf = null
+  export let profileSection = null
+  export let groupId = null
+  export let standalone = false
+  export let focusedSection
 
+  // TODO: recover inventoryLength and shelvesCount
   const { username, bio, picture, inventoryLength, shelvesCount } = user
 
-  let flash
+  let flash, userProfileEl
+
+  async function onFocus () {
+    if (!userProfileEl) await tick()
+    // Let app.navigate scroll to the page top when UserProfile
+    // is already at the top itself (standalone mode), to make the UsersHomeNav visible
+    const pageSectionElement = standalone ? null : userProfileEl
+    if (profileSection === 'inventory') {
+      app.navigate(user.inventoryPathname, { pageSectionElement })
+    } else if (profileSection === 'listings') {
+      shelf = null
+      app.navigate(user.listingsPathname, { pageSectionElement })
+    } else {
+      app.navigate(user.pathname, { pageSectionElement })
+    }
+  }
+
+  $: if ($focusedSection === 'user') onFocus()
 </script>
 
-<div class="user-profile">
-  <div class="user-card">
-    <div class="avatar-wrapper">
-      <img class="avatar" src={imgSrc(picture, 150, 150)} alt="{username} avatar" />
+<div class="full-user-profile">
+  <div class="user-profile" bind:this={userProfileEl}>
+    <div class="user-card">
+      <div class="avatar-wrapper">
+        <img class="avatar" src={imgSrc(picture, 150, 150)} alt="{username} avatar" />
+      </div>
+      <div class="info">
+        <h2 class="username respect-case">{username}</h2>
+        <ul class="data">
+          {#if inventoryLength != null}
+            <li class="inventoryLength">
+              <span>{@html icon('book')}{i18n('books')}</span>
+              <span class="count">{inventoryLength}</span>
+            </li>
+          {/if}
+          {#if shelvesCount != null}
+            <li class="showShelvesList shelvesLength">
+              <span>{@html icon('server')}{i18n('shelves')}</span>
+              <span class="count">{shelvesCount}</span>
+            </li>
+          {/if}
+        </ul>
+        {#if $screen.isLargerThan('$smaller-screen')}
+          {#if bio}
+            <p class="bio-wrapper">{@html userContent(bio)}</p>
+          {/if}
+        {/if}
+      </div>
     </div>
-    <div class="info">
-      <h2 class="username respect-case">{username}</h2>
-      <ul class="data">
-        {#if inventoryLength != null}
-          <li class="inventoryLength">
-            <span>{@html icon('book')}{i18n('books')}</span>
-            <span class="count">{inventoryLength}</span>
-          </li>
-        {/if}
-        {#if shelvesCount != null}
-          <li class="showShelvesList shelvesLength">
-            <span>{@html icon('server')}{i18n('shelves')}</span>
-            <span class="count">{shelvesCount}</span>
-          </li>
-        {/if}
-      </ul>
-      {#if $screen.isLargerThan('$smaller-screen')}
-        {#if bio}
-          <p class="bio-wrapper">{@html userContent(bio)}</p>
-        {/if}
+
+    {#if $screen.isSmallerThan('$smaller-screen')}
+      {#if bio}
+        <p class="bio-wrapper">{@html userContent(bio)}</p>
       {/if}
-    </div>
+    {/if}
+
+    <UserProfileButtons {user} bind:flash />
   </div>
 
-  {#if $screen.isSmallerThan('$smaller-screen')}
-    {#if bio}
-      <p class="bio-wrapper">{@html userContent(bio)}</p>
-    {/if}
+  <Flash state={flash} />
+
+  <ProfileNav {user} bind:profileSection {focusedSection} />
+
+  {#if profileSection === 'listings'}
+    <UsersListings usersIds={[ user._id ]} onUserLayout={true} />
+  {:else}
+    <UserInventory
+      {user}
+      {groupId}
+      {focusedSection}
+      selectedShelf={shelf}
+      bind:flash
+    />
   {/if}
-
-  <UserProfileButtons {user} bind:flash />
 </div>
-
-<Flash state={flash} />
 
 <style lang="scss">
   @import "#general/scss/utils";
+  .full-user-profile{
+    // Make sure it is possible to scroll to put the user profile at the top of the viewport
+    min-height: 100vh;
+  }
   .user-profile{
     background-color: #eee;
     @include display-flex(row);
@@ -97,7 +144,11 @@
 
   /* Large screens */
   @media screen and (min-width: $smaller-screen){
+    .user-card{
+      min-height: 9em;
+    }
     .avatar-wrapper{
+      width: 9em;
       flex: 0 0 auto;
     }
     .info{

@@ -31,6 +31,7 @@
     class="modal-outer"
     class:size-auto={size === 'auto'}
     class:size-medium={size === 'medium'}
+    class:size-large={size === 'large'}
     on:click|stopPropagation
     on:keydown|stopPropagation
   >
@@ -60,12 +61,12 @@
     position: relative;
     background-color: white;
     @include radius;
-    &.size-auto{
-      flex: 0 1 auto;
-    }
-    &.size-medium{
-      flex: 0 1 40rem;
-    }
+  }
+  .size-auto{
+    flex: 0 1 auto;
+  }
+  .size-medium{
+    flex: 0 1 40rem;
   }
   .close{
     position: absolute;
@@ -92,6 +93,9 @@
     .modal-inner{
       min-width: 10em;
       margin: 1em;
+    }
+    .size-large{
+      min-width: 60em;
     }
   }
   /* Small screens */

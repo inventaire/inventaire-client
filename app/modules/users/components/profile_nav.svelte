@@ -1,58 +1,46 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import app from '#app/app'
   import { isOpenedOutside } from '#lib/utils'
-  import { isNumber } from 'underscore'
 
-  export let userModel, groupModel, currentSection
+  export let user = null
+  export let group = null
+  export let profileSection = null
+  export let focusedSection
 
-  let inventoryPathname, listingsPathname, listingsCount
+  // TODO: recover items and listings count
+  let inventoryPathname, listingsPathname, listingsCount, navEl
 
-  const aggregateMembersListsCount = () => {
-    const groupUsersModels = groupModel.members.models
-
-    const sumsListingsCount = (sum, user) => {
-      const newCount = user.get('listingsCount')
-      if (isNumber(newCount)) sum += newCount
-      return sum
-    }
-    return groupUsersModels.reduce(sumsListingsCount, 0)
+  if (user) {
+    ;({ inventoryPathname, listingsPathname } = user)
+  } else if (group) {
+    ;({ inventoryPathname, listingsPathname } = group)
   }
 
-  if (userModel) {
-    ;({ inventoryPathname, listingsPathname } = userModel.toJSON())
-  } else if (groupModel) {
-    ;({ inventoryPathname, listingsPathname } = groupModel.toJSON())
-  }
-
-  userModel?.waitingForInventoryStats?.then(() => {
-    listingsCount = userModel.get('listingsCount')
-  })
-  groupModel?.waitForMembers?.then(() => {
-    listingsCount = aggregateMembersListsCount()
-  })
-
-  const showSection = (e, section) => {
+  const showSection = (e, value) => {
     if (isOpenedOutside(e)) return
-    currentSection = section
-    app.vent.trigger('show:inventory:or:listing:section', { section, userModel, groupModel })
+    profileSection = value
+    $focusedSection = user ? 'user' : 'group'
+    if (profileSection === 'inventory') {
+      app.navigate(inventoryPathname, { pageSectionElement: navEl })
+    } else if (profileSection === 'listings') {
+      app.navigate(listingsPathname, { pageSectionElement: navEl })
+    }
   }
 </script>
-<div class="inventory-or-listing-tabs">
+
+<div class="profile-tabs" bind:this={navEl}>
   <a
     href={inventoryPathname}
-    id="inventory-tab"
     class="tab"
-    class:highlighted={currentSection === 'inventory'}
+    class:highlighted={profileSection === 'inventory' || profileSection == null}
     on:click={e => showSection(e, 'inventory')}
   >
     <span class="label">{i18n('Inventory')}</span>
   </a>
   <a
     href={listingsPathname}
-    id="list-tab"
     class="tab"
-    class:highlighted={currentSection === 'listings'}
+    class:highlighted={profileSection === 'listings'}
     on:click={e => showSection(e, 'listings')}
   >
     <span class="label">{i18n('Lists')}</span>
@@ -61,9 +49,10 @@
     {/if}
   </a>
 </div>
+
 <style lang="scss">
   @import "#general/scss/utils";
-  .inventory-or-listing-tabs{
+  .profile-tabs{
     @include display-flex(row, center, center, wrap);
     margin-bottom: 0.5em;
   }

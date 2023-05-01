@@ -9,6 +9,7 @@
   import { createEventDispatcher } from 'svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { serializeListing } from '#modules/listings/lib/listings'
+  import { showMainUserListings } from '#listings/listings'
 
   const dispatch = createEventDispatcher()
 
@@ -68,7 +69,7 @@
     try {
       await deleteListing({ ids: _id })
       app.user.trigger('listings:change', 'removeListing')
-      app.execute('show:main:user:listings')
+      await showMainUserListings()
     } catch (err) {
       flash = err
     }

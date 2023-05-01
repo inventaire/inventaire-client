@@ -5,31 +5,36 @@
   import { onChange } from '#lib/svelte/svelte'
   import assert_ from '#lib/assert_types'
   import { i18n } from '#user/lib/i18n'
+  import Spinner from '#components/spinner.svelte'
+  import ItemsTable from '#inventory/components/items_table.svelte'
+  import ItemsCascade from '#inventory/components/items_cascade.svelte'
 
-  export let Component, componentProps, pagination, haveSeveralOwners = false
+  export let display
+  export let pagination
+  export let itemsIds = null
+  export let itemsShelvesByIds = null
+  export let isMainUser = false
+  export let showDistance = false
+  export let haveSeveralOwners = false
 
-  let items = [], shelves = []
-  let flash, waiting
-  let fetchMore, hasMore, allowMore
-
+  let items, waiting, fetchMore, hasMore, allowMore, flash
   let fetching = false
+
   async function fetch () {
-    if (fetching) return
     fetching = true
     waiting = fetchMore()
       .then(() => {
         assert_.array(pagination.items)
         items = pagination.items
-        shelves = pagination.shelves
+        fetching = false
       })
       .catch(err => flash = err)
-      .finally(() => fetching = false)
   }
 
   let bottomElInView = false
   async function bottomIsInViewport () {
     bottomElInView = true
-    if (!(allowMore && hasMore())) return
+    if (fetching || !(allowMore && hasMore())) return
     await fetch()
     // Let the time to fetched items to render
     await wait(500)
@@ -56,15 +61,30 @@
 
 <div class="paginated-items">
   {#if items?.length > 0}
-    <svelte:component
-      this={Component}
-      {items}
-      {shelves}
-      {waiting}
-      {haveSeveralOwners}
-      {...componentProps} />
+    {#if display === 'cascade'}
+      <ItemsCascade
+        {items}
+        {showDistance}
+        {waiting}
+      />
+    {:else if display === 'table'}
+      <ItemsTable
+        {items}
+        {itemsShelvesByIds}
+        {isMainUser}
+        {itemsIds}
+        {waiting}
+        {haveSeveralOwners}
+      />
+    {/if}
   {:else}
-    <p class="no-item">{i18n('There is nothing here')}</p>
+    {#await waiting}
+      <Spinner center={true} />
+    {:then}
+      {#if items?.length === 0}
+        <p class="no-item">{i18n('There is nothing here')}</p>
+      {/if}
+    {/await}
   {/if}
   <Flash state={flash} />
   {#if allowMore && hasMore()}
@@ -82,6 +102,9 @@
   .paginated-items{
     position: relative;
     min-height: 20em;
+    :global(.spinner){
+      margin: 1em;
+    }
   }
   .bottom{
     position: absolute;

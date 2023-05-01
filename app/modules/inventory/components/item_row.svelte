@@ -1,20 +1,19 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { icon, isOpenedOutside } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
-  import { getDocStore } from '#lib/svelte/mono_document_stores'
   import { serializeItem } from '#inventory/lib/items'
   import { screen } from '#lib/components/stores/screen'
   import ImageDiv from '#components/image_div.svelte'
   import ShelfDot from './shelf_dot.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { compact } from 'underscore'
+  import ItemShow from '#inventory/components/item_show.svelte'
+  import Modal from '#components/modal.svelte'
 
-  export let item, showUser, shelves
-
-  const itemStore = getDocStore({ category: 'items', doc: item })
+  export let item, showUser = false, shelvesByIds
 
   const mainUserIsOwner = item.visibility != null
 
@@ -32,24 +31,31 @@
     currentTransaction,
     username,
     picture,
-    inventoryPathname,
-    shelvesIds,
+    userProfilePathname,
+    itemShelvesIds,
     itemShelves
 
   $: {
-    ;({ details = '', transaction, visibility, shelves: shelvesIds = [] } = $itemStore)
+    ;({ details = '', transaction, visibility, shelves: itemShelvesIds = [] } = item)
     if (mainUserIsOwner) {
       isPrivate = visibility.length === 0
       visibilitySummary = getVisibilitySummary(visibility)
       visibilitySummaryData = visibilitySummariesData[visibilitySummary]
     }
     currentTransaction = transactionsDataFactory()[transaction]
-    if ($itemStore.user) {
-      ;({ username, picture, inventoryPathname } = $itemStore.user)
+    if (item.user) {
+      ;({ username, picture, pathname: userProfilePathname } = item.user)
     }
-    if (shelves) {
-      itemShelves = compact(shelvesIds.map(shelfId => shelves[shelfId]))
+    if (shelvesByIds) {
+      itemShelves = compact(itemShelvesIds.map(shelfId => shelvesByIds[shelfId]))
     }
+  }
+
+  let showItemModal
+  function showItem (e) {
+    if (isOpenedOutside(e)) return
+    showItemModal = true
+    e.preventDefault()
   }
 </script>
 
@@ -59,7 +65,7 @@
   <div class="middle">
     <a
       href={pathname}
-      on:click|stopPropagation={loadInternalLink}
+      on:click|stopPropagation={showItem}
       class="show-item"
     >
       <ImageDiv url={image} size={128} />
@@ -75,11 +81,11 @@
       {/if}
     </a>
 
-    {#if showUser && $itemStore.user}
+    {#if showUser && item.user}
       <a
         class="user"
-        href={inventoryPathname}
-        on:click|stopPropagation={loadInternalLink}
+        href={userProfilePathname}
+        on:click|stopPropagation={showItem}
       >
         <span class="username">{username}</span>
         <img class="avatar" alt="{username} avatar" src={imgSrc(picture, 48)} />
@@ -89,7 +95,7 @@
 
   {#if isNonEmptyArray(itemShelves)}
     <ul class="shelves-dots">
-      {#each itemShelves as shelf}
+      {#each itemShelves as shelf (shelf._id)}
         <ShelfDot {shelf} />
       {/each}
     </ul>
@@ -107,6 +113,12 @@
     {/if}
   </div>
 </div>
+
+{#if showItemModal}
+  <Modal size="large" on:closeModal={() => showItemModal = false}>
+    <ItemShow bind:item user={item.user} on:close={() => showItemModal = false} />
+  </Modal>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
@@ -202,6 +214,7 @@
     margin-right: 0.5em;
     min-height: 3rem;
   }
+  $user-horizontal-padding: 0.2em;
   .user{
     @include bg-hover(white, 5%);
     align-self: stretch;
@@ -282,12 +295,15 @@
       margin: 0 0.5em;
       flex: 1 1 auto;
     }
+    $images-right-margin: 0.5em;
     .transaction, .visibility, .user{
-      margin-right: 0.5em;
+      margin-right: $images-right-margin;
+    }
+    .user{
+      margin-right: calc($images-right-margin - $user-horizontal-padding);
     }
     .transaction, .visibility{
       margin-left: 0.2em;
-      margin-right: 0.8em;
       @include radius;
     }
   }

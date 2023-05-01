@@ -43,13 +43,14 @@ const API = {
   async showItemsWithoutShelf () {
     const pathname = 'shelves/without'
     if (app.request('require:loggedIn', pathname)) {
-      const { default: UsersHomeLayout } = await import('#users/views/users_home_layout')
+      const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
       // Passing shelf to display items and passing owner for user profile info
-      app.layout.showChildView('main', new UsersHomeLayout({
-        user: app.user,
-        withoutShelf: true,
-        standalone: true,
-      }))
+      app.layout.showChildComponent('main', UsersHomeLayout, {
+        props: {
+          user: app.user.toJSON(),
+          shelf: 'without-shelf',
+        }
+      })
       app.navigate('shelves/without')
     }
   },
@@ -65,14 +66,16 @@ const showShelf = function (shelf) {
 }
 
 const showShelfFromModel = async shelf => {
-  const { default: UsersHomeLayout } = await import('#users/views/users_home_layout')
+  const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
   const owner = shelf.get('owner')
+  const user = await app.request('resolve:to:user', owner)
   // Passing shelf to display items and passing owner for user profile info
-  app.layout.showChildView('main', new UsersHomeLayout({
-    shelf,
-    user: owner,
-    standalone: true
-  }))
+  app.layout.showChildComponent('main', UsersHomeLayout, {
+    props: {
+      shelf: shelf.toJSON(),
+      user,
+    }
+  })
   app.navigateFromModel(shelf)
 }
 

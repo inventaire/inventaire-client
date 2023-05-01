@@ -99,9 +99,6 @@
       bioState = err
     }
   }
-  const editPosition = () => {
-    showMainUserPositionPicker()
-  }
 
   $: validateUsername(usernameValue)
   $: onBioChange(bioValue)
@@ -146,7 +143,7 @@
       {/if}
     </p>
     <p class="note">{I18n('position_settings_description')}</p>
-    <button class="light-blue-button" on:click={editPosition}>
+    <button class="light-blue-button" on:click={showMainUserPositionPicker}>
       {#if $user.position}
         {I18n('change position')}
       {:else}

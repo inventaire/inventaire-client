@@ -5,7 +5,7 @@
   import mapConfig from '#map/lib/config.js'
   import '#map/scss/objects_markers.scss'
 
-  const { tileUrl, settings } = mapConfig
+  const { mapOptions, tileUrl, tileLayerOptions } = mapConfig
 
   export let bounds, markers, selectedFilters, idsToDisplay
 
@@ -13,12 +13,12 @@
   let map, markersLayer
 
   const initMap = container => {
-    map = L.map(container)
+    map = L.map(container, mapOptions)
     // Always having cluster map enable to display more markers if/when added later,
     // Who can do more can do less: clusters can handle uniq marker on map
     // See options https://github.com/Leaflet/Leaflet.markercluster#options
     markersLayer = L.markerClusterGroup()
-    L.tileLayer(tileUrl, settings).addTo(map)
+    L.tileLayer(tileUrl, tileLayerOptions).addTo(map)
     if (isMobile) map.scrollWheelZoom.disable()
     syncMarkers()
     map.addLayer(markersLayer)

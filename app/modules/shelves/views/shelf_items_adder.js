@@ -1,3 +1,5 @@
+// TODO: rewrite in Svelte and open as a modal within the shelf inventory browser
+// to allow reloading the inventory when needed
 import preq from '#lib/preq'
 import ShelfItemsCandidates from './shelf_items_candidate.js'
 import Item from '#inventory/models/item'

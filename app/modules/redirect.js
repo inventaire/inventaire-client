@@ -4,6 +4,7 @@ import { I18n, i18n } from '#user/lib/i18n'
 import initQuerystringActions from '#general/lib/querystring_actions'
 import { currentRoute } from '#lib/location'
 import { setPrerenderStatusCode } from '#lib/metadata/update'
+import { showMainUserProfile } from '#users/users'
 
 export default {
   initialize () {
@@ -48,7 +49,7 @@ export default {
 const API = {
   showHome () {
     if (app.user.loggedIn) {
-      app.execute('show:inventory:main:user')
+      showMainUserProfile()
     } else {
       app.execute('show:welcome')
     }

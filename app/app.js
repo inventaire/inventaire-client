@@ -5,6 +5,7 @@ import error_ from '#lib/error'
 import { routeSection, currentRouteWithQueryString } from '#lib/location'
 import { channel, reqres, request, execute } from './radio.js'
 import { dropLeadingSlash } from '#lib/utils'
+import { scrollToElement } from '#lib/screen'
 
 let initialUrlNavigateAlreadyCalled = false
 let lastNavigateTimestamp = 0
@@ -88,7 +89,12 @@ const App = Marionette.Application.extend({
     lastNavigateTimestamp = now
 
     Backbone.history.navigate(route, options)
-    if (!options.preventScrollTop) scrollToPageTop()
+    const { pageSectionElement, preventScrollTop } = options
+    if (pageSectionElement) {
+      scrollToElement(pageSectionElement, options)
+    } else if (!preventScrollTop) {
+      scrollToPageTop()
+    }
   },
 
   navigateAndLoad (route, options = {}) {

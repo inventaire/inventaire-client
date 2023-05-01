@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { getListingMetadata, getListingPathname, getListingWithElementsById } from '#listings/lib/listings'
+import { showUserListings } from '#users/users'
 
 export default {
   initialize () {
@@ -27,7 +28,12 @@ async function showListing (listingId) {
   }
 }
 
+export async function showMainUserListings () {
+  return showUserListings(app.user.get('username'))
+}
+
 const API = {
   showListing,
-  showMainUserListings: () => app.execute('show:main:user:listings'),
+  showUserListings,
+  showMainUserListings,
 }

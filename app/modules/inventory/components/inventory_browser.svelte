@@ -1,30 +1,39 @@
 <script>
-  import { getSelectorsData } from '#inventory/components/lib/inventory_browser_helpers'
+  import { getFilteredItemsIds, getSelectorsData, resetPagination } from '#inventory/components/lib/inventory_browser_helpers'
   import Spinner from '#components/spinner.svelte'
-  import ItemsTable from '#inventory/components/items_table.svelte'
-  import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
-  import { clone, intersection, pick, uniq, pluck, compact } from 'underscore'
+  import { debounce } from 'underscore'
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import { setContext } from 'svelte'
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
-  import { getShelves } from '#shelves/lib/shelves'
+  import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
 
-  export let itemsDataPromise, isMainUser, ownerId, groupId, shelfId
+  export let itemsDataPromise
+  export let isMainUser = false
+  export let ownerId = null
+  export let groupId = null
+  export let shelfId = null
+  export let itemsShelvesByIds = null
 
   setContext('items-search-filters', { ownerId, groupId, shelfId })
 
-  let itemsIds, textFilterItemsIds, shelves
+  let itemsIds, textFilterItemsIds
 
   const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
+
+  let showInventoryWelcome = false
 
   let worksTree, workUriItemsMap, itemsByDate
   const waitForInventoryData = itemsDataPromise
     .then(async res => {
       ;({ worksTree, workUriItemsMap, itemsByDate } = res)
-      await showEntitySelectors()
+      if (itemsByDate.length === 0 && ownerId === app.user.id) {
+        showInventoryWelcome = true
+      } else {
+        await showEntitySelectors()
+      }
     })
 
   let facetsSelectors, facetsSelectedValues
@@ -32,88 +41,48 @@
     ;({ facetsSelectors, facetsSelectedValues } = await getSelectorsData({ worksTree }))
   }
 
-  let intersectionWorkUris
-  function filterItems () {
+  let intersectionWorkUris, pagination
+
+  function updateDisplayedItems () {
     if (!(worksTree && facetsSelectedValues)) return
     intersectionWorkUris = getIntersectionWorkUris({ worksTree, facetsSelectedValues })
-    if (intersectionWorkUris == null) {
-      // Default to showing the latest items
-      itemsIds = itemsByDate
-    } else if (intersectionWorkUris.length === 0) {
-      itemsIds = []
-    } else {
-      const worksItems = pick(workUriItemsMap, intersectionWorkUris)
-      // Deduplicate as editions with several P629 values might have generated duplicates
-      itemsIds = uniq(Object.values(worksItems).flat())
-    }
-    if (textFilterItemsIds != null) {
-      itemsIds = intersection(itemsIds, textFilterItemsIds)
-    }
+    itemsIds = getFilteredItemsIds({ intersectionWorkUris, itemsByDate, workUriItemsMap, textFilterItemsIds })
+    pagination = resetPagination({ itemsIds, isMainUser, display: $inventoryDisplay })
   }
 
-  $: Component = $inventoryDisplay === 'cascade' ? ItemsCascade : ItemsTable
-  $: onChange(facetsSelectedValues, textFilterItemsIds, filterItems)
+  const lazyUpdateDisplayedItems = debounce(updateDisplayedItems, 100)
 
-  let items = [], pagination, componentProps = { isMainUser }
-
-  async function getShelvesData (items, currentShelvesIds) {
-    const shelvesIds = compact(pluck(items, 'shelves').flat())
-    const newShelvesIds = _.difference(_.uniq(shelvesIds), currentShelvesIds)
-    if (newShelvesIds.length > 0) return getShelves(newShelvesIds)
-    else return {}
-  }
-
-  async function setupPagination () {
-    items = []
-    shelves = {}
-    componentProps.itemsIds = itemsIds
-    const remainingItems = clone(itemsIds)
-    pagination = {
-      items,
-      shelves,
-      allowMore: true,
-      hasMore: () => {
-        return remainingItems.length > 0
-      },
-      fetchMore: async () => {
-        const batch = remainingItems.splice(0, 20)
-        if (batch.length > 0) {
-          await app.request('items:getByIds', { ids: batch, items })
-        }
-        pagination.items = items
-        // TODO: re-enable fetching shelves for other users
-        // Requires to filter-out unauthorized shelves from item.shelves
-        if (isMainUser) {
-          const newShelves = await getShelvesData(items, Object.keys(shelves))
-          pagination.shelves = Object.assign(pagination.shelves, newShelves)
-        }
-      },
-    }
-  }
-
-  $: onChange(itemsIds, setupPagination)
+  $: onChange(facetsSelectedValues, textFilterItemsIds, lazyUpdateDisplayedItems)
 </script>
 
-<InventoryBrowserControls
-  {waitForInventoryData}
-  bind:facetsSelectors
-  bind:facetsSelectedValues
-  bind:textFilterItemsIds
-  {intersectionWorkUris}
-/>
-
-{#await waitForInventoryData}
-  <div class="spinner-wrap">
-    <Spinner center={true} />
-  </div>
-{:then}
-  <PaginatedItems
-    {Component}
-    {componentProps}
-    {pagination}
-    haveSeveralOwners={groupId != null}
+{#if showInventoryWelcome}
+  <InventoryWelcome />
+{:else}
+  <InventoryBrowserControls
+    {waitForInventoryData}
+    bind:facetsSelectors
+    bind:facetsSelectedValues
+    bind:textFilterItemsIds
+    {intersectionWorkUris}
   />
-{/await}
+
+  {#await waitForInventoryData}
+    <div class="spinner-wrap">
+      <Spinner center={true} />
+    </div>
+  {:then}
+    {#if pagination}
+      <PaginatedItems
+        display={$inventoryDisplay}
+        {itemsIds}
+        {itemsShelvesByIds}
+        {isMainUser}
+        {pagination}
+        haveSeveralOwners={ownerId == null}
+      />
+    {/if}
+  {/await}
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
