@@ -25,7 +25,7 @@
         href={`/entity/${property}-${uri}`}
         on:click={loadInternalLink}
       >
-        {i18n('Advanced options')}
+        {i18n('Open in advanced list browser')}
       </a>
     {/if}
   </div>
