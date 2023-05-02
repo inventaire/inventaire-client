@@ -9,6 +9,7 @@
   import { setContext } from 'svelte'
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
   import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
+  import Flash from '#lib/components/flash.svelte'
 
   export let itemsDataPromise
   export let isMainUser = false
@@ -19,7 +20,7 @@
 
   setContext('items-search-filters', { ownerId, groupId, shelfId })
 
-  let itemsIds, textFilterItemsIds
+  let itemsIds, textFilterItemsIds, flash
 
   const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
 
@@ -35,6 +36,7 @@
         await showEntitySelectors()
       }
     })
+    .catch(err => flash = err)
 
   let facetsSelectors, facetsSelectedValues
   async function showEntitySelectors () {
@@ -55,6 +57,7 @@
   $: onChange(facetsSelectedValues, textFilterItemsIds, lazyUpdateDisplayedItems)
 </script>
 
+<Flash state={flash} />
 {#if showInventoryWelcome}
   <InventoryWelcome />
 {:else}
