@@ -17,7 +17,9 @@
   async function search () {
     try {
       if (!textFilter) {
-        textFilterItemsIds = null
+        // Use 'undefined' rather than 'null', to not trigger reactive blocks
+        // when the previous value was already undefined
+        textFilterItemsIds = undefined
         return
       }
       const query = {
