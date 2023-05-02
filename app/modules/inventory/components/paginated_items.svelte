@@ -17,7 +17,8 @@
   export let showDistance = false
   export let haveSeveralOwners = false
 
-  let items, waiting, fetchMore, hasMore, allowMore, flash
+  let waiting, fetchMore, hasMore, allowMore, flash
+  let items = null
   let fetching = false
 
   async function fetch () {
@@ -52,6 +53,7 @@
     ;({ fetchMore, hasMore, allowMore } = pagination)
     if (!pagination.firstFetchDone) {
       pagination.firstFetchDone = true
+      items = null
       fetch()
     }
   }
