@@ -1,5 +1,5 @@
 <script>
-  import { getFilteredItemsIds, getSelectorsData, resetPagination } from '#inventory/components/lib/inventory_browser_helpers'
+  import { getFilteredItemsIds, getInventoryDisplayStore, getSelectorsData, resetPagination } from '#inventory/components/lib/inventory_browser_helpers'
   import Spinner from '#components/spinner.svelte'
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
   import { BubbleUpComponentEvent, onChange } from '#lib/svelte/svelte'
@@ -7,7 +7,6 @@
   import { debounce } from 'underscore'
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import { createEventDispatcher, setContext } from 'svelte'
-  import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
   import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
   import Flash from '#lib/components/flash.svelte'
 
@@ -22,7 +21,7 @@
 
   let itemsIds, textFilterItemsIds, flash
 
-  const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
+  const inventoryDisplay = getInventoryDisplayStore(isMainUser)
 
   let showInventoryWelcome = false
 
@@ -70,6 +69,7 @@
     bind:facetsSelectedValues
     bind:textFilterItemsIds
     {intersectionWorkUris}
+    {inventoryDisplay}
   />
 
   {#await waitForInventoryData}
