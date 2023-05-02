@@ -13,10 +13,9 @@
     {@html icon(option.icon)}
   {/if}
   {#if option.image}
-    <div
-      class="image"
-      style:background-image={option.image ? `url(${imgSrc(option.image, 64, 64)})` : null}
-    />
+    <div class="image">
+      <img src={imgSrc(option.image, 64, 64)} alt="" loading="lazy" />
+    </div>
   {/if}
   <span class="text">
     {#if option.image}
@@ -47,6 +46,11 @@
     overflow: hidden;
     background-size: cover;
     background-position: center center;
+    img{
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
   }
   .text{
     flex: 1 1 0;
