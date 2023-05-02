@@ -101,11 +101,14 @@
 
   if (currentEntityLabel && autofocus) lazySearch()
 
+  let showSuggestionsStateBeforeBlur
   function onFocus () {
     lazySearch()
+    if (showSuggestionsStateBeforeBlur) showSuggestions = true
   }
 
   async function onBlur (e) {
+    showSuggestionsStateBeforeBlur = showSuggestions
     // If the focus is lost because the user clicked on one of the suggestions,
     // let EntitySuggestion 'select' event be acted upon before the component
     // gets destroyed due to `showSuggestions = false`
