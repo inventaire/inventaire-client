@@ -10,15 +10,15 @@
     <div class="left-section">
       <h3>
         {label}
+        {#if entitiesLength > 0}
+          <span class="counter">
+            {#if filteredEntitiesLength >= 0 && filteredEntitiesLength !== entitiesLength}
+              {filteredEntitiesLength} /
+            {/if}
+            {entitiesLength}
+          </span>
+        {/if}
       </h3>
-      {#if entitiesLength > 0}
-        <span class="counter">
-          {#if filteredEntitiesLength >= 0 && filteredEntitiesLength !== entitiesLength}
-            {filteredEntitiesLength} /
-          {/if}
-          {entitiesLength}
-        </span>
-      {/if}
     </div>
     {#if isPropertyUri(property)}
       <a
