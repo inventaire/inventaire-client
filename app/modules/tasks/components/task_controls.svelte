@@ -2,10 +2,12 @@
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import Alertbox from '#general/components/alertbox.svelte'
+  import Modal from '#components/modal.svelte'
   import { createEventDispatcher } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
   import Spinner from '#general/components/spinner.svelte'
   import TaskInfo from './task_info.svelte'
+  import OccurenceContexts from './occurence_contexts.svelte'
   import TaskScores from './task_scores.svelte'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import { onChange } from '#lib/svelte/svelte'
@@ -15,6 +17,7 @@
   export let task, from, to, error
 
   let merging
+  const { externalSourcesOccurrences: occurences } = task
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
@@ -32,6 +35,10 @@
       })
       .finally(() => merging = false)
   }
+
+  let showModal = true
+
+  const someContexts = _.some(occurences.map(_.property('contexts')))
 
   $: {
     if (task && task.state === 'merged') {
@@ -52,6 +59,24 @@
       {/if}
     </ul>
     <div class="actions">
+      {#if someContexts}
+        <button
+          class="grey-button show-context-modal"
+          on:click={() => showModal = true}
+        >
+          {I18n('show contexts')}
+        </button>
+        {#if showModal}
+          <Modal on:closeModal={() => showModal = false}>
+            <h3>
+              {I18n('wikipedia contexts')}
+            </h3>
+            {#each occurences as occurence}
+              <OccurenceContexts {occurence} />
+            {/each}
+          </Modal>
+        {/if}
+      {/if}
       <button
         class="merge dangerous-button"
         disabled={!(from && to)}
