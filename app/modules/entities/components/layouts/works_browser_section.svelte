@@ -153,9 +153,7 @@
       @include display-flex(row, center, flex-start, wrap);
     }
     :global(.entity-wrapper){
-      margin: 0.5em 0;
-      padding: 0.5em;
-      background-color: white;
+      width: 100%;
     }
   }
   .loading{
@@ -163,7 +161,6 @@
   }
   li{
     @include display-flex(row, inherit, space-between);
-    background-color: white;
   }
   .no-work{
     color: $grey;
@@ -173,8 +170,10 @@
   @media screen and (max-width: $smaller-screen){
     li{
       @include display-flex(column);
-      margin-bottom: 0.5em;
-      padding: 0;
+      :global(.actions-wrapper){
+        margin-top: 1em;
+        margin-bottom: 0;
+      }
     }
   }
 </style>
