@@ -14,6 +14,7 @@
   import isMobile from '#lib/mobile_check'
   import { onChange } from '#lib/svelte/svelte'
   import Flash from '#lib/components/flash.svelte'
+  import { uniqBounds } from '#map/lib/map'
 
   mapConfig.init()
 
@@ -42,7 +43,14 @@
         .on('moveend', e => dispatch('moveend', e))
 
       if (bounds) {
-        map.fitBounds(bounds)
+        // Prevent leaflet bug when the passed bounds are only identical bounds
+        bounds = uniqBounds(bounds)
+        if (bounds.length === 1) {
+          const zoom = 9
+          map.setView(bounds[0], zoom)
+        } else {
+          map.fitBounds(bounds)
+        }
       } else {
         map.setView(view, zoom)
       }
@@ -53,7 +61,10 @@
       if (isMobile) map.scrollWheelZoom.disable()
 
       if (cluster) {
-        clusterGroup = L.markerClusterGroup()
+        clusterGroup = L.markerClusterGroup({
+          // Required to prevent big marker icons to overlap
+          spiderfyDistanceMultiplier: 4
+        })
         map.addLayer(clusterGroup)
       }
 

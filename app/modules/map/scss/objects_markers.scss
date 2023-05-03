@@ -116,6 +116,12 @@ $arrowHeight: 0.62em;
         font-size: 1.3em;
       }
     }
+    // Using a class+"!important" to override leaflet.css own "!important"
+    .marker-img{
+      max-height: 64px !important;
+      max-width: 64px !important;
+      overflow: hidden;
+    }
   }
   .giving{ @include box-color($giving-color); }
   .lending{ @include box-color($lending-color); }

@@ -1,7 +1,6 @@
 <script>
   import ItemsByCategory from './items_by_category.svelte'
-  import { categoriesHeaders, sortItemsByCategorieAndDistance } from './items_lists_helpers'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { categoriesHeaders, sortItemsByCategoryAndDistance } from './items_lists_helpers'
   import { createEventDispatcher, getContext } from 'svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { I18n, i18n } from '#user/lib/i18n'
@@ -9,7 +8,6 @@
 
   export let initialItems
   export let itemsOnMap
-  export let initialBounds
   export let displayCover
   export let waitingForItems
 
@@ -18,13 +16,6 @@
   const showItemsOnMap = () => {
     itemsOnMap = itemsOnMap
     dispatch('showMapAndScrollToMap')
-  }
-
-  const updateItems = () => {
-    itemsByCategories = sortItemsByCategorieAndDistance(initialItems)
-    if (isNonEmptyArray(itemsByCategories.nearbyPublic)) {
-      initialBounds = itemsByCategories.nearbyPublic.map(_.property('position'))
-    }
   }
 
   const filters = getContext('work-layout:filters-store')
@@ -36,7 +27,7 @@
     scrollToElement(filtersTopEl, { marginTop: 32 })
   }
 
-  $: initialItems && updateItems()
+  $: if (initialItems) itemsByCategories = sortItemsByCategoryAndDistance(initialItems)
   $: hasActiveFilter = $filters?.selectedLangLabel || $filters?.selectedPublisherLabel
 </script>
 

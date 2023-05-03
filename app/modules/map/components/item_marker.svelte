@@ -3,32 +3,31 @@
   import { icon, loadInternalLink } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
 
-  export let doc
+  export let item
 
-  const { transaction, picture: userPicture, username, cover, id, title } = doc
+  const { transaction, picture: userPicture, username, cover, id, title } = item
 
   const pathname = `/items/${id}`
-
-  const findBestTitle = () => {
-    const context = i18n(`${transaction}_personalized`, { username })
-    return `${title} - ${context}`
-  }
+  const context = i18n(`${transaction}_personalized`, { username })
+  const personalizedTitle = `${title} - ${context}`
 </script>
 
-<a
-  class="showItem"
-  href={pathname}
-  on:click={loadInternalLink}
-  title={findBestTitle()}
->
-  <img src={imgSrc(cover, 64)} alt={findBestTitle()} />
-  {#if userPicture}
-    <div class="right">
-      <img src={imgSrc(userPicture, 64)} alt={username} />
+<div class="objectMarker itemMarker">
+  <a
+    class="showItem"
+    href={pathname}
+    on:click={loadInternalLink}
+    title={personalizedTitle}
+  >
+    <img class="marker-img" src={imgSrc(cover, 64)} alt={personalizedTitle} />
+    {#if userPicture}
+      <div class="right">
+        <img class="marker-img" src={imgSrc(userPicture, 64)} alt={username} />
+      </div>
+    {/if}
+    <div class="icon-wrapper">
+      {@html icon(transaction, transaction)}
     </div>
-  {/if}
-  <div class="icon-wrapper">
-    {@html icon(transaction, transaction)}
-  </div>
-  <p class="username">{username}</p>
-</a>
+    <p class="username">{username}</p>
+  </a>
+</div>

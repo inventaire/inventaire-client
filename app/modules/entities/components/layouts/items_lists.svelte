@@ -6,19 +6,19 @@
   import { getItemsData } from './items_lists/items_lists_helpers'
   import { createEventDispatcher } from 'svelte'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import { groupBy } from 'underscore'
 
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 
-  export let editionsUris, initialItems = [], itemsUsers, showMap, itemsByEditions, mapWrapperEl, itemsListsWrapperEl
-
-  let items = []
-  let initialBounds
-  let waitingForItems
-
-  // showMap is falsy to be able to mount ItemsByCategories
+  export let editionsUris, itemsByEditions, mapWrapperEl, itemsListsWrapperEl
+  export let initialItems = []
+  // showMap is false to be able to mount ItemsByCategories
   // to set initialBounds before mounting ItemsMap
-  showMap = false
+  export let showMap = false
+  let items = []
+  let itemsOnMap
+  let waitingForItems
 
   let fetchedEditionsUris = []
   const getItemsByCategories = async () => {
@@ -30,9 +30,8 @@
     items = initialItems
   }
 
-  $: itemsUsers = _.compact(_.uniq(items.map(_.property('owner'))))
-  $: itemsByEditions = _.groupBy(initialItems, 'entity')
-  $: editionsUris && getItemsByCategories()
+  $: itemsByEditions = groupBy(initialItems, 'entity')
+  $: if (editionsUris) getItemsByCategories()
   $: displayCover = editionsUris?.length > 1
 </script>
 
@@ -41,8 +40,7 @@
     {initialItems}
     {displayCover}
     {waitingForItems}
-    bind:initialBounds
-    bind:itemsOnMap={items}
+    bind:itemsOnMap
     on:showMapAndScrollToMap={bubbleUpComponentEvent}
   />
 </div>
@@ -51,8 +49,7 @@
   <div class="map-wrapper" bind:this={mapWrapperEl}>
     <ItemsMap
       docsToDisplay={items}
-      initialDocs={initialItems}
-      {initialBounds}
+      {initialItems}
     />
     <button
       on:click={() => showMap = false}
