@@ -51,7 +51,7 @@
   let infoboxHeight, showDetails, infobox
   const wrappedInfoboxHeight = 128
   $: infoboxHeight = infobox?.clientHeight
-  $: wrappedSize = listDisplay && infoboxHeight > wrappedInfoboxHeight
+  $: wrappedSize = listDisplay && infoboxHeight && infoboxHeight > wrappedInfoboxHeight
 </script>
 <div class="claims-infobox-wrapper">
   <div

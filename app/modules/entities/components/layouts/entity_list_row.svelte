@@ -14,7 +14,7 @@
 
   let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri } = entity
 
-  const mainPropertyType = {
+  const typeMainProperty = {
     author: 'wdt:P50',
     publisher: 'wdt:P123',
     genre: 'wdt:P136',
@@ -27,7 +27,7 @@
 
   const layoutContext = getContext('layout-context')
 
-  const prop = mainPropertyType[layoutContext]
+  const prop = typeMainProperty[layoutContext]
   const hasOnlyOneClaimValue = prop => claims?.[prop]?.length === 1
   if (prop && hasOnlyOneClaimValue(prop)) {
     claims = omitClaims(claims, [ prop ])
