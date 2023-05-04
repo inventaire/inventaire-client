@@ -32,7 +32,6 @@
   }
 
   const waiting = getUris()
-    .then(getAndSerializeEntities)
 
   async function getAndSerializeEntities (uris) {
     return getEntitiesAttributesByUris({
