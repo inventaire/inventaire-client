@@ -1,6 +1,5 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { onChange } from '#lib/svelte/svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { forceArray } from '#lib/utils'
   import { uniq, indexBy } from 'underscore'
@@ -49,37 +48,39 @@
   }
 
   let entitiesByUris = []
-  let loadMore, displayedUris
+  let loadingMore, displayedUris
 
   async function getMissingEntities () {
-    let missingUris = displayedUris.filter(uri => !entitiesByUris[uri])
-    if (isNonEmptyArray(missingUris)) {
-      loadMore = true
-      const missingEntities = await getAndSerializeEntities(missingUris)
-      loadMore = false
+    if (uris?.length > 0) displayedUris = uris.slice(0, displayLimit)
+    if (isNonEmptyArray(displayedUris)) {
+      let missingUris
+      missingUris = displayedUris.filter(uri => !entitiesByUris[uri])
+      if (missingUris.length === 0) return
+      loadingMore = getAndSerializeEntities(missingUris)
+      const missingEntities = await loadingMore
       entitiesByUris = { ...entitiesByUris, ...missingEntities }
     }
   }
 
+  let scrollableElement
   function onEntitiesScroll (e) {
     const { scrollTop, scrollTopMax } = e.currentTarget
     if (scrollTopMax < 100) return
-    if (scrollTop + 100 > scrollTopMax) displayLimit += 10
+    if (scrollTop + 100 > scrollTopMax) lazyDisplay()
   }
 
   // Limit needs to be high enough for a large screen element to be scrollable
   // otherwise on:scroll wont be triggered
   let displayLimit = 45
-  let scrollableElement
-  $: anyUris = uris?.length > 0
-  $: if (anyUris) displayedUris = uris.slice(0, displayLimit)
-  $: if (displayedUris) onChange(displayedUris, getMissingEntities)
+  function displayMore () { displayLimit += 10 }
+  const lazyDisplay = _.debounce(displayMore, 300)
+  $: displayLimit && getMissingEntities()
 </script>
 
 {#await waiting}
   <Spinner center={true} />
 {:then}
-  {#if anyUris}
+  {#if displayedUris?.length > 0}
     <div class="relative-entities-list">
       <SectionLabel
         {label}
@@ -97,10 +98,10 @@
             {entitiesByUris}
           />
         {/each}
-        {#if loadMore}
+        {#await loadingMore}
           <Spinner />
           {i18n('loading')}
-        {/if}
+        {/await}
       </ul>
     </div>
   {/if}
