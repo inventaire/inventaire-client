@@ -52,7 +52,7 @@
   let loadMore, displayedUris
 
   async function getMissingEntities () {
-    let missingUris = displayedUris.filter(p => !entitiesByUris[p])
+    let missingUris = displayedUris.filter(uri => !entitiesByUris[uri])
     if (isNonEmptyArray(missingUris)) {
       loadMore = true
       const missingEntities = await getAndSerializeEntities(missingUris)
@@ -71,16 +71,16 @@
   // otherwise on:scroll wont be triggered
   let displayLimit = 45
   let scrollableElement
-
-  $: displayedUris = uris?.slice(0, displayLimit)
+  $: anyUris = uris?.length > 0
+  $: if (anyUris) displayedUris = uris.slice(0, displayLimit)
   $: if (displayedUris) onChange(displayedUris, getMissingEntities)
 </script>
 
-<div class="relative-entities-list" class:not-empty={uris?.length > 0}>
+<div class="relative-entities-list" class:not-empty={anyUris}>
   {#await waiting}
     <Spinner center={true} />
   {:then}
-    {#if displayedUris?.length > 0}
+    {#if anyUris}
       <SectionLabel
         {label}
         {property}
