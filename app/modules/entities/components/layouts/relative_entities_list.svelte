@@ -76,11 +76,11 @@
   $: if (displayedUris) onChange(displayedUris, getMissingEntities)
 </script>
 
-<div class="relative-entities-list" class:not-empty={anyUris}>
-  {#await waiting}
-    <Spinner center={true} />
-  {:then}
-    {#if anyUris}
+{#await waiting}
+  <Spinner center={true} />
+{:then}
+  {#if anyUris}
+    <div class="relative-entities-list">
       <SectionLabel
         {label}
         {property}
@@ -102,15 +102,15 @@
           {i18n('loading')}
         {/if}
       </ul>
-    {/if}
-  {/await}
-  <Flash state={flash} />
-</div>
+    </div>
+  {/if}
+{/await}
+<Flash state={flash} />
 
 <style lang="scss">
   @import "#general/scss/utils";
   $card-height: 8rem;
-  .relative-entities-list.not-empty{
+  .relative-entities-list{
     padding: 0.5rem;
     background-color: $off-white;
     margin-bottom: 0.5em;
