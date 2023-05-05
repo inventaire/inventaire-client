@@ -60,20 +60,12 @@ const warn = (...args) => {
   log.apply(null, args)
 }
 
-// inspection utils to log a label once a function is called
-const spy = (res, label) => {
-  console.log(label)
-  return res
-}
-
 const PartialLogger = logger => label => obj => logger(obj, label)
 
 export default {
   info: log,
   error,
   warn,
-  spy,
-
   logServer: (obj, label) => {
     // Using jQuery promise instead of preq to be able to report errors
     // happening before preq is initialized
