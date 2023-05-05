@@ -54,7 +54,7 @@
   function onWorksScroll (e) {
     const { scrollTop, scrollTopMax } = e.currentTarget
     if (scrollTopMax < 100) return
-    if (scrollTop + 100 > scrollTopMax) displayLimit += 10
+    if (scrollTop + 100 > scrollTopMax) lazyDisplay()
   }
 
   // Limit needs to be high enough to have enough elements in order to be scrollable
@@ -69,19 +69,28 @@
     await addImagesToPaginatedWorks()
   }
 
-  async function addImagesToPaginatedWorks () {
-    paginatedWorks = await addWorksImages(paginatedWorks)
-  }
-
-  function resetView () {
+  async function resetWorks () {
     if (scrollableElement) scrollableElement.scroll({ top: 0, behavior: 'smooth' })
     displayLimit = initialLimit
+    await addingMoreWorks()
   }
 
-  $: onChange(displayLimit, addMoreWorks)
-  $: onChange(displayMode, resetView)
-  $: onChange(filteredWorks, resetView, addMoreWorks)
+  let loadingMore
+  async function addingMoreWorks () {
+    loadingMore = addMoreWorks()
+    await loadingMore
+  }
+
+  function displayMore () {
+    if (displayLimit < filteredWorks.length) {
+      displayLimit += 10
+    }
+  }
+
+  const lazyDisplay = _.debounce(displayMore, 300)
+  $: displayLimit && addingMoreWorks()
   $: anyWork = paginatedWorks.length > 0
+  $: onChange(filteredWorks, resetWorks)
 </script>
 
 <div
@@ -103,33 +112,34 @@
       on:scroll={onWorksScroll}
       bind:this={scrollableElement}
     >
-      {#await addImagesToPaginatedWorks()}
-        <p class="loading"><Spinner /></p>
-      {:then}
-        {#each paginatedWorks as work (work.uri)}
-          <li animate:flip={{ duration: 300 }}>
-            {#if displayMode === 'grid'}
-              <WorkGridCard {work} />
-            {:else}
-              <EntityListRow
+      {#each paginatedWorks as work (work.uri)}
+        <li animate:flip={{ duration: 300 }}>
+          {#if displayMode === 'grid'}
+            <WorkGridCard {work} />
+          {:else}
+            <EntityListRow
+              entity={work}
+              bind:relatedEntities={work.relatedEntities}
+              listDisplay={true}
+            >
+              <WorkActions
+                slot="actions"
                 entity={work}
-                bind:relatedEntities={work.relatedEntities}
-                listDisplay={true}
-              >
-                <WorkActions
-                  slot="actions"
-                  entity={work}
-                  align={$screen.isSmallerThan('$smaller-screen') ? 'center' : 'right'}
-                />
-              </EntityListRow>
-            {/if}
-          </li>
-        {/each}
-      {/await}
+                align={$screen.isSmallerThan('$smaller-screen') ? 'center' : 'right'}
+              />
+            </EntityListRow>
+          {/if}
+        </li>
+      {/each}
     </ul>
-  {:else}
-    <p class="no-work">{i18n('There is nothing here')}</p>
   {/if}
+  {#await loadingMore}
+    <p class="loading"><Spinner /></p>
+  {:then}
+    {#if !anyWork}
+      <p class="no-work">{i18n('There is nothing here')}</p>
+    {/if}
+  {/await}
 </div>
 
 <style lang="scss">
