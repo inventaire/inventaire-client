@@ -69,8 +69,14 @@
     const newWorks = newPaginatedWorks.filter(newWork => !paginatedWorks.includes(newWork))
     paginatedWorks = newPaginatedWorks
     if (newWorks.length === 0) return
-    await addWorksImages(newWorks)
+    await addMissingImages(newWorks)
     paginatedWorks = newPaginatedWorks
+  }
+
+  async function addMissingImages (newWorks) {
+    const worksWithoutImages = newWorks.filter(work => !work.images)
+    if (worksWithoutImages.length === 0) return
+    await addWorksImages(worksWithoutImages)
   }
 
   async function resetWorks () {
