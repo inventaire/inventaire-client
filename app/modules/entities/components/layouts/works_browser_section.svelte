@@ -65,8 +65,11 @@
   let scrollableElement
 
   async function addMoreWorks () {
-    paginatedWorks = filteredWorks.slice(0, displayLimit)
-    await addImagesToPaginatedWorks()
+    const newPaginatedWorks = filteredWorks.slice(0, displayLimit)
+    const newWorks = newPaginatedWorks.filter(newWork => !paginatedWorks.includes(newWork))
+    if (newWorks.length === 0) return
+    await addWorksImages(newWorks)
+    paginatedWorks = newPaginatedWorks
   }
 
   async function resetWorks () {
