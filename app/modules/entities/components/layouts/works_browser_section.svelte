@@ -67,6 +67,7 @@
   async function addMoreWorks () {
     const newPaginatedWorks = filteredWorks.slice(0, displayLimit)
     const newWorks = newPaginatedWorks.filter(newWork => !paginatedWorks.includes(newWork))
+    paginatedWorks = newPaginatedWorks
     if (newWorks.length === 0) return
     await addWorksImages(newWorks)
     paginatedWorks = newPaginatedWorks
