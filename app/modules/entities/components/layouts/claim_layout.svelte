@@ -13,6 +13,7 @@
   import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
   import { getSubentitiesTypes } from '#entities/lib/editor/properties_per_type'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
+  import { loadInternalLink } from '#lib/utils'
 
   export let entity, property
   let flash
@@ -51,9 +52,14 @@
 >
   <div class="entity-layout" slot="entity">
     <div class="title-row">
-      <h2>
-        {label}
-      </h2>
+      <a
+        href={`/entity/${uri}`}
+        on:click={loadInternalLink}
+      >
+        <h2>
+          {label}
+        </h2>
+      </a>
     </div>
     <div class="top-section">
       {#if !isStandaloneEntityType(type)}
@@ -90,6 +96,9 @@
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
+  }
+  a:hover{
+    text-decoration: underline;
   }
   .top-section{
     @include display-flex(row, center);
