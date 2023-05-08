@@ -11,6 +11,7 @@
   import { onChange } from '#lib/svelte/svelte'
   import { setIntersection } from '#lib/utils'
   import { screen } from '#lib/components/stores/screen'
+  import { onScrollToBottom } from '#lib/screen'
   import Flash from '#lib/components/flash.svelte'
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
@@ -50,12 +51,6 @@
   }
 
   $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
-
-  function onWorksScroll (e) {
-    const { scrollTop, scrollTopMax } = e.currentTarget
-    if (scrollTopMax < 100) return
-    if (scrollTop + 100 > scrollTopMax) lazyDisplay()
-  }
 
   // Limit needs to be high enough to have enough elements in order to be scrollable
   // otherwise on:scroll wont be triggered
@@ -119,7 +114,7 @@
     <ul
       class:grid={displayMode === 'grid'}
       class:list={displayMode === 'list'}
-      on:scroll={onWorksScroll}
+      on:scroll={onScrollToBottom(lazyDisplay)}
       bind:this={scrollableElement}
     >
       {#each paginatedWorks as work (work.uri)}

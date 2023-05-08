@@ -62,3 +62,9 @@ export function scrollToElement (element, options = {}) {
 
   setTimeout(attemptToScroll, 50)
 }
+
+export const onScrollToBottom = (action, limitBeforeBottom = 100) => e => {
+  const { scrollTop, scrollTopMax } = e.currentTarget
+  if (scrollTopMax < limitBeforeBottom) return
+  if (scrollTop + limitBeforeBottom > scrollTopMax) action()
+}

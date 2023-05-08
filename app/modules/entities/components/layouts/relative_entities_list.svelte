@@ -9,6 +9,7 @@
   import Flash from '#lib/components/flash.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
   import RelativeEntityLayout from '#entities/components/layouts/relative_entity_layout.svelte'
+  import { onScrollToBottom } from '#lib/screen'
 
   export let entity, property, label, claims
 
@@ -62,13 +63,6 @@
     }
   }
 
-  let scrollableElement
-  function onEntitiesScroll (e) {
-    const { scrollTop, scrollTopMax } = e.currentTarget
-    if (scrollTopMax < 100) return
-    if (scrollTop + 100 > scrollTopMax) lazyDisplay()
-  }
-
   // Limit needs to be high enough for a large screen element to be scrollable
   // otherwise on:scroll wont be triggered
   let displayLimit = 45
@@ -88,10 +82,7 @@
         {uri}
         entitiesLength={uris.length}
       />
-      <ul
-        on:scroll={onEntitiesScroll}
-        bind:this={scrollableElement}
-      >
+      <ul on:scroll={onScrollToBottom(lazyDisplay)}>
         {#each displayedUris as uri}
           <RelativeEntityLayout
             {uri}
