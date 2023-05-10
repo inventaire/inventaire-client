@@ -72,7 +72,7 @@
   <div class="entity-preview">
     {#if image.url}
       <div class="cover">
-        <img src={imgSrc(image.url, 300)} alt="{label} {i18n('cover')}" />
+        <img src={imgSrc(image.url, 300)} alt="" />
       </div>
     {/if}
 

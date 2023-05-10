@@ -33,7 +33,7 @@
     <img
       class:zoom
       src={zoom ? entity.image.large : entity.image.small}
-      alt="{entity.label} cover"
+      alt=""
       on:click|stopPropagation={() => zoom = !zoom}
       on:keyup={toggleZoomOnEnter}
     />

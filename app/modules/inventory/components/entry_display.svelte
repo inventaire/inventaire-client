@@ -50,7 +50,7 @@
     {#if edition?.image?.url}
       <img
         src={imgSrc(edition.image.url, 80)}
-        alt="{findBestLang(work, editionLang)} cover" />
+        alt="" />
     {/if}
   </div>
   <div class="text-wrapper">

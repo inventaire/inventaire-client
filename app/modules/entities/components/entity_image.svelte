@@ -9,7 +9,7 @@
     withLink = false,
     noImageCredits
 
-  const { image, uri, label } = entity
+  const { image, uri } = entity
 
   let creditsUrl, creditsText
 
@@ -19,13 +19,6 @@
   }
 
   const url = `/entity/${uri}`
-
-  let altMessage
-  if (entity.type === 'edition') {
-    altMessage = `${entity.type} cover`
-  } else {
-    altMessage = `${entity.type} image`
-  }
 </script>
 
 {#if image.url}
@@ -37,13 +30,13 @@
       >
         <img
           src={imgSrc(image.url, size)}
-          alt="{i18n(altMessage)} - {label}"
+          alt=""
         />
       </a>
     {:else}
       <img
         src={imgSrc(image.url, size)}
-        alt="{i18n(altMessage)} - {label}"
+        alt=""
       />
     {/if}
     {#if creditsText && !noImageCredits}
