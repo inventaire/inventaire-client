@@ -98,7 +98,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .entity-wrapper{
-    @include display-flex(row, center, center);
+    @include display-flex(row);
   }
   .entity-title{
     font-size: 1.1rem;
