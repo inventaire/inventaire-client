@@ -142,12 +142,17 @@ export async function getEntitiesBasicInfoByUris (uris) {
 
 export async function getAndAssignPopularity (entities) {
   const uris = []
+  let wdUrisCount = 0
   entities.forEach(entity => {
-    if (entity.popularity === undefined) uris.push(entity.uri)
+    const { uri } = entity
+    if (entity.popularity === undefined) {
+      uris.push(uri)
+      if (uri.startsWith('wd:')) wdUrisCount++
+    }
   })
   if (!isNonEmptyArray(uris)) return entities
   // Limiting refresh to not overcrowd Wikidata
-  const refresh = uris.length < 30
+  const refresh = wdUrisCount < 30
   const urisChunks = chunk(uris, 30)
   const responses = await Promise.all(urisChunks.map(async urisChunk => {
     return preq.get(app.API.entities.popularity(urisChunk, refresh))
