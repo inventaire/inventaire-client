@@ -1,6 +1,5 @@
 <script>
-  import Modal from '#components/modal.svelte'
-  import ItemShow from '#inventory/components/item_show.svelte'
+  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { icon, isOpenedOutside } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
@@ -83,11 +82,7 @@
   {/if}
 </div>
 
-{#if showItemModal}
-  <Modal size="large" on:closeModal={() => showItemModal = false}>
-    <ItemShow bind:item user={item.user} on:close={() => showItemModal = false} />
-  </Modal>
-{/if}
+<ItemShowModal bind:item bind:showItemModal />
 
 <style lang="scss">
   @import "#general/scss/utils";
