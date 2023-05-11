@@ -22,10 +22,10 @@
 
   let fetchedEditionsUris = []
   const getItemsByCategories = async () => {
-    // easy caching, waiting for proper svelte caching tool
-    if (_.isEqual(fetchedEditionsUris, editionsUris)) return
-    fetchedEditionsUris = editionsUris
-    waitingForItems = getItemsData(editionsUris)
+    const newUris = _.difference(editionsUris, fetchedEditionsUris)
+    if (newUris.length === 0) return
+    fetchedEditionsUris = [ ...editionsUris, ...newUris ]
+    waitingForItems = getItemsData(newUris)
     initialItems = await waitingForItems
     items = initialItems
   }
