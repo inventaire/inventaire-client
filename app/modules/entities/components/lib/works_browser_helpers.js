@@ -230,8 +230,8 @@ const serieOrdinalOption = {
 // sorting options order matters
 let sortFnPerType = {
   editions: {
-    byPublicationDate: publicationDateOption,
     byPopularity: popularityOption,
+    byPublicationDate: publicationDateOption,
   },
   works: {
     byPublicationDate: publicationDateOption,

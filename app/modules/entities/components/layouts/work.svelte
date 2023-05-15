@@ -3,7 +3,7 @@
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { i18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities'
-  import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+  import { getEntitiesAttributesByUris, byPopularity, getAndAssignPopularity } from '#entities/lib/entities'
   import { getPublishersUrisFromEditions, omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
@@ -49,7 +49,8 @@
       lang: userLang
     })
     publishersByUris = entities
-    editions = initialEditions
+    await getAndAssignPopularity(initialEditions)
+    editions = initialEditions.sort(byPopularity)
   }
 
   let waitingForEditions = getEditionsWithPublishers().catch(err => flash = err)
