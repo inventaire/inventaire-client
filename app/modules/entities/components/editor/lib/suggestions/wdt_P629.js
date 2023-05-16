@@ -10,7 +10,8 @@ export default async function ({ entity }) {
   const commonAuthors = _.intersection(...data.authors)
   const commonSeries = _.intersection(...data.series)
   if (commonSeries.length === 1) {
-    return getSuggestionsFromSerie(commonSeries[0], works, worksUris)
+    const otherSerieWorks = await getSuggestionsFromSerie(commonSeries[0], works, worksUris)
+    if (otherSerieWorks) return otherSerieWorks
   }
   if (commonAuthors.length === 1) {
     return getSuggestionsFromAuthor(commonAuthors[0], worksUris)
@@ -29,11 +30,13 @@ const getSuggestionsFromSerie = async (serieUri, works, worksUris) => {
   const worksSeriesData = getSeriesData(works)
   const lastOrdinal = getOrdinals(worksSeriesData, serieUri).slice(-1)[0]
   const serie = await app.request('get:entity:model', serieUri)
+  if (serie.get('type') !== 'serie') return
   return getOtherSerieWorks({ serie, worksUris, lastOrdinal })
 }
 
 const getSuggestionsFromAuthor = async (authorUri, worksUris) => {
   const author = await app.request('get:entity:model', authorUri)
+  if (author.get('type') !== 'human') return
   const { works: authorWorksData } = await author.fetchWorksData()
   return _.pluck(authorWorksData, 'uri')
   .filter(uri => !worksUris.includes(uri))
