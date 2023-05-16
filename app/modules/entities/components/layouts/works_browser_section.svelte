@@ -52,9 +52,10 @@
 
   $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
 
+  const worksPerRow = 8
   // Limit needs to be high enough to have enough elements in order to be scrollable
   // otherwise on:scroll wont be triggered
-  let initialLimit = 25
+  let initialLimit = worksPerRow * 4
   let displayLimit = initialLimit
 
   let scrollableElement
@@ -88,7 +89,7 @@
 
   function displayMore () {
     if (displayLimit < filteredWorks.length) {
-      displayLimit += 10
+      displayLimit += (2 * worksPerRow)
     }
   }
 
