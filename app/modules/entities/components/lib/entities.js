@@ -80,21 +80,22 @@ export const getSubEntitiesSections = async ({ entity, sortFn, property }) => {
   return sections
 }
 
+// Limiting the amount of entities to not overload the server
+// ie. `entity/wdt:P1433-wd:Q180445`
+// Ideas to increase limit:
+//   - batch requests and retry on failure and handle facets entities queries the same way
+//   - or build facets on the server (like with inventory-view for the inventory browser), and only display the first entities of the facet-filtered list, fetching more on scroll.
+const entitiesLimit = 200
+const limitedTypes = new Set([ 'publisher', 'genre', 'subject', 'article' ])
+
 const truncateTooManyUris = (section, parentEntityType) => {
-  // Limiting the amount of entities to not overload the server
-  // ie. `entity/wdt:P1433-wd:Q180445`
-  // Ideas to increase limit:
-  //   - batch requests and retry on failure and handle facets entities queries the same way
-  //   - or build facets on the server (like with inventory-view for the inventory browser), and only display the first entities of the facet-filtered list, fetching more on scroll.
-  let limit = 200
-  let { uris } = section
+  const { uris } = section
   const urisCount = uris.length
-  if (urisCount <= limit) return
-  const limitedTypes = [ 'publisher', 'genre', 'subject', 'article' ]
-  if (limitedTypes.includes(parentEntityType)) {
-    section.uris = uris.splice(0, limit)
+  if (urisCount <= entitiesLimit) return
+  if (limitedTypes.has(parentEntityType)) {
+    section.uris = uris.splice(0, entitiesLimit)
     // I18n suggestion: "Too many entities requested (%{entitiesCount}). Only %{limit} are displayed."
-    section.context = I18n('too many entities', { entitiesCount: section.uris.length, limit })
+    section.context = I18n('too many entities', { entitiesCount: section.uris.length, limit: entitiesLimit })
   }
 }
 
