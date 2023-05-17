@@ -9,7 +9,7 @@
   import { getContext } from 'svelte'
   import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'
 
-  export let editions, initialEditions
+  export let editions, initialEditions, waitingForItems
 
   const filters = getContext('work-layout:filters-store')
 
@@ -169,6 +169,7 @@
   <SortEntitiesBy
     sortingType="editions"
     bind:entities={editions}
+    {waitingForItems}
   />
 </div>
 <Flash state={flash} />

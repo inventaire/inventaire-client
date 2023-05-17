@@ -1,11 +1,12 @@
 <script>
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { onChange } from '#lib/svelte/svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import { getSortingOptionsByNames } from '#entities/components/lib/works_browser_helpers'
   import { getAndAssignPopularity } from '#entities/lib/entities'
   import { I18n } from '#user/lib/i18n'
 
-  export let sortingType = 'works', entities
+  export let sortingType = 'works', entities, waitingForItems
 
   const optionsByNames = getSortingOptionsByNames(sortingType)
   const options = Object.values(optionsByNames)
@@ -15,14 +16,35 @@
     const option = optionsByNames[currentSortingName]
     const { sortFunction } = option
     if (sortFunction) {
-      if (currentSortingName === 'byPopularity') {
-        let promise = getAndAssignPopularity(entities)
-        option.promise = promise
-        await promise
-      }
+      await assignPromiseToOption(currentSortingName)
       entities = entities.sort(sortFunction)
     }
   }
+
+  const sortingPromises = {
+    byPopularity: getAndAssignPopularity,
+    byItemsOwnersCount: assignItemsToEditions,
+  }
+
+  async function assignPromiseToOption (currentSortingName) {
+    const promiseFn = sortingPromises[currentSortingName]
+    if (!promiseFn) return
+    let promise = promiseFn(entities)
+    optionsByNames[currentSortingName].promise = promise
+    await promise
+  }
+
+  async function assignItemsToEditions (entities) {
+    const editionsItems = await waitingForItems
+    const itemsByEditions = _.groupBy(editionsItems, 'entity')
+    entities.forEach(assignItemsToEdition(itemsByEditions))
+  }
+
+  const assignItemsToEdition = itemsByEditions => edition => {
+    const items = itemsByEditions[edition.uri]
+    if (!edition.items && isNonEmptyArray(items)) edition.items = items
+  }
+
   $: onChange(currentSortingName, sortEntities)
 </script>
 {#if options.length > 1}
