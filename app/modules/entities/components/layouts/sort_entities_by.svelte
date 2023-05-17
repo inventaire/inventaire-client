@@ -2,7 +2,7 @@
   import { onChange } from '#lib/svelte/svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import { getSortingOptionsByNames } from '#entities/components/lib/works_browser_helpers'
-  import { byPublicationDate, byPopularity, bySerieOrdinal, getAndAssignPopularity } from '#entities/lib/entities'
+  import { getAndAssignPopularity } from '#entities/lib/entities'
   import { I18n } from '#user/lib/i18n'
 
   export let sortingType = 'works', entities
@@ -11,22 +11,16 @@
   const options = Object.values(optionsByNames)
   let currentSortingName = Object.keys(optionsByNames)?.[0]
 
-  const sortFunctions = {
-    byPublicationDate,
-    byPopularity,
-    bySerieOrdinal
-  }
-
   async function sortEntities () {
-    const sortFn = sortFunctions[currentSortingName]
-    if (sortFn) {
+    const option = optionsByNames[currentSortingName]
+    const { sortFunction } = option
+    if (sortFunction) {
       if (currentSortingName === 'byPopularity') {
         let promise = getAndAssignPopularity(entities)
-        const option = optionsByNames.byPopularity
         option.promise = promise
         await promise
       }
-      entities = entities.sort(sortFn)
+      entities = entities.sort(sortFunction)
     }
   }
   $: onChange(currentSortingName, sortEntities)

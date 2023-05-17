@@ -1,4 +1,7 @@
-import { getEntitiesAttributesByUris, getYearFromSimpleDay } from '#entities/lib/entities'
+import {
+  getEntitiesAttributesByUris, getYearFromSimpleDay,
+  byPublicationDate, byPopularity, bySerieOrdinal
+} from '#entities/lib/entities'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { I18n } from '#user/lib/i18n'
 import { intersection, pluck, uniq } from 'underscore'
@@ -215,20 +218,23 @@ export function isClaimLayout (layoutContext) {
 const publicationDateOption = {
   text: 'publication date',
   value: 'byPublicationDate',
+  sortFunction: byPublicationDate
 }
 
 const popularityOption = {
   text: 'popularity',
   value: 'byPopularity',
+  sortFunction: byPopularity
 }
 
 const serieOrdinalOption = {
   text: 'serie ordinal',
   value: 'bySerieOrdinal',
+  sortFunction: bySerieOrdinal
 }
 
 // sorting options order matters
-let sortFnPerType = {
+let sortFunctionPerType = {
   editions: {
     byPopularity: popularityOption,
     byPublicationDate: publicationDateOption,
@@ -245,5 +251,5 @@ let sortFnPerType = {
 }
 
 export const getSortingOptionsByNames = (type, promiseArguments) => {
-  return sortFnPerType[type]
+  return sortFunctionPerType[type]
 }
