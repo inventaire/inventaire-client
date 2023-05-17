@@ -154,6 +154,7 @@
     background-color: $off-white;
     padding: 0.5em;
     margin-bottom: 0.5em;
+    @include display-flex(column, flex-start);
   }
   .section-without-work{
     @include display-flex(row, center);
@@ -173,7 +174,7 @@
     }
   }
   .loading{
-    margin: 0 auto;
+    align-self: center;
   }
   li{
     @include display-flex(row, inherit, space-between);
