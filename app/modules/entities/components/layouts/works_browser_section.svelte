@@ -66,7 +66,7 @@
     paginatedWorks = newPaginatedWorks
     if (newWorks.length === 0) return
     await addMissingImages(newWorks)
-    paginatedWorks = newPaginatedWorks
+    paginatedWorks = paginatedWorks
   }
 
   async function addMissingImages (newWorks) {
