@@ -121,3 +121,8 @@ const orderTermWordsAlphabetically = term => {
   .sort((a, b) => a > b ? 1 : -1)
   .join(' ')
 }
+
+export const haveLabelMatch = (suggestion, targetEntity) => someMatch(getNormalizedLabels(suggestion), getNormalizedLabels(targetEntity))
+
+const getNormalizedLabels = entity => Object.values(entity.labels).map(normalizeLabel)
+const normalizeLabel = label => label.toLowerCase().replace(/\W+/g, '')

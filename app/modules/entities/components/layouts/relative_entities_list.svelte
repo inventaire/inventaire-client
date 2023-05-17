@@ -1,118 +1,115 @@
 <script>
+  import { i18n } from '#user/lib/i18n'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { forceArray } from '#lib/utils'
+  import { uniq, indexBy } from 'underscore'
   import Spinner from '#components/spinner.svelte'
   import { getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import Flash from '#lib/components/flash.svelte'
-  import ImagesCollage from '#components/images_collage.svelte'
-  import { forceArray, loadInternalLink } from '#lib/utils'
-  import { uniq } from 'underscore'
+  import SectionLabel from '#entities/components/layouts/section_label.svelte'
+  import RelativeEntityLayout from '#entities/components/layouts/relative_entity_layout.svelte'
+  import { onScrollToBottom } from '#lib/screen'
 
   export let entity, property, label, claims
 
-  let flash, entities
+  let flash
+  let uris
 
-  const { uri, image } = entity
+  const { uri } = entity
 
   async function getUris () {
-    let uris
+    let allUris
     if (claims) {
-      uris = claims
+      allUris = claims
     } else {
       const properties = forceArray(property)
-      uris = await Promise.all(properties.map(property => {
+      allUris = await Promise.all(properties.map(property => {
         return getReverseClaims(property, uri)
       }))
     }
-    return uniq(uris.flat())
+    uris = uniq(allUris.flat())
   }
 
   const waiting = getUris()
-    .then(async uris => {
-      const res = await getEntitiesAttributesByUris({
-        uris,
-        // TODO: also request 'popularity' to be able to use it to sort the entities
-        attributes: [ 'type', 'labels', 'image' ],
-        lang: app.user.lang,
-      })
-      entities = Object.values(res.entities).map(serializeEntity)
-      await addEntitiesImages(entities)
+
+  async function getAndSerializeEntities (uris) {
+    return getEntitiesAttributesByUris({
+      uris,
+      // TODO: also request 'popularity' to be able to use it to sort the entities
+      attributes: [ 'type', 'labels', 'image' ],
+      lang: app.user.lang,
     })
-    .catch(err => flash = err)
+      .then(async res => {
+        const entities = Object.values(res.entities).map(serializeEntity)
+        await addEntitiesImages(entities)
+        return indexBy(entities, 'uri')
+      })
+      .catch(err => flash = err)
+  }
+
+  let entitiesByUris = []
+  let loadingMore, displayedUris
+
+  async function getMissingEntities () {
+    if (uris?.length > 0) displayedUris = uris.slice(0, displayLimit)
+    if (isNonEmptyArray(displayedUris)) {
+      let missingUris
+      missingUris = displayedUris.filter(uri => !entitiesByUris[uri])
+      if (missingUris.length === 0) return
+      loadingMore = getAndSerializeEntities(missingUris)
+      const missingEntities = await loadingMore
+      entitiesByUris = { ...entitiesByUris, ...missingEntities }
+    }
+  }
+
+  // Limit needs to be high enough for a large screen element to be scrollable
+  // otherwise on:scroll wont be triggered
+  let displayLimit = 45
+  function displayMore () { displayLimit += 10 }
+  const lazyDisplay = _.debounce(displayMore, 300)
+  $: displayLimit && getMissingEntities()
 </script>
 
-<div class="relative-entities-list" class:not-empty={entities?.length > 0}>
-  {#await waiting}
-    <Spinner center={true} />
-  {:then}
-    {#if entities?.length > 0}
-      <h3>{label}</h3>
-      <ul>
-        {#each entities as entity (entity.uri)}
-          <li>
-            <a
-              href={entity.pathname}
-              on:click={loadInternalLink}
-              data-data={JSON.stringify(image)}
-            >
-              {#if entity.image.url}
-                <ImagesCollage imagesUrls={[ entity.image.url ]}
-                />
-              {/if}
-              <div class="label-wrapper">
-                <span class="label">{entity.label}</span>
-              </div>
-            </a>
-          </li>
+{#await waiting}
+  <Spinner center={true} />
+{:then}
+  {#if displayedUris?.length > 0}
+    <div class="relative-entities-list">
+      <SectionLabel
+        {label}
+        {property}
+        {uri}
+        entitiesLength={uris.length}
+      />
+      <ul on:scroll={onScrollToBottom(lazyDisplay)}>
+        {#each displayedUris as uri}
+          <RelativeEntityLayout
+            {uri}
+            {entitiesByUris}
+          />
         {/each}
+        {#await loadingMore}
+          <Spinner />
+          {i18n('loading')}
+        {/await}
       </ul>
-    {/if}
-  {/await}
-  <Flash state={flash} />
-</div>
+    </div>
+  {/if}
+{/await}
+<Flash state={flash} />
 
 <style lang="scss">
   @import "#general/scss/utils";
-  $card-width: 6rem;
   $card-height: 8rem;
-  .relative-entities-list.not-empty{
+  .relative-entities-list{
     padding: 0.5rem;
     background-color: $off-white;
     margin-bottom: 0.5em;
   }
-  h3{
-    font-size: 1.1rem;
-  }
   ul{
-    @include display-flex(row, null, null, wrap);
+    @include display-flex(row, center, null, wrap);
     max-height: calc($card-height * 2 + 3em);
     overflow-y: auto;
-  }
-  li{
-    margin: 0.2em;
-  }
-  a{
-    display: block;
-    width: $card-width;
-    height: $card-height;
-    background-size: cover;
-    background-position: center center;
-    background-color: #dcdcdc;
-    @include display-flex(column, stretch, flex-end);
-    :global(.images-collage){
-      width: $card-width;
-      height: $card-height;
-    }
-    &:hover{
-      @include shadow-box;
-    }
-  }
-  .label-wrapper{
-    @include display-flex(column, stretch, center);
-    background-color: #eaeaea;
-  }
-  .label{
-    text-align: center;
-    padding: 0.2em 0.1em;
-    line-height: 1.1rem;
   }
 </style>

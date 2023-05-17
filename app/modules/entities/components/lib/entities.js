@@ -1,7 +1,11 @@
+import { i18n, I18n } from '#user/lib/i18n'
 import { getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
-import { addWorksImages } from '#entities/lib/types/work_alt'
+import { inverseLabels } from '#entities/components/lib/claims_helpers'
+import { isNonEmptyArray } from '#lib/boolean_tests'
+import { addWorksClaims, isSubentitiesTypeEdition } from './edition_layout_helpers'
 import preq from '#lib/preq'
 import { pluck } from 'underscore'
+import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.js'
 
 const subEntitiesProp = {
   work: 'wdt:P629',
@@ -9,44 +13,96 @@ const subEntitiesProp = {
 }
 
 const urisGetterByType = {
-  serie: async uri => {
+  serie: async entity => {
+    const { uri } = entity
+
     const { parts } = await preq.get(app.API.entities.serieParts(uri))
     return [
       { uris: pluck(parts, 'uri') },
     ]
   },
-  human: async uri => {
-    // TODO: also handle articles
-    const { series, works } = await preq.get(app.API.entities.authorWorks(uri))
+  human: async entity => {
+    const { uri } = entity
+
+    const { series, works, articles } = await preq.get(app.API.entities.authorWorks(uri))
     return [
-      { label: 'series', uris: pluck(series, 'uri') },
-      { label: 'works', uris: pluck(works, 'uri') },
+      { label: I18n('series'), uris: pluck(series, 'uri') },
+      { label: I18n('works'), uris: pluck(works, 'uri') },
+      { label: I18n('articles'), uris: pluck(articles, 'uri') },
     ]
   },
-  publisher: async uri => {
+  publisher: async entity => {
+    const { uri } = entity
+
     const { collections, editions } = await preq.get(app.API.entities.publisherPublications(uri))
     return [
-      { label: 'collections', uris: pluck(collections, 'uri') },
-      { label: 'editions', uris: pluck(editions, 'uri') },
+      { label: I18n('collections'), uris: pluck(collections, 'uri') },
+      { label: I18n('editions'), uris: pluck(editions, 'uri') },
     ]
   },
-  collection: async uri => {
+  collection: async entity => {
+    const { uri } = entity
+
     const uris = await getReverseClaims('wdt:P195', uri)
     return [
-      { label: 'editions', uris },
+      { label: I18n('editions'), uris },
+    ]
+  },
+  article: async entity => {
+    const { claims } = entity
+    const uris = claims['wdt:P2860']
+    return [
+      { label: I18n('cites articles'), uris },
+    ]
+  },
+  claim: async (entity, property) => {
+    const { uri, label: entityLabel } = entity
+    const uris = await getReverseClaims(property, uri)
+    const propLabel = inverseLabels[property] || ''
+    const label = i18n(propLabel, { name: entityLabel })
+    return [
+      { label, uris },
     ]
   }
 }
 
-export const getSubEntitiesSections = async ({ entity, sortFn }) => {
-  const { type, uri } = entity
-  const getSubEntitiesUris = urisGetterByType[type]
-  const sections = await getSubEntitiesUris(uri)
-  await Promise.all(sections.map(fetchSectionEntities({ sortFn })))
+export const getSubEntitiesSections = async ({ entity, sortFn, property }) => {
+  const { type } = entity
+  let sections
+  if (property) {
+    const getSubEntitiesUris = urisGetterByType.claim
+    sections = await getSubEntitiesUris(entity, property)
+  } else {
+    const getSubEntitiesUris = urisGetterByType[type]
+    sections = await getSubEntitiesUris(entity)
+  }
+  await Promise.all(sections.map(fetchSectionEntities({ sortFn, parentEntityType: type })))
   return sections
 }
 
-const fetchSectionEntities = ({ sortFn }) => async section => {
+// Limiting the amount of entities to not overload the server
+// ie. `entity/wdt:P1433-wd:Q180445`
+// Ideas to increase limit:
+//   - batch requests and retry on failure and handle facets entities queries the same way
+//   - or build facets on the server (like with inventory-view for the inventory browser), and only display the first entities of the facet-filtered list, fetching more on scroll.
+const entitiesLimit = 200
+const limitedTypes = new Set([ 'publisher', 'genre', 'subject', 'article' ])
+
+const truncateTooManyUris = (section, parentEntityType) => {
+  const { uris } = section
+  const urisCount = uris.length
+  if (urisCount <= entitiesLimit) return
+  if (limitedTypes.has(parentEntityType)) {
+    section.uris = uris.splice(0, entitiesLimit)
+    section.context = i18n('Too many entities requested (%{entitiesCount}). Only %{limit} are displayed.', {
+      entitiesCount: section.uris.length,
+      limit: entitiesLimit
+    })
+  }
+}
+
+const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => {
+  truncateTooManyUris(section, parentEntityType)
   const { entities } = await getEntitiesAttributesByUris({
     uris: section.uris,
     attributes: [
@@ -59,9 +115,37 @@ const fetchSectionEntities = ({ sortFn }) => async section => {
     lang: app.user.lang
   })
   section.entities = Object.values(entities).map(serializeEntity).sort(sortFn)
-  await addWorksImages(section.entities)
+  await fetchRelatedEntities(section.entities, parentEntityType)
   return section
 }
+
+async function fetchRelatedEntities (entities, parentEntityType) {
+  if (isSubentitiesTypeEdition(parentEntityType)) {
+    const relatedEntities = await getEditionsWorks(entities)
+    Object.values(entities).forEach(pickAndAssignWorksClaims(relatedEntities))
+  }
+  await addWorksAuthors(entities)
+}
+
+export async function addWorksAuthors (works) {
+  const authorsUris = _.uniq(_.compact(_.flatten(works.map(getWorkAuthorsUris))))
+  const entities = await getEntitiesByUris({ uris: authorsUris, index: true })
+  works.forEach(work => {
+    const workAuthorUris = getWorkAuthorsUris(work)
+    work.relatedEntities = _.pick(entities, workAuthorUris)
+  })
+}
+const getWorkAuthorsUris = work => work.claims['wdt:P50']
+
+const pickAndAssignWorksClaims = relatedEntities => edition => {
+  const { claims } = edition
+  const editionWorks = relatedEntities.filter(isClaimValue(claims))
+  if (isNonEmptyArray(editionWorks)) {
+    edition.claims = addWorksClaims(claims, editionWorks)
+  }
+}
+
+const isClaimValue = claims => entity => claims['wdt:P629'].includes(entity.uri)
 
 export const getSubEntities = async (type, uri) => {
   const uris = await getReverseClaims(subEntitiesProp[type], uri)

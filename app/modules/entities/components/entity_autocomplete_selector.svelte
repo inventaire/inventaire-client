@@ -10,7 +10,7 @@
   import { createByProperty } from '#entities/lib/create_entities'
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
   import { wait } from '#lib/promises'
-  import { getViewportHeight } from '#lib/screen'
+  import { getViewportHeight, onScrollToBottom } from '#lib/screen'
 
   export let searchTypes
   export let currentEntityUri
@@ -117,12 +117,6 @@
     showSuggestions = false
   }
 
-  function onSuggestionsScroll (e) {
-    const { scrollTop, scrollTopMax } = e.currentTarget
-    if (scrollTopMax < 100) return
-    if (scrollTop + 100 > scrollTopMax) search({ fetchMore: true })
-  }
-
   let highlightedIndex = 0
 
   $: {
@@ -201,7 +195,11 @@
   </div>
   {#if showSuggestions && (searchText !== '' || suggestions.length > 0)}
     <div class="autocomplete" bind:this={autocompleteDropdownEl}>
-      <div class="suggestions-wrapper" on:scroll={onSuggestionsScroll} bind:this={scrollableElement}>
+      <div
+        class="suggestions-wrapper"
+        on:scroll={onScrollToBottom(() => search({ fetchMore: true }))}
+        bind:this={scrollableElement}
+      >
         <ul class="suggestions">
           {#each suggestions as suggestion, i (suggestion.uri)}
             <EntitySuggestion

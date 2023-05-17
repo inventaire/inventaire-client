@@ -1,4 +1,5 @@
 <script>
+  import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
   import { loadInternalLink } from '#lib/utils'
   import { getContext } from 'svelte'
   import ImagesCollage from '#components/images_collage.svelte'
@@ -15,11 +16,11 @@
   on:click={loadInternalLink}
   title={work.label}
   class="work-grid-card"
-  class:serie={type === 'serie'}
+  class:hasSubEntities={isSubEntitiesType(type)}
 >
   <ImagesCollage
-    imagesUrls={work.images}
-    limit={type === 'serie' ? 6 : 1}
+    imagesUrls={work.images || []}
+    limit={isSubEntitiesType(type) ? 6 : 1}
   />
   <div class="info">
     <h3>
@@ -41,7 +42,7 @@
     width: $card-base-width;
     height: 12em;
     margin: $card-margin;
-    &.serie{
+    &.hasSubEntities{
       width: calc($card-base-width * 2 + $card-margin * 2);
     }
     &:hover{

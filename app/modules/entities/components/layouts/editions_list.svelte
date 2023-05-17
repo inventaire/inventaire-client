@@ -39,7 +39,6 @@
       entities={editions}
       relatedEntities={publishersByUris}
       {parentEntity}
-      type="editions"
       {itemsByEditions}
     />
   {:else}

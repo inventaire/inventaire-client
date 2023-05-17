@@ -1,39 +1,35 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
+  import Flash from '#lib/components/flash.svelte'
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
-  export let entity, parentEntity, childEvents, flash
+  export let fromEntityUri, targetEntityUri
 
-  let waitForMerge, merged
+  let waitForMerge, flash
 
-  function merge () {
-    if (!(entity && parentEntity)) return
-    waitForMerge = mergeEntities(entity.uri, parentEntity.uri)
-      .then(() => {
-        flash = {
-          type: 'success',
-          message: I18n('merged')
-        }
-        parentEntity.merged = merged = true
-      })
-      .catch(err => {
-        flash = err
-      })
+  export async function merge () {
+    if (!(fromEntityUri && targetEntityUri)) return
+    dispatch('isMerging')
+    waitForMerge = mergeEntities(fromEntityUri, targetEntityUri)
+      .then(() => dispatch('merged'))
+      .catch(err => flash = err)
   }
-  childEvents = { merge }
 </script>
 
-{#await waitForMerge}
-  <Spinner center={true} />
-{/await}
-
-{#if !merged}
+{#if flash}
+  <Flash bind:state={flash} />
+{:else}
   <button
     class="tiny-button"
     on:click|stopPropagation={merge}
   >
+    {#await waitForMerge}
+      <Spinner center={true} />
+    {/await}
     {@html icon('compress')}
     {i18n('merge')}
   </button>

@@ -1,54 +1,151 @@
 <script>
-  import WorkListRow from '#entities/components/layouts/work_list_row.svelte'
+  import Spinner from '#general/components/spinner.svelte'
+  import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
+  import SectionLabel from '#entities/components/layouts/section_label.svelte'
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
-  import { i18n, I18n } from '#user/lib/i18n'
+  import WorkActions from '#entities/components/layouts/work_actions.svelte'
+  import { addWorksImages } from '#entities/lib/types/work_alt'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
-  import { onChange } from '#lib/svelte/svelte'
   import { flip } from 'svelte/animate'
+  import { i18n } from '#user/lib/i18n'
+  import { onChange } from '#lib/svelte/svelte'
   import { setIntersection } from '#lib/utils'
+  import { screen } from '#lib/components/stores/screen'
+  import { onScrollToBottom } from '#lib/screen'
+  import Flash from '#lib/components/flash.svelte'
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
-  const { label, entities: works } = section
+  const { entities: works } = section
+  let { label, context } = section
 
-  // TODO: display only the first n items, and add more on scroll
-  let displayedWorks = works
+  let filteredWorks = works
+  let paginatedWorks = []
+  let flash
+  if (context) {
+    flash = {
+      type: 'warning',
+      message: context
+    }
+  }
+
   function filterWorks () {
     if (!facetsSelectedValues) return
     let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
     if (textFilterUris) selectedUris = setIntersection(selectedUris, textFilterUris)
-    displayedWorks = works.filter(work => selectedUris.has(work.uri))
+    filteredWorks = works.filter(filterSelectedWorks(selectedUris, facetsSelectedValues))
     if (textFilterUris) {
-      displayedWorks = displayedWorks.sort(bySearchMatchScore(textFilterUris))
+      filteredWorks = filteredWorks.sort(bySearchMatchScore(textFilterUris))
     }
   }
 
+  const filterSelectedWorks = (selectedUris, facetsSelectedValues) => work => {
+    const { uri } = work
+    return selectedUris.has(uri) || isSelectedEntityAParent(uri, facetsSelectedValues)
+  }
+
+  const isSelectedEntityAParent = (uri, facetsSelectedValues) => {
+    // ie. if a collection is selected, display the collection in question.
+    // TODO: generalize pattern to series
+    return facetsSelectedValues['wdt:P195'] === uri
+  }
+
   $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
+
+  const worksPerRow = 8
+  // Limit needs to be high enough to have enough elements in order to be scrollable
+  // otherwise on:scroll wont be triggered
+  let initialLimit = worksPerRow * 4
+  let displayLimit = initialLimit
+
+  let scrollableElement
+
+  async function addMoreWorks () {
+    const newPaginatedWorks = filteredWorks.slice(0, displayLimit)
+    const newWorks = newPaginatedWorks.filter(newWork => !paginatedWorks.includes(newWork))
+    paginatedWorks = newPaginatedWorks
+    if (newWorks.length === 0) return
+    await addMissingImages(newWorks)
+    paginatedWorks = paginatedWorks
+  }
+
+  async function addMissingImages (newWorks) {
+    const worksWithoutImages = newWorks.filter(work => !work.images)
+    if (worksWithoutImages.length === 0) return
+    await addWorksImages(worksWithoutImages)
+  }
+
+  async function resetWorks () {
+    if (scrollableElement) scrollableElement.scroll({ top: 0, behavior: 'smooth' })
+    displayLimit = initialLimit
+    await addingMoreWorks()
+  }
+
+  let loadingMore
+  async function addingMoreWorks () {
+    loadingMore = addMoreWorks()
+    await loadingMore
+  }
+
+  function displayMore () {
+    if (displayLimit < filteredWorks.length) {
+      displayLimit += (2 * worksPerRow)
+    }
+  }
+
+  const lazyDisplay = _.debounce(displayMore, 300)
+  $: displayLimit && addingMoreWorks()
+  $: anyWork = paginatedWorks.length > 0
+  $: onChange(filteredWorks, resetWorks)
 </script>
 
-<div class="works-browser-section">
+<div
+  class="works-browser-section"
+  class:section-without-work={!anyWork}
+>
   {#if label}
-    <h3>{I18n(label)}</h3>
+    <SectionLabel
+      {label}
+      entitiesLength={works.length}
+      filteredEntitiesLength={filteredWorks.length}
+    />
   {/if}
-
-  {#if displayedWorks.length > 0}
+  <Flash bind:state={flash} />
+  {#if anyWork}
     <ul
       class:grid={displayMode === 'grid'}
       class:list={displayMode === 'list'}
+      on:scroll={onScrollToBottom(lazyDisplay)}
+      bind:this={scrollableElement}
     >
-      {#each displayedWorks as work (work.uri)}
+      {#each paginatedWorks as work (work.uri)}
         <li animate:flip={{ duration: 300 }}>
           {#if displayMode === 'grid'}
             <WorkGridCard {work} />
           {:else}
-            <WorkListRow {work} />
+            <EntityListRow
+              entity={work}
+              bind:relatedEntities={work.relatedEntities}
+              listDisplay={true}
+            >
+              <WorkActions
+                slot="actions"
+                entity={work}
+                align={$screen.isSmallerThan('$smaller-screen') ? 'center' : 'right'}
+              />
+            </EntityListRow>
           {/if}
         </li>
       {/each}
     </ul>
-  {:else}
-    <p class="no-work">{i18n('There is nothing here')}</p>
   {/if}
+  {#await loadingMore}
+    <p class="loading"><Spinner /></p>
+  {:then}
+    {#if !anyWork}
+      <p class="no-work">{i18n('There is nothing here')}</p>
+    {/if}
+  {/await}
 </div>
 
 <style lang="scss">
@@ -57,10 +154,10 @@
     background-color: $off-white;
     padding: 0.5em;
     margin-bottom: 0.5em;
+    @include display-flex(column, flex-start);
   }
-  h3{
-    font-size: 1rem;
-    margin: 0.5em 0.5em 0;
+  .section-without-work{
+    @include display-flex(row, center);
   }
   ul{
     flex: 1;
@@ -72,10 +169,28 @@
     &.grid{
       @include display-flex(row, center, flex-start, wrap);
     }
+    :global(.entity-wrapper){
+      width: 100%;
+    }
+  }
+  .loading{
+    align-self: center;
+  }
+  li{
+    @include display-flex(row, inherit, space-between);
   }
   .no-work{
-    text-align: center;
     color: $grey;
-    margin-bottom: 0.5em;
+    margin: auto;
+  }
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
+    li{
+      @include display-flex(column);
+      :global(.actions-wrapper){
+        margin-top: 1em;
+        margin-bottom: 0;
+      }
+    }
   }
 </style>

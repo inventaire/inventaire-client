@@ -3,6 +3,10 @@ import properties from '#entities/lib/properties'
 import { I18n } from '#user/lib/i18n'
 import { intersection, pluck, uniq } from 'underscore'
 
+export function isSubEntitiesType (type) {
+  return [ 'serie', 'collection' ].includes(type)
+}
+
 export async function getWorksFacets ({ works, context }) {
   const contextProperties = facetsProperties[context]
   const { facets, facetsSelectedValues } = initialize({ contextProperties })
@@ -83,37 +87,76 @@ async function getBasicInfo (uris) {
     lang: app.user.lang
   })
   Object.values(entities).forEach(entity => {
-    entity.label = Object.values(entity.labels)[0]
+    const { labels } = entity
+    if (labels) entity.label = Object.values(labels)[0]
   })
   return entities
 }
 
+const claimProperties = [
+  'wdt:P50',
+  'wdt:P136',
+  'wdt:P921',
+  'wdt:P577',
+]
+
+const authorsFacetsProps = [
+  'wdt:P50', // author
+  'wdt:P110', // illustrator
+  'wdt:P58', // scenarist
+  'wdt:P6338', // colorist
+]
+
+const workProperties = [
+  ...authorsFacetsProps,
+  'wdt:P110',
+  'wdt:P136',
+  'wdt:P921',
+  'wdt:P577',
+]
+
+const humanProperties = [
+  'wdt:P136',
+  'wdt:P921',
+  'wdt:P577',
+]
+
 const facetsProperties = {
-  author: [
-    'wdt:P136',
-    'wdt:P921',
-    'wdt:P577',
-  ],
-  serie: [
-    // TODO: include other author properties in that same facet
-    'wdt:P50',
-    'wdt:P136',
-    'wdt:P921',
-    'wdt:P577',
-  ],
+  author: humanProperties,
+  human: humanProperties,
+  work: workProperties,
+  serie: workProperties,
   publisher: [
+    ...authorsFacetsProps,
     'wdt:P577',
+    'wdt:P195',
   ],
   collection: [
+    ...authorsFacetsProps,
+    'wdt:P123',
     'wdt:P577',
-  ]
+  ],
+  genre: claimProperties,
+  subject: claimProperties,
+  movement: claimProperties,
+  article: [
+    ...authorsFacetsProps,
+    'wdt:P1433', // published in
+    'wdt:P577',
+    'wdt:P921',
+  ],
 }
 
 const valueFormatters = {
   'wdt:P577': getYearFromSimpleDay,
 }
 
-const byCount = (a, b) => getCount(b) - getCount(a)
+const byCount = (a, b) => {
+  const countDifference = getCount(b) - getCount(a)
+  if (countDifference === 0) return alphabetically(a, b)
+  else return countDifference
+}
+const alphabetically = (a, b) => a.text > b.text ? 1 : -1
 const getCount = option => option.value === 'unknown' ? -1 : option.count
 
 const chronologically = (a, b) => getYearValue(a) - getYearValue(b)

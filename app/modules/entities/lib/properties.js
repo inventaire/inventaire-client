@@ -29,6 +29,12 @@ const addProp = (
 // # work
 // author
 addProp('wdt:P50', 'entity', 'humans', true, true)
+// illustrator
+addProp('wdt:P110', 'entity', 'humans', true, true)
+// scenarist
+addProp('wdt:P58', 'entity', 'humans', true, true)
+// colorist
+addProp('wdt:P6338', 'entity', 'humans', true, true)
 // genre
 addProp('wdt:P136', 'entity', 'genres', true, false)
 // main subject
@@ -104,6 +110,9 @@ addProp('wdt:P571', 'simple-day', 'inception', false, null)
 addProp('wdt:P576', 'simple-day', 'inception', false, null)
 // ISBN publisher
 addProp('wdt:P3035', 'string', null, true, null)
+
+// # article
+addProp('wdt:P1433', 'entity', null, false, null)
 
 // # all
 // official website

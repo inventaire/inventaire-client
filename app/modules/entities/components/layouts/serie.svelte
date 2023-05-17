@@ -1,8 +1,8 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
-  import { getSubEntitiesSections } from '../lib/entities'
+  import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { bySerieOrdinal } from '#entities/lib/entities'
-  import { removeAuthorsClaims } from '#entities/components/lib/work_helpers'
+  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
@@ -14,7 +14,8 @@
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
 
-  export let entity, standalone, flash
+  export let entity, standalone
+  let flash
 
   const { uri } = entity
   app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
@@ -43,7 +44,7 @@
         <EntityTitle {entity} {standalone} />
         <AuthorsInfo claims={entity.claims} />
         <Infobox
-          claims={removeAuthorsClaims(entity.claims)}
+          claims={omitNonInfoboxClaims(entity.claims)}
           entityType={entity.type}
         />
         <Summary {entity} />
@@ -70,6 +71,9 @@
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
+    :global(.summary.has-summary){
+      margin-top: 1em;
+    }
   }
   .serie-parts{
     margin-top: 1em;

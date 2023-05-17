@@ -103,7 +103,7 @@
   }
   .infobox-wrapper{
     @include display-flex(row, center, space-between);
-    :global(.summary-wrapper){
+    :global(.summary){
       margin-top: 1em;
     }
   }

@@ -9,12 +9,11 @@
 
   const dispatch = createEventDispatcher()
 
-  export let entity, editions, someEditions, itemsUsers
-
+  export let entity, editions, someEditions, itemsUsers, align
   let areNotOnlyMainUserItems, flash
 
   function hasUsersOtherThanMainUser () {
-    if (itemsUsers.length === 0) return false
+    if (!itemsUsers || itemsUsers.length === 0) return false
     if (_.isEqual(itemsUsers, [ app.user.id ])) return false
     return true
   }
@@ -31,6 +30,7 @@
     {entity}
     {editions}
     {flash}
+    {align}
   />
   {#if someEditions && areNotOnlyMainUserItems}
     {#if $screen.isSmallerThan('$small-screen')}
@@ -61,7 +61,9 @@
   .actions-wrapper{
     @include display-flex(column, stretch, center);
     margin: 1em 0;
+    min-width: 10em;
     .action-button, :global(.add-to-dot-dot-dot-menu){
+      text-align: end;
       margin-bottom: 0.3em;
     }
     .action-button, :global(.dropdown-button){
@@ -70,5 +72,11 @@
   }
   .action-button{
     @include tiny-button($light-grey, black);
+  }
+  /* Small screens */
+  @media screen and (max-width: $smaller-screen){
+    .actions-wrapper{
+      @include display-flex(row);
+    }
   }
 </style>

@@ -437,9 +437,14 @@ const showClaimEntities = async (claim, refresh) => {
     return
   }
 
-  const { default: ClaimLayout } = await import('./views/claim_layout')
-
-  app.layout.showChildView('main', new ClaimLayout({ property, value, refresh }))
+  const { default: Component } = await import('#entities/components/layouts/claim_layout.svelte')
+  const model = await app.request('get:entity:model', value, refresh)
+  app.layout.showChildComponent('main', Component, {
+    props: {
+      property,
+      entity: model.toJSON()
+    }
+  })
 }
 
 const reportTypeIssue = function (params) {

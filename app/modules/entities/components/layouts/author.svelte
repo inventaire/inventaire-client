@@ -1,9 +1,8 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
-  import { getSubEntitiesSections } from '../lib/entities'
+  import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { byPublicationDate } from '#entities/lib/entities'
-  import { omitClaims } from '#entities/components/lib/work_helpers'
-  import { authorsProps, relativeEntitiesListsProps } from '#entities/components/lib/claims_helpers'
+  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import Infobox from './infobox.svelte'
   import EntityTitle from './entity_title.svelte'
@@ -18,10 +17,12 @@
   import { i18n } from '#user/lib/i18n'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
 
-  export let entity, standalone, flash
+  export let entity, standalone
+  let flash
 
-  const { uri } = entity
+  const { uri, type } = entity
   app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
 
   let sections
@@ -31,6 +32,7 @@
 
   setContext('layout-context', 'author')
   const authorProperties = Object.keys(extendedAuthorsKeys)
+
   setContext('search-filter-claim', authorProperties.map(property => `${property}=${uri}`).join('|'))
   setContext('search-filter-types', [ 'series', 'works' ])
   const createButtons = [
@@ -50,15 +52,13 @@
         <EntityTitle {entity} {standalone} />
         <div class="infobox-and-summary">
           {#if isNonEmptyPlainObject(entity.image)}
-            <div class="entity-image">
-              <EntityImage
-                {entity}
-                size={192}
-              />
-            </div>
+            <EntityImage
+              {entity}
+              size={192}
+            />
           {/if}
           <Infobox
-            claims={omitClaims(entity.claims, [ authorsProps, relativeEntitiesListsProps ])}
+            claims={omitNonInfoboxClaims(entity.claims)}
             entityType={entity.type}
           />
           <Summary {entity} />
@@ -85,24 +85,16 @@
       />
       <RelativeEntitiesList
         {entity}
-        property="wdt:P737"
-        label={i18n('authors_influenced_by', { name: entity.label })}
-      />
-      <RelativeEntitiesList
-        {entity}
-        property="wdt:P921"
-        label={i18n('works_about_entity', { name: entity.label })}
-      />
-      <RelativeEntitiesList
-        {entity}
         property={[ 'wdt:P2679', 'wdt:P2680' ]}
         label={i18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
       />
-      <RelativeEntitiesList
-        {entity}
-        property="wdt:P655"
-        label={i18n('editions_translated_by_author', { name: entity.label })}
-      />
+      {#each getRelativeEntitiesProperties(type) as property}
+        <RelativeEntitiesList
+          {entity}
+          {property}
+          label={getRelativeEntitiesListLabel({ property, entity })}
+        />
+      {/each}
     </div>
     <HomonymDeduplicates {entity} />
   </div>
@@ -114,23 +106,31 @@
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
+    :global(.summary.has-summary){
+      margin-top: 1em;
+    }
   }
   .author-works{
     margin-top: 1em;
   }
-  .entity-image{
-    margin-right: 1em;
+  .infobox-and-summary{
+    :global(.entity-image){
+      margin-right: 1em;
+    }
   }
   /* Large screens */
   @media screen and (min-width: $small-screen){
     .infobox-and-summary{
       @include display-flex(row, flex-start, flex-start);
-      :global(.claims-infobox-wrapper), :global(.summary-wrapper){
+      :global(.claims-infobox-wrapper), :global(.summary){
         width: 50%;
       }
       :global(.claims-infobox){
         margin-right: 1em;
         margin-bottom: 1em;
+      }
+      :global(.summary.has-summary){
+        margin-top: 0;
       }
     }
     .relatives-lists{

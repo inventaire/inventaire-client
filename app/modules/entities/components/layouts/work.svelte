@@ -4,7 +4,7 @@
   import { i18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities'
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
-  import { getPublishersUrisFromEditions, removeAuthorsClaims } from '#entities/components/lib/work_helpers'
+  import { getPublishersUrisFromEditions, omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
@@ -21,12 +21,13 @@
   import Summary from '#entities/components/layouts/summary.svelte'
   import { scrollToElement } from '#lib/screen'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
 
   export let entity, standalone
 
   let showMap, itemsListsWrapperEl, mapWrapperEl
 
-  const { uri } = entity
+  const { uri, type } = entity
   let editionsUris
   let editions = []
   let initialEditions = []
@@ -42,7 +43,8 @@
     const publishersUris = getPublishersUrisFromEditions(initialEditions)
     const { entities } = await getEntitiesAttributesByUris({
       uris: publishersUris,
-      attributes: [ 'labels' ],
+      // type is necessary to generate publisher URI link without "wdt:P921-" prefix
+      attributes: [ 'labels', 'type' ],
       lang: userLang
     })
     publishersByUris = entities
@@ -62,7 +64,7 @@
   }
 
   $: claims = entity.claims
-  $: infoboxClaims = removeAuthorsClaims(entity.claims)
+  $: infoboxClaims = omitNonInfoboxClaims(entity.claims)
   $: app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
   $: if (isNonEmptyArray(editions)) {
     editionsUris = editions.map(_.property('uri'))
@@ -140,21 +142,13 @@
     <EntityListingsLayout {entity}
     />
     <div class="relatives-lists">
-      <RelativeEntitiesList
-        {entity}
-        property="wdt:P144"
-        label={i18n('works_based_on_work', { name: entity.label })}
-      />
-      <RelativeEntitiesList
-        {entity}
-        property="wdt:P941"
-        label={i18n('works_inspired_by_work', { name: entity.label })}
-      />
-      <RelativeEntitiesList
-        {entity}
-        property="wdt:P921"
-        label={i18n('works_about_entity', { name: entity.label })}
-      />
+      {#each getRelativeEntitiesProperties(type) as property}
+        <RelativeEntitiesList
+          {entity}
+          {property}
+          label={getRelativeEntitiesListLabel({ property, entity })}
+        />
+      {/each}
     </div>
     <HomonymDeduplicates {entity}
     />
@@ -208,6 +202,9 @@
       margin-left: 0;
       :global(.claims-infobox-wrapper){
         margin-bottom: 0;
+      }
+      :global(.summary.has-summary){
+        margin-top: 1em;
       }
     }
     .top-section{

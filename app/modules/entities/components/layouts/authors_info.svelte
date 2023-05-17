@@ -4,19 +4,13 @@
   import { isNonEmptyArray, isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
   import AuthorDisplay from './author_display.svelte'
+  import { propertiesByRoles } from '#entities/components/lib/claims_helpers'
 
   export let claims = {}
 
   let authorsByUris
 
-  const authorRoles = {
-    'wdt:P50': 'author',
-    'wdt:P58': 'scenarist',
-    'wdt:P110': 'illustrator',
-    'wdt:P6338': 'colorist'
-  }
-
-  const authorProperties = Object.keys(authorRoles)
+  const authorProperties = Object.values(propertiesByRoles).flat()
 
   // getting authors entities independantly from infobox claims to fetch claims attributes and display birth/death years
   const waitingForAuthors = getAuthors()
@@ -28,22 +22,32 @@
       authorsByUris = await getEntitiesAttributesFromClaims(authorsClaims, attributes)
     }
   }
+
+  const claimsProperties = Object.keys(claims)
+  const hasPropertiesToDisplay = role => isNonEmptyArray(_.intersection(propertiesByRoles[role], claimsProperties))
 </script>
+
 {#await waitingForAuthors}
   <Spinner />
 {:then}
   {#if authorsByUris}
     <div class="authors-info">
-      {#each authorProperties as prop}
-        {#if isNonEmptyArray(claims[prop])}
-          <div class="{authorRoles[prop]} authors-role">
-            <span class="label">{I18n(prop)}</span>
+      {#each Object.keys(propertiesByRoles) as role}
+        {#if hasPropertiesToDisplay(role)}
+          <div class="{role} authors-role">
+            <span class="label">{I18n(role)}</span>
             <div class="authors">
-              {#each claims[prop] as authorUri}
-                <div class="author">
-                  <AuthorDisplay entityData={authorsByUris[authorUri]}
-                  />
-                </div>
+              {#each propertiesByRoles[role] as prop}
+                {#if claims[prop]}
+                  {#each claims[prop] as claimValue}
+                    <div class="author">
+                      <AuthorDisplay
+                        entityData={authorsByUris[claimValue]}
+                        {claimValue}
+                      />
+                    </div>
+                  {/each}
+                {/if}
               {/each}
             </div>
           </div>

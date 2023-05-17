@@ -1,6 +1,6 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
-  import { getSubEntitiesSections } from '../lib/entities'
+  import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { byPublicationDate } from '#entities/lib/entities'
   import BaseLayout from './base_layout.svelte'
   import Infobox from './infobox.svelte'
@@ -12,7 +12,8 @@
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
 
-  export let entity, standalone, flash
+  export let entity, standalone
+  let flash
 
   const { uri } = entity
   app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
@@ -25,7 +26,7 @@
   setContext('layout-context', 'collection')
   setContext('search-filter-claim', `wdt:P195=${uri}`)
   // TODO: index editions
-  setContext('search-filter-types', null)
+  // setContext('search-filter-types', null)
   const createButtons = [
     { type: 'edition', claims: { 'wdt:P195': [ uri ] } },
   ]
@@ -40,13 +41,13 @@
     <div class="top-section">
       <div class="work-section">
         <EntityTitle {entity} {standalone} />
-        <Summary {entity} />
         <Infobox
           claims={entity.claims}
           entityType={entity.type}
         />
+        <Summary {entity} />
       </div>
-      <div class="publications">
+      <div class="editions">
         {#await waitingForSubEntities}
           <Spinner center={true} />
         {:then}
@@ -68,5 +69,11 @@
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
+    :global(.summary.has-summary){
+      margin-top: 1em;
+    }
+  }
+  .editions{
+    margin-top: 1em;
   }
 </style>

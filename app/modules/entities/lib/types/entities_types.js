@@ -10,12 +10,15 @@ export const entityTypeNameByType = {
 }
 
 export const entityTypeNameBySingularType = {
+  article: 'article',
   edition: 'edition',
   work: 'work',
   serie: 'serie',
   human: 'author',
   publisher: 'publisher',
-  collection: 'collection'
+  movement: 'movement',
+  subject: 'subject',
+  genre: 'genre',
 }
 
 export const typesPossessiveForms = {
@@ -47,3 +50,8 @@ export const typeDefaultP31 = {
 }
 
 export const allSearchableTypes = without(Object.keys(entityTypeNameByType), 'editions')
+
+// Standalone meaning the entity URI can be a valid URL on its own (unlike claim based URLs)
+export function isStandaloneEntityType (type) {
+  return Object.keys(typeDefaultP31).includes(type)
+}
