@@ -12,7 +12,7 @@
   import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
 
   export let docsToDisplay = []
-  export let initialItems
+  export let allItems
 
   let allEditionsFilters, editionsFiltersData, bounds, initialBounds
   let selectedTransactionFilters = []
@@ -32,7 +32,7 @@
     }
   }
 
-  const resetDocsToDisplay = () => docsToDisplay = initialItems
+  const resetDocsToDisplay = () => docsToDisplay = allItems
 
   const updateFilters = items => {
     allEditionsFilters = []
@@ -61,7 +61,7 @@
 
   $: onChange(docsToDisplay, onDocsToDisplayChange)
   $: onChange(selectedEditionFilters, selectedTransactionFilters, onFiltersChange)
-  $: notAllDocsAreDisplayed = displayedItems.length !== initialItems.length
+  $: notAllDocsAreDisplayed = displayedItems.length !== allItems.length
 </script>
 
 <!-- TODO: recover display of main user or of a "you are here" marker -->

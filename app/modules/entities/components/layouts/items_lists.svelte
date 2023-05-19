@@ -12,11 +12,10 @@
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 
   export let editionsUris, itemsByEditions, mapWrapperEl, itemsListsWrapperEl
-  export let initialItems = []
+  export let allItems
   // showMap is false to be able to mount ItemsByCategories
   // to set initialBounds before mounting ItemsMap
   export let showMap = false
-  let items = []
   let itemsOnMap
   let waitingForItems
 
@@ -26,18 +25,18 @@
     if (newUris.length === 0) return
     fetchedEditionsUris = [ ...editionsUris, ...newUris ]
     waitingForItems = getItemsData(newUris)
-    initialItems = await waitingForItems
-    items = initialItems
+    allItems = await waitingForItems
+    itemsOnMap = allItems
   }
 
-  $: itemsByEditions = groupBy(initialItems, 'entity')
+  $: itemsByEditions = groupBy(allItems, 'entity')
   $: if (editionsUris) getItemsByCategories()
   $: displayCover = editionsUris?.length > 1
 </script>
 
 <div class="items-lists-wrapper" bind:this={itemsListsWrapperEl}>
   <ItemsByCategories
-    {initialItems}
+    {allItems}
     {displayCover}
     {waitingForItems}
     bind:itemsOnMap
@@ -48,8 +47,8 @@
 {#if showMap}
   <div class="map-wrapper" bind:this={mapWrapperEl}>
     <ItemsMap
-      docsToDisplay={items}
-      {initialItems}
+      {allItems}
+      docsToDisplay={itemsOnMap}
     />
     <button
       on:click={() => showMap = false}

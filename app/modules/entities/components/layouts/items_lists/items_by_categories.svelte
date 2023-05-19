@@ -6,7 +6,7 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import { scrollToElement } from '#lib/screen'
 
-  export let initialItems
+  export let allItems
   export let itemsOnMap
   export let displayCover
   export let waitingForItems
@@ -27,7 +27,7 @@
     scrollToElement(filtersTopEl, { marginTop: 32 })
   }
 
-  $: if (initialItems) itemsByCategories = sortItemsByCategoryAndDistance(initialItems)
+  $: if (allItems) itemsByCategories = sortItemsByCategoryAndDistance(allItems)
   $: hasActiveFilter = $filters?.selectedLangLabel || $filters?.selectedPublisherLabel
 </script>
 
@@ -83,7 +83,7 @@
       {displayCover}
       {waitingForItems}
       headers={categoriesHeaders[category]}
-      itemsByCategory={itemsByCategories[category]}
+      categoryItems={itemsByCategories[category]}
       bind:itemsOnMap
       on:showItemsOnMap={showItemsOnMap}
     />

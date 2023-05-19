@@ -5,10 +5,12 @@
   import ItemsByTransaction from './items_by_transaction.svelte'
   import { createEventDispatcher } from 'svelte'
   import Spinner from '#components/spinner.svelte'
+  import { groupBy } from 'underscore'
+  import { onChange } from '#lib/svelte/svelte'
 
   const dispatch = createEventDispatcher()
 
-  export let itemsByCategory
+  export let categoryItems = []
   export let itemsOnMap
   export let headers
   export let category
@@ -17,30 +19,22 @@
 
   const { customIcon, label, backgroundColor } = headers
 
-  const itemsByTransactions = {
+  const itemsByTransactionsBase = {
     giving: [],
     lending: [],
     selling: [],
     inventorying: [],
   }
 
-  let someItems = false
+  let itemsByTransactions = itemsByTransactionsBase
 
-  const dispatchByTransaction = item => {
-    const transaction = item.transaction
-    let itemsByTransaction = itemsByTransactions[transaction]
-    if (isNonEmptyArray(itemsByTransaction) && isAlreadyDisplayed(item, itemsByTransaction)) return
-    if (!someItems && transaction) someItems = true
-    itemsByTransactions[transaction] = [ ...itemsByTransaction, item ]
-  }
-
-  const isAlreadyDisplayed = (item, itemsByTransaction) => {
-    let itemsByTransactionIds = itemsByTransaction.map(_.property('id'))
-    return itemsByTransactionIds.includes(item.id)
+  function dispatchByTransaction () {
+    const categoryItemsByTransactions = groupBy(categoryItems, 'transaction')
+    itemsByTransactions = Object.assign({}, itemsByTransactionsBase, categoryItemsByTransactions)
   }
 
   const showItemsOnMap = () => {
-    itemsOnMap = itemsByCategory
+    itemsOnMap = categoryItems
     dispatch('showItemsOnMap')
   }
 
@@ -50,9 +44,9 @@
     dispatch('showItemsOnMap')
   }
 
-  let emptyList = !isNonEmptyArray(itemsByCategory)
+  let emptyList = !isNonEmptyArray(categoryItems)
 
-  $: itemsByCategory.forEach(dispatchByTransaction)
+  $: onChange(categoryItems, dispatchByTransaction)
 
   $: {
     showItemOnMap(itemOnMap)
@@ -70,7 +64,7 @@
         {I18n(label)}
       </h3>
     </div>
-    {#if someItems}
+    {#if categoryItems.length > 0}
       {#if category !== 'personal'}
         <button
           class="map-button"
@@ -88,12 +82,12 @@
   {#await waitingForItems}
     <Spinner center={true} />
   {:then}
-    {#if someItems}
+    {#if categoryItems.length > 0}
       <div class="items-list-per-transactions">
-        {#each Object.keys(itemsByTransactions) as transaction}
+        {#each Object.entries(itemsByTransactions) as [ transaction, transactionItems ]}
           <ItemsByTransaction
-            itemsByTransaction={itemsByTransactions[transaction]}
             {transaction}
+            {transactionItems}
             {displayCover}
             bind:itemOnMap
           />

@@ -9,18 +9,18 @@
 
   const dispatch = createEventDispatcher()
 
-  export let entity, editions, someEditions, initialItems, align
+  export let entity, editions, someEditions, allItems, align
 
   let otherUsersItems, areNotOnlyMainUserItems, someOtherUsersItemsHaveAPosition, flash
 
   function determineUsefulButtons () {
-    if (!initialItems) return
-    const otherUsersItems = initialItems.filter(item => !item.mainUserIsOwner)
+    if (!allItems) return
+    const otherUsersItems = allItems.filter(item => !item.mainUserIsOwner)
     areNotOnlyMainUserItems = otherUsersItems.length > 0
     someOtherUsersItemsHaveAPosition = otherUsersItems.find(item => item.distanceFromMainUser != null)
   }
 
-  $: onChange(initialItems, determineUsefulButtons)
+  $: onChange(allItems, determineUsefulButtons)
 </script>
 
 <div class="actions-wrapper">

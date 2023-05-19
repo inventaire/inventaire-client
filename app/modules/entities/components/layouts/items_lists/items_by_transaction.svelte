@@ -5,18 +5,18 @@
   import ItemPreview from './item_preview.svelte'
   import { I18n } from '#user/lib/i18n'
 
-  export let itemsByTransaction, transaction, itemOnMap, displayCover
+  export let transactionItems, transaction, itemOnMap, displayCover
 
   const showItemOnMap = item => itemOnMap = item
 </script>
 
-{#if isNonEmptyArray(itemsByTransaction)}
+{#if isNonEmptyArray(transactionItems)}
   <div class="transaction-box {transaction}" title={transaction}>
     {@html icon(transactionsData[transaction].icon)}
     <span class="label">{I18n(transaction)}</span>
   </div>
   <div class="items-preview">
-    {#each itemsByTransaction as item}
+    {#each transactionItems as item}
       <ItemPreview
         {item}
         {displayCover}

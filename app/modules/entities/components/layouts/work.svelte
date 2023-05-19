@@ -33,7 +33,7 @@
   let initialEditions = []
   const userLang = app.user.lang
   let publishersByUris
-  let initialItems
+  let allItems
   let itemsByEditions = {}
 
   setContext('work-layout:filters-store', writable({}))
@@ -96,7 +96,7 @@
           {entity}
           {someEditions}
           {editions}
-          bind:initialItems
+          bind:allItems
           on:showMapAndScrollToMap={showMapAndScrollToMap}
           on:scrollToItemsList={scrollToItemsList}
         />
@@ -130,7 +130,7 @@
           <ItemsLists
             {editionsUris}
             bind:showMap
-            bind:initialItems
+            bind:allItems
             bind:itemsByEditions
             bind:mapWrapperEl
             bind:itemsListsWrapperEl
