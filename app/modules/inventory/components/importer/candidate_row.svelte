@@ -19,6 +19,7 @@
   let existingItemsPathname, flash
   let statuses = []
 
+  let isCheckedInitializing = true
   let checked = false
 
   const addStatus = status => {
@@ -52,7 +53,10 @@
     if (work?.uri || isNonEmptyString(editionTitle)) {
       removeStatus(statusContents.needInfo)
       needInfo = false
-      if (itemsCountWereChecked) checked = true
+      if (itemsCountWereChecked && isCheckedInitializing) {
+        isCheckedInitializing = false
+        checked = true
+      }
     } else {
       addStatus(statusContents.needInfo)
       needInfo = true
