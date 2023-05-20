@@ -82,6 +82,7 @@
     bind:selectedFilters={selectedTransactionFilters}
     filtersData={transactionFiltersData}
     bind:allFilters={allTransactionFilters}
+    translatableFilterValues={true}
   />
 {/if}
 {#if allEditionsFilters?.length > 1}
