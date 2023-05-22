@@ -26,7 +26,7 @@ const metadataUpdateDone = () => { window.prerenderReady = true }
 // Stop waiting if it takes more than 20 secondes: addresses cases
 // where metadataUpdateDone would not have been called
 setTimeout(metadataUpdateDone, 20 * 1000)
-const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
+export const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
 export const updateRouteMetadata = async (route, metadataPromise = {}) => {
   route = dropLeadingSlash(route)

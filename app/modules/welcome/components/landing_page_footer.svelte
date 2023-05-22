@@ -20,17 +20,26 @@
     url="https://wiki.inventaire.io/wiki/Credits"
     text={I18n('credits')}
     classNames="link"
-    light={true} />
+    light={true}
+  />
   <Link
     url="https://wiki.inventaire.io/wiki/Legal_notice"
     text={I18n('legal notice')}
     classNames="link"
-    light={true} />
+    light={true}
+  />
   <Link
     url="https://wiki.inventaire.io/wiki/Statuses"
     text={I18n('statuses')}
     classNames="link"
-    light={true} />
+    light={true}
+  />
+  <Link
+    url="https://wiki.inventaire.io/wiki/Funding"
+    text={I18n('donate')}
+    classNames="link"
+    light={true}
+  />
 </section>
 
 <style lang="scss">

@@ -3,7 +3,7 @@ import log_ from '#lib/loggers'
 import { I18n, i18n } from '#user/lib/i18n'
 import initQuerystringActions from '#general/lib/querystring_actions'
 import { currentRoute } from '#lib/location'
-import { setPrerenderStatusCode } from '#lib/metadata/update'
+import { setPrerenderStatusCode, isPrerenderSession } from '#lib/metadata/update'
 import { showMainUserProfile } from '#users/users'
 
 export default {
@@ -76,8 +76,7 @@ const API = {
   },
 
   async showDonate () {
-    const { default: DonateMenu } = await import('#general/views/donate_menu')
-    showMenuStandalone(DonateMenu, 'donate')
+    redirectOutside('https://wiki.inventaire.io/wiki/Funding')
   },
 
   async showFeedback () {
@@ -220,4 +219,11 @@ const showCallToConnection = async message => {
 const showMenuStandalone = function (Menu, titleKey) {
   app.layout.showChildView('main', new Menu({ standalone: true }))
   app.navigate(titleKey, { metadata: { title: i18n(titleKey) } })
+}
+
+function redirectOutside (url) {
+  setPrerenderStatusCode(302)
+  if (!isPrerenderSession) {
+    location.href = url
+  }
 }

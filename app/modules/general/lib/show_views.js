@@ -2,9 +2,8 @@ import FullScreenLoader from '#components/full_screen_loader.svelte'
 import { isOpenedOutside } from '#lib/utils'
 
 // Work around circular dependencies
-let DonateMenu, FeedbackMenu
+let FeedbackMenu
 const lateImport = async () => {
-  ;({ default: DonateMenu } = await import('../views/donate_menu'))
   ;({ default: FeedbackMenu } = await import('../views/feedback_menu'))
 }
 setTimeout(lateImport, 0)
@@ -55,9 +54,4 @@ export function showFeedbackMenu (options) {
     // and handle the feedback modals with or without dedicated pathnames
     app.layout.showChildView('modal', new FeedbackMenu(options))
   }
-}
-
-export function showDonateMenu () {
-  app.layout.showChildView('modal', new DonateMenu({ navigateOnClose: true }))
-  app.navigate('donate')
 }

@@ -1,5 +1,3 @@
-const faircoinHash = 'fRFhk3DKubHmQu5i1NwY4mVErPVzXTtmDE'
-
 const subdomain = sub => `https://${sub}.inventaire.io`
 const image = filename => `/img/assets/${filename}`
 
@@ -31,13 +29,4 @@ export const images = {
   bokeh: image('bokeh.jpg'),
   brittanystevens: image('brittanystevens.jpg'),
   defaultAvatar: image('default_avatar')
-}
-
-export const donate = {
-  faircoin: {
-    hash: faircoinHash,
-    url: `faircoin:${faircoinHash}`
-  },
-  liberapay: subdomain('liberapay'),
-  paypal: subdomain('paypal')
 }
