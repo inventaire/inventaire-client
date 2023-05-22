@@ -36,6 +36,12 @@
   />
   <Link
     url="https://wiki.inventaire.io/wiki/Funding"
+    text={I18n('funding')}
+    classNames="link"
+    light={true}
+  />
+  <Link
+    url="https://wiki.inventaire.io/wiki/Funding#Donations"
     text={I18n('donate')}
     classNames="link"
     light={true}
