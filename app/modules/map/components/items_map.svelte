@@ -10,6 +10,8 @@
   import ItemMarker from '#map/components/item_marker.svelte'
   import Marker from '#map/components/marker.svelte'
   import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
+  import { user } from '#user/user_store'
+  import UserMarkerAlt from '#map/components/user_marker_alt.svelte'
 
   export let docsToDisplay = []
   export let allItems
@@ -64,15 +66,20 @@
   $: notAllDocsAreDisplayed = displayedItems.length !== allItems.length
 </script>
 
-<!-- TODO: recover display of main user or of a "you are here" marker -->
 <div class="items-map">
   {#if bounds.length > 0}
-    <LeafletMap {bounds} cluster={true}>
+    <LeafletMap
+      bounds={bounds.concat([ $user.position ])}
+      cluster={true}
+    >
       {#each displayedItems as item (item._id)}
         <Marker latLng={item.position}>
           <ItemMarker {item} />
         </Marker>
       {/each}
+      <Marker latLng={$user.position} standalone={true}>
+        <UserMarkerAlt doc={$user} />
+      </Marker>
     </LeafletMap>
   {/if}
 </div>
