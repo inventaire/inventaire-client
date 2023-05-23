@@ -20,7 +20,7 @@
       <ItemPreview
         {item}
         {displayCover}
-        on:showItemOnMap={showItemOnMap(item)}
+        on:showItemOnMap={() => showItemOnMap(item)}
       />
     {/each}
   </div>
