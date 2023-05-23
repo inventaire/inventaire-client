@@ -11,7 +11,7 @@
   import Marker from '#map/components/marker.svelte'
   import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
   import { user } from '#user/user_store'
-  import UserMarkerAlt from '#map/components/user_marker_alt.svelte'
+  import UserMarker from '#map/components/user_marker.svelte'
 
   export let docsToDisplay = []
   export let allItems
@@ -78,7 +78,7 @@
         </Marker>
       {/each}
       <Marker latLng={$user.position} standalone={true}>
-        <UserMarkerAlt doc={$user} />
+        <UserMarker doc={$user} />
       </Marker>
     </LeafletMap>
   {/if}
