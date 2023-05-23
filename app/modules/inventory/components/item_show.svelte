@@ -51,7 +51,7 @@
   function loadInternalLinkAndClose (e) {
     if (isOpenedOutside(e)) return
     loadInternalLink(e)
-    dispatch('close')
+    dispatch('navigate')
   }
 </script>
 

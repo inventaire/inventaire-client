@@ -13,6 +13,8 @@
   import mapConfig from '#map/lib/config.js'
   import isMobile from '#lib/mobile_check'
   import { onChange } from '#lib/svelte/svelte'
+  import Flash from '#lib/components/flash.svelte'
+  import { uniqBounds } from '#map/lib/map'
 
   mapConfig.init()
 
@@ -24,7 +26,7 @@
 
   export let map
 
-  let clusterGroup
+  let clusterGroup, flash
 
   const dispatch = createEventDispatcher()
 
@@ -32,49 +34,74 @@
   setContext('layer', () => clusterGroup || map)
 
   function createLeaflet (node) {
-    map = L.map(node, mapConfig.mapOptions)
-      .on('zoom', e => {
-        dispatch('zoom', e)
-        zoom = e.target._zoom
-      })
-      .on('moveend', e => dispatch('moveend', e))
+    try {
+      map = L.map(node, mapConfig.mapOptions)
+        .on('zoom', e => {
+          dispatch('zoom', e)
+          zoom = e.target._zoom
+        })
+        .on('moveend', e => dispatch('moveend', e))
 
-    if (bounds) {
-      map.fitBounds(bounds)
-    } else {
-      map.setView(view, zoom)
-    }
+      if (bounds) {
+        // Prevent leaflet bug when the passed bounds are only identical bounds
+        bounds = uniqBounds(bounds)
+        if (bounds.length === 1) {
+          const zoom = 9
+          map.setView(bounds[0], zoom)
+        } else {
+          map.fitBounds(bounds)
+        }
+      } else {
+        map.setView(view, zoom)
+      }
 
-    L.tileLayer(mapConfig.tileUrl, mapConfig.tileLayerOptions)
-      .addTo(map)
+      L.tileLayer(mapConfig.tileUrl, mapConfig.tileLayerOptions)
+        .addTo(map)
 
-    if (isMobile) map.scrollWheelZoom.disable()
+      if (isMobile) map.scrollWheelZoom.disable()
 
-    if (cluster) {
-      clusterGroup = L.markerClusterGroup()
-      map.addLayer(clusterGroup)
-    }
+      if (cluster) {
+        clusterGroup = L.markerClusterGroup({
+          // Required to prevent big marker icons to overlap
+          spiderfyDistanceMultiplier: 4
+        })
+        map.addLayer(clusterGroup)
+      }
 
-    return {
-      destroy () {
-        map.remove()
-        map = null
-      },
+      return {
+        destroy () {
+          map.remove()
+          map = null
+        },
+      }
+    } catch (err) {
+      flash = err
     }
   }
 
   function init () {
-    if (map) {
-      if (bounds) {
-        map.fitBounds(bounds)
-      } else {
-        map.setView(view, zoom)
+    try {
+      if (map) {
+        if (bounds) {
+          map.fitBounds(bounds, { maxZoom: zoom })
+        } else {
+          map.setView(view, zoom)
+        }
       }
+    } catch (err) {
+      flash = err
     }
   }
 
+  function onBoundsChange () {
+    if (map) map.fitBounds(bounds, { maxZoom: zoom })
+  }
+
   $: onChange(map, init)
+  $: onChange(bounds, onBoundsChange)
 </script>
+
+<Flash state={flash} />
 
 <div use:createLeaflet>
   {#if map}

@@ -10,8 +10,7 @@
   import ShelfDot from './shelf_dot.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { compact } from 'underscore'
-  import ItemShow from '#inventory/components/item_show.svelte'
-  import Modal from '#components/modal.svelte'
+  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
 
   export let item, showUser = false, shelvesByIds
 
@@ -114,11 +113,7 @@
   </div>
 </div>
 
-{#if showItemModal}
-  <Modal size="large" on:closeModal={() => showItemModal = false}>
-    <ItemShow bind:item user={item.user} on:close={() => showItemModal = false} />
-  </Modal>
-{/if}
+<ItemShowModal bind:item bind:showItemModal />
 
 <style lang="scss">
   @import "#general/scss/utils";

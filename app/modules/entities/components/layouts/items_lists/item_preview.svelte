@@ -1,6 +1,6 @@
 <script>
+  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { currentRoute } from '#lib/location'
   import { icon, isOpenedOutside } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
@@ -11,25 +11,27 @@
   const dispatch = createEventDispatcher()
 
   const {
-    id,
+    pathname,
     details,
-    transaction,
-    picture: userPicture,
-    username,
     distanceFromMainUser,
-    owner,
-    cover,
-    title
+    personalizedTitle,
+    user,
+    image: cover,
+    title,
+    mainUserIsOwner,
   } = item
 
-  const notOwner = owner !== app.user.id
-  const url = `/items/${id}`
+  const {
+    username,
+    picture: userPicture,
+  } = user
 
   const showItemOnMap = () => dispatch('showItemOnMap')
 
+  let showItemModal
   function showItem (e) {
     if (isOpenedOutside(e)) return
-    app.execute('show:item', { itemId: id, regionName: 'svelteModal', pathnameAfterClosingModal: currentRoute() })
+    showItemModal = true
     e.preventDefault()
   }
 </script>
@@ -37,9 +39,9 @@
 <div class="show-item">
   <a
     class="items-link"
-    href={url}
+    href={pathname}
     on:click={showItem}
-    title={i18n(`${transaction}_personalized`, { username })}
+    title={personalizedTitle}
   >
     <div class="cover-wrapper">
       {#if displayCover && cover}
@@ -57,7 +59,7 @@
       <p class="username">
         {username}
       </p>
-      {#if distanceFromMainUser && notOwner}
+      {#if distanceFromMainUser && !mainUserIsOwner}
         <p class="distance">
           {i18n('km_away', { distance: distanceFromMainUser })}
         </p>
@@ -69,7 +71,7 @@
       </p>
     {/if}
   </a>
-  {#if distanceFromMainUser && notOwner}
+  {#if distanceFromMainUser && !mainUserIsOwner}
     <button
       class="map-button"
       on:click|stopPropagation={showItemOnMap}
@@ -79,6 +81,9 @@
     </button>
   {/if}
 </div>
+
+<ItemShowModal bind:item bind:showItemModal />
+
 <style lang="scss">
   @import "#general/scss/utils";
   .items-link{

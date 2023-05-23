@@ -3,8 +3,11 @@
   import L from 'leaflet'
   import { getContext, onDestroy, onMount } from 'svelte'
 
-  export let latLng
+  export let latLng, standalone = false
+
+  const map = getContext('map')()
   const layer = getContext('layer')()
+  const targetLayer = standalone ? map : layer
 
   let marker, markerElement
 
@@ -14,7 +17,7 @@
       // Let the children elements determine the size
       iconSize: [ 0, 0 ]
     })
-    marker = L.marker(latLng, { icon }).addTo(layer)
+    marker = L.marker(latLng, { icon }).addTo(targetLayer)
   }
 
   function updateMarker () {
@@ -25,7 +28,7 @@
 
   function destroyMarker () {
     if (marker) {
-      marker.removeFrom(layer)
+      marker.removeFrom(targetLayer)
       marker.remove()
       marker = null
     }

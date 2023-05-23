@@ -7,6 +7,7 @@ export function serializeUser (user) {
   user.isMainUser = user._id === app.user.id
   user.picture = getPicture(user)
   setDistance(user)
+  setItemsCategory(user)
   Object.assign(user, getUserPathnames(user.username))
   return user
 }
@@ -38,6 +39,16 @@ function getCoords (user) {
     return latLng
   } else {
     return {}
+  }
+}
+
+export function setItemsCategory (user) {
+  if (user._id === app.user.id) {
+    user.itemsCategory = 'personal'
+  } else if (app.relations.network.includes(user._id)) {
+    user.itemsCategory = 'network'
+  } else {
+    user.itemsCategory = 'public'
   }
 }
 

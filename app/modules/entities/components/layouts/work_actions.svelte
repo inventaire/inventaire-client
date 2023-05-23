@@ -9,20 +9,18 @@
 
   const dispatch = createEventDispatcher()
 
-  export let entity, editions, someEditions, itemsUsers, align
-  let areNotOnlyMainUserItems, flash
+  export let entity, editions, someEditions, allItems, align
 
-  function hasUsersOtherThanMainUser () {
-    if (!itemsUsers || itemsUsers.length === 0) return false
-    if (_.isEqual(itemsUsers, [ app.user.id ])) return false
-    return true
+  let otherUsersItems, areNotOnlyMainUserItems, someOtherUsersItemsHaveAPosition, flash
+
+  function determineUsefulButtons () {
+    if (!allItems) return
+    const otherUsersItems = allItems.filter(item => !item.mainUserIsOwner)
+    areNotOnlyMainUserItems = otherUsersItems.length > 0
+    someOtherUsersItemsHaveAPosition = otherUsersItems.find(item => item.distanceFromMainUser != null)
   }
 
-  function assignIfNotOnlyMainUserItems () {
-    areNotOnlyMainUserItems = hasUsersOtherThanMainUser()
-  }
-
-  $: onChange(itemsUsers, assignIfNotOnlyMainUserItems)
+  $: onChange(allItems, determineUsefulButtons)
 </script>
 
 <div class="actions-wrapper">
@@ -41,17 +39,19 @@
       >
         {@html icon('user')}
         {i18n('Show who has this book')}
-        ({itemsUsers.length})
+        ({otherUsersItems.length})
       </button>
     {/if}
-    <button
-      on:click={() => dispatch('showMapAndScrollToMap')}
-      title={i18n('Show users who have these editions on a map')}
-      class="action-button"
-    >
-      {@html icon('map-marker')}
-      {i18n('Show books on a map')}
-    </button>
+    {#if someOtherUsersItemsHaveAPosition}
+      <button
+        on:click={() => dispatch('showMapAndScrollToMap')}
+        title={i18n('Show users who have these editions on a map')}
+        class="action-button"
+      >
+        {@html icon('map-marker')}
+        {i18n('Show books on a map')}
+      </button>
+    {/if}
   {/if}
 </div>
 <Flash state={flash} />

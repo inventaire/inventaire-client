@@ -31,10 +31,7 @@ export function serializeItem (item) {
   item.currentTransaction = transacs[transaction]
   item[transaction] = true
 
-  if (item.authorized) {
-    item.transactions = transacs
-    item.transactions[transaction].classes = 'selected'
-  } else {
+  if (item.restricted) {
     // used to hide the "request button" given accessible transactions
     // are necessarly involving the main user, which should be able
     // to have several transactions ongoing with a given item
@@ -47,6 +44,13 @@ export function serializeItem (item) {
   item.ordinal = item.snapshot['entity:ordinal']
 
   return item
+}
+
+export function setItemUserData (item, user) {
+  item.user = user
+  item.category = user.itemsCategory
+  item.distanceFromMainUser = user.distanceFromMainUser
+  item.position = user.position
 }
 
 function findBestTitle (item) {

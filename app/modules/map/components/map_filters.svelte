@@ -1,9 +1,10 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
 
   export let selectedFilters, filtersData, type, allFilters
+  export let translatableFilterValues = false
 
   allFilters = Object.keys(filtersData)
 
@@ -47,7 +48,7 @@
                 {filtersData[filterValue].title}
               {/if}
               <div class="filter-value">
-                {I18n(filterValue)}
+                {translatableFilterValues ? I18n(filterValue) : filterValue}
               </div>
             </div>
           {/if}

@@ -6,19 +6,18 @@
   import { getItemsData } from './items_lists/items_lists_helpers'
   import { createEventDispatcher } from 'svelte'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import { groupBy } from 'underscore'
 
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 
-  export let editionsUris, initialItems = [], itemsUsers, showMap, itemsByEditions, mapWrapperEl, itemsListsWrapperEl
-
-  let items = []
-  let initialBounds
-  let waitingForItems
-
-  // showMap is falsy to be able to mount ItemsByCategories
+  export let editionsUris, itemsByEditions, mapWrapperEl, itemsListsWrapperEl
+  export let allItems
+  // showMap is false to be able to mount ItemsByCategories
   // to set initialBounds before mounting ItemsMap
-  showMap = false
+  export let showMap = false
+  let itemsOnMap
+  let waitingForItems
 
   let fetchedEditionsUris = []
   const getItemsByCategories = async () => {
@@ -26,23 +25,21 @@
     if (newUris.length === 0) return
     fetchedEditionsUris = [ ...editionsUris, ...newUris ]
     waitingForItems = getItemsData(newUris)
-    initialItems = await waitingForItems
-    items = initialItems
+    allItems = await waitingForItems
+    itemsOnMap = allItems
   }
 
-  $: itemsUsers = _.compact(_.uniq(items.map(_.property('owner'))))
-  $: itemsByEditions = _.groupBy(initialItems, 'entity')
-  $: editionsUris && getItemsByCategories()
+  $: itemsByEditions = groupBy(allItems, 'entity')
+  $: if (editionsUris) getItemsByCategories()
   $: displayCover = editionsUris?.length > 1
 </script>
 
 <div class="items-lists-wrapper" bind:this={itemsListsWrapperEl}>
   <ItemsByCategories
-    {initialItems}
+    {allItems}
     {displayCover}
     {waitingForItems}
-    bind:initialBounds
-    bind:itemsOnMap={items}
+    bind:itemsOnMap
     on:showMapAndScrollToMap={bubbleUpComponentEvent}
   />
 </div>
@@ -50,9 +47,8 @@
 {#if showMap}
   <div class="map-wrapper" bind:this={mapWrapperEl}>
     <ItemsMap
-      docsToDisplay={items}
-      initialDocs={initialItems}
-      {initialBounds}
+      {allItems}
+      docsToDisplay={itemsOnMap}
     />
     <button
       on:click={() => showMap = false}

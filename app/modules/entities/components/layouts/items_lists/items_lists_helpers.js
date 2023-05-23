@@ -1,14 +1,20 @@
-import Item from '#inventory/models/item'
-import { isNonEmptyArray } from '#lib/boolean_tests'
+import { serializeItem, setItemUserData } from '#inventory/lib/items'
 import preq from '#lib/preq'
-import User from '#users/models/user'
+import { serializeUser } from '#users/lib/users'
+import { indexBy } from 'underscore'
 
 export const getItemsData = async editionsUris => {
-  const { items, users } = await preq.get(app.API.items.byEntities({ ids: editionsUris }))
-  return fetchModelsSequentially(items, users)
+  let { items, users } = await preq.get(app.API.items.byEntities({ ids: editionsUris }))
+  users = users.map(serializeUser)
+  items = items.map(serializeItem)
+  const usersByIds = indexBy(users, '_id')
+  items.forEach(item => {
+    setItemUserData(item, usersByIds[item.owner])
+  })
+  return items
 }
 
-export const sortItemsByCategorieAndDistance = items => {
+export const sortItemsByCategoryAndDistance = items => {
   let itemsByCategories = {
     personal: [],
     network: [],
@@ -17,8 +23,8 @@ export const sortItemsByCategorieAndDistance = items => {
     otherPublic: []
   }
   items.forEach(item => {
-    const categorie = getItemCategory(item)
-    if (categorie) itemsByCategories[categorie] = [ ...itemsByCategories[categorie], item ]
+    const category = getItemCategory(item)
+    itemsByCategories[category] = [ ...itemsByCategories[category], item ]
   })
   Object.keys(itemsByCategories).forEach(category => {
     itemsByCategories[category] = itemsByCategories[category].sort(byDistance)
@@ -26,82 +32,16 @@ export const sortItemsByCategorieAndDistance = items => {
   return itemsByCategories
 }
 
-const fetchModelsSequentially = async (items, users) => {
-  const batch = _.clone(items)
-  const itemsData = []
-  const fetchAndAssignData = async () => {
-    if (!isNonEmptyArray(batch)) return
-    const item = batch.pop()
-    const owner = users.find(user => user._id === item.owner)
-    let [ itemModel, ownerModel ] = await Promise.all([
-      new Item(item),
-      new User(owner)
-    ])
-    const itemData = formatItemDataFromModel(itemModel)
-    Object.assign(itemData, formatOwnerData(ownerModel))
-    itemsData.push(itemData)
-    await fetchAndAssignData()
-  }
-  await fetchAndAssignData()
-  return itemsData
-}
-
-const formatOwnerData = ownerModel => {
-  const item = {}
-  const ownerKeysMap = {
-    picture: 'userPicture',
-    username: 'username',
-    itemsCategory: 'itemsCategory',
-    position: 'position',
-  }
-
-  for (let key in ownerKeysMap) {
-    const ownerValue = ownerModel.attributes[key]
-    if (ownerValue) {
-      item[key] = ownerValue
-    }
-  }
-
-  // add ownerModel keys that are not model attributes
-  item.distanceFromMainUser = ownerModel.distanceFromMainUser
-  return item
-}
-
-const itemKeys = [
-  'details',
-  'owner',
-  'transaction',
-  'entity',
-]
-
-const formatItemDataFromModel = itemModel => {
-  // TODO: debackbonification must involve user `network`, `itemsCount`, `distanceFromMainUser`
-  const item = {}
-  item.id = itemModel.id
-  item.markerType = 'item'
-
-  for (let key of itemKeys) {
-    const itemValue = itemModel.attributes[key]
-    if (itemValue) {
-      item[key] = itemValue
-    }
-  }
-
-  item.title = itemModel.get('snapshot.entity:title')
-  item.cover = itemModel.get('snapshot.entity:image')
-  return item
-}
-
 const getItemCategory = item => {
-  let categorie = item.itemsCategory
-  if (categorie === 'public') categorie = isNearby(item.distanceFromMainUser) ? 'nearbyPublic' : 'otherPublic'
-  if (item.owner === app.user.id) categorie = 'personal'
-  return categorie
+  let category = item.category
+  if (category === 'public') category = isNearby(item.distanceFromMainUser) ? 'nearbyPublic' : 'otherPublic'
+  if (item.owner === app.user.id) category = 'personal'
+  return category
 }
 
 const byDistance = (distanceA, distanceB) => distanceA - distanceB
 const nearbyKmPerimeter = 50
-const isNearby = distance => nearbyKmPerimeter > distance
+export const isNearby = distance => distance != null && distance < nearbyKmPerimeter
 
 export const categoriesHeaders = {
   personal: {

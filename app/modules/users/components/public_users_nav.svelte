@@ -7,7 +7,7 @@
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import Marker from '#map/components/marker.svelte'
   import PositionRequired from '#map/components/position_required.svelte'
-  import UserMarkerAlt from '#map/components/user_marker_alt.svelte'
+  import UserMarker from '#map/components/user_marker.svelte'
   import { getBbox } from '#map/lib/map'
   import { i18n, I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
@@ -147,7 +147,7 @@
           {#if usersInBounds && !zoomInToDisplayMore}
             {#each usersInBounds as user (user._id)}
               <Marker latLng={user.position}>
-                <UserMarkerAlt doc={user} on:select={onSelectUser} />
+                <UserMarker doc={user} on:select={onSelectUser} />
               </Marker>
             {/each}
           {/if}

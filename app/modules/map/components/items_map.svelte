@@ -1,106 +1,123 @@
 <script>
-  import Spinner from '#general/components/spinner.svelte'
   import { transactionsData } from '#inventory/lib/transactions_data'
   import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { onChange } from '#lib/svelte/svelte'
   import MapFilters from '#map/components/map_filters.svelte'
-  import SimpleMap from '#map/components/simple_map.svelte'
-  import { getLeaflet } from '#map/lib/map'
   import { i18n } from '#user/lib/i18n'
-  import { buildMarkers, getBounds } from './lib/map'
+  import { pluck, uniq, pick } from 'underscore'
+  import { getDocsBounds } from './lib/map'
+  import LeafletMap from '#map/components/leaflet_map.svelte'
+  import ItemMarker from '#map/components/item_marker.svelte'
+  import Marker from '#map/components/marker.svelte'
+  import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
+  import { user } from '#user/user_store'
+  import UserMarker from '#map/components/user_marker.svelte'
 
   export let docsToDisplay = []
-  export let initialDocs
+  export let allItems
 
-  let allEditionsFilters, editionsFiltersData, selectedFilters, bounds
+  let allEditionsFilters, editionsFiltersData, bounds, initialBounds
   let selectedTransactionFilters = []
   let selectedEditionFilters = []
   let allTransactionFilters = []
   let transactionFiltersData = {}
-  let idsToDisplay = []
-  let markers = new Map()
 
-  const syncDocValues = () => {
-    bounds = getBounds(docsToDisplay)
-    idsToDisplay = docsToDisplay.map(_.property('id'))
+  function onDocsToDisplayChange () {
+    if (docsToDisplay) {
+      bounds = getDocsBounds(docsToDisplay)
+      const nearbyDocs = docsToDisplay.filter(item => isNearby(item.distanceFromMainUser))
+      const nearbyBounds = pluck(nearbyDocs, 'position')
+      initialBounds = nearbyBounds.length > 0 ? nearbyBounds : bounds
+      const mainUserPosition = app.user.get('position')
+      if (mainUserPosition) initialBounds = initialBounds.concat([ mainUserPosition ])
+      updateFilters(docsToDisplay)
+    }
   }
 
-  const resetDocsToDisplay = () => docsToDisplay = initialDocs
+  const resetDocsToDisplay = () => docsToDisplay = allItems
 
-  const displayItemsMarkers = async items => {
+  const updateFilters = items => {
     allEditionsFilters = []
 
     if (isNonEmptyArray(items)) {
-      allEditionsFilters = _.uniq(items.map(_.property('entity')))
-      allTransactionFilters = _.uniq(items.map(_.property('transaction')))
+      allEditionsFilters = uniq(pluck(items, 'entity'))
+      allTransactionFilters = uniq(pluck(items, 'transaction'))
+      editionsFiltersData = items.reduce((filtersData, item) => ({ ...filtersData, [item.entity]: item }), {})
     }
-    editionsFiltersData = items.reduce((filtersData, item) => ({ ...filtersData, [item.entity]: item }), {})
-    transactionFiltersData = _.pick(transactionsData, allTransactionFilters)
+    transactionFiltersData = pick(transactionsData, allTransactionFilters)
     selectedEditionFilters = allEditionsFilters
     selectedTransactionFilters = allTransactionFilters
-    buildMarkers(items, markers)
   }
 
-  async function initMap () {
-    await getLeaflet()
-    await displayItemsMarkers(docsToDisplay)
+  function isFilterSelected (item) {
+    if (!item.position) return false
+    if (!selectedEditionFilters.includes(item.entity)) return false
+    if (!selectedTransactionFilters.includes(item.transaction)) return false
+    return true
   }
 
-  $: {
-    selectedFilters = [ ...selectedTransactionFilters, ...selectedEditionFilters ]
+  let displayedItems
+  function onFiltersChange () {
+    displayedItems = docsToDisplay.filter(isFilterSelected)
   }
-  $: docsToDisplay && syncDocValues()
-  $: notAllDocsAreDisplayed = docsToDisplay.length !== initialDocs.length
-  $: displayItemsMarkers(docsToDisplay)
+
+  $: onChange(docsToDisplay, onDocsToDisplayChange)
+  $: onChange(selectedEditionFilters, selectedTransactionFilters, onFiltersChange)
+  $: notAllDocsAreDisplayed = displayedItems.length !== allItems.length
 </script>
-{#await initMap()}
-  <div class="loading-wrapper">
-    <p class="loading">{i18n('Loading map…')} <Spinner /></p>
-  </div>
-{:then}
-  <div class="items-map">
-    <SimpleMap
-      {bounds}
-      {markers}
-      bind:selectedFilters
-      {idsToDisplay}
-    />
-    {#if allTransactionFilters.length > 1}
-      <MapFilters
-        type="transaction"
-        bind:selectedFilters={selectedTransactionFilters}
-        filtersData={transactionFiltersData}
-        bind:allFilters={allTransactionFilters}
-      />
-    {/if}
-    {#if allEditionsFilters.length > 1}
-      <MapFilters
-        type="editions"
-        bind:selectedFilters={selectedEditionFilters}
-        filtersData={editionsFiltersData}
-        bind:allFilters={allEditionsFilters}
-      />
-    {/if}
-  </div>
-  {#if notAllDocsAreDisplayed}
-    <div class="show-all-wrapper">
-      <button class="show-all-button" on:click={resetDocsToDisplay}>
-        {i18n('Show every books on map')}
-      </button>
-    </div>
+
+<div class="items-map">
+  {#if bounds.length > 0}
+    <LeafletMap
+      bounds={bounds.concat([ $user.position ])}
+      cluster={true}
+    >
+      {#each displayedItems as item (item._id)}
+        <Marker latLng={item.position}>
+          <ItemMarker {item} />
+        </Marker>
+      {/each}
+      <Marker latLng={$user.position} standalone={true}>
+        <UserMarker doc={$user} />
+      </Marker>
+    </LeafletMap>
   {/if}
-{/await}
+</div>
+{#if allTransactionFilters?.length > 1}
+  <MapFilters
+    type="transaction"
+    bind:selectedFilters={selectedTransactionFilters}
+    filtersData={transactionFiltersData}
+    bind:allFilters={allTransactionFilters}
+    translatableFilterValues={true}
+  />
+{/if}
+{#if allEditionsFilters?.length > 1}
+  <MapFilters
+    type="editions"
+    bind:selectedFilters={selectedEditionFilters}
+    filtersData={editionsFiltersData}
+    bind:allFilters={allEditionsFilters}
+  />
+{/if}
+{#if notAllDocsAreDisplayed}
+  <div class="show-all-wrapper">
+    <button class="show-all-button" on:click={resetDocsToDisplay}>
+      {i18n('Show every books on map')}
+    </button>
+  </div>
+{/if}
+
 <style lang="scss">
   @import "#general/scss/utils";
   .items-map{
     position: relative;
+    height: 30em;
     width: 100%;
   }
   .show-all-wrapper{
     @include display-flex(column, flex-end);
     margin-bottom: 1em;
-  }
-  .loading-wrapper{
-    @include display-flex(column, center);
   }
   .show-all-button{
     @include tiny-button($light-grey);
