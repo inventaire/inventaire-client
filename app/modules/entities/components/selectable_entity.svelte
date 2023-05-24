@@ -34,6 +34,7 @@
       class:zoom
       src={zoom ? entity.image.large : entity.image.small}
       alt=""
+      loading="lazy"
       on:click|stopPropagation={() => zoom = !zoom}
       on:keyup={toggleZoomOnEnter}
     />

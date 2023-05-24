@@ -11,7 +11,7 @@
   class:single={limit === 1}
 >
   {#each displayedImages as imageUrl}
-    <img src={imgSrc(imageUrl, imageSize, imageSize)} alt="" />
+    <img src={imgSrc(imageUrl, imageSize, imageSize)} alt="" loading="lazy" />
   {/each}
 </div>
 

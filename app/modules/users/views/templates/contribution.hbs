@@ -31,7 +31,7 @@
   </div>
   {{#if showUser}}
     <a class="user showUserContributions" href="{{user.contributionsPathname}}">
-      <img src="{{imgSrc user.picture 32}}" alt="{{user.username}}">
+      <img src="{{imgSrc user.picture 32}}" alt="{{user.username}}" loading="lazy">
       <p class="username">{{user.username}}</p>
     </a>
   {{/if}}

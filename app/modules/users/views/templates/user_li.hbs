@@ -1,7 +1,11 @@
 <div class="left-box">
   <a class="select" href="{{pathname}}" title="{{username}}">
-    <img class="profilePic" alt="{{username}} avatar"
-    src="{{#if stretch}}{{imgSrc picture 80}}{{else}}{{imgSrc picture 48}}{{/if}}">
+    <img
+      class="profilePic"
+      src="{{#if stretch}}{{imgSrc picture 80}}{{else}}{{imgSrc picture 48}}{{/if}}"
+      alt="{{username}} avatar"
+      loading="lazy"
+    >
   </a>
 </div>
 <div class="right-box">

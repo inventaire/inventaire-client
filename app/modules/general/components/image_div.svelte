@@ -5,7 +5,7 @@
 
 <div class="image-div">
   {#if url}
-    <img src={imgSrc(url, size, size)} {alt} />
+    <img src={imgSrc(url, size, size)} {alt} loading="lazy" />
   {/if}
 </div>
 

@@ -40,7 +40,7 @@
     <div class="top-section">
       {#if image.url}
         <div class="cover">
-          <img src={imgSrc(image.url, 300)} alt={label} />
+          <img src={imgSrc(image.url, 300)} alt={label} loading="lazy" />
         </div>
       {/if}
       <div class="info-wrapper">

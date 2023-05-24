@@ -157,6 +157,7 @@
         <img
           src={dataUrl || `/img/entities/${currentValue}`}
           alt={i18n('Image preview')}
+          loading="lazy"
           bind:this={imageElement}
         />
       </div>

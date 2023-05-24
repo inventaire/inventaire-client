@@ -33,10 +33,20 @@
     on:click={showItem}
     title={personalizedTitle}
   >
-    <img class="marker-img" src={imgSrc(cover, 64)} alt={personalizedTitle} />
+    <img
+      class="marker-img"
+      src={imgSrc(cover, 64)}
+      alt={personalizedTitle}
+      loading="lazy"
+    />
     {#if userPicture}
       <div class="right">
-        <img class="marker-img" src={imgSrc(userPicture, 64)} alt={username} />
+        <img
+          class="marker-img"
+          src={imgSrc(userPicture, 64)}
+          alt={username}
+          loading="lazy"
+        />
       </div>
     {/if}
     <div class="icon-wrapper">

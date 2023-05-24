@@ -1,7 +1,7 @@
 <a href="{{pathname}}">
   <div class="pics">
     {{#each pictures}}
-      <img src="{{imgSrc this 96}}" alt="{{label}}">
+      <img src="{{imgSrc this 96}}" alt="{{label}}" loading="lazy">
     {{/each}}
   </div>
   {{#if uri}}

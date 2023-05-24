@@ -7,7 +7,7 @@
 <a class="showEntity" class:large href={entity.pathname}>
   {#if entity.image.url}
     <div class="image-wrapper">
-      <img src={imgSrc(entity.image.url, 64)} alt={entity.label} />
+      <img src={imgSrc(entity.image.url, 64)} alt={entity.label} loading="lazy" />
     </div>
   {/if}
   <div class="info">

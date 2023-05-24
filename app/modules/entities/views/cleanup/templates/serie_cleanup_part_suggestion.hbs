@@ -1,5 +1,5 @@
 <div>
-  {{#if image.url}}<img src="{{imgSrc image.url 100}}" alt="{{label}}">{{/if}}
+  {{#if image.url}}<img src="{{imgSrc image.url 100}}" alt="{{label}}" loading="lazy">{{/if}}
 </div>
 <a class="showEntity link" href="{{pathname}}">{{label}}</a>
 <p class="uri">{{uri}}</p>

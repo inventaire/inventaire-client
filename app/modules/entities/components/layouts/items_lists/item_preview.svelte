@@ -48,12 +48,14 @@
         <img
           src={imgSrc(cover, 64)}
           alt={title}
+          loading="lazy"
         />
       {/if}
     </div>
     <img
       src={imgSrc(userPicture, 64, 64)}
       alt={username}
+      loading="lazy"
     />
     <div class="user-info">
       <p class="username">

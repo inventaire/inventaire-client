@@ -10,7 +10,7 @@
 
 <button class="value-display" on:click={() => dispatch('edit')} title={I18n('edit')}>
   {#if value}
-    <img src={imgSrc(`/img/entities/${value}`, 300, 300)} alt={I18n(property)} />
+    <img src={imgSrc(`/img/entities/${value}`, 300, 300)} alt={I18n(property)} loading="lazy" />
   {/if}
 </button>
 

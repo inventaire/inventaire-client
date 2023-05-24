@@ -32,7 +32,7 @@
   {#if onItem}
     <div class="profile-pic">
       {#if requester.picture}
-        <img src={imgSrc(requester.picture, 48)} alt={requester.username} />
+        <img src={imgSrc(requester.picture, 48)} alt={requester.username} loading="lazy" />
       {/if}
     </div>
     <span class="context-text">{@html transactionStateText}</span>

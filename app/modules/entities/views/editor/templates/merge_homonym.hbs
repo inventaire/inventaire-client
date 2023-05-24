@@ -3,7 +3,7 @@
 {{/if}}
 
 {{#if image.url}}
-  <img src="{{imgSrc image.url 200}}" alt='{{label}}'>
+  <img src="{{imgSrc image.url 200}}" alt='{{label}}' loading="lazy">
 {{/if}}
 <h5 class="label">
   <a href="{{pathname}}" class="showEntity">{{label}}</a>

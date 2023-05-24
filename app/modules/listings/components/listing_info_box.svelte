@@ -65,7 +65,7 @@
         on:click={loadInternalLink}
       >
         {#await waitingForCreator then}
-          <img src={imgSrc(userPicture, 32)} alt="" />
+          <img src={imgSrc(userPicture, 32)} alt="" loading="lazy" />
           <span class="username">{username}</span>
         {/await}
       </a>

@@ -25,7 +25,7 @@
   on:click={loadInternalLink}
 >
   {#if image.url}
-    <img src={imgSrc(image.url, 56)} alt={i18n('author picture')} />
+    <img src={imgSrc(image.url, 56)} alt={i18n('author picture')} loading="lazy" />
   {/if}
   <div class="author-info">
     <p class="author-label">{label}</p>

@@ -87,7 +87,12 @@
         on:click|stopPropagation={showItem}
       >
         <span class="username">{username}</span>
-        <img class="avatar" alt="{username} avatar" src={imgSrc(picture, 48)} />
+        <img
+          class="avatar"
+          alt="{username} avatar"
+          src={imgSrc(picture, 48)}
+          loading="lazy"
+        />
       </a>
     {/if}
   </div>

@@ -51,6 +51,7 @@
   <a class="item-show" href={pathname} on:click|stopPropagation={showItem}>
     <div class="cover">
       {#if image}
+        <!-- Do not set loading="lazy" as the dynamic image size determines the card height -->
         <img src={imgSrc(image, 300)} alt={title} />
       {/if}
     </div>
