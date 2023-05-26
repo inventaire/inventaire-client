@@ -1,4 +1,4 @@
-import { I18n } from '#user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import { groupBy } from 'underscore'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 
@@ -33,6 +33,6 @@ export const getDisplayedPropertiesByCategory = () => {
 }
 
 export const categoryLabels = {
-  bibliographicDatabases: I18n('bibliographic databases'),
-  socialNetworks: I18n('social networks'),
+  bibliographicDatabases: i18n('bibliographic databases'),
+  socialNetworks: i18n('social networks'),
 }

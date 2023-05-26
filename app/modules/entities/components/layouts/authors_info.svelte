@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import Spinner from '#general/components/spinner.svelte'
   import { isNonEmptyArray, isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
@@ -35,7 +35,7 @@
       {#each Object.keys(propertiesByRoles) as role}
         {#if hasPropertiesToDisplay(role)}
           <div class="{role} authors-role">
-            <span class="label">{I18n(role)}</span>
+            <span class="label">{i18n(role)}</span>
             <div class="authors">
               {#each propertiesByRoles[role] as prop}
                 {#if claims[prop]}

@@ -1,7 +1,7 @@
 <script>
   import { formatEbooksClaim } from '#entities/components/lib/claims_helpers'
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { I18n, i18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import Link from '#lib/components/link.svelte'
   import sitelinks_ from '#lib/wikimedia/sitelinks'
 
@@ -24,7 +24,7 @@
 </script>
 {#if isNonEmptyArray(ebooksData)}
   <div class="ebooks">
-    <span>{I18n('ebooks')}:</span>
+    <span>{i18n('ebooks')}:</span>
     {#each ebooksData as value}
       <Link
         url={value.url}
@@ -44,7 +44,7 @@
   @import "#general/scss/utils";
   .ebooks{
     @include display-flex(row, center, flex-start, wrap);
-    margin-top: 1em;
+    color: $label-grey;
     :global(.icon){
       margin-left: 0.6em;
       margin-right: 0.4em;
