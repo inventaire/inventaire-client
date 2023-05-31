@@ -79,6 +79,7 @@
         display={$inventoryDisplay}
         {itemsIds}
         {itemsShelvesByIds}
+        {shelfId}
         {isMainUser}
         {pagination}
         haveSeveralOwners={ownerId == null}

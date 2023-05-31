@@ -12,6 +12,7 @@
   export let display
   export let pagination
   export let itemsIds = null
+  export let shelfId = null
   export let itemsShelvesByIds = null
   export let isMainUser = false
   export let showDistance = false
@@ -68,12 +69,14 @@
         {items}
         {showDistance}
         {waiting}
+        {shelfId}
       />
     {:else if display === 'table'}
       <ItemsTable
         {items}
         {itemsShelvesByIds}
         {isMainUser}
+        {shelfId}
         {itemsIds}
         {waiting}
         {haveSeveralOwners}

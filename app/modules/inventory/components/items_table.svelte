@@ -8,6 +8,7 @@
   export let items
   export let itemsShelvesByIds
   export let isMainUser
+  export let shelfId
   export let itemsIds
   export let waiting
   export let haveSeveralOwners
@@ -36,7 +37,7 @@
     <ul id="selectable-items">
       {#each items as item (item._id)}
         <li>
-          <ItemRow bind:item shelvesByIds={itemsShelvesByIds}>
+          <ItemRow bind:item {shelfId} shelvesByIds={itemsShelvesByIds}>
             <input
               slot="checkbox"
               type="checkbox"

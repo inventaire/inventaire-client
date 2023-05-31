@@ -12,7 +12,9 @@
   import TruncatedText from '#components/truncated_text.svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
 
-  export let item, showDistance
+  export let item
+  export let showDistance = false
+  export let shelfId = null
 
   item = serializeItem(item)
 
@@ -42,7 +44,11 @@
   }
 </script>
 
-<div class="item-card" class:busy>
+<div
+  class="item-card"
+  class:busy
+  class:removed-from-shelf={shelfId != null && !item.shelves.includes(shelfId)}
+>
   {#if busy}
     <div class="busy-sign" title={i18n('unavailable')}>
       {@html icon('sign-out')}
@@ -111,6 +117,9 @@
       @include shy(0.5);
     }
     position: relative;
+  }
+  .removed-from-shelf{
+    @include shy(0.5);
   }
   .busy-sign{
     opacity: 1;

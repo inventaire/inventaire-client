@@ -12,7 +12,10 @@
   import { compact } from 'underscore'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
 
-  export let item, showUser = false, shelvesByIds
+  export let item
+  export let showUser = false
+  export let shelfId = null
+  export let shelvesByIds
 
   const mainUserIsOwner = item.visibility != null
 
@@ -58,7 +61,10 @@
   }
 </script>
 
-<div class="item-row">
+<div
+  class="item-row"
+  class:removed-from-shelf={shelfId != null && !item.shelves.includes(shelfId)}
+>
   <slot name="checkbox" />
 
   <div class="middle">
@@ -133,6 +139,9 @@
       padding: 1em;
       margin: 1em;
     }
+  }
+  .removed-from-shelf{
+    @include shy(0.5);
   }
   .middle{
     flex: 1;

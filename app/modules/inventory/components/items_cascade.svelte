@@ -7,6 +7,7 @@
 
   export let items
   export let showDistance = false
+  export let shelfId = null
   export let waiting
 
   const baseColumnWidth = 230
@@ -40,7 +41,7 @@
     {animate}
     let:item
   >
-    <ItemCard {item} {showDistance} />
+    <ItemCard {item} {showDistance} {shelfId} />
   </Masonry>
 
   {#await waiting}<Spinner center={true} />{/await}
