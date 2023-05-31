@@ -35,7 +35,7 @@
   let currentShelves = shelvesIds
   async function save () {
     if (isEqual(shelvesIds, currentShelves)) return
-    currentShelves = shelvesIds
+    serializedItem.shelves = currentShelves = shelvesIds
     await app.request('items:update', {
       items: [ itemId ],
       attribute: 'shelves',
