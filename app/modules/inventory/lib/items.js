@@ -11,8 +11,9 @@ export function serializeItem (item) {
   Object.assign(item, {
     pathname: `/items/${item._id}`,
     title: item.snapshot['entity:title'],
-    personalizedTitle: findBestTitle(item),
     subtitle: item.snapshot['entity:subtitle'],
+    authors: item.snapshot['entity:authors'],
+    personalizedTitle: findBestTitle(item),
     entityPathname: getEntityLocalHref(item.entity),
     userReady: item.userReady,
     mainUserIsOwner: item.mainUserIsOwner,
@@ -69,4 +70,12 @@ function hasActiveTransaction (itemId) {
   // if the user isn't logged in
   if (!app.user.loggedIn) return false
   return app.request('has:transactions:ongoing:byItemId', itemId)
+}
+
+export function getItemLinkTitle ({ title, username, mainUserIsOwner }) {
+  if (mainUserIsOwner) {
+    return i18n('Edit your item "%{title}"', { title })
+  } else {
+    return i18n('Learn more about %{username}\'s item "%{title}"', { username, title })
+  }
 }

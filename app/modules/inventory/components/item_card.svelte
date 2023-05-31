@@ -2,7 +2,7 @@
   import { i18n } from '#user/lib/i18n'
   import { icon, isOpenedOutside } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { serializeItem } from '#inventory/lib/items'
+  import { getItemLinkTitle, serializeItem } from '#inventory/lib/items'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
   import ItemUserBox from '#inventory/components/item_user_box.svelte'
   import ItemTransactionBox from '#inventory/components/item_transaction_box.svelte'
@@ -29,10 +29,15 @@
     ordinal,
     restricted,
     userReady = true,
+    mainUserIsOwner,
   } = item
 
+  let username
+
+  $: if (item.user) ({ username } = item.user)
   $: isPrivate = item.visibility?.length === 0
   $: details = item.details
+  $: linkTitle = getItemLinkTitle({ title, mainUserIsOwner, username })
 
   let flash, itemCardSettingsEl
 
@@ -54,7 +59,12 @@
       {@html icon('sign-out')}
     </div>
   {/if}
-  <a class="item-show" href={pathname} on:click|stopPropagation={showItem}>
+  <a
+    class="item-show"
+    href={pathname}
+    on:click|stopPropagation={showItem}
+    title={linkTitle}
+  >
     <div class="cover">
       {#if image}
         <!-- Do not set loading="lazy" as the dynamic image size determines the card height -->

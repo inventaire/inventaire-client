@@ -4,7 +4,7 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
-  import { serializeItem } from '#inventory/lib/items'
+  import { getItemLinkTitle, serializeItem } from '#inventory/lib/items'
   import { screen } from '#lib/components/stores/screen'
   import ImageDiv from '#components/image_div.svelte'
   import ShelfDot from './shelf_dot.svelte'
@@ -19,10 +19,7 @@
 
   const mainUserIsOwner = item.visibility != null
 
-  const { pathname } = serializeItem(item)
-  const title = item.snapshot['entity:title']
-  const authors = item.snapshot['entity:authors']
-  const image = item.snapshot['entity:image']
+  const { title, authors, image, pathname } = serializeItem(item)
 
   let details,
     transaction,
@@ -59,6 +56,8 @@
     showItemModal = true
     e.preventDefault()
   }
+
+  $: linkTitle = getItemLinkTitle({ title, mainUserIsOwner, username })
 </script>
 
 <div
@@ -72,6 +71,7 @@
       href={pathname}
       on:click|stopPropagation={showItem}
       class="show-item"
+      title={linkTitle}
     >
       <ImageDiv url={image} size={128} />
       <div class="info">
