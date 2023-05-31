@@ -32,7 +32,8 @@ export const initI18n = async (app, lang) => {
     console.warn(`Missing translation for key: ${key}`)
     missingKey(key)
     if (key == null) console.trace()
-    return key
+    app.polyglot.phrases[key] = key
+    return app.polyglot.t(key)
   }
 
   setLanguage(lang, onMissingKey)
