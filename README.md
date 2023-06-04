@@ -11,7 +11,7 @@ Libre collaborative resource mapper powered by open-knowledge
 
 This repository tracks [inventaire.io](https://inventaire.io) client-side developments, while the [server-side can be found here](https://github.com/maxlath/inventaire). The server repository gathers the documentation and general issues of the project.
 
-[![inventory-en](https://user-images.githubusercontent.com/5363918/104629906-0724d380-5692-11eb-9176-fb925da18855.png)](https://inventaire.io)
+[![inventory screenshot](https://github.com/inventaire/inventaire/assets/1596934/844c04ff-a216-48dc-b3b9-c33a106b8fbe)](https://inventaire.io)
 
 A map of the client assets generated  by this repository can be found at [`/public/dist/bundle_report.html`](https://inventaire.io/public/dist/bundle_report.html).
 
