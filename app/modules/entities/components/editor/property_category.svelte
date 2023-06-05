@@ -2,6 +2,7 @@
   import { propertiesCategories } from '#entities/lib/editor/properties_per_type'
   import { I18n } from '#user/lib/i18n'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
+  import WrapToggler from '#components/wrap_toggler.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { onChange } from '#lib/svelte/svelte'
 
@@ -11,13 +12,17 @@
 
   const { label: categoryLabel } = (propertiesCategories[category] || {})
 
-  let showCategory, doesCategoryHaveActiveProperties
+  let showCategory
+
+  let showAllProperties = categoryLabel == null
+  let categoryAllUnsortedProperties = Object.keys(categoryProperties)
+  $: categoryCustomProperties = _.intersection(categoryAllUnsortedProperties, customProperties)
+  $: notCategoryCustomProperties = _.without(categoryAllUnsortedProperties, ...customProperties)
+  $: categoryAllProperties = [ ...categoryCustomProperties, ...notCategoryCustomProperties ]
+  $: displayedProperties = showAllProperties ? categoryAllProperties : categoryCustomProperties
 
   function getIfCategoryHasActiveProperties () {
     if (!categoryLabel) return false
-    const categoryPropertiesList = Object.keys(categoryProperties)
-    const categoryCustomProperties = _.intersection(categoryPropertiesList, customProperties)
-    doesCategoryHaveActiveProperties = _.some(categoryCustomProperties)
   }
 
   let scrollMarkerEl
@@ -28,19 +33,26 @@
     scrollMarkerEl.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
   }
 
+  function scrollToCategory () {
+    if (!scrollMarkerEl) return
+    // Wait for transitions to be over before attempting to scroll
+    setTimeout(scroll, 200)
+  }
+
   function toggle () {
     showCategory = !showCategory
-    if (showCategory) {
-      // Wait for transitions to be over before attempting to scroll
-      setTimeout(scroll, 200)
-    }
+    // Known case: in user settings, no custom properties of a category are checked.
+    if (categoryCustomProperties.length === 0) showAllProperties = true
+    if (showCategory) scrollToCategory()
   }
 
   $: onChange(customProperties, getIfCategoryHasActiveProperties)
-  $: showCategory = (categoryLabel == null) || doesCategoryHaveActiveProperties
+  $: onChange(displayedProperties, scrollToCategory)
+  $: someCustomProperties = _.some(categoryCustomProperties)
+  $: showCategory = (categoryLabel == null) || someCustomProperties
 </script>
 
-{#if doesCategoryHaveActiveProperties}
+{#if categoryLabel}
   <button
     aria-controls={id}
     class:active={showCategory}
@@ -51,18 +63,24 @@
     <div class="scroll-marker" bind:this={scrollMarkerEl} />
   </button>
 {/if}
-
 {#if showCategory}
-  <div {id} class="category-properties">
-    {#each Object.keys(categoryProperties) as property}
-      {#if !categoryLabel || customProperties.includes(property)}
-        <PropertyClaimsEditor
-          bind:entity
-          {property}
-        />
-      {/if}
+  <ul {id} class="category-properties">
+    {#each displayedProperties as property}
+      <PropertyClaimsEditor
+        bind:entity
+        {property}
+      />
     {/each}
-  </div>
+  </ul>
+  {#if categoryLabel && someCustomProperties && (categoryCustomProperties.length !== categoryAllProperties.length)}
+    <div class="toggle-custom-properties">
+      <WrapToggler
+        bind:show={showAllProperties}
+        moreText={I18n('show more properties')}
+        lessText={I18n('show only main properties')}
+      />
+    </div>
+  {/if}
 {/if}
 
 <style lang="scss">
@@ -91,5 +109,8 @@
   .scroll-marker{
     position: absolute;
     top: -$topbar-height - 10;
+  }
+  .toggle-custom-properties{
+    margin-left: 0.5em;
   }
 </style>

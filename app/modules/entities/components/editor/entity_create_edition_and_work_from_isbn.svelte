@@ -88,12 +88,14 @@
   <section class="work" bind:this={workSection}>
     <h2>{I18n('work')}</h2>
     <p class="help">{i18n('Data common to all editions of this book')}</p>
-    {#each displayedWorkProperties as property (property)}
-      <PropertyClaimsEditor
-        bind:entity={work}
-        {property}
-      />
-    {/each}
+    <ul>
+      {#each displayedWorkProperties as property (property)}
+        <PropertyClaimsEditor
+          bind:entity={work}
+          {property}
+        />
+      {/each}
+    </ul>
     <WrapToggler
       bind:show={showAllWorkProperties}
       moreText={I18n('add more details')}
@@ -105,13 +107,15 @@
   <section class="edition">
     <h2>{I18n('edition')}</h2>
     <p class="help">{i18n('Data specific to that particular edition')}</p>
-    {#each displayedEditionProperties as property (property)}
-      <PropertyClaimsEditor
-        bind:entity={edition}
-        {property}
-        required={editionRequiredProperties.includes(property)}
-      />
-    {/each}
+    <ul>
+      {#each displayedEditionProperties as property (property)}
+        <PropertyClaimsEditor
+          bind:entity={edition}
+          {property}
+          required={editionRequiredProperties.includes(property)}
+        />
+      {/each}
+    </ul>
     <WrapToggler
       bind:show={showAllEditionProperties}
       moreText={I18n('add more details')}

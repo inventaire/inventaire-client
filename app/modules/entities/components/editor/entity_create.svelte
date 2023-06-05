@@ -91,13 +91,15 @@
     {/if}
 
     {#if typeProperties}
-      {#each Object.keys(displayedProperties) as property (property)}
-        <PropertyClaimsEditor
-          bind:entity
-          {property}
-          required={requiredProperties.includes(property)}
-        />
-      {/each}
+      <ul>
+        {#each Object.keys(displayedProperties) as property (property)}
+          <PropertyClaimsEditor
+            bind:entity
+            {property}
+            required={requiredProperties.includes(property)}
+          />
+        {/each}
+      </ul>
     {/if}
 
     <WrapToggler

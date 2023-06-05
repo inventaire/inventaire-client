@@ -21,7 +21,7 @@
   const { customLabel } = typeProperties[property]
   const { multivalue, editorType } = properties[property]
   const fixed = editorType.split('-')[0] === 'fixed'
-  const propertyClaimsCanBeShown = !(fixed && propertyClaims.length === 0)
+  const propertyClaimsCanBeShown = !(fixed)
 
   function addBlankValue () {
     flash = null
@@ -58,7 +58,7 @@
 </script>
 
 {#if propertyClaimsCanBeShown}
-  <div
+  <li
     class="editor-section"
     class:fixed
     class:missing-required={isRequiredAndMissing}
@@ -89,7 +89,7 @@
         </button>
       {/if}
     </div>
-  </div>
+  </li>
 {/if}
 
 <style lang="scss">
