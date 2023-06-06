@@ -133,7 +133,7 @@
       </li>
       <li>
         <button
-          class="show-props-menu tiny-button soft-grey"
+          class="show-props-menu"
           on:click={loadSettings}
         >
           {@html icon('plus')}
