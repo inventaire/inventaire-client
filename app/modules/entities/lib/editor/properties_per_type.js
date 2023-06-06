@@ -104,6 +104,8 @@ export const propertiesPerType = {
   }
 }
 
+export const locallyCreatableEntitiesTypes = Object.keys(propertiesPerType)
+
 export const requiredPropertiesPerType = {
   edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P407' ],
   collection: [ 'wdt:P1476', 'wdt:P123' ]

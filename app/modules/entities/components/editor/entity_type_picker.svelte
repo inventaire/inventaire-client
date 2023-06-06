@@ -1,21 +1,22 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
+  import { locallyCreatableEntitiesTypes } from '#entities/lib/editor/properties_per_type'
 
-  export let type
+  export let selectedType
 </script>
 
 <div class="type-picker" role="listbox">
-  {#each Object.entries(entityTypeNameBySingularType) as [ t, name ]}
+  {#each locallyCreatableEntitiesTypes as type}
     <div
       role="option"
-      aria-selected={type === t}
+      aria-selected={selectedType === type}
     >
       <button
-        on:click={() => type = t}
-        class:selected={type === t}
+        on:click={() => selectedType = type}
+        class:selected={selectedType === type}
       >
-        {I18n(name)}
+        {I18n(entityTypeNameBySingularType[type])}
       </button>
     </div>
   {/each}

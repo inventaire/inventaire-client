@@ -16,6 +16,7 @@ export const entityTypeNameBySingularType = {
   serie: 'serie',
   human: 'author',
   publisher: 'publisher',
+  collection: 'collection',
   movement: 'movement',
   subject: 'subject',
   genre: 'genre',

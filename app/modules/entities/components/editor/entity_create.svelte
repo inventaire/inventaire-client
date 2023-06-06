@@ -79,7 +79,7 @@
 <div class="column">
   <h2>{I18n(`create a new ${entityTypeNameBySingularType[type] || 'entity'}`)}</h2>
   {#if canChangeType}
-    <EntityTypePicker bind:type />
+    <EntityTypePicker bind:selectedType={type} />
   {/if}
 
   {#if type}
