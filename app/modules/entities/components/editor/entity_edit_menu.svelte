@@ -136,7 +136,7 @@
           class="show-props-menu"
           on:click={loadSettings}
         >
-          {@html icon('plus')}
+          {@html icon('wrench')}
           {I18n('customize editable properties')}
         </button>
       </li>
