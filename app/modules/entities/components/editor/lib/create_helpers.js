@@ -6,6 +6,7 @@ import wdLang from 'wikidata-lang'
 import preq from '#lib/preq'
 import assert_ from '#lib/assert_types'
 import properties from '#entities/lib/properties'
+import { isNonEmptyArray } from '#lib/boolean_tests'
 
 export function getMissingRequiredProperties ({ entity, requiredProperties, requiresLabel }) {
   const { type } = entity
@@ -62,7 +63,9 @@ export const getPropertiesShortlist = function (type, claims) {
   const typeShortlist = propertiesShortlists[type]
   if (typeShortlist == null) return null
 
-  const claimsProperties = Object.keys(claims).filter(nonFixedEditor)
+  const claimsProperties = Object.keys(claims)
+    .filter(isShortlistableProperty(claims))
+
   let propertiesShortlist = propertiesShortlists[type].concat(claimsProperties)
   // If a serie was passed in the claims, invite to add an ordinal
   if (claimsProperties.includes('wdt:P179')) propertiesShortlist.push('wdt:P1545')
@@ -80,10 +83,12 @@ const filterPerRole = propertiesShortlist => {
   else return without(propertiesShortlist, ...dataadminOnlyShortlistedProperties)
 }
 
-const nonFixedEditor = function (prop) {
-  // Testing properties[prop] existance as some properties don't
-  // have an editor. Ex: wdt:P31
-  const editorType = properties[prop]?.editorType
+const isShortlistableProperty = claims => property => {
+  const values = claims[property]
+  if (!isNonEmptyArray(values)) return false
+
+  // Some properties might not have an editor
+  const editorType = properties[property]?.editorType
   if (!editorType) return false
 
   // Filter-out fixed editor: 'fixed-entity', 'fixed-string'
