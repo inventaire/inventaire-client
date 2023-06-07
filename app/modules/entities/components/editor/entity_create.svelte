@@ -92,13 +92,16 @@
 
     {#if typeProperties}
       <ul>
-        {#each Object.keys(displayedProperties) as property (property)}
-          <PropertyClaimsEditor
-            bind:entity
-            {property}
-            required={requiredProperties.includes(property)}
-          />
-        {/each}
+        <!-- Fully regenerate block on type change to get type-specific custom labels -->
+        {#key type}
+          {#each Object.keys(displayedProperties) as property (property)}
+            <PropertyClaimsEditor
+              bind:entity
+              {property}
+              required={requiredProperties.includes(property)}
+            />
+          {/each}
+        {/key}
       </ul>
     {/if}
 
