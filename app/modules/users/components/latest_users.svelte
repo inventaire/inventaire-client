@@ -1,4 +1,5 @@
 <script>
+  import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import preq from '#lib/preq'
@@ -8,10 +9,13 @@
 
   let flash
   let users = []
+  let limit = 10
+  let offset, fetching
   async function fetchMore () {
     try {
-      const res = await preq.get(app.API.users.byCreationDate())
-      const { users: newUsers } = res
+      offset = offset == null ? 0 : offset += limit
+      fetching = preq.get(app.API.users.byCreationDate({ limit, offset }))
+      const { users: newUsers } = await fetching
       users = users.concat(newUsers.map(serializeUser))
     } catch (err) {
       flash = err
@@ -21,7 +25,7 @@
   fetchMore()
 </script>
 
-<h2>{i18n('Last users')}</h2>
+<h2>{i18n('Latest users')}</h2>
 
 <Flash state={flash} />
 
@@ -45,6 +49,14 @@
     </li>
   {/each}
 </ul>
+
+{#await fetching}
+  <Spinner center={true} />
+{:then}
+  <button on:click={fetchMore} class="button">
+    {i18n('Fetch more')}
+  </button>
+{/await}
 
 <style lang="scss">
   @import "#general/scss/utils";
@@ -94,5 +106,9 @@
   .bio{
     max-height: 8em;
     overflow: auto;
+  }
+  button{
+    display: block;
+    margin: 2em auto;
   }
 </style>
