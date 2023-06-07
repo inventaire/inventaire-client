@@ -1,5 +1,5 @@
 import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
-import { without } from 'underscore'
+import { pick, without } from 'underscore'
 import { typeHasName } from '#entities/lib/types/entities_types'
 import { i18n } from '#user/lib/i18n'
 import wdLang from 'wikidata-lang'
@@ -95,4 +95,9 @@ const isShortlistableProperty = claims => property => {
   if (editorType.split('-')[0] === 'fixed') return false
 
   return true
+}
+
+export function removeNonTypeProperties (claims, typeProperties) {
+  const typePropertiesIds = Object.keys(typeProperties)
+  return pick(claims, typePropertiesIds)
 }

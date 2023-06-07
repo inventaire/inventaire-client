@@ -7,7 +7,7 @@
   import { entityTypeNameBySingularType, typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
   import Flash from '#lib/components/flash.svelte'
-  import { getMissingRequiredProperties, getPropertiesShortlist } from '#entities/components/editor/lib/create_helpers'
+  import { getMissingRequiredProperties, getPropertiesShortlist, removeNonTypeProperties } from '#entities/components/editor/lib/create_helpers'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
 
@@ -25,7 +25,7 @@
 
   function onTypeChange () {
     typeProperties = propertiesPerType[type]
-    removeInvalidProperties(entity.claims, typeProperties)
+    removeNonTypeProperties(entity.claims, typeProperties)
     hasMonolingualTitle = typeProperties['wdt:P1476'] != null
     requiresLabel = !hasMonolingualTitle
     propertiesShortlist = getPropertiesShortlist(type, entity.claims)
@@ -36,12 +36,6 @@
     entity.type = type
     entity.claims['wdt:P31'] = [ typeDefaultP31[type] ]
     app.execute('querystring:set', 'type', type)
-  }
-
-  function removeInvalidProperties (claims, typeProperties) {
-    Object.keys(claims).forEach(property => {
-      if (typeProperties[property] == null) delete claims[property]
-    })
   }
 
   $: type && onTypeChange()
