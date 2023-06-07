@@ -17,8 +17,8 @@ const socialNetworks = {
 
 // The order is meaningful:
 const work = {
+  'wdt:P31': { customLabel: 'type' }, // instance of
   'wdt:P50': {}, // author
-  'wdt:P31': {}, // instance of
   'wdt:P136': {}, // genre
   'wdt:P921': {}, // main subject
   'wdt:P407': { customLabel: 'original language' }, // original language of work
