@@ -2,7 +2,7 @@
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import LabelsEditor from './labels_editor.svelte'
-  import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
+  import { propertiesPerType, propertiesPerTypeAndCategory, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import { entityTypeNameBySingularType, typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
@@ -10,13 +10,14 @@
   import { getMissingRequiredProperties, getPropertiesShortlist, removeNonTypeProperties } from '#entities/components/editor/lib/create_helpers'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
+  import PropertyCategory from '#entities/components/editor/property_category.svelte'
 
   export let type = 'works', claims, label
 
   const canChangeType = !(type && claims)
 
   let showAllProperties = false, displayedProperties, flash
-  let typeProperties, propertiesShortlist, hasMonolingualTitle, createAndShowLabel, requiresLabel, requiredProperties
+  let typeProperties, typePropertiesPerCategory, propertiesShortlist, hasMonolingualTitle, createAndShowLabel, requiresLabel, requiredProperties
   let entity = {
     type,
     labels: {},
@@ -26,6 +27,7 @@
   function onTypeChange () {
     entity.type = type
     typeProperties = propertiesPerType[type]
+    typePropertiesPerCategory = propertiesPerTypeAndCategory[type]
     removeNonTypeProperties(entity.claims, typeProperties)
     hasMonolingualTitle = typeProperties['wdt:P1476'] != null
     requiresLabel = !hasMonolingualTitle
@@ -84,17 +86,28 @@
       />
     {/if}
 
-    {#if typeProperties}
+    {#if typePropertiesPerCategory}
       <ul>
         <!-- Fully regenerate block on type change to get type-specific custom labels -->
         {#key type}
-          {#each Object.keys(displayedProperties) as property (property)}
-            <PropertyClaimsEditor
-              bind:entity
-              {property}
-              required={requiredProperties.includes(property)}
-            />
-          {/each}
+          {#if showAllProperties}
+            {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
+              <PropertyCategory
+                {entity}
+                {category}
+                {categoryProperties}
+                {requiredProperties}
+              />
+            {/each}
+          {:else}
+            {#each Object.keys(displayedProperties) as property (property)}
+              <PropertyClaimsEditor
+                bind:entity
+                {property}
+                required={requiredProperties.includes(property)}
+              />
+            {/each}
+          {/if}
         {/key}
       </ul>
     {/if}

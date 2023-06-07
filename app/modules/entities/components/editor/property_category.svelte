@@ -7,6 +7,7 @@
   import { onChange } from '#lib/svelte/svelte'
 
   export let entity, category, categoryProperties
+  export let requiredProperties = null
 
   const customProperties = app.user.get('customProperties')
 
@@ -69,6 +70,7 @@
       <PropertyClaimsEditor
         bind:entity
         {property}
+        required={requiredProperties?.includes(property)}
       />
     {/each}
   </ul>
