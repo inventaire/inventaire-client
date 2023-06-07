@@ -24,17 +24,17 @@
   }
 
   function onTypeChange () {
+    entity.type = type
     typeProperties = propertiesPerType[type]
     removeNonTypeProperties(entity.claims, typeProperties)
     hasMonolingualTitle = typeProperties['wdt:P1476'] != null
     requiresLabel = !hasMonolingualTitle
+    entity.claims['wdt:P31'] = [ typeDefaultP31[type] ]
     propertiesShortlist = getPropertiesShortlist(type, entity.claims)
     requiredProperties = requiredPropertiesPerType[type] || []
     const typePossessive = typesPossessiveForms[type]
     createAndShowLabel = `create and go to the ${typePossessive} page`
     showAllProperties = false
-    entity.type = type
-    entity.claims['wdt:P31'] = [ typeDefaultP31[type] ]
     app.execute('querystring:set', 'type', type)
   }
 
