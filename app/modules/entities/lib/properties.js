@@ -1,6 +1,6 @@
 import { entityTypeNameByType } from '#entities/lib/types/entities_types'
 
-const properties = {
+export const propertiesEditorsConfigs = {
   'invp:P2': {
     editorType: 'image',
     property: 'invp:P2',
@@ -329,8 +329,6 @@ const properties = {
   },
 }
 
-for (const settings of Object.values(properties)) {
+for (const settings of Object.values(propertiesEditorsConfigs)) {
   settings.entityTypeName = entityTypeNameByType[settings.searchType]
 }
-
-export default properties

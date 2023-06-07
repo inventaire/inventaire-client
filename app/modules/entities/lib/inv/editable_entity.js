@@ -2,7 +2,7 @@ import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
 import { Rollback } from '#lib/utils'
 import preq from '#lib/preq'
-import properties from '../properties.js'
+import { propertiesEditorsConfigs } from '../properties.js'
 import error_ from '#lib/error'
 
 const propertiesUsedByRelations = [
@@ -43,7 +43,7 @@ export default {
 
     // Some properties don't have an editor, but can still generates edits
     // Ex: external ids set during inventory imports
-    if (properties[property] && properties[property].editorType === 'entity') {
+    if (propertiesEditorsConfigs[property] && propertiesEditorsConfigs[property].editorType === 'entity') {
       app.execute('invalidate:entities:graph', [ oldValue, newValue ])
     }
 

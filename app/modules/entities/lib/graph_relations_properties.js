@@ -1,6 +1,7 @@
-import properties from './properties.js'
+import { property, values } from 'underscore'
+import { propertiesEditorsConfigs } from './properties.js'
 const graphRelationEditorType = [ 'entity', 'fixed-entity' ]
 
-export default _.values(properties)
+export default values(propertiesEditorsConfigs)
   .filter(prop => graphRelationEditorType.includes(prop.editorType))
-  .map(_.property('property'))
+  .map(property('property'))

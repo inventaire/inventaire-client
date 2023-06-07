@@ -5,7 +5,7 @@ import { i18n } from '#user/lib/i18n'
 import wdLang from 'wikidata-lang'
 import preq from '#lib/preq'
 import assert_ from '#lib/assert_types'
-import properties from '#entities/lib/properties'
+import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 
 export function getMissingRequiredProperties ({ entity, requiredProperties, requiresLabel }) {
@@ -87,7 +87,7 @@ const isShortlistableProperty = ({ claims, type }) => property => {
   if (!isNonEmptyArray(values)) return false
 
   // Some properties might not have an editor
-  const editorType = properties[property]?.editorType
+  const editorType = propertiesEditorsConfigs[property]?.editorType
   if (!editorType) return false
 
   if (propertiesPerType[type][property] == null) return false

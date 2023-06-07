@@ -1,5 +1,5 @@
 <script>
-  import properties from '#entities/lib/properties'
+  import { propertiesEditorsConfigs } from '#entities/lib/properties'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
   import ClaimEditor from './claim_editor.svelte'
   import { icon } from '#lib/utils'
@@ -19,7 +19,7 @@
   assert_.string(type)
   const typeProperties = propertiesPerType[type]
   const { customLabel } = typeProperties[property]
-  const { multivalue, editorType } = properties[property]
+  const { multivalue, editorType } = propertiesEditorsConfigs[property]
   const fixed = editorType.split('-')[0] === 'fixed'
   const propertyClaimsCanBeShown = !(fixed)
 

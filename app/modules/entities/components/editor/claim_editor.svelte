@@ -1,5 +1,5 @@
 <script>
-  import properties from '#entities/lib/properties'
+  import { propertiesEditorsConfigs } from '#entities/lib/properties'
   import { editors } from '#entities/components/editor/lib/editors'
   import { createEventDispatcher } from 'svelte'
   import DisplayModeButtons from './display_mode_buttons.svelte'
@@ -18,7 +18,7 @@
   const dispatch = createEventDispatcher()
   const { uri, type } = entity
   const creationMode = uri == null
-  const { editorType } = properties[property]
+  const { editorType } = propertiesEditorsConfigs[property]
   const { InputComponent, DisplayComponent, showSave } = editors[editorType]
   const fixed = editorType.split('-')[0] === 'fixed'
 

@@ -1,5 +1,5 @@
 import { getEntitiesAttributesByUris, getYearFromSimpleDay } from '#entities/lib/entities'
-import properties from '#entities/lib/properties'
+import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { I18n } from '#user/lib/i18n'
 import { intersection, pluck, uniq } from 'underscore'
 
@@ -168,7 +168,7 @@ const customPropertySort = {
 
 export const entityProperties = uniq(Object.values(facetsProperties)
   .flat()
-  .filter(property => properties[property].editorType === 'entity'))
+  .filter(property => propertiesEditorsConfigs[property].editorType === 'entity'))
 
 const formatOption = ({ property, worksUrisPerValue, facetsEntitiesBasicInfo }) => value => {
   if (entityProperties.includes(property)) {
