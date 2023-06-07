@@ -52,8 +52,8 @@ export async function createEditionAndWorkFromEntry ({ edition, work }) {
 
 const propertiesShortlists = {
   human: [ 'wdt:P1412' ],
-  work: [ 'wdt:P50' ],
-  serie: [ 'wdt:P50' ],
+  work: [ 'wdt:P31', 'wdt:P50' ],
+  serie: [ 'wdt:P31', 'wdt:P50' ],
   edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P1680', 'wdt:P123', 'invp:P2', 'wdt:P407', 'wdt:P577' ],
   publisher: [ 'wdt:P856', 'wdt:P112', 'wdt:P571', 'wdt:P576' ],
   collection: [ 'wdt:P1476', 'wdt:P123', 'wdt:P856' ]
