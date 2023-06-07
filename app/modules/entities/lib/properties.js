@@ -106,8 +106,6 @@ addProp('wdt:P135', 'entity', 'movements', true, false)
 addProp('wdt:P112', 'entity', 'humans', false, null)
 // owned by
 addProp('wdt:P127', 'entity', 'humans', false, null)
-// Commons category
-addProp('wdt:P373', 'string', null, false, null)
 // inception
 addProp('wdt:P571', 'simple-day', 'inception', false, null)
 // dissolution
