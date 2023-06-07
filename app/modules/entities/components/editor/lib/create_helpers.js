@@ -1,5 +1,5 @@
 import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
-import { pick, without } from 'underscore'
+import { pick, uniq, without } from 'underscore'
 import { typeHasName } from '#entities/lib/types/entities_types'
 import { i18n } from '#user/lib/i18n'
 import wdLang from 'wikidata-lang'
@@ -61,12 +61,11 @@ const propertiesShortlists = {
 
 export const getPropertiesShortlist = function (type, claims) {
   const typeShortlist = propertiesShortlists[type]
-  if (typeShortlist == null) return null
 
   const claimsProperties = Object.keys(claims)
-    .filter(isShortlistableProperty(claims))
+    .filter(isShortlistableProperty({ claims, type }))
 
-  let propertiesShortlist = propertiesShortlists[type].concat(claimsProperties)
+  let propertiesShortlist = uniq(typeShortlist.concat(claimsProperties))
   // If a serie was passed in the claims, invite to add an ordinal
   if (claimsProperties.includes('wdt:P179')) propertiesShortlist.push('wdt:P1545')
   propertiesShortlist = filterPerRole(propertiesShortlist)
@@ -83,13 +82,15 @@ const filterPerRole = propertiesShortlist => {
   else return without(propertiesShortlist, ...dataadminOnlyShortlistedProperties)
 }
 
-const isShortlistableProperty = claims => property => {
+const isShortlistableProperty = ({ claims, type }) => property => {
   const values = claims[property]
   if (!isNonEmptyArray(values)) return false
 
   // Some properties might not have an editor
   const editorType = properties[property]?.editorType
   if (!editorType) return false
+
+  if (propertiesPerType[type][property] == null) return false
 
   // Filter-out fixed editor: 'fixed-entity', 'fixed-string'
   if (editorType.split('-')[0] === 'fixed') return false

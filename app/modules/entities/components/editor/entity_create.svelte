@@ -16,7 +16,7 @@
 
   const canChangeType = !(type && claims)
 
-  let showAllProperties = false, displayedProperties, flash
+  let showAllProperties = false, flash
   let typeProperties, typePropertiesPerCategory, propertiesShortlist, hasMonolingualTitle, createAndShowLabel, requiresLabel, requiredProperties
   let entity = {
     type,
@@ -41,10 +41,6 @@
   }
 
   $: type && onTypeChange()
-
-  $: {
-    displayedProperties = showAllProperties ? typeProperties : _.pick(typeProperties, propertiesShortlist)
-  }
 
   let missingRequiredProperties
   function onEntityChange () {
@@ -100,7 +96,7 @@
               />
             {/each}
           {:else}
-            {#each Object.keys(displayedProperties) as property (property)}
+            {#each propertiesShortlist as property (property)}
               <PropertyClaimsEditor
                 bind:entity
                 {property}
