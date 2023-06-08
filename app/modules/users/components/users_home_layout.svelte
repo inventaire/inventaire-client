@@ -31,7 +31,8 @@
 
   $: if (user) user = serializeUser(user)
 
-  if (user?._id === app.user.id) section = 'user'
+  if (user && user._id === app.user.id) section = 'user'
+
   function onSectionChange () {
     if (section) {
       if (section === 'user') {
