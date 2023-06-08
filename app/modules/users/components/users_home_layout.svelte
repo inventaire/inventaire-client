@@ -78,7 +78,8 @@
         bind:shelf
         bind:profileSection
         {focusedSection}
-        standalone={true} />
+        standalone={true}
+      />
     {:else if group}
       <GroupProfile
         {group}
