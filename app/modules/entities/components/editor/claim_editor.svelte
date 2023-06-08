@@ -18,7 +18,7 @@
   const dispatch = createEventDispatcher()
   const { uri, type } = entity
   const creationMode = uri == null
-  const { editorType } = propertiesEditorsConfigs[property]
+  const { editorType, canValueBeDeleted } = propertiesEditorsConfigs[property]
   const { InputComponent, DisplayComponent, showSave } = editors[editorType]
   const fixed = editorType.split('-')[0] === 'fixed'
 
@@ -117,6 +117,14 @@
     }
   }
 
+  let showDelete
+  $: {
+    showDelete = isNonEmptyClaimValue(savedValue)
+    if (canValueBeDeleted != null) {
+      showDelete = showDelete && canValueBeDeleted({ propertyClaims: entity.claims[property] })
+    }
+  }
+
   function undo () {
     save(previousValue)
   }
@@ -149,7 +157,7 @@
       />
       <EditModeButtons
         {showSave}
-        showDelete={isNonEmptyClaimValue(savedValue)}
+        {showDelete}
         on:save={save}
         on:cancel={closeEditMode}
         on:delete={remove}

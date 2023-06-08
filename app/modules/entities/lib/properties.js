@@ -11,7 +11,9 @@ export const propertiesEditorsConfigs = {
     editorType: 'entity',
     property: 'wdt:P31',
     multivalue: false,
-    allowEntityCreation: false
+    allowEntityCreation: false,
+    // Further checks, such as preventing type changes, will be performed server-side
+    canValueBeDeleted: ({ propertyClaims }) => propertyClaims.length > 1
   },
   // author
   'wdt:P50': {
