@@ -28,10 +28,10 @@
     // Let app.navigate scroll to the page top when UserProfile
     // is already at the top itself (standalone mode), to make the UsersHomeNav visible
     const pageSectionElement = standalone ? null : userProfileEl
+    shelf = null
     if (profileSection === 'inventory') {
       app.navigate(user.inventoryPathname, { pageSectionElement })
     } else if (profileSection === 'listings') {
-      shelf = null
       app.navigate(user.listingsPathname, { pageSectionElement })
     } else {
       app.navigate(user.pathname, { pageSectionElement })
@@ -91,7 +91,7 @@
       {user}
       {groupId}
       {focusedSection}
-      selectedShelf={shelf}
+      bind:selectedShelf={shelf}
       bind:flash
     />
   {/if}
