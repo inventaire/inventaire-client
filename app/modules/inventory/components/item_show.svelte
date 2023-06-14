@@ -121,6 +121,8 @@
         {/if}
 
         <!-- TODO: add publishers and collections -->
+        <!-- TODO: add a link to work editor: "🖉 Add an author, genre, or subject to that work"  -->
+        <!-- TODO: add a link to edition editor: "🖉 Add a translator, foreword/afterword author, book cover, etc to that specific edition"  -->
       {/await}
     </div>
 
