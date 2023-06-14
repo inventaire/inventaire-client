@@ -10,7 +10,7 @@
   import { pluck } from 'underscore'
   import WorksBrowserSection from '#entities/components/layouts/works_browser_section.svelte'
 
-  export let sections
+  export let sections = []
 
   const allWorks = pluck(sections, 'entities').flat()
 
