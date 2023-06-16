@@ -94,25 +94,21 @@
       </div>
       <ul id="selectable-homonyms">
         {#each homonyms as homonym}
-          {#if !homonym.merged}
-            <li>
-              <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri} />
-              <!-- TODO: recover list of subentities (typically author works) -->
-              <EntityListRow
-                entity={homonym}
-                parentEntity={entity}
-                noImageCredits="true"
-                displayUri="true"
-              />
-              <MergeAction
-                bind:merge={homonym.merge}
-                fromEntityUri={homonym.uri}
-                targetEntityUri={entity.uri}
-                on:merged={() => homonym.merged = true}
-                on:isMerging={() => homonym.isMerging = true}
-              />
-            </li>
-          {/if}
+          <li class:merged={homonym.merged}>
+            <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri} />
+            <!-- TODO: recover list of subentities (typically author works) -->
+            <EntityListRow
+              entity={homonym}
+              displayUri={true}
+            />
+            <MergeAction
+              bind:merge={homonym.merge}
+              fromEntityUri={homonym.uri}
+              targetEntityUri={entity.uri}
+              on:merged={() => homonym.merged = true}
+              on:isMerging={() => homonym.isMerging = true}
+            />
+          </li>
         {:else}
           {i18n('has no homonym')}
         {/each}
@@ -147,6 +143,11 @@
     background-color: white;
     input{
       margin-right: 1em;
+    }
+    &.merged{
+      // Hide without removing from the document flow, to prevent element jumping
+      // and accidental clicks on "merge" buttons
+      visibility: hidden;
     }
   }
   button{
