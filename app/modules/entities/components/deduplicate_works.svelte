@@ -20,9 +20,9 @@
   let allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl, from, to
   let loading
 
-  const waitForWorks = assignCantidates()
+  const waitForWorks = assignCandidates()
 
-  async function assignCantidates () {
+  async function assignCandidates () {
     return getAuthorWorksWithImagesAndCoauthors(author)
       .then(works => {
         allWorksByPrefix = spreadByPrefix(works)
@@ -138,7 +138,7 @@
     loading = true
     wdWorks = []
     invWorks = []
-    await assignCantidates()
+    await assignCandidates()
     index = -1
     showNextProbableDuplicates()
     loading = false
