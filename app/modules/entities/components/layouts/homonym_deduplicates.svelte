@@ -5,7 +5,8 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import EntityListRow from './entity_list_row.svelte'
   import MergeAction from '#entities/components/layouts/merge_action.svelte'
-  import { pluck } from 'underscore'
+  import { pluck, partition } from 'underscore'
+  import { isWikidataItemUri } from '#lib/boolean_tests'
 
   export let entity
 
@@ -13,15 +14,27 @@
   let selectedHomonymsUris = []
 
   const { hasDataadminAccess } = app.user
+  const { isWikidataEntity } = entity
 
   const getHomonymsPromise = async () => {
     homonyms = await getHomonymsEntities(entity).then(checkCheckboxOnLabelsMatch)
   }
 
   async function checkCheckboxOnLabelsMatch (homonyms) {
-    selectedHomonymsUris = homonyms
-      .filter(homonym => haveLabelMatch(homonym, entity))
-      .map(_.property('uri'))
+    const exactLabelMatches = homonyms.filter(homonym => haveLabelMatch(homonym, entity))
+    const [ wdExactMatches, invExactMatches ] = partition(exactLabelMatches, homony => isWikidataItemUri(homony.uri))
+    // If there are matching wd entities, the invExactMatches might as well be homonyms from those entities
+    if (isWikidataEntity && wdExactMatches.length === 0) {
+      selectedHomonymsUris = pluck(invExactMatches, 'uri')
+    } else {
+      if (wdExactMatches.length === 1) {
+        selectedHomonymsUris = pluck(wdExactMatches, 'uri')
+      } else if (wdExactMatches.length === 0) {
+        selectedHomonymsUris = pluck(invExactMatches, 'uri')
+      } else {
+      // If there are several matching wd entities, do not pre-select any
+      }
+    }
     return homonyms
   }
 
