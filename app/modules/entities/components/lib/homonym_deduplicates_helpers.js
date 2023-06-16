@@ -2,10 +2,11 @@ import preq from '#lib/preq'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import { someMatch } from '#lib/utils'
 import { getEntitiesByUris } from '#entities/lib/entities'
-import { compact, pick, pluck, uniq } from 'underscore'
+import { compact, partition, pick, pluck, uniq } from 'underscore'
 import { pluralize } from '#entities/lib/types/entities_types'
+import { isWikidataItemUri } from '#lib/boolean_tests'
 
-export const getHomonymsEntities = async entity => {
+export async function getHomonymsEntities (entity) {
   const { uri, labels, aliases, type, isWikidataEntity } = entity
   const terms = getSearchTermsSelection(labels, aliases)
   const hasMultiWordTerms = terms.some(isMultiWordTerm)
@@ -99,7 +100,7 @@ const orderTermWordsAlphabetically = term => {
   .join(' ')
 }
 
-export function haveLabelMatch (suggestion, targetEntity) {
+function haveLabelMatch (suggestion, targetEntity) {
   return someMatch(getNormalizedLabels(suggestion), getNormalizedLabels(targetEntity))
 }
 
@@ -121,4 +122,22 @@ const normalizeLabel = label => {
   // and https://javascript.info/regexp-unicode#unicode-properties-p
   .replace(/\P{Alphabetic}+/ug, ' ')
   .replace(/\s+/g, ' ')
+}
+
+export function preselectLikelyDuplicates ({ entity, homonyms }) {
+  const { isWikidataEntity } = entity
+  const exactLabelMatches = homonyms.filter(homonym => haveLabelMatch(homonym, entity))
+  const [ wdExactMatches, invExactMatches ] = partition(exactLabelMatches, homony => isWikidataItemUri(homony.uri))
+  // If there are matching wd entities, the invExactMatches might as well be homonyms from those entities
+  if (isWikidataEntity && wdExactMatches.length === 0) {
+    return pluck(invExactMatches, 'uri')
+  } else {
+    if (wdExactMatches.length === 1) {
+      return pluck(wdExactMatches, 'uri')
+    } else if (wdExactMatches.length === 0) {
+      return pluck(invExactMatches, 'uri')
+    } else {
+      // If there are several matching wd entities, do not pre-select any
+    }
+  }
 }
