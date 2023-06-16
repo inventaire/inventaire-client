@@ -1,12 +1,11 @@
 <script>
-  import { getHomonymsEntities, haveLabelMatch } from '#entities/components/lib/homonym_deduplicates_helpers'
+  import { getHomonymsEntities, preselectLikelyDuplicates } from '#entities/components/lib/homonym_deduplicates_helpers'
   import Spinner from '#general/components/spinner.svelte'
   import { icon } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
   import EntityListRow from './entity_list_row.svelte'
   import MergeAction from '#entities/components/layouts/merge_action.svelte'
-  import { pluck, partition } from 'underscore'
-  import { isWikidataItemUri } from '#lib/boolean_tests'
+  import { pluck } from 'underscore'
 
   export let entity
   export let standalone = false
@@ -15,28 +14,10 @@
   let selectedHomonymsUris = []
 
   const { hasDataadminAccess } = app.user
-  const { isWikidataEntity } = entity
 
   const getHomonymsPromise = async () => {
-    homonyms = await getHomonymsEntities(entity).then(checkCheckboxOnLabelsMatch)
-  }
-
-  async function checkCheckboxOnLabelsMatch (homonyms) {
-    const exactLabelMatches = homonyms.filter(homonym => haveLabelMatch(homonym, entity))
-    const [ wdExactMatches, invExactMatches ] = partition(exactLabelMatches, homony => isWikidataItemUri(homony.uri))
-    // If there are matching wd entities, the invExactMatches might as well be homonyms from those entities
-    if (isWikidataEntity && wdExactMatches.length === 0) {
-      selectedHomonymsUris = pluck(invExactMatches, 'uri')
-    } else {
-      if (wdExactMatches.length === 1) {
-        selectedHomonymsUris = pluck(wdExactMatches, 'uri')
-      } else if (wdExactMatches.length === 0) {
-        selectedHomonymsUris = pluck(invExactMatches, 'uri')
-      } else {
-      // If there are several matching wd entities, do not pre-select any
-      }
-    }
-    return homonyms
+    homonyms = await getHomonymsEntities(entity)
+    selectedHomonymsUris = preselectLikelyDuplicates({ entity, homonyms }) || []
   }
 
   const isSelectedHomonym = homonym => {
