@@ -85,19 +85,18 @@
     }
   }
 
-  function merge () {
+  async function merge () {
     if (!(from && to)) return
     merging = true
-    mergeEntities(from.uri, to.uri)
-      .then(() => {
-        from._merged = true
-        invWorks = invWorks.filter(notMerged)
-        next()
-      })
-      .catch(err => {
-        error = err
-      })
-      .finally(() => merging = false)
+    try {
+      await mergeEntities(from.uri, to.uri)
+      from._merged = true
+      next()
+    } catch (err) {
+      error = err
+    } finally {
+      merging = false
+    }
   }
 
   let fromSelectedByFilter, toSelectedByFilter
@@ -188,15 +187,17 @@
       </div>
       <ul>
         {#each displayedInvWorks as work (work.uri)}
-          <li class="work">
-            <SelectableEntity
-              entity={work}
-              bind:from
-              bind:to
-              {filterPattern}
-              on:select={onEntitySelect}
-            />
-          </li>
+          {#if !work._merged}
+            <li class="work">
+              <SelectableEntity
+                entity={work}
+                bind:from
+                bind:to
+                {filterPattern}
+                on:select={onEntitySelect}
+              />
+            </li>
+          {/if}
         {:else}
           {#if loading}
             <p class="loading">{i18n('Loading works...')}<Spinner /></p>
