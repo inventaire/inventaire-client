@@ -14,17 +14,20 @@
 
   const { hasDataadminAccess } = app.user
 
-  const getHomonymsPromise = async () => homonyms = await getHomonymsEntities(entity)
-    .then(checkCheckboxOnLabelsMatch)
+  const getHomonymsPromise = async () => {
+    homonyms = await getHomonymsEntities(entity).then(checkCheckboxOnLabelsMatch)
+  }
 
   async function checkCheckboxOnLabelsMatch (homonyms) {
     selectedHomonymsUris = homonyms
       .filter(homonym => haveLabelMatch(homonym, entity))
-      .map((_.property('uri')))
+      .map(_.property('uri'))
     return homonyms
   }
 
-  const selectedHomonyms = homonym => !homonym.isMerging && !homonym.merged && selectedHomonymsUris.includes(homonym.uri)
+  const isSelectedHomonym = homonym => {
+    return !homonym.isMerging && !homonym.merged && selectedHomonymsUris.includes(homonym.uri)
+  }
 
   function selectAll () {
     selectedHomonymsUris = pluck(homonyms, 'uri')
@@ -34,13 +37,13 @@
   }
 
   function mergeSelectedSuggestions () {
-    const homonymsToMerge = homonyms.filter(selectedHomonyms)
+    const homonymsToMerge = homonyms.filter(isSelectedHomonym)
 
-    const mergeSequentially = function () {
+    const mergeSequentially = async () => {
       const nextSelectedView = homonymsToMerge.shift()
       if (nextSelectedView == null) return
-      return nextSelectedView.merge()
-        .then(mergeSequentially)
+      await nextSelectedView.merge()
+      return mergeSequentially()
     }
 
     // Merge 3 at a time
