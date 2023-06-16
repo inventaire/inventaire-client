@@ -74,6 +74,7 @@ export const serializeEntity = entity => {
   const [ prefix, id ] = entity.uri.split(':')
   entity.prefix = prefix
   entity.id = id
+  entity.isWikidataEntity = prefix === 'wd'
   return entity
 }
 
