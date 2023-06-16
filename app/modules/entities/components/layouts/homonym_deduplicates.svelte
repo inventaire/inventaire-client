@@ -6,6 +6,7 @@
   import EntityListRow from './entity_list_row.svelte'
   import MergeAction from '#entities/components/layouts/merge_action.svelte'
   import { pluck } from 'underscore'
+  import CompactAuthorWorksList from '#entities/components/layouts/compact_author_works_list.svelte'
 
   export let entity
   export let standalone = false
@@ -98,18 +99,23 @@
         {#each homonyms as homonym}
           <li class:merged={homonym.merged}>
             <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri} />
-            <!-- TODO: recover list of subentities (typically author works) -->
-            <EntityListRow
-              entity={homonym}
-              displayUri={true}
-            />
-            <MergeAction
-              bind:merge={homonym.merge}
-              fromEntityUri={homonym.uri}
-              targetEntityUri={entity.uri}
-              on:merged={() => homonym.merged = true}
-              on:isMerging={() => homonym.isMerging = true}
-            />
+            <div class="info">
+              <EntityListRow
+                entity={homonym}
+                displayUri={true}
+              />
+              {#if entity.type === 'human'}
+                <CompactAuthorWorksList author={homonym} />
+              {/if}
+              <MergeAction
+                slot="actions"
+                bind:merge={homonym.merge}
+                fromEntityUri={homonym.uri}
+                targetEntityUri={entity.uri}
+                on:merged={() => homonym.merged = true}
+                on:isMerging={() => homonym.isMerging = true}
+              />
+            </div>
           </li>
         {:else}
           <p class="no-results">{I18n('no homonym found')}</p>
@@ -162,6 +168,12 @@
   button{
     @include tiny-button($grey);
     margin: 0.2em;
+  }
+  .info{
+    @include display-flex(column, center, center);
+    :global(.merge){
+      margin-top: 0.5em;
+    }
   }
   .no-results{
     margin: 1em;

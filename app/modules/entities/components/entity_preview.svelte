@@ -1,10 +1,11 @@
 <script>
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { loadInternalLink } from '#lib/utils'
 
   export let entity, large = false
 </script>
 
-<a class="showEntity" class:large href={entity.pathname}>
+<a class:large href={entity.pathname} on:click={loadInternalLink}>
   {#if entity.image.url}
     <div class="image-wrapper">
       <img src={imgSrc(entity.image.url, 64)} alt={entity.label} loading="lazy" />
@@ -19,8 +20,7 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
-
-  .showEntity{
+  a{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -28,12 +28,13 @@
     background-color: white;
     transition: background-color 0.3s ease;
     border-radius: 3px;
+    padding: 0.2em;
+    &:hover{
+      background-color: $off-white;
+    }
   }
   .large{
     padding: 0 0.5em;
-  }
-  .showEntity:hover{
-    background-color: $off-white;
   }
   .image-wrapper{
     max-width: 4em;
