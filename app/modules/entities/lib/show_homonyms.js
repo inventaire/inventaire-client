@@ -2,23 +2,31 @@ import preq from '#lib/preq'
 import getBestLangValue from './get_best_lang_value'
 import { someMatch } from '#lib/utils'
 import { getEntitiesByUris } from '#entities/lib/entities'
-import { partition, pick, pluck, uniq } from 'underscore'
+import { compact, pick, pluck, uniq } from 'underscore'
 import { pluralize } from '#entities/lib/types/entities_types'
 
 export const getHomonymsEntities = async entity => {
-  const { uri, labels, aliases, type } = entity
+  const { uri, labels, aliases, type, isWikidataEntity } = entity
   const terms = getSearchTermsSelection(labels, aliases)
-  const responses = await Promise.all(terms.map(searchTerm(type)))
-  const results = pluck(responses, 'results').flat()
+  const hasMultiWordTerms = terms.some(isMultiWordTerm)
+  const responses = await Promise.all(terms.map(searchTerm({ type, isWikidataEntity, hasMultiWordTerms })))
+  const results = pluck(compact(responses), 'results').flat()
   return parseSearchResultsToEntities(uri, results)
 }
 
-const searchTerm = type => term => {
+const searchTerm = ({ type, isWikidataEntity, hasMultiWordTerms }) => term => {
+  let filter
+  if (isWikidataEntity && hasMultiWordTerms && !isMultiWordTerm(term)) {
+    // As multi-word terms exist, it's unlikely Wikidata entities matching
+    // on a single word term would be relevant matches. But inv entities might.
+    filter = 'inv'
+  }
   return preq.get(app.API.search({
     types: pluralize(type),
     search: term,
     limit: 100,
-    exact: true
+    exact: true,
+    filter,
   }))
 }
 
@@ -64,14 +72,12 @@ const getSearchTermsSelection = (labels, aliases) => {
     labels = pick(labels, langsShortlist)
     aliases = pick(aliases, langsShortlist)
     terms = getTerms(labels, aliases)
-    const [ multiWordsTerms ] = partition(terms, isMultiWordsTerm)
-    if (multiWordsTerms.length > 0) terms = multiWordsTerms
     terms = terms.slice(0, 10)
   }
   return terms
 }
 
-const isMultiWordsTerm = term => getWordsCount(term) > 1
+const isMultiWordTerm = term => getWordsCount(term) > 1
 const getWordsCount = term => term.split(' ').length
 
 const getTerms = (labels, aliases) => {
