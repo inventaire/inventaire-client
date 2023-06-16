@@ -3,6 +3,7 @@ import Entities from '../collections/entities.js'
 import getBestLangValue from './get_best_lang_value'
 import { someMatch } from '#lib/utils'
 import { getEntitiesByUris } from '#entities/lib/entities'
+import { uniq } from 'underscore'
 
 export default async params => {
   if (!app.user.hasDataadminAccess) return
@@ -122,7 +123,27 @@ const orderTermWordsAlphabetically = term => {
   .join(' ')
 }
 
-export const haveLabelMatch = (suggestion, targetEntity) => someMatch(getNormalizedLabels(suggestion), getNormalizedLabels(targetEntity))
+export function haveLabelMatch (suggestion, targetEntity) {
+  return someMatch(getNormalizedLabels(suggestion), getNormalizedLabels(targetEntity))
+}
 
-const getNormalizedLabels = entity => Object.values(entity.labels).map(normalizeLabel)
-const normalizeLabel = label => label.toLowerCase().replace(/\W+/g, '')
+const getNormalizedLabels = entity => {
+  if (!entity._normalizedLabels) {
+    const normalizedLabels = Object.values(entity.labels)
+      .map(normalizeLabel)
+      .filter(term => term.trim().length > 0)
+      .map(orderTermWordsAlphabetically)
+    entity._normalizedLabels = uniq(normalizedLabels)
+  }
+  return entity._normalizedLabels
+}
+
+const normalizeLabel = label => {
+  return label.toLowerCase()
+  // Replace any non-letter non-number (from any script, not just ascii as \W would do) with a space
+  // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Unicode_character_class_escape
+  // and https://javascript.info/regexp-unicode#unicode-properties-p
+  .replace(/\P{Alphabetic}+/ug, ' ')
+  .replace(/\s+/g, ' ')
+  .trim()
+}
