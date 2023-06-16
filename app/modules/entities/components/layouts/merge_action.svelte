@@ -24,7 +24,7 @@
   <Flash bind:state={flash} />
 {:else}
   <button
-    class="tiny-button"
+    class="tiny-button merge"
     on:click|stopPropagation={merge}
   >
     {#await waitForMerge}
