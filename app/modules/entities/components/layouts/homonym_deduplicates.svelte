@@ -1,5 +1,5 @@
 <script>
-  import { getHomonymsEntities, haveLabelMatch } from '#entities/lib/show_homonyms'
+  import { getHomonymsEntities, haveLabelMatch } from '#entities/components/lib/homonym_deduplicates_helpers'
   import Spinner from '#general/components/spinner.svelte'
   import { icon } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'

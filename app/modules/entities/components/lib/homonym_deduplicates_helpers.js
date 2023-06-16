@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import getBestLangValue from './get_best_lang_value'
+import getBestLangValue from '#entities/lib/get_best_lang_value'
 import { someMatch } from '#lib/utils'
 import { getEntitiesByUris } from '#entities/lib/entities'
 import { compact, pick, pluck, uniq } from 'underscore'
