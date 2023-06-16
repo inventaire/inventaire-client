@@ -1,75 +1,40 @@
 import preq from '#lib/preq'
-import Entities from '../collections/entities.js'
 import getBestLangValue from './get_best_lang_value'
 import { someMatch } from '#lib/utils'
 import { getEntitiesByUris } from '#entities/lib/entities'
-import { uniq } from 'underscore'
+import { partition, pick, pluck, uniq } from 'underscore'
+import { pluralize } from '#entities/lib/types/entities_types'
 
-export default async params => {
-  if (!app.user.hasDataadminAccess) return
-  const { layout, regionName, model, standalone } = params
-
-  const [ entities, { default: MergeHomonyms } ] = await Promise.all([
-    getHomonyms(model),
-    import('../views/editor/merge_homonyms')
-  ])
-  const collection = new Entities(entities)
-  layout.showChildView(regionName, new MergeHomonyms({ collection, model, standalone }))
-}
-
-const getHomonyms = async model => {
-  const [ uri, labels, aliases ] = model.gets('uri', 'labels', 'aliases')
+export const getHomonymsEntities = async entity => {
+  const { uri, labels, aliases, type } = entity
   const terms = getSearchTermsSelection(labels, aliases)
-  const { pluralizedType } = model
-  const responses = await Promise.all(terms.map(searchTerm(pluralizedType)))
-  const results = _.pluck(responses, 'results').flat()
-  return parseSearchResults(uri, results)
+  const responses = await Promise.all(terms.map(searchTerm(type)))
+  const results = pluck(responses, 'results').flat()
+  return parseSearchResultsToEntities(uri, results)
 }
 
-const searchTerm = types => term => {
+const searchTerm = type => term => {
   return preq.get(app.API.search({
-    types,
+    types: pluralize(type),
     search: term,
     limit: 100,
     exact: true
   }))
 }
 
-export const getHomonymsEntities = async entity => {
-  const { uri, labels, aliases } = entity
-  const terms = getSearchTermsSelection(labels, aliases)
-  const pluralizedType = `${entity.type}s`
-  const responses = await Promise.all(terms.map(searchTerm(pluralizedType)))
-  const results = _.pluck(responses, 'results').flat()
-  return parseSearchResultsToEntities(uri, results)
-}
-
-const parseSearchResults = async (uri, searchResults) => {
-  const uris = _.uniq(_.pluck(searchResults, 'uri'))
-    .filter(result => result.uri !== uri)
-  // Search results entities miss their claims, so we need to fetch the full entities
-  const entities = await app.request('get:entities:models', { uris })
-  return entities
-  // Re-filter out uris to omit as a redirection might have brought it back
-  .filter(entity => entity.get('uri') !== uri)
-  .filter(entity => {
-    const claims = entity.get('claims')
-    return isntRelatedToAnyOtherEntity([ uri, ...uris ], claims)
-  })
-}
-
 const parseSearchResultsToEntities = async (uri, searchResults) => {
-  const uris = _.uniq(_.pluck(searchResults, 'uri'))
+  const uris = uniq(pluck(searchResults, 'uri'))
     .filter(result => result.uri !== uri)
   // Search results entities miss their claims, so we need to fetch the full entities
   const entities = await getEntitiesByUris(uris)
   // Re-filter out uris to omit as a redirection might have brought it back
-  return entities.filter(entity => entity.uri !== uri)
+  return entities
+  .filter(entity => entity.uri !== uri)
   .filter(entity => isntRelatedToAnyOtherEntity([ uri, ...uris ], entity.claims))
 }
 
 const isntRelatedToAnyOtherEntity = (uris, entityClaims) => {
-  const relationClaims = _.pick(entityClaims, relationClaimsProperties)
+  const relationClaims = pick(entityClaims, relationClaimsProperties)
   const relationClaimValues = Object.values(relationClaims).flat()
   return !someMatch(relationClaimValues, uris)
 }
@@ -95,14 +60,19 @@ const getSearchTermsSelection = (labels, aliases) => {
   let terms = getTerms(labels, aliases)
   if (terms.length > 10) {
     const { lang: bestAvailableLang } = getBestLangValue(app.user.lang, null, labels)
-    const langsShortlist = _.uniq([ bestAvailableLang, 'en' ])
-    labels = _.pick(labels, langsShortlist)
-    aliases = _.pick(aliases, langsShortlist)
-    return getTerms(labels, aliases).slice(0, 10)
-  } else {
-    return terms
+    const langsShortlist = uniq([ bestAvailableLang, 'en' ])
+    labels = pick(labels, langsShortlist)
+    aliases = pick(aliases, langsShortlist)
+    terms = getTerms(labels, aliases)
+    const [ multiWordsTerms ] = partition(terms, isMultiWordsTerm)
+    if (multiWordsTerms.length > 0) terms = multiWordsTerms
+    terms = terms.slice(0, 10)
   }
+  return terms
 }
+
+const isMultiWordsTerm = term => getWordsCount(term) > 1
+const getWordsCount = term => term.split(' ').length
 
 const getTerms = (labels, aliases) => {
   let terms = Object.values(labels)
@@ -110,7 +80,7 @@ const getTerms = (labels, aliases) => {
     // Order term words to not search both "foo bar" and "bar foo"
     // as words order doesn't matter
     .map(orderTermWordsAlphabetically)
-  return _.uniq(terms)
+  return uniq(terms)
 }
 
 const orderTermWordsAlphabetically = term => {

@@ -9,6 +9,7 @@
   import { isWikidataItemUri } from '#lib/boolean_tests'
 
   export let entity
+  export let standalone = false
 
   let homonyms = []
   let selectedHomonymsUris = []
@@ -65,6 +66,13 @@
     mergeSequentially()
   }
 </script>
+
+{#if standalone}
+  <div class="entity-info-wrapper">
+    <EntityListRow {entity} />
+  </div>
+{/if}
+
 {#if hasDataadminAccess}
   {#await getHomonymsPromise()}
     <div class="loading-wrapper">
@@ -123,7 +131,7 @@
             />
           </li>
         {:else}
-          {i18n('has no homonym')}
+          <p class="no-results">{I18n('no homonym found')}</p>
         {/each}
       </ul>
     </div>
@@ -131,6 +139,13 @@
 {/if}
 <style lang="scss">
   @import "#general/scss/utils";
+  .loading-wrapper, .entity-info-wrapper{
+    @include display-flex(row, center, center);
+  }
+  .entity-info-wrapper{
+    max-width: 50em;
+    margin: 1em auto;
+  }
   .dataadmin-section{
     @include display-flex(column, center);
     background-color: $off-white;
@@ -165,6 +180,11 @@
   }
   button{
     @include tiny-button($grey);
+    margin: 0.2em;
+  }
+  .no-results{
+    margin: 1em;
+    padding: 1em;
   }
   /* Large screens */
   @media screen and (min-width: $small-screen){

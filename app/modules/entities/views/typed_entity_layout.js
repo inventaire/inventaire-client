@@ -37,11 +37,12 @@ export default Marionette.View.extend({
   },
 
   showHomonyms () {
-    if (!this.displayMergeSuggestions) return
-    app.execute('show:homonyms', {
-      model: this.model,
-      layout: this,
-      regionName: 'mergeHomonymsRegion'
-    })
+    // Commented-out to ease cleanup of obsolete views
+    // if (!this.displayMergeSuggestions) return
+    // app.execute('show:homonyms', {
+    //   model: this.model,
+    //   layout: this,
+    //   regionName: 'mergeHomonymsRegion'
+    // })
   }
 })
