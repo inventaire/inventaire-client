@@ -5,7 +5,7 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import EntityListRow from './entity_list_row.svelte'
   import MergeAction from '#entities/components/layouts/merge_action.svelte'
-  import { pluck } from 'underscore'
+  import { pluck, partition } from 'underscore'
   import CompactAuthorWorksList from '#entities/components/layouts/compact_author_works_list.svelte'
 
   export let entity
@@ -19,6 +19,9 @@
   const getHomonymsPromise = async () => {
     homonyms = await getHomonymsEntities(entity)
     selectedHomonymsUris = preselectLikelyDuplicates({ entity, homonyms }) || []
+    // Display the preselected homonyms first
+    const [ preselected, notPreselected ] = partition(homonyms, isSelectedHomonym)
+    homonyms = preselected.concat(notPreselected)
   }
 
   const isSelectedHomonym = homonym => {
