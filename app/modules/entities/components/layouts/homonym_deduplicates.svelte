@@ -63,7 +63,7 @@
       </p>
     </div>
   {:then}
-    <div class="dataadmin-section">
+    <div class="homonym-deduplicates">
       <h4>
         {@html icon('compress')}
         {I18n('merge homonyms')}
@@ -98,17 +98,18 @@
       <ul id="selectable-homonyms">
         {#each homonyms as homonym}
           <li class:merged={homonym.merged}>
-            <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri} />
-            <div class="info">
+            <div class="top-row">
+              <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri} />
               <EntityListRow
                 entity={homonym}
                 displayUri={true}
               />
-              {#if entity.type === 'human'}
-                <CompactAuthorWorksList author={homonym} />
-              {/if}
+            </div>
+            {#if entity.type === 'human'}
+              <CompactAuthorWorksList author={homonym} />
+            {/if}
+            <div class="action">
               <MergeAction
-                slot="actions"
                 bind:merge={homonym.merge}
                 fromEntityUri={homonym.uri}
                 targetEntityUri={entity.uri}
@@ -133,47 +134,56 @@
     max-width: 50em;
     margin: 1em auto;
   }
-  .dataadmin-section{
+  .merge-homonyms-controls button{
+    @include tiny-button($grey);
+    margin: 0.2em;
+  }
+  .homonym-deduplicates{
     @include display-flex(column, center);
     background-color: $off-white;
     padding: 1em;
     margin: 1em 0;
   }
   #selectable-homonyms{
-    @include display-flex(row, baseline, space-around, wrap);
-    :global(.entity-wrapper){
-      max-width: 30em;
-    }
+    @include display-flex(row, baseline, center, wrap);
+    margin: 0 auto;
   }
   li{
-    :global(.images-collage){
-      // keep series covers tight
-      width: 7em;
-    }
-    @include display-flex(row, center, center);
+    @include display-flex(column, center, center);
     @include radius;
     padding: 0.5em 1em;
     margin: 0.5em;
-    background-color: $light-grey;
+    width: min(30em, 95vw);
     background-color: white;
-    input{
-      margin-right: 1em;
-    }
     &.merged{
       // Hide without removing from the document flow, to prevent element jumping
       // and accidental clicks on "merge" buttons
       visibility: hidden;
     }
-  }
-  button{
-    @include tiny-button($grey);
-    margin: 0.2em;
-  }
-  .info{
-    @include display-flex(column, center, center);
-    :global(.merge){
-      margin-top: 0.5em;
+    :global(.images-collage){
+      // keep series covers tight
+      width: 7em;
     }
+    :global(.images-collage.empty){
+      display: none;
+    }
+    :global(.entity-list-row){
+      margin-bottom: 0 !important;
+    }
+    :global(.entity-details){
+      max-height: 10em;
+      overflow-y: auto;
+    }
+  }
+  .top-row{
+    align-self: stretch;
+    @include display-flex(row, flex-start);
+    input[type="checkbox"]{
+      margin: 0.5em 0;
+    }
+  }
+  .action{
+    margin-top: 0.5em;
   }
   .no-results{
     margin: 1em;
@@ -181,7 +191,7 @@
   }
   /* Large screens */
   @media screen and (min-width: $small-screen){
-    .dataadmin-section{
+    .homonym-deduplicates{
       min-width: 30em;
     }
   }

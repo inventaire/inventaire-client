@@ -9,11 +9,12 @@
 
   export let fromEntityUri, targetEntityUri
 
-  let waitForMerge, flash
+  let waitForMerge, flash, merging = false
 
   export async function merge () {
     if (!(fromEntityUri && targetEntityUri)) return
     dispatch('isMerging')
+    merging = true
     waitForMerge = mergeEntities(fromEntityUri, targetEntityUri)
       .then(() => dispatch('merged'))
       .catch(err => flash = err)
@@ -26,11 +27,13 @@
   <button
     class="tiny-button merge"
     on:click|stopPropagation={merge}
+    disabled={merging}
   >
     {#await waitForMerge}
-      <Spinner center={true} />
+      <Spinner center={true} light={true} />
+    {:then}
+      {@html icon('compress')}
     {/await}
-    {@html icon('compress')}
     {i18n('merge')}
   </button>
 {/if}
@@ -39,5 +42,6 @@
   @import "#general/scss/utils";
   .tiny-button{
     padding: 0.5em;
+    @include display-flex(row, center, center);
   }
 </style>
