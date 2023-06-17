@@ -115,12 +115,15 @@ const normalizeLabel = label => {
   .trim()
 }
 
-export function preselectLikelyDuplicates ({ entity, homonyms }) {
-  const { isWikidataEntity } = entity
+export function findExactMatches ({ entity, homonyms }) {
   const exactLabelMatches = homonyms.filter(homonym => haveLabelMatch(homonym, entity))
   const [ wdExactMatches, invExactMatches ] = partition(exactLabelMatches, homony => isWikidataItemUri(homony.uri))
+  return { wdExactMatches, invExactMatches }
+}
+
+export function preselectLikelyDuplicates ({ entity, wdExactMatches, invExactMatches }) {
   // If there are matching wd entities, the invExactMatches might as well be homonyms from those entities
-  if (isWikidataEntity) {
+  if (entity.isWikidataEntity) {
     if (wdExactMatches.length === 0) {
       return pluck(invExactMatches, 'uri')
     }

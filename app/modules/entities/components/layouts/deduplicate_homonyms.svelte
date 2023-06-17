@@ -1,5 +1,5 @@
 <script>
-  import { getHomonymsEntities, preselectLikelyDuplicates } from '#entities/components/lib/homonym_deduplicates_helpers'
+  import { findExactMatches, getHomonymsEntities, preselectLikelyDuplicates } from '#entities/components/lib/homonym_deduplicates_helpers'
   import Spinner from '#general/components/spinner.svelte'
   import { icon } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
@@ -12,24 +12,31 @@
   export let standalone = false
 
   let homonyms = []
+  let invHomonyms = []
   let selectedHomonymsUris = []
+  let wdExactMatches, invExactMatches
 
   const { hasDataadminAccess } = app.user
 
   const getHomonymsPromise = async () => {
     homonyms = await getHomonymsEntities(entity)
-    selectedHomonymsUris = preselectLikelyDuplicates({ entity, homonyms }) || []
+    ;({ wdExactMatches, invExactMatches } = findExactMatches({ entity, homonyms }))
+    selectedHomonymsUris = preselectLikelyDuplicates({ entity, wdExactMatches, invExactMatches }) || []
     // Display the preselected homonyms first
     const [ preselected, notPreselected ] = partition(homonyms, isSelectedHomonym)
     homonyms = preselected.concat(notPreselected)
+    invHomonyms = homonyms.filter(homonym => !homonym.isWikidataEntity)
   }
 
   const isSelectedHomonym = homonym => {
     return !homonym.isMerging && !homonym.merged && selectedHomonymsUris.includes(homonym.uri)
   }
 
+  function selectAllExactMatches () {
+    selectedHomonymsUris = pluck(invExactMatches, 'uri')
+  }
   function selectAll () {
-    selectedHomonymsUris = pluck(homonyms, 'uri')
+    selectedHomonymsUris = pluck(invHomonyms, 'uri')
   }
   function unselectAll () {
     selectedHomonymsUris = []
@@ -74,27 +81,41 @@
 
       <div class="merge-homonyms-controls">
         <button
-          on:click={selectAll}
+          class="tiny-button"
+          on:click={selectAllExactMatches}
           aria-controls="selectable-homonyms"
+          disabled={invExactMatches.length === 0}
         >
           {@html icon('check-square')}
-          <span class="button-label">{I18n('select all')}</span>
-          <span class="count">({homonyms.length})</span>
+          {I18n('select all local exact matches')}
+          <span class="count">({invExactMatches.length})</span>
         </button>
         <button
+          class="tiny-button"
+          on:click={selectAll}
+          aria-controls="selectable-homonyms"
+          disabled={invHomonyms.length === 0}
+        >
+          {@html icon('check-square')}
+          {I18n('select all local entities')}
+          <span class="count">({invHomonyms.length})</span>
+        </button>
+        <button
+          class="tiny-button"
           on:click={unselectAll}
           aria-controls="selectable-homonyms"
         >
           {@html icon('square')}
-          <span class="button-label">{I18n('unselect all')}</span>
+          {I18n('unselect all')}
         </button>
         <button
+          class="tiny-button"
           on:click={mergeSelectedSuggestions}
           aria-controls="selectable-homonyms"
           disabled={selectedHomonymsUris.length === 0}
         >
           {@html icon('compress')}
-          <span class="button-label">{I18n('merge selected suggestions')}</span>
+          {I18n('merge selected suggestions')}
           <span class="count">({selectedHomonymsUris.length})</span>
         </button>
       </div>
@@ -140,8 +161,14 @@
     margin: 1em auto;
   }
   .merge-homonyms-controls button{
-    @include tiny-button($grey);
     margin: 0.2em;
+    .count{
+      color: white;
+      // Prevent button width change on count change
+      display: inline-block;
+      min-width: 2em;
+      text-align: center;
+    }
   }
   .deduplicate-homonyms{
     @include display-flex(column, center);

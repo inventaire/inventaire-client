@@ -83,7 +83,7 @@ button{
   &.light-grey{
     @include tiny-button-color($light-grey, $dark-grey);
   }
-  &.disabled{
+  &.disabled, &:disabled{
     opacity: 0.7;
     cursor: not-allowed;
   }
