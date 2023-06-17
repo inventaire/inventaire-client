@@ -26,34 +26,43 @@
   }
 </script>
 
-{#if flash}
-  <Flash bind:state={flash} />
-{:else if bothAreWikidataEntities}
-  <Link
-    url={getWikidataItemMergeUrl(fromEntityUri, targetEntityUri)}
-    text={i18n('Merge on Wikdiata')}
-    icon="external-link"
-    tinyButton={true}
-  />
-{:else}
-  <button
-    class="tiny-button merge"
-    on:click|stopPropagation={merge}
-    disabled={merging}
-  >
-    {#await waitForMerge}
-      <Spinner center={true} light={true} />
-    {:then}
-      {@html icon('compress')}
-    {/await}
-    {i18n('merge')}
-  </button>
-{/if}
+<div class="merge-action">
+  {#if flash}
+    <Flash bind:state={flash} />
+  {:else if bothAreWikidataEntities}
+    <Link
+      url={getWikidataItemMergeUrl(fromEntityUri, targetEntityUri)}
+      text={i18n('Merge on Wikdiata')}
+      icon="external-link"
+      tinyButton={true}
+      classNames="wikidata"
+    />
+  {:else}
+    <button
+      class="tiny-button merge"
+      on:click|stopPropagation={merge}
+      disabled={merging}
+    >
+      {#await waitForMerge}
+        <Spinner center={true} light={true} />
+      {:then}
+        {@html icon('compress')}
+      {/await}
+      {i18n('merge')}
+    </button>
+  {/if}
+</div>
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .tiny-button{
-    padding: 0.5em;
+  .merge-action{
+    :global(.wikidata){
+      background-color: $wikidata-green;
+      padding: 0.4em 0.5em;
+    }
+  }
+  .merge{
+    padding: 0.4em 0.5em;
     @include display-flex(row, center, center);
   }
 </style>
