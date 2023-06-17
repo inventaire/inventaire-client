@@ -4,15 +4,15 @@ import { someMatch } from '#lib/utils'
 import { getEntitiesByUris } from '#entities/lib/entities'
 import { compact, partition, pick, pluck, uniq } from 'underscore'
 import { pluralize } from '#entities/lib/types/entities_types'
-import { isWikidataItemUri } from '#lib/boolean_tests'
+import { isEntityUri, isWikidataItemUri } from '#lib/boolean_tests'
 
 export async function getHomonymsEntities (entity) {
-  const { uri, labels, aliases, type, isWikidataEntity } = entity
+  const { labels, aliases, type, isWikidataEntity } = entity
   const terms = getSearchTermsSelection(labels, aliases)
   const hasMultiWordTerms = terms.some(isMultiWordTerm)
   const responses = await Promise.all(terms.map(searchTerm({ type, isWikidataEntity, hasMultiWordTerms })))
   const results = pluck(compact(responses), 'results').flat()
-  return parseSearchResultsToEntities(uri, results)
+  return parseSearchResultsToHomonyms({ results, entity })
 }
 
 const searchTerm = ({ type, isWikidataEntity, hasMultiWordTerms }) => term => {
@@ -31,39 +31,29 @@ const searchTerm = ({ type, isWikidataEntity, hasMultiWordTerms }) => term => {
   }))
 }
 
-const parseSearchResultsToEntities = async (uri, searchResults) => {
-  const uris = uniq(pluck(searchResults, 'uri'))
-    .filter(result => result.uri !== uri)
+const parseSearchResultsToHomonyms = async ({ results, entity }) => {
+  const uris = uniq(pluck(results, 'uri'))
+    .filter(result => result.uri !== entity.uri)
   // Search results entities miss their claims, so we need to fetch the full entities
-  const entities = await getEntitiesByUris(uris)
+  const entityRelationsUris = getRelationsUris(entity)
+  const homonyms = await getEntitiesByUris(uris)
   // Re-filter out uris to omit as a redirection might have brought it back
-  return entities
-  .filter(entity => entity.uri !== uri)
-  .filter(entity => isntRelatedToAnyOtherEntity([ uri, ...uris ], entity.claims))
+  return homonyms
+  .filter(homonym => homonym.uri !== entity.uri)
+  .filter(homonym => {
+    return !(entityRelationsUris.includes(homonym.uri) || getRelationsUris(homonym.claims).includes(entity.uri))
+  })
 }
 
-const isntRelatedToAnyOtherEntity = (uris, entityClaims) => {
-  const relationClaims = pick(entityClaims, relationClaimsProperties)
-  const relationClaimValues = Object.values(relationClaims).flat()
-  return !someMatch(relationClaimValues, uris)
+const getRelationsUris = claims => {
+  // This is more dirty than with a list of properties to pick
+  // but much easier to maintain in case new relation properties are added
+  // Note that those properties have to be added to server/lib/wikidata/allowlisted_properties.js to arrive here
+  const uris = Object.values(claims)
+    .flat()
+    .filter(value => isEntityUri(value))
+  return uniq(uris)
 }
-
-const relationClaimsProperties = [
-  // All types
-  'wdt:P138', // named after
-  'wdt:P361', // part of
-  'wdt:P2959', // permanent duplicated item
-  // Works and series
-  'wdt:P144', // based on
-  'wdt:P155', // follows
-  'wdt:P156', // is followed by
-  'wdt:P179', // series
-  'wdt:P921', // main subject
-  'wdt:P941', // inspired by
-  'wdt:P2860', // cites work
-  // Publishers
-  'wdt:P127', // owned by
-]
 
 const getSearchTermsSelection = (labels, aliases) => {
   let terms = getTerms(labels, aliases)
