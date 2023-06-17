@@ -7,7 +7,7 @@
   import Infobox from './infobox.svelte'
   import EntityTitle from './entity_title.svelte'
   import EntityImage from '../entity_image.svelte'
-  import HomonymDeduplicates from './homonym_deduplicates.svelte'
+  import HomonymDeduplicates from './deduplicate_homonyms.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
   import { extendedAuthorsKeys } from '#entities/lib/show_all_authors_preview_lists'

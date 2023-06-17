@@ -6,7 +6,7 @@
   import Infobox from './infobox.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import EntityTitle from './entity_title.svelte'
-  import HomonymDeduplicates from './homonym_deduplicates.svelte'
+  import HomonymDeduplicates from './deduplicate_homonyms.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'

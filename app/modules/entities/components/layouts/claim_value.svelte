@@ -9,8 +9,6 @@
 
   const propType = propertiesType[prop]
 
-  const linkTitle = uri => `${i18n(prop)}: ${getBestLabel(entity)}`
-
   const getBestLabel = entity => getBestLangValue(app.user.lang, null, entity.labels).value
 </script>
 <!-- This peculiar formatting is used to avoid undesired spaces to be inserted
@@ -20,7 +18,7 @@
     url={buildPathname(entity, prop)}
     text={getBestLabel(entity)}
     dark={true}
-    title={linkTitle(value)}
+    title={`${i18n(prop)}: ${getBestLabel(entity)}`}
   />{:else if propType === 'urlClaim'}<Link
   url={value}
   text={formatClaimValue({ prop, value })}

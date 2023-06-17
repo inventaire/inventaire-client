@@ -5,6 +5,7 @@ import getBestLangValue from './get_best_lang_value.js'
 import getOriginalLang from './get_original_lang.js'
 import { forceArray } from '#lib/utils'
 import { chunk, compact, pluck } from 'underscore'
+import assert_ from '#lib/assert_types'
 
 export async function getReverseClaims (property, value, refresh, sort) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
@@ -45,6 +46,7 @@ export const getEntitiesByUris = async params => {
 }
 
 export const getEntityByUri = async ({ uri }) => {
+  assert_.string(uri)
   const [ entity ] = await getEntitiesByUris({ uris: uri })
   return entity
 }
@@ -72,6 +74,7 @@ export const serializeEntity = entity => {
   const [ prefix, id ] = entity.uri.split(':')
   entity.prefix = prefix
   entity.id = id
+  entity.isWikidataEntity = prefix === 'wd'
   return entity
 }
 

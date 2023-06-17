@@ -20,9 +20,9 @@
   let allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl, from, to
   let loading
 
-  const waitForWorks = assignCantidates()
+  const waitForWorks = assignCandidates()
 
-  async function assignCantidates () {
+  async function assignCandidates () {
     return getAuthorWorksWithImagesAndCoauthors(author)
       .then(works => {
         allWorksByPrefix = spreadByPrefix(works)
@@ -85,19 +85,18 @@
     }
   }
 
-  function merge () {
+  async function merge () {
     if (!(from && to)) return
     merging = true
-    mergeEntities(from.uri, to.uri)
-      .then(() => {
-        from._merged = true
-        invWorks = invWorks.filter(notMerged)
-        next()
-      })
-      .catch(err => {
-        error = err
-      })
-      .finally(() => merging = false)
+    try {
+      await mergeEntities(from.uri, to.uri)
+      from._merged = true
+      next()
+    } catch (err) {
+      error = err
+    } finally {
+      merging = false
+    }
   }
 
   let fromSelectedByFilter, toSelectedByFilter
@@ -139,7 +138,7 @@
     loading = true
     wdWorks = []
     invWorks = []
-    await assignCantidates()
+    await assignCandidates()
     index = -1
     showNextProbableDuplicates()
     loading = false
@@ -188,15 +187,17 @@
       </div>
       <ul>
         {#each displayedInvWorks as work (work.uri)}
-          <li class="work">
-            <SelectableEntity
-              entity={work}
-              bind:from
-              bind:to
-              {filterPattern}
-              on:select={onEntitySelect}
-            />
-          </li>
+          {#if !work._merged}
+            <li class="work">
+              <SelectableEntity
+                entity={work}
+                bind:from
+                bind:to
+                {filterPattern}
+                on:select={onEntitySelect}
+              />
+            </li>
+          {/if}
         {:else}
           {#if loading}
             <p class="loading">{i18n('Loading works...')}<Spinner /></p>

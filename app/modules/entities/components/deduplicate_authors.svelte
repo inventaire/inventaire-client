@@ -27,7 +27,7 @@
   }
 
   async function getHomonyms (name) {
-    let humans = await searchHumans({ search: name, limit: 4 })
+    let { results: humans } = await searchHumans({ search: name, limit: 100 })
     // If there are many candidates, keep only those that look the closest, if any
     if (humans.length > 50) {
       const subset = humans.filter(asNameMatch(name))

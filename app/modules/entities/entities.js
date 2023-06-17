@@ -7,8 +7,7 @@ import { i18n } from '#user/lib/i18n'
 import error_ from '#lib/error'
 import * as entitiesModelsIndex from './lib/entities_models_index.js'
 import getEntityViewByType from './lib/get_entity_view_by_type.js'
-import { getEntityByUri, normalizeUri } from './lib/entities.js'
-import showHomonyms from './lib/show_homonyms.js'
+import { getEntityByUri, normalizeUri, serializeEntity } from './lib/entities.js'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 
 export default {
@@ -166,14 +165,21 @@ const API = {
 
   async showHomonyms (uri) {
     if (!app.request('require:loggedIn', `entity/${uri}/homonyms`)) return
-    if (!app.request('require:admin:access')) return
+    if (!app.request('require:dataadmin:access')) return
 
-    const model = await getEntityModel(uri, true)
-    app.execute('show:homonyms', {
-      model,
-      layout: app.layout,
-      regionName: 'main',
-      standalone: true
+    app.execute('show:loader')
+    const [
+      { default: HomonymDeduplicates },
+      entity,
+    ] = await Promise.all([
+      import('./components/layouts/deduplicate_homonyms.svelte'),
+      getEntityByUri({ uri }),
+    ])
+    app.layout.showChildComponent('main', HomonymDeduplicates, {
+      props: {
+        entity: serializeEntity(entity),
+        standalone: true,
+      }
     })
   },
 
@@ -268,7 +274,6 @@ const setHandlers = function () {
     'show:entity:create': showEntityCreate,
     'show:entity:cleanup': API.showEntityCleanup,
     'show:entity:history': API.showEntityHistory,
-    'show:homonyms': showHomonyms,
     'report:entity:type:issue': reportTypeIssue,
     'show:wikidata:edit:intro:modal': async uri => {
       const model = await app.request('get:entity:model', uri)

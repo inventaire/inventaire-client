@@ -9,6 +9,7 @@
 <div
   class="images-collage"
   class:single={limit === 1}
+  class:empty={displayedImages.length === 0}
 >
   {#each displayedImages as imageUrl}
     <img src={imgSrc(imageUrl, imageSize, imageSize)} alt="" loading="lazy" />
