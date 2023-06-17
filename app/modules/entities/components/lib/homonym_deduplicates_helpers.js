@@ -122,6 +122,7 @@ const normalizeLabel = label => {
   // and https://javascript.info/regexp-unicode#unicode-properties-p
   .replace(/\P{Alphabetic}+/ug, ' ')
   .replace(/\s+/g, ' ')
+  .trim()
 }
 
 export function preselectLikelyDuplicates ({ entity, homonyms }) {
