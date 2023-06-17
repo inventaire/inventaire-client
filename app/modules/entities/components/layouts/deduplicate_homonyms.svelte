@@ -66,7 +66,7 @@
       </p>
     </div>
   {:then}
-    <div class="homonym-deduplicates">
+    <div class="deduplicate-homonyms">
       <h4>
         {@html icon('compress')}
         {I18n('merge homonyms')}
@@ -143,7 +143,7 @@
     @include tiny-button($grey);
     margin: 0.2em;
   }
-  .homonym-deduplicates{
+  .deduplicate-homonyms{
     @include display-flex(column, center);
     background-color: $off-white;
     padding: 1em;
@@ -197,7 +197,7 @@
   }
   /* Large screens */
   @media screen and (min-width: $small-screen){
-    .homonym-deduplicates{
+    .deduplicate-homonyms{
       min-width: 30em;
     }
   }

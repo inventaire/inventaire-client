@@ -172,7 +172,7 @@ const API = {
       { default: HomonymDeduplicates },
       entity,
     ] = await Promise.all([
-      import('./components/layouts/homonym_deduplicates.svelte'),
+      import('./components/layouts/deduplicate_homonyms.svelte'),
       getEntityByUri({ uri }),
     ])
     app.layout.showChildComponent('main', HomonymDeduplicates, {

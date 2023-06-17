@@ -14,7 +14,7 @@
   import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
   import EntityTitle from './entity_title.svelte'
   import WorkActions from './work_actions.svelte'
-  import HomonymDeduplicates from './homonym_deduplicates.svelte'
+  import HomonymDeduplicates from './deduplicate_homonyms.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import { setContext, tick } from 'svelte'
   import { writable } from 'svelte/store'
