@@ -102,7 +102,9 @@
         {#each homonyms as homonym}
           <li class:merged={homonym.merged}>
             <div class="top-row">
-              <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri} />
+              {#if !(entity.isWikidataEntity && homonym.isWikidataEntity)}
+                <input type="checkbox" bind:group={selectedHomonymsUris} value={homonym.uri} />
+              {/if}
               <EntityListRow
                 entity={homonym}
                 displayUri={true}

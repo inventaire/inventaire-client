@@ -130,15 +130,18 @@ export function preselectLikelyDuplicates ({ entity, homonyms }) {
   const exactLabelMatches = homonyms.filter(homonym => haveLabelMatch(homonym, entity))
   const [ wdExactMatches, invExactMatches ] = partition(exactLabelMatches, homony => isWikidataItemUri(homony.uri))
   // If there are matching wd entities, the invExactMatches might as well be homonyms from those entities
-  if (isWikidataEntity && wdExactMatches.length === 0) {
-    return pluck(invExactMatches, 'uri')
+  if (isWikidataEntity) {
+    if (wdExactMatches.length === 0) {
+      return pluck(invExactMatches, 'uri')
+    }
   } else {
     if (wdExactMatches.length === 1) {
       return pluck(wdExactMatches, 'uri')
     } else if (wdExactMatches.length === 0) {
       return pluck(invExactMatches, 'uri')
     } else {
-      // If there are several matching wd entities, do not pre-select any
+      // If there are several matching wd entities, do not pre-select any wd or inv entity
+      // as the inv entities might be duplicates of other wd homonyms
     }
   }
 }

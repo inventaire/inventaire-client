@@ -5,6 +5,7 @@ import log_ from '#lib/loggers'
 import sitelinks_ from '#lib/wikimedia/sitelinks'
 import wikipedia_ from '#lib/wikimedia/wikipedia'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
+import { unprefixify } from '#lib/wikimedia/wikidata'
 const wdHost = 'https://www.wikidata.org'
 
 export default function (attrs) {
@@ -23,7 +24,7 @@ const setWikiLinks = function (lang) {
       url: `${wdHost}/entity/${this.wikidataId}`,
       wiki: `${wdHost}/wiki/${this.wikidataId}`,
       history: `${wdHost}/w/index.php?title=${this.wikidataId}&action=history`,
-      merge: buildPath(`${wdHost}/wiki/Special:MergeItems`, { fromid: this.wikidataId }),
+      merge: getWikidataItemMergeUrl(this.wikidataId),
     },
   }
 
@@ -82,3 +83,18 @@ const _setWikipediaExtractAndDescription = function (extractData) {
     this.set('extract', extract)
   }
 }
+
+export function getWikidataItemMergeUrl (fromUri, toUri) {
+  let fromid = unprefixify(fromUri)
+  let toid
+  if (toUri) {
+    toid = unprefixify(toUri)
+    // Recommend to merge the newest item into the oldest
+    if (getWikidataItemNumeridIdNumber(toid) > getWikidataItemNumeridIdNumber(fromid)) {
+      [ fromid, toid ] = [ toid, fromid ]
+    }
+  }
+  return buildPath(`${wdHost}/wiki/Special:MergeItems`, { fromid, toid })
+}
+
+const getWikidataItemNumeridIdNumber = id => parseInt(id.split('Q')[1])

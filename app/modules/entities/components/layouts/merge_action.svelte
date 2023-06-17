@@ -5,11 +5,16 @@
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Flash from '#lib/components/flash.svelte'
   import { createEventDispatcher } from 'svelte'
+  import { isWikidataItemUri } from '#lib/boolean_tests'
+  import Link from '#lib/components/link.svelte'
+  import { getWikidataItemMergeUrl } from '#entities/lib/wikidata/init_entity'
   const dispatch = createEventDispatcher()
 
   export let fromEntityUri, targetEntityUri
 
   let waitForMerge, flash, merging = false
+
+  const bothAreWikidataEntities = isWikidataItemUri(fromEntityUri) && isWikidataItemUri(targetEntityUri)
 
   export async function merge () {
     if (!(fromEntityUri && targetEntityUri)) return
@@ -23,6 +28,13 @@
 
 {#if flash}
   <Flash bind:state={flash} />
+{:else if bothAreWikidataEntities}
+  <Link
+    url={getWikidataItemMergeUrl(fromEntityUri, targetEntityUri)}
+    text={i18n('Merge on Wikdiata')}
+    icon="external-link"
+    tinyButton={true}
+  />
 {:else}
   <button
     class="tiny-button merge"
