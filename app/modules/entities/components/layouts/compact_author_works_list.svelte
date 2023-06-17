@@ -6,45 +6,62 @@
 
   export let author
 
-  let articles, series, works
+  let series, works, articles, empty
 
   const waitForData = getAuthorExtendedWorks({
     uri: author.uri,
     attributes: [ 'type', 'labels', 'descriptions', 'image' ]
   })
-    .then(res => ({ articles, series, works } = res))
-
+    .then(res => {
+      ;({ series, works, articles } = res)
+      empty = series.length === 0 && works.length === 0 && articles.length === 0
+    })
 </script>
 
-<div class="compact-author-works-list">
+<div class="compact-author-works-list" class:empty>
   {#await waitForData}
     <Spinner />
   {:then}
     {#if series?.length > 0}
-      <h4>{I18n('series')}</h4>
-      <ul>
-        {#each series as serie}
-          <li><EntityPreview entity={serie} /></li>
-        {/each}
-      </ul>
+      <div class="section">
+        <h4>
+          {I18n('series')}
+          <span class="counter">{series.length}</span>
+        </h4>
+        <ul>
+          {#each series as serie}
+            <li><EntityPreview entity={serie} /></li>
+          {/each}
+        </ul>
+      </div>
     {/if}
 
     {#if works?.length > 0}
-      <h4>{I18n('works')}</h4>
-      <ul>
-        {#each works as work}
-          <li><EntityPreview entity={work} /></li>
-        {/each}
-      </ul>
+      <div class="section">
+        <h4>
+          {I18n('works')}
+          <span class="counter">{works.length}</span>
+        </h4>
+        <ul>
+          {#each works as work}
+            <li><EntityPreview entity={work} /></li>
+          {/each}
+        </ul>
+      </div>
     {/if}
 
     {#if articles?.length > 0}
-      <h4>{I18n('articles')}</h4>
-      <ul>
-        {#each articles as article}
-          <li><EntityPreview entity={article} /></li>
-        {/each}
-      </ul>
+      <div class="section">
+        <h4>
+          {I18n('articles')}
+          <span class="counter">{articles.length}</span>
+        </h4>
+        <ul>
+          {#each articles as article}
+            <li><EntityPreview entity={article} /></li>
+          {/each}
+        </ul>
+      </div>
     {/if}
   {/await}
 </div>
@@ -53,18 +70,38 @@
   @import "#general/scss/utils";
   .compact-author-works-list{
     align-self: stretch;
-    background-color: $light-grey;
-    max-height: 10em;
-    overflow-y: auto;
-    padding: 0.5em;
-    @include radius;
-    &:not(:empty){
-      margin: 0.5em 0;
+    &.empty{
+      display: none;
     }
+  }
+  .section{
+    background-color: $light-grey;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    @include radius;
   }
   h4{
     font-size: 1rem;
+    margin: 0.5em 0 0;
     text-align: center;
     @include sans-serif;
+    &:first-child{
+      margin-top: 0;
+    }
+  }
+  .counter{
+    color: $grey;
+    font-size: 0.9rem;
+    background-color: white;
+    padding: 0 0.3em;
+    margin-left: 0.5em;
+    @include radius;
+  }
+  ul{
+    max-height: 10em;
+    overflow-y: auto;
+    li{
+      margin: 0.1em 0;
+    }
   }
 </style>
