@@ -51,9 +51,11 @@
     to = mostProbableDuplicate
   }
 
+  let showingFullLists = false
   function showFullLists () {
     wdWorks = allWorksByPrefix.wd.sort(sortAlphabetically)
     invWorks = allWorksByPrefix.inv.filter(notMerged).sort(sortAlphabetically)
+    showingFullLists = true
   }
 
   $: displayedWdWorks = wdWorks.slice(0, wdDisplayLimit)
@@ -80,7 +82,7 @@
     to = null
     if (candidates[index]) {
       showNextProbableDuplicates()
-    } else {
+    } else if (!showingFullLists) {
       showFullLists()
     }
   }
