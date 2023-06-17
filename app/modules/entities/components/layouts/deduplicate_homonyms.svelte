@@ -66,7 +66,7 @@
       </p>
     </div>
   {:then}
-    <div class="deduplicate-homonyms">
+    <div class="deduplicate-homonyms" class:standalone>
       <h4>
         {@html icon('compress')}
         {I18n('merge homonyms')}
@@ -151,14 +151,19 @@
   }
   #selectable-homonyms{
     @include display-flex(row, flex-start, center, wrap);
-    margin: 0 auto;
+    margin: 1em auto;
+  }
+  .standalone{
+    li{
+      margin: 0.5em;
+    }
   }
   li{
     @include display-flex(column, center, center);
     @include radius;
-    padding: 0.5em 1em;
-    margin: 0.5em;
-    width: min(30em, 95vw);
+    padding: 0.2em 0.5em;
+    margin: 0.3em;
+    width: min(26em, 95vw);
     background-color: white;
     &.merged{
       // Hide without removing from the document flow, to prevent element jumping
@@ -189,17 +194,11 @@
     }
   }
   .action{
-    margin-top: 0.5em;
+    margin: 0.5em;
   }
   .no-results{
     margin: 1em;
     padding: 1em;
-  }
-  /* Large screens */
-  @media screen and (min-width: $small-screen){
-    .deduplicate-homonyms{
-      min-width: 30em;
-    }
   }
   /* Smaller screens */
   @media screen and (max-width: $smaller-screen){
