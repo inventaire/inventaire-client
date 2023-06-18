@@ -248,14 +248,14 @@
     font-weight: normal;
     position: relative;
     margin-inline-end: 0.5em;
-    width: 100%;
+    inline-size: 100%;
   }
   .input-wrapper{
-    width: 100%;
+    inline-size: 100%;
     position: relative;
     input{
       flex: 1;
-      height: 100%;
+      block-size: 100%;
       font-weight: normal;
       margin-block-end: 0.1em;
       @include transition(padding, 0.2s);
@@ -282,7 +282,7 @@
     }
     /* Small screens */
     @media screen and (max-width: $small-screen){
-      width: 100%;
+      inline-size: 100%;
     }
     background-color: white;
     @include display-flex(column, center, center);
@@ -291,7 +291,7 @@
   }
   .suggestions-wrapper{
     position: relative;
-    max-height: 15rem;
+    max-block-size: 15rem;
     overflow: auto;
     align-self: stretch;
   }
@@ -300,7 +300,7 @@
   }
   .controls{
     @include display-flex(row, center, space-between);
-    width: 100%;
+    inline-size: 100%;
     background-color: #ddd;
     button{
       font-weight: normal;

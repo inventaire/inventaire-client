@@ -2,7 +2,7 @@
 
 .select-dropdown{
   :global(.fa){
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
   :global(.dropdown-button){
     font-weight: normal;
@@ -37,8 +37,8 @@ label{
   position: absolute;
   width: 2em;
   height: 2em;
-  right: 0;
-  top: 0;
+  inset-inline-end: 0;
+  inset-block-start: 0;
   text-align: center;
   @include shy(0.9);
   @include bg-hover(white);

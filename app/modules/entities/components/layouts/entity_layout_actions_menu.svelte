@@ -36,7 +36,7 @@
     :global(a), :global(button){
       @include display-flex(row, center);
       @include tiny-button($off-white);
-      height: 1.5em;
+      block-size: 1.5em;
       padding: 1.2em 1em;
       margin: 0.5em;
     }
@@ -70,7 +70,7 @@
     :global(a), :global(button){
       flex: 1;
       @include display-flex(row, center, flex-start);
-      min-height: 3em;
+      min-block-size: 3em;
       @include bg-hover(white, 10%);
       padding: 0 1em;
     }

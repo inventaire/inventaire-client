@@ -87,7 +87,7 @@
   .edition-creation{
     @include display-flex(column, stretch, center);
     @include radius;
-    max-width: 20em;
+    max-inline-size: 20em;
     margin: 0 auto;
   }
   .isbn-group{
@@ -109,6 +109,6 @@
     text-align: center;
   }
   .show-form{
-    max-width: 20em;
+    max-inline-size: 20em;
   }
 </style>

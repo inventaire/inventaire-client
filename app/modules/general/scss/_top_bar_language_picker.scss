@@ -1,6 +1,6 @@
 #language-picker{
-  margin-left: 0.2em;
-  padding-left: 0.5em;
+  margin-inline-start: 0.2em;
+  padding-inline-start: 0.5em;
   align-self: stretch;
   @include display-flex(row, stretch, center);
   button[aria-haspopup="menu"]{
@@ -46,7 +46,7 @@
       padding: 0 0.5em;
     }
     .completion-text{
-      margin-left: auto;
+      margin-inline-start: auto;
       font-weight: normal;
       opacity: 0.8;
     }
@@ -59,7 +59,7 @@
       }
     }
     &:not(:last-child) .completion{
-      border-bottom-right-radius: $global-radius;
+      border-end-end-radius: $global-radius;
     }
   }
 }

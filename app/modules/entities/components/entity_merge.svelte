@@ -82,7 +82,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .entityMergeLayout{
-    max-width: 50em;
+    max-inline-size: 50em;
     margin: 1em auto;
   }
   .help{

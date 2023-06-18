@@ -42,7 +42,7 @@
   }
   button{
     display: block;
-    height: 100%;
+    block-size: 100%;
     font-weight: normal;
   }
   .save{
@@ -61,7 +61,7 @@
   /* Large screens */
   @media screen and (min-width: $very-small-screen){
     .edit-mode-buttons{
-      height: 2.5rem;
+      block-size: 2.5rem;
     }
     button{
       margin-inline-start: 0.2em;

@@ -7,7 +7,7 @@
   @include display-flex(row, center, center);
   .close{
     color: white;
-    margin-left: auto;
+    margin-inline-start: auto;
     font-size: 2rem;
   }
 
@@ -15,7 +15,7 @@
   @include transition(top);
   &.active{
     background-color: $warning-color;
-    top: 0;
+    inset-block-start: 0;
   }
   &:not(.active){
     display: none;
@@ -28,10 +28,10 @@
 
   /*Small screens*/
   @media screen and (max-width: $very-small-screen) {
-    left: 0;
+    inset-inline-start: 0;
     &.active{
-      top: auto;
-      bottom: 0;
+      inset-block-start: auto;
+      inset-block-end: 0;
     }
   }
 }

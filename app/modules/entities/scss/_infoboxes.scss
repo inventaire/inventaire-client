@@ -40,8 +40,8 @@
   .extract{
     color: white;
     @include text-align-start;
-    margin-bottom: 0;
-    padding-bottom: 0;
+    margin-block-end: 0;
+    padding-block-end: 0;
   }
   .toggler{
     font-size: 1.6em;
@@ -63,7 +63,7 @@
     padding: 1em 0;
   }
   .wdt-P109{
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
 }
 

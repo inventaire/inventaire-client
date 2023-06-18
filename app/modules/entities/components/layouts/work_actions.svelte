@@ -61,7 +61,7 @@
   .actions-wrapper{
     @include display-flex(column, stretch, center);
     margin: 1em 0;
-    min-width: 10em;
+    min-inline-size: 10em;
     .action-button, :global(.add-to-dot-dot-dot-menu){
       text-align: end;
       margin-block-end: 0.3em;

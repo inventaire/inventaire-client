@@ -58,7 +58,7 @@
   }
   button{
     @include bg-hover(white);
-    width: 100%;
+    inline-size: 100%;
     margin: 0;
     padding: 0;
     @include display-flex(row, stretch);
@@ -68,8 +68,8 @@
   }
   .image{
     margin-inline-end: 0.3em;
-    width: 48px;
-    height: 48px;
+    inline-size: 48px;
+    block-size: 48px;
     background-size: cover;
     background-position: center center;
   }

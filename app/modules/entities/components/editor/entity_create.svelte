@@ -126,7 +126,7 @@
   @import "#general/scss/utils";
   .column{
     @include display-flex(column, stretch, center);
-    max-width: 50em;
+    max-inline-size: 50em;
     margin: 0 auto;
     :global(.wrap-toggler){
       margin-block-end: 1em;

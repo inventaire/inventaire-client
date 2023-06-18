@@ -3,8 +3,8 @@
   padding: 0.5em 1em 0.5em 1em;
   text-align: center;
   .action{
-    margin-left: 0.2em;
-    margin-right: 0.2em;
+    margin-inline-start: 0.2em;
+    margin-inline-end: 0.2em;
   }
   .accept, .confirm, .returned{
     @include tiny-button($success-color);
@@ -36,17 +36,17 @@
 }
 .info{
   text-align: center;
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-inline-start: 1em;
+  padding-inline-end: 1em;
   color: #666;
   > p:first-child{
-    padding-top: 1em;
+    padding-block-start: 1em;
   }
   .check-list{
     // @include panel;
-    padding-bottom: 0;
+    padding-block-end: 0;
     p{
-      text-align: left;
+      text-align: start;
       padding: 1em 1em 0 1em;
     }
   }
@@ -55,7 +55,7 @@
   }
   li{
     color: #444;
-    text-align: left;
+    text-align: start;
     list-style-type: disc;
   }
 }
@@ -63,7 +63,7 @@
   text-align: center;
   p{
     color: grey;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
 }
 .cancel{

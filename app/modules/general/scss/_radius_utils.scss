@@ -4,30 +4,30 @@ $global-radius: 2px;
   border-radius: $radius;
 }
 @mixin radius-top($radius:$global-radius){
-  border-top-left-radius: $radius;
-  border-top-right-radius: $radius;
+  border-start-start-radius: $radius;
+  border-start-end-radius: $radius;
 }
 @mixin radius-bottom($radius:$global-radius){
-  border-bottom-left-radius: $radius;
-  border-bottom-right-radius: $radius;
+  border-end-start-radius: $radius;
+  border-end-end-radius: $radius;
 }
 @mixin radius-left($radius:$global-radius){
-  border-top-left-radius: $radius;
-  border-bottom-left-radius: $radius;
+  border-start-start-radius: $radius;
+  border-end-start-radius: $radius;
 }
 @mixin radius-right($radius:$global-radius){
-  border-top-right-radius: $radius;
-  border-bottom-right-radius: $radius;
+  border-start-end-radius: $radius;
+  border-end-end-radius: $radius;
 }
 
 @mixin radius-diagonal-a($radius:$global-radius){
-  border-top-left-radius: $radius;
-  border-bottom-right-radius: $radius;
+  border-start-start-radius: $radius;
+  border-end-end-radius: $radius;
 }
 
 @mixin radius-diagonal-b($radius:$global-radius){
-  border-bottom-left-radius: $radius;
-  border-top-right-radius: $radius;
+  border-end-start-radius: $radius;
+  border-start-end-radius: $radius;
 }
 
 @mixin radius-horizontal-group($radius:$global-radius){
@@ -50,9 +50,9 @@ $global-radius: 2px;
 
 @mixin radius-horizontal-group-bottom($radius:$global-radius){
   :first-child{
-    border-bottom-left-radius: $radius;
+    border-end-start-radius: $radius;
   }
   :last-child{
-    border-bottom-right-radius: $radius;
+    border-end-end-radius: $radius;
   }
 }

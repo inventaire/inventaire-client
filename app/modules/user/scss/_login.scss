@@ -1,6 +1,6 @@
 .authMenu.login{
   #login{
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
   label{
     .complement{
@@ -24,7 +24,7 @@
   @media screen and (max-width: $small-screen) {
     label{
       .complement{
-        margin-left: 0.2em;
+        margin-inline-start: 0.2em;
       }
     }
   }

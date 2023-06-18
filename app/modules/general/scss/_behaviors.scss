@@ -2,16 +2,16 @@
   // avoid being styled by view specific .fa color
   color: $success-color !important;
   font-size: 2rem;
-  margin-left: 0.5rem;
-  margin-right: 0.2rem;
+  margin-inline-start: 0.5rem;
+  margin-inline-end: 0.2rem;
 }
 
 .fa-times-circle{
   // avoid being styled by view specific .fa color
   color: $warning-color !important;
   font-size: 2rem;
-  margin-left: 0.5rem;
-  margin-right: 0.2rem;
+  margin-inline-start: 0.5rem;
+  margin-inline-end: 0.2rem;
 }
 
 .back{

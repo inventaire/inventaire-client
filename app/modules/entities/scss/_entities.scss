@@ -15,9 +15,9 @@
 }
 
 .wiki-attributes{
-  margin-top: 0.5em;
+  margin-block-start: 0.5em;
   p.claims{
-    text-align: left;
+    text-align: start;
   }
   .fa-link{ color: $grey; }
   .fa-twitter{ color: $twitter-color; }
@@ -71,16 +71,16 @@
 .wikisource{
   .icon{
     height: 1em;
-    padding-right: 0.35em;
+    padding-inline-end: 0.35em;
   }
 }
 
 .editionLayout{
   .meta{
-    margin-top: 1em;
+    margin-block-start: 1em;
     text-align: center;
     .uri{
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
   }
 }

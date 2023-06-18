@@ -4,7 +4,7 @@
     font-weight: normal;
     text-align: center;
     a{
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
     .accept{
       @include tiny-button($success-color);

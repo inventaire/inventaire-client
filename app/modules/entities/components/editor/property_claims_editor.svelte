@@ -95,14 +95,14 @@
 <style lang="scss">
   @import "#entities/scss/entity_editors_commons";
   .editor-section-header{
-    width: 9em;
+    inline-size: 9em;
   }
   .property-claim-values{
     flex: 1 1 auto;
-    max-width: 100%;
+    max-inline-size: 100%;
   }
   .add-value{
-    height: 2em;
+    block-size: 2em;
     font-weight: normal;
     @include display-flex(row, center, space-between);
     &:first-child{

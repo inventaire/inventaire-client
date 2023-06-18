@@ -99,7 +99,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .items-list-per-transactions{
-    max-height: 15em;
+    max-block-size: 15em;
     overflow-y: auto;
     margin-block-start: 0.3em;
   }
@@ -113,7 +113,7 @@
     @include display-flex(row, center, flex-start);
     :global(.fa){
       color: $dark-grey;
-      width: 2em;
+      inline-size: 2em;
     }
   }
   .header{

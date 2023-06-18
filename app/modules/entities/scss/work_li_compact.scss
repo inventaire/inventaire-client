@@ -9,7 +9,7 @@
 
 .workLiCompact{
   max-width: 45em;
-  text-align: left;
+  text-align: start;
   @include display-flex(row, center, space-between);
   .workLiCompactLeft{
     cursor: pointer;
@@ -29,13 +29,13 @@
       margin: 0.2em 0;
       @include display-flex(column, left, center);
       min-height: 3em;
-      margin-left: 0.5em;
+      margin-inline-start: 0.5em;
       h4{
         line-height: 1;
         font-size: 1.2em;
-        margin-top: 0;
-        margin-bottom: 0;
-        text-align: left;
+        margin-block-start: 0;
+        margin-block-end: 0;
+        text-align: start;
       }
       .date{
         margin: 0;
@@ -61,7 +61,7 @@
   @media screen and (max-width: 45em) {
     .actions{
       @include display-flex(column, left, center);
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
       .counter{
         margin: 0.5em 0;
       }

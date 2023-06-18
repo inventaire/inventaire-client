@@ -69,7 +69,7 @@
     // Set to the .simple-map height to allow to scroll to the right level
     // before the map is rendered
     padding: 0.5em;
-    min-height: 30em;
+    min-block-size: 30em;
     position: relative;
     background-color: $off-white;
   }

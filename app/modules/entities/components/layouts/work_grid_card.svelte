@@ -39,11 +39,11 @@
   .work-grid-card{
     @include display-flex(column, center, flex-end);
     background-color: $off-white;
-    width: $card-base-width;
-    height: 12em;
+    inline-size: $card-base-width;
+    block-size: 12em;
     margin: $card-margin;
     &.hasSubEntities{
-      width: calc($card-base-width * 2 + $card-margin * 2);
+      inline-size: calc($card-base-width * 2 + $card-margin * 2);
     }
     &:hover{
       @include shadow-box;
@@ -54,7 +54,7 @@
       // Set a position so that the positionned image collage still appears below
       // Cf https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/Adding_z-index
       position: relative;
-      height: 4rem;
+      block-size: 4rem;
     }
     :global(.images-collage){
       @include position(absolute, 0, 0, 0, 0);
@@ -69,7 +69,7 @@
     padding: 0.2em;
     $line-height: 1.1rem;
     line-height: $line-height;
-    max-height: calc(3 * $line-height + 0.2rem);
+    max-block-size: calc(3 * $line-height + 0.2rem);
     overflow: hidden;
     font-size: 1rem;
     text-align: center;

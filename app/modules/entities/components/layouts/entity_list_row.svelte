@@ -102,7 +102,7 @@
   .entity-list-row{
     @include display-flex(row, center);
     background-color: white;
-    width: 100%;
+    inline-size: 100%;
     margin-block-end: 0.5em;
     padding: 0.5em;
   }
@@ -127,8 +127,8 @@
   .cover{
     margin: 0 1em 0 0;
     :global(.images-collage){
-      width: 7em;
-      height: 10em;
+      inline-size: 7em;
+      block-size: 10em;
     }
   }
   .entity-info-line{

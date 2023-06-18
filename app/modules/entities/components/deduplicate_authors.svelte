@@ -135,6 +135,6 @@
   .homonym{
     margin: 0.5em;
     overflow-y: auto;
-    width: 48%;
+    inline-size: 48%;
   }
 </style>

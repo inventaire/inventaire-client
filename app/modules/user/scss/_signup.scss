@@ -1,9 +1,9 @@
 .authMenu.signup{
   h2{
-    margin-bottom: 0.8em;
+    margin-block-end: 0.8em;
   }
   #signup{
     // separate the display password and signup buttons
-    margin-top: 1.6em;
+    margin-block-start: 1.6em;
   }
 }

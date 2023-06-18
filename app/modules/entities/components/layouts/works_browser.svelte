@@ -86,7 +86,7 @@
     padding: 0.5em;
     @include display-flex(row, center, flex-start);
     :global(.select-dropdown), :global(.dropdown-content){
-      width: 10em;
+      inline-size: 10em;
     }
     :global(.select-dropdown){
       margin-inline-end: 1em;

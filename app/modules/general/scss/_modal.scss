@@ -7,8 +7,8 @@ $largeModalWidth: 60em;
   overflow: auto;
   @include position(fixed, 0, 0, 0, 0);
   &.hidden{
-    top: -100%;
-    bottom: 100%;
+    inset-block-start: -100%;
+    inset-block-end: 100%;
   }
 }
 
@@ -40,10 +40,10 @@ body.openedModal{
   @media screen and (max-width: $small-screen) {
     padding: 2em 0.2em;
     min-width: 80vw;
-    margin-top: 10px;
+    margin-block-start: 10px;
     .close{
-      top: 10px;
-      right: 10px;
+      inset-block-start: 10px;
+      inset-inline-end: 10px;
     }
   }
   /*Medium / Large screens*/

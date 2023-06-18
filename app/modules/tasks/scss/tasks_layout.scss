@@ -70,7 +70,7 @@
         }
       }
       .fa{
-        margin-left: 1em;
+        margin-inline-start: 1em;
         @include transition(transform);
         &.toggled{
           transform: rotate(-180deg);
@@ -93,7 +93,7 @@
     background-color: $light-grey;
     padding: 1em;
     @include radius;
-    margin-right: 1em;
+    margin-inline-end: 1em;
     flex: 1 0 auto;
     max-width: 20em;
     .description, .birth-death-dates{
@@ -109,7 +109,7 @@
       @include shy(0.5);
     }
     .left{
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
     .right{
       @include display-flex(column);
@@ -118,7 +118,7 @@
       background-color: rgba(white, 0.4);
     }
     table{
-      margin-top: auto;
+      margin-block-start: auto;
     }
   }
 }

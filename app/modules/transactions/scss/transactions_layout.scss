@@ -21,7 +21,7 @@ $transaction-list-width: 20em;
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     #list{
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
   }
 
@@ -33,7 +33,7 @@ $transaction-list-width: 20em;
       overflow-y: auto;
     }
     #fullview{
-      margin-left: $transaction-list-width;
+      margin-inline-start: $transaction-list-width;
     }
   }
 }

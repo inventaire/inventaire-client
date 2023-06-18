@@ -98,7 +98,7 @@
     @include radius;
   }
   ul{
-    max-height: 10em;
+    max-block-size: 10em;
     overflow-y: auto;
     li{
       margin: 0.1em 0;

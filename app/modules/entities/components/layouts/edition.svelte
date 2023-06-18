@@ -86,7 +86,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .entity-layout{
-    width: 100%;
+    inline-size: 100%;
   }
   .top-section{
     @include display-flex(row, flex-start, space-between);
@@ -94,7 +94,7 @@
   }
   .cover{
     padding-inline-end: 1em;
-    max-width: 12em;
+    max-inline-size: 12em;
   }
   .info-wrapper{
     flex: 1;

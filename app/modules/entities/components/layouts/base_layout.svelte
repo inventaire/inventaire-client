@@ -43,7 +43,7 @@
   .layout{
     @include display-flex(column, stretch, center);
     margin: 0 auto;
-    max-width: 84em;
+    max-inline-size: 84em;
     padding: 0 1em;
     background-color: white;
   }
@@ -58,7 +58,7 @@
   }
   .header{
     @include display-flex(row, center, center);
-    width: 100%;
+    inline-size: 100%;
   }
   .entity-wrapper{
     @include display-flex(column, flex-start);

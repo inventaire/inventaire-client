@@ -90,7 +90,7 @@
   input{
     margin: 0;
     padding: 0 0.5em;
-    height: 2.1rem;
+    block-size: 2.1rem;
     @include radius(2px);
   }
   /* Large screens */

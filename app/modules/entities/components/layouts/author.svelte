@@ -123,7 +123,7 @@
     .infobox-and-summary{
       @include display-flex(row, flex-start, flex-start);
       :global(.claims-infobox-wrapper), :global(.summary){
-        width: 50%;
+        inline-size: 50%;
       }
       :global(.claims-infobox){
         margin-inline-end: 1em;

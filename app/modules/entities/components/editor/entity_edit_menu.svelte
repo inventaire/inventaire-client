@@ -182,7 +182,7 @@
     @include shy-border;
     background-color: white;
     @include radius;
-    min-width: 14em;
+    min-inline-size: 14em;
     button, :global(a){
       font-weight: normal;
       flex: 1;
@@ -197,7 +197,7 @@
   }
   li{
     @include display-flex(row, stretch);
-    min-height: 3em;
+    min-block-size: 3em;
     &:not(:last-child){
       margin-block-end: 0.2em;
     }

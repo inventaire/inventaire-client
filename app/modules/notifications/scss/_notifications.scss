@@ -1,6 +1,6 @@
 .unread-flag{
   @include display-flex(row, center, center);
-  margin-left: 0.3em;
+  margin-inline-start: 0.3em;
   font-size: 0.8em;
   opacity: 0.8;
   align-self: center;
@@ -32,8 +32,8 @@
 }
 
 .showNotificationsSettings{
-  margin-top: 1em;
+  margin-block-start: 1em;
   .fa{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
 }

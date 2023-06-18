@@ -19,7 +19,7 @@
       @include radius;
       padding: 1em;
       margin: 1em 0;
-      text-align: left;
+      text-align: start;
       font-size: 0.8em;
       overflow: auto;
     }
@@ -43,8 +43,8 @@
       }
     }
     .redirection{
-      padding-top: 1em;
+      padding-block-start: 1em;
     }
-    padding-bottom: 10em;
+    padding-block-end: 10em;
   }
 }

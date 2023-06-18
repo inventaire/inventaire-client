@@ -161,7 +161,7 @@
   }
   ul{
     flex: 1;
-    max-height: 42em;
+    max-block-size: 42em;
     overflow-y: auto;
     &.list{
       margin: 0 auto;
@@ -170,7 +170,7 @@
       @include display-flex(row, center, flex-start, wrap);
     }
     :global(.entity-wrapper){
-      width: 100%;
+      inline-size: 100%;
     }
   }
   .loading{

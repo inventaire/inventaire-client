@@ -137,10 +137,10 @@
   //   margin-inline-start: 0.5em;
   // }
   select{
-    max-width: 15em;
+    max-inline-size: 15em;
   }
   #summary-text{
-    max-height: 10em;
+    max-block-size: 10em;
     overflow-y: auto;
   }
   .source{

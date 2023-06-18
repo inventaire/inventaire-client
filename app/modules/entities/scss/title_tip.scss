@@ -4,13 +4,13 @@
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    inset-block-start: 100%;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     z-index: 1;
   }
   padding: 0.4em 0.6em;
-  padding-left: 0.6em;
+  padding-inline-start: 0.6em;
   color: #666;
   background-color: #eee;
   :global(a){

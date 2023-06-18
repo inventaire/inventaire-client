@@ -7,28 +7,28 @@
     @include radius;
     background-color: white;
     margin: 0.2em 0;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+    padding-inline-start: 0.5em;
+    padding-inline-end: 0.5em;
     padding: 0.5em;
     color: $dark-grey;
     > div{
       display: inline-block;
     }
     .op{
-      margin-right: 1em;
+      margin-inline-end: 1em;
       width: 3em;
     }
     .path{
       width: 10em;
       color: $grey;
-      margin-right: 1em;
+      margin-inline-end: 1em;
     }
     .value{
       overflow: hidden;
     }
     .filter{
       @include tiny-button($light-blue);
-      margin-left: auto;
+      margin-inline-start: auto;
     }
   }
   .patch-add{

@@ -109,7 +109,7 @@
   }
   ul{
     @include display-flex(row, center, null, wrap);
-    max-height: calc($card-height * 2 + 3em);
+    max-block-size: calc($card-height * 2 + 3em);
     overflow-y: auto;
   }
 </style>

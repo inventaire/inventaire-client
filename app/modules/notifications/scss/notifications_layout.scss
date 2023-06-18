@@ -20,7 +20,7 @@
   max-height: 20em;
   overflow: auto;
   li{
-    text-align: left;
+    text-align: start;
     margin: 0.1em;
     padding: 0.5em;
     @include shy-border;

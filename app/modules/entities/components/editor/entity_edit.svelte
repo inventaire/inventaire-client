@@ -66,7 +66,7 @@
   @import "#general/scss/utils";
   .entity-edit{
     @include display-flex(column, stretch, center);
-    max-width: 50em;
+    max-inline-size: 50em;
     margin: 0 auto;
   }
   .header{

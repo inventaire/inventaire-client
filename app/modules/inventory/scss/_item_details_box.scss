@@ -1,10 +1,10 @@
 .detailsBox{
   background-color: rgba($off-white, 0.7);
   padding: 0.4em;
-  text-align: left;
+  text-align: start;
   width: 100%;
   .more{
-    padding-right: 0.2em;
+    padding-inline-end: 0.2em;
     float: right;
     @include text-hover($grey);
     @include underline(rgba($grey, 0.4));

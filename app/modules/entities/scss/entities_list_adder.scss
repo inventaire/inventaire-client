@@ -8,7 +8,7 @@
     color: $grey;
   }
   .context{
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   .no-suggestion{
     color: $grey;
@@ -56,11 +56,11 @@
     max-width: 25em;
   }
   .image-wrapper{
-    margin-right: 0.3em;
+    margin-inline-end: 0.3em;
     max-width: 10em;
   }
   .label, .description{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     flex: 0 0 auto;
   }
   .label{

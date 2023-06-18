@@ -61,8 +61,8 @@
 <style lang="scss">
   @import "#general/scss/utils";
   section{
-    min-width: 20em;
-    max-width: 50em;
+    min-inline-size: 20em;
+    max-inline-size: 50em;
     background-color: white;
     padding: 1em;
     margin: 0.5em;
@@ -77,12 +77,12 @@
     flex-direction: row;
   }
   .histogram{
-    min-width: 100px;
+    min-inline-size: 100px;
     margin: 0.1em 0.2em;
   }
   .bar{
     background-color: $light-grey;
-    height: 100%;
+    block-size: 100%;
   }
   .cell{
     flex: 1 0 auto;

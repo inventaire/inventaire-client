@@ -11,7 +11,7 @@
   padding: 1em 0em 1em 0.2em;
   .time{
     opacity: 0.5;
-    padding-right: 0.5em;
+    padding-inline-end: 0.5em;
   }
   .username:hover{
     @include link;
@@ -20,7 +20,7 @@
   @media screen and (max-width: 600px) {
     @include display-flex(column);
     .time{
-      margin-left: auto;
+      margin-inline-start: auto;
     }
   }
   /*Large screens*/

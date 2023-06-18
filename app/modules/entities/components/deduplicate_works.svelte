@@ -242,7 +242,7 @@
     align-items: stretch;
     justify-content: center;
     /* Let room for the controls */
-    min-height: calc(100vh - 7em);
+    min-block-size: calc(100vh - 7em);
     margin-block-end: 6em;
   }
   .wdWorks, .invWorks{
@@ -288,7 +288,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     flex: 1 0 0;
-    min-width: 15em;
+    min-inline-size: 15em;
   }
   .more{
     text-align: center;
@@ -301,7 +301,7 @@
       li{
         flex: 1 0 45%;
         margin: 0.2em;
-        max-width: 48%;
+        max-inline-size: 48%;
         display: flex;
         flex-direction: row;
         align-items: stretch;

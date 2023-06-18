@@ -6,21 +6,21 @@
     font-weight: bold;
     font-size: 1.3em;
     color: #aaa;
-    top: 1.4em;
-    left: -0.1em;
+    inset-block-start: 1.4em;
+    inset-inline-start: -0.1em;
   }
   .check{
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
   label{
-    text-align: left;
-    margin-top: 1em;
+    text-align: start;
+    margin-block-start: 1em;
     font-size: 1.1em;
   }
   p{
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   a.button{
-    margin-top: 0.5em;
+    margin-block-start: 0.5em;
   }
 }

@@ -49,13 +49,13 @@
   @import "#general/scss/utils";
   .entity-image{
     :global(.images-collage){
-      height: 10em;
+      block-size: 10em;
     }
   }
   .photo-credits{
     margin: 0;
     font-size: 0.8em;
-    max-width: 20em;
+    max-inline-size: 20em;
     @include shy(0.4);
   }
 </style>

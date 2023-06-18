@@ -23,8 +23,8 @@
   @import "#general/scss/utils";
   div{
     margin-block-end: 0.1em;
-    height: 1.5rem;
-    width: 5rem;
+    block-size: 1.5rem;
+    inline-size: 5rem;
     margin-inline-end: 0.5em;
     @include display-flex(row, center, flex-start);
   }
@@ -33,8 +33,8 @@
     margin: 0 0 0 auto;
     padding: 0;
     line-height: 0;
-    height: 100%;
-    width: 1.5rem;
+    block-size: 100%;
+    inline-size: 1.5rem;
     @include shy(0.8);
     @include bg-hover(white);
   }

@@ -160,15 +160,15 @@
   @import "#entities/scss/relatives_lists";
   .entity-layout{
     @include display-flex(column, center);
-    width: 100%;
+    inline-size: 100%;
   }
   .no-edition{
     flex: none;
-    width: 15em;
+    inline-size: 15em;
   }
   .top-section{
     @include display-flex(row, flex-start, center);
-    width: 100%;
+    inline-size: 100%;
   }
   .work-section{
     @include display-flex(column, flex-start);
@@ -180,7 +180,7 @@
   }
   .items-lists-section{
     @include display-flex(column, center);
-    width: 100%;
+    inline-size: 100%;
     margin: 1em 0;
   }
   .loading-wrapper{
@@ -211,7 +211,7 @@
       @include display-flex(column, center);
     }
     .editions-section-wrapper{
-      width: 100%;
+      inline-size: 100%;
       margin-block-start: 1em;
     }
     .entity-layout{

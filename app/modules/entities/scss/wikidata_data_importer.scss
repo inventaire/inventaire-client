@@ -18,10 +18,10 @@
   }
   td{
     padding: 0 1em;
-    text-align: left;
+    text-align: start;
   }
   .property-uri{
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
   }
   .showOnWikidata{
     @include display-flex(row, center, center);

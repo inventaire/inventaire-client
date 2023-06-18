@@ -14,15 +14,15 @@
     overflow: hidden;
   }
   h3, .finished{
-    padding-top: 0.8em;
-    padding-left: 1em;
+    padding-block-start: 0.8em;
+    padding-inline-start: 1em;
     font-size: 1em;
     opacity: 0.5;
     @include sans-serif;
     margin: 0;
   }
   .new-message{
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
   @import 'header';
   @import 'timeline';

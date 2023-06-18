@@ -28,7 +28,7 @@
 }
 
 #createPlaceholders{
-  margin-top: 1.3em;
+  margin-block-start: 1.3em;
 }
 
 .control, .checkboxes{
@@ -36,7 +36,7 @@
   label{
     text-align: center;
     white-space: nowrap;
-    margin-bottom: 0;
+    margin-block-end: 0;
     align-self: stretch;
   }
 }
@@ -84,6 +84,6 @@
     }
   }
   .checkboxes{
-    margin-left: auto;
+    margin-inline-start: auto;
   }
 }

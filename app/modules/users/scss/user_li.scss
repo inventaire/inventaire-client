@@ -9,7 +9,7 @@ $user-bg: #ddd;
   @include radius;
   color: $light-grey;
   img{
-    margin-left: 0;
+    margin-inline-start: 0;
     height: $user-height;
     width: $user-height;
     overflow: hidden;
@@ -19,19 +19,19 @@ $user-bg: #ddd;
       min-height: $user-height;
       flex: 1 1 auto;
       overflow: hidden;
-      text-align: left;
+      text-align: start;
       .bio{
         max-height: 5em;
-        padding-left: 0.2em;
+        padding-inline-start: 0.2em;
         opacity: 0.8;
       }
     }
     .username{
-      margin-left: 0.3em;
+      margin-inline-start: 0.3em;
     }
     .email{
-      margin-left: 0.3em;
-      margin-right: auto;
+      margin-inline-start: 0.3em;
+      margin-inline-end: auto;
     }
     .userMenu{
       flex: 0 0 auto;
@@ -43,7 +43,7 @@ $user-bg: #ddd;
   }
   .accept{
     // spacing from .decline button
-    margin-right: 0.1em;
+    margin-inline-end: 0.1em;
   }
   .invite{
     @include tiny-button($light-blue);
@@ -90,7 +90,7 @@ $user-bg: #ddd;
     &.stretch{
       .userMenu{
         align-self: center;
-        margin-bottom: 1em;
+        margin-block-end: 1em;
       }
     }
   }
@@ -103,7 +103,7 @@ $user-bg: #ddd;
             // Center
             width: 1.5em;
             text-align: center;
-            padding-left: 0.3em;
+            padding-inline-start: 0.3em;
           }
           .label{
             // Save space
@@ -127,7 +127,7 @@ $user-bg: #ddd;
       // min-height: $user-height;
     }
     .userMenu{
-      margin-left: auto;
+      margin-inline-start: auto;
     }
     &:not(.stretch){
       .top{

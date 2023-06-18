@@ -122,7 +122,7 @@
   button{
     background-color: white;
     @include radius;
-    width: 100%;
+    inline-size: 100%;
     padding: 0.5em;
     transition: background-color 0.2s ease;
     display: flex;
@@ -187,7 +187,7 @@
   .all-terms{
     font-weight: normal;
     text-align: start;
-    max-height: 10em;
+    max-block-size: 10em;
     overflow-y: auto;
   }
   .all-terms li{
@@ -203,7 +203,7 @@
   }
   .works, .series{
     ul{
-      max-height: 10em;
+      max-block-size: 10em;
       overflow-y: auto;
     }
   }
@@ -219,7 +219,7 @@
     }
   }
   .no-image, img:not(.zoom){
-    width: 6em;
+    inline-size: 6em;
   }
   .info{
     flex: 1 0 0;

@@ -7,7 +7,7 @@
   }
   .buttons{
     @include display-flex(row, center, space-around);
-    margin-top: 1em;
+    margin-block-start: 1em;
     align-self: stretch;
     button{
       padding: 0.7em;
@@ -43,7 +43,7 @@
       flex-direction: column;
       align-items: stretch;
       .addNewItems{
-        margin-bottom: 1em;
+        margin-block-end: 1em;
       }
     }
   }
@@ -51,10 +51,10 @@
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
     .done{
-      margin-left: 0.5em;
+      margin-inline-start: 0.5em;
     }
     .status{
-      margin-left: auto;
+      margin-inline-start: auto;
     }
   }
 }
@@ -91,7 +91,7 @@
     flex: 0 0 5em;
   }
   .title, .authors{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     flex: 0 0 auto;
   }
   .title{

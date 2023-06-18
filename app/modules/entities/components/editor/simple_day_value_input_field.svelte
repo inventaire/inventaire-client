@@ -45,14 +45,14 @@
     margin: 0;
   }
   input, button{
-    width: 5rem;
+    inline-size: 5rem;
     margin-inline-end: 0.5em;
   }
   button{
     font-weight: normal;
     white-space: nowrap;
     align-self: flex-end;
-    height: 2.3em;
+    block-size: 2.3em;
     @include shy(0.9);
   }
   input:invalid{

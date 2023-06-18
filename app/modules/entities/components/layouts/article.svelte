@@ -85,11 +85,11 @@
   @import "#general/scss/utils";
   .entity-layout{
     @include display-flex(column, center);
-    width: 100%;
+    inline-size: 100%;
   }
   .top-section{
     @include display-flex(row, flex-start, center);
-    width: 100%;
+    inline-size: 100%;
   }
   .work-section{
     @include display-flex(column, flex-start);
@@ -104,7 +104,7 @@
   }
   .relatives-browser{
     margin: 1em 0;
-    width: 100%;
+    inline-size: 100%;
   }
   /* Small screens */
   @media screen and (max-width: $small-screen){

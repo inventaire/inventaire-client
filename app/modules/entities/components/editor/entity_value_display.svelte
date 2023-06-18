@@ -55,7 +55,7 @@
   @import "#general/scss/utils";
   .value-display{
     flex: 1;
-    height: 100%;
+    block-size: 100%;
     font-weight: normal;
     @include display-flex(row, center, flex-start);
     cursor: pointer;
@@ -66,7 +66,7 @@
   }
   .image{
     flex: 0 0 3em;
-    height: 3em;
+    block-size: 3em;
     margin-inline-end: 0.5em;
     background-size: cover;
     background-position: center center;

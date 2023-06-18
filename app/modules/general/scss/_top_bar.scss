@@ -50,7 +50,7 @@ nav#top-bar{
     // 7 = max number of search section on a row
     max-width: 7 * $search-section-width;
     margin: 0 auto;
-    margin-bottom: 0;
+    margin-block-end: 0;
   }
 
   .iconButton, #language-picker > button, .global-menu > button{
@@ -67,14 +67,14 @@ nav#top-bar{
     font-weight: normal;
     @include sans-serif;
     .fa{
-      margin-right: 0.5rem;
+      margin-inline-end: 0.5rem;
       @include display-flex(row, center, center);
     }
     img{
       height: 1.2em;
       width: 1.2em;
-      margin-left: 0.2em;
-      margin-right: 0.5em;
+      margin-inline-start: 0.2em;
+      margin-inline-end: 0.5em;
     }
     &.hover{
       @include display-flex(column);
@@ -96,7 +96,7 @@ nav#top-bar{
   @media screen and (min-width: $small-screen) {
     .signupRequest{
       // Push away the #language-picker
-      margin-left: 1em;
+      margin-inline-start: 1em;
     }
   }
 
@@ -112,22 +112,22 @@ nav#top-bar{
       height: 1.8em;
       padding: 0;
       text-align: center;
-      margin-left: 0.2em;
-      margin-right: 0.4em;
+      margin-inline-start: 0.2em;
+      margin-inline-end: 0.4em;
     }
     // Showing signup and login button at the bottom of the screen
     .signupRequest, .loginRequest{
       position: fixed;
-      bottom: 0;
+      inset-block-end: 0;
       height: $smallscreen-connection-buttons-height;
     }
     .signupRequest{
-      left: 0;
-      right: 50vw;
+      inset-inline-start: 0;
+      inset-inline-end: 50vw;
     }
     .loginRequest{
-      left: 50vw;
-      right: 0;
+      inset-inline-start: 50vw;
+      inset-inline-end: 0;
     }
   }
 

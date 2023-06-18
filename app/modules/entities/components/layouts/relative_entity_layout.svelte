@@ -35,14 +35,14 @@
   }
   .entity-link{
     display: block;
-    width: $card-width;
-    height: $card-height;
+    inline-size: $card-width;
+    block-size: $card-height;
     background-size: cover;
     background-position: center center;
     @include display-flex(column, stretch, flex-end);
     :global(.images-collage){
-      width: $card-width;
-      height: $card-height;
+      inline-size: $card-width;
+      block-size: $card-height;
     }
     &:hover{
       @include shadow-box;
@@ -56,7 +56,7 @@
     text-align: center;
     padding: 0.2em 0.1em;
     line-height: 1.1rem;
-    max-height: $card-height;
+    max-block-size: $card-height;
     overflow: hidden;
   }
 </style>

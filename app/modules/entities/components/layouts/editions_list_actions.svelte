@@ -190,8 +190,8 @@
       position: absolute;
       inset-inline-end: 0.1em;
       inset-block-end: 0.1em;
-      height: 2.1em;
-      width: 2em;
+      block-size: 2.1em;
+      inline-size: 2em;
       @include bg-hover(white);
       padding: 0;
     }
