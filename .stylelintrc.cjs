@@ -7,6 +7,9 @@ module.exports = {
   extends: [
     'stylelint-config-standard-scss',
   ],
+  plugins: [
+    'stylelint-use-logical',
+  ],
   rules: {
     'at-rule-empty-line-before': null,
     'at-rule-no-unknown': null,
@@ -18,6 +21,14 @@ module.exports = {
     'color-function-notation': null,
     'color-named': null,
     'comment-empty-line-before': null,
+    // See https://github.com/csstools/stylelint-use-logical
+    'csstools/use-logical': [
+      'always',
+      {
+        // Excluding properties for which there is no current known use-case
+        except: [ 'width', 'min-width', 'max-width', 'height', 'min-height', 'max-height' ]
+      }
+    ],
     'declaration-block-no-redundant-longhand-properties': null,
     'declaration-colon-space-after': 'always',
     'declaration-empty-line-before': null,
@@ -27,7 +38,6 @@ module.exports = {
     indentation: 2,
     'no-descending-specificity': null,
     'no-duplicate-selectors': true,
-    'rule-empty-line-before': 'never',
     'rule-empty-line-before': null,
     'scss/dollar-variable-empty-line-before': null,
     'scss/double-slash-comment-empty-line-before': null,

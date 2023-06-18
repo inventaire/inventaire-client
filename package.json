@@ -122,6 +122,7 @@
     "style-loader": "^2.0.0",
     "stylelint": "^14.16.1",
     "stylelint-config-standard-scss": "^6.1.0",
+    "stylelint-use-logical": "^2.1.0",
     "svelte-loader": "^3.1.7",
     "svelte-preprocess-sass": "^2.0.1",
     "svelte-reactive-preprocessor": "^0.8.2",
