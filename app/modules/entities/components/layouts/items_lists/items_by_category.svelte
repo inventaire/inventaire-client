@@ -101,13 +101,13 @@
   .items-list-per-transactions{
     max-height: 15em;
     overflow-y: auto;
-    margin-top: 0.3em;
+    margin-block-start: 0.3em;
   }
   .category-title{
     @include sans-serif;
     margin: 0;
     font-size: 1.1em;
-    margin-right: 1em;
+    margin-inline-end: 1em;
   }
   .category-title-wrapper{
     @include display-flex(row, center, flex-start);
@@ -130,7 +130,7 @@
   .items-list{
     @include radius;
     padding: 0.5em;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     /* background-color is defined by backgroundColor */
   }
   .map-button{

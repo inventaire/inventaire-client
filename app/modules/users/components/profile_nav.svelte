@@ -54,7 +54,7 @@
   @import "#general/scss/utils";
   .profile-tabs{
     @include display-flex(row, center, center, wrap);
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .tab{
     flex: 1 0 auto;
@@ -77,7 +77,7 @@
     }
   }
   .count{
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
     line-height: 1rem;
     padding: 0.2em;
     background-color: white;

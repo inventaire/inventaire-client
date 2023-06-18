@@ -76,18 +76,18 @@
     border-radius: 3px;
     border: solid 1px #ccc;
     .active{
-      border-left: solid 0.15em $yellow;
-      padding-left: 0.85em;
+      border-inline-start: solid 0.15em $yellow;
+      padding-inline-start: 0.85em;
       font-weight: bold;
     }
     button{
       padding: 1em;
-      border-bottom: solid 1px #ccc;
-      text-align: left;
+      border-block-end: solid 1px #ccc;
+      text-align: start;
       font-weight: normal;
     }
     :last-child{
-      border-bottom: 0;
+      border-block-end: 0;
     }
   }
   .setting{
@@ -97,7 +97,7 @@
   @media screen and (min-width: 470px){
     .navigation{
       position: sticky;
-      top: $topbar-height + 34px;
+      inset-block-start: $topbar-height + 34px;
     }
   }
   /* Small screens */
@@ -105,13 +105,13 @@
     .wrapper{
       display: flex;
       flex-direction: column;
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
     .navigation{
       margin: 0;
     }
     .setting{
-      margin-top: 2em;
+      margin-block-start: 2em;
       width: 100%;
       padding: 0;
     }

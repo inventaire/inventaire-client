@@ -36,11 +36,11 @@
   }
   .tooltip-outer{
     position: absolute;
-    bottom: 100%;
-    left: 50%;
+    inset-block-end: 100%;
+    inset-inline-start: 50%;
     transform: translateX(-50%);
     z-index: 1;
-    padding-bottom: $spike-size;
+    padding-block-end: $spike-size;
   }
   .tooltip-wrapper{
     position: relative;
@@ -67,14 +67,14 @@
     &::after{
       content: "";
       position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -$spike-size;
+      inset-block-start: 100%;
+      inset-inline-start: 50%;
+      margin-inline-start: -$spike-size;
       width: 0;
       height: 0;
-      border-top: $spike-size solid $tooltip-bg-color;
-      border-right: $spike-size solid transparent;
-      border-left: $spike-size solid transparent;
+      border-block-start: $spike-size solid $tooltip-bg-color;
+      border-inline-end: $spike-size solid transparent;
+      border-inline-start: $spike-size solid transparent;
     }
 
     &.light{
@@ -84,7 +84,7 @@
         @include link-dark;
       }
       &::after{
-        border-top: $spike-size solid $tooltip-light-bg-color;
+        border-block-start: $spike-size solid $tooltip-light-bg-color;
       }
     }
     &:not(.light){

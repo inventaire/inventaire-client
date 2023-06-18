@@ -178,12 +178,12 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .wrapper:not(:last-child){
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .value{
     @include display-flex(row, center, center);
     &:not(:last-child){
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
     /* Small screens */
     @media screen and (max-width: $smaller-screen){
@@ -191,7 +191,7 @@
       padding: 0.5em 0.2em;
       margin: 0.5em 0;
       :global(.edit-mode-buttons){
-        margin-top: 1em;
+        margin-block-start: 1em;
       }
     }
   }

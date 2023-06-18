@@ -105,7 +105,7 @@
   .relative-entities-list{
     padding: 0.5rem;
     background-color: $off-white;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   ul{
     @include display-flex(row, center, null, wrap);

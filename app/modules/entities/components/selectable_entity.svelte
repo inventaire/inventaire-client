@@ -186,7 +186,7 @@
   }
   .all-terms{
     font-weight: normal;
-    text-align: left;
+    text-align: start;
     max-height: 10em;
     overflow-y: auto;
   }
@@ -208,11 +208,11 @@
     }
   }
   .no-image, img{
-    margin-right: 0.8em;
+    margin-inline-end: 0.8em;
   }
   img{
     position: sticky;
-    top: 64px;
+    inset-block-start: 64px;
     cursor: zoom-in;
     &.zoom{
       cursor: zoom-out;
@@ -223,7 +223,7 @@
   }
   .info{
     flex: 1 0 0;
-    text-align: left;
+    text-align: start;
   }
   /* Large screens */
   @media screen and (min-width: 1800px){

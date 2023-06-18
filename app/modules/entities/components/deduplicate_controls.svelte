@@ -85,9 +85,8 @@
   .controls{
     background-color: #bbb;
     position: fixed;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    inset-block-end: 0;
+    inset-inline: 0;
     padding: 0.5em;
     display: flex;
     flex-direction: column;
@@ -108,8 +107,8 @@
   }
 
   input{
-    margin-bottom: 0;
-    margin-right: 1em;
+    margin-block-end: 0;
+    margin-inline-end: 1em;
     max-width: 20em;
   }
 

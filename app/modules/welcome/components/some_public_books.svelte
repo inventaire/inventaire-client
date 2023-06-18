@@ -41,9 +41,8 @@
   }
   .fade-out{
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset-block-end: 0;
+    inset-inline: 0;
     background: linear-gradient(0deg, $off-white, 50%, transparent);
     height: 5em;
   }
@@ -57,6 +56,6 @@
   h3:not(.title){
     text-align: center;
     font-size: 1.2em;
-    margin-top: 0.5em;
+    margin-block-start: 0.5em;
   }
 </style>

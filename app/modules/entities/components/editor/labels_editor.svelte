@@ -168,7 +168,7 @@
     }
     button{
       cursor: pointer;
-      text-align: left;
+      text-align: start;
       @include bg-hover(white, 5%);
       user-select: text;
     }
@@ -179,14 +179,14 @@
   .other-languages{
     max-height: 10em;
     overflow: auto;
-    margin-top: 1em;
+    margin-block-start: 1em;
     button{
       width: 100%;
       margin: 0.5em 0;
       padding: 0.5em 0;
       @include display-flex(row, center, flex-start);
       @include bg-hover(white, 5%);
-      text-align: left;
+      text-align: start;
     }
   }
   .other-value{
@@ -196,7 +196,7 @@
   /* Small screens */
   @media screen and (max-width: $smaller-screen){
     select{
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
     }
     .language-values{
       @include display-flex(column, stretch, center);

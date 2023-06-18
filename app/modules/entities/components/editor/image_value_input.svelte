@@ -193,13 +193,13 @@
   @import "#general/scss/utils";
   .wrapper{
     min-height: 18em;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     flex: 1;
   }
   label{
     display: block;
     max-width: 25em;
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   img{
     max-height: 30em;

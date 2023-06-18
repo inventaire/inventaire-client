@@ -47,11 +47,11 @@
   @media screen and (min-width: $small-screen){
     .position-required{
       > :global(.fa-map-marker){
-        margin-top: 2rem;
+        margin-block-start: 2rem;
       }
     }
     button{
-      margin-top: 4em;
+      margin-block-start: 4em;
     }
   }
 </style>

@@ -106,7 +106,7 @@
   }
   img{
     @include radius;
-    margin-right: 0.3em;
+    margin-inline-end: 0.3em;
     flex: 0 0 auto;
     max-height: 2.5em;
     max-width: 4em;
@@ -120,7 +120,7 @@
     flex: 1 0 0;
     overflow: hidden;
     line-height: 1.2em;
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
   }
   .distance{
     color: $grey;
@@ -128,6 +128,6 @@
   .map-button{
     @include tiny-button($light-grey, black);
     padding: 0.5em;
-    margin-right: 0.2em;
+    margin-inline-end: 0.2em;
   }
 </style>

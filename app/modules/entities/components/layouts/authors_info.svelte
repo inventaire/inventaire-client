@@ -69,11 +69,11 @@
     @include display-flex(row, flex-end, flex-start, wrap);
   }
   .author{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
   .label{
     color: $grey;
     font-size: 0.9rem;
-    margin-bottom: 0.1em;
+    margin-block-end: 0.1em;
   }
 </style>

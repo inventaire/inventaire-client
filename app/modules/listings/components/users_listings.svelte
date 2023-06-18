@@ -113,8 +113,8 @@
   .controls{
     @include display-flex(row, flex-end, flex-end);
     flex: 1 0 auto;
-    margin-right: 0.7em;
-    margin-bottom: 0.5em;
+    margin-inline-end: 0.7em;
+    margin-block-end: 0.5em;
     button{
       margin: 0;
     }

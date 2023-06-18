@@ -57,6 +57,6 @@
 
 <style lang="scss">
   button{
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
 </style>

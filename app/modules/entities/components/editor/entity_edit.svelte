@@ -73,7 +73,7 @@
     position: relative;
   }
   h2{
-    margin-bottom: 0;
+    margin-block-end: 0;
     a{
       @include link-dark;
     }

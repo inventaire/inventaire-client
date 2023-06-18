@@ -136,14 +136,14 @@
   }
   label{
     font-size: 1rem;
-    margin-bottom: 0.2em;
+    margin-block-end: 0.2em;
     cursor: pointer;
   }
   h3{
     text-align: center;
   }
   .buttons{
-    margin-top: 1em;
+    margin-block-start: 1em;
     align-self: stretch;
   }
   .delete, .validate{
@@ -180,10 +180,10 @@
       @include display-flex(row, center, space-around);
     }
     .delete{
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
     .validate{
-      margin-left: 0.5em;
+      margin-inline-start: 0.5em;
     }
   }
 </style>

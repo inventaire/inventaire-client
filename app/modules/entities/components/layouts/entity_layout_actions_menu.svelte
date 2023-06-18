@@ -64,7 +64,7 @@
     :global(li){
       @include display-flex(row, stretch, flex-start);
       &:not(:last-child){
-        margin-bottom: 0.2em;
+        margin-block-end: 0.2em;
       }
     }
     :global(a), :global(button){
@@ -75,7 +75,7 @@
       padding: 0 1em;
     }
     :global(.fa){
-      margin-right: 0.5rem;
+      margin-inline-end: 0.5rem;
     }
   }
 </style>

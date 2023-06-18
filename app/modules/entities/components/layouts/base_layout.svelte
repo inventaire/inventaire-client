@@ -69,7 +69,7 @@
   /* Large screens */
   @media screen and (min-width: $small-screen){
     .header-wrapper{
-      margin-left: 1.2em;
+      margin-inline-start: 1.2em;
     }
   }
   /* Small screens */

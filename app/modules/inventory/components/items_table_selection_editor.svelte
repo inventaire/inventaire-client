@@ -153,7 +153,7 @@
     @include display-flex(column, center, center);
   }
   .editor-toggler, .editor{
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   .editor-toggler{
     align-self: stretch;
@@ -168,8 +168,8 @@
   }
   .editor-untoggler{
     position: absolute;
-    top: 0;
-    right: 0.5rem;
+    inset-block-start: 0;
+    inset-inline-end: 0.5rem;
     @include display-flex(row, center, center);
     width: 1em;
     @include shy(0.9);
@@ -208,7 +208,7 @@
       @include display-flex(row, center, center);
       align-self: stretch;
       > button:not(:last-child){
-        margin-right: 0.5em;
+        margin-inline-end: 0.5em;
       }
     }
   }

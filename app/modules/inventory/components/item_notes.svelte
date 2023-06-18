@@ -107,6 +107,6 @@
     @include display-flex(row, center);
   }
   .indicator{
-    margin-left: auto;
+    margin-inline-start: auto;
   }
 </style>

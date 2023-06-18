@@ -63,10 +63,10 @@
   }
   .editions-list-title{
     @include display-flex(row, center, center);
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     h5{
       @include sans-serif;
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
     .counter{
       line-height: 1em;

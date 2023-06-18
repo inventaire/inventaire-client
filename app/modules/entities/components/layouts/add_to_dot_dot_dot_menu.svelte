@@ -187,7 +187,7 @@
   .menu-section{
     @include display-flex(column, stretch);
     &:not(:last-child){
-      border-bottom: 1px solid #ddd;
+      border-block-end: 1px solid #ddd;
     }
   }
   .section-label{
@@ -199,7 +199,7 @@
     overflow-y: auto;
   }
   [role="menuitem"]:not(:last-child){
-    border-bottom: 1px solid #ddd;
+    border-block-end: 1px solid #ddd;
   }
   button, label{
     width: 100%;

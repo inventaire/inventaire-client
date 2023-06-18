@@ -123,9 +123,9 @@
 <style lang="scss">
   @import "#modules/general/scss/utils";
   h3{
-    padding-left: 0.2em;
+    padding-inline-start: 0.2em;
     font-weight: bold;
-    margin-top: 1em;
+    margin-block-start: 1em;
     text-align: center;
   }
   li{

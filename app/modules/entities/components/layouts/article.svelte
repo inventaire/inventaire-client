@@ -96,7 +96,7 @@
     flex: 1 0 0;
     margin: 0 1em;
     :global(.claims-infobox-wrapper){
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
     :global(.wikisource){
       margin: 0.5em 0;
@@ -107,11 +107,11 @@
     width: 100%;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $small-screen){
     .work-section{
-      margin-left: 0;
+      margin-inline-start: 0;
       :global(.claims-infobox-wrapper){
-        margin-bottom: 0;
+        margin-block-end: 0;
       }
     }
     .top-section{

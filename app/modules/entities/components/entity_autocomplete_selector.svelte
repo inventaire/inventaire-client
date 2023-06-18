@@ -247,7 +247,7 @@
     flex: 1;
     font-weight: normal;
     position: relative;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     width: 100%;
   }
   .input-wrapper{
@@ -257,7 +257,7 @@
       flex: 1;
       height: 100%;
       font-weight: normal;
-      margin-bottom: 0.1em;
+      margin-block-end: 0.1em;
       @include transition(padding, 0.2s);
       &.has-entity-uri{
         padding: 0.5em 0.5em 0.8em;
@@ -268,17 +268,16 @@
     }
     .uri{
       position: absolute;
-      right: 0.5em;
-      bottom: 0.2em;
+      inset-inline-end: 0.5em;
+      inset-block-end: 0.2em;
     }
   }
   .autocomplete{
     /* Large screens */
     @media screen and (min-width: $very-small-screen){
       position: absolute;
-      top: 100%;
-      left: -1px;
-      right: -1px;
+      inset-block-start: 100%;
+      inset-inline: -1px;
       z-index: 1;
     }
     /* Small screens */
@@ -314,7 +313,7 @@
     color: #333;
   }
   .create{
-    margin-left: auto;
+    margin-inline-start: auto;
     color: white;
     @include bg-hover($success-color);
     overflow: hidden;

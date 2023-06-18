@@ -114,9 +114,9 @@
   .filters-title{
     color: $grey;
     background-color: white;
-    padding-top: 0.5em;
-    padding-left: 1em;
-    margin-top: 0.5em;
+    padding-block-start: 0.5em;
+    padding-inline-start: 1em;
+    margin-block-start: 0.5em;
   }
   .select-filters{
     @include tiny-button($off-white, black);
@@ -146,7 +146,7 @@
   @media screen and (max-width: 470px){
     .filters-menu{
       @include display-flex(column, flex-start);
-      padding-left: 1em;
+      padding-inline-start: 1em;
     }
     .left-menu{
       @include display-flex(column, center, flex-start);

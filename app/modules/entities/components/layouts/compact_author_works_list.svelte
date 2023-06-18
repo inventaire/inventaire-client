@@ -86,7 +86,7 @@
     text-align: center;
     @include sans-serif;
     &:first-child{
-      margin-top: 0;
+      margin-block-start: 0;
     }
   }
   .counter{
@@ -94,7 +94,7 @@
     font-size: 0.9rem;
     background-color: white;
     padding: 0 0.3em;
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
     @include radius;
   }
   ul{

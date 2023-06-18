@@ -97,10 +97,10 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .wrapper{
-    margin-right: auto;
+    margin-inline-end: auto;
     /* Small screens */
     @media screen and (max-width: $smaller-screen){
-      margin-left: auto;
+      margin-inline-start: auto;
     }
   }
 
@@ -108,6 +108,6 @@
     @include display-flex(row);
   }
   .labels{
-    margin-bottom: 0.1em;
+    margin-block-end: 0.1em;
   }
 </style>

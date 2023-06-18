@@ -103,7 +103,7 @@
     @include display-flex(row, center);
     background-color: white;
     width: 100%;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     padding: 0.5em;
   }
   .entity-wrapper{
@@ -112,7 +112,7 @@
   .entity-title{
     font-size: 1.1rem;
     line-height: 1.2rem;
-    margin-bottom: 0.4rem;
+    margin-block-end: 0.4rem;
     overflow: hidden;
     .uri{
       @include shy;

@@ -98,7 +98,7 @@
     .tiny-button{
       @include radius-left(0);
     }
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .isbn-button{
     white-space: nowrap;

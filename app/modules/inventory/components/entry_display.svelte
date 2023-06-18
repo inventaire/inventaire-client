@@ -114,11 +114,11 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .entry-display{
-    margin-right: 1em;
+    margin-inline-end: 1em;
     width: 100%;
     @include display-flex(row, center, space-between);
     .edition-cover{
-      margin-right: 1em;
+      margin-inline-end: 1em;
       width: 4em;
       max-height: 5em;
       overflow: hidden;
@@ -134,6 +134,6 @@
     display: inline;
     color: $grey;
     font-size: 0.9rem;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
 </style>

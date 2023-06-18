@@ -94,7 +94,7 @@
     color: red;
   }
   .right{
-    text-align: right;
+    text-align: end;
   }
   .title{
     background-color: white;

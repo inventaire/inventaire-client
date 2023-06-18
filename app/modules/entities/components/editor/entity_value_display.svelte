@@ -59,7 +59,7 @@
     font-weight: normal;
     @include display-flex(row, center, flex-start);
     cursor: pointer;
-    text-align: left;
+    text-align: start;
     @include bg-hover(white, 5%);
     user-select: text;
     padding: 0;
@@ -67,7 +67,7 @@
   .image{
     flex: 0 0 3em;
     height: 3em;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     background-size: cover;
     background-position: center center;
   }
@@ -76,11 +76,11 @@
   }
   .label{
     display: block;
-    text-align: left;
-    margin-top: 0.4em;
+    text-align: start;
+    margin-block-start: 0.4em;
   }
   .description{
     color: $grey;
-    margin-right: 1em;
+    margin-inline-end: 1em;
   }
 </style>

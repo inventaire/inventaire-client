@@ -96,18 +96,18 @@
     min-width: 1em;
   }
   .items-count, .members-count{
-    top: 0;
-    right: 0;
+    inset-block-start: 0;
+    inset-inline-end: 0;
     text-align: center;
     padding: 0.2em 0;
-    border-bottom-left-radius: $global-radius;
+    border-end-start-radius: $global-radius;
     @include transition;
   }
   .group-admin-badge{
-    top: 0;
-    left: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
     // Somehow centers the icon vertically
     line-height: 0;
-    border-bottom-right-radius: $global-radius;
+    border-end-end-radius: $global-radius;
   }
 </style>

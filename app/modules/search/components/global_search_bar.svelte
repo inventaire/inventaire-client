@@ -355,15 +355,15 @@
     @include radius;
     margin: 0;
     // Let room for .search-icon and #closeSearch
-    padding-right: 2em;
+    padding-inline-end: 2em;
     // Appear above .search-icon, so that click on .search-icon gives focus to the input
     z-index: 1;
     background-color: transparent;
   }
   #closeSearch, .search-icon{
     position: absolute;
-    right: 0;
-    top: 0;
+    inset-inline-end: 0;
+    inset-block-start: 0;
     padding: 0;
     height: 100%;
     @include display-flex(row, center, center);
@@ -371,7 +371,7 @@
   }
   .search-icon{
     font-size: 1.2rem;
-    margin-right: 0.3rem;
+    margin-inline-end: 0.3rem;
   }
   #closeSearch{
     font-size: 1.5rem;
@@ -415,8 +415,8 @@
       flex: 1 1 auto;
       flex-direction: row;
       flex-wrap: nowrap;
-      margin-left: auto;
-      margin-top: -0.3em;
+      margin-inline-start: auto;
+      margin-block-start: -0.3em;
     }
     #liveSearch{
       @include position(fixed, $topbar-height, 0, 0, 0);
@@ -428,7 +428,7 @@
       order: -1;
       flex: 1 0 0;
       overflow: auto;
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
     }
   }
 </style>

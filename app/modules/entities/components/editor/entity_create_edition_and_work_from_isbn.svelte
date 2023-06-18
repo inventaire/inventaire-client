@@ -143,7 +143,7 @@
     margin: 1em auto;
   }
   .context{
-    margin-top: 0.6em;
+    margin-block-start: 0.6em;
     text-align: center;
   }
   h2, .help{

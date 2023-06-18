@@ -71,7 +71,7 @@
     color: $dark-grey;
   }
   .image, .type, .label, .description{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     white-space: nowrap;
     flex: 0 0 auto;
   }
@@ -80,7 +80,7 @@
     overflow: hidden;
   }
   .image{
-    margin-right: 0.3em;
+    margin-inline-end: 0.3em;
     width: 48px;
     height: 48px;
     background-size: cover;

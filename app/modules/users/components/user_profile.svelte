@@ -125,19 +125,19 @@
   .data{
     @include display-flex(row, flex-start);
     color: #666;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     li{
-      margin-right: 1em;
+      margin-inline-end: 1em;
     }
   }
   .inventoryLength, .showShelvesList{
     .count{
-      padding-left: 0.5em;
+      padding-inline-start: 0.5em;
     }
   }
   .bio-wrapper{
     @include radius;
-    margin-bottom: 2em;
+    margin-block-end: 2em;
     max-width: 50em;
     overflow: auto;
   }

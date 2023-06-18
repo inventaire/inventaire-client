@@ -91,11 +91,11 @@
   @import "#general/scss/utils";
   .wrapper{
     @include display-flex(column, stretch);
-    margin-top: 0.5em;
+    margin-block-start: 0.5em;
     &:not(.unwrapped){
       .toggle-controls{
         align-self: flex-end;
-        margin-right: 0.5em;
+        margin-inline-end: 0.5em;
       }
     }
     &.unwrapped{
@@ -151,7 +151,7 @@
       flex-direction: column;
     }
     .control-label{
-      margin-left: 0.5em;
+      margin-inline-start: 0.5em;
     }
     .filters{
       flex-direction: column;
@@ -178,16 +178,15 @@
       @include display-flex(row, center, center);
     }
     .text-filter{
-      margin-right: 1em;
-      margin-left: 0.2em;
+      margin-inline: 0.2em 1em;
     }
     .display-controls{
-      margin-left: auto;
+      margin-inline-start: auto;
       :global(.select-dropdown){
         @include display-flex(row, center, center);
       }
       :global(.select-dropdown-label){
-        margin-right: 0.5em;
+        margin-inline-end: 0.5em;
       }
     }
     .control-label{

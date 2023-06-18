@@ -71,10 +71,10 @@
     align-self: stretch;
     @include display-flex(column, stretch);
     :global(.summary.has-summary){
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
   }
   .publications{
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
 </style>

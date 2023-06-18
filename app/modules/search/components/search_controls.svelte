@@ -80,13 +80,13 @@
     overflow-x: auto;
   }
   .entitySections{
-    border-bottom: 1px solid #ccc;
+    border-block-end: 1px solid #ccc;
   }
 
   /* Smaller screens */
   @media screen and (max-width: $small-screen){
     .searchSettingsTogglerWrapper{
-      margin-top: auto;
+      margin-block-start: auto;
       @include display-flex(row, center, center);
     }
     .searchSettingsToggler{
@@ -103,11 +103,10 @@
       }
       :global(.fa-chevron-up){
         @include transition(transform, 0.5s);
-        margin-top: -0.2em;
+        margin-block-start: -0.2em;
       }
       .label{
-        padding-left: 0.2em;
-        padding-right: 0.5em;
+        padding-inline: 0.2em 0.5em;
       }
     }
   }

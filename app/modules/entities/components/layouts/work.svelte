@@ -175,7 +175,7 @@
     flex: 1 0 0;
     margin: 0 1em;
     :global(.claims-infobox-wrapper){
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
   }
   .items-lists-section{
@@ -193,18 +193,18 @@
     }
   }
   .relatives-lists{
-    margin-top: 1em;
+    margin-block-start: 1em;
     align-self: stretch;
   }
   /* Small screens */
   @media screen and (max-width: $small-screen){
     .work-section{
-      margin-left: 0;
+      margin-inline-start: 0;
       :global(.claims-infobox-wrapper){
-        margin-bottom: 0;
+        margin-block-end: 0;
       }
       :global(.summary.has-summary){
-        margin-top: 1em;
+        margin-block-start: 1em;
       }
     }
     .top-section{
@@ -212,7 +212,7 @@
     }
     .editions-section-wrapper{
       width: 100%;
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
     .entity-layout{
       @include display-flex(column);

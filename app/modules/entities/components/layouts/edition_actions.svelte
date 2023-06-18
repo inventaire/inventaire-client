@@ -53,7 +53,7 @@
   @media screen and (max-width: $small-screen){
     .add-to-my-inventory{
       @include display-flex(row);
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
     }
   }
 </style>

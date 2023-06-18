@@ -171,7 +171,7 @@
 
   .panel{
     :global(fieldset){
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
     :global(label.details), :global(label.notes){
       font-size: 1rem;
@@ -204,7 +204,7 @@
     > p{
       color: red;
       font-weight: bold;
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
     }
     ul{
       max-height: 8em;

@@ -64,7 +64,7 @@
       height: 2.5rem;
     }
     button{
-      margin-left: 0.2em;
+      margin-inline-start: 0.2em;
     }
   }
 </style>

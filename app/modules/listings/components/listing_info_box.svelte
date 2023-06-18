@@ -96,13 +96,13 @@
   .listing-info{
     align-self: stretch;
     margin: 0.5em;
-    margin-bottom: 1em;
+    margin-block-end: 1em;
     padding: 0.5em 1em 1em;
     @include radius;
     background-color: $light-grey;
   }
   h2{
-    margin-top: 0;
+    margin-block-start: 0;
     font-weight: bold;
   }
   .first-row{
@@ -113,7 +113,7 @@
     @include display-flex(column, baseline);
   }
   .creator-row{
-    margin-top: 1em;
+    margin-block-start: 1em;
     @include display-flex(row, center, space-between);
   }
   .label{
@@ -137,7 +137,7 @@
     margin: 0.5em 0 0 auto;
   }
   button{
-    margin-left: 1em;
+    margin-inline-start: 1em;
     white-space: nowrap;
     line-height: 1.6em;
   }
@@ -162,7 +162,7 @@
       @include display-flex(column-reverse);
     }
     .actions{
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
   }
   /* Large screens */

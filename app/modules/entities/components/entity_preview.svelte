@@ -66,7 +66,7 @@
   }
   .image-wrapper{
     max-width: 4em;
-    margin-right: 0.2em;
+    margin-inline-end: 0.2em;
   }
   .label{
     font-weight: bold;

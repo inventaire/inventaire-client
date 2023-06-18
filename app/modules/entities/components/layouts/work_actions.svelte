@@ -64,7 +64,7 @@
     min-width: 10em;
     .action-button, :global(.add-to-dot-dot-dot-menu){
       text-align: end;
-      margin-bottom: 0.3em;
+      margin-block-end: 0.3em;
     }
     .action-button, :global(.dropdown-button){
       text-align: start;

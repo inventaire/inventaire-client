@@ -19,8 +19,7 @@
   @import "#general/scss/utils";
   a{
     @include display-flex(column, center, center);
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-block: 1em;
     &:hover{
       text-decoration: none;
       :global(.fa), span{

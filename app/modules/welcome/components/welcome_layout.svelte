@@ -15,7 +15,7 @@
   @import "#general/scss/utils";
   .welcome-layout{
     :global(h3){
-      margin-top: 0.5em;
+      margin-block-start: 0.5em;
       color: $dark-grey;
     }
   }

@@ -60,7 +60,7 @@
     @include display-flex(column, center, flex-end);
     @include radius;
     max-width: 20em;
-    padding-top: 1em;
+    padding-block-start: 1em;
     margin: 0.5em;
     background-color: $off-white;
     :global(.work-button){

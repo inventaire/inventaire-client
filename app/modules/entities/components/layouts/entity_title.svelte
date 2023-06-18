@@ -43,10 +43,10 @@
     margin: 0;
   }
   .birth-or-death-dates{
-    margin-bottom: 0.3em;
+    margin-block-end: 0.3em;
   }
   .subtitle{
-    margin-bottom: 0.3em;
+    margin-block-end: 0.3em;
     color: #444;
   }
 </style>

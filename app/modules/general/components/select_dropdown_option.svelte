@@ -58,7 +58,7 @@
     white-space: pre-wrap;
     line-height: 1rem;
     margin: 0 0.2em;
-    padding-left: 0.2em;
+    padding-inline-start: 0.2em;
   }
   .count{
     color: $grey;

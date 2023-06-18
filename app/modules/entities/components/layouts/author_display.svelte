@@ -47,7 +47,7 @@
     @include display-flex(row, center, flex-start);
     background-color: $off-white;
     min-height: 4em;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     &:hover{
       opacity: 0.8;
       cursor: pointer;
@@ -58,7 +58,7 @@
   }
   .author-label{
     font-weight: bold;
-    margin-right: 0.3em;
+    margin-inline-end: 0.3em;
     max-width: 15em;
   }
 </style>

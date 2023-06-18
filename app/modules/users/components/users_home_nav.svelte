@@ -49,7 +49,7 @@
   @import "#general/scss/utils";
   #tabs{
     @include display-flex(row, center, center);
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     .avatar, :global(.fa){
       margin: 0 0.5em;
     }
@@ -86,7 +86,7 @@
   /* Small screens */
   @media screen and (max-width: $small-screen){
     #tabs{
-      margin-top: 0.5em;
+      margin-block-start: 0.5em;
     }
     a{
       max-width: 34%;

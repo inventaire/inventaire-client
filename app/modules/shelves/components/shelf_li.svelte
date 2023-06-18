@@ -71,7 +71,7 @@
     cursor: pointer;
     height: 3em;
     margin: 0.1em 0;
-    border-top: 1px solid $off-white;
+    border-block-start: 1px solid $off-white;
     @include bg-hover($light-grey, 5%);
   }
   .without-shelf{
@@ -84,14 +84,14 @@
   }
   .shelf-right{
     @include display-flex(row);
-    padding-right: 1em;
+    padding-inline-end: 1em;
   }
   .shelf-text{
     max-height: 3em;
     line-height: 1.4em;
     overflow: hidden;
     padding: 0.2em 0.4em;
-    margin-right: 1em;
+    margin-inline-end: 1em;
   }
   .picture, .without-shelf-picture{
     min-width: 3em;

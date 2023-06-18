@@ -171,7 +171,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   h3{
-    margin-top: 1em;
+    margin-block-start: 1em;
     text-align: center;
     font-weight: bold;
   }

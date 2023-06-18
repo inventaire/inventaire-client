@@ -234,8 +234,7 @@
   }
   .group-actions{
     :global(button){
-      margin-top: 1em;
-      margin-bottom: 1em;
+      margin-block: 1em;
     }
     :global(.requested){
       text-align: center;
@@ -266,7 +265,7 @@
       padding: 0.5em;
     }
     .list-label{
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
       font-size: 1.2em;
     }
     .list-label-wrapper{
@@ -288,19 +287,19 @@
     .section-two{
       flex: 5 0 0;
       .list-label{
-        text-align: right;
+        text-align: end;
         margin: 0.5em 1em;
       }
     }
     .group-actions{
       @include display-flex(column, center, center);
-      margin-top: 1em;
+      margin-block-start: 1em;
       :global(.restrictions){
-        margin-top: 1em;
+        margin-block-start: 1em;
       }
     }
     .members-list{
-      margin-left: 0.8em;
+      margin-inline-start: 0.8em;
     }
   }
 

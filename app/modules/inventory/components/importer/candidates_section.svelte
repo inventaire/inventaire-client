@@ -31,6 +31,6 @@
 <style>
   h3{
     font-weight: bold;
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
 </style>

@@ -18,6 +18,6 @@
   @import "#modules/general/scss/utils";
   .count{
     min-width: 3em;
-    text-align: right;
+    text-align: end;
   }
 </style>

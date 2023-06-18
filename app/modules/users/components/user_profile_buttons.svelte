@@ -168,7 +168,7 @@
       min-width: 10em;
       margin: 0 0 1em 1em;
       :global(.fa){
-        margin-right: auto;
+        margin-inline-end: auto;
       }
     }
     flex: 0 0 auto;
@@ -179,7 +179,7 @@
   /* Large screens */
   @media screen and (min-width: $smaller-screen){
     .profile-buttons{
-      margin-left: auto;
+      margin-inline-start: auto;
     }
     .action{
       margin: 0 0.5em;
@@ -189,11 +189,11 @@
   /* Small screens */
   @media screen and (max-width: $smaller-screen){
     .profile-buttons{
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
       flex-direction: column;
     }
     .showUserOnMap{
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
     .action{
       margin: 0.5em 0;

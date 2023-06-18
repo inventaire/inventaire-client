@@ -243,7 +243,7 @@
     justify-content: center;
     /* Let room for the controls */
     min-height: calc(100vh - 7em);
-    margin-bottom: 6em;
+    margin-block-end: 6em;
   }
   .wdWorks, .invWorks{
     padding: 0.5em;
@@ -279,7 +279,7 @@
   }
   .work{
     flex-direction: column;
-    margin-top: 0.5em;
+    margin-block-start: 0.5em;
   }
   ul:not(:empty){
     display: flex;

@@ -164,10 +164,10 @@
   }
   input{
     border: 1px solid #aaa;
-    margin-bottom: 0;
+    margin-block-end: 0;
   }
   input[type="checkbox"]{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
   label{
     font-size: 1rem;
@@ -182,6 +182,6 @@
   .note{
     color: $grey;
     font-size: 0.9rem;
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
 </style>

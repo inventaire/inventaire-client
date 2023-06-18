@@ -70,8 +70,8 @@
   }
   .close{
     position: absolute;
-    top: 0.2em;
-    right: 0;
+    inset-block-start: 0.2em;
+    inset-inline-end: 0;
     margin: 0;
     padding: 0;
     font-size: 2rem;

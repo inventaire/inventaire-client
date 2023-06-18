@@ -38,7 +38,7 @@
     }
   }
   .items-preview{
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .giving{
     background-color: lighten($giving-color, 8%);

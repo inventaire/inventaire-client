@@ -153,7 +153,7 @@
   .works-browser-section{
     background-color: $off-white;
     padding: 0.5em;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     @include display-flex(column, flex-start);
   }
   .section-without-work{
@@ -188,8 +188,7 @@
     li{
       @include display-flex(column);
       :global(.actions-wrapper){
-        margin-top: 1em;
-        margin-bottom: 0;
+        margin-block: 1em 0;
       }
     }
   }

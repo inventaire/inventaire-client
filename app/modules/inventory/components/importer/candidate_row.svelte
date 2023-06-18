@@ -162,7 +162,7 @@
     @include radius;
     border: solid 1px #ccc;
     padding: 0.2em 1em;
-    margin-bottom: 0.2em;
+    margin-block-end: 0.2em;
   }
   label{
     @include display-flex(row, center, space-between);
@@ -179,7 +179,7 @@
   }
   .candidate-text{
     @include display-flex(column, center);
-    margin-right: 1em;
+    margin-inline-end: 1em;
     width: 100%;
     :global(.flash){
       align-self: stretch;
@@ -188,7 +188,7 @@
   .status-row{
     width: 100%;
     padding: 0.3em 0.5em;
-    margin-top: 0.3em;
+    margin-block-start: 0.3em;
   }
   .status{
     font-size: 0.9rem;

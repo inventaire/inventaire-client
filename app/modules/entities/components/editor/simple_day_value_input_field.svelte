@@ -46,7 +46,7 @@
   }
   input, button{
     width: 5rem;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
   button{
     font-weight: normal;

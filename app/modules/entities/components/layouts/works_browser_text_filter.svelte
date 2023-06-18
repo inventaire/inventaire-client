@@ -78,8 +78,8 @@
   }
   .search-icon{
     position: absolute;
-    right: 0.5em;
-    top: 0.35em;
+    inset-inline-end: 0.5em;
+    inset-block-start: 0.35em;
     color: $grey;
     button{
       padding: 0.2em 0 0.2em 0.2em;
@@ -96,7 +96,7 @@
   /* Large screens */
   @media screen and (min-width: $small-screen){
     .works-browser-text-filter{
-      margin-right: 1em;
+      margin-inline-end: 1em;
     }
   }
 </style>

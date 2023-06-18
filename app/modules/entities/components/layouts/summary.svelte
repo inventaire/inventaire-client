@@ -130,7 +130,7 @@
   }
   .header{
     @include display-flex(row, baseline, space-between);
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   // .label{
   //   color: $label-grey;
@@ -152,7 +152,7 @@
   /* Large screens */
   @media screen and (min-width: $small-screen){
     .summary.has-summary{
-      margin-top: 0;
+      margin-block-start: 0;
     }
   }
 </style>

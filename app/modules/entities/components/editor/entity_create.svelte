@@ -129,12 +129,12 @@
     max-width: 50em;
     margin: 0 auto;
     :global(.wrap-toggler){
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
   }
   h2{
     text-align: center;
-    margin-top: 0.5em;
+    margin-block-start: 0.5em;
   }
   .next{
     margin: 1em auto;

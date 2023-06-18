@@ -205,7 +205,7 @@
       display: none;
     }
     :global(.entity-list-row){
-      margin-bottom: 0 !important;
+      margin-block-end: 0 !important;
     }
     :global(.entity-details){
       max-height: 10em;
@@ -236,7 +236,7 @@
   /* Small screens */
   @media screen and (max-width: $small-screen){
     button{
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
     }
   }
 </style>

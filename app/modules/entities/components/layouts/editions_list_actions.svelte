@@ -180,16 +180,16 @@
     margin: 0 1em;
     position: relative;
     select{
-      padding-right: 2em;
+      padding-inline-end: 2em;
     }
     label{
-      margin-left: 0.8em;
-      margin-bottom: 0.2em;
+      margin-inline-start: 0.8em;
+      margin-block-end: 0.2em;
     }
     button{
       position: absolute;
-      right: 0.1em;
-      bottom: 0.1em;
+      inset-inline-end: 0.1em;
+      inset-block-end: 0.1em;
       height: 2.1em;
       width: 2em;
       @include bg-hover(white);
