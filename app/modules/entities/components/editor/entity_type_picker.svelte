@@ -33,13 +33,13 @@
   }
   [role="option"]{
     flex: 1 0 6em;
-    max-width: 10em;
+    max-inline-size: 10em;
     margin: 0.1em;
   }
   button{
     @include big-button($grey);
     padding: 1em;
-    width: 100%;
+    inline-size: 100%;
     &.selected{
       @include bg-hover(white, 0%);
       color: $dark-grey;

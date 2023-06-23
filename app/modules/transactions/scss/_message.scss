@@ -5,16 +5,16 @@
   .avatar{
     flex: 0 0 36px;
     &:not(.sameUser){
-      margin-top: 0.3em;
+      margin-block-start: 0.3em;
       @extend .event-icon;
     }
   }
   .rest{
     @include radius;
     background-color: #f9f9f9;
-    margin-left: 0.2em;
+    margin-inline-start: 0.2em;
     padding: 0.5em;
-    padding-left: 1em;
+    padding-inline-start: 1em;
     flex: 1 1 auto;
     @include display-flex(row);
     .time{
@@ -29,7 +29,7 @@
     @media screen and (max-width: $very-small-screen) {
       flex-direction: column;
       .message-text{
-        padding-bottom: 0.5em;
+        padding-block-end: 0.5em;
         order: 2;
       }
       .time{
@@ -42,9 +42,9 @@
       .message-text{
       }
       .time{
-        margin-left: auto;
-        padding-left: 0.5em;
-        text-align: right;
+        margin-inline-start: auto;
+        padding-inline-start: 0.5em;
+        text-align: end;
       }
     }
   }

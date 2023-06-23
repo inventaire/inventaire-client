@@ -34,9 +34,9 @@ $work-infobox-property-color: #999;
   }
   .description{
     margin: 0;
-    margin-bottom: 1em;
+    margin-block-end: 1em;
     padding: 0;
-    text-align: left;
+    text-align: start;
   }
   .attributes{
     max-width: 50em;
@@ -45,7 +45,7 @@ $work-infobox-property-color: #999;
     position: relative;
     .property-value{
       color: #999;
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
   }
   .photo-credits{
@@ -83,10 +83,10 @@ $work-infobox-property-color: #999;
       padding: 1em;
     }
     .cover{
-      padding-top: 2em;
+      padding-block-start: 2em;
       img{
         position: sticky;
-        top: $topbar-height + 10px;
+        inset-block-start: $topbar-height + 10px;
       }
     }
   }
@@ -95,7 +95,7 @@ $work-infobox-property-color: #999;
 .workInfobox, .serieInfobox{
   .author-preview-list{
     .section-label{
-      text-align: left;
+      text-align: start;
       color: $work-infobox-property-color;
     }
   }
@@ -117,7 +117,7 @@ $work-infobox-property-color: #999;
     @include display-flex(row, null, null, wrap);
   }
   .author-preview-list{
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     ul{
       @include display-flex(row, null, space-around, wrap);
       li{

@@ -153,12 +153,12 @@
   }
   .dropdown-content{
     position: absolute;
-    top: 100%;
+    inset-block-start: 100%;
     z-index: 11;
     white-space: nowrap;
     // Add a bit of padding so that there will be a bit of margin down
     // when scrolling to get the dropdown content in the viewport
-    padding-bottom: 0.5em;
+    padding-block-end: 0.5em;
     overflow-x: hidden;
   }
 </style>

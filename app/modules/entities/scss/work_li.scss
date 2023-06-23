@@ -6,13 +6,13 @@ $workLiMaxWidth: 45em;
   max-width: $workLiMaxWidth;
   background-color: $contrast;
   &:not(:first-child):not(.wrappable){
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
   @include radius;
   @include shy-border;
-  text-align: left;
+  text-align: start;
   @include display-flex(row, center, space-around);
-  margin-bottom: 0.5em;
+  margin-block-end: 0.5em;
   .workCover{
     position: relative;
     max-width: 10em;
@@ -43,8 +43,8 @@ $workLiMaxWidth: 45em;
     }
   }
   .workLiData{
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+    padding-inline-start: 0.5em;
+    padding-inline-end: 0.5em;
     @include display-flex(column, center, center);
     h3{
       text-align: center;
@@ -70,8 +70,8 @@ $workLiMaxWidth: 45em;
       @include bg-hover($light-grey);
       @include radius;
       color: $dark-grey;
-      margin-left: 0.1em;
-      margin-right: 0.5em;
+      margin-inline-start: 0.1em;
+      margin-inline-end: 0.5em;
       span{
         font-size: 1.2em;
         font-weight: bold;
@@ -98,8 +98,8 @@ $workLiMaxWidth: 45em;
     max-width: 100vw;
     @include display-flex(column);
     flex: 1 1 auto;
-    margin-left: 0;
-    margin-right: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
     .workCover{
       max-width: 100%;
       margin: 0.2em;
@@ -124,12 +124,12 @@ $workLiMaxWidth: 45em;
       position: relative;
       .ordinal{
         font-size: 0.9em;
-        padding-right: 1em;
+        padding-inline-end: 1em;
       }
     }
     .actions{
       flex: 0 0 14em;
-      margin-left: auto;
+      margin-inline-start: auto;
     }
     img{
       max-height: 10em;
@@ -141,7 +141,7 @@ $workLiMaxWidth: 45em;
       }
       @include display-flex(column, center, center);
       .actions{
-        margin-left: 0;
+        margin-inline-start: 0;
       }
     }
   }

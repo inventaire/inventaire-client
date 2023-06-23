@@ -29,7 +29,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .item-active-transactions{
-    margin-top: 1em;
+    margin-block-start: 1em;
     background: $off-white;
     @include radius;
   }

@@ -115,7 +115,7 @@ button{
   @include tiny-button($grey);
 }
 .cancelButton + .saveButton{
-  margin-left: 0.2em;
+  margin-inline-start: 0.2em;
 }
 
 // icon buttons
@@ -150,13 +150,13 @@ button{
 div.icon-buttons-header{
   width: 100%;
   height: 1.2em;
-  margin-bottom: 0.5em;
+  margin-block-end: 0.5em;
   label{
     height: 0;
     cursor: default;
   }
   .right{
-    text-align: right;
+    text-align: end;
   }
 }
 

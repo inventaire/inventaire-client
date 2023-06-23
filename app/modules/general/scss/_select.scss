@@ -26,7 +26,7 @@ select{
   option{
     // works in Firefox not Chrome
     font-size: 1rem;
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
+    padding-block-start: 0.2rem;
+    padding-block-end: 0.2rem;
   }
 }

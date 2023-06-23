@@ -1,7 +1,7 @@
 @import 'item_user_box';
 
 .itemBox > .remove{
-  margin-top: 1em;
+  margin-block-start: 1em;
   @include dangerous-action;
   flex: 1 1 auto;
   width: 100%;
@@ -31,7 +31,7 @@
     color: $dark-grey;
     ul{
       padding: 0.2em;
-      text-align: left;
+      text-align: start;
     }
     a, button{
       color: $dark-grey;

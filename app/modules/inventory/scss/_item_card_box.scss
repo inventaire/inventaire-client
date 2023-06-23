@@ -10,16 +10,16 @@
     /*Large screens*/
     @media screen and (min-width: $small-screen) {
       &:not(:first-child){
-        margin-left: 0.5em;
+        margin-inline-start: 0.5em;
       }
       &:not(:last-child){
-        margin-right: 0.5em;
+        margin-inline-end: 0.5em;
       }
     }
     /*Small screens*/
     @media screen and (max-width: $small-screen) {
       &:not(:last-child){
-        margin-bottom: 1em;
+        margin-block-end: 1em;
       }
     }
   }
@@ -52,6 +52,6 @@
   align-self: stretch;
   background-color: #f5f5f5;
   :global(.fa-caret-down){
-    padding-left: 0.5em;
+    padding-inline-start: 0.5em;
   }
 }

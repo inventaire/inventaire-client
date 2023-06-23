@@ -20,14 +20,14 @@
   .claims, .actions{
     padding: 0.5em;
     margin: 0.5em;
-    margin-left: auto;
+    margin-inline-start: auto;
   }
 
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     @include display-flex(column, center, center);
-    padding-top: 1em;
-    margin-bottom: 1em;
+    padding-block-start: 1em;
+    margin-block-end: 1em;
     .upper-part{
       justify-content: center;
       @include display-flex(column, center, center);

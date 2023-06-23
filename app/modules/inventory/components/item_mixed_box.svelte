@@ -77,7 +77,7 @@
       color: white;
       font-size: 1.5rem;
       // centering
-      padding-left: 0.2rem;
+      padding-inline-start: 0.2rem;
     }
   }
   .giving{

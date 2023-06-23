@@ -82,8 +82,8 @@
   }
   .search-icon{
     position: absolute;
-    right: 0.5em;
-    top: 0.35em;
+    inset-inline-end: 0.5em;
+    inset-block-start: 0.35em;
     color: $grey;
     button{
       padding: 0.2em 0 0.2em 0.2em;

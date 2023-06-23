@@ -1,7 +1,7 @@
 @import '#general/scss/utils';
 
 .edition-creation{
-  margin-top: 1em;
+  margin-block-start: 1em;
   @include display-flex(row, flex-start, flex-start, wrap);
   @include radius;
   #isbnGroup{
@@ -10,8 +10,8 @@
       @include radius-left;
     }
     .alert-box{
-      margin-top: 0;
-      margin-bottom: 0;
+      margin-block-start: 0;
+      margin-block-end: 0;
       // Let room for the whole 'this ISBN already exist' message
       max-height: 8em;
     }
@@ -33,21 +33,21 @@
     flex-direction: column;
     align-items: stretch;
     #withoutIsbn{
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
   }
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
     padding: 0.5em 0.5em 0.5em 1em;
     .from-isbn{
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
     #isbnGroup{
       max-width: 15em;
     }
     #withoutIsbn{
       // Aligning with #isbnField
-      margin-top: 1.45em;
+      margin-block-start: 1.45em;
     }
   }
 }

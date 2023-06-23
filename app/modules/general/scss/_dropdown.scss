@@ -3,19 +3,23 @@
   display: flex;
   align-items: stretch;
   [role="menu"]{
-    text-align: left;
+    text-align: start;
     display: none;
     position: absolute;
     z-index: 30;
     min-width: 10em;
-    top: 100%;
-    &:not(.dropdown-align-right){ left: 0; }
-    &.dropdown-align-right{ right: 0;  }
+    inset-block-start: 100%;
+    &:not(.dropdown-align-end){
+      inset-inline-start: 0;
+    }
+    &.dropdown-align-end{
+      inset-inline-end: 0;
+    }
     white-space: nowrap;
     background-color: $off-white;
     color: $dark-grey;
     &, a, button, span:not(.counter), .fa{
-      text-align: left !important;
+      text-align: start !important;
       color: $dark-grey;
     }
     @include shy-border;

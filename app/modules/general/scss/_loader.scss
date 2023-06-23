@@ -48,7 +48,7 @@
   padding: 0.2em;
   .small-loader.adjust-vertical-alignment{
     &:after{
-      margin-bottom: -0.2em;
+      margin-block-end: -0.2em;
     }
   }
 }

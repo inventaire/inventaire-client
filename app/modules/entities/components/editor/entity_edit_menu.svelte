@@ -155,14 +155,14 @@
     $entity-edit-max-width: 40em;
     /* Small screens */
     @media screen and (max-width: $entity-edit-max-width){
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
       padding: 0.5em;
     }
     /* Large screens */
     @media screen and (min-width: $entity-edit-max-width){
       position: absolute;
-      right: 0;
-      top: 1.4em;
+      inset-inline-end: 0;
+      inset-block-start: 1.4em;
     }
     :global(.dropdown-button){
       @include big-button($grey);
@@ -170,8 +170,7 @@
     }
     :global(.small-spinner){
       // Aligning with other icons
-      margin-left: -4px;
-      margin-right: 3px;
+      margin-inline: -4px 3px;
     }
   }
   [slot="button-inner"]{
@@ -183,24 +182,24 @@
     @include shy-border;
     background-color: white;
     @include radius;
-    min-width: 14em;
+    min-inline-size: 14em;
     button, :global(a){
       font-weight: normal;
       flex: 1;
       @include display-flex(row, center, flex-start);
-      text-align: left;
+      text-align: start;
       @include bg-hover(white, 5%);
       padding: 0.5em;
       :global(.fa){
-        margin-right: 0.5em;
+        margin-inline-end: 0.5em;
       }
     }
   }
   li{
     @include display-flex(row, stretch);
-    min-height: 3em;
+    min-block-size: 3em;
     &:not(:last-child){
-      margin-bottom: 0.2em;
+      margin-block-end: 0.2em;
     }
     :global(.error){
       flex: 1;

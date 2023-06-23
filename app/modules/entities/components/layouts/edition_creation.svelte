@@ -87,7 +87,7 @@
   .edition-creation{
     @include display-flex(column, stretch, center);
     @include radius;
-    max-width: 20em;
+    max-inline-size: 20em;
     margin: 0 auto;
   }
   .isbn-group{
@@ -98,7 +98,7 @@
     .tiny-button{
       @include radius-left(0);
     }
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .isbn-button{
     white-space: nowrap;
@@ -109,6 +109,6 @@
     text-align: center;
   }
   .show-form{
-    max-width: 20em;
+    max-inline-size: 20em;
   }
 </style>

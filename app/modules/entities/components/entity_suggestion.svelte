@@ -58,7 +58,7 @@
   }
   button{
     @include bg-hover(white);
-    width: 100%;
+    inline-size: 100%;
     margin: 0;
     padding: 0;
     @include display-flex(row, stretch);
@@ -67,9 +67,9 @@
     background-color: #ddd;
   }
   .image{
-    margin-right: 0.3em;
-    width: 48px;
-    height: 48px;
+    margin-inline-end: 0.3em;
+    inline-size: 48px;
+    block-size: 48px;
     background-size: cover;
     background-position: center center;
   }
@@ -85,14 +85,14 @@
   }
   .label{
     font-weight: bold;
-    text-align: left;
-    margin-right: auto;
+    text-align: start;
+    margin-inline-end: auto;
   }
   .description, .uri{
     font-weight: normal;
   }
   .type, .description{
-    text-align: left;
+    text-align: start;
   }
   .description{
     color: $grey;
@@ -100,7 +100,7 @@
   }
   .type{
     color: $grey;
-    text-align: right;
+    text-align: end;
     font-size: 0.9rem;
   }
   .uri{

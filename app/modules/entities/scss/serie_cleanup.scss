@@ -4,7 +4,7 @@
   h2{
     font-size: 1.2em;
     display: flex;
-    margin-right: 1em;
+    margin-inline-end: 1em;
     a{
       @include text-hover($dark-grey);
     }

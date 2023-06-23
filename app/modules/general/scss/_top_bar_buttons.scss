@@ -20,7 +20,7 @@
     }
     /*Small screens*/
     @media screen and (max-width: $small-screen) {
-      margin-left: 0.2em;
+      margin-inline-start: 0.2em;
       align-self: stretch;
       .fa-bars{
         font-size: 1.5rem;
@@ -72,10 +72,10 @@
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .label{
-      margin-right: 1em;
+      margin-inline-end: 1em;
     }
     .counter{
-      margin-left: auto;
+      margin-inline-start: auto;
     }
   }
 

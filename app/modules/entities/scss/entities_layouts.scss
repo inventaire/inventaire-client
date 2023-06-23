@@ -5,7 +5,7 @@ $author-layout-bg: #292929;
   background-color: $author-layout-bg;
   // allow to have no margin when there is only one .authorLayout
   &:not(:first-child){
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
   .subentities{
     flex: 1 1 auto;
@@ -22,8 +22,8 @@ $author-layout-bg: #292929;
     &:not(:empty){
       // required to center .loading
       @include display-flex(row, center, center);
-      margin-top: 1em;
-      margin-bottom: 1em;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
       .header{
         @include display-flex(row, center, center);
       }
@@ -39,7 +39,7 @@ $author-layout-bg: #292929;
   .subheader{
     .uri{
       font-size: 0.9rem;
-      margin-left: 1em;
+      margin-inline-start: 1em;
       @include sans-serif;
     }
   }
@@ -50,8 +50,8 @@ $author-layout-bg: #292929;
     padding: 1em;
   }
   .articles:not(:empty){
-    margin-top: 2em;
-    margin-bottom: 2em;
+    margin-block-start: 2em;
+    margin-block-end: 2em;
     .main{
       h4{
         color: $dark-grey;
@@ -69,20 +69,20 @@ $author-layout-bg: #292929;
   @include display-flex(column);
   .workLi:not(.wrappable){
     margin: auto;
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   /*Large screens*/
   @media screen and (min-width: $small-screen) {
     .series, .works, .articles{
-      margin-left: 0.2em;
-      margin-right: 0.2em;
+      margin-inline-start: 0.2em;
+      margin-inline-end: 0.2em;
       flex: 1 1 auto;
     }
   }
   /*Small screens*/
   @media screen and (max-width: $small-screen) {
     .workLi:first-child:not(.wrappable){
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
   }
 }

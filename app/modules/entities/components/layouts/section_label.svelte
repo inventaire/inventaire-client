@@ -54,6 +54,6 @@
     @include counter-commons;
     background-color: white;
     font-size: 1rem;
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
   }
 </style>

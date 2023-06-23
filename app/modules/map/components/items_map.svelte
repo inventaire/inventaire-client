@@ -117,7 +117,7 @@
   }
   .show-all-wrapper{
     @include display-flex(column, flex-end);
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   .show-all-button{
     @include tiny-button($light-grey);

@@ -14,7 +14,7 @@
   }
   .entity{
     flex: 2 0 0;
-    margin-right: auto;
+    margin-inline-end: auto;
     @include display-flex(column);
     .meta{
       @include display-flex(row, center, flex-start);
@@ -22,7 +22,7 @@
         @include shy;
       }
       .fa{
-        margin-left: 0.5em;
+        margin-inline-start: 0.5em;
       }
     }
   }
@@ -30,7 +30,7 @@
     font-weight: bold;
     overflow: hidden;
     max-height: 1.4em;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
   .type{
     font-weight: bold;
@@ -38,7 +38,7 @@
   .patch-id, .type{
     color: $grey;
     font-size: 0.9em;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
   .changes{
     flex: 1;
@@ -65,7 +65,7 @@
     }
     .changes{
       flex: 1;
-      margin-left: 0.5em;
+      margin-inline-start: 0.5em;
     }
     .added{
       color: green;
@@ -80,7 +80,7 @@
     width: 8em;
     @include display-flex(row, center, flex-start);
     @include transition(background-color);
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
     @include radius;
     &:hover{
       background-color: $off-white;
@@ -88,15 +88,15 @@
     padding: 0.2em;
     img{
       @include radius;
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
   }
   .time{
     color: $grey;
-    margin-left: auto;
-    padding-left: 0.2em;
+    margin-inline-start: auto;
+    padding-inline-start: 0.2em;
     width: 6em;
-    text-align: right;
+    text-align: end;
   }
   .togglers span{
     cursor: pointer;
@@ -105,7 +105,7 @@
     padding: 0 0.2em;
     width: 5em;
     @include radius;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     border: 2px solid black;
     &.creation{ border-color: $green-tree }
     &.add{ border-color: $success-color }
@@ -143,7 +143,7 @@
   @media screen and (max-width: $smaller-screen) {
     .summary{
       min-width: 60vw;
-      margin-right: auto;
+      margin-inline-end: auto;
     }
     .patch-id, .property-uri{
       display: none;

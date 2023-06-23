@@ -44,8 +44,8 @@ $arrowHeight: 0.62em;
 }
 
 .objectMarker:after{
-  top: 100%;
-  left: 50%;
+  inset-block-start: 100%;
+  inset-inline-start: 50%;
   content: " ";
   height: 0;
   width: 0;
@@ -56,7 +56,7 @@ $arrowHeight: 0.62em;
   // 11px makes it 1px too wide on the right
   // but it prevent the little bug occuring with 10px
   border-width: 0.68em;
-  margin-left: -0.62em;
+  margin-inline-start: -0.62em;
 }
 
 .userMarker, .groupMarker, .mainUserMarker{
@@ -66,13 +66,13 @@ $arrowHeight: 0.62em;
 
 .userMarker, .mainUserMarker{
   // (1)
-  margin-top: -$userMarkerHeight - $arrowHeight ;
-  margin-left: -$userMarkerWidth*0.5 + 0.25em;
+  margin-block-start: -$userMarkerHeight - $arrowHeight ;
+  margin-inline-start: -$userMarkerWidth*0.5 + 0.25em;
   position: relative;
   #showPositionPicker, .items-count{
     position: absolute;
-    top: 0;
-    right: 0;
+    inset-block-start: 0;
+    inset-inline-end: 0;
   }
   #showPositionPicker{
     font-size: 1.4rem;
@@ -87,8 +87,8 @@ $arrowHeight: 0.62em;
 }
 .groupMarker{
   // (1)
-  margin-top: -$groupMarkerHeight - $arrowHeight + 0.25em;
-  margin-left: -$groupMarkerWidth*0.5 + 0.25em;
+  margin-block-start: -$groupMarkerHeight - $arrowHeight + 0.25em;
+  margin-inline-start: -$groupMarkerWidth*0.5 + 0.25em;
   // Forcing the height to prevent .fa-group to increase the height
   // which, given its absolute position, might be a conflict with leaflet rules
   height: $groupMarkerHeight;
@@ -97,8 +97,8 @@ $arrowHeight: 0.62em;
 
 .itemMarker{
   // (1)
-  margin-top: -$itemMarkerHeight - $arrowHeight + 0.25em;
-  margin-left: -$itemMarkerWidth*0.5 + 0.25em;
+  margin-block-start: -$itemMarkerHeight - $arrowHeight + 0.25em;
+  margin-inline-start: -$itemMarkerWidth*0.5 + 0.25em;
   min-height: 5.5em;
   min-width:  7em;
   .showItem{
@@ -106,12 +106,12 @@ $arrowHeight: 0.62em;
     @include display-flex(row);
     .icon-wrapper{
       position: absolute;
-      bottom: -1px;
-      right: -2px;
+      inset-block-end: -1px;
+      inset-inline-end: -2px;
       z-index: 2;
       .fa{
-        border-top-left-radius: $global-radius;
-        border-bottom-right-radius: $global-radius;
+        border-start-start-radius: $global-radius;
+        border-end-end-radius: $global-radius;
         padding: 0.2em 0.3em;
         font-size: 1.3em;
       }

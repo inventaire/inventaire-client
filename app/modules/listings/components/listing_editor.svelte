@@ -127,10 +127,10 @@
   }
   label{
     font-size: 1rem;
-    margin-bottom: 0.2em;
+    margin-block-end: 0.2em;
   }
   .buttons{
-    margin-top: 1em;
+    margin-block-start: 1em;
     @include display-flex(row, center, center);
   }
   button{

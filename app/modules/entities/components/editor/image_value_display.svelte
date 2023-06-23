@@ -24,6 +24,6 @@
   }
   img{
     display: block;
-    margin-right: auto;
+    margin-inline-end: auto;
   }
 </style>

@@ -8,7 +8,7 @@
     :global(.relative-entities-list.not-empty){
       flex: 1 0 40%;
       margin-inline-end: $margin;
-      margin-bottom: $margin;
+      margin-block-end: $margin;
     }
   }
 }

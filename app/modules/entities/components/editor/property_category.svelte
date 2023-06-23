@@ -108,9 +108,9 @@
   }
   .scroll-marker{
     position: absolute;
-    top: -$topbar-height - 10;
+    inset-block-start: -$topbar-height - 10;
   }
   .toggle-custom-properties{
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
   }
 </style>

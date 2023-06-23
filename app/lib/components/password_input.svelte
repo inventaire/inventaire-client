@@ -46,12 +46,11 @@ aka `type={pwdInputType} bind:value={password}` is forbidden since generated cod
     margin: 0;
   }
   input[type="checkbox"]{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
   .main-label span{
     font-size: 1rem;
-    margin-top: 1em;
-    margin-bottom: 0.2em;
+    margin-block: 1em 0.2em;
     display: block;
   }
   .inline{

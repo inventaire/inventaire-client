@@ -3,7 +3,7 @@
 .groupBoard{
   text-align: center;
   @include shy-border-vertical-group;
-  margin-bottom: 1em;
+  margin-block-end: 1em;
   &.standalone{
     @include central-column(40em);
   }
@@ -18,7 +18,7 @@
     padding: 0 1em 1em 1em;
     section{
       &:not(:last-child){
-        margin-bottom: 1em;
+        margin-block-end: 1em;
       }
       h4{
         @include sans-serif;
@@ -27,7 +27,7 @@
         .fa{
           color: grey;
           font-size: 1.2em;
-          margin-right: 0.5em;
+          margin-inline-end: 0.5em;
         }
       }
       @include radius;
@@ -56,7 +56,7 @@
       .inner{
         // Disabled overflow to allow dropdown menus with absolute positions
         // overflow: auto;
-        padding-right: 0.4em;
+        padding-inline-end: 0.4em;
         overflow: auto;
       }
       .section-toggler{
@@ -67,9 +67,9 @@
         }
       }
       .fa-caret-right{
-        margin-left: auto;
+        margin-inline-start: auto;
         @include display-flex(row, center, center);
-        margin-top: -0.2em;
+        margin-block-start: -0.2em;
         font-size: 1.5em;
         opacity: 0.5;
         &.toggled{
@@ -85,18 +85,18 @@
     color: $grey;
   }
   .action{
-    margin-right: 0.2em;
+    margin-inline-end: 0.2em;
     span, .fa{
       color: white;
     }
   }
   .admin{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     opacity: 0.5;
   }
   .userLi{
     .userMenu{
-      text-align: left;
+      text-align: start;
     }
     span, {
       color: $dark-grey;

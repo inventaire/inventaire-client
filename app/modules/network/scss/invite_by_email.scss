@@ -12,27 +12,27 @@
     margin: 0;
   }
   .invitations, .message{
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   #sendInvitations{
     align-self: center;
   }
   label{
-    text-align: left;
+    text-align: start;
     font-size: 1em;
   }
   .email-sent{
     @include display-flex(row, center, center, wrap);
     .email{
       font-weight: bold;
-      padding-left: 0.2em;
+      padding-inline-start: 0.2em;
     }
   }
   .usersAlreadyThere{
-    padding-top: 1.2em;
-    padding-bottom: 1.2em;
+    padding-block-start: 1.2em;
+    padding-block-end: 1.2em;
     p{
-      padding-bottom: 0.6em;
+      padding-block-end: 0.6em;
     }
   }
 }

@@ -86,15 +86,15 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .entity-layout{
-    width: 100%;
+    inline-size: 100%;
   }
   .top-section{
     @include display-flex(row, flex-start, space-between);
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   .cover{
-    padding-right: 1em;
-    max-width: 12em;
+    padding-inline-end: 1em;
+    max-inline-size: 12em;
   }
   .info-wrapper{
     flex: 1;
@@ -102,11 +102,11 @@
   .infobox-wrapper{
     @include display-flex(row, center, space-between);
     :global(.summary){
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
   }
   .author-and-info{
-    margin-right: 1em;
+    margin-inline-end: 1em;
   }
   .items-lists-wrapper{
     margin: 1em 0;
@@ -130,7 +130,7 @@
   @media screen and (max-width: $smaller-screen){
     .info-wrapper{
       @include display-flex(column, center, center);
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
     .infobox-wrapper{
       @include display-flex(column, flex-start, center);
@@ -142,7 +142,7 @@
   /* Very small screens */
   @media screen and (max-width: $very-small-screen){
     .author-and-info{
-      margin-right: 0;
+      margin-inline-end: 0;
     }
   }
 </style>

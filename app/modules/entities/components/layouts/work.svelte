@@ -160,27 +160,27 @@
   @import "#entities/scss/relatives_lists";
   .entity-layout{
     @include display-flex(column, center);
-    width: 100%;
+    inline-size: 100%;
   }
   .no-edition{
     flex: none;
-    width: 15em;
+    inline-size: 15em;
   }
   .top-section{
     @include display-flex(row, flex-start, center);
-    width: 100%;
+    inline-size: 100%;
   }
   .work-section{
     @include display-flex(column, flex-start);
     flex: 1 0 0;
     margin: 0 1em;
     :global(.claims-infobox-wrapper){
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
   }
   .items-lists-section{
     @include display-flex(column, center);
-    width: 100%;
+    inline-size: 100%;
     margin: 1em 0;
   }
   .loading-wrapper{
@@ -193,26 +193,26 @@
     }
   }
   .relatives-lists{
-    margin-top: 1em;
+    margin-block-start: 1em;
     align-self: stretch;
   }
   /* Small screens */
   @media screen and (max-width: $small-screen){
     .work-section{
-      margin-left: 0;
+      margin-inline-start: 0;
       :global(.claims-infobox-wrapper){
-        margin-bottom: 0;
+        margin-block-end: 0;
       }
       :global(.summary.has-summary){
-        margin-top: 1em;
+        margin-block-start: 1em;
       }
     }
     .top-section{
       @include display-flex(column, center);
     }
     .editions-section-wrapper{
-      width: 100%;
-      margin-top: 1em;
+      inline-size: 100%;
+      margin-block-start: 1em;
     }
     .entity-layout{
       @include display-flex(column);

@@ -113,8 +113,8 @@
   }
   .counter{
     position: absolute;
-    top: 0.5em;
-    right: 0.5em;
+    inset-block-start: 0.5em;
+    inset-inline-end: 0.5em;
     color: $grey;
     padding: 0.2em;
     line-height: 1rem;

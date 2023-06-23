@@ -105,11 +105,11 @@
   .relative-entities-list{
     padding: 0.5rem;
     background-color: $off-white;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   ul{
     @include display-flex(row, center, null, wrap);
-    max-height: calc($card-height * 2 + 3em);
+    max-block-size: calc($card-height * 2 + 3em);
     overflow-y: auto;
   }
 </style>

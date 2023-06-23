@@ -82,11 +82,11 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .entityMergeLayout{
-    max-width: 50em;
+    max-inline-size: 50em;
     margin: 1em auto;
   }
   .help{
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   .type{
     margin: 1em 0;
@@ -96,7 +96,7 @@
   }
   h2{
     text-align: center;
-    margin-top: 0;
+    margin-block-start: 0;
   }
   h3{
     font-size: 1rem;
@@ -107,7 +107,7 @@
     color: $grey;
   }
   section{
-    margin-bottom: 1em;
+    margin-block-end: 1em;
     background-color: white;
     padding: 1em;
     @include radius;

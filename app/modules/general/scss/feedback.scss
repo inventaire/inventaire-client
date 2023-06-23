@@ -14,7 +14,7 @@
   }
   label{
     font-size: 1rem;
-    text-align: left;
+    text-align: start;
   }
   /*Not VerySmall screens*/
   @media screen and (min-width: $small-screen) {
@@ -23,15 +23,15 @@
       label, input{
         display: inline;
       }
-      text-align: left;
+      text-align: start;
     }
     .from{
       input{
-        margin-top: 1em;
+        margin-block-start: 1em;
       }
     }
     .to{
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
   }
   #confirmation{
@@ -39,10 +39,10 @@
     background-color: $success-color;
     @include radius;
     padding: 0.5em;
-    margin-top: 2em;
+    margin-block-start: 2em;
   }
   #getInvolved{
-    margin-top: 2em;
+    margin-block-start: 2em;
   }
   .link{
     text-decoration: underline;

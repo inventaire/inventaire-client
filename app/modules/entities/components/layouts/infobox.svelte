@@ -91,7 +91,7 @@
   }
   .wrapped-size{
     // in sync with wrappedInfoboxHeight variable
-    height: 125px;
+    block-size: 125px;
     overflow: hidden;
   }
 </style>

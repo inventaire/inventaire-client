@@ -48,7 +48,7 @@
     font-weight: normal;
   }
   h2{
-    margin-top: 2.5em;
+    margin-block-start: 2.5em;
     text-align: center;
     font-size: 1.3em;
   }

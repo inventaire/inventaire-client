@@ -95,21 +95,21 @@
 <style lang="scss">
   @import "#entities/scss/entity_editors_commons";
   .editor-section-header{
-    width: 9em;
+    inline-size: 9em;
   }
   .property-claim-values{
     flex: 1 1 auto;
-    max-width: 100%;
+    max-inline-size: 100%;
   }
   .add-value{
-    height: 2em;
+    block-size: 2em;
     font-weight: normal;
     @include display-flex(row, center, space-between);
     &:first-child{
-      margin-top: 0.2em;
+      margin-block-start: 0.2em;
     }
     &:not(:first-child){
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
   }
   .fixed{
@@ -126,9 +126,9 @@
   $lighten-primary-color: lighten($primary-color, 30%);
   .required-notice{
     position: absolute;
-    bottom: 100%;
+    inset-block-end: 100%;
     color: $lighten-primary-color;
-    left: 0;
+    inset-inline-start: 0;
     font-size: 0.9rem;
     line-height: 1.2rem;
     @include radius;
@@ -136,6 +136,6 @@
   .missing-required{
     border: 1px solid $lighten-primary-color;
     // Make room for the .required-notice
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
 </style>

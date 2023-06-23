@@ -74,29 +74,28 @@
 <style lang="scss">
   @import "#settings/scss/common_settings";
   form{
-    margin-top: 1em;
+    margin-block-start: 1em;
     border: 1px solid #ccc;
     border-radius: 3px;
     fieldset:last-child{
-      border-bottom: 0;
+      border-block-end: 0;
     }
   }
   .wrapper{
     margin: 0 1.5em;
   }
   fieldset{
-    border-bottom: 1px solid #ccc;
+    border-block-end: 1px solid #ccc;
     padding: 1em;
-    padding-top: 0;
+    padding-block-start: 0;
   }
   .note{
     color: $grey;
     font-size: 0.9rem;
-    margin-bottom: 0;
+    margin-block-end: 0;
   }
   legend{
-    margin-top: 0.5em;
-    margin-bottom: 0.2em;
+    margin-block: 0.5em 0.2em;
     @include sans-serif;
     font-size: 1.1em;
     font-weight: bold;

@@ -3,10 +3,10 @@
   font-size: 0.9em;
   padding: 0;
   margin: 0;
-  text-align: right;
-  padding-top: 0.2em;
-  padding-bottom: 0.2em;
-  margin-right: 1em;
+  text-align: end;
+  padding-block-start: 0.2em;
+  padding-block-end: 0.2em;
+  margin-inline-end: 1em;
 
   /*Small screens*/
   @media screen and (max-width: $small-screen) {

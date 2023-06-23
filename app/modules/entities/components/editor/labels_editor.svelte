@@ -168,7 +168,7 @@
     }
     button{
       cursor: pointer;
-      text-align: left;
+      text-align: start;
       @include bg-hover(white, 5%);
       user-select: text;
     }
@@ -177,16 +177,16 @@
     position: relative;
   }
   .other-languages{
-    max-height: 10em;
+    max-block-size: 10em;
     overflow: auto;
-    margin-top: 1em;
+    margin-block-start: 1em;
     button{
-      width: 100%;
+      inline-size: 100%;
       margin: 0.5em 0;
       padding: 0.5em 0;
       @include display-flex(row, center, flex-start);
       @include bg-hover(white, 5%);
-      text-align: left;
+      text-align: start;
     }
   }
   .other-value{
@@ -196,7 +196,7 @@
   /* Small screens */
   @media screen and (max-width: $smaller-screen){
     select{
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
     }
     .language-values{
       @include display-flex(column, stretch, center);
@@ -204,7 +204,7 @@
     .value{
       @include display-flex(column, center, center);
       .input-wrapper, button{
-        width: 100%;
+        inline-size: 100%;
         margin: 0.5em 0;
         padding: 0.5em;
       }
@@ -222,8 +222,8 @@
   /* Large screens */
   @media screen and (min-width: $smaller-screen){
     select, .other-languages .lang{
-      width: 10em;
-      height: 100%;
+      inline-size: 10em;
+      block-size: 100%;
     }
     .lang{
       padding: 0 1rem;
@@ -234,12 +234,12 @@
     }
     .language-values{
       @include display-flex(row, stretch, center);
-      min-height: 2.5em;
+      min-block-size: 2.5em;
     }
     .value{
       @include display-flex(row, stretch);
       .input-wrapper, button{
-        height: 100%;
+        block-size: 100%;
         margin: 0 0.5em;
       }
       button{

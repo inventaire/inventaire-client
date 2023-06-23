@@ -15,7 +15,7 @@
     font-weight: bold;
     overflow: hidden;
     .info{
-      text-align: left;
+      text-align: start;
       padding: 0.5em;
     }
     .name{
@@ -29,7 +29,7 @@
     @include display-flex(row);
     flex: 0 0 auto;
     a{
-      margin-right: 0.1em;
+      margin-inline-end: 0.1em;
     }
   }
   /*Small screens*/
@@ -53,7 +53,7 @@
       @include display-flex(row, flex-start, flex-start);
       flex: 1 0 0;
       max-height: 5em;
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
   }
 }

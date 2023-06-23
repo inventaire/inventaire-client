@@ -113,9 +113,8 @@
   }
   .bottom{
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: min(20%, 50vh);
+    inset-inline: 0;
+    inset-block-end: min(20%, 50vh);
     z-index: 1;
     min-height: 1px;
   }

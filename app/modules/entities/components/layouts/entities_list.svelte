@@ -43,7 +43,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   ul{
-    width: 100%;
+    inline-size: 100%;
     margin: 1em 0 0.5em;
     @include radius;
   }

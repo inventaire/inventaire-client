@@ -153,7 +153,7 @@
   .works-browser-section{
     background-color: $off-white;
     padding: 0.5em;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     @include display-flex(column, flex-start);
   }
   .section-without-work{
@@ -161,7 +161,7 @@
   }
   ul{
     flex: 1;
-    max-height: 42em;
+    max-block-size: 42em;
     overflow-y: auto;
     &.list{
       margin: 0 auto;
@@ -170,7 +170,7 @@
       @include display-flex(row, center, flex-start, wrap);
     }
     :global(.entity-wrapper){
-      width: 100%;
+      inline-size: 100%;
     }
   }
   .loading{
@@ -188,8 +188,7 @@
     li{
       @include display-flex(column);
       :global(.actions-wrapper){
-        margin-top: 1em;
-        margin-bottom: 0;
+        margin-block: 1em 0;
       }
     }
   }

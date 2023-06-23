@@ -1,6 +1,6 @@
 #embedded-welcome{
-  padding-top: 2em;
-  padding-bottom: 2em;
+  padding-block-start: 2em;
+  padding-block-end: 2em;
   width: 100%;
   @include display-flex(column, center, center);
   @include multidef-bg-cover('brittanystevens.jpg', 'hd');
@@ -20,9 +20,9 @@
   .tagline{
     color: white;
     padding: 0.4em;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .button{
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
 }

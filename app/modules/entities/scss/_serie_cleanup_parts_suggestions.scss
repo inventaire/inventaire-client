@@ -1,6 +1,6 @@
 .parts-suggestions-wrapper{
   background-color: $dark-grey;
-  padding-bottom: 0.2em;
+  padding-block-end: 0.2em;
   h3{
     color: white;
   }
@@ -33,19 +33,19 @@
     cursor: zoom-in;
   }
   .claims{
-    margin-bottom: auto;
+    margin-block-end: auto;
   }
   .add{
     @include tiny-button($grey);
     display: block;
-    margin-top: auto;
+    margin-block-start: auto;
     &.disabled{
       cursor: not-allowed;
     }
   }
   .showWorkPicker, .workPicker{
     display: block;
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
   .validate{
     display: block;

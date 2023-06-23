@@ -79,8 +79,8 @@ body{
 }
 
 .fa{
-  padding-left: 0.2em;
-  padding-right: 0.2em;
+  padding-inline-start: 0.2em;
+  padding-inline-end: 0.2em;
   // Force monospace
   width: 1.4em;
   text-align: center;
@@ -91,7 +91,7 @@ body{
 }
 
 .margin-top{
-  margin-top: 1rem;
+  margin-block-start: 1rem;
 }
 
 .user-content{
@@ -111,9 +111,9 @@ body{
 
 #nojs-warning{
   position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inset-inline-start: 0;
   z-index: 100;
   background-color: $yellow;
   padding: 0 0.5em;

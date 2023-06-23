@@ -156,16 +156,16 @@
 <style lang="scss">
   @import "#settings/scss/common_settings";
   .position-status{
-    padding-bottom: 1em;
+    padding-block-end: 1em;
   }
   input, textarea{
     appearance: none;
     border: 1px solid #aaa;
-    margin-bottom: 0;
+    margin-block-end: 0;
   }
   .text-zone{
     max-width: 28em;
-    margin-bottom: 0.2em;
+    margin-block-end: 0.2em;
   }
   h3{
     @include settings-h3;
@@ -173,7 +173,7 @@
   .note{
     color: $grey;
     font-size: 0.9rem;
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   .counter.alert{
     color: $soft-red;

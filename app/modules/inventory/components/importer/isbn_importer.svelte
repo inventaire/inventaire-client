@@ -82,11 +82,11 @@
     @include display-flex(row, flex-start);
   }
   .flash-wrapper{
-    margin-top: 1em;
-    margin-left: 0.5em;
+    margin-block-start: 1em;
+    margin-inline-start: 0.5em;
   }
   .textarea-wrapper,.flash-wrapper{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
   .success-button{
     display: block;

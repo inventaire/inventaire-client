@@ -85,9 +85,8 @@
   .controls{
     background-color: #bbb;
     position: fixed;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    inset-block-end: 0;
+    inset-inline: 0;
     padding: 0.5em;
     display: flex;
     flex-direction: column;
@@ -108,9 +107,9 @@
   }
 
   input{
-    margin-bottom: 0;
-    margin-right: 1em;
-    max-width: 20em;
+    margin-block-end: 0;
+    margin-inline-end: 1em;
+    max-inline-size: 20em;
   }
 
   button{
@@ -121,8 +120,8 @@
 
   .alerts{
     align-self: stretch;
-    min-width: 50%;
-    max-width: 30em;
+    min-inline-size: 50%;
+    max-inline-size: 30em;
     margin: 0 auto;
     background-color: $soft-red;
   }
@@ -138,7 +137,7 @@
   @media screen and (min-width: 800px){
     .entity, .status{
       // Make sure to push the center in the same proportion, to keep it in the center
-      min-width: 20em;
+      min-inline-size: 20em;
     }
     .status{
       display: flex;

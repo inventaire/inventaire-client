@@ -46,14 +46,13 @@
     padding: 0.2em;
     @include radius;
     width: 5em;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     font-weight: bold;
   }
   .symbol{
     width: 1em;
     font-size: 1.2em;
     text-align: center;
-    margin-left: 0.2em;
-    margin-right: 0.4em;
+    margin-inline: 0.2em 0.4em;
   }
 </style>

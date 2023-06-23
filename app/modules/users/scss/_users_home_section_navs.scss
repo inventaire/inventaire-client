@@ -6,14 +6,14 @@ $map-large-screen-heigth: 70vh;
   margin: 0 auto 0 0;
   align-self: center;
   color: $dark-grey;
-  margin-bottom: 0.5em;
+  margin-block-end: 0.5em;
 }
 
 .lists{
   @include display-flex(row);
 }
 .list-wrapper{
-  margin-bottom: auto;
+  margin-block-end: auto;
   background-color: $light-grey;
   @include radius;
 }
@@ -44,7 +44,7 @@ $map-large-screen-heigth: 70vh;
       overflow-y: auto;
     }
     &:not(:first-child){
-      margin-left: 0.5em;
+      margin-inline-start: 0.5em;
     }
   }
 }

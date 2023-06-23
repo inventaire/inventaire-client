@@ -57,11 +57,11 @@
         padding: 0.5em;
         &:not(:first-child){
           // Compensate for the presence of the hereafter defined separator
-          padding-left: 0;
+          padding-inline-start: 0;
           // Separator
           &::before{
             content: "|";
-            padding-right: 0.6em;
+            padding-inline-end: 0.6em;
             // Prevent to be underlined when the .link is hovered
             text-decoration: none;
             // Hack to get text-decoration to apply: https://stackoverflow.com/a/15688237/3324977

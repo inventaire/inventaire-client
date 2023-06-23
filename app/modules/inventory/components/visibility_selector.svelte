@@ -157,7 +157,7 @@
     }
   }
   .indent{
-    margin-left: 1.3em;
+    margin-inline-start: 1.3em;
   }
   .description{
     font-size: 0.9rem;

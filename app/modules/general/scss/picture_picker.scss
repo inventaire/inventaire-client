@@ -5,7 +5,7 @@
     text-align: center;
   }
   section#validation{
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
   &.limit-1{
     figure:not(.selected){
@@ -25,7 +25,7 @@
   padding: 1em;
   @include radius;
   h5:not(:first-child){
-    margin-top: 2em;
+    margin-block-start: 2em;
   }
 }
 
@@ -37,7 +37,7 @@
 }
 
 #availablePictures{
-  padding-top: 1em;
+  padding-block-start: 1em;
   @include display-flex(column, center, center);
   img.original{
     max-width: 50em;

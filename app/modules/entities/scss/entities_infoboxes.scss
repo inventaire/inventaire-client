@@ -46,7 +46,7 @@ $author-data-threshold: 25em;
   background-color: $darker-grey;
   @include radius;
   padding: 1em;
-  margin-bottom: 1em;
+  margin-block-end: 1em;
   color: white;
   /*Small screens*/
   @media screen and (max-width: $author-data-threshold) {

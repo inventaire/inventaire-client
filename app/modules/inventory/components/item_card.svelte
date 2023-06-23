@@ -163,17 +163,17 @@
   }
   img:not(.profilePic){
     max-height: 20em;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 15px;
-    margin-bottom: 5px;
+    border-block-end: 1px solid #ccc;
+    padding-block-end: 15px;
+    margin-block-end: 5px;
   }
   .details-box{
     background-color: rgba($off-white, 0.7);
     padding: 0.4em;
     text-align: start;
     .more{
-      padding-right: 0.2em;
-      float: right;
+      padding-inline-end: 0.2em;
+      float: inline-end;
       @include text-hover($grey);
       @include underline(rgba($grey, 0.4));
     }
@@ -184,7 +184,7 @@
     font-size: 1.2em;
     max-height: 12em;
     overflow: hidden;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .title{
     @include serif;

@@ -201,7 +201,7 @@
   }
 
   .usersLoading, .groupsLoading{
-    margin-left: 1em;
+    margin-inline-start: 1em;
     opacity: 0.6;
   }
 
@@ -222,19 +222,19 @@
       min-width: 1em;
     }
     :global(.items-count), :global(.members-count){
-      top: 0;
-      right: 0;
+      inset-block-start: 0;
+      inset-inline-end: 0;
       text-align: center;
       padding: 0.2em 0;
-      border-bottom-left-radius: $global-radius;
+      border-end-start-radius: $global-radius;
       @include transition;
     }
     :global(.group-admin-badge){
-      top: 0;
-      left: 0;
+      inset-block-start: 0;
+      inset-inline-start: 0;
       // Somehow centers the icon vertically
       line-height: 0;
-      border-bottom-right-radius: $global-radius;
+      border-end-end-radius: $global-radius;
     }
   }
 
@@ -269,7 +269,7 @@
       }
     }
     #mapContainer{
-      margin-left: 0.6em;
+      margin-inline-start: 0.6em;
       height: $map-large-screen-heigth;
     }
   }

@@ -8,10 +8,10 @@
   }
   .property-value{
     color: $dark-grey;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
   .edition-title{
-    text-align: left;
+    text-align: start;
     margin: 0;
     padding: 0;
   }
@@ -25,6 +25,6 @@
     @include serif;
   }
   .inner-claims{
-    margin-top: 0.5em,
+    margin-block-start: 0.5em,
   }
 }

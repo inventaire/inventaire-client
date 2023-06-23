@@ -137,17 +137,17 @@
     @include display-flex(row);
     @include transition;
     position: relative;
-    text-align: left;
+    text-align: start;
     margin: 0 1em;
     :global(.fa-caret-down){
       line-height: 0;
-      margin-left: auto;
+      margin-inline-start: auto;
     }
   }
   .options-count{
     font-weight: normal;
     color: $grey;
-    margin-left: 0.3rem;
+    margin-inline-start: 0.3rem;
   }
   [role="option"][data-value="unknown"]{
     @include shy;
@@ -155,7 +155,7 @@
   /* Small screens */
   @media screen and (max-width: $small-screen){
     .facet-selector{
-      margin-top: 1.6em;
+      margin-block-start: 1.6em;
     }
   }
 </style>

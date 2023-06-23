@@ -172,7 +172,7 @@
   /* Small screens */
   @media screen and (max-width: $small-screen){
     .list-label{
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
       font-size: 1.2em;
     }
     .list-label-wrapper{

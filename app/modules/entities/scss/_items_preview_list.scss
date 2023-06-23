@@ -2,7 +2,7 @@ $preview-icon-base-size: 2em;
 
 .itemsPreviewList{
   &:not(.compact){
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     .transaction-box{
       min-width: 8em;
     }
@@ -11,7 +11,7 @@ $preview-icon-base-size: 2em;
     }
   }
   &.compact{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     .transaction-box{
       .label{
         display: none;
@@ -34,7 +34,7 @@ $preview-icon-base-size: 2em;
     &.inventorying{ background-color: $inventorying-color; }
     .fa{
       // centering
-      padding-left: 0.3em;
+      padding-inline-start: 0.3em;
       margin: 0 0.3em;
     }
   }
@@ -43,7 +43,7 @@ $preview-icon-base-size: 2em;
     @include display-flex(row, stretch, flex-start);
     &:not(.compact){
       .transaction-box{
-        margin-right: 0.5em;
+        margin-inline-end: 0.5em;
       }
     }
   }

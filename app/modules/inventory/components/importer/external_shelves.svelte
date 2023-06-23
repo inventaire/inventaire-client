@@ -44,7 +44,7 @@
   @import "#general/scss/utils";
   .description{
     font-size: 0.9rem;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .import-shelves{
     margin: 1em 0;

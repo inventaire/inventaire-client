@@ -59,9 +59,9 @@
   @import "#general/scss/utils";
   li{
     @include display-flex(row, center);
-    padding-right: 0.5em;
+    padding-inline-end: 0.5em;
     width: 100%;
-    border-bottom: 1px solid $light-grey;
+    border-block-end: 1px solid $light-grey;
     @include bg-hover(white);
   }
   a{
@@ -71,15 +71,15 @@
     padding: 0.5em;
     :global(.images-collage){
       flex: 0 0 4em;
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
   }
   .label{
-    padding-right: 0.5em;
+    padding-inline-end: 0.5em;
   }
   .description{
     color: $label-grey;
-    margin-right: 1em;
+    margin-inline-end: 1em;
   }
   .status{
     @include display-flex(row, center, center);

@@ -104,21 +104,21 @@
     @include display-flex(row, center);
     :global(.entity-image){
       flex: 1 0 auto;
-      margin-right: 1em;
+      margin-inline-end: 1em;
     }
   }
   .title-row{
     @include display-flex(row, center);
   }
   .relatives-browser{
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
   /* Small screens */
   @media screen and (max-width: $smaller-screen){
     .top-section{
       display: block;
       :global(.entity-image){
-        margin-bottom: 1em;
+        margin-block-end: 1em;
       }
     }
   }

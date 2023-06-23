@@ -4,6 +4,6 @@ $welcome-bg-filter: rgba(#123456, 0.5);
 
 h3{
   @include serif;
-  margin-top: 0.5em;
+  margin-block-start: 0.5em;
   color: $dark-grey;
 }

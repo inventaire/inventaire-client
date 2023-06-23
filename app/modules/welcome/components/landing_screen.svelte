@@ -59,8 +59,7 @@
     .name{
       @include display-flex(column, center, center);
       // Those margins are compensating for Safari bad flex support
-      margin-top: 2em;
-      margin-bottom: 2em;
+      margin-block: 2em;
       h2{
         color: $title-color;
         font-weight: bold;
@@ -72,8 +71,8 @@
       .name-explaination{
         font-size: 1rem;
         position: absolute;
-        bottom: 0;
-        right: 0;
+        inset-block-end: 0;
+        inset-inline-end: 0;
         height: 1rem;
         line-height: 1rem;
         opacity: 0;
@@ -106,7 +105,7 @@
           font-weight: bold;
         }
         p{
-          margin-top: auto;
+          margin-block-start: auto;
           opacity: $shy-opacity;
         }
       }
@@ -114,8 +113,7 @@
     #loginButtons{
       @include display-flex(row, center, center, wrap);
       // Those margins are compensating for Safari bad flex support
-      margin-top: 1em;
-      margin-bottom: 1em;
+      margin-block: 1em;
       .button{
         min-width: 10em;
         // Reset radius
@@ -127,18 +125,17 @@
     /* Small screens */
     @media screen and (max-width: $small-screen){
       .name{
-        padding-top: 3em;
-        padding-bottom: 2em;
+        padding-block: 3em 2em;
         h2{
           font-size: 6em;
         }
         .name-explaination{
-          bottom: -1em;
+          inset-block-end: -1em;
         }
       }
       #loginButtons{
         margin: 0.5em;
-        margin-bottom: 1em;
+        margin-block-end: 1em;
       }
     }
 
@@ -171,7 +168,7 @@
       .bottom{
         flex: 1 0 auto;
         @include display-flex(column, center, space-around);
-        margin-bottom: 1em;
+        margin-block-end: 1em;
         // Required on Edge for some reason
         width: 100%;
       }

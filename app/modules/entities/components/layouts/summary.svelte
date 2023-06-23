@@ -130,17 +130,17 @@
   }
   .header{
     @include display-flex(row, baseline, space-between);
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   // .label{
   //   color: $label-grey;
   //   margin-inline-start: 0.5em;
   // }
   select{
-    max-width: 15em;
+    max-inline-size: 15em;
   }
   #summary-text{
-    max-height: 10em;
+    max-block-size: 10em;
     overflow-y: auto;
   }
   .source{
@@ -152,7 +152,7 @@
   /* Large screens */
   @media screen and (min-width: $small-screen){
     .summary.has-summary{
-      margin-top: 0;
+      margin-block-start: 0;
     }
   }
 </style>

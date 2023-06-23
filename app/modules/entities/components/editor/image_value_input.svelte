@@ -192,17 +192,17 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .wrapper{
-    min-height: 18em;
-    margin-bottom: 0.5em;
+    min-block-size: 18em;
+    margin-block-end: 0.5em;
     flex: 1;
   }
   label{
     display: block;
-    max-width: 25em;
-    margin-bottom: 1em;
+    max-inline-size: 25em;
+    margin-block-end: 1em;
   }
   img{
-    max-height: 30em;
+    max-block-size: 30em;
   }
   input{
     margin: 0 0.2em 0 0;

@@ -67,11 +67,11 @@
   .header{
     background-color: $light-grey;
     @include display-flex(row, center, space-between);
-    margin-top: 0.5em;
+    margin-block-start: 0.5em;
     @include display-flex(row, top, space-between);
     padding: 0.8em 1em;
     button:not(:last-child){
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
   }
   .toggle-button{
@@ -80,16 +80,15 @@
     padding: 0;
     @include display-flex(row, center, center);
     :global(.fa){
-      margin-bottom: 0.1em;
+      margin-block-end: 0.1em;
     }
   }
   .subheader{
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-block: 0;
     font-size: 1rem;
     @include sans-serif;
     flex: 1 0 0;
-    padding-right: 0.8em;
+    padding-inline-end: 0.8em;
     @include display-flex(row, center, space-between);
   }
   /* Smaller screens */
@@ -99,7 +98,7 @@
     }
     .subheader{
       @include display-flex(column, center);
-      margin-bottom: 0.4em;
+      margin-block-end: 0.4em;
     }
   }
 </style>

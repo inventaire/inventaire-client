@@ -93,7 +93,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .items-lists{
-    width: 100%;
+    inline-size: 100%;
   }
   // Use a wrapper to be able to have flex-grow up to max-width AND margin=auto
   .filters-wrapper{
@@ -101,7 +101,7 @@
     @include display-flex(row, stretch);
   }
   .filters{
-    max-width: 50em;
+    max-inline-size: 50em;
     flex: 1;
     margin: 0.5em auto;
     padding: 0.5em;

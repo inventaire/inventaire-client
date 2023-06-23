@@ -5,11 +5,11 @@
     text-transform: uppercase;
     color: $dark-grey;
     font-size: 1.2em;
-    margin-top: 0.8em;
+    margin-block-start: 0.8em;
   }
 
   input{
-    text-align: left;
+    text-align: start;
   }
 
   hr{
@@ -18,13 +18,13 @@
 
   .inputGroup{
     input{
-      margin-bottom: 0;
+      margin-block-end: 0;
     }
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
 
   .otherOptions{
-    margin-top: 1em;
+    margin-block-start: 1em;
     @include display-flex(row, center, space-around);
     a:first-child{
       @include shy(0.9);

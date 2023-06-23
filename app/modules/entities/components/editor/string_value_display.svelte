@@ -18,7 +18,7 @@
     flex: 1;
     align-self: stretch;
     cursor: pointer;
-    text-align: left;
+    text-align: start;
     @include bg-hover(white, 5%);
     user-select: text;
     font-weight: normal;

@@ -59,13 +59,13 @@
   .other-work-editions{
     @include display-flex(column, center, flex-end);
     @include radius;
-    max-width: 20em;
-    padding-top: 1em;
+    max-inline-size: 20em;
+    padding-block-start: 1em;
     margin: 0.5em;
     background-color: $off-white;
     :global(.work-button){
       margin: 1em;
-      width: 15em;
+      inline-size: 15em;
       padding: 0.5em;
       text-align: center;
       text-decoration: none;

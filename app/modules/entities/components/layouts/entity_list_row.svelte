@@ -102,8 +102,8 @@
   .entity-list-row{
     @include display-flex(row, center);
     background-color: white;
-    width: 100%;
-    margin-bottom: 0.5em;
+    inline-size: 100%;
+    margin-block-end: 0.5em;
     padding: 0.5em;
   }
   .entity-wrapper{
@@ -112,7 +112,7 @@
   .entity-title{
     font-size: 1.1rem;
     line-height: 1.2rem;
-    margin-bottom: 0.4rem;
+    margin-block-end: 0.4rem;
     overflow: hidden;
     .uri{
       @include shy;
@@ -127,8 +127,8 @@
   .cover{
     margin: 0 1em 0 0;
     :global(.images-collage){
-      width: 7em;
-      height: 10em;
+      inline-size: 7em;
+      block-size: 10em;
     }
   }
   .entity-info-line{

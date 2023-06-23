@@ -28,9 +28,9 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .transaction-box{
-    width: max-content;
+    inline-size: max-content;
     @include display-flex(row, center, flex-start);
-    height: 2em;
+    block-size: 2em;
     padding: 0 1em 0 0.5em;
     @include radius;
     :global(.fa){
@@ -38,7 +38,7 @@
     }
   }
   .items-preview{
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .giving{
     background-color: lighten($giving-color, 8%);

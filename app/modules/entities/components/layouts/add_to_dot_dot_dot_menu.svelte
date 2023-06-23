@@ -187,7 +187,7 @@
   .menu-section{
     @include display-flex(column, stretch);
     &:not(:last-child){
-      border-bottom: 1px solid #ddd;
+      border-block-end: 1px solid #ddd;
     }
   }
   .section-label{
@@ -195,14 +195,14 @@
     margin: 0.5em;
   }
   [role="menu"]{
-    max-height: 11em;
+    max-block-size: 11em;
     overflow-y: auto;
   }
   [role="menuitem"]:not(:last-child){
-    border-bottom: 1px solid #ddd;
+    border-block-end: 1px solid #ddd;
   }
   button, label{
-    width: 100%;
+    inline-size: 100%;
     text-align: start;
     line-height: $tiny-button-line-height;
     @include tiny-button-padding;

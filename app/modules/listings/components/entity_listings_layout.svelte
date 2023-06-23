@@ -38,7 +38,7 @@
   }
   h5{
     @include sans-serif;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .loading{
     @include display-flex(column, center);

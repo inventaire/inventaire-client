@@ -34,7 +34,7 @@
     margin: 0 1.5em;
   }
   fieldset{
-    padding-left: 0;
+    padding-inline-start: 0;
   }
   label{
     font-size: 1rem;

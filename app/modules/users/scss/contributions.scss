@@ -14,7 +14,7 @@
       @include display-flex(row, center, center);
       @include sans-serif;
       background-color: $light-blue;
-      padding-left: 0.2rem;
+      padding-inline-start: 0.2rem;
       font-size: 1rem;
       border-radius: $global-radius;
       color: white;
@@ -46,11 +46,11 @@
     display: inline-block;
   }
   .precise-time{
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
     color: $grey;
   }
   .contributionsList{
-    margin-top: 1em;
+    margin-block-start: 1em;
     align-self: stretch;
     @include display-flex(column, stretch, center);
   }
@@ -59,11 +59,11 @@
     height: 1em;
     // Position to be inview a bit before reaching the bottom of the page
     position: absolute;
-    bottom: 10em;
+    inset-block-end: 10em;
   }
   .loading{
-    margin-top: 1em;
-    margin-bottom: 3em;
+    margin-block-start: 1em;
+    margin-block-end: 3em;
   }
 }
 

@@ -107,15 +107,15 @@
     align-self: stretch;
     @include display-flex(column, stretch);
     :global(.summary.has-summary){
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
   }
   .author-works{
-    margin-top: 1em;
+    margin-block-start: 1em;
   }
   .infobox-and-summary{
     :global(.entity-image){
-      margin-right: 1em;
+      margin-inline-end: 1em;
     }
   }
   /* Large screens */
@@ -123,14 +123,14 @@
     .infobox-and-summary{
       @include display-flex(row, flex-start, flex-start);
       :global(.claims-infobox-wrapper), :global(.summary){
-        width: 50%;
+        inline-size: 50%;
       }
       :global(.claims-infobox){
-        margin-right: 1em;
-        margin-bottom: 1em;
+        margin-inline-end: 1em;
+        margin-block-end: 1em;
       }
       :global(.summary.has-summary){
-        margin-top: 0;
+        margin-block-start: 0;
       }
     }
     .relatives-lists{
@@ -141,7 +141,7 @@
       :global(.relative-entities-list.not-empty){
         flex: 1 0 40%;
         margin-inline-end: $margin;
-        margin-bottom: $margin;
+        margin-block-end: $margin;
       }
     }
   }

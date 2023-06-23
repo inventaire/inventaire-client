@@ -15,7 +15,7 @@ main{
     // if main was smaller than the screen
     min-height: 100vh;
     &.active-connection-button{
-      margin-bottom: $smallscreen-connection-buttons-height;
+      margin-block-end: $smallscreen-connection-buttons-height;
     }
   }
 
@@ -24,7 +24,7 @@ main{
     // by setting a border, so that children margin-top start from that border
     // See https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing
     border-top: 1px solid transparent;
-    margin-top: calc($topbar-height - 1px);
+    margin-block-start: calc($topbar-height - 1px);
   }
 }
 

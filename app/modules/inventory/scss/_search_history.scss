@@ -1,5 +1,5 @@
 #historyWrapper{
-  margin-top: 2em;
+  margin-block-start: 2em;
 }
 #history{
   $base: 6em;
@@ -11,14 +11,14 @@
       @include panel;
       @include bg-hover(white, 4%);
     }
-    margin-bottom: 1em;
+    margin-block-end: 1em;
     .fa{
       opacity: 0.5;
     }
     .query, .info{
       margin: 0 auto;
       flex: 1 1 auto;
-      padding-right: 0.5em;
+      padding-inline-end: 0.5em;
       font-size: 1.1em;
     }
     .pics{
@@ -37,7 +37,7 @@
         max-height: 5em;
       }
       .pics{
-        padding-top: 1em;
+        padding-block-start: 1em;
       }
     }
   }

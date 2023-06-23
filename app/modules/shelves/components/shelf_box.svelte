@@ -160,28 +160,28 @@
     @include display-flex(column, flex-end);
   }
   .buttons{
-    margin-top: 0.5em;
+    margin-block-start: 0.5em;
     @include display-flex(column, stretch, center);
     > button{
       @include display-flex(row, center, space-between);
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
       line-height: 1.6rem;
       min-width: 10em;
     }
   }
   .show-shelf-edit{
-    margin-left: auto;
+    margin-inline-start: auto;
   }
   .data{
     @include display-flex(row, flex-start);
     color: #666;
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     li{
-      margin-right: 1em;
+      margin-inline-end: 1em;
     }
   }
   .count{
-    padding-left: 0.5em;
+    padding-inline-start: 0.5em;
   }
   .close-shelf-small{
     display: none;
@@ -209,12 +209,12 @@
       // TODO: shelf picture
       width: 3em;
       height: 3em;
-      margin-top: 0.5em;
+      margin-block-start: 0.5em;
     }
     .close-shelf-small{
       padding: 0.5em 0.3em 0 0;
       position: absolute;
-      right: 0.3em;
+      inset-inline-end: 0.3em;
       display: block;
     }
     .name, .description{
@@ -223,7 +223,7 @@
     .info-box{
       @include display-flex(column, center, center);
       padding: 0;
-      margin-bottom: 0.7em;
+      margin-block-end: 0.7em;
     }
     .close-shelf{
       display: none;

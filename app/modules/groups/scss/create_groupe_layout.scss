@@ -8,7 +8,7 @@
   }
   label{
     color: black;
-    text-align: left;
+    text-align: start;
     font-size: 1em;
   }
   #createGroup{
@@ -18,8 +18,8 @@
     @include tiny-button($success-color);
     font-weight: normal;
     @include sans-serif;
-    margin-top: 2em;
-    margin-bottom: 1em;
+    margin-block-start: 2em;
+    margin-block-end: 1em;
   }
   .warning{
     .fa{

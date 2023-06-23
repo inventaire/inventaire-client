@@ -10,7 +10,7 @@ $addLayoutWidth: 70em;
   }
   .tab{
     .fa{
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
   }
   .custom-tabs-content{
@@ -30,15 +30,15 @@ $addLayoutWidth: 70em;
     @include radius(4px);
     @include shy-border;
     &:not(.inner){
-      margin-top: 2em;
-      margin-bottom: 2em;
+      margin-block-start: 2em;
+      margin-block-end: 2em;
     }
   }
 
   /*Very Small screens*/
   @media screen and (max-width: $very-small-screen) {
     h3{
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
   }
 
@@ -61,8 +61,8 @@ $addLayoutWidth: 70em;
       @include radius-horizontal-group-bottom;
     }
     .custom-tabs-content{
-      padding-left: 0;
-      padding-right: 0;
+      padding-inline-start: 0;
+      padding-inline-end: 0;
     }
   }
 }

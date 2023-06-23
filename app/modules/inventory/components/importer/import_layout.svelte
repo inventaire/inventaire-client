@@ -64,9 +64,9 @@
     }
   }
   h3{
-    margin-top: 1em;
+    margin-block-start: 1em;
     text-align: center;
-    padding-left: 0.2em;
+    padding-inline-start: 0.2em;
     font-weight: bold;
   }
   .panel{
@@ -74,7 +74,7 @@
     // - `fieldset + fieldset`: do not target apply to the first fieldset
     // - `:not(:empty)`: skip ShelvesSelector when empty
     :global(fieldset + fieldset:not(:empty)){
-      margin-top: 1em;
+      margin-block-start: 1em;
     }
   }
 </style>

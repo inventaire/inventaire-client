@@ -8,7 +8,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   input{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
   }
   label{
     font-size: 1rem;

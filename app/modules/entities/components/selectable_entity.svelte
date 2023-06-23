@@ -122,7 +122,7 @@
   button{
     background-color: white;
     @include radius;
-    width: 100%;
+    inline-size: 100%;
     padding: 0.5em;
     transition: background-color 0.2s ease;
     display: flex;
@@ -186,8 +186,8 @@
   }
   .all-terms{
     font-weight: normal;
-    text-align: left;
-    max-height: 10em;
+    text-align: start;
+    max-block-size: 10em;
     overflow-y: auto;
   }
   .all-terms li{
@@ -203,27 +203,27 @@
   }
   .works, .series{
     ul{
-      max-height: 10em;
+      max-block-size: 10em;
       overflow-y: auto;
     }
   }
   .no-image, img{
-    margin-right: 0.8em;
+    margin-inline-end: 0.8em;
   }
   img{
     position: sticky;
-    top: 64px;
+    inset-block-start: 64px;
     cursor: zoom-in;
     &.zoom{
       cursor: zoom-out;
     }
   }
   .no-image, img:not(.zoom){
-    width: 6em;
+    inline-size: 6em;
   }
   .info{
     flex: 1 0 0;
-    text-align: left;
+    text-align: start;
   }
   /* Large screens */
   @media screen and (min-width: 1800px){

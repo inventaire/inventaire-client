@@ -81,25 +81,24 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .controls{
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
     @include radius;
     padding: 0.5em;
     @include display-flex(row, center, flex-start);
     :global(.select-dropdown), :global(.dropdown-content){
-      width: 10em;
+      inline-size: 10em;
     }
     :global(.select-dropdown){
-      margin-right: 1em;
+      margin-inline-end: 1em;
     }
   }
 
   .wrapper{
     @include display-flex(column, stretch);
-    margin-top: 0.5em;
+    margin-block: 0.5em 1em;
     &:not(.unwrapped){
       @include display-flex(column, flex-end);
     }
-    margin-bottom: 1em;
     &.unwrapped{
       background-color: $off-white;
       .toggle-controls{
@@ -125,9 +124,8 @@
   @media screen and (min-width: $small-screen){
     .controls{
       position: sticky;
-      top: $topbar-height;
-      left: 0;
-      right: 0;
+      inset-block-start: $topbar-height;
+      inset-inline: 0;
       z-index: 1;
       :global(.select-dropdown){
         &:last-child{

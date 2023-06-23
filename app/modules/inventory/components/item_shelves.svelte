@@ -97,7 +97,7 @@
   @import "#general/scss/utils";
   @import "#inventory/scss/shelves_selectors";
   .item-shelves:not(:empty){
-    margin-top: 1em;
+    margin-block-start: 1em;
     background: $off-white;
     padding: 0.5em 0;
     @include radius;
@@ -105,7 +105,7 @@
   }
   .section-label{
     padding: 0 0.5em;
-    margin-bottom: 0.2em;
+    margin-block-end: 0.2em;
   }
   .shelves-options, ul{
     max-height: 16em;

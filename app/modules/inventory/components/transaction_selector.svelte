@@ -48,7 +48,7 @@
     font-weight: normal;
     @include transition(border-color, 0.3s);
     :global(.fa){
-      margin-left: 0.5em;
+      margin-inline-start: 0.5em;
       @include transition(color, 0.3s);
     }
     &.selected, &:hover{

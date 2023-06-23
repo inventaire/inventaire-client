@@ -105,7 +105,7 @@
     @include display-flex(row);
     background-color: $inventory-nav-grey;
     position: sticky;
-    bottom: 0;
+    inset-block-end: 0;
     // Required for unclear reasons to allow dropdowns to appear
     // above .item-row elements
     z-index: 1;
@@ -133,7 +133,7 @@
     @include radius;
   }
   li:not(:last-child){
-    border-bottom: 1px solid #ddd;
+    border-block-end: 1px solid #ddd;
   }
 
   /* Medium and Large screens */

@@ -178,7 +178,7 @@
     color: $grey;
   }
   .entity-image{
-    margin-bottom: 0.5em;
+    margin-block-end: 0.5em;
   }
   .title{
     font-size: 1.1em;
@@ -187,7 +187,7 @@
     font-weight: bold;
   }
   .remove-button{
-    float: right;
+    float: inline-end;
     margin: 1em 0;
     padding: 0.4em 0.6em;
     @include shy(0.9);
@@ -216,7 +216,7 @@
       @include display-flex(column, stretch, center);
     }
     .one{
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
     .title{
       padding: 0.5em;
@@ -234,12 +234,12 @@
     .one{
       flex: 1 0 0;
       max-width: 15em;
-      margin-right: 1em;
+      margin-inline-end: 1em;
     }
     .two{
       flex: 2 0 0;
       margin: 0 auto;
-      padding-bottom: 1em;
+      padding-block-end: 1em;
     }
   }
 </style>

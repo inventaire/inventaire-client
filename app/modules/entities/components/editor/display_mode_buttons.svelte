@@ -18,7 +18,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   button{
-    max-height: 2.5em;
+    max-block-size: 2.5em;
     font-weight: normal;
   }
   /* Small screens */
@@ -31,11 +31,11 @@
   /* Large screens */
   @media screen and (min-width: $smaller-screen){
     .display-mode-button{
-      height: 2.5rem;
+      block-size: 2.5rem;
     }
     button{
-      margin-left: 0.5em;
-      height: 100%;
+      margin-inline-start: 0.5em;
+      block-size: 100%;
       @include shy-button-label;
     }
   }

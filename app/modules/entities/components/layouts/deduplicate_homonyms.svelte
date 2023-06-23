@@ -157,7 +157,7 @@
     @include display-flex(row, center, center);
   }
   .entity-info-wrapper{
-    max-width: 50em;
+    max-inline-size: 50em;
     margin: 1em auto;
   }
   .merge-homonyms-controls button{
@@ -166,7 +166,7 @@
       color: white;
       // Prevent button width change on count change
       display: inline-block;
-      min-width: 2em;
+      min-inline-size: 2em;
       text-align: center;
     }
   }
@@ -190,7 +190,7 @@
     @include radius;
     padding: 0.2em 0.5em;
     margin: 0.3em;
-    width: min(26em, 95vw);
+    inline-size: min(26em, 95vw);
     background-color: white;
     &.merged{
       // Hide without removing from the document flow, to prevent element jumping
@@ -199,16 +199,16 @@
     }
     :global(.images-collage){
       // keep series covers tight
-      width: 7em;
+      inline-size: 7em;
     }
     :global(.images-collage.empty){
       display: none;
     }
     :global(.entity-list-row){
-      margin-bottom: 0 !important;
+      margin-block-end: 0 !important;
     }
     :global(.entity-details){
-      max-height: 10em;
+      max-block-size: 10em;
       line-height: 1.5rem;
       overflow-y: auto;
     }
@@ -236,7 +236,7 @@
   /* Small screens */
   @media screen and (max-width: $small-screen){
     button{
-      margin-bottom: 0.5em;
+      margin-block-end: 0.5em;
     }
   }
 </style>

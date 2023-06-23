@@ -85,18 +85,18 @@
   @import "#general/scss/utils";
   .entity-layout{
     @include display-flex(column, center);
-    width: 100%;
+    inline-size: 100%;
   }
   .top-section{
     @include display-flex(row, flex-start, center);
-    width: 100%;
+    inline-size: 100%;
   }
   .work-section{
     @include display-flex(column, flex-start);
     flex: 1 0 0;
     margin: 0 1em;
     :global(.claims-infobox-wrapper){
-      margin-bottom: 1em;
+      margin-block-end: 1em;
     }
     :global(.wikisource){
       margin: 0.5em 0;
@@ -104,14 +104,14 @@
   }
   .relatives-browser{
     margin: 1em 0;
-    width: 100%;
+    inline-size: 100%;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: $small-screen){
     .work-section{
-      margin-left: 0;
+      margin-inline-start: 0;
       :global(.claims-infobox-wrapper){
-        margin-bottom: 0;
+        margin-block-end: 0;
       }
     }
     .top-section{

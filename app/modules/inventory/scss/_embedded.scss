@@ -19,7 +19,7 @@
     @include radius;
     padding: 0.4em 0.2em;
     &.shown{
-      top: 1em;
+      inset-block-start: 1em;
     }
     &[data-type="success"]{
       background-color: rgba($success-color, 0.8);
@@ -37,12 +37,12 @@
     background-color: rgba($dark-grey, 0.8);
     color: white;
     .fa-warning{
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
     padding: 0.5em;
   }
   #notFoundCounter{
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
   }
 }
 
@@ -50,17 +50,17 @@
   @include position(fixed, 50%, null, null, 50%);
   height: 480px;
   width: 640px;
-  margin-top: -240px;
-  margin-left: -320px;
+  margin-block-start: -240px;
+  margin-inline-start: -320px;
   opacity: 0.5;
 }
 
 #shadowAreaBox{
   position: absolute;
-  top: 30%;
-  right: 15%;
-  left: 15%;
-  bottom: 30%;
+  inset-block-start: 30%;
+  inset-inline-end: 15%;
+  inset-inline-start: 15%;
+  inset-block-end: 30%;
   .fa-barcode{
     font-size: 220px;
     color: rgba(grey, 0.5);

@@ -6,7 +6,7 @@
   .header{
     width: 100%;
     @include display-flex(row, center, space-between);
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   .item{
     flex: 1 1 auto;
@@ -22,8 +22,8 @@
   .transactionBox{
     max-height: $user-box-heigth;
     @include display-flex(row, center, center);
-    padding-left: 0.6em;
-    padding-right: 0.4em;
+    padding-inline-start: 0.6em;
+    padding-inline-end: 0.4em;
     flex: 0 0 auto;
   }
   .label{

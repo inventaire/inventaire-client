@@ -31,18 +31,18 @@ $serie-bg: #252525;
     max-width: 40em;
   }
   .serieInfobox, .claims-wrapper{
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
   &.standalone{
     .more{
-      margin-bottom: 2em;
+      margin-block-end: 2em;
     }
   }
   &:not(.standalone){
     @include radius;
     background-color: lighten($serie-bg, 1%);
     &:not(:last-child){
-      margin-bottom: 2em;
+      margin-block-end: 2em;
     }
   }
   .serieInfobox{
@@ -68,6 +68,6 @@ $serie-bg: #252525;
         color: $dark-grey;
       }
     }
-    margin-bottom: 1em;
+    margin-block-end: 1em;
   }
 }

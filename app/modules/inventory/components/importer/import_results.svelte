@@ -29,7 +29,7 @@
     width: 100%;
   }
   h4{
-    margin-top: 1em;
+    margin-block-start: 1em;
     display: flex;
     justify-content: center;
   }

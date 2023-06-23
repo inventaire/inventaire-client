@@ -66,14 +66,14 @@
   @import "#general/scss/utils";
   .entity-edit{
     @include display-flex(column, stretch, center);
-    max-width: 50em;
+    max-inline-size: 50em;
     margin: 0 auto;
   }
   .header{
     position: relative;
   }
   h2{
-    margin-bottom: 0;
+    margin-block-end: 0;
     a{
       @include link-dark;
     }

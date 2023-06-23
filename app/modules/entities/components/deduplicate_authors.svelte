@@ -130,11 +130,11 @@
     justify-content: flex-start;
     flex-wrap: wrap;
     /* Compensating for the place taken by the controls */
-    margin-bottom: 4em;
+    margin-block-end: 4em;
   }
   .homonym{
     margin: 0.5em;
     overflow-y: auto;
-    width: 48%;
+    inline-size: 48%;
   }
 </style>

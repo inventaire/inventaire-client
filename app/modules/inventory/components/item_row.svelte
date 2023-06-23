@@ -150,7 +150,7 @@
     :global(.image-div){
       flex: 0 0 3em;
       align-self: stretch;
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
       max-height: $item-row-height-base;
     }
   }
@@ -220,7 +220,7 @@
     flex: 1 0 0;
     align-self: stretch;
     overflow: hidden;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     min-height: 3rem;
   }
   $user-horizontal-padding: 0.2em;
@@ -232,7 +232,7 @@
     @include display-flex(row, center, center);
   }
   .username{
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
     @include serif;
   }
 
@@ -253,7 +253,7 @@
       align-self: stretch;
     }
     .info{
-      text-align: left;
+      text-align: start;
       padding: 0 0.5em;
       max-width: 60vw;
     }
@@ -266,7 +266,7 @@
       height: 4.5em;
     }
     .modes{
-      margin-right: 0.2em;
+      margin-inline-end: 0.2em;
       flex-direction: column-reverse;
       > div{
         margin: 0.1em 0;
@@ -275,15 +275,15 @@
     .transaction, .visibility{
       &:first-child{
         @include radius-top;
-        margin-top: 0.2em;
+        margin-block-start: 0.2em;
       }
       &:last-child{
         @include radius-bottom;
-        margin-bottom: 0.2em;
+        margin-block-end: 0.2em;
       }
     }
     .user{
-      margin-right: 0.5em;
+      margin-inline-end: 0.5em;
     }
   }
 
@@ -295,7 +295,7 @@
     }
     .info{
       flex: 1 1 0;
-      text-align: left;
+      text-align: start;
       min-width: 40%;
       max-width: 30em;
     }
@@ -306,13 +306,13 @@
     }
     $images-right-margin: 0.5em;
     .transaction, .visibility, .user{
-      margin-right: $images-right-margin;
+      margin-inline-end: $images-right-margin;
     }
     .user{
-      margin-right: calc($images-right-margin - $user-horizontal-padding);
+      margin-inline-end: calc($images-right-margin - $user-horizontal-padding);
     }
     .transaction, .visibility{
-      margin-left: 0.2em;
+      margin-inline-start: 0.2em;
       @include radius;
     }
   }

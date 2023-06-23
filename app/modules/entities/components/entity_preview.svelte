@@ -65,8 +65,8 @@
     padding: 0 0.5em;
   }
   .image-wrapper{
-    max-width: 4em;
-    margin-right: 0.2em;
+    max-inline-size: 4em;
+    margin-inline-end: 0.2em;
   }
   .label{
     font-weight: bold;

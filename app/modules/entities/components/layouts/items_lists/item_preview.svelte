@@ -102,25 +102,25 @@
   }
   .cover-wrapper{
     // Force width so that items without cover image are also aligned
-    width: 2.2em;
+    inline-size: 2.2em;
   }
   img{
     @include radius;
-    margin-right: 0.3em;
+    margin-inline-end: 0.3em;
     flex: 0 0 auto;
-    max-height: 2.5em;
-    max-width: 4em;
+    max-block-size: 2.5em;
+    max-inline-size: 4em;
   }
   .user-info{
-    min-width: 5em;
+    min-inline-size: 5em;
     flex: 0 0 auto;
   }
   .details{
-    max-height: 2.5em;
+    max-block-size: 2.5em;
     flex: 1 0 0;
     overflow: hidden;
     line-height: 1.2em;
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
   }
   .distance{
     color: $grey;
@@ -128,6 +128,6 @@
   .map-button{
     @include tiny-button($light-grey, black);
     padding: 0.5em;
-    margin-right: 0.2em;
+    margin-inline-end: 0.2em;
   }
 </style>
