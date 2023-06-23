@@ -13,10 +13,22 @@ git pull origin master
 npm run build
 cd ..
 
-mkdir -p ./public/i18n ./app/assets/js
+# Take a short break in the hope to reduce chances of failing file copy hereafter
+sleep 1
 
 echo "copying dist files"
-cp ./inventaire-i18n/dist/client/*json ./public/i18n
+rm -rf ./public/i18n
+cp -r ./inventaire-i18n/dist/client ./public/i18n
+
+# Check that all files were properly copied as it has been seen fail
+for f in ./public/i18n/*; do
+  bytes=$(du -sh "$f" | awk '{print $1}')
+  if [ "$bytes" = "0" ]; then
+    echo "[build_i18n] copying $f failed: 0 bytes"
+    false
+  fi
+done
 
 echo "copying languages_data.js"
+mkdir -p ./app/assets/js
 cp ./inventaire-i18n/dist/languages_data.js ./app/assets/js
