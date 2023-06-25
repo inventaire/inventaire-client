@@ -1,5 +1,5 @@
 import { tryAsync } from '#lib/promises'
-import getPositionFromNavigator from '#map/lib/navigator_position'
+import { getPositionFromNavigator } from '#map/lib/navigator_position'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
 import { startLoading, stopLoading, Check } from '#general/plugins/behaviors'

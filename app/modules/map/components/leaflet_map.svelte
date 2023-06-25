@@ -1,7 +1,7 @@
 <!-- Inspired by https://imfeld.dev/writing/svelte_domless_components
      and https://github.com/ngyewch/svelte-leaflet -->
 <script>
-  import { createEventDispatcher, setContext } from 'svelte'
+  import { createEventDispatcher, setContext, tick } from 'svelte'
   import L from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import 'leaflet.markercluster/dist/MarkerCluster.css'
@@ -33,13 +33,17 @@
   setContext('map', () => map)
   setContext('layer', () => clusterGroup || map)
 
-  function createLeaflet (node) {
+  async function createLeaflet (node) {
     try {
+      // Let the time to Svelte to setup surrounding elements,
+      // so that Leaflet picks up the right map size
+      await tick()
       map = L.map(node, mapConfig.mapOptions)
         .on('zoom', e => {
           dispatch('zoom', e)
           zoom = e.target._zoom
         })
+        .on('move', e => dispatch('move', e))
         .on('moveend', e => dispatch('moveend', e))
 
       if (bounds) {

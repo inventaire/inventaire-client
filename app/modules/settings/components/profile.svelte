@@ -4,11 +4,12 @@
   import preq from '#lib/preq'
   import Flash from '#lib/components/flash.svelte'
   import UserPicture from '#lib/components/user_picture.svelte'
-  import { showMainUserPositionPicker } from '#map/lib/map'
   import { user } from '#user/user_store'
   import { Username } from '#lib/regex'
   import error_ from '#lib/error'
   import { looksLikeSpam } from '#lib/spam'
+  import Modal from '#components/modal.svelte'
+  import PositionPicker from '#map/components/position_picker.svelte'
 
   let bioState, usernameState
   let usernameValue = $user.username
@@ -100,6 +101,12 @@
     }
   }
 
+  let showPositionPicker = false
+
+  async function savePosition (latLng) {
+    await updateUserReq('position', latLng)
+  }
+
   $: validateUsername(usernameValue)
   $: onBioChange(bioValue)
 </script>
@@ -143,7 +150,7 @@
       {/if}
     </p>
     <p class="note">{I18n('position_settings_description')}</p>
-    <button class="light-blue-button" on:click={showMainUserPositionPicker}>
+    <button class="light-blue-button" on:click={() => showPositionPicker = true}>
       {#if $user.position}
         {I18n('change position')}
       {:else}
@@ -152,6 +159,17 @@
     </button>
   </fieldset>
 </form>
+
+{#if showPositionPicker}
+  <Modal size="large" on:closeModal={() => showPositionPicker = false}>
+    <PositionPicker
+      type="user"
+      position={$user.position}
+      {savePosition}
+      on:positionPickerDone={() => showPositionPicker = false}
+    />
+  </Modal>
+{/if}
 
 <style lang="scss">
   @import "#settings/scss/common_settings";

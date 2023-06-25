@@ -2,6 +2,9 @@ import log_ from '#lib/loggers'
 import { truncateDecimals } from './geo.js'
 import pTimeout from 'p-timeout'
 
+// Give a good 30s, as it can sometimes take some time and actually return a result
+const timeout = 30 * 1000
+
 // doc: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition
 const currentPosition = () => new Promise((resolve, reject) => {
   if (navigator.geolocation?.getCurrentPosition == null) {
@@ -14,7 +17,7 @@ const currentPosition = () => new Promise((resolve, reject) => {
   const formattedReject = err => reject(new Error(err.message || 'getCurrentPosition error'))
 
   // The timeout option doesn't seem to have any effect
-  const options = { timeout: 10 * 1000 }
+  const options = { timeout }
 
   navigator.geolocation.getCurrentPosition(resolve, formattedReject, options)
 })
@@ -33,8 +36,8 @@ const returnPlaceholderCoords = function (err) {
   }
 }
 
-export default containerId => {
-  return pTimeout(currentPosition(), 10 * 1000)
+export function getPositionFromNavigator () {
+  return pTimeout(currentPosition(), timeout)
   .then(normalizeCoords)
   .then(log_.Info('current position'))
   .catch(returnPlaceholderCoords)
