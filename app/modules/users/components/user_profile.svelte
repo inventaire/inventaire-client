@@ -7,7 +7,7 @@
   import { screen } from '#lib/components/stores/screen'
   import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
   import ProfileNav from '#users/components/profile_nav.svelte'
-  import UserInventory from '#shelves/components/user_inventory.svelte'
+  import UserInventory from '#inventory/components/user_inventory.svelte'
   import UsersListings from '#listings/components/users_listings.svelte'
   import { tick } from 'svelte'
 
