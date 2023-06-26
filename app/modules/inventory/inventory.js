@@ -6,7 +6,6 @@ import showItemCreationForm from './lib/show_item_creation_form.js'
 import itemActions from './lib/item_actions.js'
 import { parseQuery, buildPath } from '#lib/location'
 import preq from '#lib/preq'
-import ItemShowStandalone from '#inventory/components/item_show_standalone.svelte'
 import app from '#app/app'
 import { removeCurrentComponent } from '#lib/global_libs_extender'
 import { showUsersHome } from '#users/users'
@@ -148,6 +147,7 @@ const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal
     const { items, users } = await preq.get(app.API.items.byIds({ ids: itemId, includeUsers: true }))
     const item = items[0]
     const user = users[0]
+    const { default: ItemShowStandalone } = await import('#inventory/components/item_show_standalone.svelte')
     if (item) {
       app.layout.showChildComponent(regionName, ItemShowStandalone, {
         props: {
