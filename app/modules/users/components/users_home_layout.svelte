@@ -25,9 +25,13 @@
   // to allow url navigation and scroll within the layout
   const focusedSection = writable({})
 
-  if (shelf) $focusedSection = 'shelf'
-  else if (user) $focusedSection = 'user'
-  else if (group) $focusedSection = 'group'
+  if (shelf) {
+    $focusedSection = { type: 'shelf' }
+  } else if (user) {
+    $focusedSection = { type: 'user' }
+  } else if (group) {
+    $focusedSection = { type: 'group' }
+  }
 
   $: if (user) user = serializeUser(user)
 

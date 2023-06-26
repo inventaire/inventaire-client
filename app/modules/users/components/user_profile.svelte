@@ -38,7 +38,7 @@
     }
   }
 
-  $: if ($focusedSection === 'user') onFocus()
+  $: if ($focusedSection.type === 'user') onFocus()
 </script>
 
 <div class="full-user-profile">

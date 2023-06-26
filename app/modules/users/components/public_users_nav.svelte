@@ -81,13 +81,13 @@
   function onSelectUser (e) {
     selectedUser = e.detail.doc
     selectedGroup = null
-    $focusedSection = 'user'
+    $focusedSection = { type: 'user' }
   }
 
   function onSelectGroup (e) {
     selectedUser = null
     selectedGroup = e.detail.doc
-    $focusedSection = 'group'
+    $focusedSection = { type: 'group' }
   }
 </script>
 

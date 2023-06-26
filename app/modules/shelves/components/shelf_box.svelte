@@ -35,7 +35,7 @@
     app.navigate(pathname, { pageSectionElement: shelfBoxEl })
   }
 
-  $: if ($focusedSection === 'shelf') onFocus()
+  $: if ($focusedSection.type === 'shelf') onFocus()
 </script>
 
 <div class="full-shelf-box">

@@ -17,11 +17,11 @@
 
   function onSelectShelf (e) {
     selectedShelf = e.detail.shelf
-    $focusedSection = 'shelf'
+    $focusedSection = { type: 'shelf' }
   }
   function onCloseShelf (e) {
     selectedShelf = null
-    $focusedSection = 'user'
+    $focusedSection = { type: 'user' }
   }
 
   let shelves, itemsShelvesByIds
