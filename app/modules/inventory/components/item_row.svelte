@@ -1,6 +1,6 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, isOpenedOutside } from '#lib/utils'
+  import { icon, isOpenedOutside, loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
@@ -95,7 +95,7 @@
       <a
         class="user"
         href={userProfilePathname}
-        on:click|stopPropagation={showItem}
+        on:click={loadInternalLink}
       >
         <span class="username">{username}</span>
         <img
