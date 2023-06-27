@@ -19,7 +19,6 @@ export default {
     app.commands.setHandlers({
       'show:shelf': showShelf,
       'show:shelf:editor': showShelfEditor,
-      'add:items:to:shelf': addItemsToShelf,
     })
   }
 }
@@ -77,12 +76,6 @@ const showShelfFromModel = async shelf => {
     }
   })
   app.navigateFromModel(shelf)
-}
-
-const addItemsToShelf = async shelf => {
-  const { default: ShelfItemsAdder } = await import('#shelves/views/shelf_items_adder')
-  const model = new ShelfModel(shelf)
-  app.layout.showChildView('modal', new ShelfItemsAdder({ model }))
 }
 
 const showShelfEditor = async shelf => {

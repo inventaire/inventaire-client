@@ -1,6 +1,5 @@
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import { tap } from '#lib/promises'
 import Item from '#inventory/models/item'
 import Items from '#inventory/collections/items'
 import error_ from '#lib/error'
@@ -21,19 +20,6 @@ const getById = async id => {
   } else {
     throw error_.new('not found', 404, id)
   }
-}
-
-const getUserItems = function (params) {
-  const userId = params.model.id
-  return makeRequest(params, 'byUsers', [ userId ])
-}
-
-const makeRequest = function (params, endpoint, ids, filter) {
-  if (ids.length === 0) return { items: [], total: 0 }
-  const { collection, limit, offset } = params
-  return preq.get(app.API.items[endpoint]({ ids, limit, offset, filter }))
-  // Use tap to return the server response instead of the collection
-  .then(tap(addItemsAndUsers(collection)))
 }
 
 const getItemByQueryUrl = function (queryUrl) {
@@ -96,6 +82,11 @@ const getRecentPublic = async params => {
   return res
 }
 
+export async function getUserItems (params) {
+  const { userId } = params
+  return makeRequestAlt(params, 'byUsers', [ userId ])
+}
+
 const getNetworkItems = async params => {
   await app.request('wait:for', 'relations')
   const { network: networkIds } = app.relations
@@ -103,7 +94,8 @@ const getNetworkItems = async params => {
 }
 
 const updateItemsParams = (res, params) => {
-  const { items: newItems } = res
+  const { items: newItems, continue: continu } = res
+  params.hasMore = continu != null
   addItemsUsers(res)
   params.items.push(...newItems)
   return res
@@ -123,7 +115,6 @@ export default app => app.reqres.setHandlers({
   'items:getLastPublic': getLastPublic,
   'items:getRecentPublic': getRecentPublic,
   'items:getNetworkItems': getNetworkItems,
-  'items:getUserItems': getUserItems,
   'items:getByUserIdAndEntities': getByUserIdAndEntities,
 
   // Using a different naming to match reqGrab requests style

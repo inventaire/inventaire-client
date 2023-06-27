@@ -9,6 +9,7 @@
   import { createEventDispatcher, tick } from 'svelte'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
+  import ShelfItemsAdder from '#shelves/components/shelf_items_adder.svelte'
 
   export let shelf = null
   export let withoutShelf = false
@@ -25,7 +26,7 @@
   $: onChange(shelf, refreshData)
 
   let showShelfEditor = false
-  const addItems = () => app.execute('add:items:to:shelf', shelf)
+  let showShelfItemsAdder = false
 
   const dispatch = createEventDispatcher()
   const closeShelf = () => dispatch('closeShelf')
@@ -33,6 +34,12 @@
   async function onFocus () {
     if (!shelfBoxEl) await tick()
     app.navigate(pathname, { pageSectionElement: shelfBoxEl })
+  }
+
+  function closeShelfAdder () {
+    showShelfItemsAdder = false
+    // Force to refresh the shelf items list
+    shelf = shelf
   }
 
   $: if ($focusedSection.type === 'shelf') onFocus()
@@ -91,7 +98,7 @@
             </button>
             <button
               class="tiny-button light-blue"
-              on:click={addItems}
+              on:click={() => showShelfItemsAdder = true}
               title={I18n('add books to this shelf')}
             >
               {@html icon('plus')} {I18n('add books')}
@@ -127,6 +134,16 @@
       bind:shelf
       inGlobalModal={false}
       on:shelfEditorDone={() => showShelfEditor = false}
+    />
+  </Modal>
+{/if}
+
+{#if showShelfItemsAdder}
+  <Modal on:closeModal={closeShelfAdder}
+  >
+    <ShelfItemsAdder
+      {shelf}
+      on:shelfItemsAdderDone={closeShelfAdder}
     />
   </Modal>
 {/if}

@@ -1,9 +1,11 @@
 <script>
+  import Spinner from '#components/spinner.svelte'
   import assert_ from '#lib/assert_types'
   import viewport from '#lib/components/actions/viewport'
   import { wait } from '#lib/promises'
 
   export let keepScrolling
+  export let showSpinner = false
 
   assert_.function(keepScrolling)
 
@@ -42,6 +44,11 @@
     on:enterViewport={bottomIsInViewport}
     on:leaveViewport={bottomLeftViewport}
   />
+  {#if showSpinner}
+    {#await loadingMore}
+      <Spinner center={true} />
+    {/await}
+  {/if}
 </div>
 
 <style lang="scss">

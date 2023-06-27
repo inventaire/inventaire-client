@@ -41,10 +41,10 @@ export default {
 
   deleteByIds: action('delete-by-ids'),
 
-  search ({ user, group, shelf, search }) {
+  search ({ user, group, shelf, search, limit, offset }) {
     search = encodeURIComponent(search)
     assert_.string(user || group || shelf)
-    return action('search', { user, group, shelf, search })
+    return action('search', { user, group, shelf, search, limit, offset })
   },
 
   export ({ format }) {

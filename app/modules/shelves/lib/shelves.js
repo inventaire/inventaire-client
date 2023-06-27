@@ -1,8 +1,8 @@
-import { forceArray } from '#lib/utils'
 import preq from '#lib/preq'
 import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
 import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'
 import assert_ from '#lib/assert_types'
+import { pluck } from 'underscore'
 
 export function getById (id) {
   return preq.get(app.API.shelves.byIds(id))
@@ -35,32 +35,14 @@ export function deleteShelf (params) {
   return preq.post(app.API.shelves.delete, params)
 }
 
-export function removeItems (model, items) {
-  const { id } = model
-  items = forceArray(items)
-  const itemsIds = items.map(item => {
-    if (_.isString(item)) {
-      return item
-    } else {
-      item.removeShelf(id)
-      return item.get('_id')
-    }
-  })
-  return shelfActionReq(id, itemsIds, 'removeItems')
+export function removeItemsFromShelf ({ shelfId, items }) {
+  const itemsIds = pluck(items, '_id')
+  return shelfActionReq(shelfId, itemsIds, 'removeItems')
 }
 
-export function addItems (model, items) {
-  const { id } = model
-  items = forceArray(items)
-  const itemsIds = items.map(item => {
-    if (_.isString(item)) {
-      return item
-    } else {
-      item.createShelf(id)
-      return item.get('_id')
-    }
-  })
-  return shelfActionReq(id, itemsIds, 'addItems')
+export function addItemsToShelf ({ shelfId, items }) {
+  const itemsIds = pluck(items, '_id')
+  return shelfActionReq(shelfId, itemsIds, 'addItems')
 }
 
 export async function addItemsByIdsToShelf ({ shelfId, itemsIds }) {
