@@ -11,6 +11,8 @@
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { compact } from 'underscore'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
+  import { createEventDispatcher } from 'svelte'
+  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
 
   export let item
   export let showUser = false
@@ -58,6 +60,9 @@
   }
 
   $: linkTitle = getItemLinkTitle({ title, mainUserIsOwner, username })
+
+  const dispatch = createEventDispatcher()
+  const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 </script>
 
 <div
@@ -106,7 +111,7 @@
   {#if isNonEmptyArray(itemShelves)}
     <ul class="shelves-dots">
       {#each itemShelves as shelf (shelf._id)}
-        <ShelfDot {shelf} />
+        <ShelfDot {shelf} on:selectShelf={bubbleUpComponentEvent} />
       {/each}
     </ul>
   {/if}

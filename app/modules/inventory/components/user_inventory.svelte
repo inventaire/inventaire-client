@@ -58,6 +58,7 @@
     {isMainUser}
     {itemsShelvesByIds}
     {focusedSection}
+    on:selectShelf={onSelectShelf}
   />
 {:else if selectedShelf}
   <ShelfBox
@@ -66,6 +67,7 @@
     {isMainUser}
     {itemsShelvesByIds}
     {focusedSection}
+    on:selectShelf={onSelectShelf}
   />
 {:else}
   <InventoryBrowser
@@ -74,5 +76,6 @@
     {groupId}
     {isMainUser}
     {itemsShelvesByIds}
+    on:selectShelf={onSelectShelf}
   />
 {/if}

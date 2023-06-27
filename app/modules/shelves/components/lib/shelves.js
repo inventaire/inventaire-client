@@ -1,6 +1,5 @@
 import { i18n } from '#user/lib/i18n'
 import { serializeShelf } from '#shelves/lib/shelves'
-import ShelfModel from '#shelves/models/shelf'
 
 export const serializeShelfData = (shelf, withoutShelf) => {
   let name, description, pathname, title, picture, iconData, iconLabel, isEditable
@@ -16,9 +15,4 @@ export const serializeShelfData = (shelf, withoutShelf) => {
   }
 
   return { name, description, pathname, title, picture, iconData, iconLabel, isEditable }
-}
-
-export function loadShelfLink (shelf) {
-  const model = new ShelfModel(shelf)
-  app.vent.trigger('inventory:select', 'shelf', model)
 }

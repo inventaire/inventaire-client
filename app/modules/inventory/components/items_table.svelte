@@ -4,6 +4,8 @@
   import ItemRow from '#inventory/components/item_row.svelte'
   import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'
   import Spinner from '#components/spinner.svelte'
+  import { createEventDispatcher } from 'svelte'
+  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
 
   export let items
   export let itemsShelvesByIds
@@ -30,6 +32,9 @@
   }
 
   $: emptySelection = selectedItemsIds.length === 0
+
+  const dispatch = createEventDispatcher()
+  const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 </script>
 
 <div class="items-table">
@@ -37,7 +42,12 @@
     <ul id="selectable-items">
       {#each items as item (item._id)}
         <li>
-          <ItemRow bind:item {shelfId} shelvesByIds={itemsShelvesByIds}>
+          <ItemRow
+            bind:item
+            {shelfId}
+            shelvesByIds={itemsShelvesByIds}
+            on:selectShelf={bubbleUpComponentEvent}
+          >
             <input
               slot="checkbox"
               type="checkbox"
@@ -51,7 +61,14 @@
   {:else}
     <ul>
       {#each items as item (item._id)}
-        <li><ItemRow {item} shelvesByIds={itemsShelvesByIds} showUser={haveSeveralOwners} /></li>
+        <li>
+          <ItemRow
+            {item}
+            shelvesByIds={itemsShelvesByIds}
+            showUser={haveSeveralOwners}
+            on:selectShelf={bubbleUpComponentEvent}
+          />
+        </li>
       {/each}
     </ul>
   {/if}

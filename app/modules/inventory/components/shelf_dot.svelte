@@ -1,8 +1,8 @@
 <script>
   import { isOpenedOutside } from '#lib/utils'
-  import { loadShelfLink } from '#shelves/components/lib/shelves'
   import { getColorHexCodeFromModelId } from '#lib/images'
   import { viewportIsSmallerThan } from '#lib/screen'
+  import { createEventDispatcher } from 'svelte'
 
   export let shelf
 
@@ -10,9 +10,11 @@
 
   const colorHexCode = shelf.color || `#${getColorHexCodeFromModelId(_id)}`
 
+  const dispatch = createEventDispatcher()
+
   function onShelfDotClick (e) {
     if (isOpenedOutside(e)) return
-    loadShelfLink(shelf)
+    dispatch('selectShelf', { shelf })
     e.preventDefault()
   }
 </script>

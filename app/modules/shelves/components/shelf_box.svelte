@@ -5,7 +5,7 @@
   import { serializeShelfData } from './lib/shelves'
   import ShelfEditor from '#shelves/components/shelf_editor.svelte'
   import Modal from '#components/modal.svelte'
-  import { onChange } from '#lib/svelte/svelte'
+  import { BubbleUpComponentEvent, onChange } from '#lib/svelte/svelte'
   import { createEventDispatcher, tick } from 'svelte'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
@@ -30,6 +30,7 @@
 
   const dispatch = createEventDispatcher()
   const closeShelf = () => dispatch('closeShelf')
+  const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 
   async function onFocus () {
     if (!shelfBoxEl) await tick()
@@ -122,6 +123,7 @@
         {isMainUser}
         shelfId={shelf._id}
         {itemsShelvesByIds}
+        on:selectShelf={bubbleUpComponentEvent}
       />
     {/key}
   {/if}

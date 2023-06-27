@@ -2,11 +2,11 @@
   import { getFilteredItemsIds, getSelectorsData, resetPagination } from '#inventory/components/lib/inventory_browser_helpers'
   import Spinner from '#components/spinner.svelte'
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
-  import { onChange } from '#lib/svelte/svelte'
+  import { BubbleUpComponentEvent, onChange } from '#lib/svelte/svelte'
   import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
   import { debounce } from 'underscore'
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
-  import { setContext } from 'svelte'
+  import { createEventDispatcher, setContext } from 'svelte'
   import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
   import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
   import Flash from '#lib/components/flash.svelte'
@@ -55,6 +55,9 @@
   const lazyUpdateDisplayedItems = debounce(updateDisplayedItems, 100)
 
   $: onChange(facetsSelectedValues, textFilterItemsIds, lazyUpdateDisplayedItems)
+
+  const dispatch = createEventDispatcher()
+  const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 </script>
 
 <Flash state={flash} />
@@ -83,6 +86,7 @@
         {isMainUser}
         {pagination}
         haveSeveralOwners={ownerId == null}
+        on:selectShelf={bubbleUpComponentEvent}
       />
     {/if}
   {/await}
