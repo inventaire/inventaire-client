@@ -1,7 +1,7 @@
 import error_ from '#lib/error'
 import { isModel, isShelfId } from '#lib/boolean_tests'
-import ShelfModel from './models/shelf.js'
-import { getById } from './lib/shelves.js'
+import { getById, getShelfMetadata } from './lib/shelves.js'
+import assert_ from '#lib/assert_types'
 
 export default {
   initialize () {
@@ -18,26 +18,26 @@ export default {
 
     app.commands.setHandlers({
       'show:shelf': showShelf,
-      'show:shelf:editor': showShelfEditor,
     })
   }
 }
 
-const API = {
-  showShelfFromId (shelfId) {
-    if (shelfId == null) return app.execute('show:inventory:main:user')
+async function showShelfFromId (shelfId) {
+  try {
+    assert_.string(shelfId)
+    const shelf = await getById(shelfId)
+    if (shelf != null) {
+      return showShelf(shelf)
+    } else {
+      throw error_.new('not found', 404, { shelfId })
+    }
+  } catch (err) {
+    app.execute('show:error', err)
+  }
+}
 
-    return getById(shelfId)
-    .then(shelf => {
-      if (shelf != null) {
-        const model = new ShelfModel(shelf)
-        return showShelfFromModel(model)
-      } else {
-        throw error_.new('not found', 404, { shelfId })
-      }
-    })
-    .catch(app.Execute('show:error'))
-  },
+const API = {
+  showShelfFromId,
 
   async showItemsWithoutShelf () {
     const pathname = 'shelves/without'
@@ -55,36 +55,25 @@ const API = {
   },
 }
 
-const showShelf = function (shelf) {
-  if (isShelfId(shelf)) {
-    API.showShelfFromId(shelf)
-  } else {
-    if (!isModel(shelf)) shelf = new ShelfModel(shelf)
-    showShelfFromModel(shelf)
-  }
-}
-
-const showShelfFromModel = async shelf => {
-  const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
-  const owner = shelf.get('owner')
-  const user = await app.request('resolve:to:user', owner)
+async function showShelf (shelf) {
+  if (isShelfId(shelf)) return API.showShelfFromId(shelf)
+  if (isModel(shelf)) shelf = shelf.toJSON()
+  const { owner } = shelf
+  const [
+    { default: UsersHomeLayout },
+    user,
+  ] = await Promise.all([
+    import('#users/components/users_home_layout.svelte'),
+    app.request('resolve:to:user', owner),
+  ])
   // Passing shelf to display items and passing owner for user profile info
   app.layout.showChildComponent('main', UsersHomeLayout, {
     props: {
-      shelf: shelf.toJSON(),
+      shelf,
       user,
     }
   })
-  app.navigateFromModel(shelf)
-}
-
-const showShelfEditor = async shelf => {
-  const { default: ShelfEditor } = await import('#shelves/components/shelf_editor.svelte')
-  const model = new ShelfModel(shelf)
-  app.layout.showChildComponent('modal', ShelfEditor, {
-    props: {
-      shelf,
-      model,
-    }
-  })
+  const metadata = getShelfMetadata(shelf)
+  const { url: pathname } = metadata
+  app.navigate(pathname, { metadata })
 }

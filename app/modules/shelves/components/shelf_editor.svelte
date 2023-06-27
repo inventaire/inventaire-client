@@ -10,7 +10,8 @@
   import { wait } from '#lib/promises'
   import { createEventDispatcher } from 'svelte'
 
-  export let shelf = {}, model = null, inGlobalModal = true
+  export let shelf
+  export let inGlobalModal = true
 
   if (inGlobalModal) app.execute('modal:open')
   const dispatch = createEventDispatcher()
@@ -35,11 +36,7 @@
       } else {
         waiting = updateShelf({ shelf: shelf._id, name, description, visibility, color })
         await waiting
-        if (model) {
-          model.set({ name, description, visibility, color })
-        } else {
-          shelf = Object.assign(shelf, { name, description, visibility, color })
-        }
+        shelf = Object.assign(shelf, { name, description, visibility, color })
       }
       flash = { type: 'success', message: I18n('saved') }
       await wait(800)

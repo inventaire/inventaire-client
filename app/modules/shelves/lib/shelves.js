@@ -85,3 +85,14 @@ export function serializeShelf (shelf) {
   }
   return shelf
 }
+
+export function getShelfMetadata (shelf) {
+  const { _id: shelfId, name, description, picture, pathname } = serializeShelf(shelf)
+  return {
+    title: name,
+    description,
+    image: picture,
+    url: pathname,
+    rss: app.API.feeds('shelf', shelfId),
+  }
+}
