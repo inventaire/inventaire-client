@@ -4,6 +4,7 @@
   import Flash from '#lib/components/flash.svelte'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import EntityLayoutActionsMenu from '#entities/components/layouts/entity_layout_actions_menu.svelte'
+  import EmbeddedWelcome from '#welcome/components/embedded_welcome.svelte'
 
   export let entity, flash, showEntityEditButtons
   export let typeLabel = entity.type
@@ -37,6 +38,8 @@
     </p>
   </div>
 </div>
+
+<EmbeddedWelcome />
 
 <style lang="scss">
   @import "#general/scss/utils";
