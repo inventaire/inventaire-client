@@ -64,6 +64,7 @@
         values={claims[prop]}
         {prop}
         entitiesByUris={relatedEntities}
+        {entityType}
       />
     {/each}
     {#if !shortlistOnly}
