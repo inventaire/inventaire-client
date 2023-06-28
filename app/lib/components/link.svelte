@@ -12,6 +12,7 @@
   export let grey = false
   export let classNames
   export let tinyButton = false
+  export let stopClickPropagation = true
 
   const isExternalLink = url?.[0] !== '/'
   let target, rel
@@ -23,7 +24,7 @@
   if (text && !title) title = text
 
   function onClick (e) {
-    e.stopPropagation()
+    if (stopClickPropagation) e.stopPropagation()
     if (!(isExternalLink || isOpenedOutside(e))) {
       app.navigateAndLoad(url)
       e.preventDefault()

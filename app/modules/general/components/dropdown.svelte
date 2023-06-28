@@ -13,12 +13,11 @@
   export let buttonId = null
   export let buttonRole = null
   export let buttonDisabled = false
+  export let transitionDuration = 100
 
   let showDropdown = false, positionned = false
   let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft, dropdownWrapperEl
   let buttonWidth, dropdownWidth
-
-  const transitionDuration = 100
 
   function onButtonClick () {
     showDropdown = !showDropdown
@@ -126,8 +125,8 @@
       bind:this={dropdown}
       class:show={showDropdown}
       style:visibility={positionned ? 'visible' : 'hidden'}
-      style:right={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
-      style:left={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
+      style:inset-inline-end={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
+      style:inset-inline-start={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
       style:width={dropdownWidth}
       role="menu"
       transition:slide={{ duration: transitionDuration }}

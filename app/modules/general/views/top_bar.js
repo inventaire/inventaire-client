@@ -1,7 +1,6 @@
 import { clickCommand } from '#lib/utils'
 import { translate } from '#lib/urls'
 import GlobalSearchBar from '#search/components/global_search_bar.svelte'
-import TopBarButtons from './top_bar_buttons.js'
 import { viewportIsSmall } from '#lib/screen'
 import { currentRoute, currentSection } from '#lib/location'
 import languages from '#assets/js/languages_data'
@@ -66,10 +65,11 @@ export default Marionette.View.extend({
     this.render()
   },
 
-  showTopBarButtons () {
-    // Use a child view for those buttons to be able to re-render them independenly
-    // without disrupting the GlobalSearchBar state
-    this.showChildView('topBarButtons', new TopBarButtons())
+  async showTopBarButtons () {
+    // Late import to prevent calling the $user store before the app.user and waiters
+    // are properly setup
+    const { default: TopBarButtons } = await import('#components/top_bar_buttons.svelte')
+    this.showChildComponent('topBarButtons', TopBarButtons)
   },
 
   onRouteChange (section, route) {

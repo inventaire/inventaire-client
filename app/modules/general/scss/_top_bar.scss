@@ -28,7 +28,7 @@ nav#top-bar{
     @include display-flex(row, center, center);
     align-self: stretch;
   }
-  .help-translate, .global-menu a{
+  .help-translate{
     @include display-flex(row, center, flex-start);
     flex: 1 0 auto;
     align-self: stretch;
@@ -53,31 +53,12 @@ nav#top-bar{
     margin-block-end: 0;
   }
 
-  .iconButton, #language-picker > button, .global-menu > button{
+  #language-picker > button{
     @include bg-hover-lighten($topbar-bg-color);
   }
-  #language-picker, .global-menu{
+  #language-picker{
     .fa-caret-down{
       color: #ccc;
-    }
-  }
-  .dropdown-wrapper [role="menu"]{
-    background-color: $topbar-bg-color;
-    @include radius-bottom;
-    font-weight: normal;
-    @include sans-serif;
-    .fa{
-      margin-inline-end: 0.5rem;
-      @include display-flex(row, center, center);
-    }
-    img{
-      height: 1.2em;
-      width: 1.2em;
-      margin-inline-start: 0.2em;
-      margin-inline-end: 0.5em;
-    }
-    &.hover{
-      @include display-flex(column);
     }
   }
   .signupRequest, .loginRequest{
@@ -145,5 +126,8 @@ nav#top-bar{
   }
 }
 
+#topBarButtons{
+  align-self: stretch;
+}
+
 @import 'top_bar_language_picker';
-@import 'top_bar_buttons';

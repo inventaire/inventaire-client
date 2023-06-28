@@ -4,12 +4,14 @@ import MainUser from '../models/main_user.js'
 import cookie_ from 'js-cookie'
 
 export default function (app) {
+  if (app.user != null) return
+
   // the cookie is deleted on logout
   const loggedIn = parseBooleanString(cookie_.get('loggedIn'))
 
   fetchData({
     name: 'user',
-    Collection: MainUser,
+    Model: MainUser,
     condition: loggedIn
   })
   .catch(resetSession)
