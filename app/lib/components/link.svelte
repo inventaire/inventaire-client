@@ -2,7 +2,16 @@
   import { isOpenedOutside } from '#lib/utils'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
 
-  export let url, text, html, icon = null, title = '', light = false, dark = false, grey = false, classNames, tinyButton = false
+  export let url
+  export let text
+  export let html
+  export let icon = null
+  export let title = ''
+  export let light = false
+  export let dark = false
+  export let grey = false
+  export let classNames
+  export let tinyButton = false
 
   const isExternalLink = url?.[0] !== '/'
   let target, rel
