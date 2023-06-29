@@ -16,7 +16,7 @@
     label = claimValue
     url = `/search?q=!a ${label}`
   }
-  const birthOrDeathDates = claims['wdt:P569'] || claims['wdt:P570']
+  const birthOrDeathDates = claims['wdt:P569']?.[0] || claims['wdt:P570']?.[0]
 </script>
 
 <a
