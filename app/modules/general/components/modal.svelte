@@ -58,6 +58,7 @@
     overflow-y: auto;
   }
   .modal-outer{
+    max-width: 100vw;
     position: relative;
     background-color: white;
     @include radius;
