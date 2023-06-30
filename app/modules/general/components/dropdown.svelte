@@ -2,7 +2,8 @@
   import { isFunction } from 'underscore'
   import { slide } from 'svelte/transition'
   import getActionKey from '#lib/get_action_key'
-  import { getViewportHeight } from '#lib/screen'
+  import { getViewportHeight, getViewportWidth } from '#lib/screen'
+  import { tick } from 'svelte'
 
   export let buttonTitle = null
   export let align = null
@@ -30,18 +31,36 @@
     setTimeout(scrollToDropdownIfNeeded, transitionDuration + 10)
   }
 
-  function adjustDropdownPosition () {
+  let inferredAlign
+  async function adjustDropdownPosition () {
+    if (!dropdown) return
+    dropdownPositionLeft = null
+    dropdownPositionRight = null
+    inferredAlign = align
     const buttonRect = buttonWithDropdown.getBoundingClientRect()
-    const buttonDistanceFromLeftScreenSide = buttonRect.left
-    const buttonDistanceFromRightScreenSide = window.screen.width - buttonRect.right
+    const dropdownRect = dropdown.getBoundingClientRect()
+    const buttonDistanceFromViewportLeftSide = buttonRect.left
+    const buttonDistanceFromRViewportightSide = getViewportWidth() - buttonRect.right
     if (!align) {
-      align = (buttonDistanceFromLeftScreenSide > buttonDistanceFromRightScreenSide) ? 'right' : 'left'
+      inferredAlign = (buttonDistanceFromViewportLeftSide > buttonDistanceFromRViewportightSide) ? 'right' : 'left'
     }
-    if (align === 'right') dropdownPositionRight = 0
-    else if (align === 'left') dropdownPositionLeft = 0
-    else if (align === 'center') {
-      const dropdownRect = dropdown.getBoundingClientRect()
+    if (inferredAlign === 'right') dropdownPositionRight = 0
+    else if (inferredAlign === 'left') dropdownPositionLeft = 0
+    else if (inferredAlign === 'center') {
       dropdownPositionLeft = (buttonRect.width / 2) - (dropdownRect.width / 2)
+    }
+    // Let the time to the previous adjustments to take effects
+    await tick()
+    const dropdownRectAfter = dropdown.getBoundingClientRect()
+    const dropdownOverflowsOnViewportLeft = dropdownRectAfter.x < 0
+    const dropdownOverflowsOnViewportRight = (dropdownRectAfter.x + dropdownRectAfter.width) > getViewportWidth()
+    if (dropdownOverflowsOnViewportLeft || dropdownOverflowsOnViewportRight) {
+      const viewportLeftBorderFromButtonLeft = -buttonRect.x
+      const viewportRightBorderFromButtonRight = buttonRect.x + buttonRect.width - getViewportWidth()
+      // Positioning the dropdown to cover the whole viewport width
+      // by using position values relative to the button
+      dropdownPositionLeft = viewportLeftBorderFromButtonLeft
+      dropdownPositionRight = viewportRightBorderFromButtonRight
     }
     positionned = true
   }
@@ -95,6 +114,7 @@
     } else if (widthReferenceEl) {
       dropdownWidth = `${widthReferenceEl.getBoundingClientRect().width}px`
     }
+    if (dropdownWidth && dropdownWidth > getViewportWidth()) dropdownWidth = getViewportWidth()
   }
 </script>
 
@@ -154,7 +174,6 @@
     position: absolute;
     inset-block-start: 100%;
     z-index: 11;
-    white-space: nowrap;
     // Add a bit of padding so that there will be a bit of margin down
     // when scrolling to get the dropdown content in the viewport
     padding-block-end: 0.5em;
