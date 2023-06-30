@@ -135,7 +135,7 @@
   @import "#general/scss/utils";
 
   .inner-top-bar-buttons{
-    height: 100%;
+    align-self: stretch;
     @include display-flex(row, center, center);
   }
 

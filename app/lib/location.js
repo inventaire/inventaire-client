@@ -1,3 +1,6 @@
+import { readable } from 'svelte/store'
+import { debounce } from 'underscore'
+
 export const parseQuery = function (queryString) {
   if (queryString == null) return {}
   return queryString
@@ -95,3 +98,18 @@ const removeUndefined = function (obj) {
   }
   return newObj
 }
+
+function getLocationData (section, route) {
+  route = route || currentRoute()
+  return {
+    route,
+    section: routeSection(route),
+  }
+}
+
+export const locationStore = readable(getLocationData(), set => {
+  const update = (section, route) => set(getLocationData(section, route))
+  const lazyUpdate = debounce(update, 100)
+  app.vent.on('route:change', lazyUpdate)
+  return () => app.vent.off('route:change', lazyUpdate)
+})

@@ -119,6 +119,16 @@ $inventory-nav-grey: #eee;
   }
 }
 
+@mixin bg-hover-lighten-svelte($bg-color, $lighten:15%){
+  background-color: $bg-color;
+  @include transition(background-color);
+  &:not(:disabled){
+    &:hover, &:focus{
+      background-color: lighten($bg-color, $lighten);
+    }
+  }
+}
+
 @mixin bg-hover-from-to($from-bg-color, $to-bg-color){
   background-color: $from-bg-color;
   @include transition(background-color);

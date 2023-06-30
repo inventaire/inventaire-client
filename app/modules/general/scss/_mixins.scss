@@ -13,10 +13,10 @@
 
 @mixin position($position, $top:null, $right:null, $bottom:null, $left:null, $z:null){
   position: $position;
-  @if $top { top: $top; }
-  @if $right { right: $right; }
-  @if $bottom { bottom: $bottom; }
-  @if $left { left: $left; }
+  @if $top { inset-block-start: $top; }
+  @if $right { inset-inline-end: $right; }
+  @if $bottom { inset-block-end: $bottom; }
+  @if $left { inset-inline-start: $left; }
   @if $z { z-index: $z; }
 }
 

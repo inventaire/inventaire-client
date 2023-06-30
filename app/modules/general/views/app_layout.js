@@ -2,7 +2,6 @@ import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import waitForCheck from '../lib/wait_for_check.js'
 import initDocumentLang from '../lib/document_lang.js'
-import TopBar from './top_bar.js'
 import initModal from '../lib/modal.js'
 import initFlashMessage from '../lib/flash_message.js'
 import ConfirmationModal from './confirmation_modal.js'
@@ -73,10 +72,11 @@ export default Marionette.View.extend({
     $('body').on('click', app.vent.Trigger('body:click'))
   },
 
-  // /!\ app_layout is never 'show'n so onRender never gets fired
-  // but it gets rendered
-  onRender () {
-    this.showChildView('topBar', new TopBar())
+  async onRender () {
+    // Late import to prevent calling the $user store before the app.user
+    // and waiters are properly setup
+    const { default: TopBar } = await import('#components/top_bar.svelte')
+    this.showChildComponent('topBar', TopBar)
   },
 
   askConfirmation (options) {

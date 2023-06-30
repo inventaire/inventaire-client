@@ -243,7 +243,7 @@
 
 <svelte:body on:click={onOutsideClick} />
 
-<div id="searchGroup" bind:this={searchGroupEl}>
+<div id="search-group" bind:this={searchGroupEl}>
   <input
     type="search"
     name="search"
@@ -253,7 +253,7 @@
     autocapitalize="off"
     aria-label="search"
     aria-autocomplete="list"
-    aria-controls="liveSearch"
+    aria-controls="live-search"
     bind:value={searchText}
     bind:this={searchFieldEl}
     on:focus={showLiveSearch}
@@ -263,13 +263,13 @@
 
   {#if showSearchDropdown}
     <button
-      id="closeSearch"
+      id="close-search"
       title={I18n('close')}
       on:click={hideAndResetLiveSearch}
     >
       {@html icon('close')}
     </button>
-    <div id="liveSearch">
+    <div id="live-search">
       <SearchControls
         bind:showSearchControls
         bind:selectedCategory
@@ -339,28 +339,35 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
-  #liveSearch{
+  #search-group{
+    align-self: center;
+    flex: 1 0 0;
+    // 7 = max number of search section on a row
+    max-width: 7 * $search-section-width;
+    margin: 0 auto;
+    margin-block-end: 0;
+    // margin: 0;
+    position: relative;
+    background-color: white;
+    @include radius;
+  }
+  #live-search{
     @include position(absolute, 100%, 0, null, 0);
     z-index: 1;
     flex: 1 0 auto;
     @include display-flex(column, stretch);
   }
-  #searchGroup{
-    margin: 0;
-    position: relative;
-    background-color: white;
-  }
   input{
     position: relative;
     @include radius;
     margin: 0;
-    // Let room for .search-icon and #closeSearch
+    // Let room for .search-icon and #close-search
     padding-inline-end: 2em;
     // Appear above .search-icon, so that click on .search-icon gives focus to the input
     z-index: 1;
     background-color: transparent;
   }
-  #closeSearch, .search-icon{
+  #close-search, .search-icon{
     position: absolute;
     inset-inline-end: 0;
     inset-block-start: 0;
@@ -373,7 +380,7 @@
     font-size: 1.2rem;
     margin-inline-end: 0.3rem;
   }
-  #closeSearch{
+  #close-search{
     font-size: 1.5rem;
     z-index: 1;
     background-color: transparent;
@@ -408,17 +415,17 @@
 
   /* Small screens */
   @media screen and (max-width: $small-screen){
-    #searchGroup, input{
+    #search-group, input{
       height: 2rem;
     }
-    #searchGroup{
+    #search-group{
       flex: 1 1 auto;
       flex-direction: row;
       flex-wrap: nowrap;
       margin-inline-start: auto;
       margin-block-start: -0.3em;
     }
-    #liveSearch{
+    #live-search{
       @include position(fixed, $topbar-height, 0, 0, 0);
       height: calc(100% - $topbar-height);
       @include display-flex(column);
