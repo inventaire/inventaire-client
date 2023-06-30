@@ -216,8 +216,7 @@ const initializeInventoriesHandlers = function (app) {
         attribute: 'entity',
         value: entity.get('uri')
       })
-      const updatedItem = await app.request('get:item:model', item.get('_id'))
-      return app.execute('show:item', updatedItem)
+      app.execute('show:item:byId', item.get('_id'))
     }
   })
 }
