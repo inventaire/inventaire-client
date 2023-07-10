@@ -15,6 +15,7 @@
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
+  import LocationSearchInput from '#map/components/location_search_input.svelte'
   import { wait } from '#lib/promises'
 
   export let filter = null
@@ -96,6 +97,7 @@
     selectedGroup = e.detail.doc
     $focusedSection = { type: 'group' }
   }
+
 </script>
 
 {#if $user.position != null}
@@ -143,6 +145,7 @@
     </div>
 
     <div id="mapContainer">
+      <LocationSearchInput {map} />
       {#if mapViewLatLng}
         <LeafletMap
           bind:map
