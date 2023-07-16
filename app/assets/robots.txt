@@ -1,8 +1,10 @@
 User-agent: *
-Disallow: /search
 Disallow: /entity/new
-Disallow: /entity/*/add$
-Disallow: /network/*?*
+Disallow: /entity/*/*$
+Disallow: /items
+Disallow: /search
 Disallow: /tasks
+Disallow: /transactions
+Crawl-delay: 10
 
 Sitemap: https://inventaire.io/public/sitemaps/sitemapindex.xml
