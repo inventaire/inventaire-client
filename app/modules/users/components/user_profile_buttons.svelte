@@ -151,6 +151,7 @@
   <Modal on:closeModal={() => showShelfCreator = false}
   >
     <ShelfEditor
+      shelf={{}}
       inGlobalModal={false}
       on:shelfEditorDone={() => showShelfCreator = false}
     />
