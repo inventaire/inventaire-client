@@ -44,8 +44,6 @@
     width: $image-size;
     height: $image-size;
     overflow: hidden;
-    background-size: cover;
-    background-position: center center;
     img{
       object-fit: cover;
       width: 100%;
