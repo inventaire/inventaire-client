@@ -34,7 +34,7 @@
   }
 
   function setValue (i, value) {
-    if (propertyClaims.includes(value) && propertyClaims.indexOf(value) !== i) {
+    if (isNonEmptyClaimValue(value) && propertyClaims.includes(value) && propertyClaims.indexOf(value) !== i) {
       flash = {
         type: 'error',
         message: I18n('this value is already used')
