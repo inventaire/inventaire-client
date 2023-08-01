@@ -69,7 +69,7 @@
 <div class="items-map">
   {#if bounds.length > 0}
     <LeafletMap
-      bounds={bounds.concat([ $user.position ])}
+      bounds={$user.position ? bounds.concat([ $user.position ]) : bounds}
       cluster={true}
     >
       {#each displayedItems as item (item._id)}
@@ -77,9 +77,11 @@
           <ItemMarker {item} />
         </Marker>
       {/each}
-      <Marker latLng={$user.position} standalone={true}>
-        <UserMarker doc={$user} />
-      </Marker>
+      {#if $user?.position}
+        <Marker latLng={$user.position} standalone={true}>
+          <UserMarker doc={$user} />
+        </Marker>
+      {/if}
     </LeafletMap>
   {/if}
 </div>

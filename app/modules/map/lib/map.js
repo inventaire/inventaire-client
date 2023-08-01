@@ -5,7 +5,7 @@ import { buildPath } from '#lib/location'
 import error_ from '#lib/error'
 import User from '#users/models/user'
 import Group from '#groups/models/group'
-import { uniq } from 'underscore'
+import { compact, uniq } from 'underscore'
 
 const { defaultZoom } = mapConfig
 
@@ -150,7 +150,7 @@ const showItemOnMap = function (map, item) {
 }
 
 export function uniqBounds (bounds) {
-  const stringifiedBounds = bounds.map(stringifyBound)
+  const stringifiedBounds = compact(bounds).map(stringifyBound)
   return uniq(stringifiedBounds).map(parseStringifiedBound)
 }
 
