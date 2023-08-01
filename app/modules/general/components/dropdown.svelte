@@ -69,7 +69,11 @@
     if (!dropdown) return
     const dropdownRect = dropdown.getBoundingClientRect()
     if (dropdownRect.bottom > getViewportHeight()) {
-      dropdown.scrollIntoView({ block: 'end', inline: 'nearest', behavior: 'smooth' })
+      if (dropdownRect.height > getViewportHeight()) {
+        dropdown.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
+      } else {
+        dropdown.scrollIntoView({ block: 'end', inline: 'nearest', behavior: 'smooth' })
+      }
     }
   }
 
