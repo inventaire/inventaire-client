@@ -1,7 +1,7 @@
 <script>
-  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { icon, isOpenedOutside } from '#lib/utils'
+  import { createEventDispatcher } from 'svelte'
 
   export let item
 
@@ -18,10 +18,11 @@
     picture: userPicture,
   } = user
 
-  let showItemModal
+  const dispatch = createEventDispatcher()
+
   function showItem (e) {
     if (isOpenedOutside(e)) return
-    showItemModal = true
+    dispatch('showItem')
     e.preventDefault()
   }
 </script>
@@ -55,5 +56,3 @@
     <p class="username">{username}</p>
   </a>
 </div>
-
-<ItemShowModal bind:item bind:showItemModal />

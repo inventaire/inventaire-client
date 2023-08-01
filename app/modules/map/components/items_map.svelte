@@ -12,6 +12,7 @@
   import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
   import { user } from '#user/user_store'
   import UserMarker from '#map/components/user_marker.svelte'
+  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
 
   export let docsToDisplay = []
   export let allItems
@@ -64,6 +65,8 @@
   $: onChange(docsToDisplay, onDocsToDisplayChange)
   $: onChange(selectedEditionFilters, selectedTransactionFilters, onFiltersChange)
   $: notAllDocsAreDisplayed = displayedItems.length !== allItems.length
+
+  let modalItem
 </script>
 
 <div class="items-map">
@@ -74,7 +77,7 @@
     >
       {#each displayedItems as item (item._id)}
         <Marker latLng={item.position}>
-          <ItemMarker {item} />
+          <ItemMarker {item} on:showItem={() => modalItem = item} />
         </Marker>
       {/each}
       {#if $user?.position}
@@ -108,6 +111,10 @@
       {i18n('Show every books on map')}
     </button>
   </div>
+{/if}
+
+{#if modalItem}
+  <ItemShowModal item={modalItem} showItemModal={modalItem != null} />
 {/if}
 
 <style lang="scss">
