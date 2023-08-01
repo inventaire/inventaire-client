@@ -52,8 +52,8 @@
     background: rgba(black, 0.55);
     overflow: auto;
     @include position(fixed, 0, 0, 0, 0);
-    // Above the dropdown
-    z-index: 20;
+    // Above the dropdown, .leaflet-pane, .leaflet-control, .leaflet-bottom
+    z-index: 1001;
     @include display-flex(row, baseline, center);
     overflow-y: auto;
   }
