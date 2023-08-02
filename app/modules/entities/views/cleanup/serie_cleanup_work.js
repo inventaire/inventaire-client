@@ -1,5 +1,5 @@
 import { focusInput } from '#lib/utils'
-import getActionKey from '#lib/get_action_key'
+import { getActionKey } from '#lib/key_events'
 import getLangsData from '#entities/lib/editor/get_langs_data'
 import SerieCleanupAuthors from './serie_cleanup_authors.js'
 import SerieCleanupEditions from './serie_cleanup_editions.js'

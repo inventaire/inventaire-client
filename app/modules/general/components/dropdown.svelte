@@ -1,7 +1,7 @@
 <script>
   import { isFunction } from 'underscore'
   import { slide } from 'svelte/transition'
-  import getActionKey from '#lib/get_action_key'
+  import { getActionKey } from '#lib/key_events'
   import { getViewportHeight, getViewportWidth } from '#lib/screen'
   import { tick } from 'svelte'
 

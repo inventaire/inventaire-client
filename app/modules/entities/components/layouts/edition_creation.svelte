@@ -4,7 +4,7 @@
   import { icon, loadInternalLink } from '#lib/utils'
   import Flash from '#lib/components/flash.svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
-  import getActionKey from '#lib/get_action_key'
+  import { getActionKey } from '#lib/key_events'
 
   export let work, editions
 

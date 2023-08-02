@@ -1,5 +1,5 @@
 import { isEntityUri } from '#lib/boolean_tests'
-import getActionKey from '#lib/get_action_key'
+import { getActionKey } from '#lib/key_events'
 import mergeEntities from '#entities/views/editor/lib/merge_entities'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'

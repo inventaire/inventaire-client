@@ -4,7 +4,7 @@
   import { createEventDispatcher } from 'svelte'
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
-  import getActionKey from '#lib/get_action_key'
+  import { getActionKey } from '#lib/key_events'
   import Flash from '#lib/components/flash.svelte'
   import preq from '#lib/preq'
   import { isComponentEvent } from '#lib/boolean_tests'

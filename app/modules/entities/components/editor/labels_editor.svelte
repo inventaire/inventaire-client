@@ -4,7 +4,7 @@
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import Flash from '#lib/components/flash.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
-  import getActionKey from '#lib/get_action_key'
+  import { getActionKey } from '#lib/key_events'
   import preq from '#lib/preq'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { tick } from 'svelte'

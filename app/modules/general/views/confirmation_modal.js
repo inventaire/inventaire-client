@@ -1,7 +1,7 @@
 import { tryAsync } from '#lib/promises'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
-import getActionKey from '#lib/get_action_key'
+import { getActionKey } from '#lib/key_events'
 import error_ from '#lib/error'
 import forms_ from '#general/lib/forms'
 import confirmationModalTemplate from './templates/confirmation_modal.hbs'

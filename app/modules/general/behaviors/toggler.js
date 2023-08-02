@@ -1,4 +1,4 @@
-import getActionKey from '#lib/get_action_key'
+import { getActionKey } from '#lib/key_events'
 
 export default Marionette.Behavior.extend({
   events: {

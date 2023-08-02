@@ -5,12 +5,12 @@
   import EntitySuggestion from './entity_suggestion.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/handlebars_helpers/icons'
-  import getActionKey from '#lib/get_action_key'
   import typeSearch from '#entities/lib/search/type_search'
   import { createByProperty } from '#entities/lib/create_entities'
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
   import { wait } from '#lib/promises'
   import { getViewportHeight, onScrollToBottom } from '#lib/screen'
+  import { getActionKey } from '#lib/key_events'
 
   export let searchTypes
   export let currentEntityUri

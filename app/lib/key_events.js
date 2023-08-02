@@ -1,4 +1,4 @@
-export default function (e) {
+export function getActionKey (e) {
   const key = e.which || e.keyCode
   return actionKeysMap[key]
 }

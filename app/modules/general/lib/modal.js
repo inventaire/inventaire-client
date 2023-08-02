@@ -1,6 +1,6 @@
 import { isNonEmptyString } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
-import getActionKey from '#lib/get_action_key'
+import { getActionKey } from '#lib/key_events'
 import { viewportIsSmallerThan } from '#lib/screen'
 import isMobile from '#lib/mobile_check'
 import { removeCurrentComponent } from '#lib/global_libs_extender'

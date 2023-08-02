@@ -1,6 +1,6 @@
 <script>
   import Spinner from '#components/spinner.svelte'
-  import getActionKey from '#lib/get_action_key'
+  import { getActionKey } from '#lib/key_events'
   import { icon } from '#lib/handlebars_helpers/icons'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'

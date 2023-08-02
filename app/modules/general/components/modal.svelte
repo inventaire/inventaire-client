@@ -1,5 +1,5 @@
 <script>
-  import getActionKey from '#lib/get_action_key'
+  import { getActionKey } from '#lib/key_events'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'

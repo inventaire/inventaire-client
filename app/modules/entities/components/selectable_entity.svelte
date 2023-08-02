@@ -5,7 +5,7 @@
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers.js'
   import { createEventDispatcher } from 'svelte'
   import Link from '#lib/components/link.svelte'
-  import getActionKey from '#lib/get_action_key'
+  import { getActionKey } from '#lib/key_events'
 
   export let entity, from, to, filterPattern
 

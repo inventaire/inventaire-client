@@ -4,7 +4,7 @@
   import { userContent } from '#lib/handlebars_helpers/user_content'
   import { autofocus } from '#lib/components/actions/autofocus'
   import { autosize } from '#lib/components/actions/autosize'
-  import getActionKey from '#lib/get_action_key'
+  import { getActionKey } from '#lib/key_events'
 
   export let item, flash
 
