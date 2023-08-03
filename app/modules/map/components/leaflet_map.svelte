@@ -53,7 +53,7 @@
           const zoom = 9
           map.setView(bounds[0], zoom)
         } else {
-          map.fitBounds(bounds)
+          map.fitBounds(bounds, { padding: [ 20, 20 ] })
         }
       } else {
         map.setView(view, zoom)
