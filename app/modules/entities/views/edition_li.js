@@ -1,4 +1,3 @@
-import entityItems from '../lib/entity_items.js'
 import EntityActions from './entity_actions.js'
 import editionLiTemplate from './templates/edition_li.hbs'
 import '../scss/edition_commons.scss'
@@ -21,11 +20,9 @@ export default Marionette.View.extend({
 
   initialize () {
     ({ itemToUpdate: this.itemToUpdate, compactMode: this.compactMode, onWorkLayout: this.onWorkLayout } = this.options)
-    if ((this.itemToUpdate == null) && !this.compactMode) entityItems.initialize.call(this)
   },
 
   onRender () {
-    if ((this.itemToUpdate == null) && !this.compactMode) this.lazyShowItems()
     this.showEntityActions()
   },
 
