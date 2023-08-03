@@ -1,10 +1,6 @@
-import { forceArray } from '#lib/utils'
 import mapConfig from './config.js'
 import { truncateDecimals } from './geo.js'
 import { buildPath } from '#lib/location'
-import error_ from '#lib/error'
-import User from '#users/models/user'
-import Group from '#groups/models/group'
 import { compact, uniq } from 'underscore'
 
 const { defaultZoom } = mapConfig
@@ -47,36 +43,6 @@ export function updateMarker (marker, coords) {
   if (coords?.lat == null) return marker.remove()
   const { lat, lng } = coords
   return marker.setLatLng([ lat, lng ])
-}
-
-export function showOnMap (typeName, map, docs) {
-  if (typeName === 'users') {
-    const models = docs.map(doc => new User(doc))
-    return showUsersOnMap(map, models)
-  } else if (typeName === 'groups') {
-    const models = docs.map(doc => new Group(doc))
-    return showGroupsOnMap(map, models)
-  } else {
-    throw error_.new('invalid type', { typeName, map, docs })
-  }
-}
-
-// Same as the above function, but guesses model type
-export function showModelsOnMap (map, models) {
-  for (const model of forceArray(models)) {
-    const type = model.get('type')
-    if (type === 'user') showUserOnMap(map, model)
-    else if (type === 'group') showGroupOnMap(map, model)
-    else showItemOnMap(map, model)
-  }
-}
-
-export function showUsersOnMap (map, users) {
-  return forceArray(users).map(user => showUserOnMap(map, user))
-}
-
-export function showGroupsOnMap (map, groups) {
-  return forceArray(groups).map(group => showGroupOnMap(map, group))
 }
 
 export function getBbox (map) {
@@ -127,26 +93,6 @@ export function updatePosition (model, updateReqres, type, focusSelector) {
       })
     }
   })
-}
-
-const showGroupOnMap = function (map, group) {
-  if (group.hasPosition()) {
-    return map.addMarker({
-      objectId: `group-${group.id}`,
-      model: group,
-      markerType: 'group'
-    })
-  }
-}
-
-const showItemOnMap = function (map, item) {
-  if (item.position != null) {
-    return map.addMarker({
-      objectId: `item-${item.id}`,
-      model: item,
-      markerType: 'item'
-    })
-  }
 }
 
 export function uniqBounds (bounds) {
