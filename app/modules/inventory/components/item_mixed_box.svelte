@@ -1,24 +1,33 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { icon, isOpenedOutside, loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { currentRoute } from '#lib/location'
+  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
 
   export let item, showDistance = false
 
   const { pathname, user, currentTransaction } = item
   const { username, picture, pathname: userProfilePathname } = user
   const isPartOfCurrentPath = str => currentRoute().includes(str)
+
+  let showItemModal
+  function showItem (e) {
+    if (isOpenedOutside(e)) return
+    showItemModal = true
+    e.preventDefault()
+  }
 </script>
-<div class="mixedBox">
+
+<div class="mixed-box">
   {#if isPartOfCurrentPath(username)}
-    <img class="profilePic" alt="{username} avatar" src={imgSrc(picture, 48)} />
+    <img class="profile-pic" alt="{username} avatar" src={imgSrc(picture, 48)} />
   {:else}
     <a
       href={userProfilePathname}
       on:click|stopPropagation={loadInternalLink}
     >
-      <img class="profilePic" alt="{username} avatar" src={imgSrc(picture, 48)} />
+      <img class="profile-pic" alt="{username} avatar" src={imgSrc(picture, 48)} />
     </a>
   {/if}
   {#if isPartOfCurrentPath(item._id)}
@@ -41,7 +50,7 @@
       class:inventorying={currentTransaction.id === 'inventorying'}
       href={pathname}
       title={i18n(currentTransaction.labelPersonalized, user)}
-      on:click|stopPropagation={loadInternalLink}
+      on:click|stopPropagation={showItem}
     >
       {@html icon(currentTransaction.icon)}
     </a>
@@ -54,7 +63,7 @@
     {:else}
       <a
         href={pathname}
-        on:click|stopPropagation={loadInternalLink}
+        on:click|stopPropagation={showItem}
       >
         {@html i18n(currentTransaction.labelPersonalizedStrong, user)}
       </a>
@@ -65,9 +74,11 @@
   {/if}
 </div>
 
+<ItemShowModal bind:item bind:showItemModal />
+
 <style lang="scss">
   @import "#general/scss/utils";
-  .mixedBox{
+  .mixed-box{
     @include display-flex(row);
   }
   .transaction-box{
@@ -110,5 +121,8 @@
       line-height: 0.5em;
       color: #888;
     }
+  }
+  .profile-pic{
+    height: $user-box-heigth;
   }
 </style>

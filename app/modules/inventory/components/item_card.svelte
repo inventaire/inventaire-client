@@ -105,7 +105,7 @@
         </TruncatedText>
       </div>
     {/if}
-    <ItemRequestBox {item} />
+    <ItemRequestBox {item} user={item.user} />
   {/if}
   <Flash state={flash} />
 </div>

@@ -2,8 +2,11 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import app from '#app/app'
+  import RequestItem from '#transactions/components/request_item.svelte'
+  import Modal from '#components/modal.svelte'
 
   export let item
+  export let user
 
   const { _id: itemId, restricted, transaction, busy } = item
 
@@ -11,6 +14,7 @@
   if (app.user.loggedIn) {
     hasActiveTransaction = app.request('has:transactions:ongoing:byItemId', itemId)
   }
+  let showRequestItemModal
 </script>
 
 {#if restricted}
@@ -25,14 +29,19 @@
       </span>
     {:else}
       {#if transaction !== 'inventorying'}
-        <button on:click={() => app.execute('show:item:request', item)}
-        >
+        <button on:click={() => showRequestItemModal = true}>
           {@html icon('comments')}
           {I18n('send request')}
         </button>
       {/if}
     {/if}
   {/if}
+{/if}
+
+{#if showRequestItemModal}
+  <Modal on:closeModal={() => showRequestItemModal = false}>
+    <RequestItem {item} {user} />
+  </Modal>
 {/if}
 
 <style lang="scss">
