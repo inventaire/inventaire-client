@@ -2,7 +2,7 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { getFirstFileDataUrl, resetFileInput } from '#lib/files'
-  import { getImageHashFromDataUrl, getUrlDataUrl } from '#lib/images'
+  import { getCropper, getImageHashFromDataUrl, getUrlDataUrl } from '#lib/images'
   import { isUrl } from '#lib/boolean_tests'
   import Spinner from '#components/spinner.svelte'
   import { createEventDispatcher } from 'svelte'
@@ -48,13 +48,7 @@
   let Cropper, cropper
 
   async function importCropperLib () {
-    if (waitingForCropper) return
-    waitingForCropper = Promise.all([
-      import('cropperjs'),
-      import('cropperjs/dist/cropper.css'),
-    ])
-    const res = await waitingForCropper
-    Cropper = res[0].default
+    Cropper = Cropper || await getCropper()
   }
 
   let imageWasCropped = false
