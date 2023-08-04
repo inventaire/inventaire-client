@@ -3,13 +3,14 @@
   import { autosize } from '#lib/components/actions/autosize'
   import preq from '#lib/preq'
   import Flash from '#lib/components/flash.svelte'
-  import UserPicture from '#lib/components/user_picture.svelte'
   import { user } from '#user/user_store'
   import { Username } from '#lib/regex'
   import error_ from '#lib/error'
   import { looksLikeSpam } from '#lib/spam'
   import Modal from '#components/modal.svelte'
   import PositionPicker from '#map/components/position_picker.svelte'
+  import PicturePicker from '#components/picture_picker.svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
 
   let bioState, usernameState
   let usernameValue = $user.username
@@ -101,10 +102,17 @@
     }
   }
 
-  let showPositionPicker = false
+  let showPositionPicker, showPicturePicker
 
   async function savePosition (latLng) {
     await updateUserReq('position', latLng)
+  }
+
+  async function savePicture (imageHash) {
+    await updateUserReq('picture', `/img/users/${imageHash}`)
+  }
+  async function deletePicture () {
+    await updateUserReq('picture', null)
   }
 
   $: validateUsername(usernameValue)
@@ -116,7 +124,12 @@
     <h2 class="first-title">{I18n('profile')}</h2>
     <h3>{I18n('username')}</h3>
     <div class="text-zone">
-      <input placeholder="{i18n('username')}..." bind:value={usernameValue} name="username" />
+      <input
+        type="text"
+        placeholder="{i18n('username')}..."
+        bind:value={usernameValue}
+        name="username"
+      />
       <Flash bind:state={usernameState} />
     </div>
     <p class="note">{I18n('username_tip')}</p>
@@ -139,7 +152,15 @@
     <button class="save light-blue-button" on:click={updateBio}>{I18n('update presentation')}</button>
 
     <h3>{I18n('profile picture')}</h3>
-    <UserPicture />
+    <div>
+      {#if $user.picture}
+        <img src={imgSrc($user.picture, 250, 250)} alt={i18n('profile picture')} />
+      {/if}
+    </div>
+
+    <button class="light-blue-button" on:click={() => showPicturePicker = true}>
+      {I18n('change picture')}
+    </button>
 
     <h3>{I18n('location')}</h3>
     <p class="position-status">
@@ -159,6 +180,20 @@
     </button>
   </fieldset>
 </form>
+
+{#if showPicturePicker}
+  <Modal on:closeModal={() => showPicturePicker = false}>
+    <PicturePicker
+      picture={$user.picture}
+      aspectRatio={1 / 1}
+      imageContainer="users"
+      {savePicture}
+      {deletePicture}
+      userContext={true}
+      on:close={() => showPicturePicker = false}
+    />
+  </Modal>
+{/if}
 
 {#if showPositionPicker}
   <Modal size="large" on:closeModal={() => showPositionPicker = false}>

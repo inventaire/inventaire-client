@@ -148,3 +148,14 @@ export const getColorHexCodeFromModelId = function (modelId) {
 }
 
 export const getSomeColorHexCodeSuggestion = () => `#${_.sample(someSuggestedColors)}`
+
+let Cropper, waitingForCropper
+export async function getCropper () {
+  if (waitingForCropper) return Cropper
+  waitingForCropper = Promise.all([
+    import('cropperjs'),
+    import('cropperjs/dist/cropper.css'),
+  ])
+  ;([ { default: Cropper } ] = await waitingForCropper)
+  return Cropper
+}
