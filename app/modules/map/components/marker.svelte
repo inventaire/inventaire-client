@@ -17,9 +17,10 @@
 
   function createMarker () {
     if (markerType === 'circle') {
-      marker = L.circle(latLng, { radius: metersRadius }).addTo(targetLayer)
+      // Use a large border ("weight") to make the marker easily visible even when very zoomed out
+      marker = L.circle(latLng, { radius: metersRadius, weight: 10 }).addTo(targetLayer)
     } else {
-      let icon = L.divIcon({
+      const icon = L.divIcon({
         html: markerElement,
         // Let the children elements determine the size
         iconSize: [ 0, 0 ]
@@ -28,7 +29,7 @@
     }
   }
 
-  function updateMarker () {
+  function updateMarkerLatLng () {
     if (marker) {
       marker.setLatLng(latLng).update()
     }
@@ -44,7 +45,7 @@
 
   onMount(createMarker)
   onDestroy(destroyMarker)
-  $: onChange(latLng, updateMarker)
+  $: onChange(latLng, updateMarkerLatLng)
 </script>
 
 <div bind:this={markerElement}>
