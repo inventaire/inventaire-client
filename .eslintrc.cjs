@@ -66,7 +66,6 @@ module.exports = {
     'svelte/first-attribute-linebreak': 'error',
     'svelte/html-closing-bracket-spacing': 'error',
     'svelte/html-quotes': 'error',
-    'svelte/html-self-closing': 'error',
     'svelte/indent': 'error',
     'svelte/max-attributes-per-line': [
       'error',

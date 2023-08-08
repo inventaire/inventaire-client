@@ -11,6 +11,9 @@ module.exports = {
     // Ex: Array methods https://github.com/amilajack/eslint-plugin-compat/issues/258
     'plugin:compat/recommended',
   ],
+  rules: {
+    'svelte/html-self-closing': 'error',
+  },
   settings: {
     // Used by eslint-plugin-compat
     polyfills: [
