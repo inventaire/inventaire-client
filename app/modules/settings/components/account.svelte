@@ -135,6 +135,8 @@
     <UpdatePassword />
   </fieldset>
 
+  <!-- TODO: Add checkbox for user.settings.contributions.anonymize -->
+
   <fieldset>
     <h2 class="title">{I18n('discoverability')}</h2>
     <p class="note">{@html I18n('fediversable_description', { username: $user.stableUsername, host: domain })}</p>

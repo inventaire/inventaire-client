@@ -61,6 +61,7 @@ export default Marionette.CollectionView.extend({
     this._fetching = true
     startLoading.call(this)
     this.limit = Math.min(this.limit * 2, 500)
+    // TODO: display an error page when receiving a 403 errors
     const res = await preq.get(app.API.entities.contributions({
       userId: this.userId,
       limit: this.limit,
