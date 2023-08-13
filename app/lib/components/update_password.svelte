@@ -69,7 +69,8 @@
     type="text"
     name="username"
     value={$user.username}
-    class="hidden" />
+    class="hidden"
+  />
   <PasswordInput
     bind:password={currentPassword}
     bind:flash={flashCurrentPassword}
@@ -87,7 +88,8 @@
     type="text"
     name="username"
     value={$user.username}
-    class="hidden" />
+    class="hidden"
+  />
   <PasswordInput
     bind:password={newPassword}
     bind:flash={flashNewPassword}
@@ -105,5 +107,8 @@
   .forgotPassword .link{
     font-size: 0.9rem;
     color: #777;
+  }
+  .hidden{
+    display: none;
   }
 </style>
