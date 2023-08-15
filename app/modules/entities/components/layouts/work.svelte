@@ -44,7 +44,7 @@
     const { entities } = await getEntitiesAttributesByUris({
       uris: publishersUris,
       // type is necessary to generate publisher URI link without "wdt:P921-" prefix
-      attributes: [ 'labels', 'type' ],
+      attributes: [ 'info', 'labels' ],
       lang: userLang
     })
     publishersByUris = entities
