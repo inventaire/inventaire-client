@@ -7,13 +7,15 @@
   import { entityTypeNameByType, pluralize } from '#entities/lib/types/entities_types'
   import { isWikidataItemUri } from '#lib/boolean_tests'
   import { slide } from 'svelte/transition'
+  import Spinner from '#components/spinner.svelte'
 
   export let from, to, type
 
-  let flash, typeName
+  let flash, typeName, merging
 
   async function merge () {
     try {
+      merging = true
       await mergeEntities(from, to)
       from = null
       to = null
@@ -23,6 +25,8 @@
       }
     } catch (err) {
       flash = err
+    } finally {
+      merging = false
     }
   }
 
@@ -70,11 +74,15 @@
   <Flash bind:state={flash} />
 
   <button
-    disabled={!(from && to)}
+    disabled={(!(from && to)) || merging}
     class="success-button"
     on:click={merge}
   >
-    {@html icon('compress')}
+    {#if merging}
+      <Spinner />
+    {:else}
+      {@html icon('compress')}
+    {/if}
     {I18n('merge')}
   </button>
 </div>
