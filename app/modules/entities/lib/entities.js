@@ -70,13 +70,15 @@ export const serializeEntity = entity => {
       entity.title = entity.label
     }
   }
-  entity.pathname = `/entity/${entity.uri}`
+  entity.pathname = getPathname(entity.uri)
   const [ prefix, id ] = entity.uri.split(':')
   entity.prefix = prefix
   entity.id = id
   entity.isWikidataEntity = prefix === 'wd'
   return entity
 }
+
+const getPathname = uri => `/entity/${uri}`
 
 export const attachEntities = async (entity, attribute, uris) => {
   entity[attribute] = await getEntitiesByUris(uris)
@@ -129,10 +131,15 @@ export async function getBasicInfoByUri (uri) {
   let description
   if (entity.descriptions) description = Object.values(entity.descriptions)[0]
   return {
+    _id: entity._id,
+    _rev: entity._rev,
+    uri: entity.uri,
     type: entity.type,
     label,
     description,
-    image: entity.image
+    image: entity.image,
+    pathname: getPathname(entity.uri),
+    originalLang: entity.originalLang,
   }
 }
 

@@ -1,10 +1,16 @@
-import { isNonEmptyArray } from '#lib/boolean_tests'
+import { isEntityUri, isImageHash, isNonEmptyArray } from '#lib/boolean_tests'
 import wdLang from 'wikidata-lang'
 import { unprefixify } from '#lib/wikimedia/wikidata'
 import platforms_ from '#lib/handlebars_helpers/platforms.js'
 import * as icons_ from '#lib/handlebars_helpers/icons.js'
 import { uniq } from 'underscore'
 import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
+import typeOf from '#lib/type_of'
+import { imagePreview } from '#lib/handlebars_helpers/claims'
+import { entity as entityHelper } from '#lib/handlebars_helpers/claims_helpers'
+import Handlebars from 'handlebars/runtime'
+
+const { escapeExpression } = Handlebars
 
 export const formatClaimValue = params => {
   const { value, prop } = params
@@ -108,44 +114,64 @@ export const inverseLabels = {
 
 const specialPathnameProperties = Object.keys(inverseLabels)
 
-const claimFormats = {
-  timeClaim (params) {
-    const { value, format } = params
-    if (format && format === 'year') {
-      const splittedDate = value.split('-')
-      // Display before christ values with year precision only
-      // Convert -427-05-07 to -427
-      if (value.startsWith('-')) {
-        return `-${splittedDate[1]}`
-      }
-      const year = splittedDate[0]
-      let unixTime = new Date(year)
-      if (year < 1000) {
-        unixTime = new Date('0000')
-        unixTime.setFullYear(year)
-      }
-      return unixTime.getUTCFullYear(year)
+export function timeClaim (params) {
+  const { value, format } = params
+  if (format && format === 'year') {
+    const splittedDate = value.split('-')
+    // Display before christ values with year precision only
+    // Convert -427-05-07 to -427
+    if (value.startsWith('-')) {
+      return `-${splittedDate[1]}`
     }
-    return value
-  },
-  urlClaim (params) {
-    return removeTailingSlash(dropProtocol(params.value))
-  },
-  platformClaim (params) {
-    const { prop, value } = params
-    const platform = platforms_[prop]
-    const icon = icons_.icon(platform.icon)
-    const text = icon + '<span>' + platform.text(value) + '</span>'
-    const url = platform.url(value)
-    return { icon, text, url }
-  },
+    const year = splittedDate[0]
+    let unixTime = new Date(year)
+    if (year < 1000) {
+      unixTime = new Date('0000')
+      unixTime.setFullYear(year)
+    }
+    return unixTime.getUTCFullYear(year)
+  }
+  return value
 }
 
-export const {
+export function urlClaim (params) {
+  return removeTailingSlash(dropProtocol(params.value))
+}
+
+export function platformClaim (params) {
+  const { prop, value } = params
+  const platform = platforms_[prop]
+  const icon = icons_.icon(platform.icon)
+  const text = icon + '<span>' + platform.text(value) + '</span>'
+  const url = platform.url(value)
+  return { icon, text, url }
+}
+
+const claimFormats = {
   timeClaim,
   urlClaim,
   platformClaim,
-} = claimFormats
+}
+
+// TODO: reimplement without handlebars
+export function multiTypeValue (value) {
+  const valueType = typeOf(value)
+  if (valueType === 'string') {
+    if (isEntityUri(value)) {
+      return entityHelper(value, true)
+    } else if (isImageHash(value)) {
+      return imagePreview(value)
+    } else {
+      return escapeExpression(value)
+    }
+  } else if (valueType === 'number') {
+    return value
+  } else if (valueType === 'array') {
+    return value.map(multiTypeValue).join('')
+  } else if (valueType === 'object') {
+    return escapeExpression(JSON.stringify(value))
+  }
+}
 
 const aggregateClaims = (worksClaims, work) => {
   editionWorkProperties.forEach(aggregateClaim(worksClaims, work))

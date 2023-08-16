@@ -84,16 +84,6 @@ export default {
     .catch(rollback)
   },
 
-  async fetchHistory (uri) {
-    const id = this.id || uri.split(':')[1]
-    const [ { patches }, { default: Patches } ] = await Promise.all([
-      preq.get(app.API.entities.history(id)),
-      import('../../collections/patches')
-    ])
-    // reversing to get the last patches first
-    this.history = new Patches(patches.reverse())
-  },
-
   // Invalidating the entity's and its relatives cache
   // so that next time a layout displays one of those entities
   // it takes in account the changes we just saved

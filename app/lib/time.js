@@ -1,4 +1,6 @@
 import assert_ from '#lib/assert_types'
+import { i18n } from '#user/lib/i18n'
+
 const oneSecond = 1000
 const oneMinute = 60 * oneSecond
 const oneHour = 60 * oneMinute
@@ -6,7 +8,7 @@ const oneDay = 24 * oneHour
 const oneYear = 365.25 * oneDay
 const oneMonth = oneYear / 12
 
-export default function (date) {
+export function getTimeFromNowData (date) {
   assert_.number(date)
   const diff = Date.now() - date
   if (diff < (10 * oneSecond)) {
@@ -25,3 +27,10 @@ export default function (date) {
     return { key: 'x_years_ago', amount: Math.round(diff / oneYear) }
   }
 }
+
+export function timeFromNow (date) {
+  const { key, amount } = getTimeFromNowData(date)
+  return i18n(key, { smart_count: amount })
+}
+
+export const getlocalTimeString = date => new Date(date).toLocaleString(app.user.lang)

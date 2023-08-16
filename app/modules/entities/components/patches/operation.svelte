@@ -1,0 +1,70 @@
+<script>
+  import { multiTypeValue } from '#entities/components/lib/claims_helpers'
+  import { loadInternalLink } from '#lib/utils'
+
+  export let operation
+  export let showContributionFilter = false
+
+  const { op, path, propertyLabel, value, filter, filterPathname } = operation
+</script>
+
+<li class="operation operation-{op}">
+  <div class="op">{op}</div>
+  <div class="path" title={path}>{propertyLabel}</div>
+  {#if value}<div class="value">{@html multiTypeValue(value)}</div>{/if}
+  {#if filter && showContributionFilter}
+    <a class="filter" href={filterPathname} on:click={loadInternalLink}>{filter}</a>
+  {/if}
+</li>
+
+<style lang="scss">
+  @import "#general/scss/utils";
+  a{
+    color: inherit;
+  }
+  .operation{
+    @include display-flex(row, center, flex-start);
+    @include radius;
+    background-color: white;
+    margin: 0.2em 0;
+    padding-inline-start: 0.5em;
+    padding-inline-end: 0.5em;
+    padding: 0.5em;
+    color: $dark-grey;
+    > div{
+      display: inline-block;
+    }
+    .op{
+      margin-inline-end: 1em;
+      width: 3em;
+    }
+    .path{
+      width: 10em;
+      color: $grey;
+      margin-inline-end: 1em;
+    }
+    .value{
+      overflow: hidden;
+    }
+    .filter{
+      @include tiny-button($light-blue);
+      margin-inline-start: auto;
+    }
+  }
+  .operation-add{
+    .op{
+      color: green;
+    }
+  }
+  .operation-remove{
+    .op{
+      color: red;
+    }
+  }
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
+    .operation{
+      flex-wrap: wrap;
+    }
+  }
+</style>
