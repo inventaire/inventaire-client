@@ -92,8 +92,8 @@ const API = {
   async showChanges () {
     if (!app.request('require:loggedIn', 'entity/changes')) return
     if (!app.request('require:admin:access')) return
-    const { default: Contributions } = await import('#users/views/contributions')
-    app.layout.showChildView('main', new Contributions())
+    const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
+    app.layout.showChildComponent('main', Contributions)
     app.navigate('entity/changes', { metadata: { title: i18n('recent changes') } })
   },
 

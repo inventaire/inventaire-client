@@ -34,3 +34,4 @@ export function timeFromNow (date) {
 }
 
 export const getlocalTimeString = date => new Date(date).toLocaleString(app.user.lang)
+export const getISOTime = date => new Date(date).toISOString()
