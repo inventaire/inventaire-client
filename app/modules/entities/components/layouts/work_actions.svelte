@@ -39,7 +39,7 @@
       >
         {@html icon('user')}
         {i18n('Show who has this book')}
-        ({otherUsersItems.length})
+        {#if otherUsersItems}({otherUsersItems.length}){/if}
       </button>
     {/if}
     {#if someOtherUsersItemsHaveAPosition}
