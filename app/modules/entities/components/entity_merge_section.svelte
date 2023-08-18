@@ -3,6 +3,7 @@
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
+  import { typesBySection } from '#search/lib/search_sections'
   import { I18n } from '#user/lib/i18n'
 
   export let type, uri
@@ -41,7 +42,7 @@
   </div>
 {:else}
   <EntityAutocompleteSelector
-    searchTypes={type}
+    searchTypes={type || typesBySection.entity.all}
     currentEntityUri={uri}
     currentEntityLabel={uri ? valueBasicInfo?.label : null}
     displaySuggestionType={type == null}

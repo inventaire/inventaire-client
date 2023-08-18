@@ -26,7 +26,7 @@
     const uris = pluck(elements, 'uri')
     const res = await getEntitiesAttributesByUris({
       uris,
-      attributes: [ 'type', 'labels', 'descriptions', 'image' ],
+      attributes: [ 'info', 'labels', 'descriptions', 'image' ],
       lang: app.user.lang
     })
     const serializedEntities = Object.values(res.entities).map(serializeEntity)

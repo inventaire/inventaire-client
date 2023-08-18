@@ -7,7 +7,7 @@ const authorProperties = Object.keys(extendedAuthorsKeys)
 export async function getItemEntityData (uri) {
   const { entities } = await getEntitiesAttributesByUris({
     uris: [ uri ],
-    attributes: [ 'type', 'labels', 'claims', 'image' ],
+    attributes: [ 'info', 'labels', 'claims', 'image' ],
     lang: app.user.lang,
     relatives: [
       'wdt:P629',

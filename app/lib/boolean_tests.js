@@ -3,7 +3,7 @@ import typeOf from '#lib/type_of'
 
 import * as regex_ from '#lib/regex'
 
-const isCouchUuid = regex_.CouchUuid.test.bind(regex_.CouchUuid)
+export const isCouchUuid = regex_.CouchUuid.test.bind(regex_.CouchUuid)
 const bindedTest = regexName => regex_[regexName].test.bind(regex_[regexName])
 
 export const isNonEmptyString = str => _.isString(str) && (str.length > 0)

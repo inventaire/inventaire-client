@@ -2,7 +2,7 @@ import log_ from '#lib/loggers'
 import { capitalize } from '#lib/utils'
 import { i18n } from '#user/lib/i18n'
 import { parseQuery } from '#lib/location'
-import timeFromNow from '#lib/time_from_now'
+import { timeFromNow } from '#lib/time'
 import Handlebars from 'handlebars/runtime'
 const { SafeString, escapeExpression } = Handlebars
 
@@ -99,8 +99,7 @@ export default {
 
   timeFromNow (time) {
     if (time == null) return
-    const { key, amount } = timeFromNow(time)
-    return i18n(key, { smart_count: amount })
+    return timeFromNow(time)
   },
 
   stringify (obj) {

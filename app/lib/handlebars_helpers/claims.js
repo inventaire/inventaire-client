@@ -16,6 +16,7 @@ import {
 } from './claims_helpers.js'
 import { imgSrc } from './images.js'
 import Handlebars from 'handlebars/runtime'
+
 const { SafeString, escapeExpression } = Handlebars
 
 let API
@@ -139,7 +140,7 @@ const dropProtocol = url => url.replace(/^(https?:)?\/\//, '')
 const removeTailingSlash = url => url.replace(/\/$/, '')
 const isntNaN = value => !_.isNaN(value)
 
-const imagePreview = imageHash => {
+export const imagePreview = imageHash => {
   const fullResolutionUrl = `/img/entities/${imageHash}`
   const imagePath = imgSrc(fullResolutionUrl, 300)
   return `

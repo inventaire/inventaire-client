@@ -100,14 +100,14 @@ export async function showUsersHome ({ user, group, section, profileSection }) {
 
 async function showUserContributions (idOrUsernameOrModel, filter) {
   try {
-    const user = await app.request('resolve:to:userModel', idOrUsernameOrModel)
-    const username = user.get('username')
-    let path = `users/${username}/contributions`
+    const user = await app.request('resolve:to:user', idOrUsernameOrModel)
+    const { username } = user
+    let path = `users/${username.toLowerCase()}/contributions`
     if (filter) path += `?filter=${filter}`
     const title = i18n('contributions_by', { username })
     app.navigate(path, { metadata: { title } })
-    const { default: Contributions } = await import('./views/contributions.js')
-    app.layout.showChildView('main', new Contributions({ user, filter }))
+    const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
+    app.layout.showChildComponent('main', Contributions, { props: { user, filter } })
   } catch (err) {
     app.execute('show:error', err)
   }

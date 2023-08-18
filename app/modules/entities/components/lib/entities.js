@@ -106,7 +106,7 @@ const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => 
   const { entities } = await getEntitiesAttributesByUris({
     uris: section.uris,
     attributes: [
-      'type',
+      'info',
       'labels',
       'descriptions',
       'claims',

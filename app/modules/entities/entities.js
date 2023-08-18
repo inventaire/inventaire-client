@@ -92,8 +92,8 @@ const API = {
   async showChanges () {
     if (!app.request('require:loggedIn', 'entity/changes')) return
     if (!app.request('require:admin:access')) return
-    const { default: Contributions } = await import('#users/views/contributions')
-    app.layout.showChildView('main', new Contributions())
+    const { default: Contributions } = await import('#entities/components/patches/contributions.svelte')
+    app.layout.showChildComponent('main', Contributions)
     app.navigate('entity/changes', { metadata: { title: i18n('recent changes') } })
   },
 
@@ -185,25 +185,11 @@ const API = {
 
   async showEntityHistory (uri) {
     app.execute('show:loader')
-
     uri = normalizeUri(uri)
-
-    try {
-      const model = await getEntityModel(uri)
-      const [ { default: History } ] = await Promise.all([
-        import('./views/editor/history'),
-        model.fetchHistory(uri)
-      ])
-      app.layout.showChildView('main', new History({ model, standalone: true, uri }))
-      if (uri === model.get('uri')) {
-        app.navigateFromModel(model, 'history')
-      // Case where we got a redirected uri
-      } else {
-        app.navigate(`entity/${uri}/history`)
-      }
-    } catch (err) {
-      app.execute('show:error', err)
-    }
+    const { default: EntityHistory } = await import('./components/patches/entity_history.svelte')
+    app.layout.showChildComponent('main', EntityHistory, {
+      props: { uri }
+    })
   },
 
   async showEntityMerge () {
