@@ -10,6 +10,6 @@ Object.assign(webpackConfig, {
   devServer: require('./dev_server.cjs')
 })
 
-// webpackConfig.plugins.push(require('./plugins/detect_unused_files.cjs'))
+webpackConfig.plugins.push(require('./plugins/detect_unused_files.cjs'))
 
 module.exports = webpackConfig
