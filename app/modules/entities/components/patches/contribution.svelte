@@ -29,22 +29,24 @@
     {#if entity}
       <div class="entity">
         <a class="label link" href={entity.pathname} on:click={loadInternalLink}>{entity.label}</a>
-        <p class="meta">
+        <div class="entity-meta">
           <span class="entity-type">{entity.type}</span>
           <span class="patch-id">{patchId}</span>
-          <Link
-            icon="pencil"
-            url={entity.editPathname}
-            classNames="link"
-            title={I18n('edit data')}
-          />
-          <Link
-            icon="history"
-            url={entity.historyPathname}
-            classNames="link"
-            title={I18n('show entity history')}
-          />
-        </p>
+          <div class="icons">
+            <Link
+              icon="pencil"
+              url={entity.editPathname}
+              classNames="link"
+              title={I18n('edit data')}
+            />
+            <Link
+              icon="history"
+              url={entity.historyPathname}
+              classNames="link"
+              title={I18n('show entity history')}
+            />
+          </div>
+        </div>
       </div>
     {/if}
     {#if summary}
@@ -116,17 +118,11 @@
     cursor: pointer;
   }
   .entity{
-    flex: 2 0 0;
-    margin-inline-end: auto;
-    @include display-flex(column);
-    .meta{
-      @include display-flex(row, center, flex-start);
-      .link{
-        @include shy;
-      }
-      :global(.fa){
-        margin-inline-start: 0.5em;
-      }
+    flex: 1 0 0;
+  }
+  .entity-meta{
+    .link{
+      @include shy;
     }
   }
   .label{
@@ -142,10 +138,6 @@
   }
   .entity-type{
     font-weight: bold;
-    width: 4em;
-  }
-  .patch-id{
-    width: 17em;
   }
   .changes{
     flex: 1;
@@ -154,10 +146,11 @@
     }
   }
   .summary{
-    flex: 2 0 0;
-    overflow: hidden;
+    flex: 1 0 10em;
+    overflow-x: auto;
+    padding: 0.5em;
     max-width: 40em;
-    min-width: 5em;
+    background-color: $off-white;
     @include display-flex(row, center, flex-start);
     white-space: nowrap;
     .property{
@@ -253,20 +246,47 @@
       flex-wrap: wrap;
       align-self: stretch;
     }
+    .entity{
+      min-width: min(20em, 80vw);
+    }
+    .summary{
+      min-width: min(20em, 80vw);
+      margin-inline-end: auto;
+    }
   }
   /* Smaller screens */
   @media screen and (max-width: $smaller-screen){
-    .summary{
-      min-width: 60vw;
-      margin-inline-end: auto;
-    }
-    .patch-id, .property-uri{
-      display: none;
-    }
     .user{
       // Force to wrap on the next line
       flex: 1 0 50%;
       margin: 1em 0;
+    }
+    .entity-meta{
+      @include display-flex(row, center, flex-start, wrap);
+      :global(.fa){
+        margin: 0 0.5em;
+        padding: 0.5em;
+      }
+    }
+  }
+  /* Large screens */
+  @media screen and (min-width: $smaller-screen){
+    .entity{
+      margin-inline-end: auto;
+    }
+    .entity-meta{
+      @include display-flex(row, center, flex-start);
+      :global(.fa){
+        padding-inline: 0.5em;
+        margin-inline-start: 0.2em;
+      }
+    }
+    .entity-type{
+      font-weight: bold;
+      width: 4em;
+    }
+    .patch-id{
+      width: 16em;
     }
   }
 </style>
