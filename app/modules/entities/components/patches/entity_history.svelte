@@ -1,6 +1,6 @@
 <script>
   import Spinner from '#components/spinner.svelte'
-  import { getBasicInfoByUri } from '#entities/lib/entities'
+  import { getEntityBasicInfoByUri } from '#entities/lib/entities'
   import { isCouchUuid } from '#lib/boolean_tests'
   import Flash from '#lib/components/flash.svelte'
   import error_ from '#lib/error'
@@ -13,7 +13,7 @@
 
   let pathname, label, flash, patches, entityId
 
-  const waitForEntityBasicInfo = getBasicInfoByUri(uri)
+  const waitForEntityBasicInfo = getEntityBasicInfoByUri(uri)
     .then(entity => {
       pathname = entity.pathname
       label = entity.label

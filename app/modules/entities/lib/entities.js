@@ -4,7 +4,7 @@ import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 import getBestLangValue from './get_best_lang_value.js'
 import getOriginalLang from './get_original_lang.js'
 import { forceArray } from '#lib/utils'
-import { chunk, compact, pluck } from 'underscore'
+import { chunk, compact, indexBy, pluck } from 'underscore'
 import assert_ from '#lib/assert_types'
 
 export async function getReverseClaims (property, value, refresh, sort) {
@@ -39,10 +39,15 @@ export const getEntitiesByUris = async params => {
   else ({ uris, index, attributes, lang } = params)
   uris = forceArray(uris)
   if (uris.length === 0) return []
-  const { entities } = await getManyEntities({ uris, attributes, lang })
+  const { entities, redirects } = await getManyEntities({ uris, attributes, lang })
   const serializedEntities = Object.values(entities).map(serializeEntity)
-  if (index) return _.indexBy(serializedEntities, 'uri')
-  else return serializedEntities
+  if (index) {
+    const indexedEntities = indexBy(serializedEntities, 'uri')
+    addRedirectionsAliases(indexedEntities, redirects)
+    return indexedEntities
+  } else {
+    return serializedEntities
+  }
 }
 
 export const getEntityByUri = async ({ uri }) => {
@@ -70,7 +75,9 @@ export const serializeEntity = entity => {
       entity.title = entity.label
     }
   }
-  entity.pathname = getPathname(entity.uri)
+  const basePathname = entity.pathname = getPathname(entity.uri)
+  entity.editPathname = `${basePathname}/edit`
+  entity.historyPathname = `${basePathname}/history`
   const [ prefix, id ] = entity.uri.split(':')
   entity.prefix = prefix
   entity.id = id
@@ -112,35 +119,30 @@ export async function getEntitiesAttributesByUris ({ uris, attributes, lang, rel
   if (!isNonEmptyArray(uris)) return { entities: [] }
   attributes = forceArray(attributes)
   const { entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives })
+  addRedirectionsAliases(entities, redirects)
+  return { entities }
+}
+
+function addRedirectionsAliases (entities, redirects) {
   if (redirects) {
     for (const [ fromUri, toUri ] of Object.entries(redirects)) {
       entities[fromUri] = entities[toUri]
     }
   }
-  return { entities }
 }
 
-export async function getBasicInfoByUri (uri) {
-  const { entities } = await getEntitiesAttributesByUris({
-    uris: [ uri ],
+export async function getEntitiesBasicInfoByUris (uris) {
+  return getEntitiesByUris({
+    uris,
     attributes: [ 'info', 'labels', 'descriptions', 'image' ],
-    lang: app.user.lang
+    lang: app.user.lang,
+    index: true,
   })
-  const entity = entities[uri]
-  const label = Object.values(entity.labels)[0]
-  let description
-  if (entity.descriptions) description = Object.values(entity.descriptions)[0]
-  return {
-    _id: entity._id,
-    _rev: entity._rev,
-    uri: entity.uri,
-    type: entity.type,
-    label,
-    description,
-    image: entity.image,
-    pathname: getPathname(entity.uri),
-    originalLang: entity.originalLang,
-  }
+}
+
+export async function getEntityBasicInfoByUri (uri) {
+  const entities = await getEntitiesBasicInfoByUris([ uri ])
+  return entities[uri]
 }
 
 export async function getEntitiesAttributesFromClaims (claims, attributes) {

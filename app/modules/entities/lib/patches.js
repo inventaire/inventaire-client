@@ -1,9 +1,10 @@
+import { getEntitiesBasicInfoByUris } from '#entities/lib/entities'
 import preq from '#lib/preq'
 import { unprefixify } from '#lib/wikimedia/wikidata'
 import { i18n } from '#user/lib/i18n'
 import { serializeUser } from '#users/lib/users'
 import { getUsersByIds } from '#users/users_data'
-import { pluck } from 'underscore'
+import { compact, pluck, uniq } from 'underscore'
 
 export async function getEntityPatches (entityId) {
   const { patches } = await preq.get(app.API.entities.history(entityId))
@@ -13,20 +14,42 @@ export async function getEntityPatches (entityId) {
 }
 
 export async function serializePatches (patches) {
-  const usersIds = pluck(patches, 'user')
-  let usersByIds = await getUsersByIds(usersIds)
-  Object.values(usersByIds).forEach(serializeUser)
+  const [ usersByIds, entitiesByUris ] = await Promise.all([
+    getPatchesUsers(patches),
+    getPatchesEntities(patches),
+  ])
   for (const patch of patches) {
-    // TODO: remove once db migration is done
-    patch.operations = patch.operations || patch.patch
-    serializePatch(patch, usersByIds[patch.user])
+    if (patch.user) {
+      patch.user = usersByIds[patch.user]
+    }
+    const uri = getPatchEntityUri(patch)
+    patch.entity = entitiesByUris[uri]
+    serializePatch(patch)
   }
   return patches
 }
 
-function serializePatch (patch, user) {
+async function getPatchesUsers (patches) {
+  const usersIds = compact(pluck(patches, 'user'))
+  let usersByIds = await getUsersByIds(usersIds)
+  Object.values(usersByIds).forEach(serializeUser)
+  return usersByIds
+}
+
+async function getPatchesEntities (patches) {
+  const entitiesUris = uniq(pluck(patches, '_id').map(getEntityIdFromPatchId)).map(id => `inv:${id}`)
+  return getEntitiesBasicInfoByUris(entitiesUris)
+}
+
+const getPatchEntityUri = patch => {
+  const id = getEntityIdFromPatchId(patch._id)
+  return `inv:${id}`
+}
+const getEntityIdFromPatchId = patchId => patchId.split(':')[0]
+
+function serializePatch (patch) {
   const { _id: patchId } = patch
-  const entityId = patchId.split(':')[0]
+  const entityId = getEntityIdFromPatchId(patchId)
   // The first version is an empty document with only the basic attributes:
   // doesn't really count as a version
   const versionNumber = parseInt(patchId.split(':')[1]) - 1
@@ -36,8 +59,6 @@ function serializePatch (patch, user) {
     versionNumber,
   })
   if (patch.user) {
-    patch.user = user
-  } else {
     patch.anonymized = true
   }
   mergeTestAndRemoveOperations(patch)
@@ -65,29 +86,36 @@ function mergeTestAndRemoveOperations (patch) {
 
 function setOperationsData (patch) {
   const { operations, user } = patch
+  for (const operation of operations) {
+    setOperationData(operation, user)
+  }
+}
 
-  for (const op of operations) {
-    if (op.path === '/claims') {
-      op.propertyLabel = 'claims'
-    } else if (op.path === '/labels') {
-      op.propertyLabel = 'labels'
-    } else if (op.path.startsWith('/claims/')) {
-      op.property = op.path
+function setOperationData (operation, user) {
+  const { path } = operation
+  if (path === '/labels') {
+    operation.propertyLabel = 'labels'
+  } else if (path.startsWith('/labels/')) {
+    const lang = _.last(path.split('/'))
+    operation.propertyLabel = `label ${lang}`
+    operation.filter = lang
+  } else if (path === '/claims') {
+    operation.propertyLabel = 'claims'
+  } else if (path.startsWith('/claims/')) {
+    operation.property = path
         .replace(/^\/claims\//, '')
         .replace(/\/\d+$/, '')
-      op.propertyLabel = getPropertyLabel(op.property)
-      op.filter = op.property
-    } else if (op.path.startsWith('/labels/')) {
-      const lang = _.last(op.path.split('/'))
-      op.propertyLabel = `label ${lang}`
-      op.filter = lang
-    } else if (op.path.startsWith('/redirect')) {
-      op.propertyLabel = 'redirect'
-    }
-    if (op.filter) {
-      const { _id: userId } = user
-      op.filterPathname = `/users/${userId}/contributions?filter=${op.filter}`
-    }
+    operation.propertyLabel = getPropertyLabel(operation.property)
+    operation.filter = operation.property
+  } else if (path.startsWith('/redirect')) {
+    operation.propertyLabel = 'redirect'
+  } else if (path === '/type') {
+    operation.propertyLabel = 'type'
+  }
+
+  if (operation.filter) {
+    const { _id: userId } = user
+    operation.filterPathname = `/users/${userId}/contributions?filter=${operation.filter}`
   }
 }
 

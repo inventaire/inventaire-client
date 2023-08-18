@@ -11,7 +11,7 @@
 <li class="operation operation-{op}">
   <div class="op">{op}</div>
   <div class="path" title={path}>{propertyLabel}</div>
-  {#if value}<div class="value">{@html multiTypeValue(value)}</div>{/if}
+  <div class="value">{@html multiTypeValue(value)}</div>
   {#if filter && showContributionFilter}
     <a class="filter" href={filterPathname} on:click={loadInternalLink}>{filter}</a>
   {/if}

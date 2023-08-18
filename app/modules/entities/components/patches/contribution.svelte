@@ -7,10 +7,9 @@
   import { getISOTime, getlocalTimeString, timeFromNow } from '#lib/time'
 
   export let patch
-  export let entity = null
   export let userContributionsContext = false
 
-  const { _id: patchId, patchType, summary, timestamp, operations, user } = patch
+  const { _id: patchId, patchType, summary, timestamp, operations, user, entity } = patch
 
   let showDetails = false
 </script>
@@ -29,21 +28,21 @@
     </button>
     {#if entity}
       <div class="entity">
-        <a class="label showEntity link" href={entity.pathname} on:click={loadInternalLink}>{entity.label}</a>
+        <a class="label link" href={entity.pathname} on:click={loadInternalLink}>{entity.label}</a>
         <p class="meta">
-          <span class="type">{entity.type}</span>
+          <span class="entity-type">{entity.type}</span>
           <span class="patch-id">{patchId}</span>
           <Link
             icon="pencil"
-            url={entity.edit}
+            url={entity.editPathname}
             classNames="link"
-            text={I18n('edit data')}
+            title={I18n('edit data')}
           />
           <Link
             icon="history"
-            url={entity.history}
+            url={entity.historyPathname}
             classNames="link"
-            text={I18n('show entity history')}
+            title={I18n('show entity history')}
           />
         </p>
       </div>
@@ -136,13 +135,17 @@
     max-height: 1.4em;
     margin-inline-end: 0.5em;
   }
-  .type{
-    font-weight: bold;
-  }
-  .patch-id, .type{
+  .patch-id, .entity-type{
     color: $grey;
     font-size: 0.9em;
-    margin-inline-end: 0.5em;
+    margin-inline-end: 0.2em;
+  }
+  .entity-type{
+    font-weight: bold;
+    width: 4em;
+  }
+  .patch-id{
+    width: 17em;
   }
   .changes{
     flex: 1;

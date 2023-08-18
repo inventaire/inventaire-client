@@ -1,7 +1,7 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
-  import { getBasicInfoByUri } from '#entities/lib/entities'
+  import { getEntityBasicInfoByUri } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import IdentifierWithTooltip from './identifier_with_tooltip.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
@@ -13,7 +13,7 @@
 
   $: {
     if (value) {
-      waitingForValueEntityBasicInfo = getBasicInfoByUri(value)
+      waitingForValueEntityBasicInfo = getEntityBasicInfoByUri(value)
         .then(setInfo)
         .catch(err => dispatch('error', err))
     }

@@ -1,10 +1,11 @@
 <script>
   import { isOpenedOutside } from '#lib/utils'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
+  import assert_ from '#lib/assert_types'
 
   export let url
-  export let text
-  export let html
+  export let text = null
+  export let html = null
   export let icon = null
   export let title = ''
   export let light = false
@@ -13,6 +14,8 @@
   export let classNames
   export let tinyButton = false
   export let stopClickPropagation = true
+
+  assert_.string(url)
 
   const isExternalLink = url?.[0] !== '/'
   let target, rel
@@ -47,7 +50,7 @@
   {#if icon}{@html iconFn(icon)}{/if}
   {#if html}
     {@html html}
-  {:else}
+  {:else if text}
     <span class="link-text">{text}</span>
   {/if}
 </a>
