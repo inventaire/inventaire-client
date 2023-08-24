@@ -75,8 +75,9 @@
     inset-inline-end: 0;
     margin: 0;
     padding: 0;
-    font-size: 2rem;
+    font-size: 1.8rem;
     @include text-hover($grey, $dark-grey);
+    background-color: transparent;
   }
   .modal-inner{
     :global(h2){
