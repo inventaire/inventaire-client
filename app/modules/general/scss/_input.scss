@@ -89,7 +89,7 @@ label{
   cursor: pointer;
 }
 
-.inputGroup{
+.inputGroup, .input-group{
   width: 100%;
   @include display-flex(row, left, flex-start);
   margin-block-end: 0.5em;

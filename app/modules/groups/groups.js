@@ -1,9 +1,8 @@
-import log_ from '#lib/loggers'
-import Group from './models/group.js'
 import Groups from './collections/groups.js'
 import initGroupHelpers from './lib/group_helpers.js'
 import fetchData from '#lib/data/fetch'
 import { showUsersHome } from '#users/users'
+import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
 
 export default {
   initialize () {
@@ -62,12 +61,7 @@ const API = {
   showGroupBoard (slug) {
     const pathname = `groups/${slug}/settings`
     if (app.request('require:loggedIn', pathname)) {
-      return app.request('get:group:model', slug)
-      .then(showGroupBoardFromModel)
-      .catch(err => {
-        log_.error(err, 'get:group:model err')
-        app.execute('show:error:missing', { pathname })
-      })
+      return showGroupBoard(slug)
     }
   },
 
@@ -81,18 +75,22 @@ const API = {
   },
 }
 
-const showGroupBoardFromModel = async (group, options = {}) => {
-  const model = group instanceof Backbone.Model ? group : new Group(group)
-  if (model.mainUserIsMember()) {
-    const [ { default: GroupBoard } ] = await Promise.all([
-      import('./views/group_board.js'),
-      model.beforeShow()
-    ])
-    const { openedSection } = options
-    app.layout.showChildView('main', new GroupBoard({ model, standalone: true, openedSection }))
-    app.navigateFromModel(model, 'settingsPathname')
-  } else {
-    // If the user isnt a member, redirect to the standalone group inventory
-    app.execute('show:inventory:group', model, true)
+async function showGroupBoard (slug) {
+  try {
+    let group = await getGroupBySlug(slug)
+    if (mainUserIsGroupMember(group)) {
+      group = serializeGroup(group)
+      const { default: GroupBoard } = await import('#groups/components/group_board.svelte')
+      app.layout.showChildComponent('main', GroupBoard, { props: { group } })
+      app.navigate(group.settingsPathname)
+    } else {
+      API.showGroupInventory(slug)
+    }
+  } catch (err) {
+    app.execute('show:error', err)
   }
+}
+
+async function showGroupBoardFromModel (model) {
+  return showGroupBoard(model.get('slug'))
 }

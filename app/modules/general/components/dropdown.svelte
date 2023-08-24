@@ -15,8 +15,9 @@
   export let buttonRole = null
   export let buttonDisabled = false
   export let transitionDuration = 100
+  export let showDropdown = false
 
-  let showDropdown = false, positionned = false
+  let positionned = false
   let buttonWithDropdown, dropdown, dropdownPositionRight, dropdownPositionLeft, dropdownWrapperEl
   let buttonWidth, dropdownWidth
 
