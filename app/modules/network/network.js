@@ -19,10 +19,6 @@ export default {
 
     new Router({ controller: API })
 
-    app.commands.setHandlers({
-      'show:invite:friend:by:email': API.showInviteFriendByEmail,
-    })
-
     app.reqres.setHandlers({ 'get:network:invitations:count': getNetworkNotificationsCount })
   }
 }
@@ -30,11 +26,6 @@ export default {
 const API = {
   redirectToInventoryNetwork () { app.execute('show:inventory:network') },
   redirectToInventoryPublic () { app.execute('show:inventory:public') },
-
-  async showInviteFriendByEmail () {
-    const { default: InviteByEmail } = await import('./views/invite_by_email.js')
-    app.layout.showChildView('modal', new InviteByEmail())
-  },
 }
 
 const getNetworkNotificationsCount = function () {
