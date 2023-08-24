@@ -1,5 +1,7 @@
 <script>
-  export let large = false, light = false, center = false
+  export let large = false
+  export let light = false
+  export let center = false
 </script>
 
 <!-- The "spinner" class is set on the outer elements to let it be style from parent components -->
@@ -36,16 +38,16 @@
   .small-spinner::after, .spinner-inner::after{
     content: " ";
     display: inline-flex;
-    width: 1em;
-    height: 1em;
-    margin: 0 0.5em;
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.2rem;
     border-radius: 50%;
     animation: ring-loader 1.2s linear infinite;
     border: 2px solid;
   }
 
   .spinner-inner::after{
-    font-size: 5em;
+    font-size: 5rem;
     border-width: 8px;
     border-color: #222 #319cc2 #ffd402 transparent;
   }
