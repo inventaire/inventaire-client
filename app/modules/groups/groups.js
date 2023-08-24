@@ -13,7 +13,7 @@ export default {
         'g(roups)/:id/inventory(/)': 'showGroupInventory',
         'g(roups)/:id/lists(/)': 'showGroupListings',
         'g(roups)/:id/settings(/)': 'showGroupBoard',
-        'g(roups)(/)': 'showSearchGroups',
+        'g(roups)(/)': 'showNetworkLayout',
 
         // Legacy redirections
         'network/groups/create(/)': 'showCreateGroupLayout',
@@ -76,8 +76,8 @@ const API = {
     app.layout.showChildView('modal', new CreateGroupLayout())
   },
 
-  showSearchGroups () {
-    app.execute('show:groups:search')
+  showNetworkLayout () {
+    app.execute('show:inventory:network')
   },
 }
 

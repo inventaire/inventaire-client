@@ -9,7 +9,7 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'u(sers)(/)': 'showHome',
+        'u(sers)(/)': 'showNetworkHome',
         'u(sers)/network(/)': 'showNetworkHome',
         'u(sers)/public(/)': 'showPublicHome',
         'u(sers)/:id(/)': 'showUserProfile',
@@ -69,9 +69,11 @@ export async function showUserListings (user) {
 const API = {
   showHome,
   showNetworkHome () {
+    app.navigate('users/network')
     return showUsersHome({ section: 'network' })
   },
   showPublicHome () {
+    app.navigate('users/public')
     return showUsersHome({ section: 'public' })
   },
   showUserProfile,
