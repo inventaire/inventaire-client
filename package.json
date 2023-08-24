@@ -43,6 +43,7 @@
     "generate-sitemaps": "./scripts/sitemaps/generate.js",
     "lint": "./scripts/lint",
     "lint-fix": "./scripts/lint_fix",
+    "lint-fix-staged": "./scripts/lint_staged fix",
     "lint-staged": "./scripts/lint_staged",
     "postinstall": "./scripts/postinstall",
     "start": "webpack serve --config ./bundle/webpack.config.dev.cjs",
