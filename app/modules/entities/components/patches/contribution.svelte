@@ -121,7 +121,7 @@
     flex: 1 0 0;
   }
   .entity-meta{
-    .link{
+    :global(.link){
       @include shy;
     }
   }
