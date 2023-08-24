@@ -48,6 +48,10 @@
   }
 }
 
+a, button{
+  line-height: 1.5rem;
+}
+
 button{
   border-style: none;
   border-width: 0;
@@ -59,7 +63,6 @@ button{
   display: inline-block;
   background-color: inherit;
   cursor: pointer;
-  @include radius;
   &.disabled, &:disabled{
     cursor: not-allowed;
   }
