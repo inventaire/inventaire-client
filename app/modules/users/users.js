@@ -2,7 +2,6 @@ import { i18n } from '#user/lib/i18n'
 import initUsersCollections from './users_collections.js'
 import initHelpers from './helpers.js'
 import initRequests from './requests.js'
-import initInvitations from './invitations.js'
 import { initRelations } from '#users/lib/relations'
 
 export default {
@@ -25,7 +24,6 @@ export default {
     app.users = initUsersCollections(app)
     initHelpers(app)
     initRequests(app)
-    initInvitations(app)
     initRelations()
 
     app.commands.setHandlers({
