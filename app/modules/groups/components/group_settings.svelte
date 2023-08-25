@@ -28,6 +28,7 @@
       group.name = name = name.trim()
       savingName = updateGroupSetting({ groupId, attribute: 'name', value: name })
       const res = await savingName
+      nameFlash = { type: 'success', message: I18n('saved'), duration: 1000 }
       const { slug } = res.update
       group.slug = slug
       group = serializeGroup(group, { refresh: true })
