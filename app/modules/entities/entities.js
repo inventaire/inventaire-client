@@ -82,10 +82,14 @@ const API = {
     .catch(handleMissingEntity.bind(null, uri))
   },
 
-  showEntityCreateFromRoute () {
-    if (app.request('require:loggedIn', 'entity/new')) {
-      const params = app.request('querystring:get:all')
-      showEntityCreate(params)
+  async showEntityCreateFromRoute () {
+    try {
+      if (app.request('require:loggedIn', 'entity/new')) {
+        const params = app.request('querystring:get:all')
+        await showEntityCreate(params)
+      }
+    } catch (err) {
+      app.execute('show:error', err)
     }
   },
 

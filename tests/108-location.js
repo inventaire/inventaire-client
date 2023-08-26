@@ -58,14 +58,15 @@ describe('location utils', () => {
     })
 
     it('should stringify object value', () => {
-      const path = buildPath('/api', { action: 'man', data: { a: [ 'abc', 2 ] } })
-      path.should.equal('/api?action=man&data={"a":["abc",2]}')
+      const query = { action: 'man', data: { a: [ 'abc', 2 ] } }
+      const path = buildPath('/api', query)
+      path.should.equal(`/api?action=man&data=${encodeURIComponent(JSON.stringify(query.data))}`)
     })
 
     it('should URI encode object values problematic query string characters', () => {
-      const data = { a: 'some string with ?!MM%** problematic characters' }
+      const data = { a: 'some string with ?!MM%** probl&ematic#characters  [] {} ""' }
       const path = buildPath('/api', { data })
-      path.should.equal('/api?data={"a":"some string with %3F!MM%** problematic characters"}')
+      path.should.equal(`/api?data=${encodeURIComponent(JSON.stringify(data))}`)
     })
   })
 })

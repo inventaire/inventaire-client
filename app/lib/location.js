@@ -23,19 +23,15 @@ export const setQuerystring = function (url, key, value) {
 // Split on the first non-alphabetical character
 export const routeSection = route => route.split(/[^\w]/)[0]
 
-export const buildPath = function (pathname, queryObj, escape) {
+export function buildPath (pathname, queryObj) {
   queryObj = removeUndefined(queryObj)
   if ((queryObj == null) || _.isEmpty(queryObj)) return pathname
 
   let queryString = ''
 
-  for (const key in queryObj) {
-    let value = queryObj[key]
-    if (escape) {
-      value = dropSpecialCharacters(value)
-    }
+  for (let [ key, value ] of Object.entries(queryObj)) {
     if (_.isObject(value)) {
-      value = escapeQueryStringValue(JSON.stringify(value))
+      value = encodeURIComponent(JSON.stringify(value))
     }
     queryString += `&${key}=${value}`
   }
@@ -75,16 +71,6 @@ const permissiveJsonParse = input => {
   } else {
     return input
   }
-}
-
-// Only escape values that are problematic in a query string:
-// for the moment, only '?'
-const escapeQueryStringValue = str => str.replace(/\?/g, '%3F')
-
-const dropSpecialCharacters = str => {
-  return str
-  .replace(/\s+/g, ' ')
-  .replace(/(\?|:)/g, '')
 }
 
 const removeUndefined = function (obj) {
