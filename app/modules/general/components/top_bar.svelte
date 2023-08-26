@@ -5,7 +5,7 @@
   import { loadInternalLink } from '#lib/utils'
   import GlobalSearchBar from '#search/components/global_search_bar.svelte'
   import TopBarButtons from '#components/top_bar_buttons.svelte'
-  import { locationStore } from '#lib/location'
+  import { locationStore } from '#lib/location_store'
   const { loggedIn } = app.user
 
   let displayConnectionButtons = false
