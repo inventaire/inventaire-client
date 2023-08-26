@@ -3,92 +3,73 @@ import { tryAsync, tap, props as promiseProps, waitForAttribute, wait } from '#l
 import { shouldNotBeCalled } from '#tests/utils/utils'
 
 global.window = global
-const undesiredRes = done => res => {
-  done(new Error('.then was not expected to be called'))
+const undesiredRes = res => {
   console.warn('undesired res', res)
+  throw new Error('.then was not expected to be called')
 }
 
 describe('promises', () => {
   describe('tryAsync', () => {
-    it('should be a function', done => {
+    it('should be a function', () => {
       tryAsync.should.be.a.Function()
-      done()
     })
 
-    it('should return a resolved promise when passed a function not throwing', done => {
-      tryAsync(() => 'hello')
-      .then(res => {
-        res.should.equal('hello')
-        done()
-      })
-      .catch(done)
+    it('should return a resolved promise when passed a function not throwing', async () => {
+      const res = await tryAsync(() => 'hello')
+      res.should.equal('hello')
     })
 
-    it('should return a rejected promise when passed a function throwing', done => {
-      tryAsync(() => { throw new Error('oh no') })
-      .then(undesiredRes(done))
+    it('should return a rejected promise when passed a function throwing', async () => {
+      await tryAsync(() => { throw new Error('oh no') })
+      .then(undesiredRes)
       .catch(err => {
         err.message.should.equal('oh no')
-        done()
       })
-      .catch(done)
     })
   })
 
   describe('props', () => {
-    it('should be a function', done => {
+    it('should be a function', () => {
       promiseProps.should.be.a.Function()
-      done()
     })
 
-    it('should return the resolved promise in an object', done => {
-      promiseProps({
+    it('should return the resolved promise in an object', async () => {
+      const res = await promiseProps({
         a: Promise.resolve(123),
         b: Promise.resolve(456)
       })
-      .then(res => {
-        res.a.should.equal(123)
-        res.b.should.equal(456)
-        done()
-      })
-      .catch(done)
+      res.a.should.equal(123)
+      res.b.should.equal(456)
     })
 
-    it('should return a rejected promise if one of the promises fail', done => {
-      promiseProps({
+    it('should return a rejected promise if one of the promises fail', async () => {
+      await promiseProps({
         a: 123,
         b: Promise.reject(new Error('foo'))
       })
-      .then(undesiredRes(done))
+      .then(undesiredRes)
       .catch(err => {
         err.message.should.equal('foo')
-        done()
       })
-      .catch(done)
     })
 
-    it('should return direct values in an object', done => {
-      promiseProps({
+    it('should return direct values in an object', async () => {
+      const res = await promiseProps({
         a: 1,
         b: 2
       })
-      .then(res => {
-        res.a.should.equal(1)
-        res.b.should.equal(2)
-        done()
-      })
-      .catch(done)
+      res.a.should.equal(1)
+      res.b.should.equal(2)
     })
   })
 
   describe('tap', () => {
-    it('should be a function', done => {
+    it('should be a function', () => {
       tap.should.be.a.Function()
-      done()
     })
 
-    it('should not alter the passed result', done => {
-      Promise.resolve({ a: 1, b: 2 })
+    it('should not alter the passed result', async () => {
+      await Promise.resolve({ a: 1, b: 2 })
       .then(tap(res => {
         res.a.should.equal(1)
         res.b.should.equal(2)
@@ -96,30 +77,24 @@ describe('promises', () => {
       .then(res => {
         res.a.should.equal(1)
         res.b.should.equal(2)
-        done()
       })
-      .catch(done)
     })
 
-    it('should pass errors', done => {
-      Promise.reject(new Error('hello'))
-      .then(tap(undesiredRes(done)))
+    it('should pass errors', async () => {
+      await Promise.reject(new Error('hello'))
+      .then(tap(undesiredRes))
       .catch(err => {
         err.message.should.equal('hello')
-        done()
       })
-      .catch(done)
     })
 
-    it('should not fail silently', done => {
-      Promise.resolve({ a: 1, b: 2 })
+    it('should not fail silently', async () => {
+      await Promise.resolve({ a: 1, b: 2 })
       .then(tap(() => { throw new Error('oh no') }))
-      .then(undesiredRes(done))
+      .then(undesiredRes)
       .catch(err => {
         err.message.should.equal('oh no')
-        done()
       })
-      .catch(done)
     })
   })
 
@@ -143,7 +118,7 @@ describe('promises', () => {
       await waitForAttribute(null, 'waitForA')
       .then(shouldNotBeCalled)
       .catch(err => {
-        err.name.should.equal('TypeError')
+        err.name.should.equal('Error')
       })
     })
 

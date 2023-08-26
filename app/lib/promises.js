@@ -45,7 +45,7 @@ if (window.addEventListener != null) {
 
 // Returns a promise that resolves when the target object
 // has the desired attribute set, and that the associated value has resolved
-export const waitForAttribute = (obj, attribute, options = {}) => {
+export async function waitForAttribute (obj, attribute, options = {}) {
   assert_.object(obj)
   assert_.string(attribute)
   assert_.object(options)
