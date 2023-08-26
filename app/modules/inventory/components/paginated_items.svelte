@@ -76,7 +76,9 @@
       {/if}
     {:else}
       {#await waiting}
-        <Spinner center={true} />
+        <div class="spinner-wrapper">
+          <Spinner center={true} />
+        </div>
       {:then}
         {#if items?.length === 0}
           <p class="no-item">{i18n('There is nothing here')}</p>
@@ -91,6 +93,9 @@
   @import "#general/scss/utils";
   .paginated-items{
     min-height: 20em;
+  }
+  // Use a wrapping div to limit the global rule to just that spinner
+  .spinner-wrapper{
     :global(.spinner){
       margin: 1em;
     }

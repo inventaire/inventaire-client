@@ -4,7 +4,6 @@ export default function () {
   app.commands.setHandlers({
     'show:position:picker:main:user': showMainUserPositionPicker,
     'show:position:picker:group': showGroupPositionPicker,
-    'show:models:on:map': showModelsOnMap
   })
 
   app.reqres.setHandlers({
@@ -27,12 +26,4 @@ const promptGroupPositionPicker = async () => {
       reject(err)
     }
   })
-}
-
-const showModelsOnMap = async models => {
-  const [ { default: SimpleMap } ] = await Promise.all([
-    import('./views/simple_map.js'),
-    getLeaflet(),
-  ])
-  app.layout.showChildView('modal', new SimpleMap({ models }))
 }

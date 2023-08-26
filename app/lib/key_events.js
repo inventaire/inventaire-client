@@ -19,3 +19,7 @@ const actionKeysMap = {
   39: 'right',
   40: 'down'
 }
+
+export function stopEscPropagation (e) {
+  if (getActionKey(e) === 'esc') e.stopPropagation()
+}

@@ -2,10 +2,12 @@ import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
-import { pluck } from 'underscore'
+import { findWhere, pluck, without } from 'underscore'
 import { getColorSquareDataUriFromModelId } from '#lib/images'
 import { fixedEncodeURIComponent } from '#lib/utils'
 import { getCachedSerializedUsers } from '#users/helpers'
+import { getUserById } from '#users/users_data'
+import { serializeUser } from '#users/lib/users'
 
 export default {
   createGroup (data) {
@@ -102,8 +104,8 @@ export async function getCachedSerializedGroupMembers (group) {
   return getCachedSerializedUsers(allMembersIds)
 }
 
-export function serializeGroup (group) {
-  if (group._serialized) return group
+export function serializeGroup (group, options) {
+  if (group._serialized && !(options?.refresh)) return group
   const slug = fixedEncodeURIComponent(group.slug)
   const base = `/groups/${slug}`
   if (group.picture == null) {
@@ -126,4 +128,94 @@ export function serializeGroup (group) {
 export async function getGroup (groupId) {
   const { group } = await preq.get(app.API.groups.byId(groupId))
   return group
+}
+
+export async function getGroupBySlug (slug) {
+  const { group } = await preq.get(app.API.groups.bySlug(slug))
+  return group
+}
+
+function findMembership (group, category, userId) {
+  return findWhere(group[category], { user: userId })
+}
+
+export function findInvitation (group, userId) {
+  return findMembership(group, 'invited', userId)
+}
+
+export async function findMainUserInvitor (group) {
+  const invitation = findInvitation(group, app.user.id)
+  if (invitation) return getUserById(invitation.invitor)
+}
+
+export async function updateGroupSetting ({ groupId, attribute, value }) {
+  return preq.put(app.API.groups.base, {
+    action: 'update-settings',
+    group: groupId,
+    attribute,
+    value,
+  })
+}
+
+async function groupAction (action, groupId, targetUserId) {
+  return preq.put(app.API.groups.base, {
+    action,
+    group: groupId,
+    user: targetUserId,
+  })
+}
+
+export function acceptGroupInvitation ({ groupId }) {
+  return groupAction('accept', groupId)
+}
+export function declineGroupInvitation ({ groupId }) {
+  return groupAction('decline', groupId)
+}
+export function requestToJoinGroup ({ groupId }) {
+  return groupAction('request', groupId)
+}
+export function cancelJoinGroupRequest ({ groupId }) {
+  return groupAction('cancel-request', groupId)
+}
+export function inviteUserToJoinGroup ({ groupId, invitedUserId }) {
+  return groupAction('invite', groupId, invitedUserId)
+}
+export function acceptRequestToJoinGroup ({ groupId, requesterId }) {
+  return groupAction('accept-request', groupId, requesterId)
+}
+export function refuseRequestToJoinGroup ({ groupId, requesterId }) {
+  return groupAction('refuse-request', groupId, requesterId)
+}
+export function makeUserGroupAdmin ({ groupId, userId }) {
+  return groupAction('make-admin', groupId, userId)
+}
+export function kickUserOutOfGroup ({ groupId, userId }) {
+  return groupAction('kick', groupId, userId)
+}
+export function leaveGroup ({ groupId }) {
+  return groupAction('leave', groupId)
+}
+
+export function moveMembership (group, userId, previousCategory, newCategory) {
+  const membership = findMembership(group, previousCategory, userId)
+  if (previousCategory) group[previousCategory] = without(group[previousCategory], membership)
+  if (newCategory) group[newCategory] = group[newCategory].concat([ membership ])
+  return group
+}
+
+export function serializeGroupUser (group) {
+  const adminsIds = new Set(pluck(group.admins, 'user'))
+  const membersIds = new Set(pluck(group.members, 'user'))
+  const requestedIds = new Set(pluck(group.requested, 'user'))
+  const invitedIds = new Set(pluck(group.invited, 'user'))
+  const declinedIds = new Set(pluck(group.declined, 'user'))
+  return user => {
+    user = serializeUser(user)
+    user.isGroupAdmin = adminsIds.has(user._id)
+    user.isGroupMember = adminsIds.has(user._id) || membersIds.has(user._id)
+    user.requestedToJoinGroup = requestedIds.has(user._id)
+    user.wasInvitedToJoinGroup = invitedIds.has(user._id)
+    user.declinedToJoinGroup = declinedIds.has(user._id)
+    return user
+  }
 }

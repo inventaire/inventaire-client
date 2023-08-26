@@ -17,6 +17,7 @@
   function select (e) {
     if (!isOpenedOutside(e)) {
       dispatch('select', { type: 'user', doc })
+      e.preventDefault()
     }
   }
 </script>

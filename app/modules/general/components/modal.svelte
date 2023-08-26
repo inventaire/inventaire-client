@@ -1,3 +1,7 @@
+<script context="module">
+  let openModalsCount = 0
+</script>
+
 <script>
   import { getActionKey } from '#lib/key_events'
   import { icon } from '#lib/handlebars_helpers/icons'
@@ -15,8 +19,14 @@
     if (key === 'esc') close()
   }
 
-  onMount(() => app.vent.trigger('overlay:shown'))
-  onDestroy(() => app.vent.trigger('overlay:hidden'))
+  onMount(() => {
+    if (openModalsCount === 0) app.vent.trigger('overlay:shown')
+    openModalsCount++
+  })
+  onDestroy(() => {
+    openModalsCount--
+    if (openModalsCount === 0) app.vent.trigger('overlay:hidden')
+  })
 </script>
 
 <div

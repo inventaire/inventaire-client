@@ -28,7 +28,7 @@
   <ItemNotes bind:item bind:flash />
 {:else}
   <ItemMixedBox {item} />
-  <ItemRequestBox {item} />
+  <ItemRequestBox {item} {user} />
   {#if details}
     <ItemDetails bind:item bind:flash />
   {/if}

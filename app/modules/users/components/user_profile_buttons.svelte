@@ -6,14 +6,18 @@
   import assert_ from '#lib/assert_types'
   import { updateRelationStatus } from '#users/lib/relations'
   import Spinner from '#components/spinner.svelte'
-  import User from '#users/models/user'
+  import { user as mainUser } from '#user/user_store'
   import { serializeUser } from '#users/lib/users'
+  import LeafletMap from '#map/components/leaflet_map.svelte'
+  import UserMarker from '#map/components/user_marker.svelte'
+  import Marker from '#map/components/marker.svelte'
+  import app from '#app/app'
 
   export let user, flash
 
   const { username, isMainUser, distanceFromMainUser } = serializeUser(user)
 
-  let showShelfCreator
+  let showShelfCreator, showUserOnMap
 
   let relationState
   if (user.friends) relationState = 'friends'
@@ -57,11 +61,6 @@
     const confirmationText = I18n(`${actionLabel}_confirmation`, { username })
     app.execute('ask:confirmation', { confirmationText, warningText, action })
   }
-
-  function showUserOnMap () {
-    const userModel = new User(user)
-    app.execute('show:models:on:map', [ userModel, app.user ])
-  }
 </script>
 
 <div class="profile-buttons">
@@ -91,8 +90,8 @@
   {:else}
     {#if distanceFromMainUser}
       <button
-        class="showUserOnMap tiny-button light-blue"
-        on:click={showUserOnMap}
+        class="show-user-on-map tiny-button light-blue"
+        on:click={() => showUserOnMap = true}
       >
         {@html icon('map-marker')}
         <span class="label">
@@ -148,13 +147,27 @@
 </div>
 
 {#if showShelfCreator}
-  <Modal on:closeModal={() => showShelfCreator = false}
-  >
+  <Modal on:closeModal={() => showShelfCreator = false}>
     <ShelfEditor
       shelf={{}}
       inGlobalModal={false}
       on:shelfEditorDone={() => showShelfCreator = false}
     />
+  </Modal>
+{/if}
+
+{#if showUserOnMap}
+  <Modal size="large" on:closeModal={() => showUserOnMap = false}>
+    <div class="map">
+      <LeafletMap bounds={[ user.position, $mainUser.position ]}>
+        <Marker latLng={user.position}>
+          <UserMarker doc={user} on:select={() => showUserOnMap = false} />
+        </Marker>
+        <Marker latLng={$mainUser.position}>
+          <UserMarker doc={$mainUser} on:select={() => app.navigateAndLoad($mainUser.pathname)} />
+        </Marker>
+      </LeafletMap>
+    </div>
   </Modal>
 {/if}
 
@@ -177,6 +190,9 @@
       @include display-flex(row, center, flex-start);
     }
   }
+  .map{
+    height: 80vh;
+  }
   /* Large screens */
   @media screen and (min-width: $smaller-screen){
     .profile-buttons{
@@ -193,7 +209,7 @@
       margin-block-end: 0.5em;
       flex-direction: column;
     }
-    .showUserOnMap{
+    .show-user-on-map{
       margin-block-end: 1em;
     }
     .action{

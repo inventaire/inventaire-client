@@ -7,6 +7,8 @@
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
+  import InviteByEmail from '#users/components/invite_by_email.svelte'
+  import Modal from '#components/modal.svelte'
 
   export let focusedSection
 
@@ -22,7 +24,7 @@
     .then(() => groups = app.groups.toJSON())
     .catch(err => flash = err)
 
-  let showUsersMenu, showGroupsMenu
+  let showUsersMenu, showGroupsMenu, showInviteFriendByEmail
 
   let selectedUser, selectedGroup
   function onSelectUser (e) {
@@ -53,7 +55,7 @@
       {/if}
       <div id="userMenu" class="buttons">
         {#if showUsersMenu}
-          <button on:click={app.Execute('show:invite:friend:by:email')}
+          <button on:click={() => showInviteFriendByEmail = true}
           >
             {@html icon('envelope')}
             {I18n('invite')}
@@ -131,6 +133,12 @@
   {/key}
 {:else}
   <PaginatedSectionItems sectionRequestName="items:getNetworkItems" />
+{/if}
+
+{#if showInviteFriendByEmail}
+  <Modal on:closeModal={() => showInviteFriendByEmail = false}>
+    <InviteByEmail />
+  </Modal>
 {/if}
 
 <Flash state={flash} />

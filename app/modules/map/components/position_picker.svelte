@@ -8,6 +8,7 @@
   import Spinner from '#components/spinner.svelte'
   import { createEventDispatcher } from 'svelte'
   import { wait } from '#lib/promises'
+  import { truncateDecimals } from '#map/lib/geo'
 
   export let type
   export let position
@@ -37,7 +38,7 @@
 
   function getMapCenterLatLng () {
     const { lat, lng } = map.getCenter()
-    return [ lat, lng ]
+    return [ lat, lng ].map(truncateDecimals)
   }
 
   function updateMarker () {

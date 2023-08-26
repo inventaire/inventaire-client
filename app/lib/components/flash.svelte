@@ -13,6 +13,7 @@
   }
 
   const findIcon = type => types[type]?.iconName
+
   $: {
     if (state instanceof Error) {
       type = 'error'
@@ -22,6 +23,12 @@
     } else {
       type = state?.type
       iconName = findIcon(type)
+    }
+    if (state?.duration) {
+      const stateToRemove = state
+      setTimeout(() => {
+        if (state === stateToRemove) state = null
+      }, state.duration)
     }
   }
 </script>

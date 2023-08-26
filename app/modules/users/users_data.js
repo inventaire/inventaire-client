@@ -1,6 +1,14 @@
 import { forceArray } from '#lib/utils'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
+
+export async function searchUsers (text) {
+  // catches case with ''
+  if (!text) return []
+  const { users } = await preq.get(app.API.users.search(text))
+  return users
+}
+
 export default {
   get (ids, format = 'index', refresh) {
     let promise
@@ -17,14 +25,7 @@ export default {
     .catch(log_.ErrorRethrow('users_data get err'))
   },
 
-  async search (text) {
-    // catches case with ''
-    if (_.isEmpty(text)) return []
-
-    return preq.get(app.API.users.search(text))
-    .then(({ users }) => users)
-    .catch(log_.ErrorRethrow('users_data search err'))
-  },
+  search: searchUsers,
 
   async byUsername (username) {
     return preq.get(app.API.users.byUsername(username))
@@ -41,4 +42,9 @@ export async function getUsersByIds (ids) {
 const formatData = (format, data) => {
   if (format === 'collection') return _.values(data)
   else return data
+}
+
+export async function getUserById (id) {
+  const users = await getUsersByIds([ id ])
+  return users[id]
 }
