@@ -7,7 +7,9 @@
 
   export let group
 
-  const { name, pathname, picture, searchable } = group
+  const { _id: groupId, name, picture, searchable } = group
+  // The group name might be changed in the settings, so group.pathname would become obsolete
+  const permalink = `/groups/${groupId}`
 
   let invitor
 
@@ -16,7 +18,7 @@
 </script>
 
 <div class="group-board-header">
-  <a href={pathname} on:click={loadInternalLink} class="cover-link">
+  <a href={permalink} on:click={loadInternalLink} class="cover-link">
     {#if picture}
       <div class="group-cover-picture">
         <img src={imgSrc(picture, 540)} alt="" />
@@ -50,7 +52,7 @@
     <GroupActions bind:group />
   </div>
 
-  <a href={pathname} on:click={loadInternalLink} class="tiny-button light-blue">
+  <a href={permalink} on:click={loadInternalLink} class="tiny-button light-blue">
     {I18n("go to the group's inventory")}
   </a>
 </div>
