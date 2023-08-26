@@ -1,5 +1,5 @@
 import 'should'
-import { getTimeFromNowData } from '#lib/time_from_now'
+import { getTimeFromNowData } from '#lib/time'
 
 describe('time from now', () => {
   it('should be a function', done => {
