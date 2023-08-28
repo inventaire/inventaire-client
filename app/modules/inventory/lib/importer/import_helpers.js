@@ -138,9 +138,15 @@ const findIsbn = data => {
 }
 
 const serializeResolverEntry = data => {
-  const { editionTitle, lang, rawEntry } = data
-  let { isbn, authors = [] } = data
+  const { lang, rawEntry, works: resolvedWorks } = data
+  // work as resolved by EntityResolverInput
+  const resolvedWork = resolvedWorks[0]
+  let { editionTitle, isbn, authors = [] } = data
   const labelLang = lang || app.user.lang
+
+  if (resolvedWork && !editionTitle) {
+    editionTitle = resolvedWork.label
+  }
 
   const edition = {
     claims: {
@@ -151,8 +157,15 @@ const serializeResolverEntry = data => {
   isbn = findIsbn(data)
   if (isbn) Object.assign(edition, { isbn })
 
-  const work = { labels: {}, claims: {} }
-  work.labels[labelLang] = editionTitle
+  let work
+  if (resolvedWork?.uri) {
+    work = {
+      uri: resolvedWork.uri
+    }
+  } else {
+    work = { labels: {}, claims: {} }
+    work.labels[labelLang] = editionTitle
+  }
 
   if (data.publicationDate != null) edition.claims['wdt:P577'] = data.publicationDate
   if (data.numberOfPages != null) edition.claims['wdt:P1104'] = data.numberOfPages
