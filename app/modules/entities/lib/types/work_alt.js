@@ -1,7 +1,6 @@
 import getBestLangValue from '../get_best_lang_value.js'
 import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath } from '../entities.js'
 import { pluck } from 'underscore'
-import { isNonEmptyPlainObject } from '#lib/boolean_tests.js'
 
 export async function addWorksImagesAndAuthors (works) {
   await Promise.all([
@@ -31,7 +30,7 @@ async function addMissingImages (entities) {
   const imagesByUri = await getEntitiesImages(uris)
   entities.forEach(entity => {
     const entityImages = imagesByUri[entity.uri]
-    if (isNonEmptyPlainObject(entityImages)) setEntityImages(entity, entityImages)
+    setEntityImages(entity, entityImages)
   })
 }
 
