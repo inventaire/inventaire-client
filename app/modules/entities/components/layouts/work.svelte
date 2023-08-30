@@ -22,10 +22,11 @@
   import { scrollToElement } from '#lib/screen'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
+  import Flash from '#lib/components/flash.svelte'
 
   export let entity, standalone
 
-  let showMap, itemsListsWrapperEl, mapWrapperEl
+  let showMap, itemsListsWrapperEl, mapWrapperEl, flash
 
   const { uri, type } = entity
   let editionsUris
@@ -51,7 +52,7 @@
     editions = initialEditions
   }
 
-  let editionsWithPublishers = getEditionsWithPublishers()
+  let waitingForEditions = getEditionsWithPublishers().catch(err => flash = err)
 
   async function showMapAndScrollToMap () {
     showMap = true
@@ -80,6 +81,7 @@
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       <div class="work-section">
+        <Flash state={flash} />
         <EntityTitle {entity} {standalone} />
         <AuthorsInfo {claims}
         />
