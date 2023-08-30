@@ -101,7 +101,7 @@
 
   .wrapper{
     @include display-flex(row, space-between);
-    margin-block-start: 0.5em;
+    margin-block: 0.5em;
     &:not(.unwrapped){
       @include display-flex(column, flex-end);
     }
