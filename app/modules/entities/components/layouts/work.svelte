@@ -107,7 +107,7 @@
         class="editions-section-wrapper"
         class:no-edition={!hasSomeInitialEditions}
       >
-        {#await editionsWithPublishers}
+        {#await waitingForEditions}
           <div class="loading-wrapper">
             <p class="loading">{i18n('Looking for editions…')}
               <Spinner />
@@ -126,7 +126,7 @@
         {/await}
       </div>
     </div>
-    {#await editionsWithPublishers then}
+    {#await waitingForEditions then}
       {#if someEditions}
         <div class="items-lists-section">
           <ItemsLists
