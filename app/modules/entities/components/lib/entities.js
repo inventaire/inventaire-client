@@ -28,7 +28,7 @@ const urisGetterByType = {
     return [
       { label: I18n('series'), uris: pluck(series, 'uri') },
       { label: I18n('works'), uris: pluck(works, 'uri') },
-      { label: I18n('articles'), uris: pluck(articles, 'uri') },
+      { label: I18n('articles'), uris: pluck(articles, 'uri'), searchable: false },
     ]
   },
   publisher: async entity => {
@@ -37,7 +37,7 @@ const urisGetterByType = {
     const { collections, editions } = await preq.get(app.API.entities.publisherPublications(uri))
     return [
       { label: I18n('collections'), uris: pluck(collections, 'uri') },
-      { label: I18n('editions'), uris: pluck(editions, 'uri') },
+      { label: I18n('editions'), uris: pluck(editions, 'uri'), searchable: false },
     ]
   },
   collection: async entity => {
@@ -45,14 +45,14 @@ const urisGetterByType = {
 
     const uris = await getReverseClaims('wdt:P195', uri)
     return [
-      { label: I18n('editions'), uris },
+      { label: I18n('editions'), uris, searchable: false },
     ]
   },
   article: async entity => {
     const { claims } = entity
     const uris = claims['wdt:P2860']
     return [
-      { label: I18n('cites articles'), uris },
+      { label: I18n('cites articles'), uris, searchable: false },
     ]
   },
   claim: async (entity, property) => {

@@ -16,7 +16,7 @@
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
-  const { entities: works } = section
+  const { entities: works, searchable = true } = section
   let { label, context } = section
 
   let filteredWorks = works
@@ -31,6 +31,10 @@
 
   function filterWorks () {
     if (!facetsSelectedValues) return
+    if (textFilterUris && !searchable) {
+      filteredWorks = []
+      return
+    }
     let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
     if (textFilterUris) selectedUris = setIntersection(selectedUris, textFilterUris)
     filteredWorks = works.filter(filterSelectedWorks(selectedUris, facetsSelectedValues))
@@ -50,6 +54,7 @@
     return facetsSelectedValues['wdt:P195'] === uri
   }
 
+  $: disabled = (textFilterUris && !searchable)
   $: onChange(facetsSelectedValues, textFilterUris, filterWorks)
 
   const worksPerRow = 8
@@ -102,6 +107,8 @@
 <div
   class="works-browser-section"
   class:section-without-work={!anyWork}
+  class:disabled
+  title={disabled ? i18n('Searching is not possible for this section yet') : ''}
 >
   {#if label}
     <SectionLabel
@@ -155,6 +162,9 @@
     padding: 0.5em;
     margin-block-end: 0.5em;
     @include display-flex(column, flex-start);
+    &.disabled{
+      opacity: 0.5;
+    }
   }
   .section-without-work{
     @include display-flex(row, center);
