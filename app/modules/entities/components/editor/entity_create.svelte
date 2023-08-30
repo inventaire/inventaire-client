@@ -11,6 +11,7 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
   import PropertyCategory from '#entities/components/editor/property_category.svelte'
+  import { pick } from 'underscore'
 
   export let type = 'works', claims, label
 
@@ -60,6 +61,9 @@
 
   async function createAndShowEntity () {
     try {
+      // entity.claims might still contain values that were entered
+      // while `type` was set to another value
+      entity.claims = pick(entity.claims, Object.keys(typeProperties))
       const { uri } = await createAndGetEntity(entity)
       app.execute('show:entity', uri)
     } catch (err) {
