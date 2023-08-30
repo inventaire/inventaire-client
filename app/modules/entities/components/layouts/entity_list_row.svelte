@@ -1,3 +1,15 @@
+<script context="module">
+  const typeMainProperty = {
+    author: 'wdt:P50',
+    publisher: 'wdt:P123',
+    genre: 'wdt:P136',
+    series: 'wdt:P179',
+    collection: 'wdt:P195',
+    edition: 'wdt:P629',
+    translator: 'wdt:P655',
+    subject: 'wdt:P921',
+  }
+</script>
 <script>
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
   import { omitClaims } from '#entities/components/lib/work_helpers'
@@ -13,17 +25,6 @@
     displayUri
 
   let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri } = entity
-
-  const typeMainProperty = {
-    author: 'wdt:P50',
-    publisher: 'wdt:P123',
-    genre: 'wdt:P136',
-    series: 'wdt:P179',
-    collection: 'wdt:P195',
-    edition: 'wdt:P629',
-    translator: 'wdt:P655',
-    subject: 'wdt:P921',
-  }
 
   const layoutContext = getContext('layout-context')
 
