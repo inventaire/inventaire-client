@@ -1,6 +1,6 @@
 import { isWikidataItemUri } from '#lib/boolean_tests'
 import { i18n, I18n } from '#user/lib/i18n'
-import properties from '#entities/lib/properties'
+import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { unprefixify } from '#lib/wikimedia/wikidata'
 import preq from '#lib/preq'
 
@@ -26,8 +26,7 @@ export function checkWikidataMoveabilityStatus (entity) {
 
   for (const property in claims) {
     const values = claims[property]
-    // Known case where properties[property] is undefined: wdt:P31
-    if (properties[property]?.editorType === 'entity') {
+    if (propertiesEditorsConfigs[property]?.editorType === 'entity') {
       for (const value of values) {
         if (!isWikidataItemUri(value)) {
           const message = I18n("some values aren't Wikidata entities:")

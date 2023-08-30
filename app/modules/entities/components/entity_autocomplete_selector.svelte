@@ -25,10 +25,10 @@
   export let displaySuggestionType = false
   export let autofocus = true
   export let showSuggestions = false
-
   const dispatch = createEventDispatcher()
 
   let input
+  const initialEntityLabel = currentEntityLabel
 
   let suggestions = []
   let scrollableElement
@@ -59,8 +59,9 @@
   // TODO: detect uris and get the corresponding entities
   async function search (options = {}) {
     const { fetchMore = false } = options
+    searchText = input.value
+    if (isNotSearchableServerSide) return filterExistingSuggestions(searchText)
     try {
-      searchText = input.value
       if (searchText.length === 0) return
       if (searchText === lastSearch) {
         if (fetching || !fetchMore || !canFetchMore) return
@@ -96,6 +97,15 @@
     const currentSuggestionsUris = new Set(_.map(suggestions, 'uri'))
     return newSuggestions.filter(suggestion => !currentSuggestionsUris.has(suggestion.uri))
   }
+
+  function filterExistingSuggestions (searchText) {
+    // Display all suggestions if search text is the initial label value,
+    // to avoid filtering on an existing value, and instead dislay all those default suggestions.
+    if (searchText === '' || searchText === initialEntityLabel) return suggestions = defaultSuggestions
+    suggestions = defaultSuggestions.filter(matchLabelOrDescription)
+  }
+
+  const matchLabelOrDescription = entity => entity.label.match(searchText) || entity.description.match(searchText)
 
   const lazySearch = _.debounce(search, 200)
 
@@ -155,14 +165,17 @@
         property: relationProperty
       })
       fetching = false
-      if (defaultSuggestions && searchText === '') suggestions = defaultSuggestions
+      if (defaultSuggestions && canDefaultSuggestionsBeDisplayed) suggestions = defaultSuggestions
     } catch (err) {
       showSuggestions = false
       dispatch('error', err)
     }
   }
 
-  $: if (showDefaultSuggestions && searchText === '') fetchDefaultSuggestions()
+  const notSearchableProps = [ 'wdt:P31', 'wdt:P437' ]
+  const isNotSearchableServerSide = notSearchableProps.includes(relationProperty)
+  const canDefaultSuggestionsBeDisplayed = isNotSearchableServerSide || (showDefaultSuggestions && searchText === '')
+  $: if (canDefaultSuggestionsBeDisplayed) fetchDefaultSuggestions()
 
   let autocompleteDropdownEl
   function scrollToSuggestionsDropdownIfNeeded () {

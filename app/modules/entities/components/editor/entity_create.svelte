@@ -2,21 +2,23 @@
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import LabelsEditor from './labels_editor.svelte'
-  import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
+  import { propertiesPerType, propertiesPerTypeAndCategory, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import { entityTypeNameBySingularType, typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
   import Flash from '#lib/components/flash.svelte'
-  import { getMissingRequiredProperties, getPropertiesShortlist } from '#entities/components/editor/lib/create_helpers'
+  import { getMissingRequiredProperties, getPropertiesShortlist, removeNonTypeProperties } from '#entities/components/editor/lib/create_helpers'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
+  import PropertyCategory from '#entities/components/editor/property_category.svelte'
+  import { pick } from 'underscore'
 
   export let type = 'works', claims, label
 
   const canChangeType = !(type && claims)
 
-  let showAllProperties = false, displayedProperties, flash
-  let typeProperties, propertiesShortlist, hasMonolingualTitle, createAndShowLabel, requiresLabel, requiredProperties
+  let showAllProperties = false, flash
+  let typeProperties, typePropertiesPerCategory, propertiesShortlist, hasMonolingualTitle, createAndShowLabel, requiresLabel, requiredProperties
   let entity = {
     type,
     labels: {},
@@ -24,31 +26,22 @@
   }
 
   function onTypeChange () {
+    entity.type = type
     typeProperties = propertiesPerType[type]
-    removeInvalidProperties(entity.claims, typeProperties)
+    typePropertiesPerCategory = propertiesPerTypeAndCategory[type]
+    removeNonTypeProperties(entity.claims, typeProperties)
     hasMonolingualTitle = typeProperties['wdt:P1476'] != null
     requiresLabel = !hasMonolingualTitle
+    entity.claims['wdt:P31'] = [ typeDefaultP31[type] ]
     propertiesShortlist = getPropertiesShortlist(type, entity.claims)
     requiredProperties = requiredPropertiesPerType[type] || []
     const typePossessive = typesPossessiveForms[type]
     createAndShowLabel = `create and go to the ${typePossessive} page`
     showAllProperties = false
-    entity.type = type
-    entity.claims['wdt:P31'] = [ typeDefaultP31[type] ]
     app.execute('querystring:set', 'type', type)
   }
 
-  function removeInvalidProperties (claims, typeProperties) {
-    Object.keys(claims).forEach(property => {
-      if (typeProperties[property] == null) delete claims[property]
-    })
-  }
-
   $: type && onTypeChange()
-
-  $: {
-    displayedProperties = showAllProperties ? typeProperties : _.pick(typeProperties, propertiesShortlist)
-  }
 
   let missingRequiredProperties
   function onEntityChange () {
@@ -68,6 +61,9 @@
 
   async function createAndShowEntity () {
     try {
+      // entity.claims might still contain values that were entered
+      // while `type` was set to another value
+      entity.claims = pick(entity.claims, Object.keys(typeProperties))
       const { uri } = await createAndGetEntity(entity)
       app.execute('show:entity', uri)
     } catch (err) {
@@ -90,15 +86,29 @@
       />
     {/if}
 
-    {#if typeProperties}
+    {#if typePropertiesPerCategory}
       <ul>
-        {#each Object.keys(displayedProperties) as property (property)}
-          <PropertyClaimsEditor
-            bind:entity
-            {property}
-            required={requiredProperties.includes(property)}
-          />
-        {/each}
+        <!-- Fully regenerate block on type change to get type-specific custom labels -->
+        {#key type}
+          {#if showAllProperties}
+            {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
+              <PropertyCategory
+                {entity}
+                {category}
+                {categoryProperties}
+                {requiredProperties}
+              />
+            {/each}
+          {:else}
+            {#each propertiesShortlist as property (property)}
+              <PropertyClaimsEditor
+                bind:entity
+                {property}
+                required={requiredProperties.includes(property)}
+              />
+            {/each}
+          {/if}
+        {/key}
       </ul>
     {/if}
 

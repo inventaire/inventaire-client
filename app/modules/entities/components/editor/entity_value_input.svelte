@@ -2,11 +2,11 @@
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { createEventDispatcher } from 'svelte'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
-  import properties from '#entities/lib/properties'
+  import { propertiesEditorsConfigs } from '#entities/lib/properties'
 
   export let currentValue, property, valueLabel, entity
 
-  const { searchType, allowEntityCreation, entityTypeName } = properties[property]
+  const { searchType, allowEntityCreation, entityTypeName } = propertiesEditorsConfigs[property]
   const createOnWikidata = entity.uri?.startsWith('wd:')
 
   const dispatch = createEventDispatcher()

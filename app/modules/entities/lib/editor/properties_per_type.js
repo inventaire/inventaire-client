@@ -17,6 +17,7 @@ const socialNetworks = {
 
 // The order is meaningful:
 const work = {
+  'wdt:P31': { customLabel: 'type' }, // instance of
   'wdt:P50': {}, // author
   'wdt:P136': {}, // genre
   'wdt:P921': {}, // main subject
@@ -61,6 +62,7 @@ export const propertiesPerType = {
     'wdt:P2635': { customLabel: 'number of volumes' },
     'wdt:P268': {}, // BNF ID
     'wdt:P648': {}, // Open Library ID
+    'wdt:P437': {}, // distribution format
   },
 
   human: {
