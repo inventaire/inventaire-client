@@ -32,38 +32,43 @@
 </script>
 <Flash state={flash} />
 <div class="works-browser">
-  <div class="wrapper" class:unwrapped={showControls}>
-    {#if $screen.isSmallerThan(smallScreenThreshold) && isNotEmpty}
-      <button
-        class="toggle-controls"
-        on:click={() => wrapped = !wrapped}
-        aria-controls="works-browser-controls"
-      >
-        {@html icon('cog')}
-        {i18n('Advanced options')}
-        {#if showControls}
-          {@html icon('caret-up')}
-        {:else}
-          {@html icon('caret-down')}
+  {#if isNotEmpty}
+    <div
+      class="wrapper"
+      class:unwrapped={showControls}
+    >
+      {#if showControls}
+        {#if isNonEmptyArray(allWorks)}
+          <div class="controls">
+            <WorksBrowserFacets
+              works={allWorks}
+              bind:facets
+              bind:facetsSelectors
+              bind:facetsSelectedValues
+              bind:flash
+            />
+            <WorksBrowserTextFilter bind:textFilterUris />
+            <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')} />
+          </div>
         {/if}
-      </button>
-    {/if}
-    {#if showControls}
-      {#if isNonEmptyArray(allWorks)}
-        <div class="controls">
-          <WorksBrowserFacets
-            works={allWorks}
-            bind:facets
-            bind:facetsSelectors
-            bind:facetsSelectedValues
-            bind:flash
-          />
-          <WorksBrowserTextFilter bind:textFilterUris />
-          <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')} />
-        </div>
       {/if}
-    {/if}
-  </div>
+      {#if $screen.isSmallerThan(smallScreenThreshold) && isNotEmpty}
+        <button
+          class="toggle-controls"
+          on:click={() => wrapped = !wrapped}
+          aria-controls="works-browser-controls"
+        >
+          {#if showControls}
+            {@html icon('caret-up')}
+          {:else}
+            {@html icon('cog')}
+            {i18n('Advanced options')}
+            {@html icon('caret-down')}
+          {/if}
+        </button>
+      {/if}
+    </div>
+  {/if}
 
   {#if sections}
     {#each sections as section}
@@ -84,7 +89,8 @@
     margin-block-end: 0.5em;
     @include radius;
     padding: 0.5em;
-    @include display-flex(row, center, flex-start);
+    @include display-flex(row, space-between);
+    flex: 1;
     :global(.select-dropdown), :global(.dropdown-content){
       inline-size: 10em;
     }
@@ -94,15 +100,15 @@
   }
 
   .wrapper{
-    @include display-flex(column, stretch);
-    margin-block: 0.5em 1em;
+    @include display-flex(row, space-between);
+    margin-block-start: 0.5em;
     &:not(.unwrapped){
       @include display-flex(column, flex-end);
     }
     &.unwrapped{
       background-color: $off-white;
       .toggle-controls{
-        align-self: flex-end;
+        align-self: flex-start;
       }
     }
   }
@@ -145,10 +151,24 @@
     }
   }
 
-  /* Very small screens */
-  @media screen and (max-width: $very-small-screen){
-    .wrapper:not(.unwrapped){
-      @include display-flex(column, center);
+  /* Smaller screens */
+  @media screen and (max-width: 450px){
+    .controls{
+      :global(.select-dropdown), :global(.dropdown-content), :global(.works-browser-text-filter){
+        margin: 0.5em;
+        width: 100%;
+      }
+    }
+    .wrapper{
+      &:not(.unwrapped){
+        @include display-flex(column, center, stretch);
+      }
+      @include display-flex(column, center, space-between);
+      &.unwrapped{
+        .toggle-controls{
+          align-self: stretch;
+        }
+      }
     }
   }
 </style>

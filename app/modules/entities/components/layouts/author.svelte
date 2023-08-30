@@ -72,31 +72,30 @@
         {/await}
       </div>
     </div>
-    <MissingEntitiesMenu
-      waiting={waitingForSubEntities}
-      questionText="A series or a work by this author is missing in the common database?"
-      {createButtons}
-    />
-    <div class="relatives-lists">
-      <RelativeEntitiesList
-        {entity}
-        claims={entity.claims['wdt:P737']}
-        label={i18n('authors_or_works_influencing_author', { name: entity.label })}
+    <!-- waiting for subentities to not display relative entities list before work browser -->
+    <!-- to not having to push them down while work broser is being displayed -->
+    {#await waitingForSubEntities}
+      <MissingEntitiesMenu
+        waiting={waitingForSubEntities}
+        questionText="A series or a work by this author is missing in the common database?"
+        {createButtons}
       />
-      <RelativeEntitiesList
-        {entity}
-        property={[ 'wdt:P2679', 'wdt:P2680' ]}
-        label={i18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
-      />
-      {#each getRelativeEntitiesProperties(type) as property}
+      <div class="relatives-lists">
         <RelativeEntitiesList
           {entity}
-          {property}
-          label={getRelativeEntitiesListLabel({ property, entity })}
+          property={[ 'wdt:P2679', 'wdt:P2680' ]}
+          label={i18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
         />
-      {/each}
-    </div>
-    <HomonymDeduplicates {entity} />
+        {#each getRelativeEntitiesProperties(type) as property}
+          <RelativeEntitiesList
+            {entity}
+            {property}
+            label={getRelativeEntitiesListLabel({ property, entity })}
+          />
+        {/each}
+      </div>
+      <HomonymDeduplicates {entity} />
+    {/await}
   </div>
 </BaseLayout>
 
