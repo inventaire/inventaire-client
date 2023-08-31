@@ -78,8 +78,9 @@
   }
   .search-icon{
     position: absolute;
-    inset-inline-end: 0.5em;
-    inset-block-start: 0.35em;
+    inset-block: 0;
+    inset-inline-end: 0.2em;
+    @include display-flex(column, stretch, center);
     color: $grey;
     button{
       padding: 0.2em 0 0.2em 0.2em;
