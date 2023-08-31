@@ -45,18 +45,21 @@
   $: urlValue && lazyOnUrlChange()
   $: files && onFilesChange()
 
-  let Cropper, cropper
-
+  let Cropper, cropper, cropperPromise
   async function importCropperLib () {
-    Cropper = Cropper || await getCropper()
+    if (!Cropper) {
+      cropperPromise = cropperPromise || getCropper()
+      Cropper = await cropperPromise
+    }
   }
 
   let imageWasCropped = false
-  function initCropper () {
+  async function initCropper () {
     if (imageElement) {
       if (cropper) {
         cropper.replace(dataUrl)
       } else {
+        await importCropperLib()
         cropper = new Cropper(imageElement, {
           viewMode: 2,
           autoCropArea: 1,
