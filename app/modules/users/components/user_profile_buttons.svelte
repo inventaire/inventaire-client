@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon, loadInternalLink } from '#lib/utils'
   import Modal from '#components/modal.svelte'
