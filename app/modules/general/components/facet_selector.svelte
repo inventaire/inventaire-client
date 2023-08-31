@@ -48,8 +48,9 @@
   class:has-image={false}
   class:active={currentOption != null}
   class:disabled={buttonDisabled}
-  role="listbox"
   on:keydown={onKeyDown}
+  role="listbox"
+  tabindex="-1"
 >
   <label class="select-label" for={buttonId}>
     {buttonLabel}

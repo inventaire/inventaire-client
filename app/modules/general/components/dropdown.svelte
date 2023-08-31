@@ -130,6 +130,8 @@
   class="has-dropdown"
   bind:this={dropdownWrapperEl}
   on:keydown={onKeyDown}
+  role="menu"
+  tabindex="-1"
 >
   <button
     class="dropdown-button"
@@ -154,6 +156,7 @@
       style:inset-inline-start={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
       style:width={dropdownWidth}
       role="menu"
+      tabindex="-1"
       transition:slide={{ duration: transitionDuration }}
       on:click={onContentClick}
       on:keydown

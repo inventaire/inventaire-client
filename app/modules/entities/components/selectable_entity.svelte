@@ -30,14 +30,17 @@
   class:selected-to={to?.uri === entity.uri}
 >
   {#if entity.image.url}
-    <img
-      class:zoom
-      src={zoom ? entity.image.large : entity.image.small}
-      alt=""
-      loading="lazy"
+    <button
       on:click|stopPropagation={() => zoom = !zoom}
       on:keyup={toggleZoomOnEnter}
-    />
+    >
+      <img
+        class:zoom
+        src={zoom ? entity.image.large : entity.image.small}
+        alt=""
+        loading="lazy"
+      />
+    </button>
   {:else}
     <div class="no-image" />
   {/if}
@@ -46,11 +49,13 @@
       <Link url={`/entity/${entity.uri}`} text={entity.label} />
     </h3>
     <p class="description">{entity.description || ''}</p>
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <p
       class="uri"
       on:click|stopPropagation
       on:keyup|stopPropagation
     >{entity.uri}</p>
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <ul
       class="all-terms"
       on:click|stopPropagation

@@ -329,7 +329,13 @@
       {/if}
       <Flash state={flash} />
     </div>
-    <div id="overlay" on:click={hideLiveSearch} on:keydown={hideOnEsc} />
+    <div
+      id="overlay"
+      on:click={hideLiveSearch}
+      on:keydown={hideOnEsc}
+      role="button"
+      tabindex="-1"
+    />
   {:else}
     <div class="search-icon">
       {@html icon('search')}

@@ -43,6 +43,7 @@
   class:has-image={withImage}
   role="listbox"
   on:keydown={onKeyDown}
+  tabindex="-1"
 >
   {#if buttonLabel}
     <label for={buttonId}>{buttonLabel}</label>

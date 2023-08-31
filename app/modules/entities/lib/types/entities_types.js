@@ -6,7 +6,7 @@ export const entityTypeNameByType = {
   series: 'serie',
   humans: 'author',
   publishers: 'publisher',
-  collections: 'collection'
+  collections: 'collection',
 }
 
 export const entityTypeNameBySingularType = {
