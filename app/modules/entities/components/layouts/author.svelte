@@ -74,7 +74,7 @@
     </div>
     <!-- waiting for subentities to not display relative entities list before work browser -->
     <!-- to not having to push them down while work broser is being displayed -->
-    {#await waitingForSubEntities}
+    {#await waitingForSubEntities then}
       <MissingEntitiesMenu
         waiting={waitingForSubEntities}
         questionText="A series or a work by this author is missing in the common database?"
