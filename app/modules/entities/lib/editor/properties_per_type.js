@@ -19,6 +19,10 @@ const socialNetworks = {
 const work = {
   'wdt:P31': { customLabel: 'type' }, // instance of
   'wdt:P50': {}, // author
+  'wdt:P58': {}, // scenarist
+  'wdt:P98': { customLabel: 'editor' }, // editor
+  'wdt:P110': {}, // illustrator
+  'wdt:P6338': {}, // colorist
   'wdt:P136': {}, // genre
   'wdt:P921': {}, // main subject
   'wdt:P407': { customLabel: 'original language' }, // original language of work
@@ -31,8 +35,6 @@ const work = {
   'wdt:P268': {}, // BNF ID
   'wdt:P648': {}, // Open Library ID
   ...socialNetworks,
-  // 'wdt:P31: {}' # instance of (=> works aliases)
-  // 'wdt:P110': {} # illustrator
   // 'wdt:P1476': {} # title (using P407 lang)
   // 'wdt:P1680': {} # subtitle (using P407 lang)
   // 'wdt:P840': {} # narrative location
