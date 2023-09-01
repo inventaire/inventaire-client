@@ -44,9 +44,10 @@ const work = {
 export const propertiesPerType = {
   work,
   edition: {
-    'wdt:P629': { customLabel: 'work from which this is an edition' }, // edition or translation of
     'wdt:P1476': { customLabel: 'edition title' },
     'wdt:P1680': { customLabel: 'edition subtitle' },
+    'wdt:P629': { customLabel: 'work from which this is an edition' }, // edition or translation of
+    'wdt:P437': {}, // distribution format
     'wdt:P407': { customLabel: 'edition language' },
     'invp:P2': { customLabel: 'cover' },
     // 'wdt:P31': {} # P31: instance of (=> edition aliases?)
@@ -64,7 +65,6 @@ export const propertiesPerType = {
     'wdt:P2635': { customLabel: 'number of volumes' },
     'wdt:P268': {}, // BNF ID
     'wdt:P648': {}, // Open Library ID
-    'wdt:P437': {}, // distribution format
   },
 
   human: {
