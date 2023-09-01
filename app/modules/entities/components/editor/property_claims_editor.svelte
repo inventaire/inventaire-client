@@ -21,7 +21,7 @@
   const { customLabel } = typeProperties[property]
   const { multivalue, editorType } = propertiesEditorsConfigs[property]
   const fixed = editorType.split('-')[0] === 'fixed'
-  const propertyClaimsCanBeShown = !(fixed)
+  const propertyClaimsCanBeShown = !(fixed && propertyClaims.length === 0)
 
   function addBlankValue () {
     flash = null
