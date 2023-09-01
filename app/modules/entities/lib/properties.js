@@ -19,13 +19,15 @@ export const propertiesEditorsConfigs = {
     searchType: 'humans',
     multivalue: true,
     allowEntityCreation: true,
+    specialEditActions: 'author-role',
   },
-  // screenwriter
+  // scenarist
   'wdt:P58': {
     editorType: 'entity',
     searchType: 'humans',
     multivalue: true,
     allowEntityCreation: true,
+    specialEditActions: 'author-role',
   },
   // editor
   'wdt:P98': {
@@ -33,6 +35,7 @@ export const propertiesEditorsConfigs = {
     searchType: 'humans',
     multivalue: true,
     allowEntityCreation: true,
+    specialEditActions: 'author-role',
   },
   // illustrator
   'wdt:P110': {
@@ -40,6 +43,7 @@ export const propertiesEditorsConfigs = {
     searchType: 'humans',
     multivalue: true,
     allowEntityCreation: true,
+    specialEditActions: 'author-role',
   },
   // founded by
   'wdt:P112': {
@@ -288,6 +292,7 @@ export const propertiesEditorsConfigs = {
     searchType: 'humans',
     multivalue: true,
     allowEntityCreation: true,
+    specialEditActions: 'author-role',
   },
 }
 
