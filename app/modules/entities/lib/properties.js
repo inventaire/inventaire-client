@@ -27,6 +27,13 @@ export const propertiesEditorsConfigs = {
     multivalue: true,
     allowEntityCreation: true,
   },
+  // editor
+  'wdt:P98': {
+    editorType: 'entity',
+    searchType: 'humans',
+    multivalue: true,
+    allowEntityCreation: true,
+  },
   // illustrator
   'wdt:P110': {
     editorType: 'entity',
