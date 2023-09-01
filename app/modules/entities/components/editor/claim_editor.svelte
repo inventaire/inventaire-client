@@ -12,13 +12,14 @@
   import { icon } from '#lib/utils'
   import { currentEditorKey, errorMessageFormatter, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import Spinner from '#components/spinner.svelte'
+  import SelectAuthorRole from '#entities/components/editor/select_author_role.svelte'
 
   export let entity, property, value, index
 
   const dispatch = createEventDispatcher()
   const { uri, type } = entity
   const creationMode = uri == null
-  const { editorType, canValueBeDeleted } = propertiesEditorsConfigs[property]
+  const { editorType, canValueBeDeleted, specialEditActions } = propertiesEditorsConfigs[property]
   const { InputComponent, DisplayComponent, showSave } = editors[editorType]
   const fixed = editorType.split('-')[0] === 'fixed'
 
@@ -184,19 +185,27 @@
     {/if}
   </div>
 
+  {#if specialEditActions}
+    <div class="special-action">
+      {#if specialEditActions === 'author-role'}
+        <SelectAuthorRole
+          bind:entity
+          {property}
+          {value}
+        />
+      {/if}
+    </div>
+  {/if}
   <Flash bind:state={flash} />
 </div>
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .wrapper:not(:last-child){
-    margin-block-end: 0.5em;
+  .wrapper:not(:first-child){
+    margin-block-start: 1em;
   }
   .value{
     @include display-flex(row, center, center);
-    &:not(:last-child){
-      margin-block-end: 1em;
-    }
     /* Small screens */
     @media screen and (max-width: $smaller-screen){
       flex-direction: column;
@@ -212,5 +221,12 @@
     padding: 0.6em 0;
     @include shy(0.9);
     @include bg-hover(#ddd);
+  }
+  .special-action:not(:empty){
+    background-color: #eee;
+    padding: 0.4em;
+    @include radius;
+    margin: 0.5em 0;
+    @include display-flex(row, center, flex-start);
   }
 </style>

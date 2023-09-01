@@ -43,11 +43,11 @@
   </div>
 
   {#if !hasMonolingualTitle}
-    <LabelsEditor {entity} bind:favoriteLabel />
+    <LabelsEditor bind:entity bind:favoriteLabel />
   {/if}
 
   {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
-    <PropertyCategory {entity} {category} {categoryProperties} />
+    <PropertyCategory bind:entity {category} {categoryProperties} />
   {/each}
 
   <div class="next">
