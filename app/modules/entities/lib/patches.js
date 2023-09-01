@@ -58,9 +58,7 @@ function serializePatch (patch) {
     invEntityUri: `inv:${entityId}`,
     versionNumber,
   })
-  if (patch.user) {
-    patch.anonymized = true
-  }
+  patch.anonymized = !patch.user
   mergeTestAndRemoveOperations(patch)
   setOperationsData(patch)
   patch.patchType = findPatchType(patch)
