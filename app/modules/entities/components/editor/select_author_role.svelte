@@ -1,4 +1,6 @@
 <script>
+  import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+  import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { I18n, i18n } from '#user/lib/i18n'
@@ -6,13 +8,18 @@
 
   export let entity, property, value
 
-  const rolesProperties = [
-    'wdt:P50',
-    'wdt:P58',
-    'wdt:P98',
-    'wdt:P110',
-    'wdt:P6338',
-  ]
+  let rolesProperties
+  function setRolesProperties () {
+    rolesProperties = getWorkPreferredAuthorRolesProperties(entity)
+    if (!rolesProperties.includes(property)) {
+      rolesProperties = [ property, ...rolesProperties ]
+    }
+    if (rolesProperties.length === 1 && rolesProperties[0] === property) {
+      rolesProperties = null
+    }
+  }
+
+  $: onChange(entity, setRolesProperties)
 
   let currentRoleProperty = property
 
@@ -38,14 +45,16 @@
   $: onChange(currentRoleProperty, onRolePropertyChange)
 </script>
 
-<label>
-  {i18n('Change author role')}
-  <select bind:value={currentRoleProperty}>
-    {#each rolesProperties as roleProperty}
-      <option value={roleProperty}>{I18n(roleProperty)}</option>
-    {/each}
-  </select>
-</label>
+{#if rolesProperties && isNonEmptyClaimValue(value)}
+  <label>
+    {i18n('Change author role')}
+    <select bind:value={currentRoleProperty}>
+      {#each rolesProperties as roleProperty}
+        <option value={roleProperty}>{I18n(roleProperty)}</option>
+      {/each}
+    </select>
+  </label>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
@@ -53,6 +62,6 @@
     margin-inline-start: auto;
     margin: 0 0.5em;
     height: 2rem;
-    max-width: 10em;
+    width: auto;
   }
 </style>
