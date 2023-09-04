@@ -6,6 +6,9 @@
 
 import { pluralize } from '#entities/lib/types/entities_types'
 import { infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
+import { deepClone, flatMapKeyValues } from '#lib/utils'
+import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
+import { isNonEmptyArray } from '#lib/boolean_tests'
 
 const socialNetworks = {
   'wdt:P2002': {}, // Twitter account
@@ -19,10 +22,10 @@ const socialNetworks = {
 const work = {
   'wdt:P31': { customLabel: 'type' }, // instance of
   'wdt:P50': {}, // author
-  'wdt:P58': {}, // scenarist
-  'wdt:P98': { customLabel: 'editor' }, // editor
-  'wdt:P110': {}, // illustrator
-  'wdt:P6338': {}, // colorist
+  'wdt:P58': { contextual: true }, // scenarist
+  'wdt:P98': { customLabel: 'editor', contextual: true }, // editor
+  'wdt:P110': { contextual: true }, // illustrator
+  'wdt:P6338': { contextual: true }, // colorist
   'wdt:P136': {}, // genre
   'wdt:P921': {}, // main subject
   'wdt:P407': { customLabel: 'original language' }, // original language of work
@@ -156,4 +159,36 @@ export const getSubentitiesTypes = property => {
     }
   })
   return subentitiesTypes
+}
+
+export function getTypePropertiesPerCategory (entity) {
+  const { type } = entity
+  if (type === 'work') {
+    const entityPropertiesPerTypeAndCategory = deepClone(propertiesPerTypeAndCategory[type])
+    entityPropertiesPerTypeAndCategory.general = customizeAuthorProperties(entity, entityPropertiesPerTypeAndCategory.general)
+    return entityPropertiesPerTypeAndCategory
+  } else {
+    return propertiesPerTypeAndCategory[type]
+  }
+}
+
+function customizeAuthorProperties (entity, generalProperties) {
+  return flatMapKeyValues(generalProperties, ([ property, propertySettings ]) => {
+    if (property === 'wdt:P50') {
+      const customAuthorProperties = getWorkPreferredAuthorRolesProperties(entity)
+      let entries = customAuthorProperties.map(prop => [ prop, work[prop] ])
+      if (!customAuthorProperties.includes('wdt:P50') && isNonEmptyArray(entity.claims['wdt:P50'])) {
+        entries = [
+          [ 'wdt:P50', propertySettings ],
+          ...entries
+        ]
+      }
+      return entries
+    } else if (propertySettings.contextual) {
+      // Contextual author properties might have possibly been introduced by getWorkPreferredAuthorRolesProperties
+      return []
+    } else {
+      return [ [ property, propertySettings ] ]
+    }
+  })
 }

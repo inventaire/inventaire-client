@@ -1,8 +1,11 @@
+import { isNonEmptyArray } from '#lib/boolean_tests'
+import { getUriNumericId } from '#lib/wikimedia/wikidata'
 import { uniq } from 'underscore'
 
 const classicBook = [ 'wdt:P50' ]
 const illustratedBook = [ 'wdt:P58', 'wdt:P110', 'wdt:P6338' ]
 // const collectiveBook = [ 'wdt:P50', 'wdt:P98' ]
+const allAuthorRoleProperties = classicBook.concat(illustratedBook)
 
 const preferredAuthorRolesPropertiesPerWorkType = {
   'wd:Q1004': illustratedBook, // comics
@@ -14,9 +17,12 @@ const preferredAuthorRolesPropertiesPerWorkType = {
 
 export function getWorkPreferredAuthorRolesProperties (entity) {
   const P31 = entity.claims['wdt:P31'] || []
-  const authorRolesProperties = uniq(P31.flatMap(getP31PreferredAuthorRolesProperties))
-  return authorRolesProperties
+  const preferredAuthorRolesProperties = P31.flatMap(getP31PreferredAuthorRolesProperties)
+  const usedAuthorRolesProperties = allAuthorRoleProperties.filter(property => isNonEmptyArray(entity.claims[property]))
+  return uniq(preferredAuthorRolesProperties.concat(usedAuthorRolesProperties)).sort(byNumericId)
 }
+
+const byNumericId = (a, b) => getUriNumericId(a) - getUriNumericId(b)
 
 function getP31PreferredAuthorRolesProperties (P31value) {
   return preferredAuthorRolesPropertiesPerWorkType[P31value] || classicBook
