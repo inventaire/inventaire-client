@@ -7,9 +7,6 @@
 
   export let entity, property, value
 
-  // TODO: set rules to determine if a role change is possible, based on:
-  // - value is already in target role property claims
-
   let rolesProperties
   function setRolesProperties () {
     rolesProperties = getWorkPreferredAuthorRolesProperties(entity)
