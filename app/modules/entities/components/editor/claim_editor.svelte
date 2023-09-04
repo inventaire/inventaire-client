@@ -219,6 +219,9 @@
     @include bg-hover(#ddd);
   }
   .special-action{
+    background-color: #eee;
+    padding: 0.4em;
+    @include radius;
     margin: 0.5em 0;
     @include display-flex(row, center, flex-start);
   }
