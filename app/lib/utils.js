@@ -245,3 +245,7 @@ export function convertEmToPx (em) {
   const emToPxRatio = parseFloat(getComputedStyle(document.body).fontSize)
   return em * emToPxRatio
 }
+
+export function flatMapKeyValues (object, fn) {
+  return Object.fromEntries(Object.entries(object).flatMap(fn))
+}

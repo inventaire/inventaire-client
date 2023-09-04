@@ -21,3 +21,5 @@ export function searchWikidataEntities (params) {
 
 // Unprefixify both entities ('item' in Wikidata lexic) and properties
 export const unprefixify = value => value?.replace(/^wdt?:/, '')
+
+export const getUriNumericId = uri => parseInt(uri.replace(/^wdt?:(Q|P)/, ''))
