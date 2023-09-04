@@ -5,6 +5,7 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import { icon } from '#lib/handlebars_helpers/icons'
   import { onChange } from '#lib/svelte/svelte'
+  import { intersection, some, without } from 'underscore'
 
   export let entity, category, categoryProperties
   export let requiredProperties = null
@@ -16,11 +17,14 @@
   let showCategory
 
   let showAllProperties = categoryLabel == null
-  let categoryAllUnsortedProperties = Object.keys(categoryProperties)
-  $: categoryCustomProperties = _.intersection(categoryAllUnsortedProperties, customProperties)
-  $: notCategoryCustomProperties = _.without(categoryAllUnsortedProperties, ...customProperties)
-  $: categoryAllProperties = [ ...categoryCustomProperties, ...notCategoryCustomProperties ]
-  $: displayedProperties = showAllProperties ? categoryAllProperties : categoryCustomProperties
+  let categoryCustomProperties, categoryAllProperties, displayedProperties
+  $: {
+    const categoryAllUnsortedProperties = Object.keys(categoryProperties)
+    categoryCustomProperties = intersection(categoryAllUnsortedProperties, customProperties)
+    const notCategoryCustomProperties = without(categoryAllUnsortedProperties, ...customProperties)
+    categoryAllProperties = [ ...categoryCustomProperties, ...notCategoryCustomProperties ]
+    displayedProperties = showAllProperties ? categoryAllProperties : categoryCustomProperties
+  }
 
   function getIfCategoryHasActiveProperties () {
     if (!categoryLabel) return false
@@ -49,7 +53,7 @@
 
   $: onChange(customProperties, getIfCategoryHasActiveProperties)
   $: onChange(displayedProperties, scrollToCategory)
-  $: someCustomProperties = _.some(categoryCustomProperties)
+  $: someCustomProperties = some(categoryCustomProperties)
   $: showCategory = (categoryLabel == null) || someCustomProperties
 </script>
 

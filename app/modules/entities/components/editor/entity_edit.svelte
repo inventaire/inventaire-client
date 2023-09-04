@@ -2,29 +2,32 @@
   import app from '#app/app'
   import { i18n, I18n } from '#user/lib/i18n'
   import LabelsEditor from './labels_editor.svelte'
-  import { propertiesPerTypeAndCategory } from '#entities/lib/editor/properties_per_type'
+  import { getTypePropertiesPerCategory } from '#entities/lib/editor/properties_per_type'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { loadInternalLink, icon } from '#lib/utils'
   import EntityEditMenu from './entity_edit_menu.svelte'
   import PropertyCategory from '#entities/components/editor/property_category.svelte'
   import { typesPossessiveForms } from '#entities/lib/types/entities_types'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let entity
 
   const { uri, type, labels } = entity
-  const typePropertiesPerCategory = propertiesPerTypeAndCategory[type]
-  const hasMonolingualTitle = typePropertiesPerCategory.general['wdt:P1476'] != null
   const goToEntityPageLabel = `Go to the ${typesPossessiveForms[type]} page`
 
-  let favoriteLabel
+  let typePropertiesPerCategory, hasMonolingualTitle, favoriteLabel
 
-  $: {
+  function onEntityChange () {
+    typePropertiesPerCategory = getTypePropertiesPerCategory(entity)
+    hasMonolingualTitle = typePropertiesPerCategory.general['wdt:P1476'] != null
     if (hasMonolingualTitle) {
       favoriteLabel = entity.claims['wdt:P1476']?.[0]
     } else {
       favoriteLabel = getBestLangValue(app.user.lang, null, labels).value
     }
   }
+
+  $: onChange(entity, onEntityChange)
 </script>
 
 <div class="entity-edit">
@@ -42,13 +45,15 @@
     <EntityEditMenu {entity} />
   </div>
 
-  {#if !hasMonolingualTitle}
+  {#if hasMonolingualTitle === false}
     <LabelsEditor bind:entity bind:favoriteLabel />
   {/if}
 
-  {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
-    <PropertyCategory bind:entity {category} {categoryProperties} />
-  {/each}
+  {#if typePropertiesPerCategory}
+    {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
+      <PropertyCategory bind:entity {category} {categoryProperties} />
+    {/each}
+  {/if}
 
   <div class="next">
     <a
