@@ -52,7 +52,6 @@
   }
 
   $: onChange(customProperties, getIfCategoryHasActiveProperties)
-  $: onChange(displayedProperties, scrollToCategory)
   $: someCustomProperties = some(categoryCustomProperties)
   $: showCategory = (categoryLabel == null) || someCustomProperties
 </script>
