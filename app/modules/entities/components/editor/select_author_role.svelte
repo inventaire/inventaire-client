@@ -50,7 +50,14 @@
     {i18n('Change author role')}
     <select bind:value={currentRoleProperty}>
       {#each rolesProperties as roleProperty}
-        <option value={roleProperty}>{I18n(roleProperty)}</option>
+        {@const disabled = roleProperty !== property && entity.claims[roleProperty]?.includes(value)}
+        <option
+          value={roleProperty}
+          {disabled}
+          title={disabled ? i18n('This author already has that role') : ''}
+        >
+          {I18n(roleProperty)}
+        </option>
       {/each}
     </select>
   </label>
