@@ -46,7 +46,7 @@
 
   let canAddValue
   $: {
-    if (isEmptyClaimValue(entity.claims[property].slice(-1)[0])) {
+    if (isEmptyClaimValue(entity.claims[property]?.slice(-1)[0])) {
       canAddValue = false
     } else {
       canAddValue = (multivalue || getPropertyClaimsCount(entity.claims[property]) === 0)
@@ -56,7 +56,7 @@
   $: isRequiredAndMissing = required && getPropertyClaimsCount(entity.claims[property]) === 0
 </script>
 
-{#if propertyClaimsCanBeShown}
+{#if entity.claims[property] && propertyClaimsCanBeShown}
   <li
     class="editor-section"
     class:fixed
@@ -68,7 +68,9 @@
     {/if}
     <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
     <div class="property-claim-values">
-      {#each entity.claims[property] as value, i (value)}
+      <!-- Do not set the #each element (key) to prevent descarding claim_editor components on value change
+           as that would make the "undo" impossible -->
+      {#each entity.claims[property] as value, i}
         <ClaimEditor
           bind:entity
           {property}
