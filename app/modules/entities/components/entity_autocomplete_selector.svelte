@@ -130,10 +130,12 @@
   let highlightedIndex = 0
 
   $: {
-    const lastIndex = suggestions.length - 1
-    if (highlightedIndex < 0) highlightedIndex = 0
-    else if (!canFetchMore && highlightedIndex > lastIndex) {
-      highlightedIndex = 0
+    if (suggestions) {
+      const lastIndex = suggestions.length - 1
+      if (highlightedIndex < 0) highlightedIndex = 0
+      else if (!canFetchMore && highlightedIndex > lastIndex) {
+        highlightedIndex = 0
+      }
     }
   }
 
@@ -206,7 +208,7 @@
       <span class="uri">{currentEntityUri}</span>
     {/if}
   </div>
-  {#if showSuggestions && (searchText !== '' || suggestions.length > 0)}
+  {#if suggestions && showSuggestions && (searchText !== '' || suggestions.length > 0)}
     <div class="autocomplete" bind:this={autocompleteDropdownEl}>
       <div
         class="suggestions-wrapper"
