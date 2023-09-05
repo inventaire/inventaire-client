@@ -13,6 +13,7 @@
   import { currentEditorKey, errorMessageFormatter, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import Spinner from '#components/spinner.svelte'
   import SelectAuthorRole from '#entities/components/editor/select_author_role.svelte'
+  import error_ from '#lib/error'
 
   export let entity, property, value, index
 
@@ -54,10 +55,12 @@
     try {
       saving = true
       // Allow null to be passed when trying to remove a value
-      // but ignore the argument when dispatch('save') is called without
-      if (newValue === undefined || isComponentEvent(newValue)) {
+      // but ignore the argument when dispatch('save') is called without argument.
+      // This can only be done in components that export a getInputValue function
+      if ((newValue === undefined || isComponentEvent(newValue)) && typeof getInputValue === 'function') {
         newValue = await getInputValue()
       }
+      if (newValue === undefined) throw error_.new('missing new value', 500, { uri, property })
       inputValue = newValue
       editMode = false
       dispatch('set', inputValue)
@@ -130,6 +133,9 @@
   }
 
   function undo () {
+    if (!isNonEmptyClaimValue(previousValue)) {
+      throw error_.new('can not undo without previous value', 500, { uri, property, value, previousValue })
+    }
     save(previousValue)
   }
 </script>
