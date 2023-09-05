@@ -8,11 +8,10 @@ module.exports = {
   env: {
     browser: true,
     commonjs: false,
-    es2020: true
+    es2022: true
   },
   parserOptions: {
     sourceType: 'module',
-    ecmaVersion: 2020
   },
   extends: [
     // See https://github.com/standard/eslint-config-standard/blob/master/eslintrc.json
