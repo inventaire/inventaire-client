@@ -30,17 +30,15 @@
   class:selected-to={to?.uri === entity.uri}
 >
   {#if entity.image.url}
-    <button
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+    <img
+      class:zoom
+      src={zoom ? entity.image.large : entity.image.small}
+      alt=""
+      loading="lazy"
       on:click|stopPropagation={() => zoom = !zoom}
       on:keyup={toggleZoomOnEnter}
-    >
-      <img
-        class:zoom
-        src={zoom ? entity.image.large : entity.image.small}
-        alt=""
-        loading="lazy"
-      />
-    </button>
+    />
   {:else}
     <div class="no-image" />
   {/if}
