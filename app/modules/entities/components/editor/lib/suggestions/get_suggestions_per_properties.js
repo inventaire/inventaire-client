@@ -3,15 +3,15 @@ import wdtP123 from './wdt_P123.js'
 import wdtP195 from './wdt_P195.js'
 import wdtP629 from './wdt_P629.js'
 import { reportError } from '#lib/reports'
-import propertyValuesShortlist from './property_values_shortlist.js'
+import { getPropertyValuesShortlist } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
 
 const suggestionsPerProperties = {
   'wdt:P50': wdtP50,
   'wdt:P123': wdtP123,
   'wdt:P195': wdtP195,
   'wdt:P629': wdtP629,
-  'wdt:P31': propertyValuesShortlist('wdt:P31'),
-  'wdt:P437': propertyValuesShortlist('wdt:P437'),
+  'wdt:P31': ({ entity }) => getPropertyValuesShortlist({ property: 'wdt:P31', type: entity.type }),
+  'wdt:P437': ({ entity }) => getPropertyValuesShortlist({ property: 'wdt:P437', type: entity.type }),
 }
 
 export async function getDefaultSuggestions ({ entity, property }) {

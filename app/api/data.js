@@ -13,7 +13,5 @@ export default {
   summaries: ({ uri, langs, refresh }) => {
     return action('summaries', { uri, langs, refresh })
   },
-  propertyValues: (property, type) => {
-    return action('property-values', { property, type })
-  },
+  propertyValues: action('property-values'),
 }
