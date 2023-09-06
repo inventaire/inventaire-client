@@ -1,8 +1,8 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon, someMatch } from '#lib/utils'
   import LabelsEditor from './labels_editor.svelte'
-  import { propertiesPerType, propertiesPerTypeAndCategory, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
+  import { getTypePropertiesPerCategory, propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import { entityTypeNameBySingularType, typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
@@ -12,8 +12,10 @@
   import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
   import PropertyCategory from '#entities/components/editor/property_category.svelte'
   import { pick } from 'underscore'
+  import { onChange } from '#lib/svelte/svelte'
+  import { getPropertyValuesShortlist } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
 
-  export let type = 'works', claims, label
+  export let type, claims, label
 
   const canChangeType = !(type && claims)
 
@@ -25,27 +27,36 @@
     claims: claims || {},
   }
 
-  function onTypeChange () {
-    flash = null
-    entity.type = type
+  function updatePropertiesList () {
+    if (!type) return
     typeProperties = propertiesPerType[type]
-    typePropertiesPerCategory = propertiesPerTypeAndCategory[type]
+    typePropertiesPerCategory = getTypePropertiesPerCategory(entity)
     removeNonTypeProperties(entity.claims, typeProperties)
     hasMonolingualTitle = typeProperties['wdt:P1476'] != null
     requiresLabel = !hasMonolingualTitle
-    entity.claims['wdt:P31'] = [ typeDefaultP31[type] ]
-    propertiesShortlist = getPropertiesShortlist(type, entity.claims)
+    const typeP31values = getPropertyValuesShortlist({ type: entity.type, property: 'wdt:P31' })
+    if (!someMatch(entity.claims['wdt:P31'], typeP31values)) {
+      entity.claims['wdt:P31'] = [ typeDefaultP31[type] ]
+    }
+    propertiesShortlist = getPropertiesShortlist(entity)
     requiredProperties = requiredPropertiesPerType[type] || []
+  }
+
+  function onTypeChange () {
+    flash = null
+    entity.type = type
+    updatePropertiesList()
     const typePossessive = typesPossessiveForms[type]
     createAndShowLabel = `create and go to the ${typePossessive} page`
     showAllProperties = false
     app.execute('querystring:set', 'type', type)
   }
 
-  $: type && onTypeChange()
+  $: if (type) onChange(type, onTypeChange)
 
   let missingRequiredProperties
   function onEntityChange () {
+    updatePropertiesList()
     if (requiredProperties == null) return
     missingRequiredProperties = getMissingRequiredProperties({ entity, requiredProperties, requiresLabel })
     if (missingRequiredProperties.length > 0) {
@@ -58,7 +69,7 @@
     }
   }
 
-  $: entity && onEntityChange()
+  $: if (entity) onChange(entity, onEntityChange)
 
   async function createAndShowEntity () {
     try {
@@ -97,13 +108,13 @@
           {#if showAllProperties}
             {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
               <PropertyCategory
-                {entity}
+                bind:entity
                 {category}
                 {categoryProperties}
                 {requiredProperties}
               />
             {/each}
-          {:else}
+          {:else if propertiesShortlist}
             {#each propertiesShortlist as property (property)}
               <PropertyClaimsEditor
                 bind:entity
