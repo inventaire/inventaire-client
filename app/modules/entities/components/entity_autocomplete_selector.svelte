@@ -11,6 +11,7 @@
   import { wait } from '#lib/promises'
   import { getViewportHeight, onScrollToBottom } from '#lib/screen'
   import { getActionKey } from '#lib/key_events'
+  import { propertiesWithValuesShortlists } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
 
   export let searchTypes
   export let currentEntityUri
@@ -174,9 +175,12 @@
     }
   }
 
-  const notSearchableProps = [ 'wdt:P31', 'wdt:P437' ]
-  const isNotSearchableServerSide = notSearchableProps.includes(relationProperty)
-  const canDefaultSuggestionsBeDisplayed = isNotSearchableServerSide || (showDefaultSuggestions && searchText === '')
+  const isNotSearchableServerSide = propertiesWithValuesShortlists.includes(relationProperty)
+  let canDefaultSuggestionsBeDisplayed
+
+  // Key the 2 reactive statement separated to only fetchDefaultSuggestions when canDefaultSuggestionsBeDisplayed changes value,
+  // and not everytime searchText is changes
+  $: canDefaultSuggestionsBeDisplayed = (isNotSearchableServerSide || (showDefaultSuggestions && searchText === '')) && (relationSubjectEntity.type != null)
   $: if (canDefaultSuggestionsBeDisplayed) fetchDefaultSuggestions()
 
   let autocompleteDropdownEl

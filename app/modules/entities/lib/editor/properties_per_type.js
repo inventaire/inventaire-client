@@ -139,7 +139,7 @@ for (const [ key, categoryData ] of Object.entries(propertiesPerCategory)) {
   }
 }
 
-export const propertiesPerTypeAndCategory = {}
+const propertiesPerTypeAndCategory = {}
 
 for (const [ type, propertiesData ] of Object.entries(propertiesPerType)) {
   propertiesPerTypeAndCategory[type] = {}
