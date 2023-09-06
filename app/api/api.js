@@ -17,7 +17,7 @@ import tasks from './tasks.js'
 import users from './users.js'
 import { i18nContentHash } from '#assets/js/build_metadata'
 
-export default {
+export const API = {
   // /api endpoints
   auth,
   config: endpoint('config', true),

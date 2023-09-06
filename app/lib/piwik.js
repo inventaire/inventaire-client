@@ -1,4 +1,4 @@
-import { getConfig } from '#app/config'
+import { config } from '#app/config'
 import { isUserId } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
 // Module adapted from snippet at
@@ -17,7 +17,7 @@ app.commands.setHandlers({
 
 export default async function () {
   if (isPrerenderSession) return
-  const { piwik } = await getConfig()
+  const { piwik } = config
   if (piwik == null) return
   // - radically prevents recording development actions
   // - reduces the load on the real tracker server

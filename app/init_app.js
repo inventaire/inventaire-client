@@ -1,6 +1,6 @@
 import app from './app.js'
 import initPiwik from '#lib/piwik'
-import API from '#app/api/api'
+import { API } from '#app/api/api'
 import initDataWaiters from '#lib/data/waiters'
 import Redirect from '#modules/redirect'
 import User from '#user/user'
