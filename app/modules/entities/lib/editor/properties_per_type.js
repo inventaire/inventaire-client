@@ -163,7 +163,7 @@ export const getSubentitiesTypes = property => {
 
 export function getTypePropertiesPerCategory (entity) {
   const { type } = entity
-  if (type === 'work') {
+  if (type === 'work' || type === 'serie') {
     const entityPropertiesPerTypeAndCategory = deepClone(propertiesPerTypeAndCategory[type])
     entityPropertiesPerTypeAndCategory.general = customizeAuthorProperties(entity, entityPropertiesPerTypeAndCategory.general)
     return entityPropertiesPerTypeAndCategory
