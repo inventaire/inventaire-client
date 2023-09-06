@@ -37,7 +37,7 @@
     return getEntitiesAttributesByUris({
       uris,
       // TODO: also request 'popularity' to be able to use it to sort the entities
-      attributes: [ 'type', 'labels', 'image' ],
+      attributes: [ 'info', 'labels', 'image' ],
       lang: app.user.lang,
     })
       .then(async res => {
