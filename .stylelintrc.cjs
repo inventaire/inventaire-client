@@ -1,8 +1,8 @@
 // This config file is used by stylelint
 // See package.json scripts: lint*
 // Rules documentation: https://stylelint.io/user-guide/rules/
-// Inspect the generated config:
-//    stylelint --print-config .
+// Inspect the generated config (passing some path is required):
+//    stylelint --print-config ./app
 module.exports = {
   extends: [
     'stylelint-config-standard-scss',
@@ -53,5 +53,9 @@ module.exports = {
       files: [ '**/*.svelte' ],
       customSyntax: 'postcss-html'
     }
-  ]
+  ],
+  // Some rules will be removed in future versions of Stylelint,
+  // see https://stylelint.io/migration-guide/to-15
+  // Unfortunately, this flag seems to be ignored by the CLI
+  quietDeprecationWarnings: true
 }
