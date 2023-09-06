@@ -140,7 +140,7 @@
     }
 
     /* Smaller screens */
-    @media screen and (max-width: 800px){
+    @media screen and (width < 800px){
       .pitch{
         flex-direction: column;
         align-items: stretch;

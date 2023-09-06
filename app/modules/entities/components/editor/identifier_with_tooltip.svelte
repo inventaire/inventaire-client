@@ -41,7 +41,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: 700px){
+  @media screen and (width < 700px){
     [slot="tooltip-content"]{
       @include display-flex(column);
       :global(a){
@@ -51,7 +51,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: 700px){
+  @media screen and (width >= 700px){
     [slot="tooltip-content"]{
       :global(a){
         padding: 0.5em;

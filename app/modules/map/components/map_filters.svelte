@@ -143,7 +143,7 @@
     overflow: hidden;
   }
   /* Small screens */
-  @media screen and (max-width: 470px){
+  @media screen and (width < 470px){
     .filters-menu{
       @include display-flex(column, flex-start);
       padding-inline-start: 1em;

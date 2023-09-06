@@ -304,7 +304,7 @@
   }
 
   /* Very Large screens */
-  @media screen and (min-width: 1200px){
+  @media screen and (width >= 1200px){
     .section-two{
       max-width: 70vw;
     }

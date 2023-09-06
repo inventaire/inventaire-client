@@ -101,7 +101,7 @@
     font-weight: bold;
   }
   /* Small screens */
-  @media screen and (max-width: 470px){
+  @media screen and (width < 470px){
     .wrapper{
       margin: 0;
     }

@@ -79,7 +79,7 @@
   }
 
   /* Very Small screens */
-  @media screen and (max-height: 500px), (max-width: 500px){
+  @media screen and (height <= 500px), (width <= 500px){
     .alternatives{
       // A max-height is required for the transition:
       // it is set to be just a bit heigher than the height=auto would likely be,

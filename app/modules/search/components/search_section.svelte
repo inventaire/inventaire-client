@@ -46,7 +46,7 @@
   }
 
   /* Very Small screens */
-  @media screen and (max-width: calc(5 * $search-section-width)){
+  @media screen and (width < calc(5 * $search-section-width)){
     button{
       flex: 1 0 0;
     }

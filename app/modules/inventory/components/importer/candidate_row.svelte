@@ -203,7 +203,7 @@
     background-color: lighten($yellow, 30%);
   }
   /* Small screens */
-  @media screen and (max-width: 470px){
+  @media screen and (width < 470px){
     .candidate-text{
       @include display-flex(column, center, space-between);
     }

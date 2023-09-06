@@ -96,7 +96,7 @@
   }
 
   /* Very Small screens */
-  @media screen and (max-width: 500px){
+  @media screen and (width < 500px){
     .label{
       display: none;
     }

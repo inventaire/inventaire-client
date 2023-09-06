@@ -41,12 +41,12 @@
     // The following adjustements are coupled to a list of 8 icons
     flex: 1 0 10em;
     /* Medium screens */
-    @media screen and (max-width: 82em){
+    @media screen and (width < 82em){
       // Do not let a lonely icon on a line
       flex: 1 0 25%;
     }
     /* Small screens */
-    @media screen and (max-width: 42em){
+    @media screen and (width < 42em){
       flex: 1 0 10em;
     }
   }

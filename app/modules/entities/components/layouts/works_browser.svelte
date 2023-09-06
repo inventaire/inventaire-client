@@ -152,7 +152,7 @@
   }
 
   /* Smaller screens */
-  @media screen and (max-width: 450px){
+  @media screen and (width < 450px){
     .controls{
       :global(.select-dropdown), :global(.dropdown-content), :global(.works-browser-text-filter){
         margin: 0.5em;

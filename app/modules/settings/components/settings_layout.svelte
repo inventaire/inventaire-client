@@ -94,14 +94,14 @@
     width: 100%;
   }
   /* Large screens */
-  @media screen and (min-width: 470px){
+  @media screen and (width >= 470px){
     .navigation{
       position: sticky;
       inset-block-start: $topbar-height + 34px;
     }
   }
   /* Small screens */
-  @media screen and (max-width: 470px){
+  @media screen and (width < 470px){
     .wrapper{
       display: flex;
       flex-direction: column;
