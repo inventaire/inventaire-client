@@ -18,17 +18,14 @@
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
+  import { onChange } from '#lib/svelte/svelte'
+  import { debounce } from 'underscore'
 
   export let entity, standalone
   let flash
 
   const { uri, type } = entity
   app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
-
-  let sections
-  const waitingForSubEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
-    .then(res => sections = res)
-    .catch(err => flash = err)
 
   setContext('layout-context', 'author')
   const authorProperties = Object.keys(extendedAuthorsKeys)
@@ -39,6 +36,16 @@
     { type: 'serie', claims: { 'wdt:P50': [ uri ] } },
     { type: 'work', claims: { 'wdt:P50': [ uri ] } },
   ]
+
+  let sections, waitingForSubEntities
+  function getSections () {
+    waitingForSubEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
+      .then(res => sections = res)
+      .catch(err => flash = err)
+  }
+
+  const lazyGetSections = debounce(getSections, 100)
+  $: if (entity) onChange(entity, lazyGetSections)
 </script>
 
 <BaseLayout

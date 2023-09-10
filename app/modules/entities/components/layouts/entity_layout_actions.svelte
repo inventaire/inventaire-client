@@ -17,7 +17,7 @@
     waitForEntityRefresh = preq.get(app.API.entities.getByUris(uri, true))
     const { entities } = await waitForEntityRefresh
     entity = serializeEntity(Object.values(entities)[0])
-    // Let other components now that a refresh was requested
+    // Let other components know that a refresh was requested
     entity.refreshTimestamp = Date.now()
   }
 

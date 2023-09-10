@@ -13,17 +13,13 @@
   import { setContext } from 'svelte'
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { debounce } from 'underscore'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let entity, standalone
-  let flash
 
   const { uri } = entity
   app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
-
-  let sections
-  const waitingForWorks = getSubEntitiesSections({ entity, sortFn: bySerieOrdinal })
-    .then(res => sections = res)
-    .catch(err => flash = err)
 
   setContext('layout-context', 'serie')
   setContext('search-filter-claim', `wdt:P179=${uri}|wdt:P361=${uri}`)
@@ -31,6 +27,15 @@
   const createButtons = [
     { type: 'work', claims: { 'wdt:P179': [ uri ] } },
   ]
+
+  let sections, waitingForWorks, flash
+  function getSections () {
+    waitingForWorks = getSubEntitiesSections({ entity, sortFn: bySerieOrdinal })
+      .then(res => sections = res)
+      .catch(err => flash = err)
+  }
+  const lazyGetSections = debounce(getSections, 100)
+  $: if (entity) onChange(entity, lazyGetSections)
 </script>
 
 <BaseLayout

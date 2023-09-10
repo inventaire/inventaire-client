@@ -6,6 +6,7 @@ import { addWorksClaims, isSubentitiesTypeEdition } from './edition_layout_helpe
 import preq from '#lib/preq'
 import { pluck } from 'underscore'
 import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.js'
+import { expired } from '#lib/utils'
 
 const subEntitiesProp = {
   work: 'wdt:P629',
@@ -13,51 +14,51 @@ const subEntitiesProp = {
 }
 
 const urisGetterByType = {
-  serie: async entity => {
+  serie: async ({ entity, refresh }) => {
     const { uri } = entity
 
-    const { parts } = await preq.get(app.API.entities.serieParts(uri))
+    const { parts } = await preq.get(app.API.entities.serieParts(uri, refresh))
     return [
       { uris: pluck(parts, 'uri') },
     ]
   },
-  human: async entity => {
+  human: async ({ entity, refresh }) => {
     const { uri } = entity
 
-    const { series, works, articles } = await preq.get(app.API.entities.authorWorks(uri))
+    const { series, works, articles } = await preq.get(app.API.entities.authorWorks(uri, refresh))
     return [
       { label: I18n('series'), uris: pluck(series, 'uri') },
       { label: I18n('works'), uris: pluck(works, 'uri') },
       { label: I18n('articles'), uris: pluck(articles, 'uri'), searchable: false },
     ]
   },
-  publisher: async entity => {
+  publisher: async ({ entity, refresh }) => {
     const { uri } = entity
 
-    const { collections, editions } = await preq.get(app.API.entities.publisherPublications(uri))
+    const { collections, editions } = await preq.get(app.API.entities.publisherPublications(uri, refresh))
     return [
       { label: I18n('collections'), uris: pluck(collections, 'uri') },
       { label: I18n('editions'), uris: pluck(editions, 'uri'), searchable: false },
     ]
   },
-  collection: async entity => {
+  collection: async ({ entity, refresh }) => {
     const { uri } = entity
 
-    const uris = await getReverseClaims('wdt:P195', uri)
+    const uris = await getReverseClaims('wdt:P195', uri, refresh)
     return [
       { label: I18n('editions'), uris, searchable: false },
     ]
   },
-  article: async entity => {
+  article: async ({ entity }) => {
     const { claims } = entity
     const uris = claims['wdt:P2860']
     return [
       { label: I18n('cites articles'), uris, searchable: false },
     ]
   },
-  claim: async (entity, property) => {
+  claim: async ({ entity, property, refresh }) => {
     const { uri, label: entityLabel } = entity
-    const uris = await getReverseClaims(property, uri)
+    const uris = await getReverseClaims(property, uri, refresh)
     const propLabel = inverseLabels[property] || ''
     const label = i18n(propLabel, { name: entityLabel })
     return [
@@ -67,14 +68,15 @@ const urisGetterByType = {
 }
 
 export const getSubEntitiesSections = async ({ entity, sortFn, property }) => {
-  const { type } = entity
+  const { type, refreshTimestamp } = entity
+  const refresh = refreshTimestamp && !expired(refreshTimestamp, 1000)
   let sections
   if (property) {
     const getSubEntitiesUris = urisGetterByType.claim
-    sections = await getSubEntitiesUris(entity, property)
+    sections = await getSubEntitiesUris({ entity, property, refresh })
   } else {
     const getSubEntitiesUris = urisGetterByType[type]
-    sections = await getSubEntitiesUris(entity)
+    sections = await getSubEntitiesUris({ entity, refresh })
   }
   await Promise.all(sections.map(fetchSectionEntities({ sortFn, parentEntityType: type })))
   return sections

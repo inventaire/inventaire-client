@@ -14,21 +14,15 @@
   import { getSubentitiesTypes } from '#entities/lib/editor/properties_per_type'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { loadInternalLink } from '#lib/utils'
+  import { debounce } from 'underscore'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let entity, property
-  let flash
 
   const { uri, type } = entity
   let { label } = entity
 
   app.navigate(`/entity/${property}-${uri}`, { metadata: getEntityMetadata(entity) })
-  let sections
-
-  const waitingForReverseEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate, property })
-    .then(res => {
-      sections = res
-    })
-    .catch(err => flash = err)
 
   setContext('layout-context', type)
   setContext('search-filter-claim', `${property}=${uri}`)
@@ -42,6 +36,15 @@
   }
 
   const typeLabel = defaultTypeByClaimProperty[property] || 'subject'
+
+  let sections, waitingForReverseEntities, flash
+  function getSections () {
+    waitingForReverseEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate, property })
+      .then(res => sections = res)
+      .catch(err => flash = err)
+  }
+  const lazyGetSections = debounce(getSections, 100)
+  $: if (entity) onChange(entity, lazyGetSections)
 </script>
 
 <BaseLayout

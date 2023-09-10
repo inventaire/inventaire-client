@@ -11,6 +11,8 @@
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { byPublicationDate } from '#entities/lib/entities'
   import { setContext } from 'svelte'
+  import { debounce } from 'underscore'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let entity, standalone
 
@@ -19,16 +21,19 @@
   const descriptionLang = getBestLangValue(app.user.lang, originalLang, description)
 
   setContext('layout-context', 'article')
-  let sections, flash
-  const waitingForReverseEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
-    .then(res => {
-      sections = res
-    })
-    .catch(err => flash = err)
 
   let href
   const DOI = claims['wdt:P356']?.[0]
   if (DOI != null) href = `https://dx.doi.org/${DOI}`
+
+  let sections, waitingForReverseEntities, flash
+  function getSections () {
+    waitingForReverseEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
+      .then(res => sections = res)
+      .catch(err => flash = err)
+  }
+  const lazyGetSections = debounce(getSections, 100)
+  $: if (entity) onChange(entity, lazyGetSections)
 
   $: app.navigate(`/entity/${uri}`)
 </script>
