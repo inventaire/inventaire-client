@@ -1,4 +1,4 @@
-import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
+import { priorityPropertiesPerType, propertiesPerType } from '#entities/lib/editor/properties_per_type'
 import { pick, uniq, without } from 'underscore'
 import { typeHasName } from '#entities/lib/types/entities_types'
 import { i18n } from '#user/lib/i18n'
@@ -51,18 +51,9 @@ export async function createEditionAndWorkFromEntry ({ edition, work }) {
   return uri
 }
 
-const propertiesShortlists = {
-  human: [ 'wdt:P1412' ],
-  work: [ 'wdt:P31', 'wdt:P50' ],
-  serie: [ 'wdt:P31', 'wdt:P50' ],
-  edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P1680', 'wdt:P123', 'invp:P2', 'wdt:P407', 'wdt:P577' ],
-  publisher: [ 'wdt:P856', 'wdt:P112', 'wdt:P571', 'wdt:P576' ],
-  collection: [ 'wdt:P1476', 'wdt:P123', 'wdt:P856' ]
-}
-
 export function getPropertiesShortlist (entity) {
   const { type, claims } = entity
-  const typeShortlist = propertiesShortlists[type]
+  const typeShortlist = priorityPropertiesPerType[type]
 
   const claimsProperties = Object.keys(claims)
     .filter(isShortlistableProperty({ claims, type }))
@@ -93,13 +84,13 @@ const isShortlistableProperty = ({ claims, type }) => property => {
   if (!isNonEmptyArray(values)) return false
 
   // Some properties might not have an editor
-  const editorType = propertiesEditorsConfigs[property]?.editorType
-  if (!editorType) return false
+  const datatype = propertiesEditorsConfigs[property]?.datatype
+  if (!datatype) return false
 
   if (propertiesPerType[type][property] == null) return false
 
   // Filter-out fixed editor: 'fixed-entity', 'fixed-string'
-  if (editorType.split('-')[0] === 'fixed') return false
+  if (datatype.split('-')[0] === 'fixed') return false
 
   return true
 }

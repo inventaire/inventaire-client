@@ -1,3 +1,4 @@
+import { authorProperties } from '#entities/lib/properties'
 import { props as promiseProps } from '#lib/promises'
 export default {
   getExtendedAuthorsModels () {
@@ -27,10 +28,3 @@ export default {
     .value()
   }
 }
-
-const authorProperties = [
-  'wdt:P50',
-  'wdt:P58',
-  'wdt:P110',
-  'wdt:P6338'
-]

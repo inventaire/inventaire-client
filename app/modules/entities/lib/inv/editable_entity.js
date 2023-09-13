@@ -43,7 +43,7 @@ export default {
 
     // Some properties don't have an editor, but can still generates edits
     // Ex: external ids set during inventory imports
-    if (propertiesEditorsConfigs[property] && propertiesEditorsConfigs[property].editorType === 'entity') {
+    if (propertiesEditorsConfigs[property] && propertiesEditorsConfigs[property].datatype === 'entity') {
       app.execute('invalidate:entities:graph', [ oldValue, newValue ])
     }
 
