@@ -14,6 +14,7 @@
   import { pick } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
   import { getPropertyValuesShortlist } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+  import { getTypePropertiesPerCategory } from '#entities/components/editor/lib/editors_properties'
 
   export let type, claims, label
 

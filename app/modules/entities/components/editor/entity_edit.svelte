@@ -2,13 +2,13 @@
   import app from '#app/app'
   import { i18n, I18n } from '#user/lib/i18n'
   import LabelsEditor from './labels_editor.svelte'
-  import { getTypePropertiesPerCategory } from '#entities/lib/editor/properties_per_type'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { loadInternalLink, icon } from '#lib/utils'
   import EntityEditMenu from './entity_edit_menu.svelte'
   import PropertyCategory from '#entities/components/editor/property_category.svelte'
   import { typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { onChange } from '#lib/svelte/svelte'
+  import { getTypePropertiesPerCategory } from '#entities/components/editor/lib/editors_properties'
 
   export let entity
 

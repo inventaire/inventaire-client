@@ -11,11 +11,11 @@
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
-  import { getSubentitiesTypes } from '#entities/lib/editor/properties_per_type'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { loadInternalLink } from '#lib/utils'
   import { debounce } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
+  import { getSubentitiesTypes } from '#entities/components/lib/claim_layout_helpers'
 
   export let entity, property
 
