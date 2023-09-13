@@ -64,7 +64,10 @@
     try {
       // entity.claims might still contain values that were entered
       // while `type` was set to another value
-      entity.claims = pick(entity.claims, Object.keys(typeProperties))
+      // 'wdt:P31' might be missing in typeProperties, but is always required
+      // TODO: include 'wdt:P31' in all typeProperties
+      const propertiesToKeep = [ 'wdt:P31', ...Object.keys(typeProperties) ]
+      entity.claims = pick(entity.claims, propertiesToKeep)
       const { uri } = await createAndGetEntity(entity)
       app.execute('show:entity', uri)
     } catch (err) {
