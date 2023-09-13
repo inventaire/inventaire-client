@@ -7,20 +7,26 @@
 
   export let value, property
 
-  const url = externalIdsUrlFormatters[property](value)
+  const formatter = externalIdsUrlFormatters[property]
+  let url
+  if (formatter) url = externalIdsUrlFormatters[property](value)
 
   const dispatch = createEventDispatcher()
 </script>
 
 <button class="value-display" on:click={() => dispatch('edit')} title={I18n('edit')}>
-  <Tooltip>
-    <div slot="primary" aria-haspopup="menu">
-      {value || ''}
-    </div>
-    <div slot="tooltip-content" role="menuitem">
-      <Link {url} text={url} />
-    </div>
-  </Tooltip>
+  {#if url}
+    <Tooltip>
+      <div slot="primary" aria-haspopup="menu">
+        {value || ''}
+      </div>
+      <div slot="tooltip-content" role="menuitem">
+        <Link {url} text={url} />
+      </div>
+    </Tooltip>
+  {:else}
+    {value || ''}
+  {/if}
 </button>
 
 <style lang="scss">
