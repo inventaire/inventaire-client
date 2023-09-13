@@ -26,6 +26,7 @@
   }
 
   function onTypeChange () {
+    flash = null
     entity.type = type
     typeProperties = propertiesPerType[type]
     typePropertiesPerCategory = propertiesPerTypeAndCategory[type]
