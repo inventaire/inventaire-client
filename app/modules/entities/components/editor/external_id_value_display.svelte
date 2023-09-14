@@ -3,7 +3,7 @@
   import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
   import Tooltip from '#components/tooltip.svelte'
-  import { externalIdsUrlFormatters } from '#entities/components/editor/lib/external_ids_url_formatters'
+  import { externalIdsUrlFormatters } from '#entities/lib/entity_links'
 
   export let value, property
 

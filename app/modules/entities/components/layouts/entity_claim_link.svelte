@@ -1,6 +1,7 @@
 <script>
-  import { externalIdsUrlFormatters } from '#entities/components/editor/lib/external_ids_url_formatters'
+  import { externalIdsUrlFormatters } from '#entities/lib/entity_links'
   import Link from '#lib/components/link.svelte'
+
   export let label, property, value
 
   const formatter = externalIdsUrlFormatters[property]
