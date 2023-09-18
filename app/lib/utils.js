@@ -247,5 +247,15 @@ export function convertEmToPx (em) {
 }
 
 export function flatMapKeyValues (object, fn) {
+  assert_.object(object)
+  assert_.function(fn)
   return Object.fromEntries(Object.entries(object).flatMap(fn))
+}
+
+export function sortObjectKeys (object, fn) {
+  assert_.object(object)
+  assert_.function(fn)
+  return Object.fromEntries(Object.entries(object).sort(([ keyA ], [ keyB ]) => {
+    return fn(keyA, keyB)
+  }))
 }

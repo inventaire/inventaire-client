@@ -1,20 +1,20 @@
 <script>
-  import { externalIdsUrlFormatters } from '#entities/lib/entity_links'
+  import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
   import Link from '#lib/components/link.svelte'
 
-  export let label, property, value
+  export let name, property, value
 
-  const formatter = externalIdsUrlFormatters[property]
+  const { getUrl } = externalIdsDisplayConfigs[property]
   let url
-  if (formatter) url = externalIdsUrlFormatters[property](value)
+  if (getUrl) url = getUrl(value)
 </script>
 
 {#if url}
   <!-- TODO: set an icon instead of a text -->
   <Link
     {url}
-    text={label}
-    title={label}
+    text={name}
+    title={name}
     classNames="link"
   />
 {:else}

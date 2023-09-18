@@ -3,13 +3,13 @@
   import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
   import Tooltip from '#components/tooltip.svelte'
-  import { externalIdsUrlFormatters } from '#entities/lib/entity_links'
+  import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
 
   export let value, property
 
-  const formatter = externalIdsUrlFormatters[property]
+  const { getUrl } = externalIdsDisplayConfigs[property]
   let url
-  if (formatter) url = externalIdsUrlFormatters[property](value)
+  if (getUrl) url = getUrl(value)
 
   const dispatch = createEventDispatcher()
 </script>

@@ -3,6 +3,7 @@ import preq from '#lib/preq'
 import { API } from '#app/api/api'
 import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
 import { omit, pick } from 'underscore'
+import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
 
 export const properties = await preq.get(API.data.properties).then(({ properties }) => properties)
 
@@ -10,7 +11,8 @@ export const propertiesPerType = {}
 export const propertiesPerCategory = {}
 
 for (const [ property, propertyMetadata ] of Object.entries(properties)) {
-  const { subjectTypes, category = 'general' } = propertyMetadata
+  const { subjectTypes } = propertyMetadata
+  const category = externalIdsDisplayConfigs[property]?.category || 'general'
   const allowedValuesShortlist = allowedValuesPerTypePerProperty[property]
   for (const type of subjectTypes) {
     const propertyCanBeEdited = !allowedValuesShortlist || allowedValuesShortlist[pluralize(type)].length > 1
