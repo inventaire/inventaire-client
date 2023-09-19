@@ -20,14 +20,18 @@
 
   let waiting, fetchMore, hasMore, allowMore, flash, total
   let items = null
+  let fetching = false
 
   async function fetch () {
     try {
+      if (fetching) return
+      fetching = true
       waiting = fetchMore()
       await waiting
       assert_.array(pagination.items)
       items = pagination.items
       total = pagination.total
+      fetching = false
     } catch (err) {
       flash = err
     }
