@@ -18,16 +18,19 @@
   export let showDistance = false
   export let haveSeveralOwners = false
 
-  let waiting, fetchMore, hasMore, allowMore, flash
+  let waiting, fetchMore, hasMore, allowMore, flash, total
   let items = null
 
   async function fetch () {
-    waiting = fetchMore()
-      .then(() => {
-        assert_.array(pagination.items)
-        items = pagination.items
-      })
-      .catch(err => flash = err)
+    try {
+      waiting = fetchMore()
+      await waiting
+      assert_.array(pagination.items)
+      items = pagination.items
+      total = pagination.total
+    } catch (err) {
+      flash = err
+    }
   }
 
   async function keepScrolling () {
@@ -74,16 +77,12 @@
           on:selectShelf={bubbleUpComponentEvent}
         />
       {/if}
+    {:else if total === 0}
+      <p class="no-item">{i18n('There is nothing here')}</p>
     {:else}
-      {#await waiting}
-        <div class="spinner-wrapper">
-          <Spinner center={true} />
-        </div>
-      {:then}
-        {#if items?.length === 0}
-          <p class="no-item">{i18n('There is nothing here')}</p>
-        {/if}
-      {/await}
+      <div class="spinner-wrapper">
+        <Spinner center={true} />
+      </div>
     {/if}
     <Flash state={flash} />
   </div>

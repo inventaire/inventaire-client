@@ -94,8 +94,9 @@ const getNetworkItems = async params => {
 }
 
 const updateItemsParams = (res, params) => {
-  const { items: newItems, continue: continu } = res
+  const { items: newItems, continue: continu, total } = res
   params.hasMore = continu != null
+  params.total = total
   addItemsUsers(res)
   params.items.push(...newItems)
   return res
