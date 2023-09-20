@@ -16,7 +16,7 @@
 
   async function sendInvitations () {
     try {
-      const res = await sendEmailInvitations({ emails: rawEmails, message, group: group._id })
+      const res = await sendEmailInvitations({ emails: rawEmails, message, group: group?._id })
       usersAlreadyThere = usersAlreadyThere.concat(res.users)
       emailsInvited = uniq(emailsInvited.concat(res.emails))
     } catch (err) {
