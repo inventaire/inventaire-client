@@ -58,7 +58,6 @@ function serializePatch (patch) {
     invEntityUri: `inv:${entityId}`,
     versionNumber,
   })
-  patch.anonymized = !patch.user
   mergeTestAndRemoveOperations(patch)
   setOperationsData(patch)
   patch.patchType = findPatchType(patch)
@@ -111,7 +110,7 @@ function setOperationData (operation, user) {
     operation.propertyLabel = 'type'
   }
 
-  if (operation.filter) {
+  if (operation.filter && user) {
     const { _id: userId } = user
     operation.filterPathname = `/users/${userId}/contributions?filter=${operation.filter}`
   }

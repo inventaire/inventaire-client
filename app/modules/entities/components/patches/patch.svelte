@@ -10,7 +10,7 @@
 
   let flash
 
-  const { _id: patchId, versionNumber, invEntityUri, operations, anonymized, timestamp, context, user } = patch
+  const { _id: patchId, versionNumber, invEntityUri, operations, timestamp, context, user } = patch
 
   async function revert () {
     try {
@@ -33,20 +33,22 @@
   </p>
   <p>
     <span class="label">{i18n('user')}:</span>
-    {#if anonymized}
-      <span class="value"><em>{i18n('anonymized')}</em></span>
-    {:else if user.special}
-      <span class="value">{user.username}</span>
-      <span class="special-user">{I18n('special user')}</span>
-    {:else if user.deleted}
-      <span class="value">{user.username}</span>
-      <span class="deleted-user">{i18n('deleted')}</span>
+    {#if user}
+      {#if user.special}
+        <span class="value">{user.username}</span>
+        <span class="special-user">{I18n('special user')}</span>
+      {:else if user.deleted}
+        <span class="value">{user.username}</span>
+        <span class="deleted-user">{i18n('deleted')}</span>
+      {:else}
+        <a class="value show-user" href={user.pathname} on:click={loadInternalLink}>{user.username}</a>
+      {/if}
+      <a class="show-user-contributions" href={user.contributionsPathname} on:click={loadInternalLink}>
+        {i18n('contributions')}
+      </a>
     {:else}
-      <a class="value show-user" href={user.pathname} on:click={loadInternalLink}>{user.username}</a>
+      <span class="value"><em>{i18n('anonymized')}</em></span>
     {/if}
-    <a class="show-user-contributions" href={user.contributionsPathname} on:click={loadInternalLink}>
-      {i18n('contributions')}
-    </a>
   </p>
   <p>
     <span class="label">{i18n('date')}:</span>
