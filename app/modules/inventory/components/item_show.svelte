@@ -128,7 +128,7 @@
 
     <div class="two">
       <ItemShowData bind:item {user} bind:flash />
-      <ItemShelves bind:serializedItem={item} />
+      <ItemShelves bind:serializedItem={item} bind:flash />
       {#if app.user.loggedIn}
         <ItemActiveTransactions {item} bind:flash />
       {/if}

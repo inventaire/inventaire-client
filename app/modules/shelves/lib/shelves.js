@@ -9,10 +9,10 @@ export function getById (id) {
   .then(getShelf)
 }
 
-export async function getByIds (ids) {
+export async function getShelvesByIds (ids) {
   if (ids.length === 0) return {}
   const { shelves } = await preq.get(app.API.shelves.byIds(ids))
-  return shelves
+  return Object.values(shelves).sort(byName)
 }
 
 export async function createShelf (params) {
@@ -52,7 +52,7 @@ export async function addItemsByIdsToShelf ({ shelfId, itemsIds }) {
 export async function getShelvesByOwner (userId) {
   assert_.string(userId)
   const { shelves } = await preq.get(app.API.shelves.byOwners(userId))
-  return Object.values(shelves)
+  return Object.values(shelves).sort(byName)
 }
 
 export async function countShelves (userId) {
@@ -96,3 +96,6 @@ export function getShelfMetadata (shelf) {
     rss: app.API.feeds('shelf', shelfId),
   }
 }
+
+const byName = (a, b) => normalizeName(a.name) > normalizeName(b.name)
+const normalizeName = name => name.toLowerCase()

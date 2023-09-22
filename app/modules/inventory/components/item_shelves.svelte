@@ -2,12 +2,13 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon, loadInternalLink } from '#lib/utils'
   import Spinner from '#components/spinner.svelte'
-  import { getShelvesByOwner, getByIds as getShelvesByIds } from '#shelves/lib/shelves'
+  import { getShelvesByOwner, getShelvesByIds } from '#shelves/lib/shelves'
   import ShelfInfo from '#inventory/components/shelf_info.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { debounce, isEqual } from 'underscore'
 
   export let serializedItem
+  export let flash
 
   const { _id: itemId, mainUserIsOwner } = serializedItem
   let { shelves: shelvesIds } = serializedItem
@@ -18,11 +19,11 @@
   if (mainUserIsOwner) {
     waitForShelves = getShelvesByOwner(app.user.id)
       .then(res => userShelves = res)
+      .catch(err => flash = err)
   } else {
     waitForShelves = getShelvesByIds(shelvesIds)
-      .then(res => {
-        itemShelves = Object.values(res)
-      })
+      .then(res => itemShelves = res)
+      .catch(err => flash = err)
   }
 
   let selectedShelves, displayedShelves
@@ -34,13 +35,17 @@
 
   let currentShelves = shelvesIds
   async function save () {
-    if (isEqual(shelvesIds, currentShelves)) return
-    serializedItem.shelves = currentShelves = shelvesIds
-    await app.request('items:update', {
-      items: [ itemId ],
-      attribute: 'shelves',
-      value: shelvesIds,
-    })
+    try {
+      if (isEqual(shelvesIds, currentShelves)) return
+      serializedItem.shelves = currentShelves = shelvesIds
+      await app.request('items:update', {
+        items: [ itemId ],
+        attribute: 'shelves',
+        value: shelvesIds,
+      })
+    } catch (err) {
+      flash = err
+    }
   }
 
   const lazySave = debounce(save, 500)
