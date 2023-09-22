@@ -67,12 +67,18 @@ export async function showUserListings (user) {
 const API = {
   showHome,
   showNetworkHome () {
+    const pathname = 'users/network'
     app.navigate('users/network')
-    return showUsersHome({ section: 'network' })
+    if (app.request('require:loggedIn', pathname)) {
+      showUsersHome({ section: 'network' })
+    }
   },
   showPublicHome () {
-    app.navigate('users/public')
-    return showUsersHome({ section: 'public' })
+    const pathname = 'users/public'
+    app.navigate(pathname)
+    if (app.request('require:loggedIn', pathname)) {
+      showUsersHome({ section: 'public' })
+    }
   },
   showUserProfile,
   showUserInventory,
