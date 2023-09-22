@@ -17,7 +17,6 @@ import Settings from '#settings/settings'
 import Tasks from '#tasks/tasks'
 import Shelves from '#shelves/shelves'
 import Listings from '#listings/listings'
-import initMap from '#map/map'
 import AppLayout from '#general/views/app_layout'
 import reloadOnceADay from '#lib/reload_once_a_day'
 import initQuerystringHelpers from '#lib/querystring_helpers'
@@ -50,7 +49,6 @@ export default async function () {
   Tasks.initialize()
   Shelves.initialize()
   Listings.initialize()
-  initMap()
   initQuerystringHelpers()
 
   await app.request('wait:for', 'i18n')

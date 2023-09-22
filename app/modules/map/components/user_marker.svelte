@@ -3,9 +3,9 @@
   import { I18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { icon } from '#lib/handlebars_helpers/icons'
-  import { showMainUserPositionPicker } from '#map/lib/map'
   import { createEventDispatcher } from 'svelte'
   import { isOpenedOutside } from '#lib/utils'
+  import UserPositionPicker from '#settings/components/user_position_picker.svelte'
 
   export let doc
   const { _id, username, picture } = doc
@@ -20,6 +20,8 @@
       e.preventDefault()
     }
   }
+
+  let showPositionPicker
 </script>
 
 <div class="objectMarker userMarker">
@@ -39,9 +41,11 @@
   {#if isMainUser}
     <button
       id="showPositionPicker"
-      on:click={showMainUserPositionPicker}
+      on:click={() => showPositionPicker = true}
     >
       {@html icon('pencil')}
     </button>
   {/if}
 </div>
+
+<UserPositionPicker bind:showPositionPicker />

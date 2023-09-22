@@ -8,9 +8,9 @@
   import error_ from '#lib/error'
   import { looksLikeSpam } from '#lib/spam'
   import Modal from '#components/modal.svelte'
-  import PositionPicker from '#map/components/position_picker.svelte'
   import PicturePicker from '#components/picture_picker.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import UserPositionPicker from '#settings/components/user_position_picker.svelte'
 
   let bioState, usernameState
   let usernameValue = $user.username
@@ -104,10 +104,6 @@
 
   let showPositionPicker, showPicturePicker
 
-  async function savePosition (latLng) {
-    await updateUserReq('position', latLng)
-  }
-
   async function savePicture (imageHash) {
     await updateUserReq('picture', `/img/users/${imageHash}`)
   }
@@ -195,16 +191,7 @@
   </Modal>
 {/if}
 
-{#if showPositionPicker}
-  <Modal size="large" on:closeModal={() => showPositionPicker = false}>
-    <PositionPicker
-      type="user"
-      position={$user.position}
-      {savePosition}
-      on:positionPickerDone={() => showPositionPicker = false}
-    />
-  </Modal>
-{/if}
+<UserPositionPicker bind:showPositionPicker />
 
 <style lang="scss">
   @import "#settings/scss/common_settings";

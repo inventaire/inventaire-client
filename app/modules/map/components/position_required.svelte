@@ -1,7 +1,9 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import { showMainUserPositionPicker } from '#map/lib/map'
+  import UserPositionPicker from '#settings/components/user_position_picker.svelte'
+
+  let showPositionPicker
 </script>
 
 <div class="position-required">
@@ -11,7 +13,7 @@
   </p>
   <button
     class="button light-blue"
-    on:click={showMainUserPositionPicker}
+    on:click={() => showPositionPicker = true}
   >
     {@html icon('map-marker')}
     {I18n('edit your position')}
@@ -19,6 +21,8 @@
   <p class="tip">{i18n('position_privacy_context')}</p>
   <p class="tip">{i18n('position_privacy_tip')}</p>
 </div>
+
+<UserPositionPicker bind:showPositionPicker />
 
 <style lang="scss">
   @import "#general/scss/utils";
