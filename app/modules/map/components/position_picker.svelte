@@ -14,7 +14,7 @@
   export let position
   export let savePosition
 
-  let title, context, tip, map, marker, flash, metersRadius
+  let title, context, tip, map, marker, flash, metersRadius, waitingForPosition
 
   if (type === 'user') {
     title = 'edit your position'
@@ -31,7 +31,7 @@
 
   let mapLatLng = position
   if (!mapLatLng) {
-    getPositionFromNavigator()
+    waitingForPosition = getPositionFromNavigator()
       .then(({ lat, lng }) => mapLatLng = [ lat, lng ])
       .catch(err => flash = err)
   }
@@ -91,6 +91,12 @@
           {metersRadius}
         />
       </LeafletMap>
+    {:else}
+      {#await waitingForPosition}
+        <div class="waiting-for-position">
+          <Spinner />
+        </div>
+      {/await}
     {/if}
   </div>
   {#if tip}
@@ -145,6 +151,10 @@
   .map-container{
     background-color: $lighter-grey;
     height: 40em;
+  }
+  .waiting-for-position{
+    height: 100%;
+    @include display-flex(column, center, center);
   }
   /* Small screens */
   @media screen and (max-width: $smaller-screen){
