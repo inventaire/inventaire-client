@@ -1,5 +1,5 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   import CandidateNav from '#inventory/components/importer/candidate_nav.svelte'
   import { scrollToElement } from '#lib/screen'
@@ -14,7 +14,7 @@
   $: candidatesLength = candidates.length
   $: selectedBooksCount = candidates.filter(_.property('checked')).length
 </script>
-<h3 bind:this={titleEl}>2/ Select the books you want to add</h3>
+<h3 bind:this={titleEl}>2/ {i18n('Select the books you want to add')}</h3>
 {#if candidatesLength > 20}
   <CandidateNav bind:candidates />
 {/if}
