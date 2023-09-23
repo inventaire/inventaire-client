@@ -21,7 +21,13 @@
     }
   }
 
-  let showPositionPicker
+  export async function showMainUserPositionPicker () {
+    app.layout.showChildComponent('svelteModal', UserPositionPicker, {
+      props: {
+        showPositionPicker: true
+      }
+    })
+  }
 </script>
 
 <div class="objectMarker userMarker">
@@ -41,11 +47,10 @@
   {#if isMainUser}
     <button
       id="showPositionPicker"
-      on:click={() => showPositionPicker = true}
+      on:click={showMainUserPositionPicker}
     >
       {@html icon('pencil')}
     </button>
   {/if}
 </div>
 
-<UserPositionPicker bind:showPositionPicker />
