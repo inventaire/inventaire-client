@@ -101,8 +101,13 @@
     if (map) map.fitBounds(bounds, { maxZoom: zoom })
   }
 
+  function onViewChange () {
+    if (map) map.setView(view, zoom)
+  }
+
   $: onChange(map, init)
-  $: onChange(bounds, onBoundsChange)
+  $: if (bounds) onChange(bounds, onBoundsChange)
+  $: if (view) onChange(view, onViewChange)
 </script>
 
 <Flash state={flash} />

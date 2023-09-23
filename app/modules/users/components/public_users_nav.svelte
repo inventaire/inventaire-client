@@ -15,6 +15,7 @@
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
+  import { wait } from '#lib/promises'
 
   export let filter = null
   export let focusedSection
@@ -55,8 +56,14 @@
     }
   }
 
-  function initMapViewFromMainUserPosition () {
+  async function onMainUserPositionChange () {
+    const positionChanged = mapViewLatLng != null
     mapViewLatLng = $user.position
+    if (positionChanged) {
+      // Give the time to the server to save the new user position before refetching nearby users
+      await wait(1000)
+      fetchAndShowUsersAndGroupsOnMap()
+    }
   }
 
   function mapIsTooZoomedOut () {
@@ -74,7 +81,7 @@
   let usersInBounds, groupsInBounds
 
   $: onChange(map, fetchAndShowUsersAndGroupsOnMap)
-  $: onChange($user.position, initMapViewFromMainUserPosition)
+  $: onChange($user.position, onMainUserPositionChange)
   $: onChange(mapZoom, usersInBounds, groupsInBounds, updateZoomStatus)
 
   let selectedUser, selectedGroup
@@ -146,7 +153,7 @@
         >
           {#if usersInBounds && !zoomInToDisplayMore}
             {#each usersInBounds as user (user._id)}
-              <Marker latLng={user.position}>
+              <Marker latLng={user.position} standalone={user.isMainUser}>
                 <UserMarker doc={user} on:select={onSelectUser} />
               </Marker>
             {/each}
