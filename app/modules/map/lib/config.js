@@ -28,6 +28,9 @@ Imagery © <a href="http://mapbox.com">Mapbox</a>`,
     // Different styles are available https://docs.mapbox.com/api/maps/#styles
     id: 'mapbox/streets-v8',
     accessToken: config.mapTilesAccessToken,
+    // Increase the font size, see https://gis.stackexchange.com/a/346383
+    tileSize: 512,
+    zoomOffset: -1,
   },
   defaultZoom: 13,
 }
