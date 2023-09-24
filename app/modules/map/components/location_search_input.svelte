@@ -1,94 +1,90 @@
 <script>
-  import getActionKey from '#lib/get_action_key'
+  import Flash from '#lib/components/flash.svelte'
+  import { fitResultBbox, searchLocationByText } from '#map/lib/nominatim'
+  import { i18n } from '#user/lib/i18n'
+  import { debounce } from 'underscore'
 
   export let map
 
-  let results
+  let results, flash
+  let lastSearchQuery = ''
 
-  let resultList
-
-  let searchQuery = ''
-
-  function searchLocation () {
-    fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-        searchQuery
-      )}&format=json`
-    )
-      .then(response => response.json())
-      .then(data => {
-        if (data.length > 0) {
-          results = data
-        }
-      })
-      .catch(error => {
-        console.error('Error searching location:', error)
-      })
-  }
-
-  function setView (index) {
-    let mapZoom = 13
-    const latLng = [
-      parseFloat(results[index].lat),
-      parseFloat(results[index].lon),
-    ]
-    map.setView(latLng, mapZoom)
-    L.marker(latLng).addTo(map)
-    resultList.remove()
-  }
-
-  function searchKey (e) {
-    if (getActionKey(e) === 'enter') {
-      searchLocation()
+  async function searchLocation (e) {
+    const searchQuery = e.target.value
+    if (searchQuery === lastSearchQuery && results != null) return
+    lastSearchQuery = searchQuery
+    try {
+      results = await searchLocationByText(searchQuery)
+    } catch (err) {
+      flash = err
     }
   }
 
+  const lazySearchLocation = debounce(searchLocation, 500)
+
+  function selectResult (result) {
+    fitResultBbox(map, result)
+    results = null
+  }
 </script>
 
-<div id="locationSearchInput">
+<div class="location-search-input">
   <input
-    type="text"
-    bind:value={searchQuery}
-    on:keydown={searchKey}
-    placeholder="Search for a location"
+    type="search"
+    on:focus={lazySearchLocation}
+    on:keydown={lazySearchLocation}
+    placeholder={i18n('Search for a location')}
   />
-  <button on:click={searchLocation}>Search</button>
   {#if results}
-    <ul bind:this={resultList}>
-      {#each results as result, i}
-        <!-- {console.log(result)} -->
-        <li on:click={() => setView(i)} on:keypress={() => setView(i)}>{result.display_name}</li>
+    <ul tabindex="-1">
+      {#each results as result (result.osm_id)}
+        <li>
+          <button on:click={() => selectResult(result)}>
+            <span class="name">{result.name}</span>
+            <span class="description">{result.description}</span>
+          </button>
+        </li>
       {/each}
     </ul>
   {/if}
+  <Flash state={flash} />
 </div>
 
-<style>
-    #locationSearchInput{
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 1000;
-      padding: 10px;
-      width: 300px;
+<style lang="scss">
+  @import '#general/scss/utils';
+  .location-search-input{
+    position: absolute;
+    inset-block-start: 0.5em;
+    inset-inline-end: 0.5em;
+    z-index: 1000;
+    width: min(20em, 80%);
+    @include radius;
+    overflow: hidden;
+  }
+  input{
+    margin: 0;
+  }
+  ul{
+    background-color: $off-white;
+    max-height: 20em;
+    overflow-y: auto;
+  }
+  li{
+    button{
+      width: 100%;
+      padding: 0.5em;
+      text-align: start;
+      @include bg-hover($off-white);
+      span{
+        display: block;
+        line-height: 1.4rem;
+      }
     }
-
-    #locationSearchInput button{
-      background-color: blue;
-      color: white;
-      font-weight: bold;
-    }
-
-    #locationSearchInput ul{
-      background-color: aliceblue;
-      padding: 5px;
-    }
-
-    #locationSearchInput li{
-        padding-bottom: 5px;
-        border-bottom: 2px solid black;
-    }
-    #locationSearchInput li:hover{
-        cursor: pointer;
-    }
+  }
+  .description{
+    color: $grey;
+  }
+  li:not(:last-child){
+    border-block-end: 1px solid $grey;
+  }
 </style>
