@@ -1,4 +1,5 @@
 <script>
+  import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { fitResultBbox, searchLocationByText } from '#map/lib/nominatim'
   import { i18n } from '#user/lib/i18n'
@@ -9,12 +10,18 @@
   let results, flash
   let lastSearchQuery = ''
 
+  let searching
   async function searchLocation (e) {
     const searchQuery = e.target.value
     if (searchQuery === lastSearchQuery && results != null) return
     lastSearchQuery = searchQuery
+    if (searchQuery === '') {
+      results = null
+      return
+    }
     try {
-      results = await searchLocationByText(searchQuery)
+      searching = searchLocationByText(searchQuery)
+      results = await searching
     } catch (err) {
       flash = err
     }
@@ -35,18 +42,26 @@
     on:keydown={lazySearchLocation}
     placeholder={i18n('Search for a location')}
   />
-  {#if results}
-    <ul tabindex="-1">
-      {#each results as result (result.osm_id)}
-        <li>
-          <button on:click={() => selectResult(result)}>
-            <span class="name">{result.name}</span>
-            <span class="description">{result.description}</span>
-          </button>
-        </li>
-      {/each}
-    </ul>
-  {/if}
+  {#await searching}
+    <div class="spinner-wrapper">
+      <Spinner />
+    </div>
+  {:then}
+    {#if results}
+      <ul tabindex="-1">
+        {#each results as result (result.osm_id)}
+          <li>
+            <button on:click={() => selectResult(result)}>
+              <span class="name">{result.name}</span>
+              <span class="description">{result.description}</span>
+            </button>
+          </li>
+        {:else}
+          <li class="no-result">{i18n('no result')}</li>
+        {/each}
+      </ul>
+    {/if}
+  {/await}
   <Flash state={flash} />
 </div>
 
@@ -81,10 +96,19 @@
       }
     }
   }
-  .description{
+  .description, .no-result{
     color: $grey;
+  }
+  .no-result{
+    text-align: center;
+    padding: 0.5em;
   }
   li:not(:last-child){
     border-block-end: 1px solid $grey;
+  }
+  .spinner-wrapper{
+    position: absolute;
+    inset-block-start: 0.5em;
+    inset-inline-end: 0.5em;
   }
 </style>
