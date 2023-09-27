@@ -1,7 +1,6 @@
 <script>
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon, truncateText } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { truncateText } from '#lib/utils'
   export let option, withImage = false, displayCount = true
 </script>
 

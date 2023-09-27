@@ -9,7 +9,7 @@
   import preq from '#lib/preq'
   import { isComponentEvent } from '#lib/boolean_tests'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import { currentEditorKey, errorMessageFormatter, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import Spinner from '#components/spinner.svelte'
 

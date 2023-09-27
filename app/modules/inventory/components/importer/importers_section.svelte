@@ -9,7 +9,7 @@
   import IsbnImporter from './isbn_importer.svelte'
   import Counter from '#components/counter.svelte'
   import Spinner from '#components/spinner.svelte'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import { addExistingItemsCounts, createExternalEntry, getExternalEntriesEntities } from '#inventory/components/importer/lib/importers_section_helpers'
 
   export let candidates, isbns, processing, isbnImporterEl

@@ -1,5 +1,5 @@
 <script>
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import { uniqueId } from 'underscore'
 
   export let text

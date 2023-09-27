@@ -1,7 +1,6 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/handlebars_helpers/icons'
-  import { loadInternalLink } from '#lib/utils'
+  import { icon, loadInternalLink } from '#lib/utils'
   import { buildPath } from '#lib/location'
 
   export let waiting, questionText, createButtons

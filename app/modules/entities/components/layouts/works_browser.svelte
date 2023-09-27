@@ -1,7 +1,7 @@
 <script>
   import SelectDropdown from '#components/select_dropdown.svelte'
   import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import { screen } from '#lib/components/stores/screen'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { I18n, i18n } from '#user/lib/i18n'

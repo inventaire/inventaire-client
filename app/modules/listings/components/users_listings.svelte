@@ -7,7 +7,7 @@
   import { getListingsByCreators, serializeListing } from '#modules/listings/lib/listings'
   import Modal from '#components/modal.svelte'
   import ListingEditor from '#listings/components/listing_editor.svelte'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import { getViewportHeight, getViewportWidth } from '#lib/screen'
 
   export let usersIds, onUserLayout

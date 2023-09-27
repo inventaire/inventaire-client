@@ -5,7 +5,7 @@
   import { getLangEntities, getPublishersEntities, getPublicationYears, hasPublisher, hasPublicationYear } from '#entities/components/lib/editions_list_actions_helpers'
   import Flash from '#lib/components/flash.svelte'
   import { onChange } from '#lib/svelte/svelte'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import { getContext } from 'svelte'
 
   export let editions, initialEditions

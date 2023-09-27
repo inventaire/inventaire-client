@@ -4,7 +4,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import EntitySuggestion from './entity_suggestion.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import typeSearch from '#entities/lib/search/type_search'
   import { createByProperty } from '#entities/lib/create_entities'
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'

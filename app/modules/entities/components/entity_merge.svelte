@@ -1,7 +1,7 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import EntityMergeSection from '#entities/components/entity_merge_section.svelte'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Flash from '#lib/components/flash.svelte'
   import { entityTypeNameByType, pluralize } from '#entities/lib/types/entities_types'

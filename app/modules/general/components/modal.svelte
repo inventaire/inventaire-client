@@ -4,7 +4,7 @@
 
 <script>
   import { getActionKey } from '#lib/key_events'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'

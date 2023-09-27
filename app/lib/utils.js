@@ -3,6 +3,7 @@ import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
 import error_ from '#lib/error'
 import { currentRoute } from '#lib/location'
+import { iconPaths } from '#lib/handlebars_helpers/icon_paths'
 
 const oneDay = 24 * 60 * 60 * 1000
 const iconAliases = {
@@ -15,7 +16,12 @@ const iconAliases = {
 export const icon = (name, classes = '') => {
   assert_.string(name)
   name = iconAliases[name] || name
-  return `<i class='fa fa-${name} ${classes}'></i>`
+  if (iconPaths[name] != null) {
+    const src = iconPaths[name]
+    return `<img class="icon icon-${name} ${classes}" src="${src}">`
+  } else {
+    return `<i class="fa fa-${name} ${classes}"></i>`
+  }
 }
 
 export const deepClone = obj => {

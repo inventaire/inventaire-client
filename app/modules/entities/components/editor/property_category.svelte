@@ -3,7 +3,7 @@
   import { I18n } from '#user/lib/i18n'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import { onChange } from '#lib/svelte/svelte'
 
   export let entity, category, categoryProperties

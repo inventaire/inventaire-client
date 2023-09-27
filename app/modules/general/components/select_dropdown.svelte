@@ -5,7 +5,7 @@
   import Dropdown from '#components/dropdown.svelte'
   import SelectDropdownOption from '#components/select_dropdown_option.svelte'
   import { getActionKey } from '#lib/key_events'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { icon } from '#lib/utils'
   import { I18n } from '#user/lib/i18n'
   import { uniqueId } from 'underscore'
 
