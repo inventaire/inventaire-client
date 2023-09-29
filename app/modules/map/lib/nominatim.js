@@ -17,6 +17,10 @@ export async function searchLocationByText (searchText) {
 
 function serializeNominatimResults (result) {
   result.description = getResultDescription(result)
+  result.latLng = [
+    parseFloat(result.lat),
+    parseFloat(result.lon),
+  ]
   return result
 }
 

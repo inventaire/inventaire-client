@@ -1,4 +1,3 @@
-import log_ from '#lib/loggers'
 import { truncateDecimals } from './geo.js'
 import pTimeout from 'p-timeout'
 
@@ -16,29 +15,15 @@ const currentPosition = () => new Promise((resolve, reject) => {
   // thus the need to create a new error from it
   const formattedReject = err => reject(new Error(err.message || 'getCurrentPosition error'))
 
-  // The timeout option doesn't seem to have any effect
-  const options = { timeout }
-
-  navigator.geolocation.getCurrentPosition(resolve, formattedReject, options)
+  navigator.geolocation.getCurrentPosition(resolve, formattedReject, {
+    timeout,
+    maximumAge: 5 * 60 * 1000,
+    enableHighAccuracy: false
+  })
 })
 
-const normalizeCoords = function (position) {
+export async function getPositionFromNavigator () {
+  const position = await pTimeout(currentPosition(), timeout + 100)
   const { latitude, longitude } = position.coords
   return { lat: truncateDecimals(latitude), lng: truncateDecimals(longitude) }
-}
-
-const returnPlaceholderCoords = function (err) {
-  log_.warn(err, "couldn't obtain user's position: returning placeholder coordinates")
-  return {
-    lat: 46.2324,
-    lng: 6.0450,
-    zoom: 3
-  }
-}
-
-export function getPositionFromNavigator () {
-  return pTimeout(currentPosition(), timeout)
-  .then(normalizeCoords)
-  .then(log_.Info('current position'))
-  .catch(returnPlaceholderCoords)
 }

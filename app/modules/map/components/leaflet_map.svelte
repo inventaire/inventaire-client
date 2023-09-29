@@ -15,6 +15,8 @@
   import { onChange } from '#lib/svelte/svelte'
   import Flash from '#lib/components/flash.svelte'
   import { uniqBounds } from '#map/lib/map'
+  import { fitResultBbox } from '#map/lib/nominatim'
+  import LocationSearchInput from '#map/components/location_search_input.svelte'
 
   mapConfig.init()
 
@@ -23,6 +25,7 @@
   export let view = null
   export let zoom = 13
   export let cluster = false
+  export let showLocationSearchInput = false
 
   export let map
 
@@ -110,16 +113,30 @@
   $: if (view) onChange(view, onViewChange)
 </script>
 
-<Flash state={flash} />
+<div class="map-wrapper">
+  <Flash state={flash} />
 
-<div use:createLeaflet>
-  {#if map}
-    <slot {map} />
+  {#if showLocationSearchInput && map}
+    <div class="location-search-input-wrapper">
+      <LocationSearchInput on:selectLocation={e => fitResultBbox(map, e.detail)} />
+    </div>
   {/if}
+
+  <div class="map" use:createLeaflet>
+    {#if map}
+      <slot {map} />
+    {/if}
+  </div>
 </div>
 
-<style>
-  div{
+<style lang="scss">
+  @import '#general/scss/utils';
+  .map-wrapper{
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+  .map{
     height: 100%;
     width: 100%;
   }
@@ -128,5 +145,14 @@
   }
   :global(.leaflet-marker-icon){
     border: 0;
+  }
+  .location-search-input-wrapper{
+    position: absolute;
+    inset-block-start: 0.5em;
+    inset-inline-end: 0.5em;
+    z-index: 1000;
+    width: min(20em, 80%);
+    @include radius;
+    overflow: hidden;
   }
 </style>

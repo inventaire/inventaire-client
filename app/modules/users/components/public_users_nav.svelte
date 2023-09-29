@@ -15,7 +15,6 @@
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
-  import LocationSearchInput from '#map/components/location_search_input.svelte'
   import { wait } from '#lib/promises'
 
   export let filter = null
@@ -145,13 +144,13 @@
     </div>
 
     <div id="mapContainer">
-      <LocationSearchInput {map} />
       {#if mapViewLatLng}
         <LeafletMap
           bind:map
           view={mapViewLatLng}
           bind:zoom={mapZoom}
           cluster={true}
+          showLocationSearchInput={true}
           on:moveend={fetchAndShowUsersAndGroupsOnMap}
         >
           {#if usersInBounds && !zoomInToDisplayMore}

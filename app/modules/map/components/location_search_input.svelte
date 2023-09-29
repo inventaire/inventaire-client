@@ -1,11 +1,13 @@
 <script>
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
-  import { fitResultBbox, searchLocationByText } from '#map/lib/nominatim'
+  import { searchLocationByText } from '#map/lib/nominatim'
   import { i18n } from '#user/lib/i18n'
+  import { createEventDispatcher } from 'svelte'
   import { debounce } from 'underscore'
 
-  export let map
+  export let inputLabel = null
+  export let inputPlaceholder = null
 
   let results, flash
   let lastSearchQuery = ''
@@ -29,18 +31,24 @@
 
   const lazySearchLocation = debounce(searchLocation, 500)
 
+  const dispatch = createEventDispatcher()
+
   function selectResult (result) {
-    fitResultBbox(map, result)
+    dispatch('selectLocation', result)
     results = null
   }
 </script>
 
 <div class="location-search-input">
+  {#if inputLabel}
+    <label for="locationSearchInput">{inputLabel}</label>
+  {/if}
   <input
     type="search"
+    id="locationSearchInput"
     on:focus={lazySearchLocation}
     on:keydown={lazySearchLocation}
-    placeholder={i18n('Search for a location')}
+    placeholder={inputPlaceholder || i18n('Search for a location')}
   />
   {#await searching}
     <div class="spinner-wrapper">
@@ -67,17 +75,12 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .location-search-input{
-    position: absolute;
-    inset-block-start: 0.5em;
-    inset-inline-end: 0.5em;
-    z-index: 1000;
-    width: min(20em, 80%);
-    @include radius;
-    overflow: hidden;
-  }
   input{
     margin: 0;
+  }
+  label{
+    font-size: 1rem;
+    margin-block-end: 0.2rem;
   }
   ul{
     background-color: $off-white;
