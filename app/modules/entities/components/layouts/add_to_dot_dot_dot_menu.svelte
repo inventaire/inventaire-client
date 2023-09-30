@@ -76,6 +76,7 @@
     <Dropdown
       {align}
       buttonTitle={i18n('Add this work to your inventory or to a list')}
+      dropdownWidthBaseInEm={25}
     >
       <div slot="button-inner">
         <span>

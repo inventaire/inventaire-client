@@ -28,7 +28,7 @@
 </script>
 
 <div class="language-picker">
-  <Dropdown>
+  <Dropdown dropdownWidthBaseInEm={18}>
     <div slot="button-inner">
       <span class="current-lang">{currentLanguage}</span>
       <span class="current-lang-short">{currentLanguageShortName}</span>
@@ -82,9 +82,6 @@
     span{
       color: white;
     }
-  }
-  [slot="dropdown-content"]{
-    min-width: min(18em, 100vw);
   }
   .options{
     overflow-y: auto;

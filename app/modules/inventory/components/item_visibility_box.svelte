@@ -10,7 +10,7 @@
   export let item
   export let flash
   export let large = false
-  export let widthReferenceEl = null
+  export let dropdownWidthReferenceEl = null
 
   let visibility = item.visibility
   let savedVisibility = visibility
@@ -61,7 +61,7 @@
     align="right"
     buttonTitle={i18n('Select who can see this item')}
     {clickOnContentShouldCloseDropdown}
-    {widthReferenceEl}
+    {dropdownWidthReferenceEl}
     alignDropdownWidthOnButton={large}
   >
     <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->

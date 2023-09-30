@@ -66,8 +66,7 @@
 </script>
 
 <div class="menu-wrapper">
-  <Dropdown buttonTitle={i18n('Show actions')}
-  >
+  <Dropdown buttonTitle={i18n('Show actions')} dropdownWidthBaseInEm={14}>
     <div slot="button-inner">
       {@html icon('cog')}
     </div>
@@ -182,7 +181,6 @@
     @include shy-border;
     background-color: white;
     @include radius;
-    min-inline-size: 14em;
     button, :global(a){
       font-weight: normal;
       flex: 1;

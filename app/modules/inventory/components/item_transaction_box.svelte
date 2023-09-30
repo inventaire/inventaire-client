@@ -9,7 +9,7 @@
   export let item
   export let flash
   export let large = false
-  export let widthReferenceEl = null
+  export let dropdownWidthReferenceEl = null
 
   const { pathname, restricted } = item
 
@@ -52,7 +52,7 @@
       buttonTitle={i18n('Select transaction mode')}
       clickOnContentShouldCloseDropdown={true}
       align="left"
-      {widthReferenceEl}
+      {dropdownWidthReferenceEl}
       alignDropdownWidthOnButton={large}
     >
       <!-- Not using a dynamic class to avoid `no-unused-selector` warnings -->

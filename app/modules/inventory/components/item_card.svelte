@@ -91,9 +91,9 @@
       <ItemUserBox user={item.user} />
       <div class="item-card-settings" bind:this={itemCardSettingsEl}>
         {#if !isPrivate}
-          <ItemTransactionBox bind:item bind:flash widthReferenceEl={itemCardSettingsEl} />
+          <ItemTransactionBox bind:item bind:flash dropdownWidthReferenceEl={itemCardSettingsEl} />
         {/if}
-        <ItemVisibilityBox bind:item bind:flash widthReferenceEl={itemCardSettingsEl} />
+        <ItemVisibilityBox bind:item bind:flash dropdownWidthReferenceEl={itemCardSettingsEl} />
       </div>
     {/if}
     {#if details}

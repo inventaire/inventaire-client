@@ -234,3 +234,8 @@ export const setIntersection = (a, b) => {
   const intersection = Array.from(arrayOrSet).filter(value => set.has(value))
   return new Set(intersection)
 }
+
+export function convertEmToPx (em) {
+  const emToPxRatio = parseFloat(getComputedStyle(document.body).fontSize)
+  return em * emToPxRatio
+}

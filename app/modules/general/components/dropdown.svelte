@@ -4,12 +4,15 @@
   import { getActionKey } from '#lib/key_events'
   import { getViewportHeight, getViewportWidth } from '#lib/screen'
   import { tick } from 'svelte'
+  import { convertEmToPx } from '#lib/utils'
+  import { screen } from '#lib/components/stores/screen'
 
   export let buttonTitle = null
   export let align = null
-  export let widthReferenceEl = null
+  export let dropdownWidthReferenceEl = null
   export let alignDropdownWidthOnButton = false
   export let alignButtonWidthOnDropdown = false
+  export let dropdownWidthBaseInEm = null
   export let clickOnContentShouldCloseDropdown = false
   export let buttonId = null
   export let buttonRole = null
@@ -52,6 +55,7 @@
     }
     // Let the time to the previous adjustments to take effects
     await tick()
+    if (!dropdown) return
     const dropdownRectAfter = dropdown.getBoundingClientRect()
     const dropdownOverflowsOnViewportLeft = dropdownRectAfter.x < 0
     const dropdownOverflowsOnViewportRight = (dropdownRectAfter.x + dropdownRectAfter.width) > getViewportWidth()
@@ -113,13 +117,17 @@
   }
   $: {
     if (alignDropdownWidthOnButton && buttonWithDropdown) {
-      dropdownWidth = `${buttonWithDropdown.getBoundingClientRect().width}px`
+      dropdownWidth = buttonWithDropdown.getBoundingClientRect().width
     } else if (alignButtonWidthOnDropdown && dropdown) {
-      buttonWidth = `${dropdown.getBoundingClientRect().width}px`
-    } else if (widthReferenceEl) {
-      dropdownWidth = `${widthReferenceEl.getBoundingClientRect().width}px`
+      buttonWidth = dropdown.getBoundingClientRect().width
+    } else if (dropdownWidthReferenceEl) {
+      dropdownWidth = dropdownWidthReferenceEl.getBoundingClientRect().width
+    } else if (dropdownWidthBaseInEm) {
+      dropdownWidth = convertEmToPx(dropdownWidthBaseInEm)
+    } else {
+    // A width/min-width/inline-size/min-inline-size should be set on .dropdown-content from the outside
     }
-    if (dropdownWidth && dropdownWidth > getViewportWidth()) dropdownWidth = getViewportWidth()
+    if (dropdownWidth && dropdownWidth > $screen.width) dropdownWidth = $screen.width
   }
 </script>
 
@@ -154,7 +162,7 @@
       style:visibility={positionned ? 'visible' : 'hidden'}
       style:inset-inline-end={dropdownPositionRight != null ? `${dropdownPositionRight}px` : null}
       style:inset-inline-start={dropdownPositionLeft != null ? `${dropdownPositionLeft}px` : null}
-      style:width={dropdownWidth}
+      style:width={dropdownWidth != null ? `${dropdownWidth}px` : null}
       role="menu"
       tabindex="-1"
       transition:slide={{ duration: transitionDuration }}

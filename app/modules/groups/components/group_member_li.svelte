@@ -45,7 +45,7 @@
     {#if flash}
       <Flash bind:state={flash} />
     {:else}
-      <Dropdown align="right" {showDropdown}>
+      <Dropdown align="right" {showDropdown} dropdownWidthBaseInEm={10}>
         <div slot="button-inner">{@html icon('chevron-down')}</div>
         <ul slot="dropdown-content">
           <li>
@@ -96,7 +96,6 @@
   }
   [slot="dropdown-content"]{
     white-space: nowrap;
-    min-width: 10em;
     @include shy-border;
     @include display-flex(column, stretch);
     li{
