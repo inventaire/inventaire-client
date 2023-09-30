@@ -78,7 +78,7 @@
       buttonTitle={i18n('Add this work to your inventory or to a list')}
       dropdownWidthBaseInEm={25}
     >
-      <div slot="button-inner">
+      <div slot="button-inner" class="add-to-dot-dot-dot-menu-button">
         <span>
           {@html icon('plus')}
           {i18n('Add to…')}
