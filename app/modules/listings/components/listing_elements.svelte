@@ -239,8 +239,8 @@
   label{
     cursor: auto;
   }
-  /* Large (>40em) screens */
-  @media screen and (width >= 40em){
+  /* Large screens */
+  @media screen and (width > 40em){
     .entities-listing-section{
       width: 40em;
     }
