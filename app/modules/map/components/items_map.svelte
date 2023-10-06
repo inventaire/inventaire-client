@@ -62,10 +62,14 @@
     displayedItems = docsToDisplay.filter(isFilterSelected)
   }
 
+  function findMainUserItems (displayedItems) {
+    return displayedItems.find(item => item.owner === $user._id)
+  }
+
   $: onChange(docsToDisplay, onDocsToDisplayChange)
   $: onChange(selectedEditionFilters, selectedTransactionFilters, onFiltersChange)
   $: notAllDocsAreDisplayed = displayedItems.length !== allItems.length
-
+  $: isMainUserItemsDisplayed = findMainUserItems(displayedItems)
   let modalItem
 </script>
 
@@ -80,7 +84,7 @@
           <ItemMarker {item} on:showItem={() => modalItem = item} />
         </Marker>
       {/each}
-      {#if $user?.position}
+      {#if $user?.position && !isMainUserItemsDisplayed}
         <Marker latLng={$user.position} standalone={true}>
           <UserMarker doc={$user} />
         </Marker>
