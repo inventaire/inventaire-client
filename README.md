@@ -7,7 +7,6 @@ Libre collaborative resource mapper powered by open-knowledge
 <br>
 [![chat](https://img.shields.io/badge/chat-%23inventaire-ffd402.svg)](https://wiki.inventaire.io/wiki/Communication_channels#Chat)
 [![wiki](https://img.shields.io/badge/wiki-general-319cc2.svg)](https://wiki.inventaire.io)
-[![roadmap](https://img.shields.io/badge/roadmap-contributive-4eba76.svg)](https://roadmap.inventaire.io)
 
 This repository tracks [inventaire.io](https://inventaire.io) client-side developments, while the [server-side can be found here](https://github.com/maxlath/inventaire). The server repository gathers the documentation and general issues of the project.
 
