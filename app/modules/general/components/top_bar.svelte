@@ -101,7 +101,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     nav{
       padding: 0.2em 0;
     }
