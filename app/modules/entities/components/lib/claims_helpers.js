@@ -101,7 +101,7 @@ export const inverseLabels = {
   'wdt:P135': 'associated_with_this_movement',
   'wdt:P136': 'works_in_this_genre',
   'wdt:P144': 'works_based_on_work',
-  'wdt:P655': 'translator_of',
+  'wdt:P655': 'editions_translated_by_author',
   'wdt:P674': 'character_in',
   'wdt:P737': 'authors_influenced_by',
   'wdt:P840': 'narrative_set_in_this_location',

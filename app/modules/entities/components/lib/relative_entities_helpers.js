@@ -30,7 +30,7 @@ export const relativeEntitiesPropertiesByType = {
     'wdt:P69', // educated at
   ],
   human: [
-    'wdt:P135', // movement
+    'wdt:P655', // translator
     'wdt:P737', // influenced by
     'wdt:P921', // main subject
   ],
