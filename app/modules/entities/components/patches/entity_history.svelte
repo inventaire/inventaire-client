@@ -8,6 +8,7 @@
   import Patch from '#entities/components/patches/patch.svelte'
   import { getEntityPatches } from '#entities/lib/patches'
   import { loadInternalLink } from '#lib/utils'
+  import FullScreenLoader from '#components/full_screen_loader.svelte'
 
   export let uri
 
@@ -42,7 +43,7 @@
 <Flash state={flash} />
 
 {#await waitForEntityBasicInfo}
-  <Spinner large={true} />
+  <FullScreenLoader />
 {:then}
   <div class="entity-history">
     <div class="header">
