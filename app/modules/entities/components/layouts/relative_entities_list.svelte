@@ -10,6 +10,7 @@
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
   import RelativeEntityLayout from '#entities/components/layouts/relative_entity_layout.svelte'
   import { onScrollToBottom } from '#lib/screen'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let entity, property, label
   export let claims = null
@@ -53,6 +54,7 @@
   let loadingMore, displayedUris
 
   async function getMissingEntities () {
+    if (loadingMore) return
     if (uris?.length > 0) displayedUris = uris.slice(0, displayLimit)
     if (isNonEmptyArray(displayedUris)) {
       let missingUris
@@ -61,6 +63,7 @@
       loadingMore = getAndSerializeEntities(missingUris)
       const missingEntities = await loadingMore
       entitiesByUris = { ...entitiesByUris, ...missingEntities }
+      loadingMore = null
     }
   }
 
@@ -69,7 +72,7 @@
   let displayLimit = 45
   function displayMore () { displayLimit += 10 }
   const lazyDisplay = _.debounce(displayMore, 300)
-  $: displayLimit && getMissingEntities()
+  $: onChange(displayLimit, uris, getMissingEntities)
 </script>
 
 {#await waiting}
