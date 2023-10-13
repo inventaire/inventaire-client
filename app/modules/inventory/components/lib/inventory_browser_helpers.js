@@ -120,6 +120,7 @@ export function resetPagination ({ itemsIds, isMainUser, display }) {
   let fetching
   const pagination = {
     items,
+    total: itemsIds.length,
     shelvesByIds,
     allowMore: true,
     hasMore: () => {
