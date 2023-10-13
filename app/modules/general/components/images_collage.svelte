@@ -21,7 +21,7 @@
   // Will have a width and height of 0 by default:
   // this need to be overriden by the parent component
   .images-collage{
-    background-color: #dcdcdc;
+    background-color: $image-placeholder-grey;
     @include display-flex(row, center, center);
     overflow: hidden;
     &:not(.single){

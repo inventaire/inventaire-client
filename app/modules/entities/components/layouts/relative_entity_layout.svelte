@@ -37,6 +37,7 @@
     display: block;
     inline-size: $card-width;
     block-size: $card-height;
+    background-color: $image-placeholder-grey;
     background-size: cover;
     background-position: center center;
     @include display-flex(column, stretch, flex-end);

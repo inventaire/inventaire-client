@@ -26,6 +26,7 @@
     </div>
     {#if isPropertyUri(property)}
       <a
+        class="show-advanced-list-browser"
         href={`/entity/${property}-${uri}`}
         on:click={loadInternalLink}
       >
@@ -48,7 +49,8 @@
     @include sans-serif;
     font-size: 1.1rem;
   }
-  a{
+  .show-advanced-list-browser{
+    margin-inline-start: 2rem;
     @include shy;
     &:hover{
       text-decoration: underline;
