@@ -42,8 +42,7 @@
         <EntityTitle {entity} {standalone} />
         <div class="infobox-wrapper">
           <div class="author-and-info">
-            <AuthorsInfo {claims}
-            />
+            <AuthorsInfo {claims} />
             <Infobox
               {claims}
               entityType={entity.type}

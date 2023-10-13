@@ -204,7 +204,6 @@ export const hasSelectedLang = selectedLangs => edition => {
 
 export const infoboxShortlistPropertiesByType = {
   edition: [
-    'wdt:P50', // author
     'wdt:P577', // publication date
     'wdt:P123', // publisher
     'wdt:P195', // collection
@@ -230,7 +229,6 @@ infoboxShortlistPropertiesByType.serie = infoboxShortlistPropertiesByType.work
 
 export const infoboxPropertiesByType = {
   edition: [
-    ...authorsProps,
     'wdt:P2679', // author of foreword
     'wdt:P2680', // author of afterword
     'wdt:P655', // translator
