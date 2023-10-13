@@ -14,6 +14,7 @@
   import { screen } from '#lib/components/stores/screen'
   import { onScrollToBottom } from '#lib/screen'
   import Flash from '#lib/components/flash.svelte'
+  import MissingEntityButton from '#entities/components/layouts/missing_entity_button.svelte'
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
@@ -164,6 +165,7 @@
     {#if !anyWork}
       <p class="no-work">{i18n('There is nothing here')}</p>
     {/if}
+    <MissingEntityButton {section} />
   {/await}
 </div>
 

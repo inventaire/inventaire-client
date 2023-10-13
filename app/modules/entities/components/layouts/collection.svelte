@@ -9,7 +9,6 @@
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
-  import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
   import { debounce } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
@@ -23,9 +22,6 @@
   setContext('search-filter-claim', `wdt:P195=${uri}`)
   // TODO: index editions
   // setContext('search-filter-types', null)
-  const createButtons = [
-    { type: 'edition', claims: { 'wdt:P195': [ uri ] } },
-  ]
 
   let sections, waitingForSubEntities, flash
   function getSections () {
@@ -59,11 +55,6 @@
         {/await}
       </div>
     </div>
-    <MissingEntitiesMenu
-      waiting={waitingForSubEntities}
-      questionText="An edition from this collection is missing in the common database?"
-      {createButtons}
-    />
     <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>

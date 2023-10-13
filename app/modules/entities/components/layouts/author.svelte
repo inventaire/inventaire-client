@@ -11,7 +11,6 @@
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
-  import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import { i18n } from '#user/lib/i18n'
@@ -32,10 +31,6 @@
 
   setContext('search-filter-claim', authorProperties.map(property => `${property}=${uri}`).join('|'))
   setContext('search-filter-types', [ 'series', 'works' ])
-  const createButtons = [
-    { type: 'serie', claims: { 'wdt:P50': [ uri ] } },
-    { type: 'work', claims: { 'wdt:P50': [ uri ] } },
-  ]
 
   let sections, waitingForSubEntities
   function getSections () {
@@ -81,11 +76,6 @@
     <!-- waiting for subentities to not display relative entities list before work browser -->
     <!-- to not having to push them down while work broser is being displayed -->
     {#await waitingForSubEntities then}
-      <MissingEntitiesMenu
-        waiting={waitingForSubEntities}
-        questionText="A series or a work by this author is missing in the common database?"
-        {createButtons}
-      />
       <div class="relatives-lists">
         <RelativeEntitiesList
           {entity}
