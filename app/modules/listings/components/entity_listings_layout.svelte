@@ -6,12 +6,14 @@
 
   export let entity, emptyListings
   let listings = []
+  let noListingsFound
 
   const getListings = async () => {
     const { uri } = entity
     if (uri) {
       listings = await getListingsByEntityUri(uri) || []
     }
+    noListingsFound = (listings.length === 0)
   }
 
   const waitingForListings = getListings()
@@ -19,14 +21,16 @@
   $: emptyListings = listings.length === 0
 </script>
 
-<div class="listings-layout">
-  <h5>{i18n('Lists containing this work')}</h5>
-  {#await waitingForListings}
-    <p class="loading">{I18n('loading')}<Spinner /></p>
-  {:then}
-    <ListingsLayout {listings} />
-  {/await}
-</div>
+{#if !noListingsFound}
+  <div class="listings-layout">
+    <h5>{i18n('Lists containing this work')}</h5>
+    {#await waitingForListings}
+      <p class="loading">{I18n('loading')}<Spinner /></p>
+    {:then}
+      <ListingsLayout {listings} />
+    {/await}
+  </div>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
