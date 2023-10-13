@@ -50,7 +50,6 @@
 
 <BaseLayout
   bind:entity
-  {standalone}
   bind:flash
 >
   <div class="entity-layout" slot="entity">

@@ -30,10 +30,7 @@
   $: app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
   $: claims = addWorksClaims(claims, works)
 </script>
-<BaseLayout
-  {entity}
-  {standalone}
->
+<BaseLayout {entity}>
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       {#if image.url}

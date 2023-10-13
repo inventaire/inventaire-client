@@ -14,7 +14,7 @@
   import { debounce } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
 
-  export let entity, standalone
+  export let entity
 
   const { uri, claims, wikisource, originalLang, description, label, labelLang } = entity
 
@@ -41,7 +41,6 @@
 <BaseLayout
   bind:entity
   bind:flash
-  {standalone}
 >
   <div class="entity-layout" slot="entity">
     <div class="top-section">

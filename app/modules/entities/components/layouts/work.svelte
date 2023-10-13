@@ -74,10 +74,7 @@
   $: hasSomeInitialEditions = initialEditions && isNonEmptyArray(initialEditions)
 </script>
 
-<BaseLayout
-  bind:entity
-  {standalone}
->
+<BaseLayout bind:entity>
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       <div class="work-section">
