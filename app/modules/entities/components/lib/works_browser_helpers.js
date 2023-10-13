@@ -14,7 +14,7 @@ export function getWorksFacets ({ works, context }) {
   const valuesUris = []
   works.forEach(setWorkFacets({ facets, valuesUris, contextProperties }))
   removeFacetsWithNoKnownValue(facets)
-  return { valuesUris, facets, facetsSelectedValues }
+  return { valuesUris: uniq(valuesUris), facets, facetsSelectedValues }
 }
 
 export async function getFacetsEntitiesBasicInfo (facetsObj) {

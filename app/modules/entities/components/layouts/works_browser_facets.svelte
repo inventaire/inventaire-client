@@ -2,16 +2,15 @@
   import SelectDropdown from '#components/select_dropdown.svelte'
   import { entityProperties, getWorksFacets, getFacetsEntitiesBasicInfo } from '#entities/components/lib/works_browser_helpers'
   import { getContext } from 'svelte'
-  import { i18n, I18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
 
   export let works, facets, facetsSelectors, facetsSelectedValues, flash
 
   const layoutContext = getContext('layout-context')
   const facetsObj = getWorksFacets({ works, context: layoutContext })
 
-  let loadingMessage
   const urisCount = facetsObj.valuesUris.length
-  loadingMessage = I18n('loading_facets_may_take_a_while', { smart_count: urisCount })
+  const loadingMessage = i18n('loading_facets_may_take_a_while', { smart_count: urisCount })
 
   ;({ facets, facetsSelectedValues } = facetsObj)
   const waitingForOptions = getFacetsEntitiesBasicInfo(facetsObj)

@@ -69,7 +69,7 @@
       {#await waitingForOptions}
         <div class="loading-message">
           <Spinner />
-          <p>{loadingMessage}</p>
+          {#if loadingMessage}<p>{loadingMessage}</p>{/if}
         </div>
       {:then}
         {#each options as option}
