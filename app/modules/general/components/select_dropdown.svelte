@@ -47,7 +47,8 @@
   tabindex="-1"
 >
   {#if buttonLabel}
-    <label for={buttonId}>{buttonLabel}</label>
+    <!-- Set the title in case the text overflow is hidden -->
+    <label for={buttonId} title={buttonLabel}>{buttonLabel}</label>
   {/if}
   <Dropdown
     alignButtonWidthOnDropdown={true}
@@ -91,6 +92,11 @@
 
 <style lang="scss">
   @import "#general/scss/select_dropdown_commons";
+  label{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .loading-message{
     margin: 1em 0;
     padding: 0 1em;
