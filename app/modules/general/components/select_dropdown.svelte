@@ -9,14 +9,15 @@
   import { I18n } from '#user/lib/i18n'
   import { uniqueId } from 'underscore'
 
-  export let value,
-    resetValue = null,
-    options,
-    buttonLabel = null,
-    withImage = false,
-    hideCurrentlySelectedOption = false,
-    loadingMessage,
-    waitingForOptions
+  export let value
+  export let resetValue = null
+  export let options
+  export let buttonLabel = null
+  export let withImage = false
+  export let hideCurrentlySelectedOption = false
+  export let loadingMessage = null
+  export let waitingForOptions = null
+
   const buttonId = uniqueId('button')
 
   function onKeyDown (e) {

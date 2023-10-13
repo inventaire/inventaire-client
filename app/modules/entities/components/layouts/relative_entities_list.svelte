@@ -11,7 +11,8 @@
   import RelativeEntityLayout from '#entities/components/layouts/relative_entity_layout.svelte'
   import { onScrollToBottom } from '#lib/screen'
 
-  export let entity, property, label, claims
+  export let entity, property, label
+  export let claims = null
 
   let flash
   let uris

@@ -11,7 +11,7 @@
   export let light = false
   export let dark = false
   export let grey = false
-  export let classNames
+  export let classNames = null
   export let tinyButton = false
   export let stopClickPropagation = true
 

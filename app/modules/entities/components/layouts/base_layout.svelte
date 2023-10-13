@@ -6,7 +6,9 @@
   import EntityLayoutActionsMenu from '#entities/components/layouts/entity_layout_actions_menu.svelte'
   import EmbeddedWelcome from '#welcome/components/embedded_welcome.svelte'
 
-  export let entity, flash, showEntityEditButtons
+  export let entity
+  export let flash = null
+  export let showEntityEditButtons = true
   export let typeLabel = entity.type
 
   const { uri, _id } = entity

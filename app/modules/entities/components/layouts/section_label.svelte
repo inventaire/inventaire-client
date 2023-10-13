@@ -3,7 +3,11 @@
   import { loadInternalLink } from '#lib/utils'
   import { isPropertyUri } from '#lib/boolean_tests'
 
-  export let property, label, entitiesLength, filteredEntitiesLength, uri
+  export let label
+  export let entitiesLength
+  export let filteredEntitiesLength = null
+  export let property = null
+  export let uri = null
 </script>
 {#if label}
   <div class="label-wrapper">
@@ -12,7 +16,7 @@
         {label}
         {#if entitiesLength > 0}
           <span class="counter">
-            {#if filteredEntitiesLength >= 0 && filteredEntitiesLength !== entitiesLength}
+            {#if filteredEntitiesLength != null && filteredEntitiesLength >= 0 && filteredEntitiesLength !== entitiesLength}
               {filteredEntitiesLength} /
             {/if}
             {entitiesLength}

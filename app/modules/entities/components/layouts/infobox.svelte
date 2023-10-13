@@ -8,11 +8,11 @@
   import { infoboxShortlistPropertiesByType, infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
   import EntityClaimsLinks from '#entities/components/layouts/entity_claims_links.svelte'
 
-  export let claims = {},
-    relatedEntities = {},
-    entityType,
-    shortlistOnly,
-    listDisplay
+  export let claims = {}
+  export let relatedEntities = {}
+  export let entityType
+  export let shortlistOnly = null
+  export let listDisplay = false
 
   let allowlistedProperties
   let infoboxPropertiesToDisplay = infoboxPropertiesByType[entityType]
