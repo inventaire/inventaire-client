@@ -1,5 +1,4 @@
 import preq from '#lib/preq'
-import Task from '../models/task.js'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 
 const backlogs = {
@@ -28,13 +27,13 @@ const getNextTask = async params => {
     nextTaskGetter = 'byScore'
   }
 
-  const { lastTaskModel } = params
-  if (lastTaskModel != null) {
-    if (backlogs.byWork.length !== 0) return getNextTaskModel(params.backlogType)
-    const suggestionUri = lastTaskModel.get('suggestionUri')
+  const { lastTask } = params
+  if (lastTask != null) {
+    if (backlogs.byWork.length !== 0) return shiftTaskFromBacklog(params.backlogType)
+    const suggestionUri = lastTask.suggestionUri
     if (!suggestionUrisFetched.includes(suggestionUri)) return getNextTaskBySuggestionUri(params)
   }
-  if (backlogs.byWork.length !== 0) return getNextTaskModel(nextTaskGetter)
+  if (backlogs.byWork.length !== 0) return shiftTaskFromBacklog(nextTaskGetter)
   const { previousTasks } = params
   offset = params.offset
 
@@ -54,8 +53,8 @@ const getNextTask = async params => {
 }
 
 const getNextTaskBySuggestionUri = async params => {
-  const { lastTaskModel, previousTasks } = params
-  const suggestionUri = lastTaskModel.get('suggestionUri')
+  const { lastTask, previousTasks } = params
+  const suggestionUri = lastTask.suggestionUri
 
   const { tasks } = await preq.get(app.API.tasks.bySuggestionUris(suggestionUri))
   let suggestionUriTasks = tasks[suggestionUri]
@@ -80,12 +79,11 @@ const tasksWithOccurences = task => isNonEmptyArray(task.externalSourcesOccurren
 
 const updateBacklogAndGetNextTask = (tasks = [], backlogName) => {
   backlogs[backlogName].push(...tasks)
-  return getNextTaskModel(backlogName)
+  return shiftTaskFromBacklog(backlogName)
 }
 
-const getNextTaskModel = backlogName => {
+const shiftTaskFromBacklog = backlogName => {
   const backlog = backlogs[backlogName]
   if (backlog.length === 0) return
-  const model = new Task(backlog.shift())
-  return model
+  return backlog.shift()
 }
