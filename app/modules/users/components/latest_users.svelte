@@ -25,7 +25,7 @@
   fetchMore()
 </script>
 
-<h2>{i18n('Latest users')}</h2>
+<h2>{i18n('Latest created users')}</h2>
 
 <Flash state={flash} />
 
