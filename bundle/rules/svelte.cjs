@@ -1,4 +1,4 @@
-const { sass } = require('svelte-preprocess-sass')
+const { scss, typescript } = require('svelte-preprocess')
 const { reactivePreprocess } = require('svelte-reactive-preprocessor')
 const { alias } = require('../resolve.cjs')
 
@@ -16,15 +16,16 @@ module.exports = mode => {
     svelteFilesRule.use.push(require('./babel.cjs'))
   }
 
-  const preprocess = {
-    style: sass({
+  const preprocess = [
+    scss({
       importer: [
         resolveScssAlias,
       ],
     }),
-  }
+    typescript({}),
+  ]
   if (dev) {
-    preprocess.script = reactivePreprocess().script
+    preprocess.push(reactivePreprocess())
   }
 
   svelteFilesRule.use.push({

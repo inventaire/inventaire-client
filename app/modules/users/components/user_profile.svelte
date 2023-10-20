@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
@@ -77,7 +77,7 @@
       {/if}
     {/if}
 
-    <UserProfileButtons {user} bind:flash />
+    <UserProfileButtons bind:flash />
   </div>
 
   <Flash state={flash} />
