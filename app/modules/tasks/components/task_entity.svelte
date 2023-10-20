@@ -101,10 +101,10 @@
     flex: 1 0 0;
   }
   .summary-wrapper{
-    margin-left: 0.3em;
+    margin-inline-start: 0.3em;
   }
   .header{
-    margin-top: 0.5em;
+    margin-block-start: 0.5em;
     @include display-flex(row, center, center);
   }
   h3{

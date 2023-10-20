@@ -142,9 +142,6 @@
   }
   .from-entity{
     flex: 1 0 0;
-    h3{
-      color: white;
-    }
   }
   .to-entity{
     min-height: 100vh;
@@ -156,7 +153,7 @@
     @include sans-serif;
     font-size: 1.2rem;
     margin: 0;
-    padding-top: 0.3em;
+    padding-block-start: 0.3em;
   }
   .error-wrapper{
     background-color: $light-grey;
