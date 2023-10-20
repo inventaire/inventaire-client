@@ -1,5 +1,5 @@
 import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
-import { extendedAuthorsKeys } from '#entities/lib/show_all_authors_preview_lists'
+import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
 import { compact, pick, uniq } from 'underscore'
 
 const authorProperties = Object.keys(extendedAuthorsKeys)

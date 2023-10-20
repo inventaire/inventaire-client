@@ -176,6 +176,7 @@
   .identifier{
     font-size: 0.7em;
     color: $grey;
+    font-family: sans-serif;
   }
   .entity-image{
     margin-block-end: 0.5em;

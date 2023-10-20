@@ -2,7 +2,7 @@
   import { I18n } from '#user/lib/i18n'
   import { loadInternalLink } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { extendedAuthorsKeys } from '#entities/lib/show_all_authors_preview_lists'
+  import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
 
   export let authorsByProperty
 </script>

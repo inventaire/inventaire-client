@@ -46,3 +46,10 @@ const getWorksUris = (works, seriesUris) => {
   .filter(workData => !seriesUris.includes(workData.serie))
   .map(getUri)
 }
+
+export const extendedAuthorsKeys = {
+  'wdt:P50': 'authors',
+  'wdt:P58': 'scenarists',
+  'wdt:P110': 'illustrators',
+  'wdt:P6338': 'colorists'
+}

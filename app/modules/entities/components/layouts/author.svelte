@@ -10,7 +10,7 @@
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
-  import { extendedAuthorsKeys } from '#entities/lib/show_all_authors_preview_lists'
+  import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
   import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'

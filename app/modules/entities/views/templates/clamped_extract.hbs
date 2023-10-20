@@ -1,9 +1,0 @@
-<p id="{{extractId}}" class="extract {{#if extractOverflow}}clamped{{/if}}" lang="{{extractLang}}" dir="{{extractDirection}}">
-  {{{extract}}}
-</p>
-{{#if extractOverflow}}
-  <button class="toggler" aria-controls="{{extractId}}">
-    {{icon 'chevron-down'}}
-    {{icon 'chevron-up' 'hidden'}}
-  </button>
-{{/if}}

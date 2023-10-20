@@ -1,97 +1,15 @@
-@import 'infoboxes';
-@import 'entities_preview';
-@import 'items_lists';
-
 .uri{
   color: $grey;
   font-size: 0.8rem;
-  // text-align: right;
-}
-
-.addEntity{
-  h2{
-    max-width: 36rem;
-  }
-}
-
-.wiki-attributes{
-  margin-block-start: 0.5em;
-  p.claims{
-    text-align: start;
-  }
-  .fa-link{ color: $grey; }
-  .fa-twitter{ color: $twitter-color; }
-  .fa-facebook{ color: $facebook-color; }
-  .fa-youtube{
-    color: white;
-    background-color: $youtube-color;
-    padding: 0.2em 0;
-    @include radius;
-  }
-  img{
-    text-align: center;
-  }
 }
 
 .property-value{
   color: $grey;
 }
 
-.entity-data-box{
-  position: relative;
-  // Required to center button.toggler
-  @include display-flex(column);
-  padding: 1em 1em 0.1em 1em;
-  .edit-data-buttons{
-    /*Large screens*/
-    @media screen and (min-width: $small-screen) {
-      @include position(absolute, 0.2em, 0.2em);
-    }
-  }
-}
-
-.edit-data-buttons{
-  @include display-flex(row, center, center);
-  .pencil, .refreshEntityData, .showOnWikidata, .deduplicateEntity, .deduplicateSubEntities, .showEntityCleanup, .showEntityHistory{
-    font-size: 1.4rem;
-    @include text-hover(rgba(white, 0.5), white);
-    .fa{
-      width: 1.6em;
-    }
-  }
-}
-
-#workLayout, .editionLi{
-  .add{
-    @include tiny-button($light-blue);
-    margin: 0 auto;
-  }
-}
-
 .wikisource{
   .icon{
     height: 1em;
     padding-inline-end: 0.35em;
-  }
-}
-
-.editionLayout{
-  .meta{
-    margin-block-start: 1em;
-    text-align: center;
-    .uri{
-      margin-block-start: 1em;
-    }
-  }
-}
-
-.identifier{
-  .identifier-uri{
-    opacity: 0.5;
-  }
-  font-family: sans-serif;
-  font-size: 0.7em;
-  &a{
-    @include underline;
   }
 }
