@@ -195,6 +195,12 @@ export const simpleDay = date => {
   return dateObj.toISOString().split('T')[0]
 }
 
+export const simpleTime = date => {
+  const dateObj = date != null ? new Date(date) : new Date()
+  const [ day, time ] = dateObj.toISOString().split('T')
+  return `${day} ${time.split('.')[0]}`
+}
+
 // Missing in Underscore v1.8.3
 export const chunk = (array, size) => {
 // Do not mutate inital array
