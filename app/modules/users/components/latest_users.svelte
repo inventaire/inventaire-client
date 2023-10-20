@@ -50,13 +50,15 @@
   {/each}
 </ul>
 
-{#await fetching}
-  <Spinner center={true} />
-{:then}
-  <button on:click={fetchMore} class="button">
-    {i18n('Fetch more')}
-  </button>
-{/await}
+<div class="controls">
+  {#await fetching}
+    <Spinner center={true} />
+  {:then}
+    <button on:click={fetchMore} class="button">
+      {i18n('Fetch more')}
+    </button>
+  {/await}
+</div>
 
 <style lang="scss">
   @import "#general/scss/utils";
@@ -100,8 +102,12 @@
   }
   img{
     flex: 0 0 3em;
-    margin-top: 0.5em;
-    margin-right: 0.5em;
+    margin-inline-end: 0.5em;
+    height: 3rem;
+    object-fit: cover;
+  }
+  p, a{
+    line-height: normal;
   }
   .bio{
     max-height: 8em;
@@ -109,6 +115,9 @@
   }
   button{
     display: block;
-    margin: 2em auto;
+  }
+  .controls{
+    height: 5em;
+    @include display-flex(row, center, center);
   }
 </style>
