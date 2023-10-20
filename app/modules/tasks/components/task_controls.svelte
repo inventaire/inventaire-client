@@ -82,9 +82,8 @@
   .controls{
     background-color: #bbb;
     position: fixed;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    inset-block-end: 0;
+    inset-inline: 0;
     padding: 0.3em;
     display: flex;
     flex-direction: column;
@@ -118,7 +117,7 @@
     max-width: 30em;
     margin: 0 auto;
     background-color: $soft-red;
-    margin-top: 0.3em;
+    margin-block-start: 0.3em;
   }
 
   /* Smaller screens */
