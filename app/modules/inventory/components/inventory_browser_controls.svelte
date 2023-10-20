@@ -7,11 +7,8 @@
   import { screen } from '#lib/components/stores/screen'
   import InventoryBrowserTextFilter from '#inventory/components/inventory_browser_text_filter.svelte'
   import Flash from '#lib/components/flash.svelte'
-  import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 
-  export let waitForInventoryData, facetsSelectors, facetsSelectedValues, intersectionWorkUris, textFilterItemsIds
-
-  const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
+  export let waitForInventoryData, facetsSelectors, facetsSelectedValues, intersectionWorkUris, textFilterItemsIds, inventoryDisplay
 
   const displayOptions = [
     { value: 'cascade', icon: 'th-large', text: I18n('cascade') },

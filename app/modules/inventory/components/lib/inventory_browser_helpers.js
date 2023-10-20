@@ -1,4 +1,5 @@
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 import error_ from '#lib/error'
 import preq from '#lib/preq'
 import { clone, flatten, intersection, pick, uniq, without } from 'underscore'
@@ -138,4 +139,12 @@ export function resetPagination ({ itemsIds, isMainUser, display }) {
     },
   }
   return pagination
+}
+
+export function getInventoryDisplayStore (isMainUser) {
+  if (isMainUser) {
+    return getLocalStorageStore('mainUserInventoryDisplay', 'table')
+  } else {
+    return getLocalStorageStore('inventoryDisplay', 'cascade')
+  }
 }
