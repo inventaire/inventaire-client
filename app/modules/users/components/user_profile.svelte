@@ -77,7 +77,7 @@
       {/if}
     {/if}
 
-    <UserProfileButtons bind:flash />
+    <UserProfileButtons {user} bind:flash />
   </div>
 
   <Flash state={flash} />
