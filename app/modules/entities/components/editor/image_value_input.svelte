@@ -9,10 +9,11 @@
 
   export let currentValue, getInputValue, fileInput, waitingForCropper, imageElement
 
-  let urlValue, files, dataUrl, dataUrlBeforeImageEdits
+  let urlValue, files, dataUrl, dataUrlBeforeImageEdits, waitingForDataUrl
   const dispatch = createEventDispatcher()
 
   getInputValue = async () => {
+    await waitingForDataUrl
     if (imageWasCropped || imageWasRotated) {
       dataUrl = getEditedImageDataUrl()
     }
@@ -27,7 +28,8 @@
     try {
       resetFileInput(fileInput)
       if (isUrl(urlValue)) {
-        dataUrl = await getUrlDataUrl(urlValue)
+        waitingForDataUrl = getUrlDataUrl(urlValue)
+        dataUrl = await waitingForDataUrl
         dataUrlBeforeImageEdits = dataUrl
       }
     } catch (err) {
@@ -38,7 +40,8 @@
 
   async function onFilesChange () {
     urlValue = null
-    dataUrl = await getFirstFileDataUrl({ fileList: files })
+    waitingForDataUrl = getFirstFileDataUrl({ fileList: files })
+    dataUrl = await waitingForDataUrl
     dataUrlBeforeImageEdits = dataUrl
   }
 
@@ -56,7 +59,7 @@
   let imageWasCropped = false
   async function initCropper () {
     if (imageElement) {
-      if (cropper) {
+      if (cropper && imageElement.className.includes('cropper')) {
         cropper.replace(dataUrl)
       } else {
         await importCropperLib()
@@ -146,7 +149,7 @@
     />
   </label>
 
-  {#await waitingForCropper}
+  {#await Promise.all([ waitingForCropper, waitingForDataUrl ])}
     <Spinner />
   {:then}
     {#if dataUrl || currentValue}
