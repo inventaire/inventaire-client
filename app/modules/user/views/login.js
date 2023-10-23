@@ -75,8 +75,8 @@ export default Marionette.View.extend({
   },
 
   login () {
-    const username = this.ui.username.val()
-    const password = this.ui.password.val()
+    const username = this.ui.username.val().trim()
+    const password = this.ui.password.val().trim()
     this.startLoading('#login')
     return app.request('login', username, password)
     .catch(this.loginError.bind(this))

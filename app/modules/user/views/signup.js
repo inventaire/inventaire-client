@@ -69,7 +69,7 @@ export default Marionette.View.extend({
   },
 
   verifyEmail () {
-    const email = this.ui.email.val()
+    const email = this.ui.email.val().trim()
     email_.pass(email, '#email')
     return email_.verifyAvailability(email, '#email')
   },
@@ -78,14 +78,14 @@ export default Marionette.View.extend({
 
   sendSignupRequest () {
     return app.request('signup', {
-      username: this.ui.username.val(),
-      password: this.ui.password.val(),
-      email: this.ui.email.val()
+      username: this.ui.username.val().trim(),
+      password: this.ui.password.val().trim(),
+      email: this.ui.email.val().trim()
     })
   },
 
   async verifyUsername () {
-    const username = this.ui.username.val()
+    const username = this.ui.username.val().trim()
     await username_.verifyUsername(username, '#username')
   },
 
