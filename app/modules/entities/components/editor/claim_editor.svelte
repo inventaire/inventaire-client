@@ -48,12 +48,13 @@
   $: if (editMode) setCurrentEditorKey()
   $: if (editorKey !== $currentEditorKey) closeEditMode()
 
+  let saving = false
   async function save (newValue) {
     try {
+      saving = true
       // Allow null to be passed when trying to remove a value
       // but ignore the argument when dispatch('save') is called without
       if (newValue === undefined || isComponentEvent(newValue)) {
-        // TODO: show spinner while waiting
         newValue = await getInputValue()
       }
       inputValue = newValue
@@ -82,6 +83,8 @@
         dispatch('set', inputValue)
       }
       flash = errorMessageFormatter(err)
+    } finally {
+      saving = false
     }
   }
 
@@ -158,6 +161,7 @@
       <EditModeButtons
         {showSave}
         {showDelete}
+        {saving}
         on:save={save}
         on:cancel={closeEditMode}
         on:delete={remove}
