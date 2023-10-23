@@ -1,3 +1,4 @@
+import error_ from '#lib/error'
 import { i18n } from '#user/lib/i18n'
 import { writable } from 'svelte/store'
 import wdLang from 'wikidata-lang'
@@ -31,6 +32,12 @@ export function errorMessageFormatter (err) {
   if (err.message === 'this property value is already used') {
     const uri = err.responseJSON.context.entity
     err.html = `${i18n(err.message)}: <a href="/entity/${uri}" class="link">${uri}</a>`
+  }
+  if (err.statusCode === 413) {
+    const cause = err
+    err = error_.new('image is too big', 413)
+    if (cause.stack) err.stack = cause.stack
+    err.cause = cause
   }
   return err
 }
