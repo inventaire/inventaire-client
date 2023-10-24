@@ -77,20 +77,26 @@
     {:else if section === 'public'}
       <PublicUsersNav {focusedSection} />
     {:else if user}
-      <UserProfile
-        {user}
-        bind:shelf
-        bind:profileSection
-        {focusedSection}
-        standalone={true}
-      />
+      <!-- Use #key to prevent reusing the previous UserProfile component,
+           which might have been initialized with another user -->
+      {#key user}
+        <UserProfile
+          {user}
+          bind:shelf
+          bind:profileSection
+          {focusedSection}
+          standalone={true}
+        />
+      {/key}
     {:else if group}
-      <GroupProfile
-        {group}
-        {profileSection}
-        {focusedSection}
-        standalone={true}
-      />
+      {#key group}
+        <GroupProfile
+          {group}
+          {profileSection}
+          {focusedSection}
+          standalone={true}
+        />
+      {/key}
     {/if}
   </div>
 </div>
