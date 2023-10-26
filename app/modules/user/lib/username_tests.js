@@ -1,29 +1,21 @@
 import preq from '#lib/preq'
 import forms_ from '#general/lib/forms'
 import { Username } from '#lib/regex'
-let username_
 
-export default username_ = {
-  pass (username, selector) {
-    return forms_.pass({
-      value: username,
-      tests: usernameTests,
-      selector
-    })
-  },
-
-  verifyAvailability (username, selector) {
-    return preq.get(app.API.auth.usernameAvailability(username))
-    .catch(err => {
-      err.selector = selector
-      throw err
-    })
-  }
+async function verifyUsernameAvailability (username) {
+  await preq.get(app.API.auth.usernameAvailability(username))
 }
 
-username_.verifyUsername = async (username, selector) => {
-  username_.pass(username, selector)
-  await username_.verifyAvailability(username, selector)
+export function passUsernameTests (username) {
+  return forms_.pass({
+    value: username,
+    tests: usernameTests,
+  })
+}
+
+export async function verifyUsername (username) {
+  passUsernameTests(username)
+  await verifyUsernameAvailability(username)
 }
 
 const usernameTests = {

@@ -8,7 +8,6 @@ export default forms_ = {}
 
 forms_.pass = function (options) {
   const { value, tests, selector } = options
-  assert_.types([ value, tests, selector ], [ 'string', 'object', 'string' ])
   for (const err in tests) {
     const test = tests[err]
     if (test(value)) forms_.throwError(err, selector, value)
