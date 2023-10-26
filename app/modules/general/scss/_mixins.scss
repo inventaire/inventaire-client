@@ -64,7 +64,7 @@
 
 @mixin central-column($max-width: 50em){
   @include display-flex(column, center, center);
-  > section, > div, > form{
+  > *{
     width: 100%;
     max-width: $max-width;
   }

@@ -32,14 +32,14 @@ export default {
   }
 }
 
-const showAuth = (name, label, View, options) => {
+const showAuth = (name, label, Component, options) => {
   if (!navigator.cookieEnabled) {
     return app.execute('show:error:cookieRequired', `show:${name}`)
   }
 
   if (app.user.loggedIn) return app.execute('show:home')
 
-  app.layout.showChildView('main', new View(options))
+  app.layout.showChildComponent('main', Component, { props: options })
   app.navigate(name, { metadata: { title: I18n(label) } })
 }
 
@@ -47,12 +47,12 @@ const showAuth = (name, label, View, options) => {
 // app.layout should thus appear only in callbacks
 const API = {
   async showSignup (options) {
-    const { default: Signup } = await import('./views/signup.js')
+    const { default: Signup } = await import('./components/signup.svelte')
     showAuth('signup', 'sign up', Signup, options)
   },
 
   async showLogin (options) {
-    const { default: Login } = await import('./views/login.js')
+    const { default: Login } = await import('./components/login.svelte')
     showAuth('login', 'login', Login, options)
   },
 

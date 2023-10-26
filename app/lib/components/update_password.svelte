@@ -75,8 +75,7 @@
     bind:password={currentPassword}
     bind:flash={flashCurrentPassword}
     title={I18n('current password')}
-    autocomplete="current-password"
-    name="current-password"
+    autocomplete="on"
   />
 </form>
 <div class="forgotPassword">
@@ -94,8 +93,7 @@
     bind:password={newPassword}
     bind:flash={flashNewPassword}
     title={I18n('new password')}
-    autocomplete="new-password"
-    name="new-password"
+    autocomplete="on"
   />
 </form>
 
