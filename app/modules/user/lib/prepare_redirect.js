@@ -2,8 +2,8 @@ import { isNonEmptyString } from '#lib/boolean_tests'
 import { buildPath } from '#lib/location'
 const formAction = '/api/submit'
 
-export default function (redirect) {
-  if (!redirect) redirect = this.options.redirect || app.request('querystring:get', 'redirect')
+export function prepareRedirect (redirect) {
+  redirect = redirect || app.request('querystring:get', 'redirect')
 
   if (!isNonEmptyString(redirect)) return formAction
 

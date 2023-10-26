@@ -1,26 +1,28 @@
 @import '#general/scss/utils';
 
-.authMenu{
-  label{
+@mixin auth-menu-commons(){
+  :global(label:not(.inline)), :global(label.main-label span){
     text-transform: uppercase;
     color: $dark-grey;
-    font-size: 1.2em;
+    font-size: 1.2rem;
     margin-block-start: 0.8em;
   }
 
-  input{
+  input, :global(input){
     text-align: start;
+    font-size: 1rem;
   }
 
   hr{
     border-color: #bbb;
   }
 
-  .inputGroup{
-    input{
-      margin-block-end: 0;
+  .inputBox{
+    :global(.flash) {
+      margin-top: 0;
+      padding: 0.3em;
+      align-items: center;
     }
-    margin-block-end: 1em;
   }
 
   .other-options{
@@ -65,17 +67,3 @@
     }
   }
 }
-
-.resetPassword{
-  .button{
-    margin: 1em;
-  }
-  input[name=username]{
-    display: none;
-  }
-  #forgotPassword{
-    text-align: center;
-  }
-}
-
-@import 'password_input';
