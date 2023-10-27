@@ -138,6 +138,7 @@ export default UserCommons.extend({
   setAllInventoryStats () {
     this.setInventoryStats()
     this.set('privateItemsCount', this.get('snapshot').private['items:count'])
+    this.set('inventoryLength', this.inventoryLength(false))
   },
 
   deleteAccount () {
