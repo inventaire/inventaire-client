@@ -67,7 +67,7 @@
     <h2 class="subheader">{i18n('sign up')}</h2>
 
     <label for="username">{i18n('username')}</label>
-    <div class="inputBox">
+    <div class="input-box">
       <input
         type="text"
         name="username"
@@ -83,7 +83,7 @@
     </div>
 
     <label for="email">{i18n('email')}</label>
-    <div class="inputBox">
+    <div class="input-box">
       <input
         type="text"
         name="email"

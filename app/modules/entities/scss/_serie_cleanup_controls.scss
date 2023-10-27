@@ -62,7 +62,7 @@
 .checkbox-label{
   padding: 0;
   margin: 0;
-  @include text-align-start;
+  text-align: start;
 }
 
 /*Small screens*/

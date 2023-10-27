@@ -41,11 +41,11 @@
 
 <Flash bind:state={flash} />
 
-<div class="showPasswordWrapper">
+<div class="show-password-wrapper">
   <label class="inline">
     <input
       type="checkbox"
-      class="showPassword"
+      class="show-password"
       bind:checked={showPassword}
       on:click={togglePassword}
     />
@@ -71,12 +71,12 @@
     align-items: center;
     justify-content: center;
   }
-  .showPasswordWrapper{
+  .show-password-wrapper{
     padding: 0.5em 0;
     display: flex;
     align-items: center;
   }
-  .showPassword{
+  .show-password{
     /* otherwise chrome do not display any checkbox */
     appearance: auto;
   }

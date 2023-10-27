@@ -56,10 +56,10 @@
     <h2 class="subheader">{i18n('forgot password?')}</h2>
     <p class="note">{i18n('Enter the email address you used to sign up to get a link to reset your password')}</p>
     {#if !done}
-      <div class="inputBox">
+      <div class="input-box">
         <input
           type="email"
-          placeholder="alice@example.org"
+          placeholder={i18n('email')}
           bind:value={email}
           on:keydown={resetFlash}
           required
@@ -89,7 +89,7 @@
       padding: 0.2em;
     }
   }
-  .inputBox{
+  .input-box{
     margin: 1em;
   }
   .button{

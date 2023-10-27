@@ -43,7 +43,7 @@
 }
 
 @mixin input-box(){
-  .inputBox{
+  .input-box{
     :global(.flash) {
       margin-top: 0;
       padding: 0.3em;
