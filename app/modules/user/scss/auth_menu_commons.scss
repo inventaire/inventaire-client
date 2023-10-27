@@ -13,16 +13,45 @@
     font-size: 1rem;
   }
 
-  hr{
-    border-color: #bbb;
+  .subheader{
+    margin-block-end: 1em;
   }
 
+  /*Small screens*/
+  @media screen and (max-width: $smaller-screen) {
+    .custom-cell{
+      padding: 1em;
+      text-align: center;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (min-width: $smaller-screen) {
+    @include central-column(28em);
+    min-height: 80vh;
+    .custom-cell{
+      margin-block: 1em;
+      background-color: $global-background-contrast-color;
+      @include radius;
+      padding: 1em 2em 2em 2em;
+      text-align: center;
+    }
+  }
+}
+
+@mixin input-box(){
   .inputBox{
     :global(.flash) {
       margin-top: 0;
       padding: 0.3em;
       align-items: center;
     }
+  }
+}
+
+@mixin auth-menu-with-other-options(){
+  hr{
+    border-color: #bbb;
   }
 
   .other-options{
@@ -44,26 +73,6 @@
       a{
         margin: 0.5em;
       }
-    }
-  }
-
-  /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
-    .custom-cell{
-      padding: 1em;
-      text-align: center;
-    }
-  }
-
-  /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
-    @include central-column(25em);
-    min-height: 80vh;
-    .custom-cell{
-      background-color: $global-background-contrast-color;
-      @include radius;
-      padding: 1em 2em 2em 2em;
-      text-align: center;
     }
   }
 }
