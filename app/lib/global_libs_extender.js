@@ -163,6 +163,7 @@ Marionette.View.prototype.showChildComponent = function (regionName, Component, 
   const el = (typeof region.el === 'string') ? document.querySelector(region.el) : region.el
   assert_.object(el)
   options.target = el
+  if (options.props) assert_.object(options.props)
   const component = new Component(options)
   region.currentComponent = component
   return component

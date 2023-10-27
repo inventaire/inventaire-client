@@ -80,6 +80,15 @@ init@webpack-internal:///./node_modules/svelte/internal/index.mjs:1644:37
 
 This error is produced when a variable used in a Svelte template is not defined, typically because it is defined later, for example after a promise is resolved
 
+### cannot use 'in' operator to search for "$$inject"
+This is likely produced by
+```js
+	if ($$props && "$$inject" in $$props) {
+		$$self.$inject_state($$props.$$inject);
+	}
+```
+and should be fixed by passing a `props` object to the component
+
 ## In Webpack logs
 ### ERROR in ./node_modules/svelte/index.mjs 1:0-167
 ```
