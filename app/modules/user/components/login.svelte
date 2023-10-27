@@ -70,7 +70,7 @@
         <span class="main">{I18n('username')}</span>
         <span class="complement">({i18n('or email address')})</span>
       </label>
-      <div class="inputBox">
+      <div class="input-box">
         <input
           type="text"
           name="username"
