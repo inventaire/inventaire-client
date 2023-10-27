@@ -1,3 +1,4 @@
+import languageSearch from './language_search.js'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.js'
 import error_ from '#lib/error'
 import { pluralize } from '#entities/lib/types/entities_types'
@@ -16,7 +17,9 @@ export default async function (types, input, limit, offset) {
     if (res) return res
   }
 
-  if (types.includes('subjects')) {
+  if (types.includes('languages')) {
+    return languageSearch(input, limit, offset)
+  } else if (types.includes('subjects')) {
     return wikidataSearch({
       search: input,
       limit,
