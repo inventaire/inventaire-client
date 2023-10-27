@@ -2,10 +2,11 @@
 
 @mixin auth-menu-commons(){
   :global(label:not(.inline)), :global(label.main-label span){
-    text-transform: uppercase;
     color: $dark-grey;
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-block-start: 0.8em;
+    font-weight: bold;
+    text-align: start;
   }
 
   input, :global(input){
