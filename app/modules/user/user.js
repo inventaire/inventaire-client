@@ -92,8 +92,8 @@ const API = {
       const postLoginRedirection = window.location.pathname + window.location.search
       if (!(app.request('require:loggedIn', postLoginRedirection))) return
       const client = await getOAuthClient(query.client_id)
-      const { default: AuthorizeMenu } = await import('./views/authorize_menu.js')
-      app.layout.showChildView('main', new AuthorizeMenu({ query, client }))
+      const { default: AuthorizeMenu } = await import('./components/authorize_menu.svelte')
+      app.layout.showChildComponent('main', AuthorizeMenu, { props: { query, client } })
     } catch (err) {
       app.execute('show:error', err)
     }

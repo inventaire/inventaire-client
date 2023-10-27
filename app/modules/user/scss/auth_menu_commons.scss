@@ -1,23 +1,6 @@
 @import '#general/scss/utils';
 
-@mixin auth-menu-commons(){
-  :global(label:not(.inline)), :global(label.main-label span){
-    color: $dark-grey;
-    font-size: 1rem;
-    margin-block-start: 0.8em;
-    font-weight: bold;
-    text-align: start;
-  }
-
-  input, :global(input){
-    text-align: start;
-    font-size: 1rem;
-  }
-
-  .subheader{
-    margin-block-end: 1em;
-  }
-
+.auth-menu{
   /*Small screens*/
   @media screen and (max-width: $smaller-screen) {
     .custom-cell{
@@ -37,6 +20,25 @@
       padding: 1em 2em 2em 2em;
       text-align: center;
     }
+  }
+}
+
+@mixin auth-menu-commons(){
+  :global(label:not(.inline)), :global(label.main-label span){
+    color: $dark-grey;
+    font-size: 1rem;
+    margin-block-start: 0.8em;
+    font-weight: bold;
+    text-align: start;
+  }
+
+  input, :global(input){
+    text-align: start;
+    font-size: 1rem;
+  }
+
+  .subheader{
+    margin-block-end: 1em;
   }
 }
 
