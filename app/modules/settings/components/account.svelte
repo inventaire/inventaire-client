@@ -121,7 +121,7 @@
     <Flash bind:state={flashLang} />
 
     <h3 class="title">{I18n('email')}</h3>
-    <input placeholder={i18n('email')} bind:value={emailValue} />
+    <input type="email" placeholder={i18n('email')} bind:value={emailValue} />
     <Flash bind:state={flashEmail} />
     <p class="note">{I18n('email will not be publicly displayed.')}</p>
     <button class="light-blue-button" on:click={updateEmail}>{I18n('update email')}</button>

@@ -6,6 +6,7 @@ input[type="text"], input[type="password"], input[type="email"], input[type="sea
   @include radius;
   background-color: white;
   font-family: inherit;
+  font-size: 1rem;
   color: $input-font-color;
   display: block;
   margin: 0 0 1rem 0;
@@ -109,42 +110,11 @@ label{
 
   /*Large screens*/
   @media screen and (min-width: $very-small-screen) {
-    .inputBox input{
-      @include radius-left;
-      @include radius-right(0);
-    }
     button.postfix{
       @include radius-right;
       @include radius-left(0);
       width: auto;
       padding: 0 1em;
-    }
-  }
-}
-
-.inputBox{
-  flex: 1 1 auto;
-  min-width: 60%;
-  input{
-    height: 2.2rem;
-    padding: 0 0.5em;
-    margin-block-end: 0;
-  }
-  /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
-    width: 100%;
-    input{
-      margin: 0 !important;
-      @include radius-top;
-    }
-    button.postfix{
-      align-self: stretch;
-      @include radius-bottom;
-      @include radius-top(0);
-      padding: 5em;
-    }
-    .alert-box{
-      margin: 0;
     }
   }
 }
