@@ -5,6 +5,7 @@
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import { currentRoute } from '#lib/location'
+  import { passwordUpdate } from '#user/lib/auth'
 
   let flashCurrentPassword, flashNewPassword, form
   let currentPassword = '', newPassword = ''
@@ -30,7 +31,7 @@
       else return flashCurrentPwdErr(err.message)
     }
     try {
-      await app.request('password:update', currentPassword, newPassword)
+      await passwordUpdate({ currentPassword, newPassword })
       flashNewPassword = {
         type: 'success',
         message: I18n('done')
