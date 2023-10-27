@@ -35,7 +35,7 @@
 
 {#if state}
   <div class="flash {type}">
-    <div role={type === 'error' ? 'alert' : 'status'}>
+    <div role={state.role || type === 'error' ? 'alert' : 'status'}>
       {#if type === 'loading'}
         <Spinner />
         {state.message || I18n('loading')}
@@ -48,12 +48,14 @@
         {/if}
       {/if}
     </div>
-    <button
-      on:click|stopPropagation={() => state = null}
-      title={I18n('close')}
-    >
-      {@html icon('close')}
-    </button>
+    {#if state.canBeClosed !== false}
+      <button
+        on:click|stopPropagation={() => state = null}
+        title={I18n('close')}
+      >
+        {@html icon('close')}
+      </button>
+    {/if}
   </div>
 {/if}
 

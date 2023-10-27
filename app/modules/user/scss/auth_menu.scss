@@ -66,16 +66,4 @@
   }
 }
 
-.resetPassword{
-  .button{
-    margin: 1em;
-  }
-  input[name=username]{
-    display: none;
-  }
-  #forgotPassword{
-    text-align: center;
-  }
-}
-
 @import 'password_input';

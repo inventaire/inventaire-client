@@ -4,6 +4,7 @@ import initMainUser from './lib/init_main_user.js'
 import auth from './lib/auth.js'
 import userUpdate from './lib/user_update.js'
 import preq from '#lib/preq'
+import { parseQuery } from '#lib/location'
 
 export default {
   initialize () {
@@ -56,9 +57,12 @@ const API = {
     showAuth('login', 'login', Login, options)
   },
 
-  async showForgotPassword (options) {
-    const { default: ForgotPassword } = await import('./views/forgot_password.js')
-    app.layout.showChildView('main', new ForgotPassword(options))
+  async showForgotPassword (querystring) {
+    const { default: ForgotPassword } = await import('./components/forgot_password.svelte')
+    const { resetPasswordFail } = parseQuery(querystring)
+    app.layout.showChildComponent('main', ForgotPassword, {
+      props: { resetPasswordFail }
+    })
     app.navigate('login/forgot-password', {
       metadata: {
         title: I18n('forgot password')
@@ -67,9 +71,9 @@ const API = {
   },
 
   async showResetPassword () {
-    const { default: ResetPassword } = await import('./views/reset_password.js')
+    const { default: ResetPassword } = await import('./components/reset_password.svelte')
     if (app.user.loggedIn) {
-      app.layout.showChildView('main', new ResetPassword())
+      app.layout.showChildComponent('main', ResetPassword)
       app.navigate('login/reset-password', {
         metadata: {
           title: I18n('reset password')
