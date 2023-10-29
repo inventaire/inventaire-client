@@ -77,6 +77,7 @@ export default Marionette.View.extend({
     // and waiters are properly setup
     const { default: TopBar } = await import('#components/top_bar.svelte')
     this.showChildComponent('topBar', TopBar)
+    app.execute('waiter:resolve', 'topbar')
   },
 
   askConfirmation (options) {

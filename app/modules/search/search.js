@@ -3,7 +3,6 @@ import SearchResultsHistory from './collections/search_results_history.js'
 import findUri from './lib/find_uri.js'
 import { parseQuery } from '#lib/location'
 import { setPrerenderStatusCode } from '#lib/metadata/update'
-import { wait } from '#lib/promises'
 
 export default {
   initialize () {
@@ -34,7 +33,7 @@ API.search = async function (search, section, showFallbackLayout) {
   // Prevent indexation of search pages, by making them appear as duplicates of the home
   setPrerenderStatusCode(302, '')
   // Wait for the global search bar to have been initialized
-  await wait(100)
+  await app.request('wait:for', 'topbar')
   app.vent.trigger('live:search:query', { search, section, showFallbackLayout })
 }
 
@@ -51,13 +50,12 @@ API.searchFromQueryString = function (querystring) {
   if (type != null) {
     section = type
   } else {
-    [ q, section ] = findSearchSection(q)
+    ;[ q, section ] = findSearchSection(q)
   }
 
   // Show the add layout at its search tab in the background, so that clicking
   // out of the live search doesn't result in a blank page
   const showFallbackLayout = app.Execute('show:add:layout:search')
-
   return API.search(q, section, showFallbackLayout)
 }
 

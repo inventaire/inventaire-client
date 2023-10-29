@@ -9,7 +9,8 @@ const waitersNames = [
   'groups',
   'transactions',
   'i18n',
-  'layout'
+  'layout',
+  'topbar',
 ]
 const pendingWaiters = {}
 const waitersPromises = {}
