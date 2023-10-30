@@ -5,7 +5,7 @@
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import { currentRoute } from '#lib/location'
-  import { passwordUpdate } from '#user/lib/auth'
+  import { passwordConfirmation, passwordUpdate } from '#user/lib/auth'
 
   let flashCurrentPassword, flashNewPassword, form
   let currentPassword = '', newPassword = ''
@@ -25,7 +25,7 @@
     }
     flashNewPassword = { type: 'loading' }
     try {
-      await app.request('password:confirmation', currentPassword)
+      await passwordConfirmation(currentPassword)
     } catch (err) {
       if (err.statusCode === 401) return flashCurrentPwdErr('wrong password')
       else return flashCurrentPwdErr(err.message)
