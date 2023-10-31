@@ -1,3 +1,5 @@
+import { config } from '#app/config'
+
 // Add some margin to maxBounds to prevent bouncing when displaying a map overlapping the antimeridian
 const antimeridianMargin = 50
 
@@ -25,7 +27,7 @@ Imagery © <a href="http://mapbox.com">Mapbox</a>`,
     maxZoom: 18,
     // Different styles are available https://docs.mapbox.com/api/maps/#styles
     id: 'mapbox/streets-v8',
-    accessToken: 'pk.eyJ1IjoibWF4bGF0aGEiLCJhIjoiY2lldm9xdjFrMDBkMnN6a3NmY211MzQxcyJ9.a7_CBy6Xao-yF6f1cjsBNA',
+    accessToken: config.mapTilesAccessToken,
   },
   defaultZoom: 13,
 }
