@@ -42,7 +42,7 @@
         <p class="bio">{user.bio || ''}</p>
         <p class="links">
           <a class="link" on:click={loadInternalLink} href={user.pathname}>{I18n('profile')}</a> -
-          <a class="link" target="_blank" href={`${user.pathname}.json`}>{JSON}</a> -
+          <a class="link" target="_blank" href={`${user.pathname}.json`}>JSON</a> -
           <a class="link" on:click={loadInternalLink} href={user.contributionsPathname}>{I18n('contributions')}</a>
         </p>
       </div>
