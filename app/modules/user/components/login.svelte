@@ -4,7 +4,8 @@
   import { autofocus } from '#lib/components/actions/autofocus'
   import Flash from '#lib/components/flash.svelte'
   import PasswordInput from '#lib/components/password_input.svelte'
-  import { loadInternalLink } from '#lib/utils'
+  import { onChange } from '#lib/svelte/svelte'
+  import { fixedEncodeURIComponent, loadInternalLink } from '#lib/utils'
   import { requestLogin } from '#user/lib/auth'
   import { i18n, I18n } from '#user/lib/i18n'
   import { testPassword } from '#user/lib/password_tests'
@@ -54,8 +55,18 @@
     }
     return err
   }
-</script>
 
+  let forgotPasswordHref
+
+  function setEmailQuerystring () {
+    forgotPasswordHref = '/login/forgot-password'
+    if (isEmail(username)) {
+      forgotPasswordHref += `?email=${fixedEncodeURIComponent(username)}`
+    }
+  }
+
+  $: onChange(username, setEmailQuerystring)
+</script>
 <div class="auth-menu">
   <div class="custom-cell">
     <h2 class="subheader">{i18n('login')}</h2>
@@ -118,7 +129,7 @@
       </a>
       <a
         class="forgot-password link"
-        href="/login/forgot-password"
+        href={forgotPasswordHref}
         on:click={loadInternalLink}
       >
         {I18n('forgot your password?')}

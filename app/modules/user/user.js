@@ -59,9 +59,9 @@ const API = {
 
   async showForgotPassword (querystring) {
     const { default: ForgotPassword } = await import('./components/forgot_password.svelte')
-    const { resetPasswordFail } = parseQuery(querystring)
+    const { resetPasswordFail, email } = parseQuery(querystring)
     app.layout.showChildComponent('main', ForgotPassword, {
-      props: { resetPasswordFail }
+      props: { resetPasswordFail, email }
     })
     app.navigate('login/forgot-password', {
       metadata: {
