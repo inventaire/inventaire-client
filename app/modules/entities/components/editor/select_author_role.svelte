@@ -26,19 +26,23 @@
   async function onRolePropertyChange () {
     if (currentRoleProperty !== property) {
       entity.claims[property] = without(entity.claims[property], value)
+      entity.claims[currentRoleProperty] = entity.claims[currentRoleProperty] || []
       entity.claims[currentRoleProperty] = uniq(entity.claims[currentRoleProperty].concat([ value ]))
-      await preq.put(app.API.entities.claims.update, {
-        uri: entity.uri,
-        property,
-        'old-value': value,
-        'new-value': null,
-      })
-      await preq.put(app.API.entities.claims.update, {
-        uri: entity.uri,
-        property: currentRoleProperty,
-        'old-value': null,
-        'new-value': value,
-      })
+      // If entity.uri is undefined, we are manipulating a not-yet-created entity
+      if (entity.uri) {
+        await preq.put(app.API.entities.claims.update, {
+          uri: entity.uri,
+          property,
+          'old-value': value,
+          'new-value': null,
+        })
+        await preq.put(app.API.entities.claims.update, {
+          uri: entity.uri,
+          property: currentRoleProperty,
+          'old-value': null,
+          'new-value': value,
+        })
+      }
     }
   }
 
