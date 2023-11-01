@@ -72,10 +72,10 @@ export function getPropertiesShortlist (entity) {
   if (claimsProperties.includes('wdt:P179')) propertiesShortlist.push('wdt:P1545')
   propertiesShortlist = filterPerUserRole(propertiesShortlist)
   const authorProperties = getWorkPreferredAuthorRolesProperties(entity)
-  return propertiesShortlist.flatMap(property => {
+  return uniq(propertiesShortlist.flatMap(property => {
     if (property === 'wdt:P50') return authorProperties
     else return [ property ]
-  })
+  }))
 }
 
 const dataadminOnlyShortlistedProperties = [
