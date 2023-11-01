@@ -7,8 +7,8 @@
   import { passwordResetRequest } from '#user/lib/auth'
 
   export let resetPasswordFail = false
+  export let email = $user.email
 
-  let email = $user.email
   let flash, resetPasswordFailFlash
   let sending = false
   let done = false
