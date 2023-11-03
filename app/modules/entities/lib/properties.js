@@ -1,5 +1,13 @@
 import { entityTypeNameByType } from '#entities/lib/types/entities_types'
 
+const workAuthorRole = {
+  editorType: 'entity',
+  searchType: 'humans',
+  multivalue: true,
+  allowEntityCreation: true,
+  specialEditActions: 'author-role',
+}
+
 export const propertiesEditorsConfigs = {
   'invp:P2': {
     editorType: 'image',
@@ -14,37 +22,13 @@ export const propertiesEditorsConfigs = {
     canValueBeDeleted: ({ propertyClaims }) => propertyClaims.length > 1
   },
   // author
-  'wdt:P50': {
-    editorType: 'entity',
-    searchType: 'humans',
-    multivalue: true,
-    allowEntityCreation: true,
-    specialEditActions: 'author-role',
-  },
+  'wdt:P50': workAuthorRole,
   // scenarist
-  'wdt:P58': {
-    editorType: 'entity',
-    searchType: 'humans',
-    multivalue: true,
-    allowEntityCreation: true,
-    specialEditActions: 'author-role',
-  },
+  'wdt:P58': workAuthorRole,
   // editor
-  'wdt:P98': {
-    editorType: 'entity',
-    searchType: 'humans',
-    multivalue: true,
-    allowEntityCreation: true,
-    specialEditActions: 'author-role',
-  },
+  'wdt:P98': workAuthorRole,
   // illustrator
-  'wdt:P110': {
-    editorType: 'entity',
-    searchType: 'humans',
-    multivalue: true,
-    allowEntityCreation: true,
-    specialEditActions: 'author-role',
-  },
+  'wdt:P110': workAuthorRole,
   // founded by
   'wdt:P112': {
     editorType: 'entity',
@@ -287,13 +271,13 @@ export const propertiesEditorsConfigs = {
     multivalue: false,
   },
   // colorist
-  'wdt:P6338': {
-    editorType: 'entity',
-    searchType: 'humans',
-    multivalue: true,
-    allowEntityCreation: true,
-    specialEditActions: 'author-role',
-  },
+  'wdt:P6338': workAuthorRole,
+  // letterer
+  'wdt:P9191': workAuthorRole,
+  // inker
+  'wdt:P10836': workAuthorRole,
+  // penciller
+  'wdt:P10837': workAuthorRole,
 }
 
 for (const [ property, propertySettings ] of Object.entries(propertiesEditorsConfigs)) {
