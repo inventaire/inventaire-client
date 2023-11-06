@@ -85,11 +85,13 @@
         <Flash state={usernameFlash} />
       </div>
 
-      <PasswordInput
-        bind:password
-        title={I18n('password')}
-        autocomplete="on"
-      />
+      <div class="input-box">
+        <PasswordInput
+          bind:password
+          title={I18n('password')}
+          autocomplete="on"
+        />
+      </div>
 
       <Flash state={loginFlash} />
 
