@@ -64,9 +64,9 @@
           on:keydown={resetFlash}
           required
         />
+        <Flash state={flash} />
       </div>
     {/if}
-    <Flash state={flash} />
     {#if !done}
       <button on:click={sendEmail} disabled={sending} class="button radius">
         {I18n('send email')}
