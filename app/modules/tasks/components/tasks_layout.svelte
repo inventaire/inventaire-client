@@ -25,7 +25,6 @@
       promise = next()
     } else return
     return promise
-      .then(updateFromAndToEntities)
       .catch(err => {
         error = err
       })
@@ -68,13 +67,33 @@
     const fromUri = task.suspectUri
     const toUri = task.suggestionUri
     return preq.get(app.API.entities.getByUris([ fromUri, toUri ]))
-      .then(({ entities }) => {
-        from = serializeEntity(entities[fromUri])
-        to = serializeEntity(entities[toUri])
-      })
+      .then(assignFromToEntities(fromUri, toUri))
       .catch(err => {
         error = err
       })
+  }
+
+  const assignFromToEntities = (fromUri, toUri) => async entitiesRes => {
+    if (areRedirects(entitiesRes)) {
+      await updateTask(task._id, 'state', 'merged')
+      return next()
+    }
+    const { entities } = entitiesRes
+    from = serializeEntity(entities[fromUri])
+    to = serializeEntity(entities[toUri])
+  }
+
+  async function updateTask (id, attribute, value) {
+    const params = { id, attribute, value }
+    return preq.put(app.API.tasks.update, params)
+  }
+
+  function areRedirects (entitiesRes) {
+    const { entities, redirects } = entitiesRes
+    if (redirects === {}) return
+    for (const entityUri of Object.values(redirects)) {
+      if (entities[entityUri]) return true
+    }
   }
 
   $: {
