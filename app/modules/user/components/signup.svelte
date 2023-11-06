@@ -76,7 +76,10 @@
         bind:value={username}
         bind:this={usernameInputNode}
         on:blur={earlyVerifyUsername}
-        on:keydown={() => usernameFlash = null}
+        on:keydown={() => {
+          usernameFlash = null
+          signupFlash = null
+        }}
         use:autofocus
       />
       <Flash state={usernameFlash} />
@@ -92,7 +95,10 @@
         bind:value={email}
         bind:this={emailInputNode}
         on:blur={earlyVerifyEmail}
-        on:keydown={() => emailFlash = null}
+        on:keydown={() => {
+          emailFlash = null
+          signupFlash = null
+        }}
       />
       <Flash state={emailFlash} />
     </div>
@@ -111,7 +117,7 @@
       id="signup"
       class="button"
       on:click={signup}
-      disabled={signingUp}
+      disabled={usernameFlash || emailFlash || signupFlash || signingUp}
     >
       {i18n('sign up')}
       {#if signingUp}<Spinner />{/if}
