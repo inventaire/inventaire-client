@@ -44,6 +44,9 @@
 
 @mixin input-box(){
   .input-box{
+    :global(input){
+      margin-bottom: 0;
+    }
     :global(.flash) {
       margin-top: 0;
       padding: 0.3em;
