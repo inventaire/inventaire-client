@@ -99,7 +99,7 @@
         id="login"
         class="button light-blue"
         on:click={login}
-        disabled={loggingIn}
+        disabled={usernameFlash || loginFlash || loggingIn}
       >
         {i18n('login')}
         {#if loggingIn}<Spinner />{/if}
