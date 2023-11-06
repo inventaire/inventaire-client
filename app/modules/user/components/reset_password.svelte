@@ -42,12 +42,14 @@
       <!-- Use a <form> to make the button be clicked on Enter and trigger to please password managers -->
       <form method="post">
         <input type="text" name="username" value={$user.username} />
-        <PasswordInput
-          bind:password
-          title={I18n('password')}
-          autocomplete="on"
-        />
-        <Flash state={flash} />
+        <div class="input-box">
+          <PasswordInput
+            bind:password
+            title={I18n('password')}
+            autocomplete="on"
+          />
+          <Flash state={flash} />
+        </div>
         <button
           id="updatePassword"
           class="button success radius"
