@@ -1,6 +1,6 @@
 import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
-import { i18n } from '#user/lib/i18n'
+import { I18n, i18n } from '#user/lib/i18n'
 import { assertViewHasBehavior } from '#general/plugins/behaviors'
 
 let forms_
@@ -95,7 +95,7 @@ forms_.bundleAlert = function (view, message, selector) {
 // format the error to be catched by forms_.catchAlert
 // ex: forms_.throwError 'a title is required', '#titleField'
 forms_.throwError = function (message, selector, ...context) {
-  const err = new Error(message)
+  const err = new Error(I18n(message))
   err.selector = selector
   err.context = context
   // Form errors are user's errors, thus they don't need to be reported to the server
