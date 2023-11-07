@@ -1,8 +1,11 @@
 @import '#general/scss/utils';
 
 .auth-menu{
+  @include central-column(28em);
+  min-height: calc(100vh - $topbar-height);
+
   /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  @media screen and (width < $smaller-screen) {
     .custom-cell{
       padding: 1em;
       text-align: center;
@@ -10,11 +13,8 @@
   }
 
   /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
-    @include central-column(28em);
-    min-height: 80vh;
+  @media screen and (width >= $smaller-screen) {
     .custom-cell{
-      margin-block: 1em;
       background-color: $global-background-contrast-color;
       @include radius;
       padding: 1em 2em 2em 2em;
@@ -73,7 +73,7 @@
   }
 
   /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (width < $very-small-screen) {
     .other-options{
       flex-direction: column;
       a{
