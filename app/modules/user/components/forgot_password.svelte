@@ -2,7 +2,7 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import Flash from '#lib/components/flash.svelte'
-  import { testEmail, verifyKnownEmail } from '#user/lib/email_tests'
+  import { testEmail } from '#user/lib/email_tests'
   import Spinner from '#components/spinner.svelte'
   import { passwordResetRequest } from '#user/lib/auth'
 
@@ -24,7 +24,6 @@
     try {
       sending = true
       testEmail(email)
-      await verifyKnownEmail(email)
       await passwordResetRequest(email)
       done = true
       flash = {
@@ -34,6 +33,9 @@
         canBeClosed: false,
       }
     } catch (err) {
+      if (err.message === 'email not found') {
+        err.message = I18n('this email is unknown')
+      }
       flash = err
     } finally {
       sending = false
