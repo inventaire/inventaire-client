@@ -93,7 +93,7 @@ const limitedTypes = new Set([ 'publisher', 'genre', 'subject', 'article' ])
 const truncateTooManyUris = (section, parentEntityType) => {
   const { uris = [] } = section
   const urisCount = uris.length
-  if (urisCount <= entitiesLimit) return
+  if (urisCount < entitiesLimit) return
   if (limitedTypes.has(parentEntityType)) {
     section.uris = uris.splice(0, entitiesLimit)
     section.context = i18n('Too many entities requested (%{entitiesCount}). Only %{limit} are displayed.', {
