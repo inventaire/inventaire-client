@@ -34,6 +34,7 @@
         <EntityTitle
           {entity}
           {standalone}
+          sourceLogo={true}
         />
       </div>
       {#if isNonEmptyPlainObject(entity.image)}

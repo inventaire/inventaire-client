@@ -32,6 +32,10 @@
     @include serif;
     vertical-align: super;
     font-weight: normal;
-    font-size: 0.8em;
+    font-size: small;
+    a{
+      // dont break "inv" logo string
+      word-break: unset;
+    }
   }
 </style>

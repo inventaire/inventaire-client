@@ -2,8 +2,9 @@
   import { i18n } from '#user/lib/i18n'
   import Link from '#lib/components/link.svelte'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
+  import SourceLogo from '#inventory/components/entity_source_logo.svelte'
 
-  export let entity
+  export let entity, sourceLogo
   export let standalone = true
 
   const { uri, claims, label } = entity
@@ -20,6 +21,9 @@
       text={label}
       dark={true}
     />
+  {/if}
+  {#if sourceLogo}
+    <SourceLogo {entity} />
   {/if}
 </h2>
 {#if birthOrDeathDates}

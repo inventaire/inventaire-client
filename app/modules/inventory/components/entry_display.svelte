@@ -4,7 +4,7 @@
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
-  import EntityLogo from '#inventory/components/entity_source_logo.svelte'
+  import SourceLogo from '#inventory/components/entity_source_logo.svelte'
   import EntityResolverInput from '#inventory/components/entity_resolver_input.svelte'
 
   export let isbnData
@@ -41,7 +41,7 @@
   // Do not display authors editor if work exists
   // as this only an importer, not an editor of existing entity
   $: editableAuthors = (withEditor && !work.uri)
-  // pass on user input to create work and edition when unseccessfull search
+  // pass on user input to create work and edition when unsuccessfull search
   $: editionTitle = currentEditionLabel
 </script>
 
@@ -57,11 +57,8 @@
     <div class="work">
       {#if initialWorkUri}
         <span class="label">{I18n('title')}:</span>
-        <!-- Necessary span to look like <sup> (exponent) element -->
-        <span>
-          {findBestLang(work, editionLang)}
-          <EntityLogo entity={work} />
-        </span>
+        {findBestLang(work, editionLang)}
+        <SourceLogo entity={work} />
       {:else}
         <span class="label">{I18n('title')}:</span>
         {#if withEditor}
@@ -88,10 +85,9 @@
             {/each}
           {:else}
             {#each authors as author, id}
-              <!-- Necessary span to look like <sup> (exponent) element -->
               <span class="author-name">
                 {findBestLang(author)}
-                <EntityLogo entity={author} />
+                <SourceLogo entity={author} />
                 <!-- prefer this to CSS :last-child, to be able to have a space after the comma -->
                 {#if id !== authors.length - 1},&nbsp;{/if}
               </span>
@@ -105,7 +101,7 @@
         <span class="label">ISBN:</span>
         {isbn13h}
         {#if edition}
-          <EntityLogo entity={edition} />
+          <SourceLogo entity={edition} />
         {/if}
       {/if}
     </div>
