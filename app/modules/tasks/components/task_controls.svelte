@@ -1,4 +1,5 @@
 <script>
+  import preq from '#lib/preq'
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import Alertbox from '#general/components/alertbox.svelte'
@@ -19,6 +20,7 @@
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
     if (event.key === 'm') mergeTaskEntities()
+    if (event.key === 'd') dismiss()
     else if (event.key === 'n') dispatch('next')
   }
 
@@ -31,6 +33,15 @@
         error = err
       })
       .finally(() => merging = false)
+  }
+
+  function dismiss () {
+    return preq.put(app.API.tasks.update, {
+      id: task._id,
+      attribute: 'state',
+      value: 'dismissed'
+    })
+      .then(() => dispatch('next'))
   }
 
   $: {
@@ -60,6 +71,13 @@
       >
         {@html icon('compress')}{I18n('merge')}
         {#if merging}<Spinner light={true} />{/if}
+      </button>
+      <button
+        class="dismiss grey-button"
+        title="Archive this task. Shortkey: d"
+        on:click={dismiss}
+      >
+        {@html icon('close')}{I18n('dismiss')}
       </button>
       <button
         class="next light-blue-button"
