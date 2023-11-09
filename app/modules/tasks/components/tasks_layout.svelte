@@ -42,17 +42,15 @@
       entitiesType,
       previousTasks: previousTasksIds
     }
-    await getNextTask(params)
-      .then(newTask => {
-        if (!newTask) {
-          reset()
-          noTask = true
-          app.navigate('/tasks/works')
-          return
-        }
-        task = newTask
-        app.navigate(`/tasks/${task._id}`)
-      })
+    const newTask = await getNextTask(params)
+    if (!newTask) {
+      reset()
+      noTask = true
+      app.navigate('/tasks/works')
+      return
+    }
+    task = newTask
+    app.navigate(`/tasks/${task._id}`)
   }
 
   function reset () {

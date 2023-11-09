@@ -19,15 +19,18 @@
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
+    if (event.key === 's') mergeTaskEntities({ isToFrom: true })
     if (event.key === 'm') mergeTaskEntities()
     if (event.key === 'd') dismiss()
     else if (event.key === 'n') dispatch('next')
   }
 
-  function mergeTaskEntities () {
+  function mergeTaskEntities ({ isToFrom }) {
     if (!(from && to)) return
     merging = true
-    mergeEntities(from.uri, to.uri)
+
+    const params = isToFrom ? [ to.uri, from.uri ] : [ from.uri, to.uri ]
+    mergeEntities(...params)
       .then(() => dispatch('next'))
       .catch(err => {
         error = err
@@ -63,6 +66,7 @@
       {/if}
     </ul>
     <div class="actions">
+      {#if merging}<Spinner light={true} />{/if}
       <button
         class="merge dangerous-button"
         disabled={!(from && to)}
@@ -70,7 +74,14 @@
         on:click={mergeTaskEntities}
       >
         {@html icon('compress')}{I18n('merge')}
-        {#if merging}<Spinner light={true} />{/if}
+      </button>
+      <button
+        class="swap dangerous-button"
+        disabled={!(from && to)}
+        title="Merge to into from. Shortkey: s"
+        on:click={() => mergeTaskEntities({ isToFrom: true })}
+      >
+        {@html icon('exchange')}{I18n('swap & merge')}
       </button>
       <button
         class="dismiss grey-button"
