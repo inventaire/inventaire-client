@@ -120,15 +120,15 @@
     <hr />
 
     <div class="other-options">
-      <!-- TODO: improve button contrast #a11y -->
       <a
+        class="classic-link"
         href="/signup"
         on:click={loadInternalLink}
       >
         {I18n('create an account')}
       </a>
       <a
-        class="forgot-password link"
+        class="classic-link"
         href={forgotPasswordHref}
         on:click={loadInternalLink}
       >
@@ -155,8 +155,5 @@
       font-weight: normal;
       margin-inline-start: 0.2em;
     }
-  }
-  .forgot-password{
-    padding: 1em;
   }
 </style>
