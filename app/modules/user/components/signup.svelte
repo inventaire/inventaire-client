@@ -64,7 +64,7 @@
     autocorrect="off"
     autocapitalize="off"
   >
-    <h2 class="subheader">{i18n('sign up')}</h2>
+    <h2 class="subheader">{i18n('Create account')}</h2>
 
     <label for="username">{i18n('username')}</label>
     <div class="input-box">
@@ -119,7 +119,7 @@
       on:click={signup}
       disabled={usernameFlash || emailFlash || signupFlash || signingUp}
     >
-      {i18n('sign up')}
+      {i18n('signup_verb')}
       {#if signingUp}<Spinner />{/if}
     </button>
 
@@ -128,7 +128,7 @@
     <div class="other-options">
       <p>
         {i18n('Already have an account?')}
-        <a class="classic-link" href="/login" on:click={loadInternalLink}>{I18n('login')}</a>
+        <a class="classic-link" href="/login" on:click={loadInternalLink}>{I18n('login_verb')}</a>
       </p>
     </div>
   </form>

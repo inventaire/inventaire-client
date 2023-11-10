@@ -49,7 +49,7 @@ const showAuth = (name, label, Component, options) => {
 const API = {
   async showSignup (options) {
     const { default: Signup } = await import('./components/signup.svelte')
-    showAuth('signup', 'sign up', Signup, options)
+    showAuth('signup', 'Create account', Signup, options)
   },
 
   async showLogin (options) {
