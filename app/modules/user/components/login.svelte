@@ -112,7 +112,7 @@
         on:click={login}
         disabled={usernameFlash || loginFlash || loggingIn}
       >
-        {i18n('login')}
+        {i18n('login_verb')}
         {#if loggingIn}<Spinner />{/if}
       </button>
     </form>
