@@ -63,10 +63,6 @@
   .other-options{
     margin-block-start: 1em;
     @include display-flex(row, center, space-around);
-    a:first-child{
-      @include shy(0.9);
-      @include tiny-button($success-color);
-    }
     a:not(:first-child){
       margin-inline-start: auto;
     }

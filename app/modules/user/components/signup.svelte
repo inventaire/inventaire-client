@@ -126,8 +126,10 @@
     <hr />
 
     <div class="other-options">
-      <!-- TODO: improve button contrast #a11y -->
-      <a id="login" href="/login" on:click={loadInternalLink}>{I18n('login')}</a>
+      <p>
+        {i18n('Already have an account?')}
+        <a class="classic-link" href="/login" on:click={loadInternalLink}>{I18n('login')}</a>
+      </p>
     </div>
   </form>
 </div>
