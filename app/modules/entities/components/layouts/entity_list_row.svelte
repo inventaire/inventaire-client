@@ -146,8 +146,6 @@
   @media screen and (max-width: $smaller-screen){
     .entity-list-row{
       flex-wrap: wrap;
-      align-self: center;
-      justify-content: center;
     }
     .entity-info-line{
       margin: 0.5em 0.5em 0.5em 0;
