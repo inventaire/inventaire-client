@@ -10,13 +10,12 @@
 
   let authorsByUris
 
-  const authorProperties = Object.values(propertiesByRoles).flat()
+  let authorProperties = Object.values(propertiesByRoles).flat()
+  let authorsClaims = _.pick(claims, authorProperties)
 
-  // getting authors entities independantly from infobox claims to fetch claims attributes and display birth/death years
   const waitingForAuthors = getAuthors()
   async function getAuthors () {
-    let authorsClaims = _.pick(claims, authorProperties)
-    // claims used for getting birth and death years
+    // Claims used for getting birth and death years
     const attributes = [ 'labels', 'claims', 'image' ]
     if (isNonEmptyPlainObject(authorsClaims)) {
       authorsByUris = await getEntitiesAttributesFromClaims(authorsClaims, attributes)
@@ -38,8 +37,8 @@
             <span class="label">{i18n(role)}</span>
             <div class="authors">
               {#each propertiesByRoles[role] as prop}
-                {#if claims[prop]}
-                  {#each claims[prop] as claimValue}
+                {#if authorsClaims[prop]}
+                  {#each authorsClaims[prop] as claimValue}
                     <div class="author">
                       <AuthorDisplay
                         entityData={authorsByUris[claimValue]}
