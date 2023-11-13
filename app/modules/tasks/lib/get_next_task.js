@@ -29,27 +29,32 @@ const getNextTask = async params => {
 
   const { lastTask } = params
   if (lastTask != null) {
-    if (backlogs.byWork.length !== 0) return shiftTaskFromBacklog(params.backlogName)
+    // prioritize byAuthor over byScore
+    if (areTasksInBacklog(params.backlogName)) return shiftTaskFromBacklog(params.backlogName)
+    // prioritize task with same suggestion
     const suggestionUri = lastTask.suggestionUri
     if (!suggestionUrisFetched.includes(suggestionUri)) return getNextTaskBySuggestionUri(params)
   }
-  if (backlogs.byWork.length !== 0) return shiftTaskFromBacklog(nextTaskGetter)
+  if (areTasksInBacklog(nextTaskGetter)) return shiftTaskFromBacklog(nextTaskGetter)
   const { previousTasksIds } = params
-  offset = params.offset
 
   // If an offset isn't specified, use a random offset between 0 and 500
   // to allow several contributors to work with the bests humans tasks at the same time
   // while having a low risk of conflicting
   // (only for human tasks as there are not that many work tasks)
-  if (offset == null && entitiesType === 'human') offset = Math.trunc(Math.random() * 500)
-
-  // Predictable behavior in development environment
-  if (window.env === 'dev') offset = 0
-
+  if (offset === 0 && entitiesType === 'human') {
+    offset = Math.trunc(Math.random() * 500)
+    // Predictable behavior in development environment
+    if (window.env === 'dev') offset = 0
+  }
   let { tasks } = await requestNewTasks(entitiesType, limit, offset)
+  offset += limit
   tasks = tasks.filter(removePreviousTasks(previousTasksIds))
-  offset += tasks.length
   return updateBacklogAndGetNextTask(tasks, nextTaskGetter)
+}
+
+function areTasksInBacklog (backlogName) {
+  return backlogs[backlogName].length !== 0
 }
 
 const getNextTaskBySuggestionUri = async params => {
