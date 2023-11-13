@@ -3,7 +3,7 @@ import { isNonEmptyArray } from '#lib/boolean_tests'
 
 const backlogs = {
   byScore: [],
-  byAuthor: [],
+  bySuggestion: [],
   byWork: []
 }
 
@@ -20,21 +20,21 @@ const getNextTask = async params => {
   const { entitiesType } = params
   let nextTaskGetter = ''
   if (entitiesType === 'work') {
-    params.backlogType = 'byWork'
+    params.backlogName = 'byWork'
     nextTaskGetter = 'byWork'
   } else {
-    params.backlogType = 'byAuthor'
+    params.backlogName = 'bySuggestion'
     nextTaskGetter = 'byScore'
   }
 
   const { lastTask } = params
   if (lastTask != null) {
-    if (backlogs.byWork.length !== 0) return shiftTaskFromBacklog(params.backlogType)
+    if (backlogs.byWork.length !== 0) return shiftTaskFromBacklog(params.backlogName)
     const suggestionUri = lastTask.suggestionUri
     if (!suggestionUrisFetched.includes(suggestionUri)) return getNextTaskBySuggestionUri(params)
   }
   if (backlogs.byWork.length !== 0) return shiftTaskFromBacklog(nextTaskGetter)
-  const { previousTasks } = params
+  const { previousTasksIds } = params
   offset = params.offset
 
   // If an offset isn't specified, use a random offset between 0 and 500
@@ -47,23 +47,23 @@ const getNextTask = async params => {
   if (window.env === 'dev') offset = 0
 
   let { tasks } = await requestNewTasks(entitiesType, limit, offset)
-  tasks = tasks.filter(removePreviousTasks(previousTasks))
+  tasks = tasks.filter(removePreviousTasks(previousTasksIds))
   offset += tasks.length
   return updateBacklogAndGetNextTask(tasks, nextTaskGetter)
 }
 
 const getNextTaskBySuggestionUri = async params => {
-  const { lastTask, previousTasks } = params
+  const { lastTask, previousTasksIds } = params
   const suggestionUri = lastTask.suggestionUri
 
   const { tasks } = await preq.get(app.API.tasks.bySuggestionUris(suggestionUri))
   let suggestionUriTasks = tasks[suggestionUri]
   suggestionUriTasks = suggestionUriTasks
-    .filter(removePreviousTasks(previousTasks))
+    .filter(removePreviousTasks(previousTasksIds))
     .filter(tasksWithOccurences)
   suggestionUrisFetched.push(suggestionUri)
   if (suggestionUriTasks.length === 0) return getNextTask(params)
-  else return updateBacklogAndGetNextTask(suggestionUriTasks, params.backlogType)
+  else return updateBacklogAndGetNextTask(suggestionUriTasks, params.backlogName)
 }
 
 const requestNewTasks = async (type, limit, offset) => {
@@ -73,7 +73,7 @@ const requestNewTasks = async (type, limit, offset) => {
     return preq.get(app.API.tasks.byScore(limit, offset))
   }
 }
-const removePreviousTasks = previousTasks => task => !previousTasks.includes(task._id)
+const removePreviousTasks = previousTasksIds => task => !previousTasksIds.includes(task._id)
 
 const tasksWithOccurences = task => isNonEmptyArray(task.externalSourcesOccurrences)
 

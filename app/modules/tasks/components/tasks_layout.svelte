@@ -40,7 +40,7 @@
     if (!entitiesType) ({ entitiesType } = task)
     const params = {
       entitiesType,
-      previousTasks: previousTasksIds
+      previousTasksIds
     }
     const newTask = await getNextTask(params)
     if (!newTask) {
