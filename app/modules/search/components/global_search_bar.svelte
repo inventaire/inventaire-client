@@ -40,6 +40,9 @@
   let showSearchControls
   let hasMore = false
 
+  // In sync with limit parameter in `server/controllers/search/search.js`
+  const resultsMaxLength = 100
+
   async function search () {
     const searchKey = `${selectedCategory}:${selectedSection}:${searchText}`
     hasMore = false
@@ -88,7 +91,8 @@
         limit: searchBatchLength,
         offset: searchOffset,
       })
-      hasMore = res.continue != null
+      hasMore = res.continue != null && res.continue < resultsMaxLength
+
       return res.results.map(serializeSubject)
     } else {
       // Increasing search limit instead of offset, as search pages aren't stable:
@@ -102,7 +106,8 @@
         search: searchText,
         limit: searchLimit,
       })
-      hasMore = res.continue != null
+      hasMore = res.continue != null && res.continue < resultsMaxLength
+
       return res.results
     }
   }
@@ -279,7 +284,7 @@
       />
       {#if showResults}
         {#if results.length > 0}
-          <div class="results">
+          <div class="search-results">
             <ul bind:this={searchResultsEl}>
               {#each results as result, index (result.id)}
                 <SearchResult
@@ -397,7 +402,7 @@
     // The #topBar gives it a positive z-index, and it sould be displayed just below
     z-index: -1;
   }
-  .loader, .results, .no-result{
+  .loader, .search-results, .no-result{
     background-color: #eee;
   }
   .loader, .no-result{
@@ -413,7 +418,7 @@
 
   /* Medium to Large screens */
   @media screen and (min-width: $small-screen){
-    .results{
+    .search-results{
       max-height: 60vh;
       overflow: auto;
     }
@@ -437,7 +442,7 @@
       @include display-flex(column);
       overflow: hidden;
     }
-    .results, .no-result, .loader{
+    .search-results, .no-result, .loader{
       order: -1;
       flex: 1 0 0;
       overflow: auto;
