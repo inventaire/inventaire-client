@@ -95,8 +95,7 @@ export const buildPathname = (entity, prop) => {
 }
 
 export const inverseLabels = {
-  // Hardcoding as a make it work implmentation for translation purposes (not to be updated too often).
-  // TODO: use the inverse label property (P7087) and wikidata-lang to generate translation
+  // Hardcoding as a make-it-work implementation for translation purposes (not to be updated too often).
   'wdt:P69': 'educated_at',
   'wdt:P135': 'associated_with_this_movement',
   'wdt:P136': 'works_in_this_genre',
@@ -108,8 +107,6 @@ export const inverseLabels = {
   'wdt:P921': 'works_about_entity',
   'wdt:P941': 'works_inspired_by_work',
   'wdt:P1433': 'published_in',
-  'wdt:P2679': 'prefaced_works',
-  'wdt:P2680': 'postfaced_works',
 }
 
 const specialPathnameProperties = Object.keys(inverseLabels)
