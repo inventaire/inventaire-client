@@ -9,6 +9,7 @@
   import { expired } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
   import { indexBy, partition } from 'underscore'
+  import { pushEntityRefreshingPromise } from '#entities/lib/entities'
 
   export let entity
 
@@ -35,6 +36,7 @@
           }
         })
         .catch(err => flash = err)
+      if (refresh) pushEntityRefreshingPromise(entity, waitingForSummariesData)
     }
   }
 

@@ -225,3 +225,7 @@ export const getEntityImagePath = imageValue => {
   if (isImageHash(imageValue)) return `/img/entities/${imageValue}`
   else return imageValue
 }
+
+export function pushEntityRefreshingPromise (entity, promise) {
+  entity.refreshing = Promise.all([ entity.refreshing, promise ])
+}

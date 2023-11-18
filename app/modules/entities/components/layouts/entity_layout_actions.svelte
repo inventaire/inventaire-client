@@ -6,6 +6,7 @@
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
   import Spinner from '#general/components/spinner.svelte'
   import app from '#app/app'
+  import { tick } from 'svelte'
 
   export let entity, showEntityEditButtons = true
 
@@ -19,6 +20,13 @@
     entity = serializeEntity(Object.values(entities)[0])
     // Let other components know that a refresh was requested
     entity.refreshTimestamp = Date.now()
+    // Let time for other components to trigger a server cache refresh if needed
+    // and pass the resulting promise to pushEntityRefreshingPromise
+    await tick()
+    waitForEntityRefresh = entity.refreshing
+    await waitForEntityRefresh
+    // Set refresh parameter to force router to navigate, despite the pathname being the same
+    app.navigateAndLoad(`${entity.pathname}?refresh=true`)
   }
 
   const wikidataUrl = getWikidataUrl(uri)
