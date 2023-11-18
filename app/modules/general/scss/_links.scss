@@ -1,9 +1,17 @@
 a{
-  @include text-hover($primary-color, darken($primary-color, 5%));
-  word-break: break-word;
+  line-height: inherit;
   &:hover{
     cursor: pointer;
   }
+  &:hover, &:focus{
+    color: $light-blue;
+  }
+}
+
+a:not(.classic-link){
+  text-decoration: none;
+  @include text-hover($primary-color, darken($primary-color, 5%));
+  word-break: break-word;
 }
 
 .link{

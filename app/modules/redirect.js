@@ -1,7 +1,6 @@
 import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
 import { I18n, i18n } from '#user/lib/i18n'
-import initQuerystringActions from '#general/lib/querystring_actions'
 import { currentRoute } from '#lib/location'
 import { setPrerenderStatusCode, isPrerenderSession } from '#lib/metadata/update'
 import { showMainUserProfile } from '#users/users'
@@ -40,9 +39,6 @@ export default {
       'show:signup:redirect': showSignupRedirect,
       'show:login:redirect': showLoginRedirect
     })
-
-    // Should be run before app start to access the unmodifed url
-    initQuerystringActions()
   }
 }
 

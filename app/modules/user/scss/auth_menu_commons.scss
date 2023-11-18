@@ -1,0 +1,80 @@
+@import '#general/scss/utils';
+
+.auth-menu{
+  @include central-column(28em);
+  min-height: calc(100vh - $topbar-height);
+
+  /*Small screens*/
+  @media screen and (width < $smaller-screen) {
+    .custom-cell{
+      padding: 1em;
+      text-align: center;
+    }
+  }
+
+  /*Large screens*/
+  @media screen and (width >= $smaller-screen) {
+    .custom-cell{
+      background-color: $global-background-contrast-color;
+      @include radius;
+      padding: 1em 2em 2em 2em;
+      text-align: center;
+    }
+  }
+}
+
+@mixin auth-menu-commons(){
+  :global(label:not(.inline)), :global(label.main-label span){
+    color: $dark-grey;
+    font-size: 1rem;
+    margin-block-start: 0.8em;
+    font-weight: bold;
+    text-align: start;
+  }
+
+  input, :global(input){
+    text-align: start;
+    font-size: 1rem;
+  }
+
+  .subheader{
+    margin-block-end: 1em;
+  }
+}
+
+@mixin input-box(){
+  .input-box{
+    :global(input){
+      margin-bottom: 0;
+    }
+    :global(.flash) {
+      margin-top: 0;
+      padding: 0.3em;
+      align-items: center;
+    }
+  }
+}
+
+@mixin auth-menu-with-other-options(){
+  hr{
+    border-color: #bbb;
+  }
+
+  .other-options{
+    margin-block-start: 1em;
+    @include display-flex(row, center, space-around);
+    a:not(:first-child){
+      margin-inline-start: auto;
+    }
+  }
+
+  /*Very Small screens*/
+  @media screen and (width < $very-small-screen) {
+    .other-options{
+      flex-direction: column;
+      a{
+        margin: 0.5em;
+      }
+    }
+  }
+}

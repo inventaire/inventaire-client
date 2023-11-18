@@ -5,6 +5,7 @@
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import { currentRoute } from '#lib/location'
+  import { passwordConfirmation, passwordUpdate } from '#user/lib/auth'
 
   let flashCurrentPassword, flashNewPassword, form
   let currentPassword = '', newPassword = ''
@@ -24,13 +25,13 @@
     }
     flashNewPassword = { type: 'loading' }
     try {
-      await app.request('password:confirmation', currentPassword)
+      await passwordConfirmation(currentPassword)
     } catch (err) {
       if (err.statusCode === 401) return flashCurrentPwdErr('wrong password')
       else return flashCurrentPwdErr(err.message)
     }
     try {
-      await app.request('password:update', currentPassword, newPassword)
+      await passwordUpdate({ currentPassword, newPassword })
       flashNewPassword = {
         type: 'success',
         message: I18n('done')
@@ -75,8 +76,7 @@
     bind:password={currentPassword}
     bind:flash={flashCurrentPassword}
     title={I18n('current password')}
-    autocomplete="current-password"
-    name="current-password"
+    autocomplete="on"
   />
 </form>
 <div class="forgotPassword">
@@ -94,8 +94,7 @@
     bind:password={newPassword}
     bind:flash={flashNewPassword}
     title={I18n('new password')}
-    autocomplete="new-password"
-    name="new-password"
+    autocomplete="on"
   />
 </form>
 

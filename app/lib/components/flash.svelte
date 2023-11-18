@@ -35,7 +35,7 @@
 
 {#if state}
   <div class="flash {type}">
-    <div>
+    <div role={state.role || type === 'error' ? 'alert' : 'status'}>
       {#if type === 'loading'}
         <Spinner />
         {state.message || I18n('loading')}
@@ -48,19 +48,21 @@
         {/if}
       {/if}
     </div>
-    <button
-      on:click|stopPropagation={() => state = null}
-      title={I18n('close')}
-    >
-      {@html icon('close')}
-    </button>
+    {#if state.canBeClosed !== false}
+      <button
+        on:click|stopPropagation={() => state = null}
+        title={I18n('close')}
+      >
+        {@html icon('close')}
+      </button>
+    {/if}
   </div>
 {/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
   .flash{
-    @include display-flex(row, flex-start, space-between);
+    @include display-flex(row, center, space-between);
     padding: 0.5em;
     margin: 0.3em 0;
     padding-inline-start: 0.5em;

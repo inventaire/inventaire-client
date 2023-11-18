@@ -4,6 +4,7 @@ import initMainUser from './lib/init_main_user.js'
 import auth from './lib/auth.js'
 import userUpdate from './lib/user_update.js'
 import preq from '#lib/preq'
+import { parseQuery } from '#lib/location'
 
 export default {
   initialize () {
@@ -32,14 +33,14 @@ export default {
   }
 }
 
-const showAuth = (name, label, View, options) => {
+const showAuth = (name, label, Component, options) => {
   if (!navigator.cookieEnabled) {
     return app.execute('show:error:cookieRequired', `show:${name}`)
   }
 
   if (app.user.loggedIn) return app.execute('show:home')
 
-  app.layout.showChildView('main', new View(options))
+  app.layout.showChildComponent('main', Component, { props: options })
   app.navigate(name, { metadata: { title: I18n(label) } })
 }
 
@@ -47,18 +48,21 @@ const showAuth = (name, label, View, options) => {
 // app.layout should thus appear only in callbacks
 const API = {
   async showSignup (options) {
-    const { default: Signup } = await import('./views/signup.js')
-    showAuth('signup', 'sign up', Signup, options)
+    const { default: Signup } = await import('./components/signup.svelte')
+    showAuth('signup', 'Create account', Signup, options)
   },
 
   async showLogin (options) {
-    const { default: Login } = await import('./views/login.js')
+    const { default: Login } = await import('./components/login.svelte')
     showAuth('login', 'login', Login, options)
   },
 
-  async showForgotPassword (options) {
-    const { default: ForgotPassword } = await import('./views/forgot_password.js')
-    app.layout.showChildView('main', new ForgotPassword(options))
+  async showForgotPassword (querystring) {
+    const { default: ForgotPassword } = await import('./components/forgot_password.svelte')
+    const { resetPasswordFail, email } = parseQuery(querystring)
+    app.layout.showChildComponent('main', ForgotPassword, {
+      props: { resetPasswordFail, email }
+    })
     app.navigate('login/forgot-password', {
       metadata: {
         title: I18n('forgot password')
@@ -67,9 +71,9 @@ const API = {
   },
 
   async showResetPassword () {
-    const { default: ResetPassword } = await import('./views/reset_password.js')
+    const { default: ResetPassword } = await import('./components/reset_password.svelte')
     if (app.user.loggedIn) {
-      app.layout.showChildView('main', new ResetPassword())
+      app.layout.showChildComponent('main', ResetPassword)
       app.navigate('login/reset-password', {
         metadata: {
           title: I18n('reset password')
@@ -88,8 +92,8 @@ const API = {
       const postLoginRedirection = window.location.pathname + window.location.search
       if (!(app.request('require:loggedIn', postLoginRedirection))) return
       const client = await getOAuthClient(query.client_id)
-      const { default: AuthorizeMenu } = await import('./views/authorize_menu.js')
-      app.layout.showChildView('main', new AuthorizeMenu({ query, client }))
+      const { default: AuthorizeMenu } = await import('./components/authorize_menu.svelte')
+      app.layout.showChildComponent('main', AuthorizeMenu, { props: { query, client } })
     } catch (err) {
       app.execute('show:error', err)
     }

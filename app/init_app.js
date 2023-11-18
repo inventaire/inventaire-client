@@ -20,6 +20,7 @@ import Listings from '#listings/listings'
 import AppLayout from '#general/views/app_layout'
 import reloadOnceADay from '#lib/reload_once_a_day'
 import initQuerystringHelpers from '#lib/querystring_helpers'
+import { initQuerystringActions } from '#general/lib/querystring_actions'
 
 window.app = app
 
@@ -50,6 +51,8 @@ export default async function () {
   Shelves.initialize()
   Listings.initialize()
   initQuerystringHelpers()
+  // Should be run before app start to access the unmodifed url
+  initQuerystringActions()
 
   await app.request('wait:for', 'i18n')
 
