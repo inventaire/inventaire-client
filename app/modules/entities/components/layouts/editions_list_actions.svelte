@@ -167,7 +167,7 @@
 </div>
 <div class="sort-selector-wrapper menu">
   <SortEntitiesBy
-    sortingType="editions"
+    sortingType="edition"
     bind:entities={editions}
     {waitingForItems}
   />
@@ -178,12 +178,12 @@
   @import "#general/scss/utils";
   .sort-selector-wrapper{
     width: 100%;
-    margin-top: 0.5em;
+    margin-block-start: 0.5em;
     :global(.sort-selector), :global(label){
       margin: 0 1em;
-      margin-left: 0;
+      margin-inline-start: 0;
       font-size: 100%;
-      text-align: left;
+      text-align: start;
     }
   }
   .menu{

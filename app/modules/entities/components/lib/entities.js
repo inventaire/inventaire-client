@@ -19,7 +19,7 @@ const urisGetterByType = {
 
     const { parts } = await preq.get(app.API.entities.serieParts(uri, refresh))
     return [
-      { uris: pluck(parts, 'uri'), sortingType: 'parts' },
+      { uris: pluck(parts, 'uri'), sortingType: 'seriePart' },
     ]
   },
   human: async ({ entity, refresh }) => {
@@ -63,7 +63,7 @@ const urisGetterByType = {
     const label = i18n(propLabel, { name: entityLabel })
     let sortingType
     if (property === 'wdt:P69') sortingType = null
-    else sortingType = 'works'
+    else sortingType = 'work'
     return [
       { label, uris, sortingType },
     ]

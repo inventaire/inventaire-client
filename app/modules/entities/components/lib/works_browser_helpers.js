@@ -239,18 +239,19 @@ const itemsOwnersCountOption = {
   sortFunction: byItemsOwnersCount
 }
 
-// sorting options order matters
+// Sorting options order matters
+// as first option will be selected by default
 let sortFunctionPerType = {
-  editions: {
+  edition: {
     byPopularity: popularityOption,
     byPublicationDate: publicationDateOption,
     byItemsOwnersCount: itemsOwnersCountOption
   },
-  works: {
+  work: {
     byPublicationDate: publicationDateOption,
     byPopularity: popularityOption,
   },
-  parts: {
+  seriePart: {
     bySerieOrdinal: serieOrdinalOption,
     byPublicationDate: publicationDateOption,
     byPopularity: popularityOption,

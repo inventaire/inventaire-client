@@ -6,7 +6,7 @@
   import { getAndAssignPopularity } from '#entities/lib/entities'
   import { I18n } from '#user/lib/i18n'
 
-  export let sortingType = 'works', entities, waitingForItems
+  export let sortingType = 'work', entities, waitingForItems
 
   const optionsByNames = getSortingOptionsByNames(sortingType)
   const options = Object.values(optionsByNames)
