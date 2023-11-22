@@ -5,13 +5,10 @@
 
   export let entity, itemsByEditions = {}
 
-  const { uri, _id } = entity
+  const { uri } = entity
   const url = `/entity/${uri}/add`
 
-  // will break with #182 (remove edition from quarantine)
-  const editionUri = `inv:${_id}`
-
-  $: editionItems = itemsByEditions[editionUri]
+  $: editionItems = itemsByEditions[uri]
 </script>
 
 <div class="edition-actions">
