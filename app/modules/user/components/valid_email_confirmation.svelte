@@ -5,7 +5,6 @@
   import { emailConfirmationRequest } from '#user/lib/auth'
   import Flash from '#lib/components/flash.svelte'
   import Modal from '#components/modal.svelte'
-  import { wait } from '#lib/promises'
   import Spinner from '#components/spinner.svelte'
 
   export let validEmail
@@ -18,7 +17,6 @@
       requestingEmail = emailConfirmationRequest()
       await requestingEmail
       flash = { type: 'success', message: I18n('done'), role: 'alert' }
-      await wait(2000)
       showModal = false
     } catch (err) {
       flash = err

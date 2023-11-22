@@ -7,7 +7,6 @@
   import { getCropper, getImageHashFromDataUrl, getUrlDataUrl, getUserGravatarUrl, resizeDataUrl } from '#lib/images'
   import { onChange } from '#lib/svelte/svelte'
   import { createEventDispatcher } from 'svelte'
-  import { wait } from '#lib/promises'
   import { debounce } from 'underscore'
   import { getFirstFileDataUrl, resetFileInput } from '#lib/files'
   import { isUrl } from '#lib/boolean_tests'
@@ -73,7 +72,6 @@
     const canvas = cropper.getCroppedCanvas()
     const newDataUrl = canvas.toDataURL('image/jpeg', 1)
     saving = save(newDataUrl)
-    await wait(500)
     dispatch('close')
   }
 

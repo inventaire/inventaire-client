@@ -3,7 +3,6 @@
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import PasswordInput from '#lib/components/password_input.svelte'
-  import { wait } from '#lib/promises'
   import { loadInternalLink } from '#lib/utils'
   import { passwordUpdate } from '#user/lib/auth'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -23,7 +22,6 @@
       await passwordUpdate({ newPassword: password })
       done = true
       successFlash = { type: 'success', message: I18n('done'), role: 'alert' }
-      await wait(2000)
       app.execute('show:home')
     } catch (err) {
       flash = err
