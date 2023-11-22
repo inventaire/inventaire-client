@@ -10,13 +10,13 @@
 
   const optionsByNames = getSortingOptionsByNames(sortingType)
   const options = Object.values(optionsByNames)
-  let currentSortingName = Object.keys(optionsByNames)?.[0]
+  let sortingName = Object.keys(optionsByNames)?.[0]
 
   async function sortEntities () {
-    const option = optionsByNames[currentSortingName]
+    const option = optionsByNames[sortingName]
     const { sortFunction } = option
     if (sortFunction) {
-      await assignPromiseToOption(currentSortingName)
+      await waitForOptionPromise(sortingName, waitingForItems)
       entities = entities.sort(sortFunction)
     }
   }
@@ -26,16 +26,14 @@
     byItemsOwnersCount: assignItemsToEditions,
   }
 
-  async function assignPromiseToOption (currentSortingName) {
-    const promiseFn = sortingPromises[currentSortingName]
+  async function waitForOptionPromise (sortingName, waitingForPromise) {
+    const promiseFn = sortingPromises[sortingName]
     if (!promiseFn) return
-    let promise = promiseFn(entities)
-    optionsByNames[currentSortingName].promise = promise
-    await promise
+    await promiseFn(entities, waitingForPromise)
   }
 
-  async function assignItemsToEditions (entities) {
-    const editionsItems = await waitingForItems
+  async function assignItemsToEditions (entities, waitingForPromise) {
+    const editionsItems = await waitingForPromise
     const itemsByEditions = _.groupBy(editionsItems, 'entity')
     entities.forEach(assignItemsToEdition(itemsByEditions))
   }
@@ -45,12 +43,12 @@
     if (!edition.items && isNonEmptyArray(items)) edition.items = items
   }
 
-  $: onChange(currentSortingName, sortEntities)
+  $: onChange(sortingName, sortEntities)
 </script>
 {#if options.length > 1}
   <div class="sort-selector">
     <SelectDropdown
-      bind:value={currentSortingName}
+      bind:value={sortingName}
       {options}
       buttonLabel={I18n('sort_by')}
     />
