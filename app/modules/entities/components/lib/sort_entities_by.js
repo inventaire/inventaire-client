@@ -1,5 +1,4 @@
 import { isNonEmptyArray } from '#lib/boolean_tests'
-import { getSortingOptionsByNames } from '#entities/components/lib/works_browser_helpers'
 import { getAndAssignPopularity } from '#entities/lib/entities'
 
 const sortingPromises = {
@@ -7,25 +6,21 @@ const sortingPromises = {
   byItemsOwnersCount: assignItemsToEditions,
 }
 
-export async function sortEntities ({ sortingType, sortingName, entities, waitingForItems }) {
-  const optionsByNames = getSortingOptionsByNames(sortingType)
-  const option = optionsByNames[sortingName]
-  // sortingName = sortingName || Object.keys(optionsByNames)?.[0]
-  const { sortFunction } = option
-  if (sortFunction) {
-    await waitForOptionPromise(sortingName, waitingForItems, entities)
-  }
+export async function sortEntities ({ sortingType, option, entities, waitingForItems }) {
+  const { sortFunction, value: sortingName } = option
+  if (!sortFunction) return entities
+  await assignSortingDataToEntities(sortingName, waitingForItems, entities)
   return entities.sort(sortFunction)
 }
 
-export async function waitForOptionPromise (sortingName, waitingForPromise, entities) {
+export async function assignSortingDataToEntities (sortingName, waitingForItems, entities) {
   const promiseFn = sortingPromises[sortingName]
   if (!promiseFn) return
-  await promiseFn(entities, waitingForPromise)
+  const editionsItems = await waitingForItems
+  await promiseFn({ entities, editionsItems })
 }
 
-export async function assignItemsToEditions (entities, waitingForPromise) {
-  const editionsItems = await waitingForPromise
+export async function assignItemsToEditions ({ entities, editionsItems }) {
   const itemsByEditions = _.groupBy(editionsItems, 'entity')
   entities.forEach(assignItemsToEdition(itemsByEditions))
 }

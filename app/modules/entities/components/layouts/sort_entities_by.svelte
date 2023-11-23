@@ -1,26 +1,26 @@
 <script>
   import { onChange } from '#lib/svelte/svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
-  import { getSortingOptionsByNames } from '#entities/components/lib/works_browser_helpers'
+  import { getSortingOptionsByName } from '#entities/components/lib/works_browser_helpers'
   import { I18n } from '#user/lib/i18n'
-  import { waitForOptionPromise } from '#entities/components/lib/sort_entities_by'
+  import { sortEntities } from '#entities/components/lib/sort_entities_by'
 
   export let sortingType = 'work', entities, waitingForItems
 
-  const optionsByNames = getSortingOptionsByNames(sortingType)
-  const options = Object.values(optionsByNames)
-  let sortingName = Object.keys(optionsByNames)?.[0]
+  const optionsByName = getSortingOptionsByName(sortingType)
+  const options = Object.values(optionsByName)
+  let sortingName = Object.keys(optionsByName)?.[0]
 
-  async function sortEntities () {
-    const option = optionsByNames[sortingName]
-    const { sortFunction } = option
-    if (sortFunction) {
-      await waitForOptionPromise(sortingName, waitingForItems, entities)
-      entities = entities.sort(sortFunction)
-    }
+  $: option = optionsByName[sortingName]
+  async function sortEntitiesBy () {
+    entities = await sortEntities({
+      sortingType,
+      option,
+      entities,
+      waitingForItems
+    })
   }
-
-  $: onChange(sortingName, sortEntities)
+  $: onChange(sortingName, sortEntitiesBy)
 </script>
 {#if options.length > 1}
   <div class="sort-selector">

@@ -141,7 +141,7 @@ export async function getEntitiesBasicInfoByUris (uris) {
   })
 }
 
-export async function getAndAssignPopularity (entities) {
+export async function getAndAssignPopularity ({ entities }) {
   const uris = []
   let wdUrisCount = 0
   entities.forEach(entity => {

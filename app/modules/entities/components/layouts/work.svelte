@@ -50,7 +50,7 @@
       lang: userLang
     })
     publishersByUris = entities
-    await getAndAssignPopularity(initialEditions)
+    await getAndAssignPopularity({ entities: initialEditions })
     editions = initialEditions.sort(byPopularity)
   }
 

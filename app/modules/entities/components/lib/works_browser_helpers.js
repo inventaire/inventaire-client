@@ -241,7 +241,7 @@ const itemsOwnersCountOption = {
 
 // Sorting options order matters
 // as first option will be selected by default
-let sortFunctionPerType = {
+let sortingFunctionByNameByType = {
   edition: {
     byPopularity: popularityOption,
     byPublicationDate: publicationDateOption,
@@ -258,6 +258,6 @@ let sortFunctionPerType = {
   },
 }
 
-export const getSortingOptionsByNames = (type, promiseArguments) => {
-  return sortFunctionPerType[type]
+export const getSortingOptionsByName = type => {
+  return sortingFunctionByNameByType[type]
 }
