@@ -47,4 +47,8 @@
   .property{
     color: $label-grey;
   }
+  .claim{
+    max-block-size: 5em;
+    overflow-y: auto;
+  }
 </style>
