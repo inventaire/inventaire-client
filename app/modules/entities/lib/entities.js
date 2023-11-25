@@ -210,6 +210,11 @@ export const byPublicationDate = (a, b) => {
   return parseInt(a.publicationYear || 10000) - parseInt(b.publicationYear || 10000)
 }
 
+export const byNewestPublicationDate = (a, b) => {
+  // Descending order
+  return parseInt(b.publicationYear || 0) - parseInt(a.publicationYear || 0)
+}
+
 export function byPopularity (a, b) {
   // Descending order
   return parseInt(b.popularity || 0) - parseInt(a.popularity || 0)

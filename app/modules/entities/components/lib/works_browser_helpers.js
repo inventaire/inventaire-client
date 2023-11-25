@@ -1,6 +1,6 @@
 import {
   getEntitiesAttributesByUris, getYearFromSimpleDay,
-  byPublicationDate, byPopularity, bySerieOrdinal, byItemsOwnersCount
+  byNewestPublicationDate, byPopularity, bySerieOrdinal, byItemsOwnersCount
 } from '#entities/lib/entities'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { I18n } from '#user/lib/i18n'
@@ -218,7 +218,7 @@ export function isClaimLayout (layoutContext) {
 const publicationDateOption = {
   text: 'publication date',
   value: 'byPublicationDate',
-  sortFunction: byPublicationDate
+  sortFunction: byNewestPublicationDate
 }
 
 const popularityOption = {
