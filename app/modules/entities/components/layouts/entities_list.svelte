@@ -1,23 +1,13 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { flip } from 'svelte/animate'
   import EntityListRow from './entity_list_row.svelte'
-  import WrapToggler from '#components/wrap_toggler.svelte'
   import EditionActions from './edition_actions.svelte'
 
-  export let type = 'editions', entities, relatedEntities, parentEntity, itemsByEditions
-
-  let showMore = false
-  let shownEntities = entities
-  let showLessSize = 4
-
-  $: {
-    if (showMore) shownEntities = entities
-    else shownEntities = entities.slice(0, showLessSize)
-  }
+  export let entities, relatedEntities, parentEntity, itemsByEditions
 </script>
 <ul>
-  {#each shownEntities as entity (entity.uri)}
-    <li>
+  {#each entities as entity (entity.uri)}
+    <li animate:flip={{ duration: 300 }}>
       <EntityListRow
         {entity}
         {relatedEntities}
@@ -30,22 +20,14 @@
     </li>
   {/each}
 </ul>
-{#if entities.length > showLessSize}
-  <div class="toggler-wrapper">
-    <WrapToggler
-      bind:show={showMore}
-      moreText={i18n(`See more ${type}`)}
-      lessText={i18n(`See less ${type}`)}
-      remainingCounter={entities.length - shownEntities.length}
-    />
-  </div>
-{/if}
 <style lang="scss">
   @import "#general/scss/utils";
   ul{
     inline-size: 100%;
     margin: 1em 0 0.5em;
     @include radius;
+    max-block-size: 70vh;
+    overflow-y: auto;
   }
   li{
     background-color: white;
