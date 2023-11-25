@@ -4,6 +4,9 @@ import { transactionsData } from '#inventory/lib/transactions_data'
 import { i18n } from '#user/lib/i18n'
 import { getActionUserKey } from '#transactions/lib/transactions_actions'
 import assert_ from '#lib/assert_types'
+import { getUsersByIds } from '#users/users_data'
+import { serializeUser } from '#users/lib/users'
+import { buildPath } from '#lib/location'
 
 // Keep in sync with server/models/attributes/transaction
 const basicNextActions = {
@@ -55,18 +58,14 @@ function getNextActionsList (transactionName) {
 }
 
 export function findNextActions (transacData) {
-  const { name, transaction, state, mainUserIsOwner } = transacData
-  // Some transacData coming from Backbone model are not transaction docs
-  // and will have the transaction name at the `name` attribute
-  const transactionName = name || transaction
-  assert_.string(transactionName)
+  const { transaction: transactionName, state, mainUserIsOwner } = transacData
   const nextActions = getNextActionsList(transactionName)
   const role = mainUserIsOwner ? 'owner' : 'requester'
   return nextActions[state][role]
 }
 
-const isActive = transacData => findNextActions(transacData) != null
-export const isArchived = transacData => !isActive(transacData)
+export const isOngoing = transacData => findNextActions(transacData) != null
+export const isArchived = transacData => !isOngoing(transacData)
 
 async function getTransactionsByItemId (itemId) {
   const { transactions } = await preq.get(app.API.transactions.byItem(itemId))
@@ -75,13 +74,14 @@ async function getTransactionsByItemId (itemId) {
 
 export async function getActiveTransactionsByItemId (itemId) {
   const transactions = await getTransactionsByItemId(itemId)
-  return transactions.filter(isActive)
+  return transactions.filter(isOngoing)
 }
 
-export function addTransactionDerivedData (transaction) {
-  const { _id: id, owner } = transaction
+export function serializeTransaction (transaction) {
+  const { _id: id, owner, snapshot } = transaction
   const mainUserIsOwner = owner === app.user.id
   const mainUserRole = mainUserIsOwner ? 'owner' : 'requester'
+  snapshot.other = mainUserIsOwner ? snapshot.requester : snapshot.owner
   const mainUserRead = transaction.read[mainUserRole]
   const transactionMode = transactionsData[transaction.transaction]
   return Object.assign(transaction, {
@@ -101,10 +101,13 @@ export async function grabUsers (transaction) {
   }
 }
 
-export function getTransactionStateText ({ transaction, withLink = false }) {
-  const lastAction = transaction.actions.at(-1)
-  const userKey = getActionUserKey(lastAction, transaction)
-  const actionName = lastAction.action
+export function getTransactionStateText ({ transaction, withLink = false, action }) {
+  if (!action) {
+    const lastAction = transaction.actions.at(-1)
+    action = lastAction
+  }
+  const userKey = getActionUserKey(action, transaction)
+  const { action: actionName } = action
   const otherUsername = getOtherUsername(transaction)
   return i18n(`${userKey}_user_${actionName}`, { username: formatUsername(otherUsername, withLink) })
 }
@@ -127,3 +130,63 @@ const formatUsername = (username, withLink) => {
     return username
   }
 }
+
+export async function attachLinkedDocs (transaction) {
+  if (transaction.docs) return
+  transaction.docs = {}
+  await Promise.all([
+    attachUsers(transaction),
+    attachMessages(transaction),
+  ])
+}
+
+async function attachUsers (transaction) {
+  const { requester, owner } = transaction
+  const usersByIds = await getUsersByIds([ requester, owner ])
+  transaction.docs.requester = serializeUser(usersByIds[requester])
+  transaction.docs.owner = serializeUser(usersByIds[owner])
+  transaction.docs.usersByIds = usersByIds
+}
+
+export function getTransactionContext (transaction) {
+  const { owner } = transaction.docs
+  if (owner != null) {
+    const { name: transactionName } = transaction.transactionMode
+    if (transaction.mainUserIsOwner) {
+      return i18n(`main_user_${transactionName}`)
+    } else {
+      const { username, pathname } = owner
+      const link = `<a href='${pathname}'>${username}</a>`
+      return i18n(`other_user_${transactionName}`, { username: link })
+    }
+  }
+}
+
+export const actionsIcons = {
+  requested: 'envelope',
+  accepted: 'check',
+  confirmed: 'sign-in',
+  declined: 'times',
+  cancelled: 'times',
+  returned: 'check',
+}
+
+async function attachMessages (transaction) {
+  const { messages } = await preq.get(buildPath(app.API.transactions.base, {
+    action: 'get-messages',
+    transaction: transaction._id,
+  }))
+  transaction.messages = messages
+}
+
+export function buildTimeline (transaction) {
+  const { actions, messages, docs } = transaction
+  messages.forEach(messageDoc => {
+    messageDoc.userDoc = docs.usersByIds[messageDoc.user]
+  })
+  const timeline = actions.concat(messages)
+    .sort((a, b) => getEventTimestamp(a) - getEventTimestamp(b))
+  return timeline
+}
+
+const getEventTimestamp = actionOrMessage => actionOrMessage.created || actionOrMessage.timestamp
