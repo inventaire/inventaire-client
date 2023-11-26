@@ -2,6 +2,7 @@ import {
   getEntitiesAttributesByUris, getYearFromSimpleDay,
   byNewestPublicationDate, byPopularity, bySerieOrdinal, byItemsOwnersCount
 } from '#entities/lib/entities'
+import { sortAlphabetically } from '#entities/components/lib/deduplicate_helpers.js'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { I18n } from '#user/lib/i18n'
 import { intersection, pluck, uniq } from 'underscore'
@@ -239,22 +240,31 @@ const itemsOwnersCountOption = {
   sortFunction: byItemsOwnersCount
 }
 
+const alphabeticalOption = {
+  text: 'alphabetically',
+  value: 'byAlphabet',
+  sortFunction: sortAlphabetically
+}
+
 // Sorting options order matters
 // as first option will be selected by default
 let sortingFunctionByNameByType = {
   edition: {
     byPopularity: popularityOption,
     byPublicationDate: publicationDateOption,
-    byItemsOwnersCount: itemsOwnersCountOption
+    byItemsOwnersCount: itemsOwnersCountOption,
+    byAlphabet: alphabeticalOption,
   },
   work: {
     byPublicationDate: publicationDateOption,
     byPopularity: popularityOption,
+    byAlphabet: alphabeticalOption,
   },
   seriePart: {
     bySerieOrdinal: serieOrdinalOption,
     byPublicationDate: publicationDateOption,
     byPopularity: popularityOption,
+    byAlphabet: alphabeticalOption,
   },
 }
 
