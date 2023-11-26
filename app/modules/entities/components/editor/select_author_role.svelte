@@ -1,10 +1,10 @@
 <script>
-  import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+  import { addClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { uniq, without } from 'underscore'
+  import { createEventDispatcher } from 'svelte'
 
   export let entity, property, value
 
@@ -19,28 +19,32 @@
     }
   }
 
+  const dispatch = createEventDispatcher()
+
   $: onChange(entity, setRolesProperties)
 
   let currentRoleProperty = property
 
   async function onRolePropertyChange () {
     if (currentRoleProperty !== property) {
-      entity.claims[property] = without(entity.claims[property], value)
-      entity.claims[currentRoleProperty] = entity.claims[currentRoleProperty] || []
-      entity.claims[currentRoleProperty] = uniq(entity.claims[currentRoleProperty].concat([ value ]))
+      // Keep a private copy as the value variable might be redefined
+      // by parent components during async ops
+      const movedValue = value
+      dispatch('moved')
+      entity.claims[currentRoleProperty] = addClaimValue(entity.claims[currentRoleProperty], movedValue)
       // If entity.uri is undefined, we are manipulating a not-yet-created entity
       if (entity.uri) {
         await preq.put(app.API.entities.claims.update, {
           uri: entity.uri,
           property,
-          'old-value': value,
+          'old-value': movedValue,
           'new-value': null,
         })
         await preq.put(app.API.entities.claims.update, {
           uri: entity.uri,
           property: currentRoleProperty,
           'old-value': null,
-          'new-value': value,
+          'new-value': movedValue,
         })
       }
     }

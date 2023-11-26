@@ -21,10 +21,17 @@ export function getPropertyClaimsCount (propertyClaims) {
 }
 
 export function isEmptyClaimValue (value) {
-  return value === null || value === Symbol.for('removed')
+  return value === null || value === Symbol.for('removed') || value === Symbol.for('moved')
 }
 
 export const isNonEmptyClaimValue = value => !isEmptyClaimValue(value)
+
+export function addClaimValue (propertyClaims = [], value) {
+  if (!propertyClaims.includes(value)) {
+    propertyClaims.push(value)
+  }
+  return propertyClaims
+}
 
 export const currentEditorKey = writable(null)
 

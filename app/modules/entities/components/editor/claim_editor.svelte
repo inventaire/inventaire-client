@@ -112,6 +112,17 @@
     editMode = false
   }
 
+  function undo () {
+    if (!isNonEmptyClaimValue(previousValue)) {
+      throw error_.new('can not undo without previous value', 500, { uri, property, value, previousValue })
+    }
+    save(previousValue)
+  }
+
+  function onMoved () {
+    entity.claims[property][index] = inputValue = Symbol.for('moved')
+  }
+
   let undoTitle
   $: {
     if (inputValue === Symbol.for('removed') && isNonEmptyClaimValue(previousValue)) {
@@ -131,79 +142,75 @@
       showDelete = showDelete && canValueBeDeleted({ propertyClaims: entity.claims[property] })
     }
   }
-
-  function undo () {
-    if (!isNonEmptyClaimValue(previousValue)) {
-      throw error_.new('can not undo without previous value', 500, { uri, property, value, previousValue })
-    }
-    save(previousValue)
-  }
 </script>
 
-<div class="wrapper">
-  <div class="value">
-    {#if inputValue === Symbol.for('removed')}
-      <button
-        class="undo"
-        title={undoTitle}
-        on:click={undo}
-      >
-        {@html icon('undo')}
-        {I18n('undo')}
-      </button>
-      <DisplayModeButtons on:edit={showEditMode} />
-    {:else if editMode}
-      <InputComponent
-        {property}
-        currentValue={inputValue}
-        {valueLabel}
-        {editorType}
-        {entity}
-        bind:getInputValue
-        on:keyup={onInputKeyup}
-        on:save={e => save(e.detail)}
-        on:close={closeEditMode}
-        on:error={showError}
-      />
-      <EditModeButtons
-        {showSave}
-        {showDelete}
-        {saving}
-        on:save={save}
-        on:cancel={closeEditMode}
-        on:delete={remove}
-      />
-    {:else if isNonEmptyClaimValue(savedValue)}
-      <DisplayComponent
-        {entity}
-        {property}
-        value={savedValue}
-        bind:valueLabel
-        on:edit={showEditMode}
-        on:error={showError}
-      />
-      {#if !fixed}
+{#if inputValue !== Symbol.for('moved')}
+  <div class="wrapper">
+    <div class="value">
+      {#if inputValue === Symbol.for('removed')}
+        <button
+          class="undo"
+          title={undoTitle}
+          on:click={undo}
+        >
+          {@html icon('undo')}
+          {I18n('undo')}
+        </button>
         <DisplayModeButtons on:edit={showEditMode} />
-      {/if}
-    {:else}
-      <!-- Known case: savedValue is not set yet, after a claim was created -->
-      <Spinner />
-    {/if}
-  </div>
-
-  {#if specialEditActions}
-    <div class="special-action">
-      {#if specialEditActions === 'author-role'}
-        <SelectAuthorRole
-          bind:entity
+      {:else if editMode}
+        <InputComponent
           {property}
-          {value}
+          currentValue={inputValue}
+          {valueLabel}
+          {editorType}
+          {entity}
+          bind:getInputValue
+          on:keyup={onInputKeyup}
+          on:save={e => save(e.detail)}
+          on:close={closeEditMode}
+          on:error={showError}
         />
+        <EditModeButtons
+          {showSave}
+          {showDelete}
+          {saving}
+          on:save={save}
+          on:cancel={closeEditMode}
+          on:delete={remove}
+        />
+      {:else if isNonEmptyClaimValue(savedValue)}
+        <DisplayComponent
+          {entity}
+          {property}
+          value={savedValue}
+          bind:valueLabel
+          on:edit={showEditMode}
+          on:error={showError}
+        />
+        {#if !fixed}
+          <DisplayModeButtons on:edit={showEditMode} />
+        {/if}
+      {:else}
+        <!-- Known case: savedValue is not set yet, after a claim was created -->
+        <Spinner />
       {/if}
     </div>
-  {/if}
-  <Flash bind:state={flash} />
-</div>
+
+    {#if specialEditActions}
+      <div class="special-action">
+        {#if specialEditActions === 'author-role'}
+          <SelectAuthorRole
+            bind:entity
+            {property}
+            {value}
+            on:moved={onMoved}
+          />
+        {/if}
+      </div>
+    {/if}
+    <Flash bind:state={flash} />
+  </div>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
