@@ -97,7 +97,7 @@ const truncateTooManyUris = (section, parentEntityType) => {
   if (limitedTypes.has(parentEntityType)) {
     section.uris = uris.splice(0, entitiesLimit)
     section.context = i18n('Too many entities requested (%{entitiesCount}). Only %{limit} are displayed.', {
-      entitiesCount: section.uris.length,
+      entitiesCount: urisCount,
       limit: entitiesLimit
     })
   }
