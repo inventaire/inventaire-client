@@ -3,10 +3,13 @@
   import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
+  import { icon } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
 
   export let entity, property, value
+
+  let showAuthorRoleSelector = false
 
   let rolesProperties
   function setRolesProperties () {
@@ -53,30 +56,45 @@
   $: onChange(currentRoleProperty, onRolePropertyChange)
 </script>
 
-{#if rolesProperties && isNonEmptyClaimValue(value)}
-  <label>
-    {i18n('Change author role')}
-    <select bind:value={currentRoleProperty}>
-      {#each rolesProperties as roleProperty}
-        {@const disabled = roleProperty !== property && entity.claims[roleProperty]?.includes(value)}
-        <option
-          value={roleProperty}
-          {disabled}
-          title={disabled ? i18n('This person already has that role') : ''}
-        >
-          {I18n(roleProperty)}
-        </option>
-      {/each}
-    </select>
-  </label>
-{/if}
+<div>
+  {#if rolesProperties && isNonEmptyClaimValue(value)}
+    {#if showAuthorRoleSelector}
+      <select bind:value={currentRoleProperty} title={i18n('Change author role')}>
+        {#each rolesProperties as roleProperty}
+          {@const disabled = roleProperty !== property && entity.claims[roleProperty]?.includes(value)}
+          <option
+            value={roleProperty}
+            {disabled}
+            title={disabled ? i18n('This person already has that role') : ''}
+          >
+            {I18n(roleProperty)}
+          </option>
+        {/each}
+      </select>
+      <button class="hide" on:click={() => showAuthorRoleSelector = false}>
+        {@html icon('close')}
+      </button>
+    {:else}
+      <button class="show" on:click={() => showAuthorRoleSelector = true}>
+        {@html icon('arrows-v')}
+        {i18n('Change author role')}
+      </button>
+    {/if}
+  {/if}
+</div>
 
 <style lang="scss">
   @import "#general/scss/utils";
-  select{
-    margin-inline-start: auto;
+  div{
+    background-color: #eee;
+    @include radius;
+    @include display-flex(row, stretch, center);
     margin: 0 0.5em;
-    height: 2rem;
-    width: auto;
+  }
+  .show{
+    padding: 0.4em;
+  }
+  .hide{
+    @include shy(0.8);
   }
 </style>

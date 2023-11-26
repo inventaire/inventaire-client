@@ -236,10 +236,9 @@
     @include bg-hover(#ddd);
   }
   .special-action:not(:empty){
-    background-color: #eee;
-    padding: 0.4em;
-    @include radius;
-    margin: 0.5em 0;
+    margin: 0.5em 0 0.5em 3em;
     @include display-flex(row, center, flex-start);
+    min-height: 2rem;
+    @include shy(0.9);
   }
 </style>
