@@ -20,6 +20,11 @@
       waitingForItems
     })
   }
+
+  function reverseOrder () {
+    entities = entities.reverse()
+  }
+
   $: onChange(sortingName, sortEntitiesBy)
 </script>
 {#if options.length > 1}
@@ -28,6 +33,7 @@
       bind:value={sortingName}
       {options}
       buttonLabel={I18n('sort_by')}
+      on:selectSameOption={reverseOrder}
     />
   </div>
 {/if}
