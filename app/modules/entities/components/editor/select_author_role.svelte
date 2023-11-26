@@ -1,16 +1,18 @@
 <script>
   import { addClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
+  import { getActionKey } from '#lib/key_events'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { icon } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher, tick } from 'svelte'
 
   export let entity, property, value
 
   let showAuthorRoleSelector = false
 
+  let selectorEl
   let rolesProperties
   function setRolesProperties () {
     rolesProperties = getWorkPreferredAuthorRolesProperties(entity)
@@ -53,13 +55,29 @@
     }
   }
 
+  async function showSelector () {
+    showAuthorRoleSelector = true
+    await tick()
+    selectorEl?.focus()
+  }
+  function hideSelector () {
+    showAuthorRoleSelector = false
+  }
+  function onKeyDown (e) {
+    if (getActionKey(e) === 'esc') hideSelector()
+  }
+
   $: onChange(currentRoleProperty, onRolePropertyChange)
 </script>
 
 <div>
   {#if rolesProperties && isNonEmptyClaimValue(value)}
     {#if showAuthorRoleSelector}
-      <select bind:value={currentRoleProperty} title={i18n('Change author role')}>
+      <select
+        bind:value={currentRoleProperty}
+        title={i18n('Change author role')}
+        on:keydown={onKeyDown}
+        bind:this={selectorEl}>
         {#each rolesProperties as roleProperty}
           {@const disabled = roleProperty !== property && entity.claims[roleProperty]?.includes(value)}
           <option
@@ -71,11 +89,11 @@
           </option>
         {/each}
       </select>
-      <button class="hide" on:click={() => showAuthorRoleSelector = false}>
+      <button class="hide" on:click={hideSelector}>
         {@html icon('close')}
       </button>
     {:else}
-      <button class="show" on:click={() => showAuthorRoleSelector = true}>
+      <button class="show" on:click={showSelector}>
         {@html icon('arrows-v')}
         {i18n('Change author role')}
       </button>
