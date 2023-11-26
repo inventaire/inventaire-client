@@ -174,7 +174,7 @@
     max-block-size: 42em;
     overflow-y: auto;
     &.list{
-      margin: 0 auto;
+      align-self: stretch;
     }
     &.grid{
       @include display-flex(row, center, flex-start, wrap);
