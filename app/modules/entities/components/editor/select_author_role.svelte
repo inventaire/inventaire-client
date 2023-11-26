@@ -62,7 +62,7 @@
         <option
           value={roleProperty}
           {disabled}
-          title={disabled ? i18n('This author already has that role') : ''}
+          title={disabled ? i18n('This person already has that role') : ''}
         >
           {I18n(roleProperty)}
         </option>
