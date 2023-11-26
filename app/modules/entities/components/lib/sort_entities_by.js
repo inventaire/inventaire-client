@@ -6,26 +6,23 @@ const sortingPromises = {
   byItemsOwnersCount: assignItemsToEditions,
 }
 
-export async function sortEntities ({ sortingType, option, entities, waitingForItems }) {
+export async function sortEntities ({ sortingType, option, entities, promise }) {
   const { sortFunction, value: sortingName } = option
   if (!sortFunction) return entities
-  await assignSortingDataToEntities(sortingName, waitingForItems, entities)
+  const sortingPromise = sortingPromises[sortingName]
+  // TODO: find a way to not re assign items every time sortEntities is triggered
+  if (sortingPromise) await sortingPromise({ entities, promise })
   return entities.sort(sortFunction)
 }
 
-export async function assignSortingDataToEntities (sortingName, waitingForItems, entities) {
-  const promiseFn = sortingPromises[sortingName]
-  if (!promiseFn) return
+export async function assignItemsToEditions ({ entities, promise: waitingForItems }) {
   const editionsItems = await waitingForItems
-  await promiseFn({ entities, editionsItems })
-}
-
-export async function assignItemsToEditions ({ entities, editionsItems }) {
   const itemsByEditions = _.groupBy(editionsItems, 'entity')
   entities.forEach(assignItemsToEdition(itemsByEditions))
 }
 
 export const assignItemsToEdition = itemsByEditions => edition => {
+  if (edition.items) return
   const items = itemsByEditions[edition.uri]
-  if (!edition.items && isNonEmptyArray(items)) edition.items = items
+  if (isNonEmptyArray(items)) edition.items = items
 }
