@@ -1,0 +1,35 @@
+<script>
+  import TransactionPreview from '#transactions/components/transaction_preview.svelte'
+  import { I18n } from '#user/lib/i18n'
+
+  export let transactions
+  export let selectedTransaction = null
+</script>
+
+<div class="transactionList">
+  <div class="transactions">
+    {#each transactions as transaction}
+      <TransactionPreview
+        {transaction}
+        bind:selectedTransaction
+      />
+    {:else}
+      <div class="no-transaction">
+        <em>{I18n('no_transaction')}</em>
+      </div>
+    {/each}
+  </div>
+</div>
+
+<style lang="scss">
+  @import '#general/scss/utils';
+
+  .transactionList{
+    @include shy-border;
+  }
+  .no-transaction{
+    background-color: $light-grey;
+    text-align: center;
+    opacity: 0.5;
+  }
+</style>
