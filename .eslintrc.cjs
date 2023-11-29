@@ -130,6 +130,8 @@ module.exports = {
     xit: 'readonly',
     describe: 'readonly',
     xdescribe: 'readonly',
-    beforeEach: 'readonly'
+    beforeEach: 'readonly',
+    // Cypress
+    cy: 'readonly'
   },
 }

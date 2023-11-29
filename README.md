@@ -52,5 +52,17 @@ npm start
 npm run build
 ```
 
+## Tests
+E2e tests based on [Cypress](https://docs.cypress.io/guides/overview/why-cypress)
+
+start GUI:
+```
+npx cypress open -b firefox --e2e
+```
+headless
+```sh
+npm run cypress
+```
+
 ## License
 Inventaire is an open-sourced project licensed under [AGPLv3](./LICENSES/AGPL-3.0-only.txt).

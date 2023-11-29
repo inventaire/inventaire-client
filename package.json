@@ -40,7 +40,6 @@
   "scripts": {
     "build": "./scripts/build",
     "build:dev": "webpack --config ./bundle/webpack.config.dev.cjs",
-    "cypress": "npx cypress run",
     "generate-sitemaps": "./scripts/sitemaps/generate.js",
     "lint": "./scripts/lint",
     "lint-fix": "./scripts/lint_fix",
@@ -49,6 +48,8 @@
     "postinstall": "./scripts/postinstall",
     "start": "webpack serve --config ./bundle/webpack.config.dev.cjs",
     "test": "./scripts/run_unit_tests",
+    "test-open-cypress": "./scripts/cypress_open",
+    "test-run-cypress": "./scripts/cypress_run",
     "update-i18n": "./scripts/build_i18n",
     "update-jsconfig": "./scripts/generate_jsconfig.cjs > ./jsconfig.json",
     "update-toc": "doctoc README.md",
