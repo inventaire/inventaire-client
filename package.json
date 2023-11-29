@@ -40,6 +40,7 @@
   "scripts": {
     "build": "./scripts/build",
     "build:dev": "webpack --config ./bundle/webpack.config.dev.cjs",
+    "cypress": "npx cypress run",
     "generate-sitemaps": "./scripts/sitemaps/generate.js",
     "lint": "./scripts/lint",
     "lint-fix": "./scripts/lint_fix",
@@ -99,6 +100,7 @@
     "core-js": "^3.32.1",
     "css-loader": "^6.8.1",
     "cssnano": "^6.0.1",
+    "cypress": "^13.6.0",
     "doctoc": "^1.4.0",
     "eslint": "^8.48.0",
     "eslint-config-standard": "^17.1.0",
