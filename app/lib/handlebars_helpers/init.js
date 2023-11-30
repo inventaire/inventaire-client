@@ -15,7 +15,4 @@ for (const name in API) {
   // Registering partials using the code here
   // https://github.com/brunch/handlebars-brunch/issues/10#issuecomment-38155730
   Handlebars.registerHelper(name, fn.bind(API))
-
-  // Partials are registered by https://github.com/inventaire/parcel-plugin-handlebars-precompile/blob/master/handlebars-asset.js
-  // allowing to create new partials without having to explictly register them here
 }
