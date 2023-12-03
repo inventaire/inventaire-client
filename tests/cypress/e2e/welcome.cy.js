@@ -1,4 +1,4 @@
-describe('welcome', () => {
+describe('welcome', { testIsolation: true }, () => {
   beforeEach(() => {
     cy.visit('/')
   })
