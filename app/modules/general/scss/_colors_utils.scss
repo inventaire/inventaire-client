@@ -58,7 +58,7 @@ $inventory-nav-grey: #eee;
 @mixin hover-darken($color, $darken:15%) {
   background-color: $color;
   @include transition(background-color);
-  &:hover, &:focus, &.disabled, &:disabled{
+  &:hover, &:focus, &:disabled{
     background-color: darken($color, $darken);
   }
 }
@@ -92,7 +92,7 @@ $inventory-nav-grey: #eee;
 @mixin bg-hover($bg-color, $darken:15%){
   background-color: $bg-color;
   @include transition(background-color);
-  &:hover, &:focus, &.disabled, &:disabled{
+  &:hover, &:focus, &:disabled{
     background-color: darken($bg-color, $darken);
   }
 }
@@ -108,7 +108,7 @@ $inventory-nav-grey: #eee;
 @mixin bg-hover-lighten($bg-color, $lighten:15%){
   background-color: $bg-color;
   @include transition(background-color);
-  &:hover, &:focus, &.disabled, &:disabled{
+  &:hover, &:focus, &:disabled{
     background-color: lighten($bg-color, $lighten);
   }
 }
