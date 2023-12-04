@@ -52,7 +52,7 @@ export const getWorkProperties = omitAuthors => {
 }
 
 export const propertiesByRoles = {
-  author: [ 'wdt:P50', 'wdt:P2093' ],
+  author: [ 'wdt:P50' ],
   scenarist: [ 'wdt:P58' ],
   illustrator: [ 'wdt:P110' ],
   colorist: [ 'wdt:P6338' ],
