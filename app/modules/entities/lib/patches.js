@@ -41,7 +41,7 @@ async function getPatchesEntities (patches) {
   return getEntitiesBasicInfoByUris(entitiesUris)
 }
 
-const getPatchEntityUri = patch => {
+export const getPatchEntityUri = patch => {
   const id = getEntityIdFromPatchId(patch._id)
   return `inv:${id}`
 }
@@ -53,9 +53,11 @@ function serializePatch (patch) {
   // The first version is an empty document with only the basic attributes:
   // doesn't really count as a version
   const versionNumber = parseInt(patchId.split(':')[1]) - 1
+  const invEntityUri = `inv:${entityId}`
   Object.assign(patch, {
     entityId,
-    invEntityUri: `inv:${entityId}`,
+    invEntityUri,
+    invEntityHistoryPathname: `/entity/${invEntityUri}/history`,
     versionNumber,
   })
   mergeTestAndRemoveOperations(patch)

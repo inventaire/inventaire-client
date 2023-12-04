@@ -9,7 +9,7 @@
   export let patch
   export let userContributionsContext = false
 
-  const { _id: patchId, patchType, summary, timestamp, operations, user, entity } = patch
+  const { _id: patchId, patchType, summary, timestamp, operations, user, entity, invEntityHistoryPathname } = patch
 
   let showDetails = false
 </script>
@@ -41,10 +41,19 @@
             />
             <Link
               icon="history"
-              url={entity.historyPathname}
+              url={invEntityHistoryPathname}
               classNames="link"
               title={I18n('show entity history')}
             />
+            <!-- Known case: merged entities -->
+            {#if entity.historyPathname !== invEntityHistoryPathname}
+              <Link
+                icon="history"
+                url={entity.historyPathname}
+                classNames="link"
+                title={I18n('show entity history')}
+              />
+            {/if}
           </div>
         </div>
       </div>
