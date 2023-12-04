@@ -6,12 +6,11 @@
   import { autofocus } from '#lib/components/actions/autofocus'
   import _ from 'underscore'
   import EntityPreview from './entity_preview.svelte'
-  import Spinner from '#general/components/spinner.svelte'
 
   const dispatch = createEventDispatcher()
   const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 200)
 
-  export let entity, error, from, to, candidates, index, merging
+  export let entity, error, from, to, candidates, index
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
@@ -47,7 +46,6 @@
         on:click={() => dispatch('merge')}
       >
         {@html icon('compress')}{I18n('merge')}
-        {#if merging}<Spinner light={true} />{/if}
       </button>
       {#if remainingCandidates}
         <button

@@ -14,7 +14,6 @@
   let invWorks = []
   let candidates = []
   let index = -1
-  let merging = false
   let wdDisplayLimit = 10
   let invDisplayLimit = 10
   let allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl, from, to
@@ -89,15 +88,15 @@
 
   async function merge () {
     if (!(from && to)) return
-    merging = true
+    const mergedEntity = from
+    mergedEntity._merged = true
+    // Optimistic UI: go to the next candidates without waiting for the merge confirmation
+    next()
     try {
       await mergeEntities(from.uri, to.uri)
-      from._merged = true
-      next()
     } catch (err) {
+      mergedEntity._merged = false
       error = err
-    } finally {
-      merging = false
     }
   }
 
@@ -225,7 +224,6 @@
   on:filter={filter}
   on:skip={skipCandidates}
   on:reset={resetCandidates}
-  {merging}
 />
 
 <style lang="scss">
