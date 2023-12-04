@@ -33,9 +33,6 @@
     background-color: white;
     margin: 0.3em 0;
   }
-  .toggler-wrapper{
-    padding: 0.3em;
-  }
   /* Large screens */
   @media screen and (min-width: $smaller-screen){
     li{
