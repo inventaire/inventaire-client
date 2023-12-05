@@ -8,6 +8,8 @@
   import { icon } from '#lib/utils'
   import { I18n } from '#user/lib/i18n'
   import { uniqueId } from 'underscore'
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
 
   export let value
   export let resetValue = null
@@ -37,6 +39,14 @@
     const nextOption = options[currentOptionIndex + indexIncrement]
     if (nextOption) value = nextOption.value
   }
+
+  function assignNewValue (option) {
+    if (value === option.value) {
+      dispatch('selectSameOption')
+    } else {
+      value = option.value
+    }
+  }
 </script>
 
 <div
@@ -57,7 +67,7 @@
     buttonRole="listbox"
   >
     <div slot="button-inner">
-      <SelectDropdownOption option={currentOption} {withImage} />
+      <SelectDropdownOption option={currentOption} {withImage} promise={currentOption.promise} />
       {#if resetValue && value !== resetValue}
         <button
           class="reset"
@@ -79,7 +89,7 @@
               role="option"
               title={option.text}
               aria-selected={option.value === value}
-              on:click={() => value = option.value}
+              on:click={() => assignNewValue(option)}
             >
               <SelectDropdownOption {option} {withImage} />
             </button>

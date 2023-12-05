@@ -2,6 +2,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
+  import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import WorkActions from '#entities/components/layouts/work_actions.svelte'
   import { addWorksImages } from '#entities/lib/types/work_alt'
@@ -16,7 +17,7 @@
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
-  const { entities: works, searchable = true } = section
+  const { entities: works, searchable = true, sortingType } = section
   let { label, context } = section
 
   let filteredWorks = works
@@ -110,13 +111,24 @@
   class:disabled
   title={disabled ? i18n('Searching is not possible for this section yet') : ''}
 >
-  {#if label}
-    <SectionLabel
-      {label}
-      entitiesLength={works.length}
-      filteredEntitiesLength={filteredWorks.length}
-    />
-  {/if}
+  <div
+    class="title-row"
+    class:empty={!label}
+  >
+    {#if label}
+      <SectionLabel
+        {label}
+        entitiesLength={works.length}
+        filteredEntitiesLength={filteredWorks.length}
+      />
+    {/if}
+    {#if paginatedWorks.length > 1}
+      <SortEntitiesBy
+        {sortingType}
+        bind:entities={filteredWorks}
+      />
+    {/if}
+  </div>
   <Flash bind:state={flash} />
   {#if anyWork}
     <ul
@@ -161,13 +173,17 @@
     background-color: $off-white;
     padding: 0.5em;
     margin-block-end: 0.5em;
-    @include display-flex(column, flex-start);
+    @include display-flex(column);
     &.disabled{
       opacity: 0.5;
     }
   }
   .section-without-work{
     @include display-flex(row, center);
+  }
+  .title-row{
+    @include display-flex(row, center, space-between);
+    margin: 0.3em 0.5em;
   }
   ul{
     flex: 1;

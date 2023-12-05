@@ -7,8 +7,9 @@
   import { onChange } from '#lib/svelte/svelte'
   import { icon } from '#lib/utils'
   import { getContext } from 'svelte'
+  import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'
 
-  export let editions, initialEditions
+  export let editions, initialEditions, waitingForItems
 
   const filters = getContext('work-layout:filters-store')
 
@@ -77,7 +78,7 @@
   $: onChange(initialEditions, $filters, refreshFilters)
 </script>
 
-<div class="filters">
+<div class="filters menu">
   <span class="filters-header">{i18n('Filter by')}</span>
 
   {#await waitingForLangEntities}
@@ -164,10 +165,31 @@
     {/if}
   </div>
 </div>
+<div class="sort-selector-wrapper menu">
+  <SortEntitiesBy
+    sortingType="edition"
+    bind:entities={editions}
+    {waitingForItems}
+  />
+</div>
 <Flash state={flash} />
 
 <style lang="scss">
   @import "#general/scss/utils";
+  .sort-selector-wrapper{
+    width: 100%;
+    margin-block-start: 0.5em;
+    :global(.sort-selector), :global(label){
+      margin: 0 1em;
+      margin-inline-start: 0;
+      font-size: 100%;
+      text-align: start;
+    }
+  }
+  .menu{
+    background-color: $light-grey;
+    padding: 0.5em;
+  }
   .filters{
     align-self: stretch;
   }

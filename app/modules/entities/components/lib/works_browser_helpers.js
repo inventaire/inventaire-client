@@ -1,4 +1,8 @@
-import { getEntitiesAttributesByUris, getYearFromSimpleDay } from '#entities/lib/entities'
+import {
+  getEntitiesAttributesByUris, getYearFromSimpleDay,
+  byNewestPublicationDate, byPopularity, bySerieOrdinal, byItemsOwnersCount
+} from '#entities/lib/entities'
+import { sortAlphabetically } from '#entities/components/lib/deduplicate_helpers.js'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { I18n } from '#user/lib/i18n'
 import { intersection, pluck, uniq } from 'underscore'
@@ -206,4 +210,64 @@ export function getSelectedUris ({ works, facets, facetsSelectedValues }) {
 
 export const bySearchMatchScore = textFilterUris => (a, b) => {
   return textFilterUris.indexOf(a.uri) - textFilterUris.indexOf(b.uri)
+}
+
+export function isClaimLayout (layoutContext) {
+  return [ 'genre', 'subject', 'movement' ].includes(layoutContext)
+}
+
+const publicationDateOption = {
+  text: I18n('publication date'),
+  value: 'byPublicationDate',
+  sortFunction: byNewestPublicationDate
+}
+
+const popularityOption = {
+  text: I18n('popularity'),
+  value: 'byPopularity',
+  sortFunction: byPopularity
+}
+
+const serieOrdinalOption = {
+  text: I18n('order in the series'),
+  value: 'bySerieOrdinal',
+  sortFunction: bySerieOrdinal
+}
+
+const itemsOwnersCountOption = {
+  text: I18n('number of items in your network'),
+  value: 'byItemsOwnersCount',
+  sortFunction: byItemsOwnersCount
+}
+
+const alphabeticalOption = {
+  text: I18n('alphabetically'),
+  value: 'byAlphabet',
+  sortFunction: sortAlphabetically
+}
+
+// Sorting options order matters
+// as first option will be selected by default
+let sortingFunctionByNameByType = {
+  edition: {
+    byPopularity: popularityOption,
+    byPublicationDate: publicationDateOption,
+    byItemsOwnersCount: itemsOwnersCountOption,
+    byAlphabet: alphabeticalOption,
+  },
+  work: {
+    byPublicationDate: publicationDateOption,
+    byPopularity: popularityOption,
+    byAlphabet: alphabeticalOption,
+  },
+  seriePart: {
+    bySerieOrdinal: serieOrdinalOption,
+    byPublicationDate: publicationDateOption,
+    byPopularity: popularityOption,
+    byAlphabet: alphabeticalOption,
+  },
+}
+
+export const getSortingOptionsByName = type => {
+  return sortingFunctionByNameByType[type]
 }

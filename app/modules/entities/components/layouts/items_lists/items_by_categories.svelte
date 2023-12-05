@@ -6,7 +6,7 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import { scrollToElement } from '#lib/screen'
 
-  export let allItems
+  export let allItems = []
   export let itemsOnMap
   export let displayCover
   export let waitingForItems

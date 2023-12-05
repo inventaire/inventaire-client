@@ -11,6 +11,7 @@
     publishersByUris,
     parentEntity,
     initialEditions,
+    waitingForItems,
     itemsByEditions
 </script>
 <div class="editions-section">
@@ -33,6 +34,7 @@
         bind:editions
         {initialEditions}
         {someEditions}
+        {waitingForItems}
       />
     {/if}
     <EntitiesList

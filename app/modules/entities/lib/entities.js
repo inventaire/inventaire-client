@@ -6,6 +6,7 @@ import getOriginalLang from './get_original_lang.js'
 import { forceArray } from '#lib/utils'
 import { chunk, compact, indexBy, pluck } from 'underscore'
 import assert_ from '#lib/assert_types'
+import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 
 export async function getReverseClaims (property, value, refresh, sort) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
@@ -140,6 +141,31 @@ export async function getEntitiesBasicInfoByUris (uris) {
   })
 }
 
+export async function getAndAssignPopularity ({ entities }) {
+  const uris = []
+  let wdUrisCount = 0
+  entities.forEach(entity => {
+    const { uri } = entity
+    if (entity.popularity === undefined) {
+      uris.push(uri)
+      if (uri.startsWith('wd:')) wdUrisCount++
+    }
+  })
+  if (!isNonEmptyArray(uris)) return entities
+  // Limiting refresh to not overcrowd Wikidata
+  const refresh = wdUrisCount < 30
+  const urisChunks = chunk(uris, 30)
+  const responses = await Promise.all(urisChunks.map(async urisChunk => {
+    return preq.get(app.API.entities.popularity(urisChunk, refresh))
+  }))
+  const scores = mergeResponsesObjects(responses, 'scores')
+
+  entities.forEach(entity => {
+    const popularity = scores[entity.uri]
+    if (popularity >= 0) entity.popularity = popularity
+  })
+}
+
 export async function getEntityBasicInfoByUri (uri) {
   const entities = await getEntitiesBasicInfoByUris([ uri ])
   return entities[uri]
@@ -180,7 +206,23 @@ export const bySerieOrdinal = (a, b) => {
 }
 
 export const byPublicationDate = (a, b) => {
+  // Ascendant order
   return parseInt(a.publicationYear || 10000) - parseInt(b.publicationYear || 10000)
+}
+
+export const byNewestPublicationDate = (a, b) => {
+  // Descending order
+  return parseInt(b.publicationYear || 0) - parseInt(a.publicationYear || 0)
+}
+
+export function byPopularity (a, b) {
+  // Descending order
+  return parseInt(b.popularity || 0) - parseInt(a.popularity || 0)
+}
+
+export function byItemsOwnersCount (a, b) {
+  // Descending order
+  return parseInt(getOwnersCountPerEdition(b.items) || 0) - parseInt(getOwnersCountPerEdition(a.items) || 0)
 }
 
 export const getPublicationYear = entity => {

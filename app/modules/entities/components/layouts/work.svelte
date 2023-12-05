@@ -3,7 +3,7 @@
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { i18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities'
-  import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+  import { getEntitiesAttributesByUris, byPopularity, getAndAssignPopularity } from '#entities/lib/entities'
   import { getPublishersUrisFromEditions, omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
@@ -36,6 +36,7 @@
   let publishersByUris
   let allItems
   let itemsByEditions = {}
+  let waitingForItems
 
   setContext('work-layout:filters-store', writable({}))
 
@@ -44,12 +45,13 @@
     const publishersUris = getPublishersUrisFromEditions(initialEditions)
     const { entities } = await getEntitiesAttributesByUris({
       uris: publishersUris,
-      // type is necessary to generate publisher URI link without "wdt:P921-" prefix
+      // info is necessary to get the type, and generate publisher URI link without "wdt:P921-" prefix
       attributes: [ 'info', 'labels' ],
       lang: userLang
     })
     publishersByUris = entities
-    editions = initialEditions
+    await getAndAssignPopularity({ entities: initialEditions })
+    editions = initialEditions.sort(byPopularity)
   }
 
   let waitingForEditions = getEditionsWithPublishers().catch(err => flash = err)
@@ -119,6 +121,7 @@
             {initialEditions}
             bind:editions
             bind:itemsByEditions
+            {waitingForItems}
           />
         {/await}
       </div>
@@ -131,6 +134,7 @@
             bind:showMap
             bind:allItems
             bind:itemsByEditions
+            bind:waitingForItems
             bind:mapWrapperEl
             bind:itemsListsWrapperEl
             on:showMapAndScrollToMap={showMapAndScrollToMap}
