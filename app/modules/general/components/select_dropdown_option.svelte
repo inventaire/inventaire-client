@@ -29,6 +29,8 @@
   </span>
   {#await option.promise}
     <Spinner />
+  {:then}
+    <slot name="line-end" />
   {/await}
 </div>
 

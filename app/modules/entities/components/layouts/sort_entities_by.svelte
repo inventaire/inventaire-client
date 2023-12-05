@@ -4,6 +4,7 @@
   import { getSortingOptionsByName } from '#entities/components/lib/works_browser_helpers'
   import { i18n } from '#user/lib/i18n'
   import { sortEntities } from '#entities/components/lib/sort_entities_by'
+  import { icon } from '#lib/handlebars_helpers/icons'
 
   export let sortingType = 'work', entities, waitingForItems
 
@@ -34,7 +35,11 @@
       {options}
       buttonLabel={i18n('Sort by')}
       on:selectSameOption={reverseOrder}
-    />
+    >
+      <div slot="selected-option-line-end">
+        {@html icon('exchange')}
+      </div>
+    </SelectDropdown>
   </div>
 {/if}
 <style lang="scss">
@@ -46,6 +51,13 @@
     }
     :global(.dropdown-content), :global(.dropdown-button){
       min-width: 10em;
+    }
+  }
+  [slot="selected-option-line-end"]{
+    :global(.fa-exchange){
+      transform: rotate(90deg);
+      margin-inline-end: 0;
+      opacity: 0.8;
     }
   }
 </style>
