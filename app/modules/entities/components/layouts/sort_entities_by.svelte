@@ -2,7 +2,7 @@
   import { onChange } from '#lib/svelte/svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import { getSortingOptionsByName } from '#entities/components/lib/works_browser_helpers'
-  import { I18n } from '#user/lib/i18n'
+  import { i18n } from '#user/lib/i18n'
   import { sortEntities } from '#entities/components/lib/sort_entities_by'
 
   export let sortingType = 'work', entities, waitingForItems
@@ -32,7 +32,7 @@
     <SelectDropdown
       bind:value={sortingName}
       {options}
-      buttonLabel={I18n('sort_by')}
+      buttonLabel={i18n('Sort by')}
       on:selectSameOption={reverseOrder}
     />
   </div>

@@ -45,7 +45,7 @@
     const publishersUris = getPublishersUrisFromEditions(initialEditions)
     const { entities } = await getEntitiesAttributesByUris({
       uris: publishersUris,
-      // type is necessary to generate publisher URI link without "wdt:P921-" prefix
+      // info is necessary to get the type, and generate publisher URI link without "wdt:P921-" prefix
       attributes: [ 'info', 'labels' ],
       lang: userLang
     })

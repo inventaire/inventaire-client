@@ -217,31 +217,31 @@ export function isClaimLayout (layoutContext) {
 }
 
 const publicationDateOption = {
-  text: 'publication date',
+  text: I18n('publication date'),
   value: 'byPublicationDate',
   sortFunction: byNewestPublicationDate
 }
 
 const popularityOption = {
-  text: 'popularity',
+  text: I18n('popularity'),
   value: 'byPopularity',
   sortFunction: byPopularity
 }
 
 const serieOrdinalOption = {
-  text: 'serie ordinal',
+  text: I18n('order in the series'),
   value: 'bySerieOrdinal',
   sortFunction: bySerieOrdinal
 }
 
 const itemsOwnersCountOption = {
-  text: 'users in your network',
+  text: I18n('number of items in your network'),
   value: 'byItemsOwnersCount',
   sortFunction: byItemsOwnersCount
 }
 
 const alphabeticalOption = {
-  text: 'alphabetically',
+  text: I18n('alphabetically'),
   value: 'byAlphabet',
   sortFunction: sortAlphabetically
 }
