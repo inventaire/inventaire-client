@@ -6,7 +6,7 @@ const sortingPromises = {
   byItemsOwnersCount: assignItemsToEditions,
 }
 
-export async function sortEntities ({ sortingType, option, entities, promise }) {
+export async function sortEntities ({ option, entities, promise }) {
   const { sortFunction, value: sortingName } = option
   if (!sortFunction) return entities
   const sortingPromise = sortingPromises[sortingName]

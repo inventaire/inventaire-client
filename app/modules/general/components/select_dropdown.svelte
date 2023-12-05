@@ -43,7 +43,9 @@
   function assignNewValue (option) {
     if (value === option.value) {
       dispatch('selectSameOption')
-    } else value = option.value
+    } else {
+      value = option.value
+    }
   }
 </script>
 
