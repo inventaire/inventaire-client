@@ -29,6 +29,8 @@ export function reportError (err) {
 }
 
 const sendOnlineReport = function () {
+  if (window.env === 'dev') return
+
   // Don't send online report if the page isn't the active tab
   if (document.visibilityState !== 'hidden') {
     // (1)
