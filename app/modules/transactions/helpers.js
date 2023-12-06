@@ -1,14 +1,10 @@
 import FilteredCollection from 'backbone-filtered-collection'
-import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import Message from './models/message.js'
-import poster_ from '#lib/poster'
 
 export default function () {
   app.reqres.setHandlers({
     'transactions:add': API.addTransaction,
     'get:transaction:byId': API.getTransaction,
-    'transaction:post:message': API.postMessage
   })
 
   return app.request('wait:for', 'user').then(initLateHelpers)
@@ -16,33 +12,22 @@ export default function () {
 
 const API = {
   addTransaction (transaction) { return app.transactions.add(transaction) },
-
   getTransaction (id) { return app.transactions.byId(id) },
-
-  postMessage (transactionId, message, timeline) {
-    const messageData = {
-      action: 'message',
-      transaction: transactionId,
-      message
-    }
-
-    const mesModel = addMessageToTimeline(messageData, timeline)
-
-    return preq.post(app.API.transactions.base, messageData)
-    .then(poster_.UpdateModelIdRev(mesModel))
-    .catch(poster_.Rewind(mesModel, timeline))
-    .catch(log_.Error('postMessage'))
-  }
 }
 
-const addMessageToTimeline = function (messageData, timeline) {
-  const fullMessageData = _.extend({}, messageData, {
+export async function postTransactionMessage ({ transaction, message }) {
+  const messageData = {
+    action: 'message',
+    transaction: transaction._id,
+    message,
+  }
+  await preq.post(app.API.transactions.base, messageData)
+  Object.assign(messageData, {
     user: app.user.id,
     created: Date.now()
   })
-  const mesModel = new Message(fullMessageData)
-  timeline.add(mesModel)
-  return mesModel
+  transaction.messages = transaction.messages.concat([ messageData ])
+  return transaction
 }
 
 const initLateHelpers = function () {
