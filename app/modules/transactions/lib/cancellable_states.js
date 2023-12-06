@@ -15,7 +15,7 @@ const lending = {
   owner: commonLending
 }
 
-export default {
+export const cancellableStates = {
   giving: oneWay,
   lending,
   selling: oneWay,
