@@ -56,6 +56,9 @@ export const propertiesByRoles = {
   scenarist: [ 'wdt:P58' ],
   illustrator: [ 'wdt:P110' ],
   colorist: [ 'wdt:P6338' ],
+  letterer: [ 'wdt:P9191' ],
+  inker: [ 'wdt:P10836' ],
+  penciller: [ 'wdt:P10837' ],
 }
 
 export const authorsProps = Object.values(propertiesByRoles).flat()
