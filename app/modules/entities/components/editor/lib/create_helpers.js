@@ -7,6 +7,7 @@ import preq from '#lib/preq'
 import assert_ from '#lib/assert_types'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { isNonEmptyArray } from '#lib/boolean_tests'
+import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
 
 export function getMissingRequiredProperties ({ entity, requiredProperties, requiresLabel }) {
   const { type } = entity
@@ -59,7 +60,8 @@ const propertiesShortlists = {
   collection: [ 'wdt:P1476', 'wdt:P123', 'wdt:P856' ]
 }
 
-export const getPropertiesShortlist = function (type, claims) {
+export function getPropertiesShortlist (entity) {
+  const { type, claims } = entity
   const typeShortlist = propertiesShortlists[type]
 
   const claimsProperties = Object.keys(claims)
@@ -68,15 +70,19 @@ export const getPropertiesShortlist = function (type, claims) {
   let propertiesShortlist = uniq(typeShortlist.concat(claimsProperties))
   // If a serie was passed in the claims, invite to add an ordinal
   if (claimsProperties.includes('wdt:P179')) propertiesShortlist.push('wdt:P1545')
-  propertiesShortlist = filterPerRole(propertiesShortlist)
-  return propertiesShortlist
+  propertiesShortlist = filterPerUserRole(propertiesShortlist)
+  const authorProperties = getWorkPreferredAuthorRolesProperties(entity)
+  return uniq(propertiesShortlist.flatMap(property => {
+    if (property === 'wdt:P50') return authorProperties
+    else return [ property ]
+  }))
 }
 
 const dataadminOnlyShortlistedProperties = [
   'wdt:P31'
 ]
 
-const filterPerRole = propertiesShortlist => {
+const filterPerUserRole = propertiesShortlist => {
   if (!propertiesShortlist) return
   if (app.user.hasDataadminAccess) return propertiesShortlist
   else return without(propertiesShortlist, ...dataadminOnlyShortlistedProperties)

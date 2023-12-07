@@ -6,6 +6,9 @@
 
 import { pluralize } from '#entities/lib/types/entities_types'
 import { infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
+import { deepClone, flatMapKeyValues } from '#lib/utils'
+import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
+import { isNonEmptyArray } from '#lib/boolean_tests'
 
 const socialNetworks = {
   'wdt:P2002': {}, // Twitter account
@@ -19,6 +22,13 @@ const socialNetworks = {
 const work = {
   'wdt:P31': { customLabel: 'type' }, // instance of
   'wdt:P50': {}, // author
+  'wdt:P110': { contextual: true }, // illustrator
+  'wdt:P58': { contextual: true }, // scenarist
+  'wdt:P10837': { contextual: true }, // penciller
+  'wdt:P98': { customLabel: 'editor', contextual: true }, // editor
+  'wdt:P6338': { contextual: true }, // colorist
+  'wdt:P9191': { contextual: true }, // letterer
+  'wdt:P10836': { contextual: true }, // inker
   'wdt:P136': {}, // genre
   'wdt:P921': {}, // main subject
   'wdt:P407': { customLabel: 'original language' }, // original language of work
@@ -31,8 +41,6 @@ const work = {
   'wdt:P268': {}, // BNF ID
   'wdt:P648': {}, // Open Library ID
   ...socialNetworks,
-  // 'wdt:P31: {}' # instance of (=> works aliases)
-  // 'wdt:P110': {} # illustrator
   // 'wdt:P1476': {} # title (using P407 lang)
   // 'wdt:P1680': {} # subtitle (using P407 lang)
   // 'wdt:P840': {} # narrative location
@@ -42,9 +50,10 @@ const work = {
 export const propertiesPerType = {
   work,
   edition: {
-    'wdt:P629': { customLabel: 'work from which this is an edition' }, // edition or translation of
     'wdt:P1476': { customLabel: 'edition title' },
     'wdt:P1680': { customLabel: 'edition subtitle' },
+    'wdt:P629': { customLabel: 'work from which this is an edition' }, // edition or translation of
+    'wdt:P437': {}, // distribution format
     'wdt:P407': { customLabel: 'edition language' },
     'invp:P2': { customLabel: 'cover' },
     // 'wdt:P31': {} # P31: instance of (=> edition aliases?)
@@ -62,7 +71,6 @@ export const propertiesPerType = {
     'wdt:P2635': { customLabel: 'number of volumes' },
     'wdt:P268': {}, // BNF ID
     'wdt:P648': {}, // Open Library ID
-    'wdt:P437': {}, // distribution format
   },
 
   human: {
@@ -134,7 +142,7 @@ for (const [ key, categoryData ] of Object.entries(propertiesPerCategory)) {
   }
 }
 
-export const propertiesPerTypeAndCategory = {}
+const propertiesPerTypeAndCategory = {}
 
 for (const [ type, propertiesData ] of Object.entries(propertiesPerType)) {
   propertiesPerTypeAndCategory[type] = {}
@@ -154,4 +162,36 @@ export const getSubentitiesTypes = property => {
     }
   })
   return subentitiesTypes
+}
+
+export function getTypePropertiesPerCategory (entity) {
+  const { type } = entity
+  if (type === 'work' || type === 'serie') {
+    const entityPropertiesPerTypeAndCategory = deepClone(propertiesPerTypeAndCategory[type])
+    entityPropertiesPerTypeAndCategory.general = customizeAuthorProperties(entity, entityPropertiesPerTypeAndCategory.general)
+    return entityPropertiesPerTypeAndCategory
+  } else {
+    return propertiesPerTypeAndCategory[type]
+  }
+}
+
+function customizeAuthorProperties (entity, generalProperties) {
+  return flatMapKeyValues(generalProperties, ([ property, propertySettings ]) => {
+    if (property === 'wdt:P50') {
+      const customAuthorProperties = getWorkPreferredAuthorRolesProperties(entity)
+      let entries = customAuthorProperties.map(prop => [ prop, work[prop] ])
+      if (!customAuthorProperties.includes('wdt:P50') && isNonEmptyArray(entity.claims['wdt:P50'])) {
+        entries = [
+          [ 'wdt:P50', propertySettings ],
+          ...entries
+        ]
+      }
+      return entries
+    } else if (propertySettings.contextual) {
+      // Contextual author properties might have possibly been introduced by getWorkPreferredAuthorRolesProperties
+      return []
+    } else {
+      return [ [ property, propertySettings ] ]
+    }
+  })
 }

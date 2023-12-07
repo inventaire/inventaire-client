@@ -11,6 +11,7 @@
   import { wait } from '#lib/promises'
   import { getViewportHeight, onScrollToBottom } from '#lib/screen'
   import { getActionKey } from '#lib/key_events'
+  import { propertiesWithValuesShortlists } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
 
   export let searchTypes
   export let currentEntityUri
@@ -130,10 +131,12 @@
   let highlightedIndex = 0
 
   $: {
-    const lastIndex = suggestions.length - 1
-    if (highlightedIndex < 0) highlightedIndex = 0
-    else if (!canFetchMore && highlightedIndex > lastIndex) {
-      highlightedIndex = 0
+    if (suggestions) {
+      const lastIndex = suggestions.length - 1
+      if (highlightedIndex < 0) highlightedIndex = 0
+      else if (!canFetchMore && highlightedIndex > lastIndex) {
+        highlightedIndex = 0
+      }
     }
   }
 
@@ -172,9 +175,12 @@
     }
   }
 
-  const notSearchableProps = [ 'wdt:P31', 'wdt:P437' ]
-  const isNotSearchableServerSide = notSearchableProps.includes(relationProperty)
-  const canDefaultSuggestionsBeDisplayed = isNotSearchableServerSide || (showDefaultSuggestions && searchText === '')
+  const isNotSearchableServerSide = propertiesWithValuesShortlists.includes(relationProperty)
+  let canDefaultSuggestionsBeDisplayed
+
+  // Key the 2 reactive statement separated to only fetchDefaultSuggestions when canDefaultSuggestionsBeDisplayed changes value,
+  // and not everytime searchText is changes
+  $: canDefaultSuggestionsBeDisplayed = (isNotSearchableServerSide || (showDefaultSuggestions && searchText === '')) && (relationSubjectEntity.type != null)
   $: if (canDefaultSuggestionsBeDisplayed) fetchDefaultSuggestions()
 
   let autocompleteDropdownEl
@@ -206,7 +212,7 @@
       <span class="uri">{currentEntityUri}</span>
     {/if}
   </div>
-  {#if showSuggestions && (searchText !== '' || suggestions.length > 0)}
+  {#if suggestions && showSuggestions && (searchText !== '' || suggestions.length > 0)}
     <div class="autocomplete" bind:this={autocompleteDropdownEl}>
       <div
         class="suggestions-wrapper"

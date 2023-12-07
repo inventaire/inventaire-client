@@ -1,18 +1,13 @@
-import preq from '#lib/preq'
+import { API } from '#app/api/api'
 import { pluralize } from '#entities/lib/types/entities_types'
+import assert_ from '#lib/assert_types'
+import preq from '#lib/preq'
 
-const cache = {}
+export const allowedValuesPerTypePerProperty = await preq.get(API.data.propertyValues).then(({ values }) => values)
 
-export default function (property) {
-  return async ({ entity }) => {
-    const type = pluralize(entity.type)
-    const cacheKey = `${property}|${type}`
-    if (cache[cacheKey]) {
-      return cache[cacheKey]
-    } else {
-      const { values } = await preq.get(app.API.data.propertyValues(property, type))
-      cache[cacheKey] = values
-      return values
-    }
-  }
+export const propertiesWithValuesShortlists = Object.keys(allowedValuesPerTypePerProperty)
+
+export function getPropertyValuesShortlist ({ type, property }) {
+  assert_.string(type)
+  return allowedValuesPerTypePerProperty[property][pluralize(type)]
 }

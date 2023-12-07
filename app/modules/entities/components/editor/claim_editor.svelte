@@ -12,13 +12,15 @@
   import { icon } from '#lib/utils'
   import { currentEditorKey, errorMessageFormatter, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import Spinner from '#components/spinner.svelte'
+  import SelectAuthorRole from '#entities/components/editor/select_author_role.svelte'
+  import error_ from '#lib/error'
 
   export let entity, property, value, index
 
   const dispatch = createEventDispatcher()
   const { uri, type } = entity
   const creationMode = uri == null
-  const { editorType, canValueBeDeleted } = propertiesEditorsConfigs[property]
+  const { editorType, canValueBeDeleted, specialEditActions } = propertiesEditorsConfigs[property]
   const { InputComponent, DisplayComponent, showSave } = editors[editorType]
   const fixed = editorType.split('-')[0] === 'fixed'
 
@@ -53,10 +55,12 @@
     try {
       saving = true
       // Allow null to be passed when trying to remove a value
-      // but ignore the argument when dispatch('save') is called without
-      if (newValue === undefined || isComponentEvent(newValue)) {
+      // but ignore the argument when dispatch('save') is called without argument.
+      // This can only be done in components that export a getInputValue function
+      if ((newValue === undefined || isComponentEvent(newValue)) && typeof getInputValue === 'function') {
         newValue = await getInputValue()
       }
+      if (newValue === undefined) throw error_.new('missing new value', 500, { uri, property })
       inputValue = newValue
       editMode = false
       dispatch('set', inputValue)
@@ -108,6 +112,17 @@
     editMode = false
   }
 
+  function undo () {
+    if (!isNonEmptyClaimValue(previousValue)) {
+      throw error_.new('can not undo without previous value', 500, { uri, property, value, previousValue })
+    }
+    save(previousValue)
+  }
+
+  function onMoved () {
+    entity.claims[property][index] = inputValue = Symbol.for('moved')
+  }
+
   let undoTitle
   $: {
     if (inputValue === Symbol.for('removed') && isNonEmptyClaimValue(previousValue)) {
@@ -127,76 +142,83 @@
       showDelete = showDelete && canValueBeDeleted({ propertyClaims: entity.claims[property] })
     }
   }
-
-  function undo () {
-    save(previousValue)
-  }
 </script>
 
-<div class="wrapper">
-  <div class="value">
-    {#if inputValue === Symbol.for('removed')}
-      <button
-        class="undo"
-        title={undoTitle}
-        on:click={undo}
-      >
-        {@html icon('undo')}
-        {I18n('undo')}
-      </button>
-      <DisplayModeButtons on:edit={showEditMode} />
-    {:else if editMode}
-      <InputComponent
-        {property}
-        currentValue={inputValue}
-        {valueLabel}
-        {editorType}
-        {entity}
-        bind:getInputValue
-        on:keyup={onInputKeyup}
-        on:save={e => save(e.detail)}
-        on:close={closeEditMode}
-        on:error={showError}
-      />
-      <EditModeButtons
-        {showSave}
-        {showDelete}
-        {saving}
-        on:save={save}
-        on:cancel={closeEditMode}
-        on:delete={remove}
-      />
-    {:else if isNonEmptyClaimValue(savedValue)}
-      <DisplayComponent
-        {entity}
-        {property}
-        value={savedValue}
-        bind:valueLabel
-        on:edit={showEditMode}
-        on:error={showError}
-      />
-      {#if !fixed}
+{#if inputValue !== Symbol.for('moved')}
+  <div class="wrapper">
+    <div class="value">
+      {#if inputValue === Symbol.for('removed')}
+        <button
+          class="undo"
+          title={undoTitle}
+          on:click={undo}
+        >
+          {@html icon('undo')}
+          {I18n('undo')}
+        </button>
         <DisplayModeButtons on:edit={showEditMode} />
+      {:else if editMode}
+        <InputComponent
+          {property}
+          currentValue={inputValue}
+          {valueLabel}
+          {editorType}
+          {entity}
+          bind:getInputValue
+          on:keyup={onInputKeyup}
+          on:save={e => save(e.detail)}
+          on:close={closeEditMode}
+          on:error={showError}
+        />
+        <EditModeButtons
+          {showSave}
+          {showDelete}
+          {saving}
+          on:save={save}
+          on:cancel={closeEditMode}
+          on:delete={remove}
+        />
+      {:else if isNonEmptyClaimValue(savedValue)}
+        <DisplayComponent
+          {entity}
+          {property}
+          value={savedValue}
+          bind:valueLabel
+          on:edit={showEditMode}
+          on:error={showError}
+        />
+        {#if !fixed}
+          <DisplayModeButtons on:edit={showEditMode} />
+        {/if}
+      {:else}
+        <!-- Known case: savedValue is not set yet, after a claim was created -->
+        <Spinner />
       {/if}
-    {:else}
-      <!-- Known case: savedValue is not set yet, after a claim was created -->
-      <Spinner />
-    {/if}
-  </div>
+    </div>
 
-  <Flash bind:state={flash} />
-</div>
+    {#if specialEditActions}
+      <div class="special-action">
+        {#if specialEditActions === 'author-role'}
+          <SelectAuthorRole
+            bind:entity
+            {property}
+            {value}
+            on:moved={onMoved}
+          />
+        {/if}
+      </div>
+    {/if}
+    <Flash bind:state={flash} />
+  </div>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .wrapper:not(:last-child){
-    margin-block-end: 0.5em;
+  .wrapper:not(:first-child){
+    margin-block-start: 1em;
   }
   .value{
     @include display-flex(row, center, center);
-    &:not(:last-child){
-      margin-block-end: 1em;
-    }
     /* Small screens */
     @media screen and (max-width: $smaller-screen){
       flex-direction: column;
@@ -212,5 +234,11 @@
     padding: 0.6em 0;
     @include shy(0.9);
     @include bg-hover(#ddd);
+  }
+  .special-action:not(:empty){
+    margin: 0.5em 0 0.5em 3em;
+    @include display-flex(row, center, flex-start);
+    min-height: 2rem;
+    @include shy(0.9);
   }
 </style>

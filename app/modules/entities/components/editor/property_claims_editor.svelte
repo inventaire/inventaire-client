@@ -11,8 +11,7 @@
 
   export let entity, property, required = false
 
-  let propertyClaims = entity.claims[property] || []
-  $: entity.claims[property] = propertyClaims
+  entity.claims[property] = entity.claims[property] || []
 
   let flash
   const { type } = entity
@@ -21,43 +20,43 @@
   const { customLabel } = typeProperties[property]
   const { multivalue, editorType } = propertiesEditorsConfigs[property]
   const fixed = editorType.split('-')[0] === 'fixed'
-  const propertyClaimsCanBeShown = !(fixed)
+  const propertyClaimsCanBeShown = !(fixed && entity.claims[property].length === 0)
 
   function addBlankValue () {
     flash = null
     removeBlankValue()
-    propertyClaims = [ ...propertyClaims, null ]
+    entity.claims[property] = [ ...entity.claims[property], null ]
   }
 
   function removeBlankValue () {
-    propertyClaims = propertyClaims.filter(isNonEmptyClaimValue)
+    entity.claims[property] = entity.claims[property].filter(isNonEmptyClaimValue)
   }
 
   function setValue (i, value) {
-    if (isNonEmptyClaimValue(value) && propertyClaims.includes(value) && propertyClaims.indexOf(value) !== i) {
+    if (isNonEmptyClaimValue(value) && entity.claims[property].includes(value) && entity.claims[property].indexOf(value) !== i) {
       flash = {
         type: 'error',
         message: I18n('this value is already used')
       }
       value = null
     }
-    propertyClaims[i] = value
+    entity.claims[property][i] = value
     if (value === null) removeBlankValue()
   }
 
   let canAddValue
   $: {
-    if (isEmptyClaimValue(propertyClaims.slice(-1)[0])) {
+    if (isEmptyClaimValue(entity.claims[property]?.slice(-1)[0])) {
       canAddValue = false
     } else {
-      canAddValue = (multivalue || getPropertyClaimsCount(propertyClaims) === 0)
+      canAddValue = (multivalue || getPropertyClaimsCount(entity.claims[property]) === 0)
     }
   }
 
-  $: isRequiredAndMissing = required && getPropertyClaimsCount(propertyClaims) === 0
+  $: isRequiredAndMissing = required && getPropertyClaimsCount(entity.claims[property]) === 0
 </script>
 
-{#if propertyClaimsCanBeShown}
+{#if entity.claims[property] && propertyClaimsCanBeShown}
   <li
     class="editor-section"
     class:fixed
@@ -69,9 +68,11 @@
     {/if}
     <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
     <div class="property-claim-values">
-      {#each propertyClaims as value, i}
+      <!-- Do not set the #each element (key) to prevent descarding claim_editor components on value change
+           as that would make the "undo" impossible -->
+      {#each entity.claims[property] as value, i}
         <ClaimEditor
-          {entity}
+          bind:entity
           {property}
           {value}
           index={i}
