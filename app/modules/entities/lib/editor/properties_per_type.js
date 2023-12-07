@@ -23,7 +23,7 @@ const work = {
   'wdt:P31': { customLabel: 'type' }, // instance of
   'wdt:P50': {}, // author
   'wdt:P110': { contextual: true }, // illustrator
-  'wdt:P58': { contextual: true }, // scenarist
+  'wdt:P58': { customLabel: 'scenarist', contextual: true }, // scenarist
   'wdt:P10837': { contextual: true }, // penciller
   'wdt:P98': { customLabel: 'editor', contextual: true }, // editor
   'wdt:P6338': { contextual: true }, // colorist
