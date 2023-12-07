@@ -1,17 +1,16 @@
 a{
   line-height: inherit;
-  &:hover{
-    cursor: pointer;
-  }
-  &:hover, &:focus{
-    color: $light-blue;
-  }
-}
-
-a:not(.classic-link){
   text-decoration: none;
   @include text-hover($primary-color, darken($primary-color, 5%));
   word-break: break-word;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.classic-link{
+  text-decoration: underline;
+  @include text-hover(rgb(0, 0, 238), rgb(49, 156, 194));
 }
 
 .link{
