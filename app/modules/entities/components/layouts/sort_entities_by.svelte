@@ -50,7 +50,10 @@
       @include display-flex(row, center, stretch);
     }
     :global(.dropdown-content), :global(.dropdown-button){
-      min-width: 10em;
+      min-width: 11em;
+    }
+    :global(.inner-select-option){
+      line-height: 1em;
     }
   }
   [slot="selected-option-line-end"]{
@@ -58,6 +61,7 @@
       transform: rotate(90deg);
       margin-inline-end: 0;
       opacity: 0.8;
+      line-height: 1rem;
     }
   }
 </style>
