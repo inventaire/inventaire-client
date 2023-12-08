@@ -37,14 +37,6 @@ export const isShelfId = isCouchUuid
 export const isUsername = bindedTest('Username')
 export const isEntityUri = bindedTest('EntityUri')
 export const isPropertyUri = bindedTest('PropertyUri')
-
-export function isExtendedEntityUri (uri) {
-  const [ prefix, id ] = uri.split(':')
-  // Accept alias URIs.
-  // Ex: twitter:Bouletcorp -> wd:Q1524522
-  return isNonEmptyString(prefix) && isNonEmptyString(id)
-}
-
 export const isWikidataItemId = bindedTest('WikidataItemId')
 export const isWikidataPropertyId = bindedTest('WikidataPropertyId')
 export const isWikidataItemUri = bindedTest('WikidataItemUri')

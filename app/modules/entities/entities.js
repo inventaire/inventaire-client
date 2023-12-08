@@ -1,4 +1,4 @@
-import { isPropertyUri, isExtendedEntityUri, isEntityUri } from '#lib/boolean_tests'
+import { isPropertyUri, isEntityUri } from '#lib/boolean_tests'
 import assert_ from '#lib/assert_types'
 import { forceArray } from '#lib/utils'
 import log_ from '#lib/loggers'
@@ -42,7 +42,7 @@ const API = {
 
     uri = normalizeUri(uri)
     const pathname = `/entity/${uri}`
-    if (!isExtendedEntityUri(uri)) return app.execute('show:error:missing', { pathname })
+    if (!isEntityUri(uri)) return app.execute('show:error:missing', { pathname })
 
     app.execute('show:loader')
 
@@ -426,7 +426,7 @@ const showClaimEntities = async (claim, refresh) => {
     return
   }
 
-  if (!isExtendedEntityUri(value)) {
+  if (!isEntityUri(value)) {
     error_.report('invalid value')
     app.execute('show:error:missing', { pathname })
     return
