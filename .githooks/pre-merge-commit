@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Prevent merge if remote and local commits subjects do not match
+set -eu
+
+echo -e "\e[0;30mchecking origin remote sync\e[0m"
+branch=$(echo $GIT_REFLOG_ACTION| cut -f 2- -d ' ')
+
+git fetch --quiet origin $branch
+
+# Log commit subject differences
+# to be able to spot similar commits despite a possible rebase hashes rewrite
+commits_messages_diffs=$(git log --pretty=%s $branch..origin/$branch)
+
+if [ "$commits_messages_diffs" ]; then
+  echo "$branch branch does not look up to date with its remote."
+  exit 1
+fi
