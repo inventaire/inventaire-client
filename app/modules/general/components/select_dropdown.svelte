@@ -91,7 +91,13 @@
               aria-selected={option.value === value}
               on:click={() => assignNewValue(option)}
             >
-              <SelectDropdownOption {option} {withImage} />
+              <SelectDropdownOption {option} {withImage}>
+                <div slot="line-end">
+                  {#if option.value === value}
+                    <slot name="selected-option-line-end" />
+                  {/if}
+                </div>
+              </SelectDropdownOption>
             </button>
           {/if}
         {/each}
