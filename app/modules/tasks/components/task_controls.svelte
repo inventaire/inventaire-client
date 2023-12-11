@@ -1,4 +1,5 @@
 <script>
+  import { clone } from 'underscore'
   import preq from '#lib/preq'
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
@@ -28,10 +29,12 @@
   function mergeTaskEntities ({ isToFrom }) {
     if (!(from && to)) return
     merging = true
-
-    const params = isToFrom ? [ to.uri, from.uri ] : [ from.uri, to.uri ]
+    const toUri = clone(to.uri)
+    const fromUri = clone(from.uri)
+    // Optimistic UI: go to the next candidates without waiting for the merge confirmation
+    dispatch('next')
+    const params = isToFrom ? [ toUri, fromUri ] : [ fromUri, toUri ]
     mergeEntities(...params)
-      .then(() => dispatch('next'))
       .catch(err => {
         error = err
       })
