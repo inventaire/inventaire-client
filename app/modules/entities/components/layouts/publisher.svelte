@@ -8,7 +8,6 @@
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
-  import MissingEntitiesMenu from '#entities/components/layouts/missing_entities_menu.svelte'
   import { getEntityMetadata } from '#entities/lib/document_metadata'
 
   export let entity, standalone
@@ -23,14 +22,10 @@
     .then(res => sections = res)
     .catch(err => flash = err)
 
-  setContext('layout-context', 'publisher')
-  setContext('search-filter-claim', `wdt:P123=${uri}`)
   // TODO: index editions
   // setContext('search-filter-types', null)
-  const createButtons = [
-    { type: 'collection', claims: { 'wdt:P123': [ uri ] } },
-    { type: 'edition', claims: { 'wdt:P123': [ uri ] } },
-  ]
+  setContext('layout-context', 'publisher')
+  setContext('search-filter-claim', `wdt:P123=${uri}`)
 </script>
 
 <BaseLayout
@@ -55,11 +50,6 @@
         {/await}
       </div>
     </div>
-    <MissingEntitiesMenu
-      waiting={waitingForSubEntities}
-      questionText="A collection or an edition from this publisher is missing in the common database?"
-      {createButtons}
-    />
     <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>
