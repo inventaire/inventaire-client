@@ -19,7 +19,13 @@ const urisGetterByType = {
 
     const { parts } = await preq.get(app.API.entities.serieParts(parentUri, refresh))
     return [
-      { subEntityType: 'work', parentUri, uris: pluck(parts, 'uri'), subEntityRelationProperty: 'wdt:P179', sortingType: 'seriePart' },
+      {
+        subEntityType: 'work',
+        parentUri,
+        uris: pluck(parts, 'uri'),
+        subEntityRelationProperty: 'wdt:P179',
+        sortingType: 'seriePart'
+      },
     ]
   },
   human: async ({ entity, refresh }) => {
@@ -28,9 +34,26 @@ const urisGetterByType = {
 
     const { series, works, articles } = await preq.get(app.API.entities.authorWorks(parentUri, refresh))
     return [
-      { label: I18n('series'), subEntityType: 'serie', parentUri, subEntityRelationProperty, uris: pluck(series, 'uri') },
-      { label: I18n('works'), subEntityType: 'work', parentUri, subEntityRelationProperty, uris: pluck(works, 'uri') },
-      { label: I18n('articles'), uris: pluck(articles, 'uri'), searchable: false },
+      {
+        label: I18n('series'),
+        subEntityType: 'serie',
+        parentUri,
+        subEntityRelationProperty,
+        uris: pluck(series, 'uri')
+      },
+      {
+        label: I18n('works'),
+        subEntityType: 'work',
+        parentUri,
+        subEntityRelationProperty,
+        uris: pluck(works, 'uri')
+      },
+      {
+        label: I18n('articles'),
+        uris: pluck(articles,
+          'uri'),
+        searchable: false
+      },
     ]
   },
   publisher: async ({ entity, refresh }) => {
@@ -39,8 +62,21 @@ const urisGetterByType = {
 
     const { collections, editions } = await preq.get(app.API.entities.publisherPublications(parentUri, refresh))
     return [
-      { label: I18n('collections'), subEntityType: 'collection', parentUri, subEntityRelationProperty, uris: pluck(collections, 'uri') },
-      { label: I18n('editions'), subEntityType: 'edition', parentUri, subEntityRelationProperty, uris: pluck(editions, 'uri'), searchable: false },
+      {
+        label: I18n('collections'),
+        subEntityType: 'collection',
+        parentUri,
+        subEntityRelationProperty,
+        uris: pluck(collections, 'uri')
+      },
+      {
+        label: I18n('editions'),
+        subEntityType: 'edition',
+        parentUri,
+        subEntityRelationProperty,
+        uris: pluck(editions, 'uri'),
+        searchable: false
+      },
     ]
   },
   collection: async ({ entity, refresh }) => {
@@ -49,7 +85,14 @@ const urisGetterByType = {
 
     const uris = await getReverseClaims(subEntityRelationProperty, parentUri, refresh)
     return [
-      { label: I18n('editions'), subEntityType: 'edition', parentUri, subEntityRelationProperty, uris, searchable: false },
+      {
+        label: I18n('editions'),
+        subEntityType: 'edition',
+        parentUri,
+        subEntityRelationProperty,
+        uris,
+        searchable: false
+      },
     ]
   },
   article: async ({ entity }) => {
