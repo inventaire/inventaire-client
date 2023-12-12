@@ -17,7 +17,7 @@
   let index = -1
   let wdDisplayLimit = 10
   let invDisplayLimit = 10
-  let allWorksByPrefix, allCandidateWorksByPrefix, error, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl, from, to
+  let allWorksByPrefix, allCandidateWorksByPrefix, flash, filterPattern, displayedWdWorks, displayedInvWorks, windowScrollY, wdBottomEl, invBottomEl, from, to
   let loading
 
   const waitForWorks = assignCandidates()
@@ -99,7 +99,7 @@
       await mergeEntities(fromUri, toUri)
     } catch (err) {
       mergedEntity._merged = false
-      error = err
+      flash = err
     }
   }
 
@@ -219,7 +219,7 @@
   entity={author}
   bind:from
   bind:to
-  {error}
+  {flash}
   {candidates}
   {index}
   on:merge={merge}

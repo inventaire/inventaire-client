@@ -11,7 +11,7 @@
 
   export let taskId, entitiesType
 
-  let task, from, to, error, matchedTitles, noTask
+  let task, from, to, flash, matchedTitles, noTask
 
   let previousTasksIds = []
 
@@ -26,7 +26,7 @@
     } else return
     return promise
       .catch(err => {
-        error = err
+        flash = err
       })
   }
 
@@ -68,7 +68,7 @@
     return preq.get(app.API.entities.getByUris([ fromUri, toUri ]))
       .then(assignFromToEntities(fromUri, toUri))
       .catch(err => {
-        error = err
+        flash = err
       })
   }
 
@@ -114,7 +114,7 @@
       {#if from}
         <TaskEntity
           entity={from}
-          {error}
+          {flash}
           {matchedTitles}
         />
       {/if}
@@ -124,7 +124,7 @@
       {#if to}
         <TaskEntity
           entity={to}
-          {error}
+          {flash}
           {matchedTitles}
         />
       {/if}
@@ -140,7 +140,7 @@
       {task}
       {from}
       {to}
-      {error}
+      {flash}
       on:next={next}
     />
   {/await}

@@ -1,16 +1,16 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import Alertbox from '#general/components/alertbox.svelte'
   import { createEventDispatcher } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
   import _ from 'underscore'
   import EntityPreview from './entity_preview.svelte'
+  import Flash from '#lib/components/flash.svelte'
 
   const dispatch = createEventDispatcher()
   const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 200)
 
-  export let entity, error, from, to, candidates, index
+  export let entity, flash, from, to, candidates, index
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
@@ -72,9 +72,11 @@
       </button>
     </div>
   </div>
-  <div class="alerts">
-    {#if error}<Alertbox {error} on:closed={() => error = null} />{/if}
-  </div>
+  {#if flash}
+    <div class="alerts">
+      <Flash bind:state={flash} />
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -121,7 +123,6 @@
     min-inline-size: 50%;
     max-inline-size: 30em;
     margin: 0 auto;
-    background-color: $soft-red;
   }
 
   /* Small screens */

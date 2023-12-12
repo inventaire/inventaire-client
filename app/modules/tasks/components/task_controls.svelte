@@ -3,7 +3,6 @@
   import preq from '#lib/preq'
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
-  import Alertbox from '#general/components/alertbox.svelte'
   import { createEventDispatcher } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
   import Spinner from '#general/components/spinner.svelte'
@@ -11,10 +10,11 @@
   import TaskScores from './task_scores.svelte'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import { onChange } from '#lib/svelte/svelte'
+  import Flash from '#lib/components/flash.svelte'
 
   const dispatch = createEventDispatcher()
 
-  export let task, from, to, error
+  export let task, from, to, flash
 
   let merging
 
@@ -36,7 +36,7 @@
     const params = isToFrom ? [ toUri, fromUri ] : [ fromUri, toUri ]
     mergeEntities(...params)
       .catch(err => {
-        error = err
+        flash = err
       })
       .finally(() => merging = false)
   }
@@ -52,10 +52,10 @@
 
   $: {
     if (task && task.state === 'merged') {
-      error = { message: I18n('this task has already been treated') }
+      flash = new Error(I18n('this task has already been treated'))
     }
   }
-  $: onChange(task, () => { error = null })
+  $: onChange(task, () => { flash = null })
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -102,9 +102,9 @@
       </button>
     </div>
   </div>
-  {#if error}
+  {#if flash}
     <div class="alerts">
-      <Alertbox {error} on:closed={() => error = null} />
+      <Flash bind:state={flash} />
     </div>
   {/if}
 </div>
