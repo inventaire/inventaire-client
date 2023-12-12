@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { i18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { userContent } from '#lib/handlebars_helpers/user_content'
@@ -19,7 +19,7 @@
   export let focusedSection
 
   // TODO: recover inventoryLength and shelvesCount
-  const { username, bio, picture, inventoryLength, shelvesCount } = user
+  const { _id: userId, username, bio, picture, inventoryLength, shelvesCount } = user
 
   let flash, userProfileEl
 
@@ -29,13 +29,26 @@
     // is already at the top itself (standalone mode), to make the UsersHomeNav visible
     const pageSectionElement = standalone ? null : userProfileEl
     shelf = null
+    let pathname, title, rss
     if (profileSection === 'inventory') {
-      app.navigate(user.inventoryPathname, { pageSectionElement })
+      pathname = user.inventoryPathname
+      title = `${username} - ${I18n('inventory')}`
+      rss = app.API.feeds('user', userId)
     } else if (profileSection === 'listings') {
-      app.navigate(user.listingsPathname, { pageSectionElement })
+      pathname = user.listingsPathname
+      title = `${username} - ${I18n('lists')}`
     } else {
-      app.navigate(user.pathname, { pageSectionElement })
+      title = username
+      pathname = user.pathname
+      rss = app.API.feeds('user', userId)
     }
+    const metadata = {
+      title,
+      description: bio,
+      image: picture,
+      rss,
+    }
+    app.navigate(pathname, { pageSectionElement, metadata })
   }
 
   $: if ($focusedSection.type === 'user') onFocus()

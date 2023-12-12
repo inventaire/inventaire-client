@@ -17,12 +17,16 @@ import updateNodeType from './update_node_type.js'
 import { I18n, i18n } from '#user/lib/i18n'
 import { transformers } from './apply_transformers.js'
 import { dropLeadingSlash } from '#lib/utils'
+import { wait } from '#lib/promises'
 
 const initialFullPath = location.pathname.slice(1) + location.search
 // Make prerender wait before assuming everything is ready
 // See https://prerender.io/documentation/best-practices
 window.prerenderReady = false
-const metadataUpdateDone = () => { window.prerenderReady = true }
+const metadataUpdateDone = async () => {
+  await wait(100)
+  window.prerenderReady = true
+}
 // Stop waiting if it takes more than 20 secondes: addresses cases
 // where metadataUpdateDone would not have been called
 setTimeout(metadataUpdateDone, 20 * 1000)
@@ -34,7 +38,7 @@ export const updateRouteMetadata = async (route, metadataPromise = {}) => {
   const metadata = await metadataPromise
   if (Object.keys(metadata).length === 0) return
   applyMetadataUpdate(route, metadata)
-  metadataUpdateDone()
+  if (metadata?.title) metadataUpdateDone()
 }
 
 const applyMetadataUpdate = (route, metadata = {}) => {

@@ -48,13 +48,26 @@
     // Let app.navigate scroll to the page top when GroupProfile
     // is already at the top itself (standalone mode), to make the UsersHomeNav visible
     const pageSectionElement = standalone ? null : groupProfileEl
+    let pathname, title, rss
     if (profileSection === 'inventory') {
-      app.navigate(group.inventoryPathname, { pageSectionElement })
+      pathname = group.inventoryPathname
+      title = `${name} - ${I18n('inventory')}`
+      rss = app.API.feeds('group', groupId)
     } else if (profileSection === 'listings') {
-      app.navigate(group.listingsPathname, { pageSectionElement })
+      pathname = group.listingsPathname
+      title = `${name} - ${I18n('lists')}`
     } else {
-      app.navigate(group.pathname, { pageSectionElement })
+      pathname = group.pathname
+      title = name
+      rss = app.API.feeds('group', groupId)
     }
+    const metadata = {
+      title,
+      description,
+      image: picture,
+      rss,
+    }
+    app.navigate(pathname, { pageSectionElement, metadata })
   }
   const debouncedOnFocus = debounce(onFocus, 200, true)
 
