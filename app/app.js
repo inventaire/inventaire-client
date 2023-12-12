@@ -1,6 +1,6 @@
 import { isNonEmptyString } from '#lib/boolean_tests'
 import BindedPartialBuilder from '#lib/binded_partial_builder'
-import { updateRouteMetadata } from '#lib/metadata/update'
+import { clearMetadata, updateRouteMetadata } from '#lib/metadata/update'
 import error_ from '#lib/error'
 import { routeSection, currentRouteWithQueryString } from '#lib/location'
 import { channel, reqres, request, execute } from './radio.js'
@@ -100,6 +100,12 @@ const App = Marionette.Application.extend({
   navigateAndLoad (route, options = {}) {
     options.trigger = true
     this.navigate(route, options)
+  },
+
+  // Used by firefox-headless-prerender
+  clearMetadataNavigateAndLoad (route, options) {
+    this.navigateAndLoad(route, options)
+    clearMetadata()
   },
 
   navigateReplace (route, options) {
