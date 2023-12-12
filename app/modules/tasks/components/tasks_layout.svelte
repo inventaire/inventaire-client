@@ -89,7 +89,7 @@
 
   function areRedirects (entitiesRes) {
     const { entities, redirects } = entitiesRes
-    if (redirects === {}) return
+    if (Object.keys(redirects).length === 0) return
     for (const entityUri of Object.values(redirects)) {
       if (entities[entityUri]) return true
     }
