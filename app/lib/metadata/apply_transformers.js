@@ -1,4 +1,5 @@
 import { host } from '#lib/urls'
+import { dropLeadingSlash } from '#lib/utils'
 
 const absolutePath = url => {
   if (url?.[0] === '/') {
@@ -19,7 +20,7 @@ export default function (key, value, noCompletion) {
 export const transformers = {
   title: (value, noCompletion) => noCompletion ? value : `${value} - Inventaire`,
   url: canonicalPath => {
-    canonicalPath = canonicalPath.replace(/$\//, '')
+    canonicalPath = dropLeadingSlash(canonicalPath)
     let url = `${window.location.origin}/${canonicalPath}`
 
     // Preserver parameters that make a resource different enough,
