@@ -19,7 +19,6 @@ import { transformers } from './apply_transformers.js'
 import { dropLeadingSlash } from '#lib/utils'
 import { wait } from '#lib/promises'
 
-const initialFullPath = location.pathname.slice(1) + location.search
 // Make prerender wait before assuming everything is ready
 // See https://prerender.io/documentation/best-practices
 window.prerenderReady = false
@@ -41,13 +40,7 @@ export const updateRouteMetadata = async (route, metadataPromise = {}) => {
   if (metadata?.title) metadataUpdateDone()
 }
 
-const applyMetadataUpdate = (route, metadata = {}) => {
-  let redirection
-  const targetFullPath = route + location.search
-  if (!prerenderReady && initialFullPath !== targetFullPath) redirection = true
-
-  if (redirection) setPrerenderMeta(302, route)
-
+function applyMetadataUpdate (route, metadata = {}) {
   if (metadata.smallCardType) {
     metadata['twitter:card'] = 'summary'
     // Use a small image to force social media to display it small
