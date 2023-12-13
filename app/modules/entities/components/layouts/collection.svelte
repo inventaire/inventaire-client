@@ -9,14 +9,14 @@
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
-  import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { debounce } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
 
   export let entity, standalone
 
   const { uri } = entity
-  app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
+  runEntityNavigate(entity)
 
   setContext('layout-context', 'collection')
   setContext('search-filter-claim', `wdt:P195=${uri}`)

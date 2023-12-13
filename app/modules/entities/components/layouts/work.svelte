@@ -20,7 +20,7 @@
   import { writable } from 'svelte/store'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { scrollToElement } from '#lib/screen'
-  import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import Flash from '#lib/components/flash.svelte'
 
@@ -68,7 +68,7 @@
 
   $: claims = entity.claims
   $: infoboxClaims = omitNonInfoboxClaims(entity.claims)
-  $: app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
+  $: runEntityNavigate(entity)
   $: if (isNonEmptyArray(editions)) {
     editionsUris = editions.map(_.property('uri'))
   }

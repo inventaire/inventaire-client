@@ -15,7 +15,7 @@
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import { i18n } from '#user/lib/i18n'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
-  import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import { onChange } from '#lib/svelte/svelte'
   import { debounce } from 'underscore'
@@ -24,7 +24,7 @@
   let flash
 
   const { uri, type } = entity
-  app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
+  runEntityNavigate(entity)
 
   setContext('layout-context', 'author')
   const authorProperties = Object.keys(extendedAuthorsKeys)

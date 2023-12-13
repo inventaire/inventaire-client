@@ -1,14 +1,27 @@
+import { getEntityImageUrl } from '#entities/lib/entities'
 import { typesString } from '#entities/models/entity'
 import { I18n } from '#user/lib/i18n'
 
-export function getEntityMetadata (entity, options = {}) {
+export async function runEntityNavigate (entity, options = {}) {
   const { uriPrefix } = options
+  const { uri } = entity
+  entity._gettingMetadata = entity._gettingMetadata || getEntityMetadata({ entity, uriPrefix })
+  const metadata = await entity._gettingMetadata
+  app.navigate(`/entity/${uri}`, { metadata })
+}
+
+async function getEntityMetadata ({ entity, uriPrefix }) {
+  const { uri, type } = entity
   let url = 'entity/'
   url += uriPrefix ? `${uriPrefix}${entity.uri}` : entity.uri
+  let image = entity.image?.url || entity.images?.[0]
+  if (!image && (type === 'work' || type === 'serie')) {
+    image = await getEntityImageUrl(uri)
+  }
   return {
     title: buildTitle(entity),
     description: findBestDescription(entity)?.slice(0, 501),
-    image: entity.image?.url || entity.images?.[0],
+    image,
     url,
     smallCardType: true
   }

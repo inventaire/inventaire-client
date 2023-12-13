@@ -255,6 +255,11 @@ export async function getEntitiesImagesUrls (uris) {
   return extractImagesUrls(images)
 }
 
+export async function getEntityImageUrl (uri) {
+  const imagesUrls = await getEntitiesImagesUrls([ uri ])
+  return imagesUrls[0]
+}
+
 export function extractImagesUrls (images) {
   const imageUrls = Object.values(images).map(entityImages => {
     const firstImage = getBestLangValue(app.user.lang, null, entityImages).value

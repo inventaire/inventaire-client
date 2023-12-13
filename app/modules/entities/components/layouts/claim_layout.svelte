@@ -8,7 +8,7 @@
   import RelativeEntitiesList from './relative_entities_list.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
-  import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
   import { getSubentitiesTypes } from '#entities/lib/editor/properties_per_type'
@@ -22,7 +22,7 @@
   const { uri, type } = entity
   let { label } = entity
 
-  app.navigate(`/entity/${property}-${uri}`, { metadata: getEntityMetadata(entity, { uriPrefix: `${property}-` }) })
+  runEntityNavigate(entity, { uriPrefix: `${property}-` })
 
   setContext('layout-context', type)
   setContext('search-filter-claim', `${property}=${uri}`)

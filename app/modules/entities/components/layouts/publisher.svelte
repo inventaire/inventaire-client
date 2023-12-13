@@ -8,13 +8,13 @@
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
-  import { getEntityMetadata } from '#entities/lib/document_metadata'
+  import { runEntityNavigate } from '#entities/lib/document_metadata'
 
   export let entity, standalone
   let flash
 
   const { uri } = entity
-  app.navigate(`/entity/${uri}`, { metadata: getEntityMetadata(entity) })
+  runEntityNavigate(entity)
 
   let sections
   // server is already sorting byPublicationDate
