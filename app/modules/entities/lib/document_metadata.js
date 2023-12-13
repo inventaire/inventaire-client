@@ -1,12 +1,15 @@
 import { typesString } from '#entities/models/entity'
 import { I18n } from '#user/lib/i18n'
 
-export function getEntityMetadata (entity) {
+export function getEntityMetadata (entity, options = {}) {
+  const { uriPrefix } = options
+  let url = 'entity/'
+  url += uriPrefix ? `${uriPrefix}${entity.uri}` : entity.uri
   return {
     title: buildTitle(entity),
     description: findBestDescription(entity)?.slice(0, 501),
     image: entity.image?.url || entity.images?.[0],
-    url: `entity/${entity.uri}`,
+    url,
     smallCardType: true
   }
 }

@@ -22,7 +22,7 @@
   const { uri, type } = entity
   let { label } = entity
 
-  app.navigate(`/entity/${property}-${uri}`, { metadata: getEntityMetadata(entity) })
+  app.navigate(`/entity/${property}-${uri}`, { metadata: getEntityMetadata(entity, { uriPrefix: `${property}-` }) })
 
   setContext('layout-context', type)
   setContext('search-filter-claim', `${property}=${uri}`)
