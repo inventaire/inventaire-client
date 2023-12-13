@@ -22,7 +22,7 @@ import { wait } from '#lib/promises'
 // Make prerender wait before assuming everything is ready
 // See https://prerender.io/documentation/best-practices
 window.prerenderReady = false
-const metadataUpdateDone = async () => {
+async function metadataUpdateDone () {
   await wait(100)
   window.prerenderReady = true
 }
@@ -31,7 +31,7 @@ const metadataUpdateDone = async () => {
 setTimeout(metadataUpdateDone, 20 * 1000)
 export const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
-export const updateRouteMetadata = async (route, metadataPromise = {}) => {
+export async function updateRouteMetadata (route, metadataPromise = {}) {
   route = dropLeadingSlash(route)
   // metadataPromise can be a promise or a simple object
   const metadata = await metadataPromise
@@ -66,14 +66,14 @@ const defaultMetadata = () => ({
   'twitter:card': 'summary_large_image',
 })
 
-const updateMetadata = function (metadata) {
+function updateMetadata (metadata) {
   for (const key in metadata) {
     const value = metadata[key]
     updateNodeType(key, value)
   }
 }
 
-const setPrerenderMeta = function (statusCode = 500, route) {
+function setPrerenderMeta (statusCode = 500, route) {
   if (!isPrerenderSession || prerenderReady) return
 
   let prerenderMeta = `<meta name='prerender-status-code' content='${statusCode}'>`
@@ -86,7 +86,7 @@ const setPrerenderMeta = function (statusCode = 500, route) {
   $('head').append(prerenderMeta)
 }
 
-export const setPrerenderStatusCode = function (statusCode, route) {
+export function setPrerenderStatusCode (statusCode, route) {
   setPrerenderMeta(statusCode, route)
   metadataUpdateDone()
 }
