@@ -25,8 +25,8 @@ export const transformers = {
 
     // Preserver parameters that make a resource different enough,
     // that the prerendered version returned should be different
-    const lang = app.request('querystring:get', 'lang')
-    if (lang) url += `?lang=${lang}`
+    const lang = app.request('querystring:get', 'lang') || app.user?.lang || 'en'
+    url += `?lang=${lang}`
 
     return url
   },
