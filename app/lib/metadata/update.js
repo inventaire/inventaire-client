@@ -94,4 +94,5 @@ export function setPrerenderStatusCode (statusCode, route) {
 export function clearMetadata () {
   window.prerenderReady = false
   updateMetadata(defaultMetadata())
+  $('head meta[name^="prerender"]').remove()
 }
