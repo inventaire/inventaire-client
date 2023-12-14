@@ -48,7 +48,7 @@ function applyMetadataUpdate (route, metadata = {}) {
     delete metadata.smallCardType
   }
 
-  if (metadata.title == null) metadata = defaultMetadata()
+  if (metadata.title == null) metadata = getDefaultMetadata()
   if (!metadata.url) metadata.url = `/${route}`
   // image and rss can keep the default value, but description should be empty if no specific description can be found
   // to avoid just spamming with the default description
@@ -56,7 +56,7 @@ function applyMetadataUpdate (route, metadata = {}) {
   updateMetadata(metadata)
 }
 
-const defaultMetadata = () => ({
+export const getDefaultMetadata = () => ({
   url: '',
   title: 'Inventaire - ' + i18n('your friends and communities are your best library'),
   description: I18n('make the inventory of your books and mutualize with your friends and communities into an infinite library!'),
@@ -93,6 +93,6 @@ export function setPrerenderStatusCode (statusCode, route) {
 
 export function clearMetadata () {
   window.prerenderReady = false
-  updateMetadata(defaultMetadata())
+  updateMetadata(getDefaultMetadata())
   $('head meta[name^="prerender"]').remove()
 }
