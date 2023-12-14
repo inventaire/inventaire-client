@@ -7,7 +7,6 @@
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import { select, getFilterPattern, getEntityFilter, getAuthorWorksWithImagesAndCoauthors, spreadByPrefix, sortAlphabetically } from './lib/deduplicate_helpers.js'
   import { tick } from 'svelte'
-  import { clone } from 'underscore'
 
   export let author
 
@@ -91,8 +90,8 @@
     if (!(from && to)) return
     const mergedEntity = from
     mergedEntity._merged = true
-    const fromUri = clone(from.uri)
-    const toUri = clone(to.uri)
+    const fromUri = from.uri
+    const toUri = to.uri
     // Optimistic UI: go to the next candidates without waiting for the merge confirmation
     next()
     try {
