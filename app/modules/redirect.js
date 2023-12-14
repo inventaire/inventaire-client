@@ -68,7 +68,11 @@ const API = {
   async showWelcome () {
     const { default: WelcomeLayout } = await import('#welcome/components/welcome_layout.svelte')
     app.layout.showChildComponent('main', WelcomeLayout)
-    app.navigate('welcome')
+    app.navigate('welcome', {
+      metadata: {
+        title: i18n('Welcome to Inventaire')
+      }
+    })
   },
 
   async showDonate () {
