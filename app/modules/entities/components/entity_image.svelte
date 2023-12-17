@@ -47,11 +47,6 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
-  .entity-image{
-    :global(.images-collage){
-      block-size: 10em;
-    }
-  }
   .photo-credits{
     margin: 0;
     font-size: 0.8em;
