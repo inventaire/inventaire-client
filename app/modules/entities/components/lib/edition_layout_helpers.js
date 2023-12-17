@@ -1,12 +1,13 @@
-import { aggregateWorksClaims } from '#entities/components/lib/claims_helpers'
-import { isNonEmptyArray } from '#lib/boolean_tests'
-import { pick } from 'underscore'
+import { getSubEntities } from '#entities/components/lib/entities'
 
-export const addWorksClaims = (claims, works) => {
-  const worksClaims = aggregateWorksClaims(works)
-  const nonEmptyWorksClaims = pick(worksClaims, isNonEmptyArray)
-  return Object.assign(claims, nonEmptyWorksClaims)
+export async function addWorksEditions (works) {
+  await Promise.all(works.map(addWorkEditions))
 }
 
-const entitiesTypesWithEditionsSubentities = [ 'collection', 'publisher' ]
-export const isSubentitiesTypeEdition = type => entitiesTypesWithEditionsSubentities.includes(type)
+async function addWorkEditions (work) {
+  work.editions = await getSubEntities('work', work.uri)
+}
+
+export const isOtherEditionWithCover = currentEdition => edition => {
+  return (edition.uri !== currentEdition.uri) && edition.image
+}

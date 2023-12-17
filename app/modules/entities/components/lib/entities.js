@@ -1,10 +1,9 @@
 import { i18n, I18n } from '#user/lib/i18n'
 import { getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
-import { inverseLabels } from '#entities/components/lib/claims_helpers'
+import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
 import { isNonEmptyArray } from '#lib/boolean_tests'
-import { addWorksClaims, isSubentitiesTypeEdition } from './edition_layout_helpers'
 import preq from '#lib/preq'
-import { pluck } from 'underscore'
+import { pick, pluck } from 'underscore'
 import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.js'
 import { expired } from '#lib/utils'
 
@@ -226,3 +225,13 @@ export const buildAltUri = (uri, id) => {
     return `inv:${id}`
   }
 }
+
+export const addWorksClaims = (claims, works) => {
+  const worksClaims = aggregateWorksClaims(works)
+  const nonEmptyWorksClaims = pick(worksClaims, isNonEmptyArray)
+  return Object.assign(claims, nonEmptyWorksClaims)
+}
+
+const entitiesTypesWithEditionsSubentities = [ 'collection', 'publisher' ]
+
+export const isSubentitiesTypeEdition = type => entitiesTypesWithEditionsSubentities.includes(type)

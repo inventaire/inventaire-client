@@ -1,5 +1,4 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
@@ -7,12 +6,12 @@
   import EntityTitle from './entity_title.svelte'
   import ItemsLists from './items_lists.svelte'
   import EditionActions from './edition_actions.svelte'
-  import OtherEditions from './other_editions.svelte'
-  import { addWorksClaims } from '#entities/components/lib/edition_layout_helpers'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { tick } from 'svelte'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { scrollToElement } from '#lib/screen'
+  import WorksOtherEditions from '#entities/components/layouts/works_other_editions.svelte'
+  import { addWorksClaims } from '#entities/components/lib/entities'
 
   export let entity, works, standalone
 
@@ -64,17 +63,7 @@
       />
     </div>
     <div class="bottom-section">
-      <h5 class="other-editions-title">
-        {I18n('other editions')}
-      </h5>
-      <ul class="other-works-editions">
-        {#each works as work (work.uri)}
-          <OtherEditions
-            currentEdition={entity}
-            {work}
-          />
-        {/each}
-      </ul>
+      <WorksOtherEditions {works} {entity} />
     </div>
   </div>
 </BaseLayout>
@@ -110,12 +99,7 @@
   .bottom-section{
     @include display-flex(column, center);
   }
-  .other-editions-title{
-    @include sans-serif;
-  }
-  .other-works-editions{
-    @include display-flex(row, initial, space-around, wrap);
-  }
+
   /* Large screens */
   @media screen and (min-width: $small-screen){
     .top-section{

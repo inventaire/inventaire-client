@@ -1,58 +1,41 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import Spinner from '#general/components/spinner.svelte'
+  import { I18n } from '#user/lib/i18n'
   import Link from '#lib/components/link.svelte'
   import { isNonEmptyPlainObject, isNonEmptyArray } from '#lib/boolean_tests'
   import EntityImage from '../entity_image.svelte'
-  import { getSubEntities } from '../lib/entities'
+  import { isOtherEditionWithCover } from '#entities/components/lib/edition_layout_helpers'
 
   export let currentEdition, work
 
-  let editions = []
-  let otherEditions
+  const { editions } = work
   const { uri: workUri, label: workLabel } = work
-  const getEditionsFromWork = async () => {
-    editions = await getSubEntities('work', workUri)
-    const allOtherEditions = editions.filter(filterEditionWithCover(currentEdition))
-    otherEditions = allOtherEditions.splice(0, 4)
-  }
-
-  const filterEditionWithCover = currentEdition => edition => {
-    return (edition.uri !== currentEdition.uri) && edition.image
-  }
+  const allOtherEditions = editions.filter(isOtherEditionWithCover(currentEdition))
+  const otherEditions = allOtherEditions.splice(0, 4)
 </script>
 
-{#await getEditionsFromWork()}
-  <div class="loading-wrapper">
-    <p class="loading">{i18n('Looking for editions…')}
-      <Spinner />
-    </p>
-  </div>
-{:then}
-  {#if isNonEmptyArray(otherEditions)}
-    <li class="other-work-editions">
-      <div class="entities-list">
-        {#each otherEditions as entity (entity.uri)}
-          {#if isNonEmptyPlainObject(entity.image)}
-            <EntityImage
-              {entity}
-              withLink="true"
-              maxHeight="6em"
-              size={128}
-            />
-          {/if}
-        {/each}
-      </div>
-      <Link
-        url={`/entity/${workUri}`}
-        classNames="work-button"
-        html={I18n('see_all_work_editions', { label: workLabel })}
-        grey={true}
-        tinyButton={true}
-      />
-    </li>
-  {/if}
-{/await}
+{#if isNonEmptyArray(otherEditions)}
+  <li class="other-work-editions">
+    <div class="entities-list">
+      {#each otherEditions as entity (entity.uri)}
+        {#if isNonEmptyPlainObject(entity.image)}
+          <EntityImage
+            {entity}
+            withLink="true"
+            maxHeight="6em"
+            size={128}
+          />
+        {/if}
+      {/each}
+    </div>
+    <Link
+      url={`/entity/${workUri}`}
+      classNames="work-button"
+      html={I18n('see_all_work_editions', { label: workLabel })}
+      grey={true}
+      tinyButton={true}
+    />
+  </li>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
