@@ -77,6 +77,7 @@
       previousValue = savedValue
       previousValueLabel = valueLabel
       savedValue = inputValue
+      flash = null
     } catch (err) {
       // Revert change, unless that would mean removing this component
       // thus hiding the error
