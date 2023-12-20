@@ -18,7 +18,7 @@
       sortingType,
       option,
       entities,
-      waitingForItems
+      promise: waitingForItems
     })
   }
 
