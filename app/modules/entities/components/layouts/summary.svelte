@@ -151,10 +151,4 @@
       color: $grey;
     }
   }
-  /* Large screens */
-  @media screen and (min-width: $small-screen){
-    .summary.has-summary{
-      margin-block-start: 0;
-    }
-  }
 </style>

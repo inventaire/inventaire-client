@@ -180,6 +180,9 @@
     :global(.claims-infobox-wrapper){
       margin-block-end: 1em;
     }
+    :global(.summary){
+      margin-block-start: 0.5em;
+    }
   }
   .items-lists-section{
     @include display-flex(column, center);
