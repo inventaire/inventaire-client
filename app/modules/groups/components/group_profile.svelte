@@ -51,7 +51,7 @@
     let pathname, title, rss
     if (profileSection === 'inventory') {
       pathname = group.inventoryPathname
-      title = `${name} - ${I18n('inventory')}`
+      title = `${name} - ${i18n('Inventory')}`
       rss = app.API.feeds('group', groupId)
     } else if (profileSection === 'listings') {
       pathname = group.listingsPathname

@@ -32,7 +32,7 @@
     let pathname, title, rss
     if (profileSection === 'inventory') {
       pathname = user.inventoryPathname
-      title = `${username} - ${I18n('inventory')}`
+      title = `${username} - ${i18n('Inventory')}`
       rss = app.API.feeds('user', userId)
     } else if (profileSection === 'listings') {
       pathname = user.listingsPathname
