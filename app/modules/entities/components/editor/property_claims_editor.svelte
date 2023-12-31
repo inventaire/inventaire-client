@@ -66,7 +66,10 @@
     {#if isRequiredAndMissing}
       <span class="required-notice">{I18n('required')}</span>
     {/if}
-    <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
+    <div class="property-info">
+      <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
+      <span class="uri">{property}</span>
+    </div>
     <div class="property-claim-values">
       <!-- Do not set the #each element (key) to prevent descarding claim_editor components on value change
            as that would make the "undo" impossible -->
@@ -97,6 +100,7 @@
   @import "#entities/scss/entity_editors_commons";
   .editor-section-header{
     inline-size: 9em;
+    margin-block-end: 0;
   }
   .property-claim-values{
     flex: 1 1 auto;
