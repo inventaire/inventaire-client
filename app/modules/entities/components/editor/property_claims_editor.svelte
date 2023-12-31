@@ -8,6 +8,8 @@
   import assert_ from '#lib/assert_types'
   import { getPropertyClaimsCount, isEmptyClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import Flash from '#lib/components/flash.svelte'
+  import { isWikidataPropertyUri } from '#lib/boolean_tests'
+  import { getWikidataPropertyUrl } from '#lib/wikimedia/wikidata'
 
   export let entity, property, required = false
 
@@ -68,7 +70,18 @@
     {/if}
     <div class="property-info">
       <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
-      <span class="uri">{property}</span>
+      {#if isWikidataPropertyUri(property)}
+        <a
+          class="uri"
+          href={getWikidataPropertyUrl(property)}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {property}
+        </a>
+      {:else}
+        <span class="uri">{property}</span>
+      {/if}
     </div>
     <div class="property-claim-values">
       <!-- Do not set the #each element (key) to prevent descarding claim_editor components on value change
