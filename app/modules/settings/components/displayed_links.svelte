@@ -61,7 +61,10 @@
   @import "#general/scss/utils";
   fieldset{
     @include display-flex(row, null, null, wrap);
-    margin-block-start: 1em;
+    margin-block-start: 0.5em;
+  }
+  legend{
+    font-weight: bold;
   }
   label{
     width: min(15em, 80vw);
