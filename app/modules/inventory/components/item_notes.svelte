@@ -20,6 +20,7 @@
         attribute: 'notes',
         value: notes,
       })
+      item.notes = notes
     } catch (err) {
       flash = err
     }

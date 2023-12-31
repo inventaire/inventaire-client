@@ -21,6 +21,7 @@
         attribute: 'details',
         value: details,
       })
+      item.details = details
     } catch (err) {
       flash = err
     }
