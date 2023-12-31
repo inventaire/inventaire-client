@@ -15,7 +15,6 @@
   $: option = optionsByName[sortingName]
   async function sortEntitiesBy () {
     entities = await sortEntities({
-      sortingType,
       option,
       entities,
       promise: waitingForItems
