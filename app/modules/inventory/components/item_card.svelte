@@ -37,6 +37,7 @@
   $: if (item.user) ({ username } = item.user)
   $: isPrivate = item.visibility?.length === 0
   $: details = item.details
+  $: notes = item.notes
   $: linkTitle = getItemLinkTitle({ title, mainUserIsOwner, username })
 
   let flash, itemCardSettingsEl
@@ -105,6 +106,15 @@
         </TruncatedText>
       </div>
     {/if}
+    {#if notes}
+      <div class="notes-box">
+        <TruncatedText text={notes} maxLength={180}>
+          <span slot="more">
+            <a class="more" href={pathname} on:click|stopPropagation={showItem}>{i18n('see more')}</a>
+          </span>
+        </TruncatedText>
+      </div>
+    {/if}
     <ItemRequestBox {item} user={item.user} />
   {/if}
   <Flash state={flash} />
@@ -167,7 +177,7 @@
     padding-block-end: 15px;
     margin-block-end: 5px;
   }
-  .details-box{
+  .details-box, .notes-box{
     background-color: rgba($off-white, 0.7);
     padding: 0.4em;
     text-align: start;
@@ -176,6 +186,12 @@
       float: inline-end;
       @include text-hover($grey);
       @include underline(rgba($grey, 0.4));
+    }
+  }
+  .notes-box{
+    background-color: $dark-grey;
+    &, :global(.content-link){
+      color: white;
     }
   }
   .data{
