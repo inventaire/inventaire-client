@@ -99,6 +99,9 @@
     button{
       display: block;
       padding: 0;
+      p{
+        text-align: start;
+      }
     }
   }
   .tiny-button{
