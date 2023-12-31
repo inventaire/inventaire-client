@@ -114,7 +114,8 @@
     font-size: 1.1rem;
     line-height: 1.2rem;
     margin-block-end: 0.4rem;
-    overflow: hidden;
+    overflow: auto;
+    max-height: 10em;
     .uri{
       @include shy;
       font-size: 0.9rem;
