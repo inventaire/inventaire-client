@@ -9,8 +9,8 @@
   import ItemVisibilityBox from '#inventory/components/item_visibility_box.svelte'
   import ItemRequestBox from '#inventory/components/item_request_box.svelte'
   import Flash from '#lib/components/flash.svelte'
-  import TruncatedText from '#components/truncated_text.svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
+  import { userContent } from '#lib/handlebars_helpers/user_content'
 
   export let item
   export let showDistance = false
@@ -99,20 +99,12 @@
     {/if}
     {#if details}
       <div class="details-box">
-        <TruncatedText text={details} maxLength={180}>
-          <span slot="more">
-            <a class="more" href={pathname} on:click|stopPropagation={showItem}>{i18n('see more')}</a>
-          </span>
-        </TruncatedText>
+        {@html userContent(details)}
       </div>
     {/if}
     {#if notes}
       <div class="notes-box">
-        <TruncatedText text={notes} maxLength={180}>
-          <span slot="more">
-            <a class="more" href={pathname} on:click|stopPropagation={showItem}>{i18n('see more')}</a>
-          </span>
-        </TruncatedText>
+        {@html userContent(notes)}
       </div>
     {/if}
     <ItemRequestBox {item} user={item.user} />
@@ -181,12 +173,8 @@
     background-color: rgba($off-white, 0.7);
     padding: 0.4em;
     text-align: start;
-    .more{
-      padding-inline-end: 0.2em;
-      float: inline-end;
-      @include text-hover($grey);
-      @include underline(rgba($grey, 0.4));
-    }
+    max-height: 8rem;
+    overflow: auto;
   }
   .notes-box{
     background-color: $dark-grey;
