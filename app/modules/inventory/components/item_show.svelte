@@ -152,6 +152,7 @@
   @import "#general/scss/utils";
   .item-show{
     position: relative;
+    min-width: min(90vw, 60em);
   }
   h3{
     @include layout-type-label;
@@ -183,6 +184,8 @@
   }
   .title{
     font-size: 1.1em;
+    max-height: 8em;
+    overflow: auto;
   }
   .title, .related-entity-label{
     font-weight: bold;
