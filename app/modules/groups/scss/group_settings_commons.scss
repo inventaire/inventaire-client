@@ -1,0 +1,17 @@
+@mixin group-settings-checkbox-commons(){
+  input[type="checkbox"]{
+    margin: 0.5em;
+  }
+  .warning{
+    text-align: center;
+    background-color: $grey;
+    color: white;
+    @include radius;
+    margin-block: 0.5em;
+    padding-block: 0.5em;
+    &.light{
+      background-color: white;
+      color: $dark-grey;
+    }
+  }
+}

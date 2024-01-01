@@ -6,7 +6,7 @@
   import { debounce } from 'underscore'
 
   export let name
-  export let groupId
+  export let groupId = null
   export let flash
 
   let url

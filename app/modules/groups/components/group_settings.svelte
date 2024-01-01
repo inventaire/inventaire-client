@@ -14,6 +14,8 @@
   import Modal from '#components/modal.svelte'
   import PicturePicker from '#components/picture_picker.svelte'
   import PositionPicker from '#map/components/position_picker.svelte'
+  import GroupSearchability from '#groups/components/group_searchability.svelte'
+  import GroupOpenness from '#groups/components/group_openness.svelte'
 
   export let group
 
@@ -122,7 +124,7 @@
 
 {#if mainUserIsAdmin}
   <section>
-    <label for="edit-name-field">{i18n('name')}</label>
+    <label for="edit-name-field">{I18n('group name')}</label>
     <div class="input-group">
       <input
         type="text"
@@ -150,7 +152,7 @@
   <hr />
 
   <section>
-    <label for="editDescription">{i18n('description')}</label>
+    <label for="editDescription">{I18n('description')}</label>
     <textarea
       id="editDescription"
       placeholder={I18n('help other users to understand what this group is about')}
@@ -186,42 +188,12 @@
   </section>
   <hr />
 
-  <section class="searchability">
-    <label>
-      <input type="checkbox" bind:checked={searchable} />
-      {I18n('appear in search results')}
-    </label>
-    {#if searchable}
-      <p class="searchable warning" transition:slide>
-        {@html icon('search')}
-        {I18n('this group appears in public search results')}
-      </p>
-    {:else}
-      <p class="not-searchable warning" transition:slide>
-        {@html icon('user-secret')}
-        {I18n('only those who get the link or are invited can find this group')}
-      </p>
-    {/if}
-  </section>
+  <GroupSearchability bind:searchable />
+
   <hr />
 
-  <section class="openness">
-    <label>
-      <input type="checkbox" bind:checked={open} />
-      {I18n('open membership')}
-    </label>
-    {#if open}
-      <p class="opened warning" transition:slide>
-        {@html icon('globe')}
-        {I18n('anyone can join the group, no admin validation is required.')}
-      </p>
-    {:else}
-      <p class="closed warning" transition:slide>
-        {@html icon('key')}
-        {I18n('admins have to accept or refuse requests to join the group')}
-      </p>
-    {/if}
-  </section>
+  <GroupOpenness bind:open />
+
   <hr />
 
   <section>
@@ -311,9 +283,6 @@
     // sections already have padding/margin
     margin: 0 0 0.2em;
   }
-  input[type="checkbox"]{
-    margin: 0.5em;
-  }
   label, h4{
     text-align: start;
     font-size: 1em;
@@ -343,20 +312,6 @@
     // that would overlap the button if there wasn't that padding
     padding-block-start: 1em;
   }
-
-  .warning{
-    text-align: center;
-    background-color: $grey;
-    color: white;
-    @include radius;
-    margin-block: 0.5em;
-    padding-block: 0.5em;
-    &.opened, &.searchable{
-      background-color: white;
-      color: $dark-grey;
-    }
-  }
-
   .position-status{
     background-color: #ddd;
     @include radius;

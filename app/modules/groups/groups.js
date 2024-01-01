@@ -3,6 +3,7 @@ import initGroupHelpers from './lib/group_helpers.js'
 import fetchData from '#lib/data/fetch'
 import { showUsersHome } from '#users/users'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
+import { isModel } from '#lib/boolean_tests'
 
 export default {
   initialize () {
@@ -23,7 +24,7 @@ export default {
     new Router({ controller: API })
 
     app.commands.setHandlers({
-      'show:group:board': showGroupBoardFromModel,
+      'show:group:board': showGroupBoardFromDocOrModel,
       'create:group': API.showCreateGroupLayout
     })
 
@@ -66,8 +67,8 @@ const API = {
   },
 
   async showCreateGroupLayout () {
-    const { default: CreateGroupLayout } = await import('./views/create_group_layout.js')
-    app.layout.showChildView('modal', new CreateGroupLayout())
+    const { default: CreateGroup } = await import('#groups/components/create_group.svelte')
+    app.layout.showChildComponent('modal', CreateGroup)
   },
 
   showNetworkLayout () {
@@ -91,6 +92,7 @@ async function showGroupBoard (slug) {
   }
 }
 
-async function showGroupBoardFromModel (model) {
-  return showGroupBoard(model.get('slug'))
+async function showGroupBoardFromDocOrModel (docOrModel) {
+  const slug = isModel(docOrModel) ? docOrModel.get('slug') : docOrModel.slug
+  return showGroupBoard(slug)
 }
