@@ -99,7 +99,7 @@
 
   async function deleteGroup () {
     app.execute('ask:confirmation', {
-      confirmationText: i18n('destroy_group_confirmation', { groupName: name }),
+      confirmationText: i18n('delete_group_confirmation', { groupName: name }),
       warningText: i18n('cant_undo_warning'),
       action: async () => {
         await leaveGroup({ groupId })
