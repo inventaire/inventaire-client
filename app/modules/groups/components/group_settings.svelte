@@ -21,7 +21,7 @@
 
   let { _id: groupId, name, description, searchable, open, picture, position, mainUserIsAdmin, pathname } = group
 
-  $: userIsLastUser = (group.admins.length + group.members.length) === 0
+  $: userIsLastUser = (group.admins.length + group.members.length) === 1
   $: userCanLeave = !mainUserIsAdmin || group.admins.length > 1 || group.members.length === 0
 
   let nameFlash, savingName
