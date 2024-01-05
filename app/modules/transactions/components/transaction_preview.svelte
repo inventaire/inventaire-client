@@ -8,9 +8,12 @@
   export let selectedTransaction = null
   export let onItem = false
 
-  const { pathname, mainUserRead, transactionMode } = serializeTransaction(transaction)
+  const { pathname, transactionMode } = serializeTransaction(transaction)
   const { entity, requester, other } = transaction.snapshot
   const transactionStateText = getTransactionStateText({ transaction })
+
+  let mainUserRead
+  $: ({ mainUserRead } = serializeTransaction(transaction))
 
   function onClick (e) {
     if (onItem) {

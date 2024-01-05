@@ -4,7 +4,7 @@
   import TransactionsList from '#transactions/components/transactions_list.svelte'
   import { slide } from 'svelte/transition'
   import { partition } from 'underscore'
-  import { isOngoing } from '#transactions/lib/transactions'
+  import { isOngoing, markAsRead } from '#transactions/lib/transactions'
   import FocusedTransactionLayout from '#transactions/components/focused_transaction_layout.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import TransactionsWelcome from '#transactions/components/transactions_welcome.svelte'
@@ -24,14 +24,19 @@
     ;[ ongoing, archived ] = partition(transactions, isOngoing)
     displayFirstTransaction()
   }
-  function navigate () {
+  async function showSelectedTransaction () {
     if (selectedTransaction) {
+      if (!selectedTransaction.mainUserRead) {
+        await markAsRead(selectedTransaction)
+        selectedTransaction.mainUserRead = true
+        transactions = transactions
+      }
       app.navigate(selectedTransaction.pathname)
     } else {
       app.navigate('/transactions')
     }
   }
-  $: onChange(selectedTransaction, navigate)
+  $: onChange(selectedTransaction, showSelectedTransaction)
 </script>
 
 <div id="list">

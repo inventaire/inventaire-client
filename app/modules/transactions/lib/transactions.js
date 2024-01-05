@@ -1,4 +1,5 @@
 import app from '#app/app'
+import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { transactionsData } from '#inventory/lib/transactions_data'
 import { i18n } from '#user/lib/i18n'
@@ -190,3 +191,17 @@ export function buildTimeline (transaction) {
 }
 
 const getEventTimestamp = actionOrMessage => actionOrMessage.created || actionOrMessage.timestamp
+
+export async function markAsRead (transaction) {
+  if (transaction.mainUserRead) return
+  try {
+    await preq.put(app.API.transactions.base, {
+      id: transaction._id,
+      action: 'mark-as-read'
+    })
+    transaction.read[transaction.mainUserRole] = true
+    transaction.mainUserRead = true
+  } catch (err) {
+    log_.error(err, 'markAsRead')
+  }
+}
