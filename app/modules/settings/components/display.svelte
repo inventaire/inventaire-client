@@ -37,7 +37,7 @@
     </select>
   </fieldset>
 
-  <h4>{i18n('Displayed links')}</h4>
+  <h3>{i18n('Displayed links')}</h3>
   <DisplayedLinks />
 </form>
 
@@ -56,13 +56,10 @@
   h3{
     @include settings-h3;
   }
+  h3:not(:first-of-type){
+    margin-block-start: 2rem;
+  }
   h3 + fieldset{
     padding-block-start: 0;
-  }
-  h4{
-    margin-block-start: 1rem;
-    font-size: 1rem;
-    font-weight: bold;
-    @include sans-serif;
   }
 </style>

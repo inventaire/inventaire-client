@@ -14,4 +14,5 @@ export default {
     return action('summaries', { uri, langs, refresh })
   },
   propertyValues: action('property-values'),
+  properties: action('properties'),
 }

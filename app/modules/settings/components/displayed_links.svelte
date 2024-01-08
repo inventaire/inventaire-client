@@ -1,46 +1,57 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { linksClaimsPropertiesByCategory } from '#entities/lib/entity_links'
+  import { getPropertiesFromWebsitesNames, getWebsitesNamesFromProperties, websitesByCategoryAndName } from '#entities/lib/entity_links'
   import { onChange } from '#lib/svelte/svelte'
   import Flash from '#lib/components/flash.svelte'
   import { debounce } from 'underscore'
 
-  const { bibliographicDatabases, socialNetworks } = linksClaimsPropertiesByCategory
+  const { bibliographicDatabases, socialNetworks } = websitesByCategoryAndName
 
-  let linksSettings = app.user.get('customProperties') || []
+  let customProperties = app.user.get('customProperties') || []
+  let stringifiedSavedCustomProperties = JSON.stringify(customProperties)
+
+  let selectedWebsites = getWebsitesNamesFromProperties(customProperties)
   let flash
 
   async function updateCustomProperties () {
     flash = null
     try {
-      await app.request('user:update', {
-        attribute: 'customProperties',
-        value: linksSettings
-      })
+      const stringifiedProperties = JSON.stringify(customProperties)
+      if (stringifiedProperties !== stringifiedSavedCustomProperties) {
+        stringifiedSavedCustomProperties = stringifiedProperties
+        await app.request('user:update', {
+          attribute: 'customProperties',
+          value: customProperties
+        })
+      }
     } catch (err) {
       flash = err
     }
   }
 
   const lazyUpdate = debounce(updateCustomProperties, 1000)
-  $: onChange(linksSettings, lazyUpdate)
+  function onSelectionChange () {
+    customProperties = getPropertiesFromWebsitesNames(selectedWebsites)
+    lazyUpdate()
+  }
+  $: onChange(selectedWebsites, onSelectionChange)
 </script>
 
 <fieldset>
   <legend>{I18n('bibliographic databases')}</legend>
-  {#each bibliographicDatabases as option}
+  {#each Object.keys(bibliographicDatabases) as websiteName}
     <label>
-      <input type="checkbox" bind:group={linksSettings} value={option.property} />
-      {option.label}
+      <input type="checkbox" bind:group={selectedWebsites} value={websiteName} />
+      {websiteName}
     </label>
   {/each}
 </fieldset>
 <fieldset>
   <legend>{I18n('social networks')}</legend>
-  {#each socialNetworks as option}
+  {#each Object.keys(socialNetworks) as websiteName}
     <label>
-      <input type="checkbox" bind:group={linksSettings} value={option.property} />
-      {option.label}
+      <input type="checkbox" bind:group={selectedWebsites} value={websiteName} />
+      {websiteName}
     </label>
   {/each}
 </fieldset>
@@ -50,11 +61,16 @@
   @import "#general/scss/utils";
   fieldset{
     @include display-flex(row, null, null, wrap);
+    margin-block-start: 0.5em;
+  }
+  legend{
+    font-weight: bold;
   }
   label{
-    width: 10em;
+    width: min(15em, 80vw);
     padding: 0.5em;
-    margin: 0.1em;
+    font-size: 1rem;
     cursor: pointer;
+    @include display-flex(row, center);
   }
 </style>

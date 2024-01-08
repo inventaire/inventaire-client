@@ -1,116 +1,78 @@
-// Keep in sync with app/modules/entities/lib/properties
-// and server/controllers/entities/lib/properties/properties
-// and server/controllers/entities/lib/properties/properties_per_type
-// and server/lib/wikidata/allowlisted_properties
-// and inventaire-i18n/original/wikidata.properties_list
-
 import { pluralize } from '#entities/lib/types/entities_types'
-import { infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
-import { deepClone, flatMapKeyValues } from '#lib/utils'
-import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
-import { isNonEmptyArray } from '#lib/boolean_tests'
+import preq from '#lib/preq'
+import { API } from '#app/api/api'
+import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+import { omit, pick } from 'underscore'
+import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
 
-const socialNetworks = {
-  'wdt:P2002': {}, // Twitter account
-  'wdt:P2013': {}, // Facebook account
-  'wdt:P2003': {}, // Instagram username
-  'wdt:P2397': {}, // YouTube channel ID
-  'wdt:P4033': {}, // Mastodon address
+export const properties = await preq.get(API.data.properties).then(({ properties }) => properties)
+
+export const propertiesPerType = {}
+export const propertiesPerCategory = {}
+
+for (const [ property, propertyMetadata ] of Object.entries(properties)) {
+  const { subjectTypes } = propertyMetadata
+  const category = externalIdsDisplayConfigs[property]?.category || 'general'
+  const allowedValuesShortlist = allowedValuesPerTypePerProperty[property]
+  for (const type of subjectTypes) {
+    const propertyCanBeEdited = !allowedValuesShortlist || allowedValuesShortlist[pluralize(type)].length > 1
+    if (propertyCanBeEdited) {
+      propertiesPerType[type] = propertiesPerType[type] || {}
+      propertiesPerType[type][property] = propertyMetadata
+      propertiesPerCategory[category] = propertiesPerCategory[category] || []
+      propertiesPerCategory[category].push(property)
+    }
+  }
 }
 
-// The order is meaningful:
-const work = {
-  'wdt:P31': { customLabel: 'type' }, // instance of
-  'wdt:P50': {}, // author
-  'wdt:P110': { contextual: true }, // illustrator
-  'wdt:P58': { customLabel: 'scenarist', contextual: true }, // scenarist
-  'wdt:P10837': { contextual: true }, // penciller
-  'wdt:P98': { customLabel: 'editor', contextual: true }, // editor
-  'wdt:P6338': { contextual: true }, // colorist
-  'wdt:P9191': { contextual: true }, // letterer
-  'wdt:P10836': { contextual: true }, // inker
-  'wdt:P136': {}, // genre
-  'wdt:P921': {}, // main subject
-  'wdt:P407': { customLabel: 'original language' }, // original language of work
-  'wdt:P577': { customLabel: 'first publication date' }, // publication date
-  'wdt:P179': {}, // series
-  'wdt:P1545': {}, // series ordinal
-  'wdt:P144': {}, // based on
-  'wdt:P941': {}, // inspired by
-  'wdt:P856': {}, // official website
-  'wdt:P268': {}, // BNF ID
-  'wdt:P648': {}, // Open Library ID
-  ...socialNetworks,
-  // 'wdt:P1476': {} # title (using P407 lang)
-  // 'wdt:P1680': {} # subtitle (using P407 lang)
-  // 'wdt:P840': {} # narrative location
-  // 'wdt:P674': {} # characters
+export const priorityPropertiesPerType = {
+  human: [ 'wdt:P1412' ],
+  work: [ 'wdt:P31', 'wdt:P50' ],
+  serie: [ 'wdt:P31', 'wdt:P50' ],
+  edition: [ 'wdt:P629', 'wdt:P437', 'wdt:P1476', 'wdt:P1680', 'wdt:P123', 'invp:P2', 'wdt:P407', 'wdt:P577' ],
+  publisher: [ 'wdt:P856', 'wdt:P112', 'wdt:P571', 'wdt:P576' ],
+  collection: [ 'wdt:P1476', 'wdt:P123', 'wdt:P856' ],
+  article: [],
 }
 
-export const propertiesPerType = {
-  work,
+const workAndSerieCustomLabels = {
+  'wdt:P31': 'type',
+  'wdt:P58': 'scenarist',
+  'wdt:P98': 'editor',
+  'wdt:P407': 'original language',
+  'wdt:P577': 'first publication date',
+}
+
+const customLabels = {
+  human: {},
+  work: workAndSerieCustomLabels,
+  serie: workAndSerieCustomLabels,
   edition: {
-    'wdt:P1476': { customLabel: 'edition title' },
-    'wdt:P1680': { customLabel: 'edition subtitle' },
-    'wdt:P629': { customLabel: 'work from which this is an edition' }, // edition or translation of
-    'wdt:P437': {}, // distribution format
-    'wdt:P407': { customLabel: 'edition language' },
-    'invp:P2': { customLabel: 'cover' },
-    // 'wdt:P31': {} # P31: instance of (=> edition aliases?)
-    // P212 is used as unique ISBN field, accepting ISBN-10 but correcting server-side
-    'wdt:P212': {}, // ISBN-13
-    'wdt:P957': {}, // ISBN-10
-    'wdt:P577': {}, // publication date
-    'wdt:P123': {}, // publisher
-    'wdt:P195': {}, // collection
-    'wdt:P856': {}, // official website
-    'wdt:P655': {}, // translator
-    'wdt:P2679': {}, // author of foreword
-    'wdt:P2680': {}, // author of afterword
-    'wdt:P1104': {}, // number of pages
-    'wdt:P2635': { customLabel: 'number of volumes' },
-    'wdt:P268': {}, // BNF ID
-    'wdt:P648': {}, // Open Library ID
+    'wdt:P1476': 'edition title',
+    'wdt:P1680': 'edition subtitle',
+    'wdt:P629': 'work from which this is an edition',
+    'wdt:P407': 'edition language',
+    'wdt:P2635': 'number of volumes',
   },
-
-  human: {
-    'wdt:P1412': {}, // languages of expression
-    'wdt:P135': {}, // movement
-    'wdt:P569': {}, // date of birth
-    'wdt:P570': {}, // date of death
-    'wdt:P737': {}, // influenced by
-    'wdt:P856': {}, // official website
-    'wdt:P268': {}, // BNF ID,
-    'wdt:P648': {}, // Open Library ID
-    ...socialNetworks
-  },
-
-  // Using omit instead of having a common list, extended for works, so that
-  // the properties order isn't constrained by being part or not of the common properties
-  serie: _.omit(work, [ 'wdt:P179', 'wdt:P1545', 'wdt:P747' ]),
-
   publisher: {
-    'wdt:P856': {}, // official website
-    'wdt:P112': {}, // founded by
-    // Problematic to only autocomplete on humans as it is likely to be an organization
-    // See https://github.com/inventaire/inventaire/issues/295
-    // 'wdt:P127': {} # owned by
-    'wdt:P571': { customLabel: 'date of foundation' }, // inception
-    'wdt:P576': { customLabel: 'date of dissolution' }, // inception
-    // Maybe, ISBN publisher prefix shouldn't be displayed but only used for administration(?)
-    'wdt:P3035': {}, // ISBN publisher
-    'wdt:P268': {}, // BNF ID
-    ...socialNetworks,
+    'wdt:P571': 'date of foundation',
+    'wdt:P576': 'date of dissolution',
   },
-
   collection: {
-    'wdt:P1476': { customLabel: 'collection title' },
-    'wdt:P1680': {}, // subtitle
-    'wdt:P123': {}, // publisher
-    'wdt:P921': {}, // main subject
-    'wdt:P856': {}, // official website
-    'wdt:P268': {}, // BNF ID
-    ...socialNetworks,
+    'wdt:P1476': 'collection title',
+  },
+  article: {}
+}
+
+for (const type of Object.keys(propertiesPerType)) {
+  const typePriorityProperties = priorityPropertiesPerType[type]
+  propertiesPerType[type] = {
+    ...pick(propertiesPerType[type], typePriorityProperties),
+    ...omit(propertiesPerType[type], typePriorityProperties),
+  }
+  const typeCustomLabels = customLabels[type]
+  for (const [ property, customLabel ] of Object.entries(typeCustomLabels)) {
+    propertiesPerType[type][property] = Object.assign({ customLabel }, propertiesPerType[type][property])
   }
 }
 
@@ -126,14 +88,6 @@ export const propertiesCategories = {
   bibliographicDatabases: { label: 'bibliographic databases' },
 }
 
-const propertiesPerCategory = {
-  socialNetworks: Object.keys(socialNetworks),
-  bibliographicDatabases: [
-    'wdt:P268', // BNF ID
-    'wdt:P648', // Open Library ID
-  ]
-}
-
 const categoryPerProperty = {}
 
 for (const [ key, categoryData ] of Object.entries(propertiesPerCategory)) {
@@ -142,56 +96,13 @@ for (const [ key, categoryData ] of Object.entries(propertiesPerCategory)) {
   }
 }
 
-const propertiesPerTypeAndCategory = {}
+export const propertiesPerTypeAndCategory = {}
 
 for (const [ type, propertiesData ] of Object.entries(propertiesPerType)) {
   propertiesPerTypeAndCategory[type] = {}
   for (const [ property, propertyData ] of Object.entries(propertiesData)) {
-    const category = categoryPerProperty[property] || 'general'
+    const category = categoryPerProperty[property]
     propertiesPerTypeAndCategory[type][category] = propertiesPerTypeAndCategory[type][category] || {}
     propertiesPerTypeAndCategory[type][category][property] = propertyData
   }
-}
-
-export const getSubentitiesTypes = property => {
-  const subentitiesTypes = []
-  Object.keys(infoboxPropertiesByType).forEach(type => {
-    const typeProps = infoboxPropertiesByType[type]
-    if (typeProps.includes(property) && type !== 'article') {
-      subentitiesTypes.push(pluralize(type))
-    }
-  })
-  return subentitiesTypes
-}
-
-export function getTypePropertiesPerCategory (entity) {
-  const { type } = entity
-  if (type === 'work' || type === 'serie') {
-    const entityPropertiesPerTypeAndCategory = deepClone(propertiesPerTypeAndCategory[type])
-    entityPropertiesPerTypeAndCategory.general = customizeAuthorProperties(entity, entityPropertiesPerTypeAndCategory.general)
-    return entityPropertiesPerTypeAndCategory
-  } else {
-    return propertiesPerTypeAndCategory[type]
-  }
-}
-
-function customizeAuthorProperties (entity, generalProperties) {
-  return flatMapKeyValues(generalProperties, ([ property, propertySettings ]) => {
-    if (property === 'wdt:P50') {
-      const customAuthorProperties = getWorkPreferredAuthorRolesProperties(entity)
-      let entries = customAuthorProperties.map(prop => [ prop, work[prop] ])
-      if (!customAuthorProperties.includes('wdt:P50') && isNonEmptyArray(entity.claims['wdt:P50'])) {
-        entries = [
-          [ 'wdt:P50', propertySettings ],
-          ...entries
-        ]
-      }
-      return entries
-    } else if (propertySettings.contextual) {
-      // Contextual author properties might have possibly been introduced by getWorkPreferredAuthorRolesProperties
-      return []
-    } else {
-      return [ [ property, propertySettings ] ]
-    }
-  })
 }

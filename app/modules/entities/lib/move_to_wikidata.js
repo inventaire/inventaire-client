@@ -26,7 +26,7 @@ export function checkWikidataMoveabilityStatus (entity) {
 
   for (const property in claims) {
     const values = claims[property]
-    if (propertiesEditorsConfigs[property]?.editorType === 'entity') {
+    if (propertiesEditorsConfigs[property]?.datatype === 'entity') {
       for (const value of values) {
         if (!isWikidataItemUri(value)) {
           const message = I18n("some values aren't Wikidata entities:")

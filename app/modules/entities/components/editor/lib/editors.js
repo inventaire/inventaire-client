@@ -33,7 +33,7 @@ export const editors = {
     // InputComponent: FixedStringValue,
     DisplayComponent: FixedStringValueDisplay,
   },
-  'simple-day': {
+  date: {
     InputComponent: SimpleDayValueInput,
     DisplayComponent: StringValueDisplay,
   },

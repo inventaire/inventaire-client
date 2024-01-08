@@ -18,8 +18,8 @@
   assert_.string(type)
   const typeProperties = propertiesPerType[type]
   const { customLabel } = typeProperties[property]
-  const { multivalue, editorType } = propertiesEditorsConfigs[property]
-  const fixed = editorType.split('-')[0] === 'fixed'
+  const { multivalue, datatype } = propertiesEditorsConfigs[property]
+  const fixed = datatype.split('-')[0] === 'fixed'
   const propertyClaimsCanBeShown = !(fixed && entity.claims[property].length === 0)
 
   function addBlankValue () {

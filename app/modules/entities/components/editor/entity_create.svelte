@@ -2,7 +2,7 @@
   import { I18n } from '#user/lib/i18n'
   import { icon, someMatch } from '#lib/utils'
   import LabelsEditor from './labels_editor.svelte'
-  import { getTypePropertiesPerCategory, propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
+  import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import { entityTypeNameBySingularType, typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { createAndGetEntity } from '#entities/lib/create_entities'
@@ -14,6 +14,7 @@
   import { pick } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
   import { getPropertyValuesShortlist } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+  import { getTypePropertiesPerCategory } from '#entities/components/editor/lib/editors_properties'
 
   export let type, claims, label
 

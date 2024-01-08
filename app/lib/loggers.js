@@ -62,7 +62,7 @@ const warn = (...args) => {
 
 const PartialLogger = logger => label => obj => logger(obj, label)
 
-export default {
+export const log_ = {
   info: log,
   error,
   warn,
@@ -86,3 +86,5 @@ export default {
     throw err
   }
 }
+
+export default log_

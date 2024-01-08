@@ -20,9 +20,9 @@
   const dispatch = createEventDispatcher()
   const { uri, type } = entity
   const creationMode = uri == null
-  const { editorType, canValueBeDeleted, specialEditActions } = propertiesEditorsConfigs[property]
-  const { InputComponent, DisplayComponent, showSave } = editors[editorType]
-  const fixed = editorType.split('-')[0] === 'fixed'
+  const { datatype, canValueBeDeleted, specialEditActions } = propertiesEditorsConfigs[property]
+  const { InputComponent, DisplayComponent, showSave } = editors[datatype]
+  const fixed = datatype.split('-')[0] === 'fixed'
 
   let inputValue = value
   let savedValue = value
@@ -163,7 +163,7 @@
           {property}
           currentValue={inputValue}
           {valueLabel}
-          {editorType}
+          {datatype}
           {entity}
           bind:getInputValue
           on:keyup={onInputKeyup}
