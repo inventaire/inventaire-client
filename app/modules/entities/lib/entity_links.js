@@ -1,6 +1,5 @@
 import { i18n } from '#user/lib/i18n'
-import { groupBy, pick, pluck, uniq } from 'underscore'
-import { isNonEmptyArray } from '#lib/boolean_tests'
+import { pluck, uniq } from 'underscore'
 import { getUriNumericId } from '#lib/wikimedia/wikidata'
 import { sortObjectKeys } from '#lib/utils'
 
@@ -287,16 +286,6 @@ const sortAlphabetically = (a, b) => a > b ? 1 : -1
 
 for (const category of Object.keys(websitesByCategoryAndName)) {
   websitesByCategoryAndName[category] = sortObjectKeys(websitesByCategoryAndName[category], sortAlphabetically)
-}
-
-export const getDisplayedPropertiesByCategory = () => {
-  const customProperties = app.user.get('customProperties')
-  if (isNonEmptyArray(customProperties)) {
-    const displayedProperties = pick(externalIdsDisplayConfigs, customProperties)
-    return groupBy(Object.values(displayedProperties), 'category')
-  } else {
-    return {}
-  }
 }
 
 export const categoryLabels = {
