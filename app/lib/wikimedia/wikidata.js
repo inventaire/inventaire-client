@@ -24,7 +24,7 @@ export const unprefixify = value => value?.replace(/^wdt?:/, '')
 
 export const getUriNumericId = uri => parseInt(uri.split(':')[1].substring(1))
 
-export function getWikidataPropertyUrl (uri) {
+export function getWikidataPropertyDocumentationUrl (uri) {
   const id = uri.split(':')[1]
   return `https://www.wikidata.org/wiki/Property_talk:${id}`
 }

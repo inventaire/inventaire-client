@@ -9,7 +9,7 @@
   import { getPropertyClaimsCount, isEmptyClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import Flash from '#lib/components/flash.svelte'
   import { isWikidataPropertyUri } from '#lib/boolean_tests'
-  import { getWikidataPropertyUrl } from '#lib/wikimedia/wikidata'
+  import { getWikidataPropertyDocumentationUrl } from '#lib/wikimedia/wikidata'
 
   export let entity, property, required = false
 
@@ -73,7 +73,7 @@
       {#if isWikidataPropertyUri(property)}
         <a
           class="uri"
-          href={getWikidataPropertyUrl(property)}
+          href={getWikidataPropertyDocumentationUrl(property)}
           target="_blank"
           rel="noreferrer"
         >
