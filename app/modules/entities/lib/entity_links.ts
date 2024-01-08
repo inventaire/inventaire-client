@@ -366,19 +366,6 @@ for (const category of Object.keys(websitesByCategoryAndName)) {
   websitesByCategoryAndName[category] = sortObjectKeys(websitesByCategoryAndName[category], sortAlphabetically)
 }
 
-export type DisplayedPropertiesByCategory = Partial<Record<PropertyCategory, DisplayConfig[]>>
-
-export function getDisplayedPropertiesByCategory () {
-  const customProperties: User['customProperties'] = app.user.get('customProperties') || []
-  if (isNonEmptyArray(customProperties)) {
-    const displayedProperties = pick(externalIdsDisplayConfigs, customProperties)
-    const displayedPropertiesByCategory: DisplayedPropertiesByCategory = groupBy(Object.values(displayedProperties), 'category')
-    return displayedPropertiesByCategory
-  } else {
-    return {}
-  }
-}
-
 export const categoryLabels = {
   bibliographicDatabases: 'bibliographic databases',
   socialNetworks: 'social networks',
