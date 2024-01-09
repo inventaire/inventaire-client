@@ -5,10 +5,13 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
   import { getTextDirection } from '#lib/active_languages'
+  import DisplayedLinks from '#settings/components/displayed_links.svelte'
+  import Modal from '#components/modal.svelte'
 
   export let category, categoryAvailableExternalIds
 
   let showAllAvailableExternalIds = false
+  let showCategorySettings = false
 
   let categoryPreferredAvailableExternalIds, displayedCategoryExternalIds
   $: {
@@ -25,7 +28,7 @@
       <EntityClaimLink {property} {name} {value} />{#if i !== displayedCategoryExternalIds.length - 1},&nbsp;{/if}
     {/each}
     {#if categoryPreferredAvailableExternalIds.length !== categoryAvailableExternalIds.length}
-      <button on:click={() => showAllAvailableExternalIds = !showAllAvailableExternalIds}>
+      <button class="toggle-external-ids" on:click={() => showAllAvailableExternalIds = !showAllAvailableExternalIds}>
         {#if showAllAvailableExternalIds}
           {@html icon('chevron-left')}
           {i18n('display less')}
@@ -39,7 +42,20 @@
         {/if}
       </button>
     {/if}
+    <button title={i18n('Customize which links should be displayed')} on:click={() => showCategorySettings = true}>
+      {@html icon('cog')}
+    </button>
   </p>
+{/if}
+
+{#if showCategorySettings}
+  <Modal on:closeModal={() => showCategorySettings = false}>
+    <div class="modal-inner">
+      <h3>{i18n('Which links would you like to see by default?')}</h3>
+      <DisplayedLinks {category} />
+      <button class="tiny-button light-blue" on:click={() => showCategorySettings = false}>{I18n('done')}</button>
+    </div>
+  </Modal>
 {/if}
 
 <style lang="scss">
@@ -47,17 +63,29 @@
   .category-label{
     color: $label-grey;
   }
-  button{
+  .toggle-external-ids{
     margin-inline-start: 0.5em;
     @include shy;
-    :global(.fa){
+    :global(.fa-chevron-left), :global(.fa-chevron-right){
       font-size: 0.8rem;
       width: 0.7rem;
     }
   }
   [dir="rtl"]{
-    button :global(.fa){
+    :global(.fa-chevron-left), :global(.fa-chevron-right){
       transform: rotate(180deg);
+    }
+  }
+  h3{
+    @include sans-serif;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+  .modal-inner{
+    margin: 1em;
+    .tiny-button{
+      display: block;
+      margin: 0 auto;
     }
   }
 </style>
