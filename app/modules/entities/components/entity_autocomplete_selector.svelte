@@ -21,7 +21,7 @@
   export let showDefaultSuggestions = true
   export let createdEntityTypeName
   export let createOnWikidata
-  export let relationSubjectEntity
+  export let relationSubjectEntity = null
   export let relationProperty
   export let displaySuggestionType = false
   export let autofocus = true
@@ -180,7 +180,7 @@
 
   // Key the 2 reactive statement separated to only fetchDefaultSuggestions when canDefaultSuggestionsBeDisplayed changes value,
   // and not everytime searchText is changes
-  $: canDefaultSuggestionsBeDisplayed = (isNotSearchableServerSide || (showDefaultSuggestions && searchText === '')) && (relationSubjectEntity.type != null)
+  $: canDefaultSuggestionsBeDisplayed = (isNotSearchableServerSide || (showDefaultSuggestions && searchText === '')) && (relationSubjectEntity?.type != null)
   $: if (canDefaultSuggestionsBeDisplayed) fetchDefaultSuggestions()
 
   let autocompleteDropdownEl
