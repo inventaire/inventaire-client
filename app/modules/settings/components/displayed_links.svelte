@@ -5,6 +5,8 @@
   import Flash from '#lib/components/flash.svelte'
   import { debounce, difference, intersection, uniq } from 'underscore'
 
+  export let category = null
+
   const { bibliographicDatabases, socialNetworks } = websitesByCategoryAndName
 
   const bibliographicDatabasesNames = Object.keys(bibliographicDatabases)
@@ -55,45 +57,49 @@
   }
 </script>
 
-<section>
-  <label class="category">
-    <input
-      type="checkbox"
-      checked={selectedBibliographicDatabasesCount === bibliographicDatabasesNames.length}
-      indeterminate={selectedBibliographicDatabasesCount !== 0 && selectedBibliographicDatabasesCount !== bibliographicDatabasesNames.length}
-      on:click={() => toggleAllSection({ names: bibliographicDatabasesNames, selectedCount: selectedBibliographicDatabasesCount })}
-    />
-    {I18n('bibliographic databases')}
-  </label>
-  <fieldset>
-    {#each bibliographicDatabasesNames as websiteName}
-      <label>
-        <input type="checkbox" bind:group={selectedWebsites} value={websiteName} />
-        {websiteName}
-      </label>
-    {/each}
-  </fieldset>
-</section>
+{#if category == null || category === 'bibliographicDatabases'}
+  <section>
+    <label class="category">
+      <input
+        type="checkbox"
+        checked={selectedBibliographicDatabasesCount === bibliographicDatabasesNames.length}
+        indeterminate={selectedBibliographicDatabasesCount !== 0 && selectedBibliographicDatabasesCount !== bibliographicDatabasesNames.length}
+        on:click={() => toggleAllSection({ names: bibliographicDatabasesNames, selectedCount: selectedBibliographicDatabasesCount })}
+      />
+      {I18n('bibliographic databases')}
+    </label>
+    <fieldset>
+      {#each bibliographicDatabasesNames as websiteName}
+        <label>
+          <input type="checkbox" bind:group={selectedWebsites} value={websiteName} />
+          {websiteName}
+        </label>
+      {/each}
+    </fieldset>
+  </section>
+{/if}
 
-<section>
-  <label class="category">
-    <input
-      type="checkbox"
-      checked={selectedSocialNetworksCount === socialNetworksNames.length}
-      indeterminate={selectedSocialNetworksCount !== 0 && selectedSocialNetworksCount !== socialNetworksNames.length}
-      on:click={() => toggleAllSection({ names: socialNetworksNames, selectedCount: selectedSocialNetworksCount })}
-    />
-    {I18n('social networks')}
-  </label>
-  <fieldset>
-    {#each socialNetworksNames as websiteName}
-      <label>
-        <input type="checkbox" bind:group={selectedWebsites} value={websiteName} />
-        {websiteName}
-      </label>
-    {/each}
-  </fieldset>
-</section>
+{#if category == null || category === 'socialNetworks'}
+  <section>
+    <label class="category">
+      <input
+        type="checkbox"
+        checked={selectedSocialNetworksCount === socialNetworksNames.length}
+        indeterminate={selectedSocialNetworksCount !== 0 && selectedSocialNetworksCount !== socialNetworksNames.length}
+        on:click={() => toggleAllSection({ names: socialNetworksNames, selectedCount: selectedSocialNetworksCount })}
+      />
+      {I18n('social networks')}
+    </label>
+    <fieldset>
+      {#each socialNetworksNames as websiteName}
+        <label>
+          <input type="checkbox" bind:group={selectedWebsites} value={websiteName} />
+          {websiteName}
+        </label>
+      {/each}
+    </fieldset>
+  </section>
+{/if}
 
 <Flash bind:state={flash} />
 
@@ -105,7 +111,7 @@
     @include radius;
   }
   fieldset{
-    @include display-flex(row, null, null, wrap);
+    columns: 15rem auto;
   }
   .category{
     font-weight: bold;
@@ -116,7 +122,6 @@
   label:not(.category){
     font-size: 1rem;
     @include display-flex(row, center);
-    width: min(15em, 80vw);
     padding: 0.5em;
   }
 </style>
