@@ -30,7 +30,8 @@
       await waiting
       assert_.array(pagination.items)
       items = pagination.items
-      total = pagination.moreData.total
+      // TODO: make the pagination object more consistent among cases
+      total = pagination.moreData?.total || pagination.total
       fetching = false
     } catch (err) {
       flash = err
