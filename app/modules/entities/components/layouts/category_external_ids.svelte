@@ -18,23 +18,29 @@
   $: displayedCategoryExternalIds = showAllAvailableExternalIds ? categoryAvailableExternalIds : categoryPreferredAvailableExternalIds
 </script>
 
-<p class="category" dir={getTextDirection($user?.language)}>
-  <span class="category-label">{I18n(categoryLabels[category])}:</span>
-  {#each displayedCategoryExternalIds as { property, name, value }, i}
-    <EntityClaimLink {property} {name} {value} />{#if i !== displayedCategoryExternalIds.length - 1},&nbsp;{/if}
-  {/each}
-  {#if categoryPreferredAvailableExternalIds.length !== categoryAvailableExternalIds.length}
-    <button on:click={() => showAllAvailableExternalIds = !showAllAvailableExternalIds}>
-      {#if showAllAvailableExternalIds}
-        {@html icon('chevron-left')}
-        {i18n('display less')}
-      {:else}
-        {@html icon('chevron-right')}
-        {i18n('display_x_more', { smart_count: categoryAvailableExternalIds.length - categoryPreferredAvailableExternalIds.length })}
-      {/if}
-    </button>
-  {/if}
-</p>
+{#if categoryAvailableExternalIds.length > 0}
+  <p class="category" dir={getTextDirection($user?.language)}>
+    <span class="category-label">{I18n(categoryLabels[category])}:</span>
+    {#each displayedCategoryExternalIds as { property, name, value }, i}
+      <EntityClaimLink {property} {name} {value} />{#if i !== displayedCategoryExternalIds.length - 1},&nbsp;{/if}
+    {/each}
+    {#if categoryPreferredAvailableExternalIds.length !== categoryAvailableExternalIds.length}
+      <button on:click={() => showAllAvailableExternalIds = !showAllAvailableExternalIds}>
+        {#if showAllAvailableExternalIds}
+          {@html icon('chevron-left')}
+          {i18n('display less')}
+        {:else}
+          {@html icon('chevron-right')}
+          {#if categoryPreferredAvailableExternalIds.length === 0}
+            {i18n('display_x_links', { smart_count: categoryAvailableExternalIds.length })}
+          {:else}
+            {i18n('display_x_more', { smart_count: categoryAvailableExternalIds.length - categoryPreferredAvailableExternalIds.length })}
+          {/if}
+        {/if}
+      </button>
+    {/if}
+  </p>
+{/if}
 
 <style lang="scss">
   @import "#general/scss/utils";
