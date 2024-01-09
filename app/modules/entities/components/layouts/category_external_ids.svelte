@@ -4,6 +4,7 @@
   import { user } from '#user/user_store'
   import { i18n } from '#user/lib/i18n'
   import { icon } from '#lib/utils'
+  import { getTextDirection } from '#lib/active_languages'
 
   export let category, categoryAvailableExternalIds
 
@@ -17,7 +18,7 @@
   $: displayedCategoryExternalIds = showAllAvailableExternalIds ? categoryAvailableExternalIds : categoryPreferredAvailableExternalIds
 </script>
 
-<p class="category">
+<p class="category" dir={getTextDirection($user?.language)}>
   <span class="category-label">{categoryLabels[category]}:</span>
   {#each displayedCategoryExternalIds as { property, name, value }, i}
     <EntityClaimLink {property} {name} {value} />{#if i !== displayedCategoryExternalIds.length - 1},{/if}
@@ -46,6 +47,11 @@
     :global(.fa){
       font-size: 0.8rem;
       width: 0.7rem;
+    }
+  }
+  [dir="rtl"]{
+    button :global(.fa){
+      transform: rotate(180deg);
     }
   }
 </style>
