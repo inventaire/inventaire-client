@@ -103,29 +103,27 @@
     {/if}
 
     {#if typePropertiesPerCategory}
-      <ul>
-        <!-- Fully regenerate block on type change to get type-specific custom labels -->
-        {#key type}
-          {#if showAllProperties}
-            {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
-              <PropertyCategory
-                bind:entity
-                {category}
-                {categoryProperties}
-                {requiredProperties}
-              />
-            {/each}
-          {:else if propertiesShortlist}
-            {#each propertiesShortlist as property (property)}
-              <PropertyClaimsEditor
-                bind:entity
-                {property}
-                required={requiredProperties.includes(property)}
-              />
-            {/each}
-          {/if}
-        {/key}
-      </ul>
+      <!-- Fully regenerate block on type change to get type-specific custom labels -->
+      {#key type}
+        {#if showAllProperties}
+          {#each Object.entries(typePropertiesPerCategory) as [ category, categoryProperties ]}
+            <PropertyCategory
+              bind:entity
+              {category}
+              {categoryProperties}
+              {requiredProperties}
+            />
+          {/each}
+        {:else if propertiesShortlist}
+          {#each propertiesShortlist as property (property)}
+            <PropertyClaimsEditor
+              bind:entity
+              {property}
+              required={requiredProperties.includes(property)}
+            />
+          {/each}
+        {/if}
+      {/key}
     {/if}
 
     <WrapToggler
