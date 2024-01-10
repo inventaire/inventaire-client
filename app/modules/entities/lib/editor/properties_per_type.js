@@ -76,7 +76,14 @@ for (const type of Object.keys(propertiesPerType)) {
   }
 }
 
-export const locallyCreatableEntitiesTypes = Object.keys(propertiesPerType)
+export const locallyCreatableEntitiesTypes = [
+  'human',
+  'work',
+  'serie',
+  'publisher',
+  'collection',
+  'edition',
+]
 
 export const requiredPropertiesPerType = {
   edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P407' ],
