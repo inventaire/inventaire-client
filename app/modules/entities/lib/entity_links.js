@@ -1,7 +1,8 @@
 import { i18n } from '#user/lib/i18n'
 import { pluck, uniq } from 'underscore'
 import { getUriNumericId } from '#lib/wikimedia/wikidata'
-import { sortObjectKeys } from '#lib/utils'
+import { forceArray, sortObjectKeys } from '#lib/utils'
+import { normalizeIsbn } from '#lib/isbn'
 
 // Formatter URLs can be found on Wikidata, see https://www.wikidata.org/wiki/Property:P1630
 export const externalIdsDisplayConfigs = {
@@ -10,6 +11,23 @@ export const externalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://isni.oclc.org/xslt/DB=1.2/CMD?ACT=SRCH&IKT=8006&TRM=ISN%3A${id}`,
   },
+  'wdt:P212': [
+    {
+      name: 'OpenLibrary',
+      category: 'bibliographicDatabases',
+      getUrl: isbn => `https://openlibrary.org/isbn/${normalizeIsbn(isbn)}`
+    },
+    {
+      name: 'WorldCat',
+      category: 'bibliographicDatabases',
+      getUrl: isbn => `https://worldcat.org/isbn/${normalizeIsbn(isbn)}`
+    },
+    {
+      name: 'Library.link',
+      category: 'bibliographicDatabases',
+      getUrl: isbn => `https://labs.library.link/services/borrow/?isbn=${normalizeIsbn(isbn)}&embed=True&radius=500`
+    },
+  ],
   'wdt:P214': {
     name: 'VIAF',
     category: 'bibliographicDatabases',
@@ -222,11 +240,18 @@ export const externalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `http://explore.bl.uk/BLVU1:LSCOP-ALL:BLL01${id}`,
   },
-  'wdt:P5331': {
-    name: 'OCLC',
-    category: 'bibliographicDatabases',
-    getUrl: id => `http://classify.oclc.org/classify2/ClassifyDemo?owi=${id}`,
-  },
+  'wdt:P5331': [
+    {
+      name: 'OCLC',
+      category: 'bibliographicDatabases',
+      getUrl: id => `http://classify.oclc.org/classify2/ClassifyDemo?owi=${id}`,
+    },
+    {
+      name: 'WorldCat',
+      category: 'bibliographicDatabases',
+      getUrl: id => `http://worldcat.org/entity/work/id/${id}`,
+    },
+  ],
   'wdt:P5361': {
     name: 'BNB',
     category: 'bibliographicDatabases',
@@ -273,13 +298,15 @@ const openLibrarySectionByLetter = {
 export const websitesByName = {}
 export const websitesByCategoryAndName = {}
 
-for (const [ property, { name, category } ] of Object.entries(externalIdsDisplayConfigs)) {
-  externalIdsDisplayConfigs[property].property = property
-  websitesByCategoryAndName[category] = websitesByCategoryAndName[category] || {}
-  websitesByCategoryAndName[category][name] = websitesByCategoryAndName[name] || []
-  websitesByCategoryAndName[category][name].push(property)
-  websitesByName[name] = websitesByName[name] || []
-  websitesByName[name].push({ property, name, category })
+for (const [ property, values ] of Object.entries(externalIdsDisplayConfigs)) {
+  for (const { name, category } of forceArray(values)) {
+    externalIdsDisplayConfigs[property].property = property
+    websitesByCategoryAndName[category] = websitesByCategoryAndName[category] || {}
+    websitesByCategoryAndName[category][name] = websitesByCategoryAndName[name] || []
+    websitesByCategoryAndName[category][name].push(property)
+    websitesByName[name] = websitesByName[name] || []
+    websitesByName[name].push({ property, name, category })
+  }
 }
 
 const sortAlphabetically = (a, b) => a > b ? 1 : -1
