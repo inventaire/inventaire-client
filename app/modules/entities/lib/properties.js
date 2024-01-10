@@ -1,4 +1,5 @@
 import { properties } from '#entities/lib/editor/properties_per_type'
+import { getUriNumericId } from '#lib/wikimedia/wikidata'
 
 // TODO: get those properties from server/controllers/entities/lib/properties/properties.js#authorRelationsProperties
 export const authorProperties = [
@@ -28,10 +29,16 @@ const propertiesEditorsCustomizations = {
   'wdt:P31': {
     // Further checks, such as preventing type changes, will be performed server-side
     canValueBeDeleted: ({ propertyClaims }) => propertyClaims.length > 1,
+    order: -100,
   },
   // ISBN-13
   'wdt:P212': {
     datatype: 'fixed-string',
+    order: -50,
+  },
+  // edition of
+  'wdt:P629': {
+    order: -88
   },
   // main subject
   'wdt:P921': {
@@ -40,6 +47,15 @@ const propertiesEditorsCustomizations = {
   // ISBN-10
   'wdt:P957': {
     datatype: 'fixed-string',
+    order: -49,
+  },
+  // title
+  'wdt:P1476': {
+    order: -90
+  },
+  // subtitle
+  'wdt:P1680': {
+    order: -89
   },
 }
 
@@ -53,5 +69,10 @@ for (const [ property, propertyConfig ] of Object.entries(properties)) {
   if (propertiesWithAllowEntityCreation.includes(property)) {
     editorCustomization.allowEntityCreation = true
   }
-  propertiesEditorsConfigs[property] = Object.assign({ property }, editorCustomization, propertyConfig)
+  propertyConfig.order = getUriNumericId(property)
+  propertiesEditorsConfigs[property] = Object.assign({ property }, propertyConfig, editorCustomization)
+}
+
+export function reorderProperties (propertiesUris) {
+  return propertiesUris.slice().sort((a, b) => propertiesEditorsConfigs[a].order - propertiesEditorsConfigs[b].order)
 }

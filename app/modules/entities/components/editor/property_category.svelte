@@ -6,6 +6,7 @@
   import { icon } from '#lib/utils'
   import { onChange } from '#lib/svelte/svelte'
   import { intersection, some, without } from 'underscore'
+  import { reorderProperties } from '#entities/lib/properties'
 
   export let entity, category, categoryProperties
   export let requiredProperties = null
@@ -21,7 +22,9 @@
   $: {
     const categoryAllUnsortedProperties = Object.keys(categoryProperties)
     categoryCustomProperties = intersection(categoryAllUnsortedProperties, customProperties)
-    const notCategoryCustomProperties = without(categoryAllUnsortedProperties, ...customProperties)
+    categoryCustomProperties = reorderProperties(categoryCustomProperties)
+    let notCategoryCustomProperties = without(categoryAllUnsortedProperties, ...customProperties)
+    notCategoryCustomProperties = reorderProperties(notCategoryCustomProperties)
     categoryAllProperties = [ ...categoryCustomProperties, ...notCategoryCustomProperties ]
     displayedProperties = showAllProperties ? categoryAllProperties : categoryCustomProperties
   }
