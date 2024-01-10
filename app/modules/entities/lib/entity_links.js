@@ -1,5 +1,5 @@
 import { i18n } from '#user/lib/i18n'
-import { groupBy, pick, pluck, uniq } from 'underscore'
+import { compact, groupBy, pick, pluck, uniq } from 'underscore'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import { getUriNumericId } from '#lib/wikimedia/wikidata'
 import { sortObjectKeys } from '#lib/utils'
@@ -305,11 +305,11 @@ export const categoryLabels = {
 }
 
 export function getWebsitesNamesFromProperties (properties) {
-  return uniq(properties.map(getPropertyWebsiteName))
+  return uniq(compact(properties.map(getPropertyWebsiteName)))
 }
 
 function getPropertyWebsiteName (property) {
-  return externalIdsDisplayConfigs[property].name
+  return externalIdsDisplayConfigs[property]?.name
 }
 
 export function getPropertiesFromWebsitesNames (websitesNames) {
