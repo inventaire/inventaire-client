@@ -3,6 +3,7 @@ import log_ from '#lib/loggers'
 import libraryThingParser from './parsers/library_thing.js'
 import goodReadsParser from './parsers/goodreads.js'
 import babelioParser from './parsers/babelio.js'
+import tellicoParser from './parsers/tellico.js'
 import { extractIsbns } from '#inventory/lib/importer/extract_isbns'
 import Papa from 'papaparse'
 
@@ -43,6 +44,13 @@ const importers = {
     help: 'library_or_critic',
     link: 'http://www.babelio.com/export.php',
     parse: csvParser(babelioParser)
+  },
+
+  tellico: {
+    format: 'csv',
+    first20Characters: 'Titre,Sous-titre,Aut',
+    link: 'https://tellico-project.org/',
+    parse: csvParser(tellicoParser)
   },
 
   ISBNs: {

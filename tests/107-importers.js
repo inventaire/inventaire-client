@@ -11,6 +11,7 @@ window.Papa = Papa
 const fixtures = {
   goodreads: 'goodreads/goodreads_library_export.csv',
   librarything: 'librarythings/librarything.json',
+  tellico: 'tellico/tellico_sample_export.csv',
   babelio: 'babelio/Biblio_export21507.csv'
 }
 
@@ -95,6 +96,33 @@ describe('Importers', () => {
           // Some ISBN are false unfortunately
           doc.isbn.should.be.a.String()
           doc.authors.should.be.a.Array()
+        }
+      })
+    })
+  })
+
+  describe('Tellico', () => {
+    const { parse } = findImporterByName('tellico')
+    const path = fixturePath(fixtures.tellico)
+    const exportData = readFileSync(path, { encoding: 'utf-8' })
+
+    describe('file', () => {
+      it('should return an string', () => {
+        exportData.should.be.a.String()
+      })
+    })
+
+    describe('parse', () => {
+      const parsed = parse(exportData)
+      it('should return an array of book objects', () => {
+        parsed.should.be.a.Array()
+        for (const doc of parsed) {
+          doc.should.be.a.Object()
+          doc.title.should.be.a.String()
+          looksLikeAnIsbn(doc.isbn).should.be.ok()
+          doc.authors.should.be.a.Array()
+          if (doc.details) doc.details.should.be.a.String()
+          if (doc.shelvesNames) doc.shelvesNames.should.be.a.Array()
         }
       })
     })
