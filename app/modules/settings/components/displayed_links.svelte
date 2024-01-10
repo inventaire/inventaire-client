@@ -25,7 +25,9 @@
         })
       }
     } catch (err) {
-      flash = err
+      // Ignore duplicated requests errors, as that should most likely
+      // mean the latest request sent the same state as the previous request
+      if (err.statusCode !== 429) flash = err
     }
   }
 
