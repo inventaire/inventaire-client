@@ -42,7 +42,7 @@ const propertiesEditorsCustomizations = {
   },
   // main subject
   'wdt:P921': {
-    searchType: 'subjects',
+    entityValueTypes: 'subjects',
   },
   // ISBN-10
   'wdt:P957': {

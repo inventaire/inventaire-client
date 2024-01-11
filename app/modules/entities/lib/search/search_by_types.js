@@ -1,7 +1,9 @@
 import preq from '#lib/preq'
 import { allSearchableTypes } from '#entities/lib/types/entities_types'
+import assert_ from '#lib/assert_types'
 
 export async function searchByTypes ({ search, types = allSearchableTypes, limit = 10, offset = 0 }) {
+  assert_.strings(types)
   return preq.get(app.API.search({
     types,
     search,
