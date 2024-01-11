@@ -57,8 +57,8 @@
 
     <h2 class="subheader">{i18n('forgot password?')}</h2>
     <p class="note">{i18n('Enter the email address you used to sign up to get a link to reset your password')}</p>
-    {#if !done}
-      <div class="input-box">
+    <div class="input-box">
+      {#if !done}
         <input
           type="email"
           placeholder={i18n('email')}
@@ -66,9 +66,9 @@
           on:keydown={resetFlash}
           required
         />
-        <Flash state={flash} />
-      </div>
-    {/if}
+      {/if}
+      <Flash state={flash} />
+    </div>
     {#if !done}
       <button on:click={sendEmail} disabled={sending} class="button radius">
         {I18n('send email')}
