@@ -39,6 +39,10 @@
 
   const lazyUpdate = debounce(updateCustomProperties, 1000)
   function onSelectionChange () {
+    // This fails with multiple properties per website!
+    // Save websites names or uris instead? or domain names?
+    // Or maybe keep properties, as they are needed to customize the editor
+    // and add another field with per domain name opt-in (can't rely on Wikidata entities for those services, as some might not be there, ex: www.placedeslibraires.fr)
     customProperties = getPropertiesFromWebsitesNames(selectedWebsites)
     selectedBibliographicDatabasesCount = intersection(bibliographicDatabasesNames, selectedWebsites).length
     selectedSocialNetworksCount = intersection(socialNetworksNames, selectedWebsites).length
