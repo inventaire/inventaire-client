@@ -1,6 +1,7 @@
 <script>
   import { categoryLabels, getDisplayedPropertiesByCategory } from '#entities/lib/entity_links'
   import EntityClaimLink from '#entities/components/layouts/entity_claim_link.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let claims
 
@@ -21,7 +22,7 @@
   {#each Object.entries(categories) as [ category, propertiesData ]}
     {#if propertiesData.length > 0}
       <p class="category">
-        <span class="category-label">{categoryLabels[category]}:</span>
+        <span class="category-label">{I18n(categoryLabels[category])}:</span>
         {#each propertiesData as { property, name, value }, i}
           <EntityClaimLink {property} {name} {value} />{#if i !== propertiesData.length - 1},{/if}
         {/each}

@@ -19,7 +19,10 @@ const lateImport = async () => {
 }
 setTimeout(lateImport, 0)
 
-let currentLangI18n = _.identity
+let currentLangI18n = key => {
+  console.trace(`i18n function was called before we received language strings: ${key}`)
+  return key
+}
 
 export const i18n = (...args) => currentLangI18n(...args)
 

@@ -1,4 +1,3 @@
-import { i18n } from '#user/lib/i18n'
 import { compact, groupBy, pick, pluck, uniq } from 'underscore'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import { getUriNumericId } from '#lib/wikimedia/wikidata'
@@ -300,8 +299,8 @@ export const getDisplayedPropertiesByCategory = () => {
 }
 
 export const categoryLabels = {
-  bibliographicDatabases: i18n('bibliographic databases'),
-  socialNetworks: i18n('social networks'),
+  bibliographicDatabases: 'bibliographic databases',
+  socialNetworks: 'social networks',
 }
 
 export function getWebsitesNamesFromProperties (properties) {
