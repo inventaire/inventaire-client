@@ -27,14 +27,16 @@
   }
 
   let itemsByTransactions = itemsByTransactionsBase
+  let categoryItemsWithAPosition
 
   function dispatchByTransaction () {
     const categoryItemsByTransactions = groupBy(categoryItems, 'transaction')
     itemsByTransactions = Object.assign({}, itemsByTransactionsBase, categoryItemsByTransactions)
+    categoryItemsWithAPosition = categoryItems.filter(({ position }) => position != null)
   }
 
   const showItemsOnMap = () => {
-    itemsOnMap = categoryItems
+    itemsOnMap = categoryItemsWithAPosition
     dispatch('showItemsOnMap')
   }
 
@@ -48,9 +50,7 @@
 
   $: onChange(categoryItems, dispatchByTransaction)
 
-  $: {
-    showItemOnMap(itemOnMap)
-  }
+  $: showItemOnMap(itemOnMap)
 </script>
 
 <div style:background-color={backgroundColor} class="items-list">
@@ -64,7 +64,7 @@
         {I18n(label)}
       </h3>
     </div>
-    {#if categoryItems.length > 0}
+    {#if categoryItemsWithAPosition.length > 0}
       {#if category !== 'personal'}
         <button
           class="map-button"
