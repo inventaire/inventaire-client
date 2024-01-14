@@ -60,7 +60,7 @@ const getBestWikiProjectInfo = function (params) {
   }
 }
 
-const getWikiProjectTitle = (sitelinks, projectBaseName, lang) => sitelinks[`${lang}${projectBaseName}`]
+const getWikiProjectTitle = (sitelinks, projectBaseName, lang) => sitelinks[`${lang}${projectBaseName}`]?.title
 
 const pickOneWikiProjectTitle = function (sitelinks, projectBaseName) {
   for (const projectName in sitelinks) {
