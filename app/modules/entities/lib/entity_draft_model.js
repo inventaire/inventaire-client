@@ -45,7 +45,7 @@ export default {
       creating: true,
       // The property that links this entity to another entity being created
       relation,
-      propertiesShortlist: getPropertiesShortlist(type, claims),
+      propertiesShortlist: getPropertiesShortlist({ type, claims }),
       setPropertyValue: editableEntity.setPropertyValue.bind(model),
       savePropertyValue: asyncNoop,
       setLabel: editableEntity.setLabel.bind(model),
