@@ -45,7 +45,9 @@ export default Marionette.View.extend({
   },
 
   importNext () {
-    const nextData = this.dataToImport.pop()
+    // Keep claim order. Important when attempting to import both a serie and a serie oridnal:
+    // The ordinal has to come after the serie
+    const nextData = this.dataToImport.shift()
     if (nextData == null) return this.done()
 
     return makeImportRequest(this.wdEntity, nextData)
