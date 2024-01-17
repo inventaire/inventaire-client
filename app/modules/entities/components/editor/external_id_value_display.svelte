@@ -7,9 +7,11 @@
 
   export let value, property
 
-  const { getUrl } = externalIdsDisplayConfigs[property]
   let url
-  if (getUrl) url = getUrl(value)
+  if (externalIdsDisplayConfigs[property]) {
+    const { getUrl } = externalIdsDisplayConfigs[property]
+    if (getUrl) url = getUrl(value)
+  }
 
   const dispatch = createEventDispatcher()
 </script>
