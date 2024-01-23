@@ -124,7 +124,7 @@
     font-weight: normal;
     @include display-flex(row, center, space-between);
     &:first-child{
-      margin-block-start: 0.2em;
+      margin-block-start: 0;
     }
     &:not(:first-child){
       margin-block-start: 1em;
