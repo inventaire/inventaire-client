@@ -10,7 +10,11 @@
 
   export let section = 'profile'
 
-  $: app.navigate(`/settings/${section}`)
+  $: app.navigate(`/settings/${section}`, {
+    metadata: {
+      title: `${I18n('settings')} - ${I18n(section)}`
+    }
+  })
 
   let settingEl
   const isSmallScreen = window.screen.width < 470
