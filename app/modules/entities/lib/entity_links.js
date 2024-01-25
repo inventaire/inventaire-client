@@ -242,6 +242,11 @@ export const externalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.noosfere.org/livres/EditionsLivre.asp?numitem=${id}`,
   },
+  'wdt:P6947': {
+    name: 'Goodreads',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.goodreads.com/series/${id}`,
+  },
   'wdt:P7400': {
     name: 'LibraryThing',
     category: 'bibliographicDatabases',
