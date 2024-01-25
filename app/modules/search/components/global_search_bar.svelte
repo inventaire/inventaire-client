@@ -170,6 +170,7 @@
   const highlightPreviousResult = () => highlightedResultIndex = Math.max(highlightedResultIndex - 1, 0)
   const highlightNextResult = () => highlightedResultIndex = Math.min(highlightedResultIndex + 1, results.length - 1)
   const showCurrentlyHighlightedResult = () => {
+    if (!searchResultsEl) return
     const highlightedResultEl = searchResultsEl.children[highlightedResultIndex]
     highlightedResultEl.querySelector('a').click()
   }
