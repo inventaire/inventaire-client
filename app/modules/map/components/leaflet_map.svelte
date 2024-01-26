@@ -153,7 +153,8 @@
     inset-inline-end: 0.5em;
     z-index: 1000;
     width: min(20em, 80%);
-    height: calc(100% - 4em);
+    max-height: calc(100% - 4em);
     @include radius;
+    @include display-flex(column);
   }
 </style>

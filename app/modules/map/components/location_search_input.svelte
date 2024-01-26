@@ -50,6 +50,8 @@
     on:keydown={lazySearchLocation}
     placeholder={inputPlaceholder || i18n('Search for a location')}
   />
+</div>
+<div class="results">
   {#await searching}
     <div class="spinner-wrapper">
       <Spinner />
@@ -75,10 +77,6 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
-  .location-search-input{
-    height: 100%;
-    @include display-flex(column);
-  }
   input{
     margin: 0;
     flex: 0 0 auto;
@@ -87,9 +85,11 @@
     font-size: 1rem;
     margin-block-end: 0.2rem;
   }
+  .results{
+    overflow-y: auto;
+  }
   ul{
     background-color: $off-white;
-    overflow-y: auto;
   }
   li{
     button{
