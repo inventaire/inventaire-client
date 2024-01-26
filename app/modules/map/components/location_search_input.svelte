@@ -75,8 +75,13 @@
 
 <style lang="scss">
   @import '#general/scss/utils';
+  .location-search-input{
+    height: 100%;
+    @include display-flex(column);
+  }
   input{
     margin: 0;
+    flex: 0 0 auto;
   }
   label{
     font-size: 1rem;
@@ -84,7 +89,6 @@
   }
   ul{
     background-color: $off-white;
-    max-height: 20em;
     overflow-y: auto;
   }
   li{

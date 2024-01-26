@@ -135,6 +135,7 @@
     position: relative;
     height: 100%;
     width: 100%;
+    overflow: hidden;
   }
   .map{
     height: 100%;
@@ -152,7 +153,7 @@
     inset-inline-end: 0.5em;
     z-index: 1000;
     width: min(20em, 80%);
+    height: calc(100% - 4em);
     @include radius;
-    overflow: hidden;
   }
 </style>
