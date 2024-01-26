@@ -111,7 +111,7 @@
     padding: 0.5em;
   }
   li:not(:last-child){
-    border-block-end: 1px solid $grey;
+    border-block-end: 1px solid $soft-grey;
   }
   .spinner-wrapper{
     position: absolute;
