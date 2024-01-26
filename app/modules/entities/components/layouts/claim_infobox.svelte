@@ -37,7 +37,7 @@
           {value}
           {prop}
           entity={entitiesByUris[value]}
-        />{#if i !== values.length - 1},{/if}
+        />{#if i !== values.length - 1},&nbsp;{/if}
       {/each}
     </span>
   </div>

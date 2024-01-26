@@ -24,7 +24,7 @@
       <p class="category">
         <span class="category-label">{I18n(categoryLabels[category])}:</span>
         {#each propertiesData as { property, name, value }, i}
-          <EntityClaimLink {property} {name} {value} />{#if i !== propertiesData.length - 1},{/if}
+          <EntityClaimLink {property} {name} {value} />{#if i !== propertiesData.length - 1},&nbsp;{/if}
         {/each}
       </p>
     {/if}

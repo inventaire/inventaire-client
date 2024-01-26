@@ -47,8 +47,8 @@
   class={classNames}
   on:click={onClick}
 >
-  {#if icon}{@html iconFn(icon)}{/if}
-  {#if html}
+  <!-- #if blocks are inlined to avoid the insertion of undesired spaces -->
+  {#if icon}{@html iconFn(icon)}{/if}{#if html}
     {@html html}
   {:else if text}
     <span class="link-text">{text}</span>
