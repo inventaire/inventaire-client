@@ -267,6 +267,21 @@ export const externalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.goodreads.com/work/editions/${id}`,
   },
+  'wdt:P8513': {
+    name: 'LibraryThing',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.librarything.com/nseries/${id}`,
+  },
+  'wdt:P12048': {
+    name: 'BookBrainz',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://bookbrainz.org/series/${id}`,
+  },
+  'wdt:P12319': {
+    name: 'Babelio',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.babelio.com/serie/-/${id}`,
+  },
 }
 
 const openLibrarySectionByLetter = {
