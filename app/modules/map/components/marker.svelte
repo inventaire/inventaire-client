@@ -1,7 +1,8 @@
 <script>
   import { onChange } from '#lib/svelte/svelte'
   import L from 'leaflet'
-  import { getContext, onDestroy, onMount } from 'svelte'
+  import { getContext, onDestroy, onMount, tick } from 'svelte'
+  import log_ from '#lib/loggers'
 
   export let latLng
   export let standalone = false
@@ -15,7 +16,13 @@
   const layer = getContext('layer')()
   const targetLayer = standalone ? map : layer
 
-  function createMarker () {
+  async function createMarker () {
+    if (!markerElement) await tick()
+    if (marker) return
+    if (!latLng) {
+      log_.warn('can not create marker: missing latLng')
+      return
+    }
     if (markerType === 'circle') {
       // Use a large border ("weight") to make the marker easily visible even when very zoomed out
       marker = L.circle(latLng, { radius: metersRadius, weight: 10 }).addTo(targetLayer)
@@ -32,6 +39,8 @@
   function updateMarkerLatLng () {
     if (marker) {
       marker.setLatLng(latLng).update()
+    } else {
+      createMarker()
     }
   }
 

@@ -96,6 +96,7 @@
     selectedGroup = e.detail.doc
     $focusedSection = { type: 'group' }
   }
+
 </script>
 
 {#if $user.position != null}
@@ -149,6 +150,7 @@
           view={mapViewLatLng}
           bind:zoom={mapZoom}
           cluster={true}
+          showLocationSearchInput={true}
           on:moveend={fetchAndShowUsersAndGroupsOnMap}
         >
           {#if usersInBounds && !zoomInToDisplayMore}
