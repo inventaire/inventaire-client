@@ -1,3 +1,4 @@
+import { isPrerenderSession } from '#lib/metadata/update'
 import { forceArray } from '#lib/utils'
 import endpoint from './endpoint.js'
 const { action } = endpoint('entities')
@@ -8,7 +9,7 @@ export default {
   // GET
   getByUris (uris, refresh, relatives) {
     uris = forceArray(uris).join('|')
-    const autocreate = true
+    const autocreate = !isPrerenderSession
     if (relatives != null) relatives = forceArray(relatives).join('|')
     return action('by-uris', { uris, refresh, relatives, autocreate })
   },

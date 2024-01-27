@@ -1,13 +1,13 @@
 import { config } from '#app/config'
 import { isUserId } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
+import { isPrerenderSession } from '#lib/metadata/update'
 // Module adapted from snippet at
 // https://piwik.instance/index.php?module=CoreAdminHome&action=trackingCodeGenerator&idSite=11&period=day&date=today
 
 // expected to be a global variable by piwik.js
 if (!window._paq) window._paq = []
 const { _paq, env } = window
-const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
 // Those handlers will be overriden once the config arrives, if tracking isn't disabled
 app.commands.setHandlers({
