@@ -1,6 +1,5 @@
 import { isPropertyUri, isEntityUri } from '#lib/boolean_tests'
 import assert_ from '#lib/assert_types'
-import { forceArray } from '#lib/utils'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
@@ -111,22 +110,13 @@ const API = {
     })
   },
 
-  // Do not use default parameter `(params = {})`
-  // as the router might pass `null` as first argument
-  async showDeduplicateAuthors (params) {
-    params = params || {}
-    // Using an object interface, as the router might pass querystrings
-    let { uris } = params
-    uris = forceArray(uris)
-    const { default: DeduplicateAuthors } = await import('./components/deduplicate_authors.svelte')
+  async showDeduplicateAuthors () {
+    const { default: DeduplicateAuthorsNames } = await import('./components/deduplicate_authors_names.svelte')
     showViewByAccessLevel({
       path: 'entity/deduplicate/authors',
       title: `${i18n('deduplicate')} - ${i18n('authors')}`,
-      Component: DeduplicateAuthors,
-      componentProps: { uris },
-      // Assume that if uris are passed, navigate was already done
-      // to avoid double navigation
-      navigate: (uris == null),
+      Component: DeduplicateAuthorsNames,
+      navigate: true,
       accessLevel: 'dataadmin'
     })
   },

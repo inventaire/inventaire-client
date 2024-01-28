@@ -1,7 +1,7 @@
 <script>
   import preq from '#lib/preq'
   import Spinner from '#general/components/spinner.svelte'
-  import { createEventDispatcher } from 'svelte'
+  import { loadInternalLink } from '#lib/utils'
 
   const waitingForNames = fetchNames()
   let names
@@ -10,8 +10,6 @@
     const res = await preq.get(app.API.entities.duplicates)
     names = res.names
   }
-
-  const dispatch = createEventDispatcher()
 </script>
 
 {#await waitingForNames}
@@ -21,10 +19,12 @@
   <ul class="names">
     {#each names as nameData (nameData.key)}
       <li>
-        <button
-          class="name tiny-button light-blue"
-          on:click={() => dispatch('select', nameData.key)}
-        >{nameData.key} ({nameData.value})</button>
+        <a
+          href={`/search?q=!a ${encodeURIComponent(nameData.key)}`}
+          on:click={loadInternalLink}
+          class="name tiny-button light-blue">
+          {nameData.key} ({nameData.value})
+        </a>
       </li>
     {/each}
   </ul>
@@ -41,8 +41,10 @@
   }
   .names{
     flex-wrap: wrap;
+    padding: 1em;
   }
   .name{
+    display: inline-block;
     margin: 0.2em;
     padding: 0.3em;
     font-weight: normal;
