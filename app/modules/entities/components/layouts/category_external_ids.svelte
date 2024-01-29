@@ -12,6 +12,7 @@
 
   let showAllAvailableExternalIds = false
   let showCategorySettings = false
+  const linksId = `${category}Links`
 
   let categoryPreferredAvailableExternalIds, displayedCategoryExternalIds
   $: {
@@ -24,11 +25,17 @@
 {#if categoryAvailableExternalIds.length > 0}
   <p class="category" dir={getTextDirection($user?.language)}>
     <span class="category-label">{I18n(categoryLabels[category])}:</span>
-    {#each displayedCategoryExternalIds as { property, name, value }, i}
-      <EntityClaimLink {property} {name} {value} />{#if i !== displayedCategoryExternalIds.length - 1},&nbsp;{/if}
-    {/each}
+    <span id={linksId}>
+      {#each displayedCategoryExternalIds as { property, name, value }, i}
+        <EntityClaimLink {property} {name} {value} />{#if i !== displayedCategoryExternalIds.length - 1},&nbsp;{/if}
+      {/each}
+    </span>
     {#if categoryPreferredAvailableExternalIds.length !== categoryAvailableExternalIds.length}
-      <button class="toggle-external-ids" on:click={() => showAllAvailableExternalIds = !showAllAvailableExternalIds}>
+      <button
+        class="toggle-external-ids"
+        on:click={() => showAllAvailableExternalIds = !showAllAvailableExternalIds}
+        aria-controls={linksId}
+      >
         {#if showAllAvailableExternalIds}
           {@html icon('chevron-left')}
           {i18n('display less')}
