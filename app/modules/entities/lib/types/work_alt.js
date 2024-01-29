@@ -57,7 +57,6 @@ const setEntityImages = (entity, entityImages) => {
     if (entity.images[0]) {
       entity.image = { url: entity.images[0] }
     }
-    console.log('entity.images', entity.images)
   } else if (entity.image?.url) {
     entity.images.push(entity.image.url)
   }
