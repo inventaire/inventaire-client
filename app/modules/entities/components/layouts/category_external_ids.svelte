@@ -42,9 +42,11 @@
         {/if}
       </button>
     {/if}
-    <button title={i18n('Customize which links should be displayed')} on:click={() => showCategorySettings = true}>
-      {@html icon('cog')}
-    </button>
+    {#if showAllAvailableExternalIds}
+      <button title={i18n('Customize which links should be displayed')} on:click={() => showCategorySettings = true}>
+        {@html icon('cog')}
+      </button>
+    {/if}
   </p>
 {/if}
 
