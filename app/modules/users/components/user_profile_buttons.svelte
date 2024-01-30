@@ -19,11 +19,7 @@
 
   let showShelfCreator, showUserOnMap
 
-  let relationState
-  if (user.friends) relationState = 'friends'
-  else if (user.userRequested) relationState = 'userRequested'
-  else if (user.otherRequested) relationState = 'otherRequested'
-  else relationState = 'none'
+  let relationState = user.status
 
   let previousRelationState, waitingForUpdate
   const makeRequest = async ({ action, newRelationState }) => {
