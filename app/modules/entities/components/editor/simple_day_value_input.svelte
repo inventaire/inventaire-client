@@ -1,5 +1,5 @@
 <script>
-  import { simpleDay } from '#lib/utils'
+  import { getISODay } from '#lib/time'
   import SimpleDayValueInputField from './simple_day_value_input_field.svelte'
   import SimpleDayValueInputLabel from './simple_day_value_input_label.svelte'
   import { uniqueId } from 'underscore'
@@ -19,14 +19,14 @@
   const getDateParts = date => date.split('-').map(num => parseInt(num))
   const padField = fieldValue => fieldValue.toString().padStart(2, '0')
 
-  const [ currentYear, currentMonth, currentDay ] = getDateParts(simpleDay())
+  const [ currentYear, currentMonth, currentDay ] = getDateParts(getISODay())
   const nextYear = parseInt(currentYear) + 1
 
   let year, month, day
   if (currentValue) {
     [ year, month, day ] = getDateParts(currentValue)
   } else {
-    [ year ] = getDateParts(simpleDay())
+    [ year ] = getDateParts(getISODay())
   }
 
   const initMonth = () => month = month || 1

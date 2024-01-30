@@ -1,4 +1,4 @@
-import { daysAgo } from '#lib/utils'
+import { getNumberOfDaysAgo } from '#lib/time'
 import UserCommons from './user_commons.js'
 import { distanceBetween } from '#map/lib/geo'
 
@@ -75,7 +75,7 @@ export default UserCommons.extend({
     const [ itemsCount, itemsLastAdded ] = this.gets('itemsCount', 'itemsLastAdded')
     // Highlight users with the most known items
     // updated lately (add 1 to avoid dividing by 0)
-    const freshnessFactor = 100 / (daysAgo(itemsLastAdded) + 1)
+    const freshnessFactor = 100 / (getNumberOfDaysAgo(itemsLastAdded) + 1)
     // Highlight users nearby
     const distanceFactor = (this.kmDistanceFormMainUser != null) ? 100 / (this.kmDistanceFormMainUser + 1) : 0
     // Well, just highlight anyone actually but don't let that dum per-_id default

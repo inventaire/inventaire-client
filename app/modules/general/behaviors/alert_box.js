@@ -1,5 +1,5 @@
 import log_ from '#lib/loggers'
-import { expired } from '#lib/utils'
+import { expired } from '#lib/time'
 import { getActionKey } from '#lib/key_events'
 import error_ from '#lib/error'
 import { I18n } from '#user/lib/i18n'

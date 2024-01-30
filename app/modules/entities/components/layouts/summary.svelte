@@ -6,7 +6,7 @@
   import languagesData from '#assets/js/languages_data'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
-  import { expired } from '#lib/utils'
+  import { expired } from '#lib/time'
   import { i18n } from '#user/lib/i18n'
   import { indexBy, partition } from 'underscore'
   import { pushEntityRefreshingPromise } from '#entities/lib/entities'

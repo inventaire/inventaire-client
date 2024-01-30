@@ -3,7 +3,8 @@
   import Flash from '#lib/components/flash.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import preq from '#lib/preq'
-  import { loadInternalLink, simpleTime } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { getSimpleTime } from '#lib/time'
   import { I18n, i18n } from '#user/lib/i18n'
   import { serializeUser } from '#users/lib/users'
 
@@ -37,7 +38,7 @@
         <div class="header">
           <span class="username">{user.username}</span>
           <span class="id">{user._id}</span>
-          <span class="created">{simpleTime(user.created)}</span>
+          <span class="created">{getSimpleTime(user.created)}</span>
         </div>
         <p class="bio">{user.bio || ''}</p>
         <p class="links">

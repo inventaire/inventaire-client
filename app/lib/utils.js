@@ -5,7 +5,6 @@ import error_ from '#lib/error'
 import { currentRoute } from '#lib/location'
 import { iconPaths } from '#lib/handlebars_helpers/icon_paths'
 
-const oneDay = 24 * 60 * 60 * 1000
 const iconAliases = {
   giving: 'heart',
   lending: 'refresh',
@@ -118,8 +117,6 @@ export const invertAttr = ($target, a, b) => {
   return $target.attr(b, aVal)
 }
 
-export const daysAgo = epochTime => Math.floor((Date.now() - epochTime) / oneDay)
-
 // Returns a .catch function that execute the reverse action
 // then passes the error to the next .catch
 export const Rollback = (reverseAction, label) => err => {
@@ -166,7 +163,7 @@ export const someMatch = (arrayA, arrayB) => {
 }
 
 export const objLength = obj => Object.keys(obj)?.length
-export const expired = (timestamp, ttl) => (Date.now() - timestamp) > ttl
+
 export const shortLang = lang => lang?.slice(0, 2)
 
 // encodeURIComponent ignores !, ', (, ), and *
@@ -188,17 +185,6 @@ export const parseBooleanString = (booleanString, defaultVal = false) => {
   } else {
     return booleanString !== 'false'
   }
-}
-
-export const simpleDay = date => {
-  const dateObj = date != null ? new Date(date) : new Date()
-  return dateObj.toISOString().split('T')[0]
-}
-
-export const simpleTime = date => {
-  const dateObj = date != null ? new Date(date) : new Date()
-  const [ day, time ] = dateObj.toISOString().split('T')
-  return `${day} ${time.split('.')[0]}`
 }
 
 // Missing in Underscore v1.8.3

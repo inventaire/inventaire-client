@@ -35,3 +35,18 @@ export function timeFromNow (date) {
 
 export const getLocalTimeString = date => new Date(date).toLocaleString(app.user.lang)
 export const getISOTime = date => new Date(date).toISOString()
+
+export const getISODay = date => {
+  const dateObj = date != null ? new Date(date) : new Date()
+  return dateObj.toISOString().split('T')[0]
+}
+
+export const getSimpleTime = date => {
+  const dateObj = date != null ? new Date(date) : new Date()
+  const [ day, time ] = dateObj.toISOString().split('T')
+  return `${day} ${time.split('.')[0]}`
+}
+
+export const getNumberOfDaysAgo = epochTime => Math.floor((Date.now() - epochTime) / oneDay)
+
+export const expired = (timestamp, ttl) => (Date.now() - timestamp) > ttl

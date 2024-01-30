@@ -1,4 +1,5 @@
-import { capitalize, daysAgo, fixedEncodeURIComponent } from '#lib/utils'
+import { capitalize, fixedEncodeURIComponent } from '#lib/utils'
+import { getNumberOfDaysAgo } from '#lib/time'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
 import { i18n } from '#user/lib/i18n'
@@ -228,7 +229,7 @@ export default Positionable.extend({
       }
       const membersFactor = this.membersCount()
       const randomFactor = Math.random() * 20
-      const ageInDays = daysAgo(this.get('created'))
+      const ageInDays = getNumberOfDaysAgo(this.get('created'))
       // Highlight the group in its early days
       const ageFactor = 50 / (1 + ageInDays)
       total = adminFactor + membersFactor + randomFactor + ageFactor

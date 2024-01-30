@@ -5,7 +5,7 @@ import { isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
 import { pick, pluck } from 'underscore'
 import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.js'
-import { expired } from '#lib/utils'
+import { expired } from '#lib/time'
 
 const subEntitiesProp = {
   work: 'wdt:P629',
