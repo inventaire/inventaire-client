@@ -5,12 +5,11 @@
 
   export let messageDoc
 
-  const { created, message, userDoc } = messageDoc
+  const { created, message, userDoc, sameUser, sameMessageGroup } = messageDoc
   const { picture, pathname, username } = userDoc
-  const sameUser = app.user.id
 </script>
 
-<div class="message">
+<div class="message" class:sameMessageGroup>
   <div class="avatar" class:sameUser>
     {#if !sameUser}
       {#if picture}
@@ -22,9 +21,11 @@
       {/if}
     {/if}
   </div>
-  <div class="rest" class:sameUser>
+  <div class="rest">
     <p class="message-text">{@html userContent(message)}</p>
-    <p class="time" title={getLocalTimeString(created)}>{timeFromNow(created)}</p>
+    {#if !sameMessageGroup}
+      <p class="time" title={getLocalTimeString(created)}>{timeFromNow(created)}</p>
+    {/if}
   </div>
 </div>
 
@@ -32,12 +33,17 @@
   @import '#general/scss/utils';
   @import '#transactions/scss/transactions_commons';
   .message{
+    &:not(.sameMessageGroup){
+      margin-block-start: 0.5em;
+    }
     @include display-flex(row);
     // Somehow required to make .message-text long words wrap
     overflow: hidden;
     .avatar{
       flex: 0 0 36px;
-      &:not(.sameUser){
+      // Display over the timeline line
+      z-index: 1;
+      &:not(.sameMessageGroup){
         margin-block-start: 0.3em;
         @include event-icon;
       }
@@ -49,7 +55,7 @@
       padding: 0.5em;
       padding-inline-start: 1em;
       flex: 1 1 auto;
-      @include display-flex(row);
+      @include display-flex(row, center);
       .time{
         opacity: 0.5;
       }

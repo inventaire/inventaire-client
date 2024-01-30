@@ -8,6 +8,7 @@ import assert_ from '#lib/assert_types'
 import { getUsersByIds } from '#users/users_data'
 import { serializeUser } from '#users/lib/users'
 import { buildPath } from '#lib/location'
+import { timeFromNow } from '#lib/time'
 
 // Keep in sync with server/models/attributes/transaction
 const basicNextActions = {
@@ -187,7 +188,18 @@ export function buildTimeline (transaction) {
   })
   const timeline = actions.concat(messages)
     .sort((a, b) => getEventTimestamp(a) - getEventTimestamp(b))
+
+  timeline.forEach(setSameMessageGroupFlag(timeline))
+
   return timeline
+}
+
+const setSameMessageGroupFlag = timeline => (event, index) => {
+  const previousEvent = timeline[index - 1]
+  if (previousEvent && event.message && previousEvent.message && event.user === previousEvent.user) {
+    event.sameUser = true
+    event.sameMessageGroup = (timeFromNow(event.created) === timeFromNow(previousEvent.created))
+  }
 }
 
 const getEventTimestamp = actionOrMessage => actionOrMessage.created || actionOrMessage.timestamp
