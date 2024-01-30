@@ -92,6 +92,7 @@
           <RelativeEntitiesList
             {entity}
             label={i18n(claimProperty, { name: entity.label })}
+            property={claimProperty}
             claims={entity.claims[claimProperty]}
           />
         {/each}

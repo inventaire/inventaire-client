@@ -2,14 +2,17 @@
   import ImagesCollage from '#components/images_collage.svelte'
   import { loadInternalLink } from '#lib/utils'
 
-  export let uri, entitiesByUris
+  export let uri, claimsProperty, entitiesByUris
+
+  let entityClaimUrl
+  if (claimsProperty) entityClaimUrl = `/entity/${claimsProperty}-${uri}`
 
   $: displayedEntity = entitiesByUris[uri]
 </script>
 {#if displayedEntity}
   <li>
     <a
-      href={displayedEntity.pathname}
+      href={entityClaimUrl || displayedEntity.pathname}
       on:click={loadInternalLink}
       data-data={JSON.stringify(displayedEntity.image)}
       class="entity-link"

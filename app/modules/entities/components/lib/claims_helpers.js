@@ -253,7 +253,6 @@ export const infoboxPropertiesByType = {
     'wdt:P1412', // language of expression
     'wdt:P69', // educated at
     'wdt:P106', // occupation
-    'wdt:P166', // award received
     'wdt:P39', // position held
     'wdt:P1066', // student of
     'wdt:P856', // official website

@@ -20,6 +20,8 @@
 
   const { uri } = entity
 
+  const claimsProperty = claims ? property : null
+
   async function getUris () {
     let allUris
     if (claims) {
@@ -90,6 +92,7 @@
         {#each displayedUris as uri}
           <RelativeEntityLayout
             {uri}
+            {claimsProperty}
             {entitiesByUris}
           />
         {/each}

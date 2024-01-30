@@ -43,5 +43,6 @@ const reverseClaimPropertiesByType = {
 export const claimPropertiesByType = {
   human: [
     'wdt:P737', // influencing
+    'wdt:P166', // award received
   ],
 }
