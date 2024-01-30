@@ -2,7 +2,7 @@
   import Operation from '#entities/components/patches/operation.svelte'
   import Flash from '#lib/components/flash.svelte'
   import preq from '#lib/preq'
-  import { getlocalTimeString, timeFromNow } from '#lib/time'
+  import { getLocalTimeString, timeFromNow } from '#lib/time'
   import { loadInternalLink } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
 
@@ -54,7 +54,7 @@
     <span class="label">{i18n('date')}:</span>
     <span class="value">
       <span class="time-from-now">{timeFromNow(timestamp)}</span>
-      <span class="precise-time">{getlocalTimeString(timestamp)}</span>
+      <span class="precise-time">{getLocalTimeString(timestamp)}</span>
     </span>
   </p>
   {#if context?.mergeFrom}

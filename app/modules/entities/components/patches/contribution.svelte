@@ -4,7 +4,7 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import Link from '#lib/components/link.svelte'
   import Operation from '#entities/components/patches/operation.svelte'
-  import { getISOTime, getlocalTimeString, timeFromNow } from '#lib/time'
+  import { getISOTime, getLocalTimeString, timeFromNow } from '#lib/time'
 
   export let patch
   export let userContributionsContext = false
@@ -87,7 +87,7 @@
           {/if}
         </a>
       {/if}
-      <p class="time" title={`${timeFromNow(timestamp)} | ${getISOTime(timestamp)}`}>{getlocalTimeString(timestamp)}</p>
+      <p class="time" title={`${timeFromNow(timestamp)} | ${getISOTime(timestamp)}`}>{getLocalTimeString(timestamp)}</p>
     </div>
   </div>
   {#if showDetails}

@@ -33,5 +33,5 @@ export function timeFromNow (date) {
   return i18n(key, { smart_count: amount })
 }
 
-export const getlocalTimeString = date => new Date(date).toLocaleString(app.user.lang)
+export const getLocalTimeString = date => new Date(date).toLocaleString(app.user.lang)
 export const getISOTime = date => new Date(date).toISOString()

@@ -3,7 +3,7 @@
   import { serializePatches } from '#entities/lib/patches'
   import Flash from '#lib/components/flash.svelte'
   import preq from '#lib/preq'
-  import { getlocalTimeString, timeFromNow } from '#lib/time'
+  import { getLocalTimeString, timeFromNow } from '#lib/time'
   import { loadInternalLink } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
   import Contribution from '#entities/components/patches/contribution.svelte'
@@ -85,7 +85,7 @@
             <span class="stat-label">{i18n('created')}</span>
             <p class="stat-value">
               <span class="time-from-now">{timeFromNow(user.created)}</span>
-              <span class="precise-time">{getlocalTimeString(user.created)}</span>
+              <span class="precise-time">{getLocalTimeString(user.created)}</span>
             </p>
           {/if}
         </li>
