@@ -39,6 +39,9 @@
   @import "#general/scss/utils";
   .label-wrapper{
     @include display-flex(row, center,space-between);
+    margin-inline-end: 0.3em;
+    margin-block-end: 0.5em;
+    margin-inline-start: 0.3em;
   }
 
   .left-section{
