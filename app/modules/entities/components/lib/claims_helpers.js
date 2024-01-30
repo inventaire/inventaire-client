@@ -256,7 +256,6 @@ export const infoboxPropertiesByType = {
     'wdt:P166', // award received
     'wdt:P39', // position held
     'wdt:P1066', // student of
-    'wdt:P737', // influenced by
     'wdt:P856', // official website
   ],
   publisher: [

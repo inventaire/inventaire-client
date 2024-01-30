@@ -8,7 +8,7 @@
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
-  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
+  import { getReverseClaimLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { loadInternalLink } from '#lib/utils'
@@ -86,7 +86,7 @@
         <RelativeEntitiesList
           {entity}
           {property}
-          label={getRelativeEntitiesListLabel({ property, entity })}
+          label={getReverseClaimLabel({ property, entity })}
         />
       {/each}
     </div>

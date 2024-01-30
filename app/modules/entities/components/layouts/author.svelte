@@ -15,7 +15,7 @@
   import { i18n } from '#user/lib/i18n'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
-  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
+  import { getReverseClaimLabel, getRelativeEntitiesProperties, getRelativeEntitiesClaimProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import { onChange } from '#lib/svelte/svelte'
   import { debounce } from 'underscore'
 
@@ -73,7 +73,7 @@
       </div>
     </div>
     <!-- waiting for subentities to not display relative entities list before work browser -->
-    <!-- to not having to push them down while work broser is being displayed -->
+    <!-- to not having to push them down while work browser is being displayed -->
     {#await waitingForSubEntities then}
       <div class="relatives-lists">
         <RelativeEntitiesList
@@ -85,7 +85,14 @@
           <RelativeEntitiesList
             {entity}
             {property}
-            label={getRelativeEntitiesListLabel({ property, entity })}
+            label={getReverseClaimLabel({ property, entity })}
+          />
+        {/each}
+        {#each getRelativeEntitiesClaimProperties(type) as claimProperty}
+          <RelativeEntitiesList
+            {entity}
+            label={i18n(claimProperty, { name: entity.label })}
+            claims={entity.claims[claimProperty]}
           />
         {/each}
       </div>

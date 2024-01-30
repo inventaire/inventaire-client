@@ -21,7 +21,7 @@
   import Summary from '#entities/components/layouts/summary.svelte'
   import { scrollToElement } from '#lib/screen'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
-  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
+  import { getReverseClaimLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import Flash from '#lib/components/flash.svelte'
 
   export let entity
@@ -149,7 +149,7 @@
         <RelativeEntitiesList
           {entity}
           {property}
-          label={getRelativeEntitiesListLabel({ property, entity })}
+          label={getReverseClaimLabel({ property, entity })}
         />
       {/each}
     </div>
