@@ -4,10 +4,9 @@ import { I18n } from '#user/lib/i18n'
 
 export async function runEntityNavigate (entity, options = {}) {
   const { uriPrefix } = options
-  const { uri } = entity
   entity._gettingMetadata = entity._gettingMetadata || getEntityMetadata({ entity, uriPrefix })
   const metadata = await entity._gettingMetadata
-  app.navigate(`/entity/${uri}`, { metadata })
+  app.navigate(`/${metadata.url}`, { metadata })
 }
 
 async function getEntityMetadata ({ entity, uriPrefix }) {
