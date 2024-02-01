@@ -20,13 +20,13 @@
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
-    if (event.key === 's') mergeTaskEntities({ isToFrom: true })
+    if (event.key === 's') mergeTaskEntities(true)
     if (event.key === 'm') mergeTaskEntities()
     if (event.key === 'd') dismiss()
     else if (event.key === 'n') dispatch('next')
   }
 
-  function mergeTaskEntities ({ isToFrom }) {
+  function mergeTaskEntities (isToFrom) {
     if (!(from && to)) return
     merging = true
     const toUri = clone(to.uri)
