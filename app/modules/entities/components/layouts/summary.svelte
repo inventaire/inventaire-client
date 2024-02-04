@@ -14,7 +14,7 @@
   export let entity
   export let showLabel = false
 
-  const { uri } = entity
+  const { uri, originalLang } = entity
 
   let summaryData, summaries, highlightedSummaries, otherSummaries, summeriesPerKey, flash, selectedSummary
   let waitingForSummariesData, waitingForText
@@ -25,7 +25,9 @@
   function getSummaries () {
     const refresh = entity.refreshTimestamp && !expired(entity.refreshTimestamp, 1000)
     if (summaries == null || refresh) {
-      waitingForSummariesData = preq.get(app.API.data.summaries({ uri, langs: userLang, refresh }))
+      const langs = [ userLang ]
+      if (originalLang && originalLang !== userLang) langs.push(originalLang)
+      waitingForSummariesData = preq.get(app.API.data.summaries({ uri, langs, refresh }))
         .then(res => {
           summaries = sortWikipediaSummaryFirst(res.summaries)
           summeriesPerKey = indexBy(summaries, 'key')
