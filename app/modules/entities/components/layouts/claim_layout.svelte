@@ -4,11 +4,10 @@
   import BaseLayout from './base_layout.svelte'
   import EntityImage from '../entity_image.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
-  import RelativeEntitiesList from './relative_entities_list.svelte'
+  import RelativeEntitiesLists from './relative_entities_lists.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
-  import { getReverseClaimLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { loadInternalLink } from '#lib/utils'
@@ -81,15 +80,14 @@
         <WorksBrowser {sections} />
       {/await}
     </div>
-    <div class="relatives-lists">
-      {#each getRelativeEntitiesProperties(type, property) as property}
-        <RelativeEntitiesList
-          {entity}
-          {property}
-          label={getReverseClaimLabel({ property, entity })}
-        />
-      {/each}
-    </div>
+    <!-- waiting for subentities to not display relative entities list before work browser -->
+    <!-- to not having to push them down while work browser is being displayed -->
+    {#await waitingForReverseEntities then}
+      <RelativeEntitiesLists
+        {entity}
+        mainProperty={property}
+      />
+    {/await}
   </div>
 </BaseLayout>
 

@@ -15,7 +15,7 @@ export function getRelativeEntitiesProperties (type, mainProperty) {
 }
 
 export function getRelativeEntitiesClaimProperties (type) {
-  return claimPropertiesByType[type]
+  return claimPropertiesByType[type] || []
 }
 
 const reverseClaimPropertiesByType = {

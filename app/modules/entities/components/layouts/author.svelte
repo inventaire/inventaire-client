@@ -11,18 +11,16 @@
   import { setContext } from 'svelte'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
   import Summary from '#entities/components/layouts/summary.svelte'
-  import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
-  import { i18n } from '#user/lib/i18n'
+  import RelativeEntitiesLists from '#entities/components/layouts/relative_entities_lists.svelte'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
-  import { getReverseClaimLabel, getRelativeEntitiesProperties, getRelativeEntitiesClaimProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import { onChange } from '#lib/svelte/svelte'
   import { debounce } from 'underscore'
 
   export let entity
   let flash
 
-  const { uri, type } = entity
+  const { uri } = entity
   runEntityNavigate(entity)
 
   setContext('layout-context', 'author')
@@ -75,28 +73,7 @@
     <!-- waiting for subentities to not display relative entities list before work browser -->
     <!-- to not having to push them down while work browser is being displayed -->
     {#await waitingForSubEntities then}
-      <div class="relatives-lists">
-        <RelativeEntitiesList
-          {entity}
-          property={[ 'wdt:P2679', 'wdt:P2680' ]}
-          label={i18n('editions_prefaced_or_postfaced_by_author', { name: entity.label })}
-        />
-        {#each getRelativeEntitiesProperties(type) as property}
-          <RelativeEntitiesList
-            {entity}
-            {property}
-            label={getReverseClaimLabel({ property, entity })}
-          />
-        {/each}
-        {#each getRelativeEntitiesClaimProperties(type) as claimProperty}
-          <RelativeEntitiesList
-            {entity}
-            label={i18n(claimProperty, { name: entity.label })}
-            property={claimProperty}
-            claims={entity.claims[claimProperty]}
-          />
-        {/each}
-      </div>
+      <RelativeEntitiesLists {entity} />
       <HomonymDeduplicates {entity} />
     {/await}
   </div>
@@ -104,7 +81,6 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
-  @import "#entities/scss/relatives_lists";
   .entity-layout{
     align-self: stretch;
     @include display-flex(column, stretch);
@@ -133,17 +109,6 @@
       }
       :global(.summary.has-summary){
         margin-block-start: 0;
-      }
-    }
-    .relatives-lists{
-      @include display-flex(row, baseline, flex-start, wrap);
-      $margin: 1rem;
-      // Hide the extra margin on each wrapped line
-      margin-inline-end: -$margin;
-      :global(.relative-entities-list.not-empty){
-        flex: 1 0 40%;
-        margin-inline-end: $margin;
-        margin-block-end: $margin;
       }
     }
   }

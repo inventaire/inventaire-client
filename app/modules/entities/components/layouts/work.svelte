@@ -15,20 +15,19 @@
   import EntityTitle from './entity_title.svelte'
   import WorkActions from './work_actions.svelte'
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
-  import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
+  import RelativeEntitiesLists from '#entities/components/layouts/relative_entities_lists.svelte'
   import { setContext, tick } from 'svelte'
   import { writable } from 'svelte/store'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { scrollToElement } from '#lib/screen'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
-  import { getReverseClaimLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import Flash from '#lib/components/flash.svelte'
 
   export let entity
 
   let showMap, itemsListsWrapperEl, mapWrapperEl, flash
 
-  const { uri, type } = entity
+  const { uri } = entity
   let editionsUris
   let editions = []
   let initialEditions = []
@@ -142,19 +141,9 @@
         </div>
       {/if}
     {/await}
-    <EntityListingsLayout {entity}
-    />
-    <div class="relatives-lists">
-      {#each getRelativeEntitiesProperties(type) as property}
-        <RelativeEntitiesList
-          {entity}
-          {property}
-          label={getReverseClaimLabel({ property, entity })}
-        />
-      {/each}
-    </div>
-    <HomonymDeduplicates {entity}
-    />
+    <EntityListingsLayout {entity} />
+    <RelativeEntitiesLists {entity} />
+    <HomonymDeduplicates {entity} />
   </div>
 </BaseLayout>
 
