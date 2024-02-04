@@ -13,6 +13,7 @@
   import Spinner from '#components/spinner.svelte'
   import { createEventDispatcher } from 'svelte'
   import { serializeUser } from '#users/lib/users'
+  import Summary from '#entities/components/layouts/summary.svelte'
 
   export let item, user
 
@@ -133,6 +134,11 @@
         <ItemActiveTransactions {item} bind:flash />
       {/if}
       <Flash bind:state={flash} />
+      {#if entity}
+        <div class="summary">
+          <Summary {entity} showLabel={true} />
+        </div>
+      {/if}
       {#if mainUserIsOwner}
         <button
           class="remove remove-button dark-grey"
@@ -204,6 +210,9 @@
       background-color: $danger-color;
       color: white;
     }
+  }
+  .summary{
+    margin-block-start: 1rem;
   }
   // .preciseEdition{
   //   display: block;
