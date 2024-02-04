@@ -64,11 +64,11 @@
   @import "#general/scss/utils";
   .language-picker{
     margin-inline-start: 0.2em;
-    padding-inline-start: 0.5em;
     align-self: stretch;
     @include display-flex(row, stretch, center);
     :global(.dropdown-button){
       @include bg-hover-lighten-svelte($topbar-bg-color);
+      padding-inline-start: 0.5em;
     }
     :global(.fa-caret-down){
       color: #ccc;
