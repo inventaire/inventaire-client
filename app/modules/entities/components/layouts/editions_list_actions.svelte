@@ -168,7 +168,7 @@
 <div class="sort-selector-wrapper menu">
   <SortEntitiesBy
     sortingType="edition"
-    bind:entities={editions}
+    bind:entities={initialEditions}
     {waitingForItems}
   />
 </div>
