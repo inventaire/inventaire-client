@@ -18,8 +18,8 @@
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
-  const { entities: works, searchable = true, sortingType } = section
-  let { label, context } = section
+  const { searchable = true, sortingType } = section
+  let { entities: works, label, context } = section
 
   let filteredWorks = works
   let paginatedWorks = []
@@ -126,7 +126,7 @@
     {#if paginatedWorks.length > 1}
       <SortEntitiesBy
         {sortingType}
-        bind:entities={filteredWorks}
+        bind:entities={works}
       />
     {/if}
   </div>
