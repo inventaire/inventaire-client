@@ -22,7 +22,7 @@
     relatedEntities,
     showInfobox = true,
     listDisplay = false,
-    displayUri
+    isUriToDisplay
 
   let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri } = entity
 
@@ -69,7 +69,7 @@
         {#if subtitle}
           <span class="subtitle">{subtitle}</span>
         {/if}
-        {#if displayUri}
+        {#if isUriToDisplay}
           <a
             href={pathname}
             target="_blank"
