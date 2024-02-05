@@ -128,7 +128,7 @@
               {/if}
               <EntityListRow
                 entity={homonym}
-                displayUri={true}
+                isUriToDisplay={true}
               />
             </div>
             {#if entity.type === 'human'}
