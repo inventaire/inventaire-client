@@ -27,6 +27,7 @@
     if (summaries == null || refresh) {
       const langs = [ userLang ]
       if (originalLang && originalLang !== userLang) langs.push(originalLang)
+      if (!langs.includes('en')) langs.push('en')
       waitingForSummariesData = preq.get(app.API.data.summaries({ uri, langs, refresh }))
         .then(res => {
           summaries = sortWikipediaSummaryFirst(res.summaries)
