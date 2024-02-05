@@ -64,12 +64,12 @@
           class="skip"
           on:click={() => dispatch('skip')}>{I18n('skip')}
         </button>
+        <button
+          class="reset"
+          title="Shortkey: r"
+          on:click={() => dispatch('reset')}>{I18n('reset')}
+        </button>
       {/if}
-      <button
-        class="reset"
-        title="Shortkey: r"
-        on:click={() => dispatch('reset')}>{I18n('reset')}
-      </button>
     </div>
   </div>
   {#if flash}
