@@ -13,7 +13,7 @@
   import WorksOtherEditions from '#entities/components/layouts/works_other_editions.svelte'
   import { addWorksClaims } from '#entities/components/lib/entities'
 
-  export let entity, works, standalone
+  export let entity, works
 
   let showMap, itemsListsWrapperEl, mapWrapperEl
 
@@ -38,7 +38,7 @@
         </div>
       {/if}
       <div class="info-wrapper">
-        <EntityTitle {entity} {standalone} />
+        <EntityTitle {entity} />
         <div class="infobox-wrapper">
           <div class="author-and-info">
             <AuthorsInfo {claims} />

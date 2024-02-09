@@ -24,7 +24,7 @@
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import Flash from '#lib/components/flash.svelte'
 
-  export let entity, standalone
+  export let entity
 
   let showMap, itemsListsWrapperEl, mapWrapperEl, flash
 
@@ -81,7 +81,7 @@
     <div class="top-section">
       <div class="work-section">
         <Flash state={flash} />
-        <EntityTitle {entity} {standalone} />
+        <EntityTitle {entity} />
         <AuthorsInfo {claims}
         />
         <Infobox

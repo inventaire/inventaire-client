@@ -13,7 +13,7 @@
   import { debounce } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
 
-  export let entity, standalone
+  export let entity
 
   const { uri } = entity
   runEntityNavigate(entity)
@@ -40,7 +40,7 @@
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       <div class="work-section">
-        <EntityTitle {entity} {standalone} />
+        <EntityTitle {entity} />
         <Infobox
           claims={entity.claims}
           entityType={entity.type}
