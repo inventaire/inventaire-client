@@ -14,10 +14,12 @@
     <div class="authors">
       {#each roleProperties as prop}
         {#if claims[prop]}
+          { @const hasManyClaimValues = claims[prop].length > 15}
           {#each claims[prop] as claimValue}
             <AuthorDisplay
               entityData={authorsByUris[claimValue]}
               {claimValue}
+              {hasManyClaimValues}
             />
           {/each}
         {/if}
@@ -32,7 +34,7 @@
     @include display-flex(column, flex-start, flex-start, wrap);
   }
   .authors{
-    @include display-flex(row, flex-end, flex-start, wrap);
+    @include display-flex(row, center, flex-start, wrap);
   }
   .label{
     color: $grey;
