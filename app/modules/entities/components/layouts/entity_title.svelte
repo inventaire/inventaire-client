@@ -4,8 +4,8 @@
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import SourceLogo from '#inventory/components/entity_source_logo.svelte'
 
-  export let entity, sourceLogo
-  export let standalone = true
+  export let entity, sourceLogo, href
+  export let hasLinkTitle = false
 
   const { uri, claims, label } = entity
   const birthOrDeathDates = claims['wdt:P569'] || claims['wdt:P570']
@@ -13,14 +13,14 @@
   $: subtitle = claims['wdt:P1680']
 </script>
 <h2>
-  {#if standalone}
-    {label}
-  {:else}
+  {#if hasLinkTitle}
     <Link
-      url={`/entity/${uri}`}
+      url={href || `entity/${uri}`}
       text={label}
       dark={true}
     />
+  {:else}
+    {label}
   {/if}
   {#if sourceLogo}
     <SourceLogo {entity} />
