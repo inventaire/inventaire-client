@@ -8,7 +8,7 @@
   export let prop
   export let values
   export let omitLabel = false
-  export let entitiesByUris
+  export let entitiesByUris = {}
   export let entityType
 
   let propertyLabelI18nKey = prop
