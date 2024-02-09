@@ -11,9 +11,11 @@
   const optionsByName = getSortingOptionsByName(sortingType)
   const options = Object.values(optionsByName)
   let sortingName = Object.keys(optionsByName)?.[0]
+  let initialSorting = true
 
   $: option = optionsByName[sortingName]
   async function sortEntitiesBy () {
+    if (initialSorting) { return initialSorting = false }
     entities = await sortEntities({
       option,
       entities,
