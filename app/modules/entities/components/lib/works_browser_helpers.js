@@ -266,6 +266,10 @@ let sortingFunctionByNameByType = {
     byPopularity: popularityOption,
     byAlphabet: alphabeticalOption,
   },
+  article: {
+    byPublicationDate: publicationDateOption,
+    byAlphabet: alphabeticalOption,
+  }
 }
 
 export const getSortingOptionsByName = type => {

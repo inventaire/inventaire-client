@@ -52,7 +52,8 @@ const urisGetterByType = {
         uris: pluck(articles,
           'uri'),
         searchable: false,
-        isCompactDisplay: true
+        isCompactDisplay: true,
+        sortingType: 'article'
       },
     ]
   },
@@ -104,6 +105,7 @@ const urisGetterByType = {
         uris,
         searchable: false,
         isCompactDisplay: true,
+        sortingType: 'article'
       },
     ]
   },
