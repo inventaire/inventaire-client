@@ -5,7 +5,7 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
 
-  export let entityData = {}, claimValue
+  export let entityData = {}, claimValue, hasManyClaimValues
 
   const { labels, claims = {}, uri, image = {} } = entityData
   let url, label
@@ -23,6 +23,7 @@
   href={url}
   title={label}
   on:click={loadInternalLink}
+  class:hasManyClaimValues
 >
   {#if image.url}
     <img src={imgSrc(image.url, 56)} alt={i18n('author picture')} loading="lazy" />
@@ -53,6 +54,9 @@
       opacity: 0.8;
       cursor: pointer;
     }
+  }
+  .hasManyClaimValues{
+    inline-size: 15em;
   }
   .author-info{
     padding: 0 1em;
