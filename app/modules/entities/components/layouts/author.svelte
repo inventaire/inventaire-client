@@ -1,7 +1,6 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
-  import { byPublicationDate } from '#entities/lib/entities'
   import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import BaseLayout from './base_layout.svelte'
   import Infobox from './infobox.svelte'
@@ -34,7 +33,7 @@
 
   let sections, waitingForSubEntities
   function getSections () {
-    waitingForSubEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
+    waitingForSubEntities = getSubEntitiesSections({ entity })
       .then(res => sections = res)
       .catch(err => flash = err)
   }

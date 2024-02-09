@@ -1,7 +1,6 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
-  import { byPublicationDate } from '#entities/lib/entities'
   import BaseLayout from './base_layout.svelte'
   import EntityImage from '../entity_image.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
@@ -39,7 +38,7 @@
 
   let sections, waitingForReverseEntities, flash
   function getSections () {
-    waitingForReverseEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate, property })
+    waitingForReverseEntities = getSubEntitiesSections({ entity, property })
       .then(res => sections = res)
       .catch(err => flash = err)
   }

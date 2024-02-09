@@ -9,7 +9,6 @@
   import Spinner from '#general/components/spinner.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
-  import { byPublicationDate } from '#entities/lib/entities'
   import { setContext } from 'svelte'
   import { debounce } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
@@ -28,7 +27,7 @@
 
   let sections, waitingForReverseEntities, flash
   function getSections () {
-    waitingForReverseEntities = getSubEntitiesSections({ entity, sortFn: byPublicationDate })
+    waitingForReverseEntities = getSubEntitiesSections({ entity })
       .then(res => sections = res)
       .catch(err => flash = err)
   }

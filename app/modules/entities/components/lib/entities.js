@@ -1,5 +1,5 @@
 import { i18n, I18n } from '#user/lib/i18n'
-import { getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
+import { byNewestPublicationDate, getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
@@ -115,7 +115,7 @@ const urisGetterByType = {
   }
 }
 
-export const getSubEntitiesSections = async ({ entity, sortFn, property }) => {
+export const getSubEntitiesSections = async ({ entity, sortFn = byNewestPublicationDate, property }) => {
   const { type, refreshTimestamp } = entity
   const refresh = refreshTimestamp && !expired(refreshTimestamp, 1000)
   let sections
