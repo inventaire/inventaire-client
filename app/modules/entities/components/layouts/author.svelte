@@ -20,7 +20,7 @@
   import { onChange } from '#lib/svelte/svelte'
   import { debounce } from 'underscore'
 
-  export let entity, standalone
+  export let entity
   let flash
 
   const { uri, type } = entity
@@ -50,7 +50,7 @@
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       <div class="work-section">
-        <EntityTitle {entity} {standalone} />
+        <EntityTitle {entity} />
         <div class="infobox-and-summary">
           {#if isNonEmptyPlainObject(entity.image)}
             <EntityImage

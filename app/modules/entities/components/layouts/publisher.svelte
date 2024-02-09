@@ -10,7 +10,7 @@
   import { setContext } from 'svelte'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
 
-  export let entity, standalone
+  export let entity
   let flash
 
   const { uri } = entity
@@ -35,7 +35,7 @@
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       <div class="work-section">
-        <EntityTitle {entity} {standalone} />
+        <EntityTitle {entity} />
         <Infobox
           claims={entity.claims}
           entityType={entity.type}

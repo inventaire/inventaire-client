@@ -1,12 +1,11 @@
 import error_ from '#lib/error'
 import { getEntitiesByUris } from '#entities/lib/entities'
-const standalone = true
 
 export default async function getEntityViewByType (model, refresh) {
   const entity = model.toJSON()
   const { type } = model
   const displayMergeSuggestions = app.user.hasDataadminAccess
-  let props = { entity, standalone }
+  let props = { entity }
 
   const getter = entityViewSpecialGetterByType[type]
   if (getter != null) return getter(entity, refresh)
@@ -38,7 +37,7 @@ export default async function getEntityViewByType (model, refresh) {
   }
 
   if (View != null) {
-    const view = new View({ model, refresh, standalone, displayMergeSuggestions })
+    const view = new View({ model, refresh, displayMergeSuggestions })
     return { view }
   }
 }
@@ -53,7 +52,6 @@ const getEditionComponent = async (entity, refresh) => {
     props: {
       entity,
       works,
-      standalone
     }
   }
 }
