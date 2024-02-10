@@ -165,13 +165,15 @@
     {/if}
   </div>
 </div>
-<div class="sort-selector-wrapper menu">
-  <SortEntitiesBy
-    sortingType="edition"
-    bind:entities={editions}
-    {waitingForItems}
-  />
-</div>
+{#if editions.length > 1}
+  <div class="sort-selector-wrapper menu">
+    <SortEntitiesBy
+      sortingType="edition"
+      bind:entities={editions}
+      {waitingForItems}
+    />
+  </div>
+{/if}
 <Flash state={flash} />
 
 <style lang="scss">
