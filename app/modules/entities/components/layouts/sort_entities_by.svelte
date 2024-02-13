@@ -8,9 +8,14 @@
 
   export let sortingType = 'work', entities, waitingForItems
 
-  const optionsByName = getSortingOptionsByName(sortingType)
-  const options = Object.values(optionsByName)
-  let sortingName = Object.keys(optionsByName)?.[0]
+  const optionsByName = getSortingOptionsByName(sortingType) || {}
+  let options, sortingName
+
+  if (optionsByName) {
+    options = Object.values(optionsByName)
+    sortingName = Object.keys(optionsByName)?.[0]
+  }
+
   let initialSorting = true
 
   $: option = optionsByName[sortingName]
