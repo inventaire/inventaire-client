@@ -1,4 +1,4 @@
-import { fixedEncodeURIComponent } from '#lib/utils'
+import { fixedEncodeURIComponent, forceArray } from '#lib/utils'
 import endpoint from './endpoint.js'
 const { action } = endpoint('data')
 
@@ -11,6 +11,7 @@ export default {
     return action('isbn', { isbn })
   },
   summaries: ({ uri, langs, refresh }) => {
+    langs = forceArray(langs).join('|')
     return action('summaries', { uri, langs, refresh })
   },
   propertyValues: action('property-values'),

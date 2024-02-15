@@ -12,8 +12,9 @@
   import { pushEntityRefreshingPromise } from '#entities/lib/entities'
 
   export let entity
+  export let showLabel = false
 
-  const { uri } = entity
+  const { uri, originalLang } = entity
 
   let summaryData, summaries, highlightedSummaries, otherSummaries, summeriesPerKey, flash, selectedSummary
   let waitingForSummariesData, waitingForText
@@ -24,7 +25,10 @@
   function getSummaries () {
     const refresh = entity.refreshTimestamp && !expired(entity.refreshTimestamp, 1000)
     if (summaries == null || refresh) {
-      waitingForSummariesData = preq.get(app.API.data.summaries({ uri, langs: userLang, refresh }))
+      const langs = [ userLang ]
+      if (originalLang && originalLang !== userLang) langs.push(originalLang)
+      if (!langs.includes('en')) langs.push('en')
+      waitingForSummariesData = preq.get(app.API.data.summaries({ uri, langs, refresh }))
         .then(res => {
           summaries = sortWikipediaSummaryFirst(res.summaries)
           summeriesPerKey = indexBy(summaries, 'key')
@@ -79,7 +83,9 @@
     {#if summaries.length > 0}
       <!-- The label 'summary' is not adapted to human or publisher entities -->
       <!-- Maybe the text doesn't need a label, has a summary/presentation text is kind of what one would expect to find here? -->
-      <!-- <span class="label">{i18n('Summary')}</span> -->
+      {#if showLabel}
+        <span class="label">{i18n('Summary')}</span>
+      {/if}
       {#if summaries.length > 1}
         <div class="header">
           <select bind:value={selectedSummary} aria-controls="summary-text">
@@ -134,10 +140,9 @@
     @include display-flex(row, baseline, space-between);
     margin-block-end: 0.5em;
   }
-  // .label{
-  //   color: $label-grey;
-  //   margin-inline-start: 0.5em;
-  // }
+  .label{
+    color: $label-grey;
+  }
   select{
     max-inline-size: 15em;
   }
