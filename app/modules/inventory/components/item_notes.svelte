@@ -85,7 +85,7 @@
   @import "#general/scss/utils";
   .item-notes{
     background-color: $dark-grey;
-    padding: 0.5em;
+    padding: 0.5em 1em;
     margin: 0.4em 0 0.6em;
     @include radius;
     &, .text button, :global(.fa){

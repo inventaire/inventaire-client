@@ -104,7 +104,7 @@
   .item-shelves:not(:empty){
     margin-block-start: 1em;
     background: $off-white;
-    padding: 0.5em 0;
+    padding: 0.5em;
     @include radius;
     @include display-flex(column, stretch);
   }

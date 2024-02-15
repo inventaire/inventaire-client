@@ -213,6 +213,12 @@
   }
   .summary{
     margin-block-start: 1rem;
+    :global(.summary.has-summary){
+      padding: 0.5em 1em;
+    }
+    :global(.label){
+      color: $grey;
+    }
   }
   // .preciseEdition{
   //   display: block;
