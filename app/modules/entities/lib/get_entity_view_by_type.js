@@ -24,9 +24,7 @@ export default async function getEntityViewByType (model, refresh) {
   } else if (type === 'article') {
     ({ default: Component } = await import('#entities/components/layouts/article.svelte'))
   } else {
-    ({ default: Component } = await import('#entities/components/layouts/claim_layout.svelte'))
-    const property = model.defaultClaimProperty || 'wdt:P921'
-    props = { entity, property }
+    ({ default: Component } = await import('#entities/components/layouts/subject.svelte'))
   }
 
   if (Component != null) {
