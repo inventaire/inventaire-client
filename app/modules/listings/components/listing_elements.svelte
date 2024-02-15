@@ -11,44 +11,39 @@
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import { getViewportHeight } from '#lib/screen'
 
-  export let elements, listingId, isEditable
+  export let elements = [], listingId, isEditable
 
   let flash, inputValue = '', showSuggestions
-  let entities = []
 
+  let paginatedElements = []
   const paginationSize = 15
-  let offset = paginationSize
+  let offset = 0
   let fetching
   let windowScrollY = 0
   let listingBottomEl
 
-  const getElementsEntities = async elements => {
+  const assignEntitiesToElements = async elements => {
     const uris = pluck(elements, 'uri')
     const res = await getEntitiesAttributesByUris({
       uris,
       attributes: [ 'info', 'labels', 'descriptions', 'image' ],
       lang: app.user.lang
     })
-    const serializedEntities = Object.values(res.entities).map(serializeEntity)
-    await addEntitiesImages(serializedEntities)
-    return serializedEntities
+    const entitiesByUris = res.entities
+    const entities = Object.values(entitiesByUris).map(serializeEntity)
+    await addEntitiesImages(entities)
+    for (const element of elements) {
+      element.entity = entitiesByUris[element.uri]
+    }
   }
 
-  const getInitialElementsEntities = async () => {
-    const firstElements = elements.slice(0, paginationSize)
-    entities = await getElementsEntities(firstElements)
-  }
-
-  const waitingForEntities = getInitialElementsEntities()
-
-  const onRemoveElement = async index => {
-    // TODO: replace the array index by the element doc _id
-    const entity = entities[index]
-    removeElement(listingId, entity.uri)
+  const onRemoveElement = async element => {
+    removeElement(listingId, element.uri)
       .then(() => {
         // Enhancement: after remove, have an "undo" button
-        entities.splice(index, 1)
-        entities = entities
+        const index = paginatedElements.indexOf(element)
+        paginatedElements.splice(index, 1)
+        paginatedElements = paginatedElements
       })
       .catch(err => flash = err)
   }
@@ -63,32 +58,36 @@
 
   const _addUriAsElement = async (listingId, entity) => {
     try {
-      const element = await addElement(listingId, entity.uri)
-      if (isNonEmptyArray(element.alreadyInList)) {
+      const { createdElements, alreadyInList } = await addElement(listingId, entity.uri)
+      if (isNonEmptyArray(alreadyInList)) {
         return flash = {
           type: 'info',
           message: i18n('This work is already in the list')
         }
       }
-      entities = [ entity, ...entities ]
+      // Re fetch entities with fitting attributes.
+      await assignEntitiesToElements(createdElements)
+      paginatedElements = [ ...paginatedElements, ...createdElements ]
     } catch (err) {
       flash = err
     }
   }
 
-  $: hasMore = entities.length >= offset
+  $: hasMore = elements.length >= offset
 
   const fetchMore = async () => {
     if (fetching || hasMore === false) return
     fetching = true
     const nextBatchElements = elements.slice(offset, offset + paginationSize)
-    const nextEntities = await getElementsEntities(nextBatchElements)
-    if (isNonEmptyArray(nextEntities)) {
+    await assignEntitiesToElements(nextBatchElements)
+    if (isNonEmptyArray(nextBatchElements)) {
       offset += paginationSize
-      entities = [ ...entities, ...nextEntities ]
+      paginatedElements = [ ...paginatedElements, ...nextBatchElements ]
     }
     fetching = false
   }
+
+  const waitingForEntities = fetchMore()
 
   $: {
     if (listingBottomEl != null && hasMore) {
@@ -123,12 +122,11 @@
       {#await addingAnElement}
         <li class="loading">{I18n('loading')}<Spinner /></li>
       {/await}
-      <!-- TODO: iterate on elements docs to be able to pass other metadata (ids, comments, etc) -->
-      {#each entities as entity, index (entity.uri)}
+      {#each paginatedElements as element (element.uri)}
         <ListingElement
-          {entity}
+          entity={element.entity}
           {isEditable}
-          on:removeElement={() => onRemoveElement(index)}
+          on:removeElement={() => onRemoveElement(element)}
         />
       {:else}
         <li>{i18n('nothing here')}</li>
