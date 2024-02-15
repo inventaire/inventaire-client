@@ -1,7 +1,7 @@
 <script>
+  import { getOwnersCountPerEdition, getCounterText } from '#entities/components/lib/edition_action_helpers'
   import { I18n } from '#user/lib/i18n'
   import Link from '#lib/components/link.svelte'
-  import { getCounterText } from '#entities/components/lib/edition_action_helpers'
 
   export let entity, itemsByEditions = {}
 
@@ -20,7 +20,7 @@
       classNames="action-button tiny-button"
     />
   </div>
-  {#if editionItems}
+  {#if editionItems && getOwnersCountPerEdition(editionItems)}
     <div class="link-wrapper">
       <!-- insert itemsLists deeplink -->
       <Link
