@@ -68,6 +68,10 @@
       // Re fetch entities with fitting attributes.
       await assignEntitiesToElements(createdElements)
       paginatedElements = [ ...paginatedElements, ...createdElements ]
+      return flash = {
+        type: 'success',
+        message: i18n('Added to the list')
+      }
     } catch (err) {
       flash = err
     }
