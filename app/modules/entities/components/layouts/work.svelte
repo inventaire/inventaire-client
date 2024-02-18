@@ -201,6 +201,7 @@
   .relatives-lists{
     margin-block-start: 1em;
     align-self: stretch;
+    @include relatives-lists-commons;
   }
   /* Small screens */
   @media screen and (max-width: $small-screen){

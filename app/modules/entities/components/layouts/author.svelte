@@ -112,6 +112,9 @@
       margin-inline-end: 1em;
     }
   }
+  .relatives-lists{
+    @include relatives-lists-commons;
+  }
   /* Large screens */
   @media screen and (min-width: $small-screen){
     .infobox-and-summary{
@@ -125,17 +128,6 @@
       }
       :global(.summary.has-summary){
         margin-block-start: 0;
-      }
-    }
-    .relatives-lists{
-      @include display-flex(row, baseline, flex-start, wrap);
-      $margin: 1rem;
-      // Hide the extra margin on each wrapped line
-      margin-inline-end: -$margin;
-      :global(.relative-entities-list.not-empty){
-        flex: 1 0 40%;
-        margin-inline-end: $margin;
-        margin-block-end: $margin;
       }
     }
   }
