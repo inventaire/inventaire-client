@@ -25,32 +25,6 @@ export const formatClaimValue = params => {
   }
 }
 
-export const getWorkProperties = omitAuthors => {
-  // propertiesPerType.work doesnt seem to have enough props available
-  // ie. original title, narrative location, characters
-  let props = [
-    'wdt:P577', // publication date
-    'wdt:P136', // genre
-    'wdt:P361', // part of (serie)
-    'wdt:P179', // series
-    'wdt:P1545', // series ordinal
-    'wdt:P1476', // title
-    'wdt:P407', // edition language
-    'wdt:P1680', // subtitle
-    'wdt:P144', // based on
-    'wdt:P941', // inspired by
-    'wdt:P135', // movement
-    'wdt:P921', // main subject
-    'wdt:P840', // narrative location
-    'wdt:P674', // characters
-    'wdt:P1433', // published in
-    'wdt:P155', // preceded by
-    'wdt:P156', // followed by
-  ]
-  if (!omitAuthors) props = [ ...authorsProps, ...props ]
-  return props
-}
-
 export const propertiesByRoles = {
   author: [ 'wdt:P50' ],
   scenarist: [ 'wdt:P58' ],
@@ -227,6 +201,27 @@ export const infoboxShortlistPropertiesByType = {
 }
 infoboxShortlistPropertiesByType.serie = infoboxShortlistPropertiesByType.work
 
+const workProperties = [
+  ...authorsProps,
+  'wdt:P577', // publication date
+  'wdt:P136', // genre
+  'wdt:P361', // part of (serie)
+  'wdt:P179', // series
+  'wdt:P1545', // series ordinal
+  'wdt:P1476', // title
+  'wdt:P407', // edition language
+  'wdt:P1680', // subtitle
+  'wdt:P144', // based on
+  'wdt:P941', // inspired by
+  'wdt:P135', // movement
+  'wdt:P921', // main subject
+  'wdt:P840', // narrative location
+  'wdt:P674', // characters
+  'wdt:P1433', // published in
+  'wdt:P155', // preceded by
+  'wdt:P156', // followed by
+]
+
 export const infoboxPropertiesByType = {
   edition: [
     'wdt:P2679', // author of foreword
@@ -243,8 +238,8 @@ export const infoboxPropertiesByType = {
     'wdt:P856', // official website
     'wdt:P407', // edition language
   ],
-  work: getWorkProperties(),
-  serie: getWorkProperties(),
+  work: workProperties,
+  serie: workProperties,
   human: [
     'wdt:P135', // movement
     'wdt:P136', // genre
