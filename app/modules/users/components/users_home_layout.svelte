@@ -33,7 +33,10 @@
     $focusedSection = { type: 'group' }
   }
 
-  $: if (user) user = serializeUser(user)
+  $: if (user) {
+    if (user.deleted) app.execute('show:error:missing')
+    user = serializeUser(user)
+  }
 
   if (user && user._id === app.user.id) section = 'user'
 
