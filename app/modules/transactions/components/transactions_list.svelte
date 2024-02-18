@@ -6,7 +6,7 @@
   export let selectedTransaction = null
 </script>
 
-<div class="transactionList">
+<div class="transaction-list">
   <div class="transactions">
     {#each transactions as transaction}
       <TransactionPreview
@@ -24,7 +24,7 @@
 <style lang="scss">
   @import '#general/scss/utils';
 
-  .transactionList{
+  .transaction-list{
     @include shy-border;
   }
   .no-transaction{

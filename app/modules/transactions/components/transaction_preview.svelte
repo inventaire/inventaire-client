@@ -3,6 +3,7 @@
   import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getTransactionStateText, serializeTransaction } from '#transactions/lib/transactions'
+  import { onMount, tick } from 'svelte'
 
   export let transaction
   export let selectedTransaction = null
@@ -22,6 +23,13 @@
       selectedTransaction = transaction
     }
   }
+  let transactionPreviewEl
+  onMount(async () => {
+    if (selectedTransaction === transaction) {
+      await tick()
+      transactionPreviewEl?.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
+    }
+  })
 </script>
 
 <a
@@ -31,6 +39,7 @@
   class:unread={!mainUserRead}
   class:on-item={onItem}
   class:selected={transaction._id === selectedTransaction?._id}
+  bind:this={transactionPreviewEl}
 >
   <!-- snapshot data are always more meaningful than the item data
   as they reflect the state of the item - especially the transaction -

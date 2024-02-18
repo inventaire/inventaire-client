@@ -4,7 +4,7 @@
   import TransactionsList from '#transactions/components/transactions_list.svelte'
   import { slide } from 'svelte/transition'
   import { partition } from 'underscore'
-  import { isOngoing, markAsRead } from '#transactions/lib/transactions'
+  import { isArchived, isOngoing, markAsRead } from '#transactions/lib/transactions'
   import FocusedTransactionLayout from '#transactions/components/focused_transaction_layout.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import TransactionsWelcome from '#transactions/components/transactions_welcome.svelte'
@@ -18,7 +18,7 @@
   let ongoing, archived
   function displayFirstTransaction () {
     selectedTransaction = selectedTransaction || ongoing[0]
-    showArchivedTransactions = showArchivedTransactions || ongoing.length === 0
+    showArchivedTransactions = showArchivedTransactions || ongoing.length === 0 || (selectedTransaction && isArchived(selectedTransaction))
   }
   $: {
     ;[ ongoing, archived ] = partition(transactions, isOngoing)
@@ -87,6 +87,7 @@
 
   #list{
     background-color: #fefefe;
+    overflow-y: auto;
   }
   button{
     width: 100%;
@@ -109,6 +110,8 @@
   @media screen and (max-width: $small-screen){
     #list{
       margin-block-end: 1em;
+      max-height: 50vh;
+      border-block-end: 1px solid #ccc;
     }
   }
 
@@ -117,7 +120,6 @@
     #list{
       @include position(fixed, $topbar-height, null, 0);
       width: $transaction-list-width;
-      overflow-y: auto;
     }
     #fullview{
       margin-inline-start: $transaction-list-width;
