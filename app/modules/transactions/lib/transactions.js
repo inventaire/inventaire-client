@@ -213,6 +213,7 @@ export async function markAsRead (transaction) {
     })
     transaction.read[transaction.mainUserRole] = true
     transaction.mainUserRead = true
+    app.vent.trigger('transactions:unread:change')
   } catch (err) {
     log_.error(err, 'markAsRead')
   }

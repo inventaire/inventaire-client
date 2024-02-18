@@ -17,10 +17,6 @@ export default {
       'show:transaction': API.showTransaction
     })
 
-    app.reqres.setHandlers({
-      'transactions:unread:count': unreadCount
-    })
-
     // TODO: update and cleanup helpers
     initHelpers()
   }
@@ -54,13 +50,4 @@ async function showTransactionsLayout (params = {}) {
       selectedTransaction,
     }
   })
-}
-
-const unreadCount = function () {
-  const transac = app.transactions?.models
-  if (transac?.length <= 0) return 0
-
-  return transac
-  .map(_.property('unreadUpdate'))
-  .reduce((a, b) => _.isNumber(b) ? a + b : a)
 }
