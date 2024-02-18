@@ -19,6 +19,7 @@ export const relativeEntitiesPropertiesByType = {
     'wdt:P144', // based on
     'wdt:P941', // inspired by
     'wdt:P921', // main subject
+    'wdt:P2675', // reply to
   ],
   subject: [
     'wdt:P135', // movement
