@@ -5,7 +5,7 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
-  import { getViewportHeight } from '#app/lib/screen'
+  import InfiniteScroll from '#components/infinite_scroll.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
@@ -23,8 +23,6 @@
   const paginationSize = 15
   let offset = 0
   let fetching, reordering
-  let windowScrollY = 0
-  let listingBottomEl
 
   const assignEntitiesToElements = async elements => {
     const uris = pluck(elements, 'uri')
@@ -84,15 +82,12 @@
   $: hasMore = elements.length >= offset
 
   const fetchMore = async () => {
-    if (fetching || hasMore === false) return
-    fetching = true
     const nextBatchElements = elements.slice(offset, offset + paginationSize)
     await assignEntitiesToElements(nextBatchElements)
     if (isNonEmptyArray(nextBatchElements)) {
       offset += paginationSize
       paginatedElements = [ ...paginatedElements, ...nextBatchElements ]
     }
-    fetching = false
   }
 
   function cancelReorderMode () {
@@ -107,6 +102,12 @@
 
   const waitingForEntities = fetchMore()
 
+  async function keepScrolling () {
+    if (fetching || hasMore === false) return false
+    await fetchMore()
+    return true
+  }
+
   const onReorder = async () => {
     reordering = true
     const uris = pluck(paginatedElements, 'uri')
@@ -119,15 +120,7 @@
     }
     reordering = false
   }
-
-  $: {
-    if (listingBottomEl != null && hasMore) {
-      const screenBottom = windowScrollY + getViewportHeight()
-      if (screenBottom + 100 > listingBottomEl.offsetTop) fetchMore()
-    }
-  }
 </script>
-<svelte:window bind:scrollY={windowScrollY} />
 {#await waitingForEntities}
   <Spinner center={true} />
 {:then}
@@ -175,42 +168,38 @@
       </div>
     {/if}
 
-    <ul class="listing-elements">
-      {#await addingAnElement}
-        <li class="loading">{I18n('loading')}<Spinner /></li>
-      {/await}
-      {#each paginatedElements as element (element.uri)}
-        <li animate:flip={{ duration: 300 }}>
-          <ListingElement entity={element.entity} />
-          {#if isEditable && !isReorderMode}
-            <div class="status">
-              <button
-                class="tiny-button soft-grey"
-                on:click={() => onRemoveElement(element)}
-              >
-                {i18n('remove')}
-              </button>
-            </div>
-          {/if}
-          {#if isReorderMode && !reordering}
-            <div class="reorder-wrapper">
-              <Reorder
-                bind:elements={paginatedElements}
-                elementId={element._id}
-              />
-            </div>
-          {/if}
-        </li>
-      {:else}
-        <li>{i18n('nothing here')}</li>
-      {/each}
-    </ul>
-    {#if hasMore && isNonEmptyArray(elements)}
-      <p bind:this={listingBottomEl}>
-        {I18n('loading')}
-        <Spinner />
-      </p>
-    {/if}
+    <InfiniteScroll {keepScrolling} showSpinner={true}>
+      <ul class="listing-elements">
+        {#await addingAnElement}
+          <li class="loading">{I18n('loading')}<Spinner /></li>
+        {/await}
+        {#each paginatedElements as element (element.uri)}
+          <li animate:flip={{ duration: 300 }}>
+            <ListingElement entity={element.entity} />
+            {#if isEditable && !isReorderMode}
+              <div class="status">
+                <button
+                  class="tiny-button soft-grey"
+                  on:click={() => onRemoveElement(element)}
+                >
+                  {i18n('remove')}
+                </button>
+              </div>
+            {/if}
+            {#if isReorderMode && !reordering}
+              <div class="reorder-wrapper">
+                <Reorder
+                  bind:elements={paginatedElements}
+                  elementId={element._id}
+                />
+              </div>
+            {/if}
+          </li>
+        {:else}
+          <li class="nothing-here">{i18n('nothing here')}</li>
+        {/each}
+      </ul>
+    </InfiniteScroll>
   </section>
 {/await}
 
@@ -222,11 +211,13 @@
     @include display-flex(column, center);
     width: 100%;
     padding: 0 1em;
+    :global(.infinite-scroll-wrapper){
+      width: 100%;
+    }
   }
   .listing-elements{
     @include display-flex(column, center);
     @include radius;
-    width: 100%;
     margin: 1em 0;
     overflow: hidden;
   }
@@ -255,6 +246,10 @@
   .reorder-actions-wrapper{
     @include display-flex(row, flex-end);
     width: 100%;
+  }
+  .nothing-here{
+    width: unset;
+    padding-inline-start: 0.5em;
   }
   /* Large screens */
   @media screen and (width > 40em){
