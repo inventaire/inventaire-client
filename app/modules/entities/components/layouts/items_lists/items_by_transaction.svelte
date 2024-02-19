@@ -1,6 +1,6 @@
 <script>
   import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { transactionsData } from '#inventory/lib/transactions_data'
   import ItemPreview from './item_preview.svelte'
   import { I18n } from '#user/lib/i18n'

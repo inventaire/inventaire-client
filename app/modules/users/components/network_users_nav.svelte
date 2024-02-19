@@ -1,6 +1,7 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import Flash from '#lib/components/flash.svelte'
   import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import app from '#app/app'

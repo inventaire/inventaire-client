@@ -1,6 +1,7 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon, isOpenedOutside } from '#lib/utils'
+  import { isOpenedOutside } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getGroupMembersCount, getGroupPathname, getGroupPicture } from '#groups/lib/groups'
   import { createEventDispatcher } from 'svelte'

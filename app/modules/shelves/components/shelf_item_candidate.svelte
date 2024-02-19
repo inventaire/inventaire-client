@@ -1,6 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, isOpenedOutside } from '#lib/utils'
+  import { isOpenedOutside } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { serializeItem } from '#inventory/lib/items'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'

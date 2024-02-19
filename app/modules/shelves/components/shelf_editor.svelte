@@ -1,6 +1,6 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import autosize from 'autosize'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import { getSomeColorHexCodeSuggestion } from '#lib/images'

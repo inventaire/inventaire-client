@@ -1,7 +1,8 @@
 <script>
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon, isOpenedOutside } from '#lib/utils'
+  import { isOpenedOutside } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
 

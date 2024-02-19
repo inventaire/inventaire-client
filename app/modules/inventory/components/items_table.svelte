@@ -1,6 +1,6 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import ItemRow from '#inventory/components/item_row.svelte'
   import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'
   import Spinner from '#components/spinner.svelte'

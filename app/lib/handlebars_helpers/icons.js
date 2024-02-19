@@ -1,6 +1,6 @@
 import { I18n, i18n } from '#user/lib/i18n'
 import { parseQuery } from '#lib/location'
-import { icon as _icon } from '#lib/utils'
+import { icon as _icon } from '#lib/icons'
 import Handlebars from 'handlebars/runtime'
 
 const { SafeString } = Handlebars

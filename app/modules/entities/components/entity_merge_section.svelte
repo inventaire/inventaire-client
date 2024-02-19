@@ -2,7 +2,7 @@
   import EntityValueDisplay from '#entities/components/editor/entity_value_display.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { typesBySection } from '#search/lib/search_sections'
   import { I18n } from '#user/lib/i18n'
 

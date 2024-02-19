@@ -1,5 +1,5 @@
 <script>
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { uniqueId } from 'underscore'
 
   export let text

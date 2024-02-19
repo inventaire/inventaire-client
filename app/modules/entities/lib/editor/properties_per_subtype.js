@@ -4,6 +4,7 @@ import { uniq } from 'underscore'
 
 const mostlyTextWorksRoles = [
   'wdt:P50', // author
+  'wdt:P98', // editor
   'wdt:P110', // illustrator
 ]
 const drawedWorksRoles = [
@@ -14,7 +15,6 @@ const drawedWorksRoles = [
   'wdt:P10837', // penciller
 ]
 
-// const collectiveBook = [ 'wdt:P50', 'wdt:P98' ]
 const allAuthorRoleProperties = mostlyTextWorksRoles.concat(drawedWorksRoles)
 
 const preferredAuthorRolesPropertiesPerWorkType = {

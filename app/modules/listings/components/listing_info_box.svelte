@@ -1,6 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { onChange } from '#lib/svelte/svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import { imgSrc } from '#lib/handlebars_helpers/images'

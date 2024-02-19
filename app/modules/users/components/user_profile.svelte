@@ -1,6 +1,6 @@
 <script lang="ts">
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { userContent } from '#lib/handlebars_helpers/user_content'
   import Flash from '#lib/components/flash.svelte'

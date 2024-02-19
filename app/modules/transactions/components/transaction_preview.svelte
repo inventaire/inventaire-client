@@ -1,5 +1,6 @@
 <script>
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getTransactionStateText, addTransactionDerivedData } from '#transactions/lib/transactions'
 

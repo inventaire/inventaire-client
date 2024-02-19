@@ -1,6 +1,7 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { buildPath } from '#lib/location'
   import { locallyCreatableEntitiesTypes } from '#entities/lib/editor/properties_per_type'
 

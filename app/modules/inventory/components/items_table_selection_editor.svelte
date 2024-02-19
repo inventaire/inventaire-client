@@ -1,7 +1,7 @@
 <script>
   import app from '#app/app'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'

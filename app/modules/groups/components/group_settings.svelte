@@ -1,6 +1,6 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import GroupUrl from '#groups/components/group_url.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { leaveGroup, serializeGroup, updateGroupSetting } from '#groups/lib/groups'

@@ -1,6 +1,7 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { user } from '#user/user_store'
   import { emailConfirmationRequest } from '#user/lib/auth'
   import Flash from '#lib/components/flash.svelte'

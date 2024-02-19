@@ -212,6 +212,7 @@ const workProperties = [
   'wdt:P407', // edition language
   'wdt:P1680', // subtitle
   'wdt:P144', // based on
+  'wdt:P2675', // reply to
   'wdt:P941', // inspired by
   'wdt:P135', // movement
   'wdt:P921', // main subject

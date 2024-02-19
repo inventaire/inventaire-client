@@ -1,5 +1,5 @@
 <script>
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import ItemsMap from '#map/components/items_map.svelte'
   import { i18n } from '#user/lib/i18n'
   import ItemsByCategories from './items_lists/items_by_categories.svelte'

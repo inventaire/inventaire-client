@@ -1,6 +1,6 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { createEventDispatcher } from 'svelte'
   import { screen } from '#lib/components/stores/screen'
   import { onChange } from '#lib/svelte/svelte'

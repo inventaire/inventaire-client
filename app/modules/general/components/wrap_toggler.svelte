@@ -1,5 +1,5 @@
 <script>
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   export let show = false,
     moreText,
     lessText,

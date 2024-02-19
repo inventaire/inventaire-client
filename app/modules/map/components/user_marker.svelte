@@ -2,7 +2,8 @@
 <script>
   import { I18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon, isOpenedOutside } from '#lib/utils'
+  import { isOpenedOutside } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { createEventDispatcher } from 'svelte'
   import UserPositionPicker from '#settings/components/user_position_picker.svelte'
 

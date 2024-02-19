@@ -2,7 +2,7 @@
   import { propertiesEditorsConfigs } from '#entities/lib/properties'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
   import ClaimEditor from './claim_editor.svelte'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { i18n, I18n } from '#user/lib/i18n'
   import { slide } from 'svelte/transition'
   import assert_ from '#lib/assert_types'

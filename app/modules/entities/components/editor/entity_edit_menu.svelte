@@ -1,7 +1,7 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import Dropdown from '#components/dropdown.svelte'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import Link from '#lib/components/link.svelte'
   import { getWikidataUrl } from '#entities/lib/entities'
   import { checkWikidataMoveabilityStatus, moveToWikidata } from '#entities/lib/move_to_wikidata'

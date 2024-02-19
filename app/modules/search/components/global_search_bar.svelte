@@ -9,7 +9,7 @@
   //   or dead (wdt:P20) nearby
 
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { getActionKey } from '#lib/key_events'
   import SearchShortcuts from '#search/components/search_shortcuts.svelte'
   import SearchControls from '#search/components/search_controls.svelte'

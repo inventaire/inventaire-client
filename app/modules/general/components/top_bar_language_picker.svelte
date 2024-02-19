@@ -1,6 +1,6 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { translate } from '#lib/urls'
   import languages from '#assets/js/languages_data'
   import Link from '#lib/components/link.svelte'

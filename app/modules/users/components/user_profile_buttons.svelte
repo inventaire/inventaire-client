@@ -1,6 +1,7 @@
 <script lang="ts">
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import Modal from '#components/modal.svelte'
   import ShelfEditor from '#shelves/components/shelf_editor.svelte'
   import assert_ from '#lib/assert_types'

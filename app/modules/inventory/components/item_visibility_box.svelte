@@ -1,6 +1,6 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import Dropdown from '#components/dropdown.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, iconByVisibilitySummary } from '#general/lib/visibility'

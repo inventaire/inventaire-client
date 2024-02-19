@@ -1,7 +1,7 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import { waitForAttribute } from '#lib/promises'

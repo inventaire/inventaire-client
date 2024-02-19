@@ -1,7 +1,7 @@
 <script>
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import ItemsByTransaction from './items_by_transaction.svelte'
   import { createEventDispatcher } from 'svelte'
   import Spinner from '#components/spinner.svelte'

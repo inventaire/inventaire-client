@@ -1,6 +1,6 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import UserPositionPicker from '#settings/components/user_position_picker.svelte'
 
   let showPositionPicker

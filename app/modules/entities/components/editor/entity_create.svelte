@@ -1,6 +1,7 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon, someMatch } from '#lib/utils'
+  import { someMatch } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import LabelsEditor from './labels_editor.svelte'
   import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import PropertyClaimsEditor from './property_claims_editor.svelte'

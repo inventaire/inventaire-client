@@ -1,6 +1,6 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import SearchSection from '#search/components/search_section.svelte'
   import { sections } from '#search/lib/search_sections'
   import { slide } from 'svelte/transition'

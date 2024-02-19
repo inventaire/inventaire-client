@@ -1,6 +1,7 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon, isOpenedOutside, loadInternalLink } from '#lib/utils'
+  import { isOpenedOutside, loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getItemEntityData } from '#inventory/components/lib/item_show_helpers'
   import { serializeItem } from '#inventory/lib/items'

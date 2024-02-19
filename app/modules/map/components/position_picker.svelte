@@ -1,6 +1,6 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import Flash from '#lib/components/flash.svelte'
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import { getPositionFromNavigator } from '#map/lib/navigator_position'

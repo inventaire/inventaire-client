@@ -1,7 +1,8 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import Spinner from '#components/spinner.svelte'
   import { addNext, cancel } from '#inventory/components/lib/item_creation_helpers'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'

@@ -1,6 +1,6 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { debounce } from 'underscore'
   import { onChange } from '#lib/svelte/svelte'
   import UserGroupRequestLi from '#groups/components/user_group_request_li.svelte'

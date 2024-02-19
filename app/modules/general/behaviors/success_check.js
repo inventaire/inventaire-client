@@ -1,5 +1,5 @@
 import log_ from '#lib/loggers'
-import { icon } from '#lib/utils'
+import { icon } from '#lib/icons'
 
 // elements required in the view: .checkWrapper > .check
 

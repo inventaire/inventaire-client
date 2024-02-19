@@ -1,7 +1,7 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
   import { i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Flash from '#lib/components/flash.svelte'
   import { createEventDispatcher } from 'svelte'

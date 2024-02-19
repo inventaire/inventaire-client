@@ -1,7 +1,7 @@
 <script>
   import Spinner from '#components/spinner.svelte'
   import { getActionKey } from '#lib/key_events'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { I18n, i18n } from '#user/lib/i18n'

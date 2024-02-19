@@ -4,7 +4,7 @@
   import { getActionKey } from '#lib/key_events'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { I18n, i18n } from '#user/lib/i18n'
   import { createEventDispatcher, tick } from 'svelte'
 

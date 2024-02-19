@@ -1,5 +1,5 @@
 <script>
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { I18n } from '#user/lib/i18n'
 
   let validationEmailRequested = false

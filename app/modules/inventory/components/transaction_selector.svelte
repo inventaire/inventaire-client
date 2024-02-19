@@ -1,6 +1,6 @@
 <script>
   import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { guessInitialTransaction } from '#inventory/components/lib/item_creation_helpers'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
 

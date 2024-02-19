@@ -1,6 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, isOpenedOutside, loadInternalLink } from '#lib/utils'
+  import { isOpenedOutside, loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'

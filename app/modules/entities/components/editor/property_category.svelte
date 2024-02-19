@@ -3,7 +3,7 @@
   import { I18n } from '#user/lib/i18n'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { onChange } from '#lib/svelte/svelte'
   import { intersection, some, without } from 'underscore'
   import { reorderProperties } from '#entities/lib/properties'

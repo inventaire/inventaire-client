@@ -3,7 +3,7 @@
   import SelectDropdown from '#components/select_dropdown.svelte'
   import InventoryBrowserFacet from '#inventory/components/inventory_browser_facet.svelte'
   import Spinner from '#components/spinner.svelte'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { screen } from '#lib/components/stores/screen'
   import InventoryBrowserTextFilter from '#inventory/components/inventory_browser_text_filter.svelte'
   import Flash from '#lib/components/flash.svelte'

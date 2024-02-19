@@ -2,7 +2,7 @@
   import { clone } from 'underscore'
   import preq from '#lib/preq'
   import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { createEventDispatcher } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
   import Spinner from '#general/components/spinner.svelte'

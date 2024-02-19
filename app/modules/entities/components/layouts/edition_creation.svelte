@@ -1,7 +1,8 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
   import { createEditionFromWork, validateEditionPossibility, addWithoutIsbnPath } from '#entities/components/lib/edition_creation_helpers'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import Flash from '#lib/components/flash.svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
   import { getActionKey } from '#lib/key_events'

@@ -1,6 +1,7 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import Spinner from '#components/spinner.svelte'
   import { getShelvesByOwner, getShelvesByIds } from '#shelves/lib/shelves'
   import ShelfInfo from '#inventory/components/shelf_info.svelte'

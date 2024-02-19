@@ -2,7 +2,7 @@
   import EntityValueDisplay from '#entities/components/editor/entity_value_display.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { I18n } from '#user/lib/i18n'
 
   export let type, entity = {}, label, currentEntityLabel, uri

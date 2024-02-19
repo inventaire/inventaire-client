@@ -1,6 +1,7 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon, showLoginPageAndRedirectHere } from '#lib/utils'
+  import { showLoginPageAndRedirectHere } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import Dropdown from '#components/dropdown.svelte'
   import { userListings } from '#listings/lib/stores/user_listings'
   import { addElement, getUserListingsByEntityUri, removeElement } from '#modules/listings/lib/listings'

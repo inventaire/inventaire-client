@@ -1,6 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, isOpenedOutside } from '#lib/utils'
+  import { isOpenedOutside } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getItemLinkTitle, serializeItem } from '#inventory/lib/items'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'

@@ -1,5 +1,5 @@
 <script>
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import log_ from '#lib/loggers'
   import Spinner from '#general/components/spinner.svelte'
   import { I18n } from '#user/lib/i18n'

@@ -1,6 +1,6 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { getUserItems } from '#inventory/lib/queries'
   import { createEventDispatcher } from 'svelte'
   import ShelfItemCandidate from '#shelves/components/shelf_item_candidate.svelte'

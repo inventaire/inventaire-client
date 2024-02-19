@@ -5,7 +5,7 @@
   import { getLangEntities, getPublishersEntities, getPublicationYears, hasPublisher, hasPublicationYear } from '#entities/components/lib/editions_list_actions_helpers'
   import Flash from '#lib/components/flash.svelte'
   import { onChange } from '#lib/svelte/svelte'
-  import { icon } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { getContext } from 'svelte'
   import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'
 

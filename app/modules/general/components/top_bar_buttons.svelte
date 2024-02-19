@@ -1,6 +1,7 @@
 <script>
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon, loadInternalLink } from '#lib/utils'
+  import { loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import IconWithCounter from '#components/icon_with_counter.svelte'
   import { screen } from '#lib/components/stores/screen'

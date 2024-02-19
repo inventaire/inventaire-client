@@ -1,6 +1,7 @@
 <script>
   import { i18n } from '#user/lib/i18n'
-  import { icon, isOpenedOutside, loadInternalLink } from '#lib/utils'
+  import { isOpenedOutside, loadInternalLink } from '#lib/utils'
+  import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { currentRoute } from '#lib/location'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
