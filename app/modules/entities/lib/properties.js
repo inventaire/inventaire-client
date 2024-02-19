@@ -30,39 +30,32 @@ const propertiesEditorsCustomizations = {
   'wdt:P31': {
     // Further checks, such as preventing type changes, will be performed server-side
     canValueBeDeleted: ({ propertyClaims }) => propertyClaims.length > 1,
-    order: -100,
   },
   // ISBN-13
   'wdt:P212': {
     datatype: 'fixed-string',
-    order: -50,
-  },
-  // edition of
-  'wdt:P629': {
-    order: -88
   },
   // main subject
   'wdt:P921': {
     entityValueTypes: 'subjects',
   },
-  // ISBN-10
-  'wdt:P957': {
-    datatype: 'fixed-string',
-    order: -49,
-  },
-  // title
-  'wdt:P1476': {
-    order: -90
-  },
-  // subtitle
-  'wdt:P1680': {
-    order: -89
-  },
 }
 
-for (const property of authorRoleProperties) {
+// Sorted by display order
+const prioritizedProperties = [
+  'wdt:P31', // instance of
+  'wdt:P1476', // title
+  'wdt:P1680', // subtitle
+  'wdt:P629', // edition of
+  'wdt:P212', // ISBN-13
+  'wdt:P957', // ISBN-10
+  ...authorRoleProperties,
+]
+
+for (const property of prioritizedProperties) {
   propertiesEditorsCustomizations[property] = {
-    order: -70 + authorRoleProperties.indexOf(property) / authorRoleProperties.length
+    // The lowest the `order` value, the higher the property will be displayed
+    order: prioritizedProperties.indexOf(property) - prioritizedProperties.length
   }
 }
 

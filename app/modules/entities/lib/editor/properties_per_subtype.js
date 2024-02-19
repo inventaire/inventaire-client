@@ -1,5 +1,4 @@
 import { isNonEmptyArray } from '#lib/boolean_tests'
-import { getUriNumericId } from '#lib/wikimedia/wikidata'
 import { uniq } from 'underscore'
 
 const mostlyTextWorksRoles = [
@@ -39,10 +38,10 @@ export function getWorkPreferredAuthorRolesProperties (entity) {
   const P31 = entity.claims['wdt:P31'] || []
   const preferredAuthorRolesProperties = P31.flatMap(getP31PreferredAuthorRolesProperties)
   const usedAuthorRolesProperties = authorRoleProperties.filter(property => isNonEmptyArray(entity.claims[property]))
-  return uniq(preferredAuthorRolesProperties.concat(usedAuthorRolesProperties)).sort(byNumericId)
+  return uniq(preferredAuthorRolesProperties.concat(usedAuthorRolesProperties)).sort(byDisplayOrder)
 }
 
-const byNumericId = (a, b) => getUriNumericId(a) - getUriNumericId(b)
+const byDisplayOrder = (a, b) => authorRoleProperties.indexOf(a) - authorRoleProperties.indexOf(b)
 
 function getP31PreferredAuthorRolesProperties (P31value) {
   return preferredAuthorRolesPropertiesPerWorkType[P31value] || mostlyTextWorksRoles
