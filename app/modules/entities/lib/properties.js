@@ -50,6 +50,8 @@ const prioritizedProperties = [
   'wdt:P212', // ISBN-13
   'wdt:P957', // ISBN-10
   ...authorRoleProperties,
+  'wdt:P179', // part of serie
+  'wdt:P1545', // serie ordinal
 ]
 
 for (const property of prioritizedProperties) {
