@@ -68,7 +68,7 @@
     {/if}
     <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
     <div class="property-claim-values">
-      <!-- Do not set the #each element (key) to prevent descarding claim_editor components on value change
+      <!-- Do not set the #each element (key) to prevent discarding claim_editor components on value change
            as that would make the "undo" impossible -->
       {#each entity.claims[property] as value, i}
         <ClaimEditor

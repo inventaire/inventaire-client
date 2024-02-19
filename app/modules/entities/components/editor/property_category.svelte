@@ -72,7 +72,7 @@
 {/if}
 {#if showCategory}
   <ul {id} class="category-properties">
-    {#each displayedProperties as property}
+    {#each displayedProperties as property (property)}
       <PropertyClaimsEditor
         bind:entity
         {property}
