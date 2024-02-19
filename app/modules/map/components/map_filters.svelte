@@ -36,10 +36,10 @@
             bind:group={selectedFilters}
             value={filterValue}
           />
-          {#if filtersData[filterValue].cover}
+          {#if filtersData[filterValue].image}
             <img
               class="cover"
-              src={imgSrc(filtersData[filterValue].cover, 128)}
+              src={imgSrc(filtersData[filterValue].image, 128)}
               alt={filtersData[filterValue].title}
             />
           {:else}
