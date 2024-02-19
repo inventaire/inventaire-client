@@ -1,3 +1,4 @@
+import { authorRoleProperties } from '#entities/lib/editor/properties_per_subtype'
 import { properties } from '#entities/lib/editor/properties_per_type'
 import { getUriNumericId } from '#lib/wikimedia/wikidata'
 
@@ -57,6 +58,12 @@ const propertiesEditorsCustomizations = {
   'wdt:P1680': {
     order: -89
   },
+}
+
+for (const property of authorRoleProperties) {
+  propertiesEditorsCustomizations[property] = {
+    order: -70 + authorRoleProperties.indexOf(property) / authorRoleProperties.length
+  }
 }
 
 export const propertiesEditorsConfigs = {}

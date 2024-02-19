@@ -7,16 +7,18 @@ const mostlyTextWorksRoles = [
   'wdt:P98', // editor
   'wdt:P110', // illustrator
 ]
+
+// Sorted by display order
 const drawedWorksRoles = [
   'wdt:P58', // scenarist
+  'wdt:P10837', // penciller
   'wdt:P6338', // colorist
   'wdt:P9191', // letterer
   'wdt:P10836', // inker
-  'wdt:P10837', // penciller
 ]
 
-const allAuthorRoleProperties = mostlyTextWorksRoles.concat(drawedWorksRoles)
-export const authorRolePropertiesSet = new Set(allAuthorRoleProperties)
+export const authorRoleProperties = mostlyTextWorksRoles.concat(drawedWorksRoles)
+export const authorRolePropertiesSet = new Set(authorRoleProperties)
 
 const preferredAuthorRolesPropertiesPerWorkType = {
   // works
@@ -36,7 +38,7 @@ const preferredAuthorRolesPropertiesPerWorkType = {
 export function getWorkPreferredAuthorRolesProperties (entity) {
   const P31 = entity.claims['wdt:P31'] || []
   const preferredAuthorRolesProperties = P31.flatMap(getP31PreferredAuthorRolesProperties)
-  const usedAuthorRolesProperties = allAuthorRoleProperties.filter(property => isNonEmptyArray(entity.claims[property]))
+  const usedAuthorRolesProperties = authorRoleProperties.filter(property => isNonEmptyArray(entity.claims[property]))
   return uniq(preferredAuthorRolesProperties.concat(usedAuthorRolesProperties)).sort(byNumericId)
 }
 
