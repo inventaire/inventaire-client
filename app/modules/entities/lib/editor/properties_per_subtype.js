@@ -16,6 +16,7 @@ const drawedWorksRoles = [
 ]
 
 const allAuthorRoleProperties = mostlyTextWorksRoles.concat(drawedWorksRoles)
+export const authorRolePropertiesSet = new Set(allAuthorRoleProperties)
 
 const preferredAuthorRolesPropertiesPerWorkType = {
   // works

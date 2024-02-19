@@ -1,4 +1,4 @@
-import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
+import { authorRolePropertiesSet, getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
 import { properties, propertiesPerTypeAndCategory } from '#entities/lib/editor/properties_per_type'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import { deepClone, flatMapKeyValues } from '#lib/utils'
@@ -26,8 +26,8 @@ function customizeAuthorProperties (entity, generalProperties) {
         ]
       }
       return entries
-    } else if (propertySettings.contextual) {
-      // Contextual author properties might have possibly been introduced by getWorkPreferredAuthorRolesProperties
+    } else if (authorRolePropertiesSet.has(property)) {
+      // Author properties should be ignored as the relevant ones will have been added in customAuthorProperties
       return []
     } else {
       return [ [ property, propertySettings ] ]
