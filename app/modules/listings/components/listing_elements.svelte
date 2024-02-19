@@ -95,6 +95,16 @@
     fetching = false
   }
 
+  function cancelReorderMode () {
+    isReorderMode = false
+  }
+
+  function resetPagination () {
+    offset = 0
+    paginatedElements = []
+    fetchMore()
+  }
+
   const waitingForEntities = fetchMore()
 
   const onReorder = async () => {
@@ -102,6 +112,7 @@
     const uris = pluck(paginatedElements, 'uri')
     try {
       await reorder(listingId, uris)
+      resetPagination()
       isReorderMode = false
     } catch (err) {
       flash = err
@@ -139,19 +150,29 @@
     {/if}
 
     {#if isReorderMode}
-      <button
-        on:click={onReorder}
-        class="success-button tiny-button"
-        disabled={reordering}
-      >
-        {#if reordering}
-          {I18n('loading')}
-          <Spinner />
-        {:else}
-          {@html icon('check')}
-          {i18n('Done')}
-        {/if}
-      </button>
+      <div class="reorder-actions-wrapper">
+        <button
+          on:click={onReorder}
+          class="success-button tiny-button"
+          disabled={reordering}
+        >
+          {#if reordering}
+            {I18n('loading')}
+            <Spinner />
+          {:else}
+            {@html icon('check')}
+            {i18n('Done')}
+          {/if}
+        </button>
+        <button
+          on:click={cancelReorderMode}
+          class="tiny-button"
+          disabled={reordering}
+        >
+          {@html icon('ban')}
+          {I18n('cancel')}
+        </button>
+      </div>
     {/if}
 
     <ul class="listing-elements">
@@ -164,14 +185,14 @@
           {#if isEditable && !isReorderMode}
             <div class="status">
               <button
-                class="tiny-button"
+                class="tiny-button soft-grey"
                 on:click={() => onRemoveElement(element)}
               >
                 {i18n('remove')}
               </button>
             </div>
           {/if}
-          {#if isReorderMode}
+          {#if isReorderMode && !reordering}
             <div class="reorder-wrapper">
               <Reorder
                 bind:elements={paginatedElements}
@@ -218,6 +239,7 @@
   }
   .success-button{
     margin-inline-start: auto;
+    margin-inline-end: 1em;
     padding: 0.2em 0.6em;
     margin-block-start: 1em;
     white-space: nowrap;
@@ -229,6 +251,10 @@
   }
   label{
     cursor: auto;
+  }
+  .reorder-actions-wrapper{
+    @include display-flex(row, flex-end);
+    width: 100%;
   }
   /* Large screens */
   @media screen and (width > 40em){
