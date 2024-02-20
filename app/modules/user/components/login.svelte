@@ -72,6 +72,7 @@
 
   $: onChange(username, setEmailQuerystring)
   $: onChange(username, resetFlashes)
+  $: onChange(password, resetFlashes)
 </script>
 <div class="auth-menu">
   <div class="custom-cell">
