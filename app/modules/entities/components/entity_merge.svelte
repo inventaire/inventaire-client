@@ -18,7 +18,6 @@
       merging = true
       await mergeEntities(from, to)
       from = null
-      to = null
       flash = {
         type: 'success',
         message: I18n('success')
