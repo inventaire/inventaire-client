@@ -1,7 +1,7 @@
 import { getEntityLocalHref } from '#entities/lib/entities'
 import { transactionsDataFactory } from '#inventory/lib/transactions_data'
 import { capitalize } from '#lib/utils'
-import { hasOngoingTransactionsByItemIdSync } from '#transactions/helpers'
+import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
 import { i18n } from '#user/lib/i18n'
 
 export function serializeItem (item) {

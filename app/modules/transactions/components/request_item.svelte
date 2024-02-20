@@ -8,7 +8,7 @@
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
-  import { postTransactionRequest } from '#transactions/helpers'
+  import { postTransactionRequest } from '#transactions/lib/helpers'
 
   export let item
   export let user

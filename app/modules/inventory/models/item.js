@@ -8,7 +8,7 @@ import error_ from '#lib/error'
 import saveOmitAttributes from '#lib/save_omit_attributes'
 import { transactionsDataFactory } from '../lib/transactions_data.js'
 import { getEntityLocalHref } from '#entities/lib/entities'
-import { hasOngoingTransactionsByItemIdSync } from '#transactions/helpers'
+import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
 
 export default Filterable.extend({
   initialize (attrs, options) {

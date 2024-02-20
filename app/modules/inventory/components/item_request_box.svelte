@@ -4,7 +4,7 @@
   import app from '#app/app'
   import RequestItem from '#transactions/components/request_item.svelte'
   import Modal from '#components/modal.svelte'
-  import { hasOngoingTransactionsByItemIdSync } from '#transactions/helpers'
+  import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
 
   export let item
   export let user

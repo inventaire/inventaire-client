@@ -6,7 +6,7 @@
   import { getActionKey } from '#lib/key_events'
   import isMobile from '#lib/mobile_check'
   import Flash from '#lib/components/flash.svelte'
-  import { postTransactionMessage } from '#transactions/helpers'
+  import { postTransactionMessage } from '#transactions/lib/helpers'
   import Spinner from '#components/spinner.svelte'
 
   export let transaction

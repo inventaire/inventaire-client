@@ -1,4 +1,4 @@
-import initHelpers from './helpers.js'
+import initHelpers from './lib/helpers.js'
 import { getTransactions } from '#transactions/lib/get_transactions'
 
 export default {
