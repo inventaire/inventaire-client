@@ -93,7 +93,7 @@
           on:keydown={() => usernameFlash = null}
           use:autofocus
         />
-        <Flash state={usernameFlash} />
+        <Flash bind:state={usernameFlash} />
       </div>
 
       <div class="input-box">
@@ -104,7 +104,7 @@
         />
       </div>
 
-      <Flash state={loginFlash} />
+      <Flash bind:state={loginFlash} />
 
       <button
         id="login"
