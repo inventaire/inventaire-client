@@ -96,8 +96,11 @@
   #list{
     background-color: #fefefe;
     overflow-y: auto;
+    position: relative;
   }
   button{
+    position: sticky;
+    inset-block-start: 0;
     width: 100%;
     @include display-flex(row, center, flex-start);
     color: $grey;
