@@ -17,7 +17,6 @@ export default {
       'show:transaction': API.showTransaction
     })
 
-    // TODO: update and cleanup helpers
     initHelpers()
   }
 }

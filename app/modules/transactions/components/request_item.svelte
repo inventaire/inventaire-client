@@ -5,10 +5,10 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { autosize } from '#lib/components/actions/autosize'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
-  import preq from '#lib/preq'
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
+  import { postTransactionRequest } from '#transactions/helpers'
 
   export let item
   export let user
@@ -20,16 +20,10 @@
   let message = i18n(suggestedTextKey, { username })
 
   let sendingRequest, flash
-
   async function sendItemRequest () {
     try {
-      sendingRequest = preq.post(app.API.transactions.base, {
-        action: 'request',
-        item: itemId,
-        message,
-      })
-      const { transaction } = await sendingRequest
-      app.request('transactions:add', transaction)
+      sendingRequest = postTransactionRequest({ itemId, message })
+      await sendingRequest
       app.execute('show:transaction', transaction._id)
     } catch (err) {
       flash = err

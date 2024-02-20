@@ -1,18 +1,11 @@
-import FilteredCollection from 'backbone-filtered-collection'
 import preq from '#lib/preq'
+import { getTransactions } from '#transactions/lib/get_transactions'
+import error_ from '#lib/error'
+import { serializeTransaction } from '#transactions/lib/transactions'
 
-export default function () {
-  app.reqres.setHandlers({
-    'transactions:add': API.addTransaction,
-    'get:transaction:byId': API.getTransaction,
-  })
-
-  return app.request('wait:for', 'user').then(initLateHelpers)
-}
-
-const API = {
-  addTransaction (transaction) { return app.transactions.add(transaction) },
-  getTransaction (id) { return app.transactions.byId(id) },
+let transactions
+export default async function () {
+  transactions = await getTransactions()
 }
 
 export async function postTransactionMessage ({ transaction, message }) {
@@ -30,28 +23,19 @@ export async function postTransactionMessage ({ transaction, message }) {
   return transaction
 }
 
-const initLateHelpers = function () {
-  if (app.transactions != null) {
-    const filtered = new FilteredCollection(app.transactions)
+export function hasOngoingTransactionsByItemIdSync (itemId) {
+  // Ideally, we would await the transactions, but that wouldn't be a sync function anymore
+  if (!transactions) throw error_.new('called before transactions were initialized', 500)
+  return transactions.find(transaction => transaction.item === itemId && !transaction.archived) != null
+}
 
-    const getOngoingTransactionsByItemId = function (itemId) {
-      filtered.resetFilters()
-      filtered.filterBy('item', transac => (transac.get('item') === itemId) && !transac.archived)
-      return filtered
-    }
-
-    const getOngoingTransactionsModelsByItemId = itemId => {
-      return app.transactions.filter(transac => (transac.get('item') === itemId) && !transac.archived)
-    }
-
-    const getOneOngoingTransactionByItemId = itemId => getOngoingTransactionsModelsByItemId(itemId)[0]
-
-    const hasOngoingTransactionsByItemId = itemId => getOngoingTransactionsModelsByItemId(itemId).length > 0
-
-    app.reqres.setHandlers({
-      'get:transactions:ongoing:byItemId': getOngoingTransactionsByItemId,
-      'get:transaction:ongoing:byItemId': getOneOngoingTransactionByItemId,
-      'has:transactions:ongoing:byItemId': hasOngoingTransactionsByItemId
-    })
-  }
+export async function postTransactionRequest ({ itemId, message }) {
+  const { transaction } = await preq.post(app.API.transactions.base, {
+    action: 'request',
+    item: itemId,
+    message,
+  })
+  const serializedTransaction = serializeTransaction(transaction)
+  transactions.unshift(serializedTransaction)
+  return serializedTransaction
 }
