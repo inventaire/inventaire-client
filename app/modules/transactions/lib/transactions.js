@@ -204,6 +204,10 @@ const setSameMessageGroupFlag = timeline => (event, index) => {
 
 const getEventTimestamp = actionOrMessage => actionOrMessage.created || actionOrMessage.timestamp
 
+export function getUnreadTransactionsListCount (transactions) {
+  return transactions.filter(transaction => !transaction.mainUserRead).length
+}
+
 export async function markAsRead (transaction) {
   if (transaction.mainUserRead) return
   try {

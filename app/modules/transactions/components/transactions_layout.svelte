@@ -4,7 +4,7 @@
   import TransactionsList from '#transactions/components/transactions_list.svelte'
   import { slide } from 'svelte/transition'
   import { partition } from 'underscore'
-  import { isArchived, isOngoing, markAsRead } from '#transactions/lib/transactions'
+  import { getUnreadTransactionsListCount, isArchived, isOngoing, markAsRead } from '#transactions/lib/transactions'
   import FocusedTransactionLayout from '#transactions/components/focused_transaction_layout.svelte'
   import { onChange } from '#lib/svelte/svelte'
   import TransactionsWelcome from '#transactions/components/transactions_welcome.svelte'
@@ -37,6 +37,8 @@
     }
   }
   $: onChange(selectedTransaction, showSelectedTransaction)
+  $: unreadOngoingTransactionsCount = getUnreadTransactionsListCount(ongoing)
+  $: unreadArchivedTransactionsCount = getUnreadTransactionsListCount(archived)
 </script>
 
 <div id="list">
@@ -48,6 +50,9 @@
     {@html icon('caret-down')}
     {@html icon('exchange')}
     {I18n('ongoing')}
+    {#if unreadOngoingTransactionsCount > 0}
+      <span class="counter">{unreadOngoingTransactionsCount}</span>
+    {/if}
   </button>
   {#if ongoing && showOngoingTransactions}
     <section id="ongoing-transactions" transition:slide>
@@ -63,6 +68,9 @@
     {@html icon('caret-down')}
     {@html icon('exchange')}
     {I18n('archived')}
+    {#if unreadArchivedTransactionsCount > 0}
+      <span class="counter">{unreadArchivedTransactionsCount}</span>
+    {/if}
   </button>
   {#if archived && showArchivedTransactions}
     <section id="archived-transactions" transition:slide>
@@ -104,6 +112,11 @@
       :global(.fa-caret-down){
         transform: rotate(-90deg);
       }
+    }
+    .counter{
+      margin-inline-start: auto;
+      margin-inline-end: 0.5em;
+      @include counter-commons;
     }
   }
   /* Small screens */
