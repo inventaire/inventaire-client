@@ -65,7 +65,13 @@
     }
   }
 
+  function resetFlashes () {
+    usernameFlash = null
+    loginFlash = null
+  }
+
   $: onChange(username, setEmailQuerystring)
+  $: onChange(username, resetFlashes)
 </script>
 <div class="auth-menu">
   <div class="custom-cell">
