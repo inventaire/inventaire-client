@@ -3,6 +3,7 @@ import preq from '#lib/preq'
 import { transactionsData } from '#inventory/lib/transactions_data'
 import { i18n } from '#user/lib/i18n'
 import { getActionUserKey } from '#transactions/lib/transactions_actions'
+import assert_ from '#lib/assert_types'
 
 // Keep in sync with server/models/attributes/transaction
 const basicNextActions = {
@@ -44,7 +45,8 @@ const nextActionsWithReturn = _.extend({}, basicNextActions, {
   }
 })
 
-const getNextActionsList = function (transactionName) {
+function getNextActionsList (transactionName) {
+  assert_.string(transactionName)
   if (transactionName === 'lending') {
     return nextActionsWithReturn
   } else {
@@ -52,9 +54,13 @@ const getNextActionsList = function (transactionName) {
   }
 }
 
-export const findNextActions = function (transacData) {
-  const { name, state, mainUserIsOwner } = transacData
-  const nextActions = getNextActionsList(name, state)
+export function findNextActions (transacData) {
+  const { name, transaction, state, mainUserIsOwner } = transacData
+  // Some transacData coming from Backbone model are not transaction docs
+  // and will have the transaction name at the `name` attribute
+  const transactionName = name || transaction
+  assert_.string(transactionName)
+  const nextActions = getNextActionsList(transactionName)
   const role = mainUserIsOwner ? 'owner' : 'requester'
   return nextActions[state][role]
 }
