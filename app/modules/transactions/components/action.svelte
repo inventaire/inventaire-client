@@ -6,7 +6,7 @@
   export let action, transaction
 
   const { timestamp, action: actionName } = action
-  const context = getTransactionStateText({ transaction, withLink: true, action })
+  const context = getTransactionStateText({ transaction, action })
   const actionsIcon = actionsIcons[actionName]
 </script>
 

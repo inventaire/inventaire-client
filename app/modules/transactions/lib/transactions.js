@@ -104,7 +104,7 @@ export async function grabUsers (transaction) {
   }
 }
 
-export function getTransactionStateText ({ transaction, withLink = false, action }) {
+export function getTransactionStateText ({ transaction, action }) {
   if (!action) {
     const lastAction = transaction.actions.at(-1)
     action = lastAction
@@ -112,7 +112,7 @@ export function getTransactionStateText ({ transaction, withLink = false, action
   const userKey = getActionUserKey(action, transaction)
   const { action: actionName } = action
   const otherUsername = getOtherUsername(transaction)
-  return i18n(`${userKey}_user_${actionName}`, { username: formatUsername(otherUsername, withLink) })
+  return i18n(`${userKey}_user_${actionName}`, { username: otherUsername })
 }
 
 const getOtherUserRole = transaction => {
@@ -123,15 +123,6 @@ const getOtherUserRole = transaction => {
 const getOtherUsername = transaction => {
   const otherUserRole = getOtherUserRole(transaction)
   return transaction.snapshot[otherUserRole].username
-}
-
-const formatUsername = (username, withLink) => {
-  // injecting an html anchor instead of just a username string
-  if (withLink) {
-    return `<a href="/users/${username}/inventory" class="username">${username}</a>`
-  } else {
-    return username
-  }
 }
 
 export async function attachLinkedDocs (transaction) {
