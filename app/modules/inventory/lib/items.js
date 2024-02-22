@@ -10,7 +10,7 @@ export function serializeItem (item) {
   item.restricted = !item.authorized
 
   Object.assign(item, {
-    pathname: `/items/${item._id}`,
+    pathname: getItemPathname(item._id),
     title: item.snapshot['entity:title'],
     subtitle: item.snapshot['entity:subtitle'],
     authors: item.snapshot['entity:authors'],
@@ -47,6 +47,8 @@ export function serializeItem (item) {
 
   return item
 }
+
+export const getItemPathname = itemId => `/items/${itemId}`
 
 export function setItemUserData (item, user) {
   item.user = user

@@ -4,22 +4,26 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { attachLinkedDocs, getTransactionContext } from '#transactions/lib/transactions'
   import Spinner from '#components/spinner.svelte'
+  import { getItemPathname } from '#inventory/lib/items'
+  import { getUserBasePathname } from '#users/lib/users'
 
   export let transaction
 
   const { transactionMode } = transaction
-  const { item, entity, owner } = transaction.snapshot
+  const { entity, owner } = transaction.snapshot
+  const itemPathname = getItemPathname(transaction.item)
 
-  let context
+  let context, ownerPathname
   const waitingForLinkedDocs = attachLinkedDocs(transaction)
     .then(() => {
       context = getTransactionContext(transaction)
+      ownerPathname = getUserBasePathname(transaction.docs.owner.username)
     })
 </script>
 
 <div class="header">
   <div class="facts">
-    <a class="item" href={item.pathname} title={entity.title}>
+    <a class="item" href={itemPathname} title={entity.title}>
       <div class="cover">
         {#if entity.image}
           <img src={imgSrc(entity.image, 100)} alt="" />
@@ -42,7 +46,7 @@
         {@html context}
         {#if owner.picture}
           <a
-            href={owner.pathname}
+            href={ownerPathname}
             class="owner"
             title={owner.username}
             on:click={loadInternalLink}
