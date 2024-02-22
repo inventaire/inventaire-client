@@ -92,6 +92,7 @@ export function serializeTransaction (transaction) {
     mainUserIsOwner,
     mainUserRead,
     transactionMode,
+    archived: isArchived(transaction),
   })
 }
 
