@@ -42,6 +42,8 @@ export const isWikidataPropertyId = bindedTest('WikidataPropertyId')
 export const isWikidataItemUri = bindedTest('WikidataItemUri')
 export const isWikidataPropertyUri = bindedTest('WikidataPropertyUri')
 
+export const isIsbnEntityUri = uri => uri.split(':')[0] === 'isbn'
+
 export const isNonNull = obj => obj != null
 
 export const isNonEmptyArray = array => _.isArray(array) && (array.length > 0)

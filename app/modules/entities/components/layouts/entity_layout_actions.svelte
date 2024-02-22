@@ -7,6 +7,7 @@
   import Spinner from '#general/components/spinner.svelte'
   import app from '#app/app'
   import { tick } from 'svelte'
+  import { isIsbnEntityUri } from '#lib/boolean_tests'
 
   export let entity, showEntityEditButtons = true
 
@@ -72,6 +73,21 @@
     />
   </li>
 {:else}
+  {#if isIsbnEntityUri(uri)}
+    <li>
+      <button
+        on:click={refreshEntity}
+        title={I18n('refresh external databases data')}
+      >
+        {#await waitForEntityRefresh}
+          <Spinner />
+        {:then}
+          {@html iconFn('refresh')}
+        {/await}
+        <span class="button-text">{I18n('refresh external databases data')}</span>
+      </button>
+    </li>
+  {/if}
   <li>
     <Link
       url={`/entity/${uri}/history`}
