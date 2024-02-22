@@ -2,6 +2,7 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { userContent } from '#lib/handlebars_helpers/user_content'
   import { getLocalTimeString, timeFromNow } from '#lib/time'
+  import { loadInternalLink } from '#lib/utils'
 
   export let messageDoc
 
@@ -14,7 +15,12 @@
     {#if !sameUser}
       {#if picture}
         <div class="innerAvatar">
-          <a href={pathname} class="showUser" title={username}>
+          <a
+            href={pathname}
+            class="showUser"
+            title={username}
+            on:click={loadInternalLink}
+          >
             <img src={imgSrc(picture, 36)} alt={username} />
           </a>
         </div>

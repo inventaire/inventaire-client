@@ -72,7 +72,7 @@
     </div>
     <div class="item-pic">
       {#if entity?.image}
-        <img src={imgSrc(entity.image, 48)} alt={entity.title} />
+        <img src={imgSrc(entity.image, 48)} alt="" />
       {/if}
     </div>
   {/if}

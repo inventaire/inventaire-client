@@ -1,4 +1,5 @@
 <script>
+  import { loadInternalLink } from '#lib/utils'
   import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { attachLinkedDocs, getTransactionContext } from '#transactions/lib/transactions'
@@ -21,7 +22,7 @@
     <a class="item" href={item.pathname} title={entity.title}>
       <div class="cover">
         {#if entity.image}
-          <img src={imgSrc(entity.image, 100)} alt={entity.title} />
+          <img src={imgSrc(entity.image, 100)} alt="" />
         {/if}
       </div>
       <div class="data">
@@ -40,7 +41,12 @@
         {@html icon(transactionMode.icon)}
         {@html context}
         {#if owner.picture}
-          <a href={owner.pathname} class="owner" title={owner.username}>
+          <a
+            href={owner.pathname}
+            class="owner"
+            title={owner.username}
+            on:click={loadInternalLink}
+          >
             <img src={imgSrc(owner.picture, 48)} alt={owner.username} />
           </a>
         {/if}

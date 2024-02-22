@@ -21,6 +21,7 @@
   async function sendMessage () {
     try {
       sending = true
+      flash = null
       transaction = await postTransactionMessage({
         transaction,
         message,
