@@ -52,7 +52,7 @@
     searchTypes={type}
     currentEntityUri={uri}
     bind:currentEntityLabel
-    createdEntityTypeName="work"
+    createdEntityType="work"
     displaySuggestionType={false}
     autofocus={false}
     relationSubjectEntity={entity}

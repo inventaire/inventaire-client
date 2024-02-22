@@ -12,6 +12,7 @@
   import { getViewportHeight, onScrollToBottom } from '#lib/screen'
   import { getActionKey } from '#lib/key_events'
   import { propertiesWithValuesShortlists } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+  import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 
   export let searchTypes
   export let currentEntityUri
@@ -19,7 +20,7 @@
   export let placeholder
   export let allowEntityCreation = false
   export let showDefaultSuggestions = true
-  export let createdEntityTypeName
+  export let createdEntityType
   export let createOnWikidata
   export let relationSubjectEntity = null
   export let relationProperty
@@ -252,7 +253,7 @@
             on:click={create}
           >
             {@html icon('plus')}
-            {I18n(`create a new ${createdEntityTypeName}`)}: "{searchText}"
+            {I18n(`create a new ${entityTypeNameBySingularType[createdEntityType]}`)}: "{searchText}"
           </button>
         {/if}
       </div>
