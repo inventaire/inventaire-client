@@ -214,3 +214,13 @@ export async function markAsRead (transaction) {
     log_.error(err, 'markAsRead')
   }
 }
+
+export async function updateTransactionState ({ transaction, state }) {
+  const res = await preq.put(app.API.transactions.base, {
+    transaction: transaction._id,
+    state,
+    action: 'update-state'
+  })
+  Object.assign(transaction, serializeTransaction(res.transaction))
+  return transaction
+}

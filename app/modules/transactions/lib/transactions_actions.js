@@ -1,5 +1,4 @@
 import assert_ from '#lib/assert_types'
-import preq from '#lib/preq'
 import { cancellableStates } from '#transactions/lib/cancellable_states'
 
 export function getActionUserKey (action, transaction) {
@@ -31,18 +30,6 @@ export const ownerActions = [
   'declined',
   'returned'
 ]
-
-export async function updateTransactionState ({ transaction, state }) {
-  await preq.put(app.API.transactions.base, {
-    transaction: transaction._id,
-    state,
-    action: 'update-state'
-  })
-  const action = { action: state, timestamp: Date.now() }
-  if (actorCanBeBoth.includes(state)) action.actor = transaction.mainUserRole
-  transaction.actions = transaction.actions.concat([ action ])
-  return transaction
-}
 
 export function transactionIsCancellable (transaction) {
   const { transaction: transactionMode, mainUserRole } = transaction

@@ -2,7 +2,7 @@
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { getNextActionsData } from '#transactions/lib/next_actions'
-  import { updateTransactionState } from '#transactions/lib/transactions_actions'
+  import { updateTransactionState } from '#transactions/lib/transactions'
   import { I18n, i18n } from '#user/lib/i18n'
 
   export let transaction
