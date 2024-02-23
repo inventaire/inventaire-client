@@ -110,8 +110,6 @@
   .relative-entities-list{
     padding: 0.5rem;
     background-color: $off-white;
-    margin-block-end: 0.5em;
-    margin-inline-end: 0.5em;
   }
   ul{
     @include display-flex(row, center, null, wrap);
