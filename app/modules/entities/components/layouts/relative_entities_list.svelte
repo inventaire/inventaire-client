@@ -4,7 +4,7 @@
   import { forceArray } from '#lib/utils'
   import { uniq, indexBy } from 'underscore'
   import Spinner from '#components/spinner.svelte'
-  import { getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
+  import { entityDataShouldBeRefreshed, getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import Flash from '#lib/components/flash.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
@@ -25,9 +25,10 @@
     if (claims) {
       allUris = claims
     } else {
+      const refresh = entityDataShouldBeRefreshed(entity)
       const properties = forceArray(property)
       allUris = await Promise.all(properties.map(property => {
-        return getReverseClaims(property, uri)
+        return getReverseClaims(property, uri, refresh)
       }))
     }
     uris = uniq(allUris.flat())

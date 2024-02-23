@@ -7,6 +7,7 @@ import { forceArray } from '#lib/utils'
 import { chunk, compact, indexBy, pluck } from 'underscore'
 import assert_ from '#lib/assert_types'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
+import { expired } from '#lib/time'
 
 export async function getReverseClaims (property, value, refresh, sort) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
@@ -271,6 +272,10 @@ export function extractImagesUrls (images) {
 export const getEntityImagePath = imageValue => {
   if (isImageHash(imageValue)) return `/img/entities/${imageValue}`
   else return imageValue
+}
+
+export function entityDataShouldBeRefreshed (entity) {
+  return entity.refreshTimestamp && !expired(entity.refreshTimestamp, 1000)
 }
 
 export function pushEntityRefreshingPromise (entity, promise) {
