@@ -8,10 +8,12 @@
   import { user } from '#user/user_store'
   import Dropdown from '#components/dropdown.svelte'
   import Link from '#lib/components/link.svelte'
+  import { getUnreadTransactionsCountStore } from '#transactions/lib/get_transactions'
 
   // TODO: replace by global stores
-  let exchangesUpdates = 0
   let notificationsUpdates = 0
+
+  const unreadTransactionsCountStore = getUnreadTransactionsCountStore()
 
   Promise.all([
     app.request('wait:for', 'relations'),
@@ -19,11 +21,6 @@
   ])
     .then(() => {
       notificationsUpdates = getNotificationsCount()
-    })
-
-  app.request('wait:for', 'transactions')
-    .then(() => {
-      exchangesUpdates = app.request('transactions:unread:count')
     })
 
   function getNotificationsCount () {
@@ -40,7 +37,7 @@
       icon="exchange"
       href="/transactions"
       title="title_exchanges_layout"
-      counter={exchangesUpdates}
+      counter={$unreadTransactionsCountStore}
     />
 
     <IconWithCounter
@@ -81,7 +78,7 @@
                 icon="exchange"
                 href="/transactions"
                 title="title_exchanges_layout"
-                counter={exchangesUpdates}
+                counter={$unreadTransactionsCountStore}
               />
             </li>
             <li>

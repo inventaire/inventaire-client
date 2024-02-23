@@ -8,6 +8,7 @@ import error_ from '#lib/error'
 import saveOmitAttributes from '#lib/save_omit_attributes'
 import { transactionsDataFactory } from '../lib/transactions_data.js'
 import { getEntityLocalHref } from '#entities/lib/entities'
+import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
 
 export default Filterable.extend({
   initialize (attrs, options) {
@@ -222,7 +223,7 @@ export default Filterable.extend({
     // the reqres 'has:transactions:ongoing:byItemId' wont be defined
     // if the user isn't logged in
     if (!app.user.loggedIn) return false
-    return app.request('has:transactions:ongoing:byItemId', this.id)
+    return hasOngoingTransactionsByItemIdSync(this.id)
   },
 
   // Omit pathname on save, as is expected to be found in the model attributes

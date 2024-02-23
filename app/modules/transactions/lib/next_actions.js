@@ -1,41 +1,47 @@
-import { findNextActions, isArchived as _isArchived } from './transactions.js'
+import { findNextActions } from './transactions.js'
 import * as infoPartials from './info_partials.js'
-import actionsData from './actions_data.js'
 
 export const getNextActionsData = function (transaction) {
-  const nextActions = proxyFindNextActions(transaction)
+  const nextActions = findNextActions(transaction)
   if (nextActions == null) return
-  let data = actionsData()[nextActions]
+  let data = getActionsData()[nextActions]
   if (data == null) return
   data = addTransactionInfo(data, transaction)
   return grabOtherUsername(transaction, data)
 }
 
-// TODO: remove the adapter now that the lib isn't shared with the server anymore
-const proxyFindNextActions = transaction => findNextActions(sharedLibAdapter(transaction))
-
-const sharedLibAdapter = transaction => ({
-  name: transaction.get('transaction'),
-  state: transaction.get('state'),
-  mainUserIsOwner: transaction.mainUserIsOwner
-})
-
 const addTransactionInfo = function (data, transaction) {
-  const transactionMode = transaction.get('transaction')
+  const { transaction: transactionName, item: itemId } = transaction
   return data.map(action => {
-    action[transactionMode] = true
-    action.itemId = transaction.get('item')
-    const infoData = infoPartials[transactionMode][action.text]
-    if (infoData != null) _.extend(action, infoData)
+    action[transactionName] = true
+    action.itemId = itemId
+    const infoData = infoPartials[transactionName][action.text]
+    if (infoData != null) Object.assign(action, infoData)
     return action
   })
 }
 
 const grabOtherUsername = function (transaction, actions) {
-  const username = transaction.otherUser()?.get('username')
-  return actions.map(action => _.extend({}, action, { username }))
+  const { username } = transaction.snapshot.other
+  return actions.map(action => Object.assign({}, action, { username }))
 }
 
-export function isArchived (transaction) {
-  return _isArchived(sharedLibAdapter(transaction))
-}
+const waiting = text => ({
+  waiting: true,
+  state: 'waiting',
+  text
+})
+
+const getActionsData = () => ({
+  'accept/decline':
+    [
+      { state: 'accepted', text: 'accept_request' },
+      { state: 'declined', text: 'decline_request' }
+    ],
+
+  confirm: [ { state: 'confirmed', text: 'confirm_reception' } ],
+  returned: [ { state: 'returned', text: 'confirm_returned' } ],
+  'waiting:accepted': [ waiting('waiting_accepted') ],
+  'waiting:confirmed': [ waiting('waiting_confirmation') ],
+  'waiting:returned': [ waiting('waiting_return_confirmation') ]
+})

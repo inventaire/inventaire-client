@@ -1,5 +1,5 @@
 import assert_ from '#lib/assert_types'
-import { ownerActions } from '#transactions/models/action'
+import { cancellableStates } from '#transactions/lib/cancellable_states'
 
 export function getActionUserKey (action, transaction) {
   const actionName = action.action
@@ -21,4 +21,19 @@ export function getActionUserKey (action, transaction) {
     if (actorRole === 'owner') return 'other'
     else return 'main'
   }
+}
+
+export const actorCanBeBoth = [ 'cancelled' ]
+
+export const ownerActions = [
+  'accepted',
+  'declined',
+  'returned'
+]
+
+export function transactionIsCancellable (transaction) {
+  const { transaction: transactionMode, mainUserRole } = transaction
+  const lastAction = transaction.actions.at(-1)
+  const state = lastAction.action
+  return cancellableStates[transactionMode][mainUserRole].includes(state)
 }

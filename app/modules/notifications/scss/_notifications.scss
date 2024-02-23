@@ -11,7 +11,7 @@
   }
 }
 
-.notification, .transactionPreview a.showTransaction{
+.notification{
   &.unread{
     background-color: $unread-color;
   }

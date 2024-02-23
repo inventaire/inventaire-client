@@ -1,6 +1,7 @@
 import { getEntityLocalHref } from '#entities/lib/entities'
 import { transactionsDataFactory } from '#inventory/lib/transactions_data'
 import { capitalize } from '#lib/utils'
+import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
 import { i18n } from '#user/lib/i18n'
 
 export function serializeItem (item) {
@@ -9,7 +10,7 @@ export function serializeItem (item) {
   item.restricted = !item.authorized
 
   Object.assign(item, {
-    pathname: `/items/${item._id}`,
+    pathname: getItemPathname(item._id),
     title: item.snapshot['entity:title'],
     subtitle: item.snapshot['entity:subtitle'],
     authors: item.snapshot['entity:authors'],
@@ -47,6 +48,8 @@ export function serializeItem (item) {
   return item
 }
 
+export const getItemPathname = itemId => `/items/${itemId}`
+
 export function setItemUserData (item, user) {
   item.user = user
   item.category = user.itemsCategory
@@ -69,7 +72,7 @@ function hasActiveTransaction (itemId) {
   // the reqres 'has:transactions:ongoing:byItemId' wont be defined
   // if the user isn't logged in
   if (!app.user.loggedIn) return false
-  return app.request('has:transactions:ongoing:byItemId', itemId)
+  return hasOngoingTransactionsByItemIdSync(itemId)
 }
 
 export function getItemLinkTitle ({ title, username, mainUserIsOwner }) {
