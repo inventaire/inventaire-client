@@ -1,6 +1,6 @@
 import getBestLangValue from '../get_best_lang_value.js'
 import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath } from '../entities.js'
-import { omit, pluck } from 'underscore'
+import { pluck } from 'underscore'
 
 export async function addWorksImagesAndAuthors (works) {
   await Promise.all([
@@ -46,19 +46,16 @@ export async function addEntityImages (entity) {
 const setEntityImages = (entity, entityImages) => {
   entity.images = []
   if (entityImages) {
-    let { value: imageValue, lang } = getBestLangValue(app.user.lang, entity.originalLang, entityImages)
-    if (imageValue) {
-      entity.images.push(getEntityImagePath(imageValue))
+    const { lang } = getBestLangValue(app.user.lang, entity.originalLang, entityImages)
+    const preferredLangImages = entityImages[lang]
+    if (preferredLangImages) {
+      entity.images = preferredLangImages.map(getEntityImagePath)
     }
-    const otherLanguagesImages = Object.values(omit(entityImages, [ lang, 'claims' ]))
-    const otherLanguagesImagesUrls = otherLanguagesImages.flat().map(getEntityImagePath)
-    entity.images.push(...otherLanguagesImagesUrls)
-    if (entityImages.claims) entity.images.push(...entityImages.claims.map(getEntityImagePath))
     if (entity.images[0]) {
       entity.image = { url: entity.images[0] }
     }
   } else if (entity.image?.url) {
-    entity.images.push(entity.image.url)
+    entity.images = [ entity.image.url ]
   }
 }
 
