@@ -12,7 +12,7 @@
 
   let waitForEntityRefresh
 
-  const { uri, type } = entity
+  const { uri, type, claims } = entity
 
   const refreshEntity = async () => {
     waitForEntityRefresh = preq.get(app.API.entities.getByUris(uri, true))
@@ -72,6 +72,21 @@
     />
   </li>
 {:else}
+  {#if claims['wdt:P212']}
+    <li>
+      <button
+        on:click={refreshEntity}
+        title={I18n('refresh external databases data')}
+      >
+        {#await waitForEntityRefresh}
+          <Spinner />
+        {:then}
+          {@html iconFn('refresh')}
+        {/await}
+        <span class="button-text">{I18n('refresh external databases data')}</span>
+      </button>
+    </li>
+  {/if}
   <li>
     <Link
       url={`/entity/${uri}/history`}
