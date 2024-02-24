@@ -7,13 +7,12 @@
   import Spinner from '#general/components/spinner.svelte'
   import app from '#app/app'
   import { tick } from 'svelte'
-  import { isIsbnEntityUri } from '#lib/boolean_tests'
 
   export let entity, showEntityEditButtons = true
 
   let waitForEntityRefresh
 
-  const { uri, type } = entity
+  const { uri, type, claims } = entity
 
   const refreshEntity = async () => {
     waitForEntityRefresh = preq.get(app.API.entities.getByUris(uri, true))
@@ -73,7 +72,7 @@
     />
   </li>
 {:else}
-  {#if isIsbnEntityUri(uri)}
+  {#if claims['wdt:P212']}
     <li>
       <button
         on:click={refreshEntity}
