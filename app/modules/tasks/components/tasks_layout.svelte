@@ -47,7 +47,6 @@
     if (!newTask) {
       reset()
       noTask = true
-      app.navigate('/tasks/works')
       return
     }
     task = newTask
