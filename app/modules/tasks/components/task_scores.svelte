@@ -52,6 +52,8 @@
 
 <style lang="scss">
   .sources-links{
+    max-height: 7em;
+    overflow-y: auto;
     :global(a:hover){
       text-decoration: underline;
     }
