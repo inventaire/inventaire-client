@@ -63,9 +63,12 @@
 <svelte:window on:keydown={handleKeydown} />
 <div class="controls" tabindex="-1" use:autofocus>
   <div class="buttons-wrapper">
-    <ul class="task-scores">
+    <ul class="task-infobox">
       {#if task.entitiesType === 'work'}
-        <TaskInfo {task} />
+        <TaskInfo
+          reporter={task.reporter}
+          clue={task.clue}
+        />
       {:else}
         <TaskScores {task} />
       {/if}
@@ -130,7 +133,7 @@
     opacity: 0.3;
   }
 
-  .task-scores{
+  .task-infobox{
     background-color: white;
     padding: 0.3em 0.5em;
   }
