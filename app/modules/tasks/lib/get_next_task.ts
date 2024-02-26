@@ -48,7 +48,8 @@ const getNextTask = async params => {
     // Predictable behavior in development environment
     if (window.env === 'dev') offset = 0
   }
-  let { tasks } = await requestNewTasks(entitiesType, limit, offset)
+  const type = 'deduplicate'
+  let { tasks } = await requestNewTasks(type, entitiesType, limit, offset)
   offset += limit
   tasks = tasks.filter(removePreviousTasks(previousTasksIds))
   return updateBacklogAndGetNextTask(tasks, nextTaskGetter)
@@ -72,9 +73,14 @@ const getNextTaskBySuggestionUri = async params => {
   else return updateBacklogAndGetNextTask(suggestionUriTasks, params.backlogName)
 }
 
-const requestNewTasks = async (type, limit, offset) => {
-  if (type === 'work') {
-    return preq.get(API.tasks.byEntitiesType({ type, limit, offset }))
+const requestNewTasks = async (type, entitiesType, limit, offset) => {
+  if (entitiesType === 'work') {
+    return preq.get(app.API.tasks.byEntitiesType({
+      type,
+      'entities-type': entitiesType,
+      limit,
+      offset
+    }))
   } else {
     return preq.get(API.tasks.byScore(limit, offset))
   }
