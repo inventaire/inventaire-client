@@ -103,6 +103,10 @@
   .summary-wrapper{
     margin-inline-start: 0.3em;
   }
+  .sub-entities-section{
+    max-height: 80vh;
+    overflow: auto;
+  }
   .header{
     margin-block-start: 0.5em;
     @include display-flex(row, center, center);

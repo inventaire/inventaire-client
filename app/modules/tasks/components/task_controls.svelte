@@ -1,6 +1,5 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { clone } from 'underscore'
   import { API } from '#app/api/api'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import Flash from '#app/lib/components/flash.svelte'
@@ -28,14 +27,12 @@
     else if (event.key === 'n') dispatch('next')
   }
 
-  function mergeTaskEntities ({ invertToAndFrom = false } = {}) {
+  function mergeTaskEntities () {
     if (!(from && to)) return
     merging = true
-    const toUri = clone(to.uri)
-    const fromUri = clone(from.uri)
     // Optimistic UI: go to the next candidates without waiting for the merge confirmation
     dispatch('next')
-    const params: [ EntityUri, EntityUri ] = invertToAndFrom ? [ toUri, fromUri ] : [ fromUri, toUri ]
+    const params: [ EntityUri, EntityUri ] = [ from.uri, to.uri ]
     mergeEntities(...params)
       .catch(err => {
         flash = err
@@ -82,14 +79,6 @@
         on:click={() => mergeTaskEntities()}
       >
         {@html icon('compress')}{I18n('merge')}
-      </button>
-      <button
-        class="swap dangerous-button"
-        disabled={!(from && to)}
-        title="Merge to into from. Shortkey: s"
-        on:click={() => mergeTaskEntities({ invertToAndFrom: true })}
-      >
-        {@html icon('exchange')}{I18n('swap & merge')}
       </button>
       <button
         class="dismiss grey-button"
