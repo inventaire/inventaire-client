@@ -174,7 +174,7 @@
     @include display-flex(column, center);
     background-color: $off-white;
     padding: 1em;
-    margin: 1em 0;
+    margin: 0.5em 0;
   }
   #selectable-homonyms{
     @include display-flex(row, flex-start, center, wrap);
