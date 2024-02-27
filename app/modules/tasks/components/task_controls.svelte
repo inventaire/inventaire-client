@@ -1,5 +1,4 @@
 <script>
-  import { clone } from 'underscore'
   import preq from '#lib/preq'
   import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/icons'
@@ -26,14 +25,12 @@
     else if (event.key === 'n') dispatch('next')
   }
 
-  function mergeTaskEntities (isToFrom) {
+  function mergeTaskEntities () {
     if (!(from && to)) return
     merging = true
-    const toUri = clone(to.uri)
-    const fromUri = clone(from.uri)
     // Optimistic UI: go to the next candidates without waiting for the merge confirmation
     dispatch('next')
-    const params = isToFrom ? [ toUri, fromUri ] : [ fromUri, toUri ]
+    const params = [ from.uri, to.uri ]
     mergeEntities(...params)
       .catch(err => {
         flash = err
@@ -80,14 +77,6 @@
         on:click={mergeTaskEntities}
       >
         {@html icon('compress')}{I18n('merge')}
-      </button>
-      <button
-        class="swap dangerous-button"
-        disabled={!(from && to)}
-        title="Merge to into from. Shortkey: s"
-        on:click={() => mergeTaskEntities({ isToFrom: true })}
-      >
-        {@html icon('exchange')}{I18n('swap & merge')}
       </button>
       <button
         class="dismiss grey-button"

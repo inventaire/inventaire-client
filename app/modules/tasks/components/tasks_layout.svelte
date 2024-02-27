@@ -1,4 +1,7 @@
 <script>
+  import { isInvEntityId } from '#lib/boolean_tests'
+  import { tick } from 'svelte'
+  import { clone, pluck } from 'underscore'
   import app from '#app/app'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
@@ -6,12 +9,14 @@
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
   import getNextTask from '#tasks/lib/get_next_task.js'
-  import { pluck } from 'underscore'
   import { I18n } from '#user/lib/i18n'
+  import { icon } from '#lib/icons'
 
   export let taskId, entitiesType
 
-  let task, from, to, flash, matchedTitles, noTask
+  let task, from, to, flash, matchedTitles, noTask, areBothInvEntities
+  $: fromUri = task?.suspectUri
+  $: toUri = task?.suggestionUri
 
   let previousTasksIds = []
 
@@ -62,23 +67,32 @@
     // Nullifying `from` and `to` in order to request new claims values entities
     reset()
     if (!task || task.state === 'merged') return
-    const fromUri = task.suspectUri
-    const toUri = task.suggestionUri
-    return preq.get(app.API.entities.getByUris([ fromUri, toUri ]))
-      .then(assignFromToEntities(fromUri, toUri))
+    const { entities, redirects } = await preq.get(app.API.entities.getByUris([ fromUri, toUri ]))
       .catch(err => {
         flash = err
       })
-  }
-
-  const assignFromToEntities = (fromUri, toUri) => async entitiesRes => {
-    if (areRedirects(entitiesRes)) {
+    if (areRedirects(entities, redirects)) {
       await updateTask(task._id, 'state', 'merged')
       return next()
     }
-    const { entities } = entitiesRes
+    areBothInvEntities = isInvEntityUri(fromUri) && isInvEntityUri(toUri)
+
+    assignFromToEntities(fromUri, toUri, entities)
+  }
+
+  function isInvEntityUri (uri) {
+    return uri.split(':')[0] === 'inv'
+  }
+
+  const assignFromToEntities = (fromUri, toUri, entities) => {
     from = serializeEntity(entities[fromUri])
     to = serializeEntity(entities[toUri])
+  }
+
+  function exchangeFromTo () {
+    const tmpFrom = clone(from)
+    from = to
+    to = tmpFrom
   }
 
   async function updateTask (id, attribute, value) {
@@ -86,8 +100,7 @@
     return preq.put(app.API.tasks.update, params)
   }
 
-  function areRedirects (entitiesRes) {
-    const { entities, redirects } = entitiesRes
+  function areRedirects (entities, redirects) {
     if (Object.keys(redirects).length === 0) return
     for (const entityUri of Object.values(redirects)) {
       if (entities[entityUri]) return true
@@ -118,6 +131,16 @@
         />
       {/if}
     </div>
+    {#if areBothInvEntities}
+      <div class="swap">
+        <button
+          on:click={exchangeFromTo}
+          title={I18n('swap from and to entities')}
+        >
+          {@html icon('exchange')}
+        </button>
+      </div>
+    {/if}
     <div class="to-entity">
       <h2>To</h2>
       {#if to}
@@ -158,11 +181,13 @@
     background-color: #ddd;
   }
   .from-entity{
+    min-height: 100vh;
     flex: 1 0 0;
   }
   .to-entity{
     min-height: 100vh;
     background-color: $light-grey;
+    padding-left: 1em;
     flex: 1 0 0;
   }
   h2{
@@ -180,5 +205,13 @@
   }
   .placeholder{
     height: 6em;
+  }
+  .swap{
+    position: relative;
+    left: 1.3em;
+    top: 30vh;
+    background-color: white;
+    padding: 0.5em;
+    border-radius: 50%;
   }
 </style>
