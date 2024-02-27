@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   import { i18n, I18n } from '#user/lib/i18n'
   import { loadInternalLink } from '#lib/utils'
   import { icon } from '#lib/icons'
