@@ -1,6 +1,7 @@
 <script lang="ts">
   import { pick } from 'underscore'
   import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { propertiesByRoles } from '#entities/components/lib/claims_helpers'
   import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
@@ -10,8 +11,7 @@
 
   let authorsByUris
   const authorsProperties = Object.values(propertiesByRoles).flat()
-  const authorsClaims = pick(claims, authorsProperties)
-
+  $: authorsClaims = pick(claims, authorsProperties)
   const waitingForAuthors = getAuthors()
   async function getAuthors () {
     if (isNonEmptyPlainObject(authorsClaims)) {
@@ -20,6 +20,8 @@
       authorsByUris = await getEntitiesAttributesFromClaims(authorsClaims, attributes)
     }
   }
+
+  $: onChange(authorsClaims, getAuthors)
 </script>
 
 {#await waitingForAuthors}

@@ -7,20 +7,24 @@
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { i18n } from '#user/lib/i18n'
 
-  export let entity: SerializedEntity
-  export let claimValue
-  export let hasManyClaimValues = false
+  export let authorsByUris = {}, claimValue, hasManyClaimValues
 
-  const { labels, claims = {}, uri, image = {} } = entity
+  let labels, claims = {}, uri, image = {}
   let url, label
-  if (uri) {
-    url = `/entity/${uri}`
-    label = getBestLangValue(app.user.lang, null, labels).value
-  } else {
-    label = claimValue
-    url = `/search?q=!a ${label}`
+  $: {
+    if (authorsByUris[claimValue]) {
+      ({ labels, claims, uri, image } = authorsByUris[claimValue])
+    }
+    if (uri) {
+      url = `/entity/${uri}`
+      label = getBestLangValue(app.user.lang, null, labels).value
+    } else {
+      label = claimValue
+      url = `/search?q=!a ${label}`
+    }
   }
-  const birthOrDeathDates = claims['wdt:P569']?.[0] || claims['wdt:P570']?.[0]
+
+  $: birthOrDeathDates = claims['wdt:P569']?.[0] || claims['wdt:P570']?.[0]
 </script>
 
 <a

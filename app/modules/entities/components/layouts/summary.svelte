@@ -14,7 +14,7 @@
   export let entity
   export let showLabel = false
 
-  const { uri, originalLang } = entity
+  $:({ uri, originalLang } = entity)
 
   let summaryData, summaries, highlightedSummaries, otherSummaries, summeriesPerKey, flash, selectedSummary
   let waitingForSummariesData, waitingForText
@@ -55,6 +55,13 @@
 
   // This will trigger the first call to getSummaries, and further calls when the entity changes
   $: onChange(entity, getSummaries)
+
+  function resetSummaries () {
+    summaries = null
+    getSummaries()
+  }
+
+  $: onChange(uri, resetSummaries)
 
   function getSummaryText ({ key, lang, sitelink }) {
     const { title } = sitelink
