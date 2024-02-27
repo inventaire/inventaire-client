@@ -7,9 +7,8 @@
   export let entity, sourceLogo
   export let standalone = true
 
-  const { uri, claims, label } = entity
-  const birthOrDeathDates = claims['wdt:P569'] || claims['wdt:P570']
-
+  $: ({ uri, claims, label } = entity)
+  $: birthOrDeathDates = claims['wdt:P569'] || claims['wdt:P570']
   $: subtitle = claims['wdt:P1680']
 </script>
 <h2>

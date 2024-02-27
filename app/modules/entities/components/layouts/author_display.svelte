@@ -5,18 +5,24 @@
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
 
-  export let entityData = {}, claimValue, hasManyClaimValues
+  export let authorsByUris = {}, claimValue, hasManyClaimValues
 
-  const { labels, claims = {}, uri, image = {} } = entityData
+  let labels, claims = {}, uri, image = {}
   let url, label
-  if (uri) {
-    url = `/entity/${uri}`
-    label = getBestLangValue(app.user.lang, null, labels).value
-  } else {
-    label = claimValue
-    url = `/search?q=!a ${label}`
+  $: {
+    if (authorsByUris[claimValue]) {
+      ({ labels, claims, uri, image } = authorsByUris[claimValue])
+    }
+    if (uri) {
+      url = `/entity/${uri}`
+      label = getBestLangValue(app.user.lang, null, labels).value
+    } else {
+      label = claimValue
+      url = `/search?q=!a ${label}`
+    }
   }
-  const birthOrDeathDates = claims['wdt:P569']?.[0] || claims['wdt:P570']?.[0]
+
+  $: birthOrDeathDates = claims['wdt:P569']?.[0] || claims['wdt:P570']?.[0]
 </script>
 
 <a
