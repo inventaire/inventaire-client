@@ -121,13 +121,13 @@
   <div class="entities-section">
     <div class="from-entity">
       <h2>From</h2>
-      {#if from}
+      {#key from}
         <TaskEntity
           entity={from}
           {flash}
           {matchedTitles}
         />
-      {/if}
+      {/key}
     </div>
     {#if areBothInvEntities}
       <button
@@ -140,13 +140,13 @@
     {/if}
     <div class="to-entity">
       <h2>To</h2>
-      {#if to}
+      {#key to}
         <TaskEntity
           entity={to}
           {flash}
           {matchedTitles}
         />
-      {/if}
+      {/key}
     </div>
   </div>
   {#if isMerged}

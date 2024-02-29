@@ -23,8 +23,8 @@
     })
     .catch(err => error = err)
 
-  $: claims = entity.claims
-  $: infoboxClaims = omitClaims(entity.claims, authorsProps)
+  $: claims = entity?.claims
+  $: infoboxClaims = omitClaims(entity?.claims, authorsProps)
 </script>
 
 {#if entity}
