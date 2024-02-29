@@ -16,7 +16,7 @@ const API = {
   showHumansTask (task) { API.showTask(task, 'human') },
   showWorksTask (task) { API.showTask(task, 'work') },
   showTask (task, type) {
-    if (app.request('require:loggedIn', 'tasks')) {
+    if (app.request('require:dataadmin:access', 'tasks')) {
       return showLayout({ task, entitiesType: type })
     }
   }
