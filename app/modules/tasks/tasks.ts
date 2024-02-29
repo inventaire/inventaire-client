@@ -18,7 +18,7 @@ const controller = {
   showHumansTask (task) { controller.showTask(task, 'human') },
   showWorksTask (task) { controller.showTask(task, 'work') },
   showTask (task, type) {
-    if (app.request('require:loggedIn', 'tasks')) {
+    if (app.request('require:dataadmin:access', 'tasks')) {
       return showLayout({ task, entitiesType: type })
     }
   },
