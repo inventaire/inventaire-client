@@ -23,7 +23,7 @@
     })
     .catch(err => error = err)
 
-  $: claims = entity.claims
+  $: claims = entity?.claims
 </script>
 
 {#if entity}
