@@ -1,6 +1,4 @@
 <script>
-  import { isInvEntityId } from '#lib/boolean_tests'
-  import { tick } from 'svelte'
   import { clone, pluck } from 'underscore'
   import app from '#app/app'
   import preq from '#lib/preq'
@@ -132,14 +130,13 @@
       {/if}
     </div>
     {#if areBothInvEntities}
-      <div class="swap">
-        <button
-          on:click={exchangeFromTo}
-          title={I18n('swap from and to entities')}
-        >
-          {@html icon('exchange')}
-        </button>
-      </div>
+      <button
+        class="swap"
+        on:click={exchangeFromTo}
+        title={I18n('swap from and to entities')}
+      >
+        {@html icon('exchange')}
+      </button>
     {/if}
     <div class="to-entity">
       <h2>To</h2>
