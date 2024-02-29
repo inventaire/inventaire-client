@@ -35,7 +35,11 @@
       {/if}
       {#if source.uri}
         <li>
-          source.sourceTitle
+          <Link
+            url={`/entity/${source.uri}`}
+            title={buildMatchedTitlesString(source.matchedTitles)}
+            text={source.matchedTitles}
+          />
           <span class="uri">
             ({source.uri})
           </span>
@@ -54,6 +58,7 @@
   .sources-links{
     max-height: 7em;
     overflow-y: auto;
+    padding-inline-start: 1em;
     :global(a:hover){
       text-decoration: underline;
     }

@@ -9,10 +9,6 @@ export default {
     })
 
     new Router({ controller: API })
-
-    app.commands.setHandlers({
-      'show:task': API.showHumansTask
-    })
   }
 }
 
