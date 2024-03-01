@@ -1,6 +1,7 @@
 import { forceArray } from '#app/lib/utils'
-import endpoint from './endpoint.js'
-const { action } = endpoint('tasks')
+import { getEndpointPathBuilders } from './endpoint.ts'
+
+const { action } = getEndpointPathBuilders('tasks')
 
 export default {
   byIds (ids) { return action('by-ids', { ids }) },
