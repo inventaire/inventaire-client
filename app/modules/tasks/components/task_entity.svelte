@@ -37,7 +37,7 @@
         />
       </div>
       {#if isNonEmptyPlainObject(entity.image)}
-        <div class="entity-image">
+        <div class="entity-image-wrapper">
           <EntityImage
             {entity}
             size={96}
@@ -95,7 +95,10 @@
     @include display-flex(row, flex-start, flex-start);
   }
   .title-row{
-    @include display-flex(row, flex-start, space-between);
+    @include display-flex(row, flex-start, center);
+  }
+  .entity-image-wrapper{
+    margin-inline-start: 1em;
   }
   .infobox-wrapper, .summary-wrapper{
     flex: 1 0 0;
@@ -131,5 +134,15 @@
   }
   .has-matched-label{
     border: 2px solid $lighten-primary-color;
+  }
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
+    .entity-section{
+      flex-direction: column;
+    }
+    .summary-wrapper{
+      margin-inline-start: 0;
+      margin-block-start: 1em;
+    }
   }
 </style>
