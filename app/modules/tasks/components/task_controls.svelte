@@ -150,6 +150,7 @@
   @media screen and (width < $smaller-screen){
     .actions{
       @include display-flex(column);
+      margin-inline-start: 0.5em;
       button{
         margin: 0.3em 0;
         width: 100%;

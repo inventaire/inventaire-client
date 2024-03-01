@@ -191,8 +191,9 @@
   .to-entity{
     min-height: 100vh;
     background-color: $light-grey;
-    padding-left: 1em;
+    padding-inline-start: 1em;
     flex: 1 0 0;
+    width:100%;
   }
   h2{
     @include display-flex(row, null, center);
@@ -217,5 +218,35 @@
     background-color: white;
     padding: 0.5em;
     border-radius: 50%;
+    opacity: 0.8;
+  }
+  /* Small screens */
+  @media screen and (max-width: $small-screen){
+    .entities-section{
+      @include display-flex(column, center);
+    }
+    .title-row{
+      justify-content: center;
+    }
+    .from-entity{
+      min-height: unset;
+      padding-block-start: 0.5em;
+    }
+    .to-entity{
+      min-height: unset;
+      padding-block-start: 1em;
+      padding-inline-start: 0;
+
+    }
+    .swap{
+      position: relative;
+      left: 0;
+      top: 1.3em;
+      :global(.fa-exchange){
+        transform: rotate(90deg);
+        margin-inline-start: 0.2em;
+        line-height: 1rem;
+      }
+    }
   }
 </style>
