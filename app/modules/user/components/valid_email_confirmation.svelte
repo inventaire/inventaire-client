@@ -32,7 +32,6 @@
 
 {#if showModal}
   <Modal on:closeModal={() => showModal = false}>
-    <pre>{JSON.stringify({ validEmail }, null, 2)} (valid_email_confirmation.svelte:30)</pre>
     <div class="valid-email-confirmation">
       {#if validEmail}
         <div class="valid">
