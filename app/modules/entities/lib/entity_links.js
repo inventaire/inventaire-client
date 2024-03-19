@@ -272,6 +272,11 @@ export const externalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.librarything.com/nseries/${id}`,
   },
+  'wdt:P8619': {
+    name: "BD Gest'",
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.bedetheque.com/serie-${id}-BD-.html`,
+  },
   'wdt:P12048': {
     name: 'BookBrainz',
     category: 'bibliographicDatabases',
@@ -281,6 +286,11 @@ export const externalIdsDisplayConfigs = {
     name: 'Babelio',
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.babelio.com/serie/-/${id}`,
+  },
+  'wdt:P12351': {
+    name: 'BookBrainz',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://bookbrainz.org/edition/${id}`,
   },
 }
 
