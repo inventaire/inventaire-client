@@ -31,7 +31,7 @@
       assert_.array(pagination.items)
       items = pagination.items
       // TODO: make the pagination object more consistent among cases
-      total = pagination.moreData?.total || pagination.total
+      total = pagination.moreData?.total || pagination.total || items.length
       fetching = false
     } catch (err) {
       flash = err
