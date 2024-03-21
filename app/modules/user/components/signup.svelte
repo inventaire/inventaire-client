@@ -13,7 +13,7 @@
   export let redirect = null
 
   let username, email, password
-  let usernameFlash, emailFlash, signupFlash
+  let usernameFlash, emailFlash, passwordFlash, signupFlash
   let usernameInputNode, emailInputNode
 
   async function earlyVerifyUsername () {
@@ -106,6 +106,7 @@
     <div class="input-box">
       <PasswordInput
         bind:password
+        bind:flash={passwordFlash}
         title={I18n('password')}
         autocomplete="on"
       />
@@ -117,7 +118,7 @@
       id="signup"
       class="button"
       on:click={signup}
-      disabled={usernameFlash || emailFlash || signupFlash || signingUp}
+      disabled={usernameFlash || emailFlash || passwordFlash || signupFlash || signingUp}
     >
       {i18n('signup_verb')}
       {#if signingUp}<Spinner />{/if}

@@ -14,7 +14,7 @@
   export let redirect = null
 
   let username, password
-  let usernameFlash, loginFlash
+  let usernameFlash, passwordFlash, loginFlash
   let usernameInputNode
 
   function earlyVerifyUsername () {
@@ -106,6 +106,7 @@
       <div class="input-box">
         <PasswordInput
           bind:password
+          bind:flash={passwordFlash}
           title={I18n('password')}
           autocomplete="on"
         />
@@ -117,7 +118,7 @@
         id="login"
         class="button light-blue"
         on:click={login}
-        disabled={usernameFlash || loginFlash || loggingIn}
+        disabled={usernameFlash || passwordFlash || loginFlash || loggingIn}
       >
         {i18n('login_verb')}
         {#if loggingIn}<Spinner />{/if}
