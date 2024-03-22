@@ -14,7 +14,7 @@
   import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
 
   export let entity, error, matchedTitles
-  let standalone = false
+  let hasLinkTitle = true
   let subEntities
 
   const waitingForSubEntities = getAuthorWorksWithImagesAndCoauthors(entity)
@@ -33,7 +33,7 @@
       <div class="entity-title-wrapper">
         <EntityTitle
           {entity}
-          {standalone}
+          {hasLinkTitle}
           sourceLogo={true}
         />
       </div>

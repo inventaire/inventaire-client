@@ -1,6 +1,8 @@
 <script>
   import Spinner from '#general/components/spinner.svelte'
   import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
+  import EntityListCompact from '#entities/components/layouts/entity_list_compact.svelte'
+  import EntityListCompactTitleRow from '#entities/components/layouts/entity_list_compact_title_row.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
   import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'
   import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
@@ -18,7 +20,7 @@
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
-  const { entities: works, searchable = true, sortingType } = section
+  const { entities: works, searchable = true, sortingType, isCompactDisplay } = section
   let { label, context } = section
 
   let filteredWorks = works
@@ -138,9 +140,21 @@
       on:scroll={onScrollToBottom(lazyDisplay)}
       bind:this={scrollableElement}
     >
+      {#if isCompactDisplay}
+        <EntityListCompactTitleRow />
+      {/if}
       {#each paginatedWorks as work (work.uri)}
-        <li animate:flip={{ duration: 300 }}>
-          {#if displayMode === 'grid'}
+        <li
+          animate:flip={{ duration: 300 }}
+          class:isCompactDisplay
+        >
+          {#if isCompactDisplay}
+            <!-- known case: article -->
+            <EntityListCompact
+              entity={work}
+              bind:relatedEntities={work.relatedEntities}
+            />
+          {:else if displayMode === 'grid'}
             <WorkGridCard {work} />
           {:else}
             <EntityListRow
@@ -184,7 +198,7 @@
     @include display-flex(row, center);
   }
   .title-row{
-    @include display-flex(row, center, space-between);
+    @include display-flex(row, center, space-between, wrap);
     margin: 0.3em 0.5em;
   }
   ul{
@@ -206,6 +220,9 @@
   }
   li{
     @include display-flex(row, inherit, space-between);
+  }
+  .isCompactDisplay{
+    inline-size: 100%;
   }
   .no-work{
     color: $grey;

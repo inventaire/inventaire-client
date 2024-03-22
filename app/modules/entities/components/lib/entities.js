@@ -51,7 +51,9 @@ const urisGetterByType = {
         label: I18n('articles'),
         uris: pluck(articles,
           'uri'),
-        searchable: false
+        searchable: false,
+        isCompactDisplay: true,
+        sortingType: 'article'
       },
     ]
   },
@@ -98,7 +100,13 @@ const urisGetterByType = {
     const { claims } = entity
     const uris = claims['wdt:P2860']
     return [
-      { label: I18n('cites articles'), uris, searchable: false },
+      {
+        label: I18n('cites articles'),
+        uris,
+        searchable: false,
+        isCompactDisplay: true,
+        sortingType: 'article'
+      },
     ]
   },
   claim: async ({ entity, property, refresh }) => {

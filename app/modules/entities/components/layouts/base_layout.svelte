@@ -49,7 +49,6 @@
     @include display-flex(column, stretch, center);
     margin: 0 auto;
     max-inline-size: 84em;
-    padding: 0 1em;
     background-color: white;
   }
   .typeLabel{
@@ -73,12 +72,18 @@
   }
   /* Large screens */
   @media screen and (min-width: $small-screen){
+    .layout{
+      padding: 0 1em;
+    }
     .header-wrapper{
       margin-inline-start: 1.2em;
     }
   }
   /* Small screens */
   @media screen and (max-width: $small-screen){
+    .layout{
+      padding: 0 0.5em;
+    }
     .header-wrapper{
       @include display-flex(row, center, space-between);
     }

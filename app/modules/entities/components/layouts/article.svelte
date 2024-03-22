@@ -1,11 +1,11 @@
 <script>
+  import EntityTitle from './entity_title.svelte'
   import { i18n } from '#user/lib/i18n'
   import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import Infobox from './infobox.svelte'
   import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import Link from '#lib/components/link.svelte'
-  import getBestLangValue from '#entities/lib/get_best_lang_value'
   import Spinner from '#general/components/spinner.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
@@ -15,9 +15,7 @@
 
   export let entity
 
-  const { uri, claims, wikisource, originalLang, description, label, labelLang } = entity
-
-  const descriptionLang = getBestLangValue(app.user.lang, originalLang, description)
+  const { uri, claims, wikisource } = entity
 
   setContext('layout-context', 'article')
 
@@ -44,20 +42,7 @@
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       <div class="work-section">
-        <h4 lang={labelLang}>
-          {#if href}
-            <Link
-              url={href}
-              text={label}
-              icon="link"
-            />
-          {:else}
-            {label}
-          {/if}
-        </h4>
-        {#if description}
-          <p class="description grey" lang={descriptionLang}>{description}</p>
-        {/if}
+        <EntityTitle {entity} hasLinkTitle={href} {href} />
         <AuthorsInfo {claims} />
         <Infobox
           claims={omitNonInfoboxClaims(entity.claims)}
