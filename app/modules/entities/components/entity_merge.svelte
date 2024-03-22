@@ -8,10 +8,11 @@
   import { isWikidataItemUri } from '#lib/boolean_tests'
   import { slide } from 'svelte/transition'
   import Spinner from '#components/spinner.svelte'
+  import Link from '#lib/components/link.svelte'
 
   export let from, to, type
 
-  let flash, typeName, merging
+  let flash, typeName, merging, lastMergeTargetUri
 
   async function merge () {
     try {
@@ -22,6 +23,7 @@
         type: 'success',
         message: I18n('success')
       }
+      lastMergeTargetUri = to
     } catch (err) {
       flash = err
     } finally {
@@ -71,6 +73,9 @@
   </section>
 
   <Flash bind:state={flash} />
+  {#if flash?.type === 'success' && lastMergeTargetUri}
+    <Link url={`/entity/${lastMergeTargetUri}`} text={i18n('View result')} classNames="classic-link" />
+  {/if}
 
   <button
     disabled={(!(from && to)) || merging}
