@@ -198,7 +198,7 @@
     @include display-flex(row, center);
   }
   .title-row{
-    @include display-flex(row, center, space-between);
+    @include display-flex(row, center, space-between, wrap);
     margin: 0.3em 0.5em;
   }
   ul{
