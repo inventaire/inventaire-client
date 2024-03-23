@@ -2,8 +2,11 @@
 
 .editor-section{
   @include panel;
-  align-self: stretch;
+  align-items: stretch;
   display: flex;
+  .property-info{
+    align-self: flex-start;
+  }
   /*Large screens*/
   @media screen and (min-width: $smaller-screen) {
     margin: 0.4em 0 0.6em 0;
@@ -21,6 +24,6 @@
   @include sans-serif;
   font-weight: bold;
   margin-inline-end: 0.5em;
-  margin-block-start: 0.5em;
+  margin-block-start: 0;
   flex: 0 0 auto;
 }

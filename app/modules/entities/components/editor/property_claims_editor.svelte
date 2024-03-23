@@ -8,6 +8,8 @@
   import assert_ from '#lib/assert_types'
   import { getPropertyClaimsCount, isEmptyClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import Flash from '#lib/components/flash.svelte'
+  import { isWikidataPropertyUri } from '#lib/boolean_tests'
+  import { getWikidataPropertyDocumentationUrl } from '#lib/wikimedia/wikidata'
 
   export let entity, property, required = false
 
@@ -66,7 +68,21 @@
     {#if isRequiredAndMissing}
       <span class="required-notice">{I18n('required')}</span>
     {/if}
-    <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
+    <div class="property-info">
+      <h3 class="editor-section-header">{I18n(customLabel || property)}</h3>
+      {#if isWikidataPropertyUri(property)}
+        <a
+          class="uri"
+          href={getWikidataPropertyDocumentationUrl(property)}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {property}
+        </a>
+      {:else}
+        <span class="uri">{property}</span>
+      {/if}
+    </div>
     <div class="property-claim-values">
       <!-- Do not set the #each element (key) to prevent discarding claim_editor components on value change
            as that would make the "undo" impossible -->
@@ -97,6 +113,7 @@
   @import "#entities/scss/entity_editors_commons";
   .editor-section-header{
     inline-size: 9em;
+    margin-block-end: 0;
   }
   .property-claim-values{
     flex: 1 1 auto;
@@ -107,7 +124,7 @@
     font-weight: normal;
     @include display-flex(row, center, space-between);
     &:first-child{
-      margin-block-start: 0.2em;
+      margin-block-start: 0;
     }
     &:not(:first-child){
       margin-block-start: 1em;
