@@ -4,15 +4,17 @@
 // - https://webpack.js.org/configuration/
 // - https://survivejs.com/webpack/preface/
 
-const path = require('path')
+const path = require('node:path')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = mode => ({
-  entry: './app/initialize.js',
+  entry: './app/initialize.ts',
   resolve: require('./resolve.cjs'),
   plugins: [
     require('./plugins/extract_css.cjs'),
     require('./plugins/dynamic_html_index_plugin.cjs'),
     require('./plugins/detect_circular_dependencies.cjs'),
+    new ForkTsCheckerWebpackPlugin(),
   ],
   output: {
     path: path.resolve(__dirname, '../public/dist'),
@@ -27,7 +29,7 @@ module.exports = mode => ({
   },
   module: {
     rules: [
-      require('./rules/js.cjs')(mode),
+      require('./rules/ts.cjs')(mode),
       require('./rules/css.cjs')(mode),
       require('./rules/scss.cjs')(mode),
       require('./rules/handlebars.cjs'),

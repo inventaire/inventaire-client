@@ -1,5 +1,7 @@
+const webpackCommonConfigFactory = require('./webpack.config.common.cjs')
+
 const mode = 'production'
-const webpackConfig = require('./webpack.config.common.cjs')(mode)
+const webpackConfig = webpackCommonConfigFactory(mode)
 
 Object.assign(webpackConfig, {
   mode,
