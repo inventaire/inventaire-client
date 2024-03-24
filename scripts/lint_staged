@@ -3,7 +3,7 @@
 set -e
 
 # Keep A (added) and M (modified) files, if staged (no space before)
-staged=$(git status --porcelain | grep -E "^(A|M).*\.(js|svelte)$" | awk '{print $2}')
+staged=$(git status --porcelain | grep -E "^(A|M).*\.(js|ts|svelte)$" | awk '{print $2}')
 
 export ESLINT_PRE_COMMIT_EXTRA=1
 

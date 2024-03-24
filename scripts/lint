@@ -2,7 +2,7 @@
 
 set -e
 
-ESLINT_ARGS="--format codeframe --ext js,svelte --config .eslintrc.cjs"
+ESLINT_ARGS="--format codeframe --ext js,ts,svelte --config .eslintrc.cjs"
 if [ "$ESLINT_PRE_COMMIT_EXTRA" != "" ] ; then
   ESLINT_ARGS="$ESLINT_ARGS --config .eslintrc.pre-commit-extra.cjs"
 fi
