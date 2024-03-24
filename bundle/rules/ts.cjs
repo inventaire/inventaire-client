@@ -1,17 +1,14 @@
 module.exports = mode => {
   const rule = {
-    test: /\.js$/,
+    test: /\.ts$/,
     resolve: {
       // Allow to import modules without specifying the '.js':
       // import './foo.js' => import './foo'
-      fullySpecified: false
+      // fullySpecified: false,
     },
-    use: []
   }
 
-  if (mode === 'production') {
-    rule.use.push(require('./babel.cjs'))
-  }
+  rule.use = [ require('./babel.cjs')(mode) ]
 
   return rule
 }
