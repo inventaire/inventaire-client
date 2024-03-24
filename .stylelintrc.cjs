@@ -10,6 +10,7 @@ module.exports = {
   plugins: [
     'stylelint-use-logical',
   ],
+  ignoreFiles: [ "**/*.ts" ],
   rules: {
     'at-rule-empty-line-before': null,
     'at-rule-no-unknown': null,
