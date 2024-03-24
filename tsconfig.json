@@ -1,0 +1,80 @@
+{
+  "module": "es6",
+  "compilerOptions": {
+    "baseUrl": "./app",
+    "paths": {
+      "#behaviors/*": [
+        "modules/general/behaviors/*"
+      ],
+      "#components/*": [
+        "modules/general/components/*"
+      ],
+      "#entities/*": [
+        "modules/entities/*"
+      ],
+      "#general/*": [
+        "modules/general/*"
+      ],
+      "#groups/*": [
+        "modules/groups/*"
+      ],
+      "#inventory/*": [
+        "modules/inventory/*"
+      ],
+      "#listings/*": [
+        "modules/listings/*"
+      ],
+      "#map/*": [
+        "modules/map/*"
+      ],
+      "#network/*": [
+        "modules/network/*"
+      ],
+      "#notifications/*": [
+        "modules/notifications/*"
+      ],
+      "#search/*": [
+        "modules/search/*"
+      ],
+      "#settings/*": [
+        "modules/settings/*"
+      ],
+      "#shelves/*": [
+        "modules/shelves/*"
+      ],
+      "#tasks/*": [
+        "modules/tasks/*"
+      ],
+      "#transactions/*": [
+        "modules/transactions/*"
+      ],
+      "#user/*": [
+        "modules/user/*"
+      ],
+      "#users/*": [
+        "modules/users/*"
+      ],
+      "#welcome/*": [
+        "modules/welcome/*"
+      ],
+      "#assets/*": [
+        "assets/*"
+      ],
+      "#lib/*": [
+        "lib/*"
+      ],
+      "#modules/*": [
+        "modules/*"
+      ],
+      "#app/*": [
+        "*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "public",
+    "vendor",
+    "scripts/assets"
+  ]
+}

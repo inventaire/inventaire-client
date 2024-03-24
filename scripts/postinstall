@@ -29,8 +29,6 @@ echo "// A polyfill for visualViewport is required until we stop supporting Fire
 " > ./vendor/visual_viewport_polyfill.js
 curl -sk https://raw.githubusercontent.com/WICG/visual-viewport/44deaba/polyfill/visualViewport.js >> ./vendor/visual_viewport_polyfill.js
 
-npm run update-jsconfig
-
 # Remove assets cached by node modules, in particular webpack cached builds,
 # as webpack does not invalidate its cache on modules updates.
 # This is recommanded in https://webpack.js.org/guides/build-performance/#persistent-cache
