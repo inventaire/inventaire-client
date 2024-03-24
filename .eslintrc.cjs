@@ -8,49 +8,79 @@ module.exports = {
   env: {
     browser: true,
     commonjs: false,
-    es2022: true
+    es2022: true,
   },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: false,
+    },
   },
+  plugins: [
+    'node-import',
+    '@stylistic/ts',
+  ],
   extends: [
     // See https://github.com/standard/eslint-config-standard/blob/master/eslintrc.json
     'standard',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:svelte/recommended',
   ],
   rules: {
     'array-bracket-spacing': [ 'error', 'always' ],
-    // Some map functions may implicitly return undefined,
-    // for instance to have it later filtered-out from the array
-    'array-callback-return': 'off',
     'arrow-parens': [ 'error', 'as-needed' ],
     'comma-dangle': [
       'error',
       {
-        arrays: 'only-multiline',
-        objects: 'only-multiline',
-        imports: 'only-multiline',
-        exports: 'only-multiline',
-        functions: 'never'
-      }
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'never',
+      },
     ],
     eqeqeq: [ 'error', 'smart' ],
+    indent: 'off', // Required to set the TS rule
     'implicit-arrow-linebreak': [ 'error', 'beside' ],
-    indent: [ 'error', 2, { MemberExpression: 'off' } ],
-    // Making the rule settings explicit to prevent to get warnings with svelte components
-    // See https://github.com/sveltejs/eslint-plugin-svelte3/issues/82
-    'no-multiple-empty-lines': [ 'error', { max: 1, maxBOF: 0, maxEOF: 1 } ],
-    // svelte components initialization are a "new" with side-effect
-    'no-new': 'off',
-    'no-self-assign': 'off',
+    'import/newline-after-import': 'error',
+    'import/order': [
+      'error',
+      {
+        pathGroups: [
+          { pattern: '#*/**', group: 'internal', position: 'before' },
+        ],
+        groups: [ 'builtin', 'external', 'internal', 'parent', 'sibling', 'object', 'type' ],
+        'newlines-between': 'never',
+        alphabetize: { order: 'asc' },
+      },
+    ],
+    'no-ex-assign': [ 'off' ],
     'no-var': [ 'error' ],
+    'node-import/prefer-node-protocol': 2,
     'nonblock-statement-body-position': [ 'error', 'beside' ],
-    'object-curly-spacing': [ 'error', 'always' ],
     'object-shorthand': [ 'error', 'properties' ],
-    // Being able to define several variables on a single line comes very handy with Svelte
-    'one-var': 'off',
-    // Disabling to prevent editors auto-fix before the variable was reassigned
-    'prefer-const': 'off',
+    'one-var': [ 'off' ],
+    'prefer-arrow-callback': [ 'error' ],
+    'prefer-const': [ 'error' ],
+
+    '@stylistic/ts/type-annotation-spacing': 'error',
+    '@stylistic/ts/space-infix-ops': 'error',
+    '@stylistic/ts/object-curly-spacing': [ 'error', 'always' ],
+
+    '@typescript-eslint/keyword-spacing': 'error',
+    '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/consistent-type-imports': [ 'error', { prefer: 'type-imports' } ],
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/indent': [ 'error', 2, { MemberExpression: 'off' } ],
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      {
+        multiline: { delimiter: 'none' },
+        singleline: { delimiter: 'comma', requireLast: false },
+      },
+    ],
 
     'svelte/no-at-html-tags': 'off',
     'svelte/no-reactive-functions': 'error',
@@ -70,8 +100,8 @@ module.exports = {
       'error',
       {
         multiline: 1,
-        singleline: 3
-      }
+        singleline: 3,
+      },
     ],
     'svelte/mustache-spacing': 'error',
     // 'svelte/no-extra-reactive-curlies': 'error',
@@ -95,8 +125,8 @@ module.exports = {
         // Example:      on:click={() => zoom = !zoom }
         // instead of:   on:click={() => { zoom = !zoom }}
         'no-return-assign': 'off',
-      }
-    }
+      },
+    },
   ],
   globals: {
     app: 'writable',
@@ -130,6 +160,6 @@ module.exports = {
     xit: 'readonly',
     describe: 'readonly',
     xdescribe: 'readonly',
-    beforeEach: 'readonly'
+    beforeEach: 'readonly',
   },
 }
