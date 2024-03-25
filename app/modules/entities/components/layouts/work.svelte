@@ -1,27 +1,27 @@
 <script>
+  import { setContext, tick } from 'svelte'
+  import { writable } from 'svelte/store'
+  import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
+  import Summary from '#entities/components/layouts/summary.svelte'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
+  import { getPublishersUrisFromEditions, omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
+  import { runEntityNavigate } from '#entities/lib/document_metadata'
+  import { getEntitiesAttributesByUris, byPopularity, getAndAssignPopularity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { scrollToElement } from '#lib/screen'
+  import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
   import { i18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities'
-  import { getEntitiesAttributesByUris, byPopularity, getAndAssignPopularity } from '#entities/lib/entities'
-  import { getPublishersUrisFromEditions, omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
-  import BaseLayout from './base_layout.svelte'
   import AuthorsInfo from './authors_info.svelte'
-  import Infobox from './infobox.svelte'
+  import BaseLayout from './base_layout.svelte'
   import Ebooks from './ebooks.svelte'
+  import Infobox from './infobox.svelte'
   import ItemsLists from './items_lists.svelte'
   import EditionsList from './editions_list.svelte'
-  import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
   import EntityTitle from './entity_title.svelte'
   import WorkActions from './work_actions.svelte'
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
-  import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
-  import { setContext, tick } from 'svelte'
-  import { writable } from 'svelte/store'
-  import Summary from '#entities/components/layouts/summary.svelte'
-  import { scrollToElement } from '#lib/screen'
-  import { runEntityNavigate } from '#entities/lib/document_metadata'
-  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
   import Flash from '#lib/components/flash.svelte'
 
   export let entity
@@ -47,14 +47,14 @@
       uris: publishersUris,
       // info is necessary to get the type, and generate publisher URI link without "wdt:P921-" prefix
       attributes: [ 'info', 'labels' ],
-      lang: userLang
+      lang: userLang,
     })
     publishersByUris = entities
     await getAndAssignPopularity({ entities: initialEditions })
     editions = initialEditions.sort(byPopularity)
   }
 
-  let waitingForEditions = getEditionsWithPublishers().catch(err => flash = err)
+  const waitingForEditions = getEditionsWithPublishers().catch(err => flash = err)
 
   async function showMapAndScrollToMap () {
     showMap = true

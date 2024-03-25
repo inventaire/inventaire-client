@@ -1,5 +1,6 @@
 import { property, values } from 'underscore'
-import { propertiesEditorsConfigs } from './properties.js'
+import { propertiesEditorsConfigs } from './properties.ts'
+
 const graphRelationEditorType = [ 'entity', 'fixed-entity' ]
 
 export default values(propertiesEditorsConfigs)

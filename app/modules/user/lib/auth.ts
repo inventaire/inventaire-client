@@ -1,6 +1,6 @@
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import requestLogout from './request_logout.js'
+import requestLogout from './request_logout.ts'
 
 export default function () {
   app.commands.setHandlers({ logout: requestLogout })
@@ -25,7 +25,7 @@ const login = (username, password) => preq.post(app.API.auth.login, { username, 
 export async function passwordUpdate ({ currentPassword, newPassword }) {
   await preq.post(app.API.auth.updatePassword, {
     'current-password': currentPassword,
-    'new-password': newPassword
+    'new-password': newPassword,
   })
 }
 

@@ -1,11 +1,11 @@
-import { i18n, I18n } from '#user/lib/i18n'
-import { byNewestPublicationDate, getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
+import { pick, pluck } from 'underscore'
 import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
+import { byNewestPublicationDate, getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
+import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.ts'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
-import { pick, pluck } from 'underscore'
-import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.js'
 import { expired } from '#lib/time'
+import { i18n, I18n } from '#user/lib/i18n'
 
 const subEntitiesProp = {
   work: 'wdt:P629',
@@ -23,7 +23,7 @@ const urisGetterByType = {
         parentUri,
         uris: pluck(parts, 'uri'),
         subEntityRelationProperty: 'wdt:P179',
-        sortingType: 'seriePart'
+        sortingType: 'seriePart',
       },
     ]
   },
@@ -38,14 +38,14 @@ const urisGetterByType = {
         subEntityType: 'serie',
         parentUri,
         subEntityRelationProperty,
-        uris: pluck(series, 'uri')
+        uris: pluck(series, 'uri'),
       },
       {
         label: I18n('works'),
         subEntityType: 'work',
         parentUri,
         subEntityRelationProperty,
-        uris: pluck(works, 'uri')
+        uris: pluck(works, 'uri'),
       },
       {
         label: I18n('articles'),
@@ -53,7 +53,7 @@ const urisGetterByType = {
           'uri'),
         searchable: false,
         isCompactDisplay: true,
-        sortingType: 'article'
+        sortingType: 'article',
       },
     ]
   },
@@ -68,7 +68,7 @@ const urisGetterByType = {
         subEntityType: 'collection',
         parentUri,
         subEntityRelationProperty,
-        uris: pluck(collections, 'uri')
+        uris: pluck(collections, 'uri'),
       },
       {
         label: I18n('editions'),
@@ -76,7 +76,7 @@ const urisGetterByType = {
         parentUri,
         subEntityRelationProperty,
         uris: pluck(editions, 'uri'),
-        searchable: false
+        searchable: false,
       },
     ]
   },
@@ -92,7 +92,7 @@ const urisGetterByType = {
         parentUri,
         subEntityRelationProperty,
         uris,
-        searchable: false
+        searchable: false,
       },
     ]
   },
@@ -105,7 +105,7 @@ const urisGetterByType = {
         uris,
         searchable: false,
         isCompactDisplay: true,
-        sortingType: 'article'
+        sortingType: 'article',
       },
     ]
   },
@@ -120,7 +120,7 @@ const urisGetterByType = {
     return [
       { label, uris, sortingType },
     ]
-  }
+  },
 }
 
 export const getSubEntitiesSections = async ({ entity, sortFn = byNewestPublicationDate, property }) => {
@@ -154,7 +154,7 @@ const truncateTooManyUris = (section, parentEntityType) => {
     section.uris = uris.splice(0, entitiesLimit)
     section.context = i18n('Too many entities requested (%{entitiesCount}). Only %{limit} are displayed.', {
       entitiesCount: urisCount,
-      limit: entitiesLimit
+      limit: entitiesLimit,
     })
   }
 }
@@ -170,7 +170,7 @@ const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => 
       'claims',
       'image',
     ],
-    lang: app.user.lang
+    lang: app.user.lang,
   })
   section.entities = Object.values(entities).map(serializeEntity).sort(sortFn)
   await fetchRelatedEntities(section.entities, parentEntityType)

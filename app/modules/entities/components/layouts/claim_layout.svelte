@@ -1,25 +1,25 @@
 <script>
-  import Spinner from '#general/components/spinner.svelte'
-  import { getSubEntitiesSections } from '#entities/components/lib/entities'
-  import BaseLayout from './base_layout.svelte'
-  import EntityImage from '../entity_image.svelte'
-  import Summary from '#entities/components/layouts/summary.svelte'
-  import RelativeEntitiesList from './relative_entities_list.svelte'
-  import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { setContext } from 'svelte'
-  import { runEntityNavigate } from '#entities/lib/document_metadata'
-  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
-  import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
-  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
-  import { loadInternalLink } from '#lib/utils'
   import { debounce } from 'underscore'
-  import { onChange } from '#lib/svelte/svelte'
+  import Summary from '#entities/components/layouts/summary.svelte'
+  import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubentitiesTypes } from '#entities/components/lib/claim_layout_helpers'
+  import { getSubEntitiesSections } from '#entities/components/lib/entities'
+  import { runEntityNavigate } from '#entities/lib/document_metadata'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
+  import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
+  import Spinner from '#general/components/spinner.svelte'
+  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
+  import { onChange } from '#lib/svelte/svelte'
+  import { loadInternalLink } from '#lib/utils'
+  import EntityImage from '../entity_image.svelte'
+  import BaseLayout from './base_layout.svelte'
+  import RelativeEntitiesList from './relative_entities_list.svelte'
 
   export let entity, property
 
   const { uri, type } = entity
-  let { label } = entity
+  const { label } = entity
 
   runEntityNavigate(entity, { uriPrefix: `${property}-` })
 

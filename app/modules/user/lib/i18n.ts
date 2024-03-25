@@ -8,8 +8,8 @@ import Polyglot from 'node-polyglot'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { capitalize } from '#lib/utils'
-import translate from './translate.js'
-import i18nMissingKey from './i18n_missing_key.js'
+import i18nMissingKey from './i18n_missing_key.ts'
+import translate from './translate.ts'
 
 // Work around circular dependency
 let update = _.noop
@@ -43,7 +43,7 @@ export const initI18n = async (app, lang) => {
 
   app.commands.setHandlers({
     'uriLabel:update': () => update(app.user.lang),
-    'uriLabel:refresh': refreshData
+    'uriLabel:refresh': refreshData,
   })
 
   initLocalLang(lang)
@@ -74,6 +74,6 @@ const initLocalLang = function (lang) {
   let lastLocalLang = lang
   app.vent.on('lang:local:change', value => { lastLocalLang = value })
   app.reqres.setHandlers({
-    'lang:local:get': () => lastLocalLang
+    'lang:local:get': () => lastLocalLang,
   })
 }

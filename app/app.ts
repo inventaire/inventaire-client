@@ -1,11 +1,11 @@
-import { isNonEmptyString } from '#lib/boolean_tests'
 import BindedPartialBuilder from '#lib/binded_partial_builder'
-import { clearMetadata, updateRouteMetadata } from '#lib/metadata/update'
+import { isNonEmptyString } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import { routeSection, currentRouteWithQueryString } from '#lib/location'
-import { channel, reqres, request, execute } from './radio.js'
-import { dropLeadingSlash } from '#lib/utils'
+import { clearMetadata, updateRouteMetadata } from '#lib/metadata/update'
 import { scrollToElement } from '#lib/screen'
+import { dropLeadingSlash } from '#lib/utils'
+import { channel, reqres, request, execute } from './radio.ts'
 
 let initialUrlNavigateAlreadyCalled = false
 let lastNavigateTimestamp = 0
@@ -112,7 +112,7 @@ const App = Marionette.Application.extend({
     if (!options) options = {}
     options.replace = true
     this.navigate(route, options)
-  }
+  },
 })
 
 const onceStart = function () {

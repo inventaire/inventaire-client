@@ -1,5 +1,5 @@
 import { localStorageProxy } from '#lib/local_storage'
-import Search from '../models/search.js'
+import Search from '../models/search.ts'
 
 export default Backbone.Collection.extend({
   model: Search,
@@ -46,5 +46,5 @@ export default Backbone.Collection.extend({
   findLastSearch () {
     this.sort()
     return this.models[0]
-  }
+  },
 })

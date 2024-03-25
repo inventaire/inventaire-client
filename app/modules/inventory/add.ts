@@ -1,4 +1,4 @@
-import initAddHelpers from './lib/add_helpers.js'
+import initAddHelpers from './lib/add_helpers.ts'
 
 export default {
   initialize () {
@@ -7,15 +7,15 @@ export default {
         'add(/search)(/)': 'showSearch',
         'add/scan(/)': 'showScan',
         'add/scan/embedded(/)': 'showEmbeddedScanner',
-        'add/import(/)': 'showImport'
-      }
+        'add/import(/)': 'showImport',
+      },
     })
 
     new Router({ controller: API })
 
     initAddHelpers()
     initializeHandlers()
-  }
+  },
 }
 
 const API = {
@@ -36,21 +36,21 @@ const API = {
         // navigate before triggering the view itself has
         // special behaviors on route change
         app.navigate('add/scan/embedded')
-        const { default: EmbeddedScanner } = await import('./views/add/embedded_scanner.js')
+        const { default: EmbeddedScanner } = await import('./views/add/embedded_scanner.ts')
         // showing in main so that requesting another layout destroy this view
         app.layout.showChildView('main', new EmbeddedScanner())
       } else {
         API.showScan()
       }
     }
-  }
+  },
 }
 
 const showAddLayout = async (tab = 'search', options = {}) => {
   if (app.request('require:loggedIn', `add/${tab}`)) {
     app.execute('last:add:mode:set', tab)
     options.tab = tab
-    const { default: AddLayout } = await import('./views/add/add_layout.js')
+    const { default: AddLayout } = await import('./views/add/add_layout.ts')
     app.layout.showChildView('main', new AddLayout(options))
   }
 }
@@ -67,5 +67,5 @@ const initializeHandlers = () => app.commands.setHandlers({
 
   'show:scan': API.showScan,
 
-  'show:scanner:embedded': API.showEmbeddedScanner
+  'show:scanner:embedded': API.showEmbeddedScanner,
 })

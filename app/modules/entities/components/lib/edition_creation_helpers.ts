@@ -1,13 +1,13 @@
-import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
-import { getEntityPropValue } from '#entities/components/lib/claims_helpers'
 import wdLang from 'wikidata-lang'
-import { buildPath } from '#lib/location'
-import { i18n } from '#user/lib/i18n'
+import { getEntityPropValue } from '#entities/components/lib/claims_helpers'
 import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import createEntity from '#entities/lib/create_entity'
-import isLoggedIn from '#entities/views/editor/lib/is_logged_in.js'
-import preq from '#lib/preq'
+import isLoggedIn from '#entities/views/editor/lib/is_logged_in.ts'
 import error_ from '#lib/error'
+import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
+import { buildPath } from '#lib/location'
+import preq from '#lib/preq'
+import { i18n } from '#user/lib/i18n'
 
 export function createEditionFromWork (params) {
   if (!isLoggedIn()) return
@@ -65,8 +65,8 @@ const workEditionCreationData = function (work) {
   const data = {
     type: 'edition',
     claims: {
-      'wdt:P629': [ work.uri ]
-    }
+      'wdt:P629': [ work.uri ],
+    },
   }
   const { lang } = app.user
   const langWdId = wdLang.byCode[lang]?.wd

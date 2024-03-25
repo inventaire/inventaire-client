@@ -1,11 +1,12 @@
 import { fixedEncodeURIComponent } from '#lib/utils'
-import Commons from './commons.js'
-import endpoint from './endpoint.js'
+import Commons from './commons.ts'
+import endpoint from './endpoint.ts'
+
 const { base, action } = endpoint('groups')
 
 const {
   search,
-  searchByPosition
+  searchByPosition,
 } = Commons
 
 export default {
@@ -18,5 +19,5 @@ export default {
   slug (name, groupId) {
     name = fixedEncodeURIComponent(name)
     return action('slug', { name, group: groupId })
-  }
+  },
 }

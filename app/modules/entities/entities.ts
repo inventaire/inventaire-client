@@ -1,13 +1,13 @@
-import { isPropertyUri, isEntityUri } from '#lib/boolean_tests'
+import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 import assert_ from '#lib/assert_types'
+import { isPropertyUri, isEntityUri } from '#lib/boolean_tests'
+import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
-import error_ from '#lib/error'
-import * as entitiesModelsIndex from './lib/entities_models_index.js'
-import getEntityViewByType from './lib/get_entity_view_by_type.js'
-import { getEntityByUri, normalizeUri, serializeEntity } from './lib/entities.js'
-import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
+import { getEntityByUri, normalizeUri, serializeEntity } from './lib/entities.ts'
+import * as entitiesModelsIndex from './lib/entities_models_index.ts'
+import getEntityViewByType from './lib/get_entity_view_by_type.ts'
 
 export default {
   initialize () {
@@ -24,14 +24,14 @@ export default {
         'entity/:uri/homonyms(/)': 'showHomonyms',
         'entity/:uri/deduplicate(/)': 'showEntityDeduplicate',
         'entity/:uri/history(/)': 'showEntityHistory',
-        'entity/:uri(/)': 'showEntity'
-      }
+        'entity/:uri(/)': 'showEntity',
+      },
     })
 
     new Router({ controller: API })
 
     setHandlers()
-  }
+  },
 }
 
 const API = {
@@ -106,7 +106,7 @@ const API = {
       path: 'entity/contributions',
       title: 'contributions',
       Component: ContributionsCounts,
-      accessLevel: 'admin'
+      accessLevel: 'admin',
     })
   },
 
@@ -117,7 +117,7 @@ const API = {
       title: `${i18n('deduplicate')} - ${i18n('authors')}`,
       Component: DeduplicateAuthorsNames,
       navigate: true,
-      accessLevel: 'dataadmin'
+      accessLevel: 'dataadmin',
     })
   },
 
@@ -142,7 +142,7 @@ const API = {
       title: `${entity.label} - ${i18n('deduplicate')} - ${i18n('works')}`,
       Component: DeduplicateWorks,
       componentProps: { author: entity },
-      accessLevel: 'dataadmin'
+      accessLevel: 'dataadmin',
     })
   },
 
@@ -173,7 +173,7 @@ const API = {
       props: {
         entity: serializeEntity(entity),
         standalone: true,
-      }
+      },
     })
   },
 
@@ -182,7 +182,7 @@ const API = {
     uri = normalizeUri(uri)
     const { default: EntityHistory } = await import('./components/patches/entity_history.svelte')
     app.layout.showChildComponent('main', EntityHistory, {
-      props: { uri }
+      props: { uri },
     })
   },
 
@@ -191,7 +191,7 @@ const API = {
     app.execute('show:loader')
     const { default: EntityMerge } = await import('./components/entity_merge.svelte')
     app.layout.showChildComponent('main', EntityMerge, {
-      props: { from, to, type }
+      props: { from, to, type },
     })
   },
 }
@@ -213,7 +213,7 @@ const showEntityCreate = async params => {
 
   const { default: EntityCreate } = await import('./components/editor/entity_create.svelte')
   app.layout.showChildComponent('main', EntityCreate, {
-    props: params
+    props: params,
   })
 }
 
@@ -258,13 +258,13 @@ const setHandlers = function () {
     'show:wikidata:edit:intro:modal': async uri => {
       const model = await app.request('get:entity:model', uri)
       showWikidataEditIntroModal(model)
-    }
+    },
   })
 
   app.reqres.setHandlers({
     'get:entity:model': getEntityModel,
     'get:entities:models': getEntitiesModels,
-    'entity:exists:or:create:from:seed': existsOrCreateFromSeed
+    'entity:exists:or:create:from:seed': existsOrCreateFromSeed,
   })
 }
 
@@ -307,8 +307,8 @@ const showEntityEdit = async params => {
   const { default: EntityEdit } = await import('./components/editor/entity_edit.svelte')
   app.layout.showChildComponent('main', EntityEdit, {
     props: {
-      entity: model.toJSON()
-    }
+      entity: model.toJSON(),
+    },
   })
   app.navigateFromModel(model, 'edit')
 }
@@ -368,8 +368,8 @@ const showEntityCreateFromIsbn = async isbn => {
   app.layout.showChildComponent('main', EntityCreateEditionAndWorkFromIsbn, {
     props: {
       isbn13h,
-      edition: { claims }
-    }
+      edition: { claims },
+    },
   })
 }
 
@@ -379,7 +379,7 @@ const existsOrCreateFromSeed = async entry => {
     entries: [ entry ],
     update: true,
     create: true,
-    enrich: true
+    enrich: true,
   })
   // Add the possibly newly created edition entity to the local index
   // and get it's model
@@ -397,7 +397,7 @@ const showViewByAccessLevel = function (params) {
         app.layout.showChildView('main', new View(viewOptions))
       } else {
         app.layout.showChildComponent('main', Component, {
-          props: componentProps
+          props: componentProps,
         })
       }
     }
@@ -427,8 +427,8 @@ const showClaimEntities = async (claim, refresh) => {
   app.layout.showChildComponent('main', Component, {
     props: {
       property,
-      entity: model.toJSON()
-    }
+      entity: model.toJSON(),
+    },
   })
 }
 
@@ -453,7 +453,7 @@ const showEntityCleanupFromModel = async entity => {
 
   const [ { default: SerieCleanup } ] = await Promise.all([
     import('./views/cleanup/serie_cleanup'),
-    entity.initSerieParts({ refresh: true, fetchAll: true })
+    entity.initSerieParts({ refresh: true, fetchAll: true }),
   ])
 
   app.layout.showChildView('main', new SerieCleanup({ model: entity }))

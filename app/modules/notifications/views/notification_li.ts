@@ -1,7 +1,7 @@
+import PreventDefault from '#behaviors/prevent_default'
 import log_ from '#lib/loggers'
 import { isOpenedOutside } from '#lib/utils'
-import { templates } from '../lib/notifications_types.js'
-import PreventDefault from '#behaviors/prevent_default'
+import { templates } from '../lib/notifications_types.ts'
 
 export default Marionette.View.extend({
   tagName: 'li',
@@ -26,7 +26,7 @@ export default Marionette.View.extend({
 
   modelEvents: {
     change: 'lazyRender',
-    grab: 'lazyRender'
+    grab: 'lazyRender',
   },
 
   serializeData () { return this.model.serializeData() },
@@ -34,7 +34,7 @@ export default Marionette.View.extend({
   events: {
     'click .friendAcceptedRequest': 'showUserProfile',
     // includes: .userMadeAdmin .groupUpdate
-    'click .groupNotification': 'showGroupSettings'
+    'click .groupNotification': 'showGroupSettings',
   },
 
   showUserProfile (e) {
@@ -47,5 +47,5 @@ export default Marionette.View.extend({
     if (!isOpenedOutside(e)) {
       app.execute('show:group:board', this.model.group)
     }
-  }
+  },
 })

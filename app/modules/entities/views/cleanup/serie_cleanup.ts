@@ -1,17 +1,17 @@
 import { range } from 'underscore'
+import { getReverseClaims } from '#entities/lib/entities'
 import { capitalize, lazyMethod } from '#lib/utils'
 import { I18n, i18n } from '#user/lib/i18n'
+import CleanupWorks from './collections/cleanup_works.ts'
+import fillGaps from './lib/fill_gaps.ts'
+import getPartsSuggestions from './lib/get_parts_suggestions.ts'
+import moveModelOnOrdinalChange from './lib/move_model_on_ordinal_change.ts'
+import { createPlaceholders, removePlaceholder, removePlaceholdersAbove } from './lib/placeholders.ts'
+import spreadPart from './lib/spread_part.ts'
+import SerieCleanupEditions from './serie_cleanup_editions.ts'
+import PartsSuggestions from './serie_cleanup_part_suggestion.ts'
+import SerieCleanupWorks from './serie_cleanup_works.ts'
 import serieCleanupTemplate from './templates/serie_cleanup.hbs'
-import SerieCleanupWorks from './serie_cleanup_works.js'
-import SerieCleanupEditions from './serie_cleanup_editions.js'
-import PartsSuggestions from './serie_cleanup_part_suggestion.js'
-import { getReverseClaims } from '#entities/lib/entities'
-import CleanupWorks from './collections/cleanup_works.js'
-import getPartsSuggestions from './lib/get_parts_suggestions.js'
-import fillGaps from './lib/fill_gaps.js'
-import spreadPart from './lib/spread_part.js'
-import moveModelOnOrdinalChange from './lib/move_model_on_ordinal_change.js'
-import { createPlaceholders, removePlaceholder, removePlaceholdersAbove } from './lib/placeholders.js'
 import '#entities/scss/serie_cleanup.scss'
 import ImgZoomIn from '#behaviors/img_zoom_in'
 import Loading from '#behaviors/loading'
@@ -26,7 +26,7 @@ export default Marionette.View.extend({
     isolatedEditionsRegion: '#isolatedEditions',
     worksWithoutOrdinalRegion: '#worksWithoutOrdinal',
     worksWithOrdinalRegion: '#worksWithOrdinal',
-    partsSuggestionsRegion: '#partsSuggestions'
+    partsSuggestionsRegion: '#partsSuggestions',
   },
 
   ui: {
@@ -35,7 +35,7 @@ export default Marionette.View.extend({
     descriptionsToggler: '.toggler-label[for="toggleDescriptions"]',
     largeToggler: '.toggler-label[for="largeToggler"]',
     createPlaceholdersButton: '#createPlaceholders',
-    isolatedEditionsWrapper: '#isolatedEditionsWrapper'
+    isolatedEditionsWrapper: '#isolatedEditionsWrapper',
   },
 
   behaviors: {
@@ -74,25 +74,25 @@ export default Marionette.View.extend({
       authorsToggler: {
         id: 'authorsToggler',
         checked: this._states.authors,
-        label: 'show authors'
+        label: 'show authors',
       },
       editionsToggler: {
         id: 'editionsToggler',
         checked: this._states.editions,
-        label: 'show editions'
+        label: 'show editions',
       },
       descriptionsToggler: {
         id: 'descriptionsToggler',
         checked: this._states.descriptions,
-        label: 'show descriptions'
+        label: 'show descriptions',
       },
       largeToggler: {
         id: 'largeToggler',
         checked: this._states.large,
-        label: 'large mode'
+        label: 'large mode',
       },
       titlePattern: this.titlePattern,
-      placeholderCounter: this.placeholderCounter
+      placeholderCounter: this.placeholderCounter,
     }
   },
 
@@ -100,7 +100,7 @@ export default Marionette.View.extend({
     this.showWorkList({
       name: 'worksInConflicts',
       label: 'parts with ordinal conflicts',
-      showPossibleOrdinals: true
+      showPossibleOrdinals: true,
     })
 
     this.showWorkList({
@@ -108,13 +108,13 @@ export default Marionette.View.extend({
       label: 'parts without ordinal',
       showPossibleOrdinals: true,
       // Always show so that added suggested parts can join this list
-      alwaysShow: true
+      alwaysShow: true,
     })
 
     this.showWorkList({
       name: 'worksWithOrdinal',
       label: 'parts with ordinal',
-      alwaysShow: true
+      alwaysShow: true,
     })
 
     this.showIsolatedEditions()
@@ -134,7 +134,7 @@ export default Marionette.View.extend({
       showPossibleOrdinals,
       worksWithOrdinal: this.worksWithOrdinal,
       worksWithoutOrdinal: this.worksWithoutOrdinal,
-      allAuthorsUris: this.allAuthorsUris
+      allAuthorsUris: this.allAuthorsUris,
     }))
   },
 
@@ -150,7 +150,7 @@ export default Marionette.View.extend({
     'change #descriptionsToggler': 'toggleDescriptions',
     'change #largeToggler': 'toggleLarge',
     'keyup #titlePattern': 'lazyUpdateTitlePattern',
-    'click #createPlaceholders': 'createPlaceholders'
+    'click #createPlaceholders': 'createPlaceholders',
   },
 
   updatePartsNumber (e) {
@@ -235,7 +235,7 @@ export default Marionette.View.extend({
       addToSerie,
       serie,
       worksWithOrdinal: this.worksWithOrdinal,
-      worksWithoutOrdinal: this.worksWithoutOrdinal
+      worksWithoutOrdinal: this.worksWithoutOrdinal,
     }))
   },
 
@@ -248,14 +248,14 @@ export default Marionette.View.extend({
     this.showChildView('isolatedEditionsRegion', new SerieCleanupEditions({
       collection,
       worksWithOrdinal: this.worksWithOrdinal,
-      worksWithoutOrdinal: this.worksWithoutOrdinal
+      worksWithoutOrdinal: this.worksWithoutOrdinal,
     }))
     this.listenTo(collection, 'remove', this.hideIsolatedEditionsWhenEmpty.bind(this))
   },
 
   hideIsolatedEditionsWhenEmpty (removedEdition, collection) {
     if (collection.length === 0) this.ui.isolatedEditionsWrapper.addClass('hidden')
-  }
+  },
 })
 
 const getIsolatedEditions = serieUri => getReverseClaims('wdt:P629', serieUri, true)

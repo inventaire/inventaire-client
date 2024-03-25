@@ -5,6 +5,7 @@
 // - Trigger uriLabel.update to make it look for those elements
 //   and replace their text by the best label it can find for the Qid
 
+import { get as getEntitiesModels } from '#entities/lib/entities_models_index'
 import log_ from '#lib/loggers'
 import {
   getLabel,
@@ -12,10 +13,8 @@ import {
   getKnownUris,
   resetLabels,
   addPreviouslyMissingUris,
-  wasntPrevisoulyMissing
-} from './labels_helpers.js'
-
-import { get as getEntitiesModels } from '#entities/lib/entities_models_index'
+  wasntPrevisoulyMissing,
+} from './labels_helpers.ts'
 
 // keep in sync with app/modules/general/views/behaviors/templates/entity_value.hbs
 const className = 'uriLabel'

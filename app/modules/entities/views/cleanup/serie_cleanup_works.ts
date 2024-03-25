@@ -1,4 +1,4 @@
-import SerieCleanupWork from './serie_cleanup_work.js'
+import SerieCleanupWork from './serie_cleanup_work.ts'
 import serieCleanupWorksTemplate from './templates/serie_cleanup_works.hbs'
 
 export default Marionette.CollectionView.extend({
@@ -16,5 +16,5 @@ export default Marionette.CollectionView.extend({
     return (ordinal != null) && (ordinal !== 0)
   },
 
-  childViewOptions () { return this.options }
+  childViewOptions () { return this.options },
 })

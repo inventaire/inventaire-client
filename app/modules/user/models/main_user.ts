@@ -1,8 +1,9 @@
-import UserCommons from '#users/models/user_commons'
-import solveLang from '../lib/solve_lang.js'
-import notificationsList from '#settings/lib/notifications_settings_list'
-import { initI18n } from '../lib/i18n.js'
 import cookie_ from 'js-cookie'
+import notificationsList from '#settings/lib/notifications_settings_list'
+import UserCommons from '#users/models/user_commons'
+import { initI18n } from '../lib/i18n.ts'
+import solveLang from '../lib/solve_lang.ts'
+
 const { location } = window
 
 export default UserCommons.extend({
@@ -151,5 +152,5 @@ export default UserCommons.extend({
   hasWikidataOauthTokens () {
     const oauthList = this.get('oauth')
     return (oauthList != null) && oauthList.includes('wikidata')
-  }
+  },
 })

@@ -1,5 +1,5 @@
-import WorkPicker from './work_picker.js'
 import serieCleanupPartSuggestionTemplate from './templates/serie_cleanup_part_suggestion.hbs'
+import WorkPicker from './work_picker.ts'
 
 const PartSuggestion = WorkPicker.extend({
   tagName: 'li',
@@ -32,7 +32,7 @@ const PartSuggestion = WorkPicker.extend({
       attrs.workPicker = {
         buttonIcon: 'compress',
         buttonLabel: 'merge',
-        validateLabel: 'merge'
+        validateLabel: 'merge',
       }
     }
     return attrs
@@ -44,18 +44,18 @@ const PartSuggestion = WorkPicker.extend({
   },
 
   events: _.extend({}, WorkPicker.prototype.events, {
-    'click a.add': 'add'
+    'click a.add': 'add',
   }),
 
   add () {
     this.model.setPropertyValue('wdt:P179', null, this.options.serie.get('uri'))
     this.options.addToSerie(this.model)
     this.options.collection.remove(this.model)
-  }
+  },
 })
 
 export default Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: PartSuggestion,
-  childViewOptions () { return this.options }
+  childViewOptions () { return this.options },
 })

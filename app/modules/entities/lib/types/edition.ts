@@ -1,8 +1,9 @@
-import { unprefixify } from '#lib/wikimedia/wikidata'
-import wdLang from 'wikidata-lang'
-import getEntityItemsByCategories from '../get_entity_items_by_categories.js'
-import error_ from '#lib/error'
 import { partition } from 'underscore'
+import wdLang from 'wikidata-lang'
+import error_ from '#lib/error'
+import { unprefixify } from '#lib/wikimedia/wikidata'
+import getEntityItemsByCategories from '../get_entity_items_by_categories.ts'
+
 const farInTheFuture = '2100'
 
 export default function () {
@@ -84,7 +85,7 @@ const specificMethods = {
   },
 
   // Editions don't have subentities
-  async fetchSubEntities () {}
+  async fetchSubEntities () {},
 }
 
 const isWorkModel = workModel => workModel.get('type') === 'work'

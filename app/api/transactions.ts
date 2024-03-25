@@ -1,4 +1,5 @@
-import endpoint from './endpoint.js'
+import endpoint from './endpoint.ts'
+
 const { base, action } = endpoint('transactions')
 
 export default {

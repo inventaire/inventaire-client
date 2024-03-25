@@ -1,6 +1,7 @@
-import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
-import Notifications from './collections/notifications.js'
+import { i18n } from '#user/lib/i18n'
+import Notifications from './collections/notifications.ts'
+
 const notifications = new Notifications()
 let waitForNotifications
 
@@ -8,22 +9,22 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'notifications(/)': 'showNotifications'
-      }
+        'notifications(/)': 'showNotifications',
+      },
     })
 
     new Router({ controller: API })
 
     app.commands.setHandlers({
-      'show:notifications': API.showNotifications
+      'show:notifications': API.showNotifications,
     })
 
     app.reqres.setHandlers({
-      'notifications:unread:count' () { return notifications.unreadCount() }
+      'notifications:unread:count' () { return notifications.unreadCount() },
     })
 
     waitForNotifications = getNotificationsData()
-  }
+  },
 }
 
 const API = {
@@ -31,20 +32,20 @@ const API = {
     if (app.request('require:loggedIn', 'notifications')) {
       app.execute('show:loader')
       const [ { default: NotificationsLayout } ] = await Promise.all([
-        import('./views/notifications_layout.js'),
+        import('./views/notifications_layout.ts'),
         // Make sure that the notifications arrived before calling 'beforeShow'
         // as it will only trigger 'beforeShow' on the notifications models
         // presently in the collection
-        waitForNotifications.then(notifications.beforeShow.bind(notifications))
+        waitForNotifications.then(notifications.beforeShow.bind(notifications)),
       ])
       app.layout.showChildView('main', new NotificationsLayout({ notifications }))
       app.navigate('notifications', {
         metadata: {
-          title: i18n('notifications')
-        }
+          title: i18n('notifications'),
+        },
       })
     }
-  }
+  },
 }
 
 const getNotificationsData = async () => {

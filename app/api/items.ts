@@ -1,6 +1,7 @@
 import assert_ from '#lib/assert_types'
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint.js'
+import endpoint from './endpoint.ts'
+
 const { base, action } = endpoint('items')
 
 const queryEndpoint = (actionName, idsLabel) => params => {

@@ -1,13 +1,13 @@
-import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#lib/boolean_tests'
-import preq from '#lib/preq'
-import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
-import getBestLangValue from './get_best_lang_value.js'
-import getOriginalLang from './get_original_lang.js'
-import { forceArray } from '#lib/utils'
 import { chunk, compact, indexBy, pluck } from 'underscore'
-import assert_ from '#lib/assert_types'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
+import assert_ from '#lib/assert_types'
+import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#lib/boolean_tests'
+import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
+import preq from '#lib/preq'
 import { expired } from '#lib/time'
+import { forceArray } from '#lib/utils'
+import getBestLangValue from './get_best_lang_value.ts'
+import getOriginalLang from './get_original_lang.ts'
 
 export async function getReverseClaims (property, value, refresh, sort) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
@@ -179,7 +179,7 @@ export async function getEntitiesAttributesFromClaims (claims, attributes) {
   const { entities } = await getEntitiesAttributesByUris({
     uris,
     attributes,
-    lang: app.user.lang
+    lang: app.user.lang,
   })
   return entities
 }

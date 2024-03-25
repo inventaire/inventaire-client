@@ -1,12 +1,12 @@
-import log_ from '#lib/loggers'
-import Entity from '../models/entity.js'
+import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
+import getOriginalLang from '#entities/lib/get_original_lang'
 import error_ from '#lib/error'
 import { getIsbnData } from '#lib/isbn'
-import createEntity from './create_entity.js'
-import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
-import graphRelationsProperties from './graph_relations_properties.js'
-import getOriginalLang from '#entities/lib/get_original_lang'
-import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+import log_ from '#lib/loggers'
+import Entity from '../models/entity.ts'
+import createEntity from './create_entity.ts'
+import graphRelationsProperties from './graph_relations_properties.ts'
 
 const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
   const inEditionLang = workLabels[editionLang]
@@ -105,7 +105,7 @@ const subjectEntityP31ByProperty = {
   'wdt:P2679': 'wd:Q5',
   'wdt:P2680': 'wd:Q5',
   // collection
-  'wdt:P195': 'wd:Q20655472'
+  'wdt:P195': 'wd:Q20655472',
 }
 
 export async function createAndGetEntityModel (params) {

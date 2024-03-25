@@ -1,11 +1,11 @@
-import allowPersistantQuery from './allow_persistant_query.js'
 import { parseQuery, buildPath, setQuerystring, routeSection } from '#lib/location'
+import allowPersistantQuery from './allow_persistant_query.ts'
 
 export default function () {
   app.reqres.setHandlers({
     'querystring:get': get,
     'querystring:get:all': getQuery,
-    'querystring:keep': keep
+    'querystring:keep': keep,
   })
 
   app.commands.setHandlers({

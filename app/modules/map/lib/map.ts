@@ -1,7 +1,7 @@
-import mapConfig from './config.js'
-import { truncateDecimals } from './geo.js'
-import { buildPath } from '#lib/location'
 import { compact, uniq } from 'underscore'
+import { buildPath } from '#lib/location'
+import mapConfig from './config.ts'
+import { truncateDecimals } from './geo.ts'
 
 const { defaultZoom } = mapConfig
 

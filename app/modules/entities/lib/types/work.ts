@@ -1,6 +1,6 @@
-import commonsSerieWork from './commons_serie_work.js'
-import filterOutWdEditions from '../filter_out_wd_editions.js'
-import getEntityItemsByCategories from '../get_entity_items_by_categories.js'
+import filterOutWdEditions from '../filter_out_wd_editions.ts'
+import getEntityItemsByCategories from '../get_entity_items_by_categories.ts'
+import commonsSerieWork from './commons_serie_work.ts'
 
 const publicDomainThresholdYear = new Date().getFullYear() - 70
 
@@ -59,7 +59,7 @@ const getEditionImageData = function (edition) {
     image,
     lang: edition.get('lang'),
     publicationDate: edition.get('publicationTime'),
-    isCompositeEdition: edition.get('isCompositeEdition')
+    isCompositeEdition: edition.get('isCompositeEdition'),
   }
 }
 
@@ -97,5 +97,5 @@ const specificMethods = _.extend({}, commonsSerieWork, {
   },
   getItemsByCategories: getEntityItemsByCategories,
   beforeSubEntitiesAdd: filterOutWdEditions,
-  afterSubEntitiesAdd: setImage
+  afterSubEntitiesAdd: setImage,
 })

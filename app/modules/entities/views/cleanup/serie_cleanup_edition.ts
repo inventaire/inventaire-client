@@ -1,7 +1,7 @@
-import WorkPicker from './work_picker.js'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
 import serieCleanupEditionTemplate from './templates/serie_cleanup_edition.hbs'
+import WorkPicker from './work_picker.ts'
 
 export default WorkPicker.extend({
   tagName: 'li',
@@ -22,13 +22,13 @@ export default WorkPicker.extend({
       workPicker: {
         buttonIcon: 'arrows',
         buttonLabel: "change edition's work",
-        validateLabel: 'validate'
-      }
+        validateLabel: 'validate',
+      },
     })
   },
 
   events: _.extend({}, WorkPicker.prototype.events, {
-    'click .copyWorkLabel': 'copyWorkLabel'
+    'click .copyWorkLabel': 'copyWorkLabel',
   }),
 
   onWorkSelected (newWork) {
@@ -81,5 +81,5 @@ export default WorkPicker.extend({
     this.model.setLabelFromTitle()
     this.workLabel = null
     this.lazyRender()
-  }
+  },
 })

@@ -1,7 +1,7 @@
+import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import error_ from '#lib/error'
-import { models as modelsTypes } from '../lib/notifications_types.js'
+import { models as modelsTypes } from '../lib/notifications_types.ts'
 
 export default Backbone.Collection.extend({
   comparator (notif) { return -notif.get('time') },
@@ -37,7 +37,7 @@ export default Backbone.Collection.extend({
   beforeShow () {
     const promises = this.models.map(model => model.beforeShow())
     return Promise.all(promises)
-  }
+  },
 })
 
 const createTypedModel = function (doc) {

@@ -1,21 +1,21 @@
+import Handlebars from 'handlebars/runtime'
+import wdLang from 'wikidata-lang'
 import { isEntityUri, isImageHash } from '#lib/boolean_tests'
 import typeOf from '#lib/type_of'
-import { i18n } from '#user/lib/i18n'
-import * as icons_ from './icons.js'
-import wdLang from 'wikidata-lang'
 import commons_ from '#lib/wikimedia/commons'
-import linkify_ from './linkify.js'
-import platforms_ from './platforms.js'
+import { i18n } from '#user/lib/i18n'
 import {
   prop as propHelper,
   entity as entityHelper,
   neutralizeDataObject,
   getValuesTemplates,
   labelString,
-  claimString
-} from './claims_helpers.js'
-import { imgSrc } from './images.js'
-import Handlebars from 'handlebars/runtime'
+  claimString,
+} from './claims_helpers.ts'
+import * as icons_ from './icons.ts'
+import { imgSrc } from './images.ts'
+import linkify_ from './linkify.ts'
+import platforms_ from './platforms.ts'
 
 const { SafeString, escapeExpression } = Handlebars
 
@@ -133,7 +133,7 @@ export default API = {
     } else {
       return lang
     }
-  }
+  },
 }
 
 const dropProtocol = url => url.replace(/^(https?:)?\/\//, '')

@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import { attachEntities, getEntitiesAttributesByUris, getEntitiesByUris, serializeEntity } from '../entities.js'
+import { attachEntities, getEntitiesAttributesByUris, getEntitiesByUris, serializeEntity } from '../entities.ts'
 
 export async function getAuthorWorksUris ({ uri }) {
   const { articles, series, works } = await preq.get(app.API.entities.authorWorks(uri))
@@ -51,5 +51,5 @@ export const extendedAuthorsKeys = {
   'wdt:P50': 'authors',
   'wdt:P58': 'scenarists',
   'wdt:P110': 'illustrators',
-  'wdt:P6338': 'colorists'
+  'wdt:P6338': 'colorists',
 }

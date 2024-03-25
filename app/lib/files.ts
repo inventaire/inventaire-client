@@ -1,5 +1,5 @@
 import log_ from '#lib/loggers'
-import testEncodingErrors from './encoding_errors.js'
+import testEncodingErrors from './encoding_errors.ts'
 
 const readFile = function (mode, file, encoding, verifyEncoding) {
   const reader = new FileReader()
@@ -62,5 +62,5 @@ export function resetFileInput (inputElement) {
 export default {
   parseFileEventAsDataURL: parseFileEvent.bind(null, 'readAsDataURL'),
   parseFileEventAsText: parseFileEvent.bind(null, 'readAsText'),
-  readFile
+  readFile,
 }

@@ -1,11 +1,12 @@
 import { uniq } from 'underscore'
-import Commons from './commons.js'
-import endpoint from './endpoint.js'
+import Commons from './commons.ts'
+import endpoint from './endpoint.ts'
+
 const { base, action } = endpoint('users')
 
 const {
   search,
-  searchByPosition
+  searchByPosition,
 } = Commons
 
 export default {
@@ -16,5 +17,5 @@ export default {
   byCreationDate (params = {}) {
     const { limit, offset } = params
     return action('by-creation-date', { limit, offset })
-  }
+  },
 }

@@ -1,5 +1,5 @@
 import { getUserBasePathname } from '#users/lib/users'
-import Notification from './notification.js'
+import Notification from './notification.ts'
 
 export default Notification.extend({
   initSpecific () {
@@ -12,5 +12,5 @@ export default Notification.extend({
     attrs.picture = this.user?.get('picture')
     attrs.pathname = getUserBasePathname(attrs.username)
     return attrs
-  }
+  },
 })

@@ -1,9 +1,9 @@
-import Groups from './collections/groups.js'
-import initGroupHelpers from './lib/group_helpers.js'
-import fetchData from '#lib/data/fetch'
-import { showUsersHome } from '#users/users'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
 import { isModel } from '#lib/boolean_tests'
+import fetchData from '#lib/data/fetch'
+import { showUsersHome } from '#users/users'
+import Groups from './collections/groups.ts'
+import initGroupHelpers from './lib/group_helpers.ts'
 
 export default {
   initialize () {
@@ -18,26 +18,26 @@ export default {
         // Legacy redirections
         'network/groups/create(/)': 'showCreateGroupLayout',
         'network/groups/settings/:id(/)': 'showGroupBoard',
-      }
+      },
     })
 
     new Router({ controller: API })
 
     app.commands.setHandlers({
       'show:group:board': showGroupBoardFromDocOrModel,
-      'create:group': API.showCreateGroupLayout
+      'create:group': API.showCreateGroupLayout,
     })
 
     fetchData({
       name: 'groups',
       Collection: Groups,
-      condition: app.user.loggedIn
+      condition: app.user.loggedIn,
     })
 
     return app.request('wait:for', 'user')
     .then(initGroupHelpers)
     .then(initRequestsCollectionsEvent.bind(this))
-  }
+  },
 }
 
 const initRequestsCollectionsEvent = function () {

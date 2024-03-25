@@ -1,9 +1,9 @@
-import wdtP50 from './wdt_P50.js'
-import wdtP123 from './wdt_P123.js'
-import wdtP195 from './wdt_P195.js'
-import wdtP629 from './wdt_P629.js'
-import { reportError } from '#lib/reports'
 import { getPropertyValuesShortlist } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+import { reportError } from '#lib/reports'
+import wdtP123 from './wdt_P123.ts'
+import wdtP195 from './wdt_P195.ts'
+import wdtP50 from './wdt_P50.ts'
+import wdtP629 from './wdt_P629.ts'
 
 const suggestionsPerProperties = {
   'wdt:P50': wdtP50,

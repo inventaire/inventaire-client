@@ -1,14 +1,14 @@
-import { capitalize } from '#lib/utils'
-import { props as promiseProps, tap } from '#lib/promises'
-import { isNonEmptyString, isEntityUri } from '#lib/boolean_tests'
-import { i18n } from '#user/lib/i18n'
-import preq from '#lib/preq'
-import Filterable from '#general/models/filterable'
-import error_ from '#lib/error'
-import saveOmitAttributes from '#lib/save_omit_attributes'
-import { transactionsDataFactory } from '../lib/transactions_data.js'
 import { getEntityLocalHref } from '#entities/lib/entities'
+import Filterable from '#general/models/filterable'
+import { isNonEmptyString, isEntityUri } from '#lib/boolean_tests'
+import error_ from '#lib/error'
+import preq from '#lib/preq'
+import { props as promiseProps, tap } from '#lib/promises'
+import saveOmitAttributes from '#lib/save_omit_attributes'
+import { capitalize } from '#lib/utils'
 import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
+import { i18n } from '#user/lib/i18n'
+import { transactionsDataFactory } from '../lib/transactions_data.ts'
 
 export default Filterable.extend({
   initialize (attrs, options) {
@@ -103,7 +103,7 @@ export default Filterable.extend({
       userReady: this.userReady,
       mainUserIsOwner: this.mainUserIsOwner,
       user: this.userData(),
-      isPrivate: attrs.visibility?.length === 0
+      isPrivate: attrs.visibility?.length === 0,
     })
 
     // @entity will be defined only if @grabEntity was called
@@ -151,7 +151,7 @@ export default Filterable.extend({
         username: this.username,
         picture: user.get('picture'),
         pathname: user.get('pathname'),
-        distance: user.distanceFromMainUser
+        distance: user.distanceFromMainUser,
       }
     }
   },
@@ -164,7 +164,7 @@ export default Filterable.extend({
       this.username,
       this.get('details'),
       this.get('notes'),
-      this.get('entity')
+      this.get('entity'),
     ]
   },
 
@@ -184,7 +184,7 @@ export default Filterable.extend({
     return Promise.all([
       // wait for every model the item model depends on
       this.waitForUser,
-      this.grabEntity()
+      this.grabEntity(),
     ])
     // /!\ cant be replaced by @entity.updateMetadata.bind(@entity)
     // as @entity is probably undefined yet
@@ -197,7 +197,7 @@ export default Filterable.extend({
       title: this.findBestTitle(),
       description: this.findBestDescription()?.slice(0, 501),
       image: this.getPicture(),
-      url: this.get('pathname')
+      url: this.get('pathname'),
     })
   },
 
@@ -264,5 +264,5 @@ export default Filterable.extend({
     const shelvesIds = this.get('shelves')
     if (!shelvesIds) return false
     return shelvesIds.includes(shelfId)
-  }
+  },
 })

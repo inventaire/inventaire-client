@@ -1,15 +1,15 @@
-import { parseBooleanString } from '#lib/utils'
-import SearchResultsHistory from './collections/search_results_history.js'
-import findUri from './lib/find_uri.js'
 import { parseQuery } from '#lib/location'
 import { setPrerenderStatusCode } from '#lib/metadata/update'
+import { parseBooleanString } from '#lib/utils'
+import SearchResultsHistory from './collections/search_results_history.ts'
+import findUri from './lib/find_uri.ts'
 
 export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'search(/)': 'searchFromQueryString'
-      }
+        'search(/)': 'searchFromQueryString',
+      },
     })
 
     new Router({ controller: API })
@@ -19,13 +19,13 @@ export default {
     app.commands.setHandlers({
       'search:global': API.search,
       'show:users:search' () { return API.search('', 'user') },
-      'show:groups:search' () { return API.search('', 'group') }
+      'show:groups:search' () { return API.search('', 'group') },
     })
 
     app.reqres.setHandlers({
-      'search:history:add' (data) { return app.searchResultsHistory.addNonExisting(data) }
+      'search:history:add' (data) { return app.searchResultsHistory.addNonExisting(data) },
     })
-  }
+  },
 }
 
 const API = {}

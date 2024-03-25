@@ -1,19 +1,19 @@
 <script>
+  import { pluck } from 'underscore'
   import app from '#app/app'
+  import { serializeEntity } from '#entities/lib/entities'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
-  import { serializeEntity } from '#entities/lib/entities'
+  import getNextTask from '#tasks/lib/get_next_task.ts'
+  import { I18n } from '#user/lib/i18n'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
-  import getNextTask from '#tasks/lib/get_next_task.js'
-  import { pluck } from 'underscore'
-  import { I18n } from '#user/lib/i18n'
 
   export let taskId, entitiesType
 
   let task, from, to, flash, matchedTitles, noTask
 
-  let previousTasksIds = []
+  const previousTasksIds = []
 
   const waitForTask = getTask()
 
@@ -41,7 +41,7 @@
     const params = {
       entitiesType,
       lastTask: task,
-      previousTasksIds
+      previousTasksIds,
     }
     const newTask = await getNextTask(params)
     if (!newTask) {

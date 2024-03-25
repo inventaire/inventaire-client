@@ -1,13 +1,13 @@
 import log_ from '#lib/loggers'
-import drawCanvas from './draw_canvas.js'
 import { getViewportHeight, getViewportWidth } from '#lib/screen'
-import onDetected from './on_detected.js'
+import drawCanvas from './draw_canvas.ts'
+import onDetected from './on_detected.ts'
 
 export default {
   async scan (params) {
     startScanning(params)
     .catch(log_.ErrorRethrow('embedded scanner err'))
-  }
+  },
 }
 
 const startScanning = async function (params) {
@@ -85,8 +85,8 @@ const baseOptions = {
       top: verticalMargin,
       right: horizontalMargin,
       left: horizontalMargin,
-      bottom: verticalMargin
-    }
+      bottom: verticalMargin,
+    },
   },
   // disabling locate as I couldn't make it work:
   // the user is thus expected to be aligned with the barcode
@@ -94,6 +94,6 @@ const baseOptions = {
   // locate: true
   decoder: {
     readers: [ 'ean_reader' ],
-    multiple: false
-  }
+    multiple: false,
+  },
 }
