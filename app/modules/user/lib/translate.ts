@@ -1,4 +1,5 @@
 import assert_ from '#lib/assert_types'
+
 const wdPropPrefix = 'wdt:'
 
 export default function (lang, polyglot) {
@@ -44,5 +45,5 @@ const modifiers = {
     }
 
     return val
-  }
+  },
 }

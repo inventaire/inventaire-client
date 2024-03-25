@@ -22,6 +22,6 @@ export function autofocus (node, options = {}) {
       if (refocusOnVisibilityChange) {
         document.removeEventListener('visibilitychange', focusOnVisibilityChange)
       }
-    }
+    },
   }
 }

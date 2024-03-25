@@ -1,15 +1,15 @@
 <script>
   import app from '#app/app'
-  import { i18n, I18n } from '#user/lib/i18n'
-  import LabelsEditor from './labels_editor.svelte'
-  import getBestLangValue from '#entities/lib/get_best_lang_value'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import EntityEditMenu from './entity_edit_menu.svelte'
-  import PropertyCategory from '#entities/components/editor/property_category.svelte'
-  import { typesPossessiveForms } from '#entities/lib/types/entities_types'
-  import { onChange } from '#lib/svelte/svelte'
   import { getTypePropertiesPerCategory } from '#entities/components/editor/lib/editors_properties'
+  import PropertyCategory from '#entities/components/editor/property_category.svelte'
+  import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import { typesPossessiveForms } from '#entities/lib/types/entities_types'
+  import { icon } from '#lib/icons'
+  import { onChange } from '#lib/svelte/svelte'
+  import { loadInternalLink } from '#lib/utils'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import EntityEditMenu from './entity_edit_menu.svelte'
+  import LabelsEditor from './labels_editor.svelte'
 
   export let entity
 

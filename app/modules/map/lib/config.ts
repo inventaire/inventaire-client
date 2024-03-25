@@ -16,7 +16,7 @@ export default {
     maxBounds: [
       [ -90, -180 - antimeridianMargin ],
       [ 90, 180 + antimeridianMargin ],
-    ]
+    ],
   },
   tileUrl: 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
   tileLayerOptions: {

@@ -8,7 +8,7 @@ export default {
       appRoutes: {
         'lists/(:id)(/)': 'showListing',
         'lists(/)': 'showMainUserListings',
-      }
+      },
     })
 
     new Router({ controller: API })
@@ -20,7 +20,7 @@ async function showListing (listingId) {
   try {
     const { listing } = await getListingWithElementsById(listingId)
     app.layout.showChildComponent('main', ListingLayout, {
-      props: { listing }
+      props: { listing },
     })
     app.navigate(getListingPathname(listing._id), { metadata: getListingMetadata(listing) })
   } catch (err) {

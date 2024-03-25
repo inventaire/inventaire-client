@@ -50,7 +50,7 @@ const preq = {
   get: Ajax('GET', false),
   post: Ajax('POST', true),
   put: Ajax('PUT', true),
-  delete: Ajax('DELETE', false)
+  delete: Ajax('DELETE', false),
 }
 
 // TODO: delete once Backbone models and collections are fully removed

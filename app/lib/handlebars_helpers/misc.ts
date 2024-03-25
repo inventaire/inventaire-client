@@ -1,9 +1,10 @@
+import Handlebars from 'handlebars/runtime.js'
+import { parseQuery } from '#lib/location'
 import log_ from '#lib/loggers'
+import { timeFromNow } from '#lib/time'
 import { capitalize } from '#lib/utils'
 import { i18n } from '#user/lib/i18n'
-import { parseQuery } from '#lib/location'
-import { timeFromNow } from '#lib/time'
-import Handlebars from 'handlebars/runtime'
+
 const { SafeString, escapeExpression } = Handlebars
 
 export default {
@@ -15,10 +16,10 @@ export default {
     return i18n(key, context)
   },
 
-  I18n (...args) { return capitalize(this.i18n.apply(this, args)) },
+  I18n (...args) { return capitalize(this.i18n(...args)) },
 
   I18nStartCase (...args) {
-    return this.i18n.apply(this, args)
+    return this.i18n(...args)
     .split(' ')
     .map(capitalize)
     .join(' ')
@@ -105,7 +106,7 @@ export default {
   stringify (obj) {
     if (_.isString(obj)) return obj
     else return JSON.stringify(obj, null, 2)
-  }
+  },
 }
 
 const escapeValues = function (obj) {

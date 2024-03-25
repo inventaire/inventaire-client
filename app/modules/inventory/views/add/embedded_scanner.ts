@@ -1,10 +1,10 @@
+import Loading from '#behaviors/loading'
+import behaviorsPlugin from '#general/plugins/behaviors'
+import embedded_ from '#inventory/lib/scanner/embedded'
+import { icon } from '#lib/icons'
 import log_ from '#lib/loggers'
 import { I18n, i18n } from '#user/lib/i18n'
-import { icon } from '#lib/icons'
 import embeddedScannerTemplate from './templates/embedded_scanner.hbs'
-import embedded_ from '#inventory/lib/scanner/embedded'
-import behaviorsPlugin from '#general/plugins/behaviors'
-import Loading from '#behaviors/loading'
 import '#inventory/scss/scan_layout.scss'
 
 export default Marionette.View.extend({
@@ -20,12 +20,12 @@ export default Marionette.View.extend({
     validate: '#validateScan',
     totalCounter: '#totalCounter',
     notFoundCounter: '#notFoundCounter',
-    failing: '.failing'
+    failing: '.failing',
   },
 
   events: {
     'click #closeScan': 'close',
-    'click #validateScan': 'validate'
+    'click #validateScan': 'validate',
   },
 
   onRender () {
@@ -41,9 +41,9 @@ export default Marionette.View.extend({
       beforeScannerStart: this.beforeScannerStart.bind(this),
       onDetectedActions: {
         addIsbn: this.addIsbn.bind(this),
-        showInvalidIsbnWarning: this.showInvalidIsbnWarning.bind(this)
+        showInvalidIsbnWarning: this.showInvalidIsbnWarning.bind(this),
       },
-      setStopScannerCallback: this.setStopScannerCallback.bind(this)
+      setStopScannerCallback: this.setStopScannerCallback.bind(this),
     }
 
     this.scanner = embedded_.scan(scanOptions).catch(this.permissionDenied.bind(this))
@@ -56,7 +56,7 @@ export default Marionette.View.extend({
       type: 'tip',
       message: I18n("make the book's barcode fit in the box"),
       // displayDelay: 1000
-      displayTime: 29 * 1000
+      displayTime: 29 * 1000,
     })
 
     this.showStatusMessage({
@@ -65,7 +65,7 @@ export default Marionette.View.extend({
       displayDelay: 30 * 1000,
       // Display only if no ISBN, valid or not, was detected
       displayCondition: () => (this.batch.length === 0) && !this.invalidIsbnDetected,
-      displayTime: 30 * 1000
+      displayTime: 30 * 1000,
     })
   },
 
@@ -81,7 +81,7 @@ export default Marionette.View.extend({
     this.showStatusMessage({
       message: i18n('added:') + ' ' + isbn,
       type: 'success',
-      displayTime: 4000
+      displayTime: 4000,
     })
 
     this.updateCounter()
@@ -131,7 +131,7 @@ export default Marionette.View.extend({
       this.showStatusMessage({
         message: I18n('this ISBN was already scanned'),
         type: 'warning',
-        displayTime: 2000
+        displayTime: 2000,
       })
     }
   },
@@ -144,7 +144,7 @@ export default Marionette.View.extend({
       displayDelay: 2000,
       // Do not display if already several ISBNs were scanned
       displayCondition: () => this.batch.length === 1,
-      displayTime: 5000
+      displayTime: 5000,
     })
   },
 
@@ -181,11 +181,11 @@ export default Marionette.View.extend({
     this.showStatusMessage({
       message: i18n('invalid ISBN') + ': ' + invalidIsbn,
       type: 'warning',
-      displayTime: 5000
+      displayTime: 5000,
     })
   },
 
-  updateCounter (count) {
+  updateCounter () {
     // Prevent crashing with a 'TypeError: this.ui.totalCounter.text is not a function' error
     if (this.isDestroyed()) return
     this.ui.totalCounter.text(`(${this.batch.length})`)
@@ -233,5 +233,5 @@ const iconPerType = {
   success: 'check',
   support: 'support',
   tip: 'info-circle',
-  warning: 'warning'
+  warning: 'warning',
 }

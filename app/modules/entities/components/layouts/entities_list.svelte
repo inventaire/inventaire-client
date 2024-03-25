@@ -1,7 +1,7 @@
 <script>
   import { flip } from 'svelte/animate'
-  import EntityListRow from './entity_list_row.svelte'
   import EditionActions from './edition_actions.svelte'
+  import EntityListRow from './entity_list_row.svelte'
 
   export let entities, relatedEntities, parentEntity, itemsByEditions
 </script>

@@ -1,13 +1,13 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import TransactionsList from '#transactions/components/transactions_list.svelte'
   import { slide } from 'svelte/transition'
   import { partition } from 'underscore'
-  import { getUnreadTransactionsListCount, isArchived, isOngoing, markAsRead } from '#transactions/lib/transactions'
-  import FocusedTransactionLayout from '#transactions/components/focused_transaction_layout.svelte'
+  import { icon } from '#lib/icons'
   import { onChange } from '#lib/svelte/svelte'
+  import FocusedTransactionLayout from '#transactions/components/focused_transaction_layout.svelte'
+  import TransactionsList from '#transactions/components/transactions_list.svelte'
   import TransactionsWelcome from '#transactions/components/transactions_welcome.svelte'
+  import { getUnreadTransactionsListCount, isArchived, isOngoing, markAsRead } from '#transactions/lib/transactions'
+  import { I18n } from '#user/lib/i18n'
 
   export let transactions
   export let selectedTransaction = null

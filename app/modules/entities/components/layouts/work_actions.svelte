@@ -1,11 +1,11 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
   import { createEventDispatcher } from 'svelte'
-  import { screen } from '#lib/components/stores/screen'
-  import { onChange } from '#lib/svelte/svelte'
   import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
   import Flash from '#lib/components/flash.svelte'
+  import { screen } from '#lib/components/stores/screen'
+  import { icon } from '#lib/icons'
+  import { onChange } from '#lib/svelte/svelte'
+  import { i18n } from '#user/lib/i18n'
 
   const dispatch = createEventDispatcher()
 

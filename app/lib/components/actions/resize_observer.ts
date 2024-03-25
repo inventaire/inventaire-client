@@ -4,7 +4,7 @@ export function resizeObserver (node, options) {
   const { onElementResize } = options
   assert_.function(onElementResize)
 
-  const resizeObserver = new ResizeObserver(entries => {
+  const resizeObserver = new ResizeObserver(() => {
     // console.log('height changed:', entries[0].target.clientHeight)
     onElementResize()
   })

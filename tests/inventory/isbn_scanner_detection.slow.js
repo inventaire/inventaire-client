@@ -1,12 +1,12 @@
 import 'should'
 import ISBN from 'isbn3'
-import { wait } from '#lib/promises'
 import OnDetected from '#inventory/lib/scanner/on_detected'
+import { wait } from '#lib/promises'
 
 window.ISBN = ISBN
 
 const fakeResult = isbn => ({
-  codeResult: { code: isbn }
+  codeResult: { code: isbn },
 })
 const validIsbn = '9782290482223'
 const validIsbn2 = '9781857028959'

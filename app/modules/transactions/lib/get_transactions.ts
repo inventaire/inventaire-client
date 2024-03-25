@@ -1,14 +1,14 @@
-import preq from '#lib/preq'
-import { serializeTransaction } from '#transactions/lib/transactions'
 import { readable } from 'svelte/store'
 import transactionsApi from '#app/api/transactions'
 import app from '#app/app'
 import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import { serializeTransaction } from '#transactions/lib/transactions'
 
 async function fetchTransaction () {
   await app.request('wait:for', 'user')
   if (app.user.loggedIn) {
-    let { transactions } = await preq.get(transactionsApi.base)
+    const { transactions } = await preq.get(transactionsApi.base)
     return transactions
     .map(serializeTransaction)
     .sort(antiChronologically)

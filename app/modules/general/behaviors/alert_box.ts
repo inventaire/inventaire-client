@@ -1,9 +1,10 @@
+import Handlebars from 'handlebars/runtime.js'
+import error_ from '#lib/error'
+import { getActionKey } from '#lib/key_events'
 import log_ from '#lib/loggers'
 import { expired } from '#lib/time'
-import { getActionKey } from '#lib/key_events'
-import error_ from '#lib/error'
 import { I18n } from '#user/lib/i18n'
-import Handlebars from 'handlebars/runtime'
+
 const { escapeExpression } = Handlebars
 
 export default Marionette.Behavior.extend({
@@ -14,7 +15,7 @@ export default Marionette.Behavior.extend({
     hideAlertBox: 'hideAlertBoxOnly',
     'click .alert-close': 'hideAlertBoxOnly',
     keydown: 'hideAlertBox',
-    'click .button': 'hideAlertBox'
+    'click .button': 'hideAlertBox',
   },
 
   // alert-box will be appended to has-alertbox parent
@@ -67,7 +68,7 @@ export default Marionette.Behavior.extend({
     if ((this._showAlertTimestamp != null) && !expired(this._showAlertTimestamp, 1000)) return
 
     this.$el.find('.alert-box').hide()
-  }
+  },
 })
 
 // NB: Do not call 'e.stopPropagation()' as events such as 'click .button' might

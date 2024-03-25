@@ -1,14 +1,14 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import preq from '#lib/preq'
   import _ from 'underscore'
-  import Flash from '#lib/components/flash.svelte'
-  import EmailValidation from './email_validation.svelte'
-  import UpdatePassword from '#lib/components/update_password.svelte'
   import languagesData from '#assets/js/languages_data'
-  import email_ from '#user/lib/email_tests'
-  import { user } from '#user/user_store'
+  import Flash from '#lib/components/flash.svelte'
+  import UpdatePassword from '#lib/components/update_password.svelte'
+  import preq from '#lib/preq'
   import { domain } from '#lib/urls'
+  import email_ from '#user/lib/email_tests'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { user } from '#user/user_store'
+  import EmailValidation from './email_validation.svelte'
 
   let flashLang, flashEmail, flashFediversable
   let fediversable = $user.fediversable
@@ -22,7 +22,7 @@
       flashLang = { type: 'loading' }
       await app.request('user:update', {
         attribute: 'language',
-        value: userLang
+        value: userLang,
       })
       window.location.reload()
     } catch (err) {
@@ -40,7 +40,7 @@
       if (!(res.status === 'available')) {
         flashEmail = {
           type: 'error',
-          message: I18n('this email is not available. Please pick another one.')
+          message: I18n('this email is not available. Please pick another one.'),
         }
       } else {
         flashEmail = null
@@ -59,11 +59,11 @@
       flashEmail = { type: 'loading' }
       await app.request('user:update', {
         attribute: 'email',
-        value: emailValue
+        value: emailValue,
       })
       flashEmail = {
         type: 'success',
-        message: I18n('new_confirmation_email')
+        message: I18n('new_confirmation_email'),
       }
     } catch (err) {
       flashEmail = err
@@ -76,7 +76,7 @@
     try {
       await app.request('user:update', {
         attribute: 'fediversable',
-        value: fediversable
+        value: fediversable,
       })
     } catch (err) {
       fediversable = !fediversable
@@ -86,7 +86,7 @@
 
   const sendDeletionFeedback = message => preq.post(app.API.feedback, {
     subject: '[account deletion]',
-    message
+    message,
   })
 
   const deleteAccount = () => {
@@ -99,7 +99,7 @@
       formLabel: "that would really help us if you could say a few words about why you're leaving:",
       formPlaceholder: "our love wasn't possible because",
       yes: 'delete your account',
-      no: 'cancel'
+      no: 'cancel',
     })
   }
 

@@ -36,7 +36,7 @@ describe('promises', () => {
     it('should return the resolved promise in an object', async () => {
       const res = await promiseProps({
         a: Promise.resolve(123),
-        b: Promise.resolve(456)
+        b: Promise.resolve(456),
       })
       res.a.should.equal(123)
       res.b.should.equal(456)
@@ -45,7 +45,7 @@ describe('promises', () => {
     it('should return a rejected promise if one of the promises fail', async () => {
       await promiseProps({
         a: 123,
-        b: Promise.reject(new Error('foo'))
+        b: Promise.reject(new Error('foo')),
       })
       .then(undesiredRes)
       .catch(err => {
@@ -56,7 +56,7 @@ describe('promises', () => {
     it('should return direct values in an object', async () => {
       const res = await promiseProps({
         a: 1,
-        b: 2
+        b: 2,
       })
       res.a.should.equal(1)
       res.b.should.equal(2)

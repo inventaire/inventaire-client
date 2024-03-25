@@ -1,7 +1,8 @@
+import Handlebars from 'handlebars/runtime.js'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
 import { fixedEncodeURIComponent } from '#lib/utils'
-import Handlebars from 'handlebars/runtime'
+
 const { SafeString, escapeExpression } = Handlebars
 
 // Inspired by some things there https://assemble.io/helpers/
@@ -19,9 +20,9 @@ export default {
     return new SafeString(this.join(array.map(linkifyAuthorString)) + '<br>')
   },
 
-  log (args, data) { return log_.info.apply(_, args) },
+  log (args) { return log_.info.apply(_, args) },
 
-  default (text, def) { return text || def }
+  default (text, def) { return text || def },
 }
 
 const linkifyAuthorString = function (text) {

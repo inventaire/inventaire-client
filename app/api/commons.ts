@@ -5,7 +5,7 @@ export default {
   search (base, text) {
     return buildPath(base, {
       action: 'search',
-      search: encodeURIComponent(text)
+      search: encodeURIComponent(text),
     })
   },
 
@@ -14,7 +14,7 @@ export default {
       action: 'search-by-position',
       // don't let buildPath do the bbox stringification
       // as it would uses a simple bbox.toString() and lose the []
-      bbox: JSON.stringify(bbox.map(truncateDecimals))
+      bbox: JSON.stringify(bbox.map(truncateDecimals)),
     })
-  }
+  },
 }

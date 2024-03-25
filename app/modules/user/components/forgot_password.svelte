@@ -1,10 +1,10 @@
 <script>
+  import Spinner from '#components/spinner.svelte'
+  import Flash from '#lib/components/flash.svelte'
+  import { passwordResetRequest } from '#user/lib/auth'
+  import { testEmail } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
-  import Flash from '#lib/components/flash.svelte'
-  import { testEmail } from '#user/lib/email_tests'
-  import Spinner from '#components/spinner.svelte'
-  import { passwordResetRequest } from '#user/lib/auth'
 
   export let resetPasswordFail = false
   export let email = $user.email

@@ -1,18 +1,18 @@
 <script>
+  import { pluck, uniq, pick } from 'underscore'
+  import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
+  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { transactionsData } from '#inventory/lib/transactions_data'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { onChange } from '#lib/svelte/svelte'
-  import MapFilters from '#map/components/map_filters.svelte'
-  import { i18n } from '#user/lib/i18n'
-  import { pluck, uniq, pick } from 'underscore'
-  import { getDocsBounds } from './lib/map'
-  import LeafletMap from '#map/components/leaflet_map.svelte'
   import ItemMarker from '#map/components/item_marker.svelte'
+  import LeafletMap from '#map/components/leaflet_map.svelte'
+  import MapFilters from '#map/components/map_filters.svelte'
   import Marker from '#map/components/marker.svelte'
-  import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
-  import { user } from '#user/user_store'
   import UserMarker from '#map/components/user_marker.svelte'
-  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
+  import { i18n } from '#user/lib/i18n'
+  import { user } from '#user/user_store'
+  import { getDocsBounds } from './lib/map.ts'
 
   export let docsToDisplay = []
   export let allItems

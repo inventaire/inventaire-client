@@ -1,7 +1,8 @@
-import error_ from '#lib/error'
-import { i18n } from '#user/lib/i18n'
 import { writable } from 'svelte/store'
 import wdLang from 'wikidata-lang'
+import error_ from '#lib/error'
+import { i18n } from '#user/lib/i18n'
+
 const { byCode: langByCode } = wdLang
 
 export function alphabeticallySortedEntries (obj) {

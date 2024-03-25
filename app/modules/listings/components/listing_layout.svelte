@@ -1,13 +1,13 @@
 <script>
+  import ListingInfoBox from '#modules/listings/components/listing_info_box.svelte'
   import { I18n } from '#user/lib/i18n'
   import ListingElements from './listing_elements.svelte'
-  import ListingInfoBox from '#modules/listings/components/listing_info_box.svelte'
 
   export let listing
 
   let { _id, creator, elements } = listing
 
-  let isEditable = creator === app.user.id
+  const isEditable = creator === app.user.id
 </script>
 <div class="listing-layout">
   <ListingInfoBox

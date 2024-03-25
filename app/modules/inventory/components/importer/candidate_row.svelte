@@ -1,13 +1,13 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
-  import { icon } from '#lib/icons'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
-  import { onChange } from '#lib/svelte/svelte'
-  import { waitForAttribute } from '#lib/promises'
-  import Flash from '#lib/components/flash.svelte'
   import { getUserExistingItemsPathname, statusContents } from '#inventory/components/importer/lib/candidate_row_helpers'
+  import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
+  import Flash from '#lib/components/flash.svelte'
+  import { icon } from '#lib/icons'
   import log_ from '#lib/loggers'
+  import { waitForAttribute } from '#lib/promises'
+  import { onChange } from '#lib/svelte/svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let candidate
 
@@ -141,7 +141,7 @@
           <Flash
             state={{
               type: 'loading',
-              message: i18n('Checking for existing items…')
+              message: i18n('Checking for existing items…'),
             }} />
         {/await}
       {/if}

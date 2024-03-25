@@ -1,4 +1,4 @@
-import Handlebars from 'handlebars/runtime'
+import Handlebars from 'handlebars/runtime.js'
 import blocks from './blocks.ts'
 import claims from './claims.ts'
 import * as icons from './icons.ts'

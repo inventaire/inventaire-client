@@ -1,11 +1,11 @@
 <script>
+  import { uniq, without } from 'underscore'
+  import InfoTip from '#components/info_tip.svelte'
+  import { getGroupVisibilityKey, isNotGroupVisibilityKey, commonVisibilityKeys } from '#general/lib/visibility'
+  import { guessInitialVisibility } from '#inventory/components/lib/item_creation_helpers'
+  import { onChange } from '#lib/svelte/svelte'
   import { i18n, I18n } from '#user/lib/i18n'
   import { userGroups } from '#user/user_groups_store'
-  import { uniq, without } from 'underscore'
-  import { getGroupVisibilityKey, isNotGroupVisibilityKey, commonVisibilityKeys } from '#general/lib/visibility'
-  import { onChange } from '#lib/svelte/svelte'
-  import InfoTip from '#components/info_tip.svelte'
-  import { guessInitialVisibility } from '#inventory/components/lib/item_creation_helpers'
 
   export let visibility
   export let maxHeight = '25em'

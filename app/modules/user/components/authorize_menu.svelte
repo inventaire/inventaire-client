@@ -1,10 +1,10 @@
 <script>
   import { buildPath } from '#lib/location'
+  import { domain } from '#lib/urls'
   import { fixedEncodeURIComponent, loadInternalLink } from '#lib/utils'
   import { I18n } from '#user/lib/i18n'
   import { getRequestedAccessRights } from '#user/lib/oauth'
   import { user } from '#user/user_store'
-  import { domain } from '#lib/urls'
 
   export let query
   export let client
@@ -16,7 +16,7 @@
   const authorizationRequestContext = I18n('authorization_request_context', {
     name: client.name,
     username: $user.username,
-    domain
+    domain,
   })
 </script>
 

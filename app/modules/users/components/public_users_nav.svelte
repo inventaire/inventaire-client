@@ -2,6 +2,7 @@
   import Spinner from '#components/spinner.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
   import Flash from '#lib/components/flash.svelte'
+  import { wait } from '#lib/promises'
   import { onChange } from '#lib/svelte/svelte'
   import GroupMarker from '#map/components/group_marker.svelte'
   import LeafletMap from '#map/components/leaflet_map.svelte'
@@ -13,9 +14,8 @@
   import { user } from '#user/user_store'
   import { getGroupsByPosition, getUsersByPosition } from '#users/components/lib/public_users_nav_helpers'
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
-  import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
-  import { wait } from '#lib/promises'
+  import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
 
   export let filter = null
   export let focusedSection

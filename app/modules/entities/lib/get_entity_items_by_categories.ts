@@ -1,5 +1,5 @@
-import log_ from '#lib/loggers'
 import error_ from '#lib/error'
+import log_ from '#lib/loggers'
 
 // Make sure items are fetched for all sub entities as editions that aren't
 // shown (e.g. on work_layout, editions from other language than
@@ -14,7 +14,7 @@ const spreadItems = uris => async items => {
   const itemsByCategories = {
     personal: [],
     network: [],
-    public: []
+    public: [],
   }
 
   if (items == null) {

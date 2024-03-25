@@ -1,4 +1,5 @@
 import SearchResult from '#entities/models/search_result'
+
 const wdIdPattern = /Q\d+/
 const invIdPattern = /[0-9a-f]{32}/
 

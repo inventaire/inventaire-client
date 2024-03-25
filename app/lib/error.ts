@@ -57,7 +57,7 @@ const error_ = {
     // 598 = suspected user abuse or spam account
     const err = formatError(message, statusCode, context)
     log_.error(err, `[reported error (not thrown)] ${message}`)
-  }
+  },
 }
 
 // Do not use lib/utils deepClone to prevent circular dependency

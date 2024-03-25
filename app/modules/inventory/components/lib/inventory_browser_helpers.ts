@@ -1,8 +1,8 @@
+import { clone, flatten, intersection, pick, uniq, without } from 'underscore'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 import error_ from '#lib/error'
 import preq from '#lib/preq'
-import { clone, flatten, intersection, pick, uniq, without } from 'underscore'
 
 export async function getSelectorsData ({ worksTree }) {
   const facets = worksTree
@@ -36,7 +36,7 @@ async function getEntitiesBasicInfo (uris) {
   const { entities } = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'labels', 'image' ],
-    lang: app.user.lang
+    lang: app.user.lang,
   })
   Object.values(entities).forEach(entity => {
     if (entity.labels == null) {
@@ -54,7 +54,7 @@ const getSelectorsOptions = ({ worksTree, facetsEntitiesBasicInfo }) => {
   for (const [ sectionName, worksUrisPerValue ] of Object.entries(worksTree)) {
     if (sectionName !== 'owner') {
       const facetSelector = {
-        options: getOptions({ worksUrisPerValue, facetsEntitiesBasicInfo })
+        options: getOptions({ worksUrisPerValue, facetsEntitiesBasicInfo }),
       }
       facetSelector.disabled = hasNoKnownValue(facetSelector.options)
       facetsSelectors[sectionName] = facetSelector
@@ -114,7 +114,7 @@ export function getFilteredItemsIds ({ intersectionWorkUris, itemsByDate, workUr
   return itemsIds
 }
 
-export function resetPagination ({ itemsIds, isMainUser, display }) {
+export function resetPagination ({ itemsIds }) {
   const items = []
   const shelvesByIds = {}
   const remainingItems = clone(itemsIds)

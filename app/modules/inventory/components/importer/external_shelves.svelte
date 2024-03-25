@@ -1,8 +1,8 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
-  import { onChange } from '#lib/svelte/svelte'
-  import ExternalShelf from '#inventory/components/importer/external_shelf.svelte'
   import { debounce } from 'underscore'
+  import ExternalShelf from '#inventory/components/importer/external_shelf.svelte'
+  import { onChange } from '#lib/svelte/svelte'
+  import { i18n } from '#user/lib/i18n'
 
   export let candidates
   export let externalShelves

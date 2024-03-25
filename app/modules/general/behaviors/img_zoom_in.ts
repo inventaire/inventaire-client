@@ -1,7 +1,8 @@
 import { i18n } from '#user/lib/i18n'
+
 export default Marionette.Behavior.extend({
   events: {
-    'click img': 'zoomIn'
+    'click img': 'zoomIn',
   },
 
   zoomIn (e) {
@@ -10,5 +11,5 @@ export default Marionette.Behavior.extend({
     const alt = i18n('loading')
     const img = `<img src='${enlargedSrc}' alt='${alt}...'>`
     app.execute('modal:html', `<div class='flex-row-center-center'>${img}</div>`)
-  }
+  },
 })

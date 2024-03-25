@@ -14,7 +14,7 @@ export default Backbone.Collection.extend({
   getNonPlaceholdersOrdinals () {
     return this.filter(isntPlaceholder)
     .map(model => model.get('ordinal'))
-  }
+  },
 })
 
 const isPlaceholder = model => model.get('isPlaceholder') === true

@@ -18,7 +18,7 @@ const getPlaceholder = function (index) {
   const label = getPlaceholderTitle.call(this, index)
   const claims = {
     'wdt:P179': [ serieUri ],
-    'wdt:P1545': [ `${index}` ]
+    'wdt:P1545': [ `${index}` ],
   }
   const model = entityDraftModel.create({ type: 'work', label, claims })
   model.set('ordinal', index)

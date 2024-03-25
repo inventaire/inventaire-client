@@ -1,11 +1,11 @@
 <script>
   import app from '#app/app'
-  import log_ from '#lib/loggers'
   import PasswordInput from '#lib/components/password_input.svelte'
+  import { currentRoute } from '#lib/location'
+  import log_ from '#lib/loggers'
+  import { passwordConfirmation, passwordUpdate } from '#user/lib/auth'
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
-  import { currentRoute } from '#lib/location'
-  import { passwordConfirmation, passwordUpdate } from '#user/lib/auth'
 
   let flashCurrentPassword, flashNewPassword, form
   let currentPassword = '', newPassword = ''
@@ -34,7 +34,7 @@
       await passwordUpdate({ currentPassword, newPassword })
       flashNewPassword = {
         type: 'success',
-        message: I18n('done')
+        message: I18n('done'),
       }
       // Trigger password manager update
       form.submit()
@@ -52,7 +52,7 @@
   const flashPasswordError = ({ input, message }) => {
     const args = {
       type: 'error',
-      message: I18n(message)
+      message: I18n(message),
     }
     if (input === 'new') {
       flashCurrentPassword = null

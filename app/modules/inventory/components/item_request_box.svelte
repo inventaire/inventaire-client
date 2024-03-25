@@ -1,10 +1,10 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
   import app from '#app/app'
-  import RequestItem from '#transactions/components/request_item.svelte'
   import Modal from '#components/modal.svelte'
+  import { icon } from '#lib/icons'
+  import RequestItem from '#transactions/components/request_item.svelte'
   import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let item
   export let user

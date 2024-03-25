@@ -7,12 +7,12 @@ const requester = [ 'requested' ]
 
 const oneWay = {
   requester: requester.concat(commonOneWay),
-  owner: commonOneWay
+  owner: commonOneWay,
 }
 
 const lending = {
   requester: requester.concat(commonLending),
-  owner: commonLending
+  owner: commonLending,
 }
 
 export const cancellableStates = {

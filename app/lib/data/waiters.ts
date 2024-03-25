@@ -32,17 +32,17 @@ export default () => {
   const _waitForNetwork = () => Promise.all([
     waitersPromises.user,
     waitersPromises.relations,
-    waitersPromises.groups
+    waitersPromises.groups,
   ])
 
   app.reqres.setHandlers({
     waitForNetwork: _.once(_waitForNetwork),
-    'wait:for': name => waitersPromises[name]
+    'wait:for': name => waitersPromises[name],
   })
 
   app.commands.setHandlers({
     'waiter:resolve': resolve,
-    'waiter:reject': reject
+    'waiter:reject': reject,
   })
 }
 
@@ -58,7 +58,7 @@ export default () => {
 
 const resolve = (name, ...args) => {
   const waiter = getWaiter(name)
-  waiter.resolve.apply(waiter, args)
+  waiter.resolve(...args)
 }
 
 const reject = (name, err) => {

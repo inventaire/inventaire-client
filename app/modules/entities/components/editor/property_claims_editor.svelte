@@ -1,13 +1,13 @@
 <script>
-  import { propertiesEditorsConfigs } from '#entities/lib/properties'
+  import { slide } from 'svelte/transition'
+  import { getPropertyClaimsCount, isEmptyClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
-  import ClaimEditor from './claim_editor.svelte'
+  import { propertiesEditorsConfigs } from '#entities/lib/properties'
+  import assert_ from '#lib/assert_types'
+  import Flash from '#lib/components/flash.svelte'
   import { icon } from '#lib/icons'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { slide } from 'svelte/transition'
-  import assert_ from '#lib/assert_types'
-  import { getPropertyClaimsCount, isEmptyClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
-  import Flash from '#lib/components/flash.svelte'
+  import ClaimEditor from './claim_editor.svelte'
 
   export let entity, property, required = false
 
@@ -36,7 +36,7 @@
     if (isNonEmptyClaimValue(value) && entity.claims[property].includes(value) && entity.claims[property].indexOf(value) !== i) {
       flash = {
         type: 'error',
-        message: I18n('this value is already used')
+        message: I18n('this value is already used'),
       }
       value = null
     }

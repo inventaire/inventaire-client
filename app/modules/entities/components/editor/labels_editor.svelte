@@ -1,16 +1,16 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import getLangsData from '#entities/lib/editor/get_langs_data'
-  import DisplayModeButtons from './display_mode_buttons.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import EditModeButtons from './edit_mode_buttons.svelte'
-  import { getActionKey } from '#lib/key_events'
-  import preq from '#lib/preq'
-  import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { tick } from 'svelte'
-  import { typeHasName } from '#entities/lib/types/entities_types'
   import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/editor/lib/editors_helpers'
   import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/components/editor/lib/title_tip'
+  import getLangsData from '#entities/lib/editor/get_langs_data'
+  import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import { typeHasName } from '#entities/lib/types/entities_types'
+  import Flash from '#lib/components/flash.svelte'
+  import { getActionKey } from '#lib/key_events'
+  import preq from '#lib/preq'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import DisplayModeButtons from './display_mode_buttons.svelte'
+  import EditModeButtons from './edit_mode_buttons.svelte'
 
   export let entity, favoriteLabel, favoriteLabelLang, inputLabel
   let editMode = false
@@ -118,7 +118,7 @@
           {#if matchingSerieLabel}
             <p class="tip">
               {@html I18n('title_matches_serie_label_tip', {
-                pathname: `/entity/${serieUri}/edit`
+                pathname: `/entity/${serieUri}/edit`,
               })}
             </p>
           {/if}

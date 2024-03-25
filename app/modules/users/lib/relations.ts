@@ -1,5 +1,5 @@
-import preq from '#lib/preq'
 import log_ from '#lib/loggers'
+import preq from '#lib/preq'
 
 export async function updateRelationStatus ({ user, action }) {
   const { _id: userId } = user
@@ -19,7 +19,7 @@ export const initRelations = function () {
       friends: [],
       userRequested: [],
       otherRequested: [],
-      network: []
+      network: [],
     }
     app.execute('waiter:resolve', 'relations')
   }

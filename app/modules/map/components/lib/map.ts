@@ -1,5 +1,5 @@
-import { forceArray } from '#lib/utils'
 import { compact, pluck } from 'underscore'
+import { forceArray } from '#lib/utils'
 
 export const getDocsBounds = docsWithPosition => {
   docsWithPosition = forceArray(docsWithPosition)

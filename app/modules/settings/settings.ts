@@ -9,8 +9,8 @@ export default {
         'settings/data(/)': 'showDataSettings',
         // Legacy
         'settings/labs(/)': 'showDataSettings',
-        'menu(/)': 'showProfileSettings'
-      }
+        'menu(/)': 'showProfileSettings',
+      },
     })
 
     new Router({ controller: API })
@@ -24,7 +24,7 @@ const API = {
   showAccountSettings () { showSettings('account') },
   showDisplaySettings () { showSettings('display') },
   showNotificationsSettings () { showSettings('notifications') },
-  showDataSettings () { showSettings('data') }
+  showDataSettings () { showSettings('data') },
 }
 
 const showSettings = async section => {
@@ -32,8 +32,8 @@ const showSettings = async section => {
     const { default: SettingsLayout } = await import('./components/settings_layout.svelte')
     return app.layout.showChildComponent('main', SettingsLayout, {
       props: {
-        section
-      }
+        section,
+      },
     })
   }
 }
@@ -44,5 +44,5 @@ const setHandlers = () => app.commands.setHandlers({
   'show:settings:account': API.showAccountSettings,
   'show:settings:display': API.showDisplaySettings,
   'show:settings:notifications': API.showNotificationsSettings,
-  'show:settings:data': API.showDataSettings
+  'show:settings:data': API.showDataSettings,
 })

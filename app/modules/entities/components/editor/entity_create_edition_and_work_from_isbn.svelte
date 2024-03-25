@@ -1,10 +1,10 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
   import WrapToggler from '#components/wrap_toggler.svelte'
-  import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import { createEditionAndWorkFromEntry, getMissingRequiredProperties } from '#entities/components/editor/lib/create_helpers'
+  import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
+  import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import Flash from '#lib/components/flash.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let edition, isbn13h
 
@@ -12,7 +12,7 @@
 
   let work = {
     type: 'work',
-    claims: {}
+    claims: {},
   }
 
   let showAllWorkProperties = false
@@ -58,7 +58,7 @@
     if (missingRequiredProperties.length > 0) {
       flash = {
         type: 'info',
-        message: `${I18n('required properties are missing')}: ${missingRequiredProperties.join(', ')}`
+        message: `${I18n('required properties are missing')}: ${missingRequiredProperties.join(', ')}`,
       }
     } else if (flash?.type === 'info') {
       flash = null

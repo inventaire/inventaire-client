@@ -1,6 +1,7 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
   import Spinner from '#components/spinner.svelte'
+  import { I18n } from '#user/lib/i18n'
+
   export let total, count, message, spinner = true
 </script>
 <div class="loading">

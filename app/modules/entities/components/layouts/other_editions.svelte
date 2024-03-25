@@ -1,9 +1,9 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import Link from '#lib/components/link.svelte'
-  import { isNonEmptyPlainObject, isNonEmptyArray } from '#lib/boolean_tests'
-  import EntityImage from '../entity_image.svelte'
   import { isOtherEditionWithCover } from '#entities/components/lib/edition_layout_helpers'
+  import { isNonEmptyPlainObject, isNonEmptyArray } from '#lib/boolean_tests'
+  import Link from '#lib/components/link.svelte'
+  import { I18n } from '#user/lib/i18n'
+  import EntityImage from '../entity_image.svelte'
 
   export let currentEdition, work
 

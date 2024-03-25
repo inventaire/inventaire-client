@@ -1,10 +1,10 @@
-import { isNonEmptyString } from '#lib/boolean_tests'
-import log_ from '#lib/loggers'
-import { getActionKey } from '#lib/key_events'
-import { viewportIsSmallerThan } from '#lib/screen'
-import isMobile from '#lib/mobile_check'
-import { removeCurrentComponent } from '#lib/global_libs_extender'
 import Spinner from '#components/spinner.svelte'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import { removeCurrentComponent } from '#lib/global_libs_extender'
+import { getActionKey } from '#lib/key_events'
+import log_ from '#lib/loggers'
+import isMobile from '#lib/mobile_check'
+import { viewportIsSmallerThan } from '#lib/screen'
 
 export default function () {
   const $body = $('body')
@@ -134,7 +134,7 @@ export default function () {
     app.layout.showChildComponent('modal', Spinner, {
       props: {
         center: true,
-      }
+      },
     })
   }
 
@@ -142,7 +142,7 @@ export default function () {
     'modal:open': modalOpen,
     'modal:spinner': showModalSpinner,
     'modal:close': closeModal,
-    'modal:html': modalHtml
+    'modal:html': modalHtml,
   })
 }
 

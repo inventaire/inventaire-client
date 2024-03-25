@@ -1,11 +1,11 @@
 <!-- This component is a <select> but being empty by default, using it's label as default button label -->
 <script>
+  import { uniqueId } from 'underscore'
   import Dropdown from '#components/dropdown.svelte'
   import SelectDropdownOption from '#components/select_dropdown_option.svelte'
-  import { getActionKey } from '#lib/key_events'
   import { icon } from '#lib/icons'
+  import { getActionKey } from '#lib/key_events'
   import { I18n } from '#user/lib/i18n'
-  import { uniqueId } from 'underscore'
 
   export let value, displayedOptions, optionsCount, buttonLabel = null
 

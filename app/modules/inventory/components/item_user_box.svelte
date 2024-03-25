@@ -1,7 +1,7 @@
 <script>
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { loadInternalLink } from '#lib/utils'
   import { currentRoute } from '#lib/location'
+  import { loadInternalLink } from '#lib/utils'
 
   export let user
 

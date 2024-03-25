@@ -5,7 +5,7 @@ export default Backbone.NestedModel.extend({
   },
 
   // Can be overriden to match fields in a custom way
-  fieldMatch (filterRegex, rawInput) { return field => field?.match(filterRegex) != null }
+  fieldMatch (filterRegex) { return field => field?.match(filterRegex) != null },
 })
 
 // matchable should be defined on sub classes. ex:

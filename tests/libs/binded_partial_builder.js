@@ -3,7 +3,7 @@ import BindedPartialBuilder from '#lib/binded_partial_builder'
 
 const obj = {
   a (x, y) { return x + y + this.z },
-  z: 5
+  z: 5,
 }
 
 describe('BindedPartialBuilder', () => {

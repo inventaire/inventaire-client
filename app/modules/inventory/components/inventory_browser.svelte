@@ -1,14 +1,14 @@
 <script>
-  import { getFilteredItemsIds, getInventoryDisplayStore, getSelectorsData, resetPagination } from '#inventory/components/lib/inventory_browser_helpers'
-  import Spinner from '#components/spinner.svelte'
-  import PaginatedItems from '#inventory/components/paginated_items.svelte'
-  import { BubbleUpComponentEvent, onChange } from '#lib/svelte/svelte'
-  import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
-  import { debounce } from 'underscore'
-  import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import { createEventDispatcher, setContext } from 'svelte'
+  import { debounce } from 'underscore'
+  import Spinner from '#components/spinner.svelte'
+  import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
+  import { getFilteredItemsIds, getInventoryDisplayStore, getSelectorsData, resetPagination } from '#inventory/components/lib/inventory_browser_helpers'
+  import PaginatedItems from '#inventory/components/paginated_items.svelte'
+  import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
   import Flash from '#lib/components/flash.svelte'
+  import { BubbleUpComponentEvent, onChange } from '#lib/svelte/svelte'
 
   export let itemsDataPromise
   export let isMainUser = false

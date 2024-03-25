@@ -1,12 +1,12 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
+  import { groupBy } from 'underscore'
   import { icon } from '#lib/icons'
+  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import ItemsMap from '#map/components/items_map.svelte'
   import { i18n } from '#user/lib/i18n'
   import ItemsByCategories from './items_lists/items_by_categories.svelte'
-  import { getItemsData } from './items_lists/items_lists_helpers'
-  import { createEventDispatcher } from 'svelte'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
-  import { groupBy } from 'underscore'
+  import { getItemsData } from './items_lists/items_lists_helpers.ts'
 
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)

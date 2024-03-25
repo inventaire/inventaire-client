@@ -1,6 +1,7 @@
 <script>
   import app from '#app/app'
   import { icon } from '#lib/icons'
+
   export let entity
   const { uri } = entity
   let { pathname } = entity

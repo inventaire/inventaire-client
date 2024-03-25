@@ -14,7 +14,7 @@ export const typesBySection = {
     group: 'groups',
     shelf: 'shelves',
     list: 'lists',
-  }
+  },
 }
 
 export const categoryBySection = {}
@@ -35,7 +35,7 @@ export const sections = {
     serie: { label: 'series_singular' },
     publisher: { label: 'publisher' },
     collection: { label: 'collection' },
-    subject: { label: 'subject' }
+    subject: { label: 'subject' },
   },
   social: {
     all: { label: 'all' },
@@ -43,7 +43,7 @@ export const sections = {
     group: { label: 'group' },
     shelf: { label: 'shelf' },
     list: { label: 'list' },
-  }
+  },
 }
 
 export const sectionsNames = {

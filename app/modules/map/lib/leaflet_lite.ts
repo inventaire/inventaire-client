@@ -14,5 +14,5 @@ export default {
       Math.cos((latlng2.lng - latlng1.lng) * rad))
 
     return radius * Math.acos(Math.min(a, 1))
-  }
+  },
 }

@@ -1,15 +1,15 @@
 <script>
+  import autosize from 'autosize'
+  import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
-  import { I18n, i18n } from '#user/lib/i18n'
+  import Spinner from '#general/components/spinner.svelte'
+  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import Flash from '#lib/components/flash.svelte'
   import { icon } from '#lib/icons'
   import { updateListing, deleteListing, createListing } from '#listings/lib/listings'
-  import autosize from 'autosize'
-  import Spinner from '#general/components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { createEventDispatcher } from 'svelte'
-  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
-  import { serializeListing } from '#modules/listings/lib/listings'
   import { showMainUserListings } from '#listings/listings'
+  import { serializeListing } from '#modules/listings/lib/listings'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   const dispatch = createEventDispatcher()
 
@@ -61,7 +61,7 @@
     app.execute('ask:confirmation', {
       confirmationText: i18n('delete_list_confirmation', { name }),
       warningText: i18n('cant_undo_warning'),
-      action: _deleteListing
+      action: _deleteListing,
     })
   }
 

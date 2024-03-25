@@ -15,8 +15,8 @@ export function reportError (err) {
       message: err.message,
       stack: err.stack,
       context: err.context,
-      statusCode: err.statusCode
-    }
+      statusCode: err.statusCode,
+    },
   }
 
   // (1)
@@ -24,7 +24,7 @@ export function reportError (err) {
     url: '/api/reports?action=error-report',
     // jquery defaults to x-www-form-urlencoded
     headers: { 'content-type': 'application/json' },
-    data: stringifyData(data)
+    data: stringifyData(data),
   })
 }
 

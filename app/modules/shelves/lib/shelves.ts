@@ -1,8 +1,8 @@
-import preq from '#lib/preq'
-import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
-import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'
-import assert_ from '#lib/assert_types'
 import { pluck } from 'underscore'
+import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
+import assert_ from '#lib/assert_types'
+import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'
+import preq from '#lib/preq'
 
 export function getById (id) {
   return preq.get(app.API.shelves.byIds(id))
@@ -74,7 +74,7 @@ export function serializeShelf (shelf) {
   Object.assign(shelf, {
     pathname: `/shelves/${_id}`,
     picture: getColorSquareDataUri(color),
-    isEditable: shelf.owner === app.user.id
+    isEditable: shelf.owner === app.user.id,
   })
   if (visibility) {
     const visibilitySummary = getVisibilitySummary(visibility)

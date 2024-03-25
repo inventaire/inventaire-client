@@ -1,8 +1,8 @@
-import $ from 'jquery'
-import _ from 'underscore'
 import Backbone from 'backbone'
 import Marionette from 'backbone.marionette'
+import $ from 'jquery'
 import AppRouter from 'marionette.approuter'
+import _ from 'underscore'
 // Sets Backbone.NestedModel
 import 'backbone-nested'
 

@@ -1,9 +1,9 @@
 <script>
+  import { debounce } from 'underscore'
   import { isNonEmptyString } from '#lib/boolean_tests'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { I18n } from '#user/lib/i18n'
-  import { debounce } from 'underscore'
 
   export let name
   export let groupId = null

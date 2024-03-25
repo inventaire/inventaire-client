@@ -1,7 +1,8 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
   import { icon } from '#lib/icons'
   import { I18n } from '#user/lib/i18n'
-  import { createEventDispatcher } from 'svelte'
+
   const dispatch = createEventDispatcher()
 </script>
 

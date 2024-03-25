@@ -1,8 +1,8 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { loadInternalLink } from '#lib/utils'
+  import { I18n } from '#user/lib/i18n'
 
   export let authorsByProperty
 </script>

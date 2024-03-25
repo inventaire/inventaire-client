@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import chalk from 'tiny-chalk'
-import { generateSitemaps } from './generate_sitemaps.js'
-import { generateIndex } from './generate_index.js'
 import { rmFiles, generateMainSitemap, mkdirp } from './files_commands.js'
+import { generateIndex } from './generate_index.js'
+import { generateSitemaps } from './generate_sitemaps.js'
 
 rmFiles()
 mkdirp()

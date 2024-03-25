@@ -1,6 +1,6 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
   import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { i18n } from '#user/lib/i18n'
   import AuthorDisplay from './author_display.svelte'
 
   export let roleLabel, roleProperties, claims, authorsByUris

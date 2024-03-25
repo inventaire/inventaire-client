@@ -1,12 +1,12 @@
 <script>
+  import { pluck, partition } from 'underscore'
+  import CompactAuthorWorksList from '#entities/components/layouts/compact_author_works_list.svelte'
+  import MergeAction from '#entities/components/layouts/merge_action.svelte'
   import { findExactMatches, getHomonymsEntities, preselectLikelyDuplicates } from '#entities/components/lib/homonym_deduplicates_helpers'
   import Spinner from '#general/components/spinner.svelte'
   import { icon } from '#lib/icons'
   import { I18n, i18n } from '#user/lib/i18n'
   import EntityListRow from './entity_list_row.svelte'
-  import MergeAction from '#entities/components/layouts/merge_action.svelte'
-  import { pluck, partition } from 'underscore'
-  import CompactAuthorWorksList from '#entities/components/layouts/compact_author_works_list.svelte'
 
   export let entity
   export let standalone = false

@@ -1,8 +1,8 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   import CandidateNav from '#inventory/components/importer/candidate_nav.svelte'
+  import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   import { scrollToElement } from '#lib/screen'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let candidates
   export let processing

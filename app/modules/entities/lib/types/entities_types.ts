@@ -28,7 +28,7 @@ export const typesPossessiveForms = {
   serie: "series'",
   human: "author's",
   publisher: "publisher's",
-  collection: "collection's"
+  collection: "collection's",
 }
 
 export function pluralize (type) {
@@ -47,7 +47,7 @@ export const typeDefaultP31 = {
   serie: 'wd:Q277759',
   edition: 'wd:Q3331189',
   publisher: 'wd:Q2085381',
-  collection: 'wd:Q20655472'
+  collection: 'wd:Q20655472',
 }
 
 export const allSearchableTypes = without(Object.keys(entityTypeNameByType), 'editions')

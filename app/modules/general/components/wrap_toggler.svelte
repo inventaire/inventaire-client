@@ -1,5 +1,6 @@
 <script>
   import { icon } from '#lib/icons'
+
   export let show = false,
     moreText,
     lessText,

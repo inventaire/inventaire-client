@@ -1,8 +1,9 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
   import { createEventDispatcher } from 'svelte'
   import Spinner from '#components/spinner.svelte'
+  import { icon } from '#lib/icons'
+  import { I18n } from '#user/lib/i18n'
+
   export let showSave, showDelete, saving
   const dispatch = createEventDispatcher()
 </script>

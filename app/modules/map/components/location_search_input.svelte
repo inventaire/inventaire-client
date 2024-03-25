@@ -1,10 +1,10 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
+  import { debounce } from 'underscore'
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { searchLocationByText } from '#map/lib/nominatim'
   import { i18n } from '#user/lib/i18n'
-  import { createEventDispatcher } from 'svelte'
-  import { debounce } from 'underscore'
 
   export let inputLabel = null
   export let inputPlaceholder = null

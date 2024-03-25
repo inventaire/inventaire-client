@@ -1,11 +1,11 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import Flash from '#lib/components/flash.svelte'
-  import Spinner from '#components/spinner.svelte'
-  import ShelfLi from '#shelves/components/shelf_li.svelte'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import { createEventDispatcher } from 'svelte'
+  import Spinner from '#components/spinner.svelte'
+  import Flash from '#lib/components/flash.svelte'
+  import { icon } from '#lib/icons'
+  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import ShelfLi from '#shelves/components/shelf_li.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let waitForShelves, shelves, user
 

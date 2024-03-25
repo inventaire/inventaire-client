@@ -1,12 +1,13 @@
 import { authorProperties } from '#entities/lib/properties'
 import { props as promiseProps } from '#lib/promises'
+
 export default {
   getExtendedAuthorsModels () {
     return promiseProps({
       'wdt:P50': this.getModelsFromClaims('wdt:P50'),
       'wdt:P58': this.getModelsFromClaims('wdt:P58'),
       'wdt:P110': this.getModelsFromClaims('wdt:P110'),
-      'wdt:P6338': this.getModelsFromClaims('wdt:P6338')
+      'wdt:P6338': this.getModelsFromClaims('wdt:P6338'),
     })
   },
 
@@ -26,5 +27,5 @@ export default {
     .flatten()
     .uniq()
     .value()
-  }
+  },
 }

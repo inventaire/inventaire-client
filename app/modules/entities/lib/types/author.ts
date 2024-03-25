@@ -1,5 +1,5 @@
-import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
+import { i18n } from '#user/lib/i18n'
 
 export default function () {
   // Main property by which sub-entities are linked to this one
@@ -26,5 +26,5 @@ const specificMethods = {
     return this.waitForWorksData
   },
 
-  buildTitle () { return i18n('books_by_author', { author: this.get('label') }) }
+  buildTitle () { return i18n('books_by_author', { author: this.get('label') }) },
 }

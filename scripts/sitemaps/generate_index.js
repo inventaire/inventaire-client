@@ -1,6 +1,7 @@
-import writeSitemap from './write_sitemap.js'
-import fs from 'fs'
+import fs from 'node:fs'
 import { folderPath, index } from './config.js'
+import writeSitemap from './write_sitemap.js'
+
 const exclude = [ index ]
 
 export function generateIndex () {

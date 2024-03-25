@@ -1,17 +1,17 @@
-import { isEntityUri } from '#lib/boolean_tests'
-import { getActionKey } from '#lib/key_events'
+import AlertBox from '#behaviors/alert_box'
 import mergeEntities from '#entities/views/editor/lib/merge_entities'
 import forms_ from '#general/lib/forms'
+import { isEntityUri } from '#lib/boolean_tests'
 import error_ from '#lib/error'
+import { getActionKey } from '#lib/key_events'
 import workPickerTemplate from './templates/work_picker.hbs'
-import AlertBox from '#behaviors/alert_box'
 
 export default Marionette.View.extend({
   template: workPickerTemplate,
 
   ui: {
     workPickerSelect: '.workPickerSelect',
-    workPickerValidate: '.validate'
+    workPickerValidate: '.validate',
   },
 
   initialize () {
@@ -45,7 +45,7 @@ export default Marionette.View.extend({
     'click .showWorkPicker': 'showWorkPicker',
     'change .workPickerSelect': 'onSelectChange',
     'click .validate': 'selectWork',
-    'keydown .workPickerSelect': 'onKeyDown'
+    'keydown .workPickerSelect': 'onKeyDown',
   },
 
   onKeyDown (e) {
@@ -104,8 +104,8 @@ export default Marionette.View.extend({
       workPicker: {
         buttonIcon: 'compress',
         buttonLabel: 'merge',
-        validateLabel: 'merge'
-      }
+        validateLabel: 'merge',
+      },
     }
   },
 
@@ -118,5 +118,5 @@ export default Marionette.View.extend({
     .then(this.afterMerge.bind(this, work))
     .catch(error_.Complete('.workPicker', false))
     .catch(forms_.catchAlert.bind(null, this))
-  }
+  },
 })

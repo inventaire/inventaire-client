@@ -1,7 +1,8 @@
+import Handlebars from 'handlebars/runtime.js'
 import log_ from '#lib/loggers'
-import { i18n } from '#user/lib/i18n'
 import preq from '#lib/preq'
-import Handlebars from 'handlebars/runtime'
+import { i18n } from '#user/lib/i18n'
+
 const { escapeExpression } = Handlebars
 
 export default {
@@ -18,7 +19,7 @@ export default {
       return { extract, lang }
     })
     .catch(log_.ErrorRethrow('wikipediaExtract err'))
-  }
+  },
 }
 
 // Add a link to the full wikipedia article at the end of the extract

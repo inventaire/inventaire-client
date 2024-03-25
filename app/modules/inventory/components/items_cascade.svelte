@@ -1,8 +1,8 @@
 <script>
   import Masonry from 'svelte-bricks'
-  import ItemCard from '#inventory/components/item_card.svelte'
   import { debounce } from 'underscore'
   import Spinner from '#components/spinner.svelte'
+  import ItemCard from '#inventory/components/item_card.svelte'
   import { getViewportWidth } from '#lib/screen'
 
   export let items

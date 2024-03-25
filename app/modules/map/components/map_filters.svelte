@@ -1,7 +1,7 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let selectedFilters, filtersData, type, allFilters
   export let translatableFilterValues = false

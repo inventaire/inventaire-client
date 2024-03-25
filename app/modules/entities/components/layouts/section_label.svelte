@@ -1,7 +1,7 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
   import { isPropertyUri } from '#lib/boolean_tests'
+  import { loadInternalLink } from '#lib/utils'
+  import { i18n } from '#user/lib/i18n'
 
   export let label
   export let entitiesLength

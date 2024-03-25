@@ -1,10 +1,10 @@
 <script>
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { attachLinkedDocs, getTransactionContext } from '#transactions/lib/transactions'
   import Spinner from '#components/spinner.svelte'
   import { getItemPathname } from '#inventory/lib/items'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { loadInternalLink } from '#lib/utils'
+  import { attachLinkedDocs, getTransactionContext } from '#transactions/lib/transactions'
   import { getUserBasePathname } from '#users/lib/users'
 
   export let transaction

@@ -1,5 +1,5 @@
-import { pluralize } from '#entities/lib/types/entities_types'
 import { infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
+import { pluralize } from '#entities/lib/types/entities_types'
 
 export const getSubentitiesTypes = property => {
   const subentitiesTypes = []

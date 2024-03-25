@@ -1,8 +1,8 @@
-import { isNonEmptyString } from '#lib/boolean_tests'
 import assert_ from '#lib/assert_types'
-import log_ from '#lib/loggers'
+import { isNonEmptyString } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import { currentRoute } from '#lib/location'
+import log_ from '#lib/loggers'
 
 export const deepClone = obj => {
   assert_.object(obj)
@@ -55,7 +55,7 @@ export const loadInternalLink = e => {
   if (!(isOpenedOutside(e))) {
     const { pathname, search } = new URL(e.currentTarget.href)
     app.navigateAndLoad(`${pathname}${search}`, {
-      preventScrollTop: isModalPathname(pathname)
+      preventScrollTop: isModalPathname(pathname),
     })
     e.preventDefault()
   }
@@ -87,7 +87,7 @@ export const lazyMethod = (methodName, delay = 200) => {
     if (this[lazyMethodName] == null) {
       this[lazyMethodName] = _.debounce(this[methodName].bind(this), delay)
     }
-    return this[lazyMethodName].apply(this, args)
+    return this[lazyMethodName](...args)
   }
 }
 

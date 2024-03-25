@@ -1,17 +1,17 @@
 <script>
-  import EntityTitle from './entity_title.svelte'
-  import { i18n } from '#user/lib/i18n'
-  import BaseLayout from './base_layout.svelte'
-  import AuthorsInfo from './authors_info.svelte'
-  import Infobox from './infobox.svelte'
-  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
-  import Link from '#lib/components/link.svelte'
-  import Spinner from '#general/components/spinner.svelte'
-  import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
-  import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { setContext } from 'svelte'
   import { debounce } from 'underscore'
+  import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
+  import { getSubEntitiesSections } from '#entities/components/lib/entities'
+  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
+  import Spinner from '#general/components/spinner.svelte'
+  import Link from '#lib/components/link.svelte'
   import { onChange } from '#lib/svelte/svelte'
+  import { i18n } from '#user/lib/i18n'
+  import AuthorsInfo from './authors_info.svelte'
+  import BaseLayout from './base_layout.svelte'
+  import EntityTitle from './entity_title.svelte'
+  import Infobox from './infobox.svelte'
 
   export let entity
 

@@ -1,4 +1,4 @@
-import Handlebars from 'handlebars/runtime'
+import Handlebars from 'handlebars/runtime.js'
 import wdLang from 'wikidata-lang'
 import { isEntityUri, isImageHash } from '#lib/boolean_tests'
 import typeOf from '#lib/type_of'

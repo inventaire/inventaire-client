@@ -1,16 +1,16 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { getGroupMembersCount, getGroupPicture } from '#groups/lib/groups'
-  import { getPicture as getUserPicture } from '#users/lib/users'
   import { createEventDispatcher } from 'svelte'
+  import { getGroupMembersCount, getGroupPicture } from '#groups/lib/groups'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { getPicture as getUserPicture } from '#users/lib/users'
 
   export let doc
   export let group = null
 
   const { name, username, hasItemsCount, pathname, itemsCount } = doc
-  let { type = 'user' } = doc
+  const { type = 'user' } = doc
 
   let picture, membersCount
   if (type === 'group') {

@@ -31,7 +31,7 @@ const FetchMore = function ({ requestName, requestParams, pagination }) {
         items: pagination.items,
         limit: pagination.limit,
         offset: pagination.offset,
-        ...requestParams
+        ...requestParams,
       })
       moreData.total = res.total
       moreData.continue = res.continue

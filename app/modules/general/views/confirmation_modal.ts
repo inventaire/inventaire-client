@@ -1,15 +1,15 @@
-import { tryAsync } from '#lib/promises'
-import { isNonEmptyString } from '#lib/boolean_tests'
-import log_ from '#lib/loggers'
-import { getActionKey } from '#lib/key_events'
-import error_ from '#lib/error'
-import forms_ from '#general/lib/forms'
-import confirmationModalTemplate from './templates/confirmation_modal.hbs'
-import '../scss/confirmation_modal.scss'
 import AlertBox from '#behaviors/alert_box'
 import ElasticTextarea from '#behaviors/elastic_textarea'
 import General from '#behaviors/general'
 import SuccessCheck from '#behaviors/success_check'
+import forms_ from '#general/lib/forms'
+import { isNonEmptyString } from '#lib/boolean_tests'
+import error_ from '#lib/error'
+import { getActionKey } from '#lib/key_events'
+import log_ from '#lib/loggers'
+import { tryAsync } from '#lib/promises'
+import confirmationModalTemplate from './templates/confirmation_modal.hbs'
+import '../scss/confirmation_modal.scss'
 
 export default Marionette.View.extend({
   className: 'confirmationModal',
@@ -23,7 +23,7 @@ export default Marionette.View.extend({
 
   ui: {
     no: '#no',
-    yes: '#yes'
+    yes: '#yes',
   },
 
   serializeData () {
@@ -39,7 +39,7 @@ export default Marionette.View.extend({
     'click a#yes': 'yes',
     'click a#no': 'close',
     keydown: 'changeButton',
-    'click a#back': 'back'
+    'click a#back': 'back',
   },
 
   onRender () {
@@ -103,5 +103,5 @@ export default Marionette.View.extend({
     else if (key === 'right') this.ui.yes.focus()
   },
 
-  back () { this.options.back() }
+  back () { this.options.back() },
 })

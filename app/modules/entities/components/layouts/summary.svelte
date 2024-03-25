@@ -1,14 +1,14 @@
 <script>
+  import { indexBy, partition } from 'underscore'
+  import languagesData from '#assets/js/languages_data'
   import Spinner from '#components/spinner.svelte'
+  import { entityDataShouldBeRefreshed, pushEntityRefreshingPromise } from '#entities/lib/entities'
   import { getTextDirection } from '#lib/active_languages'
   import Flash from '#lib/components/flash.svelte'
   import Link from '#lib/components/link.svelte'
-  import languagesData from '#assets/js/languages_data'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { i18n } from '#user/lib/i18n'
-  import { indexBy, partition } from 'underscore'
-  import { entityDataShouldBeRefreshed, pushEntityRefreshingPromise } from '#entities/lib/entities'
 
   export let entity
   export let showLabel = false

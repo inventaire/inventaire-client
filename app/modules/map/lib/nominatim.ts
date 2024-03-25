@@ -1,7 +1,7 @@
-import { buildPath } from '#lib/location'
-import { fixedEncodeURIComponent } from '#lib/utils'
-import preq from '#lib/preq'
 import app from '#app/app'
+import { buildPath } from '#lib/location'
+import preq from '#lib/preq'
+import { fixedEncodeURIComponent } from '#lib/utils'
 
 const nominatimEndpoint = 'https://nominatim.openstreetmap.org/search'
 
@@ -9,7 +9,7 @@ export async function searchLocationByText (searchText) {
   const url = buildPath(nominatimEndpoint, {
     q: fixedEncodeURIComponent(searchText),
     format: 'json',
-    'accept-language': app.user.lang
+    'accept-language': app.user.lang,
   })
   const results = await preq.get(url)
   return results.map(serializeNominatimResults)
@@ -38,7 +38,7 @@ export function fitResultBbox (map, result) {
   const [ minLat, maxLat, minLng, maxLng ] = result.boundingbox
   const bounds = [
     [ minLat, minLng ],
-    [ maxLat, maxLng ]
+    [ maxLat, maxLng ],
   ]
   map.fitBounds(bounds, { padding: [ 5, 5 ], maxZoom: 18 })
 }

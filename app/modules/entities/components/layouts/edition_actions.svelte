@@ -1,7 +1,7 @@
 <script>
   import { getOwnersCountPerEdition, getCounterText } from '#entities/components/lib/edition_action_helpers'
-  import { I18n } from '#user/lib/i18n'
   import Link from '#lib/components/link.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let entity, itemsByEditions = {}
 

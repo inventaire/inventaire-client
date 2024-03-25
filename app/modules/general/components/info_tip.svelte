@@ -1,6 +1,6 @@
 <script>
-  import { icon } from '#lib/icons'
   import { uniqueId } from 'underscore'
+  import { icon } from '#lib/icons'
 
   export let text
   let showInfoText = false

@@ -43,20 +43,20 @@ export const visibilitySummariesData = {
     id: 'private',
     icon: 'lock',
     unicodeIcon: '&#xf023;',
-    label: 'private'
+    label: 'private',
   },
 
   network: {
     id: 'network',
     icon: 'users',
     unicodeIcon: '&#xf0c0;',
-    label: 'friends and groups'
+    label: 'friends and groups',
   },
 
   public: {
     id: 'public',
     icon: 'globe',
     unicodeIcon: '&#xf0ac;',
-    label: 'public'
-  }
+    label: 'public',
+  },
 }

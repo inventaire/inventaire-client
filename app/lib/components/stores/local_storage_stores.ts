@@ -5,8 +5,8 @@
 // Value serialization is always done in window.JSON, as it also allows to
 // deserialize strings, numbers, and booleans as such
 
-import error_ from '#lib/error'
 import { writable } from 'svelte/store'
+import error_ from '#lib/error'
 
 const stores = {}
 

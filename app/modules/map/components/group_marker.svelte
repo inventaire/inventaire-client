@@ -1,10 +1,10 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { isOpenedOutside } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { getGroupMembersCount, getGroupPathname, getGroupPicture } from '#groups/lib/groups'
   import { createEventDispatcher } from 'svelte'
+  import { getGroupMembersCount, getGroupPathname, getGroupPicture } from '#groups/lib/groups'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { isOpenedOutside } from '#lib/utils'
+  import { I18n } from '#user/lib/i18n'
 
   export let doc
   const { name } = doc

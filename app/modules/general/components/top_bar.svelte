@@ -1,11 +1,12 @@
 <script>
+  import TopBarButtons from '#components/top_bar_buttons.svelte'
   import TopBarLanguagePicker from '#components/top_bar_language_picker.svelte'
-  import { I18n } from '#user/lib/i18n'
   import { screen } from '#lib/components/stores/screen'
+  import { locationStore } from '#lib/location_store'
   import { loadInternalLink } from '#lib/utils'
   import GlobalSearchBar from '#search/components/global_search_bar.svelte'
-  import TopBarButtons from '#components/top_bar_buttons.svelte'
-  import { locationStore } from '#lib/location_store'
+  import { I18n } from '#user/lib/i18n'
+
   const { loggedIn } = app.user
 
   let displayConnectionButtons = false

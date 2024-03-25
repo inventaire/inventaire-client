@@ -1,9 +1,9 @@
+import { indexBy } from 'underscore'
+import Items from '#inventory/collections/items'
+import Item from '#inventory/models/item'
+import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import Item from '#inventory/models/item'
-import Items from '#inventory/collections/items'
-import error_ from '#lib/error'
-import { indexBy } from 'underscore'
 import { serializeUser } from '#users/lib/users'
 
 const getById = async id => {
@@ -119,5 +119,5 @@ export default app => app.reqres.setHandlers({
   'items:getByUserIdAndEntities': getByUserIdAndEntities,
 
   // Using a different naming to match reqGrab requests style
-  'get:item:model': getById
+  'get:item:model': getById,
 })

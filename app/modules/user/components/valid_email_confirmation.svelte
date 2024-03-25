@@ -1,12 +1,12 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { user } from '#user/user_store'
-  import { emailConfirmationRequest } from '#user/lib/auth'
-  import Flash from '#lib/components/flash.svelte'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
+  import Flash from '#lib/components/flash.svelte'
+  import { icon } from '#lib/icons'
+  import { loadInternalLink } from '#lib/utils'
+  import { emailConfirmationRequest } from '#user/lib/auth'
+  import { I18n } from '#user/lib/i18n'
+  import { user } from '#user/user_store'
 
   export let validEmail
 

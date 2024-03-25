@@ -1,6 +1,6 @@
-import { forceArray } from '#lib/utils'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
+import { forceArray } from '#lib/utils'
 
 export async function searchUsers (text) {
   // catches case with ''
@@ -10,7 +10,7 @@ export async function searchUsers (text) {
 }
 
 export default {
-  get (ids, format = 'index', refresh) {
+  get (ids, format = 'index') {
     let promise
     ids = forceArray(ids)
 

@@ -1,9 +1,9 @@
 <script>
+  import { createEventDispatcher, tick } from 'svelte'
+  import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/components/editor/lib/title_tip'
   import { autofocus } from '#lib/components/actions/autofocus'
   import error_ from '#lib/error'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
-  import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/components/editor/lib/title_tip'
-  import { createEventDispatcher, tick } from 'svelte'
   import { I18n } from '#user/lib/i18n'
 
   export let currentValue, getInputValue, entity, property
@@ -56,7 +56,7 @@
   {#if matchingSerieLabel}
     <p class="tip">
       {@html I18n('title_matches_serie_label_tip', {
-        pathname: `/entity/${serieUri}/edit`
+        pathname: `/entity/${serieUri}/edit`,
       })}
     </p>
   {/if}

@@ -1,21 +1,21 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { someMatch } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import LabelsEditor from './labels_editor.svelte'
-  import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
-  import PropertyClaimsEditor from './property_claims_editor.svelte'
-  import { entityTypeNameBySingularType, typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
-  import { createAndGetEntity } from '#entities/lib/create_entities'
-  import Flash from '#lib/components/flash.svelte'
-  import { getMissingRequiredProperties, getPropertiesShortlist, removeNonTypeProperties } from '#entities/components/editor/lib/create_helpers'
+  import { pick } from 'underscore'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
-  import PropertyCategory from '#entities/components/editor/property_category.svelte'
-  import { pick } from 'underscore'
-  import { onChange } from '#lib/svelte/svelte'
-  import { getPropertyValuesShortlist } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+  import { getMissingRequiredProperties, getPropertiesShortlist, removeNonTypeProperties } from '#entities/components/editor/lib/create_helpers'
   import { getTypePropertiesPerCategory } from '#entities/components/editor/lib/editors_properties'
+  import { getPropertyValuesShortlist } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+  import PropertyCategory from '#entities/components/editor/property_category.svelte'
+  import { createAndGetEntity } from '#entities/lib/create_entities'
+  import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
+  import { entityTypeNameBySingularType, typeDefaultP31, typesPossessiveForms } from '#entities/lib/types/entities_types'
+  import Flash from '#lib/components/flash.svelte'
+  import { icon } from '#lib/icons'
+  import { onChange } from '#lib/svelte/svelte'
+  import { someMatch } from '#lib/utils'
+  import { I18n } from '#user/lib/i18n'
+  import LabelsEditor from './labels_editor.svelte'
+  import PropertyClaimsEditor from './property_claims_editor.svelte'
 
   export let type, claims, label
 
@@ -64,7 +64,7 @@
     if (missingRequiredProperties.length > 0) {
       flash = {
         type: 'info',
-        message: `${I18n('required properties are missing')}: ${missingRequiredProperties.join(', ')}`
+        message: `${I18n('required properties are missing')}: ${missingRequiredProperties.join(', ')}`,
       }
     } else if (flash?.type === 'info') {
       flash = null

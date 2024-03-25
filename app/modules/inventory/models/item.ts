@@ -11,7 +11,7 @@ import { i18n } from '#user/lib/i18n'
 import { transactionsDataFactory } from '../lib/transactions_data.ts'
 
 export default Filterable.extend({
-  initialize (attrs, options) {
+  initialize (attrs) {
     this.testPrivateAttributes()
 
     const { entity, owner } = attrs
@@ -170,7 +170,7 @@ export default Filterable.extend({
 
   // passing id and rev as query paramaters
   destroy () {
-    // reproduce the behavior from the default Bacbkone::destroy
+    // reproduce the behavior from the default Backbone::destroy
     this.trigger('destroy', this, this.collection)
     return preq.post(app.API.items.deleteByIds, { ids: [ this.id ] })
     .then(tap(() => { this.hasBeenDeleted = true }))

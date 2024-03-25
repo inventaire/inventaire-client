@@ -1,9 +1,9 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import Toggler from '#lib/components/notification_toggler.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { user } from '#user/user_store'
   import { range } from 'underscore'
+  import Flash from '#lib/components/flash.svelte'
+  import Toggler from '#lib/components/notification_toggler.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { user } from '#user/user_store'
 
   let flashPeriodicity
   const days = range(1, 180).filter(num => num <= 30 || num % 10 === 0)
@@ -13,7 +13,7 @@
     try {
       await app.request('user:update', {
         attribute: 'summaryPeriodicity',
-        value: parseInt(periodicity)
+        value: parseInt(periodicity),
       })
     } catch (err) {
       flashPeriodicity = err

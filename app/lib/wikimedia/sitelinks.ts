@@ -1,5 +1,5 @@
-import { fixedEncodeURIComponent } from '#lib/utils'
 import { buildPath } from '#lib/location'
+import { fixedEncodeURIComponent } from '#lib/utils'
 
 export default {
   // lang: the user's lang
@@ -14,7 +14,7 @@ export default {
       projectBaseName: 'wiki',
       projectRoot: 'wikipedia',
       lang,
-      originalLang
+      originalLang,
     })
   },
 
@@ -24,13 +24,13 @@ export default {
       projectBaseName: 'wikisource',
       projectRoot: 'wikisource',
       lang,
-      originalLang
+      originalLang,
     })
     if (wsData != null) {
       wsData.epub = getEpubLink(wsData)
       return wsData
     }
-  }
+  },
 }
 
 const getBestWikiProjectInfo = function (params) {
@@ -84,6 +84,6 @@ const getEpubLink = function (wikisourceData) {
   return buildPath('http://wsexport.wmflabs.org/tool/book.php', {
     lang,
     format: 'epub',
-    page: title
+    page: title,
   })
 }

@@ -9,5 +9,5 @@ export default Marionette.Behavior.extend({
     if (isMobile) return
     const selector = this.options.selector || 'input,[tabindex=0]'
     this.view.$el.find(selector).first().focus()
-  }
+  },
 })

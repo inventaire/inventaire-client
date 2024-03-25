@@ -1,6 +1,6 @@
+import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import { i18n } from '#user/lib/i18n'
-import error_ from '#lib/error'
 
 // behaviors: Loading MUST be added to the view
 // elements required in the view: .loading

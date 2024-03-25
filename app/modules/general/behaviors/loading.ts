@@ -1,7 +1,7 @@
 import { isNonEmptyString } from '#lib/boolean_tests'
+import { icon } from '#lib/icons'
 import log_ from '#lib/loggers'
 import { I18n } from '#user/lib/i18n'
-import { icon } from '#lib/icons'
 
 export default Marionette.Behavior.extend({
   behaviorName: 'Loading',
@@ -9,7 +9,7 @@ export default Marionette.Behavior.extend({
   events: {
     loading: 'showSpinningLoader',
     stopLoading: 'hideSpinningLoader',
-    somethingWentWrong: 'somethingWentWrong'
+    somethingWentWrong: 'somethingWentWrong',
   },
 
   showSpinningLoader (e, params = {}) {
@@ -98,7 +98,7 @@ export default Marionette.Behavior.extend({
     } else {
       return this.$el.find('.loading')
     }
-  }
+  },
 })
 
 const updateProgression = function (body, $target, data) {

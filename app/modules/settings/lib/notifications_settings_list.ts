@@ -16,5 +16,5 @@ export default [
   // TRANSACTIONS
   'your_item_was_requested',
   'update_on_your_item',
-  'update_on_item_you_requested'
+  'update_on_item_you_requested',
 ]

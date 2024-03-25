@@ -1,4 +1,4 @@
-import Handlebars from 'handlebars/runtime'
+import Handlebars from 'handlebars/runtime.js'
 import { uniq } from 'underscore'
 import wdLang from 'wikidata-lang'
 import { isStandaloneEntityType } from '#entities/lib/types/entities_types'

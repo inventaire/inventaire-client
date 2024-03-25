@@ -1,14 +1,15 @@
+import getBestLangValue from '#entities/lib/get_best_lang_value'
 import { getTextDirection } from '#lib/active_languages'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import { buildPath } from '#lib/location'
 import log_ from '#lib/loggers'
 import sitelinks_ from '#lib/wikimedia/sitelinks'
-import wikipedia_ from '#lib/wikimedia/wikipedia'
-import getBestLangValue from '#entities/lib/get_best_lang_value'
 import { unprefixify } from '#lib/wikimedia/wikidata'
+import wikipedia_ from '#lib/wikimedia/wikipedia'
+
 const wdHost = 'https://www.wikidata.org'
 
-export default function (attrs) {
+export default function () {
   const { lang } = app.user
   setWikiLinks.call(this, lang)
   setAttributes.call(this, lang)
@@ -72,7 +73,7 @@ const specificMethods = {
     return wikipedia_.extract(lang, title)
     .then(_setWikipediaExtractAndDescription.bind(this))
     .catch(log_.Error('setWikipediaExtract err'))
-  }
+  },
 }
 
 const _setWikipediaExtractAndDescription = function (extractData) {

@@ -1,8 +1,8 @@
 <script>
+  import { tick } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
   import error_ from '#lib/error'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
-  import { tick } from 'svelte'
 
   export let currentValue, getInputValue
 

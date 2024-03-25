@@ -1,5 +1,5 @@
-import { localStorageProxy } from '#lib/local_storage'
 import assert_ from '#lib/assert_types'
+import { localStorageProxy } from '#lib/local_storage'
 
 const set = localStorageProxy.setItem.bind(localStorageProxy)
 const SetArray = key => array => {

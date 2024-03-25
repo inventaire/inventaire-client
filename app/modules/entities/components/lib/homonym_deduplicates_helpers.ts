@@ -1,10 +1,10 @@
-import preq from '#lib/preq'
-import getBestLangValue from '#entities/lib/get_best_lang_value'
-import { someMatch } from '#lib/utils'
-import { getEntitiesByUris } from '#entities/lib/entities'
 import { compact, partition, pick, pluck, uniq } from 'underscore'
+import { getEntitiesByUris } from '#entities/lib/entities'
+import getBestLangValue from '#entities/lib/get_best_lang_value'
 import { pluralize } from '#entities/lib/types/entities_types'
 import { isEntityUri, isWikidataItemUri } from '#lib/boolean_tests'
+import preq from '#lib/preq'
+import { someMatch } from '#lib/utils'
 
 export async function getHomonymsEntities (entity) {
   const { labels, aliases, type, isWikidataEntity } = entity
@@ -72,7 +72,7 @@ const isMultiWordTerm = term => getWordsCount(term) > 1
 const getWordsCount = term => term.split(' ').length
 
 const getTerms = (labels, aliases) => {
-  let terms = Object.values(labels)
+  const terms = Object.values(labels)
     .concat(Object.values(aliases).flat())
     // Order term words to not search both "foo bar" and "bar foo"
     // as words order doesn't matter

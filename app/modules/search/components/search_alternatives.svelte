@@ -1,9 +1,9 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { entitySectionsWithAlternatives, typesBySection } from '#search/lib/search_sections'
-  import { looksLikeAnIsbn } from '#lib/isbn'
   import { createEventDispatcher } from 'svelte'
+  import { icon } from '#lib/icons'
+  import { looksLikeAnIsbn } from '#lib/isbn'
+  import { entitySectionsWithAlternatives, typesBySection } from '#search/lib/search_sections'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let selectedCategory, selectedSection, searchText
 

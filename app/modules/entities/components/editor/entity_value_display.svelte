@@ -1,10 +1,10 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
   import { getEntityBasicInfoByUri } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
-  import IdentifierWithTooltip from './identifier_with_tooltip.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { I18n } from '#user/lib/i18n'
+  import IdentifierWithTooltip from './identifier_with_tooltip.svelte'
 
   export let value, valueLabel, valueBasicInfo
 

@@ -1,8 +1,8 @@
 import FilteredCollection from 'backbone-filtered-collection'
 import { isModel, isGroupId } from '#lib/boolean_tests'
-import preq from '#lib/preq'
 import error_ from '#lib/error'
 import { Updater } from '#lib/model_update'
+import preq from '#lib/preq'
 
 export default function () {
   const { groups } = app
@@ -42,7 +42,7 @@ export default function () {
   const groupSettingsUpdater = Updater({
     endpoint: app.API.groups.base,
     action: 'update-settings',
-    modelIdLabel: 'group'
+    modelIdLabel: 'group',
   })
 
   const getGroupModel = function (id) {
@@ -88,5 +88,5 @@ const initGroupFilteredCollection = function (groups, name) {
 
 const filters = {
   mainUserMember: group => group.mainUserIsMember(),
-  mainUserInvited: group => group.mainUserIsInvited()
+  mainUserInvited: group => group.mainUserIsInvited(),
 }

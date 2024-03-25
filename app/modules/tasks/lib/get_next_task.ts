@@ -1,10 +1,10 @@
-import preq from '#lib/preq'
 import { isNonEmptyArray } from '#lib/boolean_tests'
+import preq from '#lib/preq'
 
 const backlogs = {
   byScore: [],
   bySuggestion: [],
-  byWork: []
+  byWork: [],
 }
 
 const suggestionUrisFetched = []

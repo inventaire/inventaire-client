@@ -1,15 +1,15 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { serializeShelfData } from './lib/shelves'
-  import ShelfEditor from '#shelves/components/shelf_editor.svelte'
-  import Modal from '#components/modal.svelte'
-  import { BubbleUpComponentEvent, onChange } from '#lib/svelte/svelte'
   import { createEventDispatcher, tick } from 'svelte'
+  import Modal from '#components/modal.svelte'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { BubbleUpComponentEvent, onChange } from '#lib/svelte/svelte'
+  import ShelfEditor from '#shelves/components/shelf_editor.svelte'
   import ShelfItemsAdder from '#shelves/components/shelf_items_adder.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { serializeShelfData } from './lib/shelves.ts'
 
   export let shelf = null
   export let withoutShelf = false

@@ -7,7 +7,7 @@ export default Marionette.Behavior.extend({
     // on modules/general/views/templates/toggler.hbs
     'touchstart .toggler-label' (e) {
       $(e.currentTarget).trigger('click')
-    }
+    },
   },
 
   toggleCheckbox (e) {
@@ -15,5 +15,5 @@ export default Marionette.Behavior.extend({
     if (key === 'enter') {
       $(e.currentTarget).siblings('.toggler-input').trigger('click')
     }
-  }
+  },
 })

@@ -1,14 +1,14 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import IconWithCounter from '#components/icon_with_counter.svelte'
-  import { screen } from '#lib/components/stores/screen'
-  import { user } from '#user/user_store'
   import Dropdown from '#components/dropdown.svelte'
+  import IconWithCounter from '#components/icon_with_counter.svelte'
   import Link from '#lib/components/link.svelte'
+  import { screen } from '#lib/components/stores/screen'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { loadInternalLink } from '#lib/utils'
   import { getUnreadTransactionsCountStore } from '#transactions/lib/get_transactions'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import { user } from '#user/user_store'
 
   // TODO: replace by global stores
   let notificationsUpdates = 0
@@ -17,7 +17,7 @@
 
   Promise.all([
     app.request('wait:for', 'relations'),
-    app.request('wait:for', 'groups')
+    app.request('wait:for', 'groups'),
   ])
     .then(() => {
       notificationsUpdates = getNotificationsCount()

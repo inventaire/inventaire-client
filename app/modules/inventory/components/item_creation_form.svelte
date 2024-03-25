@@ -1,15 +1,15 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
   import Spinner from '#components/spinner.svelte'
+  import ItemRow from '#inventory/components/item_row.svelte'
   import { addNext, cancel } from '#inventory/components/lib/item_creation_helpers'
+  import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
-  import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import Flash from '#lib/components/flash.svelte'
-  import ItemRow from '#inventory/components/item_row.svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { loadInternalLink } from '#lib/utils'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let entity
 

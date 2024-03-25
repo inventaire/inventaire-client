@@ -10,14 +10,14 @@
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
   import Spinner from '#general/components/spinner.svelte'
-  import EntityImage from '../entity_image.svelte'
-  import BaseLayout from './base_layout.svelte'
-  import EntityTitle from './entity_title.svelte'
-  import Infobox from './infobox.svelte'
-  import HomonymDeduplicates from './deduplicate_homonyms.svelte'
-  import { i18n } from '#user/lib/i18n'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { onChange } from '#lib/svelte/svelte'
+  import { i18n } from '#user/lib/i18n'
+  import EntityImage from '../entity_image.svelte'
+  import BaseLayout from './base_layout.svelte'
+  import HomonymDeduplicates from './deduplicate_homonyms.svelte'
+  import EntityTitle from './entity_title.svelte'
+  import Infobox from './infobox.svelte'
 
   export let entity
   let flash

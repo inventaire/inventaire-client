@@ -13,7 +13,7 @@ try {
     setItem (key, value) {
       storage[key] = value
     },
-    clear () { storage = {} }
+    clear () { storage = {} },
   }
 }
 

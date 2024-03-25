@@ -1,6 +1,7 @@
 <script>
-  import Flash from './flash.svelte'
   import { I18n } from '#user/lib/i18n'
+  import Flash from './flash.svelte'
+
   export let name
   export let value
   let flash
@@ -11,7 +12,7 @@
     try {
       app.request('user:update', {
         attribute: `settings.notifications.${name}`,
-        value
+        value,
       })
     } catch (err) {
       flash = err
@@ -23,7 +24,7 @@
     if (name === 'global' && value === false) {
       flash = {
         type: 'warning',
-        message: I18n('global_email_toggle_warning')
+        message: I18n('global_email_toggle_warning'),
       }
     }
   }

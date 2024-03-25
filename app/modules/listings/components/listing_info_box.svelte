@@ -1,12 +1,12 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { onChange } from '#lib/svelte/svelte'
+  import Modal from '#components/modal.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { onChange } from '#lib/svelte/svelte'
+  import { loadInternalLink } from '#lib/utils'
   import ListingEditor from '#listings/components/listing_editor.svelte'
-  import Modal from '#components/modal.svelte'
+  import { i18n } from '#user/lib/i18n'
 
   export let listing, isEditable
 
@@ -19,7 +19,7 @@
     ;({
       username,
       picture: userPicture,
-      listingsPathname: userListingsPathname
+      listingsPathname: userListingsPathname,
     } = await app.request('get:user:data', creatorId))
   }
 

@@ -1,8 +1,8 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import Link from '#lib/components/link.svelte'
   import ImageDiv from '#components/image_div.svelte'
+  import Link from '#lib/components/link.svelte'
+  import { loadInternalLink } from '#lib/utils'
+  import { i18n } from '#user/lib/i18n'
 
   export let entity,
     size = 300,

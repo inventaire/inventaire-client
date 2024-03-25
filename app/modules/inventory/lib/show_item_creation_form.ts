@@ -20,8 +20,8 @@ export default async params => {
   const { default: ItemCreationForm } = await import('#inventory/components/item_creation_form.svelte')
   app.layout.showChildComponent('main', ItemCreationForm, {
     props: {
-      entity: entity.toJSON()
-    }
+      entity: entity.toJSON(),
+    },
   })
   app.navigate(pathname)
 }

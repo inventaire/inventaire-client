@@ -18,7 +18,7 @@ export function serializeItem (item) {
     entityPathname: getEntityLocalHref(item.entity),
     userReady: item.userReady,
     mainUserIsOwner: item.mainUserIsOwner,
-    isPrivate: item.visibility?.length === 0
+    isPrivate: item.visibility?.length === 0,
   })
 
   if (item.entityData != null) {

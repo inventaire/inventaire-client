@@ -1,6 +1,6 @@
 <script>
-  import preq from '#lib/preq'
   import Spinner from '#general/components/spinner.svelte'
+  import preq from '#lib/preq'
   import { loadInternalLink } from '#lib/utils'
 
   const waitingForNames = fetchNames()

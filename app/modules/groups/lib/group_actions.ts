@@ -1,5 +1,5 @@
-import preq from '#lib/preq'
 import error_ from '#lib/error'
+import preq from '#lib/preq'
 
 export default {
   inviteUser (user) {
@@ -12,7 +12,7 @@ export default {
     this.push('invited', {
       user: user.id,
       invitor: app.user.id,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     })
     this.triggeredListChange()
     triggerUserChange(user)
@@ -36,7 +36,7 @@ export default {
     // skipping membership process by directly creating membership doc in members list
     this.push('members', {
       user: app.user.id,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     })
     this.triggeredListChange()
 
@@ -48,7 +48,7 @@ export default {
     // create membership doc in the requested list
     this.push('requested', {
       user: app.user.id,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     })
 
     this.triggeredListChange()
@@ -99,7 +99,7 @@ export default {
       action,
       group: this.id,
       // requiered only for actions implying an other user
-      user: userId
+      user: userId,
     })
     await this._postActionHooks.bind(this, action)
     return res
@@ -138,7 +138,7 @@ export default {
     // as Backbone FilteredCollection react on those
     this.trigger('list:change')
     this.trigger('list:change:after')
-  }
+  },
 }
 
 const triggerUserChange = function (user) {

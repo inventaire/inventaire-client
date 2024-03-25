@@ -1,13 +1,13 @@
-import { priorityPropertiesPerType, propertiesPerType } from '#entities/lib/editor/properties_per_type'
 import { pick, uniq, without } from 'underscore'
-import { typeHasName } from '#entities/lib/types/entities_types'
-import { i18n } from '#user/lib/i18n'
 import wdLang from 'wikidata-lang'
-import preq from '#lib/preq'
-import assert_ from '#lib/assert_types'
-import { propertiesEditorsConfigs } from '#entities/lib/properties'
-import { isNonEmptyArray } from '#lib/boolean_tests'
 import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
+import { priorityPropertiesPerType, propertiesPerType } from '#entities/lib/editor/properties_per_type'
+import { propertiesEditorsConfigs } from '#entities/lib/properties'
+import { typeHasName } from '#entities/lib/types/entities_types'
+import assert_ from '#lib/assert_types'
+import { isNonEmptyArray } from '#lib/boolean_tests'
+import preq from '#lib/preq'
+import { i18n } from '#user/lib/i18n'
 
 export function getMissingRequiredProperties ({ entity, requiredProperties, requiresLabel }) {
   const { type } = entity
@@ -39,13 +39,13 @@ export async function createEditionAndWorkFromEntry ({ edition, work }) {
   work.labels = { [workLabelLangCode]: title }
   const entry = {
     edition,
-    works: [ work ]
+    works: [ work ],
   }
   const { entries } = await preq.post(app.API.entities.resolve, {
     entries: [ entry ],
     update: true,
     create: true,
-    enrich: true
+    enrich: true,
   })
   const { uri } = entries[0].edition
   return uri
@@ -70,7 +70,7 @@ export function getPropertiesShortlist (entity) {
 }
 
 const dataadminOnlyShortlistedProperties = [
-  'wdt:P31'
+  'wdt:P31',
 ]
 
 const filterPerUserRole = propertiesShortlist => {

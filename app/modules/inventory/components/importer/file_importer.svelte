@@ -1,11 +1,11 @@
 <script>
-  import commonParser from '#inventory/lib/importer/parsers/common'
-  import dataValidator from '#inventory/lib/data_validator'
-  import files_ from '#lib/files'
-  import Flash from '#lib/components/flash.svelte'
-  import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
+  import dataValidator from '#inventory/lib/data_validator'
+  import commonParser from '#inventory/lib/importer/parsers/common'
+  import Flash from '#lib/components/flash.svelte'
   import Link from '#lib/components/link.svelte'
+  import files_ from '#lib/files'
+  import { I18n } from '#user/lib/i18n'
 
   const dispatch = createEventDispatcher()
 

@@ -1,10 +1,10 @@
 <script>
-  import { loadInternalLink } from '#lib/utils'
-  import { i18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getEntityImagePath } from '#entities/lib/entities'
   import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { loadInternalLink } from '#lib/utils'
+  import { i18n } from '#user/lib/i18n'
 
   export let entity, isEditable
 

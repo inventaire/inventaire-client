@@ -1,5 +1,5 @@
-import log_ from '#lib/loggers'
 import { icon } from '#lib/icons'
+import log_ from '#lib/loggers'
 
 // elements required in the view: .checkWrapper > .check
 
@@ -8,7 +8,7 @@ export default Marionette.Behavior.extend({
 
   events: {
     check: 'showSuccessCheck',
-    fail: 'showFail'
+    fail: 'showFail',
   },
 
   showSuccessCheck (e, cb) { this.showSignal(e, cb, 'check-circle') },
@@ -45,5 +45,5 @@ export default Marionette.Behavior.extend({
     }
 
     this.view.setTimeout(afterTimeout, 600)
-  }
+  },
 })

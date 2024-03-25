@@ -1,27 +1,27 @@
 <script>
-  import Spinner from '#general/components/spinner.svelte'
-  import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
+  import { flip } from 'svelte/animate'
   import EntityListCompact from '#entities/components/layouts/entity_list_compact.svelte'
   import EntityListCompactTitleRow from '#entities/components/layouts/entity_list_compact_title_row.svelte'
+  import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
+  import MissingEntityButton from '#entities/components/layouts/missing_entity_button.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
   import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'
-  import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import WorkActions from '#entities/components/layouts/work_actions.svelte'
-  import { addWorksImages } from '#entities/lib/types/work_alt'
+  import WorkGridCard from '#entities/components/layouts/work_grid_card.svelte'
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
-  import { flip } from 'svelte/animate'
-  import { i18n } from '#user/lib/i18n'
-  import { onChange } from '#lib/svelte/svelte'
-  import { setIntersection } from '#lib/utils'
+  import { addWorksImages } from '#entities/lib/types/work_alt'
+  import Spinner from '#general/components/spinner.svelte'
+  import Flash from '#lib/components/flash.svelte'
   import { screen } from '#lib/components/stores/screen'
   import { onScrollToBottom } from '#lib/screen'
-  import Flash from '#lib/components/flash.svelte'
-  import MissingEntityButton from '#entities/components/layouts/missing_entity_button.svelte'
+  import { onChange } from '#lib/svelte/svelte'
+  import { setIntersection } from '#lib/utils'
+  import { i18n } from '#user/lib/i18n'
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
   const { entities: works, searchable = true, sortingType, isCompactDisplay } = section
-  let { label, context } = section
+  const { label, context } = section
 
   let filteredWorks = works
   let paginatedWorks = []
@@ -29,7 +29,7 @@
   if (context) {
     flash = {
       type: 'warning',
-      message: context
+      message: context,
     }
   }
 
@@ -64,7 +64,7 @@
   const worksPerRow = 8
   // Limit needs to be high enough to have enough elements in order to be scrollable
   // otherwise on:scroll wont be triggered
-  let initialLimit = worksPerRow * 4
+  const initialLimit = worksPerRow * 4
   let displayLimit = initialLimit
 
   let scrollableElement

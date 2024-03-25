@@ -1,7 +1,7 @@
 <script>
-  import { isOpenedOutside } from '#lib/utils'
-  import { icon as iconFn } from '#lib/handlebars_helpers/icons'
   import assert_ from '#lib/assert_types'
+  import { icon as iconFn } from '#lib/handlebars_helpers/icons'
+  import { isOpenedOutside } from '#lib/utils'
 
   export let url
   export let text = null

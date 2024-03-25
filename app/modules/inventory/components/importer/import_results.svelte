@@ -1,6 +1,7 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
   import ResultCandidate from '#inventory/components/importer/result_candidate.svelte'
+  import { I18n } from '#user/lib/i18n'
+
   export let processedCandidates
   export let visibility
   export let transaction

@@ -1,11 +1,11 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import Flash from '#lib/components/flash.svelte'
   import autosize from 'autosize'
-  import { formatCandidatesData } from '#inventory/lib/importer/import_helpers'
-  import { findIsbns } from '#lib/isbn'
   import { onMount, createEventDispatcher } from 'svelte'
   import { getInvalidIsbnsString } from '#inventory/components/importer/lib/importers_helpers'
+  import { formatCandidatesData } from '#inventory/lib/importer/import_helpers'
+  import Flash from '#lib/components/flash.svelte'
+  import { findIsbns } from '#lib/isbn'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let isbns
 

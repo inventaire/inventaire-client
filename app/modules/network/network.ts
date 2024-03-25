@@ -14,13 +14,13 @@ export default {
         'network/groups/settings(/)': 'redirectToInventoryNetwork',
         'network/users/nearby(/)': 'redirectToInventoryPublic',
         'network/groups/nearby(/)': 'redirectToInventoryPublic',
-      }
+      },
     })
 
     new Router({ controller: API })
 
     app.reqres.setHandlers({ 'get:network:invitations:count': getNetworkNotificationsCount })
-  }
+  },
 }
 
 const API = {
