@@ -6,6 +6,8 @@
     "rootDir": ".",
     "allowJs": false,
     "checkJs": false,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "skipLibCheck": true,
     "incremental": true,
     "sourceMap": true,
