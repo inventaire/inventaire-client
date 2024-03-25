@@ -1,6 +1,6 @@
-import getBestLangValue from '../get_best_lang_value.js'
-import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath } from '../entities.js'
 import { pluck } from 'underscore'
+import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath } from '../entities.ts'
+import getBestLangValue from '../get_best_lang_value.ts'
 
 export async function addWorksImagesAndAuthors (works) {
   await Promise.all([

@@ -1,7 +1,7 @@
-import { parseBooleanString } from '#lib/utils'
-import fetchData from '#lib/data/fetch'
-import MainUser from '../models/main_user.js'
 import cookie_ from 'js-cookie'
+import fetchData from '#lib/data/fetch'
+import { parseBooleanString } from '#lib/utils'
+import MainUser from '../models/main_user.ts'
 
 export default function (app) {
   if (app.user != null) return
@@ -12,7 +12,7 @@ export default function (app) {
   fetchData({
     name: 'user',
     Model: MainUser,
-    condition: loggedIn
+    condition: loggedIn,
   })
   .catch(resetSession)
 

@@ -1,8 +1,8 @@
 <!-- Inspired by https://imfeld.dev/writing/svelte_domless_components
      and https://github.com/ngyewch/svelte-leaflet -->
 <script>
-  import { createEventDispatcher, setContext, tick } from 'svelte'
   import L from 'leaflet'
+  import { createEventDispatcher, setContext, tick } from 'svelte'
   import 'leaflet/dist/leaflet.css'
   import 'leaflet.markercluster/dist/MarkerCluster.css'
   import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
@@ -10,13 +10,13 @@
   import 'leaflet.markercluster'
   // TODO: split markers style between components
   import '#map/scss/objects_markers.scss'
-  import mapConfig from '#map/lib/config.js'
+  import Flash from '#lib/components/flash.svelte'
   import isMobile from '#lib/mobile_check'
   import { onChange } from '#lib/svelte/svelte'
-  import Flash from '#lib/components/flash.svelte'
+  import LocationSearchInput from '#map/components/location_search_input.svelte'
+  import mapConfig from '#map/lib/config.ts'
   import { uniqBounds } from '#map/lib/map'
   import { fitResultBbox } from '#map/lib/nominatim'
-  import LocationSearchInput from '#map/components/location_search_input.svelte'
 
   mapConfig.init()
 
@@ -70,7 +70,7 @@
       if (cluster) {
         clusterGroup = L.markerClusterGroup({
           // Required to prevent big marker icons to overlap
-          spiderfyDistanceMultiplier: 4
+          spiderfyDistanceMultiplier: 4,
         })
         map.addLayer(clusterGroup)
       }

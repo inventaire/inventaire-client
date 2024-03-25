@@ -1,5 +1,5 @@
-import { truncateDecimals } from './geo.js'
 import pTimeout from 'p-timeout'
+import { truncateDecimals } from './geo.ts'
 
 // Give a good 30s, as it can sometimes take some time and actually return a result
 const timeout = 30 * 1000
@@ -18,7 +18,7 @@ const currentPosition = () => new Promise((resolve, reject) => {
   navigator.geolocation.getCurrentPosition(resolve, formattedReject, {
     timeout,
     maximumAge: 5 * 60 * 1000,
-    enableHighAccuracy: false
+    enableHighAccuracy: false,
   })
 })
 

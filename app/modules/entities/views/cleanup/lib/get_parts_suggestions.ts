@@ -1,6 +1,6 @@
 import { searchWorks } from '#entities/lib/search/search_by_types'
 import preq from '#lib/preq'
-import addPertinanceScore from './add_pertinance_score.js'
+import addPertinanceScore from './add_pertinance_score.ts'
 
 const descendingPertinanceScore = work => -work.get('pertinanceScore')
 const Suggestions = Backbone.Collection.extend({ comparator: descendingPertinanceScore })
@@ -9,7 +9,7 @@ export default async function (serie) {
   const authorsUris = serie.getAllAuthorsUris()
   const uris = await Promise.all([
     getAuthorsWorks(authorsUris),
-    searchMatchWorks(serie)
+    searchMatchWorks(serie),
   ])
   .then(_.flatten)
   .then(_.uniq)

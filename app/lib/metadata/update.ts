@@ -13,11 +13,11 @@
 // but further updates might be needed for in browser metadata access,
 // such as RSS feed detections
 
-import updateNodeType from './update_node_type.js'
-import { I18n, i18n } from '#user/lib/i18n'
-import { transformers } from './apply_transformers.js'
-import { dropLeadingSlash } from '#lib/utils'
 import { wait } from '#lib/promises'
+import { dropLeadingSlash } from '#lib/utils'
+import { I18n, i18n } from '#user/lib/i18n'
+import { transformers } from './apply_transformers.ts'
+import updateNodeType from './update_node_type.ts'
 
 // Make prerender wait before assuming everything is ready
 // See https://prerender.io/documentation/best-practices

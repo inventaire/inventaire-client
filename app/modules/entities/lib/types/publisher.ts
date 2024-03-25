@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import filterOutWdEditions from '../filter_out_wd_editions.js'
+import filterOutWdEditions from '../filter_out_wd_editions.ts'
 
 export default function () {
   this.childrenClaimProperty = 'wdt:P123'
@@ -32,7 +32,7 @@ const specificMethods = {
     this.publisherCollectionsUris = _.pluck(collections, 'uri')
     const isolatedEditions = editions.filter(isntInAKnownCollection(this.publisherCollectionsUris))
     this.isolatedEditionsUris = _.pluck(isolatedEditions, 'uri')
-  }
+  },
 }
 
 const isntInAKnownCollection = collectionsUris => function (edition) {

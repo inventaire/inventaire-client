@@ -1,17 +1,17 @@
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
-import waitForCheck from '../lib/wait_for_check.js'
-import initDocumentLang from '../lib/document_lang.js'
-import initModal from '../lib/modal.js'
-import initFlashMessage from '../lib/flash_message.js'
-import ConfirmationModal from './confirmation_modal.js'
-import { viewportIsSmall } from '#lib/screen'
-import appLayoutTemplate from './templates/app_layout.hbs'
-import assert_ from '#lib/assert_types'
 import Dropdown from '#behaviors/dropdown'
 import General from '#behaviors/general'
 import PreventDefault from '#behaviors/prevent_default'
-import { showFeedbackMenu, showLoader } from '../lib/show_views.js'
+import assert_ from '#lib/assert_types'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import { viewportIsSmall } from '#lib/screen'
+import initDocumentLang from '../lib/document_lang.ts'
+import initFlashMessage from '../lib/flash_message.ts'
+import initModal from '../lib/modal.ts'
+import { showFeedbackMenu, showLoader } from '../lib/show_views.ts'
+import waitForCheck from '../lib/wait_for_check.ts'
+import ConfirmationModal from './confirmation_modal.ts'
+import appLayoutTemplate from './templates/app_layout.hbs'
 
 export default Marionette.View.extend({
   template: appLayoutTemplate,
@@ -27,7 +27,7 @@ export default Marionette.View.extend({
 
   ui: {
     topBar: '#topBar',
-    flashMessage: '#flashMessage'
+    flashMessage: '#flashMessage',
   },
 
   behaviors: {
@@ -50,12 +50,12 @@ export default Marionette.View.extend({
         } else {
           options?.fallback?.()
         }
-      }
+      },
     })
 
     app.reqres.setHandlers({
       waitForCheck,
-      'post:feedback': postFeedback
+      'post:feedback': postFeedback,
     })
 
     app.vent.on('overlay:shown', () => $('body').addClass('hasOverlay'))
@@ -85,7 +85,7 @@ export default Marionette.View.extend({
     assert_.function(action)
     if (formAction != null) assert_.function(formAction)
     this.showChildView('modal', new ConfirmationModal(options))
-  }
+  },
 })
 
 const initWindowResizeEvents = function () {

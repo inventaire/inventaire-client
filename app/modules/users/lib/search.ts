@@ -1,5 +1,5 @@
 import { isNonEmptyString } from '#lib/boolean_tests'
-import usersData from '../users_data.js'
+import usersData from '../users_data.ts'
 
 export default function (app) {
   app.users.queried = []

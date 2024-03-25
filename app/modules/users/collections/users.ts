@@ -1,4 +1,4 @@
-import User from '../models/user.js'
+import User from '../models/user.ts'
 
 export default Backbone.Collection.extend({
   model: User,
@@ -13,5 +13,5 @@ export default Backbone.Collection.extend({
   comparator: 'highlightScore',
 
   // Include cids, but that's probably still faster than doing a map on models
-  allIds () { return Object.keys(app.users._byId) }
+  allIds () { return Object.keys(app.users._byId) },
 })

@@ -1,24 +1,24 @@
-import initHelpers from './lib/helpers.js'
 import { getTransactions } from '#transactions/lib/get_transactions'
+import initHelpers from './lib/helpers.ts'
 
 export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
         'transactions(/)': 'showTransactions',
-        'transactions/:id(/)': 'showTransaction'
-      }
+        'transactions/:id(/)': 'showTransaction',
+      },
     })
 
     new Router({ controller: API })
 
     app.commands.setHandlers({
       'show:transactions': API.showTransactions,
-      'show:transaction': API.showTransaction
+      'show:transaction': API.showTransaction,
     })
 
     initHelpers()
-  }
+  },
 }
 
 const API = {
@@ -47,6 +47,6 @@ async function showTransactionsLayout (params = {}) {
     props: {
       transactions,
       selectedTransaction,
-    }
+    },
   })
 }

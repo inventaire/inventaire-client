@@ -1,5 +1,5 @@
 import preq from '#lib/preq'
-import commonsSerieWork from './commons_serie_work.js'
+import commonsSerieWork from './commons_serie_work.ts'
 
 export default function () {
   // Main property by which sub-entities are linked to this one
@@ -41,7 +41,7 @@ const specificMethods = _.extend({}, commonsSerieWork, {
     app.execute('report:entity:type:issue', {
       model: this,
       expectedType: 'work',
-      context: { module: 'app/modules/entities/lib/types/serie' }
+      context: { module: 'app/modules/entities/lib/types/serie' },
     })
     return { personal: [], network: [], public: [] }
   },
@@ -55,7 +55,7 @@ const specificMethods = _.extend({}, commonsSerieWork, {
     const { default: getPartsSuggestions } = await import('#entities/views/cleanup/lib/get_parts_suggestions')
     const suggestionsCollection = await getPartsSuggestions(this)
     return suggestionsCollection.map(getModelUri)
-  }
+  },
 })
 
 const initPartsCollections = async function (refresh, fetchAll, partsData) {
@@ -69,7 +69,7 @@ const initPartsCollections = async function (refresh, fetchAll, partsData) {
   this.parts = new PaginatedWorks(null, {
     uris: allsPartsUris,
     defaultType: 'work',
-    refresh
+    refresh,
   })
 
   this.partsWithoutSuperparts = new PaginatedWorks(null, {
@@ -78,8 +78,8 @@ const initPartsCollections = async function (refresh, fetchAll, partsData) {
     refresh,
     parentContext: {
       entityType: 'serie',
-      entityUri: this.get('uri')
-    }
+      entityUri: this.get('uri'),
+    },
   })
 
   if (fetchAll) return this.parts.fetchAll()

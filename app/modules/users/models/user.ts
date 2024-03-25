@@ -1,6 +1,6 @@
 import { getNumberOfDaysAgo } from '#lib/time'
-import UserCommons from './user_commons.js'
 import { distanceBetween } from '#map/lib/geo'
+import UserCommons from './user_commons.ts'
 
 export default UserCommons.extend({
   isMainUser: false,
@@ -84,7 +84,7 @@ export default UserCommons.extend({
     const points = itemsCount + freshnessFactor + distanceFactor + randomFactor
     // negating to get the higher scores appear first in collections
     this.set('highlightScore', -points)
-  }
+  },
 })
 
 const getStatus = function (id, relations) {

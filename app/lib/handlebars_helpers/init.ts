@@ -1,12 +1,12 @@
 import Handlebars from 'handlebars/runtime'
-import blocks from './blocks.js'
-import misc from './misc.js'
-import utils from './utils.js'
-import claims from './claims.js'
-import { userContent } from './user_content.js'
-import * as icons from './icons.js'
-import images from './images.js'
-import linkify from './linkify.js'
+import blocks from './blocks.ts'
+import claims from './claims.ts'
+import * as icons from './icons.ts'
+import images from './images.ts'
+import linkify from './linkify.ts'
+import misc from './misc.ts'
+import { userContent } from './user_content.ts'
+import utils from './utils.ts'
 
 const API = Object.assign({ linkify, userContent }, blocks, misc, utils, claims, icons, images)
 

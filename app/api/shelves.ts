@@ -1,5 +1,6 @@
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint.js'
+import endpoint from './endpoint.ts'
+
 const { base, action } = endpoint('shelves')
 
 export default {
@@ -14,5 +15,5 @@ export default {
   removeItems: action('remove-items'),
   create: action('create'),
   update: action('update'),
-  delete: action('delete')
+  delete: action('delete'),
 }

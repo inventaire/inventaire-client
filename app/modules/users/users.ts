@@ -1,8 +1,8 @@
 import { i18n } from '#user/lib/i18n'
-import initUsersCollections from './users_collections.js'
-import initHelpers from './helpers.js'
-import initRequests from './requests.js'
 import { initRelations } from '#users/lib/relations'
+import initHelpers from './helpers.ts'
+import initRequests from './requests.ts'
+import initUsersCollections from './users_collections.ts'
 
 export default {
   initialize () {
@@ -17,7 +17,7 @@ export default {
         'u(sers)/:id/inventory(/)': 'showUserInventory',
         'u(sers)/:id/lists(/)': 'showUserListings',
         'u(sers)/:id/contributions(/)': 'showUserContributionsFromRoute',
-      }
+      },
     })
 
     new Router({ controller: API })
@@ -29,15 +29,15 @@ export default {
 
     app.commands.setHandlers({
       'show:user': app.Execute('show:inventory:user'),
-      'show:user:contributions': showUserContributions
+      'show:user:contributions': showUserContributions,
     })
 
     app.reqres.setHandlers({
       // Refreshing relations can be useful
       // to refresh notifications counters that depend on app.relations
-      'refresh:relations': initRelations
+      'refresh:relations': initRelations,
     })
-  }
+  },
 }
 
 export async function showHome () {

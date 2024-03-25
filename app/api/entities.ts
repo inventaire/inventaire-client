@@ -1,6 +1,7 @@
 import { isPrerenderSession } from '#lib/metadata/update'
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint.js'
+import endpoint from './endpoint.ts'
+
 const { action } = endpoint('entities')
 
 const CustomQuery = actionName => (uri, refresh) => action(actionName, { uri, refresh })
@@ -16,7 +17,7 @@ export default {
 
   getAttributesByUris ({ uris, attributes, lang, relatives }) {
     const query = {
-      uris: forceArray(uris).join('|')
+      uris: forceArray(uris).join('|'),
     }
     if (attributes) {
       query.attributes = forceArray(attributes).join('|')
@@ -60,11 +61,11 @@ export default {
 
   // PUT
   claims: {
-    update: action('update-claim')
+    update: action('update-claim'),
   },
 
   labels: {
-    update: action('update-label')
+    update: action('update-label'),
   },
 
   merge: action('merge'),
@@ -76,5 +77,5 @@ export default {
   contributions ({ userId, limit, offset, filter }) {
     return action('contributions', { user: userId, limit, offset, filter })
   },
-  moveToWikidata: action('move-to-wikidata')
+  moveToWikidata: action('move-to-wikidata'),
 }

@@ -1,9 +1,9 @@
 import assert_ from '#lib/assert_types'
-import log_ from '#lib/loggers'
-import { Rollback } from '#lib/utils'
-import preq from '#lib/preq'
-import { propertiesEditorsConfigs } from '../properties.js'
 import error_ from '#lib/error'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import { Rollback } from '#lib/utils'
+import { propertiesEditorsConfigs } from '../properties.ts'
 
 const propertiesUsedByRelations = [
   // Series and works use editions covers as illustrations
@@ -11,7 +11,7 @@ const propertiesUsedByRelations = [
   // Editions list are structured by lang
   'wdt:P407',
   // Works may infer their label from their editions title
-  'wdt:P1476'
+  'wdt:P1476',
 ]
 
 export default {
@@ -63,7 +63,7 @@ export default {
       uri,
       property,
       'new-value': newValue,
-      'old-value': oldValue
+      'old-value': oldValue,
     })
     .catch(log_.ErrorRethrow('savePropertyValue err'))
   },
@@ -105,5 +105,5 @@ export default {
     uris = _.compact(_.flatten(uris))
 
     app.execute('invalidate:entities:cache', uris)
-  }
+  },
 }

@@ -1,9 +1,9 @@
-import { getEntityUri, prepareSearchResult } from './entities_uris_results.js'
-import error_ from '#lib/error'
-import { pluralize } from '#entities/lib/types/entities_types'
 import { searchByTypes } from '#entities/lib/search/search_by_types'
+import { pluralize } from '#entities/lib/types/entities_types'
+import error_ from '#lib/error'
 import { forceArray } from '#lib/utils'
-import { wikidataSearch } from './wikidata_search.js'
+import { getEntityUri, prepareSearchResult } from './entities_uris_results.ts'
+import { wikidataSearch } from './wikidata_search.ts'
 
 export default async function (types, input, limit, offset) {
   const uri = getEntityUri(input)
@@ -46,8 +46,8 @@ async function searchByEntityUri (uri, types) {
   if (types.includes(pluarlizedModelType) || types.includes('subjects')) {
     return {
       results: [
-        prepareSearchResult(model).toJSON()
-      ]
+        prepareSearchResult(model).toJSON(),
+      ],
     }
   } else {
     throw error_.new('invalid entity type', 400, model)

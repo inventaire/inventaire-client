@@ -1,14 +1,14 @@
-import { isEntityUri, isImageHash, isNonEmptyArray } from '#lib/boolean_tests'
-import wdLang from 'wikidata-lang'
-import { unprefixify } from '#lib/wikimedia/wikidata'
-import platforms_ from '#lib/handlebars_helpers/platforms.js'
-import * as icons_ from '#lib/handlebars_helpers/icons.js'
+import Handlebars from 'handlebars/runtime'
 import { uniq } from 'underscore'
+import wdLang from 'wikidata-lang'
 import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
-import typeOf from '#lib/type_of'
+import { isEntityUri, isImageHash, isNonEmptyArray } from '#lib/boolean_tests'
 import { imagePreview } from '#lib/handlebars_helpers/claims'
 import { entity as entityHelper } from '#lib/handlebars_helpers/claims_helpers'
-import Handlebars from 'handlebars/runtime'
+import * as icons_ from '#lib/handlebars_helpers/icons.ts'
+import platforms_ from '#lib/handlebars_helpers/platforms.ts'
+import typeOf from '#lib/type_of'
+import { unprefixify } from '#lib/wikimedia/wikidata'
 
 const { escapeExpression } = Handlebars
 
@@ -38,7 +38,7 @@ export const propertiesByRoles = {
 export const authorsProps = Object.values(propertiesByRoles).flat()
 
 export const relativeEntitiesListsProps = [
-  'wdt:P737' // influenced by
+  'wdt:P737', // influenced by
 ]
 
 export const editionWorkProperties = [
@@ -47,7 +47,7 @@ export const editionWorkProperties = [
 ]
 
 export const aggregateWorksClaims = works => {
-  let worksClaims = editionWorkProperties.map(value => ({ [value]: [] }))
+  const worksClaims = editionWorkProperties.map(value => ({ [value]: [] }))
   works.reduce(aggregateClaims, worksClaims)
   return _.pick(worksClaims, isNonEmptyArray)
 }
@@ -198,7 +198,7 @@ export const infoboxShortlistPropertiesByType = {
     'wdt:P1412', // language of expression
     'wdt:P69', // educated at
     'wdt:P106', // occupation
-  ]
+  ],
 }
 infoboxShortlistPropertiesByType.serie = infoboxShortlistPropertiesByType.work
 

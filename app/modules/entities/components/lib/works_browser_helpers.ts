@@ -1,11 +1,11 @@
+import { intersection, pluck, uniq } from 'underscore'
+import { sortAlphabetically } from '#entities/components/lib/deduplicate_helpers.ts'
 import {
   getEntitiesAttributesByUris, getYearFromSimpleDay,
-  byNewestPublicationDate, byPopularity, bySerieOrdinal, byItemsOwnersCount
+  byNewestPublicationDate, byPopularity, bySerieOrdinal, byItemsOwnersCount,
 } from '#entities/lib/entities'
-import { sortAlphabetically } from '#entities/components/lib/deduplicate_helpers.js'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { I18n } from '#user/lib/i18n'
-import { intersection, pluck, uniq } from 'underscore'
 
 export function isSubEntitiesType (type) {
   return [ 'serie', 'collection' ].includes(type)
@@ -74,8 +74,8 @@ const getSelectorsOptions = ({ facets, facetsEntitiesBasicInfo }) => {
     const facetSelector = {
       options: [
         { value: 'all', text: I18n('all') },
-        ...getOptions({ property, worksUrisPerValue, facetsEntitiesBasicInfo })
-      ]
+        ...getOptions({ property, worksUrisPerValue, facetsEntitiesBasicInfo }),
+      ],
     }
     facetsSelectors[property] = facetSelector
   }
@@ -94,7 +94,7 @@ async function getBasicInfo (uris) {
   const { entities } = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'labels', 'image' ],
-    lang: app.user.lang
+    lang: app.user.lang,
   })
   Object.values(entities).forEach(entity => {
     const { labels } = entity
@@ -186,7 +186,7 @@ const formatOption = ({ property, worksUrisPerValue, facetsEntitiesBasicInfo }) 
       value,
       image: facetsEntitiesBasicInfo[value]?.image?.url,
       text: facetsEntitiesBasicInfo[value]?.label || value,
-      count: worksUrisPerValue[value].length
+      count: worksUrisPerValue[value].length,
     }
   } else if (property === 'wdt:P577') {
     return {
@@ -219,36 +219,36 @@ export function isClaimLayout (layoutContext) {
 const publicationDateOption = {
   text: I18n('publication date'),
   value: 'byPublicationDate',
-  sortFunction: byNewestPublicationDate
+  sortFunction: byNewestPublicationDate,
 }
 
 const popularityOption = {
   text: I18n('popularity'),
   value: 'byPopularity',
-  sortFunction: byPopularity
+  sortFunction: byPopularity,
 }
 
 const serieOrdinalOption = {
   text: I18n('order in the series'),
   value: 'bySerieOrdinal',
-  sortFunction: bySerieOrdinal
+  sortFunction: bySerieOrdinal,
 }
 
 const itemsOwnersCountOption = {
   text: I18n('number of items in your network'),
   value: 'byItemsOwnersCount',
-  sortFunction: byItemsOwnersCount
+  sortFunction: byItemsOwnersCount,
 }
 
 const alphabeticalOption = {
   text: I18n('alphabetically'),
   value: 'byAlphabet',
-  sortFunction: sortAlphabetically
+  sortFunction: sortAlphabetically,
 }
 
 // Sorting options order matters
 // as first option will be selected by default
-let sortingFunctionByNameByType = {
+const sortingFunctionByNameByType = {
   edition: {
     byPopularity: popularityOption,
     byPublicationDate: publicationDateOption,
@@ -269,7 +269,7 @@ let sortingFunctionByNameByType = {
   article: {
     byPublicationDate: publicationDateOption,
     byAlphabet: alphabeticalOption,
-  }
+  },
 }
 
 export const getSortingOptionsByName = type => {

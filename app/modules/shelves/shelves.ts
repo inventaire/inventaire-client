@@ -1,7 +1,7 @@
-import error_ from '#lib/error'
-import { isModel, isShelfId } from '#lib/boolean_tests'
-import { getById, getShelfMetadata } from './lib/shelves.js'
 import assert_ from '#lib/assert_types'
+import { isModel, isShelfId } from '#lib/boolean_tests'
+import error_ from '#lib/error'
+import { getById, getShelfMetadata } from './lib/shelves.ts'
 
 export default {
   initialize () {
@@ -10,8 +10,8 @@ export default {
         'shelves/without(/)': 'showItemsWithoutShelf',
         'shelves(/)(:id)(/)': 'showShelfFromId',
         // Redirection
-        'shelf(/)(:id)(/)': 'showShelfFromId'
-      }
+        'shelf(/)(:id)(/)': 'showShelfFromId',
+      },
     })
 
     new Router({ controller: API })
@@ -19,7 +19,7 @@ export default {
     app.commands.setHandlers({
       'show:shelf': showShelf,
     })
-  }
+  },
 }
 
 async function showShelfFromId (shelfId) {
@@ -48,7 +48,7 @@ const API = {
         props: {
           user: app.user.toJSON(),
           shelf: 'without-shelf',
-        }
+        },
       })
       app.navigate('shelves/without')
     }
@@ -71,7 +71,7 @@ async function showShelf (shelf) {
     props: {
       shelf,
       user,
-    }
+    },
   })
   const metadata = getShelfMetadata(shelf)
   const { url: pathname } = metadata

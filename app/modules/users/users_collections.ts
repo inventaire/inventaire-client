@@ -1,5 +1,5 @@
 import FilteredCollection from 'backbone-filtered-collection'
-import Users from './collections/users.js'
+import Users from './collections/users.ts'
 
 export default function (app) {
   const users = new Users()
@@ -31,7 +31,7 @@ export default function (app) {
 
   app.reqres.setHandlers({
     'fetch:friends': fetcher('friends', true),
-    'fetch:otherRequested': fetcher('otherRequested')
+    'fetch:otherRequested': fetcher('otherRequested'),
   })
 
   return users

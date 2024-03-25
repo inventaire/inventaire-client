@@ -1,5 +1,6 @@
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint.js'
+import endpoint from './endpoint.ts'
+
 const { base, action } = endpoint('lists')
 
 export default {
@@ -12,7 +13,7 @@ export default {
       users: usersIds,
       'with-elements': withElements,
       offset,
-      limit
+      limit,
     }
     return action('by-creators', params)
   },
@@ -26,5 +27,5 @@ export default {
   update: base,
   addElements: action('add-elements'),
   removeElements: action('remove-elements'),
-  delete: action('delete')
+  delete: action('delete'),
 }

@@ -1,4 +1,5 @@
-import endpoint from './endpoint.js'
+import endpoint from './endpoint.ts'
+
 const { action, actionPartial } = endpoint('auth')
 
 export default {
@@ -15,6 +16,6 @@ export default {
   // submit: defined directly in index.html form
 
   oauth: {
-    wikidata: action('wikidata-oauth')
-  }
+    wikidata: action('wikidata-oauth'),
+  },
 }

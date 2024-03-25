@@ -1,6 +1,6 @@
-import { I18n } from '#user/lib/i18n'
-import tabsData from './lib/add_layout_tabs.js'
 import { scrollTo$Element, viewportIsSmall } from '#lib/screen'
+import { I18n } from '#user/lib/i18n'
+import tabsData from './lib/add_layout_tabs.ts'
 import addLayoutTemplate from './templates/add_layout.hbs'
 import '#inventory/scss/add_layout.scss'
 import PreventDefault from '#behaviors/prevent_default'
@@ -10,14 +10,14 @@ export default Marionette.View.extend({
   id: 'addLayout',
 
   regions: {
-    content: '.custom-tabs-content'
+    content: '.custom-tabs-content',
   },
 
   ui: {
     tabs: '.tab',
     searchTab: '#searchTab',
     scanTab: '#scanTab',
-    importTab: '#importTab'
+    importTab: '#importTab',
   },
 
   initialize () {
@@ -27,7 +27,7 @@ export default Marionette.View.extend({
   serializeData () {
     return {
       loggedIn: this.loggedIn,
-      tabs: tabsData
+      tabs: tabsData,
     }
   },
 
@@ -36,7 +36,7 @@ export default Marionette.View.extend({
   },
 
   events: {
-    'click .tab': 'changeTab'
+    'click .tab': 'changeTab',
   },
 
   onRender () {
@@ -62,8 +62,8 @@ export default Marionette.View.extend({
       const { default: SvelteImportLayout } = await import('#inventory/components/importer/import_layout.svelte')
       this.showChildComponent('content', SvelteImportLayout, {
         props: {
-          isbns: this.options.isbns
-        }
+          isbns: this.options.isbns,
+        },
       })
     } else {
       this.showChildView('content', new View(this.options))
@@ -72,8 +72,8 @@ export default Marionette.View.extend({
     this.ui[tabKey].addClass('active')
     app.navigate(`add/${tab}`, {
       metadata: {
-        title: I18n(`title_add_layout_${tab}`)
-      }
+        title: I18n(`title_add_layout_${tab}`),
+      },
     })
   },
 
@@ -84,5 +84,5 @@ export default Marionette.View.extend({
     if (viewportIsSmall() && contentEl.position()) {
       scrollTo$Element({ $el: contentEl })
     }
-  }
+  },
 })

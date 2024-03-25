@@ -1,13 +1,13 @@
-import { focusInput } from '#lib/utils'
-import { getActionKey } from '#lib/key_events'
+import AlertBox from '#behaviors/alert_box'
 import getLangsData from '#entities/lib/editor/get_langs_data'
-import SerieCleanupAuthors from './serie_cleanup_authors.js'
-import SerieCleanupEditions from './serie_cleanup_editions.js'
-import WorkPicker from './work_picker.js'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
+import { getActionKey } from '#lib/key_events'
+import { focusInput } from '#lib/utils'
+import SerieCleanupAuthors from './serie_cleanup_authors.ts'
+import SerieCleanupEditions from './serie_cleanup_editions.ts'
 import serieCleanupWorkTemplate from './templates/serie_cleanup_work.hbs'
-import AlertBox from '#behaviors/alert_box'
+import WorkPicker from './work_picker.ts'
 
 export default Marionette.View.extend({
   tagName: 'li',
@@ -21,14 +21,14 @@ export default Marionette.View.extend({
   regions: {
     mergeWorkPicker: '.mergeWorkPicker',
     authorsContainer: '.authorsContainer',
-    editionsContainer: '.editionsContainer'
+    editionsContainer: '.editionsContainer',
   },
 
   ui: {
     head: '.head',
     placeholderEditor: '.placeholderEditor',
     placeholderLabelEditor: '.placeholderEditor input',
-    langSelector: '.langSelector'
+    langSelector: '.langSelector',
   },
 
   behaviors: {
@@ -77,7 +77,7 @@ export default Marionette.View.extend({
         worksWithoutOrdinal: this.worksWithoutOrdinal,
         _showWorkPicker: true,
         workUri: this.model.get('uri'),
-        afterMerge: this.afterMerge
+        afterMerge: this.afterMerge,
       }))
     }
   },
@@ -93,7 +93,7 @@ export default Marionette.View.extend({
     this.showChildView('authorsContainer', new SerieCleanupAuthors({
       work: this.model,
       currentAuthorsUris,
-      authorsSuggestionsUris
+      authorsSuggestionsUris,
     }))
   },
 
@@ -101,7 +101,7 @@ export default Marionette.View.extend({
     this.showChildView('editionsContainer', new SerieCleanupEditions({
       collection: this.model.editions,
       worksWithOrdinal: this.worksWithOrdinal,
-      worksWithoutOrdinal: this.worksWithoutOrdinal
+      worksWithoutOrdinal: this.worksWithoutOrdinal,
     }))
   },
 
@@ -111,7 +111,7 @@ export default Marionette.View.extend({
     click: 'showPlaceholderEditor',
     keydown: 'onKeyDown',
     'change .langSelector': 'propagateLangChange',
-    'click .toggleMergeWorkPicker': 'toggleMergeWorkPicker'
+    'click .toggleMergeWorkPicker': 'toggleMergeWorkPicker',
   },
 
   updateOrdinal (e) {
@@ -172,7 +172,7 @@ export default Marionette.View.extend({
     const currentAuthorsUris = this.model.get('claims.wdt:P50') || []
     const authorsSuggestionsUris = _.difference(this.allAuthorsUris, currentAuthorsUris)
     return { currentAuthorsUris, authorsSuggestionsUris }
-  }
+  },
 })
 
 const getPossibleOrdinals = function (nonPlaceholdersOrdinals) {

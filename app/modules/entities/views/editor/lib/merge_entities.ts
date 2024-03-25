@@ -1,8 +1,8 @@
-import { isWikidataItemUri } from '#lib/boolean_tests.js'
+import { isWikidataItemUri } from '#lib/boolean_tests.ts'
+import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import error_ from '#lib/error'
-import getEntityWikidataImportData from './get_entity_wikidata_import_data.js'
+import getEntityWikidataImportData from './get_entity_wikidata_import_data.ts'
 
 export default async function (fromUri, toUri) {
   if (isWikidataItemUri(fromUri) && isWikidataItemUri(toUri)) {

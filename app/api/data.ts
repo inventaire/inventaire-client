@@ -1,5 +1,6 @@
 import { fixedEncodeURIComponent, forceArray } from '#lib/utils'
-import endpoint from './endpoint.js'
+import endpoint from './endpoint.ts'
+
 const { action } = endpoint('data')
 
 export default {

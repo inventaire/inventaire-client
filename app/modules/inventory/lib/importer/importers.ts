@@ -1,10 +1,10 @@
-import { capitalize } from '#lib/utils'
-import log_ from '#lib/loggers'
-import libraryThingParser from './parsers/library_thing.js'
-import goodReadsParser from './parsers/goodreads.js'
-import babelioParser from './parsers/babelio.js'
-import { extractIsbns } from '#inventory/lib/importer/extract_isbns'
 import Papa from 'papaparse'
+import { extractIsbns } from '#inventory/lib/importer/extract_isbns'
+import log_ from '#lib/loggers'
+import { capitalize } from '#lib/utils'
+import babelioParser from './parsers/babelio.ts'
+import goodReadsParser from './parsers/goodreads.ts'
+import libraryThingParser from './parsers/library_thing.ts'
 
 // How to add an importer:
 // - add an entry to the importers object hereafter
@@ -23,7 +23,7 @@ const importers = {
     format: 'csv',
     first20Characters: 'Book Id,Title,Author',
     link: 'https://www.goodreads.com/review/import',
-    parse: csvParser(goodReadsParser)
+    parse: csvParser(goodReadsParser),
   },
 
   libraryThing: {
@@ -33,7 +33,7 @@ const importers = {
     parse (data) {
       return _.values(JSON.parse(data))
       .map(libraryThingParser)
-    }
+    },
   },
 
   babelio: {
@@ -42,7 +42,7 @@ const importers = {
     first20Characters: '"ISBN";"Titre";"Aute',
     help: 'library_or_critic',
     link: 'http://www.babelio.com/export.php',
-    parse: csvParser(babelioParser)
+    parse: csvParser(babelioParser),
   },
 
   ISBNs: {
@@ -53,14 +53,14 @@ const importers = {
     parse (isbnsText) {
       const isbnsData = extractIsbns(isbnsText).filter(isbnData => !isbnData.isInvalid)
       return isbnsData.map(isbnData => { return { isbnData } })
-    }
-  }
+    },
+  },
 }
 
 const accept = {
   csv: 'text/csv',
   json: 'application/json',
-  all: '*/*'
+  all: '*/*',
 }
 
 const prepareImporter = function (name, obj) {

@@ -1,11 +1,11 @@
-import { props as promiseProps } from '#lib/promises'
 import { isModel, isEntityUri } from '#lib/boolean_tests'
-import { forceArray } from '#lib/utils'
+import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import error_ from '#lib/error'
-import Entity from '../models/entity.js'
+import { props as promiseProps } from '#lib/promises'
 import { invalidateLabel } from '#lib/uri_label/labels_helpers'
+import { forceArray } from '#lib/utils'
+import Entity from '../models/entity.ts'
 
 // In-memory cache for all entities used during a session.
 // It's ok to attach it to window for inspection purpose
@@ -144,6 +144,6 @@ const invalidateGraph = function (uri) {
 setTimeout(() => {
   app.commands.setHandlers({
     'invalidate:entities:graph': uris => sanitizeUris(uris).forEach(invalidateGraph),
-    'invalidate:entities:cache': uris => sanitizeUris(uris).forEach(invalidateCache)
+    'invalidate:entities:cache': uris => sanitizeUris(uris).forEach(invalidateCache),
   })
 }, 0)

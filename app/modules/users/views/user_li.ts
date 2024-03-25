@@ -1,5 +1,5 @@
 import { isOpenedOutside } from '#lib/utils'
-import RelationsActions from '../behaviors/relations_actions.js'
+import RelationsActions from '../behaviors/relations_actions.ts'
 import userLiTemplate from './templates/user_li.hbs'
 import '../scss/user_li.scss'
 import PreventDefault from '#behaviors/prevent_default'
@@ -23,7 +23,7 @@ export default Marionette.View.extend({
 
   events: {
     // share js behavior, but avoid css collisions
-    'click .select, .select-2': 'selectUser'
+    'click .select, .select-2': 'selectUser',
   },
 
   initialize () {
@@ -35,7 +35,7 @@ export default Marionette.View.extend({
 
   modelEvents: {
     change: 'lazyRender',
-    'group:user:change': 'lazyRender'
+    'group:user:change': 'lazyRender',
   },
 
   serializeData () {
@@ -70,5 +70,5 @@ export default Marionette.View.extend({
   selectUser (e) {
     if (isOpenedOutside(e)) return
     app.execute('show:inventory:user', this.model)
-  }
+  },
 })

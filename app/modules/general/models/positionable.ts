@@ -1,4 +1,4 @@
-import Filterable from './filterable.js'
+import Filterable from './filterable.ts'
 
 // Extending Filterable as the models needing position feature
 // happen to also need filterable features
@@ -31,5 +31,5 @@ export default Filterable.extend({
       this._latLng = null
     }
     return this._latLng
-  }
+  },
 })

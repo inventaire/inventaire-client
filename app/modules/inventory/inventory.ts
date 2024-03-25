@@ -1,14 +1,14 @@
-import { isEntityUri, isUsername, isItemId } from '#lib/boolean_tests'
-import assert_ from '#lib/assert_types'
-import log_ from '#lib/loggers'
-import initQueries from './lib/queries.js'
-import showItemCreationForm from './lib/show_item_creation_form.js'
-import itemActions from './lib/item_actions.js'
-import { parseQuery, buildPath } from '#lib/location'
-import preq from '#lib/preq'
 import app from '#app/app'
+import assert_ from '#lib/assert_types'
+import { isEntityUri, isUsername, isItemId } from '#lib/boolean_tests'
 import { removeCurrentComponent } from '#lib/global_libs_extender'
+import { parseQuery, buildPath } from '#lib/location'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
 import { showUsersHome } from '#users/users'
+import itemActions from './lib/item_actions.ts'
+import initQueries from './lib/queries.ts'
+import showItemCreationForm from './lib/show_item_creation_form.ts'
 
 export default {
   initialize () {
@@ -24,14 +24,14 @@ export default {
 
         'items/:id(/)': 'showItemFromId',
         'items(/)': 'showGeneralInventory',
-      }
+      },
     })
 
     new Router({ controller: API })
 
     initQueries(app)
     initializeInventoriesHandlers(app)
-  }
+  },
 }
 
 async function showInventory (params) {
@@ -101,7 +101,7 @@ const API = {
     .then(userId => app.request('items:getByUserIdAndEntities', userId, uri))
     .then(showItemsFromModels)
     .catch(log_.Error('showItemShowFromUserAndEntity'))
-  }
+  },
 }
 
 const showItemsFromModels = function (items) {
@@ -126,8 +126,8 @@ const showItemsList = async collection => {
   const { default: ItemsCascade } = await import('#inventory/components/items_cascade.svelte')
   app.layout.showChildComponent('main', ItemsCascade, {
     props: {
-      items: getItemsListFromItemsCollection(collection)
-    }
+      items: getItemsListFromItemsCollection(collection),
+    },
   })
 }
 
@@ -154,8 +154,8 @@ const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal
           item,
           user,
           pathnameAfterClosingModal,
-          autodestroyComponent: () => removeCurrentComponent(app.layout.getRegion(regionName))
-        }
+          autodestroyComponent: () => removeCurrentComponent(app.layout.getRegion(regionName)),
+        },
       })
     } else {
       app.execute('show:error:missing', { pathname })
@@ -214,9 +214,9 @@ const initializeInventoriesHandlers = function (app) {
       await itemActions.update({
         item,
         attribute: 'entity',
-        value: entity.get('uri')
+        value: entity.get('uri'),
       })
       app.execute('show:item:byId', item.get('_id'))
-    }
+    },
   })
 }

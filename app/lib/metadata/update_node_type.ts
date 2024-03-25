@@ -1,6 +1,7 @@
 import log_ from '#lib/loggers'
-import applyTransformers from './apply_transformers.js'
-import { metaNodes, possibleFields } from './nodes.js'
+import applyTransformers from './apply_transformers.ts'
+import { metaNodes, possibleFields } from './nodes.ts'
+
 const head = document.querySelector('head')
 
 const previousValue = {}

@@ -6,7 +6,7 @@ import '#lib/handlebars_helpers/init'
 import '#lib/env_config'
 import testVideoInput from '#lib/has_video_input'
 import initUnhandledErrorLogger from '#lib/unhandled_error_logger'
-import initApp from './init_app.js'
+import initApp from './init_app.ts'
 
 // Init handler error before the app so that it can catch any error happenig there
 initUnhandledErrorLogger()

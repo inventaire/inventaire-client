@@ -1,7 +1,8 @@
 // used for: userMadeAdmin, groupUpdate (name, description)
 
-import Notification from './notification.js'
 import Handlebars from 'handlebars/runtime'
+import Notification from './notification.ts'
+
 const { escapeExpression } = Handlebars
 
 export default Notification.extend({
@@ -21,7 +22,7 @@ export default Notification.extend({
       attrs.text = getText(attrs.type, attrs.data.attribute, attrs.newValue)
     }
     return attrs
-  }
+  },
 })
 
 const getText = function (type, attribute, newValue) {
@@ -46,7 +47,7 @@ const texts = {
       true: 'group_update_open_true',
       false: 'group_update_open_false',
     },
-  }
+  },
 }
 
 const getUpdateValue = function (attrs) {

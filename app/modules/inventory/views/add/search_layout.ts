@@ -1,4 +1,4 @@
-import PreviousSearch from './previous_search.js'
+import PreviousSearch from './previous_search.ts'
 import searchTemplate from './templates/search_layout.hbs'
 import '#inventory/scss/search_layout.scss'
 import PreventDefault from '#behaviors/prevent_default'
@@ -16,7 +16,7 @@ export default Marionette.CollectionView.extend({
   childView: PreviousSearch,
 
   ui: {
-    history: '#historyWrapper'
+    history: '#historyWrapper',
   },
 
   initialize () {
@@ -36,7 +36,7 @@ export default Marionette.CollectionView.extend({
 
   events: {
     'click .clearHistory': 'clearHistory',
-    'click .search-button': 'showTypeSearch'
+    'click .search-button': 'showTypeSearch',
   },
 
   showTypeSearch (e) {
@@ -52,5 +52,5 @@ export default Marionette.CollectionView.extend({
 
   listenToHistory () {
     this.listenToOnce(this.collection, 'add', this.ui.history.show.bind(this.ui.history))
-  }
+  },
 })

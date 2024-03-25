@@ -1,8 +1,8 @@
+import GroupsList from '#groups/views/groups_list'
 import { clickCommand } from '#lib/utils'
 import UsersList from '#users/views/users_list'
-import GroupsList from '#groups/views/groups_list'
-import NotificationLi from './notification_li.js'
-import NoNotification from './no_notification.js'
+import NoNotification from './no_notification.ts'
+import NotificationLi from './notification_li.ts'
 import notificationsLayoutTemplate from './templates/notifications_layout.hbs'
 import '../scss/notifications_layout.scss'
 import PreventDefault from '#behaviors/prevent_default'
@@ -16,7 +16,7 @@ const NotificationsList = Marionette.CollectionView.extend({
     // Wait for the notifications to arrive to mark them as read
     app.request('wait:for', 'user')
     .then(this.collection.markAsRead.bind(this.collection))
-  }
+  },
 })
 
 export default Marionette.View.extend({
@@ -27,12 +27,12 @@ export default Marionette.View.extend({
   regions: {
     friendsRequestsList: '#friendsRequestsList',
     groupsInvitationsList: '#groupsInvitationsList',
-    notificationsList: '#notificationsList'
+    notificationsList: '#notificationsList',
   },
 
   ui: {
     friendsRequestsSection: '.friendsRequests',
-    groupsInvitationsSection: '.groupsInvitations'
+    groupsInvitationsSection: '.groupsInvitations',
   },
 
   initialize () {
@@ -59,7 +59,7 @@ export default Marionette.View.extend({
   },
 
   events: {
-    'click .showNotificationsSettings': clickCommand('show:settings:notifications')
+    'click .showNotificationsSettings': clickCommand('show:settings:notifications'),
   },
 
   showFriendsRequests () {
@@ -68,7 +68,7 @@ export default Marionette.View.extend({
       this.showChildView('friendsRequestsList', new UsersList({
         collection: this.otherRequested,
         emptyViewMessage: 'no pending requests',
-        stretch: true
+        stretch: true,
       }))
     }
   },
@@ -82,5 +82,5 @@ export default Marionette.View.extend({
 
   showNotificationsList () {
     this.showChildView('notificationsList', new NotificationsList({ collection: this.notifications }))
-  }
+  },
 })

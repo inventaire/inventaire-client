@@ -1,5 +1,5 @@
-import UserLi from './user_li.js'
-import NoUser from './no_user.js'
+import NoUser from './no_user.ts'
+import UserLi from './user_li.ts'
 
 export default Marionette.CollectionView.extend({
   tagName: 'ul',
@@ -10,7 +10,7 @@ export default Marionette.CollectionView.extend({
       groupContext: this.options.groupContext,
       group: this.options.group,
       showEmail: this.options.showEmail,
-      stretch: this.options.stretch
+      stretch: this.options.stretch,
     }
   },
   emptyView: NoUser,
@@ -18,7 +18,7 @@ export default Marionette.CollectionView.extend({
     return {
       message: this.options.emptyViewMessage,
       link: this.options.emptyViewLink,
-      showEmail: this.options.showEmail
+      showEmail: this.options.showEmail,
     }
   },
 
@@ -34,5 +34,5 @@ export default Marionette.CollectionView.extend({
   setTextFilter (text) {
     this.viewFilter = view => view.model.matches(text)
     this.render()
-  }
+  },
 })

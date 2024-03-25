@@ -1,14 +1,15 @@
-import { capitalize, fixedEncodeURIComponent } from '#lib/utils'
-import { getNumberOfDaysAgo } from '#lib/time'
+import Positionable from '#general/models/positionable'
 import { isNonEmptyString } from '#lib/boolean_tests'
+import { getColorSquareDataUriFromModelId } from '#lib/images'
 import log_ from '#lib/loggers'
+import { getNumberOfDaysAgo } from '#lib/time'
+import { images } from '#lib/urls'
+import { capitalize, fixedEncodeURIComponent } from '#lib/utils'
 import { i18n } from '#user/lib/i18n'
 // defining all and _recalculateAll methods
-import aggregateUsersIds from '../lib/aggregate_users_ids.js'
-import groupActions from '../lib/group_actions.js'
-import Positionable from '#general/models/positionable'
-import { getColorSquareDataUriFromModelId } from '#lib/images'
-import { images } from '#lib/urls'
+import aggregateUsersIds from '../lib/aggregate_users_ids.ts'
+import groupActions from '../lib/group_actions.ts'
+
 const { defaultCover } = images
 
 export default Positionable.extend({
@@ -44,7 +45,7 @@ export default Positionable.extend({
       listingsPathname: `${base}/lists`,
       settingsPathname: `${base}/settings`,
       // non-persisted category used for convinience on client-side
-      tmp: []
+      tmp: [],
     })
 
     if (this.get('picture') == null) {
@@ -64,7 +65,7 @@ export default Positionable.extend({
 
     this.waitForData = Promise.all([
       this.waitForMembers,
-      this.waitForRequested
+      this.waitForRequested,
     ])
 
     return this.waitForData
@@ -116,7 +117,7 @@ export default Positionable.extend({
       // overriding the position latLng array
       attrs.position = {
         lat: attrs.position[0],
-        lng: attrs.position[1]
+        lng: attrs.position[1],
       }
     }
 
@@ -126,7 +127,7 @@ export default Positionable.extend({
       mainUserIsAdmin: this.mainUserIsAdmin(),
       mainUserIsMember,
       hasPosition: this.hasPosition(),
-      membersCount: this.membersCount()
+      membersCount: this.membersCount(),
     })
   },
 
@@ -189,7 +190,7 @@ export default Positionable.extend({
       description: this.getDescription(),
       image: this.getCover(),
       url: this.get('canonical'),
-      rss: this.getRss()
+      rss: this.getRss(),
     }
   },
 
@@ -209,7 +210,7 @@ export default Positionable.extend({
   matchable () {
     return [
       this.get('name'),
-      this.get('description')
+      this.get('description'),
     ]
   },
 
@@ -243,5 +244,5 @@ export default Positionable.extend({
     const highestScore = this.collection.models[0].get('highlightScore')
     this.set('highlightScore', highestScore * 2)
     return this.collection.sort()
-  }
+  },
 })

@@ -3,24 +3,24 @@
 // - By source:
 //   - Wikidata entities have specific initializers related to Wikimedia sitelinks
 // - By type: see specialInitializersByType
-import { props as promiseProps } from '#lib/promises'
-import log_ from '#lib/loggers'
-import { I18n } from '#user/lib/i18n'
-import { normalizeIsbn } from '#lib/isbn'
-import { getReverseClaims } from '../lib/entities.js'
-import initializeWikidataEntity from '../lib/wikidata/init_entity.js'
-import initializeInvEntity from '../lib/inv/init_entity.js'
-import editableEntity from '../lib/inv/editable_entity.js'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
-import error_ from '#lib/error'
 import Filterable from '#general/models/filterable'
-import initAuthor from '../lib/types/author.js'
-import initSerie from '../lib/types/serie.js'
-import initWork from '../lib/types/work.js'
-import initEdition from '../lib/types/edition.js'
-import initPublisher from '../lib/types/publisher.js'
-import initCollection from '../lib/types/collection.js'
+import error_ from '#lib/error'
+import { normalizeIsbn } from '#lib/isbn'
+import log_ from '#lib/loggers'
+import { props as promiseProps } from '#lib/promises'
+import { I18n } from '#user/lib/i18n'
+import { getReverseClaims } from '../lib/entities.ts'
+import editableEntity from '../lib/inv/editable_entity.ts'
+import initializeInvEntity from '../lib/inv/init_entity.ts'
+import initAuthor from '../lib/types/author.ts'
+import initCollection from '../lib/types/collection.ts'
+import initEdition from '../lib/types/edition.ts'
+import initPublisher from '../lib/types/publisher.ts'
+import initSerie from '../lib/types/serie.ts'
+import initWork from '../lib/types/work.ts'
+import initializeWikidataEntity from '../lib/wikidata/init_entity.ts'
 
 const specialInitializersByType = {
   human: initAuthor,
@@ -229,7 +229,7 @@ export default Filterable.extend({
       description: this.findBestDescription()?.slice(0, 501),
       image: this.getImageSrcAsync(),
       url: this.get('pathname'),
-      smallCardType: true
+      smallCardType: true,
     })
   },
 
@@ -276,7 +276,7 @@ export default Filterable.extend({
 
   // Overriden by modules/entities/lib/wikidata/init_entity.js
   // for Wikidata entities
-  async getWikipediaExtract () {}
+  async getWikipediaExtract () {},
 })
 
 const placeholderAttributes = {
@@ -284,13 +284,13 @@ const placeholderAttributes = {
   aliases: {},
   descriptions: {},
   claims: {},
-  sitelinks: {}
+  sitelinks: {},
 }
 
 const defaultClaimPropertyByType = {
   movement: 'wdt:P135',
   genre: 'wdt:P136',
-  subject: 'wdt:P921'
+  subject: 'wdt:P921',
 }
 
 export const typesString = {
@@ -304,5 +304,5 @@ export const typesString = {
   // series
   'wd:Q277759': 'book series',
   'wd:Q14406742': 'comic book series',
-  'wd:Q21198342': 'manga series'
+  'wd:Q21198342': 'manga series',
 }

@@ -1,10 +1,10 @@
-import { I18n } from '#user/lib/i18n'
 import error_ from '#lib/error'
-import initMainUser from './lib/init_main_user.js'
-import auth from './lib/auth.js'
-import userUpdate from './lib/user_update.js'
-import preq from '#lib/preq'
 import { parseQuery } from '#lib/location'
+import preq from '#lib/preq'
+import { I18n } from '#user/lib/i18n'
+import auth from './lib/auth.ts'
+import initMainUser from './lib/init_main_user.ts'
+import userUpdate from './lib/user_update.ts'
 
 export default {
   initialize () {
@@ -16,7 +16,7 @@ export default {
         'login/reset-password(/)': 'showResetPassword',
         'logout(/)': 'logout',
         'authorize(/)': 'showAuthorizeMenu',
-      }
+      },
     })
 
     new Router({ controller: API })
@@ -28,9 +28,9 @@ export default {
     app.commands.setHandlers({
       'show:signup': API.showSignup,
       'show:login': API.showLogin,
-      'show:forgot:password': API.showForgotPassword
+      'show:forgot:password': API.showForgotPassword,
     })
-  }
+  },
 }
 
 const showAuth = (name, label, Component, options) => {
@@ -61,12 +61,12 @@ const API = {
     const { default: ForgotPassword } = await import('./components/forgot_password.svelte')
     const { resetPasswordFail, email } = parseQuery(querystring)
     app.layout.showChildComponent('main', ForgotPassword, {
-      props: { resetPasswordFail, email }
+      props: { resetPasswordFail, email },
     })
     app.navigate('login/forgot-password', {
       metadata: {
-        title: I18n('forgot password')
-      }
+        title: I18n('forgot password'),
+      },
     })
   },
 
@@ -76,8 +76,8 @@ const API = {
       app.layout.showChildComponent('main', ResetPassword)
       app.navigate('login/reset-password', {
         metadata: {
-          title: I18n('reset password')
-        }
+          title: I18n('reset password'),
+        },
       })
     } else {
       app.execute('show:forgot:password')
@@ -99,7 +99,7 @@ const API = {
     }
   },
 
-  logout () { app.execute('logout') }
+  logout () { app.execute('logout') },
 }
 
 const getOAuthClient = async clientId => {

@@ -1,5 +1,5 @@
 import log_ from '#lib/loggers'
-import Entities from './entities.js'
+import Entities from './entities.ts'
 
 export default Entities.extend({
   initialize (models, options = {}) {
@@ -35,7 +35,7 @@ export default Entities.extend({
     return app.request('get:entities:models', {
       uris: urisToFetch,
       refresh: this.refresh,
-      defaultType: this.defaultType
+      defaultType: this.defaultType,
     })
     .then(models => {
       models = models.filter(this.filterOutUndesiredTypes.bind(this))
@@ -65,10 +65,10 @@ export default Entities.extend({
         context: {
           module: 'app/modules/entities/collections/paginated_entities',
           allUris: JSON.stringify(this.allUris),
-          parentContext: (this.parentContext != null) ? JSON.stringify(this.parentContext) : undefined
-        }
+          parentContext: (this.parentContext != null) ? JSON.stringify(this.parentContext) : undefined,
+        },
       })
       return false
     }
-  }
+  },
 })

@@ -1,4 +1,4 @@
-import SerieCleanupEdition from './serie_cleanup_edition.js'
+import SerieCleanupEdition from './serie_cleanup_edition.ts'
 
 export default Marionette.CollectionView.extend({
   tagName: 'ul',
@@ -6,7 +6,7 @@ export default Marionette.CollectionView.extend({
   childViewOptions () {
     return {
       worksWithOrdinal: this.options.worksWithOrdinal,
-      worksWithoutOrdinal: this.options.worksWithoutOrdinal
+      worksWithoutOrdinal: this.options.worksWithoutOrdinal,
     }
   },
   // Keeping a consistent sorting function so that rolling back an edition
@@ -16,5 +16,5 @@ export default Marionette.CollectionView.extend({
   // with several existing work claims
   viewFilter (child) {
     return child.model.get('claims.wdt:P629')?.length === 1
-  }
+  },
 })

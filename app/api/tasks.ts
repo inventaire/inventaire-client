@@ -1,5 +1,6 @@
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint.js'
+import endpoint from './endpoint.ts'
+
 const { action } = endpoint('tasks')
 const byEntitiesUris = name => uris => {
   uris = forceArray(uris).join('|')
@@ -13,5 +14,5 @@ export default {
   bySuspectUris: byEntitiesUris('suspect'),
   bySuggestionUris: byEntitiesUris('suggestion'),
   deduplicateWorks: action('deduplicate-works'),
-  update: action('update')
+  update: action('update'),
 }

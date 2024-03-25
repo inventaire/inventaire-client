@@ -1,14 +1,14 @@
-import { I18n } from '#user/lib/i18n'
-import editableEntity from './inv/editable_entity.js'
-import { createAndGetEntityModel } from './create_entities.js'
-import Entity from '../models/entity.js'
+import { getPropertiesShortlist } from '#entities/components/editor/lib/create_helpers'
+import { typeDefaultP31 } from '#entities/lib/types/entities_types'
 import { buildPath } from '#lib/location'
 import { asyncNoop } from '#lib/utils'
-import { typeDefaultP31 } from '#entities/lib/types/entities_types'
-import { getPropertiesShortlist } from '#entities/components/editor/lib/create_helpers'
+import { I18n } from '#user/lib/i18n'
+import Entity from '../models/entity.ts'
+import { createAndGetEntityModel } from './create_entities.ts'
+import editableEntity from './inv/editable_entity.ts'
 
 const hasMonolingualTitle = [
-  'collection'
+  'collection',
 ]
 
 const createDraft = ({ type, claims, label }) => {
@@ -59,7 +59,7 @@ export default {
       create () {
         return createAndGetEntityModel({
           labels: this.get('labels'),
-          claims: this.get('claims')
+          claims: this.get('claims'),
         })
       },
       fetchSubEntities: Entity.prototype.fetchSubEntities,
@@ -67,7 +67,7 @@ export default {
 
       // Methods required by app.navigateFromModel
       updateMetadata () { return { title: label || I18n('new entity') } },
-      getRefresh: _.identity
+      getRefresh: _.identity,
     })
 
     // Attributes required by app.navigateFromModel
@@ -79,5 +79,5 @@ export default {
   },
 
   createDraft,
-  allowlistedTypes: Object.keys(typeDefaultP31)
+  allowlistedTypes: Object.keys(typeDefaultP31),
 }

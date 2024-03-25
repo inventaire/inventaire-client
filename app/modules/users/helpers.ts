@@ -1,17 +1,17 @@
-import { isModel, isUserId } from '#lib/boolean_tests'
-import { forceArray } from '#lib/utils'
-import error_ from '#lib/error'
-import usersData, { getUsersByIds } from './users_data.js'
-import initSearch from './lib/search.js'
 import { pick } from 'underscore'
+import { isModel, isUserId } from '#lib/boolean_tests'
+import error_ from '#lib/error'
+import { forceArray } from '#lib/utils'
 import { serializeUser } from '#users/lib/users'
+import initSearch from './lib/search.ts'
+import usersData, { getUsersByIds } from './users_data.ts'
 
 export default function (app) {
   const sync = {
     getUserModelFromUserId (id) {
       if (id === app.user.id) return app.user
       else return app.users.byId(id)
-    }
+    },
   }
 
   const async = {
@@ -90,7 +90,7 @@ export default function (app) {
     getUserIdFromUsername (username) {
       return getUserModelFromUsername(username)
       .then(userModel => userModel.get('_id'))
-    }
+    },
   }
 
   const getUserModelFromUsername = async username => {
@@ -129,11 +129,11 @@ export default function (app) {
     'get:userModel:from:userId': sync.getUserModelFromUserId,
     'get:userId:from:username': async.getUserIdFromUsername,
     'users:search': searchByText,
-    'user:add': addUser
+    'user:add': addUser,
   })
 
   app.commands.setHandlers({
-    'users:add': addUsers
+    'users:add': addUsers,
   })
 }
 
