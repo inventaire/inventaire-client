@@ -1,15 +1,15 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import Flash from '#lib/components/flash.svelte'
-  import { stopEscPropagation } from '#lib/key_events'
-  import Spinner from '#components/spinner.svelte'
-  import { getCropper, getImageHashFromDataUrl, getUrlDataUrl, getUserGravatarUrl, resizeDataUrl } from '#lib/images'
-  import { onChange } from '#lib/svelte/svelte'
   import { createEventDispatcher } from 'svelte'
   import { debounce } from 'underscore'
-  import { getFirstFileDataUrl, resetFileInput } from '#lib/files'
+  import Spinner from '#components/spinner.svelte'
   import { isUrl } from '#lib/boolean_tests'
+  import Flash from '#lib/components/flash.svelte'
+  import { getFirstFileDataUrl, resetFileInput } from '#lib/files'
+  import { icon } from '#lib/icons'
+  import { getCropper, getImageHashFromDataUrl, getUrlDataUrl, getUserGravatarUrl, resizeDataUrl } from '#lib/images'
+  import { stopEscPropagation } from '#lib/key_events'
+  import { onChange } from '#lib/svelte/svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let picture
   export let aspectRatio = null

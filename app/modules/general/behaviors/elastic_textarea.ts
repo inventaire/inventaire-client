@@ -2,11 +2,11 @@ import autosize from 'autosize'
 
 export default Marionette.Behavior.extend({
   ui: {
-    textarea: 'textarea'
+    textarea: 'textarea',
   },
 
   events: {
-    'elastic:textarea:update': 'update'
+    'elastic:textarea:update': 'update',
   },
 
   // Init somehow needs to be run on the next tick to be effective
@@ -22,5 +22,5 @@ export default Marionette.Behavior.extend({
 
   update () {
     autosize.update(this.ui.textarea)
-  }
+  },
 })

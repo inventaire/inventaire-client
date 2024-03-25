@@ -1,11 +1,11 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
-  import { isOpenedOutside } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { serializeShelfData } from './lib/shelves'
   import { createEventDispatcher } from 'svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
   import { onChange } from '#lib/svelte/svelte'
+  import { isOpenedOutside } from '#lib/utils'
+  import { i18n } from '#user/lib/i18n'
+  import { serializeShelfData } from './lib/shelves.ts'
 
   // If withoutShelf=true, no shelf is passed
   export let shelf = null

@@ -1,16 +1,16 @@
 <script>
   import { pick } from 'underscore'
+  import { propertiesByRoles } from '#entities/components/lib/claims_helpers'
+  import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import { isNonEmptyPlainObject } from '#lib/boolean_tests'
-  import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
   import AuthorsInfoRole from './authors_info_role.svelte'
-  import { propertiesByRoles } from '#entities/components/lib/claims_helpers'
 
   export let claims = {}
 
   let authorsByUris
-  let authorsProperties = Object.values(propertiesByRoles).flat()
-  let authorsClaims = pick(claims, authorsProperties)
+  const authorsProperties = Object.values(propertiesByRoles).flat()
+  const authorsClaims = pick(claims, authorsProperties)
 
   const waitingForAuthors = getAuthors()
   async function getAuthors () {

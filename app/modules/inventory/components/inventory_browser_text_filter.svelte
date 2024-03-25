@@ -1,12 +1,12 @@
 <script>
+  import { getContext } from 'svelte'
+  import { debounce, pluck } from 'underscore'
   import Spinner from '#components/spinner.svelte'
-  import { getActionKey } from '#lib/key_events'
   import { icon } from '#lib/icons'
+  import { getActionKey } from '#lib/key_events'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
   import { I18n } from '#user/lib/i18n'
-  import { getContext } from 'svelte'
-  import { debounce, pluck } from 'underscore'
 
   export let textFilterItemsIds, flash
 

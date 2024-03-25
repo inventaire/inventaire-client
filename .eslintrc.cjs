@@ -30,6 +30,7 @@ module.exports = {
   ],
   rules: {
     'array-bracket-spacing': [ 'error', 'always' ],
+    'array-callback-return': [ 'off' ],
     'arrow-parens': [ 'error', 'as-needed' ],
     'comma-dangle': [
       'error',
@@ -57,6 +58,7 @@ module.exports = {
       },
     ],
     'no-ex-assign': [ 'off' ],
+    'no-new': [ 'off' ], // TODO: remove once Backbone.Marionette router is replaced
     'no-var': [ 'error' ],
     'node-import/prefer-node-protocol': 2,
     'nonblock-statement-body-position': [ 'error', 'beside' ],
@@ -64,6 +66,7 @@ module.exports = {
     'one-var': [ 'off' ],
     'prefer-arrow-callback': [ 'error' ],
     'prefer-const': [ 'error' ],
+    'prefer-rest-params': [ 'off' ],
 
     '@stylistic/ts/type-annotation-spacing': 'error',
     '@stylistic/ts/space-infix-ops': 'error',

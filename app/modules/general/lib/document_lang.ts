@@ -1,5 +1,6 @@
 import { langs, regionify, getTextDirection } from '#lib/active_languages'
 import { setQuerystring, currentRoute } from '#lib/location'
+
 const { origin } = location
 
 // lang metadata updates needed by search engines

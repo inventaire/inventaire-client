@@ -1,6 +1,6 @@
-import { isInvEntityId, isWikidataItemId } from '#lib/boolean_tests'
-import Filterable from '#general/models/filterable'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
+import Filterable from '#general/models/filterable'
+import { isInvEntityId, isWikidataItemId } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 
 // make models use 'id' as idAttribute so that search results
@@ -29,14 +29,14 @@ export default Filterable.extend({
   _wikidataInit () {
     this.set({
       uri: `wd:${this.id}`,
-      url: `https://wikidata.org/entity/${this.id}`
+      url: `https://wikidata.org/entity/${this.id}`,
     })
   },
 
   _invInit () {
     this.set({
       uri: `inv:${this.id}`,
-      url: `/entity/${this.id}`
+      url: `/entity/${this.id}`,
     })
   },
 
@@ -48,7 +48,7 @@ export default Filterable.extend({
     const uris = [ this.id, this.get('uri') ]
     this._values = [ this.id ].concat(labels, aliases, descriptions, uris)
     return this._values
-  }
+  },
 })
 
 const getValues = obj => obj != null ? _.values(obj) : []

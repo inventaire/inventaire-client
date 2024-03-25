@@ -1,7 +1,7 @@
-import { I18n, i18n } from '#user/lib/i18n'
-import { parseQuery } from '#lib/location'
+import Handlebars from 'handlebars/runtime.js'
 import { icon as _icon } from '#lib/icons'
-import Handlebars from 'handlebars/runtime'
+import { parseQuery } from '#lib/location'
+import { I18n, i18n } from '#user/lib/i18n'
 
 const { SafeString } = Handlebars
 

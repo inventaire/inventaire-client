@@ -1,4 +1,7 @@
 import { range } from 'underscore'
+import ImgZoomIn from '#behaviors/img_zoom_in'
+import Loading from '#behaviors/loading'
+import Toggler from '#behaviors/toggler'
 import { getReverseClaims } from '#entities/lib/entities'
 import { capitalize, lazyMethod } from '#lib/utils'
 import { I18n, i18n } from '#user/lib/i18n'
@@ -13,9 +16,6 @@ import PartsSuggestions from './serie_cleanup_part_suggestion.ts'
 import SerieCleanupWorks from './serie_cleanup_works.ts'
 import serieCleanupTemplate from './templates/serie_cleanup.hbs'
 import '#entities/scss/serie_cleanup.scss'
-import ImgZoomIn from '#behaviors/img_zoom_in'
-import Loading from '#behaviors/loading'
-import Toggler from '#behaviors/toggler'
 
 export default Marionette.View.extend({
   id: 'serieCleanup',

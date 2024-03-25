@@ -1,11 +1,10 @@
 import FilteredCollection from 'backbone-filtered-collection'
 // Sets $(selector).visible function
 import 'jquery-visible'
-
 import assert_ from '#lib/assert_types'
+import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import error_ from '#lib/error'
 
 // Workaround XSS vulnerability https://github.com/advisories/GHSA-gxr4-xjj5-5px2
 // until we can upgrade or get rid of jquery

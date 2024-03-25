@@ -16,7 +16,7 @@ export const createCandidate = (externalEntry, entitiesRes) => {
     goodReadsEditionId,
     libraryThingWorkId,
     shelvesNames,
-    rawEntry
+    rawEntry,
   } = externalEntry
 
   const candidate = { index, rawEntry }
@@ -150,8 +150,8 @@ const serializeResolverEntry = data => {
 
   const edition = {
     claims: {
-      'wdt:P1476': [ editionTitle ]
-    }
+      'wdt:P1476': [ editionTitle ],
+    },
   }
 
   isbn = findIsbn(data)
@@ -160,7 +160,7 @@ const serializeResolverEntry = data => {
   let work
   if (resolvedWork?.uri) {
     work = {
-      uri: resolvedWork.uri
+      uri: resolvedWork.uri,
     }
   } else {
     work = { labels: {}, claims: {} }
@@ -177,8 +177,8 @@ const serializeResolverEntry = data => {
     return {
       uri,
       labels: {
-        [labelLang]: label
-      }
+        [labelLang]: label,
+      },
     }
   })
 

@@ -1,7 +1,7 @@
+import { indexBy } from 'underscore'
 import { serializeItem, setItemUserData } from '#inventory/lib/items'
 import preq from '#lib/preq'
 import { serializeUser } from '#users/lib/users'
-import { indexBy } from 'underscore'
 
 export const getItemsData = async editionsUris => {
   let { items, users } = await preq.get(app.API.items.byEntities({ ids: editionsUris }))
@@ -15,12 +15,12 @@ export const getItemsData = async editionsUris => {
 }
 
 export const sortItemsByCategoryAndDistance = items => {
-  let itemsByCategories = {
+  const itemsByCategories = {
     personal: [],
     network: [],
     public: [],
     nearbyPublic: [],
-    otherPublic: []
+    otherPublic: [],
   }
   items.forEach(item => {
     const category = getItemCategory(item)
@@ -47,21 +47,21 @@ export const categoriesHeaders = {
   personal: {
     label: 'in your inventory',
     customIcon: 'user',
-    backgroundColor: '#eeeeee'
+    backgroundColor: '#eeeeee',
   },
   network: {
     label: "in your friends' and groups' inventories",
     customIcon: 'users',
-    backgroundColor: '#f4f4f4'
+    backgroundColor: '#f4f4f4',
   },
   nearbyPublic: {
     label: 'nearby',
     customIcon: 'dot-circle-o',
-    backgroundColor: '#f8f8f8'
+    backgroundColor: '#f8f8f8',
   },
   otherPublic: {
     label: 'elsewhere',
     customIcon: 'globe',
-    backgroundColor: '#fcfcfc'
-  }
+    backgroundColor: '#fcfcfc',
+  },
 }

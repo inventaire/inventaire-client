@@ -1,19 +1,19 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
   import app from '#app/app'
-  import Profile from './profile.svelte'
-  import Account from './account.svelte'
-  import Notifications from './notifications.svelte'
-  import Display from './display.svelte'
-  import Data from './data.svelte'
   import { scrollToElement } from '#lib/screen'
+  import { I18n } from '#user/lib/i18n'
+  import Account from './account.svelte'
+  import Data from './data.svelte'
+  import Display from './display.svelte'
+  import Notifications from './notifications.svelte'
+  import Profile from './profile.svelte'
 
   export let section = 'profile'
 
   $: app.navigate(`/settings/${section}`, {
     metadata: {
-      title: `${I18n('settings')} - ${I18n(section)}`
-    }
+      title: `${I18n('settings')} - ${I18n(section)}`,
+    },
   })
 
   let settingEl

@@ -1,12 +1,12 @@
 <script>
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import ItemsByTransaction from './items_by_transaction.svelte'
   import { createEventDispatcher } from 'svelte'
-  import Spinner from '#components/spinner.svelte'
   import { groupBy } from 'underscore'
+  import Spinner from '#components/spinner.svelte'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { icon } from '#lib/icons'
   import { onChange } from '#lib/svelte/svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import ItemsByTransaction from './items_by_transaction.svelte'
 
   const dispatch = createEventDispatcher()
 
@@ -46,7 +46,7 @@
     dispatch('showItemsOnMap')
   }
 
-  let emptyList = !isNonEmptyArray(categoryItems)
+  const emptyList = !isNonEmptyArray(categoryItems)
 
   $: onChange(categoryItems, dispatchByTransaction)
 

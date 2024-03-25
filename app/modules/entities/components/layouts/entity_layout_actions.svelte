@@ -1,12 +1,12 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import preq from '#lib/preq'
+  import { tick } from 'svelte'
+  import app from '#app/app'
   import { getWikidataUrl, getWikidataHistoryUrl, serializeEntity } from '#entities/lib/entities'
+  import Spinner from '#general/components/spinner.svelte'
   import Link from '#lib/components/link.svelte'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
-  import Spinner from '#general/components/spinner.svelte'
-  import app from '#app/app'
-  import { tick } from 'svelte'
+  import preq from '#lib/preq'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let entity, showEntityEditButtons = true
 

@@ -1,8 +1,8 @@
+import AutoFocus from '#behaviors/auto_focus'
+import PreventDefault from '#behaviors/prevent_default'
 import PreviousSearch from './previous_search.ts'
 import searchTemplate from './templates/search_layout.hbs'
 import '#inventory/scss/search_layout.scss'
-import PreventDefault from '#behaviors/prevent_default'
-import AutoFocus from '#behaviors/auto_focus'
 
 export default Marionette.CollectionView.extend({
   id: 'addSearchLayout',

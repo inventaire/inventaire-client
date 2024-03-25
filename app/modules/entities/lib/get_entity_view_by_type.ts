@@ -1,5 +1,5 @@
-import error_ from '#lib/error'
 import { getEntitiesByUris } from '#entities/lib/entities'
+import error_ from '#lib/error'
 
 export default async function getEntityViewByType (model, refresh) {
   const entity = model.toJSON()
@@ -32,7 +32,7 @@ export default async function getEntityViewByType (model, refresh) {
   if (Component != null) {
     return {
       Component,
-      props
+      props,
     }
   }
 
@@ -45,18 +45,18 @@ export default async function getEntityViewByType (model, refresh) {
 const getEditionComponent = async (entity, refresh) => {
   const [ { default: EditionLayout }, works ] = await Promise.all([
     import('#entities/components/layouts/edition.svelte'),
-    getEditionsWorks([ entity ], refresh)
+    getEditionsWorks([ entity ], refresh),
   ])
   return {
     Component: EditionLayout,
     props: {
       entity,
       works,
-    }
+    },
   }
 }
 
-export const getEditionsWorks = async (editions, refresh) => {
+export const getEditionsWorks = async editions => {
   const uris = editions.map(getEditionWorksUris).flat()
   return getEntitiesByUris({ uris })
 }
@@ -73,5 +73,5 @@ const getEditionWorksUris = edition => {
 }
 
 const entityViewSpecialGetterByType = {
-  edition: getEditionComponent
+  edition: getEditionComponent,
 }

@@ -3,6 +3,7 @@
   import TransactionPreview from '#transactions/components/transaction_preview.svelte'
   import { getActiveTransactionsByItemId } from '#transactions/lib/transactions'
   import { I18n } from '#user/lib/i18n'
+
   export let item, flash
 
   let transactions

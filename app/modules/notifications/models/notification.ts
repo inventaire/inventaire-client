@@ -1,5 +1,5 @@
 export default Backbone.NestedModel.extend({
-  initialize (attrs) {
+  initialize () {
     this.on('change:status', this.update)
   },
 
@@ -24,5 +24,5 @@ export default Backbone.NestedModel.extend({
 
   grabAttributesModels (...attributes) {
     return Promise.all(attributes.map(this.grabAttributeModel.bind(this)))
-  }
+  },
 })

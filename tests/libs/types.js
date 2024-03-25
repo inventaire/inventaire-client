@@ -1,5 +1,6 @@
 import 'should'
 import assert_ from '#lib/assert_types'
+
 const { type: assertType, types: assertTypes } = assert_
 
 describe('assert types', () => {

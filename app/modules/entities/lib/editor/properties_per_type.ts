@@ -1,9 +1,9 @@
-import { pluralize } from '#entities/lib/types/entities_types'
-import preq from '#lib/preq'
+import { omit, pick } from 'underscore'
 import { API } from '#app/api/api'
 import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
-import { omit, pick } from 'underscore'
 import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
+import { pluralize } from '#entities/lib/types/entities_types'
+import preq from '#lib/preq'
 
 export const properties = await preq.get(API.data.properties).then(({ properties }) => properties)
 
@@ -61,7 +61,7 @@ const customLabels = {
   collection: {
     'wdt:P1476': 'collection title',
   },
-  article: {}
+  article: {},
 }
 
 for (const type of Object.keys(propertiesPerType)) {
@@ -87,7 +87,7 @@ export const locallyCreatableEntitiesTypes = [
 
 export const requiredPropertiesPerType = {
   edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P407' ],
-  collection: [ 'wdt:P1476', 'wdt:P123' ]
+  collection: [ 'wdt:P1476', 'wdt:P123' ],
 }
 
 export const propertiesCategories = {

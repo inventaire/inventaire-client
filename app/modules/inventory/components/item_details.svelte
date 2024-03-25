@@ -1,10 +1,10 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { userContent } from '#lib/handlebars_helpers/user_content'
   import { autofocus } from '#lib/components/actions/autofocus'
   import { autosize } from '#lib/components/actions/autosize'
+  import { userContent } from '#lib/handlebars_helpers/user_content'
+  import { icon } from '#lib/icons'
   import { getActionKey } from '#lib/key_events'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let item, flash
 

@@ -1,10 +1,10 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { findMainUserInvitor } from '#groups/lib/groups'
   import GroupActions from '#groups/components/group_actions.svelte'
+  import { findMainUserInvitor } from '#groups/lib/groups'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { loadInternalLink } from '#lib/utils'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let group
 

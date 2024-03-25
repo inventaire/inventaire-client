@@ -22,7 +22,7 @@ function customizeAuthorProperties (entity, generalProperties) {
       if (!customAuthorProperties.includes('wdt:P50') && isNonEmptyArray(entity.claims['wdt:P50'])) {
         entries = [
           [ 'wdt:P50', propertySettings ],
-          ...entries
+          ...entries,
         ]
       }
       return entries

@@ -1,10 +1,10 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { buildAltUri } from '../lib/entities'
-  import Flash from '#lib/components/flash.svelte'
-  import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import EntityLayoutActionsMenu from '#entities/components/layouts/entity_layout_actions_menu.svelte'
+  import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
+  import Flash from '#lib/components/flash.svelte'
+  import { I18n } from '#user/lib/i18n'
   import EmbeddedWelcome from '#welcome/components/embedded_welcome.svelte'
+  import { buildAltUri } from '../lib/entities.ts'
 
   export let entity
   export let flash = null

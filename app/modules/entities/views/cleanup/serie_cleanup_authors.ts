@@ -16,23 +16,23 @@ const SerieCleanupAuthor = Marionette.View.extend({
   serializeData () {
     return {
       uri: this.model.get('uri'),
-      isSuggestion: this.options.isSuggestion
+      isSuggestion: this.options.isSuggestion,
     }
-  }
+  },
 })
 
 const AuthorsList = Marionette.CollectionView.extend({
   childView: SerieCleanupAuthor,
   childViewOptions () {
     return { isSuggestion: this.options.name === 'authorsSuggestions' }
-  }
+  },
 })
 
 export default Marionette.View.extend({
   template: serieCleanupAuthorsTemplate,
   regions: {
     currentAuthorsRegion: '.currentAuthors',
-    authorsSuggestionsRegion: '.authorsSuggestions'
+    authorsSuggestionsRegion: '.authorsSuggestions',
   },
 
   onRender () {
@@ -48,13 +48,13 @@ export default Marionette.View.extend({
   buildCollection (name) {
     const uris = this.options[`${name}Uris`]
     const authorsData = uris.map(uri => ({
-      uri
+      uri,
     }))
     return new Backbone.Collection(authorsData)
   },
 
   events: {
-    'click .suggestion': 'add'
+    'click .suggestion': 'add',
   },
 
   add (e) {
@@ -71,5 +71,5 @@ export default Marionette.View.extend({
 
     return this.options.work.setPropertyValue('wdt:P50', null, uri)
     .catch(rollback)
-  }
+  },
 })

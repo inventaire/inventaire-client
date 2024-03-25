@@ -1,13 +1,13 @@
-import wdLang from 'wikidata-lang'
-import { getEntitiesAttributesByUris, getPublicationYear } from '#entities/lib/entities'
-import { getEntityLang } from '#entities/components/lib/claims_helpers'
 import { compact, uniq } from 'underscore'
+import wdLang from 'wikidata-lang'
+import { getEntityLang } from '#entities/components/lib/claims_helpers'
+import { getEntitiesAttributesByUris, getPublicationYear } from '#entities/lib/entities'
 
 async function fetchEntitiesLabels (uris) {
   const { entities } = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'labels' ],
-    lang: app.user.lang
+    lang: app.user.lang,
   })
   return entities
 }
@@ -18,7 +18,7 @@ const getLangWdUri = lang => {
 }
 
 const prioritizeMainUserLang = langs => {
-  let userLang = app.user.lang
+  const userLang = app.user.lang
   if (langs.includes(userLang)) {
     const userLangIndex = langs.indexOf(userLang)
     langs.splice(userLangIndex, 1)

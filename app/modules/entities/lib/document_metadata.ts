@@ -22,7 +22,7 @@ async function getEntityMetadata ({ entity, uriPrefix }) {
     description: findBestDescription(entity)?.slice(0, 501),
     image,
     url,
-    smallCardType: true
+    smallCardType: true,
   }
 }
 

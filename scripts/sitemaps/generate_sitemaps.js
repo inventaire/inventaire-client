@@ -1,10 +1,10 @@
 import fetch from 'node-fetch'
-import writeSitemap from './write_sitemap.js'
-import { folderPath } from './config.js'
 import chalk from 'tiny-chalk'
 import wdk from 'wikidata-sdk'
+import { folderPath } from './config.js'
 import queries from './queries.js'
 import wrapUrls from './wrap_urls.js'
+import writeSitemap from './write_sitemap.js'
 
 const { green } = chalk
 
@@ -27,8 +27,8 @@ const generateFilesFromQuery = async name => {
   const url = queries[name]
   const results = await fetch(url, {
     headers: {
-      'user-agent': 'inventaire-client (https://github.com/inventaire/inventaire-client)'
-    }
+      'user-agent': 'inventaire-client (https://github.com/inventaire/inventaire-client)',
+    },
   })
   .then(res => res.json())
 

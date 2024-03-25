@@ -53,7 +53,7 @@ export function scrollToElement (element, options = {}) {
     if (!waitForRoomToScroll || hasRoomToScroll || ++attempts > 10) {
       window.scrollTo({
         top: Math.max(0, offset - marginTop),
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     } else {
       setTimeout(attemptToScroll, 50)

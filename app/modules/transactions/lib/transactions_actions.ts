@@ -28,7 +28,7 @@ export const actorCanBeBoth = [ 'cancelled' ]
 export const ownerActions = [
   'accepted',
   'declined',
-  'returned'
+  'returned',
 ]
 
 export function transactionIsCancellable (transaction) {

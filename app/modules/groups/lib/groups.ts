@@ -1,13 +1,13 @@
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
+import { findWhere, pluck, without } from 'underscore'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
-import { findWhere, pluck, without } from 'underscore'
 import { getColorSquareDataUriFromModelId } from '#lib/images'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
 import { fixedEncodeURIComponent } from '#lib/utils'
 import { getCachedSerializedUsers } from '#users/helpers'
-import { getUserById } from '#users/users_data'
 import { serializeUser } from '#users/lib/users'
+import { getUserById } from '#users/users_data'
 
 export default {
   createGroup (data) {
@@ -20,7 +20,7 @@ export default {
       description,
       searchable,
       open,
-      position
+      position,
     })
     .then(groups.add.bind(groups))
     .then(log_.Info('group'))
@@ -31,7 +31,7 @@ export default {
     forms_.pass({
       value: name,
       tests: groupNameTests,
-      selector
+      selector,
     })
   },
 
@@ -39,21 +39,21 @@ export default {
     forms_.pass({
       value: description,
       tests: groupDescriptionTests,
-      selector
+      selector,
     })
-  }
+  },
 }
 
 const groupNameTests = {
   'The group name can not be longer than 80 characters' (name) {
     return name.length > 80
-  }
+  },
 }
 
 const groupDescriptionTests = {
   'The group description can not be longer than 5000 characters' (description) {
     return description.length > 5000
-  }
+  },
 }
 
 export function getAllGroupMembersIds (group) {

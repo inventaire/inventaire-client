@@ -1,4 +1,5 @@
 import wdk from 'wikidata-sdk'
+
 const { sparqlQuery } = wdk
 
 const worksQueryBody = `VALUES (?work_type) { (wd:Q571) (wd:Q47461344) (wd:Q2831984) (wd:Q1004) (wd:Q1760610) (wd:Q8261) (wd:Q25379) (wd:Q386724) (wd:Q49084) (wd:Q8274) (wd:Q17518461) } .
@@ -14,7 +15,7 @@ const seriesQuery = `SELECT ?series WHERE {
 ?series wdt:P31/wdt:P279* wd:Q277759 .
 }`
 
-const workPropertyQuery = function (P, Q) {
+const workPropertyQuery = function (P) {
   const base = `${worksQueryBody}
   ?work wdt:${P} ?item .`
   return sparqlQuery(`SELECT ?item WHERE { ${base} }`)

@@ -24,7 +24,7 @@ export default {
 
   button (e) {
     if (e.keyCode === 13) $(e.currentTarget).trigger('click')
-  }
+  },
 }
 
 const clickTarget = function ($target) {

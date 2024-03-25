@@ -1,6 +1,6 @@
-import error_ from '#lib/error'
-import { isImageHash } from '#lib/boolean_tests'
 import { pluralize } from '#entities/lib/types/entities_types'
+import { isImageHash } from '#lib/boolean_tests'
+import error_ from '#lib/error'
 import { getUserBasePathname } from '#users/lib/users'
 
 export function serializeResult (result) {
@@ -63,7 +63,7 @@ const typeFormatters = {
     // to the associated entity image
     result.image = result.uri
     return result
-  }
+  },
 }
 
 export const urlifyImageHash = function (type, hash) {
@@ -78,7 +78,7 @@ export const urlifyImageHash = function (type, hash) {
 
 const nonEntityContainersPerType = {
   users: 'users',
-  groups: 'users'
+  groups: 'users',
 }
 
 // Pre-formatting is required to set the type
@@ -88,7 +88,7 @@ export const serializeSubject = result => ({
   label: result.label,
   description: result.description,
   uri: `wd:${result.id}`,
-  type: 'subjects'
+  type: 'subjects',
 })
 
 export const serializeEntityModel = function (entity) {

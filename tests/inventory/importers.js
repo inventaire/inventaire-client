@@ -1,17 +1,17 @@
 import 'should'
-import { readFileSync } from 'fs'
-import { resolve } from 'path'
-import { looksLikeAnIsbn } from '#lib/isbn'
-import importers from '#inventory/lib/importer/importers'
-import Papa from 'papaparse'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import iconv from 'iconv-lite'
+import Papa from 'papaparse'
+import importers from '#inventory/lib/importer/importers'
+import { looksLikeAnIsbn } from '#lib/isbn'
 
 window.Papa = Papa
 
 const fixtures = {
   goodreads: 'goodreads/goodreads_library_export.csv',
   librarything: 'librarythings/librarything.json',
-  babelio: 'babelio/Biblio_export21507.csv'
+  babelio: 'babelio/Biblio_export21507.csv',
 }
 
 const fixturePath = filename => resolve(process.cwd(), `./tests/fixtures/exports/${filename}`)

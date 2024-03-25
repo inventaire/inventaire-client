@@ -1,5 +1,6 @@
 <script>
   import { i18n, I18n } from '#user/lib/i18n'
+
   export let value, name, optional = true, componentId
 </script>
 

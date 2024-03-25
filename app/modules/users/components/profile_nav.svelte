@@ -1,6 +1,6 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
   import { isOpenedOutside } from '#lib/utils'
+  import { i18n } from '#user/lib/i18n'
 
   export let user = null
   export let group = null

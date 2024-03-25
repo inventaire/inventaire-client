@@ -9,7 +9,7 @@ export default () => {
       errObj = {
         message: errorMsg,
         context: Array.from(arguments),
-        stack: ''
+        stack: '',
       }
     }
 
@@ -20,7 +20,7 @@ export default () => {
 
     if (args?.[4] != null) {
       const {
-        name
+        name,
       } = args[4]
 
       if (name === 'InvalidStateError') {

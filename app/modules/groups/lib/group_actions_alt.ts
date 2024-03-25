@@ -5,7 +5,7 @@ export async function groupAction ({ action, groupId, userId }) {
     action,
     group: groupId,
     // Required only for actions implying an other user
-    user: userId
+    user: userId,
   })
   return res
 }

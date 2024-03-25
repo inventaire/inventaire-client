@@ -1,6 +1,7 @@
 import { buildPath } from '#lib/location'
 import { images } from '#lib/urls'
 import { distanceBetween } from '#map/lib/geo'
+
 const { defaultAvatar } = images
 
 export function serializeUser (user) {

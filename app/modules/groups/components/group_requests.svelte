@@ -1,10 +1,10 @@
 <script>
+  import { pluck } from 'underscore'
   import Spinner from '#components/spinner.svelte'
   import UserGroupRequestLi from '#groups/components/user_group_request_li.svelte'
   import { serializeGroupUser } from '#groups/lib/groups'
   import Flash from '#lib/components/flash.svelte'
   import { getUsersByIds } from '#users/users_data'
-  import { pluck } from 'underscore'
 
   export let group
 

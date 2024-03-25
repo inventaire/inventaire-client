@@ -4,7 +4,7 @@
 
   export let entity, relatedEntities
 
-  let { claims, subtitle, pathname } = entity
+  const { claims, subtitle, pathname } = entity
 </script>
 <div class="entity-list-compact">
   <div class="date">

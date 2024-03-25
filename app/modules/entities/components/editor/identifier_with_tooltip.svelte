@@ -1,8 +1,8 @@
 <script>
-  import Link from '#lib/components/link.svelte'
-  import { i18n } from '#user/lib/i18n'
   import Tooltip from '#components/tooltip.svelte'
   import { getWikidataUrl } from '#entities/lib/entities'
+  import Link from '#lib/components/link.svelte'
+  import { i18n } from '#user/lib/i18n'
 
   export let uri
 

@@ -9,7 +9,7 @@ export const transactionsDataFactory = () => ({
     labelPersonalized: 'giving_personalized',
     labelPersonalizedStrong: 'giving_personalized_strong',
     creationLabel: 'giving',
-    unicodeIcon: '&#xf004;'
+    unicodeIcon: '&#xf004;',
   },
 
   lending: {
@@ -21,7 +21,7 @@ export const transactionsDataFactory = () => ({
     labelPersonalized: 'lending_personalized',
     labelPersonalizedStrong: 'lending_personalized_strong',
     creationLabel: 'lending',
-    unicodeIcon: '&#xf021;'
+    unicodeIcon: '&#xf021;',
   },
 
   selling: {
@@ -33,7 +33,7 @@ export const transactionsDataFactory = () => ({
     labelPersonalized: 'selling_personalized',
     labelPersonalizedStrong: 'selling_personalized_strong',
     creationLabel: 'selling',
-    unicodeIcon: '&#xf0d6;'
+    unicodeIcon: '&#xf0d6;',
   },
 
   inventorying: {
@@ -45,8 +45,8 @@ export const transactionsDataFactory = () => ({
     labelPersonalized: 'inventorying_personalized',
     labelPersonalizedStrong: 'inventorying_personalized_strong',
     creationLabel: 'just_inventorize_it',
-    unicodeIcon: '&#xf1b2;'
-  }
+    unicodeIcon: '&#xf1b2;',
+  },
 })
 
 // keep a frozen version of the object at hand for read only

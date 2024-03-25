@@ -1,16 +1,16 @@
 <script>
-  import { clone } from 'underscore'
-  import preq from '#lib/preq'
-  import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
   import { createEventDispatcher } from 'svelte'
-  import { autofocus } from '#lib/components/actions/autofocus'
+  import { clone } from 'underscore'
+  import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Spinner from '#general/components/spinner.svelte'
+  import { autofocus } from '#lib/components/actions/autofocus'
+  import Flash from '#lib/components/flash.svelte'
+  import { icon } from '#lib/icons'
+  import preq from '#lib/preq'
+  import { onChange } from '#lib/svelte/svelte'
+  import { I18n } from '#user/lib/i18n'
   import TaskInfo from './task_info.svelte'
   import TaskScores from './task_scores.svelte'
-  import mergeEntities from '#entities/views/editor/lib/merge_entities'
-  import { onChange } from '#lib/svelte/svelte'
-  import Flash from '#lib/components/flash.svelte'
 
   const dispatch = createEventDispatcher()
 
@@ -45,7 +45,7 @@
     return preq.put(app.API.tasks.update, {
       id: task._id,
       attribute: 'state',
-      value: 'dismissed'
+      value: 'dismissed',
     })
       .then(() => dispatch('next'))
   }

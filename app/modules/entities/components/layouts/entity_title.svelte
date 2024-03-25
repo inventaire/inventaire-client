@@ -1,8 +1,8 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
-  import Link from '#lib/components/link.svelte'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import SourceLogo from '#inventory/components/entity_source_logo.svelte'
+  import Link from '#lib/components/link.svelte'
+  import { i18n } from '#user/lib/i18n'
 
   export let entity, sourceLogo, href
   export let hasLinkTitle = false

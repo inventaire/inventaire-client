@@ -1,9 +1,9 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { propertiesType, formatClaimValue, buildPathname } from '#entities/components/lib/claims_helpers'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { isEntityUri } from '#lib/boolean_tests'
-  import { propertiesType, formatClaimValue, buildPathname } from '#entities/components/lib/claims_helpers'
   import Link from '#lib/components/link.svelte'
+  import { i18n } from '#user/lib/i18n'
 
   export let value, prop, entity
 

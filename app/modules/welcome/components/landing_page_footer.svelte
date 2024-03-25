@@ -1,7 +1,7 @@
 <script>
+  import Link from '#lib/components/link.svelte'
   import { git, wiki, dataHome, translate, blog, faq, communicationChannels } from '#lib/urls'
   import { i18n, I18n } from '#user/lib/i18n'
-  import Link from '#lib/components/link.svelte'
   import FooterIconLink from '#welcome/components/footer_icon_link.svelte'
 </script>
 

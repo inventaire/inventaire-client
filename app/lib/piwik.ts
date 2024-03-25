@@ -12,7 +12,7 @@ const { _paq, env } = window
 // Those handlers will be overriden once the config arrives, if tracking isn't disabled
 app.commands.setHandlers({
   'track:user:id': _.noop,
-  'track:page:view': _.noop
+  'track:page:view': _.noop,
 })
 
 export default async function () {
@@ -78,6 +78,6 @@ export default async function () {
     // when successive document:title:change occure
     // and let the time to the route to be updated
     // (app.navigate being often trigger after all the actions are done)
-    'track:page:view': _.debounce(trackPageView, 300)
+    'track:page:view': _.debounce(trackPageView, 300),
   })
 }

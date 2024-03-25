@@ -1,10 +1,10 @@
 <script>
-  import Spinner from '#general/components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
   import app from '#app/app'
-  import { I18n } from '#user/lib/i18n'
+  import Spinner from '#general/components/spinner.svelte'
   import { createItem } from '#inventory/components/importer/lib/create_item'
   import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
+  import Flash from '#lib/components/flash.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let candidate
   export let visibility

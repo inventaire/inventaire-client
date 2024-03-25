@@ -1,8 +1,8 @@
 <script>
-  import Link from '#lib/components/link.svelte'
-  import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher } from 'svelte'
   import Tooltip from '#components/tooltip.svelte'
+  import Link from '#lib/components/link.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let value
 

@@ -5,7 +5,7 @@ const iconAliases = {
   giving: 'heart',
   lending: 'refresh',
   selling: 'money',
-  inventorying: 'cube'
+  inventorying: 'cube',
 }
 
 export function icon (name, classes = '') {

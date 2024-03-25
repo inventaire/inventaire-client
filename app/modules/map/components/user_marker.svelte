@@ -1,11 +1,11 @@
 <!-- TODO: merge with #map/components/user_marker.svelte -->
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { isOpenedOutside } from '#lib/utils'
-  import { icon } from '#lib/icons'
   import { createEventDispatcher } from 'svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { isOpenedOutside } from '#lib/utils'
   import UserPositionPicker from '#settings/components/user_position_picker.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let doc
   const { _id, username, picture } = doc
@@ -24,8 +24,8 @@
   export async function showMainUserPositionPicker () {
     app.layout.showChildComponent('svelteModal', UserPositionPicker, {
       props: {
-        showPositionPicker: true
-      }
+        showPositionPicker: true,
+      },
     })
   }
 </script>
@@ -53,4 +53,3 @@
     </button>
   {/if}
 </div>
-

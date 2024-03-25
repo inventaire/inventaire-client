@@ -1,14 +1,15 @@
 <!-- This component mimicks a <select>
      See https://developer.mozilla.org/en-US/docs/Learn/Forms/How_to_build_custom_form_controls -->
 <script>
-  import Spinner from '#general/components/spinner.svelte'
+  import { createEventDispatcher } from 'svelte'
+  import { uniqueId } from 'underscore'
   import Dropdown from '#components/dropdown.svelte'
   import SelectDropdownOption from '#components/select_dropdown_option.svelte'
-  import { getActionKey } from '#lib/key_events'
+  import Spinner from '#general/components/spinner.svelte'
   import { icon } from '#lib/icons'
+  import { getActionKey } from '#lib/key_events'
   import { I18n } from '#user/lib/i18n'
-  import { uniqueId } from 'underscore'
-  import { createEventDispatcher } from 'svelte'
+
   const dispatch = createEventDispatcher()
 
   export let value

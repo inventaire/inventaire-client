@@ -1,8 +1,9 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import preq from '#lib/preq'
   import Spinner from '#general/components/spinner.svelte'
+  import preq from '#lib/preq'
   import { isOpenedOutside } from '#lib/utils'
+  import { i18n, I18n } from '#user/lib/i18n'
+
   let usersData
   let highest = 0
   export let title, period

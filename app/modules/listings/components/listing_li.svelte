@@ -1,16 +1,17 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import { pluck } from 'underscore'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getEntitiesImagesUrls } from '#entities/lib/entities'
-  import { getListingPathname } from '#listings/lib/listings'
   import { loadInternalLink } from '#lib/utils'
-  import { pluck } from 'underscore'
+  import { getListingPathname } from '#listings/lib/listings'
+  import { i18n } from '#user/lib/i18n'
 
   export let listing, onUserLayout
 
   const { _id, name, creator } = listing
-  let elements = listing.elements || []
-  let imagesUrls = [], imagesLimit = 6
+  const elements = listing.elements || []
+  let imagesUrls = []
+  const imagesLimit = 6
 
   const pathname = getListingPathname(_id)
 

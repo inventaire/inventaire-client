@@ -1,7 +1,7 @@
 <script>
+  import { slide } from 'svelte/transition'
   import { icon } from '#lib/icons'
   import { I18n } from '#user/lib/i18n'
-  import { slide } from 'svelte/transition'
 
   export let open
 </script>

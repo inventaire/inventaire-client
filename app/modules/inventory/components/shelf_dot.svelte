@@ -1,8 +1,8 @@
 <script>
-  import { isOpenedOutside } from '#lib/utils'
+  import { createEventDispatcher } from 'svelte'
   import { getColorHexCodeFromModelId } from '#lib/images'
   import { viewportIsSmallerThan } from '#lib/screen'
-  import { createEventDispatcher } from 'svelte'
+  import { isOpenedOutside } from '#lib/utils'
 
   export let shelf
 

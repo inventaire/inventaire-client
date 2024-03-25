@@ -1,5 +1,5 @@
-import { isNonEmptyArray } from '#lib/boolean_tests'
 import { uniq } from 'underscore'
+import { isNonEmptyArray } from '#lib/boolean_tests'
 
 const mostlyTextWorksRoles = [
   'wdt:P50', // author

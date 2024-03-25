@@ -10,7 +10,7 @@ export default function (options) {
 
   // success and/or error handlers MAY be provided
   promise
-  .then(res => $selector.trigger('check'))
+  .then(() => $selector.trigger('check'))
   .catch(err => $selector.trigger('fail', err))
 
   return promise

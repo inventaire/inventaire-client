@@ -1,8 +1,8 @@
 <script>
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { isOpenedOutside } from '#lib/utils'
-  import { icon } from '#lib/icons'
   import { createEventDispatcher } from 'svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { isOpenedOutside } from '#lib/utils'
 
   export let item
 

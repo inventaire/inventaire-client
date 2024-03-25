@@ -8,15 +8,15 @@ export default Marionette.View.extend({
   serializeData () {
     return {
       hasVideoInput: window.hasVideoInput,
-      doesntSupportEnumerateDevices: window.doesntSupportEnumerateDevices
+      doesntSupportEnumerateDevices: window.doesntSupportEnumerateDevices,
     }
   },
 
   events: {
-    'click #embeddedScanner': 'startEmbeddedScanner'
+    'click #embeddedScanner': 'startEmbeddedScanner',
   },
 
   startEmbeddedScanner () {
     app.execute('show:scanner:embedded')
-  }
+  },
 })

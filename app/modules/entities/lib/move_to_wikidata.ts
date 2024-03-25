@@ -1,8 +1,8 @@
-import { isWikidataItemUri } from '#lib/boolean_tests'
-import { i18n, I18n } from '#user/lib/i18n'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
-import { unprefixify } from '#lib/wikimedia/wikidata'
+import { isWikidataItemUri } from '#lib/boolean_tests'
 import preq from '#lib/preq'
+import { unprefixify } from '#lib/wikimedia/wikidata'
+import { i18n, I18n } from '#user/lib/i18n'
 
 export async function moveToWikidata (invEntityUri) {
   await preq.put(app.API.entities.moveToWikidata, { uri: invEntityUri })
@@ -20,7 +20,7 @@ export function checkWikidataMoveabilityStatus (entity) {
   if (type === 'edition') {
     return {
       ok: false,
-      reason: I18n("editions can't be moved to Wikidata for the moment")
+      reason: I18n("editions can't be moved to Wikidata for the moment"),
     }
   }
 
@@ -32,7 +32,7 @@ export function checkWikidataMoveabilityStatus (entity) {
           const message = I18n("some values aren't Wikidata entities:")
           return {
             ok: false,
-            reason: `${message}: ${i18n(unprefixify(property))} (${property})`
+            reason: `${message}: ${i18n(unprefixify(property))} (${property})`,
           }
         }
       }
@@ -41,6 +41,6 @@ export function checkWikidataMoveabilityStatus (entity) {
 
   return {
     ok: true,
-    reason: I18n('this entity is ready to be imported to Wikidata')
+    reason: I18n('this entity is ready to be imported to Wikidata'),
   }
 }

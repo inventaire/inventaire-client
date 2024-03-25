@@ -1,5 +1,5 @@
-import { I18n } from '#user/lib/i18n'
 import error_ from '#lib/error'
+import { I18n } from '#user/lib/i18n'
 
 export default function (importer, data) {
   const { format, label } = importer
@@ -29,5 +29,5 @@ const isValid = {
     return re.test(data.slice(0, 1001))
   },
 
-  all () { return true }
+  all () { return true },
 }

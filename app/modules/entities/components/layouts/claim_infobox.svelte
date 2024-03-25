@@ -1,9 +1,9 @@
 <script>
   import { propertiesType } from '#entities/components/lib/claims_helpers'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import ClaimValue from './claim_value.svelte'
-  import { i18n } from '#user/lib/i18n'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { i18n } from '#user/lib/i18n'
+  import ClaimValue from './claim_value.svelte'
 
   export let prop
   export let values

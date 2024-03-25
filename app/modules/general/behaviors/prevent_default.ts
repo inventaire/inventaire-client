@@ -8,5 +8,5 @@ export default Marionette.Behavior.extend({
   events: {
     'click a': smartPreventDefault,
     'click button': e => e.preventDefault(),
-  }
+  },
 })

@@ -1,11 +1,11 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
+  import { createEventDispatcher } from 'svelte'
+  import Spinner from '#components/spinner.svelte'
   import ItemRow from '#inventory/components/item_row.svelte'
   import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'
-  import Spinner from '#components/spinner.svelte'
-  import { createEventDispatcher } from 'svelte'
+  import { icon } from '#lib/icons'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let items
   export let itemsShelvesByIds
@@ -27,7 +27,7 @@
     app.layout.showChildComponent('modal', ItemsTableSelectionEditor, {
       props: {
         selectedItemsIds,
-      }
+      },
     })
   }
 

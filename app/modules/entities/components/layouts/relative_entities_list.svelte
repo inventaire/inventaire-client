@@ -1,16 +1,16 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { forceArray } from '#lib/utils'
   import { uniq, indexBy } from 'underscore'
   import Spinner from '#components/spinner.svelte'
+  import RelativeEntityLayout from '#entities/components/layouts/relative_entity_layout.svelte'
+  import SectionLabel from '#entities/components/layouts/section_label.svelte'
   import { entityDataShouldBeRefreshed, getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   import Flash from '#lib/components/flash.svelte'
-  import SectionLabel from '#entities/components/layouts/section_label.svelte'
-  import RelativeEntityLayout from '#entities/components/layouts/relative_entity_layout.svelte'
   import { onScrollToBottom } from '#lib/screen'
   import { onChange } from '#lib/svelte/svelte'
+  import { forceArray } from '#lib/utils'
+  import { i18n } from '#user/lib/i18n'
 
   export let entity, property, label
   export let claims = null
@@ -58,8 +58,7 @@
     if (loadingMore) return
     if (uris?.length > 0) displayedUris = uris.slice(0, displayLimit)
     if (isNonEmptyArray(displayedUris)) {
-      let missingUris
-      missingUris = displayedUris.filter(uri => !entitiesByUris[uri])
+      const missingUris = displayedUris.filter(uri => !entitiesByUris[uri])
       if (missingUris.length === 0) return
       loadingMore = getAndSerializeEntities(missingUris)
       const missingEntities = await loadingMore

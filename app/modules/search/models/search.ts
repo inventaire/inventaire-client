@@ -1,4 +1,5 @@
 import { forceArray } from '#lib/utils'
+
 export default Backbone.Model.extend({
   initialize (data) {
     if (data.timestamp == null) return this.updateTimestamp()
@@ -31,5 +32,5 @@ export default Backbone.Model.extend({
     } else {
       app.execute('search:global', query)
     }
-  }
+  },
 })

@@ -1,10 +1,10 @@
 <script>
-  import { onChange } from '#lib/svelte/svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
-  import { getSortingOptionsByName } from '#entities/components/lib/works_browser_helpers'
-  import { i18n } from '#user/lib/i18n'
   import { sortEntities } from '#entities/components/lib/sort_entities_by'
+  import { getSortingOptionsByName } from '#entities/components/lib/works_browser_helpers'
   import { icon } from '#lib/handlebars_helpers/icons'
+  import { onChange } from '#lib/svelte/svelte'
+  import { i18n } from '#user/lib/i18n'
 
   export let sortingType = 'work', entities, waitingForItems
 
@@ -24,7 +24,7 @@
     entities = await sortEntities({
       option,
       entities,
-      promise: waitingForItems
+      promise: waitingForItems,
     })
   }
 

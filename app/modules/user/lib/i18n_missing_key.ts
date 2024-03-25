@@ -1,5 +1,6 @@
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
+
 let missingKeys = []
 let disabled = false
 
@@ -17,7 +18,7 @@ const sendMissingKeys = function () {
     // Keys added after this point will join the next batch
     missingKeys = []
     return preq.post(app.API.i18n, { missingKeys: keysToSend })
-    .then(res => log_.info(keysToSend, 'i18n:missing added'))
+    .then(() => log_.info(keysToSend, 'i18n:missing added'))
     .catch(err => {
       if (err.statusCode !== 404) throw err
       log_.warn('i18n missing key service is disabled')

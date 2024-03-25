@@ -1,12 +1,12 @@
-import behaviorsPlugin from '#general/plugins/behaviors'
-import { contact } from '#lib/urls'
-import feedbackMenuTemplate from './templates/feedback_menu.hbs'
-import '../scss/feedback.scss'
 import ElasticTextarea from '#behaviors/elastic_textarea'
 import General from '#behaviors/general'
 import Loading from '#behaviors/loading'
 import PreventDefault from '#behaviors/prevent_default'
 import SuccessCheck from '#behaviors/success_check'
+import behaviorsPlugin from '#general/plugins/behaviors'
+import { contact } from '#lib/urls'
+import feedbackMenuTemplate from './templates/feedback_menu.hbs'
+import '../scss/feedback.scss'
 
 export default Marionette.View.extend({
   template: feedbackMenuTemplate,
@@ -34,7 +34,7 @@ export default Marionette.View.extend({
       user: app.user.toJSON(),
       contact,
       subject: this.options.subject,
-      standalone: this.standalone
+      standalone: this.standalone,
     }
   },
 
@@ -43,11 +43,11 @@ export default Marionette.View.extend({
     subject: '#subject',
     message: '#message',
     sendFeedback: '#sendFeedback',
-    confirmation: '#confirmation'
+    confirmation: '#confirmation',
   },
 
   events: {
-    'click a#sendFeedback': 'sendFeedback'
+    'click a#sendFeedback': 'sendFeedback',
   },
 
   onRender () { if (!this.standalone) { app.execute('modal:open') } },
@@ -68,7 +68,7 @@ export default Marionette.View.extend({
       subject: this.ui.subject.val(),
       uris: this.options.uris,
       message: this.ui.message.val(),
-      unknownUser: this.ui.unknownUser.val()
+      unknownUser: this.ui.unknownUser.val(),
     })
   },
 
@@ -93,5 +93,5 @@ export default Marionette.View.extend({
     if (this.isDestroyed()) return
     this.ui.confirmation.slideUp()
     this.ui.confirmation.removeAttr('role')
-  }
+  },
 })

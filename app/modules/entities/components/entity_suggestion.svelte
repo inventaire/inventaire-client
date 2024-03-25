@@ -1,9 +1,9 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import { entityTypeNameByType } from '#entities/lib/types/entities_types'
-  import { I18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getEntityImagePath } from '#entities/lib/entities'
+  import { entityTypeNameByType } from '#entities/lib/types/entities_types'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { I18n } from '#user/lib/i18n'
 
   export let suggestion, highlight, displaySuggestionType = false, scrollableElement
   let element
@@ -18,7 +18,7 @@
     if (element && highlight && scrollableElement) {
       scrollableElement.scroll({
         top: Math.max(0, (element.offsetTop - 20)),
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     }
   }

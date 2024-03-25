@@ -1,18 +1,19 @@
 import { isModel } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-export default function (app, _) {
-  const action = function (user, action, newStatus, label) {
+
+export default function (app) {
+  const action = function (user, action, newStatus) {
     let userId;
     [ user, userId ] = normalizeUser(user)
     const currentStatus = user.get('status')
     user.set('status', newStatus)
 
     return preq.post(app.API.relations, { action, user: userId })
-    .catch(rewind(user, currentStatus, 'action err'))
+    .catch(rewind(user, currentStatus))
   }
 
-  const rewind = (user, currentStatus, label) => err => {
+  const rewind = (user, currentStatus) => err => {
     user.set('status', currentStatus)
     log_.error(err, 'action')
     throw err
@@ -42,7 +43,7 @@ export default function (app, _) {
     unfriend (user) {
       [ user ] = normalizeUser(user)
       return action(user, 'unfriend', 'public')
-    }
+    },
   }
 
   const normalizeUser = user => {
@@ -62,6 +63,6 @@ export default function (app, _) {
     'request:cancel': API.cancelRequest,
     'request:accept': API.acceptRequest,
     'request:discard': API.discardRequest,
-    unfriend: API.unfriend
+    unfriend: API.unfriend,
   })
 }

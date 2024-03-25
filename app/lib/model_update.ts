@@ -38,7 +38,7 @@ export const Updater = function (fixedOptions) {
 
       const body = {
         attribute,
-        value
+        value,
       }
 
       if (action != null) body.action = action
@@ -53,7 +53,7 @@ export const Updater = function (fixedOptions) {
     if (selector != null) {
       app.request('waitForCheck', {
         promise,
-        selector
+        selector,
       })
     }
 

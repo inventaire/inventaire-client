@@ -1,9 +1,9 @@
 <script>
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import { i18n } from '#user/lib/i18n'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
-  import error_ from '#lib/error'
   import { tick } from 'svelte'
+  import { autofocus } from '#lib/components/actions/autofocus'
+  import error_ from '#lib/error'
+  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import { i18n } from '#user/lib/i18n'
 
   export let currentValue, getInputValue, datatype
 

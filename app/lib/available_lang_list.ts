@@ -1,5 +1,5 @@
-import log_ from '#lib/loggers'
 import wdLang from 'wikidata-lang'
+import log_ from '#lib/loggers'
 
 export default (availableLangs, selectedLang) => {
   return availableLangs

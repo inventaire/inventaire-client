@@ -1,16 +1,16 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import Flash from '#lib/components/flash.svelte'
-  import importers from '#inventory/lib/importer/importers'
-  import { createCandidate, byIndex } from '#inventory/lib/importer/import_helpers'
-  import { scrollToElement } from '#lib/screen'
-  import log_ from '#lib/loggers'
-  import FileImporter from './file_importer.svelte'
-  import IsbnImporter from './isbn_importer.svelte'
   import Counter from '#components/counter.svelte'
   import Spinner from '#components/spinner.svelte'
-  import { icon } from '#lib/icons'
   import { addExistingItemsCounts, createExternalEntry, getExternalEntriesEntities } from '#inventory/components/importer/lib/importers_section_helpers'
+  import { createCandidate, byIndex } from '#inventory/lib/importer/import_helpers'
+  import importers from '#inventory/lib/importer/importers'
+  import Flash from '#lib/components/flash.svelte'
+  import { icon } from '#lib/icons'
+  import log_ from '#lib/loggers'
+  import { scrollToElement } from '#lib/screen'
+  import { I18n } from '#user/lib/i18n'
+  import FileImporter from './file_importer.svelte'
+  import IsbnImporter from './isbn_importer.svelte'
 
   export let candidates, isbns, processing, isbnImporterEl
   export let processedExternalEntriesCount = 0
@@ -60,7 +60,7 @@
       createCandidateOneByOne(),
       createCandidateOneByOne(),
       createCandidateOneByOne(),
-      createCandidateOneByOne()
+      createCandidateOneByOne(),
     ])
       .then(async () => {
         // Display candidates in the order of the input

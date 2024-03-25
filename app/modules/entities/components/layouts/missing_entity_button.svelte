@@ -1,9 +1,9 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
+  import { locallyCreatableEntitiesTypes } from '#entities/lib/editor/properties_per_type'
   import { icon } from '#lib/icons'
   import { buildPath } from '#lib/location'
-  import { locallyCreatableEntitiesTypes } from '#entities/lib/editor/properties_per_type'
+  import { loadInternalLink } from '#lib/utils'
+  import { I18n } from '#user/lib/i18n'
 
   export let section
 

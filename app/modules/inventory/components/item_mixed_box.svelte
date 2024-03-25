@@ -1,10 +1,10 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
-  import { isOpenedOutside, loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { currentRoute } from '#lib/location'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { currentRoute } from '#lib/location'
+  import { isOpenedOutside, loadInternalLink } from '#lib/utils'
+  import { i18n } from '#user/lib/i18n'
 
   export let item, showDistance = false
 

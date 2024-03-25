@@ -1,9 +1,10 @@
-import { isEntityUri } from '#lib/boolean_tests'
+import Handlebars from 'handlebars/runtime.js'
 import entityValue from '#general/views/behaviors/templates/entity_value.hbs'
 import propertyValue from '#general/views/behaviors/templates/property_value.hbs'
+import { isEntityUri } from '#lib/boolean_tests'
 import error_ from '#lib/error'
-import Handlebars from 'handlebars/runtime'
-import { isWikidataItemId, isWikidataPropertyId, isWikidataPropertyUri } from '../boolean_tests'
+import { isWikidataItemId, isWikidataPropertyId, isWikidataPropertyUri } from '../boolean_tests.ts'
+
 const { SafeString, escapeExpression } = Handlebars
 
 export const prop = function (uri) {
@@ -45,7 +46,7 @@ const propertyWithSpecialLayout = [
   'wdt:P155', // preceded by (work)
   'wdt:P156', // followed by (work)
   'wdt:P737', // influenced by (human)
-  'wdt:P1066' // student of (human)
+  'wdt:P1066', // student of (human)
 ]
 
 // handlebars pass a sometime confusing {data:, hash: object} as last argument

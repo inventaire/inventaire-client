@@ -1,12 +1,12 @@
 <script>
-  import GroupBoardHeader from '#groups/components/group_board_header.svelte'
-  import GroupSettings from '#groups/components/group_settings.svelte'
-  import { I18n } from '#user/lib/i18n'
-  import FoldableSection from '#components/foldable_section.svelte'
-  import GroupRequests from '#groups/components/group_requests.svelte'
   import { slide } from 'svelte/transition'
+  import FoldableSection from '#components/foldable_section.svelte'
+  import GroupBoardHeader from '#groups/components/group_board_header.svelte'
   import GroupMembers from '#groups/components/group_members.svelte'
+  import GroupRequests from '#groups/components/group_requests.svelte'
+  import GroupSettings from '#groups/components/group_settings.svelte'
   import InviteUsers from '#groups/components/invite_users.svelte'
+  import { I18n } from '#user/lib/i18n'
   import InviteByEmail from '#users/components/invite_by_email.svelte'
 
   export let group

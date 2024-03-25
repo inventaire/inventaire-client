@@ -42,7 +42,7 @@ const specificMethods = {
     this.set('isCompositeEdition', (this.get('claims.wdt:P629')?.length > 1))
   },
 
-  onClaimsChange (property, oldValue, newValue) {
+  onClaimsChange (property) {
     this.setClaimsBasedAttributes()
     if (property === 'wdt:P629') this.initWorksRelations()
   },

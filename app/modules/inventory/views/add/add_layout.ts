@@ -1,9 +1,9 @@
+import PreventDefault from '#behaviors/prevent_default'
 import { scrollTo$Element, viewportIsSmall } from '#lib/screen'
 import { I18n } from '#user/lib/i18n'
 import tabsData from './lib/add_layout_tabs.ts'
 import addLayoutTemplate from './templates/add_layout.hbs'
 import '#inventory/scss/add_layout.scss'
-import PreventDefault from '#behaviors/prevent_default'
 
 export default Marionette.View.extend({
   template: addLayoutTemplate,

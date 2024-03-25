@@ -1,15 +1,15 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import Flash from '#lib/components/flash.svelte'
-  import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import app from '#app/app'
+  import Modal from '#components/modal.svelte'
+  import GroupProfile from '#groups/components/group_profile.svelte'
+  import Flash from '#lib/components/flash.svelte'
+  import { icon } from '#lib/icons'
+  import { loadInternalLink } from '#lib/utils'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import InviteByEmail from '#users/components/invite_by_email.svelte'
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
-  import GroupProfile from '#groups/components/group_profile.svelte'
-  import InviteByEmail from '#users/components/invite_by_email.svelte'
-  import Modal from '#components/modal.svelte'
+  import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
 
   export let focusedSection
 

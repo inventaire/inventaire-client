@@ -10,7 +10,7 @@
 
   const waitForData = getAuthorExtendedWorks({
     uri: author.uri,
-    attributes: [ 'info', 'labels', 'descriptions', 'claims', 'image' ]
+    attributes: [ 'info', 'labels', 'descriptions', 'claims', 'image' ],
   })
     .then(res => {
       ;({ series, works, articles } = res)

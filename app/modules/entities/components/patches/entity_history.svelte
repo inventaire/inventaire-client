@@ -1,14 +1,14 @@
 <script>
+  import FullScreenLoader from '#components/full_screen_loader.svelte'
   import Spinner from '#components/spinner.svelte'
+  import Patch from '#entities/components/patches/patch.svelte'
   import { getEntityBasicInfoByUri } from '#entities/lib/entities'
+  import { getEntityPatches } from '#entities/lib/patches'
   import { isCouchUuid } from '#lib/boolean_tests'
   import Flash from '#lib/components/flash.svelte'
   import error_ from '#lib/error'
-  import { I18n } from '#user/lib/i18n'
-  import Patch from '#entities/components/patches/patch.svelte'
-  import { getEntityPatches } from '#entities/lib/patches'
   import { loadInternalLink } from '#lib/utils'
-  import FullScreenLoader from '#components/full_screen_loader.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let uri
 

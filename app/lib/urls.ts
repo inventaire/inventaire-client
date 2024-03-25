@@ -16,7 +16,7 @@ export const dataHome = subdomain('data')
 
 export const contact = {
   email: 'hello@inventaire.io',
-  mailto: 'mailto:hello@inventaire.io'
+  mailto: 'mailto:hello@inventaire.io',
 }
 
 export const images = {
@@ -28,5 +28,5 @@ export const images = {
   // See app/modules/welcome/views/templates/credits.hbs for originals
   bokeh: image('bokeh.jpg'),
   brittanystevens: image('brittanystevens.jpg'),
-  defaultAvatar: image('default_avatar')
+  defaultAvatar: image('default_avatar'),
 }

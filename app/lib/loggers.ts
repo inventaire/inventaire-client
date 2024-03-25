@@ -57,7 +57,7 @@ const error = (err, label) => {
 
 const warn = (...args) => {
   console.warn('/!\\')
-  log.apply(null, args)
+  log(...args)
 }
 
 const PartialLogger = logger => label => obj => logger(obj, label)
@@ -73,7 +73,7 @@ export const log_ = {
       url: app.API.tests,
       // jquery defaults to x-www-form-urlencoded
       headers: { 'content-type': 'application/json' },
-      data: JSON.stringify({ obj, label })
+      data: JSON.stringify({ obj, label }),
     })
     return obj
   },
@@ -84,7 +84,7 @@ export const log_ = {
   ErrorRethrow: label => err => {
     error(err, label)
     throw err
-  }
+  },
 }
 
 export default log_

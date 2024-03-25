@@ -1,7 +1,7 @@
 import { compact, groupBy, pick, pluck, uniq } from 'underscore'
 import { isNonEmptyArray } from '#lib/boolean_tests'
-import { getUriNumericId } from '#lib/wikimedia/wikidata'
 import { sortObjectKeys } from '#lib/utils'
+import { getUriNumericId } from '#lib/wikimedia/wikidata'
 
 // Formatter URLs can be found on Wikidata, see https://www.wikidata.org/wiki/Property:P1630
 export const externalIdsDisplayConfigs = {

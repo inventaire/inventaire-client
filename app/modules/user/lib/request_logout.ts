@@ -8,7 +8,7 @@ export default redirect => {
   .catch(log_.Error('logout error'))
 }
 
-const logoutSuccess = redirect => function (data) {
+const logoutSuccess = redirect => function () {
   // Clearing localstorage
   localStorageProxy.clear()
   log_.info('You have been successfully logged out')

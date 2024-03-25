@@ -1,4 +1,5 @@
-import Handlebars from 'handlebars/runtime'
+import Handlebars from 'handlebars/runtime.js'
+
 const { SafeString, escapeExpression } = Handlebars
 
 // regex inspired by https://gist.github.com/efeminella/2034192

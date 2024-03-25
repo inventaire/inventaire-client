@@ -1,6 +1,6 @@
 export default Marionette.Behavior.extend({
   events: {
-    'click [aria-haspopup="menu"]': 'toggleDropdown'
+    'click [aria-haspopup="menu"]': 'toggleDropdown',
   },
 
   toggleDropdown (e) {
@@ -19,7 +19,7 @@ export default Marionette.Behavior.extend({
       // Let a delay so that the toggle click itself isn't catched by the listener
       this.view.setTimeout(closeOnClick.bind(this, $dropdown), 100)
     }
-  }
+  },
 })
 
 const hide = function ($dropdown) {

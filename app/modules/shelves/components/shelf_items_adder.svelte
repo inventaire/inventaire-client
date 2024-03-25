@@ -1,12 +1,12 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { getUserItems } from '#inventory/lib/queries'
   import { createEventDispatcher } from 'svelte'
-  import ShelfItemCandidate from '#shelves/components/shelf_item_candidate.svelte'
-  import InfiniteScroll from '#components/infinite_scroll.svelte'
   import { debounce } from 'underscore'
+  import InfiniteScroll from '#components/infinite_scroll.svelte'
+  import { getUserItems } from '#inventory/lib/queries'
+  import { icon } from '#lib/icons'
   import preq from '#lib/preq'
+  import ShelfItemCandidate from '#shelves/components/shelf_item_candidate.svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let shelf
 
@@ -39,7 +39,7 @@
   let searchHasMore = false
 
   async function search () {
-    let input = searchText?.trim() || ''
+    const input = searchText?.trim() || ''
     if (input === '' && !searchHasBeenNonEmpty) return
     if (mode === 'search' && lastInput === input) {
       searchOffset += batchLength
@@ -55,7 +55,7 @@
       searchHasBeenNonEmpty = true
     }
 
-    let offset = searchOffset
+    const offset = searchOffset
     const res = await preq.get(app.API.items.search({
       user: app.user.id,
       search: input,

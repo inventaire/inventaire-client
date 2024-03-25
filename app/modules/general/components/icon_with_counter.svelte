@@ -1,7 +1,7 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
   import { icon as iconFn } from '#lib/icons'
+  import { loadInternalLink } from '#lib/utils'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let label
   export let icon

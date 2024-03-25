@@ -1,4 +1,4 @@
-import { inspect } from 'util'
+import { inspect } from 'node:util'
 
 export const shouldNotBeCalled = res => {
   console.warn(inspect(res, false, null), 'undesired positive res')

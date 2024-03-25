@@ -1,10 +1,10 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
-  import { screen } from '#lib/components/stores/screen'
+  import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
+  import { screen } from '#lib/components/stores/screen'
+  import { I18n } from '#user/lib/i18n'
 
   const params = {
     lang: app.user.lang,

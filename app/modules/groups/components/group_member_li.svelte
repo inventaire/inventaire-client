@@ -3,8 +3,8 @@
   import Spinner from '#components/spinner.svelte'
   import { kickUserOutOfGroup, makeUserGroupAdmin, moveMembership } from '#groups/lib/groups'
   import Flash from '#lib/components/flash.svelte'
-  import { loadInternalLink } from '#lib/utils'
   import { icon } from '#lib/icons'
+  import { loadInternalLink } from '#lib/utils'
   import { I18n } from '#user/lib/i18n'
   import UserLi from '#users/components/user_li.svelte'
 

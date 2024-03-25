@@ -1,14 +1,14 @@
 import app from '#app/app'
+import { transactionsData } from '#inventory/lib/transactions_data'
+import assert_ from '#lib/assert_types'
+import { buildPath } from '#lib/location'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-import { transactionsData } from '#inventory/lib/transactions_data'
-import { i18n } from '#user/lib/i18n'
-import { getActionUserKey } from '#transactions/lib/transactions_actions'
-import assert_ from '#lib/assert_types'
-import { getUsersByIds } from '#users/users_data'
-import { serializeUser } from '#users/lib/users'
-import { buildPath } from '#lib/location'
 import { timeFromNow } from '#lib/time'
+import { getActionUserKey } from '#transactions/lib/transactions_actions'
+import { i18n } from '#user/lib/i18n'
+import { serializeUser } from '#users/lib/users'
+import { getUsersByIds } from '#users/users_data'
 
 // Keep in sync with server/models/attributes/transaction
 const basicNextActions = {
@@ -17,24 +17,24 @@ const basicNextActions = {
     // key: main user role in this transaction
     // value: possible actions
     owner: 'accept/decline',
-    requester: 'waiting:accepted'
+    requester: 'waiting:accepted',
   },
   accepted: {
     owner: 'waiting:confirmed',
-    requester: 'confirm'
+    requester: 'confirm',
   },
   declined: {
     owner: null,
-    requester: null
+    requester: null,
   },
   confirmed: {
     owner: null,
-    requester: null
+    requester: null,
   },
   cancelled: {
     owner: null,
-    requester: null
-  }
+    requester: null,
+  },
 }
 
 // customizing actions for transactions where the item should be returned
@@ -42,12 +42,12 @@ const basicNextActions = {
 const nextActionsWithReturn = _.extend({}, basicNextActions, {
   confirmed: {
     owner: 'returned',
-    requester: 'waiting:returned'
+    requester: 'waiting:returned',
   },
   returned: {
     owner: null,
-    requester: null
-  }
+    requester: null,
+  },
 })
 
 function getNextActionsList (transactionName) {
@@ -205,7 +205,7 @@ export async function markAsRead (transaction) {
   try {
     await preq.put(app.API.transactions.base, {
       id: transaction._id,
-      action: 'mark-as-read'
+      action: 'mark-as-read',
     })
     transaction.read[transaction.mainUserRole] = true
     transaction.mainUserRead = true
@@ -219,7 +219,7 @@ export async function updateTransactionState ({ transaction, state }) {
   const res = await preq.put(app.API.transactions.base, {
     transaction: transaction._id,
     state,
-    action: 'update-state'
+    action: 'update-state',
   })
   Object.assign(transaction, serializeTransaction(res.transaction))
   return transaction

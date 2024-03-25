@@ -1,15 +1,15 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import Flash from '#lib/components/flash.svelte'
-  import LeafletMap from '#map/components/leaflet_map.svelte'
-  import { getPositionFromNavigator } from '#map/lib/navigator_position'
-  import Marker from '#map/components/marker.svelte'
-  import Spinner from '#components/spinner.svelte'
   import { createEventDispatcher } from 'svelte'
+  import Spinner from '#components/spinner.svelte'
+  import Flash from '#lib/components/flash.svelte'
+  import { icon } from '#lib/icons'
   import { wait } from '#lib/promises'
-  import { truncateDecimals } from '#map/lib/geo'
+  import LeafletMap from '#map/components/leaflet_map.svelte'
   import LocationSearchInput from '#map/components/location_search_input.svelte'
+  import Marker from '#map/components/marker.svelte'
+  import { truncateDecimals } from '#map/lib/geo'
+  import { getPositionFromNavigator } from '#map/lib/navigator_position'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let type
   export let position

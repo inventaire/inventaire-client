@@ -8,7 +8,7 @@ describe('location utils', () => {
     goodEncoded: 'label=ench%C3%A2nt%C3%A9',
     uncompleteButGood: '?category=book&text=&claim=&answer=imhappy',
     goodWithObject: 'action=man&data={"a":["abc",2]}',
-    goodWithEncodedObject: 'action=man&data={%22wdt:P50%22:[%22wd:Q535%22]}'
+    goodWithEncodedObject: 'action=man&data={%22wdt:P50%22:[%22wd:Q535%22]}',
   }
 
   describe('parseQuery', () => {

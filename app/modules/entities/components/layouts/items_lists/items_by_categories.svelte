@@ -1,10 +1,10 @@
 <script>
-  import ItemsByCategory from './items_by_category.svelte'
-  import { categoriesHeaders, sortItemsByCategoryAndDistance } from './items_lists_helpers'
   import { createEventDispatcher, getContext } from 'svelte'
   import { icon } from '#lib/icons'
-  import { I18n, i18n } from '#user/lib/i18n'
   import { scrollToElement } from '#lib/screen'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import ItemsByCategory from './items_by_category.svelte'
+  import { categoriesHeaders, sortItemsByCategoryAndDistance } from './items_lists_helpers.ts'
 
   export let allItems = []
   export let itemsOnMap

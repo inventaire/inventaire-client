@@ -1,10 +1,10 @@
-import { isNonEmptyString } from '#lib/boolean_tests'
-import { i18n } from '#user/lib/i18n'
-import { countShelves } from '#shelves/lib/shelves'
-import { countListings } from '#listings/lib/listings'
 import Positionable from '#general/models/positionable'
+import { isNonEmptyString } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import { images } from '#lib/urls'
+import { countListings } from '#listings/lib/listings'
+import { countShelves } from '#shelves/lib/shelves'
+import { i18n } from '#user/lib/i18n'
 import { getUserPathnames } from '#users/lib/users'
 
 const { defaultAvatar } = images
@@ -22,7 +22,7 @@ export default Positionable.extend({
   matchable () {
     return [
       this.get('username'),
-      this.get('bio')
+      this.get('bio'),
     ]
   },
 
@@ -35,7 +35,7 @@ export default Positionable.extend({
       rss: this.getRss(),
       // Prevent having a big user picture as card
       // See https://github.com/inventaire/inventaire/issues/402
-      smallCardType: true
+      smallCardType: true,
     }
   },
 
@@ -67,7 +67,7 @@ export default Positionable.extend({
 
     const [ shelvesCount, listingsCount ] = await Promise.all([
       countShelves(this.get('_id')),
-      countListings(this.get('_id'))
+      countListings(this.get('_id')),
     ])
     this.set('shelvesCount', shelvesCount)
     this.set('listingsCount', listingsCount)
@@ -83,7 +83,7 @@ export default Positionable.extend({
 
   setDefaultPicture () {
     if (this.get('picture') == null) this.set('picture', defaultAvatar)
-  }
+  },
 })
 
 const aggregateScoreData = function (data, snapshotSection) {

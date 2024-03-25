@@ -8,7 +8,7 @@
   async function savePosition (latLng) {
     return app.request('user:update', {
       attribute: 'position',
-      value: latLng
+      value: latLng,
     })
   }
 </script>

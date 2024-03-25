@@ -1,15 +1,15 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { userContent } from '#lib/handlebars_helpers/user_content'
+  import { tick } from 'svelte'
+  import UserInventory from '#inventory/components/user_inventory.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { screen } from '#lib/components/stores/screen'
-  import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
-  import ProfileNav from '#users/components/profile_nav.svelte'
-  import UserInventory from '#inventory/components/user_inventory.svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { userContent } from '#lib/handlebars_helpers/user_content'
+  import { icon } from '#lib/icons'
   import UsersListings from '#listings/components/users_listings.svelte'
-  import { tick } from 'svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import ProfileNav from '#users/components/profile_nav.svelte'
+  import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
 
   export let user
   export let shelf = null

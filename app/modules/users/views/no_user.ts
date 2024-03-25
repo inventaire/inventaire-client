@@ -7,5 +7,5 @@ export default Marionette.View.extend({
 
   serializeData () {
     return { message: this.options.message || "can't find anyone with that name" }
-  }
+  },
 })

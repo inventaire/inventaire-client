@@ -1,11 +1,11 @@
 <script>
   import app from '#app/app'
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
-  import TransactionSelector from '#inventory/components/transaction_selector.svelte'
-  import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import Spinner from '#components/spinner.svelte'
+  import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
+  import TransactionSelector from '#inventory/components/transaction_selector.svelte'
+  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import { icon } from '#lib/icons'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   app.execute('modal:open', 'large')
 
@@ -57,7 +57,7 @@
   {#if transaction == null}
     <button
       class="editor-toggler"
-      on:click={e => transaction = 'inventorying'}
+      on:click={() => transaction = 'inventorying'}
     >
       {i18n('Edit items transaction')}
     </button>
@@ -66,7 +66,7 @@
       <button
         class="editor-untoggler"
         title={I18n('cancel')}
-        on:click={e => transaction = null}
+        on:click={() => transaction = null}
       >
         {@html icon('close')}
       </button>
@@ -77,7 +77,7 @@
   {#if visibility == null}
     <button
       class="editor-toggler"
-      on:click={e => visibility = []}
+      on:click={() => visibility = []}
     >
       {i18n('Edit items visibility')}
     </button>
@@ -86,7 +86,7 @@
       <button
         class="editor-untoggler"
         title={I18n('cancel')}
-        on:click={e => visibility = null}
+        on:click={() => visibility = null}
       >
         {@html icon('close')}
       </button>
@@ -97,7 +97,7 @@
   {#if shelves == null}
     <button
       class="editor-toggler"
-      on:click={e => shelves = []}
+      on:click={() => shelves = []}
     >
       {i18n('Edit items shelves')}
     </button>
@@ -106,7 +106,7 @@
       <button
         class="editor-untoggler"
         title={I18n('cancel')}
-        on:click={e => shelves = null}
+        on:click={() => shelves = null}
       >
         {@html icon('close')}
       </button>

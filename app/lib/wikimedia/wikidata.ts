@@ -15,7 +15,7 @@ export function searchWikidataEntities (params) {
     limit,
     continue: offset,
     format: 'json',
-    origin: '*'
+    origin: '*',
   })
 }
 

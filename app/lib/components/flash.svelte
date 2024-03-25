@@ -1,7 +1,7 @@
 <script>
+  import Spinner from '#general/components/spinner.svelte'
   import { icon } from '#lib/icons'
   import log_ from '#lib/loggers'
-  import Spinner from '#general/components/spinner.svelte'
   import { I18n } from '#user/lib/i18n'
 
   export let state = null
@@ -9,7 +9,7 @@
   const types = {
     success: { iconName: 'check' },
     info: { iconName: 'info-circle' },
-    error: { iconName: 'warning' }
+    error: { iconName: 'warning' },
   }
 
   const findIcon = type => types[type]?.iconName

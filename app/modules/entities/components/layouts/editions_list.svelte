@@ -1,9 +1,9 @@
 <script>
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { I18n } from '#user/lib/i18n'
+  import EditionCreation from './edition_creation.svelte'
   import EditionsListActions from './editions_list_actions.svelte'
   import EntitiesList from './entities_list.svelte'
-  import EditionCreation from './edition_creation.svelte'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
 
   export let hasSomeInitialEditions,
     someEditions,

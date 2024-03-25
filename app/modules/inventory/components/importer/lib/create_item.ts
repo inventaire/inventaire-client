@@ -24,7 +24,7 @@ export const createItem = async (edition, details, notes, transaction, visibilit
     notes,
     details,
     shelves,
-    entity: editionUri
+    entity: editionUri,
   }
   const item = await preq.post(app.API.items.base, itemData)
   log_.info('new item created', editionUri)

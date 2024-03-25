@@ -1,11 +1,11 @@
 <script>
-  import { isFunction } from 'underscore'
+  import { tick } from 'svelte'
   import { slide } from 'svelte/transition'
+  import { isFunction } from 'underscore'
+  import { screen } from '#lib/components/stores/screen'
   import { getActionKey } from '#lib/key_events'
   import { getViewportHeight, getViewportWidth } from '#lib/screen'
-  import { tick } from 'svelte'
   import { convertEmToPx } from '#lib/utils'
-  import { screen } from '#lib/components/stores/screen'
 
   export let buttonTitle = null
   export let align = null

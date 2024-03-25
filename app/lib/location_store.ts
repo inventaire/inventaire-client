@@ -1,6 +1,6 @@
-import { currentRoute, routeSection } from '#lib/location'
 import { readable } from 'svelte/store'
 import { debounce } from 'underscore'
+import { currentRoute, routeSection } from '#lib/location'
 
 function getLocationData (section, route) {
   route = route || currentRoute()

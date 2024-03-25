@@ -7,7 +7,7 @@ export default async (invEntityUri, wdEntityUri) => {
   const models = await app.request('get:entities:models', {
     uris: [ invEntityUri, wdEntityUri ],
     refresh: true,
-    index: true
+    index: true,
   })
   return getImportData(invEntityUri, wdEntityUri, models)
 }

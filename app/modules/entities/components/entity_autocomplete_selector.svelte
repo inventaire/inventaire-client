@@ -1,18 +1,18 @@
 <script>
-  import { autofocus as autofocusFn } from '#lib/components/actions/autofocus'
   import { createEventDispatcher } from 'svelte'
-  import Spinner from '#general/components/spinner.svelte'
-  import EntitySuggestion from './entity_suggestion.svelte'
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import typeSearch from '#entities/lib/search/type_search'
-  import { createByProperty } from '#entities/lib/create_entities'
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
+  import { propertiesWithValuesShortlists } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+  import { createByProperty } from '#entities/lib/create_entities'
+  import typeSearch from '#entities/lib/search/type_search'
+  import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
+  import Spinner from '#general/components/spinner.svelte'
+  import { autofocus as autofocusFn } from '#lib/components/actions/autofocus'
+  import { icon } from '#lib/icons'
+  import { getActionKey } from '#lib/key_events'
   import { wait } from '#lib/promises'
   import { getViewportHeight, onScrollToBottom } from '#lib/screen'
-  import { getActionKey } from '#lib/key_events'
-  import { propertiesWithValuesShortlists } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
-  import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import EntitySuggestion from './entity_suggestion.svelte'
 
   export let searchTypes
   export let currentEntityUri
@@ -119,7 +119,7 @@
     if (showSuggestionsStateBeforeBlur) showSuggestions = true
   }
 
-  async function onBlur (e) {
+  async function onBlur () {
     showSuggestionsStateBeforeBlur = showSuggestions
     // If the focus is lost because the user clicked on one of the suggestions,
     // let EntitySuggestion 'select' event be acted upon before the component
@@ -166,7 +166,7 @@
       fetching = true
       defaultSuggestions = defaultSuggestions || await getDefaultSuggestions({
         entity: relationSubjectEntity,
-        property: relationProperty
+        property: relationProperty,
       })
       fetching = false
       if (defaultSuggestions && canDefaultSuggestionsBeDisplayed) suggestions = defaultSuggestions

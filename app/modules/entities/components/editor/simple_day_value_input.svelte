@@ -1,9 +1,9 @@
 <script>
+  import { uniqueId } from 'underscore'
+  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import { getISODay } from '#lib/time'
   import SimpleDayValueInputField from './simple_day_value_input_field.svelte'
   import SimpleDayValueInputLabel from './simple_day_value_input_label.svelte'
-  import { uniqueId } from 'underscore'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
 
   export let currentValue, getInputValue
 

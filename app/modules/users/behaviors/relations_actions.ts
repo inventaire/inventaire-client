@@ -1,6 +1,6 @@
+import behaviorsPlugin from '#general/plugins/behaviors'
 import log_ from '#lib/loggers'
 import { I18n } from '#user/lib/i18n'
-import behaviorsPlugin from '#general/plugins/behaviors'
 
 export default Marionette.Behavior.extend({
   events: {
@@ -15,7 +15,7 @@ export default Marionette.Behavior.extend({
     'click .acceptRequest': 'acceptRequest',
     'click .refuseRequest': 'refuseRequest',
     'click .makeAdmin': 'makeAdmin',
-    'click .kick': 'kick'
+    'click .kick': 'kick',
   },
 
   cancel () { return app.request('request:cancel', this.view.model) },
@@ -69,5 +69,5 @@ export default Marionette.Behavior.extend({
     const username = this.view.model.get('username')
     const confirmationText = I18n(`${actionLabel}_confirmation`, { username })
     app.execute('ask:confirmation', { confirmationText, warningText, action })
-  }
+  },
 })

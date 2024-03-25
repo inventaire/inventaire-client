@@ -1,6 +1,6 @@
+import forms_ from '#general/lib/forms'
 import { isEmail } from '#lib/boolean_tests'
 import preq from '#lib/preq'
-import forms_ from '#general/lib/forms'
 
 async function verifyEmailAvailability (email) {
   if (email) await preq.get(app.API.auth.emailAvailability(email))
@@ -11,7 +11,7 @@ export default {
     return forms_.pass({
       value: email,
       tests: emailTests,
-      selector
+      selector,
     })
   },
 
@@ -22,13 +22,13 @@ export default {
       err.selector = selector
       throw err
     })
-  }
+  },
 }
 
 const emailTests = {
   "it doesn't look like an email" (email) {
     return !isEmail(email)
-  }
+  },
 }
 
 export function testEmail (email) {

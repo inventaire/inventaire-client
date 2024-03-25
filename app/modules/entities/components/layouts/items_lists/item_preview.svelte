@@ -1,10 +1,10 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { isOpenedOutside } from '#lib/utils'
   import { icon } from '#lib/icons'
+  import { isOpenedOutside } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
-  import { createEventDispatcher } from 'svelte'
 
   export let item
   export let displayCover

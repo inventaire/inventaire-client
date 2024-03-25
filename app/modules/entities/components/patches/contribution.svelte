@@ -1,11 +1,11 @@
 <script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import Link from '#lib/components/link.svelte'
   import Operation from '#entities/components/patches/operation.svelte'
+  import Link from '#lib/components/link.svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
   import { getISOTime, getLocalTimeString, timeFromNow } from '#lib/time'
+  import { loadInternalLink } from '#lib/utils'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let patch
   export let userContributionsContext = false

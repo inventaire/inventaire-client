@@ -1,6 +1,6 @@
+import { pluck } from 'underscore'
 import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
-import { pluck } from 'underscore'
 
 export const getListingWithElementsById = async (id, limit) => {
   const { list: listing } = await preq.get(app.API.listings.byId(id, limit))
@@ -54,7 +54,7 @@ export const removeElement = async (id, uri) => {
 export const serializeListing = listing => {
   const { _id: id } = listing
   return Object.assign(listing, {
-    pathname: getListingPathname(id)
+    pathname: getListingPathname(id),
   })
 }
 

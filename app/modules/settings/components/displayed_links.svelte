@@ -1,9 +1,9 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { getPropertiesFromWebsitesNames, getWebsitesNamesFromProperties, websitesByCategoryAndName } from '#entities/lib/entity_links'
-  import { onChange } from '#lib/svelte/svelte'
-  import Flash from '#lib/components/flash.svelte'
   import { debounce } from 'underscore'
+  import { getPropertiesFromWebsitesNames, getWebsitesNamesFromProperties, websitesByCategoryAndName } from '#entities/lib/entity_links'
+  import Flash from '#lib/components/flash.svelte'
+  import { onChange } from '#lib/svelte/svelte'
+  import { I18n } from '#user/lib/i18n'
 
   const { bibliographicDatabases, socialNetworks } = websitesByCategoryAndName
 
@@ -21,7 +21,7 @@
         stringifiedSavedCustomProperties = stringifiedProperties
         await app.request('user:update', {
           attribute: 'customProperties',
-          value: customProperties
+          value: customProperties,
         })
       }
     } catch (err) {

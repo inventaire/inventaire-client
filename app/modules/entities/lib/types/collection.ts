@@ -18,7 +18,7 @@ const specificMethods = {
     this.setLabelFromTitle()
   },
 
-  onClaimsChange (property, oldValue, newValue) {
+  onClaimsChange () {
     this.setClaimsBasedAttributes()
   },
 
@@ -29,5 +29,5 @@ const specificMethods = {
     const models = await app.request('get:entities:models', { uris: publishersUris })
     await Promise.all(_.invoke(models, 'initPublisherPublications'))
     return _.flatten(_.pluck(models, 'isolatedEditionsUris'))
-  }
+  },
 }

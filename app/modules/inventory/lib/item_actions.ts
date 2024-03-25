@@ -1,9 +1,9 @@
-import assert_ from '#lib/assert_types'
-import log_ from '#lib/loggers'
-import { i18n } from '#user/lib/i18n'
-import preq from '#lib/preq'
 import Item from '#inventory/models/item'
+import assert_ from '#lib/assert_types'
 import { isModel } from '#lib/boolean_tests'
+import log_ from '#lib/loggers'
+import preq from '#lib/preq'
+import { i18n } from '#user/lib/i18n'
 
 export default {
   create (itemData) {
@@ -72,7 +72,7 @@ export default {
     const warningText = i18n('cant_undo_warning')
 
     app.execute('ask:confirmation', { confirmationText, warningText, action, back })
-  }
+  },
 }
 
 const getItemId = item => {

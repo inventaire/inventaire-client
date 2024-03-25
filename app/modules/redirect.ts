@@ -1,8 +1,8 @@
 import assert_ from '#lib/assert_types'
-import log_ from '#lib/loggers'
-import { I18n, i18n } from '#user/lib/i18n'
 import { currentRoute } from '#lib/location'
+import log_ from '#lib/loggers'
 import { setPrerenderStatusCode, isPrerenderSession } from '#lib/metadata/update'
+import { I18n, i18n } from '#user/lib/i18n'
 import { showMainUserProfile } from '#users/users'
 
 export default {
@@ -15,8 +15,8 @@ export default {
         'donate(/)': 'showDonate',
         'feedback(/)': 'showFeedback',
         'me(/)': 'showMainUser',
-        '*route': 'notFound'
-      }
+        '*route': 'notFound',
+      },
     })
 
     new Router({ controller: API })
@@ -24,7 +24,7 @@ export default {
     app.reqres.setHandlers({
       'require:loggedIn': requireLoggedIn,
       'require:admin:access': requireAdminAccess,
-      'require:dataadmin:access': requireDataadminAccess
+      'require:dataadmin:access': requireDataadminAccess,
     })
 
     app.commands.setHandlers({
@@ -37,9 +37,9 @@ export default {
       'show:call:to:connection': showCallToConnection,
       'show:error:cookieRequired': showErrorCookieRequired,
       'show:signup:redirect': showSignupRedirect,
-      'show:login:redirect': showLoginRedirect
+      'show:login:redirect': showLoginRedirect,
     })
-  }
+  },
 }
 
 const API = {
@@ -70,8 +70,8 @@ const API = {
     app.layout.showChildComponent('main', WelcomeLayout)
     app.navigate('welcome', {
       metadata: {
-        title: i18n('Welcome to Inventaire')
-      }
+        title: i18n('Welcome to Inventaire'),
+      },
     })
   },
 
@@ -84,7 +84,7 @@ const API = {
     showMenuStandalone(FeedbackMenu, 'feedback')
   },
 
-  showMainUser () { app.execute('show:inventory:main:user') }
+  showMainUser () { app.execute('show:inventory:main:user') },
 }
 
 const requireLoggedIn = function (route) {
@@ -131,7 +131,7 @@ const getRedirectedRoute = function (route) {
 }
 
 const noRedirectionRequired = [
-  'welcome'
+  'welcome',
 ]
 
 const showSignupRedirect = showAuthRedirect.bind(null, 'signup')
@@ -154,7 +154,7 @@ const showErrorMissing = (params = {}) => {
     header: I18n('oops'),
     message: i18n("this resource doesn't exist or you don't have the right to access it"),
     context: pathname,
-    statusCode: 404
+    statusCode: 404,
   })
 }
 
@@ -164,7 +164,7 @@ const showErrorNotAdmin = () => showError({
   header: I18n('oops'),
   message: i18n('this resource requires to have admin rights to access it'),
   context: location.pathname,
-  statusCode: 403
+  statusCode: 403,
 })
 
 const showOtherError = function (err, label) {
@@ -176,14 +176,14 @@ const showOtherError = function (err, label) {
     header: I18n('error'),
     message: err.message,
     context: err.context,
-    statusCode: err.statusCode
+    statusCode: err.statusCode,
   })
 }
 
 const showOfflineError = () => showError({
   name: 'offline',
   icon: 'plug',
-  header: i18n("can't reach the server")
+  header: i18n("can't reach the server"),
 })
 
 const showErrorCookieRequired = command => showError({
@@ -196,8 +196,8 @@ const showErrorCookieRequired = command => showError({
     classes: 'dark-grey',
     buttonAction () {
       if (command != null) app.execute(command)
-    }
-  }
+    },
+  },
 })
 
 const showError = async options => {

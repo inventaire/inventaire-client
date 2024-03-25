@@ -1,8 +1,9 @@
 import { currentRoute } from '#lib/location'
+
 const routeAllowlist = [
   'signup',
   'login',
-  'login/reset-password'
+  'login/reset-password',
 ]
 
 export default function (e) {

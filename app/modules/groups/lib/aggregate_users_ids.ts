@@ -39,5 +39,5 @@ const aggregates = {
   membersStrict: 'members',
   members: [ 'admins', 'members' ],
   invited: 'invited',
-  requested: 'requested'
+  requested: 'requested',
 }

@@ -1,11 +1,11 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
   import { createEventDispatcher } from 'svelte'
-  import { autofocus } from '#lib/components/actions/autofocus'
   import _ from 'underscore'
-  import EntityPreview from './entity_preview.svelte'
+  import { autofocus } from '#lib/components/actions/autofocus'
   import Flash from '#lib/components/flash.svelte'
+  import { icon } from '#lib/icons'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import EntityPreview from './entity_preview.svelte'
 
   const dispatch = createEventDispatcher()
   const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 200)

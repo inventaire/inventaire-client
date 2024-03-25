@@ -1,11 +1,11 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import getOriginalLang from '#entities/lib/get_original_lang'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
-  import SourceLogo from '#inventory/components/entity_source_logo.svelte'
+  import getOriginalLang from '#entities/lib/get_original_lang'
   import EntityResolverInput from '#inventory/components/entity_resolver_input.svelte'
+  import SourceLogo from '#inventory/components/entity_source_logo.svelte'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { I18n } from '#user/lib/i18n'
 
   export let isbnData
   export let edition

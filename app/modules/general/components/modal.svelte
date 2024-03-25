@@ -3,11 +3,11 @@
 </script>
 
 <script>
-  import { getActionKey } from '#lib/key_events'
-  import { icon } from '#lib/icons'
-  import { I18n } from '#user/lib/i18n'
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
+  import { icon } from '#lib/icons'
+  import { getActionKey } from '#lib/key_events'
+  import { I18n } from '#user/lib/i18n'
 
   export let size = 'medium'
 

@@ -1,12 +1,12 @@
 <script>
   import InfiniteScroll from '#components/infinite_scroll.svelte'
+  import Contribution from '#entities/components/patches/contribution.svelte'
   import { serializePatches } from '#entities/lib/patches'
   import Flash from '#lib/components/flash.svelte'
   import preq from '#lib/preq'
   import { getLocalTimeString, timeFromNow } from '#lib/time'
   import { loadInternalLink } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
-  import Contribution from '#entities/components/patches/contribution.svelte'
 
   export let user = null
   export let filter = null

@@ -1,6 +1,6 @@
+import error_ from '#lib/error'
 import preq from '#lib/preq'
 import { searchWikidataEntities } from '#lib/wikimedia/wikidata'
-import error_ from '#lib/error'
 
 // Uses wbsearchentities despite its lack of inter-languages support
 // because it returns hits labels, descriptions and aliases

@@ -1,5 +1,5 @@
-import { isNonEmptyArray } from '#lib/boolean_tests'
 import { getAndAssignPopularity } from '#entities/lib/entities'
+import { isNonEmptyArray } from '#lib/boolean_tests'
 
 const sortingPromises = {
   byPopularity: getAndAssignPopularity,

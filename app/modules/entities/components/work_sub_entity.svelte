@@ -1,9 +1,9 @@
 <script>
-  import EntityPreview from './entity_preview.svelte'
-  import { I18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
   import Link from '#lib/components/link.svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getActionKey } from '#lib/key_events'
+  import { I18n } from '#user/lib/i18n'
+  import EntityPreview from './entity_preview.svelte'
 
   export let entity, filterPattern, aggregatedLabelsAndAliases
 

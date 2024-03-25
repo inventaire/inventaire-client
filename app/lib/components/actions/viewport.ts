@@ -22,6 +22,6 @@ export default function viewport (element) {
   return {
     destroy () {
       intersectionObserver.unobserve(element)
-    }
+    },
   }
 }

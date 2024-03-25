@@ -57,7 +57,7 @@ const prioritizedProperties = [
 for (const property of prioritizedProperties) {
   propertiesEditorsCustomizations[property] = {
     // The lowest the `order` value, the higher the property will be displayed
-    order: prioritizedProperties.indexOf(property) - prioritizedProperties.length
+    order: prioritizedProperties.indexOf(property) - prioritizedProperties.length,
   }
 }
 

@@ -16,7 +16,7 @@ export default Marionette.View.extend({
   },
 
   events: {
-    'click .loginRequest': 'showLogin'
+    'click .loginRequest': 'showLogin',
   },
 
   showLogin () {
@@ -25,5 +25,5 @@ export default Marionette.View.extend({
     app.execute('modal:close')
   },
 
-  onModalExit () { app.execute('show:entity', this.model.get('uri')) }
+  onModalExit () { app.execute('show:entity', this.model.get('uri')) },
 })

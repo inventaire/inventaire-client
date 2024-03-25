@@ -1,7 +1,7 @@
+import Loading from '#behaviors/loading'
+import { startLoading } from '#general/plugins/behaviors'
 import wikidataDataImporterTemplate from './templates/wikidata_data_importer.hbs'
 import '../scss/wikidata_data_importer.scss'
-import { startLoading } from '#general/plugins/behaviors'
-import Loading from '#behaviors/loading'
 
 export default Marionette.View.extend({
   className: 'wikidata-data-importer',
@@ -21,13 +21,13 @@ export default Marionette.View.extend({
     return {
       labels: this.labels,
       claims: this.claims,
-      wdEntity: this.wdEntity.toJSON()
+      wdEntity: this.wdEntity.toJSON(),
     }
   },
 
   events: {
     'click #importData': 'importSelectedData',
-    'click #mergeWithoutImport': 'mergeWithoutImport'
+    'click #mergeWithoutImport': 'mergeWithoutImport',
   },
 
   importSelectedData () {
@@ -59,7 +59,7 @@ export default Marionette.View.extend({
   done () {
     this.options.resolve()
     app.execute('modal:close')
-  }
+  },
 })
 
 // Using jQuery as el.attributes.checked.value doesn't reflect the actual state of the checkbox

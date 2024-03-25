@@ -1,17 +1,17 @@
 <script>
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import BaseLayout from './base_layout.svelte'
-  import AuthorsInfo from './authors_info.svelte'
-  import Infobox from './infobox.svelte'
-  import EntityTitle from './entity_title.svelte'
-  import ItemsLists from './items_lists.svelte'
-  import EditionActions from './edition_actions.svelte'
-  import Summary from '#entities/components/layouts/summary.svelte'
   import { tick } from 'svelte'
-  import { runEntityNavigate } from '#entities/lib/document_metadata'
-  import { scrollToElement } from '#lib/screen'
+  import Summary from '#entities/components/layouts/summary.svelte'
   import WorksOtherEditions from '#entities/components/layouts/works_other_editions.svelte'
   import { addWorksClaims } from '#entities/components/lib/entities'
+  import { runEntityNavigate } from '#entities/lib/document_metadata'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { scrollToElement } from '#lib/screen'
+  import AuthorsInfo from './authors_info.svelte'
+  import BaseLayout from './base_layout.svelte'
+  import EditionActions from './edition_actions.svelte'
+  import EntityTitle from './entity_title.svelte'
+  import Infobox from './infobox.svelte'
+  import ItemsLists from './items_lists.svelte'
 
   export let entity, works
 

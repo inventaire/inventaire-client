@@ -1,5 +1,5 @@
-import { isOpenedOutside } from '#lib/utils'
 import behaviorsPlugin from '#general/plugins/behaviors'
+import { isOpenedOutside } from '#lib/utils'
 import { i18n } from '#user/lib/i18n'
 
 const groupViewsCommons = {
@@ -12,7 +12,7 @@ const groupViewsCommons = {
     'click .decline': 'declineInvitation',
     'click .joinRequest': 'joinRequest',
     'click .joinGroup': 'joinGroup',
-    'click .cancelRequest': 'cancelRequest'
+    'click .cancelRequest': 'cancelRequest',
   },
 
   showGroup (e) {
@@ -46,7 +46,7 @@ const groupViewsCommons = {
       return app.execute('ask:confirmation', {
         confirmationText: i18n('join_open_group_confirmation', { name: this.model.get('name') }),
         warningText: i18n('join_open_group_warning'),
-        action: this.joinGroupAction.bind(this)
+        action: this.joinGroupAction.bind(this),
       })
     }
   },
@@ -64,7 +64,7 @@ const groupViewsCommons = {
   cancelRequest () {
     return this.model.cancelRequest()
     .catch(behaviorsPlugin.Fail.call(this, 'cancelRequest'))
-  }
+  },
 }
 
 export const GroupLayoutView = Marionette.View.extend(groupViewsCommons)

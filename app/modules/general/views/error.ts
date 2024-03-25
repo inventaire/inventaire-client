@@ -1,7 +1,7 @@
+import PreventDefault from '#behaviors/prevent_default'
 import { isOpenedOutside } from '#lib/utils'
 import errorTemplate from './templates/error.hbs'
 import '../scss/error_layout.scss'
-import PreventDefault from '#behaviors/prevent_default'
 
 export default Marionette.View.extend({
   id: 'errorLayout',
@@ -13,11 +13,11 @@ export default Marionette.View.extend({
   serializeData () { return this.options },
 
   events: {
-    'click .button': 'buttonAction'
+    'click .button': 'buttonAction',
   },
 
   ui: {
-    errorBox: '.errorBox'
+    errorBox: '.errorBox',
   },
 
   buttonAction (e) {

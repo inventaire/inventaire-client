@@ -1,10 +1,10 @@
+import { compact, pluck, uniq } from 'underscore'
 import { getEntitiesBasicInfoByUris } from '#entities/lib/entities'
 import preq from '#lib/preq'
 import { unprefixify } from '#lib/wikimedia/wikidata'
 import { i18n } from '#user/lib/i18n'
 import { serializeUser } from '#users/lib/users'
 import { getUsersByIds } from '#users/users_data'
-import { compact, pluck, uniq } from 'underscore'
 
 export async function getEntityPatches (entityId) {
   const { patches } = await preq.get(app.API.entities.history(entityId))
@@ -31,7 +31,7 @@ export async function serializePatches (patches) {
 
 async function getPatchesUsers (patches) {
   const usersIds = compact(pluck(patches, 'user'))
-  let usersByIds = await getUsersByIds(usersIds)
+  const usersByIds = await getUsersByIds(usersIds)
   Object.values(usersByIds).forEach(serializeUser)
   return usersByIds
 }

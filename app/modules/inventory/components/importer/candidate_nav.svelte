@@ -1,6 +1,6 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
   import { icon } from '#lib/icons'
+  import { I18n } from '#user/lib/i18n'
 
   export let candidates
 

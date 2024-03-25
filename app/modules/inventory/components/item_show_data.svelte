@@ -1,12 +1,12 @@
 <script>
-  import { I18n } from '#user/lib/i18n'
-  import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
-  import ItemRequestBox from '#inventory/components/item_request_box.svelte'
-  import ItemUserBox from '#inventory/components/item_user_box.svelte'
-  import ItemTransactionBox from '#inventory/components/item_transaction_box.svelte'
-  import ItemVisibilityBox from '#inventory/components/item_visibility_box.svelte'
   import ItemDetails from '#inventory/components/item_details.svelte'
+  import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
   import ItemNotes from '#inventory/components/item_notes.svelte'
+  import ItemRequestBox from '#inventory/components/item_request_box.svelte'
+  import ItemTransactionBox from '#inventory/components/item_transaction_box.svelte'
+  import ItemUserBox from '#inventory/components/item_user_box.svelte'
+  import ItemVisibilityBox from '#inventory/components/item_visibility_box.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let item, user, flash
 

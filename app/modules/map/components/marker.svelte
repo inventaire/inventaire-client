@@ -1,8 +1,8 @@
 <script>
-  import { onChange } from '#lib/svelte/svelte'
   import L from 'leaflet'
   import { getContext, onDestroy, onMount, tick } from 'svelte'
   import log_ from '#lib/loggers'
+  import { onChange } from '#lib/svelte/svelte'
 
   export let latLng
   export let standalone = false
@@ -30,7 +30,7 @@
       const icon = L.divIcon({
         html: markerElement,
         // Let the children elements determine the size
-        iconSize: [ 0, 0 ]
+        iconSize: [ 0, 0 ],
       })
       marker = L.marker(latLng, { icon }).addTo(targetLayer)
     }

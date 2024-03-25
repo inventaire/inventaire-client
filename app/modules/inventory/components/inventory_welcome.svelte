@@ -1,6 +1,6 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
   import Link from '#lib/components/link.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
 </script>
 
 <div class="inventory-welcome">

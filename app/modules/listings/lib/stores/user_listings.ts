@@ -1,5 +1,6 @@
-import { getListingsByCreators } from '#listings/lib/listings'
 import { writable } from 'svelte/store'
+import { getListingsByCreators } from '#listings/lib/listings'
+
 const noop = () => {}
 
 export const userListings = writable([], start)

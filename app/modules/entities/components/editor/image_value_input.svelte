@@ -1,11 +1,11 @@
 <script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { getFirstFileDataUrl, resetFileInput } from '#lib/files'
-  import { getCropper, getImageHashFromDataUrl, getUrlDataUrl } from '#lib/images'
-  import { isUrl } from '#lib/boolean_tests'
-  import Spinner from '#components/spinner.svelte'
   import { createEventDispatcher } from 'svelte'
+  import Spinner from '#components/spinner.svelte'
+  import { isUrl } from '#lib/boolean_tests'
+  import { getFirstFileDataUrl, resetFileInput } from '#lib/files'
+  import { icon } from '#lib/icons'
+  import { getCropper, getImageHashFromDataUrl, getUrlDataUrl } from '#lib/images'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let currentValue, getInputValue, fileInput, waitingForCropper, imageElement
 
@@ -71,7 +71,7 @@
           minCropBoxWidth: 100,
           minCropBoxHeight: 100,
           zoomable: false,
-          crop: () => imageWasCropped = true
+          crop: () => imageWasCropped = true,
         })
       }
     }

@@ -1,8 +1,8 @@
-import { forceArray } from '#lib/utils'
-import preq from '#lib/preq'
-import error_ from '#lib/error'
 import _dataURLtoBlob from 'blueimp-canvas-to-blob'
 import { isDataUrl } from '#lib/boolean_tests'
+import error_ from '#lib/error'
+import preq from '#lib/preq'
+import { forceArray } from '#lib/utils'
 
 export async function getUrlDataUrl (url) {
   const { 'data-url': dataUrl } = await preq.get(app.API.images.dataUrl(url))
@@ -33,7 +33,7 @@ export function resizeDataUrl (dataURL, maxSize, outputQuality = 1) {
     }
 
     // This exact message is expected by the Img model
-    image.onerror = e => reject(new Error('invalid image'))
+    image.onerror = () => reject(new Error('invalid image'))
 
     image.src = dataURL
   })
@@ -136,7 +136,7 @@ const someSuggestedColors = [
   '8bc34a',
   '9c27b0',
   '9e9e9e',
-  'cddc39'
+  'cddc39',
 ]
 
 export const getColorHexCodeFromModelId = function (modelId) {

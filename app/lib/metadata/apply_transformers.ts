@@ -36,7 +36,7 @@ export const transformers = {
     } else {
       return absolutePath(app.API.img(url))
     }
-  }
+  },
 }
 
 const withTransformers = Object.keys(transformers)

@@ -1,9 +1,9 @@
 <script>
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { getTransactionStateText, serializeTransaction } from '#transactions/lib/transactions'
   import { onMount, tick } from 'svelte'
+  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { icon } from '#lib/icons'
+  import { loadInternalLink } from '#lib/utils'
+  import { getTransactionStateText, serializeTransaction } from '#transactions/lib/transactions'
 
   export let transaction
   export let selectedTransaction = null

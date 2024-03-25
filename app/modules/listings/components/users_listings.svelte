@@ -1,14 +1,14 @@
 <script>
-  import { i18n } from '#user/lib/i18n'
+  import Modal from '#components/modal.svelte'
+  import Spinner from '#components/spinner.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import Flash from '#lib/components/flash.svelte'
-  import Spinner from '#components/spinner.svelte'
-  import ListingsLayout from '#modules/listings/components/listings_layout.svelte'
-  import { getListingsByCreators, serializeListing } from '#modules/listings/lib/listings'
-  import Modal from '#components/modal.svelte'
-  import ListingEditor from '#listings/components/listing_editor.svelte'
   import { icon } from '#lib/icons'
   import { getViewportHeight, getViewportWidth } from '#lib/screen'
+  import ListingEditor from '#listings/components/listing_editor.svelte'
+  import ListingsLayout from '#modules/listings/components/listings_layout.svelte'
+  import { getListingsByCreators, serializeListing } from '#modules/listings/lib/listings'
+  import { i18n } from '#user/lib/i18n'
 
   export let usersIds, onUserLayout
 
@@ -27,7 +27,7 @@
         usersIds,
         withElements: true,
         limit,
-        offset
+        offset,
       })
       if (isNonEmptyArray(newListings)) {
         listings = [ ...listings, ...newListings.map(serializeListing) ]

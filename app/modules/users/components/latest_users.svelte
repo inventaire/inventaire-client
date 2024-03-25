@@ -3,14 +3,14 @@
   import Flash from '#lib/components/flash.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import preq from '#lib/preq'
-  import { loadInternalLink } from '#lib/utils'
   import { getSimpleTime } from '#lib/time'
+  import { loadInternalLink } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
   import { serializeUser } from '#users/lib/users'
 
   let flash
   let users = []
-  let limit = 10
+  const limit = 10
   let offset, fetching
   async function fetchMore () {
     try {

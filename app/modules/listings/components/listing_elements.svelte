@@ -1,15 +1,15 @@
 <script>
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { i18n, I18n } from '#user/lib/i18n'
-  import Flash from '#lib/components/flash.svelte'
-  import Spinner from '#general/components/spinner.svelte'
-  import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
-  import { addElement, removeElement } from '#listings/lib/listings'
-  import ListingElement from './listing_element.svelte'
-  import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { pluck } from 'underscore'
+  import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
+  import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
+  import Spinner from '#general/components/spinner.svelte'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import Flash from '#lib/components/flash.svelte'
   import { getViewportHeight } from '#lib/screen'
+  import { addElement, removeElement } from '#listings/lib/listings'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import ListingElement from './listing_element.svelte'
 
   export let elements = [], listingId, isEditable
 
@@ -27,7 +27,7 @@
     const res = await getEntitiesAttributesByUris({
       uris,
       attributes: [ 'info', 'labels', 'descriptions', 'image' ],
-      lang: app.user.lang
+      lang: app.user.lang,
     })
     const entitiesByUris = res.entities
     const entities = Object.values(entitiesByUris).map(serializeEntity)
@@ -62,7 +62,7 @@
       if (isNonEmptyArray(alreadyInList)) {
         return flash = {
           type: 'info',
-          message: i18n('This work is already in the list')
+          message: i18n('This work is already in the list'),
         }
       }
       // Re fetch entities with fitting attributes.
@@ -70,7 +70,7 @@
       paginatedElements = [ ...paginatedElements, ...createdElements ]
       return flash = {
         type: 'success',
-        message: i18n('Added to the list')
+        message: i18n('Added to the list'),
       }
     } catch (err) {
       flash = err
