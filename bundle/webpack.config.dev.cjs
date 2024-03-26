@@ -15,6 +15,4 @@ Object.assign(webpackConfig, {
   },
 })
 
-webpackConfig.plugins.push(require('./plugins/detect_unused_files.cjs'))
-
 module.exports = webpackConfig
