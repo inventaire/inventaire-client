@@ -1,6 +1,7 @@
 // Deduce the core-js version to use from the version installed
 // to pickup new feature versions automatically
 const coreJsVersion = require('core-js/package.json').version.split('.').slice(0, 2).join('.')
+
 if (coreJsVersion.split('.')[0] !== '3') {
   throw new Error('Expected core-js 3.x to be installed')
 }

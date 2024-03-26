@@ -1,5 +1,5 @@
 const postcssPresetEnv = require('postcss-preset-env')()
-
+// eslint-disable-next-line import/order
 const cssnano = require('cssnano')({
   preset: [
     'default',
@@ -7,8 +7,8 @@ const cssnano = require('cssnano')({
       discardComments: {
         removeAll: true,
       },
-    }
-  ]
+    },
+  ],
 })
 
 module.exports = {
@@ -19,6 +19,6 @@ module.exports = {
         postcssPresetEnv,
         cssnano,
       ],
-    }
-  }
+    },
+  },
 }
