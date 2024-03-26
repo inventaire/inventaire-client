@@ -1,4 +1,5 @@
 import enumerateDevices from 'enumerate-devices'
+import { any } from 'underscore'
 
 export default () => {
   window.waitForDeviceDetection = enumerateDevices()
@@ -22,6 +23,6 @@ This can be fixed in Firefox about:config by setting the following parameters:
     })
 }
 
-const hasVideoInput = devices => _.any(devices, isVideoInput)
+const hasVideoInput = devices => any(devices, isVideoInput)
 
 const isVideoInput = device => device.kind === 'videoinput'

@@ -1,3 +1,4 @@
+import { uniq } from 'underscore'
 import preq from '#lib/preq'
 import { chunk } from '#lib/utils'
 
@@ -8,7 +9,7 @@ export default async function (userId, uris) {
   // to put in a URL querystring without risking to reach URL character limit
   // Known case: when /add/import gets to import very large collections
   // The alternative would be to convert the endpoint to a POST verb to pass those uris in a body
-  const urisBatches = chunk(_.uniq(uris).sort(), 50)
+  const urisBatches = chunk(uniq(uris).sort(), 50)
 
   const counts = {}
   const getBatchesSequentially = function () {

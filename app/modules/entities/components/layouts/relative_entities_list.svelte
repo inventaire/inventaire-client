@@ -1,5 +1,5 @@
 <script>
-  import { uniq, indexBy } from 'underscore'
+  import { debounce, uniq, indexBy } from 'underscore'
   import Spinner from '#components/spinner.svelte'
   import RelativeEntityLayout from '#entities/components/layouts/relative_entity_layout.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
@@ -71,7 +71,7 @@
   // otherwise on:scroll wont be triggered
   let displayLimit = 45
   function displayMore () { displayLimit += 10 }
-  const lazyDisplay = _.debounce(displayMore, 300)
+  const lazyDisplay = debounce(displayMore, 300)
   $: onChange(displayLimit, uris, getMissingEntities)
 </script>
 

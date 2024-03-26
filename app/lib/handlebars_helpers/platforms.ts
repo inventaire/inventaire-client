@@ -1,3 +1,4 @@
+import { identity } from 'underscore'
 import { viewportIsSmall } from '#lib/screen'
 import { i18n } from '#user/lib/i18n'
 
@@ -21,12 +22,12 @@ export default {
   },
   'wdt:P2003': {
     icon: 'instagram',
-    text: _.identity,
+    text: identity,
     url (username) { return `https://instagram.com/${username}` },
   },
   'wdt:P2013': {
     icon: 'facebook',
-    text: _.identity,
+    text: identity,
     url (facebookId) { return `https://facebook.com/${facebookId}` },
   },
   'wdt:P2034': {
@@ -41,7 +42,7 @@ export default {
   },
   'wdt:P4033': {
     icon: 'mastodon',
-    text: _.identity,
+    text: identity,
     url (address) {
       const [ username, domain ] = address.split('@')
       return `https://${domain}/@${username}`

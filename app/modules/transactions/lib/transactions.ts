@@ -39,7 +39,7 @@ const basicNextActions = {
 
 // customizing actions for transactions where the item should be returned
 // currently only 'lending'
-const nextActionsWithReturn = _.extend({}, basicNextActions, {
+const nextActionsWithReturn = Object.assign({}, basicNextActions, {
   confirmed: {
     owner: 'returned',
     requester: 'waiting:returned',

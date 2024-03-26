@@ -1,4 +1,5 @@
 <script>
+  import { property } from 'underscore'
   import CandidateNav from '#inventory/components/importer/candidate_nav.svelte'
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
   import { scrollToElement } from '#lib/screen'
@@ -12,7 +13,7 @@
     if (processing) scrollToElement(titleEl)
   }
   $: candidatesLength = candidates.length
-  $: selectedBooksCount = candidates.filter(_.property('checked')).length
+  $: selectedBooksCount = candidates.filter(property('checked')).length
 </script>
 <h3 bind:this={titleEl}>2/ {i18n('Select the books you want to add')}</h3>
 {#if candidatesLength > 20}

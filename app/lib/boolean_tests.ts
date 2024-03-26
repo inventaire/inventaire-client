@@ -1,3 +1,4 @@
+import { isString, isArray } from 'underscore'
 import * as regex_ from '#lib/regex'
 import typeOf from '#lib/type_of'
 // Keep in sync with server/lib/boolean_tests
@@ -5,7 +6,7 @@ import typeOf from '#lib/type_of'
 export const isCouchUuid = regex_.CouchUuid.test.bind(regex_.CouchUuid)
 const bindedTest = regexName => regex_[regexName].test.bind(regex_[regexName])
 
-export const isNonEmptyString = str => _.isString(str) && (str.length > 0)
+export const isNonEmptyString = str => isString(str) && (str.length > 0)
 
 export const isUrl = url => {
   try {
@@ -43,12 +44,12 @@ export const isWikidataPropertyUri = bindedTest('WikidataPropertyUri')
 
 export const isNonNull = obj => obj != null
 
-export const isNonEmptyArray = array => _.isArray(array) && (array.length > 0)
+export const isNonEmptyArray = array => isArray(array) && (array.length > 0)
 
 export const isPlainObject = obj => typeOf(obj) === 'object'
 export const isNonEmptyPlainObject = obj => isPlainObject(obj) && Object.keys(obj).length > 0
 
-export const isPositiveIntegerString = str => _.isString(str) && /^[1-9]\d*$/.test(str)
+export const isPositiveIntegerString = str => isString(str) && /^[1-9]\d*$/.test(str)
 
 export const isModel = obj => obj instanceof Backbone.Model
 export const isView = obj => obj instanceof Backbone.View

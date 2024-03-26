@@ -1,3 +1,4 @@
+import { flatten } from 'underscore'
 import { getAuthorWorks } from '#entities/lib/types/author_alt'
 import { addWorksImagesAndAuthors } from '#entities/lib/types/work_alt'
 
@@ -85,7 +86,7 @@ export const getAggregatedLabelsAndAliases = entity => {
 const getMatchingParts = term => filterPattern => {
   const matching = term.match(filterPattern)[0]
   const parts = term.split(matching).map(partAround => [ partAround, matching ])
-  return _.flatten(parts).slice(0, -1)
+  return flatten(parts).slice(0, -1)
 }
 
 const getTermPreferredOriginsCount = ({ origins }) => origins.filter(isPreferredOrigin).length

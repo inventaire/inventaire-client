@@ -1,3 +1,4 @@
+import { pick, uniq, property, difference, compact } from 'underscore'
 import { isModel, isEntityUri } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'
@@ -22,7 +23,7 @@ const entitiesModelsIndexedByUri = {}
 export function get (params) {
   let missingUris
   let { uris, refresh, defaultType } = params
-  uris = _.uniq(uris)
+  uris = uniq(uris)
 
   if (refresh) {
     missingUris = uris
@@ -43,13 +44,13 @@ export function get (params) {
 
 const getMissingUris = function (uris) {
   const foundUris = Object.keys(entitiesModelsIndexedByUri)
-  return _.difference(uris, foundUris)
+  return difference(uris, foundUris)
 }
 
 // This is where the magic happens: we are picking values from an object made of
 // entity models and promises of entity models, but promiseProps transforms it into
 // a unique promise of an index of entity models
-const pickEntitiesModelsPromises = uris => promiseProps(_.pick(entitiesModelsIndexedByUri, uris))
+const pickEntitiesModelsPromises = uris => promiseProps(pick(entitiesModelsIndexedByUri, uris))
 
 const populateIndexWithMissingEntitiesModelsPromises = function (uris, refresh, defaultType) {
   const getEntitiesPromise = getRemoteEntitiesModels(uris, refresh, defaultType)
@@ -93,14 +94,14 @@ const getRemoteEntitiesModels = function (uris, refresh, defaultType) {
 
     // Replace the entities models promises by their models:
     // saves the extra space taken by the promise object
-    _.extend(entitiesModelsIndexedByUri, newEntities)
+    Object.assign(entitiesModelsIndexedByUri, newEntities)
 
     return newEntities
   })
   .catch(log_.ErrorRethrow('get entities data err'))
 }
 
-const inidivualPromise = (collectivePromise, uri) => collectivePromise.then(_.property(uri))
+const inidivualPromise = (collectivePromise, uri) => collectivePromise.then(property(uri))
 
 // Add links to the redirected entities objects
 export const aliasRedirects = function (entities, redirects) {
@@ -123,7 +124,7 @@ export function add (entityData) {
   return addModel(new Entity(entityData))
 }
 
-const sanitizeUris = uris => _.uniq(_.compact(forceArray(uris)))
+const sanitizeUris = uris => uniq(compact(forceArray(uris)))
 
 const invalidateCache = function (uri) {
   delete entitiesModelsIndexedByUri[uri]

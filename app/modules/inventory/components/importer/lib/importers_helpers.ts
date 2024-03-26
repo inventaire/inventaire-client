@@ -1,3 +1,4 @@
+import { compact } from 'underscore'
 import { getIsbnData } from '#inventory/lib/importer/extract_isbns'
 
 export const getInvalidIsbnsString = isbns => {
@@ -5,5 +6,5 @@ export const getInvalidIsbnsString = isbns => {
     const isbnData = getIsbnData(isbn)
     if (isbnData.isInvalid) return isbn
   })
-  return _.compact(isbnsData).join(', ')
+  return compact(isbnsData).join(', ')
 }

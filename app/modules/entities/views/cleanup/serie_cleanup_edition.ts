@@ -16,7 +16,7 @@ export default WorkPicker.extend({
   },
 
   serializeData () {
-    return _.extend(this.model.toJSON(), {
+    return Object.assign(this.model.toJSON(), {
       workLabel: this.workLabel,
       worksList: this._showWorkPicker ? this.getWorksList() : undefined,
       workPicker: {
@@ -27,7 +27,7 @@ export default WorkPicker.extend({
     })
   },
 
-  events: _.extend({}, WorkPicker.prototype.events, {
+  events: Object.assign({}, WorkPicker.prototype.events, {
     'click .copyWorkLabel': 'copyWorkLabel',
   }),
 

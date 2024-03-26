@@ -1,4 +1,5 @@
 <script>
+  import { compact, clone } from 'underscore'
   import Counter from '#components/counter.svelte'
   import Spinner from '#components/spinner.svelte'
   import { addExistingItemsCounts, createExternalEntry, getExternalEntriesEntities } from '#inventory/components/importer/lib/importers_section_helpers'
@@ -25,14 +26,14 @@
 
   const createExternalEntries = candidatesData => {
     flashBlockingProcess = null
-    externalEntries = _.compact(candidatesData.map(createExternalEntry))
+    externalEntries = compact(candidatesData.map(createExternalEntry))
   }
 
   const createCandidatesQueue = async () => {
     cancelled = false
     processedExternalEntriesCount = 0
     totalExternalEntries = externalEntries.length
-    const remainingExternalEntries = _.clone(externalEntries)
+    const remainingExternalEntries = clone(externalEntries)
     if (startedWithIsbns) scrollToElement(isbnImporterEl)
     else scrollToElement(bottomSectionElement)
 

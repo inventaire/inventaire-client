@@ -1,4 +1,5 @@
 <script>
+  import { max } from 'underscore'
   import { propertiesType } from '#entities/components/lib/claims_helpers'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
   import { isNonEmptyArray } from '#lib/boolean_tests'
@@ -18,7 +19,7 @@
 
   // Known case: values = [ '1954-07-29', '1954' ]
   // Assumptions: longest date is more precice and more accurate than shorter one
-  const findLongestDate = values => [ _.max(values, v => v.length) ]
+  const findLongestDate = values => [ max(values, v => v.length) ]
 
   if (propertiesType[prop] === 'timeClaim' && values && values.length > 1) {
     values = findLongestDate(values)

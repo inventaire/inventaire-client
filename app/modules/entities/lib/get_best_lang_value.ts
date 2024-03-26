@@ -1,3 +1,4 @@
+import { uniq } from 'underscore'
 // data: labels or descriptions
 export default function (lang, originalLang, data) {
   if (!data) return {}
@@ -23,5 +24,5 @@ const getLangPriorityOrder = function (lang, originalLang, data) {
   if (originalLang != null) order.push(originalLang)
   order.push('en')
   const availableLangs = Object.keys(data)
-  return _.uniq(order.concat(availableLangs))
+  return uniq(order.concat(availableLangs))
 }

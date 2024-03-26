@@ -1,4 +1,4 @@
-import { partition } from 'underscore'
+import { chain, partition } from 'underscore'
 import wdLang from 'wikidata-lang'
 import error_ from '#lib/error'
 import { unprefixify } from '#lib/wikimedia/wikidata'
@@ -7,7 +7,7 @@ import getEntityItemsByCategories from '../get_entity_items_by_categories.ts'
 const farInTheFuture = '2100'
 
 export default function () {
-  _.extend(this, specificMethods)
+  Object.assign(this, specificMethods)
   this.setClaimsBasedAttributes()
 
   // Editions don't have subentities so the list of all their uris,
@@ -105,7 +105,7 @@ const inheritData = function (works) {
 }
 
 const setWorksClaims = function (works, property) {
-  const values = _.chain(works)
+  const values = chain(works)
     .map(work => work.get(`claims.${property}`))
     .flatten()
     .compact()

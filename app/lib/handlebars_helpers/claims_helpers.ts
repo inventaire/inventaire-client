@@ -1,4 +1,5 @@
 import Handlebars from 'handlebars/runtime.js'
+import { last, compact } from 'underscore'
 import entityValue from '#general/views/behaviors/templates/entity_value.hbs'
 import propertyValue from '#general/views/behaviors/templates/property_value.hbs'
 import { isEntityUri } from '#lib/boolean_tests'
@@ -52,8 +53,8 @@ const propertyWithSpecialLayout = [
 // handlebars pass a sometime confusing {data:, hash: object} as last argument
 // this method is used to make helpers less error-prone by removing this object
 export function neutralizeDataObject (args) {
-  const last = _.last(args)
-  if ((last?.hash != null) && (last.data != null)) {
+  const lastArg = last(args)
+  if ((lastArg?.hash != null) && (lastArg.data != null)) {
     return args.slice(0, -1)
   } else {
     return args
@@ -62,7 +63,7 @@ export function neutralizeDataObject (args) {
 
 export function getValuesTemplates (valueArray, entityLink, property) {
   // prevent any null value to sneak in
-  return _.compact(valueArray)
+  return compact(valueArray)
   .map(uri => entity(uri, entityLink, null, property).trim())
   .join(', ')
 }

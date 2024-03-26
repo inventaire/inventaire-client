@@ -1,3 +1,4 @@
+import { partition } from 'underscore'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 
@@ -37,7 +38,7 @@ const spreadItems = uris => async items => {
       const nearestPublicItem = itemsByCategories.public[0]
       const nearestPublicItemDistance = getItemDistance(nearestPublicItem)
       const nearbyKmPerimeter = getPerimeter(nearestPublicItemDistance)
-      const [ nearbyPublic, otherPublic ] = _.partition(itemsByCategories.public, isNearby(nearbyKmPerimeter))
+      const [ nearbyPublic, otherPublic ] = partition(itemsByCategories.public, isNearby(nearbyKmPerimeter))
       itemsByCategories.nearbyPublic = nearbyPublic
       itemsByCategories.otherPublic = otherPublic
     } else {

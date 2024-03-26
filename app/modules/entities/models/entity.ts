@@ -1,3 +1,4 @@
+import { noop, identity } from 'underscore'
 // One unique Entity model to rule them all
 // but with specific initializers:
 // - By source:
@@ -46,7 +47,7 @@ export default Filterable.extend({
 
     if (placeholdersTypes.includes(this.type)) {
       // Set placeholder attributes so that the logic hereafter doesn't crash
-      _.extend(attrs, placeholderAttributes)
+      Object.assign(attrs, placeholderAttributes)
       this.set(placeholderAttributes)
     }
 
@@ -85,7 +86,7 @@ export default Filterable.extend({
       return
     }
 
-    if (this.get('edit') != null) _.extend(this, editableEntity)
+    if (this.get('edit') != null) Object.assign(this, editableEntity)
 
     // An object to store only the ids of such a relationship
     // ex: this entity is a P50 of entities Q...
@@ -202,8 +203,8 @@ export default Filterable.extend({
   },
 
   // Override in sub-types
-  beforeSubEntitiesAdd: _.identity,
-  afterSubEntitiesAdd: _.noop,
+  beforeSubEntitiesAdd: identity,
+  afterSubEntitiesAdd: noop,
 
   setSubEntitiesUris (uris) {
     this.set('subEntitiesUris', uris)

@@ -1,3 +1,4 @@
+import { clone } from 'underscore'
 import wdLang from 'wikidata-lang'
 import log_ from '#lib/loggers'
 
@@ -10,7 +11,7 @@ export default (availableLangs, selectedLang) => {
       langObj = { code: lang, label: lang, native: lang }
     }
 
-    langObj = _.clone(langObj)
+    langObj = clone(langObj)
     if (langObj.code === selectedLang) langObj.selected = true
     return langObj
   })

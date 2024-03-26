@@ -1,13 +1,15 @@
+import { uniq, compact } from 'underscore'
+
 export async function getEditionSeriesLabels (edition) {
   const worksUris = edition.claims['wdt:P629']
   if (worksUris == null || worksUris.length === 0) return
   const works = await app.request('get:entities:models', { uris: worksUris })
-  const seriesUris = _.compact(_.uniq(works.map(work => work.get('claims.wdt:P179')).flat()))
+  const seriesUris = compact(uniq(works.map(work => work.get('claims.wdt:P179')).flat()))
   if (seriesUris.length !== 1) return
   const serie = await app.request('get:entity:model', seriesUris[0])
   return {
     uri: serie.get('uri'),
-    labels: _.uniq(Object.values(serie.get('labels'))),
+    labels: uniq(Object.values(serie.get('labels'))),
   }
 }
 
@@ -17,7 +19,7 @@ export async function getWorkSeriesLabels (work) {
   const serie = await app.request('get:entity:model', seriesUris[0])
   return {
     uri: serie.get('uri'),
-    labels: _.uniq(Object.values(serie.get('labels'))),
+    labels: uniq(Object.values(serie.get('labels'))),
   }
 }
 

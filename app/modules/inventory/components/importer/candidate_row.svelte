@@ -1,4 +1,5 @@
 <script>
+  import { without, property } from 'underscore'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
   import { getUserExistingItemsPathname, statusContents } from '#inventory/components/importer/lib/candidate_row_helpers'
   import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
@@ -30,11 +31,11 @@
   }
 
   const removeStatus = status => {
-    statuses = _.without(statuses, status)
+    statuses = without(statuses, status)
   }
 
   const hasImportedData = editionTitle || authorsNames
-  const noCandidateEntities = !work.uri && !(authors?.every(_.property('uri')))
+  const noCandidateEntities = !work.uri && !(authors?.every(property('uri')))
   const hasWorkWithoutAuthors = work.uri && !isNonEmptyArray(authors)
   // TODO: remove newEntry status if work and authors both have entities uris
   if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) {

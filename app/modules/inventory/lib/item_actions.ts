@@ -1,3 +1,4 @@
+import { isString } from 'underscore'
 import Item from '#inventory/models/item'
 import assert_ from '#lib/assert_types'
 import { isModel } from '#lib/boolean_tests'
@@ -28,7 +29,7 @@ export default {
     if (selector != null) assert_.string(selector)
 
     items.forEach(item => {
-      if (_.isString(item)) return
+      if (isString(item)) return
       if (isModel(item)) {
         item._backup = item.toJSON()
         item.set(attribute, value)
@@ -50,7 +51,7 @@ export default {
     const action = async () => {
       const res = await preq.post(app.API.items.deleteByIds, { ids })
       items.forEach(item => {
-        if (_.isString(item)) return
+        if (isString(item)) return
         // app.user.trigger('items:change', item.get('listing'), null)
         item.hasBeenDeleted = true
       })
@@ -76,7 +77,7 @@ export default {
 }
 
 const getItemId = item => {
-  if (_.isString(item)) return item
+  if (isString(item)) return item
   // Support both models and item docs
   else return item.id || item._id
 }

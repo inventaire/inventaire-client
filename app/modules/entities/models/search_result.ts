@@ -1,3 +1,4 @@
+import { flatten } from 'underscore'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import Filterable from '#general/models/filterable'
 import { isInvEntityId, isWikidataItemId } from '#lib/boolean_tests'
@@ -44,14 +45,14 @@ export default Filterable.extend({
     if (this._values != null) return this._values
     const labels = getValues(this.get('labels'))
     const descriptions = getValues(this.get('descriptions'))
-    const aliases = _.flatten(getValues(this.get('aliases')))
+    const aliases = flatten(getValues(this.get('aliases')))
     const uris = [ this.id, this.get('uri') ]
     this._values = [ this.id ].concat(labels, aliases, descriptions, uris)
     return this._values
   },
 })
 
-const getValues = obj => obj != null ? _.values(obj) : []
+const getValues = obj => obj != null ? Object.values(obj) : []
 
 // Search results arrive as either Wikidata or inventaire documents
 // with ids unprefixed. The solutions to fix it:

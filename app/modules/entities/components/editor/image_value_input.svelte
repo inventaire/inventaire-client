@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
+  import { debounce } from 'underscore'
   import Spinner from '#components/spinner.svelte'
   import { isUrl } from '#lib/boolean_tests'
   import { getFirstFileDataUrl, resetFileInput } from '#lib/files'
@@ -36,7 +37,7 @@
       dispatch('error', err)
     }
   }
-  const lazyOnUrlChange = _.debounce(onUrlChange, 500)
+  const lazyOnUrlChange = debounce(onUrlChange, 500)
 
   async function onFilesChange () {
     urlValue = null

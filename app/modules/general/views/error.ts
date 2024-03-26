@@ -1,3 +1,4 @@
+import { isFunction } from 'underscore'
 import PreventDefault from '#behaviors/prevent_default'
 import { isOpenedOutside } from '#lib/utils'
 import errorTemplate from './templates/error.hbs'
@@ -23,7 +24,7 @@ export default Marionette.View.extend({
   buttonAction (e) {
     if (!isOpenedOutside(e)) {
       const { buttonAction } = this.options.redirection
-      if (_.isFunction(buttonAction)) buttonAction()
+      if (isFunction(buttonAction)) buttonAction()
     }
   },
 })

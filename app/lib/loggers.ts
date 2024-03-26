@@ -1,3 +1,4 @@
+import { isString, isArguments } from 'underscore'
 import { reportError } from '#lib/reports'
 
 const log = (obj, label) => {
@@ -5,12 +6,12 @@ const log = (obj, label) => {
   // unfortunatly, it makes the console loose the trace
   // of the real line and file the log_.info function was called from
   // the trade-off might not be worthing it...
-  if (_.isString(obj)) {
+  if (isString(obj)) {
     if (label != null) console.log(`[${label}] ${obj}`)
     else console.log(obj)
   } else {
     // logging arguments as arrays for readability
-    if (_.isArguments(obj)) obj = Array.from(obj)
+    if (isArguments(obj)) obj = Array.from(obj)
     if (label != null) console.log(`===== ${label} =====`)
     console.log(obj)
     if (label != null) console.log('-----')

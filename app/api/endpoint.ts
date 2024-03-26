@@ -1,3 +1,4 @@
+import { isObject } from 'underscore'
 import { buildPath } from '#lib/location'
 import { fixedEncodeURIComponent } from '#lib/utils'
 
@@ -14,7 +15,7 @@ const Action = base => function (actionName, attribute, value) {
   // Polymorphism: accept one attribute and one value OR a query object
   // NB: object values aren't passed to encodeURIComponent
   let query
-  if (_.isObject(attribute)) {
+  if (isObject(attribute)) {
     query = attribute
   } else {
     query = {}
@@ -25,7 +26,7 @@ const Action = base => function (actionName, attribute, value) {
   // Using extend instead of simply defining action on query
   // so that action appears on top of other attributes in the object
   // and thus, comes first in the generated URL
-  return buildPath(base, _.extend({ action: actionName }, query))
+  return buildPath(base, Object.assign({ action: actionName }, query))
 }
 
 // Pass an action name and an attribute, get a partial function

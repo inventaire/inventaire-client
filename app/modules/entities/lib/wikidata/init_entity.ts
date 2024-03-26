@@ -16,7 +16,7 @@ export default function () {
 
   this.set('isWikidataEntity', true)
 
-  return _.extend(this, specificMethods)
+  return Object.assign(this, specificMethods)
 }
 
 const setWikiLinks = function (lang) {

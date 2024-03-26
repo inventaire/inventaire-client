@@ -7,7 +7,7 @@
   import { I18n, i18n } from '#user/lib/i18n'
 
   const mostCompleteFirst = (a, b) => b.completion - a.completion
-  const languagesList = _.values(languages).sort(mostCompleteFirst)
+  const languagesList = Object.values(languages).sort(mostCompleteFirst)
   const currentLanguage = languages[app.user.lang].native
   const currentLanguageShortName = languages[app.user.lang].lang.toUpperCase()
 

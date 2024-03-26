@@ -1,3 +1,4 @@
+import { uniqueId } from 'underscore'
 import { assertViewHasBehavior } from '#general/plugins/behaviors'
 import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
@@ -47,7 +48,7 @@ forms_.catchAlert = function (view, err) {
   log_.error(err, 'err passed to catchAlert')
 
   // Prevent the view to be re-rendered as that would hide the alert
-  const alertId = _.uniqueId()
+  const alertId = uniqueId()
   view._preventRerender = true
   view._lastAlertId = alertId
   return setTimeout(removePreventRerenderFlag(view, alertId), 2000)

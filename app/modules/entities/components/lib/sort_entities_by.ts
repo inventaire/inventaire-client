@@ -1,3 +1,4 @@
+import { groupBy } from 'underscore'
 import { getAndAssignPopularity } from '#entities/lib/entities'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 
@@ -17,7 +18,7 @@ export async function sortEntities ({ option, entities, promise }) {
 
 export async function assignItemsToEditions ({ entities, promise: waitingForItems }) {
   const editionsItems = await waitingForItems
-  const itemsByEditions = _.groupBy(editionsItems, 'entity')
+  const itemsByEditions = groupBy(editionsItems, 'entity')
   entities.forEach(assignItemsToEdition(itemsByEditions))
 }
 

@@ -1,3 +1,4 @@
+import { chain } from 'underscore'
 import { authorProperties } from '#entities/lib/properties'
 import { props as promiseProps } from '#lib/promises'
 
@@ -21,7 +22,7 @@ export default {
   },
 
   getExtendedAuthorsUris () {
-    return _.chain(authorProperties)
+    return chain(authorProperties)
     .map(property => this.get(`claims.${property}`))
     .compact()
     .flatten()

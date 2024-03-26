@@ -1,4 +1,5 @@
 <script>
+  import { property } from 'underscore'
   import Spinner from '#general/components/spinner.svelte'
   import preq from '#lib/preq'
   import { isOpenedOutside } from '#lib/utils'
@@ -17,7 +18,7 @@
     let { contributions: contributionRows } = res
     if (contributionRows.length === 0) return []
     contributionRows = contributionRows.slice(0, 10)
-    const usersIds = contributionRows.map(_.property('user'))
+    const usersIds = contributionRows.map(property('user'))
     const { users } = await preq.get(app.API.users.byIds(usersIds))
     // assuming contributions are already sorted
     highest = contributionRows[0].contributions

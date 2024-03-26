@@ -1,3 +1,4 @@
+import { debounce } from 'underscore'
 import User from '../models/user.ts'
 
 export default Backbone.Collection.extend({
@@ -5,7 +6,7 @@ export default Backbone.Collection.extend({
   url () { return app.API.users.friends },
 
   initialize () {
-    this.lazyResort = _.debounce(this.sort.bind(this), 500)
+    this.lazyResort = debounce(this.sort.bind(this), 500)
     // model events are also triggerend on parent collection
     this.on('change:highlightScore', this.lazyResort)
   },

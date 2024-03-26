@@ -1,5 +1,7 @@
+import { invoke, pluck, flatten } from 'underscore'
+
 export default function () {
-  _.extend(this, specificMethods)
+  Object.assign(this, specificMethods)
   this.childrenClaimProperty = 'wdt:P195'
   this.subentitiesName = 'editions'
   this.setClaimsBasedAttributes()
@@ -27,7 +29,7 @@ const specificMethods = {
     if (publishersUris == null) return []
 
     const models = await app.request('get:entities:models', { uris: publishersUris })
-    await Promise.all(_.invoke(models, 'initPublisherPublications'))
-    return _.flatten(_.pluck(models, 'isolatedEditionsUris'))
+    await Promise.all(invoke(models, 'initPublisherPublications'))
+    return flatten(pluck(models, 'isolatedEditionsUris'))
   },
 }

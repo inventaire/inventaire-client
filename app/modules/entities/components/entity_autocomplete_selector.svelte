@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
+  import { map, debounce } from 'underscore'
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
   import { propertiesWithValuesShortlists } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
   import { createByProperty } from '#entities/lib/create_entities'
@@ -96,7 +97,7 @@
   }
 
   function getNewSuggestions (newSuggestions) {
-    const currentSuggestionsUris = new Set(_.map(suggestions, 'uri'))
+    const currentSuggestionsUris = new Set(map(suggestions, 'uri'))
     return newSuggestions.filter(suggestion => !currentSuggestionsUris.has(suggestion.uri))
   }
 
@@ -109,7 +110,7 @@
 
   const matchLabelOrDescription = entity => entity.label.match(searchText) || entity.description.match(searchText)
 
-  const lazySearch = _.debounce(search, 200)
+  const lazySearch = debounce(search, 200)
 
   if (currentEntityLabel && autofocus) lazySearch()
 

@@ -1,3 +1,4 @@
+import { uniq, pluck } from 'underscore'
 import { getNonEmptyPropertyClaims } from '#entities/components/editor/lib/editors_helpers'
 import preq from '#lib/preq'
 
@@ -7,10 +8,10 @@ export default async function ({ entity }) {
   if (!publishersUris) return
 
   const collectionsUris = await Promise.all(publishersUris.map(getPublisherCollections))
-  return _.uniq(collectionsUris.flat())
+  return uniq(collectionsUris.flat())
 }
 
 const getPublisherCollections = async publishersUris => {
   const { collections } = await preq.get(app.API.entities.publisherPublications(publishersUris))
-  return _.pluck(collections, 'uri')
+  return pluck(collections, 'uri')
 }

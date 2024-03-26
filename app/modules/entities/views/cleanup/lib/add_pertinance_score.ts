@@ -1,4 +1,5 @@
 import leven from 'leven'
+import { min, flatten, intersection } from 'underscore'
 
 export default serie => function (work) {
   const authorsScore = getAuthorsIntersectionLength(serie, work) * 10
@@ -13,20 +14,19 @@ export default serie => function (work) {
 const getAuthorsIntersectionLength = function (serie, work) {
   const workAuthorsUris = work.getExtendedAuthorsUris()
   const serieAuthorsUris = serie.getExtendedAuthorsUris()
-  const intersection = _.intersection(workAuthorsUris, serieAuthorsUris)
-  return intersection.length
+  return intersection(workAuthorsUris, serieAuthorsUris).length
 }
 
 const getSmallestLabelDistance = function (serie, work) {
-  const serieLabels = _.values(serie.get('labels'))
-  const workLabels = _.values(work.get('labels'))
+  const serieLabels = Object.values(serie.get('labels'))
+  const workLabels = Object.values(work.get('labels'))
   const labelsScores = serieLabels.map(serieLabel => workLabels.map(distance(serieLabel)))
-  return _.min(_.flatten(labelsScores))
+  return min(flatten(labelsScores))
 }
 
 const distance = serieLabel => function (workLabel) {
   if (workLabel.match(new RegExp(serieLabel, 'i'))) return 0
   const rawDistance = leven(serieLabel, workLabel)
   const truncatedDistance = leven(serieLabel, workLabel.slice(0, serieLabel.length))
-  return _.min([ rawDistance, truncatedDistance ])
+  return min([ rawDistance, truncatedDistance ])
 }

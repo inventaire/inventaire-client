@@ -1,3 +1,4 @@
+import { uniq, pluck, compact } from 'underscore'
 import preq from '#lib/preq'
 import commonsSerieWork from './commons_serie_work.ts'
 
@@ -5,10 +6,10 @@ export default function () {
   // Main property by which sub-entities are linked to this one
   this.childrenClaimProperty = 'wdt:P179'
 
-  return _.extend(this, specificMethods)
+  return Object.assign(this, specificMethods)
 }
 
-const specificMethods = _.extend({}, commonsSerieWork, {
+const specificMethods = Object.assign({}, commonsSerieWork, {
   fetchPartsData (options = {}) {
     let { refresh } = options
     refresh = this.getRefresh(refresh)
@@ -48,7 +49,7 @@ const specificMethods = _.extend({}, commonsSerieWork, {
 
   getAllAuthorsUris () {
     const allAuthorsUris = getAuthors(this).concat(...this.parts.map(getAuthors) || [])
-    return _.uniq(_.compact(allAuthorsUris))
+    return uniq(compact(allAuthorsUris))
   },
 
   async getChildrenCandidatesUris () {
@@ -59,9 +60,9 @@ const specificMethods = _.extend({}, commonsSerieWork, {
 })
 
 const initPartsCollections = async function (refresh, fetchAll, partsData) {
-  const allsPartsUris = _.pluck(partsData, 'uri')
+  const allsPartsUris = pluck(partsData, 'uri')
   const partsWithoutSuperparts = partsData.filter(hasNoKnownSuperpart(allsPartsUris))
-  const partsWithoutSuperpartsUris = _.pluck(partsWithoutSuperparts, 'uri')
+  const partsWithoutSuperpartsUris = pluck(partsWithoutSuperparts, 'uri')
 
   // Prevent circular dependencies by using a late import
   const { default: PaginatedWorks } = await import('../../collections/paginated_works')

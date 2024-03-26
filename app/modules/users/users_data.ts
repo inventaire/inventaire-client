@@ -40,7 +40,7 @@ export async function getUsersByIds (ids) {
 }
 
 const formatData = (format, data) => {
-  if (format === 'collection') return _.values(data)
+  if (format === 'collection') return Object.values(data)
   else return data
 }
 

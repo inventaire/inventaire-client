@@ -1,4 +1,5 @@
 import Handlebars from 'handlebars/runtime.js'
+import { uniq, isNaN } from 'underscore'
 import wdLang from 'wikidata-lang'
 import { isEntityUri, isImageHash } from '#lib/boolean_tests'
 import typeOf from '#lib/type_of'
@@ -47,7 +48,7 @@ export default API = {
         })
         .filter(isntNaN)
       const label = labelString(prop, omitLabel)
-      values = _.uniq(values).join(` ${i18n('or')} `)
+      values = uniq(values).join(` ${i18n('or')} `)
       return claimString(label, values, inline)
     }
   },
@@ -138,7 +139,7 @@ export default API = {
 
 const dropProtocol = url => url.replace(/^(https?:)?\/\//, '')
 const removeTailingSlash = url => url.replace(/\/$/, '')
-const isntNaN = value => !_.isNaN(value)
+const isntNaN = value => !isNaN(value)
 
 export const imagePreview = imageHash => {
   const fullResolutionUrl = `/img/entities/${imageHash}`

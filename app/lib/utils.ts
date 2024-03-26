@@ -1,3 +1,4 @@
+import { isArray, debounce } from 'underscore'
 import assert_ from '#lib/assert_types'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import error_ from '#lib/error'
@@ -85,7 +86,7 @@ export const lazyMethod = (methodName, delay = 200) => {
   return function (...args) {
     const lazyMethodName = `_lazy_${methodName}`
     if (this[lazyMethodName] == null) {
-      this[lazyMethodName] = _.debounce(this[methodName].bind(this), delay)
+      this[lazyMethodName] = debounce(this[methodName].bind(this), delay)
     }
     return this[lazyMethodName](...args)
   }
@@ -133,7 +134,7 @@ export const hashCode = string => {
 }
 
 export const someMatch = (arrayA, arrayB) => {
-  if (!_.isArray(arrayA) || !_.isArray(arrayB)) return false
+  if (!isArray(arrayA) || !isArray(arrayB)) return false
   for (const valueA of arrayA) {
     for (const valueB of arrayB) {
     // Return true as soon as possible
@@ -181,7 +182,7 @@ export const chunk = (array, size) => {
 
 export function forceArray (keys) {
   if ((keys == null) || (keys === '')) return []
-  if (!_.isArray(keys)) return [ keys ]
+  if (!isArray(keys)) return [ keys ]
   else return keys
 }
 

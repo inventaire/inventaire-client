@@ -1,4 +1,4 @@
-import { indexBy } from 'underscore'
+import { isArray, flatten, indexBy } from 'underscore'
 import Items from '#inventory/collections/items'
 import Item from '#inventory/models/item'
 import error_ from '#lib/error'
@@ -35,7 +35,7 @@ const getByUserIdAndEntities = (userId, uris) => getItemByQueryUrl(app.API.items
 const addItemsAndUsers = collection => function (res) {
   let { items, users } = res
   // Also accepts items indexed by listings: user, network, public
-  if (!_.isArray(items)) items = _.flatten(_.values(items))
+  if (!isArray(items)) items = flatten(Object.values(items))
 
   if (users?.length > 0) app.execute('users:add', users)
 

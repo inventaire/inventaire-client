@@ -1,4 +1,5 @@
 import _dataURLtoBlob from 'blueimp-canvas-to-blob'
+import { sample } from 'underscore'
 import { isDataUrl } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import preq from '#lib/preq'
@@ -80,7 +81,7 @@ export async function upload (container, blobsData, hash = false) {
 export async function getImageHashFromDataUrl (container, dataUrl) {
   if (!isDataUrl(dataUrl)) throw error_.new('invalid image', dataUrl)
   return upload(container, { blob: dataUrlToBlob(dataUrl) }, true)
-  .then(res => _.values(res)[0].split('/').slice(-1)[0])
+  .then(res => Object.values(res)[0].split('/').slice(-1)[0])
 }
 
 export function getNonResizedUrl (url) {
@@ -147,7 +148,7 @@ export const getColorHexCodeFromModelId = function (modelId) {
   return someSuggestedColors[index]
 }
 
-export const getSomeColorHexCodeSuggestion = () => `#${_.sample(someSuggestedColors)}`
+export const getSomeColorHexCodeSuggestion = () => `#${sample(someSuggestedColors)}`
 
 let Cropper, waitingForCropper
 export async function getCropper () {

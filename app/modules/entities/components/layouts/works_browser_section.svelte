@@ -1,5 +1,6 @@
 <script>
   import { flip } from 'svelte/animate'
+  import { debounce } from 'underscore'
   import EntityListCompact from '#entities/components/layouts/entity_list_compact.svelte'
   import EntityListCompactTitleRow from '#entities/components/layouts/entity_list_compact_title_row.svelte'
   import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
@@ -102,7 +103,7 @@
     }
   }
 
-  const lazyDisplay = _.debounce(displayMore, 300)
+  const lazyDisplay = debounce(displayMore, 300)
   $: displayLimit && addingMoreWorks()
   $: anyWork = paginatedWorks.length > 0
   $: onChange(filteredWorks, resetWorks)

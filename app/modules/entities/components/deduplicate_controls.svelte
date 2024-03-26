@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import _ from 'underscore'
+  import { debounce } from 'underscore'
   import { autofocus } from '#lib/components/actions/autofocus'
   import Flash from '#lib/components/flash.svelte'
   import { icon } from '#lib/icons'
@@ -8,7 +8,7 @@
   import EntityPreview from './entity_preview.svelte'
 
   const dispatch = createEventDispatcher()
-  const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 200)
+  const lazyDispatchFilter = debounce(dispatch.bind(null, 'filter'), 200)
 
   export let entity, flash, from, to, candidates, index
 

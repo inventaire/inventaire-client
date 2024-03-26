@@ -7,7 +7,7 @@ export default function () {
 
   setEbooksData.call(this)
 
-  return _.extend(this, specificMethods)
+  return Object.assign(this, specificMethods)
 }
 
 const setEbooksData = function () {

@@ -1,10 +1,11 @@
+import Polyglot from 'node-polyglot'
+import { noop } from 'underscore'
 // General rule: one session -> one language. Which means that every language
 // change triggers a page reload with the new language.
 // This is less efficient than re-rendering everything once the new language
 // strings were fetched, but it's so much simpler to handle, and less verbose as
 // we don't need to clutter every layout with events listeners like
 // @listenTo app.user, 'change:language', @render
-import Polyglot from 'node-polyglot'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { capitalize } from '#lib/utils'
@@ -12,8 +13,8 @@ import i18nMissingKey from './i18n_missing_key.ts'
 import translate from './translate.ts'
 
 // Work around circular dependency
-let update = _.noop
-let refreshData = _.noop
+let update = noop
+let refreshData = noop
 const lateImport = async () => {
   ({ update, refreshData } = await import('#lib/uri_label/uri_label'))
 }
@@ -29,7 +30,7 @@ export const i18n = (...args) => currentLangI18n(...args)
 // Convention: 'lang' always stands for ISO 639-1 two letters language codes
 // (like 'en', 'fr', etc.)
 export const initI18n = async (app, lang) => {
-  const missingKey = window.env === 'dev' ? i18nMissingKey : _.noop
+  const missingKey = window.env === 'dev' ? i18nMissingKey : noop
 
   const onMissingKey = function (key) {
     console.warn(`Missing translation for key: ${key}`)

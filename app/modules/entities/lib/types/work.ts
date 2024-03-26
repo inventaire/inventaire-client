@@ -1,3 +1,4 @@
+import { property, compact } from 'underscore'
 import filterOutWdEditions from '../filter_out_wd_editions.ts'
 import getEntityItemsByCategories from '../get_entity_items_by_categories.ts'
 import commonsSerieWork from './commons_serie_work.ts'
@@ -17,7 +18,7 @@ export default function () {
   this.subentitiesName = 'editions'
   // extend before fetching sub entities to have access
   // to the custom @beforeSubEntitiesAdd
-  _.extend(this, specificMethods)
+  Object.assign(this, specificMethods)
 
   setPublicationYear.call(this)
   setEbooksData.call(this)
@@ -33,9 +34,9 @@ const setPublicationYear = function () {
 
 const setImage = function () {
   let images
-  const editionsImages = _.compact(this.editions.map(getEditionImageData))
+  const editionsImages = compact(this.editions.map(getEditionImageData))
     .sort(bestImage)
-    .map(_.property('image'))
+    .map(property('image'))
 
   const workImage = this.get('image')
   // If the work is in public domain, we can expect Wikidata image to be better
@@ -89,7 +90,7 @@ const setEbooksData = function () {
   this.set('gutenbergProperty', 'wdt:P2034')
 }
 
-const specificMethods = _.extend({}, commonsSerieWork, {
+const specificMethods = Object.assign({}, commonsSerieWork, {
   // wait for setImage to have run
   async getImageAsync () {
     await this.fetchSubEntities()

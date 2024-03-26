@@ -1,3 +1,4 @@
+import { isObject } from 'underscore'
 import BindedPartialBuilder from '#lib/binded_partial_builder'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import error_ from '#lib/error'
@@ -32,7 +33,7 @@ const App = Marionette.Application.extend({
 
     const navigateFromModel = function (model, pathAttribute = 'pathname', options = {}) {
       // Polymorphism
-      if (_.isObject(pathAttribute)) {
+      if (isObject(pathAttribute)) {
         options = pathAttribute
         pathAttribute = options.pathAttribute || 'pathname'
       }

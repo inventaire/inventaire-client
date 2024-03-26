@@ -80,5 +80,5 @@ got statusCode ${statusCode} but invalid JSON: ${responseText} / ${responseJSON}
 
   const error = new Error(message)
   error.serverError = true
-  return _.extend(error, { statusCode, statusText, responseText, responseJSON, context })
+  return Object.assign(error, { statusCode, statusText, responseText, responseJSON, context })
 }

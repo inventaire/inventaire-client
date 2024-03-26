@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars/runtime.js'
-import { uniq } from 'underscore'
+import { union, pick, uniq } from 'underscore'
 import wdLang from 'wikidata-lang'
 import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
 import { isEntityUri, isImageHash, isNonEmptyArray } from '#lib/boolean_tests'
@@ -49,7 +49,7 @@ export const editionWorkProperties = [
 export const aggregateWorksClaims = works => {
   const worksClaims = editionWorkProperties.map(value => ({ [value]: [] }))
   works.reduce(aggregateClaims, worksClaims)
-  return _.pick(worksClaims, isNonEmptyArray)
+  return pick(worksClaims, isNonEmptyArray)
 }
 
 export const propertiesType = {
@@ -156,7 +156,7 @@ const aggregateClaims = (worksClaims, work) => {
 const aggregateClaim = (worksClaims, work) => prop => {
   const claimValues = work.claims[prop]
   // list of unique items
-  if (claimValues) worksClaims[prop] = _.union(worksClaims[prop], claimValues)
+  if (claimValues) worksClaims[prop] = union(worksClaims[prop], claimValues)
 }
 
 const removeTailingSlash = url => url.replace(/\/$/, '')

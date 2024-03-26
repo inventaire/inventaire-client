@@ -1,5 +1,5 @@
 <script>
-  import _ from 'underscore'
+  import { debounce } from 'underscore'
   import languagesData from '#assets/js/languages_data'
   import Flash from '#lib/components/flash.svelte'
   import UpdatePassword from '#lib/components/update_password.svelte'
@@ -103,7 +103,7 @@
     })
   }
 
-  const lazyOnEmailChange = _.debounce(onEmailChange, 500)
+  const lazyOnEmailChange = debounce(onEmailChange, 500)
 
   $: lazyOnEmailChange(emailValue)
   $: pickLanguage(userLang)

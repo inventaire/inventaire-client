@@ -1,3 +1,4 @@
+import { isString, isArray } from 'underscore'
 import app from '#app/app'
 import assert_ from '#lib/assert_types'
 import { isEntityUri, isUsername, isItemId } from '#lib/boolean_tests'
@@ -59,7 +60,7 @@ const API = {
   // Do not use default parameter `(options = {})`
   // as the router might pass `null` as first argument
   showPublicInventory (options) {
-    if (_.isString(options)) options = parseQuery(options)
+    if (isString(options)) options = parseQuery(options)
     else options = options || {}
     const { filter } = options
     const url = buildPath('users/public', { filter })
@@ -106,7 +107,7 @@ const API = {
 
 const showItemsFromModels = function (items) {
   // Accept either an items collection or an array of items models
-  if (_.isArray(items)) items = new Backbone.Collection(items)
+  if (isArray(items)) items = new Backbone.Collection(items)
 
   if (items?.length == null) {
     throw new Error('shouldnt be at least an empty array here?')
