@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { i18n } from '#user/lib/i18n'
 
 export default Marionette.Behavior.extend({

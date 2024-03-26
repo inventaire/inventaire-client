@@ -1,4 +1,5 @@
 import { groupBy, property, compact } from 'underscore'
+import app from '#app/app'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'

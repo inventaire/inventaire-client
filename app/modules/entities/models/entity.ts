@@ -1,4 +1,5 @@
 import { noop, identity } from 'underscore'
+import app from '#app/app'
 // One unique Entity model to rule them all
 // but with specific initializers:
 // - By source:

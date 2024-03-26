@@ -1,4 +1,5 @@
 import cookie_ from 'js-cookie'
+import app from '#app/app'
 import notificationsList from '#settings/lib/notifications_settings_list'
 import UserCommons from '#users/models/user_commons'
 import { initI18n } from '../lib/i18n.ts'

@@ -1,5 +1,6 @@
 <script>
   import { pluck, uniq, pick } from 'underscore'
+  import app from '#app/app'
   import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { transactionsData } from '#inventory/lib/transactions_data'

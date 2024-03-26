@@ -1,4 +1,5 @@
 import { flatten } from 'underscore'
+import app from '#app/app'
 import { getAuthorWorks } from '#entities/lib/types/author_alt'
 import { addWorksImagesAndAuthors } from '#entities/lib/types/work_alt'
 

@@ -1,3 +1,4 @@
+import app from '#app/app'
 import AlertBox from '#behaviors/alert_box'
 import ElasticTextarea from '#behaviors/elastic_textarea'
 import General from '#behaviors/general'

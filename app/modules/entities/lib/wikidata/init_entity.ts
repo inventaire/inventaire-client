@@ -1,3 +1,4 @@
+import app from '#app/app'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import { getTextDirection } from '#lib/active_languages'
 import { isNonEmptyString } from '#lib/boolean_tests'

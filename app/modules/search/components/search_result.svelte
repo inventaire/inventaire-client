@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
+  import app from '#app/app'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { forceArray, isOpenedOutside, loadInternalLink } from '#lib/utils'
   import { serializeResult, urlifyImageHash } from '#search/lib/search_results'

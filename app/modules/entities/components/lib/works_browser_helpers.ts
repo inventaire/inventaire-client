@@ -1,4 +1,5 @@
 import { intersection, pluck, uniq } from 'underscore'
+import app from '#app/app'
 import { sortAlphabetically } from '#entities/components/lib/deduplicate_helpers.ts'
 import {
   getEntitiesAttributesByUris, getYearFromSimpleDay,

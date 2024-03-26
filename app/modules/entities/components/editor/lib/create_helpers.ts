@@ -1,5 +1,6 @@
 import { compact, pick, uniq, without } from 'underscore'
 import wdLang from 'wikidata-lang'
+import app from '#app/app'
 import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
 import { priorityPropertiesPerType, propertiesPerType } from '#entities/lib/editor/properties_per_type'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'

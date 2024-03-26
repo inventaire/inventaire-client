@@ -1,3 +1,4 @@
+import app from '#app/app'
 import ElasticTextarea from '#behaviors/elastic_textarea'
 import General from '#behaviors/general'
 import Loading from '#behaviors/loading'

@@ -1,3 +1,4 @@
+import app from '#app/app'
 import PreventDefault from '#behaviors/prevent_default'
 import { scrollTo$Element, viewportIsSmall } from '#lib/screen'
 import { I18n } from '#user/lib/i18n'

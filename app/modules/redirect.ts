@@ -1,3 +1,4 @@
+import app from '#app/app'
 import assert_ from '#lib/assert_types'
 import { currentRoute } from '#lib/location'
 import log_ from '#lib/loggers'

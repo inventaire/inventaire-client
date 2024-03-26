@@ -1,5 +1,6 @@
 import Handlebars from 'handlebars/runtime.js'
 import { last, compact } from 'underscore'
+import app from '#app/app'
 import entityValue from '#general/views/behaviors/templates/entity_value.hbs'
 import propertyValue from '#general/views/behaviors/templates/property_value.hbs'
 import { isEntityUri } from '#lib/boolean_tests'

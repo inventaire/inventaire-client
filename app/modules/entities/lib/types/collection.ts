@@ -1,4 +1,5 @@
 import { invoke, pluck, flatten } from 'underscore'
+import app from '#app/app'
 
 export default function () {
   Object.assign(this, specificMethods)

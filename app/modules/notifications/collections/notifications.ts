@@ -1,4 +1,5 @@
 import { debounce } from 'underscore'
+import app from '#app/app'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'

@@ -1,3 +1,4 @@
+import app from '#app/app'
 import PreventDefault from '#behaviors/prevent_default'
 import GroupsList from '#groups/views/groups_list'
 import { clickCommand } from '#lib/utils'

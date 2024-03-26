@@ -1,4 +1,5 @@
 import { range } from 'underscore'
+import app from '#app/app'
 import ImgZoomIn from '#behaviors/img_zoom_in'
 import Loading from '#behaviors/loading'
 import Toggler from '#behaviors/toggler'

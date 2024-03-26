@@ -1,5 +1,6 @@
 <script>
   import { debounce } from 'underscore'
+  import app from '#app/app'
   import { getPropertiesFromWebsitesNames, getWebsitesNamesFromProperties, websitesByCategoryAndName } from '#entities/lib/entity_links'
   import Flash from '#lib/components/flash.svelte'
   import { onChange } from '#lib/svelte/svelte'

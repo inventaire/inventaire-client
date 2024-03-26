@@ -1,5 +1,6 @@
 <script>
   import { pluck } from 'underscore'
+  import app from '#app/app'
   import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'

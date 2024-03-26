@@ -1,4 +1,5 @@
 import cookie_ from 'js-cookie'
+import app from '#app/app'
 import fetchData from '#lib/data/fetch'
 import { parseBooleanString } from '#lib/utils'
 import MainUser from '../models/main_user.ts'

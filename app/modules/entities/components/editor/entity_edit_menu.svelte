@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import Dropdown from '#components/dropdown.svelte'
   import Spinner from '#components/spinner.svelte'
   import { getWikidataUrl } from '#entities/lib/entities'

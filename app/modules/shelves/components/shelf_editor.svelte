@@ -1,6 +1,7 @@
 <script>
   import autosize from 'autosize'
   import { createEventDispatcher } from 'svelte'
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
   import Flash from '#lib/components/flash.svelte'

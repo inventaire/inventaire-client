@@ -1,6 +1,7 @@
 <script>
   import { getContext } from 'svelte'
   import { debounce, pluck } from 'underscore'
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import { icon } from '#lib/icons'
   import { getActionKey } from '#lib/key_events'

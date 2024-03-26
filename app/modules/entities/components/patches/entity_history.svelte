@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import FullScreenLoader from '#components/full_screen_loader.svelte'
   import Spinner from '#components/spinner.svelte'
   import Patch from '#entities/components/patches/patch.svelte'

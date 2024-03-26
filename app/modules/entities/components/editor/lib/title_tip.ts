@@ -1,4 +1,5 @@
 import { uniq, compact } from 'underscore'
+import app from '#app/app'
 
 export async function getEditionSeriesLabels (edition) {
   const worksUris = edition.claims['wdt:P629']

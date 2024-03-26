@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { getNumberOfDaysAgo } from '#lib/time'
 import { distanceBetween } from '#map/lib/geo'
 import UserCommons from './user_commons.ts'

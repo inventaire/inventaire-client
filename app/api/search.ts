@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { buildPath } from '#lib/location'
 import { forceArray } from '#lib/utils'
 import endpoint from './endpoint.ts'

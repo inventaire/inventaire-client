@@ -1,4 +1,5 @@
 import { debounce } from 'underscore'
+import app from '#app/app'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import { icon } from '#lib/icons'
 import log_ from '#lib/loggers'

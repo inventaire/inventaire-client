@@ -1,3 +1,4 @@
+import app from '#app/app'
 import behaviorsPlugin from '#general/plugins/behaviors'
 import { isOpenedOutside } from '#lib/utils'
 import { i18n } from '#user/lib/i18n'

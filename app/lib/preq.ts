@@ -1,3 +1,5 @@
+import app from '#app/app'
+
 const Ajax = (method, hasBody) => async (url, body) => {
   const options = { method }
 

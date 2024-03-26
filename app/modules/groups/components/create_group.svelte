@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import GroupOpenness from '#groups/components/group_openness.svelte'
   import GroupSearchability from '#groups/components/group_searchability.svelte'

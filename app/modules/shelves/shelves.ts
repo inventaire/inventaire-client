@@ -1,3 +1,4 @@
+import app from '#app/app'
 import assert_ from '#lib/assert_types'
 import { isModel, isShelfId } from '#lib/boolean_tests'
 import error_ from '#lib/error'

@@ -1,4 +1,5 @@
 import { flatten, compact } from 'underscore'
+import app from '#app/app'
 import assert_ from '#lib/assert_types'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'

@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import getOriginalLang from '#entities/lib/get_original_lang'

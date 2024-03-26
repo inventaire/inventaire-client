@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { getTransactions } from '#transactions/lib/get_transactions'
 import initHelpers from './lib/helpers.ts'
 

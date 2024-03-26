@@ -1,7 +1,7 @@
-// A readable Svelte store that stays in sync with the global app.user Backbone model
 import { readable } from 'svelte/store'
 import app from '#app/app'
 
+// A readable Svelte store that stays in sync with the global app.user Backbone model
 export const userGroups = readable([], start)
 
 // The start function can not be async as it is supposed to return a stop function

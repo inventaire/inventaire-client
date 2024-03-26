@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
   import { isNonEmptyArray } from '#lib/boolean_tests'

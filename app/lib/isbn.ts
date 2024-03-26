@@ -1,3 +1,4 @@
+import app from '#app/app'
 import preq from '#lib/preq'
 
 export const getIsbnData = isbn => preq.get(app.API.data.isbn(isbn))

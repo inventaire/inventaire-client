@@ -1,4 +1,5 @@
 import { uniq, pluck } from 'underscore'
+import app from '#app/app'
 import { getNonEmptyPropertyClaims } from '#entities/components/editor/lib/editors_helpers'
 import preq from '#lib/preq'
 

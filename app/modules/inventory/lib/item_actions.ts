@@ -1,4 +1,5 @@
 import { isString } from 'underscore'
+import app from '#app/app'
 import Item from '#inventory/models/item'
 import assert_ from '#lib/assert_types'
 import { isModel } from '#lib/boolean_tests'

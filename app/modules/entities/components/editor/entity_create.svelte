@@ -1,5 +1,6 @@
 <script>
   import { pick } from 'underscore'
+  import app from '#app/app'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityTypePicker from '#entities/components/editor/entity_type_picker.svelte'
   import { getMissingRequiredProperties, getPropertiesShortlist, removeNonTypeProperties } from '#entities/components/editor/lib/create_helpers'

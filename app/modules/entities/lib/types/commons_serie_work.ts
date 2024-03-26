@@ -1,4 +1,5 @@
 import { chain } from 'underscore'
+import app from '#app/app'
 import { authorProperties } from '#entities/lib/properties'
 import { props as promiseProps } from '#lib/promises'
 

@@ -1,5 +1,6 @@
 import _dataURLtoBlob from 'blueimp-canvas-to-blob'
 import { sample } from 'underscore'
+import app from '#app/app'
 import { isDataUrl } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import preq from '#lib/preq'

@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { getPropertyValuesShortlist } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
 import { reportError } from '#lib/reports'
 import wdtP123 from './wdt_P123.ts'

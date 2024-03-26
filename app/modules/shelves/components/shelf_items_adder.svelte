@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte'
   import { debounce } from 'underscore'
+  import app from '#app/app'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import { getUserItems } from '#inventory/lib/queries'
   import { icon } from '#lib/icons'

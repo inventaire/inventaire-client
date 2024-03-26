@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import { editors } from '#entities/components/editor/lib/editors'
   import { currentEditorKey, errorMessageFormatter, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'

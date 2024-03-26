@@ -1,4 +1,5 @@
 import { isArray, flatten, indexBy } from 'underscore'
+import app from '#app/app'
 import Items from '#inventory/collections/items'
 import Item from '#inventory/models/item'
 import error_ from '#lib/error'

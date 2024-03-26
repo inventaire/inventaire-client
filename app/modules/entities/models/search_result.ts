@@ -1,4 +1,5 @@
 import { flatten } from 'underscore'
+import app from '#app/app'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import Filterable from '#general/models/filterable'
 import { isInvEntityId, isWikidataItemId } from '#lib/boolean_tests'

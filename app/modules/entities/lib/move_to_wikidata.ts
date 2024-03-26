@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { isWikidataItemUri } from '#lib/boolean_tests'
 import preq from '#lib/preq'

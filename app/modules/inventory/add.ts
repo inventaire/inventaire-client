@@ -1,3 +1,4 @@
+import app from '#app/app'
 import initAddHelpers from './lib/add_helpers.ts'
 
 export default {

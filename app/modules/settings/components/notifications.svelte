@@ -1,5 +1,6 @@
 <script>
   import { range } from 'underscore'
+  import app from '#app/app'
   import Flash from '#lib/components/flash.svelte'
   import Toggler from '#lib/components/notification_toggler.svelte'
   import { i18n, I18n } from '#user/lib/i18n'

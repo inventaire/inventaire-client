@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { allSearchableTypes } from '#entities/lib/types/entities_types'
 import assert_ from '#lib/assert_types'
 import preq from '#lib/preq'

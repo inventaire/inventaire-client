@@ -1,4 +1,5 @@
 import { pick, uniq, flatten, compact, pluck } from 'underscore'
+import app from '#app/app'
 import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath } from '../entities.ts'
 import getBestLangValue from '../get_best_lang_value.ts'
 

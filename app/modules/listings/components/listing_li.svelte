@@ -1,5 +1,6 @@
 <script>
   import { pluck } from 'underscore'
+  import app from '#app/app'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getEntitiesImagesUrls } from '#entities/lib/entities'
   import { loadInternalLink } from '#lib/utils'

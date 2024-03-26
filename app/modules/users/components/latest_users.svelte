@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'

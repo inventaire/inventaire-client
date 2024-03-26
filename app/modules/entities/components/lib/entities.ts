@@ -1,4 +1,5 @@
 import { uniq, flatten, compact, pick, pluck } from 'underscore'
+import app from '#app/app'
 import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
 import { byNewestPublicationDate, getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.ts'

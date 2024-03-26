@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { getEntityLocalHref } from '#entities/lib/entities'
 import { transactionsDataFactory } from '#inventory/lib/transactions_data'
 import { capitalize } from '#lib/utils'

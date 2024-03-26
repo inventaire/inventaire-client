@@ -1,4 +1,5 @@
 import { indexBy } from 'underscore'
+import app from '#app/app'
 import { serializeItem, setItemUserData } from '#inventory/lib/items'
 import preq from '#lib/preq'
 import { serializeUser } from '#users/lib/users'

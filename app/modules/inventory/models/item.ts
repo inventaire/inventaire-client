@@ -1,4 +1,5 @@
 import { without, debounce } from 'underscore'
+import app from '#app/app'
 import { getEntityLocalHref } from '#entities/lib/entities'
 import Filterable from '#general/models/filterable'
 import { isNonEmptyString, isEntityUri } from '#lib/boolean_tests'

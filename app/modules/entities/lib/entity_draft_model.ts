@@ -1,4 +1,5 @@
 import { noop, identity } from 'underscore'
+import app from '#app/app'
 import { getPropertiesShortlist } from '#entities/components/editor/lib/create_helpers'
 import { typeDefaultP31 } from '#entities/lib/types/entities_types'
 import { buildPath } from '#lib/location'

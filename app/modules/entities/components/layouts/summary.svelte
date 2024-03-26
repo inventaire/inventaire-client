@@ -1,5 +1,6 @@
 <script>
   import { indexBy, partition } from 'underscore'
+  import app from '#app/app'
   import languagesData from '#assets/js/languages_data'
   import Spinner from '#components/spinner.svelte'
   import { entityDataShouldBeRefreshed, pushEntityRefreshingPromise } from '#entities/lib/entities'

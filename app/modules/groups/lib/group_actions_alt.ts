@@ -1,3 +1,4 @@
+import app from '#app/app'
 import preq from '#lib/preq'
 
 export async function groupAction ({ action, groupId, userId }) {

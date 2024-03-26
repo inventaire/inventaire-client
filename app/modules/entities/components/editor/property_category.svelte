@@ -1,5 +1,6 @@
 <script>
   import { intersection, some, without } from 'underscore'
+  import app from '#app/app'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import { propertiesCategories } from '#entities/lib/editor/properties_per_type'
   import { reorderProperties } from '#entities/lib/properties'

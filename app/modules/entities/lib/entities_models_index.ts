@@ -1,4 +1,5 @@
 import { pick, uniq, property, difference, compact } from 'underscore'
+import app from '#app/app'
 import { isModel, isEntityUri } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'

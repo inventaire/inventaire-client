@@ -1,3 +1,4 @@
+import app from '#app/app'
 import Loading from '#behaviors/loading'
 import { startLoading } from '#general/plugins/behaviors'
 import wikidataDataImporterTemplate from './templates/wikidata_data_importer.hbs'

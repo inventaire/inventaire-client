@@ -1,5 +1,6 @@
 import FilteredCollection from 'backbone-filtered-collection'
 import { without, isString, isArray, debounce } from 'underscore'
+import app from '#app/app'
 // Sets $(selector).visible function
 import 'jquery-visible'
 import assert_ from '#lib/assert_types'

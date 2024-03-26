@@ -1,3 +1,4 @@
+import app from '#app/app'
 import forms_ from '#general/lib/forms'
 import { isEmail } from '#lib/boolean_tests'
 import preq from '#lib/preq'

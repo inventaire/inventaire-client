@@ -1,5 +1,6 @@
 <script>
   import { without } from 'underscore'
+  import app from '#app/app'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import { createEditionAndWorkFromEntry, getMissingRequiredProperties } from '#entities/components/editor/lib/create_helpers'
   import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'

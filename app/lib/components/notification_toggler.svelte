@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import { I18n } from '#user/lib/i18n'
   import Flash from './flash.svelte'
 

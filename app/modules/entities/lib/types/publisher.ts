@@ -1,4 +1,5 @@
 import { pluck } from 'underscore'
+import app from '#app/app'
 import preq from '#lib/preq'
 import filterOutWdEditions from '../filter_out_wd_editions.ts'
 

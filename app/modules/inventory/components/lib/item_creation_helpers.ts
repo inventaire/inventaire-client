@@ -1,3 +1,5 @@
+import app from '#app/app'
+
 export function guessInitialTransaction (transaction) {
   transaction = transaction || app.request('last:transaction:get')
   if (transaction === 'null') transaction = null

@@ -1,3 +1,5 @@
+import app from '#app/app'
+
 export default function () {
   if (app.user.loggedIn) {
     return true

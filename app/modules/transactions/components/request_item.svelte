@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'

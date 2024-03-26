@@ -1,3 +1,5 @@
+import app from '#app/app'
+
 export default Backbone.NestedModel.extend({
   initialize () {
     this.on('change:status', this.update)

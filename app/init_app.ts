@@ -1,4 +1,5 @@
 import { API } from '#app/api/api'
+import app from '#app/app'
 import Entities from '#entities/entities'
 import { initQuerystringActions } from '#general/lib/querystring_actions'
 import AppLayout from '#general/views/app_layout'
@@ -20,9 +21,6 @@ import Tasks from '#tasks/tasks'
 import Transactions from '#transactions/transactions'
 import User from '#user/user'
 import Users from '#users/users'
-import app from './app.ts'
-
-window.app = app
 
 export default async function () {
   // gets all the routes used in the app

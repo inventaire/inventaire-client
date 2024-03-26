@@ -1,3 +1,4 @@
+import app from '#app/app'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { forceArray } from '#lib/utils'

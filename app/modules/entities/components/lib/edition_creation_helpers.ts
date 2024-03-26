@@ -1,4 +1,5 @@
 import wdLang from 'wikidata-lang'
+import app from '#app/app'
 import { getEntityPropValue } from '#entities/components/lib/claims_helpers'
 import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import createEntity from '#entities/lib/create_entity'

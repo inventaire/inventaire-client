@@ -1,3 +1,4 @@
+import app from '#app/app'
 import AutoFocus from '#behaviors/auto_focus'
 import PreventDefault from '#behaviors/prevent_default'
 import PreviousSearch from './previous_search.ts'

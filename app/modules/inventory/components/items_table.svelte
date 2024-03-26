@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import ItemRow from '#inventory/components/item_row.svelte'
   import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'

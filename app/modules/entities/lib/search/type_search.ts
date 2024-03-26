@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { searchByTypes } from '#entities/lib/search/search_by_types'
 import { pluralize } from '#entities/lib/types/entities_types'
 import error_ from '#lib/error'

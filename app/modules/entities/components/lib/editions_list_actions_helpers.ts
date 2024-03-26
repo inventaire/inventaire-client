@@ -1,5 +1,6 @@
 import { uniq, compact } from 'underscore'
 import wdLang from 'wikidata-lang'
+import app from '#app/app'
 import { getEntityLang } from '#entities/components/lib/claims_helpers'
 import { getEntitiesAttributesByUris, getPublicationYear } from '#entities/lib/entities'
 

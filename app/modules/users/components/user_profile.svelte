@@ -1,5 +1,6 @@
 <script>
   import { tick } from 'svelte'
+  import app from '#app/app'
   import UserInventory from '#inventory/components/user_inventory.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { screen } from '#lib/components/stores/screen'

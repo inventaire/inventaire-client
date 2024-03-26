@@ -1,6 +1,7 @@
 <script>
   import { tick } from 'svelte'
   import { debounce } from 'underscore'
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import GroupActions from '#groups/components/group_actions.svelte'
   import { getCachedSerializedGroupMembers, getAllGroupMembersIds, serializeGroup } from '#groups/lib/groups'

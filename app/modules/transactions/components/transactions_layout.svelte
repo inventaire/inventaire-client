@@ -1,6 +1,7 @@
 <script>
   import { slide } from 'svelte/transition'
   import { partition } from 'underscore'
+  import app from '#app/app'
   import { icon } from '#lib/icons'
   import { onChange } from '#lib/svelte/svelte'
   import FocusedTransactionLayout from '#transactions/components/focused_transaction_layout.svelte'
