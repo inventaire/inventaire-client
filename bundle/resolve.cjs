@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 const { imports } = require('../package.json')
 
 // Same aliases as package.json#imports, but intended

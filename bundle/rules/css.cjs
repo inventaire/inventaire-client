@@ -3,7 +3,7 @@ const postCss = require('./postcss.cjs')
 
 module.exports = mode => {
   const rule = {
-    test: /\.css$/
+    test: /\.css$/,
   }
 
   if (mode === 'production') {

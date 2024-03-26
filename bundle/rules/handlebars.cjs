@@ -7,5 +7,5 @@ module.exports = {
       // Define helpers at runtime
       knownHelpersOnly: false,
     },
-  }
+  },
 }

@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 const { inventaireServerHost, webpackDevServer } = require('config')
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
   historyApiFallback: {
     rewrites: [
       { from: /./, to: '/public/dist/index.html' },
-    ]
+    ],
   },
   devMiddleware: {
     publicPath: '/public/dist/',
@@ -28,10 +28,10 @@ module.exports = {
   client: {
     overlay: {
       errors: true,
-      warnings: false
+      warnings: false,
     },
   },
   static: {
     directory: path.resolve(__dirname, '../public/dist'),
-  }
+  },
 }

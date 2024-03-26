@@ -12,7 +12,7 @@ Object.assign(webpackConfig, {
   cache: {
     type: 'filesystem',
     profile: true,
-  }
+  },
 })
 
 webpackConfig.output.filename = '[name].[contenthash:8].js'

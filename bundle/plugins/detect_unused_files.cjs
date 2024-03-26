@@ -1,13 +1,13 @@
 // See https://github.com/MatthieuLemoine/unused-webpack-plugin
+const path = require('node:path')
 const UnusedWebpackPlugin = require('unused-webpack-plugin')
-const path = require('path')
 
 module.exports = new UnusedWebpackPlugin({
   // Source directories
   directories: [
-    path.resolve(__dirname, '../../app')
+    path.resolve(__dirname, '../../app'),
   ],
   exclude: [
-    'assets/*'
+    'assets/*',
   ],
 })
