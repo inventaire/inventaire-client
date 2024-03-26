@@ -14,6 +14,7 @@ module.exports = mode => ({
     require('./plugins/extract_css.cjs'),
     require('./plugins/dynamic_html_index_plugin.cjs'),
     require('./plugins/detect_circular_dependencies.cjs'),
+    require('./plugins/detect_unused_files.cjs'),
     new ForkTsCheckerWebpackPlugin(),
   ],
   output: {

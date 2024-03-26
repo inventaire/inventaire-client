@@ -17,7 +17,6 @@ Object.assign(webpackConfig, {
 
 webpackConfig.output.filename = '[name].[contenthash:8].js'
 
-webpackConfig.plugins.push(require('./plugins/detect_unused_files.cjs'))
 webpackConfig.plugins.push(require('./plugins/bundle_analyzer.cjs'))
 webpackConfig.optimization = require('./optimization.cjs')
 
