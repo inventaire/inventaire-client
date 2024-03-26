@@ -1,5 +1,5 @@
 <script>
-  import { pluck } from 'underscore'
+  import { property, pluck } from 'underscore'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import WorksBrowserFacets from '#entities/components/layouts/works_browser_facets.svelte'
   import WorksBrowserSection from '#entities/components/layouts/works_browser_section.svelte'
@@ -26,7 +26,7 @@
 
   let wrapped = true
   const smallScreenThreshold = 1000
-  const isNotEmpty = sections.map(_.property('uris')).flat().length > 0
+  const isNotEmpty = sections.map(property('uris')).flat().length > 0
 
   $: showControls = $screen.isLargerThan(smallScreenThreshold - 1) || !wrapped
 </script>

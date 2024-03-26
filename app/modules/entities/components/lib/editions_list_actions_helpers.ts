@@ -1,4 +1,4 @@
-import { compact, uniq } from 'underscore'
+import { uniq, compact } from 'underscore'
 import wdLang from 'wikidata-lang'
 import { getEntityLang } from '#entities/components/lib/claims_helpers'
 import { getEntitiesAttributesByUris, getPublicationYear } from '#entities/lib/entities'
@@ -28,9 +28,9 @@ const prioritizeMainUserLang = langs => {
 }
 
 export async function getLangEntities (editions) {
-  const rawEditionsLangs = _.compact(_.uniq(editions.map(getEntityLang)))
+  const rawEditionsLangs = compact(uniq(editions.map(getEntityLang)))
   const editionsLangs = prioritizeMainUserLang(rawEditionsLangs)
-  const langsUris = _.compact(editionsLangs.map(getLangWdUri))
+  const langsUris = compact(editionsLangs.map(getLangWdUri))
   const entities = await fetchEntitiesLabels(langsUris)
   const langEntitiesLabel = {}
   editionsLangs.forEach(lang => {
@@ -43,8 +43,8 @@ export async function getLangEntities (editions) {
 }
 
 export async function getPublishersEntities (editions) {
-  const rawPublishersUris = _.uniq(editions.flatMap(getPublisherUri))
-  const publishersUris = _.compact(rawPublishersUris)
+  const rawPublishersUris = uniq(editions.flatMap(getPublisherUri))
+  const publishersUris = compact(rawPublishersUris)
   const someEditionsHaveNoPublisher = rawPublishersUris.length !== publishersUris.length
   const publishers = await fetchEntitiesLabels(publishersUris)
   const publishersLabels = {}

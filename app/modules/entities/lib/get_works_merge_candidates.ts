@@ -1,4 +1,5 @@
 import leven from 'leven'
+import { uniq, flatten } from 'underscore'
 
 export default function (invWorks, wdWorks) {
   let invUri
@@ -25,7 +26,7 @@ export default function (invWorks, wdWorks) {
     }
   }
 
-  return _.values(candidates)
+  return Object.values(candidates)
   .filter(hasPossibleDuplicates)
   .map(candidate => {
     // Sorting so that the first work is the closest
@@ -37,7 +38,7 @@ export default function (invWorks, wdWorks) {
 const addLabelsParts = work => work._labelsParts || (work._labelsParts = getLabelsParts(getFormattedLabels(work)))
 
 const getFormattedLabels = work => {
-  return _.values(work.labels)
+  return Object.values(work.labels)
   .map(label => {
     return label.toLowerCase()
     // Remove anything after a '(' or a '['
@@ -58,7 +59,7 @@ const getLabelsParts = function (labels) {
     .filter(isntVolumeNumber)
   })
 
-  return _.uniq(_.flatten(parts))
+  return uniq(flatten(parts))
 }
 
 const titleSeparator = /\s*[-,:]\s+/

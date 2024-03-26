@@ -50,7 +50,7 @@ export default function () {
 
   let lastOpen = 0
   const openModal = function () {
-    lastOpen = _.now()
+    lastOpen = Date.now()
     if (isOpened()) return
 
     // Prevent width diff jumps
@@ -69,7 +69,7 @@ export default function () {
     // Ignore closing call happening less than 200ms after the last open call:
     // it's probably a view destroying itself and calling modal:close
     // while an other view requiring the modal to be opened just requested it
-    if (lastOpen > (_.now() - 200)) return
+    if (lastOpen > (Date.now() - 200)) return
 
     if (!isOpened()) return
 

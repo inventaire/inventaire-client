@@ -1,3 +1,4 @@
+import { groupBy, property, compact } from 'underscore'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
@@ -37,7 +38,7 @@ export const createCandidate = (externalEntry, entitiesRes) => {
 
 export const assignEntitiesToCandidate = (candidate, entitiesRes) => {
   const entities = Object.values(entitiesRes.entities).map(serializeEntity)
-  const { edition: editions, work: works, human: authors } = _.groupBy(entities, _.property('type'))
+  const { edition: editions, work: works, human: authors } = groupBy(entities, property('type'))
   if (editions) candidate.edition = getEdition(editions)
   // Works and authors might have been resolved independently from the edition
   candidate.works = works
@@ -117,9 +118,9 @@ export const getRelevantEntities = async (edition, works) => {
 
 const editionRelatives = [ 'wdt:P629', 'wdt:P50' ]
 
-const getUris = works => _.compact(works.map(getUri))
+const getUris = works => compact(works.map(getUri))
 
-const getUri = _.property('uri')
+const getUri = property('uri')
 
 const fetchAllMissingEntities = (resEntry, editionRelatives) => {
   const uris = []

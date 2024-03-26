@@ -1,3 +1,4 @@
+import { isString } from 'underscore'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import { i18n } from '#user/lib/i18n'
@@ -8,13 +9,13 @@ import { i18n } from '#user/lib/i18n'
 // but rathen onRender so that the expected DOM elements are rendered
 export function startLoading (params) {
   assertViewHasBehavior(this, 'Loading')
-  if (_.isString(params)) params = { selector: params }
+  if (isString(params)) params = { selector: params }
   this.$el.trigger('loading', params)
 }
 
 export function stopLoading (params) {
   assertViewHasBehavior(this, 'Loading')
-  if (_.isString(params)) params = { selector: params }
+  if (isString(params)) params = { selector: params }
   this.$el.trigger('stopLoading', params)
 }
 
@@ -64,7 +65,7 @@ export const assertViewHasBehavior = function (view, name) {
   throw error_.new(`view misses behavior: ${name}`, 500)
 }
 
-// typical invocation: _.extend @, behaviorsPlugin
+// typical invocation: Object.assign @, behaviorsPlugin
 // ( and not behaviorsPlugin.call @ )
 // allows to call functions only when needed: behaviorsPlugin.startLoading.call(@)
 export default {

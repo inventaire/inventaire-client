@@ -1,4 +1,4 @@
-import { pick, pluck } from 'underscore'
+import { uniq, flatten, compact, pick, pluck } from 'underscore'
 import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
 import { byNewestPublicationDate, getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.ts'
@@ -186,11 +186,11 @@ async function fetchRelatedEntities (entities, parentEntityType) {
 }
 
 export async function addWorksAuthors (works) {
-  const authorsUris = _.uniq(_.compact(_.flatten(works.map(getWorkAuthorsUris))))
+  const authorsUris = uniq(compact(flatten(works.map(getWorkAuthorsUris))))
   const entities = await getEntitiesByUris({ uris: authorsUris, index: true })
   works.forEach(work => {
     const workAuthorUris = getWorkAuthorsUris(work)
-    work.relatedEntities = _.pick(entities, workAuthorUris)
+    work.relatedEntities = pick(entities, workAuthorUris)
   })
 }
 const getWorkAuthorsUris = work => work.claims['wdt:P50']

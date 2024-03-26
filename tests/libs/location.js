@@ -1,3 +1,4 @@
+import { isEqual } from 'underscore'
 import 'should'
 import { parseQuery, buildPath } from '#lib/location'
 
@@ -26,7 +27,7 @@ describe('location utils', () => {
       for (const k in queryObj) {
         k[0].should.not.equal('?')
       }
-      _.isEqual(parseQuery(queries.goodToo), parseQuery(queries.good)).should.be.true()
+      isEqual(parseQuery(queries.goodToo), parseQuery(queries.good)).should.be.true()
     })
 
     it('should decode encoded strings', () => {

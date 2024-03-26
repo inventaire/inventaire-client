@@ -1,3 +1,4 @@
+import { debounce } from 'underscore'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 
@@ -28,4 +29,4 @@ const sendMissingKeys = function () {
   }
 }
 
-const lazyMissingKey = _.debounce(sendMissingKeys, 500)
+const lazyMissingKey = debounce(sendMissingKeys, 500)

@@ -1,3 +1,4 @@
+import { isEqual } from 'underscore'
 import { isNonEmptyPlainObject } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'
@@ -26,7 +27,7 @@ export const Updater = function (fixedOptions) {
     // smooths different ways to set a value to null or undefined
     const bothInexistant = ((value == null)) && ((previousValue == null))
 
-    if (bothInexistant || _.isEqual(value, previousValue)) {
+    if (bothInexistant || isEqual(value, previousValue)) {
       log_.info(options, 'the model is already up-to-date')
       promise = Promise.resolve()
     } else {

@@ -1,4 +1,4 @@
-import { chunk, compact, indexBy, pluck } from 'underscore'
+import { isArray, flatten, chunk, compact, indexBy, pluck } from 'underscore'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 import assert_ from '#lib/assert_types'
 import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#lib/boolean_tests'
@@ -37,7 +37,7 @@ export function normalizeUri (uri) {
 
 export const getEntitiesByUris = async params => {
   let uris, attributes, lang, index = false
-  if (_.isArray(params)) uris = params
+  if (isArray(params)) uris = params
   else ({ uris, index, attributes, lang } = params)
   uris = forceArray(uris)
   if (uris.length === 0) return []
@@ -174,7 +174,7 @@ export async function getEntityBasicInfoByUri (uri) {
 
 export async function getEntitiesAttributesFromClaims (claims, attributes) {
   if (!attributes) attributes = [ 'labels' ]
-  const claimsValues = _.flatten(Object.values(claims))
+  const claimsValues = flatten(Object.values(claims))
   const uris = claimsValues.filter(isEntityUri)
   const { entities } = await getEntitiesAttributesByUris({
     uris,

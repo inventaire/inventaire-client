@@ -1,3 +1,4 @@
+import { uniq, compact } from 'underscore'
 import { forceArray } from '#lib/utils'
 
 export default Backbone.Model.extend({
@@ -9,8 +10,8 @@ export default Backbone.Model.extend({
     const currentPictures = this.get('pictures') || []
     // no need to save more than what we need/can display
     if (currentPictures > 5) return
-    pictures = _.compact(pictures)
-    const updatedPictures = _.uniq(currentPictures.concat(pictures)).slice(0, 6)
+    pictures = compact(pictures)
+    const updatedPictures = uniq(currentPictures.concat(pictures)).slice(0, 6)
     this.set('pictures', updatedPictures)
   },
 

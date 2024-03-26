@@ -1,10 +1,11 @@
+import { pluck } from 'underscore'
 import preq from '#lib/preq'
 import filterOutWdEditions from '../filter_out_wd_editions.ts'
 
 export default function () {
   this.childrenClaimProperty = 'wdt:P123'
   this.subentitiesName = 'editions'
-  return _.extend(this, specificMethods)
+  return Object.assign(this, specificMethods)
 }
 
 const specificMethods = {
@@ -29,9 +30,9 @@ const specificMethods = {
 
   initPublicationsCollections (publicationsData) {
     const { collections, editions } = publicationsData
-    this.publisherCollectionsUris = _.pluck(collections, 'uri')
+    this.publisherCollectionsUris = pluck(collections, 'uri')
     const isolatedEditions = editions.filter(isntInAKnownCollection(this.publisherCollectionsUris))
-    this.isolatedEditionsUris = _.pluck(isolatedEditions, 'uri')
+    this.isolatedEditionsUris = pluck(isolatedEditions, 'uri')
   },
 }
 

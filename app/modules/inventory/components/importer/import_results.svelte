@@ -1,4 +1,5 @@
 <script>
+  import { property } from 'underscore'
   import ResultCandidate from '#inventory/components/importer/result_candidate.svelte'
   import { I18n } from '#user/lib/i18n'
 
@@ -6,8 +7,8 @@
   export let visibility
   export let transaction
 
-  $:candidatesErrors = processedCandidates.filter(_.property('error'))
-  $:createdCandidates = processedCandidates.filter(_.property('item'))
+  $:candidatesErrors = processedCandidates.filter(property('error'))
+  $:createdCandidates = processedCandidates.filter(property('item'))
 </script>
 {#if candidatesErrors.length > 0}
   <h4>{I18n('books not imported')}</h4>

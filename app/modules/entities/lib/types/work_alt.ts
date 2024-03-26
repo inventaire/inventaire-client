@@ -1,4 +1,4 @@
-import { pluck } from 'underscore'
+import { pick, uniq, flatten, compact, pluck } from 'underscore'
 import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath } from '../entities.ts'
 import getBestLangValue from '../get_best_lang_value.ts'
 
@@ -60,11 +60,11 @@ const setEntityImages = (entity, entityImages) => {
 }
 
 export async function addWorksAuthors (works) {
-  const authorsUris = _.uniq(_.compact(_.flatten(works.map(getWorkAuthorsUris))))
+  const authorsUris = uniq(compact(flatten(works.map(getWorkAuthorsUris))))
   const entities = await getEntitiesByUris({ uris: authorsUris, index: true })
   works.forEach(work => {
     const workAuthorUris = getWorkAuthorsUris(work)
-    work.authors = _.values(_.pick(entities, workAuthorUris))
+    work.authors = Object.values(pick(entities, workAuthorUris))
   })
 }
 

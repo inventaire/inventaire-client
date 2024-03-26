@@ -1,3 +1,4 @@
+import { omit } from 'underscore'
 import { buildPath } from '#lib/location'
 import { fixedEncodeURIComponent } from '#lib/utils'
 
@@ -8,7 +9,7 @@ export default {
     // Wikimedia Commons is confusingly using a sitelink key that makes it look like
     // a Wikipedia sitelink - commonswiki - thus the need to omit it before proceeding
     // https://www.wikidata.org/wiki/Help:Sitelinks#Linking_to_Wikimedia_site_pages
-    sitelinks = _.omit(sitelinks, 'commonswiki')
+    sitelinks = omit(sitelinks, 'commonswiki')
     return getBestWikiProjectInfo({
       sitelinks,
       projectBaseName: 'wiki',

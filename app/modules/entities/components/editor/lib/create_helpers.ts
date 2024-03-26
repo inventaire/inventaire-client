@@ -1,4 +1,4 @@
-import { pick, uniq, without } from 'underscore'
+import { compact, pick, uniq, without } from 'underscore'
 import wdLang from 'wikidata-lang'
 import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
 import { priorityPropertiesPerType, propertiesPerType } from '#entities/lib/editor/properties_per_type'
@@ -23,7 +23,7 @@ export function getMissingRequiredProperties ({ entity, requiredProperties, requ
     }
   }
   for (const property of requiredProperties) {
-    const propertyClaims = _.compact(entity.claims[property])
+    const propertyClaims = compact(entity.claims[property])
     if (propertyClaims.length <= 0) {
       const labelKey = propertiesPerType[type][property].customLabel || property
       missingRequiredProperties.push(i18n(labelKey))

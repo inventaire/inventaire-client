@@ -282,7 +282,7 @@ const getEntitiesModels = async function (params) {
   // Do not return entities with type 'missing'.
   // This type is used to avoid re-fetching an entity already known to be missing
   // but has no interest past entitiesModelsIndex
-  else return _.values(models).filter(isntMissing)
+  else return Object.values(models).filter(isntMissing)
 }
 
 // Known case of model being undefined: when the model initialization failed

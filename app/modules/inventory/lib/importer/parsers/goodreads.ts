@@ -1,3 +1,4 @@
+import { compact } from 'underscore'
 import { isPositiveIntegerString, isDateString } from '#lib/boolean_tests'
 import { trim, capitalize } from '#lib/utils'
 
@@ -18,6 +19,6 @@ export default obj => ({
 
 const cleanIsbn = isbn => isbn?.replace(/("|=)/g, '')
 
-const formatShelvesNames = bookshelves => _.compact(bookshelves.split(',').map(formatShelfName))
+const formatShelvesNames = bookshelves => compact(bookshelves.split(',').map(formatShelfName))
 
 const formatShelfName = name => capitalize(trim(name.replace(/-/g, ' ')))

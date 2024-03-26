@@ -1,3 +1,4 @@
+import { pluck, intersection } from 'underscore'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 import { isPositiveIntegerString } from '#lib/boolean_tests'
 
@@ -7,8 +8,8 @@ export default async function ({ entity }) {
   worksUris = worksUris.filter(isNonEmptyClaimValue)
   const works = await app.request('get:entities:models', { uris: worksUris })
   const data = works.reduce(aggregate, { authors: [], series: [] })
-  const commonAuthors = _.intersection(...data.authors)
-  const commonSeries = _.intersection(...data.series)
+  const commonAuthors = intersection(...data.authors)
+  const commonSeries = intersection(...data.series)
   if (commonSeries.length === 1) {
     const otherSerieWorks = await getSuggestionsFromSerie(commonSeries[0], works, worksUris)
     if (otherSerieWorks) return otherSerieWorks
@@ -38,7 +39,7 @@ const getSuggestionsFromAuthor = async (authorUri, worksUris) => {
   const author = await app.request('get:entity:model', authorUri)
   if (author.get('type') !== 'human') return
   const { works: authorWorksData } = await author.fetchWorksData()
-  return _.pluck(authorWorksData, 'uri')
+  return pluck(authorWorksData, 'uri')
   .filter(uri => !worksUris.includes(uri))
 }
 
@@ -68,7 +69,7 @@ const getSerieData = function (work) {
 const getOtherSerieWorks = async ({ serie, worksUris, lastOrdinal }) => {
   const partsData = await serie.fetchPartsData()
   const partsDataWithoutCurrentWorks = getReorderedParts(partsData, worksUris, lastOrdinal)
-  return _.pluck(partsDataWithoutCurrentWorks, 'uri')
+  return pluck(partsDataWithoutCurrentWorks, 'uri')
 }
 
 const getReorderedParts = function (partsData, worksUris, lastOrdinal) {

@@ -1,3 +1,4 @@
+import { debounce } from 'underscore'
 import Dropdown from '#behaviors/dropdown'
 import General from '#behaviors/general'
 import PreventDefault from '#behaviors/prevent_default'
@@ -98,7 +99,7 @@ const initWindowResizeEvents = function () {
     }
   }
 
-  const resize = _.debounce(resizeEnd, 150)
+  const resize = debounce(resizeEnd, 150)
   $(window).resize(resize)
 }
 

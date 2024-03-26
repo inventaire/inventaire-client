@@ -1,3 +1,4 @@
+import { property } from 'underscore'
 import preq from '#lib/preq'
 import { attachEntities, getEntitiesAttributesByUris, getEntitiesByUris, serializeEntity } from '../entities.ts'
 
@@ -39,7 +40,7 @@ export async function getAuthorWorks ({ uri }) {
   return worksEntities.filter(entity => entity.type === 'work')
 }
 
-const getUri = _.property('uri')
+const getUri = property('uri')
 
 const getWorksUris = (works, seriesUris) => {
   return works

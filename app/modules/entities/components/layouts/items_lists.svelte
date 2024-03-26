@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
-  import { groupBy } from 'underscore'
+  import { difference, groupBy } from 'underscore'
   import { icon } from '#lib/icons'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import ItemsMap from '#map/components/items_map.svelte'
@@ -20,7 +20,7 @@
 
   let fetchedEditionsUris = []
   const getItemsByCategories = async () => {
-    const newUris = _.difference(editionsUris, fetchedEditionsUris)
+    const newUris = difference(editionsUris, fetchedEditionsUris)
     if (newUris.length === 0) return
     fetchedEditionsUris = [ ...editionsUris, ...newUris ]
     waitingForItems = getItemsData(newUris)

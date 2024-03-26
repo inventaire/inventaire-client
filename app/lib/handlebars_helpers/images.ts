@@ -1,6 +1,6 @@
 // This is tailored for handlebars, for other uses, use app.API.img directly.
 // Keep in sync with server/lib/emails/handlebars_helpers
-
+import { isNumber, isArray } from 'underscore'
 import { isDataUrl } from '#lib/boolean_tests'
 
 export const imgSrc = (path, width, height) => {
@@ -23,10 +23,10 @@ export const imgSrc = (path, width, height) => {
 
 export default { imgSrc }
 
-const onePictureOnly = arg => _.isArray(arg) ? arg[0] : arg
+const onePictureOnly = arg => isArray(arg) ? arg[0] : arg
 
 const getImgDimension = function (dimension, defaultValue) {
-  if (_.isNumber(dimension)) {
+  if (isNumber(dimension)) {
     return dimension
   } else {
     return defaultValue

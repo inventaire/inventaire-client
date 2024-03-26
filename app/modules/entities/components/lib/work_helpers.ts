@@ -1,7 +1,8 @@
+import { uniq, omit, flatten, compact } from 'underscore'
 import { authorsProps } from '#entities/components/lib/claims_helpers'
 
 export const getPublishersUrisFromEditions = editions => {
-  return _.uniq(_.compact(_.flatten(editions.map(edition => {
+  return uniq(compact(flatten(editions.map(edition => {
     return findFirstClaimValue(edition, 'wdt:P123')
   }))))
 }
@@ -12,7 +13,7 @@ export const omitNonInfoboxClaims = claims => {
 }
 
 export const omitClaims = (claims, properties) => {
-  return _.omit(claims, properties.flat())
+  return omit(claims, properties.flat())
 }
 
 const findFirstClaimValue = (entity, prop) => {

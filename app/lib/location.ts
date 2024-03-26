@@ -1,3 +1,5 @@
+import { isObject, isNumber, isEmpty } from 'underscore'
+
 export const parseQuery = function (queryString) {
   if (queryString == null) return {}
   return queryString
@@ -25,12 +27,12 @@ export const routeSection = route => route.split(/[^\w]/)[0]
 
 export function buildPath (pathname, queryObj) {
   queryObj = removeUndefined(queryObj)
-  if ((queryObj == null) || _.isEmpty(queryObj)) return pathname
+  if ((queryObj == null) || isEmpty(queryObj)) return pathname
 
   let queryString = ''
 
   for (let [ key, value ] of Object.entries(queryObj)) {
-    if (_.isObject(value)) {
+    if (isObject(value)) {
       value = encodeURIComponent(JSON.stringify(value))
     }
     queryString += `&${key}=${value}`
@@ -54,7 +56,7 @@ const parseKeysValues = function (queryObj, nextParam) {
     value = permissiveJsonParse(decodeURIComponent(value))
     // If a number string was parsed into a number, make it a string again
     // so that the output stays predictible
-    if (_.isNumber(value)) value = value.toString()
+    if (isNumber(value)) value = value.toString()
     queryObj[key] = value
   }
 

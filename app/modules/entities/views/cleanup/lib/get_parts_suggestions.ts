@@ -1,3 +1,4 @@
+import { uniq, property, pluck, flatten } from 'underscore'
 import { searchWorks } from '#entities/lib/search/search_by_types'
 import preq from '#lib/preq'
 import addPertinanceScore from './add_pertinance_score.ts'
@@ -11,8 +12,8 @@ export default async function (serie) {
     getAuthorsWorks(authorsUris),
     searchMatchWorks(serie),
   ])
-  .then(_.flatten)
-  .then(_.uniq)
+  .then(flatten)
+  .then(uniq)
 
   let works = await app.request('get:entities:models', { uris, refresh: true })
 
@@ -28,8 +29,8 @@ export default async function (serie) {
 
 const getAuthorsWorks = async authorsUris => {
   let allResults = await Promise.all(authorsUris.map(fetchAuthorWorks))
-  allResults = allResults.map(results => _.pluck(results.works.filter(hasNoSerie), 'uri'))
-  return _.flatten(allResults)
+  allResults = allResults.map(results => pluck(results.works.filter(hasNoSerie), 'uri'))
+  return flatten(allResults)
 }
 
 const fetchAuthorWorks = authorUri => preq.get(app.API.entities.authorWorks(authorUri))
@@ -44,5 +45,5 @@ const searchMatchWorks = async serie => {
   const { results } = await searchWorks({ search: serieLabel, limit: 20 })
   return results
   .filter(result => (result._score > 0.5) && !partsUris.includes(result.uri))
-  .map(_.property('uri'))
+  .map(property('uri'))
 }

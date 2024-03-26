@@ -4,7 +4,7 @@
 //   and passing the node Qid as attribute
 // - Trigger uriLabel.update to make it look for those elements
 //   and replace their text by the best label it can find for the Qid
-
+import { difference, debounce } from 'underscore'
 import { get as getEntitiesModels } from '#entities/lib/entities_models_index'
 import log_ from '#lib/loggers'
 import {
@@ -64,7 +64,7 @@ const addEntitiesLabels = function (entitiesModels) {
 }
 
 const getMissingEntities = async function (uris) {
-  const missingUris = _.difference(uris, getKnownUris())
+  const missingUris = difference(uris, getKnownUris())
   // Avoid refetching URIs: either the data is about to arrive
   // or the data is missing (in case of failing connection to Wikidata for instance)
   // and it would keep requesting it if not filtered-out
@@ -105,4 +105,4 @@ export const refreshData = function () {
 
 const endRefreshMode = () => { refresh = false }
 
-export const update = _.debounce(_update, 200)
+export const update = debounce(_update, 200)

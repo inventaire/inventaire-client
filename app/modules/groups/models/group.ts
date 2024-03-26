@@ -1,3 +1,4 @@
+import { findWhere, property } from 'underscore'
 import Positionable from '#general/models/positionable'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import { getColorSquareDataUriFromModelId } from '#lib/images'
@@ -16,7 +17,7 @@ export default Positionable.extend({
   url: () => app.API.groups.base,
   initialize () {
     aggregateUsersIds.call(this)
-    _.extend(this, groupActions)
+    Object.assign(this, groupActions)
     this.setInferredAttributes()
     this.calculateHighlightScore()
 
@@ -91,7 +92,7 @@ export default Positionable.extend({
   },
 
   getUsersIds (category) {
-    return this.get(category).map(_.property('user'))
+    return this.get(category).map(property('user'))
   },
 
   membersCount () { return this.allMembersIds().length },
@@ -123,7 +124,7 @@ export default Positionable.extend({
 
     const mainUserIsMember = this.mainUserIsMember()
 
-    return _.extend(attrs, {
+    return Object.assign(attrs, {
       mainUserIsAdmin: this.mainUserIsAdmin(),
       mainUserIsMember,
       hasPosition: this.hasPosition(),
@@ -155,7 +156,7 @@ export default Positionable.extend({
   },
 
   findMembership (category, user) {
-    return _.findWhere(this.get(category), { user: user.id })
+    return findWhere(this.get(category), { user: user.id })
   },
 
   findInvitation (user) {

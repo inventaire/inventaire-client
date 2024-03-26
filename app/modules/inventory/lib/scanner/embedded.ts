@@ -1,3 +1,4 @@
+import { min } from 'underscore'
 import log_ from '#lib/loggers'
 import { getViewportHeight, getViewportWidth } from '#lib/screen'
 import drawCanvas from './draw_canvas.ts'
@@ -66,7 +67,7 @@ const getOptions = function (constraints) {
 const facingMode = { ideal: 'environment' }
 
 const getConstraints = function () {
-  const minDimension = _.min([ getViewportWidth(), getViewportHeight() ])
+  const minDimension = min([ getViewportWidth(), getViewportHeight() ])
   if (minDimension > 720) {
     return { width: 1280, height: 720, facingMode }
   } else {

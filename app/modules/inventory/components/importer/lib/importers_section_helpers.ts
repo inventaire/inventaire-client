@@ -1,4 +1,4 @@
-import { uniqueId } from 'underscore'
+import { compact, uniqueId } from 'underscore'
 import app from '#app/app'
 import getEntitiesItemsCount from '#inventory/lib/get_entities_items_count'
 import { getIsbnData } from '#inventory/lib/importer/extract_isbns'
@@ -26,7 +26,7 @@ export const createExternalEntry = candidateData => {
 }
 
 export const addExistingItemsCounts = async function ({ candidates, externalEntries }) {
-  const uris = _.compact(externalEntries.map(getExternalEntryUri))
+  const uris = compact(externalEntries.map(getExternalEntryUri))
   const waitingForItemsCounts = getEntitiesItemsCount(app.user.id, uris)
   candidates.forEach(candidate => { candidate.waitingForItemsCount = waitingForItemsCounts })
   const counts = await waitingForItemsCounts

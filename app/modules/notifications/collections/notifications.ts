@@ -1,3 +1,4 @@
+import { debounce } from 'underscore'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
@@ -11,7 +12,7 @@ export default Backbone.Collection.extend({
 
   initialize () {
     this.toUpdate = []
-    this.batchUpdate = _.debounce(this.update.bind(this), 200)
+    this.batchUpdate = debounce(this.update.bind(this), 200)
   },
 
   updateStatus (time) {

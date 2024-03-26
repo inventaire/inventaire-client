@@ -1,3 +1,5 @@
+import { negate } from 'underscore'
+
 export default Backbone.Collection.extend({
   comparator: 'ordinal',
 
@@ -18,4 +20,4 @@ export default Backbone.Collection.extend({
 })
 
 const isPlaceholder = model => model.get('isPlaceholder') === true
-const isntPlaceholder = _.negate(isPlaceholder)
+const isntPlaceholder = negate(isPlaceholder)

@@ -1,3 +1,4 @@
+import { uniq, debounce } from 'underscore'
 import { localStorageProxy } from '#lib/local_storage'
 import Search from '../models/search.ts'
 
@@ -29,7 +30,7 @@ export default Backbone.Collection.extend({
     // set a high debounce to give priority to everything else
     // as writing to the local storage is blocking the thread
     // and those aren't critical data
-    this.lazySave = _.debounce(this.save.bind(this), 3000)
+    this.lazySave = debounce(this.save.bind(this), 3000)
     // Models 'change' events are propagated to the collection by Backbone
     // See https://stackoverflow.com/a/9951424/3324977
     this.on('add remove change reset', this.lazySave.bind(this))
@@ -37,7 +38,7 @@ export default Backbone.Collection.extend({
 
   save () {
     // Remove duplicates
-    const searches = _.uniq(this.toJSON(), search => search.uri || search.query.trim().toLowerCase())
+    const searches = uniq(this.toJSON(), search => search.uri || search.query.trim().toLowerCase())
     // keep only track of the 10 last searches
     const data = JSON.stringify(searches.slice(0, 11))
     return localStorageProxy.setItem('searches', data)

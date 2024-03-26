@@ -56,7 +56,7 @@ export default Positionable.extend({
     const snapshot = this.get('snapshot')
     // Known case of missing snapshot data: user documents return from search
     if (snapshot != null) {
-      data = _.values(snapshot).reduce(aggregateScoreData, data)
+      data = Object.values(snapshot).reduce(aggregateScoreData, data)
     }
 
     const { itemsCount, lastAdd } = data

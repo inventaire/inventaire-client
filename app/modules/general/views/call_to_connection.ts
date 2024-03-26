@@ -8,7 +8,7 @@ export default Marionette.View.extend({
   template: callToConnectionTemplate,
   onRender () { app.execute('modal:open') },
   serializeData () {
-    return _.extend(this.options, { banner })
+    return Object.assign(this.options, { banner })
   },
 
   events: {

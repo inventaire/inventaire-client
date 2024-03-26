@@ -31,7 +31,7 @@ const importers = {
     specificKey: 'books_id',
     link: 'https://www.librarything.com/export.php?export_type=json',
     parse (data) {
-      return _.values(JSON.parse(data))
+      return Object.values(JSON.parse(data))
       .map(libraryThingParser)
     },
   },

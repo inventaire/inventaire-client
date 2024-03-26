@@ -1,3 +1,4 @@
+import { isObject } from 'underscore'
 import { chat, wiki, apiDoc, git } from '#lib/urls'
 
 // roughtly addressing the general case
@@ -10,7 +11,7 @@ if (location.hostname.match(/^(localhost|\d{1,3}\.\d{1,3}\.)/)) {
 if (window.env === 'dev') {
   const trueAlert = window.alert
   window.alert = function (obj) {
-    if (_.isObject(obj)) obj = JSON.stringify(obj, null, 2)
+    if (isObject(obj)) obj = JSON.stringify(obj, null, 2)
     return trueAlert(obj)
   }
 } else {

@@ -1,4 +1,4 @@
-import { compact, pluck, uniq } from 'underscore'
+import { all, property, last, compact, pluck, uniq } from 'underscore'
 import { getEntitiesBasicInfoByUris } from '#entities/lib/entities'
 import preq from '#lib/preq'
 import { unprefixify } from '#lib/wikimedia/wikidata'
@@ -95,7 +95,7 @@ function setOperationData (operation, user) {
   if (path === '/labels') {
     operation.propertyLabel = 'labels'
   } else if (path.startsWith('/labels/')) {
-    const lang = _.last(path.split('/'))
+    const lang = last(path.split('/'))
     operation.propertyLabel = `label ${lang}`
     operation.filter = lang
   } else if (path === '/claims') {
@@ -128,12 +128,12 @@ function findPatchType (patch) {
     if (firstOp.value === 'removed:placeholder') return 'deletion'
   }
 
-  const operationsTypes = operations.map(_.property('op'))
-  if (_.all(operationsTypes, isOpType('add'))) {
+  const operationsTypes = operations.map(property('op'))
+  if (all(operationsTypes, isOpType('add'))) {
     return 'add'
-  } else if (_.all(operationsTypes, isOpType('replace'))) {
+  } else if (all(operationsTypes, isOpType('replace'))) {
     return 'add'
-  } else if (_.all(operationsTypes, isOpType('remove'))) {
+  } else if (all(operationsTypes, isOpType('remove'))) {
     return 'remove'
   } else {
     return 'update'

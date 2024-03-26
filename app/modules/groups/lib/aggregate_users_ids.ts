@@ -1,3 +1,4 @@
+import { chain } from 'underscore'
 import { forceArray, capitalize } from '#lib/utils'
 
 export default function () {
@@ -14,7 +15,7 @@ export default function () {
 
   const recalculateAll = function (name, categories) {
     categories = forceArray(categories)
-    const ids = _.chain(categories).map(getUsersIds).flatten().value()
+    const ids = chain(categories).map(getUsersIds).flatten().value()
     cache[name] = ids
     return cache[name]
   }

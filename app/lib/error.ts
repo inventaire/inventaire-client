@@ -1,3 +1,4 @@
+import { isNumber, isArguments } from 'underscore'
 import log_ from '#lib/loggers'
 
 const formatError = function (message, statusCode, context) {
@@ -7,7 +8,7 @@ const formatError = function (message, statusCode, context) {
   // in case statusCode is a 4xx error
 
   // Default to client implementation errors: 599
-  if (!_.isNumber(statusCode)) {
+  if (!isNumber(statusCode)) {
     [ statusCode, context ] = [ 599, statusCode ]
   }
 
@@ -18,7 +19,7 @@ const formatError = function (message, statusCode, context) {
   err.statusCode = statusCode
 
   // converting arguments object to array for readability in logs
-  if (_.isArguments(context)) context = Array.from(context)
+  if (isArguments(context)) context = Array.from(context)
   err.context = context
   err.timestamp = new Date().toISOString()
 

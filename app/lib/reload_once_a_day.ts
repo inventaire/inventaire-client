@@ -1,3 +1,4 @@
+import { property } from 'underscore'
 // Reload the page every 24 hours to make sure we have the latest version
 // unless the current page is being edited
 
@@ -10,7 +11,7 @@ const tryReload = function () {
 
 const textareaContentLength = () => {
   return Array.from($('textarea'))
-  .map(_.property('value'))
+  .map(property('value'))
   .join('')
   .length
 }

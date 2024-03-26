@@ -52,6 +52,7 @@ export const API = {
 }
 
 const getBuster = () => {
+  // @ts-expect-error TS2339: Property 'env' does not exist on type 'Window & typeof globalThis'.
   if (window.env === 'dev') return `?${Date.now()}`
   else return `?${i18nContentHash}`
 }

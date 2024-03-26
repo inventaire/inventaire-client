@@ -61,7 +61,7 @@ const keep = function (newRoute) {
   }
 
   // extend persisting current parameters with new parameters
-  newQuery = _.extend(keptQuery, newQuery)
+  newQuery = Object.assign(keptQuery, newQuery)
   return buildPath(newRoute, newQuery)
 }
 

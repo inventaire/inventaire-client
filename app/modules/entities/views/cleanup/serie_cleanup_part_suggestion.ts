@@ -43,7 +43,7 @@ const PartSuggestion = WorkPicker.extend({
     work.editions.add(this.model.editions.models)
   },
 
-  events: _.extend({}, WorkPicker.prototype.events, {
+  events: Object.assign({}, WorkPicker.prototype.events, {
     'click a.add': 'add',
   }),
 

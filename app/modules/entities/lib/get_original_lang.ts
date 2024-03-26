@@ -1,3 +1,4 @@
+import { pick } from 'underscore'
 import wdLang from 'wikidata-lang'
 import { pickOne, objLength } from '#lib/utils'
 import { unprefixify } from '#lib/wikimedia/wikidata'
@@ -10,7 +11,7 @@ const langProperties = [
 ]
 
 export default function (claims) {
-  const langClaims = _.pick(claims, langProperties)
+  const langClaims = pick(claims, langProperties)
   if (objLength(langClaims) === 0) return
 
   const originalLangUri = pickOne(langClaims)?.[0]

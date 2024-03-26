@@ -1,4 +1,5 @@
 import Handlebars from 'handlebars/runtime.js'
+import { isString, isObject } from 'underscore'
 import { parseQuery } from '#lib/location'
 import log_ from '#lib/loggers'
 import { timeFromNow } from '#lib/time'
@@ -12,7 +13,7 @@ export default {
     // Allow to pass context through Handlebars hash object
     // ex: {{{i18n 'email_invitation_sent' email=this}}}
     // Use this mode for unsafe context values to get it escaped
-    if (_.isObject(context?.hash)) context = escapeValues(context.hash)
+    if (isObject(context?.hash)) context = escapeValues(context.hash)
     return i18n(key, context)
   },
 
@@ -40,7 +41,7 @@ export default {
     // Polymorphism: accept arguments as hash key/value pairs
     // ex: {{link i18n='see_on_website' i18nArgs='website=wikidata.org' url=wikidata.url classes='link'}}
     let simpleOpenedAnchor
-    if (_.isObject(text.hash)) {
+    if (isObject(text.hash)) {
       let i18nStr, i18nArgs, titleAttrKey, titleAttrValue;
       ({ text, i18n: i18nStr, i18nArgs, url, classes, title, titleAttrKey, titleAttrValue, simpleOpenedAnchor } = text.hash)
 
@@ -104,7 +105,7 @@ export default {
   },
 
   stringify (obj) {
-    if (_.isString(obj)) return obj
+    if (isString(obj)) return obj
     else return JSON.stringify(obj, null, 2)
   },
 }

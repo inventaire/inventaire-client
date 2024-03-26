@@ -18,7 +18,7 @@ export default tabs = {
   },
 }
 
-const buildTabData = (tabName, tabData) => _.extend(tabData, {
+const buildTabData = (tabName, tabData) => Object.assign(tabData, {
   id: `${tabName}Tab`,
   href: `/add/${tabName}`,
   label: tabName,

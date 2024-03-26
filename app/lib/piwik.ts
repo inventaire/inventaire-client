@@ -1,3 +1,4 @@
+import { noop, debounce } from 'underscore'
 import { config } from '#app/config'
 import { isUserId } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
@@ -11,8 +12,8 @@ const { _paq, env } = window
 
 // Those handlers will be overriden once the config arrives, if tracking isn't disabled
 app.commands.setHandlers({
-  'track:user:id': _.noop,
-  'track:page:view': _.noop,
+  'track:user:id': noop,
+  'track:page:view': noop,
 })
 
 export default async function () {
@@ -78,6 +79,6 @@ export default async function () {
     // when successive document:title:change occure
     // and let the time to the route to be updated
     // (app.navigate being often trigger after all the actions are done)
-    'track:page:view': _.debounce(trackPageView, 300),
+    'track:page:view': debounce(trackPageView, 300),
   })
 }

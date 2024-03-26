@@ -1,3 +1,4 @@
+import { noop, identity } from 'underscore'
 import { getPropertiesShortlist } from '#entities/components/editor/lib/create_helpers'
 import { typeDefaultP31 } from '#entities/lib/types/entities_types'
 import { buildPath } from '#lib/location'
@@ -40,7 +41,7 @@ export default {
     const model = new Backbone.NestedModel(entityDraft)
     Entity.prototype.setFavoriteLabel.call(model, model.toJSON())
 
-    _.extend(model, {
+    Object.assign(model, {
       type,
       creating: true,
       // The property that links this entity to another entity being created
@@ -54,7 +55,7 @@ export default {
         return this.setLabel(lang, value)
       },
       // Required by editableEntity.setPropertyValue
-      invalidateRelationsCache: _.noop,
+      invalidateRelationsCache: noop,
       saveLabel: asyncNoop,
       create () {
         return createAndGetEntityModel({
@@ -67,7 +68,7 @@ export default {
 
       // Methods required by app.navigateFromModel
       updateMetadata () { return { title: label || I18n('new entity') } },
-      getRefresh: _.identity,
+      getRefresh: identity,
     })
 
     // Attributes required by app.navigateFromModel

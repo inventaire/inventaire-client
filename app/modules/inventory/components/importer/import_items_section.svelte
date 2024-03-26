@@ -1,5 +1,5 @@
 <script>
-  import _ from 'underscore'
+  import { property } from 'underscore'
   import Counter from '#components/counter.svelte'
   import ImportResults from '#inventory/components/importer/import_results.svelte'
   import { createItemFromCandidate } from '#inventory/components/importer/lib/create_item'
@@ -26,7 +26,7 @@
   let processedExternalShelvesCount = 0
   let externalShelfErrors = []
 
-  $: selectedCandidates = candidates.filter(_.property('checked'))
+  $: selectedCandidates = candidates.filter(property('checked'))
 
   const importCandidates = async () => {
     flash = null

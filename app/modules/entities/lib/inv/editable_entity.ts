@@ -1,3 +1,4 @@
+import { flatten, compact } from 'underscore'
 import assert_ from '#lib/assert_types'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'
@@ -36,7 +37,7 @@ export default {
     const index = (oldValue != null) ? propArray.indexOf(oldValue) : propArray.length
     propArray[index] = newValue
     // Compact propArray to remove deleted values
-    this.set(propArrayPath, _.compact(propArray))
+    this.set(propArrayPath, compact(propArray))
 
     const reverseAction = this.set.bind(this, `${propArrayPath}.${index}`, oldValue)
     const rollback = Rollback(reverseAction, 'editable_entity setPropertyValue')
@@ -102,7 +103,7 @@ export default {
       break
     }
 
-    uris = _.compact(_.flatten(uris))
+    uris = compact(flatten(uris))
 
     app.execute('invalidate:entities:cache', uris)
   },

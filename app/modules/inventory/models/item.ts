@@ -1,3 +1,4 @@
+import { without, debounce } from 'underscore'
 import { getEntityLocalHref } from '#entities/lib/entities'
 import Filterable from '#general/models/filterable'
 import { isNonEmptyString, isEntityUri } from '#lib/boolean_tests'
@@ -94,7 +95,7 @@ export default Filterable.extend({
   serializeData () {
     const attrs = this.toJSON()
 
-    _.extend(attrs, {
+    Object.assign(attrs, {
       title: this.get('snapshot.entity:title'),
       personalizedTitle: this.findBestTitle(),
       subtitle: this.get('snapshot.entity:subtitle'),
@@ -234,7 +235,7 @@ export default Filterable.extend({
   lazySave (key, value) {
     // Created a debounced save function if non was created before
     if (!this._lazySave) {
-      this._lazySave = _.debounce(this.save.bind(this), 200)
+      this._lazySave = debounce(this.save.bind(this), 200)
     }
     // Set any passed
     this.set(key, value)
@@ -256,7 +257,7 @@ export default Filterable.extend({
   removeShelf (shelfId) {
     let shelvesIds = this.get('shelves') || []
     if (!shelvesIds.includes(shelfId)) return
-    shelvesIds = _.without(shelvesIds, shelfId)
+    shelvesIds = without(shelvesIds, shelfId)
     this.set('shelves', shelvesIds)
   },
 

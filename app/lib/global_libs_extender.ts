@@ -1,4 +1,5 @@
 import FilteredCollection from 'backbone-filtered-collection'
+import { without, isString, isArray, debounce } from 'underscore'
 // Sets $(selector).visible function
 import 'jquery-visible'
 import assert_ from '#lib/assert_types'
@@ -35,7 +36,7 @@ Backbone.Model.prototype.unshift = ArrayHandler((array, value) => {
   return array
 })
 
-Backbone.Model.prototype.without = ArrayHandler((array, value) => _.without(array, value))
+Backbone.Model.prototype.without = ArrayHandler((array, value) => without(array, value))
 
 // attaching related models to a model in a standard way
 // - requesting it to whatever modules handles it
@@ -46,7 +47,7 @@ Backbone.Model.prototype.without = ArrayHandler((array, value) => _.without(arra
 // Especially useful conbined with destructuring assignment:
 // [ a, b, c ] = model.gets 'a', 'b', 'c'
 Backbone.Model.prototype.gets = function (...attributes) {
-  if (_.isArray(attributes[0])) {
+  if (isArray(attributes[0])) {
     throw new Error('gets expects attributes as different arguments')
   }
   return attributes.map(this.get.bind(this))
@@ -138,7 +139,7 @@ Backbone.View.prototype.ifViewIsIntact = function (fn, ...args) {
 
     args.push(result)
     // Accept a method name in place of a function
-    if (_.isString(fn)) fn = this[fn]
+    if (isString(fn)) fn = this[fn]
     return fn.apply(this, args)
   }
 }
@@ -239,9 +240,9 @@ const LazyRender = function (view, timespan = 200) {
   const cautiousRender = function (focusSelector) {
     if (view.isRendered() && !(view.isDestroyed() || view._preventRerender)) {
       view.render()
-      if (_.isString(focusSelector)) view.$el.find(focusSelector).focus()
+      if (isString(focusSelector)) view.$el.find(focusSelector).focus()
     }
   }
 
-  return _.debounce(cautiousRender, timespan)
+  return debounce(cautiousRender, timespan)
 }

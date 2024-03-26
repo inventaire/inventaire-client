@@ -1,3 +1,4 @@
+import { range, difference, debounce } from 'underscore'
 import AlertBox from '#behaviors/alert_box'
 import getLangsData from '#entities/lib/editor/get_langs_data'
 import forms_ from '#general/lib/forms'
@@ -37,7 +38,7 @@ export default Marionette.View.extend({
 
   initialize () {
     ({ worksWithOrdinal: this.worksWithOrdinal, worksWithoutOrdinal: this.worksWithoutOrdinal } = this.options)
-    const lazyLangSelectorUpdate = _.debounce(this.onOtherLangSelectorChange.bind(this), 500)
+    const lazyLangSelectorUpdate = debounce(this.onOtherLangSelectorChange.bind(this), 500)
     this.listenTo(app.vent, 'lang:local:change', lazyLangSelectorUpdate)
     // This is required to update works ordinal selectors
     this.listenTo(app.vent, 'serie:cleanup:parts:change', this.lazyRender.bind(this))
@@ -170,13 +171,13 @@ export default Marionette.View.extend({
 
   spreadAuthors () {
     const currentAuthorsUris = this.model.get('claims.wdt:P50') || []
-    const authorsSuggestionsUris = _.difference(this.allAuthorsUris, currentAuthorsUris)
+    const authorsSuggestionsUris = difference(this.allAuthorsUris, currentAuthorsUris)
     return { currentAuthorsUris, authorsSuggestionsUris }
   },
 })
 
 const getPossibleOrdinals = function (nonPlaceholdersOrdinals) {
   const maxOrdinal = nonPlaceholdersOrdinals.slice(-1)[0] || -1
-  return _.range(0, (maxOrdinal + 10))
+  return range(0, (maxOrdinal + 10))
     .filter(num => !nonPlaceholdersOrdinals.includes(num))
 }

@@ -4,7 +4,7 @@ export const createPlaceholders = function () {
   if (this._placeholderCreationOngoing) return
   this._placeholderCreationOngoing = true
 
-  const views = _.values(this.getRegion('worksWithOrdinalRegion').currentView.children._views)
+  const views = Object.values(this.getRegion('worksWithOrdinalRegion').currentView.children._views)
   startLoading.call(this, { selector: '#createPlaceholders', timeout: 300 })
 
   const createSequentially = function () {

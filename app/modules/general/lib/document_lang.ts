@@ -1,3 +1,4 @@
+import { omit } from 'underscore'
 import { langs, regionify, getTextDirection } from '#lib/active_languages'
 import { setQuerystring, currentRoute } from '#lib/location'
 
@@ -40,6 +41,6 @@ const addOgLocalAlternates = function (elements, lang) {
   elements.push(`<meta property='og:locale' content='${local}' />`)
 
   // set the others as 'og:locale:alternate'
-  const otherTerritories = _.values(_.omit(regionify, lang))
+  const otherTerritories = Object.values(omit(regionify, lang))
   otherTerritories.map(territory => elements.push(`<meta property='og:locale:alternate' content='${territory}' />`))
 }

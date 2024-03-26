@@ -24,7 +24,7 @@ export default Marionette.View.extend({
   },
 
   initialize () {
-    _.extend(this, behaviorsPlugin)
+    Object.assign(this, behaviorsPlugin)
     this.standalone = this.options.standalone
   },
 

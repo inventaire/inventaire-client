@@ -1,3 +1,4 @@
+import { debounce } from 'underscore'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import { icon } from '#lib/icons'
 import log_ from '#lib/loggers'
@@ -50,7 +51,7 @@ export default Marionette.Behavior.extend({
       this._alreadyListingForProgressionEvent = true
 
       const fn = updateProgression.bind(this, body, $target)
-      const lazyUpdateProgression = _.debounce(fn, 500, true)
+      const lazyUpdateProgression = debounce(fn, 500, true)
       this.listenTo(app.vent, progressionEventName, lazyUpdateProgression)
     }
 
