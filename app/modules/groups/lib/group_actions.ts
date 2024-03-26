@@ -1,3 +1,4 @@
+import app from '#app/app'
 import error_ from '#lib/error'
 import preq from '#lib/preq'
 

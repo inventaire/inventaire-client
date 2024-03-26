@@ -1,3 +1,4 @@
+import app from '#app/app'
 import PreventDefault from '#behaviors/prevent_default'
 import log_ from '#lib/loggers'
 import { isOpenedOutside } from '#lib/utils'

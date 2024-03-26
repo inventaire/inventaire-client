@@ -1,5 +1,6 @@
 <script>
   import { getContext } from 'svelte'
+  import app from '#app/app'
   import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'
   import { hasSelectedLang } from '#entities/components/lib/claims_helpers'
   import { getLangEntities, getPublishersEntities, getPublicationYears, hasPublisher, hasPublicationYear } from '#entities/components/lib/editions_list_actions_helpers'

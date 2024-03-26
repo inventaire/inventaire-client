@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { isWikidataItemUri } from '#lib/boolean_tests.ts'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'

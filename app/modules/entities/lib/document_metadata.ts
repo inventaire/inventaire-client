@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { getEntityImageUrl } from '#entities/lib/entities'
 import { typesString } from '#entities/models/entity'
 import { I18n } from '#user/lib/i18n'

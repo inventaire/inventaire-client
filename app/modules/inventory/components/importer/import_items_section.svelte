@@ -1,5 +1,6 @@
 <script>
   import { property } from 'underscore'
+  import app from '#app/app'
   import Counter from '#components/counter.svelte'
   import ImportResults from '#inventory/components/importer/import_results.svelte'
   import { createItemFromCandidate } from '#inventory/components/importer/lib/create_item'

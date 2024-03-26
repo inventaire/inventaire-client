@@ -1,4 +1,5 @@
 import cookie_ from 'js-cookie'
+import app from '#app/app'
 import { langs as activeLangs } from '#lib/active_languages'
 import { shortLang } from '#lib/utils'
 

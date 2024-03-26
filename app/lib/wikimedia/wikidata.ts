@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { buildPath } from '#lib/location'
 
 export function searchWikidataEntities (params) {

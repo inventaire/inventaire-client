@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher, setContext } from 'svelte'
   import { debounce } from 'underscore'
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'

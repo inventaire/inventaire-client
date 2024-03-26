@@ -1,4 +1,5 @@
 import { pick } from 'underscore'
+import app from '#app/app'
 import { isModel, isUserId } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import { forceArray } from '#lib/utils'

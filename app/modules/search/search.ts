@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { parseQuery } from '#lib/location'
 import { setPrerenderStatusCode } from '#lib/metadata/update'
 import { parseBooleanString } from '#lib/utils'

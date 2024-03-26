@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import ItemRow from '#inventory/components/item_row.svelte'
   import { addNext, cancel } from '#inventory/components/lib/item_creation_helpers'

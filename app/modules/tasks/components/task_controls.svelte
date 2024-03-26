@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte'
   import { clone } from 'underscore'
+  import app from '#app/app'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Spinner from '#general/components/spinner.svelte'
   import { autofocus } from '#lib/components/actions/autofocus'

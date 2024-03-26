@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import { formatEbooksClaim } from '#entities/components/lib/claims_helpers'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import Link from '#lib/components/link.svelte'

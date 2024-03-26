@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { isEntityUri } from '#lib/boolean_tests'
 // Takes an Inventaire entity URI and a Wikidata entity URI,
 // fetches the entities models, and return an object with the labels and claims

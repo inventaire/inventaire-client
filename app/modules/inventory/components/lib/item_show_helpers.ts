@@ -1,4 +1,5 @@
 import { compact, pick, uniq } from 'underscore'
+import app from '#app/app'
 import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
 import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
 

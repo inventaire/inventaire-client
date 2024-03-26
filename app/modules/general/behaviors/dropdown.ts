@@ -1,3 +1,5 @@
+import app from '#app/app'
+
 export default Marionette.Behavior.extend({
   events: {
     'click [aria-haspopup="menu"]': 'toggleDropdown',

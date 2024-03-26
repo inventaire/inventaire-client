@@ -4,6 +4,7 @@
 
 <script>
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
+  import app from '#app/app'
   import { autofocus } from '#lib/components/actions/autofocus'
   import { icon } from '#lib/icons'
   import { getActionKey } from '#lib/key_events'

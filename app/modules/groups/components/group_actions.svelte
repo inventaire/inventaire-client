@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import { groupAction } from '#groups/lib/group_actions_alt'
   import { getGroup, serializeGroup } from '#groups/lib/groups'

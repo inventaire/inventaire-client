@@ -1,3 +1,4 @@
+import app from '#app/app'
 // General events to be shared between the app_layout and modal
 // given app_layout can't catch modal events
 import enterClick from '#general/lib/enter_click'

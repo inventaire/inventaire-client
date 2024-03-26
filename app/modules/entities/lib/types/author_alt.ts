@@ -1,4 +1,5 @@
 import { property } from 'underscore'
+import app from '#app/app'
 import preq from '#lib/preq'
 import { attachEntities, getEntitiesAttributesByUris, getEntitiesByUris, serializeEntity } from '../entities.ts'
 

@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import { propertiesType, formatClaimValue, buildPathname } from '#entities/components/lib/claims_helpers'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { isEntityUri } from '#lib/boolean_tests'

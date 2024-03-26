@@ -1,4 +1,5 @@
 import { pluck, intersection } from 'underscore'
+import app from '#app/app'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 import { isPositiveIntegerString } from '#lib/boolean_tests'
 

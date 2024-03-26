@@ -1,6 +1,7 @@
 <script>
   import { slide } from 'svelte/transition'
   import { debounce } from 'underscore'
+  import app from '#app/app'
   import Modal from '#components/modal.svelte'
   import PicturePicker from '#components/picture_picker.svelte'
   import Spinner from '#components/spinner.svelte'

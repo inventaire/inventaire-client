@@ -1,4 +1,5 @@
 import { difference } from 'underscore'
+import app from '#app/app'
 
 export default async function ({ entity }) {
   const serieUri = entity.claims['wdt:P179']?.[0]

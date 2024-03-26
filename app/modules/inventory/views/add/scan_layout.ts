@@ -1,3 +1,4 @@
+import app from '#app/app'
 import scanTemplate from './templates/scan_layout.hbs'
 import '#inventory/scss/scan_layout.scss'
 

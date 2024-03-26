@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { host } from '#lib/urls'
 import { dropLeadingSlash } from '#lib/utils'
 

@@ -1,3 +1,5 @@
+import app from '#app/app'
+
 export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({

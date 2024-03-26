@@ -1,4 +1,5 @@
 import { isArray, flatten, chunk, compact, indexBy, pluck } from 'underscore'
+import app from '#app/app'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 import assert_ from '#lib/assert_types'
 import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#lib/boolean_tests'

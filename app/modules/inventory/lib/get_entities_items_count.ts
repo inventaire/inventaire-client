@@ -1,4 +1,5 @@
 import { uniq } from 'underscore'
+import app from '#app/app'
 import preq from '#lib/preq'
 import { chunk } from '#lib/utils'
 

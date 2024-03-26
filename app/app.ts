@@ -135,7 +135,7 @@ const onPreviousRoute = function () {
   app.vent.trigger('route:change', routeSection(route), route)
 }
 
-const app = window.app = new App()
+const app = new App()
 
 export default app
 

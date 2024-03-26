@@ -1,3 +1,4 @@
+import app from '#app/app'
 import FullScreenLoader from '#components/full_screen_loader.svelte'
 import { isOpenedOutside } from '#lib/utils'
 

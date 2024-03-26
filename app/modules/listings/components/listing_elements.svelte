@@ -1,5 +1,6 @@
 <script>
   import { pluck } from 'underscore'
+  import app from '#app/app'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'

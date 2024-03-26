@@ -1,3 +1,4 @@
+import app from '#app/app'
 import PreventDefault from '#behaviors/prevent_default'
 import SuccessCheck from '#behaviors/success_check'
 import { isOpenedOutside } from '#lib/utils'

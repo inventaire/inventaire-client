@@ -1,3 +1,4 @@
+import app from '#app/app'
 import forms_ from '#general/lib/forms'
 import preq from '#lib/preq'
 import { Username } from '#lib/regex'

@@ -1,4 +1,5 @@
 import { findWhere, pluck, without } from 'underscore'
+import app from '#app/app'
 import forms_ from '#general/lib/forms'
 import error_ from '#lib/error'
 import { getColorSquareDataUriFromModelId } from '#lib/images'

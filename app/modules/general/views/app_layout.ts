@@ -1,4 +1,5 @@
 import { debounce } from 'underscore'
+import app from '#app/app'
 import Dropdown from '#behaviors/dropdown'
 import General from '#behaviors/general'
 import PreventDefault from '#behaviors/prevent_default'

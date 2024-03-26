@@ -1,4 +1,5 @@
 import { noop, debounce } from 'underscore'
+import app from '#app/app'
 import { config } from '#app/config'
 import { isUserId } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'

@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import Modal from '#components/modal.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import { imgSrc } from '#lib/handlebars_helpers/images'

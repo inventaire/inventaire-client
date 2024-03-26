@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { guessUriFromIsbn } from '#inventory/lib/importer/import_helpers'
 
 export const getUserExistingItemsPathname = isbnData => {

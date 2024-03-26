@@ -1,5 +1,6 @@
 <script>
   import { debounce, isEqual } from 'underscore'
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import ShelfInfo from '#inventory/components/shelf_info.svelte'
   import { icon } from '#lib/icons'

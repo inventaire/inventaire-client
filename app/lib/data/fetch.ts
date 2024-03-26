@@ -1,4 +1,5 @@
 import pTimeout from 'p-timeout'
+import app from '#app/app'
 
 // Fetching data in a standardized way:
 // - use the passed collection or create one using the Collection class

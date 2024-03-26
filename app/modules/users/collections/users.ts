@@ -1,4 +1,5 @@
 import { debounce } from 'underscore'
+import app from '#app/app'
 import User from '../models/user.ts'
 
 export default Backbone.Collection.extend({

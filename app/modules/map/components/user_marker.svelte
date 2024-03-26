@@ -1,6 +1,7 @@
 <!-- TODO: merge with #map/components/user_marker.svelte -->
 <script>
   import { createEventDispatcher } from 'svelte'
+  import app from '#app/app'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { icon } from '#lib/icons'
   import { isOpenedOutside } from '#lib/utils'

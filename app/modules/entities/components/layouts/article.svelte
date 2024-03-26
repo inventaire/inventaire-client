@@ -1,6 +1,7 @@
 <script>
   import { setContext } from 'svelte'
   import { debounce } from 'underscore'
+  import app from '#app/app'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'

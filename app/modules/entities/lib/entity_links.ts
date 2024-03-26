@@ -1,4 +1,5 @@
 import { compact, groupBy, pick, pluck, uniq } from 'underscore'
+import app from '#app/app'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import { sortObjectKeys } from '#lib/utils'
 import { getUriNumericId } from '#lib/wikimedia/wikidata'

@@ -1,3 +1,4 @@
+import app from '#app/app'
 import Positionable from '#general/models/positionable'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import error_ from '#lib/error'

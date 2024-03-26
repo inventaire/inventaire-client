@@ -1,5 +1,6 @@
 import Polyglot from 'node-polyglot'
 import { noop } from 'underscore'
+import app from '#app/app'
 // General rule: one session -> one language. Which means that every language
 // change triggers a page reload with the new language.
 // This is less efficient than re-rendering everything once the new language

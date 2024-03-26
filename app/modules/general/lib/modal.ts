@@ -1,3 +1,4 @@
+import app from '#app/app'
 import Spinner from '#components/spinner.svelte'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import { removeCurrentComponent } from '#lib/global_libs_extender'

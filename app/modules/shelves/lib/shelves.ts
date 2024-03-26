@@ -1,4 +1,5 @@
 import { pluck } from 'underscore'
+import app from '#app/app'
 import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
 import assert_ from '#lib/assert_types'
 import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'

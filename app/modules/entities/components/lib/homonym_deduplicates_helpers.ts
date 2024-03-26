@@ -1,4 +1,5 @@
 import { compact, partition, pick, pluck, uniq } from 'underscore'
+import app from '#app/app'
 import { getEntitiesByUris } from '#entities/lib/entities'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import { pluralize } from '#entities/lib/types/entities_types'

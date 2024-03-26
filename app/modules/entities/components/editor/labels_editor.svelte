@@ -1,5 +1,6 @@
 <script>
   import { tick } from 'svelte'
+  import app from '#app/app'
   import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/editor/lib/editors_helpers'
   import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/components/editor/lib/title_tip'
   import getLangsData from '#entities/lib/editor/get_langs_data'

@@ -1,3 +1,4 @@
+import app from '#app/app'
 import Loading from '#behaviors/loading'
 import behaviorsPlugin from '#general/plugins/behaviors'
 import embedded_ from '#inventory/lib/scanner/embedded'

@@ -1,3 +1,4 @@
+import app from '#app/app'
 import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
 import Notifications from './collections/notifications.ts'

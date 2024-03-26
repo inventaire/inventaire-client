@@ -2,6 +2,7 @@
   import { setContext, tick } from 'svelte'
   import { writable } from 'svelte/store'
   import { property } from 'underscore'
+  import app from '#app/app'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'

@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import { buildPath } from '#lib/location'
   import { domain } from '#lib/urls'
   import { fixedEncodeURIComponent, loadInternalLink } from '#lib/utils'

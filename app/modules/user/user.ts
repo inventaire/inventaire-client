@@ -1,3 +1,4 @@
+import app from '#app/app'
 import error_ from '#lib/error'
 import { parseQuery } from '#lib/location'
 import preq from '#lib/preq'
@@ -22,7 +23,7 @@ export default {
     new Router({ controller: API })
 
     initMainUser(app)
-    auth(app)
+    auth()
     userUpdate(app)
 
     app.commands.setHandlers({

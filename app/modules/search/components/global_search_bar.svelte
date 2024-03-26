@@ -9,6 +9,7 @@
   //   or dead (wdt:P20) nearby
   import { onDestroy } from 'svelte'
   import { debounce } from 'underscore'
+  import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import { searchByTypes } from '#entities/lib/search/search_by_types'
   import { wikidataSearch } from '#entities/lib/search/wikidata_search'

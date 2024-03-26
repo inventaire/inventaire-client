@@ -1,4 +1,5 @@
 import { invoke } from 'underscore'
+import app from '#app/app'
 import { sum } from '#lib/utils'
 import Group from '../models/group.ts'
 

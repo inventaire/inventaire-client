@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { buildPath } from '#lib/location'
 import { images } from '#lib/urls'
 import { distanceBetween } from '#map/lib/geo'

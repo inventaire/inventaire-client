@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { get as getQuerystringParameter } from '#lib/querystring_helpers'
 
 export async function initQuerystringActions () {

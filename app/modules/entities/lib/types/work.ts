@@ -1,4 +1,5 @@
 import { property, compact } from 'underscore'
+import app from '#app/app'
 import filterOutWdEditions from '../filter_out_wd_editions.ts'
 import getEntityItemsByCategories from '../get_entity_items_by_categories.ts'
 import commonsSerieWork from './commons_serie_work.ts'

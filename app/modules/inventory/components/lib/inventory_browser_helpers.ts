@@ -1,4 +1,5 @@
 import { clone, flatten, intersection, pick, uniq, without } from 'underscore'
+import app from '#app/app'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 import error_ from '#lib/error'

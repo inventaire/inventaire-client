@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityClaimsLinks from '#entities/components/layouts/entity_claims_links.svelte'
   import { infoboxShortlistPropertiesByType, infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'

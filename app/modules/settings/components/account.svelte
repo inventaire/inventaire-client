@@ -1,5 +1,6 @@
 <script>
   import { debounce } from 'underscore'
+  import app from '#app/app'
   import languagesData from '#assets/js/languages_data'
   import Flash from '#lib/components/flash.svelte'
   import UpdatePassword from '#lib/components/update_password.svelte'

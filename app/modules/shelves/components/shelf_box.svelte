@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher, tick } from 'svelte'
+  import app from '#app/app'
   import Modal from '#components/modal.svelte'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'

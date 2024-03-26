@@ -1,4 +1,5 @@
 import { findWhere, property } from 'underscore'
+import app from '#app/app'
 import Positionable from '#general/models/positionable'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import { getColorSquareDataUriFromModelId } from '#lib/images'

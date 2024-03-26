@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 import assert_ from '#lib/assert_types'
 import { isPropertyUri, isEntityUri } from '#lib/boolean_tests'

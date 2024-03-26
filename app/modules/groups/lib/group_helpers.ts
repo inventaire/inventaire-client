@@ -1,4 +1,5 @@
 import FilteredCollection from 'backbone-filtered-collection'
+import app from '#app/app'
 import { isModel, isGroupId } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import { Updater } from '#lib/model_update'

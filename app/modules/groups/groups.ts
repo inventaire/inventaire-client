@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { getGroupBySlug, mainUserIsGroupMember, serializeGroup } from '#groups/lib/groups'
 import { isModel } from '#lib/boolean_tests'
 import fetchData from '#lib/data/fetch'

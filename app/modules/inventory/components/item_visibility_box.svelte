@@ -1,5 +1,6 @@
 <script>
   import { debounce, isEqual } from 'underscore'
+  import app from '#app/app'
   import Dropdown from '#components/dropdown.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, iconByVisibilitySummary } from '#general/lib/visibility'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'

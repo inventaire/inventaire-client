@@ -1,4 +1,5 @@
 import { property, uniq } from 'underscore'
+import app from '#app/app'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import { I18n } from '#user/lib/i18n'
 

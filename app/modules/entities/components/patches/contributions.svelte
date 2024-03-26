@@ -1,4 +1,5 @@
 <script>
+  import app from '#app/app'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import Contribution from '#entities/components/patches/contribution.svelte'
   import { serializePatches } from '#entities/lib/patches'

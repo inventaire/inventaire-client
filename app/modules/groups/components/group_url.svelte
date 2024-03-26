@@ -1,5 +1,6 @@
 <script>
   import { debounce } from 'underscore'
+  import app from '#app/app'
   import { isNonEmptyString } from '#lib/boolean_tests'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'

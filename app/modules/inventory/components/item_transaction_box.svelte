@@ -1,5 +1,6 @@
 <script>
   import { uniqueId } from 'underscore'
+  import app from '#app/app'
   import Dropdown from '#components/dropdown.svelte'
   import { serializeItem } from '#inventory/lib/items'
   import { transactionsData } from '#inventory/lib/transactions_data'

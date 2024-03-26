@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store'
+import app from '#app/app'
 import { getListingsByCreators } from '#listings/lib/listings'
 
 const noop = () => {}

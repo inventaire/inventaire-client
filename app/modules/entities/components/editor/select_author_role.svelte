@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher, tick } from 'svelte'
+  import app from '#app/app'
   import { addClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
   import { icon } from '#lib/icons'

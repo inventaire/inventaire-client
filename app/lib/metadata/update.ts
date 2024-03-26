@@ -12,7 +12,7 @@
 // For all the needs covered by Prerender, only the first update matters,
 // but further updates might be needed for in browser metadata access,
 // such as RSS feed detections
-
+import app from '#app/app'
 import { wait } from '#lib/promises'
 import { dropLeadingSlash } from '#lib/utils'
 import { I18n, i18n } from '#user/lib/i18n'

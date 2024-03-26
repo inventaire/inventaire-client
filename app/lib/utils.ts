@@ -1,4 +1,5 @@
 import { isArray, debounce } from 'underscore'
+import app from '#app/app'
 import assert_ from '#lib/assert_types'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import error_ from '#lib/error'

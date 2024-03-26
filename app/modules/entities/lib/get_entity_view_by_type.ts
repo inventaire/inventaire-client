@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { getEntitiesByUris } from '#entities/lib/entities'
 import error_ from '#lib/error'
 

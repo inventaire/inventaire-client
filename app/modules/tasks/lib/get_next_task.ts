@@ -1,3 +1,4 @@
+import app from '#app/app'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
 

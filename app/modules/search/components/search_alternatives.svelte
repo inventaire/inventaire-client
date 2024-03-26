@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte'
   import { isArray } from 'underscore'
+  import app from '#app/app'
   import { icon } from '#lib/icons'
   import { looksLikeAnIsbn } from '#lib/isbn'
   import { entitySectionsWithAlternatives, typesBySection } from '#search/lib/search_sections'
