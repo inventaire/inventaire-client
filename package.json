@@ -40,6 +40,7 @@
   "scripts": {
     "build": "./scripts/build",
     "build:dev": "webpack --config ./bundle/webpack.config.dev.cjs",
+    "check-types": "./scripts/typescript/check_types.sh",
     "generate-sitemaps": "./scripts/sitemaps/generate.js",
     "lint": "./scripts/lint",
     "lint-fix": "./scripts/lint_fix",
