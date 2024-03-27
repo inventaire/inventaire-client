@@ -1,3 +1,4 @@
+// @ts-nocheck
 import FilteredCollection from 'backbone-filtered-collection'
 import { without, isString, isArray, debounce } from 'underscore'
 import app from '#app/app'
@@ -7,12 +8,6 @@ import assert_ from '#lib/assert_types'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
-
-// Workaround XSS vulnerability https://github.com/advisories/GHSA-gxr4-xjj5-5px2
-// until we can upgrade or get rid of jquery
-window.jQuery.htmlPrefilter = function (html) {
-  return html
-}
 
 // changing the default attribute to fit CouchDB
 Backbone.Model.prototype.idAttribute = '_id'
@@ -104,11 +99,8 @@ WrapModelRequests(Backbone.Model, 'fetch')
 WrapModelRequests(Backbone.Collection, 'fetch')
 WrapModelRequests(Backbone.Collection, 'destroy')
 
-Backbone.Collection.prototype.findOne = function () { return this.models[0] }
-// Legacy alias
 Backbone.Collection.prototype.byId = Backbone.Collection.prototype.get
 Backbone.Collection.prototype.byIds = function (ids) { return ids.map(id => this._byId[id]) }
-Backbone.Collection.prototype.attributes = function () { return this.toJSON() }
 
 FilteredCollection.prototype.filterByText = function (text, reset = true) {
   if (reset) this.resetFilters()
@@ -208,12 +200,6 @@ Backbone.View.prototype.updateClassName = function () {
   // Use in 'onRender' hooks to update the view el classes on re-render
   this.$el[0].className = this.className()
 }
-
-// JQUERY
-// aliasing once to one to match Backbone vocabulary
-$.fn.once = $.fn.one
-
-Backbone.View.prototype.displayError = err => app.execute('show:error:other', err)
 
 Backbone.View.prototype.lazyRender = function (focusSelector) {
   if (this.render == null) throw new Error('lazyRender called without view as context')
