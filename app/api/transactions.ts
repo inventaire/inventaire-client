@@ -1,6 +1,6 @@
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { base, action } = endpoint('transactions')
+const { base, action } = getEndpointPathBuilders('transactions')
 
 export default {
   base,

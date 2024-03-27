@@ -1,6 +1,6 @@
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { action } = endpoint('images')
+const { action } = getEndpointPathBuilders('images')
 
 export default {
   upload (container, hash) { return action('upload', { container, hash }) },

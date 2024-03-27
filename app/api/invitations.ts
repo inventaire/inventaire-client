@@ -1,5 +1,5 @@
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { action } = endpoint('invitations')
+const { action } = getEndpointPathBuilders('invitations')
 
 export default { byEmails: action('by-emails') }

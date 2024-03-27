@@ -1,8 +1,8 @@
 import { isPrerenderSession } from '#lib/metadata/update'
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { action } = endpoint('entities')
+const { action } = getEndpointPathBuilders('entities')
 
 const CustomQuery = actionName => (uri, refresh) => action(actionName, { uri, refresh })
 
