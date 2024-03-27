@@ -15,6 +15,7 @@
   let flash, typeName, merging, lastMergeTargetUri
 
   async function merge () {
+    flash = null
     try {
       merging = true
       await mergeEntities(from, to)
