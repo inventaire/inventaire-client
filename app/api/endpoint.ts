@@ -1,28 +1,17 @@
-import { isObject } from 'underscore'
 import { buildPath } from '#lib/location'
-import { fixedEncodeURIComponent } from '#lib/utils'
 
-// build the endpoints routes
-export default function (name, getBaseOnly) {
+export function getEndpointBase (name: string) {
+  return `/api/${name}`
+}
+
+export function getEndpointPathBuilders (name: string) {
   const base = `/api/${name}`
-  if (getBaseOnly) return base
   const action = Action(base)
   const actionPartial = ActionPartial(action)
   return { base, action, actionPartial }
 }
 
-const Action = base => function (actionName, attribute, value) {
-  // Polymorphism: accept one attribute and one value OR a query object
-  // NB: object values aren't passed to encodeURIComponent
-  let query
-  if (isObject(attribute)) {
-    query = attribute
-  } else {
-    query = {}
-    if (attribute != null) query[attribute] = fixedEncodeURIComponent(value)
-  }
-
-  if (!query) query = {}
+const Action = (base: string) => function (actionName: string, query: Record<string, unknown> = {}) {
   // Using extend instead of simply defining action on query
   // so that action appears on top of other attributes in the object
   // and thus, comes first in the generated URL

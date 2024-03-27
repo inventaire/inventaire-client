@@ -1,6 +1,6 @@
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { action, actionPartial } = endpoint('auth')
+const { action, actionPartial } = getEndpointPathBuilders('auth')
 
 export default {
   usernameAvailability: actionPartial('username-availability', 'username'),

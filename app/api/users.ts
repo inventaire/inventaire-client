@@ -1,8 +1,8 @@
 import { uniq } from 'underscore'
 import Commons from './commons.ts'
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { base, action } = endpoint('users')
+const { base, action } = getEndpointPathBuilders('users')
 
 const {
   search,

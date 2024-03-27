@@ -1,7 +1,7 @@
 import { i18nContentHash } from '#assets/js/build_metadata'
 import auth from './auth.ts'
 import data from './data.ts'
-import endpoint from './endpoint.ts'
+import { getEndpointBase } from './endpoint.ts'
 import entities from './entities.ts'
 import feeds from './feeds.ts'
 import groups from './groups.ts'
@@ -20,26 +20,26 @@ import users from './users.ts'
 export const API = {
   // /api endpoints
   auth,
-  config: endpoint('config', true),
+  config: getEndpointBase('config'),
   data,
   entities,
-  feedback: endpoint('feedback', true),
+  feedback: getEndpointBase('feedback'),
   feeds,
   groups,
-  i18n: endpoint('i18n', true),
+  i18n: getEndpointBase('i18n'),
   images,
   invitations,
   items,
   listings,
-  notifications: endpoint('notifications', true),
+  notifications: getEndpointBase('notifications'),
   oauth,
-  relations: endpoint('relations', true),
+  relations: getEndpointBase('relations'),
   search,
   shelves,
   tasks,
-  tests: endpoint('tests', true),
+  tests: getEndpointBase('tests'),
   transactions,
-  user: endpoint('user', true),
+  user: getEndpointBase('user'),
   users,
 
   // /public endpoints

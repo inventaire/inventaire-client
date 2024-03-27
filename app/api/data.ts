@@ -1,7 +1,7 @@
 import { fixedEncodeURIComponent, forceArray } from '#lib/utils'
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { action } = endpoint('data')
+const { action } = getEndpointPathBuilders('data')
 
 export default {
   wikipediaExtract (lang, title) {

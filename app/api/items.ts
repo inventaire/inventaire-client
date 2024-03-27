@@ -1,8 +1,8 @@
 import assert_ from '#lib/assert_types'
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { base, action } = endpoint('items')
+const { base, action } = getEndpointPathBuilders('items')
 
 const queryEndpoint = (actionName, idsLabel) => params => {
   const { ids, limit, offset, filter, includeUsers } = params

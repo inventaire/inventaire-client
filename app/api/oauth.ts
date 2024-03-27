@@ -1,10 +1,10 @@
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const clientsEndpoint = endpoint('oauth/clients')
+const { action } = getEndpointPathBuilders('oauth/clients')
 
 export default {
   authorize: '/api/oauth/authorize',
   clients: {
-    byId: id => clientsEndpoint.action('by-ids', { ids: id }),
+    byId: id => action('by-ids', { ids: id }),
   },
 }

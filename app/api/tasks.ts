@@ -1,7 +1,7 @@
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { action } = endpoint('tasks')
+const { action } = getEndpointPathBuilders('tasks')
 const byEntitiesUris = name => uris => {
   uris = forceArray(uris).join('|')
   return action(`by-${name}-uris`, { uris })

@@ -1,7 +1,7 @@
 import { forceArray } from '#lib/utils'
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { base, action } = endpoint('shelves')
+const { base, action } = getEndpointPathBuilders('shelves')
 
 export default {
   base,

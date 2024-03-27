@@ -1,8 +1,8 @@
 import { fixedEncodeURIComponent } from '#lib/utils'
 import Commons from './commons.ts'
-import endpoint from './endpoint.ts'
+import { getEndpointPathBuilders } from './endpoint.ts'
 
-const { base, action } = endpoint('groups')
+const { base, action } = getEndpointPathBuilders('groups')
 
 const {
   search,
