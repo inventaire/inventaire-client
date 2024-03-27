@@ -31,6 +31,8 @@
     "#shelves/*": "./app/modules/shelves/*.js",
     "#tasks/*": "./app/modules/tasks/*.js",
     "#tests/*": "./tests/*.js",
+    "#types/*": "./app/types/*.js",
+    "#server/types/*": "../types/*.d.ts",
     "#transactions/*": "./app/modules/transactions/*.js",
     "#user/*": "./app/modules/user/*.js",
     "#users/*": "./app/modules/users/*.js",

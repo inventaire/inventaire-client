@@ -55,6 +55,12 @@
       "#tasks/*": [
         "modules/tasks/*"
       ],
+      "#types/*": [
+        "./app/types/*",
+      ],
+      "#serverTypes/*": [
+        "../../types/*.d.ts",
+      ],
       "#transactions/*": [
         "modules/transactions/*"
       ],
