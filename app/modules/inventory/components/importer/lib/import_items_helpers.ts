@@ -1,4 +1,8 @@
 import { isResolved } from '#inventory/lib/importer/import_helpers'
+import type { ItemTransactionMode } from '#serverTypes/item'
+
+const transac: ItemTransactionMode = 'giving'
+console.log('🚀 ~ file: import_items_helpers.ts ~ line', 5, { transac })
 
 export const removeCreatedCandidates = ({ candidates, processedCandidates }) => {
   const createdIndices = processedCandidates.map(createdCandidate => {
