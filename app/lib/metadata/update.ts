@@ -21,10 +21,10 @@ import updateNodeType from './update_node_type.ts'
 
 // Make prerender wait before assuming everything is ready
 // See https://prerender.io/documentation/best-practices
-window.prerenderReady = false
+let prerenderReady = false
 async function metadataUpdateDone () {
   await wait(100)
-  window.prerenderReady = true
+  prerenderReady = true
 }
 // Stop waiting if it takes more than 20 secondes: addresses cases
 // where metadataUpdateDone would not have been called
@@ -92,7 +92,7 @@ export function setPrerenderStatusCode (statusCode, route) {
 }
 
 export function clearMetadata () {
-  window.prerenderReady = false
+  prerenderReady = false
   updateMetadata(getDefaultMetadata())
   $('head meta[name^="prerender"]').remove()
 }

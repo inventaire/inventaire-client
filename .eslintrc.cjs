@@ -134,7 +134,6 @@ module.exports = {
   globals: {
     app: 'writable',
     localStorage: 'writable',
-    prerenderReady: 'writable',
     env: 'writable',
     CONFIG: 'writable',
     hasVideoInput: 'writable',
