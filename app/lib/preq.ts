@@ -1,7 +1,14 @@
 import app from '#app/app'
+import type { Url } from '#serverTypes/common'
 
-const Ajax = (method, hasBody) => async (url, body) => {
-  const options = { method }
+interface Options {
+  method: 'get' | 'post' | 'put' | 'delete'
+  body?: string
+  headers?: { 'content-type': 'application/json' }
+}
+
+const Ajax = (method, hasBody) => async (url: Url, body?: any) => {
+  const options: Options = { method }
 
   if (hasBody) {
     options.body = JSON.stringify(body)
@@ -42,6 +49,7 @@ const Ajax = (method, hasBody) => async (url, body) => {
   got statusCode ${statusCode} but invalid JSON: ${responseText} / ${responseJSON}`
     }
     const error = new Error(message)
+    // @ts-expect-error
     error.serverError = true
     Object.assign(error, { statusCode, statusText, responseText, responseJSON, context: options })
     throw error
@@ -56,6 +64,7 @@ const preq = {
 }
 
 // TODO: delete once Backbone models and collections are fully removed
+// @ts-expect-error
 preq.wrap = (jqPromise, context) => new Promise((resolve, reject) => {
   jqPromise
   .then(resolve)
@@ -83,6 +92,7 @@ got statusCode ${statusCode} but invalid JSON: ${responseText} / ${responseJSON}
   }
 
   const error = new Error(message)
+  // @ts-expect-error
   error.serverError = true
   return Object.assign(error, { statusCode, statusText, responseText, responseJSON, context })
 }
