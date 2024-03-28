@@ -1,11 +1,12 @@
 import { buildPath } from '#lib/location'
+import type { Url } from '#serverTypes/common'
 
 export function getEndpointBase (name: string) {
-  return `/api/${name}`
+  return `/api/${name}` as Url
 }
 
 export function getEndpointPathBuilders (name: string) {
-  const base = `/api/${name}`
+  const base: Url = `/api/${name}`
   const action = Action(base)
   const actionPartial = ActionPartial(action)
   return { base, action, actionPartial }
