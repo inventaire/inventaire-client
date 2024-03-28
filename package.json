@@ -32,6 +32,8 @@
     "#tasks/*": "./app/modules/tasks/*.js",
     "#tests/*": "./tests/*.js",
     "#transactions/*": "./app/modules/transactions/*.js",
+    "#types/*": "./app/types/*.js",
+    "#serverTypes/*": "../types/*.d.ts",
     "#user/*": "./app/modules/user/*.js",
     "#users/*": "./app/modules/users/*.js",
     "#vendor/*": "./vendor/*.js",
