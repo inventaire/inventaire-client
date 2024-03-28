@@ -117,6 +117,6 @@ const validateAuthorizationRequest = query => {
   if (!redirectUri) throw invalidAuthorizationRequest('missing redirect_uri')
 }
 
-const invalidAuthorizationRequest = (reason, query) => {
+const invalidAuthorizationRequest = (reason, query?) => {
   return error_.new(`invalid authorization request: ${reason}`, 400, { reason, query })
 }

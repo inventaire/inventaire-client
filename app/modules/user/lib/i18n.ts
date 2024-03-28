@@ -44,7 +44,7 @@ export const initI18n = async (app, lang) => {
   setLanguage(lang, onMissingKey)
 
   app.commands.setHandlers({
-    'uriLabel:update': () => update(app.user.lang),
+    'uriLabel:update': update,
     'uriLabel:refresh': refreshData,
   })
 
