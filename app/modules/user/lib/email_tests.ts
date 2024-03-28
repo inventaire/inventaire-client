@@ -1,5 +1,5 @@
 import app from '#app/app'
-import forms_ from '#general/lib/forms'
+import { pass } from '#general/lib/forms'
 import { isEmail } from '#lib/boolean_tests'
 import preq from '#lib/preq'
 
@@ -9,7 +9,7 @@ async function verifyEmailAvailability (email) {
 
 export default {
   pass (email, selector) {
-    return forms_.pass({
+    return pass({
       value: email,
       tests: emailTests,
       selector,
@@ -33,7 +33,7 @@ const emailTests = {
 }
 
 export function testEmail (email) {
-  forms_.pass({
+  pass({
     value: email,
     tests: emailTests,
   })

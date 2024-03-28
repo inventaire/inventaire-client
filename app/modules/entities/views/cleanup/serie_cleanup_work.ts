@@ -2,7 +2,7 @@ import { range, difference, debounce } from 'underscore'
 import app from '#app/app'
 import AlertBox from '#behaviors/alert_box'
 import getLangsData from '#entities/lib/editor/get_langs_data'
-import forms_ from '#general/lib/forms'
+import { catchAlert } from '#general/lib/forms'
 import error_ from '#lib/error'
 import { getActionKey } from '#lib/key_events'
 import { focusInput } from '#lib/utils'
@@ -120,7 +120,7 @@ export default Marionette.View.extend({
     const { value } = e.currentTarget
     return this.model.setPropertyValue('wdt:P1545', null, value)
     .catch(error_.Complete('.head', false))
-    .catch(forms_.catchAlert.bind(null, this))
+    .catch(catchAlert.bind(null, this))
   },
 
   showPlaceholderEditor () {

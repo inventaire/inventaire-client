@@ -1,5 +1,5 @@
 import app from '#app/app'
-import forms_ from '#general/lib/forms'
+import { pass } from '#general/lib/forms'
 import preq from '#lib/preq'
 import { Username } from '#lib/regex'
 
@@ -8,7 +8,7 @@ async function verifyUsernameAvailability (username) {
 }
 
 export function passUsernameTests (username) {
-  return forms_.pass({
+  return pass({
     value: username,
     tests: usernameTests,
   })
