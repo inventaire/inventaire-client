@@ -20,7 +20,10 @@ export default {
   byEntities ({ uris, lists }) {
     uris = forceArray(uris).join('|')
     const params = { uris }
-    if (lists) params.lists = forceArray(lists).join('|')
+    if (lists) {
+      const listingsQueryString = forceArray(lists).join('|')
+      Object.assign(params, { lists: listingsQueryString })
+    }
     return action('by-entities', params)
   },
   create: action('create'),
