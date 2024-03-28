@@ -3,7 +3,7 @@ import AlertBox from '#behaviors/alert_box'
 import ElasticTextarea from '#behaviors/elastic_textarea'
 import General from '#behaviors/general'
 import SuccessCheck from '#behaviors/success_check'
-import forms_ from '#general/lib/forms'
+import { catchAlert } from '#general/lib/forms'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import { getActionKey } from '#lib/key_events'
@@ -69,7 +69,7 @@ export default Marionette.View.extend({
     log_.error(err, 'confirmation action err')
     this.$el.trigger('fail')
     error_.complete(err, '.check', false)
-    forms_.catchAlert(this, err)
+    catchAlert(this, err)
   },
 
   close () {

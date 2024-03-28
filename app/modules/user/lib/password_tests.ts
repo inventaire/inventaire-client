@@ -1,4 +1,4 @@
-import forms_ from '#general/lib/forms'
+import { pass } from '#general/lib/forms'
 
 const passwordTests = {
   'password should be 8 characters minimum' (password = '') { return password.length < 8 },
@@ -6,7 +6,7 @@ const passwordTests = {
 }
 
 export function testPassword (password) {
-  return forms_.pass({
+  return pass({
     value: password,
     tests: passwordTests,
   })

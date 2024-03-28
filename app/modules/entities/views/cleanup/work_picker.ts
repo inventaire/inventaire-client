@@ -1,6 +1,6 @@
 import AlertBox from '#behaviors/alert_box'
 import mergeEntities from '#entities/views/editor/lib/merge_entities'
-import forms_ from '#general/lib/forms'
+import { catchAlert } from '#general/lib/forms'
 import { isEntityUri } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import { getActionKey } from '#lib/key_events'
@@ -117,6 +117,6 @@ export default Marionette.View.extend({
     .then(() => mergeEntities(fromUri, toUri))
     .then(this.afterMerge.bind(this, work))
     .catch(error_.Complete('.workPicker', false))
-    .catch(forms_.catchAlert.bind(null, this))
+    .catch(catchAlert.bind(null, this))
   },
 })

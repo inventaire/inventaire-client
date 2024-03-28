@@ -1,4 +1,4 @@
-import forms_ from '#general/lib/forms'
+import { catchAlert } from '#general/lib/forms'
 import error_ from '#lib/error'
 import serieCleanupEditionTemplate from './templates/serie_cleanup_edition.hbs'
 import WorkPicker from './work_picker.ts'
@@ -76,7 +76,7 @@ export default WorkPicker.extend({
 
     this.model.setPropertyValue('wdt:P1476', currentTitle, this.workLabel)
     .catch(error_.Complete('.actions', false))
-    .catch(forms_.catchAlert.bind(null, this))
+    .catch(catchAlert.bind(null, this))
 
     this.model.setLabelFromTitle()
     this.workLabel = null

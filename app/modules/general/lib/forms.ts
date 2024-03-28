@@ -4,25 +4,22 @@ import assert_ from '#lib/assert_types'
 import log_ from '#lib/loggers'
 import { I18n, i18n } from '#user/lib/i18n'
 
-let forms_
-export default forms_ = {}
-
-forms_.pass = function (options) {
+export function pass (options) {
   const { value, tests, selector } = options
   for (const err in tests) {
     const test = tests[err]
-    if (test(value)) forms_.throwError(err, selector, value)
+    if (test(value)) throwError(err, selector, value)
   }
 }
 
 // verifies field value before the form is submitted
-forms_.earlyVerify = async (view, e, verificator) => {
+export async function earlyVerify (view, e, verificator) {
   // dont show early alert for empty fields as it feels a bit agressive
   if ($(e.target)?.val() !== '') {
     try {
       await verificator()
     } catch (err) {
-      forms_.catchAlert(view, err)
+      catchAlert(view, err)
     }
   }
 }
@@ -36,15 +33,15 @@ forms_.earlyVerify = async (view, e, verificator) => {
 // ex:
 // (in a View context)
 // doThingsThatThrowsErrorsWithSelector
-// .catch forms_.catchAlert.bind(null, @)
+// .catch catchAlert.bind(null, @)
 // The selector can be any element, the alert-box will be appended to its parent
-forms_.catchAlert = function (view, err) {
+export function catchAlert (view, err) {
   // Avoid to display an alert on a simple duplicated request
   if (err.statusCode === 429) return log_.warn(err, 'duplicated request')
   assertViewHasBehavior(view, 'AlertBox')
   const { selector } = err
   view.$el.trigger('stopLoading', { selector })
-  forms_.alert(view, err)
+  alert(view, err)
   log_.error(err, 'err passed to catchAlert')
 
   // Prevent the view to be re-rendered as that would hide the alert
@@ -54,12 +51,12 @@ forms_.catchAlert = function (view, err) {
   return setTimeout(removePreventRerenderFlag(view, alertId), 2000)
 }
 
-const removePreventRerenderFlag = (view, alertId) => function () {
+export const removePreventRerenderFlag = (view, alertId) => function () {
   if (view._lastAlertId !== alertId) return
   view._preventRerender = false
 }
 
-forms_.alert = function (view, err) {
+export function alert (view, err) {
   let message
   const { selector, i18n: translateErrMessage } = err
   let errMessage = err.richMessage || err.responseJSON?.status_verbose || err.message
@@ -87,15 +84,15 @@ forms_.alert = function (view, err) {
   view.$el.trigger('alert', { message, selector })
 }
 
-forms_.bundleAlert = function (view, message, selector) {
+export function bundleAlert (view, message, selector) {
   const err = new Error(message)
   err.selector = selector
-  forms_.alert(view, err)
+  alert(view, err)
 }
 
-// format the error to be catched by forms_.catchAlert
-// ex: forms_.throwError 'a title is required', '#titleField'
-forms_.throwError = function (message, selector, ...context) {
+// format the error to be catched by catchAlert
+// ex: throwError 'a title is required', '#titleField'
+export function throwError (message, selector, ...context) {
   const err = new Error(I18n(message))
   err.selector = selector
   err.context = context
