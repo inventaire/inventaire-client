@@ -3,8 +3,8 @@ import app from '#app/app'
 import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
 
-export const getListingWithElementsById = async (id, limit) => {
-  const { list: listing } = await preq.get(app.API.listings.byId(id, limit))
+export const getListingWithElementsById = async id => {
+  const { list: listing } = await preq.get(app.API.listings.byId(id))
   return { listing }
 }
 
