@@ -5,7 +5,7 @@ const wdPropPrefix = 'wdt:'
 export default function (lang, polyglot) {
   const modifier = (modifiers[lang] != null) ? modifiers[lang] : undefined
 
-  return function (key, ctx) {
+  return function (key, ctx?) {
     // This function might be called before the tempates data arrived
     // returning '' early prevents to display undefined and make polyglot worry
     if (key == null) return ''
