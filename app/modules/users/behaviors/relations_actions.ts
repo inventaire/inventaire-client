@@ -36,6 +36,7 @@ export default Marionette.Behavior.extend({
     if (this.view.group == null) return log_.error('inviteUser err: group is missing')
 
     return this.view.group.inviteUser(this.view.model)
+    // @ts-expect-error
     .catch(behaviorsPlugin.Fail.call(this.view, 'invite user'))
   },
 
@@ -43,6 +44,7 @@ export default Marionette.Behavior.extend({
     if (this.view.group == null) return log_.error('acceptRequest err: group is missing')
 
     return this.view.group.acceptRequest(this.view.model)
+    // @ts-expect-error
     .catch(behaviorsPlugin.Fail.call(this.view, 'accept user request'))
   },
 
@@ -50,6 +52,7 @@ export default Marionette.Behavior.extend({
     if (this.view.group == null) return log_.error('refuseRequest err: group is missing')
 
     return this.view.group.refuseRequest(this.view.model)
+    // @ts-expect-error
     .catch(behaviorsPlugin.Fail.call(this.view, 'refuse user request'))
   },
 
