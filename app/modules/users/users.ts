@@ -1,4 +1,6 @@
 import app from '#app/app'
+import type { Group } from '#serverTypes/group'
+import type { UserId, User } from '#serverTypes/user'
 import { i18n } from '#user/lib/i18n'
 import { initRelations } from '#users/lib/relations'
 import initHelpers from './helpers.ts'
@@ -46,7 +48,7 @@ export async function showHome () {
     // Give focus to the home button so that hitting tab gives focus
     // to the search input
     $('#home').focus()
-    return showUsersHome({ users: app.user })
+    return showMainUserProfile()
   }
 }
 
@@ -102,10 +104,24 @@ const API = {
   showLatestUsers,
 }
 
-export async function showUsersHome ({ user, group, section, profileSection }) {
+interface ShowUsersHome {
+  user?: UserId
+  group?: string
+  section?: 'public' | 'network'
+  profileSection?: 'inventory' | 'listings'
+}
+
+interface UsersHomeLayoutProps{
+  user?: User
+  group?: Group
+  section: 'public' | 'network'
+  profileSection: 'inventory' | 'listings'
+}
+
+export async function showUsersHome ({ user, group, section, profileSection }: ShowUsersHome) {
   try {
     const { default: UsersHomeLayout } = await import('#users/components/users_home_layout.svelte')
-    const props = { section, profileSection }
+    const props: UsersHomeLayoutProps = { section, profileSection }
     if (user) props.user = await app.request('resolve:to:user', user)
     if (group) props.group = await app.request('resolve:to:group', group)
     app.layout.showChildComponent('main', UsersHomeLayout, { props })

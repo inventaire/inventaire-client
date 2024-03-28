@@ -6,6 +6,7 @@ import RelationsActions from '../behaviors/relations_actions.ts'
 import userLiTemplate from './templates/user_li.hbs'
 import '../scss/user_li.scss'
 
+// @ts-ignore
 export default Marionette.View.extend({
   tagName: 'li',
   template: userLiTemplate,

@@ -21,7 +21,7 @@ const log = (obj, label) => {
   return obj
 }
 
-const error = (err, label) => {
+const error = (err, label?) => {
   // The previous 'err instanceof Error' now fails
   // as it seems that instances of TypeError aren't considered
   // instances of Error anymore

@@ -3,6 +3,7 @@ import app from '#app/app'
 import { isModel, isUserId } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import { forceArray } from '#lib/utils'
+import type { User, UserId } from '#serverTypes/user'
 import { serializeUser } from '#users/lib/users'
 import initSearch from './lib/search.ts'
 import usersData, { getUsersByIds } from './users_data.ts'
@@ -16,7 +17,7 @@ export default function (app) {
   }
 
   const async = {
-    async getUserModel (id, refresh) {
+    async getUserModel (id, refresh?: boolean) {
       if (id === app.user.id) return app.user
 
       const model = app.users.byId(id)
@@ -148,15 +149,16 @@ const cachedSerializedUsers = {}
 // TODO: handle special case of main user, for which we might have fresher data
 export async function getCachedSerializedUsers (ids) {
   const missingUsersIds = ids.filter(isntCached)
-  const foundUsersByIds = await getUsersByIds(missingUsersIds)
+  const foundUsersByIds: Record<UserId, User> = await getUsersByIds(missingUsersIds)
   addSerializedUsersToCache(foundUsersByIds)
   return Object.values(pick(cachedSerializedUsers, ids))
 }
 
 const isntCached = id => cachedSerializedUsers[id] == null
 
-function addSerializedUsersToCache (usersByIds) {
-  for (const user of Object.values(usersByIds)) {
+function addSerializedUsersToCache (usersByIds: Record<UserId, User>) {
+  const users: User[] = Object.values(usersByIds)
+  for (const user of users) {
     cachedSerializedUsers[user._id] = serializeUser(user)
   }
 }

@@ -13,7 +13,7 @@ export default function (app) {
 
   const waiters = {}
   const fetched = {}
-  const fetcher = (category, initFilteredCollection) => function () {
+  const fetcher = (category, initFilteredCollection?) => function () {
     if (fetched[category]) return waiters[category]
 
     fetched[category] = true

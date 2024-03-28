@@ -1,5 +1,6 @@
 import noUserTemplate from './templates/no_user.hbs'
 
+// @ts-ignore
 export default Marionette.View.extend({
   tagName: 'li',
   className: 'text-center',

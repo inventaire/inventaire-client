@@ -1,6 +1,7 @@
 import NoUser from './no_user.ts'
 import UserLi from './user_li.ts'
 
+// @ts-ignore
 export default Marionette.CollectionView.extend({
   tagName: 'ul',
   className: 'usersList',
