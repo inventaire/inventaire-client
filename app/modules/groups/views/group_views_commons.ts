@@ -54,16 +54,19 @@ const groupViewsCommons = {
   joinRequest () {
     if (app.request('require:loggedIn', this.model.get('pathname'))) {
       return this.model.requestToJoin()
+      // @ts-expect-error
       .catch(behaviorsPlugin.Fail.call(this, 'joinRequest'))
     }
   },
   joinGroupAction () {
     return this.model.joinGroup()
+    // @ts-expect-error
     .catch(behaviorsPlugin.Fail.call(this, 'joinGroup'))
   },
 
   cancelRequest () {
     return this.model.cancelRequest()
+    // @ts-expect-error
     .catch(behaviorsPlugin.Fail.call(this, 'cancelRequest'))
   },
 }

@@ -43,7 +43,7 @@ const getImportData = (invEntityUri, wdEntityUri, models) => {
       }
     }
   }
-
+  // @ts-expect-error
   importData.total = importData.labels.length + importData.claims.length
 
   return importData

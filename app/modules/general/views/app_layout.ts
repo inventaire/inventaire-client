@@ -47,6 +47,7 @@ export default Marionette.View.extend({
       'ask:confirmation': this.askConfirmation.bind(this),
       'history:back' (options) {
         // Go back only if going back means staying in the app
+        // @ts-expect-error
         if (Backbone.history.last.length > 0) {
           window.history.back()
         } else {

@@ -34,6 +34,7 @@ const merge = async (fromUri, toUri) => {
 const importEntityDataToWikidata = async (fromUri, toUri) => {
   const importData = await getEntityWikidataImportData(fromUri, toUri)
   log_.info(importData, 'importData')
+  // @ts-expect-error
   if (importData.total === 0) {
     log_.info({ fromUri, toUri }, 'no data to import')
   } else {

@@ -10,6 +10,7 @@ export const createPlaceholders = function () {
   const createSequentially = function () {
     const nextView = views.shift()
     if (nextView == null) return
+    // @ts-expect-error
     return nextView.create()
     .then(createSequentially)
   }

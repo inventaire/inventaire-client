@@ -5,7 +5,7 @@ import { isOpenedOutside } from '#lib/utils'
 // Work around circular dependencies
 let FeedbackMenu
 const lateImport = async () => {
-  ;({ default: FeedbackMenu } = await import('../views/feedback_menu'))
+  ;({ default: FeedbackMenu } = await import('../views/feedback_menu.js'))
 }
 setTimeout(lateImport, 0)
 
