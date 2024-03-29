@@ -1,6 +1,6 @@
 import app from '#app/app'
-import type { Group } from '#serverTypes/group'
-import type { UserId, User } from '#serverTypes/user'
+import type { Group } from '#server/types/group'
+import type { UserId, User } from '#server/types/user'
 import { i18n } from '#user/lib/i18n'
 import { initRelations } from '#users/lib/relations'
 import initHelpers from './helpers.ts'

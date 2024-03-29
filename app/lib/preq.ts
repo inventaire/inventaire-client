@@ -1,5 +1,5 @@
 import app from '#app/app'
-import type { Url } from '#serverTypes/common'
+import type { Url } from '#server/types/common'
 
 interface Options {
   method: 'get' | 'post' | 'put' | 'delete'

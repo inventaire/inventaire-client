@@ -1,5 +1,5 @@
 import { buildPath } from '#lib/location'
-import type { Url } from '#serverTypes/common'
+import type { Url } from '#server/types/common'
 
 export function getEndpointBase (name: string) {
   return `/api/${name}` as Url

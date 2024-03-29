@@ -58,7 +58,7 @@
       "#types/*": [
         "./app/types/*",
       ],
-      "#serverTypes/*": [
+      "#server/types/*": [
         "../../types/*.d.ts",
       ],
       "#transactions/*": [
