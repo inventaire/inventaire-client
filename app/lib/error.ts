@@ -1,7 +1,7 @@
 import { isNumber, isArguments } from 'underscore'
 import log_ from '#lib/loggers'
 
-const formatError = function (message, statusCode, context) {
+const formatError = function (message, statusCode, context?) {
   // Accept a statusCode number as second argument as done on the server
   // cf server/lib/error/format_error.js
   // Allows for instance to not report non-operational/user errors to the server

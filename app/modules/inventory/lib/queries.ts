@@ -48,7 +48,7 @@ const addItemsAndUsers = collection => function (res) {
   return collection
 }
 
-const makeRequestAlt = async (params, endpoint, ids, filter) => {
+const makeRequestAlt = async (params, endpoint, ids, filter?) => {
   if (ids.length === 0) return { items: [], total: 0 }
   const { limit, offset } = params
   const res = await preq.get(app.API.items[endpoint]({ ids, limit, offset, filter, includeUsers: true }))

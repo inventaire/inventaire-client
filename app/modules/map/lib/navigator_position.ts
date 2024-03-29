@@ -23,7 +23,7 @@ const currentPosition = () => new Promise((resolve, reject) => {
 })
 
 export async function getPositionFromNavigator () {
-  const position = await pTimeout(currentPosition(), timeout + 100)
+  const position: { coords? } = await pTimeout(currentPosition(), timeout + 100)
   const { latitude, longitude } = position.coords
   return { lat: truncateDecimals(latitude), lng: truncateDecimals(longitude) }
 }

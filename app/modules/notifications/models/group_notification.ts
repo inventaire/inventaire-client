@@ -3,6 +3,7 @@
 import Handlebars from 'handlebars/runtime.js'
 import Notification from './notification.ts'
 
+// @ts-expect-error
 const { escapeExpression } = Handlebars
 
 export default Notification.extend({

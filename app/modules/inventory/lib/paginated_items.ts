@@ -1,9 +1,19 @@
 import app from '#app/app'
 import log_ from '#lib/loggers'
+import type { Item } from '#server/types/item'
+
+interface Pagination {
+  items: Item[]
+  limit: number
+  allowMore: boolean
+  moreData?: { status: boolean }
+  hasMore?: () => boolean
+  fetchMore?: () => any
+}
 
 export function getPaginationParameters (params) {
   const { allowMore, requestName, limit, requestParams } = params
-  const pagination = {
+  const pagination: Pagination = {
     items: [],
     limit,
     allowMore,

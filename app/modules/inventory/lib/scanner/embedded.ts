@@ -58,7 +58,9 @@ const startScanning = async function (params) {
 
 // See doc: https://github.com/serratus/quaggaJS#configuration
 const getOptions = function (constraints) {
+  // @ts-expect-error
   baseOptions.inputStream.target = document.querySelector('.embedded .container')
+  // @ts-expect-error
   baseOptions.inputStream.constraints = constraints
   return baseOptions
 }

@@ -147,7 +147,7 @@ const showErrorByStatus = function (err, label) {
   }
 }
 
-const showErrorMissing = params => {
+const showErrorMissing = function (params?) {
   let pathname
   if (isNonEmptyPlainObject(params)) {
     ({ pathname = location.pathname } = params)
