@@ -18,8 +18,11 @@ export default {
     app.searchResultsHistory = new SearchResultsHistory()
 
     app.commands.setHandlers({
+      // @ts-expect-error
       'search:global': API.search,
+      // @ts-expect-error
       'show:users:search' () { return API.search('', 'user') },
+      // @ts-expect-error
       'show:groups:search' () { return API.search('', 'group') },
     })
 
@@ -30,6 +33,7 @@ export default {
 }
 
 const API = {}
+// @ts-expect-error
 API.search = async function (search, section, showFallbackLayout) {
   // Prevent indexation of search pages, by making them appear as duplicates of the home
   setPrerenderStatusCode(302, '')
@@ -38,6 +42,7 @@ API.search = async function (search, section, showFallbackLayout) {
   app.vent.trigger('live:search:query', { search, section, showFallbackLayout })
 }
 
+// @ts-expect-error
 API.searchFromQueryString = function (querystring) {
   let section
   let { q, type, refresh } = parseQuery(querystring)
@@ -57,6 +62,7 @@ API.searchFromQueryString = function (querystring) {
   // Show the add layout at its search tab in the background, so that clicking
   // out of the live search doesn't result in a blank page
   const showFallbackLayout = app.Execute('show:add:layout:search')
+  // @ts-expect-error
   return API.search(q, section, showFallbackLayout)
 }
 

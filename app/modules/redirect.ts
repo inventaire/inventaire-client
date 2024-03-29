@@ -1,5 +1,6 @@
 import app from '#app/app'
 import assert_ from '#lib/assert_types'
+import { isNonEmptyPlainObject } from '#lib/boolean_tests'
 import { currentRoute } from '#lib/location'
 import log_ from '#lib/loggers'
 import { setPrerenderStatusCode, isPrerenderSession } from '#lib/metadata/update'
@@ -146,8 +147,11 @@ const showErrorByStatus = function (err, label) {
   }
 }
 
-const showErrorMissing = (params = {}) => {
-  const { pathname = location.pathname } = params
+const showErrorMissing = params => {
+  let pathname
+  if (isNonEmptyPlainObject(params)) {
+    ({ pathname = location.pathname } = params)
+  }
   if (pathname !== location.pathname) app.navigate(pathname)
   showError({
     name: 'missing',

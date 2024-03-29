@@ -31,13 +31,12 @@ const API = {
 
   async showTransaction (id) {
     if (app.request('require:loggedIn', `transactions/${id}`)) {
-      await showTransactionsLayout({ selectedTransactionId: id })
+      await showTransactionsLayout(id)
     }
   },
 }
 
-async function showTransactionsLayout (params = {}) {
-  const { selectedTransactionId } = params
+async function showTransactionsLayout (selectedTransactionId?) {
   const transactions = await getTransactions()
   const { default: TransactionsLayout } = await import('./components/transactions_layout.svelte')
   let selectedTransaction

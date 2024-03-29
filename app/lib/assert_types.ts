@@ -11,7 +11,7 @@ const assertType = function (obj, type) {
   }
 }
 
-const assertTypes = function (args, types, minArgsLength) {
+const assertTypes = function (args, types, minArgsLength?) {
   // In case it's an 'arguments' object
   args = Array.from(args)
 

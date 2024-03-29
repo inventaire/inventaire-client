@@ -73,7 +73,7 @@ export function labelString (pid, omitLabel) {
   return omitLabel ? '' : `${prop(pid)} `
 }
 
-export function claimString (label, values, inline) {
+export function claimString (label, values, inline?) {
   let text = `${label} ${values}`
   if (!inline) text += ' <br>'
   return new SafeString(text)

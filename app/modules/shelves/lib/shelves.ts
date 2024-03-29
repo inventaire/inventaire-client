@@ -98,5 +98,6 @@ export function getShelfMetadata (shelf) {
   }
 }
 
-const byName = (a, b) => normalizeName(a.name) > normalizeName(b.name)
+const byName = (a, b) => normalizeName(a.name) > normalizeName(b.name) ? 1 : -1
+
 const normalizeName = name => name.toLowerCase()

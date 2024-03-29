@@ -10,7 +10,7 @@ import { forceArray } from '#lib/utils'
 import getBestLangValue from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
 
-export async function getReverseClaims (property, value, refresh, sort) {
+export async function getReverseClaims (property, value, refresh?, sort?) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
   return uris
 }

@@ -86,7 +86,7 @@ function setPrerenderMeta (statusCode = 500, route) {
   $('head').append(prerenderMeta)
 }
 
-export function setPrerenderStatusCode (statusCode, route) {
+export function setPrerenderStatusCode (statusCode, route?) {
   setPrerenderMeta(statusCode, route)
   metadataUpdateDone()
 }
