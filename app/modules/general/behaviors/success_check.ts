@@ -3,6 +3,7 @@ import log_ from '#lib/loggers'
 
 // elements required in the view: .checkWrapper > .check
 
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   behaviorName: 'SuccessCheck',
 

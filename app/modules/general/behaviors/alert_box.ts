@@ -5,8 +5,10 @@ import log_ from '#lib/loggers'
 import { expired } from '#lib/time'
 import { I18n } from '#user/lib/i18n'
 
+// @ts-expect-error
 const { escapeExpression } = Handlebars
 
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   behaviorName: 'AlertBox',
 

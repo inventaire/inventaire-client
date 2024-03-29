@@ -5,6 +5,7 @@ import { icon } from '#lib/icons'
 import log_ from '#lib/loggers'
 import { I18n } from '#user/lib/i18n'
 
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   behaviorName: 'Loading',
 
@@ -16,6 +17,7 @@ export default Marionette.Behavior.extend({
 
   showSpinningLoader (e, params = {}) {
     let $target
+    // @ts-expect-error
     let { selector, message, timeout, progressionEventName } = params
     if (this._targets == null) this._targets = {}
     this._targets[selector] = $target = this.getTarget(selector)
@@ -26,6 +28,7 @@ export default Marionette.Behavior.extend({
 
     let body = '<div class="small-loader"></div>'
     if (message != null) {
+      // @ts-expect-error
       const mes = params.message
       body += `<p class='grey'>${mes}</p>`
     }
@@ -60,6 +63,7 @@ export default Marionette.Behavior.extend({
   },
 
   hideSpinningLoader (e, params = {}) {
+    // @ts-expect-error
     const { selector } = params
     if (this._targets == null) {
       console.warn('hideSpinningLoader called before showSpinningLoader')
@@ -75,6 +79,7 @@ export default Marionette.Behavior.extend({
 
   somethingWentWrong (e, params = {}) {
     if (!this.hidden) {
+      // @ts-expect-error
       const { selector } = params
       this._targets[selector] = this._targets[selector] || this.getTarget(selector)
       const $target = this._targets[selector]

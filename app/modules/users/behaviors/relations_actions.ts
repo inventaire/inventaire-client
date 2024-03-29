@@ -3,6 +3,7 @@ import behaviorsPlugin from '#general/plugins/behaviors'
 import log_ from '#lib/loggers'
 import { I18n } from '#user/lib/i18n'
 
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   events: {
     // general actions

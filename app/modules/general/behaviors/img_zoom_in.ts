@@ -1,6 +1,7 @@
 import app from '#app/app'
 import { i18n } from '#user/lib/i18n'
 
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   events: {
     'click img': 'zoomIn',

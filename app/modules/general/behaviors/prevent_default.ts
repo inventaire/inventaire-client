@@ -4,6 +4,7 @@
 
 import smartPreventDefault from '#general/lib/smart_prevent_default'
 
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   events: {
     'click a': smartPreventDefault,

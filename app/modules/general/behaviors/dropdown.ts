@@ -1,5 +1,6 @@
 import app from '#app/app'
 
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   events: {
     'click [aria-haspopup="menu"]': 'toggleDropdown',

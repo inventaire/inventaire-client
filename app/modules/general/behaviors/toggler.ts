@@ -1,5 +1,6 @@
 import { getActionKey } from '#lib/key_events'
 
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   events: {
     'keyup .toggler-label': 'toggleCheckbox',

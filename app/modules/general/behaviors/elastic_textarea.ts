@@ -1,5 +1,6 @@
 import autosize from 'autosize'
 
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   ui: {
     textarea: 'textarea',

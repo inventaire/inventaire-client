@@ -2,6 +2,7 @@ import isMobile from '#lib/mobile_check'
 
 // On view show, focus on the first focusable element.
 // Should probably only be applied to main layouts or modals
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   onRender () {
     // Do not auto focus on mobile as it displays the virtual keyboard

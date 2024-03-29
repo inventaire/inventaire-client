@@ -12,6 +12,7 @@ const execute = commandName => function (e) {
   e.stopPropagation()
 }
 
+// @ts-expect-error
 export default Marionette.Behavior.extend({
   events: {
     'submit form': preventFormSubmit,
