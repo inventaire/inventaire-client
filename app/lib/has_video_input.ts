@@ -1,10 +1,13 @@
 import enumerateDevices from 'enumerate-devices'
 import { any } from 'underscore'
 
-export default () => {
-  window.waitForDeviceDetection = enumerateDevices()
-    .then(hasVideoInput)
-    .then(bool => { window.hasVideoInput = bool })
+let hasVideoInput
+let doesntSupportEnumerateDevices
+
+async function _checkVideoInput () {
+  return enumerateDevices()
+    .then(someDeviceIsVideoInput)
+    .then(bool => { hasVideoInput = bool })
     .catch(err => {
       if (err.kind === 'METHOD_NOT_AVAILABLE' && window.location.protocol === 'http:') {
         // enumerateDevices relies on window.navigator.mediaDevices.enumerateDevices
@@ -18,11 +21,21 @@ This can be fixed in Firefox about:config by setting the following parameters:
       } else {
         console.error('has_video_input error', err)
       }
-      window.hasVideoInput = false
-      window.doesntSupportEnumerateDevices = true
+      hasVideoInput = false
+      doesntSupportEnumerateDevices = true
     })
 }
 
-const hasVideoInput = devices => any(devices, isVideoInput)
+let waitForDeviceDetection
+export async function checkVideoInput () {
+  waitForDeviceDetection = waitForDeviceDetection || _checkVideoInput()
+  return waitForDeviceDetection
+}
+
+const someDeviceIsVideoInput = devices => any(devices, isVideoInput)
 
 const isVideoInput = device => device.kind === 'videoinput'
+
+export function getDevicesInfo () {
+  return { hasVideoInput, doesntSupportEnumerateDevices }
+}

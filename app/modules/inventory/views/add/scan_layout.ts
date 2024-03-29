@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { getDevicesInfo } from '#lib/has_video_input.ts'
 import scanTemplate from './templates/scan_layout.hbs'
 import '#inventory/scss/scan_layout.scss'
 
@@ -7,10 +8,7 @@ export default Marionette.View.extend({
   template: scanTemplate,
 
   serializeData () {
-    return {
-      hasVideoInput: window.hasVideoInput,
-      doesntSupportEnumerateDevices: window.doesntSupportEnumerateDevices,
-    }
+    return getDevicesInfo()
   },
 
   events: {

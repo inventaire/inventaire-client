@@ -136,8 +136,6 @@ module.exports = {
     localStorage: 'writable',
     env: 'writable',
     CONFIG: 'writable',
-    hasVideoInput: 'writable',
-    doesntSupportEnumerateDevices: 'writable',
     FormData: 'writable',
     // Libs
     _: 'writable',

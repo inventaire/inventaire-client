@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { getDevicesInfo } from '#lib/has_video_input.ts'
 import initAddHelpers from './lib/add_helpers.ts'
 
 export default {
@@ -33,7 +34,7 @@ const API = {
   },
   async showEmbeddedScanner () {
     if (app.request('require:loggedIn', 'add/scan/embedded')) {
-      if (window.hasVideoInput) {
+      if (getDevicesInfo().hasVideoInput) {
         // navigate before triggering the view itself has
         // special behaviors on route change
         app.navigate('add/scan/embedded')
