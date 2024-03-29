@@ -34,11 +34,12 @@ export async function getSelectorsData ({ worksTree }) {
 async function getEntitiesBasicInfo (uris) {
   uris = uniq(uris)
   if (uris.length === 0) return []
-  const { entities } = await getEntitiesAttributesByUris({
+  const res = await getEntitiesAttributesByUris({
     uris,
     attributes: [ 'labels', 'image' ],
     lang: app.user.lang,
   })
+  const entities = res.entities
   Object.values(entities).forEach(entity => {
     if (entity.labels == null) {
       error_.report('missing entity labels', { entity, uris })
@@ -50,11 +51,22 @@ async function getEntitiesBasicInfo (uris) {
   return entities
 }
 
+interface FacetSelector {
+  options: {
+    value: string
+    image: string
+    text: string
+    count: number
+    worksUris: string[]
+  }[]
+  disabled?: boolean
+}
+
 const getSelectorsOptions = ({ worksTree, facetsEntitiesBasicInfo }) => {
   const facetsSelectors = {}
   for (const [ sectionName, worksUrisPerValue ] of Object.entries(worksTree)) {
     if (sectionName !== 'owner') {
-      const facetSelector = {
+      const facetSelector: FacetSelector = {
         options: getOptions({ worksUrisPerValue, facetsEntitiesBasicInfo }),
       }
       facetSelector.disabled = hasNoKnownValue(facetSelector.options)

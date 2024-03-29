@@ -71,7 +71,7 @@ const API = {
     }
   },
 
-  showUserInventory (user, standalone) {
+  showUserInventory (user, standalone?) {
     return showInventory({ user, standalone })
   },
 
@@ -87,7 +87,7 @@ const API = {
     showItem({ itemId: id, regionName: 'main' })
   },
 
-  showUserItemsByEntity (username, uri, label) {
+  showUserItemsByEntity (username, uri, label?) {
     const pathname = `/users/${username}/inventory/${uri}`
     if (!isUsername(username) || !isEntityUri(uri)) {
       return app.execute('show:error:missing', { pathname })
@@ -117,7 +117,7 @@ const showItemsFromModels = function (items) {
     app.execute('show:error:missing')
   } else if (items.length === 1) {
     const item = items.models[0]
-    showItem({ item: item._id })
+    showItem({ itemId: item._id })
   } else {
     showItemsList(items)
   }
@@ -140,7 +140,13 @@ export const getItemsListFromItemsCollection = collection => {
   })
 }
 
-const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal }) => {
+interface ShowItem {
+  itemId: string
+  regionName?: string
+  pathnameAfterClosingModal?: string
+}
+
+const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal }: ShowItem) => {
   try {
     assert_.string(itemId)
     const pathname = `/items/${itemId}`

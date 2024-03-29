@@ -117,7 +117,14 @@ const mergeResponsesObjects = (responses, attribute) => {
   }
 }
 
-export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives }) {
+interface GetEntitiesAttributesByUris {
+  uris: string[]
+  attributes: string[]
+  lang: string
+  relatives?: any
+}
+
+export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUris) {
   uris = forceArray(uris)
   if (!isNonEmptyArray(uris)) return { entities: [] }
   attributes = forceArray(attributes)

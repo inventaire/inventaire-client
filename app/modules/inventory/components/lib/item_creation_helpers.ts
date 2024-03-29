@@ -13,6 +13,7 @@ export function guessInitialVisibility (visibility) {
 }
 
 export function cancel () {
+  // @ts-expect-error
   if (Backbone.history.last.length > 0) {
     window.history.back()
   } else {
