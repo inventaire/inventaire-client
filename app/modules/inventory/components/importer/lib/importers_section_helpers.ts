@@ -5,10 +5,11 @@ import { getIsbnData } from '#inventory/lib/importer/extract_isbns'
 import { addExistingItemsCountToCandidate, getEditionEntitiesByUri, getRelevantEntities, guessUriFromIsbn, resolveCandidate } from '#inventory/lib/importer/import_helpers'
 import error_ from '#lib/error'
 import log_ from '#lib/loggers'
+import type { ExternalEntry, Candidate } from '#types/importer'
 
 export const createExternalEntry = candidateData => {
   const { isbn, title, authors = [] } = candidateData
-  const externalEntry = {
+  const externalEntry: ExternalEntry = {
     index: uniqueId('candidate'),
     editionTitle: title,
     authors: authors.map(name => ({ label: name })),
@@ -25,7 +26,7 @@ export const createExternalEntry = candidateData => {
   return externalEntry
 }
 
-export const addExistingItemsCounts = async function ({ candidates, externalEntries }) {
+export const addExistingItemsCounts = async function ({ candidates, externalEntries }: { candidates: Candidate[], externalEntries: ExternalEntry[] }) {
   const uris = compact(externalEntries.map(getExternalEntryUri))
   const waitingForItemsCounts = getEntitiesItemsCount(app.user.id, uris)
   candidates.forEach(candidate => { candidate.waitingForItemsCount = waitingForItemsCounts })
