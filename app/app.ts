@@ -3,7 +3,7 @@ import BindedPartialBuilder from '#lib/binded_partial_builder'
 import { isNonEmptyString } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import { routeSection, currentRouteWithQueryString } from '#lib/location'
-import { clearMetadata, updateRouteMetadata } from '#lib/metadata/update'
+import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#lib/metadata/update'
 import { scrollToElement } from '#lib/screen'
 import { dropLeadingSlash } from '#lib/utils'
 import { channel, reqres, request, execute } from './radio.ts'
@@ -11,8 +11,18 @@ import { channel, reqres, request, execute } from './radio.ts'
 let initialUrlNavigateAlreadyCalled = false
 let lastNavigateTimestamp = 0
 
+interface NavigateOptions {
+  replace?: boolean
+  trigger?: boolean
+  pageSectionElement?: HTMLElement
+  preventScrollTop?: boolean
+  metadata?: MetadataUpdate
+}
+
+// @ts-expect-error
 const App = Marionette.Application.extend({
   initialize () {
+    // @ts-expect-error
     Backbone.history.last = []
 
     // Mapping backbone.radio concepts on the formerly used backbone-wreqr concepts
@@ -35,9 +45,11 @@ const App = Marionette.Application.extend({
       // Polymorphism
       if (isObject(pathAttribute)) {
         options = pathAttribute
+        // @ts-expect-error
         pathAttribute = options.pathAttribute || 'pathname'
       }
 
+      // @ts-expect-error
       options.metadata = model.updateMetadata()
       const route = model.get(pathAttribute)
       if (isNonEmptyString(route)) {
@@ -52,14 +64,15 @@ const App = Marionette.Application.extend({
     this.navigateFromModel = navigateFromModel.bind(this)
   },
 
-  navigate (route, options = {}) {
+  navigate (route, options: NavigateOptions = {}) {
     // Close the modal if it was open
     // If the next view just opened the modal, this will be ignored
     app.execute('modal:close')
     // Update metadata before testing if the route changed
     // so that a call from a router action would trigger a metadata update
     // but not affect the history (due to the early return hereafter)
-    updateRouteMetadata(route, options.metadata)
+    const metadata = 'metadata' in options ? options.metadata : {}
+    updateRouteMetadata(route, metadata)
     // Easing code mutualization by firing app.navigate, even when the module
     // simply reacted to the requested URL
     if (route === currentRouteWithQueryString()) {
@@ -80,6 +93,7 @@ const App = Marionette.Application.extend({
 
     this.vent.trigger('route:change', routeSection(route), route)
     route = this.request('querystring:keep', route)
+    // @ts-expect-error
     Backbone.history.last.unshift(route)
 
     // Replace last route in history when several navigation happen quickly
@@ -98,7 +112,7 @@ const App = Marionette.Application.extend({
     }
   },
 
-  navigateAndLoad (route, options = {}) {
+  navigateAndLoad (route, options: NavigateOptions = {}) {
     options.trigger = true
     this.navigate(route, options)
   },

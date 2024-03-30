@@ -32,7 +32,7 @@ async function metadataUpdateDone () {
 setTimeout(metadataUpdateDone, 20 * 1000)
 export const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
-export interface Metadata {
+interface Metadata {
   url: string
   title: string
   description: string
