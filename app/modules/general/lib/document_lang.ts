@@ -11,7 +11,8 @@ export default function (lang) {
   document.documentElement.setAttribute('dir', getTextDirection(lang))
 
   const elements = []
-  addAlternateLangs(elements, addOgLocalAlternates(elements, lang))
+  addAlternateLangs(elements)
+  addOgLocalAlternates(elements, lang)
   $(document.head).append(elements.join(''))
 }
 
