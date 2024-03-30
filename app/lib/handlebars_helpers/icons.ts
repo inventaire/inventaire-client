@@ -4,6 +4,7 @@ import { icon as _icon } from '#lib/icons'
 import { parseQuery } from '#lib/location'
 import { I18n, i18n } from '#user/lib/i18n'
 
+// @ts-expect-error
 const { SafeString } = Handlebars
 
 export function icon (name, classes = '') {

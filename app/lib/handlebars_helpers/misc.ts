@@ -7,6 +7,7 @@ import { timeFromNow } from '#lib/time'
 import { capitalize } from '#lib/utils'
 import { i18n } from '#user/lib/i18n'
 
+// @ts-expect-error
 const { SafeString, escapeExpression } = Handlebars
 
 export default {

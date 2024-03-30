@@ -1,5 +1,6 @@
 import Handlebars from 'handlebars/runtime.js'
 
+// @ts-expect-error
 const { SafeString, escapeExpression } = Handlebars
 
 // regex inspired by https://gist.github.com/efeminella/2034192

@@ -18,6 +18,7 @@ import { imgSrc } from './images.ts'
 import linkify_ from './linkify.ts'
 import platforms_ from './platforms.ts'
 
+// @ts-expect-error
 const { SafeString, escapeExpression } = Handlebars
 
 let API

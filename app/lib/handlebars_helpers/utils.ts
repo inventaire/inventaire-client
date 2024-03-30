@@ -4,6 +4,7 @@ import { isNonEmptyArray } from '#lib/boolean_tests'
 import log_ from '#lib/loggers'
 import { fixedEncodeURIComponent } from '#lib/utils'
 
+// @ts-expect-error
 const { SafeString, escapeExpression } = Handlebars
 
 // Inspired by some things there https://assemble.io/helpers/

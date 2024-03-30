@@ -7,13 +7,16 @@ import { isEntityUri } from '#lib/boolean_tests'
 import error_ from '#lib/error'
 import { isWikidataItemId, isWikidataPropertyId, isWikidataPropertyUri } from '../boolean_tests.ts'
 
+// @ts-expect-error
 const { SafeString, escapeExpression } = Handlebars
 
 export const prop = function (uri) {
   // Be more restrictive on the input to be able to use it in SafeStrings
   if (isWikidataPropertyUri(uri)) {
+    // @ts-expect-error
     return propertyValue({ uri })
   } else if (isWikidataPropertyId(uri)) {
+    // @ts-expect-error
     return propertyValue({ uri: `wdt:${uri}` })
   }
 }

@@ -14,5 +14,6 @@ for (const name in API) {
   const fn = API[name]
   // Registering partials using the code here
   // https://github.com/brunch/handlebars-brunch/issues/10#issuecomment-38155730
+  // @ts-expect-error
   Handlebars.registerHelper(name, fn.bind(API))
 }
