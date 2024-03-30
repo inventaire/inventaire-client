@@ -7,8 +7,11 @@ import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 import preq from '#lib/preq'
 import { expired } from '#lib/time'
 import { forceArray } from '#lib/utils'
+import type { Claims, SerializedEntity, InvClaimValue, EntityUri } from '#server/types/entity'
+import type { SerializedEntityWithLabel, RedirectionsByUris } from '#types/entity'
 import getBestLangValue from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
+import type { Entries } from 'type-fest'
 
 export async function getReverseClaims (property, value, refresh?, sort?) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
@@ -43,7 +46,7 @@ export const getEntitiesByUris = async params => {
   uris = forceArray(uris)
   if (uris.length === 0) return []
   const { entities, redirects } = await getManyEntities({ uris, attributes, lang })
-  const serializedEntities = Object.values(entities).map(serializeEntity)
+  const serializedEntities: SerializedEntity[] = Object.values(entities).map(serializeEntity)
   if (index) {
     const indexedEntities = indexBy(serializedEntities, 'uri')
     addRedirectionsAliases(indexedEntities, redirects)
@@ -55,7 +58,7 @@ export const getEntitiesByUris = async params => {
 
 export const getEntityByUri = async ({ uri }) => {
   assert_.string(uri)
-  const [ entity ] = await getEntitiesByUris({ uris: uri })
+  const [ entity ] = await getEntitiesByUris({ uris: uri }) as SerializedEntity[]
   return entity
 }
 
@@ -95,9 +98,15 @@ export const attachEntities = async (entity, attribute, uris) => {
   return entity
 }
 
+interface GetManyEntities {
+  uris: InvClaimValue[]
+  attributes: any
+  lang: any
+  relatives?: any
+}
 // Limiting the amount of uris requested to not get over the HTTP GET querystring length threshold.
 // Not using the POST equivalent endpoint, has duplicated request would then be answered with a 429 error
-const getManyEntities = async ({ uris, attributes, lang, relatives }) => {
+const getManyEntities = async ({ uris, attributes, lang, relatives }: GetManyEntities) => {
   const urisChunks = chunk(uris, 30)
   const responses = await Promise.all(urisChunks.map(async urisChunks => {
     return preq.get(app.API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives }))
@@ -105,12 +114,13 @@ const getManyEntities = async ({ uris, attributes, lang, relatives }) => {
   return {
     entities: mergeResponsesObjects(responses, 'entities'),
     redirects: mergeResponsesObjects(responses, 'redirects'),
-  }
+  } as { entities: Record<EntityUri, SerializedEntity>, redirects: RedirectionsByUris }
 }
 
 const mergeResponsesObjects = (responses, attribute) => {
   const objs = compact(pluck(responses, attribute))
   if (objs.length > 0) {
+    // @ts-expect-error
     return Object.assign(...objs)
   } else {
     return {}
@@ -118,15 +128,18 @@ const mergeResponsesObjects = (responses, attribute) => {
 }
 
 interface GetEntitiesAttributesByUris {
-  uris: string[]
+  uris: InvClaimValue[]
   attributes: string[]
-  lang: string
+  lang?: string
   relatives?: any
 }
 
 export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUris) {
   uris = forceArray(uris)
-  if (!isNonEmptyArray(uris)) return { entities: [] }
+  if (!isNonEmptyArray(uris)) {
+    const entities: SerializedEntityWithLabel[] = []
+    return { entities }
+  }
   attributes = forceArray(attributes)
   const { entities, redirects } = await getManyEntities({ uris, attributes, lang, relatives })
   addRedirectionsAliases(entities, redirects)
@@ -135,7 +148,7 @@ export async function getEntitiesAttributesByUris ({ uris, attributes, lang, rel
 
 function addRedirectionsAliases (entities, redirects) {
   if (redirects) {
-    for (const [ fromUri, toUri ] of Object.entries(redirects)) {
+    for (const [ fromUri, toUri ] of Object.entries(redirects) as Entries<RedirectionsByUris>) {
       entities[fromUri] = entities[toUri]
     }
   }
@@ -180,7 +193,7 @@ export async function getEntityBasicInfoByUri (uri) {
   return entities[uri]
 }
 
-export async function getEntitiesAttributesFromClaims (claims, attributes) {
+export async function getEntitiesAttributesFromClaims (claims: Claims, attributes) {
   if (!attributes) attributes = [ 'labels' ]
   const claimsValues = flatten(Object.values(claims))
   const uris = claimsValues.filter(isEntityUri)
@@ -231,7 +244,7 @@ export function byPopularity (a, b) {
 
 export function byItemsOwnersCount (a, b) {
   // Descending order
-  return parseInt(getOwnersCountPerEdition(b.items) || 0) - parseInt(getOwnersCountPerEdition(a.items) || 0)
+  return (getOwnersCountPerEdition(b.items) || 0) - (getOwnersCountPerEdition(a.items) || 0)
 }
 
 export const getPublicationYear = entity => {

@@ -289,7 +289,7 @@ const getEntitiesModels = async function (params) {
 // Known case of model being undefined: when the model initialization failed
 const isntMissing = model => (model != null) && (model?.type !== 'missing')
 
-const getEntityModel = async (uri, refresh) => {
+const getEntityModel = async (uri, refresh?) => {
   const [ model ] = await getEntitiesModels({ uris: [ uri ], refresh })
   if (model != null) {
     return model

@@ -39,6 +39,7 @@ export default {
   create (options) {
     const { type, label, claims, relation } = options
     const entityDraft = createDraft(options)
+    // @ts-expect-error
     const model = new Backbone.NestedModel(entityDraft)
     Entity.prototype.setFavoriteLabel.call(model, model.toJSON())
 
