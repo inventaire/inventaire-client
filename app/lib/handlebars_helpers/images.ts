@@ -4,7 +4,7 @@ import app from '#app/app'
 // Keep in sync with server/lib/emails/handlebars_helpers
 import { isDataUrl } from '#lib/boolean_tests'
 
-export const imgSrc = (path, width, height) => {
+export const imgSrc = (path, width, height?) => {
   if (isDataUrl(path)) return path
 
   width = getImgDimension(width, 1600)

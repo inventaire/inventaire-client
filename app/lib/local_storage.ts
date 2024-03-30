@@ -3,7 +3,7 @@
 // from one session to the other, but who's fault is that
 let _localStorageProxy
 try {
-  window.localStorage.setItem('localStorage-support', true)
+  window.localStorage.setItem('localStorage-support', 'true')
   _localStorageProxy = localStorage
 } catch (err) {
   console.warn('localStorage isnt supported')

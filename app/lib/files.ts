@@ -1,7 +1,7 @@
 import log_ from '#lib/loggers'
 import testEncodingErrors from './encoding_errors.ts'
 
-const readFile = function (mode, file, encoding, verifyEncoding) {
+const readFile = function (mode, file, encoding?, verifyEncoding?) {
   const reader = new FileReader()
   return new Promise((resolve, reject) => {
     reader.onerror = reject

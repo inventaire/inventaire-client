@@ -30,7 +30,7 @@ const error_ = {
   new: formatError,
   // newWithSelector: use forms_.throwError instead
 
-  complete (err, selector, i18n) {
+  complete (err, selector, i18n?) {
     if (err.i18n == null) err.i18n = i18n !== false
     err.selector = selector
     return err
@@ -38,7 +38,7 @@ const error_ = {
 
   // /!\ throws the error while error_.complete only returns it.
   // This difference is justified by the different use of both functions
-  Complete (selector, i18n) {
+  Complete (selector, i18n?) {
     return function (err) {
       throw error_.complete(err, selector, i18n)
     }

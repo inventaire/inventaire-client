@@ -3,7 +3,7 @@ import { debounce } from 'underscore'
 import app from '#app/app'
 import { currentRoute, routeSection } from '#lib/location'
 
-function getLocationData (section, route) {
+function getLocationData (section?, route?) {
   route = route || currentRoute()
   return {
     route,

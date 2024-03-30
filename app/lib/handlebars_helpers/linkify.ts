@@ -1,5 +1,5 @@
 // customized for client-side needs
-export default function (text, url, classes = 'link', title) {
+export default function (text, url, classes = 'link', title?) {
   // prevent [object Object] classes
   // avoiding using isString as the module is used in scripts with differents environments
   if (typeof classes !== 'string') classes = ''

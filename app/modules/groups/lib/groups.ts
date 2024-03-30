@@ -105,7 +105,7 @@ export async function getCachedSerializedGroupMembers (group) {
   return getCachedSerializedUsers(allMembersIds)
 }
 
-export function serializeGroup (group, options) {
+export function serializeGroup (group, options?) {
   if (group._serialized && !(options?.refresh)) return group
   const slug = fixedEncodeURIComponent(group.slug)
   const base = `/groups/${slug}`
@@ -158,7 +158,7 @@ export async function updateGroupSetting ({ groupId, attribute, value }) {
   })
 }
 
-async function groupAction (action, groupId, targetUserId) {
+async function groupAction (action, groupId, targetUserId?) {
   return preq.put(app.API.groups.base, {
     action,
     group: groupId,

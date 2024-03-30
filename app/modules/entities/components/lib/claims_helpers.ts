@@ -104,7 +104,7 @@ export function timeClaim (params) {
       unixTime = new Date('0000')
       unixTime.setFullYear(year)
     }
-    return unixTime.getUTCFullYear(year)
+    return unixTime.getUTCFullYear()
   }
   return value
 }

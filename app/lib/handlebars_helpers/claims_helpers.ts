@@ -21,7 +21,7 @@ export const prop = function (uri) {
   }
 }
 
-export const entity = function (uri, entityLink, alt, property, title) {
+export const entity = function (uri, entityLink, alt?, property?, title?) {
   // Be restricting on the input to be able to use it in SafeStrings
   let pathname
   if (!isWikidataItemId(uri) && !isEntityUri(uri)) {
@@ -68,7 +68,7 @@ export function neutralizeDataObject (args) {
 export function getValuesTemplates (valueArray, entityLink, property) {
   // prevent any null value to sneak in
   return compact(valueArray)
-  .map(uri => entity(uri, entityLink, null, property).trim())
+  .map(uri => entity(uri, entityLink, null, property, null).trim())
   .join(', ')
 }
 

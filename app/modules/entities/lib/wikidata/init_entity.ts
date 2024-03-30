@@ -86,7 +86,7 @@ const _setWikipediaExtractAndDescription = function (extractData) {
   }
 }
 
-export function getWikidataItemMergeUrl (fromUri, toUri) {
+export function getWikidataItemMergeUrl (fromUri, toUri?) {
   let fromid = unprefixify(fromUri)
   let toid
   if (toUri) {

@@ -2,14 +2,14 @@ import app from '#app/app'
 import { getEntitiesByUris } from '#entities/lib/entities'
 import error_ from '#lib/error'
 
-export default async function getEntityViewByType (model, refresh) {
+export default async function getEntityViewByType (model) {
   const entity = model.toJSON()
   const { type } = model
   const displayMergeSuggestions = app.user.hasDataadminAccess
   let props = { entity }
 
   const getter = entityViewSpecialGetterByType[type]
-  if (getter != null) return getter(entity, refresh)
+  if (getter != null) return getter(entity)
 
   let View, Component
   if (type === 'human') {
@@ -43,10 +43,10 @@ export default async function getEntityViewByType (model, refresh) {
   }
 }
 
-const getEditionComponent = async (entity, refresh) => {
+const getEditionComponent = async entity => {
   const [ { default: EditionLayout }, works ] = await Promise.all([
     import('#entities/components/layouts/edition.svelte'),
-    getEditionsWorks([ entity ], refresh),
+    getEditionsWorks([ entity ]),
   ])
   return {
     Component: EditionLayout,

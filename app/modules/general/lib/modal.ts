@@ -15,7 +15,7 @@ export default function () {
   const $modalContent = $('#modalContent')
   const $closeModal = $('#modal .close')
 
-  const modalOpen = function (size, focusSelector, dark = false) {
+  const modalOpen = function (size?, focusSelector?, dark? = false) {
     switch (size) {
     case 'large': largeModal(); break
     case 'medium': mediumModal(); break
@@ -66,7 +66,7 @@ export default function () {
     app.vent.trigger('modal:opened')
   }
 
-  const closeModal = function (goBack) {
+  const closeModal = function (goBack?) {
     // Ignore closing call happening less than 200ms after the last open call:
     // it's probably a view destroying itself and calling modal:close
     // while an other view requiring the modal to be opened just requested it

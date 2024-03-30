@@ -21,7 +21,7 @@ export default function () {
     }
   }
 
-  const getGroupPublicData = function (id, groupModel) {
+  const getGroupPublicData = function (id, groupModel?) {
     if (groupModel != null) ({ id } = groupModel)
     return preq.get(app.API.groups.byId(id))
     .then(res => addGroupData(res, groupModel))
@@ -32,7 +32,7 @@ export default function () {
     .then(addGroupData)
   }
 
-  const addGroupData = function (res, groupModel) {
+  const addGroupData = function (res, groupModel?) {
     const { group, users } = res
     app.execute('users:add', users)
     if (groupModel == null) groupModel = groups.add(group)

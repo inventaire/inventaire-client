@@ -61,7 +61,7 @@ export default Filterable.extend({
     this._dataPromises = []
 
     if (this.wikidataId) {
-      initializeWikidataEntity.call(this, attrs)
+      initializeWikidataEntity.call(this)
     } else {
       initializeInvEntity.call(this, attrs)
     }

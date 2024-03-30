@@ -36,7 +36,7 @@ export default {
 }
 
 const API = {
-  async showEntity (uri, params) {
+  async showEntity (uri, params?) {
     const refresh = params?.refresh || app.request('querystring:get', 'refresh')
     if (isClaim(uri)) return showClaimEntities(uri, refresh)
 
@@ -51,7 +51,7 @@ const API = {
     try {
       const model = await getEntityModel(uri, refresh)
       rejectRemovedPlaceholder(model)
-      const { view, Component, props } = await getEntityViewByType(model, refresh)
+      const { view, Component, props } = await getEntityViewByType(model)
       if (Component) {
         app.layout.showChildComponent('main', Component, { props })
       } else if (view) {
