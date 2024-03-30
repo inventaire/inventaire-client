@@ -6,6 +6,8 @@ import {
   byNewestPublicationDate, byPopularity, bySerieOrdinal, byItemsOwnersCount,
 } from '#entities/lib/entities'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
+import type { EntityUri } from '#server/types/entity'
+import type { Facets, FacetsSelectedValues } from '#types/entity'
 import { I18n } from '#user/lib/i18n'
 
 export function isSubEntitiesType (type) {
@@ -30,8 +32,8 @@ export async function getFacetsEntitiesBasicInfo (facetsObj) {
 }
 
 const initialize = ({ contextProperties }) => {
-  const facets = {}
-  const facetsSelectedValues = {}
+  const facets: Facets = {}
+  const facetsSelectedValues: FacetsSelectedValues = {}
 
   contextProperties.forEach(property => {
     facets[property] = {}
@@ -199,8 +201,10 @@ const formatOption = ({ property, worksUrisPerValue, facetsEntitiesBasicInfo }) 
 }
 
 export function getSelectedUris ({ works, facets, facetsSelectedValues }) {
-  let selectedUris = pluck(works, 'uri')
-  for (const [ property, selectedValue ] of Object.entries(facetsSelectedValues)) {
+  let selectedUris: EntityUri[] = pluck(works, 'uri')
+  let property: string
+  let selectedValue: string
+  for ([ property, selectedValue ] of Object.entries(facetsSelectedValues as FacetsSelectedValues)) {
     if (selectedValue !== 'all') {
       const matchingUris = facets[property][selectedValue]
       selectedUris = intersection(selectedUris, matchingUris)
