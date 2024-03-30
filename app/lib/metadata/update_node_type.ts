@@ -7,7 +7,7 @@ const head = document.querySelector('head')
 
 const previousValue = {}
 
-export default function (key, value, noCompletion) {
+export default function (key: string, value: string, noCompletion?: boolean) {
   // Early return if the input is the same as previously
   if (previousValue[key] === value) return
   previousValue[key] = value

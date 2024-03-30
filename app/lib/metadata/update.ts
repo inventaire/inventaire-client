@@ -15,6 +15,7 @@
 import app from '#app/app'
 import { wait } from '#lib/promises'
 import { dropLeadingSlash } from '#lib/utils'
+import type { Url } from '#server/types/common'
 import { I18n, i18n } from '#user/lib/i18n'
 import { transformers } from './apply_transformers.ts'
 import updateNodeType from './update_node_type.ts'
@@ -31,7 +32,27 @@ async function metadataUpdateDone () {
 setTimeout(metadataUpdateDone, 20 * 1000)
 export const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
 
-export async function updateRouteMetadata (route, metadataPromise = {}) {
+export interface Metadata {
+  url: string
+  title: string
+  description: string
+  image: Url
+  rss: Url
+  'og:type'?: 'website'
+  'twitter:card': 'summary' | 'summary_large_image'
+}
+
+export interface MetadataUpdate {
+  url?: string
+  title?: string
+  description?: string
+  image?: Url
+  smallCardType?: boolean
+  'twitter:card'?: 'summary' | 'summary_large_image'
+  rss?: Url
+}
+
+export async function updateRouteMetadata (route, metadataPromise: MetadataUpdate | Promise<MetadataUpdate> = {}) {
   route = dropLeadingSlash(route)
   // metadataPromise can be a promise or a simple object
   const metadata = await metadataPromise
@@ -40,15 +61,19 @@ export async function updateRouteMetadata (route, metadataPromise = {}) {
   if (metadata?.title) metadataUpdateDone()
 }
 
-function applyMetadataUpdate (route, metadata = {}) {
-  if (metadata.smallCardType) {
-    metadata['twitter:card'] = 'summary'
+function applyMetadataUpdate (route, metadataUpdate: MetadataUpdate = {}) {
+  if (metadataUpdate.smallCardType) {
+    metadataUpdate['twitter:card'] = 'summary'
     // Use a small image to force social media to display it small
-    metadata.image = (metadata.image != null) ? app.API.img(metadata.image, 300, 300) : undefined
-    delete metadata.smallCardType
+    metadataUpdate.image = (metadataUpdate.image != null) ? app.API.img(metadataUpdate.image, 300, 300) : undefined
   }
-
-  if (metadata.title == null) metadata = getDefaultMetadata()
+  let metadata: Metadata
+  if (metadataUpdate.title == null) {
+    metadata = getDefaultMetadata()
+  } else {
+    const { url, title, description, image, rss, 'twitter:card': twitterCard } = metadataUpdate
+    metadata = { url, title, description, image, rss, 'twitter:card': twitterCard }
+  }
   if (!metadata.url) metadata.url = `/${route}`
   // image and rss can keep the default value, but description should be empty if no specific description can be found
   // to avoid just spamming with the default description
@@ -60,10 +85,10 @@ export const getDefaultMetadata = () => ({
   url: '',
   title: 'Inventaire - ' + i18n('your friends and communities are your best library'),
   description: I18n('make the inventory of your books and mutualize with your friends and communities into an infinite library!'),
-  image: 'https://inventaire.io/public/images/inventaire-books.jpg',
-  rss: 'https://mamot.fr/users/inventaire.rss',
-  'og:type': 'website',
-  'twitter:card': 'summary_large_image',
+  image: 'https://inventaire.io/public/images/inventaire-books.jpg' as Url,
+  rss: 'https://mamot.fr/users/inventaire.rss' as Url,
+  'og:type': 'website' as const,
+  'twitter:card': 'summary_large_image' as const,
 })
 
 function updateMetadata (metadata) {
