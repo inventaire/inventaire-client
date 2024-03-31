@@ -3,7 +3,7 @@ import app from '#app/app'
 import AlertBox from '#behaviors/alert_box'
 import getLangsData from '#entities/lib/editor/get_langs_data'
 import { catchAlert } from '#general/lib/forms'
-import error_ from '#lib/error'
+import { formatAndThrowError } from '#lib/error'
 import { getActionKey } from '#lib/key_events'
 import { focusInput } from '#lib/utils'
 import SerieCleanupAuthors from './serie_cleanup_authors.ts'
@@ -119,7 +119,7 @@ export default Marionette.View.extend({
   updateOrdinal (e) {
     const { value } = e.currentTarget
     return this.model.setPropertyValue('wdt:P1545', null, value)
-    .catch(error_.Complete('.head', false))
+    .catch(formatAndThrowError('.head', false))
     .catch(catchAlert.bind(null, this))
   },
 

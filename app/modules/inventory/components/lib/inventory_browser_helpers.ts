@@ -2,7 +2,7 @@ import { clone, flatten, intersection, pick, uniq, without } from 'underscore'
 import app from '#app/app'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 import preq from '#lib/preq'
 
 export async function getSelectorsData ({ worksTree }) {
@@ -42,7 +42,7 @@ async function getEntitiesBasicInfo (uris) {
   const entities = res.entities
   Object.values(entities).forEach(entity => {
     if (entity.labels == null) {
-      error_.report('missing entity labels', { entity, uris })
+      serverReportError('missing entity labels', { entity, uris })
       entity.label = ''
     } else {
       entity.label = Object.values(entity.labels)[0]

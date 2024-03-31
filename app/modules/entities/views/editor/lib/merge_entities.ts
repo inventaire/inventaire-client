@@ -1,13 +1,13 @@
 import app from '#app/app'
 import { isWikidataItemUri } from '#lib/boolean_tests.ts'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import getEntityWikidataImportData from './get_entity_wikidata_import_data.ts'
 
 export default async function (fromUri, toUri) {
   if (isWikidataItemUri(fromUri) && isWikidataItemUri(toUri)) {
-    throw error_.new('Wikidata entities can not be merged on Inventaire', 400, { fromUri, toUri })
+    throw newError('Wikidata entities can not be merged on Inventaire', 400, { fromUri, toUri })
   }
   // Invert URIs if the toEntity is a Wikidata entity
   // as we can't request Wikidata entities to merge into inv entities

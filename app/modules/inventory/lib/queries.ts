@@ -2,7 +2,7 @@ import { isArray, flatten, indexBy } from 'underscore'
 import app from '#app/app'
 import Items from '#inventory/collections/items'
 import Item from '#inventory/models/item'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { serializeUser } from '#users/lib/users'
@@ -19,7 +19,7 @@ const getById = async id => {
     app.execute('users:add', users)
     return new Item(item)
   } else {
-    throw error_.new('not found', 404, id)
+    throw newError('not found', 404, id)
   }
 }
 

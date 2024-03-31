@@ -6,7 +6,7 @@
 // deserialize strings, numbers, and booleans as such
 
 import { writable } from 'svelte/store'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 
 const stores = {}
 
@@ -23,7 +23,7 @@ function initStore (key, initialValue) {
       value = JSON.parse(stringifiedStoredValue)
     } catch (err) {
       if (err.name === 'SyntaxError') localStorage.removeItem(key)
-      error_.report(err, { key, initialValue, stringifiedStoredValue })
+      serverReportError(err, { key, initialValue, stringifiedStoredValue })
     }
     if (value == null) value = initialValue
     set(value)

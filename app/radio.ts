@@ -1,6 +1,6 @@
 import Radio from 'backbone.radio'
 import assert_ from '#lib/assert_types'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 
 export const channel = Radio.channel('global')
 
@@ -20,7 +20,7 @@ export function request (handlerKey, ...args) {
   if (channel._requests[handlerKey] == null) {
     // Not throwing to let a chance to the client to do without it
     // In case of a 'request', the absence of returned value is likely to make it crash later though
-    error_.report(`radio request "${handlerKey}" isn't defined`)
+    serverReportError(`radio request "${handlerKey}" isn't defined`)
   } else {
     return channel.request(handlerKey, ...args)
   }

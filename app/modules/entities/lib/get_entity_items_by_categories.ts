@@ -1,6 +1,6 @@
 import { partition } from 'underscore'
 import app from '#app/app'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import log_ from '#lib/loggers'
 
 // Make sure items are fetched for all sub entities as editions that aren't
@@ -20,7 +20,7 @@ const spreadItems = uris => async items => {
   }
 
   if (items == null) {
-    log_.error(error_.new('missing items collection', 500, { uris }), 'spreadItems')
+    log_.error(newError('missing items collection', 500, { uris }), 'spreadItems')
     return itemsByCategories
   }
   for (const item of items.models) {

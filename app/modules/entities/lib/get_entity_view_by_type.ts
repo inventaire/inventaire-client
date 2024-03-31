@@ -1,6 +1,6 @@
 import app from '#app/app'
 import { getEntitiesByUris } from '#entities/lib/entities'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 
 export default async function getEntityViewByType (model) {
   const entity = model.toJSON()
@@ -67,7 +67,7 @@ const getEditionWorksUris = edition => {
   if (edition.type !== 'edition') return []
   if (editionWorksUris == null) {
     const { uri } = edition
-    const err = error_.new('edition entity misses associated works (wdt:P629)', { uri })
+    const err = newError('edition entity misses associated works (wdt:P629)', { uri })
     throw err
   }
   return editionWorksUris

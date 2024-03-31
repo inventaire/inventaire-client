@@ -1,5 +1,5 @@
 import app from '#app/app'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import preq from '#lib/preq'
 
 export default {
@@ -120,7 +120,7 @@ export default {
   // moving membership object from previousCategory to newCategory
   moveMembership (user, previousCategory, newCategory) {
     const membership = this.findMembership(previousCategory, user)
-    if (membership == null) throw error_.new('membership not found', arguments)
+    if (membership == null) throw newError('membership not found', arguments)
 
     this.without(previousCategory, membership)
     // let the possibility to just destroy the doc

@@ -1,7 +1,7 @@
 import app from '#app/app'
 import Positionable from '#general/models/positionable'
 import { isNonEmptyString } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { images } from '#lib/urls'
 import { countListings } from '#listings/lib/listings'
 import { countShelves } from '#shelves/lib/shelves'
@@ -79,7 +79,7 @@ export default Positionable.extend({
 
   checkSpecialStatus () {
     if (this.get('special')) {
-      throw error_.new("this layout isn't available for special users", 400, { user: this })
+      throw newError("this layout isn't available for special users", 400, { user: this })
     }
   },
 

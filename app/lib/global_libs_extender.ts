@@ -5,7 +5,7 @@ import app from '#app/app'
 // Sets $(selector).visible function
 import 'jquery-visible'
 import assert_ from '#lib/assert_types'
-import error_ from '#lib/error'
+import { serverReportError, newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 
@@ -62,7 +62,7 @@ Backbone.Model.prototype.reqGrab = async function (request, id, name, refresh) {
 }
 
 Backbone.Model.prototype.grab = function (name, model) {
-  if (model == null) throw error_.new('grab failed: missing model', arguments)
+  if (model == null) throw newError('grab failed: missing model', arguments)
 
   this[name] = model
   this.triggerGrab(name, model)
@@ -166,7 +166,7 @@ export function removeCurrentComponent (region) {
       region.currentComponent.$destroy()
       delete region.currentComponent
     } catch (err) {
-      error_.report(err)
+      serverReportError(err)
     }
   } else if (region.currentView?._regions) {
     const subregions = Object.values(region.currentView._regions)

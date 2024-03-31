@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 import wdLang from 'wikidata-lang'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { i18n } from '#user/lib/i18n'
 
 const { byCode: langByCode } = wdLang
@@ -43,7 +43,7 @@ export function errorMessageFormatter (err) {
   }
   if (err.statusCode === 413) {
     const cause = err
-    err = error_.new('image is too big', 413)
+    err = newError('image is too big', 413)
     if (cause.stack) err.stack = cause.stack
     err.cause = cause
   }

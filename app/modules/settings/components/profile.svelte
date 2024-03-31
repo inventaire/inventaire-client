@@ -4,7 +4,7 @@
   import PicturePicker from '#components/picture_picker.svelte'
   import { autosize } from '#lib/components/actions/autosize'
   import Flash from '#lib/components/flash.svelte'
-  import error_ from '#lib/error'
+  import { serverReportError } from '#lib/error'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import preq from '#lib/preq'
   import { Username } from '#lib/regex'
@@ -88,7 +88,7 @@
       return
     }
     if (await looksLikeSpam(bioValue)) {
-      error_.report('possible spam attempt', { bioValue }, 598)
+      serverReportError('possible spam attempt', { bioValue }, 598)
       // Display a success message to not give a clue to spammers
       // as to when a text is rejected
       bioState = { type: 'success', message: I18n('done') }

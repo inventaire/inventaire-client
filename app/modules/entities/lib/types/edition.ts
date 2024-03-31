@@ -1,6 +1,6 @@
 import { chain, partition } from 'underscore'
 import wdLang from 'wikidata-lang'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 import { unprefixify } from '#lib/wikimedia/wikidata'
 import getEntityItemsByCategories from '../get_entity_items_by_categories.ts'
 
@@ -59,7 +59,7 @@ const specificMethods = {
     } else {
       if (!this.creating) {
         const uri = this.get('uri')
-        error_.report('edition entity misses associated works (wdt:P629)', { edition: uri })
+        serverReportError('edition entity misses associated works (wdt:P629)', { edition: uri })
       }
       this.works = []
       startListeningForClaimsChanges.call(this)
@@ -75,7 +75,7 @@ const specificMethods = {
     works = confirmedWorks
     if (nonWorks.length > 0) {
       const nonWorksUris = nonWorks.map(entity => entity.get('uri'))
-      error_.report('non-works entities used as P629', { edition: this.get('uri'), nonWorksUris })
+      serverReportError('non-works entities used as P629', { edition: this.get('uri'), nonWorksUris })
     }
     inheritData.call(this, works)
     // Got to be initialized after inheritData is run to avoid running

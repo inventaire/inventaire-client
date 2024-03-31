@@ -1,5 +1,5 @@
 import { isString } from 'underscore'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import { i18n } from '#user/lib/i18n'
 
@@ -62,7 +62,7 @@ export const assertViewHasBehavior = function (view, name) {
       if (behavior.behaviorName === name) return
     }
   }
-  throw error_.new(`view misses behavior: ${name}`, 500)
+  throw newError(`view misses behavior: ${name}`, 500)
 }
 
 // typical invocation: Object.assign @, behaviorsPlugin

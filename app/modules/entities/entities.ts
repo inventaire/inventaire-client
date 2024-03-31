@@ -2,7 +2,7 @@ import app from '#app/app'
 import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 import assert_ from '#lib/assert_types'
 import { isPropertyUri, isEntityUri } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { serverReportError, newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
@@ -296,7 +296,7 @@ const getEntityModel = async (uri, refresh?) => {
   } else {
     // See getEntitiesModels "Possible reasons for missing entities"
     log_.info(`getEntityModel entity_not_found: ${uri}`)
-    const err = error_.new('entity_not_found', [ uri, model ])
+    const err = newError('entity_not_found', [ uri, model ])
     err.code = 'entity_not_found'
     throw err
   }
@@ -304,7 +304,7 @@ const getEntityModel = async (uri, refresh?) => {
 
 const showEntityEdit = async params => {
   const { model } = params
-  if (model.type == null) throw error_.new('invalid entity type', model)
+  if (model.type == null) throw newError('invalid entity type', model)
   const { default: EntityEdit } = await import('./components/editor/entity_edit.svelte')
   app.layout.showChildComponent('main', EntityEdit, {
     props: {
@@ -318,7 +318,7 @@ const showEntityEditFromModel = async model => {
   const editRoute = model.get('edit')
   if (!editRoute) {
     const { uri, type } = model.toJSON()
-    throw error_.new('this entity can not be edited', 400, { uri, type })
+    throw newError('this entity can not be edited', 400, { uri, type })
   }
   if (!app.request('require:loggedIn', model.get('edit'))) return
 
@@ -339,7 +339,7 @@ const showWikidataEditIntroModal = async model => {
 
 const rejectRemovedPlaceholder = function (entity) {
   if (entity.get('_meta_type') === 'removed:placeholder') {
-    throw error_.new('removed placeholder', 400, { entity })
+    throw newError('removed placeholder', 400, { entity })
   }
 }
 
@@ -412,13 +412,13 @@ const showClaimEntities = async (claim, refresh) => {
   const pathname = `/entity/${claim}`
 
   if (!isPropertyUri(property)) {
-    error_.report('invalid property')
+    serverReportError('invalid property')
     app.execute('show:error:missing', { pathname })
     return
   }
 
   if (!isEntityUri(value)) {
-    error_.report('invalid value')
+    serverReportError('invalid value')
     app.execute('show:error:missing', { pathname })
     return
   }
@@ -447,7 +447,7 @@ const reportedTypeIssueUris = []
 
 const showEntityCleanupFromModel = async entity => {
   if (entity.type !== 'serie') {
-    const err = error_.new(`cleanup isn't available for entity type ${entity.type}`, 400)
+    const err = newError(`cleanup isn't available for entity type ${entity.type}`, 400)
     app.execute('show:error', err)
     return
   }

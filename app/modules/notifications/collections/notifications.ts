@@ -1,6 +1,6 @@
 import { debounce } from 'underscore'
 import app from '#app/app'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { models as modelsTypes } from '../lib/notifications_types.ts'
@@ -46,7 +46,7 @@ const createTypedModel = function (doc) {
   const { type } = doc
   const Model = modelsTypes[type]
   if (Model == null) {
-    throw error_.new('unknown notification type', doc)
+    throw newError('unknown notification type', doc)
   }
 
   return new Model(doc)

@@ -35,26 +35,8 @@ export function newError (message: string, statusCode?: number | ErrorContext, c
   return err
 }
 
-export function complete (err, selector, i18n?) {
-  if (err.i18n == null) err.i18n = i18n !== false
-  err.selector = selector
-  return err
-}
-
-// /!\ throws the error while complete() only returns it.
-export function Complete (selector, i18n?) {
-  return function (err) {
-    throw complete(err, selector, i18n)
-  }
-}
-
-export async function reject (message, context) {
-  const err = newError(message, null, context)
-  throw err
-}
-
 // Log and report formatted errors to the server, without throwing
-export function report (message, context = {}, statusCode = 599) {
+export function serverReportError (message, context = {}, statusCode = 599) {
   context = deepClone(context)
   context.location = location.href
   // Non-standard convention
@@ -67,11 +49,16 @@ export function report (message, context = {}, statusCode = 599) {
 // Do not use lib/utils deepClone to prevent circular dependency
 const deepClone = obj => JSON.parse(JSON.stringify(obj))
 
-// To delete next commit
-export default {
-  new: (a, b, c?) => newError(a, b, c),
-  complete,
-  Complete,
-  reject,
-  report,
+// Legacy functions
+
+export function formatError (err, selector, i18n?) {
+  if (err.i18n == null) err.i18n = i18n !== false
+  err.selector = selector
+  return err
+}
+
+export function formatAndThrowError (selector, i18n?) {
+  return function (err) {
+    throw formatError(err, selector, i18n)
+  }
 }

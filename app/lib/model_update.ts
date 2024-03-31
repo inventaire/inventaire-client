@@ -1,7 +1,7 @@
 import { isEqual } from 'underscore'
 import app from '#app/app'
 import { isNonEmptyPlainObject } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { formatError } from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { tap } from '#lib/promises'
@@ -87,6 +87,6 @@ const rollbackUpdate = function (options, err) {
     log_.warn(previousValue, "couldn't reverse update: previousValue not found")
   }
 
-  err = (selector != null) ? error_.complete(err, selector) : err
+  err = (selector != null) ? formatError(err, selector) : err
   throw err
 }

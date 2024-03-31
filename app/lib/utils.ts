@@ -2,7 +2,7 @@ import { isArray, debounce } from 'underscore'
 import app from '#app/app'
 import assert_ from '#lib/assert_types'
 import { isNonEmptyString } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 import { currentRoute } from '#lib/location'
 import log_ from '#lib/loggers'
 
@@ -27,14 +27,14 @@ export const isOpenedOutside = (e, ignoreMissingHref = false) => {
   if (e.currentTarget != null) ({ id, href, className } = e.currentTarget)
 
   if (e?.ctrlKey == null) {
-    error_.report('non-event object was passed to isOpenedOutside', { id, href, className })
+    serverReportError('non-event object was passed to isOpenedOutside', { id, href, className })
     // Better breaking an open outside behavior than not responding
     // to the event at all
     return false
   }
 
   if (!isNonEmptyString(href) && !ignoreMissingHref) {
-    error_.report("can't open anchor outside: href is missing", { id, href, className })
+    serverReportError("can't open anchor outside: href is missing", { id, href, className })
     return false
   }
 

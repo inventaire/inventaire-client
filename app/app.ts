@@ -1,7 +1,7 @@
 import { isObject } from 'underscore'
 import BindedPartialBuilder from '#lib/binded_partial_builder'
 import { isNonEmptyString } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 import { routeSection, currentRouteWithQueryString } from '#lib/location'
 import { clearMetadata, updateRouteMetadata, type MetadataUpdate } from '#lib/metadata/update'
 import { scrollToElement } from '#lib/screen'
@@ -55,7 +55,7 @@ const App = Marionette.Application.extend({
       if (isNonEmptyString(route)) {
         this.navigate(route, options)
       } else {
-        error_.report(`navigation model has no ${pathAttribute} attribute`, model)
+        serverReportError(`navigation model has no ${pathAttribute} attribute`, model)
       }
     }
 

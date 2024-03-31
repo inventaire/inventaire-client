@@ -8,7 +8,7 @@ import app from '#app/app'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import Filterable from '#general/models/filterable'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 import { normalizeIsbn } from '#lib/isbn'
 import log_ from '#lib/loggers'
 import { props as promiseProps } from '#lib/promises'
@@ -111,7 +111,7 @@ export default Filterable.extend({
   setCommonAttributes (attrs) {
     let pathname
     if (attrs.claims == null) {
-      error_.report('entity without claims', { attrs })
+      serverReportError('entity without claims', { attrs })
       attrs.claims = {}
     }
 

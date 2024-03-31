@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars/runtime.js'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 import { getActionKey } from '#lib/key_events'
 import log_ from '#lib/loggers'
 import { expired } from '#lib/time'
@@ -31,7 +31,7 @@ export default Marionette.Behavior.extend({
 
     if (!selector) selector = '.has-alertbox'
 
-    if (!/\.|#/.test(selector)) error_.report('invalid selector', { selector })
+    if (!/\.|#/.test(selector)) serverReportError('invalid selector', { selector })
     const $target = this.$el.find(selector)
 
     if ($target.length !== 1) {

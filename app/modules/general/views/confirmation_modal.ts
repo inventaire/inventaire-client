@@ -5,7 +5,7 @@ import General from '#behaviors/general'
 import SuccessCheck from '#behaviors/success_check'
 import { catchAlert } from '#general/lib/forms'
 import { isNonEmptyString } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { formatAndThrowError } from '#lib/error'
 import { getActionKey } from '#lib/key_events'
 import log_ from '#lib/loggers'
 import { tryAsync } from '#lib/promises'
@@ -68,7 +68,7 @@ export default Marionette.View.extend({
   error (err) {
     log_.error(err, 'confirmation action err')
     this.$el.trigger('fail')
-    error_.complete(err, '.check', false)
+    formatAndThrowError(err, '.check', false)
     catchAlert(this, err)
   },
 

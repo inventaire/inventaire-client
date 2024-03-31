@@ -1,6 +1,6 @@
 import { pluralize } from '#entities/lib/types/entities_types'
 import { isImageHash } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 import { getUserBasePathname } from '#users/lib/users'
 
 export function serializeResult (result) {
@@ -93,7 +93,7 @@ export const serializeSubject = result => ({
 
 export const serializeEntityModel = function (entity) {
   if (entity?.toJSON == null) {
-    error_.report('cant format invalid entity', { entity })
+    serverReportError('cant format invalid entity', { entity })
     return
   }
 

@@ -1,4 +1,4 @@
-import error_ from '#lib/error'
+import { serverReportError, newError } from '#lib/error'
 
 // Keep in sync with app/modules/general/scss/_media_query_thresholds.scss
 const wellknownWidths = {
@@ -22,11 +22,11 @@ export const viewportIsSmall = () => viewportIsSmallerThan('$small-screen')
 // Increase marginTop to scroll to a point before the element top
 export function scrollTo$Element ({ $el, duration = 500, marginTop = 0, delay = 100 }) {
   if (!($el instanceof $)) {
-    throw error_.new('expected jquery $el', 500, arguments)
+    throw newError('expected jquery $el', 500, arguments)
   }
   const scroll = function () {
     if (!$el[0]?.isConnected) {
-      error_.report('element is not connected to the DOM anymore', { $el })
+      serverReportError('element is not connected to the DOM anymore', { $el })
       return
     }
     const top = $el.position().top - marginTop
@@ -37,7 +37,7 @@ export function scrollTo$Element ({ $el, duration = 500, marginTop = 0, delay = 
 
 export function scrollToElement (element, options = {}) {
   if (!(element instanceof HTMLElement)) {
-    error_.report('invalid element', { element, options })
+    serverReportError('invalid element', { element, options })
     // Assumes that a failing scroll is never worth crashing the calling function
     return
   }

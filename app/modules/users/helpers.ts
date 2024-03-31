@@ -1,7 +1,7 @@
 import { pick } from 'underscore'
 import app from '#app/app'
 import { isModel, isUserId } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { forceArray } from '#lib/utils'
 import type { User, UserId } from '#server/types/user'
 import { serializeUser } from '#users/lib/users'
@@ -62,7 +62,7 @@ export default function (app) {
         if (user.get('username') != null) {
           return user
         } else {
-          throw error_.new('not a user model', 500, { user })
+          throw newError('not a user model', 500, { user })
         }
       }
 
@@ -79,7 +79,7 @@ export default function (app) {
         if (userModel != null) {
           return userModel
         } else {
-          throw error_.new('user model not found', 404, user)
+          throw newError('user model not found', 404, user)
         }
       })
     },

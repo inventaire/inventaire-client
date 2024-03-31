@@ -8,7 +8,7 @@
   import { propertiesEditorsConfigs } from '#entities/lib/properties'
   import { isComponentEvent } from '#lib/boolean_tests'
   import Flash from '#lib/components/flash.svelte'
-  import error_ from '#lib/error'
+  import { newError } from '#lib/error'
   import { icon } from '#lib/icons'
   import { getActionKey } from '#lib/key_events'
   import preq from '#lib/preq'
@@ -61,7 +61,7 @@
       if ((newValue === undefined || isComponentEvent(newValue)) && typeof getInputValue === 'function') {
         newValue = await getInputValue()
       }
-      if (newValue === undefined) throw error_.new('missing new value', 500, { uri, property })
+      if (newValue === undefined) throw newError('missing new value', 500, { uri, property })
       inputValue = newValue
       editMode = false
       dispatch('set', inputValue)
@@ -116,7 +116,7 @@
 
   function undo () {
     if (!isNonEmptyClaimValue(previousValue)) {
-      throw error_.new('can not undo without previous value', 500, { uri, property, value, previousValue })
+      throw newError('can not undo without previous value', 500, { uri, property, value, previousValue })
     }
     save(previousValue)
   }

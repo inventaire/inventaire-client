@@ -1,7 +1,7 @@
 import app from '#app/app'
 import { searchByTypes } from '#entities/lib/search/search_by_types'
 import { pluralize } from '#entities/lib/types/entities_types'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { forceArray } from '#lib/utils'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.ts'
 import { wikidataSearch } from './wikidata_search.ts'
@@ -51,6 +51,6 @@ async function searchByEntityUri (uri, types) {
       ],
     }
   } else {
-    throw error_.new('invalid entity type', 400, model)
+    throw newError('invalid entity type', 400, model)
   }
 }

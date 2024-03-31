@@ -1,5 +1,5 @@
 import app from '#app/app'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 import preq from '#lib/preq'
 import { getTransactions } from '#transactions/lib/get_transactions'
 import { getActiveTransactionsByItemId, serializeTransaction } from '#transactions/lib/transactions'
@@ -27,7 +27,7 @@ export async function postTransactionMessage ({ transaction, message }) {
 export function hasOngoingTransactionsByItemIdSync (itemId) {
   // Ideally, we would await the transactions, but that wouldn't be a sync function anymore
   if (!transactions) {
-    error_.report('called before transactions were initialized', {}, 500)
+    serverReportError('called before transactions were initialized', {}, 500)
     return false
   }
   return transactions.find(transaction => transaction.item === itemId && !transaction.archived) != null

@@ -1,7 +1,7 @@
 import { pick, uniq, property, difference, compact } from 'underscore'
 import app from '#app/app'
 import { isModel, isEntityUri } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { props as promiseProps } from '#lib/promises'
@@ -121,7 +121,7 @@ export function addModel (entityModel) {
 
 export function add (entityData) {
   const { uri } = entityData
-  if (!isEntityUri(uri)) throw error_.new(`invalid uri: ${uri}`, entityData)
+  if (!isEntityUri(uri)) throw newError(`invalid uri: ${uri}`, entityData)
   return addModel(new Entity(entityData))
 }
 

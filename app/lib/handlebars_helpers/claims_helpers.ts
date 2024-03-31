@@ -4,7 +4,7 @@ import app from '#app/app'
 import entityValue from '#general/views/behaviors/templates/entity_value.hbs'
 import propertyValue from '#general/views/behaviors/templates/property_value.hbs'
 import { isEntityUri } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { isWikidataItemId, isWikidataPropertyId, isWikidataPropertyUri } from '../boolean_tests.ts'
 
 // @ts-expect-error
@@ -25,7 +25,7 @@ export const entity = function (uri, entityLink, alt?, property?, title?) {
   // Be restricting on the input to be able to use it in SafeStrings
   let pathname
   if (!isWikidataItemId(uri) && !isEntityUri(uri)) {
-    throw error_.new('invalid entity uri', 500, { uri })
+    throw newError('invalid entity uri', 500, { uri })
   }
 
   if (typeof alt !== 'string') alt = ''

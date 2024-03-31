@@ -2,7 +2,7 @@
   import { createEventDispatcher, tick } from 'svelte'
   import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/components/editor/lib/title_tip'
   import { autofocus } from '#lib/components/actions/autofocus'
-  import error_ from '#lib/error'
+  import { newError } from '#lib/error'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import { I18n } from '#user/lib/i18n'
 
@@ -20,7 +20,7 @@
     // as that setting does not seem to set input.validity.valid=false correctly
     // (Tested only in Firefox v99)
     if (value.length === 0 || !input.validity.valid) {
-      throw error_.new('invalid value', 400, { value })
+      throw newError('invalid value', 400, { value })
     }
     return input.value
   }

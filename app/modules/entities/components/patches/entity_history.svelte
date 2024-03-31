@@ -7,7 +7,7 @@
   import { getEntityPatches } from '#entities/lib/patches'
   import { isCouchUuid } from '#lib/boolean_tests'
   import Flash from '#lib/components/flash.svelte'
-  import error_ from '#lib/error'
+  import { newError } from '#lib/error'
   import { loadInternalLink } from '#lib/utils'
   import { I18n } from '#user/lib/i18n'
 
@@ -33,7 +33,7 @@
     if (isCouchUuid(entityId)) {
       patches = await getEntityPatches(entityId)
     } else {
-      app.execute('show:error', error_.new('invalid entity id', { entityId }))
+      app.execute('show:error', newError('invalid entity id', { entityId }))
     }
   }
 

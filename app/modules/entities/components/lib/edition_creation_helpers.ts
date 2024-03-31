@@ -4,7 +4,7 @@ import { getEntityPropValue } from '#entities/components/lib/claims_helpers'
 import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import createEntity from '#entities/lib/create_entity'
 import isLoggedIn from '#entities/views/editor/lib/is_logged_in.ts'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 import { buildPath } from '#lib/location'
 import preq from '#lib/preq'
@@ -44,11 +44,11 @@ const formatDuplicateWorkErr = function (err, isbn) {
 
 export const validateEditionPossibility = ({ userInput, editions }) => {
   if (!looksLikeAnIsbn(userInput)) {
-    throw error_.new(`invalid isbn: ${userInput}`, 400, { userInput, editions })
+    throw newError(`invalid isbn: ${userInput}`, 400, { userInput, editions })
   }
   const isbn = normalizeIsbn(userInput)
   if (editions.map(getNormalizedIsbn).includes(isbn)) {
-    throw error_.new('this edition is already in the list', 400, { isbn, editions })
+    throw newError('this edition is already in the list', 400, { isbn, editions })
   }
 }
 

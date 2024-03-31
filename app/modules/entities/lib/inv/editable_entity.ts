@@ -1,7 +1,7 @@
 import { flatten, compact } from 'underscore'
 import app from '#app/app'
 import assert_ from '#lib/assert_types'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { Rollback } from '#lib/utils'
@@ -31,7 +31,7 @@ export default {
 
     // let pass null oldValue, it will create a claim
     if ((oldValue != null) && !propArray.includes(oldValue)) {
-      throw error_.new('unknown property value', { property, oldValue, newValue })
+      throw newError('unknown property value', { property, oldValue, newValue })
     }
 
     // in cases of a new value, index is last index + 1 = propArray.length

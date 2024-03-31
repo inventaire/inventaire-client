@@ -1,7 +1,7 @@
 import FilteredCollection from 'backbone-filtered-collection'
 import app from '#app/app'
 import { isModel, isGroupId } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { Updater } from '#lib/model_update'
 import preq from '#lib/preq'
 
@@ -61,7 +61,7 @@ export default function () {
     if (groupModel != null) {
       return groupModel
     } else {
-      throw error_.new('group model not found', 404, { group })
+      throw newError('group model not found', 404, { group })
     }
   }
 

@@ -1,5 +1,5 @@
 import app from '#app/app'
-import error_ from '#lib/error'
+import { serverReportError } from '#lib/error'
 import preq from '#lib/preq'
 import { searchWikidataEntities } from '#lib/wikimedia/wikidata'
 
@@ -13,7 +13,7 @@ export async function wikidataSearch ({ search, limit = 10, offset, formatResult
     results = results.filter(filterOutSpecialPages)
     if (formatResults) results = results.map(formatAsSearchResult)
   } else {
-    error_.report('wikidata search returned no results', { search, res })
+    serverReportError('wikidata search returned no results', { search, res })
     results = []
   }
   return { results, continue: continu }

@@ -3,7 +3,7 @@ import app from '#app/app'
 import { getEntityLocalHref } from '#entities/lib/entities'
 import Filterable from '#general/models/filterable'
 import { isNonEmptyString, isEntityUri } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { serverReportError, newError } from '#lib/error'
 import preq from '#lib/preq'
 import { props as promiseProps, tap } from '#lib/promises'
 import saveOmitAttributes from '#lib/save_omit_attributes'
@@ -21,7 +21,7 @@ export default Filterable.extend({
     this.mainUserIsOwner = owner === app.user.id
 
     if (!isEntityUri(entity)) {
-      throw error_.new(`invalid entity URI: ${entity}`, attrs)
+      throw newError(`invalid entity URI: ${entity}`, attrs)
     }
 
     this.entityUri = entity
@@ -55,11 +55,11 @@ export default Filterable.extend({
     const hasPrivateAttributes = (this.get('visibility') != null)
     if (this.get('owner') === app.user.id) {
       if (!hasPrivateAttributes) {
-        error_.report('item missing private attributes', this)
+        serverReportError('item missing private attributes', this)
       }
     } else {
       if (hasPrivateAttributes) {
-        error_.report('item has private attributes', this)
+        serverReportError('item has private attributes', this)
       }
     }
   },

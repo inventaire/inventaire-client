@@ -1,5 +1,5 @@
 import assert_ from '#lib/assert_types'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { reportError } from '#lib/reports'
 
 export const props = async obj => {
@@ -57,7 +57,7 @@ export async function waitForAttribute (obj, attribute, options = {}) {
         if (obj[attribute] !== undefined) {
           resolve(obj[attribute])
         } else if (++attempts > maxAttempts) {
-          const err = error_.new('too many attempts', 500, { obj, attribute })
+          const err = newError('too many attempts', 500, { obj, attribute })
           err.name = 'waitForAttributeError'
           reject(err)
         } else {

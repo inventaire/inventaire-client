@@ -1,5 +1,5 @@
 import app from '#app/app'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { parseQuery } from '#lib/location'
 import preq from '#lib/preq'
 import { I18n } from '#user/lib/i18n'
@@ -118,5 +118,5 @@ const validateAuthorizationRequest = query => {
 }
 
 const invalidAuthorizationRequest = (reason, query?) => {
-  return error_.new(`invalid authorization request: ${reason}`, 400, { reason, query })
+  return newError(`invalid authorization request: ${reason}`, 400, { reason, query })
 }

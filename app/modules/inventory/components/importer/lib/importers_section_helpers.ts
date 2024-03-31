@@ -3,7 +3,7 @@ import app from '#app/app'
 import getEntitiesItemsCount from '#inventory/lib/get_entities_items_count'
 import { getIsbnData } from '#inventory/lib/importer/extract_isbns'
 import { addExistingItemsCountToCandidate, getEditionEntitiesByUri, getRelevantEntities, guessUriFromIsbn, resolveCandidate } from '#inventory/lib/importer/import_helpers'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import type { ExternalEntry, Candidate } from '#types/importer'
 
@@ -48,7 +48,7 @@ export const getExternalEntriesEntities = async externalEntry => {
       const { normalizedIsbn } = externalEntry.isbnData
       return getEditionEntitiesByUri(normalizedIsbn)
     } else {
-      throw error_.new('not enough entry data', 400, { externalEntry })
+      throw newError('not enough entry data', 400, { externalEntry })
     }
   } catch (err) {
     log_.error(err, 'no entities found err')

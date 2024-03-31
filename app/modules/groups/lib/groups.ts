@@ -1,7 +1,7 @@
 import { findWhere, pluck, without } from 'underscore'
 import app from '#app/app'
 import { pass } from '#general/lib/forms'
-import error_ from '#lib/error'
+import { formatAndThrowError } from '#lib/error'
 import { getColorSquareDataUriFromModelId } from '#lib/images'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
@@ -25,7 +25,7 @@ export default {
     })
     .then(groups.add.bind(groups))
     .then(log_.Info('group'))
-    .catch(error_.Complete('#createGroup'))
+    .catch(formatAndThrowError('#createGroup'))
   },
 
   validateName (name, selector) {

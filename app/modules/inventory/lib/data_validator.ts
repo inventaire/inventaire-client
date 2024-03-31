@@ -1,4 +1,4 @@
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { I18n } from '#user/lib/i18n'
 
 export default function (importer, data) {
@@ -6,7 +6,7 @@ export default function (importer, data) {
   if (!isValid[format](importer, data)) {
     const message = I18n('data_mismatch', { source: label })
     // avoid attaching the whole file as context as it might be pretty heavy
-    const err = error_.new(message, data.slice(0, 101))
+    const err = newError(message, data.slice(0, 101))
     err.i18n = false
     throw err
   }

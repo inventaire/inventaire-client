@@ -2,7 +2,7 @@ import AlertBox from '#behaviors/alert_box'
 import mergeEntities from '#entities/views/editor/lib/merge_entities'
 import { catchAlert } from '#general/lib/forms'
 import { isEntityUri } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { formatAndThrowError } from '#lib/error'
 import { getActionKey } from '#lib/key_events'
 import workPickerTemplate from './templates/work_picker.hbs'
 
@@ -116,7 +116,7 @@ export default Marionette.View.extend({
     return this.model.fetchSubEntities()
     .then(() => mergeEntities(fromUri, toUri))
     .then(this.afterMerge.bind(this, work))
-    .catch(error_.Complete('.workPicker', false))
+    .catch(formatAndThrowError('.workPicker', false))
     .catch(catchAlert.bind(null, this))
   },
 })

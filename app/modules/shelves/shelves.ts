@@ -1,7 +1,7 @@
 import app from '#app/app'
 import assert_ from '#lib/assert_types'
 import { isModel, isShelfId } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import { getById, getShelfMetadata } from './lib/shelves.ts'
 
 export default {
@@ -30,7 +30,7 @@ async function showShelfFromId (shelfId) {
     if (shelf != null) {
       return showShelf(shelf)
     } else {
-      throw error_.new('not found', 404, { shelfId })
+      throw newError('not found', 404, { shelfId })
     }
   } catch (err) {
     app.execute('show:error', err)

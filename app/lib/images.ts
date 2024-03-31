@@ -2,7 +2,7 @@ import _dataURLtoBlob from 'blueimp-canvas-to-blob'
 import { sample } from 'underscore'
 import app from '#app/app'
 import { isDataUrl } from '#lib/boolean_tests'
-import error_ from '#lib/error'
+import { newError } from '#lib/error'
 import preq from '#lib/preq'
 import { forceArray } from '#lib/utils'
 
@@ -53,7 +53,7 @@ export async function upload (container, blobsData, hash = false) {
   let i = 0
   for (const blobData of blobsData) {
     let { blob, id } = blobData
-    if (blob == null) throw error_.new('missing blob', blobData)
+    if (blob == null) throw newError('missing blob', blobData)
     if (!id) id = `file-${++i}`
     formData.append(id, blob)
   }
@@ -66,7 +66,7 @@ export async function upload (container, blobsData, hash = false) {
         if (/^2/.test(request.status.toString())) {
           return resolve(request.response)
         } else {
-          return reject(error_.new(statusText, status))
+          return reject(newError(statusText, status))
         }
       }
     }
@@ -80,7 +80,7 @@ export async function upload (container, blobsData, hash = false) {
 }
 
 export async function getImageHashFromDataUrl (container, dataUrl) {
-  if (!isDataUrl(dataUrl)) throw error_.new('invalid image', dataUrl)
+  if (!isDataUrl(dataUrl)) throw newError('invalid image', dataUrl)
   return upload(container, { blob: dataUrlToBlob(dataUrl) }, true)
   .then(res => Object.values(res)[0].split('/').slice(-1)[0])
 }
