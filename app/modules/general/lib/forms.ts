@@ -1,6 +1,7 @@
 import { uniqueId } from 'underscore'
 import { assertViewHasBehavior } from '#general/plugins/behaviors'
 import assert_ from '#lib/assert_types'
+import { newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import { I18n, i18n } from '#user/lib/i18n'
 
@@ -85,7 +86,7 @@ export function alert (view, err) {
 }
 
 export function bundleAlert (view, message, selector) {
-  const err = new Error(message)
+  const err = newError(message)
   err.selector = selector
   alert(view, err)
 }
@@ -93,7 +94,7 @@ export function bundleAlert (view, message, selector) {
 // format the error to be catched by catchAlert
 // ex: throwError 'a title is required', '#titleField'
 export function throwError (message, selector, ...context) {
-  const err = new Error(I18n(message))
+  const err = newError(I18n(message))
   err.selector = selector
   err.context = context
   // Form errors are user's errors, thus they don't need to be reported to the server

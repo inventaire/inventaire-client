@@ -1,12 +1,14 @@
+import type { ContextualizedError } from '#lib/error'
 import { reportError } from '#lib/reports'
 
 export default () => {
   // Override window.onerror to always log the stacktrace
-  window.onerror = function (errorMsg, url, lineNumber, columnNumber, errObj) {
+  window.onerror = function (errorMsg, url, lineNumber, columnNumber, errObj: ContextualizedError) {
     if (errObj == null) {
     // Prevent error report to crash because a browser doesn't follow this convention
     // (or is that standard?)
       errObj = {
+        // @ts-expect-error
         message: errorMsg,
         context: Array.from(arguments),
         stack: '',

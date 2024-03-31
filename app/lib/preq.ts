@@ -1,4 +1,5 @@
 import app from '#app/app'
+import { newError } from '#lib/error'
 import type { Url } from '#server/types/common'
 
 interface Options {
@@ -48,8 +49,7 @@ const Ajax = (method, hasBody) => async (url: Url, body?: any) => {
       message = `parsing error: ${method} ${url}
   got statusCode ${statusCode} but invalid JSON: ${responseText} / ${responseJSON}`
     }
-    const error = new Error(message)
-    // @ts-expect-error
+    const error = newError(message)
     error.serverError = true
     Object.assign(error, { statusCode, statusText, responseText, responseJSON, context: options })
     throw error

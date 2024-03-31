@@ -1,3 +1,4 @@
+import { newError } from '#lib/error'
 import typeOf from '#lib/type_of'
 
 const assertType = function (obj, type) {
@@ -5,7 +6,7 @@ const assertType = function (obj, type) {
   if (type.split('|').includes(trueType)) {
     return obj
   } else {
-    const err = new Error(`TypeError: expected ${type}, got ${JSON.stringify(obj)} (${trueType})`)
+    const err = newError(`TypeError: expected ${type}, got ${JSON.stringify(obj)} (${trueType})`)
     err.context = arguments
     throw err
   }
