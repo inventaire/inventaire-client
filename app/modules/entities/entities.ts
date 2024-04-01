@@ -6,7 +6,7 @@ import { serverReportError, newError } from '#lib/error'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
-import { getEntityByUri, normalizeUri, serializeEntity } from './lib/entities.ts'
+import { getEntityByUri, normalizeUri } from './lib/entities.ts'
 import * as entitiesModelsIndex from './lib/entities_models_index.ts'
 import getEntityViewByType from './lib/get_entity_view_by_type.ts'
 
@@ -172,7 +172,7 @@ const API = {
     ])
     app.layout.showChildComponent('main', HomonymDeduplicates, {
       props: {
-        entity: serializeEntity(entity),
+        entity,
         standalone: true,
       },
     })
