@@ -1,6 +1,6 @@
 import { compact, partition, pick, pluck, uniq } from 'underscore'
 import app from '#app/app'
-import { getEntitiesByUris } from '#entities/lib/entities'
+import { getEntities } from '#entities/lib/entities'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import { pluralize } from '#entities/lib/types/entities_types'
 import { isEntityUri, isWikidataItemUri } from '#lib/boolean_tests'
@@ -37,7 +37,7 @@ const parseSearchResultsToHomonyms = async ({ results, entity }) => {
     .filter(result => result.uri !== entity.uri)
   // Search results entities miss their claims, so we need to fetch the full entities
   const entityRelationsUris = getRelationsUris(entity)
-  const homonyms = await getEntitiesByUris({ uris })
+  const homonyms = await getEntities(uris)
   // Re-filter out uris to omit as a redirection might have brought it back
   return homonyms
   .filter(homonym => homonym.uri !== entity.uri)

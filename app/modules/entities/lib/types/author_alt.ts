@@ -1,7 +1,8 @@
 import { property } from 'underscore'
 import app from '#app/app'
 import preq from '#lib/preq'
-import { attachEntities, getEntitiesAttributesByUris, getEntitiesByUris, serializeEntity } from '../entities.ts'
+import type { SerializedEntityWithLabel } from '#types/entity'
+import { attachEntities, getEntitiesAttributesByUris, getEntities, serializeEntity } from '../entities.ts'
 
 export async function getAuthorWorksUris ({ uri }) {
   const { articles, series, works } = await preq.get(app.API.entities.authorWorks(uri))
@@ -33,10 +34,15 @@ export async function getAuthorExtendedWorks ({ uri, attributes }) {
 
 const listAndSerialize = ({ entities }) => Object.values(entities).map(serializeEntity)
 
+type WorkEntity = SerializedEntityWithLabel & {
+  authors?: SerializedEntityWithLabel[]
+  coauthors?: SerializedEntityWithLabel[]
+}
+
 export async function getAuthorWorks ({ uri }) {
   const { works } = await preq.get(app.API.entities.authorWorks(uri))
   const worksUris = works.map(getUri)
-  const worksEntities = await getEntitiesByUris({ uris: worksUris })
+  const worksEntities: WorkEntity[] = await getEntities(worksUris)
   // Filtering-out any non-work undetected by the SPARQL query
   return worksEntities.filter(entity => entity.type === 'work')
 }

@@ -62,7 +62,7 @@ const setEntityImages = (entity, entityImages) => {
 
 export async function addWorksAuthors (works) {
   const authorsUris = uniq(compact(flatten(works.map(getWorkAuthorsUris))))
-  const entities = await getEntitiesByUris({ uris: authorsUris, index: true })
+  const entities = await getEntitiesByUris({ uris: authorsUris })
   works.forEach(work => {
     const workAuthorUris = getWorkAuthorsUris(work)
     work.authors = Object.values(pick(entities, workAuthorUris))

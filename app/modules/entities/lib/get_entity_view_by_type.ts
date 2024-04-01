@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { getEntitiesByUris } from '#entities/lib/entities'
+import { getEntities } from '#entities/lib/entities'
 import { newError } from '#lib/error'
 
 export default async function getEntityViewByType (model) {
@@ -59,7 +59,7 @@ const getEditionComponent = async entity => {
 
 export const getEditionsWorks = async editions => {
   const uris = editions.map(getEditionWorksUris).flat()
-  return getEntitiesByUris({ uris })
+  return getEntities(uris)
 }
 
 const getEditionWorksUris = edition => {

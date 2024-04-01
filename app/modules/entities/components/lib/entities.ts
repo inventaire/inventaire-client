@@ -1,7 +1,7 @@
 import { uniq, flatten, compact, pick, pluck } from 'underscore'
 import app from '#app/app'
 import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
-import { byNewestPublicationDate, getReverseClaims, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
+import { byNewestPublicationDate, getReverseClaims, getEntities, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.ts'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
@@ -188,7 +188,7 @@ async function fetchRelatedEntities (entities, parentEntityType) {
 
 export async function addWorksAuthors (works) {
   const authorsUris = uniq(compact(flatten(works.map(getWorkAuthorsUris))))
-  const entities = await getEntitiesByUris({ uris: authorsUris, index: true })
+  const entities = await getEntitiesByUris({ uris: authorsUris })
   works.forEach(work => {
     const workAuthorUris = getWorkAuthorsUris(work)
     work.relatedEntities = pick(entities, workAuthorUris)
@@ -208,7 +208,7 @@ const isClaimValue = claims => entity => claims['wdt:P629'].includes(entity.uri)
 
 export const getSubEntities = async (type, uri) => {
   const uris = await getReverseClaims(subEntitiesProp[type], uri)
-  return getEntitiesByUris({ uris })
+  return getEntities(uris)
 }
 
 export const bestImage = function (a, b) {
