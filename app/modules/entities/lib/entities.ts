@@ -1,4 +1,4 @@
-import { isArray, flatten, chunk, compact, indexBy, pluck } from 'underscore'
+import { flatten, chunk, compact, indexBy, pluck } from 'underscore'
 import app from '#app/app'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 import assert_ from '#lib/assert_types'
@@ -40,10 +40,7 @@ export function normalizeUri (uri) {
 }
 
 export const getEntitiesByUris = async params => {
-  let uris, attributes, lang, index = false
-  if (isArray(params)) uris = params
-  else ({ uris, index, attributes, lang } = params)
-  uris = forceArray(uris)
+  const { uris, index, attributes, lang } = params
   if (uris.length === 0) return []
   const { entities, redirects } = await getManyEntities({ uris, attributes, lang })
   const serializedEntities: SerializedEntity[] = Object.values(entities).map(serializeEntity)
@@ -58,7 +55,7 @@ export const getEntitiesByUris = async params => {
 
 export const getEntityByUri = async ({ uri }) => {
   assert_.string(uri)
-  const [ entity ] = await getEntitiesByUris({ uris: uri }) as SerializedEntity[]
+  const [ entity ] = await getEntitiesByUris({ uris: [ uri ] }) as SerializedEntity[]
   return entity
 }
 
@@ -94,7 +91,7 @@ export const serializeEntity = entity => {
 const getPathname = uri => `/entity/${uri}`
 
 export const attachEntities = async (entity, attribute, uris) => {
-  entity[attribute] = await getEntitiesByUris(uris)
+  entity[attribute] = await getEntitiesByUris({ uris })
   return entity
 }
 

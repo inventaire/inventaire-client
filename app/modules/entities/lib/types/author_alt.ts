@@ -36,7 +36,7 @@ const listAndSerialize = ({ entities }) => Object.values(entities).map(serialize
 export async function getAuthorWorks ({ uri }) {
   const { works } = await preq.get(app.API.entities.authorWorks(uri))
   const worksUris = works.map(getUri)
-  const worksEntities = await getEntitiesByUris(worksUris)
+  const worksEntities = await getEntitiesByUris({ uris: worksUris })
   // Filtering-out any non-work undetected by the SPARQL query
   return worksEntities.filter(entity => entity.type === 'work')
 }
