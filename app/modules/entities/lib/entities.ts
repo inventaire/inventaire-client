@@ -45,9 +45,9 @@ export const getEntitiesByUris = async params => {
   const { entities, redirects } = await getManyEntities({ uris, attributes, lang })
   const serializedEntities: SerializedEntity[] = Object.values(entities).map(serializeEntity)
   if (index) {
-    const indexedEntities = indexBy(serializedEntities, 'uri')
-    addRedirectionsAliases(indexedEntities, redirects)
-    return indexedEntities
+    const serializedEntitiesByUris = indexBy(serializedEntities, 'uri')
+    addRedirectionsAliases(serializedEntitiesByUris, redirects)
+    return serializedEntitiesByUris
   } else {
     return serializedEntities
   }
