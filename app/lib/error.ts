@@ -36,8 +36,9 @@ export function newError (message: string, statusCode?: number | ErrorContext, c
 }
 
 // Log and report formatted errors to the server, without throwing
-export function serverReportError (message, context = {}, statusCode = 599) {
-  context = deepClone(context)
+export function serverReportError (message, context?, statusCode = 599) {
+  context = deepClone(context) || {}
+
   context.location = location.href
   // Non-standard convention
   // 599 = client implementation error
