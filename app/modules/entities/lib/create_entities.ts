@@ -26,29 +26,32 @@ const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
   return Object.values(workLabels)[0]
 }
 
-export const createWorkEditionDraft = async function ({ workEntity, isbn, isbnData, editionClaims = {} }) {
+export const createWorkEditionDraft = async function ({ workEntity, isbn }) {
   const { labels: workLabels, claims: workClaims, uri: workUri, label } = workEntity
-  const claims = Object.assign(editionClaims, {
+
+  const claims = {
     // instance of (P31) -> edition (Q3331189)
     'wdt:P31': [ 'wd:Q3331189' ],
     // edition or translation of (P629) -> created book
     'wdt:P629': [ workUri ],
-  })
-  let title, editionLang
-  if (isbn && !isbnData) isbnData = await getIsbnData(isbn)
-  if (isbnData) {
-    editionLang = isbnData.groupLang
-    title = isbnData.title
-    log_.info(title, 'title from isbn data')
-    log_.info(title, 'title after work suggestion')
+  }
 
-    const { isbn13h } = isbnData
+  let title, editionLang
+  if (isbn) {
+    const { isbn13h, title: isbnDataTitle, image, groupLang } = await getIsbnData(isbn)
+
+    editionLang = groupLang
+
+    if (isbnDataTitle) {
+      title = isbnDataTitle
+      log_.info(title, 'title from isbn data')
+    }
 
     // isbn 13 (isbn 10 - if it exist - will be added by the server)
     claims['wdt:P212'] = [ isbn13h ]
 
-    if (isbnData.image != null) {
-      claims['invp:P2'] = [ isbnData.image ]
+    if (image != null) {
+      claims['invp:P2'] = [ image ]
     }
   }
   // if workEntity has been formatted already, use the label as title

@@ -16,7 +16,7 @@ export function createEditionFromWork (params) {
 
   const isbn = normalizeIsbn(userInput)
 
-  return createWorkEditionDraft({ workEntity, isbn, editionClaims: {} })
+  return createWorkEditionDraft({ workEntity, isbn })
   .then(createEntity)
   .catch(renameIsbnDuplicateErr(workEntity.uri, userInput))
 }
