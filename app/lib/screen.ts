@@ -35,7 +35,12 @@ export function scrollTo$Element ({ $el, duration = 500, marginTop = 0, delay = 
   return setTimeout(scroll, delay)
 }
 
-export function scrollToElement (element, options = {}) {
+interface ScrollOptions{
+  marginTop?: number
+  waitForRoomToScroll?: boolean
+}
+
+export function scrollToElement (element, options?: ScrollOptions) {
   if (!(element instanceof HTMLElement)) {
     serverReportError('invalid element', { element, options })
     // Assumes that a failing scroll is never worth crashing the calling function

@@ -11,9 +11,17 @@ const getAllEntityUris = model => {
   return model.fetchSubEntities().then(() => model.get('allUris'))
 }
 
+interface ItemsByCategories {
+  personal: unknown[]
+  network: unknown[]
+  public: unknown[]
+  nearbyPublic?: unknown[]
+  otherPublic?: unknown[]
+}
+
 const spreadItems = uris => async items => {
   let category
-  const itemsByCategories = {
+  const itemsByCategories: ItemsByCategories = {
     personal: [],
     network: [],
     public: [],

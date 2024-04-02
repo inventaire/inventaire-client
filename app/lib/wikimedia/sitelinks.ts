@@ -34,6 +34,13 @@ export default {
   },
 }
 
+interface WikisourceData {
+  title: string
+  lang: string
+  url: string
+  epub?: string
+}
+
 const getBestWikiProjectInfo = function (params) {
   const { sitelinks, projectBaseName, projectRoot, lang, originalLang } = params
   if (sitelinks == null) return
@@ -57,7 +64,8 @@ const getBestWikiProjectInfo = function (params) {
   if ((title != null) && langCode) {
     title = fixedEncodeURIComponent(title)
     const url = `https://${langCode}.${projectRoot}.org/wiki/${title}`
-    return { title, lang: langCode, url }
+    const wikisourceData: WikisourceData = { title, lang: langCode, url }
+    return wikisourceData
   }
 }
 

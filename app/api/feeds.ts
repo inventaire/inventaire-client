@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { buildPath } from '#lib/location'
+import type { UserId } from '#server/types/user'
 import { getEndpointBase } from './endpoint.ts'
 
 const feedEndpointBase = getEndpointBase('feeds')
@@ -9,7 +10,7 @@ const feedEndpointBase = getEndpointBase('feeds')
 const feedEndpoint = `${window.location.origin}${feedEndpointBase}`
 
 export default function (key, id) {
-  const query = {}
+  const query: { requester?: UserId, token?: string } = {}
   query[key] = id
   if (app.user.loggedIn) {
     query.requester = app.user.id
