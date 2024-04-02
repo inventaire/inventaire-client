@@ -12,7 +12,9 @@ const Ajax = (method, hasBody) => async (url, body) => {
   try {
     res = await fetch(url, options)
     responseText = await res.text()
-    if (responseText && responseText[0] === '{') responseJSON = JSON.parse(responseText)
+    // Known case starting with "{": /api/*, wiki*.org answers
+    // Known case starting with "[": nominatim
+    if (responseText && (responseText[0] === '{' || responseText[0] === '[')) responseJSON = JSON.parse(responseText)
   } catch (err) {
     err.context = Object.assign({ url }, options)
     throw err
