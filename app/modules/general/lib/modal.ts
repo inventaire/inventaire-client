@@ -15,7 +15,7 @@ export default function () {
   const $modalContent = $('#modalContent')
   const $closeModal = $('#modal .close')
 
-  const modalOpen = function (size?, focusSelector?, dark? = false) {
+  const modalOpen = function (size?, focusSelector?, dark?) {
     switch (size) {
     case 'large': largeModal(); break
     case 'medium': mediumModal(); break
