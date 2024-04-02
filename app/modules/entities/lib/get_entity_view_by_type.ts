@@ -38,6 +38,7 @@ export default async function getEntityViewByType (model) {
   }
 
   if (View != null) {
+    // @ts-expect-error
     const view = new View({ model, refresh, displayMergeSuggestions })
     return { view }
   }

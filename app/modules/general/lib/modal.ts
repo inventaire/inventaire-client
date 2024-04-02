@@ -62,6 +62,7 @@ export default function () {
     setWidthJumpPreventingRules(`${bodyWidthBefore}px`, `${widthDiff}px`)
 
     $modalWrapper.removeClass('hidden')
+    // @ts-expect-error
     $modal.attr('aria-modal', true)
     app.vent.trigger('modal:opened')
   }
@@ -76,6 +77,7 @@ export default function () {
 
     $body.removeClass('openedModal')
     $modalWrapper.addClass('hidden')
+    // @ts-expect-error
     $modal.attr('aria-modal', true)
 
     // Remove width diff jumps preventing rules

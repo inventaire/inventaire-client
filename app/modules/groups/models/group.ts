@@ -12,6 +12,7 @@ import { i18n } from '#user/lib/i18n'
 import aggregateUsersIds from '../lib/aggregate_users_ids.ts'
 import groupActions from '../lib/group_actions.ts'
 
+// @ts-expect-error
 const { defaultCover } = images
 
 export default Positionable.extend({

@@ -4,6 +4,7 @@ import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
 
+// @ts-expect-error
 const { escapeExpression } = Handlebars
 
 export default {

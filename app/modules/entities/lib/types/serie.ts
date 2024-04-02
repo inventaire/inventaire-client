@@ -12,6 +12,7 @@ export default function () {
 
 const specificMethods = Object.assign({}, commonsSerieWork, {
   fetchPartsData (options = {}) {
+    // @ts-expect-error
     let { refresh } = options
     refresh = this.getRefresh(refresh)
     if (!refresh && (this.waitForPartsData != null)) return this.waitForPartsData
@@ -66,6 +67,7 @@ const initPartsCollections = async function (refresh, fetchAll, partsData) {
   const partsWithoutSuperpartsUris = pluck(partsWithoutSuperparts, 'uri')
 
   // Prevent circular dependencies by using a late import
+  // @ts-expect-error
   const { default: PaginatedWorks } = await import('../../collections/paginated_works')
 
   this.parts = new PaginatedWorks(null, {

@@ -1,5 +1,6 @@
 import app from '#app/app'
 
+// @ts-expect-error
 export default Backbone.NestedModel.extend({
   initialize () {
     this.on('change:status', this.update)

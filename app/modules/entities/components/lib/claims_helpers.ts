@@ -10,6 +10,7 @@ import platforms_ from '#lib/handlebars_helpers/platforms.ts'
 import typeOf from '#lib/type_of'
 import { unprefixify } from '#lib/wikimedia/wikidata'
 
+// @ts-expect-error
 const { escapeExpression } = Handlebars
 
 export const formatClaimValue = params => {

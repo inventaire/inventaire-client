@@ -31,11 +31,14 @@ const setWikiLinks = function (lang) {
   }
 
   // Alias on the root, as some views expect to find a history url there
+  // @ts-expect-error
   updates.history = updates.wikidata.history
 
   const sitelinks = this.get('sitelinks')
   if (sitelinks != null) {
+    // @ts-expect-error
     updates.wikipedia = sitelinks_.wikipedia(sitelinks, lang, this.originalLang)
+    // @ts-expect-error
     updates.wikisource = sitelinks_.wikisource(sitelinks, lang, this.originalLang)
   }
 

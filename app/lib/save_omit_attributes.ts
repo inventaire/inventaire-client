@@ -3,7 +3,9 @@ import { omit } from 'underscore'
 export default attributesToOmit => function (attrs, options = {}) {
   if (!attrs) attrs = omit(this.toJSON(), attributesToOmit)
 
+  // @ts-expect-error
   options.data = JSON.stringify(attrs)
+  // @ts-expect-error
   options.contentType = 'application/json'
 
   return Backbone.Model.prototype.save.call(this, attrs, options)

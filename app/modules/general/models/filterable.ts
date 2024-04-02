@@ -1,5 +1,6 @@
 import { some } from 'underscore'
 
+// @ts-expect-error
 export default Backbone.NestedModel.extend({
   matches (filterRegex, rawInput) {
     if (filterRegex == null) return true

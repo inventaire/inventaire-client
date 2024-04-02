@@ -4,6 +4,7 @@ import Entities from './entities.ts'
 
 export default Entities.extend({
   initialize (models, options = {}) {
+    // @ts-expect-error
     const { uris } = options
     if (uris == null) throw new Error('expected uris')
     // Clone the array as it will be mutated
@@ -12,7 +13,9 @@ export default Entities.extend({
     this.remainingUris = this.allUris
     this.totalLength = uris.length
     this.fetchedUris = [];
+    // @ts-expect-error
     ({ refresh: this.refresh, defaultType: this.defaultType, parentContext: this.parentContext } = options)
+    // @ts-expect-error
     this.typesAllowlist = this.typesAllowlist || options.typesAllowlist
   },
 
