@@ -1,12 +1,13 @@
 import assert_ from '#lib/assert_types'
 import { forceArray } from '#lib/utils'
+import type { QueryParams } from '#types/entity'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { base, action } = getEndpointPathBuilders('items')
 
 const queryEndpoint = (actionName, idsLabel) => params => {
   const { ids, limit, offset, filter, includeUsers } = params
-  const data = {}
+  const data: QueryParams = {}
   if (idsLabel != null) data[idsLabel] = forceArray(ids).join('|')
   if (limit != null) data.limit = limit
   if (offset != null) data.offset = offset

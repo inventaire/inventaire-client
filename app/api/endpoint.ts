@@ -1,5 +1,6 @@
 import { buildPath } from '#lib/location'
 import type { Url } from '#server/types/common'
+import type { QueryParams } from '#types/entity'
 
 export function getEndpointBase (name: string) {
   return `/api/${name}` as Url
@@ -12,7 +13,7 @@ export function getEndpointPathBuilders (name: string) {
   return { base, action, actionPartial }
 }
 
-const Action = (base: string) => function (actionName: string, query: Record<string, unknown> = {}) {
+const Action = (base: string) => function (actionName: string, query: QueryParams = {}) {
   // Using extend instead of simply defining action on query
   // so that action appears on top of other attributes in the object
   // and thus, comes first in the generated URL

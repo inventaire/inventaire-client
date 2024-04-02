@@ -1,5 +1,6 @@
 import { isPrerenderSession } from '#lib/metadata/update'
 import { forceArray } from '#lib/utils'
+import type { QueryParams } from '#types/entity'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { action } = getEndpointPathBuilders('entities')
@@ -16,7 +17,7 @@ export default {
   },
 
   getAttributesByUris ({ uris, attributes, lang, relatives }) {
-    const query = {
+    const query: QueryParams = {
       uris: forceArray(uris).join('|'),
     }
     if (attributes) {
