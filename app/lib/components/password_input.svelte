@@ -19,7 +19,7 @@
 
   function earlyVerifyPassword () {
     try {
-      testPassword(password)
+      if (password) testPassword(password)
     } catch (err) {
       flash = err
     }
