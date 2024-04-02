@@ -14,9 +14,9 @@ export async function searchByTypes ({ search, types = allSearchableTypes, limit
 }
 
 export function searchWorks ({ search, limit, offset }) {
-  return searchByTypes({ types: 'works', search, limit, offset })
+  return searchByTypes({ types: [ 'works' ], search, limit, offset })
 }
 
 export function searchHumans ({ search, limit, offset }) {
-  return searchByTypes({ types: 'humans', search, limit, offset })
+  return searchByTypes({ types: [ 'humans' ], search, limit, offset })
 }
