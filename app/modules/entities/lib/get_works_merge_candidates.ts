@@ -39,7 +39,7 @@ const addLabelsParts = work => work._labelsParts || (work._labelsParts = getLabe
 
 const getFormattedLabels = work => {
   return Object.values(work.labels)
-  .map(label => {
+  .map((label: string) => {
     return label.toLowerCase()
     // Remove anything after a '(' or a '['
     // as some titles might still have comments between parenthesis
@@ -79,7 +79,13 @@ const addCloseEntitiesToMergeCandidates = function (invWork, candidates, otherWo
 }
 
 const getBestMatchScore = function (aLabelsParts, bLabelsParts) {
-  let data = { bestMatchScore: 0 }
+  let data: {
+    bestMatchScore: number
+    aPart?: unknown
+    bPart?: unknown
+    matchRatio?: number
+    distance?: number
+  } = { bestMatchScore: 0 }
 
   for (const aPart of aLabelsParts) {
     for (const bPart of bLabelsParts) {
