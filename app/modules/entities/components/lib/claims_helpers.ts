@@ -178,19 +178,20 @@ export const hasSelectedLang = selectedLangs => edition => {
   if (originalLang !== undefined) return selectedLangs.includes(originalLang)
 }
 
+const workAndSeriesPropertiesByType = [
+  ...authorsProps,
+  'wdt:P577', // publication date
+  'wdt:P179', // series
+  'wdt:P136', // genre
+  'wdt:P921', // main subject
+]
+
 export const infoboxShortlistPropertiesByType = {
   edition: [
     'wdt:P577', // publication date
     'wdt:P123', // publisher
     'wdt:P195', // collection
     'wdt:P212', // ISBN-13
-  ],
-  work: [
-    ...authorsProps,
-    'wdt:P577', // publication date
-    'wdt:P179', // series
-    'wdt:P136', // genre
-    'wdt:P921', // main subject
   ],
   human: [
     'wdt:P135', // movement
@@ -200,8 +201,9 @@ export const infoboxShortlistPropertiesByType = {
     'wdt:P69', // educated at
     'wdt:P106', // occupation
   ],
+  work: workAndSeriesPropertiesByType,
+  serie: workAndSeriesPropertiesByType,
 }
-infoboxShortlistPropertiesByType.serie = infoboxShortlistPropertiesByType.work
 
 const workProperties = [
   ...authorsProps,
