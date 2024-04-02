@@ -1,17 +1,14 @@
-import app from '#app/app'
 import { getEntities } from '#entities/lib/entities'
 import { newError } from '#lib/error'
 
 export default async function getEntityViewByType (model) {
   const entity = model.toJSON()
   const { type } = model
-  const displayMergeSuggestions = app.user.hasDataadminAccess
-  let props = { entity }
 
   const getter = entityViewSpecialGetterByType[type]
   if (getter != null) return getter(entity)
 
-  let View, Component
+  let Component
   if (type === 'human') {
     ({ default: Component } = await import('#entities/components/layouts/author.svelte'))
   } else if (type === 'serie') {
@@ -27,21 +24,9 @@ export default async function getEntityViewByType (model) {
   } else {
     ({ default: Component } = await import('#entities/components/layouts/claim_layout.svelte'))
     const property = model.defaultClaimProperty || 'wdt:P921'
-    props = { entity, property }
+    return { Component, props: { entity, property } }
   }
-
-  if (Component != null) {
-    return {
-      Component,
-      props,
-    }
-  }
-
-  if (View != null) {
-    // @ts-expect-error
-    const view = new View({ model, refresh, displayMergeSuggestions })
-    return { view }
-  }
+  return { Component, props: { entity } }
 }
 
 const getEditionComponent = async entity => {
