@@ -333,7 +333,7 @@ const showEntityEditFromModel = async model => {
 }
 
 const showWikidataEditIntroModal = async model => {
-  const { default: WikidataEditIntro } = await import('./views/wikidata_edit_intro')
+  const { default: WikidataEditIntro } = await import('./views/wikidata_edit_intro.ts')
   app.layout.showChildView('modal', new WikidataEditIntro({ model }))
 }
 
@@ -453,7 +453,7 @@ const showEntityCleanupFromModel = async entity => {
   }
 
   const [ { default: SerieCleanup } ] = await Promise.all([
-    import('./views/cleanup/serie_cleanup'),
+    import('./views/cleanup/serie_cleanup.ts'),
     entity.initSerieParts({ refresh: true, fetchAll: true }),
   ])
 
