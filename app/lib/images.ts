@@ -18,7 +18,7 @@ export async function getUserGravatarUrl () {
 
 export function resizeDataUrl (dataURL, maxSize, outputQuality = 1) {
   return new Promise((resolve, reject) => {
-    const data = { original: {}, resized: {} }
+    const data = { original: {}, resized: {}, dataUrl: {} }
     const image = new Image()
     image.onload = () => {
       const canvas = document.createElement('canvas')
