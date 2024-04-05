@@ -3,7 +3,7 @@ import { uniq, isNaN } from 'underscore'
 import wdLang from 'wikidata-lang'
 import { isEntityUri, isImageHash } from '#lib/boolean_tests'
 import typeOf from '#lib/type_of'
-import commons_ from '#lib/wikimedia/commons'
+import { thumbnail } from '#lib/wikimedia/commons'
 import { i18n } from '#user/lib/i18n'
 import {
   prop as propHelper,
@@ -57,7 +57,7 @@ export default API = {
   imageClaim (claims, prop, altText) {
     if (claims?.[prop]?.[0] != null) {
       const file = claims[prop][0]
-      const src = commons_.thumbnail(file, '200')
+      const src = thumbnail(file, 200)
       const propClass = prop.replace(':', '-')
       return new SafeString(`<img class='image-claim ${propClass}' src='${src}' alt='${i18n(altText)}'>`)
     }

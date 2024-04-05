@@ -1,7 +1,7 @@
 import { isNonEmptyString, isEntityUri, isAssetImg, isLocalImg, isImageHash } from '#lib/boolean_tests'
 import { buildPath } from '#lib/location'
 import { fixedEncodeURIComponent, hashCode } from '#lib/utils'
-import commons_ from '#lib/wikimedia/commons'
+import { thumbnail } from '#lib/wikimedia/commons'
 
 // Keep in sync with server/lib/emails/app_api
 export default function (path, width = 1600, height = 1600) {
@@ -16,7 +16,7 @@ export default function (path, width = 1600, height = 1600) {
   // The server may return images path on upload.wikimedia.org
   if (path.startsWith('https://upload.wikimedia.org')) {
     const file = path.split('/').slice(-1)[0]
-    return commons_.thumbnail(file, width)
+    return thumbnail(file, width)
   }
 
   if (path.startsWith('http')) {
@@ -41,5 +41,5 @@ export default function (path, width = 1600, height = 1600) {
   }
 
   // Assumes this is a Wikimedia Commons filename
-  if (path[0] !== '/') return commons_.thumbnail(path, width)
+  if (path[0] !== '/') return thumbnail(path, width)
 }
