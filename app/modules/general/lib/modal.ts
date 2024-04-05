@@ -42,6 +42,8 @@ export default function () {
   const focusFirstTabElement = function () {
     const $firstTabElement = $modal.find('input, textarea, [tabindex="0"]').first().focus()
     // Do not focus if the element is not visible as that makes the scroll jump
+    // Typescript complains : Property 'visible' does not exist on type 'JQuery<any>'
+    // @ts-expect-error
     if (($firstTabElement.length > 0) && $firstTabElement.visible()) {
       return $firstTabElement.focus()
     } else {
@@ -154,6 +156,8 @@ const prepareRefocus = function (focusSelector) {
   app.vent.once('modal:closed', () => {
     const $el = $(focusSelector)
     // Do not focus if the element is not visible as that makes the scroll jump
+    // Typescript complains : Property 'visible' does not exist on type 'JQuery<any>'
+    // @ts-expect-error
     if ($el.visible()) $(focusSelector).focus()
     log_.info(focusSelector, 're-focusing')
   })
