@@ -9,6 +9,7 @@ export const reqres = {
     for (const [ key, callback ] of Object.entries(obj)) {
       assert_.string(key)
       assert_.function(callback)
+      // @ts-expect-error
       channel.reply(key, callback)
     }
   },

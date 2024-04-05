@@ -42,7 +42,7 @@ export const Updater = function (fixedOptions) {
         attribute,
         value,
       }
-
+      // @ts-expect-error
       if (action != null) body.action = action
       if (modelIdLabel != null) body[modelIdLabel] = model.id
 

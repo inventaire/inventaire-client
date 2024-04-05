@@ -21,7 +21,7 @@ export default {
     if (array?.length <= 0) return ''
     return new SafeString(this.join(array.map(linkifyAuthorString)) + '<br>')
   },
-
+  // @ts-expect-error
   log (args) { return log_.info.apply(_, args) },
 
   default (text, def) { return text || def },

@@ -29,6 +29,7 @@ export function scrollTo$Element ({ $el, duration = 500, marginTop = 0, delay = 
       serverReportError('element is not connected to the DOM anymore', { $el })
       return
     }
+    // @ts-expect-error
     const top = $el.position().top - marginTop
     return $('html, body').animate({ scrollTop: top }, duration)
   }

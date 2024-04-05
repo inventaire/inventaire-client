@@ -37,7 +37,7 @@ export const entity = function (uri, entityLink, alt?, property?, title?) {
   } else {
     pathname = `/entity/${property}-${uri}`
   }
-
+  // @ts-expect-error
   return entityValue({ uri, pathname, entityLink, alt, label: alt, title })
 }
 

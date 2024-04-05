@@ -218,6 +218,7 @@ export function convertEmToPx (em) {
 export function flatMapKeyValues (object, fn) {
   assert_.object(object)
   assert_.function(fn)
+  // @ts-expect-error
   return Object.fromEntries(Object.entries(object).flatMap(fn))
 }
 

@@ -32,8 +32,11 @@ export default () => {
   waitersNames.forEach(initWaiter)
 
   const _waitForNetwork = () => Promise.all([
+    // @ts-expect-error
     waitersPromises.user,
+    // @ts-expect-error
     waitersPromises.relations,
+    // @ts-expect-error
     waitersPromises.groups,
   ])
 

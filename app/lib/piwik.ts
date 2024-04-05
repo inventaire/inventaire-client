@@ -40,6 +40,7 @@ export default async function () {
   try {
     piwikInitPromise = import('#vendor/piwik')
     await piwikInitPromise
+    // @ts-expect-error
     tracker = window.Piwik.getAsyncTracker()
   } catch (err) {
     // Known case: ublock origin
