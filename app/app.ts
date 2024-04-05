@@ -106,7 +106,7 @@ const App = Marionette.Application.extend({
     Backbone.history.navigate(route, options)
     const { pageSectionElement, preventScrollTop } = options
     if (pageSectionElement) {
-      scrollToElement(pageSectionElement, options)
+      scrollToElement(pageSectionElement)
     } else if (!preventScrollTop) {
       scrollToPageTop()
     }
