@@ -20,7 +20,7 @@ export const viewportIsSmall = () => viewportIsSmallerThan('$small-screen')
 
 // Scroll to the top of an $el
 // Increase marginTop to scroll to a point before the element top
-export function scrollTo$Element ({ $el, duration = 500, marginTop = 0, delay = 100 }) {
+export function scrollTo$Element ({ $el, duration = 500, marginTop = 0, delay = 100 }: { $el: JQuery, duration?: number, marginTop?: number, delay?: number }) {
   if (!($el instanceof $)) {
     throw newError('expected jquery $el', 500, arguments)
   }
@@ -29,7 +29,6 @@ export function scrollTo$Element ({ $el, duration = 500, marginTop = 0, delay = 
       serverReportError('element is not connected to the DOM anymore', { $el })
       return
     }
-    // @ts-expect-error
     const top = $el.position().top - marginTop
     return $('html, body').animate({ scrollTop: top }, duration)
   }
