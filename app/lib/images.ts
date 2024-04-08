@@ -16,16 +16,26 @@ export async function getUserGravatarUrl () {
   return url
 }
 
+interface ImageDimensions {
+  width?: number
+  height?: number
+}
+interface ImageData {
+  original: ImageDimensions
+  resized: ImageDimensions
+  dataUrl?: string
+}
+
 export function resizeDataUrl (dataURL, maxSize, outputQuality = 1) {
   return new Promise((resolve, reject) => {
-    const data = { original: {}, resized: {}, dataUrl: {} }
+    const data: ImageData = { original: {}, resized: {} }
     const image = new Image()
     image.onload = () => {
       const canvas = document.createElement('canvas')
       let { width, height } = image
-      saveDimensions(data, 'original', width, height);
-      [ width, height ] = getResizedDimensions(width, height, maxSize)
-      saveDimensions(data, 'resized', width, height)
+      data.original = { width, height }
+      ;[ width, height ] = getResizedDimensions(width, height, maxSize)
+      data.resized = { width, height }
 
       canvas.width = width
       canvas.height = height
@@ -117,11 +127,6 @@ const getResizedDimensions = function (width, height, maxSize) {
     }
   }
   return [ width, height ]
-}
-
-const saveDimensions = function (data, attribute, width, height) {
-  data[attribute].width = width
-  data[attribute].height = height
 }
 
 // Inspired by https://www.materialpalette.com/colors
