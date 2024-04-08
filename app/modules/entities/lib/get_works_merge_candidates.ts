@@ -1,5 +1,19 @@
 import leven from 'leven'
 import { uniq, flatten } from 'underscore'
+import type { InvEntity } from '#server/types/entity'
+
+type MatchData = {
+  bestMatchScore: number
+  aPart?: unknown
+  bPart?: unknown
+  matchRatio?: number
+  distance?: number
+}
+
+interface MergeCandidate {
+  invWork: InvEntity
+  possibleDuplicateOf: MatchData[]
+}
 
 export default function (invWorks, wdWorks) {
   let invUri
@@ -12,7 +26,8 @@ export default function (invWorks, wdWorks) {
   for (const invWork of invWorks) {
     invUri = invWork.uri
     // invWork._alreadyPassed = true
-    candidates[invUri] = { invWork, possibleDuplicateOf: [] }
+    const candidate: MergeCandidate = { invWork, possibleDuplicateOf: [] }
+    candidates[invUri] = candidate
 
     for (const wdWork of wdWorks) {
       addCloseEntitiesToMergeCandidates(invWork, candidates, wdWork)
@@ -28,7 +43,7 @@ export default function (invWorks, wdWorks) {
 
   return Object.values(candidates)
   .filter(hasPossibleDuplicates)
-  .map(candidate => {
+  .map((candidate: MergeCandidate) => {
     // Sorting so that the first work is the closest
     candidate.possibleDuplicateOf.sort(byMatchLength(invUri))
     return candidate
@@ -37,7 +52,7 @@ export default function (invWorks, wdWorks) {
 
 const addLabelsParts = work => work._labelsParts || (work._labelsParts = getLabelsParts(getFormattedLabels(work)))
 
-const getFormattedLabels = work => {
+function getFormattedLabels (work) {
   return Object.values(work.labels)
   .map((label: string) => {
     return label.toLowerCase()
@@ -79,13 +94,7 @@ const addCloseEntitiesToMergeCandidates = function (invWork, candidates, otherWo
 }
 
 const getBestMatchScore = function (aLabelsParts, bLabelsParts) {
-  let data: {
-    bestMatchScore: number
-    aPart?: unknown
-    bPart?: unknown
-    matchRatio?: number
-    distance?: number
-  } = { bestMatchScore: 0 }
+  let data: MatchData = { bestMatchScore: 0 }
 
   for (const aPart of aLabelsParts) {
     for (const bPart of bLabelsParts) {
