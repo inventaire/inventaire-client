@@ -1,6 +1,8 @@
 import { authorRoleProperties } from '#entities/lib/editor/properties_per_subtype'
-import { properties } from '#entities/lib/editor/properties_per_type'
+import { properties, type PropertyMetadata } from '#entities/lib/editor/properties_per_type'
 import { getUriNumericId } from '#lib/wikimedia/wikidata'
+import type { InvPropertyClaims, PluralizedIndexedEntityType, PropertyUri } from '#server/types/entity'
+import type { Entries } from 'type-fest'
 
 // TODO: get those properties from server/controllers/entities/lib/properties/properties.js#authorRelationsProperties
 export const authorProperties = [
@@ -25,7 +27,16 @@ const propertiesWithAllowEntityCreation = authorProperties.concat([
   'wdt:P2680',
 ])
 
-const propertiesEditorsCustomizations = {
+interface EditorCustomization {
+  datatype?: string
+  order?: number
+  canValueBeDeleted?: ({ propertyClaims }: { propertyClaims: InvPropertyClaims }) => boolean
+  entityValueTypes?: PluralizedIndexedEntityType
+  specialEditActions?: 'author-role'
+  allowEntityCreation?: boolean
+}
+
+const propertiesEditorsCustomizations: Record<PropertyUri, EditorCustomization> = {
   // instance of
   'wdt:P31': {
     // Further checks, such as preventing type changes, will be performed server-side
@@ -61,17 +72,18 @@ for (const property of prioritizedProperties) {
   }
 }
 
-export const propertiesEditorsConfigs = {}
+type PropertiesEditorConfig = { property } & PropertyMetadata & EditorCustomization
+export const propertiesEditorsConfigs: Record<PropertyUri, PropertiesEditorConfig> = {}
 
-for (const [ property, propertyConfig ] of Object.entries(properties)) {
-  const editorCustomization = propertiesEditorsCustomizations[property] || {}
+for (const [ property, propertyConfig ] of Object.entries(properties) as Entries<typeof properties>) {
+  const editorCustomization: EditorCustomization = propertiesEditorsCustomizations[property] || {}
   if (authorProperties.includes(property)) {
     editorCustomization.specialEditActions = 'author-role'
   }
   if (propertiesWithAllowEntityCreation.includes(property)) {
     editorCustomization.allowEntityCreation = true
   }
-  propertyConfig.order = getUriNumericId(property)
+  editorCustomization.order = getUriNumericId(property)
   propertiesEditorsConfigs[property] = Object.assign({ property }, propertyConfig, editorCustomization)
 }
 

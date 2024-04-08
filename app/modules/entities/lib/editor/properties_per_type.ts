@@ -4,13 +4,25 @@ import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib
 import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
 import { pluralize } from '#entities/lib/types/entities_types'
 import preq from '#lib/preq'
+import { objectKeys } from '#lib/utils.ts'
+import type { PropertiesMetadata } from '#server/controllers/data/properties_metadata'
+import type { EntityType, PropertyUri } from '#server/types/entity'
+import type { Entries } from 'type-fest'
 
-export const properties = await preq.get(API.data.properties).then(({ properties }) => properties)
+export const propertiesCategories = {
+  socialNetworks: { label: 'social networks' },
+  bibliographicDatabases: { label: 'bibliographic databases' },
+} as const
 
-export const propertiesPerType = {}
-export const propertiesPerCategory = {}
+export type PropertyCategory = 'general' | keyof typeof propertiesCategories
 
-for (const [ property, propertyMetadata ] of Object.entries(properties)) {
+export const properties: PropertiesMetadata = await preq.get(API.data.properties).then(({ properties }) => properties)
+export type PropertyMetadata = PropertiesMetadata[keyof PropertiesMetadata]
+
+export const propertiesPerType: Partial<Record<EntityType, Record<PropertyUri, PropertyMetadata>>> = {}
+export const propertiesPerCategory: Partial<Record<PropertyCategory, PropertyUri[]>> = {}
+
+for (const [ property, propertyMetadata ] of Object.entries(properties) as Entries<typeof properties>) {
   const { subjectTypes } = propertyMetadata
   const category = externalIdsDisplayConfigs[property]?.category || 'general'
   const allowedValuesShortlist = allowedValuesPerTypePerProperty[property]
@@ -62,9 +74,9 @@ const customLabels = {
     'wdt:P1476': 'collection title',
   },
   article: {},
-}
+} as const
 
-for (const type of Object.keys(propertiesPerType)) {
+for (const type of objectKeys<typeof propertiesPerType>(propertiesPerType)) {
   const typePriorityProperties = priorityPropertiesPerType[type]
   propertiesPerType[type] = {
     ...pick(propertiesPerType[type], typePriorityProperties),
@@ -90,14 +102,9 @@ export const requiredPropertiesPerType = {
   collection: [ 'wdt:P1476', 'wdt:P123' ],
 }
 
-export const propertiesCategories = {
-  socialNetworks: { label: 'social networks' },
-  bibliographicDatabases: { label: 'bibliographic databases' },
-}
-
 const categoryPerProperty = {}
 
-for (const [ key, categoryData ] of Object.entries(propertiesPerCategory)) {
+for (const [ key, categoryData ] of Object.entries(propertiesPerCategory) as Entries<typeof propertiesPerCategory>) {
   for (const property of categoryData) {
     categoryPerProperty[property] = key
   }
