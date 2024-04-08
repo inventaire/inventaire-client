@@ -156,7 +156,6 @@ export async function getCropper () {
   if (waitingForCropper) return Cropper
   waitingForCropper = Promise.all([
     import('cropperjs'),
-    // @ts-expect-error
     import('cropperjs/dist/cropper.css'),
   ])
   ;([ { default: Cropper } ] = await waitingForCropper)
