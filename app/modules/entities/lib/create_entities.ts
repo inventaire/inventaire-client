@@ -5,9 +5,11 @@ import getOriginalLang from '#entities/lib/get_original_lang'
 import { newError } from '#lib/error'
 import { getIsbnData } from '#lib/isbn'
 import log_ from '#lib/loggers'
+import type { Claims } from '#server/types/entity'
 import Entity from '../models/entity.ts'
 import createEntity from './create_entity.ts'
 import graphRelationsProperties from './graph_relations_properties.ts'
+import type { Entries } from 'type-fest'
 
 const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
   const inEditionLang = workLabels[editionLang]
@@ -123,8 +125,8 @@ export async function createAndGetEntityModel (params) {
   return model
 }
 
-function cleanupClaims (claims) {
-  for (const [ property, propertyClaims ] of Object.entries(claims)) {
+function cleanupClaims (claims: Claims) {
+  for (const [ property, propertyClaims ] of Object.entries(claims) as Entries<typeof claims>) {
     claims[property] = propertyClaims.filter(isNonEmptyClaimValue)
   }
 }
