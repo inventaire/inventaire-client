@@ -68,7 +68,7 @@ export default Marionette.View.extend({
   error (err) {
     log_.error(err, 'confirmation action err')
     this.$el.trigger('fail')
-    formatError(err, '.check')
+    formatError(err, '.check', false)
     catchAlert(this, err)
   },
 
