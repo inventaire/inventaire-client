@@ -43,7 +43,7 @@ export default function () {
     const $firstTabElement = $modal.find('input, textarea, [tabindex="0"]').first().focus()
     // Do not focus if the element is not visible as that makes the scroll jump
     // Typescript complains : Property 'visible' does not exist on type 'JQuery<any>'
-    // @ts-expect-error
+    // @ts-expect-error `visible` is defined by the jquery-visible plugin
     if (($firstTabElement.length > 0) && $firstTabElement.visible()) {
       return $firstTabElement.focus()
     } else {
@@ -64,8 +64,7 @@ export default function () {
     setWidthJumpPreventingRules(`${bodyWidthBefore}px`, `${widthDiff}px`)
 
     $modalWrapper.removeClass('hidden')
-    // @ts-expect-error
-    $modal.attr('aria-modal', true)
+    $modal.attr('aria-modal', 'true')
     app.vent.trigger('modal:opened')
   }
 
@@ -79,8 +78,7 @@ export default function () {
 
     $body.removeClass('openedModal')
     $modalWrapper.addClass('hidden')
-    // @ts-expect-error
-    $modal.attr('aria-modal', true)
+    $modal.attr('aria-modal', 'true')
 
     // Remove width diff jumps preventing rules
     setWidthJumpPreventingRules('', '')
@@ -157,7 +155,7 @@ const prepareRefocus = function (focusSelector) {
     const $el = $(focusSelector)
     // Do not focus if the element is not visible as that makes the scroll jump
     // Typescript complains : Property 'visible' does not exist on type 'JQuery<any>'
-    // @ts-expect-error
+    // @ts-expect-error `visible` is defined by the jquery-visible plugin
     if ($el.visible()) $(focusSelector).focus()
     log_.info(focusSelector, 're-focusing')
   })
