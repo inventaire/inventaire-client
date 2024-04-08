@@ -81,7 +81,7 @@ export default Marionette.View.extend({
   changeTab (e) {
     const tab = e.currentTarget.id.split('Tab')[0]
     this.showTabView(tab)
-    const contentEl = this.getRegion('content').$el
+    const contentEl: JQuery = this.getRegion('content').$el
     if (viewportIsSmall() && contentEl.position()) {
       scrollTo$Element({ $el: contentEl })
     }
