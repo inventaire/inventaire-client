@@ -19,6 +19,7 @@
 
   function earlyVerifyUsername () {
     try {
+      username = username.trim()
       if (username && !isEmail(username)) passUsernameTests(username)
     } catch (err) {
       usernameFlash = err
