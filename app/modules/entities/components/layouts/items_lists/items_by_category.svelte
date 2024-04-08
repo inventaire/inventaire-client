@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { groupBy } from 'underscore'
   import Spinner from '#components/spinner.svelte'

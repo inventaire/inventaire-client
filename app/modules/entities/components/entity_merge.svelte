@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { slide } from 'svelte/transition'
   import Spinner from '#components/spinner.svelte'
   import EntityMergeSection from '#entities/components/entity_merge_section.svelte'

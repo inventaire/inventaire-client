@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { pluck } from 'underscore'
   import Spinner from '#components/spinner.svelte'
   import GroupMemberLi from '#groups/components/group_member_li.svelte'

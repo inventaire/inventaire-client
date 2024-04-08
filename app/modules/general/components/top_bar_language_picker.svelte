@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import languages from '#assets/js/languages_data'
   import Dropdown from '#components/dropdown.svelte'

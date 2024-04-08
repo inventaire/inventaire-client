@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { I18n } from '#user/lib/i18n'
   import EditionCreation from './edition_creation.svelte'

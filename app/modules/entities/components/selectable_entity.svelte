@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import WorkSubEntity from '#entities/components/work_sub_entity.svelte'
   import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers.ts'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { timeClaim } from '#entities/components/lib/claims_helpers'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { loadInternalLink } from '#lib/utils'

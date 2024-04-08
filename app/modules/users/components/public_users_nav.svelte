@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
   import Flash from '#lib/components/flash.svelte'

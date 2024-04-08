@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { debounce } from 'underscore'
   import { autofocus } from '#lib/components/actions/autofocus'

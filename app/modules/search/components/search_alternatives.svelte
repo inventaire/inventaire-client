@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { isArray } from 'underscore'
   import app from '#app/app'

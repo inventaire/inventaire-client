@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
   import { imgSrc } from '#lib/handlebars_helpers/images'

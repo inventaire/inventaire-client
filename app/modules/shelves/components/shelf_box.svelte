@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher, tick } from 'svelte'
   import app from '#app/app'
   import Modal from '#components/modal.svelte'

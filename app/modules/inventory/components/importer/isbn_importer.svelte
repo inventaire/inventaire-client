@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import autosize from 'autosize'
   import { onMount, createEventDispatcher } from 'svelte'
   import { getInvalidIsbnsString } from '#inventory/components/importer/lib/importers_helpers'

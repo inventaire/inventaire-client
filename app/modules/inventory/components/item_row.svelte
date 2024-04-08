@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { compact } from 'underscore'
   import ImageDiv from '#components/image_div.svelte'

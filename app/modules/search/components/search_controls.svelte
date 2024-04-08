@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { slide } from 'svelte/transition'
   import { screen } from '#lib/components/stores/screen'
   import { icon } from '#lib/icons'

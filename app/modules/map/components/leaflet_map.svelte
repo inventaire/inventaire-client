@@ -1,6 +1,6 @@
 <!-- Inspired by https://imfeld.dev/writing/svelte_domless_components
      and https://github.com/ngyewch/svelte-leaflet -->
-<script>
+<script lang="ts">
   import L from 'leaflet'
   import { createEventDispatcher, setContext, tick } from 'svelte'
   import 'leaflet/dist/leaflet.css'

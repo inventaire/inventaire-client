@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { tick } from 'svelte'
   import app from '#app/app'
   import { getWikidataUrl, getWikidataHistoryUrl, serializeEntity } from '#entities/lib/entities'

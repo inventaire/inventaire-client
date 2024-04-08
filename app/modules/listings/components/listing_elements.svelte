@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { pluck } from 'underscore'
   import app from '#app/app'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'

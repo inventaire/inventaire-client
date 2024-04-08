@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { difference, groupBy } from 'underscore'
   import { icon } from '#lib/icons'

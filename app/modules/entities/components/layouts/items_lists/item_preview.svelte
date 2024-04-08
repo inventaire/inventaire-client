@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'

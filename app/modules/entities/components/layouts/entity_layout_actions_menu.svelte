@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Dropdown from '#components/dropdown.svelte'
   import EntityLayoutActions from '#entities/components/layouts/entity_layout_actions.svelte'
   import { screen } from '#lib/components/stores/screen'

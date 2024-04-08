@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { flip } from 'svelte/animate'
   import EditionActions from './edition_actions.svelte'
   import EntityListRow from './entity_list_row.svelte'

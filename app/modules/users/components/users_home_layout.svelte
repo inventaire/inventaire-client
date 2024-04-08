@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { writable } from 'svelte/store'
   import app from '#app/app'
   import GroupProfile from '#groups/components/group_profile.svelte'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import { loadInternalLink } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'

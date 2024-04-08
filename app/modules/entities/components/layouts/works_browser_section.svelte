@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { flip } from 'svelte/animate'
   import { debounce } from 'underscore'
   import EntityListCompact from '#entities/components/layouts/entity_list_compact.svelte'

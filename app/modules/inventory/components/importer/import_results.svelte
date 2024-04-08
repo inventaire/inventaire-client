@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { property } from 'underscore'
   import ResultCandidate from '#inventory/components/importer/result_candidate.svelte'
   import { I18n } from '#user/lib/i18n'

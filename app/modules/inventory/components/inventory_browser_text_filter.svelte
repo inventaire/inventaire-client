@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { getContext } from 'svelte'
   import { debounce, pluck } from 'underscore'
   import app from '#app/app'

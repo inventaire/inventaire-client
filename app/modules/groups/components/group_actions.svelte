@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import { groupAction } from '#groups/lib/group_actions_alt'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { pluck, uniq, pick } from 'underscore'
   import app from '#app/app'
   import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'

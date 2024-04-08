@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { debounce } from 'underscore'
   import app from '#app/app'
   import { isNonEmptyString } from '#lib/boolean_tests'

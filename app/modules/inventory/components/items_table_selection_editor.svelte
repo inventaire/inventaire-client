@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import EntityLayoutActionsMenu from '#entities/components/layouts/entity_layout_actions_menu.svelte'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import Flash from '#lib/components/flash.svelte'

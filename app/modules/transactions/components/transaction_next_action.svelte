@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { getNextActionsData } from '#transactions/lib/next_actions'

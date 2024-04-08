@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { slide } from 'svelte/transition'
   import { getPropertyClaimsCount, isEmptyClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'

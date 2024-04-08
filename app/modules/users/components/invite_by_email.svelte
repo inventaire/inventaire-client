@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { uniq } from 'underscore'
   import { autosize } from '#lib/components/actions/autosize'
   import Flash from '#lib/components/flash.svelte'

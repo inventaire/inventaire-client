@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { uniq, without } from 'underscore'
   import InfoTip from '#components/info_tip.svelte'
   import { getGroupVisibilityKey, isNotGroupVisibilityKey, commonVisibilityKeys } from '#general/lib/visibility'

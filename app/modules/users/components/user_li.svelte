@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { loadInternalLink } from '#lib/utils'
   import { serializeUser } from '#users/lib/users'

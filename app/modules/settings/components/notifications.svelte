@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { range } from 'underscore'
   import app from '#app/app'
   import Flash from '#lib/components/flash.svelte'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { uniqueId } from 'underscore'
   import { icon } from '#lib/icons'
 

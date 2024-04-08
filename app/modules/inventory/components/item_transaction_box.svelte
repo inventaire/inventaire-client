@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { uniqueId } from 'underscore'
   import app from '#app/app'
   import Dropdown from '#components/dropdown.svelte'

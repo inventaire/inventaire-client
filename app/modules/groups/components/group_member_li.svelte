@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Dropdown from '#components/dropdown.svelte'
   import Spinner from '#components/spinner.svelte'
   import { kickUserOutOfGroup, makeUserGroupAdmin, moveMembership } from '#groups/lib/groups'

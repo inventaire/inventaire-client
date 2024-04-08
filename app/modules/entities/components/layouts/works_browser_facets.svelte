@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { getContext } from 'svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import { entityProperties, getWorksFacets, getFacetsEntitiesBasicInfo } from '#entities/components/lib/works_browser_helpers'

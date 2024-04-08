@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import SelectDropdown from '#components/select_dropdown.svelte'
   import Spinner from '#components/spinner.svelte'
   import InventoryBrowserFacet from '#inventory/components/inventory_browser_facet.svelte'

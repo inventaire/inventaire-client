@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher, tick } from 'svelte'
   import app from '#app/app'
   import { addClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'

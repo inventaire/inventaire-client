@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
 
   export let url

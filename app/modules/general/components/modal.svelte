@@ -2,7 +2,7 @@
   let openModalsCount = 0
 </script>
 
-<script>
+<script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import app from '#app/app'
   import { autofocus } from '#lib/components/actions/autofocus'

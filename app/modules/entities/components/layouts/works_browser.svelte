@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { property, pluck } from 'underscore'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import WorksBrowserFacets from '#entities/components/layouts/works_browser_facets.svelte'

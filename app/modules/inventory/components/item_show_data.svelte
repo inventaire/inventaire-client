@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import ItemDetails from '#inventory/components/item_details.svelte'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
   import ItemNotes from '#inventory/components/item_notes.svelte'

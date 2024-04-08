@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { slide } from 'svelte/transition'
   import FoldableSection from '#components/foldable_section.svelte'
   import GroupBoardHeader from '#groups/components/group_board_header.svelte'

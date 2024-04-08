@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { indexBy } from 'underscore'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'

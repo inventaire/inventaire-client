@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { tick } from 'svelte'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Spinner from '#general/components/spinner.svelte'

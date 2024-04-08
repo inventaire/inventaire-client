@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher, tick } from 'svelte'
   import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/components/editor/lib/title_tip'
   import { autofocus } from '#lib/components/actions/autofocus'

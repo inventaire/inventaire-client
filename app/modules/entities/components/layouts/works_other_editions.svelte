@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import OtherEditions from '#entities/components/layouts/other_editions.svelte'
   import { addWorksEditions } from '#entities/components/lib/edition_layout_helpers'

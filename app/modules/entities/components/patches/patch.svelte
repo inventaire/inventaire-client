@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import Operation from '#entities/components/patches/operation.svelte'
   import Flash from '#lib/components/flash.svelte'

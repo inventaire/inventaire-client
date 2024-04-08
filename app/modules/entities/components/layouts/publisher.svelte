@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { setContext } from 'svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'

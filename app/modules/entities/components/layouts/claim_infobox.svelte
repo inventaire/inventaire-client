@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { max } from 'underscore'
   import { propertiesType } from '#entities/components/lib/claims_helpers'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'

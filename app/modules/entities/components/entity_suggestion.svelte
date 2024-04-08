@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { getEntityImagePath } from '#entities/lib/entities'
   import { entityTypeNameByType } from '#entities/lib/types/entities_types'

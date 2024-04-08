@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import { autofocus } from '#lib/components/actions/autofocus'
   import { autosize } from '#lib/components/actions/autosize'

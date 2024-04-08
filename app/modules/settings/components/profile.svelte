@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import Modal from '#components/modal.svelte'
   import PicturePicker from '#components/picture_picker.svelte'

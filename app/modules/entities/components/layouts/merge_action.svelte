@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { getWikidataItemMergeUrl } from '#entities/lib/wikidata/init_entity'
   import mergeEntities from '#entities/views/editor/lib/merge_entities'

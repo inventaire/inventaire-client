@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#general/components/spinner.svelte'
   import { icon } from '#lib/icons'
   import log_ from '#lib/loggers'

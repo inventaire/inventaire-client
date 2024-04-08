@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { multiTypeValue } from '#entities/components/lib/claims_helpers'
   import { loadInternalLink } from '#lib/utils'
 

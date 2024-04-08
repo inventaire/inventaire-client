@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import { I18n } from '#user/lib/i18n'
 

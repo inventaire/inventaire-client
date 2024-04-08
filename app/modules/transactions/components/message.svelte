@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { userContent } from '#lib/handlebars_helpers/user_content'
   import { getLocalTimeString, timeFromNow } from '#lib/time'

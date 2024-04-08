@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { setContext, tick } from 'svelte'
   import { writable } from 'svelte/store'
   import { property } from 'underscore'

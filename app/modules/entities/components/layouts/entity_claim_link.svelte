@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
   import Link from '#lib/components/link.svelte'
 

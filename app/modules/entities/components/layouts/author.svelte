@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { setContext } from 'svelte'
   import { debounce } from 'underscore'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'

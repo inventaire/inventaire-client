@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import getOriginalLang from '#entities/lib/get_original_lang'
   import EntityResolverInput from '#inventory/components/entity_resolver_input.svelte'

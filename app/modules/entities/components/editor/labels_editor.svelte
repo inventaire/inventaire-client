@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { tick } from 'svelte'
   import app from '#app/app'
   import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/editor/lib/editors_helpers'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import autosize from 'autosize'
   import { createEventDispatcher } from 'svelte'
   import app from '#app/app'

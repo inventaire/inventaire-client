@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { compact, clone } from 'underscore'
   import Counter from '#components/counter.svelte'
   import Spinner from '#components/spinner.svelte'

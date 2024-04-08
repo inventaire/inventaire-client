@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { icon } from '#lib/icons'
   import { I18n, i18n } from '#user/lib/i18n'

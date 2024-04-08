@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { transactionsData } from '#inventory/lib/transactions_data'
   import { isNonEmptyArray } from '#lib/boolean_tests'
   import { icon } from '#lib/icons'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { property } from 'underscore'
   import app from '#app/app'
   import Counter from '#components/counter.svelte'

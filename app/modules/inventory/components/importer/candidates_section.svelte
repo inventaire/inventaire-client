@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { property } from 'underscore'
   import CandidateNav from '#inventory/components/importer/candidate_nav.svelte'
   import CandidateRow from '#inventory/components/importer/candidate_row.svelte'

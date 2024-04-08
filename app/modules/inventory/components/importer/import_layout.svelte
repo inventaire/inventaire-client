@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import CandidatesSection from '#inventory/components/importer/candidates_section.svelte'
   import ExternalShelves from '#inventory/components/importer/external_shelves.svelte'
   import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'

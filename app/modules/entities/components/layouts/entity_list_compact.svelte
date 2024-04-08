@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Link from '#lib/components/link.svelte'
   import ClaimInfobox from './claim_infobox.svelte'
 

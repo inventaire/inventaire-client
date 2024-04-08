@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import ListingLi from '#modules/listings/components/listing_li.svelte'
   import { i18n } from '#user/lib/i18n'
 

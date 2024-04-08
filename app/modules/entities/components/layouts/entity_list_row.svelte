@@ -10,7 +10,7 @@
     subject: 'wdt:P921',
   }
 </script>
-<script>
+<script lang="ts">
   import { getContext } from 'svelte'
   import ImagesCollage from '#components/images_collage.svelte'
   import { omitClaims } from '#entities/components/lib/work_helpers'

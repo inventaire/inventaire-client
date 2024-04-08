@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { tick } from 'svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
   import { newError } from '#lib/error'

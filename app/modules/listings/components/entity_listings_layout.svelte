@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#general/components/spinner.svelte'
   import { getListingsByEntityUri } from '#listings/lib/listings'
   import ListingsLayout from '#modules/listings/components/listings_layout.svelte'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
   import ItemRequestBox from '#inventory/components/item_request_box.svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'

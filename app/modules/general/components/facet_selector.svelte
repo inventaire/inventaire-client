@@ -1,5 +1,5 @@
 <!-- This component is a <select> but being empty by default, using it's label as default button label -->
-<script>
+<script lang="ts">
   import { uniqueId } from 'underscore'
   import Dropdown from '#components/dropdown.svelte'
   import SelectDropdownOption from '#components/select_dropdown_option.svelte'

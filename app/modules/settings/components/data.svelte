@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import { icon } from '#lib/icons'
   import { apiDoc } from '#lib/urls'

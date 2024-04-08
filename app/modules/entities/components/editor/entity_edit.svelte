@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import { getTypePropertiesPerCategory } from '#entities/components/editor/lib/editors_properties'
   import PropertyCategory from '#entities/components/editor/property_category.svelte'

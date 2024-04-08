@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import { getItemPathname } from '#inventory/lib/items'
   import { imgSrc } from '#lib/handlebars_helpers/images'

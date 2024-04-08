@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { pluck } from 'underscore'
   import app from '#app/app'
   import ImagesCollage from '#components/images_collage.svelte'

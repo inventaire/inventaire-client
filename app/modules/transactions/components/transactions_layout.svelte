@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { slide } from 'svelte/transition'
   import { partition } from 'underscore'
   import app from '#app/app'

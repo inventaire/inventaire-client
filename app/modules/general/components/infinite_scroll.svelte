@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import assert_ from '#lib/assert_types'
   import viewport from '#lib/components/actions/viewport'

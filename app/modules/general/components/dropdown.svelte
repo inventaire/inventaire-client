@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { tick } from 'svelte'
   import { slide } from 'svelte/transition'
   import { isFunction } from 'underscore'

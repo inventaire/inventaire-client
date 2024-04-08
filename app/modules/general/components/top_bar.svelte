@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import TopBarButtons from '#components/top_bar_buttons.svelte'
   import TopBarLanguagePicker from '#components/top_bar_language_picker.svelte'

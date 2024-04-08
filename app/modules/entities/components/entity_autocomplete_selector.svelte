@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { map, debounce } from 'underscore'
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'

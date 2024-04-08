@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import { autosize } from '#lib/components/actions/autosize'
   import Flash from '#lib/components/flash.svelte'

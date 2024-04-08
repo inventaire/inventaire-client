@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { without } from 'underscore'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { serializeItem } from '#inventory/lib/items'

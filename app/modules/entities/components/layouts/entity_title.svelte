@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import SourceLogo from '#inventory/components/entity_source_logo.svelte'
   import Link from '#lib/components/link.svelte'

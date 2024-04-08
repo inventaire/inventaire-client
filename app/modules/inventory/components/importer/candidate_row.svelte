@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { without, property } from 'underscore'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
   import { getUserExistingItemsPathname, statusContents } from '#inventory/components/importer/lib/candidate_row_helpers'

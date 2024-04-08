@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getEntityImagePath } from '#entities/lib/entities'

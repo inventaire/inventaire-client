@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { debounce } from 'underscore'
   import app from '#app/app'
   import { getPropertiesFromWebsitesNames, getWebsitesNamesFromProperties, websitesByCategoryAndName } from '#entities/lib/entity_links'

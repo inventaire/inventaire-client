@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import EntityClaimLink from '#entities/components/layouts/entity_claim_link.svelte'
   import { categoryLabels, getDisplayedPropertiesByCategory } from '#entities/lib/entity_links'
   import { I18n } from '#user/lib/i18n'

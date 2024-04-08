@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import dataValidator from '#inventory/lib/data_validator'
   import commonParser from '#inventory/lib/importer/parsers/common'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { compact } from 'underscore'
   import { imgSrc } from '#lib/handlebars_helpers/images'
 

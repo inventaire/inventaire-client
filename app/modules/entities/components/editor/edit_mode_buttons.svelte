@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import Spinner from '#components/spinner.svelte'
   import { icon } from '#lib/icons'

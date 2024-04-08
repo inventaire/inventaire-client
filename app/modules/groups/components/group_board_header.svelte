@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import GroupActions from '#groups/components/group_actions.svelte'
   import { findMainUserInvitor } from '#groups/lib/groups'
   import { imgSrc } from '#lib/handlebars_helpers/images'

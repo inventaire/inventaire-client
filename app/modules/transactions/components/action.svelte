@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { icon } from '#lib/icons'
   import { getLocalTimeString, timeFromNow } from '#lib/time'
   import { actionsIcons, getTransactionStateText } from '#transactions/lib/transactions'

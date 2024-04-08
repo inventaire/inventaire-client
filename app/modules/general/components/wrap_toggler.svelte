@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { icon } from '#lib/icons'
 
   export let show = false,

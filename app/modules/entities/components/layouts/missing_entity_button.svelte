@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { locallyCreatableEntitiesTypes } from '#entities/lib/editor/properties_per_type'
   import { icon } from '#lib/icons'
   import { buildPath } from '#lib/location'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import Dropdown from '#components/dropdown.svelte'
   import IconWithCounter from '#components/icon_with_counter.svelte'

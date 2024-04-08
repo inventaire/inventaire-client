@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { loadInternalLink } from '#lib/utils'

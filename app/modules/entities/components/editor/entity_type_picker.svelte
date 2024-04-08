@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { locallyCreatableEntitiesTypes } from '#entities/lib/editor/properties_per_type'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import { I18n } from '#user/lib/i18n'

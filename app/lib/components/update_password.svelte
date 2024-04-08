@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import PasswordInput from '#lib/components/password_input.svelte'
   import { currentRoute } from '#lib/location'

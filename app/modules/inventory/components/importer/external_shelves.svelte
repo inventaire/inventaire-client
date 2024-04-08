@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { debounce } from 'underscore'
   import ExternalShelf from '#inventory/components/importer/external_shelf.svelte'
   import { onChange } from '#lib/svelte/svelte'

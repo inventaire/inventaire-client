@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { propertiesEditorsConfigs } from '#entities/lib/properties'

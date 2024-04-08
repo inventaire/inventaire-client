@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { getColorSquareDataUri, getColorHexCodeFromModelId } from '#lib/images'
 

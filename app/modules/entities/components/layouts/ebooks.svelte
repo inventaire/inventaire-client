@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import { formatEbooksClaim } from '#entities/components/lib/claims_helpers'
   import { isNonEmptyArray } from '#lib/boolean_tests'

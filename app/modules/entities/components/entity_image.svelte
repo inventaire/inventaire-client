@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import ImageDiv from '#components/image_div.svelte'
   import Link from '#lib/components/link.svelte'
   import { loadInternalLink } from '#lib/utils'

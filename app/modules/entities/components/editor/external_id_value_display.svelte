@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import Tooltip from '#components/tooltip.svelte'
   import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'

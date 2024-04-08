@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import getBestLangValue from '#entities/lib/get_best_lang_value'

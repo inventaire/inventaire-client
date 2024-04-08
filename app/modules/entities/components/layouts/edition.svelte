@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { tick } from 'svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksOtherEditions from '#entities/components/layouts/works_other_editions.svelte'

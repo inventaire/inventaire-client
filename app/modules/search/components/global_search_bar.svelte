@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   // TODO:
   // - hint to input ISBNs directly, maybe in the alternatives sections
   // - add 'help': indexed wiki.inventaire.io entries to give results

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { I18n } from '#user/lib/i18n'
 
   export let category, name, label, selectedCategory, selectedSection, included

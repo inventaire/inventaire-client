@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
   import { getPaginationParameters } from '#inventory/lib/paginated_items'
   import { screen } from '#lib/components/stores/screen'

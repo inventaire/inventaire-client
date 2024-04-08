@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Tooltip from '#components/tooltip.svelte'
   import { getWikidataUrl } from '#entities/lib/entities'
   import Link from '#lib/components/link.svelte'

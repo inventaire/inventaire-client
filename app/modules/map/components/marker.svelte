@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import L from 'leaflet'
   import { getContext, onDestroy, onMount, tick } from 'svelte'
   import log_ from '#lib/loggers'

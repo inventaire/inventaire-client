@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { pick } from 'underscore'
   import { propertiesByRoles } from '#entities/components/lib/claims_helpers'
   import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'

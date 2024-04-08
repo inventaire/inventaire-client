@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Operation from '#entities/components/patches/operation.svelte'
   import Link from '#lib/components/link.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'

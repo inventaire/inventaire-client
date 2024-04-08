@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { pluck, partition } from 'underscore'
   import app from '#app/app'
   import CompactAuthorWorksList from '#entities/components/layouts/compact_author_works_list.svelte'

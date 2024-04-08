@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { pick } from 'underscore'
   import app from '#app/app'
   import WrapToggler from '#components/wrap_toggler.svelte'

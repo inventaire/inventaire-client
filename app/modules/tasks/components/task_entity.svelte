@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import EntityImage from '#entities/components/entity_image.svelte'
   import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
   import EntityTitle from '#entities/components/layouts/entity_title.svelte'

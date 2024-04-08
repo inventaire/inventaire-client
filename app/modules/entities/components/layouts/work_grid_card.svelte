@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { getContext } from 'svelte'
   import ImagesCollage from '#components/images_collage.svelte'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'

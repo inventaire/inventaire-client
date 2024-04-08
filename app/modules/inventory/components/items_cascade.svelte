@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Masonry from 'svelte-bricks'
   import { debounce } from 'underscore'
   import Spinner from '#components/spinner.svelte'

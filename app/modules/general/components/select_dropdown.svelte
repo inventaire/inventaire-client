@@ -1,6 +1,6 @@
 <!-- This component mimicks a <select>
      See https://developer.mozilla.org/en-US/docs/Learn/Forms/How_to_build_custom_form_controls -->
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { uniqueId } from 'underscore'
   import Dropdown from '#components/dropdown.svelte'

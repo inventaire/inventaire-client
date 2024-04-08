@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import ContributionsPeriod from './contributions_period.svelte'
 </script>
 <div id="activityLayout">

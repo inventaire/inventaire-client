@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import { autofocus } from '#lib/components/actions/autofocus'
   import Flash from '#lib/components/flash.svelte'

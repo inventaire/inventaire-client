@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { isOtherEditionWithCover } from '#entities/components/lib/edition_layout_helpers'
   import { isNonEmptyPlainObject, isNonEmptyArray } from '#lib/boolean_tests'
   import Link from '#lib/components/link.svelte'

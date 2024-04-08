@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'

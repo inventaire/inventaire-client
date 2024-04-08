@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { intersection, pluck, without } from 'underscore'
   import FacetSelector from '#general/components/facet_selector.svelte'
   import { onChange } from '#lib/svelte/svelte'

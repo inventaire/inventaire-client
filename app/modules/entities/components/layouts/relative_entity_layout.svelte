@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import ImagesCollage from '#components/images_collage.svelte'
   import { loadInternalLink } from '#lib/utils'
 

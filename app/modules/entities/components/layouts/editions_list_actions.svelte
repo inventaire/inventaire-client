@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { getContext } from 'svelte'
   import app from '#app/app'
   import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'

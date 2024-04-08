@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import { buildPath } from '#lib/location'
   import { domain } from '#lib/urls'

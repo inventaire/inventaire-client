@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { debounce, uniq, indexBy } from 'underscore'
   import app from '#app/app'
   import Spinner from '#components/spinner.svelte'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { getGroupMembersCount, getGroupPicture } from '#groups/lib/groups'
   import { imgSrc } from '#lib/handlebars_helpers/images'

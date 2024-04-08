@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher, getContext } from 'svelte'
   import { icon } from '#lib/icons'
   import { scrollToElement } from '#lib/screen'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import { acceptRequestToJoinGroup, inviteUserToJoinGroup, moveMembership, refuseRequestToJoinGroup } from '#groups/lib/groups'
   import Flash from '#lib/components/flash.svelte'

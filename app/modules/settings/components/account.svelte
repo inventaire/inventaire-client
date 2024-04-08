@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { debounce } from 'underscore'
   import app from '#app/app'
   import languagesData from '#assets/js/languages_data'

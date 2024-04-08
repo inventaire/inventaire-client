@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import EntityPreview from '#entities/components/entity_preview.svelte'
   import { getAuthorExtendedWorks } from '#entities/lib/types/author_alt'

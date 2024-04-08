@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { getColorHexCodeFromModelId } from '#lib/images'
   import { viewportIsSmallerThan } from '#lib/screen'

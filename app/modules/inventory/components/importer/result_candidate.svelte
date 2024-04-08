@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import EntryDisplay from '#inventory/components/entry_display.svelte'
   import CandidateActions from '#inventory/components/importer/candidate_actions.svelte'
   import Flash from '#lib/components/flash.svelte'

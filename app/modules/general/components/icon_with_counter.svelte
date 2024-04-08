@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { icon as iconFn } from '#lib/icons'
   import { loadInternalLink } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'

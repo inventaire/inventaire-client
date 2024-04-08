@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { uniqueId } from 'underscore'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import { getISODay } from '#lib/time'

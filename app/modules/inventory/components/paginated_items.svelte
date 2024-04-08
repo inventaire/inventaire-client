@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import Spinner from '#components/spinner.svelte'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { tick } from 'svelte'
   import { debounce } from 'underscore'
   import app from '#app/app'

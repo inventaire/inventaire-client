@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { guessInitialTransaction } from '#inventory/components/lib/item_creation_helpers'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
   import { icon } from '#lib/icons'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { getEntityBasicInfoByUri } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'

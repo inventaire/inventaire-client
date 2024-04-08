@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { setContext } from 'svelte'
   import { debounce } from 'underscore'
   import Summary from '#entities/components/layouts/summary.svelte'

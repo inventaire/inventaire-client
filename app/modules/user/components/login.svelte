@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import { isEmail } from '#lib/boolean_tests'
   import { autofocus } from '#lib/components/actions/autofocus'

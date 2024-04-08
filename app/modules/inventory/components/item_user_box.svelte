@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { currentRoute } from '#lib/location'
   import { loadInternalLink } from '#lib/utils'

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Flash from '#lib/components/flash.svelte'
   import { I18n } from '#user/lib/i18n'
   import { testPassword } from '#user/lib/password_tests'

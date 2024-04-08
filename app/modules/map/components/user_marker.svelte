@@ -1,5 +1,5 @@
 <!-- TODO: merge with #map/components/user_marker.svelte -->
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
   import { imgSrc } from '#lib/handlebars_helpers/images'

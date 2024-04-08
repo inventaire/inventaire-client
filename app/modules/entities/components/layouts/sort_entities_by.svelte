@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import SelectDropdown from '#components/select_dropdown.svelte'
   import { sortEntities } from '#entities/components/lib/sort_entities_by'
   import { getSortingOptionsByName } from '#entities/components/lib/works_browser_helpers'

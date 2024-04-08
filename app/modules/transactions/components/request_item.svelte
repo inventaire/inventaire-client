@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
