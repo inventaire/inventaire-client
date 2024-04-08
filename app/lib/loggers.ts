@@ -57,9 +57,9 @@ const error = (err, label?) => {
   console.error(...loggerArgs)
 }
 
-const warn = (...args) => {
+const warn = (obj, label?) => {
   console.warn('/!\\')
-  log(...args)
+  log(obj, label)
 }
 
 const PartialLogger = logger => label => obj => logger(obj, label)
