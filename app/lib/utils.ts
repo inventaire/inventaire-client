@@ -229,3 +229,14 @@ export function sortObjectKeys (object, fn) {
     return fn(keyA, keyB)
   }))
 }
+
+// Source: https://www.totaltypescript.com/tips/create-your-own-objectkeys-function-using-generics-and-the-keyof-operator
+export function objectKeys <Obj> (obj: Obj) {
+  return Object.keys(obj) as (keyof Obj)[]
+}
+
+// Work around the TS2345 error when using Array include method
+// https://stackoverflow.com/questions/55906553/typescript-unexpected-error-when-using-includes-with-a-typed-array/70532727#70532727
+export function arrayIncludes (array: readonly (string | number)[], value: string | number) {
+  return array.some(element => element === value)
+}

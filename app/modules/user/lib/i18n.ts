@@ -1,4 +1,4 @@
-import Polyglot from 'node-polyglot'
+import Polyglot, { type PolyglotOptions } from 'node-polyglot'
 import { noop } from 'underscore'
 import app from '#app/app'
 // General rule: one session -> one language. Which means that every language
@@ -7,6 +7,7 @@ import app from '#app/app'
 // strings were fetched, but it's so much simpler to handle, and less verbose as
 // we don't need to clutter every layout with events listeners like
 // @listenTo app.user, 'change:language', @render
+import type { UserLang } from '#lib/active_languages.ts'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { capitalize } from '#lib/utils'
@@ -16,24 +17,24 @@ import translate from './translate.ts'
 // Work around circular dependency
 let update = noop
 let refreshData = noop
-const lateImport = async () => {
+async function lateImport () {
   ({ update, refreshData } = await import('#lib/uri_label/uri_label'))
 }
 setTimeout(lateImport, 0)
 
-let currentLangI18n = key => {
-  console.trace(`i18n function was called before we received language strings: ${key}`)
+let currentLangI18n = (key: string, context?: unknown) => {
+  console.trace(`i18n function was called before we received language strings: ${key}`, context)
   return key
 }
 
-export const i18n = (...args) => currentLangI18n(...args)
+export const i18n = (key: string, context?: unknown) => currentLangI18n(key, context)
 
 // Convention: 'lang' always stands for ISO 639-1 two letters language codes
 // (like 'en', 'fr', etc.)
-export const initI18n = async (app, lang) => {
+export async function initI18n (lang: UserLang) {
   const missingKey = window.env === 'dev' ? i18nMissingKey : noop
 
-  const onMissingKey = function (key) {
+  const onMissingKey = function (key: string) {
     console.warn(`Missing translation for key: ${key}`)
     missingKey(key)
     if (key == null) console.trace()
@@ -51,22 +52,22 @@ export const initI18n = async (app, lang) => {
   initLocalLang(lang)
 }
 
-export const I18n = (...args) => capitalize(currentLangI18n(...args))
+export const I18n = (key: string, context?: unknown) => capitalize(currentLangI18n(key, context))
 
-const setLanguage = function (lang, onMissingKey) {
+function setLanguage (lang: UserLang, onMissingKey: PolyglotOptions['onMissingKey']) {
   app.polyglot = new Polyglot({ onMissingKey })
   currentLangI18n = translate(lang, app.polyglot)
   app.vent.trigger('uriLabel:update')
   return requestI18nFile(app.polyglot, lang)
 }
 
-const requestI18nFile = (polyglot, lang) => {
+function requestI18nFile (polyglot: Polyglot, lang: UserLang) {
   return preq.get(app.API.i18nStrings(lang))
   .then(updatePolyglot.bind(null, polyglot, lang))
   .catch(log_.ErrorRethrow(`i18n: failed to get the i18n file for ${lang}`))
 }
 
-const updatePolyglot = function (polyglot, lang, res) {
+function updatePolyglot (polyglot: Polyglot, lang: UserLang, res) {
   polyglot.replace(res)
   polyglot.locale(lang)
   app.execute('waiter:resolve', 'i18n')

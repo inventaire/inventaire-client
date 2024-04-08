@@ -1,11 +1,13 @@
+import type { UserLang } from '#lib/active_languages.ts'
 import assert_ from '#lib/assert_types'
+import type Polyglot from 'node-polyglot'
 
 const wdPropPrefix = 'wdt:'
 
-export default function (lang, polyglot) {
+export default function (lang: UserLang, polyglot: Polyglot) {
   const modifier = (modifiers[lang] != null) ? modifiers[lang] : undefined
 
-  return function (key, ctx?) {
+  return function (key: string, ctx?: Polyglot.InterpolationOptions) {
     // This function might be called before the tempates data arrived
     // returning '' early prevents to display undefined and make polyglot worry
     if (key == null) return ''

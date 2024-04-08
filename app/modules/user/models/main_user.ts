@@ -3,7 +3,7 @@ import app from '#app/app'
 import notificationsList from '#settings/lib/notifications_settings_list'
 import UserCommons from '#users/models/user_commons'
 import { initI18n } from '../lib/i18n.ts'
-import solveLang from '../lib/solve_lang.ts'
+import { solveLang } from '../lib/solve_lang.ts'
 
 const { location } = window
 
@@ -44,7 +44,7 @@ export default UserCommons.extend({
 
   lateInitialize () {
     this.lang = solveLang(this.get('language'))
-    initI18n(app, this.lang)
+    initI18n(this.lang)
     this.setDefaultPicture()
     const accessLevels = this.get('accessLevels')
     if (accessLevels == null) return

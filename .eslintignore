@@ -3,3 +3,4 @@ node_modules
 vendor
 scripts/assets
 app/assets/piwik.js
+app/assets/js/languages_data.ts
