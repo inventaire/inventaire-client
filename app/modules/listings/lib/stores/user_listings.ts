@@ -4,8 +4,6 @@ import { getListingsByCreators } from '#listings/lib/listings'
 
 const noop = () => {}
 
-export const userListings = writable([], start)
-
 function start (setStoreValue) {
   refresh(setStoreValue)
   const stop = noop
@@ -21,4 +19,4 @@ async function refresh (setStoreValue) {
   }
 }
 
-userListings.refresh = refresh
+export const userListings = Object.assign(writable([], start), { refresh })
