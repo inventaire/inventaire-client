@@ -290,6 +290,7 @@ const getEntitiesModels = async function (params) {
 const isntMissing = model => (model != null) && (model?.type !== 'missing')
 
 const getEntityModel = async (uri, refresh?) => {
+  // @ts-expect-error deprecated
   const [ model ] = await getEntitiesModels({ uris: [ uri ], refresh })
   if (model != null) {
     return model
