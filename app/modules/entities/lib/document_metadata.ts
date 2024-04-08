@@ -3,8 +3,8 @@ import { getEntityImageUrl } from '#entities/lib/entities'
 import { typesString } from '#entities/models/entity'
 import { I18n } from '#user/lib/i18n'
 
-export async function runEntityNavigate (entity, options?) {
-  entity._gettingMetadata = entity._gettingMetadata || getEntityMetadata({ entity, uriPrefix: options?.uriPrefix })
+export async function runEntityNavigate (entity, options: { uriPrefix?: string } = {}) {
+  entity._gettingMetadata = entity._gettingMetadata || getEntityMetadata({ entity, uriPrefix: options.uriPrefix })
   const metadata = await entity._gettingMetadata
   app.navigate(`/${metadata.url}`, { metadata })
 }
