@@ -1,89 +1,93 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "rootDir": ".",
+    "baseUrl": ".",
     "allowJs": false,
     "checkJs": false,
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "skipLibCheck": true,
     "incremental": true,
+    // Svelte Preprocess cannot figure out whether you have a value or a type, so tell TypeScript
+    // to enforce using `import type` instead of `import` for Types.
+    // Source: https://github.com/tsconfig/bases/blob/ebe629c2857d386a0bc2c5d60cab18b9f1a425d0/bases/svelte.json#L11-L14
+    "verbatimModuleSyntax": true,
     "sourceMap": true,
-    "baseUrl": "./app",
     "paths": {
       "#behaviors/*": [
-        "modules/general/behaviors/*"
+        "./app/modules/general/behaviors/*"
       ],
       "#components/*": [
-        "modules/general/components/*"
+        "./app/modules/general/components/*"
       ],
       "#entities/*": [
-        "modules/entities/*"
+        "./app/modules/entities/*"
       ],
       "#general/*": [
-        "modules/general/*"
+        "./app/modules/general/*"
       ],
       "#groups/*": [
-        "modules/groups/*"
+        "./app/modules/groups/*"
       ],
       "#inventory/*": [
-        "modules/inventory/*"
+        "./app/modules/inventory/*"
       ],
       "#listings/*": [
-        "modules/listings/*"
+        "./app/modules/listings/*"
       ],
       "#map/*": [
-        "modules/map/*"
+        "./app/modules/map/*"
       ],
       "#network/*": [
-        "modules/network/*"
+        "./app/modules/network/*"
       ],
       "#notifications/*": [
-        "modules/notifications/*"
+        "./app/modules/notifications/*"
       ],
       "#search/*": [
-        "modules/search/*"
+        "./app/modules/search/*"
       ],
       "#settings/*": [
-        "modules/settings/*"
+        "./app/modules/settings/*"
       ],
       "#shelves/*": [
-        "modules/shelves/*"
+        "./app/modules/shelves/*"
       ],
       "#tasks/*": [
-        "modules/tasks/*"
+        "./app/modules/tasks/*"
       ],
       "#types/*": [
         "./app/types/*",
       ],
       "#server/types/*": [
-        "../../types/*.d.ts",
+        "../types/*.d.ts",
       ],
       "#transactions/*": [
-        "modules/transactions/*"
+        "./app/modules/transactions/*"
       ],
       "#user/*": [
-        "modules/user/*"
+        "./app/modules/user/*"
       ],
       "#users/*": [
-        "modules/users/*"
+        "./app/modules/users/*"
       ],
       "#welcome/*": [
-        "modules/welcome/*"
+        "./app/modules/welcome/*"
       ],
       "#assets/*": [
-        "assets/*"
+        "./app/assets/*"
       ],
       "#lib/*": [
-        "lib/*"
+        "./app/lib/*"
       ],
       "#modules/*": [
-        "modules/*"
+        "./app/modules/*"
       ],
       "#app/*": [
-        "*"
+        "./app/*"
       ]
     },
     // Type checking flags, see https://www.typescriptlang.org/tsconfig#Type_Checking_6248

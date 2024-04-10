@@ -16,9 +16,6 @@ module.exports = {
     ecmaFeatures: {
       jsx: false,
     },
-    // See https://github.com/sveltejs/eslint-plugin-svelte#parser-configuration
-    project: './tsconfig.json',
-    extraFileExtensions: [ '.svelte' ],
   },
   plugins: [
     'node-import',
@@ -127,7 +124,11 @@ module.exports = {
       parser: 'svelte-eslint-parser',
       parserOptions: {
         // See https://github.com/sveltejs/eslint-plugin-svelte#parser-configuration
-        parser: '@typescript-eslint/parser'
+        parser: '@typescript-eslint/parser',
+        // The '..' seems required to avoid the following error in svelte files
+        // `Parsing error: Cannot read file '/path/to/client/app/tsconfig.client.json'.eslint`
+        project: '../tsconfig.client.json',
+        extraFileExtensions: [ '.svelte' ],
       },
       rules: {
         // In Svelte, assignment is used everywhere to update a componenent's state;
