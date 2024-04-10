@@ -1,4 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const svelteWebpackConfig = require('./bundle/rules/svelte.cjs')('dev')
+
 const { preprocess } = svelteWebpackConfig[0].use[0].options
 
 // Share the preprocess config with the svelte-vscode extension, to be able to lint scss in vscode
