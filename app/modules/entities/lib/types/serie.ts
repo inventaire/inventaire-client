@@ -67,7 +67,6 @@ const initPartsCollections = async function (refresh, fetchAll, partsData) {
   const partsWithoutSuperpartsUris = pluck(partsWithoutSuperparts, 'uri')
 
   // Prevent circular dependencies by using a late import
-  // @ts-expect-error
   const { default: PaginatedWorks } = await import('../../collections/paginated_works')
 
   this.parts = new PaginatedWorks(null, {

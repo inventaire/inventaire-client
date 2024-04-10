@@ -4,8 +4,8 @@ import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
-import type { IsbnData } from '#server/types/common'
 import type { ExternalEntry, Candidate } from '#types/importer'
+import type { getIsbnData } from './extract_isbns'
 
 export const createCandidate = (externalEntry, entitiesRes) => {
   const {
@@ -52,7 +52,7 @@ export const assignEntitiesToCandidate = (candidate, entitiesRes) => {
   return candidate
 }
 
-export const guessUriFromIsbn = ({ externalEntry, isbnData }: { externalEntry?: ExternalEntry, isbnData?: IsbnData }) => {
+export const guessUriFromIsbn = ({ externalEntry, isbnData }: { externalEntry?: ExternalEntry, isbnData?: ReturnType<typeof getIsbnData> }) => {
   let isbn
   if (externalEntry) isbn = externalEntry.isbnData?.normalizedIsbn
   if (isbnData) isbn = isbnData.normalizedIsbn

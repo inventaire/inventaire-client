@@ -1,4 +1,4 @@
-import type { IsbnData } from '#server/types/common'
+import type { getIsbnData } from '#inventory/lib/importer/extract_isbns'
 import type { Isbn } from '#server/types/entity'
 
 interface BaseCandidate {
@@ -6,7 +6,7 @@ interface BaseCandidate {
   details?: review
   editionTitle?: string
   goodReadsEditionId?: string
-  isbnData?: IsbnData
+  isbnData?: ReturnType<typeof getIsbnData>
   index?: string
   libraryThingWorkId?: string
   notes?: string
@@ -19,6 +19,7 @@ interface BaseCandidate {
 export interface ExternalEntry extends BaseCandidate {
   error?: any
   isbn?: Isbn
+  isbnData?: ReturnType<typeof getIsbnData>
 }
 
 export interface Candidate extends BaseCandidate {

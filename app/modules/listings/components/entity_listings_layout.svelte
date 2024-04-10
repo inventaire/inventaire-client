@@ -4,7 +4,9 @@
   import ListingsLayout from '#modules/listings/components/listings_layout.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let entity, emptyListings
+  export let entity
+  export let emptyListings = false
+
   let listings = []
   let noListingsFound
 
