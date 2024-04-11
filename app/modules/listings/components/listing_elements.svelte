@@ -114,6 +114,7 @@
 
   const onReorder = async () => {
     reordering = true
+    flash = null
     const uris = pluck(paginatedElements, 'uri')
     try {
       await reorder(listingId, uris)
@@ -210,9 +211,6 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .entities-listing-section{
-    flex: 1;
-    align-self: center;
-    @include display-flex(column, center);
     width: 100%;
     padding: 0 1em;
     :global(.infinite-scroll-wrapper){
@@ -240,7 +238,6 @@
     white-space: nowrap;
     line-height: 1.6em;
   }
-
   .entities-selector{
     width: 100%;
   }
@@ -263,6 +260,9 @@
   }
   /* Small screens */
   @media screen and (width < $small-screen){
+    .entities-selector{
+      padding: 0 0.5em;
+    }
     .entities-listing-section{
       padding: 0;
     }
@@ -271,6 +271,10 @@
   @media screen and (max-width: $very-small-screen){
     li{
       @include display-flex(column, flex-start);
+    }
+    .status{
+      align-self: center;
+      margin-block-end: 0.5em;
     }
     .reorder-wrapper{
       width: 100%;
