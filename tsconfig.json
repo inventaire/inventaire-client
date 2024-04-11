@@ -3,7 +3,11 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "rootDir": ".",
+    // Include the server repo to avoid errors such as
+    // `File '/path/to/inventaire/types/common.ts' is not under 'rootDir' '/path/to/inventaire/client'. 'rootDir' is expected to contain all source files.`
+    // See https://www.typescriptlang.org/tsconfig#rootDir
+    // and https://github.com/sveltejs/language-tools/issues/792#issuecomment-770403014
+    "rootDir": "..",
     "baseUrl": ".",
     "allowJs": false,
     "checkJs": false,
