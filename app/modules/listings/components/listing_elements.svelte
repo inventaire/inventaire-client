@@ -15,7 +15,7 @@
   import ListingElement from './listing_element.svelte'
   import Reorder from './reorder.svelte'
 
-  export let elements = [], listingId, isEditable, isReorderMode
+  export let elements = [], listingId, isEditable, isReorderMode, hasSeveralElements
 
   let flash, inputValue = '', showSuggestions
 
@@ -46,6 +46,8 @@
         const index = paginatedElements.indexOf(element)
         paginatedElements.splice(index, 1)
         paginatedElements = paginatedElements
+        elements.splice(index, 1)
+        elements = elements
       })
       .catch(err => flash = err)
   }
@@ -70,6 +72,7 @@
       // Re fetch entities with fitting attributes.
       await assignEntitiesToElements(createdElements)
       paginatedElements = [ ...paginatedElements, ...createdElements ]
+      elements = [ ...elements, ...createdElements ]
       return flash = {
         type: 'success',
         message: i18n('Added to the list'),
@@ -80,6 +83,7 @@
   }
 
   $: hasMore = elements.length >= offset
+  $: hasSeveralElements = elements.length > 1
 
   const fetchMore = async () => {
     const nextBatchElements = elements.slice(offset, offset + paginationSize)
