@@ -10,7 +10,7 @@
   import ListingEditor from '#listings/components/listing_editor.svelte'
   import { i18n } from '#user/lib/i18n'
 
-  export let listing, isEditable, isReorderMode
+  export let listing, isEditable, isReorderMode, hasSeveralElements
 
   let { name, description, creator: creatorId, visibility } = listing
 
@@ -60,13 +60,15 @@
                 {i18n('Edit list info')}
               </button>
             </li>
-            <li>
-              <button on:click={() => isReorderMode = true}
-              >
-                {@html icon('reorder')}
-                {i18n('Reorder list')}
-              </button>
-            </li>
+            {#if hasSeveralElements}
+              <li>
+                <button on:click={() => isReorderMode = true}
+                >
+                  {@html icon('reorder')}
+                  {i18n('Reorder list')}
+                </button>
+              </li>
+            {/if}
           </ul>
         </Dropdown>
       {/if}
