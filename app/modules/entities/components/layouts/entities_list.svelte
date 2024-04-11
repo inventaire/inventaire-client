@@ -3,7 +3,7 @@
   import EditionActions from './edition_actions.svelte'
   import EntityListRow from './entity_list_row.svelte'
 
-  export let entities, relatedEntities, parentEntity, itemsByEditions
+  export let entities, relatedEntities, itemsByEditions
 </script>
 <ul>
   {#each entities as entity (entity.uri)}
@@ -11,7 +11,6 @@
       <EntityListRow
         {entity}
         {relatedEntities}
-        {parentEntity}
       />
       <EditionActions
         {entity}

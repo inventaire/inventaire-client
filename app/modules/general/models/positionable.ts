@@ -26,7 +26,6 @@ export default Filterable.extend({
   _setLatLng () {
     if (this.hasPosition()) {
       const [ lat, lng ] = this.get('position')
-      // @ts-expect-error
       this._latLng = new L.LatLng(lat, lng)
     } else {
       this._latLng = null

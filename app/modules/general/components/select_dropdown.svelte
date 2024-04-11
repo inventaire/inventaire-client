@@ -68,7 +68,7 @@
     buttonRole="listbox"
   >
     <div slot="button-inner">
-      <SelectDropdownOption option={currentOption} {withImage} promise={currentOption.promise} />
+      <SelectDropdownOption option={currentOption} {withImage} />
       {#if resetValue && value !== resetValue}
         <button
           class="reset"

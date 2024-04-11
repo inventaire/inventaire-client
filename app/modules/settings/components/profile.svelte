@@ -9,6 +9,7 @@
   import preq from '#lib/preq'
   import { Username } from '#lib/regex'
   import { looksLikeSpam } from '#lib/spam'
+  import { onChange } from '#lib/svelte/svelte'
   import UserPositionPicker from '#settings/components/user_position_picker.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
@@ -112,8 +113,8 @@
     await updateUserReq('picture', null)
   }
 
-  $: validateUsername(usernameValue)
-  $: onBioChange(bioValue)
+  $: onChange(usernameValue, validateUsername)
+  $: onChange(bioValue, onBioChange)
 </script>
 
 <form>

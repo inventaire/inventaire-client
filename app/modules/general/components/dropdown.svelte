@@ -13,7 +13,7 @@
   export let alignDropdownWidthOnButton = false
   export let alignButtonWidthOnDropdown = false
   export let dropdownWidthBaseInEm = null
-  export let clickOnContentShouldCloseDropdown = false
+  export let clickOnContentShouldCloseDropdown: boolean | ((e: CustomEvent) => boolean) = false
   export let buttonId = null
   export let buttonRole = null
   export let buttonDisabled = false

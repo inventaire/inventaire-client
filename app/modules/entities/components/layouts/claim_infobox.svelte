@@ -10,7 +10,7 @@
   export let values
   export let omitLabel = false
   export let entitiesByUris = {}
-  export let entityType
+  export let entityType = null
 
   let propertyLabelI18nKey = prop
   if (entityType && propertiesPerType[entityType]?.[prop]) {

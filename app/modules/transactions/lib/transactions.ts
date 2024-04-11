@@ -5,6 +5,7 @@ import { buildPath } from '#lib/location'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { timeFromNow } from '#lib/time'
+import type { Transaction, TransactionAction } from '#server/types/transaction'
 import { getActionUserKey } from '#transactions/lib/transactions_actions'
 import { i18n } from '#user/lib/i18n'
 import { serializeUser } from '#users/lib/users'
@@ -104,7 +105,7 @@ export async function grabUsers (transaction) {
   }
 }
 
-export function getTransactionStateText ({ transaction, action }) {
+export function getTransactionStateText ({ transaction, action }: { transaction: Transaction, action?: TransactionAction }) {
   if (!action) {
     const lastAction = transaction.actions.at(-1)
     action = lastAction

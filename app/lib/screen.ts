@@ -40,7 +40,7 @@ interface ScrollOptions{
   waitForRoomToScroll?: boolean
 }
 
-export function scrollToElement (element, options?: ScrollOptions) {
+export function scrollToElement (element, options: ScrollOptions = {}) {
   if (!(element instanceof HTMLElement)) {
     serverReportError('invalid element', { element, options })
     // Assumes that a failing scroll is never worth crashing the calling function

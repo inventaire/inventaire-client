@@ -6,7 +6,8 @@ const antimeridianMargin = 50
 export default {
   // Init once Leaflet was fetched
   init () {
-    // @ts-expect-error L is both a type namespace and a global value
+    // Using @ts-ignore instead of @ts-expect-error as an error is produced in some environment (tsc) and not others (IDE)
+    // @ts-ignore L is both a type namespace and a global value
     L.Icon.Default.imagePath = '/public/images/map'
   },
   mapOptions: {

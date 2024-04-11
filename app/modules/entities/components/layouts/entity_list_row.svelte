@@ -18,15 +18,15 @@
   import { loadInternalLink } from '#lib/utils'
   import Infobox from './infobox.svelte'
 
-  export let entity,
-    relatedEntities,
-    showInfobox = true,
-    listDisplay = false,
-    isUriToDisplay
+  export let entity
+  export let relatedEntities
+  export let showInfobox = true
+  export let listDisplay = false
+  export let isUriToDisplay = false
 
   let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri } = entity
 
-  const layoutContext = getContext('layout-context')
+  const layoutContext: string = getContext('layout-context')
 
   const prop = typeMainProperty[layoutContext]
   const hasOnlyOneClaimValue = prop => claims?.[prop]?.length === 1

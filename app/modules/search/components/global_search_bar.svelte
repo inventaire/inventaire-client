@@ -137,7 +137,7 @@
   function onKeyUp (e) {
     const key = getActionKey(e)
     if (key === 'esc') hideLiveSearch()
-    else if (key === 'enter') showCurrentlyHighlightedResult(e)
+    else if (key === 'enter') showCurrentlyHighlightedResult()
     else if (key === 'pageup') selectPrevSection()
     else if (key === 'pagedown') selectNextSection()
     else lazySearch()

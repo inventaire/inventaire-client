@@ -4,12 +4,14 @@
   import { serializeEntity } from '#entities/lib/entities'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
+  import type { TaskId } from '#server/types/task'
   import getNextTask from '#tasks/lib/get_next_task.ts'
   import { I18n } from '#user/lib/i18n'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
 
-  export let taskId, entitiesType
+  export let taskId: TaskId
+  export let entitiesType
 
   let task, from, to, flash, matchedTitles, noTask
 
@@ -20,7 +22,7 @@
   async function getTask () {
     let promise
     if (taskId) {
-      promise = assignTaskById(taskId)
+      promise = assignTaskById()
     } else if (entitiesType) {
       promise = next()
     } else return
