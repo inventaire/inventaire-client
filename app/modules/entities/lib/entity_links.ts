@@ -3,9 +3,25 @@ import app from '#app/app'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import { sortObjectKeys } from '#lib/utils'
 import { getUriNumericId } from '#lib/wikimedia/wikidata'
+import type { Url } from '#server/types/common'
+import type { PropertyUri } from '#server/types/entity'
+import type { User } from '#server/types/user'
+import type { PropertyCategory } from './editor/properties_per_type'
+import type { Entries } from 'type-fest'
+
+type WebsiteName = string
+
+export interface DisplayConfig {
+  name: WebsiteName
+  category: PropertyCategory
+  getUrl: (id: string) => Url
+  property?: PropertyUri
+}
+
+type ExternalIdsDisplayConfigs = Record<PropertyUri, DisplayConfig>
 
 // Formatter URLs can be found on Wikidata, see https://www.wikidata.org/wiki/Property:P1630
-export const externalIdsDisplayConfigs = {
+export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
   'wdt:P213': {
     name: 'OCLC',
     category: 'bibliographicDatabases',
@@ -293,7 +309,7 @@ export const externalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://bookbrainz.org/edition/${id}`,
   },
-}
+} as const
 
 const openLibrarySectionByLetter = {
   A: 'authors',
@@ -301,17 +317,29 @@ const openLibrarySectionByLetter = {
   M: 'books',
 }
 
-export const websitesByName = {}
-export const websitesByCategoryAndName = {}
-
-for (const [ property, { name, category } ] of Object.entries(externalIdsDisplayConfigs)) {
-  externalIdsDisplayConfigs[property].property = property
-  websitesByCategoryAndName[category] = websitesByCategoryAndName[category] || {}
-  websitesByCategoryAndName[category][name] = websitesByCategoryAndName[name] || []
-  websitesByCategoryAndName[category][name].push(property)
-  websitesByName[name] = websitesByName[name] || []
-  websitesByName[name].push({ property, name, category })
+interface WebsiteMetadata {
+  name: WebsiteName
+  property: PropertyUri
+  category: PropertyCategory
 }
+
+type WebsitesByName = Record<WebsiteName, WebsiteMetadata[]>
+const _websitesByName: Partial<WebsitesByName> = {}
+
+type WebsitesByCategoryAndName = Record<PropertyCategory, Record<WebsiteName, PropertyUri[]>>
+const _websitesByCategoryAndName: Partial<WebsitesByCategoryAndName> = {}
+
+for (const [ property, { name, category } ] of Object.entries(externalIdsDisplayConfigs) as Entries<typeof externalIdsDisplayConfigs>) {
+  externalIdsDisplayConfigs[property].property = property
+  _websitesByCategoryAndName[category] = _websitesByCategoryAndName[category] || {}
+  _websitesByCategoryAndName[category][name] = _websitesByCategoryAndName[name] || []
+  _websitesByCategoryAndName[category][name].push(property)
+  _websitesByName[name] = _websitesByName[name] || []
+  _websitesByName[name].push({ property, name, category })
+}
+
+export const websitesByCategoryAndName = _websitesByCategoryAndName as WebsitesByCategoryAndName
+export const websitesByName = _websitesByName as WebsitesByName
 
 const sortAlphabetically = (a, b) => a > b ? 1 : -1
 
@@ -319,11 +347,14 @@ for (const category of Object.keys(websitesByCategoryAndName)) {
   websitesByCategoryAndName[category] = sortObjectKeys(websitesByCategoryAndName[category], sortAlphabetically)
 }
 
-export const getDisplayedPropertiesByCategory = () => {
-  const customProperties = app.user.get('customProperties')
+export type DisplayedPropertiesByCategory = Partial<Record<PropertyCategory, DisplayConfig[]>>
+
+export function getDisplayedPropertiesByCategory () {
+  const customProperties: User['customProperties'] = app.user.get('customProperties') || []
   if (isNonEmptyArray(customProperties)) {
     const displayedProperties = pick(externalIdsDisplayConfigs, customProperties)
-    return groupBy(Object.values(displayedProperties), 'category')
+    const displayedPropertiesByCategory: DisplayedPropertiesByCategory = groupBy(Object.values(displayedProperties), 'category')
+    return displayedPropertiesByCategory
   } else {
     return {}
   }
