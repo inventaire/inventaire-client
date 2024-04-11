@@ -125,8 +125,9 @@ module.exports = {
       parserOptions: {
         // See https://github.com/sveltejs/eslint-plugin-svelte#parser-configuration
         parser: '@typescript-eslint/parser',
-        // The '..' seems required to avoid the following error in svelte files
+        // The '../' seems required by the VScode ESlint plugin to avoid the following error in Svelte files
         // `Parsing error: Cannot read file '/path/to/client/app/tsconfig.client.json'.eslint`
+        // but weirdly, the CLI eslint needs './', thus the hacky fix in .eslintrc.cli.cjs
         project: '../tsconfig.client.json',
         extraFileExtensions: [ '.svelte' ],
       },
