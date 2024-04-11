@@ -1,5 +1,6 @@
 <script lang="ts">
   import app from '#app/app'
+  import { screen } from '#app/lib/components/stores/screen'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -144,7 +145,7 @@
   .creator-info{
     a{
       display: block;
-      padding: 0.5em;
+      padding: 0.3em 0;
       @include radius;
       @include bg-hover($light-grey);
     }
@@ -167,18 +168,19 @@
     :global(li){
       @include display-flex(row, stretch, flex-start);
       &:not(:last-child){
-        margin-bottom: 0.2em;
+        margin-block-end: 0.2em;
       }
     }
-    :global(a), :global(button){
+    :global(button){
       flex: 1;
       @include display-flex(row, center, flex-start);
       min-block-size: 3em;
       @include bg-hover(white, 10%);
       padding: 0 1em;
+      text-align: start;
     }
     :global(.fa){
-      margin-right: 0.5rem;
+      margin-inline-end: 0.5rem;
     }
   }
   .visibility{
@@ -189,8 +191,11 @@
   /* Small screens */
   @media screen and (width < $small-screen){
     .listing-info{
-      padding: 0.5em;
-      margin: 1em 0;
+      padding: 1em;
+      margin: 0;
+    }
+    [slot="button-inner"]{
+      padding: 0.3em;
     }
   }
   /* Smaller screens */
