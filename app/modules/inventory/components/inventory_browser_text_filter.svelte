@@ -7,11 +7,13 @@
   import { getActionKey } from '#lib/key_events'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
+  import type { ItemsSearchQuery } from '#server/types/api/items/search'
   import { I18n } from '#user/lib/i18n'
+  import type { ItemsSearchFilters } from './inventory_browser.svelte'
 
   export let textFilterItemsIds, flash
 
-  const { ownerId, groupId, shelfId } = getContext('items-search-filters')
+  const { ownerId, groupId, shelfId } = getContext('items-search-filters') as ItemsSearchFilters
 
   let textFilter, waiting
 
@@ -23,7 +25,7 @@
         textFilterItemsIds = undefined
         return
       }
-      const query = {
+      const query: ItemsSearchQuery = {
         search: textFilter,
         limit: 100,
       }

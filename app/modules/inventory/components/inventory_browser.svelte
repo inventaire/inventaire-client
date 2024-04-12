@@ -1,3 +1,14 @@
+<script context="module" lang="ts">
+  import type { GroupId } from '#server/types/group'
+  import type { ShelfId } from '#server/types/shelf'
+  import type { UserId } from '#server/types/user'
+
+  export interface ItemsSearchFilters {
+    ownerId?: UserId
+    groupId?: GroupId
+    shelfId?: ShelfId
+  }
+</script>
 <script lang="ts">
   import { createEventDispatcher, setContext } from 'svelte'
   import { debounce } from 'underscore'
@@ -13,12 +24,13 @@
 
   export let itemsDataPromise
   export let isMainUser = false
-  export let ownerId = null
-  export let groupId = null
-  export let shelfId = null
+  export let ownerId: UserId = null
+  export let groupId: GroupId = null
+  export let shelfId: ShelfId = null
   export let itemsShelvesByIds = null
 
-  setContext('items-search-filters', { ownerId, groupId, shelfId })
+  const itemsSearchFilters: ItemsSearchFilters = { ownerId, groupId, shelfId }
+  setContext('items-search-filters', itemsSearchFilters)
 
   let itemsIds, textFilterItemsIds, flash
 
