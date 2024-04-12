@@ -4,7 +4,7 @@ import typeOf from '#lib/type_of'
 import type { AbsoluteUrl } from '#server/types/common'
 import type { CouchUuid } from '#server/types/couchdb'
 import type { EntityUri, PropertyUri, WdEntityUri, WdPropertyUri } from '#server/types/entity'
-import type { AssetImagePath, GroupImagePath, ImageHash, ImagePath, UserImagePath } from '#server/types/image'
+import type { AssetImagePath, ImageDataUrl, GroupImagePath, ImageHash, ImagePath, UserImagePath } from '#server/types/image'
 import type { Email, Username } from '#server/types/user'
 import type { ItemId, PropertyId } from 'wikibase-sdk'
 
@@ -63,7 +63,9 @@ export const isPositiveIntegerString = str => isString(str) && /^[1-9]\d*$/.test
 export const isModel = obj => obj instanceof Backbone.Model
 export const isView = obj => obj instanceof Backbone.View
 
-export const isDataUrl = str => /^data:image/.test(str)
+export function isImageDataUrl (str: string): str is ImageDataUrl {
+  return /^data:image/.test(str)
+}
 
 export const isDateString = dateString => {
   if ((dateString == null) || (typeof dateString !== 'string')) return false

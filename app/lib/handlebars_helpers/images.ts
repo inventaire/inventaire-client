@@ -2,10 +2,14 @@ import { isNumber, isArray } from 'underscore'
 import app from '#app/app'
 // This is tailored for handlebars, for other uses, use app.API.img directly.
 // Keep in sync with server/lib/emails/handlebars_helpers
-import { isDataUrl } from '#lib/boolean_tests'
+import { isImageDataUrl } from '#lib/boolean_tests'
+import type { Url } from '#server/types/common'
+import type { ImageDataUrl, ImagePath } from '#server/types/image'
 
-export const imgSrc = (path, width, height?) => {
-  if (isDataUrl(path)) return path
+export function imgSrc (path: ImageDataUrl): ImageDataUrl
+export function imgSrc (path: ImagePath, width: number, height?: number): Url
+export function imgSrc (path: ImagePath | ImageDataUrl, width?: number, height?: number) {
+  if (isImageDataUrl(path)) return path
 
   width = getImgDimension(width, 1600)
   width = bestImageWidth(width)
@@ -19,14 +23,14 @@ export const imgSrc = (path, width, height?) => {
 
   if (path == null) return ''
 
-  return app.API.img(path, width, height)
+  return app.API.img(path, width, height) as Url
 }
 
 export default { imgSrc }
 
 const onePictureOnly = arg => isArray(arg) ? arg[0] : arg
 
-const getImgDimension = function (dimension, defaultValue) {
+function getImgDimension (dimension, defaultValue) {
   if (isNumber(dimension)) {
     return dimension
   } else {
@@ -34,7 +38,7 @@ const getImgDimension = function (dimension, defaultValue) {
   }
 }
 
-const bestImageWidth = function (width) {
+function bestImageWidth (width) {
   // under 500, it's useful to keep the freedom to get exactly 64 or 128px etc
   // while still grouping on the initially requested width
   if (width < 500) return width
@@ -46,7 +50,7 @@ const bestImageWidth = function (width) {
 }
 
 // Regroup image dimensions to avoid generating and caching too many different sizes
-const getScaledSize = size => {
+function getScaledSize (size) {
   const scaledSize = window.devicePixelRatio * size
   for (const value of thresolds) {
     if (scaledSize <= value) return value

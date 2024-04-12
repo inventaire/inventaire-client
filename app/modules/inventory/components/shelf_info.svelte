@@ -3,13 +3,13 @@
   import { getColorSquareDataUri, getColorHexCodeFromModelId } from '#lib/images'
 
   export let shelf
-  const shelfColor = getColorSquareDataUri(shelf.color || getColorHexCodeFromModelId(shelf._id))
+  const shelfColorDataUrl = getColorSquareDataUri(shelf.color || getColorHexCodeFromModelId(shelf._id))
 </script>
 
 <div class="shelf-info">
   <img
     class="shelf-picture"
-    src={imgSrc(shelfColor)}
+    src={imgSrc(shelfColorDataUrl)}
     alt={shelf.name}
   />
   <div class="shelf-text">

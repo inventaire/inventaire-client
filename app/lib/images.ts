@@ -1,12 +1,14 @@
 import _dataURLtoBlob from 'blueimp-canvas-to-blob'
 import { sample } from 'underscore'
 import app from '#app/app'
-import { isDataUrl } from '#lib/boolean_tests'
+import { isImageDataUrl } from '#lib/boolean_tests'
 import { newError } from '#lib/error'
 import preq from '#lib/preq'
 import { forceArray } from '#lib/utils'
+import type { ColorHexCode, Url } from '#server/types/common'
+import type { ImageContainer, ImageDataUrl } from '#server/types/image'
 
-export async function getUrlDataUrl (url) {
+export async function getUrlDataUrl (url: Url) {
   const { 'data-url': dataUrl } = await preq.get(app.API.images.dataUrl(url))
   return dataUrl
 }
@@ -26,7 +28,7 @@ interface ImageData {
   dataUrl?: string
 }
 
-export function resizeDataUrl (dataURL, maxSize, outputQuality = 1) {
+export function resizeDataUrl (dataURL: ImageDataUrl, maxSize: number, outputQuality: number = 1) {
   return new Promise((resolve, reject) => {
     const data: ImageData = { original: {}, resized: {} }
     const image = new Image()
@@ -52,11 +54,11 @@ export function resizeDataUrl (dataURL, maxSize, outputQuality = 1) {
 }
 
 export function dataUrlToBlob (data) {
-  if (isDataUrl(data)) return _dataURLtoBlob(data)
+  if (isImageDataUrl(data)) return _dataURLtoBlob(data)
   else throw new Error('expected a dataURL')
 }
 
-export async function upload (container, blobsData, hash = false) {
+export async function upload (container: ImageContainer, blobsData, hash = false) {
   blobsData = forceArray(blobsData)
   const formData = new FormData()
 
@@ -89,25 +91,25 @@ export async function upload (container, blobsData, hash = false) {
   })
 }
 
-export async function getImageHashFromDataUrl (container, dataUrl) {
-  if (!isDataUrl(dataUrl)) throw newError('invalid image', dataUrl)
+export async function getImageHashFromDataUrl (container: ImageContainer, dataUrl: ImageDataUrl) {
+  if (!isImageDataUrl(dataUrl)) throw newError('invalid image', dataUrl)
   return upload(container, { blob: dataUrlToBlob(dataUrl) }, true)
   .then(res => Object.values(res)[0].split('/').slice(-1)[0])
 }
 
-export function getNonResizedUrl (url) {
+export function getNonResizedUrl (url: Url) {
   return url.replace(/\/img\/users\/\d+x\d+\//, '/img/')
 }
 
-export function getColorSquareDataUri (colorHexCode) {
+export function getColorSquareDataUri (colorHexCode: string) {
   colorHexCode = normalizeColorHexCode(colorHexCode)
   // Using the base64 version and not the utf8, as it gets problematic
   // when used as background-image '<div style="background-image: url({{imgSrc picture 100}})"'
   const base64Hash = btoa(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'><path d='M0,0h1v1H0' fill='${colorHexCode}'/></svg>`)
-  return `data:image/svg+xml;base64,${base64Hash}`
+  return `data:image/svg+xml;base64,${base64Hash}` as ImageDataUrl
 }
 
-const normalizeColorHexCode = code => code[0] === '#' ? code : `#${code}`
+const normalizeColorHexCode = code => (code[0] === '#' ? code : `#${code}`) as ColorHexCode
 
 export function getColorSquareDataUriFromModelId (modelId) {
   const colorHexCode = getColorHexCodeFromModelId(modelId)
