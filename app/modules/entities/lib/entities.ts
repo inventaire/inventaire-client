@@ -7,8 +7,9 @@ import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 import preq from '#lib/preq'
 import { expired } from '#lib/time'
 import { forceArray } from '#lib/utils'
+import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
 import type { RelativeUrl } from '#server/types/common'
-import type { Claims, EntityUri, EntityUriPrefix, EntityId } from '#server/types/entity'
+import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityUri } from '#server/types/entity'
 import type { Entity, RedirectionsByUris } from '#types/entity'
 import getBestLangValue from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
@@ -33,19 +34,12 @@ export type SerializedEntity = Entity & {
 
 type EntitiesByUris = Record<EntityUri, SerializedEntity>
 
-interface GetEntitiesParams {
-  uris: EntityUri[]
-  attributes?: unknown
-  lang?: unknown
-  relatives?: unknown
-}
-
-export async function getReverseClaims (property, value, refresh?, sort?) {
+export async function getReverseClaims (property: PropertyUri, value: InvClaimValue, refresh?: boolean, sort?: boolean) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
-  return uris
+  return uris as EntityUri[]
 }
 
-export function normalizeUri (uri) {
+export function normalizeUri (uri: string) {
   let [ prefix, id ] = uri.split(':')
   if ((id == null)) {
     if (isWikidataItemId(prefix)) {
@@ -60,19 +54,19 @@ export function normalizeUri (uri) {
   }
 
   if (prefix != null && id != null) {
-    return `${prefix}:${id}`
+    return `${prefix}:${id}` as EntityUri
   } else {
-    return uri
+    return uri as EntityUri
   }
 }
 
-export const getEntities = async uris => {
+export async function getEntities (uris: EntityUri[]) {
   if (uris.length === 0) return []
   const { entities } = await getManyEntities({ uris })
   return Object.values(entities).map(serializeEntity)
 }
 
-export const getEntitiesByUris = async (params: GetEntitiesParams) => {
+export async function getEntitiesByUris (params: GetEntitiesParams) {
   const { uris, attributes, lang } = params
   if (uris.length === 0) return []
   const { entities, redirects } = await getManyEntities({ uris, attributes, lang })
@@ -82,7 +76,7 @@ export const getEntitiesByUris = async (params: GetEntitiesParams) => {
   return serializedEntitiesByUris
 }
 
-export const getEntityByUri = async ({ uri }) => {
+export async function getEntityByUri ({ uri }: { uri: EntityUri }) {
   assert_.string(uri)
   const entities = await getEntities([ uri ])
   return entities[0]
@@ -117,17 +111,20 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
   return entity as SerializedEntity
 }
 
-const getPathname = uri => `/entity/${uri}` as RelativeUrl
+const getPathname = (uri: EntityUri) => `/entity/${uri}` as RelativeUrl
 
-export const attachEntities = async (entity, attribute, uris) => {
+export async function attachEntities (entity: Entity | SerializedEntity, attribute: string, uris: EntityUri[]) {
   entity[attribute] = await getEntities(uris)
   return entity
 }
 
+const params = [ 'uris', 'attributes', 'lang', 'relatives' ] as const
+type GetEntitiesAttributesByUrisParams = Pick<GetEntitiesParams, typeof params[number]>
+
 // Limiting the amount of uris requested to not get over the HTTP GET querystring length threshold.
 // Not using the POST equivalent endpoint, has duplicated request would then be answered with a 429 error
 // Also, do not export function to consumers clean, one may import getEntities or getEntitiesByUris
-const getManyEntities = async ({ uris, attributes, lang, relatives }: GetEntitiesParams) => {
+async function getManyEntities ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUrisParams) {
   const urisChunks = chunk(uris, 30)
   const responses = await Promise.all(urisChunks.map(async urisChunks => {
     return preq.get(app.API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives }))
@@ -137,7 +134,7 @@ const getManyEntities = async ({ uris, attributes, lang, relatives }: GetEntitie
   return { entities, redirects }
 }
 
-const mergeResponsesObjects = (responses, attribute) => {
+function mergeResponsesObjects (responses, attribute) {
   const objs = compact(pluck(responses, attribute))
   if (objs.length > 0) {
     // @ts-expect-error
@@ -147,14 +144,7 @@ const mergeResponsesObjects = (responses, attribute) => {
   }
 }
 
-interface GetEntitiesAttributesByUris {
-  uris: EntityUri[]
-  attributes: string[]
-  lang?: string
-  relatives?: any
-}
-
-export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUris) {
+export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUrisParams) {
   uris = forceArray(uris)
   let entities: EntitiesByUris = {}
   if (!isNonEmptyArray(uris)) {
@@ -175,7 +165,7 @@ function addRedirectionsAliases (entities, redirects) {
   }
 }
 
-export async function getEntitiesBasicInfoByUris (uris) {
+export async function getEntitiesBasicInfoByUris (uris: EntityUri[]) {
   return getEntitiesByUris({
     uris,
     attributes: [ 'info', 'labels', 'descriptions', 'image' ],
@@ -208,12 +198,12 @@ export async function getAndAssignPopularity ({ entities }) {
   })
 }
 
-export async function getEntityBasicInfoByUri (uri) {
+export async function getEntityBasicInfoByUri (uri: EntityUri) {
   const entities = await getEntitiesBasicInfoByUris([ uri ])
   return entities[uri]
 }
 
-export async function getEntitiesAttributesFromClaims (claims: Claims, attributes) {
+export async function getEntitiesAttributesFromClaims (claims: Claims, attributes: GetEntitiesParams['attributes']) {
   if (!attributes) attributes = [ 'labels' ]
   const claimsValues = flatten(Object.values(claims))
   const uris = claimsValues.filter(isEntityUri)
@@ -225,34 +215,34 @@ export async function getEntitiesAttributesFromClaims (claims: Claims, attribute
   return entities
 }
 
-export function getWikidataUrl (uri) {
+export function getWikidataUrl (uri: WdEntityUri) {
   const [ prefix, id ] = uri.split(':')
   if (prefix === 'wd') {
     return `https://www.wikidata.org/entity/${id}`
   }
 }
 
-export function getWikidataHistoryUrl (uri) {
+export function getWikidataHistoryUrl (uri: WdEntityUri) {
   const [ prefix, id ] = uri.split(':')
   if (prefix === 'wd') {
     return `https://www.wikidata.org/w/index.php?title=${id}&action=history`
   }
 }
 
-export const getEntityLocalHref = uri => `/entity/${uri}`
+export const getEntityLocalHref = (uri: EntityUri) => `/entity/${uri}`
 
 const getSerieOrdinal = claims => claims['wdt:P1545']?.[0]
 
-export const bySerieOrdinal = (a, b) => {
+export function bySerieOrdinal (a, b) {
   return parseFloat(a.serieOrdinal || 10000) - parseFloat(b.serieOrdinal || 10000)
 }
 
-export const byPublicationDate = (a, b) => {
+export function byPublicationDate (a, b) {
   // Ascendant order
   return parseInt(a.publicationYear || 10000) - parseInt(b.publicationYear || 10000)
 }
 
-export const byNewestPublicationDate = (a, b) => {
+export function byNewestPublicationDate (a, b) {
   // Descending order
   return parseInt(b.publicationYear || 0) - parseInt(a.publicationYear || 0)
 }
@@ -272,7 +262,7 @@ export function getPublicationYear (entity: Entity) {
   return getYearFromSimpleDay(date)
 }
 
-export const getYearFromSimpleDay = date => {
+export function getYearFromSimpleDay (date) {
   if (!date) return
   if (date[0] === '-') {
     const year = date.split('-')[1]
@@ -282,22 +272,22 @@ export const getYearFromSimpleDay = date => {
   }
 }
 
-export async function getEntitiesImages (uris) {
+export async function getEntitiesImages (uris: EntityUri[]) {
   if (uris.length === 0) return {}
   const { images } = await preq.get(app.API.entities.images(uris))
   return images
 }
 
-export async function getEntityImage (uri) {
+export async function getEntityImage (uri: EntityUri) {
   const images = getEntitiesImages(uri)
   return images[uri]
 }
-export async function getEntitiesImagesUrls (uris) {
+export async function getEntitiesImagesUrls (uris: EntityUri[]) {
   const images = await getEntitiesImages(uris)
   return extractImagesUrls(images)
 }
 
-export async function getEntityImageUrl (uri) {
+export async function getEntityImageUrl (uri: EntityUri) {
   const imagesUrls = await getEntitiesImagesUrls([ uri ])
   return imagesUrls[0]
 }
@@ -310,7 +300,7 @@ export function extractImagesUrls (images) {
   return compact(imageUrls)
 }
 
-export const getEntityImagePath = imageValue => {
+export function getEntityImagePath (imageValue) {
   if (isImageHash(imageValue)) return `/img/entities/${imageValue}`
   else return imageValue
 }
