@@ -7,16 +7,34 @@ import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
 import preq from '#lib/preq'
 import { expired } from '#lib/time'
 import { forceArray } from '#lib/utils'
-import type { Claims, InvClaimValue, EntityUri } from '#server/types/entity'
-import type { SerializedEntityWithLabel, RedirectionsByUris } from '#types/entity'
+import type { RelativeUrl } from '#server/types/common'
+import type { Claims, EntityUri, EntityUriPrefix, EntityId } from '#server/types/entity'
+import type { Entity, RedirectionsByUris } from '#types/entity'
 import getBestLangValue from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
 import type { Entries } from 'type-fest'
+import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
-type EntitiesByUris = Record<EntityUri, SerializedEntityWithLabel>
+export type SerializedEntity = Entity & {
+  label: string
+  labelLang: WikimediaLanguageCode
+  description: string
+  publicationYear?: string
+  serieOrdinal?: string
+  title?: string
+  subtitle?: string
+  pathname?: RelativeUrl
+  editPathname?: RelativeUrl
+  historyPathname?: RelativeUrl
+  prefix: EntityUriPrefix
+  id: EntityId
+  isWikidataEntity: boolean
+}
+
+type EntitiesByUris = Record<EntityUri, SerializedEntity>
 
 interface GetEntitiesParams {
-  uris: InvClaimValue[]
+  uris: EntityUri[]
   attributes?: unknown
   lang?: unknown
   relatives?: unknown
@@ -51,14 +69,14 @@ export function normalizeUri (uri) {
 export const getEntities = async uris => {
   if (uris.length === 0) return []
   const { entities } = await getManyEntities({ uris })
-  return Object.values(entities).map(serializeEntity) as SerializedEntityWithLabel[]
+  return Object.values(entities).map(serializeEntity)
 }
 
 export const getEntitiesByUris = async (params: GetEntitiesParams) => {
   const { uris, attributes, lang } = params
   if (uris.length === 0) return []
   const { entities, redirects } = await getManyEntities({ uris, attributes, lang })
-  const serializedEntities = Object.values(entities).map(serializeEntity) as SerializedEntityWithLabel[]
+  const serializedEntities = Object.values(entities).map(serializeEntity)
   const serializedEntitiesByUris = indexBy(serializedEntities, 'uri')
   addRedirectionsAliases(serializedEntitiesByUris, redirects)
   return serializedEntitiesByUris
@@ -70,11 +88,11 @@ export const getEntityByUri = async ({ uri }) => {
   return entities[0]
 }
 
-export const serializeEntity = entity => {
+export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
   const { value: label, lang: labelLang } = getBestLangValue(app.user.lang, entity.originalLang, entity.labels)
   entity.label = label
   entity.labelLang = labelLang
-  if (entity.descriptions) {
+  if ('descriptions' in entity) {
     entity.description = getBestLangValue(app.user.lang, entity.originalLang, entity.descriptions).value
   }
   if (entity.claims) {
@@ -93,13 +111,13 @@ export const serializeEntity = entity => {
   entity.editPathname = `${basePathname}/edit`
   entity.historyPathname = `${basePathname}/history`
   const [ prefix, id ] = entity.uri.split(':')
-  entity.prefix = prefix
-  entity.id = id
+  entity.prefix = prefix as EntityUriPrefix
+  entity.id = id as EntityId
   entity.isWikidataEntity = prefix === 'wd'
-  return entity
+  return entity as SerializedEntity
 }
 
-const getPathname = uri => `/entity/${uri}`
+const getPathname = uri => `/entity/${uri}` as RelativeUrl
 
 export const attachEntities = async (entity, attribute, uris) => {
   entity[attribute] = await getEntities(uris)
@@ -114,10 +132,9 @@ const getManyEntities = async ({ uris, attributes, lang, relatives }: GetEntitie
   const responses = await Promise.all(urisChunks.map(async urisChunks => {
     return preq.get(app.API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives }))
   }))
-  return {
-    entities: mergeResponsesObjects(responses, 'entities'),
-    redirects: mergeResponsesObjects(responses, 'redirects'),
-  } as { entities: EntitiesByUris, redirects: RedirectionsByUris }
+  const entities: EntitiesByUris = mergeResponsesObjects(responses, 'entities')
+  const redirects: RedirectionsByUris = mergeResponsesObjects(responses, 'redirects')
+  return { entities, redirects }
 }
 
 const mergeResponsesObjects = (responses, attribute) => {
@@ -131,7 +148,7 @@ const mergeResponsesObjects = (responses, attribute) => {
 }
 
 interface GetEntitiesAttributesByUris {
-  uris: InvClaimValue[]
+  uris: EntityUri[]
   attributes: string[]
   lang?: string
   relatives?: any
@@ -250,7 +267,7 @@ export function byItemsOwnersCount (a, b) {
   return (getOwnersCountPerEdition(b.items) || 0) - (getOwnersCountPerEdition(a.items) || 0)
 }
 
-export const getPublicationYear = entity => {
+export function getPublicationYear (entity: Entity) {
   const date = entity.claims['wdt:P577']?.[0]
   return getYearFromSimpleDay(date)
 }

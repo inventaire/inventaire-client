@@ -1,8 +1,7 @@
 import { property } from 'underscore'
 import app from '#app/app'
+import { attachEntities, getEntitiesAttributesByUris, getEntities, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
 import preq from '#lib/preq'
-import type { SerializedEntityWithLabel } from '#types/entity'
-import { attachEntities, getEntitiesAttributesByUris, getEntities, serializeEntity } from '../entities.ts'
 
 export async function getAuthorWorksUris ({ uri }) {
   const { articles, series, works } = await preq.get(app.API.entities.authorWorks(uri))
@@ -34,9 +33,9 @@ export async function getAuthorExtendedWorks ({ uri, attributes }) {
 
 const listAndSerialize = ({ entities }) => Object.values(entities).map(serializeEntity)
 
-type WorkEntity = SerializedEntityWithLabel & {
-  authors?: SerializedEntityWithLabel[]
-  coauthors?: SerializedEntityWithLabel[]
+type WorkEntity = SerializedEntity & {
+  authors?: SerializedEntity[]
+  coauthors?: SerializedEntity[]
 }
 
 export async function getAuthorWorks ({ uri }) {

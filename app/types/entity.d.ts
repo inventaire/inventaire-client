@@ -1,8 +1,8 @@
 import type { SerializedEntity, PropertyUri, InvClaimValue, EntityUri } from '#server/types/entity'
 
-export type SerializedEntityWithLabel = SerializedEntity & {
-  label: string
-}
+// From the client point of view, all entities are server-serialized
+// The client can then perform further serialization
+export type Entity = SerializedEntity
 
 export type RedirectionsByUris = Record<EntityUri, EntityUri>
 

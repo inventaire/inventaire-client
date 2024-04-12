@@ -1,10 +1,12 @@
 <script lang="ts">
+  import type { SerializedEntity } from '#entities/lib/entities'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
   import { imgSrc } from '#lib/handlebars_helpers/images'
   import { loadInternalLink } from '#lib/utils'
+  import type { PropertyUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
 
-  export let authorsByProperty
+  export let authorsByProperty: Record<PropertyUri, SerializedEntity[]>
 </script>
 
 {#each Object.entries(authorsByProperty) as [ property, authors ]}
