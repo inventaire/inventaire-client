@@ -3,7 +3,10 @@ import app from '#app/app'
 import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
 import assert_ from '#lib/assert_types'
 import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#lib/images'
-import preq from '#lib/preq'
+import preq, { treq } from '#lib/preq'
+import type { ShelvesByIdsResponse } from '#server/controllers/shelves/by_ids'
+import type { ShelvesByOwnersResponse } from '#server/controllers/shelves/by_owners'
+import type { UserId } from '#server/types/user'
 
 export function getById (id) {
   return preq.get(app.API.shelves.byIds(id))
@@ -11,8 +14,8 @@ export function getById (id) {
 }
 
 export async function getShelvesByIds (ids) {
-  if (ids.length === 0) return {}
-  const { shelves } = await preq.get(app.API.shelves.byIds(ids))
+  if (ids.length === 0) return []
+  const { shelves } = await treq.get<ShelvesByIdsResponse>(app.API.shelves.byIds(ids))
   return Object.values(shelves).sort(byName)
 }
 
@@ -50,14 +53,14 @@ export async function addItemsByIdsToShelf ({ shelfId, itemsIds }) {
   return shelfActionReq(shelfId, itemsIds, 'addItems')
 }
 
-export async function getShelvesByOwner (userId) {
+export async function getShelvesByOwner (userId: UserId) {
   assert_.string(userId)
-  const { shelves } = await preq.get(app.API.shelves.byOwners(userId))
+  const { shelves } = await treq.get<ShelvesByOwnersResponse>(app.API.shelves.byOwners(userId))
   return Object.values(shelves).sort(byName)
 }
 
-export async function countShelves (userId) {
-  const { shelves } = await preq.get(app.API.shelves.byOwners(userId))
+export async function countShelves (userId: UserId) {
+  const { shelves } = await treq.get<ShelvesByOwnersResponse>(app.API.shelves.byOwners(userId))
   return Object.keys(shelves).length
 }
 

@@ -68,7 +68,10 @@
         "./app/types/*",
       ],
       "#server/types/*": [
-        "../types/*.d.ts",
+        "../server/types/*",
+      ],
+      "#server/controllers/*": [
+        "../server/controllers/*",
       ],
       "#transactions/*": [
         "./app/modules/transactions/*"
