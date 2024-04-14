@@ -2,9 +2,12 @@ import { isNonEmptyString, isEntityUri, isAssetImg, isLocalImg, isImageHash } fr
 import { buildPath } from '#lib/location'
 import { fixedEncodeURIComponent, hashCode } from '#lib/utils'
 import { thumbnail } from '#lib/wikimedia/commons'
+import type { Url } from '#server/types/common'
+import type { EntityUri } from '#server/types/entity'
+import type { ImagePath } from '#server/types/image'
 
 // Keep in sync with server/lib/emails/app_api
-export default function (path, width = 1600, height = 1600) {
+export default function (path: ImagePath | Url | EntityUri, width = 1600, height = 1600) {
   if (!isNonEmptyString(path)) return
 
   // Converting image hashes to a full URL

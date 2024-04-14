@@ -6,9 +6,10 @@ import { isImageDataUrl } from '#lib/boolean_tests'
 import type { Url } from '#server/types/common'
 import type { ImageDataUrl, ImagePath } from '#server/types/image'
 
+export function imgSrc (path: ImagePath | Url, width: number, height?: number): Url
 export function imgSrc (path: ImageDataUrl): ImageDataUrl
-export function imgSrc (path: ImagePath, width: number, height?: number): Url
-export function imgSrc (path: ImagePath | ImageDataUrl, width?: number, height?: number) {
+export function imgSrc (): ''
+export function imgSrc (path?: ImagePath | ImageDataUrl | Url, width?: number, height?: number) {
   if (isImageDataUrl(path)) return path
 
   width = getImgDimension(width, 1600)

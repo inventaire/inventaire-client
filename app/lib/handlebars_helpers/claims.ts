@@ -4,6 +4,7 @@ import wdLang from 'wikidata-lang'
 import { isEntityUri, isImageHash } from '#lib/boolean_tests'
 import typeOf from '#lib/type_of'
 import { thumbnail } from '#lib/wikimedia/commons'
+import type { EntityImagePath } from '#server/types/image'
 import { i18n } from '#user/lib/i18n'
 import {
   prop as propHelper,
@@ -143,7 +144,7 @@ const removeTailingSlash = url => url.replace(/\/$/, '')
 const isntNaN = value => !isNaN(value)
 
 export const imagePreview = imageHash => {
-  const fullResolutionUrl = `/img/entities/${imageHash}`
+  const fullResolutionUrl: EntityImagePath = `/img/entities/${imageHash}`
   const imagePath = imgSrc(fullResolutionUrl, 300)
   return `
     <a href="${fullResolutionUrl}" title="${imageHash}">
