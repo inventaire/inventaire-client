@@ -2,8 +2,8 @@ import type { getIsbnData } from '#inventory/lib/importer/extract_isbns'
 import type { Isbn } from '#server/types/entity'
 
 interface BaseCandidate {
-  authors?: any
-  details?: review
+  authors?: string[]
+  details?: string
   editionTitle?: string
   goodReadsEditionId?: string
   isbnData?: ReturnType<typeof getIsbnData>
@@ -12,7 +12,7 @@ interface BaseCandidate {
   notes?: string
   numberOfPages?: number
   publicationDate?: string
-  rawEntry?: any
+  rawEntry?: unknown
   shelvesNames?: string[]
 }
 
@@ -23,5 +23,5 @@ export interface ExternalEntry extends BaseCandidate {
 }
 
 export interface Candidate extends BaseCandidate {
-  waitingForItemsCount?: any
+  waitingForItemsCount?: Promise<unknown>
 }
