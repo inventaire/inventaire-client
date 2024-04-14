@@ -59,8 +59,11 @@
   let lastSearch, waitForSearch
   let searchText = currentEntityLabel || ''
   let limit = 10, offset = 0, fetching = false, canFetchMore = true
+  interface SearchOptions {
+    fetchMore?: boolean
+  }
   // TODO: detect uris and get the corresponding entities
-  async function search (options = {}) {
+  async function search (options: SearchOptions = {}) {
     const { fetchMore = false } = options
     searchText = input.value
     if (isNotSearchableServerSide) return filterExistingSuggestions(searchText)

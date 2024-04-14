@@ -59,4 +59,4 @@ export const extendedAuthorsKeys = {
   'wdt:P58': 'scenarists',
   'wdt:P110': 'illustrators',
   'wdt:P6338': 'colorists',
-}
+} as const

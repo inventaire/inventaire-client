@@ -52,7 +52,7 @@
     makeRequest({ action: 'request', newRelationState: 'userRequested' })
   }
 
-  function confirmAction (actionLabel, action, warningText) {
+  function confirmAction (actionLabel: string, action: (() => void), warningText?: string) {
     assert_.string(actionLabel)
     assert_.function(action)
     const confirmationText = I18n(`${actionLabel}_confirmation`, { username })

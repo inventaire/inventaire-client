@@ -3,6 +3,8 @@ import app from '#app/app'
 import { getEntitiesBasicInfoByUris } from '#entities/lib/entities'
 import preq from '#lib/preq'
 import { unprefixify } from '#lib/wikimedia/wikidata'
+import type { InvEntityId, InvEntityUri } from '#server/types/entity'
+import type { PatchId } from '#server/types/patch'
 import { i18n } from '#user/lib/i18n'
 import { serializeUser } from '#users/lib/users'
 import { getUsersByIds } from '#users/users_data'
@@ -38,7 +40,7 @@ async function getPatchesUsers (patches) {
 }
 
 async function getPatchesEntities (patches) {
-  const entitiesUris = uniq(pluck(patches, '_id').map(getEntityIdFromPatchId)).map(id => `inv:${id}`)
+  const entitiesUris = uniq(pluck(patches, '_id').map(getEntityIdFromPatchId)).map(id => `inv:${id}` as InvEntityUri)
   return getEntitiesBasicInfoByUris(entitiesUris)
 }
 
@@ -46,7 +48,7 @@ export const getPatchEntityUri = patch => {
   const id = getEntityIdFromPatchId(patch._id)
   return `inv:${id}`
 }
-const getEntityIdFromPatchId = patchId => patchId.split(':')[0]
+const getEntityIdFromPatchId = (patchId: PatchId) => patchId.split(':')[0] as InvEntityId
 
 function serializePatch (patch) {
   const { _id: patchId } = patch

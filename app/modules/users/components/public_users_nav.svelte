@@ -40,7 +40,7 @@
     }
   }
 
-  const waiters = {}
+  let waitForUsers, waitForGroups
   function fetchAndShowUsersAndGroupsOnMap () {
     if (!map) return
     if (mapIsTooZoomedOut()) return
@@ -48,11 +48,11 @@
     if (!bbox) return
 
     if (showUsers) {
-      waiters.users = getByPosition('users', bbox)
+      waitForUsers = getByPosition('users', bbox)
     }
 
     if (showGroups) {
-      waiters.groups = getByPosition('groups', bbox)
+      waitForGroups = getByPosition('groups', bbox)
     }
   }
 
@@ -106,7 +106,7 @@
         <div class="list-wrapper">
           <div class="list-header">
             <h2 class="list-label">{I18n('users')}</h2>
-            {#await waiters.users}
+            {#await waitForUsers}
               <div class="usersLoading"><Spinner /></div>
             {/await}
           </div>
@@ -126,7 +126,7 @@
         <div class="list-wrapper">
           <div class="list-header">
             <h2 class="list-label">{I18n('groups')}</h2>
-            {#await waiters.groups}
+            {#await waitForGroups}
               <div class="groupsLoading"><Spinner /></div>
             {/await}
           </div>

@@ -279,7 +279,7 @@ export async function getEntitiesImages (uris: EntityUri[]) {
 }
 
 export async function getEntityImage (uri: EntityUri) {
-  const images = getEntitiesImages(uri)
+  const images = getEntitiesImages([ uri ])
   return images[uri]
 }
 export async function getEntitiesImagesUrls (uris: EntityUri[]) {

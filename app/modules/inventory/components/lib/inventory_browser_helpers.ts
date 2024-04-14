@@ -4,6 +4,7 @@ import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
 import { serverReportError } from '#lib/error'
 import preq from '#lib/preq'
+import type { CouchDoc } from '#server/types/couchdb'
 
 export async function getSelectorsData ({ worksTree }) {
   const facets = worksTree
@@ -99,7 +100,9 @@ const formatOption = ({ worksUrisPerValue, facetsEntitiesBasicInfo }) => value =
   }
 }
 
-export async function getInventoryView (type, doc) {
+export async function getInventoryView (type: 'group' | 'shelf' | 'user', doc: CouchDoc)
+export async function getInventoryView (type: 'without-shelf')
+export async function getInventoryView (type: string, doc?: CouchDoc) {
   let params
   if (type === 'without-shelf') {
     params = { user: app.user.id, 'without-shelf': true }
@@ -127,7 +130,7 @@ export function getFilteredItemsIds ({ intersectionWorkUris, itemsByDate, workUr
   return itemsIds
 }
 
-export function resetPagination ({ itemsIds }) {
+export function resetPagination (itemsIds) {
   const items = []
   const shelvesByIds = {}
   const remainingItems = clone(itemsIds)

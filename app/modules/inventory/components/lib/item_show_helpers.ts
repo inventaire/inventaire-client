@@ -1,20 +1,22 @@
 import { compact, pick, uniq } from 'underscore'
 import app from '#app/app'
+import { objectKeys } from '#app/lib/utils'
 import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
 import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
 
-const authorProperties = Object.keys(extendedAuthorsKeys)
+const authorProperties = objectKeys(extendedAuthorsKeys)
+const relatives = [
+  'wdt:P629',
+  'wdt:P179',
+  ...authorProperties,
+] as const
 
 export async function getItemEntityData (uri) {
   const { entities } = await getEntitiesAttributesByUris({
     uris: [ uri ],
     attributes: [ 'info', 'labels', 'claims', 'image' ],
     lang: app.user.lang,
-    relatives: [
-      'wdt:P629',
-      'wdt:P179',
-      ...authorProperties,
-    ],
+    relatives,
   })
   const getAndSerialize = uri => entities[uri] ? serializeEntity(entities[uri]) : null
   const entity = getAndSerialize(uri)

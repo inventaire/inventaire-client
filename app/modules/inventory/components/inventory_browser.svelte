@@ -61,7 +61,7 @@
     if (!(worksTree && facetsSelectedValues)) return
     intersectionWorkUris = getIntersectionWorkUris({ worksTree, facetsSelectedValues })
     itemsIds = getFilteredItemsIds({ intersectionWorkUris, itemsByDate, workUriItemsMap, textFilterItemsIds })
-    pagination = resetPagination({ itemsIds, isMainUser, display: $inventoryDisplay })
+    pagination = resetPagination(itemsIds)
   }
 
   const lazyUpdateDisplayedItems = debounce(updateDisplayedItems, 100)

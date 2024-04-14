@@ -11,7 +11,8 @@
   import { getListingsByCreators, serializeListing } from '#modules/listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
 
-  export let usersIds, onUserLayout
+  export let usersIds
+  export let onUserLayout = false
 
   let listings = []
   let flash

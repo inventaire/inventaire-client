@@ -6,6 +6,7 @@
   import { getUserItems } from '#inventory/lib/queries'
   import { icon } from '#lib/icons'
   import preq from '#lib/preq'
+  import { onChange } from '#lib/svelte/svelte'
   import ShelfItemCandidate from '#shelves/components/shelf_item_candidate.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
 
@@ -76,7 +77,7 @@
 
   const lazySearch = debounce(search, 200)
 
-  $: lazySearch(searchText)
+  $: onChange(searchText, lazySearch)
 
   function toggleToLastItems () {
     mode = 'last-items'

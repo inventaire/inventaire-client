@@ -4,6 +4,8 @@
   import { icon } from '#lib/icons'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import ItemsMap from '#map/components/items_map.svelte'
+  import type { EntityUri } from '#server/types/entity.ts'
+  import type { Item } from '#server/types/item.ts'
   import { i18n } from '#user/lib/i18n'
   import ItemsByCategories from './items_lists/items_by_categories.svelte'
   import { getItemsData } from './items_lists/items_lists_helpers.ts'
@@ -11,11 +13,17 @@
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 
-  export let editionsUris, itemsByEditions, mapWrapperEl, itemsListsWrapperEl, waitingForItems
-  export let allItems
+  export let editionsUris: EntityUri[]
+  export let mapWrapperEl
+  export let itemsListsWrapperEl
   // showMap is false to be able to mount ItemsByCategories
   // to set initialBounds before mounting ItemsMap
   export let showMap = false
+
+  export let itemsByEditions: Record<EntityUri, Item[]> = null
+  export let waitingForItems = null
+  export let allItems: Item[] = null
+
   let itemsOnMap
 
   let fetchedEditionsUris = []

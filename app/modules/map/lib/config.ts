@@ -1,4 +1,5 @@
 import { config } from '#app/config'
+import type { LatLngTuple } from 'leaflet'
 
 // Add some margin to maxBounds to prevent bouncing when displaying a map overlapping the antimeridian
 const antimeridianMargin = 50
@@ -16,8 +17,8 @@ export default {
     worldCopyJump: true,
     // As worldCopyJump=true, maxBounds is mostly useful to keep latitudes between -90 and 90
     maxBounds: [
-      [ -90, -180 - antimeridianMargin ],
-      [ 90, 180 + antimeridianMargin ],
+      [ -90, -180 - antimeridianMargin ] as LatLngTuple,
+      [ 90, 180 + antimeridianMargin ] as LatLngTuple,
     ],
   },
   tileUrl: 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
