@@ -30,17 +30,19 @@
   export let map
 
   let clusterGroup, flash
+  let destroyed = false
 
   const dispatch = createEventDispatcher()
 
   setContext('map', () => map)
   setContext('layer', () => clusterGroup || map)
 
-  async function createLeaflet (node) {
+  async function initLeafletMap (node) {
     try {
       // Let the time to Svelte to setup surrounding elements,
       // so that Leaflet picks up the right map size
       await tick()
+      if (destroyed) return
       map = L.map(node, mapConfig.mapOptions)
         .on('zoom', e => {
           dispatch('zoom', e)
@@ -74,15 +76,25 @@
         })
         map.addLayer(clusterGroup)
       }
-
-      return {
-        destroy () {
-          map.remove()
-          map = null
-        },
-      }
     } catch (err) {
       flash = err
+    }
+  }
+
+  // Svelte actions need to return sync, thus this sync wrapper
+  // Similar issue https://github.com/sveltejs/language-tools/issues/2301
+  function createLeaflet (node) {
+    destroyed = false
+    initLeafletMap(node)
+    return {
+      destroy () {
+        if (map) {
+          map.remove()
+          map = null
+        } else {
+          destroyed = true
+        }
+      },
     }
   }
 
