@@ -4,6 +4,9 @@
 // found via https://github.com/isaacHagoel/svelte-dnd-action/issues/445
 
 // Reference: https://github.com/sveltejs/language-tools/blob/master/packages/svelte2tsx/svelte-jsx.d.ts
+import type { Map, LayerGroup } from 'leaflet'
+import type { Writable } from 'svelte/store'
+
 declare namespace svelteHTML {
   interface HTMLAttributes {
     // Define event listners used by actions
@@ -12,4 +15,14 @@ declare namespace svelteHTML {
     'on:enterViewport'?: (e: CustomEvent) => void
     'on:leaveViewport'?: (e: CustomEvent) => void
   }
+}
+
+// Inspired by https://github.com/sveltejs/svelte/issues/8941#issuecomment-1927036924
+declare module 'svelte' {
+  export function getContext(key: 'layer'): (() => LayerGroup)
+  export function getContext(key: 'map'): (() => Map)
+  export function getContext(key: 'work-layout:filters-store'): Writable
+  export function getContext(key: 'layout-context'): string
+  export function getContext(key: 'search-filter-claim'): string
+  export function getContext(key: 'search-filter-types'): string
 }

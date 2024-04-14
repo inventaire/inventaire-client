@@ -26,7 +26,7 @@
 
   let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri } = entity
 
-  const layoutContext: string = getContext('layout-context')
+  const layoutContext = getContext('layout-context')
 
   const prop = typeMainProperty[layoutContext]
   const hasOnlyOneClaimValue = prop => claims?.[prop]?.length === 1
