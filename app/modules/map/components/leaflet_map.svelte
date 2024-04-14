@@ -1,7 +1,7 @@
 <!-- Inspired by https://imfeld.dev/writing/svelte_domless_components
      and https://github.com/ngyewch/svelte-leaflet -->
 <script lang="ts">
-  import L from 'leaflet'
+  import L, { type Map } from 'leaflet'
   import { createEventDispatcher, setContext, tick } from 'svelte'
   import 'leaflet/dist/leaflet.css'
   import 'leaflet.markercluster/dist/MarkerCluster.css'
@@ -27,7 +27,7 @@
   export let cluster = false
   export let showLocationSearchInput = false
 
-  export let map
+  export let map: Map = null
 
   let clusterGroup, flash
   let destroyed = false

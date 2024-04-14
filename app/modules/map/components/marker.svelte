@@ -8,7 +8,7 @@
   export let standalone = false
   export let markerType = null
   export let metersRadius = 200
-  export let marker
+  export let marker = null
 
   let markerElement
 
