@@ -1,17 +1,29 @@
 import wdLang from 'wikidata-lang'
-import languages from '#assets/js/languages_data'
+import languagesData from '#assets/js/languages_data'
 import { objectKeys } from './utils.ts'
+import type { Entries } from 'type-fest'
 
 export const regionify = {}
 
-for (const lang in languages) {
-  const obj = languages[lang]
-  obj.lang = lang
-  obj.native = wdLang.byCode[lang].native
-  regionify[lang] = obj.defaultRegion
+interface LanguageInfo {
+  lang: string
+  native: string
+  completion: number
 }
 
-export const langs = objectKeys<typeof languages>(languages)
+export const languages: Record<string, LanguageInfo> = {}
+
+for (const [ lang, languageData ] of Object.entries(languagesData) as Entries<typeof languagesData>) {
+  const { completion, defaultRegion } = languageData
+  regionify[lang] = defaultRegion
+  languages[lang] = {
+    lang,
+    native: wdLang.byCode[lang].native,
+    completion,
+  }
+}
+
+export const langs = objectKeys<typeof languagesData>(languagesData)
 
 export type UserLang = typeof langs[number]
 

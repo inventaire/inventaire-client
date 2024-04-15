@@ -1,10 +1,9 @@
 <script lang="ts">
   import { indexBy, partition } from 'underscore'
   import app from '#app/app'
-  import languagesData from '#assets/js/languages_data'
   import Spinner from '#components/spinner.svelte'
   import { entityDataShouldBeRefreshed, pushEntityRefreshingPromise } from '#entities/lib/entities'
-  import { getTextDirection } from '#lib/active_languages'
+  import { getTextDirection, languages } from '#lib/active_languages'
   import Flash from '#lib/components/flash.svelte'
   import Link from '#lib/components/link.svelte'
   import preq from '#lib/preq'
@@ -20,7 +19,7 @@
   let waitingForSummariesData, waitingForText
 
   const { lang: userLang } = app.user
-  const langLabel = languagesData[userLang].native
+  const langLabel = languages[userLang].native
 
   function getSummaries () {
     const refresh = entityDataShouldBeRefreshed(entity)

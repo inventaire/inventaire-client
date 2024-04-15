@@ -1,7 +1,7 @@
 <script lang="ts">
   import { debounce } from 'underscore'
   import app from '#app/app'
-  import languagesData from '#assets/js/languages_data'
+  import { languages } from '#lib/active_languages'
   import Flash from '#lib/components/flash.svelte'
   import UpdatePassword from '#lib/components/update_password.svelte'
   import preq from '#lib/preq'
@@ -116,7 +116,7 @@
     <h2 class="first-title">{I18n('account')}</h2>
     <h3 class="label">{I18n('language')}</h3>
     <select name="language" aria-label="language picker" bind:value={userLang}>
-      {#each Object.values(languagesData) as language}
+      {#each Object.values(languages) as language}
         <option value={language.lang}>{language.lang} - {language.native}</option>
       {/each}
     </select>
