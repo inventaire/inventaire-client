@@ -1,6 +1,6 @@
 import { createEventDispatcher } from 'svelte'
 
-export const BubbleUpComponentEvent = dispatch => {
+export function BubbleUpComponentEvent (dispatch?: ReturnType<typeof createEventDispatcher>) {
   dispatch = dispatch || createEventDispatcher()
   return e => {
     if (e instanceof CustomEvent) {
@@ -26,7 +26,7 @@ export const BubbleUpComponentEvent = dispatch => {
 // The syntax is tought to invite wrapping other variables
 // for which we should NOT watch for change in the callback,
 // so that they don't trigger the reactive execution
-export const onChange = (...args) => {
+export function onChange (...args) {
   const callback = args.slice(-1)[0]
   callback()
 }

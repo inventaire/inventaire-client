@@ -1,9 +1,18 @@
+<script context="module" lang="ts">
+  import type { EntityUri } from '#server/types/entity'
+  import type { Item } from '#server/types/item'
+
+  export type ItemsByEditions = Record<EntityUri, Item[]>
+
+</script>
 <script lang="ts">
   import { getOwnersCountPerEdition, getCounterText } from '#entities/components/lib/edition_action_helpers'
+  import type { SerializedEntity } from '#entities/lib/entities'
   import Link from '#lib/components/link.svelte'
   import { I18n } from '#user/lib/i18n'
 
-  export let entity, itemsByEditions = {}
+  export let entity: SerializedEntity
+  export let itemsByEditions: ItemsByEditions = {}
 
   const { uri } = entity
   const url = `/entity/${uri}/add`

@@ -1,12 +1,15 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { getEntityBasicInfoByUri } from '#entities/lib/entities'
+  import { getEntityBasicInfoByUri, type SerializedEntity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import { imgSrc } from '#lib/handlebars_helpers/images'
+  import type { EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
   import IdentifierWithTooltip from './identifier_with_tooltip.svelte'
 
-  export let value, valueLabel, valueBasicInfo
+  export let value: EntityUri
+  export let valueLabel: string = null
+  export let valueBasicInfo: SerializedEntity = null
 
   let waitingForValueEntityBasicInfo, label, description, image
   const dispatch = createEventDispatcher()

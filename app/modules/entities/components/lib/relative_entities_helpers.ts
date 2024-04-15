@@ -1,5 +1,6 @@
 import { without } from 'underscore'
 import { inverseLabels } from '#entities/components/lib/claims_helpers'
+import type { EntityType, PropertyUri } from '#server/types/entity'
 import { i18n } from '#user/lib/i18n'
 
 export function getRelativeEntitiesListLabel ({ property, entity }) {
@@ -7,7 +8,7 @@ export function getRelativeEntitiesListLabel ({ property, entity }) {
   if (label) return i18n(label, { name: entity.label })
 }
 
-export function getRelativeEntitiesProperties (type, mainProperty) {
+export function getRelativeEntitiesProperties (type: EntityType, mainProperty?: PropertyUri) {
   // TODO: add genre relatives
   let properties = relativeEntitiesPropertiesByType[type]
   // Omit the property already displayed in the entity browser of a claim layout.

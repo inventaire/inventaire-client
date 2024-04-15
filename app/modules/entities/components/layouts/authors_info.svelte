@@ -15,8 +15,8 @@
   const waitingForAuthors = getAuthors()
   async function getAuthors () {
     if (isNonEmptyPlainObject(authorsClaims)) {
-      // Claims attribute is necessary to get birth and death years
-      const attributes = [ 'labels', 'claims', 'image' ]
+      // 'claims' attribute is necessary to get birth and death years
+      const attributes = [ 'labels', 'claims', 'image' ] as const
       authorsByUris = await getEntitiesAttributesFromClaims(authorsClaims, attributes)
     }
   }

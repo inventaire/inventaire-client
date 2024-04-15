@@ -1,7 +1,10 @@
 <script lang="ts">
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let value, name, optional = true, componentId
+  export let value
+  export let name: string
+  export let optional = true
+  export let componentId: string
 </script>
 
 {#if value || !optional}

@@ -18,7 +18,7 @@
           { @const hasManyClaimValues = claims[prop].length > 15}
           {#each claims[prop] as claimValue}
             <AuthorDisplay
-              entityData={authorsByUris[claimValue]}
+              entity={authorsByUris[claimValue]}
               {claimValue}
               {hasManyClaimValues}
             />

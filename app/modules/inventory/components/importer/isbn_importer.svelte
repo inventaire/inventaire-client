@@ -7,7 +7,7 @@
   import { findIsbns } from '#lib/isbn'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let isbns
+  export let isbns: string[] = null
 
   const dispatch = createEventDispatcher()
 

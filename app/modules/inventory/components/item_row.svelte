@@ -12,13 +12,14 @@
   import { icon } from '#lib/icons'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import { isOpenedOutside, loadInternalLink } from '#lib/utils'
+  import type { ShelvesByIds } from '#types/shelf'
   import { i18n } from '#user/lib/i18n'
   import ShelfDot from './shelf_dot.svelte'
 
   export let item
   export let showUser = false
   export let shelfId = null
-  export let shelvesByIds
+  export let shelvesByIds: ShelvesByIds
 
   const mainUserIsOwner = item.visibility != null
 

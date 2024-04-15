@@ -5,8 +5,9 @@
   import Flash from '#lib/components/flash.svelte'
   import UpdatePassword from '#lib/components/update_password.svelte'
   import preq from '#lib/preq'
+  import { onChange } from '#lib/svelte/svelte'
   import { domain } from '#lib/urls'
-  import email_ from '#user/lib/email_tests'
+  import { verifyEmailAvailability } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
   import EmailValidation from './email_validation.svelte'
@@ -37,7 +38,7 @@
     // nothing to update and nothing to flash notify either
     if ($user.email === emailValue) return
     try {
-      const res = await email_.verifyAvailability(emailValue)
+      const res = await verifyEmailAvailability(emailValue)
       if (!(res.status === 'available')) {
         flashEmail = {
           type: 'error',
@@ -106,8 +107,8 @@
 
   const lazyOnEmailChange = debounce(onEmailChange, 500)
 
-  $: lazyOnEmailChange(emailValue)
-  $: pickLanguage(userLang)
+  $: onChange(emailValue, lazyOnEmailChange)
+  $: onChange(userLang, pickLanguage)
 </script>
 
 <form>

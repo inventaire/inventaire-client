@@ -11,7 +11,7 @@
   export let edition
   export let work
   export let authors = []
-  export let editionTitle
+  export let editionTitle: string = null
   export let withEditor = false
   const initialWorkUri = work.uri
   const isbn13h = isbnData?.isbn13h
@@ -57,7 +57,7 @@
     <div class="work">
       {#if initialWorkUri}
         <span class="label">{I18n('title')}:</span>
-        {findBestLang(work, editionLang)}
+        {findBestLang(work)}
         <SourceLogo entity={work} />
       {:else}
         <span class="label">{I18n('title')}:</span>

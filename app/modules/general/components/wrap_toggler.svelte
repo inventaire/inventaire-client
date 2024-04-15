@@ -3,7 +3,7 @@
 
   export let show = false
   export let moreText: string
-  export let lessText: string
+  export let lessText: string = null
   export let scrollTopElement = null
   export let withIcon = true
   export let remainingCounter = 0

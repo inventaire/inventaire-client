@@ -1,11 +1,13 @@
 import { uniq, flatten, compact, pick, pluck } from 'underscore'
 import app from '#app/app'
 import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
-import { byNewestPublicationDate, getReverseClaims, getEntities, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris } from '#entities/lib/entities'
+import { byNewestPublicationDate, getReverseClaims, getEntities, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris, type SerializedEntity } from '#entities/lib/entities'
 import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.ts'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
 import { expired } from '#lib/time'
+import type { SortFunction } from '#server/types/common'
+import type { PropertyUri } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
 
 const subEntitiesProp = {
@@ -124,7 +126,12 @@ const urisGetterByType = {
   },
 }
 
-export const getSubEntitiesSections = async ({ entity, sortFn = byNewestPublicationDate, property }) => {
+interface GetSubEntitiesSectionsParams {
+  entity: SerializedEntity
+  sortFn?: SortFunction<SerializedEntity>
+  property?: PropertyUri
+}
+export async function getSubEntitiesSections ({ entity, sortFn = byNewestPublicationDate, property }: GetSubEntitiesSectionsParams) {
   const { type, refreshTimestamp } = entity
   const refresh = refreshTimestamp && !expired(refreshTimestamp, 1000)
   let sections
@@ -147,7 +154,7 @@ export const getSubEntitiesSections = async ({ entity, sortFn = byNewestPublicat
 const entitiesLimit = 200
 const limitedTypes = new Set([ 'publisher', 'genre', 'subject', 'article' ])
 
-const truncateTooManyUris = (section, parentEntityType) => {
+function truncateTooManyUris (section, parentEntityType) {
   const { uris = [] } = section
   const urisCount = uris.length
   if (urisCount < entitiesLimit) return
@@ -206,7 +213,7 @@ const pickAndAssignWorksClaims = relatedEntities => edition => {
 
 const isClaimValue = claims => entity => claims['wdt:P629'].includes(entity.uri)
 
-export const getSubEntities = async (type, uri) => {
+export async function getSubEntities (type, uri) {
   const uris = await getReverseClaims(subEntitiesProp[type], uri)
   return getEntities(uris)
 }
@@ -229,13 +236,13 @@ export const bestImage = function (a, b) {
 
 const latestPublication = (a, b) => b.publicationTime - a.publicationTime
 
-export const buildAltUri = (uri, id) => {
+export function buildAltUri (uri, id) {
   if (id && (uri.split(':')[1] !== id)) {
     return `inv:${id}`
   }
 }
 
-export const addWorksClaims = (claims, works) => {
+export function addWorksClaims (claims, works) {
   const worksClaims = aggregateWorksClaims(works)
   const nonEmptyWorksClaims = pick(worksClaims, isNonEmptyArray)
   return Object.assign(claims, nonEmptyWorksClaims)

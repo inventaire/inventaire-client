@@ -42,7 +42,7 @@
   </div>
 {:else}
   <EntityAutocompleteSelector
-    searchTypes={type || typesBySection.entity.all}
+    searchTypes={type ? [ type ] : typesBySection.entity.all}
     currentEntityUri={uri}
     currentEntityLabel={uri ? valueBasicInfo?.label : null}
     displaySuggestionType={type == null}

@@ -12,8 +12,13 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
+  import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
-  export let entity, favoriteLabel, favoriteLabelLang, inputLabel
+  export let entity
+  export let favoriteLabel: string = null
+  export let favoriteLabelLang: WikimediaLanguageCode = null
+  export let inputLabel: string = null
+
   let editMode = false
   let input, flash
 

@@ -9,6 +9,7 @@
   import { icon } from '#lib/icons'
   import preq from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
+  import type { EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
   import TaskInfo from './task_info.svelte'
   import TaskScores from './task_scores.svelte'
@@ -27,14 +28,14 @@
     else if (event.key === 'n') dispatch('next')
   }
 
-  function mergeTaskEntities (isToFrom) {
+  function mergeTaskEntities (isToFrom = false) {
     if (!(from && to)) return
     merging = true
     const toUri = clone(to.uri)
     const fromUri = clone(from.uri)
     // Optimistic UI: go to the next candidates without waiting for the merge confirmation
     dispatch('next')
-    const params = isToFrom ? [ toUri, fromUri ] : [ fromUri, toUri ]
+    const params: [ EntityUri, EntityUri ] = isToFrom ? [ toUri, fromUri ] : [ fromUri, toUri ]
     mergeEntities(...params)
       .catch(err => {
         flash = err

@@ -13,7 +13,9 @@
   import { sortMatchedLabelsEntities, hasMatchedLabel } from '#tasks/components/lib/tasks_helpers.ts'
   import { I18n, i18n } from '#user/lib/i18n'
 
-  export let entity, error, matchedTitles
+  export let entity
+  export let error = null
+  export let matchedTitles
   const hasLinkTitle = true
   let subEntities
 
@@ -74,8 +76,8 @@
             {#each subEntities as subEntity (subEntity.uri)}
               <li
                 class="sub-entity"
-                class:has-matched-label={hasMatchedLabel(subEntity)}
-                title={hasMatchedLabel(subEntity) ? I18n('Matched title') : null}
+                class:has-matched-label={hasMatchedLabel(subEntity, matchedTitles)}
+                title={hasMatchedLabel(subEntity, matchedTitles) ? I18n('Matched title') : null}
               >
                 <WorkSubEntity entity={subEntity} />
               </li>

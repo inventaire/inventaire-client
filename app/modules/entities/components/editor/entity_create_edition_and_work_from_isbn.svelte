@@ -6,6 +6,8 @@
   import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
   import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import Flash from '#lib/components/flash.svelte'
+  import { objectKeys } from '#lib/utils'
+  import type { PropertyUri } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let edition, isbn13h
@@ -20,13 +22,13 @@
   let showAllWorkProperties = false
   let showAllEditionProperties = false
 
-  let workPropertiesShortlist = [
+  let workPropertiesShortlist: PropertyUri[] = [
     'wdt:P50',
     'wdt:P136',
     'wdt:P921',
   ]
 
-  let editionPropertiesShortlist = [
+  let editionPropertiesShortlist: PropertyUri[] = [
     'wdt:P1476',
     'wdt:P1680',
     'wdt:P407',
@@ -34,14 +36,14 @@
     'invp:P2',
   ]
 
-  const editionImplicitProperties = [
+  const editionImplicitProperties: PropertyUri[] = [
     'wdt:P629',
     'wdt:P212',
     'wdt:P957',
   ]
 
-  const allWorkProperties = Object.keys(propertiesPerType.work)
-  const allEditionProperties = without(Object.keys(propertiesPerType.edition), ...editionImplicitProperties)
+  const allWorkProperties = objectKeys(propertiesPerType.work)
+  const allEditionProperties = without(objectKeys(propertiesPerType.edition), ...editionImplicitProperties)
   const isShortlisted = shortlist => property => shortlist.includes(property)
   // Regenerate shortlists from propertiesPerType properties to preserve order
   workPropertiesShortlist = allWorkProperties.filter(isShortlisted(workPropertiesShortlist))

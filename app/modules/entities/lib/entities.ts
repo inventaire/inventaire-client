@@ -8,7 +8,7 @@ import preq from '#lib/preq'
 import { expired } from '#lib/time'
 import { forceArray } from '#lib/utils'
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
-import type { RelativeUrl } from '#server/types/common'
+import type { RelativeUrl, Url } from '#server/types/common'
 import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityUri } from '#server/types/entity'
 import type { Entity, RedirectionsByUris } from '#types/entity'
 import getBestLangValue from './get_best_lang_value.ts'
@@ -30,9 +30,13 @@ export type SerializedEntity = Entity & {
   prefix: EntityUriPrefix
   id: EntityId
   isWikidataEntity: boolean
+  // Can be set by #lib/types/work_alt.ts#setEntityImages
+  images?: Url[]
+  // Can be set by app/modules/entities/components/layouts/entity_layout_actions.svelte
+  refreshTimestamp?: EpochTimeStamp
 }
 
-type EntitiesByUris = Record<EntityUri, SerializedEntity>
+export type SerializedEntitiesByUris = Record<EntityUri, SerializedEntity>
 
 export async function getReverseClaims (property: PropertyUri, value: InvClaimValue, refresh?: boolean, sort?: boolean) {
   const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
@@ -129,7 +133,7 @@ async function getManyEntities ({ uris, attributes, lang, relatives }: GetEntiti
   const responses = await Promise.all(urisChunks.map(async urisChunks => {
     return preq.get(app.API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives }))
   }))
-  const entities: EntitiesByUris = mergeResponsesObjects(responses, 'entities')
+  const entities: SerializedEntitiesByUris = mergeResponsesObjects(responses, 'entities')
   const redirects: RedirectionsByUris = mergeResponsesObjects(responses, 'redirects')
   return { entities, redirects }
 }
@@ -146,7 +150,7 @@ function mergeResponsesObjects (responses, attribute) {
 
 export async function getEntitiesAttributesByUris ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUrisParams) {
   uris = forceArray(uris)
-  let entities: EntitiesByUris = {}
+  let entities: SerializedEntitiesByUris = {}
   if (!isNonEmptyArray(uris)) {
     return { entities }
   }

@@ -116,7 +116,6 @@
           {isbnData}
           {edition}
           bind:work
-          {authorsNames}
           bind:authors
           bind:editionTitle
           withEditor={true}

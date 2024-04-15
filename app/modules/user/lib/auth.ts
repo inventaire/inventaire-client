@@ -23,7 +23,7 @@ export async function requestLogin ({ username, password }) {
 
 const login = (username, password) => preq.post(app.API.auth.login, { username, password })
 
-export async function passwordUpdate ({ currentPassword, newPassword }) {
+export async function passwordUpdate ({ currentPassword, newPassword }: { currentPassword?: string, newPassword: string }) {
   await preq.post(app.API.auth.updatePassword, {
     'current-password': currentPassword,
     'new-password': newPassword,

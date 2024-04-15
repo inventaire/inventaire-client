@@ -45,6 +45,7 @@
       name="year"
       bind:value={year}
       optional={false}
+      {componentId}
     />
 
     <SimpleDayValueInputLabel

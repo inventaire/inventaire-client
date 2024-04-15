@@ -82,10 +82,10 @@
       {/await}
     </div>
     <div class="relatives-lists">
-      {#each getRelativeEntitiesProperties(type, property) as property}
+      {#each getRelativeEntitiesProperties(type, property) as relativeProperty}
         <RelativeEntitiesList
           {entity}
-          {property}
+          property={relativeProperty}
           label={getRelativeEntitiesListLabel({ property, entity })}
         />
       {/each}

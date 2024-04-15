@@ -4,13 +4,16 @@
   import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'
   import { hasSelectedLang } from '#entities/components/lib/claims_helpers'
   import { getLangEntities, getPublishersEntities, getPublicationYears, hasPublisher, hasPublicationYear } from '#entities/components/lib/editions_list_actions_helpers'
+  import type { SerializedEntity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import Flash from '#lib/components/flash.svelte'
   import { icon } from '#lib/icons'
   import { onChange } from '#lib/svelte/svelte'
   import { i18n, I18n } from '#user/lib/i18n'
 
-  export let editions, initialEditions, waitingForItems
+  export let editions: SerializedEntity[]
+  export let initialEditions: SerializedEntity[]
+  export let waitingForItems = null
 
   const filters = getContext('work-layout:filters-store')
 

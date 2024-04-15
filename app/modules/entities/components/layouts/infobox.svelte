@@ -3,15 +3,16 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityClaimsLinks from '#entities/components/layouts/entity_claims_links.svelte'
   import { infoboxShortlistPropertiesByType, infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
-  import { getEntitiesAttributesByUris } from '#entities/lib/entities'
+  import { getEntitiesAttributesByUris, type SerializedEntitiesByUris } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import { isNonEmptyArray, isEntityUri } from '#lib/boolean_tests'
+  import type { Claims, EntityType } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
   import ClaimInfobox from './claim_infobox.svelte'
 
-  export let claims = {}
-  export let relatedEntities = {}
-  export let entityType
+  export let claims: Claims = {}
+  export let relatedEntities: SerializedEntitiesByUris = {}
+  export let entityType: EntityType
   export let shortlistOnly = null
   export let listDisplay = false
 

@@ -5,7 +5,9 @@
   import Spinner from '#general/components/spinner.svelte'
   import Link from '#lib/components/link.svelte'
   import { icon as iconFn } from '#lib/handlebars_helpers/icons'
-  import preq from '#lib/preq'
+  import { treq } from '#lib/preq'
+  import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
+  import type { Entity } from '#types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let entity, showEntityEditButtons = true
@@ -15,9 +17,9 @@
   const { uri, type, claims } = entity
 
   const refreshEntity = async () => {
-    waitForEntityRefresh = preq.get(app.API.entities.getByUris(uri, true))
+    waitForEntityRefresh = treq.get<GetEntitiesByUrisResponse>(app.API.entities.getByUris(uri, true))
     const { entities } = await waitForEntityRefresh
-    entity = serializeEntity(Object.values(entities)[0])
+    entity = serializeEntity(Object.values(entities)[0] as Entity)
     // Let other components know that a refresh was requested
     entity.refreshTimestamp = Date.now()
     // Let time for other components to trigger a server cache refresh if needed

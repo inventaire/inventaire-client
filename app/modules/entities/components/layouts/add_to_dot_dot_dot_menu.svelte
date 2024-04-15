@@ -156,10 +156,7 @@
   >
     <h2>{i18n('Select an edition')}</h2>
     {#if editions.length > 0}
-      <EntitiesList
-        entities={editions}
-        parentEntity={entity}
-      />
+      <EntitiesList entities={editions} />
     {:else}
       <p class="no-edition">{I18n('no editions found')}</p>
     {/if}

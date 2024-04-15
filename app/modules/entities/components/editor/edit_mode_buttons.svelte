@@ -4,7 +4,10 @@
   import { icon } from '#lib/icons'
   import { I18n } from '#user/lib/i18n'
 
-  export let showSave, showDelete, saving
+  export let showSave = true
+  export let showDelete = true
+  export let saving = false
+
   const dispatch = createEventDispatcher()
 </script>
 

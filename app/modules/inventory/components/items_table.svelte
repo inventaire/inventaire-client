@@ -6,15 +6,18 @@
   import ItemsTableSelectionEditor from '#inventory/components/items_table_selection_editor.svelte'
   import { icon } from '#lib/icons'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import type { ItemId } from '#server/types/item'
+  import type { ShelfId } from '#server/types/shelf'
+  import type { ShelvesByIds } from '#types/shelf'
   import { I18n, i18n } from '#user/lib/i18n'
 
   export let items
-  export let itemsShelvesByIds
-  export let isMainUser
-  export let shelfId
-  export let itemsIds
-  export let waiting
-  export let haveSeveralOwners
+  export let itemsShelvesByIds: ShelvesByIds = null
+  export let isMainUser = false
+  export let shelfId: ShelfId = null
+  export let itemsIds: ItemId[] = null
+  export let waiting = null
+  export let haveSeveralOwners = false
 
   let selectedItemsIds = []
 

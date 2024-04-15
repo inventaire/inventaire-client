@@ -6,6 +6,8 @@ import { getColorSquareDataUriFromModelId } from '#lib/images'
 import log_ from '#lib/loggers'
 import preq from '#lib/preq'
 import { fixedEncodeURIComponent } from '#lib/utils'
+import type { Group, GroupMembershipCategory } from '#server/types/group'
+import type { UserId } from '#server/types/user'
 import { getCachedSerializedUsers } from '#users/helpers'
 import { serializeUser } from '#users/lib/users'
 import { getUserById } from '#users/users_data'
@@ -197,7 +199,7 @@ export function leaveGroup ({ groupId }) {
   return groupAction('leave', groupId)
 }
 
-export function moveMembership (group, userId, previousCategory, newCategory) {
+export function moveMembership (group: Group, userId: UserId, previousCategory?: GroupMembershipCategory, newCategory?: GroupMembershipCategory) {
   const membership = findMembership(group, previousCategory, userId)
   if (previousCategory) group[previousCategory] = without(group[previousCategory], membership)
   if (newCategory) group[newCategory] = group[newCategory].concat([ membership ])

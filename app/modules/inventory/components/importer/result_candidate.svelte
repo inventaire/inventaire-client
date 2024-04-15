@@ -4,7 +4,6 @@
   import Flash from '#lib/components/flash.svelte'
 
   export let candidate
-  export let processedCandidates
   export let visibility
   export let transaction
 
@@ -22,7 +21,6 @@
     />
     <CandidateActions
       bind:candidate
-      bind:processedCandidates
       {visibility}
       {transaction}
     />

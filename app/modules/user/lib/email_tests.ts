@@ -2,28 +2,11 @@ import app from '#app/app'
 import { pass } from '#general/lib/forms'
 import { isEmail } from '#lib/boolean_tests'
 import preq from '#lib/preq'
+import type { Email } from '#server/types/user'
 
-async function verifyEmailAvailability (email) {
-  if (email) await preq.get(app.API.auth.emailAvailability(email))
-}
-
-export default {
-  pass (email, selector) {
-    return pass({
-      value: email,
-      tests: emailTests,
-      selector,
-    })
-  },
-
-  // verifies that the email isnt already in use
-  verifyAvailability (email, selector) {
-    return preq.get(app.API.auth.emailAvailability(email))
-    .catch(err => {
-      err.selector = selector
-      throw err
-    })
-  },
+// Verifies that the email isnt already in use
+export function verifyEmailAvailability (email: Email) {
+  return preq.get(app.API.auth.emailAvailability(email))
 }
 
 const emailTests = {
@@ -41,5 +24,5 @@ export function testEmail (email) {
 
 export async function verifyEmail (email) {
   testEmail(email)
-  await verifyEmailAvailability(email)
+  if (email) await verifyEmailAvailability(email)
 }

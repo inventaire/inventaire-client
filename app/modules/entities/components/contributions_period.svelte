@@ -6,9 +6,11 @@
   import { isOpenedOutside } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
 
+  export let title: string
+  export let period: number = null
+
   let usersData
   let highest = 0
-  export let title, period
 
   const getContributionsData = async () => {
     const res = await preq.get(app.API.entities.usersContributionsCount(period))

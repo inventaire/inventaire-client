@@ -15,11 +15,12 @@
   import ImagesCollage from '#components/images_collage.svelte'
   import { omitClaims } from '#entities/components/lib/work_helpers'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
+  import type { SerializedEntitiesByUris, SerializedEntity } from '#entities/lib/entities'
   import { loadInternalLink } from '#lib/utils'
   import Infobox from './infobox.svelte'
 
-  export let entity
-  export let relatedEntities
+  export let entity: SerializedEntity
+  export let relatedEntities: SerializedEntitiesByUris = {}
   export let showInfobox = true
   export let listDisplay = false
   export let isUriToDisplay = false

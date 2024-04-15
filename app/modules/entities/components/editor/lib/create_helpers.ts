@@ -8,9 +8,15 @@ import { typeHasName } from '#entities/lib/types/entities_types'
 import assert_ from '#lib/assert_types'
 import { isNonEmptyArray } from '#lib/boolean_tests'
 import preq from '#lib/preq'
+import type { PropertyUri, SerializedEntity } from '#server/types/entity'
 import { i18n } from '#user/lib/i18n'
 
-export function getMissingRequiredProperties ({ entity, requiredProperties, requiresLabel }) {
+interface GetMissingRequiredPropertiesParams {
+  entity: SerializedEntity
+  requiredProperties: PropertyUri[]
+  requiresLabel?: boolean
+}
+export function getMissingRequiredProperties ({ entity, requiredProperties, requiresLabel }: GetMissingRequiredPropertiesParams) {
   const { type } = entity
   assert_.string(type)
   const missingRequiredProperties = []

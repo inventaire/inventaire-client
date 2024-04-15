@@ -84,16 +84,12 @@
       <div class="work-section">
         <Flash state={flash} />
         <EntityTitle {entity} />
-        <AuthorsInfo {claims}
-        />
+        <AuthorsInfo {claims} />
         <Infobox
           claims={infoboxClaims}
           entityType={entity.type}
         />
-        <Ebooks
-          {entity}
-          {userLang}
-        />
+        <Ebooks {entity} />
         <Summary {entity} />
         <WorkActions
           {entity}
@@ -117,7 +113,6 @@
         {:then}
           <EditionsList
             {hasSomeInitialEditions}
-            {someEditions}
             {publishersByUris}
             parentEntity={entity}
             {initialEditions}

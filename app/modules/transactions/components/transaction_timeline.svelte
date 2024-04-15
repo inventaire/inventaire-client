@@ -17,7 +17,7 @@
 <div class="timeline">
   {#each timeline as event}
     {#if event.message}
-      <Message messageDoc={event} {transaction} />
+      <Message messageDoc={event} />
     {:else}
       <Action action={event} {transaction} />
     {/if}

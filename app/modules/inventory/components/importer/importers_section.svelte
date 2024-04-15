@@ -13,7 +13,10 @@
   import FileImporter from './file_importer.svelte'
   import IsbnImporter from './isbn_importer.svelte'
 
-  export let candidates, isbns, processing, isbnImporterEl
+  export let candidates
+  export let isbns: string[] = null
+  export let processing = false
+  export let isbnImporterEl = null
   export let processedExternalEntriesCount = 0
   export let totalExternalEntries = 0
 

@@ -98,8 +98,8 @@ export const locallyCreatableEntitiesTypes = [
 ]
 
 export const requiredPropertiesPerType = {
-  edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P407' ],
-  collection: [ 'wdt:P1476', 'wdt:P123' ],
+  edition: [ 'wdt:P629', 'wdt:P1476', 'wdt:P407' ] as readonly PropertyUri[],
+  collection: [ 'wdt:P1476', 'wdt:P123' ] as readonly PropertyUri[],
 }
 
 const categoryPerProperty = {}

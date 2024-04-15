@@ -46,7 +46,10 @@ export default {
     return action('images', { uris, refresh })
   },
 
-  usersContributionsCount: period => action('contributions-count', { period }),
+  usersContributionsCount: period => {
+    if (period) return action('contributions-count', { period })
+    else return action('contributions-count')
+  },
 
   changes: action('changes'),
   history: id => action('history', { id }),

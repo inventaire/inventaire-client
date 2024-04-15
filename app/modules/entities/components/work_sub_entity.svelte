@@ -5,7 +5,9 @@
   import { I18n } from '#user/lib/i18n'
   import EntityPreview from './entity_preview.svelte'
 
-  export let entity, filterPattern, aggregatedLabelsAndAliases
+  export let entity
+  export let filterPattern: RegExp = null
+  export let aggregatedLabelsAndAliases = null
 
   entity.image.small = imgSrc(entity.image.url, 100, 200)
   entity.image.large = imgSrc(entity.image.url, 500, 1000)
@@ -44,7 +46,7 @@
     on:keyup|stopPropagation
   >{entity.uri}</p>
   <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-  {#if filterPattern}
+  {#if filterPattern && aggregatedLabelsAndAliases}
     <ul
       class="all-terms"
       on:click|stopPropagation

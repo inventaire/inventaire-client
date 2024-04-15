@@ -20,8 +20,7 @@
         {#if isNonEmptyPlainObject(entity.image)}
           <EntityImage
             {entity}
-            withLink="true"
-            maxHeight="6em"
+            withLink={true}
             size={128}
           />
         {/if}

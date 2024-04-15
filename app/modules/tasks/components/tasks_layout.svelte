@@ -2,8 +2,9 @@
   import { pluck } from 'underscore'
   import app from '#app/app'
   import { serializeEntity } from '#entities/lib/entities'
-  import preq from '#lib/preq'
+  import preq, { treq } from '#lib/preq'
   import { onChange } from '#lib/svelte/svelte'
+  import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
   import type { TaskId } from '#server/types/task'
   import getNextTask from '#tasks/lib/get_next_task.ts'
   import { I18n } from '#user/lib/i18n'
@@ -67,14 +68,14 @@
     if (!task || task.state === 'merged') return
     const fromUri = task.suspectUri
     const toUri = task.suggestionUri
-    return preq.get(app.API.entities.getByUris([ fromUri, toUri ]))
+    return treq.get<GetEntitiesByUrisResponse>(app.API.entities.getByUris([ fromUri, toUri ]))
       .then(assignFromToEntities(fromUri, toUri))
       .catch(err => {
         flash = err
       })
   }
 
-  const assignFromToEntities = (fromUri, toUri) => async entitiesRes => {
+  const assignFromToEntities = (fromUri, toUri) => async (entitiesRes: GetEntitiesByUrisResponse) => {
     if (areRedirects(entitiesRes)) {
       await updateTask(task._id, 'state', 'merged')
       return next()
@@ -89,7 +90,7 @@
     return preq.put(app.API.tasks.update, params)
   }
 
-  function areRedirects (entitiesRes) {
+  function areRedirects (entitiesRes: GetEntitiesByUrisResponse) {
     const { entities, redirects } = entitiesRes
     if (Object.keys(redirects).length === 0) return
     for (const entityUri of Object.values(redirects)) {
@@ -116,7 +117,6 @@
       {#if from}
         <TaskEntity
           entity={from}
-          {flash}
           {matchedTitles}
         />
       {/if}
@@ -126,7 +126,6 @@
       {#if to}
         <TaskEntity
           entity={to}
-          {flash}
           {matchedTitles}
         />
       {/if}

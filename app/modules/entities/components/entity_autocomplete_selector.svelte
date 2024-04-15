@@ -19,7 +19,7 @@
   export let searchTypes: PluralizedIndexedEntityType[]
   export let currentEntityUri: EntityUri = null
   export let currentEntityLabel = ''
-  export let placeholder: string
+  export let placeholder: string = null
   export let allowEntityCreation = false
   export let showDefaultSuggestions = true
   export let createdEntityType: EntityType = null

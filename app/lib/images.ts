@@ -28,7 +28,7 @@ interface ImageData {
   dataUrl?: string
 }
 
-export function resizeDataUrl (dataURL: ImageDataUrl, maxSize: number, outputQuality: number = 1) {
+export function resizeDataUrl (dataURL: ImageDataUrl, maxSize: number, outputQuality: number = 1): Promise<ImageData> {
   return new Promise((resolve, reject) => {
     const data: ImageData = { original: {}, resized: {} }
     const image = new Image()
