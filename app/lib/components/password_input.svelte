@@ -32,7 +32,7 @@
   <input
     type={showPassword ? 'text' : 'password'}
     {autocomplete}
-    on:input={e => changePwd(e.target.value)}
+    on:input={e => changePwd(e.currentTarget.value)}
     on:blur={earlyVerifyPassword}
     {title}
     name="password"

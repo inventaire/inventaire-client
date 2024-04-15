@@ -39,7 +39,7 @@
         {#if notificationData.inventories_activity_summary}
           <div>
             <span>{@html I18n('activity_summary_periodicity_tip')}</span>
-            <select name="periodicity" value={$user.summaryPeriodicity} on:change={e => updatePeriodicity(e.target.value)}>
+            <select name="periodicity" value={$user.summaryPeriodicity} on:change={e => updatePeriodicity(e.currentTarget.value)}>
               {#each days as day}
                 <option value={day}>{day}</option>
               {/each}

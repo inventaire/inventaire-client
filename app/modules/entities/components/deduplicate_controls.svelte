@@ -37,7 +37,7 @@
         name="filter"
         placeholder={i18n('filter')}
         title={i18n('the filter can be a regular expression')}
-        on:keyup={event => lazyDispatchFilter(event.target.value)}
+        on:keyup={event => lazyDispatchFilter(event.currentTarget.value)}
       />
       <button
         class="merge dangerous-button"
