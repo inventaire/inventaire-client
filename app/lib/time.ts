@@ -9,7 +9,7 @@ const oneDay = 24 * oneHour
 const oneYear = 365.25 * oneDay
 const oneMonth = oneYear / 12
 
-export function getTimeFromNowData (date) {
+export function getTimeFromNowData (date: EpochTimeStamp) {
   assert_.number(date)
   const diff = Date.now() - date
   if (diff < (10 * oneSecond)) {
@@ -29,25 +29,25 @@ export function getTimeFromNowData (date) {
   }
 }
 
-export function timeFromNow (date) {
+export function timeFromNow (date: EpochTimeStamp) {
   const { key, amount } = getTimeFromNowData(date)
   return i18n(key, { smart_count: amount })
 }
 
-export const getLocalTimeString = date => new Date(date).toLocaleString(app.user.lang)
-export const getISOTime = date => new Date(date).toISOString()
+export const getLocalTimeString = (date: EpochTimeStamp) => new Date(date).toLocaleString(app.user.lang)
+export const getISOTime = (date: EpochTimeStamp) => new Date(date).toISOString()
 
-export const getISODay = date => {
+export function getISODay (date?: EpochTimeStamp) {
   const dateObj = date != null ? new Date(date) : new Date()
   return dateObj.toISOString().split('T')[0]
 }
 
-export const getSimpleTime = date => {
+export function getSimpleTime (date?: EpochTimeStamp) {
   const dateObj = date != null ? new Date(date) : new Date()
   const [ day, time ] = dateObj.toISOString().split('T')
   return `${day} ${time.split('.')[0]}`
 }
 
-export const getNumberOfDaysAgo = epochTime => Math.floor((Date.now() - epochTime) / oneDay)
+export const getNumberOfDaysAgo = (epochTime: EpochTimeStamp) => Math.floor((Date.now() - epochTime) / oneDay)
 
-export const expired = (timestamp, ttl) => (Date.now() - timestamp) > ttl
+export const expired = (timestamp: EpochTimeStamp, ttl: number) => (Date.now() - timestamp) > ttl
