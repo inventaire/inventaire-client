@@ -12,22 +12,24 @@
   import { getActionKey } from '#lib/key_events'
   import { wait } from '#lib/promises'
   import { getViewportHeight, onScrollToBottom } from '#lib/screen'
+  import type { EntityType, EntityUri, PluralizedIndexedEntityType } from '#server/types/entity'
   import { I18n, i18n } from '#user/lib/i18n'
   import EntitySuggestion from './entity_suggestion.svelte'
 
-  export let searchTypes
-  export let currentEntityUri
+  export let searchTypes: PluralizedIndexedEntityType[]
+  export let currentEntityUri: EntityUri = null
   export let currentEntityLabel = ''
-  export let placeholder
+  export let placeholder: string
   export let allowEntityCreation = false
   export let showDefaultSuggestions = true
-  export let createdEntityType
-  export let createOnWikidata
+  export let createdEntityType: EntityType = null
+  export let createOnWikidata = false
   export let relationSubjectEntity = null
-  export let relationProperty
+  export let relationProperty = null
   export let displaySuggestionType = false
   export let autofocus = true
   export let showSuggestions = false
+
   const dispatch = createEventDispatcher()
 
   let input
