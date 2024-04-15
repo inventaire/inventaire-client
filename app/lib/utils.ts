@@ -197,7 +197,7 @@ export const bubbleUpChildViewEvent = function (eventName) {
 
 export const dropLeadingSlash = str => str.replace(/^\//, '')
 
-export const setIntersection = (a, b) => {
+export function setIntersection <T> (a, b) {
   let set, arrayOrSet
   if (a instanceof Set) {
     set = a
@@ -206,7 +206,7 @@ export const setIntersection = (a, b) => {
     set = b
     arrayOrSet = a
   }
-  const intersection = Array.from(arrayOrSet).filter(value => set.has(value))
+  const intersection = Array.from(arrayOrSet).filter(value => set.has(value)) as T[]
   return new Set(intersection)
 }
 

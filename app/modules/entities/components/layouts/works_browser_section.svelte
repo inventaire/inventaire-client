@@ -17,6 +17,7 @@
   import { onScrollToBottom } from '#lib/screen'
   import { onChange } from '#lib/svelte/svelte'
   import { setIntersection } from '#lib/utils'
+  import type { EntityUri } from '#server/types/entity'
   import { i18n } from '#user/lib/i18n'
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
@@ -41,7 +42,7 @@
       return
     }
     let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
-    if (textFilterUris) selectedUris = setIntersection(selectedUris, textFilterUris)
+    if (textFilterUris) selectedUris = setIntersection<EntityUri>(selectedUris, textFilterUris)
     filteredWorks = works.filter(filterSelectedWorks(selectedUris, facetsSelectedValues))
     if (textFilterUris) {
       filteredWorks = filteredWorks.sort(bySearchMatchScore(textFilterUris))
