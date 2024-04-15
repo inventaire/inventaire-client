@@ -1,11 +1,37 @@
 import app from '#app/app'
+import type { ItemCategory, SerializedUser } from '#app/modules/users/lib/users'
+import type { Entity } from '#app/types/entity'
 import { getEntityLocalHref } from '#entities/lib/entities'
-import { transactionsDataFactory } from '#inventory/lib/transactions_data'
+import { transactionsDataFactory, type TransactionData } from '#inventory/lib/transactions_data'
 import { capitalize } from '#lib/utils'
+import type { LatLng, Url } from '#server/types/common'
+import type { EntityType } from '#server/types/entity'
+import type { Item, ItemSnapshot, SerializedItem as ServerSerializedItem } from '#server/types/item'
 import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
 import { i18n } from '#user/lib/i18n'
 
-export function serializeItem (item) {
+export interface SerializedItem extends ServerSerializedItem {
+  authorized: boolean
+  mainUserIsOwner: boolean
+  restricted: boolean
+  pathname: Url
+  title: string
+  subtitle: string
+  personalizedTitle: string
+  entityPathname: Url
+  userReady: boolean
+  isPrivate: boolean
+  entityData?: Entity
+  entityType?: EntityType
+  currentTransaction: TransactionData
+  hasActiveTransaction?: boolean
+  image: ItemSnapshot['entity:image']
+  authors: ItemSnapshot['entity:authors']
+  series: ItemSnapshot['entity:series']
+  ordinal: ItemSnapshot['entity:ordinal']
+}
+
+export function serializeItem (item: Item & Partial<SerializedItem>) {
   item.authorized = item.owner === app.user.id
   item.mainUserIsOwner = item.authorized
   item.restricted = !item.authorized
@@ -14,11 +40,13 @@ export function serializeItem (item) {
     pathname: getItemPathname(item._id),
     title: item.snapshot['entity:title'],
     subtitle: item.snapshot['entity:subtitle'],
+    image: item.snapshot['entity:image'],
     authors: item.snapshot['entity:authors'],
+    series: item.snapshot['entity:series'],
+    ordinal: item.snapshot['entity:ordinal'],
     personalizedTitle: findBestTitle(item),
     entityPathname: getEntityLocalHref(item.entity),
     userReady: item.userReady,
-    mainUserIsOwner: item.mainUserIsOwner,
     isPrivate: item.visibility?.length === 0,
   })
 
@@ -41,21 +69,24 @@ export function serializeItem (item) {
     item.hasActiveTransaction = hasActiveTransaction(item._id)
   }
 
-  item.image = item.snapshot['entity:image']
-  item.authors = item.snapshot['entity:authors']
-  item.series = item.snapshot['entity:series']
-  item.ordinal = item.snapshot['entity:ordinal']
-
-  return item
+  return item as SerializedItem
 }
 
 export const getItemPathname = itemId => `/items/${itemId}`
 
-export function setItemUserData (item, user) {
+export interface SerializedItemWithUserData extends SerializedItem {
+  user: SerializedUser
+  category: ItemCategory
+  distanceFromMainUser?: number
+  position?: LatLng
+}
+
+export function setItemUserData (item: SerializedItemWithUserData, user: SerializedUser) {
   item.user = user
   item.category = user.itemsCategory
   item.distanceFromMainUser = user.distanceFromMainUser
   item.position = user.position
+  return item
 }
 
 function findBestTitle (item) {

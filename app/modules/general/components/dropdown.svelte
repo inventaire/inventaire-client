@@ -1,3 +1,6 @@
+<script context="module" lang="ts">
+  export type Align = 'left' | 'center' | 'right'
+</script>
 <script lang="ts">
   import { tick } from 'svelte'
   import { slide } from 'svelte/transition'
@@ -8,7 +11,7 @@
   import { convertEmToPx } from '#lib/utils'
 
   export let buttonTitle = null
-  export let align = null
+  export let align: Align = null
   export let dropdownWidthReferenceEl = null
   export let alignDropdownWidthOnButton = false
   export let alignButtonWidthOnDropdown = false

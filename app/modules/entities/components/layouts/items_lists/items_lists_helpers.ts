@@ -1,21 +1,21 @@
 import { indexBy } from 'underscore'
 import app from '#app/app'
-import { serializeItem, setItemUserData } from '#inventory/lib/items'
+import { serializeItem, setItemUserData, type SerializedItemWithUserData } from '#inventory/lib/items'
 import preq from '#lib/preq'
+import type { EntityUri } from '#server/types/entity'
 import { serializeUser } from '#users/lib/users'
 
-export const getItemsData = async editionsUris => {
+export async function getItemsData (editionsUris: EntityUri[]) {
   let { items, users } = await preq.get(app.API.items.byEntities({ ids: editionsUris }))
   users = users.map(serializeUser)
   items = items.map(serializeItem)
   const usersByIds = indexBy(users, '_id')
-  items.forEach(item => {
-    setItemUserData(item, usersByIds[item.owner])
+  return items.map(item => {
+    return setItemUserData(item, usersByIds[item.owner])
   })
-  return items
 }
 
-export const sortItemsByCategoryAndDistance = items => {
+export function sortItemsByCategoryAndDistance (items: SerializedItemWithUserData[]) {
   const itemsByCategories = {
     personal: [],
     network: [],
@@ -33,16 +33,16 @@ export const sortItemsByCategoryAndDistance = items => {
   return itemsByCategories
 }
 
-const getItemCategory = item => {
+function getItemCategory (item: SerializedItemWithUserData) {
   let category = item.category
   if (category === 'public') category = isNearby(item.distanceFromMainUser) ? 'nearbyPublic' : 'otherPublic'
   if (item.owner === app.user.id) category = 'personal'
   return category
 }
 
-const byDistance = (distanceA, distanceB) => distanceA - distanceB
+const byDistance = (distanceA: number, distanceB: number) => distanceA - distanceB
 const nearbyKmPerimeter = 50
-export const isNearby = distance => distance != null && distance < nearbyKmPerimeter
+export const isNearby = (distance: number) => distance != null && distance < nearbyKmPerimeter
 
 export const categoriesHeaders = {
   personal: {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { pluck } from 'underscore'
   import app from '#app/app'
-  import Dropdown from '#components/dropdown.svelte'
+  import Dropdown, { type Align } from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
   import EditionCreation from '#entities/components/layouts/edition_creation.svelte'
@@ -15,7 +15,10 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities.ts'
 
-  export let entity, editions, flash, align
+  export let entity
+  export let editions
+  export let flash
+  export let align: Align = null
 
   const { uri } = entity
   const { loggedIn } = app.user

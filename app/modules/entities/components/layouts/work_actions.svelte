@@ -1,6 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import type { Align } from '#components/dropdown.svelte'
   import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
+  import type { SerializedEntity } from '#entities/lib/entities'
+  import type { SerializedItemWithUserData } from '#inventory/lib/items'
   import Flash from '#lib/components/flash.svelte'
   import { screen } from '#lib/components/stores/screen'
   import { icon } from '#lib/icons'
@@ -9,7 +12,11 @@
 
   const dispatch = createEventDispatcher()
 
-  export let entity, editions, someEditions, allItems, align
+  export let entity: SerializedEntity
+  export let editions: SerializedEntity[] = null
+  export let someEditions = false
+  export let allItems: SerializedItemWithUserData[] = null
+  export let align: Align = null
 
   let otherUsersItems, areNotOnlyMainUserItems, someOtherUsersItemsHaveAPosition, flash
 

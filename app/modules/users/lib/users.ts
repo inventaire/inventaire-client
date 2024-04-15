@@ -2,10 +2,25 @@ import app from '#app/app'
 import { buildPath } from '#lib/location'
 import { images } from '#lib/urls'
 import { distanceBetween } from '#map/lib/geo'
+import type { RelativeUrl } from '#server/types/common'
+import type { User } from '#server/types/user'
 
 const { defaultAvatar } = images
 
-export function serializeUser (user) {
+export type ItemCategory = 'personal' | 'network' | 'public' | 'nearbyPublic' | 'otherPublic'
+
+export interface SerializedUser extends User {
+  isMainUser: boolean
+  kmDistanceFormMainUser: number
+  distanceFromMainUser: number
+  itemsCategory: ItemCategory
+  pathname: RelativeUrl
+  inventoryPathname: RelativeUrl
+  listingsPathname: RelativeUrl
+  contributionsPathname: RelativeUrl
+}
+
+export function serializeUser (user: User & Partial<SerializedUser>) {
   user.isMainUser = user._id === app.user.id
   user.picture = getPicture(user)
   setDistance(user)
@@ -58,7 +73,7 @@ export function getUserBasePathname (usernameOrId) {
   return `/users/${usernameOrId.toLowerCase()}`
 }
 
-export function getUserPathnames (username) {
+export function getUserPathnames (username: string) {
   const base = getUserBasePathname(username)
   return {
     pathname: base,

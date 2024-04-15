@@ -51,3 +51,6 @@ export const transactionsDataFactory = () => ({
 
 // keep a frozen version of the object at hand for read only
 export const transactionsData = Object.freeze(transactionsDataFactory())
+
+type TransactionsData = ReturnType<typeof transactionsDataFactory>
+export type TransactionData = TransactionsData[keyof TransactionsData]
