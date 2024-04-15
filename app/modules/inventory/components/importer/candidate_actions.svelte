@@ -22,7 +22,7 @@
       candidate = candidateWithEntities
     }
 
-    await createItem(edition, details, transaction, visibility)
+    await createItem({ edition, details, transaction, visibility })
       .then(newItem => {
         if (newItem) {
           delete candidate.error
