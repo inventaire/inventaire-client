@@ -6,21 +6,21 @@ import { serverReportError } from '#lib/error'
 import { currentRoute } from '#lib/location'
 import log_ from '#lib/loggers'
 
-export const deepClone = obj => {
+export function deepClone (obj: unknown) {
   assert_.object(obj)
   return JSON.parse(JSON.stringify(obj))
 }
 
-export const capitalize = str => {
+export function capitalize (str: string) {
   if (str === '') return ''
   return str[0].toUpperCase() + str.slice(1)
 }
 
-export const clickCommand = command => e => {
+export const clickCommand = (command: string) => e => {
   if (!isOpenedOutside(e)) app.execute(command)
 }
 
-export const isOpenedOutside = (e, ignoreMissingHref = false) => {
+export function isOpenedOutside (e, ignoreMissingHref = false) {
   let className, href, id
   if (e == null) return false
 
@@ -53,7 +53,7 @@ const isMac = window.navigator?.platform.toUpperCase().indexOf('MAC') >= 0
 
 // TODO: consider having a global event listener,
 // rather than having to set it in all those <a on:click>
-export const loadInternalLink = e => {
+export function loadInternalLink (e) {
   if (!(isOpenedOutside(e))) {
     const { pathname, search } = new URL(e.currentTarget.href)
     app.navigateAndLoad(`${pathname}${search}`, {
@@ -63,7 +63,7 @@ export const loadInternalLink = e => {
   }
 }
 
-export const showLoginPageAndRedirectHere = () => {
+export function showLoginPageAndRedirectHere () {
   app.request('require:loggedIn', currentRoute())
 }
 
@@ -71,19 +71,19 @@ const isModalPathname = pathname => modalPathnamesPattern.test(pathname)
 // Ideally, this could be declared within the routers
 const modalPathnamesPattern = /^\/items\/\w+/
 
-export const cutBeforeWord = (text, limit) => {
+export function cutBeforeWord (text: string, limit: number) {
   if (text.length <= limit) return text
   const shortenedText = text.slice(0, limit)
   return shortenedText.replace(/\s\w+$/, '')
 }
 
-export const truncateText = (text, limit) => {
+export function truncateText (text: string, limit: number) {
   const truncatedText = cutBeforeWord(text, limit)
   if (truncatedText.length < text.length) return `${truncatedText.trim()}…`
   else return truncatedText
 }
 
-export const lazyMethod = (methodName, delay = 200) => {
+export function lazyMethod (methodName: string, delay: number = 200) {
   return function (...args) {
     const lazyMethodName = `_lazy_${methodName}`
     if (this[lazyMethodName] == null) {
@@ -91,13 +91,6 @@ export const lazyMethod = (methodName, delay = 200) => {
     }
     return this[lazyMethodName](...args)
   }
-}
-
-export const invertAttr = ($target, a, b) => {
-  const aVal = $target.attr(a)
-  const bVal = $target.attr(b)
-  $target.attr(a, bVal)
-  return $target.attr(b, aVal)
 }
 
 // Returns a .catch function that execute the reverse action
@@ -108,10 +101,10 @@ export const Rollback = (reverseAction, label) => err => {
   throw err
 }
 
-const add = (a, b) => a + b
-export const sum = array => array.reduce(add, 0)
+const add = (a: number, b: number) => a + b
+export const sum = (array: number[]) => array.reduce(add, 0)
 
-export const trim = str => str.trim()
+export const trim = (str: string) => str.trim()
 
 export const focusInput = $el => {
   $el.focus()
@@ -121,7 +114,7 @@ export const focusInput = $el => {
 }
 
 // Adapted from https://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
-export const hashCode = string => {
+export function hashCode (string: string) {
   let [ hash, i, len ] = [ 0, 0, string.length ]
   if (len === 0) return hash
 
@@ -134,7 +127,7 @@ export const hashCode = string => {
   return Math.abs(hash)
 }
 
-export const someMatch = (arrayA, arrayB) => {
+export function someMatch (arrayA: unknown[], arrayB: unknown[]) {
   if (!isArray(arrayA) || !isArray(arrayB)) return false
   for (const valueA of arrayA) {
     for (const valueB of arrayB) {
@@ -145,24 +138,24 @@ export const someMatch = (arrayA, arrayB) => {
   return false
 }
 
-export const objLength = obj => Object.keys(obj)?.length
+export const objLength = (obj: unknown) => Object.keys(obj)?.length
 
-export const shortLang = lang => lang?.slice(0, 2)
+export const shortLang = (lang: string) => lang?.slice(0, 2)
 
 // encodeURIComponent ignores !, ', (, ), and *
 // cf https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent#Description
-export const fixedEncodeURIComponent = str => {
+export function fixedEncodeURIComponent (str: string) {
   return encodeURIComponent(str).replace(/[!'()*]/g, encodeCharacter)
 }
 
-const encodeCharacter = c => '%' + c.charCodeAt(0).toString(16)
+const encodeCharacter = (c: string) => '%' + c.charCodeAt(0).toString(16)
 
-export const pickOne = obj => {
+export function pickOne (obj: unknown) {
   const key = Object.keys(obj)[0]
   if (key != null) return obj[key]
 }
 
-export const parseBooleanString = (booleanString, defaultVal = false) => {
+export function parseBooleanString (booleanString: string, defaultVal: boolean = false) {
   if (defaultVal === false) {
     return booleanString === 'true'
   } else {
@@ -171,7 +164,7 @@ export const parseBooleanString = (booleanString, defaultVal = false) => {
 }
 
 // Missing in Underscore v1.8.3
-export const chunk = (array, size) => {
+export function chunk (array: unknown[], size: number) {
 // Do not mutate inital array
   array = array.slice(0)
   const chunks = []
@@ -189,13 +182,13 @@ export function forceArray (keys) {
 
 export async function asyncNoop () {}
 
-export const bubbleUpChildViewEvent = function (eventName) {
+export function bubbleUpChildViewEvent (eventName: string) {
   return function (...args) {
     this.triggerMethod(eventName, ...args)
   }
 }
 
-export const dropLeadingSlash = str => str.replace(/^\//, '')
+export const dropLeadingSlash = (str: string) => str.replace(/^\//, '')
 
 export function setIntersection <T> (a, b) {
   let set, arrayOrSet
@@ -210,7 +203,7 @@ export function setIntersection <T> (a, b) {
   return new Set(intersection)
 }
 
-export function convertEmToPx (em) {
+export function convertEmToPx (em: number) {
   const emToPxRatio = parseFloat(getComputedStyle(document.body).fontSize)
   return em * emToPxRatio
 }
