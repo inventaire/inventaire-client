@@ -1,129 +1,13 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    // Include the server repo to avoid errors such as
-    // `File '/path/to/inventaire/types/common.ts' is not under 'rootDir' '/path/to/inventaire/client'. 'rootDir' is expected to contain all source files.`
-    // See https://www.typescriptlang.org/tsconfig#rootDir
-    // and https://github.com/sveltejs/language-tools/issues/792#issuecomment-770403014
-    "rootDir": "..",
-    "baseUrl": ".",
-    "allowJs": false,
-    "checkJs": false,
-    "allowImportingTsExtensions": true,
     "noEmit": true,
-    "skipLibCheck": true,
-    "incremental": true,
-    "preserveSymlinks": true,
-    // Svelte Preprocess cannot figure out whether you have a value or a type, so tell TypeScript
-    // to enforce using `import type` instead of `import` for Types.
-    // Source: https://github.com/tsconfig/bases/blob/ebe629c2857d386a0bc2c5d60cab18b9f1a425d0/bases/svelte.json#L11-L14
-    "verbatimModuleSyntax": true,
-    "sourceMap": true,
-    "paths": {
-      "#behaviors/*": [
-        "./app/modules/general/behaviors/*"
-      ],
-      "#components/*": [
-        "./app/modules/general/components/*"
-      ],
-      "#entities/*": [
-        "./app/modules/entities/*"
-      ],
-      "#general/*": [
-        "./app/modules/general/*"
-      ],
-      "#groups/*": [
-        "./app/modules/groups/*"
-      ],
-      "#inventory/*": [
-        "./app/modules/inventory/*"
-      ],
-      "#listings/*": [
-        "./app/modules/listings/*"
-      ],
-      "#map/*": [
-        "./app/modules/map/*"
-      ],
-      "#network/*": [
-        "./app/modules/network/*"
-      ],
-      "#notifications/*": [
-        "./app/modules/notifications/*"
-      ],
-      "#search/*": [
-        "./app/modules/search/*"
-      ],
-      "#settings/*": [
-        "./app/modules/settings/*"
-      ],
-      "#shelves/*": [
-        "./app/modules/shelves/*"
-      ],
-      "#tasks/*": [
-        "./app/modules/tasks/*"
-      ],
-      "#types/*": [
-        "./app/types/*",
-      ],
-      "#server/types/*": [
-        "../server/types/*",
-      ],
-      "#server/controllers/*": [
-        "../server/controllers/*",
-      ],
-      "#transactions/*": [
-        "./app/modules/transactions/*"
-      ],
-      "#user/*": [
-        "./app/modules/user/*"
-      ],
-      "#users/*": [
-        "./app/modules/users/*"
-      ],
-      "#welcome/*": [
-        "./app/modules/welcome/*"
-      ],
-      "#assets/*": [
-        "./app/assets/*"
-      ],
-      "#lib/*": [
-        "./app/lib/*"
-      ],
-      "#modules/*": [
-        "./app/modules/*"
-      ],
-      "#app/*": [
-        "./app/*"
-      ]
-    },
-    // Type checking flags, see https://www.typescriptlang.org/tsconfig#Type_Checking_6248
-    // "allowUnreachableCode": true,
-    // "allowUnusedLabels": true,
-    // "exactOptionalPropertyTypes": true,
-    "noFallthroughCasesInSwitch": true,
-    // "noImplicitAny": true,
-    "noImplicitOverride": true,
-    // "noImplicitReturns": true,
-    // "noImplicitThis": true,
-    // "noPropertyAccessFromIndexSignature": true,
-    // "noUncheckedIndexedAccess": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    "strictBindCallApply": true,
-    // "strictFunctionTypes": true,
-    // "strictNullChecks": true,
-    // "strictPropertyInitialization": true,
-    // "useUnknownInCatchVariables": true,
   },
-  "exclude": [
-    "node_modules",
-    "public",
-    "vendor",
-    "scripts/assets",
+  "include": [
+    "app"
   ],
   "references": [
-    { "path": "../tsconfig.build.json" }
+    { "path": "../tsconfig.build.json" },
+    { "path": "./tsconfig.tests.json" },
   ]
 }
