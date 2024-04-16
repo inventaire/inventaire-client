@@ -2,12 +2,15 @@
   import { createEventDispatcher } from 'svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { propertiesEditorsConfigs } from '#entities/lib/properties'
+  import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
 
   export let currentValue, property, valueLabel, entity
 
   const { allowEntityCreation, entityValueTypes } = propertiesEditorsConfigs[property]
   const createOnWikidata = entity.uri?.startsWith('wd:')
+
+  const createdEntityType = entityTypeNameBySingularType[entityValueTypes?.[0]]
 
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
@@ -22,7 +25,7 @@
   relationProperty={property}
   {allowEntityCreation}
   {createOnWikidata}
-  createdEntityType={entityValueTypes?.[0]}
+  {createdEntityType}
   on:select={e => dispatch('save', e.detail.uri)}
   on:close={bubbleUpComponentEvent}
   on:error={bubbleUpComponentEvent}

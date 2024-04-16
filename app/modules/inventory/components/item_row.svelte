@@ -19,7 +19,7 @@
   export let item
   export let showUser = false
   export let shelfId = null
-  export let shelvesByIds: ShelvesByIds
+  export let shelvesByIds: ShelvesByIds = null
 
   const mainUserIsOwner = item.visibility != null
 

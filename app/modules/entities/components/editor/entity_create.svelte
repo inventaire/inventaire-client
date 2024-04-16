@@ -14,6 +14,7 @@
   import { icon } from '#lib/icons'
   import { onChange } from '#lib/svelte/svelte'
   import { someMatch } from '#lib/utils'
+  import type { EntityDraft } from '#types/entity'
   import { I18n } from '#user/lib/i18n'
   import LabelsEditor from './labels_editor.svelte'
   import PropertyClaimsEditor from './property_claims_editor.svelte'
@@ -24,7 +25,7 @@
 
   let showAllProperties = false, flash
   let typeProperties, typePropertiesPerCategory, propertiesShortlist, hasMonolingualTitle, createAndShowLabel, requiresLabel, requiredProperties
-  let entity = {
+  let entity: EntityDraft = {
     type,
     labels: {},
     claims: claims || {},

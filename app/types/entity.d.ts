@@ -3,6 +3,7 @@ import type { SerializedEntity, PropertyUri, InvClaimValue, EntityUri } from '#s
 // From the client point of view, all entities are server-serialized
 // The client can then perform further serialization
 export type Entity = SerializedEntity
+export type EntityDraft = Pick<Entity, 'type' | 'labels' | 'claims'>
 
 export type RedirectionsByUris = Record<EntityUri, EntityUri>
 

@@ -52,7 +52,7 @@
   $: if (editorKey !== $currentEditorKey) closeEditMode()
 
   let saving = false
-  async function save (newValue) {
+  async function save (newValue?) {
     try {
       saving = true
       // Allow null to be passed when trying to remove a value

@@ -31,7 +31,7 @@ interface EditorCustomization {
   datatype?: string
   order?: number
   canValueBeDeleted?: ({ propertyClaims }: { propertyClaims: InvPropertyClaims }) => boolean
-  entityValueTypes?: PluralizedIndexedEntityType
+  entityValueTypes?: PluralizedIndexedEntityType[]
   specialEditActions?: 'author-role'
   allowEntityCreation?: boolean
 }
@@ -48,7 +48,7 @@ const propertiesEditorsCustomizations: Record<PropertyUri, EditorCustomization> 
   },
   // main subject
   'wdt:P921': {
-    entityValueTypes: 'subjects',
+    entityValueTypes: [ 'subjects' ],
   },
 }
 

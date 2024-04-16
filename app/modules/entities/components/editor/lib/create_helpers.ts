@@ -1,6 +1,7 @@
 import { compact, pick, uniq, without } from 'underscore'
 import wdLang from 'wikidata-lang'
 import app from '#app/app'
+import type { EntityDraft } from '#app/types/entity'
 import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
 import { priorityPropertiesPerType, propertiesPerType } from '#entities/lib/editor/properties_per_type'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
@@ -12,7 +13,7 @@ import type { PropertyUri, SerializedEntity } from '#server/types/entity'
 import { i18n } from '#user/lib/i18n'
 
 interface GetMissingRequiredPropertiesParams {
-  entity: SerializedEntity
+  entity: SerializedEntity | EntityDraft
   requiredProperties: PropertyUri[]
   requiresLabel?: boolean
 }
