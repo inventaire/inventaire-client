@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -eu
+
+# Do not set -e as `svelte-check` is likely to exit with a non-zero code that can be ignored
+set -u
 
 log_file="logs/types_check_results.log"
 

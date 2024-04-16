@@ -5,7 +5,6 @@
 // - https://survivejs.com/webpack/preface/
 
 const path = require('node:path')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = mode => ({
   entry: './app/initialize.ts',
@@ -15,7 +14,6 @@ module.exports = mode => ({
     require('./plugins/dynamic_html_index_plugin.cjs'),
     require('./plugins/detect_circular_dependencies.cjs'),
     require('./plugins/detect_unused_files.cjs'),
-    new ForkTsCheckerWebpackPlugin(),
   ],
   output: {
     path: path.resolve(__dirname, '../public/dist'),
