@@ -6,6 +6,7 @@ import { pluralize } from '#entities/lib/types/entities_types'
 import preq from '#lib/preq'
 import { objectKeys } from '#lib/utils.ts'
 import type { PropertiesMetadata } from '#server/controllers/data/properties_metadata'
+import type { PropertyConfig } from '#server/controllers/entities/lib/properties/properties'
 import type { EntityType, PropertyUri } from '#server/types/entity'
 import type { Entries } from 'type-fest'
 
@@ -17,9 +18,12 @@ export const propertiesCategories = {
 export type PropertyCategory = 'general' | keyof typeof propertiesCategories
 
 export const properties: PropertiesMetadata = await preq.get(API.data.properties).then(({ properties }) => properties)
-export type PropertyMetadata = PropertiesMetadata[keyof PropertiesMetadata]
 
-export const propertiesPerType: Partial<Record<EntityType, Record<PropertyUri, PropertyMetadata>>> = {}
+export interface CustomPropertyConfig extends PropertyConfig {
+  customLabel?: string
+}
+
+export const propertiesPerType: Partial<Record<EntityType, Record<PropertyUri, CustomPropertyConfig>>> = {}
 export const propertiesPerCategory: Partial<Record<PropertyCategory, PropertyUri[]>> = {}
 
 for (const [ property, propertyMetadata ] of Object.entries(properties) as Entries<typeof properties>) {

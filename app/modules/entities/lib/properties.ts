@@ -1,5 +1,5 @@
 import { authorRoleProperties } from '#entities/lib/editor/properties_per_subtype'
-import { properties, type PropertyMetadata } from '#entities/lib/editor/properties_per_type'
+import { properties, type CustomPropertyConfig } from '#entities/lib/editor/properties_per_type'
 import { getUriNumericId } from '#lib/wikimedia/wikidata'
 import type { InvPropertyClaims, PluralizedIndexedEntityType, PropertyUri } from '#server/types/entity'
 import type { Entries } from 'type-fest'
@@ -72,7 +72,7 @@ for (const property of prioritizedProperties) {
   }
 }
 
-type PropertiesEditorConfig = { property } & PropertyMetadata & EditorCustomization
+type PropertiesEditorConfig = { property } & CustomPropertyConfig & EditorCustomization
 export const propertiesEditorsConfigs: Record<PropertyUri, PropertiesEditorConfig> = {}
 
 for (const [ property, propertyConfig ] of Object.entries(properties) as Entries<typeof properties>) {

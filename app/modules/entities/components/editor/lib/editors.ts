@@ -1,3 +1,4 @@
+import type { PropertyDatatype } from '#server/types/property'
 import EntityValueDisplay from '../entity_value_display.svelte'
 import EntityValueInput from '../entity_value_input.svelte'
 import ExternalIdValueDisplay from '../external_id_value_display.svelte'
@@ -10,8 +11,17 @@ import StringValueDisplay from '../string_value_display.svelte'
 import StringValueInput from '../string_value_input.svelte'
 import UrlValueDisplay from '../url_value_display.svelte'
 import UrlValueInput from '../url_value_input.svelte'
+import type { ComponentType } from 'svelte'
 
-export const editors = {
+interface EditorConfig {
+  InputComponent?: ComponentType
+  DisplayComponent: ComponentType
+  showSave?: boolean
+}
+
+type PseudoPropertyDatatype = 'fixed-string'
+
+export const editors: Record<PropertyDatatype | PseudoPropertyDatatype, EditorConfig> = {
   entity: {
     InputComponent: EntityValueInput,
     DisplayComponent: EntityValueDisplay,
