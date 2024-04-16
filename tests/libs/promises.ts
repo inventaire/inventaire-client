@@ -2,6 +2,7 @@ import should from 'should'
 import { tryAsync, tap, props as promiseProps, waitForAttribute, wait } from '#lib/promises'
 import { shouldNotBeCalled } from '#tests/utils/utils'
 
+// @ts-expect-error
 global.window = global
 const undesiredRes = res => {
   console.warn('undesired res', res)
