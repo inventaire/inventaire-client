@@ -3,9 +3,7 @@
 // See https://github.com/sveltejs/language-tools/blob/master/docs/preprocessors/typescript.md#im-getting-deprecation-warnings-for-sveltejsx--i-want-to-migrate-to-the-new-typings
 // found via https://github.com/isaacHagoel/svelte-dnd-action/issues/445
 
-// Reference: https://github.com/sveltejs/language-tools/blob/master/packages/svelte2tsx/svelte-jsx.d.ts
-import type { Map, LayerGroup } from 'leaflet'
-import type { Writable } from 'svelte/store'
+// Reference: https://github.com/sveltejs/svelte/blob/svelte-4/documentation/docs/05-misc/03-typescript.md#enhancing-built-in-dom-types
 
 declare namespace svelteHTML {
   interface HTMLAttributes {
@@ -15,14 +13,4 @@ declare namespace svelteHTML {
     'on:enterViewport'?: (e: CustomEvent) => void
     'on:leaveViewport'?: (e: CustomEvent) => void
   }
-}
-
-// Inspired by https://github.com/sveltejs/svelte/issues/8941#issuecomment-1927036924
-declare module 'svelte' {
-  export function getContext(key: 'layer'): (() => LayerGroup)
-  export function getContext(key: 'map'): (() => Map)
-  export function getContext(key: 'work-layout:filters-store'): Writable
-  export function getContext(key: 'layout-context'): string
-  export function getContext(key: 'search-filter-claim'): string
-  export function getContext(key: 'search-filter-types'): string
 }
