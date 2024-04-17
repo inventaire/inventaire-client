@@ -1,12 +1,12 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import assert_ from '#app/lib/assert_types'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { BubbleUpComponentEvent, onChange } from '#app/lib/svelte/svelte'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import Spinner from '#components/spinner.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
-  import assert_ from '#lib/assert_types'
-  import Flash from '#lib/components/flash.svelte'
-  import { BubbleUpComponentEvent, onChange } from '#lib/svelte/svelte'
   import { i18n } from '#user/lib/i18n'
 
   export let display

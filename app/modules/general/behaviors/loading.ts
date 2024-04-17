@@ -1,8 +1,8 @@
 import { debounce } from 'underscore'
 import app from '#app/app'
-import { isNonEmptyString } from '#lib/boolean_tests'
-import { icon } from '#lib/icons'
-import log_ from '#lib/loggers'
+import { isNonEmptyString } from '#app/lib/boolean_tests'
+import { icon } from '#app/lib/icons'
+import log_ from '#app/lib/loggers'
 import { I18n } from '#user/lib/i18n'
 
 // @ts-expect-error

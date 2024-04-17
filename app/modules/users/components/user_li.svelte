@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { loadInternalLink } from '#lib/utils'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { loadInternalLink } from '#app/lib/utils'
   import { serializeUser } from '#users/lib/users'
 
   export let user

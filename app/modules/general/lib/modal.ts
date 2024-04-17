@@ -1,11 +1,11 @@
 import app from '#app/app'
+import { isNonEmptyString } from '#app/lib/boolean_tests'
+import { removeCurrentComponent } from '#app/lib/global_libs_extender'
+import { getActionKey } from '#app/lib/key_events'
+import log_ from '#app/lib/loggers'
+import isMobile from '#app/lib/mobile_check'
+import { viewportIsSmallerThan } from '#app/lib/screen'
 import Spinner from '#components/spinner.svelte'
-import { isNonEmptyString } from '#lib/boolean_tests'
-import { removeCurrentComponent } from '#lib/global_libs_extender'
-import { getActionKey } from '#lib/key_events'
-import log_ from '#lib/loggers'
-import isMobile from '#lib/mobile_check'
-import { viewportIsSmallerThan } from '#lib/screen'
 
 export default function () {
   const $body = $('body')

@@ -1,9 +1,9 @@
 import { clone, flatten, intersection, pick, uniq, without } from 'underscore'
 import app from '#app/app'
+import { getLocalStorageStore } from '#app/lib/components/stores/local_storage_stores'
+import { serverReportError } from '#app/lib/error'
+import preq from '#app/lib/preq'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
-import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
-import { serverReportError } from '#lib/error'
-import preq from '#lib/preq'
 import type { CouchDoc } from '#server/types/couchdb'
 
 export async function getSelectorsData ({ worksTree }) {

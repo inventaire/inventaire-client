@@ -1,7 +1,7 @@
 <script lang="ts">
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { loadInternalLink } from '#app/lib/utils'
   import { timeClaim } from '#entities/components/lib/claims_helpers'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { loadInternalLink } from '#lib/utils'
 
   export let entity, large = false
 

@@ -1,7 +1,7 @@
 import { uniq, property, pluck, flatten } from 'underscore'
 import app from '#app/app'
+import preq from '#app/lib/preq'
 import { searchWorks } from '#entities/lib/search/search_by_types'
-import preq from '#lib/preq'
 import addPertinanceScore from './add_pertinance_score.ts'
 
 const descendingPertinanceScore = work => -work.get('pertinanceScore')

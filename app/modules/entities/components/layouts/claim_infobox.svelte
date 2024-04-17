@@ -1,8 +1,8 @@
 <script lang="ts">
   import { max } from 'underscore'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { propertiesType } from '#entities/components/lib/claims_helpers'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { i18n } from '#user/lib/i18n'
   import ClaimValue from './claim_value.svelte'
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { icon } from '#lib/icons'
+  import { icon } from '#app/lib/icons'
 
   export let show = false
   export let moreText: string

@@ -1,11 +1,11 @@
 <script lang="ts">
   import app from '#app/app'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
+  import { loadInternalLink } from '#app/lib/utils'
   import { createEditionFromWork, validateEditionPossibility, addWithoutIsbnPath } from '#entities/components/lib/edition_creation_helpers'
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
-  import { getActionKey } from '#lib/key_events'
-  import { loadInternalLink } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let work, editions

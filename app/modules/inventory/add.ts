@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { getDevicesInfo } from '#lib/has_video_input.ts'
+import { getDevicesInfo } from '#app/lib/has_video_input.ts'
 import initAddHelpers from './lib/add_helpers.ts'
 
 export default {

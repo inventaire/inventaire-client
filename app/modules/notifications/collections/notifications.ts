@@ -1,8 +1,8 @@
 import { debounce } from 'underscore'
 import app from '#app/app'
-import { newError } from '#lib/error'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
+import { newError } from '#app/lib/error'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
 import { models as modelsTypes } from '../lib/notifications_types.ts'
 
 export default Backbone.Collection.extend({

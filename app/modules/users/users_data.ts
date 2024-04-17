@@ -1,7 +1,7 @@
 import app from '#app/app'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
-import { forceArray } from '#lib/utils'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
+import { forceArray } from '#app/lib/utils'
 
 export async function searchUsers (text) {
   // catches case with ''

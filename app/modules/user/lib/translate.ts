@@ -1,5 +1,5 @@
-import type { UserLang } from '#lib/active_languages.ts'
-import assert_ from '#lib/assert_types'
+import type { UserLang } from '#app/lib/active_languages.ts'
+import assert_ from '#app/lib/assert_types'
 import type Polyglot from 'node-polyglot'
 
 const wdPropPrefix = 'wdt:'

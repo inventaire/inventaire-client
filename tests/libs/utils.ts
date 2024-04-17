@@ -1,5 +1,5 @@
 import 'should'
-import { forceArray, cutBeforeWord } from '#lib/utils'
+import { forceArray, cutBeforeWord } from '#app/lib/utils'
 
 describe('utils', () => {
   describe('forceArray', () => {

@@ -1,10 +1,10 @@
 <script lang="ts">
   import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import { loadInternalLink } from '#app/lib/utils'
   import Modal from '#components/modal.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
-  import { loadInternalLink } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
   import InviteByEmail from '#users/components/invite_by_email.svelte'
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'

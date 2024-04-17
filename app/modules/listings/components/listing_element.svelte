@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getEntityImagePath } from '#entities/lib/entities'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { loadInternalLink } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
 
   export let entity, isEditable

@@ -1,8 +1,8 @@
 <script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
+  import { loadInternalLink } from '#app/lib/utils'
   import ImageDiv from '#components/image_div.svelte'
   import type { SerializedEntity } from '#entities/lib/entities'
-  import Link from '#lib/components/link.svelte'
-  import { loadInternalLink } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
 
   export let entity: SerializedEntity

@@ -1,5 +1,5 @@
 import ISBN from 'isbn3'
-import { findIsbns, isNormalizedIsbn, normalizeIsbn } from '#lib/isbn'
+import { findIsbns, isNormalizedIsbn, normalizeIsbn } from '#app/lib/isbn'
 
 export const extractIsbns = text => {
   const isbns = findIsbns(text)

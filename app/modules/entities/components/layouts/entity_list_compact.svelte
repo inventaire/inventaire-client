@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Link from '#lib/components/link.svelte'
+  import Link from '#app/lib/components/link.svelte'
   import ClaimInfobox from './claim_infobox.svelte'
 
   export let entity, relatedEntities

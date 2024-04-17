@@ -1,5 +1,5 @@
 import { isObject } from 'underscore'
-import { chat, wiki, apiDoc, git } from '#lib/urls'
+import { chat, wiki, apiDoc, git } from '#app/lib/urls'
 
 // roughtly addressing the general case
 if (location.hostname.match(/^(localhost|\d{1,3}\.\d{1,3}\.)/)) {

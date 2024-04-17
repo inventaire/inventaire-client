@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { getEntityImagePath } from '#entities/lib/entities'
   import { entityTypeNameByType } from '#entities/lib/types/entities_types'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
   import { I18n } from '#user/lib/i18n'
 
   export let suggestion, highlight, displaySuggestionType = false, scrollableElement

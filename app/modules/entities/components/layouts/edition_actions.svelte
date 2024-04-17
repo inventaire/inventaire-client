@@ -6,9 +6,9 @@
 
 </script>
 <script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
   import { getOwnersCountPerEdition, getCounterText } from '#entities/components/lib/edition_action_helpers'
   import type { SerializedEntity } from '#entities/lib/entities'
-  import Link from '#lib/components/link.svelte'
   import { I18n } from '#user/lib/i18n'
 
   export let entity: SerializedEntity

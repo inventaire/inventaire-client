@@ -1,13 +1,13 @@
 <script lang="ts">
   import { indexBy, partition } from 'underscore'
   import app from '#app/app'
+  import { getTextDirection, languages } from '#app/lib/active_languages'
+  import Flash from '#app/lib/components/flash.svelte'
+  import Link from '#app/lib/components/link.svelte'
+  import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
   import { entityDataShouldBeRefreshed, pushEntityRefreshingPromise } from '#entities/lib/entities'
-  import { getTextDirection, languages } from '#lib/active_languages'
-  import Flash from '#lib/components/flash.svelte'
-  import Link from '#lib/components/link.svelte'
-  import preq from '#lib/preq'
-  import { onChange } from '#lib/svelte/svelte'
   import { i18n } from '#user/lib/i18n'
 
   export let entity

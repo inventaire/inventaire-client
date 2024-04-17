@@ -1,6 +1,10 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { icon } from '#app/lib/icons'
+  import { isOpenedOutside, loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import AuthorsPreviewLists from '#inventory/components/authors_preview_lists.svelte'
@@ -9,10 +13,6 @@
   import ItemShowData from '#inventory/components/item_show_data.svelte'
   import { getItemEntityData } from '#inventory/components/lib/item_show_helpers'
   import { serializeItem } from '#inventory/lib/items'
-  import Flash from '#lib/components/flash.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon } from '#lib/icons'
-  import { isOpenedOutside, loadInternalLink } from '#lib/utils'
   import { I18n } from '#user/lib/i18n'
   import { serializeUser } from '#users/lib/users'
 

@@ -1,6 +1,6 @@
 import { isString, isArray } from 'underscore'
-import * as regex_ from '#lib/regex'
-import typeOf from '#lib/type_of'
+import * as regex_ from '#app/lib/regex'
+import typeOf from '#app/lib/type_of'
 import type { AbsoluteUrl } from '#server/types/common'
 import type { CouchUuid } from '#server/types/couchdb'
 import type { EntityUri, PropertyUri, WdEntityUri, WdPropertyUri } from '#server/types/entity'

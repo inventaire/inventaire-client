@@ -1,6 +1,6 @@
+import { getUriNumericId } from '#app/lib/wikimedia/wikidata'
 import { authorRoleProperties } from '#entities/lib/editor/properties_per_subtype'
 import { properties, type CustomPropertyConfig } from '#entities/lib/editor/properties_per_type'
-import { getUriNumericId } from '#lib/wikimedia/wikidata'
 import type { InvPropertyClaims, PluralizedIndexedEntityType, PropertyUri } from '#server/types/entity'
 import type { Entries } from 'type-fest'
 

@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { newError } from '#lib/error'
+import { newError } from '#app/lib/error'
 import type { Url } from '#server/types/common'
 
 type Method = 'get' | 'post' | 'put' | 'delete'

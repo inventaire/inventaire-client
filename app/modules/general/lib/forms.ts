@@ -1,8 +1,8 @@
 import { uniqueId } from 'underscore'
+import assert_ from '#app/lib/assert_types'
+import { newError } from '#app/lib/error'
+import log_ from '#app/lib/loggers'
 import { assertViewHasBehavior } from '#general/plugins/behaviors'
-import assert_ from '#lib/assert_types'
-import { newError } from '#lib/error'
-import log_ from '#lib/loggers'
 import { I18n, i18n } from '#user/lib/i18n'
 
 export function pass (options) {

@@ -1,14 +1,14 @@
 import Handlebars from 'handlebars/runtime.js'
 import { union, pick, uniq } from 'underscore'
 import wdLang from 'wikidata-lang'
+import { isEntityUri, isImageHash, isNonEmptyArray } from '#app/lib/boolean_tests'
+import { imagePreview } from '#app/lib/handlebars_helpers/claims'
+import { entity as entityHelper } from '#app/lib/handlebars_helpers/claims_helpers'
+import * as icons_ from '#app/lib/handlebars_helpers/icons.ts'
+import platforms_ from '#app/lib/handlebars_helpers/platforms.ts'
+import typeOf from '#app/lib/type_of'
+import { unprefixify } from '#app/lib/wikimedia/wikidata'
 import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
-import { isEntityUri, isImageHash, isNonEmptyArray } from '#lib/boolean_tests'
-import { imagePreview } from '#lib/handlebars_helpers/claims'
-import { entity as entityHelper } from '#lib/handlebars_helpers/claims_helpers'
-import * as icons_ from '#lib/handlebars_helpers/icons.ts'
-import platforms_ from '#lib/handlebars_helpers/platforms.ts'
-import typeOf from '#lib/type_of'
-import { unprefixify } from '#lib/wikimedia/wikidata'
 
 // @ts-expect-error
 const { escapeExpression } = Handlebars

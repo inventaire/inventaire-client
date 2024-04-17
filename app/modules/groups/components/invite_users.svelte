@@ -1,10 +1,10 @@
 <script lang="ts">
   import { debounce } from 'underscore'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
   import UserGroupRequestLi from '#groups/components/user_group_request_li.svelte'
   import { serializeGroupUser } from '#groups/lib/groups'
-  import { icon } from '#lib/icons'
-  import { onChange } from '#lib/svelte/svelte'
   import { I18n } from '#user/lib/i18n'
   import { searchUsers } from '#users/users_data'
 

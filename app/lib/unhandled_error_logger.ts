@@ -1,5 +1,5 @@
-import type { ContextualizedError } from '#lib/error'
-import { reportError } from '#lib/reports'
+import type { ContextualizedError } from '#app/lib/error'
+import { reportError } from '#app/lib/reports'
 
 export default () => {
   // Override window.onerror to always log the stacktrace

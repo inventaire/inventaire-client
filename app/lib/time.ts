@@ -1,5 +1,5 @@
 import app from '#app/app'
-import assert_ from '#lib/assert_types'
+import assert_ from '#app/lib/assert_types'
 import { i18n } from '#user/lib/i18n'
 
 const oneSecond = 1000

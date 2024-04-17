@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import ShelfLi from '#shelves/components/shelf_li.svelte'
   import { I18n } from '#user/lib/i18n'
 

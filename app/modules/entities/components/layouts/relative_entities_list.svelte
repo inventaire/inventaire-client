@@ -1,16 +1,16 @@
 <script lang="ts">
   import { debounce, uniq, indexBy } from 'underscore'
   import app from '#app/app'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { onScrollToBottom } from '#app/lib/screen'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import { forceArray } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import RelativeEntityLayout from '#entities/components/layouts/relative_entity_layout.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
   import { entityDataShouldBeRefreshed, getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import Flash from '#lib/components/flash.svelte'
-  import { onScrollToBottom } from '#lib/screen'
-  import { onChange } from '#lib/svelte/svelte'
-  import { forceArray } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
 
   export let entity, property, label

@@ -1,8 +1,8 @@
 <script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
   import OtherEditions from '#entities/components/layouts/other_editions.svelte'
   import { addWorksEditions } from '#entities/components/lib/edition_layout_helpers'
-  import Flash from '#lib/components/flash.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
 
   export let entity, works

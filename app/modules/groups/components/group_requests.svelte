@@ -1,9 +1,9 @@
 <script lang="ts">
   import { pluck } from 'underscore'
+  import Flash from '#app/lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
   import UserGroupRequestLi from '#groups/components/user_group_request_li.svelte'
   import { serializeGroupUser } from '#groups/lib/groups'
-  import Flash from '#lib/components/flash.svelte'
   import { getUsersByIds } from '#users/users_data'
 
   export let group

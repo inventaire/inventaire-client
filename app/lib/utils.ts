@@ -1,10 +1,10 @@
 import { isArray, debounce } from 'underscore'
 import app from '#app/app'
-import assert_ from '#lib/assert_types'
-import { isNonEmptyString } from '#lib/boolean_tests'
-import { serverReportError } from '#lib/error'
-import { currentRoute } from '#lib/location'
-import log_ from '#lib/loggers'
+import assert_ from '#app/lib/assert_types'
+import { isNonEmptyString } from '#app/lib/boolean_tests'
+import { serverReportError } from '#app/lib/error'
+import { currentRoute } from '#app/lib/location'
+import log_ from '#app/lib/loggers'
 
 export function deepClone (obj: unknown) {
   assert_.object(obj)

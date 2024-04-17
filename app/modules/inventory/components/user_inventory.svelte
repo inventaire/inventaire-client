@@ -1,8 +1,8 @@
 <script lang="ts">
   import { indexBy } from 'underscore'
+  import { onChange } from '#app/lib/svelte/svelte'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
-  import { onChange } from '#lib/svelte/svelte'
   import ShelfBox from '#shelves/components/shelf_box.svelte'
   import ShelvesSection from '#shelves/components/shelves_section.svelte'
   import { getShelvesByOwner } from '#shelves/lib/shelves'

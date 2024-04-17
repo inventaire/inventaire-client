@@ -1,5 +1,5 @@
 import { chain } from 'underscore'
-import { forceArray, capitalize } from '#lib/utils'
+import { forceArray, capitalize } from '#app/lib/utils'
 
 export default function () {
   let categories, name

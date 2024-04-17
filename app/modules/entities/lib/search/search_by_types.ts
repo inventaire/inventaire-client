@@ -1,7 +1,7 @@
 import app from '#app/app'
+import assert_ from '#app/lib/assert_types'
+import preq from '#app/lib/preq'
 import { allSearchableTypes } from '#entities/lib/types/entities_types'
-import assert_ from '#lib/assert_types'
-import preq from '#lib/preq'
 
 export async function searchByTypes ({ search, types = allSearchableTypes, limit = 10, offset = 0 }) {
   assert_.strings(types)

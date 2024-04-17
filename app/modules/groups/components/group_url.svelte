@@ -1,9 +1,9 @@
 <script lang="ts">
   import { debounce } from 'underscore'
   import app from '#app/app'
-  import { isNonEmptyString } from '#lib/boolean_tests'
-  import preq from '#lib/preq'
-  import { onChange } from '#lib/svelte/svelte'
+  import { isNonEmptyString } from '#app/lib/boolean_tests'
+  import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { I18n } from '#user/lib/i18n'
 
   export let name

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { slide } from 'svelte/transition'
-  import { icon } from '#lib/icons'
+  import { icon } from '#app/lib/icons'
   import { I18n } from '#user/lib/i18n'
 
   export let searchable

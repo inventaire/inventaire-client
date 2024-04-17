@@ -13,8 +13,8 @@
 // but further updates might be needed for in browser metadata access,
 // such as RSS feed detections
 import app from '#app/app'
-import { wait } from '#lib/promises'
-import { dropLeadingSlash } from '#lib/utils'
+import { wait } from '#app/lib/promises'
+import { dropLeadingSlash } from '#app/lib/utils'
 import type { Url } from '#server/types/common'
 import { I18n, i18n } from '#user/lib/i18n'
 import { transformers } from './apply_transformers.ts'

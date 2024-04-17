@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher, getContext } from 'svelte'
-  import { icon } from '#lib/icons'
-  import { scrollToElement } from '#lib/screen'
+  import { icon } from '#app/lib/icons'
+  import { scrollToElement } from '#app/lib/screen'
   import { I18n, i18n } from '#user/lib/i18n'
   import ItemsByCategory from './items_by_category.svelte'
   import { categoriesHeaders, sortItemsByCategoryAndDistance } from './items_lists_helpers.ts'

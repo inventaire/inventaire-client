@@ -1,6 +1,6 @@
 import app from '#app/app'
-import { buildPath } from '#lib/location'
-import { images } from '#lib/urls'
+import { buildPath } from '#app/lib/location'
+import { images } from '#app/lib/urls'
 import { distanceBetween } from '#map/lib/geo'
 import type { RelativeUrl } from '#server/types/common'
 import type { User } from '#server/types/user'

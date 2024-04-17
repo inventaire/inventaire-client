@@ -12,11 +12,11 @@
 </script>
 <script lang="ts">
   import { getContext } from 'svelte'
+  import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { omitClaims } from '#entities/components/lib/work_helpers'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
   import type { SerializedEntitiesByUris, SerializedEntity } from '#entities/lib/entities'
-  import { loadInternalLink } from '#lib/utils'
   import Infobox from './infobox.svelte'
 
   export let entity: SerializedEntity

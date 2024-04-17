@@ -1,9 +1,9 @@
 <script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import { loadInternalLink } from '#app/lib/utils'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
-  import { loadInternalLink } from '#lib/utils'
   import { emailConfirmationRequest } from '#user/lib/auth'
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'

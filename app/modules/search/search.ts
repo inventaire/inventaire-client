@@ -1,7 +1,7 @@
 import app from '#app/app'
-import { parseQuery } from '#lib/location'
-import { setPrerenderStatusCode } from '#lib/metadata/update'
-import { parseBooleanString } from '#lib/utils'
+import { parseQuery } from '#app/lib/location'
+import { setPrerenderStatusCode } from '#app/lib/metadata/update'
+import { parseBooleanString } from '#app/lib/utils'
 import SearchResultsHistory from './collections/search_results_history.ts'
 import findUri from './lib/find_uri.ts'
 

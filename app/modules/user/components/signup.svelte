@@ -1,9 +1,9 @@
 <script lang="ts">
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import Flash from '#app/lib/components/flash.svelte'
+  import PasswordInput from '#app/lib/components/password_input.svelte'
+  import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import Flash from '#lib/components/flash.svelte'
-  import PasswordInput from '#lib/components/password_input.svelte'
-  import { loadInternalLink } from '#lib/utils'
   import { requestSignup } from '#user/lib/auth'
   import { verifyEmail } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'

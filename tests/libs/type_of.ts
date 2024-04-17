@@ -1,5 +1,5 @@
 import 'should'
-import typeOf from '#lib/type_of'
+import typeOf from '#app/lib/type_of'
 
 describe('typeOf', () => {
   it('should return the right type', () => {

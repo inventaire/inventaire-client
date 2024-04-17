@@ -1,7 +1,7 @@
 <script lang="ts">
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import { icon } from '#app/lib/icons'
   import { transactionsData } from '#inventory/lib/transactions_data'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { icon } from '#lib/icons'
   import { I18n } from '#user/lib/i18n'
   import ItemPreview from './item_preview.svelte'
 

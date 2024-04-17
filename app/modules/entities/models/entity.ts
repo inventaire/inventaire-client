@@ -5,13 +5,13 @@ import app from '#app/app'
 // - By source:
 //   - Wikidata entities have specific initializers related to Wikimedia sitelinks
 // - By type: see specialInitializersByType
+import { serverReportError } from '#app/lib/error'
+import { normalizeIsbn } from '#app/lib/isbn'
+import log_ from '#app/lib/loggers'
+import { props as promiseProps } from '#app/lib/promises'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
 import Filterable from '#general/models/filterable'
-import { serverReportError } from '#lib/error'
-import { normalizeIsbn } from '#lib/isbn'
-import log_ from '#lib/loggers'
-import { props as promiseProps } from '#lib/promises'
 import { I18n } from '#user/lib/i18n'
 import { getReverseClaims } from '../lib/entities.ts'
 import editableEntity from '../lib/inv/editable_entity.ts'

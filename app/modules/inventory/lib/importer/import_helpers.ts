@@ -1,10 +1,10 @@
 import { groupBy, property, compact } from 'underscore'
 import app from '#app/app'
+import { isNonEmptyString, isNonEmptyArray } from '#app/lib/boolean_tests'
+import preq from '#app/lib/preq'
+import type { ExternalEntry, Candidate } from '#app/types/importer'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
-import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
-import preq from '#lib/preq'
-import type { ExternalEntry, Candidate } from '#types/importer'
 import type { getIsbnData } from './extract_isbns'
 
 export const createCandidate = (externalEntry, entitiesRes) => {

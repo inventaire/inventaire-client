@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { images } from '#lib/urls'
+import { images } from '#app/lib/urls'
 import callToConnectionTemplate from './templates/call_to_connection.hbs'
 import '../scss/call_to_connect.scss'
 

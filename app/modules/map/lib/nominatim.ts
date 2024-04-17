@@ -1,7 +1,7 @@
 import app from '#app/app'
-import { buildPath } from '#lib/location'
-import preq from '#lib/preq'
-import { fixedEncodeURIComponent } from '#lib/utils'
+import { buildPath } from '#app/lib/location'
+import preq from '#app/lib/preq'
+import { fixedEncodeURIComponent } from '#app/lib/utils'
 
 const nominatimEndpoint = 'https://nominatim.openstreetmap.org/search'
 

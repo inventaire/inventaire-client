@@ -1,8 +1,8 @@
 import app from '#app/app'
-import { isWikidataItemUri } from '#lib/boolean_tests.ts'
-import { newError } from '#lib/error'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
+import { isWikidataItemUri } from '#app/lib/boolean_tests.ts'
+import { newError } from '#app/lib/error'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
 import getEntityWikidataImportData from './get_entity_wikidata_import_data.ts'
 
 export default async function (fromUri, toUri) {

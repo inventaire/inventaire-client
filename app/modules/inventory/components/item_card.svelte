@@ -1,4 +1,9 @@
 <script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { userContent } from '#app/lib/handlebars_helpers/user_content'
+  import { icon } from '#app/lib/icons'
+  import { isOpenedOutside } from '#app/lib/utils'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
   import ItemRequestBox from '#inventory/components/item_request_box.svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
@@ -6,11 +11,6 @@
   import ItemUserBox from '#inventory/components/item_user_box.svelte'
   import ItemVisibilityBox from '#inventory/components/item_visibility_box.svelte'
   import { getItemLinkTitle, serializeItem } from '#inventory/lib/items'
-  import Flash from '#lib/components/flash.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { userContent } from '#lib/handlebars_helpers/user_content'
-  import { icon } from '#lib/icons'
-  import { isOpenedOutside } from '#lib/utils'
   import { i18n } from '#user/lib/i18n'
 
   export let item

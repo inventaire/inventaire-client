@@ -5,9 +5,9 @@
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
   import app from '#app/app'
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import { icon } from '#lib/icons'
-  import { getActionKey } from '#lib/key_events'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
   import { I18n } from '#user/lib/i18n'
 
   export let size = 'medium'

@@ -1,6 +1,6 @@
 import { uniq, compact } from 'underscore'
 import app from '#app/app'
-import { forceArray } from '#lib/utils'
+import { forceArray } from '#app/lib/utils'
 
 export default Backbone.Model.extend({
   initialize (data) {

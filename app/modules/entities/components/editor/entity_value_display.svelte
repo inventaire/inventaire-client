@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { getEntityBasicInfoByUri, type SerializedEntity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
   import type { EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
   import IdentifierWithTooltip from './identifier_with_tooltip.svelte'

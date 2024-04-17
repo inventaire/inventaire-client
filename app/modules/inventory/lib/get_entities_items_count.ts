@@ -1,7 +1,7 @@
 import { uniq } from 'underscore'
 import app from '#app/app'
-import preq from '#lib/preq'
-import { chunk } from '#lib/utils'
+import preq from '#app/lib/preq'
+import { chunk } from '#app/lib/utils'
 
 export default async function (userId, uris) {
   if (uris.length === 0) return {}

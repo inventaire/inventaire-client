@@ -1,10 +1,10 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { groupBy } from 'underscore'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { icon } from '#lib/icons'
-  import { onChange } from '#lib/svelte/svelte'
   import { I18n, i18n } from '#user/lib/i18n'
   import ItemsByTransaction from './items_by_transaction.svelte'
 

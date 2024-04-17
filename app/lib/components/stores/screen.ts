@@ -1,7 +1,7 @@
 import { readable } from 'svelte/store'
 import { debounce } from 'underscore'
 import { waitingForPolyfills } from '#app/init_polyfills'
-import { viewportIsSmallerThan, viewportIsLargerThan, getViewportWidth, getViewportHeight } from '#lib/screen'
+import { viewportIsSmallerThan, viewportIsLargerThan, getViewportWidth, getViewportHeight } from '#app/lib/screen'
 
 const getStoreValue = () => {
   return {

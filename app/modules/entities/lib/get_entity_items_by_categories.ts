@@ -1,7 +1,7 @@
 import { partition } from 'underscore'
 import app from '#app/app'
-import { newError } from '#lib/error'
-import log_ from '#lib/loggers'
+import { newError } from '#app/lib/error'
+import log_ from '#app/lib/loggers'
 
 // Make sure items are fetched for all sub entities as editions that aren't
 // shown (e.g. on work_layout, editions from other language than

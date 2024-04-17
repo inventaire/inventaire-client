@@ -3,11 +3,11 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { uniqueId } from 'underscore'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
   import Dropdown from '#components/dropdown.svelte'
   import SelectDropdownOption from '#components/select_dropdown_option.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { icon } from '#lib/icons'
-  import { getActionKey } from '#lib/key_events'
   import { I18n } from '#user/lib/i18n'
 
   const dispatch = createEventDispatcher()

@@ -1,4 +1,4 @@
-import log_ from '#lib/loggers'
+import log_ from '#app/lib/loggers'
 import testEncodingErrors from './encoding_errors.ts'
 
 const readFile = function (mode, file, encoding?, verifyEncoding?) {

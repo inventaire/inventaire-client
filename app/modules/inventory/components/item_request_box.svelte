@@ -1,7 +1,7 @@
 <script lang="ts">
   import app from '#app/app'
+  import { icon } from '#app/lib/icons'
   import Modal from '#components/modal.svelte'
-  import { icon } from '#lib/icons'
   import RequestItem from '#transactions/components/request_item.svelte'
   import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
   import { i18n, I18n } from '#user/lib/i18n'

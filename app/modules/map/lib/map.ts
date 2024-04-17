@@ -1,6 +1,6 @@
 import { compact, uniq } from 'underscore'
 import app from '#app/app'
-import { buildPath } from '#lib/location'
+import { buildPath } from '#app/lib/location'
 import mapConfig from './config.ts'
 import { truncateDecimals } from './geo.ts'
 

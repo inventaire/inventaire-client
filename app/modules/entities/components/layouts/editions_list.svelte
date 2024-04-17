@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import type { SerializedEntitiesByUris, SerializedEntity } from '#entities/lib/entities'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { I18n } from '#user/lib/i18n'
   import EditionCreation from './edition_creation.svelte'
   import EditionsListActions from './editions_list_actions.svelte'

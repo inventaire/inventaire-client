@@ -1,11 +1,11 @@
 import { compact, partition, pick, pluck, uniq } from 'underscore'
 import app from '#app/app'
+import { isEntityUri, isWikidataItemUri } from '#app/lib/boolean_tests'
+import preq from '#app/lib/preq'
+import { someMatch } from '#app/lib/utils'
 import { getEntities } from '#entities/lib/entities'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import { pluralize } from '#entities/lib/types/entities_types'
-import { isEntityUri, isWikidataItemUri } from '#lib/boolean_tests'
-import preq from '#lib/preq'
-import { someMatch } from '#lib/utils'
 
 export async function getHomonymsEntities (entity) {
   const { labels, aliases, type, isWikidataEntity } = entity

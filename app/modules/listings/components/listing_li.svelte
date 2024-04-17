@@ -1,9 +1,9 @@
 <script lang="ts">
   import { pluck } from 'underscore'
   import app from '#app/app'
+  import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { getEntitiesImagesUrls } from '#entities/lib/entities'
-  import { loadInternalLink } from '#lib/utils'
   import { getListingPathname } from '#listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
 

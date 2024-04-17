@@ -24,6 +24,9 @@
       "#behaviors/*": [
         "./app/modules/general/behaviors/*"
       ],
+      "#client/tests/*": [
+        "./tests/*",
+      ],
       "#components/*": [
         "./app/modules/general/components/*"
       ],
@@ -63,9 +66,6 @@
       "#tasks/*": [
         "./app/modules/tasks/*"
       ],
-      "#types/*": [
-        "./app/types/*",
-      ],
       "#server/types/*": [
         "../server/types/*",
       ],
@@ -86,9 +86,6 @@
       ],
       "#assets/*": [
         "./app/assets/*"
-      ],
-      "#lib/*": [
-        "./app/lib/*"
       ],
       "#modules/*": [
         "./app/modules/*"

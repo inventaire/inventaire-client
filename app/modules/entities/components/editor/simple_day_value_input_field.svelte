@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import { i18n } from '#user/lib/i18n'
 
   export let value, name, min, max, placeholder, optional = true, componentId

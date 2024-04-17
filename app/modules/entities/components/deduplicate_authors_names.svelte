@@ -1,8 +1,8 @@
 <script lang="ts">
   import app from '#app/app'
+  import preq from '#app/lib/preq'
+  import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#general/components/spinner.svelte'
-  import preq from '#lib/preq'
-  import { loadInternalLink } from '#lib/utils'
 
   const waitingForNames = fetchNames()
   let names

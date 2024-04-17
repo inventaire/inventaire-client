@@ -1,4 +1,4 @@
-import { isNonEmptyString } from '#lib/boolean_tests'
+import { isNonEmptyString } from '#app/lib/boolean_tests'
 
 let element = null
 

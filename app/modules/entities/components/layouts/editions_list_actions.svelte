@@ -1,14 +1,14 @@
 <script lang="ts">
   import { getContext } from 'svelte'
   import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import SortEntitiesBy from '#entities/components/layouts/sort_entities_by.svelte'
   import { hasSelectedLang } from '#entities/components/lib/claims_helpers'
   import { getLangEntities, getPublishersEntities, getPublicationYears, hasPublisher, hasPublicationYear } from '#entities/components/lib/editions_list_actions_helpers'
   import type { SerializedEntity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
-  import { onChange } from '#lib/svelte/svelte'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let editions: SerializedEntity[]

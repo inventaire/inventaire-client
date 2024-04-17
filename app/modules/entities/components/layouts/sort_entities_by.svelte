@@ -1,10 +1,10 @@
 <script lang="ts">
+  import { icon } from '#app/lib/handlebars_helpers/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import { sortEntities } from '#entities/components/lib/sort_entities_by'
   import { getSortingOptionsByName } from '#entities/components/lib/works_browser_helpers'
   import type { SerializedEntity } from '#entities/lib/entities'
-  import { icon } from '#lib/handlebars_helpers/icons'
-  import { onChange } from '#lib/svelte/svelte'
   import type { Item } from '#server/types/item'
   import { i18n } from '#user/lib/i18n'
 

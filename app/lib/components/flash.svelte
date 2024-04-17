@@ -1,7 +1,7 @@
 <script lang="ts">
+  import { icon } from '#app/lib/icons'
+  import log_ from '#app/lib/loggers'
   import Spinner from '#general/components/spinner.svelte'
-  import { icon } from '#lib/icons'
-  import log_ from '#lib/loggers'
   import { I18n } from '#user/lib/i18n'
 
   export let state = null

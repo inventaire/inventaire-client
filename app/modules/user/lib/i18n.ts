@@ -7,10 +7,10 @@ import app from '#app/app'
 // strings were fetched, but it's so much simpler to handle, and less verbose as
 // we don't need to clutter every layout with events listeners like
 // @listenTo app.user, 'change:language', @render
-import type { UserLang } from '#lib/active_languages.ts'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
-import { capitalize } from '#lib/utils'
+import type { UserLang } from '#app/lib/active_languages.ts'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
+import { capitalize } from '#app/lib/utils'
 import i18nMissingKey from './i18n_missing_key.ts'
 import translate from './translate.ts'
 
@@ -18,7 +18,7 @@ import translate from './translate.ts'
 let update = noop
 let refreshData = noop
 async function lateImport () {
-  ({ update, refreshData } = await import('#lib/uri_label/uri_label'))
+  ({ update, refreshData } = await import('#app/lib/uri_label/uri_label'))
 }
 setTimeout(lateImport, 0)
 

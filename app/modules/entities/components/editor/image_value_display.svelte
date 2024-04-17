@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { I18n } from '#user/lib/i18n'
 
   export let value, property

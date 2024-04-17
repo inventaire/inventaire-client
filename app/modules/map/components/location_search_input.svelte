@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { debounce } from 'underscore'
+  import Flash from '#app/lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
   import { searchLocationByText } from '#map/lib/nominatim'
   import { i18n } from '#user/lib/i18n'
 

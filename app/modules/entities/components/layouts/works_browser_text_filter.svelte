@@ -2,11 +2,11 @@
   import { getContext } from 'svelte'
   import { debounce, pluck } from 'underscore'
   import app from '#app/app'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
+  import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
-  import { icon } from '#lib/icons'
-  import { getActionKey } from '#lib/key_events'
-  import preq from '#lib/preq'
-  import { onChange } from '#lib/svelte/svelte'
   import { I18n, i18n } from '#user/lib/i18n'
 
   export let textFilterUris

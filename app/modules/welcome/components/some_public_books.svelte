@@ -1,10 +1,10 @@
 <script lang="ts">
   import app from '#app/app'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import { screen } from '#app/lib/components/stores/screen'
   import Spinner from '#components/spinner.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { screen } from '#lib/components/stores/screen'
   import { I18n } from '#user/lib/i18n'
 
   const params = {

@@ -1,4 +1,4 @@
-import { fixedEncodeURIComponent, forceArray } from '#lib/utils'
+import { fixedEncodeURIComponent, forceArray } from '#app/lib/utils'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { action } = getEndpointPathBuilders('data')

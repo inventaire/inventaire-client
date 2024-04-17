@@ -1,4 +1,4 @@
-import { isOpenedOutside } from '#lib/utils'
+import { isOpenedOutside } from '#app/lib/utils'
 // Prevent default click event behavior selectively
 
 export default function (e) {

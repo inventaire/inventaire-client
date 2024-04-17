@@ -1,6 +1,6 @@
-import { isPrerenderSession } from '#lib/metadata/update'
-import { forceArray } from '#lib/utils'
-import type { QueryParams } from '#types/entity'
+import { isPrerenderSession } from '#app/lib/metadata/update'
+import { forceArray } from '#app/lib/utils'
+import type { QueryParams } from '#app/types/entity'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { action } = getEndpointPathBuilders('entities')

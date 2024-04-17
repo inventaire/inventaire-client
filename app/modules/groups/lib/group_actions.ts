@@ -1,6 +1,6 @@
 import app from '#app/app'
-import { newError } from '#lib/error'
-import preq from '#lib/preq'
+import { newError } from '#app/lib/error'
+import preq from '#app/lib/preq'
 
 export default {
   inviteUser (user) {

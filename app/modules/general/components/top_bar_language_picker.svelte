@@ -1,10 +1,10 @@
 <script lang="ts">
   import app from '#app/app'
+  import { languages } from '#app/lib/active_languages'
+  import Link from '#app/lib/components/link.svelte'
+  import { icon } from '#app/lib/icons'
+  import { translate } from '#app/lib/urls'
   import Dropdown from '#components/dropdown.svelte'
-  import { languages } from '#lib/active_languages'
-  import Link from '#lib/components/link.svelte'
-  import { icon } from '#lib/icons'
-  import { translate } from '#lib/urls'
   import { I18n, i18n } from '#user/lib/i18n'
 
   const mostCompleteFirst = (a, b) => b.completion - a.completion

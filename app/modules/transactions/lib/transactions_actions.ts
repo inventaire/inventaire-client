@@ -1,4 +1,4 @@
-import assert_ from '#lib/assert_types'
+import assert_ from '#app/lib/assert_types'
 import { cancellableStates } from '#transactions/lib/cancellable_states'
 
 export function getActionUserKey (action, transaction) {

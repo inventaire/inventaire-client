@@ -1,5 +1,6 @@
 import { intersection, pluck, uniq } from 'underscore'
 import app from '#app/app'
+import type { Facets, FacetsSelectedValues } from '#app/types/entity'
 import { sortAlphabetically } from '#entities/components/lib/deduplicate_helpers.ts'
 import {
   getEntitiesAttributesByUris, getYearFromSimpleDay,
@@ -7,7 +8,6 @@ import {
 } from '#entities/lib/entities'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import type { EntityUri } from '#server/types/entity'
-import type { Facets, FacetsSelectedValues } from '#types/entity'
 import { I18n } from '#user/lib/i18n'
 
 export function isSubEntitiesType (type) {

@@ -1,5 +1,5 @@
 import should from 'should'
-import loggers_ from '#lib/loggers'
+import loggers_ from '#app/lib/loggers'
 
 describe('Logger', () => {
   describe('info', () => {

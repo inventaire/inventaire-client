@@ -1,8 +1,8 @@
 <script lang="ts">
   import { range } from 'underscore'
   import app from '#app/app'
-  import Flash from '#lib/components/flash.svelte'
-  import Toggler from '#lib/components/notification_toggler.svelte'
+  import Flash from '#app/lib/components/flash.svelte'
+  import Toggler from '#app/lib/components/notification_toggler.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
 

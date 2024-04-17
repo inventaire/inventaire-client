@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { get as getQuerystringParameter } from '#lib/querystring_helpers'
+import { get as getQuerystringParameter } from '#app/lib/querystring_helpers'
 
 export async function initQuerystringActions () {
   const validEmail = getQuerystringParameter('validEmail')

@@ -1,6 +1,11 @@
 <script lang="ts">
   import { flip } from 'svelte/animate'
   import { debounce } from 'underscore'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { onScrollToBottom } from '#app/lib/screen'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import { setIntersection } from '#app/lib/utils'
   import EntityListCompact from '#entities/components/layouts/entity_list_compact.svelte'
   import EntityListCompactTitleRow from '#entities/components/layouts/entity_list_compact_title_row.svelte'
   import EntityListRow from '#entities/components/layouts/entity_list_row.svelte'
@@ -12,11 +17,6 @@
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { addWorksImages } from '#entities/lib/types/work_alt'
   import Spinner from '#general/components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { screen } from '#lib/components/stores/screen'
-  import { onScrollToBottom } from '#lib/screen'
-  import { onChange } from '#lib/svelte/svelte'
-  import { setIntersection } from '#lib/utils'
   import type { EntityUri } from '#server/types/entity'
   import { i18n } from '#user/lib/i18n'
 

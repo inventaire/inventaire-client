@@ -1,6 +1,7 @@
 <script lang="ts">
   import { setContext } from 'svelte'
   import { debounce } from 'underscore'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
@@ -8,7 +9,6 @@
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { bySerieOrdinal } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
-  import { onChange } from '#lib/svelte/svelte'
   import AuthorsInfo from './authors_info.svelte'
   import BaseLayout from './base_layout.svelte'
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'

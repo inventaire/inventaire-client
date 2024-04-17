@@ -1,6 +1,6 @@
+import { isImageHash } from '#app/lib/boolean_tests'
+import { serverReportError } from '#app/lib/error'
 import { pluralize } from '#entities/lib/types/entities_types'
-import { isImageHash } from '#lib/boolean_tests'
-import { serverReportError } from '#lib/error'
 import { getUserBasePathname } from '#users/lib/users'
 
 export function serializeResult (result) {

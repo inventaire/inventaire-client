@@ -1,6 +1,6 @@
 import { isString } from 'underscore'
-import { newError } from '#lib/error'
-import log_ from '#lib/loggers'
+import { newError } from '#app/lib/error'
+import log_ from '#app/lib/loggers'
 import { i18n } from '#user/lib/i18n'
 
 // behaviors: Loading MUST be added to the view

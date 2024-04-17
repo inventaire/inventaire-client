@@ -1,5 +1,5 @@
-import assert_ from '#lib/assert_types'
-import { iconPaths } from '#lib/handlebars_helpers/icon_paths'
+import assert_ from '#app/lib/assert_types'
+import { iconPaths } from '#app/lib/handlebars_helpers/icon_paths'
 
 const iconAliases = {
   giving: 'heart',

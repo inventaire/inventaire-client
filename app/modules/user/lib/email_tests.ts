@@ -1,7 +1,7 @@
 import app from '#app/app'
+import { isEmail } from '#app/lib/boolean_tests'
+import preq from '#app/lib/preq'
 import { pass } from '#general/lib/forms'
-import { isEmail } from '#lib/boolean_tests'
-import preq from '#lib/preq'
 import type { Email } from '#server/types/user'
 
 // Verifies that the email isnt already in use

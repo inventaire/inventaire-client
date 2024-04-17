@@ -5,8 +5,8 @@
 // - Trigger uriLabel.update to make it look for those elements
 //   and replace their text by the best label it can find for the Qid
 import { difference, debounce } from 'underscore'
+import log_ from '#app/lib/loggers'
 import { get as getEntitiesModels } from '#entities/lib/entities_models_index'
-import log_ from '#lib/loggers'
 import {
   getLabel,
   setLabel,

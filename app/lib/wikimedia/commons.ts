@@ -1,4 +1,4 @@
-import { fixedEncodeURIComponent } from '#lib/utils'
+import { fixedEncodeURIComponent } from '#app/lib/utils'
 
 // For more complete data (author, license, ...)
 // See in the server repo: server/data/commons/thumb.js

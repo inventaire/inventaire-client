@@ -1,13 +1,13 @@
 <script lang="ts">
   import { property, pluck } from 'underscore'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { icon } from '#app/lib/icons'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import WorksBrowserFacets from '#entities/components/layouts/works_browser_facets.svelte'
   import WorksBrowserSection from '#entities/components/layouts/works_browser_section.svelte'
   import WorksBrowserTextFilter from '#entities/components/layouts/works_browser_text_filter.svelte'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import Flash from '#lib/components/flash.svelte'
-  import { screen } from '#lib/components/stores/screen'
-  import { icon } from '#lib/icons'
   import { I18n, i18n } from '#user/lib/i18n'
 
   export let sections = []

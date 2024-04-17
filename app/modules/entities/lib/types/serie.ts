@@ -1,6 +1,6 @@
 import { uniq, pluck, compact } from 'underscore'
 import app from '#app/app'
-import preq from '#lib/preq'
+import preq from '#app/lib/preq'
 import commonsSerieWork from './commons_serie_work.ts'
 
 export default function () {

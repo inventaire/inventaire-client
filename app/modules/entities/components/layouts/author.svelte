@@ -1,6 +1,8 @@
 <script lang="ts">
   import { setContext } from 'svelte'
   import { debounce } from 'underscore'
+  import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
+  import { onChange } from '#app/lib/svelte/svelte'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
@@ -10,8 +12,6 @@
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
   import Spinner from '#general/components/spinner.svelte'
-  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
-  import { onChange } from '#lib/svelte/svelte'
   import { i18n } from '#user/lib/i18n'
   import EntityImage from '../entity_image.svelte'
   import BaseLayout from './base_layout.svelte'

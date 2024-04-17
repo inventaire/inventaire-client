@@ -1,9 +1,9 @@
 <script lang="ts">
   import { pick } from 'underscore'
+  import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
   import { propertiesByRoles } from '#entities/components/lib/claims_helpers'
   import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
-  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import AuthorsInfoRole from './authors_info_role.svelte'
 
   export let claims = {}

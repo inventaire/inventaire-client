@@ -1,6 +1,6 @@
 import { isString, isArguments } from 'underscore'
 import app from '#app/app'
-import { reportError } from '#lib/reports'
+import { reportError } from '#app/lib/reports'
 
 const log = (obj, label?) => {
   // customizing console.log

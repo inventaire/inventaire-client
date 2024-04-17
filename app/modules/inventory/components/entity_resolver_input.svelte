@@ -1,8 +1,8 @@
 <script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
   import EntityValueDisplay from '#entities/components/editor/entity_value_display.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
   import type { EntityType, EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
 

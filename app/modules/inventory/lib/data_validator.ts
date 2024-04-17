@@ -1,4 +1,4 @@
-import { newError } from '#lib/error'
+import { newError } from '#app/lib/error'
 import { I18n } from '#user/lib/i18n'
 
 export default function (importer, data) {

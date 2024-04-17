@@ -1,6 +1,6 @@
 import { isFunction } from 'underscore'
+import { isOpenedOutside } from '#app/lib/utils'
 import PreventDefault from '#behaviors/prevent_default'
-import { isOpenedOutside } from '#lib/utils'
 import errorTemplate from './templates/error.hbs'
 import '../scss/error_layout.scss'
 

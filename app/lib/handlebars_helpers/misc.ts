@@ -1,10 +1,10 @@
 import Handlebars from 'handlebars/runtime.js'
 import { isString, isObject } from 'underscore'
 import app from '#app/app'
-import { parseQuery } from '#lib/location'
-import log_ from '#lib/loggers'
-import { timeFromNow } from '#lib/time'
-import { capitalize } from '#lib/utils'
+import { parseQuery } from '#app/lib/location'
+import log_ from '#app/lib/loggers'
+import { timeFromNow } from '#app/lib/time'
+import { capitalize } from '#app/lib/utils'
 import { i18n } from '#user/lib/i18n'
 
 // @ts-expect-error

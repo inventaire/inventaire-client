@@ -1,7 +1,7 @@
 <script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
   import EntityLayoutActionsMenu from '#entities/components/layouts/entity_layout_actions_menu.svelte'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
-  import Flash from '#lib/components/flash.svelte'
   import { I18n } from '#user/lib/i18n'
   import EmbeddedWelcome from '#welcome/components/embedded_welcome.svelte'
   import { buildAltUri } from '../lib/entities.ts'

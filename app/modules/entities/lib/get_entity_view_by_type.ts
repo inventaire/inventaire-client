@@ -1,5 +1,5 @@
+import { newError } from '#app/lib/error'
 import { getEntities } from '#entities/lib/entities'
-import { newError } from '#lib/error'
 
 export default async function getEntityViewByType (model) {
   const entity = model.toJSON()

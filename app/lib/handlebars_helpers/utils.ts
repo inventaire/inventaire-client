@@ -1,8 +1,8 @@
 import Handlebars from 'handlebars/runtime.js'
 import { isString, compact } from 'underscore'
-import { isNonEmptyArray } from '#lib/boolean_tests'
-import log_ from '#lib/loggers'
-import { fixedEncodeURIComponent } from '#lib/utils'
+import { isNonEmptyArray } from '#app/lib/boolean_tests'
+import log_ from '#app/lib/loggers'
+import { fixedEncodeURIComponent } from '#app/lib/utils'
 
 // @ts-expect-error
 const { SafeString, escapeExpression } = Handlebars

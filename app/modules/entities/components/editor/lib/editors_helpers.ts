@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 import wdLang from 'wikidata-lang'
-import { newError } from '#lib/error'
+import { newError } from '#app/lib/error'
 import { i18n } from '#user/lib/i18n'
 
 const { byCode: langByCode } = wdLang

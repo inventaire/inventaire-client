@@ -1,6 +1,6 @@
 import app from '#app/app'
-import { buildPath } from '#lib/location'
-import { forceArray } from '#lib/utils'
+import { buildPath } from '#app/lib/location'
+import { forceArray } from '#app/lib/utils'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { base } = getEndpointPathBuilders('search')

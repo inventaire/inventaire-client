@@ -1,7 +1,7 @@
 import app from '#app/app'
-import { serverReportError } from '#lib/error'
-import preq from '#lib/preq'
-import { searchWikidataEntities } from '#lib/wikimedia/wikidata'
+import { serverReportError } from '#app/lib/error'
+import preq from '#app/lib/preq'
+import { searchWikidataEntities } from '#app/lib/wikimedia/wikidata'
 
 // Uses wbsearchentities despite its lack of inter-languages support
 // because it returns hits labels, descriptions and aliases

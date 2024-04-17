@@ -1,7 +1,7 @@
 import { pluck, intersection } from 'underscore'
 import app from '#app/app'
+import { isPositiveIntegerString } from '#app/lib/boolean_tests'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
-import { isPositiveIntegerString } from '#lib/boolean_tests'
 
 export default async function ({ entity }) {
   let worksUris = entity.claims['wdt:P629']

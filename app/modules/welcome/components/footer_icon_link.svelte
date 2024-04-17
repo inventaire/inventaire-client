@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { icon as iconFn } from '#lib/handlebars_helpers/icons'
+  import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
 
   export let url
   export let icon

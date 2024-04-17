@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { debounce } from 'underscore'
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
   import { i18n, I18n } from '#user/lib/i18n'
   import EntityPreview from './entity_preview.svelte'
 

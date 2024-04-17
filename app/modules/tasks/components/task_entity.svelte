@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
   import EntityImage from '#entities/components/entity_image.svelte'
   import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
   import EntityTitle from '#entities/components/layouts/entity_title.svelte'
@@ -9,7 +10,6 @@
   import { omitClaims } from '#entities/components/lib/work_helpers'
   import WorkSubEntity from '#entities/components/work_sub_entity.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
   import { sortMatchedLabelsEntities, hasMatchedLabel } from '#tasks/components/lib/tasks_helpers.ts'
   import { I18n, i18n } from '#user/lib/i18n'
 

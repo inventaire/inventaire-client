@@ -1,7 +1,7 @@
 import { indexBy } from 'underscore'
 import app from '#app/app'
+import preq from '#app/lib/preq'
 import { serializeItem, setItemUserData, type SerializedItemWithUserData } from '#inventory/lib/items'
-import preq from '#lib/preq'
 import type { EntityUri } from '#server/types/entity'
 import { serializeUser } from '#users/lib/users'
 

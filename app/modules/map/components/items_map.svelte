@@ -1,11 +1,11 @@
 <script lang="ts">
   import { pluck, uniq, pick } from 'underscore'
   import app from '#app/app'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { isNearby } from '#entities/components/layouts/items_lists/items_lists_helpers'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
   import { transactionsData } from '#inventory/lib/transactions_data'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { onChange } from '#lib/svelte/svelte'
   import ItemMarker from '#map/components/item_marker.svelte'
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import MapFilters from '#map/components/map_filters.svelte'

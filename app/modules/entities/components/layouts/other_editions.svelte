@@ -1,7 +1,7 @@
 <script lang="ts">
+  import { isNonEmptyPlainObject, isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Link from '#app/lib/components/link.svelte'
   import { isOtherEditionWithCover } from '#entities/components/lib/edition_layout_helpers'
-  import { isNonEmptyPlainObject, isNonEmptyArray } from '#lib/boolean_tests'
-  import Link from '#lib/components/link.svelte'
   import { I18n } from '#user/lib/i18n'
   import EntityImage from '../entity_image.svelte'
 

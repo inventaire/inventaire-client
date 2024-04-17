@@ -1,7 +1,7 @@
+import { isNonEmptyArray } from '#app/lib/boolean_tests'
+import { deepClone, flatMapKeyValues } from '#app/lib/utils'
 import { authorRolePropertiesSet, getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
 import { properties, propertiesPerTypeAndCategory } from '#entities/lib/editor/properties_per_type'
-import { isNonEmptyArray } from '#lib/boolean_tests'
-import { deepClone, flatMapKeyValues } from '#lib/utils'
 
 export function getTypePropertiesPerCategory (entity) {
   const { type } = entity

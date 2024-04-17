@@ -1,13 +1,13 @@
 <script lang="ts">
   import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import Link from '#app/lib/components/link.svelte'
+  import { icon } from '#app/lib/icons'
+  import preq from '#app/lib/preq'
   import Dropdown from '#components/dropdown.svelte'
   import Spinner from '#components/spinner.svelte'
   import { getWikidataUrl } from '#entities/lib/entities'
   import { checkWikidataMoveabilityStatus, moveToWikidata } from '#entities/lib/move_to_wikidata'
-  import Flash from '#lib/components/flash.svelte'
-  import Link from '#lib/components/link.svelte'
-  import { icon } from '#lib/icons'
-  import preq from '#lib/preq'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let entity

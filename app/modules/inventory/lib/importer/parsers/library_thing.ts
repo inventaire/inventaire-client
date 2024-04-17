@@ -1,4 +1,4 @@
-import { isPositiveIntegerString, isDateString } from '#lib/boolean_tests'
+import { isPositiveIntegerString, isDateString } from '#app/lib/boolean_tests'
 import decodeHtmlEntities from './decode_html_entities.ts'
 
 export default obj => ({

@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher, tick } from 'svelte'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import { newError } from '#app/lib/error'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/components/editor/lib/title_tip'
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import { newError } from '#lib/error'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
   import { I18n } from '#user/lib/i18n'
 
   export let currentValue, getInputValue, entity, property

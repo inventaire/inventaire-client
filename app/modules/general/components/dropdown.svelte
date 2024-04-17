@@ -5,10 +5,10 @@
   import { tick } from 'svelte'
   import { slide } from 'svelte/transition'
   import { isFunction } from 'underscore'
-  import { screen } from '#lib/components/stores/screen'
-  import { getActionKey } from '#lib/key_events'
-  import { getViewportHeight, getViewportWidth } from '#lib/screen'
-  import { convertEmToPx } from '#lib/utils'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { getActionKey } from '#app/lib/key_events'
+  import { getViewportHeight, getViewportWidth } from '#app/lib/screen'
+  import { convertEmToPx } from '#app/lib/utils'
 
   export let buttonTitle = null
   export let align: Align = null

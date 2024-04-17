@@ -1,8 +1,8 @@
 <script lang="ts">
   import { slide } from 'svelte/transition'
-  import { screen } from '#lib/components/stores/screen'
-  import { icon } from '#lib/icons'
-  import { onChange } from '#lib/svelte/svelte'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import SearchSection from '#search/components/search_section.svelte'
   import { sections } from '#search/lib/search_sections'
   import { I18n } from '#user/lib/i18n'

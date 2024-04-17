@@ -1,8 +1,8 @@
 <script lang="ts">
   import L from 'leaflet'
   import { getContext, onDestroy, onMount, tick } from 'svelte'
-  import log_ from '#lib/loggers'
-  import { onChange } from '#lib/svelte/svelte'
+  import log_ from '#app/lib/loggers'
+  import { onChange } from '#app/lib/svelte/svelte'
 
   export let latLng
   export let standalone = false

@@ -1,8 +1,8 @@
 import app from '#app/app'
+import { isWikidataItemUri } from '#app/lib/boolean_tests'
+import preq from '#app/lib/preq'
+import { unprefixify } from '#app/lib/wikimedia/wikidata'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
-import { isWikidataItemUri } from '#lib/boolean_tests'
-import preq from '#lib/preq'
-import { unprefixify } from '#lib/wikimedia/wikidata'
 import { i18n, I18n } from '#user/lib/i18n'
 
 export async function moveToWikidata (invEntityUri) {

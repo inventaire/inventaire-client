@@ -1,5 +1,5 @@
 import ISBN from 'isbn3'
-import log_ from '#lib/loggers'
+import log_ from '#app/lib/loggers'
 
 export default function (onDetectedActions) {
   const { showInvalidIsbnWarning, addIsbn } = onDetectedActions

@@ -1,6 +1,6 @@
 import app from '#app/app'
+import { isOpenedOutside } from '#app/lib/utils'
 import FullScreenLoader from '#components/full_screen_loader.svelte'
-import { isOpenedOutside } from '#lib/utils'
 
 // Work around circular dependencies
 let FeedbackMenu

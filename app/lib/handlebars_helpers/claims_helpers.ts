@@ -1,10 +1,10 @@
 import Handlebars from 'handlebars/runtime.js'
 import { last, compact } from 'underscore'
 import app from '#app/app'
+import { isEntityUri } from '#app/lib/boolean_tests'
+import { newError } from '#app/lib/error'
 import entityValue from '#general/views/behaviors/templates/entity_value.hbs'
 import propertyValue from '#general/views/behaviors/templates/property_value.hbs'
-import { isEntityUri } from '#lib/boolean_tests'
-import { newError } from '#lib/error'
 import { isWikidataItemId, isWikidataPropertyId, isWikidataPropertyUri } from '../boolean_tests.ts'
 
 // @ts-expect-error

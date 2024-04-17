@@ -1,13 +1,13 @@
 <script lang="ts">
   import { without, property } from 'underscore'
+  import { isNonEmptyString, isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import log_ from '#app/lib/loggers'
+  import { waitForAttribute } from '#app/lib/promises'
+  import { onChange } from '#app/lib/svelte/svelte'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
   import { getUserExistingItemsPathname, statusContents } from '#inventory/components/importer/lib/candidate_row_helpers'
-  import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
-  import log_ from '#lib/loggers'
-  import { waitForAttribute } from '#lib/promises'
-  import { onChange } from '#lib/svelte/svelte'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let candidate

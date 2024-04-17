@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { difference, groupBy } from 'underscore'
-  import { icon } from '#lib/icons'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import { icon } from '#app/lib/icons'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import ItemsMap from '#map/components/items_map.svelte'
   import type { EntityUri } from '#server/types/entity.ts'
   import type { Item } from '#server/types/item.ts'

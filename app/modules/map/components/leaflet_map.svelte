@@ -10,9 +10,9 @@
   import 'leaflet.markercluster'
   // TODO: split markers style between components
   import '#map/scss/objects_markers.scss'
-  import Flash from '#lib/components/flash.svelte'
-  import isMobile from '#lib/mobile_check'
-  import { onChange } from '#lib/svelte/svelte'
+  import Flash from '#app/lib/components/flash.svelte'
+  import isMobile from '#app/lib/mobile_check'
+  import { onChange } from '#app/lib/svelte/svelte'
   import LocationSearchInput from '#map/components/location_search_input.svelte'
   import mapConfig from '#map/lib/config.ts'
   import { uniqBounds } from '#map/lib/map'

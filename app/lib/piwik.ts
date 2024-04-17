@@ -1,9 +1,9 @@
 import { noop, debounce } from 'underscore'
 import app from '#app/app'
 import { config } from '#app/config'
-import { isUserId } from '#lib/boolean_tests'
-import log_ from '#lib/loggers'
-import { isPrerenderSession } from '#lib/metadata/update'
+import { isUserId } from '#app/lib/boolean_tests'
+import log_ from '#app/lib/loggers'
+import { isPrerenderSession } from '#app/lib/metadata/update'
 // Module adapted from snippet at
 // https://piwik.instance/index.php?module=CoreAdminHome&action=trackingCodeGenerator&idSite=11&period=day&date=today
 

@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount, tick } from 'svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon } from '#lib/icons'
-  import { loadInternalLink } from '#lib/utils'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { icon } from '#app/lib/icons'
+  import { loadInternalLink } from '#app/lib/utils'
   import { getTransactionStateText, serializeTransaction } from '#transactions/lib/transactions'
 
   export let transaction

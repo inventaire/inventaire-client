@@ -1,6 +1,6 @@
 import app from '#app/app'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
 import requestLogout from './request_logout.ts'
 
 export default function () {

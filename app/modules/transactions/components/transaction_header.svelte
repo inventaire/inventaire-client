@@ -1,9 +1,9 @@
 <script lang="ts">
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { icon } from '#app/lib/icons'
+  import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import { getItemPathname } from '#inventory/lib/items'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon } from '#lib/icons'
-  import { loadInternalLink } from '#lib/utils'
   import { attachLinkedDocs, getTransactionContext } from '#transactions/lib/transactions'
   import { getUserBasePathname } from '#users/lib/users'
 

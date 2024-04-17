@@ -1,8 +1,8 @@
 <script lang="ts">
   import app from '#app/app'
-  import PasswordInput from '#lib/components/password_input.svelte'
-  import { currentRoute } from '#lib/location'
-  import log_ from '#lib/loggers'
+  import PasswordInput from '#app/lib/components/password_input.svelte'
+  import { currentRoute } from '#app/lib/location'
+  import log_ from '#app/lib/loggers'
   import { passwordConfirmation, passwordUpdate } from '#user/lib/auth'
   import { I18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'

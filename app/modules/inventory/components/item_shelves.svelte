@@ -1,11 +1,11 @@
 <script lang="ts">
   import { debounce, isEqual } from 'underscore'
   import app from '#app/app'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import ShelfInfo from '#inventory/components/shelf_info.svelte'
-  import { icon } from '#lib/icons'
-  import { onChange } from '#lib/svelte/svelte'
-  import { loadInternalLink } from '#lib/utils'
   import { getShelvesByOwner, getShelvesByIds } from '#shelves/lib/shelves'
   import { i18n, I18n } from '#user/lib/i18n'
 

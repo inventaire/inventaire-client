@@ -1,6 +1,6 @@
-import { isModel } from '#lib/boolean_tests'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
+import { isModel } from '#app/lib/boolean_tests'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
 
 export default function (app) {
   const action = function (user, action, newStatus) {

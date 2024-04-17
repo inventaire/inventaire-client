@@ -1,6 +1,6 @@
 <script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
   import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
-  import Link from '#lib/components/link.svelte'
 
   export let name, property, value
 

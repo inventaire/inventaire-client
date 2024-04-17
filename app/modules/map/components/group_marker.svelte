@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { icon } from '#app/lib/icons'
+  import { isOpenedOutside } from '#app/lib/utils'
   import { getGroupMembersCount, getGroupPathname, getGroupPicture } from '#groups/lib/groups'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon } from '#lib/icons'
-  import { isOpenedOutside } from '#lib/utils'
   import { I18n } from '#user/lib/i18n'
 
   export let doc

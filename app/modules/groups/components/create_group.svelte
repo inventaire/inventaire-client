@@ -1,14 +1,14 @@
 <script lang="ts">
   import app from '#app/app'
+  import { autosize } from '#app/lib/components/actions/autosize'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import preq from '#app/lib/preq'
+  import { wait } from '#app/lib/promises'
   import Spinner from '#components/spinner.svelte'
   import GroupOpenness from '#groups/components/group_openness.svelte'
   import GroupSearchability from '#groups/components/group_searchability.svelte'
   import GroupUrl from '#groups/components/group_url.svelte'
-  import { autosize } from '#lib/components/actions/autosize'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
-  import preq from '#lib/preq'
-  import { wait } from '#lib/promises'
   import { i18n, I18n } from '#user/lib/i18n'
 
   app.execute('modal:open', 'medium')

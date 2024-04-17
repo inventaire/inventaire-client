@@ -1,9 +1,9 @@
 <script lang="ts">
   import { uniq, without } from 'underscore'
+  import { onChange } from '#app/lib/svelte/svelte'
   import InfoTip from '#components/info_tip.svelte'
   import { getGroupVisibilityKey, isNotGroupVisibilityKey, commonVisibilityKeys } from '#general/lib/visibility'
   import { guessInitialVisibility } from '#inventory/components/lib/item_creation_helpers'
-  import { onChange } from '#lib/svelte/svelte'
   import { i18n, I18n } from '#user/lib/i18n'
   import { userGroups } from '#user/user_groups_store'
 

@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { propertiesEditorsConfigs } from '#entities/lib/properties'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
 
   export let currentValue, property, valueLabel, entity
 

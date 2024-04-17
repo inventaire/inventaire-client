@@ -1,16 +1,16 @@
 import { flatten, chunk, compact, indexBy, pluck } from 'underscore'
 import app from '#app/app'
+import assert_ from '#app/lib/assert_types'
+import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#app/lib/boolean_tests'
+import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
+import preq from '#app/lib/preq'
+import { expired } from '#app/lib/time'
+import { forceArray } from '#app/lib/utils'
+import type { Entity, RedirectionsByUris } from '#app/types/entity'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
-import assert_ from '#lib/assert_types'
-import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#lib/boolean_tests'
-import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
-import preq from '#lib/preq'
-import { expired } from '#lib/time'
-import { forceArray } from '#lib/utils'
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
 import type { RelativeUrl, Url } from '#server/types/common'
 import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityUri } from '#server/types/entity'
-import type { Entity, RedirectionsByUris } from '#types/entity'
 import getBestLangValue from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
 import type { Entries } from 'type-fest'
@@ -30,7 +30,7 @@ export type SerializedEntity = Entity & {
   prefix: EntityUriPrefix
   id: EntityId
   isWikidataEntity: boolean
-  // Can be set by #lib/types/work_alt.ts#setEntityImages
+  // Can be set by #app/lib/types/work_alt.ts#setEntityImages
   images?: Url[]
   // Can be set by app/modules/entities/components/layouts/entity_layout_actions.svelte
   refreshTimestamp?: EpochTimeStamp

@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { parseQuery, buildPath, setQuerystring, routeSection } from '#lib/location'
+import { parseQuery, buildPath, setQuerystring, routeSection } from '#app/lib/location'
 import allowPersistantQuery from './allow_persistant_query.ts'
 
 export default function () {

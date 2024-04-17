@@ -1,6 +1,6 @@
 import app from '#app/app'
-import { isNonEmptyArray } from '#lib/boolean_tests'
-import preq from '#lib/preq'
+import { isNonEmptyArray } from '#app/lib/boolean_tests'
+import preq from '#app/lib/preq'
 
 const backlogs = {
   byScore: [],

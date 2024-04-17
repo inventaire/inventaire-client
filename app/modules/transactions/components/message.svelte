@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { userContent } from '#lib/handlebars_helpers/user_content'
-  import { getLocalTimeString, timeFromNow } from '#lib/time'
-  import { loadInternalLink } from '#lib/utils'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { userContent } from '#app/lib/handlebars_helpers/user_content'
+  import { getLocalTimeString, timeFromNow } from '#app/lib/time'
+  import { loadInternalLink } from '#app/lib/utils'
 
   export let messageDoc
 

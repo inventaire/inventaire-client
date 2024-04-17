@@ -1,7 +1,7 @@
 <script lang="ts">
   import app from '#app/app'
-  import { icon } from '#lib/icons'
-  import { apiDoc } from '#lib/urls'
+  import { icon } from '#app/lib/icons'
+  import { apiDoc } from '#app/lib/urls'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let user

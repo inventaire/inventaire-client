@@ -1,13 +1,13 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import type { Align } from '#components/dropdown.svelte'
   import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
   import type { SerializedEntity } from '#entities/lib/entities'
   import type { SerializedItemWithUserData } from '#inventory/lib/items'
-  import Flash from '#lib/components/flash.svelte'
-  import { screen } from '#lib/components/stores/screen'
-  import { icon } from '#lib/icons'
-  import { onChange } from '#lib/svelte/svelte'
   import { i18n } from '#user/lib/i18n'
 
   const dispatch = createEventDispatcher()

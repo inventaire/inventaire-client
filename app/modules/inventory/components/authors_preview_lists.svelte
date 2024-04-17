@@ -1,8 +1,8 @@
 <script lang="ts">
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { loadInternalLink } from '#app/lib/utils'
   import type { SerializedEntity } from '#entities/lib/entities'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { loadInternalLink } from '#lib/utils'
   import type { PropertyUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
 

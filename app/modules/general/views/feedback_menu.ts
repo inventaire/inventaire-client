@@ -1,11 +1,11 @@
 import app from '#app/app'
+import { contact } from '#app/lib/urls'
 import ElasticTextarea from '#behaviors/elastic_textarea'
 import General from '#behaviors/general'
 import Loading from '#behaviors/loading'
 import PreventDefault from '#behaviors/prevent_default'
 import SuccessCheck from '#behaviors/success_check'
 import behaviorsPlugin from '#general/plugins/behaviors'
-import { contact } from '#lib/urls'
 import feedbackMenuTemplate from './templates/feedback_menu.hbs'
 import '../scss/feedback.scss'
 

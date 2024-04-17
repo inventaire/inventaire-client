@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import app from '#app/app'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { forceArray, isOpenedOutside, loadInternalLink } from '#lib/utils'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { forceArray, isOpenedOutside, loadInternalLink } from '#app/lib/utils'
   import { serializeResult, urlifyImageHash } from '#search/lib/search_results'
   import { i18n } from '#user/lib/i18n'
 

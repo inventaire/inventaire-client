@@ -1,6 +1,6 @@
 import { compact } from 'underscore'
-import { isPositiveIntegerString, isDateString } from '#lib/boolean_tests'
-import { trim, capitalize } from '#lib/utils'
+import { isPositiveIntegerString, isDateString } from '#app/lib/boolean_tests'
+import { trim, capitalize } from '#app/lib/utils'
 
 export default obj => ({
   rawEntry: obj,

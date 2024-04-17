@@ -1,7 +1,7 @@
 import { chain } from 'underscore'
 import app from '#app/app'
+import { props as promiseProps } from '#app/lib/promises'
 import { authorProperties } from '#entities/lib/properties'
-import { props as promiseProps } from '#lib/promises'
 
 export default {
   getExtendedAuthorsModels () {

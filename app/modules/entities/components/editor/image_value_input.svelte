@@ -1,11 +1,11 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { debounce } from 'underscore'
+  import { isUrl } from '#app/lib/boolean_tests'
+  import { getFirstFileDataUrl, resetFileInput } from '#app/lib/files'
+  import { icon } from '#app/lib/icons'
+  import { getCropper, getImageHashFromDataUrl, getUrlDataUrl } from '#app/lib/images'
   import Spinner from '#components/spinner.svelte'
-  import { isUrl } from '#lib/boolean_tests'
-  import { getFirstFileDataUrl, resetFileInput } from '#lib/files'
-  import { icon } from '#lib/icons'
-  import { getCropper, getImageHashFromDataUrl, getUrlDataUrl } from '#lib/images'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let currentValue, getInputValue, fileInput, waitingForCropper, imageElement

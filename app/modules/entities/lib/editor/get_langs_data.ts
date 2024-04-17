@@ -1,7 +1,7 @@
 import { uniq } from 'underscore'
 import app from '#app/app'
-import { langs as activeLangs } from '#lib/active_languages'
-import availableLangList from '#lib/available_lang_list'
+import { langs as activeLangs } from '#app/lib/active_languages'
+import availableLangList from '#app/lib/available_lang_list'
 
 export default function (selectedLang, labels) {
   const availableLangs = Object.keys(labels)

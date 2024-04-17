@@ -1,6 +1,6 @@
 import { min } from 'underscore'
-import log_ from '#lib/loggers'
-import { getViewportHeight, getViewportWidth } from '#lib/screen'
+import log_ from '#app/lib/loggers'
+import { getViewportHeight, getViewportWidth } from '#app/lib/screen'
 import drawCanvas from './draw_canvas.ts'
 import onDetected from './on_detected.ts'
 

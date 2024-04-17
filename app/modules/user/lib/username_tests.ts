@@ -1,7 +1,7 @@
 import app from '#app/app'
+import preq from '#app/lib/preq'
+import { Username } from '#app/lib/regex'
 import { pass } from '#general/lib/forms'
-import preq from '#lib/preq'
-import { Username } from '#lib/regex'
 
 async function verifyUsernameAvailability (username) {
   await preq.get(app.API.auth.usernameAvailability(username))

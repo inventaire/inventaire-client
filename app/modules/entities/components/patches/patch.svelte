@@ -1,10 +1,10 @@
 <script lang="ts">
   import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import preq from '#app/lib/preq'
+  import { getLocalTimeString, timeFromNow } from '#app/lib/time'
+  import { loadInternalLink } from '#app/lib/utils'
   import Operation from '#entities/components/patches/operation.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import preq from '#lib/preq'
-  import { getLocalTimeString, timeFromNow } from '#lib/time'
-  import { loadInternalLink } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let patch

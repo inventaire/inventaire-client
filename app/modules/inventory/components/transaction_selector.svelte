@@ -1,7 +1,7 @@
 <script lang="ts">
+  import { icon } from '#app/lib/icons'
   import { guessInitialTransaction } from '#inventory/components/lib/item_creation_helpers'
   import { transactionsDataFactory } from '#inventory/lib/transactions_data'
-  import { icon } from '#lib/icons'
   import { I18n } from '#user/lib/i18n'
 
   export let transaction, showDescription = false

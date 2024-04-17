@@ -1,13 +1,13 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import app from '#app/app'
+  import Link from '#app/lib/components/link.svelte'
+  import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
+  import { treq } from '#app/lib/preq'
+  import type { Entity } from '#app/types/entity'
   import { getWikidataUrl, getWikidataHistoryUrl, serializeEntity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
-  import Link from '#lib/components/link.svelte'
-  import { icon as iconFn } from '#lib/handlebars_helpers/icons'
-  import { treq } from '#lib/preq'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
-  import type { Entity } from '#types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let entity, showEntityEditButtons = true

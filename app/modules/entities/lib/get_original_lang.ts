@@ -1,7 +1,7 @@
 import { pick } from 'underscore'
 import wdLang from 'wikidata-lang'
-import { pickOne, objLength } from '#lib/utils'
-import { unprefixify } from '#lib/wikimedia/wikidata'
+import { pickOne, objLength } from '#app/lib/utils'
+import { unprefixify } from '#app/lib/wikimedia/wikidata'
 
 const langProperties = [
   'wdt:P103', // native language

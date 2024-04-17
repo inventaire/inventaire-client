@@ -1,9 +1,9 @@
 <script lang="ts">
   import { pluck } from 'underscore'
   import app from '#app/app'
+  import preq, { treq } from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { serializeEntity } from '#entities/lib/entities'
-  import preq, { treq } from '#lib/preq'
-  import { onChange } from '#lib/svelte/svelte'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
   import type { TaskId } from '#server/types/task'
   import getNextTask from '#tasks/lib/get_next_task.ts'

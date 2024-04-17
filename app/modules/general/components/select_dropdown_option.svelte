@@ -1,8 +1,8 @@
 <script lang="ts">
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { icon } from '#app/lib/icons'
+  import { truncateText } from '#app/lib/utils'
   import Spinner from '#general/components/spinner.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon } from '#lib/icons'
-  import { truncateText } from '#lib/utils'
 
   export let option, withImage = false, displayCount = true
 </script>

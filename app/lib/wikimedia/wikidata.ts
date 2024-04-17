@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { buildPath } from '#lib/location'
+import { buildPath } from '#app/lib/location'
 
 export function searchWikidataEntities (params) {
   const { search, limit, offset } = params

@@ -1,10 +1,10 @@
 import { isString } from 'underscore'
 import app from '#app/app'
+import assert_ from '#app/lib/assert_types'
+import { isModel } from '#app/lib/boolean_tests'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
 import Item from '#inventory/models/item'
-import assert_ from '#lib/assert_types'
-import { isModel } from '#lib/boolean_tests'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
 import { i18n } from '#user/lib/i18n'
 
 export default {

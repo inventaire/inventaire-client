@@ -1,4 +1,4 @@
-import assert_ from '#lib/assert_types'
+import assert_ from '#app/lib/assert_types'
 
 export function resizeObserver (node, options) {
   const { onElementResize } = options

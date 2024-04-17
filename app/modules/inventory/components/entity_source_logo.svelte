@@ -1,6 +1,6 @@
 <script lang="ts">
   import app from '#app/app'
-  import { icon } from '#lib/icons'
+  import { icon } from '#app/lib/icons'
 
   export let entity
   const { uri } = entity

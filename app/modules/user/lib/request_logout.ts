@@ -1,7 +1,7 @@
 import app from '#app/app'
-import { localStorageProxy } from '#lib/local_storage'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
+import { localStorageProxy } from '#app/lib/local_storage'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
 
 export default redirect => {
   preq.post(app.API.auth.logout)

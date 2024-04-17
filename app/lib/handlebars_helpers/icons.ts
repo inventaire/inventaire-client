@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars/runtime.js'
 import { isString, isObject } from 'underscore'
-import { icon as _icon } from '#lib/icons'
-import { parseQuery } from '#lib/location'
+import { icon as _icon } from '#app/lib/icons'
+import { parseQuery } from '#app/lib/location'
 import { I18n, i18n } from '#user/lib/i18n'
 
 // @ts-expect-error

@@ -1,9 +1,9 @@
 <script lang="ts">
   import { property } from 'underscore'
   import app from '#app/app'
+  import preq from '#app/lib/preq'
+  import { isOpenedOutside } from '#app/lib/utils'
   import Spinner from '#general/components/spinner.svelte'
-  import preq from '#lib/preq'
-  import { isOpenedOutside } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let title: string

@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars/runtime.js'
 import app from '#app/app'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
 import { i18n } from '#user/lib/i18n'
 
 // @ts-expect-error

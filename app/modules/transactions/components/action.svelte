@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { icon } from '#lib/icons'
-  import { getLocalTimeString, timeFromNow } from '#lib/time'
+  import { icon } from '#app/lib/icons'
+  import { getLocalTimeString, timeFromNow } from '#app/lib/time'
   import { actionsIcons, getTransactionStateText } from '#transactions/lib/transactions'
 
   export let action, transaction

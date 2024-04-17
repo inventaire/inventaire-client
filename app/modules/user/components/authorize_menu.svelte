@@ -1,8 +1,8 @@
 <script lang="ts">
   import app from '#app/app'
-  import { buildPath } from '#lib/location'
-  import { domain } from '#lib/urls'
-  import { fixedEncodeURIComponent, loadInternalLink } from '#lib/utils'
+  import { buildPath } from '#app/lib/location'
+  import { domain } from '#app/lib/urls'
+  import { fixedEncodeURIComponent, loadInternalLink } from '#app/lib/utils'
   import { I18n } from '#user/lib/i18n'
   import { getRequestedAccessRights } from '#user/lib/oauth'
   import { user } from '#user/user_store'

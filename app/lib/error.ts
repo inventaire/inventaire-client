@@ -1,5 +1,5 @@
 import { isNumber, isArguments } from 'underscore'
-import log_ from '#lib/loggers'
+import log_ from '#app/lib/loggers'
 
 type ErrorContext = object | string[]
 

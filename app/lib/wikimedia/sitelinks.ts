@@ -1,6 +1,6 @@
 import { omit } from 'underscore'
-import { buildPath } from '#lib/location'
-import { fixedEncodeURIComponent } from '#lib/utils'
+import { buildPath } from '#app/lib/location'
+import { fixedEncodeURIComponent } from '#app/lib/utils'
 
 export default {
   // lang: the user's lang

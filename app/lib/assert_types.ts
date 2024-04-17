@@ -1,5 +1,5 @@
-import { newError } from '#lib/error'
-import typeOf from '#lib/type_of'
+import { newError } from '#app/lib/error'
+import typeOf from '#app/lib/type_of'
 
 const assertType = function (obj, type) {
   const trueType = typeOf(obj)

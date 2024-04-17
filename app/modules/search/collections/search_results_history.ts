@@ -1,5 +1,5 @@
 import { uniq, debounce } from 'underscore'
-import { localStorageProxy } from '#lib/local_storage'
+import { localStorageProxy } from '#app/lib/local_storage'
 import Search from '../models/search.ts'
 
 export default Backbone.Collection.extend({

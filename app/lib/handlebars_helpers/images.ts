@@ -2,7 +2,7 @@ import { isNumber, isArray } from 'underscore'
 import app from '#app/app'
 // This is tailored for handlebars, for other uses, use app.API.img directly.
 // Keep in sync with server/lib/emails/handlebars_helpers
-import { isImageDataUrl } from '#lib/boolean_tests'
+import { isImageDataUrl } from '#app/lib/boolean_tests'
 import type { Url } from '#server/types/common'
 import type { ImageDataUrl, ImagePath } from '#server/types/image'
 

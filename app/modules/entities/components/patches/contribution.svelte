@@ -1,10 +1,10 @@
 <script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { icon } from '#app/lib/icons'
+  import { getISOTime, getLocalTimeString, timeFromNow } from '#app/lib/time'
+  import { loadInternalLink } from '#app/lib/utils'
   import Operation from '#entities/components/patches/operation.svelte'
-  import Link from '#lib/components/link.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon } from '#lib/icons'
-  import { getISOTime, getLocalTimeString, timeFromNow } from '#lib/time'
-  import { loadInternalLink } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
 
   export let patch

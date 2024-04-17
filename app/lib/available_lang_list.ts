@@ -1,6 +1,6 @@
 import { clone } from 'underscore'
 import wdLang from 'wikidata-lang'
-import log_ from '#lib/loggers'
+import log_ from '#app/lib/loggers'
 
 export default (availableLangs, selectedLang) => {
   return availableLangs

@@ -1,8 +1,8 @@
 <script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import type { SerializedEntity } from '#entities/lib/entities'
   import SourceLogo from '#inventory/components/entity_source_logo.svelte'
-  import Link from '#lib/components/link.svelte'
   import type { Url } from '#server/types/common'
   import { i18n } from '#user/lib/i18n'
 

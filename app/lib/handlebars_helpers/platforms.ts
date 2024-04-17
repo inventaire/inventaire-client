@@ -1,5 +1,5 @@
 import { identity } from 'underscore'
-import { viewportIsSmall } from '#lib/screen'
+import { viewportIsSmall } from '#app/lib/screen'
 import { i18n } from '#user/lib/i18n'
 
 const gutenbergText = () => i18n('on_website', { name: 'Gutenberg.org' })

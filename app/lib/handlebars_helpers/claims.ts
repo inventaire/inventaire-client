@@ -1,9 +1,9 @@
 import Handlebars from 'handlebars/runtime.js'
 import { uniq, isNaN } from 'underscore'
 import wdLang from 'wikidata-lang'
-import { isEntityUri, isImageHash } from '#lib/boolean_tests'
-import typeOf from '#lib/type_of'
-import { thumbnail } from '#lib/wikimedia/commons'
+import { isEntityUri, isImageHash } from '#app/lib/boolean_tests'
+import typeOf from '#app/lib/type_of'
+import { thumbnail } from '#app/lib/wikimedia/commons'
 import type { EntityImagePath } from '#server/types/image'
 import { i18n } from '#user/lib/i18n'
 import {

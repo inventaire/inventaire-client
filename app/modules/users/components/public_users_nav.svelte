@@ -1,9 +1,9 @@
 <script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
+  import { wait } from '#app/lib/promises'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { wait } from '#lib/promises'
-  import { onChange } from '#lib/svelte/svelte'
   import GroupMarker from '#map/components/group_marker.svelte'
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import Marker from '#map/components/marker.svelte'

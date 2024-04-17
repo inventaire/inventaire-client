@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import { wait } from '#app/lib/promises'
   import Spinner from '#components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
-  import { wait } from '#lib/promises'
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import LocationSearchInput from '#map/components/location_search_input.svelte'
   import Marker from '#map/components/marker.svelte'

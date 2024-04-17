@@ -1,5 +1,5 @@
 import { config } from '#app/config'
-import { isNonEmptyArray } from '#lib/boolean_tests'
+import { isNonEmptyArray } from '#app/lib/boolean_tests'
 
 let initialized = false
 let suspectKeywordsPattern

@@ -1,6 +1,6 @@
 import { omit } from 'underscore'
-import { langs, regionify, getTextDirection } from '#lib/active_languages'
-import { setQuerystring, currentRoute } from '#lib/location'
+import { langs, regionify, getTextDirection } from '#app/lib/active_languages'
+import { setQuerystring, currentRoute } from '#app/lib/location'
 
 const { origin } = location
 

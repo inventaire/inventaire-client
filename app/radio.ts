@@ -1,6 +1,6 @@
 import Radio from 'backbone.radio'
-import assert_ from '#lib/assert_types'
-import { serverReportError } from '#lib/error'
+import assert_ from '#app/lib/assert_types'
+import { serverReportError } from '#app/lib/error'
 
 export const channel = Radio.channel('global')
 

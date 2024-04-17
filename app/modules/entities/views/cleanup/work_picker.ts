@@ -1,9 +1,9 @@
+import { isEntityUri } from '#app/lib/boolean_tests'
+import { formatAndThrowError } from '#app/lib/error'
+import { getActionKey } from '#app/lib/key_events'
 import AlertBox from '#behaviors/alert_box'
 import mergeEntities from '#entities/views/editor/lib/merge_entities'
 import { catchAlert } from '#general/lib/forms'
-import { isEntityUri } from '#lib/boolean_tests'
-import { formatAndThrowError } from '#lib/error'
-import { getActionKey } from '#lib/key_events'
 import workPickerTemplate from './templates/work_picker.hbs'
 
 export default Marionette.View.extend({

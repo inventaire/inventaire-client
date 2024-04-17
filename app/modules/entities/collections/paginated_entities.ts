@@ -1,5 +1,5 @@
 import app from '#app/app'
-import log_ from '#lib/loggers'
+import log_ from '#app/lib/loggers'
 import Entities from './entities.ts'
 
 export default Entities.extend({

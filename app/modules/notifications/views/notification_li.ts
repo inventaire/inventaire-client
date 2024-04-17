@@ -1,7 +1,7 @@
 import app from '#app/app'
+import log_ from '#app/lib/loggers'
+import { isOpenedOutside } from '#app/lib/utils'
 import PreventDefault from '#behaviors/prevent_default'
-import log_ from '#lib/loggers'
-import { isOpenedOutside } from '#lib/utils'
 import { templates } from '../lib/notifications_types.ts'
 
 export default Marionette.View.extend({

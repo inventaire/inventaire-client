@@ -1,4 +1,4 @@
-import { forceArray } from '#lib/utils'
+import { forceArray } from '#app/lib/utils'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { base, action } = getEndpointPathBuilders('shelves')

@@ -1,4 +1,4 @@
-import { fixedEncodeURIComponent } from '#lib/utils'
+import { fixedEncodeURIComponent } from '#app/lib/utils'
 import Commons from './commons.ts'
 import { getEndpointPathBuilders } from './endpoint.ts'
 

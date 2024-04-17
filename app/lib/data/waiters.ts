@@ -1,6 +1,6 @@
 import { once } from 'underscore'
 import app from '#app/app'
-import log_ from '#lib/loggers'
+import log_ from '#app/lib/loggers'
 // Some data (as little as possible) is fetched at every page load,
 // this module handles returning promises on request corresponding
 // to those global data elements being ready

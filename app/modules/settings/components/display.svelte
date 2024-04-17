@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
+  import { getLocalStorageStore } from '#app/lib/components/stores/local_storage_stores'
   import DisplayedLinks from '#settings/components/displayed_links.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
 

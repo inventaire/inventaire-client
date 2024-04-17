@@ -1,4 +1,4 @@
-import { getActionKey } from '#lib/key_events'
+import { getActionKey } from '#app/lib/key_events'
 
 // @ts-expect-error
 export default Marionette.Behavior.extend({

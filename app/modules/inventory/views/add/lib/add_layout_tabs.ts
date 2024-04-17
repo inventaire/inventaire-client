@@ -1,4 +1,4 @@
-import { checkVideoInput } from '#lib/has_video_input.ts'
+import { checkVideoInput } from '#app/lib/has_video_input.ts'
 import ScanLayout from '../scan_layout.ts'
 import SearchLayout from '../search_layout.ts'
 

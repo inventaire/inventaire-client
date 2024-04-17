@@ -1,6 +1,6 @@
 import should from 'should'
-import { tryAsync, tap, props as promiseProps, waitForAttribute, wait } from '#lib/promises'
-import { shouldNotBeCalled } from '#tests/utils/utils'
+import { tryAsync, tap, props as promiseProps, waitForAttribute, wait } from '#app/lib/promises'
+import { shouldNotBeCalled } from '#client/tests/utils/utils'
 
 // @ts-expect-error
 global.window = global

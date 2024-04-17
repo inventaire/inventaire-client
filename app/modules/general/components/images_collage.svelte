@@ -1,6 +1,6 @@
 <script lang="ts">
   import { compact } from 'underscore'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
 
   export let imagesUrls, limit = 1, imageSize = 200
 

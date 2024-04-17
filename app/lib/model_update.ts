@@ -1,10 +1,10 @@
 import { isEqual } from 'underscore'
 import app from '#app/app'
-import { isNonEmptyPlainObject } from '#lib/boolean_tests'
-import { formatError } from '#lib/error'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
-import { tap } from '#lib/promises'
+import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
+import { formatError } from '#app/lib/error'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
+import { tap } from '#app/lib/promises'
 
 // Wrapping model updates to recover the previous value on fails
 // - model:

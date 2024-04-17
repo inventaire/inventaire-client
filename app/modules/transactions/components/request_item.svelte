@@ -1,13 +1,13 @@
 <script lang="ts">
   import app from '#app/app'
+  import { autosize } from '#app/lib/components/actions/autosize'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { icon } from '#app/lib/icons'
+  import { isOpenedOutside } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import ItemMixedBox from '#inventory/components/item_mixed_box.svelte'
   import ItemShowModal from '#inventory/components/item_show_modal.svelte'
-  import { autosize } from '#lib/components/actions/autosize'
-  import Flash from '#lib/components/flash.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { icon } from '#lib/icons'
-  import { isOpenedOutside } from '#lib/utils'
   import { postTransactionRequest } from '#transactions/lib/helpers'
   import { i18n, I18n } from '#user/lib/i18n'
 

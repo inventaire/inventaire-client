@@ -1,9 +1,9 @@
 <script lang="ts">
   import app from '#app/app'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Link from '#app/lib/components/link.svelte'
+  import sitelinks_ from '#app/lib/wikimedia/sitelinks'
   import { formatEbooksClaim } from '#entities/components/lib/claims_helpers'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import Link from '#lib/components/link.svelte'
-  import sitelinks_ from '#lib/wikimedia/sitelinks'
   import { i18n } from '#user/lib/i18n'
 
   export let entity

@@ -1,7 +1,7 @@
 import { uniq, pluck } from 'underscore'
 import app from '#app/app'
+import preq from '#app/lib/preq'
 import { getNonEmptyPropertyClaims } from '#entities/components/editor/lib/editors_helpers'
-import preq from '#lib/preq'
 
 export default async function ({ entity }) {
   const publishersUris = getNonEmptyPropertyClaims(entity.claims['wdt:P123'])

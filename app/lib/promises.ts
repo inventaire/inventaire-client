@@ -1,6 +1,6 @@
-import assert_ from '#lib/assert_types'
-import { newError } from '#lib/error'
-import { reportError } from '#lib/reports'
+import assert_ from '#app/lib/assert_types'
+import { newError } from '#app/lib/error'
+import { reportError } from '#app/lib/reports'
 
 export const props = async obj => {
   const keys = []

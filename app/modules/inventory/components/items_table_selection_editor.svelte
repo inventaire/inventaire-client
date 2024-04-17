@@ -1,10 +1,10 @@
 <script lang="ts">
   import app from '#app/app'
+  import { icon } from '#app/lib/icons'
   import Spinner from '#components/spinner.svelte'
   import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
   import TransactionSelector from '#inventory/components/transaction_selector.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
-  import { icon } from '#lib/icons'
   import { i18n, I18n } from '#user/lib/i18n'
 
   app.execute('modal:open', 'large')

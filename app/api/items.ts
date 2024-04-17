@@ -1,6 +1,6 @@
-import assert_ from '#lib/assert_types'
-import { forceArray } from '#lib/utils'
-import type { QueryParams } from '#types/entity'
+import assert_ from '#app/lib/assert_types'
+import { forceArray } from '#app/lib/utils'
+import type { QueryParams } from '#app/types/entity'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { base, action } = getEndpointPathBuilders('items')

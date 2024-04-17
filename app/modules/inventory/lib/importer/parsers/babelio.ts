@@ -1,4 +1,4 @@
-import { trim } from '#lib/utils'
+import { trim } from '#app/lib/utils'
 
 export default obj => ({
   rawEntry: obj,

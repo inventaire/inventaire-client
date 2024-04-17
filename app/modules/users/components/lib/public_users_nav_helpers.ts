@@ -1,5 +1,5 @@
 import app from '#app/app'
-import preq from '#lib/preq'
+import preq from '#app/lib/preq'
 import { serializeUser } from '#users/lib/users'
 
 export async function getUsersByPosition ({ bbox }) {

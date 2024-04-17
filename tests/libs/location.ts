@@ -1,6 +1,6 @@
 import { isEqual } from 'underscore'
 import 'should'
-import { parseQuery, buildPath } from '#lib/location'
+import { parseQuery, buildPath } from '#app/lib/location'
 
 describe('location utils', () => {
   const queries = {

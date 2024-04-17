@@ -6,7 +6,7 @@
 // deserialize strings, numbers, and booleans as such
 
 import { writable } from 'svelte/store'
-import { serverReportError } from '#lib/error'
+import { serverReportError } from '#app/lib/error'
 
 const stores = {}
 

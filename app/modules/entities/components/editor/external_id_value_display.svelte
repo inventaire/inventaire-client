@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import Link from '#app/lib/components/link.svelte'
   import Tooltip from '#components/tooltip.svelte'
   import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
-  import Link from '#lib/components/link.svelte'
   import { I18n } from '#user/lib/i18n'
 
   export let value, property

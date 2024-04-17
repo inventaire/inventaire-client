@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Link from '#lib/components/link.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { getActionKey } from '#lib/key_events'
+  import Link from '#app/lib/components/link.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { getActionKey } from '#app/lib/key_events'
   import { I18n } from '#user/lib/i18n'
   import EntityPreview from './entity_preview.svelte'
 

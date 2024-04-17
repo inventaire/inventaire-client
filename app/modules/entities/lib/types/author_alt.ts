@@ -1,7 +1,7 @@
 import { property } from 'underscore'
 import app from '#app/app'
+import preq from '#app/lib/preq'
 import { attachEntities, getEntitiesAttributesByUris, getEntities, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
-import preq from '#lib/preq'
 
 export async function getAuthorWorksUris ({ uri }) {
   const { articles, series, works } = await preq.get(app.API.entities.authorWorks(uri))

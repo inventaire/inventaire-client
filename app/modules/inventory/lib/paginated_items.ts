@@ -1,5 +1,5 @@
 import app from '#app/app'
-import log_ from '#lib/loggers'
+import log_ from '#app/lib/loggers'
 import type { Item } from '#server/types/item'
 
 interface Pagination {

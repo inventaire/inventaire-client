@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { icon } from '#app/lib/icons'
   import Spinner from '#components/spinner.svelte'
-  import { icon } from '#lib/icons'
   import { I18n } from '#user/lib/i18n'
 
   export let showSave = true

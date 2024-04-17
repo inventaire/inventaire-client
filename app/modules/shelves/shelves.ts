@@ -1,7 +1,7 @@
 import app from '#app/app'
-import assert_ from '#lib/assert_types'
-import { isModel, isShelfId } from '#lib/boolean_tests'
-import { newError } from '#lib/error'
+import assert_ from '#app/lib/assert_types'
+import { isModel, isShelfId } from '#app/lib/boolean_tests'
+import { newError } from '#app/lib/error'
 import { getById, getShelfMetadata } from './lib/shelves.ts'
 
 export default {

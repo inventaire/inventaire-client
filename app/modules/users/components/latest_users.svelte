@@ -1,11 +1,11 @@
 <script lang="ts">
   import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import preq from '#app/lib/preq'
+  import { getSimpleTime } from '#app/lib/time'
+  import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import preq from '#lib/preq'
-  import { getSimpleTime } from '#lib/time'
-  import { loadInternalLink } from '#lib/utils'
   import { I18n, i18n } from '#user/lib/i18n'
   import { serializeUser } from '#users/lib/users'
 

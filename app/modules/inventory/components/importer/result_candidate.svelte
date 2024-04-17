@@ -1,7 +1,7 @@
 <script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
   import CandidateActions from '#inventory/components/importer/candidate_actions.svelte'
-  import Flash from '#lib/components/flash.svelte'
 
   export let candidate
   export let visibility

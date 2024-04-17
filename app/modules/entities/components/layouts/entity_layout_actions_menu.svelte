@@ -1,8 +1,8 @@
 <script lang="ts">
+  import { screen } from '#app/lib/components/stores/screen'
+  import { icon } from '#app/lib/icons'
   import Dropdown from '#components/dropdown.svelte'
   import EntityLayoutActions from '#entities/components/layouts/entity_layout_actions.svelte'
-  import { screen } from '#lib/components/stores/screen'
-  import { icon } from '#lib/icons'
   import { i18n } from '#user/lib/i18n'
 
   export let entity, showEntityEditButtons

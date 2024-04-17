@@ -1,6 +1,6 @@
 <script lang="ts">
   import { intersection } from 'underscore'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { i18n } from '#user/lib/i18n'
   import AuthorDisplay from './author_display.svelte'
 

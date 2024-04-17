@@ -1,12 +1,12 @@
 <script lang="ts">
   import { createEventDispatcher, tick } from 'svelte'
   import app from '#app/app'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
+  import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { addClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
-  import { icon } from '#lib/icons'
-  import { getActionKey } from '#lib/key_events'
-  import preq from '#lib/preq'
-  import { onChange } from '#lib/svelte/svelte'
   import { I18n, i18n } from '#user/lib/i18n'
 
   export let entity, property, value

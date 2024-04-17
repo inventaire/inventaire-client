@@ -1,5 +1,5 @@
+import { formatAndThrowError } from '#app/lib/error'
 import { catchAlert } from '#general/lib/forms'
-import { formatAndThrowError } from '#lib/error'
 import serieCleanupEditionTemplate from './templates/serie_cleanup_edition.hbs'
 import WorkPicker from './work_picker.ts'
 

@@ -1,8 +1,8 @@
 import Handlebars from 'handlebars/runtime.js'
-import { serverReportError } from '#lib/error'
-import { getActionKey } from '#lib/key_events'
-import log_ from '#lib/loggers'
-import { expired } from '#lib/time'
+import { serverReportError } from '#app/lib/error'
+import { getActionKey } from '#app/lib/key_events'
+import log_ from '#app/lib/loggers'
+import { expired } from '#app/lib/time'
 import { I18n } from '#user/lib/i18n'
 
 // @ts-expect-error

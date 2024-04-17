@@ -1,12 +1,12 @@
 <script lang="ts">
   import { without } from 'underscore'
   import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { objectKeys } from '#app/lib/utils'
   import WrapToggler from '#components/wrap_toggler.svelte'
   import { createEditionAndWorkFromEntry, getMissingRequiredProperties } from '#entities/components/editor/lib/create_helpers'
   import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
   import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
-  import Flash from '#lib/components/flash.svelte'
-  import { objectKeys } from '#lib/utils'
   import type { PropertyUri } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
 

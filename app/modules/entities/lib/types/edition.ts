@@ -1,7 +1,7 @@
 import { chain, partition } from 'underscore'
 import wdLang from 'wikidata-lang'
-import { serverReportError } from '#lib/error'
-import { unprefixify } from '#lib/wikimedia/wikidata'
+import { serverReportError } from '#app/lib/error'
+import { unprefixify } from '#app/lib/wikimedia/wikidata'
 import getEntityItemsByCategories from '../get_entity_items_by_categories.ts'
 
 const farInTheFuture = '2100'

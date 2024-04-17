@@ -1,6 +1,6 @@
 import app from '#app/app'
+import { scrollTo$Element, viewportIsSmall } from '#app/lib/screen'
 import PreventDefault from '#behaviors/prevent_default'
-import { scrollTo$Element, viewportIsSmall } from '#lib/screen'
 import { I18n } from '#user/lib/i18n'
 import tabsData from './lib/add_layout_tabs.ts'
 import addLayoutTemplate from './templates/add_layout.hbs'

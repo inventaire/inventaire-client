@@ -1,10 +1,10 @@
 import { flatten, compact } from 'underscore'
 import app from '#app/app'
-import assert_ from '#lib/assert_types'
-import { newError } from '#lib/error'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
-import { Rollback } from '#lib/utils'
+import assert_ from '#app/lib/assert_types'
+import { newError } from '#app/lib/error'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
+import { Rollback } from '#app/lib/utils'
 import { propertiesEditorsConfigs } from '../properties.ts'
 
 const propertiesUsedByRelations = [

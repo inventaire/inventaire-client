@@ -1,5 +1,5 @@
-import { isInvEntityId } from '#lib/boolean_tests'
-import { looksLikeAnIsbn, normalizeIsbn } from '#lib/isbn'
+import { isInvEntityId } from '#app/lib/boolean_tests'
+import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 
 export default function (text) {
   text = text.trim()

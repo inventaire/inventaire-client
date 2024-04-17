@@ -1,4 +1,4 @@
-import { buildPath } from '#lib/location'
+import { buildPath } from '#app/lib/location'
 import { truncateDecimals } from '#map/lib/geo'
 
 export default {

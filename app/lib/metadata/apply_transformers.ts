@@ -1,6 +1,6 @@
 import app from '#app/app'
-import { host } from '#lib/urls'
-import { dropLeadingSlash } from '#lib/utils'
+import { host } from '#app/lib/urls'
+import { dropLeadingSlash } from '#app/lib/utils'
 
 const absolutePath = url => {
   if (url?.[0] === '/') {

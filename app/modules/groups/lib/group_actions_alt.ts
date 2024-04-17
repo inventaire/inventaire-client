@@ -1,5 +1,5 @@
 import app from '#app/app'
-import preq from '#lib/preq'
+import preq from '#app/lib/preq'
 import type { GroupId } from '#server/types/group'
 import type { UserId } from '#server/types/user'
 

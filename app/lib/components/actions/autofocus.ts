@@ -1,4 +1,4 @@
-import isMobile from '#lib/mobile_check'
+import isMobile from '#app/lib/mobile_check'
 
 interface AutofocusOptions {
   disabled?: boolean

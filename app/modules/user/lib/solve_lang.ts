@@ -1,7 +1,7 @@
 import cookie_ from 'js-cookie'
 import app from '#app/app'
-import { langs as activeLangs, type UserLang } from '#lib/active_languages'
-import { arrayIncludes, shortLang } from '#lib/utils'
+import { langs as activeLangs, type UserLang } from '#app/lib/active_languages'
+import { arrayIncludes, shortLang } from '#app/lib/utils'
 
 export function solveLang (userLanguage) {
   // querystring parameters > other settings sources

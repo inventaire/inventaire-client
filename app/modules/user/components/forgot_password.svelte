@@ -1,6 +1,6 @@
 <script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
   import Spinner from '#components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
   import { passwordResetRequest } from '#user/lib/auth'
   import { testEmail } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'

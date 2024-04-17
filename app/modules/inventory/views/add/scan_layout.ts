@@ -1,5 +1,5 @@
 import app from '#app/app'
-import { getDevicesInfo } from '#lib/has_video_input.ts'
+import { getDevicesInfo } from '#app/lib/has_video_input.ts'
 import scanTemplate from './templates/scan_layout.hbs'
 import '#inventory/scss/scan_layout.scss'
 

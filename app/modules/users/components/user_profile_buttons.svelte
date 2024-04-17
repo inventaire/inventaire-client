@@ -1,10 +1,10 @@
 <script lang="ts">
   import app from '#app/app'
+  import assert_ from '#app/lib/assert_types'
+  import { icon } from '#app/lib/icons'
+  import { loadInternalLink } from '#app/lib/utils'
   import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
-  import assert_ from '#lib/assert_types'
-  import { icon } from '#lib/icons'
-  import { loadInternalLink } from '#lib/utils'
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import Marker from '#map/components/marker.svelte'
   import UserMarker from '#map/components/user_marker.svelte'

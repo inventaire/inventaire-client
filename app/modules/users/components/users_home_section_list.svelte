@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import { i18n } from '#user/lib/i18n'
   import UsersHomeSectionListLi from '#users/components/users_home_section_list_li.svelte'
 

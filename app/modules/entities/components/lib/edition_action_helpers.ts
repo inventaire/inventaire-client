@@ -1,6 +1,6 @@
 import { property, uniq } from 'underscore'
 import app from '#app/app'
-import { isNonEmptyArray } from '#lib/boolean_tests'
+import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import { I18n } from '#user/lib/i18n'
 
 export const getCounterText = editionItems => I18n('users_count_have_this_book', { smart_count: getOwnersCountPerEdition(editionItems) })

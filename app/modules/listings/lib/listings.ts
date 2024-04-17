@@ -1,6 +1,6 @@
 import { pluck } from 'underscore'
 import app from '#app/app'
-import preq from '#lib/preq'
+import preq from '#app/lib/preq'
 import { i18n } from '#user/lib/i18n'
 
 export const getListingWithElementsById = async id => {

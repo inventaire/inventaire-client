@@ -4,10 +4,10 @@ import { without, isString, isArray, debounce } from 'underscore'
 import app from '#app/app'
 // Sets $(selector).visible function
 import 'jquery-visible'
-import assert_ from '#lib/assert_types'
-import { serverReportError, newError } from '#lib/error'
-import log_ from '#lib/loggers'
-import preq from '#lib/preq'
+import assert_ from '#app/lib/assert_types'
+import { serverReportError, newError } from '#app/lib/error'
+import log_ from '#app/lib/loggers'
+import preq from '#app/lib/preq'
 
 // changing the default attribute to fit CouchDB
 Backbone.Model.prototype.idAttribute = '_id'

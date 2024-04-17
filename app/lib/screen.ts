@@ -1,4 +1,4 @@
-import { serverReportError, newError } from '#lib/error'
+import { serverReportError, newError } from '#app/lib/error'
 
 // Keep in sync with app/modules/general/scss/_media_query_thresholds.scss
 const wellknownWidths = {

@@ -1,7 +1,7 @@
 import app from '#app/app'
+import { isOpenedOutside } from '#app/lib/utils'
 import PreventDefault from '#behaviors/prevent_default'
 import SuccessCheck from '#behaviors/success_check'
-import { isOpenedOutside } from '#lib/utils'
 import RelationsActions from '../behaviors/relations_actions.ts'
 import userLiTemplate from './templates/user_li.hbs'
 import '../scss/user_li.scss'

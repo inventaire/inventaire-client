@@ -1,6 +1,6 @@
-import { buildPath } from '#lib/location'
+import { buildPath } from '#app/lib/location'
+import type { QueryParams } from '#app/types/entity'
 import type { Url } from '#server/types/common'
-import type { QueryParams } from '#types/entity'
 
 export function getEndpointBase (name: string) {
   return `/api/${name}` as Url

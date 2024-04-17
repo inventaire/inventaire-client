@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onChange } from '#lib/svelte/svelte'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Action from '#transactions/components/action.svelte'
   import Message from '#transactions/components/message.svelte'
   import { buildTimeline } from '#transactions/lib/transactions'

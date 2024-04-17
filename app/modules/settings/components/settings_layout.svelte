@@ -1,6 +1,6 @@
 <script lang="ts">
   import app from '#app/app'
-  import { scrollToElement } from '#lib/screen'
+  import { scrollToElement } from '#app/lib/screen'
   import { I18n } from '#user/lib/i18n'
   import Account from './account.svelte'
   import Data from './data.svelte'
