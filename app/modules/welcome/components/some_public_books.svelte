@@ -3,6 +3,7 @@
   import Spinner from '#components/spinner.svelte'
   import ItemsCascade from '#inventory/components/items_cascade.svelte'
   import ItemsTable from '#inventory/components/items_table.svelte'
+  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { screen } from '#lib/components/stores/screen'
   import { I18n } from '#user/lib/i18n'
 
@@ -13,21 +14,26 @@
   }
 
   const waiting = app.request('items:getRecentPublic', params)
+    .catch(err => {
+      if (err.message !== 'no item found') throw err
+    })
 </script>
 
-<section>
-  <h3>{I18n('some of the last books listed')}</h3>
-  {#await waiting}
-    <Spinner center={true} />
-  {:then}
-    {#if $screen.isSmallerThan('$smaller-screen')}
-      <ItemsTable items={params.items} {waiting} haveSeveralOwners={true} />
-    {:else}
-      <ItemsCascade items={params.items} {waiting} />
-    {/if}
-  {/await}
-  <div class="fade-out" />
-</section>
+{#if isNonEmptyArray(params.items)}
+  <section>
+    <h3>{I18n('some of the last books listed')}</h3>
+    {#await waiting}
+      <Spinner center={true} />
+    {:then}
+      {#if $screen.isSmallerThan('$smaller-screen')}
+        <ItemsTable items={params.items} {waiting} haveSeveralOwners={true} />
+      {:else}
+        <ItemsCascade items={params.items} {waiting} />
+      {/if}
+    {/await}
+    <div class="fade-out" />
+  </section>
+{/if}
 
 <style lang="scss">
   @import "#welcome/scss/welcome_layout_commons";
