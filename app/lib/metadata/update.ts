@@ -30,7 +30,7 @@ async function metadataUpdateDone () {
 // Stop waiting if it takes more than 20 secondes: addresses cases
 // where metadataUpdateDone would not have been called
 setTimeout(metadataUpdateDone, 20 * 1000)
-export const isPrerenderSession = (window.navigator.userAgent.match('Prerender') != null)
+export const isPrerenderSession = (window.navigator?.userAgent.match('Prerender') != null)
 
 interface Metadata {
   url: string

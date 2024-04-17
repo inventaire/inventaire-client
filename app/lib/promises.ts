@@ -2,7 +2,7 @@ import assert_ from '#app/lib/assert_types'
 import { newError } from '#app/lib/error'
 import { reportError } from '#app/lib/reports'
 
-export const props = async obj => {
+export async function props (obj: Record<string, unknown>) {
   const keys = []
   const values = []
   for (const key in obj) {
@@ -17,7 +17,7 @@ export const props = async obj => {
     const key = keys[index]
     resultObj[key] = valRes
   })
-  return resultObj
+  return resultObj as Record<keyof typeof obj, Awaited<typeof obj[keyof typeof obj]>>
 }
 
 export const tryAsync = async fn => fn()
@@ -45,14 +45,14 @@ if (window.addEventListener != null) {
 
 // Returns a promise that resolves when the target object
 // has the desired attribute set, and that the associated value has resolved
-export async function waitForAttribute (obj, attribute, options: { attemptTimeout: number, maxAttempts: number }) {
+export async function waitForAttribute (obj, attribute, options: { attemptTimeout?: number, maxAttempts?: number } = {}) {
   assert_.object(obj)
   assert_.string(attribute)
   assert_.object(options)
   const { attemptTimeout = 100, maxAttempts = 100 } = options
   return new Promise((resolve, reject) => {
     let attempts = 0
-    const checkAttribute = () => {
+    function checkAttribute () {
       try {
         if (obj[attribute] !== undefined) {
           resolve(obj[attribute])

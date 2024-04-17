@@ -1,6 +1,6 @@
 import { isNull, isNaN, isArray } from 'underscore'
 
-export default function typeOf (obj) {
+export default function typeOf (obj?: unknown) {
   // just handling what differes from typeof
   const type = typeof obj
   if (type === 'object') {

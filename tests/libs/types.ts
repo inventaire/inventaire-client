@@ -93,7 +93,10 @@ describe('assert types', () => {
     })
 
     it('should throw when too many arguments', () => {
-      ((() => assertTypes([ { whoami: 'im an object' }, [ 1, [ 123 ], 2, 3 ], 'object', 'number', 'array' ]))).should.throw()
+      ((() => assertTypes(
+        [ { whoami: 'im an object' }, 1 ],
+        [ 'object', 'number', 'array' ]
+      )).should.throw())
     })
 
     it('should not throw when less arguments than types but more or as many as minArgsLength', () => {

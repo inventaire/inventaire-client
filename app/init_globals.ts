@@ -6,8 +6,9 @@ import _ from 'underscore'
 // Sets Backbone.NestedModel
 import 'backbone-nested'
 
-window._ = _
-window.jQuery = window.$ = $
-window.Backbone = Backbone
-window.Marionette = Marionette
+globalThis._ = _
+// @ts-expect-error TS2339
+globalThis.jQuery = globalThis.$ = $
+globalThis.Backbone = Backbone
+globalThis.Marionette = Marionette
 Marionette.AppRouter = AppRouter

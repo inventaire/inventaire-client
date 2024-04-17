@@ -2,11 +2,8 @@ import 'should'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import iconv from 'iconv-lite'
-import Papa from 'papaparse'
 import { looksLikeAnIsbn } from '#app/lib/isbn'
 import importers from '#inventory/lib/importer/importers'
-
-window.Papa = Papa
 
 const fixtures = {
   goodreads: 'goodreads/goodreads_library_export.csv',

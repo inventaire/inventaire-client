@@ -174,7 +174,7 @@ export function chunk (array: unknown[], size: number) {
   return chunks
 }
 
-export function forceArray (keys) {
+export function forceArray (keys?: unknown) {
   if ((keys == null) || (keys === '')) return []
   if (!isArray(keys)) return [ keys ]
   else return keys

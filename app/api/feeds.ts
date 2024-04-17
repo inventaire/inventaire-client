@@ -7,7 +7,7 @@ const feedEndpointBase = getEndpointBase('feeds')
 // Always using the absolute path so that links are treated as external links,
 // thus getting target='_blank' attributes, and the associated click behaviors
 // cf app/modules/general/lib/smart_prevent_default.js
-const feedEndpoint = `${window.location.origin}${feedEndpointBase}`
+const feedEndpoint = `${window.location?.origin}${feedEndpointBase}`
 
 export default function (key, id) {
   const query: { requester?: UserId, token?: string } = {}

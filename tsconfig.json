@@ -4,10 +4,10 @@
     "noEmit": true,
   },
   "include": [
-    "app"
+    "app",
+    "tests"
   ],
   "references": [
     { "path": "../tsconfig.build.json" },
-    { "path": "./tsconfig.tests.json" },
   ]
 }

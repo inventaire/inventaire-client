@@ -2,8 +2,6 @@ import should from 'should'
 import { tryAsync, tap, props as promiseProps, waitForAttribute, wait } from '#app/lib/promises'
 import { shouldNotBeCalled } from '#client/tests/utils/utils'
 
-// @ts-expect-error
-global.window = global
 const undesiredRes = res => {
   console.warn('undesired res', res)
   throw new Error('.then was not expected to be called')
@@ -101,7 +99,7 @@ describe('promises', () => {
 
   describe('waitForAttribute', () => {
     it('should wait for an attribute to be defined to resolve', async () => {
-      const obj = {}
+      const obj = { a: undefined }
       setTimeout(() => { obj.a = 123 }, 20)
       should(obj.a).not.be.ok()
       const a = await waitForAttribute(obj, 'a')
@@ -109,8 +107,9 @@ describe('promises', () => {
     })
 
     it('should wait for the attribute to resolve', async () => {
-      const obj = {}
-      obj.waitForA = wait(30).then(() => 123)
+      const obj = {
+        waitForA: wait(30).then(() => 123),
+      }
       const a = await waitForAttribute(obj, 'waitForA')
       a.should.equal(123)
     })
@@ -124,7 +123,7 @@ describe('promises', () => {
     })
 
     it('should accept null values', async () => {
-      const obj = {}
+      const obj = { a: undefined }
       setTimeout(() => { obj.a = null }, 20)
       should(obj.a).not.be.ok()
       const a = await waitForAttribute(obj, 'a')

@@ -1,6 +1,6 @@
 import { isObject, isNumber, isEmpty } from 'underscore'
 
-export const parseQuery = function (queryString) {
+export const parseQuery = function (queryString?: string) {
   if (queryString == null) return {}
   return queryString
   .replace(/^\?/, '')

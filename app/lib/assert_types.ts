@@ -1,7 +1,7 @@
 import { newError } from '#app/lib/error'
 import typeOf from '#app/lib/type_of'
 
-const assertType = function (obj, type) {
+function assertType (obj, type) {
   const trueType = typeOf(obj)
   if (type.split('|').includes(trueType)) {
     return obj
@@ -12,7 +12,7 @@ const assertType = function (obj, type) {
   }
 }
 
-const assertTypes = function (args, types, minArgsLength?) {
+function assertTypes (args, types, minArgsLength?) {
   // In case it's an 'arguments' object
   args = Array.from(args)
 
