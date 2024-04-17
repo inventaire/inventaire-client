@@ -1,11 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const eslintrc = require('./.eslintrc.cjs')
 
-// The '../' seems required by the VScode ESlint plugin to avoid the following error in Svelte files
-// `Parsing error: Cannot read file '/path/to/client/app/tsconfig.client.json'.eslint`
-// but weirdly, the CLI eslint needs './', thus this hacky fix
-eslintrc.overrides[0].parserOptions.project = './tsconfig.client.json'
-
 // CLI/pre-commit extra rules
 eslintrc.overrides[0].rules['svelte/html-self-closing'] = 'error'
 // Helps to spot unsupported features that woul result in

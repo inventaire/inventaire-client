@@ -10,5 +10,6 @@ module.exports = new UnusedWebpackPlugin({
   exclude: [
     'assets/*',
     '*.d.ts',
+    'tsconfig.client.json',
   ],
 })
