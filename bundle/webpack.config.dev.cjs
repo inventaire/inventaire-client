@@ -1,4 +1,4 @@
-// const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const webpackCommonConfigFactory = require('./webpack.config.common.cjs')
 
 const mode = 'development'
@@ -17,8 +17,6 @@ Object.assign(webpackConfig, {
 })
 
 // Use only in development, as types are checked by svelte-check during the pre-webpack build steps
-// Commented-out as doesn't play well with server types
-// TODO: re-enable once a fix is found
-// webpackConfig.plugins.push(new ForkTsCheckerWebpackPlugin())
+webpackConfig.plugins.push(new ForkTsCheckerWebpackPlugin())
 
 module.exports = webpackConfig
