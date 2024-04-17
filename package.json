@@ -123,7 +123,6 @@
     "handlebars-loader": "^1.7.3",
     "html-webpack-plugin": "^5.5.3",
     "iconv-lite": "^0.6.3",
-    "line-apply": "^1.0.0",
     "mini-css-extract-plugin": "^2.7.6",
     "mocha": "^9.2.0",
     "node-fetch": "^2.6.1",
