@@ -21,4 +21,4 @@ const Action = (base: string) => function (actionName: string, query: QueryParam
 }
 
 // Pass an action name and an attribute, get a partial function
-const ActionPartial = actionFn => (actionName, attribute) => value => actionFn(actionName, attribute, value)
+const ActionPartial = actionFn => (actionName, attribute) => value => actionFn(actionName, { [attribute]: value })
