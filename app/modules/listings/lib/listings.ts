@@ -24,7 +24,7 @@ export function deleteListing (params) {
 
 export const getListingsByEntityUri = async uri => {
   const { lists } = await preq.get(app.API.listings.byEntities({ uris: uri }))
-  return lists[uri] ? lists[uri] : []
+  return lists
 }
 
 export const getUserListingsByEntityUri = async ({ userId, uri }) => {
@@ -35,8 +35,8 @@ export const getUserListingsByEntityUri = async ({ userId, uri }) => {
 
 export const getListingsContainingEntityUri = async ({ listingsIds, uri }) => {
   if (listingsIds.length === 0) return []
-  const { lists: listingsByEntity } = await preq.get(app.API.listings.byEntities({ uris: uri, lists: listingsIds }))
-  return listingsByEntity[uri]
+  const { lists } = await preq.get(app.API.listings.byEntities({ uris: uri, lists: listingsIds }))
+  return lists
 }
 
 export const updateListing = async list => {
