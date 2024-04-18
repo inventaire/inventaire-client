@@ -1,11 +1,9 @@
 import { debounce } from 'underscore'
-import { API } from '#app/api/api'
 import app from '#app/app'
 import User from '../models/user.ts'
 
 export default Backbone.Collection.extend({
   model: User,
-  url () { return API.users.friends },
 
   initialize () {
     this.lazyResort = debounce(this.sort.bind(this), 500)

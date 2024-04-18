@@ -1,6 +1,9 @@
 import assert_ from '#app/lib/assert_types'
 import { forceArray } from '#app/lib/utils'
 import type { QueryParams } from '#app/types/entity'
+import type { GroupId } from '#server/types/group'
+import type { ShelfId } from '#server/types/shelf'
+import type { UserId } from '#server/types/user'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { base, action } = getEndpointPathBuilders('items')
@@ -43,7 +46,7 @@ export default {
 
   deleteByIds: action('delete-by-ids'),
 
-  search ({ user, group, shelf, search, limit, offset }) {
+  search ({ user, group, shelf, search, limit, offset }: { user?: UserId, group?: GroupId, shelf?: ShelfId, search: string, limit?: number, offset?: number }) {
     search = encodeURIComponent(search)
     assert_.string(user || group || shelf)
     return action('search', { user, group, shelf, search, limit, offset })

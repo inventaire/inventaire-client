@@ -1,4 +1,5 @@
 import { i18nContentHash } from '#assets/js/build_metadata'
+import type { RelativeUrl } from '#server/types/common'
 import auth from './auth.ts'
 import data from './data.ts'
 import { getEndpointBase } from './endpoint.ts'
@@ -43,8 +44,8 @@ export const API = {
   users,
 
   // /public endpoints
-  i18nStrings: lang => `/public/i18n/${lang}.json${getBuster()}`,
-  json: filename => `/public/json/${filename}.json${getBuster()}`,
+  i18nStrings: lang => `/public/i18n/${lang}.json${getBuster()}` as RelativeUrl,
+  json: filename => `/public/json/${filename}.json${getBuster()}` as RelativeUrl,
 
   // /img: endpoint serving images, handled by Nginx in production
   // thus not behing the /api root

@@ -6,6 +6,7 @@ import preq from '#app/lib/preq'
 import type { ExternalEntry, Candidate } from '#app/types/importer'
 import getBestLangValue from '#entities/lib/get_best_lang_value'
 import getOriginalLang from '#entities/lib/get_original_lang'
+import type { IsbnEntityUri, PropertyUri } from '#server/types/entity'
 import type { getIsbnData } from './extract_isbns'
 
 export const createCandidate = (externalEntry, entitiesRes) => {
@@ -120,7 +121,7 @@ export const getRelevantEntities = async (edition, works) => {
   }
 }
 
-const editionRelatives = [ 'wdt:P629', 'wdt:P50' ]
+const editionRelatives: PropertyUri[] = [ 'wdt:P629', 'wdt:P50' ]
 
 const getUris = works => compact(works.map(getUri))
 
@@ -191,6 +192,6 @@ const serializeResolverEntry = data => {
 }
 
 export const getEditionEntitiesByUri = async isbn => {
-  const editionUri = `isbn:${isbn}`
+  const editionUri: IsbnEntityUri = `isbn:${isbn}`
   return preq.get(API.entities.getByUris(editionUri, false, editionRelatives))
 }

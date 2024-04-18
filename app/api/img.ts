@@ -2,7 +2,7 @@ import { isNonEmptyString, isEntityUri, isAssetImg, isLocalImg, isImageHash } fr
 import { buildPath } from '#app/lib/location'
 import { fixedEncodeURIComponent, hashCode } from '#app/lib/utils'
 import { thumbnail } from '#app/lib/wikimedia/commons'
-import type { Url } from '#server/types/common'
+import type { RelativeUrl, Url } from '#server/types/common'
 import type { EntityUri } from '#server/types/entity'
 import type { ImagePath } from '#server/types/image'
 
@@ -13,7 +13,7 @@ export default function (path: ImagePath | Url | EntityUri, width = 1600, height
   // Converting image hashes to a full URL
   if (isLocalImg(path) || isAssetImg(path)) {
     const [ container, filename ] = path.split('/').slice(2)
-    return `/img/${container}/${width}x${height}/${filename}`
+    return `/img/${container}/${width}x${height}/${filename}` as RelativeUrl
   }
 
   // The server may return images path on upload.wikimedia.org
@@ -25,7 +25,7 @@ export default function (path: ImagePath | Url | EntityUri, width = 1600, height
   if (path.startsWith('http')) {
     const key = hashCode(path)
     const href = fixedEncodeURIComponent(path)
-    return `/img/remote/${width}x${height}/${key}?href=${href}`
+    return `/img/remote/${width}x${height}/${key}?href=${href}` as RelativeUrl
   }
 
   if (isEntityUri(path)) {

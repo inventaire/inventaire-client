@@ -1,4 +1,4 @@
-import { isNumber, isArray } from 'underscore'
+import { isNumber } from 'underscore'
 import { API } from '#app/api/api'
 // This is tailored for handlebars, for other uses, use API.img directly.
 // Keep in sync with server/lib/emails/handlebars_helpers
@@ -15,7 +15,6 @@ export function imgSrc (path?: ImagePath | ImageDataUrl | Url, width?: number, h
   width = getImgDimension(width, 1600)
   width = bestImageWidth(width)
   height = getImgDimension(height, width)
-  path = onePictureOnly(path)
 
   if (window.devicePixelRatio !== 1) {
     width = getScaledSize(width)
@@ -24,12 +23,10 @@ export function imgSrc (path?: ImagePath | ImageDataUrl | Url, width?: number, h
 
   if (path == null) return ''
 
-  return API.img(path, width, height) as Url
+  return API.img(path, width, height)
 }
 
 export default { imgSrc }
-
-const onePictureOnly = arg => isArray(arg) ? arg[0] : arg
 
 function getImgDimension (dimension, defaultValue) {
   if (isNumber(dimension)) {

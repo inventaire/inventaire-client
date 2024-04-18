@@ -1,19 +1,22 @@
 import { isPrerenderSession } from '#app/lib/metadata/update'
 import { forceArray } from '#app/lib/utils'
 import type { QueryParams } from '#app/types/entity'
+import type { EntityUri, PropertyUri } from '#server/types/entity'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { action } = getEndpointPathBuilders('entities')
 
-const CustomQuery = actionName => (uri, refresh) => action(actionName, { uri, refresh })
+const customQueryFactory = (actionName: string) => (uri: EntityUri, refresh?: boolean) => action(actionName, { uri, refresh })
 
 export default {
   // GET
-  getByUris (uris, refresh, relatives) {
-    uris = forceArray(uris).join('|')
-    const autocreate = !isPrerenderSession
-    if (relatives != null) relatives = forceArray(relatives).join('|')
-    return action('by-uris', { uris, refresh, relatives, autocreate })
+  getByUris (uris: EntityUri | EntityUri[], refresh?: boolean, relatives?: PropertyUri | PropertyUri[]) {
+    return action('by-uris', {
+      uris: forceArray(uris).join('|'),
+      refresh,
+      relatives: (relatives != null) ? forceArray(relatives).join('|') : undefined,
+      autocreate: !isPrerenderSession,
+    })
   },
 
   getAttributesByUris ({ uris, attributes, lang, relatives }) {
@@ -33,17 +36,19 @@ export default {
   // Get many by POSTing URIs in the body
   getManyByUris: action('by-uris'),
 
-  reverseClaims (property, value, refresh, sort) {
+  reverseClaims (property: PropertyUri, value: string | number, refresh?: boolean, sort?: boolean) {
     return action('reverse-claims', { property, value, refresh, sort })
   },
 
-  authorWorks: CustomQuery('author-works'),
-  serieParts: CustomQuery('serie-parts'),
-  publisherPublications: CustomQuery('publisher-publications'),
+  authorWorks: customQueryFactory('author-works'),
+  serieParts: customQueryFactory('serie-parts'),
+  publisherPublications: customQueryFactory('publisher-publications'),
 
-  images (uris, refresh) {
-    uris = forceArray(uris).join('|')
-    return action('images', { uris, refresh })
+  images (uris: EntityUri[], refresh?: boolean) {
+    return action('images', {
+      uris: forceArray(uris).join('|'),
+      refresh,
+    })
   },
 
   usersContributionsCount: period => {

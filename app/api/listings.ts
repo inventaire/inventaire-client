@@ -1,4 +1,7 @@
 import { forceArray } from '#app/lib/utils'
+import type { EntityUri } from '#server/types/entity'
+import type { ListingId } from '#server/types/listing'
+import type { UserId } from '#server/types/user'
 import { getEndpointPathBuilders } from './endpoint.ts'
 
 const { base, action } = getEndpointPathBuilders('lists')
@@ -7,24 +10,25 @@ export default {
   byId (id) {
     return action('by-id', { id })
   },
-  byCreators ({ usersIds, withElements = false, offset, limit }) {
-    usersIds = forceArray(usersIds).join('|')
-    const params = {
-      users: usersIds,
+  byCreators ({ usersIds, withElements = false, offset, limit }: { usersIds: UserId[], withElements?: boolean, offset?: number, limit?: number }) {
+    return action('by-creators', {
+      users: forceArray(usersIds).join('|'),
       'with-elements': withElements,
       offset,
       limit,
-    }
-    return action('by-creators', params)
+    })
   },
-  byEntities ({ uris, lists }) {
-    uris = forceArray(uris).join('|')
-    const params = { uris }
+  byEntities ({ uris, lists }: { uris: EntityUri[], lists?: ListingId[] }) {
     if (lists) {
-      const listingsQueryString = forceArray(lists).join('|')
-      Object.assign(params, { lists: listingsQueryString })
+      return action('by-entities', {
+        uris: forceArray(uris).join('|'),
+        lists: forceArray(lists).join('|'),
+      })
+    } else {
+      return action('by-entities', {
+        uris: forceArray(uris).join('|'),
+      })
     }
-    return action('by-entities', params)
   },
   create: action('create'),
   update: base,

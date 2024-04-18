@@ -8,6 +8,7 @@ import preq from '#app/lib/preq'
 import { getEntityPropValue } from '#entities/components/lib/claims_helpers'
 import { createWorkEditionDraft } from '#entities/lib/create_entities'
 import createEntity from '#entities/lib/create_entity'
+import type { SerializedEntity } from '#entities/lib/entities'
 import isLoggedIn from '#entities/views/editor/lib/is_logged_in.ts'
 import { i18n } from '#user/lib/i18n'
 
@@ -58,12 +59,11 @@ const getNormalizedIsbn = edition => {
   if (isbn) return normalizeIsbn(isbn)
 }
 
-export const addWithoutIsbnPath = function (work) {
-  if (!work) return {}
+export function addWithoutIsbnPath (work: SerializedEntity) {
   return buildPath('/entity/new', workEditionCreationData(work))
 }
 
-const workEditionCreationData = function (work) {
+function workEditionCreationData (work: SerializedEntity) {
   const data = {
     type: 'edition',
     claims: {
