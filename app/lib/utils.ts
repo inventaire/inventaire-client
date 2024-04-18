@@ -155,7 +155,7 @@ export function pickOne (obj: unknown) {
   if (key != null) return obj[key]
 }
 
-export function parseBooleanString (booleanString: string, defaultVal: boolean = false) {
+export function parseBooleanString (booleanString: unknown, defaultVal: boolean = false) {
   if (defaultVal === false) {
     return booleanString === 'true'
   } else {

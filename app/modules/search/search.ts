@@ -48,8 +48,10 @@ API.searchFromQueryString = function (querystring) {
   let { q, type, refresh } = parseQuery(querystring)
   refresh = parseBooleanString(refresh)
   if (q == null) q = ''
-  // Replacing "+" added that the browser search might have added
-  q = q.replace(/\+/g, ' ')
+  q = q
+    .toString()
+    // Replacing "+" added that the browser search might have added
+    .replace(/\+/g, ' ')
 
   if (showEntityPageIfUri(q, refresh)) return
 

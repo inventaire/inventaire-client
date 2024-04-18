@@ -63,7 +63,7 @@ const API = {
     if (isString(options)) options = parseQuery(options)
     else options = options || {}
     const { filter } = options
-    const url = buildPath('users/public', { filter })
+    const url = buildPath('/users/public', { filter })
 
     if (app.request('require:loggedIn', url)) {
       showInventory({ section: 'public', filter })

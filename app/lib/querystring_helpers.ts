@@ -1,5 +1,6 @@
 import app from '#app/app'
 import { parseQuery, buildPath, setQuerystring, routeSection } from '#app/lib/location'
+import type { RelativeUrl } from '#server/types/common'
 import allowPersistantQuery from './allow_persistant_query.ts'
 
 export default function () {
@@ -34,8 +35,7 @@ const setParameter = function (key, value) {
 const removeParameter = key => updateParameter(key, null)
 
 const updateParameter = (key, value) => {
-  // omit the first character: '/'
-  const currentPath = window.location.pathname.slice(1) + window.location.search
+  const currentPath = (window.location.pathname + window.location.search) as RelativeUrl
   const updatedPath = setQuerystring(currentPath, key, value)
   app.navigateReplace(updatedPath)
 }
