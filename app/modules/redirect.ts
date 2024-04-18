@@ -21,7 +21,7 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     app.reqres.setHandlers({
       'require:loggedIn': requireLoggedIn,
@@ -30,8 +30,8 @@ export default {
     })
 
     app.commands.setHandlers({
-      'show:home': API.showHome,
-      'show:welcome': API.showWelcome,
+      'show:home': controller.showHome,
+      'show:welcome': controller.showWelcome,
       'show:error': showErrorByStatus,
       'show:error:missing': showErrorMissing,
       'show:error:other': showOtherError,
@@ -44,7 +44,7 @@ export default {
   },
 }
 
-const API = {
+const controller = {
   showHome () {
     if (app.user.loggedIn) {
       showMainUserProfile()

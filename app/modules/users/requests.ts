@@ -24,7 +24,7 @@ export default function (app) {
     .then(() => app.vent.trigger('network:requests:update'))
   }
 
-  const API = {
+  const controller = {
     sendRequest (user) { return action(user, 'request', 'userRequested') },
     cancelRequest (user) { return action(user, 'cancel', 'public') },
     acceptRequest (user) {
@@ -59,10 +59,10 @@ export default function (app) {
   }
 
   app.reqres.setHandlers({
-    'request:send': API.sendRequest,
-    'request:cancel': API.cancelRequest,
-    'request:accept': API.acceptRequest,
-    'request:discard': API.discardRequest,
-    unfriend: API.unfriend,
+    'request:send': controller.sendRequest,
+    'request:cancel': controller.cancelRequest,
+    'request:accept': controller.acceptRequest,
+    'request:discard': controller.discardRequest,
+    unfriend: controller.unfriend,
   })
 }

@@ -23,7 +23,7 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     app.users = initUsersCollections(app)
     initHelpers(app)
@@ -75,7 +75,7 @@ async function showLatestUsers () {
   app.navigate('users/latest', { metadata: { title: i18n('Latest users') } })
 }
 
-const API = {
+const controller = {
   showHome,
   showNetworkHome () {
     const pathname = 'users/network'

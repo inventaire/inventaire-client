@@ -19,13 +19,13 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     app.reqres.setHandlers({ 'get:network:invitations:count': getNetworkNotificationsCount })
   },
 }
 
-const API = {
+const controller = {
   redirectToInventoryNetwork () { app.execute('show:inventory:network') },
   redirectToInventoryPublic () { app.execute('show:inventory:public') },
 }

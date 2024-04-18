@@ -11,7 +11,7 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
   },
 }
 
@@ -32,7 +32,7 @@ export async function showMainUserListings () {
   return showUserListings(app.user.get('username'))
 }
 
-const API = {
+const controller = {
   showListing,
   showUserListings,
   showMainUserListings,

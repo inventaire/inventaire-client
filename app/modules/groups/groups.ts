@@ -22,11 +22,11 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     app.commands.setHandlers({
       'show:group:board': showGroupBoardFromDocOrModel,
-      'create:group': API.showCreateGroupLayout,
+      'create:group': controller.showCreateGroupLayout,
     })
 
     fetchData({
@@ -48,7 +48,7 @@ const initRequestsCollectionsEvent = function () {
   }
 }
 
-const API = {
+const controller = {
   showGroupProfile (slug) {
     return showUsersHome({ group: slug })
   },
@@ -86,7 +86,7 @@ async function showGroupBoard (slug) {
       app.layout.showChildComponent('main', GroupBoard, { props: { group } })
       app.navigate(group.settingsPathname)
     } else {
-      API.showGroupInventory(slug)
+      controller.showGroupInventory(slug)
     }
   } catch (err) {
     app.execute('show:error', err)

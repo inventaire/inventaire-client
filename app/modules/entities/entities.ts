@@ -220,10 +220,10 @@ const showEntityCreate = async params => {
 
 const setHandlers = function () {
   app.commands.setHandlers({
-    'show:entity': API.showEntity.bind(API),
+    'show:entity': controller.showEntity.bind(controller),
     'show:claim:entities' (property, value) {
       const claim = `${property}-${value}`
-      API.showEntity(claim)
+      controller.showEntity(claim)
       app.navigate(`entity/${claim}`)
     },
 
@@ -242,19 +242,19 @@ const setHandlers = function () {
 
     'show:deduplicate:sub:entities' (model) {
       const uri = model.get('uri')
-      API.showEntityDeduplicate(uri)
+      controller.showEntityDeduplicate(uri)
     },
 
-    'show:entity:add': API.showAddEntity.bind(API),
-    'show:entity:add:from:model' (model) { return API.showAddEntity(model.get('uri')) },
-    'show:entity:edit': API.showEditEntityFromUri,
+    'show:entity:add': controller.showAddEntity.bind(controller),
+    'show:entity:add:from:model' (model) { return controller.showAddEntity(model.get('uri')) },
+    'show:entity:edit': controller.showEditEntityFromUri,
     'show:entity:edit:from:model' (model) {
-      // Uses API.showEditEntityFromUri the fetch fresh entity data
-      return API.showEditEntityFromUri(model.get('uri'))
+      // Uses controller.showEditEntityFromUri the fetch fresh entity data
+      return controller.showEditEntityFromUri(model.get('uri'))
     },
     'show:entity:create': showEntityCreate,
-    'show:entity:cleanup': API.showEntityCleanup,
-    'show:entity:history': API.showEntityHistory,
+    'show:entity:cleanup': controller.showEntityCleanup,
+    'show:entity:history': controller.showEntityHistory,
     'report:entity:type:issue': reportTypeIssue,
     'show:wikidata:edit:intro:modal': async uri => {
       const model = await app.request('get:entity:model', uri)

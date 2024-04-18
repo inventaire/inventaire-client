@@ -14,10 +14,10 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     app.commands.setHandlers({
-      'show:notifications': API.showNotifications,
+      'show:notifications': controller.showNotifications,
     })
 
     app.reqres.setHandlers({
@@ -28,7 +28,7 @@ export default {
   },
 }
 
-const API = {
+const controller = {
   async showNotifications () {
     if (app.request('require:loggedIn', 'notifications')) {
       app.execute('show:loader')

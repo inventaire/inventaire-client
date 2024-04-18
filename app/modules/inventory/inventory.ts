@@ -28,7 +28,7 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     initQueries(app)
     initializeInventoriesHandlers(app)
@@ -40,10 +40,10 @@ async function showInventory (params) {
   return showUsersHome(params)
 }
 
-const API = {
+const controller = {
   showGeneralInventory () {
     if (app.request('require:loggedIn', app.user.get('inventoryPathname'))) {
-      API.showUserInventory(app.user)
+      controller.showUserInventory(app.user)
       // Give focus to the home button so that hitting tab gives focus
       // to the search input
       return $('#home').focus()
@@ -175,38 +175,38 @@ const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal
 const initializeInventoriesHandlers = function (app) {
   app.commands.setHandlers({
     'show:inventory': showInventory,
-    'show:inventory:network': API.showNetworkInventory,
-    'show:inventory:public': API.showPublicInventory,
+    'show:inventory:network': controller.showNetworkInventory,
+    'show:inventory:public': controller.showPublicInventory,
 
-    'show:users:nearby' () { return API.showPublicInventory({ filter: 'users' }) },
-    'show:groups:nearby' () { return API.showPublicInventory({ filter: 'groups' }) },
+    'show:users:nearby' () { return controller.showPublicInventory({ filter: 'users' }) },
+    'show:groups:nearby' () { return controller.showPublicInventory({ filter: 'groups' }) },
 
     // user can be either a username or a user model
     'show:inventory:user' (user) {
-      API.showUserInventory(user, true)
+      controller.showUserInventory(user, true)
     },
 
     'show:inventory:main:user' () {
-      API.showUserInventory(app.user, true)
+      controller.showUserInventory(app.user, true)
     },
 
     'show:user:items:by:entity' (username, uri) {
-      API.showUserItemsByEntity(username, uri)
+      controller.showUserItemsByEntity(username, uri)
     },
 
-    'show:inventory:group': API.showGroupInventory,
+    'show:inventory:group': controller.showGroupInventory,
 
     'show:inventory:group:byId' (params) {
       const { groupId, standalone } = params
       return app.request('get:group:model', groupId)
-      .then(group => API.showGroupInventory(group, standalone))
+      .then(group => controller.showGroupInventory(group, standalone))
       .catch(app.Execute('show:error'))
     },
 
     'show:item:creation:form': showItemCreationForm,
 
     'show:item': showItem,
-    'show:item:byId': API.showItemFromId,
+    'show:item:byId': controller.showItemFromId,
   })
 
   app.reqres.setHandlers({

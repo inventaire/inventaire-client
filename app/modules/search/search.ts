@@ -13,17 +13,17 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     app.searchResultsHistory = new SearchResultsHistory()
 
     app.commands.setHandlers({
       // @ts-expect-error
-      'search:global': API.search,
+      'search:global': controller.search,
       // @ts-expect-error
-      'show:users:search' () { return API.search('', 'user') },
+      'show:users:search' () { return controller.search('', 'user') },
       // @ts-expect-error
-      'show:groups:search' () { return API.search('', 'group') },
+      'show:groups:search' () { return controller.search('', 'group') },
     })
 
     app.reqres.setHandlers({
@@ -32,7 +32,7 @@ export default {
   },
 }
 
-const API = {}
+const controller = {}
 // @ts-expect-error
 API.search = async function (search, section, showFallbackLayout) {
   // Prevent indexation of search pages, by making them appear as duplicates of the home
@@ -65,7 +65,7 @@ API.searchFromQueryString = function (querystring) {
   // out of the live search doesn't result in a blank page
   const showFallbackLayout = app.Execute('show:add:layout:search')
   // @ts-expect-error
-  return API.search(q, section, showFallbackLayout)
+  return controller.search(q, section, showFallbackLayout)
 }
 
 const showEntityPageIfUri = function (query, refresh) {

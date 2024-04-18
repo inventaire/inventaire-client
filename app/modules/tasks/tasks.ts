@@ -10,13 +10,13 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
   },
 }
 
-const API = {
-  showHumansTask (task) { API.showTask(task, 'human') },
-  showWorksTask (task) { API.showTask(task, 'work') },
+const controller = {
+  showHumansTask (task) { controller.showTask(task, 'human') },
+  showWorksTask (task) { controller.showTask(task, 'work') },
   showTask (task, type) {
     if (app.request('require:loggedIn', 'tasks')) {
       return showLayout({ task, entitiesType: type })

@@ -11,18 +11,18 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     app.commands.setHandlers({
-      'show:transactions': API.showTransactions,
-      'show:transaction': API.showTransaction,
+      'show:transactions': controller.showTransactions,
+      'show:transaction': controller.showTransaction,
     })
 
     initHelpers()
   },
 }
 
-const API = {
+const controller = {
   async showTransactions () {
     if (app.request('require:loggedIn', 'transactions')) {
       await showTransactionsLayout()

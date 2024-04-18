@@ -15,7 +15,7 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     app.commands.setHandlers({
       'show:shelf': showShelf,
@@ -37,7 +37,7 @@ async function showShelfFromId (shelfId) {
   }
 }
 
-const API = {
+const controller = {
   showShelfFromId,
 
   async showItemsWithoutShelf () {
@@ -57,7 +57,7 @@ const API = {
 }
 
 async function showShelf (shelf) {
-  if (isShelfId(shelf)) return API.showShelfFromId(shelf)
+  if (isShelfId(shelf)) return controller.showShelfFromId(shelf)
   if (isModel(shelf)) shelf = shelf.toJSON()
   const { owner } = shelf
   const [

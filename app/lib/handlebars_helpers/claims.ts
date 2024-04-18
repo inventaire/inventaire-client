@@ -22,9 +22,9 @@ import platforms_ from './platforms.ts'
 // @ts-expect-error
 const { SafeString, escapeExpression } = Handlebars
 
-let API
+let helpers
 
-export default API = {
+export default helpers = {
   prop: propHelper,
   entity: entityHelper,
   entityClaim (...args) {
@@ -74,7 +74,7 @@ export default API = {
   },
 
   quantityClaim (...args) {
-    return API.stringClaim(...args)
+    return helpers.stringClaim(...args)
   },
 
   urlClaim (...args) {
@@ -106,7 +106,7 @@ export default API = {
     const [ prefix, id ] = uri.split(':')
     switch (prefix) {
     case 'wd': return `https://www.wikidata.org/entity/${id}`
-    default: return API.entityLocalHref(uri)
+    default: return helpers.entityLocalHref(uri)
     }
   },
 
@@ -124,7 +124,7 @@ export default API = {
         return escapeExpression(value)
       }
     case 'number': return value
-    case 'array': return value.map(API.multiTypeValue).join('')
+    case 'array': return value.map(helpers.multiTypeValue).join('')
     case 'object': return escapeExpression(JSON.stringify(value))
     }
   },

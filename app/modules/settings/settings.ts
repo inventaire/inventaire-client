@@ -15,13 +15,13 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     setHandlers()
   },
 }
 
-const API = {
+const controller = {
   showProfileSettings () { showSettings('profile') },
   showAccountSettings () { showSettings('account') },
   showDisplaySettings () { showSettings('display') },
@@ -41,10 +41,10 @@ const showSettings = async section => {
 }
 
 const setHandlers = () => app.commands.setHandlers({
-  'show:settings': API.showProfileSettings,
-  'show:settings:profile': API.showProfileSettings,
-  'show:settings:account': API.showAccountSettings,
-  'show:settings:display': API.showDisplaySettings,
-  'show:settings:notifications': API.showNotificationsSettings,
-  'show:settings:data': API.showDataSettings,
+  'show:settings': controller.showProfileSettings,
+  'show:settings:profile': controller.showProfileSettings,
+  'show:settings:account': controller.showAccountSettings,
+  'show:settings:display': controller.showDisplaySettings,
+  'show:settings:notifications': controller.showNotificationsSettings,
+  'show:settings:data': controller.showDataSettings,
 })

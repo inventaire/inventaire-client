@@ -13,14 +13,14 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     initAddHelpers()
     initializeHandlers()
   },
 }
 
-const API = {
+const controller = {
   showSearch () {
     showAddLayout('search')
   },
@@ -42,7 +42,7 @@ const API = {
         // showing in main so that requesting another layout destroy this view
         app.layout.showChildView('main', new EmbeddedScanner())
       } else {
-        API.showScan()
+        controller.showScan()
       }
     }
   },
@@ -62,13 +62,13 @@ const initializeHandlers = () => app.commands.setHandlers({
   'show:add:layout': showAddLayout,
   // equivalent to the previous one as long as search is the default tab
   // but more explicit
-  'show:add:layout:search': API.showSearch,
+  'show:add:layout:search': controller.showSearch,
 
   'show:add:layout:import:isbns' (isbns) {
     showAddLayout('import', { isbns })
   },
 
-  'show:scan': API.showScan,
+  'show:scan': controller.showScan,
 
-  'show:scanner:embedded': API.showEmbeddedScanner,
+  'show:scanner:embedded': controller.showEmbeddedScanner,
 })

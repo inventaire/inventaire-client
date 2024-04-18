@@ -20,16 +20,16 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     initMainUser(app)
     auth()
     userUpdate(app)
 
     app.commands.setHandlers({
-      'show:signup': API.showSignup,
-      'show:login': API.showLogin,
-      'show:forgot:password': API.showForgotPassword,
+      'show:signup': controller.showSignup,
+      'show:login': controller.showLogin,
+      'show:forgot:password': controller.showForgotPassword,
     })
   },
 }
@@ -47,7 +47,7 @@ const showAuth = (name, label, Component, options) => {
 
 // beware that app.layout is undefined when User.define is fired
 // app.layout should thus appear only in callbacks
-const API = {
+const controller = {
   async showSignup (options) {
     const { default: Signup } = await import('./components/signup.svelte')
     showAuth('signup', 'Create account', Signup, options)
