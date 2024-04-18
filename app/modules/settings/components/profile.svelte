@@ -2,7 +2,7 @@
   import app from '#app/app'
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
-  import { serverReportError } from '#app/lib/error'
+  import { newError, serverReportError } from '#app/lib/error'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import preq from '#app/lib/preq'
   import { Username } from '#app/lib/regex'
@@ -75,13 +75,13 @@
       })
   }
 
-  const showUsernameError = message => usernameState = new Error(I18n(message))
+  const showUsernameError = message => usernameState = newError(I18n(message), 400)
 
   const onBioChange = () => bioState = null
 
   const updateBio = async () => {
     if (bioValue.length > 1000) {
-      bioState = new Error(I18n('presentation cannot be longer than 1000 characters'))
+      bioState = newError(I18n('presentation cannot be longer than 1000 characters'), 400)
       return
     }
     if (bioValue === $user.bio) {
