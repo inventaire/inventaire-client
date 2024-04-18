@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import preq from '#app/lib/preq'
@@ -22,7 +23,7 @@
 
   async function fetchMore () {
     limit = Math.min(limit * 2, 500)
-    const { patches, continue: continu, total: _total } = await preq.get(app.API.entities.contributions({
+    const { patches, continue: continu, total: _total } = await preq.get(API.entities.contributions({
       userId: user?._id,
       limit,
       offset,

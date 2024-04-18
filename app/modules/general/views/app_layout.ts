@@ -1,4 +1,5 @@
 import { debounce } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import log_ from '#app/lib/loggers'
@@ -110,5 +111,5 @@ const postFeedback = function (params) {
   if (params.context == null) params.context = {}
   params.context.location = document.location.pathname + document.location.search
   log_.info(params, 'posting feedback')
-  return preq.post(app.API.feedback, params)
+  return preq.post(API.feedback, params)
 }

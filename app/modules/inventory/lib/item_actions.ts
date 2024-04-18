@@ -1,4 +1,5 @@
 import { isString } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { isModel } from '#app/lib/boolean_tests'
@@ -11,7 +12,7 @@ export default {
   create (itemData) {
     log_.info(itemData, 'item data before creation')
 
-    return preq.post(app.API.items.base, itemData)
+    return preq.post(API.items.base, itemData)
     .then(log_.Info('item data after creation'))
     .then(data => {
       const model = new Item(data)
@@ -39,7 +40,7 @@ export default {
 
     const ids = items.map(getItemId)
 
-    return preq.put(app.API.items.update, { ids, attribute, value })
+    return preq.put(API.items.update, { ids, attribute, value })
   },
 
   delete (options) {
@@ -50,7 +51,7 @@ export default {
     const ids = items.map(getItemId)
 
     const action = async () => {
-      const res = await preq.post(app.API.items.deleteByIds, { ids })
+      const res = await preq.post(API.items.deleteByIds, { ids })
       items.forEach(item => {
         if (isString(item)) return
         // app.user.trigger('items:change', item.get('listing'), null)

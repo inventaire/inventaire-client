@@ -1,5 +1,6 @@
 import Polyglot, { type PolyglotOptions } from 'node-polyglot'
 import { noop } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 // General rule: one session -> one language. Which means that every language
 // change triggers a page reload with the new language.
@@ -62,7 +63,7 @@ function setLanguage (lang: UserLang, onMissingKey: PolyglotOptions['onMissingKe
 }
 
 function requestI18nFile (polyglot: Polyglot, lang: UserLang) {
-  return preq.get(app.API.i18nStrings(lang))
+  return preq.get(API.i18nStrings(lang))
   .then(updatePolyglot.bind(null, polyglot, lang))
   .catch(log_.ErrorRethrow(`i18n: failed to get the i18n file for ${lang}`))
 }

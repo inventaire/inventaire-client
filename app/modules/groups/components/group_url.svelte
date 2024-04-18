@@ -1,6 +1,6 @@
 <script lang="ts">
   import { debounce } from 'underscore'
-  import app from '#app/app'
+  import { API } from '#app/api/api'
   import { isNonEmptyString } from '#app/lib/boolean_tests'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -15,7 +15,7 @@
   async function updateUrl () {
     try {
       if (isNonEmptyString(name)) {
-        const { slug } = await preq.get(app.API.groups.slug(name, groupId))
+        const { slug } = await preq.get(API.groups.slug(name, groupId))
         url = `${window.location.origin}/groups/${slug}`
       } else {
         url = null

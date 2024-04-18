@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { isWikidataItemUri } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
@@ -6,7 +7,7 @@ import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import { i18n, I18n } from '#user/lib/i18n'
 
 export async function moveToWikidata (invEntityUri) {
-  await preq.put(app.API.entities.moveToWikidata, { uri: invEntityUri })
+  await preq.put(API.entities.moveToWikidata, { uri: invEntityUri })
   // Get the refreshed, redirected entity
   // thus also updating entitiesModelsIndexedByUri
   return app.request('get:entity:model', invEntityUri, true)

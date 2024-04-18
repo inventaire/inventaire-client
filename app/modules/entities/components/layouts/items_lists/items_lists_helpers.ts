@@ -1,4 +1,5 @@
 import { indexBy } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import preq from '#app/lib/preq'
 import { serializeItem, setItemUserData, type SerializedItemWithUserData } from '#inventory/lib/items'
@@ -6,7 +7,7 @@ import type { EntityUri } from '#server/types/entity'
 import { serializeUser } from '#users/lib/users'
 
 export async function getItemsData (editionsUris: EntityUri[]) {
-  let { items, users } = await preq.get(app.API.items.byEntities({ ids: editionsUris }))
+  let { items, users } = await preq.get(API.items.byEntities({ ids: editionsUris }))
   users = users.map(serializeUser)
   items = items.map(serializeItem)
   const usersByIds = indexBy(users, '_id')

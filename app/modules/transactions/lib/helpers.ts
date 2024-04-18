@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { serverReportError } from '#app/lib/error'
 import preq from '#app/lib/preq'
@@ -15,7 +16,7 @@ export async function postTransactionMessage ({ transaction, message }) {
     transaction: transaction._id,
     message,
   }
-  await preq.post(app.API.transactions.base, messageData)
+  await preq.post(API.transactions.base, messageData)
   Object.assign(messageData, {
     user: app.user.id,
     created: Date.now(),
@@ -35,7 +36,7 @@ export function hasOngoingTransactionsByItemIdSync (itemId) {
 
 export async function postTransactionRequest ({ itemId, message }) {
   try {
-    const { transaction } = await preq.post(app.API.transactions.base, {
+    const { transaction } = await preq.post(API.transactions.base, {
       action: 'request',
       item: itemId,
       message,

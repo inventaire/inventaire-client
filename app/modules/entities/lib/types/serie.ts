@@ -1,4 +1,5 @@
 import { uniq, pluck, compact } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import preq from '#app/lib/preq'
 import commonsSerieWork from './commons_serie_work.ts'
@@ -18,7 +19,7 @@ const specificMethods = Object.assign({}, commonsSerieWork, {
     if (!refresh && (this.waitForPartsData != null)) return this.waitForPartsData
 
     const uri = this.get('uri')
-    this.waitForPartsData = preq.get(app.API.entities.serieParts(uri, refresh))
+    this.waitForPartsData = preq.get(API.entities.serieParts(uri, refresh))
       .then(res => {
         this.partsData = res.parts
         return this.partsData

@@ -1,6 +1,6 @@
 import _dataURLtoBlob from 'blueimp-canvas-to-blob'
 import { sample } from 'underscore'
-import app from '#app/app'
+import { API } from '#app/api/api'
 import { isImageDataUrl } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import preq from '#app/lib/preq'
@@ -9,12 +9,12 @@ import type { ColorHexCode, Url } from '#server/types/common'
 import type { ImageContainer, ImageDataUrl } from '#server/types/image'
 
 export async function getUrlDataUrl (url: Url) {
-  const { 'data-url': dataUrl } = await preq.get(app.API.images.dataUrl(url))
+  const { 'data-url': dataUrl } = await preq.get(API.images.dataUrl(url))
   return dataUrl
 }
 
 export async function getUserGravatarUrl () {
-  const { url } = await preq.get(app.API.images.gravatar)
+  const { url } = await preq.get(API.images.gravatar)
   return url
 }
 
@@ -85,7 +85,7 @@ export async function upload (container: ImageContainer, blobsData, hash = false
     request.onerror = reject
     request.ontimeout = reject
 
-    request.open('POST', app.API.images.upload(container, hash))
+    request.open('POST', API.images.upload(container, hash))
     request.responseType = 'json'
     return request.send(formData)
   })

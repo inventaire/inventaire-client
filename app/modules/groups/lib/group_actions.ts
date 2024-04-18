@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { newError } from '#app/lib/error'
 import preq from '#app/lib/preq'
@@ -96,7 +97,7 @@ export default {
   },
 
   async action (action, userId) {
-    const res = await preq.put(app.API.groups.base, {
+    const res = await preq.put(API.groups.base, {
       action,
       group: this.id,
       // requiered only for actions implying an other user

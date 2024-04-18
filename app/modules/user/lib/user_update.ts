@@ -1,8 +1,9 @@
+import { API } from '#app/api/api'
 import { Updater } from '#app/lib/model_update'
 
 export default function (app) {
   const userUpdater = Updater({
-    endpoint: app.API.user,
+    endpoint: API.user,
     uniqueModel: app.user,
   })
 

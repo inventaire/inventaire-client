@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { isPropertyUri, isEntityUri } from '#app/lib/boolean_tests'
@@ -29,13 +30,13 @@ export default {
       },
     })
 
-    new Router({ controller: API })
+    new Router({ controller })
 
     setHandlers()
   },
 }
 
-const API = {
+const controller = {
   async showEntity (uri, params?) {
     const refresh = params?.refresh || app.request('querystring:get', 'refresh')
     if (isClaim(uri)) return showClaimEntities(uri, refresh)
@@ -358,7 +359,7 @@ const handleMissingEntity = (uri, err) => {
 }
 
 const showEntityCreateFromIsbn = async isbn => {
-  const isbnData = await preq.get(app.API.data.isbn(isbn))
+  const isbnData = await preq.get(API.data.isbn(isbn))
 
   const { isbn13h, groupLangUri } = isbnData
   const claims = { 'wdt:P212': [ isbn13h ] }
@@ -377,7 +378,7 @@ const showEntityCreateFromIsbn = async isbn => {
 
 // Create from the seed data we have, if the entity isn't known yet
 const existsOrCreateFromSeed = async entry => {
-  const { entries } = await preq.post(app.API.entities.resolve, {
+  const { entries } = await preq.post(API.entities.resolve, {
     entries: [ entry ],
     update: true,
     create: true,

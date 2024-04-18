@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import preq from '#app/lib/preq'
@@ -15,7 +16,7 @@
 
   async function revert () {
     try {
-      await preq.put(app.API.entities.revertEdit, { patch: patchId })
+      await preq.put(API.entities.revertEdit, { patch: patchId })
       app.execute('show:entity:history', invEntityUri)
     } catch (err) {
       flash = err

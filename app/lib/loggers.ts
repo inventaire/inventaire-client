@@ -1,5 +1,5 @@
 import { isString, isArguments } from 'underscore'
-import app from '#app/app'
+import { API } from '#app/api/api'
 import { reportError } from '#app/lib/reports'
 
 const log = (obj, label?) => {
@@ -72,7 +72,7 @@ export const log_ = {
     // Using jQuery promise instead of preq to be able to report errors
     // happening before preq is initialized
     $.post({
-      url: app.API.tests,
+      url: API.tests,
       // jquery defaults to x-www-form-urlencoded
       headers: { 'content-type': 'application/json' },
       data: JSON.stringify({ obj, label }),

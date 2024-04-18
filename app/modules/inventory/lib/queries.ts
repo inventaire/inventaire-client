@@ -1,4 +1,5 @@
 import { isArray, flatten, indexBy } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
@@ -10,7 +11,7 @@ import { serializeUser } from '#users/lib/users'
 const getById = async id => {
   const ids = [ id ]
 
-  const { items, users } = await preq.get(app.API.items.byIds({ ids, includeUsers: true }))
+  const { items, users } = await preq.get(API.items.byIds({ ids, includeUsers: true }))
     .catch(log_.ErrorRethrow('findItemById err'))
 
   const item = items[0]
@@ -29,9 +30,9 @@ const getItemByQueryUrl = function (queryUrl) {
   .then(addItemsAndUsers(collection))
 }
 
-const getByEntities = uris => getItemByQueryUrl(app.API.items.byEntities({ ids: uris }))
+const getByEntities = uris => getItemByQueryUrl(API.items.byEntities({ ids: uris }))
 
-const getByUserIdAndEntities = (userId, uris) => getItemByQueryUrl(app.API.items.byUserAndEntities(userId, uris))
+const getByUserIdAndEntities = (userId, uris) => getItemByQueryUrl(API.items.byUserAndEntities(userId, uris))
 
 const addItemsAndUsers = collection => function (res) {
   let { items, users } = res
@@ -51,34 +52,34 @@ const addItemsAndUsers = collection => function (res) {
 const makeRequestAlt = async (params, endpoint, ids, filter?) => {
   if (ids.length === 0) return { items: [], total: 0 }
   const { limit, offset } = params
-  const res = await preq.get(app.API.items[endpoint]({ ids, limit, offset, filter, includeUsers: true }))
+  const res = await preq.get(API.items[endpoint]({ ids, limit, offset, filter, includeUsers: true }))
   updateItemsParams(res, params)
   return res
 }
 
 const getByIds = async ({ ids, items }) => {
-  const res = await preq.get(app.API.items.byIds({ ids, includeUsers: true }))
+  const res = await preq.get(API.items.byIds({ ids, includeUsers: true }))
   updateItemsParams(res, { items })
   return res
 }
 
 const getNearbyItems = async params => {
   const { limit, offset } = params
-  const res = await preq.get(app.API.items.nearby(limit, offset))
+  const res = await preq.get(API.items.nearby(limit, offset))
   updateItemsParams(res, params)
   return res
 }
 
 const getLastPublic = async params => {
   const { limit, offset, assertImage } = params
-  const res = await preq.get(app.API.items.lastPublic(limit, offset, assertImage))
+  const res = await preq.get(API.items.lastPublic(limit, offset, assertImage))
   updateItemsParams(res, params)
   return res
 }
 
 const getRecentPublic = async params => {
   const { limit, lang, assertImage } = params
-  const res = await preq.get(app.API.items.recentPublic(limit, lang, assertImage))
+  const res = await preq.get(API.items.recentPublic(limit, lang, assertImage))
   updateItemsParams(res, params)
   return res
 }

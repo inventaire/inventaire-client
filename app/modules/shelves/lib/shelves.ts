@@ -1,4 +1,5 @@
 import { pluck } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { getColorHexCodeFromModelId, getColorSquareDataUri } from '#app/lib/images'
@@ -9,24 +10,24 @@ import type { ShelvesByOwnersResponse } from '#server/controllers/shelves/by_own
 import type { UserId } from '#server/types/user'
 
 export function getById (id) {
-  return preq.get(app.API.shelves.byIds(id))
+  return preq.get(API.shelves.byIds(id))
   .then(getShelf)
 }
 
 export async function getShelvesByIds (ids) {
   if (ids.length === 0) return []
-  const { shelves } = await treq.get<ShelvesByIdsResponse>(app.API.shelves.byIds(ids))
+  const { shelves } = await treq.get<ShelvesByIdsResponse>(API.shelves.byIds(ids))
   return Object.values(shelves).sort(byName)
 }
 
 export async function createShelf (params) {
-  const { shelf } = await preq.post(app.API.shelves.create, params)
+  const { shelf } = await preq.post(API.shelves.create, params)
   return shelf
 }
 
 export async function updateShelf (params) {
   try {
-    const { shelf } = await preq.post(app.API.shelves.update, params)
+    const { shelf } = await preq.post(API.shelves.update, params)
     return shelf
   } catch (err) {
     if (err.message !== 'nothing to update') {
@@ -36,7 +37,7 @@ export async function updateShelf (params) {
 }
 
 export function deleteShelf (params) {
-  return preq.post(app.API.shelves.delete, params)
+  return preq.post(API.shelves.delete, params)
 }
 
 export function removeItemsFromShelf ({ shelfId, items }) {
@@ -55,17 +56,17 @@ export async function addItemsByIdsToShelf ({ shelfId, itemsIds }) {
 
 export async function getShelvesByOwner (userId: UserId) {
   assert_.string(userId)
-  const { shelves } = await treq.get<ShelvesByOwnersResponse>(app.API.shelves.byOwners(userId))
+  const { shelves } = await treq.get<ShelvesByOwnersResponse>(API.shelves.byOwners(userId))
   return Object.values(shelves).sort(byName)
 }
 
 export async function countShelves (userId: UserId) {
-  const { shelves } = await treq.get<ShelvesByOwnersResponse>(app.API.shelves.byOwners(userId))
+  const { shelves } = await treq.get<ShelvesByOwnersResponse>(API.shelves.byOwners(userId))
   return Object.keys(shelves).length
 }
 
 const shelfActionReq = (id, itemsIds, action) => {
-  return preq.post(app.API.shelves[action], { id, items: itemsIds })
+  return preq.post(API.shelves[action], { id, items: itemsIds })
   .then(getShelf)
 }
 
@@ -97,7 +98,7 @@ export function getShelfMetadata (shelf) {
     description,
     image: picture,
     url: pathname,
-    rss: app.API.feeds('shelf', shelfId),
+    rss: API.feeds('shelf', shelfId),
   }
 }
 

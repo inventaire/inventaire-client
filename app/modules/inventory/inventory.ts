@@ -1,4 +1,5 @@
 import { isString, isArray } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { isEntityUri, isUsername, isItemId } from '#app/lib/boolean_tests'
@@ -151,7 +152,7 @@ const showItem = async ({ itemId, regionName = 'main', pathnameAfterClosingModal
     assert_.string(itemId)
     const pathname = `/items/${itemId}`
     if (!isItemId(itemId)) return app.execute('show:error:missing', { pathname })
-    const { items, users } = await preq.get(app.API.items.byIds({ ids: itemId, includeUsers: true }))
+    const { items, users } = await preq.get(API.items.byIds({ ids: itemId, includeUsers: true }))
     const item = items[0]
     const user = users[0]
     const { default: ItemShowStandalone } = await import('#inventory/components/item_show_standalone.svelte')

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
@@ -56,7 +57,7 @@
 
   async function _deleteEntity () {
     try {
-      await preq.post(app.API.entities.delete, { uris: [ invUri ] })
+      await preq.post(API.entities.delete, { uris: [ invUri ] })
       app.execute('show:entity:edit', uri)
     } catch (err) {
       // TODO: recover displayDeteEntityErrorContext feature to show rich error message

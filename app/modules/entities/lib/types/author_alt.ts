@@ -1,10 +1,10 @@
 import { property } from 'underscore'
-import app from '#app/app'
+import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { attachEntities, getEntitiesAttributesByUris, getEntities, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
 
 export async function getAuthorWorksUris ({ uri }) {
-  const { articles, series, works } = await preq.get(app.API.entities.authorWorks(uri))
+  const { articles, series, works } = await preq.get(API.entities.authorWorks(uri))
   const seriesUris = series.map(getUri)
   const worksUris = getWorksUris(works, seriesUris)
   const articlesUris = getWorksUris(articles, seriesUris)
@@ -39,7 +39,7 @@ type WorkEntity = SerializedEntity & {
 }
 
 export async function getAuthorWorks ({ uri }) {
-  const { works } = await preq.get(app.API.entities.authorWorks(uri))
+  const { works } = await preq.get(API.entities.authorWorks(uri))
   const worksUris = works.map(getUri)
   const worksEntities: WorkEntity[] = await getEntities(worksUris)
   // Filtering-out any non-work undetected by the SPARQL query

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { indexBy, partition } from 'underscore'
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import { getTextDirection, languages } from '#app/lib/active_languages'
   import Flash from '#app/lib/components/flash.svelte'
@@ -27,7 +28,7 @@
       const langs = [ userLang ]
       if (originalLang && originalLang !== userLang) langs.push(originalLang)
       if (!langs.includes('en')) langs.push('en')
-      waitingForSummariesData = preq.get(app.API.data.summaries({ uri, langs, refresh }))
+      waitingForSummariesData = preq.get(API.data.summaries({ uri, langs, refresh }))
         .then(res => {
           summaries = sortWikipediaSummaryFirst(res.summaries)
           summeriesPerKey = indexBy(summaries, 'key')
@@ -58,7 +59,7 @@
 
   function getSummaryText ({ key, lang, sitelink }) {
     const { title } = sitelink
-    waitingForText = preq.get(app.API.data.wikipediaExtract(lang, title))
+    waitingForText = preq.get(API.data.wikipediaExtract(lang, title))
       .then(res => {
         summeriesPerKey[key].text = res.extract
         // Force refresh

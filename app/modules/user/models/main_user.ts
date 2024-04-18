@@ -1,4 +1,5 @@
 import cookie_ from 'js-cookie'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import notificationsList from '#settings/lib/notifications_settings_list'
 import UserCommons from '#users/models/user_commons'
@@ -9,7 +10,7 @@ const { location } = window
 
 export default UserCommons.extend({
   isMainUser: true,
-  url () { return app.API.user },
+  url () { return API.user },
 
   parse (data) {
     if (data.type === 'deletedUser') return app.execute('logout')

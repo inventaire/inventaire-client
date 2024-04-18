@@ -1,5 +1,5 @@
 import { debounce } from 'underscore'
-import app from '#app/app'
+import { API } from '#app/api/api'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 
@@ -19,7 +19,7 @@ const sendMissingKeys = function () {
     const keysToSend = missingKeys
     // Keys added after this point will join the next batch
     missingKeys = []
-    return preq.post(app.API.i18n, { missingKeys: keysToSend })
+    return preq.post(API.i18n, { missingKeys: keysToSend })
     .then(() => log_.info(keysToSend, 'i18n:missing added'))
     .catch(err => {
       if (err.statusCode !== 404) throw err

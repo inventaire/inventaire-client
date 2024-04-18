@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
@@ -39,7 +40,7 @@ export async function createItem ({ edition, details, notes, transaction, visibi
     shelves,
     entity: editionUri,
   }
-  const item = await preq.post(app.API.items.base, itemData)
+  const item = await preq.post(API.items.base, itemData)
   log_.info('new item created', editionUri)
   return item
 }

@@ -1,7 +1,7 @@
-import app from '#app/app'
+import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 
-export const getIsbnData = isbn => preq.get(app.API.data.isbn(isbn))
+export const getIsbnData = isbn => preq.get(API.data.isbn(isbn))
 
 // Removing any non-alpha numeric characters, especially '-' and spaces
 export const normalizeIsbn = text => {

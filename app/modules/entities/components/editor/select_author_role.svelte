@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, tick } from 'svelte'
-  import app from '#app/app'
+  import { API } from '#app/api/api'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
   import preq from '#app/lib/preq'
@@ -40,13 +40,13 @@
       entity.claims[currentRoleProperty] = addClaimValue(entity.claims[currentRoleProperty], movedValue)
       // If entity.uri is undefined, we are manipulating a not-yet-created entity
       if (entity.uri) {
-        await preq.put(app.API.entities.claims.update, {
+        await preq.put(API.entities.claims.update, {
           uri: entity.uri,
           property,
           'old-value': movedValue,
           'new-value': null,
         })
-        await preq.put(app.API.entities.claims.update, {
+        await preq.put(API.entities.claims.update, {
           uri: entity.uri,
           property: currentRoleProperty,
           'old-value': null,

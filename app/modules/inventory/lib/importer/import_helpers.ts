@@ -1,4 +1,5 @@
 import { groupBy, property, compact } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { isNonEmptyString, isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
@@ -102,19 +103,19 @@ export const isResolved = entity => entity.uri != null
 export const resolveCandidate = async (candidate, resolveOptions) => {
   const entry = serializeResolverEntry(candidate)
   const params = Object.assign({}, { entries: [ entry ] }, resolveOptions)
-  const { entries } = await preq.post(app.API.entities.resolve, params)
+  const { entries } = await preq.post(API.entities.resolve, params)
   return entries[0]
 }
 
 export const getRelevantEntities = async (edition, works) => {
   if (edition?.uri) {
     // ignore resolver response, as some resolved uris might not be in the edition entity graph
-    return preq.get(app.API.entities.getByUris(edition.uri, false, editionRelatives))
+    return preq.get(API.entities.getByUris(edition.uri, false, editionRelatives))
   } else {
     const worksUris = getUris(works)
     if (isNonEmptyArray(worksUris)) {
       // ignore authors to let user verify authors information
-      return preq.get(app.API.entities.getByUris(worksUris, false, editionRelatives))
+      return preq.get(API.entities.getByUris(worksUris, false, editionRelatives))
     }
   }
 }
@@ -133,7 +134,7 @@ const fetchAllMissingEntities = (resEntry, editionRelatives) => {
   works.forEach(pushUri)
   authors.forEach(pushUri)
   if (!isNonEmptyArray(uris)) return
-  return preq.get(app.API.entities.getByUris(uris, false, editionRelatives))
+  return preq.get(API.entities.getByUris(uris, false, editionRelatives))
 }
 
 const findIsbn = data => {
@@ -191,5 +192,5 @@ const serializeResolverEntry = data => {
 
 export const getEditionEntitiesByUri = async isbn => {
   const editionUri = `isbn:${isbn}`
-  return preq.get(app.API.entities.getByUris(editionUri, false, editionRelatives))
+  return preq.get(API.entities.getByUris(editionUri, false, editionRelatives))
 }

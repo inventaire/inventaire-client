@@ -1,4 +1,4 @@
-import app from '#app/app'
+import { API } from '#app/api/api'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
 import { images } from '#app/lib/urls'
@@ -75,7 +75,7 @@ export default Positionable.extend({
     this.set('listingsCount', listingsCount)
   },
 
-  getRss () { return app.API.feeds('user', this.id) },
+  getRss () { return API.feeds('user', this.id) },
 
   checkSpecialStatus () {
     if (this.get('special')) {

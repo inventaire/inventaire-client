@@ -1,4 +1,5 @@
 import { findWhere, pluck, without } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { formatAndThrowError } from '#app/lib/error'
 import { getColorSquareDataUriFromModelId } from '#app/lib/images'
@@ -17,7 +18,7 @@ export default {
     const { name, description, searchable, open, position } = data
     const { groups } = app
 
-    return preq.post(app.API.groups.base, {
+    return preq.post(API.groups.base, {
       action: 'create',
       name,
       description,
@@ -129,12 +130,12 @@ export function serializeGroup (group, options?) {
 }
 
 export async function getGroup (groupId) {
-  const { group } = await preq.get(app.API.groups.byId(groupId))
+  const { group } = await preq.get(API.groups.byId(groupId))
   return group
 }
 
 export async function getGroupBySlug (slug) {
-  const { group } = await preq.get(app.API.groups.bySlug(slug))
+  const { group } = await preq.get(API.groups.bySlug(slug))
   return group
 }
 
@@ -152,7 +153,7 @@ export async function findMainUserInvitor (group) {
 }
 
 export async function updateGroupSetting ({ groupId, attribute, value }) {
-  return preq.put(app.API.groups.base, {
+  return preq.put(API.groups.base, {
     action: 'update-settings',
     group: groupId,
     attribute,
@@ -161,7 +162,7 @@ export async function updateGroupSetting ({ groupId, attribute, value }) {
 }
 
 async function groupAction (action, groupId, targetUserId?) {
-  return preq.put(app.API.groups.base, {
+  return preq.put(API.groups.base, {
     action,
     group: groupId,
     user: targetUserId,

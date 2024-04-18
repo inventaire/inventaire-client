@@ -1,4 +1,5 @@
 import { clone, flatten, intersection, pick, uniq, without } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { getLocalStorageStore } from '#app/lib/components/stores/local_storage_stores'
 import { serverReportError } from '#app/lib/error'
@@ -109,7 +110,7 @@ export async function getInventoryView (type: string, doc?: CouchDoc) {
   } else {
     params = { [type]: doc._id }
   }
-  return preq.get(app.API.items.inventoryView(params))
+  return preq.get(API.items.inventoryView(params))
 }
 
 export function getFilteredItemsIds ({ intersectionWorkUris, itemsByDate, workUriItemsMap, textFilterItemsIds }) {

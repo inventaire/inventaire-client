@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import preq from '#app/lib/preq'
 import { i18n } from '#user/lib/i18n'
@@ -52,6 +53,6 @@ const controller = {
 const getNotificationsData = async () => {
   if (!app.user.loggedIn) return
 
-  const { notifications: userNotifications } = await preq.get(app.API.notifications)
+  const { notifications: userNotifications } = await preq.get(API.notifications)
   return notifications.addPerType(userNotifications)
 }

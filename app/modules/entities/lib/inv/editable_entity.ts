@@ -1,4 +1,5 @@
 import { flatten, compact } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { newError } from '#app/lib/error'
@@ -61,7 +62,7 @@ export default {
   savePropertyValue (property, oldValue, newValue) {
     // Substitute an inv URI to the isbn URI to spare having to resolve it server-side
     const uri = this.get('altUri') || this.get('uri')
-    return preq.put(app.API.entities.claims.update, {
+    return preq.put(API.entities.claims.update, {
       uri,
       property,
       'new-value': newValue,
@@ -82,7 +83,7 @@ export default {
     const reverseAction = this.set.bind(this, labelPath, oldValue)
     const rollback = Rollback(reverseAction, 'saveLabel')
 
-    return preq.put(app.API.entities.labels.update, { uri: this.get('uri'), lang, value })
+    return preq.put(API.entities.labels.update, { uri: this.get('uri'), lang, value })
     .catch(rollback)
   },
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
@@ -68,7 +69,7 @@
       return showUsernameError('username can only contain letters, figures or _')
     }
     const usernameValueBeforeCheck = usernameValue
-    await preq.get(app.API.auth.usernameAvailability(usernameValue))
+    await preq.get(API.auth.usernameAvailability(usernameValue))
       .catch(err => {
         // Ignore errors when the requested username already changed
         if (usernameValueBeforeCheck === usernameValue) usernameState = err

@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import wikidataEditIntroTemplate from './templates/wikidata_edit_intro.hbs'
 import '../scss/wikidata_edit_intro.scss'
@@ -11,7 +12,7 @@ export default Marionette.View.extend({
   serializeData () {
     const attrs = this.model.toJSON()
     attrs.isLoggedIn = app.user.loggedIn
-    attrs.wikidataOauth = app.API.auth.oauth.wikidata + `&redirect=${attrs.edit}`
+    attrs.wikidataOauth = API.auth.oauth.wikidata + `&redirect=${attrs.edit}`
     attrs.wikidataIntro = 'https://www.wikidata.org/wiki/Wikidata:Introduction'
     return attrs
   },

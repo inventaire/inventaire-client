@@ -1,5 +1,6 @@
 <script lang="ts">
   import { debounce } from 'underscore'
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import { languages } from '#app/lib/active_languages'
   import Flash from '#app/lib/components/flash.svelte'
@@ -86,7 +87,7 @@
     }
   }
 
-  const sendDeletionFeedback = message => preq.post(app.API.feedback, {
+  const sendDeletionFeedback = message => preq.post(API.feedback, {
     subject: '[account deletion]',
     message,
   })

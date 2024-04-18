@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { host } from '#app/lib/urls'
 import { dropLeadingSlash } from '#app/lib/utils'
@@ -35,7 +36,7 @@ export const transformers = {
     if (url.match(/\d+x\d+/)) {
       return absolutePath(url)
     } else {
-      return absolutePath(app.API.img(url))
+      return absolutePath(API.img(url))
     }
   },
 }

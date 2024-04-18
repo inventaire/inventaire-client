@@ -1,5 +1,5 @@
 import { uniq } from 'underscore'
-import app from '#app/app'
+import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { chunk } from '#app/lib/utils'
 
@@ -24,7 +24,7 @@ export default async function (userId, uris) {
   return getBatchesSequentially()
 }
 
-const getEntityItemsCountBatch = (userId, uris) => preq.get(app.API.items.byUserAndEntities(userId, uris))
+const getEntityItemsCountBatch = (userId, uris) => preq.get(API.items.byUserAndEntities(userId, uris))
 
 const countEntitiesItems = function (counts, res) {
   for (const item of res.items) {

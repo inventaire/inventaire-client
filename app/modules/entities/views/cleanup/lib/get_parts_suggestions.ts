@@ -1,4 +1,5 @@
 import { uniq, property, pluck, flatten } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import preq from '#app/lib/preq'
 import { searchWorks } from '#entities/lib/search/search_by_types'
@@ -34,7 +35,7 @@ const getAuthorsWorks = async authorsUris => {
   return flatten(allResults)
 }
 
-const fetchAuthorWorks = authorUri => preq.get(app.API.entities.authorWorks(authorUri))
+const fetchAuthorWorks = authorUri => preq.get(API.entities.authorWorks(authorUri))
 
 const hasNoSerie = work => work.serie == null
 

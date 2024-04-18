@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { newError } from '#app/lib/error'
 import { parseQuery } from '#app/lib/location'
@@ -104,7 +105,7 @@ const controller = {
 }
 
 const getOAuthClient = async clientId => {
-  const { clients } = await preq.get(app.API.oauth.clients.byId(clientId))
+  const { clients } = await preq.get(API.oauth.clients.byId(clientId))
   return clients[clientId]
 }
 

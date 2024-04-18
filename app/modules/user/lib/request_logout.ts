@@ -1,10 +1,10 @@
-import app from '#app/app'
+import { API } from '#app/api/api'
 import { localStorageProxy } from '#app/lib/local_storage'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 
 export default redirect => {
-  preq.post(app.API.auth.logout)
+  preq.post(API.auth.logout)
   .then(logoutSuccess(redirect))
   .catch(log_.Error('logout error'))
 }

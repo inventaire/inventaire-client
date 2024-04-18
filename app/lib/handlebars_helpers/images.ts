@@ -1,6 +1,6 @@
 import { isNumber, isArray } from 'underscore'
-import app from '#app/app'
-// This is tailored for handlebars, for other uses, use app.API.img directly.
+import { API } from '#app/api/api'
+// This is tailored for handlebars, for other uses, use API.img directly.
 // Keep in sync with server/lib/emails/handlebars_helpers
 import { isImageDataUrl } from '#app/lib/boolean_tests'
 import type { Url } from '#server/types/common'
@@ -24,7 +24,7 @@ export function imgSrc (path?: ImagePath | ImageDataUrl | Url, width?: number, h
 
   if (path == null) return ''
 
-  return app.API.img(path, width, height) as Url
+  return API.img(path, width, height) as Url
 }
 
 export default { imgSrc }

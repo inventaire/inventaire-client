@@ -1,4 +1,4 @@
-import app from '#app/app'
+import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { serializeUser } from '#users/lib/users'
 
@@ -25,6 +25,6 @@ export async function getGroupsByPosition ({ bbox }) {
 }
 
 async function getDocsByPosition (name, bbox) {
-  const { [name]: docs } = await preq.get(app.API[name].searchByPosition(bbox))
+  const { [name]: docs } = await preq.get(API[name].searchByPosition(bbox))
   return docs
 }

@@ -1,4 +1,4 @@
-import app from '#app/app'
+import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { i18n } from '#user/lib/i18n'
 
@@ -23,7 +23,7 @@ const specificMethods = {
   fetchWorksData (refresh) {
     if (!refresh && this.waitForWorksData != null) return this.waitForWorksData
     const uri = this.get('uri')
-    this.waitForWorksData = preq.get(app.API.entities.authorWorks(uri, refresh))
+    this.waitForWorksData = preq.get(API.entities.authorWorks(uri, refresh))
     return this.waitForWorksData
   },
 

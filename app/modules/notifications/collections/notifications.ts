@@ -1,5 +1,5 @@
 import { debounce } from 'underscore'
-import app from '#app/app'
+import { API } from '#app/api/api'
 import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
@@ -25,7 +25,7 @@ export default Backbone.Collection.extend({
     log_.info(this.toUpdate, 'notifs:update')
     const ids = this.toUpdate
     this.toUpdate = []
-    return preq.post(app.API.notifications, { times: ids })
+    return preq.post(API.notifications, { times: ids })
     .catch(log_.Error('notification update err'))
   },
 

@@ -1,5 +1,6 @@
 import { compact, pick, uniq, without } from 'underscore'
 import wdLang from 'wikidata-lang'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
@@ -49,7 +50,7 @@ export async function createEditionAndWorkFromEntry ({ edition, work }) {
     edition,
     works: [ work ],
   }
-  const { entries } = await preq.post(app.API.entities.resolve, {
+  const { entries } = await preq.post(API.entities.resolve, {
     entries: [ entry ],
     update: true,
     create: true,

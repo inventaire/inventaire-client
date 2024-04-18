@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { isWikidataItemUri } from '#app/lib/boolean_tests.ts'
 import { newError } from '#app/lib/error'
@@ -25,7 +26,7 @@ export default async function (fromUri, toUri) {
 }
 
 const merge = async (fromUri, toUri) => {
-  await preq.put(app.API.entities.merge, { from: fromUri, to: toUri })
+  await preq.put(API.entities.merge, { from: fromUri, to: toUri })
   // Get the refreshed, redirected entity
   // thus also updating entitiesModelsIndexedByUri
   return app.request('get:entity:model', fromUri, true)

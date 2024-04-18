@@ -1,5 +1,6 @@
 <script lang="ts">
   import { pluck } from 'underscore'
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import preq, { treq } from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -34,7 +35,7 @@
   }
 
   async function assignTaskById () {
-    const { tasks } = await preq.get(app.API.tasks.byIds(taskId))
+    const { tasks } = await preq.get(API.tasks.byIds(taskId))
     task = tasks[0]
   }
 
@@ -68,7 +69,7 @@
     if (!task || task.state === 'merged') return
     const fromUri = task.suspectUri
     const toUri = task.suggestionUri
-    return treq.get<GetEntitiesByUrisResponse>(app.API.entities.getByUris([ fromUri, toUri ]))
+    return treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris([ fromUri, toUri ]))
       .then(assignFromToEntities(fromUri, toUri))
       .catch(err => {
         flash = err
@@ -87,7 +88,7 @@
 
   async function updateTask (id, attribute, value) {
     const params = { id, attribute, value }
-    return preq.put(app.API.tasks.update, params)
+    return preq.put(API.tasks.update, params)
   }
 
   function areRedirects (entitiesRes: GetEntitiesByUrisResponse) {

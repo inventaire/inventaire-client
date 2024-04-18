@@ -1,10 +1,10 @@
-import { noop, identity } from 'underscore'
-import app from '#app/app'
 // One unique Entity model to rule them all
 // but with specific initializers:
 // - By source:
 //   - Wikidata entities have specific initializers related to Wikimedia sitelinks
 // - By type: see specialInitializersByType
+import { noop, identity } from 'underscore'
+import app from '#app/app'
 import { serverReportError } from '#app/lib/error'
 import { normalizeIsbn } from '#app/lib/isbn'
 import log_ from '#app/lib/loggers'
@@ -259,7 +259,7 @@ export default Filterable.extend({
   async getImageAsync () { return this.get('image') },
   async getImageSrcAsync () {
     const imageObj = await this.getImageAsync()
-    // Let app/lib/metadata/apply_transformers format the URL with app.API.img
+    // Let app/lib/metadata/apply_transformers format the URL with API.img
     return imageObj?.url
   },
 

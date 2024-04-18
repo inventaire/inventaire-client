@@ -1,4 +1,5 @@
 import { compact, partition, pick, pluck, uniq } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { isEntityUri, isWikidataItemUri } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
@@ -23,7 +24,7 @@ const searchTerm = ({ type, isWikidataEntity, hasMultiWordTerms }) => term => {
     // on a single word term would be relevant matches. But inv entities might.
     filter = 'inv'
   }
-  return preq.get(app.API.search({
+  return preq.get(API.search({
     types: pluralize(type),
     search: term,
     limit: 100,

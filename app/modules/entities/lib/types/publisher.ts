@@ -1,5 +1,5 @@
 import { pluck } from 'underscore'
-import app from '#app/app'
+import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import filterOutWdEditions from '../filter_out_wd_editions.ts'
 
@@ -25,7 +25,7 @@ const specificMethods = {
   fetchPublisherPublications (refresh) {
     if (!refresh && this.waitForPublicationsData != null) return this.waitForPublicationsData
     const uri = this.get('uri')
-    this.waitForPublicationsData = preq.get(app.API.entities.publisherPublications(uri, refresh))
+    this.waitForPublicationsData = preq.get(API.entities.publisherPublications(uri, refresh))
     return this.waitForPublicationsData
   },
 

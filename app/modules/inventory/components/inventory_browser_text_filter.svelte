@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext } from 'svelte'
   import { debounce, pluck } from 'underscore'
-  import app from '#app/app'
+  import { API } from '#app/api/api'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
   import preq from '#app/lib/preq'
@@ -32,7 +32,7 @@
       if (groupId) query.group = groupId
       if (shelfId) query.shelf = shelfId
       else query.user = ownerId
-      waiting = preq.get(app.API.items.search(query))
+      waiting = preq.get(API.items.search(query))
       const { items } = await waiting
       textFilterItemsIds = pluck(items, '_id')
     } catch (err) {

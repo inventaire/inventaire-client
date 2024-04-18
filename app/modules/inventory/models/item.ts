@@ -1,4 +1,5 @@
 import { without, debounce } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { isNonEmptyString, isEntityUri } from '#app/lib/boolean_tests'
 import { serverReportError, newError } from '#app/lib/error'
@@ -174,7 +175,7 @@ export default Filterable.extend({
   destroy () {
     // reproduce the behavior from the default Backbone::destroy
     this.trigger('destroy', this, this.collection)
-    return preq.post(app.API.items.deleteByIds, { ids: [ this.id ] })
+    return preq.post(API.items.deleteByIds, { ids: [ this.id ] })
     .then(tap(() => { this.hasBeenDeleted = true }))
   },
 

@@ -1,5 +1,5 @@
 import { all, property, last, compact, pluck, uniq } from 'underscore'
-import app from '#app/app'
+import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { unprefixify } from '#app/lib/wikimedia/wikidata'
 import { getEntitiesBasicInfoByUris } from '#entities/lib/entities'
@@ -10,7 +10,7 @@ import { serializeUser } from '#users/lib/users'
 import { getUsersByIds } from '#users/users_data'
 
 export async function getEntityPatches (entityId) {
-  const { patches } = await preq.get(app.API.entities.history(entityId))
+  const { patches } = await preq.get(API.entities.history(entityId))
   // Reversing to get the last patches first
   patches.reverse()
   return serializePatches(patches)

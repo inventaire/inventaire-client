@@ -1,4 +1,5 @@
 import { pick, uniq, property, difference, compact } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { isModel, isEntityUri } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
@@ -67,10 +68,10 @@ const getRemoteEntitiesModels = function (uris, refresh, defaultType) {
   if (uris.length < 50) {
     // Prefer to use get when not fetching that many entities
     // - to make server log the requested URIs
-    promise = preq.get(app.API.entities.getByUris(uris, refresh))
+    promise = preq.get(API.entities.getByUris(uris, refresh))
   } else {
     // Use the POST endpoint when using a GET might hit some URI length limits
-    promise = preq.post(app.API.entities.getManyByUris, { uris, refresh })
+    promise = preq.post(API.entities.getManyByUris, { uris, refresh })
   }
 
   return promise

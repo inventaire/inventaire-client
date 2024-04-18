@@ -1,5 +1,5 @@
 <script lang="ts">
-  import app from '#app/app'
+  import { API } from '#app/api/api'
   import Flash from '#app/lib/components/flash.svelte'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import preq from '#app/lib/preq'
@@ -16,7 +16,7 @@
   async function fetchMore () {
     try {
       offset = offset == null ? 0 : offset += limit
-      fetching = preq.get(app.API.users.byCreationDate({ limit, offset }))
+      fetching = preq.get(API.users.byCreationDate({ limit, offset }))
       const { users: newUsers } = await fetching
       users = users.concat(newUsers.map(serializeUser))
     } catch (err) {

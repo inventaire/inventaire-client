@@ -1,5 +1,6 @@
 <script lang="ts">
   import { tick } from 'svelte'
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { getActionKey } from '#app/lib/key_events'
@@ -58,7 +59,7 @@
     editMode = false
     if (creationMode) return
     app.execute('invalidate:entities:cache', uri)
-    preq.put(app.API.entities.labels.update, { uri, lang: currentLang, value })
+    preq.put(API.entities.labels.update, { uri, lang: currentLang, value })
       .catch(err => {
         editMode = true
         flash = err

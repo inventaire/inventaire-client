@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { buildPath } from '#app/lib/location'
@@ -71,7 +72,7 @@ export const isOngoing = transacData => findNextActions(transacData) != null
 export const isArchived = transacData => !isOngoing(transacData)
 
 async function getTransactionsByItemId (itemId) {
-  const { transactions } = await preq.get(app.API.transactions.byItem(itemId))
+  const { transactions } = await preq.get(API.transactions.byItem(itemId))
   return transactions
 }
 
@@ -167,7 +168,7 @@ export const actionsIcons = {
 }
 
 async function attachMessages (transaction) {
-  const { messages } = await preq.get(buildPath(app.API.transactions.base, {
+  const { messages } = await preq.get(buildPath(API.transactions.base, {
     action: 'get-messages',
     transaction: transaction._id,
   }))
@@ -204,7 +205,7 @@ export function getUnreadTransactionsListCount (transactions) {
 export async function markAsRead (transaction) {
   if (transaction.mainUserRead) return
   try {
-    await preq.put(app.API.transactions.base, {
+    await preq.put(API.transactions.base, {
       id: transaction._id,
       action: 'mark-as-read',
     })
@@ -217,7 +218,7 @@ export async function markAsRead (transaction) {
 }
 
 export async function updateTransactionState ({ transaction, state }) {
-  const res = await preq.put(app.API.transactions.base, {
+  const res = await preq.put(API.transactions.base, {
     transaction: transaction._id,
     state,
     action: 'update-state',

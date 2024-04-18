@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
 import preq from '#app/lib/preq'
 
@@ -22,7 +23,7 @@ export default function () {
     }
   }
 
-  const checkState = () => preq.get(app.API.tests).then(hideNetworkError)
+  const checkState = () => preq.get(API.tests).then(hideNetworkError)
 
   app.commands.setHandlers({
     'flash:message:show:network:error': showNetworkError,

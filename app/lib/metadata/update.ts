@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 // Metadata update is coupled to the needs of:
 // - Browsers:
 //   - document title update (which is important for the browser history)
@@ -12,7 +13,6 @@
 // For all the needs covered by Prerender, only the first update matters,
 // but further updates might be needed for in browser metadata access,
 // such as RSS feed detections
-import app from '#app/app'
 import { wait } from '#app/lib/promises'
 import { dropLeadingSlash } from '#app/lib/utils'
 import type { Url } from '#server/types/common'
@@ -65,7 +65,7 @@ function applyMetadataUpdate (route, metadataUpdate: MetadataUpdate = {}) {
   if (metadataUpdate.smallCardType) {
     metadataUpdate['twitter:card'] = 'summary'
     // Use a small image to force social media to display it small
-    metadataUpdate.image = (metadataUpdate.image != null) ? app.API.img(metadataUpdate.image, 300, 300) : undefined
+    metadataUpdate.image = (metadataUpdate.image != null) ? API.img(metadataUpdate.image, 300, 300) : undefined
   }
   let metadata: Metadata
   if (metadataUpdate.title == null) {

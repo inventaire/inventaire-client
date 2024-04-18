@@ -1,5 +1,6 @@
 <script lang="ts">
   import { tick } from 'svelte'
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
   import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
@@ -17,7 +18,7 @@
   const { uri, type, claims } = entity
 
   const refreshEntity = async () => {
-    waitForEntityRefresh = treq.get<GetEntitiesByUrisResponse>(app.API.entities.getByUris(uri, true))
+    waitForEntityRefresh = treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris(uri, true))
     const { entities } = await waitForEntityRefresh
     entity = serializeEntity(Object.values(entities)[0] as Entity)
     // Let other components know that a refresh was requested

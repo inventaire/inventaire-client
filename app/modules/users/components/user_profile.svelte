@@ -1,5 +1,6 @@
 <script lang="ts">
   import { tick } from 'svelte'
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { screen } from '#app/lib/components/stores/screen'
@@ -34,14 +35,14 @@
     if (profileSection === 'inventory') {
       pathname = user.inventoryPathname
       title = `${username} - ${i18n('Inventory')}`
-      rss = app.API.feeds('user', userId)
+      rss = API.feeds('user', userId)
     } else if (profileSection === 'listings') {
       pathname = user.listingsPathname
       title = `${username} - ${I18n('lists')}`
     } else {
       title = username
       pathname = user.pathname
-      rss = app.API.feeds('user', userId)
+      rss = API.feeds('user', userId)
     }
     const metadata = {
       title,

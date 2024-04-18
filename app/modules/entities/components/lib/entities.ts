@@ -1,4 +1,5 @@
 import { uniq, flatten, compact, pick, pluck } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
@@ -19,7 +20,7 @@ const urisGetterByType = {
   serie: async ({ entity, refresh }) => {
     const { uri: parentUri } = entity
 
-    const { parts } = await preq.get(app.API.entities.serieParts(parentUri, refresh))
+    const { parts } = await preq.get(API.entities.serieParts(parentUri, refresh))
     return [
       {
         subEntityType: 'work',
@@ -34,7 +35,7 @@ const urisGetterByType = {
     const { uri: parentUri } = entity
     const subEntityRelationProperty = 'wdt:P50'
 
-    const { series, works, articles } = await preq.get(app.API.entities.authorWorks(parentUri, refresh))
+    const { series, works, articles } = await preq.get(API.entities.authorWorks(parentUri, refresh))
     return [
       {
         label: I18n('series'),
@@ -64,7 +65,7 @@ const urisGetterByType = {
     const { uri: parentUri } = entity
     const subEntityRelationProperty = 'wdt:P123'
 
-    const { collections, editions } = await preq.get(app.API.entities.publisherPublications(parentUri, refresh))
+    const { collections, editions } = await preq.get(API.entities.publisherPublications(parentUri, refresh))
     return [
       {
         label: I18n('collections'),

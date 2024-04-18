@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars/runtime.js'
-import app from '#app/app'
+import { API } from '#app/api/api'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 import { i18n } from '#user/lib/i18n'
@@ -9,7 +9,7 @@ const { escapeExpression } = Handlebars
 
 export default {
   extract (lang, title) {
-    return preq.get(app.API.data.wikipediaExtract(lang, title))
+    return preq.get(API.data.wikipediaExtract(lang, title))
     .then(data => {
       let { extract, url } = data
       lang = url?.match(/^https:\/\/([\w-]+).wik/)?.[1]

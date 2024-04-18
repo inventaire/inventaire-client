@@ -1,4 +1,5 @@
 import wdLang from 'wikidata-lang'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { newError } from '#app/lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
@@ -30,7 +31,7 @@ export const renameIsbnDuplicateErr = (workUri, isbn) => err => {
 
 const reportIsbnIssue = async (workUri, isbn) => {
   const params = { uri: workUri, isbn }
-  return preq.post(app.API.tasks.deduplicateWorks, params)
+  return preq.post(API.tasks.deduplicateWorks, params)
 }
 
 const formatDuplicateWorkErr = function (err, isbn) {

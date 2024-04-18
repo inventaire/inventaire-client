@@ -1,6 +1,7 @@
 <script lang="ts">
   import { tick } from 'svelte'
   import { debounce } from 'underscore'
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
@@ -54,14 +55,14 @@
     if (profileSection === 'inventory') {
       pathname = group.inventoryPathname
       title = `${name} - ${i18n('Inventory')}`
-      rss = app.API.feeds('group', groupId)
+      rss = API.feeds('group', groupId)
     } else if (profileSection === 'listings') {
       pathname = group.listingsPathname
       title = `${name} - ${I18n('lists')}`
     } else {
       pathname = group.pathname
       title = name
-      rss = app.API.feeds('group', groupId)
+      rss = API.feeds('group', groupId)
     }
     const metadata = {
       title,

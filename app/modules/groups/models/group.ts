@@ -1,4 +1,5 @@
 import { findWhere, property } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
 import { getColorSquareDataUriFromModelId } from '#app/lib/images'
@@ -16,7 +17,7 @@ import groupActions from '../lib/group_actions.ts'
 const { defaultCover } = images
 
 export default Positionable.extend({
-  url: () => app.API.groups.base,
+  url: () => API.groups.base,
   initialize () {
     aggregateUsersIds.call(this)
     Object.assign(this, groupActions)
@@ -208,7 +209,7 @@ export default Positionable.extend({
 
   getCover () { return this.get('picture') || defaultCover },
 
-  getRss () { return app.API.feeds('group', this.id) },
+  getRss () { return API.feeds('group', this.id) },
 
   matchable () {
     return [

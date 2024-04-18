@@ -1,5 +1,6 @@
 <script lang="ts">
   import { property } from 'underscore'
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import preq from '#app/lib/preq'
   import { isOpenedOutside } from '#app/lib/utils'
@@ -13,7 +14,7 @@
   let highest = 0
 
   const getContributionsData = async () => {
-    const res = await preq.get(app.API.entities.usersContributionsCount(period))
+    const res = await preq.get(API.entities.usersContributionsCount(period))
     usersData = await addUsersData(res)
   }
 
@@ -22,7 +23,7 @@
     if (contributionRows.length === 0) return []
     contributionRows = contributionRows.slice(0, 10)
     const usersIds = contributionRows.map(property('user'))
-    const { users } = await preq.get(app.API.users.byIds(usersIds))
+    const { users } = await preq.get(API.users.byIds(usersIds))
     // assuming contributions are already sorted
     highest = contributionRows[0].contributions
     contributionRows.forEach(row => row.user = users[row.user])

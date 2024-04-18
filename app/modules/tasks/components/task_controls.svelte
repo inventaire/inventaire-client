@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { clone } from 'underscore'
-  import app from '#app/app'
+  import { API } from '#app/api/api'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
@@ -44,7 +44,7 @@
   }
 
   function dismiss () {
-    return preq.put(app.API.tasks.update, {
+    return preq.put(API.tasks.update, {
       id: task._id,
       attribute: 'state',
       value: 'dismissed',

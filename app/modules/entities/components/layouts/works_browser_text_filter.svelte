@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext } from 'svelte'
   import { debounce, pluck } from 'underscore'
-  import app from '#app/app'
+  import { API } from '#app/api/api'
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
   import preq from '#app/lib/preq'
@@ -22,7 +22,7 @@
       textFilterUris = null
       return
     }
-    waiting = preq.get(app.API.search({
+    waiting = preq.get(API.search({
       types: searchFilterTypes,
       claim: searchFilterClaim,
       search: textFilter,

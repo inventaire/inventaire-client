@@ -1,4 +1,5 @@
 import { noop, debounce } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { config } from '#app/config'
 import { isUserId } from '#app/lib/boolean_tests'
@@ -25,7 +26,7 @@ export default async function () {
   // - reduces the load on the real tracker server
   // - easier debug
   // /!\ no request is made from users recognized as admin on the piwik
-  const trackerUrl = env === 'dev' ? app.API.tests : `${piwik}/piwik.php`
+  const trackerUrl = env === 'dev' ? API.tests : `${piwik}/piwik.php`
 
   _paq.push([ 'enableLinkTracking' ])
   _paq.push([ 'disableCookies' ]) // See https://matomo.org/faq/general/faq_156/

@@ -1,10 +1,10 @@
-import app from '#app/app'
+import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { Username } from '#app/lib/regex'
 import { pass } from '#general/lib/forms'
 
 async function verifyUsernameAvailability (username) {
-  await preq.get(app.API.auth.usernameAvailability(username))
+  await preq.get(API.auth.usernameAvailability(username))
 }
 
 export function passUsernameTests (username) {

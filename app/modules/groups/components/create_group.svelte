@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
@@ -19,7 +20,7 @@
   async function createGroup () {
     try {
       creating = true
-      const group = await preq.post(app.API.groups.base, {
+      const group = await preq.post(API.groups.base, {
         action: 'create',
         name,
         description,

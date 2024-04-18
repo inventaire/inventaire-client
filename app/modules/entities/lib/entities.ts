@@ -1,4 +1,5 @@
 import { flatten, chunk, compact, indexBy, pluck } from 'underscore'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#app/lib/boolean_tests'
@@ -39,7 +40,7 @@ export type SerializedEntity = Entity & {
 export type SerializedEntitiesByUris = Record<EntityUri, SerializedEntity>
 
 export async function getReverseClaims (property: PropertyUri, value: InvClaimValue, refresh?: boolean, sort?: boolean) {
-  const { uris } = await preq.get(app.API.entities.reverseClaims(property, value, refresh, sort))
+  const { uris } = await preq.get(API.entities.reverseClaims(property, value, refresh, sort))
   return uris as EntityUri[]
 }
 
@@ -131,7 +132,7 @@ type GetEntitiesAttributesByUrisParams = Pick<GetEntitiesParams, typeof params[n
 async function getManyEntities ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUrisParams) {
   const urisChunks = chunk(uris, 30)
   const responses = await Promise.all(urisChunks.map(async urisChunks => {
-    return preq.get(app.API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives }))
+    return preq.get(API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives }))
   }))
   const entities: SerializedEntitiesByUris = mergeResponsesObjects(responses, 'entities')
   const redirects: RedirectionsByUris = mergeResponsesObjects(responses, 'redirects')
@@ -192,7 +193,7 @@ export async function getAndAssignPopularity ({ entities }) {
   const refresh = wdUrisCount < 30
   const urisChunks = chunk(uris, 30)
   const responses = await Promise.all(urisChunks.map(async urisChunk => {
-    return preq.get(app.API.entities.popularity(urisChunk, refresh))
+    return preq.get(API.entities.popularity(urisChunk, refresh))
   }))
   const scores = mergeResponsesObjects(responses, 'scores')
 
@@ -278,7 +279,7 @@ export function getYearFromSimpleDay (date) {
 
 export async function getEntitiesImages (uris: EntityUri[]) {
   if (uris.length === 0) return {}
-  const { images } = await preq.get(app.API.entities.images(uris))
+  const { images } = await preq.get(API.entities.images(uris))
   return images
 }
 

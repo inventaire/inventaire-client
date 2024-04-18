@@ -1,4 +1,3 @@
-import { API } from '#app/api/api'
 import app from '#app/app'
 import initDataWaiters from '#app/lib/data/waiters'
 import initPiwik from '#app/lib/piwik'
@@ -23,9 +22,6 @@ import User from '#user/user'
 import Users from '#users/users'
 
 export default async function () {
-  // gets all the routes used in the app
-  app.API = API
-
   initDataWaiters()
 
   // Initialize all the modules and their routes before app.start()

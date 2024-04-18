@@ -1,4 +1,5 @@
 import FilteredCollection from 'backbone-filtered-collection'
+import { API } from '#app/api/api'
 import app from '#app/app'
 import { isModel, isGroupId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
@@ -23,12 +24,12 @@ export default function () {
 
   const getGroupPublicData = function (id, groupModel?) {
     if (groupModel != null) ({ id } = groupModel)
-    return preq.get(app.API.groups.byId(id))
+    return preq.get(API.groups.byId(id))
     .then(res => addGroupData(res, groupModel))
   }
 
   const getGroupModelFromSlug = slug => {
-    return preq.get(app.API.groups.bySlug(slug))
+    return preq.get(API.groups.bySlug(slug))
     .then(addGroupData)
   }
 
@@ -41,7 +42,7 @@ export default function () {
   }
 
   const groupSettingsUpdater = Updater({
-    endpoint: app.API.groups.base,
+    endpoint: API.groups.base,
     action: 'update-settings',
     modelIdLabel: 'group',
   })

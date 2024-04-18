@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { debounce } from 'underscore'
+  import { API } from '#app/api/api'
   import app from '#app/app'
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
@@ -58,7 +59,7 @@
     }
 
     const offset = searchOffset
-    const res = await preq.get(app.API.items.search({
+    const res = await preq.get(API.items.search({
       user: app.user.id,
       search: input,
       limit: batchLength,

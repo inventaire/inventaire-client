@@ -1,3 +1,4 @@
+import { API } from '#app/api/api'
 import { isModel } from '#app/lib/boolean_tests'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
@@ -9,7 +10,7 @@ export default function (app) {
     const currentStatus = user.get('status')
     user.set('status', newStatus)
 
-    return preq.post(app.API.relations, { action, user: userId })
+    return preq.post(API.relations, { action, user: userId })
     .catch(rewind(user, currentStatus))
   }
 

@@ -1,4 +1,4 @@
-import app from '#app/app'
+import { API } from '#app/api/api'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
 
@@ -62,7 +62,7 @@ const getNextTaskBySuggestionUri = async params => {
   const { lastTask, previousTasksIds } = params
   const suggestionUri = lastTask.suggestionUri
 
-  const { tasks } = await preq.get(app.API.tasks.bySuggestionUris(suggestionUri))
+  const { tasks } = await preq.get(API.tasks.bySuggestionUris(suggestionUri))
   let suggestionUriTasks = tasks[suggestionUri]
   suggestionUriTasks = suggestionUriTasks
     .filter(removePreviousTasks(previousTasksIds))
@@ -74,9 +74,9 @@ const getNextTaskBySuggestionUri = async params => {
 
 const requestNewTasks = async (type, limit, offset) => {
   if (type === 'work') {
-    return preq.get(app.API.tasks.byEntitiesType({ type, limit, offset }))
+    return preq.get(API.tasks.byEntitiesType({ type, limit, offset }))
   } else {
-    return preq.get(app.API.tasks.byScore(limit, offset))
+    return preq.get(API.tasks.byScore(limit, offset))
   }
 }
 const removePreviousTasks = previousTasksIds => task => !previousTasksIds.includes(task._id)
