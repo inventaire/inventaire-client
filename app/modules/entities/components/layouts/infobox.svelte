@@ -1,21 +1,23 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
-  import { isNonEmptyArray, isEntityUri } from '#lib/boolean_tests'
-  import { getEntitiesAttributesByUris } from '#entities/lib/entities'
-  import ClaimInfobox from './claim_infobox.svelte'
+<script lang="ts">
+  import app from '#app/app'
+  import { isNonEmptyArray, isEntityUri } from '#app/lib/boolean_tests'
   import WrapToggler from '#components/wrap_toggler.svelte'
-  import Spinner from '#general/components/spinner.svelte'
-  import { infoboxShortlistPropertiesByType, infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
   import EntityClaimsLinks from '#entities/components/layouts/entity_claims_links.svelte'
+  import { infoboxShortlistPropertiesByType, infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
+  import { getEntitiesAttributesByUris, type SerializedEntitiesByUris } from '#entities/lib/entities'
+  import Spinner from '#general/components/spinner.svelte'
+  import type { Claims, EntityType } from '#server/types/entity'
+  import { I18n } from '#user/lib/i18n'
+  import ClaimInfobox from './claim_infobox.svelte'
 
-  export let claims = {}
-  export let relatedEntities = {}
-  export let entityType
+  export let claims: Claims = {}
+  export let relatedEntities: SerializedEntitiesByUris = {}
+  export let entityType: EntityType
   export let shortlistOnly = null
   export let listDisplay = false
 
   let allowlistedProperties
-  let infoboxPropertiesToDisplay = infoboxPropertiesByType[entityType]
+  const infoboxPropertiesToDisplay = infoboxPropertiesByType[entityType]
 
   if (shortlistOnly) {
     allowlistedProperties = infoboxShortlistPropertiesByType[entityType] || infoboxPropertiesToDisplay
@@ -25,11 +27,12 @@
   allowlistedProperties = allowlistedProperties || []
 
   async function getMissingEntities () {
-    let missingUris = []
+    const missingUris = []
     allowlistedProperties.forEach(prop => {
       if (claims[prop]) {
         const propMissingUris = claims[prop].filter(value => {
           if (isEntityUri(value)) return !relatedEntities[value]
+          else return false
         })
         missingUris.push(...propMissingUris)
       }
@@ -38,7 +41,7 @@
       const { entities } = await getEntitiesAttributesByUris({
         uris: missingUris,
         attributes: [ 'info', 'labels' ],
-        lang: app.user.lang
+        lang: app.user.lang,
       })
       relatedEntities = { ...relatedEntities, ...entities }
     }

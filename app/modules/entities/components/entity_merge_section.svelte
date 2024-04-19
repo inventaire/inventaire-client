@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
   import EntityValueDisplay from '#entities/components/editor/entity_value_display.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
   import { typesBySection } from '#search/lib/search_sections'
   import { I18n } from '#user/lib/i18n'
 
@@ -42,7 +42,7 @@
   </div>
 {:else}
   <EntityAutocompleteSelector
-    searchTypes={type || typesBySection.entity.all}
+    searchTypes={type ? [ type ] : typesBySection.entity.all}
     currentEntityUri={uri}
     currentEntityLabel={uri ? valueBasicInfo?.label : null}
     displaySuggestionType={type == null}

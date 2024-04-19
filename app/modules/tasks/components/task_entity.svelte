@@ -1,20 +1,22 @@
-<script>
-  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
-  import { omitClaims } from '#entities/components/lib/work_helpers'
-  import { authorsProps } from '#entities/components/lib/claims_helpers'
-  import { getAuthorWorksWithImagesAndCoauthors } from '#entities/components/lib/deduplicate_helpers.js'
-  import { sortMatchedLabelsEntities, hasMatchedLabel } from '#tasks/components/lib/tasks_helpers.js'
-  import { I18n, i18n } from '#user/lib/i18n'
-  import Spinner from '#general/components/spinner.svelte'
-  import Infobox from '#entities/components/layouts/infobox.svelte'
-  import EntityTitle from '#entities/components/layouts/entity_title.svelte'
+<script lang="ts">
+  import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
   import EntityImage from '#entities/components/entity_image.svelte'
-  import Summary from '#entities/components/layouts/summary.svelte'
-  import WorkSubEntity from '#entities/components/work_sub_entity.svelte'
   import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
+  import EntityTitle from '#entities/components/layouts/entity_title.svelte'
+  import Infobox from '#entities/components/layouts/infobox.svelte'
+  import Summary from '#entities/components/layouts/summary.svelte'
+  import { authorsProps } from '#entities/components/lib/claims_helpers'
+  import { getAuthorWorksWithImagesAndCoauthors } from '#entities/components/lib/deduplicate_helpers.ts'
+  import { omitClaims } from '#entities/components/lib/work_helpers'
+  import WorkSubEntity from '#entities/components/work_sub_entity.svelte'
+  import Spinner from '#general/components/spinner.svelte'
+  import { sortMatchedLabelsEntities, hasMatchedLabel } from '#tasks/components/lib/tasks_helpers.ts'
+  import { I18n, i18n } from '#user/lib/i18n'
 
-  export let entity, error, matchedTitles
-  let hasLinkTitle = true
+  export let entity
+  export let error = null
+  export let matchedTitles
+  const hasLinkTitle = true
   let subEntities
 
   const waitingForSubEntities = getAuthorWorksWithImagesAndCoauthors(entity)
@@ -74,8 +76,8 @@
             {#each subEntities as subEntity (subEntity.uri)}
               <li
                 class="sub-entity"
-                class:has-matched-label={hasMatchedLabel(subEntity)}
-                title={hasMatchedLabel(subEntity) ? I18n('Matched title') : null}
+                class:has-matched-label={hasMatchedLabel(subEntity, matchedTitles)}
+                title={hasMatchedLabel(subEntity, matchedTitles) ? I18n('Matched title') : null}
               >
                 <WorkSubEntity entity={subEntity} />
               </li>

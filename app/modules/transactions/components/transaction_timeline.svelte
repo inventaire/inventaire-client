@@ -1,8 +1,8 @@
-<script>
-  import { onChange } from '#lib/svelte/svelte'
+<script lang="ts">
+  import { onChange } from '#app/lib/svelte/svelte'
+  import Action from '#transactions/components/action.svelte'
   import Message from '#transactions/components/message.svelte'
   import { buildTimeline } from '#transactions/lib/transactions'
-  import Action from '#transactions/components/action.svelte'
 
   export let transaction
 
@@ -17,7 +17,7 @@
 <div class="timeline">
   {#each timeline as event}
     {#if event.message}
-      <Message messageDoc={event} {transaction} />
+      <Message messageDoc={event} />
     {:else}
       <Action action={event} {transaction} />
     {/if}

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Spinner from '#components/spinner.svelte'
   import EntityPreview from '#entities/components/entity_preview.svelte'
   import { getAuthorExtendedWorks } from '#entities/lib/types/author_alt'
@@ -10,7 +10,7 @@
 
   const waitForData = getAuthorExtendedWorks({
     uri: author.uri,
-    attributes: [ 'info', 'labels', 'descriptions', 'claims', 'image' ]
+    attributes: [ 'info', 'labels', 'descriptions', 'claims', 'image' ],
   })
     .then(res => {
       ;({ series, works, articles } = res)

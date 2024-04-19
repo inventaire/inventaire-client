@@ -1,10 +1,12 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
+<script lang="ts">
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { loadInternalLink } from '#app/lib/utils'
+  import type { SerializedEntity } from '#entities/lib/entities'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
+  import type { PropertyUri } from '#server/types/entity'
+  import { I18n } from '#user/lib/i18n'
 
-  export let authorsByProperty
+  export let authorsByProperty: Record<PropertyUri, SerializedEntity[]>
 </script>
 
 {#each Object.entries(authorsByProperty) as [ property, authors ]}
@@ -21,7 +23,9 @@
               on:click|stopPropagation={loadInternalLink}
             >
               <!-- using an image larger that what is displayed so that background cover scale up doesn't make the image pixelized -->
-              {#if author.image?.url}<div class="image" style:background-image="url({imgSrc(author.image.url, 90)})" />{/if}
+              {#if author.image?.url}
+                <div class="image" style:background-image="url({imgSrc(author.image.url, 90)})" />
+              {/if}
               <div class="summary-data">
                 <span class="name" lang={author.labelLang}>{author.label}</span>
                 {#if author.claims?.['wdt:P569']}

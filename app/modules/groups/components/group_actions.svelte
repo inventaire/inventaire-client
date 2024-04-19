@@ -1,10 +1,11 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { groupAction } from '#groups/lib/group_actions_alt'
-  import Flash from '#lib/components/flash.svelte'
-  import { getGroup, serializeGroup } from '#groups/lib/groups'
+<script lang="ts">
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
   import Spinner from '#components/spinner.svelte'
+  import { groupAction } from '#groups/lib/group_actions_alt'
+  import { getGroup, serializeGroup } from '#groups/lib/groups'
+  import { I18n } from '#user/lib/i18n'
 
   export let group
 

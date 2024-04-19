@@ -1,32 +1,35 @@
-<script>
-  import { autofocus as autofocusFn } from '#lib/components/actions/autofocus'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import Spinner from '#general/components/spinner.svelte'
-  import EntitySuggestion from './entity_suggestion.svelte'
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import typeSearch from '#entities/lib/search/type_search'
-  import { createByProperty } from '#entities/lib/create_entities'
+  import { map, debounce } from 'underscore'
+  import { autofocus as autofocusFn } from '#app/lib/components/actions/autofocus'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
+  import { wait } from '#app/lib/promises'
+  import { getViewportHeight, onScrollToBottom } from '#app/lib/screen'
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
-  import { wait } from '#lib/promises'
-  import { getViewportHeight, onScrollToBottom } from '#lib/screen'
-  import { getActionKey } from '#lib/key_events'
   import { propertiesWithValuesShortlists } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
+  import { createByProperty } from '#entities/lib/create_entities'
+  import typeSearch from '#entities/lib/search/type_search'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
+  import Spinner from '#general/components/spinner.svelte'
+  import type { EntityType, EntityUri, PluralizedIndexedEntityType } from '#server/types/entity'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import EntitySuggestion from './entity_suggestion.svelte'
 
-  export let searchTypes
-  export let currentEntityUri
+  export let searchTypes: PluralizedIndexedEntityType[]
+  export let currentEntityUri: EntityUri = null
   export let currentEntityLabel = ''
-  export let placeholder
+  export let placeholder: string = null
   export let allowEntityCreation = false
   export let showDefaultSuggestions = true
-  export let createdEntityType
-  export let createOnWikidata
+  export let createdEntityType: EntityType = null
+  export let createOnWikidata = false
   export let relationSubjectEntity = null
-  export let relationProperty
+  export let relationProperty = null
   export let displaySuggestionType = false
   export let autofocus = true
   export let showSuggestions = false
+
   const dispatch = createEventDispatcher()
 
   let input
@@ -58,8 +61,11 @@
   let lastSearch, waitForSearch
   let searchText = currentEntityLabel || ''
   let limit = 10, offset = 0, fetching = false, canFetchMore = true
+  interface SearchOptions {
+    fetchMore?: boolean
+  }
   // TODO: detect uris and get the corresponding entities
-  async function search (options = {}) {
+  async function search (options: SearchOptions = {}) {
     const { fetchMore = false } = options
     searchText = input.value
     if (isNotSearchableServerSide) return filterExistingSuggestions(searchText)
@@ -96,7 +102,7 @@
   }
 
   function getNewSuggestions (newSuggestions) {
-    const currentSuggestionsUris = new Set(_.map(suggestions, 'uri'))
+    const currentSuggestionsUris = new Set(map(suggestions, 'uri'))
     return newSuggestions.filter(suggestion => !currentSuggestionsUris.has(suggestion.uri))
   }
 
@@ -109,7 +115,7 @@
 
   const matchLabelOrDescription = entity => entity.label.match(searchText) || entity.description.match(searchText)
 
-  const lazySearch = _.debounce(search, 200)
+  const lazySearch = debounce(search, 200)
 
   if (currentEntityLabel && autofocus) lazySearch()
 
@@ -119,7 +125,7 @@
     if (showSuggestionsStateBeforeBlur) showSuggestions = true
   }
 
-  async function onBlur (e) {
+  async function onBlur () {
     showSuggestionsStateBeforeBlur = showSuggestions
     // If the focus is lost because the user clicked on one of the suggestions,
     // let EntitySuggestion 'select' event be acted upon before the component
@@ -166,7 +172,7 @@
       fetching = true
       defaultSuggestions = defaultSuggestions || await getDefaultSuggestions({
         entity: relationSubjectEntity,
-        property: relationProperty
+        property: relationProperty,
       })
       fetching = false
       if (defaultSuggestions && canDefaultSuggestionsBeDisplayed) suggestions = defaultSuggestions

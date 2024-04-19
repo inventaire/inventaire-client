@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
   import Spinner from '#components/spinner.svelte'
   import { acceptRequestToJoinGroup, inviteUserToJoinGroup, moveMembership, refuseRequestToJoinGroup } from '#groups/lib/groups'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
   import { I18n, i18n } from '#user/lib/i18n'
   import UserLi from '#users/components/user_li.svelte'
 

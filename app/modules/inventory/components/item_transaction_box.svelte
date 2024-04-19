@@ -1,11 +1,12 @@
-<script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import Dropdown from '#components/dropdown.svelte'
+<script lang="ts">
   import { uniqueId } from 'underscore'
-  import { transactionsData } from '#inventory/lib/transactions_data'
+  import app from '#app/app'
+  import { icon } from '#app/lib/icons'
+  import { loadInternalLink } from '#app/lib/utils'
+  import Dropdown from '#components/dropdown.svelte'
   import { serializeItem } from '#inventory/lib/items'
+  import { transactionsData } from '#inventory/lib/transactions_data'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let item
   export let flash

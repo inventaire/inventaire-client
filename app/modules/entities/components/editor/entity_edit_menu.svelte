@@ -1,13 +1,15 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
+<script lang="ts">
+  import { API } from '#app/api/api'
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import Link from '#app/lib/components/link.svelte'
+  import { icon } from '#app/lib/icons'
+  import preq from '#app/lib/preq'
   import Dropdown from '#components/dropdown.svelte'
-  import { icon } from '#lib/icons'
-  import Link from '#lib/components/link.svelte'
+  import Spinner from '#components/spinner.svelte'
   import { getWikidataUrl } from '#entities/lib/entities'
   import { checkWikidataMoveabilityStatus, moveToWikidata } from '#entities/lib/move_to_wikidata'
-  import Flash from '#lib/components/flash.svelte'
-  import preq from '#lib/preq'
-  import Spinner from '#components/spinner.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let entity
 
@@ -38,7 +40,7 @@
     app.execute('show:feedback:menu', {
       subject: `[${uri}][${I18n('data error')}] `,
       uris: [ uri ],
-      event: e
+      event: e,
     })
   }
 
@@ -49,13 +51,13 @@
   function deleteEntity () {
     app.execute('ask:confirmation', {
       confirmationText: I18n('delete_entity_confirmation', { label }),
-      action: _deleteEntity
+      action: _deleteEntity,
     })
   }
 
   async function _deleteEntity () {
     try {
-      await preq.post(app.API.entities.delete, { uris: [ invUri ] })
+      await preq.post(API.entities.delete, { uris: [ invUri ] })
       app.execute('show:entity:edit', uri)
     } catch (err) {
       // TODO: recover displayDeteEntityErrorContext feature to show rich error message

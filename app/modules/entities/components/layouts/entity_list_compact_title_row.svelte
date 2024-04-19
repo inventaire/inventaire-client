@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { I18n } from '#user/lib/i18n'
 </script>
 <div class="entity-list-compact">

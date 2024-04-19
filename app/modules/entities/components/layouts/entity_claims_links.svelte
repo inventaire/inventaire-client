@@ -1,13 +1,17 @@
-<script>
-  import { categoryLabels, getDisplayedPropertiesByCategory } from '#entities/lib/entity_links'
+<script lang="ts">
   import EntityClaimLink from '#entities/components/layouts/entity_claim_link.svelte'
+  import type { PropertyCategory } from '#entities/lib/editor/properties_per_type'
+  import { categoryLabels, getDisplayedPropertiesByCategory, type DisplayConfig } from '#entities/lib/entity_links'
+  import type { InvClaimValue } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
 
   export let claims
 
-  let categories = {}
+  type CustomDisplayConfig = DisplayConfig & { value?: InvClaimValue }
+  const categories: Partial<Record<PropertyCategory, CustomDisplayConfig[]>> = {}
 
-  for (const [ category, propertiesData ] of Object.entries(getDisplayedPropertiesByCategory())) {
+  const displayedPropertiesByCategory = getDisplayedPropertiesByCategory()
+  for (const [ category, propertiesData ] of Object.entries(displayedPropertiesByCategory)) {
     categories[category] = []
     for (const propertyData of propertiesData) {
       const { property } = propertyData

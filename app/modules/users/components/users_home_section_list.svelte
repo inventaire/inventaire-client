@@ -1,8 +1,8 @@
-<script>
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+<script lang="ts">
+  import { createEventDispatcher } from 'svelte'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import { i18n } from '#user/lib/i18n'
   import UsersHomeSectionListLi from '#users/components/users_home_section_list_li.svelte'
-  import { createEventDispatcher } from 'svelte'
 
   export let docs
   export let type

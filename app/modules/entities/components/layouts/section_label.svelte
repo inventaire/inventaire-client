@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
+  import { isPropertyUri } from '#app/lib/boolean_tests'
+  import { loadInternalLink } from '#app/lib/utils'
   import { i18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { isPropertyUri } from '#lib/boolean_tests'
 
   export let label
   export let entitiesLength

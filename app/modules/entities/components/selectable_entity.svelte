@@ -1,7 +1,7 @@
-<script>
-  import WorkSubEntity from '#entities/components/work_sub_entity.svelte'
-  import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers.js'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import WorkSubEntity from '#entities/components/work_sub_entity.svelte'
+  import { getAggregatedLabelsAndAliases } from './lib/deduplicate_helpers.ts'
 
   export let entity, from, to, filterPattern
 

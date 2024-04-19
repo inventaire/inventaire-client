@@ -1,23 +1,27 @@
-<script>
-  import app from '#app/app'
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { updateListing, deleteListing, createListing } from '#listings/lib/listings'
+<script lang="ts">
   import autosize from 'autosize'
-  import Spinner from '#general/components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
   import { createEventDispatcher } from 'svelte'
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import Spinner from '#general/components/spinner.svelte'
   import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
-  import { serializeListing } from '#modules/listings/lib/listings'
+  import { updateListing, deleteListing, createListing } from '#listings/lib/listings'
   import { showMainUserListings } from '#listings/listings'
+  import { serializeListing } from '#modules/listings/lib/listings'
+  import type { Listing } from '#server/types/listing'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   const dispatch = createEventDispatcher()
 
-  export let listing = {}, layoutTitle = i18n('Edit list')
+  export let listing: Listing = null
+  export let layoutTitle = i18n('Edit list')
 
   let validating, flash
-  const { _id } = listing
-  let { name, description, visibility } = listing
+  let _id, name, description, visibility
+  if (listing) {
+    ;({ _id, name, description, visibility } = listing)
+  }
 
   const validate = async () => {
     validating = _validate()
@@ -61,7 +65,7 @@
     app.execute('ask:confirmation', {
       confirmationText: i18n('delete_list_confirmation', { name }),
       warningText: i18n('cant_undo_warning'),
-      action: _deleteListing
+      action: _deleteListing,
     })
   }
 

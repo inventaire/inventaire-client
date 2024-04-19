@@ -1,7 +1,8 @@
-<script>
-  import { icon } from '#lib/icons'
-  import { I18n } from '#user/lib/i18n'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { icon } from '#app/lib/icons'
+  import { I18n } from '#user/lib/i18n'
+
   const dispatch = createEventDispatcher()
 </script>
 

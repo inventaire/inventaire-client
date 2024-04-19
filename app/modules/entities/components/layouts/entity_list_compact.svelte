@@ -1,10 +1,10 @@
-<script>
-  import Link from '#lib/components/link.svelte'
+<script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
   import ClaimInfobox from './claim_infobox.svelte'
 
   export let entity, relatedEntities
 
-  let { claims, subtitle, pathname } = entity
+  const { claims, subtitle, pathname } = entity
 </script>
 <div class="entity-list-compact">
   <div class="date">

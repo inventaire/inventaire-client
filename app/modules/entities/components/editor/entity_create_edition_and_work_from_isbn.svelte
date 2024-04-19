@@ -1,10 +1,14 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
+<script lang="ts">
+  import { without } from 'underscore'
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { objectKeys } from '#app/lib/utils'
   import WrapToggler from '#components/wrap_toggler.svelte'
-  import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
   import { createEditionAndWorkFromEntry, getMissingRequiredProperties } from '#entities/components/editor/lib/create_helpers'
-  import Flash from '#lib/components/flash.svelte'
+  import PropertyClaimsEditor from '#entities/components/editor/property_claims_editor.svelte'
+  import { propertiesPerType, requiredPropertiesPerType } from '#entities/lib/editor/properties_per_type'
+  import type { PropertyUri } from '#server/types/entity'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let edition, isbn13h
 
@@ -12,19 +16,19 @@
 
   let work = {
     type: 'work',
-    claims: {}
+    claims: {},
   }
 
   let showAllWorkProperties = false
   let showAllEditionProperties = false
 
-  let workPropertiesShortlist = [
+  let workPropertiesShortlist: PropertyUri[] = [
     'wdt:P50',
     'wdt:P136',
     'wdt:P921',
   ]
 
-  let editionPropertiesShortlist = [
+  let editionPropertiesShortlist: PropertyUri[] = [
     'wdt:P1476',
     'wdt:P1680',
     'wdt:P407',
@@ -32,14 +36,14 @@
     'invp:P2',
   ]
 
-  const editionImplicitProperties = [
+  const editionImplicitProperties: PropertyUri[] = [
     'wdt:P629',
     'wdt:P212',
     'wdt:P957',
   ]
 
-  const allWorkProperties = Object.keys(propertiesPerType.work)
-  const allEditionProperties = _.without(Object.keys(propertiesPerType.edition), ...editionImplicitProperties)
+  const allWorkProperties = objectKeys(propertiesPerType.work)
+  const allEditionProperties = without(objectKeys(propertiesPerType.edition), ...editionImplicitProperties)
   const isShortlisted = shortlist => property => shortlist.includes(property)
   // Regenerate shortlists from propertiesPerType properties to preserve order
   workPropertiesShortlist = allWorkProperties.filter(isShortlisted(workPropertiesShortlist))
@@ -47,7 +51,7 @@
   $: displayedWorkProperties = showAllWorkProperties ? allWorkProperties : workPropertiesShortlist
   $: displayedEditionProperties = showAllEditionProperties ? allEditionProperties : editionPropertiesShortlist
 
-  const editionRequiredProperties = _.without(requiredPropertiesPerType.edition, ...editionImplicitProperties)
+  const editionRequiredProperties = without(requiredPropertiesPerType.edition, ...editionImplicitProperties)
 
   let missingRequiredProperties
   function onEditionChange () {
@@ -58,7 +62,7 @@
     if (missingRequiredProperties.length > 0) {
       flash = {
         type: 'info',
-        message: `${I18n('required properties are missing')}: ${missingRequiredProperties.join(', ')}`
+        message: `${I18n('required properties are missing')}: ${missingRequiredProperties.join(', ')}`,
       }
     } else if (flash?.type === 'info') {
       flash = null

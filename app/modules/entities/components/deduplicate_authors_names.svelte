@@ -1,13 +1,14 @@
-<script>
-  import preq from '#lib/preq'
+<script lang="ts">
+  import { API } from '#app/api/api'
+  import preq from '#app/lib/preq'
+  import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#general/components/spinner.svelte'
-  import { loadInternalLink } from '#lib/utils'
 
   const waitingForNames = fetchNames()
   let names
 
   async function fetchNames () {
-    const res = await preq.get(app.API.entities.duplicates)
+    const res = await preq.get(API.entities.duplicates)
     names = res.names
   }
 </script>

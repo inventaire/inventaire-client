@@ -1,6 +1,6 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let value
 

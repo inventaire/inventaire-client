@@ -1,11 +1,12 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+<script lang="ts">
+  import { debounce, isEqual } from 'underscore'
+  import app from '#app/app'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Dropdown from '#components/dropdown.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, iconByVisibilitySummary } from '#general/lib/visibility'
-  import { debounce, isEqual } from 'underscore'
-  import { onChange } from '#lib/svelte/svelte'
+  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let item
   export let flash

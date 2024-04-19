@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
+  import { screen } from '#app/lib/components/stores/screen'
   import PaginatedItems from '#inventory/components/paginated_items.svelte'
   import { getPaginationParameters } from '#inventory/lib/paginated_items'
-  import { screen } from '#lib/components/stores/screen'
 
   export let sectionRequestName, showDistance = false
 

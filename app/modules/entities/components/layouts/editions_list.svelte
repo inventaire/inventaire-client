@@ -1,18 +1,19 @@
-<script>
+<script lang="ts">
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import type { SerializedEntitiesByUris, SerializedEntity } from '#entities/lib/entities'
   import { I18n } from '#user/lib/i18n'
+  import EditionCreation from './edition_creation.svelte'
   import EditionsListActions from './editions_list_actions.svelte'
   import EntitiesList from './entities_list.svelte'
-  import EditionCreation from './edition_creation.svelte'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import type { ItemsByEditions } from './edition_actions.svelte'
 
-  export let hasSomeInitialEditions,
-    someEditions,
-    editions,
-    publishersByUris,
-    parentEntity,
-    initialEditions,
-    waitingForItems,
-    itemsByEditions
+  export let hasSomeInitialEditions = false
+  export let editions: SerializedEntity[]
+  export let publishersByUris: SerializedEntitiesByUris
+  export let parentEntity: SerializedEntity
+  export let initialEditions: SerializedEntity[]
+  export let waitingForItems = null
+  export let itemsByEditions: ItemsByEditions = {}
 </script>
 <div class="editions-section">
   <div class="editions-list-title">
@@ -33,14 +34,12 @@
       <EditionsListActions
         bind:editions
         {initialEditions}
-        {someEditions}
         {waitingForItems}
       />
     {/if}
     <EntitiesList
       entities={editions}
       relatedEntities={publishersByUris}
-      {parentEntity}
       {itemsByEditions}
     />
   {:else}

@@ -1,14 +1,14 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import _ from 'underscore'
+  import { debounce } from 'underscore'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import { i18n, I18n } from '#user/lib/i18n'
   import EntityPreview from './entity_preview.svelte'
-  import Flash from '#lib/components/flash.svelte'
 
   const dispatch = createEventDispatcher()
-  const lazyDispatchFilter = _.debounce(dispatch.bind(null, 'filter'), 200)
+  const lazyDispatchFilter = debounce(dispatch.bind(null, 'filter'), 200)
 
   export let entity, flash, from, to, candidates, index
 
@@ -37,7 +37,7 @@
         name="filter"
         placeholder={i18n('filter')}
         title={i18n('the filter can be a regular expression')}
-        on:keyup={event => lazyDispatchFilter(event.target.value)}
+        on:keyup={event => lazyDispatchFilter(event.currentTarget.value)}
       />
       <button
         class="merge dangerous-button"

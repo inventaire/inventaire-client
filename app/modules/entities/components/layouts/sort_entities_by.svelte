@@ -1,12 +1,16 @@
-<script>
-  import { onChange } from '#lib/svelte/svelte'
+<script lang="ts">
+  import { icon } from '#app/lib/handlebars_helpers/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
-  import { getSortingOptionsByName } from '#entities/components/lib/works_browser_helpers'
-  import { i18n } from '#user/lib/i18n'
   import { sortEntities } from '#entities/components/lib/sort_entities_by'
-  import { icon } from '#lib/handlebars_helpers/icons'
+  import { getSortingOptionsByName } from '#entities/components/lib/works_browser_helpers'
+  import type { SerializedEntity } from '#entities/lib/entities'
+  import type { Item } from '#server/types/item'
+  import { i18n } from '#user/lib/i18n'
 
-  export let sortingType = 'work', entities, waitingForItems
+  export let sortingType = 'work'
+  export let entities: SerializedEntity[]
+  export let waitingForItems: Promise<Item[]> = null
 
   const optionsByName = getSortingOptionsByName(sortingType) || {}
   let options, sortingName
@@ -24,7 +28,7 @@
     entities = await sortEntities({
       option,
       entities,
-      promise: waitingForItems
+      promise: waitingForItems,
     })
   }
 

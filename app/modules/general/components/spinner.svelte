@@ -1,5 +1,5 @@
 <!-- See also FullScreenLoader component -->
-<script>
+<script lang="ts">
   export let light = false
   export let center = false
 </script>

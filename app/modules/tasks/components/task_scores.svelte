@@ -1,7 +1,7 @@
-<script>
-  import { i18n } from '#user/lib/i18n'
-  import Link from '#lib/components/link.svelte'
+<script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
   import { calculateGlobalScore } from '#tasks/components/lib/tasks_helpers'
+  import { i18n } from '#user/lib/i18n'
 
   export let task
 

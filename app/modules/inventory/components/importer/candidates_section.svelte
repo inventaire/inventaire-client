@@ -1,8 +1,9 @@
-<script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
+<script lang="ts">
+  import { property } from 'underscore'
+  import { scrollToElement } from '#app/lib/screen'
   import CandidateNav from '#inventory/components/importer/candidate_nav.svelte'
-  import { scrollToElement } from '#lib/screen'
+  import CandidateRow from '#inventory/components/importer/candidate_row.svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let candidates
   export let processing
@@ -12,7 +13,7 @@
     if (processing) scrollToElement(titleEl)
   }
   $: candidatesLength = candidates.length
-  $: selectedBooksCount = candidates.filter(_.property('checked')).length
+  $: selectedBooksCount = candidates.filter(property('checked')).length
 </script>
 <h3 bind:this={titleEl}>2/ {i18n('Select the books you want to add')}</h3>
 {#if candidatesLength > 20}

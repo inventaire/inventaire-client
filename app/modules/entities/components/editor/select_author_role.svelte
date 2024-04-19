@@ -1,12 +1,13 @@
-<script>
+<script lang="ts">
+  import { createEventDispatcher, tick } from 'svelte'
+  import { API } from '#app/api/api'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
+  import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { addClaimValue, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
   import { getWorkPreferredAuthorRolesProperties } from '#entities/lib/editor/properties_per_subtype'
-  import { getActionKey } from '#lib/key_events'
-  import preq from '#lib/preq'
-  import { onChange } from '#lib/svelte/svelte'
-  import { icon } from '#lib/icons'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { createEventDispatcher, tick } from 'svelte'
 
   export let entity, property, value
 
@@ -39,13 +40,13 @@
       entity.claims[currentRoleProperty] = addClaimValue(entity.claims[currentRoleProperty], movedValue)
       // If entity.uri is undefined, we are manipulating a not-yet-created entity
       if (entity.uri) {
-        await preq.put(app.API.entities.claims.update, {
+        await preq.put(API.entities.claims.update, {
           uri: entity.uri,
           property,
           'old-value': movedValue,
           'new-value': null,
         })
-        await preq.put(app.API.entities.claims.update, {
+        await preq.put(API.entities.claims.update, {
           uri: entity.uri,
           property: currentRoleProperty,
           'old-value': null,

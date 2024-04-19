@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
+  import LandingPageFooter from '#welcome/components/landing_page_footer.svelte'
   import LandingScreen from '#welcome/components/landing_screen.svelte'
   import SomePublicBooks from '#welcome/components/some_public_books.svelte'
-  import LandingPageFooter from '#welcome/components/landing_page_footer.svelte'
 </script>
 
 <div class="welcome-layout">

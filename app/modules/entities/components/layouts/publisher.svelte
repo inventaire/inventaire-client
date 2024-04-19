@@ -1,14 +1,14 @@
-<script>
-  import Spinner from '#general/components/spinner.svelte'
-  import { getSubEntitiesSections } from '#entities/components/lib/entities'
-  import BaseLayout from './base_layout.svelte'
-  import Infobox from './infobox.svelte'
-  import Summary from '#entities/components/layouts/summary.svelte'
-  import EntityTitle from './entity_title.svelte'
-  import HomonymDeduplicates from './deduplicate_homonyms.svelte'
-  import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
+<script lang="ts">
   import { setContext } from 'svelte'
+  import Summary from '#entities/components/layouts/summary.svelte'
+  import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
+  import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
+  import Spinner from '#general/components/spinner.svelte'
+  import BaseLayout from './base_layout.svelte'
+  import HomonymDeduplicates from './deduplicate_homonyms.svelte'
+  import EntityTitle from './entity_title.svelte'
+  import Infobox from './infobox.svelte'
 
   export let entity
   let flash

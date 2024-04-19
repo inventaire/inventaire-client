@@ -1,16 +1,19 @@
-<script>
-  import Spinner from '#components/spinner.svelte'
-  import { getActionKey } from '#lib/key_events'
-  import { icon } from '#lib/icons'
-  import preq from '#lib/preq'
-  import { onChange } from '#lib/svelte/svelte'
-  import { I18n } from '#user/lib/i18n'
+<script lang="ts">
   import { getContext } from 'svelte'
   import { debounce, pluck } from 'underscore'
+  import { API } from '#app/api/api'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
+  import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import Spinner from '#components/spinner.svelte'
+  import type { ItemsSearchQuery } from '#server/types/api/items/search'
+  import { I18n } from '#user/lib/i18n'
+  import type { ItemsSearchFilters } from './inventory_browser.svelte'
 
   export let textFilterItemsIds, flash
 
-  const { ownerId, groupId, shelfId } = getContext('items-search-filters')
+  const { ownerId, groupId, shelfId } = getContext('items-search-filters') as ItemsSearchFilters
 
   let textFilter, waiting
 
@@ -22,14 +25,14 @@
         textFilterItemsIds = undefined
         return
       }
-      const query = {
+      const query: ItemsSearchQuery = {
         search: textFilter,
         limit: 100,
       }
       if (groupId) query.group = groupId
       if (shelfId) query.shelf = shelfId
       else query.user = ownerId
-      waiting = preq.get(app.API.items.search(query))
+      waiting = preq.get(API.items.search(query))
       const { items } = await waiting
       textFilterItemsIds = pluck(items, '_id')
     } catch (err) {

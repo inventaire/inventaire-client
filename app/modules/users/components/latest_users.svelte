@@ -1,21 +1,22 @@
-<script>
+<script lang="ts">
+  import { API } from '#app/api/api'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import preq from '#app/lib/preq'
+  import { getSimpleTime } from '#app/lib/time'
+  import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import preq from '#lib/preq'
-  import { loadInternalLink } from '#lib/utils'
-  import { getSimpleTime } from '#lib/time'
   import { I18n, i18n } from '#user/lib/i18n'
   import { serializeUser } from '#users/lib/users'
 
   let flash
   let users = []
-  let limit = 10
+  const limit = 10
   let offset, fetching
   async function fetchMore () {
     try {
       offset = offset == null ? 0 : offset += limit
-      fetching = preq.get(app.API.users.byCreationDate({ limit, offset }))
+      fetching = preq.get(API.users.byCreationDate({ limit, offset }))
       const { users: newUsers } = await fetching
       users = users.concat(newUsers.map(serializeUser))
     } catch (err) {

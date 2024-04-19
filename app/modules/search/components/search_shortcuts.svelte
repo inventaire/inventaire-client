@@ -1,6 +1,6 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
+<script lang="ts">
   import { fade } from 'svelte/transition'
+  import { i18n, I18n } from '#user/lib/i18n'
 </script>
 
 <ul class="shortcuts" in:fade>

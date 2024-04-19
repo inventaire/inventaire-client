@@ -1,14 +1,13 @@
-<script>
-  import CandidateActions from '#inventory/components/importer/candidate_actions.svelte'
+<script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
-  import Flash from '#lib/components/flash.svelte'
+  import CandidateActions from '#inventory/components/importer/candidate_actions.svelte'
 
   export let candidate
-  export let processedCandidates
   export let visibility
   export let transaction
 
-  let { isbnData, edition, works, authors, error } = candidate
+  const { isbnData, edition, works, authors, error } = candidate
   let flash
   $: { if (error) flash = { type: 'error', message: error.status_verbose } }
 </script>
@@ -22,7 +21,6 @@
     />
     <CandidateActions
       bind:candidate
-      bind:processedCandidates
       {visibility}
       {transaction}
     />

@@ -1,15 +1,16 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
-  import _ from 'underscore'
-  import Flash from '#lib/components/flash.svelte'
+<script lang="ts">
+  import { property } from 'underscore'
+  import app from '#app/app'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { scrollToElement } from '#app/lib/screen'
   import Counter from '#components/counter.svelte'
-  import { createItemFromCandidate } from '#inventory/components/importer/lib/create_item'
   import ImportResults from '#inventory/components/importer/import_results.svelte'
-  import { scrollToElement } from '#lib/screen'
-  import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
+  import { createItemFromCandidate } from '#inventory/components/importer/lib/create_item'
   import { isAlreadyResolved, removeCreatedCandidates } from '#inventory/components/importer/lib/import_items_helpers'
+  import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
   import { addItemsByIdsToShelf, createShelf, getShelvesByOwner } from '#shelves/lib/shelves'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
+  import { I18n } from '#user/lib/i18n'
 
   export let candidates
   export let transaction
@@ -26,7 +27,7 @@
   let processedExternalShelvesCount = 0
   let externalShelfErrors = []
 
-  $: selectedCandidates = candidates.filter(_.property('checked'))
+  $: selectedCandidates = candidates.filter(property('checked'))
 
   const importCandidates = async () => {
     flash = null
@@ -54,8 +55,7 @@
     processedEntitiesCount += 1
     try {
       if (nextCandidate.checked && !isAlreadyResolved(nextCandidate)) {
-        let candidateWithEntities
-        candidateWithEntities = await resolveAndCreateCandidateEntities(nextCandidate)
+        const candidateWithEntities = await resolveAndCreateCandidateEntities(nextCandidate)
         candidates[candidatePosition] = candidateWithEntities
       }
     } catch (err) {
@@ -113,7 +113,7 @@
         items: itemsIds,
         // Set default visibility to private, as a selector would overcrowed the current interface
         // Users may edit shelf visibility settings later
-        visibility: []
+        visibility: [],
       })
       return newShelf
     }

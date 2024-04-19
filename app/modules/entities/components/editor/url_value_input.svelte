@@ -1,8 +1,8 @@
-<script>
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import error_ from '#lib/error'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+<script lang="ts">
   import { tick } from 'svelte'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import { newError } from '#app/lib/error'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
 
   export let currentValue, getInputValue
 
@@ -14,7 +14,7 @@
     await tick()
     const { value } = input
     if (!input.validity.valid) {
-      throw error_.new('invalid value', 400, { value })
+      throw newError('invalid value', 400, { value })
     }
     return input.value
   }

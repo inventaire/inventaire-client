@@ -1,14 +1,15 @@
-<script>
-  import Spinner from '#components/spinner.svelte'
-  import { getEntityBasicInfoByUri } from '#entities/lib/entities'
-  import { isCouchUuid } from '#lib/boolean_tests'
-  import Flash from '#lib/components/flash.svelte'
-  import error_ from '#lib/error'
-  import { I18n } from '#user/lib/i18n'
-  import Patch from '#entities/components/patches/patch.svelte'
-  import { getEntityPatches } from '#entities/lib/patches'
-  import { loadInternalLink } from '#lib/utils'
+<script lang="ts">
+  import app from '#app/app'
+  import { isCouchUuid } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { newError } from '#app/lib/error'
+  import { loadInternalLink } from '#app/lib/utils'
   import FullScreenLoader from '#components/full_screen_loader.svelte'
+  import Spinner from '#components/spinner.svelte'
+  import Patch from '#entities/components/patches/patch.svelte'
+  import { getEntityBasicInfoByUri } from '#entities/lib/entities'
+  import { getEntityPatches } from '#entities/lib/patches'
+  import { I18n } from '#user/lib/i18n'
 
   export let uri
 
@@ -32,7 +33,7 @@
     if (isCouchUuid(entityId)) {
       patches = await getEntityPatches(entityId)
     } else {
-      app.execute('show:error', error_.new('invalid entity id', { entityId }))
+      app.execute('show:error', newError('invalid entity id', { entityId }))
     }
   }
 

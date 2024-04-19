@@ -1,22 +1,22 @@
-<script>
+<script lang="ts">
   import { pick } from 'underscore'
-  import Spinner from '#general/components/spinner.svelte'
-  import { isNonEmptyPlainObject } from '#lib/boolean_tests'
-  import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
-  import AuthorsInfoRole from './authors_info_role.svelte'
+  import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
   import { propertiesByRoles } from '#entities/components/lib/claims_helpers'
+  import { getEntitiesAttributesFromClaims } from '#entities/lib/entities'
+  import Spinner from '#general/components/spinner.svelte'
+  import AuthorsInfoRole from './authors_info_role.svelte'
 
   export let claims = {}
 
   let authorsByUris
-  let authorsProperties = Object.values(propertiesByRoles).flat()
-  let authorsClaims = pick(claims, authorsProperties)
+  const authorsProperties = Object.values(propertiesByRoles).flat()
+  const authorsClaims = pick(claims, authorsProperties)
 
   const waitingForAuthors = getAuthors()
   async function getAuthors () {
     if (isNonEmptyPlainObject(authorsClaims)) {
-      // Claims attribute is necessary to get birth and death years
-      const attributes = [ 'labels', 'claims', 'image' ]
+      // 'claims' attribute is necessary to get birth and death years
+      const attributes = [ 'labels', 'claims', 'image' ] as const
       authorsByUris = await getEntitiesAttributesFromClaims(authorsClaims, attributes)
     }
   }

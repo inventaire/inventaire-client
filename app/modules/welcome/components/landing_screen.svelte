@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
+  import app from '#app/app'
+  import { icon } from '#app/lib/icons'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
 
   const needNameExplanation = app.user.lang !== 'fr'
   const { loggedIn } = app.user

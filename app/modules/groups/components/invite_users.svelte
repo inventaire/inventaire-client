@@ -1,12 +1,12 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
+<script lang="ts">
   import { debounce } from 'underscore'
-  import { onChange } from '#lib/svelte/svelte'
-  import UserGroupRequestLi from '#groups/components/user_group_request_li.svelte'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
-  import { searchUsers } from '#users/users_data'
+  import UserGroupRequestLi from '#groups/components/user_group_request_li.svelte'
   import { serializeGroupUser } from '#groups/lib/groups'
+  import { I18n } from '#user/lib/i18n'
+  import { searchUsers } from '#users/users_data'
 
   export let group
 

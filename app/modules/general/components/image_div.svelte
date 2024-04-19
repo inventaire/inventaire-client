@@ -1,5 +1,6 @@
-<script>
-  import { imgSrc } from '#lib/handlebars_helpers/images'
+<script lang="ts">
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+
   export let url, size = 200, alt = ''
 </script>
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 if [ "$1" != "" ] ; then
-  eslint --config .eslintrc.cjs --config .eslintrc.pre-commit-extra.cjs --format codeframe --ext js,svelte --fix "$@"
+  eslint --config .eslintrc.cli.cjs --format codeframe --ext js,ts,svelte --fix "$@"
   stylelint --config .stylelintrc.cjs --quiet-deprecation-warnings --fix "$@"
 else
-  eslint --config .eslintrc.cjs --config .eslintrc.pre-commit-extra.cjs --format codeframe --ext js,svelte --fix app tests scripts
+  eslint --config .eslintrc.cli.cjs --format codeframe --ext js,ts,svelte --fix app tests scripts
   stylelint --config .stylelintrc.cjs --quiet-deprecation-warnings --fix app
 fi

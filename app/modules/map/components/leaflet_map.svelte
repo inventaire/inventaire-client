@@ -1,8 +1,8 @@
 <!-- Inspired by https://imfeld.dev/writing/svelte_domless_components
      and https://github.com/ngyewch/svelte-leaflet -->
-<script>
+<script lang="ts">
+  import L, { type Map } from 'leaflet'
   import { createEventDispatcher, setContext, tick } from 'svelte'
-  import L from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import 'leaflet.markercluster/dist/MarkerCluster.css'
   import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
@@ -10,13 +10,13 @@
   import 'leaflet.markercluster'
   // TODO: split markers style between components
   import '#map/scss/objects_markers.scss'
-  import mapConfig from '#map/lib/config.js'
-  import isMobile from '#lib/mobile_check'
-  import { onChange } from '#lib/svelte/svelte'
-  import Flash from '#lib/components/flash.svelte'
+  import Flash from '#app/lib/components/flash.svelte'
+  import isMobile from '#app/lib/mobile_check'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import LocationSearchInput from '#map/components/location_search_input.svelte'
+  import mapConfig from '#map/lib/config.ts'
   import { uniqBounds } from '#map/lib/map'
   import { fitResultBbox } from '#map/lib/nominatim'
-  import LocationSearchInput from '#map/components/location_search_input.svelte'
 
   mapConfig.init()
 
@@ -27,20 +27,22 @@
   export let cluster = false
   export let showLocationSearchInput = false
 
-  export let map
+  export let map: Map = null
 
   let clusterGroup, flash
+  let destroyed = false
 
   const dispatch = createEventDispatcher()
 
   setContext('map', () => map)
   setContext('layer', () => clusterGroup || map)
 
-  async function createLeaflet (node) {
+  async function initLeafletMap (node) {
     try {
       // Let the time to Svelte to setup surrounding elements,
       // so that Leaflet picks up the right map size
       await tick()
+      if (destroyed) return
       map = L.map(node, mapConfig.mapOptions)
         .on('zoom', e => {
           dispatch('zoom', e)
@@ -70,19 +72,29 @@
       if (cluster) {
         clusterGroup = L.markerClusterGroup({
           // Required to prevent big marker icons to overlap
-          spiderfyDistanceMultiplier: 4
+          spiderfyDistanceMultiplier: 4,
         })
         map.addLayer(clusterGroup)
       }
-
-      return {
-        destroy () {
-          map.remove()
-          map = null
-        },
-      }
     } catch (err) {
       flash = err
+    }
+  }
+
+  // Svelte actions need to return sync, thus this sync wrapper
+  // Similar issue https://github.com/sveltejs/language-tools/issues/2301
+  function createLeaflet (node) {
+    destroyed = false
+    initLeafletMap(node)
+    return {
+      destroy () {
+        if (map) {
+          map.remove()
+          map = null
+        } else {
+          destroyed = true
+        }
+      },
     }
   }
 

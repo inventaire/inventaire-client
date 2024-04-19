@@ -10,19 +10,20 @@
     subject: 'wdt:P921',
   }
 </script>
-<script>
-  import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
-  import { omitClaims } from '#entities/components/lib/work_helpers'
-  import { loadInternalLink } from '#lib/utils'
-  import ImagesCollage from '#components/images_collage.svelte'
-  import Infobox from './infobox.svelte'
+<script lang="ts">
   import { getContext } from 'svelte'
+  import { loadInternalLink } from '#app/lib/utils'
+  import ImagesCollage from '#components/images_collage.svelte'
+  import { omitClaims } from '#entities/components/lib/work_helpers'
+  import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
+  import type { SerializedEntitiesByUris, SerializedEntity } from '#entities/lib/entities'
+  import Infobox from './infobox.svelte'
 
-  export let entity,
-    relatedEntities,
-    showInfobox = true,
-    listDisplay = false,
-    isUriToDisplay
+  export let entity: SerializedEntity
+  export let relatedEntities: SerializedEntitiesByUris = {}
+  export let showInfobox = true
+  export let listDisplay = false
+  export let isUriToDisplay = false
 
   let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri } = entity
 

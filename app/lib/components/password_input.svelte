@@ -1,5 +1,5 @@
-<script>
-  import Flash from '#lib/components/flash.svelte'
+<script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
   import { I18n } from '#user/lib/i18n'
   import { testPassword } from '#user/lib/password_tests'
 
@@ -32,7 +32,7 @@
   <input
     type={showPassword ? 'text' : 'password'}
     {autocomplete}
-    on:input={e => changePwd(e.target.value)}
+    on:input={e => changePwd(e.currentTarget.value)}
     on:blur={earlyVerifyPassword}
     {title}
     name="password"

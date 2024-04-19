@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
+  import { icon } from '#app/lib/icons'
   import { i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
 </script>
 
 <div class="transactions-welcome">

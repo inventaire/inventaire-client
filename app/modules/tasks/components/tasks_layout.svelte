@@ -1,26 +1,30 @@
-<script>
+<script lang="ts">
+  import { pluck } from 'underscore'
+  import { API } from '#app/api/api'
   import app from '#app/app'
-  import preq from '#lib/preq'
-  import { onChange } from '#lib/svelte/svelte'
+  import preq, { treq } from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { serializeEntity } from '#entities/lib/entities'
+  import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
+  import type { TaskId } from '#server/types/task'
+  import getNextTask from '#tasks/lib/get_next_task.ts'
+  import { I18n } from '#user/lib/i18n'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
-  import getNextTask from '#tasks/lib/get_next_task.js'
-  import { pluck } from 'underscore'
-  import { I18n } from '#user/lib/i18n'
 
-  export let taskId, entitiesType
+  export let taskId: TaskId
+  export let entitiesType
 
   let task, from, to, flash, matchedTitles, noTask
 
-  let previousTasksIds = []
+  const previousTasksIds = []
 
   const waitForTask = getTask()
 
   async function getTask () {
     let promise
     if (taskId) {
-      promise = assignTaskById(taskId)
+      promise = assignTaskById()
     } else if (entitiesType) {
       promise = next()
     } else return
@@ -31,7 +35,7 @@
   }
 
   async function assignTaskById () {
-    const { tasks } = await preq.get(app.API.tasks.byIds(taskId))
+    const { tasks } = await preq.get(API.tasks.byIds(taskId))
     task = tasks[0]
   }
 
@@ -41,7 +45,7 @@
     const params = {
       entitiesType,
       lastTask: task,
-      previousTasksIds
+      previousTasksIds,
     }
     const newTask = await getNextTask(params)
     if (!newTask) {
@@ -65,14 +69,14 @@
     if (!task || task.state === 'merged') return
     const fromUri = task.suspectUri
     const toUri = task.suggestionUri
-    return preq.get(app.API.entities.getByUris([ fromUri, toUri ]))
+    return treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris([ fromUri, toUri ]))
       .then(assignFromToEntities(fromUri, toUri))
       .catch(err => {
         flash = err
       })
   }
 
-  const assignFromToEntities = (fromUri, toUri) => async entitiesRes => {
+  const assignFromToEntities = (fromUri, toUri) => async (entitiesRes: GetEntitiesByUrisResponse) => {
     if (areRedirects(entitiesRes)) {
       await updateTask(task._id, 'state', 'merged')
       return next()
@@ -84,10 +88,10 @@
 
   async function updateTask (id, attribute, value) {
     const params = { id, attribute, value }
-    return preq.put(app.API.tasks.update, params)
+    return preq.put(API.tasks.update, params)
   }
 
-  function areRedirects (entitiesRes) {
+  function areRedirects (entitiesRes: GetEntitiesByUrisResponse) {
     const { entities, redirects } = entitiesRes
     if (Object.keys(redirects).length === 0) return
     for (const entityUri of Object.values(redirects)) {
@@ -114,7 +118,6 @@
       {#if from}
         <TaskEntity
           entity={from}
-          {flash}
           {matchedTitles}
         />
       {/if}
@@ -124,7 +127,6 @@
       {#if to}
         <TaskEntity
           entity={to}
-          {flash}
           {matchedTitles}
         />
       {/if}

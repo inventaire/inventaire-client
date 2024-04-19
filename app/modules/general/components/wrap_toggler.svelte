@@ -1,11 +1,12 @@
-<script>
-  import { icon } from '#lib/icons'
-  export let show = false,
-    moreText,
-    lessText,
-    scrollTopElement,
-    withIcon = true,
-    remainingCounter = 0
+<script lang="ts">
+  import { icon } from '#app/lib/icons'
+
+  export let show = false
+  export let moreText: string
+  export let lessText: string = null
+  export let scrollTopElement = null
+  export let withIcon = true
+  export let remainingCounter = 0
 
   function toggle () {
     show = !show

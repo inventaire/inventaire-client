@@ -1,12 +1,14 @@
-<script>
+<script lang="ts">
+  import { API } from '#app/api/api'
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import preq from '#app/lib/preq'
+  import { getLocalTimeString, timeFromNow } from '#app/lib/time'
+  import { loadInternalLink } from '#app/lib/utils'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
-  import { serializePatches } from '#entities/lib/patches'
-  import Flash from '#lib/components/flash.svelte'
-  import preq from '#lib/preq'
-  import { getLocalTimeString, timeFromNow } from '#lib/time'
-  import { loadInternalLink } from '#lib/utils'
-  import { i18n, I18n } from '#user/lib/i18n'
   import Contribution from '#entities/components/patches/contribution.svelte'
+  import { serializePatches } from '#entities/lib/patches'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let user = null
   export let filter = null
@@ -21,7 +23,7 @@
 
   async function fetchMore () {
     limit = Math.min(limit * 2, 500)
-    const { patches, continue: continu, total: _total } = await preq.get(app.API.entities.contributions({
+    const { patches, continue: continu, total: _total } = await preq.get(API.entities.contributions({
       userId: user?._id,
       limit,
       offset,

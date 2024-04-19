@@ -1,18 +1,25 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import getLangsData from '#entities/lib/editor/get_langs_data'
-  import DisplayModeButtons from './display_mode_buttons.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import EditModeButtons from './edit_mode_buttons.svelte'
-  import { getActionKey } from '#lib/key_events'
-  import preq from '#lib/preq'
-  import getBestLangValue from '#entities/lib/get_best_lang_value'
+<script lang="ts">
   import { tick } from 'svelte'
-  import { typeHasName } from '#entities/lib/types/entities_types'
+  import { API } from '#app/api/api'
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { getActionKey } from '#app/lib/key_events'
+  import preq from '#app/lib/preq'
   import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/editor/lib/editors_helpers'
   import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/components/editor/lib/title_tip'
+  import getLangsData from '#entities/lib/editor/get_langs_data'
+  import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import { typeHasName } from '#entities/lib/types/entities_types'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import DisplayModeButtons from './display_mode_buttons.svelte'
+  import EditModeButtons from './edit_mode_buttons.svelte'
+  import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
-  export let entity, favoriteLabel, favoriteLabelLang, inputLabel
+  export let entity
+  export let favoriteLabel: string = null
+  export let favoriteLabelLang: WikimediaLanguageCode = null
+  export let inputLabel: string = null
+
   let editMode = false
   let input, flash
 
@@ -52,7 +59,7 @@
     editMode = false
     if (creationMode) return
     app.execute('invalidate:entities:cache', uri)
-    preq.put(app.API.entities.labels.update, { uri, lang: currentLang, value })
+    preq.put(API.entities.labels.update, { uri, lang: currentLang, value })
       .catch(err => {
         editMode = true
         flash = err
@@ -118,7 +125,7 @@
           {#if matchingSerieLabel}
             <p class="tip">
               {@html I18n('title_matches_serie_label_tip', {
-                pathname: `/entity/${serieUri}/edit`
+                pathname: `/entity/${serieUri}/edit`,
               })}
             </p>
           {/if}

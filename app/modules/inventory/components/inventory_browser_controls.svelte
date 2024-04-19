@@ -1,12 +1,12 @@
-<script>
-  import { I18n, i18n } from '#user/lib/i18n'
+<script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { icon } from '#app/lib/icons'
   import SelectDropdown from '#components/select_dropdown.svelte'
-  import InventoryBrowserFacet from '#inventory/components/inventory_browser_facet.svelte'
   import Spinner from '#components/spinner.svelte'
-  import { icon } from '#lib/icons'
-  import { screen } from '#lib/components/stores/screen'
+  import InventoryBrowserFacet from '#inventory/components/inventory_browser_facet.svelte'
   import InventoryBrowserTextFilter from '#inventory/components/inventory_browser_text_filter.svelte'
-  import Flash from '#lib/components/flash.svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let waitForInventoryData, facetsSelectors, facetsSelectedValues, intersectionWorkUris, textFilterItemsIds, inventoryDisplay
 

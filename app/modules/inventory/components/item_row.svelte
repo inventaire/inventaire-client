@@ -1,24 +1,25 @@
-<script>
-  import { i18n } from '#user/lib/i18n'
-  import { isOpenedOutside, loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { transactionsDataFactory } from '#inventory/lib/transactions_data'
-  import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
-  import { getItemLinkTitle, serializeItem } from '#inventory/lib/items'
-  import { screen } from '#lib/components/stores/screen'
-  import ImageDiv from '#components/image_div.svelte'
-  import ShelfDot from './shelf_dot.svelte'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { compact } from 'underscore'
-  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
+  import { compact } from 'underscore'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { icon } from '#app/lib/icons'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
+  import { isOpenedOutside, loadInternalLink } from '#app/lib/utils'
+  import type { ShelvesByIds } from '#app/types/shelf'
+  import ImageDiv from '#components/image_div.svelte'
+  import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
+  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
+  import { getItemLinkTitle, serializeItem } from '#inventory/lib/items'
+  import { transactionsDataFactory } from '#inventory/lib/transactions_data'
+  import { i18n } from '#user/lib/i18n'
+  import ShelfDot from './shelf_dot.svelte'
 
   export let item
   export let showUser = false
   export let shelfId = null
-  export let shelvesByIds
+  export let shelvesByIds: ShelvesByIds = null
 
   const mainUserIsOwner = item.visibility != null
 

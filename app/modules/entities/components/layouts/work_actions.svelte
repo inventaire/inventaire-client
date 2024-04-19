@@ -1,15 +1,22 @@
-<script>
-  import { i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { screen } from '#lib/components/stores/screen'
-  import { onChange } from '#lib/svelte/svelte'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import type { Align } from '#components/dropdown.svelte'
   import AddToDotDotDotMenu from '#entities/components/layouts/add_to_dot_dot_dot_menu.svelte'
-  import Flash from '#lib/components/flash.svelte'
+  import type { SerializedEntity } from '#entities/lib/entities'
+  import type { SerializedItemWithUserData } from '#inventory/lib/items'
+  import { i18n } from '#user/lib/i18n'
 
   const dispatch = createEventDispatcher()
 
-  export let entity, editions, someEditions, allItems, align
+  export let entity: SerializedEntity
+  export let editions: SerializedEntity[] = null
+  export let someEditions = false
+  export let allItems: SerializedItemWithUserData[] = null
+  export let align: Align = null
 
   let otherUsersItems, areNotOnlyMainUserItems, someOtherUsersItemsHaveAPosition, flash
 

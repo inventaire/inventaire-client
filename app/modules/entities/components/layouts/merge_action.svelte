@@ -1,13 +1,14 @@
-<script>
+<script lang="ts">
+  import { createEventDispatcher } from 'svelte'
+  import { isWikidataItemUri } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
+  import Link from '#app/lib/components/link.svelte'
+  import { icon } from '#app/lib/icons'
+  import { getWikidataItemMergeUrl } from '#entities/lib/wikidata/init_entity'
+  import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Spinner from '#general/components/spinner.svelte'
   import { i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import mergeEntities from '#entities/views/editor/lib/merge_entities'
-  import Flash from '#lib/components/flash.svelte'
-  import { createEventDispatcher } from 'svelte'
-  import { isWikidataItemUri } from '#lib/boolean_tests'
-  import Link from '#lib/components/link.svelte'
-  import { getWikidataItemMergeUrl } from '#entities/lib/wikidata/init_entity'
+
   const dispatch = createEventDispatcher()
 
   export let fromEntityUri, targetEntityUri

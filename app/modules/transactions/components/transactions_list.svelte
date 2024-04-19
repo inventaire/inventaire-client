@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import TransactionPreview from '#transactions/components/transaction_preview.svelte'
   import { I18n } from '#user/lib/i18n'
 

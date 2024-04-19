@@ -1,13 +1,17 @@
-<script>
-  import { i18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
+<script lang="ts">
+  import app from '#app/app'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { loadInternalLink } from '#app/lib/utils'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
+  import type { SerializedEntity } from '#entities/lib/entities'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import { i18n } from '#user/lib/i18n'
 
-  export let entityData = {}, claimValue, hasManyClaimValues
+  export let entity: SerializedEntity
+  export let claimValue
+  export let hasManyClaimValues = false
 
-  const { labels, claims = {}, uri, image = {} } = entityData
+  const { labels, claims = {}, uri, image = {} } = entity
   let url, label
   if (uri) {
     url = `/entity/${uri}`

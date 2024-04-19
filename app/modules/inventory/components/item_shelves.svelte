@@ -1,12 +1,13 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import Spinner from '#components/spinner.svelte'
-  import { getShelvesByOwner, getShelvesByIds } from '#shelves/lib/shelves'
-  import ShelfInfo from '#inventory/components/shelf_info.svelte'
-  import { onChange } from '#lib/svelte/svelte'
+<script lang="ts">
   import { debounce, isEqual } from 'underscore'
+  import app from '#app/app'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import { loadInternalLink } from '#app/lib/utils'
+  import Spinner from '#components/spinner.svelte'
+  import ShelfInfo from '#inventory/components/shelf_info.svelte'
+  import { getShelvesByOwner, getShelvesByIds } from '#shelves/lib/shelves'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let serializedItem
   export let flash
@@ -71,7 +72,7 @@
         </div>
         {#if selectedShelves.length < userShelves.length}
           <button
-            on:click={e => hideUnselectedShelves = !hideUnselectedShelves}
+            on:click={() => hideUnselectedShelves = !hideUnselectedShelves}
             title={hideUnselectedShelves ? i18n('Show other shelves') : i18n('Hide non-selected shelves')}
             class:rotate={!hideUnselectedShelves}
           >

@@ -1,7 +1,7 @@
-<script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { getLocalStorageStore } from '#lib/components/stores/local_storage_stores'
+<script lang="ts">
+  import { getLocalStorageStore } from '#app/lib/components/stores/local_storage_stores'
   import DisplayedLinks from '#settings/components/displayed_links.svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   const entitiesDisplay = getLocalStorageStore('entitiesDisplay', 'large')
   const mainUserInventoryDisplay = getLocalStorageStore('mainUserInventoryDisplay', 'table')

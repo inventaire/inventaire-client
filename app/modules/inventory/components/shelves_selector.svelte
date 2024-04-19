@@ -1,10 +1,10 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
+<script lang="ts">
+  import { pluck } from 'underscore'
   import app from '#app/app'
   import Spinner from '#components/spinner.svelte'
-  import { getShelvesByOwner } from '#shelves/lib/shelves'
   import ShelfInfo from '#inventory/components/shelf_info.svelte'
-  import { pluck } from 'underscore'
+  import { getShelvesByOwner } from '#shelves/lib/shelves'
+  import { I18n } from '#user/lib/i18n'
 
   export let shelvesIds
   export let showDescription = false

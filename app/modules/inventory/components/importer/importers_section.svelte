@@ -1,18 +1,22 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
-  import Flash from '#lib/components/flash.svelte'
-  import importers from '#inventory/lib/importer/importers'
-  import { createCandidate, byIndex } from '#inventory/lib/importer/import_helpers'
-  import { scrollToElement } from '#lib/screen'
-  import log_ from '#lib/loggers'
-  import FileImporter from './file_importer.svelte'
-  import IsbnImporter from './isbn_importer.svelte'
+<script lang="ts">
+  import { compact, clone } from 'underscore'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import log_ from '#app/lib/loggers'
+  import { scrollToElement } from '#app/lib/screen'
   import Counter from '#components/counter.svelte'
   import Spinner from '#components/spinner.svelte'
-  import { icon } from '#lib/icons'
   import { addExistingItemsCounts, createExternalEntry, getExternalEntriesEntities } from '#inventory/components/importer/lib/importers_section_helpers'
+  import { createCandidate, byIndex } from '#inventory/lib/importer/import_helpers'
+  import importers from '#inventory/lib/importer/importers'
+  import { I18n } from '#user/lib/i18n'
+  import FileImporter from './file_importer.svelte'
+  import IsbnImporter from './isbn_importer.svelte'
 
-  export let candidates, isbns, processing, isbnImporterEl
+  export let candidates
+  export let isbns: string[] = null
+  export let processing = false
+  export let isbnImporterEl = null
   export let processedExternalEntriesCount = 0
   export let totalExternalEntries = 0
 
@@ -25,14 +29,14 @@
 
   const createExternalEntries = candidatesData => {
     flashBlockingProcess = null
-    externalEntries = _.compact(candidatesData.map(createExternalEntry))
+    externalEntries = compact(candidatesData.map(createExternalEntry))
   }
 
   const createCandidatesQueue = async () => {
     cancelled = false
     processedExternalEntriesCount = 0
     totalExternalEntries = externalEntries.length
-    const remainingExternalEntries = _.clone(externalEntries)
+    const remainingExternalEntries = clone(externalEntries)
     if (startedWithIsbns) scrollToElement(isbnImporterEl)
     else scrollToElement(bottomSectionElement)
 
@@ -60,7 +64,7 @@
       createCandidateOneByOne(),
       createCandidateOneByOne(),
       createCandidateOneByOne(),
-      createCandidateOneByOne()
+      createCandidateOneByOne(),
     ])
       .then(async () => {
         // Display candidates in the order of the input

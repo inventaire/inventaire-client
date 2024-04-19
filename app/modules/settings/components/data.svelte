@@ -1,11 +1,12 @@
-<script>
+<script lang="ts">
+  import { API } from '#app/api/api'
+  import { icon } from '#app/lib/icons'
+  import { apiDoc } from '#app/lib/urls'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { apiDoc } from '#lib/urls'
-  import app from '#app/app'
+
   export let user
-  const csvExportUrl = app.API.items.export({ format: 'csv' })
-  const inventoryJsonUrl = app.API.items.byUsers({ ids: user.id, limit: 100000 })
+  const csvExportUrl = API.items.export({ format: 'csv' })
+  const inventoryJsonUrl = API.items.byUsers({ ids: user.id, limit: 100000 })
 </script>
 
 <form>

@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { icon } from '#app/lib/icons'
   import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
 
   export let selectedFilters, filtersData, type, allFilters
   export let translatableFilterValues = false

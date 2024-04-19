@@ -1,12 +1,13 @@
-<script>
+<script lang="ts">
+  import { intersection } from 'underscore'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { i18n } from '#user/lib/i18n'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
   import AuthorDisplay from './author_display.svelte'
 
   export let roleLabel, roleProperties, claims, authorsByUris
 
   const claimsProperties = Object.keys(claims)
-  const hasRoleClaimsValues = isNonEmptyArray(_.intersection(roleProperties, claimsProperties))
+  const hasRoleClaimsValues = isNonEmptyArray(intersection(roleProperties, claimsProperties))
 </script>
 {#if hasRoleClaimsValues}
   <div class="{roleLabel} authors-role">
@@ -17,7 +18,7 @@
           { @const hasManyClaimValues = claims[prop].length > 15}
           {#each claims[prop] as claimValue}
             <AuthorDisplay
-              entityData={authorsByUris[claimValue]}
+              entity={authorsByUris[claimValue]}
               {claimValue}
               {hasManyClaimValues}
             />

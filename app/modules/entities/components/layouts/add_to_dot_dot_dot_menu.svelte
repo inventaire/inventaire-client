@@ -1,20 +1,24 @@
-<script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { showLoginPageAndRedirectHere } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import Dropdown from '#components/dropdown.svelte'
-  import { userListings } from '#listings/lib/stores/user_listings'
-  import { addElement, getUserListingsByEntityUri, removeElement } from '#modules/listings/lib/listings'
-  import { getSubEntities } from '../lib/entities'
-  import Spinner from '#components/spinner.svelte'
-  import { onChange } from '#lib/svelte/svelte'
+<script lang="ts">
   import { pluck } from 'underscore'
+  import app from '#app/app'
+  import { icon } from '#app/lib/icons'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import { showLoginPageAndRedirectHere } from '#app/lib/utils'
+  import Dropdown, { type Align } from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
-  import ListingEditor from '#modules/listings/components/listing_editor.svelte'
-  import EntitiesList from '#entities/components/layouts/entities_list.svelte'
+  import Spinner from '#components/spinner.svelte'
   import EditionCreation from '#entities/components/layouts/edition_creation.svelte'
+  import EntitiesList from '#entities/components/layouts/entities_list.svelte'
+  import { userListings } from '#listings/lib/stores/user_listings'
+  import ListingEditor from '#modules/listings/components/listing_editor.svelte'
+  import { addElement, getUserListingsByEntityUri, removeElement } from '#modules/listings/lib/listings'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import { getSubEntities } from '../lib/entities.ts'
 
-  export let entity, editions, flash, align
+  export let entity
+  export let editions
+  export let flash
+  export let align: Align = null
 
   const { uri } = entity
   const { loggedIn } = app.user
@@ -155,10 +159,7 @@
   >
     <h2>{i18n('Select an edition')}</h2>
     {#if editions.length > 0}
-      <EntitiesList
-        entities={editions}
-        parentEntity={entity}
-      />
+      <EntitiesList entities={editions} />
     {:else}
       <p class="no-edition">{I18n('no editions found')}</p>
     {/if}

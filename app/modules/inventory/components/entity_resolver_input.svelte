@@ -1,11 +1,16 @@
-<script>
+<script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
   import EntityValueDisplay from '#entities/components/editor/entity_value_display.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { icon } from '#lib/icons'
+  import type { EntityType, EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
 
-  export let type, entity = {}, label, currentEntityLabel, uri
+  export let type: EntityType
+  export let entity
+  export let label: string = null
+  export let currentEntityLabel: string = null
+  export let uri: EntityUri = null
 
   if (!entity.claims) entity.claims = {}
 
@@ -49,7 +54,7 @@
   </div>
 {:else}
   <EntityAutocompleteSelector
-    searchTypes={type}
+    searchTypes={[ type ]}
     currentEntityUri={uri}
     bind:currentEntityLabel
     createdEntityType="work"

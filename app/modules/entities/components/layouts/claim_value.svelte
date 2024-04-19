@@ -1,9 +1,10 @@
-<script>
-  import { i18n } from '#user/lib/i18n'
-  import getBestLangValue from '#entities/lib/get_best_lang_value'
-  import { isEntityUri } from '#lib/boolean_tests'
+<script lang="ts">
+  import app from '#app/app'
+  import { isEntityUri } from '#app/lib/boolean_tests'
+  import Link from '#app/lib/components/link.svelte'
   import { propertiesType, formatClaimValue, buildPathname } from '#entities/components/lib/claims_helpers'
-  import Link from '#lib/components/link.svelte'
+  import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import { i18n } from '#user/lib/i18n'
 
   export let value, prop, entity
 

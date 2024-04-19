@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 const { imports } = require('../package.json')
 
 // Same aliases as package.json#imports, but intended
@@ -25,6 +25,7 @@ alias['backbone.marionette'] = path.resolve(__dirname, '../node_modules/backbone
 alias['marionette.approuter'] = path.resolve(__dirname, '../node_modules/marionette.approuter/lib/marionette.approuter.esm.js')
 
 module.exports = {
+  extensions: [ '.js', '.cjs', '.ts', '.svelte', '.hbs' ],
   alias,
   // Recommended by https://github.com/sveltejs/svelte-loader#resolvemainfields
   mainFields: [ 'svelte', 'browser', 'module', 'main' ],

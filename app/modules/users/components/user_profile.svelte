@@ -1,15 +1,17 @@
-<script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { userContent } from '#lib/handlebars_helpers/user_content'
-  import Flash from '#lib/components/flash.svelte'
-  import { screen } from '#lib/components/stores/screen'
-  import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
-  import ProfileNav from '#users/components/profile_nav.svelte'
+<script lang="ts">
+  import { tick } from 'svelte'
+  import { API } from '#app/api/api'
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { userContent } from '#app/lib/handlebars_helpers/user_content'
+  import { icon } from '#app/lib/icons'
   import UserInventory from '#inventory/components/user_inventory.svelte'
   import UsersListings from '#listings/components/users_listings.svelte'
-  import { tick } from 'svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import ProfileNav from '#users/components/profile_nav.svelte'
+  import UserProfileButtons from '#users/components/user_profile_buttons.svelte'
 
   export let user
   export let shelf = null
@@ -33,14 +35,14 @@
     if (profileSection === 'inventory') {
       pathname = user.inventoryPathname
       title = `${username} - ${i18n('Inventory')}`
-      rss = app.API.feeds('user', userId)
+      rss = API.feeds('user', userId)
     } else if (profileSection === 'listings') {
       pathname = user.listingsPathname
       title = `${username} - ${I18n('lists')}`
     } else {
       title = username
       pathname = user.pathname
-      rss = app.API.feeds('user', userId)
+      rss = API.feeds('user', userId)
     }
     const metadata = {
       title,

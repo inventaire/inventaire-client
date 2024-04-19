@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
+  import assert_ from '#app/lib/assert_types'
+  import viewport from '#app/lib/components/actions/viewport'
+  import { wait } from '#app/lib/promises'
   import Spinner from '#components/spinner.svelte'
-  import assert_ from '#lib/assert_types'
-  import viewport from '#lib/components/actions/viewport'
-  import { wait } from '#lib/promises'
 
   export let keepScrolling
   export let showSpinner = false

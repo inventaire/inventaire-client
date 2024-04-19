@@ -1,9 +1,10 @@
-<script>
-  import { isNonEmptyString } from '#lib/boolean_tests'
-  import preq from '#lib/preq'
-  import { onChange } from '#lib/svelte/svelte'
-  import { I18n } from '#user/lib/i18n'
+<script lang="ts">
   import { debounce } from 'underscore'
+  import { API } from '#app/api/api'
+  import { isNonEmptyString } from '#app/lib/boolean_tests'
+  import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let name
   export let groupId = null
@@ -14,7 +15,7 @@
   async function updateUrl () {
     try {
       if (isNonEmptyString(name)) {
-        const { slug } = await preq.get(app.API.groups.slug(name, groupId))
+        const { slug } = await preq.get(API.groups.slug(name, groupId))
         url = `${window.location.origin}/groups/${slug}`
       } else {
         url = null

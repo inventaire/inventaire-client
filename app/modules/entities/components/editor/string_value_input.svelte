@@ -1,9 +1,9 @@
-<script>
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import error_ from '#lib/error'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
-  import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/components/editor/lib/title_tip'
+<script lang="ts">
   import { createEventDispatcher, tick } from 'svelte'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import { newError } from '#app/lib/error'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
+  import { findMatchingSerieLabel, getEditionSeriesLabels } from '#entities/components/editor/lib/title_tip'
   import { I18n } from '#user/lib/i18n'
 
   export let currentValue, getInputValue, entity, property
@@ -20,7 +20,7 @@
     // as that setting does not seem to set input.validity.valid=false correctly
     // (Tested only in Firefox v99)
     if (value.length === 0 || !input.validity.valid) {
-      throw error_.new('invalid value', 400, { value })
+      throw newError('invalid value', 400, { value })
     }
     return input.value
   }
@@ -56,7 +56,7 @@
   {#if matchingSerieLabel}
     <p class="tip">
       {@html I18n('title_matches_serie_label_tip', {
-        pathname: `/entity/${serieUri}/edit`
+        pathname: `/entity/${serieUri}/edit`,
       })}
     </p>
   {/if}

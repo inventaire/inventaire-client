@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
+  import { wait } from '#app/lib/promises'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { onChange } from '#lib/svelte/svelte'
   import GroupMarker from '#map/components/group_marker.svelte'
   import LeafletMap from '#map/components/leaflet_map.svelte'
   import Marker from '#map/components/marker.svelte'
@@ -13,9 +14,8 @@
   import { user } from '#user/user_store'
   import { getGroupsByPosition, getUsersByPosition } from '#users/components/lib/public_users_nav_helpers'
   import PaginatedSectionItems from '#users/components/paginated_section_items.svelte'
-  import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
   import UserProfile from '#users/components/user_profile.svelte'
-  import { wait } from '#lib/promises'
+  import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
 
   export let filter = null
   export let focusedSection
@@ -40,7 +40,7 @@
     }
   }
 
-  const waiters = {}
+  let waitForUsers, waitForGroups
   function fetchAndShowUsersAndGroupsOnMap () {
     if (!map) return
     if (mapIsTooZoomedOut()) return
@@ -48,11 +48,11 @@
     if (!bbox) return
 
     if (showUsers) {
-      waiters.users = getByPosition('users', bbox)
+      waitForUsers = getByPosition('users', bbox)
     }
 
     if (showGroups) {
-      waiters.groups = getByPosition('groups', bbox)
+      waitForGroups = getByPosition('groups', bbox)
     }
   }
 
@@ -106,7 +106,7 @@
         <div class="list-wrapper">
           <div class="list-header">
             <h2 class="list-label">{I18n('users')}</h2>
-            {#await waiters.users}
+            {#await waitForUsers}
               <div class="usersLoading"><Spinner /></div>
             {/await}
           </div>
@@ -126,7 +126,7 @@
         <div class="list-wrapper">
           <div class="list-header">
             <h2 class="list-label">{I18n('groups')}</h2>
-            {#await waiters.groups}
+            {#await waitForGroups}
               <div class="groupsLoading"><Spinner /></div>
             {/await}
           </div>

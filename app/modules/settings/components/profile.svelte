@@ -1,16 +1,19 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { autosize } from '#lib/components/actions/autosize'
-  import preq from '#lib/preq'
-  import Flash from '#lib/components/flash.svelte'
-  import { user } from '#user/user_store'
-  import { Username } from '#lib/regex'
-  import error_ from '#lib/error'
-  import { looksLikeSpam } from '#lib/spam'
+<script lang="ts">
+  import { API } from '#app/api/api'
+  import app from '#app/app'
+  import { autosize } from '#app/lib/components/actions/autosize'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { newError, serverReportError } from '#app/lib/error'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import preq from '#app/lib/preq'
+  import { Username } from '#app/lib/regex'
+  import { looksLikeSpam } from '#app/lib/spam'
+  import { onChange } from '#app/lib/svelte/svelte'
   import Modal from '#components/modal.svelte'
   import PicturePicker from '#components/picture_picker.svelte'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
   import UserPositionPicker from '#settings/components/user_position_picker.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { user } from '#user/user_store'
 
   let bioState, usernameState
   let usernameValue = $user.username
@@ -25,7 +28,7 @@
       confirmationText: i18n('username_change_confirmation', { currentUsername: $user.username, requestedUsername: usernameValue }),
       // no need to show the warning if it's just a case change
       warningText: !doesUsernameCaseChange() ? i18n('username_change_warning') : undefined,
-      action: updateUsername
+      action: updateUsername,
     })
   }
 
@@ -42,7 +45,7 @@
   const updateUserReq = async (attribute, value) => {
     return app.request('user:update', {
       attribute,
-      value
+      value,
     })
   }
 
@@ -66,20 +69,20 @@
       return showUsernameError('username can only contain letters, figures or _')
     }
     const usernameValueBeforeCheck = usernameValue
-    await preq.get(app.API.auth.usernameAvailability(usernameValue))
+    await preq.get(API.auth.usernameAvailability(usernameValue))
       .catch(err => {
         // Ignore errors when the requested username already changed
         if (usernameValueBeforeCheck === usernameValue) usernameState = err
       })
   }
 
-  const showUsernameError = message => usernameState = new Error(I18n(message))
+  const showUsernameError = message => usernameState = newError(I18n(message), 400)
 
-  const onBioChange = value => bioState = null
+  const onBioChange = () => bioState = null
 
   const updateBio = async () => {
     if (bioValue.length > 1000) {
-      bioState = new Error(I18n('presentation cannot be longer than 1000 characters'))
+      bioState = newError(I18n('presentation cannot be longer than 1000 characters'), 400)
       return
     }
     if (bioValue === $user.bio) {
@@ -87,7 +90,7 @@
       return
     }
     if (await looksLikeSpam(bioValue)) {
-      error_.report('possible spam attempt', { bioValue }, 598)
+      serverReportError('possible spam attempt', { bioValue }, 598)
       // Display a success message to not give a clue to spammers
       // as to when a text is rejected
       bioState = { type: 'success', message: I18n('done') }
@@ -111,8 +114,8 @@
     await updateUserReq('picture', null)
   }
 
-  $: validateUsername(usernameValue)
-  $: onBioChange(bioValue)
+  $: onChange(usernameValue, validateUsername)
+  $: onChange(bioValue, onBioChange)
 </script>
 
 <form>

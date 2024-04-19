@@ -1,14 +1,15 @@
 <!-- This component mimicks a <select>
      See https://developer.mozilla.org/en-US/docs/Learn/Forms/How_to_build_custom_form_controls -->
-<script>
-  import Spinner from '#general/components/spinner.svelte'
+<script lang="ts">
+  import { createEventDispatcher } from 'svelte'
+  import { uniqueId } from 'underscore'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
   import Dropdown from '#components/dropdown.svelte'
   import SelectDropdownOption from '#components/select_dropdown_option.svelte'
-  import { getActionKey } from '#lib/key_events'
-  import { icon } from '#lib/icons'
+  import Spinner from '#general/components/spinner.svelte'
   import { I18n } from '#user/lib/i18n'
-  import { uniqueId } from 'underscore'
-  import { createEventDispatcher } from 'svelte'
+
   const dispatch = createEventDispatcher()
 
   export let value
@@ -67,7 +68,7 @@
     buttonRole="listbox"
   >
     <div slot="button-inner">
-      <SelectDropdownOption option={currentOption} {withImage} promise={currentOption.promise} />
+      <SelectDropdownOption option={currentOption} {withImage} />
       {#if resetValue && value !== resetValue}
         <button
           class="reset"

@@ -1,16 +1,17 @@
-<script>
-  import { i18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { forceArray, isOpenedOutside, loadInternalLink } from '#lib/utils'
-  import { serializeResult, urlifyImageHash } from '#search/lib/search_results'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import app from '#app/app'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { forceArray, isOpenedOutside, loadInternalLink } from '#app/lib/utils'
+  import { serializeResult, urlifyImageHash } from '#search/lib/search_results'
+  import { i18n } from '#user/lib/i18n'
 
   export let result, highlighted
 
   result = serializeResult(result)
 
   const { uri, type, typeAlias, label, description = '', pathname } = result
-  let { image } = result
+  const { image } = result
 
   function addToSearchHistory () {
     if (uri) {

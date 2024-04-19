@@ -3,6 +3,9 @@
 # Exit on error (cf http://jvns.ca/blog/2017/03/26/bash-quirks/)
 set -e
 
+echo -e '\e[0;30mchecking types\e[0m'
+./scripts/typescript/check_types.sh
+
 echo -e '\e[0;30mupdating i18n\e[0m'
 ./scripts/build_i18n
 

@@ -1,15 +1,16 @@
-<script>
+<script lang="ts">
+  import { max } from 'underscore'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { propertiesType } from '#entities/components/lib/claims_helpers'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import ClaimValue from './claim_value.svelte'
-  import { i18n } from '#user/lib/i18n'
   import { propertiesPerType } from '#entities/lib/editor/properties_per_type'
+  import { i18n } from '#user/lib/i18n'
+  import ClaimValue from './claim_value.svelte'
 
   export let prop
   export let values
   export let omitLabel = false
   export let entitiesByUris = {}
-  export let entityType
+  export let entityType = null
 
   let propertyLabelI18nKey = prop
   if (entityType && propertiesPerType[entityType]?.[prop]) {
@@ -18,7 +19,7 @@
 
   // Known case: values = [ '1954-07-29', '1954' ]
   // Assumptions: longest date is more precice and more accurate than shorter one
-  const findLongestDate = values => [ _.max(values, v => v.length) ]
+  const findLongestDate = values => [ max(values, v => v.length) ]
 
   if (propertiesType[prop] === 'timeClaim' && values && values.length > 1) {
     values = findLongestDate(values)

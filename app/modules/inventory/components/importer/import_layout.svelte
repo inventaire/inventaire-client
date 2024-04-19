@@ -1,12 +1,12 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
-  import ImportersSection from '#inventory/components/importer/importers_section.svelte'
-  import TransactionSelector from '#inventory/components/transaction_selector.svelte'
-  import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
-  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+<script lang="ts">
   import CandidatesSection from '#inventory/components/importer/candidates_section.svelte'
-  import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'
   import ExternalShelves from '#inventory/components/importer/external_shelves.svelte'
+  import ImportItemsSection from '#inventory/components/importer/import_items_section.svelte'
+  import ImportersSection from '#inventory/components/importer/importers_section.svelte'
+  import ShelvesSelector from '#inventory/components/shelves_selector.svelte'
+  import TransactionSelector from '#inventory/components/transaction_selector.svelte'
+  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   // Known cases: incoming from scan
   export let isbns

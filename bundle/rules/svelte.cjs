@@ -48,9 +48,9 @@ module.exports = mode => {
       // as recommended by https://github.com/sveltejs/svelte-loader#usage
       test: /node_modules\/svelte\/.*\.mjs$/,
       resolve: {
-        fullySpecified: false
-      }
-    }
+        fullySpecified: false,
+      },
+    },
   ]
 }
 
@@ -59,6 +59,6 @@ const resolveScssAlias = path => {
   if (path[0] !== '#') return path
   const segment = path.split('/')[0]
   return {
-    file: path.replace(segment, alias[segment])
+    file: path.replace(segment, alias[segment]),
   }
 }

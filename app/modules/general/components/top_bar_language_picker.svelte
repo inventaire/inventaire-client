@@ -1,13 +1,14 @@
-<script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { translate } from '#lib/urls'
-  import languages from '#assets/js/languages_data'
-  import Link from '#lib/components/link.svelte'
+<script lang="ts">
+  import app from '#app/app'
+  import { languages } from '#app/lib/active_languages'
+  import Link from '#app/lib/components/link.svelte'
+  import { icon } from '#app/lib/icons'
+  import { translate } from '#app/lib/urls'
   import Dropdown from '#components/dropdown.svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   const mostCompleteFirst = (a, b) => b.completion - a.completion
-  const languagesList = _.values(languages).sort(mostCompleteFirst)
+  const languagesList = Object.values(languages).sort(mostCompleteFirst)
   const currentLanguage = languages[app.user.lang].native
   const currentLanguageShortName = languages[app.user.lang].lang.toUpperCase()
 

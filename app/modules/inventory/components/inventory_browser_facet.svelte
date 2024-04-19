@@ -1,8 +1,8 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
-  import FacetSelector from '#general/components/facet_selector.svelte'
-  import { onChange } from '#lib/svelte/svelte'
+<script lang="ts">
   import { intersection, pluck, without } from 'underscore'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import FacetSelector from '#general/components/facet_selector.svelte'
+  import { I18n } from '#user/lib/i18n'
 
   export let sectionName, facetsSelectors, facetsSelectedValues, intersectionWorkUris
 

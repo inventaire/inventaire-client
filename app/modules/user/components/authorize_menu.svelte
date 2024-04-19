@@ -1,22 +1,23 @@
-<script>
-  import { buildPath } from '#lib/location'
-  import { fixedEncodeURIComponent, loadInternalLink } from '#lib/utils'
+<script lang="ts">
+  import { API } from '#app/api/api'
+  import { buildPath } from '#app/lib/location'
+  import { domain } from '#app/lib/urls'
+  import { fixedEncodeURIComponent, loadInternalLink } from '#app/lib/utils'
   import { I18n } from '#user/lib/i18n'
   import { getRequestedAccessRights } from '#user/lib/oauth'
   import { user } from '#user/user_store'
-  import { domain } from '#lib/urls'
 
   export let query
   export let client
 
   query.redirect_uri = fixedEncodeURIComponent(query.redirect_uri)
-  const authorizeUrl = buildPath(app.API.oauth.authorize, query)
+  const authorizeUrl = buildPath(API.oauth.authorize, query)
   const requestedAccessRights = getRequestedAccessRights(query.scope)
 
   const authorizationRequestContext = I18n('authorization_request_context', {
     name: client.name,
     username: $user.username,
-    domain
+    domain,
   })
 </script>
 

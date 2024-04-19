@@ -1,14 +1,17 @@
-<script>
+<script lang="ts">
+  import { debounce } from 'underscore'
+  import { API } from '#app/api/api'
+  import app from '#app/app'
+  import { languages } from '#app/lib/active_languages'
+  import Flash from '#app/lib/components/flash.svelte'
+  import UpdatePassword from '#app/lib/components/update_password.svelte'
+  import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import { domain } from '#app/lib/urls'
+  import { verifyEmailAvailability } from '#user/lib/email_tests'
   import { i18n, I18n } from '#user/lib/i18n'
-  import preq from '#lib/preq'
-  import _ from 'underscore'
-  import Flash from '#lib/components/flash.svelte'
-  import EmailValidation from './email_validation.svelte'
-  import UpdatePassword from '#lib/components/update_password.svelte'
-  import languagesData from '#assets/js/languages_data'
-  import email_ from '#user/lib/email_tests'
   import { user } from '#user/user_store'
-  import { domain } from '#lib/urls'
+  import EmailValidation from './email_validation.svelte'
 
   let flashLang, flashEmail, flashFediversable
   let fediversable = $user.fediversable
@@ -22,7 +25,7 @@
       flashLang = { type: 'loading' }
       await app.request('user:update', {
         attribute: 'language',
-        value: userLang
+        value: userLang,
       })
       window.location.reload()
     } catch (err) {
@@ -36,11 +39,11 @@
     // nothing to update and nothing to flash notify either
     if ($user.email === emailValue) return
     try {
-      const res = await email_.verifyAvailability(emailValue)
+      const res = await verifyEmailAvailability(emailValue)
       if (!(res.status === 'available')) {
         flashEmail = {
           type: 'error',
-          message: I18n('this email is not available. Please pick another one.')
+          message: I18n('this email is not available. Please pick another one.'),
         }
       } else {
         flashEmail = null
@@ -59,11 +62,11 @@
       flashEmail = { type: 'loading' }
       await app.request('user:update', {
         attribute: 'email',
-        value: emailValue
+        value: emailValue,
       })
       flashEmail = {
         type: 'success',
-        message: I18n('new_confirmation_email')
+        message: I18n('new_confirmation_email'),
       }
     } catch (err) {
       flashEmail = err
@@ -76,7 +79,7 @@
     try {
       await app.request('user:update', {
         attribute: 'fediversable',
-        value: fediversable
+        value: fediversable,
       })
     } catch (err) {
       fediversable = !fediversable
@@ -84,9 +87,9 @@
     }
   }
 
-  const sendDeletionFeedback = message => preq.post(app.API.feedback, {
+  const sendDeletionFeedback = message => preq.post(API.feedback, {
     subject: '[account deletion]',
-    message
+    message,
   })
 
   const deleteAccount = () => {
@@ -99,14 +102,14 @@
       formLabel: "that would really help us if you could say a few words about why you're leaving:",
       formPlaceholder: "our love wasn't possible because",
       yes: 'delete your account',
-      no: 'cancel'
+      no: 'cancel',
     })
   }
 
-  const lazyOnEmailChange = _.debounce(onEmailChange, 500)
+  const lazyOnEmailChange = debounce(onEmailChange, 500)
 
-  $: lazyOnEmailChange(emailValue)
-  $: pickLanguage(userLang)
+  $: onChange(emailValue, lazyOnEmailChange)
+  $: onChange(userLang, pickLanguage)
 </script>
 
 <form>
@@ -114,7 +117,7 @@
     <h2 class="first-title">{I18n('account')}</h2>
     <h3 class="label">{I18n('language')}</h3>
     <select name="language" aria-label="language picker" bind:value={userLang}>
-      {#each Object.values(languagesData) as language}
+      {#each Object.values(languages) as language}
         <option value={language.lang}>{language.lang} - {language.native}</option>
       {/each}
     </select>

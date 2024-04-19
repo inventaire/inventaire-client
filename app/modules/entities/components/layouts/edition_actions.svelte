@@ -1,9 +1,18 @@
-<script>
-  import { getOwnersCountPerEdition, getCounterText } from '#entities/components/lib/edition_action_helpers'
-  import { I18n } from '#user/lib/i18n'
-  import Link from '#lib/components/link.svelte'
+<script context="module" lang="ts">
+  import type { EntityUri } from '#server/types/entity'
+  import type { Item } from '#server/types/item'
 
-  export let entity, itemsByEditions = {}
+  export type ItemsByEditions = Record<EntityUri, Item[]>
+
+</script>
+<script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
+  import { getOwnersCountPerEdition, getCounterText } from '#entities/components/lib/edition_action_helpers'
+  import type { SerializedEntity } from '#entities/lib/entities'
+  import { I18n } from '#user/lib/i18n'
+
+  export let entity: SerializedEntity
+  export let itemsByEditions: ItemsByEditions = {}
 
   const { uri } = entity
   const url = `/entity/${uri}/add`

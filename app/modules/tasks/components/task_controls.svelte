@@ -1,16 +1,18 @@
-<script>
-  import { clone } from 'underscore'
-  import preq from '#lib/preq'
-  import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { autofocus } from '#lib/components/actions/autofocus'
+  import { clone } from 'underscore'
+  import { API } from '#app/api/api'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import mergeEntities from '#entities/views/editor/lib/merge_entities'
   import Spinner from '#general/components/spinner.svelte'
+  import type { EntityUri } from '#server/types/entity'
+  import { I18n } from '#user/lib/i18n'
   import TaskInfo from './task_info.svelte'
   import TaskScores from './task_scores.svelte'
-  import mergeEntities from '#entities/views/editor/lib/merge_entities'
-  import { onChange } from '#lib/svelte/svelte'
-  import Flash from '#lib/components/flash.svelte'
 
   const dispatch = createEventDispatcher()
 
@@ -20,20 +22,20 @@
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
-    if (event.key === 's') mergeTaskEntities(true)
+    if (event.key === 's') mergeTaskEntities({ invertToAndFrom: true })
     if (event.key === 'm') mergeTaskEntities()
     if (event.key === 'd') dismiss()
     else if (event.key === 'n') dispatch('next')
   }
 
-  function mergeTaskEntities (isToFrom) {
+  function mergeTaskEntities ({ invertToAndFrom = false } = {}) {
     if (!(from && to)) return
     merging = true
     const toUri = clone(to.uri)
     const fromUri = clone(from.uri)
     // Optimistic UI: go to the next candidates without waiting for the merge confirmation
     dispatch('next')
-    const params = isToFrom ? [ toUri, fromUri ] : [ fromUri, toUri ]
+    const params: [ EntityUri, EntityUri ] = invertToAndFrom ? [ toUri, fromUri ] : [ fromUri, toUri ]
     mergeEntities(...params)
       .catch(err => {
         flash = err
@@ -42,10 +44,10 @@
   }
 
   function dismiss () {
-    return preq.put(app.API.tasks.update, {
+    return preq.put(API.tasks.update, {
       id: task._id,
       attribute: 'state',
-      value: 'dismissed'
+      value: 'dismissed',
     })
       .then(() => dispatch('next'))
   }
@@ -74,7 +76,7 @@
         class="merge dangerous-button"
         disabled={!(from && to)}
         title={from?.uri && to?.uri ? `merge ${from?.uri} into ${to?.uri}\nShortkey: m` : 'Shortkey: m'}
-        on:click={mergeTaskEntities}
+        on:click={() => mergeTaskEntities()}
       >
         {@html icon('compress')}{I18n('merge')}
       </button>
@@ -82,7 +84,7 @@
         class="swap dangerous-button"
         disabled={!(from && to)}
         title="Merge to into from. Shortkey: s"
-        on:click={() => mergeTaskEntities({ isToFrom: true })}
+        on:click={() => mergeTaskEntities({ invertToAndFrom: true })}
       >
         {@html icon('exchange')}{I18n('swap & merge')}
       </button>

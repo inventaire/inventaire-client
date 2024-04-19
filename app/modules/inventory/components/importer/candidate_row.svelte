@@ -1,13 +1,14 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { isNonEmptyString, isNonEmptyArray } from '#lib/boolean_tests'
-  import { icon } from '#lib/icons'
+<script lang="ts">
+  import { without, property } from 'underscore'
+  import { isNonEmptyString, isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import log_ from '#app/lib/loggers'
+  import { waitForAttribute } from '#app/lib/promises'
+  import { onChange } from '#app/lib/svelte/svelte'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
-  import { onChange } from '#lib/svelte/svelte'
-  import { waitForAttribute } from '#lib/promises'
-  import Flash from '#lib/components/flash.svelte'
   import { getUserExistingItemsPathname, statusContents } from '#inventory/components/importer/lib/candidate_row_helpers'
-  import log_ from '#lib/loggers'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let candidate
 
@@ -30,11 +31,11 @@
   }
 
   const removeStatus = status => {
-    statuses = _.without(statuses, status)
+    statuses = without(statuses, status)
   }
 
   const hasImportedData = editionTitle || authorsNames
-  const noCandidateEntities = !work.uri && !(authors?.every(_.property('uri')))
+  const noCandidateEntities = !work.uri && !(authors?.every(property('uri')))
   const hasWorkWithoutAuthors = work.uri && !isNonEmptyArray(authors)
   // TODO: remove newEntry status if work and authors both have entities uris
   if (hasImportedData && noCandidateEntities && !hasWorkWithoutAuthors) {
@@ -115,7 +116,6 @@
           {isbnData}
           {edition}
           bind:work
-          {authorsNames}
           bind:authors
           bind:editionTitle
           withEditor={true}
@@ -141,7 +141,7 @@
           <Flash
             state={{
               type: 'loading',
-              message: i18n('Checking for existing items…')
+              message: i18n('Checking for existing items…'),
             }} />
         {/await}
       {/if}

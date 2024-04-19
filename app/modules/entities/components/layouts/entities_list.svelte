@@ -1,9 +1,14 @@
-<script>
+<script lang="ts">
   import { flip } from 'svelte/animate'
-  import EntityListRow from './entity_list_row.svelte'
+  import type { SerializedEntitiesByUris, SerializedEntity } from '#entities/lib/entities'
+  import type { EntityUri } from '#server/types/entity'
+  import type { Item } from '#server/types/item'
   import EditionActions from './edition_actions.svelte'
+  import EntityListRow from './entity_list_row.svelte'
 
-  export let entities, relatedEntities, parentEntity, itemsByEditions
+  export let entities: SerializedEntity[]
+  export let relatedEntities: SerializedEntitiesByUris = {}
+  export let itemsByEditions: Record<EntityUri, Item[]> = {}
 </script>
 <ul>
   {#each entities as entity (entity.uri)}
@@ -11,7 +16,6 @@
       <EntityListRow
         {entity}
         {relatedEntities}
-        {parentEntity}
       />
       <EditionActions
         {entity}

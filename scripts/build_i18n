@@ -29,6 +29,6 @@ for f in ./public/i18n/*; do
   fi
 done
 
-echo "copying languages_data.js"
+echo "copying languages_data.ts"
 mkdir -p ./app/assets/js
-cp ./inventaire-i18n/dist/languages_data.js ./app/assets/js
+cp ./inventaire-i18n/dist/languages_data.ts ./app/assets/js

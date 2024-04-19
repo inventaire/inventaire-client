@@ -1,9 +1,11 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { entitySectionsWithAlternatives, typesBySection } from '#search/lib/search_sections'
-  import { looksLikeAnIsbn } from '#lib/isbn'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { isArray } from 'underscore'
+  import app from '#app/app'
+  import { icon } from '#app/lib/icons'
+  import { looksLikeAnIsbn } from '#app/lib/isbn'
+  import { entitySectionsWithAlternatives, typesBySection } from '#search/lib/search_sections'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let selectedCategory, selectedSection, searchText
 
@@ -17,7 +19,7 @@
     } else {
       let type = typesBySection.entity[selectedSection]
       // default 'all' section to work type
-      if (_.isArray(type)) type = 'works'
+      if (isArray(type)) type = 'works'
       app.execute('show:entity:create', { label: searchText, type })
     }
     dispatch('closeLiveSearch')

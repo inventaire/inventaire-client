@@ -1,10 +1,10 @@
-<script>
-  import Spinner from '#general/components/spinner.svelte'
-  import Flash from '#lib/components/flash.svelte'
+<script lang="ts">
   import app from '#app/app'
-  import { I18n } from '#user/lib/i18n'
+  import Flash from '#app/lib/components/flash.svelte'
+  import Spinner from '#general/components/spinner.svelte'
   import { createItem } from '#inventory/components/importer/lib/create_item'
   import { resolveAndCreateCandidateEntities } from '#inventory/lib/importer/import_helpers'
+  import { I18n } from '#user/lib/i18n'
 
   export let candidate
   export let visibility
@@ -22,7 +22,7 @@
       candidate = candidateWithEntities
     }
 
-    await createItem(edition, details, transaction, visibility)
+    await createItem({ edition, details, transaction, visibility })
       .then(newItem => {
         if (newItem) {
           delete candidate.error

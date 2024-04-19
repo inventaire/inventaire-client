@@ -1,11 +1,11 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { autosize } from '#lib/components/actions/autosize'
-  import { sendEmailInvitations } from '#users/invitations'
+<script lang="ts">
   import { uniq } from 'underscore'
+  import { autosize } from '#app/lib/components/actions/autosize'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import { i18n, I18n } from '#user/lib/i18n'
   import UserLi from '#users/components/user_li.svelte'
-  import Flash from '#lib/components/flash.svelte'
+  import { sendEmailInvitations } from '#users/invitations'
 
   export let message = ''
   export let group = null

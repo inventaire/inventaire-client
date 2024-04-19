@@ -2,12 +2,13 @@
   let openModalsCount = 0
 </script>
 
-<script>
-  import { getActionKey } from '#lib/key_events'
-  import { icon } from '#lib/icons'
-  import { I18n } from '#user/lib/i18n'
+<script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte'
-  import { autofocus } from '#lib/components/actions/autofocus'
+  import app from '#app/app'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
+  import { I18n } from '#user/lib/i18n'
 
   export let size = 'medium'
 

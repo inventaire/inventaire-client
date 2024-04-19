@@ -1,13 +1,13 @@
-<script>
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { user } from '#user/user_store'
-  import { autosize } from '#lib/components/actions/autosize'
-  import { getActionKey } from '#lib/key_events'
-  import isMobile from '#lib/mobile_check'
-  import Flash from '#lib/components/flash.svelte'
-  import { postTransactionMessage } from '#transactions/lib/helpers'
+<script lang="ts">
+  import { autosize } from '#app/lib/components/actions/autosize'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { getActionKey } from '#app/lib/key_events'
+  import isMobile from '#app/lib/mobile_check'
   import Spinner from '#components/spinner.svelte'
+  import { postTransactionMessage } from '#transactions/lib/helpers'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import { user } from '#user/user_store'
 
   export let transaction
 

@@ -1,14 +1,20 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import preq from '#lib/preq'
+<script lang="ts">
+  import { property } from 'underscore'
+  import { API } from '#app/api/api'
+  import app from '#app/app'
+  import preq from '#app/lib/preq'
+  import { isOpenedOutside } from '#app/lib/utils'
   import Spinner from '#general/components/spinner.svelte'
-  import { isOpenedOutside } from '#lib/utils'
+  import { i18n, I18n } from '#user/lib/i18n'
+
+  export let title: string
+  export let period: number = null
+
   let usersData
   let highest = 0
-  export let title, period
 
   const getContributionsData = async () => {
-    const res = await preq.get(app.API.entities.usersContributionsCount(period))
+    const res = await preq.get(API.entities.usersContributionsCount(period))
     usersData = await addUsersData(res)
   }
 
@@ -16,8 +22,8 @@
     let { contributions: contributionRows } = res
     if (contributionRows.length === 0) return []
     contributionRows = contributionRows.slice(0, 10)
-    const usersIds = contributionRows.map(_.property('user'))
-    const { users } = await preq.get(app.API.users.byIds(usersIds))
+    const usersIds = contributionRows.map(property('user'))
+    const { users } = await preq.get(API.users.byIds(usersIds))
     // assuming contributions are already sorted
     highest = contributionRows[0].contributions
     contributionRows.forEach(row => row.user = users[row.user])

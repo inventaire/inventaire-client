@@ -1,14 +1,14 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import EntityMergeSection from '#entities/components/entity_merge_section.svelte'
-  import { icon } from '#lib/icons'
-  import mergeEntities from '#entities/views/editor/lib/merge_entities'
-  import Flash from '#lib/components/flash.svelte'
-  import { entityTypeNameByType, pluralize } from '#entities/lib/types/entities_types'
-  import { isWikidataItemUri } from '#lib/boolean_tests'
+<script lang="ts">
   import { slide } from 'svelte/transition'
+  import { isWikidataItemUri } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
+  import Link from '#app/lib/components/link.svelte'
+  import { icon } from '#app/lib/icons'
   import Spinner from '#components/spinner.svelte'
-  import Link from '#lib/components/link.svelte'
+  import EntityMergeSection from '#entities/components/entity_merge_section.svelte'
+  import { entityTypeNameByType, pluralize } from '#entities/lib/types/entities_types'
+  import mergeEntities from '#entities/views/editor/lib/merge_entities'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let from, to, type
 
@@ -22,7 +22,7 @@
       from = null
       flash = {
         type: 'success',
-        message: I18n('success')
+        message: I18n('success'),
       }
       lastMergeTargetUri = to
     } catch (err) {

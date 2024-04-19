@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
   import Masonry from 'svelte-bricks'
-  import ItemCard from '#inventory/components/item_card.svelte'
   import { debounce } from 'underscore'
+  import { getViewportWidth } from '#app/lib/screen'
   import Spinner from '#components/spinner.svelte'
-  import { getViewportWidth } from '#lib/screen'
+  import ItemCard from '#inventory/components/item_card.svelte'
 
   export let items
   export let showDistance = false

@@ -1,5 +1,8 @@
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const webpackCommonConfigFactory = require('./webpack.config.common.cjs')
+
 const mode = 'development'
-const webpackConfig = require('./webpack.config.common.cjs')(mode)
+const webpackConfig = webpackCommonConfigFactory(mode)
 
 Object.assign(webpackConfig, {
   mode,
@@ -7,9 +10,13 @@ Object.assign(webpackConfig, {
   // as that disables HMR, see https://github.com/webpack/webpack-dev-server/issues/2758
   target: 'web',
   devtool: 'eval-cheap-module-source-map',
-  devServer: require('./dev_server.cjs')
+  devServer: require('./dev_server.cjs'),
+  watchOptions: {
+    ignored: /node_modules/,
+  },
 })
 
-webpackConfig.plugins.push(require('./plugins/detect_unused_files.cjs'))
+// Use only in development, as types are checked by svelte-check during the pre-webpack build steps
+webpackConfig.plugins.push(new ForkTsCheckerWebpackPlugin())
 
 module.exports = webpackConfig

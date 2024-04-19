@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
+  import { icon } from '#app/lib/icons'
   import { I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
 
   export let candidates
 

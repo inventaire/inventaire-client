@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
+  import app from '#app/app'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import { autosize } from '#app/lib/components/actions/autosize'
+  import { userContent } from '#app/lib/handlebars_helpers/user_content'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
   import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { userContent } from '#lib/handlebars_helpers/user_content'
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import { autosize } from '#lib/components/actions/autosize'
-  import { getActionKey } from '#lib/key_events'
 
   export let item, flash
 

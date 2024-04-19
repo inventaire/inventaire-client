@@ -1,28 +1,30 @@
-<script>
-  import Spinner from '#general/components/spinner.svelte'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
-  import { i18n } from '#user/lib/i18n'
-  import { getSubEntities } from '../lib/entities'
-  import { getEntitiesAttributesByUris, byPopularity, getAndAssignPopularity } from '#entities/lib/entities'
-  import { getPublishersUrisFromEditions, omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
-  import BaseLayout from './base_layout.svelte'
-  import AuthorsInfo from './authors_info.svelte'
-  import Infobox from './infobox.svelte'
-  import Ebooks from './ebooks.svelte'
-  import ItemsLists from './items_lists.svelte'
-  import EditionsList from './editions_list.svelte'
-  import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
-  import EntityTitle from './entity_title.svelte'
-  import WorkActions from './work_actions.svelte'
-  import HomonymDeduplicates from './deduplicate_homonyms.svelte'
-  import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
+<script lang="ts">
   import { setContext, tick } from 'svelte'
   import { writable } from 'svelte/store'
+  import { property } from 'underscore'
+  import app from '#app/app'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { scrollToElement } from '#app/lib/screen'
+  import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
-  import { scrollToElement } from '#lib/screen'
+  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
+  import { getPublishersUrisFromEditions, omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
-  import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.js'
-  import Flash from '#lib/components/flash.svelte'
+  import { getEntitiesAttributesByUris, byPopularity, getAndAssignPopularity } from '#entities/lib/entities'
+  import Spinner from '#general/components/spinner.svelte'
+  import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
+  import { i18n } from '#user/lib/i18n'
+  import { getSubEntities } from '../lib/entities.ts'
+  import AuthorsInfo from './authors_info.svelte'
+  import BaseLayout from './base_layout.svelte'
+  import HomonymDeduplicates from './deduplicate_homonyms.svelte'
+  import Ebooks from './ebooks.svelte'
+  import EditionsList from './editions_list.svelte'
+  import EntityTitle from './entity_title.svelte'
+  import Infobox from './infobox.svelte'
+  import ItemsLists from './items_lists.svelte'
+  import WorkActions from './work_actions.svelte'
 
   export let entity
 
@@ -47,14 +49,14 @@
       uris: publishersUris,
       // info is necessary to get the type, and generate publisher URI link without "wdt:P921-" prefix
       attributes: [ 'info', 'labels' ],
-      lang: userLang
+      lang: userLang,
     })
     publishersByUris = entities
     await getAndAssignPopularity({ entities: initialEditions })
     editions = initialEditions.sort(byPopularity)
   }
 
-  let waitingForEditions = getEditionsWithPublishers().catch(err => flash = err)
+  const waitingForEditions = getEditionsWithPublishers().catch(err => flash = err)
 
   async function showMapAndScrollToMap () {
     showMap = true
@@ -70,7 +72,7 @@
   $: infoboxClaims = omitNonInfoboxClaims(entity.claims)
   $: runEntityNavigate(entity)
   $: if (isNonEmptyArray(editions)) {
-    editionsUris = editions.map(_.property('uri'))
+    editionsUris = editions.map(property('uri'))
   }
   $: someEditions = editions && isNonEmptyArray(editions)
   $: hasSomeInitialEditions = initialEditions && isNonEmptyArray(initialEditions)
@@ -82,16 +84,12 @@
       <div class="work-section">
         <Flash state={flash} />
         <EntityTitle {entity} />
-        <AuthorsInfo {claims}
-        />
+        <AuthorsInfo {claims} />
         <Infobox
           claims={infoboxClaims}
           entityType={entity.type}
         />
-        <Ebooks
-          {entity}
-          {userLang}
-        />
+        <Ebooks {entity} />
         <Summary {entity} />
         <WorkActions
           {entity}
@@ -115,7 +113,6 @@
         {:then}
           <EditionsList
             {hasSomeInitialEditions}
-            {someEditions}
             {publishersByUris}
             parentEntity={entity}
             {initialEditions}

@@ -1,7 +1,7 @@
-import { folderPath } from './config.js'
-import { exec } from 'child_process'
+import { exec } from 'node:child_process'
+import fs from 'node:fs'
 import chalk from 'tiny-chalk'
-import fs from 'fs'
+import { folderPath } from './config.js'
 
 const { grey, green } = chalk
 const cp = (orignal, copy) => fs.createReadStream(orignal).pipe(fs.createWriteStream(copy))

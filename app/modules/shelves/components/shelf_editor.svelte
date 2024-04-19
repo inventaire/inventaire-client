@@ -1,14 +1,15 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
+<script lang="ts">
   import autosize from 'autosize'
-  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
-  import { getSomeColorHexCodeSuggestion } from '#lib/images'
-  import Flash from '#lib/components/flash.svelte'
-  import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
-  import Spinner from '#components/spinner.svelte'
-  import { wait } from '#lib/promises'
   import { createEventDispatcher } from 'svelte'
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
+  import { getSomeColorHexCodeSuggestion } from '#app/lib/images'
+  import { wait } from '#app/lib/promises'
+  import Spinner from '#components/spinner.svelte'
+  import VisibilitySelector from '#inventory/components/visibility_selector.svelte'
+  import { createShelf, updateShelf, deleteShelf } from '#shelves/lib/shelves'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let shelf
   export let inGlobalModal = true
@@ -16,13 +17,13 @@
   if (inGlobalModal) app.execute('modal:open')
   const dispatch = createEventDispatcher()
 
-  let isNewShelf = !shelf._id
+  const isNewShelf = !shelf._id
 
   let {
     name = '',
     description = '',
     visibility = [],
-    color = getSomeColorHexCodeSuggestion()
+    color = getSomeColorHexCodeSuggestion(),
   } = shelf
 
   let flash, waiting
@@ -50,7 +51,7 @@
     app.execute('ask:confirmation', {
       confirmationText: i18n('delete_shelf_confirmation', { name }),
       warningText: i18n('cant_undo_warning'),
-      action: _deleteShelf
+      action: _deleteShelf,
     })
   }
 

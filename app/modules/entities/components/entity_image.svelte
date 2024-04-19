@@ -1,19 +1,20 @@
-<script>
-  import { i18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import Link from '#lib/components/link.svelte'
+<script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
+  import { loadInternalLink } from '#app/lib/utils'
   import ImageDiv from '#components/image_div.svelte'
+  import type { SerializedEntity } from '#entities/lib/entities'
+  import { i18n } from '#user/lib/i18n'
 
-  export let entity,
-    size = 300,
-    withLink = false,
-    noImageCredits
+  export let entity: SerializedEntity
+  export let size = 300
+  export let withLink = false
+  export let noImageCredits = false
 
   const { image, uri } = entity
   const { url } = image
   let creditsUrl, creditsText
 
-  if (image.credits) {
+  if ('credits' in image) {
     creditsUrl = image.credits.url
     creditsText = image.credits.text
   }

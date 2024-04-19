@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
+  import { getContext } from 'svelte'
   import SelectDropdown from '#components/select_dropdown.svelte'
   import { entityProperties, getWorksFacets, getFacetsEntitiesBasicInfo } from '#entities/components/lib/works_browser_helpers'
-  import { getContext } from 'svelte'
   import { i18n } from '#user/lib/i18n'
 
   export let works, facets, facetsSelectors, facetsSelectedValues, flash

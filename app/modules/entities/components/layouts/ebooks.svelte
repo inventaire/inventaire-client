@@ -1,14 +1,15 @@
-<script>
+<script lang="ts">
+  import app from '#app/app'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Link from '#app/lib/components/link.svelte'
+  import sitelinks_ from '#app/lib/wikimedia/sitelinks'
   import { formatEbooksClaim } from '#entities/components/lib/claims_helpers'
-  import { isNonEmptyArray } from '#lib/boolean_tests'
   import { i18n } from '#user/lib/i18n'
-  import Link from '#lib/components/link.svelte'
-  import sitelinks_ from '#lib/wikimedia/sitelinks'
 
   export let entity
 
-  let userLang = app.user.lang
-  let { claims } = entity
+  const userLang = app.user.lang
+  const { claims } = entity
   let ebooksData = []
 
   const formatAndAssignEbooks = prop => {

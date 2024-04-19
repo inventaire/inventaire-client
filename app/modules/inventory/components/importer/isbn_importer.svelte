@@ -1,13 +1,13 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import Flash from '#lib/components/flash.svelte'
+<script lang="ts">
   import autosize from 'autosize'
-  import { formatCandidatesData } from '#inventory/lib/importer/import_helpers'
-  import { findIsbns } from '#lib/isbn'
   import { onMount, createEventDispatcher } from 'svelte'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { findIsbns } from '#app/lib/isbn'
   import { getInvalidIsbnsString } from '#inventory/components/importer/lib/importers_helpers'
+  import { formatCandidatesData } from '#inventory/lib/importer/import_helpers'
+  import { i18n, I18n } from '#user/lib/i18n'
 
-  export let isbns
+  export let isbns: string[] = null
 
   const dispatch = createEventDispatcher()
 

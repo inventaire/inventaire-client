@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
+  import app from '#app/app'
+  import { isOpenedOutside } from '#app/lib/utils'
   import { i18n } from '#user/lib/i18n'
-  import { isOpenedOutside } from '#lib/utils'
 
   export let user = null
   export let group = null

@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
   import { slide } from 'svelte/transition'
-  import { icon as iconFn } from '#lib/handlebars_helpers/icons'
-  import { scrollToElement } from '#lib/screen'
+  import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
+  import { scrollToElement } from '#app/lib/screen'
 
   export let icon
   export let summary

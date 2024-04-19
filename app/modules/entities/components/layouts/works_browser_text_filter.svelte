@@ -1,12 +1,13 @@
-<script>
-  import Spinner from '#components/spinner.svelte'
-  import { getActionKey } from '#lib/key_events'
-  import { icon } from '#lib/icons'
-  import preq from '#lib/preq'
-  import { onChange } from '#lib/svelte/svelte'
-  import { I18n, i18n } from '#user/lib/i18n'
+<script lang="ts">
   import { getContext } from 'svelte'
   import { debounce, pluck } from 'underscore'
+  import { API } from '#app/api/api'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
+  import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import Spinner from '#components/spinner.svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let textFilterUris
 
@@ -21,7 +22,7 @@
       textFilterUris = null
       return
     }
-    waiting = preq.get(app.API.search({
+    waiting = preq.get(API.search({
       types: searchFilterTypes,
       claim: searchFilterClaim,
       search: textFilter,

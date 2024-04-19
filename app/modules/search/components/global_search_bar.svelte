@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   // TODO:
   // - hint to input ISBNs directly, maybe in the alternatives sections
   // - add 'help': indexed wiki.inventaire.io entries to give results
@@ -7,27 +7,27 @@
   //   and display a layout with users & groups nearby, as well as books with
   //   narrative location (wdt:P840), or authors born (wdt:P19)
   //   or dead (wdt:P20) nearby
-
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { getActionKey } from '#lib/key_events'
-  import SearchShortcuts from '#search/components/search_shortcuts.svelte'
-  import SearchControls from '#search/components/search_controls.svelte'
-  import SearchAlternatives from '#search/components/search_alternatives.svelte'
-  import { getNextSection, getPrevSection, sectionsNames, typesBySection } from '#search/lib/search_sections'
-  import { debounce } from 'underscore'
-  import findUri from '#search/lib/find_uri'
-  import { wikidataSearch } from '#entities/lib/search/wikidata_search'
-  import Spinner from '#components/spinner.svelte'
-  import SearchResult from '#search/components/search_result.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import { onChange } from '#lib/svelte/svelte'
-  import { serializeEntityModel, serializeSubject } from '#search/lib/search_results'
-  import { screen } from '#lib/components/stores/screen'
   import { onDestroy } from 'svelte'
-  import viewport from '#lib/components/actions/viewport'
-  import { currentRoute } from '#lib/location'
+  import { debounce } from 'underscore'
+  import app from '#app/app'
+  import viewport from '#app/lib/components/actions/viewport'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
+  import { currentRoute } from '#app/lib/location'
+  import { onChange } from '#app/lib/svelte/svelte'
+  import Spinner from '#components/spinner.svelte'
   import { searchByTypes } from '#entities/lib/search/search_by_types'
+  import { wikidataSearch } from '#entities/lib/search/wikidata_search'
+  import SearchAlternatives from '#search/components/search_alternatives.svelte'
+  import SearchControls from '#search/components/search_controls.svelte'
+  import SearchResult from '#search/components/search_result.svelte'
+  import SearchShortcuts from '#search/components/search_shortcuts.svelte'
+  import findUri from '#search/lib/find_uri'
+  import { serializeEntityModel, serializeSubject } from '#search/lib/search_results'
+  import { getNextSection, getPrevSection, sectionsNames, typesBySection } from '#search/lib/search_sections'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   let searchText = '', searchGroupEl, searchFieldEl, searchResultsEl, waiting, flash
   let results = []
@@ -137,7 +137,7 @@
   function onKeyUp (e) {
     const key = getActionKey(e)
     if (key === 'esc') hideLiveSearch()
-    else if (key === 'enter') showCurrentlyHighlightedResult(e)
+    else if (key === 'enter') showCurrentlyHighlightedResult()
     else if (key === 'pageup') selectPrevSection()
     else if (key === 'pagedown') selectNextSection()
     else lazySearch()

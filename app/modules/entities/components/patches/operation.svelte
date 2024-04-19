@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
+  import { loadInternalLink } from '#app/lib/utils'
   import { multiTypeValue } from '#entities/components/lib/claims_helpers'
-  import { loadInternalLink } from '#lib/utils'
 
   export let operation
   export let showContributionFilter = false

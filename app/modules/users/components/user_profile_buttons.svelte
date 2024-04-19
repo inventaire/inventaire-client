@@ -1,18 +1,18 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import Modal from '#components/modal.svelte'
-  import ShelfEditor from '#shelves/components/shelf_editor.svelte'
-  import assert_ from '#lib/assert_types'
-  import { updateRelationStatus } from '#users/lib/relations'
-  import Spinner from '#components/spinner.svelte'
-  import { user as mainUser } from '#user/user_store'
-  import { serializeUser } from '#users/lib/users'
-  import LeafletMap from '#map/components/leaflet_map.svelte'
-  import UserMarker from '#map/components/user_marker.svelte'
-  import Marker from '#map/components/marker.svelte'
+<script lang="ts">
   import app from '#app/app'
+  import assert_ from '#app/lib/assert_types'
+  import { icon } from '#app/lib/icons'
+  import { loadInternalLink } from '#app/lib/utils'
+  import Modal from '#components/modal.svelte'
+  import Spinner from '#components/spinner.svelte'
+  import LeafletMap from '#map/components/leaflet_map.svelte'
+  import Marker from '#map/components/marker.svelte'
+  import UserMarker from '#map/components/user_marker.svelte'
+  import ShelfEditor from '#shelves/components/shelf_editor.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import { user as mainUser } from '#user/user_store'
+  import { updateRelationStatus } from '#users/lib/relations'
+  import { serializeUser } from '#users/lib/users'
 
   export let user, flash
 
@@ -52,7 +52,7 @@
     makeRequest({ action: 'request', newRelationState: 'userRequested' })
   }
 
-  function confirmAction (actionLabel, action, warningText) {
+  function confirmAction (actionLabel: string, action: (() => void), warningText?: string) {
     assert_.string(actionLabel)
     assert_.function(action)
     const confirmationText = I18n(`${actionLabel}_confirmation`, { username })

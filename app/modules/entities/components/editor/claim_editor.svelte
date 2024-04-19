@@ -1,19 +1,21 @@
-<script>
-  import { propertiesEditorsConfigs } from '#entities/lib/properties'
-  import { editors } from '#entities/components/editor/lib/editors'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { API } from '#app/api/api'
+  import app from '#app/app'
+  import { isComponentEvent } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { newError } from '#app/lib/error'
+  import { icon } from '#app/lib/icons'
+  import { getActionKey } from '#app/lib/key_events'
+  import preq from '#app/lib/preq'
+  import Spinner from '#components/spinner.svelte'
+  import { editors } from '#entities/components/editor/lib/editors'
+  import { currentEditorKey, errorMessageFormatter, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+  import SelectAuthorRole from '#entities/components/editor/select_author_role.svelte'
+  import { propertiesEditorsConfigs } from '#entities/lib/properties'
+  import { I18n, i18n } from '#user/lib/i18n'
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
-  import { getActionKey } from '#lib/key_events'
-  import Flash from '#lib/components/flash.svelte'
-  import preq from '#lib/preq'
-  import { isComponentEvent } from '#lib/boolean_tests'
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { currentEditorKey, errorMessageFormatter, isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
-  import Spinner from '#components/spinner.svelte'
-  import SelectAuthorRole from '#entities/components/editor/select_author_role.svelte'
-  import error_ from '#lib/error'
 
   export let entity, property, value, index
 
@@ -51,7 +53,7 @@
   $: if (editorKey !== $currentEditorKey) closeEditMode()
 
   let saving = false
-  async function save (newValue) {
+  async function save (newValue?) {
     try {
       saving = true
       // Allow null to be passed when trying to remove a value
@@ -60,14 +62,14 @@
       if ((newValue === undefined || isComponentEvent(newValue)) && typeof getInputValue === 'function') {
         newValue = await getInputValue()
       }
-      if (newValue === undefined) throw error_.new('missing new value', 500, { uri, property })
+      if (newValue === undefined) throw newError('missing new value', 500, { uri, property })
       inputValue = newValue
       editMode = false
       dispatch('set', inputValue)
       if (savedValue === inputValue) return
       if (!creationMode) {
         app.execute('invalidate:entities:cache', uri)
-        await preq.put(app.API.entities.claims.update, {
+        await preq.put(API.entities.claims.update, {
           uri: updateUri,
           property,
           'old-value': savedValue,
@@ -115,7 +117,7 @@
 
   function undo () {
     if (!isNonEmptyClaimValue(previousValue)) {
-      throw error_.new('can not undo without previous value', 500, { uri, property, value, previousValue })
+      throw newError('can not undo without previous value', 500, { uri, property, value, previousValue })
     }
     save(previousValue)
   }

@@ -1,21 +1,23 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { isOpenedOutside, loadInternalLink } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { userContent } from '#lib/handlebars_helpers/user_content'
-  import GroupActions from '#groups/components/group_actions.svelte'
-  import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
-  import { getCachedSerializedGroupMembers, getAllGroupMembersIds, serializeGroup } from '#groups/lib/groups'
-  import Flash from '#lib/components/flash.svelte'
+<script lang="ts">
+  import { tick } from 'svelte'
+  import { debounce } from 'underscore'
+  import { API } from '#app/api/api'
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { userContent } from '#app/lib/handlebars_helpers/user_content'
+  import { icon } from '#app/lib/icons'
+  import { isOpenedOutside, loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
-  import UserProfile from '#users/components/user_profile.svelte'
-  import ProfileNav from '#users/components/profile_nav.svelte'
+  import GroupActions from '#groups/components/group_actions.svelte'
+  import { getCachedSerializedGroupMembers, getAllGroupMembersIds, serializeGroup } from '#groups/lib/groups'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
   import UsersListings from '#listings/components/users_listings.svelte'
-  import { tick } from 'svelte'
-  import { debounce } from 'underscore'
+  import { i18n, I18n } from '#user/lib/i18n'
+  import ProfileNav from '#users/components/profile_nav.svelte'
+  import UserProfile from '#users/components/user_profile.svelte'
+  import UsersHomeSectionList from '#users/components/users_home_section_list.svelte'
 
   export let group
   export let profileSection = null
@@ -53,14 +55,14 @@
     if (profileSection === 'inventory') {
       pathname = group.inventoryPathname
       title = `${name} - ${i18n('Inventory')}`
-      rss = app.API.feeds('group', groupId)
+      rss = API.feeds('group', groupId)
     } else if (profileSection === 'listings') {
       pathname = group.listingsPathname
       title = `${name} - ${I18n('lists')}`
     } else {
       pathname = group.pathname
       title = name
-      rss = app.API.feeds('group', groupId)
+      rss = API.feeds('group', groupId)
     }
     const metadata = {
       title,

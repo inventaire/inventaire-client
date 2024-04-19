@@ -1,23 +1,36 @@
-<script>
-  import { getFilteredItemsIds, getInventoryDisplayStore, getSelectorsData, resetPagination } from '#inventory/components/lib/inventory_browser_helpers'
-  import Spinner from '#components/spinner.svelte'
-  import PaginatedItems from '#inventory/components/paginated_items.svelte'
-  import { BubbleUpComponentEvent, onChange } from '#lib/svelte/svelte'
-  import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
-  import { debounce } from 'underscore'
-  import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
+<script context="module" lang="ts">
+  import type { GroupId } from '#server/types/group'
+  import type { ShelfId } from '#server/types/shelf'
+  import type { UserId } from '#server/types/user'
+
+  export interface ItemsSearchFilters {
+    ownerId?: UserId
+    groupId?: GroupId
+    shelfId?: ShelfId
+  }
+</script>
+<script lang="ts">
   import { createEventDispatcher, setContext } from 'svelte'
+  import { debounce } from 'underscore'
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { BubbleUpComponentEvent, onChange } from '#app/lib/svelte/svelte'
+  import Spinner from '#components/spinner.svelte'
+  import InventoryBrowserControls from '#inventory/components/inventory_browser_controls.svelte'
   import InventoryWelcome from '#inventory/components/inventory_welcome.svelte'
-  import Flash from '#lib/components/flash.svelte'
+  import { getFilteredItemsIds, getInventoryDisplayStore, getSelectorsData, resetPagination } from '#inventory/components/lib/inventory_browser_helpers'
+  import PaginatedItems from '#inventory/components/paginated_items.svelte'
+  import { getIntersectionWorkUris } from '#inventory/lib/browser/get_intersection_work_uris'
 
   export let itemsDataPromise
   export let isMainUser = false
-  export let ownerId = null
-  export let groupId = null
-  export let shelfId = null
+  export let ownerId: UserId = null
+  export let groupId: GroupId = null
+  export let shelfId: ShelfId = null
   export let itemsShelvesByIds = null
 
-  setContext('items-search-filters', { ownerId, groupId, shelfId })
+  const itemsSearchFilters: ItemsSearchFilters = { ownerId, groupId, shelfId }
+  setContext('items-search-filters', itemsSearchFilters)
 
   let itemsIds, textFilterItemsIds, flash
 
@@ -48,7 +61,7 @@
     if (!(worksTree && facetsSelectedValues)) return
     intersectionWorkUris = getIntersectionWorkUris({ worksTree, facetsSelectedValues })
     itemsIds = getFilteredItemsIds({ intersectionWorkUris, itemsByDate, workUriItemsMap, textFilterItemsIds })
-    pagination = resetPagination({ itemsIds, isMainUser, display: $inventoryDisplay })
+    pagination = resetPagination(itemsIds)
   }
 
   const lazyUpdateDisplayedItems = debounce(updateDisplayedItems, 100)

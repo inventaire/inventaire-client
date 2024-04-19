@@ -1,11 +1,13 @@
-<script>
-  import EntityPreview from './entity_preview.svelte'
+<script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { getActionKey } from '#app/lib/key_events'
   import { I18n } from '#user/lib/i18n'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import Link from '#lib/components/link.svelte'
-  import { getActionKey } from '#lib/key_events'
+  import EntityPreview from './entity_preview.svelte'
 
-  export let entity, filterPattern, aggregatedLabelsAndAliases
+  export let entity
+  export let filterPattern: RegExp = null
+  export let aggregatedLabelsAndAliases = null
 
   entity.image.small = imgSrc(entity.image.url, 100, 200)
   entity.image.large = imgSrc(entity.image.url, 500, 1000)
@@ -44,7 +46,7 @@
     on:keyup|stopPropagation
   >{entity.uri}</p>
   <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-  {#if filterPattern}
+  {#if filterPattern && aggregatedLabelsAndAliases}
     <ul
       class="all-terms"
       on:click|stopPropagation

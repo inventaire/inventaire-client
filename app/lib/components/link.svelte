@@ -1,7 +1,8 @@
-<script>
-  import { isOpenedOutside } from '#lib/utils'
-  import { icon as iconFn } from '#lib/handlebars_helpers/icons'
-  import assert_ from '#lib/assert_types'
+<script lang="ts">
+  import app from '#app/app'
+  import assert_ from '#app/lib/assert_types'
+  import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
+  import { isOpenedOutside } from '#app/lib/utils'
 
   export let url
   export let text = null

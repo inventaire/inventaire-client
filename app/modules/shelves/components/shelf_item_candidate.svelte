@@ -1,13 +1,13 @@
-<script>
-  import { i18n } from '#user/lib/i18n'
-  import { isOpenedOutside } from '#lib/utils'
-  import { icon } from '#lib/icons'
-  import { imgSrc } from '#lib/handlebars_helpers/images'
-  import { serializeItem } from '#inventory/lib/items'
-  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
-  import { addItemsToShelf, removeItemsFromShelf } from '#shelves/lib/shelves'
+<script lang="ts">
   import { without } from 'underscore'
-  import Flash from '#lib/components/flash.svelte'
+  import Flash from '#app/lib/components/flash.svelte'
+  import { imgSrc } from '#app/lib/handlebars_helpers/images'
+  import { icon } from '#app/lib/icons'
+  import { isOpenedOutside } from '#app/lib/utils'
+  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
+  import { serializeItem } from '#inventory/lib/items'
+  import { addItemsToShelf, removeItemsFromShelf } from '#shelves/lib/shelves'
+  import { i18n } from '#user/lib/i18n'
 
   export let item, shelfId
 

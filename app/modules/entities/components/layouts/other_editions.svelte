@@ -1,9 +1,9 @@
-<script>
-  import { I18n } from '#user/lib/i18n'
-  import Link from '#lib/components/link.svelte'
-  import { isNonEmptyPlainObject, isNonEmptyArray } from '#lib/boolean_tests'
-  import EntityImage from '../entity_image.svelte'
+<script lang="ts">
+  import { isNonEmptyPlainObject, isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Link from '#app/lib/components/link.svelte'
   import { isOtherEditionWithCover } from '#entities/components/lib/edition_layout_helpers'
+  import { I18n } from '#user/lib/i18n'
+  import EntityImage from '../entity_image.svelte'
 
   export let currentEdition, work
 
@@ -20,8 +20,7 @@
         {#if isNonEmptyPlainObject(entity.image)}
           <EntityImage
             {entity}
-            withLink="true"
-            maxHeight="6em"
+            withLink={true}
             size={128}
           />
         {/if}

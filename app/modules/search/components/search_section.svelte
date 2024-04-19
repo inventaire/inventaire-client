@@ -1,7 +1,12 @@
-<script>
+<script lang="ts">
   import { I18n } from '#user/lib/i18n'
 
-  export let category, name, label, selectedCategory, selectedSection, included
+  export let category
+  export let name
+  export let label
+  export let selectedCategory
+  export let selectedSection
+  export let included = false
 
   function select () {
     selectedCategory = category

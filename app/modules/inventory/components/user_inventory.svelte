@@ -1,11 +1,11 @@
-<script>
-  import ShelvesSection from '#shelves/components/shelves_section.svelte'
-  import ShelfBox from '#shelves/components/shelf_box.svelte'
+<script lang="ts">
+  import { indexBy } from 'underscore'
+  import { onChange } from '#app/lib/svelte/svelte'
   import InventoryBrowser from '#inventory/components/inventory_browser.svelte'
   import { getInventoryView } from '#inventory/components/lib/inventory_browser_helpers'
+  import ShelfBox from '#shelves/components/shelf_box.svelte'
+  import ShelvesSection from '#shelves/components/shelves_section.svelte'
   import { getShelvesByOwner } from '#shelves/lib/shelves'
-  import { onChange } from '#lib/svelte/svelte'
-  import { indexBy } from 'underscore'
 
   export let user
   export let selectedShelf = null
@@ -19,7 +19,7 @@
     selectedShelf = e.detail.shelf
     $focusedSection = { type: 'shelf' }
   }
-  function onCloseShelf (e) {
+  function onCloseShelf () {
     selectedShelf = null
     $focusedSection = { type: 'user' }
   }

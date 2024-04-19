@@ -1,26 +1,34 @@
-<script>
-  import { icon } from '#lib/icons'
+<script lang="ts">
+  import { createEventDispatcher } from 'svelte'
+  import { difference, groupBy } from 'underscore'
+  import { icon } from '#app/lib/icons'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import ItemsMap from '#map/components/items_map.svelte'
+  import type { EntityUri } from '#server/types/entity.ts'
+  import type { Item } from '#server/types/item.ts'
   import { i18n } from '#user/lib/i18n'
   import ItemsByCategories from './items_lists/items_by_categories.svelte'
-  import { getItemsData } from './items_lists/items_lists_helpers'
-  import { createEventDispatcher } from 'svelte'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
-  import { groupBy } from 'underscore'
+  import { getItemsData } from './items_lists/items_lists_helpers.ts'
 
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)
 
-  export let editionsUris, itemsByEditions, mapWrapperEl, itemsListsWrapperEl, waitingForItems
-  export let allItems
+  export let editionsUris: EntityUri[]
+  export let mapWrapperEl
+  export let itemsListsWrapperEl
   // showMap is false to be able to mount ItemsByCategories
   // to set initialBounds before mounting ItemsMap
   export let showMap = false
+
+  export let itemsByEditions: Record<EntityUri, Item[]> = null
+  export let waitingForItems = null
+  export let allItems: Item[] = null
+
   let itemsOnMap
 
   let fetchedEditionsUris = []
   const getItemsByCategories = async () => {
-    const newUris = _.difference(editionsUris, fetchedEditionsUris)
+    const newUris = difference(editionsUris, fetchedEditionsUris)
     if (newUris.length === 0) return
     fetchedEditionsUris = [ ...editionsUris, ...newUris ]
     waitingForItems = getItemsData(newUris)

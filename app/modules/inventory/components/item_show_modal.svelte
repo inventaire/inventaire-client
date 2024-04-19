@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
+  import app from '#app/app'
+  import { currentRoute } from '#app/lib/location'
   import Modal from '#components/modal.svelte'
   import ItemShow from '#inventory/components/item_show.svelte'
-  import { currentRoute } from '#lib/location'
 
   export let item, showItemModal
 

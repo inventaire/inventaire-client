@@ -1,19 +1,22 @@
-<script>
-  import { isFunction } from 'underscore'
-  import { slide } from 'svelte/transition'
-  import { getActionKey } from '#lib/key_events'
-  import { getViewportHeight, getViewportWidth } from '#lib/screen'
+<script context="module" lang="ts">
+  export type Align = 'left' | 'center' | 'right'
+</script>
+<script lang="ts">
   import { tick } from 'svelte'
-  import { convertEmToPx } from '#lib/utils'
-  import { screen } from '#lib/components/stores/screen'
+  import { slide } from 'svelte/transition'
+  import { isFunction } from 'underscore'
+  import { screen } from '#app/lib/components/stores/screen'
+  import { getActionKey } from '#app/lib/key_events'
+  import { getViewportHeight, getViewportWidth } from '#app/lib/screen'
+  import { convertEmToPx } from '#app/lib/utils'
 
   export let buttonTitle = null
-  export let align = null
+  export let align: Align = null
   export let dropdownWidthReferenceEl = null
   export let alignDropdownWidthOnButton = false
   export let alignButtonWidthOnDropdown = false
   export let dropdownWidthBaseInEm = null
-  export let clickOnContentShouldCloseDropdown = false
+  export let clickOnContentShouldCloseDropdown: boolean | ((e: CustomEvent) => boolean) = false
   export let buttonId = null
   export let buttonRole = null
   export let buttonDisabled = false

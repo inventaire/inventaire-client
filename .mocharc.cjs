@@ -1,5 +1,12 @@
 // Use Mocha config file https://mochajs.org/#configuring-mocha-nodejs
 // to mock global variables required to run the tests
 
-global.window = {}
-global._ = require('underscore')
+module.exports = {
+  extension: 'ts',
+  'node-option': [
+    'loader=tsx/esm',
+    // Mute node error: (node:29544) ExperimentalWarning: `--experimental-loader` may be removed in the future; instead use `register()`
+    'no-warnings',
+  ],
+  require: './tests/utils/mock_browser_env.ts',
+}

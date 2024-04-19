@@ -1,16 +1,16 @@
-<script>
-  import UsersHomeNav from '#users/components/users_home_nav.svelte'
-  import UserProfile from '#users/components/user_profile.svelte'
+<script lang="ts">
+  import { writable } from 'svelte/store'
+  import app from '#app/app'
+  import { resizeObserver } from '#app/lib/components/actions/resize_observer'
+  import { getViewportHeight } from '#app/lib/screen'
+  import { onChange } from '#app/lib/svelte/svelte'
   import GroupProfile from '#groups/components/group_profile.svelte'
+  import { user as mainUser } from '#user/user_store'
   import NetworkUsersNav from '#users/components/network_users_nav.svelte'
   import PublicUsersNav from '#users/components/public_users_nav.svelte'
+  import UserProfile from '#users/components/user_profile.svelte'
+  import UsersHomeNav from '#users/components/users_home_nav.svelte'
   import { serializeUser } from '#users/lib/users'
-  import app from '#app/app'
-  import { writable } from 'svelte/store'
-  import { getViewportHeight } from '#lib/screen'
-  import { resizeObserver } from '#lib/components/actions/resize_observer'
-  import { onChange } from '#lib/svelte/svelte'
-  import { user as mainUser } from '#user/user_store'
 
   export let user = null
   export let group = null

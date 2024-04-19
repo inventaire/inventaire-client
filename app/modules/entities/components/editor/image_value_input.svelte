@@ -1,11 +1,12 @@
-<script>
-  import { i18n, I18n } from '#user/lib/i18n'
-  import { icon } from '#lib/icons'
-  import { getFirstFileDataUrl, resetFileInput } from '#lib/files'
-  import { getCropper, getImageHashFromDataUrl, getUrlDataUrl } from '#lib/images'
-  import { isUrl } from '#lib/boolean_tests'
-  import Spinner from '#components/spinner.svelte'
+<script lang="ts">
   import { createEventDispatcher } from 'svelte'
+  import { debounce } from 'underscore'
+  import { isUrl } from '#app/lib/boolean_tests'
+  import { getFirstFileDataUrl, resetFileInput } from '#app/lib/files'
+  import { icon } from '#app/lib/icons'
+  import { getCropper, getImageHashFromDataUrl, getUrlDataUrl } from '#app/lib/images'
+  import Spinner from '#components/spinner.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let currentValue, getInputValue, fileInput, waitingForCropper, imageElement
 
@@ -36,7 +37,7 @@
       dispatch('error', err)
     }
   }
-  const lazyOnUrlChange = _.debounce(onUrlChange, 500)
+  const lazyOnUrlChange = debounce(onUrlChange, 500)
 
   async function onFilesChange () {
     urlValue = null
@@ -71,7 +72,7 @@
           minCropBoxWidth: 100,
           minCropBoxHeight: 100,
           zoomable: false,
-          crop: () => imageWasCropped = true
+          crop: () => imageWasCropped = true,
         })
       }
     }

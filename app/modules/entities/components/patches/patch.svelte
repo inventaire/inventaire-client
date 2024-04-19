@@ -1,9 +1,11 @@
-<script>
+<script lang="ts">
+  import { API } from '#app/api/api'
+  import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
+  import preq from '#app/lib/preq'
+  import { getLocalTimeString, timeFromNow } from '#app/lib/time'
+  import { loadInternalLink } from '#app/lib/utils'
   import Operation from '#entities/components/patches/operation.svelte'
-  import Flash from '#lib/components/flash.svelte'
-  import preq from '#lib/preq'
-  import { getLocalTimeString, timeFromNow } from '#lib/time'
-  import { loadInternalLink } from '#lib/utils'
   import { i18n, I18n } from '#user/lib/i18n'
 
   export let patch
@@ -14,7 +16,7 @@
 
   async function revert () {
     try {
-      await preq.put(app.API.entities.revertEdit, { patch: patchId })
+      await preq.put(API.entities.revertEdit, { patch: patchId })
       app.execute('show:entity:history', invEntityUri)
     } catch (err) {
       flash = err

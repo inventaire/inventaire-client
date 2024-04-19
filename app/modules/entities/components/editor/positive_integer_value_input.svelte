@@ -1,9 +1,9 @@
-<script>
-  import { autofocus } from '#lib/components/actions/autofocus'
-  import { i18n } from '#user/lib/i18n'
-  import { BubbleUpComponentEvent } from '#lib/svelte/svelte'
-  import error_ from '#lib/error'
+<script lang="ts">
   import { tick } from 'svelte'
+  import { autofocus } from '#app/lib/components/actions/autofocus'
+  import { newError } from '#app/lib/error'
+  import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
+  import { i18n } from '#user/lib/i18n'
 
   export let currentValue, getInputValue, datatype
 
@@ -15,7 +15,7 @@
     await tick()
     const { value } = input
     if (!input.validity.valid) {
-      throw error_.new('invalid value', 400, { value })
+      throw newError('invalid value', 400, { value })
     }
     if (datatype === 'positive-integer-string') return input.value
     else return parseInt(input.value)
