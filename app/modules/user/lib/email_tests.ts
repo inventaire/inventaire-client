@@ -6,7 +6,7 @@ import type { Email } from '#server/types/user'
 
 // Verifies that the email isnt already in use
 export function verifyEmailAvailability (email: Email) {
-  return preq.get(API.auth.emailAvailability(email))
+  return preq.get(API.auth.emailAvailability(encodeURIComponent(email)))
 }
 
 const emailTests = {
