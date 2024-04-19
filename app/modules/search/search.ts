@@ -4,6 +4,7 @@ import { setPrerenderStatusCode } from '#app/lib/metadata/update'
 import { parseBooleanString } from '#app/lib/utils'
 import SearchResultsHistory from './collections/search_results_history.ts'
 import findUri from './lib/find_uri.ts'
+import type { SearchSection } from './lib/search_sections.ts'
 
 export default {
   initialize () {
@@ -18,11 +19,8 @@ export default {
     app.searchResultsHistory = new SearchResultsHistory()
 
     app.commands.setHandlers({
-      // @ts-expect-error
       'search:global': controller.search,
-      // @ts-expect-error
       'show:users:search' () { return controller.search('', 'user') },
-      // @ts-expect-error
       'show:groups:search' () { return controller.search('', 'group') },
     })
 
@@ -32,40 +30,38 @@ export default {
   },
 }
 
-const controller = {}
-// @ts-expect-error
-API.search = async function (search, section, showFallbackLayout) {
+const controller = {
+  async search (search: string, section: SearchSection, showFallbackLayout?: () => void) {
   // Prevent indexation of search pages, by making them appear as duplicates of the home
-  setPrerenderStatusCode(302, '')
-  // Wait for the global search bar to have been initialized
-  await app.request('wait:for', 'topbar')
-  app.vent.trigger('live:search:query', { search, section, showFallbackLayout })
-}
+    setPrerenderStatusCode(302, '')
+    // Wait for the global search bar to have been initialized
+    await app.request('wait:for', 'topbar')
+    app.vent.trigger('live:search:query', { search, section, showFallbackLayout })
+  },
 
-// @ts-expect-error
-API.searchFromQueryString = function (querystring) {
-  let section
-  let { q, type, refresh } = parseQuery(querystring)
-  refresh = parseBooleanString(refresh)
-  if (q == null) q = ''
-  q = q
-    .toString()
-    // Replacing "+" added that the browser search might have added
-    .replace(/\+/g, ' ')
+  searchFromQueryString (querystring) {
+    let section
+    let { q, type, refresh } = parseQuery(querystring)
+    refresh = parseBooleanString(refresh)
+    if (q == null || typeof q !== 'string') q = ''
+    let searchString = q
+      .toString()
+      // Replacing "+" added that the browser search might have added
+      .replace(/\+/g, ' ')
 
-  if (showEntityPageIfUri(q, refresh)) return
+    if (showEntityPageIfUri(searchString, refresh)) return
 
-  if (type != null) {
-    section = type
-  } else {
-    ;[ q, section ] = findSearchSection(q)
-  }
+    if (type != null) {
+      section = type
+    } else {
+      ;[ searchString, section ] = findSearchSection(searchString)
+    }
 
-  // Show the add layout at its search tab in the background, so that clicking
-  // out of the live search doesn't result in a blank page
-  const showFallbackLayout = app.Execute('show:add:layout:search')
-  // @ts-expect-error
-  return controller.search(q, section, showFallbackLayout)
+    // Show the add layout at its search tab in the background, so that clicking
+    // out of the live search doesn't result in a blank page
+    const showFallbackLayout = app.Execute('show:add:layout:search') as (() => void)
+    return controller.search(searchString, section, showFallbackLayout)
+  },
 }
 
 const showEntityPageIfUri = function (query, refresh) {
@@ -82,15 +78,15 @@ const showEntityPageIfUri = function (query, refresh) {
 
 const sectionSearchPattern = /^!([a-z]+)\s+/
 
-const findSearchSection = function (q) {
-  const sectionMatch = q.match(sectionSearchPattern)?.[1]
-  if (sectionMatch == null) return [ q, 'all' ]
+function findSearchSection (searchString: string) {
+  const sectionMatch = searchString.match(sectionSearchPattern)?.[1]
+  if (sectionMatch == null) return [ searchString, 'all' ]
 
-  q = q.replace(sectionSearchPattern, '').trim()
+  searchString = searchString.replace(sectionSearchPattern, '').trim()
 
-  const section = sections[sectionMatch] || 'all'
+  const section: string | undefined = sections[sectionMatch] || 'all'
   console.log('section', section)
-  return [ q, section ]
+  return [ searchString, section ]
 }
 
 const sections = {

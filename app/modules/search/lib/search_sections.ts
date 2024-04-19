@@ -15,7 +15,9 @@ export const typesBySection = {
     shelf: 'shelves',
     list: 'lists',
   },
-}
+} as const
+
+export type SearchSection = keyof typeof typesBySection.entity | keyof typeof typesBySection.social
 
 export const categoryBySection = {}
 
