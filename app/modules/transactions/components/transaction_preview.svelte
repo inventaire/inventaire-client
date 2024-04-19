@@ -2,6 +2,7 @@
   import { onMount, tick } from 'svelte'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
+  import { images } from '#app/lib/urls'
   import { loadInternalLink } from '#app/lib/utils'
   import { getTransactionStateText, serializeTransaction } from '#transactions/lib/transactions'
 
@@ -12,6 +13,7 @@
   const { pathname, transactionMode } = serializeTransaction(transaction)
   const { entity, requester, other } = transaction.snapshot
   const transactionStateText = getTransactionStateText({ transaction })
+  const { defaultAvatar } = images
 
   let mainUserRead
   $: ({ mainUserRead } = serializeTransaction(transaction))
@@ -62,9 +64,7 @@
     <span class="context-text">{@html transactionStateText}</span>
   {:else}
     <div class="profile-pic">
-      {#if other.picture}
-        <img src={imgSrc(other.picture, 48)} alt={other.username} />
-      {/if}
+      <img src={imgSrc(other.picture || defaultAvatar, 48)} alt={other.username} />
     </div>
     <div class="text">
       <span class="title">{entity?.title || ''}</span>
