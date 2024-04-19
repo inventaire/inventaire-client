@@ -4,7 +4,8 @@
   import Modal from '#components/modal.svelte'
   import ItemShow from '#inventory/components/item_show.svelte'
 
-  export let item, showItemModal
+  export let item
+  export let showItemModal = false
 
   let pathnameBeforeModal
 

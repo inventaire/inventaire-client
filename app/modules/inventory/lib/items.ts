@@ -1,4 +1,6 @@
+import { API } from '#app/api/api'
 import app from '#app/app'
+import preq from '#app/lib/preq'
 import { capitalize } from '#app/lib/utils'
 import type { ItemCategory, SerializedUser } from '#app/modules/users/lib/users'
 import type { Entity } from '#app/types/entity'
@@ -6,7 +8,7 @@ import { getEntityLocalHref } from '#entities/lib/entities'
 import { transactionsDataFactory, type TransactionData } from '#inventory/lib/transactions_data'
 import type { LatLng, Url } from '#server/types/common'
 import type { EntityType } from '#server/types/entity'
-import type { Item, ItemSnapshot, SerializedItem as ServerSerializedItem } from '#server/types/item'
+import type { Item, ItemId, ItemSnapshot, SerializedItem as ServerSerializedItem } from '#server/types/item'
 import { hasOngoingTransactionsByItemIdSync } from '#transactions/lib/helpers'
 import { i18n } from '#user/lib/i18n'
 
@@ -113,4 +115,11 @@ export function getItemLinkTitle ({ title, username, mainUserIsOwner }) {
   } else {
     return i18n('Learn more about %{username}\'s item "%{title}"', { username, title })
   }
+}
+
+export async function getItemWithUser (itemId: ItemId) {
+  const { items, users } = await preq.get(API.items.byIds({ ids: itemId, includeUsers: true }))
+  const item = items[0]
+  item.user = users[0]
+  return item
 }

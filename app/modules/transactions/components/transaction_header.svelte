@@ -1,9 +1,11 @@
 <script lang="ts">
+  import Flash from '#app/lib/components/flash.svelte'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { icon } from '#app/lib/icons'
-  import { loadInternalLink } from '#app/lib/utils'
+  import { isOpenedOutside, loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
-  import { getItemPathname } from '#inventory/lib/items'
+  import ItemShowModal from '#inventory/components/item_show_modal.svelte'
+  import { getItemPathname, getItemWithUser } from '#inventory/lib/items'
   import { attachLinkedDocs, getTransactionContext } from '#transactions/lib/transactions'
   import { getUserBasePathname } from '#users/lib/users'
 
@@ -19,11 +21,28 @@
       context = getTransactionContext(transaction)
       ownerPathname = getUserBasePathname(transaction.docs.owner.username)
     })
+
+  let flash, item
+  let showItemModal = false
+  async function showItem (e) {
+    if (isOpenedOutside(e)) return
+    try {
+      item = item || await getItemWithUser(transaction.item)
+      showItemModal = true
+    } catch (err) {
+      flash = err
+    }
+  }
 </script>
 
 <div class="header">
   <div class="facts">
-    <a class="item" href={itemPathname} title={entity.title}>
+    <a
+      class="item"
+      href={itemPathname}
+      title={entity.title}
+      on:click={showItem}
+    >
       <div class="cover">
         {#if entity.image}
           <img src={imgSrc(entity.image, 100)} alt="" />
@@ -57,7 +76,10 @@
       </div>
     {/await}
   </div>
+  <Flash state={flash} />
 </div>
+
+<ItemShowModal bind:item bind:showItemModal />
 
 <style lang="scss">
   @import '#general/scss/utils';
