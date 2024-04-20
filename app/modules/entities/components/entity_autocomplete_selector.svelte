@@ -16,7 +16,7 @@
   import { I18n, i18n } from '#user/lib/i18n'
   import EntitySuggestion from './entity_suggestion.svelte'
 
-  export let searchTypes: PluralizedIndexedEntityType[]
+  export let searchTypes: EntityType[] | PluralizedIndexedEntityType[]
   export let currentEntityUri: EntityUri = null
   export let currentEntityLabel = ''
   export let placeholder: string = null

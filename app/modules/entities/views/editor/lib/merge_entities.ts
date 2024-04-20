@@ -4,9 +4,10 @@ import { isWikidataItemUri } from '#app/lib/boolean_tests.ts'
 import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
+import type { EntityUri } from '#server/types/entity'
 import getEntityWikidataImportData from './get_entity_wikidata_import_data.ts'
 
-export default async function (fromUri, toUri) {
+export default async function (fromUri: EntityUri, toUri: EntityUri) {
   if (isWikidataItemUri(fromUri) && isWikidataItemUri(toUri)) {
     throw newError('Wikidata entities can not be merged on Inventaire', 400, { fromUri, toUri })
   }

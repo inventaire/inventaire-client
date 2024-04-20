@@ -1,12 +1,13 @@
 import app from '#app/app'
 import { newError } from '#app/lib/error'
-import { forceArray } from '#app/lib/utils'
+import { arrayIncludes, forceArray } from '#app/lib/utils'
 import { searchByTypes } from '#entities/lib/search/search_by_types'
 import { pluralize } from '#entities/lib/types/entities_types'
+import type { EntityType, PluralizedIndexedEntityType } from '#server/types/entity'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.ts'
 import { wikidataSearch } from './wikidata_search.ts'
 
-export default async function (types, input, limit, offset) {
+export default async function (types: EntityType[] | PluralizedIndexedEntityType[], input: string, limit?: number, offset?: number) {
   const uri = getEntityUri(input)
   types = forceArray(types).map(pluralize)
 
@@ -17,7 +18,7 @@ export default async function (types, input, limit, offset) {
     if (res) return res
   }
 
-  if (types.includes('subjects')) {
+  if (arrayIncludes(types, 'subjects')) {
     return wikidataSearch({
       search: input,
       limit,

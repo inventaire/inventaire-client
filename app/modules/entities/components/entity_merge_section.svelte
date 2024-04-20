@@ -4,9 +4,11 @@
   import EntityValueDisplay from '#entities/components/editor/entity_value_display.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { typesBySection } from '#search/lib/search_sections'
+  import type { EntityType, EntityUri } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
 
-  export let type, uri
+  export let type: EntityType
+  export let uri: EntityUri
 
   let flash, valueBasicInfo, editMode = false
 
@@ -23,6 +25,7 @@
   }
 
   $: if (valueBasicInfo) setInfo()
+  $: searchTypes = (type ? [ type ] : typesBySection.entity.all.slice(0))
 </script>
 
 {#if uri && !editMode}
@@ -42,7 +45,7 @@
   </div>
 {:else}
   <EntityAutocompleteSelector
-    searchTypes={type ? [ type ] : typesBySection.entity.all}
+    {searchTypes}
     currentEntityUri={uri}
     currentEntityLabel={uri ? valueBasicInfo?.label : null}
     displaySuggestionType={type == null}
