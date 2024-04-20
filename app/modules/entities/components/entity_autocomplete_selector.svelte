@@ -9,14 +9,14 @@
   import { getDefaultSuggestions } from '#entities/components/editor/lib/suggestions/get_suggestions_per_properties'
   import { propertiesWithValuesShortlists } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
   import { createByProperty } from '#entities/lib/create_entities'
-  import typeSearch from '#entities/lib/search/type_search'
+  import typeSearch, { type SearchableType } from '#entities/lib/search/type_search'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import Spinner from '#general/components/spinner.svelte'
-  import type { EntityType, EntityUri, PluralizedIndexedEntityType } from '#server/types/entity'
+  import type { EntityType, EntityUri } from '#server/types/entity'
   import { I18n, i18n } from '#user/lib/i18n'
   import EntitySuggestion from './entity_suggestion.svelte'
 
-  export let searchTypes: EntityType[] | PluralizedIndexedEntityType[]
+  export let searchTypes: SearchableType[]
   export let currentEntityUri: EntityUri = null
   export let currentEntityLabel = ''
   export let placeholder: string = null

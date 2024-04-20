@@ -1,7 +1,8 @@
 import { getUriNumericId } from '#app/lib/wikimedia/wikidata'
 import { authorRoleProperties } from '#entities/lib/editor/properties_per_subtype'
 import { properties, type CustomPropertyConfig } from '#entities/lib/editor/properties_per_type'
-import type { InvPropertyClaims, PluralizedIndexedEntityType, PropertyUri } from '#server/types/entity'
+import type { InvPropertyClaims, PropertyUri } from '#server/types/entity'
+import type { PluralizedSearchableEntityType } from './search/type_search'
 import type { Entries } from 'type-fest'
 
 // TODO: get those properties from server/controllers/entities/lib/properties/properties.js#authorRelationsProperties
@@ -31,7 +32,7 @@ interface EditorCustomization {
   datatype?: string
   order?: number
   canValueBeDeleted?: ({ propertyClaims }: { propertyClaims: InvPropertyClaims }) => boolean
-  entityValueTypes?: PluralizedIndexedEntityType[]
+  entityValueTypes?: PluralizedSearchableEntityType[]
   specialEditActions?: 'author-role'
   allowEntityCreation?: boolean
 }

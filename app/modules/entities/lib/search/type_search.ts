@@ -7,7 +7,10 @@ import type { EntityType, PluralizedIndexedEntityType } from '#server/types/enti
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.ts'
 import { wikidataSearch } from './wikidata_search.ts'
 
-export default async function (types: EntityType[] | PluralizedIndexedEntityType[], input: string, limit?: number, offset?: number) {
+export type PluralizedSearchableEntityType = PluralizedIndexedEntityType | 'subjects'
+export type SearchableType = EntityType | PluralizedSearchableEntityType
+
+export default async function (types: SearchableType[], input: string, limit?: number, offset?: number) {
   const uri = getEntityUri(input)
   types = forceArray(types).map(pluralize)
 
@@ -26,7 +29,12 @@ export default async function (types: EntityType[] | PluralizedIndexedEntityType
       formatResults: true,
     })
   } else {
-    return searchByTypes({ types, search: input, limit, offset })
+    return searchByTypes({
+      types: types as PluralizedIndexedEntityType[],
+      search: input,
+      limit,
+      offset,
+    })
   }
 }
 

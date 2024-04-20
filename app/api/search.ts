@@ -18,7 +18,14 @@ interface SearchParams {
 
 export default function ({ types, search, limit = 10, offset = 0, exact = false, claim, filter }: SearchParams) {
   const { lang } = app.user
-  types = forceArray(types).join('|')
-  search = encodeURIComponent(search)
-  return buildPath(base, { types, search, lang, limit, offset, exact, claim, filter })
+  return buildPath(base, {
+    types: forceArray(types).join('|'),
+    search: encodeURIComponent(search),
+    lang,
+    limit,
+    offset,
+    exact,
+    claim,
+    filter,
+  })
 }

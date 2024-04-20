@@ -1,4 +1,5 @@
 import { without } from 'underscore'
+import type { PluralizedIndexedEntityType } from '#server/types/entity'
 
 export const entityTypeNameByType = {
   editions: 'edition',
@@ -7,7 +8,7 @@ export const entityTypeNameByType = {
   humans: 'author',
   publishers: 'publisher',
   collections: 'collection',
-}
+} as const
 
 export const entityTypeNameBySingularType = {
   article: 'article',
@@ -20,7 +21,7 @@ export const entityTypeNameBySingularType = {
   movement: 'movement',
   subject: 'subject',
   genre: 'genre',
-}
+} as const
 
 export const typesPossessiveForms = {
   work: "work's",
@@ -29,7 +30,7 @@ export const typesPossessiveForms = {
   human: "author's",
   publisher: "publisher's",
   collection: "collection's",
-}
+} as const
 
 export function pluralize (type) {
   if (!type) return
@@ -48,9 +49,9 @@ export const typeDefaultP31 = {
   edition: 'wd:Q3331189',
   publisher: 'wd:Q2085381',
   collection: 'wd:Q20655472',
-}
+} as const
 
-export const allSearchableTypes = without(Object.keys(entityTypeNameByType), 'editions')
+export const allSearchableTypes = without(Object.keys(entityTypeNameByType), 'editions') as PluralizedIndexedEntityType[]
 
 // Standalone meaning the entity URI can be a valid URL on its own (unlike claim based URLs)
 export function isStandaloneEntityType (type) {
