@@ -21,11 +21,10 @@ import { transformers } from './apply_transformers.ts'
 import updateNodeType from './update_node_type.ts'
 
 // Make prerender wait before assuming everything is ready
-// See https://prerender.io/documentation/best-practices
-let prerenderReady = false
+window.prerenderReady = false
 async function metadataUpdateDone () {
   await wait(100)
-  prerenderReady = true
+  window.prerenderReady = true
 }
 // Stop waiting if it takes more than 20 secondes: addresses cases
 // where metadataUpdateDone would not have been called
@@ -99,7 +98,7 @@ function updateMetadata (metadata) {
 }
 
 function setPrerenderMeta (statusCode = 500, route) {
-  if (!isPrerenderSession || prerenderReady) return
+  if (!isPrerenderSession || window.prerenderReady) return
 
   let prerenderMeta = `<meta name='prerender-status-code' content='${statusCode}'>`
   if (statusCode === 302 && route != null) {
@@ -117,7 +116,7 @@ export function setPrerenderStatusCode (statusCode, route?) {
 }
 
 export function clearMetadata () {
-  prerenderReady = false
+  window.prerenderReady = false
   updateMetadata(getDefaultMetadata())
   $('head meta[name^="prerender"]').remove()
 }

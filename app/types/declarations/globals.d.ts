@@ -12,6 +12,7 @@ interface Window {
   jQuery: unknown
   Marionette: unknown
   $: unknown
+  prerenderReady: boolean
 }
 
 interface Navigator {

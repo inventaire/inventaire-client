@@ -149,7 +149,8 @@ const onPreviousRoute = function () {
   app.vent.trigger('route:change', routeSection(route), route)
 }
 
-const app = new App()
+// @ts-expect-error app is needed a as global by firefox-headless-prerender, to access app.clearMetadataNavigateAndLoad
+const app = window.app = new App()
 
 export default app
 
