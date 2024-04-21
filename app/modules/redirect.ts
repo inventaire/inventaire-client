@@ -1,6 +1,6 @@
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
-import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
+import type { ContextualizedError } from '#app/lib/error'
 import { currentRoute } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
 import { setPrerenderStatusCode, isPrerenderSession } from '#app/lib/metadata/update'
@@ -89,7 +89,7 @@ const controller = {
   showMainUser () { app.execute('show:inventory:main:user') },
 }
 
-const requireLoggedIn = function (route) {
+function requireLoggedIn (route: string) {
   setPrerenderStatusCode(401)
   assert_.string(route)
   if (app.user.loggedIn) {
@@ -101,7 +101,7 @@ const requireLoggedIn = function (route) {
   }
 }
 
-const requireAdminAccess = function () {
+function requireAdminAccess () {
   setPrerenderStatusCode(401)
   if (app.user.hasAdminAccess) {
     return true
@@ -111,7 +111,7 @@ const requireAdminAccess = function () {
   }
 }
 
-const requireDataadminAccess = function () {
+function requireDataadminAccess () {
   setPrerenderStatusCode(401)
   if (app.user.hasDataadminAccess) {
     return true
@@ -121,12 +121,12 @@ const requireDataadminAccess = function () {
   }
 }
 
-const showAuthRedirect = function (action, route) {
+function showAuthRedirect (action: string, route: string) {
   const redirect = getRedirectedRoute(route)
   app.execute(`show:${action}`, { redirect })
 }
 
-const getRedirectedRoute = function (route) {
+function getRedirectedRoute (route: string) {
   if (!route) route = currentRoute()
   if (noRedirectionRequired.includes(route)) return
   return route
@@ -139,7 +139,7 @@ const noRedirectionRequired = [
 const showSignupRedirect = showAuthRedirect.bind(null, 'signup')
 const showLoginRedirect = showAuthRedirect.bind(null, 'login')
 
-const showErrorByStatus = function (err, label) {
+function showErrorByStatus (err: ContextualizedError, label: string) {
   if (err.statusCode === 404) {
     return showErrorMissing()
   } else {
@@ -147,17 +147,14 @@ const showErrorByStatus = function (err, label) {
   }
 }
 
-const showErrorMissing = function (params?) {
-  let pathname
-  if (isNonEmptyPlainObject(params)) {
-    ({ pathname = location.pathname } = params)
-  }
+function showErrorMissing (params: { pathname?: string } = {}) {
+  const { pathname = location.pathname } = params
   if (pathname !== location.pathname) app.navigate(pathname)
   showError({
     name: 'missing',
     icon: 'warning',
     header: I18n('oops'),
-    message: i18n("this resource doesn't exist or you don't have the right to access it"),
+    message: I18n("this resource doesn't exist or you don't have the right to access it"),
     context: pathname,
     statusCode: 404,
   })
@@ -167,12 +164,12 @@ const showErrorNotAdmin = () => showError({
   name: 'not_admin',
   icon: 'warning',
   header: I18n('oops'),
-  message: i18n('this resource requires to have admin rights to access it'),
+  message: I18n('this resource requires to have admin rights to access it'),
   context: location.pathname,
   statusCode: 403,
 })
 
-const showOtherError = function (err, label) {
+function showOtherError (err: ContextualizedError, label: string) {
   assert_.object(err)
   log_.error(err, label)
   return showError({
@@ -188,14 +185,14 @@ const showOtherError = function (err, label) {
 const showOfflineError = () => showError({
   name: 'offline',
   icon: 'plug',
-  header: i18n("can't reach the server"),
+  header: I18n("can't reach the server"),
 })
 
-const showErrorCookieRequired = command => showError({
+const showErrorCookieRequired = (command: string) => showError({
   name: 'cookie-required',
   icon: 'cog',
   header: I18n('cookies are disabled'),
-  message: i18n('cookies_are_required'),
+  message: I18n('cookies_are_required'),
   redirection: {
     text: I18n('retry'),
     classes: 'dark-grey',
@@ -205,7 +202,21 @@ const showErrorCookieRequired = command => showError({
   },
 })
 
-const showError = async options => {
+interface ShowErrorOptions {
+  name: string
+  icon: string
+  header: string
+  message?: string
+  context?: string | ContextualizedError['context']
+  statusCode?: ContextualizedError['statusCode']
+  navigate?: boolean
+  redirection?: {
+    text: string
+    classes: string
+    buttonAction: () => void
+  }
+}
+async function showError (options: ShowErrorOptions) {
   const { default: ErrorView } = await import('#general/views/error')
   app.execute('modal:close')
   app.layout.showChildView('main', new ErrorView(options))
@@ -216,12 +227,12 @@ const showError = async options => {
   if (options.navigate) app.navigate(`error/${options.name}`)
 }
 
-const showCallToConnection = async message => {
+async function showCallToConnection (message) {
   const { default: CallToConnection } = await import('#general/views/call_to_connection')
   app.layout.showChildView('modal', new CallToConnection({ connectionMessage: message }))
 }
 
-const showMenuStandalone = function (Menu, titleKey) {
+function showMenuStandalone (Menu, titleKey) {
   app.layout.showChildView('main', new Menu({ standalone: true }))
   app.navigate(titleKey, { metadata: { title: i18n(titleKey) } })
 }

@@ -64,7 +64,7 @@ const App = Marionette.Application.extend({
     this.navigateFromModel = navigateFromModel.bind(this)
   },
 
-  navigate (route, options: NavigateOptions = {}) {
+  navigate (route: string, options: NavigateOptions = {}) {
     // Close the modal if it was open
     // If the next view just opened the modal, this will be ignored
     app.execute('modal:close')
