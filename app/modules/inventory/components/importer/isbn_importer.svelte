@@ -25,7 +25,7 @@
     flash = null
     if (!isbnsText || isbnsText.length === 0) return
     isbns = findIsbns(isbnsText)
-    if (isbns === null) return flash = { type: 'error', message: 'no ISBN found' }
+    if (isbns.length === 0) return flash = { type: 'error', message: 'no ISBN found' }
   }
 
   function findIsbnsAndCreateCandidates () {

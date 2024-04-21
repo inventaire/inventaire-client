@@ -1,17 +1,15 @@
 import ISBN from 'isbn3'
 import { findIsbns, isNormalizedIsbn, normalizeIsbn } from '#app/lib/isbn'
 
-export const extractIsbns = text => {
+export function extractIsbns (text: string) {
   const isbns = findIsbns(text)
-  if (isbns == null) return []
-
   return isbns
   .map(getIsbnData)
   .filter(obj => isNormalizedIsbn(obj.normalizedIsbn))
   .filter(firstOccurence({}))
 }
 
-export const getIsbnData = rawIsbn => {
+export function getIsbnData (rawIsbn: string) {
   const normalizedIsbn = normalizeIsbn(rawIsbn)
   const data = ISBN.parse(normalizedIsbn)
   const isInvalid = (data == null)
@@ -20,7 +18,7 @@ export const getIsbnData = rawIsbn => {
   return { rawIsbn, normalizedIsbn, isInvalid, isbn13, isbn13h }
 }
 
-const firstOccurence = normalizedIsbns13 => isbnData => {
+const firstOccurence = (normalizedIsbns13: Record<string, boolean>) => (isbnData: ReturnType<typeof getIsbnData>) => {
   const { isbn13, isInvalid } = isbnData
   if (isInvalid) return true
 

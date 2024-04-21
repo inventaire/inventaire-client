@@ -82,7 +82,7 @@ const getEdition = editions => {
 
 export const byIndex = (a, b) => a.index - b.index
 
-export const formatCandidatesData = isbns => isbns.map(isbn => ({ isbn }))
+export const formatCandidatesData = (isbns: string[]) => isbns.map(isbn => ({ isbn }))
 
 export const addExistingItemsCountToCandidate = counts => candidate => {
   const { isbnData } = candidate
