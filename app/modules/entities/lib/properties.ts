@@ -84,7 +84,7 @@ for (const [ property, propertyConfig ] of Object.entries(properties) as Entries
   if (propertiesWithAllowEntityCreation.includes(property)) {
     editorCustomization.allowEntityCreation = true
   }
-  editorCustomization.order = getUriNumericId(property)
+  editorCustomization.order = editorCustomization.order || (1000 + getUriNumericId(property))
   propertiesEditorsConfigs[property] = Object.assign({ property }, propertyConfig, editorCustomization)
 }
 
