@@ -47,6 +47,9 @@ export default Marionette.View.extend({
       setStopScannerCallback: this.setStopScannerCallback.bind(this),
     }
 
+    // Observed behavior: after refusing rights, the spinner keeps going
+    // and an error report is sent with "message: 'invalid error object', context: { reason: 'permission_denied' }"
+    // TODO: fix error catching and add a comment on how to give permission to access the camera
     this.scanner = embedded_.scan(scanOptions).catch(this.permissionDenied.bind(this))
   },
 
