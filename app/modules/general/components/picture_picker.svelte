@@ -59,28 +59,33 @@
   let deleting
   async function _deletePicture () {
     try {
-      deleting = deletePicture()
-      await deleting
+      deleting = true
+      await deletePicture()
       dispatch('close')
     } catch (err) {
       flash = err
+    } finally {
+      deleting = false
     }
   }
 
-  let saving
   async function validatePicture () {
     const canvas = cropper.getCroppedCanvas()
     const newDataUrl = canvas.toDataURL('image/jpeg', 1)
-    saving = save(newDataUrl)
-    dispatch('close')
+    await save(newDataUrl)
+    if (!(flash instanceof Error)) dispatch('close')
   }
 
+  let saving
   async function save (newDataUrl) {
     try {
+      saving = true
       const imageHash = await getImageHashFromDataUrl(imageContainer, newDataUrl)
       await savePicture(imageHash)
     } catch (err) {
       flash = err
+    } finally {
+      saving = false
     }
   }
 
@@ -161,19 +166,19 @@
       {I18n('cancel')}
     </button>
     <button on:click={_deletePicture} class="button alert" disabled={saving || deleting}>
-      {#await deleting}
+      {#if deleting}
         <Spinner />
-      {:then}
+      {:else}
         {@html icon('trash')}
-      {/await}
+      {/if}
       {I18n('delete')}
     </button>
     <button on:click={validatePicture} class="button success" disabled={saving || deleting}>
-      {#await saving}
+      {#if saving}
         <Spinner />
-      {:then}
+      {:else}
         {@html icon('check')}
-      {/await}
+      {/if}
       {I18n('validate')}
     </button>
   </div>
