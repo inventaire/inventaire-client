@@ -63,7 +63,7 @@
       return showUsernameError('username should be 20 characters maximum')
     }
     if (/\s/.test(usernameValue)) {
-      return showUsernameError('username can not contain space')
+      return showUsernameError('username can not contain spaces')
     }
     if (!Username.test(usernameValue)) {
       return showUsernameError('username can only contain letters, figures or _')
