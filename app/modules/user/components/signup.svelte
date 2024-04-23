@@ -17,7 +17,9 @@
   let usernameInputNode, emailInputNode
 
   async function earlyVerifyUsername () {
+    if (!username) return
     try {
+      username = username.trim()
       if (username) await verifyUsername(username)
     } catch (err) {
       usernameFlash = err

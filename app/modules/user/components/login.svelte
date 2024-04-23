@@ -18,6 +18,7 @@
   let usernameInputNode
 
   function earlyVerifyUsername () {
+    if (!username) return
     try {
       username = username.trim()
       if (username && !isEmail(username)) passUsernameTests(username)
