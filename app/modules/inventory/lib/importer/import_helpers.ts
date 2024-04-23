@@ -145,8 +145,10 @@ const findIsbn = data => {
 
 const serializeResolverEntry = data => {
   const { lang, rawEntry, works: resolvedWorks } = data
-  // work as resolved by EntityResolverInput
-  const resolvedWork = resolvedWorks[0]
+  let resolvedWork
+  if (isNonEmptyArray(resolvedWorks)) {
+    resolvedWork = resolvedWorks[0]
+  }
   let { editionTitle, isbn, authors = [] } = data
   const labelLang = lang || app.user.lang
 
