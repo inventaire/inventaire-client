@@ -3,6 +3,8 @@
 # Exit on error (cf http://jvns.ca/blog/2017/03/26/bash-quirks/)
 set -e
 
+./scripts/check_build_environment.sh
+
 echo -e '\e[0;30mchecking types\e[0m'
 ./scripts/typescript/check_types.sh
 
