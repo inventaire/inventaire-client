@@ -10,7 +10,7 @@ import type { Entity, RedirectionsByUris } from '#app/types/entity'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
 import type { RelativeUrl, Url } from '#server/types/common'
-import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityUri } from '#server/types/entity'
+import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue } from '#server/types/entity'
 import getBestLangValue from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
 import type { Entries } from 'type-fest'
@@ -217,14 +217,14 @@ export async function getEntitiesAttributesFromClaims (claims: Claims, attribute
   return entities
 }
 
-export function getWikidataUrl (uri: WdEntityUri) {
+export function getWikidataUrl (uri: EntityUri) {
   const [ prefix, id ] = uri.split(':')
   if (prefix === 'wd') {
     return `https://www.wikidata.org/entity/${id}`
   }
 }
 
-export function getWikidataHistoryUrl (uri: WdEntityUri) {
+export function getWikidataHistoryUrl (uri: EntityUri) {
   const [ prefix, id ] = uri.split(':')
   if (prefix === 'wd') {
     return `https://www.wikidata.org/w/index.php?title=${id}&action=history`
