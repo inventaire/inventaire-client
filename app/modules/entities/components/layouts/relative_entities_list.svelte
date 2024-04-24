@@ -9,7 +9,8 @@
   import Spinner from '#components/spinner.svelte'
   import RelativeEntityLayout from '#entities/components/layouts/relative_entity_layout.svelte'
   import SectionLabel from '#entities/components/layouts/section_label.svelte'
-  import { entityDataShouldBeRefreshed, getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
+  import { getEntitiesAttributesByUris, getReverseClaims, serializeEntity } from '#entities/lib/entities'
+  import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import { i18n } from '#user/lib/i18n'
 
@@ -26,7 +27,7 @@
     if (claims) {
       allUris = claims
     } else {
-      const refresh = entityDataShouldBeRefreshed(entity)
+      const refresh = entityDataShouldBeRefreshed(uri)
       const properties = forceArray(property)
       allUris = await Promise.all(properties.map(property => {
         return getReverseClaims(property, uri, refresh)

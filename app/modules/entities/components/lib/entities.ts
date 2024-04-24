@@ -3,9 +3,9 @@ import { API } from '#app/api/api'
 import app from '#app/app'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
-import { expired } from '#app/lib/time'
 import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
 import { byNewestPublicationDate, getReverseClaims, getEntities, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris, type SerializedEntity } from '#entities/lib/entities'
+import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
 import { getEditionsWorks } from '#entities/lib/get_entity_view_by_type.ts'
 import type { SortFunction } from '#server/types/common'
 import type { PropertyUri } from '#server/types/entity'
@@ -133,8 +133,8 @@ interface GetSubEntitiesSectionsParams {
   property?: PropertyUri
 }
 export async function getSubEntitiesSections ({ entity, sortFn = byNewestPublicationDate, property }: GetSubEntitiesSectionsParams) {
-  const { type, refreshTimestamp } = entity
-  const refresh = refreshTimestamp && !expired(refreshTimestamp, 1000)
+  const { uri, type } = entity
+  const refresh = entityDataShouldBeRefreshed(uri)
   let sections
   if (property) {
     const getSubEntitiesUris = urisGetterByType.claim

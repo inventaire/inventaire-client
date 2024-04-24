@@ -5,7 +5,6 @@ import assert_ from '#app/lib/assert_types'
 import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#app/lib/boolean_tests'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import preq from '#app/lib/preq'
-import { expired } from '#app/lib/time'
 import { forceArray } from '#app/lib/utils'
 import type { Entity, RedirectionsByUris } from '#app/types/entity'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
@@ -33,8 +32,6 @@ export type SerializedEntity = Entity & {
   isWikidataEntity: boolean
   // Can be set by #app/lib/types/work_alt.ts#setEntityImages
   images?: Url[]
-  // Can be set by app/modules/entities/components/layouts/entity_layout_actions.svelte
-  refreshTimestamp?: EpochTimeStamp
 }
 
 export type SerializedEntitiesByUris = Record<EntityUri, SerializedEntity>
@@ -308,12 +305,4 @@ export function extractImagesUrls (images) {
 export function getEntityImagePath (imageValue) {
   if (isImageHash(imageValue)) return `/img/entities/${imageValue}`
   else return imageValue
-}
-
-export function entityDataShouldBeRefreshed (entity) {
-  return entity.refreshTimestamp && !expired(entity.refreshTimestamp, 1000)
-}
-
-export function pushEntityRefreshingPromise (entity, promise) {
-  entity.refreshing = Promise.all([ entity.refreshing, promise ])
 }

@@ -9,6 +9,7 @@ import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types
 import { i18n } from '#user/lib/i18n'
 import { getEntityByUri, normalizeUri } from './lib/entities.ts'
 import * as entitiesModelsIndex from './lib/entities_models_index.ts'
+import { entityDataShouldBeRefreshed, startRefreshTimeSpan } from './lib/entity_refresh.ts'
 import getEntityViewByType from './lib/get_entity_view_by_type.ts'
 
 export default {
@@ -38,7 +39,8 @@ export default {
 
 const controller = {
   async showEntity (uri, params?) {
-    const refresh = params?.refresh || app.request('querystring:get', 'refresh')
+    const refresh = params?.refresh || app.request('querystring:get', 'refresh') || entityDataShouldBeRefreshed(uri)
+    if (refresh) startRefreshTimeSpan(uri)
     if (isClaim(uri)) return showClaimEntities(uri, refresh)
 
     uri = normalizeUri(uri)
@@ -46,8 +48,6 @@ const controller = {
     if (!isEntityUri(uri)) return app.execute('show:error:missing', { pathname })
 
     app.execute('show:loader')
-
-    if (refresh) app.execute('uriLabel:refresh')
 
     try {
       const model = await getEntityModel(uri, refresh)

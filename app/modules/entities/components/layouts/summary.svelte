@@ -8,7 +8,7 @@
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import Spinner from '#components/spinner.svelte'
-  import { entityDataShouldBeRefreshed, pushEntityRefreshingPromise } from '#entities/lib/entities'
+  import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
   import { i18n } from '#user/lib/i18n'
 
   export let entity
@@ -23,7 +23,7 @@
   const langLabel = languages[userLang].native
 
   function getSummaries () {
-    const refresh = entityDataShouldBeRefreshed(entity)
+    const refresh = entityDataShouldBeRefreshed(uri)
     if (summaries == null || refresh) {
       const langs = [ userLang ]
       if (originalLang && originalLang !== userLang) langs.push(originalLang)
@@ -40,7 +40,6 @@
           }
         })
         .catch(err => flash = err)
-      if (refresh) pushEntityRefreshingPromise(entity, waitingForSummariesData)
     }
   }
 
