@@ -51,6 +51,10 @@ const propertiesEditorsCustomizations: Record<PropertyUri, EditorCustomization> 
   'wdt:P921': {
     entityValueTypes: [ 'subjects' ],
   },
+  // ISBN-10
+  'wdt:P957': {
+    datatype: 'fixed-string',
+  },
 }
 
 // Sorted by display order
@@ -67,10 +71,11 @@ const prioritizedProperties = [
 ]
 
 for (const property of prioritizedProperties) {
-  propertiesEditorsCustomizations[property] = {
+  propertiesEditorsCustomizations[property] ??= {}
+  Object.assign(propertiesEditorsCustomizations[property], {
     // The lowest the `order` value, the higher the property will be displayed
     order: prioritizedProperties.indexOf(property) - prioritizedProperties.length,
-  }
+  })
 }
 
 type PropertiesEditorConfig = { property } & CustomPropertyConfig & EditorCustomization
