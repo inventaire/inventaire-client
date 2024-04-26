@@ -19,7 +19,6 @@ module.exports = {
     extraFileExtensions: [ '.svelte' ],
   },
   plugins: [
-    'node-import',
     '@stylistic/ts',
   ],
   extends: [
@@ -61,7 +60,6 @@ module.exports = {
     'no-ex-assign': [ 'off' ],
     'no-new': [ 'off' ], // TODO: remove once Backbone.Marionette router is replaced
     'no-var': [ 'error' ],
-    'node-import/prefer-node-protocol': 2,
     'nonblock-statement-body-position': [ 'error', 'beside' ],
     'object-shorthand': [ 'error', 'properties' ],
     'one-var': [ 'off' ],
