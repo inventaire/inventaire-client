@@ -255,12 +255,12 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     getUrl: id => `https://www.bedetheque.com/auteur-${id}-BD-.html`,
   },
   'wdt:P5570': {
-    name: 'NooSFere author ID',
+    name: 'NooSFere',
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.noosfere.org/livres/auteur.asp?numauteur=${id}`,
   },
   'wdt:P5571': {
-    name: 'NooSFere book ID',
+    name: 'NooSFere',
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.noosfere.org/livres/EditionsLivre.asp?numitem=${id}`,
   },
