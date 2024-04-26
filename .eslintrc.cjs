@@ -116,6 +116,9 @@ module.exports = {
     'svelte/spaced-html-comment': 'error',
 
     'svelte/no-trailing-spaces': 'error',
+
+    // Let the svelte compiler do that work
+    'svelte/valid-compile': 'off',
   },
   overrides: [
     {
