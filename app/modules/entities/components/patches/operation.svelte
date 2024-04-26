@@ -1,6 +1,6 @@
 <script lang="ts">
   import { loadInternalLink } from '#app/lib/utils'
-  import { multiTypeValue } from '#entities/components/lib/claims_helpers'
+  import OperationValue from './operation_value.svelte'
 
   export let operation
   export let showContributionFilter = false
@@ -11,7 +11,9 @@
 <li class="operation operation-{op}">
   <div class="op">{op}</div>
   <div class="path" title={path}>{propertyLabel}</div>
-  <div class="value">{@html multiTypeValue(value)}</div>
+  <div class="value">
+    <OperationValue {value} />
+  </div>
   {#if filter && showContributionFilter}
     <a class="filter" href={filterPathname} on:click={loadInternalLink}>{filter}</a>
   {/if}

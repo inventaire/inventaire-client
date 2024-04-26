@@ -175,6 +175,17 @@ export async function getEntitiesBasicInfoByUris (uris: EntityUri[]) {
   })
 }
 
+export async function getEntityLabel (uri: EntityUri) {
+  const entities = await getEntitiesByUris({
+    uris: [ uri ],
+    attributes: [ 'labels' ],
+    lang: app.user.lang,
+  })
+  const entity = Object.values(entities)[0]
+  const { value, lang } = getBestLangValue(app.user.lang, null, entity.labels)
+  return { label: value, lang }
+}
+
 export async function getAndAssignPopularity ({ entities }) {
   const uris = []
   let wdUrisCount = 0
