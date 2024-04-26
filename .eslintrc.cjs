@@ -16,6 +16,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: false,
     },
+    extraFileExtensions: [ '.svelte' ],
   },
   plugins: [
     'node-import',
@@ -125,7 +126,27 @@ module.exports = {
       parserOptions: {
         // See https://github.com/sveltejs/eslint-plugin-svelte#parser-configuration
         parser: '@typescript-eslint/parser',
-        project: './tsconfig.client.json',
+
+        // Specifying the `project` is recommended by eslint-plugin-svelte documentation, but linting TS in Svelte component still works without, while keeping it adds huge delays.
+        // The difference can be seen from ESLint debug logs: `export DEBUG=typescript-eslint:* ; npm run lint`:
+        //
+        // * Without `project`, logs typically look like this for every .svelte file (similar to .ts files):
+        //     typescript-eslint:typescript-estree:createSourceFile Getting AST without type information in TS mode for: app/lib/components/flash.svelte +42ms
+        //
+        // * With `project`:
+        //   typescript-eslint:typescript-estree:parser:parseSettings:resolveProjectList parserOptions.project (excluding ignored) matched projects: Set(1) { 'tsconfig.client.json' } +0ms
+        //   typescript-eslint:typescript-estree:createWatchProgram File did not belong to any existing programs, moving to create/update. app/lib/components/flash.svelte +0ms
+        //   typescript-eslint:typescript-estree:createWatchProgram Creating watch program for tsconfig.client.json. +1ms
+        //   typescript-eslint:typescript-estree:createWatchProgram Found program for file. app/lib/components/flash.svelte +4s
+        //   typescript-eslint:typescript-estree:createProjectProgram Creating project program for: app/lib/components/flash.svelte +0ms
+        //   typescript-eslint:parser:parser Resolved libs from program: [ 'esnext.full' ] +0ms
+        //   typescript-eslint:typescript-estree:createSourceFile Getting AST without type information in TS mode for: app/lib/components/link.svelte +4s
+        //   typescript-eslint:typescript-estree:createWatchProgram Found existing program for file. app/lib/components/link.svelte +401ms
+        //   typescript-eslint:typescript-estree:createProjectProgram Creating project program for: app/lib/components/link.svelte +578ms
+        //   typescript-eslint:parser:parser Resolved libs from program: [ 'esnext.full' ] +576ms
+        //
+        // project: './tsconfig.client.json',
+
         extraFileExtensions: [ '.svelte' ],
       },
       rules: {
