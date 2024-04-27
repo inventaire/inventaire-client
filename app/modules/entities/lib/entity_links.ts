@@ -264,6 +264,16 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.noosfere.org/livres/EditionsLivre.asp?numitem=${id}`,
   },
+  'wdt:P5792': {
+    name: 'NooSFere',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.noosfere.org/livres/serie.asp?numserie=${id}`,
+  },
+  'wdt:P6901': {
+    name: 'NooSFere',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.noosfere.org/livres/niourf.asp?numlivre=${id}`,
+  },
   'wdt:P6947': {
     name: 'Goodreads',
     category: 'bibliographicDatabases',
