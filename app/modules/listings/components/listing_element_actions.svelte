@@ -2,13 +2,15 @@
   import { clone } from 'underscore'
   import { icon } from '#app/lib/icons'
   import { moveArrayElement } from '#app/lib/utils'
+  import Modal from '#components/modal.svelte'
   import Spinner from '#general/components/spinner.svelte'
   import { removeElement, updateElement, removeElementConfirmation } from '#listings/lib/listings'
+  import ElementEditor from '#modules/listings/components/element_editor.svelte'
   import { i18n } from '#user/lib/i18n'
 
   export let isReordering, element, elements, listingId, flash
 
-  let isLoading
+  let isLoading, isEditMode
   const { _id, uri } = element
   $: hasSeveralElements = elements.length > 1
   $: index = elements.findIndex(obj => obj.uri === uri)
@@ -52,9 +54,28 @@
         elements = oldElements
       })
   }
+
+  function toggleEditMode () {
+    isEditMode = !isEditMode
+  }
 </script>
+{#if isEditMode}
+  <Modal on:closeModal={() => isEditMode = false}
+  >
+    <ElementEditor
+      bind:element
+      on:editorDone={toggleEditMode}
+    />
+  </Modal>
+{/if}
 
 <div class="element-actions">
+  <button
+    class="tiny-button light-blue"
+    on:click={toggleEditMode}
+  >
+    {@html icon('pencil')}
+  </button>
   <button
     on:click={onRemoveElement}
     disabled={isReordering}
