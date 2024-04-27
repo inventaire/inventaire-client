@@ -1,6 +1,7 @@
 <script lang="ts">
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
+  import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import AuthorsInline from '#entities/components/layouts/authors_inline.svelte'
@@ -9,12 +10,13 @@
   import { i18n } from '#user/lib/i18n'
   import ListingElementActions from './listing_element_actions.svelte'
 
-  export let isEditable, isReordering, element, paginatedElements, listingId
+  export let element, listingId, isEditable, isReordering, paginatedElements
 
   const { entity } = element
   const { uri, label, claims, image } = entity
   const publicationYear = formatYearClaim('wdt:P577', claims)
   const authorsUris = claims['wdt:P50']
+
   let imageUrl, flash
 
   if (isNonEmptyArray(image)) {
@@ -23,7 +25,10 @@
   } else if (image?.url) {
     imageUrl = image.url
   }
+
+  $: comment = element.comment
 </script>
+
 <div class="listing-element-section">
   <div class="listing-element">
     <a
@@ -38,17 +43,22 @@
           limit={1}
         />
       {/if}
-      <div>
-        <span class="label">{label}</span>
-        {#if publicationYear}
-          <p
-            class="publicationYear"
-            title={i18n('wdt:P577')}
-          >
-            {publicationYear}
-          </p>
+      <div class="main-text-wrapper">
+        <div>
+          <span class="label">{label}</span>
+          {#if publicationYear}
+            <p
+              class="publicationYear"
+              title={i18n('wdt:P577')}
+            >
+              {publicationYear}
+            </p>
+          {/if}
+          <AuthorsInline entitiesUris={authorsUris} />
+        </div>
+        {#if comment}
+          <p>{@html userContent(comment)}</p>
         {/if}
-        <AuthorsInline entitiesUris={authorsUris} />
       </div>
     </a>
     {#if isEditable}
@@ -71,23 +81,35 @@
     padding: 0.5em;
   }
   .listing-element{
-    @include display-flex(row, stretch, flex-start);
+    @include display-flex(row, unset, space-between);
+    min-height: 6em;
+    flex: 1;
   }
   a{
-    height: 6em;
-    flex: 1;
     @include display-flex(row, stretch, flex-start);
     :global(.images-collage){
+      block-size: 6em;
       flex: 0 0 4em;
       margin-inline-end: 0.5em;
     }
   }
+  .main-text-wrapper{
+    @include display-flex(column, flex-start);
+  }
   .label{
     @include serif;
-    padding-inline-end: 0.3em;
+    padding-inline-end: 0.5em;
+    font-size: 1.1em
   }
   .publicationYear{
     color: $label-grey;
     font-size: 0.9rem;
+  }
+  .actions{
+    @include display-flex(column, flex-end);
+    @include shy-button-label;
+  }
+  button{
+    margin-block-end: 0.5em;
   }
 </style>
