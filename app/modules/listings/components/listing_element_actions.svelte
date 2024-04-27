@@ -3,7 +3,7 @@
   import { icon } from '#app/lib/icons'
   import { moveArrayElement } from '#app/lib/utils'
   import Spinner from '#general/components/spinner.svelte'
-  import { removeElement, updateElement } from '#listings/lib/listings'
+  import { removeElement, updateElement, removeElementConfirmation } from '#listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
 
   export let isReordering, element, elements, listingId, flash
@@ -12,6 +12,13 @@
   const { _id, uri } = element
   $: hasSeveralElements = elements.length > 1
   $: index = elements.findIndex(obj => obj.uri === uri)
+
+  async function onRemoveElement (e) {
+    const { comment } = e.detail
+    const deletingData = {}
+    if (comment) deletingData.commentElement = comment
+    await removeElementConfirmation(_removeElement, deletingData)
+  }
 
   async function _removeElement () {
     removeElement(listingId, uri)
@@ -49,7 +56,7 @@
 
 <div class="element-actions">
   <button
-    on:click={() => _removeElement()}
+    on:click={onRemoveElement}
     disabled={isReordering}
     class="remove-button tiny-button"
     title={i18n('remove')}
