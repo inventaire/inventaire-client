@@ -99,6 +99,7 @@
 
   $: onChange(paginatedElements, refreshElements)
 </script>
+
 <svelte:window bind:scrollY={windowScrollY} />
 {#await waitingForEntities}
   <Spinner center={true} />
