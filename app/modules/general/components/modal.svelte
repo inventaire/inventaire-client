@@ -1,3 +1,4 @@
+<!-- See: https://svelte.dev/docs/svelte-components#script-context-module -->
 <script context="module">
   let openModalsCount = 0
 </script>

@@ -1,6 +1,7 @@
 import { pluck } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
+import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
 import { i18n } from '#user/lib/i18n'
 
@@ -87,8 +88,20 @@ export async function getListingMetadata (listing) {
   }
 }
 
-export async function getListingLongTitle (listing) {
+async function getListingLongTitle (listing) {
   const { name, creator } = listing
   const { username } = await app.request('get:user:data', creator)
   return `${name} - ${i18n('list_created_by', { username })}`
+}
+
+export async function removeElementConfirmation (action, deletingData) {
+  if (isNonEmptyPlainObject(deletingData)) {
+    app.execute('ask:confirmation', {
+      confirmationText: i18n('Are you sure you want to **delete this element**? That will also delete the following text: %{deletingData}…', { deletingData: deletingData.slice(0, 50) }),
+      warningText: i18n('cant_undo_warning'),
+      action,
+    })
+  } else {
+    action()
+  }
 }
