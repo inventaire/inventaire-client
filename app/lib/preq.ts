@@ -9,6 +9,7 @@ interface Options {
   headers?: { 'content-type': 'application/json' }
 }
 
+let ongoingRequestsCount = 0
 function ajaxFactory (method, hasBody) {
   return async function request (url: Url, body?: unknown) {
     const options: Options = { method }
@@ -22,6 +23,7 @@ function ajaxFactory (method, hasBody) {
 
     let res, responseText, responseJSON
     try {
+      ongoingRequestsCount++
       res = await fetch(url, options)
       responseText = await res.text()
       // Known case starting with "{": /api/*, wiki*.org answers
@@ -30,6 +32,8 @@ function ajaxFactory (method, hasBody) {
     } catch (err) {
       err.context = Object.assign({ url }, options)
       throw err
+    } finally {
+      ongoingRequestsCount--
     }
 
     const { status: statusCode } = res
@@ -105,4 +109,8 @@ got statusCode ${statusCode} but invalid JSON: ${responseText} / ${responseJSON}
   // @ts-expect-error
   error.serverError = true
   return Object.assign(error, { statusCode, statusText, responseText, responseJSON, context })
+}
+
+export function getOngoingRequestsCount () {
+  return ongoingRequestsCount
 }

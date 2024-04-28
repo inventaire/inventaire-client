@@ -13,22 +13,13 @@ import { API } from '#app/api/api'
 // For all the needs covered by Prerender, only the first update matters,
 // but further updates might be needed for in browser metadata access,
 // such as RSS feed detections
-import { wait } from '#app/lib/promises'
 import { dropLeadingSlash } from '#app/lib/utils'
 import type { Url } from '#server/types/common'
 import { I18n, i18n } from '#user/lib/i18n'
+import { getOngoingRequestsCount } from '../preq.ts'
 import { transformers } from './apply_transformers.ts'
 import updateNodeType from './update_node_type.ts'
 
-// Make prerender wait before assuming everything is ready
-window.prerenderReady = false
-async function metadataUpdateDone () {
-  await wait(100)
-  window.prerenderReady = true
-}
-// Stop waiting if it takes more than 20 secondes: addresses cases
-// where metadataUpdateDone would not have been called
-setTimeout(metadataUpdateDone, 20 * 1000)
 export const isPrerenderSession = (window.navigator?.userAgent.match('Prerender') != null)
 
 interface Metadata {
@@ -97,6 +88,41 @@ function updateMetadata (metadata) {
   }
 }
 
+export function clearMetadata () {
+  resetPagePrerender()
+  updateMetadata(getDefaultMetadata())
+  $('head meta[name^="prerender"]').remove()
+}
+
+let sessionId = 0
+let endPrerenderSession
+function resetPagePrerender () {
+  if (!isPrerenderSession) return
+  const currentSessionId = ++sessionId
+  window.prerenderReady = false
+  endPrerenderSession = () => {
+    // Stop waiting once the session is idle: addresses cases
+    // where metadataUpdateDone would not have been called
+    if (sessionId === currentSessionId && !window.prerenderReady) {
+      if (getOngoingRequestsCount() === 0) {
+        console.log('assume page prerendering is over')
+        window.prerenderReady = true
+      } else {
+        console.log('ongoing requests: wait for page prerendering')
+        setTimeout(endPrerenderSession, 200)
+      }
+    }
+  }
+  setTimeout(endPrerenderSession, 5000)
+}
+
+resetPagePrerender()
+
+async function metadataUpdateDone () {
+  console.log('metadata update done')
+  endPrerenderSession?.()
+}
+
 function setPrerenderMeta (statusCode = 500, route) {
   if (!isPrerenderSession || window.prerenderReady) return
 
@@ -113,10 +139,4 @@ function setPrerenderMeta (statusCode = 500, route) {
 export function setPrerenderStatusCode (statusCode, route?) {
   setPrerenderMeta(statusCode, route)
   metadataUpdateDone()
-}
-
-export function clearMetadata () {
-  window.prerenderReady = false
-  updateMetadata(getDefaultMetadata())
-  $('head meta[name^="prerender"]').remove()
 }
