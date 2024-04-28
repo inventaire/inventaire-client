@@ -1,3 +1,6 @@
+// Duplicated from './metadata/update' to keep the maximum priority in import order
+const isPrerenderSession = (window.navigator?.userAgent.match('Prerender') != null)
+
 export function reportError (err) {
   // Do not try to report errors in tests
   if (window.env == null) return
@@ -20,11 +23,10 @@ export function reportError (err) {
   }
 
   // (1)
-  return $.post({
-    url: '/api/reports?action=error-report',
-    // jquery defaults to x-www-form-urlencoded
+  return fetch('/api/reports?action=error-report', {
+    method: 'post',
     headers: { 'content-type': 'application/json' },
-    data: stringifyData(data),
+    body: stringifyData(data),
   })
 }
 
@@ -33,15 +35,17 @@ const sendOnlineReport = function () {
   if (document.visibilityState !== 'hidden') {
     // (1)
     // No need to send a body
-    return $.post('/api/reports?action=online')
+    return fetch('/api/reports?action=online', { method: 'post' })
   }
 }
 
-// Send a POST requests every 30 secondes to notify the server that we are online,
-// useful for maintainance operations.
-setInterval(sendOnlineReport, 30 * 1000)
+if (!isPrerenderSession) {
+  // Send a POST requests every 30 secondes to notify the server that we are online,
+  // useful for maintainance operations.
+  setInterval(sendOnlineReport, 30 * 1000)
+}
 
-// (1): Using jQuery promise instead of preq to be able to report errors
+// (1): Using fetch directly instead of preq to be able to report errors
 // happening before preq is initialized
 
 const stringifyData = function (data) {
