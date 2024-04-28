@@ -351,7 +351,7 @@ const handleMissingEntity = (uri, err) => {
   } else if (err.message === 'entity_not_found') {
     const [ prefix, id ] = uri.split(':')
     const pathname = `/entity/${uri}`
-    if (prefix === 'isbn') showEntityCreateFromIsbn(id)
+    if (app.user.loggedIn && prefix === 'isbn') showEntityCreateFromIsbn(id)
     else app.execute('show:error:missing', { pathname })
   } else {
     app.execute('show:error:other', err, 'handleMissingEntity')
