@@ -72,8 +72,8 @@
       }
       // Re fetch entities with fitting attributes.
       await assignEntitiesToElements(createdElements)
-      paginatedElements = [ ...paginatedElements, ...createdElements ]
       elements = [ ...elements, ...createdElements ]
+      fetchMore(true)
       return flash = {
         type: 'success',
         message: i18n('Added to the list'),
@@ -86,23 +86,20 @@
   $: hasMore = elements.length >= offset
   $: hasSeveralElements = elements.length > 1
 
-  const fetchMore = async () => {
+  const fetchMore = async isReset => {
+    fetching = true
+    if (isReset) offset = 0
     const nextBatchElements = elements.slice(offset, offset + paginationSize)
     await assignEntitiesToElements(nextBatchElements)
     if (isNonEmptyArray(nextBatchElements)) {
       offset += paginationSize
-      paginatedElements = [ ...paginatedElements, ...nextBatchElements ]
+      paginatedElements = isReset ? nextBatchElements : [ ...paginatedElements, ...nextBatchElements ]
     }
+    fetching = false
   }
 
   function cancelReorderMode () {
     isReorderMode = false
-  }
-
-  function resetPagination () {
-    offset = 0
-    paginatedElements = []
-    fetchMore()
   }
 
   const waitingForEntities = fetchMore()
@@ -119,7 +116,7 @@
     const uris = pluck(paginatedElements, 'uri')
     try {
       await reorder(listingId, uris)
-      resetPagination()
+      fetchMore(true)
       isReorderMode = false
     } catch (err) {
       flash = err
