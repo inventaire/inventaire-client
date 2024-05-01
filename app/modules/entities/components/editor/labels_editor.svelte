@@ -1,7 +1,9 @@
 <script lang="ts">
   import { tick } from 'svelte'
+  import { clone } from 'underscore'
   import { API } from '#app/api/api'
   import app from '#app/app'
+  import { isNonEmptyString } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { getActionKey } from '#app/lib/key_events'
   import preq from '#app/lib/preq'
@@ -21,7 +23,7 @@
   export let inputLabel: string = null
 
   let editMode = false
-  let input, flash
+  let input, flash, previousValue
 
   const { uri, labels } = entity
   const creationMode = uri == null
@@ -53,14 +55,39 @@
   function closeEditMode () { editMode = false }
 
   async function save () {
+    flash = null
     const { value } = input
     labels[currentLang] = value
     triggerEntityRefresh()
     editMode = false
     if (creationMode) return
     app.execute('invalidate:entities:cache', uri)
-    preq.put(API.entities.labels.update, { uri, lang: currentLang, value })
+    return updateOrRemoveLabel(uri, currentLang, value)
+  }
+
+  async function removeLabel () {
+    flash = null
+    triggerEntityRefresh()
+    editMode = false
+    if (creationMode) return
+    return updateOrRemoveLabel(uri, currentLang)
+  }
+
+  function updateOrRemoveLabel (uri, lang, value) {
+    // Keep displaying a blank row when value is falsy, so that,
+    // when removing label, user may still edit it after
+    labels[lang] = value || ''
+    // Todo: add Undo button
+    previousValue = clone(labels[lang])
+    let promise
+    if (value) {
+      promise = preq.put(API.entities.labels.update, { uri, lang, value })
+    } else {
+      promise = preq.put(API.entities.labels.remove, { uri, lang })
+    }
+    promise
       .catch(err => {
+        labels[lang] = previousValue
         editMode = true
         flash = err
       })
@@ -130,7 +157,11 @@
             </p>
           {/if}
         </div>
-        <EditModeButtons showDelete={false} on:cancel={closeEditMode} on:save={save} />
+        <EditModeButtons
+          on:cancel={closeEditMode}
+          on:save={save}
+          on:delete={removeLabel}
+        />
       {:else}
         <button class="value-display" on:click={showEditMode} title={I18n('edit')}>
           {currentValue || ''}
@@ -143,7 +174,7 @@
   <ul class="other-languages">
     {#each alphabeticallySortedEntries(labels) as [ lang, value ]}
       {@const native = getNativeLangName(lang)}
-      {#if lang !== currentLang}
+      {#if lang !== currentLang && isNonEmptyString(value)}
         <li>
           <button on:click={() => editLanguageValue(lang)}
           >
