@@ -75,6 +75,7 @@ export default {
 
   labels: {
     update: action('update-label'),
+    remove: action('remove-label'),
   },
 
   merge: action('merge'),
