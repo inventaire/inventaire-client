@@ -65,24 +65,17 @@
     <ElementEditor
       bind:element
       on:editorDone={toggleEditMode}
+      on:removeElement={onRemoveElement}
     />
   </Modal>
 {/if}
 
 <div class="element-actions">
   <button
-    class="tiny-button light-blue"
+    class="edit-button tiny-button"
     on:click={toggleEditMode}
   >
     {@html icon('pencil')}
-  </button>
-  <button
-    on:click={onRemoveElement}
-    disabled={isReordering}
-    class="remove-button tiny-button"
-    title={i18n('remove')}
-  >
-    {@html icon('trash')}
   </button>
   {#if hasSeveralElements}
     <div class="reorder-section">
@@ -127,10 +120,9 @@
     @include display-flex(row, center);
     margin: 0.3em;
   }
-  .remove-button{
-    margin: 0.3em;
-    padding: 0.2em;
-    height: 2em;
+  .edit-button{
+    margin: 1em;
+    padding: 0.3em;
     color: $grey;
     background-color: $off-white;
   }
