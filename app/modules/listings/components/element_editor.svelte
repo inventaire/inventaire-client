@@ -19,11 +19,9 @@
   async function validate () {
     flash = null
     try {
-      await updateElement(element._id, comment)
-        .then(() => {
-          dispatch('editorDone')
-          element.comment = comment
-        })
+      const updatedElement = await updateElement({ id: element._id, comment })
+      dispatch('editorDone')
+      element = updatedElement
     } catch (err) {
       flash = err
     }
@@ -39,7 +37,7 @@
     use:autosize
   />
 </label>
-<div class="buttons">
+<div class="buttons-wrapper">
   {#await validating}
     <Spinner />
   {:then}
@@ -52,7 +50,15 @@
       {I18n('validate')}
     </button>
   {/await}
+  <button
+    class="remove-button dark-grey"
+    on:click={() => dispatch('removeElement', element)}
+  >
+    {@html icon('trash')}
+    <span>{I18n('remove')}</span>
+  </button>
 </div>
+
 <Flash bind:state={flash} />
 
 <style lang="scss">
@@ -63,16 +69,36 @@
   label{
     font-size: 1rem;
     margin-block-end: 0.2em;
-  }
-  .buttons{
     margin-block-start: 1em;
-    @include display-flex(row, center, center);
+  }
+  .buttons-wrapper{
+    margin-block-start: 1em;
+    @include display-flex(row, center, space-between);
   }
   button{
     min-width: 10rem;
     margin: 0 0.5em;
   }
-  .delete{
-    @include dangerous-action;
+  .remove-button{
+    @include display-flex(row, flex-end, flex-end);
+    float: inline-end;
+    margin: 1em 0;
+    padding: 0.4em 0.6em;
+    @include shy(0.9);
+    @include display-flex(row, center, center);
+    :global(.fa){
+      font-size: 1.1em;
+    }
+    &:hover, &:focus{
+      border-radius: $global-radius;
+      background-color: $danger-color;
+      color: white;
+    }
+  }
+  /* Very small screens */
+  @media screen and (max-width: $very-small-screen){
+    .buttons-wrapper{
+      @include display-flex(column, center);
+    }
   }
 </style>
