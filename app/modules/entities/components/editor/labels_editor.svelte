@@ -12,6 +12,7 @@
   import getLangsData from '#entities/lib/editor/get_langs_data'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { typeHasName } from '#entities/lib/types/entities_types'
+  import type { EntityUri, Label } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
@@ -73,7 +74,7 @@
     return updateOrRemoveLabel(uri, currentLang)
   }
 
-  function updateOrRemoveLabel (uri, lang, value) {
+  function updateOrRemoveLabel (uri: EntityUri, lang: WikimediaLanguageCode, value?: Label) {
     // Keep displaying a blank row when value is falsy, so that,
     // when removing label, user may still edit it after
     labels[lang] = value || ''
