@@ -1,12 +1,14 @@
 <script lang="ts">
   import { tick } from 'svelte'
-  import { clone } from 'underscore'
+  import { isString } from 'underscore'
   import { API } from '#app/api/api'
   import app from '#app/app'
   import { isNonEmptyString } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
+  import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
   import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/editor/lib/editors_helpers'
   import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/components/editor/lib/title_tip'
   import getLangsData from '#entities/lib/editor/get_langs_data'
@@ -24,7 +26,7 @@
   export let inputLabel: string = null
 
   let editMode = false
-  let input, flash, previousValue
+  let input, flash, previousValue, previousLang
 
   const { uri, labels } = entity
   const creationMode = uri == null
@@ -40,12 +42,22 @@
       editMode = true
       if (inputLabel) currentValue = inputLabel
     }
-    if (favoriteLabelLang === currentLang) {
+    if (favoriteLabelLang === currentLang && isString(currentValue)) {
       favoriteLabel = currentValue
     }
   }
 
   $: hasName = typeHasName(entity.type)
+  $: deleteButtonDisable = Object.values(entity.labels).filter(isNonEmptyString).length < 2
+  $: onChange(currentLang, resetState)
+
+  function resetState () {
+    previousValue = null
+    if (previousLang && typeof entity.labels[previousLang] === 'symbol') {
+      delete entity.labels[previousLang]
+    }
+    previousLang = currentLang
+  }
 
   async function showEditMode () {
     editMode = true
@@ -55,38 +67,44 @@
 
   function closeEditMode () { editMode = false }
 
-  async function save () {
+  async function saveFromInput () {
     flash = null
-    const { value } = input
+    const value = input.value.trim()
+    if (value === '') return removeLabel()
+    save(value)
+  }
+
+  async function save (value: string) {
     labels[currentLang] = value
     triggerEntityRefresh()
     editMode = false
     if (creationMode) return
-    app.execute('invalidate:entities:cache', uri)
     return updateOrRemoveLabel(uri, currentLang, value)
   }
 
   async function removeLabel () {
     flash = null
+    previousValue = labels[currentLang]
+    labels[currentLang] = Symbol.for('removed')
     triggerEntityRefresh()
     editMode = false
     if (creationMode) return
     return updateOrRemoveLabel(uri, currentLang)
   }
 
+  async function undo () {
+    labels[currentLang] = previousValue
+    return save(previousValue)
+  }
+
   function updateOrRemoveLabel (uri: EntityUri, lang: WikimediaLanguageCode, value?: Label) {
-    // Keep displaying a blank row when value is falsy, so that,
-    // when removing label, user may still edit it after
-    labels[lang] = value || ''
-    // Todo: add Undo button
-    previousValue = clone(labels[lang])
     let promise
     if (value) {
       promise = preq.put(API.entities.labels.update, { uri, lang, value })
     } else {
       promise = preq.put(API.entities.labels.remove, { uri, lang })
     }
-    promise
+    return promise
       .catch(err => {
         labels[lang] = previousValue
         editMode = true
@@ -96,9 +114,11 @@
 
   function onInputKeyup (e) {
     const key = getActionKey(e)
-    if (key === 'esc') closeEditMode()
-    else if (e.ctrlKey && key === 'enter') save()
-    if (serieLabels) {
+    if (key === 'esc') {
+      closeEditMode()
+    } else if (e.ctrlKey && key === 'enter') {
+      saveFromInput()
+    } if (serieLabels) {
       const { value } = input
       matchingSerieLabel = findMatchingSerieLabel(value, serieLabels)
     }
@@ -146,7 +166,7 @@
         <div class="input-wrapper">
           <input
             type="text"
-            value={currentValue || ''}
+            value={isString(currentValue) ? currentValue : ''}
             on:keyup={onInputKeyup}
             bind:this={input}
           />
@@ -160,13 +180,26 @@
         </div>
         <EditModeButtons
           on:cancel={closeEditMode}
-          on:save={save}
+          on:save={saveFromInput}
           on:delete={removeLabel}
+          showDelete={labels[currentLang] != null}
+          deleteButtonDisableMessage={deleteButtonDisable ? i18n('There should be at least one label') : null}
         />
       {:else}
-        <button class="value-display" on:click={showEditMode} title={I18n('edit')}>
-          {currentValue || ''}
-        </button>
+        {#if currentValue === Symbol.for('removed')}
+          <button
+            class="undo"
+            title={`${i18n('Recover previous value:')} ${previousValue}`}
+            on:click={undo}
+          >
+            {@html icon('undo')}
+            {I18n('undo')}
+          </button>
+        {:else}
+          <button class="value-display" on:click={showEditMode} title={I18n('edit')}>
+            {currentValue || ''}
+          </button>
+        {/if}
         <DisplayModeButtons on:edit={showEditMode} />
       {/if}
     </div>
@@ -177,7 +210,9 @@
       {@const native = getNativeLangName(lang)}
       {#if lang !== currentLang && isNonEmptyString(value)}
         <li>
-          <button on:click={() => editLanguageValue(lang)}
+          <button
+            class="edit-other-language"
+            on:click={() => editLanguageValue(lang)}
           >
             <span class="lang">{lang} {#if native}- {native}{/if}</span>
             <span class="other-value">{value}</span>
@@ -201,11 +236,11 @@
   }
   .value{
     flex: 1;
-    .input-wrapper, button{
+    .input-wrapper, .value-display{
       flex: 1;
       font-weight: normal;
     }
-    button{
+    .value-display{
       cursor: pointer;
       text-align: start;
       @include bg-hover(white, 5%);
@@ -219,7 +254,7 @@
     max-block-size: 10em;
     overflow: auto;
     margin-block-start: 1em;
-    button{
+    .edit-other-language{
       inline-size: 100%;
       margin: 0.5em 0;
       padding: 0.5em 0;
@@ -230,6 +265,13 @@
   }
   .other-value{
     user-select: text;
+  }
+  .undo{
+    flex: 1;
+    padding: 0.6em 0;
+    margin: 0 0.5em;
+    @include shy(0.9);
+    @include bg-hover(#ddd);
   }
 
   /* Small screens */
@@ -242,7 +284,7 @@
     }
     .value{
       @include display-flex(column, center, center);
-      .input-wrapper, button{
+      .input-wrapper, .value-display{
         inline-size: 100%;
         margin: 0.5em 0;
         padding: 0.5em;
@@ -250,7 +292,7 @@
       input{
         margin: 0;
       }
-      button{
+      .value-display{
         @include bg-hover($light-grey, 5%);
       }
     }
@@ -277,11 +319,11 @@
     }
     .value{
       @include display-flex(row, stretch);
-      .input-wrapper, button{
+      .input-wrapper, .value-display{
         block-size: 100%;
         margin: 0 0.5em;
       }
-      button{
+      .value-display{
         @include bg-hover(white, 5%);
       }
     }
