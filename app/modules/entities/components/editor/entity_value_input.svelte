@@ -3,14 +3,13 @@
   import { BubbleUpComponentEvent } from '#app/lib/svelte/svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { propertiesEditorsConfigs } from '#entities/lib/properties'
-  import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
 
   export let currentValue, property, valueLabel, entity
 
   const { allowEntityCreation, entityValueTypes } = propertiesEditorsConfigs[property]
   const createOnWikidata = entity.uri?.startsWith('wd:')
 
-  const createdEntityType = entityTypeNameBySingularType[entityValueTypes?.[0]]
+  const createdEntityType = entityValueTypes?.[0]
 
   const dispatch = createEventDispatcher()
   const bubbleUpComponentEvent = BubbleUpComponentEvent(dispatch)

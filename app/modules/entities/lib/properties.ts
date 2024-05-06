@@ -1,8 +1,7 @@
 import { getUriNumericId } from '#app/lib/wikimedia/wikidata'
 import { authorRoleProperties } from '#entities/lib/editor/properties_per_subtype'
 import { properties, type CustomPropertyConfig } from '#entities/lib/editor/properties_per_type'
-import type { InvPropertyClaims, PropertyUri } from '#server/types/entity'
-import type { PluralizedSearchableEntityType } from './search/type_search'
+import type { ExtendedEntityType, InvPropertyClaims, PropertyUri } from '#server/types/entity'
 import type { Entries } from 'type-fest'
 
 // TODO: get those properties from server/controllers/entities/lib/properties/properties.js#authorRelationsProperties
@@ -32,7 +31,7 @@ interface EditorCustomization {
   datatype?: string
   order?: number
   canValueBeDeleted?: ({ propertyClaims }: { propertyClaims: InvPropertyClaims }) => boolean
-  entityValueTypes?: PluralizedSearchableEntityType[]
+  entityValueTypes?: ExtendedEntityType[]
   specialEditActions?: 'author-role'
   allowEntityCreation?: boolean
 }
@@ -49,7 +48,7 @@ const propertiesEditorsCustomizations: Record<PropertyUri, EditorCustomization> 
   },
   // main subject
   'wdt:P921': {
-    entityValueTypes: [ 'subjects' ],
+    entityValueTypes: [ 'subject' ],
   },
   // ISBN-10
   'wdt:P957': {
@@ -78,7 +77,7 @@ for (const property of prioritizedProperties) {
   })
 }
 
-type PropertiesEditorConfig = { property } & CustomPropertyConfig & EditorCustomization
+type PropertiesEditorConfig = { property: PropertyUri } & CustomPropertyConfig & EditorCustomization
 export const propertiesEditorsConfigs: Record<PropertyUri, PropertiesEditorConfig> = {}
 
 for (const [ property, propertyConfig ] of Object.entries(properties) as Entries<typeof properties>) {
