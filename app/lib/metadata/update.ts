@@ -119,6 +119,7 @@ function resetPagePrerender () {
 resetPagePrerender()
 
 async function metadataUpdateDone () {
+  if (!isPrerenderSession) return
   console.log('metadata update done')
   endPrerenderSession?.()
 }
