@@ -9,16 +9,21 @@
   let { _id, creator, elements } = listing
 
   const isEditable = creator === app.user.id
+  let isReorderMode, hasSeveralElements
 </script>
 <div class="listing-layout">
   <ListingInfoBox
     {listing}
     {isEditable}
+    bind:isReorderMode
+    {hasSeveralElements}
   />
   <ListingElements
     bind:elements
     listingId={_id}
     {isEditable}
+    bind:isReorderMode
+    bind:hasSeveralElements
   />
 </div>
 
@@ -33,7 +38,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .listing-layout{
-    max-width: 50em;
+    max-width: 40em;
     margin: 0 auto;
     @include display-flex(column, center);
   }
