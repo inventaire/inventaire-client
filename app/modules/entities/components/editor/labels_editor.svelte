@@ -9,7 +9,7 @@
   import { getActionKey } from '#app/lib/key_events'
   import preq from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
-  import { alphabeticallySortedEntries, getNativeLangName } from '#entities/components/editor/lib/editors_helpers'
+  import { alphabeticallySortedEntries } from '#entities/components/editor/lib/editors_helpers'
   import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/components/editor/lib/title_tip'
   import getLangsData from '#entities/lib/editor/get_langs_data'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
@@ -18,6 +18,7 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import DisplayModeButtons from './display_mode_buttons.svelte'
   import EditModeButtons from './edit_mode_buttons.svelte'
+  import OtherLanguage from './other_language.svelte'
   import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
   export let entity
@@ -207,18 +208,12 @@
 
   <ul class="other-languages">
     {#each alphabeticallySortedEntries(labels) as [ lang, value ]}
-      {@const native = getNativeLangName(lang)}
-      {#if lang !== currentLang && isNonEmptyString(value)}
-        <li>
-          <button
-            class="edit-other-language"
-            on:click={() => editLanguageValue(lang)}
-          >
-            <span class="lang">{lang} {#if native}- {native}{/if}</span>
-            <span class="other-value">{value}</span>
-          </button>
-        </li>
-      {/if}
+      <OtherLanguage
+        {lang}
+        {value}
+        {currentLang}
+        on:editLanguageValue={e => editLanguageValue(e.detail)}
+      />
     {/each}
   </ul>
 
@@ -254,17 +249,6 @@
     max-block-size: 10em;
     overflow: auto;
     margin-block-start: 1em;
-    .edit-other-language{
-      inline-size: 100%;
-      margin: 0.5em 0;
-      padding: 0.5em 0;
-      @include display-flex(row, center, flex-start);
-      @include bg-hover(white, 5%);
-      text-align: start;
-    }
-  }
-  .other-value{
-    user-select: text;
   }
   .undo{
     flex: 1;
@@ -302,16 +286,9 @@
   }
   /* Large screens */
   @media screen and (min-width: $smaller-screen){
-    select, .other-languages .lang{
+    select{
       inline-size: 10em;
       block-size: 100%;
-    }
-    .lang{
-      padding: 0 1rem;
-      font-size: 0.9rem;
-    }
-    .other-value{
-      margin: 0 1.1em;
     }
     .language-values{
       @include display-flex(row, stretch, center);
@@ -321,7 +298,7 @@
       @include display-flex(row, stretch);
       .input-wrapper, .value-display{
         block-size: 100%;
-        margin: 0 0.5em;
+        margin: 0 1em;
       }
       .value-display{
         @include bg-hover(white, 5%);
