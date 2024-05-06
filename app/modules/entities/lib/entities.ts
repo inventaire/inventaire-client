@@ -5,7 +5,7 @@ import assert_ from '#app/lib/assert_types'
 import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#app/lib/boolean_tests'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import preq from '#app/lib/preq'
-import { forceArray } from '#app/lib/utils'
+import { forceArray, objectEntries } from '#app/lib/utils'
 import type { Entity, RedirectionsByUris } from '#app/types/entity'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
@@ -13,7 +13,6 @@ import type { RelativeUrl, Url } from '#server/types/common'
 import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue } from '#server/types/entity'
 import getBestLangValue from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
-import type { Entries } from 'type-fest'
 import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
 export type SerializedEntity = Entity & {
@@ -159,9 +158,9 @@ export async function getEntitiesAttributesByUris ({ uris, attributes, lang, rel
   return { entities }
 }
 
-function addRedirectionsAliases (entities, redirects) {
+function addRedirectionsAliases (entities: SerializedEntitiesByUris, redirects: RedirectionsByUris) {
   if (redirects) {
-    for (const [ fromUri, toUri ] of Object.entries(redirects) as Entries<RedirectionsByUris>) {
+    for (const [ fromUri, toUri ] of objectEntries(redirects)) {
       entities[fromUri] = entities[toUri]
     }
   }

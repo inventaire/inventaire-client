@@ -1,8 +1,8 @@
+import { objectEntries } from '#app/lib/utils'
 import { getUriNumericId } from '#app/lib/wikimedia/wikidata'
 import { authorRoleProperties } from '#entities/lib/editor/properties_per_subtype'
 import { properties, type CustomPropertyConfig } from '#entities/lib/editor/properties_per_type'
 import type { ExtendedEntityType, InvPropertyClaims, PropertyUri } from '#server/types/entity'
-import type { Entries } from 'type-fest'
 
 // TODO: get those properties from server/controllers/entities/lib/properties/properties.js#authorRelationsProperties
 export const authorProperties = [
@@ -80,7 +80,7 @@ for (const property of prioritizedProperties) {
 type PropertiesEditorConfig = { property: PropertyUri } & CustomPropertyConfig & EditorCustomization
 export const propertiesEditorsConfigs: Record<PropertyUri, PropertiesEditorConfig> = {}
 
-for (const [ property, propertyConfig ] of Object.entries(properties) as Entries<typeof properties>) {
+for (const [ property, propertyConfig ] of objectEntries(properties)) {
   const editorCustomization: EditorCustomization = propertiesEditorsCustomizations[property] || {}
   if (authorProperties.includes(property)) {
     editorCustomization.specialEditActions = 'author-role'

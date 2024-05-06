@@ -1,14 +1,13 @@
 import { omit, pick } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
-import { objectKeys } from '#app/lib/utils.ts'
+import { objectEntries, objectKeys } from '#app/lib/utils.ts'
 import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist'
 import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
 import { pluralize } from '#entities/lib/types/entities_types'
 import type { PropertiesMetadata } from '#server/controllers/data/properties_metadata'
 import type { PropertyConfig } from '#server/controllers/entities/lib/properties/properties'
 import type { EntityType, PropertyUri } from '#server/types/entity'
-import type { Entries } from 'type-fest'
 
 export const propertiesCategories = {
   socialNetworks: { label: 'social networks' },
@@ -26,7 +25,7 @@ export interface CustomPropertyConfig extends PropertyConfig {
 export const propertiesPerType: Partial<Record<EntityType, Record<PropertyUri, CustomPropertyConfig>>> = {}
 export const propertiesPerCategory: Partial<Record<PropertyCategory, PropertyUri[]>> = {}
 
-for (const [ property, propertyMetadata ] of Object.entries(properties) as Entries<typeof properties>) {
+for (const [ property, propertyMetadata ] of objectEntries(properties)) {
   const { subjectTypes } = propertyMetadata
   const category = externalIdsDisplayConfigs[property]?.category || 'general'
   const allowedValuesShortlist = allowedValuesPerTypePerProperty[property]
@@ -87,7 +86,7 @@ for (const type of objectKeys<typeof propertiesPerType>(propertiesPerType)) {
     ...omit(propertiesPerType[type], typePriorityProperties),
   }
   const typeCustomLabels = customLabels[type]
-  for (const [ property, customLabel ] of Object.entries(typeCustomLabels)) {
+  for (const [ property, customLabel ] of objectEntries(typeCustomLabels)) {
     propertiesPerType[type][property] = Object.assign({ customLabel }, propertiesPerType[type][property])
   }
 }
@@ -108,7 +107,7 @@ export const requiredPropertiesPerType = {
 
 const categoryPerProperty = {}
 
-for (const [ key, categoryData ] of Object.entries(propertiesPerCategory) as Entries<typeof propertiesPerCategory>) {
+for (const [ key, categoryData ] of objectEntries(propertiesPerCategory)) {
   for (const property of categoryData) {
     categoryPerProperty[property] = key
   }
@@ -116,9 +115,9 @@ for (const [ key, categoryData ] of Object.entries(propertiesPerCategory) as Ent
 
 export const propertiesPerTypeAndCategory = {}
 
-for (const [ type, propertiesData ] of Object.entries(propertiesPerType)) {
+for (const [ type, propertiesData ] of objectEntries(propertiesPerType)) {
   propertiesPerTypeAndCategory[type] = {}
-  for (const [ property, propertyData ] of Object.entries(propertiesData)) {
+  for (const [ property, propertyData ] of objectEntries(propertiesData)) {
     const category = categoryPerProperty[property]
     propertiesPerTypeAndCategory[type][category] = propertiesPerTypeAndCategory[type][category] || {}
     propertiesPerTypeAndCategory[type][category][property] = propertyData

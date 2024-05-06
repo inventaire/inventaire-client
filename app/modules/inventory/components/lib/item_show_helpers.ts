@@ -1,6 +1,6 @@
 import { compact, pick, uniq } from 'underscore'
 import app from '#app/app'
-import { objectKeys } from '#app/lib/utils'
+import { objectEntries, objectKeys } from '#app/lib/utils'
 import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
 import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
 
@@ -55,7 +55,7 @@ function getAuthorsByProperty ({ works, authorsByUris }) {
     }
   }
 
-  for (const [ property, authors ] of Object.entries(authorsByProperty)) {
+  for (const [ property, authors ] of objectEntries(authorsByProperty)) {
     authorsByProperty[property] = uniq(authors).map(serializeEntity)
   }
 

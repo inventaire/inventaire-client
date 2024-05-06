@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { objectEntries } from '#app/lib/utils'
   import EntityClaimLink from '#entities/components/layouts/entity_claim_link.svelte'
   import type { PropertyCategory } from '#entities/lib/editor/properties_per_type'
   import { categoryLabels, getDisplayedPropertiesByCategory, type DisplayConfig } from '#entities/lib/entity_links'
@@ -11,7 +12,7 @@
   const categories: Partial<Record<PropertyCategory, CustomDisplayConfig[]>> = {}
 
   const displayedPropertiesByCategory = getDisplayedPropertiesByCategory()
-  for (const [ category, propertiesData ] of Object.entries(displayedPropertiesByCategory)) {
+  for (const [ category, propertiesData ] of objectEntries(displayedPropertiesByCategory)) {
     categories[category] = []
     for (const propertyData of propertiesData) {
       const { property } = propertyData

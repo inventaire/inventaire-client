@@ -4,6 +4,7 @@ import app from '#app/app'
 import { getLocalStorageStore } from '#app/lib/components/stores/local_storage_stores'
 import { serverReportError } from '#app/lib/error'
 import preq from '#app/lib/preq'
+import { objectEntries } from '#app/lib/utils'
 import { getEntitiesAttributesByUris } from '#entities/lib/entities'
 import type { CouchDoc } from '#server/types/couchdb'
 
@@ -66,7 +67,7 @@ interface FacetSelector {
 
 const getSelectorsOptions = ({ worksTree, facetsEntitiesBasicInfo }) => {
   const facetsSelectors = {}
-  for (const [ sectionName, worksUrisPerValue ] of Object.entries(worksTree)) {
+  for (const [ sectionName, worksUrisPerValue ] of objectEntries(worksTree)) {
     if (sectionName !== 'owner') {
       const facetSelector: FacetSelector = {
         options: getOptions({ worksUrisPerValue, facetsEntitiesBasicInfo }),

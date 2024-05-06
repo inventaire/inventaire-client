@@ -5,6 +5,7 @@ import { isNonEmptyString } from '#app/lib/boolean_tests'
 import { serverReportError } from '#app/lib/error'
 import { currentRoute } from '#app/lib/location'
 import log_ from '#app/lib/loggers'
+import type { ObjectEntries } from 'type-fest/source/entries'
 
 export function deepClone (obj: unknown) {
   assert_.object(obj)
@@ -212,13 +213,13 @@ export function flatMapKeyValues (object, fn) {
   assert_.object(object)
   assert_.function(fn)
   // @ts-expect-error
-  return Object.fromEntries(Object.entries(object).flatMap(fn))
+  return Object.fromEntries(objectEntries(object).flatMap(fn))
 }
 
 export function sortObjectKeys (object, fn) {
   assert_.object(object)
   assert_.function(fn)
-  return Object.fromEntries(Object.entries(object).sort(([ keyA ], [ keyB ]) => {
+  return Object.fromEntries(objectEntries(object).sort(([ keyA ], [ keyB ]) => {
     return fn(keyA, keyB)
   }))
 }
@@ -232,4 +233,8 @@ export function objectKeys <Obj> (obj: Obj) {
 // https://stackoverflow.com/questions/55906553/typescript-unexpected-error-when-using-includes-with-a-typed-array/70532727#70532727
 export function arrayIncludes (array: readonly (string | number)[], value: string | number) {
   return array.some(element => element === value)
+}
+
+export function objectEntries <Obj> (obj: Obj) {
+  return Object.entries(obj) as ObjectEntries<Obj>
 }

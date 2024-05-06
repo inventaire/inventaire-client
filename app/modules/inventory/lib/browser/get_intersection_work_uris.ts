@@ -1,10 +1,11 @@
 import { intersection } from 'underscore'
+import { objectEntries } from '#app/lib/utils'
 
 let currentOwnerItemsByWork = null
 
 export function getIntersectionWorkUris ({ worksTree, facetsSelectedValues }) {
   const subsets = []
-  for (const [ selectorName, selectedOptionKey ] of Object.entries(facetsSelectedValues)) {
+  for (const [ selectorName, selectedOptionKey ] of objectEntries(facetsSelectedValues)) {
     if (selectedOptionKey != null) {
       const uris = getFilterWorksUris(worksTree, selectorName, selectedOptionKey)
       subsets.push(uris)

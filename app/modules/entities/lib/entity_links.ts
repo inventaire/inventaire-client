@@ -1,13 +1,12 @@
 import { compact, groupBy, pick, pluck, uniq } from 'underscore'
 import app from '#app/app'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
-import { sortObjectKeys } from '#app/lib/utils'
+import { objectEntries, sortObjectKeys } from '#app/lib/utils'
 import { getUriNumericId } from '#app/lib/wikimedia/wikidata'
 import type { Url } from '#server/types/common'
 import type { PropertyUri } from '#server/types/entity'
 import type { User } from '#server/types/user'
 import type { PropertyCategory } from './editor/properties_per_type'
-import type { Entries } from 'type-fest'
 
 type WebsiteName = string
 
@@ -344,7 +343,7 @@ const _websitesByName: Partial<WebsitesByName> = {}
 type WebsitesByCategoryAndName = Record<PropertyCategory, Record<WebsiteName, PropertyUri[]>>
 const _websitesByCategoryAndName: Partial<WebsitesByCategoryAndName> = {}
 
-for (const [ property, { name, category } ] of Object.entries(externalIdsDisplayConfigs) as Entries<typeof externalIdsDisplayConfigs>) {
+for (const [ property, { name, category } ] of objectEntries(externalIdsDisplayConfigs)) {
   externalIdsDisplayConfigs[property].property = property
   _websitesByCategoryAndName[category] = _websitesByCategoryAndName[category] || {}
   _websitesByCategoryAndName[category][name] = _websitesByCategoryAndName[name] || []

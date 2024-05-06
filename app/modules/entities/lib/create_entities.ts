@@ -2,6 +2,7 @@ import app from '#app/app'
 import { newError } from '#app/lib/error'
 import { getIsbnData } from '#app/lib/isbn'
 import log_ from '#app/lib/loggers'
+import { objectEntries } from '#app/lib/utils'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import getOriginalLang from '#entities/lib/get_original_lang'
@@ -9,7 +10,6 @@ import type { Claims } from '#server/types/entity'
 import Entity from '../models/entity.ts'
 import createEntity from './create_entity.ts'
 import graphRelationsProperties from './graph_relations_properties.ts'
-import type { Entries } from 'type-fest'
 
 const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
   const inEditionLang = workLabels[editionLang]
@@ -126,7 +126,7 @@ export async function createAndGetEntityModel (params) {
 }
 
 function cleanupClaims (claims: Claims) {
-  for (const [ property, propertyClaims ] of Object.entries(claims) as Entries<typeof claims>) {
+  for (const [ property, propertyClaims ] of objectEntries(claims)) {
     claims[property] = propertyClaims.filter(isNonEmptyClaimValue)
   }
 }

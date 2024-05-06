@@ -1,5 +1,6 @@
 import { intersection, pluck, uniq } from 'underscore'
 import app from '#app/app'
+import { objectEntries } from '#app/lib/utils'
 import type { Facets, FacetsSelectedValues } from '#app/types/entity'
 import { sortAlphabetically } from '#entities/components/lib/deduplicate_helpers.ts'
 import {
@@ -64,7 +65,7 @@ const setWorkFacets = ({ facets, valuesUris, contextProperties }) => work => {
 }
 
 const removeFacetsWithNoKnownValue = facets => {
-  for (const [ prop, facet ] of Object.entries(facets)) {
+  for (const [ prop, facet ] of objectEntries(facets)) {
     if (notOnlyUnknownKey(facet)) delete facets[prop]
   }
 }
@@ -73,7 +74,7 @@ const notOnlyUnknownKey = facet => facet.unknown && Object.keys(facet).length ==
 
 const getSelectorsOptions = ({ facets, facetsEntitiesBasicInfo }) => {
   const facetsSelectors = {}
-  for (const [ property, worksUrisPerValue ] of Object.entries(facets)) {
+  for (const [ property, worksUrisPerValue ] of objectEntries(facets)) {
     const facetSelector = {
       options: [
         { value: 'all', text: I18n('all') },
@@ -204,7 +205,7 @@ export function getSelectedUris ({ works, facets, facetsSelectedValues }) {
   let selectedUris: EntityUri[] = pluck(works, 'uri')
   let property: string
   let selectedValue: string
-  for ([ property, selectedValue ] of Object.entries(facetsSelectedValues as FacetsSelectedValues)) {
+  for ([ property, selectedValue ] of objectEntries(facetsSelectedValues as FacetsSelectedValues)) {
     if (selectedValue !== 'all') {
       const matchingUris = facets[property][selectedValue]
       selectedUris = intersection(selectedUris, matchingUris)

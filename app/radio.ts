@@ -1,12 +1,13 @@
 import Radio from 'backbone.radio'
 import assert_ from '#app/lib/assert_types'
 import { serverReportError } from '#app/lib/error'
+import { objectEntries } from './lib/utils'
 
 export const channel = Radio.channel('global')
 
 export const reqres = {
   setHandlers (obj) {
-    for (const [ key, callback ] of Object.entries(obj)) {
+    for (const [ key, callback ] of objectEntries(obj)) {
       assert_.string(key)
       assert_.function(callback)
       // @ts-expect-error

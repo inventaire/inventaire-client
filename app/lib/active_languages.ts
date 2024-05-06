@@ -1,7 +1,6 @@
 import wdLang from 'wikidata-lang'
 import languagesData from '#assets/js/languages_data'
-import { objectKeys } from './utils.ts'
-import type { Entries } from 'type-fest'
+import { objectEntries, objectKeys } from './utils.ts'
 
 export const regionify = {}
 
@@ -13,7 +12,7 @@ interface LanguageInfo {
 
 export const languages: Record<string, LanguageInfo> = {}
 
-for (const [ lang, languageData ] of Object.entries(languagesData) as Entries<typeof languagesData>) {
+for (const [ lang, languageData ] of objectEntries(languagesData)) {
   const { completion, defaultRegion } = languageData
   regionify[lang] = defaultRegion
   languages[lang] = {
