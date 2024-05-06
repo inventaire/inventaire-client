@@ -207,7 +207,7 @@
   </div>
 
   <ul class="other-languages">
-    {#each alphabeticallySortedEntries(labels) as [ lang, value ]}
+    {#each alphabeticallySortedEntries(labels) as [ lang, value ] (lang)}
       <OtherLanguage
         {lang}
         {value}
