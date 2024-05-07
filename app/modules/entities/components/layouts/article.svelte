@@ -6,7 +6,6 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
-  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import Spinner from '#general/components/spinner.svelte'
   import { i18n } from '#user/lib/i18n'
   import AuthorsInfo from './authors_info.svelte'
@@ -46,7 +45,7 @@
         <EntityTitle {entity} hasLinkTitle={href} {href} />
         <AuthorsInfo {claims} />
         <Infobox
-          claims={omitNonInfoboxClaims(entity.claims)}
+          {claims}
           entityType={entity.type}
         />
         {#if wikisource}

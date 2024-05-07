@@ -9,7 +9,7 @@
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
-  import { getPublishersUrisFromEditions, omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
+  import { getPublishersUrisFromEditions } from '#entities/components/lib/work_helpers'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { getEntitiesAttributesByUris, byPopularity, getAndAssignPopularity } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
@@ -69,7 +69,6 @@
   }
 
   $: claims = entity.claims
-  $: infoboxClaims = omitNonInfoboxClaims(entity.claims)
   $: runEntityNavigate(entity)
   $: if (isNonEmptyArray(editions)) {
     editionsUris = editions.map(property('uri'))
@@ -86,7 +85,7 @@
         <EntityTitle {entity} />
         <AuthorsInfo {claims} />
         <Infobox
-          claims={infoboxClaims}
+          {claims}
           entityType={entity.type}
         />
         <Ebooks {entity} />

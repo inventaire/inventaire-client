@@ -5,9 +5,7 @@
   import EntityTitle from '#entities/components/layouts/entity_title.svelte'
   import Infobox from '#entities/components/layouts/infobox.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
-  import { authorsProps } from '#entities/components/lib/claims_helpers'
   import { getAuthorWorksWithImagesAndCoauthors } from '#entities/components/lib/deduplicate_helpers.ts'
-  import { omitClaims } from '#entities/components/lib/work_helpers'
   import WorkSubEntity from '#entities/components/work_sub_entity.svelte'
   import Spinner from '#general/components/spinner.svelte'
   import { sortMatchedLabelsEntities, hasMatchedLabel } from '#tasks/components/lib/tasks_helpers.ts'
@@ -26,7 +24,6 @@
     .catch(err => error = err)
 
   $: claims = entity.claims
-  $: infoboxClaims = omitClaims(entity.claims, authorsProps)
 </script>
 
 {#if entity}
@@ -55,7 +52,7 @@
     <div class="entity-section">
       <div class="infobox-wrapper">
         <Infobox
-          claims={infoboxClaims}
+          {claims}
           entityType={entity.type}
         />
       </div>

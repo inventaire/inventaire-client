@@ -8,7 +8,6 @@
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
-  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
   import Spinner from '#general/components/spinner.svelte'
@@ -22,7 +21,7 @@
   export let entity
   let flash
 
-  const { uri, type } = entity
+  const { uri, type, claims } = entity
   runEntityNavigate(entity)
 
   setContext('layout-context', 'author')
@@ -58,7 +57,7 @@
             />
           {/if}
           <Infobox
-            claims={omitNonInfoboxClaims(entity.claims)}
+            {claims}
             entityType={entity.type}
           />
           <Summary {entity} />

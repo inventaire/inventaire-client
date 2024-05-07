@@ -5,7 +5,6 @@
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksBrowser from '#entities/components/layouts/works_browser.svelte'
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
-  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { bySerieOrdinal } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
@@ -17,7 +16,7 @@
 
   export let entity
 
-  const { uri } = entity
+  const { uri, claims } = entity
   runEntityNavigate(entity)
 
   setContext('layout-context', 'serie')
@@ -44,7 +43,7 @@
         <EntityTitle {entity} />
         <AuthorsInfo claims={entity.claims} />
         <Infobox
-          claims={omitNonInfoboxClaims(entity.claims)}
+          {claims}
           entityType={entity.type}
         />
         <Summary {entity} />

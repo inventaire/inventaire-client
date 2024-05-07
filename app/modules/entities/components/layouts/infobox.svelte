@@ -4,6 +4,7 @@
   import WrapToggler from '#components/wrap_toggler.svelte'
   import EntityClaimsLinks from '#entities/components/layouts/entity_claims_links.svelte'
   import { infoboxShortlistPropertiesByType, infoboxPropertiesByType } from '#entities/components/lib/claims_helpers'
+  import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import { getEntitiesAttributesByUris, type SerializedEntitiesByUris } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
   import type { Claims, EntityType } from '#server/types/entity'
@@ -50,6 +51,7 @@
   $: if (allowlistedProperties) {
     waitingForEntities = getMissingEntities()
   }
+  $: displayedClaims = omitNonInfoboxClaims(claims)
 
   let infoboxHeight, showDetails, infobox
   const wrappedInfoboxHeight = 128
@@ -64,7 +66,7 @@
   >
     {#each allowlistedProperties as prop}
       <ClaimInfobox
-        values={claims[prop]}
+        values={displayedClaims[prop]}
         {prop}
         entitiesByUris={relatedEntities}
         {entityType}
