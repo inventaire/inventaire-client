@@ -47,16 +47,13 @@
       relatedEntities = { ...relatedEntities, ...entities }
     }
   }
-  let waitingForEntities
-  $: if (allowlistedProperties) {
-    waitingForEntities = getMissingEntities()
-  }
-  $: displayedClaims = omitNonInfoboxClaims(claims)
+  const waitingForEntities = getMissingEntities()
 
   let infoboxHeight, showDetails, infobox
   const wrappedInfoboxHeight = 128
   $: infoboxHeight = infobox?.clientHeight
   $: wrappedSize = listDisplay && infoboxHeight && infoboxHeight > wrappedInfoboxHeight
+  $: displayedClaims = omitNonInfoboxClaims(claims)
 </script>
 <div class="claims-infobox-wrapper">
   <div
