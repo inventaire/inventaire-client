@@ -19,7 +19,7 @@
 <h2>
   {#if hasLinkTitle}
     <Link
-      url={href || `entity/${uri}`}
+      url={href || `/entity/${uri}`}
       text={label}
       dark={true}
     />
