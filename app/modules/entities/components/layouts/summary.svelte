@@ -114,7 +114,11 @@
           <p id="summary-text" lang={summaryData.lang} dir={getTextDirection(summaryData.lang)}>
             {summaryData.text}
             <span class="source">
-              <Link url={summaryData.link} text={`${i18n('Source:')} ${summaryData.name}`} classNames="link" />
+              <Link
+                url={summaryData.link}
+                text={`${i18n('Source:')} ${summaryData.name}`}
+                classNames="link"
+              />
             </span>
           </p>
         {/if}
@@ -153,6 +157,7 @@
     margin-inline-start: 1em;
     :global(a){
       color: $grey;
+      white-space: nowrap
     }
   }
 </style>
