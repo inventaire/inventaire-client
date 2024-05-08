@@ -2,18 +2,24 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
-  import { loadInternalLink } from '#app/lib/utils'
   import ImageDiv from '#components/image_div.svelte'
+  import Modal from '#components/modal.svelte'
+  import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
   import AuthorsInline from '#entities/components/layouts/authors_inline.svelte'
+  import Ebooks from '#entities/components/layouts/ebooks.svelte'
+  import EntityTitle from '#entities/components/layouts/entity_title.svelte'
+  import Infobox from '#entities/components/layouts/infobox.svelte'
+  import Summary from '#entities/components/layouts/summary.svelte'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import { getEntityImagePath } from '#entities/lib/entities'
-  import { i18n } from '#user/lib/i18n'
+  import { i18n, I18n } from '#user/lib/i18n'
   import ListingElementActions from './listing_element_actions.svelte'
 
   export let isEditable, isReordering, element, elements, listingId
 
+  let isShowMode
   const { entity } = element
-  const { uri, label, claims, image } = entity
+  const { uri, type, label, claims, image } = entity
   const publicationYear = formatYearClaim('wdt:P577', claims)
   const authorsUris = claims['wdt:P50']
 
@@ -26,15 +32,52 @@
     imageUrl = image.url
   }
 
+  function toggleShowMode () {
+    isShowMode = !isShowMode
+  }
+
   $: comment = element.comment
 </script>
 
-<div class="listing-element-section">
+{#if isShowMode}
+  <Modal on:closeModal={() => isShowMode = false}
+  >
+    <div class="show-modal">
+      <div class="entity-type-label">
+        {I18n(type)}
+      </div>
+      <EntityTitle
+        {entity}
+        hasLinkTitle={true}
+      />
+      <div class="entity-infobox">
+        <AuthorsInfo {claims} />
+        <Infobox
+          {claims}
+          entityType={type}
+          shortlistOnly={true}
+        />
+        <Ebooks {entity} />
+      </div>
+      {#if comment}
+        <div class="element-section">
+          <div class="entity-label">
+            {I18n("creator's comment")}
+          </div>
+          <p>{@html userContent(comment)}</p>
+        </div>
+      {/if}
+      <Summary {entity} />
+    </div>
+  </Modal>
+{/if}
+
+<div class="listing-element-wrapper">
   <div class="listing-element">
     <a
       href="/entity/{uri}"
       title={label}
-      on:click={loadInternalLink}
+      on:click={toggleShowMode}
     >
       {#if imageUrl}
         <ImageDiv
@@ -56,7 +99,7 @@
           <AuthorsInline entitiesUris={authorsUris} />
         </div>
         {#if comment}
-          <p>{@html userContent(comment)}</p>
+          <p>{@html userContent(comment.slice(0, 150))}</p>
         {/if}
       </div>
     </a>
@@ -74,7 +117,7 @@
 </div>
 <style lang="scss">
   @import "#general/scss/utils";
-  .listing-element-section{
+  .listing-element-wrapper{
     @include display-flex(column, stretch, flex-start);
     width: 100%;
     padding: 0.5em;
@@ -82,12 +125,13 @@
   .listing-element{
     @include display-flex(row, unset, space-between);
     min-height: 6em;
-    flex: 1;
   }
   a{
     @include display-flex(row, stretch, flex-start);
+    cursor: pointer;
+    flex: 1;
     :global(.image-div){
-      // block-size: 6em;
+      block-size: 6em;
       flex: 0 0 4em;
       margin-inline-end: 0.5em;
     }
@@ -110,5 +154,23 @@
   }
   button{
     margin-block-end: 0.5em;
+  }
+  .entity-infobox{
+    margin-block-end: 0.5em;
+    :global(.summary){
+      margin: 1em 0;
+    }
+  }
+  .element-section{
+    background-color: $light-grey;
+    padding: 0.5em 1em;
+    margin: 0.5em 0;
+  }
+  .entity-type-label{
+    color: $soft-grey;
+    text-align: center;
+  }
+  .entity-label{
+    color: $soft-grey;
   }
 </style>
