@@ -7,8 +7,6 @@
   import Flash from '#app/lib/components/flash.svelte'
   import { scrollToElement } from '#app/lib/screen'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
-  import Summary from '#entities/components/layouts/summary.svelte'
-  import { authorsProps } from '#entities/components/lib/claims_helpers'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
   import { getPublishersUrisFromEditions } from '#entities/components/lib/work_helpers'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
@@ -17,13 +15,10 @@
   import EntityListingsLayout from '#listings/components/entity_listings_layout.svelte'
   import { i18n } from '#user/lib/i18n'
   import { getSubEntities } from '../lib/entities.ts'
-  import AuthorsInfo from './authors_info.svelte'
   import BaseLayout from './base_layout.svelte'
   import HomonymDeduplicates from './deduplicate_homonyms.svelte'
-  import Ebooks from './ebooks.svelte'
   import EditionsList from './editions_list.svelte'
-  import EntityTitle from './entity_title.svelte'
-  import Infobox from './infobox.svelte'
+  import EntityInfo from './entity_info.svelte'
   import ItemsLists from './items_lists.svelte'
   import WorkActions from './work_actions.svelte'
 
@@ -69,7 +64,6 @@
     scrollToElement(itemsListsWrapperEl, { marginTop: 10, waitForRoomToScroll: false })
   }
 
-  $: claims = entity.claims
   $: runEntityNavigate(entity)
   $: if (isNonEmptyArray(editions)) {
     editionsUris = editions.map(property('uri'))
@@ -83,15 +77,7 @@
     <div class="top-section">
       <div class="work-section">
         <Flash state={flash} />
-        <EntityTitle {entity} />
-        <AuthorsInfo {claims} />
-        <Infobox
-          {claims}
-          omittedProperties={authorsProps}
-          entityType={entity.type}
-        />
-        <Ebooks {entity} />
-        <Summary {entity} />
+        <EntityInfo {entity} />
         <WorkActions
           {entity}
           {someEditions}
