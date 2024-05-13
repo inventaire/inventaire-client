@@ -3,12 +3,12 @@ import { newError } from '#app/lib/error'
 import { arrayIncludes, forceArray } from '#app/lib/utils'
 import { searchByTypes } from '#entities/lib/search/search_by_types'
 import { pluralize } from '#entities/lib/types/entities_types'
-import type { EntityType, PluralizedIndexedEntityType } from '#server/types/entity'
+import type { ExtendedEntityType, PluralizedIndexedEntityType } from '#server/types/entity'
 import { getEntityUri, prepareSearchResult } from './entities_uris_results.ts'
 import { wikidataSearch } from './wikidata_search.ts'
 
 export type PluralizedSearchableEntityType = PluralizedIndexedEntityType | 'subjects'
-export type SearchableType = EntityType | PluralizedSearchableEntityType
+export type SearchableType = ExtendedEntityType | PluralizedSearchableEntityType
 
 export default async function (types: SearchableType[], input: string, limit?: number, offset?: number) {
   const uri = getEntityUri(input)
