@@ -12,7 +12,7 @@
   import typeSearch, { type SearchableType } from '#entities/lib/search/type_search'
   import { entityTypeNameBySingularType } from '#entities/lib/types/entities_types'
   import Spinner from '#general/components/spinner.svelte'
-  import type { EntityType, EntityUri } from '#server/types/entity'
+  import type { EntityUri, ExtendedEntityType } from '#server/types/entity'
   import { I18n, i18n } from '#user/lib/i18n'
   import EntitySuggestion from './entity_suggestion.svelte'
 
@@ -22,7 +22,7 @@
   export let placeholder: string = null
   export let allowEntityCreation = false
   export let showDefaultSuggestions = true
-  export let createdEntityType: EntityType = null
+  export let createdEntityType: ExtendedEntityType = null
   export let createOnWikidata = false
   export let relationSubjectEntity = null
   export let relationProperty = null
