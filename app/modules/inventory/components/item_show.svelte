@@ -228,7 +228,7 @@
   // }
 
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .item-show{
       padding: 0 0.5em;
     }
@@ -244,7 +244,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .item-show{
       padding: 0 1em;
     }

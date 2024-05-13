@@ -48,7 +48,7 @@
     margin: 1em;
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .position-required{
       > :global(.fa-map-marker){
         margin-block-start: 2rem;

@@ -264,7 +264,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .group-profile{
       @include display-flex(column, stretch, center);
     }
@@ -292,7 +292,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .group-profile-header{
       @include display-flex(row, flex-start, space-between);
     }

@@ -143,7 +143,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .controls{
       flex-direction: column;
     }
@@ -166,7 +166,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .controls:not(:empty), .filters{
       @include display-flex(row, center, center);
       padding: 0.2em 0.5em 0.2em 0.2em;

@@ -33,7 +33,7 @@
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $smaller-screen) {
+  @media screen and (width < $smaller-screen) {
     flex-direction: column;
     .showGroup{
       @include display-flex(column, center, center);
@@ -48,7 +48,7 @@
   }
 
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (width >= $small-screen) {
     .showGroup{
       @include display-flex(row, flex-start, flex-start);
       flex: 1 0 0;

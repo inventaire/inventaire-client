@@ -8,7 +8,7 @@
       width: $user-box-heigth;
     }
     /*Large screens*/
-    @media screen and (min-width: $small-screen) {
+    @media screen and (width >= $small-screen) {
       &:not(:first-child){
         margin-inline-start: 0.5em;
       }
@@ -17,7 +17,7 @@
       }
     }
     /*Small screens*/
-    @media screen and (max-width: $small-screen) {
+    @media screen and (width < $small-screen) {
       &:not(:last-child){
         margin-block-end: 1em;
       }

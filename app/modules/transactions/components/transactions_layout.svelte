@@ -124,7 +124,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     #list{
       margin-block-end: 1em;
       max-height: 50vh;
@@ -133,7 +133,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     #list{
       @include position(fixed, $topbar-height, null, 0);
       width: $transaction-list-width;

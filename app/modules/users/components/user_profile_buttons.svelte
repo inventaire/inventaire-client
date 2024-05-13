@@ -191,7 +191,7 @@
     height: 80vh;
   }
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .profile-buttons{
       margin-inline-start: auto;
     }
@@ -201,7 +201,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .profile-buttons{
       margin-block-end: 0.5em;
       flex-direction: column;

@@ -124,7 +124,7 @@
     }
 
     /* Small screens */
-    @media screen and (max-width: $small-screen){
+    @media screen and (width < $small-screen){
       .name{
         padding-block: 3em 2em;
         h2{
@@ -150,7 +150,7 @@
         }
       }
     }
-    @media screen and (max-width: $smaller-screen){
+    @media screen and (width < $smaller-screen){
       .name{
         h2{
           font-size: 3em;
@@ -159,7 +159,7 @@
     }
 
     /* Large screens */
-    @media screen and (min-width: $small-screen){
+    @media screen and (width >= $small-screen){
       height: 85vh;
       // prevent everything from overflowing on screens with a rather small height
       min-height: 650px;

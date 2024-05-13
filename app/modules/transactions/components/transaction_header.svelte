@@ -143,7 +143,7 @@
     margin-inline-start: 0.2em;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .facts{
       padding: 1em;
       @include display-flex(row, center, space-around, wrap);
@@ -156,7 +156,7 @@
     }
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .facts{
       @include display-flex(row, center, space-between);
       padding: 1em;

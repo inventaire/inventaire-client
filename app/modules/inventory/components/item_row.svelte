@@ -244,14 +244,14 @@
   }
 
   /* Smaller screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .username{
       display: none;
     }
   }
 
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .item-row{
       align-self: stretch;
       min-height: $item-row-height-base;
@@ -295,7 +295,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .item-row{
       height: $item-row-height-base;
       overflow: hidden;

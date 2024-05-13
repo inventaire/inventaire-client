@@ -2,7 +2,7 @@
 
 .tip{
   /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  @media screen and (width >= $smaller-screen) {
     position: absolute;
     inset-block-start: 100%;
     inset-inline-start: 0;

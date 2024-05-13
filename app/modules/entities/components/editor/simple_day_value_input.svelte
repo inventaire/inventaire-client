@@ -100,7 +100,7 @@
   .wrapper{
     margin-inline-end: auto;
     /* Small screens */
-    @media screen and (max-width: $smaller-screen){
+    @media screen and (width < $smaller-screen){
       margin-inline-start: auto;
     }
   }

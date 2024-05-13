@@ -39,7 +39,7 @@
     line-height: 1em;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .label{
       margin-inline-end: 1em;
     }
@@ -49,7 +49,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .icon-button{
       width: 3em;
       padding: 0 0.5em;

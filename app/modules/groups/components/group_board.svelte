@@ -60,7 +60,7 @@
     margin-block-end: 1em;
     @include shy-border-vertical-group;
     /* Large screens */
-    @media screen and (min-width: $small-screen){
+    @media screen and (width >= $small-screen){
       margin: 0 1em 1em;
       padding: 0 1em 1em;
     }

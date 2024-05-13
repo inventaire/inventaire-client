@@ -127,7 +127,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .controls{
       position: sticky;
       inset-block-start: $topbar-height;
@@ -142,7 +142,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .controls{
       flex-wrap: wrap;
       :global(.select-dropdown), :global(.works-browser-text-filter){

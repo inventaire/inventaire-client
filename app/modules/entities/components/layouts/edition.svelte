@@ -101,13 +101,13 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .top-section{
       margin: 0 5em;
     }
   }
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .info-wrapper{
       @include display-flex(column, center, center);
       margin-block-start: 1em;
@@ -120,7 +120,7 @@
     }
   }
   /* Very small screens */
-  @media screen and (max-width: $very-small-screen){
+  @media screen and (width < $very-small-screen){
     .author-and-info{
       margin-inline-end: 0;
     }

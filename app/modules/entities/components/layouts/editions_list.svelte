@@ -83,7 +83,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .editions-section{
       padding: 1em;
     }

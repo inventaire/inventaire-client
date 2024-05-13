@@ -155,12 +155,12 @@
   .menu-wrapper{
     $entity-edit-max-width: 40em;
     /* Small screens */
-    @media screen and (max-width: $entity-edit-max-width){
+    @media screen and (width < $entity-edit-max-width){
       margin-inline-end: 0.5em;
       padding: 0.5em;
     }
     /* Large screens */
-    @media screen and (min-width: $entity-edit-max-width){
+    @media screen and (width >= $entity-edit-max-width){
       position: absolute;
       inset-inline-end: 0;
       inset-block-start: 1.4em;
@@ -195,7 +195,7 @@
       }
     }
     /* Not very small screens */
-    @media screen and (min-width: $very-small-screen){
+    @media screen and (width >= $very-small-screen){
       white-space: nowrap;
     }
   }

@@ -223,7 +223,7 @@
   .value{
     @include display-flex(row, center, center);
     /* Small screens */
-    @media screen and (max-width: $smaller-screen){
+    @media screen and (width < $smaller-screen){
       flex-direction: column;
       padding: 0.5em 0.2em;
       margin: 0.5em 0;

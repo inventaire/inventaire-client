@@ -49,7 +49,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .shelf-dot{
       margin: 0.2em;
     }

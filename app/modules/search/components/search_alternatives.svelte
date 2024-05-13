@@ -67,14 +67,14 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .alternatives{
       background-color: white;
     }
   }
 
   /* Smaller screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .propositions{
       justify-content: center;
     }

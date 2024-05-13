@@ -149,7 +149,7 @@
     text-align: end;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .listing-info{
       padding: 0.5em;
       margin: 1em 0;
@@ -159,7 +159,7 @@
     }
   }
   /* Smaller screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .first-row{
       @include display-flex(column-reverse);
     }
@@ -168,7 +168,7 @@
     }
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .actions{
       margin-inline-start: 1em;
     }

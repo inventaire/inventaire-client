@@ -95,7 +95,7 @@
     inline-size: 100%;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .work-section{
       margin-inline-start: 0;
       :global(.claims-infobox-wrapper){

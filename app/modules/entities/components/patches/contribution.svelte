@@ -245,7 +245,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .contribution{
       max-width: 98vw;
     }
@@ -265,7 +265,7 @@
     }
   }
   /* Smaller screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .user{
       // Force to wrap on the next line
       flex: 1 0 50%;
@@ -280,7 +280,7 @@
     }
   }
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .entity{
       margin-inline-end: auto;
     }

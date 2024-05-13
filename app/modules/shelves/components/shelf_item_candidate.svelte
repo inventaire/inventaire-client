@@ -132,7 +132,7 @@
     flex: 0 0 auto;
   }
   /* Very Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .show-item{
       @include display-flex(column, center, center);
     }
@@ -141,7 +141,7 @@
     }
   }
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .status{
       margin-inline-start: auto;
     }

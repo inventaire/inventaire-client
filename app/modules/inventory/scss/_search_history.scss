@@ -28,7 +28,7 @@
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (width < $very-small-screen) {
     .previous-search{
       a{
         flex-flow: column-reverse;

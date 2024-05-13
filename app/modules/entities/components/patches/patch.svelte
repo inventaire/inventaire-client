@@ -91,7 +91,7 @@
     padding: 0.5em;
     margin: 0.5em 0;
     /* Medium and Large screens */
-    @media screen and (min-width: $very-small-screen){
+    @media screen and (width >= $very-small-screen){
       margin: 0.5em;
     }
   }

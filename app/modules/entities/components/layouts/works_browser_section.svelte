@@ -231,7 +231,7 @@
     margin: auto;
   }
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     li{
       @include display-flex(column);
       :global(.actions-wrapper){

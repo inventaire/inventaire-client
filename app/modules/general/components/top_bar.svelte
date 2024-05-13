@@ -59,7 +59,7 @@
   nav{
     // Screens that have enough vertical space to display the full top bar menu,
     // without needing to scroll
-    @media screen and (min-height: $top-bar-fixed-threshold){
+    @media screen and (height >= $top-bar-fixed-threshold){
       // Use position:fixed to make the top-bar stick to the screen top
       @include position(fixed, 0, 0, null, 0);
     }
@@ -95,7 +95,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .signup-request{
       // Push away the #language-picker
       margin-inline-start: 1em;

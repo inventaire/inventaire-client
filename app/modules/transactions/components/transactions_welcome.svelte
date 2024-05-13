@@ -31,7 +31,7 @@
     color: $grey;
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .transactions-welcome{
       height: 30rem;
       max-height: 50vh;

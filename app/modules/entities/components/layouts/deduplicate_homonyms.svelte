@@ -229,13 +229,13 @@
     padding: 1em;
   }
   /* Smaller screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .merge-homonyms-controls{
       @include display-flex(column, center);
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     button{
       margin-block-end: 0.5em;
     }

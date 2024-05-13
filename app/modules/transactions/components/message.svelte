@@ -71,7 +71,7 @@
         max-width: 100%;
       }
       /* Small screens */
-      @media screen and (max-width: $very-small-screen){
+      @media screen and (width < $very-small-screen){
         flex-direction: column;
         .message-text{
           padding-block-end: 0.5em;
@@ -83,7 +83,7 @@
         }
       }
       /* Large screens */
-      @media screen and (min-width: $very-small-screen){
+      @media screen and (width >= $very-small-screen){
         .time{
           margin-inline-start: auto;
           padding-inline-start: 0.5em;

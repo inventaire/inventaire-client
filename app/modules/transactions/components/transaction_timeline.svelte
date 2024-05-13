@@ -45,14 +45,14 @@
     }
 
     /* Small screens */
-    @media screen and (max-width: $very-small-screen){
+    @media screen and (width < $very-small-screen){
       padding-inline-start: 0.4em;
       padding-inline-end: 0.2em;
       max-width: 100%;
       overflow: hidden;
     }
     /* Large screens */
-    @media screen and (min-width: $very-small-screen){
+    @media screen and (width >= $very-small-screen){
       padding-inline-start: 1.2em;
       padding-inline-end: 1em;
     }

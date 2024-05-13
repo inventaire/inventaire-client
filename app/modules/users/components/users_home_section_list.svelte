@@ -59,7 +59,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     ul{
       justify-content: center;
       max-height: 15em;
@@ -67,7 +67,7 @@
     }
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     ul{
       // <ul> are the elements that needs to have a scroll
       // but it's a child of .list-wrapper which is the one

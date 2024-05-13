@@ -115,7 +115,7 @@
     @include relatives-lists-commons;
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .infobox-and-summary{
       @include display-flex(row, flex-start, flex-start);
       :global(.claims-infobox-wrapper), :global(.summary){

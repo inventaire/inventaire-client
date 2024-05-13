@@ -155,7 +155,7 @@
   }
 
   /* Smaller screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .actions{
       @include display-flex(column);
       button{

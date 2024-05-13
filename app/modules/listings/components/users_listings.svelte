@@ -122,7 +122,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .user-listings{
       padding: 0.5em 0;
     }

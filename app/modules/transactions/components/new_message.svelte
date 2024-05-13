@@ -96,7 +96,7 @@
     margin-inline-end: 1em;
 
     /* Small screens */
-    @media screen and (max-width: $small-screen){
+    @media screen and (width < $small-screen){
       // doing shortcuts in mobile is quite hard
       display: none;
     }

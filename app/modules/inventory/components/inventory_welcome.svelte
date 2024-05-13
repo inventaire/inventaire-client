@@ -25,7 +25,7 @@
     @include display-flex(column, center, center);
     text-align: center;
     /* Large screens */
-    @media screen and (min-width: $small-screen){
+    @media screen and (width >= $small-screen){
       min-height: 50vh;
     }
   }

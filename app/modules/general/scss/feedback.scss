@@ -17,7 +17,7 @@
     text-align: start;
   }
   /*Not VerySmall screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (width >= $small-screen) {
     padding: 1em;
     .from, .to{
       label, input{

@@ -71,7 +71,7 @@
     @include display-flex(column, center);
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .layout{
       padding: 0 1em;
     }
@@ -80,7 +80,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .layout{
       padding: 0 0.5em;
     }
@@ -92,7 +92,7 @@
     }
   }
   /* Very Small screens */
-  @media screen and (max-width: $very-small-screen){
+  @media screen and (width < $very-small-screen){
     .layout{
       padding: 0 0.5em;
     }

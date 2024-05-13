@@ -57,7 +57,7 @@ $user-bg: #ddd;
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (width < $small-screen) {
     width: 100%;
     .right-box{
       width: 100%;
@@ -95,7 +95,7 @@ $user-bg: #ddd;
     }
   }
   /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (width < $very-small-screen) {
     &.group-context{
       .request-actions{
         .action{
@@ -114,7 +114,7 @@ $user-bg: #ddd;
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (width >= $small-screen) {
     @include display-flex(row);
     .right-box{
       // hacky way to make sure .userLi doesn't scroll horizontally

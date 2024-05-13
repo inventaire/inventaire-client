@@ -4,12 +4,12 @@ $customTabMaxWidth: 40em;
   @include display-flex(column, left);
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (width < $small-screen) {
     width: 100%;
   }
 
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (width >= $small-screen) {
     width: $customTabMaxWidth;
   }
 }
@@ -36,7 +36,7 @@ $customTabMaxWidth: 40em;
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $customTabMaxWidth) {
+  @media screen and (width < $customTabMaxWidth) {
     flex-wrap: wrap;
     width: 100%;
     .active{
@@ -47,7 +47,7 @@ $customTabMaxWidth: 40em;
     }
   }
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (width >= $small-screen) {
     a{
       &:first-child{
         border-start-start-radius: $global-radius;
@@ -65,11 +65,11 @@ $customTabMaxWidth: 40em;
   @include radius-bottom;
   border-start-end-radius: $global-radius;
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (width < $small-screen) {
     padding: 0.5em;
   }
   /*Large screens*/
-  @media screen and (min-width: $customTabMaxWidth) {
+  @media screen and (width >= $customTabMaxWidth) {
     padding: 2em;
   }
 }
