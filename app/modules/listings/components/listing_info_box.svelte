@@ -179,7 +179,7 @@
     text-align: end;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .listing-info{
       padding: 1em;
       margin: 0;

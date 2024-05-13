@@ -163,7 +163,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .entities-selector{
       padding: 0 0.5em;
     }

@@ -26,14 +26,14 @@
   }
 
   /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (width < $very-small-screen) {
     .errorBox{
       padding: 1em;
     }
   }
 
   /*Large screens*/
-  @media screen and (min-width: $very-small-screen) {
+  @media screen and (width >= $very-small-screen) {
     .errorBox{
       padding: 2em 4em 2em 4em;
       h2{

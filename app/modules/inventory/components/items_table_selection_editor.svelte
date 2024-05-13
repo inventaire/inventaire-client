@@ -191,7 +191,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .buttons{
       align-self: stretch;
       @include display-flex(column, stretch, center);
@@ -203,7 +203,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .buttons{
       @include display-flex(row, center, center);
       align-self: stretch;

@@ -57,7 +57,7 @@
     height: 5em;
   }
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     section{
       padding: 0 1em;
     }

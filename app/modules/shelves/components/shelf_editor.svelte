@@ -154,7 +154,7 @@
     @include dangerous-action;
   }
   /* Small screens */
-  @media screen and (max-width: $very-small-screen){
+  @media screen and (width < $very-small-screen){
     .shelf-editor{
       label, :global(fieldset){
         padding: 0 0.5em;
@@ -173,7 +173,7 @@
     }
   }
   /* Large screens */
-  @media screen and (min-width: $very-small-screen){
+  @media screen and (width >= $very-small-screen){
     .buttons{
       @include display-flex(row, center, space-around);
     }

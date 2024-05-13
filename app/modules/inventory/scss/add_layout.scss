@@ -36,14 +36,14 @@ $addLayoutWidth: 70em;
   }
 
   /*Very Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (width < $very-small-screen) {
     h3{
       margin-block-start: 1em;
     }
   }
 
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (width < $small-screen) {
     .custom-tabs-content{
       // Allow scrollTo$Element to really get the top of the div
       // at the top of the screen
@@ -52,7 +52,7 @@ $addLayoutWidth: 70em;
   }
 
   /*Large screens*/
-  @media screen and (min-width: $addLayoutWidth) {
+  @media screen and (width >= $addLayoutWidth) {
     padding: 1em;
     margin: 0 auto;
     width: $addLayoutWidth;

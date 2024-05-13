@@ -116,7 +116,7 @@
     min-height: 100vh;
 
     /* Large screens */
-    @media screen and (min-width: $small-screen){
+    @media screen and (width >= $small-screen){
       padding: 0.5em;
     }
   }

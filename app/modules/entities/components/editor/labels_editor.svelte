@@ -258,7 +258,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     select{
       margin-block-end: 0.5em;
     }
@@ -284,7 +284,7 @@
     }
   }
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     select{
       inline-size: 10em;
       block-size: 100%;

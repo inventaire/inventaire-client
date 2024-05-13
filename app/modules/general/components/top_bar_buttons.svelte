@@ -162,12 +162,12 @@
       @include display-flex(row, center, center);
       color: white;
       /* Large screens */
-      @media screen and (min-width: $small-screen){
+      @media screen and (width >= $small-screen){
         align-self: stretch;
         padding: 0 0.5em;
       }
       /* Small screens */
-      @media screen and (max-width: $small-screen){
+      @media screen and (width < $small-screen){
         margin-inline-start: 0.2em;
         align-self: stretch;
       }
@@ -176,7 +176,7 @@
       color: #ccc;
     }
     /* Small screens */
-    @media screen and (max-width: $small-screen){
+    @media screen and (width < $small-screen){
       :global(.fa-bars){
         font-size: 1.5rem;
       }
@@ -198,13 +198,13 @@
       margin-inline-end: 0.5em;
     }
     /* Very Small screens */
-    @media screen and (max-width: $very-small-screen){
+    @media screen and (width < $very-small-screen){
       // Going over 100vw to cover the whole screen
       min-width: 102vw;
     }
 
     /* Not Very Small screens */
-    @media screen and (min-width: $very-small-screen){
+    @media screen and (width >= $very-small-screen){
       min-width: 15em;
     }
   }

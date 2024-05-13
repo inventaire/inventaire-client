@@ -155,13 +155,13 @@
     }
   }
   /* Not Too Small screens */
-  @media screen and (min-width: $very-small-screen){
+  @media screen and (width >= $very-small-screen){
     .current-lang-short{
       display: none;
     }
   }
   /* Smaller screens */
-  @media screen and (max-width: $very-small-screen){
+  @media screen and (width < $very-small-screen){
     .current-lang{
       display: none;
     }

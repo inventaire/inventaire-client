@@ -116,7 +116,7 @@
     margin-block-start: 1em;
   }
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .top-section{
       display: block;
       :global(.entity-image){

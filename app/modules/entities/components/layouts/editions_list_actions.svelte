@@ -228,7 +228,7 @@
     border-color: $glow;
   }
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .filters{
       @include display-flex(row, center, flex-start);
     }

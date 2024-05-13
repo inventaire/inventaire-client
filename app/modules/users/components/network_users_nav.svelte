@@ -167,7 +167,7 @@
     white-space: nowrap;
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .list-wrapper{
       min-width: 30em;
     }
@@ -179,7 +179,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .list-label{
       margin-block-end: 0.5em;
       font-size: 1.2em;
@@ -197,7 +197,7 @@
   }
 
   /* Very Small screens */
-  @media screen and (max-width: $very-small-screen){
+  @media screen and (width < $very-small-screen){
     .buttons{
       flex-direction: column;
       a, button{

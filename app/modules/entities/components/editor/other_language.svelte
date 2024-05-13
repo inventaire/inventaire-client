@@ -35,7 +35,7 @@
     user-select: text;
   }
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .other-value{
       margin: 0 1.1em;
     }

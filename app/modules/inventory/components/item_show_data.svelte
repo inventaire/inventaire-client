@@ -40,7 +40,7 @@
     margin: 1em 0;
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .item-settings{
       @include display-flex(row, center, center);
     }

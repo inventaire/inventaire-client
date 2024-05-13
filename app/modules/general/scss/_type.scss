@@ -136,7 +136,7 @@ ul li ul, ul li ol{
   margin-block-end: 0;
 }
 
-@media only screen and (min-width: 40.063em){
+@media only screen and (width >= 40.063em){
   h1, h2, h3, h4, h5, h6{
     line-height: 1.4;
   }
