@@ -132,6 +132,7 @@
     const key = getActionKey(e)
     if (key === 'up') highlightPreviousResult()
     else if (key === 'down') highlightNextResult()
+    if (neutralizedKeys.has(key)) e.preventDefault()
   }
 
   function onKeyUp (e) {
