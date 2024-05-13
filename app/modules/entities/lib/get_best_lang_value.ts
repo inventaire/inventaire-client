@@ -1,4 +1,5 @@
 import { uniq } from 'underscore'
+import { isNonEmptyString } from '#app/lib/boolean_tests'
 // data: labels or descriptions
 export default function (lang, originalLang, data) {
   if (!data) return {}
@@ -11,7 +12,7 @@ export default function (lang, originalLang, data) {
     if (value instanceof Array) {
       value = value[0]
     }
-    if (value != null) {
+    if (isNonEmptyString(value)) {
       return { value, lang: nextLang }
     }
   }
