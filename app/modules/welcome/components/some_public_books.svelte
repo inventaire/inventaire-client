@@ -19,21 +19,25 @@
     })
 </script>
 
-{#if isNonEmptyArray(params.items)}
-  <section>
-    <h3>{I18n('some of the last books listed')}</h3>
-    {#await waiting}
-      <Spinner center={true} />
-    {:then}
-      {#if $screen.isSmallerThan('$smaller-screen')}
-        <ItemsTable items={params.items} {waiting} haveSeveralOwners={true} />
-      {:else}
-        <ItemsCascade items={params.items} {waiting} />
-      {/if}
-    {/await}
-    <div class="fade-out" />
-  </section>
-{/if}
+{#await waiting}
+  <Spinner />
+{:then}
+  {#if isNonEmptyArray(params.items)}
+    <section>
+      <h3>{I18n('some of the last books listed')}</h3>
+      {#await waiting}
+        <Spinner center={true} />
+      {:then}
+        {#if $screen.isSmallerThan('$smaller-screen')}
+          <ItemsTable items={params.items} {waiting} haveSeveralOwners={true} />
+        {:else}
+          <ItemsCascade items={params.items} {waiting} />
+        {/if}
+      {/await}
+      <div class="fade-out" />
+    </section>
+  {/if}
+{/await}
 
 <style lang="scss">
   @import "#welcome/scss/welcome_layout_commons";
