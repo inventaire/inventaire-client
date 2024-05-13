@@ -248,7 +248,6 @@
   .other-languages{
     max-block-size: 10em;
     overflow: auto;
-    margin-block-start: 1em;
   }
   .undo{
     flex: 1;
