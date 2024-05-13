@@ -8,7 +8,7 @@ import { getEntityUri, prepareSearchResult } from './entities_uris_results.ts'
 import { wikidataSearch } from './wikidata_search.ts'
 
 export type PluralizedSearchableEntityType = PluralizedIndexedEntityType | 'subjects'
-export type SearchableType = ExtendedEntityType | PluralizedSearchableEntityType
+export type SearchableType = Omit<ExtendedEntityType, 'edition' | 'article'> | PluralizedSearchableEntityType
 
 export default async function (types: SearchableType[], input: string, limit?: number, offset?: number) {
   const uri = getEntityUri(input)
