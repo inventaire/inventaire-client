@@ -35,14 +35,14 @@
     user-select: text;
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (min-width: $smaller-screen){
     .other-value{
       margin: 0 1.1em;
     }
     .lang{
       inline-size: 10em;
       block-size: 100%;
-      padding: 0 1rem;
+      padding-inline-start: 0.7rem;
       font-size: 0.9rem;
     }
   }
