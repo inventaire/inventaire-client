@@ -54,8 +54,8 @@
     on:click={loadInternalLink}
     class:on-user-layout={onUserLayout}
   >
-    {#await waitingForImages then}
-      <div class="collage-wrapper">
+    <div class="collage-wrapper">
+      {#await waitingForImages then}
         <ImagesCollage
           {imagesUrls}
           limit={imagesLimit}
@@ -66,8 +66,8 @@
         >
           {elements.length}
         </span>
-      </div>
-    {/await}
+      {/await}
+    </div>
     <div class="listing-info">
       <span class="name">{name}</span>
     </div>
