@@ -238,3 +238,7 @@ export function arrayIncludes (array: readonly (string | number)[], value: strin
 export function objectEntries <Obj> (obj: Obj) {
   return Object.entries(obj) as ObjectEntries<Obj>
 }
+
+export function moveArrayElement (array, oldIndex, newIndex) {
+  return array.splice(newIndex, 0, array.splice(oldIndex, 1)[0])
+}
