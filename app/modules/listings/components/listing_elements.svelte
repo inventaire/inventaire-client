@@ -4,25 +4,23 @@
   import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
-  import { icon } from '#app/lib/icons'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
   import { addEntitiesImages } from '#entities/lib/types/work_alt'
   import Spinner from '#general/components/spinner.svelte'
-  import { addElement, removeElement, reorder } from '#listings/lib/listings'
+  import { addElement } from '#listings/lib/listings'
   import { i18n, I18n } from '#user/lib/i18n'
   import ListingElement from './listing_element.svelte'
-  import Reorder from './reorder.svelte'
 
-  export let elements = [], listingId, isEditable, isReorderMode, hasSeveralElements
+  export let elements = [], listingId, isEditable
 
   let flash, inputValue = '', showSuggestions
 
   let paginatedElements = []
   const paginationSize = 15
   let offset = 0
-  let fetching, reordering
+  let fetching, isReordering
 
   const assignEntitiesToElements = async elements => {
     const uris = pluck(elements, 'uri')
@@ -37,19 +35,6 @@
     for (const element of elements) {
       element.entity = entitiesByUris[element.uri]
     }
-  }
-
-  const onRemoveElement = async element => {
-    removeElement(listingId, element.uri)
-      .then(() => {
-        // Enhancement: after remove, have an "undo" button
-        const index = paginatedElements.indexOf(element)
-        paginatedElements.splice(index, 1)
-        paginatedElements = paginatedElements
-        elements.splice(index, 1)
-        elements = elements
-      })
-      .catch(err => flash = err)
   }
 
   let addingAnElement
@@ -83,9 +68,8 @@
   }
 
   $: hasMore = elements.length >= offset
-  $: hasSeveralElements = elements.length > 1
 
-  const fetchMore = async isReset => {
+  const fetchMore = async (isReset = false) => {
     fetching = true
     if (isReset) offset = 0
     const nextBatchElements = elements.slice(offset, offset + paginationSize)
@@ -97,30 +81,12 @@
     fetching = false
   }
 
-  function cancelReorderMode () {
-    isReorderMode = false
-  }
-
   const waitingForEntities = fetchMore()
 
   async function keepScrolling () {
     if (fetching || hasMore === false) return false
     await fetchMore()
     return true
-  }
-
-  const onReorder = async () => {
-    reordering = true
-    flash = null
-    const uris = pluck(paginatedElements, 'uri')
-    try {
-      await reorder(listingId, uris)
-      fetchMore(true)
-      isReorderMode = false
-    } catch (err) {
-      flash = err
-    }
-    reordering = false
   }
 </script>
 {#await waitingForEntities}
@@ -144,32 +110,6 @@
       </div>
     {/if}
 
-    {#if isReorderMode}
-      <div class="reorder-actions-wrapper">
-        <button
-          on:click={onReorder}
-          class="success-button tiny-button"
-          disabled={reordering}
-        >
-          {#if reordering}
-            {I18n('loading')}
-            <Spinner />
-          {:else}
-            {@html icon('check')}
-            {i18n('Done')}
-          {/if}
-        </button>
-        <button
-          on:click={cancelReorderMode}
-          class="tiny-button"
-          disabled={reordering}
-        >
-          {@html icon('ban')}
-          {I18n('cancel')}
-        </button>
-      </div>
-    {/if}
-
     <InfiniteScroll {keepScrolling} showSpinner={true}>
       <ul class="listing-elements">
         {#await addingAnElement}
@@ -177,25 +117,14 @@
         {/await}
         {#each paginatedElements as element (element.uri)}
           <li animate:flip={{ duration: 300 }}>
-            <ListingElement entity={element.entity} />
-            {#if isEditable && !isReorderMode}
-              <div class="status">
-                <button
-                  class="tiny-button soft-grey"
-                  on:click={() => onRemoveElement(element)}
-                >
-                  {i18n('remove')}
-                </button>
-              </div>
-            {/if}
-            {#if isReorderMode && !reordering}
-              <div class="reorder-wrapper">
-                <Reorder
-                  bind:elements={paginatedElements}
-                  elementId={element._id}
-                />
-              </div>
-            {/if}
+            <ListingElement
+              {isEditable}
+              bind:isReordering
+              {element}
+              {elements}
+              {listingId}
+              bind:paginatedElements
+            />
           </li>
         {:else}
           <li class="nothing-here">{i18n('nothing here')}</li>
@@ -227,23 +156,8 @@
     border-block-end: 1px solid $light-grey;
     @include bg-hover(white);
   }
-  .success-button{
-    margin-inline-start: auto;
-    margin-inline-end: 1em;
-    padding: 0.2em 0.6em;
-    margin-block-start: 1em;
-    white-space: nowrap;
-    line-height: 1.6em;
-  }
-  .entities-selector{
-    width: 100%;
-  }
   label{
     cursor: auto;
-  }
-  .reorder-actions-wrapper{
-    @include display-flex(row, flex-end);
-    width: 100%;
   }
   .nothing-here{
     width: unset;
@@ -262,20 +176,6 @@
     }
     .entities-listing-section{
       padding: 0;
-    }
-  }
-  /* Very small screens */
-  @media screen and (max-width: $very-small-screen){
-    li{
-      @include display-flex(column, flex-start);
-    }
-    .status{
-      align-self: center;
-      margin-block-end: 0.5em;
-    }
-    .reorder-wrapper{
-      width: 100%;
-      align-items: center;
     }
   }
 </style>
