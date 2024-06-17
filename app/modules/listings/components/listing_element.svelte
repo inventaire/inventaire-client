@@ -6,7 +6,7 @@
   import { getEntityImagePath } from '#entities/lib/entities'
   import ListingElementActions from './listing_element_actions.svelte'
 
-  export let isEditable, isReordering, element, elements, paginatedElements, listingId,
+  export let isEditable, isReordering, element, elements, paginatedElements, listingId
 
   const { entity } = element
   const { uri, label, description, image } = entity
