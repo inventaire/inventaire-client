@@ -37,7 +37,10 @@
 </script>
 
 <div class="item-details">
-  <div class="header">
+  <div
+    class="header"
+    on:click={() => editMode = true}
+  >
     <span class="section-label">{I18n('details')}</span>
     {#if !restricted}
       <span class="indicator" title={i18n('this is visible by anyone who can see this item')}>
@@ -45,16 +48,14 @@
           {@html icon(visibilitySummaryIconName)}
         {/if}
       </span>
-      <button
-        title={i18n('edit')}
-        on:click={() => editMode = true}
-      >
+      <button title={i18n('edit')}>
         {@html icon('pencil')}
       </button>
     {/if}
   </div>
   {#if editMode}
     <textarea
+      class="details"
       placeholder={`(${i18n('details_placeholder')})`}
       bind:value={details}
       use:autofocus
@@ -111,6 +112,9 @@
   }
   .header{
     @include display-flex(row, center);
+  }
+  .details{
+    margin-block-start: 0.5em;
   }
   .indicator{
     margin-inline-start: auto;
