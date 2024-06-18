@@ -26,7 +26,7 @@
     const uris = pluck(elements, 'uri')
     const res = await getEntitiesAttributesByUris({
       uris,
-      attributes: [ 'info', 'labels', 'descriptions', 'image' ],
+      attributes: [ 'info', 'labels', 'claims', 'image' ],
       lang: app.user.lang,
     })
     const entitiesByUris = res.entities
