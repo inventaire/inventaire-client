@@ -3,13 +3,18 @@
   import Flash from '#app/lib/components/flash.svelte'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
+  import AuthorsInline from '#entities/components/layouts/authors_inline.svelte'
+  import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import { getEntityImagePath } from '#entities/lib/entities'
+  import { i18n } from '#user/lib/i18n'
   import ListingElementActions from './listing_element_actions.svelte'
 
   export let isEditable, isReordering, element, elements, paginatedElements, listingId
 
   const { entity } = element
-  const { uri, label, description, image } = entity
+  const { uri, label, claims, image } = entity
+  const publicationYear = formatYearClaim('wdt:P577', claims)
+  const authorsUris = claims['wdt:P50']
   let imageUrl, flash
 
   if (isNonEmptyArray(image)) {
@@ -35,11 +40,15 @@
       {/if}
       <div>
         <span class="label">{label}</span>
-        <!-- The type isn't useful as long as lists only contain works -->
-        <!-- <span class="type">{type}</span> -->
-        {#if description}
-          <div class="description">{description}</div>
+        {#if publicationYear}
+          <p
+            class="publicationYear"
+            title={i18n('wdt:P577')}
+          >
+            {publicationYear}
+          </p>
         {/if}
+        <AuthorsInline entitiesUris={authorsUris} />
       </div>
     </a>
     {#if isEditable}
@@ -75,10 +84,11 @@
     }
   }
   .label{
-    padding-inline-end: 0.5em;
+    @include serif;
+    padding-inline-end: 0.3em;
   }
-  .description{
+  .publicationYear{
     color: $label-grey;
-    margin-inline-end: 1em;
+    font-size: 0.9rem;
   }
 </style>
