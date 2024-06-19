@@ -9,7 +9,7 @@
   import { i18n } from '#user/lib/i18n'
   import ListingElementActions from './listing_element_actions.svelte'
 
-  export let isEditable, isReordering, element, elements, paginatedElements, listingId
+  export let isEditable, isReordering, element, paginatedElements, listingId
 
   const { entity } = element
   const { uri, label, claims, image } = entity
@@ -42,7 +42,7 @@
         <span class="label">{label}</span>
         {#if publicationYear}
           <p
-            class="publicationYear"
+            class="publication-year"
             title={i18n('wdt:P577')}
           >
             {publicationYear}
@@ -55,7 +55,6 @@
       <ListingElementActions
         bind:isReordering
         {element}
-        {elements}
         {listingId}
         bind:flash
         bind:paginatedElements
@@ -87,7 +86,7 @@
     @include serif;
     padding-inline-end: 0.3em;
   }
-  .publicationYear{
+  .publication-year{
     color: $label-grey;
     font-size: 0.9rem;
   }

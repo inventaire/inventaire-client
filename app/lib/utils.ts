@@ -246,5 +246,6 @@ export function getOptionalValue <T extends object, K extends keyof T> (obj: T, 
 }
 
 export function moveArrayElement (array, oldIndex, newIndex) {
-  return array.splice(newIndex, 0, array.splice(oldIndex, 1)[0])
+  array.splice(newIndex, 0, array.splice(oldIndex, 1)[0])
+  return array
 }

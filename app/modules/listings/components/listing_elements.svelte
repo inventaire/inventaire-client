@@ -4,6 +4,7 @@
   import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
+  import { onChange } from '#app/lib/svelte/svelte'
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import { getEntitiesAttributesByUris, serializeEntity } from '#entities/lib/entities'
@@ -88,6 +89,14 @@
     await fetchMore()
     return true
   }
+
+  function refreshElements () {
+    if (fetching) return
+    const elementsTail = elements.slice(paginatedElements.length, elements.length)
+    elements = [ ...paginatedElements, ...elementsTail ]
+  }
+
+  $: onChange(paginatedElements, refreshElements)
 </script>
 {#await waitingForEntities}
   <Spinner center={true} />
@@ -121,7 +130,6 @@
               {isEditable}
               bind:isReordering
               {element}
-              {elements}
               {listingId}
               bind:paginatedElements
             />
