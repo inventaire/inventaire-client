@@ -6,11 +6,11 @@
   import { removeElement, updateElement } from '#listings/lib/listings'
   import { i18n } from '#user/lib/i18n'
 
-  export let isReordering, element, elements, paginatedElements, listingId, flash
+  export let isReordering, element, paginatedElements, listingId, flash
 
   let isLoading
   const { _id, uri } = element
-  $: hasSeveralElements = elements.length > 1
+  $: hasSeveralElements = paginatedElements.length > 1
   $: index = paginatedElements.findIndex(obj => obj.uri === uri)
 
   async function _removeElement () {
@@ -19,7 +19,6 @@
         // Enhancement: after remove, have an "undo" button
         paginatedElements.splice(index, 1)
         paginatedElements = paginatedElements
-        elements.splice(index, 1)
       })
       .catch(err => flash = err)
   }
@@ -29,6 +28,7 @@
     flash = null
     const oldElements = clone(paginatedElements)
     moveArrayElement(paginatedElements, index, newIndex)
+    // moveArrayElement(elements, index, newIndex)
     paginatedElements = paginatedElements
     await updateElement(_id, newIndex)
       .then(() => {
@@ -69,7 +69,7 @@
           {index + 1}
         {/if}
       </div>
-      {#if index !== elements.length - 1}
+      {#if index !== paginatedElements.length - 1}
         <button
           disabled={isReordering}
           on:click={() => reorder(index + 1)}

@@ -9,7 +9,7 @@
   import { i18n } from '#user/lib/i18n'
   import ListingElementActions from './listing_element_actions.svelte'
 
-  export let isEditable, isReordering, element, elements, paginatedElements, listingId
+  export let isEditable, isReordering, element, paginatedElements, listingId
 
   const { entity } = element
   const { uri, label, claims, image } = entity
@@ -55,7 +55,6 @@
       <ListingElementActions
         bind:isReordering
         {element}
-        {elements}
         {listingId}
         bind:flash
         bind:paginatedElements
