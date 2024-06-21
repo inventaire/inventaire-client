@@ -5,13 +5,13 @@
   import ImagesCollage from '#components/images_collage.svelte'
   import Modal from '#components/modal.svelte'
   import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
-  import AuthorsInline from '#entities/components/layouts/authors_inline.svelte'
+  import ClaimInfobox from '#entities/components/layouts/claim_infobox.svelte'
   import Ebooks from '#entities/components/layouts/ebooks.svelte'
   import EntityTitle from '#entities/components/layouts/entity_title.svelte'
   import Infobox from '#entities/components/layouts/infobox.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
-  import { getEntityImagePath } from '#entities/lib/entities'
+  import { getEntityImagePath, getEntitiesAttributesFromClaims } from '#entities/lib/entities'
   import { i18n, I18n } from '#user/lib/i18n'
   import ListingElementActions from './listing_element_actions.svelte'
 
@@ -23,7 +23,7 @@
   const publicationYear = formatYearClaim('wdt:P577', claims)
   const authorsUris = claims['wdt:P50']
 
-  let imageUrl, flash
+  let imageUrl, flash, authorsByUris
 
   if (isNonEmptyArray(image)) {
     // This is the case when the entity object is a search result object
@@ -34,6 +34,14 @@
 
   function toggleShowMode () {
     isShowMode = !isShowMode
+  }
+
+  const waitingForAuthors = getAuthors()
+  async function getAuthors () {
+    if (isNonEmptyArray(authorsUris)) {
+      const attributes = [ 'labels' ] as const
+      authorsByUris = await getEntitiesAttributesFromClaims(authorsUris, attributes)
+    }
   }
 
   $: comment = element.comment
@@ -88,26 +96,41 @@
       {/if}
       <div class="main-text-wrapper">
         <div>
-          <span class="label">{label}</span>
-          {#if publicationYear}
-            <p
-              class="publicationYear"
-              title={i18n('wdt:P577')}
-            >
-              {publicationYear}
-            </p>
-          {/if}
-          <AuthorsInline entitiesUris={authorsUris} />
+          <p class="label">{label}</p>
+          <div class="publicationYear">
+            {#if publicationYear}
+              <span title={i18n('wdt:P577')}
+              >
+                {publicationYear}
+              </span>
+            {/if}
+            {#if publicationYear && isNonEmptyArray(authorsUris)}
+              -
+            {/if}
+            {#await waitingForAuthors then}
+              <ClaimInfobox
+                values={claims['wdt:P50']}
+                prop="wdt:P50"
+                omitLabel={true}
+                entitiesByUris={authorsByUris}
+              />
+            {/await}
+          </div>
         </div>
         {#if comment}
-          <p>{@html userContent(comment.slice(0, 150))}</p>
+          <div class="comment">
+            {@html userContent(comment.slice(0, 150))}
+            {#if comment.length > 150}
+              ...
+            {/if}
+          </div>
         {/if}
       </div>
     </a>
     {#if isEditable}
       <ListingElementActions
         bind:isReordering
-        {element}
+        bind:element
         {listingId}
         bind:flash
         bind:paginatedElements
@@ -130,6 +153,9 @@
   a{
     @include display-flex(row, stretch, flex-start);
     cursor: pointer;
+    .label:hover{
+      text-decoration: underline;
+    }
     flex: 1;
     :global(.images-collage){
       block-size: 6em;
@@ -148,6 +174,10 @@
   .publicationYear{
     color: $label-grey;
     font-size: 0.9rem;
+    :global(.link-text){
+      color: $label-grey;
+      font-size: 0.9rem;
+    }
   }
   .actions{
     @include display-flex(column, flex-end);
