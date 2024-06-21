@@ -30,7 +30,12 @@
     moveArrayElement(paginatedElements, index, newIndex)
     // moveArrayElement(elements, index, newIndex)
     paginatedElements = paginatedElements
-    await updateElement(_id, newIndex)
+    const exclusiveOrdinal = newIndex + 1
+
+    await updateElement({
+      id: _id,
+      ordinal: exclusiveOrdinal,
+    })
       .then(() => {
         // Do not have optismic UI to handdle slow server possibility
         isReordering = isLoading = false

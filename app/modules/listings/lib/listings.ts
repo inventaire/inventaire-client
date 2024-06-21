@@ -53,10 +53,9 @@ export const removeElement = async (id, uri) => {
   return preq.post(API.listings.removeElements, { id, uris: [ uri ] })
 }
 
-export const updateElement = async (id, exclusiveOrdinal) => {
-  const ordinal = exclusiveOrdinal + 1
+export const updateElement = async params => {
   try {
-    const res = preq.post(API.listings.updateElement, { id, ordinal })
+    const res = preq.post(API.listings.updateElement, params)
     return res
   } catch (err) {
     if (err.message !== 'nothing to update') {
