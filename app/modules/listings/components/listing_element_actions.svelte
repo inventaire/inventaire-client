@@ -37,7 +37,9 @@
       ordinal: exclusiveOrdinal,
     })
       .then(() => {
-        // Do not have optismic UI to handdle slow server possibility
+        // isLoading could be moved before element update
+        // to allow optismic UI, but make sure the server
+        // can handle low bandwith update conflicts first.
         isReordering = isLoading = false
       })
       .catch(err => {
