@@ -148,13 +148,6 @@
     color: $label-grey;
     font-size: 0.9rem;
   }
-  .actions{
-    @include display-flex(column, flex-end);
-    @include shy-button-label;
-  }
-  button{
-    margin-block-end: 0.5em;
-  }
   .entity-infobox{
     margin-block-end: 0.5em;
     :global(.summary){

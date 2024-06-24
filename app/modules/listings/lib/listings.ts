@@ -1,5 +1,4 @@
 import { pluck } from 'underscore'
-import { isNonEmptyPlainObject } from '#app/lib/boolean_tests'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import preq from '#app/lib/preq'
@@ -39,6 +38,12 @@ export const getListingsContainingEntityUri = async ({ listingsIds, uri }) => {
   if (listingsIds.length === 0) return []
   const { lists } = await preq.get(API.listings.byEntities({ uris: uri, lists: listingsIds }))
   return lists
+}
+
+export const getElementByUri = async ({ listingId, uri }) => {
+  const listing = await getListingsContainingEntityUri({ listingsIds: [ listingId ], uri })
+  const { elements } = listing[0]
+  return elements.find(el => el.uri === uri)
 }
 
 export const updateListing = async list => {
@@ -94,15 +99,15 @@ async function getListingLongTitle (listing) {
   return `${name} - ${i18n('list_created_by', { username })}`
 }
 
-export async function removeElementConfirmation (action, deletingData) {
-  if (isNonEmptyPlainObject(deletingData)) {
+export async function askUserConfirmationAndRemove (removeElementPromise, deletingData) {
+  if (deletingData) {
     app.execute('ask:confirmation', {
-      // i18n suggestion:  "delete_element_confirmation": "Are you sure you want to delete this element. If yes, this will also delete the following data:  \"**%{deletingData}**\"?",
+      // i18n suggestion:  "delete_element_confirmation": "Are you sure you want to delete this element. Choosing yes will delete the element and the following data:  \"**%{deletingData}**\"?",
       confirmationText: i18n('delete_element_confirmation', { deletingData }),
       warningText: i18n('cant_undo_warning'),
-      action,
+      action: removeElementPromise,
     })
   } else {
-    action()
+    await removeElementPromise()
   }
 }
