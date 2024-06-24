@@ -41,6 +41,12 @@ export const getListingsContainingEntityUri = async ({ listingsIds, uri }) => {
   return lists
 }
 
+export const getElementByUri = async ({ listingId, uri }) => {
+  const listing = await getListingsContainingEntityUri({ listingsIds: [ listingId ], uri })
+  const { elements } = listing[0]
+  return elements.find(el => el.uri === uri)
+}
+
 export const updateListing = async list => {
   const { list: listing } = await preq.put(API.listings.update, list)
   return { listing }
@@ -94,14 +100,14 @@ async function getListingLongTitle (listing) {
   return `${name} - ${i18n('list_created_by', { username })}`
 }
 
-export async function removeElementConfirmation (action, deletingData) {
-  if (isNonEmptyPlainObject(deletingData)) {
+export async function askUserConfirmationAndRemove (removeElementPromise, deletingData) {
+  if (deletingData) {
     app.execute('ask:confirmation', {
       confirmationText: i18n('Are you sure you want to **delete this element**? That will also delete the following text: %{deletingData}…', { deletingData: deletingData.slice(0, 50) }),
       warningText: i18n('cant_undo_warning'),
-      action,
+      action: removeElementPromise,
     })
   } else {
-    action()
+    await removeElementPromise()
   }
 }
