@@ -4,7 +4,7 @@
   import { moveArrayElement } from '#app/lib/utils'
   import Modal from '#components/modal.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { removeElement, updateElement, removeElementConfirmation } from '#listings/lib/listings'
+  import { removeElement, updateElement, askUserConfirmationAndRemove } from '#listings/lib/listings'
   import ElementEditor from '#modules/listings/components/element_editor.svelte'
   import { i18n } from '#user/lib/i18n'
 
@@ -16,20 +16,18 @@
   $: index = elements.findIndex(obj => obj.uri === uri)
 
   async function onRemoveElement (e) {
-    const { comment } = e.detail
-    const deletingData = {}
-    if (comment) deletingData.commentElement = comment
-    await removeElementConfirmation(_removeElement, deletingData)
+    const element = e.detail
+    await askUserConfirmationAndRemove(_removeElement, element?.comment)
+      .catch(err => flash = err)
   }
 
   async function _removeElement () {
-    removeElement(listingId, uri)
+    return removeElement(listingId, uri)
       .then(() => {
         // Enhancement: after remove, have an "undo" button
         elements.splice(index, 1)
         elements = elements
       })
-      .catch(err => flash = err)
   }
 
   async function reorder (newIndex) {
