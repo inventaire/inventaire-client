@@ -4,7 +4,7 @@
   import { I18n } from '#user/lib/i18n'
   import ListingElements from './listing_elements.svelte'
 
-  export let listing
+  export let listing, initialElement
 
   let { _id, creator, elements } = listing
 
@@ -17,7 +17,8 @@
   />
   <ListingElements
     bind:elements
-    listingId={_id}
+    {listing}
+    {initialElement}
     {isEditable}
   />
 </div>
