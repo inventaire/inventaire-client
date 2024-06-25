@@ -30,6 +30,9 @@ export default {
       })
     }
   },
+  byElementId (id) {
+    return action('by-element-id', { id })
+  },
   create: action('create'),
   update: base,
   addElements: action('add-elements'),
