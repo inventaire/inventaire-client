@@ -1,4 +1,5 @@
 <script lang="ts">
+  import app from '#app/app'
   import { isNonEmptyPlainObject, isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
@@ -13,13 +14,14 @@
   import Summary from '#entities/components/layouts/summary.svelte'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import { getEntityImagePath, getEntitiesAttributesFromClaims } from '#entities/lib/entities'
+  import { getListingMetadata, getListingPathname, getElementPathname, getElementMetadata } from '#listings/lib/listings'
   import { i18n, I18n } from '#user/lib/i18n'
   import ListingElementActions from './listing_element_actions.svelte'
 
-  export let element, listingId, isEditable, isReordering, paginatedElements
+  export let element, isEditable, isReordering, listing, paginatedElements, isShowMode
 
-  let isShowMode
-  const { entity } = element
+  const { _id: listingId } = listing
+  const { entity, _id: elementId } = element
   const { uri, type, label, claims, image } = entity
   const publicationYear = formatYearClaim('wdt:P577', claims)
   const authorsUris = claims['wdt:P50']
@@ -35,6 +37,11 @@
 
   function toggleShowMode () {
     isShowMode = !isShowMode
+    if (isShowMode) {
+      app.navigate(getElementPathname(listingId, elementId), { metadata: getElementMetadata(listing, element) })
+    } else {
+      app.navigate(getListingPathname(listingId), { metadata: getListingMetadata(listing) })
+    }
   }
 
   const waitingForAuthors = getAuthors()
@@ -47,9 +54,8 @@
 
   $: comment = element.comment
 </script>
-
 {#if isShowMode}
-  <Modal on:closeModal={() => isShowMode = false}
+  <Modal on:closeModal={toggleShowMode}
   >
     <div class="show-modal">
       <div class="entity-type-label">
