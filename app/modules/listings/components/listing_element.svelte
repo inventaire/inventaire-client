@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import { isNonEmptyPlainObject, isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import ImageDiv from '#components/image_div.svelte'
   import Modal from '#components/modal.svelte'
+  import EntityImage from '#entities/components/entity_image.svelte'
   import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
   import AuthorsInline from '#entities/components/layouts/authors_inline.svelte'
   import Ebooks from '#entities/components/layouts/ebooks.svelte'
@@ -50,14 +51,22 @@
         {entity}
         hasLinkTitle={true}
       />
-      <div class="entity-infobox">
-        <AuthorsInfo {claims} />
-        <Infobox
-          {claims}
-          entityType={type}
-          shortlistOnly={true}
-        />
-        <Ebooks {entity} />
+      <div class="entity-info-row">
+        {#if isNonEmptyPlainObject(entity.image)}
+          <EntityImage
+            {entity}
+            size={128}
+          />
+        {/if}
+        <div class="entity-infobox">
+          <AuthorsInfo {claims} />
+          <Infobox
+            {claims}
+            entityType={type}
+            shortlistOnly={true}
+          />
+          <Ebooks {entity} />
+        </div>
       </div>
       {#if comment}
         <div class="element-section">
@@ -148,16 +157,20 @@
     color: $label-grey;
     font-size: 0.9rem;
   }
+  .show-modal{
+    margin: 1em;
+  }
+  .entity-info-row{
+    @include display-flex(row, flex-start, flex-start);
+    margin: 1em 0;
+  }
   .entity-infobox{
-    margin-block-end: 0.5em;
-    :global(.summary){
-      margin: 1em 0;
-    }
+    margin: 0 1em;
   }
   .element-section{
     background-color: $light-grey;
     padding: 0.5em 1em;
-    margin: 0.5em 0;
+    margin: 1em 0;
   }
   .entity-type-label{
     color: $soft-grey;
