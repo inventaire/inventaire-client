@@ -51,19 +51,37 @@
   </button>
 {/if}
 <Flash bind:state={flash} />
-{#if item}
-  <a
-    class="view-book tiny-button light-blue"
-    href={itemPath}
-    target="_blank"
-    rel="noreferrer"
-  >
-    {I18n('View book')}
-  </a>
-{/if}
-<style>
-  .view-book{
+<div class="action-buttons">
+  {#if item}
+    <a
+      class="view-book tiny-button light-blue"
+      href={itemPath}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {I18n('View book')}
+    </a>
+  {/if}
+
+  {#if edition}
+    <a
+      class="view-book tiny-button light-blue"
+      href={`/entity/${edition.uri}/edit`}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {I18n('Edit edition')}
+    </a>
+  {/if}
+</div>
+<style lang="scss">
+  @import "#general/scss/utils";
+  .action-buttons{
     min-width: 6em;
+    @include display-flex(column, center);
+  }
+  .view-book{
+    margin: 0.5em 0;
     text-align: center;
   }
 </style>
