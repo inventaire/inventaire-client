@@ -159,14 +159,14 @@
   .listing-element-wrapper{
     @include display-flex(column, stretch, flex-start);
     width: 100%;
-    padding: 0.5em;
+    padding: 1em;
   }
   .listing-element{
     @include display-flex(row, unset, space-between);
     min-height: 6em;
   }
   a{
-    @include display-flex(row, stretch, flex-start);
+    @include display-flex(row, center, flex-start);
     cursor: pointer;
     .label:hover{
       text-decoration: underline;
@@ -175,7 +175,7 @@
     :global(.images-collage){
       block-size: 6em;
       flex: 0 0 4em;
-      margin-inline-end: 0.5em;
+      margin-inline-end: 1em;
     }
   }
   .main-text-wrapper{
