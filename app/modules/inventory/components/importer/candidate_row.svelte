@@ -104,7 +104,7 @@
   $: candidate.editionTitle = editionTitle
   $: candidate.authors = authors
   $: candidate.works = [ work ]
-  $: disabled = (!itemsCountWereChecked) || needInfo || (candidate.error != null)
+  $: disabled = (!itemsCountWereChecked) || needInfo
   $: if (disabled) checked = false
 </script>
 
