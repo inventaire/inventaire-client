@@ -6,7 +6,7 @@
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { getSearchType } from '#listings/lib/entities_typing'
+  import { getSearchType, getI18nSearchPlaceholder } from '#listings/lib/entities_typing'
   import { addElement, assignEntitiesToElements } from '#listings/lib/listings'
   import { i18n, I18n } from '#user/lib/i18n'
   import ListingElement from './listing_element.svelte'
@@ -21,6 +21,7 @@
   let fetching, isReordering
   let windowScrollY = 0
   const searchTypes = getSearchType(listing.type)
+  const i18nSearchPlaceholder = getI18nSearchPlaceholder(listing.type)
 
   let addingAnElement
   const addUriAsElement = async entity => {
@@ -94,7 +95,7 @@
           {i18n('Add a work to this list')}
           <EntityAutocompleteSelector
             {searchTypes}
-            placeholder={i18n('Search for works or series')}
+            placeholder={i18n(i18nSearchPlaceholder)}
             autofocus={false}
             bind:currentEntityLabel={inputValue}
             bind:showSuggestions

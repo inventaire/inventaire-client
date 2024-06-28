@@ -17,3 +17,11 @@ const i18nTypesKeys = {
 }
 
 export const getI18nTypeKey = listingType => i18nTypesKeys[listingType]
+
+const i18nSearchPlaceholderKeys = {
+  work: 'Search for works or series',
+  author: 'Search for authors',
+  publisher: 'Search for publishers',
+}
+
+export const getI18nSearchPlaceholder = listingType => i18nSearchPlaceholderKeys[listingType]
