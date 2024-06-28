@@ -137,7 +137,7 @@
         <li>{i18n('nothing here')}</li>
       {/each}
     </ul>
-    {#if hasMore}
+    {#if hasMore && isNonEmptyArray(elements)}
       <p bind:this={listingBottomEl}>
         {I18n('loading')}
         <Spinner />
