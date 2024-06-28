@@ -20,7 +20,7 @@
   let validating, flash
   let _id, name, description, visibility, type
   const listingTypesI18nKey = {
-    work: 'work',
+    work: 'work and series',
     author: 'P50',
     publisher: 'P123',
   }
