@@ -8,18 +8,21 @@
   import Modal from '#components/modal.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import ListingEditor from '#listings/components/listing_editor.svelte'
+  import { getI18nTypeKey } from '#listings/lib/entities_typing'
   import type { Listing } from '#server/types/listing'
-  import { i18n } from '#user/lib/i18n'
+  import { I18n, i18n } from '#user/lib/i18n'
 
   export let listing: Listing
   export let isEditable: boolean
   export let creator: SerializedUser
 
-  let { name, description, visibility } = listing
+  let { name, type = 'work', description, visibility } = listing
 
   let visibilitySummary, visibilitySummaryIcon, visibilitySummaryLabel, showListEditorModal
 
   const { username, picture: userPicture, listingsPathname: userListingsPathname } = creator
+
+  const i18nTypeKey = getI18nTypeKey(type)
 
   const updateVisibilitySummary = () => {
     visibility = listing.visibility
@@ -36,7 +39,9 @@
 <div class="listing-info">
   <div class="header">
     <div class="first-row">
-      <h2>{name}</h2>
+      <div class="type-label">
+        {I18n(i18nTypeKey)}
+      </div>
       {#if isEditable}
         <Dropdown
           align="right"
@@ -59,6 +64,7 @@
         </Dropdown>
       {/if}
     </div>
+    <h2>{name}</h2>
     {#if description}
       <p>{@html description}</p>
     {/if}
@@ -105,6 +111,11 @@
     padding: 0.5em 1em 1em;
     @include radius;
     background-color: $light-grey;
+  }
+  .type-label{
+    @include display-flex(row, center, center);
+    flex: 1;
+    color: $grey;
   }
   h2{
     margin-block-start: 0;
