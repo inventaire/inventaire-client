@@ -18,7 +18,14 @@
   export let layoutTitle = i18n('Edit list')
 
   let validating, flash
-  let _id, name, description, visibility
+  let _id, name, description, visibility, type
+  const listingTypesI18nKey = {
+    work: 'work',
+    author: 'P50',
+    publisher: 'P123',
+  }
+  const listingTypes = Object.keys(listingTypesI18nKey)
+
   if (listing) {
     ;({ _id, name, description, visibility } = listing)
   }
@@ -56,6 +63,7 @@
       name,
       description,
       visibility,
+      type,
     })
     listing = serializeListing(res.listing)
     app.user.trigger('listings:change', 'createListing')
@@ -97,10 +105,25 @@
     use:autosize
   />
 </label>
-<VisibilitySelector
-  bind:visibility
-  showTip={true}
-/>
+<div class="visibility-selector">
+  <VisibilitySelector
+    bind:visibility
+    showTip={true}
+  />
+</div>
+<label>
+  {i18n('listing type')}
+  <select
+    name={i18n('language selector')}
+    bind:value={type}
+  >
+    {#each listingTypes as selectableType}
+      <option value={selectableType}>
+        {I18n(listingTypesI18nKey[selectableType])}
+      </option>
+    {/each}
+  </select>
+</label>
 <div class="buttons">
   {#await validating}
     <Spinner />
@@ -132,6 +155,9 @@
   label{
     font-size: 1rem;
     margin-block-end: 0.2em;
+  }
+  .visibility-selector{
+    margin-block-end: 1em;
   }
   .buttons{
     margin-block-start: 1em;
