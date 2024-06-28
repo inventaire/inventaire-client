@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { slide } from 'svelte/transition'
   import Flash from '#app/lib/components/flash.svelte'
   import EntryDisplay from '#inventory/components/entry_display.svelte'
   import CandidateActions from '#inventory/components/importer/candidate_actions.svelte'
@@ -11,7 +12,11 @@
   let flash
   $: { if (error) flash = { type: 'error', message: error.status_verbose } }
 </script>
-<li class="list-candidate" class:error>
+<li
+  class="list-candidate"
+  class:error
+  transition:slide={{ duration: 100 }}
+>
   <div class="list-actions-wrapper">
     <EntryDisplay
       {isbnData}

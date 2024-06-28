@@ -74,7 +74,7 @@
     processedItemsCount += 1
     if (nextCandidate.checked && !nextCandidate.error) {
       await createItemFromCandidate({ candidate: nextCandidate, transaction, visibility, shelvesIds })
-      processedCandidates = [ ...processedCandidates, nextCandidate ]
+      processedCandidates = [ nextCandidate, ...processedCandidates ]
     }
     await createItemsSequentially()
   }
