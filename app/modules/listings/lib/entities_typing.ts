@@ -11,7 +11,7 @@ const searchTypesByListingType = {
 export const getSearchType = listingType => searchTypesByListingType[listingType]
 
 const i18nTypesKeys = {
-  work: "work's list",
+  work: "work's and series' list",
   author: "author's list",
   publisher: "publisher's list",
 }
