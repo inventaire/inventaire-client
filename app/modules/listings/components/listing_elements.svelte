@@ -6,8 +6,8 @@
   import InfiniteScroll from '#components/infinite_scroll.svelte'
   import EntityAutocompleteSelector from '#entities/components/entity_autocomplete_selector.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { addElement, assignEntitiesToElements } from '#listings/lib/listings'
   import { getSearchType } from '#listings/lib/entities_typing'
+  import { addElement, assignEntitiesToElements } from '#listings/lib/listings'
   import { i18n, I18n } from '#user/lib/i18n'
   import ListingElement from './listing_element.svelte'
 
