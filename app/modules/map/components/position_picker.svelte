@@ -187,7 +187,7 @@
     padding: 2em;
   }
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .map-container{
       max-height: 50vh;
     }
@@ -196,7 +196,7 @@
     }
   }
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .position-picker{
       padding: 1em;
     }

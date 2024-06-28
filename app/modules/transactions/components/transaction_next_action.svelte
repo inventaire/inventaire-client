@@ -86,7 +86,7 @@
     padding: 0.5em 1em;
     text-align: center;
     /* Small screens */
-    @media screen and (max-width: $very-small-screen){
+    @media screen and (width < $very-small-screen){
       @include display-flex(column, center, stretch);
       .action{
         width: 100%;
@@ -99,7 +99,7 @@
       }
     }
     /* Large screens */
-    @media screen and (min-width: $very-small-screen){
+    @media screen and (width >= $very-small-screen){
       @include display-flex(row, baseline, center);
     }
   }

@@ -182,7 +182,7 @@
   }
 
   /* Very Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .buttons{
       padding: 0 1em;
       flex-direction: column;
@@ -194,7 +194,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .done{
       margin-inline-start: 0.5em;
     }

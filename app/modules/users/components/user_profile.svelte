@@ -158,7 +158,7 @@
   }
 
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     .user-card{
       min-height: 9em;
     }
@@ -173,7 +173,7 @@
   }
 
   /* Small screens */
-  @media screen and (max-width: $smaller-screen){
+  @media screen and (width < $smaller-screen){
     .user-profile{
       @include display-flex(column, center, center);
     }

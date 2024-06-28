@@ -38,7 +38,7 @@
     margin: 0.3em 0;
   }
   /* Large screens */
-  @media screen and (min-width: $smaller-screen){
+  @media screen and (width >= $smaller-screen){
     li{
       padding: 0.5em;
       @include display-flex(row, center, space-between);

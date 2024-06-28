@@ -1,6 +1,6 @@
 @mixin relatives-lists-commons(){
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (width >= $small-screen) {
     @include display-flex(row, stretch, flex-start, wrap);
     gap: 0.5rem;
     :global(.relative-entities-list){

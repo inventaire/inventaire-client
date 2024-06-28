@@ -231,7 +231,7 @@ export function objectKeys <Obj> (obj: Obj) {
 
 // Work around the TS2345 error when using Array include method
 // https://stackoverflow.com/questions/55906553/typescript-unexpected-error-when-using-includes-with-a-typed-array/70532727#70532727
-export function arrayIncludes (array: readonly (string | number)[], value: string | number) {
+export function arrayIncludes <T> (array: T[], value: T) {
   return array.some(element => element === value)
 }
 

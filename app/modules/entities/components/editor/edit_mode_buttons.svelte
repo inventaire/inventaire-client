@@ -7,6 +7,7 @@
   export let showSave = true
   export let showDelete = true
   export let saving = false
+  export let deleteButtonDisableMessage: string = null
 
   const dispatch = createEventDispatcher()
 </script>
@@ -37,8 +38,8 @@
   {#if showDelete !== false}
     <button
       class="tiny-button dangerous delete"
-      title={I18n('delete')}
-      disabled={saving}
+      title={deleteButtonDisableMessage != null ? deleteButtonDisableMessage : I18n('delete')}
+      disabled={saving || deleteButtonDisableMessage != null}
       on:click={() => dispatch('delete')}
     >
       {@html icon('trash')}
@@ -64,14 +65,14 @@
     background-color: $dark-grey;
   }
   /* Small screens */
-  @media screen and (max-width: $very-small-screen){
+  @media screen and (width < $very-small-screen){
     button{
       padding: 0.5em;
       margin: 0.2em;
     }
   }
   /* Large screens */
-  @media screen and (min-width: $very-small-screen){
+  @media screen and (width >= $very-small-screen){
     .edit-mode-buttons{
       block-size: 2.5rem;
     }

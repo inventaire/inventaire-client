@@ -37,7 +37,7 @@ body.openedModal{
     }
   }
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (width < $small-screen) {
     padding: 2em 0.2em;
     min-width: 80vw;
     margin-block-start: 10px;
@@ -47,12 +47,12 @@ body.openedModal{
     }
   }
   /*Medium / Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  @media screen and (width >= $smaller-screen) {
     // Important for the place of the .close button
     padding: 2em;
   }
   /*Large screens*/
-  @media screen and (min-width: $small-screen) {
+  @media screen and (width >= $small-screen) {
     .modal-large{
       min-width: 60em;
     }
@@ -67,11 +67,11 @@ body.openedModal{
   }
   box-shadow: 3px 3px 10px 3px rgba(#222, 0.5);
   /*Small screens*/
-  @media screen and (max-width: $small-screen) {
+  @media screen and (width < $small-screen) {
     padding: 1em 0;
   }
   /*Large screens*/
-  @media screen and (min-width: $smaller-screen) {
+  @media screen and (width >= $smaller-screen) {
     padding: 1em;
   }
 }

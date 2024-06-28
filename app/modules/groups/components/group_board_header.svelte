@@ -73,7 +73,7 @@
     position: relative;
     min-height: 6em;
     /* Large screens */
-    @media screen and (min-width: $small-screen){
+    @media screen and (width >= $small-screen){
       min-height: 10em;
     }
     width: 100%;

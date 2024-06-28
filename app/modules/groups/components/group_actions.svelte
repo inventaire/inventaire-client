@@ -100,7 +100,7 @@
     margin: 0 0 0.5em;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     button{
       margin: 0;
     }

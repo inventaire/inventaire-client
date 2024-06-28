@@ -36,20 +36,22 @@
 </script>
 
 <div class="item-notes">
-  <div class="header">
+  <div
+    class="header"
+    on:click={() => editMode = true}
+  >
     <span class="section-label">{I18n('private notes')}</span>
     <span class="indicator" title={i18n('this is visible by anyone who can see this item')}>
       {@html icon('lock')}
     </span>
-    <button
-      title={i18n('edit')}
-      on:click={() => editMode = true}
+    <button title={i18n('edit')}
     >
       {@html icon('pencil')}
     </button>
   </div>
   {#if editMode}
     <textarea
+      class="notes"
       placeholder={`(${i18n('notes_placeholder')})`}
       bind:value={notes}
       use:autofocus
@@ -110,6 +112,9 @@
   }
   .header{
     @include display-flex(row, center);
+  }
+  .notes{
+    margin-block-start: 0.5em;
   }
   .indicator{
     margin-inline-start: auto;

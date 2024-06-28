@@ -31,10 +31,10 @@
   })
 </script>
 
+<svelte:window on:keyup={onKeyUp} />
 <div
   class="modal-overlay"
   on:click={close}
-  on:keyup={onKeyUp}
   use:autofocus={{ refocusOnVisibilityChange: false }}
   role="button"
   tabindex="-1"
@@ -102,7 +102,7 @@
     }
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .modal-outer{
       margin: 1em 0;
       padding: 1em;
@@ -116,7 +116,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .modal-outer{
       margin: 0.5em 0;
       padding: 0.5em;

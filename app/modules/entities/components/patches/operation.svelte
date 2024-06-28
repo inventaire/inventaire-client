@@ -64,7 +64,7 @@
     }
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .operation{
       flex-wrap: wrap;
     }

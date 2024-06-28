@@ -48,7 +48,7 @@
     margin-block-start: 1em;
   }
   /* Large screens */
-  @media screen and (min-width: $small-screen){
+  @media screen and (width >= $small-screen){
     .focused-transaction-layout{
       padding: 1em;
     }

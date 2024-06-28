@@ -101,7 +101,7 @@ label{
   }
 
   /*Small screens*/
-  @media screen and (max-width: $very-small-screen) {
+  @media screen and (width < $very-small-screen) {
     flex-direction: column;
     button{
       width: 100%;
@@ -109,7 +109,7 @@ label{
   }
 
   /*Large screens*/
-  @media screen and (min-width: $very-small-screen) {
+  @media screen and (width >= $very-small-screen) {
     button.postfix{
       @include radius-right;
       @include radius-left(0);

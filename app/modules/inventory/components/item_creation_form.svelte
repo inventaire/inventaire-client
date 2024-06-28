@@ -166,7 +166,7 @@
     max-width: 50em;
     margin: 0 auto;
     /* Large screens */
-    @media screen and (min-width: $small-screen){
+    @media screen and (width >= $small-screen){
       padding: 0 1em 1em;
     }
   }
