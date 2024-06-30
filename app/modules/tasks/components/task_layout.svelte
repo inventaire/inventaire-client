@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { clone, pluck } from 'underscore'
+  import { clone, pluck, values } from 'underscore'
   import { API } from '#app/api/api'
   import app from '#app/app'
   import preq, { treq } from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import { serializeEntity } from '#entities/lib/entities'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
-  import type { EntitiesByUrisResults } from '#server/controllers/entities/lib/get_entities_by_uris'
   import type { TaskId } from '#server/types/task'
   import getNextTask from '#tasks/lib/get_next_task.ts'
   import { I18n } from '#user/lib/i18n'
@@ -109,7 +108,7 @@
 
   function areRedirects (entities, redirects) {
     if (Object.keys(redirects).length === 0) return
-    for (const entityUri of Object.values(redirects)) {
+    for (const entityUri of values(redirects)) {
       if (entities[entityUri]) return true
     }
   }

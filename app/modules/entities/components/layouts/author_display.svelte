@@ -6,13 +6,13 @@
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { i18n } from '#user/lib/i18n'
 
-  export let authorsByUris = {}, claimValue, hasManyClaimValues
+  export let entity, claimValue, hasManyClaimValues
 
-  let labels, claims = {}, uri, image = {}
+  let labels, claims = {}, uri, image
   let url, label
   $: {
-    if (authorsByUris[claimValue]) {
-      ({ labels, claims, uri, image } = authorsByUris[claimValue])
+    if (entity) {
+      ({ labels, claims, uri, image } = entity)
     }
     if (uri) {
       url = `/entity/${uri}`
@@ -32,7 +32,7 @@
   on:click={loadInternalLink}
   class:hasManyClaimValues
 >
-  {#if image.url}
+  {#if image?.url}
     <img src={imgSrc(image.url, 56)} alt={i18n('author picture')} loading="lazy" />
   {/if}
   <div class="author-info">
