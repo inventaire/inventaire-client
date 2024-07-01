@@ -14,11 +14,11 @@ const suggestionUrisFetched = []
 const limit = 10
 let offset = 0
 
-export default function (params = {}) {
-  return getNextTask(params)
+export function getNextTask (params = {}) {
+  return _getNextTask(params)
 }
 
-const getNextTask = async params => {
+const _getNextTask = async params => {
   const { entitiesType } = params
   let nextTaskGetter = ''
   if (entitiesType === 'work') {

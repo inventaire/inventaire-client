@@ -2,12 +2,13 @@
   import { clone, pluck, values } from 'underscore'
   import { API } from '#app/api/api'
   import app from '#app/app'
+  import { icon } from '#app/lib/icons'
   import preq, { treq } from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import { serializeEntity } from '#entities/lib/entities'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
   import type { TaskId } from '#server/types/task'
-  import getNextTask from '#tasks/lib/get_next_task.ts'
+  import { getNextTask } from '#tasks/lib/get_next_task.ts'
   import { I18n } from '#user/lib/i18n'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
@@ -192,7 +193,6 @@
     background-color: $light-grey;
     padding-inline-start: 1em;
     flex: 1 0 0;
-    width:100%;
   }
   h2{
     @include display-flex(row, null, center);
@@ -212,40 +212,10 @@
   }
   .swap{
     position: relative;
-    left: 1.3em;
-    top: 30vh;
+    inset-inline-start: 1.3em;
+    inset-block-start: 30vh;
     background-color: white;
     padding: 0.5em;
     border-radius: 50%;
-    opacity: 0.8;
-  }
-  /* Small screens */
-  @media screen and (max-width: $small-screen){
-    .entities-section{
-      @include display-flex(column, center);
-    }
-    .title-row{
-      justify-content: center;
-    }
-    .from-entity{
-      min-height: unset;
-      padding-block-start: 0.5em;
-    }
-    .to-entity{
-      min-height: unset;
-      padding-block-start: 1em;
-      padding-inline-start: 0;
-
-    }
-    .swap{
-      position: relative;
-      left: 0;
-      top: 1.3em;
-      :global(.fa-exchange){
-        transform: rotate(90deg);
-        margin-inline-start: 0.2em;
-        line-height: 1rem;
-      }
-    }
   }
 </style>
