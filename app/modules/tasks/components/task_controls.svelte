@@ -21,7 +21,6 @@
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
-    if (event.key === 's') mergeTaskEntities({ invertToAndFrom: true })
     if (event.key === 'm') mergeTaskEntities()
     if (event.key === 'd') dismiss()
     else if (event.key === 'n') dispatch('next')
