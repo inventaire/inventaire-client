@@ -198,7 +198,7 @@ const controller = {
   },
 }
 
-const showEntityCreate = async params => {
+async function showEntityCreate (params) {
   const path = 'entity/new'
   if (!app.request('require:loggedIn', path)) return
   app.navigate(path)
@@ -219,7 +219,7 @@ const showEntityCreate = async params => {
   })
 }
 
-const setHandlers = function () {
+function setHandlers () {
   app.commands.setHandlers({
     'show:entity': controller.showEntity.bind(controller),
     'show:claim:entities' (property, value) {
@@ -290,7 +290,7 @@ const getEntitiesModels = async function (params) {
 // Known case of model being undefined: when the model initialization failed
 const isntMissing = model => (model != null) && (model?.type !== 'missing')
 
-const getEntityModel = async (uri, refresh?) => {
+async function getEntityModel (uri, refresh?) {
   // @ts-expect-error deprecated
   const [ model ] = await getEntitiesModels({ uris: [ uri ], refresh })
   if (model != null) {
@@ -304,7 +304,7 @@ const getEntityModel = async (uri, refresh?) => {
   }
 }
 
-const showEntityEdit = async params => {
+async function showEntityEdit (params) {
   const { model } = params
   if (model.type == null) throw newError('invalid entity type', model)
   const { default: EntityEdit } = await import('./components/editor/entity_edit.svelte')
@@ -316,7 +316,7 @@ const showEntityEdit = async params => {
   app.navigateFromModel(model, 'edit')
 }
 
-const showEntityEditFromModel = async model => {
+async function showEntityEditFromModel (model) {
   const editRoute = model.get('edit')
   if (!editRoute) {
     const { uri, type } = model.toJSON()
@@ -334,18 +334,18 @@ const showEntityEditFromModel = async model => {
   }
 }
 
-const showWikidataEditIntroModal = async model => {
+async function showWikidataEditIntroModal (model) {
   const { default: WikidataEditIntro } = await import('./views/wikidata_edit_intro.ts')
   app.layout.showChildView('modal', new WikidataEditIntro({ model }))
 }
 
-const rejectRemovedPlaceholder = function (entity) {
+function rejectRemovedPlaceholder (entity) {
   if (entity.get('_meta_type') === 'removed:placeholder') {
     throw newError('removed placeholder', 400, { entity })
   }
 }
 
-const handleMissingEntity = (uri, err) => {
+function handleMissingEntity (uri, err) {
   if (err.message === 'invalid entity type') {
     app.execute('show:error:other', err)
   } else if (err.message === 'entity_not_found') {
@@ -358,7 +358,7 @@ const handleMissingEntity = (uri, err) => {
   }
 }
 
-const showEntityCreateFromIsbn = async isbn => {
+async function showEntityCreateFromIsbn (isbn) {
   const isbnData = await preq.get(API.data.isbn(isbn))
 
   const { isbn13h, groupLangUri } = isbnData
@@ -377,7 +377,7 @@ const showEntityCreateFromIsbn = async isbn => {
 }
 
 // Create from the seed data we have, if the entity isn't known yet
-const existsOrCreateFromSeed = async entry => {
+async function existsOrCreateFromSeed (entry) {
   const { entries } = await preq.post(API.entities.resolve, {
     entries: [ entry ],
     update: true,
@@ -390,7 +390,7 @@ const existsOrCreateFromSeed = async entry => {
   return getEntityModel(uri, true)
 }
 
-const showViewByAccessLevel = function (params) {
+function showViewByAccessLevel (params) {
   let { path, title, View, viewOptions, Component, componentProps, navigate, accessLevel } = params
   if (navigate == null) navigate = true
   if (app.request('require:loggedIn', path)) {
@@ -409,7 +409,7 @@ const showViewByAccessLevel = function (params) {
 
 const isClaim = claim => /^(wdt:|invp:)/.test(claim)
 
-const showClaimEntities = async (claim, refresh) => {
+async function showClaimEntities (claim, refresh) {
   const [ property, value ] = claim.split('-')
   const pathname = `/entity/${claim}`
 
@@ -435,7 +435,7 @@ const showClaimEntities = async (claim, refresh) => {
   })
 }
 
-const reportTypeIssue = function (params) {
+function reportTypeIssue (params) {
   const { expectedType, model, context } = params
   const [ uri, realType ] = model.gets('uri', 'type')
   if (reportedTypeIssueUris.includes(uri)) return
@@ -447,7 +447,7 @@ const reportTypeIssue = function (params) {
 
 const reportedTypeIssueUris = []
 
-const showEntityCleanupFromModel = async entity => {
+async function showEntityCleanupFromModel (entity) {
   if (entity.type !== 'serie') {
     const err = newError(`cleanup isn't available for entity type ${entity.type}`, 400)
     app.execute('show:error', err)
