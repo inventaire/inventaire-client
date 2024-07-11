@@ -1,5 +1,6 @@
 import { API } from '#app/api/api'
 import { isModel } from '#app/lib/boolean_tests'
+import { newError } from '#app/lib/error'
 import log_ from '#app/lib/loggers'
 import preq from '#app/lib/preq'
 
@@ -49,13 +50,13 @@ export default function (app) {
 
   const normalizeUser = user => {
     if (!isModel(user)) {
-      throw new Error('exepected a user Model, got', user)
+      throw newError('exepected a user Model, got', { user })
     }
 
     if (user.id != null) {
       return [ user, user.id ]
     } else {
-      throw new Error('user missing id', user)
+      throw newError('user missing id', { user })
     }
   }
 
