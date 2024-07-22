@@ -72,7 +72,8 @@ const controller = {
     app.layout.showChildComponent('main', WelcomeLayout)
     app.navigate('welcome', {
       metadata: {
-        title: i18n('Welcome to Inventaire'),
+        title: i18n('Inventaire - your friends and communities are your best library'),
+        description: i18n('Make the inventory of your books and mutualize with your friends and communities into an infinite library!'),
       },
     })
   },
