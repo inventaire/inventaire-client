@@ -323,6 +323,11 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://bookbrainz.org/edition/${id}`,
   },
+  'wdt:P12852': {
+    name: 'NooSFere',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.noosfere.org/livres/editeur.asp?numediteur=${id}`,
+  },
 } as const
 
 const openLibrarySectionByLetter = {
