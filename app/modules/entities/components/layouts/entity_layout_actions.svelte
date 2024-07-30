@@ -2,7 +2,7 @@
   import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
   import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
-  import { getWikidataUrl, getWikidataHistoryUrl, type SerializedEntity } from '#entities/lib/entities'
+  import { getWikidataUrl, type SerializedEntity } from '#entities/lib/entities'
   import { startRefreshTimeSpan } from '#entities/lib/entity_refresh'
   import Spinner from '#general/components/spinner.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -12,7 +12,7 @@
 
   let waitForEntityRefresh
 
-  const { uri, type, claims } = entity
+  const { uri, wdUri, type, claims } = entity
 
   async function refreshEntity () {
     startRefreshTimeSpan(entity.uri)
@@ -20,8 +20,7 @@
     app.navigateAndLoad(`${entity.pathname}?refresh=true`)
   }
 
-  const wikidataUrl = getWikidataUrl(uri)
-  const wikidataHistoryUrl = getWikidataHistoryUrl(uri)
+  const wikidataUrl = wdUri ? getWikidataUrl(wdUri) : null
 </script>
 
 {#if showEntityEditButtons}
@@ -55,15 +54,8 @@
       <span class="button-text">{I18n('refresh Wikidata data')}</span>
     </button>
   </li>
-  <li>
-    <Link
-      url={wikidataHistoryUrl}
-      text={I18n('entity history')}
-      icon="history"
-    />
-  </li>
 {:else}
-  {#if claims['wdt:P212']}
+  {#if claims['wdt:P212'] && !wdUri}
     <li>
       <button
         on:click={refreshEntity}
@@ -78,14 +70,14 @@
       </button>
     </li>
   {/if}
-  <li>
-    <Link
-      url={`/entity/${uri}/history`}
-      text={I18n('entity history')}
-      icon="history"
-    />
-  </li>
 {/if}
+<li>
+  <Link
+    url={`/entity/${uri}/history`}
+    text={I18n('entity history')}
+    icon="history"
+  />
+</li>
 
 {#if app.user.hasDataadminAccess && showEntityEditButtons}
   {#if type === 'human'}

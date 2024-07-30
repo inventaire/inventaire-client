@@ -3,10 +3,10 @@ import { newError } from '#app/lib/error'
 import { getIsbnData } from '#app/lib/isbn'
 import log_ from '#app/lib/loggers'
 import { arrayIncludes, objectEntries } from '#app/lib/utils'
+import type { Entity as EntityT } from '#app/types/entity'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
 import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import getOriginalLang from '#entities/lib/get_original_lang'
-import type { Claims } from '#server/types/entity'
 import Entity from '../models/entity.ts'
 import createEntity from './create_entity.ts'
 import { graphRelationsProperties } from './graph_relations_properties.ts'
@@ -114,7 +114,7 @@ const subjectEntityP31ByProperty = {
   'wdt:P195': 'wd:Q20655472',
 }
 
-export async function createAndGetEntityModel (params) {
+export async function createAndGetEntityModel (params: Partial<EntityT> & { createOnWikidata?: boolean }) {
   const { claims } = params
   cleanupClaims(claims)
   const entityData = await createEntity(params)
@@ -125,8 +125,9 @@ export async function createAndGetEntityModel (params) {
   return model
 }
 
-function cleanupClaims (claims: Claims) {
+function cleanupClaims (claims: EntityT['claims']) {
   for (const [ property, propertyClaims ] of objectEntries(claims)) {
+    // @ts-expect-error
     claims[property] = propertyClaims.filter(isNonEmptyClaimValue)
   }
 }

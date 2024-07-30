@@ -6,16 +6,16 @@ import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageH
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import preq from '#app/lib/preq'
 import { forceArray, objectEntries } from '#app/lib/utils'
-import type { Entity, RedirectionsByUris } from '#app/types/entity'
+import type { Entity, InvEntity, RedirectionsByUris, RemovedPlaceholder, WdEntity } from '#app/types/entity'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
 import type { RelativeUrl, Url } from '#server/types/common'
-import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue } from '#server/types/entity'
+import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityId, WdEntityUri, InvEntityId, NormalizedIsbn, InvEntityUri } from '#server/types/entity'
 import getBestLangValue from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
 import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
-export type SerializedEntity = Entity & {
+export interface SerializedEntityCommons {
   label: string
   labelLang: WikimediaLanguageCode
   description: string
@@ -27,13 +27,31 @@ export type SerializedEntity = Entity & {
   editPathname?: RelativeUrl
   historyPathname?: RelativeUrl
   prefix: EntityUriPrefix
-  id: EntityId
-  isWikidataEntity: boolean
   // Can be set by #app/lib/types/work_alt.ts#setEntityImages
   images?: Url[]
 }
 
+export type SerializedInvEntity = InvEntity & SerializedEntityCommons & {
+  id: InvEntityId | NormalizedIsbn
+  isWikidataEntity: false
+}
+export type SerializedRemovedPlaceholder = RemovedPlaceholder & SerializedEntityCommons & {
+  id: InvEntityId
+  invUri: InvEntityUri
+  isWikidataEntity: false
+}
+export type SerializedWdEntity = WdEntity & SerializedEntityCommons & {
+  wdId: WdEntityId
+  wdUri: WdEntityUri
+  isWikidataEntity: true
+}
+
+export type SerializedEntity = SerializedInvEntity | SerializedRemovedPlaceholder | SerializedWdEntity
+
 export type SerializedEntitiesByUris = Record<EntityUri, SerializedEntity>
+
+const params = [ 'uris', 'attributes', 'lang', 'relatives', 'refresh' ] as const
+type GetEntitiesAttributesByUrisParams = Pick<GetEntitiesParams, typeof params[number]>
 
 export async function getReverseClaims (property: PropertyUri, value: InvClaimValue, refresh?: boolean, sort?: boolean) {
   const { uris } = await preq.get(API.entities.reverseClaims(property, value, refresh, sort))
@@ -61,9 +79,9 @@ export function normalizeUri (uri: string) {
   }
 }
 
-export async function getEntities (uris: EntityUri[]) {
+export async function getEntities (uris: EntityUri[], params: Omit<GetEntitiesAttributesByUrisParams, 'uris'> = {}) {
   if (uris.length === 0) return []
-  const { entities } = await getManyEntities({ uris })
+  const { entities } = await getManyEntities({ uris, ...params })
   return Object.values(entities).map(serializeEntity)
 }
 
@@ -77,9 +95,9 @@ export async function getEntitiesByUris (params: GetEntitiesParams) {
   return serializedEntitiesByUris
 }
 
-export async function getEntityByUri ({ uri }: { uri: EntityUri }) {
+export async function getEntityByUri ({ uri, refresh = false }: { uri: EntityUri, refresh?: boolean }) {
   assert_.string(uri)
-  const entities = await getEntities([ uri ])
+  const entities = await getEntities([ uri ], { refresh })
   return entities[0]
 }
 
@@ -105,11 +123,24 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
   const basePathname = entity.pathname = getPathname(entity.uri)
   entity.editPathname = `${basePathname}/edit`
   entity.historyPathname = `${basePathname}/history`
+  let wdUri, invUri
+  let isWikidataEntity = false
+  if ('wdId' in entity) {
+    isWikidataEntity = true
+    wdUri = `wd:${entity.wdId}`
+  }
+  if ('invId' in entity) {
+    invUri = `inv:${entity.invId}`
+  }
   const [ prefix, id ] = entity.uri.split(':')
   entity.prefix = prefix as EntityUriPrefix
-  entity.id = id as EntityId
-  entity.isWikidataEntity = prefix === 'wd'
-  return entity as SerializedEntity
+  return {
+    id: id as EntityId,
+    wdUri,
+    invUri,
+    isWikidataEntity,
+    ...entity,
+  } as SerializedEntity
 }
 
 const getPathname = (uri: EntityUri) => `/entity/${uri}` as RelativeUrl
@@ -119,16 +150,13 @@ export async function attachEntities (entity: Entity | SerializedEntity, attribu
   return entity
 }
 
-const params = [ 'uris', 'attributes', 'lang', 'relatives' ] as const
-type GetEntitiesAttributesByUrisParams = Pick<GetEntitiesParams, typeof params[number]>
-
 // Limiting the amount of uris requested to not get over the HTTP GET querystring length threshold.
 // Not using the POST equivalent endpoint, has duplicated request would then be answered with a 429 error
 // Also, do not export function to consumers clean, one may import getEntities or getEntitiesByUris
-async function getManyEntities ({ uris, attributes, lang, relatives }: GetEntitiesAttributesByUrisParams) {
+async function getManyEntities ({ uris, attributes, lang, relatives, refresh }: GetEntitiesAttributesByUrisParams) {
   const urisChunks = chunk(uris, 30)
   const responses = await Promise.all(urisChunks.map(async urisChunks => {
-    return preq.get(API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives }))
+    return preq.get(API.entities.getAttributesByUris({ uris: urisChunks, attributes, lang, relatives, refresh }))
   }))
   const entities: SerializedEntitiesByUris = mergeResponsesObjects(responses, 'entities')
   const redirects: RedirectionsByUris = mergeResponsesObjects(responses, 'redirects')

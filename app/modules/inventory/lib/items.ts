@@ -1,7 +1,6 @@
 import { API } from '#app/api/api'
 import app from '#app/app'
 import preq from '#app/lib/preq'
-import { capitalize } from '#app/lib/utils'
 import type { ItemCategory, SerializedUser } from '#app/modules/users/lib/users'
 import type { Entity } from '#app/types/entity'
 import { getEntityLocalHref } from '#entities/lib/entities'
@@ -51,13 +50,6 @@ export function serializeItem (item: Item & Partial<SerializedItem>) {
     userReady: item.userReady,
     isPrivate: item.visibility?.length === 0,
   })
-
-  if (item.entityData != null) {
-    const { type } = item.entityData
-    item.entityType = type
-    const Type = capitalize(type)
-    item[`entityIs${Type}`] = true
-  }
 
   const { transaction } = item
   const transacs = transactionsDataFactory()
