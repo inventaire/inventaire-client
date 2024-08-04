@@ -1,44 +1,33 @@
-<script lang="ts">
-  import { objectEntries } from '#app/lib/utils'
-  import EntityClaimLink from '#entities/components/layouts/entity_claim_link.svelte'
-  import type { PropertyCategory } from '#entities/lib/editor/properties_per_type'
-  import { categoryLabels, getDisplayedPropertiesByCategory, type DisplayConfig } from '#entities/lib/entity_links'
+<script context="module" lang="ts">
+  import type { DisplayConfig } from '#entities/lib/entity_links'
   import type { InvClaimValue } from '#server/types/entity'
-  import { I18n } from '#user/lib/i18n'
+  import type { PropertyCategory } from '../../lib/editor/properties_per_type'
 
-  export let claims
+  export type CategoryAvailableExternalId = DisplayConfig & { value: InvClaimValue }
+  export type AvailableExternalIdsByCategory = Record<PropertyCategory, CategoryAvailableExternalId[]>
+</script>
 
-  type CustomDisplayConfig = DisplayConfig & { value?: InvClaimValue }
-  const categories: Partial<Record<PropertyCategory, CustomDisplayConfig[]>> = {}
+<script lang="ts">
+  import { keys, pick, values } from 'underscore'
+  import { objectEntries } from '#app/lib/utils'
+  import CategoryExternalIds from '#entities/components/layouts/category_external_ids.svelte'
+  import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
+  import type { Claims } from '#server/types/entity'
 
-  const displayedPropertiesByCategory = getDisplayedPropertiesByCategory()
-  for (const [ category, propertiesData ] of objectEntries(displayedPropertiesByCategory)) {
-    categories[category] = []
-    for (const propertyData of propertiesData) {
-      const { property } = propertyData
-      if (claims[property]?.[0] != null) {
-        categories[category].push({ ...propertyData, value: claims[property][0] })
-      }
-    }
+  export let claims: Claims
+
+  const availableExternalIds = pick(externalIdsDisplayConfigs, keys(claims))
+  const _availableExternalIdsByCategory = {}
+  for (const propertyData of values(availableExternalIds)) {
+    const { property, category } = propertyData
+    _availableExternalIdsByCategory[category] = _availableExternalIdsByCategory[category] || []
+    _availableExternalIdsByCategory[category].push({ ...propertyData, value: claims[property][0] })
   }
+  const availableExternalIdsByCategory = _availableExternalIdsByCategory as AvailableExternalIdsByCategory
 </script>
 
 <div class="entity-claims-links">
-  {#each Object.entries(categories) as [ category, propertiesData ]}
-    {#if propertiesData.length > 0}
-      <p class="category">
-        <span class="category-label">{I18n(categoryLabels[category])}:</span>
-        {#each propertiesData as { property, name, value }, i}
-          <EntityClaimLink {property} {name} {value} />{#if i !== propertiesData.length - 1},&nbsp;{/if}
-        {/each}
-      </p>
-    {/if}
+  {#each objectEntries(availableExternalIdsByCategory) as [ category, categoryAvailableExternalIds ]}
+    <CategoryExternalIds {category} {categoryAvailableExternalIds} />
   {/each}
 </div>
-
-<style lang="scss">
-  @import "#general/scss/utils";
-  .category-label{
-    color: $label-grey;
-  }
-</style>
