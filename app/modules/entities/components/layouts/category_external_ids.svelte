@@ -1,12 +1,12 @@
 <script>
-  import { categoryLabels } from '#entities/lib/entity_links'
-  import EntityClaimLink from '#entities/components/layouts/entity_claim_link.svelte'
-  import { user } from '#user/user_store'
-  import { I18n, i18n } from '#user/lib/i18n'
-  import { icon } from '#lib/utils'
-  import { getTextDirection } from '#lib/active_languages'
-  import DisplayedLinks from '#settings/components/displayed_links.svelte'
+  import { getTextDirection } from '#app/lib/active_languages'
+  import { icon } from '#app/lib/icons'
   import Modal from '#components/modal.svelte'
+  import EntityClaimLink from '#entities/components/layouts/entity_claim_link.svelte'
+  import { categoryLabels } from '#entities/lib/entity_links'
+  import DisplayedLinks from '#settings/components/displayed_links.svelte'
+  import { I18n, i18n } from '#user/lib/i18n'
+  import { user } from '#user/user_store'
 
   export let category, categoryAvailableExternalIds
 

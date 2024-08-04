@@ -1,11 +1,8 @@
-import { compact, groupBy, pick, pluck, uniq } from 'underscore'
-import app from '#app/app'
-import { isNonEmptyArray } from '#app/lib/boolean_tests'
+import { compact, pluck, uniq } from 'underscore'
 import { objectEntries, sortObjectKeys } from '#app/lib/utils'
 import { getUriNumericId } from '#app/lib/wikimedia/wikidata'
 import type { Url } from '#server/types/common'
 import type { PropertyUri } from '#server/types/entity'
-import type { User } from '#server/types/user'
 import type { PropertyCategory } from './editor/properties_per_type'
 
 type WebsiteName = string

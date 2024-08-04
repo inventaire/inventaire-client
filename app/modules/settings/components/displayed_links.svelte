@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { debounce, difference, intersection, uniq } from 'underscore'
+  import { debounce, difference, intersection, keys, uniq } from 'underscore'
   import app from '#app/app'
   import Flash from '#app/lib/components/flash.svelte'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -10,8 +10,8 @@
 
   const { bibliographicDatabases, socialNetworks } = websitesByCategoryAndName
 
-  const bibliographicDatabasesNames = Object.keys(bibliographicDatabases)
-  const socialNetworksNames = Object.keys(socialNetworks)
+  const bibliographicDatabasesNames = keys(bibliographicDatabases)
+  const socialNetworksNames = keys(socialNetworks)
 
   let selectedBibliographicDatabasesCount = 0
   let selectedSocialNetworksCount = 0
