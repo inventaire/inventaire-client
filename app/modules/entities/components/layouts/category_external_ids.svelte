@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { getTextDirection } from '#app/lib/active_languages'
   import { icon } from '#app/lib/icons'
   import Modal from '#components/modal.svelte'
@@ -7,8 +7,11 @@
   import DisplayedLinks from '#settings/components/displayed_links.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
   import { user } from '#user/user_store'
+  import type { CategoryAvailableExternalId } from './entity_claims_links.svelte'
+  import type { PropertyCategory } from '../../lib/editor/properties_per_type'
 
-  export let category, categoryAvailableExternalIds
+  export let category: PropertyCategory
+  export let categoryAvailableExternalIds: CategoryAvailableExternalId[]
 
   let showAllAvailableExternalIds = false
   let showCategorySettings = false

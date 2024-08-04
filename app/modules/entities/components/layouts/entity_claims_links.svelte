@@ -1,5 +1,15 @@
+<script context="module" lang="ts">
+  import type { DisplayConfig } from '#entities/lib/entity_links'
+  import type { InvClaimValue } from '#server/types/entity'
+  import type { PropertyCategory } from '../../lib/editor/properties_per_type'
+
+  export type CategoryAvailableExternalId = DisplayConfig & { value: InvClaimValue }
+  export type AvailableExternalIdsByCategory = Record<PropertyCategory, CategoryAvailableExternalId[]>
+</script>
+
 <script lang="ts">
   import { keys, pick, values } from 'underscore'
+  import { objectEntries } from '#app/lib/utils'
   import CategoryExternalIds from '#entities/components/layouts/category_external_ids.svelte'
   import { externalIdsDisplayConfigs } from '#entities/lib/entity_links'
   import type { Claims } from '#server/types/entity'
@@ -7,16 +17,17 @@
   export let claims: Claims
 
   const availableExternalIds = pick(externalIdsDisplayConfigs, keys(claims))
-  const availableExternalIdsByCategory = {}
+  const _availableExternalIdsByCategory = {}
   for (const propertyData of values(availableExternalIds)) {
     const { property, category } = propertyData
-    availableExternalIdsByCategory[category] = availableExternalIdsByCategory[category] || []
-    availableExternalIdsByCategory[category].push({ ...propertyData, value: claims[property][0] })
+    _availableExternalIdsByCategory[category] = _availableExternalIdsByCategory[category] || []
+    _availableExternalIdsByCategory[category].push({ ...propertyData, value: claims[property][0] })
   }
+  const availableExternalIdsByCategory = _availableExternalIdsByCategory as AvailableExternalIdsByCategory
 </script>
 
 <div class="entity-claims-links">
-  {#each Object.entries(availableExternalIdsByCategory) as [ category, categoryAvailableExternalIds ]}
+  {#each objectEntries(availableExternalIdsByCategory) as [ category, categoryAvailableExternalIds ]}
     <CategoryExternalIds {category} {categoryAvailableExternalIds} />
   {/each}
 </div>
