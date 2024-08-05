@@ -25,7 +25,7 @@
       from = null
       flash = {
         type: 'success',
-        message: I18n('success'),
+        message: I18n('done'),
       }
       lastMergeTargetUri = to
     } catch (err) {
