@@ -16,6 +16,7 @@
 </script>
 
 {#if value || !optional}
+  <!-- TODO: replace HTML input validation by JS validation as there is no reliable way to access invalid input values and thus to recover from errors such as those that could be fixed with value.trim()  -->
   <input
     type="number"
     id="{componentId}-{name}"

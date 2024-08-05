@@ -13,7 +13,7 @@
   getInputValue = () => {
     if (day) return `${year}-${padField(month)}-${padField(day)}`
     else if (month) return `${year}-${padField(month)}`
-    else return year.toString()
+    else if (year) return year.toString()
   }
 
   const getDateParts = date => date.split('-').map(num => parseInt(num))
