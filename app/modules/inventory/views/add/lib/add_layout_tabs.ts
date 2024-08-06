@@ -1,5 +1,4 @@
 import { checkVideoInput } from '#app/lib/has_video_input.ts'
-import ScanLayout from '../scan_layout.ts'
 import SearchLayout from '../search_layout.ts'
 
 let tabs
@@ -11,7 +10,6 @@ export default tabs = {
   },
   scan: {
     icon: 'barcode',
-    View: ScanLayout,
     wait: checkVideoInput(),
   },
   import: {

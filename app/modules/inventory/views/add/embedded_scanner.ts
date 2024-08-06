@@ -6,7 +6,7 @@ import behaviorsPlugin from '#general/plugins/behaviors'
 import embedded_ from '#inventory/lib/scanner/embedded'
 import { I18n, i18n } from '#user/lib/i18n'
 import embeddedScannerTemplate from './templates/embedded_scanner.hbs'
-import '#inventory/scss/scan_layout.scss'
+import '#inventory/scss/_embedded.scss'
 
 export default Marionette.View.extend({
   template: embeddedScannerTemplate,
