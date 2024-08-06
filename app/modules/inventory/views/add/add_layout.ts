@@ -60,12 +60,15 @@ export default Marionette.View.extend({
     const tabKey = `${tab}Tab`
     if (wait) await wait
     if (tab === 'import') {
-      const { default: SvelteImportLayout } = await import('#inventory/components/importer/import_layout.svelte')
-      this.showChildComponent('content', SvelteImportLayout, {
+      const { default: ImportLayout } = await import('#inventory/components/importer/import_layout.svelte')
+      this.showChildComponent('content', ImportLayout, {
         props: {
           isbns: this.options.isbns,
         },
       })
+    } else if (tab === 'scan') {
+      const { default: ScanLayout } = await import('#inventory/components/add/scan_layout.svelte')
+      this.showChildComponent('content', ScanLayout)
     } else {
       this.showChildView('content', new View(this.options))
     }
