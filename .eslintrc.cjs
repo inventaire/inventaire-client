@@ -64,7 +64,10 @@ module.exports = {
     'object-shorthand': [ 'error', 'properties' ],
     'one-var': [ 'off' ],
     'prefer-arrow-callback': [ 'error' ],
-    'prefer-const': [ 'error' ],
+    // Rule disabled for IDEs, as its annoying to get `let` turned into `const` on save,
+    // before having the time to write the code that would reassign the variable.
+    // But this rule is then on in .eslintrc.cli.cjs
+    'prefer-const': [ 'off' ],
     'prefer-rest-params': [ 'off' ],
 
     '@stylistic/ts/type-annotation-spacing': 'error',
