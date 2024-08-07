@@ -1,4 +1,17 @@
+<script context="module" lang="ts">
+  const types = {
+    success: { iconName: 'check' },
+    info: { iconName: 'info-circle' },
+    support: { iconName: 'support' },
+    warning: { iconName: 'warning' },
+    error: { iconName: 'warning' },
+  }
+
+  export type FlashType = keyof typeof types
+</script>
+
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte'
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import log_ from '#app/lib/loggers'
@@ -7,11 +20,6 @@
 
   export let state = null
   let type, iconName
-  const types = {
-    success: { iconName: 'check' },
-    info: { iconName: 'info-circle' },
-    error: { iconName: 'warning' },
-  }
 
   const findIcon = type => types[type]?.iconName
 
@@ -28,9 +36,16 @@
     if (state?.duration) {
       const stateToRemove = state
       setTimeout(() => {
-        if (state === stateToRemove) state = null
+        if (state === stateToRemove) closeFlash()
       }, state.duration)
     }
+  }
+
+  const dispatch = createEventDispatcher()
+
+  function closeFlash () {
+    state = null
+    dispatch('close')
   }
 </script>
 
@@ -58,7 +73,7 @@
     </div>
     {#if state.canBeClosed !== false}
       <button
-        on:click|stopPropagation={() => state = null}
+        on:click|stopPropagation={closeFlash}
         title={I18n('close')}
       >
         {@html icon('close')}
