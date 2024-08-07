@@ -1,7 +1,12 @@
 import ISBN from 'isbn3'
 import log_ from '#app/lib/loggers'
 
-export default function (onDetectedActions) {
+export interface OnDetectedActions {
+  addIsbn: (isbn: string) => unknown
+  showInvalidIsbnWarning: (isbn: string) => unknown
+}
+
+export function onDetectedFactory (onDetectedActions: OnDetectedActions) {
   const { showInvalidIsbnWarning, addIsbn } = onDetectedActions
   let lastIsbnScanTime = 0
   let lastIsbnScanned = null
@@ -10,7 +15,7 @@ export default function (onDetectedActions) {
   let lastInvalidIsbn = null
   let identicalInvalidIsbnCount = 0
 
-  return function (result) {
+  return function onDetected (result) {
     const candidate = result.codeResult.code
     if (ISBN.parse(candidate) != null) {
       identicalInvalidIsbnCount = 0
