@@ -1,17 +1,18 @@
 import { min } from 'underscore'
+import assert_ from '#app/lib/assert_types'
 import log_ from '#app/lib/loggers'
 import { getViewportHeight, getViewportWidth } from '#app/lib/screen'
-import drawCanvas from './draw_canvas.ts'
-import onDetected from './on_detected.ts'
+import { drawCanvasFactory } from './draw_canvas.ts'
+import { onDetectedFactory, type OnDetectedActions } from './on_detected.ts'
 
-export default {
-  async scan (params) {
-    startScanning(params)
-    .catch(log_.ErrorRethrow('embedded scanner err'))
-  },
+interface ScannerParams {
+  containerElement: HTMLElement
+  beforeScannerStart: () => void
+  onDetectedActions: OnDetectedActions
+  setStopScannerCallback: (fn: () => void) => void
 }
 
-const startScanning = async function (params) {
+export async function startEmbeddedScanner (params: ScannerParams) {
   // For some unknown reason, importing Quagga statically makes scanning fail:
   //   message: 't is undefined',
   //   stack: o.createLiveStream@webpack-internal:///./node_modules/quagga/dist/quagga.min.js:1:44717
@@ -21,7 +22,8 @@ const startScanning = async function (params) {
   // But importing it dynamically works
   const { default: Quagga } = await import('quagga')
 
-  const { beforeScannerStart, onDetectedActions, setStopScannerCallback } = params
+  const { containerElement, beforeScannerStart, onDetectedActions, setStopScannerCallback } = params
+  assert_.object(containerElement)
   // Using a promise to get a friendly way to pass errors
   // but this promise will never resolve, and will be terminated,
   // if everything goes well, by a cancel event
@@ -38,7 +40,7 @@ const startScanning = async function (params) {
 
     setStopScannerCallback(stopScanner)
 
-    Quagga.init(getOptions(constraints), err => {
+    Quagga.init(getOptions(containerElement, constraints), err => {
       if (cancelled) return
       if (err) {
         err.reason = 'permission_denied'
@@ -49,17 +51,17 @@ const startScanning = async function (params) {
       log_.info('quagga initialization finished. Starting')
       Quagga.start()
 
-      Quagga.onProcessed(drawCanvas(Quagga))
+      Quagga.onProcessed(drawCanvasFactory(Quagga))
 
-      Quagga.onDetected(onDetected(onDetectedActions))
+      Quagga.onDetected(onDetectedFactory(onDetectedActions))
     })
   })
 }
 
 // See doc: https://github.com/serratus/quaggaJS#configuration
-const getOptions = function (constraints) {
+function getOptions (containerElement: HTMLElement, constraints: MediaTrackConstraints) {
   // @ts-expect-error
-  baseOptions.inputStream.target = document.querySelector('.embedded .container')
+  baseOptions.inputStream.target = containerElement
   // @ts-expect-error
   baseOptions.inputStream.constraints = constraints
   return baseOptions
@@ -68,7 +70,7 @@ const getOptions = function (constraints) {
 // See https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode
 const facingMode = { ideal: 'environment' }
 
-const getConstraints = function () {
+function getConstraints () {
   const minDimension = min([ getViewportWidth(), getViewportHeight() ])
   if (minDimension > 720) {
     return { width: 1280, height: 720, facingMode }

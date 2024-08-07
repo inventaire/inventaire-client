@@ -38,9 +38,9 @@ const controller = {
         // navigate before triggering the view itself has
         // special behaviors on route change
         app.navigate('add/scan/embedded')
-        const { default: EmbeddedScanner } = await import('./views/add/embedded_scanner.ts')
+        const { default: EmbeddedScanner } = await import('./components/add/embedded_scanner.svelte')
         // showing in main so that requesting another layout destroy this view
-        app.layout.showChildView('main', new EmbeddedScanner())
+        app.layout.showChildComponent('main', EmbeddedScanner)
       } else {
         controller.showScan()
       }
