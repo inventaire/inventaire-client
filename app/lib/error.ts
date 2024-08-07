@@ -1,7 +1,7 @@
 import { isNumber, isArguments } from 'underscore'
 import log_ from '#app/lib/loggers'
 
-type ErrorContext = object | string[]
+type ErrorContext = object | Record<string, unknown> | string[]
 
 export interface ContextualizedError extends Error {
   code?: string
@@ -36,10 +36,14 @@ export function newError (message: string, statusCode?: number | ErrorContext, c
 }
 
 // Log and report formatted errors to the server, without throwing
-export function serverReportError (message, context?, statusCode = 599) {
-  context = deepClone(context) || {}
-
-  context.location = location.href
+export function serverReportError (message, context: ErrorContext = {}, statusCode = 599) {
+  try {
+    if (context) context = deepClone(context)
+    // @ts-expect-error
+    context.location = location.href
+  } catch (err) {
+    console.error(err)
+  }
   // Non-standard convention
   // 599 = client implementation error
   // 598 = suspected user abuse or spam account
