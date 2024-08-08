@@ -45,7 +45,7 @@
   let highlightValidateScan = false
   function addIsbn (isbn: string) {
     lastIsbn = isbn
-    if (arrayIncludes(batch, isbn)) showDuplicateIsbnWarning(isbn)
+    if (arrayIncludes(batch, isbn)) return showDuplicateIsbnWarning(isbn)
 
     batch = [ ...batch, isbn ]
     precachingEntityData(isbn)
