@@ -1,4 +1,6 @@
 <script context="module" lang="ts">
+  import type { AriaRole } from 'svelte/elements'
+
   const types = {
     success: { iconName: 'check' },
     info: { iconName: 'info-circle' },
@@ -8,6 +10,29 @@
   }
 
   export type FlashType = keyof typeof types
+
+  interface FlashStateCommons {
+    role?: AriaRole
+    duration?: number
+    canBeClosed?: boolean
+  }
+
+  interface FlashStateMessage extends FlashStateCommons {
+    type: FlashType
+    message: string
+  }
+
+  interface FlashStateHtml extends FlashStateCommons {
+    type: FlashType
+    html: string
+  }
+
+  interface LoadingFlash extends FlashStateCommons {
+    type: 'loading'
+    message?: string
+  }
+
+  type FlashState = FlashStateMessage | FlashStateHtml | LoadingFlash | Error
 </script>
 
 <script lang="ts">
@@ -17,7 +42,8 @@
   import Spinner from '#general/components/spinner.svelte'
   import { I18n } from '#user/lib/i18n'
 
-  export let state = null
+  export let state: FlashState = null
+
   let type, iconName
 
   const findIcon = type => types[type]?.iconName
@@ -32,7 +58,7 @@
       type = state?.type
       iconName = findIcon(type)
     }
-    if (state?.duration) {
+    if (state && 'duration' in state) {
       const stateToRemove = state
       setTimeout(() => {
         if (state === stateToRemove) closeFlash()
@@ -50,20 +76,20 @@
 
 {#if state}
   <div class="flash {type}">
-    <div role={state.role || type === 'error' ? 'alert' : 'status'}>
+    <div role={'role' in state ? state.role : (type === 'error' ? 'alert' : 'status')}>
       {#if type === 'loading'}
         <Spinner />
-        {state.message || I18n('loading')}
+        {'message' in state ? state.message : I18n('loading')}
       {:else}
         {#if iconName}{@html icon(iconName)}{/if}
-        {#if state.html}
+        {#if 'html' in state}
           {@html state.html}
-        {:else}
+        {:else if 'message' in state}
           {state.message}
         {/if}
       {/if}
     </div>
-    {#if state.canBeClosed !== false}
+    {#if !('canBeClosed' in state) || state.canBeClosed !== false}
       <button
         on:click|stopPropagation={closeFlash}
         title={I18n('close')}
@@ -83,6 +109,10 @@
     padding-inline-start: 0.5em;
     color: $dark-grey;
     @include radius;
+    > div{
+      // Take all the width, so that a parent's "text-align: center" can be applied
+      flex: 1;
+    }
     button{
       margin: 0.2em;
       padding: 0;
