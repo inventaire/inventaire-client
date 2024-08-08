@@ -30,10 +30,10 @@
   })
 </script>
 
+<svelte:window on:keyup={onKeyUp} />
 <div
   class="modal-overlay"
   on:click={close}
-  on:keyup={onKeyUp}
   use:autofocus={{ refocusOnVisibilityChange: false }}
   role="button"
   tabindex="-1"
