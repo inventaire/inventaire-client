@@ -93,9 +93,12 @@
   // Typically triggered when the checkbox is toggled
   $: onChange(checked, updateCandidateCheckedStatus)
 
+  $: disabled = (!itemsCountWereChecked) || needInfo
   const updateLocalCheckedStatus = () => {
     // Prevent assignment loop
     if (checked === candidate.checked) return
+    // Never checks a disabled candidate
+    if (disabled) return
     checked = candidate.checked
   }
   // Typically triggered when the CandidatesNav checks or unchecks all
@@ -104,7 +107,6 @@
   $: candidate.editionTitle = editionTitle
   $: candidate.authors = authors
   $: candidate.works = [ work ]
-  $: disabled = (!itemsCountWereChecked) || needInfo
   $: if (disabled) checked = false
 </script>
 
