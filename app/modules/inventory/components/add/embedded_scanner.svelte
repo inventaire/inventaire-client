@@ -10,14 +10,7 @@
   import Spinner from '#components/spinner.svelte'
   import { startQuaggaScanner } from '#inventory/lib/scanner/quagga'
   import { i18n, I18n } from '#user/lib/i18n'
-
-  function displayAboveTopBar () {
-    document.getElementById('main').style['z-index'] = '2'
-  }
-
-  function resetDisplay () {
-    document.getElementById('main').style['z-index'] = '0'
-  }
+  import { displayAboveTopBar, resetDisplay } from './lib/embedded_scanner_helpers'
 
   let batch = []
   let notFound = []
@@ -138,8 +131,7 @@
 
     // Force slide transition trigger
     statusMessageShown = false
-    await wait(100)
-    statusMessageShown = true
+    setTimeout(() => { statusMessageShown = true }, 100)
 
     await wait(displayTime)
     if (isDestroyed) return
