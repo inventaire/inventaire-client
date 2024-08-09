@@ -13,7 +13,7 @@ interface ScannerParams {
   setStopScannerCallback: (fn: () => void) => void
 }
 
-export async function startEmbeddedScanner (params: ScannerParams) {
+export async function startQuaggaScanner (params: ScannerParams) {
   // For some unknown reason, importing Quagga statically makes scanning fail:
   //   message: 't is undefined',
   //   stack: o.createLiveStream@webpack-internal:///./node_modules/quagga/dist/quagga.min.js:1:44717
