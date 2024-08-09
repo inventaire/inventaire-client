@@ -78,8 +78,11 @@ function getConfig (containerElement: HTMLElement) {
       target: containerElement,
       constraints: getConstraints(),
     },
-    // Disabling locate as I couldn't make it work:
-    // the user is thus expected to be aligned with the barcode
+    // From the docs https://github.com/ericblade/quagga2#locate:
+    // "Why would someone turn this feature off? Localizing a barcode is a computationally expensive operation and might not work properly on some devices.
+    // Another reason would be the lack of auto-focus producing blurry images which makes the localization feature very unstable.
+    // However, even if none of the above apply, there is one more case where it might be useful to disable locate: If the orientation, and/or the approximate position of the barcode is known,
+    // or if you want to guide the user through a rectangular outline. This can increase performance and robustness at the same time."
     locate: false,
     decoder: {
       readers: [ 'ean_reader' ] as QuaggaJSCodeReader[],
