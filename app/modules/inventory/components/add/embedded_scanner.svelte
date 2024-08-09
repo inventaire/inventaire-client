@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte'
-  import { slide } from 'svelte/transition'
   import app from '#app/app'
   import Flash, { type FlashType } from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
@@ -121,6 +120,7 @@
   }
 
   let isDestroyed = false
+  let statusMessageShown = false
   let statusFlash
   interface StatusMessageParams {
     message: string
@@ -135,6 +135,12 @@
     if (isDestroyed) return
     if ((displayCondition != null) && !displayCondition()) return
     statusFlash = { type, message, canBeClosed: false }
+
+    // Force slide transition trigger
+    statusMessageShown = false
+    await wait(100)
+    statusMessageShown = true
+
     await wait(displayTime)
     if (isDestroyed) return
     if (statusFlash && statusFlash.message === message) statusFlash = null
@@ -195,7 +201,7 @@
   </div>
   <Flash state={errorFlash} />
   {#if statusFlash}
-    <div class="status-message" transition:slide>
+    <div class="status-message" class:shown={statusMessageShown}>
       <Flash state={statusFlash} />
     </div>
   {/if}
@@ -246,7 +252,11 @@
   $close-button-width: 3rem;
   $status-message-horizontal-margin: calc($close-button-width + 0.1em);
   .status-message{
-    @include position(fixed, 1em, $status-message-horizontal-margin, null, $status-message-horizontal-margin);
+    @include position(fixed, -100%, $status-message-horizontal-margin, null, $status-message-horizontal-margin);
+    @include transition;
+    &.shown{
+      inset-block-start: 1em;
+    }
     :global(.flash){
       padding: 0.4em 0.2em !important;
     }
