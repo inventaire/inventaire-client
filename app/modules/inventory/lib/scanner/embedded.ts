@@ -4,6 +4,7 @@ import log_ from '#app/lib/loggers'
 import { getViewportHeight, getViewportWidth } from '#app/lib/screen'
 import { drawCanvasFactory } from './draw_canvas.ts'
 import { onDetectedFactory, type OnDetectedActions } from './on_detected.ts'
+import type { InputStreamType, QuaggaJSCodeReader } from '@ericblade/quagga2'
 
 interface ScannerParams {
   containerElement: HTMLElement
@@ -20,7 +21,7 @@ export async function startEmbeddedScanner (params: ScannerParams) {
   //     init@webpack-internal:///./node_modules/quagga/dist/quagga.min.js:1:29451
   //     startScanning/<@webpack-internal:///./app/modules/inventory/lib/scanner/embedded.js:46:41
   // But importing it dynamically works
-  const { default: Quagga } = await import('quagga')
+  const { default: Quagga } = await import('@ericblade/quagga2')
 
   const { containerElement, beforeScannerStart, onDetectedActions, setStopScannerCallback } = params
   assert_.object(containerElement)
@@ -28,7 +29,6 @@ export async function startEmbeddedScanner (params: ScannerParams) {
   // but this promise will never resolve, and will be terminated,
   // if everything goes well, by a cancel event
   return new Promise((resolve, reject) => {
-    const constraints = getConstraints()
     log_.info('starting quagga initialization')
 
     let cancelled = false
@@ -40,7 +40,9 @@ export async function startEmbeddedScanner (params: ScannerParams) {
 
     setStopScannerCallback(stopScanner)
 
-    Quagga.init(getOptions(containerElement, constraints), err => {
+    const config = getConfig(containerElement)
+
+    Quagga.init(config, err => {
       if (cancelled) return
       if (err) {
         err.reason = 'permission_denied'
@@ -58,13 +60,32 @@ export async function startEmbeddedScanner (params: ScannerParams) {
   })
 }
 
-// See doc: https://github.com/serratus/quaggaJS#configuration
-function getOptions (containerElement: HTMLElement, constraints: MediaTrackConstraints) {
-  // @ts-expect-error
-  baseOptions.inputStream.target = containerElement
-  // @ts-expect-error
-  baseOptions.inputStream.constraints = constraints
-  return baseOptions
+const verticalMargin = '30%'
+const horizontalMargin = '15%'
+
+// See doc: https://github.com/ericblade/quagga2#quaggainitconfig-callback
+function getConfig (containerElement: HTMLElement) {
+  return {
+    inputStream: {
+      name: 'Live',
+      type: 'LiveStream' as InputStreamType,
+      area: {
+        top: verticalMargin,
+        right: horizontalMargin,
+        left: horizontalMargin,
+        bottom: verticalMargin,
+      },
+      target: containerElement,
+      constraints: getConstraints(),
+    },
+    // Disabling locate as I couldn't make it work:
+    // the user is thus expected to be aligned with the barcode
+    locate: false,
+    decoder: {
+      readers: [ 'ean_reader' ] as QuaggaJSCodeReader[],
+      multiple: false,
+    },
+  }
 }
 
 // See https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode
@@ -77,28 +98,4 @@ function getConstraints () {
   } else {
     return { width: 640, height: 480, facingMode }
   }
-}
-
-const verticalMargin = '30%'
-const horizontalMargin = '15%'
-
-const baseOptions = {
-  inputStream: {
-    name: 'Live',
-    type: 'LiveStream',
-    area: {
-      top: verticalMargin,
-      right: horizontalMargin,
-      left: horizontalMargin,
-      bottom: verticalMargin,
-    },
-  },
-  // disabling locate as I couldn't make it work:
-  // the user is thus expected to be aligned with the barcode
-  locate: false,
-  // locate: true
-  decoder: {
-    readers: [ 'ean_reader' ],
-    multiple: false,
-  },
 }
