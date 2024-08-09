@@ -8,7 +8,7 @@
   import { arrayIncludes } from '#app/lib/utils'
   import { getEntityByUri } from '#app/modules/entities/lib/entities'
   import Spinner from '#components/spinner.svelte'
-  import { startEmbeddedScanner } from '#inventory/lib/scanner/embedded'
+  import { startQuaggaScanner } from '#inventory/lib/scanner/quagga'
   import { i18n, I18n } from '#user/lib/i18n'
 
   function displayAboveTopBar () {
@@ -172,7 +172,7 @@
   let containerEl: HTMLElement
 
   onMount(() => {
-    startEmbeddedScanner({
+    startQuaggaScanner({
       containerElement: containerEl,
       beforeScannerStart,
       onDetectedActions: {
