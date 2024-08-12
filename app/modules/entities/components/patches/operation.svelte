@@ -47,6 +47,7 @@
     }
     .value{
       overflow: hidden;
+      flex: 1;
     }
     .filter{
       @include tiny-button($light-blue);
