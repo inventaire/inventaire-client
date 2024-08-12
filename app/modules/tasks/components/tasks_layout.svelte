@@ -6,6 +6,7 @@
   import { onChange } from '#app/lib/svelte/svelte'
   import { serializeEntity } from '#entities/lib/entities'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
+  import type { EntitiesByUrisResults } from '#server/controllers/entities/lib/get_entities_by_uris'
   import type { TaskId } from '#server/types/task'
   import getNextTask from '#tasks/lib/get_next_task.ts'
   import { I18n } from '#user/lib/i18n'
@@ -76,7 +77,7 @@
       })
   }
 
-  const assignFromToEntities = (fromUri, toUri) => async (entitiesRes: GetEntitiesByUrisResponse) => {
+  const assignFromToEntities = (fromUri, toUri) => async (entitiesRes: EntitiesByUrisResults) => {
     if (areRedirects(entitiesRes)) {
       await updateTask(task._id, 'state', 'merged')
       return next()
@@ -91,7 +92,7 @@
     return preq.put(API.tasks.update, params)
   }
 
-  function areRedirects (entitiesRes: GetEntitiesByUrisResponse) {
+  function areRedirects (entitiesRes: EntitiesByUrisResults) {
     const { entities, redirects } = entitiesRes
     if (Object.keys(redirects).length === 0) return
     for (const entityUri of Object.values(redirects)) {
