@@ -8,7 +8,7 @@ const mostlyTextWorksRoles = [
 ]
 
 // Sorted by display order
-const drawedWorksRoles = [
+const drawnWorksRoles = [
   'wdt:P58', // scenarist
   'wdt:P10837', // penciller
   'wdt:P6338', // colorist
@@ -16,22 +16,22 @@ const drawedWorksRoles = [
   'wdt:P10836', // inker
 ]
 
-export const authorRoleProperties = mostlyTextWorksRoles.concat(drawedWorksRoles)
+export const authorRoleProperties = mostlyTextWorksRoles.concat(drawnWorksRoles)
 export const authorRolePropertiesSet = new Set(authorRoleProperties)
 
 const preferredAuthorRolesPropertiesPerWorkType = {
   // works
-  'wd:Q1004': drawedWorksRoles, // comics
-  'wd:Q8274': drawedWorksRoles, // manga
-  'wd:Q562214': drawedWorksRoles, // manhwa
-  'wd:Q725377': drawedWorksRoles, // graphic novel
-  'wd:Q747381': drawedWorksRoles, // light novel
+  'wd:Q1004': drawnWorksRoles, // comics
+  'wd:Q8274': drawnWorksRoles, // manga
+  'wd:Q562214': drawnWorksRoles, // manhwa
+  'wd:Q725377': drawnWorksRoles, // graphic novel
+  'wd:Q747381': drawnWorksRoles, // light novel
 
   // series
-  'wd:Q14406742': drawedWorksRoles, // comic book series
-  'wd:Q21198342': drawedWorksRoles, // manga series
-  'wd:Q74262765': drawedWorksRoles, // manhwa series
-  'wd:Q104213567': drawedWorksRoles, // light novel series
+  'wd:Q14406742': drawnWorksRoles, // comic book series
+  'wd:Q21198342': drawnWorksRoles, // manga series
+  'wd:Q74262765': drawnWorksRoles, // manhwa series
+  'wd:Q104213567': drawnWorksRoles, // light novel series
 }
 
 export function getWorkPreferredAuthorRolesProperties (entity) {
