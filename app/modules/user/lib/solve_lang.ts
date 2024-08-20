@@ -9,7 +9,7 @@ export function solveLang (userLanguage) {
   let lang: string = qsLang || userLanguage || cookie_.get('lang') || getBrowserLocalLang()
   lang = shortLang(lang)
   if ((lang != null) && arrayIncludes(activeLangs, lang)) {
-    return lang as UserLang
+    return lang satisfies UserLang
   } else {
     return 'en'
   }
