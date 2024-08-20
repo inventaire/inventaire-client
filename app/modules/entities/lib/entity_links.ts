@@ -265,6 +265,11 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.noosfere.org/livres/serie.asp?numserie=${id}`,
   },
+  'wdt:P6634': {
+    name: 'LinkedIn',
+    category: 'socialNetworks',
+    getUrl: id => `https://www.linkedin.com/in/${id}/`,
+  },
   'wdt:P6901': {
     name: 'NooSFere',
     category: 'bibliographicDatabases',
@@ -305,6 +310,11 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.bedetheque.com/serie-${id}-BD-.html`,
   },
+  'wdt:P11892': {
+    name: 'Threads',
+    category: 'socialNetworks',
+    getUrl: id => `https://www.threads.net/@${id}`,
+  },
   'wdt:P12048': {
     name: 'BookBrainz',
     category: 'bibliographicDatabases',
@@ -319,6 +329,11 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     name: 'BookBrainz',
     category: 'bibliographicDatabases',
     getUrl: id => `https://bookbrainz.org/edition/${id}`,
+  },
+  'wdt:P12361': {
+    name: 'Bluesky',
+    category: 'socialNetworks',
+    getUrl: id => `https://bsky.app/profile/${id}`,
   },
   'wdt:P12852': {
     name: 'NooSFere',
