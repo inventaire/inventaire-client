@@ -3,6 +3,8 @@
 # Exit on error (cf http://jvns.ca/blog/2017/03/26/bash-quirks/)
 set -e
 
+echo -e "$(date --iso-8601=seconds) \e[0;32mstart building\e[0m"
+
 ./scripts/check_build_environment.sh
 
 echo -e '\e[0;30mchecking types\e[0m'
@@ -16,7 +18,7 @@ echo -e '\e[0;30mupdating build metadata\e[0m'
 
 echo -e '\e[0;30mwebpack build\e[0m'
 rm -f ./public/dist/*
-webpack --config ./bundle/webpack.config.prod.cjs --progress
+webpack --config ./bundle/webpack.config.prod.cjs --progress --color
 
 utc_time=$(date -Ins | sed 's/,.*//')
 last_commit_hash=$(git rev-parse --short HEAD)
@@ -72,6 +74,6 @@ gzip -9kf public/*.xml
 gzip -9kf public/*.jsonld
 gzip -9kf public/*.txt
 
-echo -e '\e[0;32mbuild: done\e[0m'
+echo -e "$(date --iso-8601=seconds) \e[0;32mbuild: done\e[0m"
 echo "inspect: file://$PWD/scripts/assets/bundles_stats/${bundle_name}.html"
 echo "archive: $archive_path"

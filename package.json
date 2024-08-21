@@ -39,7 +39,7 @@
     "#welcome/*": "./app/modules/welcome/*.js"
   },
   "scripts": {
-    "build": "./scripts/build",
+    "build": "./scripts/build | tee ./logs/build.log",
     "build:dev": "webpack --config ./bundle/webpack.config.dev.cjs",
     "check-types": "./scripts/typescript/check_types.sh",
     "generate-sitemaps": "./scripts/sitemaps/generate.js",
