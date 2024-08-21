@@ -122,6 +122,26 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `http://libris.kb.se/bib/${id}`,
   },
+  'wdt:P1233': {
+    name: 'ISFDB',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.isfdb.org/cgi-bin/ea.cgi?${id}`,
+  },
+  'wdt:P1234': {
+    name: 'ISFDB',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.isfdb.org/cgi-bin/pl.cgi?${id}`,
+  },
+  'wdt:P1235': {
+    name: 'ISFDB',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.isfdb.org/cgi-bin/pe.cgi?${id}`,
+  },
+  'wdt:P1239': {
+    name: 'ISFDB',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.isfdb.org/cgi-bin/publisher.cgi?${id}`,
+  },
   'wdt:P1274': {
     name: 'ISFDB',
     category: 'bibliographicDatabases',
