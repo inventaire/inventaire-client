@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { partition } from 'underscore'
   import { getTextDirection } from '#app/lib/active_languages'
   import { icon } from '#app/lib/icons'
   import Modal from '#components/modal.svelte'
@@ -17,12 +18,16 @@
   let showCategorySettings = false
   const linksId = `${category}Links`
 
-  let categoryPreferredAvailableExternalIds, displayedCategoryExternalIds
+  let categoryPreferredAvailableExternalIds, categoryOtherAvailableExternalIds, displayedCategoryExternalIds
   $: {
     const { customProperties = [] } = $user
-    categoryPreferredAvailableExternalIds = categoryAvailableExternalIds.filter(({ property }) => customProperties.includes(property))
+    ;[ categoryPreferredAvailableExternalIds, categoryOtherAvailableExternalIds ] = partition(categoryAvailableExternalIds, ({ property }) => customProperties.includes(property))
   }
-  $: displayedCategoryExternalIds = showAllAvailableExternalIds ? categoryAvailableExternalIds : categoryPreferredAvailableExternalIds
+  $: {
+    displayedCategoryExternalIds = categoryPreferredAvailableExternalIds
+    // Keep the preferred properties first
+    if (showAllAvailableExternalIds) displayedCategoryExternalIds = displayedCategoryExternalIds.concat(categoryOtherAvailableExternalIds)
+  }
 </script>
 
 {#if categoryAvailableExternalIds.length > 0}
