@@ -1,4 +1,4 @@
-import { objectEntries } from '#app/lib/utils'
+import { arrayIncludes, objectEntries } from '#app/lib/utils'
 import { getUriNumericId } from '#app/lib/wikimedia/wikidata'
 import { authorRoleProperties } from '#entities/lib/editor/properties_per_subtype'
 import { properties, type CustomPropertyConfig } from '#entities/lib/editor/properties_per_type'
@@ -14,9 +14,12 @@ export const authorProperties = [
   'wdt:P9191', // letterer
   'wdt:P10836', // inker
   'wdt:P10837', // penciller
-]
+] as const
 
-const propertiesWithAllowEntityCreation = authorProperties.concat([
+export type AuthorProperty = typeof authorProperties[number]
+
+const propertiesWithAllowEntityCreation = [
+  ...authorProperties,
   'wdt:P123',
   'wdt:P179',
   'wdt:P195',
@@ -25,7 +28,7 @@ const propertiesWithAllowEntityCreation = authorProperties.concat([
   'wdt:P737',
   'wdt:P2679',
   'wdt:P2680',
-])
+] as const
 
 interface EditorCustomization {
   datatype?: string
@@ -82,10 +85,10 @@ export const propertiesEditorsConfigs: Record<PropertyUri, PropertiesEditorConfi
 
 for (const [ property, propertyConfig ] of objectEntries(properties)) {
   const editorCustomization: EditorCustomization = propertiesEditorsCustomizations[property] || {}
-  if (authorProperties.includes(property)) {
+  if (arrayIncludes(authorProperties, property)) {
     editorCustomization.specialEditActions = 'author-role'
   }
-  if (propertiesWithAllowEntityCreation.includes(property)) {
+  if (arrayIncludes(propertiesWithAllowEntityCreation, property)) {
     editorCustomization.allowEntityCreation = true
   }
   editorCustomization.order = editorCustomization.order || (1000 + getUriNumericId(property))
