@@ -1,5 +1,6 @@
 import type { UserLang } from '#app/lib/active_languages.ts'
 import assert_ from '#app/lib/assert_types'
+import { isWikidataPropertyId } from '#app/lib/boolean_tests'
 import type Polyglot from 'node-polyglot'
 
 const wdPropPrefix = 'wdt:'
@@ -27,11 +28,12 @@ export default function (lang: UserLang, polyglot: Polyglot) {
 
 const isShortkey = key => /_/.test(key)
 const vowels = 'aeiouy'
+const isFrenchGenderedRole = val => /\w+eur ou \w+(ice|euse)/.test(val)
 
 const modifiers = {
-  // make i18n('user_comment', { username: 'adamsberg' })
-  // return "Commentaire d'adamsberg" instead of "Commentaire de adamsberg"
   fr (polyglot, key, val, data) {
+    // Make i18n('user_comment', { username: 'adamsberg' })
+    // return "Commentaire d'adamsberg" instead of "Commentaire de adamsberg"
     if ((data != null) && isShortkey(key)) {
       const k = polyglot.phrases[key]
       const { username } = data
@@ -44,6 +46,11 @@ const modifiers = {
           }
         }
       }
+    // Make i18n('P50') return "auteur·ice" instead of "auteur ou autrice"
+    } else if (isWikidataPropertyId(key) && isFrenchGenderedRole(val)) {
+      return val
+      .replace(/ ou \w+ice$/, '·ice')
+      .replace(/ ou \w+euse$/, '·euse')
     }
 
     return val
