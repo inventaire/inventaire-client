@@ -1,7 +1,6 @@
-import { compact, pick, uniq, without } from 'underscore'
+import { compact, pick, uniq } from 'underscore'
 import wdLang from 'wikidata-lang'
 import { API } from '#app/api/api'
-import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
@@ -67,25 +66,14 @@ export function getPropertiesShortlist (entity) {
   const claimsProperties = Object.keys(claims)
     .filter(isShortlistableProperty({ claims, type }))
 
-  let propertiesShortlist = uniq(typeShortlist.concat(claimsProperties))
+  const propertiesShortlist = uniq(typeShortlist.concat(claimsProperties))
   // If a serie was passed in the claims, invite to add an ordinal
   if (claimsProperties.includes('wdt:P179')) propertiesShortlist.push('wdt:P1545')
-  propertiesShortlist = filterPerUserRole(propertiesShortlist)
   const authorProperties = getWorkPreferredAuthorRolesProperties(entity)
   return uniq(propertiesShortlist.flatMap(property => {
     if (property === 'wdt:P50') return authorProperties
     else return [ property ]
   }))
-}
-
-const dataadminOnlyShortlistedProperties = [
-  'wdt:P31',
-]
-
-const filterPerUserRole = propertiesShortlist => {
-  if (!propertiesShortlist) return
-  if (app.user.hasDataadminAccess) return propertiesShortlist
-  else return without(propertiesShortlist, ...dataadminOnlyShortlistedProperties)
 }
 
 const isShortlistableProperty = ({ claims, type }) => property => {
