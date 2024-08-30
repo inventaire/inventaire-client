@@ -67,9 +67,9 @@ const prioritizedProperties = [
   'wdt:P629', // edition of
   'wdt:P212', // ISBN-13
   'wdt:P957', // ISBN-10
-  ...authorRoleProperties,
   'wdt:P179', // part of serie
   'wdt:P1545', // serie ordinal
+  ...authorRoleProperties,
 ]
 
 for (const property of prioritizedProperties) {

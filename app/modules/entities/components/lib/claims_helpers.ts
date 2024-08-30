@@ -297,3 +297,11 @@ export const formatEbooksClaim = (values, prop) => {
   if (!values) return
   return values.map(value => formatClaimValue({ prop, value }))
 }
+
+export const defaultWorkP31PerSerieP31 = {
+  'wd:Q1667921': 'wd:Q8261', // novel
+  'wd:Q14406742': 'wd:Q1004', // comic book
+  'wd:Q21198342': 'wd:Q8274', // manga
+  'wd:Q74262765': 'wd:Q562214', // manhwa
+  'wd:Q104213567': 'wd:Q747381', // light novel
+}

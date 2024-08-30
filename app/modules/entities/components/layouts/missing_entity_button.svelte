@@ -4,14 +4,20 @@
   import { loadInternalLink } from '#app/lib/utils'
   import { locallyCreatableEntitiesTypes } from '#entities/lib/editor/properties_per_type'
   import { I18n } from '#user/lib/i18n'
+  import { defaultWorkP31PerSerieP31 } from '../lib/claims_helpers'
 
   export let section
 
   let createButtonHref
 
-  const { parentUri, subEntityType, subEntityRelationProperty } = section
+  const { parentUri, parentEntity, subEntityType, subEntityRelationProperty } = section
   if (parentUri && subEntityType && subEntityRelationProperty && locallyCreatableEntitiesTypes.includes(subEntityType)) {
     const claims = { [subEntityRelationProperty]: [ parentUri ] }
+    const parentP31 = parentEntity.claims['wdt:P31']
+    if (parentEntity.type === 'serie' && parentP31.length === 1) {
+      const inheritedP31 = defaultWorkP31PerSerieP31[parentP31[0]]
+      if (inheritedP31) claims['wdt:P31'] = [ inheritedP31 ]
+    }
     createButtonHref = buildPath('/entity/new', { type: subEntityType, claims })
   }
 </script>
