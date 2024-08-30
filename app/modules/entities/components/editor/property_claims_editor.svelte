@@ -106,11 +106,12 @@
     block-size: 2em;
     font-weight: normal;
     @include display-flex(row, center, space-between);
+    margin-block-end: 0.2em;
     &:first-child{
-      margin-block-start: 0.2em;
+      margin-block-start: 0.3em;
     }
     &:not(:first-child){
-      margin-block-start: 1em;
+      margin-block-start: 1.1em;
     }
   }
   .fixed{

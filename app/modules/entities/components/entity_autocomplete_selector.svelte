@@ -274,6 +274,7 @@
     font-weight: normal;
     position: relative;
     margin-inline-end: 0.5em;
+    margin-block-end: 0;
     inline-size: 100%;
   }
   .input-wrapper{

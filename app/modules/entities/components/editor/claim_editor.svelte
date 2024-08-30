@@ -201,7 +201,7 @@
 
     {#if specialEditActions}
       <div class="special-action">
-        {#if specialEditActions === 'author-role'}
+        {#if specialEditActions === 'author-role' && value}
           <SelectAuthorRole
             bind:entity
             {property}
