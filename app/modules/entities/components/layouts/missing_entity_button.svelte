@@ -2,9 +2,9 @@
   import { icon } from '#app/lib/icons'
   import { buildPath } from '#app/lib/location'
   import { loadInternalLink } from '#app/lib/utils'
+  import { defaultWorkP31PerSerieP31 } from '#entities/components/lib/claims_helpers'
   import { locallyCreatableEntitiesTypes } from '#entities/lib/editor/properties_per_type'
   import { I18n } from '#user/lib/i18n'
-  import { defaultWorkP31PerSerieP31 } from '../lib/claims_helpers'
 
   export let section
 
