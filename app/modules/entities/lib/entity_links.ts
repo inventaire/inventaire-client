@@ -178,7 +178,7 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     getUrl: id => `https://www.animenewsnetwork.com/encyclopedia/manga.php?id=${id}`,
   },
   'wdt:P2002': {
-    name: 'Twitter',
+    name: 'X-Twitter',
     category: 'socialNetworks',
     getUrl: id => `https://twitter.com/${id}`,
   },
