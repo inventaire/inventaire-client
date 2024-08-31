@@ -36,7 +36,8 @@
 
 <style>
   input{
-    margin: 0 0.2em 0 0;
+    margin: 0 auto 0 0;
+    padding: 0.4em;
   }
   input:invalid{
     border: 2px red solid;
