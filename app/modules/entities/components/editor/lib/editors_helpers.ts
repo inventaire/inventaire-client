@@ -25,7 +25,7 @@ export function isEmptyClaimValue (value) {
   return value === null || value === Symbol.for('removed') || value === Symbol.for('moved')
 }
 
-export const isNonEmptyClaimValue = value => !isEmptyClaimValue(value)
+export const isNonEmptyClaimValue = value => value != null && !isEmptyClaimValue(value)
 
 export function addClaimValue (propertyClaims = [], value) {
   if (!propertyClaims.includes(value)) {

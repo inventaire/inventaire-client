@@ -5,6 +5,7 @@
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
+  import { getOptionalValue } from '#app/lib/utils'
   import Dropdown from '#components/dropdown.svelte'
   import Spinner from '#components/spinner.svelte'
   import { getWikidataHistoryUrl, getWikidataUrl, hasLocalLayer } from '#entities/lib/entities'
@@ -16,24 +17,25 @@
 
   let flash
   const { uri, isWikidataEntity, label, historyPathname } = entity
-  const invUri = 'invUri' in entity ? entity.invUri : null
-  const wdUri = 'wdUri' in entity ? entity.wdUri : null
+  const invUri = getOptionalValue(entity, 'invUri')
+  const wdUri = getOptionalValue(entity, 'wdUri')
   const { hasDataadminAccess } = app.user
   let wikidataUrl, wikidataHistoryUrl
   if (wdUri) {
     wikidataUrl = getWikidataUrl(wdUri)
     wikidataHistoryUrl = getWikidataHistoryUrl(wdUri)
   }
-  const { ok: canBeMovedToWikidata, reason: moveabilityStatus } = checkWikidataMoveabilityStatus(entity)
   const canBeDeleted = !isWikidataEntity
   let waitForWikidataMove
+  let canBeMovedToWikidata, moveabilityStatus
+  $: ({ ok: canBeMovedToWikidata, reason: moveabilityStatus } = checkWikidataMoveabilityStatus(entity))
 
   async function _moveToWikidata () {
     try {
       if (!app.user.hasWikidataOauthTokens()) {
-        return app.execute('show:wikidata:edit:intro:modal', uri)
+        return app.execute('show:wikidata:edit:intro:modal', invUri)
       }
-      waitForWikidataMove = moveToWikidata(uri)
+      waitForWikidataMove = moveToWikidata(invUri)
       await waitForWikidataMove
       // This should now redirect us to the new Wikidata edit page
       app.execute('show:entity:edit', uri)
