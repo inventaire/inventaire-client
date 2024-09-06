@@ -91,6 +91,8 @@
     position: relative;
     margin-block-start: 0.5em;
     margin-block-end: 0.3em;
+    text-align: center;
+    line-height: 2rem;
   }
   .tiny-button{
     margin: 1em 0;

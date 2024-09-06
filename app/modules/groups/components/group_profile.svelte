@@ -246,7 +246,6 @@
     padding: 0.5em 1em;
     @include radius;
     background-color: rgba($dark-grey, 0.9);
-    max-height: 3em;
   }
   .group-actions{
     :global(button){
