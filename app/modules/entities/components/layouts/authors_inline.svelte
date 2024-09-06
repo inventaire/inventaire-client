@@ -1,4 +1,5 @@
 <script lang="ts">
+  import app from '#app/app'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { getEntitiesAttributesByUris } from '#entities/lib/entities'
   import { getBestLangValue } from '#entities/lib/get_best_lang_value'
