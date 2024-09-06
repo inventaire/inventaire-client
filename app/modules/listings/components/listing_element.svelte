@@ -2,7 +2,7 @@
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { loadInternalLink } from '#app/lib/utils'
-  import ImagesCollage from '#components/images_collage.svelte'
+  import ImageDiv from '#components/image_div.svelte'
   import AuthorsInline from '#entities/components/layouts/authors_inline.svelte'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import { getEntityImagePath } from '#entities/lib/entities'
@@ -32,10 +32,9 @@
       on:click={loadInternalLink}
     >
       {#if imageUrl}
-        <ImagesCollage
-          imagesUrls={[ imageUrl ]}
-          imageSize={100}
-          limit={1}
+        <ImageDiv
+          url={imageUrl}
+          size={100}
         />
       {/if}
       <div>
@@ -77,7 +76,7 @@
     height: 6em;
     flex: 1;
     @include display-flex(row, stretch, flex-start);
-    :global(.images-collage){
+    :global(.image-div){
       flex: 0 0 4em;
       margin-inline-end: 0.5em;
     }
