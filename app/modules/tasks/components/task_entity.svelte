@@ -136,7 +136,7 @@
     border: 2px solid $lighten-primary-color;
   }
   /* Small screens */
-  @media screen and (max-width: $small-screen){
+  @media screen and (width < $small-screen){
     .entity-section{
       flex-direction: column;
     }
