@@ -12,15 +12,18 @@
 
   let waitForEntityRefresh
 
-  const { uri, wdUri, type, claims } = entity
+  const { uri, type, claims } = entity
+  let wdUri, wikidataUrl
+  if ('wdUri' in entity) {
+    ;({ wdUri } = entity)
+    wikidataUrl = getWikidataUrl(wdUri)
+  }
 
   async function refreshEntity () {
     startRefreshTimeSpan(entity.uri)
     // Set refresh parameter to force router to navigate, despite the pathname being the same
     app.navigateAndLoad(`${entity.pathname}?refresh=true`)
   }
-
-  const wikidataUrl = wdUri ? getWikidataUrl(wdUri) : null
 </script>
 
 {#if showEntityEditButtons}
