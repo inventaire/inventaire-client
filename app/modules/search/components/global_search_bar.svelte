@@ -240,6 +240,7 @@
     selectedCategory = sectionsNames.entity.includes(section) ? 'entity' : 'social'
     selectedSection = section
     showFallbackLayout = fallback
+    lazySearch()
   }
 
   app.vent.on('live:search:query', onSearchQuery)
