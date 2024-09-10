@@ -6,8 +6,8 @@
 
   export let roleLabel, roleProperties, claims, authorsByUris
 
-  const claimsProperties = Object.keys(claims)
-  const hasRoleClaimsValues = isNonEmptyArray(intersection(roleProperties, claimsProperties))
+  $: claimsProperties = Object.keys(claims)
+  $: hasRoleClaimsValues = isNonEmptyArray(intersection(roleProperties, claimsProperties))
 </script>
 {#if hasRoleClaimsValues}
   <div class="{roleLabel} authors-role">
@@ -16,7 +16,7 @@
       {#each roleProperties as prop}
         {#if claims[prop]}
           { @const hasManyClaimValues = claims[prop].length > 15}
-          {#each claims[prop] as claimValue}
+          {#each claims[prop] as claimValue (claimValue)}
             <AuthorDisplay
               entity={authorsByUris[claimValue]}
               {claimValue}

@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { pluck } from 'underscore'
+  import { clone, pluck, values } from 'underscore'
   import { API } from '#app/api/api'
   import app from '#app/app'
+  import { icon } from '#app/lib/icons'
   import preq, { treq } from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import { serializeEntity } from '#entities/lib/entities'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
-  import type { EntitiesByUrisResults } from '#server/controllers/entities/lib/get_entities_by_uris'
   import type { TaskId } from '#server/types/task'
-  import getNextTask from '#tasks/lib/get_next_task.ts'
+  import { getNextTask } from '#tasks/lib/get_next_task.ts'
   import { I18n } from '#user/lib/i18n'
   import TaskControls from './task_controls.svelte'
   import TaskEntity from './task_entity.svelte'
@@ -16,7 +16,9 @@
   export let taskId: TaskId
   export let entitiesType
 
-  let task, from, to, flash, matchedTitles, noTask
+  let task, from, to, flash, matchedTitles, noTask, areBothInvEntities
+  $: fromUri = task?.suspectUri
+  $: toUri = task?.suggestionUri
 
   const previousTasksIds = []
 
@@ -52,7 +54,6 @@
     if (!newTask) {
       reset()
       noTask = true
-      app.navigate('/tasks/works')
       return
     }
     task = newTask
@@ -68,23 +69,37 @@
     // Nullifying `from` and `to` in order to request new claims values entities
     reset()
     if (!task || task.state === 'merged') return
-    const fromUri = task.suspectUri
-    const toUri = task.suggestionUri
     return treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris([ fromUri, toUri ]))
-      .then(assignFromToEntities(fromUri, toUri))
+      .then(cleanUpTaskAndAssignFromToEntities(fromUri, toUri))
       .catch(err => {
         flash = err
       })
   }
 
-  const assignFromToEntities = (fromUri, toUri) => async (entitiesRes: EntitiesByUrisResults) => {
-    if (areRedirects(entitiesRes)) {
+  const cleanUpTaskAndAssignFromToEntities = (fromUri, toUri) => async (entitiesRes: GetEntitiesByUrisResponse) => {
+    const { entities, redirects } = entitiesRes
+    if (areRedirects(entities, redirects)) {
       await updateTask(task._id, 'state', 'merged')
       return next()
     }
-    const { entities } = entitiesRes
+    areBothInvEntities = isInvEntityUri(fromUri) && isInvEntityUri(toUri)
+
+    assignFromToEntities(fromUri, toUri, entities)
+  }
+
+  function isInvEntityUri (uri) {
+    return uri.split(':')[0] === 'inv'
+  }
+
+  const assignFromToEntities = (fromUri, toUri, entities) => {
     from = serializeEntity(entities[fromUri])
     to = serializeEntity(entities[toUri])
+  }
+
+  function exchangeFromTo () {
+    const tmpFrom = clone(from)
+    from = to
+    to = tmpFrom
   }
 
   async function updateTask (id, attribute, value) {
@@ -92,10 +107,9 @@
     return preq.put(API.tasks.update, params)
   }
 
-  function areRedirects (entitiesRes: EntitiesByUrisResults) {
-    const { entities, redirects } = entitiesRes
+  function areRedirects (entities, redirects) {
     if (Object.keys(redirects).length === 0) return
-    for (const entityUri of Object.values(redirects)) {
+    for (const entityUri of values(redirects)) {
       if (entities[entityUri]) return true
     }
   }
@@ -116,21 +130,30 @@
   <div class="entities-section">
     <div class="from-entity">
       <h2>From</h2>
-      {#if from}
+      {#key from}
         <TaskEntity
           entity={from}
           {matchedTitles}
         />
-      {/if}
+      {/key}
     </div>
+    {#if areBothInvEntities}
+      <button
+        class="swap"
+        on:click={exchangeFromTo}
+        title={I18n('swap from and to entities')}
+      >
+        {@html icon('exchange')}
+      </button>
+    {/if}
     <div class="to-entity">
       <h2>To</h2>
-      {#if to}
+      {#key to}
         <TaskEntity
           entity={to}
           {matchedTitles}
         />
-      {/if}
+      {/key}
     </div>
   </div>
   {#if isMerged}
@@ -162,11 +185,13 @@
     background-color: #ddd;
   }
   .from-entity{
+    min-height: 100vh;
     flex: 1 0 0;
   }
   .to-entity{
     min-height: 100vh;
     background-color: $light-grey;
+    padding-inline-start: 1em;
     flex: 1 0 0;
   }
   h2{
@@ -184,5 +209,13 @@
   }
   .placeholder{
     height: 6em;
+  }
+  .swap{
+    position: relative;
+    inset-inline-start: 1.3em;
+    inset-block-start: 30vh;
+    background-color: white;
+    padding: 0.5em;
+    border-radius: 50%;
   }
 </style>

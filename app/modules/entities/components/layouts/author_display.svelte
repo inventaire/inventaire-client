@@ -3,24 +3,27 @@
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { loadInternalLink } from '#app/lib/utils'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
-  import type { SerializedEntity } from '#entities/lib/entities'
   import getBestLangValue from '#entities/lib/get_best_lang_value'
   import { i18n } from '#user/lib/i18n'
 
-  export let entity: SerializedEntity
-  export let claimValue
-  export let hasManyClaimValues = false
+  export let entity, claimValue, hasManyClaimValues
 
-  const { labels, claims = {}, uri, image = {} } = entity
+  let labels, claims = {}, uri, image
   let url, label
-  if (uri) {
-    url = `/entity/${uri}`
-    label = getBestLangValue(app.user.lang, null, labels).value
-  } else {
-    label = claimValue
-    url = `/search?q=!a ${label}`
+  $: {
+    if (entity) {
+      ({ labels, claims, uri, image } = entity)
+    }
+    if (uri) {
+      url = `/entity/${uri}`
+      label = getBestLangValue(app.user.lang, null, labels).value
+    } else {
+      label = claimValue
+      url = `/search?q=!a ${label}`
+    }
   }
-  const birthOrDeathDates = claims['wdt:P569']?.[0] || claims['wdt:P570']?.[0]
+
+  $: birthOrDeathDates = claims['wdt:P569']?.[0] || claims['wdt:P570']?.[0]
 </script>
 
 <a
@@ -29,7 +32,7 @@
   on:click={loadInternalLink}
   class:hasManyClaimValues
 >
-  {#if image.url}
+  {#if image?.url}
     <img src={imgSrc(image.url, 56)} alt={i18n('author picture')} loading="lazy" />
   {/if}
   <div class="author-info">

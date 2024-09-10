@@ -1,9 +1,7 @@
 <script lang="ts">
   import { i18n } from '#user/lib/i18n'
 
-  export let task
-
-  $: ({ reporter, clue } = task)
+  export let reporter, clue
 </script>
 
 {#if reporter}

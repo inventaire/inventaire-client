@@ -1,6 +1,5 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { clone } from 'underscore'
   import { API } from '#app/api/api'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import Flash from '#app/lib/components/flash.svelte'
@@ -22,20 +21,17 @@
 
   function handleKeydown (event) {
     if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return
-    if (event.key === 's') mergeTaskEntities({ invertToAndFrom: true })
     if (event.key === 'm') mergeTaskEntities()
     if (event.key === 'd') dismiss()
     else if (event.key === 'n') dispatch('next')
   }
 
-  function mergeTaskEntities ({ invertToAndFrom = false } = {}) {
+  function mergeTaskEntities () {
     if (!(from && to)) return
     merging = true
-    const toUri = clone(to.uri)
-    const fromUri = clone(from.uri)
     // Optimistic UI: go to the next candidates without waiting for the merge confirmation
     dispatch('next')
-    const params: [ EntityUri, EntityUri ] = invertToAndFrom ? [ toUri, fromUri ] : [ fromUri, toUri ]
+    const params: [ EntityUri, EntityUri ] = [ from.uri, to.uri ]
     mergeEntities(...params)
       .catch(err => {
         flash = err
@@ -63,9 +59,12 @@
 <svelte:window on:keydown={handleKeydown} />
 <div class="controls" tabindex="-1" use:autofocus>
   <div class="buttons-wrapper">
-    <ul class="task-scores">
+    <ul class="task-infobox">
       {#if task.entitiesType === 'work'}
-        <TaskInfo {task} />
+        <TaskInfo
+          reporter={task.reporter}
+          clue={task.clue}
+        />
       {:else}
         <TaskScores {task} />
       {/if}
@@ -79,14 +78,6 @@
         on:click={() => mergeTaskEntities()}
       >
         {@html icon('compress')}{I18n('merge')}
-      </button>
-      <button
-        class="swap dangerous-button"
-        disabled={!(from && to)}
-        title="Merge to into from. Shortkey: s"
-        on:click={() => mergeTaskEntities({ invertToAndFrom: true })}
-      >
-        {@html icon('exchange')}{I18n('swap & merge')}
       </button>
       <button
         class="dismiss grey-button"
@@ -130,7 +121,7 @@
     opacity: 0.3;
   }
 
-  .task-scores{
+  .task-infobox{
     background-color: white;
     padding: 0.3em 0.5em;
   }
@@ -158,6 +149,7 @@
   @media screen and (width < $smaller-screen){
     .actions{
       @include display-flex(column);
+      margin-inline-start: 0.5em;
       button{
         margin: 0.3em 0;
         width: 100%;

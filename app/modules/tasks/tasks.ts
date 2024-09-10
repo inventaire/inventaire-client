@@ -18,16 +18,16 @@ const controller = {
   showHumansTask (task) { controller.showTask(task, 'human') },
   showWorksTask (task) { controller.showTask(task, 'work') },
   showTask (task, type) {
-    if (app.request('require:loggedIn', 'tasks')) {
+    if (app.request('require:dataadmin:access', 'tasks')) {
       return showLayout({ task, entitiesType: type })
     }
   },
 }
 
 const showLayout = async params => {
-  const { default: TasksLayout } = await import('./components/tasks_layout.svelte')
+  const { default: TaskLayout } = await import('./components/task_layout.svelte')
   const { task: taskId, entitiesType } = params
-  app.layout.showChildComponent('main', TasksLayout, {
-    props: { taskId, entitiesType },
+  app.layout.showChildComponent('main', TaskLayout, {
+    props: { taskId, entitiesType }
   })
 }
