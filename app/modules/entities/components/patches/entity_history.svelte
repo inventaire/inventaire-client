@@ -19,8 +19,10 @@
     .then(entity => {
       pathname = entity.pathname
       label = entity.label
-      const wdUri = entity.claims['invp:P1']?.[0]
-      if (wdUri) wdId = unprefixify(wdUri)
+      if ('wdUri' in entity) {
+        const { wdUri } = entity
+        wdId = unprefixify(wdUri)
+      }
     })
     .catch(err => flash = err)
 
