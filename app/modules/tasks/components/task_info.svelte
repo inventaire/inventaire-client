@@ -1,19 +1,26 @@
 <script lang="ts">
-  import { i18n } from '#user/lib/i18n'
+  import Link from '#app/lib/components/link.svelte'
+  import { i18n, I18n } from '#user/lib/i18n'
 
   export let reporter, clue
 </script>
-
 {#if reporter}
   <li>
     <strong>{i18n('reporter')}: </strong>
-    <a href="/users/{reporter}/contributions" class="link">{reporter}</a>
+    <Link
+      url={`/users/${reporter}/contributions`}
+      text={reporter}
+      title={`${I18n('username')}: ${reporter}`}
+    />
   </li>
 {/if}
 
 {#if clue}
   <li>
     <strong>{i18n('clue')}: </strong>
-    <a href="/entity/isbn:{clue}" class="link">{clue}</a>
+    <Link
+      url={`/entity/isbn:${clue}`}
+      text={clue}
+    />
   </li>
 {/if}
