@@ -6,6 +6,7 @@
   import preq, { treq } from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
   import { serializeEntity } from '#entities/lib/entities'
+  import Spinner from '#general/components/spinner.svelte'
   import type { GetEntitiesByUrisResponse } from '#server/controllers/entities/by_uris_get'
   import type { TaskId } from '#server/types/task'
   import { getNextTask } from '#tasks/lib/get_next_task.ts'
@@ -16,7 +17,7 @@
   export let taskId: TaskId
   export let entitiesType
 
-  let task, from, to, flash, matchedTitles, noTask, areBothInvEntities
+  let task, from, to, flash, matchedTitles, noTask, areBothInvEntities, waitingForEntities
   $: fromUri = task?.suspectUri
   $: toUri = task?.suggestionUri
 
@@ -69,7 +70,7 @@
     // Nullifying `from` and `to` in order to request new claims values entities
     reset()
     if (!task || task.state === 'merged') return
-    return treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris([ fromUri, toUri ]))
+    waitingForEntities = treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris([ fromUri, toUri ]))
       .then(cleanUpTaskAndAssignFromToEntities(fromUri, toUri))
       .catch(err => {
         flash = err
@@ -127,6 +128,9 @@
     {I18n('no task available, this is fine')}
   <p />
 {:else}
+  {#await waitingForEntities}
+    <span class="loading"><Spinner /></span>
+  {/await}
   <div class="entities-section">
     <div class="from-entity">
       <h2>From</h2>
@@ -186,6 +190,7 @@
   }
   .from-entity{
     min-height: 100vh;
+    padding-inline-start: 1em;
     flex: 1 0 0;
   }
   .to-entity{
@@ -217,5 +222,11 @@
     background-color: white;
     padding: 0.5em;
     border-radius: 50%;
+  }
+  .loading{
+    position: absolute;
+    margin: 0 auto;
+    padding-block-start: 0.5em;
+    width: 100%;
   }
 </style>
