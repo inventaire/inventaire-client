@@ -15,7 +15,7 @@ import { API } from '#app/api/api'
 // such as RSS feed detections
 import { dropLeadingSlash } from '#app/lib/utils'
 import type { Url } from '#server/types/common'
-import { I18n, i18n } from '#user/lib/i18n'
+import { i18n } from '#user/lib/i18n'
 import { getOngoingRequestsCount } from '../preq.ts'
 import { transformers } from './apply_transformers.ts'
 import updateNodeType from './update_node_type.ts'
@@ -74,7 +74,7 @@ function applyMetadataUpdate (route, metadataUpdate: MetadataUpdate = {}) {
 export const getDefaultMetadata = () => ({
   url: '',
   title: 'Inventaire - ' + i18n('your friends and communities are your best library'),
-  description: I18n('make the inventory of your books and mutualize with your friends and communities into an infinite library!'),
+  description: i18n('Make the inventory of your books, share it with your friends and communities into an infinite library!'),
   image: 'https://inventaire.io/public/images/inventaire-books.jpg' as Url,
   rss: 'https://mamot.fr/users/inventaire.rss' as Url,
   'og:type': 'website' as const,
