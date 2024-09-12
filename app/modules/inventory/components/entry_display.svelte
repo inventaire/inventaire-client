@@ -1,7 +1,7 @@
 <script lang="ts">
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
-  import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import getOriginalLang from '#entities/lib/get_original_lang'
   import EntityResolverInput from '#inventory/components/entity_resolver_input.svelte'
   import SourceLogo from '#inventory/components/entity_source_logo.svelte'

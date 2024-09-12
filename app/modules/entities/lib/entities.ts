@@ -11,7 +11,7 @@ import { getOwnersCountPerEdition } from '#entities/components/lib/edition_actio
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
 import type { RelativeUrl, Url } from '#server/types/common'
 import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityId, WdEntityUri, InvEntityId, NormalizedIsbn, InvEntityUri } from '#server/types/entity'
-import getBestLangValue from './get_best_lang_value.ts'
+import { getBestLangValue } from './get_best_lang_value.ts'
 import getOriginalLang from './get_original_lang.ts'
 import type { WikimediaLanguageCode } from 'wikibase-sdk'
 

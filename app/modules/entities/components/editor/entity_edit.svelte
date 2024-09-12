@@ -6,7 +6,7 @@
   import { getTypePropertiesPerCategory } from '#entities/components/editor/lib/editors_properties'
   import PropertyCategory from '#entities/components/editor/property_category.svelte'
   import type { SerializedEntity } from '#entities/lib/entities'
-  import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import { typesPossessiveForms } from '#entities/lib/types/entities_types'
   import { i18n, I18n } from '#user/lib/i18n'
   import EntityEditMenu from './entity_edit_menu.svelte'

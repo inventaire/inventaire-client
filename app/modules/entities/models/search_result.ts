@@ -2,7 +2,7 @@ import { flatten } from 'underscore'
 import app from '#app/app'
 import { isInvEntityId, isWikidataItemId } from '#app/lib/boolean_tests'
 import { newError } from '#app/lib/error'
-import getBestLangValue from '#entities/lib/get_best_lang_value'
+import { getBestLangValue } from '#entities/lib/get_best_lang_value'
 import Filterable from '#general/models/filterable'
 
 // make models use 'id' as idAttribute so that search results

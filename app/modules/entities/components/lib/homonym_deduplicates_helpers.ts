@@ -5,7 +5,7 @@ import { isEntityUri, isWikidataItemUri } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
 import { someMatch } from '#app/lib/utils'
 import { getEntities } from '#entities/lib/entities'
-import getBestLangValue from '#entities/lib/get_best_lang_value'
+import { getBestLangValue } from '#entities/lib/get_best_lang_value'
 import { pluralize } from '#entities/lib/types/entities_types'
 
 export async function getHomonymsEntities (entity) {

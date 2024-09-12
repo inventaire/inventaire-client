@@ -6,7 +6,7 @@ import log_ from '#app/lib/loggers'
 import sitelinks_ from '#app/lib/wikimedia/sitelinks'
 import { unprefixify } from '#app/lib/wikimedia/wikidata'
 import wikipedia_ from '#app/lib/wikimedia/wikipedia'
-import getBestLangValue from '#entities/lib/get_best_lang_value'
+import { getBestLangValue } from '#entities/lib/get_best_lang_value'
 
 const wdHost = 'https://www.wikidata.org'
 

@@ -1,7 +1,9 @@
 import { uniq } from 'underscore'
 import { isNonEmptyString } from '#app/lib/boolean_tests'
-// data: labels or descriptions
-export default function (lang, originalLang, data) {
+import type { SingleValueTermsWithInferredValues } from '#server/types/entity'
+import type { WikimediaLanguageCode } from 'wikibase-sdk'
+
+export function getBestLangValue (lang: WikimediaLanguageCode, originalLang: WikimediaLanguageCode, data?: SingleValueTermsWithInferredValues) {
   if (!data) return {}
 
   const order = getLangPriorityOrder(lang, originalLang, data)

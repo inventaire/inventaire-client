@@ -12,7 +12,7 @@
   import { alphabeticallySortedEntries } from '#entities/components/editor/lib/editors_helpers'
   import { findMatchingSerieLabel, getWorkSeriesLabels } from '#entities/components/editor/lib/title_tip'
   import getLangsData from '#entities/lib/editor/get_langs_data'
-  import getBestLangValue from '#entities/lib/get_best_lang_value'
+  import { getBestLangValue } from '#entities/lib/get_best_lang_value'
   import { typeHasName } from '#entities/lib/types/entities_types'
   import type { EntityUri, Label } from '#server/types/entity'
   import { i18n, I18n } from '#user/lib/i18n'

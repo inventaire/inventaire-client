@@ -2,6 +2,7 @@
   import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
   import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
+  import { getOptionalValue } from '#app/lib/utils'
   import { getWikidataHistoryUrl, getWikidataUrl, type SerializedEntity } from '#entities/lib/entities'
   import { startRefreshTimeSpan } from '#entities/lib/entity_refresh'
   import Spinner from '#general/components/spinner.svelte'
