@@ -3,7 +3,7 @@
   import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
-  import { loadInternalLink } from '#app/lib/utils'
+  import { getOptionalValue, loadInternalLink } from '#app/lib/utils'
   import { getWdWikiUrl } from '#app/lib/wikimedia/wikidata'
   import type { SerializedEntity } from '#entities/lib/entities'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -12,10 +12,10 @@
 
   const { loggedIn } = app.user
   const { label, editPathname, isWikidataEntity } = entity
-  let wikidataOauth, wdId, wikiUrl
+  let wikidataOauth, wikiUrl
+  const wdId = getOptionalValue(entity, 'wdId')
   if (isWikidataEntity) {
     wikidataOauth = API.auth.oauth.wikidata + `&redirect=${editPathname}`
-    wdId = entity.id
     wikiUrl = getWdWikiUrl(wdId)
   }
 

@@ -7,13 +7,13 @@
   import { omitNonInfoboxClaims } from '#entities/components/lib/work_helpers'
   import { getEntitiesAttributesByUris, type SerializedEntitiesByUris } from '#entities/lib/entities'
   import Spinner from '#general/components/spinner.svelte'
-  import type { Claims, EntityType } from '#server/types/entity'
+  import type { Claims, ExtendedEntityType } from '#server/types/entity'
   import { I18n } from '#user/lib/i18n'
   import ClaimInfobox from './claim_infobox.svelte'
 
   export let claims: Claims = {}
   export let relatedEntities: SerializedEntitiesByUris = {}
-  export let entityType: EntityType
+  export let entityType: ExtendedEntityType
   export let shortlistOnly = null
   export let listDisplay = false
 
