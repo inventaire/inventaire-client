@@ -14,13 +14,13 @@
   let waitForEntityRefresh
 
   const { uri, type, claims } = entity
-  let wdUri, wikidataUrl, wikidataHistoryUrl
-  if ('wdUri' in entity) {
-    ;({ wdUri } = entity)
+  let wikidataUrl, wikidataHistoryUrl
+  const wdUri = getOptionalValue(entity, 'wdUri')
+  if (wdUri) {
     wikidataUrl = getWikidataUrl(wdUri)
     wikidataHistoryUrl = getWikidataHistoryUrl(wdUri)
   }
-  const invUri = 'invUri' in entity ? entity.invUri : null
+  const invUri = getOptionalValue(entity, 'invUri')
 
   async function refreshEntity () {
     startRefreshTimeSpan(entity.uri)

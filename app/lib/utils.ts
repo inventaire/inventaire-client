@@ -240,3 +240,7 @@ export function arrayIncludes <T extends (string | number)> (array: readonly T[]
 export function objectEntries <Obj> (obj: Obj) {
   return Object.entries(obj) as ObjectEntries<Obj>
 }
+
+export function getOptionalValue <T extends object, K extends keyof T> (obj: T, attribute: K) {
+  if (attribute in obj) return obj[attribute]
+}

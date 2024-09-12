@@ -5,7 +5,7 @@ import assert_ from '#app/lib/assert_types'
 import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#app/lib/boolean_tests'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import preq from '#app/lib/preq'
-import { forceArray, objectEntries } from '#app/lib/utils'
+import { forceArray, getOptionalValue, objectEntries } from '#app/lib/utils'
 import type { Entity, InvEntity, RedirectionsByUris, RemovedPlaceholder, WdEntity } from '#app/types/entity'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
@@ -16,9 +16,9 @@ import getOriginalLang from './get_original_lang.ts'
 import type { WikimediaLanguageCode } from 'wikibase-sdk'
 
 export interface SerializedEntityCommons {
-  label: string
-  labelLang: WikimediaLanguageCode
-  description: string
+  label?: string
+  labelLang?: WikimediaLanguageCode
+  description?: string
   publicationYear?: string
   serieOrdinal?: string
   title?: string
@@ -34,15 +34,21 @@ export interface SerializedEntityCommons {
 export type SerializedInvEntity = InvEntity & SerializedEntityCommons & {
   id: InvEntityId | NormalizedIsbn
   isWikidataEntity: false
+  wdId: never
+  wdUri: never
+  invUri: InvEntityUri
 }
 export type SerializedRemovedPlaceholder = RemovedPlaceholder & SerializedEntityCommons & {
   id: InvEntityId
   invUri: InvEntityUri
+  wdId: never
+  wdUri: never
   isWikidataEntity: false
 }
 export type SerializedWdEntity = WdEntity & SerializedEntityCommons & {
   wdId: WdEntityId
   wdUri: WdEntityUri
+  invUri?: InvEntityUri
   isWikidataEntity: true
 }
 
@@ -125,22 +131,25 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
   entity.historyPathname = `${basePathname}/history`
   let wdUri, invUri
   let isWikidataEntity = false
-  if ('wdId' in entity) {
+  const wdId = getOptionalValue(entity, 'wdId')
+  const invId = getOptionalValue(entity, 'invId')
+  if (wdId) {
     isWikidataEntity = true
-    wdUri = `wd:${entity.wdId}`
+    wdUri = `wd:${wdId}`
   }
-  if ('invId' in entity) {
-    invUri = `inv:${entity.invId}`
+  if (invId) {
+    invUri = `inv:${invId}`
   }
   const [ prefix, id ] = entity.uri.split(':')
-  entity.prefix = prefix as EntityUriPrefix
-  return {
+  const serializedEntity = {
     id: id as EntityId,
+    prefix: prefix as EntityUriPrefix,
     wdUri,
     invUri,
     isWikidataEntity,
     ...entity,
-  } as SerializedEntity
+  }
+  return serializedEntity as SerializedEntity
 }
 
 const getPathname = (uri: EntityUri) => `/entity/${uri}` as RelativeUrl
