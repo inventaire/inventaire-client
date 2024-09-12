@@ -28,6 +28,6 @@ const showLayout = async params => {
   const { default: TaskLayout } = await import('./components/task_layout.svelte')
   const { task: taskId, entitiesType } = params
   app.layout.showChildComponent('main', TaskLayout, {
-    props: { taskId, entitiesType }
+    props: { taskId, entitiesType },
   })
 }
