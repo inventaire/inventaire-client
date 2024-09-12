@@ -15,7 +15,9 @@
   export let entity: SerializedEntity
 
   let flash
-  const { uri, isWikidataEntity, invUri, wdUri, label, historyPathname } = entity
+  const { uri, isWikidataEntity, label, historyPathname } = entity
+  const invUri = 'invUri' in entity ? entity.invUri : null
+  const wdUri = 'wdUri' in entity ? entity.wdUri : null
   const { hasDataadminAccess } = app.user
   const wikidataUrl = wdUri ? getWikidataUrl(wdUri) : null
   const { ok: canBeMovedToWikidata, reason: moveabilityStatus } = checkWikidataMoveabilityStatus(entity)

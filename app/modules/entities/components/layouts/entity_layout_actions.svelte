@@ -2,7 +2,7 @@
   import app from '#app/app'
   import Link from '#app/lib/components/link.svelte'
   import { icon as iconFn } from '#app/lib/handlebars_helpers/icons'
-  import { getWikidataUrl, type SerializedEntity } from '#entities/lib/entities'
+  import { getWikidataHistoryUrl, getWikidataUrl, type SerializedEntity } from '#entities/lib/entities'
   import { startRefreshTimeSpan } from '#entities/lib/entity_refresh'
   import Spinner from '#general/components/spinner.svelte'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -13,11 +13,13 @@
   let waitForEntityRefresh
 
   const { uri, type, claims } = entity
-  let wdUri, wikidataUrl
+  let wdUri, wikidataUrl, wikidataHistoryUrl
   if ('wdUri' in entity) {
     ;({ wdUri } = entity)
     wikidataUrl = getWikidataUrl(wdUri)
+    wikidataHistoryUrl = getWikidataHistoryUrl(wdUri)
   }
+  const invUri = 'invUri' in entity ? entity.invUri : null
 
   async function refreshEntity () {
     startRefreshTimeSpan(entity.uri)
@@ -74,13 +76,24 @@
     </li>
   {/if}
 {/if}
-<li>
-  <Link
-    url={`/entity/${uri}/history`}
-    text={I18n('entity history')}
-    icon="history"
-  />
-</li>
+
+{#if invUri}
+  <li>
+    <Link
+      url={`/entity/${uri}/history`}
+      text={I18n('entity history')}
+      icon="history"
+    />
+  </li>
+{:else}
+  <li>
+    <Link
+      url={wikidataHistoryUrl}
+      text={I18n('entity history')}
+      icon="history"
+    />
+  </li>
+{/if}
 
 {#if app.user.hasDataadminAccess && showEntityEditButtons}
   {#if type === 'human'}
