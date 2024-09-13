@@ -1,8 +1,8 @@
 <script lang="ts">
   import Flash from '#app/lib/components/flash.svelte'
   import Link from '#app/lib/components/link.svelte'
-  import { loadInternalLink } from '#app/lib/utils'
-  import { getWdHistoryUrl, unprefixify } from '#app/lib/wikimedia/wikidata'
+  import { getOptionalValue, loadInternalLink } from '#app/lib/utils'
+  import { getWdHistoryUrl } from '#app/lib/wikimedia/wikidata'
   import FullScreenLoader from '#components/full_screen_loader.svelte'
   import Spinner from '#components/spinner.svelte'
   import Patch from '#entities/components/patches/patch.svelte'
@@ -13,21 +13,20 @@
 
   export let uri: EntityUri
 
-  let pathname, label, flash, patches, wdId
+  let pathname, label, flash, patches, wdHistoryUrl
 
   const waitForEntity = getEntityByUri({ uri })
     .then(entity => {
       pathname = entity.pathname
       label = entity.label
-      if ('wdUri' in entity) {
-        const { wdUri } = entity
-        wdId = unprefixify(wdUri)
-      }
+      const wdId = getOptionalValue(entity, 'wdId')
+      wdHistoryUrl = getWdHistoryUrl(wdId)
     })
     .catch(err => flash = err)
 
   async function fetchPatches () {
     patches = await getEntityPatches(uri)
+    if (patches.length === 0 && wdHistoryUrl) window.location.href = wdHistoryUrl
   }
 
   const waitingForPatches = fetchPatches()
@@ -48,12 +47,12 @@
         - {I18n('history')}
       </h2>
       <span class="uri">{uri}</span>
-      {#if wdId}
+      {#if wdHistoryUrl}
         <div class="see-on-wikidata">
           <p>{i18n('Only the entity history for claims stored directly in Inventaire database can be found here. For the rest:')}</p>
           <p class="see-on-wikidata">
             <Link
-              url={getWdHistoryUrl(wdId)}
+              url={wdHistoryUrl}
               text={I18n('See entity history on Wikidata')}
               icon="wikidata"
               tinyButton={true}
