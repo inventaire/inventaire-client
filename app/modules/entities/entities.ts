@@ -52,6 +52,7 @@ const controller = {
 
     try {
       const entity = await getEntityByUri({ uri, refresh })
+      if (!entity) throw newError('entity_not_found', 400, { uri })
       rejectRemovedPlaceholder(entity)
       const { Component, props } = await getEntityViewByType(entity)
       app.layout.showChildComponent('main', Component, { props })
