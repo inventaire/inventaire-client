@@ -58,7 +58,7 @@
       </button>
     {/if}
     {#if showAllAvailableExternalIds}
-      <button title={i18n('Customize which links should be displayed')} on:click={() => showCategorySettings = true}>
+      <button title={i18n('Customize which links should be displayed')} class="customize" on:click={() => showCategorySettings = true}>
         {@html icon('cog')}
       </button>
     {/if}
@@ -87,6 +87,9 @@
       font-size: 0.8rem;
       width: 0.7rem;
     }
+  }
+  .customize{
+    @include shy;
   }
   [dir="rtl"]{
     :global(.fa-chevron-left), :global(.fa-chevron-right){
