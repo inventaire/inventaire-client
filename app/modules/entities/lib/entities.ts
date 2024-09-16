@@ -353,3 +353,7 @@ export function getEntityImagePath (imageValue) {
   if (isImageHash(imageValue)) return `/img/entities/${imageValue}`
   else return imageValue
 }
+
+export function hasLocalLayer (entity: SerializedEntity) {
+  return entity.invUri != null
+}

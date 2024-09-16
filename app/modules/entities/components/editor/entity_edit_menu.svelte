@@ -7,7 +7,7 @@
   import preq from '#app/lib/preq'
   import Dropdown from '#components/dropdown.svelte'
   import Spinner from '#components/spinner.svelte'
-  import { getWikidataUrl } from '#entities/lib/entities'
+  import { getWikidataHistoryUrl, getWikidataUrl, hasLocalLayer } from '#entities/lib/entities'
   import type { SerializedEntity } from '#entities/lib/entities'
   import { checkWikidataMoveabilityStatus, moveToWikidata } from '#entities/lib/move_to_wikidata'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -19,7 +19,11 @@
   const invUri = 'invUri' in entity ? entity.invUri : null
   const wdUri = 'wdUri' in entity ? entity.wdUri : null
   const { hasDataadminAccess } = app.user
-  const wikidataUrl = wdUri ? getWikidataUrl(wdUri) : null
+  let wikidataUrl, wikidataHistoryUrl
+  if (wdUri) {
+    wikidataUrl = getWikidataUrl(wdUri)
+    wikidataHistoryUrl = getWikidataHistoryUrl(wdUri)
+  }
   const { ok: canBeMovedToWikidata, reason: moveabilityStatus } = checkWikidataMoveabilityStatus(entity)
   const canBeDeleted = !isWikidataEntity
   let waitForWikidataMove
@@ -85,7 +89,15 @@
           />
         </li>
       {/if}
-      {#if historyPathname}
+      {#if wikidataHistoryUrl && !hasLocalLayer(entity)}
+        <li>
+          <Link
+            url={wikidataHistoryUrl}
+            text={I18n('entity history')}
+            icon="history"
+          />
+        </li>
+      {:else}
         <li>
           <Link
             url={historyPathname}

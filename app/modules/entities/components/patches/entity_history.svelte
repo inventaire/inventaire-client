@@ -26,6 +26,7 @@
 
   async function fetchPatches () {
     patches = await getEntityPatches(uri)
+    await waitForEntity
     if (patches.length === 0 && wdHistoryUrl) window.location.href = wdHistoryUrl
   }
 
