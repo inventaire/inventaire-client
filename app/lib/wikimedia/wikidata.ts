@@ -29,9 +29,11 @@ export const unprefixify = value => value?.replace(/^wdt?:/, '')
 export const getUriNumericId = uri => parseInt(uri.split(':')[1].substring(1))
 
 export function getWdWikiUrl (wdId: WdEntityId) {
+  if (!wdId) return
   return `${wdHost}/wiki/${wdId}`
 }
 
 export function getWdHistoryUrl (wdId: WdEntityId) {
+  if (!wdId) return
   return `${wdHost}/w/index.php?title=${wdId}&action=history`
 }
