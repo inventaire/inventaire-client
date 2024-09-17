@@ -141,15 +141,16 @@ export function serializeEntity (entity: Entity & Partial<SerializedEntity>) {
     invUri = `inv:${invId}`
   }
   const [ prefix, id ] = entity.uri.split(':')
-  const serializedEntity = {
+  Object.assign(entity, {
     id: id as EntityId,
     prefix: prefix as EntityUriPrefix,
     wdUri,
     invUri,
     isWikidataEntity,
-    ...entity,
-  }
-  return serializedEntity as SerializedEntity
+  })
+  // Returning the same object so that if attributes are added later to the entity object,
+  // (typically .images) they are also available on the serialized entity object
+  return entity as SerializedEntity
 }
 
 const getPathname = (uri: EntityUri) => `/entity/${uri}` as RelativeUrl
