@@ -357,3 +357,7 @@ export function getEntityImagePath (imageValue) {
 export function hasLocalLayer (entity: SerializedEntity) {
   return entity.invUri != null
 }
+
+export function getClaimValue (claim) {
+  return claim.value != null ? claim.value : claim
+}

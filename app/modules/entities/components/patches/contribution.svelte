@@ -5,14 +5,23 @@
   import { getISOTime, getLocalTimeString, timeFromNow } from '#app/lib/time'
   import { loadInternalLink } from '#app/lib/utils'
   import Operation from '#entities/components/patches/operation.svelte'
+  import { getClaimValue } from '#entities/lib/entities'
   import { I18n, i18n } from '#user/lib/i18n'
 
   export let patch
   export let userContributionsContext = false
 
-  const { _id: patchId, patchType, summary, timestamp, operations, user, entity, invEntityHistoryPathname } = patch
+  const { _id: patchId, patchType, summary, timestamp, operations, user = {}, entity, invEntityHistoryPathname } = patch
 
   let showDetails = false
+
+  function getSummaryValues (values) {
+    if (values instanceof Array) {
+      return values.map(getClaimValue)
+    } else {
+      return getClaimValue(values)
+    }
+  }
 </script>
 
 <div class="contribution">
@@ -66,8 +75,8 @@
           {#if summary.property}<p class="property-uri">{summary.property}</p>{/if}
         </div>
         <div class="changes">
-          {#if summary.removed}<p class="removed">{summary.removed}</p>{/if}
-          {#if summary.added}<p class="added">{summary.added}</p>{/if}
+          {#if summary.removed}<p class="removed">{getSummaryValues(summary.removed)}</p>{/if}
+          {#if summary.added}<p class="added">{getSummaryValues(summary.added)}</p>{/if}
         </div>
       </div>
     {/if}
