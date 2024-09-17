@@ -92,11 +92,10 @@
 
   function refreshElements () {
     if (fetching) return
-    const elementsTail = elements.slice(paginatedElements.length, elements.length)
-    elements = [ ...paginatedElements, ...elementsTail ]
+    paginatedElements = elements.slice(0, paginatedElements.length)
   }
 
-  $: onChange(paginatedElements, refreshElements)
+  $: onChange(elements, refreshElements)
 </script>
 {#await waitingForEntities}
   <Spinner center={true} />
@@ -131,7 +130,7 @@
               bind:isReordering
               {element}
               {listingId}
-              bind:paginatedElements
+              bind:elements
             />
           </li>
         {:else}
