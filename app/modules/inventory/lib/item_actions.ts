@@ -33,7 +33,6 @@ export default {
     items.forEach(item => {
       if (isString(item)) return
       if (isModel(item)) {
-        // @ts-expect-error legacy
         item._backup = item.toJSON()
         item.set(attribute, value)
       }
