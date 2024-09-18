@@ -62,7 +62,7 @@
         {#if isNonEmptyPlainObject(entity.image)}
           <EntityImage
             {entity}
-            size={128}
+            size={256}
           />
         {/if}
         <div class="entity-infobox">
@@ -141,15 +141,15 @@
   .listing-element{
     @include display-flex(row, unset, space-between);
     min-height: 6em;
-  }
-  a{
-    @include display-flex(row, center, flex-start);
-    cursor: pointer;
-    flex: 1;
-    :global(.image-div){
-      block-size: 6em;
-      flex: 0 0 4em;
-      margin-inline-end: 1em;
+    a{
+      @include display-flex(row, center, flex-start);
+      cursor: pointer;
+      flex: 1;
+      :global(.image-div){
+        block-size: 6em;
+        flex: 0 0 4em;
+        margin-inline-end: 1em;
+      }
     }
   }
   .main-text-wrapper{
@@ -164,15 +164,16 @@
     color: $label-grey;
     font-size: 0.9rem;
   }
-  .show-modal{
-    margin: 1em;
-  }
   .entity-info-row{
-    @include display-flex(row, flex-start, flex-start);
+    display: flex;
     margin: 1em 0;
+    :global(.image-div){
+      margin-inline-end: 1em;
+    }
   }
   .entity-infobox{
     margin: 0 1em;
+    flex: 2;
   }
   .element-section{
     background-color: $light-grey;
@@ -185,5 +186,14 @@
   }
   .entity-label{
     color: $soft-grey;
+  }
+  /* Smaller screens */
+  @media screen and (width < $smaller-screen){
+    .entity-info-row{
+      @include display-flex(column, center);
+      :global(.image-div){
+        margin-block-end: 1em;
+      }
+    }
   }
 </style>
