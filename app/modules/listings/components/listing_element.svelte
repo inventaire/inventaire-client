@@ -37,9 +37,11 @@
   function toggleShowMode () {
     isShowMode = !isShowMode
     if (isShowMode) {
-      app.navigate(getElementPathname(listingId, elementId), { metadata: getElementMetadata(listing, element) })
+      const options = { metadata: getElementMetadata(listing, element), preventScrollTop: true }
+      app.navigate(getElementPathname(listingId, elementId), options)
     } else {
-      app.navigate(getListingPathname(listingId), { metadata: getListingMetadata(listing) })
+      const options = { metadata: getListingMetadata(listing), preventScrollTop: true }
+      app.navigate(getListingPathname(listingId), options)
     }
   }
 
