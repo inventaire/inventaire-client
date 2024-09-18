@@ -106,7 +106,7 @@
       margin: 0 5em;
     }
   }
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .info-wrapper{
       @include display-flex(column, center, center);

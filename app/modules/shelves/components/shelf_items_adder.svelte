@@ -181,7 +181,7 @@
     max-width: 20em;
   }
 
-  /* Very Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .buttons{
       padding: 0 1em;

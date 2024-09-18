@@ -22,14 +22,14 @@
     max-block-size: 2.5em;
     font-weight: normal;
   }
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     button{
       padding: 0.3em 0.5em;
       margin: 0.2em;
     }
   }
-  /* Large screens */
+  /* Larger screens */
   @media screen and (width >= $smaller-screen){
     .display-mode-button{
       block-size: 2.5rem;

@@ -44,14 +44,14 @@
       z-index: 1;
     }
 
-    /* Small screens */
+    /* Very small screens */
     @media screen and (width < $very-small-screen){
       padding-inline-start: 0.4em;
       padding-inline-end: 0.2em;
       max-width: 100%;
       overflow: hidden;
     }
-    /* Large screens */
+    /* Medium and large screens */
     @media screen and (width >= $very-small-screen){
       padding-inline-start: 1.2em;
       padding-inline-end: 1em;

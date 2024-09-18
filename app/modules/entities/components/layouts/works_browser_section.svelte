@@ -230,7 +230,7 @@
     color: $grey;
     margin: auto;
   }
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     li{
       @include display-flex(column);

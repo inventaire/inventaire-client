@@ -21,12 +21,7 @@
     display: none;
   }
 
-  /*Large screens*/
-  @media screen and (width >= $small-screen) {
-
-  }
-
-  /*Small screens*/
+  /*Very small screens*/
   @media screen and (width < $very-small-screen) {
     inset-inline-start: 0;
     &.active{

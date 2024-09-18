@@ -172,7 +172,7 @@
     }
   }
 
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .user-profile{
       @include display-flex(column, center, center);

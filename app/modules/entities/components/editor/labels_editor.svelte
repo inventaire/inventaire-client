@@ -257,7 +257,7 @@
     @include bg-hover(#ddd);
   }
 
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     select{
       margin-block-end: 0.5em;

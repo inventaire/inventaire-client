@@ -200,7 +200,7 @@
     }
   }
 
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .profile-buttons{
       margin-block-end: 0.5em;

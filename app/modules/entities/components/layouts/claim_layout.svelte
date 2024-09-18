@@ -115,7 +115,7 @@
   .relatives-browser{
     margin-block-start: 1em;
   }
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .top-section{
       display: block;

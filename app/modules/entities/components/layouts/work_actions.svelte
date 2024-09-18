@@ -82,7 +82,7 @@
   .action-button{
     @include tiny-button($light-grey, black);
   }
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .actions-wrapper{
       @include display-flex(row);

@@ -186,7 +186,7 @@
   .waiting-for-position{
     padding: 2em;
   }
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .map-container{
       max-height: 50vh;

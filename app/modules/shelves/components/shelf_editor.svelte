@@ -153,7 +153,7 @@
   .delete{
     @include dangerous-action;
   }
-  /* Small screens */
+  /* Very small screens */
   @media screen and (width < $very-small-screen){
     .shelf-editor{
       label, :global(fieldset){

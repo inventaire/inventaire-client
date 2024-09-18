@@ -250,7 +250,7 @@
     }
   }
 
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .item-row{
       align-self: stretch;

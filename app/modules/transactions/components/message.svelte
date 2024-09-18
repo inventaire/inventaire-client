@@ -70,7 +70,7 @@
         overflow: hidden;
         max-width: 100%;
       }
-      /* Small screens */
+      /* Very small screens */
       @media screen and (width < $very-small-screen){
         flex-direction: column;
         .message-text{
@@ -82,7 +82,7 @@
           order: 1;
         }
       }
-      /* Large screens */
+      /* Medium and large screens */
       @media screen and (width >= $very-small-screen){
         .time{
           margin-inline-start: auto;

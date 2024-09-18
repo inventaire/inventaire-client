@@ -144,7 +144,7 @@
     margin: 0;
   }
 
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .entity-list-row{
       flex-wrap: wrap;

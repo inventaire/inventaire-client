@@ -227,7 +227,7 @@
   //   margin: 1em 0;
   // }
 
-  /* Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .item-show{
       padding: 0 0.5em;

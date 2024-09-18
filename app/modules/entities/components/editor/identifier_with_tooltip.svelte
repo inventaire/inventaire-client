@@ -50,7 +50,7 @@
     }
   }
 
-  /* Large screens */
+  /* Larger screens */
   @media screen and (width >= 700px){
     [slot="tooltip-content"]{
       :global(a){

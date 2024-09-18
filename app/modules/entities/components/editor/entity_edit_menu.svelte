@@ -178,7 +178,7 @@
       margin-inline-end: 0.5em;
       padding: 0.5em;
     }
-    /* Large screens */
+    /* Larger screens */
     @media screen and (width >= $entity-edit-max-width){
       position: absolute;
       inset-inline-end: 0;

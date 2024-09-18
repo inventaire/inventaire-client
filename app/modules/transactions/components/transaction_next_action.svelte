@@ -85,7 +85,7 @@
   .actions{
     padding: 0.5em 1em;
     text-align: center;
-    /* Small screens */
+    /* Very small screens */
     @media screen and (width < $very-small-screen){
       @include display-flex(column, center, stretch);
       .action{
@@ -98,7 +98,7 @@
         }
       }
     }
-    /* Large screens */
+    /* Medium and large screens */
     @media screen and (width >= $very-small-screen){
       @include display-flex(row, baseline, center);
     }

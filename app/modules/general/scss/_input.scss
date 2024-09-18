@@ -100,7 +100,7 @@ label{
     @include capitalized;
   }
 
-  /*Small screens*/
+  /*Very small screens*/
   @media screen and (width < $very-small-screen) {
     flex-direction: column;
     button{

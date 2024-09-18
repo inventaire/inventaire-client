@@ -131,7 +131,7 @@
     white-space: nowrap;
     flex: 0 0 auto;
   }
-  /* Very Small screens */
+  /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .show-item{
       @include display-flex(column, center, center);

@@ -64,7 +64,7 @@
   .dangerous{
     background-color: $dark-grey;
   }
-  /* Small screens */
+  /* Very small screens */
   @media screen and (width < $very-small-screen){
     button{
       padding: 0.5em;

@@ -3,7 +3,7 @@
   background-color: $bg-color;
   @include radius;
   padding: 0.8em 1em 0.8em 1em;
-  /*Small screens*/
+  /*Very small screens*/
   @media screen and (width < $very-small-screen) {
     margin: 0.2em 0 0.3em 0;
   }

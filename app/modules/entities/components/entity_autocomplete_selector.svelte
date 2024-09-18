@@ -300,16 +300,16 @@
     }
   }
   .autocomplete{
-    /* Large screens */
+    /* Small screens */
+    @media screen and (width < $small-screen){
+      inline-size: 100%;
+    }
+    /* Larger screens */
     @media screen and (width >= $very-small-screen){
       position: absolute;
       inset-block-start: 100%;
       inset-inline: -1px;
       z-index: 1;
-    }
-    /* Small screens */
-    @media screen and (width < $small-screen){
-      inline-size: 100%;
     }
     background-color: white;
     @include display-flex(column, center, center);

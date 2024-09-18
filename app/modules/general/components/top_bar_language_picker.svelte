@@ -160,7 +160,7 @@
       display: none;
     }
   }
-  /* Smaller screens */
+  /* Very small screens */
   @media screen and (width < $very-small-screen){
     .current-lang{
       display: none;
