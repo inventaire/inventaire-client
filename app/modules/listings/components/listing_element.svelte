@@ -22,7 +22,7 @@
   const { _id: listingId } = listing
   const { entity, _id: elementId } = element
   const { uri, type, label, claims, image } = entity
-  const publicationYear = formatYearClaim('wdt:P577', claims)
+  const publicationYear = formatYearClaim('wdt:P577', claims)[0]
   const authorsUris = claims['wdt:P50']
 
   let imageUrl, flash
