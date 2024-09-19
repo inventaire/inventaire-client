@@ -33,7 +33,7 @@
 <style lang="scss">
   @import "#general/scss/utils";
   .listing-layout{
-    max-width: 50em;
+    max-width: 40em;
     margin: 0 auto;
     @include display-flex(column, center);
   }

@@ -53,6 +53,17 @@ export const removeElement = async (id, uri) => {
   return preq.post(API.listings.removeElements, { id, uris: [ uri ] })
 }
 
+export const updateElement = async params => {
+  try {
+    const res = preq.post(API.listings.updateElement, params)
+    return res
+  } catch (err) {
+    if (err.message !== 'nothing to update') {
+      throw err
+    }
+  }
+}
+
 export const serializeListing = listing => {
   const { _id: id } = listing
   return Object.assign(listing, {

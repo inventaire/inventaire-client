@@ -1,17 +1,21 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
+  import Flash from '#app/lib/components/flash.svelte'
   import { loadInternalLink } from '#app/lib/utils'
-  import ImagesCollage from '#components/images_collage.svelte'
+  import ImageDiv from '#components/image_div.svelte'
+  import AuthorsInline from '#entities/components/layouts/authors_inline.svelte'
+  import { formatYearClaim } from '#entities/components/lib/claims_helpers'
   import { getEntityImagePath } from '#entities/lib/entities'
   import { i18n } from '#user/lib/i18n'
+  import ListingElementActions from './listing_element_actions.svelte'
 
-  export let entity, isEditable
+  export let isEditable, isReordering, element, elements, listingId
 
-  const dispatch = createEventDispatcher()
-
-  const { uri, label, description, image } = entity
-  let imageUrl
+  const { entity } = element
+  const { uri, label, claims, image } = entity
+  const publicationYear = formatYearClaim('wdt:P577', claims)
+  const authorsUris = claims['wdt:P50']
+  let imageUrl, flash
 
   if (isNonEmptyArray(image)) {
     // This is the case when the entity object is a search result object
@@ -20,75 +24,69 @@
     imageUrl = image.url
   }
 </script>
-
-<li>
-  <a
-    href="/entity/{uri}"
-    title={label}
-    on:click={loadInternalLink}
-  >
-    {#if imageUrl}
-      <ImagesCollage
-        imagesUrls={[ imageUrl ]}
-        imageSize={100}
-        limit={1}
+<div class="listing-element-section">
+  <div class="listing-element">
+    <a
+      href="/entity/{uri}"
+      title={label}
+      on:click={loadInternalLink}
+    >
+      {#if imageUrl}
+        <ImageDiv
+          url={imageUrl}
+          size={100}
+        />
+      {/if}
+      <div>
+        <span class="label">{label}</span>
+        {#if publicationYear}
+          <p
+            class="publication-year"
+            title={i18n('wdt:P577')}
+          >
+            {publicationYear}
+          </p>
+        {/if}
+        <AuthorsInline entitiesUris={authorsUris} />
+      </div>
+    </a>
+    {#if isEditable}
+      <ListingElementActions
+        bind:isReordering
+        {element}
+        {listingId}
+        bind:flash
+        bind:elements
       />
     {/if}
-    <div>
-      <span class="label">{label}</span>
-      <!-- The type isn't useful as long as lists only contain works -->
-      <!-- <span class="type">{type}</span> -->
-      {#if description}
-        <div class="description">{description}</div>
-      {/if}
-    </div>
-  </a>
-  {#if isEditable}
-    <div class="status">
-      <button
-        class="tiny-button"
-        on:click={() => dispatch('removeElement')}
-      >
-        {i18n('remove')}
-      </button>
-    </div>
-  {/if}
-</li>
-
+  </div>
+  <Flash bind:state={flash} />
+</div>
 <style lang="scss">
   @import "#general/scss/utils";
-  li{
-    @include display-flex(row, center);
-    padding-inline-end: 0.5em;
+  .listing-element-section{
+    @include display-flex(column, stretch, flex-start);
     width: 100%;
-    border-block-end: 1px solid $light-grey;
-    @include bg-hover(white);
+    padding: 0.5em;
+  }
+  .listing-element{
+    @include display-flex(row, stretch, flex-start);
   }
   a{
-    @include display-flex(row, stretch, flex-start);
     height: 6em;
     flex: 1;
-    padding: 0.5em;
-    :global(.images-collage){
+    @include display-flex(row, stretch, flex-start);
+    :global(.image-div){
       flex: 0 0 4em;
       margin-inline-end: 0.5em;
     }
   }
   .label{
-    padding-inline-end: 0.5em;
+    @include serif;
+    padding-inline-end: 0.3em;
   }
-  .description{
+  .publication-year{
     color: $label-grey;
-    margin-inline-end: 1em;
-  }
-  .status{
-    @include display-flex(row, center, center);
-    white-space: nowrap;
-  }
-  /* Very small screens */
-  @media screen and (width < $very-small-screen){
-    li{
-      @include display-flex(column, flex-start);
-    }
+    font-size: 0.9rem;
   }
 </style>

@@ -4,6 +4,7 @@
   import { icon } from '#app/lib/icons'
   import { onChange } from '#app/lib/svelte/svelte'
   import { loadInternalLink } from '#app/lib/utils'
+  import Dropdown from '#components/dropdown.svelte'
   import Modal from '#components/modal.svelte'
   import { getVisibilitySummary, getVisibilitySummaryLabel, visibilitySummariesData } from '#general/lib/visibility'
   import ListingEditor from '#listings/components/listing_editor.svelte'
@@ -43,15 +44,24 @@
     <div class="first-row">
       <h2>{name}</h2>
       {#if isEditable}
-        <div class="actions">
-          <button
-            class="tiny-button light-blue"
-            on:click={() => showListEditorModal = true}
-          >
-            {@html icon('pencil')}
-            {i18n('Edit list info')}
-          </button>
-        </div>
+        <Dropdown
+          align="right"
+          buttonTitle={i18n('Show actions')}
+          clickOnContentShouldCloseDropdown={true}
+        >
+          <div slot="button-inner">
+            {@html icon('cog')}
+          </div>
+          <ul slot="dropdown-content">
+            <li>
+              <button on:click={() => showListEditorModal = true}
+              >
+                {@html icon('pencil')}
+                {i18n('Edit list info')}
+              </button>
+            </li>
+          </ul>
+        </Dropdown>
       {/if}
     </div>
     {#if description}
@@ -125,7 +135,7 @@
   .creator-info{
     a{
       display: block;
-      padding: 0.5em;
+      padding: 0.3em 0;
       @include radius;
       @include bg-hover($light-grey);
     }
@@ -135,13 +145,33 @@
     @include sans-serif;
     margin-inline-start: 0.2em;
   }
-  .actions{
-    margin: 0.5em 0 0 auto;
+  [slot="button-inner"]{
+    @include tiny-button($grey);
+    padding: 0.5em;
   }
-  button{
-    margin-inline-start: 1em;
-    white-space: nowrap;
-    line-height: 1.6em;
+  [slot="dropdown-content"]{
+    min-width: min(10em, 100vw);
+    @include shy-border;
+    background-color: white;
+    @include radius;
+    position: relative;
+    :global(li){
+      @include display-flex(row, stretch, flex-start);
+      &:not(:last-child){
+        margin-block-end: 0.2em;
+      }
+    }
+    :global(button){
+      flex: 1;
+      @include display-flex(row, center, flex-start);
+      min-block-size: 3em;
+      @include bg-hover(white, 10%);
+      padding: 0 1em;
+      text-align: start;
+    }
+    :global(.fa){
+      margin-inline-end: 0.5rem;
+    }
   }
   .visibility{
     padding: 0.2em;
@@ -151,26 +181,17 @@
   /* Small screens */
   @media screen and (width < $small-screen){
     .listing-info{
-      padding: 0.5em;
-      margin: 1em 0;
+      padding: 1em;
+      margin: 0;
     }
-    .actions{
-      margin: 0 0 1em auto;
+    [slot="button-inner"]{
+      padding: 0.3em;
     }
   }
   /* Smaller screens */
   @media screen and (width < $smaller-screen){
     .first-row{
       @include display-flex(column-reverse);
-    }
-    .actions{
-      margin-block-end: 0;
-    }
-  }
-  /* Large screens */
-  @media screen and (width >= $small-screen){
-    .actions{
-      margin-inline-start: 1em;
     }
   }
 </style>
