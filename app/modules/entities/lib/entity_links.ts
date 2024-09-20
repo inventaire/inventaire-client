@@ -360,6 +360,11 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.noosfere.org/livres/editeur.asp?numediteur=${id}`,
   },
+  'wdt:P13004': {
+    name: 'NooSFere',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://www.noosfere.org/livres/collection.asp?numcollection=${id}`,
+  },
 } as const
 
 const openLibrarySectionByLetter = {
