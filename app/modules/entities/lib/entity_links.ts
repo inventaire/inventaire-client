@@ -250,6 +250,11 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.theses.fr/${id}`,
   },
+  'wdt:P4369': {
+    name: 'Cairn',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://shs.cairn.info/publications-de-auteur--${id}`,
+  },
   'wdt:P5199': {
     name: 'British Library',
     category: 'bibliographicDatabases',
