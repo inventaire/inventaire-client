@@ -57,6 +57,7 @@ export const propertiesType = {
   'wdt:P577': 'timeClaim',
   'wdt:P856': 'urlClaim',
   'wdt:P953': 'urlClaim',
+  'wdt:P1581': 'urlClaim',
   'wdt:P2034': 'platformClaim',
   'wdt:P724': 'platformClaim',
   'wdt:P4258': 'platformClaim',
@@ -205,6 +206,11 @@ export const infoboxShortlistPropertiesByType = {
   serie: workAndSeriesPropertiesByType,
 }
 
+const websites = [
+  'wdt:P856', // official website
+  'wdt:P1581', // official blog URL
+]
+
 const workProperties = [
   ...authorsProps,
   'wdt:P577', // publication date
@@ -225,6 +231,7 @@ const workProperties = [
   'wdt:P1433', // published in
   'wdt:P155', // preceded by
   'wdt:P156', // followed by
+  ...websites,
 ]
 
 export const infoboxPropertiesByType = {
@@ -240,7 +247,7 @@ export const infoboxPropertiesByType = {
     'wdt:P629', // edition or translation of
     'wdt:P195', // collection
     'wdt:P2635', // number of volumes
-    'wdt:P856', // official website
+    ...websites,
     'wdt:P407', // edition language
   ],
   work: workProperties,
@@ -257,14 +264,14 @@ export const infoboxPropertiesByType = {
     'wdt:P39', // position held
     'wdt:P1066', // student of
     'wdt:P737', // influenced by
-    'wdt:P856', // official website
+    ...websites,
   ],
   publisher: [
     'wdt:P571', // inception
     'wdt:P576', // dissolution
     'wdt:P112', // founded by
     'wdt:P127', // owned by
-    'wdt:P856', // official website
+    ...websites,
     'wdt:P407', // language
     'wdt:P136', // genre
     'wdt:P921', // subject
@@ -275,7 +282,7 @@ export const infoboxPropertiesByType = {
     'wdt:P98', // editor
     'wdt:P112', // founded by
     'wdt:P127', // owned by
-    'wdt:P856', // official website
+    ...websites,
     'wdt:P921', // subject
   ],
   article: [
