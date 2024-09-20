@@ -362,3 +362,5 @@ export function hasLocalLayer (entity: SerializedEntity) {
 export function getClaimValue (claim) {
   return claim.value != null ? claim.value : claim
 }
+
+export const getPluralType = type => type + 's'

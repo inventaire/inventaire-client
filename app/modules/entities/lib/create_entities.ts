@@ -5,12 +5,15 @@ import log_ from '#app/lib/loggers'
 import { arrayIncludes, objectEntries } from '#app/lib/utils'
 import type { Entity as EntityT } from '#app/types/entity'
 import { isNonEmptyClaimValue } from '#entities/components/editor/lib/editors_helpers'
+import { allowedValuesPerTypePerProperty } from '#entities/components/editor/lib/suggestions/property_values_shortlist.ts'
 import { addModel as addEntityModel } from '#entities/lib/entities_models_index'
 import getOriginalLang from '#entities/lib/get_original_lang'
-import type { SimplifiedClaims } from '#server/types/entity'
+import type { PropertyUri, SimplifiedClaims } from '#server/types/entity'
 import Entity from '../models/entity.ts'
 import createEntity from './create_entity.ts'
+import { getPluralType } from './entities.ts'
 import { graphRelationsProperties } from './graph_relations_properties.ts'
+import { propertiesEditorsConfigs } from './properties.ts'
 
 const getTitleFromWork = function ({ workLabels, workClaims, editionLang }) {
   const inEditionLang = workLabels[editionLang]
@@ -70,7 +73,7 @@ export const createByProperty = async function (options) {
   let { property, name, relationSubjectEntity, createOnWikidata, lang } = options
   if (!lang) lang = app.user.lang
 
-  const wdtP31 = subjectEntityP31ByProperty[property]
+  const wdtP31 = getPropertyDefaultSubjectEntityP31(property)
   if (wdtP31 == null) {
     throw newError('no entity creation function associated to this property', options)
   }
@@ -99,20 +102,10 @@ export const createByProperty = async function (options) {
   return createAndGetEntityModel({ labels, claims, createOnWikidata })
 }
 
-const subjectEntityP31ByProperty = {
-  // human
-  'wdt:P50': 'wd:Q5',
-  // publisher
-  'wdt:P123': 'wd:Q2085381',
-  // serie
-  'wdt:P179': 'wd:Q277759',
-  // work
-  'wdt:P629': 'wd:Q47461344',
-  'wdt:P655': 'wd:Q5',
-  'wdt:P2679': 'wd:Q5',
-  'wdt:P2680': 'wd:Q5',
-  // collection
-  'wdt:P195': 'wd:Q20655472',
+function getPropertyDefaultSubjectEntityP31 (property: PropertyUri) {
+  const { entityValueTypes } = propertiesEditorsConfigs[property]
+  const entityValueType = getPluralType(entityValueTypes[0])
+  return allowedValuesPerTypePerProperty['wdt:P31'][entityValueType][0]
 }
 
 export async function createAndGetEntityModel (params: Partial<EntityT> & { createOnWikidata?: boolean }) {
