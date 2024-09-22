@@ -101,7 +101,10 @@ export async function getEntitiesByUris (params: GetEntitiesParams) {
   return serializedEntitiesByUris
 }
 
-export async function getEntityByUri ({ uri, refresh = false }: { uri: EntityUri, refresh?: boolean }) {
+export async function getEntityByUri ({ uri, refresh }: { uri: InvEntityUri, refresh?: boolean }): Promise<SerializedInvEntity>
+export async function getEntityByUri ({ uri, refresh }: { uri: WdEntityUri, refresh?: boolean }): Promise<SerializedWdEntity>
+export async function getEntityByUri ({ uri, refresh }: { uri: EntityUri, refresh?: boolean }): Promise<SerializedEntity>
+export async function getEntityByUri ({ uri, refresh = false }: { uri: EntityUri, refresh?: boolean }): Promise<SerializedEntity> {
   assert_.string(uri)
   const entities = await getEntities([ uri ], { refresh })
   return entities[0]

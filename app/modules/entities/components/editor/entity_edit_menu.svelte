@@ -33,7 +33,7 @@
   async function _moveToWikidata () {
     try {
       if (!app.user.hasWikidataOauthTokens()) {
-        return app.execute('show:wikidata:edit:intro:modal', invUri)
+        return app.execute('show:wikidata:edit', invUri)
       }
       waitForWikidataMove = moveToWikidata(invUri)
       await waitForWikidataMove
