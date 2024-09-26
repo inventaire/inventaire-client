@@ -58,6 +58,11 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://id.ndl.go.jp/auth/ndlna/${id}`,
   },
+  'wdt:P356': {
+    name: 'DOI',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://doi.org/${id}`,
+  },
   'wdt:P496': {
     name: 'ORCID',
     category: 'bibliographicDatabases',
