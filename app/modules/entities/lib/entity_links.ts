@@ -212,6 +212,11 @@ export const externalIdsDisplayConfigs: ExternalIdsDisplayConfigs = {
     category: 'bibliographicDatabases',
     getUrl: id => `https://www.goodreads.com/book/show/${id}`,
   },
+  'wdt:P3155': {
+    name: 'Runeberg',
+    category: 'bibliographicDatabases',
+    getUrl: id => `https://runeberg.org/${id}`,
+  },
   'wdt:P3184': {
     name: 'Czech National Bibliography',
     category: 'bibliographicDatabases',
