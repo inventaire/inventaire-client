@@ -22,6 +22,7 @@
 
   // TODO: recover inventoryLength and shelvesCount
   const { _id: userId, username, bio, picture, inventoryLength, shelvesCount } = user
+  const { hasAdminAccess: mainUserHasAdminAccess } = app.user
 
   let flash, userProfileEl
 
@@ -63,7 +64,10 @@
         <img class="avatar" src={imgSrc(picture, 150, 150)} alt="{username} avatar" />
       </div>
       <div class="info">
-        <h2 class="username respect-case">{username}</h2>
+        <h2 class="username respect-case">
+          {username}
+          {#if mainUserHasAdminAccess}<span class="identifier">{userId}</span>{/if}
+        </h2>
         <ul class="data">
           {#if inventoryLength != null}
             <li class="inventoryLength">
@@ -156,6 +160,10 @@
     max-width: 50em;
     overflow: auto;
   }
+  .identifier{
+    @include identifier;
+    margin-inline-start: 0.5rem;
+  }
 
   /* Large screens */
   @media screen and (width >= $smaller-screen){
@@ -204,6 +212,13 @@
     .bio-wrapper{
       max-height: 10em;
       margin: 0.5em;
+    }
+  }
+
+  /* Small screens */
+  @media screen and (width < $small-screen){
+    .identifier{
+      display: none;
     }
   }
 </style>
