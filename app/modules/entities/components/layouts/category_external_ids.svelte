@@ -1,5 +1,6 @@
 <script lang="ts">
   import { partition } from 'underscore'
+  import app from '#app/app'
   import { getTextDirection } from '#app/lib/active_languages'
   import { icon } from '#app/lib/icons'
   import Modal from '#components/modal.svelte'
@@ -17,6 +18,7 @@
   let showAllAvailableExternalIds = false
   let showCategorySettings = false
   const linksId = `${category}Links`
+  const { loggedIn } = app.user
 
   let categoryPreferredAvailableExternalIds, categoryOtherAvailableExternalIds, displayedCategoryExternalIds
   $: {
@@ -57,7 +59,7 @@
         {/if}
       </button>
     {/if}
-    {#if showAllAvailableExternalIds}
+    {#if showAllAvailableExternalIds && loggedIn}
       <button title={i18n('Customize which links should be displayed')} class="customize" on:click={() => showCategorySettings = true}>
         {@html icon('cog')}
       </button>
