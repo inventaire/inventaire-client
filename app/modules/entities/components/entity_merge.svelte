@@ -15,24 +15,35 @@
   export let to: EntityUri = null
   export let type: EntityType = null
 
-  let flash, typeName, merging, lastMergeTargetUri
+  let flash, typeName, merging, lastMergeTargetUri, taskId
 
   async function merge () {
     flash = null
     try {
       merging = true
-      await mergeEntities(from, to)
+      const res = await mergeEntities(from, to)
+      buildFlashMessage(res)
       from = null
-      flash = {
-        type: 'success',
-        message: I18n('done'),
-      }
       lastMergeTargetUri = to
     } catch (err) {
       flash = err
     } finally {
       merging = false
     }
+  }
+
+  function buildFlashMessage (res) {
+    flash = {
+      type: 'success',
+    }
+    taskId = res.taskId
+    if (taskId) {
+      // I18n: A merge request has been created. Someone should take a look at this task soon. If you happen to know someone with merge rights, you can transfer them the URL below
+      flash.message = I18n('merge_request_sent')
+    } else {
+      flash.message = I18n('done')
+    }
+    return flash
   }
 
   $: if (type) typeName = entityTypeNameByType[pluralize(type)]
@@ -78,7 +89,11 @@
 
   <Flash bind:state={flash} />
   {#if flash?.type === 'success' && lastMergeTargetUri}
-    <Link url={`/entity/${lastMergeTargetUri}`} text={i18n('View result')} classNames="classic-link" />
+    {#if taskId}
+      <Link url={`/tasks/${taskId}`} text={i18n('Task URL')} classNames="classic-link" />
+    {:else}
+      <Link url={`/entity/${lastMergeTargetUri}`} text={i18n('View result')} classNames="classic-link" />
+    {/if}
   {/if}
 
   <button
