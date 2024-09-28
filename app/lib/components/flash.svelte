@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import log_ from '#app/lib/loggers'
   import Spinner from '#general/components/spinner.svelte'
@@ -45,6 +46,13 @@
           {@html state.html}
         {:else}
           {state.message}
+        {/if}
+        {#if state.link}
+          <Link
+            url={state.link.url}
+            text={state.link.text}
+            classNames="classic-link"
+          />
         {/if}
       {/if}
     </div>
