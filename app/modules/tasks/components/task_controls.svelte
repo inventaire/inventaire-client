@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { API } from '#app/api/api'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import { autofocus } from '#app/lib/components/actions/autofocus'
   import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
@@ -60,12 +61,13 @@
 <div class="controls" tabindex="-1" use:autofocus>
   <div class="buttons-wrapper">
     <ul class="task-infobox">
-      {#if task.entitiesType === 'work'}
+      {#if isNonEmptyArray(task.reporters)}
         <TaskInfo
-          reporter={task.reporter}
+          reportersIds={task.reporters}
           clue={task.clue}
         />
-      {:else}
+      {/if}
+      {#if task.externalSourcesOccurrences}
         <TaskScores {task} />
       {/if}
     </ul>
