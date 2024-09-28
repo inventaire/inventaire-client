@@ -2,7 +2,6 @@
   import { slide } from 'svelte/transition'
   import { isWikidataItemUri } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
-  import Link from '#app/lib/components/link.svelte'
   import { icon } from '#app/lib/icons'
   import Spinner from '#components/spinner.svelte'
   import EntityMergeSection from '#entities/components/entity_merge_section.svelte'
@@ -35,13 +34,18 @@
   function buildFlashMessage (res) {
     flash = {
       type: 'success',
+      link: {},
     }
     taskId = res.taskId
     if (taskId) {
-      // I18n: A merge request has been created. Someone should take a look at this task soon. If you happen to know someone with merge rights, you can transfer them the URL below
+      // I18n: A merge request has been created. Someone should take a look at this task soon. If you happen to know someone with merge rights, you can transfer them this URL:
       flash.message = I18n('merge_request_sent')
+      flash.link.url = `/tasks/${taskId}`
+      flash.link.text = i18n('Task URL')
     } else {
       flash.message = I18n('done')
+      flash.link.url = `/entity/${lastMergeTargetUri}`
+      flash.link.text = i18n('View result')
     }
     return flash
   }
@@ -88,13 +92,6 @@
   </section>
 
   <Flash bind:state={flash} />
-  {#if flash?.type === 'success' && lastMergeTargetUri}
-    {#if taskId}
-      <Link url={`/tasks/${taskId}`} text={i18n('Task URL')} classNames="classic-link" />
-    {:else}
-      <Link url={`/entity/${lastMergeTargetUri}`} text={i18n('View result')} classNames="classic-link" />
-    {/if}
-  {/if}
 
   <button
     disabled={(!(from && to)) || merging}
