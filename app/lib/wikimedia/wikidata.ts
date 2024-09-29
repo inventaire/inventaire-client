@@ -1,6 +1,6 @@
 import app from '#app/app'
 import { buildPath } from '#app/lib/location'
-import type { WdEntityId } from '#server/types/entity'
+import type { InvPropertyUri, WdEntityId, WdEntityUri, WdPropertyUri } from '#server/types/entity'
 
 const wdHost = 'https://www.wikidata.org'
 
@@ -24,9 +24,9 @@ export function searchWikidataEntities (params) {
 }
 
 // Unprefixify both entities ('item' in Wikidata lexic) and properties
-export const unprefixify = value => value?.replace(/^wdt?:/, '')
+export const unprefixify = (value: WdPropertyUri) => value?.replace(/^wdt?:/, '')
 
-export const getUriNumericId = uri => parseInt(uri.split(':')[1].substring(1))
+export const getUriNumericId = (uri: WdEntityUri | WdPropertyUri | InvPropertyUri) => parseInt(uri.split(':')[1].substring(1))
 
 export function getWdWikiUrl (wdId: WdEntityId) {
   if (!wdId) return
