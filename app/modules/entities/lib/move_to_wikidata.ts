@@ -1,9 +1,7 @@
 import { API } from '#app/api/api'
-import app from '#app/app'
 import { isWikidataItemUri } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
 import { objectEntries } from '#app/lib/utils'
-import { unprefixify } from '#app/lib/wikimedia/wikidata'
 import { propertiesEditorsConfigs } from '#entities/lib/properties'
 import type { EntityUri } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
@@ -11,10 +9,7 @@ import { isNonEmptyClaimValue } from '../components/editor/lib/editors_helpers'
 import type { SerializedEntity } from './entities'
 
 export async function moveToWikidata (invEntityUri: EntityUri) {
-  await preq.put(API.entities.moveToWikidata, { uri: invEntityUri })
-  // Get the refreshed, redirected entity
-  // thus also updating entitiesModelsIndexedByUri
-  return app.request('get:entity:model', invEntityUri, true)
+  return preq.put(API.entities.moveToWikidata, { uri: invEntityUri })
 }
 
 export function checkWikidataMoveabilityStatus (entity: SerializedEntity) {
@@ -37,7 +32,7 @@ export function checkWikidataMoveabilityStatus (entity: SerializedEntity) {
           const message = I18n("some values aren't Wikidata entities:")
           return {
             ok: false,
-            reason: `${message}: ${i18n(unprefixify(property))} (${property})`,
+            reason: `${message}: ${i18n(property)} (${property})`,
           }
         }
       }

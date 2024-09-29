@@ -6,9 +6,10 @@
   import { icon } from '#app/lib/icons'
   import preq from '#app/lib/preq'
   import { getOptionalValue } from '#app/lib/utils'
+  import { unprefixify } from '#app/lib/wikimedia/wikidata'
   import Dropdown from '#components/dropdown.svelte'
   import Spinner from '#components/spinner.svelte'
-  import { getWikidataHistoryUrl, getWikidataUrl, hasLocalLayer } from '#entities/lib/entities'
+  import { getEntityLabel, getWikidataHistoryUrl, getWikidataUrl, hasLocalLayer } from '#entities/lib/entities'
   import type { SerializedEntity } from '#entities/lib/entities'
   import { checkWikidataMoveabilityStatus, moveToWikidata } from '#entities/lib/move_to_wikidata'
   import { i18n, I18n } from '#user/lib/i18n'
@@ -35,13 +36,23 @@
       if (!app.user.hasWikidataOauthTokens()) {
         return app.execute('show:wikidata:edit', invUri)
       }
-      waitForWikidataMove = moveToWikidata(invUri)
-      await waitForWikidataMove
+      await moveToWikidata(invUri)
       // This should now redirect us to the new Wikidata edit page
       app.execute('show:entity:edit', uri)
     } catch (err) {
-      flash = err
-      throw err
+      const conflicts = err.responseJSON?.context?.conflicts
+      if (err.message.includes('same identifiers') && conflicts.length > 0) {
+        const conflictsMessage = await Promise.all(conflicts.map(async ({ subject, property, value }) => {
+          const { label: subjectLabel } = await getEntityLabel(subject)
+          const url = getWikidataUrl(subject)
+          const text = `"${subjectLabel}" <span class="identifier">(${subject})</span> > ${i18n(property)} <span class="identifier">(${property})</span> > ${value}`
+          return `<a href="${url}#${unprefixify(property)}" rel="noopener" class="link">${text}</a>`
+        }))
+        err.html = `${i18n(err.message)}: ${conflictsMessage.join('\n')}`
+        flash = err
+      } else {
+        flash = err
+      }
     }
   }
 
@@ -133,7 +144,7 @@
           <button
             disabled={!canBeMovedToWikidata}
             title={moveabilityStatus}
-            on:click={_moveToWikidata}
+            on:click={() => waitForWikidataMove = _moveToWikidata()}
           >
             {#await waitForWikidataMove}
               <Spinner />
@@ -204,7 +215,7 @@
     @include shy-border;
     background-color: white;
     @include radius;
-    button, :global(a){
+    button, :global(a:not(.link)){
       font-weight: normal;
       flex: 1;
       @include display-flex(row, center, flex-start);
@@ -214,6 +225,9 @@
       :global(.fa){
         margin-inline-end: 0.5em;
       }
+    }
+    :global(.identifier){
+      @include identifier;
     }
   }
   li{
