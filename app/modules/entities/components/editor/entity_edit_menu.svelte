@@ -8,6 +8,7 @@
   import { getOptionalValue } from '#app/lib/utils'
   import { unprefixify } from '#app/lib/wikimedia/wikidata'
   import Dropdown from '#components/dropdown.svelte'
+  import Modal from '#components/modal.svelte'
   import Spinner from '#components/spinner.svelte'
   import { getEntityLabel, getWikidataHistoryUrl, getWikidataUrl, hasLocalLayer } from '#entities/lib/entities'
   import type { SerializedEntity } from '#entities/lib/entities'
@@ -31,6 +32,7 @@
   let canBeMovedToWikidata, moveabilityStatus
   $: ({ ok: canBeMovedToWikidata, reason: moveabilityStatus } = checkWikidataMoveabilityStatus(entity))
 
+  let moveConflict
   async function _moveToWikidata () {
     try {
       if (!app.user.hasWikidataOauthTokens()) {
@@ -42,14 +44,16 @@
     } catch (err) {
       const conflicts = err.responseJSON?.context?.conflicts
       if (err.message.includes('same identifiers') && conflicts.length > 0) {
-        const conflictsMessage = await Promise.all(conflicts.map(async ({ subject, property, value }) => {
+        const conflictsData = await Promise.all(conflicts.map(async ({ subject, property, value }) => {
           const { label: subjectLabel } = await getEntityLabel(subject)
-          const url = getWikidataUrl(subject)
-          const text = `"${subjectLabel}" <span class="identifier">(${subject})</span> > ${i18n(property)} <span class="identifier">(${property})</span> > ${value}`
-          return `<a href="${url}#${unprefixify(property)}" rel="noopener" class="link">${text}</a>`
+          const url = `${getWikidataUrl(subject)}#${unprefixify(property)}`
+          return { subject, subjectLabel, property, value, url }
         }))
-        err.html = `${i18n(err.message)}: ${conflictsMessage.join('\n')}`
-        flash = err
+        err.canBeClosed = false
+        moveConflict = {
+          err,
+          conflictsData,
+        }
       } else {
         flash = err
       }
@@ -182,6 +186,35 @@
   </Dropdown>
 </div>
 
+{#if moveConflict}
+  <Modal on:closeModal={() => moveConflict = null}>
+    <div class="move-conflict">
+      <Flash state={moveConflict.err} />
+      <ul>
+        {#each moveConflict.conflictsData as { subject, subjectLabel, property, value, url }}
+          <li>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener"
+              class="link"
+            >
+              <p class="subject">{subjectLabel} <span class="identifier">({subject})</span></p>
+              <p class="property-and-value">{@html icon('caret-right')}{i18n(property)} <span class="identifier">({property})</span>: {value}</p>
+            </a>
+            <Link
+              url={`/entity/merge?from=${uri}&to=${subject}`}
+              text={I18n('merge')}
+              icon="compress"
+              tinyButton={true}
+              classNames="light-blue"
+            />
+          </li>
+        {/each}
+      </ul>
+  </Modal>
+{/if}
+
 <style lang="scss">
   @import "#general/scss/utils";
   .menu-wrapper{
@@ -226,21 +259,37 @@
         margin-inline-end: 0.5em;
       }
     }
-    :global(.identifier){
-      @include identifier;
-    }
-  }
-  li{
-    @include display-flex(row, stretch);
-    min-block-size: 3em;
-    &:not(:last-child){
-      margin-block-end: 0.2em;
-    }
-    :global(.error){
-      flex: 1;
+    li{
+      @include display-flex(row, stretch);
+      min-block-size: 3em;
+      &:not(:last-child){
+        margin-block-end: 0.2em;
+      }
+      :global(.error){
+        flex: 1;
+      }
     }
   }
   button:disabled{
     @include shy(0.9);
+  }
+  .move-conflict{
+    li{
+      @include display-flex(column, center, center);
+      @include radius;
+      background-color: $light-grey;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      a{
+        align-self: flex-start;
+        margin: 0.5rem;
+      }
+    }
+    .subject{
+      font-weight: bold;
+    }
+    .identifier{
+      @include identifier;
+    }
   }
 </style>
