@@ -1,7 +1,7 @@
 // Duplicated from './metadata/update' to keep the maximum priority in import order
 const isPrerenderSession = (window.navigator?.userAgent.match('Prerender') != null)
 
-export function reportError (err) {
+export async function reportError (err) {
   // Do not try to report errors in tests
   if (window.env == null) return
 
@@ -22,12 +22,17 @@ export function reportError (err) {
     },
   }
 
-  // (1)
-  return fetch('/api/reports?action=error-report', {
-    method: 'post',
-    headers: { 'content-type': 'application/json' },
-    body: stringifyData(data),
-  })
+  try {
+    // (1)
+    await fetch('/api/reports?action=error-report', {
+      method: 'post',
+      headers: { 'content-type': 'application/json' },
+      body: stringifyData(data),
+    })
+  } catch (err) {
+    console.error('could not report error', err)
+    // Do not rethrow error to prevent an error reporting loop
+  }
 }
 
 const sendOnlineReport = function () {
