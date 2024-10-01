@@ -70,6 +70,8 @@ const prioritizedProperties = [
   'wdt:P179', // part of serie
   'wdt:P1545', // serie ordinal
   ...authorRoleProperties,
+  'wdt:P7937', // form of creative work
+  'wdt:P136', // genre
 ]
 
 for (const property of prioritizedProperties) {

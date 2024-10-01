@@ -17,6 +17,7 @@ const suggestionsPerProperties = {
   'wdt:P629': wdtP629,
   'wdt:P31': wdtP31,
   'wdt:P437': ({ entity }) => getPropertyValuesShortlist({ property: 'wdt:P437', type: entity.type }),
+  'wdt:P7937': ({ entity }) => getPropertyValuesShortlist({ property: 'wdt:P7937', type: entity.type }),
 }
 
 export async function getDefaultSuggestions ({ entity, property }) {

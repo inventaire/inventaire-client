@@ -24,6 +24,7 @@
 
   let workPropertiesShortlist: PropertyUri[] = [
     'wdt:P50',
+    'wdt:P7937',
     'wdt:P136',
     'wdt:P921',
   ]
