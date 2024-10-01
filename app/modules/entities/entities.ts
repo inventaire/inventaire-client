@@ -11,7 +11,7 @@ import { i18n } from '#user/lib/i18n'
 import { getEntityByUri, normalizeUri } from './lib/entities.ts'
 import * as entitiesModelsIndex from './lib/entities_models_index.ts'
 import { entityDataShouldBeRefreshed, startRefreshTimeSpan } from './lib/entity_refresh.ts'
-import getEntityViewByType from './lib/get_entity_view_by_type.ts'
+import { getEntityLayoutComponentByType } from './lib/get_entity_layout_component_by_type.ts'
 
 export default {
   initialize () {
@@ -54,7 +54,7 @@ const controller = {
       const entity = await getEntityByUri({ uri, refresh })
       if (!entity) throw newError('entity_not_found', 400, { uri })
       rejectRemovedPlaceholder(entity)
-      const { Component, props } = await getEntityViewByType(entity)
+      const { Component, props } = await getEntityLayoutComponentByType(entity)
       app.layout.showChildComponent('main', Component, { props })
     } catch (err) {
       handleMissingEntity(uri, err)

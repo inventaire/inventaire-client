@@ -2,14 +2,18 @@ import { newError } from '#app/lib/error'
 import { getEntities, type SerializedEntity } from '#entities/lib/entities'
 import { defaultClaimPropertyByType } from '../models/entity'
 
-export default async function getEntityViewByType (entity: SerializedEntity) {
+export async function getEntityLayoutComponentByType (entity: SerializedEntity) {
   const { type } = entity
 
-  const getter = entityViewSpecialGetterByType[type]
-  if (getter != null) return getter(entity)
-
   let Component
-  if (type === 'human') {
+  if (type === 'edition') {
+    const [ { default: EditionLayout }, works ] = await Promise.all([
+      import('#entities/components/layouts/edition.svelte'),
+      getEditionsWorks([ entity ]),
+    ])
+    const props = { entity, works }
+    return { Component: EditionLayout, props }
+  } else if (type === 'human') {
     ({ default: Component } = await import('#entities/components/layouts/author.svelte'))
   } else if (type === 'serie') {
     ({ default: Component } = await import('#entities/components/layouts/serie.svelte'))
@@ -29,20 +33,6 @@ export default async function getEntityViewByType (entity: SerializedEntity) {
   return { Component, props: { entity } }
 }
 
-const getEditionComponent = async entity => {
-  const [ { default: EditionLayout }, works ] = await Promise.all([
-    import('#entities/components/layouts/edition.svelte'),
-    getEditionsWorks([ entity ]),
-  ])
-  return {
-    Component: EditionLayout,
-    props: {
-      entity,
-      works,
-    },
-  }
-}
-
 export const getEditionsWorks = async editions => {
   const uris = editions.map(getEditionWorksUris).flat()
   return getEntities(uris)
@@ -57,8 +47,4 @@ const getEditionWorksUris = edition => {
     throw err
   }
   return editionWorksUris
-}
-
-const entityViewSpecialGetterByType = {
-  edition: getEditionComponent,
 }
