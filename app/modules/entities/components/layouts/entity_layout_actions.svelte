@@ -86,7 +86,7 @@
       icon="history"
     />
   </li>
-{:else}
+{:else if wikidataHistoryUrl}
   <li>
     <Link
       url={wikidataHistoryUrl}
