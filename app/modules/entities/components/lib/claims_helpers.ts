@@ -79,7 +79,6 @@ export const inverseLabels = {
   'wdt:P135': 'associated_with_this_movement',
   'wdt:P136': 'works_in_this_genre',
   'wdt:P144': 'works_based_on_work',
-  'wdt:P2675': 'works_replying_to_work',
   'wdt:P655': 'editions_translated_by_author',
   'wdt:P674': 'character_in',
   'wdt:P737': 'authors_influenced_by',
@@ -87,6 +86,8 @@ export const inverseLabels = {
   'wdt:P921': 'works_about_entity',
   'wdt:P941': 'works_inspired_by_work',
   'wdt:P1433': 'published_in',
+  'wdt:P2675': 'works_replying_to_work',
+  'wdt:P7937': 'works_in_this_form',
 }
 
 const specialPathnameProperties = Object.keys(inverseLabels)
@@ -183,6 +184,7 @@ const workAndSeriesPropertiesByType = [
   ...authorsProps,
   'wdt:P577', // publication date
   'wdt:P179', // series
+  'wdt:P7937', // form of creative work
   'wdt:P136', // genre
   'wdt:P921', // main subject
 ]
@@ -196,7 +198,6 @@ export const infoboxShortlistPropertiesByType = {
   ],
   human: [
     'wdt:P135', // movement
-    'wdt:P136', // genre
     'wdt:P27', // country of citizenship
     'wdt:P1412', // language of expression
     'wdt:P69', // educated at
@@ -214,6 +215,7 @@ const websites = [
 const workProperties = [
   ...authorsProps,
   'wdt:P577', // publication date
+  'wdt:P7937', // form of creative work
   'wdt:P136', // genre
   'wdt:P361', // part of (serie)
   'wdt:P179', // series
