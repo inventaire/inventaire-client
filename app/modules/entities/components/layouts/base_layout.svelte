@@ -14,12 +14,13 @@
   const { uri, _id } = entity
 
   const altUri = buildAltUri(uri, _id)
+  const labelKey = entityTypeNameBySingularType[typeLabel] || 'subject'
 </script>
 
 <div class="layout">
   <div class="header-wrapper">
     <div class="header">
-      <h2 class="typeLabel">{I18n(entityTypeNameBySingularType[typeLabel])}</h2>
+      <h2 class="type-label">{I18n(labelKey)}</h2>
     </div>
     <EntityLayoutActionsMenu
       bind:entity
@@ -51,7 +52,7 @@
     max-inline-size: 84em;
     background-color: white;
   }
-  .typeLabel{
+  .type-label{
     color: $grey;
     font-size: 1.1rem;
     @include sans-serif;

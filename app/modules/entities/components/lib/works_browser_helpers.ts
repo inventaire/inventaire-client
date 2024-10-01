@@ -15,7 +15,7 @@ export function isSubEntitiesType (type) {
   return [ 'serie', 'collection' ].includes(type)
 }
 
-export function getWorksFacets ({ works, context }) {
+export function getWorksFacets ({ works, context = 'subject' }) {
   const contextProperties = facetsProperties[context]
   const { facets, facetsSelectedValues } = initialize({ contextProperties })
 
@@ -158,6 +158,10 @@ const facetsProperties = {
     'wdt:P1433', // published in
     'wdt:P577',
     'wdt:P921',
+  ],
+  // Pseudo-type existing only on the client for the needs of P7937 claim layouts
+  form: [
+    'wdt:P7937',
   ],
 }
 

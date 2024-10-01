@@ -21,6 +21,8 @@ export const entityTypeNameBySingularType = {
   movement: 'movement',
   subject: 'subject',
   genre: 'genre',
+  // Pseudo-type existing only on the client for the needs of P7937 claim layouts
+  form: 'form',
 } as const
 
 export const typesPossessiveForms = {

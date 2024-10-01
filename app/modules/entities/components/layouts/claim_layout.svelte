@@ -1,3 +1,10 @@
+<script context="module" lang="ts">
+  const defaultTypeByClaimProperty = {
+    'wdt:P135': 'movement',
+    'wdt:P136': 'genre',
+    'wdt:P7937': 'form',
+  } as const
+</script>
 <script lang="ts">
   import { setContext } from 'svelte'
   import { debounce } from 'underscore'
@@ -21,8 +28,10 @@
   export let entity: SerializedEntity
   export let property: PropertyUri
 
-  const { uri, type } = entity
-  const { label } = entity
+  const { uri } = entity
+  // Infer a type from a property
+  entity.type ??= defaultTypeByClaimProperty[property]
+  const { label, type } = entity
 
   runEntityNavigate(entity, { uriPrefix: `${property}-` })
 
@@ -31,11 +40,6 @@
 
   const searchTypes = getSubentitiesTypes(property)
   if (searchTypes.length > 0) setContext('search-filter-types', searchTypes)
-
-  const defaultTypeByClaimProperty = {
-    'wdt:P135': 'movement',
-    'wdt:P136': 'genre',
-  }
 
   const typeLabel = defaultTypeByClaimProperty[property] || 'subject'
 
