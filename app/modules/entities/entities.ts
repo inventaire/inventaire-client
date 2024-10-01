@@ -419,12 +419,12 @@ async function showClaimEntities (claim, refresh) {
     return
   }
 
-  const { default: Component } = await import('#entities/components/layouts/claim_layout.svelte')
-  const model = await app.request('get:entity:model', value, refresh)
-  app.layout.showChildComponent('main', Component, {
+  const { default: ClaimLayout } = await import('#entities/components/layouts/claim_layout.svelte')
+  const entity = await getEntityByUri({ uri: value, refresh })
+  app.layout.showChildComponent('main', ClaimLayout, {
     props: {
       property,
-      entity: model.toJSON(),
+      entity,
     },
   })
 }

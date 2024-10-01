@@ -10,13 +10,16 @@
   import { getSubEntitiesSections } from '#entities/components/lib/entities'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
+  import type { SerializedEntity } from '#entities/lib/entities'
   import { isStandaloneEntityType } from '#entities/lib/types/entities_types'
   import Spinner from '#general/components/spinner.svelte'
+  import type { PropertyUri } from '#server/types/entity'
   import EntityImage from '../entity_image.svelte'
   import BaseLayout from './base_layout.svelte'
   import RelativeEntitiesList from './relative_entities_list.svelte'
 
-  export let entity, property
+  export let entity: SerializedEntity
+  export let property: PropertyUri
 
   const { uri, type } = entity
   const { label } = entity
