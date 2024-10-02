@@ -1,4 +1,3 @@
-import fetch from 'node-fetch'
 import chalk from 'tiny-chalk'
 import wdk from 'wikidata-sdk'
 import { folderPath } from './config.js'
