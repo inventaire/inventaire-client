@@ -121,7 +121,7 @@
     "eslint-plugin-svelte": "^2.44.1",
     "fork-ts-checker-webpack-plugin": "^9.0.2",
     "handlebars-loader": "^1.7.3",
-    "html-webpack-plugin": "^5.6.0",
+    "html-webpack-plugin": "^5.5.3",
     "iconv-lite": "^0.6.3",
     "mini-css-extract-plugin": "^2.7.6",
     "mocha": "^9.2.0",
@@ -145,10 +145,10 @@
     "type-fest": "^4.21.0",
     "typescript": "^5.6.2",
     "unused-webpack-plugin": "^2.4.0",
-    "webpack": "^5.95.0",
-    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack": "^5.88.2",
+    "webpack-bundle-analyzer": "^4.9.1",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.1.0",
+    "webpack-dev-server": "^4.15.1",
     "wikidata-sdk": "^5.16.2"
   },
   "browserslist": [
