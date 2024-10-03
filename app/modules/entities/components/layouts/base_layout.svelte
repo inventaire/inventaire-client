@@ -15,6 +15,10 @@
 
   const altUri = buildAltUri(uri, _id)
   const labelKey = entityTypeNameBySingularType[typeLabel] || 'subject'
+
+  function copyToClipBoard (str) {
+    navigator.clipboard.writeText(str)
+  }
 </script>
 
 <div class="layout">
@@ -34,9 +38,24 @@
   <div class="entity-data-wrapper">
     <p class="uri">
       {I18n(typeLabel)}
-      - {uri}
+      -
+      <button
+        on:click={() => copyToClipBoard(uri)}
+        class="uri classic-link"
+        title="Copy URI to clipboard"
+      >
+        {uri}
+      </button>
+
       {#if altUri}
-        - {altUri}
+        -
+        <button
+          on:click={() => copyToClipBoard(uri)}
+          class="uri classic-link"
+          title="Copy URI to clipboard"
+        >
+          {altUri}
+        </button>
       {/if}
     </p>
   </div>
