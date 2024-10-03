@@ -191,7 +191,7 @@ export function bubbleUpChildViewEvent (eventName: string) {
 
 export const dropLeadingSlash = (str: string) => str.replace(/^\//, '')
 
-export function setIntersection <T> (a, b) {
+export function setIntersection <T> (a: Set<T>, b: Set<T> | T[]) {
   let set, arrayOrSet
   if (a instanceof Set) {
     set = a

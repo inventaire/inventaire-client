@@ -17,7 +17,6 @@
   import { bySearchMatchScore, getSelectedUris } from '#entities/components/lib/works_browser_helpers'
   import { addWorksImages } from '#entities/lib/types/work_alt'
   import Spinner from '#general/components/spinner.svelte'
-  import type { EntityUri } from '#server/types/entity'
   import { i18n } from '#user/lib/i18n'
 
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
@@ -42,7 +41,7 @@
       return
     }
     let selectedUris = getSelectedUris({ works, facets, facetsSelectedValues })
-    if (textFilterUris) selectedUris = setIntersection<EntityUri>(selectedUris, textFilterUris)
+    if (textFilterUris) selectedUris = setIntersection(selectedUris, textFilterUris)
     filteredWorks = works.filter(filterSelectedWorks(selectedUris, facetsSelectedValues))
     if (textFilterUris) {
       filteredWorks = filteredWorks.sort(bySearchMatchScore(textFilterUris))
