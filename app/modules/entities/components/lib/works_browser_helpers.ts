@@ -186,7 +186,7 @@ const customPropertySort = {
 
 export const entityProperties = uniq(Object.values(facetsProperties)
   .flat()
-  .filter(property => propertiesEditorsConfigs[property].datatype === 'entity'))
+  .filter(property => propertiesEditorsConfigs[property]?.datatype === 'entity'))
 
 const formatOption = ({ property, worksUrisPerValue, facetsEntitiesBasicInfo }) => value => {
   if (entityProperties.includes(property)) {
