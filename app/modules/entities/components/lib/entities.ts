@@ -3,6 +3,7 @@ import { API } from '#app/api/api'
 import app from '#app/app'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
+import { objectEntries } from '#app/lib/utils'
 import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
 import { byNewestPublicationDate, getReverseClaims, getEntities, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris, type SerializedEntity } from '#entities/lib/entities'
 import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
@@ -187,6 +188,16 @@ const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => 
     ],
     lang: app.user.lang,
   })
+
+  // This prevents displaying several entities with the same canonical uri
+  // as might happen if both inv and wd queries returned conflicting entities
+  // TODO: remove once all inv and wd entities sharing the same ISBN have been merged
+  if (section.uris.some(uri => uri.startsWith('isbn'))) {
+    for (const [ uri, entity ] of objectEntries(entities)) {
+      if (entity.uri !== uri && entities[uri] != null) delete entities[entity.uri]
+    }
+  }
+
   section.entities = Object.values(entities).map(serializeEntity).sort(sortFn)
   await fetchRelatedEntities(section.entities, parentEntityType)
   return section
