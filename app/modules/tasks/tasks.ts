@@ -4,8 +4,10 @@ export default {
   initialize () {
     const Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'tasks(/)(works)(/)': 'showWorksTask',
+        'tasks(/)(collections)(/)': 'showCollectionTask',
         'tasks(/)(humans)(/)': 'showHumansTask',
+        'tasks(/)(publishers)(/)': 'showPublisherTask',
+        'tasks(/)(works)(/)': 'showWorksTask',
         'tasks(/)(:id)(/)': 'showTask',
       },
     })
@@ -15,7 +17,9 @@ export default {
 }
 
 const controller = {
+  showCollectionTask (task) { controller.showTask(task, 'collection') },
   showHumansTask (task) { controller.showTask(task, 'human') },
+  showPublisherTask (task) { controller.showTask(task, 'publisher') },
   showWorksTask (task) { controller.showTask(task, 'work') },
   showTask (task, type) {
     if (app.request('require:dataadmin:access', 'tasks')) {
