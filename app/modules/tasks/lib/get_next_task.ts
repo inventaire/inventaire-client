@@ -6,6 +6,8 @@ const backlogs = {
   byScore: [],
   bySuggestion: [],
   byWork: [],
+  byCollection: [],
+  byPublisher: [],
 }
 
 const suggestionUrisFetched = []
@@ -23,6 +25,12 @@ const _getNextTask = async params => {
   if (entitiesType === 'work') {
     params.backlogName = 'byWork'
     nextTaskGetter = 'byWork'
+  } else if (entitiesType === 'collection') {
+    params.backlogName = 'byCollection'
+    nextTaskGetter = 'byCollection'
+  } else if (entitiesType === 'publisher') {
+    params.backlogName = 'byPublisher'
+    nextTaskGetter = 'byPublisher'
   } else {
     params.backlogName = 'bySuggestion'
     nextTaskGetter = 'byScore'
