@@ -12,27 +12,33 @@
 </script>
 <script lang="ts">
   import { getContext } from 'svelte'
+  import { without } from 'underscore'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { omitClaims } from '#entities/components/lib/work_helpers'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
-  import type { SerializedEntitiesByUris, SerializedEntity } from '#entities/lib/entities'
+  import type { SerializedEntity } from '#entities/lib/entities'
+  import type { ExtendedEntityType } from '#server/types/entity'
+  import ClaimInfobox from './claim_infobox.svelte'
   import Infobox from './infobox.svelte'
 
   export let entity: SerializedEntity
-  export let relatedEntities: SerializedEntitiesByUris = {}
-  export let showInfobox = true
   export let listDisplay = false
   export let isUriToDisplay = false
+  export let parentEntity: ExtendedEntityType = {}
 
-  let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri } = entity
+  let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri, relatedEntities } = entity
+  const { type: parentEntityType, uri: parentUri } = parentEntity
+  let singleValueClaims
+
+  const authorsUrisWithoutParenUri = without(claims['wdt:P50'], parentUri)
 
   const layoutContext = getContext('layout-context')
 
   const prop = typeMainProperty[layoutContext]
-  const hasOnlyOneClaimValue = prop => claims?.[prop]?.length === 1
+  const hasOnlyOneClaimValue = prop => claims?.[prop]?.includes(parentUri)
   if (prop && hasOnlyOneClaimValue(prop)) {
-    claims = omitClaims(claims, [ prop ])
+    singleValueClaims = omitClaims(claims, [ prop ])
   }
 </script>
 <div class="entity-list-row">
@@ -82,17 +88,23 @@
           </a>
         {/if}
       </div>
-      {#if showInfobox}
-        <div class="entity-details">
-          <Infobox
-            {claims}
-            bind:relatedEntities
-            {listDisplay}
-            shortlistOnly={true}
-            entityType={type}
-          />
-        </div>
+      {#if parentEntityType === 'human' && type === 'work'}
+        <ClaimInfobox
+          values={authorsUrisWithoutParenUri}
+          prop="wdt:P50"
+          entitiesByUris={relatedEntities}
+          customLabel="coauthors"
+        />
       {/if}
+      <div class="entity-details">
+        <Infobox
+          claims={singleValueClaims}
+          bind:relatedEntities
+          {listDisplay}
+          shortlistOnly={true}
+          entityType={type}
+        />
+      </div>
     </div>
   </div>
   {#if type === 'work'}

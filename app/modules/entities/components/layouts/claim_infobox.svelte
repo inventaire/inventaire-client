@@ -9,10 +9,11 @@
   export let prop
   export let values
   export let omitLabel = false
+  export let customLabel
   export let entitiesByUris = {}
   export let entityType = null
 
-  let propertyLabelI18nKey = prop
+  let propertyLabelI18nKey = customLabel || prop
   if (entityType && propertiesPerType[entityType]?.[prop]) {
     propertyLabelI18nKey = propertiesPerType[entityType][prop].customLabel || prop
   }
