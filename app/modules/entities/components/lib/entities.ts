@@ -207,8 +207,9 @@ async function fetchRelatedEntities (entities, parentEntityType) {
   if (isSubentitiesTypeEdition(parentEntityType)) {
     const relatedEntities = await getEditionsWorks(entities)
     Object.values(entities).forEach(pickAndAssignWorksClaims(relatedEntities))
+  } else if (parentEntityType === 'human') {
+    await addWorksAuthors(entities)
   }
-  await addWorksAuthors(entities)
 }
 
 export async function addWorksAuthors (works) {
@@ -266,6 +267,6 @@ export function addWorksClaims (claims, works) {
   return Object.assign(claims, nonEmptyWorksClaims)
 }
 
-const entitiesTypesWithEditionsSubentities = [ 'collection', 'publisher' ]
+const entitiesTypesWithSubentities = [ 'collection', 'publisher' ]
 
-export const isSubentitiesTypeEdition = type => entitiesTypesWithEditionsSubentities.includes(type)
+export const isSubentitiesTypeEdition = type => entitiesTypesWithSubentities.includes(type)

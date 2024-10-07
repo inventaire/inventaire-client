@@ -22,7 +22,7 @@
   export let section, displayMode, facets, facetsSelectedValues, textFilterUris
 
   const { entities: works, searchable = true, sortingType, isCompactDisplay } = section
-  const { label, context } = section
+  const { label, context, parentEntity } = section
 
   let filteredWorks = works
   let paginatedWorks = []
@@ -162,6 +162,7 @@
               entity={work}
               bind:relatedEntities={work.relatedEntities}
               listDisplay={true}
+              {parentEntity}
             >
               <WorkActions
                 slot="actions"
