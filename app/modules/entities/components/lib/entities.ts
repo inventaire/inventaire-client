@@ -1,13 +1,13 @@
-import { uniq, flatten, compact, pick, pluck } from 'underscore'
+import { pick, pluck } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import preq from '#app/lib/preq'
 import { objectEntries } from '#app/lib/utils'
 import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/claims_helpers'
-import { byNewestPublicationDate, getReverseClaims, getEntities, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris, type SerializedEntity } from '#entities/lib/entities'
+import { byNewestPublicationDate, getReverseClaims, getEntities, serializeEntity, getEntitiesAttributesByUris, type SerializedEntity } from '#entities/lib/entities'
 import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
-import { getEditionsWorks } from '#entities/lib/get_entity_layout_component_by_type'
+import { fetchRelatedEntities } from '#entities/lib/fetch_related_entities'
 import type { SortFunction } from '#server/types/common'
 import type { PropertyUri } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
@@ -203,34 +203,6 @@ const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => 
   return section
 }
 
-async function fetchRelatedEntities (entities, parentEntityType) {
-  if (isSubentitiesTypeEdition(parentEntityType)) {
-    const relatedEntities = await getEditionsWorks(entities)
-    Object.values(entities).forEach(pickAndAssignWorksClaims(relatedEntities))
-  }
-  await addWorksAuthors(entities)
-}
-
-export async function addWorksAuthors (works) {
-  const authorsUris = uniq(compact(flatten(works.map(getWorkAuthorsUris))))
-  const entities = await getEntitiesByUris({ uris: authorsUris })
-  works.forEach(work => {
-    const workAuthorUris = getWorkAuthorsUris(work)
-    work.relatedEntities = pick(entities, workAuthorUris)
-  })
-}
-const getWorkAuthorsUris = work => work.claims['wdt:P50']
-
-const pickAndAssignWorksClaims = relatedEntities => edition => {
-  const { claims } = edition
-  const editionWorks = relatedEntities.filter(isClaimValue(claims))
-  if (isNonEmptyArray(editionWorks)) {
-    edition.claims = addWorksClaims(claims, editionWorks)
-  }
-}
-
-const isClaimValue = claims => entity => claims['wdt:P629'].includes(entity.uri)
-
 export async function getSubEntities (type, uri) {
   const uris = await getReverseClaims(subEntitiesProp[type], uri)
   return getEntities(uris)
@@ -265,7 +237,3 @@ export function addWorksClaims (claims, works) {
   const nonEmptyWorksClaims = pick(worksClaims, isNonEmptyArray)
   return Object.assign(claims, nonEmptyWorksClaims)
 }
-
-const entitiesTypesWithEditionsSubentities = [ 'collection', 'publisher' ]
-
-export const isSubentitiesTypeEdition = type => entitiesTypesWithEditionsSubentities.includes(type)
