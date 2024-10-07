@@ -32,8 +32,8 @@
   <fieldset>
     <label for="entitiesDisplay">{I18n('entities lists')} ({i18n('works')})</label>
     <select id="entitiesDisplay" bind:value={$entitiesDisplay}>
-      <option value="large">{I18n('large')}</option>
-      <option value="compact">{I18n('compact')}</option>
+      <option value="large">{I18n('list')}</option>
+      <option value="compact">{I18n('grid')}</option>
     </select>
   </fieldset>
 
