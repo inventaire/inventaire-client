@@ -70,14 +70,20 @@
     {/if}
     {#if summary}
       <div class="summary">
-        <div class="property">
-          <p class="property-label">{summary.propertyLabel}</p>
-          {#if summary.property}<p class="property-uri">{summary.property}</p>{/if}
-        </div>
-        <div class="changes">
-          {#if summary.removed}<p class="removed">{getSummaryValues(summary.removed)}</p>{/if}
-          {#if summary.added}<p class="added">{getSummaryValues(summary.added)}</p>{/if}
-        </div>
+        {#if summary.operationsCount === 1}
+          <div class="property">
+            <p class="property-label">{summary.propertyLabel}</p>
+            {#if summary.property}<p class="property-uri">{summary.property}</p>{/if}
+          </div>
+          <div class="changes">
+            {#if summary.removed}<p class="removed">{getSummaryValues(summary.removed)}</p>{/if}
+            {#if summary.added}<p class="added">{getSummaryValues(summary.added)}</p>{/if}
+          </div>
+        {:else}
+          <div>
+            <span title={summary.touchedProperties}>{I18n('operations')}: {summary.operationsCount}</span>
+          </div>
+        {/if}
       </div>
     {/if}
     <div class="line-end">

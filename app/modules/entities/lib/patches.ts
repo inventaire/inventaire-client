@@ -145,25 +145,34 @@ function findPatchType (patch) {
 
 function setOperationsSummaryData (patch) {
   const { patchType, operations } = patch
+  const nonTestOps = operations.filter(op => op.type !== 'test')
 
-  if (patchType === 'add') {
-    const operation = operations[0]
-    let { property, value, propertyLabel } = operation
-    if (!propertyLabel) propertyLabel = getPropertyLabel(property)
-    patch.summary = { property, propertyLabel, added: value }
-  } else if (patchType === 'remove') {
-    const operation = operations[0]
-    let { property, value, propertyLabel } = operation
-    if (!propertyLabel) propertyLabel = getPropertyLabel(property)
-    patch.summary = { property, propertyLabel, removed: value }
-  } else if (patchType === 'update') {
-    const addOperation = operations[0]
-    let { property, value: added, propertyLabel } = addOperation
-    const removeOperation = operations[1]
-    const { value: removed } = removeOperation
-    if (!propertyLabel) propertyLabel = getPropertyLabel(property)
-    patch.summary = { property, propertyLabel, added, removed }
+  if (nonTestOps.length === 1) {
+    if (patchType === 'add') {
+      const operation = nonTestOps[0]
+      let { property, value, propertyLabel } = operation
+      if (!propertyLabel) propertyLabel = getPropertyLabel(property)
+      patch.summary = { property, propertyLabel, added: value }
+    } else if (patchType === 'remove') {
+      const operation = nonTestOps[0]
+      let { property, value, propertyLabel } = operation
+      if (!propertyLabel) propertyLabel = getPropertyLabel(property)
+      patch.summary = { property, propertyLabel, removed: value }
+    } else if (patchType === 'update') {
+      const addOperation = nonTestOps[0]
+      let { property, value: added, propertyLabel } = addOperation
+      const removeOperation = operations[1]
+      const { value: removed } = removeOperation
+      if (!propertyLabel) propertyLabel = getPropertyLabel(property)
+      patch.summary = { property, propertyLabel, added, removed }
+    }
+  } else {
+    const touchedProperties = uniq(compact(pluck(nonTestOps, 'property')))
+      .map(property => `${getPropertyLabel(property)} (${property})`)
+      .join('\n')
+    patch.summary = { touchedProperties }
   }
+  patch.summary.operationsCount = nonTestOps.length
 }
 
 const isOpType = type => opType => opType === type
