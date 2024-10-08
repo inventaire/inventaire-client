@@ -1,9 +1,11 @@
+import type { QuaggaJSStatic } from '@ericblade/quagga2'
+
 const def = { x: 0, y: 1 }
 const style = { color: 'green', lineWidth: 2 }
 
-export default function (Quagga) {
+export function drawCanvasFactory (Quagga: QuaggaJSStatic) {
   let alreadyDrawn = false
-  return function (result) {
+  return function drawCanvas (result) {
     if (alreadyDrawn) return
 
     if (result?.boxes != null) {
