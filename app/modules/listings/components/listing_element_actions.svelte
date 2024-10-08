@@ -2,25 +2,32 @@
   import { clone } from 'underscore'
   import { icon } from '#app/lib/icons'
   import { moveArrayElement } from '#app/lib/utils'
+  import Modal from '#components/modal.svelte'
   import Spinner from '#general/components/spinner.svelte'
-  import { removeElement, updateElement } from '#listings/lib/listings'
+  import { removeElement, updateElement, askUserConfirmationAndRemove } from '#listings/lib/listings'
+  import ElementEditor from '#modules/listings/components/element_editor.svelte'
   import { i18n } from '#user/lib/i18n'
 
   export let isReordering, element, elements, listingId, flash
 
-  let isLoading
+  let isLoading, isEditMode
   const { _id, uri } = element
   $: hasSeveralElements = elements.length > 1
   $: index = elements.findIndex(obj => obj.uri === uri)
 
+  async function onRemoveElement (e) {
+    const element = e.detail
+    await askUserConfirmationAndRemove(_removeElement, element?.comment)
+      .catch(err => flash = err)
+  }
+
   async function _removeElement () {
-    removeElement(listingId, uri)
+    return removeElement(listingId, uri)
       .then(() => {
         // Enhancement: after remove, have an "undo" button
         elements.splice(index, 1)
         elements = elements
       })
-      .catch(err => flash = err)
   }
 
   async function reorder (newIndex) {
@@ -45,16 +52,28 @@
         elements = oldElements
       })
   }
+
+  function toggleEditMode () {
+    isEditMode = !isEditMode
+  }
 </script>
+{#if isEditMode}
+  <Modal on:closeModal={() => isEditMode = false}
+  >
+    <ElementEditor
+      bind:element
+      on:editorDone={toggleEditMode}
+      on:removeElement={onRemoveElement}
+    />
+  </Modal>
+{/if}
 
 <div class="element-actions">
   <button
-    on:click={() => _removeElement()}
-    disabled={isReordering}
-    class="remove-button tiny-button"
-    title={i18n('remove')}
+    class="edit-button tiny-button"
+    on:click={toggleEditMode}
   >
-    {@html icon('trash')}
+    {@html icon('pencil')}
   </button>
   {#if hasSeveralElements}
     <div class="reorder-section">
@@ -99,10 +118,9 @@
     @include display-flex(row, center);
     margin: 0.3em;
   }
-  .remove-button{
-    margin: 0.3em;
-    padding: 0.2em;
-    height: 2em;
+  .edit-button{
+    margin: 1em;
+    padding: 0.3em;
     color: $grey;
     background-color: $off-white;
   }
