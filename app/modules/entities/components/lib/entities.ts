@@ -1,4 +1,4 @@
-import { uniq, flatten, compact, pick, pluck } from 'underscore'
+import { flatten, pick, pluck } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
@@ -8,6 +8,7 @@ import { aggregateWorksClaims, inverseLabels } from '#entities/components/lib/cl
 import { byNewestPublicationDate, getReverseClaims, getEntities, getEntitiesByUris, serializeEntity, getEntitiesAttributesByUris, type SerializedEntity } from '#entities/lib/entities'
 import { entityDataShouldBeRefreshed } from '#entities/lib/entity_refresh'
 import { getEditionsWorks } from '#entities/lib/get_entity_layout_component_by_type'
+import { getWorkAuthorsUris, getWorksAuthorsUris } from '#entities/lib/types/author_alt'
 import type { SortFunction } from '#server/types/common'
 import type { PropertyUri } from '#server/types/entity'
 import { i18n, I18n } from '#user/lib/i18n'
@@ -213,14 +214,13 @@ async function fetchRelatedEntities (entities, parentEntityType) {
 }
 
 export async function addWorksAuthors (works) {
-  const authorsUris = uniq(compact(flatten(works.map(getWorkAuthorsUris))))
+  const authorsUris = flatten(getWorksAuthorsUris(works))
   const entities = await getEntitiesByUris({ uris: authorsUris })
   works.forEach(work => {
     const workAuthorUris = getWorkAuthorsUris(work)
     work.relatedEntities = pick(entities, workAuthorUris)
   })
 }
-const getWorkAuthorsUris = work => work.claims['wdt:P50']
 
 const pickAndAssignWorksClaims = relatedEntities => edition => {
   const { claims } = edition

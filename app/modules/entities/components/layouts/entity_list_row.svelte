@@ -12,12 +12,13 @@
 </script>
 <script lang="ts">
   import { getContext } from 'svelte'
-  import { without } from 'underscore'
+  import { without, flatten } from 'underscore'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { omitClaims } from '#entities/components/lib/work_helpers'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
   import type { SerializedEntity } from '#entities/lib/entities'
+  import { getWorkAuthorsUris } from '#entities/lib/types/author_alt'
   import type { ExtendedEntityType } from '#server/types/entity'
   import ClaimInfobox from './claim_infobox.svelte'
   import Infobox from './infobox.svelte'
@@ -27,12 +28,12 @@
   export let isUriToDisplay = false
   export let parentEntity: ExtendedEntityType = {}
 
-  let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri, relatedEntities } = entity
+  const { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri, relatedEntities } = entity
   const { type: parentEntityType, uri: parentUri } = parentEntity
   let singleValueClaims
 
-  const authorsUrisWithoutParenUri = without(claims['wdt:P50'], parentUri)
-
+  const extendedAuthorsUris = flatten(getWorkAuthorsUris(entity))
+  const authorsUrisWithoutParenUri = without(extendedAuthorsUris, parentUri)
   const layoutContext = getContext('layout-context')
 
   const prop = typeMainProperty[layoutContext]
@@ -99,7 +100,7 @@
       <div class="entity-details">
         <Infobox
           claims={singleValueClaims}
-          bind:relatedEntities
+          {relatedEntities}
           {listDisplay}
           shortlistOnly={true}
           entityType={type}

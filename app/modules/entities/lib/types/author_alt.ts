@@ -1,6 +1,7 @@
-import { property } from 'underscore'
+import { property, pick, uniq } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
+import { objectKeys } from '#app/lib/utils'
 import { attachEntities, getEntitiesAttributesByUris, getEntities, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
 
 export async function getAuthorWorksUris ({ uri }) {
@@ -60,3 +61,8 @@ export const extendedAuthorsKeys = {
   'wdt:P110': 'illustrators',
   'wdt:P6338': 'colorists',
 } as const
+
+const authorProperties = objectKeys(extendedAuthorsKeys)
+
+export const getWorksAuthorsUris = works => uniq(works.flatMap(getWorkAuthorsUris))
+export const getWorkAuthorsUris = work => Object.values(pick(work.claims, authorProperties))
