@@ -69,7 +69,7 @@
       </div>
     {/if}
     {#if summary}
-      <div class="summary">
+      <button class="summary" on:click={() => showDetails = !showDetails}>
         {#if summary.operationsCount === 1}
           <div class="property">
             <p class="property-label">{summary.propertyLabel}</p>
@@ -84,7 +84,7 @@
             <span title={summary.touchedProperties}>{I18n('operations')}: {summary.operationsCount}</span>
           </div>
         {/if}
-      </div>
+      </button>
     {/if}
     <div class="line-end">
       {#if !userContributionsContext}
