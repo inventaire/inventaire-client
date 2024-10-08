@@ -12,7 +12,7 @@
 </script>
 <script lang="ts">
   import { getContext } from 'svelte'
-  import { clone } from 'underscore'
+  import { without } from 'underscore'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { omitClaims } from '#entities/components/lib/work_helpers'
@@ -31,17 +31,7 @@
   const { type: parentEntityType, uri: parentUri } = parentEntity
   let singleValueClaims
 
-  const authorsUrisWithoutParenUri = omitElementFromArray(parentUri, claims['wdt:P50'])
-
-  function omitElementFromArray (element, array) {
-    if (!array) return []
-    const strippedArray = clone(array)
-    const elementIndex = array.indexOf(element)
-    if (elementIndex > -1) {
-      strippedArray.splice(elementIndex, 1)
-    }
-    return strippedArray
-  }
+  const authorsUrisWithoutParenUri = without(claims['wdt:P50'], parentUri)
 
   const layoutContext = getContext('layout-context')
 
