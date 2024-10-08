@@ -1,6 +1,6 @@
 import { pick, uniq, flatten, compact, pluck } from 'underscore'
 import app from '#app/app'
-import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath } from '../entities.ts'
+import { getEntitiesByUris, getEntitiesImages, getEntityImage, getEntityImagePath, getWorkAuthorsUris } from '../entities.ts'
 import { getBestLangValue } from '../get_best_lang_value.ts'
 
 export async function addWorksImagesAndAuthors (works) {
@@ -68,5 +68,3 @@ export async function addWorksAuthors (works) {
     work.authors = Object.values(pick(entities, workAuthorUris))
   })
 }
-
-const getWorkAuthorsUris = work => work.claims['wdt:P50']

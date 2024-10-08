@@ -1,7 +1,8 @@
-import { compact, pick, uniq, values } from 'underscore'
+import { compact, pick, uniq } from 'underscore'
 import app from '#app/app'
 import { objectEntries, objectKeys } from '#app/lib/utils'
 import { getEntitiesAttributesByUris, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
+import { getWorksAuthorsUris } from '#entities/lib/entities'
 import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
 
 const authorProperties = objectKeys(extendedAuthorsKeys)
@@ -41,13 +42,6 @@ export function getWorksSeriesUris (works: SerializedEntity[]) {
 }
 export function getWorkSeriesUris (work: SerializedEntity) {
   return work.claims['wdt:P179']
-}
-
-export function getWorksAuthorsUris (works: SerializedEntity[]) {
-  return uniq(works.flatMap(getWorkAuthorsUris))
-}
-export function getWorkAuthorsUris (work: SerializedEntity) {
-  return values(pick(work.claims, authorProperties)).flat()
 }
 
 function getAuthorsByProperty ({ works, authorsByUris }) {

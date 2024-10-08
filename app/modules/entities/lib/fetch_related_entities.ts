@@ -1,7 +1,7 @@
-import { pick, compact, flatten, uniq } from 'underscore'
+import { pick, flatten } from 'underscore'
 import { isNonEmptyArray } from '#app/lib/boolean_tests'
 import { aggregateWorksClaims } from '#entities/components/lib/claims_helpers'
-import { getEditionsWorks, getEntitiesByUris } from '#entities/lib/entities'
+import { getEditionsWorks, getEntitiesByUris, getWorksAuthorsUris, getWorkAuthorsUris } from '#entities/lib/entities'
 
 export async function fetchRelatedEntities (entities, parentEntityType) {
   if (isSubentitiesTypeEdition(parentEntityType)) {
@@ -29,15 +29,13 @@ export function addWorksClaims (claims, works) {
 const isClaimValue = claims => entity => claims['wdt:P629'].includes(entity.uri)
 
 export async function addWorksAuthors (works) {
-  const authorsUris = uniq(compact(flatten(works.map(getWorkAuthorsUris))))
+  const authorsUris = flatten(getWorksAuthorsUris(works))
   const entities = await getEntitiesByUris({ uris: authorsUris })
   works.forEach(work => {
     const workAuthorUris = getWorkAuthorsUris(work)
     work.relatedEntities = pick(entities, workAuthorUris)
   })
 }
-
-const getWorkAuthorsUris = work => work.claims['wdt:P50']
 
 const entitiesTypesWithSubentities = [ 'collection', 'publisher' ]
 

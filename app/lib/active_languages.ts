@@ -1,6 +1,6 @@
 import wdLang from 'wikidata-lang'
+import { objectEntries, objectKeys } from '#app/lib/utils'
 import languagesData from '#assets/js/languages_data'
-import { objectEntries, objectKeys } from './utils.ts'
 
 export const regionify = {}
 

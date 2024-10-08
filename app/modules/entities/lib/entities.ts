@@ -1,4 +1,4 @@
-import { flatten, chunk, compact, indexBy, pluck, values } from 'underscore'
+import { flatten, chunk, compact, indexBy, pluck, pick, uniq, values } from 'underscore'
 import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
@@ -6,9 +6,10 @@ import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageH
 import { newError } from '#app/lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import preq from '#app/lib/preq'
-import { forceArray, objectEntries } from '#app/lib/utils'
+import { forceArray, objectEntries, objectKeys } from '#app/lib/utils'
 import type { Entity, InvEntity, RedirectionsByUris, RemovedPlaceholder, WdEntity } from '#app/types/entity'
 import { getOwnersCountPerEdition } from '#entities/components/lib/edition_action_helpers'
+import { extendedAuthorsKeys } from '#entities/lib/types/author_alt'
 import type { GetEntitiesParams } from '#server/controllers/entities/by_uris_get'
 import type { RelativeUrl, Url } from '#server/types/common'
 import type { Claims, EntityUri, EntityUriPrefix, EntityId, PropertyUri, InvClaimValue, WdEntityId, WdEntityUri, InvEntityId, NormalizedIsbn, InvEntityUri } from '#server/types/entity'
@@ -402,4 +403,13 @@ const getEditionWorksUris = edition => {
     throw err
   }
   return editionWorksUris
+}
+
+const authorProperties = objectKeys(extendedAuthorsKeys)
+
+export function getWorksAuthorsUris (works: SerializedEntity[]) {
+  return uniq(works.flatMap(getWorkAuthorsUris))
+}
+export function getWorkAuthorsUris (work: SerializedEntity) {
+  return values(pick(work.claims, authorProperties)).flat()
 }

@@ -12,27 +12,28 @@
 </script>
 <script lang="ts">
   import { getContext } from 'svelte'
-  import { without } from 'underscore'
+  import { without, flatten } from 'underscore'
   import { loadInternalLink } from '#app/lib/utils'
   import ImagesCollage from '#components/images_collage.svelte'
   import { omitClaims } from '#entities/components/lib/work_helpers'
   import { isSubEntitiesType } from '#entities/components/lib/works_browser_helpers'
-  import type { SerializedEntity } from '#entities/lib/entities'
-  import type { ExtendedEntityType } from '#server/types/entity'
+  import { getWorkAuthorsUris, type SerializedEntity } from '#entities/lib/entities'
+  import type { ExtendedEntityType, EntityUri } from '#server/types/entity'
   import ClaimInfobox from './claim_infobox.svelte'
   import Infobox from './infobox.svelte'
 
   export let entity: SerializedEntity
   export let listDisplay = false
   export let isUriToDisplay = false
-  export let parentEntity: ExtendedEntityType = {}
+  export let parentEntity: SerializedEntity = {}
+  export let relatedEntities: SerializedEntity[]
 
-  let { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri, relatedEntities } = entity
-  const { type: parentEntityType, uri: parentUri } = parentEntity
+  const { claims, label, image, images, pathname, serieOrdinal, subtitle, title, type, uri } = entity
+  const { type: parentEntityType, uri: parentUri }: { parentEntityType: ExtendedEntityType, parentUri: EntityUri } = parentEntity
   let singleValueClaims
 
-  const authorsUrisWithoutParenUri = without(claims['wdt:P50'], parentUri)
-
+  const extendedAuthorsUris = flatten(getWorkAuthorsUris(entity))
+  const authorsUrisWithoutParentUri = without(extendedAuthorsUris, parentUri)
   const layoutContext = getContext('layout-context')
 
   const prop = typeMainProperty[layoutContext]
@@ -88,9 +89,9 @@
           </a>
         {/if}
       </div>
-      {#if parentEntityType === 'human' && type === 'work'}
+      {#if parentEntityType === 'human' && (type === 'work' || type === 'serie')}
         <ClaimInfobox
-          values={authorsUrisWithoutParenUri}
+          values={authorsUrisWithoutParentUri}
           prop="wdt:P50"
           entitiesByUris={relatedEntities}
           customLabel="coauthors"
@@ -99,7 +100,7 @@
       <div class="entity-details">
         <Infobox
           claims={singleValueClaims}
-          bind:relatedEntities
+          {relatedEntities}
           {listDisplay}
           shortlistOnly={true}
           entityType={type}
