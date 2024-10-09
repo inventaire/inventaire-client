@@ -60,17 +60,18 @@
 <svelte:window on:keydown={handleKeydown} />
 <div class="controls" tabindex="-1" use:autofocus>
   <div class="buttons-wrapper">
-    <ul class="task-infobox">
+    <div class="task-info-section">
       {#if isNonEmptyArray(task.reporters)}
-        <TaskInfo
-          reportersIds={task.reporters}
-          clue={task.clue}
-        />
+        <ul class="task-info">
+          <TaskInfo {task} />
+        </ul>
       {/if}
       {#if task.externalSourcesOccurrences}
-        <TaskScores {task} />
+        <ul class="task-info">
+          <TaskScores {task} />
+        </ul>
       {/if}
-    </ul>
+    </div>
     <div class="actions">
       {#if merging}<Spinner light={true} />{/if}
       <button
@@ -123,9 +124,14 @@
     opacity: 0.3;
   }
 
-  .task-infobox{
+  .task-info{
     background-color: white;
     padding: 0.3em 0.5em;
+    margin: 0 0.5em;
+  }
+
+  .task-info-section{
+    @include display-flex(row, center, space-between);
   }
 
   .buttons-wrapper, .alerts, .actions{

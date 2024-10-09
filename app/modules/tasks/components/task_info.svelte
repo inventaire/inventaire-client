@@ -6,15 +6,19 @@
   import { i18n, I18n } from '#user/lib/i18n'
   import { getUsersByIds } from '#users/users_data'
 
-  export let reportersIds, clue
+  export let task
+
+  const { reporters: reportersIds, clue, entitiesType } = task
 
   let reporters
-
   const waitingForUsers = getUsersByIds(reportersIds)
     .then(res => reporters = Object.values(res))
-
 </script>
 
+<p>
+  <strong>{i18n('entities type')}: </strong>
+  {i18n(entitiesType)}
+</p>
 {#await waitingForUsers}
   <Spinner center={true} />
 {:then}
