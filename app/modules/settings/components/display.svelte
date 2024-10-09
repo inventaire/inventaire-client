@@ -3,7 +3,7 @@
   import DisplayedLinks from '#settings/components/displayed_links.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
 
-  const entitiesDisplay = getLocalStorageStore('entitiesDisplay', 'large')
+  const entitiesDisplay = getLocalStorageStore('entitiesDisplay', 'list')
   const mainUserInventoryDisplay = getLocalStorageStore('mainUserInventoryDisplay', 'table')
   const inventoryDisplay = getLocalStorageStore('inventoryDisplay', 'cascade')
 </script>

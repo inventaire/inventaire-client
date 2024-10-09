@@ -2,6 +2,7 @@
   import { property, pluck } from 'underscore'
   import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
+  import { getLocalStorageStore } from '#app/lib/components/stores/local_storage_stores'
   import { screen } from '#app/lib/components/stores/screen'
   import { icon } from '#app/lib/icons'
   import SelectDropdown from '#components/select_dropdown.svelte'
@@ -19,9 +20,7 @@
     { value: 'list', icon: 'align-justify', text: I18n('list') },
   ]
 
-  // TODO: persist display mode in localstorage
-  let displayMode = 'grid'
-
+  const displayMode = getLocalStorageStore('entitiesDisplay', 'grid')
   let flash, facets, facetsSelectedValues, facetsSelectors, textFilterUris
 
   let wrapped = true
@@ -48,7 +47,10 @@
               bind:flash
             />
             <WorksBrowserTextFilter bind:textFilterUris />
-            <SelectDropdown bind:value={displayMode} options={displayOptions} buttonLabel={I18n('display_mode')} />
+            <SelectDropdown
+              bind:value={$displayMode}
+              options={displayOptions}
+              buttonLabel={I18n('display_mode')} />
           </div>
         {/if}
       {/if}
@@ -74,7 +76,7 @@
     {#each sections as section}
       <WorksBrowserSection
         {section}
-        {displayMode}
+        displayMode={$displayMode}
         {facets}
         {facetsSelectedValues}
         {textFilterUris}
