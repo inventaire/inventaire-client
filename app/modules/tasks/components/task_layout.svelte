@@ -2,6 +2,7 @@
   import { clone, pluck, values } from 'underscore'
   import { API } from '#app/api/api'
   import app from '#app/app'
+  import Flash from '#app/lib/components/flash.svelte'
   import { icon } from '#app/lib/icons'
   import preq, { treq } from '#app/lib/preq'
   import { onChange } from '#app/lib/svelte/svelte'
@@ -164,9 +165,10 @@
     />
   {:else}
     <p id="no-task" class="grey">
-      {I18n('no task available, this is fine')}
+      {I18n('no task available')}
     </p>
   {/if}
+  <Flash bind:state={flash} />
 {/await}
 <style lang="scss">
   @import "#general/scss/utils";
