@@ -35,7 +35,7 @@
       <EntityTitle
         {entity}
         {hasLinkTitle}
-        sourceLogo={true}
+        hasSourceLogo={true}
       />
       {#if isNonEmptyPlainObject(entity.image)}
         <div class="entity-image-wrapper">
