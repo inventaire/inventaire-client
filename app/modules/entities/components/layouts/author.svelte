@@ -47,7 +47,7 @@
 >
   <div class="entity-layout" slot="entity">
     <div class="top-section">
-      <div class="work-section">
+      <div>
         <EntityTitle {entity} />
         <div class="infobox-and-summary">
           {#if isNonEmptyPlainObject(entity.image)}
