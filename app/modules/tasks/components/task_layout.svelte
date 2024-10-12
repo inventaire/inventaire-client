@@ -22,8 +22,7 @@
   $: fromUri = task?.suspectUri
   $: toUri = task?.suggestionUri
 
-  const previousTasksIds = []
-
+  let nextTaskOffset
   const waitForTask = getTask()
 
   async function getTask () {
@@ -40,23 +39,21 @@
   }
 
   async function nextTask () {
-    if (task) previousTasksIds.push(task._id)
     if (!entitiesType) ({ entitiesType } = task)
-    const params = {
-      entitiesType,
-      lastTask: task,
-      previousTasksIds,
-    }
-    const newTask = await getNextTask(params)
+    if (!task) (nextTaskOffset = 0)
+    const newTask = await getNextTask({ entitiesType, offset: nextTaskOffset })
+
     if (!newTask) {
       return resetTaskLayout()
     }
     task = newTask
+    nextTaskOffset++
     app.navigate(`/tasks/${task._id}`)
   }
 
   function resetTaskLayout () {
     app.navigate('/tasks')
+    nextTaskOffset = 0
     task = null
     from = null
     to = null
