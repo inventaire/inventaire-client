@@ -364,3 +364,10 @@ export function getClaimValue (claim) {
 }
 
 export const getPluralType = type => type + 's'
+
+export const getCollectionsPublishers = async collectionsUris => {
+  const entities = await app.request('get:entities:models', { uris: collectionsUris })
+  return flatten(entities.map(parseCollectionPublishers))
+}
+
+const parseCollectionPublishers = entity => entity.claims['wdt:P123']
