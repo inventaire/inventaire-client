@@ -105,10 +105,6 @@
       overflow: auto;
     }
   }
-  .header{
-    margin-block-start: 0.5em;
-    @include display-flex(row, center, center);
-  }
   /* Small screens */
   @media screen and (width < $small-screen){
     .entity-section{

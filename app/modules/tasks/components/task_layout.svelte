@@ -26,24 +26,19 @@
   const waitForTask = getTask()
 
   async function getTask () {
-    let promise
-    if (taskId) {
-      promise = assignTaskById()
-    } else if (entitiesType) {
-      promise = next()
-    } else return
+    const promise = taskId ? taskById() : nextTask()
     return promise
       .catch(err => {
         flash = err
       })
   }
 
-  async function assignTaskById () {
+  async function taskById () {
     const { tasks } = await preq.get(API.tasks.byIds(taskId))
     task = tasks[0]
   }
 
-  async function next () {
+  async function nextTask () {
     if (task) previousTasksIds.push(task._id)
     if (!entitiesType) ({ entitiesType } = task)
     const params = {
@@ -53,33 +48,33 @@
     }
     const newTask = await getNextTask(params)
     if (!newTask) {
-      return reset()
+      return resetTaskLayout()
     }
     task = newTask
     app.navigate(`/tasks/${task._id}`)
   }
 
-  function reset () {
+  function resetTaskLayout () {
+    app.navigate('/tasks')
+    task = null
     from = null
     to = null
   }
 
   async function updateFromAndToEntities () {
-    // Nullifying `from` and `to` in order to request new claims values entities
-    reset()
     if (!task || task.state === 'merged') return
     waitingForEntities = treq.get<GetEntitiesByUrisResponse>(API.entities.getByUris([ fromUri, toUri ]))
-      .then(cleanUpTaskAndAssignFromToEntities(fromUri, toUri))
+      .then(updateTaskAndAssignFromToEntities(fromUri, toUri))
       .catch(err => {
         flash = err
       })
   }
 
-  const cleanUpTaskAndAssignFromToEntities = (fromUri, toUri) => async (entitiesRes: GetEntitiesByUrisResponse) => {
+  const updateTaskAndAssignFromToEntities = (fromUri, toUri) => async (entitiesRes: GetEntitiesByUrisResponse) => {
     const { entities, redirects } = entitiesRes
     if (areRedirects(entities, redirects)) {
       await updateTask(task._id, 'state', 'merged')
-      return next()
+      return nextTask()
     }
     areBothInvEntities = isInvEntityUri(fromUri) && isInvEntityUri(toUri)
 
@@ -165,15 +160,12 @@
       {from}
       {to}
       {flash}
-      on:next={next}
+      on:next={nextTask}
     />
   {:else}
-    <!-- CSS hack to not let sticky .controls overflow the bottom of task-entity -->
-    <!-- Needed since .controls has a dynamic height (due to .sources-links length). -->
-    <div class="placeholder" />
     <p id="no-task" class="grey">
-    {I18n('no task available, this is fine')}
-    <p />
+      {I18n('no task available, this is fine')}
+    </p>
   {/if}
 {/await}
 <style lang="scss">
@@ -209,9 +201,6 @@
     max-width: 40em;
     margin: 1em auto;
     padding: 1em;
-  }
-  .placeholder{
-    height: 6em;
   }
   .swap{
     position: relative;
