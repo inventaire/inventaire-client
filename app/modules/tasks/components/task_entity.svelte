@@ -51,6 +51,7 @@
       <div class="infobox-wrapper">
         <Infobox
           {claims}
+          omittedProperties={[ 'wdt:P123', 'wdt:P629' ]}
           entityType={entity.type}
         />
       </div>
