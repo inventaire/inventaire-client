@@ -387,3 +387,19 @@ export const getCollectionsPublishers = async collectionsUris => {
 }
 
 const parseCollectionPublishers = entity => entity.claims['wdt:P123']
+
+export const getEditionsWorks = async editions => {
+  const uris = editions.map(getEditionWorksUris).flat()
+  return getEntities(uris)
+}
+
+const getEditionWorksUris = edition => {
+  const editionWorksUris = edition.claims['wdt:P629']
+  if (edition.type !== 'edition') return []
+  if (editionWorksUris == null) {
+    const { uri } = edition
+    const err = newError('edition entity misses associated works (wdt:P629)', { uri })
+    throw err
+  }
+  return editionWorksUris
+}
