@@ -177,8 +177,9 @@ function truncateTooManyUris (section, parentEntityType) {
 
 const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => {
   truncateTooManyUris(section, parentEntityType)
+  const uris = section?.uris || []
   const { entities } = await getEntitiesAttributesByUris({
-    uris: section.uris,
+    uris,
     attributes: [
       'info',
       'labels',
@@ -192,7 +193,7 @@ const fetchSectionEntities = ({ sortFn, parentEntityType }) => async section => 
   // This prevents displaying several entities with the same canonical uri
   // as might happen if both inv and wd queries returned conflicting entities
   // TODO: remove once all inv and wd entities sharing the same ISBN have been merged
-  if (section.uris.some(uri => uri.startsWith('isbn'))) {
+  if (uris.some(uri => uri.startsWith('isbn'))) {
     for (const [ uri, entity ] of objectEntries(entities)) {
       if (entity.uri !== uri && entities[uri] != null) delete entities[entity.uri]
     }
