@@ -44,6 +44,7 @@
             <AuthorsInfo {claims} />
             <Infobox
               {claims}
+              omittedProperties={[ 'wdt:P1680' ]}
               entityType={entity.type}
             />
             <Summary {entity} />

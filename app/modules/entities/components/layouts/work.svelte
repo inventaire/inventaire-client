@@ -8,6 +8,7 @@
   import { scrollToElement } from '#app/lib/screen'
   import RelativeEntitiesList from '#entities/components/layouts/relative_entities_list.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
+  import { authorsProps } from '#entities/components/lib/claims_helpers'
   import { getRelativeEntitiesListLabel, getRelativeEntitiesProperties } from '#entities/components/lib/relative_entities_helpers.ts'
   import { getPublishersUrisFromEditions } from '#entities/components/lib/work_helpers'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
@@ -86,6 +87,7 @@
         <AuthorsInfo {claims} />
         <Infobox
           {claims}
+          omittedProperties={authorsProps}
           entityType={entity.type}
         />
         <Ebooks {entity} />
