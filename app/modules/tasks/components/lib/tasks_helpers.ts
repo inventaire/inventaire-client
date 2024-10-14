@@ -61,6 +61,21 @@ const urisGetterByType = {
       },
     ]
   },
+  serie: async ({ entity }) => {
+    const authorUris = getSerieOrWorkExtendedAuthorsUris(entity)
+    const works = await getSubEntities('serie', entity.uri)
+    return [
+      {
+        label: I18n('authors'),
+        uris: authorUris,
+      },
+      {
+        label: I18n('works'),
+        uris: pluck(works, 'uri'),
+        entities: works,
+      },
+    ]
+  },
   collection: async ({ entity }) => {
     const publisherUris = entity.claims['wdt:P123']
     return [
