@@ -3,7 +3,7 @@ import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
 import { getSerieOrWorkExtendedAuthorsUris } from '#app/modules/entities/lib/types/serie_alt'
 import { getSubEntities, fetchSectionEntities } from '#entities/components/lib/entities'
-import type { SerializedEntity } from '#entities/lib/entities'
+import { type SerializedEntity, getEditionsWorks } from '#entities/lib/entities'
 import { I18n } from '#user/lib/i18n'
 
 export const calculateGlobalScore = task => {
@@ -81,6 +81,21 @@ const urisGetterByType = {
       {
         label: I18n('editions'),
         uris: pluck(editions, 'uri'),
+      },
+    ]
+  },
+  edition: async ({ entity }) => {
+    const works = await getEditionsWorks([ entity ])
+    const publisherUris = entity.claims['wdt:P123']
+    return [
+      {
+        label: I18n('publishers'),
+        uris: publisherUris,
+      },
+      {
+        label: I18n('works'),
+        entities: works,
+        uris: pluck(works, 'uri'),
       },
     ]
   },
