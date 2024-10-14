@@ -8,6 +8,7 @@ export default {
         'tasks(/)(humans)(/)': 'showHumansTask',
         'tasks(/)(publishers)(/)': 'showPublisherTask',
         'tasks(/)(works)(/)': 'showWorksTask',
+        'tasks(/)(serie)(/)': 'showSeriesTask',
         'tasks(/)(editions)(/)': 'showEditionsTask',
         'tasks(/)(:id)(/)': 'showTask',
       },
@@ -22,6 +23,7 @@ const controller = {
   showHumansTask (task) { controller.showTask(task, 'human') },
   showPublisherTask (task) { controller.showTask(task, 'publisher') },
   showWorksTask (task) { controller.showTask(task, 'work') },
+  showSeriesTask (task) { controller.showTask(task, 'serie') },
   showEditionsTask (task) { controller.showTask(task, 'edition') },
   showTask (task, type) {
     if (app.request('require:dataadmin:access', 'tasks')) {

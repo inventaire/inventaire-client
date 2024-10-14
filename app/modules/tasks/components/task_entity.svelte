@@ -5,6 +5,7 @@
   import EntityTitle from '#entities/components/layouts/entity_title.svelte'
   import Infobox from '#entities/components/layouts/infobox.svelte'
   import Summary from '#entities/components/layouts/summary.svelte'
+  import { authorsProps } from '#entities/components/lib/claims_helpers'
   import { omitClaims } from '#entities/components/lib/work_helpers'
   import Spinner from '#general/components/spinner.svelte'
   import { getRelatedEntitiesSections } from '#tasks/components/lib/tasks_helpers'
@@ -51,7 +52,7 @@
       <div class="infobox-wrapper">
         <Infobox
           {claims}
-          omittedProperties={[ 'wdt:P123', 'wdt:P629' ]}
+          omittedProperties={[ 'wdt:P123', 'wdt:P629', ...authorsProps ]}
           entityType={entity.type}
         />
       </div>
