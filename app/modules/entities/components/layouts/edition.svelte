@@ -1,11 +1,11 @@
 <script lang="ts">
   import { tick } from 'svelte'
-  import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { scrollToElement } from '#app/lib/screen'
   import Summary from '#entities/components/layouts/summary.svelte'
   import WorksOtherEditions from '#entities/components/layouts/works_other_editions.svelte'
   import { runEntityNavigate } from '#entities/lib/document_metadata'
   import { addWorksClaims } from '#entities/lib/fetch_related_entities'
+  import EntityImage from '../entity_image.svelte'
   import AuthorsInfo from './authors_info.svelte'
   import BaseLayout from './base_layout.svelte'
   import EditionActions from './edition_actions.svelte'
@@ -17,7 +17,7 @@
 
   let showMap, itemsListsWrapperEl, mapWrapperEl
 
-  const { uri, image, label } = entity
+  const { uri, image } = entity
   let { claims } = entity
 
   async function showMapAndScrollToMap () {
@@ -33,9 +33,12 @@
   <div class="entity-layout" slot="entity">
     <div class="top-section">
       {#if image.url}
-        <div class="cover">
-          <img src={imgSrc(image.url, 300)} alt={label} loading="lazy" />
-        </div>
+        <EntityImage
+          {entity}
+          size={300}
+          noImageCredits={true}
+          enlargeInModal={true}
+        />
       {/if}
       <div class="info-wrapper">
         <EntityTitle {entity} />
@@ -77,10 +80,10 @@
   .top-section{
     @include display-flex(row, flex-start, space-between);
     margin-block-end: 1em;
-  }
-  .cover{
-    padding-inline-end: 1em;
-    max-inline-size: 12em;
+    :global(.entity-image){
+      padding-inline-end: 1em;
+      max-inline-size: 12em;
+    }
   }
   .info-wrapper{
     flex: 1;
