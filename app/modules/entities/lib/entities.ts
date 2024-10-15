@@ -3,6 +3,7 @@ import { API } from '#app/api/api'
 import app from '#app/app'
 import assert_ from '#app/lib/assert_types'
 import { isInvEntityId, isWikidataItemId, isEntityUri, isNonEmptyArray, isImageHash } from '#app/lib/boolean_tests'
+import { newError } from '#app/lib/error'
 import { looksLikeAnIsbn, normalizeIsbn } from '#app/lib/isbn'
 import preq from '#app/lib/preq'
 import { forceArray, getOptionalValue, objectEntries } from '#app/lib/utils'
@@ -364,3 +365,26 @@ export function getClaimValue (claim) {
 }
 
 export const getPluralType = type => type + 's'
+
+export const getCollectionsPublishers = async collectionsUris => {
+  const entities = await app.request('get:entities:models', { uris: collectionsUris })
+  return flatten(entities.map(parseCollectionPublishers))
+}
+
+const parseCollectionPublishers = entity => entity.claims['wdt:P123']
+
+export const getEditionsWorks = async editions => {
+  const uris = editions.map(getEditionWorksUris).flat()
+  return getEntities(uris)
+}
+
+const getEditionWorksUris = edition => {
+  const editionWorksUris = edition.claims['wdt:P629']
+  if (edition.type !== 'edition') return []
+  if (editionWorksUris == null) {
+    const { uri } = edition
+    const err = newError('edition entity misses associated works (wdt:P629)', { uri })
+    throw err
+  }
+  return editionWorksUris
+}

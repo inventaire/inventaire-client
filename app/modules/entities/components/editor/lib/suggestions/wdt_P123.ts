@@ -1,7 +1,6 @@
 import { uniq, flatten } from 'underscore'
-import app from '#app/app'
 import { getNonEmptyPropertyClaims } from '#entities/components/editor/lib/editors_helpers'
-import { getReverseClaims } from '#entities/lib/entities'
+import { getReverseClaims, getCollectionsPublishers } from '#entities/lib/entities'
 
 export default async function ({ entity }) {
   const promises = []
@@ -21,10 +20,3 @@ export default async function ({ entity }) {
   .then(flatten)
   .then(uniq)
 }
-
-const getCollectionsPublishers = async collectionsUris => {
-  const entities = await app.request('get:entities:models', { uris: collectionsUris })
-  return flatten(entities.map(parseCollectionPublishers))
-}
-
-const parseCollectionPublishers = entity => entity.claims['wdt:P123']

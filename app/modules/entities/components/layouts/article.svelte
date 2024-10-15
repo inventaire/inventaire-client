@@ -46,6 +46,7 @@
         <AuthorsInfo {claims} />
         <Infobox
           {claims}
+          omittedProperties={[ 'wdt:P50' ]}
           entityType={entity.type}
         />
         {#if wikisource}

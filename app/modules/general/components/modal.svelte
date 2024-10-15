@@ -10,7 +10,7 @@
   import { getActionKey } from '#app/lib/key_events'
   import { I18n } from '#user/lib/i18n'
 
-  export let size = 'medium'
+  export let size = 'medium', closeOnClick
 
   const dispatch = createEventDispatcher()
   const close = () => dispatch('closeModal')
@@ -28,6 +28,9 @@
     openModalsCount--
     if (openModalsCount === 0) app.vent.trigger('overlay:hidden')
   })
+  function onModalClick () {
+    if (closeOnClick) { close() }
+  }
 </script>
 
 <div
@@ -44,7 +47,7 @@
     class:size-auto={size === 'auto'}
     class:size-medium={size === 'medium'}
     class:size-large={size === 'large'}
-    on:click|stopPropagation
+    on:click|stopPropagation={onModalClick}
     on:keydown|stopPropagation
     role="button"
     tabindex="-1"
