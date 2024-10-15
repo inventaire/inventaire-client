@@ -19,22 +19,22 @@ export default {
 }
 
 const controller = {
-  showCollectionTask (task) { controller.showTask(task, 'collection') },
-  showHumansTask (task) { controller.showTask(task, 'human') },
-  showPublisherTask (task) { controller.showTask(task, 'publisher') },
-  showWorksTask (task) { controller.showTask(task, 'work') },
-  showSeriesTask (task) { controller.showTask(task, 'serie') },
-  showEditionsTask (task) { controller.showTask(task, 'edition') },
-  showTask (task, type) {
+  showCollectionTask (_) { controller.showTask(_, 'collection') },
+  showHumansTask (_) { controller.showTask(_, 'human') },
+  showPublisherTask (_) { controller.showTask(_, 'publisher') },
+  showWorksTask (_) { controller.showTask(_, 'work') },
+  showSeriesTask (_) { controller.showTask(_, 'serie') },
+  showEditionsTask (_) { controller.showTask(_, 'edition') },
+  showTask (taskId, entitiesType) {
     if (app.request('require:dataadmin:access', 'tasks')) {
-      return showLayout({ task, entitiesType: type })
+      return showLayout({ taskId, entitiesType })
     }
   },
 }
 
 const showLayout = async params => {
   const { default: TaskLayout } = await import('./components/task_layout.svelte')
-  const { task: taskId, entitiesType } = params
+  const { taskId, entitiesType } = params
   app.layout.showChildComponent('main', TaskLayout, {
     props: { taskId, entitiesType },
   })
