@@ -7,6 +7,7 @@
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import { icon } from '#app/lib/icons'
+  import { getISODay, getISOTime } from '#app/lib/time'
   import UserInventory from '#inventory/components/user_inventory.svelte'
   import UsersListings from '#listings/components/users_listings.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
@@ -21,7 +22,7 @@
   export let focusedSection
 
   // TODO: recover inventoryLength and shelvesCount
-  const { _id: userId, username, bio, picture, inventoryLength, shelvesCount } = user
+  const { _id: userId, username, bio, picture, inventoryLength, shelvesCount, created } = user
   const { hasAdminAccess: mainUserHasAdminAccess } = app.user
 
   let flash, userProfileEl
@@ -66,7 +67,14 @@
       <div class="info">
         <h2 class="username respect-case">
           {username}
-          {#if mainUserHasAdminAccess}<span class="identifier">{userId}</span>{/if}
+          {#if mainUserHasAdminAccess}
+            <div class="admin-info">
+              <span class="identifier">{userId}</span>
+              <span class="creation-date" title={`${I18n('created')}: ${getISOTime(created)}`}>
+                {getISODay(created)}
+              </span>
+            </div>
+          {/if}
         </h2>
         <ul class="data">
           {#if inventoryLength != null}
@@ -140,6 +148,11 @@
   .username{
     @include sans-serif;
     margin: 0;
+    @include display-flex(row, baseline, flex-start);
+  }
+  .admin-info{
+    margin: 0 0.5rem;
+    @include identifier;
   }
   .data{
     @include display-flex(row, flex-start);
@@ -159,10 +172,6 @@
     margin-block-end: 2em;
     max-width: 50em;
     overflow: auto;
-  }
-  .identifier{
-    @include identifier;
-    margin-inline-start: 0.5rem;
   }
 
   /* Large screens */
@@ -217,7 +226,7 @@
 
   /* Small screens */
   @media screen and (width < $small-screen){
-    .identifier{
+    .admin-info{
       display: none;
     }
   }
