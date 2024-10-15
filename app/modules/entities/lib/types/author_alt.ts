@@ -1,7 +1,10 @@
 import { property } from 'underscore'
 import { API } from '#app/api/api'
 import preq from '#app/lib/preq'
+import { objectEntries } from '#app/lib/utils'
+import { propertiesByRoles } from '#entities/components/lib/claims_helpers'
 import { attachEntities, getEntitiesAttributesByUris, getEntities, serializeEntity, type SerializedEntity } from '#entities/lib/entities'
+import { pluralize } from '#entities/lib/types/entities_types'
 
 export async function getAuthorWorksUris ({ uri }) {
   const { articles, series, works } = await preq.get(API.entities.authorWorks(uri))
@@ -54,9 +57,13 @@ const getWorksUris = (works, seriesUris) => {
   .map(getUri)
 }
 
-export const extendedAuthorsKeys = {
-  'wdt:P50': 'authors',
-  'wdt:P58': 'scenarists',
-  'wdt:P110': 'illustrators',
-  'wdt:P6338': 'colorists',
-} as const
+export const extendedAuthorsKeys = buildExtendedAuthorsKeys()
+
+function buildExtendedAuthorsKeys () {
+  const extendedAuthorsKeys = {}
+  for (const [ roleLabel, properties ] of objectEntries(propertiesByRoles)) {
+    const [ property ] = properties
+    extendedAuthorsKeys[property] = pluralize(roleLabel)
+  }
+  return extendedAuthorsKeys
+}

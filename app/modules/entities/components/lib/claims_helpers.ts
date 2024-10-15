@@ -29,6 +29,7 @@ export const formatClaimValue = params => {
 export const propertiesByRoles = {
   author: [ 'wdt:P50' ],
   scenarist: [ 'wdt:P58' ],
+  editor: [ 'wdt:P98' ],
   illustrator: [ 'wdt:P110' ],
   colorist: [ 'wdt:P6338' ],
   letterer: [ 'wdt:P9191' ],
