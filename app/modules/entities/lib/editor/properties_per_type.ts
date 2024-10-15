@@ -53,7 +53,7 @@ export const priorityPropertiesPerType = {
 const workAndSerieCustomLabels = {
   'wdt:P31': 'type',
   'wdt:P58': 'scenarist',
-  'wdt:P98': 'editor',
+  'wdt:P98': 'editorial director',
   'wdt:P407': 'original language',
   'wdt:P577': 'first publication date',
 }
