@@ -1,22 +1,28 @@
 <script lang="ts">
   import { API } from '#app/api/api'
   import Flash from '#app/lib/components/flash.svelte'
+  import { getLocalStorageStore } from '#app/lib/components/stores/local_storage_stores'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import preq from '#app/lib/preq'
+  import { onChange } from '#app/lib/svelte/svelte'
   import { getSimpleTime } from '#app/lib/time'
   import { loadInternalLink } from '#app/lib/utils'
   import Spinner from '#components/spinner.svelte'
   import { I18n, i18n } from '#user/lib/i18n'
   import { serializeUser } from '#users/lib/users'
 
-  let flash
+  let flash, fetching
   let users = []
   const limit = 10
-  let offset, fetching
+  let offset = 0
+
+  const withReportsOnly = getLocalStorageStore('display-latest-users-with-reports-only', false)
+
   async function fetchMore () {
     try {
-      offset = offset == null ? 0 : offset += limit
-      fetching = preq.get(API.users.byCreationDate({ limit, offset }))
+      const filter = $withReportsOnly ? 'with-reports' : undefined
+      fetching = preq.get(API.users.byCreationDate({ limit, offset, filter }))
+      offset += limit
       const { users: newUsers } = await fetching
       users = users.concat(newUsers.map(serializeUser))
     } catch (err) {
@@ -24,17 +30,30 @@
     }
   }
 
-  fetchMore()
+  function resetUsers () {
+    offset = 0
+    users = []
+    fetchMore()
+  }
+
+  $: onChange($withReportsOnly, resetUsers)
 </script>
 
 <h2>{i18n('Latest created users')}</h2>
+
+<div class="controls-top">
+  <label>
+    <input type="checkbox" bind:checked={$withReportsOnly} />
+    {i18n('Display only users with abuse reports')}
+  </label>
+</div>
 
 <Flash state={flash} />
 
 <ul>
   {#each users as user (user._id)}
     <li>
-      <div class="top">
+      <div class="user-top">
         <img src={imgSrc(user.picture, 64)} alt="" loading="lazy" />
         <div class="info">
           <div class="header">
@@ -67,7 +86,7 @@
   {/each}
 </ul>
 
-<div class="controls">
+<div class="controls-bottom">
   {#await fetching}
     <Spinner center={true} />
   {:then}
@@ -81,19 +100,37 @@
   @import "#general/scss/utils";
   h2{
     text-align: center;
-    margin: 0.5em;
+    margin: 0.5em 0 0;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
   }
-  li{
+  .controls-top, li{
     max-width: 50em;
+  }
+  li{
+    margin: 0.5em auto;
     background-color: $light-grey;
     padding: 0.5em;
-    margin: 0.5em auto;
   }
-  .top{
+  .controls-top, .controls-bottom{
+    @include display-flex(row, center, center);
+  }
+  .controls-top{
+    margin: 1rem auto;
+    @include display-flex(row, center, flex-start);
+    label{
+      font-size: 1rem;
+      padding: 0.5rem;
+      flex: 1;
+      @include bg-hover($lighter-grey, 5%);
+    }
+  }
+  .controls-bottom{
+    height: 5em;
+  }
+  .user-top{
     @include display-flex(row, flex-start, flex-start);
   }
   .info{
@@ -131,10 +168,6 @@
   }
   button{
     display: block;
-  }
-  .controls{
-    height: 5em;
-    @include display-flex(row, center, center);
   }
   .reports{
     background-color: #ddd;

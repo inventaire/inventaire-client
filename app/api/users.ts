@@ -14,8 +14,8 @@ export default {
   byUsername (username) { return action('by-usernames', { usernames: username }) },
   search: search.bind(null, base),
   searchByPosition: searchByPosition.bind(null, base),
-  byCreationDate (params: { limit: number, offset: number }) {
-    const { limit, offset } = params
-    return action('by-creation-date', { limit, offset })
+  byCreationDate (params: { limit: number, offset: number, filter?: string }) {
+    const { limit, offset, filter } = params
+    return action('by-creation-date', { limit, offset, filter })
   },
 }
