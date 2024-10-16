@@ -90,7 +90,7 @@
       return
     }
     if (await looksLikeSpam(bioValue)) {
-      serverReportError('possible spam attempt', { bioValue }, 598)
+      serverReportError('possible spam attempt', { type: 'spam', text: bioValue }, 598)
       // Display a success message to not give a clue to spammers
       // as to when a text is rejected
       bioState = { type: 'success', message: I18n('done') }
