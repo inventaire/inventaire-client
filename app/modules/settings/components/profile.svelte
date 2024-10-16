@@ -3,11 +3,11 @@
   import app from '#app/app'
   import { autosize } from '#app/lib/components/actions/autosize'
   import Flash from '#app/lib/components/flash.svelte'
-  import { newError, serverReportError } from '#app/lib/error'
+  import { newError } from '#app/lib/error'
   import { imgSrc } from '#app/lib/handlebars_helpers/images'
   import preq from '#app/lib/preq'
   import { Username } from '#app/lib/regex'
-  import { looksLikeSpam } from '#app/lib/spam'
+  import { checkSpamContent } from '#app/lib/spam'
   import { onChange } from '#app/lib/svelte/svelte'
   import Modal from '#components/modal.svelte'
   import PicturePicker from '#components/picture_picker.svelte'
@@ -89,11 +89,10 @@
       bioState = { type: 'info', message: 'this is already your bio' }
       return
     }
-    if (await looksLikeSpam(bioValue)) {
-      serverReportError('possible spam attempt', { type: 'spam', text: bioValue }, 598)
-      // Display a success message to not give a clue to spammers
-      // as to when a text is rejected
-      bioState = { type: 'success', message: I18n('done') }
+    try {
+      await checkSpamContent(bioValue)
+    } catch (err) {
+      bioState = err
       return
     }
     try {
