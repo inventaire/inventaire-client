@@ -172,7 +172,8 @@ function setOperationsSummaryData (patch) {
       .join('\n')
     patch.summary = { touchedProperties }
   }
-  patch.summary.operationsCount = nonTestOps.length
+
+  if (patch.summary) patch.summary.operationsCount = nonTestOps.length
 }
 
 const isOpType = type => opType => opType === type
