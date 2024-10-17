@@ -7,6 +7,13 @@ const mostlyTextWorksRoles = [
   'wdt:P110', // illustrator
 ]
 
+// See https://github.com/inventaire/inventaire/issues/765
+const manga = [
+  'wdt:P50', // author
+  'wdt:P110', // illustrator
+  'wdt:P10837', // penciller
+]
+
 // Sorted by display order
 const drawnWorksRoles = [
   'wdt:P58', // scenarist
@@ -22,14 +29,14 @@ export const authorRolePropertiesSet = new Set(authorRoleProperties)
 const preferredAuthorRolesPropertiesPerWorkType = {
   // works
   'wd:Q1004': drawnWorksRoles, // comics
-  'wd:Q8274': drawnWorksRoles, // manga
+  'wd:Q8274': manga, // manga
   'wd:Q562214': drawnWorksRoles, // manhwa
   'wd:Q725377': drawnWorksRoles, // graphic novel
   'wd:Q747381': drawnWorksRoles, // light novel
 
   // series
   'wd:Q14406742': drawnWorksRoles, // comic book series
-  'wd:Q21198342': drawnWorksRoles, // manga series
+  'wd:Q21198342': manga, // manga series
   'wd:Q74262765': drawnWorksRoles, // manhwa series
   'wd:Q104213567': drawnWorksRoles, // light novel series
 }
