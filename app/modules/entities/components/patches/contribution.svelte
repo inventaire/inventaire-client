@@ -81,7 +81,7 @@
           </div>
         {:else}
           <div>
-            <span title={summary.touchedProperties}>{I18n('operations')}: {summary.operationsCount}</span>
+            <span class="operations-count" title={summary.touchedProperties}>{I18n('operations')}: {summary.operationsCount}</span>
           </div>
         {/if}
       </button>
@@ -178,6 +178,7 @@
     background-color: $off-white;
     @include display-flex(row, center, flex-start);
     white-space: nowrap;
+    text-align: start;
     .property{
       flex: 0 0 6em;
       p{
@@ -200,6 +201,9 @@
       color: red;
       &::before{ content: "- "; }
     }
+  }
+  .operations-count{
+    color: $grey;
   }
   .line-end{
     margin-inline-start: auto;
