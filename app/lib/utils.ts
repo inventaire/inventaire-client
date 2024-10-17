@@ -237,7 +237,7 @@ export function arrayIncludes <T extends (string | number)> (array: readonly T[]
   return arrayT.includes(value)
 }
 
-export function objectEntries <Obj> (obj: Obj) {
+export function objectEntries <Obj extends Record<string, unknown>> (obj: Obj) {
   return Object.entries(obj) as ObjectEntries<Obj>
 }
 
