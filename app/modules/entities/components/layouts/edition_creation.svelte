@@ -5,6 +5,7 @@
   import { icon } from '#app/lib/icons'
   import { getActionKey } from '#app/lib/key_events'
   import { loadInternalLink } from '#app/lib/utils'
+  import Spinner from '#components/spinner.svelte'
   import { createEditionFromWork, validateEditionPossibility, addWithoutIsbnPath } from '#entities/components/lib/edition_creation_helpers'
   import { i18n, I18n } from '#user/lib/i18n'
 
@@ -13,8 +14,10 @@
   let userInput = ''
   let flash
   let showForm
+  let creatingFromIsbn = false
 
   const onIsbnButtonClick = async () => {
+    creatingFromIsbn = true
     flash = null
     try {
       validateEditionPossibility({ userInput, editions })
@@ -25,6 +28,8 @@
       app.execute('show:entity', newEdition.uri)
     } catch (err) {
       flash = err
+    } finally {
+      creatingFromIsbn = false
     }
   }
 
@@ -53,9 +58,14 @@
           />
           <button
             class="isbn-button tiny-button grey"
+            disabled={creatingFromIsbn}
             on:click={onIsbnButtonClick}
           >
-            {@html icon('plus')}
+            {#if creatingFromIsbn}
+              <Spinner />
+            {:else}
+              {@html icon('plus')}
+            {/if}
             {i18n('add')}
           </button>
         </form>
