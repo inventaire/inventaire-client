@@ -66,10 +66,7 @@
   $: comment = element.comment
 </script>
 {#if showElementModal}
-  <Modal
-    on:closeModal={toggleShowMode}
-    size="large"
-  >
+  <Modal on:closeModal={toggleShowMode}>
     <ListingElementShow
       {entity}
       bind:element
@@ -124,6 +121,13 @@
 </div>
 <style lang="scss">
   @import "#general/scss/utils";
+  :global(.modal-outer){
+    min-width: 40em;
+    /* Very small screens */
+    @media screen and (width < $smaller-screen){
+      min-width: 100%;
+    }
+  }
   .listing-element-wrapper{
     @include display-flex(column, stretch, flex-start);
     width: 100%;
