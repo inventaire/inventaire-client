@@ -41,62 +41,65 @@
     }
   }
 </script>
-{#if isEditMode}
-  <label>
-    {I18n('comment')}
-    <textarea
-      type="text"
-      bind:value={newComment}
-      use:autosize
-      on:keydown={onKeyDown}
-    />
-  </label>
-  <div class="button-group-right">
-    <button
-      class="tiny-button cancel"
-      on:click={toggleEditMode}
-    >
-      {i18n('cancel')}
-    </button>
-    <button
-      class="tiny-button validate success"
-      title={I18n('validate')}
-      on:click={validate}
-    >
-      {@html icon('check')}
-      {I18n('validate')}
-      {#await validating}
-        <Spinner />
-      {/await}
-    </button>
-  </div>
-{:else}
-  {#if isCreatorMainUser}
-    <button
-      on:click={toggleEditMode}
-      title={i18n('edit')}
-      class="edit-button"
-    >
-      <div class="comment-wrapper">
+<div class="listing-element-comment">
+  {#if isEditMode}
+    <label>
+      {I18n('comment')}
+      <textarea
+        type="text"
+        bind:value={newComment}
+        use:autosize
+        on:keydown={onKeyDown}
+      />
+    </label>
+    <div class="button-group-right">
+      <button
+        class="tiny-button cancel"
+        on:click={toggleEditMode}
+      >
+        {i18n('cancel')}
+      </button>
+      <button
+        class="tiny-button validate success"
+        title={I18n('validate')}
+        on:click={validate}
+      >
+        {@html icon('check')}
+        {I18n('validate')}
+        {#await validating}
+          <Spinner />
+        {/await}
+      </button>
+    </div>
+  {:else}
+    {#if isCreatorMainUser}
+      <button
+        on:click={toggleEditMode}
+        title={i18n('edit')}
+        class="edit-button"
+      >
+        <div class="comment-wrapper">
+          <p class="section-label">
+            {I18n('comment')}
+          </p>
+          {#if comment}
+            <p>{@html userContent(comment)}</p>
+          {/if}
+        </div>
+        <span>
+          {@html icon('pencil')}
+        </span>
+      </button>
+    {:else}
+      {#if comment}
         <p class="section-label">
           {I18n('comment')}
         </p>
-        {#if comment}
-          <p>{@html userContent(comment)}</p>
-        {/if}
-      </div>
-      <span>
-        {@html icon('pencil')}
-      </span>
-    </button>
-  {:else}
-    <p class="section-label">
-      {I18n('comment')}
-    </p>
-    <p>{@html userContent(comment)}</p>
+        <p>{@html userContent(comment)}</p>
+      {/if}
+    {/if}
   {/if}
-{/if}
-
+</div>
 <style lang="scss">
   @import "#general/scss/utils";
   .edit-button{
@@ -108,5 +111,11 @@
   }
   .section-label{
     color: $soft-grey;
+  }
+  .listing-element-comment{
+    background-color: $off-white;
+    padding: 0.5em 1em;
+    margin: 0.4em 0 0.6em;
+    @include radius;
   }
 </style>

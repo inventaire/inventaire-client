@@ -48,13 +48,11 @@
 
   <Summary {entity} />
 
-  <div class="listing-element-comment">
     <ListingElementComment
       {isCreatorMainUser}
       bind:element
       bind:flash
     />
-  </div>
 
   <div class="buttons-wrapper">
     <button
@@ -85,12 +83,6 @@
   .entity-infobox{
     margin: 0 1em;
     flex: 2;
-  }
-  .listing-element-comment{
-    background-color: $off-white;
-    padding: 0.5em 1em;
-    margin: 0.4em 0 0.6em;
-    @include radius;
   }
   button{
     min-width: 10rem;
