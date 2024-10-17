@@ -48,21 +48,25 @@
 
   <Summary {entity} />
 
+  {#if element.comment || isCreatorMainUser}
     <ListingElementComment
       {isCreatorMainUser}
       bind:element
       bind:flash
     />
+  {/if}
 
-  <div class="buttons-wrapper">
-    <button
-      class="remove-button dark-grey"
-      on:click={() => dispatch('removeElement', element)}
-    >
-      {@html icon('trash')}
-      <span>{I18n('remove element')}</span>
-    </button>
-  </div>
+  {#if isCreatorMainUser}
+    <div class="buttons-wrapper">
+      <button
+        class="remove-button dark-grey"
+        on:click={() => dispatch('removeElement', element)}
+      >
+        {@html icon('trash')}
+        <span>{I18n('remove element')}</span>
+      </button>
+    </div>
+  {/if}
 </div>
 
 <Flash bind:state={flash} />
