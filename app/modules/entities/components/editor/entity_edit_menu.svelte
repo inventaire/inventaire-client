@@ -34,6 +34,7 @@
 
   let moveConflict
   async function _moveToWikidata () {
+    flash = null
     try {
       if (!app.user.hasWikidataOauthTokens()) {
         return app.execute('show:wikidata:edit', invUri)
@@ -61,6 +62,7 @@
   }
 
   function reportDataError (e) {
+    flash = null
     app.execute('show:feedback:menu', {
       subject: `[${uri}][${I18n('data error')}] `,
       uris: [ uri ],
@@ -73,6 +75,7 @@
   }
 
   function deleteEntity () {
+    flash = null
     app.execute('ask:confirmation', {
       confirmationText: I18n('delete_entity_confirmation', { label }),
       action: _deleteEntity,
