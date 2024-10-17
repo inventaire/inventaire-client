@@ -1,27 +1,23 @@
 <script lang="ts">
   import app from '#app/app'
-  import { isNonEmptyPlainObject, isNonEmptyArray } from '#app/lib/boolean_tests'
+  import { isNonEmptyArray } from '#app/lib/boolean_tests'
   import Flash from '#app/lib/components/flash.svelte'
   import { userContent } from '#app/lib/handlebars_helpers/user_content'
   import ImageDiv from '#components/image_div.svelte'
   import Modal from '#components/modal.svelte'
-  import EntityImage from '#entities/components/entity_image.svelte'
-  import AuthorsInfo from '#entities/components/layouts/authors_info.svelte'
   import AuthorsInline from '#entities/components/layouts/authors_inline.svelte'
-  import Ebooks from '#entities/components/layouts/ebooks.svelte'
-  import EntityTitle from '#entities/components/layouts/entity_title.svelte'
-  import Infobox from '#entities/components/layouts/infobox.svelte'
-  import Summary from '#entities/components/layouts/summary.svelte'
   import { formatYearClaim } from '#entities/components/lib/claims_helpers'
-  import { getEntityImagePath, getListingMetadata, getListingPathname, getElementPathname, getElementMetadata } from '#listings/lib/listings'
-  import { i18n, I18n } from '#user/lib/i18n'
+  import { getEntityImagePath } from '#entities/lib/entities'
+  import { getListingMetadata, getListingPathname, getElementPathname, getElementMetadata, removeElement, askUserConfirmationAndRemove } from '#listings/lib/listings'
+  import ListingElementShow from '#modules/listings/components/listing_element_show.svelte'
+  import { i18n } from '#user/lib/i18n'
   import ListingElementActions from './listing_element_actions.svelte'
 
-  export let element, isEditable, isReordering, listing, elements, isShowMode
+  export let element, isEditable, isReordering, listing, elements, showElementModal, isCreatorMainUser, autocompleteFlash
 
   const { _id: listingId } = listing
   const { entity, _id: elementId } = element
-  const { uri, type, label, claims, image } = entity
+  const { uri, label, claims, image } = entity
   const publicationYear = formatYearClaim('wdt:P577', claims)[0]
   const authorsUris = claims['wdt:P50']
 
@@ -35,63 +31,58 @@
   }
 
   function toggleShowMode () {
-    isShowMode = !isShowMode
-    if (isShowMode) {
+    showElementModal = !showElementModal
+    autocompleteFlash = null
+    if (showElementModal) {
       const options = { metadata: getElementMetadata(listing, element), preventScrollTop: true }
       app.navigate(getElementPathname(listingId, elementId), options)
     } else {
-      const options = { metadata: getListingMetadata(listing), preventScrollTop: true }
-      app.navigate(getListingPathname(listingId), options)
+      navigateToListingPathname()
     }
+  }
+
+  function navigateToListingPathname () {
+    const options = { metadata: getListingMetadata(listing), preventScrollTop: true }
+    app.navigate(getListingPathname(listingId), options)
+  }
+
+  async function onRemoveElement (e) {
+    const element = e.detail
+    await askUserConfirmationAndRemove(_removeElement, element?.comment)
+      .catch(err => flash = err)
+  }
+
+  $: index = elements.findIndex(obj => obj.uri === uri)
+  async function _removeElement () {
+    return removeElement(listingId, uri)
+      .then(() => {
+        navigateToListingPathname()
+        // Enhancement: after remove, have an "undo" button
+        elements.splice(index, 1)
+        elements = elements
+      })
   }
 
   $: comment = element.comment
 </script>
-{#if isShowMode}
-  <Modal on:closeModal={toggleShowMode}
+{#if showElementModal}
+  <Modal
+    on:closeModal={toggleShowMode}
+    size="large"
   >
-    <div class="show-modal">
-      <div class="entity-type-label">
-        {I18n(type)}
-      </div>
-      <EntityTitle
-        {entity}
-        hasLinkTitle={true}
-      />
-      <div class="entity-info-row">
-        {#if isNonEmptyPlainObject(entity.image)}
-          <EntityImage
-            {entity}
-            size={256}
-          />
-        {/if}
-        <div class="entity-infobox">
-          <AuthorsInfo {claims} />
-          <Infobox
-            {claims}
-            entityType={type}
-            shortlistOnly={true}
-          />
-          <Ebooks {entity} />
-        </div>
-      </div>
-      {#if comment}
-        <div class="element-section">
-          <div class="entity-label">
-            {I18n("creator's comment")}
-          </div>
-          <p>{@html userContent(comment)}</p>
-        </div>
-      {/if}
-      <Summary {entity} />
-    </div>
+    <ListingElementShow
+      {entity}
+      bind:element
+      on:removeElement={onRemoveElement}
+      {isCreatorMainUser}
+    />
   </Modal>
 {/if}
 
 <div class="listing-element-wrapper">
   <div class="listing-element">
     <a
-      href="/entity/{uri}"
+      href="/lists/{listingId}/element/{element._id}"
       title={label}
       on:click={toggleShowMode}
     >
@@ -123,9 +114,9 @@
       <ListingElementActions
         bind:isReordering
         {element}
-        {listingId}
         bind:flash
         bind:elements
+        {index}
       />
     {/if}
   </div>
@@ -159,41 +150,5 @@
     @include serif;
     padding-inline-end: 0.5em;
     font-size: 1.1em
-  }
-  .publication-year{
-    color: $label-grey;
-    font-size: 0.9rem;
-  }
-  .entity-info-row{
-    display: flex;
-    margin: 1em 0;
-    :global(.image-div){
-      margin-inline-end: 1em;
-    }
-  }
-  .entity-infobox{
-    margin: 0 1em;
-    flex: 2;
-  }
-  .element-section{
-    background-color: $light-grey;
-    padding: 0.5em 1em;
-    margin: 1em 0;
-  }
-  .entity-type-label{
-    color: $soft-grey;
-    text-align: center;
-  }
-  .entity-label{
-    color: $soft-grey;
-  }
-  /* Smaller screens */
-  @media screen and (width < $smaller-screen){
-    .entity-info-row{
-      @include display-flex(column, center);
-      :global(.image-div){
-        margin-block-end: 1em;
-      }
-    }
   }
 </style>
