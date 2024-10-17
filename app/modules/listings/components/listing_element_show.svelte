@@ -20,7 +20,7 @@
   let flash
 </script>
 
-<div class="show-modal">
+<div class="listing-element-show">
   <div class="entity-type-label">
     {I18n(type)}
   </div>
@@ -73,6 +73,9 @@
 
 <style lang="scss">
   @import "#general/scss/utils";
+  .listing-element-show{
+    width: min(60rem, 95vw);
+  }
   .entity-type-label{
     color: $soft-grey;
     text-align: center;
